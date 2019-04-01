@@ -15,8 +15,6 @@ function BreadcrumbMaker(location){
         <li>
           <span>Ambities</span>
         </li>
-        <li><span className="mx-2">/</span></li>
-        <li>{console.log(location)}</li>
       </ol>
     )
   } else if (location.includes("/ambities/")) {
@@ -31,7 +29,7 @@ function BreadcrumbMaker(location){
           </Link>
         </li>
         <li><span className="mx-2">/</span></li>
-        <li>{console.log(location)}</li>
+        <li><span>Ambitie Detail</span></li>
       </ol>
     )
   }
