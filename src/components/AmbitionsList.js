@@ -10,7 +10,7 @@ instance.defaults.headers.common['Authorization'] = "Token eyJ0eXAiOiJKV1QiLCJhb
 
 function testComponent(ambitie) {
 	return(
-		<div className="mr-4 px-4 pb-4 shadow-lg rounded overflow-hidden bg-white">
+		<div className="mr-4 ml-4 h-full px-4 pb-4 shadow border rounded overflow-hidden bg-white">
 		  <div className="py-4">
 		    <div className="font-bold text-xl mb-2">{ambitie.Titel}</div>
 		    <p className="text-grey-darker text-base">
@@ -44,10 +44,17 @@ class AmbitionsList extends Component {
   render() {
     return (
       <div>
-      	<h1>Alle {this.state.ambities[0] ? this.state.ambities.length - 1 : "0"} ambities</h1>
-	      <ul className="flex list-reset mt-8">
+      	<div className="flex justify-between">	
+      		<h1>
+      			Alle {this.state.ambities[0] ? this.state.ambities.length - 1 : "0"} ambities
+    			</h1>
+      		<div>
+      			<Link to={`/nieuwe-ambitie/`} className="bg-white hover:bg-grey-lightest text-green font-semibold py-2 px-4 border border-grey-light rounded shadow no-underline">+ Voeg Ambitie Toe</Link>
+      		</div>
+      	</div>
+	      <ul className="flex list-reset mt-8 flex-wrap">
 	        { this.state.ambities[0] ? this.state.ambities.slice(1).map(ambitie =>
-	        	<li key={ambitie.ID} className="w-1/3 display-inline">
+	        	<li key={ambitie.ID} className="mb-6 w-1/3 display-inline">
 	        		{testComponent(ambitie)}
 	        	</li>
 	        	) : "Loading..."

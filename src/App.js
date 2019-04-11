@@ -8,6 +8,8 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import Breadcrumb from './components/Breadcrumb';
 import Ambitions from './components/Ambitions';
+import AddAmbition from './components/AddAmbition';
+import Login from './components/Login';
 
 class App extends Component {
   render() {
@@ -17,6 +19,8 @@ class App extends Component {
         <Breadcrumb />
         <Switch>
           <Route path="/ambities" component={Ambitions} />
+          <Route path="/nieuwe-ambitie" component={AddAmbition} />
+          <Route path="/login" component={Login} />
           <Route path="/" component={() => (<Redirect to="/ambities"/>)}/>
         </Switch>
       </main>
