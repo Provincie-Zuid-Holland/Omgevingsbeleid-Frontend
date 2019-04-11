@@ -6,11 +6,15 @@ function BreadcrumbMaker(location){
   console.log(location)
   console.log(location.includes("/ambities/"))
 
-  if (!location.includes("/ambities/")) {
+  if (location.includes("/ambities") && !location.includes("/ambities/")) {
     console.log("OVERZICHT");
     return(
       <ol className="list-reset flex text-grey-dark ml-4">
-        <li><a href="#" className="text-blue">Home</a></li>
+        <li>
+          <Link to={`/ambities`} className="text-blue">
+            Home
+          </Link>
+        </li>
         <li><span className="mx-2">/</span></li>
         <li>
           <span>Ambities</span>
@@ -18,10 +22,13 @@ function BreadcrumbMaker(location){
       </ol>
     )
   } else if (location.includes("/ambities/")) {
-    console.log("SINGLE");
     return(
       <ol className="list-reset flex text-grey-dark ml-4">
-        <li><a href="#" className="text-blue">Home</a></li>
+        <li>
+          <Link to={`/ambities`} className="text-blue">
+            Home
+          </Link>
+        </li>
         <li><span className="mx-2">/</span></li>
         <li>
           <Link to={`/ambities`} className="text-blue">
@@ -30,6 +37,40 @@ function BreadcrumbMaker(location){
         </li>
         <li><span className="mx-2">/</span></li>
         <li><span>Ambitie Detail</span></li>
+      </ol>
+    )
+  } else if (location.includes("/login")) {
+    return(
+      <ol className="list-reset flex text-grey-dark ml-4">
+        <li>
+          <Link to={`/ambities`} className="text-blue">
+            Home
+          </Link>
+        </li>
+        <li><span className="mx-2">/</span></li>
+        <li>
+          Login
+        </li>
+      </ol>
+    )
+  } else if (location.includes("/nieuwe-ambitie")) {
+    return(
+      <ol className="list-reset flex text-grey-dark ml-4">
+        <li>
+          <Link to={`/ambities`} className="text-blue">
+            Home
+          </Link>
+        </li>
+        <li><span className="mx-2">/</span></li>
+        <li>
+          <Link to={`/ambities`} className="text-blue">
+            Ambities
+          </Link>
+        </li>
+        <li><span className="mx-2">/</span></li>
+        <li>
+          Nieuwe Ambitie
+        </li>
       </ol>
     )
   }

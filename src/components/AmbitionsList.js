@@ -49,7 +49,7 @@ class AmbitionsList extends Component {
       			Alle {this.state.ambities[0] ? this.state.ambities.length - 1 : "0"} ambities
     			</h1>
       		<div>
-      			<Link to={`/nieuwe-ambitie/`} className="bg-white hover:bg-grey-lightest text-green font-semibold py-2 px-4 border border-grey-light rounded shadow no-underline">+ Voeg Ambitie Toe</Link>
+      			<Link to={`/ambities/nieuwe-ambitie`} className="bg-green hover:bg-green-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline no-underline">+ Voeg Ambitie Toe</Link>
       		</div>
       	</div>
 	      <ul className="flex list-reset mt-8 flex-wrap">
