@@ -19,12 +19,10 @@ class AmbitionsVersion extends Component {
 
   componentDidMount() {
 
-  	{console.log("VIEWING AMBITIE MET ID: " + this.props.match.params.single)}
-
-  	let ambitie_id = this.props.match.params.single;
+  	console.log("VIEWING AMBITIE MET ID: " + this.props.match.params.single)
     let ambitie_version = this.props.match.params.version;
-    console.log(`VERSIE: ${ambitie_version}`)
 
+    // Connect with API
 	  instance.get(`${'https://cors-anywhere.herokuapp.com/'}http://api-acctest-ob.westeurope.cloudapp.azure.com/dev/v0.1/ambities/version/${ambitie_version}`, { crossdomain: true, header: { 'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json'} })
 		.then(res => {
@@ -42,7 +40,7 @@ class AmbitionsVersion extends Component {
     return (
     	<div>
 	      <div className="container mx-auto flex">
-	      	<SidebarVersion ambitie={this.state.res_ambitie} />
+	      	<SidebarVersion ambitie={this.state.res_ambitie} ambitieVersies={this.state} />
 	      	<AmbitiesVersionDetail ambitie={this.state.res_ambitie} />
 		    </div>
 		  </div>

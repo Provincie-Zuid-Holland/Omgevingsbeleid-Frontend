@@ -1,9 +1,4 @@
 import React, { Component } from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
-
-import AmbitionsVersion from './AmbitionsVersion';
-import AmbitionsSingle from './AmbitionsSingle';
-import AmbitionsList from './AmbitionsList';
 
 class Login extends Component {
 	render() {

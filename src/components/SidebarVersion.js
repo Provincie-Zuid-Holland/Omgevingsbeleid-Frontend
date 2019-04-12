@@ -1,11 +1,6 @@
 import React, { Component } from 'react';
  
 import { format } from 'date-fns';
-import { Link } from 'react-router-dom';
-
-function parseDate(dateString){
-  return new Date(dateString);
-}
 
 function sidebarSingle(ambitie) {
   return (
@@ -34,9 +29,6 @@ function sidebarSingle(ambitie) {
   );
 }
 
-function sidebarVersion() {
-
-}
 
 class Sidebar extends Component {
 

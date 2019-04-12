@@ -21,6 +21,26 @@ function BreadcrumbMaker(location){
         </li>
       </ol>
     )
+  } else if (location.includes("/ambities/nieuwe-ambitie")) {
+    return(
+      <ol className="list-reset flex text-grey-dark ml-4">
+        <li>
+          <Link to={`/ambities`} className="text-blue">
+            Home
+          </Link>
+        </li>
+        <li><span className="mx-2">/</span></li>
+        <li>
+          <Link to={`/ambities`} className="text-blue">
+            Ambities
+          </Link>
+        </li>
+        <li><span className="mx-2">/</span></li>
+        <li>
+          Nieuwe Ambitie
+        </li>
+      </ol>
+    )
   } else if (location.includes("/ambities/")) {
     return(
       <ol className="list-reset flex text-grey-dark ml-4">
@@ -50,26 +70,6 @@ function BreadcrumbMaker(location){
         <li><span className="mx-2">/</span></li>
         <li>
           Login
-        </li>
-      </ol>
-    )
-  } else if (location.includes("/nieuwe-ambitie")) {
-    return(
-      <ol className="list-reset flex text-grey-dark ml-4">
-        <li>
-          <Link to={`/ambities`} className="text-blue">
-            Home
-          </Link>
-        </li>
-        <li><span className="mx-2">/</span></li>
-        <li>
-          <Link to={`/ambities`} className="text-blue">
-            Ambities
-          </Link>
-        </li>
-        <li><span className="mx-2">/</span></li>
-        <li>
-          Nieuwe Ambitie
         </li>
       </ol>
     )

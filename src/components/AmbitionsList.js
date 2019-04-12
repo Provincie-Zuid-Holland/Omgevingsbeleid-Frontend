@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 // Set config defaults when creating the instance
-const instance = axios.create();
+const instance = axios.create({
+  baseURL: 'https://cors-anywhere.herokuapp.com/http://api-acctest-ob.westeurope.cloudapp.azure.com/dev/',
+  headers: {'Authorization': 'Token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NTM1MDY4MjYsIm5iZiI6MTU1MzUwNjgyNiwianRpIjoiYzFjZWJiYWUtMGJmNC00N2NkLTk4ZTAtZWJmMWE2OGYxODljIiwiZXhwIjoxNTUzNTEwNDI2LCJpZGVudGl0eSI6Ik14X0NhcCIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.O6TU5ZzlcrtXee_uJwfVhwrjrtzRqBkXWkcH6skB5NY'}
+});
 
-// Alter defaults after instance has been created
-instance.defaults.headers.common['Authorization'] = "Token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NTM1MDY4MjYsIm5iZiI6MTU1MzUwNjgyNiwianRpIjoiYzFjZWJiYWUtMGJmNC00N2NkLTk4ZTAtZWJmMWE2OGYxODljIiwiZXhwIjoxNTUzNTEwNDI2LCJpZGVudGl0eSI6Ik14X0NhcCIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.O6TU5ZzlcrtXee_uJwfVhwrjrtzRqBkXWkcH6skB5NY";
-
-function testComponent(ambitie) {
+function ambitieComponent(ambitie) {
 	return(
 		<div className="mr-4 ml-4 h-full px-4 pb-4 shadow border rounded overflow-hidden bg-white">
 		  <div className="py-4">
@@ -31,14 +31,16 @@ class AmbitionsList extends Component {
   }
 
   componentDidMount() {
-	  instance.get(`${'https://cors-anywhere.herokuapp.com/'}http://api-acctest-ob.westeurope.cloudapp.azure.com/dev/v0.1/ambities`, { crossdomain: true, header: { 'Access-Control-Allow-Origin': '*',
-        'Content-Type': 'application/json'} })
+
+  	// Connect with API
+	  instance.get('v0.1/ambities')
 		.then(res => {
       const ambities = res.data;
       this.setState({ ambities });
     }).catch((error) => {
 			console.log(error);
 		})
+
 	}
 
   render() {
@@ -55,7 +57,7 @@ class AmbitionsList extends Component {
 	      <ul className="flex list-reset mt-8 flex-wrap">
 	        { this.state.ambities[0] ? this.state.ambities.slice(1).map(ambitie =>
 	        	<li key={ambitie.ID} className="mb-6 w-1/3 display-inline">
-	        		{testComponent(ambitie)}
+	        		{ambitieComponent(ambitie)}
 	        	</li>
 	        	) : "Loading..."
 	      	}

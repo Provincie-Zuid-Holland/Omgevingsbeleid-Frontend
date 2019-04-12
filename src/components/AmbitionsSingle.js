@@ -19,10 +19,9 @@ class AmbitionsSingle extends Component {
 
   componentDidMount() {
 
-  	{console.log("VIEWING AMBITIE MET ID: " + this.props.match.params.single)}
-
   	let ambitie_id = this.props.match.params.single;
 
+    // Connect with API
 	  instance.get(`${'https://cors-anywhere.herokuapp.com/'}http://api-acctest-ob.westeurope.cloudapp.azure.com/dev/v0.1/ambities/${ambitie_id}`, { crossdomain: true, header: { 'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json'} })
 		.then(res => {
@@ -37,12 +36,10 @@ class AmbitionsSingle extends Component {
 
   render() {
     return (
-    	<div>
-	      <div className="container mx-auto flex">
-	      	<Sidebar ambitie={this.state.res_ambitie} />
-	      	<AmbitiesDetail ambitie={this.state.res_ambitie} />
-		    </div>
-		  </div>
+      <div className="container mx-auto flex">
+      	<Sidebar ambitie={this.state.res_ambitie} />
+      	<AmbitiesDetail ambitie={this.state.res_ambitie} />
+	    </div>
     );
   }
 }

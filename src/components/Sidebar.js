@@ -3,9 +3,6 @@ import React, { Component } from 'react';
 import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
 
-function parseDate(dateString){
-  return new Date(dateString);
-}
 
 function sidebarSingle(ambitie) {
   return (
@@ -48,10 +45,6 @@ function sidebarSingle(ambitie) {
   );
 }
 
-function sidebarVersion() {
-
-}
-
 class Sidebar extends Component {
 
   render() {
@@ -60,7 +53,7 @@ class Sidebar extends Component {
       <div className="inline-block border-r pr-8 pb-6">
         { console.log("Length: " + this.props.ambitie.length)}
         <h2 className="pb-4 pt-2">Personen</h2>
-        { this.props.ambitie.length > 1 ? sidebarSingle(this.props.ambitie) : "Loading..." }
+        { this.props.ambitie.length >= 1 ? sidebarSingle(this.props.ambitie) : "Loading..." }
       </div>
 
     );

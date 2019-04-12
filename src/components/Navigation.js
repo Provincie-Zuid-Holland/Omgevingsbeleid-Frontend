@@ -9,7 +9,7 @@ class Navigation extends Component {
         <div  className="bg-white container mx-auto flex items-center justify-between flex-wrap bg-white px-6 mb-8">
           <div className="flex items-center flex-no-shrink text-black mr-6 py-2">
             <Link to={`/ambities`} className="text-blue">
-              <img className="h-24" src="https://www.zuid-holland.nl/publish/library/25/pzh_groot_jpg.jpg" />
+              <img alt="Logo" className="h-24" src="https://www.zuid-holland.nl/publish/library/25/pzh_groot_jpg.jpg" />
             </Link>
           </div>
           <div className="flex items-center justify-end">
