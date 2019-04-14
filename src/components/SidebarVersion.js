@@ -12,6 +12,12 @@ function sidebarSingle(ambitie) {
               { ambitie ? ambitie.UUID : "Loading..." }
             </p>
           </div>
+          <div className="block p-4 border-b no-underline">
+            <p className="font-bold text-lg mb-1 text-black">Weblink</p>
+            <a href={ambitie.Weblink} className="text-grey-darker mb-2">
+              { ambitie ? ambitie.Weblink : "Loading..." }
+            </a>
+          </div>
           <div className="block group p-4 border-b no-underline">
             <p className="font-bold text-lg mb-1 text-black group-hover:text-white">Laatste Wijziging</p>
             <p className="text-grey-darker mb-2 group-hover:text-white">
