@@ -21,9 +21,9 @@ class AmbitionsSingle extends Component {
 
   	let ambitie_id = this.props.match.params.single;
 
+    const access_token = localStorage.getItem('access_token');
     // Connect with API
-	  instance.get(`${'https://cors-anywhere.herokuapp.com/'}http://api-acctest-ob.westeurope.cloudapp.azure.com/dev/v0.1/ambities/${ambitie_id}`, { crossdomain: true, header: { 'Access-Control-Allow-Origin': '*',
-        'Content-Type': 'application/json'} })
+	  instance.get(`${'https://cors-anywhere.herokuapp.com/'}http://api-acctest-ob.westeurope.cloudapp.azure.com/dev/v0.1/ambities/${ambitie_id}`, { headers: { Authorization: `Token ${access_token}` } })
 		.then(res => {
       const res_ambitie = res.data;
       this.setState({ res_ambitie });
@@ -38,7 +38,7 @@ class AmbitionsSingle extends Component {
     return (
       <div className="container mx-auto flex">
       	<Sidebar ambitie={this.state.res_ambitie} />
-      	<AmbitiesDetail ambitie={this.state.res_ambitie} />
+      	<AmbitiesDetail ambitie={this.state.res_ambitie} ambitie_id={this.props.match.params.single} />
 	    </div>
     );
   }

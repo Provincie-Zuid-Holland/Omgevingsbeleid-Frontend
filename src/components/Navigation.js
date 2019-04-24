@@ -1,8 +1,47 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
+
+function getToken() {
+  return localStorage.getItem('access_token')
+}
+
+function logout() {
+  // Clear user token and profile data from localStorage
+  localStorage.removeItem('access_token')
+  console.log("LOGGED OUT!!!")
+}
+
+function LoginButton() {
+  return(
+    <Link to={`/login`} className="bg-white mt-4 block text-center hover:bg-grey-lightest text-grey-darkest font-semibold py-2 px-4 border no-underline border-grey-light rounded shadow">
+      Login
+    </Link>
+  )
+}
+
+function LogoutButton() {
+  return(
+    <Link to={`/login`} onClick={logout} className="bg-white mt-4 block text-center hover:bg-grey-lightest text-grey-darkest font-semibold py-2 px-4 border no-underline border-grey-light rounded shadow">
+      Logout
+    </Link>
+  )
+}
+
+function LoginLogoutButton() {
+
+  if (getToken()) {
+    return <LogoutButton/>
+  } else {
+    return <LoginButton/>
+  }
+
+}
+
 
 class Navigation extends Component {
+
   render() {
+
     return (
       
       <nav className="bg-white shadow">
@@ -13,9 +52,7 @@ class Navigation extends Component {
             </Link>
           </div>
           <div className="flex items-center justify-end">
-            <div className="">
-              <Link to={`/login`} className="bg-white mt-4 block text-center hover:bg-grey-lightest text-grey-darkest font-semibold py-2 px-4 border no-underline border-grey-light rounded shadow">Login</Link>
-            </div>
+            <LoginLogoutButton/>
           </div>
         </div>
       </nav>

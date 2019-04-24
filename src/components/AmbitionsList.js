@@ -4,8 +4,7 @@ import axios from 'axios';
 
 // Set config defaults when creating the instance
 const instance = axios.create({
-  baseURL: 'https://cors-anywhere.herokuapp.com/http://api-acctest-ob.westeurope.cloudapp.azure.com/dev/',
-  headers: {'Authorization': 'Token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NTM1MDY4MjYsIm5iZiI6MTU1MzUwNjgyNiwianRpIjoiYzFjZWJiYWUtMGJmNC00N2NkLTk4ZTAtZWJmMWE2OGYxODljIiwiZXhwIjoxNTUzNTEwNDI2LCJpZGVudGl0eSI6Ik14X0NhcCIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.O6TU5ZzlcrtXee_uJwfVhwrjrtzRqBkXWkcH6skB5NY'}
+  baseURL: 'https://cors-anywhere.herokuapp.com/http://api-acctest-ob.westeurope.cloudapp.azure.com/dev/'
 });
 
 function ambitieComponent(ambitie) {
@@ -32,8 +31,10 @@ class AmbitionsList extends Component {
 
   componentDidMount() {
 
+  	const access_token = localStorage.getItem('access_token');
+
   	// Connect with API
-	  instance.get('v0.1/ambities')
+	  instance.get('v0.1/ambities', { headers: { Authorization: `Token ${access_token}` } })
 		.then(res => {
       const ambities = res.data;
       this.setState({ ambities });
