@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
 import Auth from './Auth'
+import { withRouter } from 'react-router-dom'
+
+import withAuth from './WithAuth'
 
 class Login extends Component {
 
-	constructor(){
+	constructor(props){
 
-		super()
+		super(props)
 
 		this.state = {
       identifier: '',
@@ -14,24 +17,18 @@ class Login extends Component {
 
 		this.handleChange = this.handleChange.bind(this)
 		this.handleFormSubmit = this.handleFormSubmit.bind(this)
+		this.handleErrorMessage = this.handleErrorMessage.bind(this)
 
 	}
 
-	
-
 	handleFormSubmit(e){
    	
-   	e.preventDefault();
+   	e.preventDefault();  
+
+   	let history = this.props.history;
 
    	const identifier = this.state.identifier;
    	const password = this.state.password;
-
-   	console.log(JSON.stringify({
-      identifier,
-      password
-    }));
-
-   	console.log("1");
 
    	fetch(`https://cors-anywhere.herokuapp.com/http://api-acctest-ob.westeurope.cloudapp.azure.com/dev/v0.1/login`, {
       method: 'POST',
@@ -46,30 +43,43 @@ class Login extends Component {
 
     	if (response.status >= 200 && response.status < 300) { // Success status lies between 200 to 300
         return response.json()
+      } else if (response.status === 401) {
+        throw Error("Wrong username or password")
       } else {
-        var error = new Error(response.status)
-        error.response = response
-        throw error
+      	throw Error("Something went wrong, please try again later")
       }
 
 	  }).then(function(data) {
 
-	    console.log(data);
-
 	    // Save token to local storage
 	    const access_token = data.access_token;
       localStorage.setItem('access_token', access_token)
-      console.log(localStorage);
+      history.push('/ambities')
+ 
 
-	  });
+	  }).catch((err) => {
+			
+			let errorEl = document.getElementById('error-message');
+			errorEl.classList.innerHTML = err;
+			errorEl.classList.remove('hidden');
+			errorEl.classList.add('flex');
 
+		});
+
+  }
+
+  handleErrorMessage(e){
+  	let errorEl = document.getElementById('error-message');
+		errorEl.classList.add('hidden');
+		errorEl.classList.remove('flex');
+		console.log("TRIGGERED!")
   }
 
 
 	render() {
 		return (
 
-			<div className="w-full h-full flex justify-center items-center flex-wrap">
+			<div className="w-full h-full flex flew justify-center items-center flex-wrap">
 				<form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={this.handleFormSubmit}>
 					<div className="mb-4">
 						<label className="block text-grey-darker text-sm font-bold mb-2" htmlFor="identifier">
@@ -89,6 +99,15 @@ class Login extends Component {
 						</button>
 					</div>
 				</form>
+				<div id="error-message" className="container items-center justify-center hidden">
+					<div className="bg-red-lightest border border-red-light pr-10 text-red-dark px-4 py-3 rounded relative inline-block" role="alert">
+					  <span className="block sm:inline">Wrong username or password.</span>
+					  <span className="absolute pin-t pin-b pin-r px-4 py-3" onClick={this.handleErrorMessage}>
+					    <svg className="fill-current h-6 w-6 text-red" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg>
+					  </span>
+					</div>
+				</div>
+
 			</div>
 			
 		);
@@ -105,4 +124,4 @@ class Login extends Component {
 
 }
 
-export default Login;
+export default withRouter(Login);

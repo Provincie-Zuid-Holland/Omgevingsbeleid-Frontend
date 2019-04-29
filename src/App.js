@@ -23,7 +23,7 @@ class App extends Component {
         <Breadcrumb />
         <Switch>
           <Route path="/ambities" component={withAuth(Ambitions)} />
-          <Route path="/login" component={Login} />
+          <Route path="/login" component={withRouter(Login)} history={this.props.history} />
           <Route exact path="/" component={() => (<Redirect to="/ambities"/>)}/>
         </Switch>
       </main>

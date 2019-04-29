@@ -6,6 +6,7 @@ import AmbitionsSingle from './AmbitionsSingle';
 import AmbitionsList from './AmbitionsList';
 import AddAmbition from './AddAmbition';
 
+
 class AmbitionsOverzicht extends Component {
 	render() {
 		return (
