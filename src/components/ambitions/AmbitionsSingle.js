@@ -26,7 +26,9 @@ class AmbitionsSingle extends Component {
       this.setState({ res_ambitie });
       console.log(this.state);
     }).catch((error) => {
-			console.log(error);
+			if (error.response.status === 401) {
+        localStorage.removeItem('access_token')
+      }
 		})
 	}
 
@@ -34,7 +36,7 @@ class AmbitionsSingle extends Component {
   render() {
     return (
       <div className="container mx-auto flex">
-      	<Sidebar ambitie={this.state.res_ambitie} />
+      	<Sidebar content={this.state.res_ambitie} contentType={"ambities"} />
       	<Detail ambitie={this.state.res_ambitie} ambitie_id={this.props.match.params.single} />
 	    </div>
     );

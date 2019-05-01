@@ -41,8 +41,9 @@ class AmbitionsList extends Component {
 	  	let ambitie_id = this.props.match.params.single;
 
 	    const access_token = localStorage.getItem('access_token');
+	    
 	    // Connect with API
-		  instance.get(`${'https://cors-anywhere.herokuapp.com/'}http://api-acctest-ob.westeurope.cloudapp.azure.com/dev/v0.1/ambities/${ambitie_id}`, { headers: { Authorization: `Token ${access_token}` } })
+		  instance.get(`${'https://cors-anywhere.herokuapp.com/'}http://api-acctest-ob.westeurope.cloudapp.azure.com/dev/v0.1/opgaven/${ambitie_id}`, { headers: { Authorization: `Token ${access_token}` } })
 			.then(res => {
 	      const res_ambitie = res.data;
 	      console.log(res_ambitie[0])
@@ -56,7 +57,9 @@ class AmbitionsList extends Component {
 		    });
 	      console.log(format(this.state.Begin_Geldigheid, "YYYY-MM-DD"))
 	    }).catch((error) => {
-				console.log(error);
+				if (error.response.status === 401) {
+					localStorage.removeItem('access_token')
+				}
 			})
 	  }
   }
@@ -88,17 +91,17 @@ class AmbitionsList extends Component {
     		Eind_Geldigheid: this.state.Eind_Geldigheid,
     		Modified_By: "bb19d0b9-e609-434b-bd2d-18f907f16640"
     	}	
-    	instance.patch(`/v0.1/ambities/${this.props.match.params.single}`, JSON.stringify(patchObject))
+    	instance.patch(`/v0.1/opgaven/${this.props.match.params.single}`, JSON.stringify(patchObject))
 			.then(res => {
 				console.log(res)
-	      this.props.history.push(`/ambities/${res.data.ID}`)
+	      this.props.history.push(`/opgaven/${res.data.ID}`)
 	    }).catch((error) => {
 				console.log(error);
 			});
     } else {
-		  instance.post('/v0.1/ambities', JSON.stringify(this.state))
+		  instance.post('/v0.1/opgaven', JSON.stringify(this.state))
 			.then(res => {
-	      this.props.history.push(`/ambities/${res.data.ID}`)
+	      this.props.history.push(`/opgaven/${res.data.ID}`)
 	    }).catch((error) => {
 				console.log(error);
 			});
@@ -110,7 +113,7 @@ class AmbitionsList extends Component {
   render() {
     return (
       <div>
-				<h1>{this.state.edit ? "Wijzig een ambitie" : "Voeg een nieuwe ambitie toe"}</h1>
+				<h1>{this.state.edit ? "Wijzig een ambitie" : "Voeg een nieuwe opgave toe"}</h1>
 				<form className="w-full max-w-md mt-12" onSubmit={this.handleSubmit}>
 
 					{/* Titel */}
@@ -119,7 +122,7 @@ class AmbitionsList extends Component {
 				      <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" htmlFor="title">
 				        Titel
 				      </label>
-				      <input required value={this.state.Titel} onChange={this.handleChange} name="Titel" className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-grey" id="titel" type="text" placeholder="Ambitie Titel"/>
+				      <input required value={this.state.Titel} onChange={this.handleChange} name="Titel" className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-grey" id="titel" type="text" placeholder="Opgave Titel"/>
 				    </div>
 				  </div>
 
@@ -129,7 +132,7 @@ class AmbitionsList extends Component {
 				      <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" htmlFor="omschrijving">
 				        Omschrijving
 				      </label>
-				      <textarea value={this.state.Omschrijving} required onChange={this.handleChange} name="Omschrijving" className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-grey" id="omschrijving" type="text" placeholder="Aiden heeft vele ambities"/>
+				      <textarea value={this.state.Omschrijving} required onChange={this.handleChange} name="Omschrijving" className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-grey" id="omschrijving" type="text" placeholder="Schrijf hier je gave opgave"/>
 				    </div>
 				  </div>
 
@@ -165,7 +168,7 @@ class AmbitionsList extends Component {
 				{/* Submit */}
 				  <div className="flex flex-wrap -mx-3">
 				    <div className="w-full px-3">
-				      <input className="bg-green hover:bg-green-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" value={this.state.edit ? "Wijzig Ambitie" : "Voeg Ambitie toe"}>
+				      <input className="bg-green hover:bg-green-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" value={this.state.edit ? "Wijzig opgave" : "Voeg opgave toe"}>
 				      </input>
 				    </div>
 				  </div>

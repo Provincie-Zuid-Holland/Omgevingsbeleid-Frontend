@@ -71,7 +71,7 @@ class Login extends Component {
 
   handleErrorMessage(e){
   	let errorEl = document.getElementById('error-message');
-		errorEl.classList.add('hidden');
+		errorEl.classList.add('hidden');	
 		errorEl.classList.remove('flex');
   }
 
@@ -118,7 +118,7 @@ class Login extends Component {
 						</div>
 					</div>
 				</div>
-				<div className="w-1/2 login-afbeelding">
+				<div className="w-1/2 login-afbeelding rounded">
 				</div>
 
 			</div>

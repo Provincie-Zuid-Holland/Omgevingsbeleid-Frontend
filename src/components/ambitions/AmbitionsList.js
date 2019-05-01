@@ -53,7 +53,9 @@ class AmbitionsList extends Component {
       const ambities = res.data;
       this.setState({ ambities });
     }).catch((error) => {
-			console.log(error);
+			if (error.response.status === 401) {
+				localStorage.removeItem('access_token')
+			}
 		})
 
 	}

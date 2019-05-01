@@ -26,7 +26,9 @@ class AmbitionsVersion extends Component {
       this.setState({ res_ambitie });
       console.log(this.state);
     }).catch((error) => {
-			console.log(error);
+			if (error.response.status === 401) {
+        localStorage.removeItem('access_token')
+      }
 		})
 
 	}

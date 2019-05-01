@@ -4,7 +4,7 @@ import { Switch, Route } from 'react-router-dom';
 import AmbitionsVersion from './AmbitionsVersion';
 import AmbitionsSingle from './AmbitionsSingle';
 import AmbitionsList from './AmbitionsList';
-import AddAmbition from './AddAmbition';
+import AmbitionsCRUD from './AmbitionsCRUD';
 
 
 class AmbitionsOverzicht extends Component {
@@ -14,8 +14,8 @@ class AmbitionsOverzicht extends Component {
 			<div className="container mx-auto flex">
 				<div className="p-8 w-3/4 bg-white shadow rounded inline-block flex-grow">
 					<Switch>
-						<Route exact path="/ambities/nieuwe-ambitie" component={AddAmbition} />
-						<Route exact path="/ambities/edit/:single" component={AddAmbition} />
+						<Route exact path="/ambities/nieuwe-ambitie" component={AmbitionsCRUD} />
+						<Route exact path="/ambities/edit/:single" component={AmbitionsCRUD} />
 						<Route exact path="/ambities/:single/:version" component={AmbitionsVersion} />
 						<Route exact path="/ambities/:single" component={AmbitionsSingle} />
 						<Route exact path="/ambities" component={AmbitionsList} />

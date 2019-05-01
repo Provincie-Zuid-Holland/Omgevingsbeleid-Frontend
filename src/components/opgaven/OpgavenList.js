@@ -42,7 +42,9 @@ class OpgavenList extends Component {
       const opgaven = res.data;
       this.setState({ opgaven });
     }).catch((error) => {
-			console.log(error);
+			if (error.response.status === 401) {
+				localStorage.removeItem('access_token')
+			}
 		})
 
 	}
