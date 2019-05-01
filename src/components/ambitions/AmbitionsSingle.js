@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-import Sidebar from './Sidebar';
-import AmbitiesDetail from './AmbitiesDetail';
+import Sidebar from './../Sidebar';
+import AmbitionsDetail from './AmbitionsDetail';
 import axios from 'axios';
 
 // Set config defaults when creating the instance
@@ -38,7 +38,7 @@ class AmbitionsSingle extends Component {
     return (
       <div className="container mx-auto flex">
       	<Sidebar ambitie={this.state.res_ambitie} />
-      	<AmbitiesDetail ambitie={this.state.res_ambitie} ambitie_id={this.props.match.params.single} />
+      	<AmbitionsDetail ambitie={this.state.res_ambitie} ambitie_id={this.props.match.params.single} />
 	    </div>
     );
   }

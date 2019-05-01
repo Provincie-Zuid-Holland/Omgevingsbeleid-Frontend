@@ -5,7 +5,7 @@ import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
 
 import Navigation from './components/Navigation'
 import Breadcrumb from './components/Breadcrumb'
-import Ambitions from './components/Ambitions'
+import Ambitions from './components/ambitions/Ambitions'
 import Login from './components/Login'
 import Home from './components/Home'
 

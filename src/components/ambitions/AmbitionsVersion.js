@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-import SidebarVersion from './SidebarVersion';
-import AmbitiesVersionDetail from './AmbitiesVersionDetail';
+import SidebarVersion from './../SidebarVersion';
+import AmbitionsVersionDetail from './AmbitionsVersionDetail';
 import axios from 'axios';
 
 // Set config defaults when creating the instance
@@ -41,7 +41,7 @@ class AmbitionsVersion extends Component {
     	<div>
 	      <div className="container mx-auto flex">
 	      	<SidebarVersion ambitie={this.state.res_ambitie} ambitieVersies={this.state} />
-	      	<AmbitiesVersionDetail ambitie={this.state.res_ambitie} ambitie_id={this.props.match.params.single}/>
+	      	<AmbitionsVersionDetail ambitie={this.state.res_ambitie} ambitie_id={this.props.match.params.single}/>
 		    </div>
 		  </div>
     );

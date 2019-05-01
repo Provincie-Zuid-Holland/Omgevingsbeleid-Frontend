@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-class AmbitiesVersionDetail extends Component {
+class AmbitionsVersionDetail extends Component {
   render() {
     return (
 
@@ -17,4 +17,4 @@ class AmbitiesVersionDetail extends Component {
   }
 }
 
-export default AmbitiesVersionDetail;
+export default AmbitionsVersionDetail;

@@ -33,9 +33,11 @@ class AmbitionsList extends Component {
 
   	const access_token = localStorage.getItem('access_token');
 
+  	console.log("mounted")
   	// Connect with API
 	  instance.get('v0.1/ambities', { headers: { Authorization: `Token ${access_token}` } })
 		.then(res => {
+			console.log("response")
       const ambities = res.data;
       this.setState({ ambities });
     }).catch((error) => {

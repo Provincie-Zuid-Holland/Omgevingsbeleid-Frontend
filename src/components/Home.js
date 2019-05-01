@@ -2,10 +2,6 @@ import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
-import AmbitionsVersion from './AmbitionsVersion';
-import AmbitionsSingle from './AmbitionsSingle';
-import AmbitionsList from './AmbitionsList';
-import AddAmbition from './AddAmbition';
 
 
 class Home extends Component {
