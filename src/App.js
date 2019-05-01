@@ -26,7 +26,7 @@ class App extends Component {
           <Route path="/ambities" component={withAuth(Ambitions)} />
           <Route path="/opgaven" component={withAuth(Opgaven)} />
           <Route path="/login" component={withRouter(Login)} history={this.props.history} />
-          <Route exact path="/" component={withRouter(Home)}/>
+          <Route exact path="/" component={withAuth(Home)}/>
         </Switch>
       </main>
     );

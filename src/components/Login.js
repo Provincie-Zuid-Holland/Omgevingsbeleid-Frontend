@@ -51,7 +51,7 @@ class Login extends Component {
 	    // Save token to local storage
 	    const access_token = data.access_token;
       localStorage.setItem('access_token', access_token)
-      history.push('/ambities')
+      history.push('/')
  
 
 	  }).catch((err) => {
