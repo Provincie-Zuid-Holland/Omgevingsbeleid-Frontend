@@ -44,7 +44,7 @@ class Sidebar extends Component {
       <div className="inline-block border-r pr-8 pb-6">
         { console.log(this.props.ambitie) }
         <h2 className="pb-4 pt-2">Personen</h2>
-        { this.props.ambitie !== undefined ? sidebarSingle(this.props.ambitie) : "Loading..." }
+        { this.props.ambitie.length !== 0 ? sidebarSingle(this.props.ambitie) : "Loading..." }
       </div>
 
     );

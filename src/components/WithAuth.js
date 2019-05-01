@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-import Auth from './Auth'
-import { withRouter } from 'react-router';
 
 
 // https://hptechblogs.com/using-json-web-token-react/
@@ -19,7 +17,12 @@ export default function withAuth(AuthComponent) {
     // Checks if there is a saved token
     loggedIn() {
       const token = this.getToken() // Gets token from localstorage
-      console.log(token)
+        if (!!token) {
+          console.log("%cLogged in!", "background-color: green; color: white; padding: 2px; border-radius: 3px; font-size: 12px;")
+        } else {
+          console.log("%cNot Logged in!", "background-color: red; color: white; padding: 2px; border-radius: 3px; font-size: 12px;")
+        }
+
       return !!token // If token exists
     }
 

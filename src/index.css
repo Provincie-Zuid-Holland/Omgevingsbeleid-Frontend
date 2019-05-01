@@ -12,3 +12,19 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.mbg-color {
+	background-color: #000066;
+}
+
+.m-color {
+	color: #000066;
+}
+
+.login-afbeelding {
+	background-image: url('images/login.png');
+	background-size: cover;
+	background-position: center center;
+	background-repeat: no-repeat;
+	height: calc(100vh - 275px);
+}

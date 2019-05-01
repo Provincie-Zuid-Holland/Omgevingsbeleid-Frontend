@@ -3,9 +3,6 @@ import { withRouter, Link } from 'react-router-dom';
 
 function BreadcrumbMaker(location){
 
-  console.log("Location:")
-  console.log(location)
-
   if (location.includes("/ambities") && !location.includes("/ambities/")) {
     return(
       <ol className="list-reset flex text-grey-dark ml-4">

@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 
 import Sidebar from './../Sidebar';
-import Detail from './AmbitionsDetail';
+import Detail from './OpgavenDetail';
 import axios from 'axios';
 
 // Set config defaults when creating the instance
 const instance = axios.create();
-
  
-class AmbitionsSingle extends Component {
+class OpgavenSingle extends Component {
   
   state = {
     res_ambitie: []
@@ -20,7 +19,7 @@ class AmbitionsSingle extends Component {
 
     const access_token = localStorage.getItem('access_token');
     // Connect with API
-	  instance.get(`${'https://cors-anywhere.herokuapp.com/'}http://api-acctest-ob.westeurope.cloudapp.azure.com/dev/v0.1/ambities/${ambitie_id}`, { headers: { Authorization: `Token ${access_token}` } })
+	  instance.get(`${'https://cors-anywhere.herokuapp.com/'}http://api-acctest-ob.westeurope.cloudapp.azure.com/dev/v0.1/opgaven/${ambitie_id}`, { headers: { Authorization: `Token ${access_token}` } })
 		.then(res => {
       const res_ambitie = res.data;
       this.setState({ res_ambitie });
@@ -41,4 +40,4 @@ class AmbitionsSingle extends Component {
   }
 }
 
-export default AmbitionsSingle;
+export default OpgavenSingle;

@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 
 import SidebarVersion from './../SidebarVersion';
-import AmbitionsVersionDetail from './AmbitionsVersionDetail';
+import OpgavenVersionDetail from './OpgavenVersionDetail';
 import axios from 'axios';
 
 // Set config defaults when creating the instance
 const instance = axios.create();
  
-class AmbitionsVersion extends Component {
+class OpgavenVersion extends Component {
   
   state = {
     res_ambitie: []
@@ -20,7 +20,7 @@ class AmbitionsVersion extends Component {
     const access_token = localStorage.getItem('access_token');
 
     // Connect with API
-	  instance.get(`${'https://cors-anywhere.herokuapp.com/'}http://api-acctest-ob.westeurope.cloudapp.azure.com/dev/v0.1/ambities/version/${ambitie_version}`, { headers: { Authorization: `Token ${access_token}` } })
+	  instance.get(`${'https://cors-anywhere.herokuapp.com/'}http://api-acctest-ob.westeurope.cloudapp.azure.com/dev/v0.1/opgaven/version/${ambitie_version}`, { headers: { Authorization: `Token ${access_token}` } })
 		.then(res => {
       const res_ambitie = res.data;
       this.setState({ res_ambitie });
@@ -37,7 +37,7 @@ class AmbitionsVersion extends Component {
     	<div>
 	      <div className="container mx-auto flex">
 	      	<SidebarVersion ambitie={this.state.res_ambitie} ambitieVersies={this.state} />
-	      	<AmbitionsVersionDetail ambitie={this.state.res_ambitie} ambitie_id={this.props.match.params.single}/>
+	      	<OpgavenVersionDetail ambitie={this.state.res_ambitie} ambitie_id={this.props.match.params.single}/>
 		    </div>
 		  </div>
     );
@@ -45,4 +45,4 @@ class AmbitionsVersion extends Component {
 
 }
 
-export default AmbitionsVersion;
+export default OpgavenVersion;

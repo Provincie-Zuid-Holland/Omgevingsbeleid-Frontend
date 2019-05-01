@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-class AmbitionsDetail extends Component {
+class OpgavenDetail extends Component {
 
   render() {
 
@@ -20,4 +20,4 @@ class AmbitionsDetail extends Component {
   }
 }
 
-export default AmbitionsDetail;
+export default OpgavenDetail;
