@@ -19,21 +19,18 @@ export default function withAuth(AuthComponent) {
     // Checks if there is a saved token
     loggedIn() {
       const token = this.getToken() // Gets token from localstorage
+      console.log(token)
       return !!token // If token exists
     }
 
     // Retrieve token from the local storage
     getToken() {
-      console.log(localStorage.getItem('access_token'))
       return localStorage.getItem('access_token')
     }
 
   	componentWillMount() {
       if (!this.loggedIn()) {
         this.props.history.push('/login')
-        console.log("Er is geen Access Token gevonden in de local storage! :-(")
-      } else {
-        console.log("Er is een Access Token gevonden in de local storage! :-)")
       }
   	}
 

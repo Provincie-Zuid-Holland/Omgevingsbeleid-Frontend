@@ -3,11 +3,14 @@ import { withRouter, Link } from 'react-router-dom';
 
 function BreadcrumbMaker(location){
 
+  console.log("Location:")
+  console.log(location)
+
   if (location.includes("/ambities") && !location.includes("/ambities/")) {
     return(
       <ol className="list-reset flex text-grey-dark ml-4">
         <li>
-          <Link to={`/ambities`} className="text-blue">
+          <Link to={`/`} className="text-blue">
             Home
           </Link>
         </li>
@@ -21,7 +24,7 @@ function BreadcrumbMaker(location){
     return(
       <ol className="list-reset flex text-grey-dark ml-4">
         <li>
-          <Link to={`/ambities`} className="text-blue">
+          <Link to={`/`} className="text-blue">
             Home
           </Link>
         </li>
@@ -37,11 +40,11 @@ function BreadcrumbMaker(location){
         </li>
       </ol>
     )
-  } else if (location.includes("/ambities/")) {
+  } else if (location.includes("/ambities/:number")) {
     return(
       <ol className="list-reset flex text-grey-dark ml-4">
         <li>
-          <Link to={`/ambities`} className="text-blue">
+          <Link to={`/`} className="text-blue">
             Home
           </Link>
         </li>
@@ -69,7 +72,17 @@ function BreadcrumbMaker(location){
         </li>
       </ol>
     )
-  }
+  } else {
+    return(
+      <ol className="list-reset flex text-grey-dark ml-4">
+        <li>
+          <span className="text-grey-dark cursor-not-allowed">
+            Home
+          </span>
+        </li>
+      </ol>
+    )
+  } 
 }
 
 class Breadcrumb extends Component {

@@ -7,6 +7,7 @@ import Navigation from './components/Navigation'
 import Breadcrumb from './components/Breadcrumb'
 import Ambitions from './components/Ambitions'
 import Login from './components/Login'
+import Home from './components/Home'
 
 import AuthService from './components/Auth'
 import withAuth from './components/WithAuth'
@@ -24,7 +25,7 @@ class App extends Component {
         <Switch>
           <Route path="/ambities" component={withAuth(Ambitions)} />
           <Route path="/login" component={withRouter(Login)} history={this.props.history} />
-          <Route exact path="/" component={() => (<Redirect to="/ambities"/>)}/>
+          <Route exact path="/" component={withRouter(Home)}/>
         </Switch>
       </main>
     );

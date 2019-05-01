@@ -72,7 +72,6 @@ class Login extends Component {
   	let errorEl = document.getElementById('error-message');
 		errorEl.classList.add('hidden');
 		errorEl.classList.remove('flex');
-		console.log("TRIGGERED!")
   }
 
 

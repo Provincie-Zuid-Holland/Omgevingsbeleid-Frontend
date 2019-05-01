@@ -27,4 +27,4 @@ class AmbitionsOverzicht extends Component {
 	}
 }
 
-export default AmbitionsOverzicht;
+export default Opgaven;

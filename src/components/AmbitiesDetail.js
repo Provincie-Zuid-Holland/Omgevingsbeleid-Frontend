@@ -12,7 +12,7 @@ class AmbitiesDetail extends Component {
       <div className="pb-8 px-8 relative w-full">
         <h1>{this.props.ambitie[0] ? this.props.ambitie[0].Titel : "Loading..." }</h1>
         <p className="pt-6">{this.props.ambitie[0] ? this.props.ambitie[0].Omschrijving : "Loading..." }</p>
-        <Link to={'/ambities/' + this.props.ambitie_id + '/edit' } className="bg-white mt-4 block text-center hover:bg-grey-lightest text-grey-darkest font-semibold py-2 px-4 border no-underline border-grey-light rounded shadow absolute pin-t pin-r">
+        <Link to={'/ambities/edit/' + this.props.ambitie_id } className="bg-white mt-4 block text-center hover:bg-grey-lightest text-grey-darkest font-semibold py-2 px-4 border no-underline border-grey-light rounded shadow absolute pin-t pin-r">
       		Edit
       	</Link>
       </div>
