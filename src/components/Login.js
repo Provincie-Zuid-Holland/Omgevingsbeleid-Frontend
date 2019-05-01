@@ -84,7 +84,7 @@ class Login extends Component {
 							<label className="block text-grey-darker text-sm font-bold mb-2" htmlFor="identifier">
 								E-mailadres
 							</label>
-							<input className="shadow appearance-none border rounded w-full py-3 leading-loose px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline" name="identifier" id="identifier" type="text" placeholder="bijv. f.vermeulen@pzh.pzh" onChange={this.handleChange}/>
+							<input className="shadow appearance-none border rounded w-full py-3 leading-loose px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline" name="identifier" id="identifier" type="text" placeholder="bijv. f.vermeulen@pzh.nl" onChange={this.handleChange}/>
 						</div>
 						<div className="mb-4 mt-6">
 							<label className="block text-grey-darker text-sm font-bold mb-2" htmlFor="password">
