@@ -118,7 +118,7 @@ class Login extends Component {
 						</div>
 					</div>
 				</div>
-				<div className="w-1/2 login-afbeelding rounded">
+				<div className="w-1/2 login-afbeelding rounded rounded-l-none">
 				</div>
 
 			</div>

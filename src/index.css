@@ -21,12 +21,26 @@ code {
 	color: #000066;
 }
 
+.main-logo {
+  background-image: url('images/logo.png');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  display: block;
+  height: 79px;
+  width: 250px;
+  position: absolute;
+  margin-top: -20px;
+}
+
+/* Login */
+
 .login-afbeelding {
 	background-image: url('images/login.png');
 	background-size: cover;
 	background-position: center center;
 	background-repeat: no-repeat;
-	height: calc(100vh - 275px);
+	min-height: calc(100vh - 275px);
 }
 
 .shake {
