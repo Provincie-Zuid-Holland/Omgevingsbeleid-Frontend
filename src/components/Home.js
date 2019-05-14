@@ -1,28 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-
-
-const menuItems = [
-	[ "Dashboard", 'link' ],
-	[ "Verordening", 'link' ],
-	[ "Beleidsbeslissingen", 'link' ],
-	[ "Beleidsregels", 'link' ],
-	[ "Maatregelen", 'link' ],
-	[ "Onderdelen indienen", 'link' ],
-	[ "Overzicht wijzigingen", 'link' ],
-	[ "Mijn instellingen", 'link' ]
-]
-
-function MenuList(props) {
-	const menuItems = props.menuItems;
-  const listItems = menuItems.map((value, index) =>
-    <li className="text-gray-600 text-sm font-light leading-loose border-t border-gray-200 py-1" key={index}>{value[0]}</li>
-  );
-  return (
-    <ul className="border-b border-gray-200">{listItems}</ul>
-  );
-}
-
+import MainSidebar from './MainSidebar';
 
 function LabelGenerator(props) {
 	let statusCSS = "";
@@ -86,17 +64,7 @@ class Home extends Component {
 			<div className="container mx-auto flex px-6 pb-8">
 				
 				{/* Sidebar */}
-				<div className="w-1/4 rounded inline-block">	
-					<div className="welcome-message">
-						<span className="font-serif text-gray-800 text-l mb-2 inline-block">Omgevingsbeleid</span>
-						<h1 className="font-serif text-gray-800 text-2xl">Welkom Aiden,</h1>
-						<p className="text-gray-700">In deze omgeving heb je de mogelijkheid om te werken aan Omgevingsbeleid.</p>
-					</div>
-					<nav className="mt-8">
-						<h2 className="text-l font-serif text-gray-800 mb-2">Menu</h2>
-					  <MenuList menuItems={menuItems} />
-					</nav>
-				</div>
+				<MainSidebar />
 
 				{/* Dashboard */}
 				<div className="w-3/4 rounded inline-block flex-grow pl-8">	

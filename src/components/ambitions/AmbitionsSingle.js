@@ -3,6 +3,9 @@ import React, { Component } from 'react';
 import Sidebar from './../Sidebar';
 import Detail from './AmbitionsDetail';
 import axios from 'axios';
+import MainSidebar from './../MainSidebar';
+import TerugNaarOverzicht from './../TerugNaarOverzicht'
+
 
 // Set config defaults when creating the instance
 const instance = axios.create();
@@ -35,9 +38,18 @@ class AmbitionsSingle extends Component {
 
   render() {
     return (
-      <div className="container mx-auto flex">
-      	<Sidebar content={this.state.res_ambitie} contentType={"ambities"} />
-      	<Detail ambitie={this.state.res_ambitie} ambitie_id={this.props.match.params.single} />
+      <div className="container mx-auto flex px-6 pb-8">      
+        {/* Sidebar */}
+        <MainSidebar />
+
+        {/* Ambition Container */}
+        <div className="w-3/4 rounded inline-block pl-8">
+          <TerugNaarOverzicht terugNaar="ambitie overzicht" url="/ambities" />
+        	<div className="flex mt-3">
+            <Detail ambitie={this.state.res_ambitie} ambitie_id={this.props.match.params.single} />
+          	<Sidebar content={this.state.res_ambitie} contentType={"ambities"} />
+          </div>
+        </div>
 	    </div>
     );
   }

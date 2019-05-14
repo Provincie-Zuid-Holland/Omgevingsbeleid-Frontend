@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 
+import { faCaretDown } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+
 function getToken() {
   return localStorage.getItem('access_token')
 }
@@ -21,7 +24,8 @@ function LoginButton() {
 function LoggedIn() {
   return(
     <Link to={`/login`} onClick={logout} className="text-sm text-gray-800">
-      Ingelogd als Aiden
+      <span>Ingelogd als Aiden</span>
+      <FontAwesomeIcon className="ml-2 text-gray-700" icon={faCaretDown} />
     </Link>
   )
 }
@@ -31,7 +35,7 @@ function LoginLogoutButton() {
   if (getToken()) {
     return <LoggedIn/>
   } else {
-    return <LoginButton/>
+    return <p className="text-white">Not Logged In</p>
   }
 
 }
@@ -43,7 +47,7 @@ class Navigation extends Component {
 
     return (
       
-      <nav className="bg-white border-b border-gray-300 fixed w-full z-10 top-0">
+      <nav className="bg-white border-b border-gray-200 fixed w-full z-10 top-0">
         <div className="bg-white py-6 container mx-auto flex items-center justify-between flex-wrap bg-white px-6">
           <div className="flex items-center flex-no-shrink text-black mr-6 py-2">
             <Link to={`/`} className="text-blue">

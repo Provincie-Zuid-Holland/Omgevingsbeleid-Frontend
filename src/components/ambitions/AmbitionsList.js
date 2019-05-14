@@ -1,16 +1,22 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import MainSidebar from './../MainSidebar';
+import TerugNaarOverzicht from './../TerugNaarOverzicht'
+
+import { faAngleRight } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 // Set config defaults when creating the instance
 const instance = axios.create({
   baseURL: 'https://cors-anywhere.herokuapp.com/http://api-acctest-ob.westeurope.cloudapp.azure.com/dev/'
 });
 
-function VoegAmbitieToe() {
+function VoegAmbitieToe(props) {
+ 	const ambitieAantal = props.ambitieAantal;
  	return(
- 		<li className="mb-6 w-1/3 display-inline">
-	  	<Link className="mr-4 ml-4 h-full flex items-center justify-center no-underline px-4 pb-4 border border-dashed rounded overflow-hidden" to={`/ambities/nieuwe-ambitie`}>
+ 		<li className={(ambitieAantal % 2) !== 0 ? "mb-6 w-full display-inline" : "mb-6 w-1/2 display-inline"}>
+	  	<Link className="h-full flex items-center justify-center no-underline px-4 py-4 border border-dashed rounded overflow-hidden" to={`/ambities/nieuwe-ambitie`}>
 			  <span className="text-center text-gray-600 font-semibold py-2 px-4">
 			  	+ Voeg Ambitie Toe
 			  </span>
@@ -21,17 +27,16 @@ function VoegAmbitieToe() {
 
 function ambitieComponent(ambitie) {
 	return(
-		<div className="mr-4 ml-4 h-full px-4 pb-4 shadow border rounded overflow-hidden bg-white">
-		  <div className="py-4">
-		    <div className="font-bold text-xl mb-2">{ambitie.Titel}</div>
-		    <p className="text-gray-700 text-base">
-		      {ambitie.Omschrijving.substr(0, 100) + '...'}
-		    </p>
-		  </div>
-		  <Link className="bg-white mt-4 block text-center hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border no-underline border-gray-400 rounded shadow" to={`/ambities/${ambitie.ID}`}>
-		  	Naar Ambitie
-		  </Link>
-		</div>
+		<Link className="relative inline-block h-full w-full px-4 pb-6 pt-4 shadow-md rounded overflow-hidden bg-white" to={`/ambities/${ambitie.ID}`}>
+	  	<h5 className="text-gray-600 text-sm font-light py-1">Ambitie</h5>
+			<h2 className="text-xl font-bold text-gray-800">{ambitie.Titel}</h2>
+	    <p className="text-gray-700 text-base pr-4">
+	      { ambitie.Omschrijving.length < 100 ? ambitie.Omschrijving : ambitie.Omschrijving.substr(0, 100) + '...'}
+	    </p>
+    <span className="bottom-0 right-0 absolute font-bold w-8 h-10 text-gray-400 object-left-top">
+    	<FontAwesomeIcon className="text-2xl" icon={faAngleRight} />
+    </span>
+		</Link>
 	)
 }
 
@@ -62,24 +67,33 @@ class AmbitionsList extends Component {
 
   render() {
     return (
-      <div>
-      	<div className="flex justify-between">	
-      		<h1>
-      			Alle {this.state.ambities[0] ? this.state.ambities.length - 1 : "0"} ambities
-    			</h1>
-      		<div>
-      			<Link to={`/ambities/nieuwe-ambitie`} className="bg-green hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline no-underline">+ Voeg Ambitie Toe</Link>
-      		</div>
-      	</div>
-	      <ul className="flex mt-8 flex-wrap">
-	        { this.state.ambities[0] ? this.state.ambities.slice(1).map(ambitie =>
-	        	<li key={ambitie.ID} className="mb-6 w-1/3 display-inline">
-	        		{ambitieComponent(ambitie)}
-	        	</li>
-	        	) : "Loading..."
-	      	}
-	      	{ this.state.ambities[0] ? <VoegAmbitieToe /> : "" }
-	      </ul>
+      <div className="container mx-auto flex px-6 pb-8">
+        {/* Sidebar */}
+        <MainSidebar />
+
+        {/* Ambition Container */}
+        <div className="w-3/4 rounded inline-block flex-grow pl-8"> 
+          <TerugNaarOverzicht terugNaar="mijn dashboard" url="/" />
+
+
+	      	<div className="flex justify-between">	
+	      		<h1 className="font-serif text-gray-800 text-2xl">
+	      			Alle {this.state.ambities[0] ? this.state.ambities.length - 1 : "0"} ambities
+	    			</h1>
+	      		<div>
+	      			<Link to={`/ambities/nieuwe-ambitie`} className="font-bold py-2 px-4 text-sm rounded bg-green-200 text-green-700">+ Voeg Ambitie Toe</Link>
+	      		</div>
+	      	</div>
+		      <ul className="flex mt-8 flex-wrap" id="ambitie-list">
+		        { this.state.ambities[0] ? this.state.ambities.slice(1).map(ambitie =>
+		        	<li key={ambitie.ID} className="mb-6 w-1/2 display-inline">
+		        		{ambitieComponent(ambitie)}
+		        	</li>
+		        	) : "Loading..."
+		      	}
+		      	{ this.state.ambities[0] ? <VoegAmbitieToe ambitieAantal={this.state.ambities.length} /> : "" }
+		      </ul>
+		    </div>
 	    </div>
     )
   }

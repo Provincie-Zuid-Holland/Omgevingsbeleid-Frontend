@@ -42,12 +42,27 @@ code {
   min-height: calc(100vh - 69px);
 }
 
-#APIList li:nth-child(even) {
+#ambitie-list li {
+  top: 0px;
+  position: relative;
+  transition: 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+#ambitie-list li:hover {
+  top: -2px;
+}
+
+#APIList li:nth-child(even),
+#ambitie-list li:nth-child(even)  {
   padding-left: 0.75rem;
 }
 
-#APIList li:nth-child(odd) {
+#APIList li:nth-child(odd),
+#ambitie-list li:nth-child(odd) {
   padding-right: 0.75rem;
+}
+#ambitie-list li.w-full:nth-child(odd) {
+  padding-right: 0px;
 }
 
 /* Login */
