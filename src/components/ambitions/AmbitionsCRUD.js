@@ -86,7 +86,7 @@ class AmbitionsList extends Component {
     
     event.preventDefault(); 
 
-    let patchObject = {
+    let ambitieObject = {
   		Titel: this.state.Titel,
       Omschrijving: this.state.Omschrijving,
       Weblink: this.state.Weblink,
@@ -95,8 +95,8 @@ class AmbitionsList extends Component {
   	}	
 
     if (this.state.edit) {
-    	patchObject.Modified_By = "bb19d0b9-e609-434b-bd2d-18f907f16640"
-    	instance.patch(`/v0.1/ambities/${this.props.match.params.single}`, JSON.stringify(patchObject))
+    	ambitieObject.Modified_By = "bb19d0b9-e609-434b-bd2d-18f907f16640"
+    	instance.patch(`/v0.1/ambities/${this.props.match.params.single}`, JSON.stringify(ambitieObject))
 			.then(res => {
 				console.log(res)
 	      this.props.history.push(`/ambities/${res.data.ID}`)
@@ -104,8 +104,8 @@ class AmbitionsList extends Component {
 				console.log(error);
 			});
     } else {
-    	patchObject.Created_By = "bb19d0b9-e609-434b-bd2d-18f907f16640"
-		  instance.post('/v0.1/ambities', JSON.stringify(patchObject))
+    	ambitieObject.Created_By = "bb19d0b9-e609-434b-bd2d-18f907f16640"
+		  instance.post('/v0.1/ambities', JSON.stringify(ambitieObject))
 			.then(res => {
 	      this.props.history.push(`/ambities/${res.data.ID}`)
 	    }).catch((error) => {
