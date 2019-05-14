@@ -3,10 +3,12 @@ import axios from 'axios'
 import { format } from 'date-fns'
 
 // Set config defaults when creating the instance
+const access_token = localStorage.getItem('access_token');
 const instance = axios.create({
   baseURL: 'https://cors-anywhere.herokuapp.com/http://api-acctest-ob.westeurope.cloudapp.azure.com/dev',
   headers: {
-  	'Content-Type': 'application/json'
+  	'Content-Type': 'application/json',
+  	'Authorization': `Token ${access_token}`
   }
 });
 
@@ -31,6 +33,8 @@ class AmbitionsList extends Component {
   }
 
   componentDidMount() {
+  	
+  	// Single parameter === ambition id, so user is viewing an ambition
   	if (this.props.match.params.single) {
   		
   		this.setState({
@@ -38,11 +42,13 @@ class AmbitionsList extends Component {
   		});
 
   		console.log("Mounted.")
+	  	
 	  	let ambitie_id = this.props.match.params.single;
 
-	    const access_token = localStorage.getItem('access_token');
+	    // const access_token = localStorage.getItem('access_token');
+	    
 	    // Connect with API
-		  instance.get(`${'https://cors-anywhere.herokuapp.com/'}http://api-acctest-ob.westeurope.cloudapp.azure.com/dev/v0.1/ambities/${ambitie_id}`, { headers: { Authorization: `Token ${access_token}` } })
+		  instance.get(`${'https://cors-anywhere.herokuapp.com/'}http://api-acctest-ob.westeurope.cloudapp.azure.com/dev/v0.1/ambities/${ambitie_id}`)
 			.then(res => {
 	      const res_ambitie = res.data;
 	      console.log(res_ambitie[0])
@@ -78,18 +84,18 @@ class AmbitionsList extends Component {
 
   handleSubmit(event) {
     
-    event.preventDefault();
-    
+    event.preventDefault(); 
+
+    let patchObject = {
+  		Titel: this.state.Titel,
+      Omschrijving: this.state.Omschrijving,
+      Weblink: this.state.Weblink,
+      Begin_Geldigheid: this.state.Begin_Geldigheid,
+  		Eind_Geldigheid: this.state.Eind_Geldigheid,
+  	}	
 
     if (this.state.edit) {
-    	const patchObject = {
-    		Titel: this.state.Titel,
-	      Omschrijving: this.state.Omschrijving,
-	      Weblink: this.state.Weblink,
-	      Begin_Geldigheid: this.state.Begin_Geldigheid,
-    		Eind_Geldigheid: this.state.Eind_Geldigheid,
-    		Modified_By: "bb19d0b9-e609-434b-bd2d-18f907f16640"
-    	}	
+    	patchObject.Modified_By = "bb19d0b9-e609-434b-bd2d-18f907f16640"
     	instance.patch(`/v0.1/ambities/${this.props.match.params.single}`, JSON.stringify(patchObject))
 			.then(res => {
 				console.log(res)
@@ -98,7 +104,8 @@ class AmbitionsList extends Component {
 				console.log(error);
 			});
     } else {
-		  instance.post('/v0.1/ambities', JSON.stringify(this.state))
+    	patchObject.Created_By = "bb19d0b9-e609-434b-bd2d-18f907f16640"
+		  instance.post('/v0.1/ambities', JSON.stringify(patchObject))
 			.then(res => {
 	      this.props.history.push(`/ambities/${res.data.ID}`)
 	    }).catch((error) => {

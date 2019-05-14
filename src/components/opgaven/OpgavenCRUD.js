@@ -113,7 +113,7 @@ class AmbitionsList extends Component {
   render() {
     return (
       <div>
-				<h1>{this.state.edit ? "Wijzig een ambitie" : "Voeg een nieuwe opgave toe"}</h1>
+				<h1>{this.state.edit ? "Wijzig een opgave" : "Voeg een nieuwe opgave toe"}</h1>
 				<form className="w-full max-w-md mt-12" onSubmit={this.handleSubmit}>
 
 					{/* Titel */}
