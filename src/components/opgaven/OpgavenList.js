@@ -16,7 +16,7 @@ function opgavenComponent(opgave) {
 		      {opgave.Omschrijving.substr(0, 36) + '...'}
 		    </p>
 		  </div>
-		  <Link className="bg-white mt-4 block text-center hover:bg-gray-400est text-gray-800 font-semibold py-2 px-4 border no-underline border-gray-400 rounded shadow" to={`/opgaven/${opgave.ID}`}>
+		  <Link className="bg-white mt-4 block text-center hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border no-underline border-gray-400 rounded shadow" to={`/opgaven/${opgave.ID}`}>
 		  	Naar Opgave
 		  </Link>
 		</div>

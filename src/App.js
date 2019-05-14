@@ -4,7 +4,7 @@ import './App.css'
 import { Route, Switch, withRouter } from 'react-router-dom'
 
 import Navigation from './components/Navigation'
-import Breadcrumb from './components/Breadcrumb'
+import TerugNaarOverzicht from './components/TerugNaarOverzicht'
 import Ambitions from './components/ambitions/Ambitions'
 import Opgaven from './components/opgaven/Opgaven'
 import Login from './components/Login'
