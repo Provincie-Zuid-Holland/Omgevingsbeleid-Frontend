@@ -122,30 +122,30 @@ class AmbitionsList extends Component {
 					{/* Titel */}
 				  <div className="flex flex-wrap -mx-3">
 				    <div className="w-full px-3 mb-4">
-				      <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" htmlFor="title">
+				      <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="title">
 				        Titel
 				      </label>
-				      <input required value={this.state.Titel} onChange={this.handleChange} name="Titel" className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-grey" id="titel" type="text" placeholder="Opgave Titel"/>
+				      <input required value={this.state.Titel} onChange={this.handleChange} name="Titel" className="appearance-none block w-full bg-gray-400er text-gray-700 border border-gray-400er rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="titel" type="text" placeholder="Opgave Titel"/>
 				    </div>
 				  </div>
 
 					{/* Omschrijving */}
 				  <div className="flex flex-wrap -mx-3 mb-6">
 				    <div className="w-full px-3">
-				      <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" htmlFor="omschrijving">
+				      <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="omschrijving">
 				        Omschrijving
 				      </label>
-				      <textarea value={this.state.Omschrijving} required onChange={this.handleChange} name="Omschrijving" className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-grey" id="omschrijving" type="text" placeholder="Schrijf hier je gave opgave"/>
+				      <textarea value={this.state.Omschrijving} required onChange={this.handleChange} name="Omschrijving" className="appearance-none block w-full bg-gray-400er text-gray-700 border border-gray-400er rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="omschrijving" type="text" placeholder="Schrijf hier je gave opgave"/>
 				    </div>
 				  </div>
 
 				  {/* Weblink */}
 				  <div className="flex flex-wrap -mx-3 mb-6">
 				    <div className="w-full px-3">
-				      <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" htmlFor="weblink">
+				      <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="weblink">
 				        Weblink
 				      </label>
-				      <input required value={this.state.Weblink} onChange={this.handleChange} name="Weblink" className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-grey" id="weblink" type="text" placeholder="https://www.nu.nl"/>
+				      <input required value={this.state.Weblink} onChange={this.handleChange} name="Weblink" className="appearance-none block w-full bg-gray-400er text-gray-700 border border-gray-400er rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="weblink" type="text" placeholder="https://www.nu.nl"/>
 				    </div>
 				  </div>
  
@@ -154,24 +154,24 @@ class AmbitionsList extends Component {
 				    
 				    {/* Begin Geldigheid */}
 				    <div className="w-50 px-3">
-				      <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" htmlFor="omschrijving">
+				      <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="omschrijving">
 				        Begin Geldigheid
 				      </label>
-				      <input required value={format(this.state.Begin_Geldigheid, "YYYY-MM-DD")} onChange={this.handleChange} name="Begin_Geldigheid" className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-grey" id="begin-geldigheid" type="date"/>
+				      <input required value={format(this.state.Begin_Geldigheid, "YYYY-MM-DD")} onChange={this.handleChange} name="Begin_Geldigheid" className="appearance-none block w-full bg-gray-400er text-gray-700 border border-gray-400er rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="begin-geldigheid" type="date"/>
 				    </div>
 				  {/* Eind Geldigheid */}
 				    <div className="w-50 px-3">
-				      <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" htmlFor="omschrijving">
+				      <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="omschrijving">
 				        Eind Geldigheid
 				      </label>
-				      <input required value={format(this.state.Eind_Geldigheid, "YYYY-MM-DD")} onChange={this.handleChange} name="Eind_Geldigheid" className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-grey" id="eind-geldigheid" type="date"/>
+				      <input required value={format(this.state.Eind_Geldigheid, "YYYY-MM-DD")} onChange={this.handleChange} name="Eind_Geldigheid" className="appearance-none block w-full bg-gray-400er text-gray-700 border border-gray-400er rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="eind-geldigheid" type="date"/>
 				    </div>
 				  </div>
 
 				{/* Submit */}
 				  <div className="flex flex-wrap -mx-3">
 				    <div className="w-full px-3">
-				      <input className="bg-green hover:bg-green-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" value={this.state.edit ? "Wijzig opgave" : "Voeg opgave toe"}>
+				      <input className="bg-green hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" value={this.state.edit ? "Wijzig opgave" : "Voeg opgave toe"}>
 				      </input>
 				    </div>
 				  </div>

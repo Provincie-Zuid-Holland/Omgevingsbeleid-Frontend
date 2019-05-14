@@ -12,7 +12,7 @@ function logout() {
 
 function LoginButton() {
   return(
-    <Link to={`/login`} className="bg-white block text-center hover:bg-grey-lightest text-grey-darkest font-semibold py-2 px-4 border no-underline border-grey-light rounded shadow">
+    <Link to={`/login`} className="bg-white block text-center hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border no-underline border-gray-400 rounded shadow">
       Login
     </Link>
   )
@@ -20,7 +20,7 @@ function LoginButton() {
 
 function LogoutButton() {
   return(
-    <Link to={`/login`} onClick={logout} className="bg-white block text-center hover:bg-grey-lightest text-grey-darkest font-semibold py-2 px-4 border no-underline border-grey-light rounded shadow">
+    <Link to={`/login`} onClick={logout} className="bg-white block text-center hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border no-underline border-gray-400 rounded shadow">
       Logout
     </Link>
   )
@@ -43,7 +43,7 @@ class Navigation extends Component {
 
     return (
       
-      <nav className="bg-white border-b border-gray-100 mb-12">
+      <nav className="bg-white border-b border-gray-300 fixed w-full z-10 top-0">
         <div className="bg-white py-6 container mx-auto flex items-center justify-between flex-wrap bg-white px-6">
           <div className="flex items-center flex-no-shrink text-black mr-6 py-2">
             <Link to={`/`} className="text-blue">

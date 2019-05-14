@@ -7,12 +7,13 @@ class Home extends Component {
 	render() {
 		return (
 
-			<div className="container mx-auto flex">
+			<div className="container mx-auto flex px-6">
+				
 				{/* Sidebar */}
 				<div className="w-1/4 rounded inline-block">	
 					<div className="welcome-message">
-						<span className="font-serif text-gray-600">Omgevingsbeleid</span>
-						<h1 className="font-serif text-gray-600">Welkom Aiden,</h1>
+						<span className="font-serif text-gray-100">Omgevingsbeleid</span>
+						<h1 className="font-serif text-orange-light">Welkom Aiden,</h1>
 						<p className="text-gray-600">In deze omgeving heb je de mogelijkheid om te werken aan Omgevingsbeleid.</p>
 					</div>
 					<nav>
@@ -22,18 +23,20 @@ class Home extends Component {
 						</ul>
 					</nav>
 				</div>
-				<div className="w-3/4 rounded inline-block flex-grow">	
+
+				{/* Dashboard */}
+				<div className="w-3/4 rounded inline-block flex-grow pl-6">	
 					<h1 className="mb-4">Home</h1>
 					<div className="flex">
-						<div className="w-1/2 mr-4 ml-4 h-full px-4 py-4 shadow border rounded overflow-hidden bg-white">
+						<div className="w-1/2 mr-4 h-full px-4 py-4 shadow border rounded overflow-hidden bg-white">
 							<h2>Ambities</h2>
-							<Link className="bg-white mt-4 inline-block text-center hover:bg-grey-lightest text-grey-darkest font-semibold py-2 px-4 border no-underline border-grey-light rounded shadow" to={'/ambities/'}>
+							<Link className="bg-white mt-4 inline-block text-center hover:bg-gray-400est text-gray-800 font-semibold py-2 px-4 border no-underline border-gray-400 rounded shadow" to={'/ambities/'}>
 						  	Naar Alle Ambities
 						  </Link>
 						</div>
-						<div className="w-1/2 mr-4 ml-4 h-full px-4 py-4 shadow border rounded overflow-hidden bg-white">
+						<div className="w-1/2 ml-4 h-full px-4 py-4 shadow border rounded overflow-hidden bg-white">
 							<h2>Opgaven</h2>
-							<Link className="bg-white mt-4 inline-block text-center hover:bg-grey-lightest text-grey-darkest font-semibold py-2 px-4 border no-underline border-grey-light rounded shadow" to={'/opgaven/'}>
+							<Link className="bg-white mt-4 inline-block text-center hover:bg-gray-400est text-gray-800 font-semibold py-2 px-4 border no-underline border-gray-400 rounded shadow" to={'/opgaven/'}>
 						  	Naar Alle Opgaven
 						  </Link>
 						</div>

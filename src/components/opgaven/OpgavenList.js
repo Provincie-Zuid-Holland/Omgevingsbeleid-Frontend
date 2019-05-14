@@ -12,11 +12,11 @@ function opgavenComponent(opgave) {
 		<div className="mr-4 ml-4 h-full px-4 pb-4 shadow border rounded overflow-hidden bg-white">
 		  <div className="py-4">
 		    <div className="font-bold text-xl mb-2">{opgave.Titel}</div>
-		    <p className="text-grey-darker text-base">
+		    <p className="text-gray-700 text-base">
 		      {opgave.Omschrijving.substr(0, 36) + '...'}
 		    </p>
 		  </div>
-		  <Link className="bg-white mt-4 block text-center hover:bg-grey-lightest text-grey-darkest font-semibold py-2 px-4 border no-underline border-grey-light rounded shadow" to={`/opgaven/${opgave.ID}`}>
+		  <Link className="bg-white mt-4 block text-center hover:bg-gray-400est text-gray-800 font-semibold py-2 px-4 border no-underline border-gray-400 rounded shadow" to={`/opgaven/${opgave.ID}`}>
 		  	Naar Opgave
 		  </Link>
 		</div>
@@ -57,7 +57,7 @@ class OpgavenList extends Component {
       			Alle {this.state.opgaven[0] ? this.state.opgaven.length - 1 : "0"} opgaven
     			</h1>
       		<div>
-      			<Link to={`/opgaven/nieuwe-opgave`} className="bg-green hover:bg-green-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline no-underline">+ Voeg Opgave Toe</Link>
+      			<Link to={`/opgaven/nieuwe-opgave`} className="bg-green hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline no-underline">+ Voeg Opgave Toe</Link>
       		</div>
       	</div>
 	      <ul className="flex mt-8 flex-wrap">

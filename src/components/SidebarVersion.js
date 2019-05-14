@@ -8,25 +8,25 @@ function sidebarSingle(ambitie) {
       <div className="overflow-hidden bg-white max-w-xs w-full">
           <div className="block p-4 border-b no-underline">
             <p className="font-bold text-lg mb-1 text-black">Eigenaar</p>
-            <p className="text-grey-darker mb-2">
+            <p className="text-gray-700 mb-2">
               { ambitie ? ambitie.UUID : "Loading..." }
             </p>
           </div>
           <div className="block p-4 border-b no-underline">
             <p className="font-bold text-lg mb-1 text-black">Weblink</p>
-            <a href={ambitie.Weblink} className="text-grey-darker mb-2">
+            <a href={ambitie.Weblink} className="text-gray-700 mb-2">
               { ambitie ? ambitie.Weblink : "Loading..." }
             </a>
           </div>
           <div className="block group p-4 border-b no-underline">
             <p className="font-bold text-lg mb-1 text-black group-hover:text-white">Laatste Wijziging</p>
-            <p className="text-grey-darker mb-2 group-hover:text-white">
+            <p className="text-gray-700 mb-2 group-hover:text-white">
               { ambitie ? format(new Date(ambitie.Modified_Date), 'MM/DD/YYYY') : "Loading..." }
             </p>
           </div>
           <div className="block group p-4 border-b no-underline">
             <p className="font-bold text-lg mb-1 text-black group-hover:text-white">Aangemaakt op</p>
-            <p className="text-grey-darker mb-2 group-hover:text-white">
+            <p className="text-gray-700 mb-2 group-hover:text-white">
               { ambitie ? format(new Date(ambitie.Created_Date), 'MM/DD/YYYY') : "Loading..." }
             </p>
           </div>

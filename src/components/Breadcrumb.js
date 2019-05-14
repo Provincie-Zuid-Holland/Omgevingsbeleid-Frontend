@@ -5,7 +5,7 @@ function BreadcrumbMaker(location){
 
   if (location.includes("/ambities") && !location.includes("/ambities/")) {
     return(
-      <ol className="flex text-grey-dark ml-4">
+      <ol className="flex text-gray-600 ml-4">
         <li>
           <Link to={`/`} className="text-blue">
             Home
@@ -19,7 +19,7 @@ function BreadcrumbMaker(location){
     )
   } else if (location.includes("/ambities/nieuwe-ambitie")) {
     return(
-      <ol className="flex text-grey-dark ml-4">
+      <ol className="flex text-gray-600 ml-4">
         <li>
           <Link to={`/`} className="text-blue">
             Home
@@ -39,7 +39,7 @@ function BreadcrumbMaker(location){
     )
   } else if (location.includes("/ambities/:number")) {
     return(
-      <ol className="flex text-grey-dark ml-4">
+      <ol className="flex text-gray-600 ml-4">
         <li>
           <Link to={`/`} className="text-blue">
             Home
@@ -57,7 +57,7 @@ function BreadcrumbMaker(location){
     )
   } else if (location.includes("/login")) {
     return(
-      <ol className="flex text-grey-dark ml-4">
+      <ol className="flex text-gray-600 ml-4">
         <li>
           <span className="text-blue underline cursor-not-allowed">
             Home
@@ -71,9 +71,9 @@ function BreadcrumbMaker(location){
     )
   } else {
     return(
-      <ol className="flex text-grey-dark ml-4">
+      <ol className="flex text-gray-600 ml-4">
         <li>
-          <span className="text-grey-dark cursor-not-allowed">
+          <span className="text-gray-600 cursor-not-allowed">
             Home
           </span>
         </li>
@@ -86,7 +86,7 @@ class Breadcrumb extends Component {
   
   render() {
     return (
-      <div className="bg-grey-light p-3 rounded font-sans w-full m-4 container mx-auto">
+      <div className="bg-gray-400 p-3 rounded font-sans w-full m-4 container mx-auto">
         {BreadcrumbMaker(this.props.location.pathname)}
       </div>
 

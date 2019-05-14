@@ -1,3 +1,9 @@
+@tailwind base;
+
+html {
+  height: 100%;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -33,6 +39,11 @@ code {
   margin-top: -20px;
 }
 
+#main-container {
+  margin-top: 91px;
+  min-height: calc(100vh - 91px);
+}
+
 /* Login */
 
 .login-afbeelding {
@@ -40,7 +51,11 @@ code {
 	background-size: cover;
 	background-position: center center;
 	background-repeat: no-repeat;
-	min-height: calc(100vh - 275px);
+  height: calc(100vh - 91px);
+  width: calc(100vw / 2);
+  position: absolute;
+  right: 0px;
+  top: 91px;
 }
 
 .shake {

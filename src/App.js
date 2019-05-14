@@ -19,7 +19,7 @@ import withAuth from './components/WithAuth'
 class App extends Component {
   render() {
     return (
-      <main className="bg-grey-lighter pb-8 min-h-screen">
+      <main className="bg-gray-100 min-h-screen pt-12" id="main-container">
         <Navigation  />
         <Switch>
           <Route path="/ambities" component={withAuth(Ambitions)} />

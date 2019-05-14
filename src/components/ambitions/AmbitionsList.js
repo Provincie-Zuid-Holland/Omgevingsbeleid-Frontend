@@ -11,7 +11,7 @@ function VoegAmbitieToe() {
  	return(
  		<li className="mb-6 w-1/3 display-inline">
 	  	<Link className="mr-4 ml-4 h-full flex items-center justify-center no-underline px-4 pb-4 border border-dashed rounded overflow-hidden" to={`/ambities/nieuwe-ambitie`}>
-			  <span className="text-center text-grey-dark font-semibold py-2 px-4">
+			  <span className="text-center text-gray-600 font-semibold py-2 px-4">
 			  	+ Voeg Ambitie Toe
 			  </span>
 			</Link>
@@ -24,11 +24,11 @@ function ambitieComponent(ambitie) {
 		<div className="mr-4 ml-4 h-full px-4 pb-4 shadow border rounded overflow-hidden bg-white">
 		  <div className="py-4">
 		    <div className="font-bold text-xl mb-2">{ambitie.Titel}</div>
-		    <p className="text-grey-darker text-base">
+		    <p className="text-gray-700 text-base">
 		      {ambitie.Omschrijving.substr(0, 100) + '...'}
 		    </p>
 		  </div>
-		  <Link className="bg-white mt-4 block text-center hover:bg-grey-lightest text-grey-darkest font-semibold py-2 px-4 border no-underline border-grey-light rounded shadow" to={`/ambities/${ambitie.ID}`}>
+		  <Link className="bg-white mt-4 block text-center hover:bg-gray-400est text-gray-800 font-semibold py-2 px-4 border no-underline border-gray-400 rounded shadow" to={`/ambities/${ambitie.ID}`}>
 		  	Naar Ambitie
 		  </Link>
 		</div>
@@ -68,7 +68,7 @@ class AmbitionsList extends Component {
       			Alle {this.state.ambities[0] ? this.state.ambities.length - 1 : "0"} ambities
     			</h1>
       		<div>
-      			<Link to={`/ambities/nieuwe-ambitie`} className="bg-green hover:bg-green-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline no-underline">+ Voeg Ambitie Toe</Link>
+      			<Link to={`/ambities/nieuwe-ambitie`} className="bg-green hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline no-underline">+ Voeg Ambitie Toe</Link>
       		</div>
       	</div>
 	      <ul className="flex mt-8 flex-wrap">
