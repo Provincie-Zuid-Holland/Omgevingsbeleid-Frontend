@@ -60,7 +60,7 @@ class OpgavenList extends Component {
       			<Link to={`/opgaven/nieuwe-opgave`} className="bg-green hover:bg-green-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline no-underline">+ Voeg Opgave Toe</Link>
       		</div>
       	</div>
-	      <ul className="flex list-reset mt-8 flex-wrap">
+	      <ul className="flex mt-8 flex-wrap">
 	        { this.state.opgaven[0] ? this.state.opgaven.slice(1).map(opgave =>
 	        	<li key={opgave.ID} className="mb-6 w-1/3 display-inline">
 	        		{opgavenComponent(opgave)}

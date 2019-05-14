@@ -21,7 +21,6 @@ class App extends Component {
     return (
       <main className="bg-grey-lighter pb-8 min-h-screen">
         <Navigation  />
-        <Breadcrumb />
         <Switch>
           <Route path="/ambities" component={withAuth(Ambitions)} />
           <Route path="/opgaven" component={withAuth(Opgaven)} />

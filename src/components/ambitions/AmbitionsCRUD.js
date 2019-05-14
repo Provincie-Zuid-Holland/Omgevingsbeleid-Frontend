@@ -92,7 +92,7 @@ class AmbitionsList extends Component {
       Weblink: this.state.Weblink,
       Begin_Geldigheid: this.state.Begin_Geldigheid,
   		Eind_Geldigheid: this.state.Eind_Geldigheid,
-  	}	
+  	}
 
     if (this.state.edit) {
     	ambitieObject.Modified_By = "bb19d0b9-e609-434b-bd2d-18f907f16640"

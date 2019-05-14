@@ -11,7 +11,7 @@ class AmbitionsOverzicht extends Component {
 	render() {
 		return (
 
-			<div className="container mx-auto m-4 flex bg-white shadow-md rounded">
+			<div className="container mx-auto m-4 flex shadow-md rounded">
 				<Switch>
 					<Route exact path="/ambities/nieuwe-ambitie" component={AmbitionsCRUD} />
 					<Route exact path="/ambities/edit/:single" component={AmbitionsCRUD} />

@@ -8,7 +8,21 @@ class Home extends Component {
 		return (
 
 			<div className="container mx-auto flex">
-				<div className="p-8 w-3/4 bg-white shadow rounded inline-block flex-grow">
+				{/* Sidebar */}
+				<div className="w-1/4 rounded inline-block">	
+					<div className="welcome-message">
+						<span className="font-serif text-gray-600">Omgevingsbeleid</span>
+						<h1 className="font-serif text-gray-600">Welkom Aiden,</h1>
+						<p className="text-gray-600">In deze omgeving heb je de mogelijkheid om te werken aan Omgevingsbeleid.</p>
+					</div>
+					<nav>
+						<span>Menu</span>
+						<ul>
+							<li></li>
+						</ul>
+					</nav>
+				</div>
+				<div className="w-3/4 rounded inline-block flex-grow">	
 					<h1 className="mb-4">Home</h1>
 					<div className="flex">
 						<div className="w-1/2 mr-4 ml-4 h-full px-4 py-4 shadow border rounded overflow-hidden bg-white">
@@ -24,6 +38,7 @@ class Home extends Component {
 						  </Link>
 						</div>
 					</div>
+
 				</div>
 			</div>
 			

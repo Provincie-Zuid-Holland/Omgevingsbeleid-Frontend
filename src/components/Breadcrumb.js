@@ -5,7 +5,7 @@ function BreadcrumbMaker(location){
 
   if (location.includes("/ambities") && !location.includes("/ambities/")) {
     return(
-      <ol className="list-reset flex text-grey-dark ml-4">
+      <ol className="flex text-grey-dark ml-4">
         <li>
           <Link to={`/`} className="text-blue">
             Home
@@ -19,7 +19,7 @@ function BreadcrumbMaker(location){
     )
   } else if (location.includes("/ambities/nieuwe-ambitie")) {
     return(
-      <ol className="list-reset flex text-grey-dark ml-4">
+      <ol className="flex text-grey-dark ml-4">
         <li>
           <Link to={`/`} className="text-blue">
             Home
@@ -39,7 +39,7 @@ function BreadcrumbMaker(location){
     )
   } else if (location.includes("/ambities/:number")) {
     return(
-      <ol className="list-reset flex text-grey-dark ml-4">
+      <ol className="flex text-grey-dark ml-4">
         <li>
           <Link to={`/`} className="text-blue">
             Home
@@ -57,7 +57,7 @@ function BreadcrumbMaker(location){
     )
   } else if (location.includes("/login")) {
     return(
-      <ol className="list-reset flex text-grey-dark ml-4">
+      <ol className="flex text-grey-dark ml-4">
         <li>
           <span className="text-blue underline cursor-not-allowed">
             Home
@@ -71,7 +71,7 @@ function BreadcrumbMaker(location){
     )
   } else {
     return(
-      <ol className="list-reset flex text-grey-dark ml-4">
+      <ol className="flex text-grey-dark ml-4">
         <li>
           <span className="text-grey-dark cursor-not-allowed">
             Home
