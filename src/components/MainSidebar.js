@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
+import { faAngleRight } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+
 const menuItems = {
 	"Dashboard": {"url":"/", "finished": true},
 	"Verordening": {"url":"", "finished": false},
@@ -16,16 +19,18 @@ function MainSidebar(props) {
   const listItems = Object.keys(menuItems).map((value, index) =>
     menuItems[value].finished ? 
     	<Link 
-    		className="text-gray-600 text-sm font-light leading-loose border-t block border-gray-200 py-1" 
+    		className="text-gray-600 relative text-sm font-light leading-loose border-t block border-gray-200 py-1" 
     		key={index}
     		to={menuItems[value].url}>
 	    	{value}
+	    	<FontAwesomeIcon className="absolute right-0 h-8" icon={faAngleRight} />
 	    </Link>
     	: 
     	<li 
-    		className="text-gray-600 text-sm font-light leading-loose border-t border-gray-200 py-1 cursor-not-allowed" 
+    		className="text-gray-600 text-sm font-light relative leading-loose border-t border-gray-200 py-1 cursor-not-allowed" 
     		key={index}>
 	    	{value}
+	    	<FontAwesomeIcon className="absolute right-0 h-8" icon={faAngleRight} />
 	    </li>
   );
   return (
