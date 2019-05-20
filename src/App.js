@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Route, Switch, withRouter } from 'react-router-dom'
 
 import './css/tailwind.css'
-import './styles.scss'
+import './css/styles.scss'
 
 import Navigation from './components/Navigation'
 import TerugNaarOverzicht from './components/TerugNaarOverzicht'
