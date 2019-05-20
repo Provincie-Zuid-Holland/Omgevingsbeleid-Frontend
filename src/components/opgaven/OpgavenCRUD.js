@@ -2,8 +2,11 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import { format } from 'date-fns'
 
+import MainSidebar from './../MainSidebar'
+import TerugNaarOverzicht from './../TerugNaarOverzicht'
+
 // Set config defaults when creating the instance
-const access_token = localStorage.getItem('access_token');
+const access_token = localStorage.getItem('access_token')
 const instance = axios.create({
   baseURL: 'https://cors-anywhere.herokuapp.com/http://api-acctest-ob.westeurope.cloudapp.azure.com/dev',
   headers: {
@@ -33,6 +36,8 @@ class AmbitionsList extends Component {
   }
 
   componentDidMount() {
+
+  	// Single parameter === ambition id, so user is viewing an ambition
   	if (this.props.match.params.single) {
   		
   		this.setState({
@@ -48,8 +53,6 @@ class AmbitionsList extends Component {
 		  instance.get(`${'https://cors-anywhere.herokuapp.com/'}http://api-acctest-ob.westeurope.cloudapp.azure.com/dev/v0.1/opgaven/${ambitie_id}`)
 			.then(res => {
 	      const res_ambitie = res.data;
-	      console.log(res_ambitie[0])
-	      console.log(res_ambitie[0].Eind_Geldigheid)
 	      this.setState({
 		      Titel: res_ambitie[0].Titel,
 		      Omschrijving: res_ambitie[0].Omschrijving,
@@ -115,68 +118,77 @@ class AmbitionsList extends Component {
 
   render() {
     return (
-      <div>
-				<h1>{this.state.edit ? "Wijzig een opgave" : "Voeg een nieuwe opgave toe"}</h1>
-				<form className="w-full max-w-md mt-12" onSubmit={this.handleSubmit}>
+      <div className="container mx-auto flex px-6 pb-8">      
+				
+				{/* Sidebar */}
+				<MainSidebar />
 
-					{/* Titel */}
-				  <div className="flex flex-wrap -mx-3">
-				    <div className="w-full px-3 mb-4">
-				      <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="title">
-				        Titel
-				      </label>
-				      <input required value={this.state.Titel} onChange={this.handleChange} name="Titel" className="appearance-none block w-full bg-gray-400er text-gray-700 border border-gray-400er rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="titel" type="text" placeholder="Opgave Titel"/>
-				    </div>
-				  </div>
+				{/* Ambition Container */}
+				<div className="w-3/4 inline-block flex-grow pl-8">	
+					<TerugNaarOverzicht terugNaar="ambitie" url={`/ambities/${this.props.match.params.single}`} />
+					<div>
+						<h1>{this.state.edit ? "Wijzig een opgave" : "Voeg een nieuwe opgave toe"}</h1>
+						<form className="w-full max-w-md mt-12" onSubmit={this.handleSubmit}>
 
-					{/* Omschrijving */}
-				  <div className="flex flex-wrap -mx-3 mb-6">
-				    <div className="w-full px-3">
-				      <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="omschrijving">
-				        Omschrijving
-				      </label>
-				      <textarea value={this.state.Omschrijving} required onChange={this.handleChange} name="Omschrijving" className="appearance-none block w-full bg-gray-400er text-gray-700 border border-gray-400er rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="omschrijving" type="text" placeholder="Schrijf hier je gave opgave"/>
-				    </div>
-				  </div>
+							{/* Titel */}
+						  <div className="flex flex-wrap -mx-3">
+						    <div className="w-full px-3 mb-4">
+						      <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="title">
+						        Titel
+						      </label>
+						      <input required value={this.state.Titel} onChange={this.handleChange} name="Titel" className="appearance-none block w-full bg-gray-400er text-gray-700 border border-gray-400er rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="titel" type="text" placeholder="Opgave Titel"/>
+						    </div>
+						  </div>
 
-				  {/* Weblink */}
-				  <div className="flex flex-wrap -mx-3 mb-6">
-				    <div className="w-full px-3">
-				      <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="weblink">
-				        Weblink
-				      </label>
-				      <input required value={this.state.Weblink} onChange={this.handleChange} name="Weblink" className="appearance-none block w-full bg-gray-400er text-gray-700 border border-gray-400er rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="weblink" type="text" placeholder="https://www.nu.nl"/>
-				    </div>
-				  </div>
- 
-				  {/* Geldigheid */}
-				  <div className="flex flex-wrap -mx-3 mb-6">
-				    
-				    {/* Begin Geldigheid */}
-				    <div className="w-50 px-3">
-				      <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="omschrijving">
-				        Begin Geldigheid
-				      </label>
-				      <input required value={format(this.state.Begin_Geldigheid, "YYYY-MM-DD")} onChange={this.handleChange} name="Begin_Geldigheid" className="appearance-none block w-full bg-gray-400er text-gray-700 border border-gray-400er rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="begin-geldigheid" type="date"/>
-				    </div>
-				  {/* Eind Geldigheid */}
-				    <div className="w-50 px-3">
-				      <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="omschrijving">
-				        Eind Geldigheid
-				      </label>
-				      <input required value={format(this.state.Eind_Geldigheid, "YYYY-MM-DD")} onChange={this.handleChange} name="Eind_Geldigheid" className="appearance-none block w-full bg-gray-400er text-gray-700 border border-gray-400er rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="eind-geldigheid" type="date"/>
-				    </div>
-				  </div>
+							{/* Omschrijving */}
+						  <div className="flex flex-wrap -mx-3 mb-6">
+						    <div className="w-full px-3">
+						      <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="omschrijving">
+						        Omschrijving
+						      </label>
+						      <textarea value={this.state.Omschrijving} required onChange={this.handleChange} name="Omschrijving" className="appearance-none block w-full bg-gray-400er text-gray-700 border border-gray-400er rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="omschrijving" type="text" placeholder="Schrijf hier je gave opgave"/>
+						    </div>
+						  </div>
 
-				{/* Submit */}
-				  <div className="flex flex-wrap -mx-3">
-				    <div className="w-full px-3">
-				      <input className="bg-green hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" value={this.state.edit ? "Wijzig opgave" : "Voeg opgave toe"}>
-				      </input>
-				    </div>
-				  </div>
-				</form>
+						  {/* Weblink */}
+						  <div className="flex flex-wrap -mx-3 mb-6">
+						    <div className="w-full px-3">
+						      <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="weblink">
+						        Weblink
+						      </label>
+						      <input required value={this.state.Weblink} onChange={this.handleChange} name="Weblink" className="appearance-none block w-full bg-gray-400er text-gray-700 border border-gray-400er rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="weblink" type="text" placeholder="https://www.nu.nl"/>
+						    </div>
+						  </div>
+		 
+						  {/* Geldigheid */}
+						  <div className="flex flex-wrap -mx-3 mb-6">
+						    
+						    {/* Begin Geldigheid */}
+						    <div className="w-50 px-3">
+						      <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="omschrijving">
+						        Begin Geldigheid
+						      </label>
+						      <input required value={format(this.state.Begin_Geldigheid, "YYYY-MM-DD")} onChange={this.handleChange} name="Begin_Geldigheid" className="appearance-none block w-full bg-gray-400er text-gray-700 border border-gray-400er rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="begin-geldigheid" type="date"/>
+						    </div>
+						  	{/* Eind Geldigheid */}
+						    <div className="w-50 px-3">
+						      <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="omschrijving">
+						        Eind Geldigheid
+						      </label>
+						      <input required value={format(this.state.Eind_Geldigheid, "YYYY-MM-DD")} onChange={this.handleChange} name="Eind_Geldigheid" className="appearance-none block w-full bg-gray-400er text-gray-700 border border-gray-400er rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="eind-geldigheid" type="date"/>
+						    </div>
+						  </div>
 
+							{/* Submit */}
+						  <div className="flex flex-wrap -mx-3">
+						    <div className="w-full px-3">
+						      <input className="bg-green hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" value={this.state.edit ? "Wijzig opgave" : "Voeg opgave toe"}>
+						      </input>
+						    </div>
+						  </div>
+						</form>
+					</div>
+				</div>
 			</div>
     )
   }

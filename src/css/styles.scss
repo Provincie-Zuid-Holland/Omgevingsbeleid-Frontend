@@ -53,12 +53,12 @@ code {
 }
 
 #APIList li:nth-child(even),
-#ambitie-list li:nth-child(even)  {
+#API-Item-list li:nth-child(even)  {
   padding-left: 0.75rem;
 }
 
 #APIList li:nth-child(odd),
-#ambitie-list li:nth-child(odd) {
+#API-Item-list li:nth-child(odd) {
   padding-right: 0.75rem;
 }
 #ambitie-list li.w-full:nth-child(odd) {

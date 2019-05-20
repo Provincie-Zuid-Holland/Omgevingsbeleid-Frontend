@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { format } from 'date-fns'
-import MainSidebar from './../MainSidebar';
+
+import MainSidebar from './../MainSidebar'
 import TerugNaarOverzicht from './../TerugNaarOverzicht'
 
 // Set config defaults when creating the instance
@@ -17,7 +18,7 @@ const instance = axios.create({
 class AmbitionsList extends Component {
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       Titel: '',
       Omschrijving: '',
@@ -30,8 +31,8 @@ class AmbitionsList extends Component {
 
     console.log(this.props.match.params.single)
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this); 
+    this.handleChange = this.handleChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   componentDidMount() {
@@ -41,11 +42,11 @@ class AmbitionsList extends Component {
   		
   		this.setState({
   			edit: true
-  		});
+  		})
 
   		console.log("Mounted.")
 	  	
-	  	let ambitie_id = this.props.match.params.single;
+	  	let ambitie_id = this.props.match.params.single
 
 	    // const access_token = localStorage.getItem('access_token');
 	    
@@ -53,8 +54,6 @@ class AmbitionsList extends Component {
 		  instance.get(`${'https://cors-anywhere.herokuapp.com/'}http://api-acctest-ob.westeurope.cloudapp.azure.com/dev/v0.1/ambities/${ambitie_id}`)
 			.then(res => {
 	      const res_ambitie = res.data;
-	      console.log(res_ambitie[0])
-	      console.log(res_ambitie[0].Eind_Geldigheid)
 	      this.setState({
 		      Titel: res_ambitie[0].Titel,
 		      Omschrijving: res_ambitie[0].Omschrijving,
@@ -62,7 +61,6 @@ class AmbitionsList extends Component {
 		      Begin_Geldigheid: res_ambitie[0].Begin_Geldigheid,
       		Eind_Geldigheid: res_ambitie[0].Eind_Geldigheid
 		    });
-	      console.log(format(this.state.Begin_Geldigheid, "YYYY-MM-DD"))
 	    }).catch((error) => {
 				if (error.response.status === 401) {
 					localStorage.removeItem('access_token')
@@ -72,12 +70,12 @@ class AmbitionsList extends Component {
   }
 
   handleChange(event) {
-  	const name = event.target.name;
-  	let value;
+  	const name = event.target.name
+  	let value
   	if (name === "Begin_Geldigheid" || name === "Eind_Geldigheid") {
-  		value = new Date(event.target.value);	
+  		value = new Date(event.target.value)
   	} else {
-    	value = event.target.value;
+    	value = event.target.value
     }
     this.setState({
       [name]: value

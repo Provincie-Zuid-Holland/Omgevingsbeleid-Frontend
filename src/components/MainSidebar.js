@@ -18,7 +18,7 @@ const menuItems = {
 function MainSidebar(props) {
   const listItems = Object.keys(menuItems).map((value, index) =>
     menuItems[value].finished ? 
-    	<Link 
+    	<Link
     		className="text-gray-600 relative text-sm font-light leading-loose border-t block border-gray-200 py-1" 
     		key={index}
     		to={menuItems[value].url}>

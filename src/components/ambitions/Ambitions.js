@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import React, { Component } from 'react'
+import { Switch, Route } from 'react-router-dom'
 
-import AmbitionsVersion from './AmbitionsVersion';
-import AmbitionsSingle from './AmbitionsSingle';
-import AmbitionsList from './AmbitionsList';
-import AmbitionsCRUD from './AmbitionsCRUD';
+import AmbitionsVersion from './AmbitionsVersion'
+import AmbitionsSingle from './AmbitionsSingle'
+import AmbitionsList from './AmbitionsList'
+import AmbitionsCRUD from './AmbitionsCRUD'
 
 class AmbitionsOverzicht extends Component {
 	render() {

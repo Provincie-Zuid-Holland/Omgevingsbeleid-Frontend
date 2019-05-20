@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+
 import MainSidebar from './../MainSidebar';
 import TerugNaarOverzicht from './../TerugNaarOverzicht'
 
@@ -84,7 +85,7 @@ class AmbitionsList extends Component {
 	      			<Link to={`/ambities/nieuwe-ambitie`} className="font-bold py-2 px-4 text-sm rounded bg-green-200 text-green-700">+ Voeg Ambitie Toe</Link>
 	      		</div>
 	      	</div>
-		      <ul className="flex mt-8 flex-wrap" id="ambitie-list">
+		      <ul className="flex mt-8 flex-wrap" id="opgaven-list">
 		        { this.state.ambities[0] ? this.state.ambities.slice(1).map(ambitie =>
 		        	<li key={ambitie.ID} className="mb-6 w-1/2 display-inline">
 		        		{ambitieComponent(ambitie)}
