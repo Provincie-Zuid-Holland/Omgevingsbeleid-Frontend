@@ -8,7 +8,7 @@ import TerugNaarOverzicht from './../TerugNaarOverzicht'
 // Set config defaults when creating the instance
 const access_token = localStorage.getItem('access_token');
 const instance = axios.create({
-  baseURL: 'https://cors-anywhere.herokuapp.com/http://api-acctest-ob.westeurope.cloudapp.azure.com/dev',
+  baseURL: 'http://api-acctest-ob.westeurope.cloudapp.azure.com/dev',
   headers: {
   	'Content-Type': 'application/json',
   	'Authorization': `Token ${access_token}`
@@ -28,8 +28,6 @@ class AmbitionsList extends Component {
       Created_By: 'bb19d0b9-e609-434b-bd2d-18f907f16640',
       edit: false
     };
-
-    console.log(this.props.match.params.single)
 
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -51,7 +49,7 @@ class AmbitionsList extends Component {
 	    // const access_token = localStorage.getItem('access_token');
 	    
 	    // Connect with API
-		  instance.get(`${'https://cors-anywhere.herokuapp.com/'}http://api-acctest-ob.westeurope.cloudapp.azure.com/dev/v0.1/ambities/${ambitie_id}`)
+		  instance.get(`v0.1/ambities/${ambitie_id}`)
 			.then(res => {
 	      const res_ambitie = res.data;
 	      this.setState({
@@ -62,8 +60,12 @@ class AmbitionsList extends Component {
       		Eind_Geldigheid: res_ambitie[0].Eind_Geldigheid
 		    });
 	    }).catch((error) => {
-				if (error.response.status === 401) {
-					localStorage.removeItem('access_token')
+				if (error.response !== undefined) {
+					if (error.response.status === 401) {
+		        localStorage.removeItem('access_token')
+		      }
+		    } else {
+					console.log(error);
 				}
 			})
 	  }

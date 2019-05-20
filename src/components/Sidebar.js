@@ -35,7 +35,7 @@ function sidebarSingle(sideBarContent, type) {
         <div className="block group py-4 no-underline">
           <h4 className="text-gray-800 font-bold text-sm">Revisies</h4>
           <ul className="text-gray-700 text-sm">
-          { sideBarContent ? sideBarContent.map(sideBarContent =>
+          { sideBarContent ? sideBarContent.slice(1).map((sideBarContent, index) =>
             <li key={sideBarContent.UUID}>
               <span>{}</span>
               <Link className="text-blue" to={`/${type}/${sideBarContent.ID}/${sideBarContent.UUID}`}>

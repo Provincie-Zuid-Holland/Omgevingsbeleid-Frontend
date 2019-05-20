@@ -38,7 +38,7 @@ const APITestItemList = {
 function APITestItem(props) {
 	
   const listItems = Object.keys(APITestItemList).map((key, index) =>
-    <li key={index} className="w-1/2 py-3">
+    <li key={index} id="API-list" className="w-1/2 py-3">
 	    <Link to={APITestItemList[key].status !== "not working" ? APITestItemList[key].url : ""} className={APITestItemList[key].status === "not working" ? "cursor-not-allowed" : null}>
 	    	<div className="h-full px-4 py-6 shadow-md rounded overflow-hidden bg-white">
 					<h5 className="text-gray-600 text-sm font-light py-1">API Test</h5>
@@ -50,10 +50,11 @@ function APITestItem(props) {
   );
 
 	return(
-		<ul className="flex w-full flex-wrap" id="APIList">
+		<ul className="flex w-full flex-wrap" id="API-list">
 			{listItems}
 		</ul>
 	)
+
 }
 
 class Home extends Component {

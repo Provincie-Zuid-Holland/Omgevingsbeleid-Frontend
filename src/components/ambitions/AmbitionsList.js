@@ -9,8 +9,13 @@ import { faAngleRight } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 // Set config defaults when creating the instance
+const access_token = localStorage.getItem('access_token');
 const instance = axios.create({
-  baseURL: 'https://cors-anywhere.herokuapp.com/http://api-acctest-ob.westeurope.cloudapp.azure.com/dev/'
+  baseURL: 'http://api-acctest-ob.westeurope.cloudapp.azure.com/dev',
+  headers: {
+  	'Content-Type': 'application/json',
+  	'Authorization': `Token ${access_token}`
+  }
 });
 
 function VoegAmbitieToe(props) {
@@ -49,18 +54,18 @@ class AmbitionsList extends Component {
 
   componentDidMount() {
 
-  	const access_token = localStorage.getItem('access_token');
-
-  	console.log("mounted")
   	// Connect with API
-	  instance.get('v0.1/ambities', { headers: { Authorization: `Token ${access_token}` } })
+	  instance.get('v0.1/ambities')
 		.then(res => {
-			console.log("response")
       const ambities = res.data;
       this.setState({ ambities });
     }).catch((error) => {
-			if (error.response.status === 401) {
-				localStorage.removeItem('access_token')
+			if (error.response !== undefined) {
+				if (error.response.status === 401) {
+	        localStorage.removeItem('access_token')
+	      }
+	    } else {
+				console.log(error);
 			}
 		})
 
@@ -85,7 +90,7 @@ class AmbitionsList extends Component {
 	      			<Link to={`/ambities/nieuwe-ambitie`} className="font-bold py-2 px-4 text-sm rounded bg-green-200 text-green-700">+ Voeg Ambitie Toe</Link>
 	      		</div>
 	      	</div>
-		      <ul className="flex mt-8 flex-wrap" id="opgaven-list">
+		      <ul className="flex mt-8 flex-wrap" id="API-list">
 		        { this.state.ambities[0] ? this.state.ambities.slice(1).map(ambitie =>
 		        	<li key={ambitie.ID} className="mb-6 w-1/2 display-inline">
 		        		{ambitieComponent(ambitie)}

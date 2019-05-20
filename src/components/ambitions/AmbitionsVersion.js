@@ -7,7 +7,15 @@ import MainSidebar from './../MainSidebar';
 import TerugNaarOverzicht from './../TerugNaarOverzicht'
 
 // Set config defaults when creating the instance
-const instance = axios.create();
+const access_token = localStorage.getItem('access_token');
+const instance = axios.create({
+  baseURL: 'http://api-acctest-ob.westeurope.cloudapp.azure.com/dev',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Token ${access_token}`
+  }
+});
+
  
 class AmbitionsVersion extends Component {
   
@@ -18,11 +26,9 @@ class AmbitionsVersion extends Component {
   componentDidMount() {
 
     let ambitie_version = this.props.match.params.version;
-    
-    const access_token = localStorage.getItem('access_token');
 
     // Connect with API
-	  instance.get(`${'https://cors-anywhere.herokuapp.com/'}http://api-acctest-ob.westeurope.cloudapp.azure.com/dev/v0.1/ambities/version/${ambitie_version}`, { headers: { Authorization: `Token ${access_token}` } })
+	  instance.get(`v0.1/ambities/version/${ambitie_version}`)
 		.then(res => {
       const res_ambitie = res.data;
       this.setState({ res_ambitie });
@@ -43,11 +49,11 @@ class AmbitionsVersion extends Component {
         <MainSidebar />
 
         {/* Ambition Container */}
-        <div className="w-3/4 rounded inline-block flex-grow pl-8"> 
-          <TerugNaarOverzicht />
-  	      <div className="container mx-auto flex">
-  	      	<SidebarVersion ambitie={this.state.res_ambitie} ambitieVersies={this.state} />
+        <div className="w-3/4 rounded inline-block pl-8"> 
+          <TerugNaarOverzicht url={'/ambities/' + this.props.match.params.single} terugNaar="geldende Ambitie"/>
+  	      <div className="flex mt-3">
   	      	<AmbitionsVersionDetail ambitie={this.state.res_ambitie} ambitie_id={this.props.match.params.single}/>
+  	      	<SidebarVersion ambitie={this.state.res_ambitie} ambitieVersies={this.state} />
   		    </div>
         </div>
 		  </div>

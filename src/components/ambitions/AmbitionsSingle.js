@@ -8,7 +8,14 @@ import TerugNaarOverzicht from './../TerugNaarOverzicht'
 
 
 // Set config defaults when creating the instance
-const instance = axios.create();
+const access_token = localStorage.getItem('access_token');
+const instance = axios.create({
+  baseURL: 'http://api-acctest-ob.westeurope.cloudapp.azure.com/dev',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Token ${access_token}`
+  }
+});
 
  
 class AmbitionsSingle extends Component {
@@ -21,16 +28,19 @@ class AmbitionsSingle extends Component {
 
   	let ambitie_id = this.props.match.params.single;
 
-    const access_token = localStorage.getItem('access_token');
     // Connect with API
-	  instance.get(`${'https://cors-anywhere.herokuapp.com/'}http://api-acctest-ob.westeurope.cloudapp.azure.com/dev/v0.1/ambities/${ambitie_id}`, { headers: { Authorization: `Token ${access_token}` } })
+	  instance.get(`v0.1/ambities/${ambitie_id}`)
 		.then(res => {
       const res_ambitie = res.data;
       this.setState({ res_ambitie });
       console.log(this.state);
     }).catch((error) => {
-			if (error.response.status === 401) {
-        localStorage.removeItem('access_token')
+      if (error.response !== undefined) {
+        if (error.response.status === 401) {
+          localStorage.removeItem('access_token')
+        }
+      } else {
+        console.log(error);
       }
 		})
 	}

@@ -7,13 +7,13 @@ class AmbitionsVersionDetail extends Component {
     
     return (
 
-      <div className="pb-8 px-8">
-        {console.log(this.props.ambitie)}
-        <h1>{this.props.ambitie.length !== 0 ? this.props.ambitie.Titel : "Loading..." }</h1>
-        <p className="pt-6">{this.props.ambitie.length !== 0 ? this.props.ambitie.Omschrijving : "Loading..." }</p>
-        <Link to={'/ambities/'} className="bg-white mt-4 block text-center hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border no-underline border-gray-400 rounded shadow absolute top-0 right-0">
-      		Edit
-      	</Link>
+      <div className="w-3/4 inline-block pr-8">
+        <div className="relative inline-block w-full px-4 pb-6 pt-4 shadow-md rounded overflow-hidden bg-white">
+
+          <h1 className="text-xl font-bold text-gray-800">{this.props.ambitie.length !== 0 ? this.props.ambitie.Titel : "Loading..." }</h1>
+          <p className="pt-2">{this.props.ambitie.length !== 0 ? this.props.ambitie.Omschrijving : "Loading..." }</p>
+
+        </div>
       </div>
 
     );

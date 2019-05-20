@@ -52,12 +52,12 @@ code {
   top: -2px;
 }
 
-#APIList li:nth-child(even),
+#API-list li:nth-child(even),
 #API-Item-list li:nth-child(even)  {
   padding-left: 0.75rem;
 }
 
-#APIList li:nth-child(odd),
+#API-list li:nth-child(odd),
 #API-Item-list li:nth-child(odd) {
   padding-right: 0.75rem;
 }
