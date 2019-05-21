@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { faAngleLeft } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
-class TerugNaarOverzicht extends Component {
+class BackToButton extends Component {
   
 
   render() {
@@ -25,4 +25,4 @@ class TerugNaarOverzicht extends Component {
   }
 }
 
-export default TerugNaarOverzicht;
+export default BackToButton;

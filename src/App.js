@@ -5,8 +5,6 @@ import './css/tailwind.css'
 import './css/styles.scss'
 
 import Navigation from './components/Navigation'
-import TerugNaarOverzicht from './components/TerugNaarOverzicht'
-import Ambitions from './components/ambitions/Ambitions'
 import Opgaven from './components/opgaven/Opgaven'
 import Login from './components/Login'
 import Home from './components/Home'

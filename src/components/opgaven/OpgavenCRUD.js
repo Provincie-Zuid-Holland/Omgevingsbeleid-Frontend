@@ -3,7 +3,7 @@ import axios from 'axios'
 import { format } from 'date-fns'
 
 import MainSidebar from './../MainSidebar'
-import TerugNaarOverzicht from './../TerugNaarOverzicht'
+import BackToButton from './../BackToButton'
 
 // Set config defaults when creating the instance
 const access_token = localStorage.getItem('access_token');
@@ -125,7 +125,7 @@ class AmbitionsList extends Component {
 
 				{/* Ambition Container */}
 				<div className="w-3/4 inline-block flex-grow pl-8">	
-					<TerugNaarOverzicht terugNaar="ambitie" url={`/ambities/${this.props.match.params.single}`} />
+					<BackToButton terugNaar="ambitie" url={`/ambities/${this.props.match.params.single}`} />
 					<div>
 						<h1>{this.state.edit ? "Wijzig een opgave" : "Voeg een nieuwe opgave toe"}</h1>
 						<form className="w-full max-w-md mt-12" onSubmit={this.handleSubmit}>

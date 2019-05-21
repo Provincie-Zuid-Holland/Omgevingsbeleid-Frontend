@@ -2,22 +2,17 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
+// Import Components
 import MainSidebar from './../MainSidebar';
-import TerugNaarOverzicht from './../TerugNaarOverzicht'
+import BackToButton from './../BackToButton'
 
+// Import Icons
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
-// Set config defaults when creating the instance
-const access_token = localStorage.getItem('access_token');
-const api_version = 'v0.1';
-const instance = axios.create({
-  baseURL: `http://api-acctest-ob.westeurope.cloudapp.azure.com/dev/${api_version}`,
-  headers: {
-  	'Content-Type': 'application/json',
-  	'Authorization': `Token ${access_token}`
-  }
-});
+// Import Axios instance to connect with the API
+import axiosAPI from './../../axios'
+
 
 function VoegObjectToe(props) {
 
@@ -35,6 +30,7 @@ function VoegObjectToe(props) {
 		</li>
 	)
 }
+
 
 function ObjectComponent(props) {
 	
@@ -54,7 +50,9 @@ function ObjectComponent(props) {
     </span>
 		</Link>
 	)
+
 }
+
 
 class APITestOverzicht extends Component {
   
@@ -63,8 +61,6 @@ class APITestOverzicht extends Component {
   }
 
   render() {
-
-  	console.log(this.props.dataModel.variables)
 
   	// Variables
   	const titelEnkelvoud = this.props.dataModel.variables.Titel_Enkelvoud;
@@ -84,7 +80,7 @@ class APITestOverzicht extends Component {
         {/* Ambition Container */}
         <div className="w-3/4 rounded inline-block flex-grow pl-8"> 
 
-          <TerugNaarOverzicht terugNaar="mijn dashboard" url="/" />
+          <BackToButton terugNaar="mijn dashboard" url="/" />
 
 	      	<div className="flex justify-between">	
 	      		<h1 className="font-serif text-gray-800 text-2xl">
@@ -96,13 +92,26 @@ class APITestOverzicht extends Component {
 	      	</div>
 	      	
 		      <ul className="flex mt-8 flex-wrap" id="API-list">
+		        
 		        { dataReceived ? this.state.objecten.slice(1).map(object =>
 		        	<li key={object.ID} className="mb-6 w-1/2 display-inline">
-		        		{<ObjectComponent object={object} overzichtSlug={overzichtSlug} titelEnkelvoud={titelEnkelvoud} />}
+		        		{<ObjectComponent 
+		        			object={object} 
+		        			overzichtSlug={overzichtSlug} 
+		        			titelEnkelvoud={titelEnkelvoud} 
+		        		/>}
 		        	</li>
 		        	) : "Loading..."
 		      	}
-		      	{ dataReceived ? <VoegObjectToe objectAantal={this.state.objecten.length} titelEnkelvoud={titelEnkelvoud} overzichtSlug={overzichtSlug} createNewSlug={createNewSlug} /> : "" }
+		      	
+		      	{ dataReceived ? 
+		      		<VoegObjectToe 
+		      		objectAantal={this.state.objecten.length} 
+		      		titelEnkelvoud={titelEnkelvoud} 
+		      		overzichtSlug={overzichtSlug} 
+		      		createNewSlug={createNewSlug} 
+		      	/> : null }
+
 		      </ul>
 
 		    </div>
@@ -114,14 +123,15 @@ class APITestOverzicht extends Component {
 
   	const ApiEndpoint = this.props.dataModel.variables.Api_Endpoint;
 
-  	// Connect with API
-	  instance.get(ApiEndpoint)
+  	// Connect With the API
+	  axiosAPI.get(ApiEndpoint)
 		.then(res => {
       const objecten = res.data;
       this.setState({ objecten });
     }).catch((error) => {
 			if (error.response !== undefined) {
 				if (error.response.status === 401) {
+					console.log("Sessie verlopen")
 	        localStorage.removeItem('access_token')
 	      }
 	    } else {

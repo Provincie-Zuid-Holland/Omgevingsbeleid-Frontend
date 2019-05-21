@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 import MainSidebar from './../MainSidebar';
-import TerugNaarOverzicht from './../TerugNaarOverzicht'
+import BackToButton from './../BackToButton'
 
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -75,7 +75,7 @@ class OpgavenList extends Component {
 
         {/* Ambition Container */}
         <div className="w-3/4 rounded inline-block flex-grow pl-8"> 
-          <TerugNaarOverzicht terugNaar="mijn dashboard" url="/" />
+          <BackToButton terugNaar="mijn dashboard" url="/" />
 
 
 	      	<div className="flex justify-between">	

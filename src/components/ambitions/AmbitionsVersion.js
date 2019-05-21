@@ -4,7 +4,7 @@ import SidebarVersion from './../SidebarVersion';
 import AmbitionsVersionDetail from './AmbitionsVersionDetail';
 import axios from 'axios';
 import MainSidebar from './../MainSidebar';
-import TerugNaarOverzicht from './../TerugNaarOverzicht'
+import BackToButton from './../BackToButton'
 
 
 // Set config defaults when creating the instance
@@ -54,7 +54,7 @@ class AmbitionsVersion extends Component {
 
         {/* Ambition Container */}
         <div className="w-3/4 rounded inline-block pl-8"> 
-          <TerugNaarOverzicht url={'/ambities/' + this.props.match.params.single} terugNaar="geldende Ambitie"/>
+          <BackToButton url={'/ambities/' + this.props.match.params.single} terugNaar="geldende Ambitie"/>
   	      <div className="flex mt-3">
   	      	<AmbitionsVersionDetail ambitie={this.state.res_ambitie} ambitie_id={this.props.match.params.single}/>
   	      	<SidebarVersion ambitie={this.state.res_ambitie} ambitieVersies={this.state} />
