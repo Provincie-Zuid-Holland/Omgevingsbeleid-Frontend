@@ -47,7 +47,7 @@ function ambitieComponent(ambitie) {
 	)
 }
 
-class AmbitionsList extends Component {
+class APITestOverzicht extends Component {
   
   state = {
     ambities: []
@@ -74,6 +74,13 @@ class AmbitionsList extends Component {
 
   render() {
 
+  	// Variables
+  	const dataTitel = this.props.dataTitel;
+  	const dataApiName = this.props.dataApiName;
+  	const dataUrlDetail = this.props.dataUrlDetail;
+  	const dataUrlApi = this.props.dataUrlApi;
+  	const dataUrlNew = this.props.dataUrlNew;
+
   	// False if data is loading, true if there is a response
   	let dataReceived = this.state.ambities[0];
 
@@ -96,7 +103,7 @@ class AmbitionsList extends Component {
 	      			<Link to={`/ambities/nieuwe-ambitie`} className="font-bold py-2 px-4 text-sm rounded bg-green-200 text-green-700">+ Voeg Ambitie Toe</Link>
 	      		</div>
 	      	</div>
-
+	      	
 		      <ul className="flex mt-8 flex-wrap" id="API-list">
 		        { dataReceived ? this.state.ambities.slice(1).map(ambitie =>
 		        	<li key={ambitie.ID} className="mb-6 w-1/2 display-inline">
@@ -114,4 +121,4 @@ class AmbitionsList extends Component {
 
 }
 
-export default AmbitionsList;
+export default APITestOverzicht;

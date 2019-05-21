@@ -11,22 +11,30 @@ import Opgaven from './components/opgaven/Opgaven'
 import Login from './components/Login'
 import Home from './components/Home'
 
+import APITestRoutes from './components/APITest/APITestRoutes'
+
 import withAuth from './components/WithAuth'
 
-// const Auth = new AuthService();
-
+// Field model geeft aan welke data de view en edit page verwachten
+import dataModel from './dataModel/ApiModel.js'
 
 
 class App extends Component {
+
   render() {
+
     return (
       <main className="bg-gray-100 min-h-screen pt-12" id="main-container">
         <Navigation  />
         <Switch>
-          <Route path="/ambities" component={withAuth(Ambitions)} />
-          <Route path="/opgaven" component={withAuth(Opgaven)} />
-          <Route path="/login" component={withRouter(Login)} history={this.props.history} />
-          <Route exact path="/" component={withAuth(Home)}/>
+          <Route 
+            path="/ambities" 
+            render={() => <APITestRoutes 
+            dataModel={dataModel.Ambitie}
+          />} />
+          <Route path="/opgaven" component={Opgaven} />
+          <Route path="/login" component={Login} history={this.props.history} />
+          <Route exact path="/" component={Home}/>
         </Switch>
       </main>
     );

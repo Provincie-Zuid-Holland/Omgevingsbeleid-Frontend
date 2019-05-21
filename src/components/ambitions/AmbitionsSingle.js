@@ -9,8 +9,9 @@ import TerugNaarOverzicht from './../TerugNaarOverzicht'
 
 // Set config defaults when creating the instance
 const access_token = localStorage.getItem('access_token');
+const api_version = 'v0.1';
 const instance = axios.create({
-  baseURL: 'http://api-acctest-ob.westeurope.cloudapp.azure.com/dev',
+  baseURL: `http://api-acctest-ob.westeurope.cloudapp.azure.com/dev/${api_version}`,
   headers: {
     'Content-Type': 'application/json',
     'Authorization': `Token ${access_token}`
@@ -29,7 +30,7 @@ class AmbitionsSingle extends Component {
   	let ambitie_id = this.props.match.params.single;
 
     // Connect with API
-	  instance.get(`v0.1/ambities/${ambitie_id}`)
+	  instance.get(`ambities/${ambitie_id}`)
 		.then(res => {
       const res_ambitie = res.data;
       this.setState({ res_ambitie });

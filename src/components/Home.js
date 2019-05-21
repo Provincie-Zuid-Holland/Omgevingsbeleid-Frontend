@@ -24,22 +24,22 @@ function LabelGenerator(props) {
 
 
 const APITestItemList = {
-	"Ambities": {"url": "/ambities", "status": "finished"},
-	"BeleidsRegels": {"url": "/beleidsRegel", "status": "not working"},
-	"Doelen": {"url": "/Doel", "status": "not working"},
-	"Provinciale Belangen": {"url": "/provincialeBelangen", "status": "not working"},
-	"Beleids Relaties": {"url": "/beleidsRelatie", "status": "not working"},
-	"Maatregelen": {"url": "/maatregelen", "status": "not working"},
-	"Themas": {"url": "/themas", "status": "not working"},
-	"Opgaven": {"url": "/opgaven", "status": "finished"},
-	"Verordening": {"url": "/verordening", "status": "not working"}
+	"Ambities": {"url": "ambities", "status": "finished"},
+	"BeleidsRegels": {"url": "beleidsRegel", "status": "not working"},
+	"Doelen": {"url": "Doel", "status": "not working"},
+	"Provinciale Belangen": {"url": "provincialeBelangen", "status": "not working"},
+	"Beleids Relaties": {"url": "beleidsRelatie", "status": "not working"},
+	"Maatregelen": {"url": "maatregelen", "status": "not working"},
+	"Themas": {"url": "themas", "status": "not working"},
+	"Opgaven": {"url": "opgaven", "status": "finished"},
+	"Verordening": {"url": "verordening", "status": "not working"}
 }
 
 function APITestItem(props) {
 	
   const listItems = Object.keys(APITestItemList).map((key, index) =>
     <li key={index} id="API-list" className="w-1/2 py-3">
-	    <Link to={APITestItemList[key].status !== "not working" ? APITestItemList[key].url : ""} className={APITestItemList[key].status === "not working" ? "cursor-not-allowed" : null}>
+	    <Link to={APITestItemList[key].status !== "not working" ? ("/" +APITestItemList[key].url) : ""} className={APITestItemList[key].status === "not working" ? "cursor-not-allowed" : null}>
 	    	<div className="h-full px-4 py-6 shadow-md rounded overflow-hidden bg-white">
 					<h5 className="text-gray-600 text-sm font-light py-1">API Test</h5>
 					<h2 className="text-xl font-bold text-gray-800 mb-6">{key}</h2>

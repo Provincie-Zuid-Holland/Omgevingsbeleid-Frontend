@@ -6,9 +6,9 @@ import MainSidebar from './../MainSidebar'
 import TerugNaarOverzicht from './../TerugNaarOverzicht'
 
 // Set config defaults when creating the instance
-const access_token = localStorage.getItem('access_token')
+const access_token = localStorage.getItem('access_token');
 const instance = axios.create({
-  baseURL: 'https://cors-anywhere.herokuapp.com/http://api-acctest-ob.westeurope.cloudapp.azure.com/dev',
+  baseURL: 'http://api-acctest-ob.westeurope.cloudapp.azure.com/dev/v0.1',
   headers: {
   	'Content-Type': 'application/json',
   	'Authorization': `Token ${access_token}`
@@ -50,7 +50,7 @@ class AmbitionsList extends Component {
 	    const access_token = localStorage.getItem('access_token');
 	    
 	    // Connect with API
-		  instance.get(`${'https://cors-anywhere.herokuapp.com/'}http://api-acctest-ob.westeurope.cloudapp.azure.com/dev/v0.1/opgaven/${ambitie_id}`)
+		  instance.get(`opgaven/${ambitie_id}`)
 			.then(res => {
 	      const res_ambitie = res.data;
 	      this.setState({
@@ -96,7 +96,7 @@ class AmbitionsList extends Component {
 
     if (this.state.edit) {
     	opgavenObject.Modified_By = "bb19d0b9-e609-434b-bd2d-18f907f16640"
-    	instance.patch(`/v0.1/opgaven/${this.props.match.params.single}`, JSON.stringify(opgavenObject))
+    	instance.patch(`opgaven/${this.props.match.params.single}`, JSON.stringify(opgavenObject))
 			.then(res => {
 				console.log(res)
 	      this.props.history.push(`/opgaven/${res.data.ID}`)
@@ -105,7 +105,7 @@ class AmbitionsList extends Component {
 			});
     } else {
     	opgavenObject.Created_By = "bb19d0b9-e609-434b-bd2d-18f907f16640"
-		  instance.post('/v0.1/opgaven', JSON.stringify(opgavenObject))
+		  instance.post('opgaven', JSON.stringify(opgavenObject))
 			.then(res => {
 	      this.props.history.push(`/opgaven/${res.data.ID}`)
 	    }).catch((error) => {

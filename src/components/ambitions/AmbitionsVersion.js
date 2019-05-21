@@ -6,17 +6,19 @@ import axios from 'axios';
 import MainSidebar from './../MainSidebar';
 import TerugNaarOverzicht from './../TerugNaarOverzicht'
 
+
 // Set config defaults when creating the instance
 const access_token = localStorage.getItem('access_token');
+const api_version = 'v0.1';
 const instance = axios.create({
-  baseURL: 'http://api-acctest-ob.westeurope.cloudapp.azure.com/dev',
+  baseURL: `http://api-acctest-ob.westeurope.cloudapp.azure.com/dev/${api_version}`,
   headers: {
     'Content-Type': 'application/json',
     'Authorization': `Token ${access_token}`
   }
 });
 
- 
+
 class AmbitionsVersion extends Component {
   
   state = {
@@ -28,7 +30,7 @@ class AmbitionsVersion extends Component {
     let ambitie_version = this.props.match.params.version;
 
     // Connect with API
-	  instance.get(`v0.1/ambities/version/${ambitie_version}`)
+	  instance.get(`ambities/version/${ambitie_version}`)
 		.then(res => {
       const res_ambitie = res.data;
       this.setState({ res_ambitie });
@@ -44,7 +46,9 @@ class AmbitionsVersion extends Component {
 
   render() {
     return (
-    	<div className="container mx-auto flex px-6 pb-8">
+    	
+      <div className="container mx-auto flex px-6 pb-8">
+        
         {/* Sidebar */}
         <MainSidebar />
 
@@ -56,10 +60,14 @@ class AmbitionsVersion extends Component {
   	      	<SidebarVersion ambitie={this.state.res_ambitie} ambitieVersies={this.state} />
   		    </div>
         </div>
+
 		  </div>
+      
     );
   }
 
+
 }
+
 
 export default AmbitionsVersion;
