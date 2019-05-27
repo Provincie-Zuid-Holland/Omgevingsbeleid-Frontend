@@ -20,7 +20,6 @@ import dataModel from './dataModel/ApiModel.js'
 class App extends Component {
 
   render() {
-
     return (
       <main className="bg-gray-100 min-h-screen pt-12" id="main-container">
         <Navigation  />
@@ -29,6 +28,7 @@ class App extends Component {
             path="/ambities" 
             render={() => <APITestRoutes 
             dataModel={dataModel.Ambitie}
+            history={this.props.history}
           />} />
           <Route path="/opgaven" component={Opgaven} />
           <Route path="/login" component={Login} history={this.props.history} />

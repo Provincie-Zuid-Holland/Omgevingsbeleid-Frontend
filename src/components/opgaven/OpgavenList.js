@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 import MainSidebar from './../MainSidebar';
-import BackToButton from './../BackToButton'
+import BackToButton from './../UI/BackToButton'
 
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"

@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 class BackToButton extends Component {
   
-
   render() {
     return (
       
@@ -23,6 +22,7 @@ class BackToButton extends Component {
 
     );
   }
+  
 }
 
 export default BackToButton;

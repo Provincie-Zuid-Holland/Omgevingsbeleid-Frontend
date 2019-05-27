@@ -4,7 +4,7 @@ import Sidebar from './../Sidebar';
 import Detail from './AmbitionsDetail';
 import axios from 'axios';
 import MainSidebar from './../MainSidebar';
-import BackToButton from './../BackToButton'
+import BackToButton from './../UI/BackToButton'
 
 
 // Set config defaults when creating the instance

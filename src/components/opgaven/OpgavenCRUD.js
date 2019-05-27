@@ -3,7 +3,7 @@ import axios from 'axios'
 import { format } from 'date-fns'
 
 import MainSidebar from './../MainSidebar'
-import BackToButton from './../BackToButton'
+import BackToButton from './../UI/BackToButton'
 
 // Set config defaults when creating the instance
 const access_token = localStorage.getItem('access_token');

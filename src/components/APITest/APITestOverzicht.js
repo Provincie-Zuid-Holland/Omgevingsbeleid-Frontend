@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 
 // Import Components
 import MainSidebar from './../MainSidebar';
-import BackToButton from './../BackToButton'
+import BackToButton from './../UI/BackToButton'
 
 // Import Icons
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons"
@@ -21,7 +20,7 @@ function VoegObjectToe(props) {
 	const objectAantal = props.objectAantal
 
  	return(
- 		<li className={(props.objectAantal % 2) !== 0 ? "mb-6 w-full display-inline" : "mb-6 w-1/2 display-inline"}>
+ 		<li className={(objectAantal % 2) !== 0 ? "mb-6 w-full display-inline" : "mb-6 w-1/2 display-inline"}>
 	  	<Link className="h-full flex items-center justify-center no-underline px-4 py-4 border border-dashed rounded overflow-hidden" to={`/${overzichtSlug}/${createNewSlug}`}>
 			  <span className="text-center text-gray-600 font-semibold py-2 px-4">
 			  	+ Voeg {props.titelEnkelvoud} Toe
@@ -131,8 +130,8 @@ class APITestOverzicht extends Component {
     }).catch((error) => {
 			if (error.response !== undefined) {
 				if (error.response.status === 401) {
-					console.log("Sessie verlopen")
-	        localStorage.removeItem('access_token')
+					localStorage.removeItem('access_token')
+					this.props.history.push('/login')
 	      }
 	    } else {
 				console.log(error);

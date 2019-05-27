@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import MainSidebar from './../MainSidebar';
-import BackToButton from './../BackToButton'
+import BackToButton from './../UI/BackToButton'
 
 class AmbitionsDetail extends Component {
   render() {

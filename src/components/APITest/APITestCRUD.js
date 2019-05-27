@@ -1,69 +1,95 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import { format } from 'date-fns'
 
 import MainSidebar from './../MainSidebar'
-import BackToButton from './../BackToButton'
+import BackToButton from './../UI/BackToButton'
 
-// Set config defaults when creating the instance
-const access_token = localStorage.getItem('access_token');
-const api_version = 'v0.1';
-const instance = axios.create({
-  baseURL: `http://api-acctest-ob.westeurope.cloudapp.azure.com/dev/${api_version}`,
-  headers: {
-  	'Content-Type': 'application/json',
-  	'Authorization': `Token ${access_token}`
-  }
-});
+// Import Axios instance to connect with the API
+import axiosAPI from './../../axios'
 
-class AmbitionsList extends Component {
+
+// Function to see if property on object is editable
+function getCRUDBoolean(dataModel, propertyName) {
+	return dataModel.properties[propertyName].UI.userCRUD
+}
+
+// Function to make an array containing ONLY the fields for CRUD actions
+function makeCrudProperties(responseObject, dataModel) {
+	
+	// Make list of property names from returned object
+	const propertyNames = Object.keys(responseObject[0])
+
+	// Check for each Property in propertyNames if property CRUD value is True and if True add to new Array
+	const crudProperties = propertyNames.filter(propertyName => {
+		return getCRUDBoolean(dataModel, propertyName)
+	})
+
+	// Return array with CRUD Properties
+	return crudProperties
+
+}
+
+// Function to make an array containing the fields AND the data for CRUD actions
+function makeCrudObject(array, responseObject) {
+	const crudList = array.map((arrayItem, index) => {
+		return {
+			[arrayItem]: responseObject[arrayItem]
+		}
+	})
+	return crudList
+}
+
+
+class APITestCRUD extends Component {
 
   constructor(props) {
-    super(props)
+
+		super(props)
+
+		// CrudProperties contains the fields that are editable (Used for new)
+		// CrudObject contains the fields and current value (Used for Edit)
     this.state = {
-      Titel: '',
-      Omschrijving: '',
-      Weblink: '',
-      Begin_Geldigheid: '',
-      Eind_Geldigheid: '',
-      Created_By: 'bb19d0b9-e609-434b-bd2d-18f907f16640',
-      edit: false
+			edit: false,
+			crudProperties: [],
+			crudObject: []
     };
 
     this.handleChange = this.handleChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
+		this.handleSubmit = this.handleSubmit.bind(this)
+		
   }
 
   componentDidMount() {
   	
-  	// Single parameter === ambition id, so user is viewing an ambition
+  	// Single parameter === object-id; user is editing an existing object
   	if (this.props.match.params.single) {
   		
   		this.setState({
   			edit: true
   		})
-
-  		console.log("Mounted.")
-	  	
-	  	let ambitie_id = this.props.match.params.single
-
-	    // const access_token = localStorage.getItem('access_token');
+			
+			const dataModel = this.props.dataModel
+			const objectID = this.props.match.params.single
+			const ApiEndpoint =  this.props.dataModel.variables.Api_Endpoint
 	    
 	    // Connect with API
-		  instance.get(`v0.1/ambities/${ambitie_id}`)
+		  axiosAPI.get(`${ApiEndpoint}/${objectID}`)
 			.then(res => {
-	      const res_ambitie = res.data;
+				
+				const res_ambitie = res.data;
+				const crudProperties = makeCrudProperties(res_ambitie, dataModel)
+				const crudObject = makeCrudObject(crudProperties, res_ambitie[0])
+
 	      this.setState({
-		      Titel: res_ambitie[0].Titel,
-		      Omschrijving: res_ambitie[0].Omschrijving,
-		      Weblink: res_ambitie[0].Weblink,
-		      Begin_Geldigheid: res_ambitie[0].Begin_Geldigheid,
-      		Eind_Geldigheid: res_ambitie[0].Eind_Geldigheid
-		    });
+					crudObject: crudObject,
+					crudProperties: crudProperties
+				}, () => console.log(this.state));
+				
 	    }).catch((error) => {
 				if (error.response !== undefined) {
 					if (error.response.status === 401) {
-		        localStorage.removeItem('access_token')
+						localStorage.removeItem('access_token')
+          	this.props.history.push('/login')
 		      }
 		    } else {
 					console.log(error);
@@ -99,7 +125,7 @@ class AmbitionsList extends Component {
 
     if (this.state.edit) {
     	ambitieObject.Modified_By = "bb19d0b9-e609-434b-bd2d-18f907f16640"
-    	instance.patch(`/v0.1/ambities/${this.props.match.params.single}`, JSON.stringify(ambitieObject))
+    	axiosAPI.patch(`ambities/${this.props.match.params.single}`, JSON.stringify(ambitieObject))
 			.then(res => {
 				console.log(res)
 	      this.props.history.push(`/ambities/${res.data.ID}`)
@@ -108,7 +134,7 @@ class AmbitionsList extends Component {
 			});
     } else {
     	ambitieObject.Created_By = "bb19d0b9-e609-434b-bd2d-18f907f16640"
-		  instance.post('/v0.1/ambities', JSON.stringify(ambitieObject))
+		  axiosAPI.post('ambities', JSON.stringify(ambitieObject))
 			.then(res => {
 	      this.props.history.push(`/ambities/${res.data.ID}`)
 	    }).catch((error) => {
@@ -199,4 +225,4 @@ class AmbitionsList extends Component {
 
 }
 
-export default AmbitionsList;
+export default APITestCRUD;

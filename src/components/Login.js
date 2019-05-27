@@ -27,7 +27,7 @@ class Login extends Component {
    	const identifier = this.state.identifier;
    	const password = this.state.password;
 
-   	fetch(`https://cors-anywhere.herokuapp.com/http://api-acctest-ob.westeurope.cloudapp.azure.com/dev/v0.1/login`, {
+   	fetch(`http://api-acctest-ob.westeurope.cloudapp.azure.com/dev/v0.1/login`, {
       method: 'POST',
       headers: {
         "Content-Type": "application/json"
