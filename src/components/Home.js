@@ -24,14 +24,14 @@ function LabelGenerator(props) {
 
 
 const APITestItemList = {
-	"Ambities": {"url": "ambities", "status": "finished"},
+	"Ambities": {"url": "ambities", "status": "wip"},
 	"BeleidsRegels": {"url": "beleidsRegel", "status": "not working"},
 	"Doelen": {"url": "Doel", "status": "not working"},
 	"Provinciale Belangen": {"url": "provincialeBelangen", "status": "not working"},
 	"Beleids Relaties": {"url": "beleidsRelatie", "status": "not working"},
 	"Maatregelen": {"url": "maatregelen", "status": "not working"},
 	"Themas": {"url": "themas", "status": "not working"},
-	"Opgaven": {"url": "opgaven", "status": "finished"},
+	"Opgaven": {"url": "opgaven", "status": "not working"},
 	"Verordening": {"url": "verordening", "status": "not working"}
 }
 
