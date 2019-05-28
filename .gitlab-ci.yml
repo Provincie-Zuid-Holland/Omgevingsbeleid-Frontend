@@ -5,7 +5,7 @@ image: node:alpine
 # https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#advanced-configuration
 variables:
   PUBLIC_URL: /omgevingsbeleid-frontend
-  CI: false # In order to prevent warnings from becoming errors
+  CI: 'false' # In order to prevent warnings from becoming errors
 # Cache node modules - speeds up future builds
 cache:
   paths:
