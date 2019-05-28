@@ -4,7 +4,7 @@ image: node:alpine
 # Announce the URL as per CRA docs
 # https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#advanced-configuration
 variables:
-  PUBLIC_URL: /omgevingsbeleid-frontend
+  PUBLIC_URL: /prototype-frontend-pzh
   CI: 'false' # In order to prevent warnings from becoming errors
 # Cache node modules - speeds up future builds
 cache:
