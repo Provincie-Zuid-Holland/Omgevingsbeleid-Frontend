@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom'
 // Import Axios instance to connect with the API
 import axiosAPI from './../axios'
 
+
 class Login extends Component {
 
 	constructor(props){
@@ -35,11 +36,11 @@ class Login extends Component {
 			if (response.status >= 200 && response.status < 300) { // Success status lies between 200 to 300
 				localStorage.setItem('access_token', response.data.access_token)
 				history.push('/')
-      } else if (response.status === 401) {
-        throw Error("Wrong username or password")
-      } else {
-      	throw Error("Something went wrong, please try again later")
-      }
+			} else if (response.status === 401) {
+				throw Error("Wrong username or password")
+			} else {
+				throw Error("Something went wrong, please try again later")
+			}
 		}).catch((err) => {
 			
 			let errorEl = document.getElementById('error-message');
@@ -121,7 +122,7 @@ class Login extends Component {
 								<label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="identifier">
 									E-mailadres
 								</label>
-								<input required className="shadow appearance-none border rounded w-full py-3 leading-loose px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="identifier" id="identifier" type="text" placeholder="bijv. f.vermeulen@pzh.nl" onChange={this.handleChange}/>
+								<input required className="shadow appearance-none border rounded w-full py-3 leading-loose px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="identifier" id="identifier" type="text" placeholder="bijv. j.doe@pzh.nl" onChange={this.handleChange}/>
 							</div>
 							<div className="mb-4 mt-6">
 								<label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">

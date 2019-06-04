@@ -25,14 +25,14 @@ function LabelGenerator(props) {
 
 const APITestItemList = {
 	"Ambities": {"url": "ambities", "status": "wip"},
-	"BeleidsRegels": {"url": "beleidsRegel", "status": "not working"},
-	"Doelen": {"url": "Doel", "status": "not working"},
-	"Provinciale Belangen": {"url": "provincialeBelangen", "status": "not working"},
-	"Beleids Relaties": {"url": "beleidsRelatie", "status": "not working"},
-	"Maatregelen": {"url": "maatregelen", "status": "not working"},
-	"Themas": {"url": "themas", "status": "not working"},
-	"Opgaven": {"url": "opgaven", "status": "not working"},
-	"Verordening": {"url": "verordening", "status": "not working"}
+	"BeleidsRegels": {"url": "beleidsregels", "status": "wip"},
+	"Doelen": {"url": "doelen", "status": "wip"},
+	"Provinciale Belangen": {"url": "provinciale-belangen", "status": "wip"},
+	"Beleids Relaties": {"url": "beleids-relaties", "status": "wip"},
+	"Maatregelen": {"url": "maatregelen", "status": "wip"},
+	"Themas": {"url": "themas", "status": "wip"},
+	"Opgaven": {"url": "opgaven", "status": "wip"},
+	"Verordening": {"url": "verordening", "status": "wip"}
 }
 
 function APITestItem(props) {

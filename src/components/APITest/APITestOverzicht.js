@@ -12,7 +12,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 // Import Axios instance to connect with the API
 import axiosAPI from './../../axios'
 
-
 function VoegObjectToe(props) {
 
 	const overzichtSlug = props.overzichtSlug

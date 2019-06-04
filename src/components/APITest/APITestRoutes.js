@@ -11,22 +11,27 @@ class APITestRoutes extends Component {
 	
 	render() {
 
-		const OverzichtSlug = this.props.dataModel.variables.Overzicht_Slug
+		const overzichtSlug = this.props.dataModel.variables.Overzicht_Slug
+		const titelEnkelvoud = this.props.dataModel.variables.Titel_Enkelvoud.toLowerCase()
+		const createNewSlug = this.props.dataModel.variables.Create_New_Slug;
+
 		return (
 
 			<div>
 				<Switch>
-					
-					<Route exact path={`/${OverzichtSlug}/edit/:single`} 
-						render={ ({match}) => <APITestCRUD dataModel={this.props.dataModel} history={this.props.history} match={match}/> } 
+					<Route exact path={`/${overzichtSlug}/${createNewSlug}`} 
+						render={ ({match}) => <APITestCRUD dataModel={this.props.dataModel} overzichtSlug={overzichtSlug} history={this.props.history} match={match}/> } 
 					/>
-					<Route exact path={`/${OverzichtSlug}/:single/:version`} 
+					<Route exact path={`/${overzichtSlug}/edit/:single`} 
+						render={ ({match}) => <APITestCRUD dataModel={this.props.dataModel} overzichtSlug={overzichtSlug} history={this.props.history} match={match}/> } 
+					/>
+					<Route exact path={`/${overzichtSlug}/:single/:version`} 
 						render={ ({match}) => <APITestDetail dataModel={this.props.dataModel} history={this.props.history} match={match}/> } 
 					/>
-					<Route exact path={`/${OverzichtSlug}/:single`} 
+					<Route exact path={`/${overzichtSlug}/:single`} 
 						render={ ({match}) => <APITestDetail dataModel={this.props.dataModel} history={this.props.history} match={match}/> } 
 					/>
-					<Route exact path={`/${OverzichtSlug}/`} 
+					<Route exact path={`/${overzichtSlug}/`} 
 						render={ () => <APITestOverzicht dataModel={this.props.dataModel} history={this.props.history} /> }
 					/>
 					

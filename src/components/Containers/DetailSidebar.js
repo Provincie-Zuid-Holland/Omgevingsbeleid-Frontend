@@ -13,6 +13,7 @@ import RevisieOverzicht from './../UI/ApiView/RevisieOverzicht'
 
 // Function to get the Title Variable for each component
 function getTitle(dataModel, propertyName) {
+    console.log(dataModel.properties[propertyName])
     return dataModel.properties[propertyName].UI.UIVariables.UITitle
 }
 
@@ -27,6 +28,7 @@ function DetailSidebarContent(props) {
     const revisieObject = props.revisieObject
     const dataModel = props.dataModel
 
+    console.log(dataObject)
     // Return UI Components (condtional on object properties)
     return (
 
@@ -35,7 +37,7 @@ function DetailSidebarContent(props) {
             { dataObject["UUID"] ? 
                 <Eigenaar 
                     UITitle={getTitle(dataModel, "UUID")} 
-                    UIContent={dataObject["UUID"]} 
+                    userID={dataObject["Created_By"]}
                 />
             : null }
 

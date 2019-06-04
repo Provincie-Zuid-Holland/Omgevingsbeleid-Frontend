@@ -26,17 +26,83 @@ class App extends Component {
         <Switch>
           <Route 
             path="/ambities" 
-            render={() => <APITestRoutes 
-            dataModel={dataModel.Ambitie}
-            history={this.props.history}
-          />} />
-          <Route path="/opgaven" component={Opgaven} />
+            render={() => 
+            <APITestRoutes 
+              dataModel={dataModel.Ambitie}
+              history={this.props.history}
+            />}
+          />
+          <Route 
+            path="/opgaven"
+            render={ () => 
+            <APITestRoutes 
+              dataModel={dataModel.Opgaven}
+              history={this.props.history}
+            />} 
+          />
+          <Route 
+            path="/beleidsregels"
+            render={ () => 
+            <APITestRoutes 
+              dataModel={dataModel.BeleidsRegel}
+              history={this.props.history}
+            />} 
+          />
+          <Route 
+            path="/doelen"
+            render={ () => 
+            <APITestRoutes 
+              dataModel={dataModel.Doel}
+              history={this.props.history}
+            />} 
+          />
+          <Route 
+            path="/provinciale-belangen"
+            render={ () => 
+            <APITestRoutes 
+              dataModel={dataModel.ProvincialeBelangen}
+              history={this.props.history}
+            />} 
+          />
+          <Route 
+            path="/beleids-relaties"
+            render={ () => 
+            <APITestRoutes 
+              dataModel={dataModel.BeleidsRelatie}
+              history={this.props.history}
+            />} 
+          />
+          <Route 
+            path="/maatregelen"
+            render={ () => 
+            <APITestRoutes 
+              dataModel={dataModel.Maatregelen}
+              history={this.props.history}
+            />} 
+          />
+          <Route 
+            path="/themas"
+            render={ () => 
+            <APITestRoutes 
+              dataModel={dataModel.Themas}
+              history={this.props.history}
+            />} 
+          />
+          <Route 
+            path="/verordeningen"
+            render={ () => 
+            <APITestRoutes 
+              dataModel={dataModel.Verordening}
+              history={this.props.history}
+            />} 
+          />
           <Route path="/login" component={Login} history={this.props.history} />
           <Route exact path="/" component={Home}/>
         </Switch>
       </main>
     );
   }
+
 }
 
 export default withRouter(withAuth(App));
