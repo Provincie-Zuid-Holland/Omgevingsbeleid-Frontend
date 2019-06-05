@@ -19,7 +19,8 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.0",
-    "react-scripts": "2.1.8"
+    "react-scripts": "2.1.8",
+    "react-select": "^3.0.4"
   },
   "scripts": {
     "tailwind": "npx tailwindcss build src/css/tailwind.src.css -c  tailwind.config.js -o src/css/tailwind.css",

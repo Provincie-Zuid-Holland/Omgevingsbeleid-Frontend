@@ -10,7 +10,16 @@ class TextInput extends React.Component {
                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="title">
                     {this.props.fieldLabel}
                 </label>
-                <input required value={this.props.fieldValue} onChange={this.props.handleChange} name="Titel" className="appearance-none block w-full text-gray-700 border border-gray-400 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-500" id="titel" type="text" placeholder="Titel"/>
+                <input 
+                  required 
+                  value={this.props.fieldValue} 
+                  onChange={this.props.handleChange} 
+                  name="Titel" 
+                  className="appearance-none block w-full text-gray-700 border border-gray-400 rounded py-3 px-4 leading-tight focus:outline-none hover:border-gray-500 focus:border-gray-500" 
+                  id="titel" 
+                  type="text" 
+                  placeholder="Titel"
+                />
             </div>
         </div>
     )

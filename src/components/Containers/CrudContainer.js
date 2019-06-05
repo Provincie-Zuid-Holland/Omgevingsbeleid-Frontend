@@ -8,6 +8,7 @@ import TextArea from './../UI/ApiCrud/TextArea'
 import Weblink from './../UI/ApiCrud/Weblink'
 import DateInput from './../UI/ApiCrud/DateInput'
 import SelectInput from './../UI/ApiCrud/SelectInput'
+import BeleidsRelatieInput from './../UI/ApiCrud/BeleidsRelatieInput'
 
 class CrudContainer extends React.Component {
 
@@ -37,6 +38,7 @@ class CrudContainer extends React.Component {
                         <h1 className="font-serif text-gray-800 text-2xl">{this.props.editStatus ? `Wijzig een ${titelEnkelvoud.toLowerCase()}` : `Voeg een nieuwe ${titelEnkelvoud.toLowerCase()} toe`}</h1>
                         <form className="sm:w-full w-2/3 mt-6" onSubmit={this.props.handleSubmit}>
                             
+                            {/* Titel */}
                             { crudObject["Titel"] !== undefined ? 
                                 <TextInput 
                                     handleChange={this.props.handleChange}
@@ -65,9 +67,34 @@ class CrudContainer extends React.Component {
                                     dataObjectProperty="Weblink"
                                 />
                             : null }
-            
+
+                            {/* Aanvraag en Akkoord */}
+                            <div className="flex flex-wrap -mx-3">
+                            
+                                {/* Aanvraag Datum */}
+                                { crudObject["Aanvraag_Datum"] !== undefined ? 
+                                    <DateInput 
+                                        handleChange={this.props.handleChange}
+                                        fieldValue={crudObject["Aanvraag_Datum"]}
+                                        fieldLabel="Aanvraag Datum"
+                                        dataObjectProperty="Aanvraag_Datum"
+                                    />
+                                : null }
+
+                                {/* Datum Akkoord */}
+                                { crudObject["Datum_Akkoord"] !== undefined ? 
+                                    <DateInput 
+                                        handleChange={this.props.handleChange}
+                                        fieldValue={crudObject["Datum_Akkoord"]}
+                                        fieldLabel="Datum Akkoord"
+                                        dataObjectProperty="Datum_Akkoord"
+                                    />
+                                : null }
+
+                            </div>
+                            
                             {/* Geldigheid */}
-                            <div className="flex flex-wrap -mx-3 mb-6">
+                            <div className="flex flex-wrap -mx-3">
                             
                                 {/* Begin Geldigheid */}
                                 { crudObject["Begin_Geldigheid"] !== undefined ? 
@@ -89,18 +116,46 @@ class CrudContainer extends React.Component {
                                     />
                                 : null }
 
-                                {/* Status */}
-                                { crudObject["Status"] !== undefined ? 
-                                    <SelectInput 
+                            </div>
+
+
+                            {/* Geldigheid */}
+                            <div className="flex flex-wrap -mx-3">
+                            
+                                {/* Begin Geldigheid */}
+                                { crudObject["Van_Beleidsbeslissing"] !== undefined ? 
+                                    <BeleidsRelatieInput 
                                         handleChange={this.props.handleChange}
-                                        fieldValue={crudObject["Status"]}
-                                        selectArray={statusArrayValues}
-                                        fieldLabel="Status"
-                                        dataObjectProperty="Status"
+                                        fieldValue={crudObject["Van_Beleidsbeslissing"]}
+                                        fieldLabel="Van Beleidsbeslissing"
+                                        dataObjectProperty="Van_Beleidsbeslissing"
+                                    />
+                                : null }
+
+                                {/* Eind Geldigheid */}
+                                { crudObject["Naar_Beleidsbeslissing"] !== undefined ? 
+                                    <BeleidsRelatieInput
+                                        handleChange={this.props.handleChange}
+                                        fieldValue={crudObject["Naar_Beleidsbeslissing"]}
+                                        fieldLabel="Naar Beleidsbeslissing"
+                                        dataObjectProperty="Naar_Beleidsbeslissing"
                                     />
                                 : null }
 
                             </div>
+
+
+                            {/* Status */}
+                            { crudObject["Status"] !== undefined ? 
+                                <SelectInput 
+                                    handleChange={this.props.handleChange}
+                                    fieldValue={crudObject["Status"]}
+                                    selectArray={statusArrayValues}
+                                    fieldLabel="Status"
+                                    dataObjectProperty="Status"
+                                />
+                            : null }
+
 
                             {/* Submit */}
                             <div className="flex flex-wrap -mx-3">
