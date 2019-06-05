@@ -7,6 +7,7 @@ import TextInput from './../UI/ApiCrud/TextInput'
 import TextArea from './../UI/ApiCrud/TextArea'
 import Weblink from './../UI/ApiCrud/Weblink'
 import DateInput from './../UI/ApiCrud/DateInput'
+import SelectInput from './../UI/ApiCrud/SelectInput'
 
 class CrudContainer extends React.Component {
 
@@ -15,6 +16,12 @@ class CrudContainer extends React.Component {
 
         const crudObject = this.props.crudObject
         const titelEnkelvoud = this.props.titelEnkelvoud
+
+        const statusArrayValues = [
+            ["Open", "Open"],
+            ["Akkoord", "Akkoord"],
+            ["NietAkkoord", "Niet Akkoord"]
+        ]
 
         return (
         
@@ -82,14 +89,25 @@ class CrudContainer extends React.Component {
                                     />
                                 : null }
 
+                                {/* Status */}
+                                { crudObject["Status"] !== undefined ? 
+                                    <SelectInput 
+                                        handleChange={this.props.handleChange}
+                                        fieldValue={crudObject["Status"]}
+                                        selectArray={statusArrayValues}
+                                        fieldLabel="Status"
+                                        dataObjectProperty="Status"
+                                    />
+                                : null }
+
                             </div>
 
                             {/* Submit */}
                             <div className="flex flex-wrap -mx-3">
-                            <div className="w-full px-3">
-                                <input className="font-bold py-2 px-4 text-sm rounded bg-green-200 text-green-700 hover:bg-green-300" type="submit" value={this.props.editStatus ? `Wijzig ${titelEnkelvoud}` : `Voeg ${titelEnkelvoud} toe`}>
-                                </input>
-                            </div>
+                                <div className="w-full px-3">
+                                    <input className="font-bold py-3 px-4 leading-tight text-sm rounded bg-green-200 text-green-700 hover:bg-green-300" type="submit" value={this.props.editStatus ? `Wijzig ${titelEnkelvoud}` : `Voeg ${titelEnkelvoud} toe`}>
+                                    </input>
+                                </div>
                             </div>
                         </form>
                     </div>

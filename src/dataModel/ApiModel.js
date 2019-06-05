@@ -737,11 +737,25 @@ export default
       },
       "Van_Beleidsbeslissing": {
         "type": "string",
-        "format": "uuid"
+        "format": "uuid",
+        "UI": {
+          "userCRUD": true,
+          "CRUDComponent": "TextInput",
+          "UIVariables": {
+            "UITitle": "Van Beleidsbeslissing",
+          }
+        }
       },
       "Naar_Beleidsbeslissing": {
         "type": "string",
-        "format": "uuid"
+        "format": "uuid",
+        "UI": {
+          "userCRUD": true,
+          "CRUDComponent": "TextInput",
+          "UIVariables": {
+            "UITitle": "Van Beleidsbeslissing",
+          }
+        }
       },
       "Omschrijving": {
         "type": "string",
@@ -761,16 +775,37 @@ export default
           "Open",
           "Akkoord",
           "NietAkkoord"
-        ]
+        ],
+        "UI": {
+          "userCRUD": true,
+          "CRUDComponent": "TextInput",
+          "UIVariables": {
+            "UITitle": "Status",
+          }
+        }
       },
       "Aanvraag_Datum": {
         "type": "string",
-        "format": "date-time"
+        "format": "date-time",
+        "UI": {
+          "userCRUD": true,
+          "CRUDComponent": "DateInput",
+          "UIVariables": {
+            "UITitle": "Aanvraag Datum",
+          }
+        }
       },
       "Datum_Akkoord": {
         "type": "string",
         "format": "date-time",
-        "nullable": true
+        "nullable": true,
+        "UI": {
+          "userCRUD": true,
+          "CRUDComponent": "DateInput",
+          "UIVariables": {
+            "UITitle": "Datum Akkoord",
+          }
+        }
       }
     },
     "required": [

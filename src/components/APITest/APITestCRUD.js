@@ -142,7 +142,7 @@ class APITestCRUD extends Component {
 				...prevState.crudObject,
 				[name]: value
 			}
-		}))
+		}), () => console.log(this.state))
 
 	}
 

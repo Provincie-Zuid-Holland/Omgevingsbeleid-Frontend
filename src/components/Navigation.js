@@ -24,7 +24,7 @@ function LoginButton() {
 function LoggedIn() {
   return(
     <Link to={`/login`} onClick={logout} className="text-sm text-gray-800">
-      <span>Ingelogd als Aiden</span>
+      <span>Ingelogd als Gebruiker</span>
       <FontAwesomeIcon className="ml-2 text-gray-700" icon={faCaretDown} />
     </Link>
   )
