@@ -34,6 +34,8 @@ class Login extends Component {
 		axiosAPI.post('login', JSON.stringify(this.state))
 		.then(response => {
 			if (response.status >= 200 && response.status < 300) { // Success status lies between 200 to 300
+				const identifier = response.data.identifier
+				localStorage.setItem('identifier', JSON.stringify(identifier))
 				localStorage.setItem('access_token', response.data.access_token)
 				history.push('/')
 			} else if (response.status === 401) {

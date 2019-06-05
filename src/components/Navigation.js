@@ -22,9 +22,14 @@ function LoginButton() {
 }
 
 function LoggedIn() {
+
+  const gebruikersNaam = JSON.parse(localStorage.getItem('identifier')).Gebruikersnaam.split(' ')[0]
+
   return(
     <Link to={`/login`} onClick={logout} className="text-sm text-gray-800">
-      <span>Ingelogd als Gebruiker</span>
+      <span>
+        { gebruikersNaam.length !== 0 ? `Ingelogd als ${gebruikersNaam}` : "Ingelogd" }
+      </span>
       <FontAwesomeIcon className="ml-2 text-gray-700" icon={faCaretDown} />
     </Link>
   )
@@ -44,6 +49,7 @@ function LoginLogoutButton() {
 class Navigation extends Component {
 
   render() {
+
 
     return (
       

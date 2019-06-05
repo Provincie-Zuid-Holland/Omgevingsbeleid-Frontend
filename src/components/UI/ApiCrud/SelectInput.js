@@ -14,15 +14,16 @@ class SelectInput extends React.Component {
             <div className="inline-block relative w-64">
                 <select 
                     required
+                    value={this.props.fieldValue}
                     onChange={this.props.handleChange} 
                     name={this.props.dataObjectProperty } 
                     className="block appearance-none w-full bg-white text-gray-700 border border-gray-400 hover:border-gray-500 py-3 px-4 leading-tight rounded leading-tight focus:outline-none focus:shadow-outline"
                 >
-                    <option disabled selected value> - selecteer een status - </option>
+                    <option disabled selected value> - selecteer een optie - </option>
                 {
                     this.props.selectArray.map(arrayItem => {
                         return (
-                            <option value={arrayItem[0]}>{arrayItem[1]}</option>
+                            <option selected value={arrayItem[0]}>{arrayItem[1]}</option>
                         )
                     })
                 }    

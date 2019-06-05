@@ -30,7 +30,6 @@ function isEmpty(obj) {
 // Function to make a list to see which properties on the object are editable by the user - EDIT OBJECT
 function makeCrudPropertiesArray(dataModel) {
 
-
 	// Make list of property names from object
 	const propertyNames = Object.keys(dataModel.properties)
 
@@ -128,6 +127,9 @@ class APITestCRUD extends Component {
 	}
 
 	handleChange(event) {
+
+		console.log(event.target.value)
+
 		const name = event.target.name
 		const type = event.target.type
 
@@ -152,12 +154,15 @@ class APITestCRUD extends Component {
 
 		const objectID = this.props.match.params.single
 		const overzichtSlug = this.props.overzichtSlug
+		const ApiEndpoint = this.props.ApiEndpoint
+		const loggedInUserUUID = JSON.parse(localStorage.getItem('identifier')).UUID
+
 		let crudObject = this.state.crudObject
 
 		if (this.state.edit) {
 			// Modified By Placeholder
-			crudObject.Modified_By = "57bc2554-daec-478d-8e0c-b6c193532689"
-			axiosAPI.patch(`${overzichtSlug}/${objectID}`, JSON.stringify(crudObject))
+			crudObject.Modified_By = loggedInUserUUID
+			axiosAPI.patch(`${ApiEndpoint}/${objectID}`, JSON.stringify(crudObject))
 				.then(res => {
 					console.log(res)
 					this.props.history.push(`/${overzichtSlug}/${res.data.ID}`)
@@ -166,8 +171,8 @@ class APITestCRUD extends Component {
 				});
 		} else {
 			// Created By Placeholder
-			crudObject.Created_By = "57bc2554-daec-478d-8e0c-b6c193532689"
-			axiosAPI.post(`${overzichtSlug}`, JSON.stringify(crudObject))
+			crudObject.Created_By = loggedInUserUUID
+			axiosAPI.post(`${ApiEndpoint}`, JSON.stringify(crudObject))
 				.then(res => {
 					this.props.history.push(`/${overzichtSlug}/${res.data.ID}`)
 				}).catch((error) => {
@@ -186,6 +191,9 @@ class APITestCRUD extends Component {
 				<CrudContainer
 					titelEnkelvoud = {
 						this.props.dataModel.variables.Titel_Enkelvoud
+					}
+					titelMeervoud = {
+						this.props.dataModel.variables.Titel_Meervoud
 					}
 					overzichtSlug = {
 						this.props.overzichtSlug

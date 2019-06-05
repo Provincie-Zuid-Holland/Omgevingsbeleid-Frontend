@@ -65,7 +65,7 @@ class App extends Component {
             />} 
           />
           <Route 
-            path="/beleids-relaties"
+            path="/beleidsrelaties"
             render={ () => 
             <APITestRoutes 
               dataModel={dataModel.BeleidsRelatie}

@@ -8,12 +8,12 @@ import Eigenaar from './../UI/ApiView/Eigenaar'
 import Weblink from './../UI/ApiView/Weblink'
 import Datum from './../UI/ApiView/Datum'
 import RevisieOverzicht from './../UI/ApiView/RevisieOverzicht'
-
+import TextField from './../UI/ApiView/TextField'
+import Gebied from './../UI/ApiView/Gebied'
 
 
 // Function to get the Title Variable for each component
 function getTitle(dataModel, propertyName) {
-    console.log(dataModel.properties[propertyName])
     return dataModel.properties[propertyName].UI.UIVariables.UITitle
 }
 
@@ -29,6 +29,7 @@ function DetailSidebarContent(props) {
     const dataModel = props.dataModel
 
     console.log(dataObject)
+
     // Return UI Components (condtional on object properties)
     return (
 
@@ -47,6 +48,85 @@ function DetailSidebarContent(props) {
                     UIContent={dataObject["Weblink"]} 
                 /> 
             : null }
+
+
+            { dataObject["Beleids_Document"] ? 
+                <Weblink 
+                UITitle={getTitle(dataModel, "Beleids_Document")} 
+                    UIContent={dataObject["Beleids_Document"]} 
+                    /> 
+                    : null }
+            
+            { dataObject["Gebied"] ? 
+                <Gebied 
+                    UITitle={getTitle(dataModel, "Gebied")}
+                    gebiedUUID={dataObject["Gebied"]} 
+                /> 
+            : null }
+
+            { dataObject["Verplicht_Programma"] ? 
+                <TextField 
+                    UITitle={getTitle(dataModel, "Verplicht_Programma")}
+                    UIContent={dataObject["Verplicht_Programma"]} 
+                /> 
+            : null }
+
+            { dataObject["Specifiek_Of_Generiek"] ? 
+                <TextField 
+                    UITitle={getTitle(dataModel, "Specifiek_Of_Generiek")}
+                    UIContent={dataObject["Specifiek_Of_Generiek"]} 
+                /> 
+            : null }
+
+            { dataObject["Status"] ? 
+                <TextField 
+                    UITitle={getTitle(dataModel, "Status")} 
+                    UIContent={dataObject["Status"]} 
+                /> 
+            : null }
+
+            { dataObject["Aanvraag_Datum"] ? 
+                <Datum 
+                    UITitle={getTitle(dataModel, "Aanvraag_Datum")} 
+                    UIContent={dataObject["Aanvraag_Datum"]} 
+                /> 
+            : null }
+
+            { dataObject["Datum_Akkoord"] ? 
+                <Datum 
+                    UITitle={getTitle(dataModel, "Datum_Akkoord")} 
+                    UIContent={dataObject["Datum_Akkoord"]} 
+                /> 
+            : null }
+
+            { dataObject["Begin_Geldigheid"] ? 
+                <Datum 
+                    UITitle={getTitle(dataModel, "Begin_Geldigheid")} 
+                    UIContent={dataObject["Begin_Geldigheid"]} 
+                /> 
+            : null }
+
+            { dataObject["Eind_Geldigheid"] ? 
+                <Datum 
+                    UITitle={getTitle(dataModel, "Eind_Geldigheid")} 
+                    UIContent={dataObject["Eind_Geldigheid"]} 
+                /> 
+            : null }
+
+            { dataObject["Van_Beleidsbeslissing"] ? 
+                <TextField 
+                    UITitle={getTitle(dataModel, "Van_Beleidsbeslissing")} 
+                    UIContent={dataObject["Van_Beleidsbeslissing"]} 
+                /> 
+            : null }
+
+            { dataObject["Naar_Beleidsbeslissing"] ? 
+                <TextField 
+                    UITitle={getTitle(dataModel, "Naar_Beleidsbeslissing")} 
+                    UIContent={dataObject["Naar_Beleidsbeslissing"]} 
+                /> 
+            : null }
+
 
             { dataObject["Modified_Date"] ? 
                 <Datum 

@@ -1,21 +1,19 @@
 import React from 'react';
-import { format } from 'date-fns';
 
-class Datum extends React.Component {
+
+class TextField extends React.Component {
 
   render() {
     return (
-      
         <div className="block group py-2 border-b no-underline">
             <h4 className="text-gray-800 font-bold text-sm">{ this.props.UITitle }</h4>
             <p className="text-gray-700 text-sm">
-                {format(new Date(this.props.UIContent), 'D MMM YYYY')}
+            { this.props.UIContent }
             </p>
         </div>
-
     );
   }
 
 }
 
-export default Datum;
+export default TextField;

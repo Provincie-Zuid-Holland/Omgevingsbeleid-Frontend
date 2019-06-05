@@ -651,7 +651,7 @@ export default
       "Titel_Enkelvoud": "Provinciaal Belang",
       "Titel_Meervoud": "Provinciale Belangen",
       "Api_Endpoint": "provincialebelangen",
-      "Overzicht_Slug": "opgaven",
+      "Overzicht_Slug": "provinciale-belangen",
       "Create_New_Slug": "nieuw-belang",
       "Object_Name": "ProvincialeBelangen"
     }
@@ -822,11 +822,11 @@ export default
       "Van_Beleidsbeslissing"
     ],
     "variables": {
-      "Titel_Enkelvoud": "Beleids Relatie",
-      "Titel_Meervoud": "Beleids Relaties",
+      "Titel_Enkelvoud": "Beleidsrelatie",
+      "Titel_Meervoud": "Beleidsrelaties",
       "Api_Endpoint": "beleidsrelaties",
-      "Overzicht_Slug": "beleids-relaties",
-      "Create_New_Slug": "nieuwe-beleids-relatie",
+      "Overzicht_Slug": "beleidsrelaties",
+      "Create_New_Slug": "nieuwe-beleidsrelatie",
       "Object_Name": "BeleidsRelatie"
     }
   },
@@ -922,18 +922,39 @@ export default
       "Motivering": {
         "type": "string",
         "default": null,
-        "nullable": true
+        "nullable": true,
+        "UI": {
+          "userCRUD": true,
+          "CRUDComponent": "TextArea",
+          "UIVariables": {
+            "UITitle": "Motivering",
+          }
+        }
       },
       "Beleids_Document": {
         "type": "string",
         "default": null,
-        "nullable": true
+        "nullable": true,
+        "UI": {
+          "userCRUD": true,
+          "CRUDComponent": "TextField",
+          "UIVariables": {
+            "UITitle": "Beleids Document",
+          }
+        }
       },
       "Gebied": {
         "type": "string",
         "format": "uuid",
         "default": null,
-        "nullable": true
+        "nullable": true,
+        "UI": {
+          "userCRUD": true,
+          "CRUDComponent": "Select",
+          "UIVariables": {
+            "UITitle": "Gebied",
+          }
+        }
       },
       "Verplicht_Programma": {
         "type": "string",
@@ -942,7 +963,14 @@ export default
           "Ja",
           "Nee"
         ],
-        "nullable": true
+        "nullable": true,
+        "UI": {
+          "userCRUD": true,
+          "CRUDComponent": "TextField",
+          "UIVariables": {
+            "UITitle": "Verplicht Programma",
+          }
+        }
       },
       "Specifiek_Of_Generiek": {
         "type": "string",
@@ -951,7 +979,14 @@ export default
           "Gebiedsspecifiek",
           "Generiek"
         ],
-        "nullable": true
+        "nullable": true,
+        "UI": {
+          "userCRUD": true,
+          "CRUDComponent": "TextField",
+          "UIVariables": {
+            "UITitle": "Specifiek of Generiek",
+          }
+        }
       },
       "Weblink": {
         "type": "string",
@@ -1208,7 +1243,14 @@ export default
         }
       },
       "Status": {
-        "type": "string"
+        "type": "string",
+        "UI": {
+          "userCRUD": true,
+          "CRUDComponent": "TextInput",
+          "UIVariables": {
+            "UITitle": "Status",
+          }
+        }
       },
       "Type": {
         "type": "string",
@@ -1217,16 +1259,37 @@ export default
           "Afdeling",
           "Paragraaf",
           "Artikel"
-        ]
+        ],
+        "UI": {
+          "userCRUD": true,
+          "CRUDComponent": "Select",
+          "UIVariables": {
+            "UITitle": "Type",
+          }
+        }
       },
       "Volgnummer": {
-        "type": "string"
+        "type": "string",
+        "UI": {
+          "userCRUD": true,
+          "CRUDComponent": "TextInput",
+          "UIVariables": {
+            "UITitle": "Volgnummer",
+          }
+        }
       },
       "Werkingsgebied": {
         "type": "string",
         "format": "uuid",
         "default": null,
-        "nullable": true
+        "nullable": true,
+        "UI": {
+          "userCRUD": true,
+          "CRUDComponent": "Select",
+          "UIVariables": {
+            "UITitle": "Gebied",
+          }
+        }
       }
     },
     "required": [

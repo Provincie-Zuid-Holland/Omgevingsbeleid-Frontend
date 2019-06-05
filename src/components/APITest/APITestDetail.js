@@ -59,15 +59,15 @@ class APITestDetail extends Component {
   // Method to create the API endpoint, based on the page type
   getDataFromApi () {
    
-    const overzichtSlug = this.props.dataModel.variables.Overzicht_Slug;
+    const ApiEndpointBase = this.props.dataModel.variables.Api_Endpoint
     let apiEndpoint = ""
 
     if (this.state.pageType === "detail") {
       let detail_id = this.props.match.params.single;
-      apiEndpoint = `${overzichtSlug}/${detail_id}`
+      apiEndpoint = `${ApiEndpointBase}/${detail_id}`
     } else if (this.state.pageType === "version") {
       let version_id = this.props.match.params.version;
-      apiEndpoint = `${overzichtSlug}/version/${version_id}`
+      apiEndpoint = `${ApiEndpointBase}/version/${version_id}`
     }
 
     // Connect With the API

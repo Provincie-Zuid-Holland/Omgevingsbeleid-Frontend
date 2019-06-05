@@ -27,11 +27,11 @@ const APITestItemList = {
 	"Ambities": {"url": "ambities", "status": "finished"},
 	"BeleidsRegels": {"url": "beleidsregels", "status": "finished"},
 	"Doelen": {"url": "doelen", "status": "finished"},
-	"Provinciale Belangen": {"url": "provinciale-belangen", "status": "wip"},
-	"Beleids Relaties": {"url": "beleids-relaties", "status": "wip"},
+	"Provinciale Belangen": {"url": "provinciale-belangen", "status": "finished"},
+	"Beleids Relaties": {"url": "beleidsrelaties", "status": "wip"},
 	"Maatregelen": {"url": "maatregelen", "status": "wip"},
-	"Themas": {"url": "themas", "status": "wip"},
-	"Opgaven": {"url": "opgaven", "status": "wip"},
+	"Themas": {"url": "themas", "status": "finished"},
+	"Opgaven": {"url": "opgaven", "status": "finished"},
 	"Verordening": {"url": "verordeningen", "status": "wip"}
 }
 

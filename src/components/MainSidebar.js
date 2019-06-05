@@ -16,6 +16,7 @@ const menuItems = {
 }
 
 function MainSidebar(props) {
+
   const listItems = Object.keys(menuItems).map((value, index) =>
     menuItems[value].finished ? 
     	<Link
@@ -33,11 +34,16 @@ function MainSidebar(props) {
 	    	<FontAwesomeIcon className="absolute right-0 h-8" icon={faAngleRight} />
 	    </li>
   );
+
+  const gebruikersNaam = JSON.parse(localStorage.getItem('identifier')).Gebruikersnaam.split(' ')[0]
+
   return (
     <div className="w-1/4 rounded inline-block">	
 			<div className="welcome-message">
 				<span className="font-serif text-gray-800 text-l mb-2 inline-block">Omgevingsbeleid</span>
-				<h2 className="font-serif text-gray-800 text-2xl">Welkom Aiden,</h2>
+				<h2 className="font-serif text-gray-800 text-2xl">
+					{ gebruikersNaam.length !== 0 ? `Welkom ${gebruikersNaam},` : "Welkom," }
+				</h2>
 				<p className="text-gray-700">In deze omgeving heb je de mogelijkheid om te werken aan Omgevingsbeleid.</p>
 			</div>
 			<h2 className="mt-8 text-l font-serif text-gray-800">Menu</h2>
