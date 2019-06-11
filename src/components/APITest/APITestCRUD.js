@@ -71,7 +71,7 @@ class APITestCRUD extends Component {
 		// CrudObject contains the editable fields
 		this.state = {
 			edit: false,
-			crudObject: {}
+			crudObject: {},
 		};
 
 		this.handleChange = this.handleChange.bind(this)
@@ -102,7 +102,7 @@ class APITestCRUD extends Component {
 
 					this.setState({
 						crudObject: crudObject
-					});
+					}, () => console.log(this.state));
 
 				}).catch((error) => {
 					if (error.response !== undefined) {
@@ -121,24 +121,21 @@ class APITestCRUD extends Component {
 			const crudObject = makeCrudObject(crudProperties)
 			this.setState({
 				crudObject: crudObject
-			}, () => console.log(this.state));
+			})
 		}
 		
 	}
 
 	handleChange(event) {
 
-		console.log(event.target.value)
-
 		const name = event.target.name
-		const type = event.target.type
+		const type = event.target.type 
 
-		let value
+		let value = event.target.value
 		if (type === "date") {
 			value = new Date(event.target.value)
-		} else {
-			value = event.target.value
 		}
+
 		this.setState(prevState => ({
 			crudObject: {    
 				...prevState.crudObject,

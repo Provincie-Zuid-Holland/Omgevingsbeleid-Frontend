@@ -28,7 +28,7 @@ const APITestItemList = {
 	"BeleidsRegels": {"url": "beleidsregels", "status": "finished"},
 	"Doelen": {"url": "doelen", "status": "finished"},
 	"Provinciale Belangen": {"url": "provinciale-belangen", "status": "finished"},
-	"Beleids Relaties": {"url": "beleidsrelaties", "status": "wip"},
+	"Beleids Relaties": {"url": "beleidsrelaties", "status": "finished"},
 	"Maatregelen": {"url": "maatregelen", "status": "wip"},
 	"Themas": {"url": "themas", "status": "finished"},
 	"Opgaven": {"url": "opgaven", "status": "finished"},

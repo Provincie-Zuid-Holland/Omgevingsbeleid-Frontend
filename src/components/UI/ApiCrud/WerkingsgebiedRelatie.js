@@ -37,11 +37,8 @@ class WerkingsgebiedRelatie extends React.Component {
     selected: {}
   }
 
-  
   render() {
-    
-    console.log(this.props.editStatus)
-    
+    console.log(this.state)
     return (
       <div className="w-50 mb-6">
           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor={this.props.dataObjectProperty}>
@@ -59,6 +56,15 @@ class WerkingsgebiedRelatie extends React.Component {
       </div>
     )
 
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (this.props.fieldValue !== prevProps.fieldValue) {
+      const selected = this.state.selectionArray.find( arrayItem => arrayItem.value === this.props.fieldValue)
+      this.setState({
+        selected: selected
+      })
+    }
   }
 
   componentDidMount() {

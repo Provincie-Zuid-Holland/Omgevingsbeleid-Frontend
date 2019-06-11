@@ -17,7 +17,6 @@ class CrudContainer extends React.Component {
     render() {
 
         const crudObject = this.props.crudObject
-        console.log(crudObject)
         const titelEnkelvoud = this.props.titelEnkelvoud
         const titelMeervoud = this.props.titelMeervoud
         const dataModel = this.props.dataModel
@@ -111,6 +110,7 @@ class CrudContainer extends React.Component {
                                     fieldValue={crudObject["Gebied"]}
                                     fieldLabel="Gebied"
                                     dataObjectProperty="Gebied"
+                                    editStatus={this.props.editStatus}
                                 />
                             : null }
 
@@ -202,11 +202,12 @@ class CrudContainer extends React.Component {
                             
                                 {/* Van Beleidsbeslissing */}
                                 { crudObject["Van_Beleidsbeslissing"] !== undefined ? 
-                                    <BeleidsRelatieInput 
+                                    <BeleidsRelatieInput
                                         handleChange={this.props.handleChange}
                                         fieldValue={crudObject["Van_Beleidsbeslissing"]}
                                         fieldLabel="Van Beleidsbeslissing"
                                         dataObjectProperty="Van_Beleidsbeslissing"
+                                        editStatus={this.props.editStatus}
                                     />
                                 : null }
 
@@ -217,6 +218,7 @@ class CrudContainer extends React.Component {
                                         fieldValue={crudObject["Naar_Beleidsbeslissing"]}
                                         fieldLabel="Naar Beleidsbeslissing"
                                         dataObjectProperty="Naar_Beleidsbeslissing"
+                                        editStatus={this.props.editStatus}
                                     />
                                 : null }
 

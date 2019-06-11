@@ -7,23 +7,23 @@ import axiosAPI from '../../../axios'
 import Select from 'react-select'
 
 function makeSelection(objectenArray, dataObjectProperty) {
-  console.log(objectenArray.length)
+
   if (objectenArray.length === 1) {
     return null
   } else {
     let options = []
-    objectenArray.slice(1).map(arrayItem => {
+    objectenArray.slice(1).map((arrayItem, index) => {
+      // Index om unieke values te hebben (puur voor het testen)
       options.push({
         label: arrayItem.Titel,
-        value: "00000000-0000-0000-0000-000000000000",
+        value: `00000000-0000-0000-0000-000000000000`,
         target: {
           type: "relatie",
-          value: "00000000-0000-0000-0000-000000000000",
+          value: `00000000-0000-0000-0000-000000000000`,
           name: dataObjectProperty
         }
       })
     })
-    console.log(options)
     return options
   }
 
@@ -31,22 +31,26 @@ function makeSelection(objectenArray, dataObjectProperty) {
 
 
 class DateInput extends React.Component {
+  constructor(props) {
+    super(props)
 
-    state = {
+    this.state = {
       selectionArray: [],
       selected: {}
     }
+  }
 
   render() {
-    
+
     return (
       <div className="w-50 px-3 mb-6">
+          <h1>{this.props.fieldValue}</h1>
           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor={this.props.dataObjectProperty}>
             {this.props.fieldLabel}
           </label>
           {
-            this.state.objecten.length !== 0 
-            ? <Select 
+            this.state.selectionArray.length !== 0 
+            ? <Select
               value={this.state.selected}
               onChange={this.props.handleChange}
               options={this.state.selectionArray}
@@ -55,7 +59,15 @@ class DateInput extends React.Component {
           }
       </div>
     )
+  }
 
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (this.props.fieldValue !== prevProps.fieldValue) {
+      const selected = this.state.selectionArray.find( arrayItem => arrayItem.value === this.props.fieldValue)
+      this.setState({
+        selected: selected
+      })
+    }
   }
 
   componentDidMount() {
@@ -73,9 +85,9 @@ class DateInput extends React.Component {
         this.setState({
           selectionArray,
           selected
-        }, () => console.log(this.state) )
+        })
       } else {
-        this.setState({ selectionArray }, () => console.log(this.state) )
+        this.setState({ selectionArray })
       }
 
     }).catch((error) => {
