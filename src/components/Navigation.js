@@ -23,7 +23,13 @@ function LoginButton() {
 
 function LoggedIn() {
 
-  const gebruikersNaam = JSON.parse(localStorage.getItem('identifier')).Gebruikersnaam.split(' ')[0]
+  let identifier = localStorage.getItem('identifier')
+  let gebruikersNaam = ""
+  if (identifier !== null) {
+	  gebruikersNaam = JSON.parse(identifier).Gebruikersnaam.split(' ')[0]
+  } else {
+	  gebruikersNaam = null
+  }
 
   return(
     <Link to={`/login`} onClick={logout} className="text-sm text-gray-800">
