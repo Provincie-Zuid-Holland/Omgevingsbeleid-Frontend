@@ -39,8 +39,10 @@ function MainSidebar(props) {
   let gebruikersNaam = ""
   if (identifier !== null) {
 	gebruikersNaam = JSON.parse(identifier).Gebruikersnaam.split(' ')[0]
+  } else {
+	gebruikersNaam = null
   }
-  
+
 //   const gebruikersNaam = JSON.parse(localStorage.getItem('identifier')).Gebruikersnaam.split(' ')[0]
 
   return (
