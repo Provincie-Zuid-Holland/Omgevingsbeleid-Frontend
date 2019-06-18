@@ -35,7 +35,13 @@ function MainSidebar(props) {
 	    </li>
   );
 
-  const gebruikersNaam = JSON.parse(localStorage.getItem('identifier')).Gebruikersnaam.split(' ')[0]
+  let identifier = localStorage.getItem('identifier')
+  let gebruikersNaam = ""
+  if (identifier !== null) {
+	gebruikersNaam = JSON.parse(identifier).Gebruikersnaam.split(' ')[0]
+  }
+  
+//   const gebruikersNaam = JSON.parse(localStorage.getItem('identifier')).Gebruikersnaam.split(' ')[0]
 
   return (
     <div className="w-1/4 rounded inline-block">	
