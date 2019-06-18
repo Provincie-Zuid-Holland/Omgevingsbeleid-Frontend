@@ -9,7 +9,6 @@ import MainTitel from './../UI/ApiView/MainTitel'
 import MainParagraaf from './../UI/ApiView/MainParagraaf'
 
 
-
 // Main Component - Main Container
 class DetailMain extends Component {
 
@@ -24,6 +23,7 @@ class DetailMain extends Component {
 
 
     return (
+
 
       <div className="w-3/4 inline-block pr-8">
         <div className="relative inline-block w-full px-4 pb-6 pt-4 shadow-md rounded overflow-hidden bg-white">

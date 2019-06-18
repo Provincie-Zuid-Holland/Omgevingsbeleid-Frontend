@@ -10,7 +10,7 @@ import Datum from './../UI/ApiView/Datum'
 import RevisieOverzicht from './../UI/ApiView/RevisieOverzicht'
 import TextField from './../UI/ApiView/TextField'
 import Gebied from './../UI/ApiView/Gebied'
-
+import GebiedLeaflet from './../UI/ApiView/GebiedLeaflet'
 
 // Function to get the Title Variable for each component
 function getTitle(dataModel, propertyName) {
@@ -62,6 +62,14 @@ function DetailSidebarContent(props) {
                     UITitle={getTitle(dataModel, "Gebied")}
                     gebiedUUID={dataObject["Gebied"]} 
                 /> 
+            : null }
+
+            { dataObject["Gebied"] ?
+                <div className="bg-red-500 w-full h-48 mb-6">
+                    <GebiedLeaflet
+                        gebiedUUID={dataObject["Gebied"]} 
+                    />
+                </div> 
             : null }
 
             { dataObject["Verplicht_Programma"] ? 
