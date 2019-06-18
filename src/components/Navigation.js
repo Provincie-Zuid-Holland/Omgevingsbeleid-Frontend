@@ -28,7 +28,7 @@ function LoggedIn() {
   return(
     <Link to={`/login`} onClick={logout} className="text-sm text-gray-800">
       <span>
-        { gebruikersNaam.length !== 0 ? `Ingelogd als ${gebruikersNaam}` : "Ingelogd" }
+        { gebruikersNaam !== null ? `Ingelogd als ${gebruikersNaam}` : "Ingelogd" }
       </span>
       <FontAwesomeIcon className="ml-2 text-gray-700" icon={faCaretDown} />
     </Link>

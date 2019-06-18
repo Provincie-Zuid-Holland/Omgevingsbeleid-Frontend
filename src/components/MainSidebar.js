@@ -42,7 +42,7 @@ function MainSidebar(props) {
 			<div className="welcome-message">
 				<span className="font-serif text-gray-800 text-l mb-2 inline-block">Omgevingsbeleid</span>
 				<h2 className="font-serif text-gray-800 text-2xl">
-					{ gebruikersNaam.length !== 0 ? `Welkom ${gebruikersNaam},` : "Welkom," }
+					{ gebruikersNaam !== null ? `Welkom ${gebruikersNaam},` : "Welkom," }
 				</h2>
 				<p className="text-gray-700">In deze omgeving heb je de mogelijkheid om te werken aan Omgevingsbeleid.</p>
 			</div>
