@@ -28,8 +28,6 @@ function DetailSidebarContent(props) {
     const revisieObject = props.revisieObject
     const dataModel = props.dataModel
 
-    console.log(dataObject)
-
     // Return UI Components (condtional on object properties)
     return (
 

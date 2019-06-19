@@ -19,11 +19,11 @@ class SelectInput extends React.Component {
                     name={this.props.dataObjectProperty } 
                     className="block appearance-none w-full bg-white text-gray-700 border border-gray-400 hover:border-gray-500 py-3 px-4 leading-tight rounded leading-tight focus:outline-none focus:shadow-outline"
                 >
-                    <option disabled selected value> - selecteer een optie - </option>
+                    <option selected> - selecteer een optie - </option>
                 {
-                    this.props.selectArray.map(arrayItem => {
+                    this.props.selectArray.map((arrayItem, index) => {
                         return (
-                            <option selected value={arrayItem[0]}>{arrayItem[1]}</option>
+                            <option key={index} value={arrayItem[0]}>{arrayItem[1]}</option>
                         )
                     })
                 }    

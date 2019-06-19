@@ -128,11 +128,15 @@ class APITestCRUD extends Component {
 
 	handleChange(event) {
 
+		console.log(event)
+
 		const name = event.target.name
 		const type = event.target.type 
 
 		let value = event.target.value
 		if (type === "date") {
+			console.log("Value:")
+			console.log(event.target.value)
 			value = new Date(event.target.value)
 		}
 

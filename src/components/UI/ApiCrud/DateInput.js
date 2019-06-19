@@ -3,6 +3,7 @@ import { format } from 'date-fns'
 
 class DateInput extends React.Component {
 
+  
   render() {
     
     return (
@@ -12,7 +13,7 @@ class DateInput extends React.Component {
           </label>
           <input 
             required 
-            value={format(this.props.fieldValue, "YYYY-MM-DD")} 
+            value={format(this.props.fieldValue, "YYYY-MM-DD")}
             onChange={this.props.handleChange} 
             name={this.props.dataObjectProperty} 
             className="appearance-none block w-full text-gray-700 border border-gray-400 focus:border-gray-500 hover:border-gray-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white" 

@@ -24,14 +24,13 @@ class Gebied extends React.Component {
 
   componentDidMount() {
     
-    console.log(this.props.gebiedUUID)
     let apiEndpoint = `werkingsgebieden/${this.props.gebiedUUID}`
 
     // Connect With the API
     axiosAPI.get(apiEndpoint)
     .then(res => {
       const dataObject = res.data;
-      this.setState({ dataObject: dataObject }, () => console.log(this.state))
+      this.setState({ dataObject: dataObject })
     }).catch((error) => {
       if (error.response !== undefined) {
         if (error.response.status === 401) {

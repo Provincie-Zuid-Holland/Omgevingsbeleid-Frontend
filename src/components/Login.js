@@ -35,8 +35,10 @@ class Login extends Component {
 		.then(response => {
 			if (response.status >= 200 && response.status < 300) { // Success status lies between 200 to 300
 				const identifier = response.data.identifier
+				const tokenTime = new Date()
 				localStorage.setItem('identifier', JSON.stringify(identifier))
 				localStorage.setItem('access_token', response.data.access_token)
+				localStorage.setItem('token_date', tokenTime)
 				history.push('/')
 			} else if (response.status === 401) {
 				throw Error("Wrong username or password")
