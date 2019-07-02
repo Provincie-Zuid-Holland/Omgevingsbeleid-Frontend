@@ -10,7 +10,7 @@ class EditButton extends React.Component {
 
     return (
         <Link 
-            to={`/${overzichtSlug}/edit/${objectID}`} 
+            to={`/api-test/${overzichtSlug}/edit/${objectID}`} 
             className="mt-4 mr-4 font-bold py-2 px-4 text-sm rounded bg-blue-200 text-blue-700 absolute top-0 right-0"
         >
             Edit

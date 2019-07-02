@@ -7,12 +7,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 class BackToButton extends Component {
   
   render() {
+    let color = "text-gray-600"
+    if (this.props.color !== undefined) {
+      color = this.props.color
+    }
+
     return (
       
-      <div className="text-gray-600 text-sm w-full container mx-auto">
+      <div className={`${color} text-sm w-full container mx-auto`}>
         <ul>
           <li>
-            <Link to={this.props.url} className="text-gray-600 text-l mb-2 inline-block">
+            <Link to={this.props.url} className={`${color} text-l mb-2 inline-block`}>
               <FontAwesomeIcon className="mr-2" icon={faAngleLeft} />
               <span>Terug naar {this.props.terugNaar}</span>
             </Link>

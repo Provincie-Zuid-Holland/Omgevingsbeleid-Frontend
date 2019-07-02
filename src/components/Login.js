@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
 
 // Import Axios instance to connect with the API
-import axiosAPI from './../axios'
+import axiosAPI from './../API/axios'
 
 
 class Login extends Component {
@@ -12,9 +11,9 @@ class Login extends Component {
 		super(props)
 
 		this.state = {
-      identifier: '',
-      password: ''
-    };
+			identifier: '',
+			password: ''
+		};
 
 		this.handleChange = this.handleChange.bind(this)
 		this.handleFormSubmit = this.handleFormSubmit.bind(this)
@@ -26,77 +25,35 @@ class Login extends Component {
    	
    	e.preventDefault();  
 
-   	let history = this.props.history;
+   	let history = this.props.history
 
-   	const identifier = this.state.identifier;
-   	const password = this.state.password;
+	axiosAPI.post('login', JSON.stringify(this.state))
+	.then(response => {
+		if (response.status >= 200 && response.status < 300) { // Success status lies between 200 to 300
+			const identifier = response.data.identifier
+			const tokenTime = new Date()
+			localStorage.setItem('identifier', JSON.stringify(identifier))
+			localStorage.setItem('access_token', response.data.access_token)
+			localStorage.setItem('token_date', tokenTime)
+			history.push('/')
+		} else if (response.status === 401) {
+			throw Error("Wrong username or password")
+		} else {
+			throw Error("Something went wrong, please try again later")
+		}
+	}).catch((err) => {
+		
+		let errorEl = document.getElementById('error-message');
+		errorEl.classList.innerHTML = err;
+		errorEl.classList.remove('hidden');
+		errorEl.classList.add('flex');
+		errorEl.classList.add('shake');
+		setTimeout(function(){ 
+			errorEl.classList.remove('shake');
+		}, 820);
 
-		axiosAPI.post('login', JSON.stringify(this.state))
-		.then(response => {
-			if (response.status >= 200 && response.status < 300) { // Success status lies between 200 to 300
-				const identifier = response.data.identifier
-				const tokenTime = new Date()
-				localStorage.setItem('identifier', JSON.stringify(identifier))
-				localStorage.setItem('access_token', response.data.access_token)
-				localStorage.setItem('token_date', tokenTime)
-				history.push('/')
-			} else if (response.status === 401) {
-				throw Error("Wrong username or password")
-			} else {
-				throw Error("Something went wrong, please try again later")
-			}
-		}).catch((err) => {
-			
-			let errorEl = document.getElementById('error-message');
-			errorEl.classList.innerHTML = err;
-			errorEl.classList.remove('hidden');
-			errorEl.classList.add('flex');
-			errorEl.classList.add('shake');
-			setTimeout(function(){ 
-				errorEl.classList.remove('shake');
-			}, 820);
+	});
 
-		});
-
-   	// fetch(`https://api-acctest-ob.westeurope.cloudapp.azure.com/dev/v0.1/login`, {
-    //   method: 'POST',
-    //   headers: {
-    //     "Content-Type": "application/json"
-    //   },
-    //   body: JSON.stringify({
-    //       identifier,
-    //       password
-    //   })
-    // }).then(response => {
-
-    // 	if (response.status >= 200 && response.status < 300) { // Success status lies between 200 to 300
-    //     return response.json()
-    //   } else if (response.status === 401) {
-    //     throw Error("Wrong username or password")
-    //   } else {
-    //   	throw Error("Something went wrong, please try again later")
-    //   }
-
-	  // }).then(function(data) {
-
-	  //   // Save token to local storage
-	  //   const access_token = data.access_token;
-    //   localStorage.setItem('access_token', access_token)
-    //   history.push('/')
- 
-
-	  // }).catch((err) => {
-			
-		// 	let errorEl = document.getElementById('error-message');
-		// 	errorEl.classList.innerHTML = err;
-		// 	errorEl.classList.remove('hidden');
-		// 	errorEl.classList.add('flex');
-		// 	errorEl.classList.add('shake');
-		// 	setTimeout(function(){ 
-		// 		errorEl.classList.remove('shake');
-		// 	}, 820);
-
-		// });
 
   }
 
@@ -162,4 +119,4 @@ class Login extends Component {
 	}
 
 }
-export default withRouter(Login);
+export default Login;

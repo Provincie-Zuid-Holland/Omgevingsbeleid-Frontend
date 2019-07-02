@@ -1,7 +1,4 @@
-import React, { Component } from 'react';
-
-// Import API Model for UI Variables: Title
-import APIDataModel from './../../dataModel/ApiModel'
+import React, { Component } from 'react'
 
 // Import UI Components
 import Eigenaar from './../UI/ApiView/Eigenaar'
@@ -66,6 +63,7 @@ function DetailSidebarContent(props) {
                 <div className="bg-red-500 w-full h-48 mb-6">
                     <GebiedLeaflet
                         gebiedUUID={dataObject["Gebied"]} 
+                        gebiedType="Werkingsgebieden"
                     />
                 </div> 
             : null }

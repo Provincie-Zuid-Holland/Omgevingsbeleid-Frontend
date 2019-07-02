@@ -25,6 +25,14 @@ code {
 	color: #000066;
 }
 
+.body-bg-color {
+  background-color: #f8f9fa;
+}
+
+.progress-bar-color {
+  background-color: #e6e6ef;
+}
+
 .main-logo {
   background-image: url('../images/logo.png');
   background-size: cover;
@@ -107,4 +115,22 @@ code {
   40%, 60% {
     transform: translate3d(4px, 0, 0);
   }
+}
+
+.main-sidebar-arrow {
+  margin-top: -1px;
+}
+
+.vertical-label {
+  text-orientation: sideways;
+  writing-mode: vertical-rl;
+  background-color: #c7c9dd;
+  height: calc(100% - 1rem);
+  position: absolute;
+  right: 0.5rem;
+  top: 0px;
+}
+
+.edit-header {
+  margin-top: -48px;
 }

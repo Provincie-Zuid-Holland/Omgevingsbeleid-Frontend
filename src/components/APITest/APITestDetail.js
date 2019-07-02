@@ -7,7 +7,7 @@ import DetailSidebar from './../Containers/DetailSidebar'
 import DetailMain from './../Containers/DetailMain'
 
 // Import Axios instance to connect with the API
-import axiosAPI from './../../axios'
+import axiosAPI from '../../API/axios'
 
 // Generate Back Button for Detail or Version page
 function GenerateBackToButton(props) {
@@ -15,15 +15,32 @@ function GenerateBackToButton(props) {
   const overzichtSlug = props.overzichtSlug
   const pageType = props.pageType
   const titelEnkelvoud = props.titelEnkelvoud
+  const hoofdOnderdeelSlug = props.hoofdOnderdeelSlug
+  const apiTest = props.apiTest
 
   if (pageType === "detail") {
     return(
-      <BackToButton terugNaar={`${titelEnkelvoud} overzicht`} url={`/${overzichtSlug}`} />
+      <BackToButton 
+        terugNaar={`${titelEnkelvoud} overzicht`} 
+        // url={`/${hoofdOnderdeel}/${overzichtSlug}`}
+        url={
+          apiTest === true ?
+          `/${hoofdOnderdeelSlug}/${overzichtSlug}` :
+          `/${hoofdOnderdeelSlug}`
+        }
+      />
     )
   } else if (pageType === "version") {
     const dataObjectID = props.dataObject.ID
     return(
-      <BackToButton terugNaar={`huidige versie`} url={`/${overzichtSlug}/${dataObjectID}`} />
+      <BackToButton 
+        terugNaar={`huidige versie`}
+        url={
+          apiTest === true ?
+          `/${hoofdOnderdeelSlug}/${overzichtSlug}/${dataObjectID}` :
+          `/${hoofdOnderdeelSlug}/${dataObjectID}`
+        }
+      />
     )
   }
 
@@ -47,7 +64,7 @@ class APITestDetail extends Component {
     }
   }
 
-  // Method to set the page type: detail/version
+  // Met d to set the page type: detail/version
   returnPageType() {
     let pageType = "detail"
     if (this.props.match.params.version) {
@@ -96,6 +113,9 @@ class APITestDetail extends Component {
     const overzichtSlug = this.props.dataModel.variables.Overzicht_Slug;
     const objectName = this.props.dataModel.variables.Object_Name;
     const dataModel = this.props.dataModel
+    const hoofdOnderdeelSlug = this.props.hoofdOnderdeelSlug
+    const apiTest = this.props.apiTest
+    
 
     // False if data is loading, true if there is a response
     let dataReceived = (this.state.dataObject !== null);
@@ -125,7 +145,14 @@ class APITestDetail extends Component {
         {/* Dimensie Container */}
         <div className="w-3/4 rounded inline-block pl-8">
 
-          <GenerateBackToButton dataObject={dataObject} titelEnkelvoud={titelEnkelvoud} overzichtSlug={overzichtSlug} pageType={this.state.pageType}/>
+          <GenerateBackToButton 
+            dataObject={dataObject} 
+            titelEnkelvoud={titelEnkelvoud} 
+            overzichtSlug={overzichtSlug} 
+            hoofdOnderdeelSlug={hoofdOnderdeelSlug}
+            apiTest={apiTest}
+            pageType={this.state.pageType}
+          />
         	
           <div className="flex mt-3">
             { dataReceived ? 

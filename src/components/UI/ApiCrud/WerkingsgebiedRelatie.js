@@ -1,8 +1,8 @@
 import React from 'react';
-import { format } from 'date-fns'
+
 
 // Import Axios instance to connect with the API
-import axiosAPI from '../../../axios'
+import axiosAPI from '../../../API/axios'
 
 import Select from 'react-select'
 
@@ -12,7 +12,7 @@ function makeSelection(objectenArray, dataObjectProperty) {
     return null
   } else {
     let options = []
-    objectenArray.slice(1).map(arrayItem => {
+    objectenArray.slice(1).forEach(arrayItem => {
       options.push({
         label: arrayItem.Werkingsgebied,
         value: arrayItem.UUID,
@@ -23,7 +23,6 @@ function makeSelection(objectenArray, dataObjectProperty) {
         }
       })
     })
-    
     return options
   }
 
@@ -38,7 +37,7 @@ class WerkingsgebiedRelatie extends React.Component {
   }
 
   render() {
-    console.log(this.state)
+
     return (
       <div className="w-50 mb-6">
           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor={this.props.dataObjectProperty}>
@@ -82,9 +81,9 @@ class WerkingsgebiedRelatie extends React.Component {
           this.setState({
             selectionArray,
             selected
-          }, () => console.log(this.state) )
+          })
         } else {
-          this.setState({ selectionArray }, () => console.log(this.state) )
+          this.setState({ selectionArray })
         }
     }).catch((error) => {
       if (error.response !== undefined) {

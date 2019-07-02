@@ -3,13 +3,16 @@ import React from 'react';
 class TextInput extends React.Component {
 
   render() {
-    console.log(this.props.fieldValue)
+    
     return (
         <div className="flex flex-wrap -mx-3">
             <div className="w-full px-3 mb-4">
                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor={this.props.dataObjectProperty}>
                     {this.props.fieldLabel}
                 </label>
+                <p className="text-gray-700 text-sm mb-2">
+                  {`${this.props.pValue} ${this.props.titelEnkelvoud.toLowerCase()}`}
+                </p>
                 <input 
                   required 
                   value={this.props.fieldValue} 

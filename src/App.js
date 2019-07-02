@@ -1,19 +1,22 @@
 import React, { Component } from 'react'
 import { Route, Switch, withRouter } from 'react-router-dom'
+import withAuth from './components/WithAuth'
 
+// Import Styling
 import './css/tailwind.css'
 import './css/styles.scss'
 
+// Import Components
 import Navigation from './components/Navigation'
-import Opgaven from './components/opgaven/Opgaven'
 import Login from './components/Login'
-import Home from './components/Home'
-
+import ApiTest from './components/ApiTest'
+import Dashboard from './components/Dashboard'
+import Maatregelen from './components/Maatregelen'
 import APITestRoutes from './components/APITest/APITestRoutes'
+import APITestDetail from './components/APITest/APITestDetail'
+import APITestCRUD from './components/APITest/APITestCRUD'
 
-import withAuth from './components/WithAuth'
-
-// Field model geeft aan welke data de view en edit page verwachten
+// Import Data Model voor conditioneel renderen van de pagina's
 import dataModel from './dataModel/ApiModel.js'
 
 
@@ -21,83 +24,153 @@ class App extends Component {
 
   render() {
     return (
-      <main className="bg-gray-100 min-h-screen pt-12" id="main-container">
+      <main className="body-bg-color min-h-screen pt-12" id="main-container">
         <Navigation  />
         <Switch>
           <Route 
-            path="/ambities" 
+            path="/login" 
+            component={Login}
+          />
+          <Route 
+            path="/api-test/ambities" 
             render={() => 
-            <APITestRoutes 
+            <APITestRoutes
+              apiTest={true}
               dataModel={dataModel.Ambitie}
+              hoofdOnderdeelSlug="api-test"
               history={this.props.history}
             />}
           />
           <Route 
-            path="/opgaven"
+            path="/api-test/opgaven"
             render={ () => 
-            <APITestRoutes 
+            <APITestRoutes
+              apiTest={true}
               dataModel={dataModel.Opgaven}
+              hoofdOnderdeelSlug="api-test"
               history={this.props.history}
             />} 
           />
           <Route 
-            path="/beleidsregels"
+            path="/api-test/beleidsregels"
             render={ () => 
-            <APITestRoutes 
+            <APITestRoutes
+              apiTest={true}
               dataModel={dataModel.BeleidsRegel}
+              hoofdOnderdeelSlug="api-test"
               history={this.props.history}
             />} 
           />
           <Route 
-            path="/doelen"
+            path="/api-test/doelen"
             render={ () => 
-            <APITestRoutes 
+            <APITestRoutes
+              apiTest={true}
               dataModel={dataModel.Doel}
+              hoofdOnderdeelSlug="api-test"
               history={this.props.history}
             />} 
           />
           <Route 
-            path="/provinciale-belangen"
+            path="/api-test/provinciale-belangen"
             render={ () => 
-            <APITestRoutes 
+            <APITestRoutes
+              apiTest={true}
               dataModel={dataModel.ProvincialeBelangen}
+              hoofdOnderdeelSlug="api-test"
               history={this.props.history}
             />} 
           />
           <Route 
-            path="/beleidsrelaties"
-            render={ () => 
-            <APITestRoutes 
+            path="/api-test/beleidsrelaties"
+            render={ () =>
+            <APITestRoutes
+              apiTest={true}
               dataModel={dataModel.BeleidsRelatie}
+              hoofdOnderdeelSlug="api-test"
               history={this.props.history}
             />} 
           />
+          <Route 
+            path="/api-test/maatregelen"
+            render={ () => 
+            <APITestRoutes
+              apiTest={true}
+              dataModel={dataModel.Maatregelen}
+              hoofdOnderdeelSlug="api-test"
+              history={this.props.history}
+            />} 
+          />
+          <Route 
+            path="/api-test/themas"
+            render={ () => 
+            <APITestRoutes
+              apiTest={true}
+              dataModel={dataModel.Themas}
+              hoofdOnderdeelSlug="api-test"
+              history={this.props.history}
+            />} 
+          />
+          <Route 
+            path="/api-test/verordeningen"
+            render={ () => 
+            <APITestRoutes
+              apiTest={true}
+              dataModel={dataModel.Verordening}
+              hoofdOnderdeelSlug="api-test"
+              history={this.props.history}
+            />} 
+          />
+          <Route 
+            apiTest={true}
+            path="/api-test"
+            exact
+            component={ApiTest} 
+          />
+          <Route 
+            path="/api-test/maatregelen"
+            render={ () => 
+            <APITestRoutes
+              apiTest={true}
+              dataModel={dataModel.Maatregelen}
+              hoofdOnderdeelSlug="api-test"
+              history={this.props.history}
+            />} 
+          />
+          {/* Maatregelen Pagina Routes */}
+          <Route 
+            exact 
+            path={`/maatregelen/${dataModel.Maatregelen.variables.Create_New_Slug}`} 
+						render={ ({match}) => <APITestCRUD 
+							dataModel={dataModel.Maatregelen}
+							ApiEndpoint={dataModel.Maatregelen.variables.Api_Endpoint} 
+							overzichtSlug={dataModel.Maatregelen.variables.Overzicht_Slug} 
+							history={this.props.history} 
+							match={match}/> 
+						} 
+					/>
+          <Route 
+            exact 
+            path={`/maatregelen/:single`} 
+						render={ ({match}) =>
+              <APITestDetail 
+                dataModel={dataModel.Maatregelen} 
+                history={this.props.history} 
+                match={match}
+                hoofdOnderdeelSlug="maatregelen"
+              /> 
+						}
+					/>
           <Route 
             path="/maatregelen"
+            exact
             render={ () => 
-            <APITestRoutes 
-              dataModel={dataModel.Maatregelen}
-              history={this.props.history}
-            />} 
+              <Maatregelen
+                dataModel={dataModel.Maatregelen}
+                history={this.props.history}
+              />} 
           />
-          <Route 
-            path="/themas"
-            render={ () => 
-            <APITestRoutes 
-              dataModel={dataModel.Themas}
-              history={this.props.history}
-            />} 
-          />
-          <Route 
-            path="/verordeningen"
-            render={ () => 
-            <APITestRoutes 
-              dataModel={dataModel.Verordening}
-              history={this.props.history}
-            />} 
-          />
-          <Route path="/login" component={Login} history={this.props.history} />
-          <Route exact path="/" component={Home}/>
+          <Route exact path="/" component={Dashboard}/>
         </Switch>
       </main>
     );
@@ -105,4 +178,4 @@ class App extends Component {
 
 }
 
-export default withRouter(withAuth(App));
+export default withRouter(withAuth(App))

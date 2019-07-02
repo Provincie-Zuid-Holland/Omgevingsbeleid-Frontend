@@ -13,14 +13,6 @@ function logout() {
   localStorage.removeItem('access_token')
 }
 
-function LoginButton() {
-  return(
-    <Link to={`/login`} className="bg-white block text-center hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border no-underline border-gray-400 rounded shadow">
-      Login
-    </Link>
-  )
-}
-
 function LoggedIn() {
 
   let identifier = localStorage.getItem('identifier')

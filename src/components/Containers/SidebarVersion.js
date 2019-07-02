@@ -44,7 +44,6 @@ class Sidebar extends Component {
     return (
 
       <div className="inline-block w-1/4">
-        { console.log(this.props.ambitie) }
         <h2 className="pb-4 pt-2">Personen</h2>
         { this.props.ambitie.length !== 0 ? sidebarSingle(this.props.ambitie) : "Loading..." }
       </div>

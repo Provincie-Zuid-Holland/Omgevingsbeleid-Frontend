@@ -1,5 +1,4 @@
 import React from 'react';
-import { format } from 'date-fns'
 
 class DateInput extends React.Component {
 
@@ -13,14 +12,15 @@ class DateInput extends React.Component {
           </label>
           <input 
             required 
-            value={format(this.props.fieldValue, "YYYY-MM-DD")}
-            onChange={this.props.handleChange} 
-            name={this.props.dataObjectProperty} 
+            value={this.props.fieldValue}
+            onChange={this.props.handleChange}
+            name={this.props.dataObjectProperty}
             className="appearance-none block w-full text-gray-700 border border-gray-400 focus:border-gray-500 hover:border-gray-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white" 
             type="date"
           />
       </div>
     )
+    
   }
 
 }

@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 
 // Import UI Components
-import MainSidebar from './../MainSidebar';
-import BackToButton from './../UI/BackToButton'
 import EditButton from './../UI/ApiView/EditButton'
 import MainTitel from './../UI/ApiView/MainTitel'
 import MainParagraaf from './../UI/ApiView/MainParagraaf'
@@ -19,8 +16,6 @@ class DetailMain extends Component {
     const overzichtSlug = this.props.overzichtSlug
     const objectID = dataObject.ID
     const titel = dataObject.Titel
-    const omschrijving = dataObject.Omschrijving
-
 
     return (
 

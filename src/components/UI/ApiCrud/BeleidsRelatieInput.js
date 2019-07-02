@@ -1,10 +1,7 @@
 import React from 'react';
-import { format } from 'date-fns'
-
-// Import Axios instance to connect with the API
-import axiosAPI from '../../../axios'
-
 import Select from 'react-select'
+import axiosAPI from '../../../API/axios'
+
 
 function makeSelection(objectenArray, dataObjectProperty) {
 
@@ -12,7 +9,7 @@ function makeSelection(objectenArray, dataObjectProperty) {
     return null
   } else {
     let options = []
-    objectenArray.slice(1).map((arrayItem, index) => {
+    objectenArray.slice(1).forEach((arrayItem, index) => {
       // Index om unieke values te hebben (puur voor het testen)
       options.push({
         label: arrayItem.Titel,
@@ -44,7 +41,6 @@ class DateInput extends React.Component {
 
     return (
       <div className="w-50 px-3 mb-6">
-          <h1>{this.props.fieldValue}</h1>
           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor={this.props.dataObjectProperty}>
             {this.props.fieldLabel}
           </label>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import axiosAPI from './../../../axios'
+import axiosAPI from '../../../API/axios'
 
 class SidebarString extends React.Component {
 

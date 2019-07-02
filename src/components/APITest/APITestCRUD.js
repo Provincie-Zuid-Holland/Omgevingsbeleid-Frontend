@@ -1,14 +1,12 @@
-import React, {
-	Component
-} from 'react'
-import {
-	format
-} from 'date-fns'
+import React, {	Component } from 'react'
+import { Prompt } from 'react-router'
+import { format } from 'date-fns'
+import { APIcontext } from './../Context/APIcontext'
 
 import CrudContainer from './../Containers/CrudContainer'
 
 // Import Axios instance to connect with the API
-import axiosAPI from './../../axios'
+import axiosAPI from './../../API/axios'
 
 
 // Function to see if property on object is editable
@@ -21,9 +19,9 @@ function isEmpty(obj) {
 	
 	for(var key in obj) {
 		if(obj.hasOwnProperty(key))
-			return false;
+			return false
 	}
-	return true;
+	return true
 
 }
 
@@ -48,11 +46,18 @@ function makeCrudObject(array, responseObject) {
 
 	let crudObject = {}
 	if (isEmpty(responseObject)) {
-		array.map((arrayItem, index) => {
-			crudObject[[arrayItem][0]] = ""
+		array.forEach((arrayItem, index) => {
+			if (
+				arrayItem === "Verplicht_Programma" ||
+				arrayItem === "Specifiek_Of_Generiek"
+			) {
+				crudObject[[arrayItem][0]] = " - selecteer een optie - "
+			} else {
+				crudObject[[arrayItem][0]] = ""
+			}
 		})
 	} else {
-		array.map((arrayItem, index) => {
+		array.forEach((arrayItem, index) => {
 			crudObject[[arrayItem][0]] = responseObject[arrayItem]
 		})
 	}
@@ -60,7 +65,6 @@ function makeCrudObject(array, responseObject) {
 	return crudObject
 
 }
-
 
 class APITestCRUD extends Component {
 
@@ -72,10 +76,12 @@ class APITestCRUD extends Component {
 		this.state = {
 			edit: false,
 			crudObject: {},
+			formDataChanged: false
 		};
 
 		this.handleChange = this.handleChange.bind(this)
 		this.handleSubmit = this.handleSubmit.bind(this)
+		this.setEditorState = this.setEditorState.bind(this)
 
 	}
 
@@ -99,6 +105,13 @@ class APITestCRUD extends Component {
 					const responseObject = res.data;
 					const crudProperties = makeCrudPropertiesArray(dataModel)
 					const crudObject = makeCrudObject(crudProperties, responseObject[0])
+
+					if (crudObject.Begin_Geldigheid !== undefined) {
+						crudObject.Begin_Geldigheid = format(crudObject.Begin_Geldigheid, "YYYY-MM-DD")
+					}
+					if (crudObject.Eind_Geldigheid !== undefined) {
+						crudObject.Eind_Geldigheid = format(crudObject.Begin_Geldigheid, "YYYY-MM-DD")
+					}
 
 					this.setState({
 						crudObject: crudObject
@@ -128,7 +141,11 @@ class APITestCRUD extends Component {
 
 	handleChange(event) {
 
-		console.log(event)
+		if (this.state.formDataChanged === false) {
+			this.setState({
+				formDataChanged: true
+			})
+		}
 
 		const name = event.target.name
 		const type = event.target.type 
@@ -137,7 +154,7 @@ class APITestCRUD extends Component {
 		if (type === "date") {
 			console.log("Value:")
 			console.log(event.target.value)
-			value = new Date(event.target.value)
+			value = event.target.value
 		}
 
 		this.setState(prevState => ({
@@ -145,7 +162,19 @@ class APITestCRUD extends Component {
 				...prevState.crudObject,
 				[name]: value
 			}
-		}), () => console.log(this.state))
+		}))
+
+	}
+
+	// Algemene State Handler voor de Editor
+	setEditorState(stateValue, fieldName) {
+
+		this.setState(prevState => ({
+			crudObject: {    
+				...prevState.crudObject,
+				[fieldName]: stateValue
+			}
+		}))
 
 	}
 
@@ -160,22 +189,36 @@ class APITestCRUD extends Component {
 
 		let crudObject = this.state.crudObject
 
+		if (crudObject.Begin_Geldigheid !== undefined) {
+			crudObject.Begin_Geldigheid = new Date(crudObject.Begin_Geldigheid)
+		}
+		if (crudObject.Eind_Geldigheid !== undefined) {
+			crudObject.Eind_Geldigheid = new Date(crudObject.Eind_Geldigheid)
+		}
+
 		if (this.state.edit) {
 			// Modified By Placeholder
-			crudObject.Modified_By = loggedInUserUUID
+			// crudObject.Modified_By = loggedInUserUUID
 			axiosAPI.patch(`${ApiEndpoint}/${objectID}`, JSON.stringify(crudObject))
 				.then(res => {
-					console.log(res)
-					this.props.history.push(`/${overzichtSlug}/${res.data.ID}`)
+					if (this.props.match.path.includes("api-test")) {
+						this.props.history.push(`/api-test/${overzichtSlug}/${res.data.ID}`)
+					} else {
+						this.props.history.push(`/${overzichtSlug}/${res.data.ID}`)
+					}
 				}).catch((error) => {
 					console.log(error);
 				});
 		} else {
 			// Created By Placeholder
-			crudObject.Created_By = loggedInUserUUID
+			// crudObject.Created_By = loggedInUserUUID
 			axiosAPI.post(`${ApiEndpoint}`, JSON.stringify(crudObject))
 				.then(res => {
-					this.props.history.push(`/${overzichtSlug}/${res.data.ID}`)
+					if (this.props.match.path.includes("api-test")) {
+						this.props.history.push(`/api-test/${overzichtSlug}/${res.data.ID}`)
+					} else {
+						this.props.history.push(`/${overzichtSlug}/${res.data.ID}`)
+					}
 				}).catch((error) => {
 					console.log(error);
 				});
@@ -185,37 +228,34 @@ class APITestCRUD extends Component {
 
 	render() {
 
+		const contextObject = {
+			titelEnkelvoud: 	this.props.dataModel.variables.Titel_Enkelvoud,
+			titelMeervoud: 		this.props.dataModel.variables.Titel_Meervoud,
+			overzichtSlug: 		this.props.overzichtSlug,
+			objectID: 			this.props.match.params.single,
+			editStatus: 		this.state.edit,
+			handleSubmit: 		this.handleSubmit,
+			handleChange: 		this.handleChange,
+			crudObject: 		this.state.crudObject,
+			setEditorState: 	this.setEditorState,
+		}
+
 		// False if data is loading, true if there is a response
 		let dataPending = isEmpty(this.state.crudObject)
 
-		return ( <div> { dataPending ? null :
-				<CrudContainer
-					titelEnkelvoud = {
-						this.props.dataModel.variables.Titel_Enkelvoud
-					}
-					titelMeervoud = {
-						this.props.dataModel.variables.Titel_Meervoud
-					}
-					overzichtSlug = {
-						this.props.overzichtSlug
-					}
-					objectID = {
-						this.props.match.params.single
-					}
-					editStatus = {
-						this.state.edit
-					}
-					handleSubmit = {
-						this.handleSubmit
-					}
-					handleChange = {
-						this.handleChange
-					}
-					crudObject = {
-						this.state.crudObject
-					}
-				/>
-			} </div>
+		return ( 
+			<div> 
+				{ dataPending ? null :
+				<APIcontext.Provider value={contextObject}>
+					<CrudContainer/>
+					<Prompt
+						message="Er zijn niet opgeslagen wijzigingen. Weet u zeker dat u de pagina wil verlaten?"
+						when={this.state.formDataChanged}
+					/>
+
+				</APIcontext.Provider>
+				} 
+			</div>
 
 		)
 	}
