@@ -29,20 +29,6 @@ class DetailMain extends Component {
 
 
           <MainTitel titel={titel} />
-          
-          {/* Omschrijving */}
-          { dataObject["Omschrijving"] !== undefined ? 
-            <MainParagraaf
-              paragraaf={dataObject.Omschrijving}
-            />
-          : null }
-
-          {/* Motivering */}
-          { dataObject["Motivering"] !== undefined ? 
-            <MainParagraaf
-              paragraaf={dataObject.Motivering}
-            />
-          : null }
 
         </div>
       </div>

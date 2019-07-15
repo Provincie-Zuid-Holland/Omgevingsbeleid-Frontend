@@ -60,7 +60,7 @@ function DetailSidebarContent(props) {
             : null }
 
             { dataObject["Gebied"] ?
-                <div className="bg-red-500 w-full h-48 mb-6">
+                <div className="w-full h-48 mb-6 relative">
                     <GebiedLeaflet
                         gebiedUUID={dataObject["Gebied"]} 
                         gebiedType="Werkingsgebieden"

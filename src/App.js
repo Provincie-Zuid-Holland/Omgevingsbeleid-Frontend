@@ -12,9 +12,14 @@ import Login from './components/Login'
 import ApiTest from './components/ApiTest'
 import Dashboard from './components/Dashboard'
 import Maatregelen from './components/Maatregelen'
+import Verordening from './components/Verordening'
 import APITestRoutes from './components/APITest/APITestRoutes'
 import APITestDetail from './components/APITest/APITestDetail'
 import APITestCRUD from './components/APITest/APITestCRUD'
+
+// Import Notification Library
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 // Import Data Model voor conditioneel renderen van de pagina's
 import dataModel from './dataModel/ApiModel.js'
@@ -170,8 +175,18 @@ class App extends Component {
                 history={this.props.history}
               />} 
           />
+          <Route 
+            path="/verordening"
+            exact
+            render={ () => 
+              <Verordening
+                dataModel={dataModel.Verordening}
+                history={this.props.history}
+              />} 
+          />
           <Route exact path="/" component={Dashboard}/>
         </Switch>
+        <ToastContainer />
       </main>
     );
   }

@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import MainSidebar from './MainSidebar';
 import VoegObjectToe from './UI/VoegObjectToe'
 import CardObjectItem from './UI/CardObjectItem'
+import LoaderCardObject from './UI/Loaders/LoaderCardObject'
 
 // Import Axios instance to connect with the API
 import axiosAPI from './../API/axios'
@@ -55,7 +56,13 @@ class Maatregelen extends Component {
 									hideParagraaf={true}
 								/>}
 							</li>
-							) : "Loading..."
+							) 
+							: 
+							<React.Fragment>
+								<LoaderCardObject/>
+								<LoaderCardObject/>
+								<LoaderCardObject/>
+							</React.Fragment>
 						}
 						
 						{ dataReceived ? 

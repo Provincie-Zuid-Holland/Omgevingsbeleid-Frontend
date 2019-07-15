@@ -1,12 +1,9 @@
 import React from 'react'
 import {
-  CompositeDecorator,
-  ContentBlock,
   ContentState,
   Editor,
   EditorState,
   convertFromHTML,
-  convertToRaw,
   RichUtils
 } from 'draft-js'
 
@@ -74,7 +71,7 @@ class RichEditor extends React.Component {
 
     const {editorState} = this.state
 
-    let className = 'RichEditor-editor border p-4 pb-10'
+    let className = 'RichEditor-editor border p-4 pb-10 bg-white rounded-b text-gray-700 border-gray-400'
     var contentState = editorState.getCurrentContent()
 
     if (!contentState.hasText()) {
@@ -91,7 +88,6 @@ class RichEditor extends React.Component {
         />
         <div className={className} onClick={this.focus}>
           <Editor
-            ref="editor"
             blockStyleFn={getBlockStyle}
             customStyleMap={styleMap}
             editorState={editorState}
@@ -168,7 +164,7 @@ const BlockStyleControls = (props) => {
     .getType()
 
   return (
-    <div className="RichEditor-controls bg-gray-200 w-full border p-1 pl-3">
+    <div className="RichEditor-controls bg-gray-200 w-full border p-1 pl-3 rounded-t border-gray-400">
       {BLOCK_TYPES.map((type) =>
         <StyleButton
           key={type.key}

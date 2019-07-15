@@ -2,14 +2,13 @@ import React, { Component } from 'react'
 import axios from 'axios'
 
 import Leaflet from 'leaflet'
-import { Map, GeoJSON, TileLayer } from 'react-leaflet'
-import jsonData from './leafletData'
+import { Map, TileLayer } from 'react-leaflet'
 
 import './../../../../node_modules/leaflet/dist/leaflet.css'
-import WFS from 'leaflet-wfst'
 import Proj from 'proj4leaflet'
 
-const geoJsonData = jsonData
+import LoaderSmallLeaflet from './../Loaders/LoaderSmallLeaflet'
+
 
 const RDProj4 = `+proj=sterea+lat_0=52.15616055555555+lon_0=5.38763888888889+k=0.9999079+x_0=155000+y_0=463000+ellps=bessel+units=m+no_defs`
 const RDCrs = new Proj.CRS('EPSG:28992', RDProj4,
@@ -34,7 +33,8 @@ export default class GebiedLeaflet extends Component {
     super(props)
     this.state = {
       _RDCrs: RDCrs,
-      viewport: DEFAULT_VIEWPORT
+      viewport: DEFAULT_VIEWPORT,
+      dataReceived: false
     }
     this.leafletMap = React.createRef();
   }
@@ -48,23 +48,29 @@ export default class GebiedLeaflet extends Component {
   }
 
   componentDidMount() {
-
-    const leafletMap = this.leafletMap.current
     
     import('./../../../API/axiosGeoJSON').then(api => {
       api.getGeoJsonData(this.props.gebiedType, this.props.gebiedUUID).then((data) => {
         
-        Leaflet.Proj.geoJson(data, {
-          style: (feature) => {
-    
-            return ({
-              stroke: true,
-              fillColor: 'fffff',
-              fillOpacity: 0,
-            })
-    
-          }
-        }).addTo(leafletMap.leafletElement)
+        this.setState({
+          dataReceived: true
+        }, () => {
+
+          const leafletMap = this.leafletMap.current
+
+          Leaflet.Proj.geoJson(data, {
+            style: (feature) => {
+      
+              return ({
+                stroke: true,
+                fillColor: 'fffff',
+                fillOpacity: 0,
+              })
+      
+            }
+          }).addTo(leafletMap.leafletElement)
+
+        })
 
       }).catch(function (thrown) {
         if (axios.isCancel(thrown)) {
@@ -86,37 +92,38 @@ export default class GebiedLeaflet extends Component {
 
   render() {
   
-    let geoStyle = {
-      "color": "#ff7800",
-      "weight": 5,
-      "opacity": 0.65
-    };
-  
-    return (
-      <Map
-        onClick={this.onClickReset}
-        onViewportChanged={this.onViewportChanged}
-        viewport={this.state.viewport}
-        scrollWheelZoom={true}
-        zoomControl={false}
-        crs={this.state._RDCrs}
-        ref={this.leafletMap}
-        className="z-0"
-      >
-          {/* maxZoom='15' */}
-        <TileLayer url='https://geodata.nationaalgeoregister.nl/tiles/service/tms/1.0.0/brtachtergrondkaartgrijs/EPSG:28992/{z}/{x}/{y}.png'
-          minZoom='3'
-          continuousWorld='true'
-          tms='true'
-          attribution='Map data: <a href="http://www.kadaster.nl">Kadaster</a>'
-        />
+    return(
+      <React.Fragment>
+        {
+        this.state.dataReceived === true ?
+        <Map
+          onClick={this.onClickReset}
+          onViewportChanged={this.onViewportChanged}
+          viewport={this.state.viewport}
+          scrollWheelZoom={true}
+          zoomControl={false}
+          crs={this.state._RDCrs}
+          ref={this.leafletMap}
+          className="z-0"
+        >
+            {/* maxZoom='15' */}
+          <TileLayer url='https://geodata.nationaalgeoregister.nl/tiles/service/tms/1.0.0/brtachtergrondkaartgrijs/EPSG:28992/{z}/{x}/{y}.png'
+            minZoom='3'
+            continuousWorld='true'
+            tms='true'
+            attribution='Map data: <a href="http://www.kadaster.nl">Kadaster</a>'
+          />
 
-        {/* L.Proj.GeoJson */}
-        {/* <GeoJSON
-          data={this.state.geoJsonData}
-        /> */}
+          {/* L.Proj.GeoJson */}
+          {/* <GeoJSON
+            data={this.state.geoJsonData}
+          /> */}
 
-      </Map>
+        </Map>
+        :
+        <LoaderSmallLeaflet/>
+        }
+      </React.Fragment>
     )
   }
 }

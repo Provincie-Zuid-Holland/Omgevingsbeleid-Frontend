@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 const menuItemsOmgevingsbeleid = {
 	"Dashboard": {"url":"/", "finished": true},
-	"Verordening": {"url":"", "finished": false},
+	"Verordening": {"url":"/verordening", "finished": true},
 	"Beleidsbeslissingen": {"url":"", "finished": false},
 	"Beleidsregels": {"url":"", "finished": false},
 	"Maatregelen": {"url":"/maatregelen", "finished": true},

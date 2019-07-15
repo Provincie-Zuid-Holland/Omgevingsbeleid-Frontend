@@ -134,3 +134,78 @@ code {
 .edit-header {
   margin-top: -48px;
 }
+
+.rotate-icon {
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin { 
+  100% { 
+    transform: rotate(360deg); 
+  } 
+}
+
+.verordening-list-item {
+  &:before {
+    content: "";
+    height: 1px;
+    width: 100%;
+    background-color: #E2E8F0;
+    display: block;
+    position: absolute;
+    bottom: 0px;
+    width: calc(100% - 1.5rem)
+  }
+}
+
+.verordening-list-container .verordening-list-item:last-child {
+  &:before {
+    content: none;
+  }
+}
+
+.settings-icon {
+  width: 35px;
+  height: 35px;
+  margin-right: 10px;
+  svg {
+    position: absolute;
+    margin-left: 10px;
+    margin-top: 10px;
+  }
+}
+
+#main-tooltip-container {
+  box-shadow: 0 0px 9px 2px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  margin-top: 10px;
+  margin-right: -3px;
+  &:before {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 10px 10px 10px;
+    border-color: transparent transparent #fff transparent;
+    top: -10px;
+    z-index: 10;
+    right: 20px;
+  }
+}
+
+.Toastify__toast {
+  border-radius: .25rem !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06) !important;
+}
+.Toastify__toast--default {
+  color: #4A5568 !important;
+}
+
+.Toastify__close-button.Toastify__close-button--default {
+  margin-top: -5px;
+}
+
+.Toastify__progress-bar--default {
+  background: #48BB78 !important;
+}

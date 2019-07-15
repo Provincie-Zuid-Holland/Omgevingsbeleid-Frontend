@@ -1,12 +1,14 @@
 import React, {	Component } from 'react'
+import { toast } from 'react-toastify'
 import { Prompt } from 'react-router'
 import { format } from 'date-fns'
-import { APIcontext } from './../Context/APIcontext'
-
-import CrudContainer from './../Containers/CrudContainer'
+import nlLocale from 'date-fns/locale/nl'
+import { APIcontext } from '../Context/APIcontext'
+import CrudContainer from '../Containers/CrudContainer'
 
 // Import Axios instance to connect with the API
 import axiosAPI from './../../API/axios'
+
 
 
 // Function to see if property on object is editable
@@ -15,7 +17,7 @@ function getCRUDBoolean(dataModel, propertyName) {
 }
 
 // Function to see if an object is empty
-function isEmpty(obj) {
+function isObjectEmpty(obj) {
 	
 	for(var key in obj) {
 		if(obj.hasOwnProperty(key))
@@ -45,7 +47,7 @@ function makeCrudPropertiesArray(dataModel) {
 function makeCrudObject(array, responseObject) {
 
 	let crudObject = {}
-	if (isEmpty(responseObject)) {
+	if (isObjectEmpty(responseObject)) {
 		array.forEach((arrayItem, index) => {
 			if (
 				arrayItem === "Verplicht_Programma" ||
@@ -75,8 +77,7 @@ class APITestCRUD extends Component {
 		// CrudObject contains the editable fields
 		this.state = {
 			edit: false,
-			crudObject: {},
-			formDataChanged: false
+			crudObject: {}
 		};
 
 		this.handleChange = this.handleChange.bind(this)
@@ -115,7 +116,7 @@ class APITestCRUD extends Component {
 
 					this.setState({
 						crudObject: crudObject
-					}, () => console.log(this.state));
+					});
 
 				}).catch((error) => {
 					if (error.response !== undefined) {
@@ -128,24 +129,37 @@ class APITestCRUD extends Component {
 					}
 				})
 		} else {
-			// Make CRUD Object with empty strings (!)
-			const dataModel = this.props.dataModel
-			const crudProperties = makeCrudPropertiesArray(dataModel)
-			const crudObject = makeCrudObject(crudProperties)
-			this.setState({
-				crudObject: crudObject
-			})
+
+			// See if there is a saved object in local storage
+			const savedStateInLocalStorage = JSON.parse(localStorage.getItem(this.props.dataModel.variables.Object_Name))
+
+			// If Local storage is not empty
+			if (!isObjectEmpty(savedStateInLocalStorage)) {
+
+				console.log(savedStateInLocalStorage)
+				const savedStateDate = format(savedStateInLocalStorage.date, "dddd D MMMM", {locale: nlLocale})
+
+				this.setState({
+					crudObject: savedStateInLocalStorage.savedState
+				})
+				toast(({ closeToast }) => <div>Opgeslagen versie van {savedStateDate}</div>)
+
+			// Else if Local Storage is empty, make an empty crud object
+			} else {
+				// If no saved version make a CRUD Object with empty strings
+				const dataModel = this.props.dataModel
+				const crudProperties = makeCrudPropertiesArray(dataModel)
+				const crudObject = makeCrudObject(crudProperties)
+				this.setState({
+					crudObject: crudObject
+				})
+			}
+
 		}
 		
 	}
 
 	handleChange(event) {
-
-		if (this.state.formDataChanged === false) {
-			this.setState({
-				formDataChanged: true
-			})
-		}
 
 		const name = event.target.name
 		const type = event.target.type 
@@ -178,17 +192,22 @@ class APITestCRUD extends Component {
 
 	}
 
-	handleSubmit(event) {
+	handleSubmit(event) {		
 
 		event.preventDefault();
 
+		// Remove Local Storage Item
+		const objectName = this.props.dataModel.variables.Object_Name
+		localStorage.removeItem(objectName)
+
+		// Set variables to save to the DB
 		const objectID = this.props.match.params.single
 		const overzichtSlug = this.props.overzichtSlug
 		const ApiEndpoint = this.props.ApiEndpoint
-		const loggedInUserUUID = JSON.parse(localStorage.getItem('identifier')).UUID
 
 		let crudObject = this.state.crudObject
 
+		// Convert geldigheid values to Dates
 		if (crudObject.Begin_Geldigheid !== undefined) {
 			crudObject.Begin_Geldigheid = new Date(crudObject.Begin_Geldigheid)
 		}
@@ -196,9 +215,9 @@ class APITestCRUD extends Component {
 			crudObject.Eind_Geldigheid = new Date(crudObject.Eind_Geldigheid)
 		}
 
+		// If the user is editing an object PATCH, else POST
 		if (this.state.edit) {
-			// Modified By Placeholder
-			// crudObject.Modified_By = loggedInUserUUID
+			
 			axiosAPI.patch(`${ApiEndpoint}/${objectID}`, JSON.stringify(crudObject))
 				.then(res => {
 					if (this.props.match.path.includes("api-test")) {
@@ -209,9 +228,9 @@ class APITestCRUD extends Component {
 				}).catch((error) => {
 					console.log(error);
 				});
+
 		} else {
-			// Created By Placeholder
-			// crudObject.Created_By = loggedInUserUUID
+			
 			axiosAPI.post(`${ApiEndpoint}`, JSON.stringify(crudObject))
 				.then(res => {
 					if (this.props.match.path.includes("api-test")) {
@@ -222,8 +241,20 @@ class APITestCRUD extends Component {
 				}).catch((error) => {
 					console.log(error);
 				});
+				
 		}
 
+	}
+
+	componentDidUpdate(){
+		
+		const objectName = this.props.dataModel.variables.Object_Name
+		const localStorageObject = {
+			date: new Date(),
+			savedState: this.state.crudObject
+		}
+		localStorage.setItem(objectName, JSON.stringify(localStorageObject))
+		
 	}
 
 	render() {
@@ -241,22 +272,16 @@ class APITestCRUD extends Component {
 		}
 
 		// False if data is loading, true if there is a response
-		let dataPending = isEmpty(this.state.crudObject)
+		let dataPending = isObjectEmpty(this.state.crudObject)
 
-		return ( 
+		return(
 			<div> 
 				{ dataPending ? null :
 				<APIcontext.Provider value={contextObject}>
 					<CrudContainer/>
-					<Prompt
-						message="Er zijn niet opgeslagen wijzigingen. Weet u zeker dat u de pagina wil verlaten?"
-						when={this.state.formDataChanged}
-					/>
-
 				</APIcontext.Provider>
 				} 
 			</div>
-
 		)
 	}
 

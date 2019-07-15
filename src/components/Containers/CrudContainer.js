@@ -2,7 +2,6 @@ import React from 'react';
 
 import { APIcontext } from './../Context/APIcontext'
 
-import MainSidebar from './../MainSidebar'
 import BackToButton from './../UI/BackToButton'
 
 import FormSection from './../UI/ApiCrud/FormSection'
@@ -116,7 +115,7 @@ class CrudContainer extends React.Component {
                                 : null }
 
 
-                            {/* { crudObject["Motivering"] !== undefined ? 
+                            { crudObject["Motivering"] !== undefined ? 
                                 
                                 <FormSection
                                     titel="Toelichting"
@@ -134,7 +133,7 @@ class CrudContainer extends React.Component {
                                     : null }
                                 </FormSection>
                                 
-                            : null } */}
+                            : null }
 
 
                                 { 
@@ -174,17 +173,6 @@ class CrudContainer extends React.Component {
                                         titel="Overige Informatie"
                                         beschrijving="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
                                     >
-                                        {/* Motivering */}
-                                        { crudObject["Motivering"] !== undefined ? 
-                                            <TextArea 
-                                                handleChange={this.context.handleChange}
-                                                fieldValue={crudObject["Motivering"]}
-                                                fieldLabel="Motivering"
-                                                dataObjectProperty="Motivering"
-                                                pValue="Geef een korte motivering van deze"
-                                                titelEnkelvoud={titelEnkelvoud}
-                                            />
-                                        : null }
 
                                         {/* Beleids_Document */}
                                         { crudObject["Beleids_Document"] !== undefined ? 
@@ -202,7 +190,6 @@ class CrudContainer extends React.Component {
                                         { crudObject["Gebied"] !== undefined ? 
                                             <WerkingsgebiedRelatie 
                                                 handleChange={this.context.handleChange}
-                                                titelEnkelvoud={titelEnkelvoud}
                                                 fieldValue={crudObject["Gebied"]}
                                                 fieldLabel="Gebied"
                                                 dataObjectProperty="Gebied"
@@ -216,7 +203,6 @@ class CrudContainer extends React.Component {
                                         { crudObject["Verplicht_Programma"] !== undefined ? 
                                             <SelectInput 
                                                 handleChange={this.context.handleChange}
-                                                titelEnkelvoud={titelEnkelvoud}
                                                 fieldValue={crudObject["Verplicht_Programma"]}
                                                 fieldLabel="Verplicht Programma"
                                                 dataObjectProperty="Verplicht_Programma"
@@ -230,7 +216,6 @@ class CrudContainer extends React.Component {
                                         { crudObject["Specifiek_Of_Generiek"] !== undefined ? 
                                             <SelectInput 
                                                 handleChange={this.context.handleChange}
-                                                titelEnkelvoud={titelEnkelvoud}
                                                 fieldValue={crudObject["Specifiek_Of_Generiek"]}
                                                 fieldLabel="Specifiek of Generiek"
                                                 dataObjectProperty="Specifiek_Of_Generiek"
@@ -244,7 +229,6 @@ class CrudContainer extends React.Component {
                                         { crudObject["Weblink"] !== undefined ? 
                                             <Weblink 
                                                 handleChange={this.context.handleChange}
-                                                titelEnkelvoud={titelEnkelvoud}
                                                 fieldValue={crudObject["Weblink"]}
                                                 fieldLabel="Weblink"
                                                 dataObjectProperty="Weblink"
@@ -260,7 +244,6 @@ class CrudContainer extends React.Component {
                                             { crudObject["Aanvraag_Datum"] !== undefined ? 
                                                 <DateInput 
                                                     handleChange={this.context.handleChange}
-                                                    titelEnkelvoud={titelEnkelvoud}
                                                     fieldValue={crudObject["Aanvraag_Datum"]}
                                                     fieldLabel="Aanvraag Datum"
                                                     dataObjectProperty="Aanvraag_Datum"
@@ -273,7 +256,6 @@ class CrudContainer extends React.Component {
                                             { crudObject["Datum_Akkoord"] !== undefined ? 
                                                 <DateInput 
                                                     handleChange={this.context.handleChange}
-                                                    titelEnkelvoud={titelEnkelvoud}
                                                     fieldValue={crudObject["Datum_Akkoord"]}
                                                     fieldLabel="Datum Akkoord"
                                                     dataObjectProperty="Datum_Akkoord"
@@ -291,7 +273,6 @@ class CrudContainer extends React.Component {
                                             { crudObject["Begin_Geldigheid"] !== undefined ? 
                                                 <DateInput 
                                                     handleChange={this.context.handleChange}
-                                                    titelEnkelvoud={titelEnkelvoud}
                                                     fieldValue={crudObject["Begin_Geldigheid"]}
                                                     fieldLabel="Begin Geldigheid"
                                                     dataObjectProperty="Begin_Geldigheid"
@@ -304,7 +285,6 @@ class CrudContainer extends React.Component {
                                             { crudObject["Eind_Geldigheid"] !== undefined ? 
                                                 <DateInput 
                                                     handleChange={this.context.handleChange}
-                                                    titelEnkelvoud={titelEnkelvoud}
                                                     fieldValue={crudObject["Eind_Geldigheid"]}
                                                     fieldLabel="Eind Geldigheid"
                                                     dataObjectProperty="Eind_Geldigheid"
