@@ -6,7 +6,7 @@ class VerordeningSettingsTooltip extends Component {
         super(props)
 
         this.state = {
-            open: false
+            open: false,
         }
 
         this.innerContainer = React.createRef()
@@ -16,19 +16,19 @@ class VerordeningSettingsTooltip extends Component {
     }
 
     toggleOpen() {
-        console.log("Triggered!")
+        console.log('Triggered!')
         this.setState({
-            open: !this.state.open
+            open: !this.state.open,
         })
     }
 
-    handleClick = (e) => {
+    handleClick = e => {
         if (
             !this.innerContainer.current.contains(e.target) &&
             this.state.open === true
         ) {
             this.setState({
-                open: false
+                open: false,
             })
             return
         }
@@ -42,35 +42,48 @@ class VerordeningSettingsTooltip extends Component {
         document.removeEventListener('mousedown', this.handleClick, false)
     }
 
-	render() {
+    render() {
+        return (
+            <span
+                className="text-gray-600 text-sm relative"
+                ref={this.innerContainer}
+            >
+                <KnopIconSliderSettings toggleOpen={this.toggleOpen} />
 
-		return (
-
-            <span className="text-gray-600 text-sm relative" ref={this.innerContainer}>
-                
-                <KnopIconSliderSettings toggleOpen={this.toggleOpen}/>
-                
-                {
-                    this.state.open ?
-                    <div id="main-tooltip-container" className="absolute bg-white right-0 rounded mt-2 bg-white w-64 -ml-12 pb-2 text-gray-700 z-20">
-                        <h4 className="px-4 py-2 w-full border-b border-gray-300 font-bold">Onderdelen</h4>
+                {this.state.open ? (
+                    <div
+                        id="main-tooltip-container"
+                        className="absolute bg-white right-0 rounded mt-2 bg-white w-64 -ml-12 pb-2 text-gray-700 z-20"
+                    >
+                        <h4 className="px-4 py-2 w-full border-b border-gray-300 font-bold">
+                            Onderdelen
+                        </h4>
                         <ul className="py-2 text-sm text-gray-700 px-4">
                             <li key="1" className="mt-1 text-gray-700 text-sm">
                                 <label className="cursor-pointer select-none">
-                                    <input className="mr-2 leading-tight" type="checkbox"/>
+                                    <input
+                                        className="mr-2 leading-tight"
+                                        type="checkbox"
+                                    />
                                     <span>Toon alleen mijn onderdelen</span>
                                 </label>
                             </li>
                             <li key="2" className="mt-1 text-gray-700 text-sm">
                                 <label className="cursor-pointer select-none">
-                                    <input onClick={this.props.toggleMainSideBar}  className="mr-2 leading-tight" type="checkbox" defaultChecked={this.props.hideMainSideBar}/>
+                                    <input
+                                        onClick={this.props.toggleMainSideBar}
+                                        className="mr-2 leading-tight"
+                                        type="checkbox"
+                                        defaultChecked={
+                                            this.props.hideMainSideBar
+                                        }
+                                    />
                                     <span>Verberg menu</span>
                                 </label>
                             </li>
                         </ul>
                     </div>
-                    : null
-                }
+                ) : null}
             </span>
         )
     }

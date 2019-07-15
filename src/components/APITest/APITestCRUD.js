@@ -1,4 +1,4 @@
-import React, {	Component } from 'react'
+import React, { Component } from 'react'
 import { toast } from 'react-toastify'
 import { Prompt } from 'react-router'
 import { format } from 'date-fns'
@@ -9,282 +9,278 @@ import CrudContainer from '../Containers/CrudContainer'
 // Import Axios instance to connect with the API
 import axiosAPI from './../../API/axios'
 
-
-
 // Function to see if property on object is editable
 function getCRUDBoolean(dataModel, propertyName) {
-	return dataModel.properties[propertyName].UI.userCRUD
+    return dataModel.properties[propertyName].UI.userCRUD
 }
 
 // Function to see if an object is empty
 function isObjectEmpty(obj) {
-	
-	for(var key in obj) {
-		if(obj.hasOwnProperty(key))
-			return false
-	}
-	return true
-
+    for (var key in obj) {
+        if (obj.hasOwnProperty(key)) return false
+    }
+    return true
 }
 
 // Function to make a list to see which properties on the object are editable by the user - EDIT OBJECT
 function makeCrudPropertiesArray(dataModel) {
+    // Make list of property names from object
+    const propertyNames = Object.keys(dataModel.properties)
 
-	// Make list of property names from object
-	const propertyNames = Object.keys(dataModel.properties)
+    // Check for each Property in propertyNames if property CRUD value is True and if True add to new Array
+    const crudProperties = propertyNames.filter(propertyName => {
+        return getCRUDBoolean(dataModel, propertyName)
+    })
 
-	// Check for each Property in propertyNames if property CRUD value is True and if True add to new Array
-	const crudProperties = propertyNames.filter(propertyName => {
-		return getCRUDBoolean(dataModel, propertyName)
-	})
-
-	return crudProperties
-
+    return crudProperties
 }
-
 
 // Function to make an object containing the fields AND the data for CRUD actions
 function makeCrudObject(array, responseObject) {
+    let crudObject = {}
+    if (isObjectEmpty(responseObject)) {
+        array.forEach((arrayItem, index) => {
+            if (
+                arrayItem === 'Verplicht_Programma' ||
+                arrayItem === 'Specifiek_Of_Generiek'
+            ) {
+                crudObject[[arrayItem][0]] = ' - selecteer een optie - '
+            } else {
+                crudObject[[arrayItem][0]] = ''
+            }
+        })
+    } else {
+        array.forEach((arrayItem, index) => {
+            crudObject[[arrayItem][0]] = responseObject[arrayItem]
+        })
+    }
 
-	let crudObject = {}
-	if (isObjectEmpty(responseObject)) {
-		array.forEach((arrayItem, index) => {
-			if (
-				arrayItem === "Verplicht_Programma" ||
-				arrayItem === "Specifiek_Of_Generiek"
-			) {
-				crudObject[[arrayItem][0]] = " - selecteer een optie - "
-			} else {
-				crudObject[[arrayItem][0]] = ""
-			}
-		})
-	} else {
-		array.forEach((arrayItem, index) => {
-			crudObject[[arrayItem][0]] = responseObject[arrayItem]
-		})
-	}
-	
-	return crudObject
-
+    return crudObject
 }
 
 class APITestCRUD extends Component {
+    constructor(props) {
+        super(props)
 
-	constructor(props) {
+        // CrudObject contains the editable fields
+        this.state = {
+            edit: false,
+            crudObject: {},
+        }
 
-		super(props)
+        this.handleChange = this.handleChange.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
+        this.setEditorState = this.setEditorState.bind(this)
+    }
 
-		// CrudObject contains the editable fields
-		this.state = {
-			edit: false,
-			crudObject: {}
-		};
+    componentDidMount() {
+        // Single parameter === object-id; user is editing an existing object
+        if (this.props.match.params.single) {
+            this.setState({
+                edit: true,
+            })
 
-		this.handleChange = this.handleChange.bind(this)
-		this.handleSubmit = this.handleSubmit.bind(this)
-		this.setEditorState = this.setEditorState.bind(this)
+            const dataModel = this.props.dataModel
+            const objectID = this.props.match.params.single
+            const ApiEndpoint = this.props.dataModel.variables.Api_Endpoint
 
-	}
+            // Connect with API
+            axiosAPI
+                .get(`${ApiEndpoint}/${objectID}`)
+                .then(res => {
+                    const responseObject = res.data
+                    const crudProperties = makeCrudPropertiesArray(dataModel)
+                    const crudObject = makeCrudObject(
+                        crudProperties,
+                        responseObject[0]
+                    )
 
-	componentDidMount() {
+                    if (crudObject.Begin_Geldigheid !== undefined) {
+                        crudObject.Begin_Geldigheid = format(
+                            crudObject.Begin_Geldigheid,
+                            'YYYY-MM-DD'
+                        )
+                    }
+                    if (crudObject.Eind_Geldigheid !== undefined) {
+                        crudObject.Eind_Geldigheid = format(
+                            crudObject.Begin_Geldigheid,
+                            'YYYY-MM-DD'
+                        )
+                    }
 
-		// Single parameter === object-id; user is editing an existing object
-		if (this.props.match.params.single) {
+                    this.setState({
+                        crudObject: crudObject,
+                    })
+                })
+                .catch(error => {
+                    if (error.response !== undefined) {
+                        if (error.response.status === 401) {
+                            localStorage.removeItem('access_token')
+                            this.props.history.push('/login')
+                        }
+                    } else {
+                        console.log(error)
+                    }
+                })
+        } else {
+            // See if there is a saved object in local storage
+            const savedStateInLocalStorage = JSON.parse(
+                localStorage.getItem(this.props.dataModel.variables.Object_Name)
+            )
 
-			this.setState({
-				edit: true
-			})
+            // If Local storage is not empty
+            if (!isObjectEmpty(savedStateInLocalStorage)) {
+                console.log(savedStateInLocalStorage)
+                const savedStateDate = format(
+                    savedStateInLocalStorage.date,
+                    'dddd D MMMM',
+                    { locale: nlLocale }
+                )
 
-			const dataModel = this.props.dataModel
-			const objectID = this.props.match.params.single
-			const ApiEndpoint = this.props.dataModel.variables.Api_Endpoint
+                this.setState({
+                    crudObject: savedStateInLocalStorage.savedState,
+                })
+                toast(({ closeToast }) => (
+                    <div>Opgeslagen versie van {savedStateDate}</div>
+                ))
 
-			// Connect with API
-			axiosAPI.get(`${ApiEndpoint}/${objectID}`)
-				.then(res => {
+                // Else if Local Storage is empty, make an empty crud object
+            } else {
+                // If no saved version make a CRUD Object with empty strings
+                const dataModel = this.props.dataModel
+                const crudProperties = makeCrudPropertiesArray(dataModel)
+                const crudObject = makeCrudObject(crudProperties)
+                this.setState({
+                    crudObject: crudObject,
+                })
+            }
+        }
+    }
 
-					const responseObject = res.data;
-					const crudProperties = makeCrudPropertiesArray(dataModel)
-					const crudObject = makeCrudObject(crudProperties, responseObject[0])
+    handleChange(event) {
+        const name = event.target.name
+        const type = event.target.type
 
-					if (crudObject.Begin_Geldigheid !== undefined) {
-						crudObject.Begin_Geldigheid = format(crudObject.Begin_Geldigheid, "YYYY-MM-DD")
-					}
-					if (crudObject.Eind_Geldigheid !== undefined) {
-						crudObject.Eind_Geldigheid = format(crudObject.Begin_Geldigheid, "YYYY-MM-DD")
-					}
+        let value = event.target.value
+        if (type === 'date') {
+            console.log('Value:')
+            console.log(event.target.value)
+            value = event.target.value
+        }
 
-					this.setState({
-						crudObject: crudObject
-					});
+        this.setState(prevState => ({
+            crudObject: {
+                ...prevState.crudObject,
+                [name]: value,
+            },
+        }))
+    }
 
-				}).catch((error) => {
-					if (error.response !== undefined) {
-						if (error.response.status === 401) {
-							localStorage.removeItem('access_token')
-							this.props.history.push('/login')
-						}
-					} else {
-						console.log(error);
-					}
-				})
-		} else {
+    // Algemene State Handler voor de Editor
+    setEditorState(stateValue, fieldName) {
+        this.setState(prevState => ({
+            crudObject: {
+                ...prevState.crudObject,
+                [fieldName]: stateValue,
+            },
+        }))
+    }
 
-			// See if there is a saved object in local storage
-			const savedStateInLocalStorage = JSON.parse(localStorage.getItem(this.props.dataModel.variables.Object_Name))
+    handleSubmit(event) {
+        event.preventDefault()
 
-			// If Local storage is not empty
-			if (!isObjectEmpty(savedStateInLocalStorage)) {
+        // Remove Local Storage Item
+        const objectName = this.props.dataModel.variables.Object_Name
+        localStorage.removeItem(objectName)
 
-				console.log(savedStateInLocalStorage)
-				const savedStateDate = format(savedStateInLocalStorage.date, "dddd D MMMM", {locale: nlLocale})
+        // Set variables to save to the DB
+        const objectID = this.props.match.params.single
+        const overzichtSlug = this.props.overzichtSlug
+        const ApiEndpoint = this.props.ApiEndpoint
 
-				this.setState({
-					crudObject: savedStateInLocalStorage.savedState
-				})
-				toast(({ closeToast }) => <div>Opgeslagen versie van {savedStateDate}</div>)
+        let crudObject = this.state.crudObject
 
-			// Else if Local Storage is empty, make an empty crud object
-			} else {
-				// If no saved version make a CRUD Object with empty strings
-				const dataModel = this.props.dataModel
-				const crudProperties = makeCrudPropertiesArray(dataModel)
-				const crudObject = makeCrudObject(crudProperties)
-				this.setState({
-					crudObject: crudObject
-				})
-			}
+        // Convert geldigheid values to Dates
+        if (crudObject.Begin_Geldigheid !== undefined) {
+            crudObject.Begin_Geldigheid = new Date(crudObject.Begin_Geldigheid)
+        }
+        if (crudObject.Eind_Geldigheid !== undefined) {
+            crudObject.Eind_Geldigheid = new Date(crudObject.Eind_Geldigheid)
+        }
 
-		}
-		
-	}
+        // If the user is editing an object PATCH, else POST
+        if (this.state.edit) {
+            axiosAPI
+                .patch(`${ApiEndpoint}/${objectID}`, JSON.stringify(crudObject))
+                .then(res => {
+                    if (this.props.match.path.includes('api-test')) {
+                        this.props.history.push(
+                            `/api-test/${overzichtSlug}/${res.data.ID}`
+                        )
+                    } else {
+                        this.props.history.push(
+                            `/${overzichtSlug}/${res.data.ID}`
+                        )
+                    }
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+        } else {
+            axiosAPI
+                .post(`${ApiEndpoint}`, JSON.stringify(crudObject))
+                .then(res => {
+                    if (this.props.match.path.includes('api-test')) {
+                        this.props.history.push(
+                            `/api-test/${overzichtSlug}/${res.data.ID}`
+                        )
+                    } else {
+                        this.props.history.push(
+                            `/${overzichtSlug}/${res.data.ID}`
+                        )
+                    }
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+        }
+    }
 
-	handleChange(event) {
+    componentDidUpdate() {
+        const objectName = this.props.dataModel.variables.Object_Name
+        const localStorageObject = {
+            date: new Date(),
+            savedState: this.state.crudObject,
+        }
+        localStorage.setItem(objectName, JSON.stringify(localStorageObject))
+    }
 
-		const name = event.target.name
-		const type = event.target.type 
+    render() {
+        const contextObject = {
+            titelEnkelvoud: this.props.dataModel.variables.Titel_Enkelvoud,
+            titelMeervoud: this.props.dataModel.variables.Titel_Meervoud,
+            overzichtSlug: this.props.overzichtSlug,
+            objectID: this.props.match.params.single,
+            editStatus: this.state.edit,
+            handleSubmit: this.handleSubmit,
+            handleChange: this.handleChange,
+            crudObject: this.state.crudObject,
+            setEditorState: this.setEditorState,
+        }
 
-		let value = event.target.value
-		if (type === "date") {
-			console.log("Value:")
-			console.log(event.target.value)
-			value = event.target.value
-		}
+        // False if data is loading, true if there is a response
+        let dataPending = isObjectEmpty(this.state.crudObject)
 
-		this.setState(prevState => ({
-			crudObject: {    
-				...prevState.crudObject,
-				[name]: value
-			}
-		}))
-
-	}
-
-	// Algemene State Handler voor de Editor
-	setEditorState(stateValue, fieldName) {
-
-		this.setState(prevState => ({
-			crudObject: {    
-				...prevState.crudObject,
-				[fieldName]: stateValue
-			}
-		}))
-
-	}
-
-	handleSubmit(event) {		
-
-		event.preventDefault();
-
-		// Remove Local Storage Item
-		const objectName = this.props.dataModel.variables.Object_Name
-		localStorage.removeItem(objectName)
-
-		// Set variables to save to the DB
-		const objectID = this.props.match.params.single
-		const overzichtSlug = this.props.overzichtSlug
-		const ApiEndpoint = this.props.ApiEndpoint
-
-		let crudObject = this.state.crudObject
-
-		// Convert geldigheid values to Dates
-		if (crudObject.Begin_Geldigheid !== undefined) {
-			crudObject.Begin_Geldigheid = new Date(crudObject.Begin_Geldigheid)
-		}
-		if (crudObject.Eind_Geldigheid !== undefined) {
-			crudObject.Eind_Geldigheid = new Date(crudObject.Eind_Geldigheid)
-		}
-
-		// If the user is editing an object PATCH, else POST
-		if (this.state.edit) {
-			
-			axiosAPI.patch(`${ApiEndpoint}/${objectID}`, JSON.stringify(crudObject))
-				.then(res => {
-					if (this.props.match.path.includes("api-test")) {
-						this.props.history.push(`/api-test/${overzichtSlug}/${res.data.ID}`)
-					} else {
-						this.props.history.push(`/${overzichtSlug}/${res.data.ID}`)
-					}
-				}).catch((error) => {
-					console.log(error);
-				});
-
-		} else {
-			
-			axiosAPI.post(`${ApiEndpoint}`, JSON.stringify(crudObject))
-				.then(res => {
-					if (this.props.match.path.includes("api-test")) {
-						this.props.history.push(`/api-test/${overzichtSlug}/${res.data.ID}`)
-					} else {
-						this.props.history.push(`/${overzichtSlug}/${res.data.ID}`)
-					}
-				}).catch((error) => {
-					console.log(error);
-				});
-				
-		}
-
-	}
-
-	componentDidUpdate(){
-		
-		const objectName = this.props.dataModel.variables.Object_Name
-		const localStorageObject = {
-			date: new Date(),
-			savedState: this.state.crudObject
-		}
-		localStorage.setItem(objectName, JSON.stringify(localStorageObject))
-		
-	}
-
-	render() {
-
-		const contextObject = {
-			titelEnkelvoud: 	this.props.dataModel.variables.Titel_Enkelvoud,
-			titelMeervoud: 		this.props.dataModel.variables.Titel_Meervoud,
-			overzichtSlug: 		this.props.overzichtSlug,
-			objectID: 			this.props.match.params.single,
-			editStatus: 		this.state.edit,
-			handleSubmit: 		this.handleSubmit,
-			handleChange: 		this.handleChange,
-			crudObject: 		this.state.crudObject,
-			setEditorState: 	this.setEditorState,
-		}
-
-		// False if data is loading, true if there is a response
-		let dataPending = isObjectEmpty(this.state.crudObject)
-
-		return(
-			<div> 
-				{ dataPending ? null :
-				<APIcontext.Provider value={contextObject}>
-					<CrudContainer/>
-				</APIcontext.Provider>
-				} 
-			</div>
-		)
-	}
-
+        return (
+            <div>
+                {dataPending ? null : (
+                    <APIcontext.Provider value={contextObject}>
+                        <CrudContainer />
+                    </APIcontext.Provider>
+                )}
+            </div>
+        )
+    }
 }
 
-export default APITestCRUD;
+export default APITestCRUD
