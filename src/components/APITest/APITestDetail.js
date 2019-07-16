@@ -21,7 +21,7 @@ function GenerateBackToButton(props) {
     if (pageType === 'detail') {
         return (
             <BackToButton
-                terugNaar={`${titelEnkelvoud} overzicht`}
+                terugNaar={` overzicht`}
                 // url={`/${hoofdOnderdeel}/${overzichtSlug}`}
                 url={
                     apiTest === true
@@ -43,6 +43,24 @@ function GenerateBackToButton(props) {
             />
         )
     }
+}
+
+function EigenaarsCardItem(props) {
+    return (
+        <div className="bg-white shadow-md p-2 w-full rounded mb-2">
+            <div className="flex items-center">
+                <div className="w-12 h-12 bg-orange-500 rounded-full mr-2" />
+                <div>
+                    <span className="block text-sm text-gray-700">
+                        {props.eigenaarType}
+                    </span>
+                    <span className="block text-sm font-bold text-gray-800">
+                        {props.eigenaarNaam}
+                    </span>
+                </div>
+            </div>
+        </div>
+    )
 }
 
 // Main Component - APITest Detail
@@ -131,7 +149,7 @@ class APITestDetail extends Component {
         return (
             <div className="container mx-auto flex px-6 pb-8">
                 {/* Main Menu - Sidebar
-        <MainSidebar /> */}
+                <MainSidebar /> */}
 
                 {/* Dimensie Container */}
                 <div className="w-full inline-block">
@@ -145,15 +163,38 @@ class APITestDetail extends Component {
                     />
 
                     <div className="flex mt-3">
-                        {dataReceived ? (
-                            <DetailMain
-                                dataObject={dataObject}
-                                ambitie_id={this.props.match.params.single}
-                                pageType={this.state.pageType}
-                                overzichtSlug={overzichtSlug}
+                        <DetailMain
+                            dataObject={dataObject}
+                            ambitie_id={this.props.match.params.single}
+                            pageType={this.state.pageType}
+                            overzichtSlug={overzichtSlug}
+                            titelEnkelvoud={titelEnkelvoud}
+                            dataReceived={dataReceived}
+                        />
+
+                        <div className="w-3/12">
+                            <h2 className="mb-2 font-serif text-gray-700">
+                                Eigenaarsdriehoek
+                            </h2>
+                            <EigenaarsCardItem
+                                eigenaarType="Opdrachtgever"
+                                eigenaarNaam="Richard Roe"
                             />
-                        ) : null}
-                        {dataReceived ? (
+                            <EigenaarsCardItem
+                                eigenaarType="Eigenaar 1"
+                                eigenaarNaam="Jane Doe"
+                            />
+                            <EigenaarsCardItem
+                                eigenaarType="Eigenaar 2"
+                                eigenaarNaam="John Doe"
+                            />
+                            <EigenaarsCardItem
+                                eigenaarType="Portefeuillehouder"
+                                eigenaarNaam="Janette Doe"
+                            />
+                        </div>
+
+                        {/* {dataReceived ? (
                             <DetailSidebar
                                 dataObject={dataObject}
                                 revisieObject={revisieObject}
@@ -162,19 +203,7 @@ class APITestDetail extends Component {
                                 objectName={objectName}
                                 dataModel={dataModel}
                             />
-                        ) : null}
-
-                        {/* {
-              dataReceived ?
-              <div>
-                { dataObject["UUID"] ? 
-                  <Eigenaar 
-                      UITitle={getTitleFromDataModel(dataModel, "UUID")} 
-                      userID={dataObject["Created_By"]}
-                  />
-                : null }
-              </div> : null
-            } */}
+                        ) : null} */}
                     </div>
                 </div>
             </div>

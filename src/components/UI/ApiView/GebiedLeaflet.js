@@ -1,12 +1,9 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-
 import Leaflet from 'leaflet'
 import { Map, TileLayer } from 'react-leaflet'
-
 import './../../../../node_modules/leaflet/dist/leaflet.css'
 import Proj from 'proj4leaflet'
-
 import LoaderSmallLeaflet from './../Loaders/LoaderSmallLeaflet'
 
 const RDProj4 = `+proj=sterea+lat_0=52.15616055555555+lon_0=5.38763888888889+k=0.9999079+x_0=155000+y_0=463000+ellps=bessel+units=m+no_defs`
@@ -53,7 +50,7 @@ export default class GebiedLeaflet extends Component {
         this.setState({ viewport: DEFAULT_VIEWPORT })
     }
 
-    onViewportChanged = () => {
+    onViewportChanged = viewport => {
         this.setState({ viewport })
     }
 
@@ -110,7 +107,6 @@ export default class GebiedLeaflet extends Component {
                         ref={this.leafletMap}
                         className="z-0"
                     >
-                        {/* maxZoom='15' */}
                         <TileLayer
                             url="https://geodata.nationaalgeoregister.nl/tiles/service/tms/1.0.0/brtachtergrondkaartgrijs/EPSG:28992/{z}/{x}/{y}.png"
                             minZoom="3"
@@ -118,11 +114,6 @@ export default class GebiedLeaflet extends Component {
                             tms="true"
                             attribution='Map data: <a href="http://www.kadaster.nl">Kadaster</a>'
                         />
-
-                        {/* L.Proj.GeoJson */}
-                        {/* <GeoJSON
-            data={this.state.geoJsonData}
-          /> */}
                     </Map>
                 ) : (
                     <LoaderSmallLeaflet />
