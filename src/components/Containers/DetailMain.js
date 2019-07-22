@@ -5,7 +5,6 @@ import nlLocale from 'date-fns/locale/nl'
 // Import UI Components
 import EditButton from './../UI/ApiView/EditButton'
 import MainTitel from './../UI/ApiView/MainTitel'
-import MainParagraaf from './../UI/ApiView/MainParagraaf'
 import StatusLabel from './../StatusLabel'
 
 // Import Icons

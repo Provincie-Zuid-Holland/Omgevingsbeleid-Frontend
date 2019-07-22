@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { toast } from 'react-toastify'
-import { Prompt } from 'react-router'
 import { format } from 'date-fns'
 import nlLocale from 'date-fns/locale/nl'
 import { APIcontext } from '../Context/APIcontext'
@@ -35,11 +34,11 @@ function makeCrudPropertiesArray(dataModel) {
     return crudProperties
 }
 
-// Function to make an object containing the fields AND the data for CRUD actions
+// Function to make an object containing the fields that the user can edit
 function makeCrudObject(array, responseObject) {
     let crudObject = {}
     if (isObjectEmpty(responseObject)) {
-        array.forEach((arrayItem, index) => {
+        array.forEach(arrayItem => {
             if (
                 arrayItem === 'Verplicht_Programma' ||
                 arrayItem === 'Specifiek_Of_Generiek'
@@ -50,7 +49,7 @@ function makeCrudObject(array, responseObject) {
             }
         })
     } else {
-        array.forEach((arrayItem, index) => {
+        array.forEach(arrayItem => {
             crudObject[[arrayItem][0]] = responseObject[arrayItem]
         })
     }
@@ -83,8 +82,27 @@ class APITestCRUD extends Component {
             const dataModel = this.props.dataModel
             const objectID = this.props.match.params.single
             const ApiEndpoint = this.props.dataModel.variables.Api_Endpoint
+            const objectName = this.props.dataModel.variables.Object_Name
 
-            // Connect with API
+            // See if there is a saved object in local storage
+            const localStorageKey = `${objectName}_${objectID}`
+            const savedStateInLocalStorage = JSON.parse(
+                localStorage.getItem(localStorageKey)
+            )
+            let savedStateDate = ''
+            let savedStateEmpty = true
+
+            // See if local storage is empty
+            if (!isObjectEmpty(savedStateInLocalStorage)) {
+                savedStateDate = format(
+                    savedStateInLocalStorage.date,
+                    'dddd D MMMM',
+                    { locale: nlLocale }
+                )
+                savedStateEmpty = false
+            }
+
+            // Connect with API and get data from there
             axiosAPI
                 .get(`${ApiEndpoint}/${objectID}`)
                 .then(res => {
@@ -108,9 +126,30 @@ class APITestCRUD extends Component {
                         )
                     }
 
-                    this.setState({
-                        crudObject: crudObject,
-                    })
+                    // If there is a saved state in LocalStorage &&
+                    // If that state is equal to the latest state from the API
+                    if (
+                        savedStateEmpty === false &&
+                        JSON.stringify(crudObject) !==
+                            JSON.stringify(savedStateInLocalStorage.savedState)
+                    ) {
+                        this.setState(
+                            {
+                                crudObject: savedStateInLocalStorage.savedState,
+                            },
+                            () => {
+                                toast(({ closeToast }) => (
+                                    <div>
+                                        Opgeslagen versie van {savedStateDate}
+                                    </div>
+                                ))
+                            }
+                        )
+                    } else {
+                        this.setState({
+                            crudObject: crudObject,
+                        })
+                    }
                 })
                 .catch(error => {
                     if (error.response !== undefined) {
@@ -137,12 +176,16 @@ class APITestCRUD extends Component {
                     { locale: nlLocale }
                 )
 
-                this.setState({
-                    crudObject: savedStateInLocalStorage.savedState,
-                })
-                toast(({ closeToast }) => (
-                    <div>Opgeslagen versie van {savedStateDate}</div>
-                ))
+                this.setState(
+                    {
+                        crudObject: savedStateInLocalStorage.savedState,
+                    },
+                    () => {
+                        toast(({ closeToast }) => (
+                            <div>Opgeslagen versie van {savedStateDate}</div>
+                        ))
+                    }
+                )
 
                 // Else if Local Storage is empty, make an empty crud object
             } else {
@@ -247,12 +290,30 @@ class APITestCRUD extends Component {
     }
 
     componentDidUpdate() {
-        const objectName = this.props.dataModel.variables.Object_Name
-        const localStorageObject = {
-            date: new Date(),
-            savedState: this.state.crudObject,
+        // Save to LocalStorage
+        // If page === edit set Key to Name_UUID
+        // If page === new set Key to Name
+        if (!this.state.edit) {
+            const objectName = this.props.dataModel.variables.Object_Name
+            const localStorageObject = {
+                date: new Date(),
+                savedState: this.state.crudObject,
+            }
+            localStorage.setItem(objectName, JSON.stringify(localStorageObject))
+        } else {
+            const objectName = this.props.dataModel.variables.Object_Name
+            const objectID = this.props.match.params.single
+            const localStorageKey = `${objectName}_${objectID}`
+            const localStorageObject = {
+                date: new Date(),
+                savedState: this.state.crudObject,
+            }
+            localStorage.setItem(
+                localStorageKey,
+                JSON.stringify(localStorageObject)
+            )
+            console.log(this.state)
         }
-        localStorage.setItem(objectName, JSON.stringify(localStorageObject))
     }
 
     render() {

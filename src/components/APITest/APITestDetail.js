@@ -1,11 +1,7 @@
 import React, { Component } from 'react'
 
 import BackToButton from './../UI/BackToButton'
-import DetailSidebar from './../Containers/DetailSidebar'
 import DetailMain from './../Containers/DetailMain'
-
-// Import functions
-import getTitleFromDataModel from './../Functions/getTitleFromDataModel'
 
 // Import Axios instance to connect with the API
 import axiosAPI from '../../API/axios'
@@ -14,7 +10,6 @@ import axiosAPI from '../../API/axios'
 function GenerateBackToButton(props) {
     const overzichtSlug = props.overzichtSlug
     const pageType = props.pageType
-    const titelEnkelvoud = props.titelEnkelvoud
     const hoofdOnderdeelSlug = props.hoofdOnderdeelSlug
     const apiTest = props.apiTest
 
@@ -125,8 +120,6 @@ class APITestDetail extends Component {
         // Variables to give as props
         const titelEnkelvoud = this.props.dataModel.variables.Titel_Enkelvoud
         const overzichtSlug = this.props.dataModel.variables.Overzicht_Slug
-        const objectName = this.props.dataModel.variables.Object_Name
-        const dataModel = this.props.dataModel
         const hoofdOnderdeelSlug = this.props.hoofdOnderdeelSlug
         const apiTest = this.props.apiTest
 
@@ -135,13 +128,11 @@ class APITestDetail extends Component {
 
         // Create dataObject and revisieObject to pass down to the sidebar
         let dataObject = {}
-        let revisieObject = {}
 
         // If the page is a detail page the dataObject will be an array.
         // Else the dataObject will be a single Object
         if (dataReceived && this.state.pageType === 'detail') {
             dataObject = this.state.dataObject[0]
-            revisieObject = this.state.dataObject
         } else if (dataReceived && this.state.pageType === 'version') {
             dataObject = this.state.dataObject
         }
