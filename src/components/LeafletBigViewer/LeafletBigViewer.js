@@ -140,7 +140,7 @@ export default class GebiedLeaflet extends Component {
                     </LayersControl.BaseLayer>
                     <LayersControl.BaseLayer name="Layer 2">
                         <TileLayer
-                            url="https://geodata.nationaalgeoregister.nl/tiles/service/tms/1.0.0/brtachtergrondkaartgrijs/EPSG:28992/{z}/{x}/{y}.png"
+                            url="https://geodata.nationaalgeoregister.nl/luchtfoto/rgb/tms/1.0.0/2018_ortho25/EPSG:28992/{z}/{x}/{y}.png"
                             minZoom="3"
                             continuousWorld="true"
                             tms="true"
