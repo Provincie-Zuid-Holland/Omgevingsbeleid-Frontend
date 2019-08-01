@@ -49,7 +49,7 @@ class Login extends Component {
 				localStorage.setItem('access_token', response.data.access_token)
 				localStorage.setItem('token_date', tokenTime)
 				this.resetLoadingState()
-				history.push('/')
+				history.push('/dashboard')
 				
 			} else if (response.status === 401) {
 				this.resetLoadingState()

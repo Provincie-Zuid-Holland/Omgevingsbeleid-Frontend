@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
-
+import { format } from 'date-fns'
+import { Link } from 'react-router-dom'
 import BackToButton from './../UI/BackToButton'
 import DetailMain from './../Containers/DetailMain'
+
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 // Import Axios instance to connect with the API
 import axiosAPI from '../../API/axios'
@@ -58,6 +62,45 @@ function EigenaarsCardItem(props) {
     )
 }
 
+function RevisieOverzicht(props) {
+    return (
+        <div className="block group py-2 no-underline">
+            <h4 className="text-gray-800 font-bold text-sm">Revisies</h4>
+            <ul className="text-gray-700 text-sm">
+                {props.revisieObject.slice(1).map((revisieObject, index) => (
+                    <li key={revisieObject.UUID}>
+                        <Link
+                            className="text-blue"
+                            to={`/${props.overzichtSlug}/${revisieObject.ID}/${
+                                revisieObject.UUID
+                            }`}
+                        >
+                            {format(
+                                new Date(revisieObject.Modified_Date),
+                                'D MMM YYYY'
+                            )}
+                        </Link>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    )
+}
+
+function EditButton(props) {
+    const overzichtSlug = props.overzichtSlug
+    const objectID = props.objectID
+
+    return (
+        <Link
+            to={`/api-test/${overzichtSlug}/edit/${objectID}`}
+            className="font-bold py-2 px-4 text-sm rounded bg-blue-200 text-blue-700"
+        >
+            Edit
+        </Link>
+    )
+}
+
 // Main Component - APITest Detail
 class APITestDetail extends Component {
     state = {
@@ -69,6 +112,8 @@ class APITestDetail extends Component {
         super(props)
         this.returnPageType = this.returnPageType.bind(this)
         this.getDataFromApi = this.getDataFromApi.bind(this)
+        this.makeURLForNewObject = this.makeURLForNewObject.bind(this)
+        this.makeURLForRevisieObject = this.makeURLForRevisieObject.bind(this)
         this.state = {
             dataObject: null,
             pageType: this.returnPageType(),
@@ -102,6 +147,8 @@ class APITestDetail extends Component {
             .get(apiEndpoint)
             .then(res => {
                 const dataObject = res.data
+                console.log('DATA RECEIVED:')
+                console.log(dataObject)
                 this.setState({ dataObject: dataObject })
             })
             .catch(error => {
@@ -116,24 +163,45 @@ class APITestDetail extends Component {
             })
     }
 
+    makeURLForRevisieObject(overzichtSlug, objectID, apiTest, objectUUID) {
+        if (apiTest) {
+            // return `/api-test/${overzichtSlug}/edit/${objectID}`
+            return `/api-test/${overzichtSlug}/${objectID}/${objectUUID}`
+        } else {
+            // return `/${overzichtSlug}/edit/${objectID}`
+            return `/${overzichtSlug}/${objectID}/${objectUUID}`
+        }
+    }
+
+    makeURLForNewObject(overzichtSlug, objectID, apiTest) {
+        if (apiTest) {
+            return `/api-test/${overzichtSlug}/edit/${objectID}`
+        } else {
+            return `/${overzichtSlug}/edit/${objectID}`
+        }
+    }
+
     render() {
         // Variables to give as props
         const titelEnkelvoud = this.props.dataModel.variables.Titel_Enkelvoud
         const overzichtSlug = this.props.dataModel.variables.Overzicht_Slug
         const hoofdOnderdeelSlug = this.props.hoofdOnderdeelSlug
         const apiTest = this.props.apiTest
+        const pageType = this.state.pageType
 
         // False if data is loading, true if there is a response
         let dataReceived = this.state.dataObject !== null
 
         // Create dataObject and revisieObject to pass down to the sidebar
         let dataObject = {}
+        let revisieObject = {}
 
         // If the page is a detail page the dataObject will be an array.
         // Else the dataObject will be a single Object
-        if (dataReceived && this.state.pageType === 'detail') {
+        if (dataReceived && pageType === 'detail') {
             dataObject = this.state.dataObject[0]
-        } else if (dataReceived && this.state.pageType === 'version') {
+            revisieObject = this.state.dataObject
+        } else if (dataReceived && pageType === 'version') {
             dataObject = this.state.dataObject
         }
 
@@ -150,18 +218,90 @@ class APITestDetail extends Component {
                         overzichtSlug={overzichtSlug}
                         hoofdOnderdeelSlug={hoofdOnderdeelSlug}
                         apiTest={apiTest}
-                        pageType={this.state.pageType}
+                        pageType={pageType}
                     />
 
-                    <div className="flex mt-3">
-                        <DetailMain
-                            dataObject={dataObject}
-                            ambitie_id={this.props.match.params.single}
-                            pageType={this.state.pageType}
-                            overzichtSlug={overzichtSlug}
-                            titelEnkelvoud={titelEnkelvoud}
-                            dataReceived={dataReceived}
-                        />
+                    <div className="flex">
+                        {/* <RevisieOverzicht revisieObject={revisieObject} /> */}
+
+                        <div className="w-9/12 pr-8">
+                            {pageType === 'detail' ? (
+                                <div className="flex items-center h-10 mt-5">
+                                    <Link
+                                        to={this.makeURLForNewObject(
+                                            overzichtSlug,
+                                            dataObject.ID,
+                                            apiTest
+                                        )}
+                                        className="w-24 h-10 border-r-2 flex items-center justify-end border-gray-300 pb-5 mr-2"
+                                    >
+                                        <div className="w-8 h-8 pt-1 absolute text-center bg-gray-300 rounded-full ml-4">
+                                            <FontAwesomeIcon
+                                                className="text-gray-600 relative"
+                                                icon={faPlus}
+                                            />
+                                        </div>
+                                    </Link>
+                                    <Link
+                                        to={this.makeURLForNewObject(
+                                            overzichtSlug,
+                                            dataObject.ID,
+                                            apiTest
+                                        )}
+                                        className="text-sm inline text-gray-700 -mt-5 pl-5 cursor-pointer hover:underline"
+                                    >
+                                        Ontwerp maken
+                                    </Link>
+                                </div>
+                            ) : null}
+                            <DetailMain
+                                dataObject={dataObject}
+                                ambitie_id={this.props.match.params.single}
+                                pageType={pageType}
+                                overzichtSlug={overzichtSlug}
+                                titelEnkelvoud={titelEnkelvoud}
+                                dataReceived={dataReceived}
+                            />
+                            {dataReceived && pageType === 'detail' ? (
+                                <div>
+                                    <div className="w-24 h-6 border-r-2 flex items-center justify-end border-gray-300 pt-5 mr-2" />
+                                    <ul className="revisie-list relative">
+                                        {this.state.dataObject.map(
+                                            (item, index) => {
+                                                return (
+                                                    <li key={index}>
+                                                        <div className="flex items-center justify-between">
+                                                            <Link
+                                                                to={this.makeURLForRevisieObject(
+                                                                    overzichtSlug,
+                                                                    item.ID,
+                                                                    apiTest,
+                                                                    item.UUID
+                                                                )}
+                                                                className="flex items-end h-6 relative mr-2 hover:underline"
+                                                            >
+                                                                <span className="text-xs text-gray-600 pr-5 w-24 text-right pr-4">
+                                                                    {format(
+                                                                        new Date(
+                                                                            item.Modified_Date
+                                                                        ),
+                                                                        'D MMM YYYY'
+                                                                    )}
+                                                                </span>
+                                                                <div className="revisie-list-bolletje relative w-3 h-3 text-center bg-gray-300 rounded-full" />
+                                                                <span className="text-xs text-gray-600 pr-5 w-24 pl-4">
+                                                                    Revisie
+                                                                </span>
+                                                            </Link>
+                                                        </div>
+                                                    </li>
+                                                )
+                                            }
+                                        )}
+                                    </ul>
+                                </div>
+                            ) : null}
+                        </div>
 
                         <div className="w-3/12">
                             <h2 className="mb-2 font-serif text-gray-700">

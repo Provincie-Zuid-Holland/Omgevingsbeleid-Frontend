@@ -46,6 +46,24 @@ class CrudContainer extends React.Component {
             ["Artikel", "Artikel"]
         ]
 
+        let mainTitle = ''
+
+        if (this.context.editStatus && titelEnkelvoud.toLowerCase() !== 'beleidsregel') {
+            mainTitle = `Wijzig een ${titelEnkelvoud.toLowerCase()}`
+        } else if (!this.context.editStatus && titelEnkelvoud.toLowerCase() !== 'beleidsregel') {
+            mainTitle = `Voeg een nieuwe ${titelEnkelvoud.toLowerCase()} toe`
+        } else if (this.context.editStatus && titelEnkelvoud.toLowerCase() === 'beleidsregel') {
+            mainTitle = `Beheer ${titelEnkelvoud.toLowerCase()}`
+        } else if (!this.context.editStatus && titelEnkelvoud.toLowerCase() === 'beleidsregel') {
+            mainTitle = `Voeg een nieuwe ${titelEnkelvoud.toLowerCase()} toe`
+        }
+        console.log(this.context.editStatus && titelEnkelvoud.toLowerCase() !== 'beleidsregel')
+        console.log(!this.context.editStatus && titelEnkelvoud.toLowerCase() !== 'beleidsregel')
+        console.log(this.context.editStatus && titelEnkelvoud.toLowerCase() === 'beleidsregel')
+        console.log(!this.context.editStatus && titelEnkelvoud.toLowerCase() === 'beleidsregel')
+        // ? `Wijzig een ${titelEnkelvoud.toLowerCase()}` : `Voeg een nieuwe ${titelEnkelvoud.toLowerCase()} toe`
+
+
         return (
         
             <React.Fragment>
@@ -58,7 +76,9 @@ class CrudContainer extends React.Component {
                                 : 
                                 <BackToButton terugNaar={titelEnkelvoud.toLowerCase()} color="text-white" url={`/api-test/${this.context.overzichtSlug}/${this.context.objectID}`} />  
                             }
-                            <h1 className="font-serif text-white text-4xl">{this.context.editStatus ? `Wijzig een ${titelEnkelvoud.toLowerCase()}` : `Voeg een nieuwe ${titelEnkelvoud.toLowerCase()} toe`}</h1>
+                            <h1 className="font-serif text-white text-4xl">
+                                {mainTitle}
+                            </h1>
                         </div>
                         <div className="w-2/3">
                             <p className="text-white">

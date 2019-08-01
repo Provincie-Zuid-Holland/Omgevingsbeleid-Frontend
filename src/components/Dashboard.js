@@ -16,7 +16,7 @@ class KaartenGroep extends Component {
     }
 }
 
-class ApiTest extends Component {
+class Dashboard extends Component {
     render() {
         return (
             <div className="container mx-auto flex px-6 pb-8">
@@ -99,4 +99,4 @@ class ApiTest extends Component {
     }
 }
 
-export default ApiTest
+export default Dashboard

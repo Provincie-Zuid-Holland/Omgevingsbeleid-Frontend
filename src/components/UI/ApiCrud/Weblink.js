@@ -13,11 +13,11 @@ class Weblink extends React.Component {
                     </label>
                     <input
                         required
+                        type="text"
                         value={this.props.fieldValue}
                         onChange={this.props.handleChange}
                         name="Weblink"
                         className="appearance-none block w-full text-gray-700 border border-gray-400 rounded py-3 px-4 leading-tight focus:outline-none hover:border-gray-500 focus:border-gray-500"
-                        type="text"
                         placeholder="https://www.google.nl"
                     />
                 </div>

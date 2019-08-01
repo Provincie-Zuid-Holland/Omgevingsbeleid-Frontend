@@ -5,10 +5,10 @@ import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const menuItemsOmgevingsbeleid = {
-    Dashboard: { url: '/', finished: true },
+    Dashboard: { url: '/dashboard', finished: true },
     Verordening: { url: '/verordening', finished: true },
     Beleidsbeslissingen: { url: '', finished: false },
-    Beleidsregels: { url: '', finished: false },
+    Beleidsregels: { url: '/beleidsregels', finished: true },
     Maatregelen: { url: '/maatregelen', finished: true },
     'API Test Omgeving': { url: '/api-test', finished: true },
 }

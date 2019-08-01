@@ -1,211 +1,293 @@
 html {
-  height: 100%;
+    height: 100%;
 }
 
 body {
-  margin: 0;
-  padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+        'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+        'Helvetica Neue', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+        monospace;
 }
 
 .mbg-color {
-	background-color: #000066;
+    background-color: #000066;
 }
 
 .m-color {
-	color: #000066;
+    color: #000066;
 }
 
 .body-bg-color {
-  background-color: #f8f9fa;
+    background-color: #f8f9fa;
 }
 
 .progress-bar-color {
-  background-color: #e6e6ef;
+    background-color: #e6e6ef;
 }
 
 .main-logo {
-  background-image: url('../images/logo.png');
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-  display: block;
-  height: 79px;
-  width: 250px;
-  position: absolute;
-  margin-top: -20px;
+    background-image: url('../images/logo.png');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    display: block;
+    height: 79px;
+    width: 250px;
+    position: absolute;
+    margin-top: -20px;
 }
 
 #main-container {
-  margin-top: 69px;
-  min-height: calc(100vh - 69px);
+    margin-top: 69px;
+    min-height: calc(100vh - 69px);
 }
 
 #ambitie-list li {
-  top: 0px;
-  position: relative;
-  transition: 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    top: 0px;
+    position: relative;
+    transition: 0.3s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 #ambitie-list li:hover {
-  top: -2px;
+    top: -2px;
 }
 
 #API-list li:nth-child(even),
-#API-Item-list li:nth-child(even)  {
-  padding-left: 0.75rem;
+#API-Item-list li:nth-child(even) {
+    padding-left: 0.75rem;
 }
 
 #API-list li:nth-child(odd),
 #API-Item-list li:nth-child(odd) {
-  padding-right: 0.75rem;
+    padding-right: 0.75rem;
 }
 #ambitie-list li.w-full:nth-child(odd) {
-  padding-right: 0px;
+    padding-right: 0px;
 }
 
 /* Login */
 
 .login-afbeelding {
-	background-image: url('../images/login.png');
-	background-size: cover;
-	background-position: center center;
-	background-repeat: no-repeat;
-  height: calc(100vh - 91px);
-  width: calc(100vw / 2);
-  position: absolute;
-  right: 0px;
-  top: 91px;
+    background-image: url('../images/login.png');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    padding-top: 70px;
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    width: 50vw;
 }
 
 .leaflet-container {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
 }
 
 .shake {
-  animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
-  transform: translate3d(0, 0, 0);
-  backface-visibility: hidden;
-  perspective: 1000px;
+    animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
 }
 
 @keyframes shake {
-  10%, 90% {
-    transform: translate3d(-1px, 0, 0);
-  }
-  
-  20%, 80% {
-    transform: translate3d(2px, 0, 0);
-  }
+    10%,
+    90% {
+        transform: translate3d(-1px, 0, 0);
+    }
 
-  30%, 50%, 70% {
-    transform: translate3d(-4px, 0, 0);
-  }
+    20%,
+    80% {
+        transform: translate3d(2px, 0, 0);
+    }
 
-  40%, 60% {
-    transform: translate3d(4px, 0, 0);
-  }
+    30%,
+    50%,
+    70% {
+        transform: translate3d(-4px, 0, 0);
+    }
+
+    40%,
+    60% {
+        transform: translate3d(4px, 0, 0);
+    }
 }
 
 .main-sidebar-arrow {
-  margin-top: -1px;
+    margin-top: -1px;
 }
 
 .vertical-label {
-  text-orientation: sideways;
-  writing-mode: vertical-rl;
-  background-color: #c7c9dd;
-  height: calc(100% - 1rem);
-  position: absolute;
-  right: 0.5rem;
-  top: 0px;
+    text-orientation: sideways;
+    writing-mode: vertical-rl;
+    background-color: #c7c9dd;
+    height: calc(100% - 1rem);
+    position: absolute;
+    right: 0.5rem;
+    top: 0px;
 }
 
 .edit-header {
-  margin-top: -48px;
+    margin-top: -48px;
 }
 
 .rotate-icon {
-  animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
 }
 
-@keyframes spin { 
-  100% { 
-    transform: rotate(360deg); 
-  } 
+@keyframes spin {
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 .verordening-list-item {
-  &:before {
-    content: "";
-    height: 1px;
-    width: 100%;
-    background-color: #E2E8F0;
-    display: block;
-    position: absolute;
-    bottom: 0px;
-    width: calc(100% - 1.5rem)
-  }
+    &:before {
+        content: '';
+        height: 1px;
+        width: 100%;
+        background-color: #e2e8f0;
+        display: block;
+        position: absolute;
+        bottom: 0px;
+        width: calc(100% - 1.5rem);
+    }
 }
 
 .verordening-list-container .verordening-list-item:last-child {
-  &:before {
-    content: none;
-  }
+    &:before {
+        content: none;
+    }
 }
 
 .settings-icon {
-  width: 35px;
-  height: 35px;
-  margin-right: 10px;
-  svg {
-    position: absolute;
-    margin-left: 10px;
-    margin-top: 10px;
-  }
+    width: 35px;
+    height: 35px;
+    margin-right: 10px;
+    svg {
+        position: absolute;
+        margin-left: 10px;
+        margin-top: 10px;
+    }
 }
 
 #main-tooltip-container {
-  box-shadow: 0 0px 9px 2px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  margin-top: 10px;
-  margin-right: -3px;
-  &:before {
-    content: "";
-    display: block;
-    position: absolute;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 0 10px 10px 10px;
-    border-color: transparent transparent #fff transparent;
-    top: -10px;
-    z-index: 10;
-    right: 20px;
-  }
+    box-shadow: 0 0px 9px 2px rgba(0, 0, 0, 0.1),
+        0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    margin-top: 10px;
+    margin-right: -3px;
+    &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 0 10px 10px 10px;
+        border-color: transparent transparent #fff transparent;
+        top: -10px;
+        z-index: 10;
+        right: 20px;
+    }
 }
 
 .Toastify__toast {
-  border-radius: .25rem !important;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06) !important;
+    border-radius: 0.25rem !important;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06) !important;
 }
 .Toastify__toast--default {
-  color: #4A5568 !important;
+    color: #4a5568 !important;
 }
 
 .Toastify__close-button.Toastify__close-button--default {
-  margin-top: -5px;
+    margin-top: -5px;
 }
 
 .Toastify__progress-bar--default {
-  background: #48BB78 !important;
+    background: #48bb78 !important;
+}
+
+#raadpleeg-home {
+    height: calc(100vh - 70px - 3rem);
+}
+
+#half-screen-leaflet-container {
+    padding-top: 70px;
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    width: 50vw;
+}
+
+#half-screen-leaflet {
+    position: absolute;
+    top: 70px;
+    height: calc(100vh - 70px);
+    right: 0px;
+}
+
+.skip-border-last-child li:last-child {
+    border: none;
+}
+
+#navigation-tooltip-container {
+    left: 5px;
+    box-shadow: 0 0px 9px 2px rgba(0, 0, 0, 0.1),
+        0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 0 10px 10px 10px;
+        border-color: transparent transparent #fff transparent;
+        top: -10px;
+        z-index: 10;
+        right: 8px;
+    }
+}
+
+.leaflet-control-container .leaflet-control-zoom {
+    position: fixed;
+    right: 10px;
+    bottom: 30px;
+}
+
+.leaflet-control-layers-toggle {
+    width: auto;
+    background-position: 3px 50%;
+    padding: 3px;
+    padding-left: 36px;
+    text-decoration: none;
+    line-height: 36px;
+}
+
+.revisie-list {
+    &:after {
+        content: '';
+        height: calc(100% - 10px);
+        background-color: #e2e8f0;
+        display: inline-block;
+        position: absolute;
+        top: 0px;
+        width: 2px;
+        left: calc(6rem - 2px);
+    }
+}
+
+.revisie-list-bolletje {
+    top: -0.25rem;
+    margin-left: -0.45rem;
 }
