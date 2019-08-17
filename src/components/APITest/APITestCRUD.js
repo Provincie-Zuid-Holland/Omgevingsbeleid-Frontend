@@ -89,11 +89,14 @@ class APITestCRUD extends Component {
             const savedStateInLocalStorage = JSON.parse(
                 localStorage.getItem(localStorageKey)
             )
+            console.log('SAVED STATE:')
+            console.log(savedStateInLocalStorage)
+
             let savedStateDate = ''
             let savedStateEmpty = true
 
             // See if local storage is empty
-            if (!isObjectEmpty(savedStateInLocalStorage)) {
+            if (!isObjectEmpty(savedStateInLocalStorage.savedState)) {
                 savedStateDate = format(
                     savedStateInLocalStorage.date,
                     'dddd D MMMM',
@@ -128,10 +131,16 @@ class APITestCRUD extends Component {
 
                     // If there is a saved state in LocalStorage &&
                     // If that state is equal to the latest state from the API
+                    // If that savedState object is not empty
                     if (
                         savedStateEmpty === false &&
                         JSON.stringify(crudObject) !==
-                            JSON.stringify(savedStateInLocalStorage.savedState)
+                            JSON.stringify(
+                                savedStateInLocalStorage.savedState &&
+                                    !isObjectEmpty(
+                                        savedStateInLocalStorage.savedState
+                                    )
+                            )
                     ) {
                         this.setState(
                             {
@@ -143,6 +152,7 @@ class APITestCRUD extends Component {
                                         Opgeslagen versie van {savedStateDate}
                                     </div>
                                 ))
+                                console.log(this.state)
                             }
                         )
                     } else {
@@ -206,8 +216,6 @@ class APITestCRUD extends Component {
 
         let value = event.target.value
         if (type === 'date') {
-            console.log('Value:')
-            console.log(event.target.value)
             value = event.target.value
         }
 
@@ -293,6 +301,7 @@ class APITestCRUD extends Component {
         // Save to LocalStorage
         // If page === edit set Key to Name_UUID
         // If page === new set Key to Name
+
         if (!this.state.edit) {
             const objectName = this.props.dataModel.variables.Object_Name
             const localStorageObject = {
@@ -312,11 +321,13 @@ class APITestCRUD extends Component {
                 localStorageKey,
                 JSON.stringify(localStorageObject)
             )
-            console.log(this.state)
         }
     }
 
     render() {
+        console.log('CALLED 2')
+        console.log(this.props.crudObject)
+
         const contextObject = {
             titelEnkelvoud: this.props.dataModel.variables.Titel_Enkelvoud,
             titelMeervoud: this.props.dataModel.variables.Titel_Meervoud,
@@ -330,6 +341,7 @@ class APITestCRUD extends Component {
         }
 
         // False if data is loading, true if there is a response
+        // let dataPending = isObjectEmpty(this.state.crudObject)
         let dataPending = isObjectEmpty(this.state.crudObject)
 
         return (

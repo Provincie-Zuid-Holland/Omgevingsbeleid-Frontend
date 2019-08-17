@@ -34,9 +34,7 @@ class Beleidsregels extends Component {
 
                 {/* Container */}
                 <div className="w-3/4 rounded inline-block flex-grow pl-8">
-                    <h2 className="mb-4 text-l font-serif text-gray-800">
-                        Mijn Beleidsregels
-                    </h2>
+                    <h2 className="heading-serif mb-4">Mijn Beleidsregels</h2>
 
                     <ul className="flex mt-8 flex-wrap">
                         {dataReceived ? (

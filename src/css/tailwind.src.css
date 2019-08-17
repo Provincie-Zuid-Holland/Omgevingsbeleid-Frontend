@@ -2,4 +2,58 @@
 
 @tailwind components;
 
+/* Custom Components */
+
+.heading {
+    @apply inline-block text-gray-800;
+}
+
+.heading-lg {
+    @apply inline-block text-gray-800 text-lg;
+}
+
+.heading-xl {
+    @apply inline-block text-gray-800 text-xl;
+}
+
+.heading-serif {
+    @apply font-serif inline-block text-gray-800;
+}
+
+.heading-serif-lg {
+    @apply font-serif inline-block text-gray-800 text-lg;
+}
+
+.heading-serif-xl {
+    @apply font-serif inline-block text-gray-800 text-xl;
+}
+
+.heading-serif-2xl {
+    @apply font-serif inline-block text-gray-800 text-2xl;
+}
+
+.heading-serif-4xl {
+    @apply font-serif inline-block text-gray-800 text-4xl;
+}
+
+.paragraph {
+    @apply text-gray-700;
+}
+
+.paragraph-sm {
+    @apply text-sm;
+}
+
+.form-field-label {
+    @apply block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2;
+}
+
+.form-field-description {
+    @apply text-gray-700 text-sm mb-2;
+}
+
+.button {
+    @apply font-bold py-2 px-4 rounded;
+}
+
 @tailwind utilities;

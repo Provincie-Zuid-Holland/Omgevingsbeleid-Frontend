@@ -25,9 +25,7 @@ class Dashboard extends Component {
 
                 {/* Dashboard */}
                 <div className="w-3/4 rounded inline-block flex-grow pl-8 relative">
-                    <h2 className="mb-4 text-l font-serif text-gray-800">
-                        Aandachtspunten (x)
-                    </h2>
+                    <h2 className="heading-serif mb-4">Aandachtspunten (x)</h2>
 
                     <KaartenGroep groepsNaam="Integraal">
                         <AandachtsPuntenKoppeling />
@@ -40,7 +38,7 @@ class Dashboard extends Component {
                             titel="Nakijken eigenaarschap"
                             buttonText="Ga naar beleidsbeslissing"
                         >
-                            <p className="text-gray-800 text-sm mb-6">
+                            <p className="paragraph mb-6">
                                 De beleidsbeslissing
                                 <span className="font-bold mx-1">
                                     Duurzame groei van het toerisme in
@@ -61,7 +59,7 @@ class Dashboard extends Component {
                             titel="Niet gekoppeld object"
                             buttonText="Ga naar beleidsbeslissing"
                         >
-                            <p className="text-gray-800 text-sm mb-6">
+                            <p className="paragraph mb-6">
                                 Je hebt recentelijk de beleidsbeslissing
                                 <span className="font-bold mx-1">
                                     Duurzame groei van het toerisme in

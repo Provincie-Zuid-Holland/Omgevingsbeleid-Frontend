@@ -14,6 +14,7 @@ import DateInput from './../UI/ApiCrud/DateInput'
 import SelectInput from './../UI/ApiCrud/SelectInput'
 import BeleidsRelatieInput from './../UI/ApiCrud/BeleidsRelatieInput'
 import WerkingsgebiedRelatie from './../UI/ApiCrud/WerkingsgebiedRelatie'
+import UserSelect from './../UI/ApiCrud/UserSelect'
 
 class CrudContainer extends React.Component {
 
@@ -57,12 +58,8 @@ class CrudContainer extends React.Component {
         } else if (!this.context.editStatus && titelEnkelvoud.toLowerCase() === 'beleidsregel') {
             mainTitle = `Voeg een nieuwe ${titelEnkelvoud.toLowerCase()} toe`
         }
-        console.log(this.context.editStatus && titelEnkelvoud.toLowerCase() !== 'beleidsregel')
-        console.log(!this.context.editStatus && titelEnkelvoud.toLowerCase() !== 'beleidsregel')
-        console.log(this.context.editStatus && titelEnkelvoud.toLowerCase() === 'beleidsregel')
-        console.log(!this.context.editStatus && titelEnkelvoud.toLowerCase() === 'beleidsregel')
-        // ? `Wijzig een ${titelEnkelvoud.toLowerCase()}` : `Voeg een nieuwe ${titelEnkelvoud.toLowerCase()} toe`
 
+        console.log("Called 3")
 
         return (
         
@@ -76,7 +73,7 @@ class CrudContainer extends React.Component {
                                 : 
                                 <BackToButton terugNaar={titelEnkelvoud.toLowerCase()} color="text-white" url={`/api-test/${this.context.overzichtSlug}/${this.context.objectID}`} />  
                             }
-                            <h1 className="font-serif text-white text-4xl">
+                            <h1 className="heading-serif-4xl text-white">
                                 {mainTitle}
                             </h1>
                         </div>
@@ -95,7 +92,12 @@ class CrudContainer extends React.Component {
                             <form className="mt-12" onSubmit={this.context.handleSubmit}>
                                 
 
-                                { crudObject["Titel"] !== undefined ? 
+                                { crudObject["Titel"] !== undefined || 
+                                    crudObject["Opdrachtgever"] !== undefined ||
+                                    crudObject["Portefeuillehouder"] !== undefined ||
+                                    crudObject["Eigenaar_1"] !== undefined  ||
+                                    crudObject["Eigenaar_2"] !== undefined ? 
+                                    
                                     <FormSection
                                         titel="Algemene informatie"
                                         beschrijving="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
@@ -104,12 +106,91 @@ class CrudContainer extends React.Component {
                                             <TextInput 
                                                 handleChange={this.context.handleChange}
                                                 fieldValue={crudObject["Titel"]}
-                                                fieldLabel="Titel"
                                                 dataObjectProperty="Titel"
+                                                fieldLabel="Titel"
                                                 pValue="Beschrijf in een aantal woorden de titel van deze"
                                                 titelEnkelvoud={titelEnkelvoud}
                                             />
                                         : null }
+                                        
+                                        { crudObject["Opdrachtgever"] !== undefined ||
+                                        crudObject["Portefeuillehouder"] !== undefined ||
+                                        crudObject["Eigenaar_1"] !== undefined  ||
+                                        crudObject["Eigenaar_2"] !== undefined  ? 
+                                        <React.Fragment>
+
+                                            <span
+                                                className="form-field-label"
+                                            >
+                                                Personen
+                                            </span>
+
+                                            <div className="flex">
+
+                                                { crudObject["Eigenaar_1"] !== undefined ? 
+                                                <UserSelect 
+                                                    handleChange={this.context.handleChange}
+                                                    fieldValue={crudObject["Eigenaar_1"]}
+                                                    dataObjectProperty="Eigenaar_1"
+                                                    marginRight={true}
+                                                    // fieldLabel="Titel"
+                                                    pValue="Opdrachtgever"
+                                                    titelEnkelvoud={titelEnkelvoud}
+                                                /> : null } 
+
+                                                { crudObject["Portefeuillehouder"] !== undefined ? 
+                                                <UserSelect 
+                                                    handleChange={this.context.handleChange}
+                                                    fieldValue={crudObject["Portefeuillehouder"]}
+                                                    dataObjectProperty="Portefeuillehouder"
+                                                    // fieldLabel="Titel"
+                                                    pValue="Portefeuillehouder"
+                                                    titelEnkelvoud={titelEnkelvoud}
+                                                /> : null } 
+                                            
+                                            </div>
+                                            
+                                            <div className="flex">
+
+                                                { crudObject["Eigenaar_2"] !== undefined ? 
+                                                <UserSelect 
+                                                    handleChange={this.context.handleChange}
+                                                    fieldValue={crudObject["Eigenaar_1"]}
+                                                    dataObjectProperty="Eigenaar_1"
+                                                    marginRight={true}
+                                                    // fieldLabel="Titel"
+                                                    pValue="1e eigenaar"
+                                                    titelEnkelvoud={titelEnkelvoud}
+                                                /> : null }
+
+                                                { crudObject["Eigenaar_2"] !== undefined ? 
+                                                <UserSelect 
+                                                    handleChange={this.context.handleChange}
+                                                    fieldValue={crudObject["Eigenaar_2"]}
+                                                    dataObjectProperty="Eigenaar_2"
+                                                    // fieldLabel="Titel"
+                                                    pValue="2e eigenaar"
+                                                    titelEnkelvoud={titelEnkelvoud}
+                                                /> : null }
+
+                                            </div>
+
+                                        </React.Fragment>
+                                        : null }
+
+                                        { crudObject["Omschrijving_Keuze"] !== undefined ? 
+                                            <TextArea 
+                                                handleChange={this.context.handleChange}
+                                                fieldValue={crudObject["Omschrijving_Keuze"]}
+                                                fieldLabel="Doel"
+                                                dataObjectProperty="Omschrijving_Keuze"
+                                                pValue="Wat wil de provincie bereiken (PS)?"
+                                                titelEnkelvoud={titelEnkelvoud}
+                                                hideObjectLabel={true}
+                                            />
+                                        : null }
+
+
                                     </FormSection>
                                 : null }
 
@@ -135,19 +216,52 @@ class CrudContainer extends React.Component {
                                 : null }
 
 
-                            { crudObject["Motivering"] !== undefined ? 
+                                { crudObject["Motivering"] !== undefined ? 
+                                    
+                                    <FormSection
+                                        titel="Toelichting"
+                                        beschrijving="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                                    >
+                                        { crudObject["Motivering"] !== undefined ?
+                                            <EditorField
+                                                handleChange={this.context.setEditorState}
+                                                fieldValue={crudObject["Motivering"]}
+                                                fieldLabel="Omschrijving"
+                                                dataObjectProperty="Motivering"
+                                                pValue="Geef een korte omschrijving van de werking van de"
+                                                titelEnkelvoud={titelEnkelvoud}
+                                            />
+                                        : null }
+                                    </FormSection>
+                                    
+                                : null }
+
+                            { crudObject["Aanleiding"] !== undefined || 
+                            crudObject["Afweging"] !== undefined ? 
                                 
                                 <FormSection
-                                    titel="Toelichting"
+                                    titel="Waarom deze Beleidsbeslissing?"
                                     beschrijving="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
                                 >
-                                    { crudObject["Motivering"] !== undefined ?
-                                        <EditorField
-                                            handleChange={this.context.setEditorState}
-                                            fieldValue={crudObject["Motivering"]}
-                                            fieldLabel="Motivering"
-                                            dataObjectProperty="Motivering"
-                                            pValue="Geef een korte omschrijving van deze"
+                                    { crudObject["Aanleiding"] !== undefined ? 
+                                        <TextArea 
+                                            handleChange={this.context.handleChange}
+                                            fieldValue={crudObject["Aanleiding"]}
+                                            fieldLabel="Aanleiding"
+                                            hideObjectLabel={true}
+                                            dataObjectProperty="Aanleiding"
+                                            pValue="Wat was de aanleiding voor de beleidsbeslissing?"
+                                            titelEnkelvoud={titelEnkelvoud}
+                                        />
+                                    : null }
+                                    { crudObject["Afweging"] !== undefined ? 
+                                        <TextArea 
+                                            handleChange={this.context.handleChange}
+                                            fieldValue={crudObject["Afweging"]}
+                                            fieldLabel="Afweging"
+                                            hideObjectLabel={true}
+                                            dataObjectProperty="Afweging"
+                                            pValue="Welke afwegingen hebben tot deze beleidsbeslissing geleid?"
                                             titelEnkelvoud={titelEnkelvoud}
                                         />
                                     : null }
@@ -294,9 +408,9 @@ class CrudContainer extends React.Component {
                                                 <DateInput 
                                                     handleChange={this.context.handleChange}
                                                     fieldValue={crudObject["Begin_Geldigheid"]}
-                                                    fieldLabel="Begin Geldigheid"
+                                                    fieldLabel="Inwerkingtreding"
                                                     dataObjectProperty="Begin_Geldigheid"
-                                                    pValue="Lorem ipsum dolor sit amet"
+                                                    pValue="Indien bekend, kan hier de datum van inwerkingtreding worden ingevuld"
                                                     titelEnkelvoud={titelEnkelvoud}
                                                 />
                                             : null }
@@ -306,9 +420,9 @@ class CrudContainer extends React.Component {
                                                 <DateInput 
                                                     handleChange={this.context.handleChange}
                                                     fieldValue={crudObject["Eind_Geldigheid"]}
-                                                    fieldLabel="Eind Geldigheid"
+                                                    fieldLabel="Uitwerkingtreding"
                                                     dataObjectProperty="Eind_Geldigheid"
-                                                    pValue="Lorem ipsum dolor sit amet"
+                                                    pValue="Indien bekend, kan hier de datum van uitwerkingtreding worden ingevuld"
                                                     titelEnkelvoud={titelEnkelvoud}
                                                 />
                                             : null }
@@ -344,7 +458,6 @@ class CrudContainer extends React.Component {
                                             : null }
 
                                         </div>
-
 
                                         {/* Status */}
                                         { crudObject["Status"] !== undefined ? 

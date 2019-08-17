@@ -5,7 +5,7 @@ class SelectInput extends React.Component {
         return (
             <div className="w-full mb-6">
                 <label
-                    className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                    className="form-field-label"
                     htmlFor={this.props.dataObjectProperty}
                 >
                     {this.props.fieldLabel}

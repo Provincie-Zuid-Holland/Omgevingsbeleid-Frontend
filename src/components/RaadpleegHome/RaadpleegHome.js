@@ -32,9 +32,7 @@ class RaadpleegHome extends Component {
                 id="raadpleeg-home"
             >
                 <div className="w-1/2 pr-8 pb-20">
-                    <h1 className="mt-8 font-serif text-gray-800 text-2xl">
-                        Omgevingsbeleid
-                    </h1>
+                    <h1 className="mt-8 heading-serif-2xl">Omgevingsbeleid</h1>
                     <p className="mt-6 text-gray-800">
                         Zoek eenvoudig binnen het Omgevingsbeleid van de
                         provincie Zuid-Holland of selecteer een locatie of
@@ -49,7 +47,7 @@ class RaadpleegHome extends Component {
                         <Zoekbalk />
                     </div>
                     <div>
-                        <h2 className="mt-10 text-l font-serif text-gray-800">
+                        <h2 className="heading-serif mt-10">
                             Recente Wijzigingen
                         </h2>
                         <ul className="mt-4 skip-border-last-child">
@@ -73,7 +71,7 @@ class RaadpleegHome extends Component {
                     </div>
                     <div className="border-b border-gray-300 w-full block h-2 mt-6" />
                     <div className="mb-10">
-                        <h2 className="mt-10 text-l font-serif text-gray-800">
+                        <h2 className="heading-serif mt-10">
                             Stukken die ter inspraak liggen
                         </h2>
                         <ul className="mt-4 skip-border-last-child">

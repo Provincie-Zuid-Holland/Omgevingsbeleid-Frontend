@@ -42,7 +42,7 @@ class APITestOverzicht extends Component {
                     />
 
                     <div className="flex justify-between">
-                        <h1 className="font-serif text-gray-800 text-2xl">
+                        <h1 className="heading-serif-2xl">
                             Alle{' '}
                             {dataReceived
                                 ? this.state.objecten.length - 1

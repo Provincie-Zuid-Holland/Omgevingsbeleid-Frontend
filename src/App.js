@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Route, Switch, withRouter } from 'react-router-dom'
+import axiosAPI from './API/axios'
 
 // Import Styling
 import './css/tailwind.css'
@@ -51,6 +52,25 @@ class App extends Component {
                 <ToastContainer />
             </main>
         )
+    }
+
+    redirectToLogin() {
+        localStorage.removeItem('access_token')
+        this.props.history.push('/login')
+    }
+
+    componentDidMount() {
+        // Als de app gemount wordt, wordt de huidige token gechecked
+        axiosAPI
+            .get('/tokeninfo')
+            .then(res => {
+                if (res.status !== 200) {
+                    this.redirectToLogin()
+                }
+            })
+            .catch(error => {
+                this.redirectToLogin()
+            })
     }
 }
 

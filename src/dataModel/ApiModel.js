@@ -830,6 +830,348 @@ export default
       "Object_Name": "BeleidsRelatie"
     }
   },
+  "Beleidsbeslissingen": {
+    "type": "object",
+    "properties": {
+      "ID": {
+        "type": "integer",
+        "format": "int32",
+        "UI": {
+            "userCRUD": false
+          }
+      },
+      "UUID": {
+        "type": "string",
+        "format": "uuid",
+        "UI": {
+            "userCRUD": false
+          }
+      },
+      "Begin_Geldigheid": {
+        "type": "string",
+        "format": "date-time",
+        "UI": {
+            "userCRUD": true,
+            "CRUDComponent": "DateInput",
+            "UIVariables": {
+              "UITitle": "Begin Geldigheid",
+            }
+          }
+      },
+      "Eind_Geldigheid": {
+        "type": "string",
+        "format": "date-time",
+        "UI": {
+            "userCRUD": true,
+            "CRUDComponent": "DateInput",
+            "UIVariables": {
+              "UITitle": "Begin Geldigheid",
+            }
+          }
+      },
+      "Created_By": {
+        "type": "string",
+        "format": "uuid",
+        "UI": {
+            "userCRUD": false
+          }
+      },
+      "Created_Date": {
+        "type": "string",
+        "format": "date-time",
+        "UI": {
+            "userCRUD": false
+          }
+      },
+      "Modified_By": {
+        "type": "string",
+        "format": "uuid",
+        "UI": {
+            "userCRUD": false
+          }
+      },
+      "Modified_Date": {
+        "type": "string",
+        "format": "date-time",
+        "UI": {
+            "userCRUD": false
+          }
+      },
+      "Eigenaar_1": {
+        "type": "string",
+        "format": "uuid",
+        "UI": {
+            "userCRUD": true,
+            "CRUDComponent": "SelectUser",
+            "UIVariables": {
+              "UITitle": "Eigenaar 1",
+            }
+          }
+      },
+      "Eigenaar_2": {
+        "type": "string",
+        "format": "uuid",
+        "UI": {
+            "userCRUD": true,
+            "CRUDComponent": "SelectUser",
+            "UIVariables": {
+              "UITitle": "Eigenaar 2",
+            }
+          }
+      },
+      "Portefeuillehouder": {
+        "type": "string",
+        "format": "uuid",
+        "UI": {
+            "userCRUD": true,
+            "CRUDComponent": "SelectUser",
+            "UIVariables": {
+              "UITitle": "Portefeuillehoude",
+            }
+          }
+      },
+      "Status": {
+        "type": "string",
+        "UI": {
+            "userCRUD": true,
+            "CRUDComponent": "SelectStatus",
+            "UIVariables": {
+              "UITitle": "Selecteer een status",
+            }
+          }
+      },
+      "Titel": {
+        "type": "string",
+        "UI": {
+            "userCRUD": true,
+            "CRUDComponent": "TextInput",
+            "UIVariables": {
+              "UITitle": "Titel",
+            }
+          }
+      },
+      "Omschrijving_Keuze": {
+        "type": "string",
+        "default": null,
+        "nullable": true,
+        "UI": {
+            "userCRUD": true,
+            "CRUDComponent": "TextArea",
+            "UIVariables": {
+              "UITitle": "Doel",
+            }
+          }
+      },
+      "Omschrijving_Werking": {
+        "type": "string",
+        "default": null,
+        "nullable": true,
+        "UI": {
+            "userCRUD": true,
+            "CRUDComponent": "TextArea",
+            "UIVariables": {
+              "UITitle": "Omschrijving Werking",
+            }
+          }
+      },
+      "Motivering": {
+        "type": "string",
+        "default": null,
+        "nullable": true,
+        "UI": {
+            "userCRUD": true,
+            "CRUDComponent": "TextArea",
+            "UIVariables": {
+              "UITitle": "Motivering",
+            }
+          }
+      },
+      "Aanleiding": {
+        "type": "string",
+        "default": null,
+        "nullable": true,
+        "UI": {
+            "userCRUD": true,
+            "CRUDComponent": "TextArea",
+            "UIVariables": {
+              "UITitle": "Aanleiding",
+            }
+          }
+      },
+      "Afweging": {
+        "type": "string",
+        "default": null,
+        "nullable": true,
+        "UI": {
+            "userCRUD": true,
+            "CRUDComponent": "TextArea",
+            "UIVariables": {
+              "UITitle": "Afweging",
+            }
+          }
+      },
+      "Verordening_Realisatie": {
+        "type": "string",
+        "default": null,
+        "nullable": true,
+        "UI": {
+            "userCRUD": true,
+            "CRUDComponent": "TextArea",
+            "UIVariables": {
+              "UITitle": "Verordening Realisatie",
+            }
+          }
+      },
+      "WerkingsGebieden": {
+        "default": [],
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Link_"
+        },
+        "UI": {
+            "userCRUD": true,
+            "CRUDComponent": "AlgemeneKoppeling",
+            "UIVariables": {
+              "UITitle": "Werkings Gebieden",
+            }
+        }
+      },
+      "BeleidsRegels": {
+        "default": [],
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Link_"
+        },
+        "UI": {
+            "userCRUD": true,
+            "CRUDComponent": "AlgemeneKoppeling",
+            "UIVariables": {
+              "UITitle": "Werkings Gebieden",
+            }
+        }
+      },
+      "Verordening": {
+        "default": [],
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Link_"
+        },
+        "UI": {
+            "userCRUD": true,
+            "CRUDComponent": "AlgemeneKoppeling",
+            "UIVariables": {
+              "UITitle": "Werkings Gebieden",
+            }
+        }
+      },
+      "Maatregelen": {
+        "default": [],
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Link_"
+        },
+        "UI": {
+            "userCRUD": true,
+            "CRUDComponent": "AlgemeneKoppeling",
+            "UIVariables": {
+              "UITitle": "Werkings Gebieden",
+            }
+        }
+      },
+      "Themas": {
+        "default": [],
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Link_"
+        },
+        "UI": {
+            "userCRUD": true,
+            "CRUDComponent": "AlgemeneKoppeling",
+            "UIVariables": {
+              "UITitle": "Werkings Gebieden",
+            }
+        }
+      },
+      "Ambities": {
+        "default": [],
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Link_"
+        },
+        "UI": {
+            "userCRUD": true,
+            "CRUDComponent": "AlgemeneKoppeling",
+            "UIVariables": {
+              "UITitle": "Werkings Gebieden",
+            }
+        }
+      },
+      "Doelen": {
+        "default": [],
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Link_"
+        },
+        "UI": {
+            "userCRUD": true,
+            "CRUDComponent": "AlgemeneKoppeling",
+            "UIVariables": {
+              "UITitle": "Werkings Gebieden",
+            }
+        }
+      },
+      "ProvincialeBelangen": {
+        "default": [],
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Link_"
+        },
+        "UI": {
+            "userCRUD": true,
+            "CRUDComponent": "AlgemeneKoppeling",
+            "UIVariables": {
+              "UITitle": "Werkings Gebieden",
+            }
+        }
+      },
+      "Opgaven": {
+        "default": [],
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Link_"
+        },
+        "UI": {
+            "userCRUD": true,
+            "CRUDComponent": "AlgemeneKoppeling",
+            "UIVariables": {
+              "UITitle": "Werkings Gebieden",
+            }
+        }
+      }
+    },
+    "required": [
+      "Begin_Geldigheid",
+      "Created_By",
+      "Created_Date",
+      "Eigenaar_1",
+      "Eigenaar_2",
+      "Eind_Geldigheid",
+      "Modified_By",
+      "Modified_Date",
+      "Portefeuillehouder",
+      "Status",
+      "Titel",
+      "UUID"
+    ],
+    "variables": {
+      "Titel_Enkelvoud": "Beleidsbeslissing",
+      "Titel_Meervoud": "Beleidsbeslissingen",
+      "Api_Endpoint": "beleidsbeslissingen",
+      "Overzicht_Slug": "beleidsbeslissingen",
+      "Create_New_Slug": "nieuwe-beleidsbeslissing",
+      "Object_Name": "Beleidsbeslissing"
+    }
+  },
   "Maatregelen": {
     "type": "object",
     "properties": {

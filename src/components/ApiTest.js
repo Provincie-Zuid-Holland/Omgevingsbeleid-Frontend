@@ -80,9 +80,7 @@ class ApiTest extends Component {
 
                 {/* Dashboard */}
                 <div className="w-3/4 rounded inline-block flex-grow pl-8">
-                    <h2 className="mb-4 text-l font-serif text-gray-800">
-                        API Test Overzicht
-                    </h2>
+                    <h2 className="heading-serif mb-4">API Test Overzicht</h2>
                     <APITestItem />
                 </div>
             </div>

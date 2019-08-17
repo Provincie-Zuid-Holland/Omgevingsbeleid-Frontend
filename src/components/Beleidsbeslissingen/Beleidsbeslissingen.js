@@ -1,15 +1,16 @@
 import React, { Component } from 'react'
 
 // Import Componenents
-import MainSidebar from './MainSidebar'
-import VoegObjectToe from './UI/VoegObjectToe'
-import CardObjectItem from './UI/CardObjectItem'
-import LoaderCardObject from './UI/Loaders/LoaderCardObject'
+import MainSidebar from './../MainSidebar'
+import VoegObjectToe from './../UI/VoegObjectToe'
+import CardObjectItem from './../UI/CardObjectItem'
+import LoaderCardObject from './../UI/Loaders/LoaderCardObject'
 
 // Import Axios instance to connect with the API
-import axiosAPI from './../API/axios'
+import axiosAPI from './../../API/axios'
+// import Beleidsbeslissingen from '.'
 
-class Maatregelen extends Component {
+class Beleidsbeslissingen extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -22,10 +23,11 @@ class Maatregelen extends Component {
         const titelEnkelvoud = this.props.dataModel.variables.Titel_Enkelvoud
         const createNewSlug = this.props.dataModel.variables.Create_New_Slug
         const overzichtSlug = this.props.dataModel.variables.Overzicht_Slug
-        const hoofdOnderdeelSlug = 'maatregelen'
+        const hoofdOnderdeelSlug = 'beleidsbeslissingen'
 
         // False if data is loading, true if there is a response
-        let dataReceived = this.state.objecten[0]
+        // let dataReceived = this.state.objecten[0]
+        let dataReceived = true
 
         return (
             <div className="container mx-auto flex px-6 pb-8">
@@ -103,4 +105,4 @@ class Maatregelen extends Component {
     }
 }
 
-export default Maatregelen
+export default Beleidsbeslissingen

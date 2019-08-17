@@ -25,7 +25,7 @@ class AandachtsPuntenAlgemeneMelding extends Component {
                     <div className="rounded-full mbg-color w-12 h-12 inline-block text-white flex justify-center items-center">
                         <FontAwesomeIcon icon={icon} />
                     </div>
-                    <h3 className="inline-block font-bold text-lg ml-4 text-gray-800">
+                    <h3 className="heading-lg font-bold ml-4">
                         {this.props.titel}
                     </h3>
 
@@ -35,7 +35,7 @@ class AandachtsPuntenAlgemeneMelding extends Component {
                 </div>
                 <div className="pl-16 pb-4">
                     {this.props.children}
-                    <span className="mbg-color hover:underline text-white font-bold py-2 px-4 rounded cursor-not-allowed mr-4 text-sm">
+                    <span className="button button-main cursor-not-allowed mr-4">
                         {this.props.buttonText}
                     </span>
                     <span className="text-gray-700 text-sm underline cursor-not-allowed hover:text-gray-900">

@@ -4,14 +4,14 @@ class TextInput extends React.Component {
     render() {
         return (
             <div className="flex flex-wrap -mx-3">
-                <div className="w-full px-3 mb-4">
+                <div className="w-full px-3 mb-6">
                     <label
-                        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                        className="form-field-label"
                         htmlFor={this.props.dataObjectProperty}
                     >
                         {this.props.fieldLabel}
                     </label>
-                    <p className="text-gray-700 text-sm mb-2">
+                    <p className="form-field-description">
                         {`${
                             this.props.pValue
                         } ${this.props.titelEnkelvoud.toLowerCase()}`}

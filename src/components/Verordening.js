@@ -85,8 +85,8 @@ class HoofdstukSubItem extends Component {
 function HoofdstukSubContainer(props) {
     return (
         <div className="w-2/3 px-4 py-2">
-            <h3 className="text-gray-700 text-lg">Hoofdstuk 3</h3>
-            <span className="text-gray-700 text-lg font-bold">
+            <h3 className="heading-lg block">Hoofdstuk 3</h3>
+            <span className="heading-lg block font-bold">
                 Activiteiten in de fysieke leefomgeving
             </span>
             <ul className="border-t border-gray-300 mt-2">{props.children}</ul>
@@ -165,7 +165,7 @@ class Verordening extends Component {
 
                     <div className="px-5 py-5 bg-white rounded shadow">
                         <div className="flex justify-between">
-                            <h2 className="mb-4 text-gray-700 text-xl font-bold mb-2 inline-block">
+                            <h2 className="heading-xl font-bold mb-2 mb-4">
                                 Verordening
                             </h2>
                             <div className="flex">

@@ -12,7 +12,7 @@ export default function withAuth(AuthComponent) {
 
         // Checks if there is a saved token
         loggedIn() {
-            const token = this.getToken() // Gets token from localstorage
+            let token = this.getToken() // Gets token from localstorage
 
             const tokenDate = localStorage.getItem('token_date')
             const tokenTimeDiffMinutes = differenceInMinutes(

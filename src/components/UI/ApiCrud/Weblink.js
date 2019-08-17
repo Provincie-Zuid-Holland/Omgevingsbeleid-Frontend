@@ -5,10 +5,7 @@ class Weblink extends React.Component {
         return (
             <div className="flex flex-wrap -mx-3 mb-6">
                 <div className="w-full px-3">
-                    <label
-                        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                        htmlFor="weblink"
-                    >
+                    <label className="form-field-label" htmlFor="weblink">
                         {this.props.fieldLabel}
                     </label>
                     <input
