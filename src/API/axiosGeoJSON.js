@@ -2,6 +2,7 @@ import axios from 'axios'
 
 const access_token = localStorage.getItem('access_token')
 const api_version = '1.1.0'
+
 const instance = axios.create({
     baseURL: `https://geo-acctest-ob.westeurope.cloudapp.azure.com/geoserver/`,
     headers: {
@@ -34,4 +35,4 @@ instance.interceptors.request.use(function(config) {
 })
 
 export default instance
-export { getGeoJsonData, cancelRequest }
+export { getGeoJsonData, cancelRequest, api_version }

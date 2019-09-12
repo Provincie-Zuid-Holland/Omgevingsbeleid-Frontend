@@ -17,12 +17,30 @@ code {
         monospace;
 }
 
+$base-color: #000066;
+
 .mbg-color {
-    background-color: #000066;
+    background-color: $base-color;
+}
+
+.mbg-color-darker {
+    background-color: darken($base-color, 5%);
+}
+
+.mbg-color-darker-hover:hover {
+    background-color: darken($base-color, 5%);
+}
+
+.mbg-color-lighter {
+    background-color: #f3f2f7;
 }
 
 .m-color {
-    color: #000066;
+    color: $base-color;
+}
+
+.m-border-color {
+    border-color: #464792;
 }
 
 .body-bg-color {
@@ -33,16 +51,36 @@ code {
     background-color: #e6e6ef;
 }
 
-.main-logo {
-    background-image: url('../images/logo.png');
+.top-100 {
+    top: 100%;
+}
+
+.max-h-half-screen {
+    max-height: 50vh;
+}
+
+.logo-beeldmerk {
+    background-image: url('../images/logo_beeldmerk.jpg');
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
     display: block;
     height: 79px;
+    width: 79px;
+    position: absolute;
+    margin-top: -26px;
+}
+.logo-tekst {
+    background-image: url('../images/logo_tekst.jpg');
+    background-size: contain;
+    background-position: left center;
+    background-repeat: no-repeat;
+    display: block;
+    height: 32px;
     width: 250px;
     position: absolute;
-    margin-top: -20px;
+    margin-top: -14px;
+    margin-left: 90px;
 }
 
 #main-container {
@@ -290,4 +328,108 @@ code {
 .revisie-list-bolletje {
     top: -0.25rem;
     margin-left: -0.45rem;
+}
+
+// .leaflet-draw.leaflet-control {
+//     display: flex;
+// }
+
+.leaflet-touch .leaflet-draw-section .leaflet-control-layers,
+.leaflet-touch .leaflet-draw-section .leaflet-bar {
+    border: none;
+    // display: flex;
+    // margin-top: 0px;
+    // margin-right: 10px;
+}
+
+.leaflet-touch .leaflet-draw-actions {
+    z-index: 10;
+    a {
+        background-color: white;
+        color: #2c5282;
+        box-shadow: rgba(0, 0, 0, 0.1) 0 1px 3px 0,
+            rgba(0, 0, 0, 0.06) 0 1px 2px 0;
+        &:hover {
+            background-color: white;
+            text-decoration: underline;
+            color: #2c5282;
+            box-shadow: rgba(0, 0, 0, 0.1) 0 1px 3px 0,
+                rgba(0, 0, 0, 0.06) 0 1px 2px 0;
+        }
+    }
+}
+
+.leaflet-draw-toolbar a,
+.leaflet-touch .leaflet-bar a,
+.leaflet-draw-toolbar a:hover,
+.leaflet-touch .leaflet-bar a:hover,
+.leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-marker,
+.leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-polygon,
+.leaflet-touch .leaflet-draw-toolbar .leaflet-draw-edit-edit,
+.leaflet-touch .leaflet-draw-toolbar .leaflet-draw-edit-remove {
+    align-items: center;
+    background-color: #fff;
+    border: 0 solid #e2e8f0;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 1px 3px 0, rgba(0, 0, 0, 0.06) 0 1px 2px 0;
+    color: #718096;
+    cursor: pointer;
+    display: flex;
+    position: relative;
+    height: 2.5rem;
+    justify-content: center;
+    width: 2.5rem;
+    background-image: none;
+    &:hover {
+        color: #4a5568;
+    }
+}
+
+.leaflet-touch .leaflet-draw-toolbar.leaflet-bar .leaflet-draw-edit-edit,
+.leaflet-touch .leaflet-draw-toolbar.leaflet-bar .leaflet-draw-draw-polygon {
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+.leaflet-touch .leaflet-draw-toolbar.leaflet-bar .leaflet-draw-draw-marker,
+.leaflet-touch .leaflet-draw-toolbar.leaflet-bar .leaflet-draw-edit-remove {
+    border-bottom-left-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
+
+.leaflet-touch .leaflet-draw-toolbar.leaflet-bar .leaflet-draw-edit-edit svg,
+.leaflet-touch .leaflet-draw-toolbar.leaflet-bar .leaflet-draw-edit-remove svg {
+    height: 1.1rem;
+}
+
+.leaflet-touch
+    .leaflet-draw-toolbar.leaflet-bar
+    .leaflet-draw-edit-edit.leaflet-disabled,
+.leaflet-touch
+    .leaflet-draw-toolbar.leaflet-bar
+    .leaflet-draw-edit-remove.leaflet-disabled {
+    display: none;
+}
+
+.leaflet-touch .leaflet-draw-actions {
+    // overwrite inline styling set by Leaflet :-(
+    left: 41px !important;
+}
+
+#leaflet-search {
+    min-width: 2.5rem;
+    // svg {
+    //     position: relative;
+    //     margin-left: 2px;
+    // }
+}
+
+#searchQueryResults {
+    margin-left: 2.75rem;
+    width: 15.5rem;
+    margin-left: 3.3rem;
+    width: 15rem;
 }
