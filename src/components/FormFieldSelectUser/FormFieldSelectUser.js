@@ -28,9 +28,13 @@ function makeSelection(objectenArray, dataObjectProperty) {
 }
 
 class FormFieldSelectUser extends React.Component {
-    state = {
-        selectionArray: [],
-        selected: {},
+    constructor(props) {
+        super(props)
+        this.state = {
+            selectionArray: [],
+            selected: null,
+            dataLoaded: false,
+        }
     }
 
     render() {
@@ -41,24 +45,16 @@ class FormFieldSelectUser extends React.Component {
                 }`}
             >
                 <p className="form-field-description">{`${this.props.pValue}`}</p>
-                {this.state.selectionArray.length === 0 ? (
-                    <LoaderSelect />
-                ) : (
+                {this.state.dataLoaded ? (
                     <Select
                         value={this.state.selected}
+                        name={this.props.dataObjectProperty}
                         onChange={this.props.handleChange}
                         options={this.state.selectionArray}
                     />
+                ) : (
+                    <LoaderSelect />
                 )}
-                {/* {this.state.selectionArray.length !== 0 ? (
-                    <Select
-                        value={this.state.selected}
-                        onChange={this.props.handleChange}
-                        options={this.state.selectionArray}
-                    />
-                ) : (
-                    <LoaderSelect />
-                )} */}
             </div>
         )
     }
@@ -70,6 +66,7 @@ class FormFieldSelectUser extends React.Component {
             )
             this.setState({
                 selected: selected,
+                dataLoaded: true,
             })
         }
     }
@@ -77,38 +74,54 @@ class FormFieldSelectUser extends React.Component {
     componentDidMount() {
         const ApiEndpoint = 'gebruikers'
 
-        // Connect With the API
-        axios
-            .get(ApiEndpoint)
-            .then(res => {
-                const objecten = res.data
-                const selectionArray = makeSelection(
-                    objecten,
-                    this.props.dataObjectProperty
-                )
+        const objecten = this.props.gebruikersLijst
+        const selectionArray = makeSelection(
+            objecten,
+            this.props.dataObjectProperty
+        )
 
-                if (this.props.editStatus === true) {
-                    const selected = selectionArray.find(
-                        arrayItem => arrayItem.value === this.props.fieldValue
-                    )
-                    this.setState({
-                        selectionArray,
-                        selected,
-                    })
-                } else {
-                    this.setState({ selectionArray })
-                }
+        if (this.props.editStatus === true) {
+            const selected = selectionArray.find(
+                arrayItem => arrayItem.value === this.props.fieldValue
+            )
+
+            this.setState({
+                selectionArray: selectionArray,
+                selected: selected,
+                dataLoaded: true,
             })
-            .catch(error => {
-                if (error.response !== undefined) {
-                    if (error.response.status === 401) {
-                        localStorage.removeItem('access_token')
-                        this.props.history.push('/login')
-                    }
-                } else {
-                    console.log(error)
-                }
-            })
+        } else {
+            this.setState({ selectionArray: selectionArray, dataLoaded: true })
+        }
     }
+
+    // componentDidMount() {
+    //     console.log('this.props.gebruikersLijst')
+    //     console.log(this.props.gebruikersLijst)
+    //     const selectionArray = makeSelection(
+    //         this.props.gebruikersLijst,
+    //         this.props.dataObjectProperty
+    //     )
+    //     if (this.props.editStatus === true) {
+    //         const selected = selectionArray.find(
+    //             arrayItem => arrayItem.value === this.props.fieldValue
+    //         )
+    //         this.setState({
+    //             selectionArray,
+    //             selected,
+    //         })
+    //     } else {
+    //         this.setState({ selectionArray })
+    //     }
+
+    //     // if (this.props.editStatus === true) {
+    //     //     const selected = this.props.gebruikersLijst.find(
+    //     //         arrayItem => arrayItem.value === this.props.fieldValue
+    //     //     )
+    //     //     this.setState({
+    //     //         selected: selected,
+    //     //     })
+    //     // }
+    // }
 }
 export default FormFieldSelectUser

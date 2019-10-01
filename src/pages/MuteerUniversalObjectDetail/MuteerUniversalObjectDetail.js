@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 // Import Components
 import ButtonBackToPage from './../../components/ButtonBackToPage'
+import EigenaarsDriehoekItem from './EigenaarsDriehoekItem'
 import ContainerDetailMain from './ContainerDetailMain'
 
 // Import Axios instance to connect with the API
@@ -43,24 +44,6 @@ function GenerateBackToButton(props) {
             />
         )
     }
-}
-
-function EigenaarsCardItem(props) {
-    return (
-        <div className="bg-white shadow-md p-2 w-full rounded mb-2">
-            <div className="flex items-center">
-                <div className="w-12 h-12 bg-orange-500 rounded-full mr-2" />
-                <div>
-                    <span className="block text-sm text-gray-700">
-                        {props.eigenaarType}
-                    </span>
-                    <span className="block text-sm font-bold text-gray-800">
-                        {props.eigenaarNaam}
-                    </span>
-                </div>
-            </div>
-        </div>
-    )
 }
 
 function RevisieOverzicht(props) {
@@ -305,22 +288,62 @@ class MuteerUniversalObjectDetail extends Component {
                             <h2 className="mb-2 font-serif text-gray-700">
                                 Eigenaarsdriehoek
                             </h2>
-                            <EigenaarsCardItem
-                                eigenaarType="Opdrachtgever"
-                                eigenaarNaam="Richard Roe"
-                            />
-                            <EigenaarsCardItem
-                                eigenaarType="Eigenaar 1"
-                                eigenaarNaam="Jane Doe"
-                            />
-                            <EigenaarsCardItem
-                                eigenaarType="Eigenaar 2"
-                                eigenaarNaam="John Doe"
-                            />
-                            <EigenaarsCardItem
-                                eigenaarType="Portefeuillehouder"
-                                eigenaarNaam="Janette Doe"
-                            />
+
+                            {this.state.dataObject &&
+                            this.state.dataObject[0] ? (
+                                <React.Fragment>
+                                    {this.state.dataObject[0].Opdrachtgever !==
+                                    null ? (
+                                        <EigenaarsDriehoekItem
+                                            eigenaarType="Eigenaar 1"
+                                            UUID={
+                                                this.state.dataObject[0]
+                                                    .Opdrachtgever
+                                            }
+                                        />
+                                    ) : null}
+                                    {this.state.dataObject[0].Eigenaar_1 !==
+                                    null ? (
+                                        <EigenaarsDriehoekItem
+                                            eigenaarType="Eigenaar 2"
+                                            UUID={
+                                                this.state.dataObject[0]
+                                                    .Eigenaar_1
+                                            }
+                                        />
+                                    ) : null}
+                                    {this.state.dataObject[0].Eigenaar_2 !==
+                                    null ? (
+                                        <EigenaarsDriehoekItem
+                                            eigenaarType="Opdrachtgever"
+                                            UUID={
+                                                this.state.dataObject[0]
+                                                    .Eigenaar_2
+                                            }
+                                        />
+                                    ) : null}
+                                    {this.state.dataObject[0]
+                                        .Portefeuillehouder_1 !== null ? (
+                                        <EigenaarsDriehoekItem
+                                            eigenaarType="Portefeuillehouder 1"
+                                            UUID={
+                                                this.state.dataObject[0]
+                                                    .Portefeuillehouder_1
+                                            }
+                                        />
+                                    ) : null}
+                                    {this.state.dataObject[0]
+                                        .Portefeuillehouder_2 !== null ? (
+                                        <EigenaarsDriehoekItem
+                                            eigenaarType="Portefeuillehouder 2"
+                                            UUID={
+                                                this.state.dataObject[0]
+                                                    .Portefeuillehouder_2
+                                            }
+                                        />
+                                    ) : null}
+                                </React.Fragment>
+                            ) : null}
                         </div>
 
                         {/* {dataReceived ? (

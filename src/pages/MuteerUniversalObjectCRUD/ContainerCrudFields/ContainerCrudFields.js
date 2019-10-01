@@ -4,18 +4,19 @@ import React from 'react';
 import APIcontext from './../APIContext'
 
 // Import Components
-import ButtonBackToPage from './../../../components/ButtonBackToPage'
 import ContainerFormSection from './../../../components/ContainerFormSection'
 import FormFieldTextInput from './../../../components/FormFieldTextInput'
 import FormFieldTextArea from './../../../components/FormFieldTextArea'
 import FormFieldTextEditor from './../../../components/FormFieldTextEditor'
 import FormFieldWeblink from './../../../components/FormFieldWeblink'
 import FormFieldDate from './../../../components/FormFieldDate'
+import FormFieldTags from './../../../components/FormFieldTags'
 import FormFieldSelect from './../../../components/FormFieldSelect'
 import FormFieldBeleidsrelatie  from './../../../components/FormFieldBeleidsrelatie'
 import FormFieldWerkingsgebiedrelatie from './../../../components/FormFieldWerkingsgebiedrelatie'
 import FormFieldWerkingsgebiedKoppeling from './../../../components/FormFieldWerkingsgebiedKoppeling'
 import FormFieldSelectUser from './../../../components/FormFieldSelectUser'
+import FormFieldSelectUserGroup from './../../../components/FormFieldSelectUserGroup'
 import FormFieldUniverseleRelatieKoppeling from './../../../components/FormFieldUniverseleRelatieKoppeling'
 
 
@@ -51,36 +52,9 @@ class ContainerCrudFields extends React.Component {
             ["Artikel", "Artikel"]
         ]
 
-        let mainTitle = ''
-
-        if (this.context.editStatus && titelEnkelvoud.toLowerCase() !== 'beleidsregel') {
-            mainTitle = `Wijzig een ${titelEnkelvoud.toLowerCase()}`
-        } else if (!this.context.editStatus && titelEnkelvoud.toLowerCase() !== 'beleidsregel') {
-            mainTitle = `Voeg een nieuwe ${titelEnkelvoud.toLowerCase()} toe`
-        } else if (this.context.editStatus && titelEnkelvoud.toLowerCase() === 'beleidsregel') {
-            mainTitle = `Beheer ${titelEnkelvoud.toLowerCase()}`
-        } else if (!this.context.editStatus && titelEnkelvoud.toLowerCase() === 'beleidsregel') {
-            mainTitle = `Voeg een nieuwe ${titelEnkelvoud.toLowerCase()} toe`
-        }
-
         return (
         
             <React.Fragment>
-
-                <div className="w-full py-32 px-6 mbg-color edit-header relative">
-                    <div className="container mx-auto flex justify-center items-center">
-                        <div className="w-full pr-20">
-                            { this.context.editStatus === false ? 
-                                <ButtonBackToPage terugNaar={titelMeervoud.toLowerCase()} color="text-white" url={`/api-test/${this.context.overzichtSlug}`} /> 
-                                : 
-                                <ButtonBackToPage terugNaar={titelEnkelvoud.toLowerCase()} color="text-white" url={`/api-test/${this.context.overzichtSlug}/${this.context.objectID}`} />  
-                            }
-                            <h1 className="heading-serif-4xl text-white">
-                                {mainTitle}
-                            </h1>
-                        </div>
-                    </div>
-                </div>
                 
                 <div className="container mx-auto flex px-6 pb-8">      
                 
@@ -117,76 +91,14 @@ class ContainerCrudFields extends React.Component {
                                         crudObject["Eigenaar_2"] !== undefined  ? 
                                         <React.Fragment>
 
-                                            <span
-                                                className="form-field-label"
-                                            >
-                                                Personen
-                                            </span>
-
-                                            <div className="w-1/2 flex">
-
-                                                { crudObject["Opdrachtgever"] !== undefined ? 
-                                                <FormFieldSelectUser 
-                                                    halfWidth={true}
-                                                    handleChange={this.context.handleChange}
-                                                    fieldValue={crudObject["Opdrachtgever"]}
-                                                    dataObjectProperty="Opdrachtgever"
-                                                    // fieldLabel="Titel"
-                                                    pValue="Opdrachtgever"
-                                                    titelEnkelvoud={titelEnkelvoud}
-                                                /> : null } 
-                                            
-                                            </div>
-
-                                            <div className="flex">
-
-                                                { crudObject["Eigenaar_1"] !== undefined ? 
-                                                <FormFieldSelectUser 
-                                                    handleChange={this.context.handleChange}
-                                                    fieldValue={crudObject["Eigenaar_1"]}
-                                                    dataObjectProperty="Eigenaar_1"
-                                                    marginRight={true}
-                                                    // fieldLabel="Titel"
-                                                    pValue="Eerste eigenaar"
-                                                    titelEnkelvoud={titelEnkelvoud}
-                                                /> : null } 
-
-                                                { crudObject["Eigenaar_2"] !== undefined ? 
-                                                <FormFieldSelectUser 
-                                                    handleChange={this.context.handleChange}
-                                                    fieldValue={crudObject["Eigenaar_2"]}
-                                                    dataObjectProperty="Eigenaar_2"
-                                                    // fieldLabel="Titel"
-                                                    pValue="Tweede eigenaar"
-                                                    titelEnkelvoud={titelEnkelvoud}
-                                                /> : null } 
-                                            
-                                            </div>
-                                            
-                                            <div className="flex">
-
-                                                { crudObject["Portefeuillehouder_1"] !== undefined ? 
-                                                <FormFieldSelectUser 
-                                                    handleChange={this.context.handleChange}
-                                                    fieldValue={crudObject["Portefeuillehouder_1"]}
-                                                    dataObjectProperty="Portefeuillehouder_1"
-                                                    marginRight={true}
-                                                    // fieldLabel="Titel"
-                                                    pValue="Eerste portefeuillehouder"
-                                                    titelEnkelvoud={titelEnkelvoud}
-                                                /> : null }
-
-                                                { crudObject["Portefeuillehouder_2"] !== undefined ? 
-                                                <FormFieldSelectUser 
-                                                    handleChange={this.context.handleChange}
-                                                    fieldValue={crudObject["Portefeuillehouder_2"]}
-                                                    dataObjectProperty="Portefeuillehouder_2"
-                                                    // fieldLabel="Titel"
-                                                    pValue="Tweede portefeuillehouder"
-                                                    titelEnkelvoud={titelEnkelvoud}
-                                                /> : null }
-
-                                            </div>
+                                            <FormFieldSelectUserGroup
+                                                handleChange={this.context.handleChange}
+                                                crudObject={crudObject}
+                                                marginRight={true}
+                                                fieldLabel="Personen"
+                                                titelEnkelvoud={titelEnkelvoud}
+                                                editStatus={this.context.editStatus}
+                                            />
 
                                         </React.Fragment>
                                         : null }
@@ -374,8 +286,9 @@ class ContainerCrudFields extends React.Component {
                                             pValue="Indien deze beleidsbeslissing een nationaal belang dient of voortkomt uit een wettelijke taak of bevoegdheid, selecteer dit hieronder."
                                             titelEnkelvoud={titelEnkelvoud}
                                             voegKoppelingRelatieToe={this.context.voegKoppelingRelatieToe}
+                                            verwijderKoppelingRelatieToe={this.context.verwijderKoppelingRelatieToe}
                                             koppelingRelatieArray={['belangen', 'taken']}
-                                            crudObject={crudObject}
+                                            crudObject={JSON.parse(JSON.stringify(crudObject))}
                                             />
                                         : null }
                                     </ContainerFormSection>
@@ -402,15 +315,27 @@ class ContainerCrudFields extends React.Component {
                                     
                                 : null }
                                 
+
+                                {/* 1. Beleidsbeslsissingen */}
+                                {/* 2. 
+                                    Ambities                
+                                        - Ambities
+                                    Opgaven                 
+                                        - Opgaven
+                                    Beleidsregels           
+                                        - Beleidsregels
+                                    Maatregelen             
+                                        - Maatregelen
+                                    Verordeningsartikel     
+                                        - Verordening
+                                */}
+
                                 { 
                                 crudObject["Ambities"] !== undefined || 
-                                crudObject["Themas"] !== undefined || 
-                                crudObject["Doelen"] !== undefined ||
+                                crudObject["Opgaven"] !== undefined || 
+                                crudObject["Beleidsregels"] !== undefined ||
                                 crudObject["Maatregelen"] !== undefined || 
-                                crudObject["Doelen"] !== undefined ||
-                                crudObject["Themas"] !== undefined ||
-                                crudObject["Verordening"] !== undefined ||
-                                crudObject["BeleidsRegels"] !== undefined ?
+                                crudObject["Verordening"] !== undefined ?
                                     
                                     <ContainerFormSection
                                         titel="Koppelingen en relaties"
@@ -428,14 +353,16 @@ class ContainerCrudFields extends React.Component {
                                             pValue="Aan welke ambities, opgaven, artikelen uit de verordening, maatregelen en nadere beleidsregels heeft deze beleidsbeslissing een koppeling?"
                                             titelEnkelvoud={titelEnkelvoud}
                                             voegKoppelingRelatieToe={this.context.voegKoppelingRelatieToe}
+                                            wijzigKoppelingRelatie={this.context.wijzigKoppelingRelatie}
+                                            verwijderKoppelingRelatieToe={this.context.verwijderKoppelingRelatieToe}
                                             koppelingRelatieArray={[
                                                 'ambities', 
-                                                'themas',
-                                                'doelen',
+                                                'opgaven',
+                                                'beleidsregels',
                                                 'maatregelen',
                                                 'verordening'
                                             ]}
-                                            crudObject={crudObject}
+                                            crudObject={JSON.parse(JSON.stringify(crudObject))}
                                             />
                                     </ContainerFormSection>
                                     
@@ -673,6 +600,18 @@ class ContainerCrudFields extends React.Component {
                                                 fieldValue={crudObject["Werkingsgebied"]}
                                                 fieldLabel="Werkingsgebied"
                                                 dataObjectProperty="Werkingsgebied"
+                                                editStatus={this.context.editStatus}
+                                            />
+                                        : null }
+
+                                        {/* Verordening Werkingsgebied */}
+                                        { crudObject["Tags"] !== undefined ? 
+                                            <FormFieldTags
+                                                handleChange={this.context.handleChange}
+                                                titelEnkelvoud={titelEnkelvoud}
+                                                fieldValue={crudObject["Tags"]}
+                                                fieldLabel="Tags"
+                                                dataObjectProperty="Tags"
                                                 editStatus={this.context.editStatus}
                                             />
                                         : null }

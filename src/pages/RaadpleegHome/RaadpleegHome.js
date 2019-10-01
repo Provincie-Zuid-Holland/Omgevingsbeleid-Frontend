@@ -5,25 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 // Import Components
 import LeafletHalfScreenWidthViewer from './../../components/LeafletHalfScreenWidthViewer'
-
-class Zoekbalk extends Component {
-    render() {
-        return (
-            <div className="w-full block relative">
-                <input
-                    className="appearance-none w-full block text-gray-700 border border-gray-400 rounded py-3 pl-4 pr-12 leading-tight focus:outline-none hover:border-gray-500 focus:border-gray-500 shadow text-sm"
-                    id="titel"
-                    type="text"
-                    placeholder="Zoeken op tags, adres, artikelnummer, etc."
-                />
-                <FontAwesomeIcon
-                    className="absolute right-0 top-0 mr-4 mt-4 text-gray-600 text-sm"
-                    icon={faSearch}
-                />
-            </div>
-        )
-    }
-}
+import SearchBar from './../../components/SearchBar'
 
 class RaadpleegHome extends Component {
     render() {
@@ -45,7 +27,7 @@ class RaadpleegHome extends Component {
                         .
                     </p>
                     <div className="mt-10 block">
-                        <Zoekbalk />
+                        <SearchBar />
                     </div>
                     <div>
                         <h2 className="heading-serif mt-10">

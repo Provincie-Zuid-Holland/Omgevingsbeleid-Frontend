@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
+import { useSpring, animated } from 'react-spring'
+
 import {
     faCaretDown,
     faSignInAlt,
@@ -7,7 +9,6 @@ import {
     faAngleRight,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useSpring, animated } from 'react-spring'
 
 function getToken() {
     return localStorage.getItem('access_token')
@@ -112,13 +113,6 @@ class NavigationMenuPopUp extends Component {
                                 </li>
                             </ul>
                         </div>
-                        {/* <div className="border-t border-gray-300 py-2 text-sm text-gray-700 px-4 cursor-pointer hover:underline">
-                            Vergelijken
-                            <FontAwesomeIcon
-                                className="right-0 absolute text-gray-700 mr-4 mt-1"
-                                icon={faAngleRight}
-                            />
-                        </div> */}
                     </div>
                 ) : null}
             </span>
@@ -207,4 +201,4 @@ class Navigation extends Component {
     }
 }
 
-export default Navigation
+export default withRouter(Navigation)

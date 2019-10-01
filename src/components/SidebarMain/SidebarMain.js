@@ -6,20 +6,24 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const menuItemsOmgevingsbeleid = {
     Dashboard: { url: '/dashboard', finished: true },
-    Verordening: { url: '/verordening', finished: true },
+    'Mijn beleid': { url: '', finished: false },
+    Meldingen: { url: '', finished: false },
+    // 'API Test Omgeving': { url: '/api-test', finished: true },
+}
+
+const menuItemsGebruiker = {
+    'Mijn account': { url: '', finished: false },
+}
+
+const menuItemsBeheer = {
     Beleidsbeslissingen: { url: '/beleidsbeslissingen', finished: true },
     Beleidsregels: { url: '/beleidsregels', finished: true },
     Maatregelen: { url: '/maatregelen', finished: true },
-    'API Test Omgeving': { url: '/api-test', finished: true },
-}
-
-const menuItemsActies = {
-    'Onderdelen indienen': { url: '', finished: false },
-    Wijzigingen: { url: '', finished: false },
-}
-
-const menuItemsInstellingen = {
-    'Mijn account': { url: '', finished: false },
+    Opgaven: { url: '/opgaven', finished: true },
+    Ambities: { url: '/ambities', finished: true },
+    Belangen: { url: '/belangen', finished: true },
+    Themas: { url: '/themas', finished: true },
+    Verordening: { url: '/verordening', finished: true },
 }
 
 function ReturnNavLink(props) {
@@ -115,10 +119,10 @@ function SidebarMain(props) {
             <nav className="pt-2">
                 <MainSideBarHeading>Omgevingsbeleid</MainSideBarHeading>
                 <ul>{returnMenuItems(menuItemsOmgevingsbeleid)}</ul>
-                <MainSideBarHeading>Acties</MainSideBarHeading>
-                <ul>{returnMenuItems(menuItemsActies)}</ul>
+                <MainSideBarHeading>Gebruiker</MainSideBarHeading>
+                <ul>{returnMenuItems(menuItemsGebruiker)}</ul>
                 <MainSideBarHeading>Instellingen</MainSideBarHeading>
-                <ul>{returnMenuItems(menuItemsInstellingen)}</ul>
+                <ul>{returnMenuItems(menuItemsBeheer)}</ul>
             </nav>
         </div>
     )

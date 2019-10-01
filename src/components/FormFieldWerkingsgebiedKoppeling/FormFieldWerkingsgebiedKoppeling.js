@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import { withRouter } from 'react-router-dom'
 import {
     faCheckCircle,
     faPlus,
@@ -12,6 +12,7 @@ import { useSpring, animated } from 'react-spring'
 import axios from './../../API/axios'
 import { api_version, axiosGeoJSON } from './../../API/axiosGeoJSON'
 import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFieldTitelEnBeschrijving'
+import LoaderWerkingsgebiedCard from './../LoaderWerkingsgebiedCard'
 
 function makeSelection(objectenArray, dataObjectProperty) {
     if (objectenArray.length === 1) {
@@ -33,13 +34,13 @@ function makeSelection(objectenArray, dataObjectProperty) {
     }
 }
 
-function CardWerkingsGebied() {
+function CardWerkingsGebied(props) {
     return (
-        <li className="w-1/3 inline-block">
-            <div className="mx-4 my-4 hover:border-green-500 border-2 cursor-pointer text-center rounded">
+        <li className="w-1/2 inline-block" key={props.werkingsgebied.UUID}>
+            <div className="mx-4 my-4 hover:border-green-500 border-2 cursor-pointer text-left rounded">
                 <div className="block w-full h-48 bg-orange-300 rounded-t" />
-                <span className="text-sm text-gray-700 py-4 block">
-                    Bedrijventerrein
+                <span className="text-sm text-gray-700 p-4 block">
+                    {props.werkingsgebied.Werkingsgebied}
                 </span>
             </div>
         </li>
@@ -58,7 +59,7 @@ function PopUpWerkingsGebiedContent(props) {
                 })}
             />
             <div className="fixed top-0 left-0 z-10">
-                <div className="flex h-screen w-screen top-0 left-0 justify-center items-center">
+                <div className="flex h-screen w-screen top-0 left-0 justify-center items-center p-8">
                     <animated.div
                         style={useSpring({
                             config: { tension: 300 },
@@ -93,18 +94,30 @@ function PopUpWerkingsGebiedContent(props) {
                         </div>
                         <div className="shadow border rounded px-4 py-4">
                             <ul className="flex-row overflow-y-auto max-h-half-screen">
-                                <CardWerkingsGebied />
-                                <CardWerkingsGebied />
-                                <CardWerkingsGebied />
-                                <CardWerkingsGebied />
-                                <CardWerkingsGebied />
-                                <CardWerkingsGebied />
-                                <CardWerkingsGebied />
-                                <CardWerkingsGebied />
-                                <CardWerkingsGebied />
-                                <CardWerkingsGebied />
-                                <CardWerkingsGebied />
-                                <CardWerkingsGebied />
+                                {props.dataLoaded ? (
+                                    props.werkingsgebieden.map(item => {
+                                        return (
+                                            <CardWerkingsGebied
+                                                key={item.UUID}
+                                                werkingsgebied={item}
+                                            />
+                                        )
+                                    })
+                                ) : (
+                                    <React.Fragment>
+                                        <div className="flex-row">
+                                            <LoaderWerkingsgebiedCard />
+                                            <LoaderWerkingsgebiedCard />
+                                            <LoaderWerkingsgebiedCard />
+                                            <LoaderWerkingsgebiedCard />
+                                            <LoaderWerkingsgebiedCard />
+                                            <LoaderWerkingsgebiedCard />
+                                            <LoaderWerkingsgebiedCard />
+                                            <LoaderWerkingsgebiedCard />
+                                            <LoaderWerkingsgebiedCard />
+                                        </div>
+                                    </React.Fragment>
+                                )}
                             </ul>
                         </div>
                         <div className="flex justify-between items-center mt-6">
@@ -127,6 +140,7 @@ class PopUpWerkingsGebiedContainer extends Component {
         super(props)
         this.state = {
             werkingsgebieden: [],
+            dataLoaded: false,
         }
     }
     makeSelection(objectenArray) {
@@ -139,25 +153,6 @@ class PopUpWerkingsGebiedContainer extends Component {
             })
             return werkingsgebiedUUIDArray
         }
-    }
-    generateWerkingsgebiedenUUIDArray() {
-        axios
-            .get('werkingsgebieden')
-            .then(res => {
-                const objecten = res.data
-                const selectionArray = this.makeSelection(objecten)
-                return this.generateJSONForAllWerkingsgebieden(selectionArray)
-            })
-            .catch(error => {
-                if (error.response !== undefined) {
-                    if (error.response.status === 401) {
-                        localStorage.removeItem('access_token')
-                        this.props.history.push('/login')
-                    }
-                } else {
-                    console.log(error)
-                }
-            })
     }
 
     returnAxiosRequestArray(UUIDArray) {
@@ -208,12 +203,26 @@ class PopUpWerkingsGebiedContainer extends Component {
     }
 
     componentDidMount() {
-        const werkingsgebieden = this.generateWerkingsgebiedenUUIDArray()
-        console.log(werkingsgebieden)
+        axios
+            .get('werkingsgebieden')
+            .then(res => {
+                const werkingsgebieden = res.data
+                // const selectionArray = this.makeSelection(werkingsgebieden)
+                // return this.generateJSONForAllWerkingsgebieden(selectionArray)
+                console.log(werkingsgebieden)
+                this.setState({
+                    werkingsgebieden: werkingsgebieden,
+                    dataLoaded: true,
+                })
+            })
+            .catch(error => {
+                console.log(error)
+            })
     }
     render() {
         return (
             <PopUpWerkingsGebiedContent
+                dataLoaded={this.state.dataLoaded}
                 werkingsgebieden={this.state.werkingsgebieden}
                 togglePopUp={this.props.togglePopUp}
             />
@@ -269,8 +278,4 @@ class FormFieldWerkingsgebiedKoppeling extends Component {
     }
 }
 
-FormFieldWerkingsgebiedKoppeling.propTypes = {}
-
-FormFieldWerkingsgebiedKoppeling.defaultProps = {}
-
-export default FormFieldWerkingsgebiedKoppeling
+export default withRouter(FormFieldWerkingsgebiedKoppeling)

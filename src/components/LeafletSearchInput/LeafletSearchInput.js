@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import axios from 'axios'
 import axiosLocatieserver from './../../API/axiosLocatieserver'
+import { throttle } from './../../functions'
 
 class LeafletSearchInput extends Component {
     constructor(props) {
@@ -24,10 +25,10 @@ class LeafletSearchInput extends Component {
                 searchQuery: value,
             },
             () => {
-                if (this.state.dataLoading) {
-                    this.locatieServerSuggestCancel()
-                }
-                this.locatieServerSuggestQuery(value)
+                // if (this.state.dataLoading) {
+                //     this.locatieServerSuggestCancel()
+                // }
+                throttle(1000, this.locatieServerSuggestQuery(value))
             }
         )
     }
@@ -133,7 +134,7 @@ class LeafletSearchInput extends Component {
                             e.keyCode === 40 &&
                             this.state.queryData.length > 0
                         ) {
-                            // Arrow up
+                            // Arrow down
                             document
                                 .querySelectorAll(`[data-index='1']`)[0]
                                 .focus()
@@ -174,10 +175,6 @@ class LeafletSearchInput extends Component {
                                             // Arrow up
                                             this.selectQueryDataItem('previous')
                                         }
-                                        // this.locatieServerLookupQuery(
-                                        //     item.id,
-                                        //     item.weergavenaam
-                                        // )
                                     }}
                                 >
                                     <span

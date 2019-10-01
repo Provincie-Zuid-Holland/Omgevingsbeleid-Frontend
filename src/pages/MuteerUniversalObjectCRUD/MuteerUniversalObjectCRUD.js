@@ -5,6 +5,8 @@ import nlLocale from 'date-fns/locale/nl'
 
 // Import Components
 import ContainerCrudFields from './ContainerCrudFields'
+import ButtonBackToPage from './../../components/ButtonBackToPage'
+import LoaderContent from './../../components/LoaderContent'
 
 // Import Axios instance to connect with the API
 import axios from './../../API/axios'
@@ -69,12 +71,17 @@ class MuteerUniversalObjectCRUD extends Component {
         this.state = {
             edit: false,
             crudObject: {},
+            dataLoaded: false,
         }
 
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.setEditorState = this.setEditorState.bind(this)
         this.voegKoppelingRelatieToe = this.voegKoppelingRelatieToe.bind(this)
+        this.wijzigKoppelingRelatie = this.wijzigKoppelingRelatie.bind(this)
+        this.verwijderKoppelingRelatieToe = this.verwijderKoppelingRelatieToe.bind(
+            this
+        )
     }
 
     componentDidMount() {
@@ -151,6 +158,7 @@ class MuteerUniversalObjectCRUD extends Component {
                         this.setState(
                             {
                                 crudObject: savedStateInLocalStorage.savedState,
+                                dataLoaded: true,
                             },
                             () => {
                                 toast(({ closeToast }) => (
@@ -158,12 +166,12 @@ class MuteerUniversalObjectCRUD extends Component {
                                         Opgeslagen versie van {savedStateDate}
                                     </div>
                                 ))
-                                console.log(this.state)
                             }
                         )
                     } else {
                         this.setState({
                             crudObject: crudObject,
+                            dataLoaded: true,
                         })
                     }
                 })
@@ -194,6 +202,7 @@ class MuteerUniversalObjectCRUD extends Component {
                 this.setState(
                     {
                         crudObject: savedStateInLocalStorage.savedState,
+                        dataLoaded: true,
                     },
                     () => {
                         toast(({ closeToast }) => (
@@ -210,6 +219,7 @@ class MuteerUniversalObjectCRUD extends Component {
                 const crudObject = makeCrudObject(crudProperties)
                 this.setState({
                     crudObject: crudObject,
+                    dataLoaded: true,
                 })
             }
         }
@@ -223,6 +233,13 @@ class MuteerUniversalObjectCRUD extends Component {
         if (type === 'date') {
             value = event.target.value
         }
+
+        // this.setState(prevState => ({
+        //     crudObject: {
+        //         ...prevState.crudObject,
+        //         [name]: value,
+        //     },
+        // }))
 
         this.setState(prevState => ({
             crudObject: {
@@ -305,29 +322,69 @@ class MuteerUniversalObjectCRUD extends Component {
     voegKoppelingRelatieToe(propertyName, object, omschrijving) {
         const nieuwObject = {
             UUID: object.UUID,
-            omschrijving: omschrijving,
+            Omschrijving: omschrijving,
         }
 
         // let nieuweArray = this.state.crudObject[propertyName]
         let nieuwCrudObject = this.state.crudObject
         nieuwCrudObject[propertyName].push(nieuwObject)
-        console.log(nieuwCrudObject)
 
         this.setState(
             {
                 crudObject: nieuwCrudObject,
             },
-            () => {
-                console.log('this.state Universeel CRUD')
-                console.log(this.state)
-            }
+            () => toast('Koppeling toegevoegd')
         )
     }
 
-    componentDidUpdate() {
+    wijzigKoppelingRelatie(koppelingObject, nieuweOmschrijving) {
+        let nieuwCrudObject = this.state.crudObject
+        const index = nieuwCrudObject[koppelingObject.propertyName].findIndex(
+            item => item.UUID === koppelingObject.item.UUID
+        )
+        nieuwCrudObject[koppelingObject.propertyName][
+            index
+        ].Omschrijving = nieuweOmschrijving
+
+        this.setState(
+            {
+                crudObject: nieuwCrudObject,
+            },
+            () => toast('Koppeling gewijzigd')
+        )
+    }
+
+    verwijderKoppelingRelatieToe(koppelingObject) {
+        // const nieuwObject = {
+        //     UUID: object.UUID,
+        //     Omschrijving: omschrijving,
+        // }
+
+        let nieuwCrudObject = this.state.crudObject
+        const index = nieuwCrudObject[koppelingObject.propertyName].findIndex(
+            item => item.UUID === koppelingObject.item.UUID
+        )
+        nieuwCrudObject[koppelingObject.propertyName].splice(index, 1)
+
+        this.setState(
+            {
+                crudObject: nieuwCrudObject,
+            },
+            () => toast('Relatie verwijderd.')
+        )
+    }
+
+    componentDidUpdate(prevProps, prevState) {
         // Save to LocalStorage
         // If page === edit set Key to Name_UUID
         // If page === new set Key to Name
+        if (
+            this.state.dataLoaded === false ||
+            JSON.stringify(this.state.crudObject) ===
+                JSON.stringify(prevProps.crudObject)
+        ) {
+            return
+        }
 
         if (!this.state.edit) {
             const objectName = this.props.dataModel.variables.Object_Name
@@ -360,25 +417,89 @@ class MuteerUniversalObjectCRUD extends Component {
             editStatus: this.state.edit,
             handleSubmit: this.handleSubmit,
             voegKoppelingRelatieToe: this.voegKoppelingRelatieToe,
+            wijzigKoppelingRelatie: this.wijzigKoppelingRelatie,
+            verwijderKoppelingRelatieToe: this.verwijderKoppelingRelatieToe,
             handleChange: this.handleChange,
             crudObject: this.state.crudObject,
             setEditorState: this.setEditorState,
         }
 
-        // False if data is loading, true if there is a response
-        // let dataPending = isObjectEmpty(this.state.crudObject)
-        let dataPending = isObjectEmpty(this.state.crudObject)
+        console.log(this.state.crudObject)
 
         return (
             <div>
-                {dataPending ? null : (
-                    <APIcontext.Provider value={contextObject}>
+                <ContainerCrudHeader
+                    editStatus={this.state.edit}
+                    titelMeervoud={
+                        this.props.dataModel.variables.Titel_Meervoud
+                    }
+                    overzichtSlug={this.props.overzichtSlug}
+                    titelEnkelvoud={
+                        this.props.dataModel.variables.Titel_Enkelvoud
+                    }
+                    objectID={this.props.match.params.single}
+                />
+                <APIcontext.Provider value={contextObject}>
+                    {this.state.dataLoaded ? (
                         <ContainerCrudFields />
-                    </APIcontext.Provider>
-                )}
+                    ) : (
+                        <LoaderContent />
+                    )}
+                </APIcontext.Provider>
             </div>
         )
     }
+}
+
+function ContainerCrudHeader(props) {
+    let mainTitle = ''
+
+    if (
+        props.editStatus &&
+        props.titelEnkelvoud.toLowerCase() !== 'beleidsregel'
+    ) {
+        mainTitle = `Wijzig een ${props.titelEnkelvoud.toLowerCase()}`
+    } else if (
+        !props.editStatus &&
+        props.titelEnkelvoud.toLowerCase() !== 'beleidsregel'
+    ) {
+        mainTitle = `Voeg een nieuwe ${props.titelEnkelvoud.toLowerCase()} toe`
+    } else if (
+        props.editStatus &&
+        props.titelEnkelvoud.toLowerCase() === 'beleidsregel'
+    ) {
+        mainTitle = `Beheer ${props.titelEnkelvoud.toLowerCase()}`
+    } else if (
+        !props.editStatus &&
+        props.titelEnkelvoud.toLowerCase() === 'beleidsregel'
+    ) {
+        mainTitle = `Voeg een nieuwe ${props.titelEnkelvoud.toLowerCase()} toe`
+    }
+
+    return (
+        <div className="w-full py-32 px-6 mbg-color edit-header relative">
+            <div className="container mx-auto flex justify-center items-center">
+                <div className="w-full pr-20">
+                    {props.editStatus === false ? (
+                        <ButtonBackToPage
+                            terugNaar={props.titelMeervoud.toLowerCase()}
+                            color="text-white"
+                            url={`/${props.overzichtSlug}`}
+                        />
+                    ) : (
+                        <ButtonBackToPage
+                            terugNaar={props.titelEnkelvoud.toLowerCase()}
+                            color="text-white"
+                            url={`/${props.overzichtSlug}/${props.objectID}`}
+                        />
+                    )}
+                    <h1 className="heading-serif-4xl text-white">
+                        {mainTitle}
+                    </h1>
+                </div>
+            </div>
+        </div>
+    )
 }
 
 export default MuteerUniversalObjectCRUD

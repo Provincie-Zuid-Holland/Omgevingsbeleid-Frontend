@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
 import { Route, Switch, withRouter } from 'react-router-dom'
+import axios from './../API/axios'
 
 // Import Notification Library
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-
-// Import HTTP Client
-import axios from './../API/axios'
 
 // Import Styling
 import './../css/tailwind.css'
@@ -25,6 +23,13 @@ import Navigation from './../components/Navigation'
 import AuthRoutes from './AuthRoutes'
 
 class App extends Component {
+    componentWillMount() {
+        // Als de app gemount wordt, wordt de huidige token gechecked
+        axios.get('/tokeninfo').catch(error => {
+            localStorage.removeItem('access_token')
+        })
+    }
+
     render() {
         return (
             <main
@@ -49,18 +54,6 @@ class App extends Component {
                 <ToastContainer />
             </main>
         )
-    }
-
-    redirectToLogin() {
-        localStorage.removeItem('access_token')
-        this.props.history.push('/login')
-    }
-
-    componentDidMount() {
-        // Als de app gemount wordt, wordt de huidige token gechecked
-        axios.get('/tokeninfo').catch(error => {
-            this.redirectToLogin()
-        })
     }
 }
 

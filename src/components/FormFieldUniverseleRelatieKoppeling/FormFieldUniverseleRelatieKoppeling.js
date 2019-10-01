@@ -2,79 +2,23 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import axios from './../../API/axios'
 import { toast } from 'react-toastify'
+import { useSpring, animated } from 'react-spring'
 
 import {
     faCaretDown,
     faAngleDown,
     faTimes,
     faSearch,
+    faEye,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useSpring, animated } from 'react-spring'
+
+import PopUpAnimatedContainer from './../PopUpAnimatedContainer'
+import PopupNieuweKoppeling from './PopupNieuweKoppeling'
+import PopupBewerkKoppeling from './PopUpBewerkKoppeling'
 import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFieldTitelEnBeschrijving'
 
-const objecten = {
-    belangen: {
-        buttonTekst: 'belang',
-        volledigeTitel: 'Nationaal Belang',
-        api: '/belangen',
-        filterAPI: true,
-        filterType: 'Nationaal Belang',
-        propertyName: 'Belangen',
-        type: 'Nationaal Belang',
-    },
-    taken: {
-        buttonTekst: 'taak',
-        volledigeTitel: 'Wettelijke taken & bevoegdheden',
-        api: '/belangen',
-        filterAPI: true,
-        filterType: 'Wettelijke Taak & Bevoegdheid',
-        propertyName: 'Belangen',
-        type: 'Wettelijke Taak & Bevoegdheid',
-    },
-    ambities: {
-        buttonTekst: 'ambities',
-        volledigeTitel: 'Ambities',
-        api: '/ambities',
-        propertyName: 'Ambities',
-        type: 'Ambitie',
-    },
-    themas: {
-        buttonTekst: 'Themas',
-        volledigeTitel: 'Themas',
-        api: '/themas',
-        propertyName: 'Themas',
-        type: 'Thema',
-    },
-    doelen: {
-        buttonTekst: 'doelen',
-        volledigeTitel: 'Doelen',
-        api: '/doelen',
-        propertyName: 'Doelen',
-        type: 'Doel',
-    },
-    maatregelen: {
-        buttonTekst: 'maatregelen',
-        volledigeTitel: 'Maatregelen',
-        api: '/maatregelen',
-        propertyName: 'Maatregelen',
-        type: 'Maatregel',
-    },
-    verordening: {
-        buttonTekst: 'verordeningen',
-        volledigeTitel: 'Verordening',
-        api: '/verordeningen',
-        propertyName: 'Verordening',
-        type: 'Verordening',
-    },
-    beleidsRegels: {
-        buttonTekst: 'beleidsregels',
-        volledigeTitel: 'Beleidsregels',
-        api: '/beleidsregels',
-        propertyName: 'Beleidsregels',
-        type: 'Beleidsregel',
-    },
-}
+import objecten from './ObjectenInformatie'
 
 class FormFieldUniverseleRelatieKoppeling extends Component {
     // State:
@@ -85,21 +29,66 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
         this.state = {
             selected: [],
             buttonOpen: false,
-            popupOpen: false,
+            popupOpenNieuw: false,
+            popupOpenBewerk: false,
+            popupOpenBewerkItem: {},
             koppelingenRelaties: null,
             dataFromAPILoaded: false,
         }
         this.button = React.createRef()
         this.dropdown = React.createRef()
         this.toggleButton = this.toggleButton.bind(this)
+        this.verwijderKoppelingFromLocalState = this.verwijderKoppelingFromLocalState.bind(
+            this
+        )
+        this.wijzigKoppelingRelatieFromLocalState = this.wijzigKoppelingRelatieFromLocalState.bind(
+            this
+        )
         this.handleClickOutside = this.handleClickOutside.bind(this)
-        this.togglePopup = this.togglePopup.bind(this)
+        this.togglePopupNieuw = this.togglePopupNieuw.bind(this)
+        this.togglePopupBewerk = this.togglePopupBewerk.bind(this)
         this.savekoppelingenRelatiesNaarState = this.savekoppelingenRelatiesNaarState.bind(
             this
         )
         this.saveNieuwekoppelingRelatieNaarState = this.saveNieuwekoppelingRelatieNaarState.bind(
             this
         )
+    }
+
+    verwijderKoppelingFromLocalState(itemObject) {
+        console.log(itemObject)
+        console.log(this.state.koppelingenRelaties)
+
+        let nieuwKoppelingenRelatiesObject = this.state.koppelingenRelaties
+        const index = nieuwKoppelingenRelatiesObject[
+            itemObject.propertyName
+        ].findIndex(item => item.UUID === itemObject.item.UUID)
+        nieuwKoppelingenRelatiesObject[itemObject.propertyName].splice(index, 1)
+
+        this.setState({
+            koppelingenRelaties: nieuwKoppelingenRelatiesObject,
+        })
+    }
+
+    wijzigKoppelingRelatieFromLocalState(itemObject, nieuweOmschrijving) {
+        console.log(itemObject)
+        console.log(this.state.koppelingenRelaties)
+
+        let nieuwKoppelingenRelatiesObject = this.state.koppelingenRelaties
+        const index = nieuwKoppelingenRelatiesObject[
+            itemObject.propertyName
+        ].findIndex(item => item.UUID === itemObject.item.UUID)
+        nieuwKoppelingenRelatiesObject[itemObject.propertyName][
+            index
+        ].Omschrijving = nieuweOmschrijving
+
+        console.log(
+            nieuwKoppelingenRelatiesObject[itemObject.propertyName][index]
+        )
+
+        this.setState({
+            koppelingenRelaties: nieuwKoppelingenRelatiesObject,
+        })
     }
 
     toggleButton() {
@@ -118,16 +107,36 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
         }
     }
 
-    togglePopup(type) {
-        if (this.state.popupOpen !== true) {
+    togglePopupNieuw(type) {
+        if (!this.state.popupOpenNieuw) {
             this.setState({
-                popupOpen: !this.state.popupOpen,
+                popupOpenNieuw: !this.state.popupOpenNieuw,
                 popupType: type,
             })
         } else {
             this.setState({
-                popupOpen: !this.state.popupOpen,
+                popupOpenNieuw: !this.state.popupOpenNieuw,
                 popupType: null,
+            })
+        }
+    }
+
+    togglePopupBewerk(item, propertyName) {
+        if (!this.state.popupOpenBewerk) {
+            this.setState({
+                popupOpenBewerk: !this.state.popupOpenBewerk,
+                popupOpenBewerkItem: {
+                    item: item,
+                    propertyName: propertyName,
+                },
+            })
+        } else {
+            this.setState({
+                popupOpenBewerk: !this.state.popupOpenBewerk,
+                popupOpenBewerkItem: {
+                    item: item,
+                    propertyName: propertyName,
+                },
             })
         }
     }
@@ -150,7 +159,7 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
         // Vervolgens moeten we API calls doen om de laatste data terug te krijgen op basis van de UUID
 
         // crudObject met alle huidige data
-        const crudObject = { ...this.props.crudObject }
+        const crudObject = this.props.crudObject
 
         // Bevat de properties van het crudObject die hierin bewerkt moeten worden
         const koppelingRelatieArray = this.props.koppelingRelatieArray
@@ -163,7 +172,10 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
             const propertyName = objecten[item].propertyName
             if (
                 crudObject[propertyName] !== undefined &&
-                crudObject[propertyName].length > 0
+                crudObject[propertyName].length > 0 &&
+                !actieveKoppelingOfRelaties.includes(
+                    objecten[item].propertyName
+                )
             ) {
                 actieveKoppelingOfRelaties.push(objecten[item].propertyName)
             }
@@ -183,7 +195,7 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
         }
 
         // crudObject met alle huidige data
-        const crudObject = { ...this.props.crudObject }
+        const crudObject = this.props.crudObject
 
         // Bevat de properties van het crudObject die hierin bewerkt moeten worden
         const koppelingRelatieArray = this.props.koppelingRelatieArray
@@ -191,43 +203,50 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
         // Maakt een array om te kijken of 1 van de properties op het crudObject al data heeft
         let actieveKoppelingOfRelaties = []
 
-        // Stopt de actieve koppelingen property names in een array en roept de functie savekoppelingenRelatiesNaarState()
+        // Stopt de actieve koppelingen property names in een array
         koppelingRelatieArray.forEach(item => {
             const propertyName = objecten[item].propertyName
             if (
                 crudObject[propertyName] !== undefined &&
-                crudObject[propertyName].length > 0
+                crudObject[propertyName].length > 0 &&
+                !actieveKoppelingOfRelaties.includes(
+                    objecten[item].propertyName
+                )
             ) {
                 actieveKoppelingOfRelaties.push(objecten[item].propertyName)
             }
         })
 
         let arrayMetNieuweObjecten = []
+
+        // Map over de property names die in de crud object prop zitten
         actieveKoppelingOfRelaties.map(item => {
-            this.props.crudObject[item].map(object => {
-                const omschrijving = object.omschrijving
+            // map over het het 'item' property binnen het crudObject, bijvoorbeeld 'ambities'
+            crudObject[item].map(object => {
+                const omschrijving = object.Omschrijving
                 const UUID = object.UUID
-                let newItemBool = false
+                // Als het een volledig nieuwe property name is die nog niet is toegevoegd (Dus een nieuw type)
                 if (
-                    this.state.koppelingenRelaties === null ||
-                    this.state.koppelingenRelaties[item] === null
+                    !this.state.koppelingenRelaties ||
+                    !this.state.koppelingenRelaties[item]
                 ) {
-                    newItemBool = true
-                } else {
-                    const newItemBool =
-                        this.state.koppelingenRelaties[item] &&
-                        this.state.koppelingenRelaties[item].find(
-                            item => item.UUID === UUID
-                        ) === undefined
-                }
-                if (newItemBool) {
-                    console.log('New Item:')
-                    console.log(item)
-                    console.log(objecten)
                     this.saveNieuwekoppelingRelatieNaarState({
                         UUID: UUID,
                         propertyName: item,
-                        omschrijving: omschrijving,
+                        Omschrijving: omschrijving,
+                    })
+                } else if (
+                    this.state.koppelingenRelaties[item] &&
+                    this.state.koppelingenRelaties[item].find(
+                        item => item.UUID === UUID
+                    ) === undefined
+                ) {
+                    // Anders zoeken we in de state, binnen de property name, naar een object met dezelfde UUID
+                    // Als we deze niet vinden is het een nieuw item en saven we deze naar de state
+                    this.saveNieuwekoppelingRelatieNaarState({
+                        UUID: UUID,
+                        propertyName: item,
+                        Omschrijving: omschrijving,
                     })
                 }
             })
@@ -237,34 +256,34 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
     saveNieuwekoppelingRelatieNaarState(nieuweKoppelingRelatieObject) {
         const propertyName = nieuweKoppelingRelatieObject.propertyName
         const UUID = nieuweKoppelingRelatieObject.UUID
-        const omschrijving = nieuweKoppelingRelatieObject.omschrijving
+        const omschrijving = nieuweKoppelingRelatieObject.Omschrijving
 
         let nieuweKoppelingRelatieState = { ...this.state.koppelingenRelaties }
 
         axios
             .get(`${objecten[propertyName.toLowerCase()].api}/version/${UUID}`)
             .then(res => {
-                console.log('res!')
-                console.log(res)
-                console.log('propertyName:')
-                console.log(propertyName)
                 if (nieuweKoppelingRelatieState[propertyName] === undefined) {
                     nieuweKoppelingRelatieState[propertyName] = []
                 }
                 nieuweKoppelingRelatieState[propertyName].push({
                     UUID: UUID,
                     data: res.data,
-                    omschrijving: omschrijving,
+                    Omschrijving: omschrijving,
                 })
-                this.setState({
-                    koppelingenRelaties: nieuweKoppelingRelatieState,
-                })
+                this.setState(
+                    {
+                        koppelingenRelaties: nieuweKoppelingRelatieState,
+                        dataFromAPILoaded: true,
+                    },
+                    () => console.log(this.state)
+                )
             })
     }
 
     savekoppelingenRelatiesNaarState(actieveKoppelingOfRelaties) {
         // crudObject met alle huidige data
-        const crudObject = { ...this.props.crudObject }
+        const crudObject = this.props.crudObject
 
         // Lege array waar de properties in worden gepushed na er overheen gemap'd te zijn
         // 'Belang' en 'Taak' zijn aparte typen, maar zitten wel beidde op dezelfde propertyName op het crudObject
@@ -289,20 +308,13 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
             }
         })
 
-        // Deze twee arrays zijn voor de Promises
-        // De eerste bevat alle promises. Ook krijgt deze als eerste een aparte promise die aan het eind vervult kan worden.
-        // De API data is wel aanwezig, maar omdat we een functie executie doen wordt deze eerst toegewezen als undefined.
-        // Dit is dus om te voorkomen dat de view gerendered wordt met undefined data.
-        // De resolveFirstPromise array gebruiken we om hier makkelijk bij te kunnen (resolveFirstPromise[0] en dan een call)
-        let promisesDataPropsAdded = []
-        let resolveFirstPromise = []
+        // Counter voor findPropertyAndAddDataToStateObject()
+        let amountOfItemsAdded = 0
+        const that = this
 
         // Functie om de .data property toe te voegen aan het object
-        function findPropertyAndAddDataToStateObject(
-            propertyName,
-            data,
-            resolve
-        ) {
+        function findPropertyAndAddDataToStateObject(propertyName, data) {
+            amountOfItemsAdded++
             const objectIndex = newStateKoppelingenRelatiesObject[
                 propertyName
             ].findIndex(x => x.UUID === data.UUID)
@@ -311,45 +323,41 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
                 objectIndex
             ].data = data
 
-            resolve('resolved')
+            // Als het het laatste item is wat geupdate wordt updaten we nog een keer de state, zodat de .data properties op alle objecten zitten en geupdate worden in de state, en dus in de UI
+            // if (amountOfItemsAdded === lengthOfAllObjects) {
+            // }
+            that.setState({
+                koppelingenRelaties: newStateKoppelingenRelatiesObject,
+            })
         }
+
+        // Counter voor het aantal objecten. Deze word later weer gebruikt binnen findPropertyAndAddDataToStateObject()
+        let lengthOfAllObjects = 0
 
         // Map over actieveKoppelingOfRelaties -> een array met de actie koppelingen & relaties vanuit het CrudObject
         // Vervolgens mappen we hierbinnen over de koppelingen om voor elk de UUID te pakken en hierop een API call te maken
-
-        // Return een array van Axios Promises
-
+        // Deze worden gereturned in een Promise.all()
         Promise.all(
             actieveKoppelingOfRelaties.map((propertyName, indexPropertyName) =>
                 newStateKoppelingenRelatiesObject[propertyName].map(
                     (koppeling, indexKoppeling) => {
+                        // Increase counter by one
+                        lengthOfAllObjects++
+
                         if (
                             objecten[propertyName.toLowerCase()] === undefined
                         ) {
                             return
                         }
 
-                        // Resolve de eerste promise nadat alle objecten zijn bewerkt
-                        const resolveFirstPromiseBool =
-                            actieveKoppelingOfRelaties.length ===
-                                indexPropertyName + 1 &&
-                            newStateKoppelingenRelatiesObject[propertyName]
-                                .length ===
-                                indexKoppeling + 1
-
                         axios
                             .get(
                                 `${objecten[propertyName.toLowerCase()].api}/version/${koppeling.UUID}`
                             )
                             .then(res => {
-                                promisesDataPropsAdded.push(
-                                    new Promise((resolve, reject) => {
-                                        findPropertyAndAddDataToStateObject(
-                                            propertyName,
-                                            res.data,
-                                            resolve
-                                        )
-                                    })
+                                findPropertyAndAddDataToStateObject(
+                                    propertyName,
+                                    res.data
                                 )
                             })
                     }
@@ -357,27 +365,16 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
             )
         )
             .then(responses => {
-                // Zodra alle undefined .data properties zijn toegewezen aan de API data (oftewel, zodra alle functie executies klaar zijn), wordt de eerste Promise vervuld, en zijn alle promises ready.
-                Promise.all(promisesDataPropsAdded)
-                    .then(() => {
-                        setTimeout(() => {
-                            this.setState({
-                                koppelingenRelaties: newStateKoppelingenRelatiesObject,
-                                dataFromAPILoaded: true,
-                            })
-                        }, 2000)
-                    })
-                    .catch(err => console.log(err))
+                this.setState({
+                    dataFromAPILoaded: true,
+                })
             })
-            .then(responses => {})
             .catch(err => console.log(err))
     }
 
     render() {
-        console.log(this.state)
-
         // crudObject met alle huidige data
-        const crudObject = { ...this.props.crudObject }
+        const crudObject = this.props.crudObject
 
         // Bevat de properties van het crudObject die hierin bewerkt moeten worden
         const koppelingRelatieArray = this.props.koppelingRelatieArray
@@ -417,9 +414,19 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
                                     const propertyName =
                                         objecten[koppelingRelatieNaam]
                                             .propertyName
+                                    if (
+                                        propertyNamesMapped.includes(
+                                            propertyName
+                                        )
+                                    ) {
+                                        return
+                                    }
+                                    propertyNamesMapped.push(propertyName)
 
                                     // Als deze propertyName niet in het koppelingenRelaties object zit; return
                                     if (
+                                        this.state.koppelingenRelaties ===
+                                            null ||
                                         this.state.koppelingenRelaties[
                                             propertyName
                                         ] === undefined
@@ -434,7 +441,8 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
                                         let type
                                         if (
                                             item.data !== undefined &&
-                                            item.data.Type !== undefined
+                                            item.data.Type !== undefined &&
+                                            item.data.Type !== 'Paragraaf'
                                         ) {
                                             type = item.data.Type
                                         } else {
@@ -446,15 +454,25 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
                                         return (
                                             <li
                                                 key={index}
-                                                className="flex border-b border-gray-300 text-gray-700 text-sm py-2"
+                                                className="flex border-b border-gray-300 text-gray-700 text-sm py-2 hover:text-gray-900 cursor-pointer"
+                                                onClick={() => {
+                                                    this.togglePopupBewerk(
+                                                        item,
+                                                        propertyName
+                                                    )
+                                                }}
                                             >
                                                 <div className="w-40 mr-5 relative">
                                                     {type}
                                                 </div>
-                                                <div className="w-full">
+                                                <div className="w-full relative">
                                                     {item.data
                                                         ? item.data.Titel
                                                         : null}
+                                                    <FontAwesomeIcon
+                                                        className="absolute right-0 mt-1 mr-2"
+                                                        icon={faEye}
+                                                    />
                                                 </div>
                                             </li>
                                         )
@@ -495,7 +513,7 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
                                                       <li
                                                           key={index}
                                                           onClick={() => {
-                                                              this.togglePopup(
+                                                              this.togglePopupNieuw(
                                                                   item
                                                               )
                                                           }}
@@ -515,314 +533,46 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
                         </div>
                     </div>
                 </div>
-                {this.state.popupOpen ? (
-                    <PopUpKoppelingRelatie
+                {this.state.popupOpenNieuw ? (
+                    <PopupNieuweKoppeling
                         titelMainObject={this.props.titelMainObject}
                         type={this.state.popupType}
-                        togglePopup={this.togglePopup}
+                        togglePopup={this.togglePopupNieuw}
                         voegKoppelingRelatieToe={
                             this.props.voegKoppelingRelatieToe
                         }
                         crudObject={crudObject}
+                        objecten={objecten}
+                    />
+                ) : null}
+                {this.state.popupOpenBewerk ? (
+                    <PopupBewerkKoppeling
+                        titelMainObject={this.props.titelMainObject}
+                        type={this.state.popupType}
+                        togglePopup={this.togglePopupBewerk}
+                        bewerkItem={this.state.popupOpenBewerkItem}
+                        voegKoppelingRelatieToe={
+                            this.props.voegKoppelingRelatieToe
+                        }
+                        wijzigKoppelingRelatie={
+                            this.props.wijzigKoppelingRelatie
+                        }
+                        wijzigKoppelingRelatieFromLocalState={
+                            this.wijzigKoppelingRelatieFromLocalState
+                        }
+                        verwijderKoppelingRelatieToe={
+                            this.props.verwijderKoppelingRelatieToe
+                        }
+                        verwijderKoppelingFromLocalState={
+                            this.verwijderKoppelingFromLocalState
+                        }
+                        crudObject={crudObject}
+                        objecten={objecten}
                     />
                 ) : null}
             </React.Fragment>
         )
     }
-}
-
-class PopUpKoppelingRelatie extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            type: this.props.type,
-            objecten: [],
-            selected: null,
-            beschrijving: '',
-            zoekFilter: '',
-            actievePagina: 1,
-        }
-        this.volgendeScherm = this.volgendeScherm.bind(this)
-        this.handleChange = this.handleChange.bind(this)
-    }
-
-    componentDidMount() {
-        axios
-            .get(objecten[this.state.type].api)
-            .then(res => {
-                // Belang en Taak moeten gefilterd worden
-                // Anders const de objecten array zonder het eerste array item
-                let responseObjecten
-                if (objecten[this.state.type].filterAPI === true) {
-                    responseObjecten = res.data.slice(1).filter(item => {
-                        if (
-                            item.Type === objecten[this.state.type].filterType
-                        ) {
-                            return item
-                        }
-                    })
-                } else {
-                    responseObjecten = res.data.slice(1)
-                }
-
-                this.setState({
-                    objecten: responseObjecten,
-                })
-            })
-            .catch(error => {
-                console.log(error)
-            })
-    }
-
-    selectObject(object) {
-        if (this.state.selected === object) {
-            this.setState({
-                selected: null,
-            })
-        } else {
-            this.setState({
-                selected: object,
-            })
-        }
-    }
-
-    volgendeScherm() {
-        this.setState({
-            actievePagina: this.state.actievePagina + 1,
-        })
-    }
-
-    handleChange(e) {
-        const name = e.target.name
-        const value = e.target.value
-
-        this.setState({
-            [name]: value,
-        })
-    }
-
-    render() {
-        const propertyName = objecten[this.state.type].propertyName
-        const crudObject = { ...this.props.crudObject }
-        let actieveKoppelingen = []
-        crudObject[propertyName].forEach(item => {
-            actieveKoppelingen.push(item.UUID)
-        })
-
-        const filteredObjecten = this.state.objecten
-            .filter(item => item.Titel.includes(this.state.zoekFilter))
-            .filter(item => !actieveKoppelingen.includes(item.UUID))
-
-        return (
-            <AnimatedPopUp>
-                <div
-                    onClick={this.props.togglePopup}
-                    className="cursor-pointer absolute right-0 top-0 text-gray-600 px-3 py-2"
-                >
-                    <FontAwesomeIcon icon={faTimes} />
-                </div>
-                <h3 className="form-field-label">
-                    {objecten[this.state.type].volledigeTitel} koppelen
-                </h3>
-                {this.state.actievePagina === 1 ? (
-                    <React.Fragment>
-                        <p className="form-field-description">
-                            Zoek en selecteer het nationaal welke je wilt
-                            koppelen met de beleidsbeslissing '
-                            {this.props.titelMainObject}'
-                        </p>
-                        <div className="w-full block relative mt-4 mb-6">
-                            <input
-                                onChange={this.handleChange}
-                                value={this.state.zoekFilter}
-                                className="appearance-none w-full block text-gray-700 border border-gray-400 rounded py-3 pl-4 pr-12 leading-tight focus:outline-none hover:border-gray-500 focus:border-gray-500 shadow text-sm"
-                                id="titel"
-                                type="text"
-                                name="zoekFilter"
-                                placeholder="Zoeken... (typ minimaal 3 karakters)"
-                            />
-                            <FontAwesomeIcon
-                                className="absolute right-0 top-0 mr-4 mt-4 text-gray-600 text-sm"
-                                icon={faSearch}
-                            />
-                        </div>
-                        <div className="shadow border rounded">
-                            <ul className="flex-row overflow-y-auto max-h-half-screen">
-                                {this.state.objecten &&
-                                filteredObjecten.length > 0 ? (
-                                    filteredObjecten.map((item, index) => {
-                                        if (this.state.selected === item) {
-                                            return (
-                                                <li
-                                                    onClick={() => {
-                                                        this.selectObject(item)
-                                                    }}
-                                                    className="text-sm text-gray-700 px-4 py-2 cursor-pointer bg-gray-100 font-bold "
-                                                    key={item.UUID}
-                                                >
-                                                    {item.Titel}
-                                                </li>
-                                            )
-                                        } else {
-                                            return (
-                                                <li
-                                                    onClick={() => {
-                                                        this.selectObject(item)
-                                                    }}
-                                                    className="text-sm text-gray-700 px-4 py-2 cursor-pointer hover:bg-gray-100"
-                                                    key={item.UUID}
-                                                >
-                                                    {item.Titel}
-                                                </li>
-                                            )
-                                        }
-                                    })
-                                ) : (
-                                    <li
-                                        className="text-sm text-gray-700 px-4 py-2 cursor-not-allowed"
-                                        key="0"
-                                    >
-                                        Geen resultaten
-                                    </li>
-                                )}
-                            </ul>
-                        </div>
-                    </React.Fragment>
-                ) : null}
-                {this.state.actievePagina === 2 ? (
-                    <React.Fragment>
-                        <p className="form-field-description">
-                            Beschrijf de koppeling tussen het nationaal belang '
-                            {this.state.selected.Titel}' en de beleidsbeslissing
-                            '{this.props.titelMainObject}'
-                        </p>
-                        <div className="mbg-color-lighter m-border-color border-l-4 px-4 py-4 my-4 text-sm text-gray-700">
-                            Om er voor te zorgen dat de aangebrachte koppeling
-                            daadwerkelijk van waarde is, vragen we je om de
-                            koppeling te beschrijven.
-                        </div>
-                        <p className="form-field-description mt-4">
-                            Beschrijf zo concreet mogelijk de relatie
-                        </p>
-                        <textarea
-                            value={this.state.beschrijving}
-                            required
-                            onChange={this.handleChange}
-                            name="beschrijving"
-                            className="appearance-none block w-full text-gray-700 border border-gray-400 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white hover:border-gray-500 focus:border-gray-500 h-24"
-                            type="text"
-                        />
-                    </React.Fragment>
-                ) : null}
-                <div className="flex justify-between items-center mt-6">
-                    <span
-                        tabIndex="0"
-                        className="text-gray-600 cursor-pointer text-sm underline"
-                        onClick={this.props.togglePopup}
-                    >
-                        Annuleren
-                    </span>
-                    {this.state.actievePagina === 1 ? (
-                        <div
-                            className={`font-bold py-2 px-4 cursor-pointer leading-tight text-sm rounded bg-green-600 text-white ${
-                                this.state.selected === null
-                                    ? `cursor-not-allowed opacity-50`
-                                    : `hover:underline`
-                            }`}
-                            tabIndex="0"
-                            onClick={e => {
-                                if (this.state.selected !== null) {
-                                    this.volgendeScherm()
-                                } else {
-                                    return
-                                }
-                            }}
-                            onKeyPress={e => {
-                                if (
-                                    e.key === 'Enter' &&
-                                    this.state.beschrijving.length > 0
-                                ) {
-                                    this.props.voegKoppelingRelatieToe(
-                                        objecten[this.state.type].propertyName,
-                                        this.state.selected,
-                                        this.state.beschrijving
-                                    )
-                                    this.props.togglePopup()
-                                }
-                            }}
-                        >
-                            Volgende
-                        </div>
-                    ) : (
-                        <div
-                            className={`font-bold py-2 px-4 cursor-pointer leading-tight text-sm rounded bg-green-600 text-white ${
-                                this.state.beschrijving.length === 0
-                                    ? `cursor-not-allowed opacity-50`
-                                    : `hover:underline`
-                            }`}
-                            tabIndex="0"
-                            onClick={e => {
-                                if (this.state.beschrijving.length > 0) {
-                                    this.props.voegKoppelingRelatieToe(
-                                        objecten[this.state.type].propertyName,
-                                        this.state.selected,
-                                        this.state.beschrijving
-                                    )
-                                    this.props.togglePopup()
-                                } else {
-                                    return
-                                }
-                            }}
-                            onKeyPress={e => {
-                                if (
-                                    e.key === 'Enter' &&
-                                    this.state.beschrijving.length > 0
-                                ) {
-                                    this.props.voegKoppelingRelatieToe(
-                                        objecten[this.state.type].propertyName,
-                                        this.state.selected,
-                                        this.state.beschrijving
-                                    )
-                                    this.props.togglePopup()
-                                }
-                            }}
-                        >
-                            Koppelen
-                        </div>
-                    )}
-                </div>
-            </AnimatedPopUp>
-        )
-    }
-}
-
-function AnimatedPopUp(props) {
-    return (
-        <React.Fragment>
-            <animated.div
-                className="fixed w-screen bg-gray-900 h-screen top-0 left-0 z-10"
-                style={useSpring({
-                    config: { tension: 300 },
-                    opacity: 0.25,
-                    from: { opacity: 0 },
-                })}
-            />
-            <div className="fixed top-0 left-0 z-10">
-                <div className="flex h-screen w-screen top-0 left-0 justify-center items-center">
-                    <animated.div
-                        style={useSpring({
-                            config: { tension: 300 },
-                            transform: 'scale(1)',
-                            from: { transform: 'scale(0.75)' },
-                        })}
-                        className="max-w-5xl relative bg-white rounded shadow px-6 py-6"
-                    >
-                        {props.children}
-                    </animated.div>
-                </div>
-            </div>
-        </React.Fragment>
-    )
 }
 
 FormFieldUniverseleRelatieKoppeling.propTypes = {
