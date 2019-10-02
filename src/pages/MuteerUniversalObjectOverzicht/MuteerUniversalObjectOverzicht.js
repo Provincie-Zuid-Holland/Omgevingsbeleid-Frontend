@@ -10,7 +10,7 @@ import LoaderCard from './../../components/LoaderCard'
 // Import Axios instance to connect with the API
 import axios from './../../API/axios'
 
-class MuteerMaatregelen extends Component {
+class MuteerUniversalObjectOverzicht extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -50,9 +50,7 @@ class MuteerMaatregelen extends Component {
                                             object={object}
                                             overzichtSlug={overzichtSlug}
                                             titelEnkelvoud={titelEnkelvoud}
-                                            hoofdOnderdeelSlug={
-                                                hoofdOnderdeelSlug
-                                            }
+                                            hoofdOnderdeelSlug={overzichtSlug}
                                             hideParagraaf={true}
                                         />
                                     }
@@ -123,5 +121,4 @@ class MuteerMaatregelen extends Component {
         this.getDataFromAPI(ApiEndpoint)
     }
 }
-
-export default MuteerMaatregelen
+export default MuteerUniversalObjectOverzicht

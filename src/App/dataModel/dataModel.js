@@ -656,6 +656,151 @@ export default
       "Object_Name": "ProvincialeBelangen"
     }
   },
+  "Belang": {
+    "type": "object",
+    "properties": {
+      "ID": {
+        "type": "integer",
+        "format": "int32",
+        "UI": {
+            "userCRUD": false
+        }
+      },
+      "UUID": {
+        "type": "string",
+        "format": "uuid",
+        "UI": {
+            "userCRUD": false
+          }
+      },
+      "Begin_Geldigheid": {
+        "type": "string",
+        "format": "date-time",
+        "UI": {
+          "userCRUD": true,
+          "CRUDComponent": "DateInput",
+          "UIVariables": {
+            "UITitle": "Begin Geldigheid",
+          }
+        }
+      },
+      "Eind_Geldigheid": {
+        "type": "string",
+        "format": "date-time",
+        "UI": {
+          "userCRUD": true,
+          "CRUDComponent": "DateInput",
+          "UIVariables": {
+            "UITitle": "Eind Geldigheid",
+          }
+        }
+      },
+      "Created_By": {
+        "type": "string",
+        "format": "uuid",
+        "UI": {
+          "userCRUD": false,
+          "UIVariables": {
+            "UITitle": "Aangemaakt Door",
+          }
+        }
+      },
+      "Created_Date": {
+        "type": "string",
+        "format": "date-time",
+        "UI": {
+          "userCRUD": false,
+          "UIVariables": {
+            "UITitle": "Aangemaakt op",
+          }
+        }
+      },
+      "Modified_By": {
+        "type": "string",
+        "format": "uuid",
+        "UI": {
+          "userCRUD": false
+        }
+      },
+      "Modified_Date": {
+        "type": "string",
+        "format": "date-time",
+        "UI": {
+          "userCRUD": false,
+          "UIVariables": {
+            "UITitle": "Laatste Wijziging",
+          }
+        }
+      },
+      "Titel": {
+        "type": "string",
+        "UI": {
+          "userCRUD": true,
+          "CRUDComponent": "TextInput",
+          "UIVariables": {
+            "UITitle": "Titel",
+          }
+        }
+      },
+      "Omschrijving": {
+        "type": "string",
+        "default": null,
+        "nullable": true,
+        "UI": {
+          "userCRUD": true,
+          "CRUDComponent": "TextArea",
+          "UIVariables": {
+            "UITitle": "Omschrijving",
+          }
+        }
+      },
+      "Weblink": {
+        "type": "string",
+        "default": null,
+        "nullable": true,
+        "UI": {
+          "userCRUD": true,
+          "CRUDComponent": "TextInput",
+          "UIVariables": {
+            "UITitle": "Weblink",
+          }
+        }
+      },
+      "Type": {
+        "type": "string",
+        "enum": [
+          "Nationaal Belang",
+          "Wettelijke Taak & Bevoegdheid"
+        ],
+        "UI": {
+            "userCRUD": true,
+            "CRUDComponent": "BelangType",
+            "UIVariables": {
+              "UITitle": "Type",
+            }
+          }
+      }
+    },
+    "required": [
+      "Begin_Geldigheid",
+      "Created_By",
+      "Created_Date",
+      "Eind_Geldigheid",
+      "Modified_By",
+      "Modified_Date",
+      "Titel",
+      "Type",
+      "UUID"
+    ],
+    "variables": {
+        "Titel_Enkelvoud": "Belang",
+        "Titel_Meervoud": "Belangen",
+        "Api_Endpoint": "belangen",
+        "Overzicht_Slug": "belangen",
+        "Create_New_Slug": "nieuw-belang",
+        "Object_Name": "Belang"
+      }
+  },
   "BeleidsRelatie": {
     "type": "object",
     "properties": {

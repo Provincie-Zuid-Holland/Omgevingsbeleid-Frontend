@@ -14,6 +14,7 @@ import MuteerBeleidsbeslissingen from './../../pages/MuteerBeleidsbeslissingen'
 import MuteerBeleidsRegels from './../../pages/MuteerBeleidsRegels'
 import MuteerVerordening from './../../pages/MuteerVerordening'
 import MuteerApiTest from './../../pages/MuteerApiTest'
+import MuteerUniversalObjectOverzicht from './../../pages/MuteerUniversalObjectOverzicht'
 import MuteerUniversalObjectDetail from './../../pages/MuteerUniversalObjectDetail'
 import MuteerUniversalObjectCRUD from './../../pages/MuteerUniversalObjectCRUD'
 import MuteerApiTestOverzicht from './../../pages/MuteerApiTestOverzicht'
@@ -272,6 +273,7 @@ class AuthRoutes extends Component {
                             />
                         )}
                     />
+
                     {/* Maatregelen Pagina Routes */}
                     <Route
                         exact
@@ -341,12 +343,306 @@ class AuthRoutes extends Component {
                         path="/maatregelen"
                         exact
                         render={() => (
-                            <MuteerMaatregelen
+                            <MuteerUniversalObjectOverzicht
                                 dataModel={dataModel.Maatregelen}
                                 history={this.props.history}
                             />
                         )}
                     />
+
+                    {/* Opgaven Pagina Routes */}
+                    <Route
+                        exact
+                        path={`/opgaven/${dataModel.Opgaven.variables.Create_New_Slug}`}
+                        render={({ match }) => (
+                            <MuteerUniversalObjectCRUD
+                                dataModel={dataModel.Opgaven}
+                                ApiEndpoint={
+                                    dataModel.Opgaven.variables.Api_Endpoint
+                                }
+                                overzichtSlug={
+                                    dataModel.Opgaven.variables.Overzicht_Slug
+                                }
+                                history={this.props.history}
+                                match={match}
+                            />
+                        )}
+                    />
+                    <Route
+                        exact
+                        path={`/opgaven/edit/:single`}
+                        render={({ match }) => {
+                            return (
+                                <MuteerUniversalObjectCRUD
+                                    dataModel={dataModel.Opgaven}
+                                    ApiEndpoint={
+                                        dataModel.Opgaven.variables.Api_Endpoint
+                                    }
+                                    overzichtSlug={
+                                        dataModel.Opgaven.variables
+                                            .Overzicht_Slug
+                                    }
+                                    history={this.props.history}
+                                    match={match}
+                                />
+                            )
+                        }}
+                    />
+                    <Route
+                        exact
+                        path={`/opgaven/:single/:version`}
+                        render={({ match }) => (
+                            <MuteerUniversalObjectDetail
+                                apiTest={false}
+                                dataModel={dataModel.Opgaven}
+                                history={this.props.history}
+                                match={match}
+                                hoofdOnderdeelSlug="maatregelen"
+                            />
+                        )}
+                    />
+                    <Route
+                        exact
+                        path={`/opgaven/:single`}
+                        render={({ match }) => (
+                            <MuteerUniversalObjectDetail
+                                dataModel={dataModel.Opgaven}
+                                history={this.props.history}
+                                match={match}
+                                hoofdOnderdeelSlug="maatregelen"
+                            />
+                        )}
+                    />
+                    <Route
+                        path="/opgaven"
+                        exact
+                        render={() => (
+                            <MuteerUniversalObjectOverzicht
+                                dataModel={dataModel.Opgaven}
+                                history={this.props.history}
+                            />
+                        )}
+                    />
+                    {/* Ambities Pagina Routes */}
+                    <Route
+                        exact
+                        path={`/ambities/${dataModel.Ambitie.variables.Create_New_Slug}`}
+                        render={({ match }) => (
+                            <MuteerUniversalObjectCRUD
+                                dataModel={dataModel.Ambitie}
+                                ApiEndpoint={
+                                    dataModel.Ambitie.variables.Api_Endpoint
+                                }
+                                overzichtSlug={
+                                    dataModel.Ambitie.variables.Overzicht_Slug
+                                }
+                                history={this.props.history}
+                                match={match}
+                            />
+                        )}
+                    />
+                    <Route
+                        exact
+                        path={`/ambities/edit/:single`}
+                        render={({ match }) => {
+                            return (
+                                <MuteerUniversalObjectCRUD
+                                    dataModel={dataModel.Ambitie}
+                                    ApiEndpoint={
+                                        dataModel.Ambitie.variables.Api_Endpoint
+                                    }
+                                    overzichtSlug={
+                                        dataModel.Ambitie.variables
+                                            .Overzicht_Slug
+                                    }
+                                    history={this.props.history}
+                                    match={match}
+                                />
+                            )
+                        }}
+                    />
+                    <Route
+                        exact
+                        path={`/ambities/:single/:version`}
+                        render={({ match }) => (
+                            <MuteerUniversalObjectDetail
+                                apiTest={false}
+                                dataModel={dataModel.Ambitie}
+                                history={this.props.history}
+                                match={match}
+                                hoofdOnderdeelSlug="maatregelen"
+                            />
+                        )}
+                    />
+                    <Route
+                        exact
+                        path={`/ambities/:single`}
+                        render={({ match }) => (
+                            <MuteerUniversalObjectDetail
+                                dataModel={dataModel.Ambitie}
+                                history={this.props.history}
+                                match={match}
+                                hoofdOnderdeelSlug="maatregelen"
+                            />
+                        )}
+                    />
+                    <Route
+                        path="/ambities"
+                        exact
+                        render={() => (
+                            <MuteerUniversalObjectOverzicht
+                                dataModel={dataModel.Ambitie}
+                                history={this.props.history}
+                            />
+                        )}
+                    />
+                    {/* Opgaven Pagina Routes */}
+                    <Route
+                        exact
+                        path={`/belangen/${dataModel.Belang.variables.Create_New_Slug}`}
+                        render={({ match }) => (
+                            <MuteerUniversalObjectCRUD
+                                dataModel={dataModel.Belang}
+                                ApiEndpoint={
+                                    dataModel.Belang.variables.Api_Endpoint
+                                }
+                                overzichtSlug={
+                                    dataModel.Belang.variables.Overzicht_Slug
+                                }
+                                history={this.props.history}
+                                match={match}
+                            />
+                        )}
+                    />
+                    <Route
+                        exact
+                        path={`/belangen/edit/:single`}
+                        render={({ match }) => {
+                            return (
+                                <MuteerUniversalObjectCRUD
+                                    dataModel={dataModel.Belang}
+                                    ApiEndpoint={
+                                        dataModel.Belang.variables.Api_Endpoint
+                                    }
+                                    overzichtSlug={
+                                        dataModel.Belang.variables
+                                            .Overzicht_Slug
+                                    }
+                                    history={this.props.history}
+                                    match={match}
+                                />
+                            )
+                        }}
+                    />
+                    <Route
+                        exact
+                        path={`/belangen/:single/:version`}
+                        render={({ match }) => (
+                            <MuteerUniversalObjectDetail
+                                apiTest={false}
+                                dataModel={dataModel.Belang}
+                                history={this.props.history}
+                                match={match}
+                                hoofdOnderdeelSlug="maatregelen"
+                            />
+                        )}
+                    />
+                    <Route
+                        exact
+                        path={`/belangen/:single`}
+                        render={({ match }) => (
+                            <MuteerUniversalObjectDetail
+                                dataModel={dataModel.Belang}
+                                history={this.props.history}
+                                match={match}
+                                hoofdOnderdeelSlug="maatregelen"
+                            />
+                        )}
+                    />
+                    <Route
+                        path="/belangen"
+                        exact
+                        render={() => (
+                            <MuteerUniversalObjectOverzicht
+                                dataModel={dataModel.Belang}
+                                history={this.props.history}
+                            />
+                        )}
+                    />
+                    {/* Opgaven Pagina Routes */}
+                    <Route
+                        exact
+                        path={`/themas/${dataModel.Themas.variables.Create_New_Slug}`}
+                        render={({ match }) => (
+                            <MuteerUniversalObjectCRUD
+                                dataModel={dataModel.Themas}
+                                ApiEndpoint={
+                                    dataModel.Themas.variables.Api_Endpoint
+                                }
+                                overzichtSlug={
+                                    dataModel.Themas.variables.Overzicht_Slug
+                                }
+                                history={this.props.history}
+                                match={match}
+                            />
+                        )}
+                    />
+                    <Route
+                        exact
+                        path={`/themas/edit/:single`}
+                        render={({ match }) => {
+                            return (
+                                <MuteerUniversalObjectCRUD
+                                    dataModel={dataModel.Themas}
+                                    ApiEndpoint={
+                                        dataModel.Themas.variables.Api_Endpoint
+                                    }
+                                    overzichtSlug={
+                                        dataModel.Themas.variables
+                                            .Overzicht_Slug
+                                    }
+                                    history={this.props.history}
+                                    match={match}
+                                />
+                            )
+                        }}
+                    />
+                    <Route
+                        exact
+                        path={`/themas/:single/:version`}
+                        render={({ match }) => (
+                            <MuteerUniversalObjectDetail
+                                apiTest={false}
+                                dataModel={dataModel.Themas}
+                                history={this.props.history}
+                                match={match}
+                                hoofdOnderdeelSlug="maatregelen"
+                            />
+                        )}
+                    />
+                    <Route
+                        exact
+                        path={`/themas/:single`}
+                        render={({ match }) => (
+                            <MuteerUniversalObjectDetail
+                                dataModel={dataModel.Themas}
+                                history={this.props.history}
+                                match={match}
+                                hoofdOnderdeelSlug="maatregelen"
+                            />
+                        )}
+                    />
+                    <Route
+                        path="/themas"
+                        exact
+                        render={() => (
+                            <MuteerUniversalObjectOverzicht
+                                dataModel={dataModel.Themas}
+                                history={this.props.history}
+                            />
+                        )}
+                    />
+
                     {/* Beleidsbeslissingen Pagina Routes */}
                     <Route
                         exact
@@ -415,7 +711,7 @@ class AuthRoutes extends Component {
                         path="/beleidsbeslissingen"
                         exact
                         render={() => (
-                            <MuteerBeleidsbeslissingen
+                            <MuteerUniversalObjectOverzicht
                                 dataModel={dataModel.Beleidsbeslissingen}
                                 history={this.props.history}
                             />
