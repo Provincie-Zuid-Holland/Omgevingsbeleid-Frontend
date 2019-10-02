@@ -24,7 +24,8 @@ class MuteerUniversalObjectOverzicht extends Component {
         const titelMeervoud = this.props.dataModel.variables.Titel_Meervoud
         const createNewSlug = this.props.dataModel.variables.Create_New_Slug
         const overzichtSlug = this.props.dataModel.variables.Overzicht_Slug
-        const hoofdOnderdeelSlug = 'maatregelen'
+        const hoofdOnderdeelSlug = this.props.dataModel.variables.Overzicht_Slug
+        // const hoofdOnderdeelSlug = 'maatregelen'
 
         // False if data is loading, true if there is a response
         let dataReceived = this.state.objecten[0]

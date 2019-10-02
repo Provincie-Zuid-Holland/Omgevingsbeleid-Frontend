@@ -27,7 +27,7 @@ function GenerateBackToButton(props) {
                 url={
                     apiTest === true
                         ? `/${hoofdOnderdeelSlug}/${overzichtSlug}`
-                        : `/${hoofdOnderdeelSlug}`
+                        : `/${overzichtSlug}`
                 }
             />
         )
@@ -39,7 +39,7 @@ function GenerateBackToButton(props) {
                 url={
                     apiTest === true
                         ? `/${hoofdOnderdeelSlug}/${overzichtSlug}/${dataObjectID}`
-                        : `/${hoofdOnderdeelSlug}/${dataObjectID}`
+                        : `/${overzichtSlug}/${dataObjectID}`
                 }
             />
         )
