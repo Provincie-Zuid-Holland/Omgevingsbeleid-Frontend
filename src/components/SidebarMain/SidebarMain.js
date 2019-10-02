@@ -121,7 +121,7 @@ function SidebarMain(props) {
                 <ul>{returnMenuItems(menuItemsOmgevingsbeleid)}</ul>
                 <MainSideBarHeading>Gebruiker</MainSideBarHeading>
                 <ul>{returnMenuItems(menuItemsGebruiker)}</ul>
-                <MainSideBarHeading>Instellingen</MainSideBarHeading>
+                <MainSideBarHeading>Beheer</MainSideBarHeading>
                 <ul>{returnMenuItems(menuItemsBeheer)}</ul>
             </nav>
         </div>
