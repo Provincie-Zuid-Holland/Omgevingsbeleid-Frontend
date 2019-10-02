@@ -446,6 +446,14 @@ $base-color: #000066;
     overflow-y: auto;
 }
 
+.popup-long {
+    min-height: 75%;
+    max-height: 100%;
+    width: 80vw;
+    max-width: 100%;
+    overflow-y: auto;
+}
+
 .popup-results-list {
     max-height: 265px;
 }

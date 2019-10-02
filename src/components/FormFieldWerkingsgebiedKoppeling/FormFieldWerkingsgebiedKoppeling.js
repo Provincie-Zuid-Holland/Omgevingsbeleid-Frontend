@@ -8,6 +8,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useSpring, animated } from 'react-spring'
+import format from 'date-fns/format'
+import nlLocale from 'date-fns/locale/nl'
 
 import axios from './../../API/axios'
 import { api_version, axiosGeoJSON } from './../../API/axiosGeoJSON'
@@ -44,14 +46,13 @@ function CardWerkingsGebied(props) {
             }}
         >
             <div
-                className={`mx-4 my-4 hover:border-green-500 border-2 cursor-pointer text-left rounded ${
+                className={`mx-4 my-4 hover:border-green-500 border-2 cursor-pointer text-left relative h-64 bg-orange-300 rounded ${
                     props.selected === props.werkingsgebied.UUID
                         ? 'border-green-500'
                         : ''
                 }`}
             >
-                <div className="block w-full h-48 bg-orange-300 rounded-t" />
-                <span className="text-sm text-gray-700 p-4 block">
+                <span className="text-sm w-full text-gray-700 p-4 block absolute bottom-0 bg-white z-10">
                     {props.werkingsgebied.Werkingsgebied}
                 </span>
             </div>
@@ -60,6 +61,13 @@ function CardWerkingsGebied(props) {
 }
 
 function PopUpWerkingsGebiedContent(props) {
+    let filteredContent = props.werkingsgebieden
+    if (props.filterValue !== '') {
+        filteredContent = filteredContent.filter(item =>
+            item.Werkingsgebied.includes(props.filterValue)
+        )
+    }
+
     return (
         <React.Fragment>
             <animated.div
@@ -78,7 +86,7 @@ function PopUpWerkingsGebiedContent(props) {
                             transform: 'scale(1)',
                             from: { transform: 'scale(0.75)' },
                         })}
-                        className="max-w-5xl relative bg-white rounded shadow px-6 py-6"
+                        className="max-w-5xl relative bg-white rounded shadow px-6 py-6 popup-long"
                     >
                         <div
                             onClick={props.togglePopUp}
@@ -97,6 +105,8 @@ function PopUpWerkingsGebiedContent(props) {
                                 className="appearance-none w-full block text-gray-700 border border-gray-400 rounded py-3 pl-4 pr-12 leading-tight focus:outline-none hover:border-gray-500 focus:border-gray-500 shadow text-sm"
                                 id="titel"
                                 type="text"
+                                value={props.filterValue}
+                                onChange={props.filterGebieden}
                                 placeholder="Zoeken... (typ minimaal 3 karakters)"
                             />
                             <FontAwesomeIcon
@@ -107,7 +117,7 @@ function PopUpWerkingsGebiedContent(props) {
                         <div className="shadow border rounded px-4 py-4">
                             <ul className="flex-row overflow-y-auto max-h-half-screen">
                                 {props.dataLoaded ? (
-                                    props.werkingsgebieden.map(item => {
+                                    filteredContent.map(item => {
                                         return (
                                             <CardWerkingsGebied
                                                 selectGebied={
@@ -137,10 +147,26 @@ function PopUpWerkingsGebiedContent(props) {
                             </ul>
                         </div>
                         <div className="flex justify-between items-center mt-6">
-                            <span className="text-gray-600 cursor-pointer text-sm underline">
+                            <span
+                                className="text-gray-600 cursor-pointer text-sm underline"
+                                onClick={props.togglePopUp}
+                            >
                                 Annuleren
                             </span>
-                            <div className="font-bold py-2 px-4 cursor-pointer leading-tight text-sm rounded bg-green-600 text-white hover:underline">
+                            <div
+                                className={`font-bold py-2 px-4 leading-tight text-sm rounded bg-green-600 text-white ${
+                                    props.selected === null
+                                        ? `opacity-50 cursor-not-allowed`
+                                        : `hover:underline cursor-pointer`
+                                }`}
+                                onClick={() => {
+                                    if (props.selected === null) {
+                                        return
+                                    }
+                                    props.koppelGebied()
+                                    props.togglePopUp()
+                                }}
+                            >
                                 Koppelen
                             </div>
                         </div>
@@ -158,8 +184,20 @@ class PopUpWerkingsGebiedContainer extends Component {
             werkingsgebieden: [],
             dataLoaded: false,
             selected: null,
+            filterValue: '',
         }
         this.selectGebied = this.selectGebied.bind(this)
+        this.koppelGebied = this.koppelGebied.bind(this)
+        this.filterGebieden = this.filterGebieden.bind(this)
+    }
+
+    filterGebieden(e) {
+        this.setState(
+            {
+                filterValue: e.target.value,
+            },
+            () => console.log(this.state)
+        )
     }
 
     selectGebied(gebied) {
@@ -170,14 +208,16 @@ class PopUpWerkingsGebiedContainer extends Component {
             },
             () => console.log(this.state)
         )
+    }
 
+    koppelGebied() {
         const handleChangeObject = {
             target: {
                 name: 'WerkingsGebieden',
-                value: [{ UUID: gebied }],
+                value: [{ UUID: this.state.selected }],
             },
         }
-
+        this.props.koppelGebiedInLocalState(this.state.selected)
         this.props.handleChange(handleChangeObject)
     }
 
@@ -243,11 +283,14 @@ class PopUpWerkingsGebiedContainer extends Component {
     render() {
         return (
             <PopUpWerkingsGebiedContent
+                koppelGebied={this.koppelGebied}
                 selectGebied={this.selectGebied}
                 dataLoaded={this.state.dataLoaded}
                 werkingsgebieden={this.state.werkingsgebieden}
                 togglePopUp={this.props.togglePopUp}
                 selected={this.state.selected}
+                filterGebieden={this.filterGebieden}
+                filterValue={this.state.filterValue}
             />
         )
     }
@@ -259,14 +302,66 @@ class FormFieldWerkingsgebiedKoppeling extends Component {
         this.state = {
             werkingsgebieden: [],
             popUpOpen: false,
+            gekoppeldGebied: null,
         }
         this.togglePopUp = this.togglePopUp.bind(this)
+        this.koppelGebiedInLocalState = this.koppelGebiedInLocalState.bind(this)
+        this.ontkoppelWerkingsgebied = this.ontkoppelWerkingsgebied.bind(this)
+    }
+
+    componentDidMount() {
+        if (!this.props.fieldValue || this.props.fieldValue.length === 0) {
+            return
+        }
+        axios
+            .get(`/werkingsgebieden/${this.props.fieldValue[0].UUID}`)
+            .then(res => {
+                const response = res.data
+                this.setState({
+                    gekoppeldGebied: response,
+                })
+            })
+            .catch(error => {
+                console.log(error)
+            })
     }
 
     togglePopUp() {
         this.setState({
             popUpOpen: !this.state.popUpOpen,
         })
+    }
+
+    ontkoppelWerkingsgebied() {
+        this.setState(
+            {
+                gekoppeldGebied: null,
+            },
+            () => {
+                const handleChangeObject = {
+                    target: {
+                        name: 'WerkingsGebieden',
+                        value: [],
+                    },
+                }
+                this.props.handleChange(handleChangeObject)
+            }
+        )
+    }
+
+    koppelGebiedInLocalState(UUID) {
+        // Connect With the API
+        axios
+            .get(`/werkingsgebieden/${UUID}`)
+            .then(res => {
+                const response = res.data
+                this.setState({
+                    gekoppeldGebied: response,
+                })
+            })
+            .catch(error => {
+                console.log(error)
+            })
     }
 
     render() {
@@ -280,26 +375,77 @@ class FormFieldWerkingsgebiedKoppeling extends Component {
                         hideObjectLabel={this.props.hideObjectLabel}
                         titelEnkelvoud={this.props.titelEnkelvoud}
                     />
-                    <div
-                        className="mt-4 cursor-pointer rounded border-dashed border-2 px-3 py-3 text-gray-600 text-sm"
-                        onClick={this.togglePopUp}
-                    >
-                        <FontAwesomeIcon
-                            className="mr-2 text-gray-600"
-                            icon={faPlus}
+
+                    {this.state.gekoppeldGebied === null ? (
+                        <React.Fragment>
+                            <div
+                                className="mt-4 cursor-pointer rounded border-dashed border-2 px-3 py-3 text-gray-600 text-sm"
+                                onClick={this.togglePopUp}
+                            >
+                                <FontAwesomeIcon
+                                    className="mr-2 text-gray-600"
+                                    icon={faPlus}
+                                />
+                                Werkingsgebied koppelen
+                            </div>
+                            {this.state.popUpOpen ? (
+                                <PopUpWerkingsGebiedContainer
+                                    handleChange={this.props.handleChange}
+                                    togglePopUp={this.togglePopUp}
+                                    koppelGebiedInLocalState={
+                                        this.koppelGebiedInLocalState
+                                    }
+                                />
+                            ) : null}
+                        </React.Fragment>
+                    ) : (
+                        <GekoppeldGebiedCard
+                            title={this.state.gekoppeldGebied.Werkingsgebied}
+                            laatstGewijzigd={
+                                this.state.gekoppeldGebied.Modified_Date
+                            }
+                            ontkoppelWerkingsgebied={
+                                this.ontkoppelWerkingsgebied
+                            }
                         />
-                        Werkingsgebied koppelen
-                    </div>
-                    {this.state.popUpOpen ? (
-                        <PopUpWerkingsGebiedContainer
-                            handleChange={this.props.handleChange}
-                            togglePopUp={this.togglePopUp}
-                        />
-                    ) : null}
+                    )}
                 </div>
             </div>
         )
     }
+}
+
+function GekoppeldGebiedCard(props) {
+    return (
+        <animated.div
+            style={useSpring({
+                config: { tension: 300 },
+                transform: 'scale(1)',
+                opacity: '1',
+                from: { transform: 'scale(0.9)', opacity: '0.5' },
+            })}
+            className="flex rounded shadow"
+        >
+            <div className="w-1/2 bg-white p-5 relative">
+                <h3 className="font-bold text-gray-700 text-sm py-2">
+                    {props.title}
+                </h3>
+                <span className="text-gray-600 text-xs py-1">
+                    Laatst gewijzigd op{' '}
+                    {format(props.laatstGewijzigd, 'DD	MMMM YYYY', {
+                        locale: nlLocale,
+                    })}
+                </span>
+                <span
+                    className="text-red-600 cursor-pointer text-sm underline absolute bottom-0 left-0 ml-5 mb-5"
+                    onClick={props.ontkoppelWerkingsgebied}
+                >
+                    Dit werkingsgebied ontkoppelen
+                </span>
+            </div>
+            <div className="w-1/2 bg-orange-500 h-64"></div>
+        </animated.div>
+    )
 }
 
 export default withRouter(FormFieldWerkingsgebiedKoppeling)

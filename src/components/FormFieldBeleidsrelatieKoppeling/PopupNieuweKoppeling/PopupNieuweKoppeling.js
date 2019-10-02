@@ -46,6 +46,8 @@ class PopupNieuweKoppeling extends Component {
                     responseObjecten = res.data.slice(1)
                 }
 
+                console.log(responseObjecten)
+
                 this.setState({
                     objecten: responseObjecten,
                     dataLoaded: true,
