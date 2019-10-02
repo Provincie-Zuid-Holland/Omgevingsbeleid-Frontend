@@ -7,8 +7,6 @@ import axios from './../../API/axios'
 import ButtonBackToPage from './../../components/ButtonBackToPage'
 
 function SearchResultItem(props) {
-    console.log(props.item.type)
-
     function getContent(propertyName) {
         if (props.item.highlight[propertyName] === undefined) {
             return {
@@ -31,7 +29,7 @@ function SearchResultItem(props) {
     }
 
     return (
-        <li className="border-b border-gray-300 py-6" key={props.item.UUID}>
+        <li className="border-b border-gray-300 py-5" key={props.item.UUID}>
             {content.Titel.setInnerHTML ? (
                 <h2
                     className="text-l font-serif block text-gray-800"
@@ -42,21 +40,17 @@ function SearchResultItem(props) {
                     {content.Titel.content}
                 </h2>
             )}
+            <span className="block text-gray-600 text-sm italic">
+                {props.item.type}
+            </span>
             {content.Omschrijving.setInnerHTML ? (
                 <p
-                    className="mt-3 text-gray-700 text-sm"
+                    className="mt-2 text-gray-700 text-sm"
                     dangerouslySetInnerHTML={content.Omschrijving.content}
-                >
-                    {/* <mark className="bg-yellow-200 text-gray-800">consectetur</mark>{' '}
-                    adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. */}
-                </p>
+                ></p>
             ) : (
-                <p className="mt-3 text-gray-700 text-sm">
+                <p className="mt-2 text-gray-700 text-sm">
                     {content.Omschrijving.content}
-                    {/* <mark className="bg-yellow-200 text-gray-800">consectetur</mark>{' '}
-                adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua. */}
                 </p>
             )}
         </li>
@@ -71,7 +65,45 @@ class RaadpleegZoekResultatenOverzicht extends Component {
             searchFiltersOnly: null,
             searchResults: null,
             dataLoaded: false,
+            onPageFilters: [],
         }
+    }
+
+    handleFilter(e, index) {
+        const name = e.target.name
+        let newOnPageFilters = this.state.onPageFilters
+        newOnPageFilters[name].checked = !newOnPageFilters[name].checked
+        this.setState({
+            onPageFilters: newOnPageFilters,
+        })
+    }
+
+    setInitialOnPageFilters(searchResults) {
+        let filterArray = []
+        let mainFilterObject = {}
+
+        searchResults.forEach((item, index) => {
+            const filterObject = {
+                name: item.type,
+                checked: true,
+                count: 1,
+            }
+            if (!filterArray.includes(item.type)) {
+                filterArray.push(item.type)
+                mainFilterObject[item.type] = filterObject
+            } else {
+                mainFilterObject[item.type].count++
+            }
+        })
+
+        mainFilterObject.filterArray = filterArray
+
+        this.setState(
+            {
+                onPageFilters: mainFilterObject,
+            },
+            () => console.log(this.state)
+        )
     }
 
     componentDidMount() {
@@ -91,10 +123,11 @@ class RaadpleegZoekResultatenOverzicht extends Component {
         axios
             .get(`/search` + urlParams)
             .then(res => {
-                console.log(res.data)
+                const searchResults = res.data
+                this.setInitialOnPageFilters(searchResults)
                 this.setState({
                     searchFiltersOnly: searchFiltersOnly,
-                    searchResults: res.data,
+                    searchResults: searchResults,
                     dataLoaded: true,
                 })
             })
@@ -108,62 +141,42 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                     <ButtonBackToPage terugNaar="startpagina" url="/" />
                     <h2 className="mt-6 text-l font-serif block">Filteren</h2>
                     <ul className="mt-4">
-                        <li className="mt-1 text-gray-700 text-sm">
-                            <label className="cursor-pointer select-none">
-                                <input
-                                    className="mr-2 leading-tight"
-                                    type="checkbox"
-                                />
-                                <span>Visie (9)</span>
-                            </label>
-                            <ul>
-                                <li className="pl-6 mt-1 text-gray-700 text-sm">
-                                    <label className="cursor-pointer select-none">
-                                        <input
-                                            className="mr-2 leading-tight"
-                                            type="checkbox"
-                                        />
-                                        <span>Ambities (1)</span>
-                                    </label>
-                                </li>
-                                <li className="pl-6 mt-1 text-gray-700 text-sm">
-                                    <label className="cursor-pointer select-none">
-                                        <input
-                                            className="mr-2 leading-tight"
-                                            type="checkbox"
-                                        />
-                                        <span>Beleidsopgaven (2)</span>
-                                    </label>
-                                </li>
-                                <li className="pl-6 mt-1 text-gray-700 text-sm">
-                                    <label className="cursor-pointer select-none">
-                                        <input
-                                            className="mr-2 leading-tight"
-                                            type="checkbox"
-                                        />
-                                        <span>Beleidsbeslissingen (6)</span>
-                                    </label>
-                                </li>
-                            </ul>
-                        </li>
-                        <li className="mt-1 text-gray-700 text-sm">
-                            <label className="cursor-pointer select-none">
-                                <input
-                                    className="mr-2 leading-tight"
-                                    type="checkbox"
-                                />
-                                <span>Verordening (4)</span>
-                            </label>
-                        </li>
-                        <li className="mt-1 text-gray-700 text-sm">
-                            <label className="cursor-pointer select-none">
-                                <input
-                                    className="mr-2 leading-tight"
-                                    type="checkbox"
-                                />
-                                <span>Programma (2)</span>
-                            </label>
-                        </li>
+                        {this.state.onPageFilters.filterArray &&
+                        this.state.onPageFilters.filterArray.length > 0
+                            ? this.state.onPageFilters.filterArray.map(
+                                  (item, index) => (
+                                      <li className="mt-1 text-gray-700 text-sm">
+                                          <label className="cursor-pointer select-none">
+                                              <input
+                                                  className="mr-2 leading-tight"
+                                                  type="checkbox"
+                                                  checked={
+                                                      this.state.onPageFilters[
+                                                          item
+                                                      ].checked
+                                                  }
+                                                  onChange={e =>
+                                                      this.handleFilter(
+                                                          e,
+                                                          index
+                                                      )
+                                                  }
+                                                  name={item}
+                                              />
+                                              <span>
+                                                  {item}(
+                                                  {
+                                                      this.state.onPageFilters[
+                                                          item
+                                                      ].count
+                                                  }
+                                                  )
+                                              </span>
+                                          </label>
+                                      </li>
+                                  )
+                              )
+                            : null}
                     </ul>
                 </div>
 
@@ -172,14 +185,26 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                         Zoekresultaten voor "{this.state.searchQuery}"
                     </span>
                     <ul>
-                        {this.state.dataLoaded
-                            ? this.state.searchResults.map((item, index) => (
-                                  <SearchResultItem
-                                      item={item}
-                                      key={item.UUID}
-                                  />
-                              ))
-                            : null}
+                        {this.state.dataLoaded ? (
+                            this.state.searchResults.map((item, index) => {
+                                if (
+                                    this.state.onPageFilters[item.type].checked
+                                ) {
+                                    return (
+                                        <SearchResultItem
+                                            item={item}
+                                            key={item.UUID}
+                                        />
+                                    )
+                                } else {
+                                    return null
+                                }
+                            })
+                        ) : (
+                            <span className="text-gray-700 italic py-5">
+                                Geen resultaten
+                            </span>
+                        )}
                     </ul>
                 </div>
             </div>
