@@ -36,8 +36,20 @@ function makeSelection(objectenArray, dataObjectProperty) {
 
 function CardWerkingsGebied(props) {
     return (
-        <li className="w-1/2 inline-block" key={props.werkingsgebied.UUID}>
-            <div className="mx-4 my-4 hover:border-green-500 border-2 cursor-pointer text-left rounded">
+        <li
+            className="w-1/2 inline-block"
+            key={props.werkingsgebied.UUID}
+            onClick={() => {
+                props.selectGebied(props.werkingsgebied.UUID)
+            }}
+        >
+            <div
+                className={`mx-4 my-4 hover:border-green-500 border-2 cursor-pointer text-left rounded ${
+                    props.selected === props.werkingsgebied.UUID
+                        ? 'border-green-500'
+                        : ''
+                }`}
+            >
                 <div className="block w-full h-48 bg-orange-300 rounded-t" />
                 <span className="text-sm text-gray-700 p-4 block">
                     {props.werkingsgebied.Werkingsgebied}
@@ -98,6 +110,10 @@ function PopUpWerkingsGebiedContent(props) {
                                     props.werkingsgebieden.map(item => {
                                         return (
                                             <CardWerkingsGebied
+                                                selectGebied={
+                                                    props.selectGebied
+                                                }
+                                                selected={props.selected}
                                                 key={item.UUID}
                                                 werkingsgebied={item}
                                             />
@@ -141,8 +157,30 @@ class PopUpWerkingsGebiedContainer extends Component {
         this.state = {
             werkingsgebieden: [],
             dataLoaded: false,
+            selected: null,
         }
+        this.selectGebied = this.selectGebied.bind(this)
     }
+
+    selectGebied(gebied) {
+        const selectedGebied = gebied
+        this.setState(
+            {
+                selected: gebied,
+            },
+            () => console.log(this.state)
+        )
+
+        const handleChangeObject = {
+            target: {
+                name: 'WerkingsGebieden',
+                value: [{ UUID: gebied }],
+            },
+        }
+
+        this.props.handleChange(handleChangeObject)
+    }
+
     makeSelection(objectenArray) {
         if (objectenArray.length === 1) {
             return null
@@ -182,30 +220,13 @@ class PopUpWerkingsGebiedContainer extends Component {
                     })
             })
         })
-
-        // axios
-        //     .get('werkingsgebieden')
-        //     .then(res => {
-        //         const objecten = res.data
-        //         const selectionArray = this.makeSelection(objecten)
-        //         return selectionArray
-        //     })
-        //     .catch(error => {
-        //         if (error.response !== undefined) {
-        //             if (error.response.status === 401) {
-        //                 localStorage.removeItem('access_token')
-        //                 this.props.history.push('/login')
-        //             }
-        //         } else {
-        //             console.log(error)
-        //         }
-        //     })
     }
 
     componentDidMount() {
         axios
             .get('werkingsgebieden')
             .then(res => {
+                res.data.shift()
                 const werkingsgebieden = res.data
                 // const selectionArray = this.makeSelection(werkingsgebieden)
                 // return this.generateJSONForAllWerkingsgebieden(selectionArray)
@@ -222,9 +243,11 @@ class PopUpWerkingsGebiedContainer extends Component {
     render() {
         return (
             <PopUpWerkingsGebiedContent
+                selectGebied={this.selectGebied}
                 dataLoaded={this.state.dataLoaded}
                 werkingsgebieden={this.state.werkingsgebieden}
                 togglePopUp={this.props.togglePopUp}
+                selected={this.state.selected}
             />
         )
     }
@@ -269,6 +292,7 @@ class FormFieldWerkingsgebiedKoppeling extends Component {
                     </div>
                     {this.state.popUpOpen ? (
                         <PopUpWerkingsGebiedContainer
+                            handleChange={this.props.handleChange}
                             togglePopUp={this.togglePopUp}
                         />
                     ) : null}

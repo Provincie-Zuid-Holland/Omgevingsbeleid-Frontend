@@ -226,6 +226,8 @@ class MuteerUniversalObjectCRUD extends Component {
     }
 
     handleChange(event) {
+        console.log('Called')
+
         const name = event.target.name
         const type = event.target.type
 
@@ -233,20 +235,18 @@ class MuteerUniversalObjectCRUD extends Component {
         if (type === 'date') {
             value = event.target.value
         }
+        console.log(name)
+        console.log(value)
 
-        // this.setState(prevState => ({
-        //     crudObject: {
-        //         ...prevState.crudObject,
-        //         [name]: value,
-        //     },
-        // }))
-
-        this.setState(prevState => ({
-            crudObject: {
-                ...prevState.crudObject,
-                [name]: value,
-            },
-        }))
+        this.setState(
+            prevState => ({
+                crudObject: {
+                    ...prevState.crudObject,
+                    [name]: value,
+                },
+            }),
+            () => console.log(this.state)
+        )
     }
 
     // Algemene State Handler voor de Editor
@@ -409,6 +409,8 @@ class MuteerUniversalObjectCRUD extends Component {
     }
 
     render() {
+        console.log(this.state.crudObject)
+
         const contextObject = {
             titelEnkelvoud: this.props.dataModel.variables.Titel_Enkelvoud,
             titelMeervoud: this.props.dataModel.variables.Titel_Meervoud,
@@ -423,8 +425,6 @@ class MuteerUniversalObjectCRUD extends Component {
             crudObject: this.state.crudObject,
             setEditorState: this.setEditorState,
         }
-
-        console.log(this.state.crudObject)
 
         return (
             <div>

@@ -158,6 +158,7 @@ class SearchBar extends Component {
                     className="appearance-none w-full block text-gray-700 border border-gray-300 rounded py-3 pl-4 pr-12 leading-tight focus:outline-none hover:border-gray-400 focus:border-gray-400 shadow text-sm"
                     name="searchInput"
                     onChange={this.handleChange}
+                    autoComplete="off"
                     id="search-query"
                     type="text"
                     value={this.state.searchInput}
