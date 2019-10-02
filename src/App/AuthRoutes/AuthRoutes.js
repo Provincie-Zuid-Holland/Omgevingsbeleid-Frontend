@@ -9,15 +9,15 @@ import axios from './../../API/axios'
 
 // Import Pages
 import MuteerDashboard from './../../pages/MuteerDashboard'
-import MuteerMaatregelen from './../../pages/MuteerMaatregelen'
-import MuteerBeleidsbeslissingen from './../../pages/MuteerBeleidsbeslissingen'
-import MuteerBeleidsRegels from './../../pages/MuteerBeleidsRegels'
-import MuteerVerordening from './../../pages/MuteerVerordening'
 import MuteerApiTest from './../../pages/MuteerApiTest'
 import MuteerUniversalObjectOverzicht from './../../pages/MuteerUniversalObjectOverzicht'
 import MuteerUniversalObjectDetail from './../../pages/MuteerUniversalObjectDetail'
 import MuteerUniversalObjectCRUD from './../../pages/MuteerUniversalObjectCRUD'
 import MuteerApiTestOverzicht from './../../pages/MuteerApiTestOverzicht'
+// import MuteerMaatregelen from './../../pages/MuteerMaatregelen'
+// import MuteerBeleidsbeslissingen from './../../pages/MuteerBeleidsbeslissingen'
+// import MuteerBeleidsRegels from './../../pages/MuteerBeleidsRegels'
+// import MuteerVerordening from './../../pages/MuteerVerordening'
 
 // Import Components
 import AuthenticationWrapper from './../../components/AuthenticationWrapper'
