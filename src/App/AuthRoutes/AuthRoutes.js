@@ -14,10 +14,10 @@ import MuteerUniversalObjectOverzicht from './../../pages/MuteerUniversalObjectO
 import MuteerUniversalObjectDetail from './../../pages/MuteerUniversalObjectDetail'
 import MuteerUniversalObjectCRUD from './../../pages/MuteerUniversalObjectCRUD'
 import MuteerApiTestOverzicht from './../../pages/MuteerApiTestOverzicht'
+import MuteerVerordening from './../../pages/MuteerVerordening'
 // import MuteerMaatregelen from './../../pages/MuteerMaatregelen'
 // import MuteerBeleidsbeslissingen from './../../pages/MuteerBeleidsbeslissingen'
 // import MuteerBeleidsRegels from './../../pages/MuteerBeleidsRegels'
-// import MuteerVerordening from './../../pages/MuteerVerordening'
 
 // Import Components
 import AuthenticationWrapper from './../../components/AuthenticationWrapper'
@@ -267,7 +267,7 @@ class AuthRoutes extends Component {
                         path="/beleidsregels"
                         exact
                         render={() => (
-                            <MuteerBeleidsRegels
+                            <MuteerUniversalObjectOverzicht
                                 dataModel={dataModel.BeleidsRegel}
                                 history={this.props.history}
                             />
