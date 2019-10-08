@@ -9,6 +9,8 @@ import axios from './../../API/axios'
 
 // Import Pages
 import MuteerDashboard from './../../pages/MuteerDashboard'
+import MuteerMijnBeleid from './../../pages/MuteerMijnBeleid'
+import MuteerMeldingen from './../../pages/MuteerMeldingen'
 import MuteerApiTest from './../../pages/MuteerApiTest'
 import MuteerUniversalObjectOverzicht from './../../pages/MuteerUniversalObjectOverzicht'
 import MuteerUniversalObjectDetail from './../../pages/MuteerUniversalObjectDetail'
@@ -38,7 +40,7 @@ function APITestRoutes(props) {
             <Switch>
                 <Route
                     exact
-                    path={`/${hoofdOnderdeelSlug}/${overzichtSlug}/${createNewSlug}`}
+                    path={`/muteer/${hoofdOnderdeelSlug}/${overzichtSlug}/${createNewSlug}`}
                     render={({ match }) => (
                         <MuteerUniversalObjectCRUD
                             dataModel={props.dataModel}
@@ -51,7 +53,7 @@ function APITestRoutes(props) {
                 />
                 <Route
                     exact
-                    path={`/${hoofdOnderdeelSlug}/${overzichtSlug}/edit/:single`}
+                    path={`/muteer/${hoofdOnderdeelSlug}/${overzichtSlug}/edit/:single`}
                     render={({ match }) => (
                         <MuteerUniversalObjectCRUD
                             dataModel={props.dataModel}
@@ -64,7 +66,7 @@ function APITestRoutes(props) {
                 />
                 <Route
                     exact
-                    path={`/${hoofdOnderdeelSlug}/${overzichtSlug}/:single/:version`}
+                    path={`/muteer/${hoofdOnderdeelSlug}/${overzichtSlug}/:single/:version`}
                     render={({ match }) => (
                         <MuteerUniversalObjectDetail
                             apiTest={apiTest}
@@ -77,7 +79,7 @@ function APITestRoutes(props) {
                 />
                 <Route
                     exact
-                    path={`/${hoofdOnderdeelSlug}/${overzichtSlug}/:single`}
+                    path={`/muteer/${hoofdOnderdeelSlug}/${overzichtSlug}/:single`}
                     render={({ match }) => (
                         <MuteerUniversalObjectDetail
                             apiTest={apiTest}
@@ -90,7 +92,7 @@ function APITestRoutes(props) {
                 />
                 <Route
                     exact
-                    path={`/${hoofdOnderdeelSlug}/${overzichtSlug}/`}
+                    path={`/muteer/${hoofdOnderdeelSlug}/${overzichtSlug}/`}
                     render={() => (
                         <MuteerApiTestOverzicht
                             hoofdOnderdeelSlug={props.hoofdOnderdeelSlug}
@@ -102,6 +104,66 @@ function APITestRoutes(props) {
             </Switch>
         </div>
     )
+}
+
+function BeheerRoutes(props) {
+    const beheerRoutesList = props.beheerRoutesList
+
+    const BeheerRouteJSX = beheerRoutesList.map(item => {
+        const slug = item.slug
+        const dataModelProperty = item.dataModelProperty
+
+        // Variables
+        const overzichtSlug =
+            dataModel[dataModelProperty].variables.Overzicht_Slug
+        const apiEndpoint = dataModel[dataModelProperty].variables.Api_Endpoint
+        const filteredDataModel = dataModel[dataModelProperty]
+        const createNewSlug =
+            dataModel[dataModelProperty].variables.Create_New_Slug
+
+        return (
+            <React.Fragment key={item.slug}>
+                <Route
+                    exact
+                    path={`/muteer/${overzichtSlug}/${createNewSlug}`}
+                    render={({ match }) => (
+                        <MuteerUniversalObjectCRUD
+                            dataModel={filteredDataModel}
+                            ApiEndpoint={apiEndpoint}
+                            overzichtSlug={overzichtSlug}
+                            history={props.history}
+                            match={match}
+                        />
+                    )}
+                />
+                <Route
+                    exact
+                    path={`/muteer/${overzichtSlug}/:single`}
+                    render={({ match }) => (
+                        <MuteerUniversalObjectDetail
+                            dataModel={filteredDataModel}
+                            history={props.history}
+                            match={match}
+                            hoofdOnderdeelSlug={overzichtSlug}
+                        />
+                    )}
+                />
+                <Route
+                    path={`/muteer/${overzichtSlug}`}
+                    exact
+                    render={() => (
+                        <MuteerUniversalObjectOverzicht
+                            dataModel={filteredDataModel}
+                            history={props.history}
+                        />
+                    )}
+                />
+            </React.Fragment>
+        )
+        console.log('Joe')
+    })
+
+    return BeheerRouteJSX
 }
 
 class AuthRoutes extends Component {
@@ -123,603 +185,67 @@ class AuthRoutes extends Component {
     }
 
     render() {
+        console.log('RENDER')
+        console.log(this.props)
+        const beheerRoutesList = [
+            {
+                slug: 'beleidsregels',
+                dataModelProperty: 'BeleidsRegel',
+            },
+            {
+                slug: 'maatregelen',
+                dataModelProperty: 'Maatregelen',
+            },
+            {
+                slug: 'opgaven',
+                dataModelProperty: 'Opgave',
+            },
+            {
+                slug: 'ambities',
+                dataModelProperty: 'Ambitie',
+            },
+            {
+                slug: 'belangen',
+                dataModelProperty: 'Belang',
+            },
+            {
+                slug: 'themas',
+                dataModelProperty: 'Themas',
+            },
+            {
+                slug: 'beleidsbeslissingen',
+                dataModelProperty: 'Beleidsbeslissingen',
+            },
+        ]
+
         return (
             <React.Fragment>
                 <Switch>
-                    <Route
-                        path="/api-test/ambities"
-                        render={() => (
-                            <APITestRoutes
-                                apiTest={true}
-                                dataModel={dataModel.Ambitie}
-                                hoofdOnderdeelSlug="api-test"
-                                history={this.props.history}
-                            />
-                        )}
-                    />
-                    <Route
-                        path="/api-test/opgaven"
-                        render={() => (
-                            <APITestRoutes
-                                apiTest={true}
-                                dataModel={dataModel.Opgaven}
-                                hoofdOnderdeelSlug="api-test"
-                                history={this.props.history}
-                            />
-                        )}
-                    />
-                    <Route
-                        path="/api-test/beleidsregels"
-                        render={() => (
-                            <APITestRoutes
-                                apiTest={true}
-                                dataModel={dataModel.BeleidsRegel}
-                                hoofdOnderdeelSlug="api-test"
-                                history={this.props.history}
-                            />
-                        )}
-                    />
-                    <Route
-                        path="/api-test/doelen"
-                        render={() => (
-                            <APITestRoutes
-                                apiTest={true}
-                                dataModel={dataModel.Doel}
-                                hoofdOnderdeelSlug="api-test"
-                                history={this.props.history}
-                            />
-                        )}
-                    />
-                    <Route
-                        path="/api-test/provinciale-belangen"
-                        render={() => (
-                            <APITestRoutes
-                                apiTest={true}
-                                dataModel={dataModel.ProvincialeBelangen}
-                                hoofdOnderdeelSlug="api-test"
-                                history={this.props.history}
-                            />
-                        )}
-                    />
-                    <Route
-                        path="/api-test/beleidsrelaties"
-                        render={() => (
-                            <APITestRoutes
-                                apiTest={true}
-                                dataModel={dataModel.BeleidsRelatie}
-                                hoofdOnderdeelSlug="api-test"
-                                history={this.props.history}
-                            />
-                        )}
-                    />
-                    <Route
-                        path="/api-test/maatregelen"
-                        render={() => (
-                            <APITestRoutes
-                                apiTest={true}
-                                dataModel={dataModel.Maatregelen}
-                                hoofdOnderdeelSlug="api-test"
-                                history={this.props.history}
-                            />
-                        )}
-                    />
-                    <Route
-                        path="/api-test/themas"
-                        render={() => (
-                            <APITestRoutes
-                                apiTest={true}
-                                dataModel={dataModel.Themas}
-                                hoofdOnderdeelSlug="api-test"
-                                history={this.props.history}
-                            />
-                        )}
-                    />
-                    <Route
-                        path="/api-test/verordeningen"
-                        render={() => (
-                            <APITestRoutes
-                                apiTest={true}
-                                dataModel={dataModel.Verordening}
-                                hoofdOnderdeelSlug="api-test"
-                                history={this.props.history}
-                            />
-                        )}
-                    />
-                    <Route
-                        apiTest={true}
-                        path="/api-test"
-                        exact
-                        component={MuteerApiTest}
-                    />
-                    {/* Beleids Pagina Routes */}
+                    {/* Omgevingsbeleid Routes */}
                     <Route
                         exact
-                        path={`/beleidsregels/${dataModel.BeleidsRegel.variables.Create_New_Slug}`}
-                        render={({ match }) => (
-                            <MuteerUniversalObjectCRUD
-                                dataModel={dataModel.BeleidsRegel}
-                                ApiEndpoint={
-                                    dataModel.BeleidsRegel.variables
-                                        .Api_Endpoint
-                                }
-                                overzichtSlug={
-                                    dataModel.BeleidsRegel.variables
-                                        .Overzicht_Slug
-                                }
-                                history={this.props.history}
-                                match={match}
-                            />
-                        )}
+                        path="/muteer/dashboard"
+                        component={MuteerDashboard}
                     />
                     <Route
                         exact
-                        path={`/beleidsregels/:single`}
-                        render={({ match }) => (
-                            <MuteerUniversalObjectDetail
-                                dataModel={dataModel.BeleidsRegel}
-                                history={this.props.history}
-                                match={match}
-                                hoofdOnderdeelSlug="beleidsregels"
-                            />
-                        )}
+                        path="/muteer/mijn-beleid"
+                        component={MuteerMijnBeleid}
                     />
                     <Route
-                        path="/beleidsregels"
                         exact
-                        render={() => (
-                            <MuteerUniversalObjectOverzicht
-                                dataModel={dataModel.BeleidsRegel}
-                                history={this.props.history}
-                            />
-                        )}
+                        path="/muteer/mijn-meldingen"
+                        component={MuteerMeldingen}
                     />
 
-                    {/* Maatregelen Pagina Routes */}
-                    <Route
-                        exact
-                        path={`/maatregelen/${dataModel.Maatregelen.variables.Create_New_Slug}`}
-                        render={({ match }) => (
-                            <MuteerUniversalObjectCRUD
-                                dataModel={dataModel.Maatregelen}
-                                ApiEndpoint={
-                                    dataModel.Maatregelen.variables.Api_Endpoint
-                                }
-                                overzichtSlug={
-                                    dataModel.Maatregelen.variables
-                                        .Overzicht_Slug
-                                }
-                                history={this.props.history}
-                                match={match}
-                            />
-                        )}
-                    />
-                    <Route
-                        exact
-                        path={`/maatregelen/edit/:single`}
-                        render={({ match }) => {
-                            return (
-                                <MuteerUniversalObjectCRUD
-                                    dataModel={dataModel.Maatregelen}
-                                    ApiEndpoint={
-                                        dataModel.Maatregelen.variables
-                                            .Api_Endpoint
-                                    }
-                                    overzichtSlug={
-                                        dataModel.Maatregelen.variables
-                                            .Overzicht_Slug
-                                    }
-                                    history={this.props.history}
-                                    match={match}
-                                />
-                            )
-                        }}
-                    />
-                    <Route
-                        exact
-                        path={`/maatregelen/:single/:version`}
-                        render={({ match }) => (
-                            <MuteerUniversalObjectDetail
-                                apiTest={false}
-                                dataModel={dataModel.Maatregelen}
-                                history={this.props.history}
-                                match={match}
-                                hoofdOnderdeelSlug="maatregelen"
-                            />
-                        )}
-                    />
-                    <Route
-                        exact
-                        path={`/maatregelen/:single`}
-                        render={({ match }) => (
-                            <MuteerUniversalObjectDetail
-                                dataModel={dataModel.Maatregelen}
-                                history={this.props.history}
-                                match={match}
-                                hoofdOnderdeelSlug="maatregelen"
-                            />
-                        )}
-                    />
-                    <Route
-                        path="/maatregelen"
-                        exact
-                        render={() => (
-                            <MuteerUniversalObjectOverzicht
-                                dataModel={dataModel.Maatregelen}
-                                history={this.props.history}
-                            />
-                        )}
+                    <BeheerRoutes
+                        beheerRoutesList={beheerRoutesList}
+                        history={this.props.history}
                     />
 
-                    {/* Opgaven Pagina Routes */}
-                    <Route
-                        exact
-                        path={`/opgaven/${dataModel.Opgaven.variables.Create_New_Slug}`}
-                        render={({ match }) => (
-                            <MuteerUniversalObjectCRUD
-                                dataModel={dataModel.Opgaven}
-                                ApiEndpoint={
-                                    dataModel.Opgaven.variables.Api_Endpoint
-                                }
-                                overzichtSlug={
-                                    dataModel.Opgaven.variables.Overzicht_Slug
-                                }
-                                history={this.props.history}
-                                match={match}
-                            />
-                        )}
-                    />
-                    <Route
-                        exact
-                        path={`/opgaven/edit/:single`}
-                        render={({ match }) => {
-                            return (
-                                <MuteerUniversalObjectCRUD
-                                    dataModel={dataModel.Opgaven}
-                                    ApiEndpoint={
-                                        dataModel.Opgaven.variables.Api_Endpoint
-                                    }
-                                    overzichtSlug={
-                                        dataModel.Opgaven.variables
-                                            .Overzicht_Slug
-                                    }
-                                    history={this.props.history}
-                                    match={match}
-                                />
-                            )
-                        }}
-                    />
-                    <Route
-                        exact
-                        path={`/opgaven/:single/:version`}
-                        render={({ match }) => (
-                            <MuteerUniversalObjectDetail
-                                apiTest={false}
-                                dataModel={dataModel.Opgaven}
-                                history={this.props.history}
-                                match={match}
-                                hoofdOnderdeelSlug="maatregelen"
-                            />
-                        )}
-                    />
-                    <Route
-                        exact
-                        path={`/opgaven/:single`}
-                        render={({ match }) => (
-                            <MuteerUniversalObjectDetail
-                                dataModel={dataModel.Opgaven}
-                                history={this.props.history}
-                                match={match}
-                                hoofdOnderdeelSlug="maatregelen"
-                            />
-                        )}
-                    />
-                    <Route
-                        path="/opgaven"
-                        exact
-                        render={() => (
-                            <MuteerUniversalObjectOverzicht
-                                dataModel={dataModel.Opgaven}
-                                history={this.props.history}
-                            />
-                        )}
-                    />
-                    {/* Ambities Pagina Routes */}
-                    <Route
-                        exact
-                        path={`/ambities/${dataModel.Ambitie.variables.Create_New_Slug}`}
-                        render={({ match }) => (
-                            <MuteerUniversalObjectCRUD
-                                dataModel={dataModel.Ambitie}
-                                ApiEndpoint={
-                                    dataModel.Ambitie.variables.Api_Endpoint
-                                }
-                                overzichtSlug={
-                                    dataModel.Ambitie.variables.Overzicht_Slug
-                                }
-                                history={this.props.history}
-                                match={match}
-                            />
-                        )}
-                    />
-                    <Route
-                        exact
-                        path={`/ambities/edit/:single`}
-                        render={({ match }) => {
-                            return (
-                                <MuteerUniversalObjectCRUD
-                                    dataModel={dataModel.Ambitie}
-                                    ApiEndpoint={
-                                        dataModel.Ambitie.variables.Api_Endpoint
-                                    }
-                                    overzichtSlug={
-                                        dataModel.Ambitie.variables
-                                            .Overzicht_Slug
-                                    }
-                                    history={this.props.history}
-                                    match={match}
-                                />
-                            )
-                        }}
-                    />
-                    <Route
-                        exact
-                        path={`/ambities/:single/:version`}
-                        render={({ match }) => (
-                            <MuteerUniversalObjectDetail
-                                apiTest={false}
-                                dataModel={dataModel.Ambitie}
-                                history={this.props.history}
-                                match={match}
-                                hoofdOnderdeelSlug="maatregelen"
-                            />
-                        )}
-                    />
-                    <Route
-                        exact
-                        path={`/ambities/:single`}
-                        render={({ match }) => (
-                            <MuteerUniversalObjectDetail
-                                dataModel={dataModel.Ambitie}
-                                history={this.props.history}
-                                match={match}
-                                hoofdOnderdeelSlug="maatregelen"
-                            />
-                        )}
-                    />
-                    <Route
-                        path="/ambities"
-                        exact
-                        render={() => (
-                            <MuteerUniversalObjectOverzicht
-                                dataModel={dataModel.Ambitie}
-                                history={this.props.history}
-                            />
-                        )}
-                    />
-                    {/* Opgaven Pagina Routes */}
-                    <Route
-                        exact
-                        path={`/belangen/${dataModel.Belang.variables.Create_New_Slug}`}
-                        render={({ match }) => (
-                            <MuteerUniversalObjectCRUD
-                                dataModel={dataModel.Belang}
-                                ApiEndpoint={
-                                    dataModel.Belang.variables.Api_Endpoint
-                                }
-                                overzichtSlug={
-                                    dataModel.Belang.variables.Overzicht_Slug
-                                }
-                                history={this.props.history}
-                                match={match}
-                            />
-                        )}
-                    />
-                    <Route
-                        exact
-                        path={`/belangen/edit/:single`}
-                        render={({ match }) => {
-                            return (
-                                <MuteerUniversalObjectCRUD
-                                    dataModel={dataModel.Belang}
-                                    ApiEndpoint={
-                                        dataModel.Belang.variables.Api_Endpoint
-                                    }
-                                    overzichtSlug={
-                                        dataModel.Belang.variables
-                                            .Overzicht_Slug
-                                    }
-                                    history={this.props.history}
-                                    match={match}
-                                />
-                            )
-                        }}
-                    />
-                    <Route
-                        exact
-                        path={`/belangen/:single/:version`}
-                        render={({ match }) => (
-                            <MuteerUniversalObjectDetail
-                                apiTest={false}
-                                dataModel={dataModel.Belang}
-                                history={this.props.history}
-                                match={match}
-                                hoofdOnderdeelSlug="maatregelen"
-                            />
-                        )}
-                    />
-                    <Route
-                        exact
-                        path={`/belangen/:single`}
-                        render={({ match }) => (
-                            <MuteerUniversalObjectDetail
-                                dataModel={dataModel.Belang}
-                                history={this.props.history}
-                                match={match}
-                                hoofdOnderdeelSlug="maatregelen"
-                            />
-                        )}
-                    />
-                    <Route
-                        path="/belangen"
-                        exact
-                        render={() => (
-                            <MuteerUniversalObjectOverzicht
-                                dataModel={dataModel.Belang}
-                                history={this.props.history}
-                            />
-                        )}
-                    />
-                    {/* Opgaven Pagina Routes */}
-                    <Route
-                        exact
-                        path={`/themas/${dataModel.Themas.variables.Create_New_Slug}`}
-                        render={({ match }) => (
-                            <MuteerUniversalObjectCRUD
-                                dataModel={dataModel.Themas}
-                                ApiEndpoint={
-                                    dataModel.Themas.variables.Api_Endpoint
-                                }
-                                overzichtSlug={
-                                    dataModel.Themas.variables.Overzicht_Slug
-                                }
-                                history={this.props.history}
-                                match={match}
-                            />
-                        )}
-                    />
-                    <Route
-                        exact
-                        path={`/themas/edit/:single`}
-                        render={({ match }) => {
-                            return (
-                                <MuteerUniversalObjectCRUD
-                                    dataModel={dataModel.Themas}
-                                    ApiEndpoint={
-                                        dataModel.Themas.variables.Api_Endpoint
-                                    }
-                                    overzichtSlug={
-                                        dataModel.Themas.variables
-                                            .Overzicht_Slug
-                                    }
-                                    history={this.props.history}
-                                    match={match}
-                                />
-                            )
-                        }}
-                    />
-                    <Route
-                        exact
-                        path={`/themas/:single/:version`}
-                        render={({ match }) => (
-                            <MuteerUniversalObjectDetail
-                                apiTest={false}
-                                dataModel={dataModel.Themas}
-                                history={this.props.history}
-                                match={match}
-                                hoofdOnderdeelSlug="maatregelen"
-                            />
-                        )}
-                    />
-                    <Route
-                        exact
-                        path={`/themas/:single`}
-                        render={({ match }) => (
-                            <MuteerUniversalObjectDetail
-                                dataModel={dataModel.Themas}
-                                history={this.props.history}
-                                match={match}
-                                hoofdOnderdeelSlug="maatregelen"
-                            />
-                        )}
-                    />
-                    <Route
-                        path="/themas"
-                        exact
-                        render={() => (
-                            <MuteerUniversalObjectOverzicht
-                                dataModel={dataModel.Themas}
-                                history={this.props.history}
-                            />
-                        )}
-                    />
-
-                    {/* Beleidsbeslissingen Pagina Routes */}
-                    <Route
-                        exact
-                        path={`/beleidsbeslissingen/${dataModel.Beleidsbeslissingen.variables.Create_New_Slug}`}
-                        render={({ match }) => (
-                            <MuteerUniversalObjectCRUD
-                                dataModel={dataModel.Beleidsbeslissingen}
-                                ApiEndpoint={
-                                    dataModel.Beleidsbeslissingen.variables
-                                        .Api_Endpoint
-                                }
-                                overzichtSlug={
-                                    dataModel.Beleidsbeslissingen.variables
-                                        .Overzicht_Slug
-                                }
-                                history={this.props.history}
-                                match={match}
-                            />
-                        )}
-                    />
-                    <Route
-                        exact
-                        path={`/beleidsbeslissingen/edit/:single`}
-                        render={({ match }) => (
-                            <MuteerUniversalObjectCRUD
-                                dataModel={dataModel.Beleidsbeslissingen}
-                                ApiEndpoint={
-                                    dataModel.Beleidsbeslissingen.variables
-                                        .Api_Endpoint
-                                }
-                                overzichtSlug={
-                                    dataModel.Beleidsbeslissingen.variables
-                                        .Overzicht_Slug
-                                }
-                                history={this.props.history}
-                                match={match}
-                            />
-                        )}
-                    />
-                    <Route
-                        exact
-                        path={`/beleidsbeslissingen/:single/:version`}
-                        render={({ match }) => (
-                            <MuteerUniversalObjectDetail
-                                apiTest={false}
-                                dataModel={dataModel.Beleidsbeslissingen}
-                                history={this.props.history}
-                                match={match}
-                                hoofdOnderdeelSlug="beleidsbeslissingen"
-                            />
-                        )}
-                    />
-                    <Route
-                        exact
-                        path={`/beleidsbeslissingen/:single`}
-                        render={({ match }) => (
-                            <MuteerUniversalObjectDetail
-                                dataModel={dataModel.Beleidsbeslissingen}
-                                history={this.props.history}
-                                match={match}
-                                hoofdOnderdeelSlug="beleidsbeslissingen"
-                            />
-                        )}
-                    />
-                    <Route
-                        path="/beleidsbeslissingen"
-                        exact
-                        render={() => (
-                            <MuteerUniversalObjectOverzicht
-                                dataModel={dataModel.Beleidsbeslissingen}
-                                history={this.props.history}
-                            />
-                        )}
-                    />
                     {/* Verordening Pagina Routes */}
                     <Route
-                        path="/verordening"
+                        path="/muteer/verordening"
                         exact
                         render={() => (
                             <MuteerVerordening
@@ -727,11 +253,6 @@ class AuthRoutes extends Component {
                                 history={this.props.history}
                             />
                         )}
-                    />
-                    <Route
-                        exact
-                        path="/dashboard"
-                        component={MuteerDashboard}
                     />
                 </Switch>
             </React.Fragment>

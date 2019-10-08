@@ -10,9 +10,13 @@ import 'react-toastify/dist/ReactToastify.css'
 import './../css/tailwind.css'
 import './../css/styles.scss'
 
+// Import Data Model
+import dataModel from './dataModel'
+
 // Import Pages
 import RaadpleegHome from './../pages/RaadpleegHome'
 import RaadpleegArtikelDetail from './../pages/RaadpleegArtikelDetail'
+import RaadpleegUniversalObjectDetail from './../pages/RaadpleegUniversalObjectDetail'
 import RaadpleegZoekResultatenOverzicht from './../pages/RaadpleegZoekResultatenOverzicht'
 import Login from './../pages/Login'
 
@@ -23,14 +27,74 @@ import Navigation from './../components/Navigation'
 import AuthRoutes from './AuthRoutes'
 
 class App extends Component {
-    componentWillMount() {
-        // Als de app gemount wordt, wordt de huidige token gechecked
-        axios.get('/tokeninfo').catch(error => {
-            localStorage.removeItem('access_token')
-        })
+    constructor(props) {
+        super(props)
+        this.state = {
+            authUser: null,
+        }
+    }
+
+    componentDidMount() {
+        const that = this
+        axios
+            .get('/tokeninfo')
+            .then(res =>
+                that.setState(
+                    {
+                        authUser: res.data,
+                    },
+                    () => console.log(that.state)
+                )
+            )
+            .catch(error => {
+                localStorage.removeItem('access_token')
+            })
     }
 
     render() {
+        const detailPaginas = [
+            {
+                slug: 'ambities',
+                dataModel: dataModel.Ambitie,
+            },
+            {
+                slug: 'beleidsregels',
+                dataModel: dataModel.BeleidsRegel,
+            },
+            {
+                slug: 'doelen',
+                dataModel: dataModel.Doel,
+            },
+            {
+                slug: 'provinciale-belangen',
+                dataModel: dataModel.ProvincialeBelangen,
+            },
+            {
+                slug: 'belangen',
+                dataModel: dataModel.Belang,
+            },
+            {
+                slug: 'beleids-relaties',
+                dataModel: dataModel.BeleidsRelatie,
+            },
+            {
+                slug: 'maatregelen',
+                dataModel: dataModel.Maatregelen,
+            },
+            {
+                slug: 'beleidsbeslissingen',
+                dataModel: dataModel.Beleidsbeslissingen,
+            },
+            {
+                slug: 'themas',
+                dataModel: dataModel.Themas,
+            },
+            {
+                slug: 'beleidsbeslissingen',
+                dataModel: dataModel.Beleidsbeslissingen,
+            },
+        ]
+
         return (
             <main
                 className="body-bg-color min-h-screen pt-12"
@@ -40,14 +104,33 @@ class App extends Component {
                 <Switch>
                     <Route path="/" exact component={RaadpleegHome} />
                     <Route
-                        path="/artikel-detail"
-                        component={RaadpleegArtikelDetail}
-                    />
-                    <Route
                         exact
                         path="/zoekresultaten"
                         component={RaadpleegZoekResultatenOverzicht}
                     />
+                    <Route
+                        path="/artikel-detail"
+                        exact
+                        component={RaadpleegArtikelDetail}
+                    />
+                    <Route
+                        path="/detail/:type/:id/:uuid"
+                        component={RaadpleegArtikelDetail}
+                    />
+                    {detailPaginas.map(item => {
+                        return (
+                            <Route
+                                key={item.slug}
+                                path={`/detail/${item.slug}/:id`}
+                                render={() => (
+                                    <RaadpleegUniversalObjectDetail
+                                        dataModel={item.dataModel}
+                                        history={this.props.history}
+                                    />
+                                )}
+                            />
+                        )
+                    })}
                     <Route path="/login" component={Login} />
                     <AuthRoutes history={this.props.history} />
                 </Switch>

@@ -40,7 +40,7 @@ function SearchBarPopupItem(props) {
                 className={`px-5 w-full relative inline-block hover:underline hover:bg-gray-100 focus:underline focus:bg-gray-100 focus:shadow-outline cursor-pointer ${
                     props.filter ? 'py-1' : 'py-2'
                 }`}
-                to={`/zoekresultaten?query=${props.value}${
+                to={`/raadpleeg/zoekresultaten?query=${props.value}${
                     props.filterQuery ? `&only=${props.filterQuery}` : ''
                 }`}
                 onKeyDown={e => {

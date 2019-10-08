@@ -6,9 +6,6 @@ import axios from './../../API/axios'
 // Import Components
 import SidebarMain from './../../components/SidebarMain'
 import ButtonAddNewObject from './../../components/ButtonAddNewObject'
-import CardKoppeling from './CardKoppeling'
-import CardEigenaarOverdracht from './CardEigenaarOverdracht'
-import CardAlgemeneMelding from './CardAlgemeneMelding'
 import CardObjectDetailsHalfWidth from './../../components/CardObjectDetailsHalfWidth'
 import LoaderCardHalfWidth from './../../components/LoaderCardHalfWidth'
 
@@ -22,7 +19,7 @@ class KaartenGroep extends Component {
     }
 }
 
-class MuteerDashboard extends Component {
+class MuteerMijnBeleid extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -77,11 +74,6 @@ class MuteerDashboard extends Component {
                 {/* Dashboard */}
                 <div className="w-3/4 rounded inline-block flex-grow pl-8 relative">
                     <section>
-                        <h2 className="heading-serif mb-4">Meldingen</h2>
-
-                        <CardKoppeling />
-                    </section>
-                    <section>
                         <h2 className="heading-serif mb-4 mt-8">Mijn beleid</h2>
 
                         {this.state.dataReceived ? (
@@ -135,4 +127,4 @@ class MuteerDashboard extends Component {
     }
 }
 
-export default MuteerDashboard
+export default MuteerMijnBeleid

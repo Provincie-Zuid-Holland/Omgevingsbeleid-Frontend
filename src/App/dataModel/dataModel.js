@@ -123,7 +123,7 @@ export default
       "Object_Name": "Ambitie"
     }
   },
-  "Opgaven": {
+  "Opgave": {
     "type": "object",
     "properties": {
       "ID": {

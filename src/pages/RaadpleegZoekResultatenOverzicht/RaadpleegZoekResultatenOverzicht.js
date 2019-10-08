@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 
+// Import API
 import axios from './../../API/axios'
+
+// Import Data Model
+import dataModel from './../../App/dataModel'
 
 // Import Components
 import ButtonBackToPage from './../../components/ButtonBackToPage'
@@ -28,31 +32,35 @@ function SearchResultItem(props) {
         Omschrijving: getContent('Omschrijving'),
     }
 
+    const overzichtURL = dataModel[props.item.type].variables.Overzicht_Slug
+
     return (
         <li className="border-b border-gray-300 py-5" key={props.item.UUID}>
-            {content.Titel.setInnerHTML ? (
-                <h2
-                    className="text-l font-serif block text-gray-800"
-                    dangerouslySetInnerHTML={content.Titel.content}
-                ></h2>
-            ) : (
-                <h2 className="text-l font-serif block text-gray-800">
-                    {content.Titel.content}
-                </h2>
-            )}
-            <span className="block text-gray-600 text-sm italic">
-                {props.item.type}
-            </span>
-            {content.Omschrijving.setInnerHTML ? (
-                <p
-                    className="mt-2 text-gray-700 text-sm"
-                    dangerouslySetInnerHTML={content.Omschrijving.content}
-                ></p>
-            ) : (
-                <p className="mt-2 text-gray-700 text-sm">
-                    {content.Omschrijving.content}
-                </p>
-            )}
+            <Link to={`/detail/${overzichtURL}/${props.item.ID}`}>
+                {content.Titel.setInnerHTML ? (
+                    <h2
+                        className="text-l font-serif block text-gray-800"
+                        dangerouslySetInnerHTML={content.Titel.content}
+                    ></h2>
+                ) : (
+                    <h2 className="text-l font-serif block text-gray-800">
+                        {content.Titel.content}
+                    </h2>
+                )}
+                <span className="block text-gray-600 text-sm italic">
+                    {props.item.type}
+                </span>
+                {content.Omschrijving.setInnerHTML ? (
+                    <p
+                        className="mt-2 text-gray-700 text-sm"
+                        dangerouslySetInnerHTML={content.Omschrijving.content}
+                    ></p>
+                ) : (
+                    <p className="mt-2 text-gray-700 text-sm">
+                        {content.Omschrijving.content}
+                    </p>
+                )}
+            </Link>
         </li>
     )
 }
@@ -125,11 +133,14 @@ class RaadpleegZoekResultatenOverzicht extends Component {
             .then(res => {
                 const searchResults = res.data
                 this.setInitialOnPageFilters(searchResults)
-                this.setState({
-                    searchFiltersOnly: searchFiltersOnly,
-                    searchResults: searchResults,
-                    dataLoaded: true,
-                })
+                this.setState(
+                    {
+                        searchFiltersOnly: searchFiltersOnly,
+                        searchResults: searchResults,
+                        dataLoaded: true,
+                    },
+                    () => console.log(this.state)
+                )
             })
             .catch(err => console.log(err))
     }

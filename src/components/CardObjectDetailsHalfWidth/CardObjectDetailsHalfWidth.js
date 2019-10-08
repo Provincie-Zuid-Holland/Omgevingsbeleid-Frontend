@@ -14,7 +14,7 @@ function getExcerpt(tekst) {
     }
 }
 
-function CardObjectItem(props) {
+function CardObjectDetailsHalfWidth(props) {
     const object = props.object
     const overzichtSlug = props.overzichtSlug
     const titelEnkelvoud = props.titelEnkelvoud
@@ -25,11 +25,11 @@ function CardObjectItem(props) {
     return (
         <ContainerAnimateContent>
             <Link
-                className="relative inline-block h-full w-full px-4 pb-6 pt-4 shadow-md rounded overflow-hidden bg-white"
+                className="relative inline-block h-full w-1/2 px-4 pb-6 pt-4 shadow-md rounded overflow-hidden bg-white"
                 to={
                     apiTest === true
-                        ? `/muteer/${hoofdOnderdeelSlug}/${overzichtSlug}/${object.ID}`
-                        : `/muteer/${hoofdOnderdeelSlug}/${object.ID}`
+                        ? `/${hoofdOnderdeelSlug}/${overzichtSlug}/${object.ID}`
+                        : `/${hoofdOnderdeelSlug}/${object.ID}`
                 }
             >
                 <h5 className="text-gray-600 text-sm font-light py-1">
@@ -54,4 +54,4 @@ function CardObjectItem(props) {
     )
 }
 
-export default CardObjectItem
+export default CardObjectDetailsHalfWidth

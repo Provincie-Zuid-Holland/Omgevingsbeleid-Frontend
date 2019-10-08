@@ -26,8 +26,8 @@ function GenerateBackToButton(props) {
                 // url={`/${hoofdOnderdeel}/${overzichtSlug}`}
                 url={
                     apiTest === true
-                        ? `/${hoofdOnderdeelSlug}/${overzichtSlug}`
-                        : `/${overzichtSlug}`
+                        ? `/muteer/${hoofdOnderdeelSlug}/${overzichtSlug}`
+                        : `/muteer/${overzichtSlug}`
                 }
             />
         )
@@ -38,8 +38,8 @@ function GenerateBackToButton(props) {
                 terugNaar={`huidige versie`}
                 url={
                     apiTest === true
-                        ? `/${hoofdOnderdeelSlug}/${overzichtSlug}/${dataObjectID}`
-                        : `/${overzichtSlug}/${dataObjectID}`
+                        ? `/muteer/${hoofdOnderdeelSlug}/${overzichtSlug}/${dataObjectID}`
+                        : `/muteer/${overzichtSlug}/${dataObjectID}`
                 }
             />
         )
@@ -146,18 +146,18 @@ class MuteerUniversalObjectDetail extends Component {
     makeURLForRevisieObject(overzichtSlug, objectID, apiTest, objectUUID) {
         if (apiTest) {
             // return `/api-test/${overzichtSlug}/edit/${objectID}`
-            return `/api-test/${overzichtSlug}/${objectID}/${objectUUID}`
+            return `/muteer/api-test/${overzichtSlug}/${objectID}/${objectUUID}`
         } else {
-            // return `/${overzichtSlug}/edit/${objectID}`
-            return `/${overzichtSlug}/${objectID}/${objectUUID}`
+            // return `/muteer/${overzichtSlug}/edit/${objectID}`
+            return `/muteer/${overzichtSlug}/${objectID}/${objectUUID}`
         }
     }
 
     makeURLForNewObject(overzichtSlug, objectID, apiTest) {
         if (apiTest) {
-            return `/api-test/${overzichtSlug}/edit/${objectID}`
+            return `/muteer/api-test/${overzichtSlug}/edit/${objectID}`
         } else {
-            return `/${overzichtSlug}/edit/${objectID}`
+            return `/muteer/${overzichtSlug}/edit/${objectID}`
         }
     }
 

@@ -54,7 +54,7 @@ class Login extends Component {
                     )
                     localStorage.setItem('token_date', tokenTime)
                     this.resetLoadingState()
-                    history.push('/dashboard')
+                    history.push('/muteer/dashboard')
                 } else if (response.status === 401) {
                     this.resetLoadingState()
                     throw Error('Wrong username or password')

@@ -103,9 +103,17 @@ class NavigationMenuPopUp extends Component {
                                 </li>
                                 <li>
                                     <Link
+                                        to={`/`}
+                                        className="py-2 px-4 text-sm border-t border-gray-300 w-full inline-block"
+                                        onClick={this.toggleOpen}
+                                    >
+                                        Raadpleeg omgeving
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
                                         className="py-2 px-4 text-sm border-t border-gray-300 w-full inline-block"
                                         to={`/login`}
-                                        onClick={logout}
                                         onClick={logout}
                                     >
                                         Uitloggen
@@ -183,7 +191,10 @@ class Navigation extends Component {
                 <div className="bg-white py-6 container mx-auto flex items-center justify-between flex-wrap bg-white px-6">
                     <div className="flex items-center flex-no-shrink text-black mr-6 py-2">
                         {getToken() ? (
-                            <Link to={`/dashboard`} className="text-blue">
+                            <Link
+                                to={`/muteer/dashboard`}
+                                className="text-blue"
+                            >
                                 <Logo />
                             </Link>
                         ) : (

@@ -212,6 +212,7 @@ export default class LeafletHalfScreenWidthViewer extends Component {
             viewport: DEFAULT_VIEWPORT,
             pinpointMarker: false,
             leafletSearch: false,
+            activeSearchMarker: null,
         }
         this.leafletMap = React.createRef()
         this.togglePinMarker = this.togglePinMarker.bind(this)
@@ -373,7 +374,7 @@ export default class LeafletHalfScreenWidthViewer extends Component {
         let zoomLevel
         switch (type) {
             case 'adres':
-                zoomLevel = 15
+                zoomLevel = 10
                 break
             case 'postcode':
                 zoomLevel = 12
@@ -395,7 +396,26 @@ export default class LeafletHalfScreenWidthViewer extends Component {
         }
 
         const leafletMap = this.leafletMap.current
-        leafletMap.leafletElement.flyTo(Leaflet.latLng(lng, lat), zoomLevel)
+
+        console.log(Leaflet.latLng(lng, lat))
+        console.log(zoomLevel)
+
+        const markerID = Leaflet.marker(Leaflet.latLng(lng, lat)).addTo(
+            leafletMap.leafletElement
+        )
+
+        if (this.state.activeSearchMarker) {
+            leafletMap.leafletElement.removeLayer(this.state.activeSearchMarker)
+        }
+
+        this.setState({
+            activeSearchMarker: markerID,
+        })
+
+        console.log('Marker:')
+        console.log(markerID)
+
+        leafletMap.leafletElement.setView(Leaflet.latLng(lng, lat), zoomLevel)
     }
 
     componentDidMount() {

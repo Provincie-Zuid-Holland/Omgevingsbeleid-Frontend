@@ -124,6 +124,7 @@ class MuteerUniversalObjectCRUD extends Component {
                 .then(res => {
                     const responseObject = res.data
                     const crudProperties = makeCrudPropertiesArray(dataModel)
+                    console.log(res.data)
                     const crudObject = makeCrudObject(
                         crudProperties,
                         responseObject[0]
@@ -484,13 +485,13 @@ function ContainerCrudHeader(props) {
                         <ButtonBackToPage
                             terugNaar={props.titelMeervoud.toLowerCase()}
                             color="text-white"
-                            url={`/${props.overzichtSlug}`}
+                            url={`/muteer/${props.overzichtSlug}`}
                         />
                     ) : (
                         <ButtonBackToPage
                             terugNaar={props.titelEnkelvoud.toLowerCase()}
                             color="text-white"
-                            url={`/${props.overzichtSlug}/${props.objectID}`}
+                            url={`/muteer/${props.overzichtSlug}/${props.objectID}`}
                         />
                     )}
                     <h1 className="heading-serif-4xl text-white">
