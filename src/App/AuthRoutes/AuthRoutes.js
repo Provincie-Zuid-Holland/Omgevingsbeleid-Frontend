@@ -117,50 +117,92 @@ function BeheerRoutes(props) {
         const overzichtSlug =
             dataModel[dataModelProperty].variables.Overzicht_Slug
         const apiEndpoint = dataModel[dataModelProperty].variables.Api_Endpoint
+        console.log(apiEndpoint)
         const filteredDataModel = dataModel[dataModelProperty]
         const createNewSlug =
             dataModel[dataModelProperty].variables.Create_New_Slug
 
         return (
             <React.Fragment key={item.slug}>
-                <Route
-                    exact
-                    path={`/muteer/${overzichtSlug}/${createNewSlug}`}
-                    render={({ match }) => (
-                        <MuteerUniversalObjectCRUD
-                            dataModel={filteredDataModel}
-                            ApiEndpoint={apiEndpoint}
-                            overzichtSlug={overzichtSlug}
-                            history={props.history}
-                            match={match}
-                        />
-                    )}
-                />
-                <Route
-                    exact
-                    path={`/muteer/${overzichtSlug}/:single`}
-                    render={({ match }) => (
-                        <MuteerUniversalObjectDetail
-                            dataModel={filteredDataModel}
-                            history={props.history}
-                            match={match}
-                            hoofdOnderdeelSlug={overzichtSlug}
-                        />
-                    )}
-                />
-                <Route
-                    path={`/muteer/${overzichtSlug}`}
-                    exact
-                    render={() => (
-                        <MuteerUniversalObjectOverzicht
-                            dataModel={filteredDataModel}
-                            history={props.history}
-                        />
-                    )}
-                />
+                <Switch>
+                    <Route
+                        exact
+                        path={`/muteer/${overzichtSlug}/${createNewSlug}`}
+                        render={({ match }) => (
+                            <MuteerUniversalObjectCRUD
+                                dataModel={filteredDataModel}
+                                ApiEndpoint={apiEndpoint}
+                                overzichtSlug={overzichtSlug}
+                                history={props.history}
+                                match={match}
+                            />
+                        )}
+                    />
+                    <Route
+                        exact
+                        path={`/muteer/${overzichtSlug}/edit/:single/:version`}
+                        render={({ match }) => (
+                            <MuteerUniversalObjectCRUD
+                                ApiEndpoint={apiEndpoint}
+                                dataModel={filteredDataModel}
+                                overzichtSlug={overzichtSlug}
+                                history={props.history}
+                                match={match}
+                            />
+                        )}
+                    />
+                    <Route
+                        exact
+                        path={`/muteer/${overzichtSlug}/edit/:single`}
+                        render={({ match }) => (
+                            <MuteerUniversalObjectCRUD
+                                ApiEndpoint={apiEndpoint}
+                                dataModel={filteredDataModel}
+                                overzichtSlug={overzichtSlug}
+                                history={props.history}
+                                match={match}
+                            />
+                        )}
+                    />
+                    <Route
+                        exact
+                        path={`/muteer/${overzichtSlug}/:single/:version`}
+                        render={({ match }) => (
+                            <MuteerUniversalObjectDetail
+                                dataModel={filteredDataModel}
+                                overzichtSlug={overzichtSlug}
+                                history={props.history}
+                                match={match}
+                                hoofdOnderdeelSlug={overzichtSlug}
+                            />
+                        )}
+                    />
+                    <Route
+                        exact
+                        path={`/muteer/${overzichtSlug}/:single`}
+                        render={({ match }) => (
+                            <MuteerUniversalObjectDetail
+                                dataModel={filteredDataModel}
+                                history={props.history}
+                                overzichtSlug={overzichtSlug}
+                                match={match}
+                                hoofdOnderdeelSlug={overzichtSlug}
+                            />
+                        )}
+                    />
+                    <Route
+                        path={`/muteer/${overzichtSlug}`}
+                        exact
+                        render={() => (
+                            <MuteerUniversalObjectOverzicht
+                                dataModel={filteredDataModel}
+                                history={props.history}
+                            />
+                        )}
+                    />
+                </Switch>
             </React.Fragment>
         )
-        console.log('Joe')
     })
 
     return BeheerRouteJSX
@@ -180,13 +222,11 @@ class AuthRoutes extends Component {
     componentDidMount() {
         // Als de app gemount wordt, wordt de huidige token gechecked
         axios.get('/tokeninfo').catch(error => {
-            this.redirectToLogin()
+            // this.redirectToLogin()
         })
     }
 
     render() {
-        console.log('RENDER')
-        console.log(this.props)
         const beheerRoutesList = [
             {
                 slug: 'beleidsregels',
@@ -225,12 +265,16 @@ class AuthRoutes extends Component {
                     <Route
                         exact
                         path="/muteer/dashboard"
-                        component={MuteerDashboard}
+                        render={() => (
+                            <MuteerDashboard authUser={this.props.authUser} />
+                        )}
                     />
                     <Route
                         exact
                         path="/muteer/mijn-beleid"
-                        component={MuteerMijnBeleid}
+                        render={() => (
+                            <MuteerMijnBeleid authUser={this.props.authUser} />
+                        )}
                     />
                     <Route
                         exact

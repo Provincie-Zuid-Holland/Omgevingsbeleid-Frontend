@@ -20,11 +20,20 @@ import RaadpleegUniversalObjectDetail from './../pages/RaadpleegUniversalObjectD
 import RaadpleegZoekResultatenOverzicht from './../pages/RaadpleegZoekResultatenOverzicht'
 import Login from './../pages/Login'
 
+import * as Sentry from '@sentry/browser'
+
 // Import Components
 import Navigation from './../components/Navigation'
 
 // Import Auth Routes
 import AuthRoutes from './AuthRoutes'
+
+if (process.env.NODE_ENV !== 'development') {
+    Sentry.init({
+        dsn: 'https://a9c9863a039942abb632f6ff844fea03@sentry.io/1777968',
+        environment: process.env.NODE_ENV,
+    })
+}
 
 class App extends Component {
     constructor(props) {
@@ -35,20 +44,9 @@ class App extends Component {
     }
 
     componentDidMount() {
-        const that = this
-        axios
-            .get('/tokeninfo')
-            .then(res =>
-                that.setState(
-                    {
-                        authUser: res.data,
-                    },
-                    () => console.log(that.state)
-                )
-            )
-            .catch(error => {
-                localStorage.removeItem('access_token')
-            })
+        axios.get('/tokeninfo').catch(error => {
+            localStorage.removeItem('access_token')
+        })
     }
 
     render() {
@@ -115,24 +113,35 @@ class App extends Component {
                     />
                     <Route
                         path="/detail/:type/:id/:uuid"
-                        component={RaadpleegArtikelDetail}
+                        render={({ match }) => {
+                            return (
+                                <RaadpleegArtikelDetail
+                                    history={this.props.history}
+                                    match={match}
+                                />
+                            )
+                        }}
                     />
                     {detailPaginas.map(item => {
                         return (
                             <Route
                                 key={item.slug}
                                 path={`/detail/${item.slug}/:id`}
-                                render={() => (
+                                render={({ match }) => (
                                     <RaadpleegUniversalObjectDetail
                                         dataModel={item.dataModel}
                                         history={this.props.history}
+                                        match={match}
                                     />
                                 )}
                             />
                         )
                     })}
                     <Route path="/login" component={Login} />
-                    <AuthRoutes history={this.props.history} />
+                    <AuthRoutes
+                        authUser={this.state.authUser}
+                        history={this.props.history}
+                    />
                 </Switch>
                 <ToastContainer />
             </main>

@@ -163,6 +163,7 @@ class MuteerUniversalObjectDetail extends Component {
 
     render() {
         // Variables to give as props
+        console.log(this.props.dataModel)
         const titelEnkelvoud = this.props.dataModel.variables.Titel_Enkelvoud
         const overzichtSlug = this.props.dataModel.variables.Overzicht_Slug
         const hoofdOnderdeelSlug = this.props.hoofdOnderdeelSlug
@@ -207,14 +208,15 @@ class MuteerUniversalObjectDetail extends Component {
                             {pageType === 'detail' ? (
                                 <div className="flex items-center h-10 mt-5">
                                     <Link
-                                        to={this.makeURLForNewObject(
-                                            overzichtSlug,
-                                            dataObject.ID,
-                                            apiTest
-                                        )}
-                                        className="w-24 h-10 border-r-2 flex items-center justify-end border-gray-300 pb-5 mr-2"
+                                        // to={this.makeURLForNewObject(
+                                        //     overzichtSlug,
+                                        //     dataObject.ID,
+                                        //     apiTest
+                                        // )}
+                                        to={`/muteer/${this.props.overzichtSlug}/edit/${this.props.match.params.single}`}
+                                        className="relative w-24 h-10 border-r-2 flex items-center justify-end border-gray-300 pb-5 mr-2"
                                     >
-                                        <div className="w-8 h-8 pt-1 absolute text-center bg-gray-300 rounded-full ml-4">
+                                        <div className="w-8 h-8 pt-1 absolute text-center bg-gray-300 rounded-full -right-4">
                                             <FontAwesomeIcon
                                                 className="text-gray-600 relative"
                                                 icon={faPlus}
@@ -227,6 +229,7 @@ class MuteerUniversalObjectDetail extends Component {
                                             dataObject.ID,
                                             apiTest
                                         )}
+                                        // to={`/muteer/${this.props.overzichtSlug}/edit/${this.props.match.params.single}`}
                                         className="text-sm inline text-gray-700 -mt-5 pl-5 cursor-pointer hover:underline"
                                     >
                                         Ontwerp maken
@@ -284,16 +287,24 @@ class MuteerUniversalObjectDetail extends Component {
                             ) : null}
                         </div>
 
-                        <div className="w-3/12">
-                            <h2 className="mb-2 font-serif text-gray-700">
-                                Eigenaarsdriehoek
-                            </h2>
-
-                            {this.state.dataObject &&
-                            this.state.dataObject[0] ? (
-                                <React.Fragment>
+                        {this.state.dataObject &&
+                        this.state.dataObject[0] &&
+                        (this.state.dataObject[0].Opdrachtgever !== undefined ||
+                            this.state.dataObject[0].Eigenaar_1 !== undefined ||
+                            this.state.dataObject[0].Eigenaar_2 !== undefined ||
+                            this.state.dataObject[0].Portefeuillehouder_1 !==
+                                undefined ||
+                            this.state.dataObject[0].Portefeuillehouder_2 !==
+                                undefined) ? (
+                            <React.Fragment>
+                                <div className="w-3/12">
+                                    <h2 className="mb-2 font-serif text-gray-700">
+                                        Eigenaarsdriehoek
+                                    </h2>
                                     {this.state.dataObject[0].Opdrachtgever !==
-                                    null ? (
+                                        null &&
+                                    this.state.dataObject[0].Opdrachtgever !==
+                                        undefined ? (
                                         <EigenaarsDriehoekItem
                                             eigenaarType="Eigenaar 1"
                                             UUID={
@@ -303,7 +314,9 @@ class MuteerUniversalObjectDetail extends Component {
                                         />
                                     ) : null}
                                     {this.state.dataObject[0].Eigenaar_1 !==
-                                    null ? (
+                                        null &&
+                                    this.state.dataObject[0].Eigenaar_1 !==
+                                        undefined ? (
                                         <EigenaarsDriehoekItem
                                             eigenaarType="Eigenaar 2"
                                             UUID={
@@ -313,7 +326,9 @@ class MuteerUniversalObjectDetail extends Component {
                                         />
                                     ) : null}
                                     {this.state.dataObject[0].Eigenaar_2 !==
-                                    null ? (
+                                        null &&
+                                    this.state.dataObject[0].Eigenaar_2 !==
+                                        undefined ? (
                                         <EigenaarsDriehoekItem
                                             eigenaarType="Opdrachtgever"
                                             UUID={
@@ -323,7 +338,9 @@ class MuteerUniversalObjectDetail extends Component {
                                         />
                                     ) : null}
                                     {this.state.dataObject[0]
-                                        .Portefeuillehouder_1 !== null ? (
+                                        .Portefeuillehouder_1 !== null &&
+                                    this.state.dataObject[0]
+                                        .Portefeuillehouder_1 !== undefined ? (
                                         <EigenaarsDriehoekItem
                                             eigenaarType="Portefeuillehouder 1"
                                             UUID={
@@ -333,7 +350,9 @@ class MuteerUniversalObjectDetail extends Component {
                                         />
                                     ) : null}
                                     {this.state.dataObject[0]
-                                        .Portefeuillehouder_2 !== null ? (
+                                        .Portefeuillehouder_2 !== null &&
+                                    this.state.dataObject[0]
+                                        .Portefeuillehouder_2 !== undefined ? (
                                         <EigenaarsDriehoekItem
                                             eigenaarType="Portefeuillehouder 2"
                                             UUID={
@@ -342,9 +361,9 @@ class MuteerUniversalObjectDetail extends Component {
                                             }
                                         />
                                     ) : null}
-                                </React.Fragment>
-                            ) : null}
-                        </div>
+                                </div>
+                            </React.Fragment>
+                        ) : null}
 
                         {/* {dataReceived ? (
                             <DetailSidebar

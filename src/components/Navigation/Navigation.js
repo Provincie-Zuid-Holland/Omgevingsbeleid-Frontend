@@ -172,14 +172,7 @@ function Logo() {
     return (
         <React.Fragment>
             <div className="logo-beeldmerk" />
-            <animated.div
-                className="logo-tekst"
-                // style={useSpring({
-                //     config: { tension: 300 },
-                //     opacity: 1,
-                //     from: { opacity: 0 },
-                // })}
-            />
+            <animated.div className="logo-tekst" />
         </React.Fragment>
     )
 }

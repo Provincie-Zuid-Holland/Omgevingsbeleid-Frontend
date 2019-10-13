@@ -9,13 +9,30 @@ import dataModel from './../../App/dataModel'
 
 // Import Components
 import ButtonBackToPage from './../../components/ButtonBackToPage'
+import LoaderContent from './../../components/LoaderContent'
+
+function getExcerpt(object) {
+    if (object.trim) {
+        let newObject = object
+        newObject.content = newObject.content.substring(0, 250) + '...'
+        return newObject
+    } else {
+        return object
+    }
+}
 
 function SearchResultItem(props) {
     function getContent(propertyName) {
-        if (props.item.highlight[propertyName] === undefined) {
+        console.log(propertyName)
+        console.log(props.item)
+        if (
+            props.item.highlight === undefined ||
+            props.item.highlight[propertyName] === undefined
+        ) {
             return {
                 setInnerHTML: false,
                 content: props.item[propertyName],
+                trim: props.item[propertyName].length > 250,
             }
         } else {
             return {
@@ -29,7 +46,7 @@ function SearchResultItem(props) {
 
     const content = {
         Titel: getContent('Titel'),
-        Omschrijving: getContent('Omschrijving'),
+        Omschrijving: getExcerpt(getContent('Omschrijving')),
     }
 
     const overzichtURL = dataModel[props.item.type].variables.Overzicht_Slug
@@ -197,6 +214,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                     </span>
                     <ul>
                         {this.state.dataLoaded ? (
+                            // this.state.searchResults.length > 0 ? (
                             this.state.searchResults.map((item, index) => {
                                 if (
                                     this.state.onPageFilters[item.type].checked
@@ -212,9 +230,12 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                                 }
                             })
                         ) : (
-                            <span className="text-gray-700 italic py-5">
-                                Geen resultaten
-                            </span>
+                            // ) : (
+                            //     <h2 className="mt-8 text-l font-serif block text-gray-800">
+                            //         Geen resultaten
+                            //     </h2>
+                            // )
+                            <LoaderContent />
                         )}
                     </ul>
                 </div>

@@ -8,8 +8,16 @@ import CreatableSelect from 'react-select/creatable'
 class FormFieldTags extends Component {
     constructor(props) {
         super(props)
+        console.log(this.props.fieldValue)
+        // selectionArray: JSON.parse(this.props.fieldValue) || [],
+        let selectionArray = ''
+        try {
+            selectionArray = JSON.parse(this.props.fieldValue)
+        } catch (e) {
+            console.log(e)
+        }
         this.state = {
-            selectionArray: JSON.parse(this.props.fieldValue) || [],
+            selectionArray: selectionArray,
             selected: null,
         }
         this.handleChange = this.handleChange.bind(this)
@@ -67,7 +75,6 @@ class FormFieldTags extends Component {
                             `Creëer de tag '${inputValue}'`
                         }
                     />
-
                     {/* <input
                         required
                         // value={this.props.fieldValue}

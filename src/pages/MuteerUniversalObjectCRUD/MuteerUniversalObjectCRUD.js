@@ -293,7 +293,7 @@ class MuteerUniversalObjectCRUD extends Component {
                         )
                     } else {
                         this.props.history.push(
-                            `/${overzichtSlug}/${res.data.ID}`
+                            `/muteer/${overzichtSlug}/${res.data.ID}`
                         )
                     }
                 })
@@ -310,7 +310,7 @@ class MuteerUniversalObjectCRUD extends Component {
                         )
                     } else {
                         this.props.history.push(
-                            `/${overzichtSlug}/${res.data.ID}`
+                            `/muteer/${overzichtSlug}/${res.data.ID}`
                         )
                     }
                 })
@@ -410,8 +410,6 @@ class MuteerUniversalObjectCRUD extends Component {
     }
 
     render() {
-        console.log(this.state.crudObject)
-
         const contextObject = {
             titelEnkelvoud: this.props.dataModel.variables.Titel_Enkelvoud,
             titelMeervoud: this.props.dataModel.variables.Titel_Meervoud,

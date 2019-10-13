@@ -25,11 +25,13 @@ function CardObjectDetailsHalfWidth(props) {
     return (
         <ContainerAnimateContent>
             <Link
-                className="relative inline-block h-full w-1/2 px-4 pb-6 pt-4 shadow-md rounded overflow-hidden bg-white"
+                className={`relative inline-block h-full px-4 pb-6 pt-4 shadow-md rounded overflow-hidden bg-white ${
+                    props.fullWidth ? 'w-full' : 'w-1/2'
+                }`}
                 to={
                     apiTest === true
-                        ? `/${hoofdOnderdeelSlug}/${overzichtSlug}/${object.ID}`
-                        : `/${hoofdOnderdeelSlug}/${object.ID}`
+                        ? `/muteer/${hoofdOnderdeelSlug}/${overzichtSlug}/${object.ID}`
+                        : `/muteer/${overzichtSlug}/${object.ID}`
                 }
             >
                 <h5 className="text-gray-600 text-sm font-light py-1">

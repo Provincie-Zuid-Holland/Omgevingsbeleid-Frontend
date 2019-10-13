@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import { format } from 'date-fns'
 import nlLocale from 'date-fns/locale/nl'
 import { faCalendarAlt } from '@fortawesome/free-regular-svg-icons'
@@ -68,14 +69,14 @@ class ContainerDetailMain extends Component {
                         </div>
                     </div>
                     <div className="flex justify-between items-center w-1/3 mr-4 pr-4 border-r border-gray-300 py-2">
-                        <div>
+                        <a href={dataObject['Weblink']} target="_blank">
                             <span className="block font-bold text-gray-700 text-sm">
                                 IDMS-koppeling
                             </span>
                             <span className="text-sm text-gray-700">
                                 Bekijk document
                             </span>
-                        </div>
+                        </a>
                         <div>
                             <FontAwesomeIcon
                                 className="text-gray-600 text-xl"

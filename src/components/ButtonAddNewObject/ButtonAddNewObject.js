@@ -21,8 +21,8 @@ function ButtonAddNewObject(props) {
                 className="h-full flex items-center justify-center no-underline px-4 py-4 border border-dashed rounded overflow-hidden"
                 to={
                     apiTest === true
-                        ? `/${hoofdOnderdeelSlug}/${overzichtSlug}/${createNewSlug}`
-                        : `/${hoofdOnderdeelSlug}/${createNewSlug}`
+                        ? `/muteer/${hoofdOnderdeelSlug}/${overzichtSlug}/${createNewSlug}`
+                        : `/muteer/${hoofdOnderdeelSlug}/${createNewSlug}`
                 }
             >
                 <span className="text-center text-gray-600 font-semibold py-2 px-4">

@@ -90,9 +90,16 @@ class PopupNieuweKoppeling extends Component {
         const propertyName = objecten[this.state.type].propertyName
         const crudObject = JSON.parse(JSON.stringify(this.props.crudObject))
         let actieveKoppelingen = []
-        crudObject[propertyName].forEach(item => {
-            actieveKoppelingen.push(item.UUID)
-        })
+
+        console.log(propertyName)
+        console.log(crudObject)
+        console.log(crudObject[propertyName])
+
+        if (crudObject[propertyName]) {
+            crudObject[propertyName].forEach(item => {
+                actieveKoppelingen.push(item.UUID)
+            })
+        }
 
         const filteredObjecten = this.state.objecten
             .filter(item =>
@@ -116,7 +123,7 @@ class PopupNieuweKoppeling extends Component {
                 {this.state.actievePagina === 1 ? (
                     <React.Fragment>
                         <p className="form-field-description">
-                            Zoek en selecteer het nationaal welke je wilt
+                            Zoek en selecteer het nationaal belang welke je wilt
                             koppelen met de beleidsbeslissing '
                             {this.props.titelMainObject}'
                         </p>

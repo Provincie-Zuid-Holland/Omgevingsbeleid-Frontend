@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { format } from 'date-fns'
 import {
     faAngleRight,
     faClock,
@@ -8,9 +9,14 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
+// Import Axios instance to connect with the API
+import axios from '../../API/axios'
+
 // Import Components
+import ContentTekst from './ContentTekst'
 import ButtonBackToPage from './../../components/ButtonBackToPage'
 import PopUpRevisieContainer from './../../components/PopUpRevisieContainer'
+import LoaderContent from './../../components/LoaderContent'
 
 function RevisieListItem(props) {
     return (
@@ -28,148 +34,197 @@ function RevisieListItem(props) {
 }
 
 class RaadpleegUniversalObjectDetail extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            dataObject: null,
+            dataLoaded: false,
+        }
+    }
+    componentDidMount() {
+        // Nodig voor API Call:
+        // Type object nodig
+        // Object ID nodig
+
+        const ApiEndpointBase = this.props.dataModel.variables.Api_Endpoint
+        let apiEndpoint = ''
+
+        // @@ Stuk code voor Version view implementatie @@
+        // if (this.state.pageType === 'detail') {
+        //     let detail_id = this.props.match.params.single
+        //     apiEndpoint = `${ApiEndpointBase}/${detail_id}`
+        // } else if (this.state.pageType === 'version') {
+        //     let version_id = this.props.match.params.version
+        //     apiEndpoint = `${ApiEndpointBase}/version/${version_id}`
+        // }
+
+        let detail_id = this.props.match.params.id
+        apiEndpoint = `${ApiEndpointBase}/${detail_id}`
+
+        console.log(apiEndpoint)
+
+        // Connect With the API
+        axios
+            .get(apiEndpoint)
+            .then(res => {
+                const dataObject = res.data[0]
+                console.log(dataObject)
+                this.setState(
+                    { dataObject: dataObject, dataLoaded: true },
+                    () => console.log(this.state)
+                )
+            })
+            .catch(error => {
+                if (error.response !== undefined) {
+                    if (error.response.status === 401) {
+                        localStorage.removeItem('access_token')
+                        this.props.history.push('/login')
+                    }
+                } else {
+                    this.setState({
+                        dataLoaded: true,
+                    })
+                }
+            })
+    }
     render() {
+        const dataObject = this.state.dataObject
+        const dataLoaded = this.state.dataLoaded
         return (
             <div className="container mx-auto flex px-6 pb-8 mt-8">
                 <div className="w-1/4">
                     <ButtonBackToPage terugNaar="startpagina" url="/" />
-                    <h2 className="mt-6 text-l font-serif block">
-                        Gerelateerde beleidsbeslissingen
+                    <h2 className="text-gray-800 mt-6 text-l font-serif block">
+                        Gerelateerde{' '}
+                        {this.props.dataModel.variables.Titel_Meervoud}
                     </h2>
                     <ul className="mt-4 pr-8">
                         <li className="mt-2 text-gray-700">
-                            <span className="text-sm block">Hoofdstuk 7</span>
-                        </li>
-                        <li className="mt-2 text-gray-700">
-                            <span className="text-sm block">Hoofdstuk 7</span>
+                            <span className="text-sm block">
+                                Hier komen gerelateerde{' '}
+                                {this.props.dataModel.variables.Titel_Meervoud}
+                            </span>
                         </li>
                     </ul>
                 </div>
 
-                <div className="w-2/4">
-                    {/* Artikel Breadcrumb */}
-                    <span className="text-gray-600 text-sm">
-                        <span className="mr-1">7. Financiële bepalingen</span>
-                        <span className="mr-1">
-                            <FontAwesomeIcon icon={faAngleRight} /> §
+                {dataLoaded ? (
+                    <div
+                        className={
+                            dataObject.Werkingsgebied ? `w-2/4` : `w-3/4`
+                        }
+                    >
+                        {/* Artikel Headers */}
+                        <span className="text-l font-serif block text-gray-800 mt-8">
+                            {this.props.dataModel.variables.Titel_Enkelvoud}
                         </span>
-                        <span>7.2 Grondwaterheffing</span>
-                    </span>
+                        <h1 className="mt-2 heading-serif-2xl">
+                            {dataObject.Titel}
+                        </h1>
 
-                    {/* Artikel Headers */}
-                    <span className="text-l font-serif block text-gray-800 mt-8">
-                        Artikel 7.13
-                    </span>
-                    <h1 className="mt-2 heading-serif-2xl">
-                        Grondwaterheffing, grondslag en belastbaar feit
-                    </h1>
-
-                    {/* Meta Content */}
-                    <div>
-                        <span className="text-gray-600 text-sm mr-3">
-                            Vigerend sinds 01-01-2018
-                        </span>
-                        <span className="text-gray-600 text-sm mr-3">
-                            &bull;
-                        </span>
-                        <PopUpRevisieContainer>
-                            <RevisieListItem
-                                content="In inspraak (1)"
-                                color="red"
-                            />
-                            <RevisieListItem
-                                content="1 januari 2018"
-                                color="orange"
-                                current={true}
-                            />
-                            <RevisieListItem
-                                content="2 januari 2016"
-                                color="blue"
-                            />
-                            <RevisieListItem
-                                content="14 juli 2014"
-                                color="blue"
-                            />
-                            <RevisieListItem
-                                content="18 november 2010"
-                                color="blue"
-                            />
-                        </PopUpRevisieContainer>
-                        <span className="text-gray-600 text-sm mr-3">
-                            &bull;
-                        </span>
-                        <span className="text-gray-600 text-sm mr-3">
-                            <FontAwesomeIcon
-                                className="mr-2"
-                                icon={faFileDownload}
-                            />
-                            Download als PDF
-                        </span>
-                        <span className="text-gray-600 text-sm mr-3">
-                            &bull;
-                        </span>
-                        <span className="text-gray-600 text-sm mr-3">
-                            <FontAwesomeIcon className="mr-2" icon={faPrint} />
-                            Afdrukken
-                        </span>
-                    </div>
-
-                    {/* Melding */}
-                    <div className="w-full border border-red-500 bg-red-100 text-red-500 px-4 py-2 rounded mt-4 text-sm">
-                        Een nieuwe versie van artikel 7.13 ligt ter inzage.
-                        Bekijk de nieuwe versie.
-                    </div>
-
-                    {/* Artikel Inhoud */}
-                    <div>
-                        <ol className="list-decimal pl-4 text-gray-700 text-sm mt-4">
-                            <li className="mb-1">
-                                Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua.
-                            </li>
-                            <li className="mb-1">
-                                Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua.
-                            </li>
-                            <li className="mb-1">
-                                Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua.
-                            </li>
-                        </ol>
-                    </div>
-
-                    {/* Tag Container */}
-                    <div className="mt-8">
-                        <h2 className="text-l font-serif block text-gray-800 mt-8">
-                            Tags
-                        </h2>
-                        <div className="flex mt-3">
-                            <div className="bg-gray-300 text-gray-700 rounded px-4 py-2 mr-4">
-                                Grondwater
-                            </div>
-                            <div className="bg-gray-300 text-gray-700 rounded px-4 py-2 mr-4">
-                                Grondwaterheffing
-                            </div>
+                        {/* Meta Content */}
+                        <div>
+                            <span className="text-gray-600 text-sm mr-3">
+                                Vigerend sinds{' '}
+                                {format(
+                                    new Date(dataObject.Begin_Geldigheid),
+                                    'D MMM YYYY'
+                                )}
+                            </span>
+                            <span className="text-gray-600 text-sm mr-3">
+                                &bull;
+                            </span>
+                            <PopUpRevisieContainer>
+                                <RevisieListItem
+                                    content="In inspraak (1)"
+                                    color="red"
+                                />
+                                <RevisieListItem
+                                    content="1 januari 2018"
+                                    color="orange"
+                                    current={true}
+                                />
+                                <RevisieListItem
+                                    content="2 januari 2016"
+                                    color="blue"
+                                />
+                                <RevisieListItem
+                                    content="14 juli 2014"
+                                    color="blue"
+                                />
+                                <RevisieListItem
+                                    content="18 november 2010"
+                                    color="blue"
+                                />
+                            </PopUpRevisieContainer>
+                            <span className="text-gray-600 text-sm mr-3">
+                                &bull;
+                            </span>
+                            <span className="text-gray-600 text-sm mr-3">
+                                <FontAwesomeIcon
+                                    className="mr-2"
+                                    icon={faFileDownload}
+                                />
+                                Download als PDF
+                            </span>
+                            <span className="text-gray-600 text-sm mr-3">
+                                &bull;
+                            </span>
+                            <span className="text-gray-600 text-sm mr-3">
+                                <FontAwesomeIcon
+                                    className="mr-2"
+                                    icon={faPrint}
+                                />
+                                Afdrukken
+                            </span>
                         </div>
-                    </div>
-                </div>
 
-                <div className="w-1/4 pl-8">
-                    <div className="flex justify-between mt-8 text-gray-800">
-                        <h2 className="text-l font-serif">Werkingsgebied</h2>
-                        <span className="text-xs">
-                            Bekijk in het groot
-                            <FontAwesomeIcon
-                                className="ml-2 text-gray-700"
-                                icon={faExternalLinkAlt}
-                            />
-                        </span>
+                        {/* Inhoud Sectie */}
+                        <div className="text-gray-800 py-5">
+                            {dataObject.Omschrijving ? (
+                                <ContentTekst
+                                    content={dataObject.Omschrijving}
+                                />
+                            ) : null}
+                        </div>
+
+                        {/* Tags Sectie */}
+                        {dataObject.Tags ? (
+                            <div className="mt-8">
+                                <h2 className="text-l font-serif block text-gray-800 mt-8">
+                                    Tags
+                                </h2>
+                                <div className="flex mt-3">
+                                    <div className="bg-gray-300 text-gray-700 rounded px-4 py-2 mr-4">
+                                        Grondwater
+                                    </div>
+                                    <div className="bg-gray-300 text-gray-700 rounded px-4 py-2 mr-4">
+                                        Grondwaterheffing
+                                    </div>
+                                </div>
+                            </div>
+                        ) : null}
                     </div>
-                    <div className="bg-orange-100 w-full h-64 block mt-4" />
-                </div>
+                ) : (
+                    <LoaderContent />
+                )}
+                {dataLoaded && dataObject.Werkingsgebied ? (
+                    <div className="w-1/4 pl-8">
+                        <div className="flex justify-between mt-8 text-gray-800">
+                            <h2 className="text-l font-serif">
+                                Werkingsgebied
+                            </h2>
+                            <span className="text-xs">
+                                Bekijk in het groot
+                                <FontAwesomeIcon
+                                    className="ml-2 text-gray-700"
+                                    icon={faExternalLinkAlt}
+                                />
+                            </span>
+                        </div>
+                        <div className="bg-orange-100 w-full h-64 block mt-4" />
+                    </div>
+                ) : null}
             </div>
         )
     }

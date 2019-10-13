@@ -1797,7 +1797,7 @@ export default
           }
         }
       },
-      "Motivering": {
+      "Omschrijving": {
         "type": "string",
         "default": null,
         "nullable": true,
@@ -1805,7 +1805,7 @@ export default
           "userCRUD": true,
           "CRUDComponent": "TextArea",
           "UIVariables": {
-            "UITitle": "Motivering",
+            "UITitle": "Omschrijving",
           }
         }
       },

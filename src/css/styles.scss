@@ -55,6 +55,14 @@ $base-color: #000066;
     top: 100%;
 }
 
+.right-4 {
+    right: 1rem;
+}
+
+.-right-4 {
+    right: -1rem;
+}
+
 .h-half-screen {
     height: 50vh;
 }
@@ -486,4 +494,8 @@ $base-color: #000066;
         padding: 0px 14px;
         left: -1px;
     }
+}
+
+.odd-pr-6:nth-child(odd) {
+    padding-right: 1.5rem;
 }
