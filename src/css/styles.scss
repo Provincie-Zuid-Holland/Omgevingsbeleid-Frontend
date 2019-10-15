@@ -247,7 +247,7 @@ $base-color: #000066;
         border-color: transparent transparent #fff transparent;
         top: -10px;
         z-index: 10;
-        right: 20px;
+        right: calc(50% - 10px);
     }
 }
 

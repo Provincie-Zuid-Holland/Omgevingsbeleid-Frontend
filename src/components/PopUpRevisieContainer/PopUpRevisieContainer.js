@@ -53,7 +53,12 @@ class PopUpRevisieContainer extends Component {
                     className="cursor-pointer select-none"
                 >
                     <FontAwesomeIcon className="mr-2" icon={faClock} />
-                    <span className="hover:underline">4 revisies</span>
+                    <span className="hover:underline">
+                        {this.props.aantalRevisies}{' '}
+                        {this.props.aantalRevisies === 1
+                            ? 'revisie'
+                            : 'revisies'}
+                    </span>
                 </span>
                 {this.state.open ? (
                     <div
@@ -64,13 +69,13 @@ class PopUpRevisieContainer extends Component {
                             <div className="absolute w-1 h-full border-l border-gray-300 z-0 top-0 ml-6" />
                             <ul className="py-2 px-4">{this.props.children}</ul>
                         </div>
-                        <div className="border-t border-gray-300 py-2 text-sm text-gray-700 px-4 cursor-pointer hover:underline">
+                        {/* <div className="border-t border-gray-300 py-2 text-sm text-gray-700 px-4 cursor-pointer hover:underline">
                             Vergelijken
                             <FontAwesomeIcon
                                 className="right-0 absolute text-gray-700 mr-4 mt-1"
                                 icon={faAngleRight}
                             />
-                        </div>
+                        </div> */}
                     </div>
                 ) : null}
             </span>

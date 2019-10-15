@@ -38,6 +38,7 @@ class RaadpleegUniversalObjectDetail extends Component {
         super(props)
         this.state = {
             dataObject: null,
+            revisieObjecten: null,
             dataLoaded: false,
         }
     }
@@ -68,9 +69,14 @@ class RaadpleegUniversalObjectDetail extends Component {
             .get(apiEndpoint)
             .then(res => {
                 const dataObject = res.data[0]
+                const revisieObjecten = res.data
                 console.log(dataObject)
                 this.setState(
-                    { dataObject: dataObject, dataLoaded: true },
+                    {
+                        dataObject: dataObject,
+                        revisieObjecten: revisieObjecten,
+                        dataLoaded: true,
+                    },
                     () => console.log(this.state)
                 )
             })
@@ -131,32 +137,46 @@ class RaadpleegUniversalObjectDetail extends Component {
                                     'D MMM YYYY'
                                 )}
                             </span>
-                            <span className="text-gray-600 text-sm mr-3">
-                                &bull;
-                            </span>
-                            <PopUpRevisieContainer>
-                                <RevisieListItem
-                                    content="In inspraak (1)"
-                                    color="red"
-                                />
-                                <RevisieListItem
-                                    content="1 januari 2018"
-                                    color="orange"
-                                    current={true}
-                                />
-                                <RevisieListItem
-                                    content="2 januari 2016"
-                                    color="blue"
-                                />
-                                <RevisieListItem
-                                    content="14 juli 2014"
-                                    color="blue"
-                                />
-                                <RevisieListItem
-                                    content="18 november 2010"
-                                    color="blue"
-                                />
-                            </PopUpRevisieContainer>
+                            {this.state.revisieObjecten &&
+                            this.state.revisieObjecten.length > 0 ? (
+                                <React.Fragment>
+                                    <span className="text-gray-600 text-sm mr-3">
+                                        &bull;
+                                    </span>
+                                    <PopUpRevisieContainer
+                                        aantalRevisies={
+                                            this.state.revisieObjecten.length -
+                                            1
+                                        }
+                                    >
+                                        {this.state.revisieObjecten.map(
+                                            (item, index) =>
+                                                index === 0 ? (
+                                                    <RevisieListItem
+                                                        content={format(
+                                                            new Date(
+                                                                item.Begin_Geldigheid
+                                                            ),
+                                                            'D MMM YYYY'
+                                                        )}
+                                                        color="orange"
+                                                        current={true}
+                                                    />
+                                                ) : (
+                                                    <RevisieListItem
+                                                        content={format(
+                                                            new Date(
+                                                                item.Begin_Geldigheid
+                                                            ),
+                                                            'D MMM YYYY'
+                                                        )}
+                                                        color="blue"
+                                                    />
+                                                )
+                                        )}
+                                    </PopUpRevisieContainer>
+                                </React.Fragment>
+                            ) : null}
                             <span className="text-gray-600 text-sm mr-3">
                                 &bull;
                             </span>
