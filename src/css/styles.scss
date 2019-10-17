@@ -499,3 +499,9 @@ $base-color: #000066;
 .odd-pr-6:nth-child(odd) {
     padding-right: 1.5rem;
 }
+
+.DraftEditor-root :global(.public-DraftEditor-content) {
+    max-height: 400px;
+    overflow: auto;
+    padding: 1.5rem;
+}

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Helmet } from 'react-helmet'
 
 // Import API
 import axios from './../../API/axios'
@@ -72,6 +73,10 @@ class MuteerMeldingen extends Component {
 
         return (
             <div className="container mx-auto flex px-6 pb-8">
+                <Helmet>
+                    <title>Omgevingsbeleid - Meldingen</title>
+                </Helmet>
+
                 {/* Sidebar */}
                 <SidebarMain />
 

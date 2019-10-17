@@ -1809,18 +1809,18 @@ export default
           }
         }
       },
-      "Beleids_Document": {
-        "type": "string",
-        "default": null,
-        "nullable": true,
-        "UI": {
-          "userCRUD": true,
-          "CRUDComponent": "TextField",
-          "UIVariables": {
-            "UITitle": "Beleids Document",
-          }
-        }
-      },
+    //   "Beleids_Document": {
+    //     "type": "string",
+    //     "default": null,
+    //     "nullable": true,
+    //     "UI": {
+    //       "userCRUD": true,
+    //       "CRUDComponent": "TextField",
+    //       "UIVariables": {
+    //         "UITitle": "Beleids Document",
+    //       }
+    //     }
+    //   },
       "Gebied": {
         "type": "string",
         "format": "uuid",
@@ -1877,6 +1877,18 @@ export default
             "UITitle": "Weblink",
           }
         }
+      },
+      "Tags": {
+        "type": "string",
+        "default": null,
+        "nullable": true,
+        "UI": {
+            "userCRUD": true,
+            "CRUDComponent": "TagSelector",
+            "UIVariables": {
+              "UITitle": "Tags",
+            }
+          }
       }
     },
     "required": [

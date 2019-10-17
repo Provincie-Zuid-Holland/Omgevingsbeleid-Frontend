@@ -87,13 +87,12 @@ class PopupNieuweKoppeling extends Component {
     }
 
     render() {
+        {
+            console.log('RENDEREDDEDEDEDEDE')
+        }
         const propertyName = objecten[this.state.type].propertyName
         const crudObject = JSON.parse(JSON.stringify(this.props.crudObject))
         let actieveKoppelingen = []
-
-        console.log(propertyName)
-        console.log(crudObject)
-        console.log(crudObject[propertyName])
 
         if (crudObject[propertyName]) {
             crudObject[propertyName].forEach(item => {
@@ -180,14 +179,24 @@ class PopupNieuweKoppeling extends Component {
                                     >
                                         {console.log(this.state.dataLoaded)}
                                         {this.state.dataLoaded ? (
-                                            'Geen resultaten'
+                                            this.state.zoekFilter.length ===
+                                            0 ? (
+                                                <span className="italic text-gray-600">
+                                                    Geen resultaten
+                                                </span>
+                                            ) : (
+                                                <span className="italic text-gray-600">
+                                                    Geen resultaten voor '
+                                                    {this.state.zoekFilter}'
+                                                </span>
+                                            )
                                         ) : (
-                                            <span className="loading">
+                                            <span className="loading italic text-gray-600">
                                                 {
                                                     objecten[this.state.type]
                                                         .volledigeTitelMeervoud
                                                 }{' '}
-                                                laden
+                                                laden...
                                             </span>
                                         )}
                                     </li>

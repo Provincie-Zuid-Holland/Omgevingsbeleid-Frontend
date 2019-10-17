@@ -117,7 +117,6 @@ function BeheerRoutes(props) {
         const overzichtSlug =
             dataModel[dataModelProperty].variables.Overzicht_Slug
         const apiEndpoint = dataModel[dataModelProperty].variables.Api_Endpoint
-        console.log(apiEndpoint)
         const filteredDataModel = dataModel[dataModelProperty]
         const createNewSlug =
             dataModel[dataModelProperty].variables.Create_New_Slug
@@ -281,13 +280,6 @@ class AuthRoutes extends Component {
                         path="/muteer/mijn-meldingen"
                         component={MuteerMeldingen}
                     />
-
-                    <BeheerRoutes
-                        beheerRoutesList={beheerRoutesList}
-                        history={this.props.history}
-                    />
-
-                    {/* Verordening Pagina Routes */}
                     <Route
                         path="/muteer/verordening"
                         exact
@@ -298,6 +290,11 @@ class AuthRoutes extends Component {
                             />
                         )}
                     />
+                    <BeheerRoutes
+                        beheerRoutesList={beheerRoutesList}
+                        history={this.props.history}
+                    />
+                    {/* Verordening Pagina Routes */}
                 </Switch>
             </React.Fragment>
         )

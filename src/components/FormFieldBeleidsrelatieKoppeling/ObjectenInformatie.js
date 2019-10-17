@@ -7,11 +7,11 @@
 const objecten = {
     beleidsbeslissing: {
         buttonTekst: 'belang',
-        volledigeTitel: 'Nationaal Belang',
-        volledigeTitelMeervoud: 'Nationale Belangen',
+        volledigeTitel: 'Beleidsbeslissing',
+        volledigeTitelMeervoud: 'Beleidsbeslissingen',
         api: '/beleidsbeslissingen',
         filterType: 'Nationaal Belang',
-        propertyName: 'Belangen',
+        propertyName: 'beleidsbeslissing',
         type: 'Nationaal Belang',
     },
 }

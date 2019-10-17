@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { toast } from 'react-toastify'
 import { format } from 'date-fns'
 import nlLocale from 'date-fns/locale/nl'
+import { Helmet } from 'react-helmet'
 
 // Import Components
 import ContainerCrudFields from './ContainerCrudFields'
@@ -123,13 +124,12 @@ class MuteerUniversalObjectCRUD extends Component {
                 .get(`${ApiEndpoint}/${objectID}`)
                 .then(res => {
                     const responseObject = res.data
+                    const UUID = responseObject[0].UUID
                     const crudProperties = makeCrudPropertiesArray(dataModel)
-                    console.log(res.data)
                     const crudObject = makeCrudObject(
                         crudProperties,
                         responseObject[0]
                     )
-
                     if (crudObject.Begin_Geldigheid !== undefined) {
                         crudObject.Begin_Geldigheid = format(
                             crudObject.Begin_Geldigheid,
@@ -159,6 +159,7 @@ class MuteerUniversalObjectCRUD extends Component {
                         this.setState(
                             {
                                 crudObject: savedStateInLocalStorage.savedState,
+                                UUID: UUID,
                                 dataLoaded: true,
                             },
                             () => {
@@ -172,6 +173,7 @@ class MuteerUniversalObjectCRUD extends Component {
                     } else {
                         this.setState({
                             crudObject: crudObject,
+                            UUID: UUID,
                             dataLoaded: true,
                         })
                     }
@@ -356,11 +358,6 @@ class MuteerUniversalObjectCRUD extends Component {
     }
 
     verwijderKoppelingRelatieToe(koppelingObject) {
-        // const nieuwObject = {
-        //     UUID: object.UUID,
-        //     Omschrijving: omschrijving,
-        // }
-
         let nieuwCrudObject = this.state.crudObject
         const index = nieuwCrudObject[koppelingObject.propertyName].findIndex(
             item => item.UUID === koppelingObject.item.UUID
@@ -410,7 +407,10 @@ class MuteerUniversalObjectCRUD extends Component {
     }
 
     render() {
+        console.log(this.state)
+
         const contextObject = {
+            objectUUID: this.state.UUID,
             titelEnkelvoud: this.props.dataModel.variables.Titel_Enkelvoud,
             titelMeervoud: this.props.dataModel.variables.Titel_Meervoud,
             overzichtSlug: this.props.overzichtSlug,
@@ -427,6 +427,18 @@ class MuteerUniversalObjectCRUD extends Component {
 
         return (
             <div>
+                <Helmet>
+                    <title>
+                        {contextObject.editStatus
+                            ? `Omgevingsbeleid - Wijzig ${
+                                  contextObject.titelEnkelvoud
+                              }${' '}
+                            ${contextObject.objectID}`
+                            : `Omgevingsbeleid - Voeg een nieuwe${' '}
+                            ${contextObject.titelEnkelvoud}${' '}
+                              toe`}
+                    </title>
+                </Helmet>
                 <ContainerCrudHeader
                     editStatus={this.state.edit}
                     titelMeervoud={

@@ -383,7 +383,10 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
         const actieveKoppelingOfRelatiesBoolean = koppelingRelatieArray.map(
             item => {
                 const propertyName = objecten[item].propertyName
-                return crudObject[propertyName].length > 0
+                return (
+                    crudObject[propertyName] ||
+                    crudObject[propertyName].length > 0
+                )
             }
         )
 
@@ -513,6 +516,16 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
                                                       <li
                                                           key={index}
                                                           onClick={() => {
+                                                              console.log(
+                                                                  'item'
+                                                              )
+                                                              console.log(
+                                                                  'item'
+                                                              )
+                                                              console.log(
+                                                                  'item'
+                                                              )
+                                                              console.log(item)
                                                               this.togglePopupNieuw(
                                                                   item
                                                               )

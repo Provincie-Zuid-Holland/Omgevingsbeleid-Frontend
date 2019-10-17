@@ -3,6 +3,7 @@ import { format } from 'date-fns'
 import { Link } from 'react-router-dom'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Helmet } from 'react-helmet'
 
 // Import Components
 import ButtonBackToPage from './../../components/ButtonBackToPage'
@@ -185,8 +186,15 @@ class MuteerUniversalObjectDetail extends Component {
         } else if (dataReceived && pageType === 'version') {
             dataObject = this.state.dataObject
         }
+
         return (
             <div className="container mx-auto flex px-6 pb-8">
+                {dataObject.Titel ? (
+                    <Helmet>
+                        <title>Omgevingsbeleid - {dataObject.Titel}</title>
+                    </Helmet>
+                ) : null}
+
                 {/* Main Menu - Sidebar
                 <MainSidebar /> */}
 

@@ -46,20 +46,12 @@ class FormFieldBeleidsrelatieKoppeling extends Component {
             this
         )
         this.handleClickOutside = this.handleClickOutside.bind(this)
+        this.voegKoppelingRelatieToe = this.voegKoppelingRelatieToe.bind(this)
         this.togglePopupNieuw = this.togglePopupNieuw.bind(this)
         this.togglePopupBewerk = this.togglePopupBewerk.bind(this)
-        this.savekoppelingenRelatiesNaarState = this.savekoppelingenRelatiesNaarState.bind(
-            this
-        )
-        this.saveNieuwekoppelingRelatieNaarState = this.saveNieuwekoppelingRelatieNaarState.bind(
-            this
-        )
     }
 
     verwijderKoppelingFromLocalState(itemObject) {
-        console.log(itemObject)
-        console.log(this.state.koppelingenRelaties)
-
         let nieuwKoppelingenRelatiesObject = this.state.koppelingenRelaties
         const index = nieuwKoppelingenRelatiesObject[
             itemObject.propertyName
@@ -72,9 +64,6 @@ class FormFieldBeleidsrelatieKoppeling extends Component {
     }
 
     wijzigKoppelingRelatieFromLocalState(itemObject, nieuweOmschrijving) {
-        console.log(itemObject)
-        console.log(this.state.koppelingenRelaties)
-
         let nieuwKoppelingenRelatiesObject = this.state.koppelingenRelaties
         const index = nieuwKoppelingenRelatiesObject[
             itemObject.propertyName
@@ -82,10 +71,6 @@ class FormFieldBeleidsrelatieKoppeling extends Component {
         nieuwKoppelingenRelatiesObject[itemObject.propertyName][
             index
         ].Omschrijving = nieuweOmschrijving
-
-        console.log(
-            nieuwKoppelingenRelatiesObject[itemObject.propertyName][index]
-        )
 
         this.setState({
             koppelingenRelaties: nieuwKoppelingenRelatiesObject,
@@ -108,24 +93,10 @@ class FormFieldBeleidsrelatieKoppeling extends Component {
         }
     }
 
-    togglePopupNieuw(type) {
-        if (!this.state.popupOpenNieuw) {
-            this.setState(
-                {
-                    popupOpenNieuw: !this.state.popupOpenNieuw,
-                    popupType: type,
-                },
-                () => console.log(this.state)
-            )
-        } else {
-            this.setState(
-                {
-                    popupOpenNieuw: !this.state.popupOpenNieuw,
-                    popupType: null,
-                },
-                () => console.log(this.state)
-            )
-        }
+    togglePopupNieuw() {
+        this.setState({
+            popupOpenNieuw: !this.state.popupOpenNieuw,
+        })
     }
 
     togglePopupBewerk(item, propertyName) {
@@ -161,238 +132,91 @@ class FormFieldBeleidsrelatieKoppeling extends Component {
     }
 
     componentDidMount() {
-        // We krijgen vanuit de props van het crudObject met de huidige data
-        // Ook krijgen we de koppelingRelatieArray waarin de propertyNames om te bewerken in dit component
-        // Vervolgens moeten we API calls doen om de laatste data terug te krijgen op basis van de UUID
-
-        // crudObject met alle huidige data
         const crudObject = this.props.crudObject
+        const UUID = this.props.objectUUID
+        const propertyName = 'beleidsbeslissing'
+        const apiURL = `/beleidsrelaties?Van_Beleidsbeslissing=${UUID}`
 
-        // Bevat de properties van het crudObject die hierin bewerkt moeten worden
-        const koppelingRelatieArray = this.props.koppelingRelatieArray
-
-        // Maakt een array om te kijken of 1 van de properties op het crudObject al data heeft
-        let actieveKoppelingOfRelaties = []
-
-        // Stopt de actieve koppelingen property names in een array en roept de functie savekoppelingenRelatiesNaarState()
-        koppelingRelatieArray.forEach(item => {
-            const propertyName = objecten[item].propertyName
-            if (
-                crudObject[propertyName] !== undefined &&
-                crudObject[propertyName].length > 0 &&
-                !actieveKoppelingOfRelaties.includes(
-                    objecten[item].propertyName
-                )
-            ) {
-                actieveKoppelingOfRelaties.push(objecten[item].propertyName)
-            }
-        })
-
-        if (
-            actieveKoppelingOfRelaties !== undefined &&
-            actieveKoppelingOfRelaties.length > 0
-        ) {
-            this.savekoppelingenRelatiesNaarState(actieveKoppelingOfRelaties)
-        }
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        if (this.props === prevProps || this.state === prevState) {
-            return
-        }
-
-        // crudObject met alle huidige data
-        const crudObject = this.props.crudObject
-
-        // Bevat de properties van het crudObject die hierin bewerkt moeten worden
-        const koppelingRelatieArray = this.props.koppelingRelatieArray
-
-        // Maakt een array om te kijken of 1 van de properties op het crudObject al data heeft
-        let actieveKoppelingOfRelaties = []
-
-        // Stopt de actieve koppelingen property names in een array
-        koppelingRelatieArray.forEach(item => {
-            const propertyName = objecten[item].propertyName
-            if (
-                crudObject[propertyName] !== undefined &&
-                crudObject[propertyName].length > 0 &&
-                !actieveKoppelingOfRelaties.includes(
-                    objecten[item].propertyName
-                )
-            ) {
-                actieveKoppelingOfRelaties.push(objecten[item].propertyName)
-            }
-        })
-
-        let arrayMetNieuweObjecten = []
-
-        // Map over de property names die in de crud object prop zitten
-        actieveKoppelingOfRelaties.map(item => {
-            // map over het het 'item' property binnen het crudObject, bijvoorbeeld 'ambities'
-            crudObject[item].map(object => {
-                const omschrijving = object.Omschrijving
-                const UUID = object.UUID
-                // Als het een volledig nieuwe property name is die nog niet is toegevoegd (Dus een nieuw type)
-                if (
-                    !this.state.koppelingenRelaties ||
-                    !this.state.koppelingenRelaties[item]
-                ) {
-                    this.saveNieuwekoppelingRelatieNaarState({
-                        UUID: UUID,
-                        propertyName: item,
-                        Omschrijving: omschrijving,
-                    })
-                } else if (
-                    this.state.koppelingenRelaties[item] &&
-                    this.state.koppelingenRelaties[item].find(
-                        item => item.UUID === UUID
-                    ) === undefined
-                ) {
-                    // Anders zoeken we in de state, binnen de property name, naar een object met dezelfde UUID
-                    // Als we deze niet vinden is het een nieuw item en saven we deze naar de state
-                    this.saveNieuwekoppelingRelatieNaarState({
-                        UUID: UUID,
-                        propertyName: item,
-                        Omschrijving: omschrijving,
-                    })
-                }
-            })
-        })
-    }
-
-    saveNieuwekoppelingRelatieNaarState(nieuweKoppelingRelatieObject) {
-        const propertyName = nieuweKoppelingRelatieObject.propertyName
-        const UUID = nieuweKoppelingRelatieObject.UUID
-        const omschrijving = nieuweKoppelingRelatieObject.Omschrijving
-
-        let nieuweKoppelingRelatieState = { ...this.state.koppelingenRelaties }
-
+        // Haalt de bestaande beleidsrelaties op die gekoppeld zijn VAN deze beleidsbeslissing
         axios
-            .get(`${objecten[propertyName.toLowerCase()].api}/version/${UUID}`)
+            .get(apiURL)
             .then(res => {
-                if (nieuweKoppelingRelatieState[propertyName] === undefined) {
-                    nieuweKoppelingRelatieState[propertyName] = []
-                }
-                nieuweKoppelingRelatieState[propertyName].push({
-                    UUID: UUID,
-                    data: res.data,
-                    Omschrijving: omschrijving,
-                })
                 this.setState(
                     {
-                        koppelingenRelaties: nieuweKoppelingRelatieState,
+                        objecten: res.data,
                         dataFromAPILoaded: true,
                     },
                     () => console.log(this.state)
                 )
             })
-    }
-
-    savekoppelingenRelatiesNaarState(actieveKoppelingOfRelaties) {
-        // crudObject met alle huidige data
-        const crudObject = this.props.crudObject
-
-        // Lege array waar de properties in worden gepushed na er overheen gemap'd te zijn
-        // 'Belang' en 'Taak' zijn aparte typen, maar zitten wel beidde op dezelfde propertyName op het crudObject
-        // Als tijdens het map'en de propertyName al in de propertyNamesMapped array staat, slaat die 'm over
-        let propertyNamesMapped = []
-        let newStateKoppelingenRelatiesObject = {}
-
-        actieveKoppelingOfRelaties.forEach(propertyName => {
-            if (propertyNamesMapped.includes(propertyName)) {
-                return
-            }
-            propertyNamesMapped.push(propertyName)
-
-            if (
-                crudObject[propertyName] !== undefined &&
-                crudObject[propertyName].length > 0
-            ) {
-                newStateKoppelingenRelatiesObject[propertyName] = []
-                crudObject[propertyName].forEach((item, index) => {
-                    newStateKoppelingenRelatiesObject[propertyName].push(item)
-                })
-            }
-        })
-
-        // Counter voor findPropertyAndAddDataToStateObject()
-        let amountOfItemsAdded = 0
-        const that = this
-
-        // Functie om de .data property toe te voegen aan het object
-        function findPropertyAndAddDataToStateObject(propertyName, data) {
-            amountOfItemsAdded++
-            const objectIndex = newStateKoppelingenRelatiesObject[
-                propertyName
-            ].findIndex(x => x.UUID === data.UUID)
-
-            newStateKoppelingenRelatiesObject[propertyName][
-                objectIndex
-            ].data = data
-
-            // Als het het laatste item is wat geupdate wordt updaten we nog een keer de state, zodat de .data properties op alle objecten zitten en geupdate worden in de state, en dus in de UI
-            // if (amountOfItemsAdded === lengthOfAllObjects) {
-            // }
-            that.setState({
-                koppelingenRelaties: newStateKoppelingenRelatiesObject,
-            })
-        }
-
-        // Counter voor het aantal objecten. Deze word later weer gebruikt binnen findPropertyAndAddDataToStateObject()
-        let lengthOfAllObjects = 0
-
-        // Map over actieveKoppelingOfRelaties -> een array met de actie koppelingen & relaties vanuit het CrudObject
-        // Vervolgens mappen we hierbinnen over de koppelingen om voor elk de UUID te pakken en hierop een API call te maken
-        // Deze worden gereturned in een Promise.all()
-        Promise.all(
-            actieveKoppelingOfRelaties.map((propertyName, indexPropertyName) =>
-                newStateKoppelingenRelatiesObject[propertyName].map(
-                    (koppeling, indexKoppeling) => {
-                        // Increase counter by one
-                        lengthOfAllObjects++
-
-                        if (
-                            objecten[propertyName.toLowerCase()] === undefined
-                        ) {
-                            return
-                        }
-
-                        axios
-                            .get(
-                                `${objecten[propertyName.toLowerCase()].api}/version/${koppeling.UUID}`
-                            )
-                            .then(res => {
-                                findPropertyAndAddDataToStateObject(
-                                    propertyName,
-                                    res.data
-                                )
-                            })
-                    }
-                )
-            )
-        )
-            .then(responses => {
+            .catch(error => {
+                console.log(error)
                 this.setState({
                     dataFromAPILoaded: true,
                 })
             })
-            .catch(err => console.log(err))
+    }
+
+    componentDidUpdate(prevProps, prevState) {}
+
+    voegKoppelingRelatieToe(object, omschrijving) {
+        const nieuweBeleidsrelatie = {
+            Begin_Geldigheid: object.Begin_Geldigheid,
+            Eind_Geldigheid: object.Eind_Geldigheid,
+            Van_Beleidsbeslissing: this.props.objectUUID,
+            Naar_Beleidsbeslissing: object.UUID,
+            Titel: '',
+            Omschrijving: omschrijving,
+            Aanvraag_Datum: new Date(),
+            Status: 'Open',
+        }
+
+        this.setState(
+            {
+                maakNieuweBeleidsrelatieAan: true,
+            },
+            () => {
+                axios
+                    .post(`/beleidsrelaties`, nieuweBeleidsrelatie)
+                    .then(res => {
+                        const nieuweBeleidsrelatie = res.data
+                        let nieuweObjecten = this.state.objecten
+                        nieuweObjecten.push(nieuweBeleidsrelatie)
+                        console.log(nieuweObjecten)
+                        this.setState(
+                            {
+                                objecten: nieuweObjecten,
+                                maakNieuweBeleidsrelatieAan: false,
+                            },
+                            () => {
+                                toast('Koppeling toegevoegd')
+                                console.log(this.state)
+                                this.togglePopupNieuw()
+                            }
+                        )
+                    })
+            }
+        )
     }
 
     render() {
         // crudObject met alle huidige data
         const crudObject = this.props.crudObject
+        const actieveKoppelingen = this.state.objecten
 
-        // Bevat de properties van het crudObject die hierin bewerkt moeten worden
-        const koppelingRelatieArray = this.props.koppelingRelatieArray
+        // // Bevat de properties van het crudObject die hierin bewerkt moeten worden
+        // const koppelingRelatieArray = this.props.koppelingRelatieArray
 
-        // Maakt een array om te kijken of 1 van de properties op het crudObject al data heeft
-        const actieveKoppelingOfRelatiesBoolean = koppelingRelatieArray.map(
-            item => {
-                const propertyName = objecten[item].propertyName
-                return crudObject[propertyName].length > 0
-            }
-        )
+        // // Maakt een array om te kijken of 1 van de properties op het crudObject al data heeft
+        // const actieveKoppelingOfRelatiesBoolean = koppelingRelatieArray.map(
+        //     item => {
+        //         const propertyName = objecten[item].propertyName
+        //         return (
+        //             crudObject[propertyName] !== undefined &&
+        //             crudObject[propertyName].length > 0
+        //         )
+        //     }
+        // )
 
         // Lege array waar de properties in worden gepushed na er overheen gemap'd te zijn
         // 'Belang' en 'Taak' zijn aparte typen, maar zitten wel beidde op dezelfde propertyName op het crudObject
@@ -416,77 +240,31 @@ class FormFieldBeleidsrelatieKoppeling extends Component {
                     <ul className="mb-3">
                         {/* Zodra de API een response heeft gegeven: */}
                         {this.state.dataFromAPILoaded ? (
-                            koppelingRelatieArray.map(
-                                (koppelingRelatieNaam, index) => {
-                                    const propertyName =
-                                        objecten[koppelingRelatieNaam]
-                                            .propertyName
-                                    if (
-                                        propertyNamesMapped.includes(
-                                            propertyName
-                                        )
-                                    ) {
-                                        return
-                                    }
-                                    propertyNamesMapped.push(propertyName)
-
-                                    // Als deze propertyName niet in het koppelingenRelaties object zit; return
-                                    if (
-                                        this.state.koppelingenRelaties ===
-                                            null ||
-                                        this.state.koppelingenRelaties[
-                                            propertyName
-                                        ] === undefined
-                                    ) {
-                                        return
-                                    }
-
-                                    // Anders returnen we de list items door te loopen over koppelingenRelaties[propertyName]
-                                    const listItems = this.state.koppelingenRelaties[
-                                        propertyName
-                                    ].map((item, index) => {
-                                        let type
-                                        if (
-                                            item.data !== undefined &&
-                                            item.data.Type !== undefined &&
-                                            item.data.Type !== 'Paragraaf'
-                                        ) {
-                                            type = item.data.Type
-                                        } else {
-                                            type =
-                                                objecten[koppelingRelatieNaam]
-                                                    .type
-                                        }
-
-                                        return (
-                                            <li
-                                                key={index}
-                                                className="flex border-b border-gray-300 text-gray-700 text-sm py-2 hover:text-gray-900 cursor-pointer"
-                                                onClick={() => {
-                                                    this.togglePopupBewerk(
-                                                        item,
-                                                        propertyName
-                                                    )
-                                                }}
-                                            >
-                                                <div className="w-40 mr-5 relative">
-                                                    {type}
-                                                </div>
-                                                <div className="w-full relative">
-                                                    {item.data
-                                                        ? item.data.Titel
-                                                        : null}
-                                                    <FontAwesomeIcon
-                                                        className="absolute right-0 mt-1 mr-2"
-                                                        icon={faEye}
-                                                    />
-                                                </div>
-                                            </li>
-                                        )
-                                    })
-                                    return listItems
-                                }
-                            )
+                            this.state.objecten.map((koppeling, index) => {
+                                return (
+                                    <li
+                                        key={index}
+                                        className="flex border-b border-gray-300 text-gray-700 text-sm py-2 hover:text-gray-900 cursor-pointer"
+                                        onClick={() => {
+                                            // this.togglePopupBewerk(
+                                            //     item,
+                                            //     propertyName
+                                            // )
+                                        }}
+                                    >
+                                        <div className="w-40 mr-5 relative">
+                                            Beleidsrelatie
+                                        </div>
+                                        <div className="w-full relative">
+                                            {/* {koppeling.data ? item.data.Titel : null} */}
+                                            <FontAwesomeIcon
+                                                className="absolute right-0 mt-1 mr-2"
+                                                icon={faEye}
+                                            />
+                                        </div>
+                                    </li>
+                                )
+                            })
                         ) : (
                             <span className="text-gray-700 text-sm block py-4">
                                 {this.props.placeholderTekst}
@@ -518,11 +296,9 @@ class FormFieldBeleidsrelatieKoppeling extends Component {
                         titelMainObject={this.props.titelMainObject}
                         type={this.state.popupType}
                         togglePopup={this.togglePopupNieuw}
-                        voegKoppelingRelatieToe={
-                            this.props.voegKoppelingRelatieToe
-                        }
-                        crudObject={crudObject}
-                        objecten={objecten}
+                        voegKoppelingRelatieToe={this.voegKoppelingRelatieToe}
+                        // crudObject={crudObject}
+                        actieveKoppelingen={actieveKoppelingen}
                     />
                 ) : null}
                 {this.state.popupOpenBewerk ? (

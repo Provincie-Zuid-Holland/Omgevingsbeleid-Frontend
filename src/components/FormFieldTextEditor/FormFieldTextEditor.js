@@ -65,7 +65,7 @@ class FormFieldTextEditor extends React.Component {
         const { editorState } = this.state
 
         let className =
-            'RichEditor-editor border p-4 pb-10 bg-white rounded-b text-gray-700 border-gray-400'
+            'RichEditor-editor border bg-white rounded-b text-gray-700 border-gray-400'
         var contentState = editorState.getCurrentContent()
 
         if (!contentState.hasText()) {

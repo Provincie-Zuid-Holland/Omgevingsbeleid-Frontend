@@ -102,7 +102,7 @@ class PopupBewerkKoppeling extends Component {
                             Verwijderen
                         </span>
                     </div>
-
+                    {console.log(this.props.wijzigKoppelingRelatie)}
                     <div
                         className={`font-bold py-2 px-4 cursor-pointer leading-tight text-sm rounded bg-green-600 text-white ${
                             this.state.omschrijving.length === 0

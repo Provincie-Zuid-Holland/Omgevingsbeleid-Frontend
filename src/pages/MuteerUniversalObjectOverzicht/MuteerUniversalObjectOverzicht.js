@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Helmet } from 'react-helmet'
 
 // Import Componenents
 import ContainerMain from './../../components/ContainerMain'
@@ -32,6 +33,10 @@ class MuteerUniversalObjectOverzicht extends Component {
 
         return (
             <ContainerMain>
+                <Helmet>
+                    <title>Omgevingsbeleid - {'Beheer ' + titelMeervoud}</title>
+                </Helmet>
+
                 {/* Sidebar */}
                 <SidebarMain />
 

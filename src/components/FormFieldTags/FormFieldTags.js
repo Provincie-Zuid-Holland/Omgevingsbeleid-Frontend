@@ -8,7 +8,6 @@ import CreatableSelect from 'react-select/creatable'
 class FormFieldTags extends Component {
     constructor(props) {
         super(props)
-        console.log(this.props.fieldValue)
         // selectionArray: JSON.parse(this.props.fieldValue) || [],
         let selectionArray = ''
         try {
@@ -44,7 +43,6 @@ class FormFieldTags extends Component {
     }
 
     render() {
-        console.log(this.state)
         return (
             <div className="flex flex-wrap -mx-3">
                 <div className="w-full px-3 mb-6">

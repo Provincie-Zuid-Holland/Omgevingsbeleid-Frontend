@@ -26,6 +26,7 @@ class ContainerCrudFields extends React.Component {
 
     render() {
 
+        const objectUUID = this.context.objectUUID
         const crudObject = this.context.crudObject
         const titelEnkelvoud = this.context.titelEnkelvoud
         const titelMeervoud = this.context.titelMeervoud
@@ -51,6 +52,11 @@ class ContainerCrudFields extends React.Component {
             ["Afdeling", "Afdeling"],
             ["Paragraaf", "Paragraaf"],
             ["Artikel", "Artikel"]
+        ]
+        
+        const BelangTypeValues = [
+            ["Nationaal Belang", "Nationaal Belang"],
+            ["Wettelijke Taak & Bevoegdheid", "Wettelijke Taak & Bevoegdheid"],
         ]
 
         return (
@@ -343,6 +349,7 @@ class ContainerCrudFields extends React.Component {
                                         beschrijving="Integraal Omgevingsbeleid betekent dat deze beleidsbeslissing relaties en koppelingen met andere onderdelen van het provinciale beleid heeft. Een relatie ga je, met wederzijds goedkeuren, aan met andere beleidsbeslissingen. Koppelingen leg je, eenzijdig, met andere beleidsobjecten, zoals een artikel uit de verordening of een ambitie."
                                     >
                                          <FormFieldBeleidsrelatieKoppeling
+                                            objectUUID={objectUUID}
                                             placeholderTekst="Er zijn nog geen relaties aangebracht voor deze beleidsbeslissing"
                                             buttonTekst="Nieuwe koppeling"
                                             titelMainObject={crudObject["Titel"]}
@@ -388,43 +395,6 @@ class ContainerCrudFields extends React.Component {
                                     
                                 : null }
 
-                                { 
-                                crudObject["Ambities"] !== undefined || 
-                                crudObject["Opgaven"] !== undefined || 
-                                crudObject["Beleidsregels"] !== undefined ||
-                                crudObject["Maatregelen"] !== undefined || 
-                                crudObject["Verordening"] !== undefined ?
-                                    
-                                    <ContainerFormSection
-                                        titel="Koppelingen en relaties"
-                                        beschrijving="Integraal Omgevingsbeleid betekent dat deze beleidsbeslissing relaties en koppelingen met andere onderdelen van het provinciale beleid heeft. Een relatie ga je, met wederzijds goedkeuren, aan met andere beleidsbeslissingen. Koppelingen leg je, eenzijdig, met andere beleidsobjecten, zoals een artikel uit de verordening of een ambitie."
-                                    >
-                                            <FormFieldUniverseleRelatieKoppeling 
-                                            placeholderTekst="Er zijn nog geen relaties aangebracht voor deze beleidsbeslissing"
-                                            buttonTekst="Nieuwe koppeling"
-                                            titelMainObject={crudObject["Titel"]}
-                                            handleChange={this.context.handleChange}
-                                            fieldValue={crudObject["Belangen"]}
-                                            fieldLabel="Koppelingen"
-                                            hideObjectLabel={true}
-                                            dataObjectProperty="Belangen"
-                                            pValue="Aan welke ambities, opgaven, artikelen uit de verordening, maatregelen en nadere beleidsregels heeft deze beleidsbeslissing een koppeling?"
-                                            titelEnkelvoud={titelEnkelvoud}
-                                            voegKoppelingRelatieToe={this.context.voegKoppelingRelatieToe}
-                                            wijzigKoppelingRelatie={this.context.wijzigKoppelingRelatie}
-                                            verwijderKoppelingRelatieToe={this.context.verwijderKoppelingRelatieToe}
-                                            koppelingRelatieArray={[
-                                                'ambities', 
-                                                'opgaven',
-                                                'beleidsregels',
-                                                'maatregelen',
-                                                'verordening'
-                                            ]}
-                                            crudObject={JSON.parse(JSON.stringify(crudObject))}
-                                            />
-                                    </ContainerFormSection>
-                                    
-                                : null }
 
                                 { 
                                     crudObject["Motivering"] !== undefined
@@ -627,16 +597,31 @@ class ContainerCrudFields extends React.Component {
                                             />
                                         : null }
 
-                                        {/* Verordening Type */}
+                                        {/* Type */}
                                         { crudObject["Type"] !== undefined ? 
-                                            <FormFieldSelect 
-                                                handleChange={this.context.handleChange}
-                                                titelEnkelvoud={titelEnkelvoud}
-                                                fieldValue={crudObject["Type"]}
-                                                selectArray={VerordeningTypeValues}
-                                                fieldLabel="Verordening Type"
-                                                dataObjectProperty="Type"
-                                            />
+                                            <React.Fragment>
+                                                {titelEnkelvoud === "Belang" ?
+                                                    <FormFieldSelect 
+                                                        handleChange={this.context.handleChange}
+                                                        titelEnkelvoud={titelEnkelvoud}
+                                                        fieldValue={crudObject["Type"]}
+                                                        selectArray={BelangTypeValues}
+                                                        fieldLabel="Type"
+                                                        dataObjectProperty="Type"
+                                                    /> : null
+                                                }
+                                                {
+                                                    titelEnkelvoud === "Verordening" ?
+                                                    <FormFieldSelect 
+                                                        handleChange={this.context.handleChange}
+                                                        titelEnkelvoud={titelEnkelvoud}
+                                                        fieldValue={crudObject["Type"]}
+                                                        selectArray={VerordeningTypeValues}
+                                                        fieldLabel="Verordening Type"
+                                                        dataObjectProperty="Type"
+                                                    /> : null
+                                                }
+                                            </React.Fragment>
                                         : null }
 
                                         {/* Verodening Volgnummer */}

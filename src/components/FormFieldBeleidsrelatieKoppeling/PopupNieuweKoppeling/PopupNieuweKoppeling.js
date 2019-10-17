@@ -28,24 +28,11 @@ class PopupNieuweKoppeling extends Component {
     }
 
     componentDidMount() {
+        // Get Beleidsbeslissingen om koppelingen mee te maken
         axios
-            .get(objecten.beleidsbeslissing.api)
+            .get('/beleidsbeslissingen')
             .then(res => {
-                // Belang en Taak moeten gefilterd worden
-                // Anders const de objecten array zonder het eerste array item
-                let responseObjecten
-                if (objecten[this.state.type].filterAPI === true) {
-                    responseObjecten = res.data.slice(1).filter(item => {
-                        if (
-                            item.Type === objecten[this.state.type].filterType
-                        ) {
-                            return item
-                        }
-                    })
-                } else {
-                    responseObjecten = res.data.slice(1)
-                }
-
+                const responseObjecten = res.data.slice(1)
                 console.log(responseObjecten)
 
                 this.setState({
@@ -89,20 +76,11 @@ class PopupNieuweKoppeling extends Component {
     }
 
     render() {
-        const propertyName = objecten[this.state.type].propertyName
-        const crudObject = JSON.parse(JSON.stringify(this.props.crudObject))
-        let actieveKoppelingen = []
-        crudObject[propertyName].forEach(item => {
-            actieveKoppelingen.push(item.UUID)
-        })
-
-        const filteredObjecten = this.state.objecten
-            .filter(item =>
-                item.Titel.toLowerCase().includes(
-                    this.state.zoekFilter.toLowerCase()
-                )
+        const filteredObjecten = this.state.objecten.filter(item =>
+            item.Titel.toLowerCase().includes(
+                this.state.zoekFilter.toLowerCase()
             )
-            .filter(item => !actieveKoppelingen.includes(item.UUID))
+        )
 
         return (
             <PopUpAnimatedContainer>
@@ -112,15 +90,12 @@ class PopupNieuweKoppeling extends Component {
                 >
                     <FontAwesomeIcon icon={faTimes} />
                 </div>
-                <h3 className="form-field-label">
-                    {objecten[this.state.type].volledigeTitel} koppelen
-                </h3>
+                <h3 className="form-field-label">Beleidsrelatie toevoegen</h3>
                 {this.state.actievePagina === 1 ? (
                     <React.Fragment>
                         <p className="form-field-description">
-                            Zoek en selecteer het nationaal welke je wilt
-                            koppelen met de beleidsbeslissing '
-                            {this.props.titelMainObject}'
+                            Zoek en selecteer de beleidsbeslissing waarmee '
+                            {this.props.titelMainObject}' een koppeling heeft
                         </p>
                         <div className="w-full block relative mt-4 mb-6">
                             <input
@@ -175,14 +150,20 @@ class PopupNieuweKoppeling extends Component {
                                     >
                                         {console.log(this.state.dataLoaded)}
                                         {this.state.dataLoaded ? (
-                                            'Geen resultaten'
+                                            this.state.zoekFilter.length ===
+                                            0 ? (
+                                                <span className="italic text-gray-600">
+                                                    Geen resultaten
+                                                </span>
+                                            ) : (
+                                                <span className="italic text-gray-600">
+                                                    Geen resultaten voor '
+                                                    {this.state.zoekFilter}'
+                                                </span>
+                                            )
                                         ) : (
-                                            <span className="loading">
-                                                {
-                                                    objecten[this.state.type]
-                                                        .volledigeTitelMeervoud
-                                                }{' '}
-                                                laden
+                                            <span className="loading italic text-gray-600">
+                                                Beleidsbeslissingen laden...
                                             </span>
                                         )}
                                     </li>
@@ -239,19 +220,6 @@ class PopupNieuweKoppeling extends Component {
                                     return
                                 }
                             }}
-                            onKeyPress={e => {
-                                if (
-                                    e.key === 'Enter' &&
-                                    this.state.beschrijving.length > 0
-                                ) {
-                                    this.props.voegKoppelingRelatieToe(
-                                        objecten[this.state.type].propertyName,
-                                        this.state.selected,
-                                        this.state.beschrijving
-                                    )
-                                    this.props.togglePopup()
-                                }
-                            }}
                         >
                             Volgende
                         </div>
@@ -266,11 +234,9 @@ class PopupNieuweKoppeling extends Component {
                             onClick={e => {
                                 if (this.state.beschrijving.length > 0) {
                                     this.props.voegKoppelingRelatieToe(
-                                        objecten[this.state.type].propertyName,
                                         this.state.selected,
                                         this.state.beschrijving
                                     )
-                                    this.props.togglePopup()
                                 } else {
                                     return
                                 }
@@ -281,11 +247,9 @@ class PopupNieuweKoppeling extends Component {
                                     this.state.beschrijving.length > 0
                                 ) {
                                     this.props.voegKoppelingRelatieToe(
-                                        objecten[this.state.type].propertyName,
                                         this.state.selected,
                                         this.state.beschrijving
                                     )
-                                    this.props.togglePopup()
                                 }
                             }}
                         >

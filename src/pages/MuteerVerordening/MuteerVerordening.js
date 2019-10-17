@@ -5,6 +5,7 @@ import {
     faMinusSquare,
 } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Helmet } from 'react-helmet'
 
 // Import Axios instance to connect with the API
 import axios from './../../API/axios'
@@ -137,11 +138,14 @@ class MuteerVerordening extends Component {
     }
 
     render() {
-        // // False if data is loading, true if there is a response
-        // let dataReceived = this.state.objecten[0]
+        console.log('Render')
 
         return (
             <ContainerMain>
+                <Helmet>
+                    <title>Omgevingsbeleid - Verordening</title>
+                </Helmet>
+
                 {this.state.showMainSideBar ? null : <SidebarMain />}
 
                 {/* Container */}

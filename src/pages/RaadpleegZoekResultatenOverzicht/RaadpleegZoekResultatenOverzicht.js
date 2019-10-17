@@ -26,20 +26,26 @@ function SearchResultItem(props) {
         console.log(propertyName)
         console.log(props.item)
         if (
-            props.item.highlight === undefined ||
-            props.item.highlight[propertyName] === undefined
+            (props.item.highlight === undefined ||
+                props.item.highlight[propertyName] === undefined) &&
+            props.item[propertyName] !== undefined
         ) {
             return {
                 setInnerHTML: false,
                 content: props.item[propertyName],
                 trim: props.item[propertyName].length > 250,
             }
-        } else {
+        } else if (props.item[propertyName] !== undefined) {
             return {
                 setInnerHTML: true,
                 content: {
                     __html: props.item.highlight[propertyName],
                 },
+            }
+        } else {
+            return {
+                setInnerHTML: false,
+                content: 'Omschrijving',
             }
         }
     }

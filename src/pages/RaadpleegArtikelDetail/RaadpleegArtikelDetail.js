@@ -16,9 +16,7 @@ function RevisieListItem(props) {
     return (
         <li className="py-2">
             <span
-                className={`inline-block w-4 h-4 bg-${
-                    props.color
-                }-500 rounded-full mt-1 absolute`}
+                className={`inline-block w-4 h-4 bg-${props.color}-500 rounded-full mt-1 absolute`}
             />
             <span
                 className={`pl-6 text-sm ${props.current ? 'font-bold' : null}`}

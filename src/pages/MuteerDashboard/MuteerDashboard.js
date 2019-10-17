@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Helmet } from 'react-helmet'
 
 // Import API
 import axios from './../../API/axios'
@@ -27,6 +28,10 @@ class MuteerDashboard extends Component {
     render() {
         return (
             <div className="container mx-auto flex px-6 pb-8">
+                <Helmet>
+                    <title>Omgevingsbeleid - Dashboard</title>
+                </Helmet>
+
                 {/* Sidebar */}
                 <SidebarMain />
 
@@ -38,7 +43,7 @@ class MuteerDashboard extends Component {
                         <CardKoppeling />
                     </section>
                     <section>
-                        <h2 className="heading-serif mb-4 mt-8">Mijn beleid</h2>
+                        <h2 className="heading-serif mt-8">Mijn beleid</h2>
 
                         <MijnBeleid authUser={this.props.authUser} />
 

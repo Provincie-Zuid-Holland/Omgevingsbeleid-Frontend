@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Route, Switch, withRouter } from 'react-router-dom'
 import axios from './../API/axios'
+import { Helmet } from 'react-helmet'
 
 // Import Notification Library
 import { ToastContainer } from 'react-toastify'
@@ -91,6 +92,10 @@ class App extends Component {
                 slug: 'beleidsbeslissingen',
                 dataModel: dataModel.Beleidsbeslissingen,
             },
+            {
+                slug: 'opgaven',
+                dataModel: dataModel.Opgave,
+            },
         ]
 
         return (
@@ -98,6 +103,11 @@ class App extends Component {
                 className="body-bg-color min-h-screen pt-12"
                 id="main-container"
             >
+                <Helmet>
+                    <meta charSet="utf-8" />
+                    <title>Omgevingsbeleid - Provincie Zuid-Holland</title>
+                </Helmet>
+
                 <Navigation />
                 <Switch>
                     <Route path="/" exact component={RaadpleegHome} />
@@ -111,7 +121,7 @@ class App extends Component {
                         exact
                         component={RaadpleegArtikelDetail}
                     />
-                    <Route
+                    {/* <Route
                         path="/detail/:type/:id/:uuid"
                         render={({ match }) => {
                             return (
@@ -121,7 +131,7 @@ class App extends Component {
                                 />
                             )
                         }}
-                    />
+                    /> */}
                     {detailPaginas.map(item => {
                         return (
                             <Route
