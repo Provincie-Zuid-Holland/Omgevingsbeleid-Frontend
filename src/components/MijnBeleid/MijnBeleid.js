@@ -29,10 +29,10 @@ class MijnBeleid extends Component {
             'BeleidsRegel',
             'Doel',
             'Belang',
-            'BeleidsRelatie',
+            // 'BeleidsRelatie',
             'Beleidsbeslissingen',
             'Maatregelen',
-            'Themas',
+            'Thema',
             'Verordening',
         ]
         const lijstMetAPIEndpoints = dimensies.map(item => {

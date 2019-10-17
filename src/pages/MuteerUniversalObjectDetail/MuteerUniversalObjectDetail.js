@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Helmet } from 'react-helmet'
 
 // Import Components
+import ContainerMain from './../../components/ContainerMain'
 import ButtonBackToPage from './../../components/ButtonBackToPage'
 import EigenaarsDriehoekItem from './EigenaarsDriehoekItem'
 import ContainerDetailMain from './ContainerDetailMain'
@@ -188,7 +189,7 @@ class MuteerUniversalObjectDetail extends Component {
         }
 
         return (
-            <div className="container mx-auto flex px-6 pb-8">
+            <ContainerMain>
                 {dataObject.Titel ? (
                     <Helmet>
                         <title>Omgevingsbeleid - {dataObject.Titel}</title>
@@ -385,7 +386,7 @@ class MuteerUniversalObjectDetail extends Component {
                         ) : null} */}
                     </div>
                 </div>
-            </div>
+            </ContainerMain>
         )
     }
 

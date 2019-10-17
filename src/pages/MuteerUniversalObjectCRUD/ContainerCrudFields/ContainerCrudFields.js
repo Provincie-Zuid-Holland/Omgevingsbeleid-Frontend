@@ -4,6 +4,7 @@ import React from 'react';
 import APIcontext from './../APIContext'
 
 // Import Components
+import ContainerMain from './../../../components/ContainerMain'
 import ContainerFormSection from './../../../components/ContainerFormSection'
 import FormFieldTextInput from './../../../components/FormFieldTextInput'
 import FormFieldTextArea from './../../../components/FormFieldTextArea'
@@ -63,7 +64,7 @@ class ContainerCrudFields extends React.Component {
         
             <React.Fragment>
                 
-                <div className="container mx-auto flex px-6 pb-8">      
+                <ContainerMain>
                 
                     <div className="w-full inline-block flex-grow">
                         <div>
@@ -674,7 +675,7 @@ class ContainerCrudFields extends React.Component {
                         </div>
                     </div>
 
-                </div>
+                </ContainerMain>
             </React.Fragment>
 
         );

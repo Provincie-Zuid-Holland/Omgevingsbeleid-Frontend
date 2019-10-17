@@ -62,15 +62,12 @@ class RaadpleegUniversalObjectDetail extends Component {
         let detail_id = this.props.match.params.id
         apiEndpoint = `${ApiEndpointBase}/${detail_id}`
 
-        console.log(apiEndpoint)
-
         // Connect With the API
         axios
             .get(apiEndpoint)
             .then(res => {
                 const dataObject = res.data[0]
                 const revisieObjecten = res.data
-                console.log(dataObject)
                 this.setState(
                     {
                         dataObject: dataObject,
@@ -207,6 +204,33 @@ class RaadpleegUniversalObjectDetail extends Component {
                                 />
                             ) : null}
                         </div>
+
+                        {dataObject.Omschrijving_Keuze ? (
+                            <ContentTekst
+                                content={dataObject.Omschrijving_Keuze}
+                            />
+                        ) : null}
+
+                        {dataObject.Omschrijving_Werking ? (
+                            <ContentTekst
+                                titel="Toelichting"
+                                content={dataObject.Omschrijving_Werking}
+                            />
+                        ) : null}
+
+                        {dataObject.Aanleiding ? (
+                            <ContentTekst
+                                titel="Aanleiding"
+                                content={dataObject.Aanleiding}
+                            />
+                        ) : null}
+
+                        {dataObject.Afweging ? (
+                            <ContentTekst
+                                titel="Afwegingen"
+                                content={dataObject.Afweging}
+                            />
+                        ) : null}
 
                         {/* Tags Sectie */}
                         {dataObject.Tags ? (

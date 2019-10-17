@@ -5,13 +5,14 @@ import { Helmet } from 'react-helmet'
 import axios from './../../API/axios'
 
 // Import Components
+import ContainerMain from './../../components/ContainerMain'
 import MijnBeleid from './../../components/MijnBeleid'
 import SidebarMain from './../../components/SidebarMain'
 
 class MuteerMijnBeleid extends Component {
     render() {
         return (
-            <div className="container mx-auto flex px-6 pb-8">
+            <ContainerMain>
                 <Helmet>
                     <title>Omgevingsbeleid - Mijn Beleid</title>
                 </Helmet>
@@ -26,7 +27,7 @@ class MuteerMijnBeleid extends Component {
                         <MijnBeleid authUser={this.props.authUser} />
                     </section>
                 </div>
-            </div>
+            </ContainerMain>
         )
     }
 }

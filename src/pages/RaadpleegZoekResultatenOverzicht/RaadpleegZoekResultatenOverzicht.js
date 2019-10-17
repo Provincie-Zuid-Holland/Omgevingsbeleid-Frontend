@@ -23,8 +23,6 @@ function getExcerpt(object) {
 
 function SearchResultItem(props) {
     function getContent(propertyName) {
-        console.log(propertyName)
-        console.log(props.item)
         if (
             (props.item.highlight === undefined ||
                 props.item.highlight[propertyName] === undefined) &&
@@ -55,6 +53,9 @@ function SearchResultItem(props) {
         Omschrijving: getExcerpt(getContent('Omschrijving')),
     }
 
+    console.log('props.item')
+    console.log(props.item)
+    console.log(dataModel[props.item.type])
     const overzichtURL = dataModel[props.item.type].variables.Overzicht_Slug
 
     return (

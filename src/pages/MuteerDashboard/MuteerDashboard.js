@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet'
 import axios from './../../API/axios'
 
 // Import Components
+import ContainerMain from './../../components/ContainerMain'
 import SidebarMain from './../../components/SidebarMain'
 import MijnBeleid from './../../components/MijnBeleid'
 import ButtonAddNewObject from './../../components/ButtonAddNewObject'
@@ -27,7 +28,7 @@ class KaartenGroep extends Component {
 class MuteerDashboard extends Component {
     render() {
         return (
-            <div className="container mx-auto flex px-6 pb-8">
+            <ContainerMain>
                 <Helmet>
                     <title>Omgevingsbeleid - Dashboard</title>
                 </Helmet>
@@ -59,7 +60,7 @@ class MuteerDashboard extends Component {
                             ) : null} */}
                     </section>
                 </div>
-            </div>
+            </ContainerMain>
         )
     }
 }

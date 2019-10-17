@@ -249,7 +249,7 @@ class AuthRoutes extends Component {
             },
             {
                 slug: 'themas',
-                dataModelProperty: 'Themas',
+                dataModelProperty: 'Thema',
             },
             {
                 slug: 'beleidsbeslissingen',

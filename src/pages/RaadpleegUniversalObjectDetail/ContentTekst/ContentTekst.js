@@ -8,9 +8,11 @@ class ContentTekst extends Component {
 
     render() {
         return (
-            <div>
+            <div className="mt-4 text-gray-800">
                 {this.props.titel ? (
-                    <h2 className="text-l font-serif">{this.props.titel}</h2>
+                    <h2 className="text-l font-serif block mb-2">
+                        {this.props.titel}
+                    </h2>
                 ) : null}
                 <p>{this.props.content}</p>
             </div>

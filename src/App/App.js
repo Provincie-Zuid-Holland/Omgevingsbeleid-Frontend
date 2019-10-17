@@ -86,7 +86,7 @@ class App extends Component {
             },
             {
                 slug: 'themas',
-                dataModel: dataModel.Themas,
+                dataModel: dataModel.Thema,
             },
             {
                 slug: 'beleidsbeslissingen',
@@ -97,10 +97,15 @@ class App extends Component {
                 dataModel: dataModel.Opgave,
             },
         ]
-
+        // body-bg-color
+        const equalsMuteerOmgeving = this.props.location.pathname.includes(
+            'muteer'
+        )
         return (
             <main
-                className="body-bg-color min-h-screen pt-12"
+                className={`min-h-screen pt-12 ${
+                    equalsMuteerOmgeving ? 'body-bg-color' : ''
+                }`}
                 id="main-container"
             >
                 <Helmet>

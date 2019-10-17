@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 
 // Import Components
+import ContainerMain from './../../components/ContainerMain'
 import SidebarMain from './../../components/SidebarMain'
 import ButtonBackToPage from './../../components/ButtonBackToPage'
 import ButtonAddNewObject from './../../components/ButtonAddNewObject'
@@ -31,7 +32,7 @@ class MuteerApiTestOverzicht extends Component {
         let dataReceived = this.state.objecten[0]
 
         return (
-            <div className="container mx-auto flex px-6 pb-8">
+            <ContainerMain>
                 {/* Sidebar */}
                 <SidebarMain />
 
@@ -94,7 +95,7 @@ class MuteerApiTestOverzicht extends Component {
                         ) : null}
                     </ul>
                 </div>
-            </div>
+            </ContainerMain>
         )
     }
 

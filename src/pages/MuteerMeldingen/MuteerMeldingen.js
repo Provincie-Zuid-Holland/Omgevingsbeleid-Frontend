@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet'
 import axios from './../../API/axios'
 
 // Import Components
+import ContainerMain from './../../components/ContainerMain'
 import SidebarMain from './../../components/SidebarMain'
 import ButtonAddNewObject from './../../components/ButtonAddNewObject'
 import CardObjectDetails from './../../components/CardObjectDetails'
@@ -72,7 +73,7 @@ class MuteerMeldingen extends Component {
         // const hoofdOnderdeelSlug = this.props.dataModel.variables.Overzicht_Slug
 
         return (
-            <div className="container mx-auto flex px-6 pb-8">
+            <ContainerMain>
                 <Helmet>
                     <title>Omgevingsbeleid - Meldingen</title>
                 </Helmet>
@@ -145,7 +146,7 @@ class MuteerMeldingen extends Component {
                             ) : null} */}
                     </section>
                 </div>
-            </div>
+            </ContainerMain>
         )
     }
 }

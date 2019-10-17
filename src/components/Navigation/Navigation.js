@@ -180,8 +180,8 @@ function Logo() {
 class Navigation extends Component {
     render() {
         return (
-            <nav className="bg-white border-b border-gray-200 fixed w-full z-10 top-0">
-                <div className="bg-white py-6 container mx-auto flex items-center justify-between flex-wrap bg-white px-6">
+            <nav className="bg-white fixed w-full z-10 top-0">
+                <div className="bg-white border-b border-gray-200 py-6 container mx-auto flex items-center justify-between flex-wrap bg-white">
                     <div className="flex items-center flex-no-shrink text-black mr-6 py-2">
                         {getToken() ? (
                             <Link

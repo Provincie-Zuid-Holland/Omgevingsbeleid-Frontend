@@ -1910,7 +1910,7 @@ export default
       "Object_Name": "Maatregelen"
     }
   },
-  "Themas": {
+  "Thema": {
     "type": "object",
     "properties": {
       "ID": {

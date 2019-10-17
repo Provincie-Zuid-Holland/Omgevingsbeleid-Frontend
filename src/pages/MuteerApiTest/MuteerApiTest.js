@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 // Import Components
 import SidebarMain from './../../components/SidebarMain'
 import ContainerAnimateContent from './../../components/ContainerAnimateContent'
+import ContainerMain from './../../components/ContainerMain'
 
 function LabelGenerator(props) {
     let statusCSS = ''
@@ -79,7 +80,7 @@ function APITestItem(props) {
 class MuteerApiTest extends Component {
     render() {
         return (
-            <div className="container mx-auto flex px-6 pb-8">
+            <ContainerMain>
                 {/* Sidebar */}
                 <SidebarMain />
 
@@ -88,7 +89,7 @@ class MuteerApiTest extends Component {
                     <h2 className="heading-serif mb-4">API Test Overzicht</h2>
                     <APITestItem />
                 </div>
-            </div>
+            </ContainerMain>
         )
     }
 }
