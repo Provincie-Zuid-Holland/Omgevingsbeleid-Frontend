@@ -147,14 +147,15 @@ class MuteerUniversalObjectCRUD extends Component {
                     // If that state is equal to the latest state from the API
                     // If that savedState object is not empty
                     if (
-                        savedStateEmpty === false &&
-                        JSON.stringify(crudObject) !==
-                            JSON.stringify(
-                                savedStateInLocalStorage.savedState &&
-                                    !isObjectEmpty(
-                                        savedStateInLocalStorage.savedState
-                                    )
-                            )
+                        false
+                        // savedStateEmpty === false &&
+                        // JSON.stringify(crudObject) !==
+                        //     JSON.stringify(
+                        //         savedStateInLocalStorage.savedState &&
+                        //             !isObjectEmpty(
+                        //                 savedStateInLocalStorage.savedState
+                        //             )
+                        //     )
                     ) {
                         this.setState(
                             {
@@ -289,6 +290,7 @@ class MuteerUniversalObjectCRUD extends Component {
             axios
                 .patch(`${ApiEndpoint}/${objectID}`, JSON.stringify(crudObject))
                 .then(res => {
+                    console.log(res.data)
                     if (this.props.match.path.includes('api-test')) {
                         this.props.history.push(
                             `/api-test/${overzichtSlug}/${res.data.ID}`
@@ -407,8 +409,6 @@ class MuteerUniversalObjectCRUD extends Component {
     }
 
     render() {
-        console.log(this.state)
-
         const contextObject = {
             objectUUID: this.state.UUID,
             titelEnkelvoud: this.props.dataModel.variables.Titel_Enkelvoud,

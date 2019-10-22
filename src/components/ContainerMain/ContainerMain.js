@@ -2,10 +2,17 @@ import React from 'react'
 
 // Pages met aparte container:
 // /pages/Login
+// /components/Navigation
 
 function ContainerMain(props) {
-    return (
-        <div className="container mx-auto flex px-6 pb-8">{props.children}</div>
+    return props.id ? (
+        <div className="lg:px-10 container mx-auto flex pb-8" id={props.id}>
+            {props.children}
+        </div>
+    ) : (
+        <div className="lg:px-10 container mx-auto flex pb-8">
+            {props.children}
+        </div>
     )
 }
 

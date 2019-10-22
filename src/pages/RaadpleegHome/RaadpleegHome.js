@@ -6,14 +6,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // Import Components
 import LeafletHalfScreenWidthViewer from './../../components/LeafletHalfScreenWidthViewer'
 import SearchBar from './../../components/SearchBar'
+import ContainerMain from './../../components/ContainerMain'
 
 class RaadpleegHome extends Component {
     render() {
         return (
-            <div
-                className="container mx-auto flex px-6 pb-8"
-                id="raadpleeg-home"
-            >
+            // <div
+            //     className="container mx-auto flex pr-6 pb-8"
+            //     id="raadpleeg-home"
+            // >
+            <ContainerMain id="raadpleeg-home">
                 <div className="w-1/2 pr-8 pb-20">
                     <h1 className="mt-8 heading-serif-2xl">Omgevingsbeleid</h1>
                     <p className="mt-6 text-gray-800">
@@ -80,7 +82,7 @@ class RaadpleegHome extends Component {
                 <div id="half-screen-leaflet-container">
                     <LeafletHalfScreenWidthViewer />
                 </div>
-            </div>
+            </ContainerMain>
         )
     }
 }

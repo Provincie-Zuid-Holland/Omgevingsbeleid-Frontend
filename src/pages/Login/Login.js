@@ -115,7 +115,7 @@ class Login extends Component {
                             </label>
                             <input
                                 required
-                                className="shadow appearance-none border rounded w-full py-3 leading-loose px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                className="bg-white shadow appearance-none border rounded w-full py-3 leading-loose px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 name="identifier"
                                 id="identifier"
                                 type="text"
@@ -132,7 +132,7 @@ class Login extends Component {
                             </label>
                             <input
                                 required
-                                className="shadow appearance-none border rounded w-full py-4 pb-3 leading-loose px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                                className="bg-white shadow appearance-none border rounded w-full py-4 pb-3 leading-loose px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
                                 name="password"
                                 id="password"
                                 type="password"

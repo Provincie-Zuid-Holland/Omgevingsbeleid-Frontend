@@ -24,6 +24,7 @@ class PopUpRevisieContainer extends Component {
 
     handleClick = e => {
         if (
+            this.innerContainer.current &&
             !this.innerContainer.current.contains(e.target) &&
             this.state.open === true
         ) {
