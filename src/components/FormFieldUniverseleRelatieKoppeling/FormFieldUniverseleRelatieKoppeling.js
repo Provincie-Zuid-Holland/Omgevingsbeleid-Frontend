@@ -172,6 +172,7 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
             const propertyName = objecten[item].propertyName
             if (
                 crudObject[propertyName] !== undefined &&
+                crudObject[propertyName] !== null &&
                 crudObject[propertyName].length > 0 &&
                 !actieveKoppelingOfRelaties.includes(
                     objecten[item].propertyName
@@ -271,13 +272,10 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
                     data: res.data,
                     Omschrijving: omschrijving,
                 })
-                this.setState(
-                    {
-                        koppelingenRelaties: nieuweKoppelingRelatieState,
-                        dataFromAPILoaded: true,
-                    },
-                    () => console.log(this.state)
-                )
+                this.setState({
+                    koppelingenRelaties: nieuweKoppelingRelatieState,
+                    dataFromAPILoaded: true,
+                })
             })
     }
 
@@ -383,10 +381,14 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
         const actieveKoppelingOfRelatiesBoolean = koppelingRelatieArray.map(
             item => {
                 const propertyName = objecten[item].propertyName
-                return (
-                    crudObject[propertyName] ||
-                    crudObject[propertyName].length > 0
-                )
+                if (crudObject[propertyName] === null) {
+                    return false
+                } else {
+                    return (
+                        crudObject[propertyName] ||
+                        crudObject[propertyName].length > 0
+                    )
+                }
             }
         )
 

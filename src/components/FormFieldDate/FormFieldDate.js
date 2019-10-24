@@ -12,14 +12,24 @@ class FormFieldDate extends React.Component {
                     hideObjectLabel={this.props.hideObjectLabel}
                     titelEnkelvoud={this.props.titelEnkelvoud}
                 />
-                <input
-                    required
-                    value={this.props.fieldValue}
-                    onChange={this.props.handleChange}
-                    name={this.props.dataObjectProperty}
-                    className="appearance-none block w-full text-gray-700 border border-gray-400 focus:border-gray-500 hover:border-gray-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
-                    type="date"
-                />
+                {this.props.required ? (
+                    <input
+                        value={this.props.fieldValue}
+                        onChange={this.props.handleChange}
+                        name={this.props.dataObjectProperty}
+                        className="appearance-none block w-full text-gray-700 border border-gray-400 focus:border-gray-500 hover:border-gray-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
+                        type="date"
+                        required
+                    />
+                ) : (
+                    <input
+                        value={this.props.fieldValue}
+                        onChange={this.props.handleChange}
+                        name={this.props.dataObjectProperty}
+                        className="appearance-none block w-full text-gray-700 border border-gray-400 focus:border-gray-500 hover:border-gray-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
+                        type="date"
+                    />
+                )}
             </div>
         )
     }

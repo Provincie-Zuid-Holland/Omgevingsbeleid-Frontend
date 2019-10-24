@@ -58,9 +58,12 @@ class FormFieldBeleidsrelatieKoppeling extends Component {
         ].findIndex(item => item.UUID === itemObject.item.UUID)
         nieuwKoppelingenRelatiesObject[itemObject.propertyName].splice(index, 1)
 
-        this.setState({
-            koppelingenRelaties: nieuwKoppelingenRelatiesObject,
-        })
+        this.setState(
+            {
+                koppelingenRelaties: nieuwKoppelingenRelatiesObject,
+            },
+            toast('Beleidsrelatie verwijderd')
+        )
     }
 
     wijzigKoppelingRelatieFromLocalState(itemObject, nieuweOmschrijving) {
@@ -132,29 +135,31 @@ class FormFieldBeleidsrelatieKoppeling extends Component {
     }
 
     componentDidMount() {
-        const crudObject = this.props.crudObject
-        const UUID = this.props.objectUUID
-        const propertyName = 'beleidsbeslissing'
-        const apiURL = `/beleidsrelaties?Van_Beleidsbeslissing=${UUID}`
+        if (this.props.editStatus) {
+            const crudObject = this.props.crudObject
+            const UUID = this.props.objectUUID
+            const propertyName = 'beleidsbeslissing'
+            const apiURL = `/beleidsrelaties?Van_Beleidsbeslissing=${UUID}`
 
-        // Haalt de bestaande beleidsrelaties op die gekoppeld zijn VAN deze beleidsbeslissing
-        axios
-            .get(apiURL)
-            .then(res => {
-                this.setState(
-                    {
-                        objecten: res.data,
-                        dataFromAPILoaded: true,
-                    },
-                    () => console.log(this.state)
-                )
-            })
-            .catch(error => {
-                console.log(error)
-                this.setState({
-                    dataFromAPILoaded: true,
+            // Haalt de bestaande beleidsrelaties op die gekoppeld zijn VAN deze beleidsbeslissing
+            axios
+                .get(apiURL)
+                .then(res => {
+                    this.setState(
+                        {
+                            objecten: res.data,
+                            dataFromAPILoaded: true,
+                        },
+                        () => console.log(this.state)
+                    )
                 })
-            })
+                .catch(error => {
+                    console.log(error)
+                    this.setState({
+                        dataFromAPILoaded: true,
+                    })
+                })
+        }
     }
 
     componentDidUpdate(prevProps, prevState) {}
@@ -189,8 +194,7 @@ class FormFieldBeleidsrelatieKoppeling extends Component {
                                 maakNieuweBeleidsrelatieAan: false,
                             },
                             () => {
-                                toast('Koppeling toegevoegd')
-                                console.log(this.state)
+                                toast('Beleidsrelatie toegevoegd')
                                 this.togglePopupNieuw()
                             }
                         )
@@ -239,7 +243,9 @@ class FormFieldBeleidsrelatieKoppeling extends Component {
                     </div>
                     <ul className="mb-3">
                         {/* Zodra de API een response heeft gegeven: */}
-                        {this.state.dataFromAPILoaded ? (
+                        {this.state.dataFromAPILoaded &&
+                        this.state.objecten &&
+                        this.state.objecten.length > 0 ? (
                             this.state.objecten.map((koppeling, index) => {
                                 return (
                                     <li

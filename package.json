@@ -29,7 +29,8 @@
         "react-scripts": "2.1.8",
         "react-select": "^3.0.4",
         "react-spring": "^8.0.27",
-        "react-toastify": "^5.3.1"
+        "react-toastify": "^5.3.1",
+        "validator": "^11.1.0"
     },
     "scripts": {
         "tailwind": "npx tailwindcss build src/css/tailwind.src.css -c  tailwind.config.js -o src/css/tailwind.css",

@@ -364,6 +364,7 @@ class ContainerCrudFields extends React.Component {
                                             voegKoppelingRelatieToe={this.context.voegKoppelingRelatieToe}
                                             wijzigKoppelingRelatie={this.context.wijzigKoppelingRelatie}
                                             verwijderKoppelingRelatieToe={this.context.verwijderKoppelingRelatieToe}
+                                            editStatus={this.context.editStatus}
                                             koppelingRelatieArray={[
                                                 'beleidsbeslissing'
                                             ]}
@@ -505,6 +506,7 @@ class ContainerCrudFields extends React.Component {
                                             { crudObject["Aanvraag_Datum"] !== undefined ? 
                                                 <FormFieldDate
                                                     handleChange={this.context.handleChange}
+
                                                     fieldValue={crudObject["Aanvraag_Datum"]}
                                                     fieldLabel="Aanvraag Datum"
                                                     dataObjectProperty="Aanvraag_Datum"
@@ -542,7 +544,7 @@ class ContainerCrudFields extends React.Component {
                                                 />
                                             : null }
 
-                                            {/* Eind Geldigheid */}
+                                            {/* Eind Geldigheid
                                             { crudObject["Eind_Geldigheid"] !== undefined ? 
                                                 <FormFieldDate
                                                     handleChange={this.context.handleChange}
@@ -552,7 +554,7 @@ class ContainerCrudFields extends React.Component {
                                                     pValue="Indien bekend, kan hier de datum van uitwerkingtreding worden ingevuld"
                                                     titelEnkelvoud={titelEnkelvoud}
                                                 />
-                                            : null }
+                                            : null } */}
 
                                         </div>
 

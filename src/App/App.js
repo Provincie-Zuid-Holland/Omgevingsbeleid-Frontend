@@ -158,7 +158,7 @@ class App extends Component {
                         history={this.props.history}
                     />
                 </Switch>
-                <ToastContainer />
+                <ToastContainer position="bottom-left" />
             </main>
         )
     }

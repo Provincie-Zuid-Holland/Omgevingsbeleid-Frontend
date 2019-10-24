@@ -306,12 +306,12 @@ class RaadpleegUniversalObjectDetail extends Component {
                 )}
                 {dataLoaded && werkingsgebiedBoolean ? (
                     <div className="w-1/4 pl-8">
-                        <div className="flex justify-between items-center mt-8 text-gray-800 py-3">
+                        <div className="flex justify-between items-center text-gray-800 pb-3">
                             <h2 className="text-l font-serif">
                                 Werkingsgebied
                             </h2>
                             <span
-                                className="text-xs cursor-pointer p-2"
+                                className="text-xs cursor-pointer px-2"
                                 onClick={this.toggleFullscreenLeafletViewer}
                             >
                                 Bekijk in het groot

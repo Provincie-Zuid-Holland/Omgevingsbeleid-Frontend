@@ -3,11 +3,12 @@ import { toast } from 'react-toastify'
 import { format } from 'date-fns'
 import nlLocale from 'date-fns/locale/nl'
 import { Helmet } from 'react-helmet'
+import validator from 'validator'
 
 // Import Components
 import ContainerCrudFields from './ContainerCrudFields'
-import ButtonBackToPage from './../../components/ButtonBackToPage'
 import LoaderContent from './../../components/LoaderContent'
+import ContainerCrudHeader from './ContainerCrudHeader'
 
 // Import Axios instance to connect with the API
 import axios from './../../API/axios'
@@ -42,25 +43,45 @@ function makeCrudPropertiesArray(dataModel) {
 }
 
 // Function to make an object containing the fields that the user can edit
+// Response object is the response object from the API call with existing data
 function makeCrudObject(array, responseObject) {
+    const koppelingenKeysArray = [
+        'Ambities',
+        'Belangen',
+        'BeleidsRegels',
+        'Doelen',
+        'Maatregelen',
+        'Opgaven',
+        'Themas',
+        'Verordening',
+        'WerkingsGebieden',
+    ]
+
     let crudObject = {}
     if (isObjectEmpty(responseObject)) {
         array.forEach(arrayItem => {
-            if (
+            // console.log(crudObject)
+            if (koppelingenKeysArray.includes(arrayItem)) {
+                // Als het een koppeling Array item is moet de value een array zijn
+                crudObject[arrayItem] = []
+            } else if (
                 arrayItem === 'Verplicht_Programma' ||
                 arrayItem === 'Specifiek_Of_Generiek'
             ) {
                 crudObject[[arrayItem][0]] = ' - selecteer een optie - '
             } else {
-                crudObject[[arrayItem][0]] = ''
+                crudObject[arrayItem] = ''
             }
         })
+        console.log('Joe')
     } else {
+        console.log('Joe2')
         array.forEach(arrayItem => {
             crudObject[[arrayItem][0]] = responseObject[arrayItem]
         })
     }
-
+    console.log('CRUDOBJECT:')
+    console.log(crudObject)
     return crudObject
 }
 
@@ -83,6 +104,7 @@ class MuteerUniversalObjectCRUD extends Component {
         this.verwijderKoppelingRelatieToe = this.verwijderKoppelingRelatieToe.bind(
             this
         )
+        this.checkForEmptyFields = this.checkForEmptyFields.bind(this)
     }
 
     componentDidMount() {
@@ -194,9 +216,13 @@ class MuteerUniversalObjectCRUD extends Component {
             const savedStateInLocalStorage = JSON.parse(
                 localStorage.getItem(this.props.dataModel.variables.Object_Name)
             )
+            console.log(this.props.dataModel.variables.Object_Name)
 
             // If Local storage is not empty
-            if (!isObjectEmpty(savedStateInLocalStorage)) {
+            // if (!isObjectEmpty(savedStateInLocalStorage)) {
+            if (false) {
+                console.log(savedStateInLocalStorage)
+                console.log('Local Storage!')
                 const savedStateDate = format(
                     savedStateInLocalStorage.date,
                     'dddd D MMMM',
@@ -217,6 +243,7 @@ class MuteerUniversalObjectCRUD extends Component {
 
                 // Else if Local Storage is empty, make an empty crud object
             } else {
+                console.log('No LS!')
                 // If no saved version make a CRUD Object with empty strings
                 const dataModel = this.props.dataModel
                 const crudProperties = makeCrudPropertiesArray(dataModel)
@@ -263,6 +290,57 @@ class MuteerUniversalObjectCRUD extends Component {
         }))
     }
 
+    checkForEmptyFields(crudObject) {
+        const dataModel = this.props.dataModel
+        let allFieldsComplete = true
+        // let requiredProperties = []
+        // let requiredPropertyTypes = {}
+        // Ga voor elk veld van het crudObject na of het een required field is
+        Object.keys(crudObject).forEach(function(key, index) {
+            if (dataModel.required.includes(key)) {
+                const dataModelType = dataModel.properties[key].type
+                const dataModelFormat = dataModel.properties[key].format
+
+                // Check if the dataModel Type is equal to the type in the crudObject
+                if (
+                    dataModelFormat === 'uuid' &&
+                    !validator.isUUID(crudObject[key]) &&
+                    allFieldsComplete
+                ) {
+                    toast(`Vul alle 'Personen' velden in`)
+                    allFieldsComplete = false
+                }
+
+                // // Push de key naar de requiredProperties array
+                // requiredProperties.push(key)
+                // // Push het type en het format naar het requiredPropertyTypes object
+                // requiredPropertyTypes[key] = {
+                //     type: dataModel.properties[key].type,
+                //     format: dataModel.properties[key].format,
+                // }
+            }
+        })
+        return allFieldsComplete
+
+        // Als het een required field is, kijk of het type overeen komt met die in het dataModel
+    }
+
+    validateDate(dateObject) {
+        if (Object.prototype.toString.call(dateObject) === '[object Date]') {
+            // it is a date
+            if (isNaN(dateObject.getTime())) {
+                // date is not valid
+                return false
+            } else {
+                // date is valid
+                return true
+            }
+        } else {
+            // not a date
+            return false
+        }
+    }
+
     handleSubmit(event) {
         event.preventDefault()
 
@@ -277,12 +355,39 @@ class MuteerUniversalObjectCRUD extends Component {
 
         let crudObject = this.state.crudObject
 
-        // Convert geldigheid values to Dates
-        if (crudObject.Begin_Geldigheid !== undefined) {
-            crudObject.Begin_Geldigheid = new Date(crudObject.Begin_Geldigheid)
+        // Zet de Date String om naar een Date Object en kijkt of deze geldig is
+        crudObject.Begin_Geldigheid = new Date(crudObject.Begin_Geldigheid)
+        if (this.validateDate(crudObject.Begin_Geldigheid)) {
+            // Datum is geldig
+        } else {
+            toast('Vul een inwerkingstreding datum in')
+            return
         }
-        if (crudObject.Eind_Geldigheid !== undefined) {
-            crudObject.Eind_Geldigheid = new Date(crudObject.Eind_Geldigheid)
+
+        // Eind_Geldigheid wordt nu standaard op 2100 gezet doordat deze niet in de UI zit, maar wel verplicht is in de API
+        if (
+            Object.prototype.toString.call(crudObject.Eind_Geldigheid) ===
+            '[object Date]'
+        ) {
+            // it is a date
+            if (isNaN(crudObject.Eind_Geldigheid.getTime())) {
+                // d.valueOf() could also work
+                // date is not valid
+                crudObject.Eind_Geldigheid = new Date('December 17, 2100')
+            } else {
+                // date is valid
+                crudObject.Eind_Geldigheid = new Date(
+                    crudObject.Eind_Geldigheid
+                )
+            }
+        } else {
+            // not a date
+            crudObject.Eind_Geldigheid = new Date('December 17, 2100')
+        }
+
+        // Voordat we hem PATCHEN of POSTEN kijken we of er nog velden leeg zijn die verplicht zijn
+        if (!this.checkForEmptyFields(this.state.crudObject)) {
+            return
         }
 
         // If the user is editing an object PATCH, else POST
@@ -290,7 +395,6 @@ class MuteerUniversalObjectCRUD extends Component {
             axios
                 .patch(`${ApiEndpoint}/${objectID}`, JSON.stringify(crudObject))
                 .then(res => {
-                    console.log(res.data)
                     if (this.props.match.path.includes('api-test')) {
                         this.props.history.push(
                             `/api-test/${overzichtSlug}/${res.data.ID}`
@@ -300,6 +404,7 @@ class MuteerUniversalObjectCRUD extends Component {
                             `/muteer/${overzichtSlug}/${res.data.ID}`
                         )
                     }
+                    toast('Opgeslagen')
                 })
                 .catch(error => {
                     console.log(error)
@@ -317,6 +422,7 @@ class MuteerUniversalObjectCRUD extends Component {
                             `/muteer/${overzichtSlug}/${res.data.ID}`
                         )
                     }
+                    toast('Opgeslagen')
                 })
                 .catch(error => {
                     console.log(error)
@@ -332,6 +438,10 @@ class MuteerUniversalObjectCRUD extends Component {
 
         // let nieuweArray = this.state.crudObject[propertyName]
         let nieuwCrudObject = this.state.crudObject
+        // Als de relatie Array nog niet initialized is, maak deze aan
+        if (typeof nieuwCrudObject[propertyName] === 'string') {
+            nieuwCrudObject[propertyName] = []
+        }
         nieuwCrudObject[propertyName].push(nieuwObject)
 
         this.setState(
@@ -370,7 +480,7 @@ class MuteerUniversalObjectCRUD extends Component {
             {
                 crudObject: nieuwCrudObject,
             },
-            () => toast('Relatie verwijderd.')
+            () => toast('Koppeling verwijderd')
         )
     }
 
@@ -462,55 +572,76 @@ class MuteerUniversalObjectCRUD extends Component {
     }
 }
 
-function ContainerCrudHeader(props) {
-    let mainTitle = ''
-
-    if (
-        props.editStatus &&
-        props.titelEnkelvoud.toLowerCase() !== 'beleidsregel'
-    ) {
-        mainTitle = `Wijzig een ${props.titelEnkelvoud.toLowerCase()}`
-    } else if (
-        !props.editStatus &&
-        props.titelEnkelvoud.toLowerCase() !== 'beleidsregel'
-    ) {
-        mainTitle = `Voeg een nieuwe ${props.titelEnkelvoud.toLowerCase()} toe`
-    } else if (
-        props.editStatus &&
-        props.titelEnkelvoud.toLowerCase() === 'beleidsregel'
-    ) {
-        mainTitle = `Beheer ${props.titelEnkelvoud.toLowerCase()}`
-    } else if (
-        !props.editStatus &&
-        props.titelEnkelvoud.toLowerCase() === 'beleidsregel'
-    ) {
-        mainTitle = `Voeg een nieuwe ${props.titelEnkelvoud.toLowerCase()} toe`
-    }
-
-    return (
-        <div className="w-full py-32 px-6 mbg-color edit-header relative">
-            <div className="container mx-auto flex justify-center items-center">
-                <div className="w-full pr-20">
-                    {props.editStatus === false ? (
-                        <ButtonBackToPage
-                            terugNaar={props.titelMeervoud.toLowerCase()}
-                            color="text-white"
-                            url={`/muteer/${props.overzichtSlug}`}
-                        />
-                    ) : (
-                        <ButtonBackToPage
-                            terugNaar={props.titelEnkelvoud.toLowerCase()}
-                            color="text-white"
-                            url={`/muteer/${props.overzichtSlug}/${props.objectID}`}
-                        />
-                    )}
-                    <h1 className="heading-serif-4xl text-white">
-                        {mainTitle}
-                    </h1>
-                </div>
-            </div>
-        </div>
-    )
+function verwijderLegeKoppelingKeys(object) {
+    const keysOmTeChecken = [
+        'Ambities',
+        'Belangen',
+        'BeleidsRegels',
+        'Doelen',
+        'Maatregelen',
+        'Opgaven',
+        'Themas',
+        'Verordening',
+        'WerkingsGebieden',
+    ]
+    let nieuwCrudObject = object
+    keysOmTeChecken.forEach(item => {
+        if (nieuwCrudObject[item] === '') {
+            delete nieuwCrudObject[item]
+        }
+    })
+    return nieuwCrudObject
 }
+
+// function ContainerCrudHeader(props) {
+//     let mainTitle = ''
+
+//     if (
+//         props.editStatus &&
+//         props.titelEnkelvoud.toLowerCase() !== 'beleidsregel'
+//     ) {
+//         mainTitle = `Wijzig een ${props.titelEnkelvoud.toLowerCase()}`
+//     } else if (
+//         !props.editStatus &&
+//         props.titelEnkelvoud.toLowerCase() !== 'beleidsregel'
+//     ) {
+//         mainTitle = `Voeg een nieuwe ${props.titelEnkelvoud.toLowerCase()} toe`
+//     } else if (
+//         props.editStatus &&
+//         props.titelEnkelvoud.toLowerCase() === 'beleidsregel'
+//     ) {
+//         mainTitle = `Beheer ${props.titelEnkelvoud.toLowerCase()}`
+//     } else if (
+//         !props.editStatus &&
+//         props.titelEnkelvoud.toLowerCase() === 'beleidsregel'
+//     ) {
+//         mainTitle = `Voeg een nieuwe ${props.titelEnkelvoud.toLowerCase()} toe`
+//     }
+
+//     return (
+//         <div className="w-full py-32 px-6 mbg-color edit-header relative">
+//             <div className="container mx-auto flex justify-center items-center">
+//                 <div className="w-full pr-20">
+//                     {props.editStatus === false ? (
+//                         <ButtonBackToPage
+//                             terugNaar={props.titelMeervoud.toLowerCase()}
+//                             color="text-white"
+//                             url={`/muteer/${props.overzichtSlug}`}
+//                         />
+//                     ) : (
+//                         <ButtonBackToPage
+//                             terugNaar={props.titelEnkelvoud.toLowerCase()}
+//                             color="text-white"
+//                             url={`/muteer/${props.overzichtSlug}/${props.objectID}`}
+//                         />
+//                     )}
+//                     <h1 className="heading-serif-4xl text-white">
+//                         {mainTitle}
+//                     </h1>
+//                 </div>
+//             </div>
+//         </div>
+//     )
+// }
 
 export default MuteerUniversalObjectCRUD

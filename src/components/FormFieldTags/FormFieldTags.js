@@ -10,10 +10,12 @@ class FormFieldTags extends Component {
         super(props)
         // selectionArray: JSON.parse(this.props.fieldValue) || [],
         let selectionArray = ''
-        try {
-            selectionArray = JSON.parse(this.props.fieldValue)
-        } catch (e) {
-            console.log(e)
+        if (this.props.fieldValue) {
+            try {
+                selectionArray = JSON.parse(this.props.fieldValue)
+            } catch (e) {
+                console.log(e)
+            }
         }
         this.state = {
             selectionArray: selectionArray,
