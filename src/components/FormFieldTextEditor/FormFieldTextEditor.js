@@ -93,7 +93,11 @@ class FormFieldTextEditor extends React.Component {
                         editorState={editorState}
                         onToggle={this.toggleBlockType}
                     />
-                    <div className={className} onClick={this.focus}>
+                    <div
+                        className={className}
+                        onClick={this.focus}
+                        id={`form-field-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
+                    >
                         <Editor
                             blockStyleFn={getBlockStyle}
                             customStyleMap={styleMap}

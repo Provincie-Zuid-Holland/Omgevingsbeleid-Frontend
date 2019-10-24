@@ -21,6 +21,7 @@ class FormFieldWeblink extends React.Component {
                         name="Weblink"
                         className="appearance-none block w-full text-gray-700 border border-gray-400 rounded py-3 px-4 leading-tight focus:outline-none hover:border-gray-500 focus:border-gray-500"
                         placeholder="https://www.google.nl"
+                        id={`form-field-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
                     />
                 </div>
             </div>

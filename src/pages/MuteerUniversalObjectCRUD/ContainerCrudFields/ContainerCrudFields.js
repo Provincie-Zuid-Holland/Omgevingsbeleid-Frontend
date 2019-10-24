@@ -180,27 +180,6 @@ class ContainerCrudFields extends React.Component {
                                     </ContainerFormSection>
                                     
                                 : null }
-
-
-                                { crudObject["Motivering"] !== undefined ? 
-                                    
-                                    <ContainerFormSection
-                                        titel="Toelichting"
-                                        beschrijving="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                                    >
-                                        { crudObject["Motivering"] !== undefined ?
-                                            <FormFieldTextEditor
-                                                handleChange={this.context.setEditorState}
-                                                fieldValue={crudObject["Motivering"]}
-                                                fieldLabel="Omschrijving"
-                                                dataObjectProperty="Motivering"
-                                                pValue="Geef een korte omschrijving van de werking van de"
-                                                titelEnkelvoud={titelEnkelvoud}
-                                            />
-                                        : null }
-                                    </ContainerFormSection>
-                                    
-                                : null }
                                 
 
                                 {/* Momenteel is er nog geen goed data model voor beleidsbeslissingen dus deze worden er voor nu altijd ingezet
@@ -312,6 +291,7 @@ class ContainerCrudFields extends React.Component {
                                         { crudObject["WerkingsGebieden"] !== undefined ? 
                                             <FormFieldWerkingsgebiedKoppeling
                                                 handleChange={this.context.handleChange}
+                                                titelEnkelvoud={titelEnkelvoud}
                                                 fieldValue={crudObject["WerkingsGebieden"]}
                                                 fieldLabel="WerkingsGebied"
                                                 dataObjectProperty="WerkingsGebieden"
@@ -358,7 +338,7 @@ class ContainerCrudFields extends React.Component {
                                             fieldValue={crudObject["Belangen"]}
                                             fieldLabel="Relaties"
                                             hideObjectLabel={true}
-                                            dataObjectProperty="Belangen"
+                                            dataObjectProperty="Beleidsrelaties"
                                             pValue="Met welke andere beleidsbeslissingen heeft deze beleidsbeslissing een relatie?"
                                             titelEnkelvoud={titelEnkelvoud}
                                             voegKoppelingRelatieToe={this.context.voegKoppelingRelatieToe}
@@ -378,7 +358,7 @@ class ContainerCrudFields extends React.Component {
                                             fieldValue={crudObject["Belangen"]}
                                             fieldLabel="Koppelingen"
                                             hideObjectLabel={true}
-                                            dataObjectProperty="Belangen"
+                                            dataObjectProperty="Koppelingen"
                                             pValue="Aan welke ambities, opgaven, artikelen uit de verordening, maatregelen en nadere beleidsregels heeft deze beleidsbeslissing een koppeling?"
                                             titelEnkelvoud={titelEnkelvoud}
                                             voegKoppelingRelatieToe={this.context.voegKoppelingRelatieToe}

@@ -47,6 +47,7 @@ class FormFieldSelectUser extends React.Component {
                 <p className="form-field-description">{`${this.props.pValue}`}</p>
                 {this.state.dataLoaded ? (
                     <Select
+                        id={`form-field-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
                         value={this.state.selected}
                         name={this.props.dataObjectProperty}
                         onChange={this.props.handleChange}

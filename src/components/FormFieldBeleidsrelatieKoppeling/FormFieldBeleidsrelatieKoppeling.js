@@ -236,7 +236,10 @@ class FormFieldBeleidsrelatieKoppeling extends Component {
                     hideObjectLabel={this.props.hideObjectLabel}
                     titelEnkelvoud={this.props.titelEnkelvoud}
                 />
-                <div className="bg-white rounded shadow p-5">
+                <div
+                    className="bg-white rounded shadow p-5"
+                    id={`form-field-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
+                >
                     <div className="flex border-b border-gray-300 font-bold text-gray-700 text-sm py-2">
                         <div className="w-40 mr-5 relative">Type</div>
                         <div className="w-full">Titel</div>

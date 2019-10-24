@@ -56,6 +56,7 @@ class FormFieldTags extends Component {
                         titelEnkelvoud={this.props.titelEnkelvoud}
                     />
                     <CreatableSelect
+                        id={`form-field-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
                         isMulti
                         onChange={this.handleChange}
                         value={this.state.selectionArray}

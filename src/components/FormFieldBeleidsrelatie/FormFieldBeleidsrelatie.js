@@ -53,6 +53,7 @@ class FormFieldBeleidsrelatie extends React.Component {
                 </label> */}
                 {this.state.selectionArray.length !== 0 ? (
                     <Select
+                        id={`form-field-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
                         value={this.state.selected}
                         onChange={this.props.handleChange}
                         options={this.state.selectionArray}

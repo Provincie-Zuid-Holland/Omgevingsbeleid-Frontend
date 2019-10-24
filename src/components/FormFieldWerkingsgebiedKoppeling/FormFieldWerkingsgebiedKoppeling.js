@@ -367,7 +367,10 @@ class FormFieldWerkingsgebiedKoppeling extends Component {
     render() {
         return (
             <div className="flex flex-wrap -mx-3 mb-6">
-                <div className="w-full px-3">
+                <div
+                    className="w-full px-3"
+                    id={`form-field-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
+                >
                     <FormFieldTitelEnBeschrijving
                         dataObjectProperty={this.props.dataObjectProperty}
                         fieldLabel={this.props.fieldLabel}

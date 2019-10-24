@@ -20,6 +20,7 @@ class FormFieldDate extends React.Component {
                         className="appearance-none block w-full text-gray-700 border border-gray-400 focus:border-gray-500 hover:border-gray-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
                         type="date"
                         required
+                        id={`form-field-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
                     />
                 ) : (
                     <input
@@ -28,6 +29,7 @@ class FormFieldDate extends React.Component {
                         name={this.props.dataObjectProperty}
                         className="appearance-none block w-full text-gray-700 border border-gray-400 focus:border-gray-500 hover:border-gray-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
                         type="date"
+                        id={`form-field-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
                     />
                 )}
             </div>
