@@ -227,8 +227,7 @@ class MuteerUniversalObjectCRUD extends Component {
             console.log(this.props.dataModel.variables.Object_Name)
 
             // If Local storage is not empty
-            // if (!isObjectEmpty(savedStateInLocalStorage)) {
-            if (false) {
+            if (!isObjectEmpty(savedStateInLocalStorage)) {
                 console.log(savedStateInLocalStorage)
                 console.log('Local Storage!')
                 const savedStateDate = format(
