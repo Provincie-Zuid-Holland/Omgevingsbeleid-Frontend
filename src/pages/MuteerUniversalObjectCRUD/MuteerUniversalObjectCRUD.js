@@ -224,12 +224,9 @@ class MuteerUniversalObjectCRUD extends Component {
             const savedStateInLocalStorage = JSON.parse(
                 localStorage.getItem(this.props.dataModel.variables.Object_Name)
             )
-            console.log(this.props.dataModel.variables.Object_Name)
 
             // If Local storage is not empty
             if (!isObjectEmpty(savedStateInLocalStorage)) {
-                console.log(savedStateInLocalStorage)
-                console.log('Local Storage!')
                 const savedStateDate = format(
                     savedStateInLocalStorage.date,
                     'dddd D MMMM',

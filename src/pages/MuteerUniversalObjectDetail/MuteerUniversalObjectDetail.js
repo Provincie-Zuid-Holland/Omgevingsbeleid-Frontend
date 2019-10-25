@@ -86,11 +86,6 @@ function EditButton(props) {
 }
 
 class MuteerUniversalObjectDetail extends Component {
-    state = {
-        dataObject: null,
-        pageType: '',
-    }
-
     constructor(props) {
         super(props)
         this.returnPageType = this.returnPageType.bind(this)
@@ -100,6 +95,7 @@ class MuteerUniversalObjectDetail extends Component {
         this.state = {
             dataObject: null,
             pageType: this.returnPageType(),
+            dataReceived: false,
         }
     }
 
@@ -130,12 +126,19 @@ class MuteerUniversalObjectDetail extends Component {
             .get(apiEndpoint)
             .then(res => {
                 const dataObject = res.data
-                console.log(dataObject)
-                console.log()
-                dataObject.sort(function(a, b) {
-                    return new Date(b.Modified_Date) - new Date(a.Modified_Date)
-                })
-                this.setState({ dataObject: dataObject })
+
+                // Detail pages krijgen een array met objecten die we sorten
+                // Version pages krijgen enkel een object terug
+                if (this.state.pageType === 'detail') {
+                    dataObject.sort(function(a, b) {
+                        return (
+                            new Date(b.Modified_Date) -
+                            new Date(a.Modified_Date)
+                        )
+                    })
+                }
+
+                this.setState({ dataObject: dataObject, dataReceived: true })
             })
             .catch(error => {
                 if (error.response !== undefined) {
@@ -143,6 +146,9 @@ class MuteerUniversalObjectDetail extends Component {
                         localStorage.removeItem('access_token')
                         this.props.history.push('/login')
                     }
+                    this.setState({
+                        dataReceived: true,
+                    })
                 } else {
                     console.log(error)
                 }
@@ -169,7 +175,6 @@ class MuteerUniversalObjectDetail extends Component {
 
     render() {
         // Variables to give as props
-        console.log(this.props.dataModel)
         const titelEnkelvoud = this.props.dataModel.variables.Titel_Enkelvoud
         const overzichtSlug = this.props.dataModel.variables.Overzicht_Slug
         const hoofdOnderdeelSlug = this.props.hoofdOnderdeelSlug
@@ -177,7 +182,7 @@ class MuteerUniversalObjectDetail extends Component {
         const pageType = this.state.pageType
 
         // False if data is loading, true if there is a response
-        let dataReceived = this.state.dataObject !== null
+        let dataReceived = this.state.dataReceived
 
         // Create dataObject and revisieObject to pass down to the sidebar
         let dataObject = {}
