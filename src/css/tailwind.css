@@ -10604,41 +10604,34 @@ video {
 }
 
 .heading-lg {
-  display: inline-block;
   font-size: 1.125rem;
 }
 
 .heading-xl {
-  display: inline-block;
   font-size: 1.25rem;
 }
 
 .heading-serif {
   font-family: Georgia, Cambria, "Times New Roman", Times, serif;
-  display: inline-block;
 }
 
 .heading-serif-lg {
   font-family: Georgia, Cambria, "Times New Roman", Times, serif;
-  display: inline-block;
   font-size: 1.125rem;
 }
 
 .heading-serif-xl {
   font-family: Georgia, Cambria, "Times New Roman", Times, serif;
-  display: inline-block;
   font-size: 1.25rem;
 }
 
 .heading-serif-2xl {
   font-family: Georgia, Cambria, "Times New Roman", Times, serif;
-  display: inline-block;
   font-size: 1.5rem;
 }
 
 .heading-serif-4xl {
   font-family: Georgia, Cambria, "Times New Roman", Times, serif;
-  display: inline-block;
   font-size: 2.25rem;
 }
 

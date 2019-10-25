@@ -9,31 +9,31 @@
 }
 
 .heading-lg {
-    @apply inline-block text-lg;
+    @apply text-lg;
 }
 
 .heading-xl {
-    @apply inline-block text-xl;
+    @apply text-xl;
 }
 
 .heading-serif {
-    @apply font-serif inline-block;
+    @apply font-serif;
 }
 
 .heading-serif-lg {
-    @apply font-serif inline-block text-lg;
+    @apply font-serif text-lg;
 }
 
 .heading-serif-xl {
-    @apply font-serif inline-block text-xl;
+    @apply font-serif text-xl;
 }
 
 .heading-serif-2xl {
-    @apply font-serif inline-block text-2xl;
+    @apply font-serif text-2xl;
 }
 
 .heading-serif-4xl {
-    @apply font-serif inline-block text-4xl;
+    @apply font-serif text-4xl;
 }
 
 .form-field-label {
