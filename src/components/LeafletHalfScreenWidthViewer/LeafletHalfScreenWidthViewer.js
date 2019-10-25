@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import Leaflet from 'leaflet'
 import {
     Map,
-    GeoJSON,
     TileLayer,
     LayersControl,
     ZoomControl,

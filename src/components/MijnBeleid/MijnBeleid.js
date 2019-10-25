@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 
 // Import API
 import axios from './../../API/axios'
@@ -91,7 +90,7 @@ class MijnBeleid extends Component {
                     <ul className="flex mt-8 flex-wrap">
                         {this.state.objecten.slice(1).map(array => {
                             if (!array) {
-                                return
+                                return null
                             }
                             const items = array.map((item, index) => {
                                 const type = item.type

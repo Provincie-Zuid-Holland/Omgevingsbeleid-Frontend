@@ -8,7 +8,6 @@ import ContainerMain from './../../../components/ContainerMain'
 import ContainerFormSection from './../../../components/ContainerFormSection'
 import FormFieldTextInput from './../../../components/FormFieldTextInput'
 import FormFieldTextArea from './../../../components/FormFieldTextArea'
-import FormFieldTextEditor from './../../../components/FormFieldTextEditor'
 import FormFieldWeblink from './../../../components/FormFieldWeblink'
 import FormFieldDate from './../../../components/FormFieldDate'
 import FormFieldTags from './../../../components/FormFieldTags'
@@ -16,7 +15,6 @@ import FormFieldSelect from './../../../components/FormFieldSelect'
 import FormFieldBeleidsrelatie  from './../../../components/FormFieldBeleidsrelatie'
 import FormFieldWerkingsgebiedrelatie from './../../../components/FormFieldWerkingsgebiedrelatie'
 import FormFieldWerkingsgebiedKoppeling from './../../../components/FormFieldWerkingsgebiedKoppeling'
-import FormFieldSelectUser from './../../../components/FormFieldSelectUser'
 import FormFieldSelectUserGroup from './../../../components/FormFieldSelectUserGroup'
 import FormFieldUniverseleRelatieKoppeling from './../../../components/FormFieldUniverseleRelatieKoppeling'
 import FormFieldBeleidsrelatieKoppeling from '../../../components/FormFieldBeleidsrelatieKoppeling/FormFieldBeleidsrelatieKoppeling';
@@ -30,7 +28,6 @@ class ContainerCrudFields extends React.Component {
         const objectUUID = this.context.objectUUID
         const crudObject = this.context.crudObject
         const titelEnkelvoud = this.context.titelEnkelvoud
-        const titelMeervoud = this.context.titelMeervoud
 
         const statusArrayValues = [
             ["Open", "Open"],

@@ -11,106 +11,18 @@ import axios from './../../API/axios'
 import MuteerDashboard from './../../pages/MuteerDashboard'
 import MuteerMijnBeleid from './../../pages/MuteerMijnBeleid'
 import MuteerMeldingen from './../../pages/MuteerMeldingen'
-import MuteerApiTest from './../../pages/MuteerApiTest'
 import MuteerUniversalObjectOverzicht from './../../pages/MuteerUniversalObjectOverzicht'
 import MuteerUniversalObjectDetail from './../../pages/MuteerUniversalObjectDetail'
 import MuteerUniversalObjectCRUD from './../../pages/MuteerUniversalObjectCRUD'
-import MuteerApiTestOverzicht from './../../pages/MuteerApiTestOverzicht'
 import MuteerVerordening from './../../pages/MuteerVerordening'
-// import MuteerMaatregelen from './../../pages/MuteerMaatregelen'
-// import MuteerBeleidsbeslissingen from './../../pages/MuteerBeleidsbeslissingen'
-// import MuteerBeleidsRegels from './../../pages/MuteerBeleidsRegels'
 
 // Import Components
 import AuthenticationWrapper from './../../components/AuthenticationWrapper'
-
-// This component renders the appropriate view to the the object in the DataModel
-// This component is rendered with the following URL /api-test/${object} in AuthRoutes
-function APITestRoutes(props) {
-    // The dataModel prop consists of the specified Object from the datamodel (e.g. dataModel.Ambitie)
-    // Based on this we declare the variables
-    const overzichtSlug = props.dataModel.variables.Overzicht_Slug
-    const ApiEndpoint = props.dataModel.variables.Api_Endpoint
-    const createNewSlug = props.dataModel.variables.Create_New_Slug
-    const hoofdOnderdeelSlug = props.hoofdOnderdeelSlug
-    const apiTest = props.apiTest
-
-    return (
-        <div>
-            <Switch>
-                <Route
-                    exact
-                    path={`/muteer/${hoofdOnderdeelSlug}/${overzichtSlug}/${createNewSlug}`}
-                    render={({ match }) => (
-                        <MuteerUniversalObjectCRUD
-                            dataModel={props.dataModel}
-                            ApiEndpoint={ApiEndpoint}
-                            overzichtSlug={overzichtSlug}
-                            history={props.history}
-                            match={match}
-                        />
-                    )}
-                />
-                <Route
-                    exact
-                    path={`/muteer/${hoofdOnderdeelSlug}/${overzichtSlug}/edit/:single`}
-                    render={({ match }) => (
-                        <MuteerUniversalObjectCRUD
-                            dataModel={props.dataModel}
-                            ApiEndpoint={ApiEndpoint}
-                            overzichtSlug={overzichtSlug}
-                            history={props.history}
-                            match={match}
-                        />
-                    )}
-                />
-                <Route
-                    exact
-                    path={`/muteer/${hoofdOnderdeelSlug}/${overzichtSlug}/:single/:version`}
-                    render={({ match }) => (
-                        <MuteerUniversalObjectDetail
-                            apiTest={apiTest}
-                            dataModel={props.dataModel}
-                            history={props.history}
-                            match={match}
-                            hoofdOnderdeelSlug={hoofdOnderdeelSlug}
-                        />
-                    )}
-                />
-                <Route
-                    exact
-                    path={`/muteer/${hoofdOnderdeelSlug}/${overzichtSlug}/:single`}
-                    render={({ match }) => (
-                        <MuteerUniversalObjectDetail
-                            apiTest={apiTest}
-                            dataModel={props.dataModel}
-                            history={props.history}
-                            match={match}
-                            hoofdOnderdeelSlug={hoofdOnderdeelSlug}
-                        />
-                    )}
-                />
-                <Route
-                    exact
-                    path={`/muteer/${hoofdOnderdeelSlug}/${overzichtSlug}/`}
-                    render={() => (
-                        <MuteerApiTestOverzicht
-                            hoofdOnderdeelSlug={props.hoofdOnderdeelSlug}
-                            dataModel={props.dataModel}
-                            history={props.history}
-                        />
-                    )}
-                />
-            </Switch>
-        </div>
-    )
-}
 
 function BeheerRoutes(props) {
     const beheerRoutesList = props.beheerRoutesList
 
     const BeheerRouteJSX = beheerRoutesList.map(item => {
-        const slug = item.slug
         const dataModelProperty = item.dataModelProperty
 
         // Variables

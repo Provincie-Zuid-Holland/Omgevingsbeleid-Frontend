@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
-import { useSpring, animated } from 'react-spring'
 
 import {
     faCaretDown,
@@ -51,7 +50,7 @@ class NavigationMenuPopUp extends Component {
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
         document.addEventListener('mousedown', this.handleClick, false)
     }
 
@@ -172,7 +171,7 @@ function Logo() {
     return (
         <React.Fragment>
             <div className="logo-beeldmerk" />
-            <animated.div className="logo-tekst" />
+            <div className="logo-tekst" />
         </React.Fragment>
     )
 }

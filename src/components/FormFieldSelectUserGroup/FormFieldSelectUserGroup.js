@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import FormFieldSelectUser from './../FormFieldSelectUser'
 import axios from './../../API/axios'
 import LoaderSelect from './../LoaderSelect'
@@ -149,9 +148,5 @@ class FormFieldSelectUserGroup extends Component {
         )
     }
 }
-
-FormFieldSelectUserGroup.propTypes = {}
-
-FormFieldSelectUserGroup.defaultProps = {}
 
 export default FormFieldSelectUserGroup

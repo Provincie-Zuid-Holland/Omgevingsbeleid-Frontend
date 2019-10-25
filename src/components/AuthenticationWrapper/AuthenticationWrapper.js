@@ -43,7 +43,7 @@ export default function AuthenticationWrapper(AuthComponent) {
             return localStorage.getItem('access_token')
         }
 
-        componentWillMount() {
+        componentDidMount() {
             if (!this.loggedIn()) {
                 this.props.history.push('/login')
             }

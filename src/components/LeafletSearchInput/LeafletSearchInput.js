@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import axios from 'axios'
 import axiosLocatieserver from './../../API/axiosLocatieserver'
 import { debounce } from './../../functions'
@@ -198,9 +197,5 @@ class LeafletSearchInput extends Component {
         )
     }
 }
-
-LeafletSearchInput.propTypes = {}
-
-LeafletSearchInput.defaultProps = {}
 
 export default LeafletSearchInput

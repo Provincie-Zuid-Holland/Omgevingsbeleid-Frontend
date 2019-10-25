@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
 import { format } from 'date-fns'
 import nlLocale from 'date-fns/locale/nl'
 import { faCalendarAlt } from '@fortawesome/free-regular-svg-icons'
@@ -8,7 +7,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 // Import Components
 import HeadingMain from './../../../components/HeadingMain'
-import ContainerAnimateContent from './../../../components/ContainerAnimateContent'
 import LoaderMainTitle from './../../../components/LoaderMainTitle'
 
 function StatusLabel(props) {

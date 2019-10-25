@@ -130,8 +130,9 @@ class MuteerUniversalObjectCRUD extends Component {
 
             // See if local storage is empty
             if (
-                savedStateInLocalStorage !== null &&
-                !isObjectEmpty(savedStateInLocalStorage.savedState)
+                false
+                // savedStateInLocalStorage !== null &&
+                // !isObjectEmpty(savedStateInLocalStorage.savedState)
             ) {
                 savedStateDate = format(
                     savedStateInLocalStorage.date,
@@ -177,15 +178,14 @@ class MuteerUniversalObjectCRUD extends Component {
                     // If that state is equal to the latest state from the API
                     // If that savedState object is not empty
                     if (
-                        false
-                        // savedStateEmpty === false &&
-                        // JSON.stringify(crudObject) !==
-                        //     JSON.stringify(
-                        //         savedStateInLocalStorage.savedState &&
-                        //             !isObjectEmpty(
-                        //                 savedStateInLocalStorage.savedState
-                        //             )
-                        //     )
+                        savedStateEmpty === false &&
+                        JSON.stringify(crudObject) !==
+                            JSON.stringify(
+                                savedStateInLocalStorage.savedState &&
+                                    !isObjectEmpty(
+                                        savedStateInLocalStorage.savedState
+                                    )
+                            )
                     ) {
                         this.setState(
                             {
@@ -302,7 +302,6 @@ class MuteerUniversalObjectCRUD extends Component {
         // Ga voor elk veld van het crudObject na of het een required field is
         Object.keys(crudObject).forEach(function(key, index) {
             if (dataModel.required.includes(key)) {
-                const dataModelType = dataModel.properties[key].type
                 const dataModelFormat = dataModel.properties[key].format
 
                 // Check if the dataModel Type is equal to the type in the crudObject
@@ -590,77 +589,5 @@ class MuteerUniversalObjectCRUD extends Component {
         )
     }
 }
-
-function verwijderLegeKoppelingKeys(object) {
-    const keysOmTeChecken = [
-        'Ambities',
-        'Belangen',
-        'BeleidsRegels',
-        'Doelen',
-        'Maatregelen',
-        'Opgaven',
-        'Themas',
-        'Verordening',
-        'WerkingsGebieden',
-    ]
-    let nieuwCrudObject = object
-    keysOmTeChecken.forEach(item => {
-        if (nieuwCrudObject[item] === '') {
-            delete nieuwCrudObject[item]
-        }
-    })
-    return nieuwCrudObject
-}
-
-// function ContainerCrudHeader(props) {
-//     let mainTitle = ''
-
-//     if (
-//         props.editStatus &&
-//         props.titelEnkelvoud.toLowerCase() !== 'beleidsregel'
-//     ) {
-//         mainTitle = `Wijzig een ${props.titelEnkelvoud.toLowerCase()}`
-//     } else if (
-//         !props.editStatus &&
-//         props.titelEnkelvoud.toLowerCase() !== 'beleidsregel'
-//     ) {
-//         mainTitle = `Voeg een nieuwe ${props.titelEnkelvoud.toLowerCase()} toe`
-//     } else if (
-//         props.editStatus &&
-//         props.titelEnkelvoud.toLowerCase() === 'beleidsregel'
-//     ) {
-//         mainTitle = `Beheer ${props.titelEnkelvoud.toLowerCase()}`
-//     } else if (
-//         !props.editStatus &&
-//         props.titelEnkelvoud.toLowerCase() === 'beleidsregel'
-//     ) {
-//         mainTitle = `Voeg een nieuwe ${props.titelEnkelvoud.toLowerCase()} toe`
-//     }
-
-//     return (
-//         <div className="w-full py-32 px-6 mbg-color edit-header relative">
-//             <div className="container mx-auto flex justify-center items-center">
-//                 <div className="w-full pr-20">
-//                     {props.editStatus === false ? (
-//                         <ButtonBackToPage
-//                             terugNaar={props.titelMeervoud.toLowerCase()}
-//                             color="text-white"
-//                             url={`/muteer/${props.overzichtSlug}`}
-//                         />
-//                     ) : (
-//                         <ButtonBackToPage
-//                             terugNaar={props.titelEnkelvoud.toLowerCase()}
-//                             color="text-white"
-//                             url={`/muteer/${props.overzichtSlug}/${props.objectID}`}
-//                         />
-//                     )}
-//                     <h1 className="heading-serif-4xl text-white">
-//                         {mainTitle}
-//                     </h1>
-//                 </div>
-//             </div>
-//         </div>
-//     )
-// }
 
 export default MuteerUniversalObjectCRUD

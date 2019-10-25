@@ -1,15 +1,8 @@
 import React, { Component } from 'react'
-import axios from './../../../API/axios'
-import {
-    faCaretDown,
-    faAngleDown,
-    faTimes,
-    faSearch,
-} from '@fortawesome/free-solid-svg-icons'
+import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import PopUpAnimatedContainer from './../../PopUpAnimatedContainer'
-import objecten from './../ObjectenInformatie'
 
 class PopupBewerkKoppeling extends Component {
     constructor(props) {
@@ -34,17 +27,6 @@ class PopupBewerkKoppeling extends Component {
     }
 
     render() {
-        // const propertyName = objecten[this.state.type].propertyName
-        // const crudObject = JSON.parse(JSON.stringify(this.props.crudObject))
-        // let actieveKoppelingen = []
-        // crudObject[propertyName].forEach(item => {
-        //     actieveKoppelingen.push(item.UUID)
-        // })
-
-        // const filteredObjecten = this.state.objecten
-        //     .filter(item => item.Titel.includes(this.state.zoekFilter))
-        //     .filter(item => !actieveKoppelingen.includes(item.UUID))
-
         return (
             <PopUpAnimatedContainer>
                 <div

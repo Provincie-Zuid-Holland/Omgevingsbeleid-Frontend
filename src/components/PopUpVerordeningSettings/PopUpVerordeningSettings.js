@@ -46,7 +46,7 @@ class PopUpVerordeningSettings extends Component {
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
         document.addEventListener('mousedown', this.handleClick, false)
     }
 

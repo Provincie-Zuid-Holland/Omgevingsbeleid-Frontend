@@ -1,19 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import axios from './../../API/axios'
-import { toast } from 'react-toastify'
-import { useSpring, animated } from 'react-spring'
 
-import {
-    faCaretDown,
-    faAngleDown,
-    faTimes,
-    faSearch,
-    faEye,
-} from '@fortawesome/free-solid-svg-icons'
+import { faAngleDown, faEye } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import PopUpAnimatedContainer from './../PopUpAnimatedContainer'
 import PopupNieuweKoppeling from './PopupNieuweKoppeling'
 import PopupBewerkKoppeling from './PopUpBewerkKoppeling'
 import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFieldTitelEnBeschrijving'
@@ -141,10 +132,6 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
         }
     }
 
-    componentWillMount() {
-        document.addEventListener('mousedown', this.handleClickOutside, false)
-    }
-
     componentWillUnmount() {
         document.removeEventListener(
             'mousedown',
@@ -154,20 +141,22 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
     }
 
     componentDidMount() {
+        document.addEventListener('mousedown', this.handleClickOutside, false)
         // We krijgen vanuit de props van het crudObject met de huidige data
         // Ook krijgen we de koppelingRelatieArray waarin de propertyNames om te bewerken in dit component
         // Vervolgens moeten we API calls doen om de laatste data terug te krijgen op basis van de UUID
 
-        // crudObject met alle huidige data
+        // crudObject met alle gekregen data vanuit de API
         const crudObject = this.props.crudObject
 
-        // Bevat de properties van het crudObject die hierin bewerkt moeten worden
+        // Bevat de properties van het crudObject die in dit component bewerkt moeten worden
+        // Bijvoorbeeld: koppelingRelatieArray={['belangen', 'taken']}
         const koppelingRelatieArray = this.props.koppelingRelatieArray
 
-        // Maakt een array om te kijken of 1 van de properties op het crudObject al data heeft
+        // Maken een array om de actieve koppeling / relaties in te pushen
         let actieveKoppelingOfRelaties = []
 
-        // Stopt de actieve koppelingen property names in een array en roept de functie savekoppelingenRelatiesNaarState()
+        // Voor elk item in de koppelingRelatieArray kijken we of deze al een actieve koppeling heeft op het gekregen crudObject
         koppelingRelatieArray.forEach(item => {
             const propertyName = objecten[item].propertyName
             if (
@@ -182,10 +171,8 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
             }
         })
 
-        if (
-            actieveKoppelingOfRelaties !== undefined &&
-            actieveKoppelingOfRelaties.length > 0
-        ) {
+        // Als actieveKoppelingOfRelaties 1 of meer items heeft roepen we savekoppelingenRelatiesNaarState() aan
+        if (actieveKoppelingOfRelaties.length > 0) {
             this.savekoppelingenRelatiesNaarState(actieveKoppelingOfRelaties)
         }
     }
@@ -218,12 +205,10 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
             }
         })
 
-        let arrayMetNieuweObjecten = []
-
         // Map over de property names die in de crud object prop zitten
-        actieveKoppelingOfRelaties.map(item => {
+        actieveKoppelingOfRelaties.forEach(item => {
             // map over het het 'item' property binnen het crudObject, bijvoorbeeld 'ambities'
-            crudObject[item].map(object => {
+            crudObject[item].forEach(object => {
                 const omschrijving = object.Omschrijving
                 const UUID = object.UUID
                 // Als het een volledig nieuwe property name is die nog niet is toegevoegd (Dus een nieuw type)
@@ -279,22 +264,30 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
             })
     }
 
+    // Functie om als het component gemount wordt de bestaande koppelingen en relaties op te halen
     savekoppelingenRelatiesNaarState(actieveKoppelingOfRelaties) {
         // crudObject met alle huidige data
         const crudObject = this.props.crudObject
 
-        // Lege array waar de properties in worden gepushed na er overheen gemap'd te zijn
-        // 'Belang' en 'Taak' zijn aparte typen, maar zitten wel beidde op dezelfde propertyName op het crudObject
-        // Als tijdens het map'en de propertyName al in de propertyNamesMapped array staat, slaat die 'm over
+        // propertyNamesMapped wordt aangemaakt om de properties in te pushes na eroverheen gemap'd te zijn
+        // Dit is nodig doordat 'Belang' en 'Taak' beidde aparte typen zijn, maar ook hetzelfde propertyName hebben op het crudObject
+        // Met deze array kunnen we al gemapde items overslaan bij de actieveKoppelingOfRelaties.forEach()
         let propertyNamesMapped = []
+
+        // Het object waar de nieuwe koppeling en relatie state in gemaakt wordt
         let newStateKoppelingenRelatiesObject = {}
 
+        // Loop over de actieveKoppelingOfRelaties (gekregen als prop vanuit componentDidMount())
         actieveKoppelingOfRelaties.forEach(propertyName => {
+            // Als er al over de propertyName is gemapped return'en we
             if (propertyNamesMapped.includes(propertyName)) {
                 return
             }
+
+            // Anders voegen we de nieuwe propertyName aan de propertyNamesMapped
             propertyNamesMapped.push(propertyName)
 
+            // !!!
             if (
                 crudObject[propertyName] !== undefined &&
                 crudObject[propertyName].length > 0
@@ -306,13 +299,10 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
             }
         })
 
-        // Counter voor findPropertyAndAddDataToStateObject()
-        let amountOfItemsAdded = 0
         const that = this
 
         // Functie om de .data property toe te voegen aan het object
         function findPropertyAndAddDataToStateObject(propertyName, data) {
-            amountOfItemsAdded++
             const objectIndex = newStateKoppelingenRelatiesObject[
                 propertyName
             ].findIndex(x => x.UUID === data.UUID)
@@ -322,15 +312,10 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
             ].data = data
 
             // Als het het laatste item is wat geupdate wordt updaten we nog een keer de state, zodat de .data properties op alle objecten zitten en geupdate worden in de state, en dus in de UI
-            // if (amountOfItemsAdded === lengthOfAllObjects) {
-            // }
             that.setState({
                 koppelingenRelaties: newStateKoppelingenRelatiesObject,
             })
         }
-
-        // Counter voor het aantal objecten. Deze word later weer gebruikt binnen findPropertyAndAddDataToStateObject()
-        let lengthOfAllObjects = 0
 
         // Map over actieveKoppelingOfRelaties -> een array met de actie koppelingen & relaties vanuit het CrudObject
         // Vervolgens mappen we hierbinnen over de koppelingen om voor elk de UUID te pakken en hierop een API call te maken
@@ -339,13 +324,10 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
             actieveKoppelingOfRelaties.map((propertyName, indexPropertyName) =>
                 newStateKoppelingenRelatiesObject[propertyName].map(
                     (koppeling, indexKoppeling) => {
-                        // Increase counter by one
-                        lengthOfAllObjects++
-
                         if (
                             objecten[propertyName.toLowerCase()] === undefined
                         ) {
-                            return
+                            return null
                         }
 
                         axios

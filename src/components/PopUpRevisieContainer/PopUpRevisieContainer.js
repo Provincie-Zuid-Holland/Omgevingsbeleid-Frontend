@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { faClock, faAngleRight } from '@fortawesome/free-solid-svg-icons'
+import { faClock } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 class PopUpRevisieContainer extends Component {
@@ -35,7 +35,7 @@ class PopUpRevisieContainer extends Component {
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
         document.addEventListener('mousedown', this.handleClick, false)
     }
 
@@ -70,13 +70,6 @@ class PopUpRevisieContainer extends Component {
                             <div className="absolute w-1 h-full border-l border-gray-300 z-0 top-0 ml-6" />
                             <ul className="py-2 px-4">{this.props.children}</ul>
                         </div>
-                        {/* <div className="border-t border-gray-300 py-2 text-sm text-gray-700 px-4 cursor-pointer hover:underline">
-                            Vergelijken
-                            <FontAwesomeIcon
-                                className="right-0 absolute text-gray-700 mr-4 mt-1"
-                                icon={faAngleRight}
-                            />
-                        </div> */}
                     </div>
                 ) : null}
             </span>

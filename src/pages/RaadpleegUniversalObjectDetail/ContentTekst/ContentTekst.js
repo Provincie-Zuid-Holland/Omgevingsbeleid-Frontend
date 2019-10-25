@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 
 class ContentTekst extends Component {
     constructor(props) {
@@ -19,9 +18,5 @@ class ContentTekst extends Component {
         )
     }
 }
-
-ContentTekst.propTypes = {}
-
-ContentTekst.defaultProps = {}
 
 export default ContentTekst

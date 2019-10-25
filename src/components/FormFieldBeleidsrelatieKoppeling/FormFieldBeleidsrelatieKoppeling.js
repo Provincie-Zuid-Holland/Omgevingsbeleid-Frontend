@@ -25,6 +25,7 @@ class FormFieldBeleidsrelatieKoppeling extends Component {
     // State:
     // selected - bevat het geselecteerde object als de gebruiker op een item in de dropdown klikt
     // koppelingenRelaties - bevat de koppeling & relatie objecten en voegt hier een data property aan toe met API data van dat object
+
     constructor(props) {
         super(props)
         this.state = {
@@ -122,10 +123,6 @@ class FormFieldBeleidsrelatieKoppeling extends Component {
         }
     }
 
-    componentWillMount() {
-        document.addEventListener('mousedown', this.handleClickOutside, false)
-    }
-
     componentWillUnmount() {
         document.removeEventListener(
             'mousedown',
@@ -135,6 +132,8 @@ class FormFieldBeleidsrelatieKoppeling extends Component {
     }
 
     componentDidMount() {
+        document.addEventListener('mousedown', this.handleClickOutside, false)
+
         if (this.props.editStatus) {
             const crudObject = this.props.crudObject
             const UUID = this.props.objectUUID
@@ -204,6 +203,8 @@ class FormFieldBeleidsrelatieKoppeling extends Component {
     }
 
     render() {
+        console.log(this.state.koppelingenRelaties)
+
         // crudObject met alle huidige data
         const crudObject = this.props.crudObject
         const actieveKoppelingen = this.state.objecten

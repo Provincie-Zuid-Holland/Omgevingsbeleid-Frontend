@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 
 // Import Axios instance to connect with the API
 import axios from '../../../API/axios'
@@ -58,9 +57,5 @@ class EigenaarsDriehoekItem extends Component {
         )
     }
 }
-
-EigenaarsDriehoekItem.propTypes = {}
-
-EigenaarsDriehoekItem.defaultProps = {}
 
 export default EigenaarsDriehoekItem
