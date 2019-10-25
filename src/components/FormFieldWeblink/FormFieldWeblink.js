@@ -14,13 +14,12 @@ class FormFieldWeblink extends React.Component {
                         titelEnkelvoud={this.props.titelEnkelvoud}
                     />
                     <input
-                        required
                         type="text"
                         value={this.props.fieldValue || ''}
                         onChange={this.props.handleChange}
                         name="Weblink"
                         className="appearance-none block w-full text-gray-700 border border-gray-400 rounded py-3 px-4 leading-tight focus:outline-none hover:border-gray-500 focus:border-gray-500"
-                        placeholder="https://www.google.nl"
+                        placeholder={this.props.fieldLabel}
                         id={`form-field-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
                     />
                 </div>

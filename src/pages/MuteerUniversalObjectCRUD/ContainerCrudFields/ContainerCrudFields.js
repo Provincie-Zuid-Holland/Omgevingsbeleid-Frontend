@@ -239,9 +239,9 @@ class ContainerCrudFields extends React.Component {
                                             <FormFieldTextArea 
                                                 handleChange={this.context.handleChange}
                                                 fieldValue={crudObject["Afweging"]}
-                                                fieldLabel="Afweging"
+                                                fieldLabel="Afwegingen"
                                                 hideObjectLabel={true}
-                                                dataObjectProperty="Afwegingen"
+                                                dataObjectProperty="Afweging"
                                                 pValue="Welke afwegingen hebben tot deze beleidsbeslissing geleid?"
                                                 titelEnkelvoud={titelEnkelvoud}
                                             />
@@ -269,6 +269,7 @@ class ContainerCrudFields extends React.Component {
                                             dataObjectProperty="Belangen"
                                             pValue="Indien deze beleidsbeslissing een nationaal belang dient of voortkomt uit een wettelijke taak of bevoegdheid, selecteer dit hieronder."
                                             titelEnkelvoud={titelEnkelvoud}
+                                            wijzigKoppelingRelatie={this.context.wijzigKoppelingRelatie}
                                             voegKoppelingRelatieToe={this.context.voegKoppelingRelatieToe}
                                             verwijderKoppelingRelatieToe={this.context.verwijderKoppelingRelatieToe}
                                             koppelingRelatieArray={['belangen', 'taken']}
@@ -484,6 +485,7 @@ class ContainerCrudFields extends React.Component {
                                                 fieldValue={crudObject["Besluitnummer"]}
                                                 fieldLabel="Besluitnummer"
                                                 dataObjectProperty="Besluitnummer"
+                                                notRequired={true}
                                                 pValue="Geef hier het PZH besluitnummer."
                                                 titelEnkelvoud={titelEnkelvoud}
                                                 hideObjectLabel={true}
