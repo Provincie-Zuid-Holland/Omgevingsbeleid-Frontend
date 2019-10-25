@@ -241,7 +241,7 @@ class ContainerCrudFields extends React.Component {
                                                 fieldValue={crudObject["Afweging"]}
                                                 fieldLabel="Afweging"
                                                 hideObjectLabel={true}
-                                                dataObjectProperty="Afweging"
+                                                dataObjectProperty="Afwegingen"
                                                 pValue="Welke afwegingen hebben tot deze beleidsbeslissing geleid?"
                                                 titelEnkelvoud={titelEnkelvoud}
                                             />
@@ -253,7 +253,7 @@ class ContainerCrudFields extends React.Component {
                                                 fieldLabel="Provinciaal belang"
                                                 hideObjectLabel={true}
                                                 dataObjectProperty="Provinciaal_Belang"
-                                                pValue="Beschrijf en motiveer het provinciaal belang (zie Artikel 2.3 van de Omgevingswet) TOOLTIP"
+                                                pValue="Beschrijf en motiveer het provinciaal belang (zie Artikel 2.3 van de Omgevingswet)"
                                                 titelEnkelvoud={titelEnkelvoud}
                                             />
                                         : null }
@@ -290,9 +290,9 @@ class ContainerCrudFields extends React.Component {
                                                 handleChange={this.context.handleChange}
                                                 titelEnkelvoud={titelEnkelvoud}
                                                 fieldValue={crudObject["WerkingsGebieden"]}
-                                                fieldLabel="WerkingsGebied"
+                                                fieldLabel="WerkingsGebieden"
                                                 dataObjectProperty="WerkingsGebieden"
-                                                pValue="Selecteer het werkingsgebied wat bij deze beleidsbeslissing past"
+                                                pValue="Selecteer hier het werkingsgebied wat bij deze beleidsbeslissing past."
                                                 hideObjectLabel={true}
                                             />
                                         : null }
@@ -469,10 +469,24 @@ class ContainerCrudFields extends React.Component {
                                             <FormFieldWeblink 
                                                 handleChange={this.context.handleChange}
                                                 fieldValue={crudObject["Weblink"]}
-                                                fieldLabel="Weblink"
                                                 dataObjectProperty="Weblink"
-                                                pValue="Lorem ipsum dolor sit amet"
+                                                fieldLabel="IDMS"
+                                                pValue="Vul hier de link in naar het besluitdocument op IDMS. (Eigenschappen > Algemeen > Snelkoppeling kopiëren)."
                                                 titelEnkelvoud={titelEnkelvoud}
+                                                hideObjectLabel={true}
+                                            />
+                                        : null }
+                                        
+                                        {/* Besluit Nummer */}
+                                        { crudObject["Besluitnummer"] !== undefined ? 
+                                            <FormFieldTextInput
+                                                handleChange={this.context.handleChange}
+                                                fieldValue={crudObject["Besluitnummer"]}
+                                                fieldLabel="Besluitnummer"
+                                                dataObjectProperty="Besluitnummer"
+                                                pValue="Geef hier het PZH besluitnummer."
+                                                titelEnkelvoud={titelEnkelvoud}
+                                                hideObjectLabel={true}
                                             />
                                         : null }
 
@@ -636,6 +650,8 @@ class ContainerCrudFields extends React.Component {
                                                 fieldLabel="Tags"
                                                 dataObjectProperty="Tags"
                                                 editStatus={this.context.editStatus}
+                                                pValue="Om deze beleidsbeslissing beter vindbaar te maken voor raadplegers, kunnen hier tags toegevoegd worden. Beperk het aantal tags enigszins en zorg dat ze zeer gerelateerd zijn aan het beleid. Een wildgroei van tags bij het beleid zorgt juist voor een slechtere vindbaarheid."
+                                                hideObjectLabel={true}
                                             />
                                         : null }
                                     </ContainerFormSection>
