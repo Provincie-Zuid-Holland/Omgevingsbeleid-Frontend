@@ -84,8 +84,8 @@ class HoofdstukSubItem extends Component {
 function HoofdstukSubContainer(props) {
     return (
         <div className="w-2/3 px-4 py-2">
-            <h3 className="heading-lg block">Hoofdstuk 3</h3>
-            <span className="heading-lg block font-bold">
+            <h3 className="heading-lg text-gray-800 block">Hoofdstuk 3</h3>
+            <span className="heading-lg text-gray-800 block font-bold">
                 Activiteiten in de fysieke leefomgeving
             </span>
             <ul className="border-t border-gray-300 mt-2">{props.children}</ul>

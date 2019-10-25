@@ -42,7 +42,9 @@ class MuteerUniversalObjectOverzicht extends Component {
 
                 {/* Maatregel Container */}
                 <div className="w-3/4 rounded inline-block flex-grow pl-8">
-                    <h2 className="heading-serif mb-4">Mijn {titelMeervoud}</h2>
+                    <h2 className="heading-serif text-gray-800 mb-4">
+                        Mijn {titelMeervoud}
+                    </h2>
 
                     <ul className="flex mt-8 flex-wrap">
                         {dataReceived ? (

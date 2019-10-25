@@ -128,7 +128,7 @@ class RaadpleegArtikelDetail extends Component {
                     <span className="text-l font-serif block text-gray-800 mt-8">
                         Artikel 7.13
                     </span>
-                    <h1 className="mt-2 heading-serif-2xl">
+                    <h1 className="mt-2 heading-serif-2xl text-gray-800">
                         Grondwaterheffing, grondslag en belastbaar feit
                     </h1>
 

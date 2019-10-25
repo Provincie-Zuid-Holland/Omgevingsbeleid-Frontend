@@ -4,50 +4,36 @@
 
 @tailwind utilities;
 
-/* @tailwind base;
-
-@tailwind components; */
-
-/* Custom Components */
-
 .heading {
-    @apply inline-block text-gray-800;
+    @apply inline-block;
 }
 
 .heading-lg {
-    @apply inline-block text-gray-800 text-lg;
+    @apply inline-block text-lg;
 }
 
 .heading-xl {
-    @apply inline-block text-gray-800 text-xl;
+    @apply inline-block text-xl;
 }
 
 .heading-serif {
-    @apply font-serif inline-block text-gray-800;
+    @apply font-serif inline-block;
 }
 
 .heading-serif-lg {
-    @apply font-serif inline-block text-gray-800 text-lg;
+    @apply font-serif inline-block text-lg;
 }
 
 .heading-serif-xl {
-    @apply font-serif inline-block text-gray-800 text-xl;
+    @apply font-serif inline-block text-xl;
 }
 
 .heading-serif-2xl {
-    @apply font-serif inline-block text-gray-800 text-2xl;
+    @apply font-serif inline-block text-2xl;
 }
 
 .heading-serif-4xl {
-    @apply font-serif inline-block text-gray-800 text-4xl;
-}
-
-.paragraph {
-    @apply text-gray-700;
-}
-
-.paragraph-sm {
-    @apply text-sm;
+    @apply font-serif inline-block text-4xl;
 }
 
 .form-field-label {
@@ -61,5 +47,3 @@
 .button {
     @apply font-bold py-2 px-4 rounded;
 }
-
-/* @tailwind utilities; */

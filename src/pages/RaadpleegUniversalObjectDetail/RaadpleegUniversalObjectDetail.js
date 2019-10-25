@@ -163,7 +163,7 @@ class RaadpleegUniversalObjectDetail extends Component {
                         <span className="text-l font-serif block text-gray-800">
                             {this.props.dataModel.variables.Titel_Enkelvoud}
                         </span>
-                        <h1 className="mt-2 heading-serif-2xl">
+                        <h1 className="mt-2 heading-serif-2xl text-gray-800">
                             {dataObject.Titel}
                         </h1>
 

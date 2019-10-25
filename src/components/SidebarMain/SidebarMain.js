@@ -88,7 +88,11 @@ function returnMenuItems(menuItems) {
 }
 
 function MainSideBarHeading(props) {
-    return <h2 className="mt-8 mb-2 pr-2 heading-serif-xl">{props.children}</h2>
+    return (
+        <h2 className="mt-8 mb-2 pr-2 heading-serif-xl text-gray-800">
+            {props.children}
+        </h2>
+    )
 }
 
 function SidebarMain(props) {
@@ -103,7 +107,7 @@ function SidebarMain(props) {
     return (
         <div className="w-1/4 rounded inline-block">
             <div>
-                <span className="heading-serif mb-2 inline-block">
+                <span className="heading-serif text-gray-800 mb-2 inline-block">
                     Omgevingsbeleid
                 </span>
                 <h2 className="heading-serif-2xl block">
@@ -111,7 +115,7 @@ function SidebarMain(props) {
                         ? `Welkom ${gebruikersNaam},`
                         : 'Welkom,'}
                 </h2>
-                <p className="paragraph">
+                <p className="text-gray-700">
                     In deze omgeving heb je de mogelijkheid om te werken aan
                     Omgevingsbeleid.
                 </p>

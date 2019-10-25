@@ -10599,69 +10599,47 @@ video {
   z-index: auto;
 }
 
-/* @tailwind base;
-
-@tailwind components; */
-
-/* Custom Components */
-
 .heading {
   display: inline-block;
-  color: #2d3748;
 }
 
 .heading-lg {
   display: inline-block;
-  color: #2d3748;
   font-size: 1.125rem;
 }
 
 .heading-xl {
   display: inline-block;
-  color: #2d3748;
   font-size: 1.25rem;
 }
 
 .heading-serif {
   font-family: Georgia, Cambria, "Times New Roman", Times, serif;
   display: inline-block;
-  color: #2d3748;
 }
 
 .heading-serif-lg {
   font-family: Georgia, Cambria, "Times New Roman", Times, serif;
   display: inline-block;
-  color: #2d3748;
   font-size: 1.125rem;
 }
 
 .heading-serif-xl {
   font-family: Georgia, Cambria, "Times New Roman", Times, serif;
   display: inline-block;
-  color: #2d3748;
   font-size: 1.25rem;
 }
 
 .heading-serif-2xl {
   font-family: Georgia, Cambria, "Times New Roman", Times, serif;
   display: inline-block;
-  color: #2d3748;
   font-size: 1.5rem;
 }
 
 .heading-serif-4xl {
   font-family: Georgia, Cambria, "Times New Roman", Times, serif;
   display: inline-block;
-  color: #2d3748;
   font-size: 2.25rem;
-}
-
-.paragraph {
-  color: #4a5568;
-}
-
-.paragraph-sm {
-  font-size: 0.875rem;
 }
 
 .form-field-label {
@@ -10688,8 +10666,6 @@ video {
   padding-right: 1rem;
   border-radius: 0.25rem;
 }
-
-/* @tailwind utilities; */
 
 @media (min-width: 640px) {
   .sm\:sr-only {

@@ -22,7 +22,9 @@ class MuteerMijnBeleid extends Component {
                 {/* Dashboard */}
                 <div className="w-3/4 rounded inline-block flex-grow pl-8 relative">
                     <section>
-                        <h2 className="heading-serif mb-4 mt-8">Mijn beleid</h2>
+                        <h2 className="heading-serif text-gray-800 mb-4 mt-8">
+                            Mijn beleid
+                        </h2>
 
                         <MijnBeleid authUser={this.props.authUser} />
                     </section>

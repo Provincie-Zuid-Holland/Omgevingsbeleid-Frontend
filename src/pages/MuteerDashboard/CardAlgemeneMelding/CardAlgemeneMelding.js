@@ -23,7 +23,7 @@ class CardAlgemeneMelding extends Component {
                     <div className="rounded-full mbg-color w-12 h-12 inline-block text-white flex justify-center items-center">
                         <FontAwesomeIcon icon={icon} />
                     </div>
-                    <h3 className="heading-lg font-bold ml-4">
+                    <h3 className="heading-lg text-gray-800 font-bold ml-4">
                         {this.props.titel}
                     </h3>
 

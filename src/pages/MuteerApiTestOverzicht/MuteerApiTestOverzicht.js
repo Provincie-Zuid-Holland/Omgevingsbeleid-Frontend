@@ -44,7 +44,7 @@ class MuteerApiTestOverzicht extends Component {
                     />
 
                     <div className="flex justify-between">
-                        <h1 className="heading-serif-2xl">
+                        <h1 className="heading-serif-2xl text-gray-800">
                             Alle{' '}
                             {dataReceived
                                 ? this.state.objecten.length - 1
