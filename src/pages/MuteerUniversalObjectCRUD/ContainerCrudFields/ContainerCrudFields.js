@@ -524,7 +524,7 @@ class ContainerCrudFields extends React.Component {
                                                 />
                                             : null }
 
-                                            {/* Eind Geldigheid
+                                            {/* Eind Geldigheid */}
                                             { crudObject["Eind_Geldigheid"] !== undefined ? 
                                                 <FormFieldDate
                                                     handleChange={this.context.handleChange}
@@ -534,7 +534,7 @@ class ContainerCrudFields extends React.Component {
                                                     pValue="Indien bekend, kan hier de datum van uitwerkingtreding worden ingevuld"
                                                     titelEnkelvoud={titelEnkelvoud}
                                                 />
-                                            : null } */}
+                                            : null }
 
                                         </div>
 

@@ -237,12 +237,12 @@ class MuteerUniversalObjectDetail extends Component {
                                         </div>
                                     </Link>
                                     <Link
-                                        to={this.makeURLForNewObject(
-                                            overzichtSlug,
-                                            dataObject.ID,
-                                            apiTest
-                                        )}
-                                        // to={`/muteer/${this.props.overzichtSlug}/edit/${this.props.match.params.single}`}
+                                        // to={this.makeURLForNewObject(
+                                        //     overzichtSlug,
+                                        //     dataObject.ID,
+                                        //     apiTest
+                                        // )}
+                                        to={`/muteer/${this.props.overzichtSlug}/edit/${this.props.match.params.single}`}
                                         className="text-sm inline text-gray-700 -mt-5 pl-5 cursor-pointer hover:underline"
                                     >
                                         Ontwerp maken
