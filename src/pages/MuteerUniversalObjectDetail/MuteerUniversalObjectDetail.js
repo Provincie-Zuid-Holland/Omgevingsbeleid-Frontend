@@ -411,6 +411,7 @@ class MuteerUniversalObjectDetail extends Component {
                 {
                     dataObject: null,
                     pageType: this.returnPageType(),
+                    dataReceived: false,
                 },
                 () => {
                     this.getDataFromApi()
