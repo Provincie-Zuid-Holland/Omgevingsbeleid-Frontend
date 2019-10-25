@@ -131,6 +131,7 @@ class MuteerUniversalObjectDetail extends Component {
             .then(res => {
                 const dataObject = res.data
                 console.log(dataObject)
+                console.log()
                 dataObject.sort(function(a, b) {
                     return new Date(b.Modified_Date) - new Date(a.Modified_Date)
                 })

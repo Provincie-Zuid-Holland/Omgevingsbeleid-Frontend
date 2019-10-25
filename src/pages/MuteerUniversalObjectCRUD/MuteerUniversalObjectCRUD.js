@@ -146,6 +146,12 @@ class MuteerUniversalObjectCRUD extends Component {
                 .get(`${ApiEndpoint}/${objectID}`)
                 .then(res => {
                     const responseObject = res.data
+                    responseObject.sort(function(a, b) {
+                        return (
+                            new Date(b.Modified_Date) -
+                            new Date(a.Modified_Date)
+                        )
+                    })
                     const UUID = responseObject[0].UUID
                     const crudProperties = makeCrudPropertiesArray(dataModel)
                     const crudObject = makeCrudObject(
