@@ -330,7 +330,7 @@ class MuteerUniversalObjectDetail extends Component {
                                     this.state.dataObject[0].Opdrachtgever !==
                                         undefined ? (
                                         <EigenaarsDriehoekItem
-                                            eigenaarType="Opdrachtgever 1"
+                                            eigenaarType="Opdrachtgever"
                                             UUID={
                                                 this.state.dataObject[0]
                                                     .Opdrachtgever

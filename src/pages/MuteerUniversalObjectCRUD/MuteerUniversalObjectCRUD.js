@@ -226,7 +226,8 @@ class MuteerUniversalObjectCRUD extends Component {
             )
 
             // If Local storage is not empty
-            if (!isObjectEmpty(savedStateInLocalStorage)) {
+            // if (!isObjectEmpty(savedStateInLocalStorage)) {
+            if (false) {
                 const savedStateDate = format(
                     savedStateInLocalStorage.date,
                     'dddd D MMMM',
