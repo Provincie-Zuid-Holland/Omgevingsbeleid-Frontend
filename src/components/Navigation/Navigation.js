@@ -76,6 +76,7 @@ class NavigationMenuPopUp extends Component {
                 ref={this.innerContainer}
             >
                 <span
+                    id="navbar-toggle-popup"
                     onClick={this.toggleOpen}
                     className="cursor-pointer select-none text-sm text-gray-800"
                 >
@@ -102,6 +103,7 @@ class NavigationMenuPopUp extends Component {
                                 </li>
                                 <li>
                                     <Link
+                                        id="navbar-popup-href-raadpleeg-omgeving"
                                         to={`/`}
                                         className="py-2 px-4 text-sm border-t border-gray-300 w-full inline-block"
                                         onClick={this.toggleOpen}
@@ -111,6 +113,7 @@ class NavigationMenuPopUp extends Component {
                                 </li>
                                 <li>
                                     <Link
+                                        id="navbar-popup-href-uitloggen"
                                         className="py-2 px-4 text-sm border-t border-gray-300 w-full inline-block"
                                         to={`/login`}
                                         onClick={logout}
@@ -156,7 +159,7 @@ function LoginLogoutButton() {
         return <NavigationMenuPopUp />
     } else {
         return (
-            <Link className="text-sm" to="login">
+            <Link className="text-sm" to="login" id="href-naar-inloggen">
                 <FontAwesomeIcon
                     className="mr-2 text-gray-700"
                     icon={faSignInAlt}
@@ -184,13 +187,18 @@ class Navigation extends Component {
                     <div className="flex items-center flex-no-shrink text-black mr-6 py-2">
                         {getToken() ? (
                             <Link
+                                id="href-naar-home"
                                 to={`/muteer/dashboard`}
                                 className="text-blue"
                             >
                                 <Logo />
                             </Link>
                         ) : (
-                            <Link to={`/`} className="text-blue">
+                            <Link
+                                id="href-naar-home"
+                                to={`/`}
+                                className="text-blue"
+                            >
                                 <Logo />
                             </Link>
                         )}

@@ -261,6 +261,7 @@ class FormFieldBeleidsrelatieKoppeling extends Component {
                                             //     propertyName
                                             // )
                                         }}
+                                        id={`form-field-beleidsrelatie-${index}`}
                                     >
                                         <div className="w-40 mr-5 relative">
                                             Beleidsrelatie
@@ -284,6 +285,7 @@ class FormFieldBeleidsrelatieKoppeling extends Component {
                     <div className="relative">
                         <div
                             className="mbg-color rounded text inline-block text-white pl-4 text-sm py-1 mt-2 cursor-pointer mbg-color-darker-hover relative"
+                            id="button-nieuwe-relatie"
                             onClick={() =>
                                 this.togglePopupNieuw('beleidsbeslissing')
                             }

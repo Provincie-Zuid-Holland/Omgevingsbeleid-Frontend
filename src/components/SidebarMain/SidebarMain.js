@@ -32,6 +32,9 @@ function ReturnNavLink(props) {
         return (
             <NavLink
                 exact
+                id={`sidebar-href-${props.value
+                    .toLowerCase()
+                    .replace(' ', '-')}`}
                 activeClassName="mt-1 relative text-sm block leading-loose py-1 pr-2 font-bold rounded bg-gray-300 text-gray-800"
                 className="mt-1 relative text-sm block leading-loose py-1 px-2 text-gray-600 rounded cursor-pointer hover:bg-gray-300 hover:text-blue-900"
                 key={props.index}
@@ -50,6 +53,9 @@ function ReturnNavLink(props) {
                 activeClassName="mt-1 relative text-sm block leading-loose py-1 px-2 font-bold rounded bg-gray-300 text-gray-800"
                 className="mt-1 relative text-sm block leading-loose py-1 px-2 text-gray-600 rounded cursor-pointer hover:bg-gray-300 hover:text-blue-900"
                 key={props.index}
+                id={`sidebar-href-${props.value
+                    .toLowerCase()
+                    .replace(' ', '-')}`}
                 to={props.url}
             >
                 {props.value}

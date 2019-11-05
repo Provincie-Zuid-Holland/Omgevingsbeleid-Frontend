@@ -32,6 +32,7 @@ class PopupBewerkKoppeling extends Component {
                 <div
                     onClick={this.props.togglePopup}
                     className="cursor-pointer absolute right-0 top-0 text-gray-600 px-3 py-2"
+                    id={`form-field-beleidsrelatie-sluit-popup`}
                 >
                     <FontAwesomeIcon icon={faTimes} />
                 </div>
@@ -54,6 +55,7 @@ class PopupBewerkKoppeling extends Component {
                 <textarea
                     value={this.state.omschrijving}
                     required
+                    id={`form-field-beleidsrelatie-beschrijving`}
                     onChange={this.handleChange}
                     name="omschrijving"
                     className="appearance-none block w-full text-gray-700 border border-gray-400 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white hover:border-gray-500 focus:border-gray-500 h-24"
@@ -65,6 +67,7 @@ class PopupBewerkKoppeling extends Component {
                             tabIndex="0"
                             className="text-gray-600 cursor-pointer text-sm underline"
                             onClick={this.props.togglePopup}
+                            id={`form-field-beleidsrelatie-annuleren`}
                         >
                             Annuleren
                         </span>
@@ -80,11 +83,11 @@ class PopupBewerkKoppeling extends Component {
                                 )
                                 this.props.togglePopup()
                             }}
+                            id={`form-field-beleidsrelatie-verwijderen`}
                         >
                             Verwijderen
                         </span>
                     </div>
-                    {console.log(this.props.wijzigKoppelingRelatie)}
                     <div
                         className={`font-bold py-2 px-4 cursor-pointer leading-tight text-sm rounded bg-green-600 text-white ${
                             this.state.omschrijving.length === 0
@@ -123,6 +126,7 @@ class PopupBewerkKoppeling extends Component {
                                 this.props.togglePopup()
                             }
                         }}
+                        id={`form-field-beleidsrelatie-wijzigen`}
                     >
                         Wijzigen
                     </div>

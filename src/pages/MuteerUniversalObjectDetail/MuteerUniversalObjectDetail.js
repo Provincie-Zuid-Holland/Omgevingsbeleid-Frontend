@@ -224,33 +224,38 @@ class MuteerUniversalObjectDetail extends Component {
 
                         <div className="w-9/12 pr-8">
                             {pageType === 'detail' ? (
-                                <div className="flex items-center h-10 mt-5">
+                                <div className="h-10 mt-5">
                                     <Link
-                                        // to={this.makeURLForNewObject(
-                                        //     overzichtSlug,
-                                        //     dataObject.ID,
-                                        //     apiTest
-                                        // )}
+                                        className="flex items-center mt-5"
                                         to={`/muteer/${this.props.overzichtSlug}/edit/${this.props.match.params.single}`}
-                                        className="relative w-24 h-10 border-r-2 flex items-center justify-end border-gray-300 pb-5 mr-2"
+                                        id={`href-ontwerp-maken`}
                                     >
-                                        <div className="w-8 h-8 pt-1 absolute text-center bg-gray-300 rounded-full -right-4">
-                                            <FontAwesomeIcon
-                                                className="text-gray-600 relative"
-                                                icon={faPlus}
-                                            />
-                                        </div>
-                                    </Link>
-                                    <Link
-                                        // to={this.makeURLForNewObject(
-                                        //     overzichtSlug,
-                                        //     dataObject.ID,
-                                        //     apiTest
-                                        // )}
-                                        to={`/muteer/${this.props.overzichtSlug}/edit/${this.props.match.params.single}`}
-                                        className="text-sm inline text-gray-700 -mt-5 pl-5 cursor-pointer hover:underline"
-                                    >
-                                        Ontwerp maken
+                                        <span
+                                            // to={this.makeURLForNewObject(
+                                            //     overzichtSlug,
+                                            //     dataObject.ID,
+                                            //     apiTest
+                                            // )}
+                                            className="relative w-24 h-10 border-r-2 flex items-center justify-end border-gray-300 pb-5 mr-2"
+                                        >
+                                            <div className="w-8 h-8 pt-1 absolute text-center bg-gray-300 rounded-full -right-4">
+                                                <FontAwesomeIcon
+                                                    className="text-gray-600 relative"
+                                                    icon={faPlus}
+                                                />
+                                            </div>
+                                        </span>
+                                        <span
+                                            // to={this.makeURLForNewObject(
+                                            //     overzichtSlug,
+                                            //     dataObject.ID,
+                                            //     apiTest
+                                            // )}
+                                            to={`/muteer/${this.props.overzichtSlug}/edit/${this.props.match.params.single}`}
+                                            className="text-sm inline text-gray-700 -mt-5 pl-5 cursor-pointer hover:underline"
+                                        >
+                                            Ontwerp maken
+                                        </span>
                                     </Link>
                                 </div>
                             ) : null}
@@ -274,6 +279,7 @@ class MuteerUniversalObjectDetail extends Component {
                                                     <li key={index}>
                                                         <div className="flex items-center justify-between">
                                                             <Link
+                                                                id={`revisie-item-${index}`}
                                                                 to={this.makeURLForRevisieObject(
                                                                     overzichtSlug,
                                                                     item.ID,

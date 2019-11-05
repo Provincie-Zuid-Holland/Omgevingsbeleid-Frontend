@@ -81,12 +81,13 @@ class PopupNieuweKoppeling extends Component {
                 this.state.zoekFilter.toLowerCase()
             )
         )
-
+        console.log(this.state)
         return (
             <PopUpAnimatedContainer>
                 <div
                     onClick={this.props.togglePopup}
                     className="cursor-pointer absolute right-0 top-0 text-gray-600 px-3 py-2"
+                    id={`form-field-beleidsrelatie-sluit-popup`}
                 >
                     <FontAwesomeIcon icon={faTimes} />
                 </div>
@@ -102,7 +103,7 @@ class PopupNieuweKoppeling extends Component {
                                 onChange={this.handleChange}
                                 value={this.state.zoekFilter}
                                 className="appearance-none w-full block text-gray-700 border border-gray-400 rounded py-3 pl-4 pr-12 leading-tight focus:outline-none hover:border-gray-500 focus:border-gray-500 shadow text-sm"
-                                id="titel"
+                                id={`form-field-beleidsrelatie-zoekbalk`}
                                 type="text"
                                 name="zoekFilter"
                                 placeholder="Zoeken... (typ minimaal 3 karakters)"
@@ -123,6 +124,7 @@ class PopupNieuweKoppeling extends Component {
                                                     onClick={() => {
                                                         this.selectObject(item)
                                                     }}
+                                                    id={`form-field-beleidsrelatie-item-${index}`}
                                                     className="text-sm text-gray-700 px-4 py-2 cursor-pointer bg-gray-100 font-bold "
                                                     key={item.UUID}
                                                 >
@@ -135,6 +137,7 @@ class PopupNieuweKoppeling extends Component {
                                                     onClick={() => {
                                                         this.selectObject(item)
                                                     }}
+                                                    id={`form-field-beleidsrelatie-item-${index}`}
                                                     className="text-sm text-gray-700 px-4 py-2 cursor-pointer hover:bg-gray-100"
                                                     key={item.UUID}
                                                 >
@@ -188,6 +191,7 @@ class PopupNieuweKoppeling extends Component {
                             Beschrijf zo concreet mogelijk de relatie
                         </p>
                         <textarea
+                            id={`form-field-beleidsrelatie-beschrijving`}
                             value={this.state.beschrijving}
                             required
                             onChange={this.handleChange}
@@ -202,11 +206,13 @@ class PopupNieuweKoppeling extends Component {
                         tabIndex="0"
                         className="text-gray-600 cursor-pointer text-sm underline"
                         onClick={this.props.togglePopup}
+                        id={`form-field-beleidsrelatie-annuleren`}
                     >
                         Annuleren
                     </span>
                     {this.state.actievePagina === 1 ? (
                         <div
+                            id={`form-field-beleidsrelatie-volgende`}
                             className={`font-bold py-2 px-4 cursor-pointer leading-tight text-sm rounded bg-green-600 text-white ${
                                 this.state.selected === null
                                     ? `cursor-not-allowed opacity-50`
@@ -252,6 +258,7 @@ class PopupNieuweKoppeling extends Component {
                                     )
                                 }
                             }}
+                            id={`form-field-beleidsrelatie-koppelen`}
                         >
                             Koppelen
                         </div>

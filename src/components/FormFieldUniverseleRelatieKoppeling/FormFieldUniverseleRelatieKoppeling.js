@@ -227,7 +227,7 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
                         item => item.UUID === UUID
                     ) === undefined
                 ) {
-                    // Anders zoeken we in de state, binnen de property name, naar een object met dezelfde UUID
+                    // Anders  we in de state, binnen de property name, naar een object met dezelfde UUID
                     // Als we deze niet vinden is het een nieuw item en saven we deze naar de state
                     this.saveNieuwekoppelingRelatieNaarState({
                         UUID: UUID,
@@ -444,6 +444,7 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
                                         return (
                                             <li
                                                 key={index}
+                                                id={`form-field-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}-item-${index}`}
                                                 className="flex border-b border-gray-300 text-gray-700 text-sm py-2 hover:text-gray-900 cursor-pointer"
                                                 onClick={() => {
                                                     this.togglePopupBewerk(
@@ -481,6 +482,7 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
                             className="mbg-color rounded text inline-block text-white pl-4 text-sm py-1 mt-2 cursor-pointer mbg-color-darker-hover relative"
                             onClick={this.toggleButton}
                             ref={this.button}
+                            id={`nieuw-item-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
                         >
                             <span className="py-1 inline-block select-none">
                                 {this.props.buttonTekst}
@@ -503,20 +505,11 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
                                                       <li
                                                           key={index}
                                                           onClick={() => {
-                                                              console.log(
-                                                                  'item'
-                                                              )
-                                                              console.log(
-                                                                  'item'
-                                                              )
-                                                              console.log(
-                                                                  'item'
-                                                              )
-                                                              console.log(item)
                                                               this.togglePopupNieuw(
                                                                   item
                                                               )
                                                           }}
+                                                          id={`form-field-universele-koppeling-dropdown-button-${index}`}
                                                           className="px-3 py-2 border-b border-gray-300 hover:bg-gray-100 cursor-pointer"
                                                       >
                                                           {

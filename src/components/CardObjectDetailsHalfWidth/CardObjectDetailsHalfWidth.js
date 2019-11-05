@@ -28,6 +28,9 @@ function CardObjectDetailsHalfWidth(props) {
                 className={`relative inline-block h-full px-4 pb-6 pt-4 shadow-md rounded overflow-hidden bg-white ${
                     props.fullWidth ? 'w-full' : 'w-1/2'
                 }`}
+                id={`object-card-${titelEnkelvoud.toLowerCase()}-${
+                    props.index
+                }`}
                 to={
                     apiTest === true
                         ? `/muteer/${hoofdOnderdeelSlug}/${overzichtSlug}/${object.ID}`

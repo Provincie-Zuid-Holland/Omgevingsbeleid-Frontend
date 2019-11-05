@@ -113,6 +113,7 @@ class PopupNieuweKoppeling extends Component {
                 <div
                     onClick={this.props.togglePopup}
                     className="cursor-pointer absolute right-0 top-0 text-gray-600 px-3 py-2"
+                    id={`form-field-koppeling-sluit-popup`}
                 >
                     <FontAwesomeIcon icon={faTimes} />
                 </div>
@@ -131,7 +132,7 @@ class PopupNieuweKoppeling extends Component {
                                 onChange={this.handleChange}
                                 value={this.state.zoekFilter}
                                 className="appearance-none w-full block text-gray-700 border border-gray-400 rounded py-3 pl-4 pr-12 leading-tight focus:outline-none hover:border-gray-500 focus:border-gray-500 shadow text-sm"
-                                id="titel"
+                                id={`form-field-koppeling-zoekbalk`}
                                 type="text"
                                 name="zoekFilter"
                                 placeholder="Zoeken... (typ minimaal 3 karakters)"
@@ -154,6 +155,7 @@ class PopupNieuweKoppeling extends Component {
                                                     }}
                                                     className="text-sm text-gray-700 px-4 py-2 cursor-pointer bg-gray-100 font-bold "
                                                     key={item.UUID}
+                                                    id={`form-field-koppeling-item-${index}`}
                                                 >
                                                     {item.Titel}
                                                 </li>
@@ -166,6 +168,7 @@ class PopupNieuweKoppeling extends Component {
                                                     }}
                                                     className="text-sm text-gray-700 px-4 py-2 cursor-pointer hover:bg-gray-100"
                                                     key={item.UUID}
+                                                    id={`form-field-koppeling-item-${index}`}
                                                 >
                                                     {item.Titel}
                                                 </li>
@@ -208,9 +211,9 @@ class PopupNieuweKoppeling extends Component {
                 {this.state.actievePagina === 2 ? (
                     <React.Fragment>
                         <p className="form-field-description">
-                            Beschrijf de koppeling tussen het nationaal belang '
-                            {this.state.selected.Titel}' en de beleidsbeslissing
-                            '{this.props.titelMainObject}'
+                            Beschrijf de koppeling tussen '
+                            {this.state.selected.Titel}' en '
+                            {this.props.titelMainObject}'
                         </p>
                         <div className="mbg-color-lighter m-border-color border-l-4 px-4 py-4 my-4 text-sm text-gray-700">
                             Om er voor te zorgen dat de aangebrachte koppeling
@@ -224,6 +227,7 @@ class PopupNieuweKoppeling extends Component {
                             value={this.state.beschrijving}
                             required
                             onChange={this.handleChange}
+                            id={`form-field-koppeling-beschrijving`}
                             name="beschrijving"
                             className="appearance-none block w-full text-gray-700 border border-gray-400 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white hover:border-gray-500 focus:border-gray-500 h-24"
                             type="text"
@@ -235,6 +239,7 @@ class PopupNieuweKoppeling extends Component {
                         tabIndex="0"
                         className="text-gray-600 cursor-pointer text-sm underline"
                         onClick={this.props.togglePopup}
+                        id={`form-field-koppeling-annuleren`}
                     >
                         Annuleren
                     </span>
@@ -266,6 +271,7 @@ class PopupNieuweKoppeling extends Component {
                                     this.props.togglePopup()
                                 }
                             }}
+                            id={`form-field-koppeling-volgende`}
                         >
                             Volgende
                         </div>
@@ -302,6 +308,7 @@ class PopupNieuweKoppeling extends Component {
                                     this.props.togglePopup()
                                 }
                             }}
+                            id={`form-field-koppeling-koppelen`}
                         >
                             Koppelen
                         </div>

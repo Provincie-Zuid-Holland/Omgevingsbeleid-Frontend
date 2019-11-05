@@ -38,13 +38,13 @@ class MuteerDashboard extends Component {
 
                 {/* Dashboard */}
                 <div className="w-3/4 rounded inline-block flex-grow pl-8 relative">
-                    <section>
+                    {/* <section>
                         <h2 className="heading-serif text-gray-800 mb-4">
                             Meldingen
                         </h2>
 
                         <CardKoppeling />
-                    </section>
+                    </section> */}
                     <section>
                         <h2 className="heading-serif text-gray-800 mt-8">
                             Mijn beleid

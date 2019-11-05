@@ -41,6 +41,7 @@ function CardWerkingsGebied(props) {
         <li
             className="w-1/2 inline-block"
             key={props.werkingsgebied.UUID}
+            id={`form-field-werkingsgebied-${props.index}`}
             onClick={() => {
                 props.selectGebied(props.werkingsgebied.UUID)
             }}
@@ -91,6 +92,7 @@ function PopUpWerkingsGebiedContent(props) {
                         <div
                             onClick={props.togglePopUp}
                             className="cursor-pointer absolute right-0 top-0 text-gray-600 px-3 py-2"
+                            id={`form-field-werkingsgebied-popup-sluiten`}
                         >
                             <FontAwesomeIcon icon={faTimes} />
                         </div>
@@ -103,7 +105,7 @@ function PopUpWerkingsGebiedContent(props) {
                         <div className="w-full block relative mt-4 mb-6">
                             <input
                                 className="appearance-none w-full block text-gray-700 border border-gray-400 rounded py-3 pl-4 pr-12 leading-tight focus:outline-none hover:border-gray-500 focus:border-gray-500 shadow text-sm"
-                                id="titel"
+                                id={`form-field-werkingsgebied-zoekbalk`}
                                 type="text"
                                 value={props.filterValue}
                                 onChange={props.filterGebieden}
@@ -117,9 +119,10 @@ function PopUpWerkingsGebiedContent(props) {
                         <div className="shadow border rounded px-4 py-4">
                             <ul className="flex-row overflow-y-auto max-h-half-screen">
                                 {props.dataLoaded ? (
-                                    filteredContent.map(item => {
+                                    filteredContent.map((item, index) => {
                                         return (
                                             <CardWerkingsGebied
+                                                index={index}
                                                 selectGebied={
                                                     props.selectGebied
                                                 }
@@ -150,6 +153,7 @@ function PopUpWerkingsGebiedContent(props) {
                             <span
                                 className="text-gray-600 cursor-pointer text-sm underline"
                                 onClick={props.togglePopUp}
+                                id={`form-field-werkingsgebied-annuleren`}
                             >
                                 Annuleren
                             </span>
@@ -166,6 +170,7 @@ function PopUpWerkingsGebiedContent(props) {
                                     props.koppelGebied()
                                     props.togglePopUp()
                                 }}
+                                id={`form-field-werkingsgebied-koppelen`}
                             >
                                 Koppelen
                             </div>
@@ -442,6 +447,7 @@ function GekoppeldGebiedCard(props) {
                 <span
                     className="text-red-600 cursor-pointer text-sm underline absolute bottom-0 left-0 ml-5 mb-5"
                     onClick={props.ontkoppelWerkingsgebied}
+                    id={`form-field-werkingsgebied-ontkoppelen`}
                 >
                     Dit werkingsgebied ontkoppelen
                 </span>

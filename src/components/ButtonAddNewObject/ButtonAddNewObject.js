@@ -18,6 +18,7 @@ function ButtonAddNewObject(props) {
             }
         >
             <Link
+                id={`object-add-new-${hoofdOnderdeelSlug.toLowerCase()}`}
                 className="h-full flex items-center justify-center no-underline px-4 py-4 border border-dashed rounded overflow-hidden"
                 to={
                     apiTest === true

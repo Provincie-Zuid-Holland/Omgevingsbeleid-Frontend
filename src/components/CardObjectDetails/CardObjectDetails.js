@@ -31,6 +31,9 @@ function CardObjectItem(props) {
                         ? `/muteer/${hoofdOnderdeelSlug}/${overzichtSlug}/${object.ID}`
                         : `/muteer/${hoofdOnderdeelSlug}/${object.ID}`
                 }
+                id={`object-card-${titelEnkelvoud.toLowerCase()}-${
+                    props.index
+                }`}
             >
                 <h5 className="text-gray-600 text-sm font-light py-1">
                     {titelEnkelvoud}

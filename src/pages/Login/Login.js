@@ -117,7 +117,7 @@ class Login extends Component {
                                 required
                                 className="bg-white shadow appearance-none border rounded w-full py-3 leading-loose px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 name="identifier"
-                                id="identifier"
+                                id="form-field-login-email"
                                 type="text"
                                 placeholder="bijv. j.doe@pzh.nl"
                                 onChange={this.handleChange}
@@ -134,7 +134,7 @@ class Login extends Component {
                                 required
                                 className="bg-white shadow appearance-none border rounded w-full py-4 pb-3 leading-loose px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
                                 name="password"
-                                id="password"
+                                id="form-field-login-password"
                                 type="password"
                                 placeholder="******************"
                                 onChange={this.handleChange}
@@ -144,6 +144,7 @@ class Login extends Component {
                             <button
                                 className="mbg-color hover:bg-blue-600 text-white inline-block py-2 px-8 rounded focus:outline-none focus:shadow-outline"
                                 type="submit"
+                                id="form-field-login-submit"
                             >
                                 {this.state.loading ? <LoaderSpinner /> : null}
                                 Inloggen
@@ -177,14 +178,14 @@ class Login extends Component {
                             </span>
                         </div>
                     </div>
-                    <div className="mt-20 bottom-0">
+                    {/* <div className="mt-20 bottom-0">
                         <span className="font-bold block">
                             Veelgestelde vragen
                         </span>
                         <span className="underline">
                             Iets met wachtwoord vergeten / Uitleg over inloggen
                         </span>
-                    </div>
+                    </div> */}
                 </div>
                 <div className="login-afbeelding fixed" />
             </div>

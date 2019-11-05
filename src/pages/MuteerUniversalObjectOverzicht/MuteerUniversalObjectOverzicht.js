@@ -48,31 +48,6 @@ class MuteerUniversalObjectOverzicht extends Component {
 
                     <ul className="flex mt-8 flex-wrap">
                         {dataReceived ? (
-                            this.state.objecten.slice(1).map(object => (
-                                <li
-                                    key={object.ID}
-                                    className="mb-6 w-full display-inline"
-                                >
-                                    {
-                                        <CardObjectDetails
-                                            object={object}
-                                            overzichtSlug={overzichtSlug}
-                                            titelEnkelvoud={titelEnkelvoud}
-                                            hoofdOnderdeelSlug={overzichtSlug}
-                                            hideParagraaf={true}
-                                        />
-                                    }
-                                </li>
-                            ))
-                        ) : (
-                            <React.Fragment>
-                                <LoaderCard />
-                                <LoaderCard />
-                                <LoaderCard />
-                            </React.Fragment>
-                        )}
-
-                        {dataReceived ? (
                             <ButtonAddNewObject
                                 objectAantal={this.state.objecten.length}
                                 titelEnkelvoud={titelEnkelvoud}
@@ -82,6 +57,35 @@ class MuteerUniversalObjectOverzicht extends Component {
                                 fullWidth={true}
                             />
                         ) : null}
+                        {dataReceived ? (
+                            this.state.objecten
+                                .slice(1)
+                                .map((object, index) => (
+                                    <li
+                                        key={object.ID}
+                                        className="mb-6 w-full display-inline"
+                                    >
+                                        {
+                                            <CardObjectDetails
+                                                index={index}
+                                                object={object}
+                                                overzichtSlug={overzichtSlug}
+                                                titelEnkelvoud={titelEnkelvoud}
+                                                hoofdOnderdeelSlug={
+                                                    overzichtSlug
+                                                }
+                                                hideParagraaf={true}
+                                            />
+                                        }
+                                    </li>
+                                ))
+                        ) : (
+                            <React.Fragment>
+                                <LoaderCard />
+                                <LoaderCard />
+                                <LoaderCard />
+                            </React.Fragment>
+                        )}
                     </ul>
                 </div>
             </ContainerMain>

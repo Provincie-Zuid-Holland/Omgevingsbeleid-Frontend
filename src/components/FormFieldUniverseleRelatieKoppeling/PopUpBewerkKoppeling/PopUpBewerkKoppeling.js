@@ -32,6 +32,7 @@ class PopUpBewerkKoppeling extends Component {
                 <div
                     onClick={this.props.togglePopup}
                     className="cursor-pointer absolute right-0 top-0 text-gray-600 px-3 py-2"
+                    id={`form-field-koppeling-sluit-popup`}
                 >
                     <FontAwesomeIcon icon={faTimes} />
                 </div>
@@ -46,6 +47,7 @@ class PopUpBewerkKoppeling extends Component {
                     Beschrijf zo concreet mogelijk de relatie
                 </p>
                 <textarea
+                    id={`form-field-koppeling-beschrijving`}
                     value={this.state.omschrijving}
                     required
                     onChange={this.handleChange}
@@ -59,12 +61,14 @@ class PopUpBewerkKoppeling extends Component {
                             tabIndex="0"
                             className="text-gray-600 cursor-pointer text-sm underline"
                             onClick={this.props.togglePopup}
+                            id="form-field-koppeling-annuleren"
                         >
                             Annuleren
                         </span>
                         <span
                             tabIndex="0"
                             className="text-red-600 cursor-pointer text-sm underline ml-4"
+                            id="form-field-koppeling-verwijderen"
                             onClick={() => {
                                 this.props.verwijderKoppelingRelatieToe(
                                     this.props.bewerkItem
@@ -117,6 +121,7 @@ class PopUpBewerkKoppeling extends Component {
                                 this.props.togglePopup()
                             }
                         }}
+                        id="form-field-koppeling-wijzigen"
                     >
                         Wijzigen
                     </div>
