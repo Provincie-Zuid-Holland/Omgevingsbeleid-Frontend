@@ -330,7 +330,7 @@ class MuteerUniversalObjectDetail extends Component {
                                     this.state.dataObject[0].Opdrachtgever !==
                                         undefined ? (
                                         <EigenaarsDriehoekItem
-                                            eigenaarType="Eigenaar 1"
+                                            eigenaarType="Opdrachtgever 1"
                                             UUID={
                                                 this.state.dataObject[0]
                                                     .Opdrachtgever
@@ -342,7 +342,7 @@ class MuteerUniversalObjectDetail extends Component {
                                     this.state.dataObject[0].Eigenaar_1 !==
                                         undefined ? (
                                         <EigenaarsDriehoekItem
-                                            eigenaarType="Eigenaar 2"
+                                            eigenaarType="Eigenaar 1"
                                             UUID={
                                                 this.state.dataObject[0]
                                                     .Eigenaar_1
@@ -354,7 +354,7 @@ class MuteerUniversalObjectDetail extends Component {
                                     this.state.dataObject[0].Eigenaar_2 !==
                                         undefined ? (
                                         <EigenaarsDriehoekItem
-                                            eigenaarType="Opdrachtgever"
+                                            eigenaarType="Eigenaar 2"
                                             UUID={
                                                 this.state.dataObject[0]
                                                     .Eigenaar_2
