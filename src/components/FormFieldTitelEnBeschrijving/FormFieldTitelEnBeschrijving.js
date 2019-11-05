@@ -10,11 +10,7 @@ function FormFieldTitelEnBeschrijving(props) {
                 {props.fieldLabel ? props.fieldLabel : null}
             </label>
             <p className="text-gray-700 text-sm mb-4">
-                {`${props.pValue ? `${props.pValue} ` : ''}${
-                    !props.addObjectLabel
-                        ? props.titelEnkelvoud.toLowerCase()
-                        : ''
-                }`}
+                {props.pValue ? `${props.pValue} ` : ''}
             </p>
         </React.Fragment>
     )

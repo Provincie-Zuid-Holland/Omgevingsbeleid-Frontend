@@ -548,6 +548,58 @@ class ContainerCrudFields extends React.Component {
                                                     }
                                                 />
                                             ) : null}
+
+                                            {/* Verplicht_Programma */}
+                                            {crudObject[
+                                                'Verplicht_Programma'
+                                            ] !== undefined ? (
+                                                <FormFieldSelect
+                                                    handleChange={
+                                                        this.context
+                                                            .handleChange
+                                                    }
+                                                    fieldValue={
+                                                        crudObject[
+                                                            'Verplicht_Programma'
+                                                        ]
+                                                    }
+                                                    fieldLabel="Verplicht Programma"
+                                                    dataObjectProperty="Verplicht_Programma"
+                                                    selectArray={
+                                                        verplichtProgrammaValues
+                                                    }
+                                                    pValue="De maatregel behoort tot een verplicht programma?"
+                                                    titelEnkelvoud={
+                                                        titelEnkelvoud
+                                                    }
+                                                />
+                                            ) : null}
+
+                                            {/* Specifiek_Of_Generiek */}
+                                            {crudObject[
+                                                'Specifiek_Of_Generiek'
+                                            ] !== undefined ? (
+                                                <FormFieldSelect
+                                                    handleChange={
+                                                        this.context
+                                                            .handleChange
+                                                    }
+                                                    fieldValue={
+                                                        crudObject[
+                                                            'Specifiek_Of_Generiek'
+                                                        ]
+                                                    }
+                                                    fieldLabel="Specifiek of Generiek"
+                                                    dataObjectProperty="Specifiek_Of_Generiek"
+                                                    selectArray={
+                                                        SpecifiekOfGeneriekValues
+                                                    }
+                                                    pValue="Is de maatregel te kwalificeren als gebiedsspecifiek of generiek?"
+                                                    titelEnkelvoud={
+                                                        titelEnkelvoud
+                                                    }
+                                                />
+                                            ) : null}
                                         </ContainerFormSection>
 
                                         <ContainerFormSection
@@ -698,7 +750,6 @@ class ContainerCrudFields extends React.Component {
                                                         this.context.editStatus
                                                     }
                                                     pValue="Om deze maatregel vindbaar te maken voor de raadplegers, vragen we je om tags toe te voegen."
-                                                    addObjectLabel={true}
                                                 />
                                             ) : null}
                                         </ContainerFormSection>

@@ -57,7 +57,7 @@ class FormFieldDate extends React.Component {
                                 name={this.props.dataObjectProperty}
                                 className="appearance-none block w-full text-gray-700 border border-gray-400 focus:border-gray-500 hover:border-gray-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
                                 type="date"
-                                required={this.props.required}
+                                required={false}
                                 id={`form-field-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
                                 min={format(
                                     new Date(this.props.Begin_Geldigheid),
@@ -69,7 +69,7 @@ class FormFieldDate extends React.Component {
                                 value={this.props.fieldValue}
                                 onChange={this.props.handleChange}
                                 name={this.props.dataObjectProperty}
-                                required={this.props.required}
+                                required={false}
                                 className="appearance-none block w-full text-gray-700 border border-gray-400 focus:border-gray-500 hover:border-gray-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
                                 type="date"
                                 id={`form-field-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
@@ -94,7 +94,6 @@ class FormFieldDate extends React.Component {
                         name={this.props.dataObjectProperty}
                         className="appearance-none block w-full text-gray-700 border border-gray-400 focus:border-gray-500 hover:border-gray-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
                         type="date"
-                        required
                         id={`form-field-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
                     />
                 ) : (
