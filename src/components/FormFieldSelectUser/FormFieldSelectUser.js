@@ -52,6 +52,7 @@ class FormFieldSelectUser extends React.Component {
                         name={this.props.dataObjectProperty}
                         onChange={this.props.handleChange}
                         options={this.state.selectionArray}
+                        placeholder={`Selecteer...`}
                     />
                 ) : (
                     <LoaderSelect />

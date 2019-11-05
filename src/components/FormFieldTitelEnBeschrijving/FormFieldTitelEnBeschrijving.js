@@ -11,7 +11,7 @@ function FormFieldTitelEnBeschrijving(props) {
             </label>
             <p className="text-gray-700 text-sm mb-4">
                 {`${props.pValue ? `${props.pValue} ` : ''}${
-                    !props.hideObjectLabel
+                    props.addObjectLabel
                         ? props.titelEnkelvoud.toLowerCase()
                         : ''
                 }`}

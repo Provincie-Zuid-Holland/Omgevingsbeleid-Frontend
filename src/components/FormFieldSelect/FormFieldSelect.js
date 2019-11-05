@@ -9,7 +9,7 @@ class FormFieldSelect extends React.Component {
                     dataObjectProperty={this.props.dataObjectProperty}
                     fieldLabel={this.props.fieldLabel}
                     pValue={this.props.pValue}
-                    hideObjectLabel={this.props.hideObjectLabel}
+                    addObjectLabel={this.props.addObjectLabel}
                     titelEnkelvoud={this.props.titelEnkelvoud}
                 />
                 {/* <label
@@ -26,7 +26,8 @@ class FormFieldSelect extends React.Component {
                         onChange={this.props.handleChange}
                         id={`form-field-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
                         name={this.props.dataObjectProperty}
-                        className="block appearance-none w-full bg-white text-gray-700 border border-gray-400 hover:border-gray-500 py-3 px-4 leading-tight rounded leading-tight focus:outline-none focus:shadow-outline"
+                        // className="block appearance-none w-full bg-white text-gray-700 border border-gray-400 hover:border-gray-500 py-3 px-4 leading-tight rounded leading-tight focus:outline-none focus:shadow-outline"
+                        className="appearance-none block w-full text-gray-700 border bg-white border-gray-400 rounded py-3 px-4 leading-tight focus:outline-none hover:border-gray-500 focus:border-gray-500"
                     >
                         <option disabled value=" - selecteer een optie - ">
                             {' '}

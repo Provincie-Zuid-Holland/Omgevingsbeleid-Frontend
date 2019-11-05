@@ -16,6 +16,7 @@ class MuteerUniversalObjectOverzicht extends Component {
         super(props)
         this.state = {
             objecten: [],
+            dataReceived: false,
         }
     }
 
@@ -29,7 +30,6 @@ class MuteerUniversalObjectOverzicht extends Component {
         // const hoofdOnderdeelSlug = 'maatregelen'
 
         // False if data is loading, true if there is a response
-        let dataReceived = this.state.objecten[0]
 
         return (
             <ContainerMain>
@@ -47,7 +47,7 @@ class MuteerUniversalObjectOverzicht extends Component {
                     </h2>
 
                     <ul className="flex mt-8 flex-wrap">
-                        {dataReceived ? (
+                        {this.state.dataReceived ? (
                             <ButtonAddNewObject
                                 objectAantal={this.state.objecten.length}
                                 titelEnkelvoud={titelEnkelvoud}
@@ -57,7 +57,7 @@ class MuteerUniversalObjectOverzicht extends Component {
                                 fullWidth={true}
                             />
                         ) : null}
-                        {dataReceived ? (
+                        {this.state.dataReceived ? (
                             this.state.objecten
                                 .slice(1)
                                 .map((object, index) => (
@@ -112,9 +112,15 @@ class MuteerUniversalObjectOverzicht extends Component {
                     .get(ApiEndpoint)
                     .then(res => {
                         const objecten = res.data
-                        this.setState({ objecten })
+                        this.setState({
+                            objecten: objecten,
+                            dataReceived: true,
+                        })
                     })
                     .catch(error => {
+                        this.setState({
+                            dataReceived: true,
+                        })
                         if (error.response !== undefined) {
                             if (error.response.status === 401) {
                                 localStorage.removeItem('access_token')

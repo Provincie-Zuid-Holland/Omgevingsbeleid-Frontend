@@ -385,7 +385,7 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
                     dataObjectProperty={this.props.dataObjectProperty}
                     fieldLabel={this.props.fieldLabel}
                     pValue={this.props.pValue}
-                    hideObjectLabel={this.props.hideObjectLabel}
+                    addObjectLabel={this.props.addObjectLabel}
                     titelEnkelvoud={this.props.titelEnkelvoud}
                 />
                 <div
