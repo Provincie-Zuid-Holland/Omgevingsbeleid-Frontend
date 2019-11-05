@@ -966,7 +966,7 @@ class ContainerCrudFields extends React.Component {
                                 ) : null}
 
                                 {/* Beleidsregel sectie */}
-                                {titelEnkelvoud === 'Opgave' ? (
+                                {titelEnkelvoud === 'Beleidsregel' ? (
                                     <React.Fragment>
                                         <ContainerFormSection
                                             titel="Algemene informatie"
@@ -1251,7 +1251,7 @@ class ContainerCrudFields extends React.Component {
                                 ) : null}
 
                                 {/* Thema sectie */}
-                                {titelEnkelvoud === 'Belang' ? (
+                                {titelEnkelvoud === 'Thema' ? (
                                     <React.Fragment>
                                         <ContainerFormSection
                                             titel="Algemene informatie"
@@ -1307,6 +1307,27 @@ class ContainerCrudFields extends React.Component {
                                             titel="Aanvullende informatie"
                                             beschrijving="In deze sectie vragen we aanvullende informatie zoals (indien bekend) de datum van inwerkingtreding."
                                         >
+                                            {/* Weblink */}
+                                            {crudObject['Weblink'] !==
+                                            undefined ? (
+                                                <FormFieldWeblink
+                                                    handleChange={
+                                                        this.context
+                                                            .handleChange
+                                                    }
+                                                    fieldValue={
+                                                        crudObject['Weblink']
+                                                    }
+                                                    dataObjectProperty="Weblink"
+                                                    fieldLabel="IDMS"
+                                                    pValue="Vul hier de link in naar het besluitdocument op IDMS. (Eigenschappen > Algemeen > Snelkoppeling kopiëren)."
+                                                    titelEnkelvoud={
+                                                        titelEnkelvoud
+                                                    }
+                                                    addObjectLabel={true}
+                                                />
+                                            ) : null}
+
                                             {/* Geldigheid */}
                                             <div className="flex flex-wrap -mx-3">
                                                 {/* Begin Geldigheid */}

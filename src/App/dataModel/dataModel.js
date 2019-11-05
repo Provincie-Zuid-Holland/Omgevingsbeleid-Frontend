@@ -2010,6 +2010,18 @@ export default
             "UITitle": "Omschrijving",
           }
         }
+      },
+      "Weblink": {
+        "type": "string",
+        "default": null,
+        "nullable": true,
+        "UI": {
+          "userCRUD": true,
+          "CRUDComponent": "TextInput",
+          "UIVariables": {
+            "UITitle": "Weblink",
+          }
+        }
       }
     },
     "required": [
@@ -2020,7 +2032,8 @@ export default
       "Modified_By",
       "Modified_Date",
       "Titel",
-      "UUID"
+      "UUID",
+      "Weblink"
     ],
     "variables": {
       "Titel_Enkelvoud": "Thema",
