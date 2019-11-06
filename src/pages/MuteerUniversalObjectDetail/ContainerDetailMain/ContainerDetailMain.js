@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouter, Link } from 'react-router-dom'
 import { format } from 'date-fns'
 import nlLocale from 'date-fns/locale/nl'
 import { faCalendarAlt } from '@fortawesome/free-regular-svg-icons'
@@ -42,10 +43,13 @@ class ContainerDetailMain extends Component {
                     <LoaderMainTitle />
                 )}
 
-                {pageType === 'detail' ? <StatusLabel /> : null}
+                {pageType === 'detail' &&
+                titelEnkelvoud === 'beleidsbeslissing' ? (
+                    <StatusLabel />
+                ) : null}
 
                 <div className="mt-8 flex">
-                    <div className="flex justify-between items-center w-1/3 mr-4 pr-4 border-r border-gray-300 py-2">
+                    <div className="flex justify-between items-center w-full mr-4 pr-4 border-r border-gray-300 py-2">
                         <div>
                             <span className="block font-bold text-gray-700 text-sm">
                                 Vigerend sinds
@@ -66,46 +70,54 @@ class ContainerDetailMain extends Component {
                             />
                         </div>
                     </div>
-                    <div className="flex justify-between items-center w-1/3 mr-4 pr-4 border-r border-gray-300 py-2">
-                        <a
-                            href={dataObject['Weblink']}
-                            target="_blank"
-                            id="href-idms-koppeling"
-                        >
-                            <span className="block font-bold text-gray-700 text-sm">
-                                IDMS-koppeling
-                            </span>
-                            <span className="text-sm text-gray-700">
-                                Bekijk document
-                            </span>
-                        </a>
-                        <div>
-                            <FontAwesomeIcon
-                                className="text-gray-600 text-xl"
-                                icon={faLink}
-                            />
+                    {dataObject['Weblink'] ? (
+                        <div className="flex justify-between items-center w-full mr-4 pr-4 border-r border-gray-300 py-2">
+                            <a
+                                href={dataObject['Weblink']}
+                                target="_blank"
+                                id="href-idms-koppeling"
+                            >
+                                <span className="block font-bold text-gray-700 text-sm">
+                                    IDMS-koppeling
+                                </span>
+                                <span className="text-sm text-gray-700">
+                                    Bekijk document
+                                </span>
+                            </a>
+                            <div>
+                                <FontAwesomeIcon
+                                    className="text-gray-600 text-xl"
+                                    icon={faLink}
+                                />
+                            </div>
                         </div>
-                    </div>
-                    <div className="flex justify-between items-center w-1/3 py-2 cursor-pointer">
-                        <div>
-                            <span className="block font-bold text-gray-700 text-sm">
-                                Link naar raadpleegomgeving
-                            </span>
-                            <span className="text-sm text-gray-700">
-                                Bekijk {titelEnkelvoud.toLowerCase()}
-                            </span>
+                    ) : null}
+                    {titelEnkelvoud !== 'Beleidsrelatie' ? (
+                        <div className="flex justify-between items-center w-full py-2 cursor-pointer">
+                            <div>
+                                <Link
+                                    to={`/detail/${this.props.overzichtSlug}/${this.props.match.params.single}`}
+                                >
+                                    <span className="block font-bold text-gray-700 text-sm">
+                                        Link naar raadpleegomgeving
+                                    </span>
+                                    <span className="text-sm text-gray-700">
+                                        Bekijk {titelEnkelvoud.toLowerCase()}
+                                    </span>
+                                </Link>
+                            </div>
+                            <div>
+                                <FontAwesomeIcon
+                                    className="text-gray-600 text-xl"
+                                    icon={faExternalLinkAlt}
+                                />
+                            </div>
                         </div>
-                        <div>
-                            <FontAwesomeIcon
-                                className="text-gray-600 text-xl"
-                                icon={faExternalLinkAlt}
-                            />
-                        </div>
-                    </div>
+                    ) : null}
                 </div>
             </div>
         )
     }
 }
 
-export default ContainerDetailMain
+export default withRouter(ContainerDetailMain)

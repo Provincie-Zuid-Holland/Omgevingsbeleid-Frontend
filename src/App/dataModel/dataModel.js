@@ -121,7 +121,17 @@ export default
       "Overzicht_Slug": "ambities",
       "Create_New_Slug": "nieuwe-ambitie",
       "Object_Name": "Ambitie"
-    }
+    },
+    "required": [
+        "Begin_Geldigheid",
+        "Created_By",
+        "Created_Date",
+        "Eind_Geldigheid",
+        "Modified_By",
+        "Modified_Date",
+        "Titel",
+        "UUID"
+    ]
   },
   "Opgave": {
     "type": "object",

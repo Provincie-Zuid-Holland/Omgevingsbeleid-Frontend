@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { withRouter, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 // Import API
 import axios from './../../API/axios'
@@ -53,9 +53,6 @@ function SearchResultItem(props) {
         Omschrijving: getExcerpt(getContent('Omschrijving')),
     }
 
-    console.log('props.item')
-    console.log(props.item)
-    console.log(dataModel[props.item.type])
     const overzichtURL = dataModel[props.item.type].variables.Overzicht_Slug
 
     return (
@@ -156,6 +153,8 @@ class RaadpleegZoekResultatenOverzicht extends Component {
             .get(`/search` + urlParams)
             .then(res => {
                 const searchResults = res.data
+                console.log('searchResults:')
+                console.log(searchResults)
                 this.setInitialOnPageFilters(searchResults)
                 this.setState(
                     {
@@ -251,4 +250,4 @@ class RaadpleegZoekResultatenOverzicht extends Component {
     }
 }
 
-export default withRouter(RaadpleegZoekResultatenOverzicht)
+export default RaadpleegZoekResultatenOverzicht

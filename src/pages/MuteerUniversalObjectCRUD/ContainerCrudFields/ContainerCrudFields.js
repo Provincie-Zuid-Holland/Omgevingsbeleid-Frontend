@@ -152,7 +152,7 @@ class ContainerCrudFields extends React.Component {
                                             beschrijving="De werking van een beleidsbeslissing geeft aan in welke context en vanuit welke achtergrond de provincie hier beleid op voert."
                                         >
                                             {crudObject[
-                                                'Omschrijving_Keuze'
+                                                'Omschrijving_Werking'
                                             ] !== undefined ? (
                                                 <FormFieldTextArea
                                                     handleChange={

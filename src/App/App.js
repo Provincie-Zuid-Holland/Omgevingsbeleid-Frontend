@@ -73,10 +73,6 @@ class App extends Component {
                 dataModel: dataModel.Belang,
             },
             {
-                slug: 'beleids-relaties',
-                dataModel: dataModel.BeleidsRelatie,
-            },
-            {
                 slug: 'maatregelen',
                 dataModel: dataModel.Maatregelen,
             },

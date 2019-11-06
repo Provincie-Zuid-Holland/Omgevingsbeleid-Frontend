@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -20,7 +20,7 @@ class RaadpleegHome extends Component {
                     <h1 className="mt-8 heading-serif-2xl text-gray-800">
                         Omgevingsbeleid
                     </h1>
-                    <p className="mt-6 text-gray-800">
+                    <p className="mt-4 text-gray-800">
                         Zoek eenvoudig binnen het Omgevingsbeleid van de
                         provincie Zuid-Holland of selecteer een locatie of
                         gebied op de kaart. Meer algemene informatie over
@@ -33,7 +33,7 @@ class RaadpleegHome extends Component {
                     <div className="mt-10 block">
                         <SearchBar />
                     </div>
-                    <div>
+                    {/* <div>
                         <h2 className="heading-serif text-gray-800 mt-10">
                             Recente Wijzigingen
                         </h2>
@@ -79,7 +79,7 @@ class RaadpleegHome extends Component {
                                 </Link>
                             </li>
                         </ul>
-                    </div>
+                    </div> */}
                 </div>
                 <div id="half-screen-leaflet-container">
                     <LeafletHalfScreenWidthViewer />

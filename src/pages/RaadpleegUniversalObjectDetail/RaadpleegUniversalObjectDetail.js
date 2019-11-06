@@ -21,6 +21,15 @@ import ButtonBackToPage from './../../components/ButtonBackToPage'
 import PopUpRevisieContainer from './../../components/PopUpRevisieContainer'
 import LoaderContent from './../../components/LoaderContent'
 
+// Import view containers
+import ContainerViewFieldsBeleidsbeslissing from './ContainerFields/ContainerViewFieldsBeleidsbeslissing'
+import ContainerViewFieldsBeleidsregel from './ContainerFields/ContainerViewFieldsBeleidsregel'
+import ContainerViewFieldsMaatregel from './ContainerFields/ContainerViewFieldsMaatregel'
+import ContainerViewFieldsOpgave from './ContainerFields/ContainerViewFieldsOpgave'
+import ContainerViewFieldsAmbitie from './ContainerFields/ContainerViewFieldsAmbitie'
+import ContainerViewFieldsBelang from './ContainerFields/ContainerViewFieldsBelang'
+import ContainerViewFieldsThema from './ContainerFields/ContainerViewFieldsThema'
+
 function RevisieListItem(props) {
     return (
         <li className="py-2">
@@ -117,7 +126,7 @@ class RaadpleegUniversalObjectDetail extends Component {
             werkingsgebiedBoolean = false
         }
 
-        console.log(this.state.fullscreenLeafletViewer)
+        const titelEnkelvoud = this.props.dataModel.variables.Titel_Enkelvoud
 
         return (
             <div className="container mx-auto flex px-6 pb-8 mt-8">
@@ -240,65 +249,45 @@ class RaadpleegUniversalObjectDetail extends Component {
 
                         {/* Inhoud Sectie */}
 
-                        {dataObject.Omschrijving ? (
-                            <div className="text-gray-800 py-5">
-                                {dataObject.Omschrijving ? (
-                                    <ContentTekst
-                                        content={dataObject.Omschrijving}
-                                    />
-                                ) : null}
-                            </div>
-                        ) : null}
-
-                        {dataObject.Omschrijving_Keuze ? (
-                            <ContentTekst
-                                content={dataObject.Omschrijving_Keuze}
+                        {titelEnkelvoud === 'Beleidsbeslissing' ? (
+                            <ContainerViewFieldsBeleidsbeslissing
+                                crudObject={dataObject}
                             />
                         ) : null}
 
-                        {dataObject.Omschrijving_Werking ? (
-                            <ContentTekst
-                                titel="Toelichting"
-                                content={dataObject.Omschrijving_Werking}
+                        {titelEnkelvoud === 'Beleidsregel' ? (
+                            <ContainerViewFieldsBeleidsregel
+                                crudObject={dataObject}
                             />
                         ) : null}
 
-                        {dataObject.Provinciaal_Belang ? (
-                            <ContentTekst
-                                titel="Motivering"
-                                content={dataObject.Provinciaal_Belang}
+                        {titelEnkelvoud === 'Maatregel' ? (
+                            <ContainerViewFieldsMaatregel
+                                crudObject={dataObject}
                             />
                         ) : null}
 
-                        {dataObject.Aanleiding ? (
-                            <ContentTekst
-                                titel="Aanleiding"
-                                content={dataObject.Aanleiding}
+                        {titelEnkelvoud === 'Opgave' ? (
+                            <ContainerViewFieldsOpgave
+                                crudObject={dataObject}
                             />
                         ) : null}
 
-                        {dataObject.Afweging ? (
-                            <ContentTekst
-                                titel="Afwegingen"
-                                content={dataObject.Afweging}
+                        {/*  */}
+                        {titelEnkelvoud === 'Ambitie' ? (
+                            <ContainerViewFieldsAmbitie
+                                crudObject={dataObject}
                             />
                         ) : null}
 
-                        {/* Tags Sectie */}
-                        {dataObject.Tags ? (
-                            <div className="mt-8">
-                                <h2 className="text-l font-serif block text-gray-800 mt-8">
-                                    Tags
-                                </h2>
-                                <div className="flex mt-3">
-                                    <div className="bg-gray-300 text-gray-700 rounded px-4 py-2 mr-4">
-                                        Grondwater
-                                    </div>
-                                    <div className="bg-gray-300 text-gray-700 rounded px-4 py-2 mr-4">
-                                        Grondwaterheffing
-                                    </div>
-                                </div>
-                            </div>
+                        {titelEnkelvoud === 'Belang' ? (
+                            <ContainerViewFieldsBelang
+                                crudObject={dataObject}
+                            />
+                        ) : null}
+
+                        {titelEnkelvoud === 'Thema' ? (
+                            <ContainerViewFieldsThema crudObject={dataObject} />
                         ) : null}
                     </div>
                 ) : (
@@ -325,12 +314,12 @@ class RaadpleegUniversalObjectDetail extends Component {
                         <div
                             id={`full-screen-leaflet-container-${this.state.fullscreenLeafletViewer}`}
                         >
-                            <LeafletTinyViewer
+                            {/* <LeafletTinyViewer
                                 gebiedType="Werkingsgebieden"
                                 gebiedUUID={this.state.dataObject.Gebied}
                                 fullscreen={this.state.fullscreenLeafletViewer}
                                 // http://geo-acctest-ob.westeurope.cloudapp.azure.com/geoserver/ows?service=wfs&version=1.1.0&request=GetFeature&typeNames=Omgevingsbeleid:Werkingsgebieden&cql_filter=UUID='46adf8f1-91f6-465d-9708-267b74ec68f2'&outputFormat=application/json
-                            />
+                            /> */}
                         </div>
                     </div>
                 ) : null}

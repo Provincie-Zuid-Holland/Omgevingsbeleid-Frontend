@@ -197,6 +197,8 @@ class MuteerUniversalObjectDetail extends Component {
             dataObject = this.state.dataObject
         }
 
+        console.log(dataObject)
+
         return (
             <ContainerMain>
                 {dataObject.Titel ? (
@@ -236,14 +238,7 @@ class MuteerUniversalObjectDetail extends Component {
                                         to={`/muteer/${this.props.overzichtSlug}/edit/${this.props.match.params.single}`}
                                         id={`href-ontwerp-maken`}
                                     >
-                                        <span
-                                            // to={this.makeURLForNewObject(
-                                            //     overzichtSlug,
-                                            //     dataObject.ID,
-                                            //     apiTest
-                                            // )}
-                                            className="relative w-24 h-10 border-r-2 flex items-center justify-end border-gray-300 pb-5 mr-2"
-                                        >
+                                        <span className="relative w-24 h-10 border-r-2 flex items-center justify-end border-gray-300 pb-5 mr-2">
                                             <div className="w-8 h-8 pt-1 absolute text-center bg-gray-300 rounded-full -right-4">
                                                 <FontAwesomeIcon
                                                     className="text-gray-600 relative"
