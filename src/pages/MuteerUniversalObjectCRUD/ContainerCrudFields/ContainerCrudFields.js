@@ -12,6 +12,7 @@ import FormFieldWeblink from './../../../components/FormFieldWeblink'
 import FormFieldDate from './../../../components/FormFieldDate'
 import FormFieldTags from './../../../components/FormFieldTags'
 import FormFieldSelect from './../../../components/FormFieldSelect'
+import FormFieldSelectBeleidsbeslissing from './../../../components/FormFieldSelectBeleidsbeslissing'
 import FormFieldBeleidsrelatie from './../../../components/FormFieldBeleidsrelatie'
 import FormFieldWerkingsgebiedrelatie from './../../../components/FormFieldWerkingsgebiedrelatie'
 import FormFieldWerkingsgebiedKoppeling from './../../../components/FormFieldWerkingsgebiedKoppeling'
@@ -313,10 +314,12 @@ class ContainerCrudFields extends React.Component {
                                         </ContainerFormSection>
 
                                         <ContainerFormSection
-                                            titel="Koppelingen en relaties"
-                                            beschrijving="Integraal Omgevingsbeleid betekent dat deze beleidsbeslissing relaties en koppelingen met andere onderdelen van het provinciale beleid heeft. Een relatie ga je, met wederzijds goedkeuren, aan met andere beleidsbeslissingen. Koppelingen leg je, eenzijdig, met andere beleidsobjecten, zoals een artikel uit de verordening of een ambitie."
+                                            titel="Koppelingen"
+                                            beschrijving="Integraal Omgevingsbeleid betekent dat deze beleidsbeslissing koppelingen met andere onderdelen van het provinciale beleid heeft. Koppelingen leg je, eenzijdig, met andere beleidsobjecten, zoals een artikel uit de verordening of een ambitie."
+                                            // titel="Koppelingen en relaties"
+                                            // beschrijving="Integraal Omgevingsbeleid betekent dat deze beleidsbeslissing relaties en koppelingen met andere onderdelen van het provinciale beleid heeft. Een relatie ga je, met wederzijds goedkeuren, aan met andere beleidsbeslissingen. Koppelingen leg je, eenzijdig, met andere beleidsobjecten, zoals een artikel uit de verordening of een ambitie."
                                         >
-                                            <FormFieldBeleidsrelatieKoppeling
+                                            {/* <FormFieldBeleidsrelatieKoppeling
                                                 objectUUID={objectUUID}
                                                 placeholderTekst="Er zijn nog geen relaties aangebracht voor deze beleidsbeslissing"
                                                 buttonTekst="Nieuwe koppeling"
@@ -355,7 +358,7 @@ class ContainerCrudFields extends React.Component {
                                                 crudObject={JSON.parse(
                                                     JSON.stringify(crudObject)
                                                 )}
-                                            />
+                                            /> */}
                                             <FormFieldUniverseleRelatieKoppeling
                                                 placeholderTekst="Er zijn nog geen relaties aangebracht voor deze beleidsbeslissing"
                                                 buttonTekst="Nieuwe koppeling"
@@ -523,7 +526,150 @@ class ContainerCrudFields extends React.Component {
                                     </React.Fragment>
                                 ) : null}
 
-                                {/* Maatregel sectie */}
+                                {/* 2. Beleidsrelatie sectie */}
+                                {titelEnkelvoud === 'Beleidsrelatie' ? (
+                                    <React.Fragment>
+                                        <ContainerFormSection
+                                            titel="Algemene informatie"
+                                            beschrijving="De algemene informatie bevat een duidelijke titel en de betrokken personen."
+                                        >
+                                            {crudObject['Titel'] !==
+                                            undefined ? (
+                                                <FormFieldTextInput
+                                                    handleChange={
+                                                        this.context
+                                                            .handleChange
+                                                    }
+                                                    fieldValue={
+                                                        crudObject['Titel']
+                                                    }
+                                                    dataObjectProperty="Titel"
+                                                    fieldLabel="Titel"
+                                                    pValue="Formuleer in enkele woorden de titel van deze maatregel."
+                                                    titelEnkelvoud={
+                                                        titelEnkelvoud
+                                                    }
+                                                />
+                                            ) : null}
+
+                                            {crudObject['Omschrijving'] !==
+                                            undefined ? (
+                                                <FormFieldTextArea
+                                                    handleChange={
+                                                        this.context
+                                                            .handleChange
+                                                    }
+                                                    fieldValue={
+                                                        crudObject[
+                                                            'Omschrijving'
+                                                        ]
+                                                    }
+                                                    fieldLabel="Omschrijving"
+                                                    dataObjectProperty="Omschrijving"
+                                                    pValue="Geef een korte omschrijving van deze beleidsregel"
+                                                    titelEnkelvoud={
+                                                        titelEnkelvoud
+                                                    }
+                                                />
+                                            ) : null}
+
+                                            {/* Geldigheid */}
+                                            <div className="flex flex-wrap -mx-3">
+                                                {/* Begin Geldigheid */}
+                                                {crudObject[
+                                                    'Begin_Geldigheid'
+                                                ] !== undefined ? (
+                                                    <FormFieldDate
+                                                        handleChange={
+                                                            this.context
+                                                                .handleChange
+                                                        }
+                                                        fieldValue={
+                                                            crudObject[
+                                                                'Begin_Geldigheid'
+                                                            ]
+                                                        }
+                                                        fieldLabel="Inwerkingtreding"
+                                                        dataObjectProperty="Begin_Geldigheid"
+                                                        pValue="Indien bekend, kan hier de datum van inwerkingtreding worden ingevuld"
+                                                        titelEnkelvoud={
+                                                            titelEnkelvoud
+                                                        }
+                                                    />
+                                                ) : null}
+
+                                                {/* Eind Geldigheid */}
+                                                {crudObject[
+                                                    'Eind_Geldigheid'
+                                                ] !== undefined ? (
+                                                    <FormFieldDate
+                                                        handleChange={
+                                                            this.context
+                                                                .handleChange
+                                                        }
+                                                        fieldValue={
+                                                            crudObject[
+                                                                'Eind_Geldigheid'
+                                                            ]
+                                                        }
+                                                        fieldLabel="Uitwerkingtreding"
+                                                        dataObjectProperty="Eind_Geldigheid"
+                                                        pValue="Indien bekend, kan hier de datum van uitwerkingtreding worden ingevuld"
+                                                        titelEnkelvoud={
+                                                            titelEnkelvoud
+                                                        }
+                                                    />
+                                                ) : null}
+                                            </div>
+                                            {/* Eind Geldigheid */}
+                                            {crudObject[
+                                                'Van_Beleidsbeslissing'
+                                            ] !== undefined ? (
+                                                <FormFieldSelectBeleidsbeslissing
+                                                    handleChange={
+                                                        this.context
+                                                            .handleChange
+                                                    }
+                                                    fieldValue={
+                                                        crudObject[
+                                                            'Van_Beleidsbeslissing'
+                                                        ]
+                                                    }
+                                                    fieldLabel="Van Beleidsbeslissing"
+                                                    dataObjectProperty="Van_Beleidsbeslissing"
+                                                    // pValue="Beschrijving"
+                                                    titelEnkelvoud={
+                                                        titelEnkelvoud
+                                                    }
+                                                />
+                                            ) : null}
+                                            {/* Eind Geldigheid */}
+                                            {crudObject[
+                                                'Naar_Beleidsbeslissing'
+                                            ] !== undefined ? (
+                                                <FormFieldSelectBeleidsbeslissing
+                                                    handleChange={
+                                                        this.context
+                                                            .handleChange
+                                                    }
+                                                    fieldValue={
+                                                        crudObject[
+                                                            'Naar_Beleidsbeslissing'
+                                                        ]
+                                                    }
+                                                    fieldLabel="Naar Beleidsbeslissing"
+                                                    dataObjectProperty="Naar_Beleidsbeslissing"
+                                                    // pValue="Beschrijving"
+                                                    titelEnkelvoud={
+                                                        titelEnkelvoud
+                                                    }
+                                                />
+                                            ) : null}
+                                        </ContainerFormSection>
+                                    </React.Fragment>
+                                ) : null}
+
+                                {/* 3. Maatregel sectie */}
                                 {titelEnkelvoud === 'Maatregel' ? (
                                     <React.Fragment>
                                         <ContainerFormSection
@@ -756,7 +902,7 @@ class ContainerCrudFields extends React.Component {
                                     </React.Fragment>
                                 ) : null}
 
-                                {/* Ambitie sectie */}
+                                {/* 4. Ambitie sectie */}
                                 {titelEnkelvoud === 'Ambitie' ? (
                                     <React.Fragment>
                                         <ContainerFormSection
@@ -886,7 +1032,7 @@ class ContainerCrudFields extends React.Component {
                                     </React.Fragment>
                                 ) : null}
 
-                                {/* Opgave sectie */}
+                                {/* 5. Opgave sectie */}
                                 {titelEnkelvoud === 'Opgave' ? (
                                     <React.Fragment>
                                         <ContainerFormSection
@@ -1016,7 +1162,7 @@ class ContainerCrudFields extends React.Component {
                                     </React.Fragment>
                                 ) : null}
 
-                                {/* Beleidsregel sectie */}
+                                {/* 6. Beleidsregel sectie */}
                                 {titelEnkelvoud === 'Beleidsregel' ? (
                                     <React.Fragment>
                                         <ContainerFormSection
@@ -1146,7 +1292,7 @@ class ContainerCrudFields extends React.Component {
                                     </React.Fragment>
                                 ) : null}
 
-                                {/* Nationaal belang of wettelijke taak sectie */}
+                                {/* 7. Nationaal belang of wettelijke taak sectie */}
                                 {titelEnkelvoud === 'Belang' ? (
                                     <React.Fragment>
                                         <ContainerFormSection
@@ -1301,7 +1447,7 @@ class ContainerCrudFields extends React.Component {
                                     </React.Fragment>
                                 ) : null}
 
-                                {/* Thema sectie */}
+                                {/* 8. Thema sectie */}
                                 {titelEnkelvoud === 'Thema' ? (
                                     <React.Fragment>
                                         <ContainerFormSection

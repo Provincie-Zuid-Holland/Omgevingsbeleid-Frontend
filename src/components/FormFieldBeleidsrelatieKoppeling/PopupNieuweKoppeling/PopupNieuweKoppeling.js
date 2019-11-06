@@ -8,6 +8,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
+import FormFieldDate from './../../../components/FormFieldDate'
+import FormFieldTitelEnBeschrijving from './../../../components/FormFieldTitelEnBeschrijving'
 import PopUpAnimatedContainer from './../../PopUpAnimatedContainer'
 import objecten from './../ObjectenInformatie'
 
@@ -18,6 +20,9 @@ class PopupNieuweKoppeling extends Component {
             type: this.props.type,
             objecten: [],
             selected: null,
+            beschrijving: '',
+            begin_geldigheid: '',
+            eind_geldigheid: '',
             beschrijving: '',
             zoekFilter: '',
             actievePagina: 1,
@@ -180,8 +185,45 @@ class PopupNieuweKoppeling extends Component {
                         <p className="form-field-description">
                             Beschrijf de koppeling tussen het nationaal belang '
                             {this.state.selected.Titel}' en de beleidsbeslissing
-                            '{this.props.titelMainObject}'
+                            '{this.props.titelMainObject}' en vul de
+                            inwerkingtreding en uitwerkingtreding in.
                         </p>
+                        <div className="flex">
+                            <div className="w-full">
+                                <FormFieldTitelEnBeschrijving
+                                    pValue={`Vul hier de datum van inwerkingtreding in`}
+                                />
+                                <input
+                                    value={this.state.begin_geldigheid}
+                                    onChange={this.handleChange}
+                                    name={`begin_geldigheid`}
+                                    className="appearance-none block w-full text-gray-700 border border-gray-400 focus:border-gray-500 hover:border-gray-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
+                                    type="date"
+                                    id={`beleidsrelatie-begin-geldigheid`}
+                                    // min={format(
+                                    //     new Date(this.props.Begin_Geldigheid),
+                                    //     'YYYY-MM-DD'
+                                    // )}
+                                />
+                            </div>
+                            <div className="w-full ml-4">
+                                <FormFieldTitelEnBeschrijving
+                                    pValue={`Vul hier de datum van uitwerkingtreding in`}
+                                />
+                                <input
+                                    value={this.state.eind_geldigheid}
+                                    onChange={this.handleChange}
+                                    name={`eind_geldigheid`}
+                                    className="appearance-none block w-full text-gray-700 border border-gray-400 focus:border-gray-500 hover:border-gray-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
+                                    type="date"
+                                    id={`beleidsrelatie-begin-geldigheid`}
+                                    // min={format(
+                                    //     new Date(this.props.Begin_Geldigheid),
+                                    //     'YYYY-MM-DD'
+                                    // )}
+                                />
+                            </div>
+                        </div>
                         <div className="mbg-color-lighter m-border-color border-l-4 px-4 py-4 my-4 text-sm text-gray-700">
                             Om er voor te zorgen dat de aangebrachte koppeling
                             daadwerkelijk van waarde is, vragen we je om de

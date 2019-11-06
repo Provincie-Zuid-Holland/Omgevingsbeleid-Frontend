@@ -85,6 +85,10 @@ class App extends Component {
                 dataModel: dataModel.Beleidsbeslissingen,
             },
             {
+                slug: 'beleidsrelaties',
+                dataModel: dataModel.BeleidsRelatie,
+            },
+            {
                 slug: 'themas',
                 dataModel: dataModel.Thema,
             },

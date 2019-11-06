@@ -902,6 +902,16 @@ export default
           }
         }
       },
+      "Titel": {
+        "type": "string",
+        "UI": {
+            "userCRUD": true,
+            "CRUDComponent": "TextInput",
+            "UIVariables": {
+              "UITitle": "Titel",
+            }
+          }
+      },
       "Omschrijving": {
         "type": "string",
         "default": null,
@@ -945,11 +955,7 @@ export default
         "format": "date-time",
         "nullable": true,
         "UI": {
-          "userCRUD": true,
-          "CRUDComponent": "DateInput",
-          "UIVariables": {
-            "UITitle": "Datum Akkoord",
-          }
+          "userCRUD": false,
         }
       }
     },
@@ -2032,8 +2038,7 @@ export default
       "Modified_By",
       "Modified_Date",
       "Titel",
-      "UUID",
-      "Weblink"
+      "UUID"
     ],
     "variables": {
       "Titel_Enkelvoud": "Thema",

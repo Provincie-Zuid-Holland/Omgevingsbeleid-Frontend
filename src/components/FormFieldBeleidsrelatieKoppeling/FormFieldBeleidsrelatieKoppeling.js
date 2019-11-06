@@ -180,6 +180,7 @@ class FormFieldBeleidsrelatieKoppeling extends Component {
                 maakNieuweBeleidsrelatieAan: true,
             },
             () => {
+                console.log(nieuweBeleidsrelatie)
                 axios
                     .post(`/beleidsrelaties`, nieuweBeleidsrelatie)
                     .then(res => {

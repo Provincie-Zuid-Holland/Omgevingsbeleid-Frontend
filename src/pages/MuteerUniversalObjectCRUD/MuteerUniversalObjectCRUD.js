@@ -384,25 +384,25 @@ class MuteerUniversalObjectCRUD extends Component {
         }
 
         // Eind_Geldigheid wordt nu standaard op 2100 gezet doordat deze niet in de UI zit, maar wel verplicht is in de API
-        if (
-            Object.prototype.toString.call(crudObject.Eind_Geldigheid) ===
-            '[object Date]'
-        ) {
-            // it is a date
-            if (isNaN(crudObject.Eind_Geldigheid.getTime())) {
-                // d.valueOf() could also work
-                // date is not valid
-                crudObject.Eind_Geldigheid = new Date('December 17, 2100')
-            } else {
-                // date is valid
-                crudObject.Eind_Geldigheid = new Date(
-                    crudObject.Eind_Geldigheid
-                )
-            }
-        } else {
-            // not a date
-            crudObject.Eind_Geldigheid = new Date('December 17, 2100')
-        }
+        // if (
+        //     Object.prototype.toString.call(crudObject.Eind_Geldigheid) ===
+        //     '[object Date]'
+        // ) {
+        //     // it is a date
+        //     if (isNaN(crudObject.Eind_Geldigheid.getTime())) {
+        //         // d.valueOf() could also work
+        //         // date is not valid
+        //         crudObject.Eind_Geldigheid = new Date('December 17, 2100')
+        //     } else {
+        //         // date is valid
+        //         crudObject.Eind_Geldigheid = new Date(
+        //             crudObject.Eind_Geldigheid
+        //         )
+        //     }
+        // } else {
+        //     // not a date
+        //     crudObject.Eind_Geldigheid = new Date('December 17, 2100')
+        // }
 
         // Voordat we hem PATCHEN of POSTEN kijken we of er nog velden leeg zijn die verplicht zijn
         if (!this.checkForEmptyFields(this.state.crudObject)) {
@@ -429,6 +429,12 @@ class MuteerUniversalObjectCRUD extends Component {
                     console.log(error)
                 })
         } else {
+            // Als het object endpoint beleidsrelaties is moeten we het crudObject nog aanpassen
+            if (ApiEndpoint === 'beleidsrelaties') {
+                crudObject.Status = 'Open'
+                crudObject.Aanvraag_Datum = new Date()
+            }
+
             axios
                 .post(`${ApiEndpoint}`, JSON.stringify(crudObject))
                 .then(res => {

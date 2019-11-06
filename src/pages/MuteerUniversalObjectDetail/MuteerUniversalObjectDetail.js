@@ -222,7 +222,13 @@ class MuteerUniversalObjectDetail extends Component {
                     <div className="flex">
                         {/* <RevisieOverzicht revisieObject={revisieObject} /> */}
 
-                        <div className="w-9/12 pr-8">
+                        <div
+                            className={`${
+                                overzichtSlug !== 'beleidsbeslissingen'
+                                    ? 'w-full'
+                                    : 'w-9/12'
+                            } pr-8`}
+                        >
                             {pageType === 'detail' ? (
                                 <div className="h-10 mt-5">
                                     <Link
@@ -388,17 +394,6 @@ class MuteerUniversalObjectDetail extends Component {
                                 </div>
                             </React.Fragment>
                         ) : null}
-
-                        {/* {dataReceived ? (
-                            <DetailSidebar
-                                dataObject={dataObject}
-                                revisieObject={revisieObject}
-                                pageType={this.state.pageType}
-                                overzichtSlug={overzichtSlug}
-                                objectName={objectName}
-                                dataModel={dataModel}
-                            />
-                        ) : null} */}
                     </div>
                 </div>
             </ContainerMain>

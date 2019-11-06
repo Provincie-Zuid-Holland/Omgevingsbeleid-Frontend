@@ -58,27 +58,23 @@ class MuteerUniversalObjectOverzicht extends Component {
                             />
                         ) : null}
                         {this.state.dataReceived ? (
-                            this.state.objecten
-                                .slice(1)
-                                .map((object, index) => (
-                                    <li
-                                        key={object.ID}
-                                        className="mb-6 w-full display-inline"
-                                    >
-                                        {
-                                            <CardObjectDetails
-                                                index={index}
-                                                object={object}
-                                                overzichtSlug={overzichtSlug}
-                                                titelEnkelvoud={titelEnkelvoud}
-                                                hoofdOnderdeelSlug={
-                                                    overzichtSlug
-                                                }
-                                                hideParagraaf={true}
-                                            />
-                                        }
-                                    </li>
-                                ))
+                            this.state.objecten.map((object, index) => (
+                                <li
+                                    key={object.ID}
+                                    className="mb-6 w-full display-inline"
+                                >
+                                    {
+                                        <CardObjectDetails
+                                            index={index}
+                                            object={object}
+                                            overzichtSlug={overzichtSlug}
+                                            titelEnkelvoud={titelEnkelvoud}
+                                            hoofdOnderdeelSlug={overzichtSlug}
+                                            hideParagraaf={true}
+                                        />
+                                    }
+                                </li>
+                            ))
                         ) : (
                             <React.Fragment>
                                 <LoaderCard />
