@@ -46,7 +46,7 @@ class MuteerDashboard extends Component {
                         <CardKoppeling />
                     </section> */}
                     <section>
-                        <h2 className="heading-serif text-gray-800 mt-8">
+                        <h2 className="heading-serif text-gray-800">
                             Mijn beleid
                         </h2>
 

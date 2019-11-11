@@ -9,9 +9,9 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-function getToken() {
-    return localStorage.getItem('access_token')
-}
+// function getToken() {
+//     return localStorage.getItem('access_token')
+// }
 
 function logout() {
     // Clear user token and profile data from localStorage
@@ -116,7 +116,10 @@ class NavigationMenuPopUp extends Component {
                                         id="navbar-popup-href-uitloggen"
                                         className="py-2 px-4 text-sm border-t border-gray-300 w-full inline-block"
                                         to={`/login`}
-                                        onClick={logout}
+                                        onClick={() => {
+                                            logout()
+                                            this.props.setLoginState(false)
+                                        }}
                                     >
                                         Uitloggen
                                     </Link>
@@ -130,33 +133,33 @@ class NavigationMenuPopUp extends Component {
     }
 }
 
-function LoggedIn() {
-    let identifier = localStorage.getItem('identifier')
-    let gebruikersNaam = ''
-    if (identifier !== null) {
-        gebruikersNaam = JSON.parse(identifier).Gebruikersnaam.split(' ')[0]
-    } else {
-        gebruikersNaam = null
-    }
+// function LoggedIn() {
+//     let identifier = localStorage.getItem('identifier')
+//     let gebruikersNaam = ''
+//     if (identifier !== null) {
+//         gebruikersNaam = JSON.parse(identifier).Gebruikersnaam.split(' ')[0]
+//     } else {
+//         gebruikersNaam = null
+//     }
 
-    return (
-        <Link to={`/login`} onClick={logout} className="text-sm text-gray-800">
-            <span>
-                {gebruikersNaam !== null
-                    ? `Ingelogd als ${gebruikersNaam}`
-                    : 'Ingelogd'}
-            </span>
-            <FontAwesomeIcon
-                className="ml-2 text-gray-700"
-                icon={faCaretDown}
-            />
-        </Link>
-    )
-}
+//     return (
+//         <Link to={`/login`} onClick={logout} className="text-sm text-gray-800">
+//             <span>
+//                 {gebruikersNaam !== null
+//                     ? `Ingelogd als ${gebruikersNaam}`
+//                     : 'Ingelogd'}
+//             </span>
+//             <FontAwesomeIcon
+//                 className="ml-2 text-gray-700"
+//                 icon={faCaretDown}
+//             />
+//         </Link>
+//     )
+// }
 
-function LoginLogoutButton() {
-    if (getToken()) {
-        return <NavigationMenuPopUp />
+function LoginLogoutButton(props) {
+    if (props.loggedIn) {
+        return <NavigationMenuPopUp setLoginState={props.setLoginState} />
     } else {
         return (
             <Link className="text-sm" to="login" id="href-naar-inloggen">
@@ -185,7 +188,7 @@ class Navigation extends Component {
             <nav className="bg-white fixed w-full z-10 top-0">
                 <div className="lg:px-10 bg-white border-b border-gray-200 py-6 container mx-auto flex items-center justify-between flex-wrap bg-white">
                     <div className="flex items-center flex-no-shrink text-black mr-6 py-2">
-                        {getToken() ? (
+                        {this.props.loggedIn ? (
                             <Link
                                 id="href-naar-home"
                                 to={`/muteer/dashboard`}
@@ -204,7 +207,10 @@ class Navigation extends Component {
                         )}
                     </div>
                     <div className="flex items-center justify-end">
-                        <LoginLogoutButton />
+                        <LoginLogoutButton
+                            setLoginState={this.props.setLoginState}
+                            loggedIn={this.props.loggedIn}
+                        />
                     </div>
                 </div>
             </nav>

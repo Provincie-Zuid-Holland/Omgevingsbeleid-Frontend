@@ -42,7 +42,6 @@ class Login extends Component {
             .post('login', JSON.stringify(this.state))
             .then(response => {
                 if (response.status >= 200 && response.status < 300) {
-                    // Success status lies between 200 to 300
                     const identifier = response.data.identifier
                     const tokenTime = new Date()
                     localStorage.setItem(
@@ -55,7 +54,8 @@ class Login extends Component {
                     )
                     localStorage.setItem('token_date', tokenTime)
                     this.resetLoadingState()
-                    history.push('/muteer/dashboard')
+                    this.props.setLoginState(true)
+                    this.props.history.push('/muteer/dashboard')
                 } else if (response.status === 401) {
                     this.resetLoadingState()
                     throw Error('Wrong username or password')
@@ -65,6 +65,8 @@ class Login extends Component {
                 }
             })
             .catch(err => {
+                console.log('err:')
+                console.log(err)
                 let errorEl = document.getElementById('error-message')
                 errorEl.classList.innerHTML = err
                 errorEl.classList.remove('hidden')

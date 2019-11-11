@@ -41,13 +41,25 @@ class App extends Component {
         super(props)
         this.state = {
             authUser: null,
+            loggedIn: null,
         }
+        this.setLoginState = this.setLoginState.bind(this)
+    }
+
+    setLoginState(loginState) {
+        this.setState({
+            loggedIn: loginState,
+        })
     }
 
     componentDidMount() {
-        axios.get('/tokeninfo').catch(error => {
-            localStorage.removeItem('access_token')
-        })
+        axios
+            .get('/tokeninfo')
+            .then(() => this.setState({ loggedIn: true }))
+            .catch(error => {
+                localStorage.removeItem('access_token')
+                this.setState({ loggedIn: false })
+            })
     }
 
     render() {
@@ -113,7 +125,10 @@ class App extends Component {
                     <title>Omgevingsbeleid - Provincie Zuid-Holland</title>
                 </Helmet>
 
-                <Navigation />
+                <Navigation
+                    setLoginState={this.setLoginState}
+                    loggedIn={this.state.loggedIn}
+                />
                 <Switch>
                     <Route path="/" exact component={RaadpleegHome} />
                     <Route
@@ -126,17 +141,6 @@ class App extends Component {
                         exact
                         component={RaadpleegArtikelDetail}
                     />
-                    {/* <Route
-                        path="/detail/:type/:id/:uuid"
-                        render={({ match }) => {
-                            return (
-                                <RaadpleegArtikelDetail
-                                    history={this.props.history}
-                                    match={match}
-                                />
-                            )
-                        }}
-                    /> */}
                     {detailPaginas.map(item => {
                         return (
                             <Route
@@ -152,7 +156,15 @@ class App extends Component {
                             />
                         )
                     })}
-                    <Route path="/login" component={Login} />
+                    <Route
+                        path="/login"
+                        render={() => (
+                            <Login
+                                setLoginState={this.setLoginState}
+                                history={this.props.history}
+                            />
+                        )}
+                    />
                     <AuthRoutes
                         authUser={this.state.authUser}
                         history={this.props.history}

@@ -28,7 +28,6 @@ class MijnBeleid extends Component {
             'BeleidsRegel',
             'Doel',
             'Belang',
-            // 'BeleidsRelatie',
             'Beleidsbeslissingen',
             'Maatregelen',
             'Thema',

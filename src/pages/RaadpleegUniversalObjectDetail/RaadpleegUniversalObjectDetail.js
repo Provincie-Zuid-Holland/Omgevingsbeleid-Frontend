@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { format } from 'date-fns'
+import { Helmet } from 'react-helmet'
 import {
     faAngleRight,
     faAngleLeft,
@@ -117,10 +118,11 @@ class RaadpleegUniversalObjectDetail extends Component {
         const dataObject = this.state.dataObject
         const dataLoaded = this.state.dataLoaded
         let werkingsgebiedBoolean = false
+
         if (dataObject !== null) {
             werkingsgebiedBoolean =
                 dataObject.Werkingsgebied ||
-                dataObject.WerkingsGebieden ||
+                dataObject.WerkingsGebieden === true ||
                 dataObject.Gebied
         } else {
             werkingsgebiedBoolean = false
@@ -130,6 +132,17 @@ class RaadpleegUniversalObjectDetail extends Component {
 
         return (
             <div className="container mx-auto flex px-6 pb-8 mt-8">
+                {/* <Helmet>
+                    <style type="text/css">{`
+                    body {
+                        background-color: blue;
+                    }
+
+                    p {
+                        font-size: 12px;
+                    }
+                `}</style>
+                </Helmet> */}
                 <div className="w-1/4">
                     {!this.state.fullscreenLeafletViewer ? (
                         <React.Fragment>
@@ -310,7 +323,7 @@ class RaadpleegUniversalObjectDetail extends Component {
                                 />
                             </span>
                         </div>
-                        {/* <div className="bg-orange-100 w-full h-64 block mt-4" /> */}
+
                         <div
                             id={`full-screen-leaflet-container-${this.state.fullscreenLeafletViewer}`}
                         >
