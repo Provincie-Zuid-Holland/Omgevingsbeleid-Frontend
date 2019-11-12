@@ -232,9 +232,9 @@ class MuteerUniversalObjectDetail extends Component {
                             } pr-8`}
                         >
                             {pageType === 'detail' ? (
-                                <div className="h-10 mt-5">
+                                <div className="h-10 mt-5 ">
                                     <Link
-                                        className="flex items-center mt-5"
+                                        className="flex items-center mt-5 w-1/2"
                                         to={`/muteer/${this.props.overzichtSlug}/edit/${this.props.match.params.single}`}
                                         id={`href-ontwerp-maken`}
                                     >
@@ -247,11 +247,6 @@ class MuteerUniversalObjectDetail extends Component {
                                             </div>
                                         </span>
                                         <span
-                                            // to={this.makeURLForNewObject(
-                                            //     overzichtSlug,
-                                            //     dataObject.ID,
-                                            //     apiTest
-                                            // )}
                                             to={`/muteer/${this.props.overzichtSlug}/edit/${this.props.match.params.single}`}
                                             className="text-sm inline text-gray-700 -mt-5 pl-5 cursor-pointer hover:underline"
                                         >

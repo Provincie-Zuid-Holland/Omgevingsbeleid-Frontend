@@ -26,7 +26,6 @@ class FormFieldSelect extends React.Component {
                         onChange={this.props.handleChange}
                         id={`form-field-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
                         name={this.props.dataObjectProperty}
-                        // className="block appearance-none w-full bg-white text-gray-700 border border-gray-400 hover:border-gray-500 py-3 px-4 leading-tight rounded leading-tight focus:outline-none focus:shadow-outline"
                         className="appearance-none block w-full text-gray-700 border bg-white border-gray-400 rounded py-3 px-4 leading-tight focus:outline-none hover:border-gray-500 focus:border-gray-500"
                     >
                         <option disabled value=" - selecteer een optie - ">

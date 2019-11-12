@@ -17,7 +17,7 @@ const menuItemsGebruiker = {
 
 const menuItemsBeheer = {
     Beleidsbeslissingen: { url: '/muteer/beleidsbeslissingen', finished: true },
-    beleidsrelaties: { url: '/muteer/beleidsrelaties', finished: true },
+    Beleidsrelaties: { url: '/muteer/beleidsrelaties', finished: true },
     Beleidsregels: { url: '/muteer/beleidsregels', finished: true },
     Maatregelen: { url: '/muteer/maatregelen', finished: true },
     Opgaven: { url: '/muteer/opgaven', finished: true },

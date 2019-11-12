@@ -96,7 +96,6 @@ class NavigationMenuPopUp extends Component {
                         className="absolute bg-white rounded mt-2 w-48 -ml-12 text-gray-700"
                     >
                         <div className="h-full relative">
-                            {/* <div className="absolute w-1 h-full border-l border-gray-300 z-0 top-0 ml-6" /> */}
                             <ul className="text-sm text-gray-800">
                                 <li className="py-2 px-4 text-sm cursor-not-allowed">
                                     Mijn Instellingen
@@ -162,7 +161,7 @@ function LoginLogoutButton(props) {
         return <NavigationMenuPopUp setLoginState={props.setLoginState} />
     } else {
         return (
-            <Link className="text-sm" to="login" id="href-naar-inloggen">
+            <Link className="text-sm" to="/login" id="href-naar-inloggen">
                 <FontAwesomeIcon
                     className="mr-2 text-gray-700"
                     icon={faSignInAlt}
@@ -185,7 +184,10 @@ function Logo() {
 class Navigation extends Component {
     render() {
         return (
-            <nav className="bg-white fixed w-full z-10 top-0">
+            <nav
+                className="bg-white fixed w-full z-10 top-0"
+                id="navigation-main"
+            >
                 <div className="lg:px-10 bg-white border-b border-gray-200 py-6 container mx-auto flex items-center justify-between flex-wrap bg-white">
                     <div className="flex items-center flex-no-shrink text-black mr-6 py-2">
                         {this.props.loggedIn ? (

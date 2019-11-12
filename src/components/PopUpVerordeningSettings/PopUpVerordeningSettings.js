@@ -63,10 +63,7 @@ class PopUpVerordeningSettings extends Component {
                 <KnopIconSliderSettings toggleOpen={this.toggleOpen} />
 
                 {this.state.open ? (
-                    <div
-                        id="main-tooltip-container"
-                        className="absolute bg-white right-0 rounded mt-2 bg-white w-64 -ml-12 pb-2 text-gray-700 z-20"
-                    >
+                    <div className="main-tooltip-container absolute bg-white right-0 rounded mt-2 bg-white w-64 -ml-12 pb-2 text-gray-700 z-20">
                         <h4 className="px-4 py-2 w-full border-b border-gray-300 font-bold">
                             Onderdelen
                         </h4>

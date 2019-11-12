@@ -3,12 +3,19 @@ import { withRouter, Link } from 'react-router-dom'
 import { format } from 'date-fns'
 import nlLocale from 'date-fns/locale/nl'
 import { faCalendarAlt } from '@fortawesome/free-regular-svg-icons'
-import { faLink, faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
+import {
+    faLink,
+    faExternalLinkAlt,
+    faEllipsisV,
+} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 // Import Components
+import PopUpDetailDropdown from './../../../components/PopUpDetailDropdown'
+import PopUpStatusAanpassen from './../../../components/PopUpStatusAanpassen'
 import HeadingMain from './../../../components/HeadingMain'
 import LoaderMainTitle from './../../../components/LoaderMainTitle'
+import LoaderSmallSpan from './../../../components/LoaderSmallSpan'
 
 function StatusLabel(props) {
     return (
@@ -20,6 +27,28 @@ function StatusLabel(props) {
 
 // Main Component - Main Container
 class ContainerDetailMain extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            dropdown: false,
+            statusPopup: false,
+        }
+        this.toggleDropdown = this.toggleDropdown.bind(this)
+        this.toggleStatusPopup = this.toggleStatusPopup.bind(this)
+    }
+
+    toggleDropdown() {
+        this.setState({
+            dropdown: !this.state.dropdown,
+        })
+    }
+
+    toggleStatusPopup() {
+        this.setState({
+            statusPopup: !this.state.statusPopup,
+        })
+    }
+
     render() {
         const dataObject = this.props.dataObject
         const titelEnkelvoud = this.props.titelEnkelvoud
@@ -33,6 +62,31 @@ class ContainerDetailMain extends Component {
                     pageType === 'version' ? 'mt-6' : null
                 }`}
             >
+                {titelEnkelvoud === 'Beleidsbeslissing' ? (
+                    <div
+                        onClick={this.toggleDropdown}
+                        className="absolute right-0 top-0 hover:text-gray-800 text-gray-600 cursor-pointer p-5"
+                    >
+                        <FontAwesomeIcon className="mr-2" icon={faEllipsisV} />
+                    </div>
+                ) : null}
+
+                {this.state.dropdown ? (
+                    <PopUpDetailDropdown
+                        toggleDropdown={this.toggleDropdown}
+                        openState={this.state.dropdown}
+                        toggleStatusPopup={this.toggleStatusPopup}
+                    />
+                ) : null}
+
+                {this.state.statusPopup ? (
+                    <PopUpStatusAanpassen
+                        // toggleDropdown={this.toggleDropdown}
+                        // openState={this.state.dropdown}
+                        toggleStatusPopup={this.toggleStatusPopup}
+                    />
+                ) : null}
+
                 <span className="text-gray-500 text-sm mb-1 block">
                     {titelEnkelvoud}
                 </span>
@@ -54,14 +108,21 @@ class ContainerDetailMain extends Component {
                             <span className="block font-bold text-gray-700 text-sm">
                                 Vigerend sinds
                             </span>
-                            <span className="text-sm text-gray-700">
-                                {format(
-                                    new Date(dataObject['Begin_Geldigheid']),
-                                    'D MMMM YYYY',
-                                    { locale: nlLocale }
-                                )}
-                                {/* 24 juni 2017 */}
-                            </span>
+                            {dataReceived ? (
+                                <span className="text-sm text-gray-700">
+                                    {format(
+                                        new Date(
+                                            dataObject['Begin_Geldigheid']
+                                        ),
+                                        'D MMMM YYYY',
+                                        { locale: nlLocale }
+                                    )}
+                                </span>
+                            ) : (
+                                <span className="mt-2 block">
+                                    <LoaderSmallSpan />
+                                </span>
+                            )}
                         </div>
                         <div>
                             <FontAwesomeIcon

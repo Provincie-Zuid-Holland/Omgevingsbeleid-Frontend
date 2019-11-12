@@ -49,6 +49,7 @@ class MijnBeleid extends Component {
                     console.log(
                         `/${dimensie.endpoint}?Created_By=${this.state.authUser}`
                     )
+                    console.log(res.data)
                     if (res.data.length === 0) {
                         return
                     } else {

@@ -87,9 +87,6 @@ class PopupNieuweKoppeling extends Component {
     }
 
     render() {
-        {
-            console.log('RENDEREDDEDEDEDEDE')
-        }
         const propertyName = objecten[this.state.type].propertyName
         const crudObject = JSON.parse(JSON.stringify(this.props.crudObject))
         let actieveKoppelingen = []

@@ -27,9 +27,6 @@ class MuteerUniversalObjectOverzicht extends Component {
         const createNewSlug = this.props.dataModel.variables.Create_New_Slug
         const overzichtSlug = this.props.dataModel.variables.Overzicht_Slug
         const hoofdOnderdeelSlug = this.props.dataModel.variables.Overzicht_Slug
-        // const hoofdOnderdeelSlug = 'maatregelen'
-
-        // False if data is loading, true if there is a response
 
         return (
             <ContainerMain>
@@ -107,7 +104,8 @@ class MuteerUniversalObjectOverzicht extends Component {
                 axios
                     .get(ApiEndpoint)
                     .then(res => {
-                        const objecten = res.data
+                        let objecten = res.data
+                        // objecten.shift()
                         this.setState({
                             objecten: objecten,
                             dataReceived: true,

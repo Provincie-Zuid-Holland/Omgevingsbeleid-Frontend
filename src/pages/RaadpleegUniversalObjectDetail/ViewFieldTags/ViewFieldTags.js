@@ -10,16 +10,14 @@ class ViewFieldTags extends Component {
         return (
             <div className="mt-8">
                 <h2 className="block tracking-wide text-gray-700 text-lg font-serif mb-2">
-                    {this.props.fieldValue}
+                    Tags
                 </h2>
                 <div className="flex mt-3">
-                    {console.log(this.props.fieldValue)}
-                    <div className="bg-gray-300 text-gray-700 rounded px-4 py-2 mr-4">
-                        Grondwater
-                    </div>
-                    <div className="bg-gray-300 text-gray-700 rounded px-4 py-2 mr-4">
-                        Grondwaterheffing
-                    </div>
+                    {JSON.parse(this.props.fieldValue).map(item => (
+                        <div className="bg-gray-300 text-gray-700 text-sm rounded px-4 py-2 mr-4">
+                            {item.value}
+                        </div>
+                    ))}
                 </div>
             </div>
         )

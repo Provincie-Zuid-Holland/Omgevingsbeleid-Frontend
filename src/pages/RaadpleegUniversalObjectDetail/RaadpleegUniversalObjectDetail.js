@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { format } from 'date-fns'
 import { Helmet } from 'react-helmet'
 import {
+    faEllipsisV,
     faAngleRight,
     faAngleLeft,
     faClock,
@@ -114,6 +115,7 @@ class RaadpleegUniversalObjectDetail extends Component {
                 }
             })
     }
+
     render() {
         const dataObject = this.state.dataObject
         const dataLoaded = this.state.dataLoaded
@@ -131,19 +133,32 @@ class RaadpleegUniversalObjectDetail extends Component {
         const titelEnkelvoud = this.props.dataModel.variables.Titel_Enkelvoud
 
         return (
-            <div className="container mx-auto flex px-6 pb-8 mt-8">
-                {/* <Helmet>
+            <div
+                className="container mx-auto flex px-6 pb-8 mt-8"
+                id="raadpleeg-detail-container-main"
+            >
+                <Helmet>
                     <style type="text/css">{`
-                    body {
-                        background-color: blue;
-                    }
-
-                    p {
-                        font-size: 12px;
-                    }
+                    @media print {
+                        #raadpleeg-detail-sidebar,
+                        #raadpleeg-detail-werkingsgebied,
+                        #navigation-main,
+                        #raadpleeg-detail-container-meta-info {
+                            display: none;
+                        }
+                        #raadpleeg-detail-container-main {
+                            margin-top: 0px;
+                        }
+                        #raadpleeg-detail-container-content {
+                            width: 100%;
+                        }
+                        #raadpleeg-detail-header-one {
+                            margin-bottom: 2rem;
+                        }
+                    }                     
                 `}</style>
-                </Helmet> */}
-                <div className="w-1/4">
+                </Helmet>
+                <div className="w-1/4" id="raadpleeg-detail-sidebar">
                     {!this.state.fullscreenLeafletViewer ? (
                         <React.Fragment>
                             <ButtonBackToPage terugNaar="startpagina" url="/" />
@@ -180,17 +195,26 @@ class RaadpleegUniversalObjectDetail extends Component {
                     )}
                 </div>
                 {dataLoaded ? (
-                    <div className={werkingsgebiedBoolean ? `w-2/4` : `w-3/4`}>
+                    <div
+                        id="raadpleeg-detail-container-content"
+                        className={werkingsgebiedBoolean ? `w-2/4` : `w-3/4`}
+                    >
                         {/* Artikel Headers */}
                         <span className="text-l font-serif block text-gray-800">
                             {this.props.dataModel.variables.Titel_Enkelvoud}
                         </span>
-                        <h1 className="mt-2 heading-serif-2xl text-gray-800">
+                        <h1
+                            id="raadpleeg-detail-header-one"
+                            className="mt-2 heading-serif-2xl text-gray-800"
+                        >
                             {dataObject.Titel}
                         </h1>
 
                         {/* Meta Content */}
-                        <div className="mb-8 block">
+                        <div
+                            className="mb-8 block"
+                            id="raadpleeg-detail-container-meta-info"
+                        >
                             <span className="text-gray-600 text-sm mr-3">
                                 Vigerend sinds{' '}
                                 {format(
@@ -251,7 +275,10 @@ class RaadpleegUniversalObjectDetail extends Component {
                             <span className="text-gray-600 text-sm mr-3">
                                 &bull;
                             </span>
-                            <span className="text-gray-600 text-sm mr-3">
+                            <span
+                                className="text-gray-600 text-sm mr-3 cursor-pointer"
+                                onClick={() => window.print()}
+                            >
                                 <FontAwesomeIcon
                                     className="mr-2"
                                     icon={faPrint}
@@ -306,8 +333,11 @@ class RaadpleegUniversalObjectDetail extends Component {
                 ) : (
                     <LoaderContent />
                 )}
-                {dataLoaded && werkingsgebiedBoolean ? (
-                    <div className="w-1/4 pl-8">
+                {dataLoaded ? (
+                    <div
+                        className="w-1/4 pl-8"
+                        id="raadpleeg-detail-werkingsgebied"
+                    >
                         <div className="flex justify-between items-center text-gray-800 pb-3">
                             <h2 className="text-l font-serif">
                                 Werkingsgebied
@@ -324,16 +354,18 @@ class RaadpleegUniversalObjectDetail extends Component {
                             </span>
                         </div>
 
-                        <div
+                        {/* <div
                             id={`full-screen-leaflet-container-${this.state.fullscreenLeafletViewer}`}
                         >
-                            {/* <LeafletTinyViewer
+                            <LeafletTinyViewer
                                 gebiedType="Werkingsgebieden"
-                                gebiedUUID={this.state.dataObject.Gebied}
+                                gebiedUUID={
+                                    this.state.dataObject.WerkingsGebieden[0]
+                                        .UUID
+                                }
                                 fullscreen={this.state.fullscreenLeafletViewer}
-                                // http://geo-acctest-ob.westeurope.cloudapp.azure.com/geoserver/ows?service=wfs&version=1.1.0&request=GetFeature&typeNames=Omgevingsbeleid:Werkingsgebieden&cql_filter=UUID='46adf8f1-91f6-465d-9708-267b74ec68f2'&outputFormat=application/json
-                            /> */}
-                        </div>
+                            />
+                        </div> */}
                     </div>
                 ) : null}
             </div>
