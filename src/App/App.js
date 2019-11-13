@@ -16,7 +16,6 @@ import dataModel from './dataModel'
 
 // Import Pages
 import RaadpleegHome from './../pages/RaadpleegHome'
-import RaadpleegArtikelDetail from './../pages/RaadpleegArtikelDetail'
 import RaadpleegUniversalObjectDetail from './../pages/RaadpleegUniversalObjectDetail'
 import RaadpleegZoekResultatenOverzicht from './../pages/RaadpleegZoekResultatenOverzicht'
 import Login from './../pages/Login'
@@ -136,11 +135,11 @@ class App extends Component {
                         path="/zoekresultaten"
                         component={RaadpleegZoekResultatenOverzicht}
                     />
-                    <Route
+                    {/* <Route
                         path="/artikel-detail"
                         exact
                         component={RaadpleegArtikelDetail}
-                    />
+                    /> */}
                     {detailPaginas.map(item => {
                         return (
                             <Route

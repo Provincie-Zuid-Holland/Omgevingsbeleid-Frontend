@@ -9,7 +9,7 @@
         "@fortawesome/free-regular-svg-icons": "^5.11.2",
         "@fortawesome/free-solid-svg-icons": "^5.11.2",
         "@fortawesome/react-fontawesome": "^0.1.7",
-        "@react-pdf/renderer": "^1.6.7",
+        "@react-pdf/renderer": "^1.6.8",
         "@sentry/browser": "^5.7.1",
         "axios": "^0.18.0",
         "date-fns": "^1.30.1",

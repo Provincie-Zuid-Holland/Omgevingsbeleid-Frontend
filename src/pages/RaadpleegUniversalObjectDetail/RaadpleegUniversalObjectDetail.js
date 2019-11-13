@@ -6,22 +6,27 @@ import {
     faAngleRight,
     faAngleLeft,
     faClock,
+    faTimes,
     faFileDownload,
     faPrint,
     faExternalLinkAlt,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
+import { PDFDownloadLink } from '@react-pdf/renderer'
+
 // Import Axios instance to connect with the API
 import axios from '../../API/axios'
 
 // Import Components
 import ContentTekst from './ContentTekst'
+import PDFDocument from './PDFDocument'
 import LeafletTinyViewer from './../../components/LeafletTinyViewer'
 import LeafletLargeViewer from './LeafletLargeViewer'
 import ButtonBackToPage from './../../components/ButtonBackToPage'
 import PopUpRevisieContainer from './../../components/PopUpRevisieContainer'
 import LoaderContent from './../../components/LoaderContent'
+import PopUpAnimatedContainer from './../../components/PopUpAnimatedContainer'
 
 // Import view containers
 import ContainerViewFieldsBeleidsbeslissing from './ContainerFields/ContainerViewFieldsBeleidsbeslissing'
@@ -55,10 +60,18 @@ class RaadpleegUniversalObjectDetail extends Component {
             revisieObjecten: null,
             dataLoaded: false,
             fullscreenLeafletViewer: false,
+            downloadPDF: false,
         }
         this.toggleFullscreenLeafletViewer = this.toggleFullscreenLeafletViewer.bind(
             this
         )
+        this.toggleDownloadPDF = this.toggleDownloadPDF.bind(this)
+    }
+
+    toggleDownloadPDF() {
+        this.setState({
+            downloadPDF: !this.state.downloadPDF,
+        })
     }
 
     toggleFullscreenLeafletViewer() {
@@ -265,13 +278,76 @@ class RaadpleegUniversalObjectDetail extends Component {
                             <span className="text-gray-600 text-sm mr-3">
                                 &bull;
                             </span>
-                            <span className="text-gray-600 text-sm mr-3">
+                            <span
+                                onClick={this.toggleDownloadPDF}
+                                className="text-gray-600 text-sm mr-3 cursor-pointer"
+                            >
                                 <FontAwesomeIcon
                                     className="mr-2"
                                     icon={faFileDownload}
                                 />
                                 Download als PDF
                             </span>
+                            {this.state.downloadPDF ? (
+                                <PopUpAnimatedContainer small={true}>
+                                    <React.Fragment>
+                                        <span
+                                            className="text-gray-800 p-4 absolute right-0 top-0 cursor-pointer"
+                                            onClick={this.toggleDownloadPDF}
+                                        >
+                                            <FontAwesomeIcon
+                                                className="mr-2"
+                                                icon={faTimes}
+                                            />
+                                        </span>
+                                        <PDFDownloadLink
+                                            document={
+                                                <PDFDocument
+                                                    dataObject={dataObject}
+                                                    titelEnkelvoud={
+                                                        titelEnkelvoud
+                                                    }
+                                                    titel={dataObject.Titel}
+                                                />
+                                            }
+                                            className="text-gray-600 text-sm mr-3"
+                                            fileName="test.pdf"
+                                        >
+                                            {({ blob, url, loading, error }) =>
+                                                loading ? (
+                                                    <React.Fragment>
+                                                        <FontAwesomeIcon
+                                                            className="mr-2"
+                                                            icon={
+                                                                faFileDownload
+                                                            }
+                                                        />
+                                                        PDF Genereren...
+                                                    </React.Fragment>
+                                                ) : (
+                                                    <div className="p-4 text-center">
+                                                        <div>
+                                                            De PDF is
+                                                            gegenereerd. Klik
+                                                            hier om deze te
+                                                            downloaden.
+                                                        </div>
+                                                        <span className="text-white inline-block bg-green-600 px-4 py-2 rounded mt-4">
+                                                            <FontAwesomeIcon
+                                                                className="mr-2"
+                                                                icon={
+                                                                    faFileDownload
+                                                                }
+                                                            />
+                                                            Download
+                                                        </span>
+                                                    </div>
+                                                )
+                                            }
+                                        </PDFDownloadLink>
+                                    </React.Fragment>
+                                </PopUpAnimatedContainer>
+                            ) : null}
                             <span className="text-gray-600 text-sm mr-3">
                                 &bull;
                             </span>

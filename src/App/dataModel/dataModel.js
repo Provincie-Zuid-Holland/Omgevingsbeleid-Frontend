@@ -2226,7 +2226,7 @@ export default
     "variables": {
       "Titel_Enkelvoud": "Verordening",
       "Titel_Meervoud": "Verordeningen",
-      "Api_Endpoint": "verordeningen",
+      "Api_Endpoint": "verordeningstructuur",
       "Overzicht_Slug": "verordeningen",
       "Create_New_Slug": "nieuwe-verordening",
       "Object_Name": "Verordening"
