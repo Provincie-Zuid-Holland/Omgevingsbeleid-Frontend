@@ -95,7 +95,10 @@ function HoofdstukSubContainer(props) {
 
 function HoofdstukMainItem(props) {
     return (
-        <li className="py-3 border-r border-gray-200 relative verordening-list-item text-sm cursor-pointer">
+        <li
+            onClick={() => props.setActiveItem(props.item)}
+            className="py-3 border-r border-gray-200 relative verordening-list-item text-sm cursor-pointer"
+        >
             <span className="pl-2 whitespace-pre-wrap inline-block">
                 Hoofstuk X Lorum Ipsum
             </span>
@@ -107,18 +110,18 @@ function HoofdstukMainItem(props) {
     )
 }
 
-function HoofdstukMainContainer() {
-    return (
-        <ul className="text-sm text-gray-700 verordening-list-container w-1/3">
-            <HoofdstukMainItem />
-            <HoofdstukMainItem />
-            <HoofdstukMainItem />
-            <HoofdstukMainItem />
-            <HoofdstukMainItem />
-            <HoofdstukMainItem />
-        </ul>
-    )
-}
+// function HoofdstukMainContainer() {
+//     return (
+//         <ul className="text-sm text-gray-700 verordening-list-container w-1/3">
+//             <HoofdstukMainItem />
+//             <HoofdstukMainItem />
+//             <HoofdstukMainItem />
+//             <HoofdstukMainItem />
+//             <HoofdstukMainItem />
+//             <HoofdstukMainItem />
+//         </ul>
+//     )
+// }
 
 class MuteerVerordening extends Component {
     constructor(props) {
@@ -127,8 +130,20 @@ class MuteerVerordening extends Component {
             objecten: [],
             hideMainSideBar: false,
             geopendHoofdstuk: {},
+            dataLoaded: false,
+            activeItem: null,
         }
         this.toggleMainSideBar = this.toggleMainSideBar.bind(this)
+        this.setActiveItem = this.setActiveItem.bind(this)
+    }
+
+    setActiveItem(item) {
+        this.setState(
+            {
+                activeItem: item,
+            },
+            () => console.log(this.state.activeItem)
+        )
     }
 
     toggleMainSideBar() {
@@ -186,7 +201,22 @@ class MuteerVerordening extends Component {
                         </div>
 
                         <div className="flex">
-                            <HoofdstukMainContainer />
+                            <ul className="text-sm text-gray-700 verordening-list-container w-1/3">
+                                {this.state.dataLoaded
+                                    ? this.state.objecten.map(item => {
+                                          return (
+                                              <HoofdstukMainItem
+                                                  setActiveItem={
+                                                      this.setActiveItem
+                                                  }
+                                                  item={item}
+                                              />
+                                          )
+                                      })
+                                    : null}
+                                {/* <HoofdstukMainContainer /> */}
+                            </ul>
+
                             <HoofdstukSubContainer>
                                 <HoofdstukSubItem>
                                     <HoofdstukSubSubItem />
@@ -213,15 +243,21 @@ class MuteerVerordening extends Component {
 
     componentDidMount() {
         const ApiEndpoint = this.props.dataModel.variables.Api_Endpoint
+        console.log('endpoint:')
+        console.log(ApiEndpoint)
 
         // Connect With the API
         axios
             .get(ApiEndpoint)
             .then(res => {
+                console.log(res.data)
                 const objecten = res.data
-                this.setState({ objecten })
+                this.setState({ objecten: objecten, dataLoaded: true }, () =>
+                    console.log(this.state)
+                )
             })
             .catch(error => {
+                this.setState({ dataLoaded: true })
                 if (error.response !== undefined) {
                     if (error.response.status === 401) {
                         localStorage.removeItem('access_token')
