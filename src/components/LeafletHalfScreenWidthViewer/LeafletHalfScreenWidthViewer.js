@@ -59,7 +59,10 @@ const RDCrs = new Proj.CRS('EPSG:28992', RDProj4, {
         0.21,
     ],
     zoom: 10,
-    bounds: Leaflet.bounds([[-285401.92, 22598.08], [595401.92, 903401.92]]),
+    bounds: Leaflet.bounds([
+        [-285401.92, 22598.08],
+        [595401.92, 903401.92],
+    ]),
 })
 
 const DEFAULT_VIEWPORT = {
@@ -259,8 +262,6 @@ export default class LeafletHalfScreenWidthViewer extends Component {
 
         if (type === 'marker') {
             // Do marker specific actions
-            console.log(e.layer._latlng.lat)
-            console.log(e.layer._latlng.lng)
 
             this._createCustomPopup(
                 e.layer._latlng.lat,
@@ -395,9 +396,6 @@ export default class LeafletHalfScreenWidthViewer extends Component {
 
         const leafletMap = this.leafletMap.current
 
-        console.log(Leaflet.latLng(lng, lat))
-        console.log(zoomLevel)
-
         const markerID = Leaflet.marker(Leaflet.latLng(lng, lat)).addTo(
             leafletMap.leafletElement
         )
@@ -409,9 +407,6 @@ export default class LeafletHalfScreenWidthViewer extends Component {
         this.setState({
             activeSearchMarker: markerID,
         })
-
-        console.log('Marker:')
-        console.log(markerID)
 
         leafletMap.leafletElement.setView(Leaflet.latLng(lng, lat), zoomLevel)
     }
@@ -447,7 +442,6 @@ export default class LeafletHalfScreenWidthViewer extends Component {
 
         return (
             <React.Fragment>
-                {/* <PinpointMarker /> */}
                 <Map
                     // onClick={this.onClickReset}
                     onViewportChanged={this.onViewportChanged}

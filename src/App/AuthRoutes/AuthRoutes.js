@@ -15,6 +15,7 @@ import MuteerUniversalObjectOverzicht from './../../pages/MuteerUniversalObjectO
 import MuteerUniversalObjectDetail from './../../pages/MuteerUniversalObjectDetail'
 import MuteerUniversalObjectCRUD from './../../pages/MuteerUniversalObjectCRUD'
 import MuteerVerordening from './../../pages/MuteerVerordening'
+import MuteerBeleidsrelatiesOverzicht from './../../pages/MuteerBeleidsrelatiesOverzicht'
 
 // Import Components
 import AuthenticationWrapper from './../../components/AuthenticationWrapper'
@@ -167,16 +168,15 @@ class AuthRoutes extends Component {
                 slug: 'beleidsbeslissingen',
                 dataModelProperty: 'Beleidsbeslissingen',
             },
-            {
-                slug: 'beleidsrelaties',
-                dataModelProperty: 'BeleidsRelatie',
-            },
+            // {
+            //     slug: 'beleidsrelaties',
+            //     dataModelProperty: 'BeleidsRelatie',
+            // },
         ]
 
         return (
             <React.Fragment>
                 <Switch>
-                    {/* Omgevingsbeleid Routes */}
                     <Route
                         exact
                         path="/muteer/dashboard"
@@ -206,11 +206,20 @@ class AuthRoutes extends Component {
                             />
                         )}
                     />
+                    <Route
+                        path="/muteer/beleidsrelaties"
+                        exact
+                        render={() => (
+                            <MuteerBeleidsrelatiesOverzicht
+                                dataModel={dataModel.BeleidsRelatie}
+                                history={this.props.history}
+                            />
+                        )}
+                    />
                     <BeheerRoutes
                         beheerRoutesList={beheerRoutesList}
                         history={this.props.history}
                     />
-                    {/* Verordening Pagina Routes */}
                 </Switch>
             </React.Fragment>
         )

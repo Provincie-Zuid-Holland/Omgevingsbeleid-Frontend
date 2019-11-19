@@ -153,8 +153,6 @@ class MuteerVerordening extends Component {
     }
 
     render() {
-        console.log('Render')
-
         return (
             <ContainerMain>
                 <Helmet>

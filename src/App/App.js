@@ -91,10 +91,10 @@ class App extends Component {
                 slug: 'beleidsbeslissingen',
                 dataModel: dataModel.Beleidsbeslissingen,
             },
-            {
-                slug: 'beleidsrelaties',
-                dataModel: dataModel.BeleidsRelatie,
-            },
+            // {
+            //     slug: 'beleidsrelaties',
+            //     dataModel: dataModel.BeleidsRelatie,
+            // },
             {
                 slug: 'themas',
                 dataModel: dataModel.Thema,

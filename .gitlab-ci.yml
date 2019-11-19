@@ -4,30 +4,30 @@ image: node:alpine
 # Announce the URL as per CRA docs
 # https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#advanced-configuration
 variables:
-  PUBLIC_URL: /prototype-frontend-pzh
-  CI: 'false' # In order to prevent warnings from becoming errors
+    PUBLIC_URL: /
+    CI: 'false' # In order to prevent warnings from becoming errors
 # Cache node modules - speeds up future builds
 cache:
-  paths:
-  - node_modules
+    paths:
+        - node_modules
 
 # Name the stages involved in the pipeline
 stages:
-- deploy
+    - deploy
 
 # Job name for gitlab to recognise this results in assets for Gitlab Pages
 # https://docs.gitlab.com/ee/user/project/pages/introduction.html#gitlab-pages-requirements
 pages:
-  stage: deploy
-  script:
-    - npm install # Install all dependencies
-    - npm run build --prod # Build for prod
-    - cp public/index.html public/404.html # Not necessary, but helps with https://medium.com/@pshrmn/demystifying-single-page-applications-3068d0555d46
-    - mv public _public # CRA and gitlab pages both use the public folder. Only do this in a build pipeline.
-    - mv build public # Move build files to public dir for Gitlab Pages
-    - cp public/index.html public/404.html # Fix for BrowserRouter
-  artifacts:
-    paths:
-    - public # The built files for Gitlab Pages to serve
-  only:
-    - production # Only run on production branch
+    stage: deploy
+    script:
+        - npm install # Install all dependencies
+        - npm run build --prod # Build for prod
+        - cp public/index.html public/404.html # Not necessary, but helps with https://medium.com/@pshrmn/demystifying-single-page-applications-3068d0555d46
+        - mv public _public # CRA and gitlab pages both use the public folder. Only do this in a build pipeline.
+        - mv build public # Move build files to public dir for Gitlab Pages
+        - cp public/index.html public/404.html # Fix for BrowserRouter
+    artifacts:
+        paths:
+            - public # The built files for Gitlab Pages to serve
+    only:
+        - production # Only run on production branch

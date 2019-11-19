@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 const menuItemsOmgevingsbeleid = {
     Dashboard: { url: '/muteer/dashboard', finished: true },
     'Mijn beleid': { url: '/muteer/mijn-beleid', finished: true },
+    Beleidsrelaties: { url: '/muteer/beleidsrelaties', finished: true },
     Meldingen: { url: '/muteer/mijn-meldingen', finished: true },
     // 'API Test Omgeving': { url: '/muteer/api-test', finished: true },
 }
@@ -17,7 +18,7 @@ const menuItemsGebruiker = {
 
 const menuItemsBeheer = {
     Beleidsbeslissingen: { url: '/muteer/beleidsbeslissingen', finished: true },
-    Beleidsrelaties: { url: '/muteer/beleidsrelaties', finished: true },
+    // Beleidsrelaties: { url: '/muteer/beleidsrelaties', finished: true },
     Beleidsregels: { url: '/muteer/beleidsregels', finished: true },
     Maatregelen: { url: '/muteer/maatregelen', finished: true },
     Opgaven: { url: '/muteer/opgaven', finished: true },

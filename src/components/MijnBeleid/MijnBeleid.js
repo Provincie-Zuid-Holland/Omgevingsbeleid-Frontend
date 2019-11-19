@@ -40,8 +40,6 @@ class MijnBeleid extends Component {
             }
         })
 
-        console.log(lijstMetAPIEndpoints)
-
         const axiosRequests = lijstMetAPIEndpoints.map(dimensie =>
             axios
                 .get(`/${dimensie.endpoint}?Created_By=${this.state.authUser}`)

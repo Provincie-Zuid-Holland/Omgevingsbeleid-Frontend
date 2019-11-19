@@ -101,14 +101,25 @@ class NavigationMenuPopUp extends Component {
                                     Mijn Instellingen
                                 </li>
                                 <li>
-                                    <Link
-                                        id="navbar-popup-href-raadpleeg-omgeving"
-                                        to={`/`}
-                                        className="py-2 px-4 text-sm border-t border-gray-300 w-full inline-block"
-                                        onClick={this.toggleOpen}
-                                    >
-                                        Raadpleeg omgeving
-                                    </Link>
+                                    {this.props.currentScreenMuteerOmgeving ? (
+                                        <Link
+                                            id="navbar-popup-href-raadpleeg-omgeving"
+                                            to={`/`}
+                                            className="py-2 px-4 text-sm border-t border-gray-300 w-full inline-block"
+                                            onClick={this.toggleOpen}
+                                        >
+                                            Raadpleeg omgeving
+                                        </Link>
+                                    ) : (
+                                        <Link
+                                            id="navbar-popup-href-raadpleeg-omgeving"
+                                            to={`/muteer/dashboard`}
+                                            className="py-2 px-4 text-sm border-t border-gray-300 w-full inline-block"
+                                            onClick={this.toggleOpen}
+                                        >
+                                            Muteer omgeving
+                                        </Link>
+                                    )}
                                 </li>
                                 <li>
                                     <Link
@@ -158,7 +169,12 @@ class NavigationMenuPopUp extends Component {
 
 function LoginLogoutButton(props) {
     if (props.loggedIn) {
-        return <NavigationMenuPopUp setLoginState={props.setLoginState} />
+        return (
+            <NavigationMenuPopUp
+                currentScreenMuteerOmgeving={props.currentScreenMuteerOmgeving}
+                setLoginState={props.setLoginState}
+            />
+        )
     } else {
         return (
             <Link className="text-sm" to="/login" id="href-naar-inloggen">
@@ -183,6 +199,9 @@ function Logo() {
 
 class Navigation extends Component {
     render() {
+        const currentScreenMuteerOmgeving = this.props.location.pathname.includes(
+            'muteer'
+        )
         return (
             <nav
                 className="bg-white fixed w-full z-10 top-0"
@@ -210,6 +229,9 @@ class Navigation extends Component {
                     </div>
                     <div className="flex items-center justify-end">
                         <LoginLogoutButton
+                            currentScreenMuteerOmgeving={
+                                currentScreenMuteerOmgeving
+                            }
                             setLoginState={this.props.setLoginState}
                             loggedIn={this.props.loggedIn}
                         />
