@@ -20,7 +20,7 @@ function PopUpAnimatedContainer(props) {
                             transform: 'scale(1)',
                             from: { transform: 'scale(0.75)' },
                         })}
-                        className={`max-w-5xl relative bg-white rounded shadow px-6 py-6 ${
+                        className={`max-w-5xl relative bg-white rounded shadow px-8 py-8 ${
                             props.small
                                 ? 'popup-small'
                                 : props.large

@@ -208,7 +208,6 @@ class AuthRoutes extends Component {
                     />
                     <Route
                         path="/muteer/beleidsrelaties"
-                        exact
                         render={() => (
                             <MuteerBeleidsrelatiesOverzicht
                                 dataModel={dataModel.BeleidsRelatie}

@@ -21,7 +21,6 @@ class MijnBeleid extends Component {
     }
 
     getBeleidVanGebruiker() {
-        console.log('Called')
         const dimensies = [
             'Ambitie',
             'Opgave',
@@ -44,10 +43,6 @@ class MijnBeleid extends Component {
             axios
                 .get(`/${dimensie.endpoint}?Created_By=${this.state.authUser}`)
                 .then(res => {
-                    console.log(
-                        `/${dimensie.endpoint}?Created_By=${this.state.authUser}`
-                    )
-                    console.log(res.data)
                     if (res.data.length === 0) {
                         return
                     } else {
@@ -63,7 +58,6 @@ class MijnBeleid extends Component {
         )
         Promise.all(axiosRequests)
             .then(res => {
-                console.log('Received All')
                 this.setState(
                     {
                         objecten: res,
