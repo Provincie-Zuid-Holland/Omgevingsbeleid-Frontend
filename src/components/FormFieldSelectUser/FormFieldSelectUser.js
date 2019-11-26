@@ -76,7 +76,10 @@ class FormFieldSelectUser extends React.Component {
     componentDidMount() {
         const ApiEndpoint = 'gebruikers'
 
-        const objecten = this.props.gebruikersLijst
+        const objecten = this.props.gebruikersLijst.sort((a, b) =>
+            a.Gebruikersnaam > b.Gebruikersnaam ? 1 : -1
+        )
+
         const selectionArray = makeSelection(
             objecten,
             this.props.dataObjectProperty
@@ -96,34 +99,5 @@ class FormFieldSelectUser extends React.Component {
             this.setState({ selectionArray: selectionArray, dataLoaded: true })
         }
     }
-
-    // componentDidMount() {
-    //     console.log('this.props.gebruikersLijst')
-    //     console.log(this.props.gebruikersLijst)
-    //     const selectionArray = makeSelection(
-    //         this.props.gebruikersLijst,
-    //         this.props.dataObjectProperty
-    //     )
-    //     if (this.props.editStatus === true) {
-    //         const selected = selectionArray.find(
-    //             arrayItem => arrayItem.value === this.props.fieldValue
-    //         )
-    //         this.setState({
-    //             selectionArray,
-    //             selected,
-    //         })
-    //     } else {
-    //         this.setState({ selectionArray })
-    //     }
-
-    //     // if (this.props.editStatus === true) {
-    //     //     const selected = this.props.gebruikersLijst.find(
-    //     //         arrayItem => arrayItem.value === this.props.fieldValue
-    //     //     )
-    //     //     this.setState({
-    //     //         selected: selected,
-    //     //     })
-    //     // }
-    // }
 }
 export default FormFieldSelectUser

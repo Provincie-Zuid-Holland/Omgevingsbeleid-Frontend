@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Helmet } from 'react-helmet'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -11,12 +11,7 @@ import axios from './../../API/axios'
 import ContainerMain from './../../components/ContainerMain'
 import SidebarMain from './../../components/SidebarMain'
 import MuteerBeleidsrelatieDetail from './MuteerBeleidsrelatieDetail'
-
-// 1. GET All beleidsbeslissingen
-// 2. GET All beleidsrelaties
-// 3. Maak nieuw object wat we kunnen outputten naar de view
-// -> Return een array met voor elk van de beleidsbeslissingen een object met daar in:
-// -> Titel, Status, het aantal Bevestigde, het aantal Onbevestigde, UUID
+import LoaderBeleidsrelatieRegel from './../../components/LoaderBeleidsrelatieRegel'
 
 class MuteerBeleidsrelatiesOverzicht extends Component {
     constructor(props) {
@@ -30,15 +25,59 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
             currentUUID: null,
         }
         this.initializeState = this.initializeState.bind(this)
-        this.getBevestigdeRelaties = this.getBevestigdeRelaties.bind(this)
-        this.getOnbevestigdeRelaties = this.getOnbevestigdeRelaties.bind(this)
-        this.getVerzoekRelaties = this.getVerzoekRelaties.bind(this)
-        this.getRelatieArray = this.getRelatieArray.bind(this)
-        this.getVerzoekArray = this.getVerzoekArray.bind(this)
+        this.countBevestigdeRelaties = this.countBevestigdeRelaties.bind(this)
+        this.countOnbevestigdeRelaties = this.countOnbevestigdeRelaties.bind(
+            this
+        )
+        this.countVerzoekRelaties = this.countVerzoekRelaties.bind(this)
+        this.generateRelatieArray = this.generateRelatieArray.bind(this)
+        this.generateVerzoekArray = this.generateVerzoekArray.bind(this)
     }
 
-    getBevestigdeRelaties(UUID) {
-        // Kijkt hoeveel bevestigde relaties er in het beleidsrelatie object zitten met de geleverde UUID
+    // ***
+    // Lifecycle Functions
+
+    // Als de gebruiker de url veranderd, verander naar de 'overzicht' over de 'detail' view
+    componentDidUpdate(prevProps) {
+        if (
+            this.props.match.params.UUID === undefined &&
+            this.state.currentView !== 'overzicht'
+        ) {
+            this.setState({
+                currentView: 'overzicht',
+            })
+        }
+    }
+
+    // Als het compent gemount wordt, haal alle beleidsbeslissingen en beleidsrelaties => setState op en initialize state
+    componentDidMount() {
+        Promise.all([
+            axios.get(`/beleidsbeslissingen`),
+            axios.get(`/beleidsrelaties`),
+        ])
+            .then(([beleidsbeslissingen, beleidsrelaties]) =>
+                this.setState(
+                    {
+                        beleidsbeslissingen: beleidsbeslissingen.data,
+                        beleidsrelaties: beleidsrelaties.data,
+                        dataLoaded: true,
+                    },
+                    () => {
+                        this.initializeState()
+                    }
+                )
+            )
+            .catch(errors => {
+                // react on errors.
+                console.error(errors)
+            })
+    }
+
+    // ***
+    // Methods
+
+    // Kijkt hoeveel bevestigde relaties er in het beleidsrelatie object zitten met de geleverde UUID
+    countBevestigdeRelaties(UUID) {
         const beleidsrelaties = this.state.beleidsrelaties.filter(
             beleidsrelatie =>
                 (beleidsrelatie.Van_Beleidsbeslissing === UUID ||
@@ -48,20 +87,10 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
         return beleidsrelaties.length
     }
 
-    getOnbevestigdeRelaties(item, UUID) {
-        // Kijkt hoeveel onbevestigde relaties er in het beleidsrelatie object zitten met de geleverde UUID
-
-        console.log('ITEM:')
-        console.log(item)
-        console.log('UUID:')
-        console.log(UUID)
-
+    // Kijkt hoeveel onbevestigde relaties er in het beleidsrelatie object zitten met de geleverde UUID
+    countOnbevestigdeRelaties(item, UUID) {
         const beleidsrelaties = this.state.beleidsrelaties.filter(
             beleidsrelatie => {
-                console.log('----')
-                console.log(beleidsrelatie)
-                console.log(beleidsrelatie.Van_Beleidsbeslissing)
-                console.log(beleidsrelatie.Van_Beleidsbeslissing === UUID)
                 if (
                     beleidsrelatie.Van_Beleidsbeslissing === UUID &&
                     beleidsrelatie.Status === 'Open'
@@ -70,12 +99,11 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                 }
             }
         )
-        console.log(beleidsrelaties)
         return beleidsrelaties.length
     }
 
-    getVerzoekRelaties(UUID) {
-        // Kijkt hoeveel onbevestigde relaties er in het beleidsrelatie object zitten met de geleverde UUID
+    // Kijkt hoeveel onbevestigde relaties er in het beleidsrelatie object zitten met de geleverde UUID
+    countVerzoekRelaties(UUID) {
         const beleidsrelaties = this.state.beleidsrelaties.filter(
             beleidsrelatie =>
                 beleidsrelatie.Naar_Beleidsbeslissing === UUID &&
@@ -84,34 +112,42 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
         return beleidsrelaties.length
     }
 
-    initializeState() {
-        // Map over alle beleidsbeslissingen en return een array met voor elke beleidsbeslissing een object met:
-        // Titel, Status, het aantal Bevestigde, het aantal Onbevestigde, UUID
-
-        const beleidsbeslissingenArray = this.state.beleidsbeslissingen.map(
-            item => {
-                return {
-                    Titel: item.Titel,
-                    Status: item.Status,
-                    UUID: item.UUID,
-                    Bevestigd: this.getBevestigdeRelaties(item.UUID),
-                    Onbevestigd: this.getOnbevestigdeRelaties(item, item.UUID),
-                    Verzoeken: this.getVerzoekRelaties(item.UUID),
-                    RelatieArray: this.getRelatieArray(item.UUID),
-                    VerzoekArray: this.getVerzoekArray(item.UUID),
-                }
+    // Kijk voor elke beleidsbeslissing hoeveel en wat voor relaties deze heeft
+    initializeBeleidsbeslissingen(beleidsbeslissingen) {
+        return beleidsbeslissingen.map(item => {
+            return {
+                Titel: item.Titel,
+                Status: item.Status,
+                UUID: item.UUID,
+                Bevestigd: this.countBevestigdeRelaties(item.UUID),
+                Onbevestigd: this.countOnbevestigdeRelaties(item, item.UUID),
+                Verzoeken: this.countVerzoekRelaties(item.UUID),
+                RelatieArray: this.generateRelatieArray(item.UUID),
+                VerzoekArray: this.generateVerzoekArray(item.UUID),
             }
-        )
+        })
+    }
 
+    // Na het ophalen van de data in de API, Initialize de state
+    // Map over alle beleidsbeslissingen en return een array met voor elke beleidsbeslissing een object met:
+    // Titel, Status, het aantal Bevestigde, het aantal Onbevestigde, UUID
+    initializeState() {
         this.setState(
             {
-                beleidsbeslissingenObject: beleidsbeslissingenArray,
+                beleidsbeslissingenObject: this.initializeBeleidsbeslissingen(
+                    this.state.beleidsbeslissingen
+                ),
             },
             () => console.log(this.state)
         )
     }
 
-    getRelatieArray(UUID) {
+    // Maak de array waar de relatie objecten van de desbetreffende beleidsbeslissing in zitten
+    // Voor elke relatie halen we ook de beleidsbeslissing op, zodat we in het detail scherm info zoals de titel kunnen tonen
+    generateRelatieArray(UUID) {
+        // We filteren op basis van de gekregen beleidsbeslissing UUID parameter
+        // We spreken van een beleidsrelatie als de UUID overeenkomt met Van_Beleidsbeslissing of Naar_Beleidsbeslissing
+        // EN als de beleidsrelatie een Status heeft van 'Akkoord' of 'Open'
         let beleidsrelaties = this.state.beleidsrelaties.filter(
             beleidsrelatie =>
                 ((beleidsrelatie.Van_Beleidsbeslissing === UUID ||
@@ -121,94 +157,60 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                     beleidsrelatie.Status === 'Open')
         )
 
+        // GET voor elke beleidsrelatie het gekoppelde beleidsbeslissing object
+        // Als het relatie.Van_Beleidsbeslissing !== UUID van de beleidsbeslissing GET relatie.Van_Beleidsbeslissing
+        // Als het relatie.Van_Beleidsbeslissing === UUID van de beleidsbeslissing GET relatie.Naar_Beleidsbeslissing
         beleidsrelaties.forEach(relatie => {
-            if (relatie.Van_Beleidsbeslissing !== UUID) {
-                axios
-                    .get(
-                        `/beleidsbeslissingen/version/${relatie.Van_Beleidsbeslissing}
-                        }`
-                    )
-                    .then(res => {
-                        relatie.beleidsrelatieGekoppeldObject = res.data
-                        return res.data
-                    })
-            } else {
-                axios
-                    .get(
-                        `/beleidsbeslissingen/version/${relatie.Naar_Beleidsbeslissing}
-                        }`
-                    )
-                    .then(res => {
-                        relatie.beleidsrelatieGekoppeldObject = res.data
-                        return res.data
-                    })
-            }
+            axios
+                .get(
+                    `/beleidsbeslissingen/version/${
+                        relatie.Van_Beleidsbeslissing !== UUID
+                            ? relatie.Van_Beleidsbeslissing
+                            : relatie.Naar_Beleidsbeslissing
+                    }
+                    }`
+                )
+                .then(res => {
+                    relatie.beleidsrelatieGekoppeldObject = res.data
+                    return res.data
+                })
         })
 
         return beleidsrelaties
     }
 
-    getVerzoekArray(UUID) {
+    // Maak de array waar de verzoek objecten van de desbetreffende beleidsbeslissing in zitten
+    // Voor elk verzoek halen we ook de beleidsbeslissing op, zodat we in het detail scherm info zoals de titel kunnen tonen
+    generateVerzoekArray(UUID) {
+        // We filteren op basis van de gekregen beleidsbeslissing UUID parameter
+        // We spreken van een verzoek als de UUID overeenkomt met Naar_Beleidsbeslissing
+        // EN als de beleidsrelatie een Status heeft van 'Open'
         let beleidsrelaties = this.state.beleidsrelaties.filter(
             beleidsrelatie =>
                 beleidsrelatie.Naar_Beleidsbeslissing === UUID &&
                 beleidsrelatie.Status === 'Open'
         )
 
+        // GET voor elke beleidsrelatie het gekoppelde beleidsbeslissing object
+        // Als het relatie.Van_Beleidsbeslissing !== UUID van de beleidsbeslissing GET relatie.Van_Beleidsbeslissing
+        // Als het relatie.Van_Beleidsbeslissing === UUID van de beleidsbeslissing GET relatie.Naar_Beleidsbeslissing
         beleidsrelaties.forEach(relatie => {
-            if (relatie.Van_Beleidsbeslissing !== UUID) {
-                axios
-                    .get(
-                        `/beleidsbeslissingen/version/${relatie.Van_Beleidsbeslissing}
-                        }`
-                    )
-                    .then(res => {
-                        relatie.beleidsrelatieGekoppeldObject = res.data
-                        return res.data
-                    })
-            } else {
-                axios
-                    .get(
-                        `/beleidsbeslissingen/version/${relatie.Naar_Beleidsbeslissing}
-                        }`
-                    )
-                    .then(res => {
-                        relatie.beleidsrelatieGekoppeldObject = res.data
-                        return res.data
-                    })
-            }
+            axios
+                .get(
+                    `/beleidsbeslissingen/version/${
+                        relatie.Van_Beleidsbeslissing !== UUID
+                            ? relatie.Van_Beleidsbeslissing
+                            : relatie.Naar_Beleidsbeslissing
+                    }
+                    }`
+                )
+                .then(res => {
+                    relatie.beleidsrelatieGekoppeldObject = res.data
+                    return res.data
+                })
         })
 
         return beleidsrelaties
-    }
-
-    componentDidMount() {
-        // get beleidsbeslissingen van de gebruiker
-        axios
-            .get(
-                `/beleidsbeslissingen?Created_By=${
-                    JSON.parse(localStorage.getItem('identifier')).UUID
-                }`
-            )
-            .then(res => {
-                this.setState(
-                    {
-                        beleidsbeslissingen: res.data,
-                    },
-                    () =>
-                        axios.get(`/beleidsrelaties`).then(res => {
-                            this.setState(
-                                {
-                                    beleidsrelaties: res.data,
-                                    dataLoaded: true,
-                                },
-                                () => {
-                                    this.initializeState()
-                                }
-                            )
-                        })
-                )
-            })
     }
 
     render() {
@@ -238,65 +240,80 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                                         </div>
                                         <div className="w-2/12">Verzoeken</div>
                                     </li>
-                                    {console.log(this.state)}
-                                    {this.state.beleidsbeslissingenObject !==
-                                    null
-                                        ? this.state.beleidsbeslissingenObject.map(
-                                              item => {
-                                                  return (
-                                                      <li key={item.UUID}>
-                                                          <Link
-                                                              className="flex border-b border-gray-200 text-sm text-gray-800 py-2 relative items-center hover:bg-gray-100"
-                                                              to={`/muteer/beleidsrelaties/${item.UUID}`}
-                                                              onClick={() =>
-                                                                  this.setState(
-                                                                      {
-                                                                          currentBeleidsbeslissing: item,
-                                                                          currentView:
-                                                                              'Detail',
-                                                                      }
-                                                                  )
-                                                              }
-                                                          >
-                                                              <span className="h-3 w-3 mbg-color rounded-full absolute ml-3 inline-block"></span>
-                                                              <div className="w-6/12 pl-10">
-                                                                  {item.Titel}
-                                                              </div>
-                                                              <div className="w-2/12">
-                                                                  <span className="border m-color m-base-border-color px-1 py-1 text-xs rounded">
-                                                                      Vigerend
-                                                                  </span>
-                                                              </div>
-                                                              <div className="w-2/12">
-                                                                  {item.Bevestigd !==
-                                                                  0
-                                                                      ? item.Bevestigd
-                                                                      : '-'}
-                                                              </div>
-                                                              <div className="w-2/12">
-                                                                  {item.Onbevestigd !==
-                                                                  0
-                                                                      ? item.Onbevestigd
-                                                                      : '-'}
-                                                              </div>
-                                                              <div className="w-2/12">
-                                                                  {item.Verzoeken !==
-                                                                  0
-                                                                      ? item.Verzoeken
-                                                                      : '-'}
-                                                              </div>
-                                                              <FontAwesomeIcon
-                                                                  className="absolute text-gray-700 right-0 h-8 mr-3"
-                                                                  icon={
-                                                                      faAngleRight
-                                                                  }
-                                                              />
-                                                          </Link>
-                                                      </li>
-                                                  )
-                                              }
-                                          )
-                                        : null}
+                                    {this.state.dataLoaded &&
+                                    this.state.beleidsbeslissingenObject !==
+                                        null ? (
+                                        this.state.beleidsbeslissingenObject
+                                            .length !== 0 ? (
+                                            this.state.beleidsbeslissingenObject.map(
+                                                item => {
+                                                    return (
+                                                        <li key={item.UUID}>
+                                                            <Link
+                                                                className="flex border-b border-gray-200 text-sm text-gray-800 py-2 relative items-center hover:bg-gray-100"
+                                                                to={`/muteer/beleidsrelaties/${item.UUID}`}
+                                                                onClick={() =>
+                                                                    this.setState(
+                                                                        {
+                                                                            currentBeleidsbeslissing: item,
+                                                                            currentView:
+                                                                                'Detail',
+                                                                        }
+                                                                    )
+                                                                }
+                                                            >
+                                                                <span className="h-3 w-3 mbg-color rounded-full absolute ml-3 inline-block"></span>
+                                                                <div className="w-6/12 pl-10">
+                                                                    {item.Titel}
+                                                                    {/* {item.Titel} */}
+                                                                </div>
+                                                                <div className="w-2/12">
+                                                                    <span className="border m-color m-base-border-color px-1 py-1 text-xs rounded">
+                                                                        Vigerend
+                                                                    </span>
+                                                                </div>
+                                                                <div className="w-2/12">
+                                                                    {item.Bevestigd !==
+                                                                    0
+                                                                        ? item.Bevestigd
+                                                                        : '-'}
+                                                                </div>
+                                                                <div className="w-2/12">
+                                                                    {item.Onbevestigd !==
+                                                                    0
+                                                                        ? item.Onbevestigd
+                                                                        : '-'}
+                                                                </div>
+                                                                <div className="w-2/12">
+                                                                    {item.Verzoeken !==
+                                                                    0
+                                                                        ? item.Verzoeken
+                                                                        : '-'}
+                                                                </div>
+                                                                <FontAwesomeIcon
+                                                                    className="absolute text-gray-700 right-0 h-8 mr-3"
+                                                                    icon={
+                                                                        faAngleRight
+                                                                    }
+                                                                />
+                                                            </Link>
+                                                        </li>
+                                                    )
+                                                }
+                                            )
+                                        ) : (
+                                            <span className="font-italic text-gray-600">
+                                                Er zijn nog geen
+                                                beleidsbeslissingen
+                                            </span>
+                                        )
+                                    ) : (
+                                        <React.Fragment>
+                                            <LoaderBeleidsrelatieRegel />
+                                            <LoaderBeleidsrelatieRegel />
+                                            <LoaderBeleidsrelatieRegel />
+                                        </React.Fragment>
+                                    )}
                                 </ul>
                             </div>
                         </div>
@@ -317,4 +334,4 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
     }
 }
 
-export default MuteerBeleidsrelatiesOverzicht
+export default withRouter(MuteerBeleidsrelatiesOverzicht)

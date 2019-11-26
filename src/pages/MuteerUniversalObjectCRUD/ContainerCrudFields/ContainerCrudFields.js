@@ -32,7 +32,10 @@ class ContainerCrudFields extends React.Component {
             ['NietAkkoord', 'Niet Akkoord'],
         ]
 
-        const verplichtProgrammaValues = [['Ja', 'Ja'], ['Nee', 'Nee']]
+        const verplichtProgrammaValues = [
+            ['Ja', 'Ja'],
+            ['Nee', 'Nee'],
+        ]
 
         const SpecifiekOfGeneriekValues = [
             ['Gebiedsspecifiek', 'Gebiedsspecifiek'],

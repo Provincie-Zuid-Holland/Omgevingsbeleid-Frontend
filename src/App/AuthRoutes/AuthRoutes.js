@@ -16,6 +16,7 @@ import MuteerUniversalObjectDetail from './../../pages/MuteerUniversalObjectDeta
 import MuteerUniversalObjectCRUD from './../../pages/MuteerUniversalObjectCRUD'
 import MuteerVerordening from './../../pages/MuteerVerordening'
 import MuteerBeleidsrelatiesOverzicht from './../../pages/MuteerBeleidsrelatiesOverzicht'
+import MuteerBeleidsrelatiesCRUD from './../../pages/MuteerBeleidsrelatiesCRUD'
 
 // Import Components
 import AuthenticationWrapper from './../../components/AuthenticationWrapper'
@@ -202,6 +203,26 @@ class AuthRoutes extends Component {
                         render={() => (
                             <MuteerVerordening
                                 dataModel={dataModel.Verordening}
+                                history={this.props.history}
+                            />
+                        )}
+                    />
+                    <Route
+                        path="/muteer/beleidsrelaties/:UUID/nieuwe-relatie"
+                        exact
+                        render={() => (
+                            <MuteerBeleidsrelatiesCRUD
+                                dataModel={dataModel.BeleidsRelatie}
+                                history={this.props.history}
+                            />
+                        )}
+                    />
+                    <Route
+                        path="/muteer/beleidsrelaties/:UUID"
+                        exact
+                        render={() => (
+                            <MuteerBeleidsrelatiesOverzicht
+                                dataModel={dataModel.BeleidsRelatie}
                                 history={this.props.history}
                             />
                         )}
