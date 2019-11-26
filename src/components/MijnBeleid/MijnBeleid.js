@@ -38,11 +38,13 @@ class MijnBeleid extends Component {
                 type: item,
             }
         })
-
         const axiosRequests = lijstMetAPIEndpoints.map(dimensie =>
             axios
                 .get(`/${dimensie.endpoint}?Created_By=${this.state.authUser}`)
                 .then(res => {
+                    console.log(
+                        `/${dimensie.endpoint}?Created_By=${this.state.authUser}`
+                    )
                     if (res.data.length === 0) {
                         return
                     } else {

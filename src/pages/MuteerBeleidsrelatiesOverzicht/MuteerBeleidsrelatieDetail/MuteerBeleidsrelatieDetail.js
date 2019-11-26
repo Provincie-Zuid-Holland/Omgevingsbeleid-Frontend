@@ -3,13 +3,8 @@ import { Link } from 'react-router-dom'
 import { format } from 'date-fns'
 import { withRouter } from 'react-router-dom'
 
-import {
-    faAngleRight,
-    faAngleLeft,
-    faTimes,
-    faPlus,
-} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faAngleLeft, faTimes, faPlus } from '@fortawesome/free-solid-svg-icons'
 
 import axios from './../../../API/axios'
 
@@ -28,22 +23,32 @@ class MuteerBeleidsrelatieDetail extends Component {
 
     relatieAccepteren(beleidsrelatieObject) {
         const patchedBeleidsrelatieObject = {
-            UUID: beleidsrelatieObject.UUID,
             Status: 'Akkoord',
+            Begin_Geldigheid: beleidsrelatieObject.Begin_Geldigheid,
+            Eind_Geldigheid: beleidsrelatieObject.Eind_Geldigheid,
+            Datum_Akkoord: new Date(),
         }
         axios
-            .patch(`/beleidsrelaties/${beleidsrelatieObject.ID}}`)
+            .patch(
+                `/beleidsrelaties/${beleidsrelatieObject.ID}`,
+                patchedBeleidsrelatieObject
+            )
             .then(res => console.log(res.data))
             .catch(err => console.log(err))
     }
 
     relatieAfwijzen(beleidsrelatieObject) {
         const patchedBeleidsrelatieObject = {
-            UUID: beleidsrelatieObject.UUID,
+            Begin_Geldigheid: beleidsrelatieObject.Begin_Geldigheid,
+            Eind_Geldigheid: beleidsrelatieObject.Eind_Geldigheid,
+            Datum_Akkoord: new Date(),
             Status: 'NietAkkoord',
         }
         axios
-            .patch(`/beleidsrelaties/${beleidsrelatieObject.ID}}`)
+            .patch(
+                `/beleidsrelaties/${beleidsrelatieObject.ID}`,
+                patchedBeleidsrelatieObject
+            )
             .then(res => console.log(res.data))
             .catch(err => console.log(err))
     }
@@ -143,7 +148,7 @@ class MuteerBeleidsrelatieDetail extends Component {
                                 <div className="w-6/12">
                                     Beleidsbeslissingen
                                 </div>
-                                <div className="w-2/12">Datum</div>
+                                <div className="w-3/12">Datum</div>
                                 <div className="w-2/12">Status</div>
                                 <div className="w-2/12">Motivering</div>
                             </li>
@@ -162,20 +167,25 @@ class MuteerBeleidsrelatieDetail extends Component {
                                                         .Titel
                                                 }
                                             </div>
-                                            <div className="w-2/12">
+                                            <div className="w-3/12">
                                                 {relatie.Datum_Akkoord !== null
                                                     ? format(
                                                           new Date(
                                                               relatie.Datum_Akkoord
                                                           ),
-                                                          'd MMMM yyyy, '
+                                                          'd MMMM YYYY, HH:mm uur'
                                                       )
                                                     : null}
                                             </div>
                                             <div className="w-2/12">
-                                                {relatie.Status === 'open'
+                                                {relatie.Status === 'Akkoord'
                                                     ? 'Bevestigd'
-                                                    : 'In afwachting'}
+                                                    : relatie.Status === 'Open'
+                                                    ? 'In afwachting'
+                                                    : relatie.Status ===
+                                                      'NietAkkoord'
+                                                    ? 'Afgewezen'
+                                                    : null}
                                             </div>
                                             <div className="w-2/12">
                                                 <span
@@ -247,13 +257,15 @@ class MuteerBeleidsrelatieDetail extends Component {
                                             key={verzoek.UUID}
                                             className="flex border-b border-gray-200 text-sm text-gray-800 px-2 relative items-center hover:bg-gray-100"
                                         >
-                                            {console.log(verzoek)}
                                             <div className="w-5/12 py-2">
-                                                {
-                                                    verzoek
-                                                        .beleidsrelatieGekoppeldObject
-                                                        .Titel
-                                                }
+                                                {verzoek.beleidsrelatieGekoppeldObject &&
+                                                verzoek
+                                                    .beleidsrelatieGekoppeldObject
+                                                    .Titel
+                                                    ? verzoek
+                                                          .beleidsrelatieGekoppeldObject
+                                                          .Titel
+                                                    : null}
                                             </div>
                                             <div className="w-2/12">
                                                 {verzoek.Datum_Akkoord !== null

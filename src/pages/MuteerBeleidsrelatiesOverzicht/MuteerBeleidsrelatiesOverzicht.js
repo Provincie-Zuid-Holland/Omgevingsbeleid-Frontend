@@ -3,8 +3,15 @@ import PropTypes from 'prop-types'
 import { Helmet } from 'react-helmet'
 import { Link, withRouter } from 'react-router-dom'
 
-import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+    faAngleRight,
+    faHourglass,
+    faCheck,
+    faEnvelope,
+    faTimes,
+} from '@fortawesome/pro-solid-svg-icons'
+import { faSquare } from '@fortawesome/pro-light-svg-icons'
 
 import axios from './../../API/axios'
 
@@ -30,6 +37,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
             this
         )
         this.countVerzoekRelaties = this.countVerzoekRelaties.bind(this)
+        this.countAfgewezenRelaties = this.countAfgewezenRelaties.bind(this)
         this.generateRelatieArray = this.generateRelatieArray.bind(this)
         this.generateVerzoekArray = this.generateVerzoekArray.bind(this)
     }
@@ -88,7 +96,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
     }
 
     // Kijkt hoeveel onbevestigde relaties er in het beleidsrelatie object zitten met de geleverde UUID
-    countOnbevestigdeRelaties(item, UUID) {
+    countOnbevestigdeRelaties(UUID) {
         const beleidsrelaties = this.state.beleidsrelaties.filter(
             beleidsrelatie => {
                 if (
@@ -112,6 +120,19 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
         return beleidsrelaties.length
     }
 
+    // Kijkt hoeveel afgewezen relaties er in het beleidsrelatie object zitten met de geleverde UUID
+    countAfgewezenRelaties(UUID) {
+        const beleidsrelaties = this.state.beleidsrelaties.filter(
+            beleidsrelatie =>
+                beleidsrelatie.Van_Beleidsbeslissing === UUID &&
+                beleidsrelatie.Status === 'NietAkkoord'
+        )
+        if (beleidsrelaties.length > 0) {
+            console.log('GROTERRRR!')
+        }
+        return beleidsrelaties.length
+    }
+
     // Kijk voor elke beleidsbeslissing hoeveel en wat voor relaties deze heeft
     initializeBeleidsbeslissingen(beleidsbeslissingen) {
         return beleidsbeslissingen.map(item => {
@@ -120,7 +141,8 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                 Status: item.Status,
                 UUID: item.UUID,
                 Bevestigd: this.countBevestigdeRelaties(item.UUID),
-                Onbevestigd: this.countOnbevestigdeRelaties(item, item.UUID),
+                Onbevestigd: this.countOnbevestigdeRelaties(item.UUID),
+                Afgewezen: this.countAfgewezenRelaties(item.UUID),
                 Verzoeken: this.countVerzoekRelaties(item.UUID),
                 RelatieArray: this.generateRelatieArray(item.UUID),
                 VerzoekArray: this.generateVerzoekArray(item.UUID),
@@ -154,7 +176,9 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                     beleidsrelatie.Naar_Beleidsbeslissing === UUID) &&
                     beleidsrelatie.Status === 'Akkoord') ||
                 (beleidsrelatie.Van_Beleidsbeslissing === UUID &&
-                    beleidsrelatie.Status === 'Open')
+                    beleidsrelatie.Status === 'Open') ||
+                (beleidsrelatie.Van_Beleidsbeslissing === UUID &&
+                    beleidsrelatie.Status === 'NietAkkoord')
         )
 
         // GET voor elke beleidsrelatie het gekoppelde beleidsbeslissing object
@@ -233,12 +257,37 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                                         <div className="w-6/12 pl-10">
                                             Beleidsbeslissingen
                                         </div>
-                                        <div className="w-2/12">Status</div>
-                                        <div className="w-2/12">Bevestigde</div>
-                                        <div className="w-2/12">
-                                            Onbevestigde
+                                        <div className="w-2/12 text-center">
+                                            Status
                                         </div>
-                                        <div className="w-2/12">Verzoeken</div>
+                                        <div className="w-1/12 text-center">
+                                            <FontAwesomeIcon
+                                                title="Afgewezen"
+                                                className="text-gray-800 text-lg"
+                                                icon={faTimes}
+                                            />
+                                        </div>
+                                        <div className="w-1/12 text-center">
+                                            <FontAwesomeIcon
+                                                title="Akkoord"
+                                                className="text-gray-800 text-lg"
+                                                icon={faCheck}
+                                            />
+                                        </div>
+                                        <div className="w-1/12 text-center">
+                                            <FontAwesomeIcon
+                                                title="Open"
+                                                className="text-gray-800 text-lg"
+                                                icon={faHourglass}
+                                            />
+                                        </div>
+                                        <div className="w-1/12 mr-6 text-center">
+                                            <FontAwesomeIcon
+                                                title="Verzoeken"
+                                                className="text-gray-800 text-lg"
+                                                icon={faEnvelope}
+                                            />
+                                        </div>
                                     </li>
                                     {this.state.dataLoaded &&
                                     this.state.beleidsbeslissingenObject !==
@@ -265,26 +314,31 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                                                                 <span className="h-3 w-3 mbg-color rounded-full absolute ml-3 inline-block"></span>
                                                                 <div className="w-6/12 pl-10">
                                                                     {item.Titel}
-                                                                    {/* {item.Titel} */}
                                                                 </div>
-                                                                <div className="w-2/12">
+                                                                <div className="w-2/12 text-center">
                                                                     <span className="border m-color m-base-border-color px-1 py-1 text-xs rounded">
                                                                         Vigerend
                                                                     </span>
                                                                 </div>
-                                                                <div className="w-2/12">
+                                                                <div className="w-1/12 text-center">
+                                                                    {item.Afgewezen !==
+                                                                    0
+                                                                        ? item.Afgewezen
+                                                                        : '-'}
+                                                                </div>
+                                                                <div className="w-1/12 text-center">
                                                                     {item.Bevestigd !==
                                                                     0
                                                                         ? item.Bevestigd
                                                                         : '-'}
                                                                 </div>
-                                                                <div className="w-2/12">
+                                                                <div className="w-1/12 text-center">
                                                                     {item.Onbevestigd !==
                                                                     0
                                                                         ? item.Onbevestigd
                                                                         : '-'}
                                                                 </div>
-                                                                <div className="w-2/12">
+                                                                <div className="w-1/12 mr-6 text-center">
                                                                     {item.Verzoeken !==
                                                                     0
                                                                         ? item.Verzoeken
