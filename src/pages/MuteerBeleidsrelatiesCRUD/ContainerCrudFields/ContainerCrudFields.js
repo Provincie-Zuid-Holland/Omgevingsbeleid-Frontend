@@ -38,21 +38,8 @@ class ContainerCrudFields extends React.Component {
                                 <React.Fragment>
                                     <ContainerFormSection
                                         titel="Beleidsrelatie"
-                                        beschrijving={`Geef aan met welke beleidsbeslissing '${this.context.Titel}' een relatie moet krijgen en motiveer waarom.`}
+                                        beschrijving={`Geef aan met welke beleidsbeslissing '${this.context.Van_Beleidsbeslissing_Titel}' een relatie moet krijgen en motiveer waarom.`}
                                     >
-                                        {/* {crudObject['Titel'] !== undefined ? (
-                                            <FormFieldTextInput
-                                                handleChange={
-                                                    this.context.handleChange
-                                                }
-                                                fieldValue={crudObject['Titel']}
-                                                dataObjectProperty="Titel"
-                                                fieldLabel="Titel"
-                                                pValue="Formuleer in enkele woorden de titel van deze maatregel."
-                                                titelEnkelvoud={titelEnkelvoud}
-                                            />
-                                        ) : null} */}
-
                                         {/* Eind Geldigheid */}
                                         {crudObject[
                                             'Naar_Beleidsbeslissing'

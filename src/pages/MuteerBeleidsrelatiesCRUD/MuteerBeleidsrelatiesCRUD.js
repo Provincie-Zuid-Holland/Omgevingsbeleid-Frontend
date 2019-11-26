@@ -34,6 +34,7 @@ class MuteerBeleidsrelatiesCRUD extends Component {
                 Status: 'Open',
                 Aanvraag_Datum: new Date(),
             },
+            Van_Beleidsbeslissing_Titel: '...',
         }
 
         this.handleChange = this.handleChange.bind(this)
@@ -45,6 +46,18 @@ class MuteerBeleidsrelatiesCRUD extends Component {
             this
         )
         this.checkForEmptyFields = this.checkForEmptyFields.bind(this)
+    }
+
+    componentDidMount() {
+        const UUID = this.props.match.params.UUID
+        axios
+            .get(`/beleidsbeslissingen/version/${UUID}`)
+            .then(res =>
+                this.setState({
+                    Van_Beleidsbeslissing_Titel: res.data.Titel,
+                })
+            )
+            .catch(error => console.log(error))
     }
 
     handleChange(event) {
@@ -285,6 +298,7 @@ class MuteerBeleidsrelatiesCRUD extends Component {
             handleChange: this.handleChange,
             crudObject: this.state.crudObject,
             setEditorState: this.setEditorState,
+            Van_Beleidsbeslissing_Titel: this.state.Van_Beleidsbeslissing_Titel,
         }
 
         return (
