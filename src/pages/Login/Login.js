@@ -42,8 +42,10 @@ class Login extends Component {
             .post('login', JSON.stringify(this.state))
             .then(response => {
                 if (response.status >= 200 && response.status < 300) {
-                    const identifier = response.data.identifier
-                    const tokenTime = new Date()
+                    let identifier = response.data.identifier
+                    // identifier.UUID = identifier.UUID.LowerCase()
+                    identifier.UUID = identifier.UUID.toLowerCase()
+                    console.log(identifier)
                     localStorage.setItem(
                         'identifier',
                         JSON.stringify(identifier)
@@ -52,6 +54,7 @@ class Login extends Component {
                         'access_token',
                         response.data.access_token
                     )
+                    const tokenTime = new Date()
                     localStorage.setItem('token_date', tokenTime)
                     this.resetLoadingState()
                     this.props.setLoginState(true)
