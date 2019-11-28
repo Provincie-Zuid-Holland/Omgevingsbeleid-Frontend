@@ -60,8 +60,10 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
 
     // Als het compent gemount wordt, haal alle beleidsbeslissingen en beleidsrelaties => setState op en initialize state
     componentDidMount() {
+        const UserUUID = JSON.parse(localStorage.getItem('identifier')).UUID
+        console.log(UserUUID)
         Promise.all([
-            axios.get(`/beleidsbeslissingen`),
+            axios.get(`/beleidsbeslissingen?Created_By=${UserUUID}`),
             axios.get(`/beleidsrelaties`),
         ])
             .then(([beleidsbeslissingen, beleidsrelaties]) =>
@@ -404,7 +406,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                                             )
                                         ) : (
                                             <span className="font-italic text-gray-600">
-                                                Er zijn nog geen
+                                                U heeft nog geen
                                                 beleidsbeslissingen
                                             </span>
                                         )

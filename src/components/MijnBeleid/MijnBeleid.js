@@ -72,7 +72,6 @@ class MijnBeleid extends Component {
     }
 
     componentDidMount() {
-        console.log(localStorage.getItem('identifier').identifier)
         this.setState(
             {
                 authUser: JSON.parse(localStorage.getItem('identifier')).UUID,
