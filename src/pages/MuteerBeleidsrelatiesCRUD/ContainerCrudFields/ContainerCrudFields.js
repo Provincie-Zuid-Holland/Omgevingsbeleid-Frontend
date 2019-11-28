@@ -41,6 +41,9 @@ class ContainerCrudFields extends React.Component {
                                         beschrijving={`Geef aan met welke beleidsbeslissing '${this.context.Van_Beleidsbeslissing_Titel}' een relatie moet krijgen en motiveer waarom.`}
                                     >
                                         {/* Eind Geldigheid */}
+                                        {console.log(
+                                            crudObject['Naar_Beleidsbeslissing']
+                                        )}
                                         {crudObject[
                                             'Naar_Beleidsbeslissing'
                                         ] !== undefined ? (

@@ -35,7 +35,7 @@ class PopupNieuweKoppeling extends Component {
                 // Anders const de objecten array zonder het eerste array item
                 let responseObjecten
                 if (objecten[this.state.type].filterAPI === true) {
-                    responseObjecten = res.data.slice(1).filter(item => {
+                    responseObjecten = res.data.filter(item => {
                         if (
                             item.Type === objecten[this.state.type].filterType
                         ) {
@@ -43,7 +43,7 @@ class PopupNieuweKoppeling extends Component {
                         }
                     })
                 } else {
-                    responseObjecten = res.data.slice(1)
+                    responseObjecten = res.data
                 }
 
                 this.setState({

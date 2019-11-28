@@ -37,7 +37,7 @@ class PopupNieuweKoppeling extends Component {
         axios
             .get('/beleidsbeslissingen')
             .then(res => {
-                const responseObjecten = res.data.slice(1)
+                const responseObjecten = res.data
                 console.log(responseObjecten)
 
                 this.setState({

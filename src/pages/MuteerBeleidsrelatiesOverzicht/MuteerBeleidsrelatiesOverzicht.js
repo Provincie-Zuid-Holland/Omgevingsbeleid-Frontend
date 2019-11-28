@@ -220,8 +220,10 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
         // Als het relatie.Van_Beleidsbeslissing !== UUID van de beleidsbeslissing GET relatie.Van_Beleidsbeslissing
         // Als het relatie.Van_Beleidsbeslissing === UUID van de beleidsbeslissing GET relatie.Naar_Beleidsbeslissing
 
-        const axiosGETArray = beleidsrelaties.map(relatie =>
-            axios
+        const axiosGETArray = beleidsrelaties.map(relatie => {
+            console.log(relatie)
+            console.log(UUID)
+            return axios
                 .get(
                     `/beleidsbeslissingen/version/${
                         relatie.Van_Beleidsbeslissing !== UUID
@@ -230,7 +232,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                     }`
                 )
                 .then(res => (relatie.beleidsrelatieGekoppeldObject = res.data))
-        )
+        })
 
         const that = this
 
