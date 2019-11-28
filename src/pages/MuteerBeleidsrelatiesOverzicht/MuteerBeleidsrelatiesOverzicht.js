@@ -32,6 +32,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
             currentUUID: null,
         }
         this.initializeState = this.initializeState.bind(this)
+        this.updateBeleidsrelaties = this.updateBeleidsrelaties.bind(this)
         this.countBevestigdeRelaties = this.countBevestigdeRelaties.bind(this)
         this.countOnbevestigdeRelaties = this.countOnbevestigdeRelaties.bind(
             this
@@ -58,10 +59,11 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
             this.props.match.params.UUID !== undefined &&
             this.state.currentView !== 'detail'
         ) {
-            this.setState({
-                currentView: 'detail',
-            })
-            // Filter this.state.currentBeleidsbeslissing voor UUID uit URL en setState
+            // this.setState({
+            //     currentView: 'detail',
+            //     currentBeleidsbeslissing: this.state
+            //         .beleidsbeslissingenObject[0],
+            // })
         }
     }
 
@@ -91,6 +93,21 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
 
     // ***
     // Methods
+
+    // Update de status van een beleidsrelatie en initialized opnieuw de State om de UI te updaten
+    updateBeleidsrelaties(beleidsrelatieUUID, status) {
+        let beleidsrelaties = this.state.beleidsrelaties
+        let index = beleidsrelaties.findIndex(
+            x => x.UUID === beleidsrelatieUUID
+        )
+        beleidsrelaties[index].Status = status
+        this.setState(
+            {
+                beleidsrelaties: beleidsrelaties,
+            },
+            () => this.initializeState()
+        )
+    }
 
     // Kijkt hoeveel bevestigde relaties er in het beleidsrelatie object zitten met de geleverde UUID
     countBevestigdeRelaties(UUID) {
@@ -132,12 +149,9 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
     countAfgewezenRelaties(UUID) {
         const beleidsrelaties = this.state.beleidsrelaties.filter(
             beleidsrelatie =>
-                beleidsrelatie.Van_Beleidsbeslissing === UUID &&
+                beleidsrelatie.Naar_Beleidsbeslissing === UUID &&
                 beleidsrelatie.Status === 'NietAkkoord'
         )
-        if (beleidsrelaties.length > 0) {
-            console.log('GROTERRRR!')
-        }
         return beleidsrelaties.length
     }
 
@@ -168,7 +182,20 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                     this.state.beleidsbeslissingen
                 ),
             },
-            () => console.log(this.state)
+            () => {
+                if (
+                    this.props.match.params.UUID !== undefined &&
+                    this.state.currentView !== 'detail'
+                ) {
+                    this.setState({
+                        currentView: 'detail',
+                        currentBeleidsbeslissing: this.state.beleidsbeslissingenObject.find(
+                            element =>
+                                element.UUID === this.props.match.params.UUID
+                        ),
+                    })
+                }
+            }
         )
     }
 
@@ -185,28 +212,49 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                     beleidsrelatie.Status === 'Akkoord') ||
                 (beleidsrelatie.Van_Beleidsbeslissing === UUID &&
                     beleidsrelatie.Status === 'Open') ||
-                (beleidsrelatie.Van_Beleidsbeslissing === UUID &&
+                (beleidsrelatie.Naar_Beleidsbeslissing === UUID &&
                     beleidsrelatie.Status === 'NietAkkoord')
         )
 
         // GET voor elke beleidsrelatie het gekoppelde beleidsbeslissing object
         // Als het relatie.Van_Beleidsbeslissing !== UUID van de beleidsbeslissing GET relatie.Van_Beleidsbeslissing
         // Als het relatie.Van_Beleidsbeslissing === UUID van de beleidsbeslissing GET relatie.Naar_Beleidsbeslissing
-        beleidsrelaties.forEach(relatie => {
+
+        const axiosGETArray = beleidsrelaties.map(relatie =>
             axios
                 .get(
                     `/beleidsbeslissingen/version/${
                         relatie.Van_Beleidsbeslissing !== UUID
                             ? relatie.Van_Beleidsbeslissing
                             : relatie.Naar_Beleidsbeslissing
-                    }
                     }`
                 )
-                .then(res => {
-                    relatie.beleidsrelatieGekoppeldObject = res.data
-                    return res.data
-                })
+                .then(res => (relatie.beleidsrelatieGekoppeldObject = res.data))
+        )
+
+        const that = this
+
+        Promise.all(axiosGETArray).then(function(values) {
+            that.setState({
+                RelatieArray: beleidsrelaties,
+            })
         })
+
+        // beleidsrelaties.forEach(relatie => {
+        //     axios
+        //         .get(
+        //             `/beleidsbeslissingen/version/${
+        //                 relatie.Van_Beleidsbeslissing !== UUID
+        //                     ? relatie.Van_Beleidsbeslissing
+        //                     : relatie.Naar_Beleidsbeslissing
+        //             }
+        //             }`
+        //         )
+        //         .then(res => {
+        //             relatie.beleidsrelatieGekoppeldObject = res.data
+        //             return res.data
+        //         })
+        // })
 
         return beleidsrelaties
     }
@@ -384,6 +432,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                     <MuteerBeleidsrelatieDetail
                         beleidsbeslissing={this.state.currentBeleidsbeslissing}
                         dataLoaded={this.state.dataLoaded}
+                        updateBeleidsrelaties={this.updateBeleidsrelaties}
                         backToOverzicht={() => {
                             this.setState({
                                 currentView: 'overzicht',

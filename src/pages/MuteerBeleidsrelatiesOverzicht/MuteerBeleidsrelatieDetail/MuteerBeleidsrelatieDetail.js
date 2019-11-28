@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { format } from 'date-fns'
 import { withRouter } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleLeft, faTimes, faPlus } from '@fortawesome/free-solid-svg-icons'
@@ -35,7 +36,14 @@ class MuteerBeleidsrelatieDetail extends Component {
                 `/beleidsrelaties/${beleidsrelatieObject.ID}`,
                 patchedBeleidsrelatieObject
             )
-            .then(res => console.log(res.data))
+            .then(res => {
+                toast('Beleidsrelatie geaccepteerd')
+                this.props.updateBeleidsrelaties(
+                    beleidsrelatieObject.UUID,
+                    'Akkoord'
+                )
+                // Functie om deze relatie in de state toe te voegen geaccepteerde count van de beleidsrelaties te increasen
+            })
             .catch(err => console.log(err))
     }
 
@@ -51,7 +59,13 @@ class MuteerBeleidsrelatieDetail extends Component {
                 `/beleidsrelaties/${beleidsrelatieObject.ID}`,
                 patchedBeleidsrelatieObject
             )
-            .then(res => console.log(res.data))
+            .then(res => {
+                toast('Beleidsrelatie afgewezen')
+                this.props.updateBeleidsrelaties(
+                    beleidsrelatieObject.UUID,
+                    'NietAkkoord'
+                )
+            })
             .catch(err => console.log(err))
     }
 
@@ -160,6 +174,7 @@ class MuteerBeleidsrelatieDetail extends Component {
                                 <div className="w-2/12">Status</div>
                                 <div className="w-2/12">Motivering</div>
                             </li>
+                            {console.log(beleidsbeslissing)}
                             {this.props.dataLoaded ? (
                                 beleidsbeslissing &&
                                 beleidsbeslissing.RelatieArray &&
@@ -171,12 +186,17 @@ class MuteerBeleidsrelatieDetail extends Component {
                                                     key={relatie.UUID}
                                                     className="flex border-b border-gray-200 text-sm text-gray-800 py-2 px-2 relative items-center hover:bg-gray-100"
                                                 >
-                                                    <div className="w-6/12">
-                                                        {
+                                                    <div className="w-6/12 pr-4">
+                                                        {relatie.beleidsrelatieGekoppeldObject &&
+                                                        relatie
+                                                            .beleidsrelatieGekoppeldObject
+                                                            .Titel ? (
                                                             relatie
                                                                 .beleidsrelatieGekoppeldObject
                                                                 .Titel
-                                                        }
+                                                        ) : (
+                                                            <LoaderMainTitle />
+                                                        )}
                                                     </div>
                                                     <div className="w-3/12">
                                                         {relatie.Datum_Akkoord !==
