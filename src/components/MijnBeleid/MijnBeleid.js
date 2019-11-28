@@ -72,6 +72,7 @@ class MijnBeleid extends Component {
     }
 
     componentDidMount() {
+        console.log(localStorage.getItem('identifier').authUser)
         this.setState(
             {
                 authUser: JSON.parse(localStorage.getItem('identifier')).UUID,
@@ -85,7 +86,7 @@ class MijnBeleid extends Component {
             <div className="MijnBeleid">
                 {this.state.dataReceived ? (
                     <ul className="flex mt-8 flex-wrap">
-                        {this.state.objecten.slice(1).map(array => {
+                        {this.state.objecten.map(array => {
                             if (!array) {
                                 return null
                             }

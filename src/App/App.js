@@ -24,6 +24,7 @@ import * as Sentry from '@sentry/browser'
 
 // Import Components
 import Navigation from './../components/Navigation'
+import LoaderContent from './../components/LoaderContent'
 
 // Import Auth Routes
 import AuthRoutes from './AuthRoutes'
@@ -41,6 +42,7 @@ class App extends Component {
         this.state = {
             authUser: null,
             loggedIn: null,
+            dataLoaded: false,
         }
         this.setLoginState = this.setLoginState.bind(this)
     }
@@ -54,10 +56,16 @@ class App extends Component {
     componentDidMount() {
         axios
             .get('/tokeninfo')
-            .then(() => this.setState({ loggedIn: true }))
+            .then(res => {
+                this.setState({
+                    loggedIn: true,
+                    authUser: res.identifier,
+                    dataLoaded: true,
+                })
+            })
             .catch(error => {
                 localStorage.removeItem('access_token')
-                this.setState({ loggedIn: false })
+                this.setState({ loggedIn: false, dataLoaded: true })
             })
     }
 
@@ -128,47 +136,51 @@ class App extends Component {
                     setLoginState={this.setLoginState}
                     loggedIn={this.state.loggedIn}
                 />
-                <Switch>
-                    <Route path="/" exact component={RaadpleegHome} />
-                    <Route
-                        exact
-                        path="/zoekresultaten"
-                        component={RaadpleegZoekResultatenOverzicht}
-                    />
-                    {/* <Route
-                        path="/artikel-detail"
-                        exact
-                        component={RaadpleegArtikelDetail}
-                    /> */}
-                    {detailPaginas.map(item => {
-                        return (
-                            <Route
-                                key={item.slug}
-                                path={`/detail/${item.slug}/:id`}
-                                render={({ match }) => (
-                                    <RaadpleegUniversalObjectDetail
-                                        dataModel={item.dataModel}
-                                        history={this.props.history}
-                                        match={match}
-                                    />
-                                )}
-                            />
-                        )
-                    })}
-                    <Route
-                        path="/login"
-                        render={() => (
-                            <Login
-                                setLoginState={this.setLoginState}
-                                history={this.props.history}
-                            />
-                        )}
-                    />
-                    <AuthRoutes
-                        authUser={this.state.authUser}
-                        history={this.props.history}
-                    />
-                </Switch>
+                {this.state.dataLoaded ? (
+                    <Switch>
+                        <Route path="/" exact component={RaadpleegHome} />
+                        <Route
+                            exact
+                            path="/zoekresultaten"
+                            component={RaadpleegZoekResultatenOverzicht}
+                        />
+                        {/* <Route
+                            path="/artikel-detail"
+                            exact
+                            component={RaadpleegArtikelDetail}
+                        /> */}
+                        {detailPaginas.map(item => {
+                            return (
+                                <Route
+                                    key={item.slug}
+                                    path={`/detail/${item.slug}/:id`}
+                                    render={({ match }) => (
+                                        <RaadpleegUniversalObjectDetail
+                                            dataModel={item.dataModel}
+                                            history={this.props.history}
+                                            match={match}
+                                        />
+                                    )}
+                                />
+                            )
+                        })}
+                        <Route
+                            path="/login"
+                            render={() => (
+                                <Login
+                                    setLoginState={this.setLoginState}
+                                    history={this.props.history}
+                                />
+                            )}
+                        />
+                        <AuthRoutes
+                            authUser={this.state.authUser}
+                            history={this.props.history}
+                        />
+                    </Switch>
+                ) : (
+                    <LoaderContent />
+                )}
                 <ToastContainer position="bottom-left" />
             </main>
         )

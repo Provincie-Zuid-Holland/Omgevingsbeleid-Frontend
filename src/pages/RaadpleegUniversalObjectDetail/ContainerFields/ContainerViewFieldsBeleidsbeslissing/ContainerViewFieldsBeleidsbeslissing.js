@@ -48,6 +48,7 @@ class ContainerViewFieldsBeleidsbeslissing extends Component {
                 ) : null}
 
                 {crudObject['Tags'] !== undefined &&
+                crudObject['Tags'] !== null &&
                 crudObject['Tags'] !== '' ? (
                     <ViewFieldTags
                         fieldTitel="Tags"

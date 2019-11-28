@@ -13,15 +13,100 @@ import ButtonBackToPage from './../../../components/ButtonBackToPage'
 import PopUpAnimatedContainer from './../../../components/PopUpAnimatedContainer'
 import LoaderBeleidsrelatieRegel from './../../../components/LoaderBeleidsrelatieRegel'
 import LoaderMainTitle from './../../../components/LoaderMainTitle'
+import LoaderSaving from './../../../components/LoaderSaving'
 
 class MuteerBeleidsrelatieDetail extends Component {
     constructor(props) {
         super(props)
         this.state = {
             currentView: 'relaties',
+            vanLoaded: false,
+            naarLoaded: false,
+            titelLoaded: false,
+            savingState: false,
+            Naar_Beleidsbeslissingen: [],
+            Van_Beleidsbeslissingen: [],
         }
         this.relatieAccepteren = this.relatieAccepteren.bind(this)
         this.relatieAfwijzen = this.relatieAfwijzen.bind(this)
+    }
+
+    componentDidMount() {
+        axios
+            .get(`/beleidsbeslissingen/version/${this.props.match.params.UUID}`)
+            .then(res => {
+                this.setState({
+                    beleidsbeslissingTitel: res.data.Titel,
+                    titelLoaded: true,
+                })
+            })
+        axios
+            .get(
+                `/beleidsrelaties?Van_Beleidsbeslissing=${this.props.match.params.UUID}`
+            )
+            .then(res => {
+                let beleidsrelaties = res.data
+
+                if (res.data.length > 0) {
+                    const axiosGETArray = res.data.map(relatie => {
+                        return axios
+                            .get(
+                                `/beleidsbeslissingen/version/${relatie.Naar_Beleidsbeslissing}`
+                            )
+                            .then(res => (relatie.beleidsbeslissing = res.data))
+                    })
+
+                    const that = this
+
+                    Promise.all(axiosGETArray).then(function(values) {
+                        that.setState(
+                            {
+                                Van_Beleidsbeslissingen: beleidsrelaties,
+                                vanLoaded: true,
+                            },
+                            () => console.log(that.state)
+                        )
+                    })
+                } else {
+                    this.setState({
+                        vanLoaded: true,
+                    })
+                }
+            })
+
+        axios
+            .get(
+                `/beleidsrelaties?Naar_Beleidsbeslissing=${this.props.match.params.UUID}`
+            )
+            .then(res => {
+                let beleidsrelaties = res.data
+
+                if (res.data.length > 0) {
+                    const axiosGETArray = res.data.map(relatie => {
+                        return axios
+                            .get(
+                                `/beleidsbeslissingen/version/${relatie.Van_Beleidsbeslissing}`
+                            )
+                            .then(res => (relatie.beleidsbeslissing = res.data))
+                    })
+
+                    const that = this
+
+                    Promise.all(axiosGETArray).then(function(values) {
+                        that.setState(
+                            {
+                                Naar_Beleidsbeslissingen: beleidsrelaties,
+                                naarLoaded: true,
+                            },
+                            () => console.log(that.state)
+                        )
+                    })
+                } else {
+                    this.setState({
+                        naarLoaded: true,
+                    })
+                }
+            })
     }
 
     relatieAccepteren(beleidsrelatieObject) {
@@ -31,6 +116,9 @@ class MuteerBeleidsrelatieDetail extends Component {
             Eind_Geldigheid: beleidsrelatieObject.Eind_Geldigheid,
             Datum_Akkoord: new Date(),
         }
+        this.setState({
+            savingState: true,
+        })
         axios
             .patch(
                 `/beleidsrelaties/${beleidsrelatieObject.ID}`,
@@ -42,7 +130,39 @@ class MuteerBeleidsrelatieDetail extends Component {
                     beleidsrelatieObject.UUID,
                     'Akkoord'
                 )
-                // Functie om deze relatie in de state toe te voegen geaccepteerde count van de beleidsrelaties te increasen
+
+                // Wijzigen in lokale state
+                if (
+                    this.state.Van_Beleidsbeslissingen.find(
+                        x => x.UUID === beleidsrelatieObject.UUID
+                    )
+                ) {
+                    const itemIndex = this.state.Van_Beleidsbeslissingen.findIndex(
+                        x => x.UUID === beleidsrelatieObject.UUID
+                    )
+                    let newStateObject = this.state.Van_Beleidsbeslissingen
+                    newStateObject[itemIndex].Status = 'Akkoord'
+                    newStateObject[itemIndex].Datum_Akkoord = new Date()
+                    this.setState({
+                        Van_Beleidsbeslissingen: newStateObject,
+                        savingState: false,
+                    })
+                } else if (
+                    this.state.Naar_Beleidsbeslissingen.find(
+                        x => x.UUID === beleidsrelatieObject.UUID
+                    )
+                ) {
+                    const itemIndex = this.state.Naar_Beleidsbeslissingen.findIndex(
+                        x => x.UUID === beleidsrelatieObject.UUID
+                    )
+                    let newStateObject = this.state.Naar_Beleidsbeslissingen
+                    newStateObject[itemIndex].Status = 'Akkoord'
+                    newStateObject[itemIndex].Datum_Akkoord = new Date()
+                    this.setState({
+                        Naar_Beleidsbeslissingen: newStateObject,
+                        savingState: false,
+                    })
+                }
             })
             .catch(err => console.log(err))
     }
@@ -70,7 +190,26 @@ class MuteerBeleidsrelatieDetail extends Component {
     }
 
     render() {
+        const ParamUUID = this.props.match.params.UUID
         const beleidsbeslissing = this.props.beleidsbeslissing
+        const alleBeleidsrelaties = this.state.Van_Beleidsbeslissingen.concat(
+            this.state.Naar_Beleidsbeslissingen
+        )
+        const relatieArray = alleBeleidsrelaties.filter(
+            beleidsrelatie =>
+                ((beleidsrelatie.Van_Beleidsbeslissing === ParamUUID ||
+                    beleidsrelatie.Naar_Beleidsbeslissing === ParamUUID) &&
+                    beleidsrelatie.Status === 'Akkoord') ||
+                (beleidsrelatie.Van_Beleidsbeslissing === ParamUUID &&
+                    beleidsrelatie.Status === 'Open') ||
+                (beleidsrelatie.Naar_Beleidsbeslissing === ParamUUID &&
+                    beleidsrelatie.Status === 'NietAkkoord')
+        )
+        const verzoekArray = alleBeleidsrelaties.filter(
+            beleidsrelatie =>
+                beleidsrelatie.Naar_Beleidsbeslissing === ParamUUID &&
+                beleidsrelatie.Status === 'Open'
+        )
 
         return (
             <div className="w-3/4 rounded inline-block flex-grow">
@@ -93,8 +232,8 @@ class MuteerBeleidsrelatieDetail extends Component {
                                 Beleidsbeslissing
                             </span>
                             <h1 className="text-xl font-bold text-gray-800 inline-block mb-8">
-                                {this.props.dataLoaded && beleidsbeslissing ? (
-                                    beleidsbeslissing.Titel
+                                {this.state.titelLoaded ? (
+                                    this.state.beleidsbeslissingTitel
                                 ) : (
                                     <LoaderMainTitle />
                                 )}
@@ -152,12 +291,9 @@ class MuteerBeleidsrelatieDetail extends Component {
                                 }}
                             >
                                 Verzoeken
-                                {this.props.dataLoaded &&
-                                beleidsbeslissing &&
-                                beleidsbeslissing.VerzoekArray &&
-                                beleidsbeslissing.VerzoekArray.length > 0 ? (
+                                {verzoekArray && verzoekArray.length > 0 ? (
                                     <span className="bg-red-600 rounded-full ml-2 inline-block text-white w-6 h-6 text-center text-base">
-                                        {beleidsbeslissing.VerzoekArray.length}
+                                        {verzoekArray.length}
                                     </span>
                                 ) : null}
                             </li>
@@ -174,103 +310,97 @@ class MuteerBeleidsrelatieDetail extends Component {
                                 <div className="w-2/12">Status</div>
                                 <div className="w-2/12">Motivering</div>
                             </li>
-                            {console.log(beleidsbeslissing)}
-                            {this.props.dataLoaded ? (
-                                beleidsbeslissing &&
-                                beleidsbeslissing.RelatieArray &&
-                                beleidsbeslissing.RelatieArray.length > 0 ? (
-                                    beleidsbeslissing.RelatieArray.map(
-                                        relatie => {
-                                            return (
-                                                <li
-                                                    key={relatie.UUID}
-                                                    className="flex border-b border-gray-200 text-sm text-gray-800 py-2 px-2 relative items-center hover:bg-gray-100"
-                                                >
-                                                    <div className="w-6/12 pr-4">
-                                                        {relatie.beleidsrelatieGekoppeldObject &&
+                            {this.state.naarLoaded && this.state.vanLoaded ? (
+                                relatieArray.length > 0 ? (
+                                    relatieArray.map(relatie => {
+                                        return (
+                                            <li
+                                                key={relatie.UUID}
+                                                className="flex border-b border-gray-200 text-sm text-gray-800 py-2 px-2 relative items-center hover:bg-gray-100"
+                                            >
+                                                <div className="w-6/12 pr-4">
+                                                    {relatie.beleidsbeslissing &&
+                                                    relatie.beleidsbeslissing
+                                                        .Titel ? (
                                                         relatie
-                                                            .beleidsrelatieGekoppeldObject
-                                                            .Titel ? (
-                                                            relatie
-                                                                .beleidsrelatieGekoppeldObject
-                                                                .Titel
-                                                        ) : (
-                                                            <LoaderMainTitle />
-                                                        )}
-                                                    </div>
-                                                    <div className="w-3/12">
-                                                        {relatie.Datum_Akkoord !==
-                                                        null
-                                                            ? format(
-                                                                  new Date(
-                                                                      relatie.Datum_Akkoord
-                                                                  ),
-                                                                  'd MMMM YYYY, HH:mm uur'
-                                                              )
-                                                            : null}
-                                                    </div>
-                                                    <div className="w-2/12">
-                                                        {relatie.Status ===
-                                                        'Akkoord'
-                                                            ? 'Bevestigd'
-                                                            : relatie.Status ===
-                                                              'Open'
-                                                            ? 'In afwachting'
-                                                            : relatie.Status ===
-                                                              'NietAkkoord'
-                                                            ? 'Afgewezen'
-                                                            : null}
-                                                    </div>
-                                                    <div className="w-2/12">
-                                                        <span
-                                                            onClick={() => {
-                                                                this.setState({
-                                                                    motiveringPopUp:
-                                                                        relatie.UUID,
-                                                                })
-                                                            }}
-                                                            className="underline cursor-pointer"
+                                                            .beleidsbeslissing
+                                                            .Titel
+                                                    ) : (
+                                                        <LoaderMainTitle />
+                                                    )}
+                                                </div>
+                                                <div className="w-3/12">
+                                                    {relatie.Datum_Akkoord !==
+                                                    null
+                                                        ? format(
+                                                              new Date(
+                                                                  relatie.Datum_Akkoord
+                                                              ),
+                                                              'd MMMM YYYY, HH:mm uur'
+                                                          )
+                                                        : null}
+                                                </div>
+                                                <div className="w-2/12">
+                                                    {relatie.Status ===
+                                                    'Akkoord'
+                                                        ? 'Bevestigd'
+                                                        : relatie.Status ===
+                                                          'Open'
+                                                        ? 'In afwachting'
+                                                        : relatie.Status ===
+                                                          'NietAkkoord'
+                                                        ? 'Afgewezen'
+                                                        : null}
+                                                </div>
+                                                <div className="w-2/12">
+                                                    <span
+                                                        onClick={() => {
+                                                            this.setState({
+                                                                motiveringPopUp:
+                                                                    relatie.UUID,
+                                                            })
+                                                        }}
+                                                        className="underline cursor-pointer"
+                                                    >
+                                                        Bekijk motivering
+                                                    </span>
+                                                    {this.state
+                                                        .motiveringPopUp ===
+                                                    relatie.UUID ? (
+                                                        <PopUpAnimatedContainer
+                                                            small={true}
                                                         >
-                                                            Bekijk motivering
-                                                        </span>
-                                                        {this.state
-                                                            .motiveringPopUp ===
-                                                        relatie.UUID ? (
-                                                            <PopUpAnimatedContainer
-                                                                small={true}
-                                                            >
-                                                                <div
-                                                                    onClick={() =>
-                                                                        this.setState(
-                                                                            {
-                                                                                motiveringPopUp: null,
-                                                                            }
-                                                                        )
-                                                                    }
-                                                                    className="cursor-pointer absolute right-0 top-0 text-gray-600 px-3 py-2"
-                                                                    id={`sluit-popup-beleidsrelatie-motivering`}
-                                                                >
-                                                                    <FontAwesomeIcon
-                                                                        icon={
-                                                                            faTimes
+                                                            <div
+                                                                onClick={() =>
+                                                                    this.setState(
+                                                                        {
+                                                                            motiveringPopUp: null,
                                                                         }
-                                                                    />
-                                                                </div>
-                                                                <h3 className="form-field-label">
-                                                                    Motivering
-                                                                </h3>
-                                                                <p className="form-field-description">
-                                                                    {
-                                                                        relatie.Omschrijving
+                                                                    )
+                                                                }
+                                                                className="cursor-pointer absolute right-0 top-0 text-gray-600 px-3 py-2"
+                                                                id={`sluit-popup-beleidsrelatie-motivering`}
+                                                            >
+                                                                <FontAwesomeIcon
+                                                                    icon={
+                                                                        faTimes
                                                                     }
-                                                                </p>
-                                                            </PopUpAnimatedContainer>
-                                                        ) : null}
-                                                    </div>
-                                                </li>
-                                            )
-                                        }
-                                    )
+                                                                />
+                                                            </div>
+                                                            <h3 className="form-field-label">
+                                                                Motivering
+                                                            </h3>
+                                                            <p className="form-field-description">
+                                                                {
+                                                                    relatie.Omschrijving
+                                                                }
+                                                            </p>
+                                                        </PopUpAnimatedContainer>
+                                                    ) : null}
+                                                </div>
+                                            </li>
+                                        )
+                                    })
                                 ) : (
                                     <span className="font-italic text-sm px-2 py-2 inline-block text-gray-600">
                                         Er zijn nog geen beleidsrelaties
@@ -296,21 +426,17 @@ class MuteerBeleidsrelatieDetail extends Component {
                                 <div className="w-2/12">Motivering</div>
                                 <div className="w-2/12">Actie</div>
                             </li>
-                            {beleidsbeslissing.VerzoekArray &&
-                            beleidsbeslissing.VerzoekArray.length > 0 ? (
-                                beleidsbeslissing.VerzoekArray.map(verzoek => {
+                            {verzoekArray.length > 0 ? (
+                                verzoekArray.map(verzoek => {
                                     return (
                                         <li
                                             key={verzoek.UUID}
                                             className="flex border-b border-gray-200 text-sm text-gray-800 px-2 relative items-center hover:bg-gray-100"
                                         >
                                             <div className="w-5/12 py-2">
-                                                {verzoek.beleidsrelatieGekoppeldObject &&
-                                                verzoek
-                                                    .beleidsrelatieGekoppeldObject
-                                                    .Titel
-                                                    ? verzoek
-                                                          .beleidsrelatieGekoppeldObject
+                                                {verzoek.beleidsbeslissing &&
+                                                verzoek.beleidsbeslissing.Titel
+                                                    ? verzoek.beleidsbeslissing
                                                           .Titel
                                                     : null}
                                             </div>
@@ -398,6 +524,7 @@ class MuteerBeleidsrelatieDetail extends Component {
                             )}
                         </ul>
                     ) : null}
+                    {this.state.savingState ? <LoaderSaving /> : null}
                 </div>
             </div>
         )

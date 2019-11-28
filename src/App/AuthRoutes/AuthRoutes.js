@@ -214,6 +214,7 @@ class AuthRoutes extends Component {
                             <MuteerBeleidsrelatiesCRUD
                                 dataModel={dataModel.BeleidsRelatie}
                                 history={this.props.history}
+                                authUser={this.props.authUser}
                             />
                         )}
                     />
@@ -224,6 +225,7 @@ class AuthRoutes extends Component {
                             <MuteerBeleidsrelatiesOverzicht
                                 dataModel={dataModel.BeleidsRelatie}
                                 history={this.props.history}
+                                authUser={this.props.authUser}
                             />
                         )}
                     />
@@ -233,6 +235,7 @@ class AuthRoutes extends Component {
                             <MuteerBeleidsrelatiesOverzicht
                                 dataModel={dataModel.BeleidsRelatie}
                                 history={this.props.history}
+                                authUser={this.props.authUser}
                             />
                         )}
                     />

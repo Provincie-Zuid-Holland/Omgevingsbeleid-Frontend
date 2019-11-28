@@ -55,15 +55,6 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
             this.setState({
                 currentView: 'overzicht',
             })
-        } else if (
-            this.props.match.params.UUID !== undefined &&
-            this.state.currentView !== 'detail'
-        ) {
-            // this.setState({
-            //     currentView: 'detail',
-            //     currentBeleidsbeslissing: this.state
-            //         .beleidsbeslissingenObject[0],
-            // })
         }
     }
 
@@ -221,8 +212,6 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
         // Als het relatie.Van_Beleidsbeslissing === UUID van de beleidsbeslissing GET relatie.Naar_Beleidsbeslissing
 
         const axiosGETArray = beleidsrelaties.map(relatie => {
-            console.log(relatie)
-            console.log(UUID)
             return axios
                 .get(
                     `/beleidsbeslissingen/version/${
