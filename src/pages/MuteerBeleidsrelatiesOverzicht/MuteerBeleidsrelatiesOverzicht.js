@@ -54,6 +54,14 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
             this.setState({
                 currentView: 'overzicht',
             })
+        } else if (
+            this.props.match.params.UUID !== undefined &&
+            this.state.currentView !== 'detail'
+        ) {
+            this.setState({
+                currentView: 'detail',
+            })
+            // Filter this.state.currentBeleidsbeslissing voor UUID uit URL en setState
         }
     }
 
@@ -375,6 +383,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                 ) : (
                     <MuteerBeleidsrelatieDetail
                         beleidsbeslissing={this.state.currentBeleidsbeslissing}
+                        dataLoaded={this.state.dataLoaded}
                         backToOverzicht={() => {
                             this.setState({
                                 currentView: 'overzicht',

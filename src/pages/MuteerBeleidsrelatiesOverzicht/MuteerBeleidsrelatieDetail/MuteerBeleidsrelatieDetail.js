@@ -10,6 +10,8 @@ import axios from './../../../API/axios'
 
 import ButtonBackToPage from './../../../components/ButtonBackToPage'
 import PopUpAnimatedContainer from './../../../components/PopUpAnimatedContainer'
+import LoaderBeleidsrelatieRegel from './../../../components/LoaderBeleidsrelatieRegel'
+import LoaderMainTitle from './../../../components/LoaderMainTitle'
 
 class MuteerBeleidsrelatieDetail extends Component {
     constructor(props) {
@@ -77,7 +79,11 @@ class MuteerBeleidsrelatieDetail extends Component {
                                 Beleidsbeslissing
                             </span>
                             <h1 className="text-xl font-bold text-gray-800 inline-block mb-8">
-                                {beleidsbeslissing.Titel}
+                                {this.props.dataLoaded && beleidsbeslissing ? (
+                                    beleidsbeslissing.Titel
+                                ) : (
+                                    <LoaderMainTitle />
+                                )}
                                 <span className="border font-semibold m-color m-base-border-color px-1 py-1 text-xs rounded -mt-1 inline-block absolute ml-4">
                                     Vigerend
                                 </span>
@@ -132,7 +138,9 @@ class MuteerBeleidsrelatieDetail extends Component {
                                 }}
                             >
                                 Verzoeken
-                                {beleidsbeslissing.VerzoekArray &&
+                                {this.props.dataLoaded &&
+                                beleidsbeslissing &&
+                                beleidsbeslissing.VerzoekArray &&
                                 beleidsbeslissing.VerzoekArray.length > 0 ? (
                                     <span className="bg-red-600 rounded-full ml-2 inline-block text-white w-6 h-6 text-center text-base">
                                         {beleidsbeslissing.VerzoekArray.length}
@@ -152,89 +160,108 @@ class MuteerBeleidsrelatieDetail extends Component {
                                 <div className="w-2/12">Status</div>
                                 <div className="w-2/12">Motivering</div>
                             </li>
-                            {beleidsbeslissing.RelatieArray &&
-                            beleidsbeslissing.RelatieArray.length > 0 ? (
-                                beleidsbeslissing.RelatieArray.map(relatie => {
-                                    return (
-                                        <li
-                                            key={relatie.UUID}
-                                            className="flex border-b border-gray-200 text-sm text-gray-800 py-2 px-2 relative items-center hover:bg-gray-100"
-                                        >
-                                            <div className="w-6/12">
-                                                {
-                                                    relatie
-                                                        .beleidsrelatieGekoppeldObject
-                                                        .Titel
-                                                }
-                                            </div>
-                                            <div className="w-3/12">
-                                                {relatie.Datum_Akkoord !== null
-                                                    ? format(
-                                                          new Date(
-                                                              relatie.Datum_Akkoord
-                                                          ),
-                                                          'd MMMM YYYY, HH:mm uur'
-                                                      )
-                                                    : null}
-                                            </div>
-                                            <div className="w-2/12">
-                                                {relatie.Status === 'Akkoord'
-                                                    ? 'Bevestigd'
-                                                    : relatie.Status === 'Open'
-                                                    ? 'In afwachting'
-                                                    : relatie.Status ===
-                                                      'NietAkkoord'
-                                                    ? 'Afgewezen'
-                                                    : null}
-                                            </div>
-                                            <div className="w-2/12">
-                                                <span
-                                                    onClick={() => {
-                                                        this.setState({
-                                                            motiveringPopUp:
-                                                                relatie.UUID,
-                                                        })
-                                                    }}
-                                                    className="underline cursor-pointer"
+                            {this.props.dataLoaded ? (
+                                beleidsbeslissing &&
+                                beleidsbeslissing.RelatieArray &&
+                                beleidsbeslissing.RelatieArray.length > 0 ? (
+                                    beleidsbeslissing.RelatieArray.map(
+                                        relatie => {
+                                            return (
+                                                <li
+                                                    key={relatie.UUID}
+                                                    className="flex border-b border-gray-200 text-sm text-gray-800 py-2 px-2 relative items-center hover:bg-gray-100"
                                                 >
-                                                    Bekijk motivering
-                                                </span>
-                                                {this.state.motiveringPopUp ===
-                                                relatie.UUID ? (
-                                                    <PopUpAnimatedContainer
-                                                        small={true}
-                                                    >
-                                                        <div
-                                                            onClick={() =>
+                                                    <div className="w-6/12">
+                                                        {
+                                                            relatie
+                                                                .beleidsrelatieGekoppeldObject
+                                                                .Titel
+                                                        }
+                                                    </div>
+                                                    <div className="w-3/12">
+                                                        {relatie.Datum_Akkoord !==
+                                                        null
+                                                            ? format(
+                                                                  new Date(
+                                                                      relatie.Datum_Akkoord
+                                                                  ),
+                                                                  'd MMMM YYYY, HH:mm uur'
+                                                              )
+                                                            : null}
+                                                    </div>
+                                                    <div className="w-2/12">
+                                                        {relatie.Status ===
+                                                        'Akkoord'
+                                                            ? 'Bevestigd'
+                                                            : relatie.Status ===
+                                                              'Open'
+                                                            ? 'In afwachting'
+                                                            : relatie.Status ===
+                                                              'NietAkkoord'
+                                                            ? 'Afgewezen'
+                                                            : null}
+                                                    </div>
+                                                    <div className="w-2/12">
+                                                        <span
+                                                            onClick={() => {
                                                                 this.setState({
-                                                                    motiveringPopUp: null,
+                                                                    motiveringPopUp:
+                                                                        relatie.UUID,
                                                                 })
-                                                            }
-                                                            className="cursor-pointer absolute right-0 top-0 text-gray-600 px-3 py-2"
-                                                            id={`sluit-popup-beleidsrelatie-motivering`}
+                                                            }}
+                                                            className="underline cursor-pointer"
                                                         >
-                                                            <FontAwesomeIcon
-                                                                icon={faTimes}
-                                                            />
-                                                        </div>
-                                                        <h3 className="form-field-label">
-                                                            Motivering
-                                                        </h3>
-                                                        <p className="form-field-description">
-                                                            {
-                                                                relatie.Omschrijving
-                                                            }
-                                                        </p>
-                                                    </PopUpAnimatedContainer>
-                                                ) : null}
-                                            </div>
-                                        </li>
+                                                            Bekijk motivering
+                                                        </span>
+                                                        {this.state
+                                                            .motiveringPopUp ===
+                                                        relatie.UUID ? (
+                                                            <PopUpAnimatedContainer
+                                                                small={true}
+                                                            >
+                                                                <div
+                                                                    onClick={() =>
+                                                                        this.setState(
+                                                                            {
+                                                                                motiveringPopUp: null,
+                                                                            }
+                                                                        )
+                                                                    }
+                                                                    className="cursor-pointer absolute right-0 top-0 text-gray-600 px-3 py-2"
+                                                                    id={`sluit-popup-beleidsrelatie-motivering`}
+                                                                >
+                                                                    <FontAwesomeIcon
+                                                                        icon={
+                                                                            faTimes
+                                                                        }
+                                                                    />
+                                                                </div>
+                                                                <h3 className="form-field-label">
+                                                                    Motivering
+                                                                </h3>
+                                                                <p className="form-field-description">
+                                                                    {
+                                                                        relatie.Omschrijving
+                                                                    }
+                                                                </p>
+                                                            </PopUpAnimatedContainer>
+                                                        ) : null}
+                                                    </div>
+                                                </li>
+                                            )
+                                        }
                                     )
-                                })
+                                ) : (
+                                    <span className="font-italic text-sm px-2 py-2 inline-block text-gray-600">
+                                        Er zijn nog geen beleidsrelaties
+                                    </span>
+                                )
                             ) : (
-                                <span className="font-italic text-sm px-2 py-2 inline-block text-gray-600">
-                                    Er zijn nog geen beleidsrelaties
-                                </span>
+                                <React.Fragment>
+                                    <LoaderBeleidsrelatieRegel />
+                                    <LoaderBeleidsrelatieRegel />
+                                    <LoaderBeleidsrelatieRegel />
+                                </React.Fragment>
                             )}
                         </ul>
                     ) : null}
