@@ -17,7 +17,7 @@ class FormFieldTextArea extends React.Component {
                         id={`form-field-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
                         maxLength="15000"
                         value={this.props.fieldValue}
-                        required
+                        // required
                         onChange={this.props.handleChange}
                         name={this.props.dataObjectProperty}
                         className="appearance-none block w-full text-gray-700 border border-gray-400 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white hover:border-gray-500 focus:border-gray-500 h-24"

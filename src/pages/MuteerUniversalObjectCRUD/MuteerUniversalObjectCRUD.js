@@ -161,17 +161,27 @@ class MuteerUniversalObjectCRUD extends Component {
                         responseObject[0]
                     )
                     console.log(crudObject.Eind_Geldigheid)
-                    if (crudObject.Begin_Geldigheid !== undefined) {
+                    if (
+                        crudObject.Begin_Geldigheid !== undefined &&
+                        crudObject.Begin_Geldigheid !== null
+                    ) {
                         crudObject.Begin_Geldigheid = format(
                             crudObject.Begin_Geldigheid,
                             'YYYY-MM-DD'
                         )
+                    } else if (crudObject.Begin_Geldigheid === null) {
+                        crudObject.Begin_Geldigheid = ''
                     }
-                    if (crudObject.Eind_Geldigheid !== undefined) {
+                    if (
+                        crudObject.Eind_Geldigheid !== undefined &&
+                        crudObject.Eind_Geldigheid !== null
+                    ) {
                         crudObject.Eind_Geldigheid = format(
                             crudObject.Eind_Geldigheid,
                             'YYYY-MM-DD'
                         )
+                    } else if (crudObject.Eind_Geldigheid === null) {
+                        crudObject.Eind_Geldigheid = ''
                     }
 
                     // If there is a saved state in LocalStorage &&
@@ -305,21 +315,32 @@ class MuteerUniversalObjectCRUD extends Component {
             if (dataModel.required.includes(key)) {
                 const dataModelFormat = dataModel.properties[key].format
 
-                // Check if the dataModel Type is equal to the type in the crudObject
+                // // Check if the dataModel Type is equal to the type in the crudObject
+                // if (
+                //     dataModelFormat === 'uuid' &&
+                //     allFieldsComplete &&
+                //     !crudObject[key]
+                // ) {
+                //     toast(`Vul alle 'Personen' velden in`)
+                //     allFieldsComplete = false
+                // } else if (
+                //     dataModelFormat === 'uuid' &&
+                //     allFieldsComplete &&
+                //     !validator.isUUID(crudObject[key])
+                // ) {
+                //     toast(`Vul alle 'Personen' velden in`)
+                //     allFieldsComplete = false
+                // }
+
+                // Check UUID's. If there is none set 0000
                 if (
-                    dataModelFormat === 'uuid' &&
-                    allFieldsComplete &&
-                    !crudObject[key]
-                ) {
-                    toast(`Vul alle 'Personen' velden in`)
-                    allFieldsComplete = false
-                } else if (
+                    crudObject[key] !== null &&
                     dataModelFormat === 'uuid' &&
                     allFieldsComplete &&
                     !validator.isUUID(crudObject[key])
                 ) {
-                    toast(`Vul alle 'Personen' velden in`)
-                    allFieldsComplete = false
+                    // allFieldsComplete = false
+                    crudObject[key] = '00000000-0000-0000-0000-000000000000'
                 }
 
                 // // Push de key naar de requiredProperties array
@@ -368,20 +389,20 @@ class MuteerUniversalObjectCRUD extends Component {
 
         // Zet de Date String om naar een Date Object en kijkt of deze geldig is
         crudObject.Begin_Geldigheid = new Date(crudObject.Begin_Geldigheid)
-        if (this.validateDate(crudObject.Begin_Geldigheid)) {
-            // Datum is geldig
-        } else {
-            toast('Vul een inwerkingtreding datum in')
-            return
-        }
+        // if (this.validateDate(crudObject.Begin_Geldigheid)) {
+        //     // Datum is geldig
+        // } else {
+        //     toast('Vul een inwerkingtreding datum in')
+        //     return
+        // }
 
         crudObject.Eind_Geldigheid = new Date(crudObject.Eind_Geldigheid)
-        if (this.validateDate(crudObject.Eind_Geldigheid)) {
-            // Datum is geldig
-        } else {
-            toast('Vul een uitwerkingtreding datum in')
-            return
-        }
+        // if (this.validateDate(crudObject.Eind_Geldigheid)) {
+        //     // Datum is geldig
+        // } else {
+        //     toast('Vul een uitwerkingtreding datum in')
+        //     return
+        // }
 
         // Voordat we hem PATCHEN of POSTEN kijken we of er nog velden leeg zijn die verplicht zijn
         if (!this.checkForEmptyFields(this.state.crudObject)) {
@@ -393,15 +414,10 @@ class MuteerUniversalObjectCRUD extends Component {
             axios
                 .patch(`${ApiEndpoint}/${objectID}`, JSON.stringify(crudObject))
                 .then(res => {
-                    if (this.props.match.path.includes('api-test')) {
-                        this.props.history.push(
-                            `/api-test/${overzichtSlug}/${res.data.ID}`
-                        )
-                    } else {
-                        this.props.history.push(
-                            `/muteer/${overzichtSlug}/${res.data.ID}`
-                        )
-                    }
+                    console.log(res.data.ID)
+                    this.props.history.push(
+                        `/muteer/${overzichtSlug}/${res.data.ID}`
+                    )
                     toast('Opgeslagen')
                 })
                 .catch(error => {
@@ -417,15 +433,9 @@ class MuteerUniversalObjectCRUD extends Component {
             axios
                 .post(`${ApiEndpoint}`, JSON.stringify(crudObject))
                 .then(res => {
-                    if (this.props.match.path.includes('api-test')) {
-                        this.props.history.push(
-                            `/api-test/${overzichtSlug}/${res.data.ID}`
-                        )
-                    } else {
-                        this.props.history.push(
-                            `/muteer/${overzichtSlug}/${res.data.ID}`
-                        )
-                    }
+                    this.props.history.push(
+                        `/muteer/${overzichtSlug}/${res.data.ID}`
+                    )
                     toast('Opgeslagen')
                 })
                 .catch(error => {

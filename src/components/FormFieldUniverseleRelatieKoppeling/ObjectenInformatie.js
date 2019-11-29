@@ -42,7 +42,7 @@ const objecten = {
         type: 'Opgave',
     },
     themas: {
-        buttonTekst: 'Themas',
+        buttonTekst: 'themas',
         volledigeTitel: 'Themas',
         volledigeTitelMeervoud: 'Themas',
         api: '/themas',

@@ -332,7 +332,9 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
 
                         axios
                             .get(
-                                `${objecten[propertyName.toLowerCase()].api}/version/${koppeling.UUID}`
+                                `${
+                                    objecten[propertyName.toLowerCase()].api
+                                }/version/${koppeling.UUID}`
                             )
                             .then(res => {
                                 findPropertyAndAddDataToStateObject(
@@ -461,7 +463,7 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
                                                         ? item.data.Titel
                                                         : null}
                                                     <FontAwesomeIcon
-                                                        className="absolute right-0 mt-1 mr-2"
+                                                        className="absolute right-0 mt-1 mr-2 top-0"
                                                         icon={faEye}
                                                     />
                                                 </div>

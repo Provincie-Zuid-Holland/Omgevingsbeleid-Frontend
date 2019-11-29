@@ -6,6 +6,7 @@ import APIcontext from './../APIContext'
 // Import Components
 import ContainerMain from './../../../components/ContainerMain'
 import ContainerFormSection from './../../../components/ContainerFormSection'
+
 import FormFieldTextInput from './../../../components/FormFieldTextInput'
 import FormFieldTextArea from './../../../components/FormFieldTextArea'
 import FormFieldWeblink from './../../../components/FormFieldWeblink'
@@ -457,6 +458,11 @@ class ContainerCrudFields extends React.Component {
 
                                             {/* Geldigheid */}
                                             <div className="flex flex-wrap -mx-3">
+                                                {console.log(
+                                                    crudObject[
+                                                        'Begin_Geldigheid'
+                                                    ]
+                                                )}
                                                 {/* Begin Geldigheid */}
                                                 {crudObject[
                                                     'Begin_Geldigheid'
@@ -1587,7 +1593,7 @@ class ContainerCrudFields extends React.Component {
                                     <div className="bg-white shadow px-4 py-4 inline-block rounded-t">
                                         <input
                                             id="form-submit"
-                                            className="font-bold py-2 px-4 leading-tight text-sm rounded mbg-color text-white hover:underline"
+                                            className="font-bold py-2 px-4 leading-tight text-sm rounded mbg-color text-white hover:underline cursor-pointer"
                                             type="submit"
                                             value="Opslaan"
                                         ></input>

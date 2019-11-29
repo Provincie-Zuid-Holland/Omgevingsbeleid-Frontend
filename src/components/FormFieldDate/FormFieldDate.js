@@ -31,15 +31,8 @@ class FormFieldDate extends React.Component {
                         veld voor uitwerkingtreding
                     </span>
                 }
-                {this.props.Begin_Geldigheid !== '' &&
-                this.props.Begin_Geldigheid !== undefined
-                    ? console.log(
-                          format(
-                              new Date(this.props.Begin_Geldigheid),
-                              'YYYY-MM-DD'
-                          )
-                      )
-                    : null}
+                {console.log('this.props.fieldValue')}
+                {console.log(this.props.fieldValue)}
                 {this.state.toonUitwerkingTreding ? (
                     <div className="w-50 mb-6">
                         <FormFieldTitelEnBeschrijving
@@ -50,9 +43,14 @@ class FormFieldDate extends React.Component {
                             titelEnkelvoud={this.props.titelEnkelvoud}
                         />
                         {this.props.Begin_Geldigheid !== '' &&
-                        this.props.Begin_Geldigheid !== undefined ? (
+                        this.props.Begin_Geldigheid !== undefined &&
+                        this.props.Begin_Geldigheid !== null ? (
                             <input
-                                value={this.props.fieldValue}
+                                value={
+                                    this.props.fieldValue
+                                        ? this.props.fieldValue
+                                        : ''
+                                }
                                 onChange={this.props.handleChange}
                                 name={this.props.dataObjectProperty}
                                 className="appearance-none block w-full text-gray-700 border border-gray-400 focus:border-gray-500 hover:border-gray-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
@@ -66,7 +64,11 @@ class FormFieldDate extends React.Component {
                             />
                         ) : (
                             <input
-                                value={this.props.fieldValue}
+                                value={
+                                    this.props.fieldValue
+                                        ? this.props.fieldValue
+                                        : ''
+                                }
                                 onChange={this.props.handleChange}
                                 name={this.props.dataObjectProperty}
                                 required={false}
@@ -89,7 +91,9 @@ class FormFieldDate extends React.Component {
                 />
                 {this.props.required ? (
                     <input
-                        value={this.props.fieldValue}
+                        value={
+                            this.props.fieldValue ? this.props.fieldValue : ''
+                        }
                         onChange={this.props.handleChange}
                         name={this.props.dataObjectProperty}
                         className="appearance-none block w-full text-gray-700 border border-gray-400 focus:border-gray-500 hover:border-gray-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
@@ -98,7 +102,9 @@ class FormFieldDate extends React.Component {
                     />
                 ) : (
                     <input
-                        value={this.props.fieldValue}
+                        value={
+                            this.props.fieldValue ? this.props.fieldValue : ''
+                        }
                         onChange={this.props.handleChange}
                         name={this.props.dataObjectProperty}
                         className="appearance-none block w-full text-gray-700 border border-gray-400 focus:border-gray-500 hover:border-gray-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"

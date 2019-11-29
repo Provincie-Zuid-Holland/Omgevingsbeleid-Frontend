@@ -26,7 +26,7 @@ class FormFieldTextInput extends React.Component {
                     ) : (
                         <input
                             id={`form-field-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
-                            required
+                            // required
                             value={this.props.fieldValue}
                             onChange={this.props.handleChange}
                             name={this.props.dataObjectProperty}
