@@ -233,7 +233,7 @@ export default class LeafletHalfScreenWidthViewer extends Component {
     }
 
     _createCustomPopup(lat, lng, layer) {
-        layer.bindPopup('Adress aan het laden...').openPopup()
+        layer.bindPopup('Adres aan het laden...').openPopup()
         // layer._popup.setContent('something else')
 
         import('./../../API/axiosLocatieserver').then(api => {

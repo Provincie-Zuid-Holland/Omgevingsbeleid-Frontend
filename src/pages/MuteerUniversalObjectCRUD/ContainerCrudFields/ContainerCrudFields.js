@@ -394,7 +394,9 @@ class ContainerCrudFields extends React.Component {
                                                 koppelingRelatieArray={[
                                                     'ambities',
                                                     'opgaven',
+                                                    'themas',
                                                     'beleidsregels',
+                                                    'doelen',
                                                     'maatregelen',
                                                     'verordening',
                                                 ]}

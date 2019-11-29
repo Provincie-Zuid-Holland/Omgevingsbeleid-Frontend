@@ -108,7 +108,7 @@ class NavigationMenuPopUp extends Component {
                                             className="py-2 px-4 text-sm border-t border-gray-300 w-full inline-block"
                                             onClick={this.toggleOpen}
                                         >
-                                            Raadpleeg omgeving
+                                            Raadpleegomgeving
                                         </Link>
                                     ) : (
                                         <Link
@@ -117,7 +117,7 @@ class NavigationMenuPopUp extends Component {
                                             className="py-2 px-4 text-sm border-t border-gray-300 w-full inline-block"
                                             onClick={this.toggleOpen}
                                         >
-                                            Muteer omgeving
+                                            Muteeromgeving
                                         </Link>
                                     )}
                                 </li>

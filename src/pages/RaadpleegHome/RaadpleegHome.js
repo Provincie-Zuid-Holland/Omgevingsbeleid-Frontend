@@ -24,8 +24,13 @@ class RaadpleegHome extends Component {
                         Zoek eenvoudig binnen het Omgevingsbeleid van de
                         provincie Zuid-Holland of selecteer een locatie of
                         gebied op de kaart. Meer algemene informatie over
-                        omgevingsbeleids is te lezen op de website van de{' '}
-                        <a href="#" className="underline cursor-pointer">
+                        omgevingsbeleid is te lezen op de website van de{' '}
+                        <a
+                            href="https://www.zuid-holland.nl/actueel/omgevingsbeleid/"
+                            className="underline cursor-pointer"
+                            target="_blank"
+                            rel="noopener"
+                        >
                             provincie Zuid-Holland
                         </a>
                         .

@@ -22,10 +22,9 @@ class PopUpStatusAanpassen extends Component {
             <PopUpAnimatedContainer small={true}>
                 <div className="text-gray-800">
                     <h2 className="font-bold mb-4">Status aanpassen</h2>
-                    {/* <div className="mb-5 m-border-color border-l-2 border-purple-700 p-4">
-                        Zodra een nieuwe status wordt toegewezen, wordt de
-                        huidige inhoud opgeslagen als 'Ontwerp in inspraak'.
-                    </div> */}
+                    <div className="mb-5 m-border-color border-l-2 bg-purple-100 border-purple-700 p-4 font-semibold">
+                        Binnenkort mogelijk
+                    </div>
                     <div className="inline-block relative w-64">
                         <select
                             required
@@ -58,12 +57,12 @@ class PopUpStatusAanpassen extends Component {
                     </div>
                     <div className="flex justify-between mt-5 items-center text-sm">
                         <div
-                            className="underline text-gray-600"
+                            className="underline text-gray-600 cursor-pointer"
                             onClick={this.props.toggleStatusPopup}
                         >
                             Annuleren
                         </div>
-                        <div className="bg-green-500 px-8 py-2 text-white rounded font-semibold">
+                        <div className="bg-green-500 px-8 py-2 text-white rounded font-semibold cursor-not-allowed">
                             Aanpassen
                         </div>
                     </div>

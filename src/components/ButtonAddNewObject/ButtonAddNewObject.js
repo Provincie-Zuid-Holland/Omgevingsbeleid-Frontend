@@ -20,11 +20,7 @@ function ButtonAddNewObject(props) {
             <Link
                 id={`object-add-new-${hoofdOnderdeelSlug.toLowerCase()}`}
                 className="h-full flex items-center justify-center no-underline px-4 py-4 border border-dashed rounded overflow-hidden"
-                to={
-                    apiTest === true
-                        ? `/muteer/${hoofdOnderdeelSlug}/${overzichtSlug}/${createNewSlug}`
-                        : `/muteer/${hoofdOnderdeelSlug}/${createNewSlug}`
-                }
+                to={`/muteer/${hoofdOnderdeelSlug}/${createNewSlug}`}
             >
                 <span className="text-center text-gray-600 font-semibold py-2 px-4">
                     + Voeg {props.titelEnkelvoud} Toe

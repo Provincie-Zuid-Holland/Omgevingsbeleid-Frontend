@@ -56,7 +56,7 @@ class PopUpDetailDropdown extends Component {
                                 to={`/`}
                                 className="py-2 px-4 text-sm border-t border-gray-300 w-full inline-block"
                             >
-                                Raadpleeg omgeving
+                                Raadpleegomgeving
                             </Link>
                         </li>
                         <li>

@@ -156,8 +156,10 @@ class ContainerDetailMain extends Component {
                     {titelEnkelvoud !== 'Beleidsrelatie' ? (
                         <div className="flex justify-between items-center w-full py-2 cursor-pointer">
                             <div>
-                                <Link
-                                    to={`/detail/${this.props.overzichtSlug}/${this.props.match.params.single}`}
+                                <a
+                                    href={`/detail/${this.props.overzichtSlug}/${this.props.match.params.single}`}
+                                    target="_blank"
+                                    rel="noopener"
                                 >
                                     <span className="block font-bold text-gray-700 text-sm">
                                         Link naar raadpleegomgeving
@@ -165,7 +167,7 @@ class ContainerDetailMain extends Component {
                                     <span className="text-sm text-gray-700">
                                         Bekijk {titelEnkelvoud.toLowerCase()}
                                     </span>
-                                </Link>
+                                </a>
                             </div>
                             <div>
                                 <FontAwesomeIcon

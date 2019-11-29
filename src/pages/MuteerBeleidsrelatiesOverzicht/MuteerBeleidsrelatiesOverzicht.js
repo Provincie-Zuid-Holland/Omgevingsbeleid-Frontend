@@ -405,7 +405,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                                                 }
                                             )
                                         ) : (
-                                            <span className="font-italic text-gray-600">
+                                            <span className="font-italic inline-block mt-2 text-gray-600">
                                                 U heeft nog geen
                                                 beleidsbeslissingen
                                             </span>

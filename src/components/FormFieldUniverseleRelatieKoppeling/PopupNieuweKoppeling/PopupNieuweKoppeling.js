@@ -28,6 +28,12 @@ class PopupNieuweKoppeling extends Component {
     }
 
     componentDidMount() {
+        window.addEventListener('keypress', e => {
+            if (e.key === 'Enter') {
+                e.preventDefault()
+            }
+        })
+
         axios
             .get(objecten[this.state.type].api)
             .then(res => {

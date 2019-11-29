@@ -131,8 +131,8 @@ function SidebarMain(props) {
             <nav className="pt-2">
                 <MainSideBarHeading>Omgevingsbeleid</MainSideBarHeading>
                 <ul>{returnMenuItems(menuItemsOmgevingsbeleid)}</ul>
-                <MainSideBarHeading>Gebruiker</MainSideBarHeading>
-                <ul>{returnMenuItems(menuItemsGebruiker)}</ul>
+                {/* <MainSideBarHeading>Gebruiker</MainSideBarHeading>
+                <ul>{returnMenuItems(menuItemsGebruiker)}</ul> */}
                 <MainSideBarHeading>Beheer</MainSideBarHeading>
                 <ul>{returnMenuItems(menuItemsBeheer)}</ul>
             </nav>
