@@ -404,6 +404,11 @@ class MuteerUniversalObjectCRUD extends Component {
         //     return
         // }
 
+        if (crudObject.Titel !== undefined && crudObject.Titel === '') {
+            toast('Vul een titel in')
+            return
+        }
+
         // Voordat we hem PATCHEN of POSTEN kijken we of er nog velden leeg zijn die verplicht zijn
         if (!this.checkForEmptyFields(this.state.crudObject)) {
             return

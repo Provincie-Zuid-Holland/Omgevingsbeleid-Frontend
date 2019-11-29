@@ -110,13 +110,15 @@ class ContainerDetailMain extends Component {
                             </span>
                             {dataReceived ? (
                                 <span className="text-sm text-gray-700">
-                                    {format(
-                                        new Date(
-                                            dataObject['Begin_Geldigheid']
-                                        ),
-                                        'D MMMM YYYY',
-                                        { locale: nlLocale }
-                                    )}
+                                    {dataObject['Begin_Geldigheid'] !== null
+                                        ? format(
+                                              new Date(
+                                                  dataObject['Begin_Geldigheid']
+                                              ),
+                                              'D MMMM YYYY',
+                                              { locale: nlLocale }
+                                          )
+                                        : 'Er is nog geen begin geldigheid'}
                                 </span>
                             ) : (
                                 <span className="mt-2 block">
