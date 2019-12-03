@@ -84,7 +84,7 @@ class MijnBeleid extends Component {
                 {this.state.dataReceived ? (
                     <ul className="flex mt-8 flex-wrap">
                         {this.state.objecten.length > 0 &&
-                        this.state.objecten.every(x => x !== undefined) ? (
+                        !this.state.objecten.every(x => x === undefined) ? (
                             this.state.objecten.map(array => {
                                 if (!array) {
                                     return null
