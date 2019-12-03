@@ -8,23 +8,19 @@ import axios from './../../API/axios'
 import LoaderSelect from './../LoaderSelect'
 
 function makeSelection(objectenArray, dataObjectProperty) {
-    if (objectenArray.length === 1) {
-        return null
-    } else {
-        let options = []
-        objectenArray.slice(1).forEach(arrayItem => {
-            options.push({
-                label: arrayItem.Titel,
+    let options = []
+    objectenArray.forEach(arrayItem => {
+        options.push({
+            label: arrayItem.Titel,
+            value: arrayItem.UUID,
+            target: {
+                type: 'relatie',
                 value: arrayItem.UUID,
-                target: {
-                    type: 'relatie',
-                    value: arrayItem.UUID,
-                    name: dataObjectProperty,
-                },
-            })
+                name: dataObjectProperty,
+            },
         })
-        return options
-    }
+    })
+    return options
 }
 
 class FormFieldSelectBeleidsbeslissing extends React.Component {

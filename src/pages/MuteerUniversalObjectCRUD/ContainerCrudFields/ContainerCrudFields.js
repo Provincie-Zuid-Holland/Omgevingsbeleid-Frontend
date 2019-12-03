@@ -323,46 +323,6 @@ class ContainerCrudFields extends React.Component {
                                             // titel="Koppelingen en relaties"
                                             // beschrijving="Integraal Omgevingsbeleid betekent dat deze beleidsbeslissing relaties en koppelingen met andere onderdelen van het provinciale beleid heeft. Een relatie ga je, met wederzijds goedkeuren, aan met andere beleidsbeslissingen. Koppelingen leg je, eenzijdig, met andere beleidsobjecten, zoals een artikel uit de verordening of een ambitie."
                                         >
-                                            {/* <FormFieldBeleidsrelatieKoppeling
-                                                objectUUID={objectUUID}
-                                                placeholderTekst="Er zijn nog geen relaties aangebracht voor deze beleidsbeslissing"
-                                                buttonTekst="Nieuwe koppeling"
-                                                titelMainObject={
-                                                    crudObject['Titel']
-                                                }
-                                                handleChange={
-                                                    this.context.handleChange
-                                                }
-                                                fieldValue={
-                                                    crudObject['Belangen']
-                                                }
-                                                fieldLabel="Relaties"
-                                                addObjectLabel={true}
-                                                dataObjectProperty="Beleidsrelaties"
-                                                pValue="Met welke andere beleidsbeslissingen heeft deze beleidsbeslissing een relatie?"
-                                                titelEnkelvoud={titelEnkelvoud}
-                                                voegKoppelingRelatieToe={
-                                                    this.context
-                                                        .voegKoppelingRelatieToe
-                                                }
-                                                wijzigKoppelingRelatie={
-                                                    this.context
-                                                        .wijzigKoppelingRelatie
-                                                }
-                                                verwijderKoppelingRelatieToe={
-                                                    this.context
-                                                        .verwijderKoppelingRelatieToe
-                                                }
-                                                editStatus={
-                                                    this.context.editStatus
-                                                }
-                                                koppelingRelatieArray={[
-                                                    'beleidsbeslissing',
-                                                ]}
-                                                crudObject={JSON.parse(
-                                                    JSON.stringify(crudObject)
-                                                )}
-                                            /> */}
                                             <FormFieldUniverseleRelatieKoppeling
                                                 placeholderTekst="Er zijn nog geen relaties aangebracht voor deze beleidsbeslissing"
                                                 buttonTekst="Nieuwe koppeling"

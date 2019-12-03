@@ -275,7 +275,6 @@ class PopUpWerkingsGebiedContainer extends Component {
                 const werkingsgebieden = res.data
                 // const selectionArray = this.makeSelection(werkingsgebieden)
                 // return this.generateJSONForAllWerkingsgebieden(selectionArray)
-                console.log(werkingsgebieden)
                 this.setState({
                     werkingsgebieden: werkingsgebieden,
                     dataLoaded: true,

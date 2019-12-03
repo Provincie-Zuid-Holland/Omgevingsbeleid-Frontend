@@ -45,9 +45,6 @@ class MeldingKoppeling extends Component {
                     <span className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded cursor-not-allowed text-sm mr-4">
                         Afwijzen
                     </span>
-                    <span className="text-gray-700 text-sm underline cursor-not-allowed hover:text-gray-900 text-sm">
-                        Melding verbergen
-                    </span>
                 </div>
             </div>
         )

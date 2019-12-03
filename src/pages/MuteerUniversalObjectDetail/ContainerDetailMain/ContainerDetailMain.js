@@ -136,7 +136,7 @@ class ContainerDetailMain extends Component {
                     {dataObject['Weblink'] ? (
                         <div className="flex justify-between items-center w-full mr-4 pr-4 border-r border-gray-300 py-2">
                             <a
-                                href={dataObject['Weblink']}
+                                href={`//${dataObject['Weblink']}`}
                                 target="_blank"
                                 id="href-idms-koppeling"
                             >

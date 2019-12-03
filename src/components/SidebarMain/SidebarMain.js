@@ -104,12 +104,12 @@ function MainSideBarHeading(props) {
 }
 
 function SidebarMain(props) {
-    let identifier = localStorage.getItem('identifier')
-    let gebruikersNaam = ''
+    const identifier = localStorage.getItem('identifier')
+    let gebruikersNaam = null
+    let gebruikersRol = null
     if (identifier !== null) {
         gebruikersNaam = JSON.parse(identifier).Gebruikersnaam.split(' ')[0]
-    } else {
-        gebruikersNaam = null
+        gebruikersRol = JSON.parse(identifier).Rol
     }
 
     return (
@@ -133,8 +133,12 @@ function SidebarMain(props) {
                 <ul>{returnMenuItems(menuItemsOmgevingsbeleid)}</ul>
                 {/* <MainSideBarHeading>Gebruiker</MainSideBarHeading>
                 <ul>{returnMenuItems(menuItemsGebruiker)}</ul> */}
-                <MainSideBarHeading>Beheer</MainSideBarHeading>
-                <ul>{returnMenuItems(menuItemsBeheer)}</ul>
+                {gebruikersRol === 'Beheerder' ? (
+                    <React.Fragment>
+                        <MainSideBarHeading>Beheer</MainSideBarHeading>
+                        <ul>{returnMenuItems(menuItemsBeheer)}</ul>
+                    </React.Fragment>
+                ) : null}
             </nav>
         </div>
     )
