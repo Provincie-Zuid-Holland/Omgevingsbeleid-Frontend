@@ -39,7 +39,9 @@ class FormFieldSelectUserGroup extends Component {
         const crudObject = this.props.crudObject
         return (
             <React.Fragment>
-                <span className="form-field-label">Personen</span>
+                <span className="block tracking-wide text-gray-700 text-sm font-bold mb-2">
+                    Personen
+                </span>
                 <div className="w-1/2 flex">
                     {crudObject['Opdrachtgever'] !== undefined &&
                     this.state.gebruikersLijst.length > 0 ? (

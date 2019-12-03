@@ -65,13 +65,6 @@ class MuteerMeldingen extends Component {
     }
 
     render() {
-        // // Variables
-        // const titelEnkelvoud = this.props.dataModel.variables.Titel_Enkelvoud
-        // const titelMeervoud = this.props.dataModel.variables.Titel_Meervoud
-        // const createNewSlug = this.props.dataModel.variables.Create_New_Slug
-        // const overzichtSlug = this.props.dataModel.variables.Overzicht_Slug
-        // const hoofdOnderdeelSlug = this.props.dataModel.variables.Overzicht_Slug
-
         return (
             <ContainerMain>
                 <Helmet>
@@ -133,17 +126,6 @@ class MuteerMeldingen extends Component {
                                 <LoaderCard />
                             </div>
                         )}
-
-                        {/* {this.state.dataReceived ? (
-                                <ButtonAddNewObject
-                                    objectAantal={this.state.objecten.length}
-                                    titelEnkelvoud={titelEnkelvoud}
-                                    overzichtSlug={overzichtSlug}
-                                    createNewSlug={createNewSlug}
-                                    hoofdOnderdeelSlug={hoofdOnderdeelSlug}
-                                    fullWidth={true}
-                                />
-                            ) : null} */}
                     </section>
                 </div>
             </ContainerMain>

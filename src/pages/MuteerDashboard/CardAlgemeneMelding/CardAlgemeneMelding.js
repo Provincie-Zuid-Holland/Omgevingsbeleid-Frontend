@@ -27,7 +27,7 @@ class CardAlgemeneMelding extends Component {
                         {this.props.titel}
                     </h3>
 
-                    <span className="absolute right-0 text-gray-600 font-thin mr-16 text-sm">
+                    <span className="absolute right-0 text-gray-600 mr-16 text-sm">
                         2 uur geleden
                     </span>
                 </div>

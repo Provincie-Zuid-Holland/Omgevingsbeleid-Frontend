@@ -13,7 +13,7 @@ class MeldingEigenaarOverdracht extends Component {
                     <h3 className="inline-block font-bold text-lg ml-4 text-gray-800">
                         Verzoek tot overdracht eigenaarschap
                     </h3>
-                    <span className="absolute right-0 text-gray-600 font-thin mr-16 text-sm">
+                    <span className="absolute right-0 text-gray-600 mr-16 text-sm">
                         1 dag geleden
                     </span>
                 </div>

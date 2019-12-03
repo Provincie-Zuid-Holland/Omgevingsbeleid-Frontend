@@ -101,7 +101,7 @@ class Login extends Component {
                     <title>Omgevingsbeleid - Login</title>
                 </Helmet>
                 <div className="w-1/2 pr-20 pb-8">
-                    <h1 className="font-serif my-4 font-thin text-gray-800 text-2xl">
+                    <h1 className="font-serif my-4 text-gray-800 text-2xl">
                         Inloggen
                     </h1>
                     <p className="text-gray-700">

@@ -4,7 +4,7 @@ function FormFieldTitelEnBeschrijving(props) {
     return (
         <React.Fragment>
             <label
-                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                className="block tracking-wide text-gray-700 text-sm font-bold mb-2"
                 htmlFor={props.dataObjectProperty}
             >
                 {props.fieldLabel ? props.fieldLabel : null}

@@ -28,7 +28,7 @@ function ContainerCrudHeader(props) {
     }
 
     return (
-        <div className="w-full py-32 px-6 mbg-color edit-header relative">
+        <div className="w-full py-24 px-6 mbg-color edit-header relative">
             <div className="lg:px-10 container mx-auto flex justify-center items-center">
                 <div className="w-full pr-20">
                     {props.editStatus === false ? (
@@ -44,7 +44,7 @@ function ContainerCrudHeader(props) {
                             url={`/muteer/${props.overzichtSlug}/${props.objectID}`}
                         />
                     )}
-                    <h1 className="heading-serif-4xl text-white">
+                    <h1 className="text-4xl font-semibold text-white">
                         {mainTitle}
                     </h1>
                 </div>
