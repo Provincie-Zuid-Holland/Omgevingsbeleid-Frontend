@@ -53,6 +53,7 @@ function SearchResultItem(props) {
         Omschrijving: getExcerpt(getContent('Omschrijving')),
     }
 
+    console.log(props.item.type)
     const overzichtURL = dataModel[props.item.type].variables.Overzicht_Slug
 
     return (
@@ -112,6 +113,11 @@ class RaadpleegZoekResultatenOverzicht extends Component {
         let mainFilterObject = {}
 
         searchResults.forEach((item, index) => {
+            console.log(item.type)
+            if (item.type === 'Maatregel') {
+                item.type = 'Maatregelen'
+            }
+            console.log(item.type)
             const filterObject = {
                 name: item.type,
                 checked: true,
@@ -153,6 +159,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
             .get(`/search` + urlParams)
             .then(res => {
                 const searchResults = res.data
+                searchResults.forEach(item => console.log(item.type))
                 console.log('searchResults:')
                 console.log(searchResults)
                 this.setInitialOnPageFilters(searchResults)

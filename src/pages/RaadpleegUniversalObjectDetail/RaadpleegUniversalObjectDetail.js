@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { format } from 'date-fns'
 import { Helmet } from 'react-helmet'
+import nlLocale from 'date-fns/locale/nl'
 import {
     faEllipsisV,
     faAngleRight,
@@ -12,7 +13,7 @@ import {
     faExternalLinkAlt,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
+import { toast } from 'react-toastify'
 import { PDFDownloadLink } from '@react-pdf/renderer'
 
 // Import Axios instance to connect with the API
@@ -26,6 +27,7 @@ import LeafletLargeViewer from './LeafletLargeViewer'
 import ButtonBackToPage from './../../components/ButtonBackToPage'
 import PopUpRevisieContainer from './../../components/PopUpRevisieContainer'
 import LoaderContent from './../../components/LoaderContent'
+import LoaderSmallSpan from './../../components/LoaderSmallSpan'
 import PopUpAnimatedContainer from './../../components/PopUpAnimatedContainer'
 
 // Import view containers
@@ -120,11 +122,20 @@ class RaadpleegUniversalObjectDetail extends Component {
                     if (error.response.status === 401) {
                         localStorage.removeItem('access_token')
                         this.props.history.push('/login')
+                    } else if (error.response.status === 404) {
+                        this.props.history.push(`/`)
+                        toast(
+                            `Deze ${this.props.dataModel.variables.Titel_Enkelvoud.toLowerCase()} kon niet gevonden worden`
+                        )
                     }
+                    this.setState({
+                        dataLoaded: true,
+                    })
                 } else {
                     this.setState({
                         dataLoaded: true,
                     })
+                    toast(`Er is iets misgegaan`)
                 }
             })
     }
@@ -134,13 +145,28 @@ class RaadpleegUniversalObjectDetail extends Component {
         const dataLoaded = this.state.dataLoaded
         let werkingsgebiedBoolean = false
 
-        if (dataObject !== null) {
-            werkingsgebiedBoolean =
-                dataObject.Werkingsgebied ||
-                dataObject.WerkingsGebieden === true ||
-                dataObject.Gebied
+        // Werkingsgebieden zijn er bij de volgende objecten:
+        // - Beleidsbeslissing
+        if (
+            dataObject !== null &&
+            (dataObject.Gebied ||
+                (dataObject.Werkingsgebied && dataObject.Werkingsgebied[0]))
+        ) {
+            werkingsgebiedBoolean = true
         } else {
             werkingsgebiedBoolean = false
+        }
+
+        let werkingsGebiedUUID = null
+
+        if (werkingsgebiedBoolean && dataObject.Gebied) {
+            werkingsGebiedUUID = dataObject.Gebied
+        } else if (
+            werkingsgebiedBoolean &&
+            dataObject.Werkingsgebied &&
+            dataObject.Werkingsgebied[0]
+        ) {
+            werkingsGebiedUUID = dataObject.WerkingsGebieden[0].UUID
         }
 
         const titelEnkelvoud = this.props.dataModel.variables.Titel_Enkelvoud
@@ -195,7 +221,7 @@ class RaadpleegUniversalObjectDetail extends Component {
                         <React.Fragment>
                             <span
                                 onClick={this.toggleFullscreenLeafletViewer}
-                                className="text-l mb-2 inline-block text-gray-600 cursor-pointer"
+                                className="text-l mb-2 inline-block text-gray-600 cursor-pointer pr-5"
                             >
                                 <FontAwesomeIcon
                                     className="mr-2"
@@ -203,7 +229,7 @@ class RaadpleegUniversalObjectDetail extends Component {
                                 />
                                 <span>Terug naar artikelpagina</span>
                             </span>
-                            <div className="text-gray-800">Content</div>
+                            {/* <div className="text-gray-800">Content</div> */}
                         </React.Fragment>
                     )}
                 </div>
@@ -228,13 +254,30 @@ class RaadpleegUniversalObjectDetail extends Component {
                             className="mb-8 block"
                             id="raadpleeg-detail-container-meta-info"
                         >
-                            <span className="text-gray-600 text-sm mr-3">
+                            {/* <span className="text-gray-600 text-sm mr-3">
                                 Vigerend sinds{' '}
                                 {format(
                                     new Date(dataObject.Begin_Geldigheid),
                                     'D MMM YYYY'
                                 )}
-                            </span>
+                            </span> */}
+                            {dataLoaded ? (
+                                <span className="text-gray-600 text-sm mr-3">
+                                    {dataObject['Begin_Geldigheid'] !== null
+                                        ? format(
+                                              new Date(
+                                                  dataObject['Begin_Geldigheid']
+                                              ),
+                                              'D MMMM YYYY',
+                                              { locale: nlLocale }
+                                          )
+                                        : 'Er is nog geen begin geldigheid'}
+                                </span>
+                            ) : (
+                                <span className="mt-2 block">
+                                    <LoaderSmallSpan />
+                                </span>
+                            )}
                             {this.state.revisieObjecten &&
                             this.state.revisieObjecten.length > 0 ? (
                                 <React.Fragment>
@@ -251,23 +294,45 @@ class RaadpleegUniversalObjectDetail extends Component {
                                             (item, index) =>
                                                 index === 0 ? (
                                                     <RevisieListItem
-                                                        content={format(
-                                                            new Date(
-                                                                item.Begin_Geldigheid
-                                                            ),
-                                                            'D MMM YYYY'
-                                                        )}
+                                                        content={
+                                                            dataObject[
+                                                                'Begin_Geldigheid'
+                                                            ] !== null
+                                                                ? format(
+                                                                      new Date(
+                                                                          dataObject[
+                                                                              'Begin_Geldigheid'
+                                                                          ]
+                                                                      ),
+                                                                      'D MMM YYYY',
+                                                                      {
+                                                                          locale: nlLocale,
+                                                                      }
+                                                                  )
+                                                                : 'Er is nog geen begin geldigheid'
+                                                        }
                                                         color="orange"
                                                         current={true}
                                                     />
                                                 ) : (
                                                     <RevisieListItem
-                                                        content={format(
-                                                            new Date(
-                                                                item.Begin_Geldigheid
-                                                            ),
-                                                            'D MMM YYYY'
-                                                        )}
+                                                        content={
+                                                            dataObject[
+                                                                'Begin_Geldigheid'
+                                                            ] !== null
+                                                                ? format(
+                                                                      new Date(
+                                                                          dataObject[
+                                                                              'Begin_Geldigheid'
+                                                                          ]
+                                                                      ),
+                                                                      'D MMM YYYY',
+                                                                      {
+                                                                          locale: nlLocale,
+                                                                      }
+                                                                  )
+                                                                : 'Er is nog geen begin geldigheid'
+                                                        }
                                                         color="blue"
                                                     />
                                                 )
@@ -364,7 +429,6 @@ class RaadpleegUniversalObjectDetail extends Component {
                         </div>
 
                         {/* Inhoud Sectie */}
-
                         {titelEnkelvoud === 'Beleidsbeslissing' ? (
                             <ContainerViewFieldsBeleidsbeslissing
                                 crudObject={dataObject}
@@ -409,7 +473,7 @@ class RaadpleegUniversalObjectDetail extends Component {
                 ) : (
                     <LoaderContent />
                 )}
-                {dataLoaded ? (
+                {dataLoaded && werkingsgebiedBoolean ? (
                     <div
                         className="w-1/4 pl-8"
                         id="raadpleeg-detail-werkingsgebied"
@@ -418,30 +482,29 @@ class RaadpleegUniversalObjectDetail extends Component {
                             <h2 className="text-l font-serif">
                                 Werkingsgebied
                             </h2>
-                            <span
-                                className="text-xs cursor-pointer px-2"
-                                onClick={this.toggleFullscreenLeafletViewer}
-                            >
-                                Bekijk in het groot
-                                <FontAwesomeIcon
-                                    className="ml-2 text-gray-700"
-                                    icon={faExternalLinkAlt}
-                                />
-                            </span>
+                            {dataLoaded ? (
+                                <span
+                                    className="text-xs cursor-pointer px-2"
+                                    onClick={this.toggleFullscreenLeafletViewer}
+                                >
+                                    Bekijk in het groot
+                                    <FontAwesomeIcon
+                                        className="ml-2 text-gray-700"
+                                        icon={faExternalLinkAlt}
+                                    />
+                                </span>
+                            ) : null}
                         </div>
 
-                        {/* <div
+                        <div
                             id={`full-screen-leaflet-container-${this.state.fullscreenLeafletViewer}`}
                         >
                             <LeafletTinyViewer
                                 gebiedType="Werkingsgebieden"
-                                gebiedUUID={
-                                    this.state.dataObject.WerkingsGebieden[0]
-                                        .UUID
-                                }
+                                gebiedUUID={werkingsGebiedUUID}
                                 fullscreen={this.state.fullscreenLeafletViewer}
                             />
-                        </div> */}
+                        </div>
                     </div>
                 ) : null}
             </div>

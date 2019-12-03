@@ -12,35 +12,35 @@ class ContainerViewFieldsBeleidsbeslissing extends Component {
         const crudObject = this.props.crudObject
         return (
             <React.Fragment>
-                {crudObject['Omschrijving_Keuze'] !== undefined ? (
+                {crudObject['Omschrijving_Keuze'] ? (
                     <ViewFieldTitelEnInhoud
                         fieldTitel="Wat wil de provincie bereiken?"
                         fieldValue={crudObject['Omschrijving_Keuze']}
                     />
                 ) : null}
 
-                {crudObject['Omschrijving_Werking'] !== undefined ? (
+                {crudObject['Omschrijving_Werking'] ? (
                     <ViewFieldTitelEnInhoud
                         fieldTitel="Werking"
                         fieldValue={crudObject['Omschrijving_Werking']}
                     />
                 ) : null}
 
-                {crudObject['Aanleiding'] !== undefined ? (
+                {crudObject['Aanleiding'] ? (
                     <ViewFieldTitelEnInhoud
                         fieldTitel="Aanleiding"
                         fieldValue={crudObject['Aanleiding']}
                     />
                 ) : null}
 
-                {crudObject['Afweging'] !== undefined ? (
+                {crudObject['Afweging'] ? (
                     <ViewFieldTitelEnInhoud
                         fieldTitel="Afwegingen"
                         fieldValue={crudObject['Afweging']}
                     />
                 ) : null}
 
-                {crudObject['Provinciaal_Belang'] !== undefined ? (
+                {crudObject['Provinciaal_Belang'] ? (
                     <ViewFieldTitelEnInhoud
                         fieldTitel="Provinciaal belang"
                         fieldValue={crudObject['Provinciaal_Belang']}

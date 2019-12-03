@@ -406,6 +406,35 @@ class MuteerUniversalObjectCRUD extends Component {
 
         if (crudObject.Titel !== undefined && crudObject.Titel === '') {
             toast('Vul een titel in')
+            // Wijzig de data terug naar het format om in het input veld te tonen
+            if (
+                crudObject.Eind_Geldigheid !== undefined &&
+                crudObject.Eind_Geldigheid !== null
+            ) {
+                crudObject.Eind_Geldigheid = format(
+                    crudObject.Eind_Geldigheid,
+                    'YYYY-MM-DD'
+                )
+            } else if (crudObject.Eind_Geldigheid === null) {
+                crudObject.Eind_Geldigheid = ''
+            }
+            if (
+                crudObject.Begin_Geldigheid !== undefined &&
+                crudObject.Begin_Geldigheid !== null
+            ) {
+                crudObject.Begin_Geldigheid = format(
+                    crudObject.Begin_Geldigheid,
+                    'YYYY-MM-DD'
+                )
+            } else if (crudObject.Begin_Geldigheid === null) {
+                crudObject.Begin_Geldigheid = ''
+            }
+            this.setState(
+                {
+                    crudObject: crudObject,
+                },
+                () => console.log(this.state)
+            )
             return
         }
 
@@ -427,6 +456,25 @@ class MuteerUniversalObjectCRUD extends Component {
                 })
                 .catch(error => {
                     console.log(error)
+
+                    // Wijzig de data terug naar het format om in het input veld te tonen
+                    if (
+                        crudObject.Eind_Geldigheid !== undefined &&
+                        crudObject.Eind_Geldigheid !== null
+                    ) {
+                        crudObject.Eind_Geldigheid = format(
+                            crudObject.Eind_Geldigheid,
+                            'YYYY-MM-DD'
+                        )
+                    } else if (crudObject.Eind_Geldigheid === null) {
+                        crudObject.Eind_Geldigheid = ''
+                    }
+                    this.setState(
+                        {
+                            crudObject: crudObject,
+                        },
+                        () => console.log(this.state)
+                    )
                 })
         } else {
             // Als het object endpoint beleidsrelaties is moeten we het crudObject nog aanpassen
@@ -445,6 +493,25 @@ class MuteerUniversalObjectCRUD extends Component {
                 })
                 .catch(error => {
                     console.log(error)
+
+                    // Wijzig de data terug naar het format om in het input veld te tonen
+                    if (
+                        crudObject.Eind_Geldigheid !== undefined &&
+                        crudObject.Eind_Geldigheid !== null
+                    ) {
+                        crudObject.Eind_Geldigheid = format(
+                            crudObject.Eind_Geldigheid,
+                            'YYYY-MM-DD'
+                        )
+                    } else if (crudObject.Eind_Geldigheid === null) {
+                        crudObject.Eind_Geldigheid = ''
+                    }
+                    this.setState(
+                        {
+                            crudObject: crudObject,
+                        },
+                        () => console.log(this.state)
+                    )
                 })
         }
     }

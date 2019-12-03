@@ -134,42 +134,44 @@ class ContainerDetailMain extends Component {
                         </div>
                     </div>
                     {dataObject['Weblink'] ? (
-                        <div className="flex justify-between items-center w-full mr-4 pr-4 border-r border-gray-300 py-2">
-                            <a
-                                href={`//${dataObject['Weblink']}`}
-                                target="_blank"
-                                id="href-idms-koppeling"
-                            >
+                        <a
+                            href={`//${dataObject['Weblink']}`}
+                            target="_blank"
+                            id="href-idms-koppeling"
+                            className="flex justify-between items-center w-full mr-4 pr-4 border-r border-gray-300 py-2"
+                        >
+                            <div>
                                 <span className="block font-bold text-gray-700 text-sm">
                                     IDMS-koppeling
                                 </span>
                                 <span className="text-sm text-gray-700">
                                     Bekijk document
                                 </span>
-                            </a>
+                            </div>
                             <div>
                                 <FontAwesomeIcon
                                     className="text-gray-600 text-xl"
                                     icon={faLink}
                                 />
                             </div>
-                        </div>
+                        </a>
                     ) : null}
                     {titelEnkelvoud !== 'Beleidsrelatie' ? (
-                        <div className="flex justify-between items-center w-full py-2 cursor-pointer">
+                        <a
+                            href={`/detail/${this.props.overzichtSlug}/${this.props.match.params.single}`}
+                            target="_blank"
+                            rel="noopener"
+                            className="flex justify-between items-center w-full py-2 cursor-pointer"
+                        >
                             <div>
-                                <a
-                                    href={`/detail/${this.props.overzichtSlug}/${this.props.match.params.single}`}
-                                    target="_blank"
-                                    rel="noopener"
-                                >
+                                <div>
                                     <span className="block font-bold text-gray-700 text-sm">
                                         Link naar raadpleegomgeving
                                     </span>
                                     <span className="text-sm text-gray-700">
                                         Bekijk {titelEnkelvoud.toLowerCase()}
                                     </span>
-                                </a>
+                                </div>
                             </div>
                             <div>
                                 <FontAwesomeIcon
@@ -177,7 +179,7 @@ class ContainerDetailMain extends Component {
                                     icon={faExternalLinkAlt}
                                 />
                             </div>
-                        </div>
+                        </a>
                     ) : null}
                 </div>
             </div>

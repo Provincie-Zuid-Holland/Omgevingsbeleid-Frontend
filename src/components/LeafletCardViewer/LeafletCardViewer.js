@@ -38,7 +38,7 @@ const DEFAULT_VIEWPORT = {
     zoom: 5,
 }
 
-export default class LeafletTinyViewer extends Component {
+export default class LeafletCardViewer extends Component {
     constructor(props) {
         super(props)
         this.state = {

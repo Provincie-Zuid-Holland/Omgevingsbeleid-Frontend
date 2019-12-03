@@ -12,12 +12,6 @@ class FormFieldSelect extends React.Component {
                     addObjectLabel={this.props.addObjectLabel}
                     titelEnkelvoud={this.props.titelEnkelvoud}
                 />
-                {/* <label
-                    className="form-field-label"
-                    htmlFor={this.props.dataObjectProperty}
-                >
-                    {this.props.fieldLabel}
-                </label> */}
 
                 <div className="inline-block relative w-64">
                     <select
@@ -28,7 +22,7 @@ class FormFieldSelect extends React.Component {
                         name={this.props.dataObjectProperty}
                         className="appearance-none block w-full text-gray-700 border bg-white border-gray-400 rounded py-3 px-4 leading-tight focus:outline-none hover:border-gray-500 focus:border-gray-500"
                     >
-                        <option disabled value=" - selecteer een optie - ">
+                        <option disabled value="">
                             {' '}
                             - selecteer een optie -{' '}
                         </option>

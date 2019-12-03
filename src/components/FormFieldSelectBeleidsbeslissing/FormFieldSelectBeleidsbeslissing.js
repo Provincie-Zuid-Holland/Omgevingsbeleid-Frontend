@@ -79,8 +79,13 @@ class FormFieldSelectBeleidsbeslissing extends React.Component {
         axios
             .get(ApiEndpoint)
             .then(res => {
-                const objecten = res.data
-                console.log(objecten)
+                // const objecten = res.data
+                // console.log(objecten)
+
+                const objecten = res.data.sort((a, b) =>
+                    a.Titel > b.Titel ? 1 : -1
+                )
+
                 this.setState(
                     {
                         selectionArray: makeSelection(

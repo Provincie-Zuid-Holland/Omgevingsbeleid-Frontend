@@ -39,13 +39,14 @@ class MijnBeleid extends Component {
                 type: item,
             }
         })
-        const axiosRequests = lijstMetAPIEndpoints.map(dimensie =>
-            axios
-                .get(`/${dimensie.endpoint}?Created_By=${this.state.authUser}`)
+        const axiosRequests = lijstMetAPIEndpoints.map(dimensie => {
+            return axios
+                .get(
+                    dimensie.endpoint === 'beleidsbeslissingen'
+                        ? `/${dimensie.endpoint}?Created_By=${this.state.authUser}&Eigenaar_1=${this.state.authUser}&Eigenaar_2=${this.state.authUser}&Opdrachtgever=${this.state.authUser}`
+                        : `/${dimensie.endpoint}?Created_By=${this.state.authUser}`
+                )
                 .then(res => {
-                    console.log(
-                        `/${dimensie.endpoint}?Created_By=${this.state.authUser}`
-                    )
                     if (res.data.length === 0) {
                         return
                     } else {
@@ -58,7 +59,7 @@ class MijnBeleid extends Component {
                         return newArray
                     }
                 })
-        )
+        })
         Promise.all(axiosRequests)
             .then(res => {
                 this.setState({

@@ -16,6 +16,7 @@ import FormFieldSelect from './../../../components/FormFieldSelect'
 import FormFieldSelectBeleidsbeslissing from './../../../components/FormFieldSelectBeleidsbeslissing'
 import FormFieldWerkingsgebiedrelatie from './../../../components/FormFieldWerkingsgebiedrelatie'
 import FormFieldWerkingsgebiedKoppeling from './../../../components/FormFieldWerkingsgebiedKoppeling'
+import FormFieldWerkingsgebiedKoppelingSingle from './../../../components/FormFieldWerkingsgebiedKoppelingSingle'
 import FormFieldSelectUserGroup from './../../../components/FormFieldSelectUserGroup'
 import FormFieldUniverseleRelatieKoppeling from './../../../components/FormFieldUniverseleRelatieKoppeling'
 import FormFieldBeleidsrelatieKoppeling from '../../../components/FormFieldBeleidsrelatieKoppeling/FormFieldBeleidsrelatieKoppeling'
@@ -436,7 +437,8 @@ class ContainerCrudFields extends React.Component {
                                                                 'Begin_Geldigheid'
                                                             ]
                                                         }
-                                                        fieldLabel="Inwerkingtreding"
+                                                        fieldLabel="Datum inwerkingtreding"
+                                                        notRequired={true}
                                                         dataObjectProperty="Begin_Geldigheid"
                                                         pValue="Indien bekend, kan hier de datum van inwerkingtreding worden ingevuld"
                                                         titelEnkelvoud={
@@ -454,12 +456,13 @@ class ContainerCrudFields extends React.Component {
                                                             this.context
                                                                 .handleChange
                                                         }
+                                                        notRequired={true}
                                                         fieldValue={
                                                             crudObject[
                                                                 'Eind_Geldigheid'
                                                             ]
                                                         }
-                                                        fieldLabel="Uitwerkingtreding"
+                                                        fieldLabel="Datum uitwerkingtreding"
                                                         dataObjectProperty="Eind_Geldigheid"
                                                         pValue="Indien bekend, kan hier de datum van uitwerkingtreding worden ingevuld"
                                                         titelEnkelvoud={
@@ -573,6 +576,9 @@ class ContainerCrudFields extends React.Component {
                                                     'Eind_Geldigheid'
                                                 ] !== undefined ? (
                                                     <FormFieldDate
+                                                        openUitwerkingstrede={
+                                                            true
+                                                        }
                                                         handleChange={
                                                             this.context
                                                                 .handleChange
@@ -751,10 +757,13 @@ class ContainerCrudFields extends React.Component {
                                             {/* Gebied */}
                                             {crudObject['Gebied'] !==
                                             undefined ? (
-                                                <FormFieldWerkingsgebiedrelatie
+                                                <FormFieldWerkingsgebiedKoppelingSingle
                                                     handleChange={
                                                         this.context
                                                             .handleChange
+                                                    }
+                                                    titelEnkelvoud={
+                                                        titelEnkelvoud
                                                     }
                                                     fieldValue={
                                                         crudObject['Gebied']
@@ -762,12 +771,7 @@ class ContainerCrudFields extends React.Component {
                                                     fieldLabel="Selecteer werkingsgebied"
                                                     dataObjectProperty="Gebied"
                                                     pValue="Selecteer hier het werkingsgebied wat bij deze maatregel past."
-                                                    titelEnkelvoud={
-                                                        titelEnkelvoud
-                                                    }
-                                                    editStatus={
-                                                        this.context.editStatus
-                                                    }
+                                                    addObjectLabel={true}
                                                 />
                                             ) : null}
                                         </ContainerFormSection>
@@ -827,6 +831,9 @@ class ContainerCrudFields extends React.Component {
                                                     'Eind_Geldigheid'
                                                 ] !== undefined ? (
                                                     <FormFieldDate
+                                                        openUitwerkingstrede={
+                                                            true
+                                                        }
                                                         handleChange={
                                                             this.context
                                                                 .handleChange
@@ -980,6 +987,9 @@ class ContainerCrudFields extends React.Component {
                                                     'Eind_Geldigheid'
                                                 ] !== undefined ? (
                                                     <FormFieldDate
+                                                        openUitwerkingstrede={
+                                                            true
+                                                        }
                                                         handleChange={
                                                             this.context
                                                                 .handleChange
@@ -1110,6 +1120,9 @@ class ContainerCrudFields extends React.Component {
                                                     'Eind_Geldigheid'
                                                 ] !== undefined ? (
                                                     <FormFieldDate
+                                                        openUitwerkingstrede={
+                                                            true
+                                                        }
                                                         handleChange={
                                                             this.context
                                                                 .handleChange
@@ -1240,6 +1253,9 @@ class ContainerCrudFields extends React.Component {
                                                     'Eind_Geldigheid'
                                                 ] !== undefined ? (
                                                     <FormFieldDate
+                                                        openUitwerkingstrede={
+                                                            true
+                                                        }
                                                         handleChange={
                                                             this.context
                                                                 .handleChange
@@ -1390,6 +1406,9 @@ class ContainerCrudFields extends React.Component {
                                                     'Eind_Geldigheid'
                                                 ] !== undefined ? (
                                                     <FormFieldDate
+                                                        openUitwerkingstrede={
+                                                            true
+                                                        }
                                                         handleChange={
                                                             this.context
                                                                 .handleChange
@@ -1525,6 +1544,9 @@ class ContainerCrudFields extends React.Component {
                                                     'Eind_Geldigheid'
                                                 ] !== undefined ? (
                                                     <FormFieldDate
+                                                        openUitwerkingstrede={
+                                                            true
+                                                        }
                                                         handleChange={
                                                             this.context
                                                                 .handleChange

@@ -9,7 +9,6 @@ import { faAngleLeft, faTimes, faPlus } from '@fortawesome/free-solid-svg-icons'
 
 import axios from './../../../API/axios'
 
-import ButtonBackToPage from './../../../components/ButtonBackToPage'
 import PopUpAnimatedContainer from './../../../components/PopUpAnimatedContainer'
 import LoaderBeleidsrelatieRegel from './../../../components/LoaderBeleidsrelatieRegel'
 import LoaderMainTitle from './../../../components/LoaderMainTitle'
@@ -191,7 +190,7 @@ class MuteerBeleidsrelatieDetail extends Component {
 
     render() {
         const ParamUUID = this.props.match.params.UUID
-        const beleidsbeslissing = this.props.beleidsbeslissing
+        // const beleidsbeslissing = this.props.beleidsbeslissing
         const alleBeleidsrelaties = this.state.Van_Beleidsbeslissingen.concat(
             this.state.Naar_Beleidsbeslissingen
         )

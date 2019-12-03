@@ -92,7 +92,7 @@ class ContainerCrudFields extends React.Component {
                                                             'Begin_Geldigheid'
                                                         ]
                                                     }
-                                                    fieldLabel="Begin datum"
+                                                    fieldLabel="Datum inwerkingtreding"
                                                     dataObjectProperty="Begin_Geldigheid"
                                                     pValue="Indien bekend, kan hier de begin datum van de relatie worden ingevuld"
                                                     titelEnkelvoud={
@@ -114,7 +114,7 @@ class ContainerCrudFields extends React.Component {
                                                             'Eind_Geldigheid'
                                                         ]
                                                     }
-                                                    fieldLabel="Eind datum"
+                                                    fieldLabel="Datum uitwerkingtreding"
                                                     dataObjectProperty="Eind_Geldigheid"
                                                     pValue="Indien bekend, kan hier de eind datum van de relatie worden ingevuld"
                                                     titelEnkelvoud={

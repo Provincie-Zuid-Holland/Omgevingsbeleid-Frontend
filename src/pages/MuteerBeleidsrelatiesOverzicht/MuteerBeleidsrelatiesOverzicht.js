@@ -63,7 +63,9 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
         const UserUUID = JSON.parse(localStorage.getItem('identifier')).UUID
         console.log(UserUUID)
         Promise.all([
-            axios.get(`/beleidsbeslissingen?Created_By=${UserUUID}`),
+            axios.get(
+                `/beleidsbeslissingen?Created_By=${UserUUID}&Eigenaar_1=${UserUUID}&Eigenaar_2=${UserUUID}&Opdrachtgever=${UserUUID}`
+            ),
             axios.get(`/beleidsrelaties`),
         ])
             .then(([beleidsbeslissingen, beleidsrelaties]) =>
@@ -311,30 +313,30 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                                         </div>
                                         <div className="w-1/12 text-center">
                                             <FontAwesomeIcon
-                                                title="Afgewezen"
-                                                className="text-gray-800 text-lg"
-                                                icon={faTimes}
-                                            />
-                                        </div>
-                                        <div className="w-1/12 text-center">
-                                            <FontAwesomeIcon
-                                                title="Akkoord"
+                                                title="Geaccepteerde beleidsrelatie"
                                                 className="text-gray-800 text-lg"
                                                 icon={faCheck}
                                             />
                                         </div>
                                         <div className="w-1/12 text-center">
                                             <FontAwesomeIcon
-                                                title="Open"
+                                                title="Wacht op antwoord"
                                                 className="text-gray-800 text-lg"
                                                 icon={faHourglass}
                                             />
                                         </div>
-                                        <div className="w-1/12 mr-6 text-center">
+                                        <div className="w-1/12 text-center">
                                             <FontAwesomeIcon
-                                                title="Verzoeken"
+                                                title="Inkomend verzoek"
                                                 className="text-gray-800 text-lg"
                                                 icon={faEnvelope}
+                                            />
+                                        </div>
+                                        <div className="w-1/12 text-center mr-6 ">
+                                            <FontAwesomeIcon
+                                                title="Afgewezen relaties"
+                                                className="text-gray-800 text-lg"
+                                                icon={faTimes}
                                             />
                                         </div>
                                     </li>
@@ -370,12 +372,6 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                                                                     </span>
                                                                 </div>
                                                                 <div className="w-1/12 text-center">
-                                                                    {item.Afgewezen !==
-                                                                    0
-                                                                        ? item.Afgewezen
-                                                                        : '-'}
-                                                                </div>
-                                                                <div className="w-1/12 text-center">
                                                                     {item.Bevestigd !==
                                                                     0
                                                                         ? item.Bevestigd
@@ -387,10 +383,16 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                                                                         ? item.Onbevestigd
                                                                         : '-'}
                                                                 </div>
-                                                                <div className="w-1/12 mr-6 text-center">
+                                                                <div className="w-1/12 text-center">
                                                                     {item.Verzoeken !==
                                                                     0
                                                                         ? item.Verzoeken
+                                                                        : '-'}
+                                                                </div>
+                                                                <div className="w-1/12 text-center mr-6 ">
+                                                                    {item.Afgewezen !==
+                                                                    0
+                                                                        ? item.Afgewezen
                                                                         : '-'}
                                                                 </div>
                                                                 <FontAwesomeIcon

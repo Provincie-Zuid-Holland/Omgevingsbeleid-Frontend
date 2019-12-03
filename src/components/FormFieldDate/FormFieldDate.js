@@ -7,7 +7,8 @@ class FormFieldDate extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            toonUitwerkingTreding: this.props.fieldValue !== '',
+            toonUitwerkingTreding:
+                this.props.fieldValue !== '' || this.props.openUitwerkingstrede,
         }
         this.toggleUitwerkingTreding = this.toggleUitwerkingTreding.bind(this)
     }
@@ -31,8 +32,6 @@ class FormFieldDate extends React.Component {
                         veld voor uitwerkingtreding
                     </span>
                 }
-                {console.log('this.props.fieldValue')}
-                {console.log(this.props.fieldValue)}
                 {this.state.toonUitwerkingTreding ? (
                     <div className="w-50 mb-6">
                         <FormFieldTitelEnBeschrijving
@@ -55,12 +54,9 @@ class FormFieldDate extends React.Component {
                                 name={this.props.dataObjectProperty}
                                 className="appearance-none block w-full text-gray-700 border border-gray-400 focus:border-gray-500 hover:border-gray-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
                                 type="date"
-                                required={false}
+                                required={!this.props.notRequired}
                                 id={`form-field-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
-                                min={format(
-                                    new Date(this.props.Begin_Geldigheid),
-                                    'YYYY-MM-DD'
-                                )}
+                                // min={this.props.Begin_Geldigheid}
                             />
                         ) : (
                             <input
@@ -71,7 +67,7 @@ class FormFieldDate extends React.Component {
                                 }
                                 onChange={this.props.handleChange}
                                 name={this.props.dataObjectProperty}
-                                required={false}
+                                required={!this.props.notRequired}
                                 className="appearance-none block w-full text-gray-700 border border-gray-400 focus:border-gray-500 hover:border-gray-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
                                 type="date"
                                 id={`form-field-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
@@ -89,7 +85,7 @@ class FormFieldDate extends React.Component {
                     addObjectLabel={this.props.addObjectLabel}
                     titelEnkelvoud={this.props.titelEnkelvoud}
                 />
-                {this.props.required ? (
+                {this.props.notRequired ? (
                     <input
                         value={
                             this.props.fieldValue ? this.props.fieldValue : ''
@@ -105,6 +101,7 @@ class FormFieldDate extends React.Component {
                         value={
                             this.props.fieldValue ? this.props.fieldValue : ''
                         }
+                        required
                         onChange={this.props.handleChange}
                         name={this.props.dataObjectProperty}
                         className="appearance-none block w-full text-gray-700 border border-gray-400 focus:border-gray-500 hover:border-gray-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"

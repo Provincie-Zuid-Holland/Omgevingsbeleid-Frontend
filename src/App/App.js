@@ -25,6 +25,7 @@ import * as Sentry from '@sentry/browser'
 // Import Components
 import Navigation from './../components/Navigation'
 import LoaderContent from './../components/LoaderContent'
+import NoMatch from './../components/NoMatch'
 
 // Import Auth Routes
 import AuthRoutes from './AuthRoutes'
@@ -177,6 +178,7 @@ class App extends Component {
                             authUser={this.state.authUser}
                             history={this.props.history}
                         />
+                        <Route component={NoMatch} />
                     </Switch>
                 ) : (
                     <LoaderContent />

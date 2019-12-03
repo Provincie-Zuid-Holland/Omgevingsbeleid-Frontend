@@ -274,8 +274,6 @@ class PopUpWerkingsGebiedContainer extends Component {
             .then(res => {
                 res.data.shift()
                 const werkingsgebieden = res.data
-                // const selectionArray = this.makeSelection(werkingsgebieden)
-                // return this.generateJSONForAllWerkingsgebieden(selectionArray)
                 this.setState({
                     werkingsgebieden: werkingsgebieden,
                     dataLoaded: true,
@@ -301,7 +299,7 @@ class PopUpWerkingsGebiedContainer extends Component {
     }
 }
 
-class FormFieldWerkingsgebiedKoppeling extends Component {
+class FormFieldWerkingsgebiedKoppelingSingle extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -319,12 +317,10 @@ class FormFieldWerkingsgebiedKoppeling extends Component {
             return
         }
         axios
-            .get(`/werkingsgebieden/${this.props.fieldValue[0].UUID}`)
+            .get(`/werkingsgebieden/${this.props.fieldValue}`)
             .then(res => {
                 const response = res.data
-                this.setState({
-                    gekoppeldGebied: response,
-                })
+                this.setState({ gekoppeldGebied: response })
             })
             .catch(error => {
                 console.log(error)
@@ -370,6 +366,7 @@ class FormFieldWerkingsgebiedKoppeling extends Component {
     }
 
     render() {
+        console.log(this.state)
         return (
             <div className="flex flex-wrap -mx-3 mb-6">
                 <div
@@ -464,4 +461,4 @@ function GekoppeldGebiedCard(props) {
     )
 }
 
-export default withRouter(FormFieldWerkingsgebiedKoppeling)
+export default withRouter(FormFieldWerkingsgebiedKoppelingSingle)

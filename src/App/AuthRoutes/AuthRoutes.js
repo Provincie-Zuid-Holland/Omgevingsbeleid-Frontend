@@ -20,6 +20,7 @@ import MuteerBeleidsrelatiesCRUD from './../../pages/MuteerBeleidsrelatiesCRUD'
 
 // Import Components
 import AuthenticationWrapper from './../../components/AuthenticationWrapper'
+import NoMatch from './../../components/NoMatch'
 
 function BeheerRoutes(props) {
     const beheerRoutesList = props.beheerRoutesList

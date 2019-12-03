@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Helmet } from 'react-helmet'
+import { toast } from 'react-toastify'
 
 // Import Components
 import ContainerMain from './../../components/ContainerMain'
@@ -26,11 +27,7 @@ function GenerateBackToButton(props) {
             <ButtonBackToPage
                 terugNaar={` overzicht`}
                 // url={`/${hoofdOnderdeel}/${overzichtSlug}`}
-                url={
-                    apiTest === true
-                        ? `/muteer/${hoofdOnderdeelSlug}/${overzichtSlug}`
-                        : `/muteer/${overzichtSlug}`
-                }
+                url={`/muteer/${overzichtSlug}`}
             />
         )
     } else if (pageType === 'version') {
@@ -38,11 +35,7 @@ function GenerateBackToButton(props) {
         return (
             <ButtonBackToPage
                 terugNaar={`huidige versie`}
-                url={
-                    apiTest === true
-                        ? `/muteer/${hoofdOnderdeelSlug}/${overzichtSlug}/${dataObjectID}`
-                        : `/muteer/${overzichtSlug}/${dataObjectID}`
-                }
+                url={`/muteer/${overzichtSlug}/${dataObjectID}`}
             />
         )
     }
@@ -145,12 +138,19 @@ class MuteerUniversalObjectDetail extends Component {
                     if (error.response.status === 401) {
                         localStorage.removeItem('access_token')
                         this.props.history.push('/login')
+                    } else if (error.response.status === 404) {
+                        this.props.history.push(
+                            `/muteer/${this.props.overzichtSlug}`
+                        )
+                        toast(
+                            `Deze ${this.props.dataModel.variables.Titel_Enkelvoud.toLowerCase()} kon niet gevonden worden`
+                        )
                     }
                     this.setState({
                         dataReceived: true,
                     })
                 } else {
-                    console.log(error)
+                    toast(`Er is iets misgegaan`)
                 }
             })
     }
@@ -196,8 +196,6 @@ class MuteerUniversalObjectDetail extends Component {
         } else if (dataReceived && pageType === 'version') {
             dataObject = this.state.dataObject
         }
-
-        console.log(dataObject)
 
         return (
             <ContainerMain>
