@@ -58,7 +58,9 @@ function SearchResultItem(props) {
 
     return (
         <li className="border-b border-gray-300 py-5" key={props.item.UUID}>
-            <Link to={`/detail/${overzichtURL}/${props.item.ID}`}>
+            <Link
+                to={`/detail/${overzichtURL}/${props.item.ID}#${props.searchQuery}`}
+            >
                 {content.Titel.setInnerHTML ? (
                     <h2
                         className="text-l font-serif block text-gray-800"
@@ -114,8 +116,9 @@ class RaadpleegZoekResultatenOverzicht extends Component {
 
         searchResults.forEach((item, index) => {
             console.log(item.type)
-            if (item.type === 'Maatregel') {
-                item.type = 'Maatregelen'
+            // REFACTOR MIJ
+            if (item.type === 'Belangen') {
+                item.type = 'Belang'
             }
             console.log(item.type)
             const filterObject = {
@@ -142,15 +145,17 @@ class RaadpleegZoekResultatenOverzicht extends Component {
     }
 
     componentDidMount() {
-        console.log('this.props.location.query:')
         const urlParams = this.props.location.search
         const searchParams = new URLSearchParams(urlParams)
         const searchQuery = searchParams.get('query')
         const searchFiltersOnly = searchParams.get('only')
 
-        this.setState({
-            searchQuery: searchQuery,
-        })
+        this.setState(
+            {
+                searchQuery: searchQuery,
+            },
+            () => console.log(this.state.searchQuery)
+        )
 
         if (!urlParams || urlParams.length === 0) {
             return
@@ -234,6 +239,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                                 ) {
                                     return (
                                         <SearchResultItem
+                                            searchQuery={this.state.searchQuery}
                                             item={item}
                                             key={item.UUID}
                                         />

@@ -179,6 +179,14 @@ class RaadpleegUniversalObjectDetail extends Component {
 
         const titelEnkelvoud = this.props.dataModel.variables.Titel_Enkelvoud
 
+        let hashBool = false
+        let searchQuery = null
+        if (window.location.hash) {
+            console.log(window.location.hash)
+            hashBool = true
+            searchQuery = window.location.hash.substr(1)
+        }
+
         return (
             <div
                 className="container mx-auto flex px-6 pb-8 mt-8"
@@ -208,7 +216,17 @@ class RaadpleegUniversalObjectDetail extends Component {
                 <div className="w-1/4" id="raadpleeg-detail-sidebar">
                     {!this.state.fullscreenLeafletViewer ? (
                         <React.Fragment>
-                            <ButtonBackToPage terugNaar="startpagina" url="/" />
+                            {hashBool ? (
+                                <ButtonBackToPage
+                                    terugNaar="zoeken"
+                                    url={`/zoekresultaten?query=${searchQuery}`}
+                                />
+                            ) : (
+                                <ButtonBackToPage
+                                    terugNaar="startpagina"
+                                    url="/"
+                                />
+                            )}
                             <h2 className="text-gray-800 mt-6 text-l font-serif block">
                                 Gerelateerde{' '}
                                 {this.props.dataModel.variables.Titel_Meervoud}
@@ -479,6 +497,10 @@ class RaadpleegUniversalObjectDetail extends Component {
                         {titelEnkelvoud === 'Thema' ? (
                             <ContainerViewFieldsThema crudObject={dataObject} />
                         ) : null}
+
+                        {titelEnkelvoud === 'Beleidsbeslissing' ? (
+                            <RelatieComponent crudObject={dataObject} />
+                        ) : null}
                     </div>
                 ) : (
                     <LoaderContent />
@@ -520,6 +542,209 @@ class RaadpleegUniversalObjectDetail extends Component {
             </div>
         )
     }
+}
+
+class RelatieComponent extends Component {
+    constructor(props) {
+        super(props)
+    }
+    componentDidMount() {
+        const koppelingRelatieArray = [
+            'ambities',
+            'opgaven',
+            'themas',
+            'beleidsregels',
+            'doelen',
+            'maatregelen',
+            'verordening',
+        ]
+
+        const crudObject = this.props.crudObject
+        let actieveKoppelingOfRelaties = []
+
+        // Voor elk item in de koppelingRelatieArray kijken we of deze al een actieve koppeling heeft op het gekregen crudObject
+        koppelingRelatieArray.forEach(item => {
+            const propertyName = objecten[item].propertyName
+            if (
+                crudObject[propertyName] !== undefined &&
+                crudObject[propertyName] !== null &&
+                crudObject[propertyName].length > 0 &&
+                !actieveKoppelingOfRelaties.includes(
+                    objecten[item].propertyName
+                )
+            ) {
+                actieveKoppelingOfRelaties.push(objecten[item].propertyName)
+            }
+        })
+
+        let propertyNamesMapped = []
+
+        // Het object waar de nieuwe koppeling en relatie state in gemaakt wordt
+        let newStateKoppelingenRelatiesObject = {}
+
+        actieveKoppelingOfRelaties.forEach(propertyName => {
+            // Als er al over de propertyName is gemapped return'en we
+            if (propertyNamesMapped.includes(propertyName)) {
+                return
+            }
+
+            // Anders voegen we de nieuwe propertyName aan de propertyNamesMapped
+            propertyNamesMapped.push(propertyName)
+
+            // !!!
+            if (
+                crudObject[propertyName] !== undefined &&
+                crudObject[propertyName].length > 0
+            ) {
+                newStateKoppelingenRelatiesObject[propertyName] = []
+                crudObject[propertyName].forEach((item, index) => {
+                    newStateKoppelingenRelatiesObject[propertyName].push(item)
+                })
+            }
+        })
+
+        const that = this
+
+        // Functie om de .data property toe te voegen aan het object
+        function findPropertyAndAddDataToStateObject(propertyName, data) {
+            const objectIndex = newStateKoppelingenRelatiesObject[
+                propertyName
+            ].findIndex(x => x.UUID === data.UUID)
+
+            newStateKoppelingenRelatiesObject[propertyName][
+                objectIndex
+            ].data = data
+
+            // Als het het laatste item is wat geupdate wordt updaten we nog een keer de state, zodat de .data properties op alle objecten zitten en geupdate worden in de state, en dus in de UI
+            that.setState(
+                {
+                    koppelingenRelaties: newStateKoppelingenRelatiesObject,
+                },
+                () => console.log(that.state)
+            )
+        }
+
+        // Map over actieveKoppelingOfRelaties -> een array met de actie koppelingen & relaties vanuit het CrudObject
+        // Vervolgens mappen we hierbinnen over de koppelingen om voor elk de UUID te pakken en hierop een API call te maken
+        // Deze worden gereturned in een Promise.all()
+        Promise.all(
+            actieveKoppelingOfRelaties.map((propertyName, indexPropertyName) =>
+                newStateKoppelingenRelatiesObject[propertyName].map(
+                    (koppeling, indexKoppeling) => {
+                        if (
+                            objecten[propertyName.toLowerCase()] === undefined
+                        ) {
+                            return null
+                        }
+
+                        axios
+                            .get(
+                                `${
+                                    objecten[propertyName.toLowerCase()].api
+                                }/version/${koppeling.UUID}`
+                            )
+                            .then(res => {
+                                findPropertyAndAddDataToStateObject(
+                                    propertyName,
+                                    res.data
+                                )
+                            })
+                    }
+                )
+            )
+        )
+            .then(responses => {
+                this.setState(
+                    {
+                        dataFromAPILoaded: true,
+                    },
+                    () => console.log(this.state)
+                )
+            })
+            .catch(err => console.log(err))
+    }
+    render() {
+        return <div></div>
+    }
+}
+
+const objecten = {
+    belangen: {
+        buttonTekst: 'belang',
+        volledigeTitel: 'Nationaal Belang',
+        volledigeTitelMeervoud: 'Nationale Belangen',
+        api: '/belangen',
+        filterAPI: true,
+        filterType: 'Nationaal Belang',
+        propertyName: 'Belangen',
+        type: 'Nationaal Belang',
+    },
+    taken: {
+        buttonTekst: 'taak',
+        volledigeTitel: 'Wettelijke taken & bevoegdheden',
+        volledigeTitelMeervoud: 'Wettelijke taken & bevoegdheden',
+        api: '/asdasld',
+        filterAPI: true,
+        filterType: 'Wettelijke Taak & Bevoegdheid',
+        propertyName: 'Belangen',
+        type: 'Wettelijke Taak & Bevoegdheid',
+    },
+    ambities: {
+        buttonTekst: 'ambities',
+        volledigeTitel: 'Ambities',
+        volledigeTitelMeervoud: 'Ambities',
+        api: '/ambities',
+        propertyName: 'Ambities',
+        type: 'Ambitie',
+    },
+    opgaven: {
+        buttonTekst: 'opgaven',
+        volledigeTitel: 'Opgaven',
+        volledigeTitelMeervoud: 'Opgaven',
+        api: '/opgaven',
+        propertyName: 'Opgaven',
+        type: 'Opgave',
+    },
+    themas: {
+        buttonTekst: 'themas',
+        volledigeTitel: 'Themas',
+        volledigeTitelMeervoud: 'Themas',
+        api: '/themas',
+        propertyName: 'Themas',
+        type: 'Thema',
+    },
+    doelen: {
+        buttonTekst: 'doelen',
+        volledigeTitel: 'Doelen',
+        volledigeTitelMeervoud: 'Doelen',
+        api: '/doelen',
+        propertyName: 'Doelen',
+        type: 'Doel',
+    },
+    maatregelen: {
+        buttonTekst: 'maatregelen',
+        volledigeTitel: 'Maatregelen',
+        volledigeTitelMeervoud: 'Maatregelen',
+        api: '/maatregelen',
+        propertyName: 'Maatregelen',
+        type: 'Maatregel',
+    },
+    verordening: {
+        buttonTekst: 'verordeningen',
+        volledigeTitel: 'Verordening',
+        volledigeTitelMeervoud: 'Verordeningen',
+        api: '/verordeningen',
+        propertyName: 'Verordening',
+        type: 'Verordening',
+    },
+    beleidsregels: {
+        buttonTekst: 'beleidsregels',
+        volledigeTitel: 'Beleidsregels',
+        volledigeTitelMeervoud: 'Beleidsregels',
+        api: '/beleidsregels',
+        propertyName: 'BeleidsRegels',
+        type: 'Beleidsregel',
+    },
 }
 
 export default RaadpleegUniversalObjectDetail
