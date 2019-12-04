@@ -31,7 +31,9 @@ function SearchResultItem(props) {
             return {
                 setInnerHTML: false,
                 content: props.item[propertyName],
-                trim: props.item[propertyName].length > 250,
+                trim:
+                    props.item[propertyName] &&
+                    props.item[propertyName].length > 250,
             }
         } else if (props.item[propertyName] !== undefined) {
             return {
@@ -119,6 +121,12 @@ class RaadpleegZoekResultatenOverzicht extends Component {
             // REFACTOR MIJ
             if (item.type === 'Belangen') {
                 item.type = 'Belang'
+            }
+            if (item.type === 'Opgaven') {
+                item.type = 'Opgave'
+            }
+            if (item.type === 'Ambities') {
+                item.type = 'Ambitie'
             }
             console.log(item.type)
             const filterObject = {

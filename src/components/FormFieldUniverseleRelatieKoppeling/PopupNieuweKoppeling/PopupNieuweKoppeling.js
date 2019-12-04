@@ -111,6 +111,43 @@ class PopupNieuweKoppeling extends Component {
             )
             .filter(item => !actieveKoppelingen.includes(item.UUID))
 
+        console.log('this.state.type:')
+        console.log(this.state.type)
+
+        let koppelTekst = ''
+        switch (this.state.type) {
+            case 'belangen':
+                koppelTekst = 'het belang'
+                break
+            case 'taken':
+                koppelTekst = 'de taak'
+                break
+            case 'ambities':
+                koppelTekst = 'de ambitie'
+                break
+            case 'opgaven':
+                koppelTekst = 'de opgave'
+                break
+            case 'themas':
+                koppelTekst = 'het thema'
+                break
+            case 'beleidsregels':
+                koppelTekst = 'de beleidsregel'
+                break
+            case 'doelen':
+                koppelTekst = 'het doel'
+                break
+            case 'maatregelen':
+                koppelTekst = 'de maatregel'
+                break
+            case 'verordening':
+                koppelTekst = 'de verordening'
+                break
+            default:
+                koppelTekst = 'het object'
+                break
+        }
+
         return (
             <PopUpAnimatedContainer>
                 <div
@@ -126,7 +163,7 @@ class PopupNieuweKoppeling extends Component {
                 {this.state.actievePagina === 1 ? (
                     <React.Fragment>
                         <p className="form-field-description">
-                            Zoek en selecteer het nationaal belang welke je wilt
+                            Zoek en selecteer {koppelTekst} welke je wilt
                             koppelen met de beleidsbeslissing '
                             {this.props.titelMainObject}'
                         </p>
