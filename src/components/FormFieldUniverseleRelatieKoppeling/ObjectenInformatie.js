@@ -19,7 +19,7 @@ const objecten = {
         buttonTekst: 'taak',
         volledigeTitel: 'Wettelijke taken & bevoegdheden',
         volledigeTitelMeervoud: 'Wettelijke taken & bevoegdheden',
-        api: '/asdasld',
+        api: '/belangen',
         filterAPI: true,
         filterType: 'Wettelijke Taak & Bevoegdheid',
         propertyName: 'Belangen',
