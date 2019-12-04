@@ -210,7 +210,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                                                   name={item}
                                               />
                                               <span>
-                                                  {item}(
+                                                  {item} (
                                                   {
                                                       this.state.onPageFilters[
                                                           item
