@@ -204,7 +204,7 @@ class Navigation extends Component {
         )
         return (
             <nav
-                className="bg-white fixed w-full z-10 top-0"
+                className="bg-white fixed w-full z-20 top-0"
                 id="navigation-main"
             >
                 <div className="lg:px-10 bg-white border-b border-gray-200 py-6 container mx-auto flex items-center justify-between flex-wrap bg-white">

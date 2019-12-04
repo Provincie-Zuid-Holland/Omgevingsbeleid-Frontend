@@ -205,7 +205,9 @@ class RaadpleegZoekResultatenOverzicht extends Component {
             <div className="container mx-auto flex px-6 pb-8 mt-12">
                 <div className="w-1/4">
                     <ButtonBackToPage terugNaar="startpagina" url="/" />
-                    <h2 className="mt-6 text-l font-serif block">Filteren</h2>
+                    <h2 className="mt-6 text-l font-serif block text-gray-700">
+                        Filteren
+                    </h2>
                     <ul className="mt-4">
                         {this.state.onPageFilters.filterArray &&
                         this.state.onPageFilters.filterArray.length > 0
@@ -253,21 +255,31 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                     <ul>
                         {this.state.dataLoaded ? (
                             // this.state.searchResults.length > 0 ? (
-                            this.state.searchResults.map((item, index) => {
-                                if (
-                                    this.state.onPageFilters[item.type].checked
-                                ) {
-                                    return (
-                                        <SearchResultItem
-                                            searchQuery={this.state.searchQuery}
-                                            item={item}
-                                            key={item.UUID}
-                                        />
-                                    )
-                                } else {
-                                    return null
-                                }
-                            })
+                            this.state.searchResults &&
+                            this.state.searchResults.length > 0 ? (
+                                this.state.searchResults.map((item, index) => {
+                                    if (
+                                        this.state.onPageFilters[item.type]
+                                            .checked
+                                    ) {
+                                        return (
+                                            <SearchResultItem
+                                                searchQuery={
+                                                    this.state.searchQuery
+                                                }
+                                                item={item}
+                                                key={item.UUID}
+                                            />
+                                        )
+                                    } else {
+                                        return null
+                                    }
+                                })
+                            ) : (
+                                <span className="italic text-gray-600 text-sm mt-8 block">
+                                    Geen resultaten
+                                </span>
+                            )
                         ) : (
                             // ) : (
                             //     <h2 className="mt-8 text-l font-serif block text-gray-800">
