@@ -127,6 +127,11 @@ class RaadpleegUniversalObjectDetail extends Component {
                         toast(
                             `Deze ${this.props.dataModel.variables.Titel_Enkelvoud.toLowerCase()} kon niet gevonden worden`
                         )
+                    } else if (error.response.status === 422) {
+                        this.props.history.push(`/login`)
+                        toast(
+                            `U moet voor nu nog inloggen om deze pagina te kunnen bekijken`
+                        )
                     }
                     this.setState({
                         dataLoaded: true,
@@ -147,13 +152,16 @@ class RaadpleegUniversalObjectDetail extends Component {
 
         // Werkingsgebieden zijn er bij de volgende objecten:
         // - Beleidsbeslissing
+        console.log(dataObject)
         if (
             dataObject !== null &&
             (dataObject.Gebied ||
-                (dataObject.Werkingsgebied && dataObject.Werkingsgebied[0]))
+                (dataObject.WerkingsGebieden && dataObject.WerkingsGebieden[0]))
         ) {
+            console.log('Ja')
             werkingsgebiedBoolean = true
         } else {
+            console.log('Nee')
             werkingsgebiedBoolean = false
         }
 
@@ -163,8 +171,8 @@ class RaadpleegUniversalObjectDetail extends Component {
             werkingsGebiedUUID = dataObject.Gebied
         } else if (
             werkingsgebiedBoolean &&
-            dataObject.Werkingsgebied &&
-            dataObject.Werkingsgebied[0]
+            dataObject.WerkingsGebieden &&
+            dataObject.WerkingsGebieden[0]
         ) {
             werkingsGebiedUUID = dataObject.WerkingsGebieden[0].UUID
         }
@@ -229,7 +237,6 @@ class RaadpleegUniversalObjectDetail extends Component {
                                 />
                                 <span>Terug naar artikelpagina</span>
                             </span>
-                            {/* <div className="text-gray-800">Content</div> */}
                         </React.Fragment>
                     )}
                 </div>
@@ -392,12 +399,15 @@ class RaadpleegUniversalObjectDetail extends Component {
                                                 ) : (
                                                     <div className="p-4 text-center">
                                                         <div>
-                                                            De PDF is
+                                                            Hier kunt u
+                                                            binnenkort het PDF
+                                                            bestand downloaden .{' '}
+                                                            {/* De PDF is
                                                             gegenereerd. Klik
                                                             hier om deze te
-                                                            downloaden.
+                                                            downloaden. */}
                                                         </div>
-                                                        <span className="text-white inline-block bg-green-600 px-4 py-2 rounded mt-4">
+                                                        {/* <span className="text-white inline-block bg-green-600 px-4 py-2 rounded mt-4">
                                                             <FontAwesomeIcon
                                                                 className="mr-2"
                                                                 icon={
@@ -405,7 +415,7 @@ class RaadpleegUniversalObjectDetail extends Component {
                                                                 }
                                                             />
                                                             Download
-                                                        </span>
+                                                        </span> */}
                                                     </div>
                                                 )
                                             }
