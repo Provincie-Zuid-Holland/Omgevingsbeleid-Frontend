@@ -118,7 +118,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
 
         searchResults.forEach((item, index) => {
             console.log(item.type)
-            // REFACTOR MIJ
+            // REFACTOR MIJ, IK SMEEK JE
             if (item.type === 'Belangen') {
                 item.type = 'Belang'
             }
@@ -127,6 +127,18 @@ class RaadpleegZoekResultatenOverzicht extends Component {
             }
             if (item.type === 'Ambities') {
                 item.type = 'Ambitie'
+            }
+            if (item.type === 'Beleidsregels') {
+                item.type = 'BeleidsRegel'
+            }
+            if (item.type === 'Doelen') {
+                item.type = 'Doel'
+            }
+            if (item.type === 'Beleidsrelaties') {
+                item.type = 'BeleidsRelatie'
+            }
+            if (item.type === "Thema's") {
+                item.type = 'Thema'
             }
             console.log(item.type)
             const filterObject = {
