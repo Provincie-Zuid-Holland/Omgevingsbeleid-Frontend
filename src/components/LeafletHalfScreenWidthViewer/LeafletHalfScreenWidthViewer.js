@@ -227,7 +227,6 @@ export default class LeafletHalfScreenWidthViewer extends Component {
         e.layers.eachLayer(layer => {
             numEdited += 1
         })
-        console.log(`_onEdited: edited ${numEdited} layers`, e)
 
         this._onChange()
     }

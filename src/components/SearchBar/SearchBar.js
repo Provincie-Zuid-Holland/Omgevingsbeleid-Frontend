@@ -78,6 +78,9 @@ function SearchBarPopupItem(props) {
 }
 
 function SearchBarPopup(props) {
+    // {
+    //     name: 'beleidsrelaties',
+    // },
     const filters = [
         {
             name: 'ambities',
@@ -90,9 +93,6 @@ function SearchBarPopup(props) {
         },
         {
             name: 'belangen',
-        },
-        {
-            name: 'beleidsrelaties',
         },
         {
             name: 'maatregelen',

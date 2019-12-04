@@ -71,6 +71,13 @@ export default class LeafletTinyViewer extends Component {
     }
 
     initializeComponent() {
+        const currentLeafletMap = this.leafletMap.current
+        if (currentLeafletMap && this.state.boundsObject) {
+            currentLeafletMap.leafletElement.removeLayer(
+                this.state.boundsObject
+            )
+        }
+
         import('./../../API/axiosGeoJSON').then(api => {
             api.getGeoJsonData(this.props.gebiedType, this.props.gebiedUUID)
                 .then(data => {
