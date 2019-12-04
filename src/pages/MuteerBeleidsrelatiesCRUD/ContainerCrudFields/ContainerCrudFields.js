@@ -105,6 +105,7 @@ class ContainerCrudFields extends React.Component {
                                             {crudObject['Eind_Geldigheid'] !==
                                             undefined ? (
                                                 <FormFieldDate
+                                                    openUitwerkingstrede={true}
                                                     handleChange={
                                                         this.context
                                                             .handleChange

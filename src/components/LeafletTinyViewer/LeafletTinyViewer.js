@@ -47,6 +47,7 @@ export default class LeafletTinyViewer extends Component {
             dataReceived: false,
         }
         this.leafletMap = React.createRef()
+        this.initializeComponent = this.initializeComponent.bind(this)
     }
 
     onClickReset = () => {
@@ -64,10 +65,12 @@ export default class LeafletTinyViewer extends Component {
             this.setState({
                 bounds: this.state.boundsObject.getBounds(),
             })
+        } else if (this.props.gebiedUUID !== prevProps.gebiedUUID) {
+            this.initializeComponent()
         }
     }
 
-    componentDidMount() {
+    initializeComponent() {
         import('./../../API/axiosGeoJSON').then(api => {
             api.getGeoJsonData(this.props.gebiedType, this.props.gebiedUUID)
                 .then(data => {
@@ -105,6 +108,10 @@ export default class LeafletTinyViewer extends Component {
                     }
                 })
         })
+    }
+
+    componentDidMount() {
+        this.initializeComponent()
     }
 
     componentWillUnmount() {

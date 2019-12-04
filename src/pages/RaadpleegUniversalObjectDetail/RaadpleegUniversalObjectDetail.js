@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import { format } from 'date-fns'
 import { Helmet } from 'react-helmet'
 import nlLocale from 'date-fns/locale/nl'
@@ -68,6 +69,7 @@ class RaadpleegUniversalObjectDetail extends Component {
             this
         )
         this.toggleDownloadPDF = this.toggleDownloadPDF.bind(this)
+        this.initializeComponent = this.initializeComponent.bind(this)
     }
 
     toggleDownloadPDF() {
@@ -82,7 +84,7 @@ class RaadpleegUniversalObjectDetail extends Component {
         })
     }
 
-    componentDidMount() {
+    initializeComponent() {
         // Nodig voor API Call:
         // Type object nodig
         // Object ID nodig
@@ -145,6 +147,19 @@ class RaadpleegUniversalObjectDetail extends Component {
             })
     }
 
+    componentDidMount() {
+        this.initializeComponent()
+    }
+
+    componentDidUpdate(prevProps) {
+        console.log('PROP CHANGE!')
+        console.log(prevProps)
+        console.log(this.props)
+        if (this.props.match.params.id !== prevProps.match.params.id) {
+            this.initializeComponent()
+        }
+    }
+
     render() {
         const dataObject = this.state.dataObject
         const dataLoaded = this.state.dataLoaded
@@ -152,16 +167,13 @@ class RaadpleegUniversalObjectDetail extends Component {
 
         // Werkingsgebieden zijn er bij de volgende objecten:
         // - Beleidsbeslissing
-        console.log(dataObject)
         if (
             dataObject !== null &&
             (dataObject.Gebied ||
                 (dataObject.WerkingsGebieden && dataObject.WerkingsGebieden[0]))
         ) {
-            console.log('Ja')
             werkingsgebiedBoolean = true
         } else {
-            console.log('Nee')
             werkingsgebiedBoolean = false
         }
 
@@ -189,7 +201,7 @@ class RaadpleegUniversalObjectDetail extends Component {
 
         return (
             <div
-                className="container mx-auto flex px-6 pb-8 mt-8"
+                className="container mx-auto flex px-6 pb-20 mt-8"
                 id="raadpleeg-detail-container-main"
             >
                 <Helmet>
@@ -499,7 +511,10 @@ class RaadpleegUniversalObjectDetail extends Component {
                         ) : null}
 
                         {titelEnkelvoud === 'Beleidsbeslissing' ? (
-                            <RelatieComponent crudObject={dataObject} />
+                            <RelatieComponent
+                                crudObject={dataObject}
+                                urlParam={this.props.match.params.id}
+                            />
                         ) : null}
                     </div>
                 ) : (
@@ -547,8 +562,97 @@ class RaadpleegUniversalObjectDetail extends Component {
 class RelatieComponent extends Component {
     constructor(props) {
         super(props)
+        this.state = {}
+        this.initializeComponent = this.initializeComponent.bind(this)
     }
-    componentDidMount() {
+
+    initializeComponent() {
+        const crudObject = this.props.crudObject
+
+        // ***
+        // Haal beleidsrelaties op
+        axios
+            .get(`/beleidsrelaties?Van_Beleidsbeslissing=${crudObject.UUID}`)
+            .then(res => {
+                let beleidsrelaties = res.data
+
+                if (res.data.length > 0) {
+                    const axiosGETArray = res.data.map(relatie => {
+                        return axios
+                            .get(
+                                `/beleidsbeslissingen/version/${relatie.Naar_Beleidsbeslissing}`
+                            )
+                            .then(response => {
+                                relatie.data = response.data
+                            })
+                    })
+
+                    const that = this
+
+                    Promise.all(axiosGETArray).then(function(values) {
+                        let newObject = that.state.koppelingenRelaties
+                        if (
+                            newObject.beleidsbeslissingen &&
+                            newObject.beleidsbeslissingen.length > 0
+                        ) {
+                            newObject.beleidsbeslissingen.concat(
+                                beleidsrelaties
+                            )
+                        } else {
+                            newObject.beleidsbeslissingen = beleidsrelaties
+                        }
+                        that.setState(
+                            {
+                                koppelingenRelaties: newObject,
+                            },
+                            () => console.log(that.state)
+                        )
+                    })
+                }
+            })
+
+        axios
+            .get(`/beleidsrelaties?Naar_Beleidsbeslissing=${crudObject.UUID}`)
+            .then(res => {
+                let beleidsrelaties = res.data
+
+                if (res.data.length > 0) {
+                    const axiosGETArray = res.data.map(relatie => {
+                        return axios
+                            .get(
+                                `/beleidsbeslissingen/version/${relatie.Van_Beleidsbeslissing}`
+                            )
+                            .then(response => {
+                                relatie.data = response.data
+                            })
+                    })
+
+                    const that = this
+
+                    Promise.all(axiosGETArray).then(function(values) {
+                        let newObject = that.state.koppelingenRelaties
+                        if (
+                            newObject.beleidsbeslissingen &&
+                            newObject.beleidsbeslissingen.length > 0
+                        ) {
+                            newObject.beleidsbeslissingen.concat(
+                                beleidsrelaties
+                            )
+                        } else {
+                            newObject.beleidsbeslissingen = beleidsrelaties
+                        }
+                        that.setState(
+                            {
+                                koppelingenRelaties: newObject,
+                            },
+                            () => console.log(that.state)
+                        )
+                    })
+                }
+            })
+
+        // ***
+        // Haal alle koppelingen en relaties op
         const koppelingRelatieArray = [
             'ambities',
             'opgaven',
@@ -559,7 +663,6 @@ class RelatieComponent extends Component {
             'verordening',
         ]
 
-        const crudObject = this.props.crudObject
         let actieveKoppelingOfRelaties = []
 
         // Voor elk item in de koppelingRelatieArray kijken we of deze al een actieve koppeling heeft op het gekregen crudObject
@@ -663,8 +766,223 @@ class RelatieComponent extends Component {
             })
             .catch(err => console.log(err))
     }
+    componentDidUpdate(prevProps) {
+        if (prevProps.crudObject !== this.props.crudObject) {
+            console.log('UPDATE')
+            this.initializeComponent()
+        }
+    }
+    componentDidMount() {
+        this.initializeComponent()
+    }
     render() {
-        return <div></div>
+        const that = this
+        const verticalLayoutBool =
+            this.state.koppelingenRelaties &&
+            Object.keys(this.state.koppelingenRelaties).length > 4
+        return (
+            <div className="mt-8">
+                <h2 className="block tracking-wide text-gray-700 text-lg font-serif">
+                    Relaties binnen de omgevingsvisie
+                </h2>
+                {verticalLayoutBool ? (
+                    <ul
+                        className={`mt-3 
+                ${verticalLayoutBool ? 'flex-row' : 'flex'}`}
+                    >
+                        {this.state.koppelingenRelaties
+                            ? Object.keys(this.state.koppelingenRelaties).map(
+                                  function(key, index) {
+                                      if (
+                                          index === 0 &&
+                                          !that.state
+                                              .activeSectionInitialized &&
+                                          !that.state.activeSection
+                                      ) {
+                                          that.setState({
+                                              activeSection: key,
+                                              activeSectionInitialized: true,
+                                          })
+                                      }
+                                      return (
+                                          <React.Fragment>
+                                              <TabbladRelatieComponent
+                                                  verticalLayoutBool={
+                                                      verticalLayoutBool
+                                                  }
+                                                  activeSection={
+                                                      that.state.activeSection
+                                                  }
+                                                  Titel={key}
+                                                  Length={
+                                                      that.state
+                                                          .koppelingenRelaties[
+                                                          key
+                                                      ].length
+                                                  }
+                                                  click={() => {
+                                                      that.setState({
+                                                          activeSection: key,
+                                                      })
+                                                  }}
+                                              />
+                                              <TabbladInhoudRelatieComponent
+                                                  verticalLayoutBool={
+                                                      verticalLayoutBool
+                                                  }
+                                                  activeSection={
+                                                      that.state.activeSection
+                                                  }
+                                                  array={
+                                                      that.state
+                                                          .koppelingenRelaties[
+                                                          key
+                                                      ]
+                                                  }
+                                                  titel={key}
+                                              />
+                                          </React.Fragment>
+                                      )
+                                  }
+                              )
+                            : null}
+                    </ul>
+                ) : (
+                    <React.Fragment>
+                        <ul className={`mt-3 flex`}>
+                            {this.state.koppelingenRelaties
+                                ? Object.keys(
+                                      this.state.koppelingenRelaties
+                                  ).map(function(key, index) {
+                                      if (
+                                          index === 0 &&
+                                          !that.state
+                                              .activeSectionInitialized &&
+                                          !that.state.activeSection
+                                      ) {
+                                          that.setState({
+                                              activeSection: key,
+                                              activeSectionInitialized: true,
+                                          })
+                                      }
+                                      return (
+                                          <TabbladRelatieComponent
+                                              verticalLayoutBool={
+                                                  verticalLayoutBool
+                                              }
+                                              activeSection={
+                                                  that.state.activeSection
+                                              }
+                                              Titel={key}
+                                              Length={
+                                                  that.state
+                                                      .koppelingenRelaties[key]
+                                                      .length
+                                              }
+                                              click={() => {
+                                                  that.setState({
+                                                      activeSection: key,
+                                                  })
+                                              }}
+                                          />
+                                      )
+                                  })
+                                : null}
+                        </ul>
+                        {this.state.koppelingenRelaties
+                            ? Object.keys(this.state.koppelingenRelaties).map(
+                                  function(key, index) {
+                                      return (
+                                          <TabbladInhoudRelatieComponent
+                                              verticalLayoutBool={
+                                                  verticalLayoutBool
+                                              }
+                                              activeSection={
+                                                  that.state.activeSection
+                                              }
+                                              array={
+                                                  that.state
+                                                      .koppelingenRelaties[key]
+                                              }
+                                              titel={key}
+                                          />
+                                      )
+                                  }
+                              )
+                            : null}
+                    </React.Fragment>
+                )}
+            </div>
+        )
+    }
+}
+
+function TabbladRelatieComponent(props) {
+    const borderStyles = props.verticalLayoutBool
+        ? 'border-l-2 border-blue-600'
+        : 'border-b-2 border-blue-600'
+    const borderStylesActiveSection = props.verticalLayoutBool
+        ? 'border-l-2 border-white'
+        : 'border-b-2 border-white'
+
+    return (
+        <li
+            onClick={props.click}
+            className={`py-2 pl-2 mb-2 pr-6 cursor-pointer ${
+                props.activeSection === props.Titel
+                    ? borderStyles
+                    : borderStylesActiveSection
+            }`}
+        >
+            <span className="text-gray-700 font-bold text-lg block">
+                {props.Titel.charAt(0).toUpperCase() + props.Titel.substring(1)}
+            </span>
+            <span className="text-gray-600 text-sm block">
+                {props.Length} gekoppeld
+            </span>
+        </li>
+    )
+}
+
+function TabbladInhoudRelatieComponent(props) {
+    if (props.activeSection === props.titel) {
+        return (
+            <ul className={`${props.activeSection ? 'mb-3' : ''}`}>
+                {props.array.map(relatie => {
+                    console.log(relatie)
+                    return (
+                        <li className="py-2 pl-2 pr-6 border-b border-gray-300 hover:underline relative">
+                            <Link
+                                to={`/detail/${props.titel.toLowerCase()}/${
+                                    relatie.data ? relatie.data.ID : '0'
+                                }`}
+                                to={
+                                    relatie.data
+                                        ? `/detail/${props.titel.toLowerCase()}/${
+                                              relatie.data.ID
+                                          }`
+                                        : '#'
+                                }
+                            >
+                                <span className="text-gray-700 block">
+                                    {relatie.data ? (
+                                        relatie.data.Titel
+                                    ) : (
+                                        <LoaderSmallSpan />
+                                    )}
+                                </span>
+                                <FontAwesomeIcon
+                                    className="absolute right-0 top-0 mt-3 mr-2  text-gray-600"
+                                    icon={faAngleRight}
+                                />
+                            </Link>
+                        </li>
+                    )
+                })}
+            </ul>
+        )
+    } else {
+        return null
     }
 }
 
