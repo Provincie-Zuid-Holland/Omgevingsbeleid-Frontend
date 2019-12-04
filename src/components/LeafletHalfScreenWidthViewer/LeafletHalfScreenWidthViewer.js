@@ -246,7 +246,7 @@ export default class LeafletHalfScreenWidthViewer extends Component {
                         data.weergavenaam.split(',')[1]
                     }</li> <li>GPS Locatie: ${lat.toFixed(7)}, ${lng.toFixed(
                         7
-                    )}</li> </ul> <span class="mbg-color cursor-pointer hover:bg-blue-600 text-white inline-block py-2 px-8 rounded focus:outline-none focus:shadow-outline">Bekijk beleid van deze locatie</span></div>`
+                    )}</li> </ul> <span class="mbg-color cursor-not-allowed hover:bg-blue-600 text-white inline-block py-2 px-8 rounded focus:outline-none focus:shadow-outline">Bekijk binnenkort het beleid van deze locatie</span></div>`
 
                     layer._popup.setContent(customPopupHTML)
                 })
