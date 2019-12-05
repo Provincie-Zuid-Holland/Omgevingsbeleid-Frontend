@@ -107,6 +107,7 @@ class MijnBeleid extends Component {
                                                 <CardObjectDetailsHalfWidth
                                                     fullWidth={true}
                                                     index={index}
+                                                    mijnBeleid={true}
                                                     object={item.object}
                                                     titelEnkelvoud={
                                                         titelEnkelvoud

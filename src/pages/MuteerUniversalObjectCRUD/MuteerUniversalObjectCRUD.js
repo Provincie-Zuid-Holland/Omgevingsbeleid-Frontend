@@ -455,8 +455,6 @@ class MuteerUniversalObjectCRUD extends Component {
                     toast('Opgeslagen')
                 })
                 .catch(error => {
-                    console.log(error)
-
                     // Wijzig de data terug naar het format om in het input veld te tonen
                     if (
                         crudObject.Eind_Geldigheid !== undefined &&

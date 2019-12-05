@@ -8,7 +8,7 @@ const menuItemsOmgevingsbeleid = {
     Dashboard: { url: '/muteer/dashboard', finished: true },
     'Mijn beleid': { url: '/muteer/mijn-beleid', finished: true },
     Beleidsrelaties: { url: '/muteer/beleidsrelaties', finished: true },
-    Meldingen: { url: '/muteer/mijn-meldingen', finished: true },
+    // Meldingen: { url: '/muteer/mijn-meldingen', finished: true },
     // 'API Test Omgeving': { url: '/muteer/api-test', finished: true },
 }
 

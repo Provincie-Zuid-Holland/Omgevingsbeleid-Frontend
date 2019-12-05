@@ -1,4 +1,5 @@
 import React from 'react'
+import { withRouter } from 'react-router-dom'
 
 import ButtonBackToPage from './../../../components/ButtonBackToPage'
 
@@ -32,10 +33,24 @@ function ContainerCrudHeader(props) {
             <div className="lg:px-10 container mx-auto flex justify-center items-center">
                 <div className="w-full pr-20">
                     {props.editStatus === false ? (
+                        props.location.hash === '#mijn-beleid' ? (
+                            <ButtonBackToPage
+                                terugNaar={props.titelMeervoud.toLowerCase()}
+                                color="text-white"
+                                url={`/muteer/${props.overzichtSlug}`}
+                            />
+                        ) : (
+                            <ButtonBackToPage
+                                terugNaar={props.titelMeervoud.toLowerCase()}
+                                color="text-white"
+                                url={`/muteer/${props.overzichtSlug}`}
+                            />
+                        )
+                    ) : props.location.hash === '#mijn-beleid' ? (
                         <ButtonBackToPage
-                            terugNaar={props.titelMeervoud.toLowerCase()}
+                            terugNaar={props.titelEnkelvoud.toLowerCase()}
                             color="text-white"
-                            url={`/muteer/${props.overzichtSlug}`}
+                            url={`/muteer/${props.overzichtSlug}/${props.objectID}#mijn-beleid`}
                         />
                     ) : (
                         <ButtonBackToPage
@@ -53,4 +68,4 @@ function ContainerCrudHeader(props) {
     )
 }
 
-export default ContainerCrudHeader
+export default withRouter(ContainerCrudHeader)

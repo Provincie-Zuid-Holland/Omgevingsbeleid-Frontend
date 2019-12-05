@@ -427,9 +427,9 @@ export default class LeafletHalfScreenWidthViewer extends Component {
     }
 
     componentWillUnmount() {
-        import('./../../API/axiosGeoJSON').then(api => {
-            api.cancelRequest()
-        })
+        // import('./../../API/axiosGeoJSON').then(api => {
+        //     api.cancelRequest()
+        // })
     }
 
     render() {

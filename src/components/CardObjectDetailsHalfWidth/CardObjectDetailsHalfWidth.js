@@ -31,11 +31,9 @@ function CardObjectDetailsHalfWidth(props) {
                 id={`object-card-${titelEnkelvoud.toLowerCase()}-${
                     props.index
                 }`}
-                to={
-                    apiTest === true
-                        ? `/muteer/${hoofdOnderdeelSlug}/${overzichtSlug}/${object.ID}`
-                        : `/muteer/${overzichtSlug}/${object.ID}`
-                }
+                to={`/muteer/${overzichtSlug}/${object.ID}${
+                    props.mijnBeleid ? '#mijn-beleid' : ''
+                }`}
             >
                 <h5 className="text-gray-600 text-sm font-light py-1">
                     {titelEnkelvoud}

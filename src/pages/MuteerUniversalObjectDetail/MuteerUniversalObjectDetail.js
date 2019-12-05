@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { format } from 'date-fns'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Helmet } from 'react-helmet'
@@ -23,13 +23,22 @@ function GenerateBackToButton(props) {
     const apiTest = props.apiTest
 
     if (pageType === 'detail') {
-        return (
-            <ButtonBackToPage
-                terugNaar={` overzicht`}
-                // url={`/${hoofdOnderdeel}/${overzichtSlug}`}
-                url={`/muteer/${overzichtSlug}`}
-            />
-        )
+        console.log(props.hash)
+        if (props.hash === '#mijn-beleid') {
+            return (
+                <ButtonBackToPage
+                    terugNaar={` mijn beleid`}
+                    url={`/muteer/mijn-beleid`}
+                />
+            )
+        } else {
+            return (
+                <ButtonBackToPage
+                    terugNaar={` overzicht`}
+                    url={`/muteer/${overzichtSlug}`}
+                />
+            )
+        }
     } else if (pageType === 'version') {
         const dataObjectID = props.dataObject.ID
         return (
@@ -156,11 +165,9 @@ class MuteerUniversalObjectDetail extends Component {
     }
 
     makeURLForRevisieObject(overzichtSlug, objectID, apiTest, objectUUID) {
-        if (apiTest) {
-            // return `/api-test/${overzichtSlug}/edit/${objectID}`
-            return `/muteer/api-test/${overzichtSlug}/${objectID}/${objectUUID}`
+        if (this.props.location.hash === '#mijn-beleid') {
+            return `/muteer/${overzichtSlug}/${objectID}/${objectUUID}#mijn-beleid`
         } else {
-            // return `/muteer/${overzichtSlug}/edit/${objectID}`
             return `/muteer/${overzichtSlug}/${objectID}/${objectUUID}`
         }
     }
@@ -174,6 +181,7 @@ class MuteerUniversalObjectDetail extends Component {
     }
 
     render() {
+        console.log(this.props)
         // Variables to give as props
         const titelEnkelvoud = this.props.dataModel.variables.Titel_Enkelvoud
         const overzichtSlug = this.props.dataModel.variables.Overzicht_Slug
@@ -211,6 +219,7 @@ class MuteerUniversalObjectDetail extends Component {
                 {/* Dimensie Container */}
                 <div className="w-full inline-block">
                     <GenerateBackToButton
+                        hash={this.props.location.hash}
                         dataObject={dataObject}
                         titelEnkelvoud={titelEnkelvoud}
                         overzichtSlug={overzichtSlug}
@@ -233,7 +242,12 @@ class MuteerUniversalObjectDetail extends Component {
                                 <div className="h-10 mt-5 ">
                                     <Link
                                         className="flex items-center mt-5 w-1/2"
-                                        to={`/muteer/${this.props.overzichtSlug}/edit/${this.props.match.params.single}`}
+                                        to={
+                                            this.props.location.hash ===
+                                            '#mijn-beleid'
+                                                ? `/muteer/${this.props.overzichtSlug}/edit/${this.props.match.params.single}#mijn-beleid`
+                                                : `/muteer/${this.props.overzichtSlug}/edit/${this.props.match.params.single}`
+                                        }
                                         id={`href-ontwerp-maken`}
                                     >
                                         <span className="relative w-24 h-10 border-r-2 flex items-center justify-end border-gray-300 pb-5 mr-2">
@@ -244,10 +258,7 @@ class MuteerUniversalObjectDetail extends Component {
                                                 />
                                             </div>
                                         </span>
-                                        <span
-                                            to={`/muteer/${this.props.overzichtSlug}/edit/${this.props.match.params.single}`}
-                                            className="text-sm inline text-gray-700 -mt-5 pl-5 cursor-pointer hover:underline"
-                                        >
+                                        <span className="text-sm inline text-gray-700 -mt-5 pl-5 cursor-pointer hover:underline">
                                             Ontwerp maken
                                         </span>
                                     </Link>
@@ -410,4 +421,4 @@ class MuteerUniversalObjectDetail extends Component {
     }
 }
 
-export default MuteerUniversalObjectDetail
+export default withRouter(MuteerUniversalObjectDetail)
