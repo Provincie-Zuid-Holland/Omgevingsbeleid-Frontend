@@ -92,8 +92,8 @@ export default class LeafletTinyViewer extends Component {
                                 style: feature => {
                                     return {
                                         stroke: true,
-                                        fillColor: 'fffff',
-                                        fillOpacity: 0,
+                                        fillColor: '#3388ff',
+                                        fillOpacity: 0.1,
                                     }
                                 },
                             })
