@@ -43,9 +43,22 @@ function SearchResultItem(props) {
                 },
             }
         } else {
-            return {
-                setInnerHTML: false,
-                content: 'Omschrijving',
+            if (props.item.type === 'Beleidsbeslissingen') {
+                return {
+                    setInnerHTML: false,
+                    content: props.item.Omschrijving_Keuze,
+                    trim:
+                        props.item.Omschrijving_Keuze &&
+                        props.item.Omschrijving_Keuze.length > 250,
+                }
+            } else {
+                return {
+                    setInnerHTML: false,
+                    content: props.item.Omschrijving,
+                    trim:
+                        props.item.Omschrijving &&
+                        props.item.Omschrijving.length > 250,
+                }
             }
         }
     }
@@ -281,11 +294,6 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                                 </span>
                             )
                         ) : (
-                            // ) : (
-                            //     <h2 className="mt-8 text-l font-serif block text-gray-800">
-                            //         Geen resultaten
-                            //     </h2>
-                            // )
                             <LoaderContent />
                         )}
                     </ul>
