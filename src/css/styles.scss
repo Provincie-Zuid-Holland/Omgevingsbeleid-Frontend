@@ -146,7 +146,8 @@ $base-color: #000066;
 .leaflet-container {
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0) !important;
+    // background-color: rgba(0, 0, 0, 0) !important;
+    background-color: #ffffff;
 }
 
 .shake {
@@ -345,7 +346,9 @@ $base-color: #000066;
     }
 }
 
-.leaflet-control-container .leaflet-control-zoom {
+#half-screen-leaflet-container
+    .leaflet-control-container
+    .leaflet-control-zoom {
     position: fixed;
     right: 10px;
     bottom: 30px;
@@ -403,7 +406,6 @@ $base-color: #000066;
 .leaflet-draw-toolbar a,
 .leaflet-touch .leaflet-bar a,
 .leaflet-draw-toolbar a:hover,
-.leaflet-touch .leaflet-bar a:hover,
 .leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-marker,
 .leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-polygon,
 .leaflet-touch .leaflet-draw-toolbar .leaflet-draw-edit-edit,

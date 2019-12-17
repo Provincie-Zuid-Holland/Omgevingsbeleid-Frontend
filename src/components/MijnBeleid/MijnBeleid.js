@@ -83,59 +83,64 @@ class MijnBeleid extends Component {
         return (
             <div className="MijnBeleid">
                 {this.state.dataReceived ? (
-                    <ul className="flex mt-8 flex-wrap">
-                        {this.state.objecten.length > 0 &&
-                        !this.state.objecten.every(x => x === undefined) ? (
-                            this.state.objecten.map(array => {
-                                if (!array) {
-                                    return null
-                                }
-                                const items = array.map((item, index) => {
-                                    const type = item.type
-                                    const overzichtSlug =
-                                        dataModel[type].variables.Overzicht_Slug
-                                    const titelEnkelvoud =
-                                        dataModel[type].variables
-                                            .Titel_Enkelvoud
+                    <React.Fragment>
+                        {!this.props.hideToevoegen ? (
+                            <ButtonAddNewObject
+                                titelEnkelvoud={'Beleidsbeslissing'}
+                                createNewSlug={'nieuwe-beleidsbeslissing'}
+                                hoofdOnderdeelSlug={'beleidsbeslissingen'}
+                                fullWidth={true}
+                            />
+                        ) : null}
+                        <ul className="flex mt-8 flex-wrap">
+                            {this.state.objecten.length > 0 &&
+                            !this.state.objecten.every(x => x === undefined) ? (
+                                this.state.objecten.map(array => {
+                                    if (!array) {
+                                        return null
+                                    }
+                                    const items = array.map((item, index) => {
+                                        const type = item.type
+                                        const overzichtSlug =
+                                            dataModel[type].variables
+                                                .Overzicht_Slug
+                                        const titelEnkelvoud =
+                                            dataModel[type].variables
+                                                .Titel_Enkelvoud
 
-                                    return (
-                                        <li
-                                            key={item.object.UUID}
-                                            className={`mb-6 w-1/2 display-inline odd-pr-6`}
-                                        >
-                                            {
-                                                <CardObjectDetailsHalfWidth
-                                                    fullWidth={true}
-                                                    index={index}
-                                                    mijnBeleid={true}
-                                                    object={item.object}
-                                                    titelEnkelvoud={
-                                                        titelEnkelvoud
-                                                    }
-                                                    hideParagraaf={true}
-                                                    overzichtSlug={
-                                                        overzichtSlug
-                                                    }
-                                                />
-                                            }
-                                        </li>
-                                    )
+                                        return (
+                                            <li
+                                                key={item.object.UUID}
+                                                className={`mb-6 w-1/2 display-inline odd-pr-6`}
+                                            >
+                                                {
+                                                    <CardObjectDetailsHalfWidth
+                                                        fullWidth={true}
+                                                        index={index}
+                                                        mijnBeleid={true}
+                                                        object={item.object}
+                                                        titelEnkelvoud={
+                                                            titelEnkelvoud
+                                                        }
+                                                        hideParagraaf={true}
+                                                        overzichtSlug={
+                                                            overzichtSlug
+                                                        }
+                                                    />
+                                                }
+                                            </li>
+                                        )
+                                    })
+
+                                    return items
                                 })
-
-                                return items
-                            })
-                        ) : (
-                            <span className="font-italic mb-4 text-gray-600">
-                                U heeft nog geen beleid
-                            </span>
-                        )}
-                        <ButtonAddNewObject
-                            titelEnkelvoud={'Beleidsbeslissing'}
-                            createNewSlug={'nieuwe-beleidsbeslissing'}
-                            hoofdOnderdeelSlug={'beleidsbeslissingen'}
-                            fullWidth={true}
-                        />
-                    </ul>
+                            ) : (
+                                <span className="font-italic mb-4 text-gray-600">
+                                    U heeft nog geen beleid
+                                </span>
+                            )}
+                        </ul>
+                    </React.Fragment>
                 ) : (
                     <div className="mt-8">
                         <div className="flex flex-row w-full">

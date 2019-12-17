@@ -8,11 +8,11 @@ import axios from './../../API/axios'
 import LoaderSelect from './../LoaderSelect'
 
 function makeSelection(objectenArray, dataObjectProperty) {
-    if (objectenArray.length === 1) {
-        return null
+    if (objectenArray.length === 0) {
+        return []
     } else {
         let options = []
-        objectenArray.slice(1).forEach(arrayItem => {
+        objectenArray.forEach(arrayItem => {
             options.push({
                 label: arrayItem.Gebruikersnaam,
                 value: arrayItem.UUID,
@@ -48,12 +48,19 @@ class FormFieldSelectUser extends React.Component {
                 {this.state.dataLoaded ? (
                     <Select
                         id={`form-field-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
-                        value={this.state.selected}
                         name={this.props.dataObjectProperty}
-                        onChange={this.props.handleChange}
+                        value={this.state.selected}
+                        onChange={(e, metaInfo) =>
+                            this.props.handleChange(
+                                e,
+                                metaInfo,
+                                this.props.dataObjectProperty
+                            )
+                        }
+                        isClearable={true}
                         options={this.state.selectionArray}
                         placeholder={`Selecteer...`}
-                    />
+                    ></Select>
                 ) : (
                     <LoaderSelect />
                 )}
@@ -76,16 +83,18 @@ class FormFieldSelectUser extends React.Component {
     componentDidMount() {
         const ApiEndpoint = 'gebruikers'
 
-        const objecten = this.props.gebruikersLijst.sort((a, b) =>
-            a.Gebruikersnaam > b.Gebruikersnaam ? 1 : -1
-        )
+        const objecten = this.props.gebruikersLijst
+            .sort((a, b) => (a.Gebruikersnaam > b.Gebruikersnaam ? 1 : -1))
+            .filter(e => e.Rol === this.props.filter)
 
         const selectionArray = makeSelection(
             objecten,
             this.props.dataObjectProperty
         )
 
-        if (this.props.editStatus === true) {
+        console.log(selectionArray)
+
+        if (this.props.editStatus === true && selectionArray) {
             const selected = selectionArray.find(
                 arrayItem => arrayItem.value === this.props.fieldValue
             )

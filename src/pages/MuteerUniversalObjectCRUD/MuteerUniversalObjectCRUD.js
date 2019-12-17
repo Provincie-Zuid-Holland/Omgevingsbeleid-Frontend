@@ -271,18 +271,25 @@ class MuteerUniversalObjectCRUD extends Component {
         }
     }
 
-    handleChange(event) {
-        console.log('Called')
+    handleChange(event, metaInfo, dataProp) {
+        let value
+        let name
 
-        const name = event.target.name
-        const type = event.target.type
-
-        let value = event.target.value
-        if (type === 'date') {
+        // Get Value
+        if (metaInfo && metaInfo.action === 'clear') {
+            // If value comes from react-select comp and action is to clear the component
+            value = null
+            name = dataProp
+        } else {
             value = event.target.value
+            name = event.target.name
+
+            const type = event.target.type
+            if (type === 'date') {
+                value = event.target.value
+            }
         }
-        console.log(name)
-        console.log(value)
+
 
         this.setState(
             prevState => ({

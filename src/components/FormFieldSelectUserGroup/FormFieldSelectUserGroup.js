@@ -52,8 +52,9 @@ class FormFieldSelectUserGroup extends Component {
                             fieldValue={crudObject['Opdrachtgever']}
                             dataObjectProperty="Opdrachtgever"
                             gebruikersLijst={this.state.gebruikersLijst}
+                            filter={'Opdrachtgever'}
                             // fieldLabel="Titel"
-                            pValue="Opdrachtgever"
+                            pValue="Ambtelijk opdrachtgever"
                             titelEnkelvoud={this.props.titelEnkelvoud}
                         />
                     ) : (
@@ -71,6 +72,7 @@ class FormFieldSelectUserGroup extends Component {
                             fieldValue={crudObject['Eigenaar_1']}
                             dataObjectProperty="Eigenaar_1"
                             marginRight={true}
+                            filter={'Behandelend Ambtenaar'}
                             pValue="Eerste eigenaar"
                             titelEnkelvoud={this.props.titelEnkelvoud}
                         />
@@ -86,6 +88,7 @@ class FormFieldSelectUserGroup extends Component {
                             gebruikersLijst={this.state.gebruikersLijst}
                             fieldValue={crudObject['Eigenaar_2']}
                             dataObjectProperty="Eigenaar_2"
+                            filter={'Behandelend Ambtenaar'}
                             pValue="Tweede eigenaar"
                             titelEnkelvoud={this.props.titelEnkelvoud}
                         />
@@ -100,6 +103,7 @@ class FormFieldSelectUserGroup extends Component {
                         <FormFieldSelectUser
                             editStatus={this.props.editStatus}
                             handleChange={this.props.handleChange}
+                            filter={'Portefeuillehouder'}
                             gebruikersLijst={this.state.gebruikersLijst}
                             fieldValue={crudObject['Portefeuillehouder_1']}
                             dataObjectProperty="Portefeuillehouder_1"
@@ -116,6 +120,7 @@ class FormFieldSelectUserGroup extends Component {
                         <FormFieldSelectUser
                             editStatus={this.props.editStatus}
                             gebruikersLijst={this.state.gebruikersLijst}
+                            filter={'Portefeuillehouder'}
                             handleChange={this.props.handleChange}
                             fieldValue={crudObject['Portefeuillehouder_2']}
                             dataObjectProperty="Portefeuillehouder_2"

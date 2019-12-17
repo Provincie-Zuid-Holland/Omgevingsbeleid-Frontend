@@ -10,7 +10,7 @@ function ButtonAddNewObject(props) {
     const apiTest = props.apiTest
 
     return (
-        <li
+        <div
             className={
                 objectAantal % 2 !== 0 || fullWidth === true
                     ? 'mb-6 display-inline w-full'
@@ -26,7 +26,7 @@ function ButtonAddNewObject(props) {
                     + Voeg {props.titelEnkelvoud} Toe
                 </span>
             </Link>
-        </li>
+        </div>
     )
 }
 

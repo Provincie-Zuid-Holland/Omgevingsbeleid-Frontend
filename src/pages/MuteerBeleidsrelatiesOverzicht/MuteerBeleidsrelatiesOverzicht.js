@@ -289,6 +289,13 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
     }
 
     render() {
+        // Sort object
+        const beleidsbeslissingenObject = this.state.beleidsbeslissingenObject
+            ? this.state.beleidsbeslissingenObject.sort((a, b) =>
+                  a.Titel > b.Titel ? 1 : -1
+              )
+            : []
+
         return (
             <ContainerMain>
                 <Helmet>

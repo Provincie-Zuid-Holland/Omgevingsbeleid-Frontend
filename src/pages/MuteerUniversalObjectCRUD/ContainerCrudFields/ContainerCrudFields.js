@@ -140,6 +140,7 @@ class ContainerCrudFields extends React.Component {
                                                             'Omschrijving_Keuze'
                                                         ]
                                                     }
+                                                    placeholderTekst="Wat wil de provincie bereiken?"
                                                     fieldLabel="Wat wil de provincie bereiken?"
                                                     dataObjectProperty="Omschrijving_Keuze"
                                                     pValue="Formuleer in één of enkele zinnen een concrete doelstelling op tactisch niveau. Beschrijf hier het 'wat' en vanuit welke rol."

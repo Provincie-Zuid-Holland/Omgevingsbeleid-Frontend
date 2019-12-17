@@ -144,6 +144,23 @@ class SearchBar extends Component {
         }
         this.handleChange = this.handleChange.bind(this)
     }
+
+    componentDidMount() {
+        const urlParams = this.props.location.search
+        const searchParams = new URLSearchParams(urlParams)
+        const searchQuery = searchParams.get('query')
+        const searchFiltersOnly = searchParams.get('only')
+
+        if (searchQuery) {
+            this.setState(
+                {
+                    searchInput: searchQuery,
+                },
+                () => console.log(this.state.searchInput)
+            )
+        }
+    }
+
     handleChange(e) {
         const name = e.target.name
         const value = e.target.value
@@ -162,7 +179,7 @@ class SearchBar extends Component {
                     id="search-query"
                     type="text"
                     value={this.state.searchInput}
-                    placeholder="Zoeken op tags, adres, artikelnummer, etc."
+                    placeholder="Zoeken op tags, artikelnummer, etc."
                     onKeyDown={e => {
                         if (e.keyCode === 13) {
                             // Enter

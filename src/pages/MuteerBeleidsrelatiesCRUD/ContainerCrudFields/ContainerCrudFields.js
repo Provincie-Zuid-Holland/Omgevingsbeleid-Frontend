@@ -92,7 +92,7 @@ class ContainerCrudFields extends React.Component {
                                                             'Begin_Geldigheid'
                                                         ]
                                                     }
-                                                    fieldLabel="Datum inwerkingtreding"
+                                                    fieldLabel="Inwerkingtreding van de relatie"
                                                     dataObjectProperty="Begin_Geldigheid"
                                                     pValue="Indien bekend, kan hier de begin datum van de relatie worden ingevuld"
                                                     titelEnkelvoud={
@@ -106,6 +106,9 @@ class ContainerCrudFields extends React.Component {
                                             undefined ? (
                                                 <FormFieldDate
                                                     openUitwerkingstrede={true}
+                                                    hideToggleUitwerkingstrede={
+                                                        true
+                                                    }
                                                     handleChange={
                                                         this.context
                                                             .handleChange
@@ -115,7 +118,7 @@ class ContainerCrudFields extends React.Component {
                                                             'Eind_Geldigheid'
                                                         ]
                                                     }
-                                                    fieldLabel="Datum uitwerkingtreding"
+                                                    fieldLabel="Uitwerkingtreding van de relatie"
                                                     dataObjectProperty="Eind_Geldigheid"
                                                     pValue="Indien bekend, kan hier de eind datum van de relatie worden ingevuld"
                                                     titelEnkelvoud={

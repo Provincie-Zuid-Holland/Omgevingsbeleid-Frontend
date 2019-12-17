@@ -51,7 +51,7 @@ export default class LeafletTinyViewer extends Component {
     }
 
     onClickReset = () => {
-        this.setState({ viewport: DEFAULT_VIEWPORT })
+        // this.setState({ viewport: DEFAULT_VIEWPORT })
     }
 
     onViewportChanged = viewport => {
@@ -136,7 +136,7 @@ export default class LeafletTinyViewer extends Component {
                         onViewportChanged={this.onViewportChanged}
                         viewport={this.state.viewport}
                         scrollWheelZoom={true}
-                        zoomControl={false}
+                        zoomControl={true}
                         bounds={this.state.bounds}
                         boundsOptions={{ padding: [100, 100] }}
                         crs={this.state._RDCrs}

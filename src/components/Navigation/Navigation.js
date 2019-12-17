@@ -143,30 +143,6 @@ class NavigationMenuPopUp extends Component {
     }
 }
 
-// function LoggedIn() {
-//     let identifier = localStorage.getItem('identifier')
-//     let gebruikersNaam = ''
-//     if (identifier !== null) {
-//         gebruikersNaam = JSON.parse(identifier).Gebruikersnaam.split(' ')[0]
-//     } else {
-//         gebruikersNaam = null
-//     }
-
-//     return (
-//         <Link to={`/login`} onClick={logout} className="text-sm text-gray-800">
-//             <span>
-//                 {gebruikersNaam !== null
-//                     ? `Ingelogd als ${gebruikersNaam}`
-//                     : 'Ingelogd'}
-//             </span>
-//             <FontAwesomeIcon
-//                 className="ml-2 text-gray-700"
-//                 icon={faCaretDown}
-//             />
-//         </Link>
-//     )
-// }
-
 function LoginLogoutButton(props) {
     if (props.loggedIn) {
         return (
@@ -199,9 +175,6 @@ function Logo() {
 
 class Navigation extends Component {
     render() {
-        const currentScreenMuteerOmgeving = this.props.location.pathname.includes(
-            'muteer'
-        )
         return (
             <nav
                 className="bg-white fixed w-full z-20 top-0"
@@ -229,9 +202,9 @@ class Navigation extends Component {
                     </div>
                     <div className="flex items-center justify-end">
                         <LoginLogoutButton
-                            currentScreenMuteerOmgeving={
-                                currentScreenMuteerOmgeving
-                            }
+                            currentScreenMuteerOmgeving={this.props.location.pathname.includes(
+                                'muteer'
+                            )}
                             setLoginState={this.props.setLoginState}
                             loggedIn={this.props.loggedIn}
                         />

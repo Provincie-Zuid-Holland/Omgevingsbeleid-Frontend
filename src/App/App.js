@@ -14,21 +14,23 @@ import './../css/styles.scss'
 // Import Data Model
 import dataModel from './dataModel'
 
-// Import Pages
+// Import non-auth Pages
 import RaadpleegHome from './../pages/RaadpleegHome'
 import RaadpleegUniversalObjectDetail from './../pages/RaadpleegUniversalObjectDetail'
 import RaadpleegZoekResultatenOverzicht from './../pages/RaadpleegZoekResultatenOverzicht'
 import Login from './../pages/Login'
 
-import * as Sentry from '@sentry/browser'
+// Import Auth Routes
+import AuthRoutes from './AuthRoutes'
 
 // Import Components
+import HookComp from './../components/HookComp'
 import Navigation from './../components/Navigation'
 import LoaderContent from './../components/LoaderContent'
 import NoMatch from './../components/NoMatch'
 
-// Import Auth Routes
-import AuthRoutes from './AuthRoutes'
+// Import Sentry (Bug tracking)
+import * as Sentry from '@sentry/browser'
 
 if (process.env.NODE_ENV !== 'development') {
     Sentry.init({
@@ -117,10 +119,12 @@ class App extends Component {
                 dataModel: dataModel.Opgave,
             },
         ]
+
         // body-bg-color
         const equalsMuteerOmgeving = this.props.location.pathname.includes(
             'muteer'
         )
+
         return (
             <main
                 className={`min-h-screen pt-12 ${
@@ -145,11 +149,7 @@ class App extends Component {
                             path="/zoekresultaten"
                             component={RaadpleegZoekResultatenOverzicht}
                         />
-                        {/* <Route
-                            path="/artikel-detail"
-                            exact
-                            component={RaadpleegArtikelDetail}
-                        /> */}
+                        {/* Render raadpleeg detail pagina's */}
                         {detailPaginas.map(item => {
                             return (
                                 <Route

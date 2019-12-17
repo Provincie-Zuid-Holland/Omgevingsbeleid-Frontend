@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import { format } from 'date-fns'
+import isBefore from 'date-fns/is_before'
 import nlLocale from 'date-fns/locale/nl'
 import { faCalendarAlt } from '@fortawesome/free-regular-svg-icons'
 import {
@@ -106,7 +107,15 @@ class ContainerDetailMain extends Component {
                     <div className="flex justify-between items-center w-full mr-4 pr-4 border-r border-gray-300 py-2">
                         <div>
                             <span className="block font-bold text-gray-700 text-sm">
-                                Vigerend sinds
+                                {/* isBefore */}
+                                {dataReceived &&
+                                dataObject['Begin_Geldigheid'] !== null &&
+                                isBefore(
+                                    dataObject['Begin_Geldigheid'],
+                                    new Date()
+                                )
+                                    ? 'Vigerend sinds'
+                                    : 'Vigerend vanaf'}
                             </span>
                             {dataReceived ? (
                                 <span className="text-sm text-gray-700">

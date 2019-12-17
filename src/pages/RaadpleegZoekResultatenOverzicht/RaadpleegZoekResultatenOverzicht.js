@@ -217,7 +217,10 @@ class RaadpleegZoekResultatenOverzicht extends Component {
         return (
             <div className="container mx-auto flex px-6 pb-8 mt-12">
                 <div className="w-1/4">
-                    <ButtonBackToPage terugNaar="startpagina" url="/" />
+                    <ButtonBackToPage
+                        terugNaar="startpagina"
+                        url={`/?query=${this.state.searchQuery}`}
+                    />
                     <h2 className="mt-6 text-l font-serif block text-gray-700">
                         Filteren
                     </h2>

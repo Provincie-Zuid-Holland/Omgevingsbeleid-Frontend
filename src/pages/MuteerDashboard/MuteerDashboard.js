@@ -50,7 +50,10 @@ class MuteerDashboard extends Component {
                             Mijn beleid
                         </h2>
 
-                        <MijnBeleid authUser={this.props.authUser} />
+                        <MijnBeleid
+                            hideToevoegen={true}
+                            authUser={this.props.authUser}
+                        />
 
                         {/* {this.state.dataReceived ? (
                                 <ButtonAddNewObject

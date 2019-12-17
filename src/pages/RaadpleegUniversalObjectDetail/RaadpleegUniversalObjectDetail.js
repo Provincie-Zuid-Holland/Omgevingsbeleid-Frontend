@@ -230,7 +230,7 @@ class RaadpleegUniversalObjectDetail extends Component {
                         <React.Fragment>
                             {hashBool ? (
                                 <ButtonBackToPage
-                                    terugNaar="zoeken"
+                                    terugNaar="zoekresultaten"
                                     url={`/zoekresultaten?query=${searchQuery}`}
                                 />
                             ) : (

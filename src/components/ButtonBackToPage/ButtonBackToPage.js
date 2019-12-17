@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -9,6 +10,8 @@ class ButtonBackToPage extends Component {
         if (this.props.color !== undefined) {
             color = this.props.color
         }
+        console.log('BACK TO BUTTON')
+        console.log(this.props)
 
         return (
             <div className={`${color} text-sm w-full container mx-auto`}>
@@ -32,4 +35,4 @@ class ButtonBackToPage extends Component {
     }
 }
 
-export default ButtonBackToPage
+export default withRouter(ButtonBackToPage)

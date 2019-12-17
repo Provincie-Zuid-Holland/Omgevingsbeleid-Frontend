@@ -22,7 +22,7 @@ class FormFieldDate extends React.Component {
     render() {
         return this.props.dataObjectProperty === 'Eind_Geldigheid' ? (
             <div className="w-full px-3">
-                {
+                {this.props.hideToggleUitwerkingstrede ? null : (
                     <span
                         className="text-sm text-gray-700 underline mb-6 w-full block select-none cursor-pointer"
                         id="toggle-uitwerkingtreding"
@@ -31,7 +31,7 @@ class FormFieldDate extends React.Component {
                         {this.state.toonUitwerkingTreding ? 'Verberg' : 'Toon'}{' '}
                         veld voor uitwerkingtreding
                     </span>
-                }
+                )}
                 {this.state.toonUitwerkingTreding ? (
                     <div className="w-50 mb-6">
                         <FormFieldTitelEnBeschrijving
