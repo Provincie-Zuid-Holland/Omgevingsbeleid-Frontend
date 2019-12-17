@@ -7,7 +7,6 @@ function ButtonAddNewObject(props) {
     const objectAantal = props.objectAantal
     const hoofdOnderdeelSlug = props.hoofdOnderdeelSlug
     const fullWidth = props.fullWidth
-    const apiTest = props.apiTest
 
     return (
         <div

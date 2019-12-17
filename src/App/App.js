@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Route, Switch, withRouter } from 'react-router-dom'
+import { Route, Switch, withRouter, Redirect } from 'react-router-dom'
 import axios from './../API/axios'
 import { Helmet } from 'react-helmet'
 
@@ -120,15 +120,12 @@ class App extends Component {
             },
         ]
 
-        // body-bg-color
-        const equalsMuteerOmgeving = this.props.location.pathname.includes(
-            'muteer'
-        )
-
         return (
             <main
                 className={`min-h-screen pt-12 ${
-                    equalsMuteerOmgeving ? 'body-bg-color' : ''
+                    this.props.location.pathname.includes('muteer')
+                        ? 'body-bg-color'
+                        : ''
                 }`}
                 id="main-container"
             >
@@ -149,6 +146,7 @@ class App extends Component {
                             path="/zoekresultaten"
                             component={RaadpleegZoekResultatenOverzicht}
                         />
+
                         {/* Render raadpleeg detail pagina's */}
                         {detailPaginas.map(item => {
                             return (
@@ -178,7 +176,6 @@ class App extends Component {
                             authUser={this.state.authUser}
                             history={this.props.history}
                         />
-                        <Route component={NoMatch} />
                     </Switch>
                 ) : (
                     <LoaderContent />

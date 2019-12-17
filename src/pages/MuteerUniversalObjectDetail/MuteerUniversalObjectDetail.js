@@ -49,41 +49,58 @@ function GenerateBackToButton(props) {
     }
 }
 
-function RevisieOverzicht(props) {
+// Generate list for revisies
+function RevisieList(props) {
     return (
-        <div className="block group py-2 no-underline">
-            <h4 className="text-gray-800 font-bold text-sm">Revisies</h4>
-            <ul className="text-gray-700 text-sm">
-                {props.revisieObject.slice(1).map((revisieObject, index) => (
-                    <li key={revisieObject.UUID}>
-                        <Link
-                            className="text-blue"
-                            to={`/${props.overzichtSlug}/${revisieObject.ID}/${revisieObject.UUID}`}
-                        >
-                            {format(
-                                new Date(revisieObject.Modified_Date),
-                                'D MMM YYYY'
-                            )}
-                        </Link>
-                    </li>
-                ))}
+        <div>
+            <div className="w-24 h-6 border-r-2 flex items-center justify-end border-gray-300 pt-5 mr-2 " />
+            <ul className="revisie-list relative">
+                {props.dataObject.map((item, index) => {
+                    return (
+                        <li key={item.UUID}>
+                            <div className="flex items-center justify-between">
+                                <Link
+                                    id={`revisie-item-${index}`}
+                                    to={makeURLForRevisieObject(
+                                        props.overzichtSlug,
+                                        item.ID,
+                                        item.UUID,
+                                        props.hash
+                                    )}
+                                    className="flex items-end h-6 relative mr-2 hover:underline"
+                                >
+                                    <span className="text-xs text-gray-600 pr-5 w-24 text-right pr-4">
+                                        {format(
+                                            new Date(item.Modified_Date),
+                                            'D MMM YYYY'
+                                        )}
+                                    </span>
+                                    <div className="revisie-list-bolletje relative w-3 h-3 text-center bg-gray-300 rounded-full" />
+                                    <span className="text-xs text-gray-600 pr-5 w-24 pl-4">
+                                        Revisie
+                                    </span>
+                                </Link>
+                            </div>
+                        </li>
+                    )
+                })}
             </ul>
         </div>
     )
 }
 
-function EditButton(props) {
-    const overzichtSlug = props.overzichtSlug
-    const objectID = props.objectID
+// Link naar detail pagina's van de revisies
+function makeURLForRevisieObject(overzichtSlug, objectID, objectUUID, hash) {
+    if (hash === '#mijn-beleid') {
+        return `/muteer/${overzichtSlug}/${objectID}/${objectUUID}#mijn-beleid`
+    } else {
+        return `/muteer/${overzichtSlug}/${objectID}/${objectUUID}`
+    }
+}
 
-    return (
-        <Link
-            to={`/api-test/${overzichtSlug}/edit/${objectID}`}
-            className="font-bold py-2 px-4 text-sm rounded bg-blue-200 text-blue-700"
-        >
-            Edit
-        </Link>
-    )
+// Link naar de CRUD pagina van een nieuw object
+function makeURLForNewObject(overzichtSlug, objectID) {
+    return `/muteer/${overzichtSlug}/edit/${objectID}`
 }
 
 class MuteerUniversalObjectDetail extends Component {
@@ -91,8 +108,6 @@ class MuteerUniversalObjectDetail extends Component {
         super(props)
         this.returnPageType = this.returnPageType.bind(this)
         this.getDataFromApi = this.getDataFromApi.bind(this)
-        this.makeURLForNewObject = this.makeURLForNewObject.bind(this)
-        this.makeURLForRevisieObject = this.makeURLForRevisieObject.bind(this)
         this.state = {
             dataObject: null,
             pageType: this.returnPageType(),
@@ -100,7 +115,7 @@ class MuteerUniversalObjectDetail extends Component {
         }
     }
 
-    // Met d to set the page type: detail/version
+    // Method to set the page type: detail/version
     returnPageType() {
         let pageType = 'detail'
         if (this.props.match.params.version) {
@@ -109,18 +124,20 @@ class MuteerUniversalObjectDetail extends Component {
         return pageType
     }
 
+    generateApiEndpoint() {
+        const ApiEndpointBase = this.props.dataModel.variables.Api_Endpoint
+        if (this.state.pageType === 'detail') {
+            const detail_id = this.props.match.params.single
+            return `${ApiEndpointBase}/${detail_id}`
+        } else if (this.state.pageType === 'version') {
+            const version_id = this.props.match.params.version
+            return `${ApiEndpointBase}/version/${version_id}`
+        }
+    }
+
     // Method to create the API endpoint, based on the page type
     getDataFromApi() {
-        const ApiEndpointBase = this.props.dataModel.variables.Api_Endpoint
-        let apiEndpoint = ''
-
-        if (this.state.pageType === 'detail') {
-            let detail_id = this.props.match.params.single
-            apiEndpoint = `${ApiEndpointBase}/${detail_id}`
-        } else if (this.state.pageType === 'version') {
-            let version_id = this.props.match.params.version
-            apiEndpoint = `${ApiEndpointBase}/version/${version_id}`
-        }
+        const apiEndpoint = this.generateApiEndpoint()
 
         // Connect With the API
         axios
@@ -163,18 +180,6 @@ class MuteerUniversalObjectDetail extends Component {
             })
     }
 
-    makeURLForRevisieObject(overzichtSlug, objectID, objectUUID) {
-        if (this.props.location.hash === '#mijn-beleid') {
-            return `/muteer/${overzichtSlug}/${objectID}/${objectUUID}#mijn-beleid`
-        } else {
-            return `/muteer/${overzichtSlug}/${objectID}/${objectUUID}`
-        }
-    }
-
-    makeURLForNewObject(overzichtSlug, objectID) {
-        return `/muteer/${overzichtSlug}/edit/${objectID}`
-    }
-
     render() {
         // Variables to give as props
         const titelEnkelvoud = this.props.dataModel.variables.Titel_Enkelvoud
@@ -182,7 +187,7 @@ class MuteerUniversalObjectDetail extends Component {
         const hoofdOnderdeelSlug = this.props.hoofdOnderdeelSlug
         const pageType = this.state.pageType
 
-        // False if data is loading, true if there is a response
+        // False if data is loading, true if a response is received
         let dataReceived = this.state.dataReceived
 
         // Create dataObject and revisieObject to pass down to the sidebar
@@ -264,45 +269,13 @@ class MuteerUniversalObjectDetail extends Component {
 
                             {/* Revisie List */}
                             {dataReceived && pageType === 'detail' ? (
-                                <div>
-                                    <div className="w-24 h-6 border-r-2 flex items-center justify-end border-gray-300 pt-5 mr-2 " />
-                                    <ul className="revisie-list relative">
-                                        {this.state.dataObject.map(
-                                            (item, index) => {
-                                                return (
-                                                    <li key={index}>
-                                                        <div className="flex items-center justify-between">
-                                                            <Link
-                                                                id={`revisie-item-${index}`}
-                                                                to={this.makeURLForRevisieObject(
-                                                                    overzichtSlug,
-                                                                    item.ID,
-                                                                    item.UUID
-                                                                )}
-                                                                className="flex items-end h-6 relative mr-2 hover:underline"
-                                                            >
-                                                                <span className="text-xs text-gray-600 pr-5 w-24 text-right pr-4">
-                                                                    {format(
-                                                                        new Date(
-                                                                            item.Modified_Date
-                                                                        ),
-                                                                        'D MMM YYYY'
-                                                                    )}
-                                                                </span>
-                                                                <div className="revisie-list-bolletje relative w-3 h-3 text-center bg-gray-300 rounded-full" />
-                                                                <span className="text-xs text-gray-600 pr-5 w-24 pl-4">
-                                                                    Revisie
-                                                                </span>
-                                                            </Link>
-                                                        </div>
-                                                    </li>
-                                                )
-                                            }
-                                        )}
-                                    </ul>
-                                </div>
+                                <RevisieList
+                                    dataObject={this.state.dataObject}
+                                    hash={this.props.location.hash}
+                                />
                             ) : null}
                         </div>
+
                         {dataReceived &&
                         this.state.dataObject[0] &&
                         (this.state.dataObject[0].Opdrachtgever !== undefined ||

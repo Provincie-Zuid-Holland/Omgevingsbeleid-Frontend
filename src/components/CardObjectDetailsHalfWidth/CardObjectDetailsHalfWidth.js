@@ -19,7 +19,6 @@ function CardObjectDetailsHalfWidth(props) {
     const overzichtSlug = props.overzichtSlug
     const titelEnkelvoud = props.titelEnkelvoud
     const hoofdOnderdeelSlug = props.hoofdOnderdeelSlug
-    const apiTest = props.apiTest
     const hideParagraaf = props.hideParagraaf
 
     return (

@@ -19,18 +19,13 @@ function CardObjectItem(props) {
     const overzichtSlug = props.overzichtSlug
     const titelEnkelvoud = props.titelEnkelvoud
     const hoofdOnderdeelSlug = props.hoofdOnderdeelSlug
-    const apiTest = props.apiTest
     const hideParagraaf = props.hideParagraaf
 
     return (
         <ContainerAnimateContent>
             <Link
                 className="relative inline-block h-full w-full px-4 pb-6 pt-4 shadow-md rounded overflow-hidden bg-white"
-                to={
-                    apiTest === true
-                        ? `/muteer/${hoofdOnderdeelSlug}/${overzichtSlug}/${object.ID}`
-                        : `/muteer/${hoofdOnderdeelSlug}/${object.ID}`
-                }
+                to={`/muteer/${hoofdOnderdeelSlug}/${object.ID}`}
                 id={`object-card-${titelEnkelvoud.toLowerCase()}-${
                     props.index
                 }`}
