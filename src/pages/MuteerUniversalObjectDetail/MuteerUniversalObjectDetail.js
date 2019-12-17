@@ -7,9 +7,9 @@ import { Helmet } from 'react-helmet'
 import { toast } from 'react-toastify'
 
 // Import Components
-import ContainerMain from './../../components/ContainerMain'
 import ButtonBackToPage from './../../components/ButtonBackToPage'
-import EigenaarsDriehoekItem from './EigenaarsDriehoekItem'
+import EigenaarsDriehoek from './EigenaarsDriehoek'
+import ContainerMain from './../../components/ContainerMain'
 import ContainerDetailMain from './ContainerDetailMain'
 
 // Import Axios instance to connect with the API
@@ -20,7 +20,6 @@ function GenerateBackToButton(props) {
     const overzichtSlug = props.overzichtSlug
     const pageType = props.pageType
     const hoofdOnderdeelSlug = props.hoofdOnderdeelSlug
-    const apiTest = props.apiTest
 
     if (pageType === 'detail') {
         console.log(props.hash)
@@ -164,7 +163,7 @@ class MuteerUniversalObjectDetail extends Component {
             })
     }
 
-    makeURLForRevisieObject(overzichtSlug, objectID, apiTest, objectUUID) {
+    makeURLForRevisieObject(overzichtSlug, objectID, objectUUID) {
         if (this.props.location.hash === '#mijn-beleid') {
             return `/muteer/${overzichtSlug}/${objectID}/${objectUUID}#mijn-beleid`
         } else {
@@ -172,21 +171,15 @@ class MuteerUniversalObjectDetail extends Component {
         }
     }
 
-    makeURLForNewObject(overzichtSlug, objectID, apiTest) {
-        if (apiTest) {
-            return `/muteer/api-test/${overzichtSlug}/edit/${objectID}`
-        } else {
-            return `/muteer/${overzichtSlug}/edit/${objectID}`
-        }
+    makeURLForNewObject(overzichtSlug, objectID) {
+        return `/muteer/${overzichtSlug}/edit/${objectID}`
     }
 
     render() {
-        console.log(this.props)
         // Variables to give as props
         const titelEnkelvoud = this.props.dataModel.variables.Titel_Enkelvoud
         const overzichtSlug = this.props.dataModel.variables.Overzicht_Slug
         const hoofdOnderdeelSlug = this.props.hoofdOnderdeelSlug
-        const apiTest = this.props.apiTest
         const pageType = this.state.pageType
 
         // False if data is loading, true if there is a response
@@ -197,6 +190,7 @@ class MuteerUniversalObjectDetail extends Component {
         let revisieObject = {}
 
         // If the page is a detail page the dataObject will be an array.
+        // We always want the first item from this array
         // Else the dataObject will be a single Object
         if (dataReceived && pageType === 'detail') {
             dataObject = this.state.dataObject[0]
@@ -213,9 +207,6 @@ class MuteerUniversalObjectDetail extends Component {
                     </Helmet>
                 ) : null}
 
-                {/* Main Menu - Sidebar
-                <MainSidebar /> */}
-
                 {/* Dimensie Container */}
                 <div className="w-full inline-block">
                     <GenerateBackToButton
@@ -224,13 +215,10 @@ class MuteerUniversalObjectDetail extends Component {
                         titelEnkelvoud={titelEnkelvoud}
                         overzichtSlug={overzichtSlug}
                         hoofdOnderdeelSlug={hoofdOnderdeelSlug}
-                        apiTest={apiTest}
                         pageType={pageType}
                     />
 
                     <div className="flex">
-                        {/* <RevisieOverzicht revisieObject={revisieObject} /> */}
-
                         <div
                             className={`${
                                 overzichtSlug !== 'beleidsbeslissingen'
@@ -274,6 +262,7 @@ class MuteerUniversalObjectDetail extends Component {
                                 dataReceived={dataReceived}
                             />
 
+                            {/* Revisie List */}
                             {dataReceived && pageType === 'detail' ? (
                                 <div>
                                     <div className="w-24 h-6 border-r-2 flex items-center justify-end border-gray-300 pt-5 mr-2 " />
@@ -288,7 +277,6 @@ class MuteerUniversalObjectDetail extends Component {
                                                                 to={this.makeURLForRevisieObject(
                                                                     overzichtSlug,
                                                                     item.ID,
-                                                                    apiTest,
                                                                     item.UUID
                                                                 )}
                                                                 className="flex items-end h-6 relative mr-2 hover:underline"
@@ -315,8 +303,7 @@ class MuteerUniversalObjectDetail extends Component {
                                 </div>
                             ) : null}
                         </div>
-
-                        {this.state.dataObject &&
+                        {dataReceived &&
                         this.state.dataObject[0] &&
                         (this.state.dataObject[0].Opdrachtgever !== undefined ||
                             this.state.dataObject[0].Eigenaar_1 !== undefined ||
@@ -325,73 +312,9 @@ class MuteerUniversalObjectDetail extends Component {
                                 undefined ||
                             this.state.dataObject[0].Portefeuillehouder_2 !==
                                 undefined) ? (
-                            <React.Fragment>
-                                <div className="w-3/12">
-                                    <h2 className="mb-2 font-serif text-gray-700">
-                                        Eigenaarsdriehoek
-                                    </h2>
-                                    {this.state.dataObject[0].Opdrachtgever !==
-                                        null &&
-                                    this.state.dataObject[0].Opdrachtgever !==
-                                        undefined ? (
-                                        <EigenaarsDriehoekItem
-                                            eigenaarType="Ambtelijk opdrachtgever"
-                                            UUID={
-                                                this.state.dataObject[0]
-                                                    .Opdrachtgever
-                                            }
-                                        />
-                                    ) : null}
-                                    {this.state.dataObject[0].Eigenaar_1 !==
-                                        null &&
-                                    this.state.dataObject[0].Eigenaar_1 !==
-                                        undefined ? (
-                                        <EigenaarsDriehoekItem
-                                            eigenaarType="Eigenaar 1"
-                                            UUID={
-                                                this.state.dataObject[0]
-                                                    .Eigenaar_1
-                                            }
-                                        />
-                                    ) : null}
-                                    {this.state.dataObject[0].Eigenaar_2 !==
-                                        null &&
-                                    this.state.dataObject[0].Eigenaar_2 !==
-                                        undefined ? (
-                                        <EigenaarsDriehoekItem
-                                            eigenaarType="Eigenaar 2"
-                                            UUID={
-                                                this.state.dataObject[0]
-                                                    .Eigenaar_2
-                                            }
-                                        />
-                                    ) : null}
-                                    {this.state.dataObject[0]
-                                        .Portefeuillehouder_1 !== null &&
-                                    this.state.dataObject[0]
-                                        .Portefeuillehouder_1 !== undefined ? (
-                                        <EigenaarsDriehoekItem
-                                            eigenaarType="Portefeuillehouder 1"
-                                            UUID={
-                                                this.state.dataObject[0]
-                                                    .Portefeuillehouder_1
-                                            }
-                                        />
-                                    ) : null}
-                                    {this.state.dataObject[0]
-                                        .Portefeuillehouder_2 !== null &&
-                                    this.state.dataObject[0]
-                                        .Portefeuillehouder_2 !== undefined ? (
-                                        <EigenaarsDriehoekItem
-                                            eigenaarType="Portefeuillehouder 2"
-                                            UUID={
-                                                this.state.dataObject[0]
-                                                    .Portefeuillehouder_2
-                                            }
-                                        />
-                                    ) : null}
-                                </div>
-                            </React.Fragment>
+                            <EigenaarsDriehoek
+                                dataObject={this.state.dataObject[0]}
+                            />
                         ) : null}
                     </div>
                 </div>

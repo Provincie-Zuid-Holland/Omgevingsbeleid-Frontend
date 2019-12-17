@@ -50,7 +50,7 @@ class PopUpDetailDropdown extends Component {
                         >
                             Status aanpassen
                         </li>
-                        {/* <li>
+                        <li>
                             <Link
                                 id="navbar-popup-href-raadpleeg-omgeving"
                                 to={`/`}
@@ -67,7 +67,7 @@ class PopUpDetailDropdown extends Component {
                             >
                                 Uitloggen
                             </Link>
-                        </li> */}
+                        </li>
                     </ul>
                 </div>
             </div>
