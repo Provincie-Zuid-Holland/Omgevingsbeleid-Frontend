@@ -4,7 +4,7 @@ const access_token = localStorage.getItem('access_token')
 const api_version = '1.1.0'
 
 const instance = axios.create({
-    baseURL: `https://geo-acctest-ob.westeurope.cloudapp.azure.com/geoserver/`,
+    baseURL: `https://geo-prod-ob.westeurope.cloudapp.azure.com/geoserver/`,
     headers: {
         'Content-Type': 'application/json',
         Authorization: `Token ${access_token}`,
@@ -17,7 +17,7 @@ const source = CancelToken.source()
 
 const getGeoJsonData = async (type, UUID, cancelToken) => {
     let res = await instance.get(
-        `ows?service=wfs&version=${api_version}&request=GetFeature&typeNames=Omgevingsbeleid:${type}&cql_filter=UUID=%27${UUID}%27&outputFormat=application/json`,
+        `ows?service=wfs&version=${api_version}&request=GetFeature&typeNames=OMGEVINGSBELEID:${type}&cql_filter=UUID=%27${UUID}%27&outputFormat=application/json`,
         { cancelToken: source.token }
     )
     const data = res.data

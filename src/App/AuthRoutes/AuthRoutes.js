@@ -10,6 +10,7 @@ import axios from './../../API/axios'
 // Import Pages
 import MuteerDashboard from './../../pages/MuteerDashboard'
 import MuteerMijnBeleid from './../../pages/MuteerMijnBeleid'
+import MuteerMijnAccount from './../../pages/MuteerMijnAccount'
 import MuteerMeldingen from './../../pages/MuteerMeldingen'
 import MuteerUniversalObjectOverzicht from './../../pages/MuteerUniversalObjectOverzicht'
 import MuteerUniversalObjectDetail from './../../pages/MuteerUniversalObjectDetail'
@@ -191,6 +192,13 @@ class AuthRoutes extends Component {
                         path="/muteer/mijn-beleid"
                         render={() => (
                             <MuteerMijnBeleid authUser={this.props.authUser} />
+                        )}
+                    />
+                    <Route
+                        exact
+                        path="/muteer/mijn-account"
+                        render={() => (
+                            <MuteerMijnAccount authUser={this.props.authUser} />
                         )}
                     />
                     <Route

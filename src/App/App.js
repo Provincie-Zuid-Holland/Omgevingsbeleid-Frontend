@@ -24,7 +24,6 @@ import Login from './../pages/Login'
 import AuthRoutes from './AuthRoutes'
 
 // Import Components
-import HookComp from './../components/HookComp'
 import Navigation from './../components/Navigation'
 import LoaderContent from './../components/LoaderContent'
 import NoMatch from './../components/NoMatch'
@@ -60,11 +59,14 @@ class App extends Component {
         axios
             .get('/tokeninfo')
             .then(res => {
-                this.setState({
-                    loggedIn: true,
-                    authUser: res.identifier,
-                    dataLoaded: true,
-                })
+                this.setState(
+                    {
+                        loggedIn: true,
+                        authUser: res.data.identifier,
+                        dataLoaded: true,
+                    },
+                    () => console.log(this.state)
+                )
             })
             .catch(error => {
                 localStorage.removeItem('access_token')
