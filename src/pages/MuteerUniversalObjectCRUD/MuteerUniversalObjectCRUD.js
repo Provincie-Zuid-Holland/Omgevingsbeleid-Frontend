@@ -60,7 +60,6 @@ function makeCrudObject(array, responseObject) {
     let crudObject = {}
     if (isObjectEmpty(responseObject)) {
         array.forEach(arrayItem => {
-            // console.log(crudObject)
             if (koppelingenKeysArray.includes(arrayItem)) {
                 // Als het een koppeling Array item is moet de value een array zijn
                 crudObject[arrayItem] = []
@@ -73,15 +72,11 @@ function makeCrudObject(array, responseObject) {
                 crudObject[arrayItem] = ''
             }
         })
-        console.log('Joe')
     } else {
-        console.log('Joe2')
         array.forEach(arrayItem => {
             crudObject[[arrayItem][0]] = responseObject[arrayItem]
         })
     }
-    console.log('CRUDOBJECT:')
-    console.log(crudObject)
     return crudObject
 }
 
@@ -147,20 +142,12 @@ class MuteerUniversalObjectCRUD extends Component {
                 .get(`${ApiEndpoint}/${objectID}`)
                 .then(res => {
                     const responseObject = res.data
-                    // responseObject.sort(function(a, b) {
-                    //     return (
-                    //         new Date(b.Modified_Date) -
-                    //         new Date(a.Modified_Date)
-                    //     )
-                    // })
                     const UUID = responseObject[0].UUID
-                    console.log(responseObject[0].Eind_Geldigheid)
                     const crudProperties = makeCrudPropertiesArray(dataModel)
                     const crudObject = makeCrudObject(
                         crudProperties,
                         responseObject[0]
                     )
-                    console.log(crudObject.Eind_Geldigheid)
                     if (
                         crudObject.Begin_Geldigheid !== undefined &&
                         crudObject.Begin_Geldigheid !== null
@@ -258,7 +245,6 @@ class MuteerUniversalObjectCRUD extends Component {
 
                 // Else if Local Storage is empty, make an empty crud object
             } else {
-                console.log('No LS!')
                 // If no saved version make a CRUD Object with empty strings
                 const dataModel = this.props.dataModel
                 const crudProperties = makeCrudPropertiesArray(dataModel)
@@ -290,16 +276,12 @@ class MuteerUniversalObjectCRUD extends Component {
             }
         }
 
-
-        this.setState(
-            prevState => ({
-                crudObject: {
-                    ...prevState.crudObject,
-                    [name]: value,
-                },
-            }),
-            () => console.log(this.state)
-        )
+        this.setState(prevState => ({
+            crudObject: {
+                ...prevState.crudObject,
+                [name]: value,
+            },
+        }))
     }
 
     // Algemene State Handler voor de Editor
@@ -436,12 +418,9 @@ class MuteerUniversalObjectCRUD extends Component {
             } else if (crudObject.Begin_Geldigheid === null) {
                 crudObject.Begin_Geldigheid = ''
             }
-            this.setState(
-                {
-                    crudObject: crudObject,
-                },
-                () => console.log(this.state)
-            )
+            this.setState({
+                crudObject: crudObject,
+            })
             return
         }
 
@@ -455,7 +434,6 @@ class MuteerUniversalObjectCRUD extends Component {
             axios
                 .patch(`${ApiEndpoint}/${objectID}`, JSON.stringify(crudObject))
                 .then(res => {
-                    console.log(res.data.ID)
                     this.props.history.push(
                         `/muteer/${overzichtSlug}/${res.data.ID}`
                     )
@@ -474,12 +452,9 @@ class MuteerUniversalObjectCRUD extends Component {
                     } else if (crudObject.Eind_Geldigheid === null) {
                         crudObject.Eind_Geldigheid = ''
                     }
-                    this.setState(
-                        {
-                            crudObject: crudObject,
-                        },
-                        () => console.log(this.state)
-                    )
+                    this.setState({
+                        crudObject: crudObject,
+                    })
                 })
         } else {
             // Als het object endpoint beleidsrelaties is moeten we het crudObject nog aanpassen
@@ -514,8 +489,7 @@ class MuteerUniversalObjectCRUD extends Component {
                     this.setState(
                         {
                             crudObject: crudObject,
-                        },
-                        () => console.log(this.state)
+                        }
                     )
                 })
         }

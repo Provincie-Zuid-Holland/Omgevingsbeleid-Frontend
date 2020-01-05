@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import axiosLocatieserver from './../../API/axiosLocatieserver'
 import { debounce } from './../../functions'
 
 class LeafletSearchInput extends Component {
@@ -41,7 +40,6 @@ class LeafletSearchInput extends Component {
 
     locatieServerLookupQuery(id, naam) {
         import('./../../API/axiosLocatieserver').then(api => {
-            const that = this
             api.getLookupData(id)
                 .then(data => {
                     this.setState({
@@ -63,7 +61,6 @@ class LeafletSearchInput extends Component {
     }
 
     locatieServerSuggestQuery(value) {
-        console.log('CALLED!')
         if (value === '') {
             this.setState({
                 queryData: [],
@@ -162,9 +159,8 @@ class LeafletSearchInput extends Component {
                                         )
                                     }
                                     onKeyDown={e => {
-                                        console.log(e.keyCode)
                                         if (e.keyCode === 13) {
-                                            // Enter
+                                            // Enter keyCode
                                             this.locatieServerLookupQuery(
                                                 item.id,
                                                 item.weergavenaam

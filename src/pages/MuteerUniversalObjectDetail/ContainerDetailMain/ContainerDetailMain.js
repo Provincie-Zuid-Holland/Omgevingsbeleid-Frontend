@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { withRouter, Link } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import { format } from 'date-fns'
 import isBefore from 'date-fns/is_before'
 import nlLocale from 'date-fns/locale/nl'
@@ -146,6 +146,7 @@ class ContainerDetailMain extends Component {
                         <a
                             href={`//${dataObject['Weblink']}`}
                             target="_blank"
+                            rel="noopener noreferrer"
                             id="href-idms-koppeling"
                             className="flex justify-between items-center w-full mr-4 pr-4 border-r border-gray-300 py-2"
                         >
@@ -169,7 +170,7 @@ class ContainerDetailMain extends Component {
                         <a
                             href={`/detail/${this.props.overzichtSlug}/${this.props.match.params.single}`}
                             target="_blank"
-                            rel="noopener"
+                            rel="noopener noreferrer"
                             className="flex justify-between items-center w-full py-2 cursor-pointer"
                         >
                             <div>

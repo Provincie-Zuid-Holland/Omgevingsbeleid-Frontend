@@ -1,17 +1,12 @@
 import React, { Component } from 'react'
+
 import axios from './../../../API/axios'
-import {
-    faCaretDown,
-    faAngleDown,
-    faTimes,
-    faSearch,
-} from '@fortawesome/free-solid-svg-icons'
+
+import { faTimes, faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import FormFieldDate from './../../../components/FormFieldDate'
 import FormFieldTitelEnBeschrijving from './../../../components/FormFieldTitelEnBeschrijving'
 import PopUpAnimatedContainer from './../../PopUpAnimatedContainer'
-import objecten from './../ObjectenInformatie'
 
 class PopupNieuweKoppeling extends Component {
     constructor(props) {
@@ -23,7 +18,6 @@ class PopupNieuweKoppeling extends Component {
             beschrijving: '',
             begin_geldigheid: '',
             eind_geldigheid: '',
-            beschrijving: '',
             zoekFilter: '',
             actievePagina: 1,
             dataLoaded: false,
@@ -38,7 +32,6 @@ class PopupNieuweKoppeling extends Component {
             .get('/beleidsbeslissingen')
             .then(res => {
                 const responseObjecten = res.data
-                console.log(responseObjecten)
 
                 this.setState({
                     objecten: responseObjecten,
@@ -46,7 +39,6 @@ class PopupNieuweKoppeling extends Component {
                 })
             })
             .catch(error => {
-                console.log(error)
                 this.setState({
                     dataLoaded: true,
                 })
@@ -86,7 +78,6 @@ class PopupNieuweKoppeling extends Component {
                 this.state.zoekFilter.toLowerCase()
             )
         )
-        console.log(this.state)
         return (
             <PopUpAnimatedContainer>
                 <div
@@ -156,7 +147,6 @@ class PopupNieuweKoppeling extends Component {
                                         className="text-sm text-gray-700 px-4 py-2 cursor-not-allowed"
                                         key="0"
                                     >
-                                        {console.log(this.state.dataLoaded)}
                                         {this.state.dataLoaded ? (
                                             this.state.zoekFilter.length ===
                                             0 ? (

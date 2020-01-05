@@ -10,8 +10,6 @@ class ButtonBackToPage extends Component {
         if (this.props.color !== undefined) {
             color = this.props.color
         }
-        console.log('BACK TO BUTTON')
-        console.log(this.props)
 
         return (
             <div className={`${color} text-sm w-full container mx-auto`}>

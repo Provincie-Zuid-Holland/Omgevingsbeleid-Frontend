@@ -1,6 +1,12 @@
+// Het data model is verantwoordelijk voor het juist genereren van de componenten waarmee de UI wordt opgebouwd.
+// De volgende dingen staan vastgelegd in de structuur:
+// - De verschillende dimensies (Ambitie, Opgaven, etc)
+//  -> De properties van dit object (UUID, ID, Begin_Geldigheid, etc)
+//      -> 
+
 export default 
 {
-  "Ambitie": {
+  "Ambities": {
     "type": "object",
     "properties": {
       "ID": {
@@ -15,9 +21,6 @@ export default
         "format": "uuid",
         "UI": {
           "userCRUD": false,
-          "UIVariables": {
-            "UITitle": "Eigenaar",
-          }
         }
       },
       "Begin_Geldigheid": {
@@ -26,9 +29,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "DateInput",
-          "UIVariables": {
-            "UITitle": "Begin Geldigheid",
-          }
         }
       },
       "Eind_Geldigheid": {
@@ -37,9 +37,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "DateInput",
-          "UIVariables": {
-            "UITitle": "Eind Geldigheid",
-          }
         }
       },
       "Created_By": {
@@ -47,9 +44,6 @@ export default
         "format": "uuid",
         "UI": {
           "userCRUD": false,
-          "UIVariables": {
-            "UITitle": "Aangemaakt Door",
-          }
         }
       },
       "Created_Date": {
@@ -57,9 +51,6 @@ export default
         "format": "date-time",
         "UI": {
           "userCRUD": false,
-          "UIVariables": {
-            "UITitle": "Aangemaakt op",
-          }
         }
       },
       "Modified_By": {
@@ -74,9 +65,6 @@ export default
         "format": "date-time",
         "UI": {
           "userCRUD": false,
-          "UIVariables": {
-            "UITitle": "Laatste Wijziging",
-          }
         }
       },
       "Titel": {
@@ -84,9 +72,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "TextInput",
-          "UIVariables": {
-            "UITitle": "Titel",
-          }
         }
       },
       "Omschrijving": {
@@ -96,9 +81,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "TextArea",
-          "UIVariables": {
-            "UITitle": "Omschrijving",
-          }
         }
       },
       "Weblink": {
@@ -108,9 +90,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "TextInput",
-          "UIVariables": {
-            "UITitle": "Weblink",
-          }
         }
       }
     },
@@ -133,7 +112,7 @@ export default
         "UUID"
     ]
   },
-  "Opgave": {
+  "Opgaven": {
     "type": "object",
     "properties": {
       "ID": {
@@ -148,9 +127,6 @@ export default
         "format": "uuid",
         "UI": {
           "userCRUD": false,
-          "UIVariables": {
-            "UITitle": "Eigenaar",
-          }
         }
       },
       "Begin_Geldigheid": {
@@ -159,9 +135,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "DateInput",
-          "UIVariables": {
-            "UITitle": "Begin Geldigheid",
-          }
         }
       },
       "Eind_Geldigheid": {
@@ -170,9 +143,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "DateInput",
-          "UIVariables": {
-            "UITitle": "Eind Geldigheid",
-          }
         }
       },
       "Created_By": {
@@ -180,9 +150,6 @@ export default
         "format": "uuid",
         "UI": {
           "userCRUD": false,
-          "UIVariables": {
-            "UITitle": "Aangemaakt Door",
-          }
         }
       },
       "Created_Date": {
@@ -190,9 +157,6 @@ export default
         "format": "date-time",
         "UI": {
           "userCRUD": false,
-          "UIVariables": {
-            "UITitle": "Aangemaakt op",
-          }
         }
       },
       "Modified_By": {
@@ -207,9 +171,6 @@ export default
         "format": "date-time",
         "UI": {
           "userCRUD": false,
-          "UIVariables": {
-            "UITitle": "Laatste Wijziging",
-          }
         }
       },
       "Titel": {
@@ -217,9 +178,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "TextInput",
-          "UIVariables": {
-            "UITitle": "Titel",
-          }
         }
       },
       "Omschrijving": {
@@ -229,9 +187,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "TextArea",
-          "UIVariables": {
-            "UITitle": "Omschrijving",
-          }
         }
       },
       "Weblink": {
@@ -241,9 +196,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "TextInput",
-          "UIVariables": {
-            "UITitle": "Weblink",
-          }
         }
       }
     },
@@ -266,7 +218,7 @@ export default
       "Object_Name": "Opgave"
     }
   },
-  "BeleidsRegel": {
+  "BeleidsRegels": {
     "type": "object",
     "properties": {
       "ID": {
@@ -281,9 +233,6 @@ export default
         "format": "uuid",
         "UI": {
           "userCRUD": false,
-          "UIVariables": {
-            "UITitle": "Eigenaar",
-          }
         }
       },
       "Begin_Geldigheid": {
@@ -292,9 +241,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "DateInput",
-          "UIVariables": {
-            "UITitle": "Begin Geldigheid",
-          }
         }
       },
       "Eind_Geldigheid": {
@@ -303,9 +249,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "DateInput",
-          "UIVariables": {
-            "UITitle": "Eind Geldigheid",
-          }
         }
       },
       "Created_By": {
@@ -313,9 +256,6 @@ export default
         "format": "uuid",
         "UI": {
           "userCRUD": false,
-          "UIVariables": {
-            "UITitle": "Aangemaakt Door",
-          }
         }
       },
       "Created_Date": {
@@ -323,9 +263,6 @@ export default
         "format": "date-time",
         "UI": {
           "userCRUD": false,
-          "UIVariables": {
-            "UITitle": "Aangemaakt op",
-          }
         }
       },
       "Modified_By": {
@@ -340,9 +277,6 @@ export default
         "format": "date-time",
         "UI": {
           "userCRUD": false,
-          "UIVariables": {
-            "UITitle": "Laatste Wijziging",
-          }
         }
       },
       "Titel": {
@@ -350,9 +284,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "TextInput",
-          "UIVariables": {
-            "UITitle": "Titel",
-          }
         }
       },
       "Omschrijving": {
@@ -362,9 +293,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "TextArea",
-          "UIVariables": {
-            "UITitle": "Omschrijving",
-          }
         }
       },
       "Weblink": {
@@ -374,9 +302,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "TextInput",
-          "UIVariables": {
-            "UITitle": "Weblink",
-          }
         }
         
       }
@@ -400,7 +325,7 @@ export default
       "Object_Name": "BeleidsRegel"
     }
   },
-  "Doel": {
+  "Doelen": {
     "type": "object",
     "properties": {
       "ID": {
@@ -415,9 +340,6 @@ export default
         "format": "uuid",
         "UI": {
           "userCRUD": false,
-          "UIVariables": {
-            "UITitle": "Eigenaar",
-          }
         }
       },
       "Begin_Geldigheid": {
@@ -426,9 +348,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "DateInput",
-          "UIVariables": {
-            "UITitle": "Begin Geldigheid",
-          }
         }
       },
       "Eind_Geldigheid": {
@@ -437,9 +356,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "DateInput",
-          "UIVariables": {
-            "UITitle": "Eind Geldigheid",
-          }
         }
       },
       "Created_By": {
@@ -447,9 +363,6 @@ export default
         "format": "uuid",
         "UI": {
           "userCRUD": false,
-          "UIVariables": {
-            "UITitle": "Aangemaakt Door",
-          }
         }
       },
       "Created_Date": {
@@ -457,9 +370,6 @@ export default
         "format": "date-time",
         "UI": {
           "userCRUD": false,
-          "UIVariables": {
-            "UITitle": "Aangemaakt op",
-          }
         }
       },
       "Modified_By": {
@@ -474,9 +384,6 @@ export default
         "format": "date-time",
         "UI": {
           "userCRUD": false,
-          "UIVariables": {
-            "UITitle": "Laatste Wijziging",
-          }
         }
       },
       "Titel": {
@@ -484,9 +391,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "TextInput",
-          "UIVariables": {
-            "UITitle": "Titel",
-          }
         }
       },
       "Omschrijving": {
@@ -496,9 +400,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "TextArea",
-          "UIVariables": {
-            "UITitle": "Omschrijving",
-          }
         }
       },
       "Weblink": {
@@ -508,9 +409,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "TextInput",
-          "UIVariables": {
-            "UITitle": "Weblink",
-          }
         }
       }
     },
@@ -548,9 +446,6 @@ export default
         "format": "uuid",
         "UI": {
           "userCRUD": false,
-          "UIVariables": {
-            "UITitle": "Eigenaar",
-          }
         }
       },
       "Begin_Geldigheid": {
@@ -559,9 +454,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "DateInput",
-          "UIVariables": {
-            "UITitle": "Begin Geldigheid",
-          }
         }
       },
       "Eind_Geldigheid": {
@@ -570,9 +462,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "DateInput",
-          "UIVariables": {
-            "UITitle": "Eind Geldigheid",
-          }
         }
       },
       "Created_By": {
@@ -580,9 +469,6 @@ export default
         "format": "uuid",
         "UI": {
           "userCRUD": false,
-          "UIVariables": {
-            "UITitle": "Aangemaakt Door",
-          }
         }
       },
       "Created_Date": {
@@ -590,9 +476,6 @@ export default
         "format": "date-time",
         "UI": {
           "userCRUD": false,
-          "UIVariables": {
-            "UITitle": "Aangemaakt op",
-          }
         }
       },
       "Modified_By": {
@@ -607,9 +490,6 @@ export default
         "format": "date-time",
         "UI": {
           "userCRUD": false,
-          "UIVariables": {
-            "UITitle": "Laatste Wijziging",
-          }
         }
       },
       "Titel": {
@@ -617,9 +497,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "TextInput",
-          "UIVariables": {
-            "UITitle": "Titel",
-          }
         }
       },
       "Omschrijving": {
@@ -629,9 +506,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "TextArea",
-          "UIVariables": {
-            "UITitle": "Omschrijving",
-          }
         }
       },
       "Weblink": {
@@ -641,9 +515,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "TextInput",
-          "UIVariables": {
-            "UITitle": "Weblink",
-          }
         }
       }
     },
@@ -666,7 +537,7 @@ export default
       "Object_Name": "ProvincialeBelangen"
     }
   },
-  "Belang": {
+  "Belangen": {
     "type": "object",
     "properties": {
       "ID": {
@@ -689,9 +560,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "DateInput",
-          "UIVariables": {
-            "UITitle": "Begin Geldigheid",
-          }
         }
       },
       "Eind_Geldigheid": {
@@ -700,9 +568,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "DateInput",
-          "UIVariables": {
-            "UITitle": "Eind Geldigheid",
-          }
         }
       },
       "Created_By": {
@@ -710,9 +575,6 @@ export default
         "format": "uuid",
         "UI": {
           "userCRUD": false,
-          "UIVariables": {
-            "UITitle": "Aangemaakt Door",
-          }
         }
       },
       "Created_Date": {
@@ -720,9 +582,6 @@ export default
         "format": "date-time",
         "UI": {
           "userCRUD": false,
-          "UIVariables": {
-            "UITitle": "Aangemaakt op",
-          }
         }
       },
       "Modified_By": {
@@ -737,9 +596,6 @@ export default
         "format": "date-time",
         "UI": {
           "userCRUD": false,
-          "UIVariables": {
-            "UITitle": "Laatste Wijziging",
-          }
         }
       },
       "Titel": {
@@ -747,9 +603,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "TextInput",
-          "UIVariables": {
-            "UITitle": "Titel",
-          }
         }
       },
       "Omschrijving": {
@@ -759,9 +612,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "TextArea",
-          "UIVariables": {
-            "UITitle": "Omschrijving",
-          }
         }
       },
       "Weblink": {
@@ -771,9 +621,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "TextInput",
-          "UIVariables": {
-            "UITitle": "Weblink",
-          }
         }
       },
       "Type": {
@@ -785,9 +632,6 @@ export default
         "UI": {
             "userCRUD": true,
             "CRUDComponent": "BelangType",
-            "UIVariables": {
-              "UITitle": "Type",
-            }
           }
       }
     },
@@ -811,7 +655,7 @@ export default
         "Object_Name": "Belang"
       }
   },
-  "BeleidsRelatie": {
+  "Beleidsrelaties": {
     "type": "object",
     "properties": {
       "ID": {
@@ -826,9 +670,6 @@ export default
         "format": "uuid",
         "UI": {
           "userCRUD": false,
-          "UIVariables": {
-            "UITitle": "Eigenaar",
-          }
         }
       },
       "Begin_Geldigheid": {
@@ -837,9 +678,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "DateInput",
-          "UIVariables": {
-            "UITitle": "Begin Geldigheid",
-          }
         }
       },
       "Eind_Geldigheid": {
@@ -848,9 +686,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "DateInput",
-          "UIVariables": {
-            "UITitle": "Eind Geldigheid",
-          }
         }
       },
       "Created_By": {
@@ -858,9 +693,6 @@ export default
         "format": "uuid",
         "UI": {
           "userCRUD": false,
-          "UIVariables": {
-            "UITitle": "Aangemaakt Door",
-          }
         }
       },
       "Created_Date": {
@@ -868,9 +700,6 @@ export default
         "format": "date-time",
         "UI": {
           "userCRUD": false,
-          "UIVariables": {
-            "UITitle": "Aangemaakt op",
-          }
         }
       },
       "Modified_By": {
@@ -885,9 +714,6 @@ export default
         "format": "date-time",
         "UI": {
           "userCRUD": false,
-          "UIVariables": {
-            "UITitle": "Laatste Wijziging",
-          }
         }
       },
       "Van_Beleidsbeslissing": {
@@ -896,9 +722,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "TextInput",
-          "UIVariables": {
-            "UITitle": "Van Beleidsbeslissing",
-          }
         }
       },
       "Naar_Beleidsbeslissing": {
@@ -907,9 +730,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "TextInput",
-          "UIVariables": {
-            "UITitle": "Van Beleidsbeslissing",
-          }
         }
       },
       "Titel": {
@@ -917,9 +737,6 @@ export default
         "UI": {
             "userCRUD": true,
             "CRUDComponent": "TextInput",
-            "UIVariables": {
-              "UITitle": "Titel",
-            }
           }
       },
       "Omschrijving": {
@@ -929,9 +746,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "TextArea",
-          "UIVariables": {
-            "UITitle": "Omschrijving",
-          }
         }
       },
       "Status": {
@@ -944,9 +758,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "TextInput",
-          "UIVariables": {
-            "UITitle": "Status",
-          }
         }
       },
       "Aanvraag_Datum": {
@@ -955,9 +766,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "DateInput",
-          "UIVariables": {
-            "UITitle": "Aanvraag Datum",
-          }
         }
       },
       "Datum_Akkoord": {
@@ -1014,9 +822,6 @@ export default
         "UI": {
             "userCRUD": true,
             "CRUDComponent": "DateInput",
-            "UIVariables": {
-              "UITitle": "Begin Geldigheid",
-            }
           }
       },
       "Eind_Geldigheid": {
@@ -1025,9 +830,6 @@ export default
         "UI": {
             "userCRUD": true,
             "CRUDComponent": "DateInput",
-            "UIVariables": {
-              "UITitle": "Begin Geldigheid",
-            }
           }
       },
       "Created_By": {
@@ -1065,9 +867,6 @@ export default
         "UI": {
             "userCRUD": true,
             "CRUDComponent": "SelectUser",
-            "UIVariables": {
-              "UITitle": "Eigenaar 1",
-            }
           }
       },
       "Eigenaar_2": {
@@ -1076,9 +875,6 @@ export default
         "UI": {
             "userCRUD": true,
             "CRUDComponent": "SelectUser",
-            "UIVariables": {
-              "UITitle": "Eigenaar 2",
-            }
           }
       },
       "Portefeuillehouder_1": {
@@ -1087,9 +883,6 @@ export default
         "UI": {
             "userCRUD": true,
             "CRUDComponent": "SelectUser",
-            "UIVariables": {
-              "UITitle": "Portefeuillehouder 1",
-            }
           }
       },
       "Portefeuillehouder_2": {
@@ -1098,9 +891,6 @@ export default
         "UI": {
             "userCRUD": true,
             "CRUDComponent": "SelectUser",
-            "UIVariables": {
-              "UITitle": "Portefeuillehouder 2",
-            }
           }
       },
       "Opdrachtgever": {
@@ -1109,9 +899,6 @@ export default
         "UI": {
             "userCRUD": true,
             "CRUDComponent": "SelectUser",
-            "UIVariables": {
-              "UITitle": "Opdrachtgever",
-            }
           }
       },
       "Status": {
@@ -1119,9 +906,6 @@ export default
         "UI": {
             "userCRUD": true,
             "CRUDComponent": "SelectStatus",
-            "UIVariables": {
-              "UITitle": "Selecteer een status",
-            }
           }
       },
       "Titel": {
@@ -1129,9 +913,6 @@ export default
         "UI": {
             "userCRUD": true,
             "CRUDComponent": "TextInput",
-            "UIVariables": {
-              "UITitle": "Titel",
-            }
           }
       },
       "Omschrijving_Keuze": {
@@ -1141,9 +922,6 @@ export default
         "UI": {
             "userCRUD": true,
             "CRUDComponent": "TextArea",
-            "UIVariables": {
-              "UITitle": "Wat wil de provincie bereiken?",
-            }
           }
       },
       "Omschrijving_Werking": {
@@ -1153,9 +931,6 @@ export default
         "UI": {
             "userCRUD": true,
             "CRUDComponent": "TextArea",
-            "UIVariables": {
-              "UITitle": "Werking",
-            }
           }
       },
       "Aanleiding": {
@@ -1165,9 +940,6 @@ export default
         "UI": {
             "userCRUD": true,
             "CRUDComponent": "TextArea",
-            "UIVariables": {
-              "UITitle": "Aanleiding",
-            }
           }
       },
       "Afweging": {
@@ -1177,9 +949,6 @@ export default
         "UI": {
             "userCRUD": true,
             "CRUDComponent": "TextArea",
-            "UIVariables": {
-              "UITitle": "Afweging",
-            }
           }
       },
       "Provinciaal_Belang": {
@@ -1189,9 +958,6 @@ export default
         "UI": {
             "userCRUD": true,
             "CRUDComponent": "TextArea",
-            "UIVariables": {
-              "UITitle": "Provinciaal Belang",
-            }
           }
       },
       "Weblink": {
@@ -1201,9 +967,6 @@ export default
         "UI": {
             "userCRUD": true,
             "CRUDComponent": "TextInput",
-            "UIVariables": {
-              "UITitle": "IDSM",
-            }
           }
       },
       "Besluitnummer": {
@@ -1213,9 +976,6 @@ export default
         "UI": {
             "userCRUD": true,
             "CRUDComponent": "TextInput",
-            "UIVariables": {
-              "UITitle": "Besluitnummer",
-            }
           }
       },
       "Tags": {
@@ -1225,9 +985,6 @@ export default
         "UI": {
             "userCRUD": true,
             "CRUDComponent": "TagSelector",
-            "UIVariables": {
-              "UITitle": "Tags",
-            }
           }
       },
       "WerkingsGebieden": {
@@ -1239,9 +996,6 @@ export default
         "UI": {
             "userCRUD": true,
             "CRUDComponent": "WerkingsgebiedSelectorPopup",
-            "UIVariables": {
-              "UITitle": "Selecteer werkingsgebied",
-            }
           }
       },
       "BeleidsRegels": {
@@ -1253,9 +1007,6 @@ export default
         "UI": {
             "userCRUD": true,
             "CRUDComponent": "KoppelingPopup",
-            "UIVariables": {
-              "UITitle": "Koppeling",
-            }
           }
       },
       "Verordening": {
@@ -1267,9 +1018,6 @@ export default
         "UI": {
             "userCRUD": true,
             "CRUDComponent": "KoppelingPopup",
-            "UIVariables": {
-              "UITitle": "Koppeling",
-            }
           }
       },
       "Maatregelen": {
@@ -1281,9 +1029,6 @@ export default
         "UI": {
             "userCRUD": true,
             "CRUDComponent": "KoppelingPopup",
-            "UIVariables": {
-              "UITitle": "Koppeling",
-            }
           }
       },
       "Themas": {
@@ -1295,9 +1040,6 @@ export default
         "UI": {
             "userCRUD": true,
             "CRUDComponent": "KoppelingPopup",
-            "UIVariables": {
-              "UITitle": "Koppeling",
-            }
           }
       },
       "Ambities": {
@@ -1309,9 +1051,6 @@ export default
         "UI": {
             "userCRUD": true,
             "CRUDComponent": "KoppelingPopup",
-            "UIVariables": {
-              "UITitle": "Koppeling",
-            }
           }
       },
       "Doelen": {
@@ -1323,9 +1062,6 @@ export default
         "UI": {
             "userCRUD": true,
             "CRUDComponent": "KoppelingPopup",
-            "UIVariables": {
-              "UITitle": "Koppeling",
-            }
           }
       },
       "Belangen": {
@@ -1337,9 +1073,6 @@ export default
         "UI": {
             "userCRUD": true,
             "CRUDComponent": "BelangPopup",
-            "UIVariables": {
-              "UITitle": "Nationaal belang en Wettelijke taken & bevoegdheden",
-            }
           }
       },
       "Opgaven": {
@@ -1351,9 +1084,6 @@ export default
         "UI": {
             "userCRUD": true,
             "CRUDComponent": "KoppelingPopup",
-            "UIVariables": {
-              "UITitle": "Koppeling",
-            }
           }
       }
     },
@@ -1397,9 +1127,6 @@ export default
         "format": "uuid",
         "UI": {
           "userCRUD": false,
-          "UIVariables": {
-            "UITitle": "Eigenaar",
-          }
         }
       },
       "Begin_Geldigheid": {
@@ -1408,9 +1135,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "DateInput",
-          "UIVariables": {
-            "UITitle": "Begin Geldigheid",
-          }
         }
       },
       "Eind_Geldigheid": {
@@ -1419,9 +1143,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "DateInput",
-          "UIVariables": {
-            "UITitle": "Eind Geldigheid",
-          }
         }
       },
       "Created_By": {
@@ -1429,9 +1150,6 @@ export default
         "format": "uuid",
         "UI": {
           "userCRUD": false,
-          "UIVariables": {
-            "UITitle": "Aangemaakt Door",
-          }
         }
       },
       "Created_Date": {
@@ -1439,9 +1157,6 @@ export default
         "format": "date-time",
         "UI": {
           "userCRUD": false,
-          "UIVariables": {
-            "UITitle": "Aangemaakt op",
-          }
         }
       },
       "Modified_By": {
@@ -1456,9 +1171,6 @@ export default
         "format": "date-time",
         "UI": {
           "userCRUD": false,
-          "UIVariables": {
-            "UITitle": "Laatste Wijziging",
-          }
         }
       },
       "Titel": {
@@ -1466,9 +1178,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "TextInput",
-          "UIVariables": {
-            "UITitle": "Titel",
-          }
         }
       },
       "Omschrijving": {
@@ -1478,9 +1187,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "TextArea",
-          "UIVariables": {
-            "UITitle": "Omschrijving",
-          }
         }
       },
     //   "Beleids_Document": {
@@ -1490,9 +1196,6 @@ export default
     //     "UI": {
     //       "userCRUD": true,
     //       "CRUDComponent": "TextField",
-    //       "UIVariables": {
-    //         "UITitle": "Beleids Document",
-    //       }
     //     }
     //   },
       "Gebied": {
@@ -1503,9 +1206,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "Select",
-          "UIVariables": {
-            "UITitle": "Gebied",
-          }
         }
       },
       "Verplicht_Programma": {
@@ -1519,9 +1219,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "TextField",
-          "UIVariables": {
-            "UITitle": "Verplicht Programma",
-          }
         }
       },
       "Specifiek_Of_Generiek": {
@@ -1535,9 +1232,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "TextField",
-          "UIVariables": {
-            "UITitle": "Specifiek of Generiek",
-          }
         }
       },
       "Weblink": {
@@ -1547,9 +1241,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "TextInput",
-          "UIVariables": {
-            "UITitle": "Weblink",
-          }
         }
       },
       "Tags": {
@@ -1559,9 +1250,6 @@ export default
         "UI": {
             "userCRUD": true,
             "CRUDComponent": "TagSelector",
-            "UIVariables": {
-              "UITitle": "Tags",
-            }
           }
       }
     },
@@ -1584,7 +1272,7 @@ export default
       "Object_Name": "Maatregelen"
     }
   },
-  "Thema": {
+  "Thema's": {
     "type": "object",
     "properties": {
       "ID": {
@@ -1599,9 +1287,6 @@ export default
         "format": "uuid",
         "UI": {
           "userCRUD": false,
-          "UIVariables": {
-            "UITitle": "Eigenaar",
-          }
         }
       },
       "Begin_Geldigheid": {
@@ -1610,9 +1295,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "DateInput",
-          "UIVariables": {
-            "UITitle": "Begin Geldigheid",
-          }
         }
       },
       "Eind_Geldigheid": {
@@ -1621,9 +1303,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "DateInput",
-          "UIVariables": {
-            "UITitle": "Eind Geldigheid",
-          }
         }
       },
       "Created_By": {
@@ -1631,9 +1310,6 @@ export default
         "format": "uuid",
         "UI": {
           "userCRUD": false,
-          "UIVariables": {
-            "UITitle": "Aangemaakt Door",
-          }
         }
       },
       "Created_Date": {
@@ -1641,9 +1317,6 @@ export default
         "format": "date-time",
         "UI": {
           "userCRUD": false,
-          "UIVariables": {
-            "UITitle": "Aangemaakt op",
-          }
         }
       },
       "Modified_By": {
@@ -1658,9 +1331,6 @@ export default
         "format": "date-time",
         "UI": {
           "userCRUD": false,
-          "UIVariables": {
-            "UITitle": "Laatste Wijziging",
-          }
         }
       },
       "Titel": {
@@ -1668,9 +1338,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "TextInput",
-          "UIVariables": {
-            "UITitle": "Titel",
-          }
         }
       },
       "Omschrijving": {
@@ -1680,9 +1347,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "TextArea",
-          "UIVariables": {
-            "UITitle": "Omschrijving",
-          }
         }
       },
       "Weblink": {
@@ -1692,9 +1356,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "TextInput",
-          "UIVariables": {
-            "UITitle": "Weblink",
-          }
         }
       }
     },
@@ -1717,7 +1378,7 @@ export default
       "Object_Name": "Themas"
     }
   },
-  "Verordening": {
+  "Verordeningen": {
     "type": "object",
     "properties": {
       "ID": {
@@ -1732,9 +1393,6 @@ export default
         "format": "uuid",
         "UI": {
           "userCRUD": false,
-          "UIVariables": {
-            "UITitle": "Eigenaar",
-          }
         }
       },
       "Begin_Geldigheid": {
@@ -1743,9 +1401,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "DateInput",
-          "UIVariables": {
-            "UITitle": "Begin Geldigheid",
-          }
         }
       },
       "Eind_Geldigheid": {
@@ -1754,9 +1409,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "DateInput",
-          "UIVariables": {
-            "UITitle": "Eind Geldigheid",
-          }
         }
       },
       "Created_By": {
@@ -1764,9 +1416,6 @@ export default
         "format": "uuid",
         "UI": {
           "userCRUD": false,
-          "UIVariables": {
-            "UITitle": "Aangemaakt Door",
-          }
         }
       },
       "Created_Date": {
@@ -1774,9 +1423,6 @@ export default
         "format": "date-time",
         "UI": {
           "userCRUD": false,
-          "UIVariables": {
-            "UITitle": "Aangemaakt op",
-          }
         }
       },
       "Modified_By": {
@@ -1791,9 +1437,6 @@ export default
         "format": "date-time",
         "UI": {
           "userCRUD": false,
-          "UIVariables": {
-            "UITitle": "Laatste Wijziging",
-          }
         }
       },
       "Titel": {
@@ -1801,9 +1444,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "TextInput",
-          "UIVariables": {
-            "UITitle": "Titel",
-          }
         }
       },
       "Omschrijving": {
@@ -1813,9 +1453,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "TextArea",
-          "UIVariables": {
-            "UITitle": "Omschrijving",
-          }
         }
       },
       "Status": {
@@ -1823,9 +1460,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "TextInput",
-          "UIVariables": {
-            "UITitle": "Status",
-          }
         }
       },
       "Type": {
@@ -1839,9 +1473,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "Select",
-          "UIVariables": {
-            "UITitle": "Type",
-          }
         }
       },
       "Volgnummer": {
@@ -1849,9 +1480,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "TextInput",
-          "UIVariables": {
-            "UITitle": "Volgnummer",
-          }
         }
       },
       "Werkingsgebied": {
@@ -1862,9 +1490,6 @@ export default
         "UI": {
           "userCRUD": true,
           "CRUDComponent": "Select",
-          "UIVariables": {
-            "UITitle": "Gebied",
-          }
         }
       }
     },

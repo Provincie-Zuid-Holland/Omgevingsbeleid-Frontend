@@ -1,14 +1,11 @@
 import React, { Component } from 'react'
 import { toast } from 'react-toastify'
-import { format } from 'date-fns'
-import nlLocale from 'date-fns/locale/nl'
 import { withRouter } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import validator from 'validator'
 
 // Import Components
 import ContainerCrudFields from './ContainerCrudFields'
-import LoaderContent from './../../components/LoaderContent'
 import ButtonBackToPage from './../../components/ButtonBackToPage'
 
 // Import Axios instance to connect with the API
@@ -23,12 +20,10 @@ class MuteerBeleidsrelatiesCRUD extends Component {
         // CrudObject contains the editable fields
         this.state = {
             crudObject: {
-                Aanvraag_Datum: '',
                 Begin_Geldigheid: '',
                 Eind_Geldigheid: '',
                 Naar_Beleidsbeslissing: '',
                 Omschrijving: '',
-                Status: '',
                 Titel: '',
                 Van_Beleidsbeslissing: this.props.match.params.UUID,
                 Status: 'Open',
@@ -61,8 +56,6 @@ class MuteerBeleidsrelatiesCRUD extends Component {
     }
 
     handleChange(event) {
-        console.log('Called')
-
         const name = event.target.name
         const type = event.target.type
 
@@ -70,18 +63,13 @@ class MuteerBeleidsrelatiesCRUD extends Component {
         if (type === 'date') {
             value = event.target.value
         }
-        console.log(name)
-        console.log(value)
 
-        this.setState(
-            prevState => ({
-                crudObject: {
-                    ...prevState.crudObject,
-                    [name]: value,
-                },
-            }),
-            () => console.log(this.state)
-        )
+        this.setState(prevState => ({
+            crudObject: {
+                ...prevState.crudObject,
+                [name]: value,
+            },
+        }))
     }
 
     // Algemene State Handler voor de Editor
@@ -100,7 +88,7 @@ class MuteerBeleidsrelatiesCRUD extends Component {
         // let requiredProperties = []
         // let requiredPropertyTypes = {}
         // Ga voor elk veld van het crudObject na of het een required field is
-        Object.keys(crudObject).forEach(function(key, index) {
+        Object.keys(crudObject).forEach(function(key) {
             if (dataModel.required.includes(key)) {
                 const dataModelFormat = dataModel.properties[key].format
 
@@ -158,11 +146,6 @@ class MuteerBeleidsrelatiesCRUD extends Component {
         const objectName = this.props.dataModel.variables.Object_Name
         localStorage.removeItem(objectName)
 
-        // Set variables to save to the DB
-        const objectID = this.props.match.params.single
-        const overzichtSlug = this.props.overzichtSlug
-        const ApiEndpoint = this.props.ApiEndpoint
-
         let crudObject = this.state.crudObject
 
         // Zet de Date String om naar een Date Object en kijkt of deze geldig is
@@ -184,7 +167,7 @@ class MuteerBeleidsrelatiesCRUD extends Component {
 
         axios
             .post(`/beleidsrelaties`, JSON.stringify(crudObject))
-            .then(res => {
+            .then(() => {
                 this.props.history.push(
                     `/muteer/beleidsrelaties/${this.props.match.params.UUID}`
                 )

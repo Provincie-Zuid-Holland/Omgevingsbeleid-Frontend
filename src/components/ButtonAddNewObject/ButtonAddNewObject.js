@@ -1,13 +1,14 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-function ButtonAddNewObject(props) {
-    const overzichtSlug = props.overzichtSlug
-    const createNewSlug = props.createNewSlug
-    const objectAantal = props.objectAantal
-    const hoofdOnderdeelSlug = props.hoofdOnderdeelSlug
-    const fullWidth = props.fullWidth
-
+function ButtonAddNewObject({
+    overzichtSlug,
+    createNewSlug,
+    objectAantal,
+    hoofdOnderdeelSlug,
+    fullWidth,
+    titelEnkelvoud,
+}) {
     return (
         <div
             className={
@@ -22,7 +23,7 @@ function ButtonAddNewObject(props) {
                 to={`/muteer/${hoofdOnderdeelSlug}/${createNewSlug}`}
             >
                 <span className="text-center text-gray-600 font-semibold py-2 px-4">
-                    + Voeg {props.titelEnkelvoud} Toe
+                    + Voeg {titelEnkelvoud} Toe
                 </span>
             </Link>
         </div>

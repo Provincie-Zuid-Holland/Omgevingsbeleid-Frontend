@@ -1,7 +1,4 @@
 import React, { Component } from 'react'
-import { Link, withRouter } from 'react-router-dom'
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 // Import Components
 import LeafletHalfScreenWidthViewer from './../../components/LeafletHalfScreenWidthViewer'
@@ -11,10 +8,6 @@ import ContainerMain from './../../components/ContainerMain'
 class RaadpleegHome extends Component {
     render() {
         return (
-            // <div
-            //     className="container mx-auto flex pr-6 pb-8"
-            //     id="raadpleeg-home"
-            // >
             <ContainerMain id="raadpleeg-home">
                 <div className="w-1/2 pr-8 pb-20">
                     <h1 className="mt-8 heading-serif-2xl text-gray-800">
@@ -29,7 +22,7 @@ class RaadpleegHome extends Component {
                             href="https://www.zuid-holland.nl/actueel/omgevingsbeleid/"
                             className="underline cursor-pointer"
                             target="_blank"
-                            rel="noopener"
+                            rel="noopener noreferrer"
                         >
                             provincie Zuid-Holland
                         </a>

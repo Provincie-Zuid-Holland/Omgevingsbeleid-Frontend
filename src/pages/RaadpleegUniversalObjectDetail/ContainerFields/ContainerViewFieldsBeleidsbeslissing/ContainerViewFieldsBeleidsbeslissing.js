@@ -1,13 +1,8 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import ViewFieldTitelEnInhoud from './../../ViewFieldTitelEnInhoud'
 import ViewFieldTags from './../../ViewFieldTags'
 
 class ContainerViewFieldsBeleidsbeslissing extends Component {
-    constructor(props) {
-        super(props)
-    }
-
     render() {
         const crudObject = this.props.crudObject
         return (
@@ -59,9 +54,5 @@ class ContainerViewFieldsBeleidsbeslissing extends Component {
         )
     }
 }
-
-ContainerViewFieldsBeleidsbeslissing.propTypes = {}
-
-ContainerViewFieldsBeleidsbeslissing.defaultProps = {}
 
 export default ContainerViewFieldsBeleidsbeslissing

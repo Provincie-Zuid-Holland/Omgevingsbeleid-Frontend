@@ -13,8 +13,8 @@ class FormFieldTags extends Component {
         if (this.props.fieldValue) {
             try {
                 selectionArray = JSON.parse(this.props.fieldValue)
-            } catch (e) {
-                console.log(e)
+            } catch (err) {
+                console.log(err)
             }
         }
         this.state = {
@@ -26,14 +26,9 @@ class FormFieldTags extends Component {
 
     handleChange = (newValue, actionMeta) => {
         if (newValue) {
-            this.setState(
-                {
-                    selectionArray: newValue,
-                },
-                () => {
-                    console.log(this.state)
-                }
-            )
+            this.setState({
+                selectionArray: newValue,
+            })
             const event = {
                 target: {
                     name: 'Tags',

@@ -1,41 +1,15 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
-import {
-    faCheckCircle,
-    faPlus,
-    faTimes,
-    faSearch,
-} from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faTimes, faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useSpring, animated } from 'react-spring'
 import format from 'date-fns/format'
 import nlLocale from 'date-fns/locale/nl'
 
 import axios from './../../API/axios'
-import { api_version, axiosGeoJSON } from './../../API/axiosGeoJSON'
 import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFieldTitelEnBeschrijving'
 import LoaderWerkingsgebiedCard from './../LoaderWerkingsgebiedCard'
 import LeafletCardViewer from './../LeafletCardViewer'
-
-function makeSelection(objectenArray, dataObjectProperty) {
-    if (objectenArray.length === 1) {
-        return null
-    } else {
-        let options = []
-        objectenArray.slice(1).forEach(arrayItem => {
-            options.push({
-                label: arrayItem.Werkingsgebied,
-                value: arrayItem.UUID,
-                target: {
-                    type: 'relatie',
-                    value: arrayItem.UUID,
-                    name: dataObjectProperty,
-                },
-            })
-        })
-        return options
-    }
-}
 
 function CardWerkingsGebied(props) {
     return (
@@ -198,29 +172,22 @@ class PopUpWerkingsGebiedContainer extends Component {
     }
 
     filterGebieden(e) {
-        this.setState(
-            {
-                filterValue: e.target.value,
-            },
-            () => console.log(this.state)
-        )
+        this.setState({
+            filterValue: e.target.value,
+        })
     }
 
     selectGebied(gebied) {
-        const selectedGebied = gebied
-        this.setState(
-            {
-                selected: gebied,
-            },
-            () => console.log(this.state)
-        )
+        this.setState({
+            selected: gebied,
+        })
     }
 
     koppelGebied() {
         const handleChangeObject = {
             target: {
-                name: 'WerkingsGebieden',
-                value: [{ UUID: this.state.selected }],
+                name: 'Gebied',
+                value: this.state.selected,
             },
         }
         this.props.koppelGebiedInLocalState(this.state.selected)
@@ -239,13 +206,6 @@ class PopUpWerkingsGebiedContainer extends Component {
         }
     }
 
-    returnAxiosRequestArray(UUIDArray) {
-        let axiosArray = []
-        UUIDArray.forEach(item => {
-            axiosArray.push(axios.get('/user/12345/permissions'))
-        })
-    }
-
     generateJSONForAllWerkingsgebieden(UUIDArray) {
         let werkingsgebiedenArray = []
         const that = this
@@ -254,12 +214,9 @@ class PopUpWerkingsGebiedContainer extends Component {
                 api.getGeoJsonData('Werkingsgebieden', item)
                     .then(data => {
                         werkingsgebiedenArray.push(data)
-                        that.setState(
-                            {
-                                werkingsgebieden: werkingsgebiedenArray,
-                            },
-                            () => console.log(that.state)
-                        )
+                        that.setState({
+                            werkingsgebieden: werkingsgebiedenArray,
+                        })
                     })
                     .catch(function(thrown) {
                         console.log(thrown)
@@ -341,8 +298,8 @@ class FormFieldWerkingsgebiedKoppelingSingle extends Component {
             () => {
                 const handleChangeObject = {
                     target: {
-                        name: 'WerkingsGebieden',
-                        value: [],
+                        name: 'Gebied',
+                        value: '',
                     },
                 }
                 this.props.handleChange(handleChangeObject)
@@ -366,7 +323,6 @@ class FormFieldWerkingsgebiedKoppelingSingle extends Component {
     }
 
     render() {
-        console.log(this.state)
         return (
             <div className="flex flex-wrap -mx-3 mb-6">
                 <div

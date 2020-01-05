@@ -13,7 +13,6 @@ class EigenaarsDriehoekItem extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props)
         axios
             .get(`/gebruikers/${this.props.UUID}`)
             .then(res => {

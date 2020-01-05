@@ -12,9 +12,9 @@ const menuItemsOmgevingsbeleid = {
     // 'API Test Omgeving': { url: '/muteer/api-test', finished: true },
 }
 
-const menuItemsGebruiker = {
-    'Mijn account': { url: '', finished: false },
-}
+// const menuItemsGebruiker = {
+//     'Mijn account': { url: '', finished: false },
+// }
 
 const menuItemsBeheer = {
     Beleidsbeslissingen: { url: '/muteer/beleidsbeslissingen', finished: true },

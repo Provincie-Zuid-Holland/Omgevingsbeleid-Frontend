@@ -1,11 +1,71 @@
 import React, { Component } from 'react'
 import { Helmet } from 'react-helmet'
 
+import { faTimes } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 // Import API
 import axios from './../../API/axios'
 
 // Import Components
 import LoaderSpinner from './../../components/LoaderSpinner'
+import PopUpAnimatedContainer from './../../components/PopUpAnimatedContainer'
+
+function PopupWachtwoordVergeten({ togglePopup }) {
+    return (
+        <PopUpAnimatedContainer small={true}>
+            <div
+                onClick={togglePopup}
+                className="cursor-pointer absolute right-0 top-0 text-gray-600 px-3 py-2"
+                id={`wachtwoord-reset-sluit-popup`}
+            >
+                <FontAwesomeIcon icon={faTimes} />
+            </div>
+            <h3 className="text-xl text-gray-800 mb-4 font-semibold">
+                Wachtwoord vergeten
+            </h3>
+
+            <div className="border-l-4 purple-light-bg-color purple-border-color mb-4 p-4 relative">
+                <p className="text-sm mt-2 text-gray-700">
+                    Eind Q1 2020 willen wij het mogelijk maken om via je
+                    PZH-account te kunnen inloggen. Tot die tijd moet het nog
+                    met een e-mailadres en een wachtwoord.
+                </p>
+            </div>
+
+            <p className="py-1 text-gray-700">
+                Stuur een e-mail naar{' '}
+                <a
+                    id="wachtwoord-reset-anchor-mailto"
+                    href="mailto:t.van.gelder@pzh.nl"
+                    className="underline"
+                >
+                    Tom van Gelder (t.van.gelder@pzh.nl)
+                </a>{' '}
+                door op de link te klikken
+            </p>
+            <p className="py-1 text-gray-700">
+                Je ontvang dan binnen één werkdag een nieuw wachtwoord.
+            </p>
+            <div className="flex items-center justify-between mt-5">
+                <span
+                    className="underline cursor-pointer text-sm text-gray-700"
+                    onClick={togglePopup}
+                >
+                    Annuleren
+                </span>
+                <a
+                    href="mailto:t.van.gelder@pzh.nl"
+                    className="bg-green-600 hover:bg-green-700 text-white inline-block py-2 px-8 rounded focus:outline-none focus:shadow-outline"
+                    id="wachtwoord-reset-button-mailto"
+                    onClick={togglePopup}
+                >
+                    Mail versturen
+                </a>
+            </div>
+        </PopUpAnimatedContainer>
+    )
+}
 
 class Login extends Component {
     constructor(props) {
@@ -15,12 +75,20 @@ class Login extends Component {
             identifier: '',
             password: '',
             loading: false,
+            wachtwoordResetPopup: false,
         }
 
         this.handleChange = this.handleChange.bind(this)
         this.handleFormSubmit = this.handleFormSubmit.bind(this)
         this.handleErrorMessage = this.handleErrorMessage.bind(this)
         this.resetLoadingState = this.resetLoadingState.bind(this)
+        this.togglePopup = this.togglePopup.bind(this)
+    }
+
+    togglePopup() {
+        this.setState({
+            wachtwoordResetPopup: !this.state.wachtwoordResetPopup,
+        })
     }
 
     resetLoadingState() {
@@ -36,8 +104,6 @@ class Login extends Component {
             loading: true,
         })
 
-        let history = this.props.history
-
         axios
             .post('login', JSON.stringify(this.state))
             .then(response => {
@@ -45,7 +111,6 @@ class Login extends Component {
                     let identifier = response.data.identifier
                     // identifier.UUID = identifier.UUID.LowerCase()
                     identifier.UUID = identifier.UUID.toLowerCase()
-                    console.log(identifier)
                     localStorage.setItem(
                         'identifier',
                         JSON.stringify(identifier)
@@ -70,6 +135,7 @@ class Login extends Component {
             .catch(err => {
                 console.log('err:')
                 console.log(err)
+
                 let errorEl = document.getElementById('error-message')
                 errorEl.classList.innerHTML = err
                 errorEl.classList.remove('hidden')
@@ -100,7 +166,10 @@ class Login extends Component {
                 <Helmet>
                     <title>Omgevingsbeleid - Login</title>
                 </Helmet>
-                <div className="w-1/2 pr-20 pb-8">
+                {this.state.wachtwoordResetPopup ? (
+                    <PopupWachtwoordVergeten togglePopup={this.togglePopup} />
+                ) : null}
+                <div className="w-1/2 pr-8 pb-8">
                     <h1 className="font-serif my-4 text-gray-800 text-2xl">
                         Inloggen
                     </h1>
@@ -145,15 +214,21 @@ class Login extends Component {
                                 onChange={this.handleChange}
                             />
                         </div>
-                        <div className="">
+                        <div className="flex items-center">
                             <button
-                                className="mbg-color hover:bg-blue-600 text-white inline-block py-2 px-8 rounded focus:outline-none focus:shadow-outline"
+                                className="mbg-color mbg-color-darker-hover text-white inline-block py-2 px-8 rounded focus:outline-none focus:shadow-outline"
                                 type="submit"
                                 id="form-field-login-submit"
                             >
                                 {this.state.loading ? <LoaderSpinner /> : null}
                                 Inloggen
                             </button>
+                            <span
+                                className="ml-4 text-sm text-gray-700 hover:text-gray-800 underline cursor-pointer"
+                                onClick={this.togglePopup}
+                            >
+                                Ik ben mijn wachtwoord vergeten
+                            </span>
                         </div>
                     </form>
                     <div
@@ -183,14 +258,6 @@ class Login extends Component {
                             </span>
                         </div>
                     </div>
-                    {/* <div className="mt-20 bottom-0">
-                        <span className="font-bold block">
-                            Veelgestelde vragen
-                        </span>
-                        <span className="underline">
-                            Iets met wachtwoord vergeten / Uitleg over inloggen
-                        </span>
-                    </div> */}
                 </div>
                 <div className="login-afbeelding fixed" />
             </div>

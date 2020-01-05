@@ -1,11 +1,6 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 
 class ViewFieldTags extends Component {
-    constructor(props) {
-        super(props)
-    }
-    null
     render() {
         return (
             <div className="mt-8">
@@ -23,9 +18,5 @@ class ViewFieldTags extends Component {
         )
     }
 }
-
-ViewFieldTags.propTypes = {}
-
-ViewFieldTags.defaultProps = {}
 
 export default ViewFieldTags

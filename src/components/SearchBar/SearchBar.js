@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
-import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -149,7 +148,6 @@ class SearchBar extends Component {
         const urlParams = this.props.location.search
         const searchParams = new URLSearchParams(urlParams)
         const searchQuery = searchParams.get('query')
-        const searchFiltersOnly = searchParams.get('only')
 
         if (searchQuery) {
             this.setState(

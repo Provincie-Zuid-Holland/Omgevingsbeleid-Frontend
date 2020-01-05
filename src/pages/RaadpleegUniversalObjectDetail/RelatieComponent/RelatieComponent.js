@@ -1,101 +1,78 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+
+import LoaderSmallSpan from './../../../components/LoaderSmallSpan'
+
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 // Import Axios instance to connect with the API
 import axios from '../../../API/axios'
 
-import LoaderSmallSpan from './../../../components/LoaderSmallSpan'
-
-class RelatieKoppelingenComponent extends Component {
+class RelatieComponent extends Component {
     constructor(props) {
         super(props)
-        this.state = {}
+        this.state = {
+            koppelingenRelaties: [],
+        }
         this.initializeComponent = this.initializeComponent.bind(this)
+        this.getBeleidsrelaties = this.getBeleidsrelaties.bind(this)
+        this.popExtFieldAndSetState = this.popExtFieldAndSetState.bind(this)
+        this.genKoppelingenRelatiesObject = this.genKoppelingenRelatiesObject.bind(
+            this
+        )
+        this.populizeDataPropertyAndSetState = this.populizeDataPropertyAndSetState.bind(
+            this
+        )
     }
 
-    initializeComponent() {
+    getBeleidsrelaties(vanuitEndpoint, cb) {
+        const UUID = this.props.crudObject.UUID
+        axios
+            .get(`/beleidsrelaties?${vanuitEndpoint}_Beleidsbeslissing=${UUID}`)
+            .then(res => {
+                if (res.data.length === 0) return
+                let beleidsrelaties = res.data
+
+                cb(beleidsrelaties)
+            })
+            .catch(err => console.log(err))
+    }
+
+    popExtFieldAndSetState(beleidsrelaties) {
+        // In de bovenstaande request krijgen we enkel de velden van de relatie, maar we willen ook de titel naar de externe relatie tonen, hiervoor moeten we voor elk van de relaties een request doen om deze informatie te krijgen.
+        // De response wordt vervolgens op het relatie object onder de property .data geplaatst
+        const axiosGETArray = beleidsrelaties.map(relatie => {
+            return axios
+                .get(
+                    `/beleidsbeslissingen/version/${relatie.Naar_Beleidsbeslissing}`
+                )
+                .then(response => {
+                    relatie.data = response.data
+                })
+        })
+
+        const that = this
+
+        Promise.all(axiosGETArray).then(function(values) {
+            let newObject = that.state.koppelingenRelaties
+            if (
+                newObject.beleidsbeslissingen &&
+                newObject.beleidsbeslissingen.length > 0
+            ) {
+                newObject.beleidsbeslissingen.concat(beleidsrelaties)
+            } else {
+                newObject.beleidsbeslissingen = beleidsrelaties
+            }
+            that.setState({
+                koppelingenRelaties: newObject,
+            })
+        })
+    }
+
+    getActieveKoppelingenRelaties() {
         const crudObject = this.props.crudObject
-
-        // ***
-        // Haal beleidsrelaties op
-        axios
-            .get(`/beleidsrelaties?Van_Beleidsbeslissing=${crudObject.UUID}`)
-            .then(res => {
-                let beleidsrelaties = res.data
-
-                if (res.data.length > 0) {
-                    const axiosGETArray = res.data.map(relatie => {
-                        return axios
-                            .get(
-                                `/beleidsbeslissingen/version/${relatie.Naar_Beleidsbeslissing}`
-                            )
-                            .then(response => {
-                                relatie.data = response.data
-                            })
-                    })
-
-                    const that = this
-
-                    Promise.all(axiosGETArray).then(function(values) {
-                        let newObject = that.state.koppelingenRelaties
-                        if (
-                            newObject.beleidsbeslissingen &&
-                            newObject.beleidsbeslissingen.length > 0
-                        ) {
-                            newObject.beleidsbeslissingen.concat(
-                                beleidsrelaties
-                            )
-                        } else {
-                            newObject.beleidsbeslissingen = beleidsrelaties
-                        }
-                        that.setState({
-                            koppelingenRelaties: newObject,
-                        })
-                    })
-                }
-            })
-
-        axios
-            .get(`/beleidsrelaties?Naar_Beleidsbeslissing=${crudObject.UUID}`)
-            .then(res => {
-                let beleidsrelaties = res.data
-
-                if (res.data.length > 0) {
-                    const axiosGETArray = res.data.map(relatie => {
-                        return axios
-                            .get(
-                                `/beleidsbeslissingen/version/${relatie.Van_Beleidsbeslissing}`
-                            )
-                            .then(response => {
-                                relatie.data = response.data
-                            })
-                    })
-
-                    const that = this
-
-                    Promise.all(axiosGETArray).then(function(values) {
-                        let newObject = that.state.koppelingenRelaties
-                        if (
-                            newObject.beleidsbeslissingen &&
-                            newObject.beleidsbeslissingen.length > 0
-                        ) {
-                            newObject.beleidsbeslissingen.concat(
-                                beleidsrelaties
-                            )
-                        } else {
-                            newObject.beleidsbeslissingen = beleidsrelaties
-                        }
-                        that.setState({
-                            koppelingenRelaties: newObject,
-                        })
-                    })
-                }
-            })
-
-        // ***
-        // Haal alle koppelingen en relaties op
+        // Een lijst met alle mogelijke koppeling / relatie property namen
         const koppelingRelatieArray = [
             'ambities',
             'opgaven',
@@ -106,28 +83,23 @@ class RelatieKoppelingenComponent extends Component {
             'verordening',
         ]
 
-        let actieveKoppelingOfRelaties = []
-
         // Voor elk item in de koppelingRelatieArray kijken we of deze al een actieve koppeling heeft op het gekregen crudObject
-        koppelingRelatieArray.forEach(item => {
-            const propertyName = objecten[item].propertyName
-            if (
-                crudObject[propertyName] !== undefined &&
-                crudObject[propertyName] !== null &&
-                crudObject[propertyName].length > 0 &&
-                !actieveKoppelingOfRelaties.includes(
-                    objecten[item].propertyName
+        return koppelingRelatieArray
+            .filter(item => {
+                const propertyName = objecten[item].propertyName
+                return (
+                    crudObject[propertyName] !== undefined &&
+                    crudObject[propertyName] !== null &&
+                    crudObject[propertyName].length > 0
                 )
-            ) {
-                actieveKoppelingOfRelaties.push(objecten[item].propertyName)
-            }
-        })
+            })
+            .map(item => objecten[item].propertyName)
+    }
 
+    genKoppelingenRelatiesObject(actieveKoppelingOfRelaties) {
+        const crudObject = this.props.crudObject
         let propertyNamesMapped = []
-
-        // Het object waar de nieuwe koppeling en relatie state in gemaakt wordt
         let newStateKoppelingenRelatiesObject = {}
-
         actieveKoppelingOfRelaties.forEach(propertyName => {
             // Als er al over de propertyName is gemapped return'en we
             if (propertyNamesMapped.includes(propertyName)) {
@@ -148,38 +120,49 @@ class RelatieKoppelingenComponent extends Component {
                 })
             }
         })
+        return newStateKoppelingenRelatiesObject
+    }
 
-        const that = this
+    populizeDataPropertyAndSetState(
+        propertyName,
+        data,
+        newStateKoppelingenRelatiesObject
+    ) {
+        const objectIndex = newStateKoppelingenRelatiesObject[
+            propertyName
+        ].findIndex(x => x.UUID === data.UUID)
 
-        // Functie om de .data property toe te voegen aan het object
-        function findPropertyAndAddDataToStateObject(propertyName, data) {
-            const objectIndex = newStateKoppelingenRelatiesObject[
-                propertyName
-            ].findIndex(x => x.UUID === data.UUID)
+        newStateKoppelingenRelatiesObject[propertyName][objectIndex].data = data
 
-            newStateKoppelingenRelatiesObject[propertyName][
-                objectIndex
-            ].data = data
+        this.setState({
+            koppelingenRelaties: newStateKoppelingenRelatiesObject,
+        })
+    }
 
-            // Als het het laatste item is wat geupdate wordt updaten we nog een keer de state, zodat de .data properties op alle objecten zitten en geupdate worden in de state, en dus in de UI
-            that.setState({
-                koppelingenRelaties: newStateKoppelingenRelatiesObject,
-            })
-        }
+    initializeComponent() {
+        this.getBeleidsrelaties('Van', this.popExtFieldAndSetState)
+        this.getBeleidsrelaties('Naar', this.popExtFieldAndSetState)
+
+        // ***
+        // Haal alle koppelingen en relaties op
+        let actieveKoppelingOfRelaties = this.getActieveKoppelingenRelaties()
+
+        // Het object waar de nieuwe koppeling en relatie state in gemaakt wordt
+        let newStateKoppelingenRelatiesObject = this.genKoppelingenRelatiesObject(
+            actieveKoppelingOfRelaties
+        )
 
         // Map over actieveKoppelingOfRelaties -> een array met de actie koppelingen & relaties vanuit het CrudObject
         // Vervolgens mappen we hierbinnen over de koppelingen om voor elk de UUID te pakken en hierop een API call te maken
         // Deze worden gereturned in een Promise.all()
         Promise.all(
             actieveKoppelingOfRelaties.map((propertyName, indexPropertyName) =>
-                newStateKoppelingenRelatiesObject[propertyName].map(
-                    (koppeling, indexKoppeling) => {
-                        if (
-                            objecten[propertyName.toLowerCase()] === undefined
-                        ) {
-                            return null
-                        }
-
+                newStateKoppelingenRelatiesObject[propertyName]
+                    .filter(
+                        item =>
+                            objecten[propertyName.toLowerCase()] !== undefined
+                    )
+                    .forEach((koppeling, indexKoppeling) => {
                         axios
                             .get(
                                 `${
@@ -187,32 +170,33 @@ class RelatieKoppelingenComponent extends Component {
                                 }/version/${koppeling.UUID}`
                             )
                             .then(res => {
-                                findPropertyAndAddDataToStateObject(
+                                this.populizeDataPropertyAndSetState(
                                     propertyName,
-                                    res.data
+                                    res.data,
+                                    newStateKoppelingenRelatiesObject
                                 )
                             })
-                    }
-                )
+                    })
             )
         )
             .then(responses => {
-                this.setState(
-                    {
-                        dataFromAPILoaded: true,
-                    }
-                )
+                this.setState({
+                    dataFromAPILoaded: true,
+                })
             })
             .catch(err => console.log(err))
     }
+
     componentDidUpdate(prevProps) {
         if (prevProps.crudObject !== this.props.crudObject) {
             this.initializeComponent()
         }
     }
+
     componentDidMount() {
         this.initializeComponent()
     }
+
     render() {
         const that = this
         const verticalLayoutBool =
@@ -305,6 +289,7 @@ class RelatieKoppelingenComponent extends Component {
                                       }
                                       return (
                                           <TabbladRelatieComponent
+                                              key={key}
                                               verticalLayoutBool={
                                                   verticalLayoutBool
                                               }
@@ -332,6 +317,7 @@ class RelatieKoppelingenComponent extends Component {
                                   function(key, index) {
                                       return (
                                           <TabbladInhoudRelatieComponent
+                                              key={key}
                                               verticalLayoutBool={
                                                   verticalLayoutBool
                                               }
@@ -386,13 +372,13 @@ function TabbladInhoudRelatieComponent(props) {
     if (props.activeSection === props.titel) {
         return (
             <ul className={`${props.activeSection ? 'mb-3' : ''}`}>
-                {props.array.map(relatie => {
+                {props.array.map((relatie, index) => {
                     return (
-                        <li className="py-2 pl-2 pr-6 border-b border-gray-300 hover:underline relative">
+                        <li
+                            key={relatie.data ? relatie.data.ID : index}
+                            className="py-2 pl-2 pr-6 border-b border-gray-300 hover:underline relative"
+                        >
                             <Link
-                                to={`/detail/${props.titel.toLowerCase()}/${
-                                    relatie.data ? relatie.data.ID : '0'
-                                }`}
                                 to={
                                     relatie.data
                                         ? `/detail/${props.titel.toLowerCase()}/${
@@ -502,4 +488,4 @@ const objecten = {
     },
 }
 
-export default RelatieKoppelingenComponent
+export default RelatieComponent

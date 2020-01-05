@@ -1,13 +1,7 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import ViewFieldTitelEnInhoud from './../../ViewFieldTitelEnInhoud'
-import ViewFieldTags from './../../ViewFieldTags'
 
 class ContainerViewFieldsBelang extends Component {
-    constructor(props) {
-        super(props)
-    }
-
     render() {
         const crudObject = this.props.crudObject
         return (

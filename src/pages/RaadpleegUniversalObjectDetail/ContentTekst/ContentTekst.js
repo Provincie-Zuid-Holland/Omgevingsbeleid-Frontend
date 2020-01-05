@@ -1,10 +1,6 @@
 import React, { Component } from 'react'
 
 class ContentTekst extends Component {
-    constructor(props) {
-        super(props)
-    }
-
     render() {
         return (
             <div className="mt-6 text-gray-800">

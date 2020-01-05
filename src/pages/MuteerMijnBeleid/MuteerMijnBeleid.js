@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
 import { Helmet } from 'react-helmet'
 
-// Import API
-import axios from './../../API/axios'
-
 // Import Components
 import ContainerMain from './../../components/ContainerMain'
 import MijnBeleid from './../../components/MijnBeleid'

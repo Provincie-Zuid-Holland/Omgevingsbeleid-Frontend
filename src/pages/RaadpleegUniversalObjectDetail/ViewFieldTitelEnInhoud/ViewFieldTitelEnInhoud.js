@@ -13,6 +13,7 @@ function ViewFieldTitelEnInhoud(props) {
                 </h2>
                 {arrayOfParagraphs.map((item, index) => (
                     <p
+                        key={index}
                         className={`text-gray-700 text-sm ${
                             index === arrayOfParagraphs.length ? 'mb-4' : 'mb-2'
                         }`}

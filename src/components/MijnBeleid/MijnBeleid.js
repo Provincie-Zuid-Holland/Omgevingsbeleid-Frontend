@@ -23,15 +23,15 @@ class MijnBeleid extends Component {
 
     getBeleidVanGebruiker() {
         const dimensies = [
-            'Ambitie',
-            'Opgave',
-            'BeleidsRegel',
-            'Doel',
-            'Belang',
+            'Ambities',
+            'Opgaven',
+            'BeleidsRegels',
+            'Doelen',
+            'Belangen',
             'Beleidsbeslissingen',
             'Maatregelen',
-            'Thema',
-            'Verordening',
+            "Thema's",
+            'Verordeningen',
         ]
         const lijstMetAPIEndpoints = dimensies.map(item => {
             return {

@@ -21,7 +21,6 @@ import MuteerBeleidsrelatiesCRUD from './../../pages/MuteerBeleidsrelatiesCRUD'
 
 // Import Components
 import AuthenticationWrapper from './../../components/AuthenticationWrapper'
-import NoMatch from './../../components/NoMatch'
 
 function BeheerRoutes(props) {
     const beheerRoutesList = props.beheerRoutesList
@@ -88,7 +87,6 @@ function BeheerRoutes(props) {
                                 overzichtSlug={overzichtSlug}
                                 history={props.history}
                                 match={match}
-                                hoofdOnderdeelSlug={overzichtSlug}
                             />
                         )}
                     />
@@ -101,7 +99,6 @@ function BeheerRoutes(props) {
                                 history={props.history}
                                 overzichtSlug={overzichtSlug}
                                 match={match}
-                                hoofdOnderdeelSlug={overzichtSlug}
                             />
                         )}
                     />
@@ -145,7 +142,7 @@ class AuthRoutes extends Component {
         const beheerRoutesList = [
             {
                 slug: 'beleidsregels',
-                dataModelProperty: 'BeleidsRegel',
+                dataModelProperty: 'BeleidsRegels',
             },
             {
                 slug: 'maatregelen',
@@ -153,28 +150,24 @@ class AuthRoutes extends Component {
             },
             {
                 slug: 'opgaven',
-                dataModelProperty: 'Opgave',
+                dataModelProperty: 'Opgaven',
             },
             {
                 slug: 'ambities',
-                dataModelProperty: 'Ambitie',
+                dataModelProperty: 'Ambities',
             },
             {
                 slug: 'belangen',
-                dataModelProperty: 'Belang',
+                dataModelProperty: 'Belangen',
             },
             {
                 slug: 'themas',
-                dataModelProperty: 'Thema',
+                dataModelProperty: "Thema's",
             },
             {
                 slug: 'beleidsbeslissingen',
                 dataModelProperty: 'Beleidsbeslissingen',
             },
-            // {
-            //     slug: 'beleidsrelaties',
-            //     dataModelProperty: 'BeleidsRelatie',
-            // },
         ]
 
         return (

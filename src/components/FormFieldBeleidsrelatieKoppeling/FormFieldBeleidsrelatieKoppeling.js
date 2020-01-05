@@ -2,19 +2,10 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import axios from './../../API/axios'
 import { toast } from 'react-toastify'
-import { useSpring, animated } from 'react-spring'
 
-import {
-    faCaretDown,
-    faAngleDown,
-    faPlus,
-    faTimes,
-    faSearch,
-    faEye,
-} from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faEye } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import PopUpAnimatedContainer from './../PopUpAnimatedContainer'
 import PopupNieuweKoppeling from './PopupNieuweKoppeling'
 import PopupBewerkKoppeling from './PopupBewerkKoppeling'
 import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFieldTitelEnBeschrijving'
@@ -135,25 +126,19 @@ class FormFieldBeleidsrelatieKoppeling extends Component {
         document.addEventListener('mousedown', this.handleClickOutside, false)
 
         if (this.props.editStatus) {
-            const crudObject = this.props.crudObject
             const UUID = this.props.objectUUID
-            const propertyName = 'beleidsbeslissing'
             const apiURL = `/beleidsrelaties?Van_Beleidsbeslissing=${UUID}`
 
             // Haalt de bestaande beleidsrelaties op die gekoppeld zijn VAN deze beleidsbeslissing
             axios
                 .get(apiURL)
                 .then(res => {
-                    this.setState(
-                        {
-                            objecten: res.data,
-                            dataFromAPILoaded: true,
-                        },
-                        () => console.log(this.state)
-                    )
+                    this.setState({
+                        objecten: res.data,
+                        dataFromAPILoaded: true,
+                    })
                 })
                 .catch(error => {
-                    console.log(error)
                     this.setState({
                         dataFromAPILoaded: true,
                     })
@@ -180,14 +165,12 @@ class FormFieldBeleidsrelatieKoppeling extends Component {
                 maakNieuweBeleidsrelatieAan: true,
             },
             () => {
-                console.log(nieuweBeleidsrelatie)
                 axios
                     .post(`/beleidsrelaties`, nieuweBeleidsrelatie)
                     .then(res => {
                         const nieuweBeleidsrelatie = res.data
                         let nieuweObjecten = this.state.objecten
                         nieuweObjecten.push(nieuweBeleidsrelatie)
-                        console.log(nieuweObjecten)
                         this.setState(
                             {
                                 objecten: nieuweObjecten,
@@ -204,30 +187,10 @@ class FormFieldBeleidsrelatieKoppeling extends Component {
     }
 
     render() {
-        console.log(this.state.koppelingenRelaties)
 
         // crudObject met alle huidige data
         const crudObject = this.props.crudObject
         const actieveKoppelingen = this.state.objecten
-
-        // // Bevat de properties van het crudObject die hierin bewerkt moeten worden
-        // const koppelingRelatieArray = this.props.koppelingRelatieArray
-
-        // // Maakt een array om te kijken of 1 van de properties op het crudObject al data heeft
-        // const actieveKoppelingOfRelatiesBoolean = koppelingRelatieArray.map(
-        //     item => {
-        //         const propertyName = objecten[item].propertyName
-        //         return (
-        //             crudObject[propertyName] !== undefined &&
-        //             crudObject[propertyName].length > 0
-        //         )
-        //     }
-        // )
-
-        // Lege array waar de properties in worden gepushed na er overheen gemap'd te zijn
-        // 'Belang' en 'Taak' zijn aparte typen, maar zitten wel beidde op dezelfde propertyName op het crudObject
-        // Als tijdens het map'en de propertyName al in de propertyNamesMapped array staat, slaat die 'm over
-        let propertyNamesMapped = []
 
         return (
             <div className="mb-10">

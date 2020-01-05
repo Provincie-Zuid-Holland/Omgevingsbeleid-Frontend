@@ -1,12 +1,7 @@
 import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 
-import {
-    faCaretDown,
-    faSignInAlt,
-    faClock,
-    faAngleRight,
-} from '@fortawesome/free-solid-svg-icons'
+import { faCaretDown, faSignInAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 // function getToken() {
@@ -180,7 +175,7 @@ class Navigation extends Component {
                 className="bg-white fixed w-full z-20 top-0"
                 id="navigation-main"
             >
-                <div className="lg:px-10 bg-white border-b border-gray-200 py-6 container mx-auto flex items-center justify-between flex-wrap bg-white">
+                <div className="lg:px-6 bg-white border-b border-gray-200 py-6 container mx-auto flex items-center justify-between flex-wrap bg-white">
                     <div className="flex items-center flex-no-shrink text-black mr-6 py-2">
                         {this.props.loggedIn ? (
                             <Link

@@ -135,7 +135,7 @@ class EditControl extends MapControl {
         this.leafletElement.remove(map)
         this.leafletElement = createDrawElement(this.props)
         this.leafletElement.addTo(map).on('click', () => {
-            console.log('Clicked')
+            // console.log('Clicked')
         })
 
         return null

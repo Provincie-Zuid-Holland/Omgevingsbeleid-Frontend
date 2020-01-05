@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Route, Switch, withRouter, Redirect } from 'react-router-dom'
+import { Route, Switch, withRouter } from 'react-router-dom'
 import axios from './../API/axios'
 import { Helmet } from 'react-helmet'
 
@@ -26,7 +26,6 @@ import AuthRoutes from './AuthRoutes'
 // Import Components
 import Navigation from './../components/Navigation'
 import LoaderContent from './../components/LoaderContent'
-import NoMatch from './../components/NoMatch'
 
 // Import Sentry (Bug tracking)
 import * as Sentry from '@sentry/browser'
@@ -59,16 +58,13 @@ class App extends Component {
         axios
             .get('/tokeninfo')
             .then(res => {
-                this.setState(
-                    {
-                        loggedIn: true,
-                        authUser: res.data.identifier,
-                        dataLoaded: true,
-                    },
-                    () => console.log(this.state)
-                )
+                this.setState({
+                    loggedIn: true,
+                    authUser: res.data.identifier,
+                    dataLoaded: true,
+                })
             })
-            .catch(error => {
+            .catch(() => {
                 localStorage.removeItem('access_token')
                 this.setState({ loggedIn: false, dataLoaded: true })
             })
@@ -78,15 +74,15 @@ class App extends Component {
         const detailPaginas = [
             {
                 slug: 'ambities',
-                dataModel: dataModel.Ambitie,
+                dataModel: dataModel.Ambities,
             },
             {
                 slug: 'beleidsregels',
-                dataModel: dataModel.BeleidsRegel,
+                dataModel: dataModel.BeleidsRegels,
             },
             {
                 slug: 'doelen',
-                dataModel: dataModel.Doel,
+                dataModel: dataModel.Doelen,
             },
             {
                 slug: 'provinciale-belangen',
@@ -94,7 +90,7 @@ class App extends Component {
             },
             {
                 slug: 'belangen',
-                dataModel: dataModel.Belang,
+                dataModel: dataModel.Belangen,
             },
             {
                 slug: 'maatregelen',
@@ -104,29 +100,22 @@ class App extends Component {
                 slug: 'beleidsbeslissingen',
                 dataModel: dataModel.Beleidsbeslissingen,
             },
-            // {
-            //     slug: 'beleidsrelaties',
-            //     dataModel: dataModel.BeleidsRelatie,
-            // },
             {
                 slug: 'themas',
-                dataModel: dataModel.Thema,
-            },
-            {
-                slug: 'beleidsbeslissingen',
-                dataModel: dataModel.Beleidsbeslissingen,
+                dataModel: dataModel["Thema's"],
             },
             {
                 slug: 'opgaven',
-                dataModel: dataModel.Opgave,
+                dataModel: dataModel.Opgaven,
             },
         ]
 
         return (
             <main
                 className={`min-h-screen pt-12 ${
-                    this.props.location.pathname.includes('muteer')
-                        ? 'body-bg-color'
+                    this.props.location.pathname.includes('muteer') ||
+                    this.props.location.pathname.includes('login')
+                        ? 'bg-gray-100'
                         : ''
                 }`}
                 id="main-container"

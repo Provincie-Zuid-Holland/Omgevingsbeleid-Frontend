@@ -47,9 +47,6 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
     }
 
     verwijderKoppelingFromLocalState(itemObject) {
-        console.log(itemObject)
-        console.log(this.state.koppelingenRelaties)
-
         let nieuwKoppelingenRelatiesObject = this.state.koppelingenRelaties
         const index = nieuwKoppelingenRelatiesObject[
             itemObject.propertyName
@@ -62,9 +59,6 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
     }
 
     wijzigKoppelingRelatieFromLocalState(itemObject, nieuweOmschrijving) {
-        console.log(itemObject)
-        console.log(this.state.koppelingenRelaties)
-
         let nieuwKoppelingenRelatiesObject = this.state.koppelingenRelaties
         const index = nieuwKoppelingenRelatiesObject[
             itemObject.propertyName
@@ -72,10 +66,6 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
         nieuwKoppelingenRelatiesObject[itemObject.propertyName][
             index
         ].Omschrijving = nieuweOmschrijving
-
-        console.log(
-            nieuwKoppelingenRelatiesObject[itemObject.propertyName][index]
-        )
 
         this.setState({
             koppelingenRelaties: nieuwKoppelingenRelatiesObject,
@@ -322,7 +312,7 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
         // Deze worden gereturned in een Promise.all()
         Promise.all(
             actieveKoppelingOfRelaties.map((propertyName, indexPropertyName) =>
-                newStateKoppelingenRelatiesObject[propertyName].map(
+                newStateKoppelingenRelatiesObject[propertyName].forEach(
                     (koppeling, indexKoppeling) => {
                         if (
                             objecten[propertyName.toLowerCase()] === undefined
@@ -361,21 +351,6 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
         // Bevat de properties van het crudObject die hierin bewerkt moeten worden
         const koppelingRelatieArray = this.props.koppelingRelatieArray
 
-        // Maakt een array om te kijken of 1 van de properties op het crudObject al data heeft
-        const actieveKoppelingOfRelatiesBoolean = koppelingRelatieArray.map(
-            item => {
-                const propertyName = objecten[item].propertyName
-                if (crudObject[propertyName] === null) {
-                    return false
-                } else {
-                    return (
-                        crudObject[propertyName] ||
-                        crudObject[propertyName].length > 0
-                    )
-                }
-            }
-        )
-
         // Lege array waar de properties in worden gepushed na er overheen gemap'd te zijn
         // 'Belang' en 'Taak' zijn aparte typen, maar zitten wel beidde op dezelfde propertyName op het crudObject
         // Als tijdens het map'en de propertyName al in de propertyNamesMapped array staat, slaat die 'm over
@@ -411,8 +386,9 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
                                             propertyName
                                         )
                                     ) {
-                                        return
+                                        return null
                                     }
+                                    // De eerste keer dat we deze property mappen, dus pushen we hem in de propertyNamesMapped array
                                     propertyNamesMapped.push(propertyName)
 
                                     // Als deze propertyName niet in het koppelingenRelaties object zit; return
@@ -423,7 +399,7 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
                                             propertyName
                                         ] === undefined
                                     ) {
-                                        return
+                                        return null
                                     }
 
                                     // Anders returnen we de list items door te loopen over koppelingenRelaties[propertyName]
@@ -458,7 +434,7 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
                                                 <div className="w-40 mr-5 relative">
                                                     {type}
                                                 </div>
-                                                <div className="w-full relative">
+                                                <div className="w-full relative pr-8">
                                                     {item.data
                                                         ? item.data.Titel
                                                         : null}

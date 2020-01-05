@@ -138,12 +138,9 @@ class MuteerVerordening extends Component {
     }
 
     setActiveItem(item) {
-        this.setState(
-            {
-                activeItem: item,
-            },
-            () => console.log(this.state.activeItem)
-        )
+        this.setState({
+            activeItem: item,
+        })
     }
 
     toggleMainSideBar() {
@@ -241,18 +238,13 @@ class MuteerVerordening extends Component {
 
     componentDidMount() {
         const ApiEndpoint = this.props.dataModel.variables.Api_Endpoint
-        console.log('endpoint:')
-        console.log(ApiEndpoint)
 
         // Connect With the API
         axios
             .get(ApiEndpoint)
             .then(res => {
-                console.log(res.data)
                 const objecten = res.data
-                this.setState({ objecten: objecten, dataLoaded: true }, () =>
-                    console.log(this.state)
-                )
+                this.setState({ objecten: objecten, dataLoaded: true })
             })
             .catch(error => {
                 this.setState({ dataLoaded: true })

@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import {
     Page,
     Text,
@@ -284,9 +283,6 @@ function PDFContainerViewFieldsThema() {
 }
 
 class PDFDocument extends Component {
-    constructor(props) {
-        super(props)
-    }
     render() {
         const titelEnkelvoud = this.props.titelEnkelvoud
         const dataObject = true

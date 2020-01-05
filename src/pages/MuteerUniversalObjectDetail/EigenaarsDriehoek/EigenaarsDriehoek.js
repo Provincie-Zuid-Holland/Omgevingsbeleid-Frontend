@@ -1,12 +1,8 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 
 import EigenaarsDriehoekItem from './../EigenaarsDriehoekItem'
 
 class EigenaarsDriehoek extends Component {
-    constructor(props) {
-        super(props)
-    }
     render() {
         return (
             <React.Fragment>

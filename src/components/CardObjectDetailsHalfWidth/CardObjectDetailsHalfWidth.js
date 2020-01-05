@@ -14,24 +14,24 @@ function getExcerpt(tekst) {
     }
 }
 
-function CardObjectDetailsHalfWidth(props) {
-    const object = props.object
-    const overzichtSlug = props.overzichtSlug
-    const titelEnkelvoud = props.titelEnkelvoud
-    const hoofdOnderdeelSlug = props.hoofdOnderdeelSlug
-    const hideParagraaf = props.hideParagraaf
-
+function CardObjectDetailsHalfWidth({
+    object,
+    overzichtSlug,
+    titelEnkelvoud,
+    hideParagraaf,
+    fullWidth,
+    index,
+    mijnBeleid,
+}) {
     return (
         <ContainerAnimateContent>
             <Link
                 className={`relative inline-block h-full px-4 pb-6 pt-4 shadow-md rounded overflow-hidden bg-white ${
-                    props.fullWidth ? 'w-full' : 'w-1/2'
+                    fullWidth ? 'w-full' : 'w-1/2'
                 }`}
-                id={`object-card-${titelEnkelvoud.toLowerCase()}-${
-                    props.index
-                }`}
+                id={`object-card-${titelEnkelvoud.toLowerCase()}-${index}`}
                 to={`/muteer/${overzichtSlug}/${object.ID}${
-                    props.mijnBeleid ? '#mijn-beleid' : ''
+                    mijnBeleid ? '#mijn-beleid' : ''
                 }`}
             >
                 <h5 className="text-gray-600 text-sm font-light py-1">

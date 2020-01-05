@@ -68,7 +68,6 @@ function SearchResultItem(props) {
         Omschrijving: getExcerpt(getContent('Omschrijving')),
     }
 
-    console.log(props.item.type)
     const overzichtURL = dataModel[props.item.type].variables.Overzicht_Slug
 
     return (
@@ -130,8 +129,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
         let mainFilterObject = {}
 
         searchResults.forEach((item, index) => {
-            console.log(item.type)
-            // REFACTOR MIJ, IK SMEEK JE
+            // !REFACTOR!
             if (item.type === 'Belangen') {
                 item.type = 'Belang'
             }
@@ -153,7 +151,6 @@ class RaadpleegZoekResultatenOverzicht extends Component {
             if (item.type === "Thema's") {
                 item.type = 'Thema'
             }
-            console.log(item.type)
             const filterObject = {
                 name: item.type,
                 checked: true,
@@ -169,12 +166,9 @@ class RaadpleegZoekResultatenOverzicht extends Component {
 
         mainFilterObject.filterArray = filterArray
 
-        this.setState(
-            {
-                onPageFilters: mainFilterObject,
-            },
-            () => console.log(this.state)
-        )
+        this.setState({
+            onPageFilters: mainFilterObject,
+        })
     }
 
     componentDidMount() {
@@ -183,12 +177,9 @@ class RaadpleegZoekResultatenOverzicht extends Component {
         const searchQuery = searchParams.get('query')
         const searchFiltersOnly = searchParams.get('only')
 
-        this.setState(
-            {
-                searchQuery: searchQuery,
-            },
-            () => console.log(this.state.searchQuery)
-        )
+        this.setState({
+            searchQuery: searchQuery,
+        })
 
         if (!urlParams || urlParams.length === 0) {
             return
@@ -197,18 +188,12 @@ class RaadpleegZoekResultatenOverzicht extends Component {
             .get(`/search` + urlParams)
             .then(res => {
                 const searchResults = res.data
-                searchResults.forEach(item => console.log(item.type))
-                console.log('searchResults:')
-                console.log(searchResults)
                 this.setInitialOnPageFilters(searchResults)
-                this.setState(
-                    {
-                        searchFiltersOnly: searchFiltersOnly,
-                        searchResults: searchResults,
-                        dataLoaded: true,
-                    },
-                    () => console.log(this.state)
-                )
+                this.setState({
+                    searchFiltersOnly: searchFiltersOnly,
+                    searchResults: searchResults,
+                    dataLoaded: true,
+                })
             })
             .catch(err => console.log(err))
     }

@@ -1,9 +1,6 @@
 import React from 'react'
 import Select from 'react-select'
 
-// Import Axios instance to connect with the API
-import axios from './../../API/axios'
-
 // Import Components
 import LoaderSelect from './../LoaderSelect'
 
@@ -81,8 +78,6 @@ class FormFieldSelectUser extends React.Component {
     }
 
     componentDidMount() {
-        const ApiEndpoint = 'gebruikers'
-
         const objecten = this.props.gebruikersLijst
             .sort((a, b) => (a.Gebruikersnaam > b.Gebruikersnaam ? 1 : -1))
             .filter(e => e.Rol === this.props.filter)
@@ -91,8 +86,6 @@ class FormFieldSelectUser extends React.Component {
             objecten,
             this.props.dataObjectProperty
         )
-
-        console.log(selectionArray)
 
         if (this.props.editStatus === true && selectionArray) {
             const selected = selectionArray.find(

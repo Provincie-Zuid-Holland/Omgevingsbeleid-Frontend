@@ -1,11 +1,6 @@
 import React, { Component } from 'react'
 import axios from './../../../API/axios'
-import {
-    faCaretDown,
-    faAngleDown,
-    faTimes,
-    faSearch,
-} from '@fortawesome/free-solid-svg-icons'
+import { faTimes, faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import PopUpAnimatedContainer from './../../PopUpAnimatedContainer'
@@ -41,13 +36,10 @@ class PopupNieuweKoppeling extends Component {
                 // Anders const de objecten array zonder het eerste array item
                 let responseObjecten
                 if (objecten[this.state.type].filterAPI === true) {
-                    responseObjecten = res.data.filter(item => {
-                        if (
+                    responseObjecten = res.data.filter(
+                        item =>
                             item.Type === objecten[this.state.type].filterType
-                        ) {
-                            return item
-                        }
-                    })
+                    )
                 } else {
                     responseObjecten = res.data
                 }
@@ -110,9 +102,6 @@ class PopupNieuweKoppeling extends Component {
                 )
             )
             .filter(item => !actieveKoppelingen.includes(item.UUID))
-
-        console.log('this.state.type:')
-        console.log(this.state.type)
 
         let koppelTekst = ''
         switch (this.state.type) {
@@ -220,7 +209,6 @@ class PopupNieuweKoppeling extends Component {
                                         className="text-sm text-gray-700 px-4 py-2 cursor-not-allowed"
                                         key="0"
                                     >
-                                        {console.log(this.state.dataLoaded)}
                                         {this.state.dataLoaded ? (
                                             this.state.zoekFilter.length ===
                                             0 ? (

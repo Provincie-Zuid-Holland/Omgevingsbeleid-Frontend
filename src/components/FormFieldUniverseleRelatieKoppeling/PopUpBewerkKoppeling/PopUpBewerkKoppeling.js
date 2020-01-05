@@ -14,7 +14,6 @@ class PopUpBewerkKoppeling extends Component {
             omschrijving: this.props.bewerkItem.item.Omschrijving || '',
         }
         this.handleChange = this.handleChange.bind(this)
-        console.log(this.props)
     }
 
     handleChange(e) {

@@ -16,14 +16,9 @@ import ContainerDetailMain from './ContainerDetailMain'
 import axios from '../../API/axios'
 
 // Generate Back Button for Detail or Version page
-function GenerateBackToButton(props) {
-    const overzichtSlug = props.overzichtSlug
-    const pageType = props.pageType
-    const hoofdOnderdeelSlug = props.hoofdOnderdeelSlug
-
+function GenerateBackToButton({ overzichtSlug, pageType, hash, dataObject }) {
     if (pageType === 'detail') {
-        console.log(props.hash)
-        if (props.hash === '#mijn-beleid') {
+        if (hash === '#mijn-beleid') {
             return (
                 <ButtonBackToPage
                     terugNaar={` mijn beleid`}
@@ -39,7 +34,7 @@ function GenerateBackToButton(props) {
             )
         }
     } else if (pageType === 'version') {
-        const dataObjectID = props.dataObject.ID
+        const dataObjectID = dataObject.ID
         return (
             <ButtonBackToPage
                 terugNaar={`huidige versie`}
@@ -50,22 +45,22 @@ function GenerateBackToButton(props) {
 }
 
 // Generate list for revisies
-function RevisieList(props) {
+function RevisieList({ dataObject, overzichtSlug, hash }) {
     return (
         <div>
             <div className="w-24 h-6 border-r-2 flex items-center justify-end border-gray-300 pt-5 mr-2 " />
             <ul className="revisie-list relative">
-                {props.dataObject.map((item, index) => {
+                {dataObject.map((item, index) => {
                     return (
                         <li key={item.UUID}>
                             <div className="flex items-center justify-between">
                                 <Link
                                     id={`revisie-item-${index}`}
                                     to={makeURLForRevisieObject(
-                                        props.overzichtSlug,
+                                        overzichtSlug,
                                         item.ID,
                                         item.UUID,
-                                        props.hash
+                                        hash
                                     )}
                                     className="flex items-end h-6 relative mr-2 hover:underline"
                                 >
@@ -96,11 +91,6 @@ function makeURLForRevisieObject(overzichtSlug, objectID, objectUUID, hash) {
     } else {
         return `/muteer/${overzichtSlug}/${objectID}/${objectUUID}`
     }
-}
-
-// Link naar de CRUD pagina van een nieuw object
-function makeURLForNewObject(overzichtSlug, objectID) {
-    return `/muteer/${overzichtSlug}/edit/${objectID}`
 }
 
 class MuteerUniversalObjectDetail extends Component {
@@ -184,22 +174,17 @@ class MuteerUniversalObjectDetail extends Component {
         // Variables to give as props
         const titelEnkelvoud = this.props.dataModel.variables.Titel_Enkelvoud
         const overzichtSlug = this.props.dataModel.variables.Overzicht_Slug
-        const hoofdOnderdeelSlug = this.props.hoofdOnderdeelSlug
         const pageType = this.state.pageType
 
         // False if data is loading, true if a response is received
         let dataReceived = this.state.dataReceived
 
-        // Create dataObject and revisieObject to pass down to the sidebar
-        let dataObject = {}
-        let revisieObject = {}
-
         // If the page is a detail page the dataObject will be an array.
         // We always want the first item from this array
         // Else the dataObject will be a single Object
+        let dataObject = {}
         if (dataReceived && pageType === 'detail') {
             dataObject = this.state.dataObject[0]
-            revisieObject = this.state.dataObject
         } else if (dataReceived && pageType === 'version') {
             dataObject = this.state.dataObject
         }
@@ -217,9 +202,7 @@ class MuteerUniversalObjectDetail extends Component {
                     <GenerateBackToButton
                         hash={this.props.location.hash}
                         dataObject={dataObject}
-                        titelEnkelvoud={titelEnkelvoud}
                         overzichtSlug={overzichtSlug}
-                        hoofdOnderdeelSlug={hoofdOnderdeelSlug}
                         pageType={pageType}
                     />
 

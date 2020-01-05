@@ -58,13 +58,10 @@ class MuteerBeleidsrelatieDetail extends Component {
                     const that = this
 
                     Promise.all(axiosGETArray).then(function(values) {
-                        that.setState(
-                            {
-                                Van_Beleidsbeslissingen: beleidsrelaties,
-                                vanLoaded: true,
-                            },
-                            () => console.log(that.state)
-                        )
+                        that.setState({
+                            Van_Beleidsbeslissingen: beleidsrelaties,
+                            vanLoaded: true,
+                        })
                     })
                 } else {
                     this.setState({
@@ -92,13 +89,10 @@ class MuteerBeleidsrelatieDetail extends Component {
                     const that = this
 
                     Promise.all(axiosGETArray).then(function(values) {
-                        that.setState(
-                            {
-                                Naar_Beleidsbeslissingen: beleidsrelaties,
-                                naarLoaded: true,
-                            },
-                            () => console.log(that.state)
-                        )
+                        that.setState({
+                            Naar_Beleidsbeslissingen: beleidsrelaties,
+                            naarLoaded: true,
+                        })
                     })
                 } else {
                     this.setState({

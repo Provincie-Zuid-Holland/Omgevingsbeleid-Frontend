@@ -23,6 +23,12 @@ $base-color: #000066;
     background-color: $base-color;
 }
 
+.mbg-color-darker-hover {
+    &:hover {
+        background-color: darken($base-color, 5%);
+    }
+}
+
 .mbg-color-darker {
     background-color: darken($base-color, 5%);
 }
@@ -45,6 +51,14 @@ $base-color: #000066;
 
 .m-border-color {
     border-color: #464792;
+}
+
+.purple-border-color {
+    border-color: #000066;
+}
+
+.purple-light-bg-color {
+    background-color: #f3f3f7;
 }
 
 .body-bg-color {
@@ -475,6 +489,14 @@ $base-color: #000066;
     width: 15.5rem;
     margin-left: 3.3rem;
     width: 15rem;
+}
+
+.popup-small {
+    // height: 525px;
+    max-height: 100%;
+    width: 100%;
+    max-width: 450px;
+    overflow-y: auto;
 }
 
 .popup-normal {

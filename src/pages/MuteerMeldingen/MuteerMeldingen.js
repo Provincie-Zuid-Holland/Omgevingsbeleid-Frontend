@@ -1,28 +1,13 @@
 import React, { Component } from 'react'
 import { Helmet } from 'react-helmet'
 
-// Import API
-import axios from './../../API/axios'
-
 // Import Components
 import ContainerMain from './../../components/ContainerMain'
 import SidebarMain from './../../components/SidebarMain'
-import ButtonAddNewObject from './../../components/ButtonAddNewObject'
-import CardObjectDetails from './../../components/CardObjectDetails'
 import LoaderCard from './../../components/LoaderCard'
 import MeldingAlgemeen from './../../components/MeldingAlgemeen'
 import MeldingEigenaarOverdracht from './../../components/MeldingEigenaarOverdracht'
 import MeldingKoppeling from './../../components/MeldingKoppeling'
-
-class KaartenGroep extends Component {
-    render() {
-        return (
-            <div className="w-full inline-block relative">
-                {this.props.children}
-            </div>
-        )
-    }
-}
 
 class MuteerMeldingen extends Component {
     constructor(props) {
@@ -101,26 +86,6 @@ class MuteerMeldingen extends Component {
                                 <MeldingKoppeling />
                             </React.Fragment>
                         ) : (
-                            // <ul className="flex mt-8 flex-wrap">
-                            //     {this.state.objecten.slice(1).map(object => (
-                            //         <li
-                            //             key={object.ID}
-                            //             className="mb-6 w-full display-inline"
-                            //         >
-                            //             {
-                            //                 // <CardObjectDetailsHalfWidth
-                            //                 //     object={object}
-                            //                 //     overzichtSlug={overzichtSlug}
-                            //                 //     titelEnkelvoud={titelEnkelvoud}
-                            //                 //     hoofdOnderdeelSlug={
-                            //                 //         overzichtSlug
-                            //                 //     }
-                            //                 //     hideParagraaf={true}
-                            //                 // />
-                            //             }
-                            //         </li>
-                            //     ))}
-                            // </ul>
                             <div className="w-full">
                                 <LoaderCard />
                                 <LoaderCard />

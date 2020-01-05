@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import { Helmet } from 'react-helmet'
 import { Link, withRouter } from 'react-router-dom'
 
@@ -11,7 +10,6 @@ import {
     faEnvelope,
     faTimes,
 } from '@fortawesome/pro-solid-svg-icons'
-import { faSquare } from '@fortawesome/pro-light-svg-icons'
 
 import axios from './../../API/axios'
 
@@ -61,7 +59,6 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
     // Als het compent gemount wordt, haal alle beleidsbeslissingen en beleidsrelaties => setState op en initialize state
     componentDidMount() {
         const UserUUID = JSON.parse(localStorage.getItem('identifier')).UUID
-        console.log(UserUUID)
         Promise.all([
             axios.get(
                 `/beleidsbeslissingen?Created_By=${UserUUID}&Eigenaar_1=${UserUUID}&Eigenaar_2=${UserUUID}&Opdrachtgever=${UserUUID}`
@@ -118,14 +115,9 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
     // Kijkt hoeveel onbevestigde relaties er in het beleidsrelatie object zitten met de geleverde UUID
     countOnbevestigdeRelaties(UUID) {
         const beleidsrelaties = this.state.beleidsrelaties.filter(
-            beleidsrelatie => {
-                if (
-                    beleidsrelatie.Van_Beleidsbeslissing === UUID &&
-                    beleidsrelatie.Status === 'Open'
-                ) {
-                    return beleidsrelatie
-                }
-            }
+            beleidsrelatie =>
+                beleidsrelatie.Van_Beleidsbeslissing === UUID &&
+                beleidsrelatie.Status === 'Open'
         )
         return beleidsrelaties.length
     }
@@ -348,11 +340,10 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                                         </div>
                                     </li>
                                     {this.state.dataLoaded &&
-                                    this.state.beleidsbeslissingenObject !==
-                                        null ? (
-                                        this.state.beleidsbeslissingenObject
-                                            .length !== 0 ? (
-                                            this.state.beleidsbeslissingenObject.map(
+                                    beleidsbeslissingenObject !== null ? (
+                                        beleidsbeslissingenObject.length !==
+                                        0 ? (
+                                            beleidsbeslissingenObject.map(
                                                 item => {
                                                     return (
                                                         <li key={item.UUID}>

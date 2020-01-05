@@ -20,17 +20,6 @@ export default function AuthenticationWrapper(AuthComponent) {
                 tokenDate
             )
 
-            if (!!token) {
-                console.log(
-                    '%cLogged in!',
-                    'background-color: green; color: white; padding: 2px; border-radius: 3px; font-size: 12px;'
-                )
-            } else {
-                console.log(
-                    '%cNot Logged in!',
-                    'background-color: red; color: white; padding: 2px; border-radius: 3px; font-size: 12px;'
-                )
-            }
             if (!!token && tokenTimeDiffMinutes < 60) {
                 return true // If token exists
             } else {

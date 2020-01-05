@@ -1,41 +1,15 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
-import {
-    faCheckCircle,
-    faPlus,
-    faTimes,
-    faSearch,
-} from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faTimes, faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useSpring, animated } from 'react-spring'
 import format from 'date-fns/format'
 import nlLocale from 'date-fns/locale/nl'
 
 import axios from './../../API/axios'
-import { api_version, axiosGeoJSON } from './../../API/axiosGeoJSON'
 import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFieldTitelEnBeschrijving'
 import LoaderWerkingsgebiedCard from './../LoaderWerkingsgebiedCard'
 import LeafletCardViewer from './../LeafletCardViewer'
-
-function makeSelection(objectenArray, dataObjectProperty) {
-    if (objectenArray.length === 1) {
-        return null
-    } else {
-        let options = []
-        objectenArray.slice(1).forEach(arrayItem => {
-            options.push({
-                label: arrayItem.Werkingsgebied,
-                value: arrayItem.UUID,
-                target: {
-                    type: 'relatie',
-                    value: arrayItem.UUID,
-                    name: dataObjectProperty,
-                },
-            })
-        })
-        return options
-    }
-}
 
 function CardWerkingsGebied(props) {
     return (
@@ -198,22 +172,15 @@ class PopUpWerkingsGebiedContainer extends Component {
     }
 
     filterGebieden(e) {
-        this.setState(
-            {
-                filterValue: e.target.value,
-            },
-            () => console.log(this.state)
-        )
+        this.setState({
+            filterValue: e.target.value,
+        })
     }
 
     selectGebied(gebied) {
-        const selectedGebied = gebied
-        this.setState(
-            {
-                selected: gebied,
-            },
-            () => console.log(this.state)
-        )
+        this.setState({
+            selected: gebied,
+        })
     }
 
     koppelGebied() {
@@ -254,15 +221,12 @@ class PopUpWerkingsGebiedContainer extends Component {
                 api.getGeoJsonData('Werkingsgebieden', item)
                     .then(data => {
                         werkingsgebiedenArray.push(data)
-                        that.setState(
-                            {
-                                werkingsgebieden: werkingsgebiedenArray,
-                            },
-                            () => console.log(that.state)
-                        )
+                        that.setState({
+                            werkingsgebieden: werkingsgebiedenArray,
+                        })
                     })
-                    .catch(function(thrown) {
-                        console.log(thrown)
+                    .catch(function(err) {
+                        console.log(err)
                     })
             })
         })
@@ -274,8 +238,6 @@ class PopUpWerkingsGebiedContainer extends Component {
             .then(res => {
                 res.data.shift()
                 const werkingsgebieden = res.data
-                // const selectionArray = this.makeSelection(werkingsgebieden)
-                // return this.generateJSONForAllWerkingsgebieden(selectionArray)
                 this.setState({
                     werkingsgebieden: werkingsgebieden,
                     dataLoaded: true,

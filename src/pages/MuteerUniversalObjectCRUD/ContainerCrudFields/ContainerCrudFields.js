@@ -6,7 +6,6 @@ import APIcontext from './../APIContext'
 // Import Components
 import ContainerMain from './../../../components/ContainerMain'
 import ContainerFormSection from './../../../components/ContainerFormSection'
-
 import FormFieldTextInput from './../../../components/FormFieldTextInput'
 import FormFieldTextArea from './../../../components/FormFieldTextArea'
 import FormFieldWeblink from './../../../components/FormFieldWeblink'
@@ -14,24 +13,15 @@ import FormFieldDate from './../../../components/FormFieldDate'
 import FormFieldTags from './../../../components/FormFieldTags'
 import FormFieldSelect from './../../../components/FormFieldSelect'
 import FormFieldSelectBeleidsbeslissing from './../../../components/FormFieldSelectBeleidsbeslissing'
-import FormFieldWerkingsgebiedrelatie from './../../../components/FormFieldWerkingsgebiedrelatie'
 import FormFieldWerkingsgebiedKoppeling from './../../../components/FormFieldWerkingsgebiedKoppeling'
 import FormFieldWerkingsgebiedKoppelingSingle from './../../../components/FormFieldWerkingsgebiedKoppelingSingle'
 import FormFieldSelectUserGroup from './../../../components/FormFieldSelectUserGroup'
 import FormFieldUniverseleRelatieKoppeling from './../../../components/FormFieldUniverseleRelatieKoppeling'
-import FormFieldBeleidsrelatieKoppeling from '../../../components/FormFieldBeleidsrelatieKoppeling/FormFieldBeleidsrelatieKoppeling'
 
 class ContainerCrudFields extends React.Component {
     render() {
-        const objectUUID = this.context.objectUUID
         const crudObject = this.context.crudObject
         const titelEnkelvoud = this.context.titelEnkelvoud
-
-        const statusArrayValues = [
-            ['Open', 'Open'],
-            ['Akkoord', 'Akkoord'],
-            ['NietAkkoord', 'Niet Akkoord'],
-        ]
 
         const verplichtProgrammaValues = [
             ['Ja', 'Ja'],
@@ -41,13 +31,6 @@ class ContainerCrudFields extends React.Component {
         const SpecifiekOfGeneriekValues = [
             ['Gebiedsspecifiek', 'Gebiedsspecifiek'],
             ['Generiek', 'Generiek'],
-        ]
-
-        const VerordeningTypeValues = [
-            ['Hoofdstuk', 'Hoofdstuk'],
-            ['Afdeling', 'Afdeling'],
-            ['Paragraaf', 'Paragraaf'],
-            ['Artikel', 'Artikel'],
         ]
 
         const BelangTypeValues = [
@@ -419,11 +402,6 @@ class ContainerCrudFields extends React.Component {
 
                                             {/* Geldigheid */}
                                             <div className="flex flex-wrap -mx-3">
-                                                {console.log(
-                                                    crudObject[
-                                                        'Begin_Geldigheid'
-                                                    ]
-                                                )}
                                                 {/* Begin Geldigheid */}
                                                 {crudObject[
                                                     'Begin_Geldigheid'
