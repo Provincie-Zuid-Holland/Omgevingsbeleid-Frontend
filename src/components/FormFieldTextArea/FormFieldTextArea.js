@@ -12,6 +12,8 @@ class FormFieldTextArea extends React.Component {
                         pValue={this.props.pValue}
                         addObjectLabel={this.props.addObjectLabel}
                         titelEnkelvoud={this.props.titelEnkelvoud}
+                        anchorText={this.props.anchorText}
+                        anchorLink={this.props.anchorLink}
                     />
                     <textarea
                         id={`form-field-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}

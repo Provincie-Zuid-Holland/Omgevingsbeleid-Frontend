@@ -59,8 +59,8 @@ class ContainerDetailMain extends Component {
 
         return (
             <div
-                className={`relative inline-block w-full px-6 py-5 shadow-md rounded overflow-hidden bg-white -mb-2 ${
-                    pageType === 'version' ? 'mt-6' : null
+                className={`relative inline-block w-full px-6 py-5 shadow-md rounded bg-white -mb-2 ${
+                    pageType === 'version' ? 'mt-6' : ''
                 }`}
             >
                 {titelEnkelvoud === 'Beleidsbeslissing' ? (
@@ -74,6 +74,7 @@ class ContainerDetailMain extends Component {
 
                 {this.state.dropdown ? (
                     <PopUpDetailDropdown
+                        dataObject={dataObject}
                         toggleDropdown={this.toggleDropdown}
                         openState={this.state.dropdown}
                         toggleStatusPopup={this.toggleStatusPopup}

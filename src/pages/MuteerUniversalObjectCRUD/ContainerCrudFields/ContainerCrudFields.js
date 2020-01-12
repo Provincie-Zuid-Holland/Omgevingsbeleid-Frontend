@@ -221,7 +221,9 @@ class ContainerCrudFields extends React.Component {
                                                     fieldLabel="Provinciaal belang"
                                                     addObjectLabel={true}
                                                     dataObjectProperty="Provinciaal_Belang"
-                                                    pValue="Beschrijf en motiveer het provinciaal belang (zie Artikel 2.3 van de Omgevingswet)"
+                                                    pValue="Beschrijf en motiveer het provinciaal belang"
+                                                    anchorText="(zie Artikel 2.3 van de Omgevingswet)"
+                                                    anchorLink="https://zoek.officielebekendmakingen.nl/stb-2016-156.html#d16e418"
                                                     titelEnkelvoud={
                                                         titelEnkelvoud
                                                     }

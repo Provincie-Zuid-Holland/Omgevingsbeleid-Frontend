@@ -57,6 +57,16 @@ class PopUpDetailDropdown extends Component {
                             </Link>
                         </li>
                         <li>
+                            {console.log(this.props)}
+                            <Link
+                                id="navbar-popup-href-raadpleeg-omgeving"
+                                to={`/muteer/beleidsrelaties/${this.props.dataObject.UUID}`}
+                                className="py-2 px-4 text-sm border-t border-gray-300 w-full inline-block"
+                            >
+                                Bekijk beleidsrelaties
+                            </Link>
+                        </li>
+                        <li>
                             <Link
                                 id="navbar-popup-href-uitloggen"
                                 className="py-2 px-4 text-sm border-t border-gray-300 w-full inline-block"

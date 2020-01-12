@@ -137,7 +137,7 @@ class MuteerUniversalObjectCRUD extends Component {
                 savedStateEmpty = false
             }
 
-            // Connect with API and get data from there
+            // Connect with API and get data
             axios
                 .get(`${ApiEndpoint}/${objectID}`)
                 .then(res => {
@@ -248,7 +248,12 @@ class MuteerUniversalObjectCRUD extends Component {
                 // If no saved version make a CRUD Object with empty strings
                 const dataModel = this.props.dataModel
                 const crudProperties = makeCrudPropertiesArray(dataModel)
-                const crudObject = makeCrudObject(crudProperties)
+                let crudObject = makeCrudObject(crudProperties)
+
+                if (this.props.overzichtSlug === 'beleidsbeslissingen') {
+                    crudObject.Eigenaar_1 = this.props.authUser.UUID
+                }
+
                 this.setState({
                     crudObject: crudObject,
                     dataLoaded: true,
@@ -276,12 +281,15 @@ class MuteerUniversalObjectCRUD extends Component {
             }
         }
 
-        this.setState(prevState => ({
-            crudObject: {
-                ...prevState.crudObject,
-                [name]: value,
-            },
-        }))
+        this.setState(
+            prevState => ({
+                crudObject: {
+                    ...prevState.crudObject,
+                    [name]: value,
+                },
+            }),
+            () => console.log(this.state)
+        )
     }
 
     // Algemene State Handler voor de Editor
@@ -486,11 +494,9 @@ class MuteerUniversalObjectCRUD extends Component {
                     } else if (crudObject.Eind_Geldigheid === null) {
                         crudObject.Eind_Geldigheid = ''
                     }
-                    this.setState(
-                        {
-                            crudObject: crudObject,
-                        }
-                    )
+                    this.setState({
+                        crudObject: crudObject,
+                    })
                 })
         }
     }

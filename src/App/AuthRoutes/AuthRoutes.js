@@ -19,11 +19,39 @@ import MuteerVerordening from './../../pages/MuteerVerordening'
 import MuteerBeleidsrelatiesOverzicht from './../../pages/MuteerBeleidsrelatiesOverzicht'
 import MuteerBeleidsrelatiesCRUD from './../../pages/MuteerBeleidsrelatiesCRUD'
 
-// Import Components
-import AuthenticationWrapper from './../../components/AuthenticationWrapper'
-
 function BeheerRoutes(props) {
-    const beheerRoutesList = props.beheerRoutesList
+    const beheerRoutesList = [
+        {
+            slug: 'beleidsregels',
+            dataModelProperty: 'BeleidsRegels',
+        },
+        {
+            slug: 'maatregelen',
+            dataModelProperty: 'Maatregelen',
+        },
+        {
+            slug: 'opgaven',
+            dataModelProperty: 'Opgaven',
+        },
+        {
+            slug: 'ambities',
+            dataModelProperty: 'Ambities',
+        },
+        {
+            slug: 'belangen',
+            dataModelProperty: 'Belangen',
+        },
+        {
+            slug: 'themas',
+            dataModelProperty: "Thema's",
+        },
+        {
+            slug: 'beleidsbeslissingen',
+            dataModelProperty: 'Beleidsbeslissingen',
+        },
+    ]
+
+    const authUser = props.authUser
 
     const BeheerRouteJSX = beheerRoutesList.map(item => {
         const dataModelProperty = item.dataModelProperty
@@ -44,6 +72,7 @@ function BeheerRoutes(props) {
                         path={`/muteer/${overzichtSlug}/${createNewSlug}`}
                         render={({ match }) => (
                             <MuteerUniversalObjectCRUD
+                                authUser={authUser}
                                 dataModel={filteredDataModel}
                                 ApiEndpoint={apiEndpoint}
                                 overzichtSlug={overzichtSlug}
@@ -57,6 +86,7 @@ function BeheerRoutes(props) {
                         path={`/muteer/${overzichtSlug}/edit/:single/:version`}
                         render={({ match }) => (
                             <MuteerUniversalObjectCRUD
+                                authUser={authUser}
                                 ApiEndpoint={apiEndpoint}
                                 dataModel={filteredDataModel}
                                 overzichtSlug={overzichtSlug}
@@ -70,6 +100,7 @@ function BeheerRoutes(props) {
                         path={`/muteer/${overzichtSlug}/edit/:single`}
                         render={({ match }) => (
                             <MuteerUniversalObjectCRUD
+                                authUser={authUser}
                                 ApiEndpoint={apiEndpoint}
                                 dataModel={filteredDataModel}
                                 overzichtSlug={overzichtSlug}
@@ -132,44 +163,12 @@ class AuthRoutes extends Component {
     }
 
     componentDidMount() {
-        // Als de app gemount wordt, wordt de huidige token gechecked
-        axios.get('/tokeninfo').catch(error => {
-            // this.redirectToLogin()
-        })
+        if (!this.props.loggedIn) {
+            this.redirectToLogin()
+        }
     }
 
     render() {
-        const beheerRoutesList = [
-            {
-                slug: 'beleidsregels',
-                dataModelProperty: 'BeleidsRegels',
-            },
-            {
-                slug: 'maatregelen',
-                dataModelProperty: 'Maatregelen',
-            },
-            {
-                slug: 'opgaven',
-                dataModelProperty: 'Opgaven',
-            },
-            {
-                slug: 'ambities',
-                dataModelProperty: 'Ambities',
-            },
-            {
-                slug: 'belangen',
-                dataModelProperty: 'Belangen',
-            },
-            {
-                slug: 'themas',
-                dataModelProperty: "Thema's",
-            },
-            {
-                slug: 'beleidsbeslissingen',
-                dataModelProperty: 'Beleidsbeslissingen',
-            },
-        ]
-
         return (
             <React.Fragment>
                 <Switch>
@@ -214,7 +213,7 @@ class AuthRoutes extends Component {
                         exact
                         render={() => (
                             <MuteerBeleidsrelatiesCRUD
-                                dataModel={dataModel.BeleidsRelatie}
+                                dataModel={dataModel.Beleidsrelaties}
                                 history={this.props.history}
                                 authUser={this.props.authUser}
                             />
@@ -242,7 +241,7 @@ class AuthRoutes extends Component {
                         )}
                     />
                     <BeheerRoutes
-                        beheerRoutesList={beheerRoutesList}
+                        authUser={this.props.authUser}
                         history={this.props.history}
                     />
                 </Switch>
@@ -252,4 +251,4 @@ class AuthRoutes extends Component {
 }
 
 // Export with authentication layer
-export default AuthenticationWrapper(AuthRoutes)
+export default AuthRoutes

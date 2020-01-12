@@ -1,45 +1,65 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 import differenceInMinutes from 'date-fns/difference_in_minutes'
 
-export default function AuthenticationWrapper(AuthComponent) {
+import axios from './../../API/axios'
+
+function AuthenticationWrapper(AuthComponent) {
     return class AuthWrapped extends Component {
         constructor() {
             super()
             this.state = {
+                loggedIn: null,
                 user: null,
+                dataLoaded: false,
             }
+            this.checkUserToken = this.checkUserToken.bind(this)
+            this.setLoginState = this.setLoginState.bind(this)
         }
 
-        // Checks if there is a saved token
-        loggedIn() {
-            let token = this.getToken() // Gets token from localstorage
-
-            const tokenDate = localStorage.getItem('token_date')
-            const tokenTimeDiffMinutes = differenceInMinutes(
-                new Date(),
-                tokenDate
-            )
-
-            if (!!token && tokenTimeDiffMinutes < 60) {
-                return true // If token exists
-            } else {
-                return false
-            }
+        setLoginState(loginState) {
+            this.setState({
+                loggedIn: loginState,
+            })
         }
 
-        // Retrieve token from the local storage
-        getToken() {
-            return localStorage.getItem('access_token')
+        // Controleerd de tokenInfo om te kijken of de gebruiker is ingelogd
+        checkUserToken() {
+            axios
+                .get('/tokeninfo')
+                .then(res => {
+                    this.setState({
+                        loggedIn: true,
+                        user: res.data.identifier,
+                        dataLoaded: true,
+                    })
+                })
+                .catch(() => {
+                    localStorage.removeItem('access_token')
+                    this.setState({
+                        loggedIn: false,
+                        user: null,
+                        dataLoaded: true,
+                    })
+                })
         }
 
         componentDidMount() {
-            if (!this.loggedIn()) {
-                this.props.history.push('/login')
-            }
+            this.checkUserToken()
         }
 
         render() {
-            return <AuthComponent history={this.props.history} />
+            return (
+                <AuthComponent
+                    history={this.props.history}
+                    user={this.state.user}
+                    setLoginState={this.setLoginState}
+                    loggedIn={this.state.loggedIn}
+                    dataLoaded={this.state.dataLoaded}
+                />
+            )
         }
     }
 }
+
+export default AuthenticationWrapper

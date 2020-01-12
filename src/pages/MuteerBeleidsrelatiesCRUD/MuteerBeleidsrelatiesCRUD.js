@@ -108,14 +108,6 @@ class MuteerBeleidsrelatiesCRUD extends Component {
                     toast(`Vul alle 'Personen' velden in`)
                     allFieldsComplete = false
                 }
-
-                // // Push de key naar de requiredProperties array
-                // requiredProperties.push(key)
-                // // Push het type en het format naar het requiredPropertyTypes object
-                // requiredPropertyTypes[key] = {
-                //     type: dataModel.properties[key].type,
-                //     format: dataModel.properties[key].format,
-                // }
             }
         })
         return allFieldsComplete

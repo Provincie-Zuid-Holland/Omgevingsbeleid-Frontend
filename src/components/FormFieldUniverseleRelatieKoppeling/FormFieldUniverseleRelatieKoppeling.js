@@ -11,6 +11,25 @@ import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFi
 
 import objecten from './ObjectenInformatie'
 
+// Function to sort in arrays with objects based on properties
+const nestedSort = function(prop, arr) {
+    prop = prop.split('.')
+    arr.sort(function(a, b) {
+        prop.forEach((item, index) => {
+            a = a[prop[index]]
+            b = b[prop[index]]
+            if (a < b) {
+                return -1
+            } else if (a > b) {
+                return 1
+            } else {
+                return 0
+            }
+        })
+    })
+    return arr
+}
+
 class FormFieldUniverseleRelatieKoppeling extends Component {
     // State:
     // selected - bevat het geselecteerde object als de gebruiker op een item in de dropdown klikt
@@ -301,6 +320,30 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
                 objectIndex
             ].data = data
 
+            // If every item in the array contains an .data property
+            // We sort the array based on the title
+            if (
+                newStateKoppelingenRelatiesObject[propertyName].every(
+                    item => item.data !== undefined
+                )
+            ) {
+                newStateKoppelingenRelatiesObject[propertyName] = nestedSort(
+                    'data.Titel',
+                    newStateKoppelingenRelatiesObject[propertyName]
+                )
+
+                // If the property we inspect is equal to "Belangen"
+                // We also sort the array based on the .type property ('Nationaal Belang' & 'Wettelijke Taak & Bevoegdheid')
+                if (propertyName === 'Belangen') {
+                    newStateKoppelingenRelatiesObject[
+                        propertyName
+                    ] = nestedSort(
+                        'data.Type',
+                        newStateKoppelingenRelatiesObject[propertyName]
+                    )
+                }
+            }
+
             // Als het het laatste item is wat geupdate wordt updaten we nog een keer de state, zodat de .data properties op alle objecten zitten en geupdate worden in de state, en dus in de UI
             that.setState({
                 koppelingenRelaties: newStateKoppelingenRelatiesObject,
@@ -358,12 +401,23 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
 
         return (
             <React.Fragment>
+                {this.props.fieldLabel === 'Koppelingen' ? (
+                    <React.Fragment>
+                        <h3 className="block tracking-wide text-gray-700 font-bold mb-2">
+                            Relaties
+                        </h3>
+                        <p className="text-gray-700 text-sm mb-8">
+                            Een relatie ga je, met wederzijds goedkeuren, aan
+                            met andere beleidsbeslissingen. Deze beleidsrelaties
+                            kun je op een later moment aangaan vanuit de
+                            beheeromgeving onder het kopje 'Beleidsrelaties'.
+                        </p>
+                    </React.Fragment>
+                ) : null}
                 <FormFieldTitelEnBeschrijving
                     dataObjectProperty={this.props.dataObjectProperty}
                     fieldLabel={this.props.fieldLabel}
                     pValue={this.props.pValue}
-                    addObjectLabel={this.props.addObjectLabel}
-                    titelEnkelvoud={this.props.titelEnkelvoud}
                 />
                 <div
                     className="bg-white rounded shadow p-5"
@@ -402,8 +456,22 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
                                         return null
                                     }
 
+                                    let sortedItems = this.state
+                                        .koppelingenRelaties
+
+                                    {
+                                        /* Object.keys(sortedItems).forEach(
+                                        (key, index) => {
+                                            sortedItems[key].sort(
+                                                (a, b) =>
+                                                    a.data.Titel - b.data.Titel
+                                            )
+                                        }
+                                    ) */
+                                    }
+
                                     // Anders returnen we de list items door te loopen over koppelingenRelaties[propertyName]
-                                    const listItems = this.state.koppelingenRelaties[
+                                    const listItems = sortedItems[
                                         propertyName
                                     ].map((item, index) => {
                                         let type

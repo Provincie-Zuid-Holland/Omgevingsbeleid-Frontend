@@ -58,6 +58,12 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
 
     // Als het compent gemount wordt, haal alle beleidsbeslissingen en beleidsrelaties => setState op en initialize state
     componentDidMount() {
+        if (this.props.match.params.UUID !== undefined) {
+            this.setState({
+                currentView: 'detail',
+            })
+        }
+
         const UserUUID = JSON.parse(localStorage.getItem('identifier')).UUID
         Promise.all([
             axios.get(
@@ -136,8 +142,10 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
     countAfgewezenRelaties(UUID) {
         const beleidsrelaties = this.state.beleidsrelaties.filter(
             beleidsrelatie =>
-                beleidsrelatie.Naar_Beleidsbeslissing === UUID &&
-                beleidsrelatie.Status === 'NietAkkoord'
+                (beleidsrelatie.Naar_Beleidsbeslissing === UUID &&
+                    beleidsrelatie.Status === 'NietAkkoord') ||
+                (beleidsrelatie.Van_Beleidsbeslissing === UUID &&
+                    beleidsrelatie.Status === 'NietAkkoord')
         )
         return beleidsrelaties.length
     }
@@ -194,14 +202,17 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
         // EN als de beleidsrelatie een Status heeft van 'Akkoord' of 'Open'
         let beleidsrelaties = this.state.beleidsrelaties.filter(
             beleidsrelatie =>
-                ((beleidsrelatie.Van_Beleidsbeslissing === UUID ||
+                (beleidsrelatie.Van_Beleidsbeslissing === UUID ||
                     beleidsrelatie.Naar_Beleidsbeslissing === UUID) &&
-                    beleidsrelatie.Status === 'Akkoord') ||
-                (beleidsrelatie.Van_Beleidsbeslissing === UUID &&
-                    beleidsrelatie.Status === 'Open') ||
-                (beleidsrelatie.Naar_Beleidsbeslissing === UUID &&
-                    beleidsrelatie.Status === 'NietAkkoord')
+                beleidsrelatie.Status === 'Akkoord'
         )
+
+        // (beleidsrelatie.Van_Beleidsbeslissing === UUID &&
+        //     beleidsrelatie.Status === 'Open') ||
+        // (beleidsrelatie.Naar_Beleidsbeslissing === UUID &&
+        //     beleidsrelatie.Status === 'NietAkkoord') ||
+        // (beleidsrelatie.Van_Beleidsbeslissing === UUID &&
+        //     beleidsrelatie.Status === 'NietAkkoord')
 
         // GET voor elke beleidsrelatie het gekoppelde beleidsbeslissing object
         // Als het relatie.Van_Beleidsbeslissing !== UUID van de beleidsbeslissing GET relatie.Van_Beleidsbeslissing
@@ -227,22 +238,6 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
             })
         })
 
-        // beleidsrelaties.forEach(relatie => {
-        //     axios
-        //         .get(
-        //             `/beleidsbeslissingen/version/${
-        //                 relatie.Van_Beleidsbeslissing !== UUID
-        //                     ? relatie.Van_Beleidsbeslissing
-        //                     : relatie.Naar_Beleidsbeslissing
-        //             }
-        //             }`
-        //         )
-        //         .then(res => {
-        //             relatie.beleidsrelatieGekoppeldObject = res.data
-        //             return res.data
-        //         })
-        // })
-
         return beleidsrelaties
     }
 
@@ -254,8 +249,10 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
         // EN als de beleidsrelatie een Status heeft van 'Open'
         let beleidsrelaties = this.state.beleidsrelaties.filter(
             beleidsrelatie =>
-                beleidsrelatie.Naar_Beleidsbeslissing === UUID &&
-                beleidsrelatie.Status === 'Open'
+                (beleidsrelatie.Naar_Beleidsbeslissing === UUID &&
+                    beleidsrelatie.Status === 'Open') ||
+                (beleidsrelatie.Van_Beleidsbeslissing === UUID &&
+                    beleidsrelatie.Status === 'Open')
         )
 
         // GET voor elke beleidsrelatie het gekoppelde beleidsbeslissing object
@@ -423,7 +420,8 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                     </React.Fragment>
                 ) : (
                     <MuteerBeleidsrelatieDetail
-                        beleidsbeslissing={this.state.currentBeleidsbeslissing}
+                        // !REFACTOR!
+                        // beleidsbeslissing={this.state.currentBeleidsbeslissing}
                         dataLoaded={this.state.dataLoaded}
                         updateBeleidsrelaties={this.updateBeleidsrelaties}
                         backToOverzicht={() => {

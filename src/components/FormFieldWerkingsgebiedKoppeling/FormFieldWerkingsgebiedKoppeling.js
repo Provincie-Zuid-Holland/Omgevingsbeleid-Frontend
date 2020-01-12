@@ -40,7 +40,9 @@ function PopUpWerkingsGebiedContent(props) {
     let filteredContent = props.werkingsgebieden
     if (props.filterValue !== '') {
         filteredContent = filteredContent.filter(item =>
-            item.Werkingsgebied.includes(props.filterValue)
+            item.Werkingsgebied.toLowerCase().includes(
+                props.filterValue.toLowerCase()
+            )
         )
     }
 

@@ -190,18 +190,27 @@ class MuteerBeleidsrelatieDetail extends Component {
         )
         const relatieArray = alleBeleidsrelaties.filter(
             beleidsrelatie =>
-                ((beleidsrelatie.Van_Beleidsbeslissing === ParamUUID ||
+                (beleidsrelatie.Van_Beleidsbeslissing === ParamUUID ||
                     beleidsrelatie.Naar_Beleidsbeslissing === ParamUUID) &&
-                    beleidsrelatie.Status === 'Akkoord') ||
+                beleidsrelatie.Status === 'Akkoord'
+        )
+
+        const afgewezenArray = alleBeleidsrelaties.filter(
+            beleidsrelatie =>
                 (beleidsrelatie.Van_Beleidsbeslissing === ParamUUID &&
-                    beleidsrelatie.Status === 'Open') ||
+                    beleidsrelatie.Status === 'NietAkkoord') ||
                 (beleidsrelatie.Naar_Beleidsbeslissing === ParamUUID &&
                     beleidsrelatie.Status === 'NietAkkoord')
         )
+
+        console.log(afgewezenArray)
+
         const verzoekArray = alleBeleidsrelaties.filter(
             beleidsrelatie =>
-                beleidsrelatie.Naar_Beleidsbeslissing === ParamUUID &&
-                beleidsrelatie.Status === 'Open'
+                (beleidsrelatie.Naar_Beleidsbeslissing === ParamUUID &&
+                    beleidsrelatie.Status === 'Open') ||
+                (beleidsrelatie.Van_Beleidsbeslissing === ParamUUID &&
+                    beleidsrelatie.Status === 'Open')
         )
 
         return (

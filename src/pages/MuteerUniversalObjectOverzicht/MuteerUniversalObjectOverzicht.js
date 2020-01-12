@@ -37,10 +37,10 @@ class MuteerUniversalObjectOverzicht extends Component {
                 {/* Sidebar */}
                 <SidebarMain />
 
-                {/* Maatregel Container */}
+                {/* Container */}
                 <div className="w-3/4 rounded inline-block flex-grow pl-8">
                     <h2 className="heading-serif text-gray-800 mb-4">
-                        Mijn {titelMeervoud}
+                        {titelMeervoud}
                     </h2>
 
                     <ul className="flex mt-8 flex-wrap">

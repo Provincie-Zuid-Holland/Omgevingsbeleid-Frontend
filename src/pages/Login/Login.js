@@ -162,14 +162,14 @@ class Login extends Component {
 
     render() {
         return (
-            <div className="container mx-auto mt-4 px-6 rounded flex flex-wrap">
+            <div className="container mx-auto mt-4 rounded flex flex-wrap">
                 <Helmet>
                     <title>Omgevingsbeleid - Login</title>
                 </Helmet>
                 {this.state.wachtwoordResetPopup ? (
                     <PopupWachtwoordVergeten togglePopup={this.togglePopup} />
                 ) : null}
-                <div className="w-1/2 pr-8 pb-8">
+                <div className="w-1/2 pr-10 pb-8 pl-0 lg:pl-10 md:pl-10 xs:pl-10">
                     <h1 className="font-serif my-4 text-gray-800 text-2xl">
                         Inloggen
                     </h1>

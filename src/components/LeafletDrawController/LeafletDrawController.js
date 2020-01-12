@@ -21,6 +21,14 @@ const eventHandlers = {
 }
 
 class EditControl extends MapControl {
+    constructor(props) {
+        super(props)
+        this.state = {
+            currentLayerType: null,
+        }
+        this.onDrawCreate = this.onDrawCreate.bind(this)
+    }
+
     static propTypes = {
         ...Object.keys(eventHandlers).reduce((acc, val) => {
             acc[val] = PropTypes.func
@@ -63,6 +71,18 @@ class EditControl extends MapControl {
     onDrawCreate = e => {
         const { onCreated } = this.props
         const { layerContainer } = this.props.leaflet
+
+        console.log(e)
+        this.setState(
+            {
+                currentLayerType: e.layerType,
+            },
+            () => console.log(this.state)
+        )
+
+        // Remove all markers before adding new ones
+        layerContainer.clearLayers()
+        console.log(layerContainer)
 
         layerContainer.addLayer(e.layer)
         onCreated && onCreated(e)
@@ -122,6 +142,19 @@ class EditControl extends MapControl {
     componentDidUpdate(prevProps) {
         // super updates positions if thats all that changed so call this first
         super.componentDidUpdate(prevProps)
+
+        // If the current element is a marker, we hide the 'edit' icon
+        if (this.state.currentLayerType === 'marker') {
+            const editEl = document.getElementsByClassName(
+                'leaflet-draw-edit-edit'
+            )
+            editEl[0].classList.add('hide-leaflet-edit')
+        } else {
+            const editEl = document.getElementsByClassName(
+                'leaflet-draw-edit-edit'
+            )
+            editEl[0].classList.remove('hide-leaflet-edit')
+        }
 
         if (
             isEqual(this.props.draw, prevProps.draw) ||

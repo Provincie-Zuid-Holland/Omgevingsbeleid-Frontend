@@ -82,8 +82,8 @@ export default class LeafletCardViewer extends Component {
                                 style: feature => {
                                     return {
                                         stroke: true,
-                                        fillColor: 'fffff',
-                                        fillOpacity: 0,
+                                        fillColor: '#3388ff',
+                                        fillOpacity: 0.1,
                                     }
                                 },
                             })
@@ -107,30 +107,24 @@ export default class LeafletCardViewer extends Component {
         })
     }
 
-    componentWillUnmount() {
-        // import('./../../API/axiosGeoJSON').then(api => {
-        //     api.cancelRequest()
-        // })
-    }
-
     render() {
         return (
             <React.Fragment>
                 {this.state.dataReceived === true ? (
                     <Map
-                        onClick={this.onClickReset}
+                        // onClick={this.onClickReset}
                         onViewportChanged={this.onViewportChanged}
                         viewport={this.state.viewport}
-                        scrollWheelZoom={true}
+                        scrollWheelZoom={false}
                         zoomControl={false}
+                        dragging={false}
                         bounds={this.state.bounds}
                         boundsOptions={{ padding: [100, 100] }}
                         crs={this.state._RDCrs}
                         ref={this.leafletMap}
                         className="z-0"
-                        id={`${
-                            this.props.fullscreen ? 'full-screen-leaflet' : ''
-                        }`}
+                        doubleClickZoom={false}
+                        id={`leaflet-preview-card`}
                     >
                         <TileLayer
                             url="https://geodata.nationaalgeoregister.nl/tiles/service/tms/1.0.0/brtachtergrondkaartgrijs/EPSG:28992/{z}/{x}/{y}.png"

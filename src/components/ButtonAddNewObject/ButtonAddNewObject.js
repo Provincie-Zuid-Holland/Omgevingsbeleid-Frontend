@@ -11,11 +11,12 @@ function ButtonAddNewObject({
 }) {
     return (
         <div
-            className={
-                objectAantal % 2 !== 0 || fullWidth === true
-                    ? 'mb-6 display-inline w-full'
-                    : 'mb-6 display-inline w-1/2'
-            }
+            className={`mb-6 display-inline mb-6 display-inline
+                ${
+                    objectAantal % 2 !== 0 || fullWidth === true
+                        ? ' w-full'
+                        : ' w-1/2'
+                }`}
         >
             <Link
                 id={`object-add-new-${hoofdOnderdeelSlug.toLowerCase()}`}

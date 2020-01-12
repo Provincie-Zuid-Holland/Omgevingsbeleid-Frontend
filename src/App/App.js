@@ -41,10 +41,11 @@ class App extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            authUser: null,
             loggedIn: null,
+            user: null,
             dataLoaded: false,
         }
+        this.checkUserToken = this.checkUserToken.bind(this)
         this.setLoginState = this.setLoginState.bind(this)
     }
 
@@ -54,20 +55,29 @@ class App extends Component {
         })
     }
 
-    componentDidMount() {
+    // Controleerd de tokenInfo om te kijken of de gebruiker is ingelogd
+    checkUserToken() {
         axios
             .get('/tokeninfo')
             .then(res => {
                 this.setState({
                     loggedIn: true,
-                    authUser: res.data.identifier,
+                    user: res.data.identifier,
                     dataLoaded: true,
                 })
             })
             .catch(() => {
                 localStorage.removeItem('access_token')
-                this.setState({ loggedIn: false, dataLoaded: true })
+                this.setState({
+                    loggedIn: false,
+                    user: null,
+                    dataLoaded: true,
+                })
             })
+    }
+
+    componentDidMount() {
+        this.checkUserToken()
     }
 
     render() {
@@ -164,7 +174,8 @@ class App extends Component {
                             )}
                         />
                         <AuthRoutes
-                            authUser={this.state.authUser}
+                            authUser={this.state.user}
+                            loggedIn={this.state.loggedIn}
                             history={this.props.history}
                         />
                     </Switch>
