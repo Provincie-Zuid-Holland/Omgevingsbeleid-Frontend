@@ -62,7 +62,7 @@ class PopUpRevisieContainer extends Component {
                     </span>
                 </span>
                 {this.state.open ? (
-                    <div className="main-tooltip-container absolute bg-white left-0 rounded mt-2 w-48 -ml-12 text-gray-700">
+                    <div className="main-tooltip-container absolute bg-white left-0 rounded mt-2 w-48 -ml-12 text-gray-700 z-20">
                         <div className="h-full relative">
                             <div className="absolute w-1 h-full border-l border-gray-300 z-0 top-0 ml-6" />
                             <ul className="py-2 px-4">{this.props.children}</ul>

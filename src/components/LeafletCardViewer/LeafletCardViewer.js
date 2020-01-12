@@ -88,6 +88,9 @@ export default class LeafletCardViewer extends Component {
                                 },
                             })
 
+                            const bounds = jsonLayer.getBounds()
+                            if (!bounds.isValid()) return
+
                             jsonLayer.addTo(leafletMap.leafletElement)
                             // leafletMap.fitBounds(jsonLayer.getBounds())
                             this.setState({

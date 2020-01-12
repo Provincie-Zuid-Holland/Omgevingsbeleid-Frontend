@@ -25,9 +25,13 @@ class MuteerBeleidsrelatieDetail extends Component {
             savingState: false,
             Naar_Beleidsbeslissingen: [],
             Van_Beleidsbeslissingen: [],
+            motiveringPopUp: null,
+            verbreekPopUp: null,
         }
         this.relatieAccepteren = this.relatieAccepteren.bind(this)
         this.relatieAfwijzen = this.relatieAfwijzen.bind(this)
+        this.toggleMotiveringPopup = this.toggleMotiveringPopup.bind(this)
+        this.toggleVerbreekPopup = this.toggleVerbreekPopup.bind(this)
     }
 
     componentDidMount() {
@@ -165,7 +169,7 @@ class MuteerBeleidsrelatieDetail extends Component {
             Begin_Geldigheid: beleidsrelatieObject.Begin_Geldigheid,
             Eind_Geldigheid: beleidsrelatieObject.Eind_Geldigheid,
             Datum_Akkoord: new Date(),
-            Status: 'NietAkkoord',
+            Status: 'Verbroken',
         }
         axios
             .patch(
@@ -182,6 +186,18 @@ class MuteerBeleidsrelatieDetail extends Component {
             .catch(err => console.log(err))
     }
 
+    toggleMotiveringPopup(UUID) {
+        this.setState({
+            motiveringPopUp: UUID,
+        })
+    }
+
+    toggleVerbreekPopup(UUID) {
+        this.setState({
+            verbreekPopUp: UUID,
+        })
+    }
+
     render() {
         const ParamUUID = this.props.match.params.UUID
         // const beleidsbeslissing = this.props.beleidsbeslissing
@@ -190,9 +206,11 @@ class MuteerBeleidsrelatieDetail extends Component {
         )
         const relatieArray = alleBeleidsrelaties.filter(
             beleidsrelatie =>
-                (beleidsrelatie.Van_Beleidsbeslissing === ParamUUID ||
+                ((beleidsrelatie.Van_Beleidsbeslissing === ParamUUID ||
                     beleidsrelatie.Naar_Beleidsbeslissing === ParamUUID) &&
-                beleidsrelatie.Status === 'Akkoord'
+                    beleidsrelatie.Status === 'Akkoord') ||
+                (beleidsrelatie.Van_Beleidsbeslissing === ParamUUID &&
+                    beleidsrelatie.Status === 'Open')
         )
 
         const afgewezenArray = alleBeleidsrelaties.filter(
@@ -202,8 +220,6 @@ class MuteerBeleidsrelatieDetail extends Component {
                 (beleidsrelatie.Naar_Beleidsbeslissing === ParamUUID &&
                     beleidsrelatie.Status === 'NietAkkoord')
         )
-
-        console.log(afgewezenArray)
 
         const verzoekArray = alleBeleidsrelaties.filter(
             beleidsrelatie =>
@@ -303,234 +319,298 @@ class MuteerBeleidsrelatieDetail extends Component {
                     </div>
 
                     {this.state.currentView === 'relaties' ? (
-                        <ul>
-                            <li className="flex border-b border-gray-200 text-sm font-semibold text-gray-800 p-2">
-                                <div className="w-6/12">
-                                    Beleidsbeslissingen
-                                </div>
-                                <div className="w-3/12">Datum</div>
-                                <div className="w-2/12">Status</div>
-                                <div className="w-2/12">Motivering</div>
-                            </li>
-                            {this.state.naarLoaded && this.state.vanLoaded ? (
-                                relatieArray.length > 0 ? (
-                                    relatieArray.map(relatie => {
-                                        return (
-                                            <li
-                                                key={relatie.UUID}
-                                                className="flex border-b border-gray-200 text-sm text-gray-800 py-2 px-2 relative items-center hover:bg-gray-100"
-                                            >
-                                                <div className="w-6/12 pr-4">
-                                                    {relatie.beleidsbeslissing &&
-                                                    relatie.beleidsbeslissing
-                                                        .Titel ? (
-                                                        relatie
-                                                            .beleidsbeslissing
-                                                            .Titel
-                                                    ) : (
-                                                        <LoaderMainTitle />
-                                                    )}
-                                                </div>
-                                                <div className="w-3/12">
-                                                    {relatie.Datum_Akkoord !==
-                                                    null
-                                                        ? format(
-                                                              new Date(
-                                                                  relatie.Datum_Akkoord
-                                                              ),
-                                                              'd MMMM YYYY, HH:mm uur'
-                                                          )
-                                                        : null}
-                                                </div>
-                                                <div className="w-2/12">
-                                                    {relatie.Status ===
-                                                    'Akkoord'
-                                                        ? 'Bevestigd'
-                                                        : relatie.Status ===
-                                                          'Open'
-                                                        ? 'In afwachting'
-                                                        : relatie.Status ===
-                                                          'NietAkkoord'
-                                                        ? 'Afgewezen'
-                                                        : null}
-                                                </div>
-                                                <div className="w-2/12">
-                                                    <span
-                                                        onClick={() => {
-                                                            this.setState({
-                                                                motiveringPopUp:
-                                                                    relatie.UUID,
-                                                            })
-                                                        }}
-                                                        className="underline cursor-pointer"
-                                                    >
-                                                        Bekijk motivering
-                                                    </span>
-                                                    {this.state
-                                                        .motiveringPopUp ===
-                                                    relatie.UUID ? (
-                                                        <PopUpAnimatedContainer
-                                                            small={true}
-                                                        >
-                                                            <div
-                                                                onClick={() =>
-                                                                    this.setState(
-                                                                        {
-                                                                            motiveringPopUp: null,
-                                                                        }
-                                                                    )
-                                                                }
-                                                                className="cursor-pointer absolute right-0 top-0 text-gray-600 px-3 py-2"
-                                                                id={`sluit-popup-beleidsrelatie-motivering`}
-                                                            >
-                                                                <FontAwesomeIcon
-                                                                    icon={
-                                                                        faTimes
-                                                                    }
-                                                                />
-                                                            </div>
-                                                            <h3 className="form-field-label">
-                                                                Motivering
-                                                            </h3>
-                                                            <p className="form-field-description">
-                                                                {
-                                                                    relatie.Omschrijving
-                                                                }
-                                                            </p>
-                                                        </PopUpAnimatedContainer>
-                                                    ) : null}
-                                                </div>
-                                            </li>
-                                        )
-                                    })
-                                ) : (
-                                    <span className="font-italic text-sm px-2 py-2 inline-block text-gray-600">
-                                        Er zijn nog geen beleidsrelaties
-                                    </span>
-                                )
-                            ) : (
-                                <React.Fragment>
-                                    <LoaderBeleidsrelatieRegel />
-                                    <LoaderBeleidsrelatieRegel />
-                                    <LoaderBeleidsrelatieRegel />
-                                </React.Fragment>
-                            )}
-                        </ul>
+                        <TabRelaties
+                            relatieArray={relatieArray}
+                            relatieAfwijzen={this.relatieAfwijzen}
+                            naarLoaded={this.state.naarLoaded}
+                            vanLoaded={this.state.vanLoaded}
+                            toggleMotiveringPopup={this.toggleMotiveringPopup}
+                            motiveringPopUp={this.state.motiveringPopUp}
+                            toggleVerbreekPopup={this.toggleVerbreekPopup}
+                            verbreekPopUp={this.state.verbreekPopUp}
+                            beleidsbeslissingTitel={
+                                this.state.beleidsbeslissingTitel
+                            }
+                        />
                     ) : null}
                     {this.state.currentView === 'verzoeken' ? (
-                        <ul>
-                            <li className="flex border-b border-gray-200 text-sm font-semibold text-gray-800 p-2">
-                                <div className="w-5/12">
-                                    Beleidsbeslissingen
-                                </div>
-                                <div className="w-2/12">Aangevraagd op</div>
-                                <div className="w-1/12">Status</div>
-                                <div className="w-2/12">Motivering</div>
-                                <div className="w-2/12">Actie</div>
-                            </li>
-                            {verzoekArray.length > 0 ? (
-                                verzoekArray.map(verzoek => {
-                                    return (
-                                        <li
-                                            key={verzoek.UUID}
-                                            className="flex border-b border-gray-200 text-sm text-gray-800 px-2 relative items-center hover:bg-gray-100"
-                                        >
-                                            <div className="w-5/12 py-2">
-                                                {verzoek.beleidsbeslissing &&
-                                                verzoek.beleidsbeslissing.Titel
-                                                    ? verzoek.beleidsbeslissing
-                                                          .Titel
-                                                    : null}
-                                            </div>
-                                            <div className="w-2/12">
-                                                {verzoek.Datum_Akkoord !== null
-                                                    ? format(
-                                                          new Date(
-                                                              verzoek.Datum_Akkoord
-                                                          ),
-                                                          'd MMMM yyyy, '
-                                                      )
-                                                    : null}
-                                            </div>
-                                            <div className="w-1/12">Open</div>
-                                            <div className="w-2/12">
-                                                <span
-                                                    onClick={() => {
-                                                        this.setState({
-                                                            motiveringPopUp:
-                                                                verzoek.UUID,
-                                                        })
-                                                    }}
-                                                    className="underline cursor-pointer"
-                                                >
-                                                    Bekijk motivering
-                                                </span>
-                                                {this.state.motiveringPopUp ===
-                                                verzoek.UUID ? (
-                                                    <PopUpAnimatedContainer
-                                                        small={true}
-                                                    >
-                                                        <div
-                                                            onClick={() =>
-                                                                this.setState({
-                                                                    motiveringPopUp: null,
-                                                                })
-                                                            }
-                                                            className="cursor-pointer absolute right-0 top-0 text-gray-600 px-3 py-2"
-                                                            id={`sluit-popup-beleidsrelatie-motivering`}
-                                                        >
-                                                            <FontAwesomeIcon
-                                                                icon={faTimes}
-                                                            />
-                                                        </div>
-                                                        <h3 className="form-field-label">
-                                                            Motivering
-                                                        </h3>
-                                                        <p className="form-field-description">
-                                                            {
-                                                                verzoek.Omschrijving
-                                                            }
-                                                        </p>
-                                                    </PopUpAnimatedContainer>
-                                                ) : null}
-                                            </div>
-                                            <div className="w-2/12">
-                                                <span
-                                                    onClick={() =>
-                                                        this.relatieAccepteren(
-                                                            verzoek
-                                                        )
-                                                    }
-                                                    className="px-2 py-1 bg-green-600 hover:bg-green-700 text-white font-semibold rounded cursor-pointer shadow inline-block mr-2"
-                                                >
-                                                    Accepteren
-                                                </span>
-                                                <span
-                                                    onClick={() =>
-                                                        this.relatieAfwijzen(
-                                                            verzoek
-                                                        )
-                                                    }
-                                                    className="px-2 py-1 bg-red-600 hover:bg-red-700 text-white font-semibold rounded cursor-pointer shadow inline-block"
-                                                >
-                                                    Afwijzen
-                                                </span>
-                                            </div>
-                                        </li>
-                                    )
-                                })
-                            ) : (
-                                <span className="font-italic text-sm px-2 py-2 inline-block text-gray-600">
-                                    Er zijn nog geen verzoeken
-                                </span>
-                            )}
-                        </ul>
+                        <TabVerzoeken
+                            relatieAfwijzen={this.relatieAfwijzen}
+                            relatieAccepteren={this.relatieAccepteren}
+                            naarLoaded={this.state.naarLoaded}
+                            vanLoaded={this.state.vanLoaded}
+                            toggleMotiveringPopup={this.toggleMotiveringPopup}
+                            motiveringPopUp={this.state.motiveringPopUp}
+                            verzoekArray={verzoekArray}
+                        />
                     ) : null}
                     {this.state.savingState ? <LoaderSaving /> : null}
                 </div>
             </div>
         )
     }
+}
+
+function TabVerzoeken(props) {
+    return (
+        <ul>
+            <li className="flex border-b border-gray-200 text-sm font-semibold text-gray-800 p-2">
+                <div className="w-5/12">Beleidsbeslissingen</div>
+                <div className="w-2/12">Aangevraagd op</div>
+                <div className="w-1/12">Status</div>
+                <div className="w-2/12">Motivering</div>
+                <div className="w-2/12">Actie</div>
+            </li>
+            {props.verzoekArray.length > 0 ? (
+                props.verzoekArray.map(verzoek => {
+                    return (
+                        <li
+                            key={verzoek.UUID}
+                            className="flex border-b border-gray-200 text-sm text-gray-800 px-2 relative items-center hover:bg-gray-100"
+                        >
+                            <div className="w-5/12 py-2">
+                                {verzoek.beleidsbeslissing &&
+                                verzoek.beleidsbeslissing.Titel
+                                    ? verzoek.beleidsbeslissing.Titel
+                                    : null}
+                            </div>
+                            <div className="w-2/12">
+                                {console.log(verzoek)}
+                                {verzoek.Aanvraag_Datum !== null
+                                    ? format(
+                                          new Date(verzoek.Aanvraag_Datum),
+                                          'd MMMM YYYY, HH:mm uur'
+                                      )
+                                    : null}
+                            </div>
+                            <div className="w-1/12">Open</div>
+                            <div className="w-2/12">
+                                <span
+                                    onClick={() => {
+                                        props.toggleMotiveringPopup(
+                                            verzoek.UUID
+                                        )
+                                    }}
+                                    className="underline cursor-pointer"
+                                >
+                                    Bekijk motivering
+                                </span>
+                                {props.motiveringPopUp === verzoek.UUID ? (
+                                    <PopUpAnimatedContainer small={true}>
+                                        <div
+                                            onClick={() =>
+                                                props.toggleMotiveringPopup(
+                                                    null
+                                                )
+                                            }
+                                            className="cursor-pointer absolute right-0 top-0 text-gray-600 px-3 py-2"
+                                            id={`sluit-popup-beleidsrelatie-motivering`}
+                                        >
+                                            <FontAwesomeIcon icon={faTimes} />
+                                        </div>
+                                        <h3 className="form-field-label">
+                                            Motivering
+                                        </h3>
+                                        <p className="form-field-description">
+                                            {verzoek.Omschrijving}
+                                        </p>
+                                    </PopUpAnimatedContainer>
+                                ) : null}
+                            </div>
+                            <div className="w-2/12">
+                                <span
+                                    onClick={() =>
+                                        props.relatieAccepteren(verzoek)
+                                    }
+                                    className="px-2 py-1 bg-green-600 hover:bg-green-700 text-white font-semibold rounded cursor-pointer shadow inline-block mr-2"
+                                >
+                                    Accepteren
+                                </span>
+                                <span
+                                    onClick={() =>
+                                        props.relatieAfwijzen(verzoek)
+                                    }
+                                    className="px-2 py-1 bg-red-600 hover:bg-red-700 text-white font-semibold rounded cursor-pointer shadow inline-block"
+                                >
+                                    Afwijzen
+                                </span>
+                            </div>
+                        </li>
+                    )
+                })
+            ) : (
+                <span className="font-italic text-sm px-2 py-2 inline-block text-gray-600">
+                    Er zijn nog geen verzoeken
+                </span>
+            )}
+        </ul>
+    )
+}
+
+function TabRelaties(props) {
+    return (
+        <ul>
+            <li className="flex border-b border-gray-200 text-sm font-semibold text-gray-800 p-2">
+                <div className="w-5/12">Beleidsbeslissingen</div>
+                <div className="w-2/12">Datum</div>
+                <div className="w-1/12">Status</div>
+                <div className="w-2/12 pl-8">Motivering</div>
+                <div className="w-2/12"></div>
+            </li>
+            {props.naarLoaded && props.vanLoaded ? (
+                props.relatieArray.length > 0 ? (
+                    props.relatieArray.map(relatie => {
+                        return (
+                            <li
+                                key={relatie.UUID}
+                                className="flex border-b border-gray-200 text-sm text-gray-800 py-2 px-2 relative items-center hover:bg-gray-100"
+                            >
+                                <div className="w-5/12 pr-4">
+                                    {relatie.beleidsbeslissing &&
+                                    relatie.beleidsbeslissing.Titel ? (
+                                        relatie.beleidsbeslissing.Titel
+                                    ) : (
+                                        <LoaderMainTitle />
+                                    )}
+                                </div>
+                                <div className="w-2/12">
+                                    {relatie.Datum_Akkoord !== null
+                                        ? format(
+                                              new Date(relatie.Datum_Akkoord),
+                                              'd MMMM YYYY, HH:mm uur'
+                                          )
+                                        : null}
+                                </div>
+                                <div className="w-1/12">
+                                    {relatie.Status === 'Akkoord'
+                                        ? 'Bevestigd'
+                                        : relatie.Status === 'Open'
+                                        ? 'In afwachting'
+                                        : relatie.Status === 'NietAkkoord'
+                                        ? 'Afgewezen'
+                                        : null}
+                                </div>
+                                <div className="w-2/12 pl-8">
+                                    <span
+                                        onClick={() => {
+                                            props.toggleMotiveringPopup(
+                                                relatie.UUID
+                                            )
+                                        }}
+                                        className="underline cursor-pointer"
+                                    >
+                                        Bekijk motivering
+                                    </span>
+                                    {props.motiveringPopUp === relatie.UUID ? (
+                                        <PopUpAnimatedContainer small={true}>
+                                            <div
+                                                onClick={() =>
+                                                    props.toggleMotiveringPopup(
+                                                        null
+                                                    )
+                                                }
+                                                className="cursor-pointer absolute right-0 top-0 text-gray-600 px-3 py-2"
+                                                id={`sluit-popup-beleidsrelatie-motivering`}
+                                            >
+                                                <FontAwesomeIcon
+                                                    icon={faTimes}
+                                                />
+                                            </div>
+                                            <h3 className="form-field-label">
+                                                Motivering
+                                            </h3>
+                                            <p className="form-field-description">
+                                                {relatie.Omschrijving}
+                                            </p>
+                                        </PopUpAnimatedContainer>
+                                    ) : null}
+                                </div>
+                                <div className="w-2/12 flex justify-end">
+                                    <span
+                                        onClick={() => {
+                                            props.toggleVerbreekPopup(
+                                                relatie.UUID
+                                            )
+                                            // props.relatieAfwijzen(relatie)
+                                        }}
+                                        className="underline text-red-600 cursor-pointer"
+                                    >
+                                        {relatie.Status === 'Akkoord'
+                                            ? 'Relatie verwijderen'
+                                            : 'Verzoek intrekken'}
+                                    </span>
+                                    {props.verbreekPopUp === relatie.UUID ? (
+                                        <PopUpAnimatedContainer small={true}>
+                                            <div
+                                                onClick={() =>
+                                                    props.toggleVerbreekPopup(
+                                                        null
+                                                    )
+                                                }
+                                                className="cursor-pointer absolute right-0 top-0 text-gray-600 px-3 py-2"
+                                                id={`sluit-popup-beleidsrelatie-motivering`}
+                                            >
+                                                <FontAwesomeIcon
+                                                    icon={faTimes}
+                                                />
+                                            </div>
+                                            <h3 className="font-bold mb-4 text-lg">
+                                                Beleidsrelatie
+                                                {relatie.Status === 'Akkoord'
+                                                    ? ' verbreken'
+                                                    : ' verzoek intrekken'}
+                                            </h3>
+                                            <div className="border-l-4 purple-light-bg-color purple-border-color mb-4 p-4 relative">
+                                                <p className="text-sm mt-2 text-gray-700">
+                                                    {relatie.Status ===
+                                                    'Akkoord'
+                                                        ? `Je staat op het punt om de beleidsrelatie tussen "${props.beleidsbeslissingTitel}" en "${relatie.beleidsbeslissing.Titel}" te verbreken`
+                                                        : `Je staat op het punt om het beleidsrelatie verzoek tussen "${props.beleidsbeslissingTitel}" en "${relatie.beleidsbeslissing.Titel}" in te trekken`}
+                                                </p>
+                                            </div>
+                                            <h4 className="font-bold mb-2">
+                                                {relatie.Status === 'Akkoord'
+                                                    ? 'Weet je zeker dat je deze beleidsrelatie wilt verbreken?'
+                                                    : 'Weet je zeker dat je dit beleidsrelatie verzoek wilt intrekken?'}
+                                            </h4>
+                                            <p>
+                                                Deze actie kan niet ongedaan
+                                                worden gemaakt. Je kan wel een
+                                                nieuwe beleidsrelatie aangaan.
+                                                Deze moet dan opnieuw worden
+                                                gemotiveerd.
+                                            </p>
+                                            <div className="mt-10 flex justify-between">
+                                                <span className="text-gray-600 cursor-pointer text-sm underline">
+                                                    Annuleren
+                                                </span>
+                                                <span className="font-bold py-2 px-4 leading-tight text-sm rounded mbg-color text-white hover:underline cursor-pointer">
+                                                    {relatie.Status ===
+                                                    'Akkoord'
+                                                        ? 'Verbreken'
+                                                        : 'Intrekken'}
+                                                </span>
+                                            </div>
+                                        </PopUpAnimatedContainer>
+                                    ) : null}
+                                </div>
+                            </li>
+                        )
+                    })
+                ) : (
+                    <span className="font-italic text-sm px-2 py-2 inline-block text-gray-600">
+                        Er zijn nog geen beleidsrelaties
+                    </span>
+                )
+            ) : (
+                <React.Fragment>
+                    <LoaderBeleidsrelatieRegel />
+                    <LoaderBeleidsrelatieRegel />
+                    <LoaderBeleidsrelatieRegel />
+                </React.Fragment>
+            )}
+        </ul>
+    )
 }
 
 export default withRouter(MuteerBeleidsrelatieDetail)

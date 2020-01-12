@@ -32,7 +32,7 @@ function WrapperUserInfo(AuthComponent) {
         }
 
         render() {
-            return <AuthComponent user={this.state.user} />
+            return <AuthComponent user={this.state.user} {...this.props} />
         }
     }
 }

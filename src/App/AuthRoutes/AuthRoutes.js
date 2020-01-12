@@ -23,7 +23,7 @@ function BeheerRoutes(props) {
     const beheerRoutesList = [
         {
             slug: 'beleidsregels',
-            dataModelProperty: 'BeleidsRegels',
+            dataModelProperty: 'Beleidsregels',
         },
         {
             slug: 'maatregelen',

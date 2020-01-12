@@ -13,8 +13,7 @@ function FormFieldTitelEnBeschrijving(props) {
                         href={[props.anchorLink]}
                         className="underline"
                         target="_blank"
-                        noreferrer
-                        noopener
+                        rel="noopener noreferrer"
                     >
                         {props.anchorText}
                     </a>

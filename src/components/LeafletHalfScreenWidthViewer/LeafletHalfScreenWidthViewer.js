@@ -125,7 +125,7 @@ export default class LeafletHalfScreenWidthViewer extends Component {
     }
 
     _onMounted = drawControl => {
-        console.log('_onMounted', drawControl)
+        // console.log('_onMounted', drawControl)
     }
 
     _onEditStart = e => {

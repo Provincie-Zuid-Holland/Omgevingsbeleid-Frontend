@@ -271,6 +271,7 @@ class RaadpleegUniversalObjectDetail extends Component {
                             id="raadpleeg-detail-header-one"
                             className="mt-2 heading-serif-2xl text-gray-800"
                         >
+                            {console.log(dataObject)}
                             {dataObject.Titel}
                         </h1>
 

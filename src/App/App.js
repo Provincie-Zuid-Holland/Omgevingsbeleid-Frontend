@@ -88,7 +88,7 @@ class App extends Component {
             },
             {
                 slug: 'beleidsregels',
-                dataModel: dataModel.BeleidsRegels,
+                dataModel: dataModel.Beleidsregels,
             },
             {
                 slug: 'doelen',

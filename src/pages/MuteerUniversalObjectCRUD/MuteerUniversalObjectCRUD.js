@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { toast } from 'react-toastify'
-import { format } from 'date-fns'
+import { format, isBefore } from 'date-fns'
 import nlLocale from 'date-fns/locale/nl'
 import { Helmet } from 'react-helmet'
 import validator from 'validator'
@@ -48,7 +48,7 @@ function makeCrudObject(array, responseObject) {
     const koppelingenKeysArray = [
         'Ambities',
         'Belangen',
-        'BeleidsRegels',
+        'Beleidsregels',
         'Doelen',
         'Maatregelen',
         'Opgaven',
@@ -401,9 +401,30 @@ class MuteerUniversalObjectCRUD extends Component {
         //     return
         // }
 
+        // Check om the zien of de Begin_Geldigheid kleiner is dan de Begin_Geldigheid
+        if (isBefore(crudObject.Eind_Geldigheid, crudObject.Begin_Geldigheid)) {
+            const titelEnkelvoud = this.props.dataModel.variables
+                .Titel_Enkelvoud
+            const dataObjectProperty = 'Begin_Geldigheid'
+            const elSelector = `form-field-${titelEnkelvoud.toLowerCase()}-${dataObjectProperty.toLowerCase()}`
+            const el = document.getElementById(elSelector)
+            const yPosition = el.getBoundingClientRect().top + window.scrollY
+            window.scroll({
+                top: yPosition,
+                behavior: 'smooth',
+            })
+
+            el.classList.add('transition-regular', 'border-red-500')
+            setTimeout(() => el.classList.remove('border-red-500'), 2000)
+
+            toast(
+                'De datum van uitwerkingtreding mag niet eerder zijn dan de datum van inwerkingtreding'
+            )
+        }
+
         if (crudObject.Titel !== undefined && crudObject.Titel === '') {
             toast('Vul een titel in')
-            // Wijzig de data terug naar het format om in het input veld te tonen
+            // Hierboven zetten we de value's van Begin_ en Eind_Geldigheid om in een datum object, maar als we de pagina niet submitten (door in dit geval een niet ingevulde titel) moeten we het formaat weer terug wijzigen naar het formaat wat in het datum input veld getoond kan worden
             if (
                 crudObject.Eind_Geldigheid !== undefined &&
                 crudObject.Eind_Geldigheid !== null
@@ -436,7 +457,7 @@ class MuteerUniversalObjectCRUD extends Component {
         if (!this.checkForEmptyFields(this.state.crudObject)) {
             return
         }
-
+        
         // If the user is editing an object PATCH, else POST
         if (this.state.edit) {
             axios

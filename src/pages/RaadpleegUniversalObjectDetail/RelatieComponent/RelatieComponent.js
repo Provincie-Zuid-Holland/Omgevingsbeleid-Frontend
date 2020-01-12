@@ -27,12 +27,17 @@ class RelatieComponent extends Component {
     }
 
     getBeleidsrelaties(vanuitEndpoint, cb) {
+        // Parameter 'vanuitEndpoint' is altijd een string met of de waarde 'Naar' of 'Van'
+        // Parameter 'cb' is de Callback voor de verkregen data vauit de Promise
         const UUID = this.props.crudObject.UUID
         axios
             .get(`/beleidsrelaties?${vanuitEndpoint}_Beleidsbeslissing=${UUID}`)
             .then(res => {
                 if (res.data.length === 0) return
-                let beleidsrelaties = res.data
+                let beleidsrelaties = res.data.filter(
+                    item => item.Status === 'Akkoord'
+                )
+                console.log(beleidsrelaties)
 
                 cb(beleidsrelaties)
             })
@@ -483,7 +488,7 @@ const objecten = {
         volledigeTitel: 'Beleidsregels',
         volledigeTitelMeervoud: 'Beleidsregels',
         api: '/beleidsregels',
-        propertyName: 'BeleidsRegels',
+        propertyName: 'Beleidsregels',
         type: 'Beleidsregel',
     },
 }

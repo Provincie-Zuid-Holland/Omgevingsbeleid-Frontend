@@ -69,6 +69,7 @@ function SearchResultItem(props) {
     }
 
     const overzichtURL = dataModel[props.item.type].variables.Overzicht_Slug
+    const titelEnkelvoud = dataModel[props.item.type].variables.Titel_Enkelvoud
 
     return (
         <li className="border-b border-gray-300 py-5" key={props.item.UUID}>
@@ -93,9 +94,15 @@ function SearchResultItem(props) {
                         className="mt-2 text-gray-700 text-sm"
                         dangerouslySetInnerHTML={content.Omschrijving.content}
                     ></p>
-                ) : (
+                ) : content.Omschrijving.content &&
+                  content.Omschrijving.content.length > 0 ? (
                     <p className="mt-2 text-gray-700 text-sm">
                         {content.Omschrijving.content}
+                    </p>
+                ) : (
+                    <p className="mt-2 text-gray-700 text-sm italic">
+                        Er is nog geen omschrijving voor deze
+                        {' ' + titelEnkelvoud.toLowerCase()}
                     </p>
                 )}
             </Link>
@@ -129,28 +136,32 @@ class RaadpleegZoekResultatenOverzicht extends Component {
         let mainFilterObject = {}
 
         searchResults.forEach((item, index) => {
+            console.log('item')
+            console.log(item)
+            console.log('type')
+            console.log(item.type)
             // !REFACTOR!
-            if (item.type === 'Belangen') {
-                item.type = 'Belang'
-            }
-            if (item.type === 'Opgaven') {
-                item.type = 'Opgave'
-            }
-            if (item.type === 'Ambities') {
-                item.type = 'Ambitie'
-            }
-            if (item.type === 'Beleidsregels') {
-                item.type = 'BeleidsRegel'
-            }
-            if (item.type === 'Doelen') {
-                item.type = 'Doel'
-            }
-            if (item.type === 'Beleidsrelaties') {
-                item.type = 'BeleidsRelatie'
-            }
-            if (item.type === "Thema's") {
-                item.type = 'Thema'
-            }
+            // if (item.type === 'Belangen') {
+            //     item.type = 'Belang'
+            // }
+            // if (item.type === 'Opgaven') {
+            //     item.type = 'Opgave'
+            // }
+            // if (item.type === 'Ambities') {
+            //     item.type = 'Ambitie'
+            // }
+            // if (item.type === 'Beleidsregels') {
+            //     item.type = 'BeleidsRegel'
+            // }
+            // if (item.type === 'Doelen') {
+            //     item.type = 'Doel'
+            // }
+            // if (item.type === 'Beleidsrelaties') {
+            //     item.type = 'BeleidsRelatie'
+            // }
+            // if (item.type === "Thema's") {
+            //     item.type = 'Thema'
+            // }
             const filterObject = {
                 name: item.type,
                 checked: true,

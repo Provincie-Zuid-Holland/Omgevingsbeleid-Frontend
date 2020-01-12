@@ -218,7 +218,7 @@ export default
       "Object_Name": "Opgave"
     }
   },
-  "BeleidsRegels": {
+  "Beleidsregels": {
     "type": "object",
     "properties": {
       "ID": {
@@ -998,7 +998,7 @@ export default
             "CRUDComponent": "WerkingsgebiedSelectorPopup",
           }
       },
-      "BeleidsRegels": {
+      "Beleidsregels": {
         "default": [],
         "type": "array",
         "items": {

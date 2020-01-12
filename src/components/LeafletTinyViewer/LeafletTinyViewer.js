@@ -98,7 +98,11 @@ export default class LeafletTinyViewer extends Component {
                                 },
                             })
 
+                            // !Refactor!
                             jsonLayer.addTo(leafletMap.leafletElement)
+                            const bounds = jsonLayer.getBounds()
+                            if (!bounds.isValid()) return
+
                             // leafletMap.fitBounds(jsonLayer.getBounds())
                             this.setState({
                                 bounds: jsonLayer.getBounds(),

@@ -25,7 +25,7 @@ class MijnBeleid extends Component {
         const dimensies = [
             'Ambities',
             'Opgaven',
-            'BeleidsRegels',
+            'Beleidsregels',
             'Doelen',
             'Belangen',
             'Beleidsbeslissingen',
