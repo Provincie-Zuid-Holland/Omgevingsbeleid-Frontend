@@ -15,7 +15,8 @@ import MuteerMeldingen from './../../pages/MuteerMeldingen'
 import MuteerUniversalObjectOverzicht from './../../pages/MuteerUniversalObjectOverzicht'
 import MuteerUniversalObjectDetail from './../../pages/MuteerUniversalObjectDetail'
 import MuteerUniversalObjectCRUD from './../../pages/MuteerUniversalObjectCRUD'
-import MuteerVerordening from './../../pages/MuteerVerordening'
+import MuteerVerordeningenstructuurOverzicht from './../../pages/MuteerVerordeningenstructuurOverzicht'
+import MuteerVerordeningenstructuurDetail from './../../pages/MuteerVerordeningenstructuurDetail'
 import MuteerBeleidsrelatiesOverzicht from './../../pages/MuteerBeleidsrelatiesOverzicht'
 import MuteerBeleidsrelatiesCRUD from './../../pages/MuteerBeleidsrelatiesCRUD'
 
@@ -198,16 +199,30 @@ class AuthRoutes extends Component {
                         path="/muteer/mijn-meldingen"
                         component={MuteerMeldingen}
                     />
+
+                    {/* Verordeningen */}
                     <Route
-                        path="/muteer/verordening"
+                        path="/muteer/verordeningen/:ID"
                         exact
                         render={() => (
-                            <MuteerVerordening
-                                dataModel={dataModel.Verordening}
+                            <MuteerVerordeningenstructuurDetail
+                                dataModel={dataModel.Verordeningen}
                                 history={this.props.history}
                             />
                         )}
                     />
+                    <Route
+                        path="/muteer/verordeningen"
+                        exact
+                        render={() => (
+                            <MuteerVerordeningenstructuurOverzicht
+                                dataModel={dataModel.Verordeningen}
+                                history={this.props.history}
+                            />
+                        )}
+                    />
+
+                    {/* Beleidsrelaties */}
                     <Route
                         path="/muteer/beleidsrelaties/:UUID/nieuwe-relatie"
                         exact

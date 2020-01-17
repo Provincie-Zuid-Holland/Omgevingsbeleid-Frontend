@@ -25,7 +25,7 @@ const menuItemsBeheer = {
     Ambities: { url: '/muteer/ambities', finished: true },
     Belangen: { url: '/muteer/belangen', finished: true },
     Themas: { url: '/muteer/themas', finished: true },
-    Verordening: { url: '/muteer/verordening', finished: true },
+    Verordening: { url: '/muteer/verordeningen', finished: true },
 }
 
 function ReturnNavLink(props) {

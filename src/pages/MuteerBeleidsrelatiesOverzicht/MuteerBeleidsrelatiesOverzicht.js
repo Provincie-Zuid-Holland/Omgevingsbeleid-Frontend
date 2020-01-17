@@ -56,7 +56,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
         }
     }
 
-    // Als het compent gemount wordt, haal alle beleidsbeslissingen en beleidsrelaties => setState op en initialize state
+    // Als het component gemount wordt, haal alle beleidsbeslissingen en beleidsrelaties => setState op en initialize state
     componentDidMount() {
         if (this.props.match.params.UUID !== undefined) {
             this.setState({
@@ -316,7 +316,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                                         </div>
                                         <div className="w-1/12 text-center">
                                             <FontAwesomeIcon
-                                                title="Wacht op antwoord"
+                                                title="Een onbevstigde relatie, is een relatie die door de andere partij nog geaccepteerd moet worden"
                                                 className="text-gray-800 text-lg"
                                                 icon={faHourglass}
                                             />

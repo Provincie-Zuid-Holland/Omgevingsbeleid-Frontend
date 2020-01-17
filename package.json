@@ -26,6 +26,7 @@
         "npm": "^6.12.0",
         "proj4leaflet": "^1.0.2",
         "react": "^16.11.0",
+        "react-beautiful-dnd": "^12.2.0",
         "react-content-loader": "^4.3.2",
         "react-dom": "^16.11.0",
         "react-helmet": "^5.2.1",
