@@ -13,4 +13,4 @@ assignees: ''
 Gegeven ... wanneer ... dan ...
 
 **Subtaken**
-[ ] Taak 1
+- [ ] Taak 1
