@@ -1,16 +1,18 @@
 ---
 name: User story
 about: De standaard template voor een user story
-title: ''
+title: Als ... wil ik ... zodat ...
 labels: ''
 assignees: ''
 
 ---
 
-# Als ... wil ik ... zodat ...
+**User story**
+Als ... wil ik ... zodat ...
 
-**Test Criteria**
-Gegeven ... wanneer ... dan ...
+**Acceptatiecriteria/Specificaties**
+- [ ] Acceptatiecriteria 1
+    - [ ] Sub-acceptatiecriteria 1
 
 **Subtaken**
 - [ ] Taak 1
