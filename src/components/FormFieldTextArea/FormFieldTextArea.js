@@ -29,7 +29,6 @@ class FormFieldTextArea extends React.Component {
                         dataObjectProperty={this.props.dataObjectProperty}
                         fieldLabel={this.props.fieldLabel}
                         pValue={this.props.pValue}
-                        addObjectLabel={this.props.addObjectLabel}
                         titelEnkelvoud={this.props.titelEnkelvoud}
                         anchorText={this.props.anchorText}
                         anchorLink={this.props.anchorLink}

@@ -8,6 +8,8 @@ class FormFieldSelectUserGroup extends Component {
         super(props)
         this.state = {
             gebruikersLijst: [],
+            dataLoaded: false,
+            error: false,
         }
     }
 
@@ -19,11 +21,20 @@ class FormFieldSelectUserGroup extends Component {
             .get(ApiEndpoint)
             .then(res => {
                 const objecten = res.data
-                this.setState({
-                    gebruikersLijst: objecten,
-                })
+                this.setState(
+                    {
+                        gebruikersLijst: objecten,
+                        dataLoaded: true,
+                    },
+                    () => console.log(this.state)
+                )
             })
             .catch(error => {
+                this.setState({
+                    dataLoaded: true,
+                    error: true,
+                })
+                // !REFACTOR! Add toast notification al er iets mis gaat
                 if (error.response !== undefined) {
                     if (error.response.status === 401) {
                         localStorage.removeItem('access_token')
@@ -43,8 +54,7 @@ class FormFieldSelectUserGroup extends Component {
                     Personen
                 </span>
                 <div className="w-1/2 flex">
-                    {crudObject['Opdrachtgever'] !== undefined &&
-                    this.state.gebruikersLijst.length > 0 ? (
+                    {this.state.dataLoaded && !this.state.error ? (
                         <FormFieldSelectUser
                             editStatus={this.props.editStatus}
                             halfWidth={true}
@@ -63,8 +73,7 @@ class FormFieldSelectUserGroup extends Component {
                 </div>
 
                 <div className="flex">
-                    {crudObject['Eigenaar_1'] !== undefined &&
-                    this.state.gebruikersLijst.length > 0 ? (
+                    {this.state.dataLoaded && !this.state.error ? (
                         <FormFieldSelectUser
                             editStatus={this.props.editStatus}
                             handleChange={this.props.handleChange}
@@ -80,8 +89,7 @@ class FormFieldSelectUserGroup extends Component {
                         <LoaderSelect />
                     )}
 
-                    {crudObject['Eigenaar_2'] !== undefined &&
-                    this.state.gebruikersLijst.length > 0 ? (
+                    {this.state.dataLoaded && !this.state.error ? (
                         <FormFieldSelectUser
                             editStatus={this.props.editStatus}
                             handleChange={this.props.handleChange}
@@ -98,8 +106,7 @@ class FormFieldSelectUserGroup extends Component {
                 </div>
 
                 <div className="flex">
-                    {crudObject['Portefeuillehouder_1'] !== undefined &&
-                    this.state.gebruikersLijst.length > 0 ? (
+                    {this.state.dataLoaded && !this.state.error ? (
                         <FormFieldSelectUser
                             editStatus={this.props.editStatus}
                             handleChange={this.props.handleChange}
@@ -115,8 +122,7 @@ class FormFieldSelectUserGroup extends Component {
                         <LoaderSelect />
                     )}
 
-                    {crudObject['Portefeuillehouder_2'] !== undefined &&
-                    this.state.gebruikersLijst.length > 0 ? (
+                    {this.state.dataLoaded && !this.state.error ? (
                         <FormFieldSelectUser
                             editStatus={this.props.editStatus}
                             gebruikersLijst={this.state.gebruikersLijst}

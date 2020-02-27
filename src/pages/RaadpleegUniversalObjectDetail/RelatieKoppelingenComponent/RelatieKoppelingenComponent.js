@@ -197,11 +197,9 @@ class RelatieKoppelingenComponent extends Component {
             )
         )
             .then(responses => {
-                this.setState(
-                    {
-                        dataFromAPILoaded: true,
-                    }
-                )
+                this.setState({
+                    dataFromAPILoaded: true,
+                })
             })
             .catch(err => console.log(err))
     }
@@ -497,7 +495,7 @@ const objecten = {
         volledigeTitel: 'Beleidsregels',
         volledigeTitelMeervoud: 'Beleidsregels',
         api: '/beleidsregels',
-        propertyName: 'Beleidsregels',
+        propertyName: 'BeleidsRegels',
         type: 'Beleidsregel',
     },
 }

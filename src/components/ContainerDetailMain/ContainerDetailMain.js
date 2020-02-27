@@ -12,11 +12,11 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 // Import Components
-import PopUpDetailDropdown from './../../../components/PopUpDetailDropdown'
-import PopUpStatusAanpassen from './../../../components/PopUpStatusAanpassen'
-import HeadingMain from './../../../components/HeadingMain'
-import LoaderMainTitle from './../../../components/LoaderMainTitle'
-import LoaderSmallSpan from './../../../components/LoaderSmallSpan'
+import PopUpDetailDropdown from '../PopUpDetailDropdown'
+import PopUpStatusAanpassen from '../PopUpStatusAanpassen'
+import HeadingMain from '../HeadingMain'
+import LoaderMainTitle from '../LoaderMainTitle'
+import LoaderSmallSpan from '../LoaderSmallSpan'
 
 function StatusLabel(props) {
     return (
@@ -63,6 +63,7 @@ class ContainerDetailMain extends Component {
                     pageType === 'version' ? 'mt-6' : ''
                 }`}
             >
+                {this.props.children}
                 {titelEnkelvoud === 'Beleidsbeslissing' ? (
                     <div
                         onClick={this.toggleDropdown}
@@ -180,7 +181,11 @@ class ContainerDetailMain extends Component {
                                         Link naar raadpleegomgeving
                                     </span>
                                     <span className="text-sm text-gray-700">
-                                        Bekijk {titelEnkelvoud.toLowerCase()}
+                                        {dataReceived ? (
+                                            `Bekijk ${titelEnkelvoud.toLowerCase()}`
+                                        ) : (
+                                            <LoaderMainTitle />
+                                        )}
                                     </span>
                                 </div>
                             </div>

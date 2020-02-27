@@ -47,7 +47,6 @@ class FormFieldTags extends Component {
                         dataObjectProperty={this.props.dataObjectProperty}
                         fieldLabel={this.props.fieldLabel}
                         pValue={this.props.pValue}
-                        addObjectLabel={this.props.addObjectLabel}
                         titelEnkelvoud={this.props.titelEnkelvoud}
                     />
                     <CreatableSelect

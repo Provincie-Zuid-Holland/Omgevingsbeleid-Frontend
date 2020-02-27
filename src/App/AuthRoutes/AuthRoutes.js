@@ -19,12 +19,19 @@ import MuteerVerordeningenstructuurOverzicht from './../../pages/MuteerVerordeni
 import MuteerVerordeningenstructuurDetail from './../../pages/MuteerVerordeningenstructuurDetail'
 import MuteerBeleidsrelatiesOverzicht from './../../pages/MuteerBeleidsrelatiesOverzicht'
 import MuteerBeleidsrelatiesCRUD from './../../pages/MuteerBeleidsrelatiesCRUD'
+import MuteerVerordeningenCRUD from '../../pages/MuteerVerordeningenCRUD'
+import MuteerVerordeningenStructuurCRUD from '../../pages/MuteerVerordeningenStructuurCRUD'
+import MuteerVerordeningenDetail from '../../pages/MuteerVerordeningenDetail'
+
+// Import Constants
+import allDimensies from './../../constants/dimensies'
+console.log(allDimensies)
 
 function BeheerRoutes(props) {
-    const beheerRoutesList = [
+    const dimensies = [
         {
             slug: 'beleidsregels',
-            dataModelProperty: 'Beleidsregels',
+            dataModelProperty: 'BeleidsRegels',
         },
         {
             slug: 'maatregelen',
@@ -54,83 +61,59 @@ function BeheerRoutes(props) {
 
     const authUser = props.authUser
 
-    const BeheerRouteJSX = beheerRoutesList.map(item => {
-        const dataModelProperty = item.dataModelProperty
-
-        // Variables
-        const overzichtSlug =
-            dataModel[dataModelProperty].variables.Overzicht_Slug
-        const apiEndpoint = dataModel[dataModelProperty].variables.Api_Endpoint
-        const filteredDataModel = dataModel[dataModelProperty]
-        const createNewSlug =
-            dataModel[dataModelProperty].variables.Create_New_Slug
+    const BeheerRouteJSX = Object.keys(allDimensies).map(dimensie => {
+        const dimensieConstants = allDimensies[dimensie]
+        const overzichtSlug = allDimensies[dimensie].SLUG_OVERZICHT
+        const createNewSlug = allDimensies[dimensie].SLUG_CREATE_NEW
 
         return (
-            <React.Fragment key={item.slug}>
+            <React.Fragment key={createNewSlug}>
                 <Switch>
                     <Route
                         exact
                         path={`/muteer/${overzichtSlug}/${createNewSlug}`}
-                        render={({ match }) => (
+                        render={() => (
                             <MuteerUniversalObjectCRUD
                                 authUser={authUser}
-                                dataModel={filteredDataModel}
-                                ApiEndpoint={apiEndpoint}
-                                overzichtSlug={overzichtSlug}
-                                history={props.history}
-                                match={match}
+                                dimensieConstants={dimensieConstants}
                             />
                         )}
                     />
                     <Route
                         exact
                         path={`/muteer/${overzichtSlug}/edit/:single/:version`}
-                        render={({ match }) => (
+                        render={() => (
                             <MuteerUniversalObjectCRUD
                                 authUser={authUser}
-                                ApiEndpoint={apiEndpoint}
-                                dataModel={filteredDataModel}
-                                overzichtSlug={overzichtSlug}
-                                history={props.history}
-                                match={match}
+                                dimensieConstants={dimensieConstants}
                             />
                         )}
                     />
                     <Route
                         exact
                         path={`/muteer/${overzichtSlug}/edit/:single`}
-                        render={({ match }) => (
+                        render={() => (
                             <MuteerUniversalObjectCRUD
                                 authUser={authUser}
-                                ApiEndpoint={apiEndpoint}
-                                dataModel={filteredDataModel}
-                                overzichtSlug={overzichtSlug}
-                                history={props.history}
-                                match={match}
+                                dimensieConstants={dimensieConstants}
                             />
                         )}
                     />
                     <Route
                         exact
                         path={`/muteer/${overzichtSlug}/:single/:version`}
-                        render={({ match }) => (
+                        render={() => (
                             <MuteerUniversalObjectDetail
-                                dataModel={filteredDataModel}
-                                overzichtSlug={overzichtSlug}
-                                history={props.history}
-                                match={match}
+                                dimensieConstants={dimensieConstants}
                             />
                         )}
                     />
                     <Route
                         exact
                         path={`/muteer/${overzichtSlug}/:single`}
-                        render={({ match }) => (
+                        render={() => (
                             <MuteerUniversalObjectDetail
-                                dataModel={filteredDataModel}
-                                history={props.history}
-                                overzichtSlug={overzichtSlug}
-                                match={match}
+                                dimensieConstants={dimensieConstants}
                             />
                         )}
                     />
@@ -139,8 +122,7 @@ function BeheerRoutes(props) {
                         exact
                         render={() => (
                             <MuteerUniversalObjectOverzicht
-                                dataModel={filteredDataModel}
-                                history={props.history}
+                                dimensieConstants={dimensieConstants}
                             />
                         )}
                     />
@@ -202,7 +184,56 @@ class AuthRoutes extends Component {
 
                     {/* Verordeningen */}
                     <Route
-                        path="/muteer/verordeningen/:ID"
+                        path="/muteer/verordeningen/nieuwe-verordening"
+                        exact
+                        render={() => (
+                            <MuteerVerordeningenStructuurCRUD
+                                dataModel={dataModel.Verordeningen}
+                                history={this.props.history}
+                            />
+                        )}
+                    />
+                    <Route
+                        path="/muteer/verordeningen/bewerk-verordening/:lineageID/:lineageUUID"
+                        exact
+                        render={() => (
+                            <MuteerVerordeningenStructuurCRUD
+                                dataModel={dataModel.Verordeningen}
+                                history={this.props.history}
+                            />
+                        )}
+                    />
+                    <Route
+                        path="/muteer/verordeningen/:lineageID/nieuw/:type"
+                        render={() => (
+                            <MuteerVerordeningenCRUD
+                                dataModel={dataModel.Verordeningen}
+                                history={this.props.history}
+                            />
+                        )}
+                    />
+                    <Route
+                        path="/muteer/verordeningen/:lineageID/bewerk/:type/:verordeningsUUID/:verordeningsID"
+                        render={() => (
+                            <MuteerVerordeningenCRUD
+                                editState={true}
+                                dataModel={dataModel.VerordeningenDetail}
+                                history={this.props.history}
+                            />
+                        )}
+                    />
+                    <Route
+                        path="/muteer/verordeningen/:lineageID/:single"
+                        exact
+                        render={() => (
+                            <MuteerVerordeningenDetail
+                                dataModel={dataModel.VerordeningenDetail}
+                                history={this.props.history}
+                            />
+                        )}
+                    />
+                    <Route
+                        path="/muteer/verordeningen/:lineageID"
                         exact
                         render={() => (
                             <MuteerVerordeningenstructuurDetail

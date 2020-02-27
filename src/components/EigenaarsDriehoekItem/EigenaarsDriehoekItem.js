@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 // Import Axios instance to connect with the API
-import axios from '../../../API/axios'
+import axios from './../../API/axios'
 
 class EigenaarsDriehoekItem extends Component {
     constructor(props) {

@@ -35,6 +35,24 @@ class FormFieldSelectUser extends React.Component {
     }
 
     render() {
+        const customStyles = {
+            control: (base, state) => ({
+                ...base,
+                borderColor: 'none',
+                borderWidth: '0px',
+                '&:hover': {
+                    borderColor: 'none',
+                    borderWidth: '0px',
+                    boxShadow: 'none',
+                },
+                '&.is-focused': {
+                    borderColor: 'none',
+                    borderWidth: '0px',
+                    boxShadow: 'none',
+                },
+            }),
+        }
+
         return (
             <div
                 className={`mb-6 ${this.props.marginRight ? 'mr-8' : null} ${
@@ -45,6 +63,7 @@ class FormFieldSelectUser extends React.Component {
                 {this.state.dataLoaded ? (
                     <Select
                         id={`form-field-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
+                        className="border border-gray-400 rounded hover:border-gray-500 focus:border-gray-500"
                         name={this.props.dataObjectProperty}
                         value={this.state.selected}
                         onChange={(e, metaInfo) =>
@@ -54,6 +73,7 @@ class FormFieldSelectUser extends React.Component {
                                 this.props.dataObjectProperty
                             )
                         }
+                        styles={customStyles}
                         isClearable={true}
                         options={this.state.selectionArray}
                         placeholder={`Selecteer...`}

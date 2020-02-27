@@ -20,10 +20,10 @@ function ButtonAddNewObject({
         >
             <Link
                 id={`object-add-new-${hoofdOnderdeelSlug.toLowerCase()}`}
-                className="h-full flex items-center justify-center no-underline px-4 py-4 border border-dashed rounded overflow-hidden"
+                className="h-full flex items-center justify-center no-underline px-4 py-4 border border-gray-300 hover:border-gray-400 border-dashed rounded  overflow-hidden transition-regular text-gray-600 hover:text-gray-800"
                 to={`/muteer/${hoofdOnderdeelSlug}/${createNewSlug}`}
             >
-                <span className="text-center text-gray-600 font-semibold py-2 px-4">
+                <span className="text-center font-semibold py-2 px-4">
                     + Voeg {titelEnkelvoud} Toe
                 </span>
             </Link>

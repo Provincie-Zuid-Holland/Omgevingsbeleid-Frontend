@@ -68,13 +68,21 @@ function SearchResultItem(props) {
         Omschrijving: getExcerpt(getContent('Omschrijving')),
     }
 
-    const overzichtURL = dataModel[props.item.type].variables.Overzicht_Slug
-    const titelEnkelvoud = dataModel[props.item.type].variables.Titel_Enkelvoud
+    console.log(props.item)
+
+    // !REFACTOR! Swen -> Aanpassen van Beleidsregels naar BeleidsRegels
+    let type = props.item.type
+    if (type === 'Beleidsregels') {
+        type = 'BeleidsRegels'
+    }
+
+    const overzichtURL = dataModel[type].variables.Overzicht_Slug
+    const titelEnkelvoud = dataModel[type].variables.Titel_Enkelvoud
 
     return (
         <li className="border-b border-gray-300 py-5" key={props.item.UUID}>
             <Link
-                to={`/detail/${overzichtURL}/${props.item.ID}#${props.searchQuery}`}
+                to={`/detail/${overzichtURL}/${props.item._ID}#${props.searchQuery}`}
             >
                 {content.Titel.setInnerHTML ? (
                     <h2
@@ -136,32 +144,6 @@ class RaadpleegZoekResultatenOverzicht extends Component {
         let mainFilterObject = {}
 
         searchResults.forEach((item, index) => {
-            console.log('item')
-            console.log(item)
-            console.log('type')
-            console.log(item.type)
-            // !REFACTOR!
-            // if (item.type === 'Belangen') {
-            //     item.type = 'Belang'
-            // }
-            // if (item.type === 'Opgaven') {
-            //     item.type = 'Opgave'
-            // }
-            // if (item.type === 'Ambities') {
-            //     item.type = 'Ambitie'
-            // }
-            // if (item.type === 'Beleidsregels') {
-            //     item.type = 'BeleidsRegel'
-            // }
-            // if (item.type === 'Doelen') {
-            //     item.type = 'Doel'
-            // }
-            // if (item.type === 'Beleidsrelaties') {
-            //     item.type = 'BeleidsRelatie'
-            // }
-            // if (item.type === "Thema's") {
-            //     item.type = 'Thema'
-            // }
             const filterObject = {
                 name: item.type,
                 checked: true,
@@ -200,11 +182,14 @@ class RaadpleegZoekResultatenOverzicht extends Component {
             .then(res => {
                 const searchResults = res.data
                 this.setInitialOnPageFilters(searchResults)
-                this.setState({
-                    searchFiltersOnly: searchFiltersOnly,
-                    searchResults: searchResults,
-                    dataLoaded: true,
-                })
+                this.setState(
+                    {
+                        searchFiltersOnly: searchFiltersOnly,
+                        searchResults: searchResults,
+                        dataLoaded: true,
+                    },
+                    () => console.log(this.state)
+                )
             })
             .catch(err => console.log(err))
     }

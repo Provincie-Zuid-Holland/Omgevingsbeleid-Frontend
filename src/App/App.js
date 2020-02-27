@@ -26,6 +26,7 @@ import AuthRoutes from './AuthRoutes'
 // Import Components
 import Navigation from './../components/Navigation'
 import LoaderContent from './../components/LoaderContent'
+import LoginForm from './../components/LoginForm'
 
 // Import Sentry (Bug tracking)
 import * as Sentry from '@sentry/browser'
@@ -37,6 +38,28 @@ if (process.env.NODE_ENV !== 'development') {
     })
 }
 
+// !REFACTOR! - Algemene refactor punten
+// - Implement spread operator ({...this.state}) op elke 'variabele = this.state' (reference -> new)
+// - Add propTypes for type checking
+
+function ReAuthenticatePopup({ setLoginState }) {
+    return (
+        <React.Fragment>
+            <div className="bg-gray-900 opacity-50 z-40 absolute w-full h-full left-0 top-0"></div>
+            <div className="absolute w-full h-full z-40 left-0 top-0 flex justify-center items-center">
+                <div className="bg-white rounded p-5 text-gray-700">
+                    <h2 className="font-bold text-xl mb-2">Opnieuw inloggen</h2>
+                    <p>
+                        De sessie is verlopen. U kunt hieronder opnieuw
+                        inloggen.
+                    </p>
+                    <LoginForm setLoginState={setLoginState} />
+                </div>
+            </div>
+        </React.Fragment>
+    )
+}
+
 class App extends Component {
     constructor(props) {
         super(props)
@@ -44,9 +67,13 @@ class App extends Component {
             loggedIn: null,
             user: null,
             dataLoaded: false,
+            showReAuthenticatePopup: false,
         }
-        this.checkUserToken = this.checkUserToken.bind(this)
+        this.checkIfUserIsAuthenticated = this.checkIfUserIsAuthenticated.bind(
+            this
+        )
         this.setLoginState = this.setLoginState.bind(this)
+        this.listenForExpiredSession = this.listenForExpiredSession.bind(this)
     }
 
     setLoginState(loginState) {
@@ -56,7 +83,8 @@ class App extends Component {
     }
 
     // Controleerd de tokenInfo om te kijken of de gebruiker is ingelogd
-    checkUserToken() {
+    // !REFACTOR! Duidelijkere naam
+    checkIfUserIsAuthenticated() {
         axios
             .get('/tokeninfo')
             .then(res => {
@@ -76,11 +104,39 @@ class App extends Component {
             })
     }
 
+    checkForInternetExplorer() {
+        // detecteerd IE8+ en Edge
+        if (document.documentMode || /Edge/.test(navigator.userAgent)) {
+            window.alert(
+                'Deze website werkt met moderne browsers als Chrome, Firefox, Safari, etc'
+            )
+        }
+    }
+
+    showReAuthenticatePopup(e) {
+        this.setState({
+            showReAuthenticatePopup: true,
+        })
+    }
+
+    listenForExpiredSession(e) {
+        if (e.detail.message === 'Authenticated sessie is afgelopen') {
+            // !REFACTOR! Add opnieuw inlog popup
+            // this.showReAuthenticatePopup(e)
+        }
+    }
+
     componentDidMount() {
-        this.checkUserToken()
+        window.addEventListener('authEvent', e =>
+            this.listenForExpiredSession(e)
+        )
+
+        this.checkIfUserIsAuthenticated()
+        this.checkForInternetExplorer()
     }
 
     render() {
+        // Array die gebruikt wordt om de routes te renderen van de detail pagina's
         const detailPaginas = [
             {
                 slug: 'ambities',
@@ -88,7 +144,7 @@ class App extends Component {
             },
             {
                 slug: 'beleidsregels',
-                dataModel: dataModel.Beleidsregels,
+                dataModel: dataModel.BeleidsRegels,
             },
             {
                 slug: 'doelen',
@@ -134,6 +190,10 @@ class App extends Component {
                     <meta charSet="utf-8" />
                     <title>Omgevingsbeleid - Provincie Zuid-Holland</title>
                 </Helmet>
+
+                {this.state.showReAuthenticatePopup ? (
+                    <ReAuthenticatePopup setLoginState={this.setLoginState} />
+                ) : null}
 
                 <Navigation
                     setLoginState={this.setLoginState}

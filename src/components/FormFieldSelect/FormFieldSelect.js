@@ -9,22 +9,23 @@ class FormFieldSelect extends React.Component {
                     dataObjectProperty={this.props.dataObjectProperty}
                     fieldLabel={this.props.fieldLabel}
                     pValue={this.props.pValue}
-                    addObjectLabel={this.props.addObjectLabel}
                     titelEnkelvoud={this.props.titelEnkelvoud}
                 />
 
                 <div className="inline-block relative w-64">
                     <select
-                        required
-                        value={this.props.fieldValue}
+                        value={
+                            this.props.fieldValue === null
+                                ? ''
+                                : this.props.fieldValue
+                        }
                         onChange={this.props.handleChange}
                         id={`form-field-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
                         name={this.props.dataObjectProperty}
                         className="appearance-none block w-full text-gray-700 border bg-white border-gray-400 rounded py-3 px-4 leading-tight focus:outline-none hover:border-gray-500 focus:border-gray-500"
                     >
-                        <option disabled value="">
-                            {' '}
-                            - selecteer een optie -{' '}
+                        <option disabled value={''}>
+                            - selecteer een optie -
                         </option>
                         {this.props.selectArray.map((arrayItem, index) => {
                             return (

@@ -177,7 +177,7 @@ class SearchBar extends Component {
                     id="search-query"
                     type="text"
                     value={this.state.searchInput}
-                    placeholder="Zoeken op tags, artikelnummer, etc."
+                    placeholder="Zoeken op artikelnummer, etc."
                     onKeyDown={e => {
                         if (e.keyCode === 13) {
                             // Enter

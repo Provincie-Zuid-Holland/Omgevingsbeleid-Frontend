@@ -488,7 +488,7 @@ const objecten = {
         volledigeTitel: 'Beleidsregels',
         volledigeTitelMeervoud: 'Beleidsregels',
         api: '/beleidsregels',
-        propertyName: 'Beleidsregels',
+        propertyName: 'BeleidsRegels',
         type: 'Beleidsregel',
     },
 }

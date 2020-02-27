@@ -187,7 +187,6 @@ class FormFieldBeleidsrelatieKoppeling extends Component {
     }
 
     render() {
-
         // crudObject met alle huidige data
         const crudObject = this.props.crudObject
         const actieveKoppelingen = this.state.objecten
@@ -198,7 +197,6 @@ class FormFieldBeleidsrelatieKoppeling extends Component {
                     dataObjectProperty={this.props.dataObjectProperty}
                     fieldLabel={this.props.fieldLabel}
                     pValue={this.props.pValue}
-                    addObjectLabel={this.props.addObjectLabel}
                     titelEnkelvoud={this.props.titelEnkelvoud}
                 />
                 <div

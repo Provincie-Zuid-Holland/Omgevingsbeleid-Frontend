@@ -1,54 +1,40 @@
 import React, { Component } from 'react'
 import { toast } from 'react-toastify'
 import { format, isBefore } from 'date-fns'
-import nlLocale from 'date-fns/locale/nl'
+import { Link, withRouter } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
-import validator from 'validator'
 
 // Import Components
-import ContainerCrudFields from './ContainerCrudFields'
-import LoaderContent from './../../components/LoaderContent'
 import ContainerCrudHeader from './ContainerCrudHeader'
+import LoaderContent from './../../components/LoaderContent'
+import ButtonSubmitFixed from './../../components/ButtonSubmitFixed'
+import ContainerMain from './../../components/ContainerMain'
+
+// Import FormFieldContainers
+import FormFieldContainerAmbities from './FormFieldContainers/FormFieldContainerAmbities'
+import FormFieldContainerBelangen from './FormFieldContainers/FormFieldContainerBelangen'
+import FormFieldContainerBeleidsregels from './FormFieldContainers/FormFieldContainerBeleidsregels'
+import FormFieldContainerBeleidsbeslissingen from './FormFieldContainers/FormFieldContainerBeleidsbeslissingen'
+import FormFieldContainerMaatregelen from './FormFieldContainers/FormFieldContainerMaatregelen'
+import FormFieldContainerOpgaven from './FormFieldContainers/FormFieldContainerOpgaven'
+import FormFieldContainerThemas from './FormFieldContainers/FormFieldContainerThemas'
 
 // Import Axios instance to connect with the API
 import axios from './../../API/axios'
 
-// Create Context
-import APIcontext from './APIContext'
-
-// Function to see if property on object is editable
-function getCRUDBoolean(dataModel, propertyName) {
-    return dataModel.properties[propertyName].UI.userCRUD
-}
-
-// Function to see if an object is empty
-function isObjectEmpty(obj) {
-    for (var key in obj) {
-        if (obj.hasOwnProperty(key)) return false
-    }
-    return true
-}
-
-// Function to make a list to see which properties on the object are editable by the user - EDIT OBJECT
-function makeCrudPropertiesArray(dataModel) {
-    // Make list of property names from object
-    const propertyNames = Object.keys(dataModel.properties)
-
-    // Check for each Property in propertyNames if property CRUD value is True and if True add to new Array
-    const crudProperties = propertyNames.filter(propertyName => {
-        return getCRUDBoolean(dataModel, propertyName)
-    })
-
+// Maakt en returned een array met de bewerkbare properties van het dimensie object
+function makeCrudProperties(dimensieConstants) {
+    const crudProperties = Object.keys(dimensieConstants.CRUD_PROPERTIES)
     return crudProperties
 }
 
 // Function to make an object containing the fields that the user can edit
-// Response object is the response object from the API call with existing data
-function makeCrudObject(array, responseObject) {
+function makeCrudObject({ crudProperties, dimensieConstants, responseObject }) {
+    // Key waarden van de properties die gebruikt worden voor het maken van koppelingen
     const koppelingenKeysArray = [
         'Ambities',
         'Belangen',
-        'Beleidsregels',
+        'BeleidsRegels',
         'Doelen',
         'Maatregelen',
         'Opgaven',
@@ -57,34 +43,135 @@ function makeCrudObject(array, responseObject) {
         'WerkingsGebieden',
     ]
 
+    // Het initiele object wat gereturned zal worden
+    // Hierop plaatsen we alle properties die gewijzigd moeten worden
     let crudObject = {}
-    if (isObjectEmpty(responseObject)) {
-        array.forEach(arrayItem => {
-            if (koppelingenKeysArray.includes(arrayItem)) {
-                // Als het een koppeling Array item is moet de value een array zijn
-                crudObject[arrayItem] = []
-            } else if (
-                arrayItem === 'Verplicht_Programma' ||
-                arrayItem === 'Specifiek_Of_Generiek'
+
+    if (responseObject) {
+        // Als er een response object populaten we het crudObject op basis van de crudProperties met de waarden van het responseObject
+        crudProperties.forEach(crudProperty => {
+            crudObject[[crudProperty][0]] = responseObject[crudProperty]
+        })
+    } else {
+        // Als er geen responseObject is initializen we de waarde voor elke crudProperty
+        crudProperties.forEach(crudProperty => {
+            crudObject[crudProperty] =
+                dimensieConstants.CRUD_PROPERTIES[crudProperty].initValue
+        })
+    }
+
+    return crudObject
+}
+
+function scrollToElement(elSelector) {
+    const el = document.getElementById(elSelector)
+
+    if (!el) return
+
+    const yPosition = el.getBoundingClientRect().top + window.scrollY
+    console.log(yPosition)
+    window.scroll({
+        top: yPosition - 170,
+        behavior: 'smooth',
+    })
+
+    el.focus()
+
+    el.classList.add('transition-regular', 'border-red-500')
+    setTimeout(
+        () => el.classList.remove('transition-regular', 'border-red-500'),
+        2000
+    )
+}
+
+function eindDateIsBeforeBeginDate(titelEnkelvoud, crudObject) {
+    if (isBefore(crudObject.Eind_Geldigheid, crudObject.Begin_Geldigheid)) {
+        const dataObjectProperty = 'Eind_Geldigheid'
+        const elSelector = `form-field-${titelEnkelvoud.toLowerCase()}-${dataObjectProperty.toLowerCase()}`
+        scrollToElement(elSelector)
+        toast(
+            'De datum van uitwerkingtreding mag niet eerder zijn dan de datum van inwerkingtreding'
+        )
+        return true
+    }
+    return false
+}
+
+function checkRequiredFields(crudObject, dimensieConstants, titelEnkelvoud) {
+    const status = crudObject.Status
+    const crudObjectProperties = Object.keys(crudObject)
+
+    let pageScrolledToElement = false
+    let alleVeldenIngevuld = true
+
+    if (titelEnkelvoud === 'Beleidsbeslissing') {
+        crudObjectProperties.forEach(property => {
+            if (
+                dimensieConstants.CRUD_PROPERTIES[property].required.includes(
+                    status
+                )
             ) {
-                crudObject[[arrayItem][0]] = ' - selecteer een optie - '
-            } else {
-                crudObject[arrayItem] = ''
+                checkIfPropertyHasValue(property)
             }
         })
     } else {
-        array.forEach(arrayItem => {
-            crudObject[[arrayItem][0]] = responseObject[arrayItem]
+        crudObjectProperties.forEach(property => {
+            if (dimensieConstants.CRUD_PROPERTIES[property].required) {
+                checkIfPropertyHasValue(property)
+            }
         })
+        if (
+            alleVeldenIngevuld &&
+            dimensieConstants.CRUD_PROPERTIES.Eind_Geldigheid.required &&
+            dimensieConstants.CRUD_PROPERTIES.Begin_Geldigheid.required
+        ) {
+            const isEindDateBeforeBegin = eindDateIsBeforeBeginDate(
+                titelEnkelvoud,
+                crudObject
+            )
+            if (isEindDateBeforeBegin) {
+                alleVeldenIngevuld = false
+            }
+        }
     }
-    return crudObject
+
+    function checkIfPropertyHasValue(property) {
+        const propertyHasValue =
+            crudObject[property] !== undefined &&
+            crudObject[property] !== null &&
+            crudObject[property] !== [] &&
+            crudObject[property] !== '' &&
+            crudObject[property] !== 'Invalid Date'
+
+        if (!propertyHasValue) {
+            // Notificeer de gebruiker
+            const titelEnkelvoud = dimensieConstants.TITEL_ENKELVOUD
+            toast(dimensieConstants.CRUD_PROPERTIES[property].requiredMessage)
+            console.warn(
+                `Element met id 'form-field-${titelEnkelvoud.toLowerCase()}-${property.toLowerCase()}' heeft geen waarde`
+            )
+
+            // !REFACTOR! Scope creep alleVeldenIngevuld
+            // Als er nog niet naar een element is gescrolled, scroll naar het element
+            if (!pageScrolledToElement) {
+                const elSelector = `form-field-${titelEnkelvoud.toLowerCase()}-${property.toLowerCase()}`
+                scrollToElement(elSelector)
+                pageScrolledToElement = true
+                alleVeldenIngevuld = false
+            }
+        }
+    }
+
+    return alleVeldenIngevuld
 }
 
 class MuteerUniversalObjectCRUD extends Component {
     constructor(props) {
         super(props)
 
-        // CrudObject contains the editable fields
+        // 'edit' bevat een boolean. Deze is true wanneer de gebruiker een bestaand object bewerkt en false wanneer de gebruiker een nieuw object toevoegd.
+        // 'crudObject' bevat de properties die de gebruiker kan bewerken, zoals de Titel
+        // 'dataLoaded' bevat een boolean die aangeeft of alle initiele data is geladen
         this.state = {
             edit: false,
             crudObject: {},
@@ -93,182 +180,59 @@ class MuteerUniversalObjectCRUD extends Component {
 
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
-        this.setEditorState = this.setEditorState.bind(this)
         this.voegKoppelingRelatieToe = this.voegKoppelingRelatieToe.bind(this)
         this.wijzigKoppelingRelatie = this.wijzigKoppelingRelatie.bind(this)
-        this.verwijderKoppelingRelatieToe = this.verwijderKoppelingRelatieToe.bind(
+        this.verwijderKoppelingRelatie = this.verwijderKoppelingRelatie.bind(
             this
         )
-        this.checkForEmptyFields = this.checkForEmptyFields.bind(this)
+        this.formatGeldigheidDatesForUI = this.formatGeldigheidDatesForUI.bind(
+            this
+        )
+        this.getAndSetDimensieDataFromApi = this.getAndSetDimensieDataFromApi.bind(
+            this
+        )
     }
 
-    componentDidMount() {
-        // Single parameter === object-id; user is editing an existing object
-        if (this.props.match.params.single) {
-            this.setState({
-                edit: true,
-            })
-
-            const dataModel = this.props.dataModel
-            const objectID = this.props.match.params.single
-            const ApiEndpoint = this.props.dataModel.variables.Api_Endpoint
-            const objectName = this.props.dataModel.variables.Object_Name
-
-            // See if there is a saved object in local storage
-            const localStorageKey = `${objectName}_${objectID}`
-            const savedStateInLocalStorage = JSON.parse(
-                localStorage.getItem(localStorageKey)
+    // De data worden opgeslagen in Timestamp objecten. Om deze in de UI weer te geven moeten we deze omzetten naar het formaat 'YYYY-MM-DD'
+    formatGeldigheidDatesForUI(crudObject) {
+        // Format Begin_Geldigheid
+        if (
+            crudObject.Begin_Geldigheid !== undefined &&
+            crudObject.Begin_Geldigheid !== null
+        ) {
+            crudObject.Begin_Geldigheid = format(
+                crudObject.Begin_Geldigheid,
+                'YYYY-MM-DD'
             )
-
-            let savedStateDate = ''
-            let savedStateEmpty = true
-
-            // See if local storage is empty
-            if (
-                false
-                // savedStateInLocalStorage !== null &&
-                // !isObjectEmpty(savedStateInLocalStorage.savedState)
-            ) {
-                savedStateDate = format(
-                    savedStateInLocalStorage.date,
-                    'dddd D MMMM',
-                    { locale: nlLocale }
-                )
-                savedStateEmpty = false
-            }
-
-            // Connect with API and get data
-            axios
-                .get(`${ApiEndpoint}/${objectID}`)
-                .then(res => {
-                    const responseObject = res.data
-                    const UUID = responseObject[0].UUID
-                    const crudProperties = makeCrudPropertiesArray(dataModel)
-                    const crudObject = makeCrudObject(
-                        crudProperties,
-                        responseObject[0]
-                    )
-                    if (
-                        crudObject.Begin_Geldigheid !== undefined &&
-                        crudObject.Begin_Geldigheid !== null
-                    ) {
-                        crudObject.Begin_Geldigheid = format(
-                            crudObject.Begin_Geldigheid,
-                            'YYYY-MM-DD'
-                        )
-                    } else if (crudObject.Begin_Geldigheid === null) {
-                        crudObject.Begin_Geldigheid = ''
-                    }
-                    if (
-                        crudObject.Eind_Geldigheid !== undefined &&
-                        crudObject.Eind_Geldigheid !== null
-                    ) {
-                        crudObject.Eind_Geldigheid = format(
-                            crudObject.Eind_Geldigheid,
-                            'YYYY-MM-DD'
-                        )
-                    } else if (crudObject.Eind_Geldigheid === null) {
-                        crudObject.Eind_Geldigheid = ''
-                    }
-
-                    // If there is a saved state in LocalStorage &&
-                    // If that state is equal to the latest state from the API
-                    // If that savedState object is not empty
-                    if (
-                        savedStateEmpty === false &&
-                        JSON.stringify(crudObject) !==
-                            JSON.stringify(
-                                savedStateInLocalStorage.savedState &&
-                                    !isObjectEmpty(
-                                        savedStateInLocalStorage.savedState
-                                    )
-                            )
-                    ) {
-                        this.setState(
-                            {
-                                crudObject: savedStateInLocalStorage.savedState,
-                                UUID: UUID,
-                                dataLoaded: true,
-                            },
-                            () => {
-                                toast(({ closeToast }) => (
-                                    <div>
-                                        Opgeslagen versie van {savedStateDate}
-                                    </div>
-                                ))
-                            }
-                        )
-                    } else {
-                        this.setState({
-                            crudObject: crudObject,
-                            UUID: UUID,
-                            dataLoaded: true,
-                        })
-                    }
-                })
-                .catch(error => {
-                    if (error.response !== undefined) {
-                        if (error.response.status === 401) {
-                            localStorage.removeItem('access_token')
-                            this.props.history.push('/login')
-                        }
-                    } else {
-                        console.log(error)
-                    }
-                })
-        } else {
-            // See if there is a saved object in local storage
-            const savedStateInLocalStorage = JSON.parse(
-                localStorage.getItem(this.props.dataModel.variables.Object_Name)
-            )
-
-            // If Local storage is not empty
-            // if (!isObjectEmpty(savedStateInLocalStorage)) {
-            if (false) {
-                const savedStateDate = format(
-                    savedStateInLocalStorage.date,
-                    'dddd D MMMM',
-                    { locale: nlLocale }
-                )
-
-                this.setState(
-                    {
-                        crudObject: savedStateInLocalStorage.savedState,
-                        dataLoaded: true,
-                    },
-                    () => {
-                        toast(({ closeToast }) => (
-                            <div>Opgeslagen versie van {savedStateDate}</div>
-                        ))
-                    }
-                )
-
-                // Else if Local Storage is empty, make an empty crud object
-            } else {
-                // If no saved version make a CRUD Object with empty strings
-                const dataModel = this.props.dataModel
-                const crudProperties = makeCrudPropertiesArray(dataModel)
-                let crudObject = makeCrudObject(crudProperties)
-
-                if (this.props.overzichtSlug === 'beleidsbeslissingen') {
-                    crudObject.Eigenaar_1 = this.props.authUser.UUID
-                }
-
-                this.setState({
-                    crudObject: crudObject,
-                    dataLoaded: true,
-                })
-            }
+        } else if (crudObject.Begin_Geldigheid === 'Invalid Date') {
+            crudObject.Begin_Geldigheid = null
         }
+
+        // Format Eind_Geldigheid
+        if (
+            crudObject.Eind_Geldigheid !== undefined &&
+            crudObject.Eind_Geldigheid !== null
+        ) {
+            crudObject.Eind_Geldigheid = format(
+                crudObject.Eind_Geldigheid,
+                'YYYY-MM-DD'
+            )
+        } else if (crudObject.Eind_Geldigheid === 'Invalid Date') {
+            crudObject.Eind_Geldigheid = null
+        }
+
+        return crudObject
     }
 
+    // Algemene change handler
+    // metaInfo en dataProp parameter bevatten informatie van het react-select <Select /> component
+    // Deze moeten anders afgehandeld worden dan een normaal event
     handleChange(event, metaInfo, dataProp) {
         let value
         let name
 
-        // Get Value
         if (metaInfo && metaInfo.action === 'clear') {
-            // If value comes from react-select comp and action is to clear the component
+            // Als de waarde van metaInfo.action 'clear' is moet de value van deze property naar null gezet worden. Dit event wordt getriggerd zodra een gebruiker op het 'X' icoon klikt in het react-select component
             value = null
             name = dataProp
         } else {
@@ -281,244 +245,152 @@ class MuteerUniversalObjectCRUD extends Component {
             }
         }
 
-        this.setState(
-            prevState => ({
-                crudObject: {
-                    ...prevState.crudObject,
-                    [name]: value,
-                },
-            }),
-            () => console.log(this.state)
-        )
-    }
-
-    // Algemene State Handler voor de Editor
-    setEditorState(stateValue, fieldName) {
         this.setState(prevState => ({
             crudObject: {
                 ...prevState.crudObject,
-                [fieldName]: stateValue,
+                [name]: value,
             },
         }))
     }
 
-    checkForEmptyFields(crudObject) {
-        const dataModel = this.props.dataModel
-        let allFieldsComplete = true
-        // let requiredProperties = []
-        // let requiredPropertyTypes = {}
-        // Ga voor elk veld van het crudObject na of het een required field is
-        Object.keys(crudObject).forEach(function(key, index) {
-            if (dataModel.required.includes(key)) {
-                const dataModelFormat = dataModel.properties[key].format
+    setInitialValuesCrudObject(crudObject) {
+        const dimensieConstants = this.props.dimensieConstants
 
-                // // Check if the dataModel Type is equal to the type in the crudObject
-                // if (
-                //     dataModelFormat === 'uuid' &&
-                //     allFieldsComplete &&
-                //     !crudObject[key]
-                // ) {
-                //     toast(`Vul alle 'Personen' velden in`)
-                //     allFieldsComplete = false
-                // } else if (
-                //     dataModelFormat === 'uuid' &&
-                //     allFieldsComplete &&
-                //     !validator.isUUID(crudObject[key])
-                // ) {
-                //     toast(`Vul alle 'Personen' velden in`)
-                //     allFieldsComplete = false
-                // }
-
-                // Check UUID's. If there is none set 0000
-                if (
-                    crudObject[key] !== null &&
-                    dataModelFormat === 'uuid' &&
-                    allFieldsComplete &&
-                    !validator.isUUID(crudObject[key])
-                ) {
-                    // allFieldsComplete = false
-                    crudObject[key] = '00000000-0000-0000-0000-000000000000'
-                }
-
-                // // Push de key naar de requiredProperties array
-                // requiredProperties.push(key)
-                // // Push het type en het format naar het requiredPropertyTypes object
-                // requiredPropertyTypes[key] = {
-                //     type: dataModel.properties[key].type,
-                //     format: dataModel.properties[key].format,
-                // }
+        // Check voor elke property op het crudObject of die gelijk is aan de initValue
+        // Indien dat het geval is, zet de waarde op null
+        const crudObjectKeys = Object.keys(crudObject)
+        crudObjectKeys.map(property => {
+            if (
+                crudObject[property] === null &&
+                crudObject[property] !==
+                    dimensieConstants.CRUD_PROPERTIES[property].initValue
+            ) {
+                crudObject[property] =
+                    dimensieConstants.CRUD_PROPERTIES[property].initValue
             }
         })
-        return allFieldsComplete
-
-        // Als het een required field is, kijk of het type overeen komt met die in het dataModel
+        return crudObject
     }
 
-    validateDate(dateObject) {
-        if (Object.prototype.toString.call(dateObject) === '[object Date]') {
-            // it is a date
-            if (isNaN(dateObject.getTime())) {
-                // date is not valid
-                return false
-            } else {
-                // date is valid
-                return true
+    setEmptyValuesToNullCrudObject(crudObject) {
+        const dimensieConstants = this.props.dimensieConstants
+
+        // Check voor elke property op het crudObject of die gelijk is aan de initValue
+        // Indien dat het geval is, zet de waarde op null
+        const crudObjectKeys = Object.keys(crudObject)
+        crudObjectKeys.map(property => {
+            if (
+                crudObject[property] ===
+                dimensieConstants.CRUD_PROPERTIES[property].initValue
+            ) {
+                crudObject[property] = null
             }
-        } else {
-            // not a date
-            return false
-        }
+        })
+        return crudObject
+    }
+
+    postDimensieObject(crudObject) {
+        const dimensieConstants = this.props.dimensieConstants
+        const apiEndpoint = dimensieConstants.API_ENDPOINT
+        const overzichtSlug = dimensieConstants.SLUG_OVERZICHT
+
+        // crudObject = this.setEmptyValuesToNullCrudObject(crudObject)
+
+        axios
+            .post(`${apiEndpoint}`, JSON.stringify(crudObject))
+            .then(res => {
+                this.props.history.push(
+                    `/muteer/${overzichtSlug}/${res.data.ID}`
+                )
+                toast('Opgeslagen')
+            })
+            .catch(() => {
+                // crudObject = this.setInitialValuesCrudObject(crudObject)
+                // Wijzig de data terug naar het format om in het input veld te tonen
+                crudObject = this.formatGeldigheidDatesForUI(crudObject)
+                this.setState({
+                    crudObject: crudObject,
+                })
+            })
+    }
+
+    patchDimensieObject(crudObject) {
+        const dimensieConstants = this.props.dimensieConstants
+        const apiEndpoint = dimensieConstants.API_ENDPOINT
+        const objectID = this.props.match.params.single
+        const overzichtSlug = dimensieConstants.SLUG_OVERZICHT
+
+        axios
+            .patch(`${apiEndpoint}/${objectID}`, JSON.stringify(crudObject))
+            .then(res => {
+                this.props.history.push(
+                    `/muteer/${overzichtSlug}/${res.data.ID}`
+                )
+                toast('Opgeslagen')
+            })
+            .catch(error => {
+                crudObject = this.formatGeldigheidDatesForUI(crudObject)
+                this.setState(
+                    {
+                        crudObject: crudObject,
+                    },
+                    () =>
+                        toast(
+                            'Er is iets misgegaan, probeer het laten nog eens.'
+                        )
+                )
+            })
     }
 
     handleSubmit(event) {
         event.preventDefault()
 
-        // Remove Local Storage Item
-        const objectName = this.props.dataModel.variables.Object_Name
-        localStorage.removeItem(objectName)
-
-        // Set variables to save to the DB
-        const objectID = this.props.match.params.single
-        const overzichtSlug = this.props.overzichtSlug
-        const ApiEndpoint = this.props.ApiEndpoint
+        const dimensieConstants = this.props.dimensieConstants
+        const apiEndpoint = dimensieConstants.API_ENDPOINT
+        const titelEnkelvoud = dimensieConstants.TITEL_ENKELVOUD
 
         let crudObject = this.state.crudObject
 
-        // Zet de Date String om naar een Date Object en kijkt of deze geldig is
-        crudObject.Begin_Geldigheid = new Date(crudObject.Begin_Geldigheid)
-        // if (this.validateDate(crudObject.Begin_Geldigheid)) {
-        //     // Datum is geldig
-        // } else {
-        //     toast('Vul een inwerkingtreding datum in')
-        //     return
-        // }
-
-        crudObject.Eind_Geldigheid = new Date(crudObject.Eind_Geldigheid)
-        // if (this.validateDate(crudObject.Eind_Geldigheid)) {
-        //     // Datum is geldig
-        // } else {
-        //     toast('Vul een uitwerkingtreding datum in')
-        //     return
-        // }
-
-        // Check om the zien of de Begin_Geldigheid kleiner is dan de Begin_Geldigheid
-        if (isBefore(crudObject.Eind_Geldigheid, crudObject.Begin_Geldigheid)) {
-            const titelEnkelvoud = this.props.dataModel.variables
-                .Titel_Enkelvoud
-            const dataObjectProperty = 'Begin_Geldigheid'
-            const elSelector = `form-field-${titelEnkelvoud.toLowerCase()}-${dataObjectProperty.toLowerCase()}`
-            const el = document.getElementById(elSelector)
-            const yPosition = el.getBoundingClientRect().top + window.scrollY
-            window.scroll({
-                top: yPosition,
-                behavior: 'smooth',
-            })
-
-            el.classList.add('transition-regular', 'border-red-500')
-            setTimeout(() => el.classList.remove('border-red-500'), 2000)
-
-            toast(
-                'De datum van uitwerkingtreding mag niet eerder zijn dan de datum van inwerkingtreding'
-            )
+        // Converteer de 'YYYY-MM-DD' waarden naar Date objecten
+        if (
+            crudObject.Begin_Geldigheid !== null &&
+            crudObject.Begin_Geldigheid !== ''
+        ) {
+            crudObject.Begin_Geldigheid = new Date(crudObject.Begin_Geldigheid)
+        }
+        if (
+            crudObject.Eind_Geldigheid !== null &&
+            crudObject.Eind_Geldigheid !== ''
+        ) {
+            crudObject.Eind_Geldigheid = new Date(crudObject.Eind_Geldigheid)
         }
 
-        if (crudObject.Titel !== undefined && crudObject.Titel === '') {
-            toast('Vul een titel in')
-            // Hierboven zetten we de value's van Begin_ en Eind_Geldigheid om in een datum object, maar als we de pagina niet submitten (door in dit geval een niet ingevulde titel) moeten we het formaat weer terug wijzigen naar het formaat wat in het datum input veld getoond kan worden
-            if (
-                crudObject.Eind_Geldigheid !== undefined &&
-                crudObject.Eind_Geldigheid !== null
-            ) {
-                crudObject.Eind_Geldigheid = format(
-                    crudObject.Eind_Geldigheid,
-                    'YYYY-MM-DD'
-                )
-            } else if (crudObject.Eind_Geldigheid === null) {
-                crudObject.Eind_Geldigheid = ''
-            }
-            if (
-                crudObject.Begin_Geldigheid !== undefined &&
-                crudObject.Begin_Geldigheid !== null
-            ) {
-                crudObject.Begin_Geldigheid = format(
-                    crudObject.Begin_Geldigheid,
-                    'YYYY-MM-DD'
-                )
-            } else if (crudObject.Begin_Geldigheid === null) {
-                crudObject.Begin_Geldigheid = ''
-            }
+        // Check of de verplichte velden zijn ingevuld als het een beleidsbeslissing is
+        // !REFACTOR! - velden check voor andere dimensies (Bespreken STUM)
+        const alleVeldenIngevuld = checkRequiredFields(
+            crudObject,
+            dimensieConstants,
+            titelEnkelvoud
+        )
+
+        if (!alleVeldenIngevuld) {
             this.setState({
-                crudObject: crudObject,
+                crudObject: this.formatGeldigheidDatesForUI(crudObject),
             })
             return
         }
 
-        // Voordat we hem PATCHEN of POSTEN kijken we of er nog velden leeg zijn die verplicht zijn
-        if (!this.checkForEmptyFields(this.state.crudObject)) {
-            return
-        }
-        
         // If the user is editing an object PATCH, else POST
         if (this.state.edit) {
-            axios
-                .patch(`${ApiEndpoint}/${objectID}`, JSON.stringify(crudObject))
-                .then(res => {
-                    this.props.history.push(
-                        `/muteer/${overzichtSlug}/${res.data.ID}`
-                    )
-                    toast('Opgeslagen')
-                })
-                .catch(error => {
-                    // Wijzig de data terug naar het format om in het input veld te tonen
-                    if (
-                        crudObject.Eind_Geldigheid !== undefined &&
-                        crudObject.Eind_Geldigheid !== null
-                    ) {
-                        crudObject.Eind_Geldigheid = format(
-                            crudObject.Eind_Geldigheid,
-                            'YYYY-MM-DD'
-                        )
-                    } else if (crudObject.Eind_Geldigheid === null) {
-                        crudObject.Eind_Geldigheid = ''
-                    }
-                    this.setState({
-                        crudObject: crudObject,
-                    })
-                })
+            this.patchDimensieObject(crudObject)
         } else {
-            // Als het object endpoint beleidsrelaties is moeten we het crudObject nog aanpassen
-            if (ApiEndpoint === 'beleidsrelaties') {
+            // Als het dimensie object een beleidsrelatie is wijzigen we de volgende properties
+            if (apiEndpoint === 'beleidsrelaties') {
                 crudObject.Status = 'Open'
                 crudObject.Aanvraag_Datum = new Date()
             }
 
-            axios
-                .post(`${ApiEndpoint}`, JSON.stringify(crudObject))
-                .then(res => {
-                    this.props.history.push(
-                        `/muteer/${overzichtSlug}/${res.data.ID}`
-                    )
-                    toast('Opgeslagen')
-                })
-                .catch(error => {
-                    console.log(error)
-
-                    // Wijzig de data terug naar het format om in het input veld te tonen
-                    if (
-                        crudObject.Eind_Geldigheid !== undefined &&
-                        crudObject.Eind_Geldigheid !== null
-                    ) {
-                        crudObject.Eind_Geldigheid = format(
-                            crudObject.Eind_Geldigheid,
-                            'YYYY-MM-DD'
-                        )
-                    } else if (crudObject.Eind_Geldigheid === null) {
-                        crudObject.Eind_Geldigheid = ''
-                    }
-                    this.setState({
-                        crudObject: crudObject,
-                    })
-                })
+            this.postDimensieObject(crudObject)
         }
     }
 
@@ -528,8 +400,9 @@ class MuteerUniversalObjectCRUD extends Component {
             Omschrijving: omschrijving,
         }
 
-        // let nieuweArray = this.state.crudObject[propertyName]
         let nieuwCrudObject = this.state.crudObject
+
+        // !REFACTOR! Deze logica mag in de makeCrudObject functie
         // Als de relatie Array nog niet initialized is, maak deze aan
         if (typeof nieuwCrudObject[propertyName] === 'string') {
             nieuwCrudObject[propertyName] = []
@@ -561,7 +434,7 @@ class MuteerUniversalObjectCRUD extends Component {
         )
     }
 
-    verwijderKoppelingRelatieToe(koppelingObject) {
+    verwijderKoppelingRelatie(koppelingObject) {
         let nieuwCrudObject = this.state.crudObject
         const index = nieuwCrudObject[koppelingObject.propertyName].findIndex(
             item => item.UUID === koppelingObject.item.UUID
@@ -576,92 +449,180 @@ class MuteerUniversalObjectCRUD extends Component {
         )
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        // Save to LocalStorage
-        // If page === edit set Key to Name_UUID
-        // If page === new set Key to Name
-        if (
-            this.state.dataLoaded === false ||
-            JSON.stringify(this.state.crudObject) ===
-                JSON.stringify(prevProps.crudObject)
-        ) {
-            return
-        }
+    // responseObjectFromAPI wordt meegegeven als parameter wanneer de pagina een 'version' pagina is
+    createAndSetCrudObject(responseObjectFromAPI) {
+        const dimensieConstants = this.props.dimensieConstants
+        const crudProperties = makeCrudProperties(dimensieConstants)
+        let crudObject = makeCrudObject({
+            crudProperties: crudProperties,
+            dimensieConstants: dimensieConstants,
+            responseObject: responseObjectFromAPI,
+        })
 
-        if (!this.state.edit) {
-            const objectName = this.props.dataModel.variables.Object_Name
-            const localStorageObject = {
-                date: new Date(),
-                savedState: this.state.crudObject,
-            }
-            localStorage.setItem(objectName, JSON.stringify(localStorageObject))
-        } else {
-            const objectName = this.props.dataModel.variables.Object_Name
-            const objectID = this.props.match.params.single
-            const localStorageKey = `${objectName}_${objectID}`
-            const localStorageObject = {
-                date: new Date(),
-                savedState: this.state.crudObject,
-            }
-            localStorage.setItem(
-                localStorageKey,
-                JSON.stringify(localStorageObject)
+        // crudObject = this.formatGeldigheidDatesForUI(crudObject)
+
+        this.setState({
+            crudObject: crudObject,
+            dataLoaded: true,
+        })
+    }
+
+    getAndSetDimensieDataFromApi() {
+        const objectID = this.props.match.params.single
+        const dimensieConstants = this.props.dimensieConstants
+        const apiEndpoint = dimensieConstants.API_ENDPOINT
+
+        axios
+            .get(`${apiEndpoint}/${objectID}`)
+            .then(res => {
+                const responseObject = res.data
+
+                // Create and set crudObject in state
+                // responseObject[0] is de laatste versie van het dimensie object
+                this.createAndSetCrudObject(responseObject[0])
+            })
+            .catch(error => toast(`Er is iets misgegaan`))
+    }
+
+    componentDidMount() {
+        if (this.props.match.params.single) {
+            // Als er een waarde in de single parameter zit bewerkt de gebruiker een bestaand object
+            this.setState(
+                {
+                    edit: true,
+                },
+                () => {
+                    this.getAndSetDimensieDataFromApi()
+                }
             )
+        } else {
+            // Anders maakt de gebruiker een nieuw object aan
+            this.createAndSetCrudObject()
         }
     }
 
     render() {
-        const contextObject = {
-            objectUUID: this.state.UUID,
-            titelEnkelvoud: this.props.dataModel.variables.Titel_Enkelvoud,
-            titelMeervoud: this.props.dataModel.variables.Titel_Meervoud,
-            overzichtSlug: this.props.overzichtSlug,
-            objectID: this.props.match.params.single,
-            editStatus: this.state.edit,
-            handleSubmit: this.handleSubmit,
-            voegKoppelingRelatieToe: this.voegKoppelingRelatieToe,
-            wijzigKoppelingRelatie: this.wijzigKoppelingRelatie,
-            verwijderKoppelingRelatieToe: this.verwijderKoppelingRelatieToe,
-            handleChange: this.handleChange,
-            crudObject: this.state.crudObject,
-            setEditorState: this.setEditorState,
-        }
+        const dimensieConstants = this.props.dimensieConstants
+        const titelEnkelvoud = dimensieConstants.TITEL_ENKELVOUD
+        const titelMeervoud = dimensieConstants.TITEL_MEERVOUD
+        const overzichtSlug = dimensieConstants.SLUG_OVERZICHT
+
+        const objectID = this.props.match.params.single
+
+        const editStatus = this.state.edit
+        const crudObject = this.state.crudObject
+        const dataLoaded = this.state.dataLoaded
+        const objectTitel = this.state.crudObject.Titel
+
+        const handleChange = this.handleChange
+
+        console.log(crudObject)
 
         return (
             <div>
                 <Helmet>
                     <title>
-                        {contextObject.editStatus
-                            ? `Omgevingsbeleid - Wijzig ${
-                                  contextObject.titelEnkelvoud
-                              }${' '}
-                            ${contextObject.objectID}`
-                            : `Omgevingsbeleid - Voeg een nieuwe${' '}
-                            ${contextObject.titelEnkelvoud}${' '}
-                              toe`}
+                        {editStatus
+                            ? `Omgevingsbeleid - ${objectTitel}`
+                            : `Omgevingsbeleid - Voeg een nieuwe ${titelEnkelvoud} toe`}
                     </title>
                 </Helmet>
+
                 <ContainerCrudHeader
-                    editStatus={this.state.edit}
-                    titelMeervoud={
-                        this.props.dataModel.variables.Titel_Meervoud
-                    }
-                    overzichtSlug={this.props.overzichtSlug}
-                    titelEnkelvoud={
-                        this.props.dataModel.variables.Titel_Enkelvoud
-                    }
-                    objectID={this.props.match.params.single}
+                    dataLoaded={dataLoaded}
+                    objectTitel={objectTitel}
+                    editStatus={editStatus}
+                    titelMeervoud={titelMeervoud}
+                    overzichtSlug={overzichtSlug}
+                    titelEnkelvoud={titelEnkelvoud}
+                    objectID={objectID}
                 />
-                <APIcontext.Provider value={contextObject}>
-                    {this.state.dataLoaded ? (
-                        <ContainerCrudFields />
-                    ) : (
-                        <LoaderContent />
-                    )}
-                </APIcontext.Provider>
+
+                {this.state.dataLoaded ? (
+                    <ContainerMain>
+                        <div className="w-full inline-block flex-grow">
+                            <div>
+                                <form
+                                    className="mt-12"
+                                    onSubmit={this.handleSubmit}
+                                >
+                                    {titelEnkelvoud === 'Ambitie' ? (
+                                        <FormFieldContainerAmbities
+                                            titelEnkelvoud={titelEnkelvoud}
+                                            crudObject={crudObject}
+                                            handleChange={handleChange}
+                                        />
+                                    ) : null}
+
+                                    {titelEnkelvoud === 'Belang' ? (
+                                        <FormFieldContainerBelangen
+                                            titelEnkelvoud={titelEnkelvoud}
+                                            crudObject={crudObject}
+                                            handleChange={handleChange}
+                                        />
+                                    ) : null}
+
+                                    {titelEnkelvoud === 'Beleidsregel' ? (
+                                        <FormFieldContainerBeleidsregels
+                                            titelEnkelvoud={titelEnkelvoud}
+                                            crudObject={crudObject}
+                                            handleChange={handleChange}
+                                        />
+                                    ) : null}
+
+                                    {titelEnkelvoud === 'Beleidsbeslissing' ? (
+                                        <FormFieldContainerBeleidsbeslissingen
+                                            titelEnkelvoud={titelEnkelvoud}
+                                            crudObject={crudObject}
+                                            handleChange={handleChange}
+                                            editStatus={editStatus}
+                                            voegKoppelingRelatieToe={
+                                                this.voegKoppelingRelatieToe
+                                            }
+                                            wijzigKoppelingRelatie={
+                                                this.wijzigKoppelingRelatie
+                                            }
+                                            verwijderKoppelingRelatie={
+                                                this.verwijderKoppelingRelatie
+                                            }
+                                        />
+                                    ) : null}
+
+                                    {titelEnkelvoud === 'Maatregel' ? (
+                                        <FormFieldContainerMaatregelen
+                                            titelEnkelvoud={titelEnkelvoud}
+                                            crudObject={crudObject}
+                                            handleChange={handleChange}
+                                        />
+                                    ) : null}
+
+                                    {titelEnkelvoud === 'Opgave' ? (
+                                        <FormFieldContainerOpgaven
+                                            titelEnkelvoud={titelEnkelvoud}
+                                            crudObject={crudObject}
+                                            handleChange={handleChange}
+                                        />
+                                    ) : null}
+
+                                    {titelEnkelvoud === 'Thema' ? (
+                                        <FormFieldContainerThemas
+                                            titelEnkelvoud={titelEnkelvoud}
+                                            crudObject={crudObject}
+                                            handleChange={handleChange}
+                                        />
+                                    ) : null}
+
+                                    <ButtonSubmitFixed />
+                                </form>
+                            </div>
+                        </div>
+                    </ContainerMain>
+                ) : (
+                    <LoaderContent />
+                )}
             </div>
         )
     }
 }
 
-export default MuteerUniversalObjectCRUD
+export default withRouter(MuteerUniversalObjectCRUD)

@@ -21,10 +21,12 @@
         "draft-js-export-html": "^1.4.1",
         "leaflet": "^1.5.1",
         "leaflet-draw": "^1.0.4",
+        "lodash.clonedeep": "^4.5.0",
         "lodash.isequal": "^4.5.0",
         "node-sass": "^4.13.0",
         "npm": "^6.12.0",
         "proj4leaflet": "^1.0.2",
+        "query-string": "^6.10.1",
         "react": "^16.11.0",
         "react-beautiful-dnd": "^12.2.0",
         "react-content-loader": "^4.3.2",
@@ -36,6 +38,7 @@
         "react-select": "^3.0.8",
         "react-spring": "^8.0.27",
         "react-toastify": "^5.4.0",
+        "uuid": "^3.4.0",
         "validator": "^11.1.0"
     },
     "scripts": {

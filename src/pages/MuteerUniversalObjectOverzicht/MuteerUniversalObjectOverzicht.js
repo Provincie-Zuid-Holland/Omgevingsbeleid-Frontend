@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Helmet } from 'react-helmet'
+import { toast } from 'react-toastify'
 
 // Import Componenents
 import ContainerMain from './../../components/ContainerMain'
@@ -18,15 +19,46 @@ class MuteerUniversalObjectOverzicht extends Component {
             objecten: [],
             dataReceived: false,
         }
+        this.getAndSetDataFromAPI = this.getAndSetDataFromAPI.bind(this)
+    }
+
+    getAndSetDataFromAPI(ApiEndpoint) {
+        axios
+            .get(ApiEndpoint)
+            .then(res => {
+                let objecten = res.data
+                this.setState({
+                    objecten: objecten,
+                    dataReceived: true,
+                })
+            })
+            .catch(error => {
+                this.setState(
+                    {
+                        dataReceived: true,
+                    },
+                    () =>
+                        toast(
+                            'Er ging iets mis met het verbinden met de server. Probeer het later opnieuw.'
+                        )
+                )
+            })
+    }
+
+    componentDidMount() {
+        const apiEndpoint = this.props.dimensieConstants.API_ENDPOINT
+        this.getAndSetDataFromAPI(apiEndpoint)
     }
 
     render() {
-        // Variables
-        const titelEnkelvoud = this.props.dataModel.variables.Titel_Enkelvoud
-        const titelMeervoud = this.props.dataModel.variables.Titel_Meervoud
-        const createNewSlug = this.props.dataModel.variables.Create_New_Slug
-        const overzichtSlug = this.props.dataModel.variables.Overzicht_Slug
-        const hoofdOnderdeelSlug = this.props.dataModel.variables.Overzicht_Slug
+        // Set variabelen vanuit het meegekregen dimensie constant object
+        const dimensieConstants = this.props.dimensieConstants
+
+        const titelEnkelvoud = dimensieConstants.TITEL_ENKELVOUD
+        const titelMeervoud = dimensieConstants.TITEL_MEERVOUD
+        const overzichtSlug = dimensieConstants.SLUG_OVERZICHT
+        const createNewSlug = dimensieConstants.SLUG_CREATE_NEW
+        const hoofdOnderdeelSlug = dimensieConstants.SLUG_OVERZICHT
 
         return (
             <ContainerMain>
@@ -43,8 +75,8 @@ class MuteerUniversalObjectOverzicht extends Component {
                         {titelMeervoud}
                     </h2>
 
-                    <ul className="flex mt-8 flex-wrap">
-                        {this.state.dataReceived ? (
+                    {this.state.dataReceived ? (
+                        <ul className="flex mt-8 flex-wrap">
                             <ButtonAddNewObject
                                 objectAantal={this.state.objecten.length}
                                 titelEnkelvoud={titelEnkelvoud}
@@ -53,88 +85,35 @@ class MuteerUniversalObjectOverzicht extends Component {
                                 hoofdOnderdeelSlug={hoofdOnderdeelSlug}
                                 fullWidth={true}
                             />
-                        ) : null}
-                        {this.state.dataReceived ? (
-                            this.state.objecten
+
+                            {this.state.objecten
                                 .sort((a, b) => (a.Titel > b.Titel ? 1 : -1))
                                 .map((object, index) => (
                                     <li
                                         key={object.ID}
                                         className="mb-6 w-full display-inline"
                                     >
-                                        {
-                                            <CardObjectDetails
-                                                index={index}
-                                                object={object}
-                                                overzichtSlug={overzichtSlug}
-                                                titelEnkelvoud={titelEnkelvoud}
-                                                hoofdOnderdeelSlug={
-                                                    overzichtSlug
-                                                }
-                                                hideParagraaf={true}
-                                            />
-                                        }
+                                        <CardObjectDetails
+                                            index={index}
+                                            object={object}
+                                            overzichtSlug={overzichtSlug}
+                                            titelEnkelvoud={titelEnkelvoud}
+                                            hoofdOnderdeelSlug={overzichtSlug}
+                                            hideParagraaf={true}
+                                        />
                                     </li>
-                                ))
-                        ) : (
-                            <React.Fragment>
-                                <LoaderCard />
-                                <LoaderCard />
-                                <LoaderCard />
-                            </React.Fragment>
-                        )}
-                    </ul>
+                                ))}
+                        </ul>
+                    ) : (
+                        <React.Fragment>
+                            <LoaderCard />
+                            <LoaderCard />
+                            <LoaderCard />
+                        </React.Fragment>
+                    )}
                 </div>
             </ContainerMain>
         )
-    }
-
-    componentDidUpdate(prevProps) {
-        if (
-            this.props.dataModel.variables.Api_Endpoint !==
-            prevProps.dataModel.variables.Api_Endpoint
-        ) {
-            this.getDataFromAPI(this.props.dataModel.variables.Api_Endpoint)
-        }
-    }
-
-    getDataFromAPI(ApiEndpoint) {
-        this.setState(
-            {
-                objecten: [],
-            },
-            () => {
-                // Connect With the API
-                axios
-                    .get(ApiEndpoint)
-                    .then(res => {
-                        let objecten = res.data
-                        // objecten.shift()
-                        this.setState({
-                            objecten: objecten,
-                            dataReceived: true,
-                        })
-                    })
-                    .catch(error => {
-                        this.setState({
-                            dataReceived: true,
-                        })
-                        if (error.response !== undefined) {
-                            if (error.response.status === 401) {
-                                localStorage.removeItem('access_token')
-                                this.props.history.push('/login')
-                            }
-                        } else {
-                            console.log(error)
-                        }
-                    })
-            }
-        )
-    }
-
-    componentDidMount() {
-        const ApiEndpoint = this.props.dataModel.variables.Api_Endpoint
-        this.getDataFromAPI(ApiEndpoint)
     }
 }
 export default MuteerUniversalObjectOverzicht

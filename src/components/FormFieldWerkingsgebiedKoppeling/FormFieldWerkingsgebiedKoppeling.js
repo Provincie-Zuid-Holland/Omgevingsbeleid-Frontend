@@ -186,10 +186,20 @@ class PopUpWerkingsGebiedContainer extends Component {
     }
 
     koppelGebied() {
+        let value
+
+        if (this.props.dataObjectProperty === 'WerkingsGebieden') {
+            // WerkingsGebieden property verwacht een array
+            // Wordt gebruikt in Beleidsbeslissingen
+            value = [{ UUID: this.state.selected }]
+        } else if (this.props.dataObjectProperty === 'Werkingsgebied') {
+            // Werkingsgebied property verwacht een enkele UUID
+            value = this.state.selected
+        }
         const handleChangeObject = {
             target: {
-                name: 'WerkingsGebieden',
-                value: [{ UUID: this.state.selected }],
+                name: this.props.dataObjectProperty,
+                value: value,
             },
         }
         this.props.koppelGebiedInLocalState(this.state.selected)
@@ -265,6 +275,11 @@ class PopUpWerkingsGebiedContainer extends Component {
     }
 }
 
+// !REFACTOR!
+// [ ] Herschrijven in functies
+// [ ] Waar nodig losse componenten in aparte files neerzetten
+// [x] http://localhost:3000/muteer/beleidsbeslissingen/edit/396 geeft een Error bij het ophalen van het werkingsgebied. Er wordt een object als variabele in de URL ge-GET
+
 class FormFieldWerkingsgebiedKoppeling extends Component {
     constructor(props) {
         super(props)
@@ -278,12 +293,27 @@ class FormFieldWerkingsgebiedKoppeling extends Component {
         this.ontkoppelWerkingsgebied = this.ontkoppelWerkingsgebied.bind(this)
     }
 
-    componentDidMount() {
-        if (!this.props.fieldValue || this.props.fieldValue.length === 0) {
-            return
+    getUUIDFromFieldValue(fieldValue, dataObjectProperty) {
+        if (dataObjectProperty === 'WerkingsGebieden') {
+            // In Beleidsbeslissingen wordt gebruikt gemaakt van een array
+            return this.props.fieldValue[0].UUID
+        } else {
+            // In de andere dimensies wordt gebruik gemaakt van een enkel UUID value
+            return this.props.fieldValue
         }
+    }
+
+    noUUIDGivenAsProp(fieldValue) {
+        if (!fieldValue || fieldValue.length === 0) {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    initializeWerkingsgebied(UUID) {
         axios
-            .get(`/werkingsgebieden/${this.props.fieldValue[0].UUID}`)
+            .get(`/werkingsgebieden/${UUID}`)
             .then(res => {
                 const response = res.data
                 this.setState({
@@ -293,6 +323,16 @@ class FormFieldWerkingsgebiedKoppeling extends Component {
             .catch(error => {
                 console.log(error)
             })
+    }
+
+    componentDidMount() {
+        if (this.noUUIDGivenAsProp(this.props.fieldValue)) return
+
+        const UUID = this.getUUIDFromFieldValue(
+            this.props.fieldValue,
+            this.props.dataObjectProperty
+        )
+        this.initializeWerkingsgebied(UUID)
     }
 
     togglePopUp() {
@@ -344,7 +384,6 @@ class FormFieldWerkingsgebiedKoppeling extends Component {
                         dataObjectProperty={this.props.dataObjectProperty}
                         fieldLabel={this.props.fieldLabel}
                         pValue={this.props.pValue}
-                        addObjectLabel={this.props.addObjectLabel}
                         titelEnkelvoud={this.props.titelEnkelvoud}
                     />
 
@@ -362,6 +401,9 @@ class FormFieldWerkingsgebiedKoppeling extends Component {
                             </div>
                             {this.state.popUpOpen ? (
                                 <PopUpWerkingsGebiedContainer
+                                    dataObjectProperty={
+                                        this.props.dataObjectProperty
+                                    }
                                     handleChange={this.props.handleChange}
                                     togglePopUp={this.togglePopUp}
                                     koppelGebiedInLocalState={

@@ -8,9 +8,9 @@ import { toast } from 'react-toastify'
 
 // Import Components
 import ButtonBackToPage from './../../components/ButtonBackToPage'
-import EigenaarsDriehoek from './EigenaarsDriehoek'
+import EigenaarsDriehoek from '../../components/EigenaarsDriehoek'
 import ContainerMain from './../../components/ContainerMain'
-import ContainerDetailMain from './ContainerDetailMain'
+import ContainerDetailMain from '../../components/ContainerDetailMain'
 
 // Import Axios instance to connect with the API
 import axios from '../../API/axios'
@@ -96,16 +96,21 @@ function makeURLForRevisieObject(overzichtSlug, objectID, objectUUID, hash) {
 class MuteerUniversalObjectDetail extends Component {
     constructor(props) {
         super(props)
-        this.returnPageType = this.returnPageType.bind(this)
-        this.getDataFromApi = this.getDataFromApi.bind(this)
         this.state = {
             dataObject: null,
             pageType: this.returnPageType(),
             dataReceived: false,
         }
+
+        this.returnPageType = this.returnPageType.bind(this)
+        this.getAndSetDimensieDataFromApi = this.getAndSetDimensieDataFromApi.bind(
+            this
+        )
     }
 
-    // Method to set the page type: detail/version
+    // Set het property pageType naar 'detail' of 'version'
+    // 'detail' is een algemene pagina van het object, gebaseerd op het ID
+    // 'version' is een specifieke pagina van het object, gebaseerd op het UUID
     returnPageType() {
         let pageType = 'detail'
         if (this.props.match.params.version) {
@@ -114,20 +119,22 @@ class MuteerUniversalObjectDetail extends Component {
         return pageType
     }
 
-    generateApiEndpoint() {
-        const ApiEndpointBase = this.props.dataModel.variables.Api_Endpoint
+    // returned het api endpoint op basis van het pagina type
+    getApiEndpoint() {
+        const dimensieConstants = this.props.dimensieConstants
+        const apiEndpoint = dimensieConstants.API_ENDPOINT
+
         if (this.state.pageType === 'detail') {
-            const detail_id = this.props.match.params.single
-            return `${ApiEndpointBase}/${detail_id}`
+            const objectID = this.props.match.params.single
+            return `${apiEndpoint}/${objectID}`
         } else if (this.state.pageType === 'version') {
-            const version_id = this.props.match.params.version
-            return `${ApiEndpointBase}/version/${version_id}`
+            const objectUUID = this.props.match.params.version
+            return `${apiEndpoint}/version/${objectUUID}`
         }
     }
 
-    // Method to create the API endpoint, based on the page type
-    getDataFromApi() {
-        const apiEndpoint = this.generateApiEndpoint()
+    getAndSetDimensieDataFromApi() {
+        const apiEndpoint = this.getApiEndpoint()
 
         // Connect With the API
         axios
@@ -150,37 +157,64 @@ class MuteerUniversalObjectDetail extends Component {
             })
             .catch(error => {
                 if (error.response !== undefined) {
-                    if (error.response.status === 401) {
-                        localStorage.removeItem('access_token')
-                        this.props.history.push('/login')
-                    } else if (error.response.status === 404) {
-                        this.props.history.push(
-                            `/muteer/${this.props.overzichtSlug}`
-                        )
-                        toast(
-                            `Deze ${this.props.dataModel.variables.Titel_Enkelvoud.toLowerCase()} kon niet gevonden worden`
-                        )
-                    }
-                    this.setState({
-                        dataReceived: true,
-                    })
+                    this.setState(
+                        {
+                            dataReceived: true,
+                        },
+                        () => {
+                            if (error.response.status === 404) {
+                                this.props.history.push(
+                                    `/muteer/${this.props.overzichtSlug}`
+                                )
+                                toast(
+                                    `Deze ${this.props.dataModel.variables.Titel_Enkelvoud.toLowerCase()} kon niet gevonden worden`
+                                )
+                            }
+                        }
+                    )
                 } else {
-                    toast(`Er is iets misgegaan`)
+                    this.setState(
+                        {
+                            dataReceived: true,
+                        },
+                        () => toast(`Er is iets misgegaan`)
+                    )
                 }
             })
     }
 
+    componentDidMount() {
+        this.getAndSetDimensieDataFromApi()
+    }
+
+    // Handle switch van 'detail' naar 'version' pagina
+    componentDidUpdate(prevProps) {
+        if (this.returnPageType() !== this.state.pageType) {
+            this.setState(
+                {
+                    dataObject: null,
+                    pageType: this.returnPageType(),
+                    dataReceived: false,
+                },
+                () => {
+                    this.getAndSetDimensieDataFromApi()
+                }
+            )
+        }
+    }
+
     render() {
         // Variables to give as props
-        const titelEnkelvoud = this.props.dataModel.variables.Titel_Enkelvoud
-        const overzichtSlug = this.props.dataModel.variables.Overzicht_Slug
+        const dimensieConstants = this.props.dimensieConstants
+        const titelEnkelvoud = dimensieConstants.TITEL_ENKELVOUD
+        const overzichtSlug = dimensieConstants.SLUG_OVERZICHT
+
         const pageType = this.state.pageType
+        const dataReceived = this.state.dataReceived
 
-        // False if data is loading, true if a response is received
-        let dataReceived = this.state.dataReceived
-
-        // If the page is a detail page the dataObject will be an array.
-        // We always want the first item from this array
+        // Als de huidige pagina een 'detail' pagina is zal het dataObject een array zijn
+        // Hiervan willen we altijd de laatste versie, die bevindt zich op index [0]
+        // Als de pagina een 'version' pagina is, is het dataObject een object
         // Else the dataObject will be a single Object
         let dataObject = {}
         if (dataReceived && pageType === 'detail') {
@@ -191,11 +225,12 @@ class MuteerUniversalObjectDetail extends Component {
 
         return (
             <ContainerMain>
-                {dataObject.Titel ? (
-                    <Helmet>
-                        <title>Omgevingsbeleid - {dataObject.Titel}</title>
-                    </Helmet>
-                ) : null}
+                <Helmet>
+                    <title>
+                        Omgevingsbeleid{' '}
+                        {dataObject.Titel ? ' - ' + dataObject.Titel : ''}
+                    </title>
+                </Helmet>
 
                 {/* Dimensie Container */}
                 <div className="w-full inline-block">
@@ -221,8 +256,8 @@ class MuteerUniversalObjectDetail extends Component {
                                         to={
                                             this.props.location.hash ===
                                             '#mijn-beleid'
-                                                ? `/muteer/${this.props.overzichtSlug}/edit/${this.props.match.params.single}#mijn-beleid`
-                                                : `/muteer/${this.props.overzichtSlug}/edit/${this.props.match.params.single}`
+                                                ? `/muteer/${overzichtSlug}/edit/${this.props.match.params.single}#mijn-beleid`
+                                                : `/muteer/${overzichtSlug}/edit/${this.props.match.params.single}`
                                         }
                                         id={`href-ontwerp-maken`}
                                     >
@@ -254,49 +289,25 @@ class MuteerUniversalObjectDetail extends Component {
                             {dataReceived && pageType === 'detail' ? (
                                 <RevisieList
                                     dataObject={this.state.dataObject}
+                                    overzichtSlug={overzichtSlug}
                                     hash={this.props.location.hash}
                                 />
                             ) : null}
                         </div>
 
                         {dataReceived &&
-                        this.state.dataObject[0] &&
-                        (this.state.dataObject[0].Opdrachtgever !== undefined ||
-                            this.state.dataObject[0].Eigenaar_1 !== undefined ||
-                            this.state.dataObject[0].Eigenaar_2 !== undefined ||
-                            this.state.dataObject[0].Portefeuillehouder_1 !==
-                                undefined ||
-                            this.state.dataObject[0].Portefeuillehouder_2 !==
-                                undefined) ? (
-                            <EigenaarsDriehoek
-                                dataObject={this.state.dataObject[0]}
-                            />
+                        dataObject &&
+                        (dataObject.Opdrachtgever !== undefined ||
+                            dataObject.Eigenaar_1 !== undefined ||
+                            dataObject.Eigenaar_2 !== undefined ||
+                            dataObject.Portefeuillehouder_1 !== undefined ||
+                            dataObject.Portefeuillehouder_2 !== undefined) ? (
+                            <EigenaarsDriehoek dataObject={dataObject} />
                         ) : null}
                     </div>
                 </div>
             </ContainerMain>
         )
-    }
-
-    // On initial mount, set pagetype and get data from API
-    componentDidMount() {
-        this.getDataFromApi()
-    }
-
-    // Handle switch from 'detail <-> version'
-    componentDidUpdate(prevProps) {
-        if (this.returnPageType() !== this.state.pageType) {
-            this.setState(
-                {
-                    dataObject: null,
-                    pageType: this.returnPageType(),
-                    dataReceived: false,
-                },
-                () => {
-                    this.getDataFromApi()
-                }
-            )
-        }
     }
 }
 

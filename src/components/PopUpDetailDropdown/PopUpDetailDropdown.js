@@ -66,15 +66,6 @@ class PopUpDetailDropdown extends Component {
                                 Bekijk beleidsrelaties
                             </Link>
                         </li>
-                        <li>
-                            <Link
-                                id="navbar-popup-href-uitloggen"
-                                className="py-2 px-4 text-sm border-t border-gray-300 w-full inline-block"
-                                to={`/login`}
-                            >
-                                Uitloggen
-                            </Link>
-                        </li>
                     </ul>
                 </div>
             </div>

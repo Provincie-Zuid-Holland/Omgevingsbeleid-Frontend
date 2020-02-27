@@ -15,7 +15,7 @@ import axios from './../../API/axios'
 
 import ContainerMain from './../../components/ContainerMain'
 import SidebarMain from './../../components/SidebarMain'
-import MuteerBeleidsrelatieDetail from './MuteerBeleidsrelatieDetail'
+import MuteerBeleidsrelatieDetail from './../MuteerBeleidsrelatieDetail'
 import LoaderBeleidsrelatieRegel from './../../components/LoaderBeleidsrelatieRegel'
 
 class MuteerBeleidsrelatiesOverzicht extends Component {
