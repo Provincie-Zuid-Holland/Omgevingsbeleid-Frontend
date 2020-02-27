@@ -25,7 +25,7 @@ import MuteerVerordeningenDetail from '../../pages/MuteerVerordeningenDetail'
 
 // Import Constants
 import allDimensies from './../../constants/dimensies'
-console.log(allDimensies)
+import allVerordeningen from './../../constants/verordeningen'
 
 function BeheerRoutes(props) {
     const dimensies = [
@@ -188,7 +188,9 @@ class AuthRoutes extends Component {
                         exact
                         render={() => (
                             <MuteerVerordeningenStructuurCRUD
-                                dataModel={dataModel.Verordeningen}
+                                dimensieConstants={
+                                    allDimensies.VERORDENINGSTRUCTUUR
+                                }
                                 history={this.props.history}
                             />
                         )}
@@ -198,7 +200,9 @@ class AuthRoutes extends Component {
                         exact
                         render={() => (
                             <MuteerVerordeningenStructuurCRUD
-                                dataModel={dataModel.Verordeningen}
+                                dimensieConstants={
+                                    allDimensies.VERORDENINGSTRUCTUUR
+                                }
                                 history={this.props.history}
                             />
                         )}
@@ -207,7 +211,7 @@ class AuthRoutes extends Component {
                         path="/muteer/verordeningen/:lineageID/nieuw/:type"
                         render={() => (
                             <MuteerVerordeningenCRUD
-                                dataModel={dataModel.Verordeningen}
+                                dimensieConstants={allVerordeningen}
                                 history={this.props.history}
                             />
                         )}
@@ -217,7 +221,7 @@ class AuthRoutes extends Component {
                         render={() => (
                             <MuteerVerordeningenCRUD
                                 editState={true}
-                                dataModel={dataModel.VerordeningenDetail}
+                                dimensieConstants={allVerordeningen}
                                 history={this.props.history}
                             />
                         )}
@@ -227,7 +231,7 @@ class AuthRoutes extends Component {
                         exact
                         render={() => (
                             <MuteerVerordeningenDetail
-                                dataModel={dataModel.VerordeningenDetail}
+                                dimensieConstants={allVerordeningen}
                                 history={this.props.history}
                             />
                         )}

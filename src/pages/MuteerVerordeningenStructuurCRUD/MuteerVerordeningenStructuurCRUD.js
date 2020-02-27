@@ -3,7 +3,6 @@ import { toast } from 'react-toastify'
 import { format } from 'date-fns'
 import { withRouter } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
-import validator from 'validator'
 
 // Import Components
 import ContainerCrudFields from './ContainerCrudFields'
@@ -13,6 +12,7 @@ import ContainerFormSection from './../../components/ContainerFormSection'
 import FormFieldTextInput from './../../components/FormFieldTextInput'
 import ButtonBackToPage from './../../components/ButtonBackToPage'
 import LoaderContent from './../../components/LoaderContent'
+import FormFieldDate from './../../components/FormFieldDate'
 
 // Import Axios instance to connect with the API
 import axios from './../../API/axios'
@@ -20,16 +20,11 @@ import axios from './../../API/axios'
 // Create Context
 import APIcontext from './APIContext'
 
-import * as VERORDENINGSTRUCTUUR from '../../constants/Verordeningstructuur'
-
-function generateCrudObject(crudPropertiesObject) {
-    const propertyNames = Object.keys(crudPropertiesObject)
-    let crudObject = {}
-    propertyNames.forEach(property => {
-        crudObject[property] = crudPropertiesObject[property].initValue
-    })
-    return crudObject
-}
+// Import Utilities
+import makeCrudProperties from './../../utils/makeCrudProperties'
+import makeCrudObject from './../../utils/makeCrudObject'
+import checkRequiredFields from './../../utils/checkRequiredFields'
+import formatGeldigheidDatesForUI from './../../utils/formatGeldigheidDatesForUI'
 
 class MuteerVerordeningenStructuurCRUD extends Component {
     constructor(props) {
@@ -37,19 +32,19 @@ class MuteerVerordeningenStructuurCRUD extends Component {
 
         this.state = {
             dataLoaded: false,
-            crudObject: generateCrudObject(
-                VERORDENINGSTRUCTUUR.CRUD_PROPERTIES
-            ),
+            crudObject: {},
         }
 
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.setEditorState = this.setEditorState.bind(this)
         this.voegKoppelingRelatieToe = this.voegKoppelingRelatieToe.bind(this)
+        this.createAndSetCrudObject = this.createAndSetCrudObject.bind(this)
         this.wijzigKoppelingRelatie = this.wijzigKoppelingRelatie.bind(this)
         this.verwijderKoppelingRelatieToe = this.verwijderKoppelingRelatieToe.bind(
             this
         )
+        this.formatGeldigheidDatesForUI = formatGeldigheidDatesForUI.bind(this)
     }
 
     handleChange(event) {
@@ -101,11 +96,40 @@ class MuteerVerordeningenStructuurCRUD extends Component {
     handleSubmit(event) {
         event.preventDefault()
 
+        const dimensieConstants = this.props.dimensieConstants
+        const apiEndpoint = dimensieConstants.API_ENDPOINT
+        const titelEnkelvoud = dimensieConstants.TITEL_ENKELVOUD
+
         let crudObject = this.state.crudObject
 
-        // Zet de Date String om naar een Date Object en kijkt of deze geldig is
-        crudObject.Begin_Geldigheid = new Date(crudObject.Begin_Geldigheid)
-        crudObject.Eind_Geldigheid = new Date(crudObject.Eind_Geldigheid)
+        // Converteer de 'YYYY-MM-DD' waarden naar Date objecten
+        if (
+            crudObject.Begin_Geldigheid !== null &&
+            crudObject.Begin_Geldigheid !== ''
+        ) {
+            crudObject.Begin_Geldigheid = new Date(crudObject.Begin_Geldigheid)
+        }
+        if (
+            crudObject.Eind_Geldigheid !== null &&
+            crudObject.Eind_Geldigheid !== ''
+        ) {
+            crudObject.Eind_Geldigheid = new Date(crudObject.Eind_Geldigheid)
+        }
+
+        // Check of de verplichte velden zijn ingevuld als het een beleidsbeslissing is
+        // !REFACTOR! - velden check voor andere dimensies (Bespreken STUM)
+        const alleVeldenIngevuld = checkRequiredFields(
+            crudObject,
+            dimensieConstants,
+            titelEnkelvoud
+        )
+
+        if (!alleVeldenIngevuld) {
+            this.setState({
+                crudObject: this.formatGeldigheidDatesForUI(crudObject),
+            })
+            return
+        }
 
         if (this.state.edit) {
             crudObject.Status = 'Concept'
@@ -123,29 +147,9 @@ class MuteerVerordeningenStructuurCRUD extends Component {
                     toast('Gewijzigd')
                 })
                 .catch(error => {
+                    // crudObject = this.setInitialValuesCrudObject(crudObject)
                     // Wijzig de data terug naar het format om in het input veld te tonen
-                    if (
-                        crudObject.Eind_Geldigheid !== undefined &&
-                        crudObject.Eind_Geldigheid !== null
-                    ) {
-                        crudObject.Eind_Geldigheid = format(
-                            crudObject.Eind_Geldigheid,
-                            'YYYY-MM-DD'
-                        )
-                    } else if (crudObject.Eind_Geldigheid === null) {
-                        crudObject.Eind_Geldigheid = ''
-                    }
-                    if (
-                        crudObject.Begin_Geldigheid !== undefined &&
-                        crudObject.Begin_Geldigheid !== null
-                    ) {
-                        crudObject.Begin_Geldigheid = format(
-                            crudObject.Begin_Geldigheid,
-                            'YYYY-MM-DD'
-                        )
-                    } else if (crudObject.Begin_Geldigheid === null) {
-                        crudObject.Begin_Geldigheid = ''
-                    }
+                    crudObject = this.formatGeldigheidDatesForUI(crudObject)
                     this.setState({
                         crudObject: crudObject,
                     })
@@ -163,29 +167,9 @@ class MuteerVerordeningenStructuurCRUD extends Component {
                     toast('Opgeslagen')
                 })
                 .catch(error => {
+                    // crudObject = this.setInitialValuesCrudObject(crudObject)
                     // Wijzig de data terug naar het format om in het input veld te tonen
-                    if (
-                        crudObject.Eind_Geldigheid !== undefined &&
-                        crudObject.Eind_Geldigheid !== null
-                    ) {
-                        crudObject.Eind_Geldigheid = format(
-                            crudObject.Eind_Geldigheid,
-                            'YYYY-MM-DD'
-                        )
-                    } else if (crudObject.Eind_Geldigheid === null) {
-                        crudObject.Eind_Geldigheid = ''
-                    }
-                    if (
-                        crudObject.Begin_Geldigheid !== undefined &&
-                        crudObject.Begin_Geldigheid !== null
-                    ) {
-                        crudObject.Begin_Geldigheid = format(
-                            crudObject.Begin_Geldigheid,
-                            'YYYY-MM-DD'
-                        )
-                    } else if (crudObject.Begin_Geldigheid === null) {
-                        crudObject.Begin_Geldigheid = ''
-                    }
+                    crudObject = this.formatGeldigheidDatesForUI(crudObject)
                     this.setState({
                         crudObject: crudObject,
                     })
@@ -247,38 +231,20 @@ class MuteerVerordeningenStructuurCRUD extends Component {
         )
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        // Save to LocalStorage
-        // If page === edit set Key to Name_UUID
-        // If page === new set Key to Name
-        if (
-            this.state.dataLoaded === false ||
-            JSON.stringify(this.state.crudObject) ===
-                JSON.stringify(prevProps.crudObject)
-        ) {
-            return
-        }
+    // responseObjectFromAPI wordt meegegeven als parameter wanneer de pagina een 'version' pagina is
+    createAndSetCrudObject(responseObjectFromAPI) {
+        const dimensieConstants = this.props.dimensieConstants
+        const crudProperties = makeCrudProperties(dimensieConstants)
+        let crudObject = makeCrudObject({
+            crudProperties: crudProperties,
+            dimensieConstants: dimensieConstants,
+            responseObject: responseObjectFromAPI,
+        })
 
-        if (!this.state.edit) {
-            const objectName = this.props.dataModel.variables.Object_Name
-            const localStorageObject = {
-                date: new Date(),
-                savedState: this.state.crudObject,
-            }
-            localStorage.setItem(objectName, JSON.stringify(localStorageObject))
-        } else {
-            const objectName = this.props.dataModel.variables.Object_Name
-            const objectID = this.props.match.params.single
-            const localStorageKey = `${objectName}_${objectID}`
-            const localStorageObject = {
-                date: new Date(),
-                savedState: this.state.crudObject,
-            }
-            localStorage.setItem(
-                localStorageKey,
-                JSON.stringify(localStorageObject)
-            )
-        }
+        this.setState({
+            crudObject: crudObject,
+            dataLoaded: true,
+        })
     }
 
     componentDidMount() {
@@ -314,35 +280,30 @@ class MuteerVerordeningenStructuurCRUD extends Component {
                 })
                 .catch(err => console.log(err))
         } else {
-            this.setState({
-                dataLoaded: true,
-            })
+            this.createAndSetCrudObject()
         }
     }
 
     render() {
-        const contextObject = {
-            objectUUID: this.state.UUID,
-            titelEnkelvoud: this.props.dataModel.variables.Titel_Enkelvoud,
-            titelMeervoud: this.props.dataModel.variables.Titel_Meervoud,
-            overzichtSlug: this.props.overzichtSlug,
-            objectID: this.props.match.params.single,
-            editStatus: this.state.edit,
-            handleSubmit: this.handleSubmit,
-            voegKoppelingRelatieToe: this.voegKoppelingRelatieToe,
-            wijzigKoppelingRelatie: this.wijzigKoppelingRelatie,
-            verwijderKoppelingRelatieToe: this.verwijderKoppelingRelatieToe,
-            handleChange: this.handleChange,
-            crudObject: this.state.crudObject,
-            setEditorState: this.setEditorState,
-            Van_Beleidsbeslissing_Titel: this.state.Van_Beleidsbeslissing_Titel,
-        }
+        const dimensieConstants = this.props.dimensieConstants
+        const titelEnkelvoud = dimensieConstants.TITEL_ENKELVOUD
+        const titelMeervoud = dimensieConstants.TITEL_MEERVOUD
+        const overzichtSlug = dimensieConstants.SLUG_OVERZICHT
+
+        const objectID = this.props.match.params.single
+
+        const editStatus = this.state.edit
+        const crudObject = this.state.crudObject
+        const dataLoaded = this.state.dataLoaded
+        const objectTitel = this.state.crudObject.Titel
+
+        const handleChange = this.handleChange
 
         return (
             <div>
                 <Helmet>
                     <title>
-                        {contextObject.editStatus
+                        {editStatus
                             ? `Omgevingsbeleid - Wijzig de verordening`
                             : `Omgevingsbeleid - Voeg een nieuwe verordening toe`}
                     </title>
@@ -356,8 +317,8 @@ class MuteerVerordeningenStructuurCRUD extends Component {
                                 url={`/muteer/verordeningen`}
                             />
                             <h1 className="heading-serif-4xl text-white">
-                                {this.state.dataLoaded
-                                    ? contextObject.editStatus
+                                {dataLoaded
+                                    ? editStatus
                                         ? `Wijzig de verordening`
                                         : `Voeg een nieuwe verordening toe`
                                     : null}
@@ -365,13 +326,83 @@ class MuteerVerordeningenStructuurCRUD extends Component {
                         </div>
                     </div>
                 </div>
-                <APIcontext.Provider value={contextObject}>
-                    {this.state.dataLoaded ? (
-                        <ContainerCrudFields />
-                    ) : (
-                        <LoaderContent />
-                    )}
-                </APIcontext.Provider>
+                {dataLoaded ? (
+                    <ContainerMain>
+                        <div className="w-full inline-block flex-grow">
+                            <form
+                                className="mt-12"
+                                onSubmit={this.handleSubmit}
+                            >
+                                <React.Fragment>
+                                    <ContainerFormSection
+                                        titel="Verordening"
+                                        beschrijving={`Geef de verordening een passende titel.`}
+                                    >
+                                        <FormFieldTextInput
+                                            handleChange={handleChange}
+                                            fieldValue={crudObject['Titel']}
+                                            fieldLabel="Titel"
+                                            dataObjectProperty="Titel"
+                                            pValue="Vul hier uw titel in"
+                                            titelEnkelvoud={titelEnkelvoud}
+                                        />
+                                    </ContainerFormSection>
+                                    <ContainerFormSection titel="Aanvullende informatie">
+                                        {/* Geldigheid */}
+                                        <div className="flex flex-wrap -mx-3">
+                                            {/* Begin Geldigheid */}
+                                            <FormFieldDate
+                                                handleChange={handleChange}
+                                                fieldValue={
+                                                    crudObject[
+                                                        'Begin_Geldigheid'
+                                                    ]
+                                                }
+                                                fieldLabel="Datum inwerkingtreding"
+                                                notRequired={true}
+                                                dataObjectProperty="Begin_Geldigheid"
+                                                pValue="Indien bekend, kan hier de datum van inwerkingtreding worden ingevuld"
+                                                titelEnkelvoud={titelEnkelvoud}
+                                                openUitwerkingstrede={true}
+                                            />
+
+                                            {/* Eind Geldigheid */}
+
+                                            <FormFieldDate
+                                                handleChange={handleChange}
+                                                notRequired={true}
+                                                fieldValue={
+                                                    crudObject[
+                                                        'Eind_Geldigheid'
+                                                    ]
+                                                }
+                                                openUitwerkingstrede={true}
+                                                fieldLabel="Datum uitwerkingtreding"
+                                                dataObjectProperty="Eind_Geldigheid"
+                                                pValue="Indien bekend, kan hier de datum van uitwerkingtreding worden ingevuld"
+                                                titelEnkelvoud={titelEnkelvoud}
+                                            />
+                                        </div>
+                                    </ContainerFormSection>
+                                </React.Fragment>
+
+                                {/* Submit */}
+                                <div className="fixed bottom-0 right-0 px-6">
+                                    <div className="bg-white shadow px-4 py-4 inline-block rounded-t">
+                                        <input
+                                            id="form-submit"
+                                            className="font-bold py-2 px-4 leading-tight text-sm rounded mbg-color text-white hover:underline"
+                                            type="submit"
+                                            value="Opslaan"
+                                        ></input>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </ContainerMain>
+                ) : (
+                    <LoaderContent />
+                )}
             </div>
         )
     }

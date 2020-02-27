@@ -208,7 +208,7 @@ class App extends Component {
                             component={RaadpleegZoekResultatenOverzicht}
                         />
 
-                        {/* Render raadpleeg detail pagina's */}
+                        {/* Render raadpleeg dNeetail pagina's */}
                         {detailPaginas.map(item => {
                             return (
                                 <Route

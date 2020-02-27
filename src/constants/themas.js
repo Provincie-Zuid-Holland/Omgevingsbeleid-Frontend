@@ -21,12 +21,12 @@ export const CRUD_PROPERTIES = {
         requiredMessage: '',
     },
     Begin_Geldigheid: {
-        initValue: '',
+        initValue: null,
         required: true,
         requiredMessage: 'Vul een datum van inwerkingstreding in',
     },
     Eind_Geldigheid: {
-        initValue: '',
+        initValue: null,
         required: true,
         requiredMessage: 'Vul een datum van uitwerkingstreding in',
     },

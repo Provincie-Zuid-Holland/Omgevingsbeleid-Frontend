@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { toast } from 'react-toastify'
-import { format, isBefore } from 'date-fns'
+import { format } from 'date-fns'
 import { Link, withRouter } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 
@@ -22,148 +22,11 @@ import FormFieldContainerThemas from './FormFieldContainers/FormFieldContainerTh
 // Import Axios instance to connect with the API
 import axios from './../../API/axios'
 
-// Maakt en returned een array met de bewerkbare properties van het dimensie object
-function makeCrudProperties(dimensieConstants) {
-    const crudProperties = Object.keys(dimensieConstants.CRUD_PROPERTIES)
-    return crudProperties
-}
-
-// Function to make an object containing the fields that the user can edit
-function makeCrudObject({ crudProperties, dimensieConstants, responseObject }) {
-    // Key waarden van de properties die gebruikt worden voor het maken van koppelingen
-    const koppelingenKeysArray = [
-        'Ambities',
-        'Belangen',
-        'BeleidsRegels',
-        'Doelen',
-        'Maatregelen',
-        'Opgaven',
-        'Themas',
-        'Verordening',
-        'WerkingsGebieden',
-    ]
-
-    // Het initiele object wat gereturned zal worden
-    // Hierop plaatsen we alle properties die gewijzigd moeten worden
-    let crudObject = {}
-
-    if (responseObject) {
-        // Als er een response object populaten we het crudObject op basis van de crudProperties met de waarden van het responseObject
-        crudProperties.forEach(crudProperty => {
-            crudObject[[crudProperty][0]] = responseObject[crudProperty]
-        })
-    } else {
-        // Als er geen responseObject is initializen we de waarde voor elke crudProperty
-        crudProperties.forEach(crudProperty => {
-            crudObject[crudProperty] =
-                dimensieConstants.CRUD_PROPERTIES[crudProperty].initValue
-        })
-    }
-
-    return crudObject
-}
-
-function scrollToElement(elSelector) {
-    const el = document.getElementById(elSelector)
-
-    if (!el) return
-
-    const yPosition = el.getBoundingClientRect().top + window.scrollY
-    console.log(yPosition)
-    window.scroll({
-        top: yPosition - 170,
-        behavior: 'smooth',
-    })
-
-    el.focus()
-
-    el.classList.add('transition-regular', 'border-red-500')
-    setTimeout(
-        () => el.classList.remove('transition-regular', 'border-red-500'),
-        2000
-    )
-}
-
-function eindDateIsBeforeBeginDate(titelEnkelvoud, crudObject) {
-    if (isBefore(crudObject.Eind_Geldigheid, crudObject.Begin_Geldigheid)) {
-        const dataObjectProperty = 'Eind_Geldigheid'
-        const elSelector = `form-field-${titelEnkelvoud.toLowerCase()}-${dataObjectProperty.toLowerCase()}`
-        scrollToElement(elSelector)
-        toast(
-            'De datum van uitwerkingtreding mag niet eerder zijn dan de datum van inwerkingtreding'
-        )
-        return true
-    }
-    return false
-}
-
-function checkRequiredFields(crudObject, dimensieConstants, titelEnkelvoud) {
-    const status = crudObject.Status
-    const crudObjectProperties = Object.keys(crudObject)
-
-    let pageScrolledToElement = false
-    let alleVeldenIngevuld = true
-
-    if (titelEnkelvoud === 'Beleidsbeslissing') {
-        crudObjectProperties.forEach(property => {
-            if (
-                dimensieConstants.CRUD_PROPERTIES[property].required.includes(
-                    status
-                )
-            ) {
-                checkIfPropertyHasValue(property)
-            }
-        })
-    } else {
-        crudObjectProperties.forEach(property => {
-            if (dimensieConstants.CRUD_PROPERTIES[property].required) {
-                checkIfPropertyHasValue(property)
-            }
-        })
-        if (
-            alleVeldenIngevuld &&
-            dimensieConstants.CRUD_PROPERTIES.Eind_Geldigheid.required &&
-            dimensieConstants.CRUD_PROPERTIES.Begin_Geldigheid.required
-        ) {
-            const isEindDateBeforeBegin = eindDateIsBeforeBeginDate(
-                titelEnkelvoud,
-                crudObject
-            )
-            if (isEindDateBeforeBegin) {
-                alleVeldenIngevuld = false
-            }
-        }
-    }
-
-    function checkIfPropertyHasValue(property) {
-        const propertyHasValue =
-            crudObject[property] !== undefined &&
-            crudObject[property] !== null &&
-            crudObject[property] !== [] &&
-            crudObject[property] !== '' &&
-            crudObject[property] !== 'Invalid Date'
-
-        if (!propertyHasValue) {
-            // Notificeer de gebruiker
-            const titelEnkelvoud = dimensieConstants.TITEL_ENKELVOUD
-            toast(dimensieConstants.CRUD_PROPERTIES[property].requiredMessage)
-            console.warn(
-                `Element met id 'form-field-${titelEnkelvoud.toLowerCase()}-${property.toLowerCase()}' heeft geen waarde`
-            )
-
-            // !REFACTOR! Scope creep alleVeldenIngevuld
-            // Als er nog niet naar een element is gescrolled, scroll naar het element
-            if (!pageScrolledToElement) {
-                const elSelector = `form-field-${titelEnkelvoud.toLowerCase()}-${property.toLowerCase()}`
-                scrollToElement(elSelector)
-                pageScrolledToElement = true
-                alleVeldenIngevuld = false
-            }
-        }
-    }
-
-    return alleVeldenIngevuld
-}
+// Import Utilities
+import makeCrudProperties from './../../utils/makeCrudProperties'
+import makeCrudObject from './../../utils/makeCrudObject'
+import checkRequiredFields from './../../utils/checkRequiredFields'
+import formatGeldigheidDatesForUI from './../../utils/formatGeldigheidDatesForUI'
 
 class MuteerUniversalObjectCRUD extends Component {
     constructor(props) {
@@ -185,43 +48,11 @@ class MuteerUniversalObjectCRUD extends Component {
         this.verwijderKoppelingRelatie = this.verwijderKoppelingRelatie.bind(
             this
         )
-        this.formatGeldigheidDatesForUI = this.formatGeldigheidDatesForUI.bind(
-            this
-        )
         this.getAndSetDimensieDataFromApi = this.getAndSetDimensieDataFromApi.bind(
             this
         )
-    }
 
-    // De data worden opgeslagen in Timestamp objecten. Om deze in de UI weer te geven moeten we deze omzetten naar het formaat 'YYYY-MM-DD'
-    formatGeldigheidDatesForUI(crudObject) {
-        // Format Begin_Geldigheid
-        if (
-            crudObject.Begin_Geldigheid !== undefined &&
-            crudObject.Begin_Geldigheid !== null
-        ) {
-            crudObject.Begin_Geldigheid = format(
-                crudObject.Begin_Geldigheid,
-                'YYYY-MM-DD'
-            )
-        } else if (crudObject.Begin_Geldigheid === 'Invalid Date') {
-            crudObject.Begin_Geldigheid = null
-        }
-
-        // Format Eind_Geldigheid
-        if (
-            crudObject.Eind_Geldigheid !== undefined &&
-            crudObject.Eind_Geldigheid !== null
-        ) {
-            crudObject.Eind_Geldigheid = format(
-                crudObject.Eind_Geldigheid,
-                'YYYY-MM-DD'
-            )
-        } else if (crudObject.Eind_Geldigheid === 'Invalid Date') {
-            crudObject.Eind_Geldigheid = null
-        }
-
-        return crudObject
+        this.formatGeldigheidDatesForUI = formatGeldigheidDatesForUI.bind(this)
     }
 
     // Algemene change handler
@@ -459,8 +290,6 @@ class MuteerUniversalObjectCRUD extends Component {
             responseObject: responseObjectFromAPI,
         })
 
-        // crudObject = this.formatGeldigheidDatesForUI(crudObject)
-
         this.setState({
             crudObject: crudObject,
             dataLoaded: true,
@@ -515,8 +344,6 @@ class MuteerUniversalObjectCRUD extends Component {
         const objectTitel = this.state.crudObject.Titel
 
         const handleChange = this.handleChange
-
-        console.log(crudObject)
 
         return (
             <div>

@@ -33,7 +33,7 @@ class Afdeling extends React.Component {
                                 titel="Algemene informatie"
                                 beschrijving="De algemene informatie bevat een afdelingnummer en een duidelijke titel"
                             >
-                                <FormFieldNumberInput
+                                <FormFieldTextInput
                                     handleChange={this.context.handleChange}
                                     fieldValue={crudObject['Volgnummer']}
                                     fieldLabel="Afdeling"

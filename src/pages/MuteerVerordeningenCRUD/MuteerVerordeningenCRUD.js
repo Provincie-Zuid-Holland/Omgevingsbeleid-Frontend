@@ -21,22 +21,11 @@ import axios from './../../API/axios'
 // Create Context
 import APIcontext from './APIContext'
 
-function isObjectNotEmpty(obj) {
-    for (var key in obj) {
-        if (obj.hasOwnProperty(key)) return false
-    }
-    return true
-}
-
-// Function to make an object containing the fields that the user can edit
-// Response object is the response object from the API call with existing data
-function makeCrudObject(array, responseObject) {
-    let crudObject = {}
-    array.forEach(arrayItem => {
-        crudObject[[arrayItem][0]] = responseObject[arrayItem]
-    })
-    return crudObject
-}
+// Import Utilities
+import makeCrudProperties from './../../utils/makeCrudProperties'
+import makeCrudObject from './../../utils/makeCrudObject'
+import checkRequiredFields from './../../utils/checkRequiredFields'
+import formatGeldigheidDatesForUI from './../../utils/formatGeldigheidDatesForUI'
 
 class MuteerVerordeningenCRUD extends Component {
     constructor(props) {
@@ -49,12 +38,11 @@ class MuteerVerordeningenCRUD extends Component {
             },
         }
 
+        this.formatGeldigheidDatesForUI = formatGeldigheidDatesForUI.bind(this)
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.setEditorState = this.setEditorState.bind(this)
-        this.voegKoppelingRelatieToe = this.voegKoppelingRelatieToe.bind(this)
-        this.wijzigKoppelingRelatie = this.wijzigKoppelingRelatie.bind(this)
-        this.verwijderKoppelingRelatieToe = this.verwijderKoppelingRelatieToe.bind(
+        this.getAndSetVerordeningstructuur = this.getAndSetVerordeningstructuur.bind(
             this
         )
         this.checkForEmptyFields = this.checkForEmptyFields.bind(this)
@@ -73,9 +61,6 @@ class MuteerVerordeningenCRUD extends Component {
         } else {
             value = event.target.value
             name = event.target.name
-            console.log('value')
-            console.log(value)
-            console.log(name)
 
             const type = event.target.type
             if (type === 'date') {
@@ -156,11 +141,41 @@ class MuteerVerordeningenCRUD extends Component {
     handleSubmit(event) {
         event.preventDefault()
 
-        function geldigheidPropertiesToDateObject(crudObject) {
-            crudObject = { ...crudObject }
+        const verordeningsType = this.props.match.params.type
+        const dimensieConstants = this.props.dimensieConstants[
+            verordeningsType.toUpperCase()
+        ]
+        const titelEnkelvoud = dimensieConstants.TITEL_ENKELVOUD
+
+        let crudObject = this.state.crudObject
+
+        // Converteer de 'YYYY-MM-DD' waarden naar Date objecten
+        if (
+            crudObject.Begin_Geldigheid !== null &&
+            crudObject.Begin_Geldigheid !== ''
+        ) {
             crudObject.Begin_Geldigheid = new Date(crudObject.Begin_Geldigheid)
+        }
+        if (
+            crudObject.Eind_Geldigheid !== null &&
+            crudObject.Eind_Geldigheid !== ''
+        ) {
             crudObject.Eind_Geldigheid = new Date(crudObject.Eind_Geldigheid)
-            return crudObject
+        }
+
+        // Check of de verplichte velden zijn ingevuld als het een beleidsbeslissing is
+        // !REFACTOR! - velden check voor andere dimensies (Bespreken STUM)
+        const alleVeldenIngevuld = checkRequiredFields(
+            crudObject,
+            dimensieConstants,
+            titelEnkelvoud
+        )
+
+        if (!alleVeldenIngevuld) {
+            this.setState({
+                crudObject: this.formatGeldigheidDatesForUI(crudObject),
+            })
+            return
         }
 
         function getQueryStringValues(urlParams) {
@@ -369,8 +384,6 @@ class MuteerVerordeningenCRUD extends Component {
         const oldVerordeningsUUID = this.props.match.params.verordeningsUUID
         const history = this.props.history
         let newLineage = { ...this.state.lineage }
-        let crudObject = { ...this.state.crudObject }
-        crudObject = geldigheidPropertiesToDateObject(crudObject)
 
         // !REFACTOR! / !SWEN!
         delete crudObject.Weblink
@@ -400,65 +413,7 @@ class MuteerVerordeningenCRUD extends Component {
         }
     }
 
-    voegKoppelingRelatieToe(propertyName, object, omschrijving) {
-        const nieuwObject = {
-            UUID: object.UUID,
-            Omschrijving: omschrijving,
-        }
-
-        // let nieuweArray = this.state.crudObject[propertyName]
-        let nieuwCrudObject = this.state.crudObject
-
-        // Als de relatie Array nog niet initialized is, maak deze aan
-        if (typeof nieuwCrudObject[propertyName] === 'string') {
-            nieuwCrudObject[propertyName] = []
-        }
-
-        nieuwCrudObject[propertyName].push(nieuwObject)
-
-        this.setState(
-            {
-                crudObject: nieuwCrudObject,
-            },
-            () => toast('Koppeling toegevoegd')
-        )
-    }
-
-    wijzigKoppelingRelatie(koppelingObject, nieuweOmschrijving) {
-        let nieuwCrudObject = this.state.crudObject
-        const index = nieuwCrudObject[koppelingObject.propertyName].findIndex(
-            item => item.UUID === koppelingObject.item.UUID
-        )
-        nieuwCrudObject[koppelingObject.propertyName][
-            index
-        ].Omschrijving = nieuweOmschrijving
-
-        this.setState(
-            {
-                crudObject: nieuwCrudObject,
-            },
-            () => toast('Koppeling gewijzigd')
-        )
-    }
-
-    verwijderKoppelingRelatieToe(koppelingObject) {
-        let nieuwCrudObject = this.state.crudObject
-        const index = nieuwCrudObject[koppelingObject.propertyName].findIndex(
-            item => item.UUID === koppelingObject.item.UUID
-        )
-        nieuwCrudObject[koppelingObject.propertyName].splice(index, 1)
-
-        this.setState(
-            {
-                crudObject: nieuwCrudObject,
-            },
-            () => toast('Koppeling verwijderd')
-        )
-    }
-
-    componentDidMount() {
-        const ID = this.props.match.params.lineageID
-        // Get Lineage
+    getAndSetVerordeningstructuur(ID) {
         axios
             .get(`/verordeningstructuur/${ID}`)
             .then(res => {
@@ -471,109 +426,62 @@ class MuteerVerordeningenCRUD extends Component {
             .catch(err => {
                 console.log(err)
             })
-
-        if (this.props.editState) {
-            this.setState({
-                edit: true,
-            })
-
-            const dataModel = this.props.dataModel
-            const objectID = this.props.match.params.verordeningsUUID
-            const ApiEndpoint = this.props.dataModel.variables.Api_Endpoint
-            const objectName = this.props.dataModel.variables.Object_Name
-
-            // Connect with API and get data
-            axios
-                .get(`${ApiEndpoint}/version/${objectID}`)
-                .then(res => {
-                    const responseObject = res.data
-                    const verordeningsType = this.props.match.params.type
-                    const UUID = responseObject.UUID
-                    const crudProperties =
-                        dataModel.properties[verordeningsType]
-                    const crudObject = makeCrudObject(
-                        crudProperties,
-                        responseObject
-                    )
-
-                    console.log('crudObject:')
-                    console.log(crudObject)
-
-                    // !REFACTOR! Onderstaande in een dateParser functie
-                    if (
-                        crudObject.Begin_Geldigheid !== undefined &&
-                        crudObject.Begin_Geldigheid !== null
-                    ) {
-                        crudObject.Begin_Geldigheid = format(
-                            crudObject.Begin_Geldigheid,
-                            'YYYY-MM-DD'
-                        )
-                    } else if (crudObject.Begin_Geldigheid === null) {
-                        crudObject.Begin_Geldigheid = ''
-                    }
-                    if (
-                        crudObject.Eind_Geldigheid !== undefined &&
-                        crudObject.Eind_Geldigheid !== null
-                    ) {
-                        crudObject.Eind_Geldigheid = format(
-                            crudObject.Eind_Geldigheid,
-                            'YYYY-MM-DD'
-                        )
-                    } else if (crudObject.Eind_Geldigheid === null) {
-                        crudObject.Eind_Geldigheid = ''
-                    }
-
-                    this.setState({
-                        crudObject: crudObject,
-                        UUID: UUID,
-                        dataLoaded: true,
-                    })
-                })
-                .catch(error => {
-                    if (error.response !== undefined) {
-                        // !REFACTOR! De 401 handler mag in een aparte interceptor functie in Axios
-                        if (error.response.status === 401) {
-                            localStorage.removeItem('access_token')
-                            this.props.history.push('/login')
-                        }
-                    } else {
-                        console.log(error)
-                    }
-                })
-        }
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        // Save to LocalStorage
-        // If page === edit set Key to Name_UUID
-        // If page === new set Key to Name
-        if (
-            this.state.dataLoaded === false ||
-            JSON.stringify(this.state.crudObject) ===
-                JSON.stringify(prevProps.crudObject)
-        ) {
-            return
-        }
+    // responseObjectFromAPI wordt meegegeven als parameter wanneer de pagina een 'version' pagina is
+    createAndSetCrudObject(responseObjectFromAPI) {
+        const verordeningsType = this.props.match.params.type
+        const dimensieConstants = this.props.dimensieConstants[
+            verordeningsType.toUpperCase()
+        ]
+        const crudProperties = makeCrudProperties(dimensieConstants)
+        let crudObject = makeCrudObject({
+            crudProperties: crudProperties,
+            dimensieConstants: dimensieConstants,
+            responseObject: responseObjectFromAPI,
+        })
 
-        if (!this.state.edit) {
-            const objectName = this.props.dataModel.variables.Object_Name
-            const localStorageObject = {
-                date: new Date(),
-                savedState: this.state.crudObject,
-            }
-            localStorage.setItem(objectName, JSON.stringify(localStorageObject))
-        } else {
-            const objectName = this.props.dataModel.variables.Object_Name
-            const objectID = this.props.match.params.single
-            const localStorageKey = `${objectName}_${objectID}`
-            const localStorageObject = {
-                date: new Date(),
-                savedState: this.state.crudObject,
-            }
-            localStorage.setItem(
-                localStorageKey,
-                JSON.stringify(localStorageObject)
+        this.setState({
+            crudObject: crudObject,
+            dataLoaded: true,
+        })
+    }
+
+    getAndSetVerordening() {
+        // const dataModel = this.props.dataModel
+        const objectID = this.props.match.params.verordeningsUUID
+        const dimensieConstants = this.props.dimensieConstants
+        const apiEndpoint = dimensieConstants.API_ENDPOINT
+
+        // Connect with API and get data
+        axios
+            .get(`${apiEndpoint}/version/${objectID}`)
+            .then(res => {
+                const responseObject = res.data
+                this.createAndSetCrudObject(responseObject)
+            })
+            .catch(error => toast(`Er is iets misgegaan`))
+    }
+
+    componentDidMount() {
+        const ID = this.props.match.params.lineageID
+
+        // Get Lineage
+        this.getAndSetVerordeningstructuur(ID)
+
+        if (this.props.editState) {
+            // Als er een waarde in de single parameter zit bewerkt de gebruiker een bestaand object
+            this.setState(
+                {
+                    edit: true,
+                },
+                () => {
+                    this.getAndSetVerordening()
+                }
             )
+        } else {
+            // Anders maakt de gebruiker een nieuw object aan
+            this.createAndSetCrudObject()
         }
     }
 
@@ -617,17 +525,20 @@ class MuteerVerordeningenCRUD extends Component {
     }
 
     render() {
+        const dimensieConstants = this.props.dimensieConstants
+        const objectID = this.props.match.params.verordeningsUUID
+        const verordeningsType = this.props.match.params.type
+
         const contextObject = {
-            objectUUID: this.state.UUID,
-            titelEnkelvoud: this.props.dataModel.variables.Titel_Enkelvoud,
-            titelMeervoud: this.props.dataModel.variables.Titel_Meervoud,
-            overzichtSlug: this.props.overzichtSlug,
-            objectID: this.props.match.params.single,
+            titelEnkelvoud:
+                dimensieConstants[verordeningsType.toUpperCase()]
+                    .TITEL_ENKELVOUD,
+            titelMeervoud:
+                dimensieConstants[verordeningsType.toUpperCase()]
+                    .TITEL_MEERVOUD,
+            objectID: objectID,
             editStatus: this.state.edit,
             handleSubmit: this.handleSubmit,
-            voegKoppelingRelatieToe: this.voegKoppelingRelatieToe,
-            wijzigKoppelingRelatie: this.wijzigKoppelingRelatie,
-            verwijderKoppelingRelatieToe: this.verwijderKoppelingRelatieToe,
             handleChange: this.handleChange,
             crudObject: this.state.crudObject,
             setEditorState: this.setEditorState,
