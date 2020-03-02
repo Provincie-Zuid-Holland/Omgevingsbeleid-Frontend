@@ -63,7 +63,7 @@ function SectieToggleMode({ lineage, toggleMode, activeHoofdstuk }) {
 
     if (activeHoofdstuk || activeHoofdstuk === 0) {
         // Verwijs naar hoofdstuk
-        url = `/muteer/verordeningen/${lineage.ID}/${lineage.Structuur.Children[activeHoofdstuk].UUID}?hoofdstuk=${activeHoofdstuk}&nest_1=null&nest_2=null&nest_3=null`
+        url = `/muteer/verordeningen/${lineage.ID}/Hoofdstuk/${lineage.Structuur.Children[activeHoofdstuk].UUID}?hoofdstuk=${activeHoofdstuk}&nest_1=null&nest_2=null&nest_3=null`
     } else {
         // Verwijs naar verordening
         url = `/muteer/verordeningen/bewerk-verordening/${lineage.ID}/${lineage.UUID}`
@@ -614,6 +614,16 @@ class MuteerVerordeningenstructuurDetail extends Component {
     }
 
     render() {
+        let hoofdstukVolgnummer = null
+        if (
+            this.state.lineage &&
+            (this.state.activeHoofdstuk || this.state.activeHoofdstuk === '0')
+        ) {
+            hoofdstukVolgnummer = this.state.lineage.Structuur.Children[
+                this.state.activeHoofdstuk
+            ].Volgnummer
+        }
+
         return (
             <ContainerMain>
                 <Helmet>
@@ -622,6 +632,7 @@ class MuteerVerordeningenstructuurDetail extends Component {
 
                 <VerordeningenDetailSidebar
                     changeActiveHoofdstuk={this.changeActiveHoofdstuk}
+                    activeHoofdstuk={this.state.activeHoofdstuk}
                     dataLoaded={this.state.dataLoaded}
                     lineage={this.state.lineage}
                 />
@@ -630,7 +641,7 @@ class MuteerVerordeningenstructuurDetail extends Component {
                 {this.state.dataLoaded ? (
                     <div className="w-3/4 inline-block flex-grow pl-8 mb-20">
                         <div className="bg-white text-gray-800 rounded shadow-lg">
-                            <div className="p-5 border-b border-gray-400 flex justify-between">
+                            <div className="p-5 border-b border-gray-400 flex justify-between items-center">
                                 <Heading
                                     activeHoofdstuk={this.state.activeHoofdstuk}
                                     lineage={this.state.lineage}
@@ -680,6 +691,9 @@ class MuteerVerordeningenstructuurDetail extends Component {
                             <div>
                                 {this.state.activeHoofdstuk !== null ? (
                                     <DragAndDropList
+                                        hoofdstukVolgnummer={
+                                            hoofdstukVolgnummer
+                                        }
                                         verordeningID={
                                             this.props.match.params.lineageID
                                         }

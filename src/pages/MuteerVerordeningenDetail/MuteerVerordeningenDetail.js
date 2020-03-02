@@ -27,14 +27,7 @@ function getQueryStringValues(urlParams) {
 }
 
 // Generate Back Button for Detail or Version page
-function GenerateBackToButton({
-    overzichtSlug,
-    pageType,
-    hash,
-    dataObject,
-    lineageID,
-    urlParams,
-}) {
+function GenerateBackToButton({ overzichtSlug, lineageID, urlParams }) {
     const [hoofdstukIndex, nest_1, nest_2, nest_3] = getQueryStringValues(
         urlParams
     )
@@ -131,7 +124,13 @@ class MuteerVerordeningenDetail extends Component {
     }
 
     generateApiEndpoint() {
-        const ApiEndpointBase = this.props.dataModel.variables.Api_Endpoint
+        const baseDimensieConstants = this.props.dimensieConstants
+        const ApiEndpointBase = baseDimensieConstants.API_ENDPOINT
+        const verordeningsType = this.props.match.params.type
+        const dimensieConstants = this.props.dimensieConstants[
+            verordeningsType.toUpperCase()
+        ]
+
         const detail_id = this.props.match.params.single
         return `${ApiEndpointBase}/version/${detail_id}`
     }
@@ -336,8 +335,15 @@ class MuteerVerordeningenDetail extends Component {
 
     render() {
         // Variables to give as props
-        const titelEnkelvoud = this.props.dataModel.variables.Titel_Enkelvoud
-        const overzichtSlug = this.props.dataModel.variables.Overzicht_Slug
+        const baseDimensieConstants = this.props.dimensieConstants
+        const overzichtSlug = baseDimensieConstants.SLUG_OVERZICHT
+
+        const verordeningsType = this.props.match.params.type
+        const dimensieConstants = this.props.dimensieConstants[
+            verordeningsType.toUpperCase()
+        ]
+
+        const titelEnkelvoud = dimensieConstants.TITEL_ENKELVOUD
 
         // False if data is loading, true if a response is received
         let dataReceived = this.state.dataReceived

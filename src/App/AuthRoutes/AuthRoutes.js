@@ -227,7 +227,7 @@ class AuthRoutes extends Component {
                         )}
                     />
                     <Route
-                        path="/muteer/verordeningen/:lineageID/:single"
+                        path="/muteer/verordeningen/:lineageID/:type/:single"
                         exact
                         render={() => (
                             <MuteerVerordeningenDetail

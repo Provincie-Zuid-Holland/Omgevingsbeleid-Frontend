@@ -1,27 +1,87 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 
-import { faFolder } from '@fortawesome/free-regular-svg-icons'
+import { faFolder, faFileAlt } from '@fortawesome/free-regular-svg-icons'
 import { faBook } from '@fortawesome/pro-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-function ListItem({ UUID, Titel, children, changeActiveHoofdstuk, listIndex }) {
+function ListItem({
+    UUID,
+    Titel,
+    item,
+    children,
+    changeActiveHoofdstuk,
+    activeHoofdstuk,
+    listIndex,
+    hoofdstukVolgnummer,
+    hasChildren,
+}) {
+    const [display, setDisplay] = useState(false)
+
     return (
         <li
             key={UUID}
-            className="mt-2 cursor-pointer"
-            onClick={() => changeActiveHoofdstuk(listIndex)}
+            className={`mt-2 relative sidebar-line-horizontal
+            ${hasChildren ? '' : 'sidebar-line-left-full'}
+            ${
+                item.Type !== 'Artikel' && hasChildren
+                    ? 'cursor-pointer'
+                    : 'cursor-default'
+            }
+            `}
         >
             <FontAwesomeIcon
-                className="absolute mt-1 left-0 text-gray-700"
-                icon={faFolder}
+                className={`${
+                    item.Type === 'Artikel' ? 'ml-1' : ''
+                } absolute mt-1 left-0 -ml-6 text-gray-700 bg-gray-100`}
+                icon={item.Type === 'Artikel' ? faFileAlt : faFolder}
             />
-            <span className="text-sm text-gray-800 mb-4">{Titel}</span>
-            {children}
+            <span
+                onClick={() => {
+                    if (
+                        item.Type === 'Hoofdstuk' &&
+                        activeHoofdstuk !== listIndex
+                    ) {
+                        changeActiveHoofdstuk(listIndex)
+                    } else if (
+                        item.Type === 'Hoofdstuk' &&
+                        activeHoofdstuk === listIndex
+                    ) {
+                        changeActiveHoofdstuk(null)
+                    } else if (item.Type !== 'Artikel' && hasChildren) {
+                        setDisplay(!display)
+                    }
+                }}
+                className={`inline-block text-sm text-gray-800 ${
+                    (hasChildren &&
+                        item.Type === 'Hoofdstuk' &&
+                        activeHoofdstuk === listIndex) ||
+                    (display && hasChildren)
+                        ? 'sidebar-line-left-span'
+                        : ''
+                }`}
+            >
+                {item.Type === 'Afdeling'
+                    ? `Afdeling ${hoofdstukVolgnummer}.${item.Volgnummer} - `
+                    : ''}
+                {item.Type === 'Paragraaf'
+                    ? `§ ${hoofdstukVolgnummer}.${item.Volgnummer} `
+                    : ''}
+                {item.Type === 'Artikel'
+                    ? `Artikel ${hoofdstukVolgnummer}.${item.Volgnummer} `
+                    : ''}
+
+                {Titel}
+            </span>
+            {(activeHoofdstuk === listIndex && item.Type === 'Hoofdstuk') ||
+            display
+                ? children
+                : null}
         </li>
     )
 }
 
 function VerordeningenDetailSidebar({
+    activeHoofdstuk,
     changeActiveHoofdstuk,
     dataLoaded,
     lineage,
@@ -40,10 +100,14 @@ function VerordeningenDetailSidebar({
                         />
                         {lineage.Titel}
                     </h1>
-                    <ul className="pl-6 relative">
+                    <ul className="sidebar-line-left pl-6 relative">
                         {lineage.Structuur.Children.map((hoofdstuk, index) => (
                             <ListItem
+                                activeHoofdstuk={activeHoofdstuk}
+                                hasChildren={hoofdstuk.Children.length > 0}
+                                hoofdstukVolgnummer={hoofdstuk.Volgnummer}
                                 listIndex={index}
+                                item={hoofdstuk}
                                 changeActiveHoofdstuk={changeActiveHoofdstuk}
                                 UUID={hoofdstuk.UUID}
                                 key={hoofdstuk.UUID}
@@ -51,10 +115,21 @@ function VerordeningenDetailSidebar({
                                     ${hoofdstuk.Titel}`}
                             >
                                 {hoofdstuk.Children.length > 0 ? (
-                                    <ul className="pl-6 relative">
+                                    <ul className="sidebar-line-left pl-6 relative">
                                         {hoofdstuk.Children.map(
                                             (child, index) => (
                                                 <ListItem
+                                                    activeHoofdstuk={
+                                                        activeHoofdstuk
+                                                    }
+                                                    hasChildren={
+                                                        child.Children.length >
+                                                        0
+                                                    }
+                                                    hoofdstukVolgnummer={
+                                                        hoofdstuk.Volgnummer
+                                                    }
+                                                    item={child}
                                                     listIndex={index}
                                                     changeActiveHoofdstuk={
                                                         changeActiveHoofdstuk
@@ -65,13 +140,28 @@ function VerordeningenDetailSidebar({
                                                 >
                                                     {child.Children.length >
                                                     0 ? (
-                                                        <ul className="pl-6 relative">
+                                                        <ul className="sidebar-line-left pl-6 relative sidebar-line-left">
                                                             {child.Children.map(
                                                                 (
                                                                     childOfChild,
                                                                     index
                                                                 ) => (
                                                                     <ListItem
+                                                                        activeHoofdstuk={
+                                                                            activeHoofdstuk
+                                                                        }
+                                                                        hasChildren={
+                                                                            childOfChild
+                                                                                .Children
+                                                                                .length >
+                                                                            0
+                                                                        }
+                                                                        hoofdstukVolgnummer={
+                                                                            hoofdstuk.Volgnummer
+                                                                        }
+                                                                        item={
+                                                                            childOfChild
+                                                                        }
                                                                         listIndex={
                                                                             index
                                                                         }
@@ -92,15 +182,30 @@ function VerordeningenDetailSidebar({
                                                                             .Children
                                                                             .length >
                                                                         0 ? (
-                                                                            <ul className="pl-6 relative">
+                                                                            <ul className="sidebar-line-left pl-6 relative">
                                                                                 {childOfChild.Children.map(
                                                                                     (
                                                                                         childOfChildofChild,
                                                                                         index
                                                                                     ) => (
                                                                                         <ListItem
+                                                                                            activeHoofdstuk={
+                                                                                                activeHoofdstuk
+                                                                                            }
+                                                                                            hasChildren={
+                                                                                                childOfChildofChild
+                                                                                                    .Children
+                                                                                                    .length >
+                                                                                                0
+                                                                                            }
+                                                                                            hoofdstukVolgnummer={
+                                                                                                hoofdstuk.Volgnummer
+                                                                                            }
                                                                                             listIndex={
                                                                                                 index
+                                                                                            }
+                                                                                            item={
+                                                                                                childOfChildofChild
                                                                                             }
                                                                                             changeActiveHoofdstuk={
                                                                                                 changeActiveHoofdstuk

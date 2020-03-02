@@ -3,12 +3,14 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { Link } from 'react-router-dom'
 
 import AddSection from './../AddSection'
+import DndTitle from './../DndTitle'
 
 function DragAndDropNestedNested({
     voegSectieToeMode,
     dragBool,
     subItems,
     verordeningID,
+    hoofdstukVolgnummer,
     type,
     UUID,
     hoofdstukIndex,
@@ -53,38 +55,29 @@ function DragAndDropNestedNested({
                                                   type={item.Type}
                                               />
                                           ) : null}
-                                          <div
+                                          <Link
+                                              to={`/muteer/verordeningen/${verordeningID}/${item.Type}/${item.UUID}?hoofdstuk=${hoofdstukIndex}&nest_1=${nest_1}&nest_2=${nest_2}&nest_3=${index}`}
                                               ref={provided.innerRef}
                                               {...provided.draggableProps}
                                               {...provided.dragHandleProps}
-                                              className={`w-full pl-10 bg-white ${
+                                              className={`w-full block bg-white hover:bg-gray-100 ${
                                                   snapshot.isDragging
                                                       ? 'shadow-lg'
                                                       : ''
                                               } ${
                                                   item.Type === 'Artikel'
-                                                      ? 'pl-10'
+                                                      ? 'pl-5'
                                                       : ''
                                               } p-5`}
                                           >
-                                              <Link
-                                                  to={`/muteer/verordeningen/${verordeningID}/${item.UUID}?hoofdstuk=${hoofdstukIndex}&nest_1=${nest_1}&nest_2=${nest_2}&nest_3=${index}`}
-                                                  className={`font-bold ${
-                                                      item.Type === 'Paragraaf'
-                                                          ? 'text-blood-red'
-                                                          : ''
-                                                  }`}
-                                              >
-                                                  {item.Type === 'Paragraaf'
-                                                      ? `§ ${item.Volgnummer} `
-                                                      : ''}
-                                                  {item.Type === 'Artikel'
-                                                      ? `Artikel ${item.Volgnummer} `
-                                                      : ''}
-                                                  {item.Titel}
-                                              </Link>
-                                              <p>{item.Inhoud}</p>
-                                          </div>
+                                              <DndTitle
+                                                  href={`/muteer/verordeningen/${verordeningID}/${item.Type}/${item.UUID}?hoofdstuk=${hoofdstukIndex}&nest_1=${nest_1}&nest_2=${nest_2}&nest_3=${index}`}
+                                                  item={item}
+                                                  hoofdstukVolgnummer={
+                                                      hoofdstukVolgnummer
+                                                  }
+                                              />
+                                          </Link>
                                           {index !== subItems.length - 1 &&
                                           voegSectieToeMode ? (
                                               <AddSection

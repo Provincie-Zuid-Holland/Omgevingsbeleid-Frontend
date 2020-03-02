@@ -572,7 +572,7 @@ class MuteerVerordeningenCRUD extends Component {
                                 color="text-white"
                                 url={
                                     this.state.edit
-                                        ? `/muteer/verordeningen/${lineageID}/${verordeningsUUID}${searchParams}`
+                                        ? `/muteer/verordeningen/${lineageID}/${verordeningType}/${verordeningsUUID}${searchParams}`
                                         : `/muteer/verordeningen/${lineageID}`
                                 }
                             />

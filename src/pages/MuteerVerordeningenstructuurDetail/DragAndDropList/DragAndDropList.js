@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import ReactDOM from 'react-dom'
-import { Link } from 'react-router-dom'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import { Link } from 'react-router-dom'
 
 import DragAndDropListNested from './../DragAndDropListNested'
 import AddSection from './../AddSection'
+import DndTitle from './../DndTitle'
 
 function DragAndDropList({
     onDragEnd,
@@ -13,6 +13,7 @@ function DragAndDropList({
     voegSectieToeMode,
     hoofdstukIndex,
     verordeningID,
+    hoofdstukVolgnummer,
 }) {
     return (
         <DragDropContext onDragEnd={onDragEnd}>
@@ -42,35 +43,31 @@ function DragAndDropList({
                             >
                                 {(provided, snapshot) => (
                                     <div id="dnd-container">
-                                        <div
+                                        <Link
+                                            to={`/muteer/verordeningen/${verordeningID}/${
+                                                item.Type
+                                            }/${
+                                                item.UUID
+                                            }?hoofdstuk=${hoofdstukIndex}&nest_1=${index}&nest_2=${null}&nest_3=${null}`}
                                             ref={provided.innerRef}
                                             {...provided.draggableProps}
                                             {...provided.dragHandleProps}
-                                            className={`w-full bg-white ${
+                                            className={`w-full block bg-white hover:bg-gray-100 border-none hover:border-t hover:border-b hover:border-gray-300 ${
                                                 snapshot.isDragging
                                                     ? 'shadow-lg'
                                                     : ''
                                             }`}
                                         >
-                                            <Link
-                                                to={`/muteer/verordeningen/${verordeningID}/${
-                                                    item.UUID
-                                                }?hoofdstuk=${hoofdstukIndex}&nest_1=${index}&nest_2=${null}&nest_3=${null}`}
-                                                className={`py-3 px-5 font-semibold block
-                                                ${
-                                                    item.Type === 'Afdeling'
-                                                        ? 'mbg-color text-white'
-                                                        : ''
-                                                } 
-                                                ${
-                                                    item.Type === 'Paragraaf'
-                                                        ? 'text-blood-red'
-                                                        : ''
-                                                }`}
-                                            >
-                                                {item.Titel}
-                                            </Link>
+                                            <DndTitle
+                                                item={item}
+                                                hoofdstukVolgnummer={
+                                                    hoofdstukVolgnummer
+                                                }
+                                            />
                                             <DragAndDropListNested
+                                                hoofdstukVolgnummer={
+                                                    hoofdstukVolgnummer
+                                                }
                                                 voegSectieToeMode={
                                                     voegSectieToeMode
                                                 }
@@ -82,7 +79,7 @@ function DragAndDropList({
                                                 hoofdstukIndex={hoofdstukIndex}
                                                 nest_1={index}
                                             />
-                                        </div>
+                                        </Link>
                                         {voegSectieToeMode ? (
                                             <AddSection
                                                 hoofdstukIndex={hoofdstukIndex}
