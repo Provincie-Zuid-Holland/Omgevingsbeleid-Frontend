@@ -37,7 +37,7 @@ function TabRelaties(props) {
                                     {relatie.Datum_Akkoord !== null
                                         ? format(
                                               new Date(relatie.Datum_Akkoord),
-                                              'd MMMM YYYY, HH:mm uur'
+                                              'D MMMM YYYY, HH:mm uur'
                                           )
                                         : null}
                                 </div>
@@ -155,6 +155,16 @@ function TabRelaties(props) {
                                                     onClick={() => {
                                                         props.relatieVerbreken(
                                                             relatie
+                                                        )
+                                                        props.toggleVerbreekPopup(
+                                                            null
+                                                        )
+                                                        props.updateStatus(
+                                                            relatie.UUID,
+                                                            relatie.Status ===
+                                                                'Akkoord'
+                                                                ? 'Verbroken'
+                                                                : 'NietAkkoord'
                                                         )
                                                     }}
                                                 >

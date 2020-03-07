@@ -11,6 +11,7 @@ function DragAndDropNestedNested({
     subItems,
     verordeningID,
     hoofdstukVolgnummer,
+    subVolgnummer,
     type,
     UUID,
     hoofdstukIndex,
@@ -43,7 +44,11 @@ function DragAndDropNestedNested({
                                   isDragDisabled={!dragBool}
                               >
                                   {(provided, snapshot) => (
-                                      <div>
+                                      <div
+                                          ref={provided.innerRef}
+                                          {...provided.draggableProps}
+                                          {...provided.dragHandleProps}
+                                      >
                                           {index === 0 && voegSectieToeMode ? (
                                               <AddSection
                                                   hoofdstukIndex={
@@ -56,10 +61,12 @@ function DragAndDropNestedNested({
                                               />
                                           ) : null}
                                           <Link
-                                              to={`/muteer/verordeningen/${verordeningID}/${item.Type}/${item.UUID}?hoofdstuk=${hoofdstukIndex}&nest_1=${nest_1}&nest_2=${nest_2}&nest_3=${index}`}
-                                              ref={provided.innerRef}
-                                              {...provided.draggableProps}
-                                              {...provided.dragHandleProps}
+                                              to={
+                                                  !dragBool &&
+                                                  !voegSectieToeMode
+                                                      ? `/muteer/verordeningen/${verordeningID}/${item.Type}/${item.UUID}?hoofdstuk=${hoofdstukIndex}&nest_1=${nest_1}&nest_2=${nest_2}&nest_3=${index}`
+                                                      : null
+                                              }
                                               className={`w-full block bg-white hover:bg-gray-100 ${
                                                   snapshot.isDragging
                                                       ? 'shadow-lg'
@@ -68,7 +75,13 @@ function DragAndDropNestedNested({
                                                   item.Type === 'Artikel'
                                                       ? 'pl-5'
                                                       : ''
-                                              } p-5`}
+                                              } 
+                                              ${
+                                                  dragBool || voegSectieToeMode
+                                                      ? 'cursor-default'
+                                                      : ''
+                                              }
+                                              p-5`}
                                           >
                                               <DndTitle
                                                   href={`/muteer/verordeningen/${verordeningID}/${item.Type}/${item.UUID}?hoofdstuk=${hoofdstukIndex}&nest_1=${nest_1}&nest_2=${nest_2}&nest_3=${index}`}
@@ -76,6 +89,7 @@ function DragAndDropNestedNested({
                                                   hoofdstukVolgnummer={
                                                       hoofdstukVolgnummer
                                                   }
+                                                  subVolgnummer={subVolgnummer}
                                               />
                                           </Link>
                                           {index !== subItems.length - 1 &&

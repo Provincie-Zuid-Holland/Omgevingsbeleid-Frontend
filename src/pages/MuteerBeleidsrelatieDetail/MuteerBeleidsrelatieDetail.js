@@ -9,7 +9,6 @@ import { faAngleLeft, faTimes, faPlus } from '@fortawesome/free-solid-svg-icons'
 
 import axios from './../../API/axios'
 
-import PopUpAnimatedContainer from '../../components/PopUpAnimatedContainer'
 import LoaderMainTitle from '../../components/LoaderMainTitle'
 import LoaderSaving from '../../components/LoaderSaving'
 
@@ -18,9 +17,16 @@ import TabVerzoeken from './TabVerzoeken'
 import TabAfgewezen from './TabAfgewezen'
 import TabVerbroken from './TabVerbroken'
 
-function SwitchToTabbladButton({ currentTabblad, tabbladName, changeTabblad }) {
+function SwitchToTabbladButton({
+    currentTabblad,
+    tabbladName,
+    changeTabblad,
+    showLength,
+    arrayLength,
+}) {
     const tabbladTitle =
         tabbladName.charAt(0).toUpperCase() + tabbladName.slice(1)
+
     return (
         <li
             className={`py-2 px-5 text-lg m-color inline-block font-bold m-base-border-color ${
@@ -35,6 +41,11 @@ function SwitchToTabbladButton({ currentTabblad, tabbladName, changeTabblad }) {
             }}
         >
             {tabbladTitle}
+            {showLength && arrayLength ? (
+                <span className="bg-green-600 text-white text-bold ml-2 rounded-full px-2 py-1 text-sm">
+                    {arrayLength}
+                </span>
+            ) : null}
         </li>
     )
 }
@@ -59,6 +70,7 @@ class MuteerBeleidsrelatieDetail extends Component {
         this.toggleMotiveringPopup = this.toggleMotiveringPopup.bind(this)
         this.toggleVerbreekPopup = this.toggleVerbreekPopup.bind(this)
         this.changeTabblad = this.changeTabblad.bind(this)
+        this.updateStatus = this.updateStatus.bind(this)
     }
 
     getBeleidsbeslissingTitel(UUID) {
@@ -302,6 +314,33 @@ class MuteerBeleidsrelatieDetail extends Component {
         })
     }
 
+    // Wordt gebruikt om de lokale state te updaten bij bijvoorbeeld het intrekken van een relatie verzoek
+    updateStatus(uuid, nieuweStatus) {
+        let Van_Beleidsbeslissingen = this.state.Van_Beleidsbeslissingen
+        let Naar_Beleidsbeslissingen = this.state.Naar_Beleidsbeslissingen
+
+        const vanIndex = this.state.Van_Beleidsbeslissingen.findIndex(
+            x => x.UUID === uuid
+        )
+        if (vanIndex !== -1) {
+            Van_Beleidsbeslissingen[vanIndex].Status = nieuweStatus
+            Van_Beleidsbeslissingen[vanIndex].Datum_Akkoord = new Date()
+        }
+
+        const naarIndex = this.state.Naar_Beleidsbeslissingen.findIndex(
+            x => x.UUID === uuid
+        )
+        if (naarIndex !== -1) {
+            Naar_Beleidsbeslissingen[naarIndex].Status = nieuweStatus
+            Naar_Beleidsbeslissingen[naarIndex].Datum_Akkoord = new Date()
+        }
+
+        this.setState({
+            Naar_Beleidsbeslissingen: Naar_Beleidsbeslissingen,
+            Van_Beleidsbeslissingen: Van_Beleidsbeslissingen,
+        })
+    }
+
     render() {
         const ParamUUID = this.props.match.params.UUID
         // const beleidsbeslissing = this.props.beleidsbeslissing
@@ -395,6 +434,8 @@ class MuteerBeleidsrelatieDetail extends Component {
                                 changeTabblad={this.changeTabblad}
                                 currentTabblad={this.state.currentTabblad}
                                 tabbladName="verzoeken"
+                                showLength={true}
+                                arrayLength={verzoekArray.length}
                             />
                             <SwitchToTabbladButton
                                 changeTabblad={this.changeTabblad}
@@ -411,6 +452,7 @@ class MuteerBeleidsrelatieDetail extends Component {
 
                     {this.state.currentTabblad === 'relaties' ? (
                         <TabRelaties
+                            updateStatus={this.updateStatus}
                             relatieVerbreken={this.relatieVerbreken}
                             relatieArray={relatieArray}
                             relatieAfwijzen={this.relatieAfwijzen}
@@ -428,6 +470,7 @@ class MuteerBeleidsrelatieDetail extends Component {
 
                     {this.state.currentTabblad === 'verzoeken' ? (
                         <TabVerzoeken
+                            updateStatus={this.updateStatus}
                             relatieAfwijzen={this.relatieAfwijzen}
                             relatieAccepteren={this.relatieAccepteren}
                             naarLoaded={this.state.naarLoaded}
@@ -440,6 +483,7 @@ class MuteerBeleidsrelatieDetail extends Component {
 
                     {this.state.currentTabblad === 'afgewezen' ? (
                         <TabAfgewezen
+                            updateStatus={this.updateStatus}
                             relatieAfwijzen={this.relatieAfwijzen}
                             relatieAccepteren={this.relatieAccepteren}
                             naarLoaded={this.state.naarLoaded}
@@ -452,6 +496,7 @@ class MuteerBeleidsrelatieDetail extends Component {
 
                     {this.state.currentTabblad === 'verbroken' ? (
                         <TabVerbroken
+                            updateStatus={this.updateStatus}
                             relatieAfwijzen={this.relatieAfwijzen}
                             relatieAccepteren={this.relatieAccepteren}
                             naarLoaded={this.state.naarLoaded}

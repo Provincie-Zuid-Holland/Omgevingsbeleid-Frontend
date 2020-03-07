@@ -280,13 +280,6 @@ class RaadpleegUniversalObjectDetail extends Component {
                             className="mb-8 block"
                             id="raadpleeg-detail-container-meta-info"
                         >
-                            {/* <span className="text-gray-600 text-sm mr-3">
-                                Vigerend sinds{' '}
-                                {format(
-                                    new Date(dataObject.Begin_Geldigheid),
-                                    'D MMM YYYY'
-                                )}
-                            </span> */}
                             {dataLoaded ? (
                                 <span className="text-gray-600 text-sm mr-3">
                                     {dataObject['Begin_Geldigheid'] !== null

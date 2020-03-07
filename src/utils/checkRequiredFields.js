@@ -7,12 +7,17 @@ function checkRequiredFields(crudObject, dimensieConstants, titelEnkelvoud) {
     const status = crudObject.Status
     const crudObjectProperties = Object.keys(crudObject)
 
+    // Er kunnen meerdere properties niet ingevuld zijn, maar er kan maar naar 1 element gescrolled worden. Zodra dat is gebeurd zetten we de 'pageScrolledToElement' naar true en zal de scrollToElement functie niet meer aangeroepen worden
     let pageScrolledToElement = false
+
+    // Boolean om te returnen
     let alleVeldenIngevuld = true
 
+    // De beleidsbeslissingen bevatten niet een boolean property met de required waarde, maar een array met de statussen waarin dat property verplicht is
     if (titelEnkelvoud === 'Beleidsbeslissing') {
         crudObjectProperties.forEach(property => {
             if (
+                dimensieConstants.CRUD_PROPERTIES[property] &&
                 dimensieConstants.CRUD_PROPERTIES[property].required.includes(
                     status
                 )
@@ -22,22 +27,29 @@ function checkRequiredFields(crudObject, dimensieConstants, titelEnkelvoud) {
         })
     } else {
         crudObjectProperties.forEach(property => {
-            if (dimensieConstants.CRUD_PROPERTIES[property].required) {
+            if (
+                dimensieConstants.CRUD_PROPERTIES[property] &&
+                dimensieConstants.CRUD_PROPERTIES[property].required
+            ) {
                 checkIfPropertyHasValue(property)
             }
         })
-        if (
-            alleVeldenIngevuld &&
-            dimensieConstants.CRUD_PROPERTIES.Eind_Geldigheid.required &&
-            dimensieConstants.CRUD_PROPERTIES.Begin_Geldigheid.required
-        ) {
-            const isEindDateBeforeBegin = eindDateIsBeforeBeginDate(
-                titelEnkelvoud,
-                crudObject
-            )
-            if (isEindDateBeforeBegin) {
-                alleVeldenIngevuld = false
-            }
+    }
+
+    // Als beidde velden een waarde hebben wordt er gekeken of de eind datum niet voor de begin datum is. Als dat wel het geval is krijgt de gebruiker in notificatie en krijgt alleVeldenIngevuld de waarde false
+    if (
+        alleVeldenIngevuld &&
+        crudObject.Begin_Geldigheid !== null &&
+        crudObject.Begin_Geldigheid !== '' &&
+        crudObject.Eind_Geldigheid !== null &&
+        crudObject.Eind_Geldigheid !== ''
+    ) {
+        const isEindDateBeforeBegin = eindDateIsBeforeBeginDate(
+            titelEnkelvoud,
+            crudObject
+        )
+        if (isEindDateBeforeBegin) {
+            alleVeldenIngevuld = false
         }
     }
 

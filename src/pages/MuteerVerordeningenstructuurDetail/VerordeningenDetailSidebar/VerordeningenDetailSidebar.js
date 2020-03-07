@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react'
 
-import { faFolder, faFileAlt } from '@fortawesome/free-regular-svg-icons'
+import {
+    faFolder,
+    faFileAlt,
+    faFolderOpen,
+} from '@fortawesome/free-regular-svg-icons'
 import { faBook } from '@fortawesome/pro-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -16,7 +20,6 @@ function ListItem({
     hasChildren,
 }) {
     const [display, setDisplay] = useState(false)
-
     return (
         <li
             key={UUID}
@@ -33,7 +36,15 @@ function ListItem({
                 className={`${
                     item.Type === 'Artikel' ? 'ml-1' : ''
                 } absolute mt-1 left-0 -ml-6 text-gray-700 bg-gray-100`}
-                icon={item.Type === 'Artikel' ? faFileAlt : faFolder}
+                icon={
+                    item.Type === 'Artikel'
+                        ? faFileAlt
+                        : display ||
+                          (item.Type === 'Hoofdstuk' &&
+                              activeHoofdstuk === listIndex)
+                        ? faFolderOpen
+                        : faFolder
+                }
             />
             <span
                 onClick={() => {
@@ -87,7 +98,7 @@ function VerordeningenDetailSidebar({
     lineage,
 }) {
     return (
-        <div className="w-1/4 inline-block flex-grow">
+        <div className="w-1/4 mt-5 inline-block flex-grow">
             {dataLoaded ? (
                 <div className="pl-6 relative">
                     <h1

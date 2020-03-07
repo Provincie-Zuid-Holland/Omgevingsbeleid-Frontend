@@ -27,6 +27,7 @@ import makeCrudProperties from './../../utils/makeCrudProperties'
 import makeCrudObject from './../../utils/makeCrudObject'
 import checkRequiredFields from './../../utils/checkRequiredFields'
 import formatGeldigheidDatesForUI from './../../utils/formatGeldigheidDatesForUI'
+import formatGeldigheidDatesForAPI from './../../utils/formatGeldigheidDatesForAPI'
 
 class MuteerUniversalObjectCRUD extends Component {
     constructor(props) {
@@ -53,6 +54,9 @@ class MuteerUniversalObjectCRUD extends Component {
         )
 
         this.formatGeldigheidDatesForUI = formatGeldigheidDatesForUI.bind(this)
+        this.formatGeldigheidDatesForAPI = formatGeldigheidDatesForAPI.bind(
+            this
+        )
     }
 
     // Algemene change handler
@@ -183,18 +187,8 @@ class MuteerUniversalObjectCRUD extends Component {
         let crudObject = this.state.crudObject
 
         // Converteer de 'YYYY-MM-DD' waarden naar Date objecten
-        if (
-            crudObject.Begin_Geldigheid !== null &&
-            crudObject.Begin_Geldigheid !== ''
-        ) {
-            crudObject.Begin_Geldigheid = new Date(crudObject.Begin_Geldigheid)
-        }
-        if (
-            crudObject.Eind_Geldigheid !== null &&
-            crudObject.Eind_Geldigheid !== ''
-        ) {
-            crudObject.Eind_Geldigheid = new Date(crudObject.Eind_Geldigheid)
-        }
+        // Of Verwijder de begin_ of eind_geldigheid properties als ze geen waarde hebben
+        crudObject = this.formatGeldigheidDatesForAPI(crudObject)
 
         // Check of de verplichte velden zijn ingevuld als het een beleidsbeslissing is
         // !REFACTOR! - velden check voor andere dimensies (Bespreken STUM)

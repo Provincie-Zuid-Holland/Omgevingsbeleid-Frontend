@@ -9,6 +9,7 @@ import LoaderMainTitle from './../../../components/LoaderMainTitle'
 import PopUpAnimatedContainer from './../../../components/PopUpAnimatedContainer'
 
 function TabAfgewezen(props) {
+    console.log(props.afgewezenArray)
     return (
         <ul>
             <li className="flex border-b border-gray-200 text-sm font-semibold text-gray-800 p-2">
@@ -37,7 +38,7 @@ function TabAfgewezen(props) {
                                     {relatie.Datum_Akkoord !== null
                                         ? format(
                                               new Date(relatie.Datum_Akkoord),
-                                              'd MMMM YYYY, HH:mm uur'
+                                              'D MMMM YYYY, HH:mm uur'
                                           )
                                         : null}
                                 </div>

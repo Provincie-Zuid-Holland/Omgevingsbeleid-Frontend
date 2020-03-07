@@ -103,12 +103,14 @@ class MuteerVerordeningenStructuurCRUD extends Component {
         let crudObject = this.state.crudObject
 
         // Converteer de 'YYYY-MM-DD' waarden naar Date objecten
+        // Of verwijder de property als de waarde null || '' is
         if (
             crudObject.Begin_Geldigheid !== null &&
             crudObject.Begin_Geldigheid !== ''
         ) {
             crudObject.Begin_Geldigheid = new Date(crudObject.Begin_Geldigheid)
         }
+
         if (
             crudObject.Eind_Geldigheid !== null &&
             crudObject.Eind_Geldigheid !== ''

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 // Import API
 import axios from './../../API/axios'
@@ -191,7 +192,14 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                     () => console.log(this.state)
                 )
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                this.setState(
+                    {
+                        dataLoaded: true,
+                    },
+                    () => toast('Er is iets mis gegaan')
+                )
+            })
     }
 
     render() {

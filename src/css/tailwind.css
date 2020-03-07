@@ -3360,12 +3360,10 @@ video {
 }
 
 .flex {
-  display: -webkit-box;
   display: flex;
 }
 
 .inline-flex {
-  display: -webkit-inline-box;
   display: inline-flex;
 }
 
@@ -3426,12 +3424,10 @@ video {
 }
 
 .group:hover .group-hover\:flex {
-  display: -webkit-box;
   display: flex;
 }
 
 .group:hover .group-hover\:inline-flex {
-  display: -webkit-inline-box;
   display: inline-flex;
 }
 
@@ -3480,27 +3476,19 @@ video {
 }
 
 .flex-row {
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-          flex-direction: row;
+  flex-direction: row;
 }
 
 .flex-row-reverse {
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: reverse;
-          flex-direction: row-reverse;
+  flex-direction: row-reverse;
 }
 
 .flex-col {
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-          flex-direction: column;
+  flex-direction: column;
 }
 
 .flex-col-reverse {
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: reverse;
-          flex-direction: column-reverse;
+  flex-direction: column-reverse;
 }
 
 .flex-wrap {
@@ -3516,28 +3504,23 @@ video {
 }
 
 .items-start {
-  -webkit-box-align: start;
-          align-items: flex-start;
+  align-items: flex-start;
 }
 
 .items-end {
-  -webkit-box-align: end;
-          align-items: flex-end;
+  align-items: flex-end;
 }
 
 .items-center {
-  -webkit-box-align: center;
-          align-items: center;
+  align-items: center;
 }
 
 .items-baseline {
-  -webkit-box-align: baseline;
-          align-items: baseline;
+  align-items: baseline;
 }
 
 .items-stretch {
-  -webkit-box-align: stretch;
-          align-items: stretch;
+  align-items: stretch;
 }
 
 .self-auto {
@@ -3561,23 +3544,19 @@ video {
 }
 
 .justify-start {
-  -webkit-box-pack: start;
-          justify-content: flex-start;
+  justify-content: flex-start;
 }
 
 .justify-end {
-  -webkit-box-pack: end;
-          justify-content: flex-end;
+  justify-content: flex-end;
 }
 
 .justify-center {
-  -webkit-box-pack: center;
-          justify-content: center;
+  justify-content: center;
 }
 
 .justify-between {
-  -webkit-box-pack: justify;
-          justify-content: space-between;
+  justify-content: space-between;
 }
 
 .justify-around {
@@ -3585,8 +3564,7 @@ video {
 }
 
 .justify-evenly {
-  -webkit-box-pack: space-evenly;
-          justify-content: space-evenly;
+  justify-content: space-evenly;
 }
 
 .content-center {
@@ -3610,33 +3588,27 @@ video {
 }
 
 .flex-1 {
-  -webkit-box-flex: 1;
-          flex: 1 1 0%;
+  flex: 1 1 0%;
 }
 
 .flex-auto {
-  -webkit-box-flex: 1;
-          flex: 1 1 auto;
+  flex: 1 1 auto;
 }
 
 .flex-initial {
-  -webkit-box-flex: 0;
-          flex: 0 1 auto;
+  flex: 0 1 auto;
 }
 
 .flex-none {
-  -webkit-box-flex: 0;
-          flex: none;
+  flex: none;
 }
 
 .flex-grow-0 {
-  -webkit-box-flex: 0;
-          flex-grow: 0;
+  flex-grow: 0;
 }
 
 .flex-grow {
-  -webkit-box-flex: 1;
-          flex-grow: 1;
+  flex-grow: 1;
 }
 
 .flex-shrink-0 {
@@ -3648,78 +3620,63 @@ video {
 }
 
 .order-1 {
-  -webkit-box-ordinal-group: 2;
-          order: 1;
+  order: 1;
 }
 
 .order-2 {
-  -webkit-box-ordinal-group: 3;
-          order: 2;
+  order: 2;
 }
 
 .order-3 {
-  -webkit-box-ordinal-group: 4;
-          order: 3;
+  order: 3;
 }
 
 .order-4 {
-  -webkit-box-ordinal-group: 5;
-          order: 4;
+  order: 4;
 }
 
 .order-5 {
-  -webkit-box-ordinal-group: 6;
-          order: 5;
+  order: 5;
 }
 
 .order-6 {
-  -webkit-box-ordinal-group: 7;
-          order: 6;
+  order: 6;
 }
 
 .order-7 {
-  -webkit-box-ordinal-group: 8;
-          order: 7;
+  order: 7;
 }
 
 .order-8 {
-  -webkit-box-ordinal-group: 9;
-          order: 8;
+  order: 8;
 }
 
 .order-9 {
-  -webkit-box-ordinal-group: 10;
-          order: 9;
+  order: 9;
 }
 
 .order-10 {
-  -webkit-box-ordinal-group: 11;
-          order: 10;
+  order: 10;
 }
 
 .order-11 {
-  -webkit-box-ordinal-group: 12;
-          order: 11;
+  order: 11;
 }
 
 .order-12 {
-  -webkit-box-ordinal-group: 13;
-          order: 12;
+  order: 12;
 }
 
 .order-first {
-  -webkit-box-ordinal-group: -9998;
-          order: -9999;
+  order: -9999;
 }
 
 .order-last {
-  -webkit-box-ordinal-group: 10000;
-          order: 9999;
+  order: 9999;
 }
 
 .order-none {
-  -webkit-box-ordinal-group: 1;
-          order: 0;
+  order: 0;
 }
 
 .float-right {
@@ -10642,58 +10599,47 @@ video {
   --transform-skew-y: 0;
   --transform-scale-x: 1;
   --transform-scale-y: 1;
-  -webkit-transform: translateX(var(--transform-translate-x)) translateY(var(--transform-translate-y)) rotate(var(--transform-rotate)) skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y)) scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y));
-          transform: translateX(var(--transform-translate-x)) translateY(var(--transform-translate-y)) rotate(var(--transform-rotate)) skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y)) scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y));
+  transform: translateX(var(--transform-translate-x)) translateY(var(--transform-translate-y)) rotate(var(--transform-rotate)) skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y)) scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y));
 }
 
 .transform-none {
-  -webkit-transform: none;
-          transform: none;
+  transform: none;
 }
 
 .origin-center {
-  -webkit-transform-origin: center;
-          transform-origin: center;
+  transform-origin: center;
 }
 
 .origin-top {
-  -webkit-transform-origin: top;
-          transform-origin: top;
+  transform-origin: top;
 }
 
 .origin-top-right {
-  -webkit-transform-origin: top right;
-          transform-origin: top right;
+  transform-origin: top right;
 }
 
 .origin-right {
-  -webkit-transform-origin: right;
-          transform-origin: right;
+  transform-origin: right;
 }
 
 .origin-bottom-right {
-  -webkit-transform-origin: bottom right;
-          transform-origin: bottom right;
+  transform-origin: bottom right;
 }
 
 .origin-bottom {
-  -webkit-transform-origin: bottom;
-          transform-origin: bottom;
+  transform-origin: bottom;
 }
 
 .origin-bottom-left {
-  -webkit-transform-origin: bottom left;
-          transform-origin: bottom left;
+  transform-origin: bottom left;
 }
 
 .origin-left {
-  -webkit-transform-origin: left;
-          transform-origin: left;
+  transform-origin: left;
 }
 
 .origin-top-left {
-  -webkit-transform-origin: top left;
-          transform-origin: top left;
+  transform-origin: top left;
 }
 
 .scale-0 {
@@ -12323,102 +12269,79 @@ video {
 }
 
 .transition-none {
-  -webkit-transition-property: none;
   transition-property: none;
 }
 
 .transition-all {
-  -webkit-transition-property: all;
   transition-property: all;
 }
 
 .transition {
-  -webkit-transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, -webkit-transform;
-  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, -webkit-transform;
   transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
-  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, -webkit-transform;
 }
 
 .transition-colors {
-  -webkit-transition-property: background-color, border-color, color, fill, stroke;
   transition-property: background-color, border-color, color, fill, stroke;
 }
 
 .transition-opacity {
-  -webkit-transition-property: opacity;
   transition-property: opacity;
 }
 
 .transition-shadow {
-  -webkit-transition-property: box-shadow;
   transition-property: box-shadow;
 }
 
 .transition-transform {
-  -webkit-transition-property: -webkit-transform;
-  transition-property: -webkit-transform;
   transition-property: transform;
-  transition-property: transform, -webkit-transform;
 }
 
 .ease-linear {
-  -webkit-transition-timing-function: linear;
-          transition-timing-function: linear;
+  transition-timing-function: linear;
 }
 
 .ease-in {
-  -webkit-transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
-          transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
+  transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
 }
 
 .ease-out {
-  -webkit-transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
-          transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
 }
 
 .ease-in-out {
-  -webkit-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-          transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .duration-75 {
-  -webkit-transition-duration: 75ms;
-          transition-duration: 75ms;
+  transition-duration: 75ms;
 }
 
 .duration-100 {
-  -webkit-transition-duration: 100ms;
-          transition-duration: 100ms;
+  transition-duration: 100ms;
 }
 
 .duration-150 {
-  -webkit-transition-duration: 150ms;
-          transition-duration: 150ms;
+  transition-duration: 150ms;
 }
 
 .duration-200 {
-  -webkit-transition-duration: 200ms;
-          transition-duration: 200ms;
+  transition-duration: 200ms;
 }
 
 .duration-300 {
-  -webkit-transition-duration: 300ms;
-          transition-duration: 300ms;
+  transition-duration: 300ms;
 }
 
 .duration-500 {
-  -webkit-transition-duration: 500ms;
-          transition-duration: 500ms;
+  transition-duration: 500ms;
 }
 
 .duration-700 {
-  -webkit-transition-duration: 700ms;
-          transition-duration: 700ms;
+  transition-duration: 700ms;
 }
 
 .duration-1000 {
-  -webkit-transition-duration: 1000ms;
-          transition-duration: 1000ms;
+  transition-duration: 1000ms;
 }
 
 .heading {
@@ -15228,12 +15151,10 @@ video {
   }
 
   .sm\:flex {
-    display: -webkit-box;
     display: flex;
   }
 
   .sm\:inline-flex {
-    display: -webkit-inline-box;
     display: inline-flex;
   }
 
@@ -15294,12 +15215,10 @@ video {
   }
 
   .group:hover .sm\:group-hover\:flex {
-    display: -webkit-box;
     display: flex;
   }
 
   .group:hover .sm\:group-hover\:inline-flex {
-    display: -webkit-inline-box;
     display: inline-flex;
   }
 
@@ -15348,27 +15267,19 @@ video {
   }
 
   .sm\:flex-row {
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-            flex-direction: row;
+    flex-direction: row;
   }
 
   .sm\:flex-row-reverse {
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: reverse;
-            flex-direction: row-reverse;
+    flex-direction: row-reverse;
   }
 
   .sm\:flex-col {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-            flex-direction: column;
+    flex-direction: column;
   }
 
   .sm\:flex-col-reverse {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: reverse;
-            flex-direction: column-reverse;
+    flex-direction: column-reverse;
   }
 
   .sm\:flex-wrap {
@@ -15384,28 +15295,23 @@ video {
   }
 
   .sm\:items-start {
-    -webkit-box-align: start;
-            align-items: flex-start;
+    align-items: flex-start;
   }
 
   .sm\:items-end {
-    -webkit-box-align: end;
-            align-items: flex-end;
+    align-items: flex-end;
   }
 
   .sm\:items-center {
-    -webkit-box-align: center;
-            align-items: center;
+    align-items: center;
   }
 
   .sm\:items-baseline {
-    -webkit-box-align: baseline;
-            align-items: baseline;
+    align-items: baseline;
   }
 
   .sm\:items-stretch {
-    -webkit-box-align: stretch;
-            align-items: stretch;
+    align-items: stretch;
   }
 
   .sm\:self-auto {
@@ -15429,23 +15335,19 @@ video {
   }
 
   .sm\:justify-start {
-    -webkit-box-pack: start;
-            justify-content: flex-start;
+    justify-content: flex-start;
   }
 
   .sm\:justify-end {
-    -webkit-box-pack: end;
-            justify-content: flex-end;
+    justify-content: flex-end;
   }
 
   .sm\:justify-center {
-    -webkit-box-pack: center;
-            justify-content: center;
+    justify-content: center;
   }
 
   .sm\:justify-between {
-    -webkit-box-pack: justify;
-            justify-content: space-between;
+    justify-content: space-between;
   }
 
   .sm\:justify-around {
@@ -15453,8 +15355,7 @@ video {
   }
 
   .sm\:justify-evenly {
-    -webkit-box-pack: space-evenly;
-            justify-content: space-evenly;
+    justify-content: space-evenly;
   }
 
   .sm\:content-center {
@@ -15478,33 +15379,27 @@ video {
   }
 
   .sm\:flex-1 {
-    -webkit-box-flex: 1;
-            flex: 1 1 0%;
+    flex: 1 1 0%;
   }
 
   .sm\:flex-auto {
-    -webkit-box-flex: 1;
-            flex: 1 1 auto;
+    flex: 1 1 auto;
   }
 
   .sm\:flex-initial {
-    -webkit-box-flex: 0;
-            flex: 0 1 auto;
+    flex: 0 1 auto;
   }
 
   .sm\:flex-none {
-    -webkit-box-flex: 0;
-            flex: none;
+    flex: none;
   }
 
   .sm\:flex-grow-0 {
-    -webkit-box-flex: 0;
-            flex-grow: 0;
+    flex-grow: 0;
   }
 
   .sm\:flex-grow {
-    -webkit-box-flex: 1;
-            flex-grow: 1;
+    flex-grow: 1;
   }
 
   .sm\:flex-shrink-0 {
@@ -15516,78 +15411,63 @@ video {
   }
 
   .sm\:order-1 {
-    -webkit-box-ordinal-group: 2;
-            order: 1;
+    order: 1;
   }
 
   .sm\:order-2 {
-    -webkit-box-ordinal-group: 3;
-            order: 2;
+    order: 2;
   }
 
   .sm\:order-3 {
-    -webkit-box-ordinal-group: 4;
-            order: 3;
+    order: 3;
   }
 
   .sm\:order-4 {
-    -webkit-box-ordinal-group: 5;
-            order: 4;
+    order: 4;
   }
 
   .sm\:order-5 {
-    -webkit-box-ordinal-group: 6;
-            order: 5;
+    order: 5;
   }
 
   .sm\:order-6 {
-    -webkit-box-ordinal-group: 7;
-            order: 6;
+    order: 6;
   }
 
   .sm\:order-7 {
-    -webkit-box-ordinal-group: 8;
-            order: 7;
+    order: 7;
   }
 
   .sm\:order-8 {
-    -webkit-box-ordinal-group: 9;
-            order: 8;
+    order: 8;
   }
 
   .sm\:order-9 {
-    -webkit-box-ordinal-group: 10;
-            order: 9;
+    order: 9;
   }
 
   .sm\:order-10 {
-    -webkit-box-ordinal-group: 11;
-            order: 10;
+    order: 10;
   }
 
   .sm\:order-11 {
-    -webkit-box-ordinal-group: 12;
-            order: 11;
+    order: 11;
   }
 
   .sm\:order-12 {
-    -webkit-box-ordinal-group: 13;
-            order: 12;
+    order: 12;
   }
 
   .sm\:order-first {
-    -webkit-box-ordinal-group: -9998;
-            order: -9999;
+    order: -9999;
   }
 
   .sm\:order-last {
-    -webkit-box-ordinal-group: 10000;
-            order: 9999;
+    order: 9999;
   }
 
   .sm\:order-none {
-    -webkit-box-ordinal-group: 1;
-            order: 0;
+    order: 0;
   }
 
   .sm\:float-right {
@@ -22510,58 +22390,47 @@ video {
     --transform-skew-y: 0;
     --transform-scale-x: 1;
     --transform-scale-y: 1;
-    -webkit-transform: translateX(var(--transform-translate-x)) translateY(var(--transform-translate-y)) rotate(var(--transform-rotate)) skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y)) scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y));
-            transform: translateX(var(--transform-translate-x)) translateY(var(--transform-translate-y)) rotate(var(--transform-rotate)) skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y)) scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y));
+    transform: translateX(var(--transform-translate-x)) translateY(var(--transform-translate-y)) rotate(var(--transform-rotate)) skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y)) scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y));
   }
 
   .sm\:transform-none {
-    -webkit-transform: none;
-            transform: none;
+    transform: none;
   }
 
   .sm\:origin-center {
-    -webkit-transform-origin: center;
-            transform-origin: center;
+    transform-origin: center;
   }
 
   .sm\:origin-top {
-    -webkit-transform-origin: top;
-            transform-origin: top;
+    transform-origin: top;
   }
 
   .sm\:origin-top-right {
-    -webkit-transform-origin: top right;
-            transform-origin: top right;
+    transform-origin: top right;
   }
 
   .sm\:origin-right {
-    -webkit-transform-origin: right;
-            transform-origin: right;
+    transform-origin: right;
   }
 
   .sm\:origin-bottom-right {
-    -webkit-transform-origin: bottom right;
-            transform-origin: bottom right;
+    transform-origin: bottom right;
   }
 
   .sm\:origin-bottom {
-    -webkit-transform-origin: bottom;
-            transform-origin: bottom;
+    transform-origin: bottom;
   }
 
   .sm\:origin-bottom-left {
-    -webkit-transform-origin: bottom left;
-            transform-origin: bottom left;
+    transform-origin: bottom left;
   }
 
   .sm\:origin-left {
-    -webkit-transform-origin: left;
-            transform-origin: left;
+    transform-origin: left;
   }
 
   .sm\:origin-top-left {
-    -webkit-transform-origin: top left;
-            transform-origin: top left;
+    transform-origin: top left;
   }
 
   .sm\:scale-0 {
@@ -24191,102 +24060,79 @@ video {
   }
 
   .sm\:transition-none {
-    -webkit-transition-property: none;
     transition-property: none;
   }
 
   .sm\:transition-all {
-    -webkit-transition-property: all;
     transition-property: all;
   }
 
   .sm\:transition {
-    -webkit-transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, -webkit-transform;
-    transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, -webkit-transform;
     transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
-    transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, -webkit-transform;
   }
 
   .sm\:transition-colors {
-    -webkit-transition-property: background-color, border-color, color, fill, stroke;
     transition-property: background-color, border-color, color, fill, stroke;
   }
 
   .sm\:transition-opacity {
-    -webkit-transition-property: opacity;
     transition-property: opacity;
   }
 
   .sm\:transition-shadow {
-    -webkit-transition-property: box-shadow;
     transition-property: box-shadow;
   }
 
   .sm\:transition-transform {
-    -webkit-transition-property: -webkit-transform;
-    transition-property: -webkit-transform;
     transition-property: transform;
-    transition-property: transform, -webkit-transform;
   }
 
   .sm\:ease-linear {
-    -webkit-transition-timing-function: linear;
-            transition-timing-function: linear;
+    transition-timing-function: linear;
   }
 
   .sm\:ease-in {
-    -webkit-transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
-            transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
+    transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
   }
 
   .sm\:ease-out {
-    -webkit-transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
-            transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
   }
 
   .sm\:ease-in-out {
-    -webkit-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .sm\:duration-75 {
-    -webkit-transition-duration: 75ms;
-            transition-duration: 75ms;
+    transition-duration: 75ms;
   }
 
   .sm\:duration-100 {
-    -webkit-transition-duration: 100ms;
-            transition-duration: 100ms;
+    transition-duration: 100ms;
   }
 
   .sm\:duration-150 {
-    -webkit-transition-duration: 150ms;
-            transition-duration: 150ms;
+    transition-duration: 150ms;
   }
 
   .sm\:duration-200 {
-    -webkit-transition-duration: 200ms;
-            transition-duration: 200ms;
+    transition-duration: 200ms;
   }
 
   .sm\:duration-300 {
-    -webkit-transition-duration: 300ms;
-            transition-duration: 300ms;
+    transition-duration: 300ms;
   }
 
   .sm\:duration-500 {
-    -webkit-transition-duration: 500ms;
-            transition-duration: 500ms;
+    transition-duration: 500ms;
   }
 
   .sm\:duration-700 {
-    -webkit-transition-duration: 700ms;
-            transition-duration: 700ms;
+    transition-duration: 700ms;
   }
 
   .sm\:duration-1000 {
-    -webkit-transition-duration: 1000ms;
-            transition-duration: 1000ms;
+    transition-duration: 1000ms;
   }
 }
 
@@ -27036,12 +26882,10 @@ video {
   }
 
   .md\:flex {
-    display: -webkit-box;
     display: flex;
   }
 
   .md\:inline-flex {
-    display: -webkit-inline-box;
     display: inline-flex;
   }
 
@@ -27102,12 +26946,10 @@ video {
   }
 
   .group:hover .md\:group-hover\:flex {
-    display: -webkit-box;
     display: flex;
   }
 
   .group:hover .md\:group-hover\:inline-flex {
-    display: -webkit-inline-box;
     display: inline-flex;
   }
 
@@ -27156,27 +26998,19 @@ video {
   }
 
   .md\:flex-row {
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-            flex-direction: row;
+    flex-direction: row;
   }
 
   .md\:flex-row-reverse {
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: reverse;
-            flex-direction: row-reverse;
+    flex-direction: row-reverse;
   }
 
   .md\:flex-col {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-            flex-direction: column;
+    flex-direction: column;
   }
 
   .md\:flex-col-reverse {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: reverse;
-            flex-direction: column-reverse;
+    flex-direction: column-reverse;
   }
 
   .md\:flex-wrap {
@@ -27192,28 +27026,23 @@ video {
   }
 
   .md\:items-start {
-    -webkit-box-align: start;
-            align-items: flex-start;
+    align-items: flex-start;
   }
 
   .md\:items-end {
-    -webkit-box-align: end;
-            align-items: flex-end;
+    align-items: flex-end;
   }
 
   .md\:items-center {
-    -webkit-box-align: center;
-            align-items: center;
+    align-items: center;
   }
 
   .md\:items-baseline {
-    -webkit-box-align: baseline;
-            align-items: baseline;
+    align-items: baseline;
   }
 
   .md\:items-stretch {
-    -webkit-box-align: stretch;
-            align-items: stretch;
+    align-items: stretch;
   }
 
   .md\:self-auto {
@@ -27237,23 +27066,19 @@ video {
   }
 
   .md\:justify-start {
-    -webkit-box-pack: start;
-            justify-content: flex-start;
+    justify-content: flex-start;
   }
 
   .md\:justify-end {
-    -webkit-box-pack: end;
-            justify-content: flex-end;
+    justify-content: flex-end;
   }
 
   .md\:justify-center {
-    -webkit-box-pack: center;
-            justify-content: center;
+    justify-content: center;
   }
 
   .md\:justify-between {
-    -webkit-box-pack: justify;
-            justify-content: space-between;
+    justify-content: space-between;
   }
 
   .md\:justify-around {
@@ -27261,8 +27086,7 @@ video {
   }
 
   .md\:justify-evenly {
-    -webkit-box-pack: space-evenly;
-            justify-content: space-evenly;
+    justify-content: space-evenly;
   }
 
   .md\:content-center {
@@ -27286,33 +27110,27 @@ video {
   }
 
   .md\:flex-1 {
-    -webkit-box-flex: 1;
-            flex: 1 1 0%;
+    flex: 1 1 0%;
   }
 
   .md\:flex-auto {
-    -webkit-box-flex: 1;
-            flex: 1 1 auto;
+    flex: 1 1 auto;
   }
 
   .md\:flex-initial {
-    -webkit-box-flex: 0;
-            flex: 0 1 auto;
+    flex: 0 1 auto;
   }
 
   .md\:flex-none {
-    -webkit-box-flex: 0;
-            flex: none;
+    flex: none;
   }
 
   .md\:flex-grow-0 {
-    -webkit-box-flex: 0;
-            flex-grow: 0;
+    flex-grow: 0;
   }
 
   .md\:flex-grow {
-    -webkit-box-flex: 1;
-            flex-grow: 1;
+    flex-grow: 1;
   }
 
   .md\:flex-shrink-0 {
@@ -27324,78 +27142,63 @@ video {
   }
 
   .md\:order-1 {
-    -webkit-box-ordinal-group: 2;
-            order: 1;
+    order: 1;
   }
 
   .md\:order-2 {
-    -webkit-box-ordinal-group: 3;
-            order: 2;
+    order: 2;
   }
 
   .md\:order-3 {
-    -webkit-box-ordinal-group: 4;
-            order: 3;
+    order: 3;
   }
 
   .md\:order-4 {
-    -webkit-box-ordinal-group: 5;
-            order: 4;
+    order: 4;
   }
 
   .md\:order-5 {
-    -webkit-box-ordinal-group: 6;
-            order: 5;
+    order: 5;
   }
 
   .md\:order-6 {
-    -webkit-box-ordinal-group: 7;
-            order: 6;
+    order: 6;
   }
 
   .md\:order-7 {
-    -webkit-box-ordinal-group: 8;
-            order: 7;
+    order: 7;
   }
 
   .md\:order-8 {
-    -webkit-box-ordinal-group: 9;
-            order: 8;
+    order: 8;
   }
 
   .md\:order-9 {
-    -webkit-box-ordinal-group: 10;
-            order: 9;
+    order: 9;
   }
 
   .md\:order-10 {
-    -webkit-box-ordinal-group: 11;
-            order: 10;
+    order: 10;
   }
 
   .md\:order-11 {
-    -webkit-box-ordinal-group: 12;
-            order: 11;
+    order: 11;
   }
 
   .md\:order-12 {
-    -webkit-box-ordinal-group: 13;
-            order: 12;
+    order: 12;
   }
 
   .md\:order-first {
-    -webkit-box-ordinal-group: -9998;
-            order: -9999;
+    order: -9999;
   }
 
   .md\:order-last {
-    -webkit-box-ordinal-group: 10000;
-            order: 9999;
+    order: 9999;
   }
 
   .md\:order-none {
-    -webkit-box-ordinal-group: 1;
-            order: 0;
+    order: 0;
   }
 
   .md\:float-right {
@@ -34318,58 +34121,47 @@ video {
     --transform-skew-y: 0;
     --transform-scale-x: 1;
     --transform-scale-y: 1;
-    -webkit-transform: translateX(var(--transform-translate-x)) translateY(var(--transform-translate-y)) rotate(var(--transform-rotate)) skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y)) scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y));
-            transform: translateX(var(--transform-translate-x)) translateY(var(--transform-translate-y)) rotate(var(--transform-rotate)) skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y)) scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y));
+    transform: translateX(var(--transform-translate-x)) translateY(var(--transform-translate-y)) rotate(var(--transform-rotate)) skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y)) scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y));
   }
 
   .md\:transform-none {
-    -webkit-transform: none;
-            transform: none;
+    transform: none;
   }
 
   .md\:origin-center {
-    -webkit-transform-origin: center;
-            transform-origin: center;
+    transform-origin: center;
   }
 
   .md\:origin-top {
-    -webkit-transform-origin: top;
-            transform-origin: top;
+    transform-origin: top;
   }
 
   .md\:origin-top-right {
-    -webkit-transform-origin: top right;
-            transform-origin: top right;
+    transform-origin: top right;
   }
 
   .md\:origin-right {
-    -webkit-transform-origin: right;
-            transform-origin: right;
+    transform-origin: right;
   }
 
   .md\:origin-bottom-right {
-    -webkit-transform-origin: bottom right;
-            transform-origin: bottom right;
+    transform-origin: bottom right;
   }
 
   .md\:origin-bottom {
-    -webkit-transform-origin: bottom;
-            transform-origin: bottom;
+    transform-origin: bottom;
   }
 
   .md\:origin-bottom-left {
-    -webkit-transform-origin: bottom left;
-            transform-origin: bottom left;
+    transform-origin: bottom left;
   }
 
   .md\:origin-left {
-    -webkit-transform-origin: left;
-            transform-origin: left;
+    transform-origin: left;
   }
 
   .md\:origin-top-left {
-    -webkit-transform-origin: top left;
-            transform-origin: top left;
+    transform-origin: top left;
   }
 
   .md\:scale-0 {
@@ -35999,102 +35791,79 @@ video {
   }
 
   .md\:transition-none {
-    -webkit-transition-property: none;
     transition-property: none;
   }
 
   .md\:transition-all {
-    -webkit-transition-property: all;
     transition-property: all;
   }
 
   .md\:transition {
-    -webkit-transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, -webkit-transform;
-    transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, -webkit-transform;
     transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
-    transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, -webkit-transform;
   }
 
   .md\:transition-colors {
-    -webkit-transition-property: background-color, border-color, color, fill, stroke;
     transition-property: background-color, border-color, color, fill, stroke;
   }
 
   .md\:transition-opacity {
-    -webkit-transition-property: opacity;
     transition-property: opacity;
   }
 
   .md\:transition-shadow {
-    -webkit-transition-property: box-shadow;
     transition-property: box-shadow;
   }
 
   .md\:transition-transform {
-    -webkit-transition-property: -webkit-transform;
-    transition-property: -webkit-transform;
     transition-property: transform;
-    transition-property: transform, -webkit-transform;
   }
 
   .md\:ease-linear {
-    -webkit-transition-timing-function: linear;
-            transition-timing-function: linear;
+    transition-timing-function: linear;
   }
 
   .md\:ease-in {
-    -webkit-transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
-            transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
+    transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
   }
 
   .md\:ease-out {
-    -webkit-transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
-            transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
   }
 
   .md\:ease-in-out {
-    -webkit-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .md\:duration-75 {
-    -webkit-transition-duration: 75ms;
-            transition-duration: 75ms;
+    transition-duration: 75ms;
   }
 
   .md\:duration-100 {
-    -webkit-transition-duration: 100ms;
-            transition-duration: 100ms;
+    transition-duration: 100ms;
   }
 
   .md\:duration-150 {
-    -webkit-transition-duration: 150ms;
-            transition-duration: 150ms;
+    transition-duration: 150ms;
   }
 
   .md\:duration-200 {
-    -webkit-transition-duration: 200ms;
-            transition-duration: 200ms;
+    transition-duration: 200ms;
   }
 
   .md\:duration-300 {
-    -webkit-transition-duration: 300ms;
-            transition-duration: 300ms;
+    transition-duration: 300ms;
   }
 
   .md\:duration-500 {
-    -webkit-transition-duration: 500ms;
-            transition-duration: 500ms;
+    transition-duration: 500ms;
   }
 
   .md\:duration-700 {
-    -webkit-transition-duration: 700ms;
-            transition-duration: 700ms;
+    transition-duration: 700ms;
   }
 
   .md\:duration-1000 {
-    -webkit-transition-duration: 1000ms;
-            transition-duration: 1000ms;
+    transition-duration: 1000ms;
   }
 }
 
@@ -38844,12 +38613,10 @@ video {
   }
 
   .lg\:flex {
-    display: -webkit-box;
     display: flex;
   }
 
   .lg\:inline-flex {
-    display: -webkit-inline-box;
     display: inline-flex;
   }
 
@@ -38910,12 +38677,10 @@ video {
   }
 
   .group:hover .lg\:group-hover\:flex {
-    display: -webkit-box;
     display: flex;
   }
 
   .group:hover .lg\:group-hover\:inline-flex {
-    display: -webkit-inline-box;
     display: inline-flex;
   }
 
@@ -38964,27 +38729,19 @@ video {
   }
 
   .lg\:flex-row {
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-            flex-direction: row;
+    flex-direction: row;
   }
 
   .lg\:flex-row-reverse {
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: reverse;
-            flex-direction: row-reverse;
+    flex-direction: row-reverse;
   }
 
   .lg\:flex-col {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-            flex-direction: column;
+    flex-direction: column;
   }
 
   .lg\:flex-col-reverse {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: reverse;
-            flex-direction: column-reverse;
+    flex-direction: column-reverse;
   }
 
   .lg\:flex-wrap {
@@ -39000,28 +38757,23 @@ video {
   }
 
   .lg\:items-start {
-    -webkit-box-align: start;
-            align-items: flex-start;
+    align-items: flex-start;
   }
 
   .lg\:items-end {
-    -webkit-box-align: end;
-            align-items: flex-end;
+    align-items: flex-end;
   }
 
   .lg\:items-center {
-    -webkit-box-align: center;
-            align-items: center;
+    align-items: center;
   }
 
   .lg\:items-baseline {
-    -webkit-box-align: baseline;
-            align-items: baseline;
+    align-items: baseline;
   }
 
   .lg\:items-stretch {
-    -webkit-box-align: stretch;
-            align-items: stretch;
+    align-items: stretch;
   }
 
   .lg\:self-auto {
@@ -39045,23 +38797,19 @@ video {
   }
 
   .lg\:justify-start {
-    -webkit-box-pack: start;
-            justify-content: flex-start;
+    justify-content: flex-start;
   }
 
   .lg\:justify-end {
-    -webkit-box-pack: end;
-            justify-content: flex-end;
+    justify-content: flex-end;
   }
 
   .lg\:justify-center {
-    -webkit-box-pack: center;
-            justify-content: center;
+    justify-content: center;
   }
 
   .lg\:justify-between {
-    -webkit-box-pack: justify;
-            justify-content: space-between;
+    justify-content: space-between;
   }
 
   .lg\:justify-around {
@@ -39069,8 +38817,7 @@ video {
   }
 
   .lg\:justify-evenly {
-    -webkit-box-pack: space-evenly;
-            justify-content: space-evenly;
+    justify-content: space-evenly;
   }
 
   .lg\:content-center {
@@ -39094,33 +38841,27 @@ video {
   }
 
   .lg\:flex-1 {
-    -webkit-box-flex: 1;
-            flex: 1 1 0%;
+    flex: 1 1 0%;
   }
 
   .lg\:flex-auto {
-    -webkit-box-flex: 1;
-            flex: 1 1 auto;
+    flex: 1 1 auto;
   }
 
   .lg\:flex-initial {
-    -webkit-box-flex: 0;
-            flex: 0 1 auto;
+    flex: 0 1 auto;
   }
 
   .lg\:flex-none {
-    -webkit-box-flex: 0;
-            flex: none;
+    flex: none;
   }
 
   .lg\:flex-grow-0 {
-    -webkit-box-flex: 0;
-            flex-grow: 0;
+    flex-grow: 0;
   }
 
   .lg\:flex-grow {
-    -webkit-box-flex: 1;
-            flex-grow: 1;
+    flex-grow: 1;
   }
 
   .lg\:flex-shrink-0 {
@@ -39132,78 +38873,63 @@ video {
   }
 
   .lg\:order-1 {
-    -webkit-box-ordinal-group: 2;
-            order: 1;
+    order: 1;
   }
 
   .lg\:order-2 {
-    -webkit-box-ordinal-group: 3;
-            order: 2;
+    order: 2;
   }
 
   .lg\:order-3 {
-    -webkit-box-ordinal-group: 4;
-            order: 3;
+    order: 3;
   }
 
   .lg\:order-4 {
-    -webkit-box-ordinal-group: 5;
-            order: 4;
+    order: 4;
   }
 
   .lg\:order-5 {
-    -webkit-box-ordinal-group: 6;
-            order: 5;
+    order: 5;
   }
 
   .lg\:order-6 {
-    -webkit-box-ordinal-group: 7;
-            order: 6;
+    order: 6;
   }
 
   .lg\:order-7 {
-    -webkit-box-ordinal-group: 8;
-            order: 7;
+    order: 7;
   }
 
   .lg\:order-8 {
-    -webkit-box-ordinal-group: 9;
-            order: 8;
+    order: 8;
   }
 
   .lg\:order-9 {
-    -webkit-box-ordinal-group: 10;
-            order: 9;
+    order: 9;
   }
 
   .lg\:order-10 {
-    -webkit-box-ordinal-group: 11;
-            order: 10;
+    order: 10;
   }
 
   .lg\:order-11 {
-    -webkit-box-ordinal-group: 12;
-            order: 11;
+    order: 11;
   }
 
   .lg\:order-12 {
-    -webkit-box-ordinal-group: 13;
-            order: 12;
+    order: 12;
   }
 
   .lg\:order-first {
-    -webkit-box-ordinal-group: -9998;
-            order: -9999;
+    order: -9999;
   }
 
   .lg\:order-last {
-    -webkit-box-ordinal-group: 10000;
-            order: 9999;
+    order: 9999;
   }
 
   .lg\:order-none {
-    -webkit-box-ordinal-group: 1;
-            order: 0;
+    order: 0;
   }
 
   .lg\:float-right {
@@ -46126,58 +45852,47 @@ video {
     --transform-skew-y: 0;
     --transform-scale-x: 1;
     --transform-scale-y: 1;
-    -webkit-transform: translateX(var(--transform-translate-x)) translateY(var(--transform-translate-y)) rotate(var(--transform-rotate)) skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y)) scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y));
-            transform: translateX(var(--transform-translate-x)) translateY(var(--transform-translate-y)) rotate(var(--transform-rotate)) skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y)) scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y));
+    transform: translateX(var(--transform-translate-x)) translateY(var(--transform-translate-y)) rotate(var(--transform-rotate)) skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y)) scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y));
   }
 
   .lg\:transform-none {
-    -webkit-transform: none;
-            transform: none;
+    transform: none;
   }
 
   .lg\:origin-center {
-    -webkit-transform-origin: center;
-            transform-origin: center;
+    transform-origin: center;
   }
 
   .lg\:origin-top {
-    -webkit-transform-origin: top;
-            transform-origin: top;
+    transform-origin: top;
   }
 
   .lg\:origin-top-right {
-    -webkit-transform-origin: top right;
-            transform-origin: top right;
+    transform-origin: top right;
   }
 
   .lg\:origin-right {
-    -webkit-transform-origin: right;
-            transform-origin: right;
+    transform-origin: right;
   }
 
   .lg\:origin-bottom-right {
-    -webkit-transform-origin: bottom right;
-            transform-origin: bottom right;
+    transform-origin: bottom right;
   }
 
   .lg\:origin-bottom {
-    -webkit-transform-origin: bottom;
-            transform-origin: bottom;
+    transform-origin: bottom;
   }
 
   .lg\:origin-bottom-left {
-    -webkit-transform-origin: bottom left;
-            transform-origin: bottom left;
+    transform-origin: bottom left;
   }
 
   .lg\:origin-left {
-    -webkit-transform-origin: left;
-            transform-origin: left;
+    transform-origin: left;
   }
 
   .lg\:origin-top-left {
-    -webkit-transform-origin: top left;
-            transform-origin: top left;
+    transform-origin: top left;
   }
 
   .lg\:scale-0 {
@@ -47807,102 +47522,79 @@ video {
   }
 
   .lg\:transition-none {
-    -webkit-transition-property: none;
     transition-property: none;
   }
 
   .lg\:transition-all {
-    -webkit-transition-property: all;
     transition-property: all;
   }
 
   .lg\:transition {
-    -webkit-transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, -webkit-transform;
-    transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, -webkit-transform;
     transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
-    transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, -webkit-transform;
   }
 
   .lg\:transition-colors {
-    -webkit-transition-property: background-color, border-color, color, fill, stroke;
     transition-property: background-color, border-color, color, fill, stroke;
   }
 
   .lg\:transition-opacity {
-    -webkit-transition-property: opacity;
     transition-property: opacity;
   }
 
   .lg\:transition-shadow {
-    -webkit-transition-property: box-shadow;
     transition-property: box-shadow;
   }
 
   .lg\:transition-transform {
-    -webkit-transition-property: -webkit-transform;
-    transition-property: -webkit-transform;
     transition-property: transform;
-    transition-property: transform, -webkit-transform;
   }
 
   .lg\:ease-linear {
-    -webkit-transition-timing-function: linear;
-            transition-timing-function: linear;
+    transition-timing-function: linear;
   }
 
   .lg\:ease-in {
-    -webkit-transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
-            transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
+    transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
   }
 
   .lg\:ease-out {
-    -webkit-transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
-            transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
   }
 
   .lg\:ease-in-out {
-    -webkit-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .lg\:duration-75 {
-    -webkit-transition-duration: 75ms;
-            transition-duration: 75ms;
+    transition-duration: 75ms;
   }
 
   .lg\:duration-100 {
-    -webkit-transition-duration: 100ms;
-            transition-duration: 100ms;
+    transition-duration: 100ms;
   }
 
   .lg\:duration-150 {
-    -webkit-transition-duration: 150ms;
-            transition-duration: 150ms;
+    transition-duration: 150ms;
   }
 
   .lg\:duration-200 {
-    -webkit-transition-duration: 200ms;
-            transition-duration: 200ms;
+    transition-duration: 200ms;
   }
 
   .lg\:duration-300 {
-    -webkit-transition-duration: 300ms;
-            transition-duration: 300ms;
+    transition-duration: 300ms;
   }
 
   .lg\:duration-500 {
-    -webkit-transition-duration: 500ms;
-            transition-duration: 500ms;
+    transition-duration: 500ms;
   }
 
   .lg\:duration-700 {
-    -webkit-transition-duration: 700ms;
-            transition-duration: 700ms;
+    transition-duration: 700ms;
   }
 
   .lg\:duration-1000 {
-    -webkit-transition-duration: 1000ms;
-            transition-duration: 1000ms;
+    transition-duration: 1000ms;
   }
 }
 
@@ -50652,12 +50344,10 @@ video {
   }
 
   .xl\:flex {
-    display: -webkit-box;
     display: flex;
   }
 
   .xl\:inline-flex {
-    display: -webkit-inline-box;
     display: inline-flex;
   }
 
@@ -50718,12 +50408,10 @@ video {
   }
 
   .group:hover .xl\:group-hover\:flex {
-    display: -webkit-box;
     display: flex;
   }
 
   .group:hover .xl\:group-hover\:inline-flex {
-    display: -webkit-inline-box;
     display: inline-flex;
   }
 
@@ -50772,27 +50460,19 @@ video {
   }
 
   .xl\:flex-row {
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-            flex-direction: row;
+    flex-direction: row;
   }
 
   .xl\:flex-row-reverse {
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: reverse;
-            flex-direction: row-reverse;
+    flex-direction: row-reverse;
   }
 
   .xl\:flex-col {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-            flex-direction: column;
+    flex-direction: column;
   }
 
   .xl\:flex-col-reverse {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: reverse;
-            flex-direction: column-reverse;
+    flex-direction: column-reverse;
   }
 
   .xl\:flex-wrap {
@@ -50808,28 +50488,23 @@ video {
   }
 
   .xl\:items-start {
-    -webkit-box-align: start;
-            align-items: flex-start;
+    align-items: flex-start;
   }
 
   .xl\:items-end {
-    -webkit-box-align: end;
-            align-items: flex-end;
+    align-items: flex-end;
   }
 
   .xl\:items-center {
-    -webkit-box-align: center;
-            align-items: center;
+    align-items: center;
   }
 
   .xl\:items-baseline {
-    -webkit-box-align: baseline;
-            align-items: baseline;
+    align-items: baseline;
   }
 
   .xl\:items-stretch {
-    -webkit-box-align: stretch;
-            align-items: stretch;
+    align-items: stretch;
   }
 
   .xl\:self-auto {
@@ -50853,23 +50528,19 @@ video {
   }
 
   .xl\:justify-start {
-    -webkit-box-pack: start;
-            justify-content: flex-start;
+    justify-content: flex-start;
   }
 
   .xl\:justify-end {
-    -webkit-box-pack: end;
-            justify-content: flex-end;
+    justify-content: flex-end;
   }
 
   .xl\:justify-center {
-    -webkit-box-pack: center;
-            justify-content: center;
+    justify-content: center;
   }
 
   .xl\:justify-between {
-    -webkit-box-pack: justify;
-            justify-content: space-between;
+    justify-content: space-between;
   }
 
   .xl\:justify-around {
@@ -50877,8 +50548,7 @@ video {
   }
 
   .xl\:justify-evenly {
-    -webkit-box-pack: space-evenly;
-            justify-content: space-evenly;
+    justify-content: space-evenly;
   }
 
   .xl\:content-center {
@@ -50902,33 +50572,27 @@ video {
   }
 
   .xl\:flex-1 {
-    -webkit-box-flex: 1;
-            flex: 1 1 0%;
+    flex: 1 1 0%;
   }
 
   .xl\:flex-auto {
-    -webkit-box-flex: 1;
-            flex: 1 1 auto;
+    flex: 1 1 auto;
   }
 
   .xl\:flex-initial {
-    -webkit-box-flex: 0;
-            flex: 0 1 auto;
+    flex: 0 1 auto;
   }
 
   .xl\:flex-none {
-    -webkit-box-flex: 0;
-            flex: none;
+    flex: none;
   }
 
   .xl\:flex-grow-0 {
-    -webkit-box-flex: 0;
-            flex-grow: 0;
+    flex-grow: 0;
   }
 
   .xl\:flex-grow {
-    -webkit-box-flex: 1;
-            flex-grow: 1;
+    flex-grow: 1;
   }
 
   .xl\:flex-shrink-0 {
@@ -50940,78 +50604,63 @@ video {
   }
 
   .xl\:order-1 {
-    -webkit-box-ordinal-group: 2;
-            order: 1;
+    order: 1;
   }
 
   .xl\:order-2 {
-    -webkit-box-ordinal-group: 3;
-            order: 2;
+    order: 2;
   }
 
   .xl\:order-3 {
-    -webkit-box-ordinal-group: 4;
-            order: 3;
+    order: 3;
   }
 
   .xl\:order-4 {
-    -webkit-box-ordinal-group: 5;
-            order: 4;
+    order: 4;
   }
 
   .xl\:order-5 {
-    -webkit-box-ordinal-group: 6;
-            order: 5;
+    order: 5;
   }
 
   .xl\:order-6 {
-    -webkit-box-ordinal-group: 7;
-            order: 6;
+    order: 6;
   }
 
   .xl\:order-7 {
-    -webkit-box-ordinal-group: 8;
-            order: 7;
+    order: 7;
   }
 
   .xl\:order-8 {
-    -webkit-box-ordinal-group: 9;
-            order: 8;
+    order: 8;
   }
 
   .xl\:order-9 {
-    -webkit-box-ordinal-group: 10;
-            order: 9;
+    order: 9;
   }
 
   .xl\:order-10 {
-    -webkit-box-ordinal-group: 11;
-            order: 10;
+    order: 10;
   }
 
   .xl\:order-11 {
-    -webkit-box-ordinal-group: 12;
-            order: 11;
+    order: 11;
   }
 
   .xl\:order-12 {
-    -webkit-box-ordinal-group: 13;
-            order: 12;
+    order: 12;
   }
 
   .xl\:order-first {
-    -webkit-box-ordinal-group: -9998;
-            order: -9999;
+    order: -9999;
   }
 
   .xl\:order-last {
-    -webkit-box-ordinal-group: 10000;
-            order: 9999;
+    order: 9999;
   }
 
   .xl\:order-none {
-    -webkit-box-ordinal-group: 1;
-            order: 0;
+    order: 0;
   }
 
   .xl\:float-right {
@@ -57934,58 +57583,47 @@ video {
     --transform-skew-y: 0;
     --transform-scale-x: 1;
     --transform-scale-y: 1;
-    -webkit-transform: translateX(var(--transform-translate-x)) translateY(var(--transform-translate-y)) rotate(var(--transform-rotate)) skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y)) scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y));
-            transform: translateX(var(--transform-translate-x)) translateY(var(--transform-translate-y)) rotate(var(--transform-rotate)) skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y)) scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y));
+    transform: translateX(var(--transform-translate-x)) translateY(var(--transform-translate-y)) rotate(var(--transform-rotate)) skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y)) scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y));
   }
 
   .xl\:transform-none {
-    -webkit-transform: none;
-            transform: none;
+    transform: none;
   }
 
   .xl\:origin-center {
-    -webkit-transform-origin: center;
-            transform-origin: center;
+    transform-origin: center;
   }
 
   .xl\:origin-top {
-    -webkit-transform-origin: top;
-            transform-origin: top;
+    transform-origin: top;
   }
 
   .xl\:origin-top-right {
-    -webkit-transform-origin: top right;
-            transform-origin: top right;
+    transform-origin: top right;
   }
 
   .xl\:origin-right {
-    -webkit-transform-origin: right;
-            transform-origin: right;
+    transform-origin: right;
   }
 
   .xl\:origin-bottom-right {
-    -webkit-transform-origin: bottom right;
-            transform-origin: bottom right;
+    transform-origin: bottom right;
   }
 
   .xl\:origin-bottom {
-    -webkit-transform-origin: bottom;
-            transform-origin: bottom;
+    transform-origin: bottom;
   }
 
   .xl\:origin-bottom-left {
-    -webkit-transform-origin: bottom left;
-            transform-origin: bottom left;
+    transform-origin: bottom left;
   }
 
   .xl\:origin-left {
-    -webkit-transform-origin: left;
-            transform-origin: left;
+    transform-origin: left;
   }
 
   .xl\:origin-top-left {
-    -webkit-transform-origin: top left;
-            transform-origin: top left;
+    transform-origin: top left;
   }
 
   .xl\:scale-0 {
@@ -59615,101 +59253,78 @@ video {
   }
 
   .xl\:transition-none {
-    -webkit-transition-property: none;
     transition-property: none;
   }
 
   .xl\:transition-all {
-    -webkit-transition-property: all;
     transition-property: all;
   }
 
   .xl\:transition {
-    -webkit-transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, -webkit-transform;
-    transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, -webkit-transform;
     transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
-    transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, -webkit-transform;
   }
 
   .xl\:transition-colors {
-    -webkit-transition-property: background-color, border-color, color, fill, stroke;
     transition-property: background-color, border-color, color, fill, stroke;
   }
 
   .xl\:transition-opacity {
-    -webkit-transition-property: opacity;
     transition-property: opacity;
   }
 
   .xl\:transition-shadow {
-    -webkit-transition-property: box-shadow;
     transition-property: box-shadow;
   }
 
   .xl\:transition-transform {
-    -webkit-transition-property: -webkit-transform;
-    transition-property: -webkit-transform;
     transition-property: transform;
-    transition-property: transform, -webkit-transform;
   }
 
   .xl\:ease-linear {
-    -webkit-transition-timing-function: linear;
-            transition-timing-function: linear;
+    transition-timing-function: linear;
   }
 
   .xl\:ease-in {
-    -webkit-transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
-            transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
+    transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
   }
 
   .xl\:ease-out {
-    -webkit-transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
-            transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
   }
 
   .xl\:ease-in-out {
-    -webkit-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .xl\:duration-75 {
-    -webkit-transition-duration: 75ms;
-            transition-duration: 75ms;
+    transition-duration: 75ms;
   }
 
   .xl\:duration-100 {
-    -webkit-transition-duration: 100ms;
-            transition-duration: 100ms;
+    transition-duration: 100ms;
   }
 
   .xl\:duration-150 {
-    -webkit-transition-duration: 150ms;
-            transition-duration: 150ms;
+    transition-duration: 150ms;
   }
 
   .xl\:duration-200 {
-    -webkit-transition-duration: 200ms;
-            transition-duration: 200ms;
+    transition-duration: 200ms;
   }
 
   .xl\:duration-300 {
-    -webkit-transition-duration: 300ms;
-            transition-duration: 300ms;
+    transition-duration: 300ms;
   }
 
   .xl\:duration-500 {
-    -webkit-transition-duration: 500ms;
-            transition-duration: 500ms;
+    transition-duration: 500ms;
   }
 
   .xl\:duration-700 {
-    -webkit-transition-duration: 700ms;
-            transition-duration: 700ms;
+    transition-duration: 700ms;
   }
 
   .xl\:duration-1000 {
-    -webkit-transition-duration: 1000ms;
-            transition-duration: 1000ms;
+    transition-duration: 1000ms;
   }
 }

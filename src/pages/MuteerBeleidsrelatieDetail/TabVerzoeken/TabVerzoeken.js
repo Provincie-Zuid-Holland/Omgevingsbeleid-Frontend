@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { format } from 'date-fns'
+import nlLocale from 'date-fns/locale/nl'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
@@ -32,11 +33,11 @@ function TabVerzoeken(props) {
                                         : null}
                                 </div>
                                 <div className="w-2/12">
-                                    {console.log(verzoek)}
                                     {verzoek.Aanvraag_Datum !== null
                                         ? format(
-                                              new Date(verzoek.Aanvraag_Datum),
-                                              'd MMMM YYYY, HH:mm uur'
+                                              verzoek.Aanvraag_Datum,
+                                              'D MMMM YYYY, HH:mm uur',
+                                              { locale: nlLocale }
                                           )
                                         : null}
                                 </div>

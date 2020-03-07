@@ -45,7 +45,7 @@ export const CRUD_PROPERTIES = {
     },
     Portefeuillehouder_2: {
         initValue: null,
-        required: ['Ontwerp', 'Vastgesteld', 'Gepubliceerd'],
+        required: [],
         requiredMessage: 'Selecteer een tweede portefeuillehouder',
     },
     Opdrachtgever: {
@@ -144,7 +144,7 @@ export const CRUD_PROPERTIES = {
         requiredMessage: '',
     },
     Status: {
-        initValue: 'Ontwerp in concept',
+        initValue: 'Ontwerp GS Concept',
         required: [
             'Ontwerp in concept',
             'Ontwerp',

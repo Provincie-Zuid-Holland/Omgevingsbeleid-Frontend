@@ -1,6 +1,11 @@
 import React, { Component } from 'react'
 
-function DndTitle({ item, hoofdstukVolgnummer }) {
+function DndTitle({ item, hoofdstukVolgnummer, subVolgnummer }) {
+    const volgnummer =
+        subVolgnummer && item.Type !== 'Artikel'
+            ? `${hoofdstukVolgnummer}.${subVolgnummer}.${item.Volgnummer}`
+            : `${hoofdstukVolgnummer}.${item.Volgnummer}`
+
     return (
         <div>
             <span
@@ -12,15 +17,9 @@ function DndTitle({ item, hoofdstukVolgnummer }) {
             } 
             ${item.Type === 'Paragraaf' ? 'text-blood-red' : ''}`}
             >
-                {item.Type === 'Afdeling'
-                    ? `Afdeling ${hoofdstukVolgnummer}.${item.Volgnummer} - `
-                    : ''}
-                {item.Type === 'Paragraaf'
-                    ? `§ ${hoofdstukVolgnummer}.${item.Volgnummer} `
-                    : ''}
-                {item.Type === 'Artikel'
-                    ? `Artikel ${hoofdstukVolgnummer}.${item.Volgnummer} `
-                    : ''}
+                {item.Type === 'Afdeling' ? `Afdeling ${volgnummer} - ` : ''}
+                {item.Type === 'Paragraaf' ? `§ ${volgnummer} ` : ''}
+                {item.Type === 'Artikel' ? `Artikel ${volgnummer} ` : ''}
 
                 {item.Titel}
             </span>

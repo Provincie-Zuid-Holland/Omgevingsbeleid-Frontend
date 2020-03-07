@@ -36,6 +36,7 @@ class MuteerVerordeningenCRUD extends Component {
                 Status: 'Vigerend',
                 Type: this.props.match.params.type,
             },
+            saving: false,
         }
 
         this.formatGeldigheidDatesForUI = formatGeldigheidDatesForUI.bind(this)
@@ -46,6 +47,13 @@ class MuteerVerordeningenCRUD extends Component {
             this
         )
         this.checkForEmptyFields = this.checkForEmptyFields.bind(this)
+        this.setSaveState = this.setSaveState.bind(this)
+    }
+
+    setSaveState(saveState) {
+        this.setState({
+            saving: saveState,
+        })
     }
 
     handleChange(event, metaInfo, dataProp) {
@@ -163,6 +171,8 @@ class MuteerVerordeningenCRUD extends Component {
             crudObject.Eind_Geldigheid = new Date(crudObject.Eind_Geldigheid)
         }
 
+        const that = this
+
         // Check of de verplichte velden zijn ingevuld als het een beleidsbeslissing is
         // !REFACTOR! - velden check voor andere dimensies (Bespreken STUM)
         const alleVeldenIngevuld = checkRequiredFields(
@@ -195,7 +205,8 @@ class MuteerVerordeningenCRUD extends Component {
                     callback(res.data)
                 })
                 .catch(error => {
-                    console.log(error)
+                    toast(`Er is iets misgegaan`)
+                    that.setSaveState(false)
                 })
         }
 
@@ -210,7 +221,8 @@ class MuteerVerordeningenCRUD extends Component {
                     callback(res.data)
                 })
                 .catch(error => {
-                    console.log(error)
+                    toast(`Er is iets misgegaan`)
+                    that.setSaveState(false)
                 })
         }
 
@@ -263,7 +275,6 @@ class MuteerVerordeningenCRUD extends Component {
                 lineage.Structuur.Children[hoofdstukIndex].Children[
                     nest_1
                 ].Children[nest_2].Children.forEach(item => {
-                    console.log('JA!')
                     if (item.UUID === oldVerordeningsUUID) {
                         item.UUID = newVerordeningsUUID
                     }
@@ -272,7 +283,6 @@ class MuteerVerordeningenCRUD extends Component {
                 const nestedArray = lineage.Structuur.Children[
                     hoofdstukIndex
                 ].Children[nest_1].Children.forEach(item => {
-                    console.log('JA!')
                     if (item.UUID === oldVerordeningsUUID) {
                         item.UUID = newVerordeningsUUID
                     }
@@ -280,7 +290,6 @@ class MuteerVerordeningenCRUD extends Component {
             } else if (nest_1 !== 'null') {
                 lineage.Structuur.Children[hoofdstukIndex].Children.forEach(
                     item => {
-                        console.log('JA!')
                         if (item.UUID === oldVerordeningsUUID) {
                             item.UUID = newVerordeningsUUID
                         }
@@ -288,7 +297,6 @@ class MuteerVerordeningenCRUD extends Component {
                 )
             } else {
                 lineage.Structuur.Children.forEach(item => {
-                    console.log('JA!')
                     if (item.UUID === oldVerordeningsUUID) {
                         item.UUID = newVerordeningsUUID
                     }
@@ -332,7 +340,12 @@ class MuteerVerordeningenCRUD extends Component {
                     `/verordeningstructuur/${lineageID}`,
                     verordeningsStructuurPostObject
                 )
-                .then(res => history.push(`/muteer/verordeningen/${lineageID}`))
+                .then(res => {
+                    that.setSaveState(false)
+                    history.push(
+                        `/muteer/verordeningen/${lineageID}?actiefHoofdstuk=${hoofdstukIndex}`
+                    )
+                })
                 .catch(err => console.log(err))
         }
 
@@ -374,8 +387,16 @@ class MuteerVerordeningenCRUD extends Component {
                     `/verordeningstructuur/${lineageID}`,
                     verordeningsStructuurPostObject
                 )
-                .then(res => history.push(`/muteer/verordeningen/${lineageID}`))
-                .catch(err => console.log(err))
+                .then(res => {
+                    history.push(
+                        `/muteer/verordeningen/${lineageID}?actiefHoofdstuk=${hoofdstukIndex}`
+                    )
+                })
+                .catch(err => {
+                    console.log(err)
+                    that.setSaveState(false)
+                    toast(`Er is iets misgegaan`)
+                })
         }
 
         const urlParams = this.props.location.search
@@ -387,6 +408,9 @@ class MuteerVerordeningenCRUD extends Component {
 
         // !REFACTOR! / !SWEN!
         delete crudObject.Weblink
+
+        // Toon spinning loader in Opslaan button
+        this.setSaveState(true)
 
         if (this.state.edit) {
             patchVerordening(crudObject, verordeningsID, response => {
@@ -463,28 +487,6 @@ class MuteerVerordeningenCRUD extends Component {
             .catch(error => toast(`Er is iets misgegaan`))
     }
 
-    componentDidMount() {
-        const ID = this.props.match.params.lineageID
-
-        // Get Lineage
-        this.getAndSetVerordeningstructuur(ID)
-
-        if (this.props.editState) {
-            // Als er een waarde in de single parameter zit bewerkt de gebruiker een bestaand object
-            this.setState(
-                {
-                    edit: true,
-                },
-                () => {
-                    this.getAndSetVerordening()
-                }
-            )
-        } else {
-            // Anders maakt de gebruiker een nieuw object aan
-            this.createAndSetCrudObject()
-        }
-    }
-
     getHeaderTekst(type) {
         if (this.state.edit) {
             switch (type) {
@@ -524,6 +526,28 @@ class MuteerVerordeningenCRUD extends Component {
         }
     }
 
+    componentDidMount() {
+        const ID = this.props.match.params.lineageID
+
+        // Get Lineage
+        this.getAndSetVerordeningstructuur(ID)
+
+        if (this.props.editState) {
+            // Als er een waarde in de single parameter zit bewerkt de gebruiker een bestaand object
+            this.setState(
+                {
+                    edit: true,
+                },
+                () => {
+                    this.getAndSetVerordening()
+                }
+            )
+        } else {
+            // Anders maakt de gebruiker een nieuw object aan
+            this.createAndSetCrudObject()
+        }
+    }
+
     render() {
         const dimensieConstants = this.props.dimensieConstants
         const objectID = this.props.match.params.verordeningsUUID
@@ -543,6 +567,7 @@ class MuteerVerordeningenCRUD extends Component {
             crudObject: this.state.crudObject,
             setEditorState: this.setEditorState,
             Van_Beleidsbeslissing_Titel: this.state.Van_Beleidsbeslissing_Titel,
+            saving: this.state.saving,
         }
 
         const verordeningType = this.props.match.params.type

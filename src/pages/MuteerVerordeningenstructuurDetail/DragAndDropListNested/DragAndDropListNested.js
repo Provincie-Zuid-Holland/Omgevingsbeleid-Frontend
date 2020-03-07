@@ -35,7 +35,11 @@ function DragAndDropListNested({
                                   isDragDisabled={!dragBool}
                               >
                                   {(provided, snapshot) => (
-                                      <div>
+                                      <div
+                                          ref={provided.innerRef}
+                                          {...provided.draggableProps}
+                                          {...provided.dragHandleProps}
+                                      >
                                           {index === 0 && voegSectieToeMode ? (
                                               <AddSection
                                                   hoofdstukIndex={
@@ -48,14 +52,16 @@ function DragAndDropListNested({
                                               />
                                           ) : null}
                                           <Link
-                                              to={`/muteer/verordeningen/${verordeningID}/${
-                                                  item.Type
-                                              }/${
-                                                  item.UUID
-                                              }?hoofdstuk=${hoofdstukIndex}&nest_1=${nest_1}&nest_2=${index}&nest_3=${null}`}
-                                              ref={provided.innerRef}
-                                              {...provided.draggableProps}
-                                              {...provided.dragHandleProps}
+                                              to={
+                                                  !dragBool &&
+                                                  !voegSectieToeMode
+                                                      ? `/muteer/verordeningen/${verordeningID}/${
+                                                            item.Type
+                                                        }/${
+                                                            item.UUID
+                                                        }?hoofdstuk=${hoofdstukIndex}&nest_1=${nest_1}&nest_2=${index}&nest_3=${null}`
+                                                      : null
+                                              }
                                               className={`w-full block bg-white hover:bg-gray-100 hover:border-b hover:border-t hover:border-gray-300
                                               ${
                                                   snapshot.isDragging
@@ -65,7 +71,13 @@ function DragAndDropListNested({
                                                   item.Type === 'Artikel'
                                                       ? 'pl-5'
                                                       : ''
-                                              } p-5`}
+                                              }
+                                            ${
+                                                dragBool || voegSectieToeMode
+                                                    ? 'cursor-default'
+                                                    : ''
+                                            }
+                                               p-5`}
                                           >
                                               <DndTitle
                                                   item={item}
@@ -73,24 +85,23 @@ function DragAndDropListNested({
                                                       hoofdstukVolgnummer
                                                   }
                                               />
-                                              <DragAndDropNestedNested
-                                                  hoofdstukVolgnummer={
-                                                      hoofdstukVolgnummer
-                                                  }
-                                                  voegSectieToeMode={
-                                                      voegSectieToeMode
-                                                  }
-                                                  verordeningID={verordeningID}
-                                                  dragBool={dragBool}
-                                                  subItems={item.Children}
-                                                  UUID={item.UUID}
-                                                  hoofdstukIndex={
-                                                      hoofdstukIndex
-                                                  }
-                                                  nest_1={nest_1}
-                                                  nest_2={index}
-                                              />
                                           </Link>
+                                          <DragAndDropNestedNested
+                                              hoofdstukVolgnummer={
+                                                  hoofdstukVolgnummer
+                                              }
+                                              subVolgnummer={item.Volgnummer}
+                                              voegSectieToeMode={
+                                                  voegSectieToeMode
+                                              }
+                                              verordeningID={verordeningID}
+                                              dragBool={dragBool}
+                                              subItems={item.Children}
+                                              UUID={item.UUID}
+                                              hoofdstukIndex={hoofdstukIndex}
+                                              nest_1={nest_1}
+                                              nest_2={index}
+                                          />
                                           {voegSectieToeMode ? (
                                               <AddSection
                                                   hoofdstukIndex={

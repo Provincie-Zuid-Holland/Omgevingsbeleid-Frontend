@@ -98,13 +98,17 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
         let index = beleidsrelaties.findIndex(
             x => x.UUID === beleidsrelatieUUID
         )
-        beleidsrelaties[index].Status = status
-        this.setState(
-            {
-                beleidsrelaties: beleidsrelaties,
-            },
-            () => this.initializeState()
-        )
+        if (index) {
+            beleidsrelaties[index].Status = status
+            this.setState(
+                {
+                    beleidsrelaties: beleidsrelaties,
+                },
+                () => this.initializeState()
+            )
+        } else {
+            return
+        }
     }
 
     // Kijkt hoeveel bevestigde relaties er in het beleidsrelatie object zitten met de geleverde UUID

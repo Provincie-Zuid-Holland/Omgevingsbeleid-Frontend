@@ -65,7 +65,6 @@ function BeheerRoutes(props) {
         const dimensieConstants = allDimensies[dimensie]
         const overzichtSlug = allDimensies[dimensie].SLUG_OVERZICHT
         const createNewSlug = allDimensies[dimensie].SLUG_CREATE_NEW
-
         return (
             <React.Fragment key={createNewSlug}>
                 <Switch>

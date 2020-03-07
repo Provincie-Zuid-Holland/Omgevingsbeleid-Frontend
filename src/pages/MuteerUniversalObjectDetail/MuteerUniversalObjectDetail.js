@@ -12,8 +12,14 @@ import EigenaarsDriehoek from '../../components/EigenaarsDriehoek'
 import ContainerMain from './../../components/ContainerMain'
 import ContainerDetailMain from '../../components/ContainerDetailMain'
 
+import StatusHistorie from './StatusHistorie'
+
 // Import Axios instance to connect with the API
 import axios from '../../API/axios'
+
+// Import Utils
+import deleteUnkownProperties from './../../utils/deleteUnkownProperties'
+import cloneDeep from 'lodash.clonedeep'
 
 // Generate Back Button for Detail or Version page
 function GenerateBackToButton({ overzichtSlug, pageType, hash, dataObject }) {
@@ -44,55 +50,6 @@ function GenerateBackToButton({ overzichtSlug, pageType, hash, dataObject }) {
     }
 }
 
-// Generate list for revisies
-function RevisieList({ dataObject, overzichtSlug, hash }) {
-    return (
-        <div>
-            <div className="w-24 h-6 border-r-2 flex items-center justify-end border-gray-300 pt-5 mr-2 " />
-            <ul className="revisie-list relative">
-                {dataObject.map((item, index) => {
-                    return (
-                        <li key={item.UUID}>
-                            <div className="flex items-center justify-between">
-                                <Link
-                                    id={`revisie-item-${index}`}
-                                    to={makeURLForRevisieObject(
-                                        overzichtSlug,
-                                        item.ID,
-                                        item.UUID,
-                                        hash
-                                    )}
-                                    className="flex items-end h-6 relative mr-2 hover:underline"
-                                >
-                                    <span className="text-xs text-gray-600 pr-5 w-24 text-right pr-4">
-                                        {format(
-                                            new Date(item.Modified_Date),
-                                            'D MMM YYYY'
-                                        )}
-                                    </span>
-                                    <div className="revisie-list-bolletje relative w-3 h-3 text-center bg-gray-300 rounded-full" />
-                                    <span className="text-xs text-gray-600 pr-5 w-24 pl-4">
-                                        Revisie
-                                    </span>
-                                </Link>
-                            </div>
-                        </li>
-                    )
-                })}
-            </ul>
-        </div>
-    )
-}
-
-// Link naar detail pagina's van de revisies
-function makeURLForRevisieObject(overzichtSlug, objectID, objectUUID, hash) {
-    if (hash === '#mijn-beleid') {
-        return `/muteer/${overzichtSlug}/${objectID}/${objectUUID}#mijn-beleid`
-    } else {
-        return `/muteer/${overzichtSlug}/${objectID}/${objectUUID}`
-    }
-}
-
 class MuteerUniversalObjectDetail extends Component {
     constructor(props) {
         super(props)
@@ -100,12 +57,15 @@ class MuteerUniversalObjectDetail extends Component {
             dataObject: null,
             pageType: this.returnPageType(),
             dataReceived: false,
+            dimensieHistorieSet: false,
         }
 
         this.returnPageType = this.returnPageType.bind(this)
         this.getAndSetDimensieDataFromApi = this.getAndSetDimensieDataFromApi.bind(
             this
         )
+        this.generateStatusHistorie = this.generateStatusHistorie.bind(this)
+        this.patchStatus = this.patchStatus.bind(this)
     }
 
     // Set het property pageType naar 'detail' of 'version'
@@ -133,6 +93,59 @@ class MuteerUniversalObjectDetail extends Component {
         }
     }
 
+    generateStatusHistorie() {
+        let dimensieHistorie = cloneDeep(this.state.dataObject)
+        // Momenteel is de dimensieHistorie met index [0] de laatste en index [-1] de laatste.
+        // Dit willen we omdraaien zodat wanneer we over de array heen mappen we de chronologische volgorde hebben
+        dimensieHistorie = dimensieHistorie.reverse()
+
+        // De dimensies worden bevatten verschillende Status waarden. We willen elke voor elke status wijiziging de laatste versie met die status in een array pushen. Deze array wordt vervolgens gebruikt om de UI mee op te bouwen en het verloop van de wijzigingen binnen het dimensie object te tonen.
+        let dimensieObjectStatusArray = []
+        let vigerendeDimensieObject = null
+
+        // We pushen een dimensieObject naar de dimensieObjectStatusArray door te mappen over de dimensieHistorie, waarbij we kijken of het volgende object in de dimensieHistorie een andere status heeft dan de huidige status. Indien dat zo is pushen we het object in de array.
+        dimensieHistorie.forEach((dimensieObject, index) => {
+            // Als de status anders is dan het volgende object in de dimensieHistorie pushen we deze in de Array
+            if (
+                index + 1 !== dimensieHistorie.length &&
+                dimensieObject.Status !== dimensieHistorie[index + 1].Status
+            ) {
+                // Als het dimensieObject de Status waarde 'Vigerend' of 'Gepubliceerd heeft wijze we dit dimensieObject toe aan de variabele 'vigerendeDimensieObject'.
+                if (
+                    dimensieObject.Status === 'Vigerend' ||
+                    dimensieObject.Status === 'Gepubliceerd'
+                ) {
+                    vigerendeDimensieObject = dimensieObject
+                } else {
+                    dimensieObjectStatusArray.push(dimensieObject)
+                }
+            } else if (index === 0 && index + 1 === dimensieHistorie.length) {
+                if (
+                    dimensieObject.Status === 'Vigerend' ||
+                    dimensieObject.Status === 'Gepubliceerd'
+                ) {
+                    vigerendeDimensieObject = dimensieObject
+                } else {
+                    dimensieObjectStatusArray.push(dimensieObject)
+                }
+            }
+        })
+
+        dimensieHistorie = dimensieHistorie.reverse()
+
+        this.setState(
+            {
+                dimensieHistorie: dimensieObjectStatusArray,
+                dimensieHistorieSet: true,
+                vigerendeDimensieObject: vigerendeDimensieObject,
+            },
+            () => {
+                console.log('Dimensie historie set')
+                console.log(this.state)
+            }
+        )
+    }
+
     getAndSetDimensieDataFromApi() {
         const apiEndpoint = this.getApiEndpoint()
 
@@ -153,7 +166,10 @@ class MuteerUniversalObjectDetail extends Component {
                     })
                 }
 
-                this.setState({ dataObject: dataObject, dataReceived: true })
+                this.setState(
+                    { dataObject: dataObject, dataReceived: true },
+                    () => this.generateStatusHistorie()
+                )
             })
             .catch(error => {
                 if (error.response !== undefined) {
@@ -181,6 +197,26 @@ class MuteerUniversalObjectDetail extends Component {
                     )
                 }
             })
+    }
+
+    patchStatus(crudObject, newStatus) {
+        const dimensieConstants = this.props.dimensieConstants
+        const apiEndpoint = dimensieConstants.API_ENDPOINT
+        const overzichtSlug = dimensieConstants.SLUG_OVERZICHT
+        const objectID = crudObject.ID
+
+        crudObject.Status = newStatus
+        crudObject = deleteUnkownProperties(crudObject)
+
+        axios
+            .patch(`${apiEndpoint}/${objectID}`, JSON.stringify(crudObject))
+            .then(res => {
+                toast(`Status succesvol gewijzigd naar ${crudObject.Status}`)
+                this.getAndSetDimensieDataFromApi()
+            })
+            .catch(error =>
+                toast('Er is iets misgegaan, probeer het laten nog eens.')
+            )
     }
 
     componentDidMount() {
@@ -249,7 +285,9 @@ class MuteerUniversalObjectDetail extends Component {
                                     : 'w-9/12'
                             } pr-8`}
                         >
-                            {pageType === 'detail' ? (
+                            {pageType === 'detail' &&
+                            this.state.dimensieHistorie &&
+                            this.state.dimensieHistorie.length === 0 ? (
                                 <div className="h-10 mt-5 ">
                                     <Link
                                         className="flex items-center mt-5 w-1/2"
@@ -261,7 +299,7 @@ class MuteerUniversalObjectDetail extends Component {
                                         }
                                         id={`href-ontwerp-maken`}
                                     >
-                                        <span className="relative w-24 h-10 border-r-2 flex items-center justify-end border-gray-300 pb-5 mr-2">
+                                        <span className="relative w-6 h-10 border-r-2 flex items-center justify-end border-gray-300 pb-5 mr-2">
                                             <div className="w-8 h-8 pt-1 absolute text-center bg-gray-300 rounded-full -right-4">
                                                 <FontAwesomeIcon
                                                     className="text-gray-600 relative"
@@ -276,21 +314,39 @@ class MuteerUniversalObjectDetail extends Component {
                                 </div>
                             ) : null}
 
-                            <ContainerDetailMain
-                                dataObject={dataObject}
-                                ambitie_id={this.props.match.params.single}
-                                pageType={pageType}
-                                overzichtSlug={overzichtSlug}
-                                titelEnkelvoud={titelEnkelvoud}
-                                dataReceived={dataReceived}
-                            />
+                            {this.state.vigerendeDimensieObject !== null ? (
+                                <ContainerDetailMain
+                                    patchStatus={this.patchStatus}
+                                    dataObject={
+                                        this.state.vigerendeDimensieObject
+                                            ? this.state.vigerendeDimensieObject
+                                            : {}
+                                    }
+                                    pageType={pageType}
+                                    overzichtSlug={overzichtSlug}
+                                    titelEnkelvoud={titelEnkelvoud}
+                                    dataReceived={dataReceived}
+                                />
+                            ) : null}
 
-                            {/* Revisie List */}
-                            {dataReceived && pageType === 'detail' ? (
-                                <RevisieList
+                            {/* Status Historie, hier zit ook een containerDetailMain in met de laatst gewijzigde versie */}
+                            {dataReceived &&
+                            this.state.dimensieHistorieSet &&
+                            pageType === 'detail' ? (
+                                <StatusHistorie
+                                    patchStatus={this.patchStatus}
+                                    pageType={pageType}
+                                    overzichtSlug={overzichtSlug}
+                                    titelEnkelvoud={titelEnkelvoud}
+                                    dataReceived={dataReceived}
                                     dataObject={this.state.dataObject}
                                     overzichtSlug={overzichtSlug}
-                                    hash={this.props.location.hash}
+                                    dimensieHistorie={
+                                        this.state.dimensieHistorie
+                                    }
+                                    vigerendeDimensieObject={
+                                        this.state.vigerendeDimensieObject
+                                    }
                                 />
                             ) : null}
                         </div>

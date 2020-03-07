@@ -17,7 +17,7 @@ class ButtonBackToPage extends Component {
                     <li>
                         <Link
                             to={this.props.url}
-                            className={`${color} text-l mb-2 inline-block`}
+                            className={`${color} text-l mb-4 inline-block`}
                             id="button-back-to-previous-page"
                         >
                             <FontAwesomeIcon

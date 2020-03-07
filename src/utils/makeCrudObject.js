@@ -1,3 +1,5 @@
+import formatGeldigheidDatesForUI from './formatGeldigheidDatesForUI'
+
 // Function to make an object containing the fields that the user can edit
 function makeCrudObject({ crudProperties, dimensieConstants, responseObject }) {
     // Key waarden van de properties die gebruikt worden voor het maken van koppelingen
@@ -29,6 +31,8 @@ function makeCrudObject({ crudProperties, dimensieConstants, responseObject }) {
                 dimensieConstants.CRUD_PROPERTIES[crudProperty].initValue
         })
     }
+
+    crudObject = formatGeldigheidDatesForUI(crudObject)
 
     return crudObject
 }

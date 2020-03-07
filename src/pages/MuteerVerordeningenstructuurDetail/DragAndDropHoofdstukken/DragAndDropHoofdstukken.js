@@ -73,7 +73,6 @@ function DragAndDropHoofdstukken({
                                                     changeActiveHoofdstuk(index)
                                                 }}
                                             >
-                                                {/* {item.Titel} */}
                                                 {`Hoofdstuk ${item.Volgnummer} - ${item.Titel}`}
                                             </div>
                                         </div>
@@ -88,59 +87,6 @@ function DragAndDropHoofdstukken({
             </Droppable>
         </DragDropContext>
     )
-}
-
-{
-    /* <ul className="py-5">
-    {this.state.voegSectieToeMode ? (
-        <AddSection
-            hoofdstukIndex={0}
-            nest_1={null}
-            nest_2={null}
-            nest_3={null}
-            type={'Hoofdstuk'}
-        />
-    ) : null}
-    {this.state.lineage.Structuur.Children.map(
-        (hoofdstuk, index) => (
-            <React.Fragment>
-                <li
-                    onClick={() =>
-                        this.changeActiveHoofdstuk(
-                            hoofdstuk.Volgnummer
-                        )
-                    }
-                    className={`px-5 hover:bg-gray-100 py-2 cursor-pointer ${
-                        index !== 0
-                            ? 'border-t border-gray-100'
-                            : ''
-                    }`}
-                >
-                    <h3 className="font-semibold text-gray-800">
-                        {console.log(
-                            hoofdstuk
-                        )}
-                        {hoofdstuk.Titel}
-                    </h3>
-                </li>
-                {this.state
-                    .voegSectieToeMode ? (
-                    <AddSection
-                        hoofdstukIndex={
-                            index + 1
-                        }
-                        nest_1={null}
-                        nest_2={null}
-                        nest_3={null}
-                        type={
-                            hoofdstuk.Type
-                        }
-                    />
-                ) : null}
-            </React.Fragment>
-        )
-    )}
-</ul> */
 }
 
 export default DragAndDropHoofdstukken

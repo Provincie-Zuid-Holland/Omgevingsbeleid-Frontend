@@ -14,6 +14,7 @@ import { faBook, faPlus, faArrowsAlt } from '@fortawesome/pro-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 // Import Componenents
+import ButtonBackToPage from './../../components/ButtonBackToPage'
 import ContainerMain from './../../components/ContainerMain'
 import LoaderContent from './../../components/LoaderContent'
 import DragAndDropList from './DragAndDropList'
@@ -578,9 +579,12 @@ class MuteerVerordeningenstructuurDetail extends Component {
                 searchParams.search('=') + 1,
                 searchParams.length
             )
-            this.setState({
-                activeHoofdstuk: activeHoofdstukFromURL,
-            })
+            this.setState(
+                {
+                    activeHoofdstuk: activeHoofdstukFromURL,
+                },
+                () => console.log('Active Hoofdstuk:' + activeHoofdstukFromURL)
+            )
         }
 
         const ID = this.props.match.params.lineageID
@@ -615,9 +619,12 @@ class MuteerVerordeningenstructuurDetail extends Component {
 
     render() {
         let hoofdstukVolgnummer = null
+
         if (
             this.state.lineage &&
-            (this.state.activeHoofdstuk || this.state.activeHoofdstuk === '0')
+            (this.state.activeHoofdstuk ||
+                this.state.activeHoofdstuk === '0' ||
+                this.state.activeHoofdstuk === 0)
         ) {
             hoofdstukVolgnummer = this.state.lineage.Structuur.Children[
                 this.state.activeHoofdstuk
@@ -625,121 +632,138 @@ class MuteerVerordeningenstructuurDetail extends Component {
         }
 
         return (
-            <ContainerMain>
-                <Helmet>
-                    <title>Omgevingsbeleid - {`Beheer Verordening`}</title>
-                </Helmet>
-
-                <VerordeningenDetailSidebar
-                    changeActiveHoofdstuk={this.changeActiveHoofdstuk}
-                    activeHoofdstuk={this.state.activeHoofdstuk}
-                    dataLoaded={this.state.dataLoaded}
-                    lineage={this.state.lineage}
+            <React.Fragment>
+                <ButtonBackToPage
+                    terugNaar={` verordeningen`}
+                    url={`/muteer/verordeningen`}
                 />
+                <ContainerMain>
+                    <Helmet>
+                        <title>Omgevingsbeleid - {`Beheer Verordening`}</title>
+                    </Helmet>
 
-                {/* Container */}
-                {this.state.dataLoaded ? (
-                    <div className="w-3/4 inline-block flex-grow pl-8 mb-20">
-                        <div className="bg-white text-gray-800 rounded shadow-lg">
-                            <div className="p-5 border-b border-gray-400 flex justify-between items-center">
-                                <Heading
-                                    activeHoofdstuk={this.state.activeHoofdstuk}
-                                    lineage={this.state.lineage}
-                                />
-                                {this.state.editVolgordeMode ||
-                                this.state.voegSectieToeMode ? (
-                                    <React.Fragment>
-                                        {this.state.editVolgordeMode ? (
-                                            <SectieOpslaan
-                                                cancel={
-                                                    this.cancelEditVolgordeMode
-                                                }
-                                                save={this.saveEditVolgordeMode}
-                                                toggleMode={() =>
-                                                    this.toggleMode(
-                                                        'editVolgordeMode'
-                                                    )
-                                                }
-                                            />
-                                        ) : null}
-                                        {this.state.voegSectieToeMode ? (
-                                            <SectieOpslaan
-                                                cancel={() =>
-                                                    this.toggleMode(
-                                                        'voegSectieToeMode'
-                                                    )
-                                                }
-                                                save={false}
-                                                toggleMode={() =>
-                                                    this.toggleMode(
-                                                        'voegSectieToeMode'
-                                                    )
-                                                }
-                                            />
-                                        ) : null}
-                                    </React.Fragment>
-                                ) : (
-                                    <SectieToggleMode
-                                        lineage={this.state.lineage}
+                    <VerordeningenDetailSidebar
+                        changeActiveHoofdstuk={this.changeActiveHoofdstuk}
+                        activeHoofdstuk={this.state.activeHoofdstuk}
+                        dataLoaded={this.state.dataLoaded}
+                        lineage={this.state.lineage}
+                    />
+
+                    {/* Container */}
+                    {this.state.dataLoaded ? (
+                        <div className="w-3/4 inline-block flex-grow pl-8 mb-20">
+                            <div className="bg-white text-gray-800 rounded shadow-lg">
+                                <div className="p-5 border-b border-gray-400 flex justify-between items-center">
+                                    <Heading
                                         activeHoofdstuk={
                                             this.state.activeHoofdstuk
                                         }
-                                        toggleMode={this.toggleMode}
+                                        lineage={this.state.lineage}
                                     />
-                                )}
-                            </div>
-                            <div>
-                                {this.state.activeHoofdstuk !== null ? (
-                                    <DragAndDropList
-                                        hoofdstukVolgnummer={
-                                            hoofdstukVolgnummer
-                                        }
-                                        verordeningID={
-                                            this.props.match.params.lineageID
-                                        }
-                                        voegSectieToeMode={
-                                            this.state.voegSectieToeMode
-                                        }
-                                        hoofdstukIndex={
-                                            this.state.activeHoofdstuk
-                                        }
-                                        items={
-                                            this.state.lineage.Structuur
-                                                .Children[
+                                    {this.state.editVolgordeMode ||
+                                    this.state.voegSectieToeMode ? (
+                                        <React.Fragment>
+                                            {this.state.editVolgordeMode ? (
+                                                <SectieOpslaan
+                                                    cancel={
+                                                        this
+                                                            .cancelEditVolgordeMode
+                                                    }
+                                                    save={
+                                                        this
+                                                            .saveEditVolgordeMode
+                                                    }
+                                                    toggleMode={() =>
+                                                        this.toggleMode(
+                                                            'editVolgordeMode'
+                                                        )
+                                                    }
+                                                />
+                                            ) : null}
+                                            {this.state.voegSectieToeMode ? (
+                                                <SectieOpslaan
+                                                    cancel={() =>
+                                                        this.toggleMode(
+                                                            'voegSectieToeMode'
+                                                        )
+                                                    }
+                                                    save={false}
+                                                    toggleMode={() =>
+                                                        this.toggleMode(
+                                                            'voegSectieToeMode'
+                                                        )
+                                                    }
+                                                />
+                                            ) : null}
+                                        </React.Fragment>
+                                    ) : (
+                                        <SectieToggleMode
+                                            lineage={this.state.lineage}
+                                            activeHoofdstuk={
                                                 this.state.activeHoofdstuk
-                                            ].Children
-                                        }
-                                        dragBool={this.state.editVolgordeMode}
-                                        reorder={reorder}
-                                        onDragEnd={this.onDragEnd}
-                                    />
-                                ) : (
-                                    <DragAndDropHoofdstukken
-                                        changeActiveHoofdstuk={
-                                            this.changeActiveHoofdstuk
-                                        }
-                                        voegSectieToeMode={
-                                            this.state.voegSectieToeMode
-                                        }
-                                        hoofdstukIndex={
-                                            this.state.activeHoofdstuk
-                                        }
-                                        items={
-                                            this.state.lineage.Structuur
-                                                .Children
-                                        }
-                                        dragBool={this.state.editVolgordeMode}
-                                        reorder={reorder}
-                                        onDragEnd={this.onDragEnd}
-                                    />
-                                )}
+                                            }
+                                            toggleMode={this.toggleMode}
+                                        />
+                                    )}
+                                </div>
+                                <div>
+                                    {this.state.activeHoofdstuk !== null ? (
+                                        <DragAndDropList
+                                            hoofdstukVolgnummer={
+                                                hoofdstukVolgnummer
+                                            }
+                                            verordeningID={
+                                                this.props.match.params
+                                                    .lineageID
+                                            }
+                                            voegSectieToeMode={
+                                                this.state.voegSectieToeMode
+                                            }
+                                            dragBool={
+                                                this.state.editVolgordeMode
+                                            }
+                                            hoofdstukIndex={
+                                                this.state.activeHoofdstuk
+                                            }
+                                            items={
+                                                this.state.lineage.Structuur
+                                                    .Children[
+                                                    this.state.activeHoofdstuk
+                                                ].Children
+                                            }
+                                            reorder={reorder}
+                                            onDragEnd={this.onDragEnd}
+                                        />
+                                    ) : (
+                                        <DragAndDropHoofdstukken
+                                            changeActiveHoofdstuk={
+                                                this.changeActiveHoofdstuk
+                                            }
+                                            voegSectieToeMode={
+                                                this.state.voegSectieToeMode
+                                            }
+                                            hoofdstukIndex={
+                                                this.state.activeHoofdstuk
+                                            }
+                                            items={
+                                                this.state.lineage.Structuur
+                                                    .Children
+                                            }
+                                            dragBool={
+                                                this.state.editVolgordeMode
+                                            }
+                                            reorder={reorder}
+                                            onDragEnd={this.onDragEnd}
+                                        />
+                                    )}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                ) : (
-                    <LoaderContent />
-                )}
-            </ContainerMain>
+                    ) : (
+                        <LoaderContent />
+                    )}
+                </ContainerMain>
+            </React.Fragment>
         )
     }
 }
