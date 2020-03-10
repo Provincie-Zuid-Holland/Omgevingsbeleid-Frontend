@@ -1,0 +1,3 @@
+import MuteerBeleidsbeslissingenDetail from './MuteerBeleidsbeslissingenDetail.js'
+
+export default MuteerBeleidsbeslissingenDetail

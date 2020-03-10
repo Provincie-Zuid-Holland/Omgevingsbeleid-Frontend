@@ -22,6 +22,7 @@ import MuteerBeleidsrelatiesCRUD from './../../pages/MuteerBeleidsrelatiesCRUD'
 import MuteerVerordeningenCRUD from '../../pages/MuteerVerordeningenCRUD'
 import MuteerVerordeningenStructuurCRUD from '../../pages/MuteerVerordeningenStructuurCRUD'
 import MuteerVerordeningenDetail from '../../pages/MuteerVerordeningenDetail'
+import MuteerBeleidsbeslissingenDetail from '../../pages/MuteerBeleidsbeslissingenDetail'
 
 // Import Constants
 import allDimensies from './../../constants/dimensies'
@@ -73,7 +74,7 @@ function BeheerRoutes(props) {
                         path={`/muteer/${overzichtSlug}/${createNewSlug}`}
                         render={() => (
                             <MuteerUniversalObjectCRUD
-                                authUser={authUser}
+                                authUser={props.authUser}
                                 dimensieConstants={dimensieConstants}
                             />
                         )}
@@ -83,7 +84,7 @@ function BeheerRoutes(props) {
                         path={`/muteer/${overzichtSlug}/edit/:single/:version`}
                         render={() => (
                             <MuteerUniversalObjectCRUD
-                                authUser={authUser}
+                                authUser={props.authUser}
                                 dimensieConstants={dimensieConstants}
                             />
                         )}
@@ -93,7 +94,7 @@ function BeheerRoutes(props) {
                         path={`/muteer/${overzichtSlug}/edit/:single`}
                         render={() => (
                             <MuteerUniversalObjectCRUD
-                                authUser={authUser}
+                                authUser={props.authUser}
                                 dimensieConstants={dimensieConstants}
                             />
                         )}
@@ -252,6 +253,77 @@ class AuthRoutes extends Component {
                             <MuteerVerordeningenstructuurOverzicht
                                 dataModel={dataModel.Verordeningen}
                                 history={this.props.history}
+                            />
+                        )}
+                    />
+
+                    {/* Beleidsbeslissingen */}
+                    <Route
+                        exact
+                        path={`/muteer/beleidsbeslissingen/nieuwe-beleidsbeslissing`}
+                        render={() => (
+                            <MuteerUniversalObjectCRUD
+                                authUser={this.props.authUser}
+                                dimensieConstants={
+                                    allDimensies.BELEIDSBESLISSINGEN
+                                }
+                            />
+                        )}
+                    />
+                    <Route
+                        exact
+                        path={`/muteer/beleidsbeslissingen/edit/:single/:version`}
+                        render={() => (
+                            <MuteerUniversalObjectCRUD
+                                authUser={this.props.authUser}
+                                dimensieConstants={
+                                    allDimensies.BELEIDSBESLISSINGEN
+                                }
+                            />
+                        )}
+                    />
+                    <Route
+                        exact
+                        path={`/muteer/beleidsbeslissingen/edit/:single`}
+                        render={() => (
+                            <MuteerUniversalObjectCRUD
+                                authUser={this.props.authUser}
+                                dimensieConstants={
+                                    allDimensies.BELEIDSBESLISSINGEN
+                                }
+                            />
+                        )}
+                    />
+                    <Route
+                        exact
+                        path={`/muteer/beleidsbeslissingen/:single/:version`}
+                        render={() => (
+                            <MuteerBeleidsbeslissingenDetail
+                                dimensieConstants={
+                                    allDimensies.BELEIDSBESLISSINGEN
+                                }
+                            />
+                        )}
+                    />
+                    <Route
+                        exact
+                        path={`/muteer/beleidsbeslissingen/:single`}
+                        render={() => (
+                            <MuteerBeleidsbeslissingenDetail
+                                dimensieConstants={
+                                    allDimensies.BELEIDSBESLISSINGEN
+                                }
+                            />
+                        )}
+                    />
+                    <Route
+                        path={`/muteer/beleidsbeslissingen`}
+                        exact
+                        render={() => (
+                            <MuteerUniversalObjectOverzicht
+                                dimensieConstants={
+                                    allDimensies.BELEIDSBESLISSINGEN
+                                }
                             />
                         )}
                     />

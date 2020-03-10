@@ -21,8 +21,20 @@ function makeCrudObject({ crudProperties, dimensieConstants, responseObject }) {
 
     if (responseObject) {
         // Als er een response object populaten we het crudObject op basis van de crudProperties met de waarden van het responseObject
+        // Het response object is het gekregen object van de API
         crudProperties.forEach(crudProperty => {
-            crudObject[[crudProperty][0]] = responseObject[crudProperty]
+            if (
+                // Als het een beleidsbeslissing met een Vigerende Status wijzigen we automatisch het Status property naar die van 'Ontwerp GS Concept'.
+                crudProperty === 'Status' &&
+                dimensieConstants.TITEL_ENKELVOUD === 'Beleidsbeslissing' &&
+                (responseObject[crudProperty] === 'Gepubliceerd' ||
+                    responseObject[crudProperty] === 'Vigerend')
+            ) {
+                crudObject[crudProperty] = 'Ontwerp GS Concept'
+            } else {
+                // Wijs de waarde aan van het responseObject die we terugkregen van het responseObject
+                crudObject[crudProperty] = responseObject[crudProperty]
+            }
         })
     } else {
         // Als er geen responseObject is initializen we de waarde voor elke crudProperty

@@ -13,7 +13,7 @@ const VOLGENDE_STATUS = {
     Vastgesteld: ['Vigerend'],
     Vigerend: ['Vigerend gearchiveerd'],
     'Vigerend Gearchiveerd': [],
-    Gepubliceerd: ['Ontwerp GS Concept'],
+    Gepubliceerd: [],
 }
 
 export default VOLGENDE_STATUS

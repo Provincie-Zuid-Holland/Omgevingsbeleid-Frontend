@@ -278,11 +278,15 @@ class MuteerUniversalObjectCRUD extends Component {
     createAndSetCrudObject(responseObjectFromAPI) {
         const dimensieConstants = this.props.dimensieConstants
         const crudProperties = makeCrudProperties(dimensieConstants)
+        console.log(crudProperties)
         let crudObject = makeCrudObject({
             crudProperties: crudProperties,
             dimensieConstants: dimensieConstants,
             responseObject: responseObjectFromAPI,
         })
+
+        console.log('crudObject')
+        console.log(crudObject)
 
         this.setState({
             crudObject: crudObject,

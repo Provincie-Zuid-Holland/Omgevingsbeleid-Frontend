@@ -4,17 +4,6 @@ import { toast } from 'react-toastify'
 
 import PopUpAnimatedContainer from './../PopUpAnimatedContainer'
 
-// const statusArray = [
-//     'Ontwerp in concept',
-//     'Ontwerp (Besluitvorming GS)',
-//     'Ontwerp Openbaar (Besluitvorming PS)',
-//     'Ontwerp In Inspraak (huidig)',
-//     'Definitief ontwerp in concept (logische volgende)',
-//     'Definitief ontwerp (Besluitvorming GS)',
-//     'Definitief ontwerp openbaar (Besluitvorming PS)',
-//     'Vastgesteld',
-// ]
-
 import VOLGENDE_STATUS from './../../constants/beleidsbeslissingStatusAanpassen'
 
 function PopUpStatusAanpassen({
@@ -26,14 +15,6 @@ function PopUpStatusAanpassen({
     patchStatus,
 }) {
     const [selectValue, setSelect] = useState('')
-
-    console.log(status)
-    console.log(VOLGENDE_STATUS)
-    console.log(VOLGENDE_STATUS[status])
-
-    console.log('----')
-
-    console.log(patchStatus)
 
     return (
         <PopUpAnimatedContainer small={true}>
@@ -52,13 +33,17 @@ function PopUpStatusAanpassen({
                             {' '}
                             - selecteer een optie -{' '}
                         </option>
-                        {VOLGENDE_STATUS[status].map((arrayItem, index) => {
-                            return (
-                                <option key={index} value={arrayItem}>
-                                    {arrayItem}
-                                </option>
-                            )
-                        })}
+                        {VOLGENDE_STATUS[status]
+                            ? VOLGENDE_STATUS[status].map(
+                                  (arrayItem, index) => {
+                                      return (
+                                          <option key={index} value={arrayItem}>
+                                              {arrayItem}
+                                          </option>
+                                      )
+                                  }
+                              )
+                            : null}
                     </select>
                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                         <svg

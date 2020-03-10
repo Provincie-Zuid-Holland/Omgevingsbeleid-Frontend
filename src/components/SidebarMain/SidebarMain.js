@@ -133,7 +133,11 @@ function SidebarMain(props) {
                 <ul>{returnMenuItems(menuItemsOmgevingsbeleid)}</ul>
                 {/* <MainSideBarHeading>Gebruiker</MainSideBarHeading>
                 <ul>{returnMenuItems(menuItemsGebruiker)}</ul> */}
-                {gebruikersRol === 'Beheerder' ? (
+                {gebruikersRol === 'Beheerd' ||
+                'Functioneel beheerder' ||
+                'Technisch beheerder' ||
+                'Test runner' ||
+                'Tester' ? (
                     <React.Fragment>
                         <MainSideBarHeading>Beheer</MainSideBarHeading>
                         <ul>{returnMenuItems(menuItemsBeheer)}</ul>
