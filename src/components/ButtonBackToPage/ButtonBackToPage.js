@@ -12,23 +12,14 @@ class ButtonBackToPage extends Component {
         }
 
         return (
-            <div className={`${color} text-sm w-full container mx-auto`}>
-                <ul>
-                    <li>
-                        <Link
-                            to={this.props.url}
-                            className={`${color} text-l mb-4 inline-block`}
-                            id="button-back-to-previous-page"
-                        >
-                            <FontAwesomeIcon
-                                className="mr-2"
-                                icon={faAngleLeft}
-                            />
-                            <span>Terug naar {this.props.terugNaar}</span>
-                        </Link>
-                    </li>
-                </ul>
-            </div>
+            <Link
+                to={this.props.url}
+                className={`${color} text-l mb-4 inline-block`}
+                id="button-back-to-previous-page"
+            >
+                <FontAwesomeIcon className="mr-2" icon={faAngleLeft} />
+                <span>Terug naar {this.props.terugNaar}</span>
+            </Link>
         )
     }
 }

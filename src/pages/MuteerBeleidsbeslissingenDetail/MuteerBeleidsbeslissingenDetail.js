@@ -106,21 +106,7 @@ class MuteerBeleidsbeslissingenDetail extends Component {
 
         // Er kunnen meerdere vigerende objecten zijn in die dimensieHistorie
         // Om de oude in de filteredDimensieHistorie te stoppen moeten we weten op welke index het laatste vigerende object zit, zodat we de ge-archiveerde objecten in de filteredDimensieHistorie kunnen pushen.
-        let indexVigerendeDimensieObject = null
-
-        // Het vigerendeDimensieObject is de variabele waarin we het object dat vigerend is, wat het laatste in de de dimensieHistorie zit in plaatsen.
-        let vigerendeDimensieObject = null
-
-        // forEach loop om te kijken of er een vigerend object is en zo ja, welke index deze heeft
-        dimensieHistorie.forEach((dimensieObject, index) => {
-            if (
-                dimensieObject.Status === 'Vigerend' ||
-                dimensieObject.Status === 'Gepubliceerd'
-            ) {
-                indexVigerendeDimensieObject = index
-                vigerendeDimensieObject = dimensieObject
-            }
-        })
+        // let indexVigerendeDimensieObject = null
 
         // De dimensies worden bevatten verschillende Status waarden. We willen elke voor elke status wijiziging de laatste versie met die status in een array pushen. Deze array wordt vervolgens gebruikt om de UI mee op te bouwen en het verloop van de wijzigingen binnen het dimensie object te tonen.
         let filteredDimensieHistorie = []
@@ -134,19 +120,14 @@ class MuteerBeleidsbeslissingenDetail extends Component {
                 dimensieObject.Status !== dimensieHistorie[index + 1].Status
             ) {
                 // Als het dimensieObject de Status waarde 'Vigerend' of 'Gepubliceerd heeft wijze we dit dimensieObject toe aan de variabele 'vigerendeDimensieObject'.
-                if (index !== indexVigerendeDimensieObject) {
-                    filteredDimensieHistorie.push(dimensieObject)
-                }
+                filteredDimensieHistorie.push(dimensieObject)
             } else if (index === 0 && index + 1 === dimensieHistorie.length) {
                 // Als de dimensieHistorie een lengte heeft van 1
-                if (index !== indexVigerendeDimensieObject) {
-                    filteredDimensieHistorie.push(dimensieObject)
-                }
+
+                filteredDimensieHistorie.push(dimensieObject)
             } else if (index + 1 === dimensieHistorie.length) {
                 // Als we het laatste onderdeel hebben in de dimensieHistorie wijzen we deze altijd aan, want dat is altijd het meest up-to-date object
-                if (index !== indexVigerendeDimensieObject) {
-                    filteredDimensieHistorie.push(dimensieObject)
-                }
+                filteredDimensieHistorie.push(dimensieObject)
             }
         })
 
@@ -154,7 +135,7 @@ class MuteerBeleidsbeslissingenDetail extends Component {
             {
                 dimensieHistorie: filteredDimensieHistorie,
                 dimensieHistorieSet: true,
-                vigerendeDimensieObject: vigerendeDimensieObject,
+                // vigerendeDimensieObject: vigerendeDimensieObject,
             },
             () => {
                 console.log(this.state)
@@ -243,27 +224,15 @@ class MuteerBeleidsbeslissingenDetail extends Component {
     }
 
     updateStateMetResponse(responseObject) {
-        if (
-            responseObject.Status === 'Vigerend' ||
-            responseObject.Status === 'Gepubliceerd'
-        ) {
-            this.setState(
-                {
-                    vigerenderesponseObject: responseObject,
-                },
-                () => console.log(this.state)
-            )
-        } else {
-            let dimensieHistorie = this.state.dimensieHistorie
-            dimensieHistorie.push(responseObject)
+        let dimensieHistorie = this.state.dimensieHistorie
+        dimensieHistorie.push(responseObject)
 
-            this.setState(
-                {
-                    dimensieHistorie: dimensieHistorie,
-                },
-                () => console.log(this.state)
-            )
-        }
+        this.setState(
+            {
+                dimensieHistorie: dimensieHistorie,
+            },
+            () => console.log(this.state)
+        )
     }
 
     componentDidMount() {
@@ -306,6 +275,21 @@ class MuteerBeleidsbeslissingenDetail extends Component {
             dataObject = this.state.dataObject
         }
 
+        // Het vigerendeDimensieObject is de variabele waarin we het object dat vigerend is, wat het laatste in de de dimensieHistorie zit in plaatsen.
+        let vigerendeDimensieObject = null
+
+        // forEach loop om te kijken of er een vigerend object is en zo ja, welke index deze heeft
+        if (this.state.dimensieHistorieSet) {
+            this.state.dimensieHistorie.forEach((dimensieObject, index) => {
+                if (
+                    dimensieObject.Status === 'Vigerend' ||
+                    dimensieObject.Status === 'Gepubliceerd'
+                ) {
+                    vigerendeDimensieObject = dimensieObject
+                }
+            })
+        }
+
         return (
             <ContainerMain>
                 <Helmet>
@@ -335,7 +319,7 @@ class MuteerBeleidsbeslissingenDetail extends Component {
                             >
                                 {pageType === 'detail' &&
                                 this.state.dimensieHistorie &&
-                                this.state.dimensieHistorie.length === 0 ? (
+                                this.state.dimensieHistorie.length <= 1 ? (
                                     <div className="h-10 mt-5 ">
                                         <Link
                                             className="flex items-center mt-5 w-1/2"
@@ -362,18 +346,13 @@ class MuteerBeleidsbeslissingenDetail extends Component {
                                     </div>
                                 ) : null}
 
-                                {this.state.vigerendeDimensieObject !== null ? (
+                                {vigerendeDimensieObject !== null ? (
                                     <ContainerDetail
                                         dimensieHistorie={
                                             this.state.dimensieHistorie
                                         }
                                         patchStatus={this.patchStatus}
-                                        dataObject={
-                                            this.state.vigerendeDimensieObject
-                                                ? this.state
-                                                      .vigerendeDimensieObject
-                                                : {}
-                                        }
+                                        dataObject={vigerendeDimensieObject}
                                         pageType={pageType}
                                         overzichtSlug={overzichtSlug}
                                         titelEnkelvoud={titelEnkelvoud}
@@ -397,7 +376,7 @@ class MuteerBeleidsbeslissingenDetail extends Component {
                                             this.state.dimensieHistorie
                                         }
                                         vigerendeDimensieObject={
-                                            this.state.vigerendeDimensieObject
+                                            vigerendeDimensieObject
                                         }
                                     />
                                 ) : null}

@@ -633,15 +633,16 @@ class MuteerVerordeningenstructuurDetail extends Component {
 
         return (
             <React.Fragment>
-                <ButtonBackToPage
-                    terugNaar={` verordeningen`}
-                    url={`/muteer/verordeningen`}
-                />
+                <Helmet>
+                    <title>Omgevingsbeleid - {`Beheer Verordening`}</title>
+                </Helmet>
+                <div className="lg:px-10 container mx-auto flex pb-8">
+                    <ButtonBackToPage
+                        terugNaar={` verordeningen`}
+                        url={`/muteer/verordeningen`}
+                    />
+                </div>
                 <ContainerMain>
-                    <Helmet>
-                        <title>Omgevingsbeleid - {`Beheer Verordening`}</title>
-                    </Helmet>
-
                     <VerordeningenDetailSidebar
                         changeActiveHoofdstuk={this.changeActiveHoofdstuk}
                         activeHoofdstuk={this.state.activeHoofdstuk}

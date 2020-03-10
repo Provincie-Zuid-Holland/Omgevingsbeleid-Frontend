@@ -53,13 +53,29 @@ function StatusHistorie({
     // Reverse de array aangezien we niet de chronologische volgorde willen, willen beginnen bij de laatste versie
     dimensieHistorie = cloneDeep(dimensieHistorie).reverse()
 
+    console.log(dimensieHistorie)
+
+    let vigerendeDimensieObjectIndex = null
+    // forEach loop om te kijken of er een vigerend object is en zo ja, welke index deze heeft
+    dimensieHistorie.forEach((dimensieObject, index) => {
+        if (
+            dimensieObject.Status === 'Vigerend' ||
+            (dimensieObject.Status === 'Gepubliceerd' &&
+                vigerendeDimensieObjectIndex === null)
+        ) {
+            vigerendeDimensieObjectIndex = index
+        }
+    })
+
+    console.log(vigerendeDimensieObjectIndex)
+
     return (
         <div>
             {vigerendeDimensieObject && dimensieHistorie[0] ? (
                 <div className="w-8 h-6 border-r-2 border-indigo-900 flex items-center justify-end pt-5 mr-2 " />
             ) : null}
 
-            {dimensieHistorie[0] ? (
+            {dimensieHistorie[0] && vigerendeDimensieObjectIndex !== 0 ? (
                 <ContainerDetail
                     patchStatus={patchStatus}
                     dataObject={dimensieHistorie[0]}
@@ -72,7 +88,7 @@ function StatusHistorie({
                 />
             ) : null}
             <ul
-                className={`relative ml-8 border-l-2 ${
+                className={`relative ml-8 border-l-2 move-left-2-px ${
                     dimensieHistorie[0] && vigerendeDimensieObject
                         ? 'border-indigo-900'
                         : 'border-transparent'
@@ -82,7 +98,7 @@ function StatusHistorie({
                     {
                         /* Als de index 0 is willen we niks weergeven omdat we dat object in de containerDetail weergeven */
                     }
-                    if (index === 0) {
+                    if (index === 0 || vigerendeDimensieObjectIndex === index) {
                         return null
                     }
 
@@ -90,6 +106,9 @@ function StatusHistorie({
                         dimensieObject.Status === 'Vigerend' ||
                         dimensieObject.Status === 'Gepubliceerd'
                     ) {
+                        {
+                            /* Als het object in de dimensieHistorie de status Vigerend of Gepubliceerd heeft plaatsen we een bolletje met het Status label erbij */
+                        }
                         return (
                             <li className="pl-8 pt-6" key={dimensieObject.UUID}>
                                 <div className="ml-8 px-2 py-1 border inline-block text-xs text-gray-700 rounded border-gray-700">
@@ -98,8 +117,14 @@ function StatusHistorie({
                             </li>
                         )
                     } else if (dimensieObject.Status === 'Ontwerp GS Concept') {
+                        {
+                            /* 'Ontwerp GS Concept' is de eerste status, dus hierbij willen we een vertakkingsItem component plaatsen*/
+                        }
+                        {
+                            /* !REFACTOR! Hier moet in de toekomst een check bij om te kijken of 'Ontwerp GS Concept' na een 'vigerende' beleidsbeslissing komt. Er kan namelijk vanaf status 'Definitief ontwerp PS' ook nog naar 'Ontwerp GS Concept' gegaan worden. */
+                        }
                         return (
-                            <React.Fragment>
+                            <React.Fragment key={dimensieObject.UUID}>
                                 <li
                                     className={`relative flex items-center ml-8 relative ${
                                         index === 1 ? 'pt-6 pb-2' : 'py-2'
@@ -137,31 +162,9 @@ function StatusHistorie({
                             </li>
                         )
                     }
-
-                    {
-                        /* return (
-                            <li key={dimensieObject.UUID}>
-                                <div className="flex justify-between">
-                                    <Link
-                                        id={`revisie-item-${index}`}
-                                        to={'#'}
-                                        className="flex items-end h-6 relative mr-2 hover:underline"
-                                    >
-                                        <span className="text-xs text-gray-600 pr-5 border border-gray-600 rounded">
-                                            {dimensieObject.Status}
-                                        </span>
-                                        <div className=g"revisie-list-bolletje relative w-3 h-3 text-center bg-gray-300 rounded-full" />
-                                        <span className="text-xs text-gray-600 pr-5 w-8 pl-4">
-                                            Revisie
-                                        </span>
-                                    </Link>
-                                </div>
-                            </li>
-                        ) */
-                    }
                 })}
 
-                {dimensieHistorie[0] ? (
+                {dimensieHistorie[0] && vigerendeDimensieObjectIndex !== 0 ? (
                     vigerendeDimensieObject ? (
                         <React.Fragment>
                             <VertakkingsItem />
