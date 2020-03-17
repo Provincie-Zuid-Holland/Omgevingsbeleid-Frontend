@@ -11,30 +11,18 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { toast } from 'react-toastify'
-import { PDFDownloadLink } from '@react-pdf/renderer'
+import clonedeep from 'lodash.clonedeep'
 
 // Import Axios instance to connect with the API
 import axios from '../../API/axios'
 
 // Import Components
-import PDFDocument from './PDFDocument'
-import RelatieComponent from './RelatieComponent'
 import LeafletTinyViewer from './../../components/LeafletTinyViewer'
 import ButtonBackToPage from './../../components/ButtonBackToPage'
 import PopUpRevisieContainer from './../../components/PopUpRevisieContainer'
 import LoaderContent from './../../components/LoaderContent'
 import LoaderSmallSpan from './../../components/LoaderSmallSpan'
 import PopUpAnimatedContainer from './../../components/PopUpAnimatedContainer'
-
-// Import view containers
-import ContainerViewFieldsBeleidsbeslissing from './ContainerFields/ContainerViewFieldsBeleidsbeslissing'
-import ContainerViewFieldsBeleidsregel from './ContainerFields/ContainerViewFieldsBeleidsregel'
-import ContainerViewFieldsMaatregel from './ContainerFields/ContainerViewFieldsMaatregel'
-import ContainerViewFieldsOpgave from './ContainerFields/ContainerViewFieldsOpgave'
-import ContainerViewFieldsAmbitie from './ContainerFields/ContainerViewFieldsAmbitie'
-import ContainerViewFieldsBelang from './ContainerFields/ContainerViewFieldsBelang'
-import ContainerViewFieldsThema from './ContainerFields/ContainerViewFieldsThema'
-import ContainerViewFieldsVerordeningsobject from './ContainerFields/ContainerViewFieldsVerordeningsobject'
 
 function RevisieListItem(props) {
     return (
@@ -51,7 +39,7 @@ function RevisieListItem(props) {
     )
 }
 
-class RaadpleegUniversalObjectDetail extends Component {
+class RaadpleegVerordeningsArtikelDetail extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -59,19 +47,100 @@ class RaadpleegUniversalObjectDetail extends Component {
             revisieObjecten: null,
             dataLoaded: false,
             fullscreenLeafletViewer: false,
-            downloadPDF: false,
         }
         this.toggleFullscreenLeafletViewer = this.toggleFullscreenLeafletViewer.bind(
             this
         )
-        this.toggleDownloadPDF = this.toggleDownloadPDF.bind(this)
         this.initializeComponent = this.initializeComponent.bind(this)
+
+        // Wordt gebruikt om de items in de verkregen verordeningsstructuur te populaten
+        this.populateFieldsAndSetState = this.populateFieldsAndSetState.bind(
+            this
+        )
     }
 
-    toggleDownloadPDF() {
-        this.setState({
-            downloadPDF: !this.state.downloadPDF,
+    populateFieldsAndSetState(lineage) {
+        lineage.Status = 'TEST'
+
+        let amountOfRequests = 0
+        let amountOfRequestsSolved = 0
+
+        const that = this
+
+        function getDataAndPopulateObject(child) {
+            amountOfRequests++
+
+            axios
+                .get(`/verordeningen/version/${child.UUID}`)
+                .then(res => {
+                    const object = res.data
+                    child.ID = object.ID
+                    child.Begin_Geldigheid = object.Begin_Geldigheid
+                    child.Eind_Geldigheid = object.Eind_Geldigheid
+                    child.Created_By = object.Created_By
+                    child.Created_Date = object.Created_Date
+                    child.Modified_By = object.Modified_By
+                    child.Modified_Date = object.Modified_Date
+                    child.Titel = object.Titel
+                    child.Inhoud = object.Inhoud
+                    child.Status = object.Status
+                    child.Type = object.Type
+                    child.Volgnummer = object.Volgnummer
+                    child.Werkingsgebied = object.Werkingsgebied
+                    child.Eigenaar_1 = object.Eigenaar_1
+                    child.Eigenaar_2 = object.Eigenaar_2
+                    child.Portefeuillehouder_1 = object.Portefeuillehouder_1
+                    child.Portefeuillehouder_2 = object.Portefeuillehouder_2
+                    child.Opdrachtgever = object.Opdrachtgever
+
+                    amountOfRequestsSolved++
+
+                    if (amountOfRequests === amountOfRequestsSolved) {
+                        that.setState({
+                            dataLoaded: true,
+                            lineage: clonedeep(lineage),
+                            lineageCopy: clonedeep(lineage),
+                        })
+                    }
+                })
+                .catch(err => console.log(err))
+        }
+
+        function recursiveGetDataForChildren(child) {
+            getDataAndPopulateObject(child)
+
+            const hasChildren = child.Children.length > 0
+            if (!hasChildren) return
+            child.Children.map(childOfChild => {
+                getDataAndPopulateObject(childOfChild)
+
+                const hasChildren = childOfChild.Children.length > 0
+                if (!hasChildren) return
+                childOfChild.Children.map((recChild, index) => {
+                    getDataAndPopulateObject(recChild)
+
+                    const hasChildren = recChild.Children.length > 0
+                    if (!hasChildren) return
+                    recursiveGetDataForChildren(recChild)
+                })
+            })
+        }
+
+        lineage.Structuur.Children.map((child, index) => {
+            const hasChildren = child.Children.length > 0
+            if (hasChildren) {
+                recursiveGetDataForChildren(child)
+            } else {
+                getDataAndPopulateObject(child)
+            }
         })
+
+        if (lineage.Structuur.Children.length === 0) {
+            this.setState({
+                dataLoaded: true,
+                lineage: lineage,
+            })
+        }
     }
 
     toggleFullscreenLeafletViewer() {
@@ -81,7 +150,7 @@ class RaadpleegUniversalObjectDetail extends Component {
     }
 
     initializeComponent() {
-        const ApiEndpointBase = this.props.dataModel.variables.Api_Endpoint
+        const ApiEndpointBase = this.props.dataModel.API_ENDPOINT
         let apiEndpoint = `${ApiEndpointBase}/${detail_id}`
         let detail_id = this.props.match.params.id
 
@@ -98,35 +167,27 @@ class RaadpleegUniversalObjectDetail extends Component {
                 })
             })
             .catch(error => {
-                if (error.response !== undefined) {
-                    if (error.response.status === 401) {
-                        localStorage.removeItem('access_token')
-                        this.props.history.push('/login')
-                    } else if (error.response.status === 404) {
-                        this.props.history.push(`/`)
-                        toast(
-                            `Deze ${this.props.dataModel.variables.Titel_Enkelvoud.toLowerCase()} kon niet gevonden worden`
-                        )
-                    } else if (error.response.status === 422) {
-                        this.props.history.push(`/login`)
-                        toast(
-                            `U moet voor nu nog inloggen om deze pagina te kunnen bekijken`
-                        )
-                    }
-                    this.setState({
-                        dataLoaded: true,
-                    })
-                } else {
-                    this.setState({
-                        dataLoaded: true,
-                    })
-                    toast(`Er is iets misgegaan`)
-                }
+                this.setState({
+                    dataLoaded: false,
+                })
+                toast(`Er is iets misgegaan`)
             })
     }
 
     componentDidMount() {
-        this.initializeComponent()
+        const ID = this.props.match.params.lineageID
+
+        // Get Lineage
+        axios
+            .get(`/verordeningstructuur/${ID}`)
+            .then(res => {
+                // Get latest lineage
+                const lineage = res.data[res.data.length - 1]
+                this.populateFieldsAndSetState(lineage)
+            })
+            .catch(err => {
+                console.log(err)
+            })
     }
 
     componentDidUpdate(prevProps) {
@@ -164,7 +225,7 @@ class RaadpleegUniversalObjectDetail extends Component {
             werkingsGebiedUUID = dataObject.WerkingsGebieden[0].UUID
         }
 
-        const titelEnkelvoud = this.props.dataModel.variables.Titel_Enkelvoud
+        const titelEnkelvoud = this.props.dataModel.TITEL_ENKELVOUD
 
         let hashBool = false
         let searchQuery = null
@@ -215,16 +276,13 @@ class RaadpleegUniversalObjectDetail extends Component {
                             )}
                             <h2 className="text-gray-800 mt-6 text-l font-serif block">
                                 Gerelateerde{' '}
-                                {this.props.dataModel.variables.Titel_Meervoud}
+                                {this.props.dataModel.TITEL_MEERVOUD}
                             </h2>
                             <ul className="mt-4 pr-8">
                                 <li className="mt-2 text-gray-700">
                                     <span className="text-sm block">
                                         Hier komen gerelateerde{' '}
-                                        {
-                                            this.props.dataModel.variables
-                                                .Titel_Meervoud
-                                        }
+                                        {this.props.dataModel.TITEL_MEERVOUD}
                                     </span>
                                 </li>
                             </ul>
@@ -251,7 +309,7 @@ class RaadpleegUniversalObjectDetail extends Component {
                     >
                         {/* Artikel Headers */}
                         <span className="text-l font-serif block text-gray-800">
-                            {this.props.dataModel.variables.Titel_Enkelvoud}
+                            {this.props.dataModel.TITEL_ENKELVOUD}
                         </span>
                         <h1
                             id="raadpleeg-detail-header-one"
@@ -350,82 +408,6 @@ class RaadpleegUniversalObjectDetail extends Component {
                                 &bull;
                             </span>
                             <span
-                                onClick={this.toggleDownloadPDF}
-                                className="text-gray-600 text-sm mr-3 cursor-pointer"
-                            >
-                                <FontAwesomeIcon
-                                    className="mr-2"
-                                    icon={faFileDownload}
-                                />
-                                Download als PDF
-                            </span>
-                            {this.state.downloadPDF ? (
-                                <PopUpAnimatedContainer small={true}>
-                                    <React.Fragment>
-                                        <span
-                                            className="text-gray-800 p-4 absolute right-0 top-0 cursor-pointer"
-                                            onClick={this.toggleDownloadPDF}
-                                        >
-                                            <FontAwesomeIcon
-                                                className="mr-2"
-                                                icon={faTimes}
-                                            />
-                                        </span>
-                                        <PDFDownloadLink
-                                            document={
-                                                <PDFDocument
-                                                    dataObject={dataObject}
-                                                    titelEnkelvoud={
-                                                        titelEnkelvoud
-                                                    }
-                                                    titel={dataObject.Titel}
-                                                />
-                                            }
-                                            className="text-gray-600 text-sm mr-3"
-                                            fileName="test.pdf"
-                                        >
-                                            {({ blob, url, loading, error }) =>
-                                                loading ? (
-                                                    <React.Fragment>
-                                                        <FontAwesomeIcon
-                                                            className="mr-2"
-                                                            icon={
-                                                                faFileDownload
-                                                            }
-                                                        />
-                                                        PDF Genereren...
-                                                    </React.Fragment>
-                                                ) : (
-                                                    <div className="p-4 text-center">
-                                                        <div>
-                                                            Hier kunt u
-                                                            binnenkort het PDF
-                                                            bestand downloaden .{' '}
-                                                            {/* De PDF is
-                                                            gegenereerd. Klik
-                                                            hier om deze te
-                                                            downloaden. */}
-                                                        </div>
-                                                        {/* <span className="text-white inline-block bg-green-600 px-4 py-2 rounded mt-4">
-                                                            <FontAwesomeIcon
-                                                                className="mr-2"
-                                                                icon={
-                                                                    faFileDownload
-                                                                }
-                                                            />
-                                                            Download
-                                                        </span> */}
-                                                    </div>
-                                                )
-                                            }
-                                        </PDFDownloadLink>
-                                    </React.Fragment>
-                                </PopUpAnimatedContainer>
-                            ) : null}
-                            <span className="text-gray-600 text-sm mr-3">
-                                &bull;
-                            </span>
-                            <span
                                 className="text-gray-600 text-sm mr-3 cursor-pointer"
                                 onClick={() => window.print()}
                             >
@@ -436,52 +418,6 @@ class RaadpleegUniversalObjectDetail extends Component {
                                 Afdrukken
                             </span>
                         </div>
-                        {/* Inhoud Sectie */}
-                        {titelEnkelvoud === 'Beleidsregel' ? (
-                            <ContainerViewFieldsBeleidsregel
-                                crudObject={dataObject}
-                            />
-                        ) : null}
-                        {titelEnkelvoud === 'Beleidsbeslissing' ? (
-                            <ContainerViewFieldsBeleidsbeslissing
-                                crudObject={dataObject}
-                            />
-                        ) : null}
-                        {titelEnkelvoud === 'Beleidsregel' ? (
-                            <ContainerViewFieldsBeleidsregel
-                                crudObject={dataObject}
-                            />
-                        ) : null}
-                        {titelEnkelvoud === 'Maatregel' ? (
-                            <ContainerViewFieldsMaatregel
-                                crudObject={dataObject}
-                            />
-                        ) : null}
-                        {titelEnkelvoud === 'Opgave' ? (
-                            <ContainerViewFieldsOpgave
-                                crudObject={dataObject}
-                            />
-                        ) : null}
-                        {/*  */}
-                        {titelEnkelvoud === 'Ambitie' ? (
-                            <ContainerViewFieldsAmbitie
-                                crudObject={dataObject}
-                            />
-                        ) : null}
-                        {titelEnkelvoud === 'Belang' ? (
-                            <ContainerViewFieldsBelang
-                                crudObject={dataObject}
-                            />
-                        ) : null}
-                        {titelEnkelvoud === 'Thema' ? (
-                            <ContainerViewFieldsThema crudObject={dataObject} />
-                        ) : null}
-                        {titelEnkelvoud === 'Beleidsbeslissing' ? (
-                            <RelatieComponent
-                                crudObject={dataObject}
-                                urlParam={this.props.match.params.id}
-                            />
-                        ) : null}
                     </div>
                 ) : (
                     <LoaderContent />
@@ -525,4 +461,4 @@ class RaadpleegUniversalObjectDetail extends Component {
     }
 }
 
-export default RaadpleegUniversalObjectDetail
+export default RaadpleegVerordeningsArtikelDetail

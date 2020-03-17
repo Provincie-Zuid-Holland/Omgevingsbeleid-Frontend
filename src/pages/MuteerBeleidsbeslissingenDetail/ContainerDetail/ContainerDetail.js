@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 import { format } from 'date-fns'
 import isBefore from 'date-fns/is_before'
 import nlLocale from 'date-fns/locale/nl'
@@ -49,8 +49,6 @@ class ContainerDetail extends Component {
         const dataReceived = this.props.dataReceived
         const dimensieHistorie = this.props.dimensieHistorie
 
-        console.log(dimensieHistorie)
-
         return (
             <div
                 className={`relative flex w-full px-5 py-5 shadow-md rounded bg-white 
@@ -83,7 +81,7 @@ class ContainerDetail extends Component {
                     )
                 ) : null}
 
-                <div className="ml-16 pl-4">
+                <div className="ml-16 pl-4 w-full">
                     {this.props.children}
 
                     {titelEnkelvoud === 'Beleidsbeslissing' ? (
@@ -128,6 +126,18 @@ class ContainerDetail extends Component {
                     ) : (
                         <LoaderMainTitle />
                     )}
+
+                    {dataObject.Status !== 'Vigerend' &&
+                    dataObject.Status !== 'Gepubliceerd' &&
+                    dataObject.Status !== 'Ontwerp in inspraak' &&
+                    dataObject.Status !== 'Vastgesteld' ? (
+                        <Link
+                            to={`/muteer/beleidsbeslissingen/edit/${this.props.match.params.single}`}
+                            className="underline text-blue-700 mt-2 inline-block"
+                        >
+                            Bewerk Beleidsbeslissing
+                        </Link>
+                    ) : null}
 
                     {dataObject.Status === 'Vigerend' ||
                     dataObject.Status === 'Gepubliceerd' ? (

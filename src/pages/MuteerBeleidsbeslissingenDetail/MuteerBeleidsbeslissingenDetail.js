@@ -277,6 +277,7 @@ class MuteerBeleidsbeslissingenDetail extends Component {
 
         // Het vigerendeDimensieObject is de variabele waarin we het object dat vigerend is, wat het laatste in de de dimensieHistorie zit in plaatsen.
         let vigerendeDimensieObject = null
+        let isEenOntwerpInProgress = false
 
         // forEach loop om te kijken of er een vigerend object is en zo ja, welke index deze heeft
         if (this.state.dimensieHistorieSet) {
@@ -286,6 +287,9 @@ class MuteerBeleidsbeslissingenDetail extends Component {
                     dimensieObject.Status === 'Gepubliceerd'
                 ) {
                     vigerendeDimensieObject = dimensieObject
+                    // Als het vigerende item niet het laatste item in de array is, is er een ontwerp in concept
+                    isEenOntwerpInProgress =
+                        index + 1 !== this.state.dimensieHistorie.length
                 }
             })
         }
@@ -318,8 +322,7 @@ class MuteerBeleidsbeslissingenDetail extends Component {
                                 } pr-8`}
                             >
                                 {pageType === 'detail' &&
-                                this.state.dimensieHistorie &&
-                                this.state.dimensieHistorie.length <= 1 ? (
+                                !isEenOntwerpInProgress ? (
                                     <div className="h-10 mt-5 ">
                                         <Link
                                             className="flex items-center mt-5 w-1/2"

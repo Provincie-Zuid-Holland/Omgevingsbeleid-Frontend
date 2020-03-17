@@ -1,6 +1,7 @@
 export const TITEL_ENKELVOUD = 'Artikel'
 export const TITEL_MEERVOUD = 'Artikelen'
 export const TYPE = 'Artikel'
+export const API_ENDPOINT = 'verordening'
 
 export const CRUD_PROPERTIES = {
     Titel: {

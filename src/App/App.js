@@ -17,6 +17,7 @@ import dataModel from './dataModel'
 // Import non-auth Pages
 import RaadpleegHome from './../pages/RaadpleegHome'
 import RaadpleegUniversalObjectDetail from './../pages/RaadpleegUniversalObjectDetail'
+import RaadpleegVerordeningsArtikelDetail from './../pages/RaadpleegVerordeningsArtikelDetail'
 import RaadpleegZoekResultatenOverzicht from './../pages/RaadpleegZoekResultatenOverzicht'
 import Login from './../pages/Login'
 
@@ -30,6 +31,7 @@ import LoginForm from './../components/LoginForm'
 
 // Import Sentry (Bug tracking)
 import * as Sentry from '@sentry/browser'
+import dimensies from '../constants/dimensies'
 
 if (process.env.NODE_ENV !== 'development') {
     Sentry.init({
@@ -174,6 +176,10 @@ class App extends Component {
                 slug: 'opgaven',
                 dataModel: dataModel.Opgaven,
             },
+            {
+                slug: 'verordeningen',
+                dataModel: dataModel.Verordeningen,
+            },
         ]
 
         return (
@@ -206,6 +212,17 @@ class App extends Component {
                             exact
                             path="/zoekresultaten"
                             component={RaadpleegZoekResultatenOverzicht}
+                        />
+
+                        {/* Raadpleeg verordeningspagina */}
+                        <Route
+                            path={`/detail/verordeningen/:lineageID/:id`}
+                            render={() => (
+                                <RaadpleegVerordeningsArtikelDetail
+                                    dataModel={dimensies.VERORDENINGSARTIKEL}
+                                    history={this.props.history}
+                                />
+                            )}
                         />
 
                         {/* Render raadpleeg dNeetail pagina's */}

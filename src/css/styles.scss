@@ -431,6 +431,14 @@ $base-color: #002f65;
     border-radius: 100%;
 }
 
+.list-item-bolletje-on-line {
+    left: -6px;
+    top: -6px;
+    width: 15px;
+    height: 15px;
+    border-radius: 100%;
+}
+
 .list-item-bolletje-branching {
     left: -8.5px;
     bottom: 0px;
@@ -763,4 +771,17 @@ $base-color: #002f65;
 .move-left-2-px {
     position: relative;
     left: -2px;
+}
+
+.vertakkings-item-left {
+    left: -2px;
+    top: 4px;
+}
+
+.vertakkings-item-right-on-line {
+    height: 32px;
+    svg {
+        top: -2px;
+        left: -3px;
+    }
 }
