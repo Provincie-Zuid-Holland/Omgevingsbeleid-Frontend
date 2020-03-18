@@ -2,6 +2,8 @@ import ReactDOM from 'react-dom'
 import { MapControl, withLeaflet } from 'react-leaflet'
 import { Control, DomUtil, DomEvent } from 'leaflet'
 
+import polyfillObjectAssign from './../../utils/polyfillObjectAssign'
+
 const DumbControl = Control.extend({
     options: {
         className: '',
@@ -27,6 +29,7 @@ const DumbControl = Control.extend({
 export default withLeaflet(
     class LeafletControl extends MapControl {
         createLeafletElement(props) {
+            polyfillObjectAssign()
             return new DumbControl(Object.assign({}, props))
         }
 

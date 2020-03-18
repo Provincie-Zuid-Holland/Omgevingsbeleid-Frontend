@@ -82,14 +82,16 @@ class RaadpleegUniversalObjectDetail extends Component {
 
     initializeComponent() {
         const ApiEndpointBase = this.props.dataModel.variables.Api_Endpoint
-        let apiEndpoint = `${ApiEndpointBase}/${detail_id}`
         let detail_id = this.props.match.params.id
+        let apiEndpoint = `${ApiEndpointBase}/version/${detail_id}`
 
         // Connect With the API
         axios
             .get(apiEndpoint)
             .then(res => {
-                const dataObject = res.data[0]
+                console.log('RESPONSE:')
+                console.log(res.data)
+                const dataObject = res.data
                 const revisieObjecten = res.data
                 this.setState({
                     dataObject: dataObject,
@@ -112,14 +114,10 @@ class RaadpleegUniversalObjectDetail extends Component {
                         toast(
                             `U moet voor nu nog inloggen om deze pagina te kunnen bekijken`
                         )
+                    } else {
+                        toast(`Er is iets misgegaan`)
                     }
-                    this.setState({
-                        dataLoaded: true,
-                    })
                 } else {
-                    this.setState({
-                        dataLoaded: true,
-                    })
                     toast(`Er is iets misgegaan`)
                 }
             })
@@ -436,6 +434,7 @@ class RaadpleegUniversalObjectDetail extends Component {
                                 Afdrukken
                             </span>
                         </div>
+
                         {/* Inhoud Sectie */}
                         {titelEnkelvoud === 'Beleidsregel' ? (
                             <ContainerViewFieldsBeleidsregel

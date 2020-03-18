@@ -168,9 +168,23 @@ class ContainerDetailMain extends Component {
                             </div>
                         </a>
                     ) : null}
+                    {console.log('titelEnkelvoud')}
+                    {console.log(titelEnkelvoud)}
                     {titelEnkelvoud !== 'Beleidsrelatie' ? (
                         <a
-                            href={`/detail/${this.props.overzichtSlug}/${this.props.match.params.single}`}
+                            href={
+                                titelEnkelvoud === 'Artikel' ||
+                                titelEnkelvoud === 'Paragraaf' ||
+                                titelEnkelvoud === 'Afdeling'
+                                    ? `/detail/verordeningen/${
+                                          this.props.objectID
+                                      }${
+                                          this.props.urlParams
+                                              ? `${this.props.urlParams}`
+                                              : ''
+                                      }`
+                                    : `/detail/${this.props.overzichtSlug}/${this.props.match.params.single}`
+                            }
                             target="_blank"
                             rel="noopener noreferrer"
                             className="flex justify-between items-center w-full py-2 cursor-pointer"

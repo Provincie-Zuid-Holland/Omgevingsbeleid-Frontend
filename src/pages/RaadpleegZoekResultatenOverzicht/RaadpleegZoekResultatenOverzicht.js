@@ -6,7 +6,8 @@ import { toast } from 'react-toastify'
 import axios from './../../API/axios'
 
 // Import Data Model
-import dataModel from './../../App/dataModel'
+// import dataModel from './../../App/dataModel'
+import allDimensieConstants from './../../constants/dimensies'
 
 // Import Components
 import ButtonBackToPage from './../../components/ButtonBackToPage'
@@ -19,6 +20,33 @@ function getExcerpt(object) {
         return newObject
     } else {
         return object
+    }
+}
+
+function getDimensieConstant(type) {
+    switch (type) {
+        case 'Ambities':
+            return allDimensieConstants.AMBITIES
+        case 'Belangen':
+            return allDimensieConstants.BELANGEN
+        case 'Beleidsbeslissingen':
+            return allDimensieConstants.BELEIDSBESLISSINGEN
+        case 'BeleidsRegels':
+            return allDimensieConstants.BELEIDSREGELS
+        case 'Doelen':
+            return allDimensieConstants.DOELEN
+        case 'Maatregelen':
+            return allDimensieConstants.MAATREGELEN
+        case 'Opgaven':
+            return allDimensieConstants.OPGAVEN
+        case 'Themas':
+            return allDimensieConstants.THEMAS
+        case 'Verordeningen':
+            return allDimensieConstants.VERORDENINGSARTIKEL
+        default:
+            throw new Error(
+                `Whoops! Het type '${type}' kan niet binnen de allDimensieConstants gevonden worden.`
+            )
     }
 }
 
@@ -69,21 +97,19 @@ function SearchResultItem(props) {
         Omschrijving: getExcerpt(getContent('Omschrijving')),
     }
 
-    console.log(props.item)
-
-    // !REFACTOR! Swen -> Aanpassen van Beleidsregels naar BeleidsRegels
-    let type = props.item.type
+    let type = props.item.Type
     if (type === 'Beleidsregels') {
         type = 'BeleidsRegels'
     }
 
-    const overzichtURL = dataModel[type].variables.Overzicht_Slug
-    const titelEnkelvoud = dataModel[type].variables.Titel_Enkelvoud
+    const dimensieContants = getDimensieConstant(type)
+    const overzichtURL = dimensieContants.SLUG_OVERZICHT
+    const titelEnkelvoud = dimensieContants.TITEL_ENKELVOUD
 
     return (
         <li className="border-b border-gray-300 py-5" key={props.item.UUID}>
             <Link
-                to={`/detail/${overzichtURL}/${props.item._ID}#${props.searchQuery}`}
+                to={`/detail/${overzichtURL}/${props.item.UUID}#${props.searchQuery}`}
             >
                 {content.Titel.setInnerHTML ? (
                     <h2
@@ -96,7 +122,7 @@ function SearchResultItem(props) {
                     </h2>
                 )}
                 <span className="block text-gray-600 text-sm italic">
-                    {props.item.type}
+                    {titelEnkelvoud}
                 </span>
                 {content.Omschrijving.setInnerHTML ? (
                     <p
@@ -141,20 +167,27 @@ class RaadpleegZoekResultatenOverzicht extends Component {
     }
 
     setInitialOnPageFilters(searchResults) {
+        // In the filterArray we place all the types of objects we received from the API
         let filterArray = []
+
+        // In the mainFilterObject we place the types as properties. On those properties we place the metaData about the object type, e.g. the amount of items we have received in the response. The mainFilterObject will be set in state to display in the UI.
         let mainFilterObject = {}
 
-        searchResults.forEach((item, index) => {
+        searchResults.forEach(item => {
+            // Create filter object with meta info about the filter type
             const filterObject = {
-                name: item.type,
+                name: item.Type,
                 checked: true,
                 count: 1,
             }
-            if (!filterArray.includes(item.type)) {
-                filterArray.push(item.type)
-                mainFilterObject[item.type] = filterObject
+
+            if (!filterArray.includes(item.Type)) {
+                // If we map over a new Type we push the Type into the filterArray and initialize the filterObject as a property on the mainFilterObject
+                filterArray.push(item.Type)
+                mainFilterObject[item.Type] = filterObject
             } else {
-                mainFilterObject[item.type].count++
+                // If it already exists we increase the count of this property
+                mainFilterObject[item.Type].count++
             }
         })
 
@@ -178,8 +211,13 @@ class RaadpleegZoekResultatenOverzicht extends Component {
         if (!urlParams || urlParams.length === 0) {
             return
         }
+
         axios
-            .get(`/search` + urlParams)
+            .get(
+                `/search?query=${searchQuery}&limit=10${
+                    searchFiltersOnly ? `&only=${searchFiltersOnly}` : ``
+                }`
+            )
             .then(res => {
                 const searchResults = res.data
                 this.setInitialOnPageFilters(searchResults)
@@ -264,7 +302,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                             this.state.searchResults.length > 0 ? (
                                 this.state.searchResults.map((item, index) => {
                                     if (
-                                        this.state.onPageFilters[item.type]
+                                        this.state.onPageFilters[item.Type]
                                             .checked
                                     ) {
                                         return (
@@ -276,9 +314,8 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                                                 key={item.UUID}
                                             />
                                         )
-                                    } else {
-                                        return null
                                     }
+                                    return null
                                 })
                             ) : (
                                 <span className="italic text-gray-600 text-sm mt-8 block">

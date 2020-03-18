@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 import { format } from 'date-fns'
 import { Helmet } from 'react-helmet'
 import nlLocale from 'date-fns/locale/nl'
 import {
     faAngleLeft,
-    faTimes,
-    faFileDownload,
     faPrint,
     faExternalLinkAlt,
 } from '@fortawesome/free-solid-svg-icons'
@@ -17,46 +16,49 @@ import clonedeep from 'lodash.clonedeep'
 import axios from '../../API/axios'
 
 // Import Components
-import LeafletTinyViewer from './../../components/LeafletTinyViewer'
-import ButtonBackToPage from './../../components/ButtonBackToPage'
-import PopUpRevisieContainer from './../../components/PopUpRevisieContainer'
-import LoaderContent from './../../components/LoaderContent'
+import VerordeningenDetailSidebar from './VerordeningenDetailSidebar'
 import LoaderSmallSpan from './../../components/LoaderSmallSpan'
-import PopUpAnimatedContainer from './../../components/PopUpAnimatedContainer'
-
-function RevisieListItem(props) {
-    return (
-        <li className="py-2">
-            <span
-                className={`inline-block w-4 h-4 bg-${props.color}-500 rounded-full mt-1 absolute`}
-            />
-            <span
-                className={`pl-6 text-sm ${props.current ? 'font-bold' : null}`}
-            >
-                {props.content}
-            </span>
-        </li>
-    )
-}
 
 class RaadpleegVerordeningsArtikelDetail extends Component {
     constructor(props) {
         super(props)
         this.state = {
             dataObject: null,
-            revisieObjecten: null,
             dataLoaded: false,
-            fullscreenLeafletViewer: false,
+            activeArtikel: null,
         }
-        this.toggleFullscreenLeafletViewer = this.toggleFullscreenLeafletViewer.bind(
-            this
-        )
-        this.initializeComponent = this.initializeComponent.bind(this)
+
+        this.selectArtikel = this.selectArtikel.bind(this)
+
+        this.changeActiveHoofdstuk = this.changeActiveHoofdstuk.bind(this)
 
         // Wordt gebruikt om de items in de verkregen verordeningsstructuur te populaten
         this.populateFieldsAndSetState = this.populateFieldsAndSetState.bind(
             this
         )
+    }
+
+    selectArtikel(type, hoofdstukIndex, nest1, nest2, nest3) {
+        if (type !== 'Artikel') return
+
+        this.setState({
+            activeArtikel: [hoofdstukIndex, nest1, nest2, nest3],
+        })
+    }
+
+    changeActiveHoofdstuk(hoofdstukNummer) {
+        console.log(hoofdstukNummer)
+        if (hoofdstukNummer !== null) {
+            const parsedHoofdstukNummer = parseInt(hoofdstukNummer)
+            // Het Parsed Hfst nummer doen we '- 1' om de index te verkrijgen
+            this.setState({
+                activeHoofdstuk: parsedHoofdstukNummer,
+            })
+        } else if (hoofdstukNummer === null) {
+            this.setState({
+                activeHoofdstuk: null,
+            })
+        }
     }
 
     populateFieldsAndSetState(lineage) {
@@ -96,11 +98,13 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                     amountOfRequestsSolved++
 
                     if (amountOfRequests === amountOfRequestsSolved) {
-                        that.setState({
-                            dataLoaded: true,
-                            lineage: clonedeep(lineage),
-                            lineageCopy: clonedeep(lineage),
-                        })
+                        that.setState(
+                            {
+                                dataLoaded: true,
+                                lineage: clonedeep(lineage),
+                            },
+                            () => console.log(that.state)
+                        )
                     }
                 })
                 .catch(err => console.log(err))
@@ -143,37 +147,6 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
         }
     }
 
-    toggleFullscreenLeafletViewer() {
-        this.setState({
-            fullscreenLeafletViewer: !this.state.fullscreenLeafletViewer,
-        })
-    }
-
-    initializeComponent() {
-        const ApiEndpointBase = this.props.dataModel.API_ENDPOINT
-        let apiEndpoint = `${ApiEndpointBase}/${detail_id}`
-        let detail_id = this.props.match.params.id
-
-        // Connect With the API
-        axios
-            .get(apiEndpoint)
-            .then(res => {
-                const dataObject = res.data[0]
-                const revisieObjecten = res.data
-                this.setState({
-                    dataObject: dataObject,
-                    revisieObjecten: revisieObjecten,
-                    dataLoaded: true,
-                })
-            })
-            .catch(error => {
-                this.setState({
-                    dataLoaded: false,
-                })
-                toast(`Er is iets misgegaan`)
-            })
-    }
-
     componentDidMount() {
         const ID = this.props.match.params.lineageID
 
@@ -190,48 +163,32 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
             })
     }
 
-    componentDidUpdate(prevProps) {
-        if (this.props.match.params.id !== prevProps.match.params.id) {
-            this.initializeComponent()
-        }
-    }
-
     render() {
-        const dataObject = this.state.dataObject
         const dataLoaded = this.state.dataLoaded
-        let werkingsgebiedBoolean = false
+        const activeArtikel = this.state.activeArtikel
+        let artikel = null
+        let hoofdstukNummer = null
 
-        // Werkingsgebieden zijn er bij de volgende objecten:
-        // - Beleidsbeslissing
-        if (
-            dataObject !== null &&
-            (dataObject.Gebied ||
-                (dataObject.WerkingsGebieden && dataObject.WerkingsGebieden[0]))
-        ) {
-            werkingsgebiedBoolean = true
-        } else {
-            werkingsgebiedBoolean = false
-        }
+        if (dataLoaded && activeArtikel) {
+            // Selecteer het artikel. Het artikel kan in een Paragraaf zitten, maar ook in een Paragraaf die in een groep zit. Hieronder selecteren we het juiste Artikel
+            if (activeArtikel[3] !== null) {
+                artikel = this.state.lineage.Structuur.Children[
+                    activeArtikel[0]
+                ].Children[activeArtikel[1]].Children[activeArtikel[2]]
+                    .Children[activeArtikel[3]]
+            } else if (activeArtikel[2] !== null) {
+                artikel = this.state.lineage.Structuur.Children[
+                    activeArtikel[0]
+                ].Children[activeArtikel[1]].Children[activeArtikel[2]]
+            } else if (activeArtikel[1] !== null) {
+                artikel = this.state.lineage.Structuur.Children[
+                    activeArtikel[0]
+                ].Children[activeArtikel[1]]
+            }
 
-        let werkingsGebiedUUID = null
-
-        if (werkingsgebiedBoolean && dataObject.Gebied) {
-            werkingsGebiedUUID = dataObject.Gebied
-        } else if (
-            werkingsgebiedBoolean &&
-            dataObject.WerkingsGebieden &&
-            dataObject.WerkingsGebieden[0]
-        ) {
-            werkingsGebiedUUID = dataObject.WerkingsGebieden[0].UUID
-        }
-
-        const titelEnkelvoud = this.props.dataModel.TITEL_ENKELVOUD
-
-        let hashBool = false
-        let searchQuery = null
-        if (window.location.hash) {
-            hashBool = true
-            searchQuery = window.location.hash.substr(1)
+            hoofdstukNummer = this.state.lineage.Structuur.Children[
+                activeArtikel[0]
+            ].Volgnummer
         }
 
         return (
@@ -239,226 +196,78 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                 className="container mx-auto flex px-6 pb-20 mt-8"
                 id="raadpleeg-detail-container-main"
             >
-                <Helmet>
-                    <style type="text/css">{`
-                    @media print {
-                        #raadpleeg-detail-sidebar,
-                        #raadpleeg-detail-werkingsgebied,
-                        #navigation-main,
-                        #raadpleeg-detail-container-meta-info {
-                            display: none;
-                        }
-                        #raadpleeg-detail-container-main {
-                            margin-top: 0px;
-                        }
-                        #raadpleeg-detail-container-content {
-                            width: 100%;
-                        }
-                        #raadpleeg-detail-header-one {
-                            margin-bottom: 2rem;
-                        }
-                    }                     
-                `}</style>
-                </Helmet>
-                <div className="w-1/4" id="raadpleeg-detail-sidebar">
-                    {!this.state.fullscreenLeafletViewer ? (
-                        <React.Fragment>
-                            {hashBool ? (
-                                <ButtonBackToPage
-                                    terugNaar="zoekresultaten"
-                                    url={`/zoekresultaten?query=${searchQuery}`}
-                                />
-                            ) : (
-                                <ButtonBackToPage
-                                    terugNaar="startpagina"
-                                    url="/"
-                                />
-                            )}
-                            <h2 className="text-gray-800 mt-6 text-l font-serif block">
-                                Gerelateerde{' '}
-                                {this.props.dataModel.TITEL_MEERVOUD}
-                            </h2>
-                            <ul className="mt-4 pr-8">
-                                <li className="mt-2 text-gray-700">
-                                    <span className="text-sm block">
-                                        Hier komen gerelateerde{' '}
-                                        {this.props.dataModel.TITEL_MEERVOUD}
-                                    </span>
-                                </li>
-                            </ul>
-                        </React.Fragment>
-                    ) : (
-                        <React.Fragment>
-                            <span
-                                onClick={this.toggleFullscreenLeafletViewer}
-                                className="text-l mb-2 inline-block text-gray-600 cursor-pointer pr-5"
-                            >
-                                <FontAwesomeIcon
-                                    className="mr-2"
-                                    icon={faAngleLeft}
-                                />
-                                <span>Terug naar artikelpagina</span>
-                            </span>
-                        </React.Fragment>
-                    )}
-                </div>
+                <VerordeningenDetailSidebar
+                    changeActiveHoofdstuk={this.changeActiveHoofdstuk}
+                    activeHoofdstuk={this.state.activeHoofdstuk}
+                    dataLoaded={this.state.dataLoaded}
+                    lineage={this.state.lineage}
+                    selectArtikel={this.selectArtikel}
+                />
                 {dataLoaded ? (
-                    <div
-                        id="raadpleeg-detail-container-content"
-                        className={werkingsgebiedBoolean ? `w-2/4` : `w-3/4`}
-                    >
-                        {/* Artikel Headers */}
-                        <span className="text-l font-serif block text-gray-800">
-                            {this.props.dataModel.TITEL_ENKELVOUD}
-                        </span>
-                        <h1
-                            id="raadpleeg-detail-header-one"
-                            className="mt-2 heading-serif-2xl text-gray-800"
-                        >
-                            {console.log(dataObject)}
-                            {dataObject.Titel}
-                        </h1>
-                        {/* Meta Content */}
+                    artikel !== null ? (
                         <div
-                            className="mb-8 block"
-                            id="raadpleeg-detail-container-meta-info"
+                            id="raadpleeg-detail-container-content text-gray-800"
+                            className={`w-3/4`}
                         >
-                            {dataLoaded ? (
-                                <span className="text-gray-600 text-sm mr-3">
-                                    {dataObject['Begin_Geldigheid'] !== null
-                                        ? format(
-                                              new Date(
-                                                  dataObject['Begin_Geldigheid']
-                                              ),
-                                              'D MMMM YYYY',
-                                              { locale: nlLocale }
-                                          )
-                                        : 'Er is nog geen begin geldigheid'}
-                                </span>
-                            ) : (
-                                <span className="mt-2 block">
-                                    <LoaderSmallSpan />
-                                </span>
-                            )}
-                            {this.state.revisieObjecten &&
-                            this.state.revisieObjecten.length > 0 ? (
-                                <React.Fragment>
-                                    <span className="text-gray-600 text-sm mr-3">
-                                        &bull;
-                                    </span>
-                                    <PopUpRevisieContainer
-                                        aantalRevisies={
-                                            this.state.revisieObjecten.length -
-                                            1
-                                        }
-                                    >
-                                        {this.state.revisieObjecten.map(
-                                            (item, index) =>
-                                                index === 0 ? (
-                                                    <RevisieListItem
-                                                        key={dataObject.UUID}
-                                                        content={
-                                                            dataObject[
-                                                                'Begin_Geldigheid'
-                                                            ] !== null
-                                                                ? format(
-                                                                      new Date(
-                                                                          dataObject[
-                                                                              'Begin_Geldigheid'
-                                                                          ]
-                                                                      ),
-                                                                      'D MMM YYYY',
-                                                                      {
-                                                                          locale: nlLocale,
-                                                                      }
-                                                                  )
-                                                                : 'Er is nog geen begin geldigheid'
-                                                        }
-                                                        color="orange"
-                                                        current={true}
-                                                    />
-                                                ) : (
-                                                    <RevisieListItem
-                                                        key={dataObject.UUID}
-                                                        content={
-                                                            dataObject[
-                                                                'Begin_Geldigheid'
-                                                            ] !== null
-                                                                ? format(
-                                                                      new Date(
-                                                                          dataObject[
-                                                                              'Begin_Geldigheid'
-                                                                          ]
-                                                                      ),
-                                                                      'D MMM YYYY',
-                                                                      {
-                                                                          locale: nlLocale,
-                                                                      }
-                                                                  )
-                                                                : 'Er is nog geen begin geldigheid'
-                                                        }
-                                                        color="blue"
-                                                    />
-                                                )
-                                        )}
-                                    </PopUpRevisieContainer>
-                                </React.Fragment>
-                            ) : null}
-                            <span className="text-gray-600 text-sm mr-3">
-                                &bull;
+                            {/* Artikel Headers */}
+                            <span className="text-l font-serif block text-gray-800">
+                                Artikel {hoofdstukNummer}.{artikel.Volgnummer}
                             </span>
-                            <span
-                                className="text-gray-600 text-sm mr-3 cursor-pointer"
-                                onClick={() => window.print()}
+                            <h1
+                                id="raadpleeg-detail-header-one"
+                                className="mt-2 heading-serif-2xl text-gray-800"
                             >
-                                <FontAwesomeIcon
-                                    className="mr-2"
-                                    icon={faPrint}
-                                />
-                                Afdrukken
-                            </span>
-                        </div>
-                    </div>
-                ) : (
-                    <LoaderContent />
-                )}
-                {dataLoaded && werkingsgebiedBoolean ? (
-                    <div
-                        className="w-1/4 pl-8"
-                        id="raadpleeg-detail-werkingsgebied"
-                    >
-                        <div className="flex justify-between items-center text-gray-800 pb-3">
-                            <h2 className="text-l font-serif">
-                                Werkingsgebied
-                            </h2>
-                            {dataLoaded ? (
-                                <span
-                                    className="text-xs cursor-pointer px-2"
-                                    onClick={this.toggleFullscreenLeafletViewer}
-                                >
-                                    Bekijk in het groot
-                                    <FontAwesomeIcon
-                                        className="ml-2 text-gray-700"
-                                        icon={faExternalLinkAlt}
-                                    />
-                                </span>
-                            ) : null}
-                        </div>
+                                {artikel.Titel}
+                            </h1>
 
-                        <div
-                            id={`full-screen-leaflet-container-${this.state.fullscreenLeafletViewer}`}
-                        >
-                            <LeafletTinyViewer
-                                gebiedType="Werkingsgebieden"
-                                gebiedUUID={werkingsGebiedUUID}
-                                fullscreen={this.state.fullscreenLeafletViewer}
-                            />
+                            {/* Meta Content */}
+                            <div
+                                className="mb-8 block"
+                                id="raadpleeg-detail-container-meta-info"
+                            >
+                                {dataLoaded ? (
+                                    <span className="text-gray-600 text-sm mr-3">
+                                        Vigerend sinds{' '}
+                                        {format(
+                                            new Date(artikel.Begin_Geldigheid),
+                                            'DD-MMMM-YYYY',
+                                            {
+                                                locale: nlLocale,
+                                            }
+                                        )}
+                                    </span>
+                                ) : (
+                                    <span className="mt-2 block">
+                                        <LoaderSmallSpan />
+                                    </span>
+                                )}
+                                <span className="text-gray-600 text-sm mr-3">
+                                    &bull;
+                                </span>
+                                <span
+                                    className="text-gray-600 text-sm mr-3 cursor-pointer"
+                                    onClick={() => window.print()}
+                                >
+                                    <FontAwesomeIcon
+                                        className="mr-2"
+                                        icon={faPrint}
+                                    />
+                                    Afdrukken
+                                </span>
+                            </div>
+                            <p className={`text-gray-700 text-sm mb-4`}>
+                                {artikel.Inhoud}
+                            </p>
                         </div>
-                    </div>
+                    ) : (
+                        <span className="italic text-gray-700 w-3/4 inline-block">
+                            Selecteer een artikel
+                        </span>
+                    )
                 ) : null}
             </div>
         )
     }
 }
 
-export default RaadpleegVerordeningsArtikelDetail
+export default withRouter(RaadpleegVerordeningsArtikelDetail)

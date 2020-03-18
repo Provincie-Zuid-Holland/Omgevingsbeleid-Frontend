@@ -216,7 +216,7 @@ class App extends Component {
 
                         {/* Raadpleeg verordeningspagina */}
                         <Route
-                            path={`/detail/verordeningen/:lineageID/:id`}
+                            path={`/detail/verordeningen/:lineageID`}
                             render={() => (
                                 <RaadpleegVerordeningsArtikelDetail
                                     dataModel={dimensies.VERORDENINGSARTIKEL}

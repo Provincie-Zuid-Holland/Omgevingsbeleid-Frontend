@@ -7,6 +7,7 @@ import * as THEMAS from './themas'
 import * as BELEIDSBESLISSINGEN from './beleidsbeslissingen'
 import * as VERORDENINGSTRUCTUUR from './verordeningstructuur'
 import * as VERORDENINGSARTIKEL from './verordeningsartikel'
+import * as DOELEN from './doelen'
 
 export default {
     AMBITIES,
@@ -18,4 +19,5 @@ export default {
     BELEIDSBESLISSINGEN,
     VERORDENINGSTRUCTUUR,
     VERORDENINGSARTIKEL,
+    DOELEN,
 }
