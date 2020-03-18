@@ -209,6 +209,7 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                             id="raadpleeg-detail-container-content text-gray-800"
                             className={`w-3/4`}
                         >
+                            {console.log(artikel)}
                             {/* Artikel Headers */}
                             <span className="text-l font-serif block text-gray-800">
                                 Artikel {hoofdstukNummer}.{artikel.Volgnummer}

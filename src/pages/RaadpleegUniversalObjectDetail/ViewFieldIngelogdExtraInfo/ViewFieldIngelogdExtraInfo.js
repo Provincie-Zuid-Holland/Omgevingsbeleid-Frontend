@@ -97,9 +97,13 @@ class ViewFieldIngelogdExtraInfo extends Component {
                 <div className="flex items-center justify-between mt-2">
                     <div className="flex items-center">
                         <ul className="flex mr-8">
-                            {this.state.propertiesWithValue.map(item =>
+                            {this.state.propertiesWithValue.map((item, index) =>
                                 this.state.dataLoaded ? (
-                                    <li className="relative -ml-2">
+                                    <li
+                                        className={`relative ${
+                                            index === 0 ? '' : '-ml-2'
+                                        }`}
+                                    >
                                         <div className="w-8 h-8 border border-white bg-orange-500 flex justify-center items-center rounded-full circle-gebruiker font-lg mr-1 text-white text-xs">
                                             {this.maakAfkortingVanNaam(
                                                 this.state[item].Gebruikersnaam
