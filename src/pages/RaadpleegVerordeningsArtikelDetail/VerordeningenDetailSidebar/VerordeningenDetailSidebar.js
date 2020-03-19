@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import queryString from 'query-string'
 
@@ -129,256 +129,280 @@ function ListItem({
     )
 }
 
-function VerordeningenDetailSidebar({
-    activeHoofdstuk,
-    changeActiveHoofdstuk,
-    dataLoaded,
-    lineage,
-    selectArtikel,
-    location,
-}) {
-    const [activeArtikel, setActiveArtikel] = useState([])
+class VerordeningenDetailSidebar extends Component {
+    constructor(props) {
+        super(props)
+    }
+    // function VerordeningenDetailSidebar({
+    //     activeHoofdstuk,
+    //     changeActiveHoofdstuk,
+    //     dataLoaded,
+    //     lineage,
+    //     selectArtikel,
+    //     location,
+    // }) {
 
-    useEffect(() => {
-        // Set Active Artikel if URL params are provided
-        const urlParams = location.search
-        if (urlParams) {
-            let [hoofdstukIndex, nest1, nest2, nest3] = getQueryStringValues(
-                urlParams
-            )
-            setActiveArtikel([hoofdstukIndex, nest1, nest2, nest3])
-        } else {
-            setActiveArtikel([null, null, null, null])
-        }
-    }, [])
+    render() {
+        const activeHoofdstuk = this.props.activeHoofdstuk
+        const changeActiveHoofdstuk = this.props.changeActiveHoofdstuk
+        const dataLoaded = this.props.dataLoaded
+        const lineage = this.props.lineage
+        const selectArtikel = this.props.selectArtikel
+        const location = this.props.location
 
-    return (
-        <div className="w-full inline-block flex-grow">
-            {dataLoaded ? (
-                <div className="relative">
-                    <h2
-                        className="font-serif block text-gray-800 mt-4"
-                        onClick={() => changeActiveHoofdstuk(null)}
-                    >
-                        Inhoudsopgave verordening
-                    </h2>
-                    <ul className="relative pl-6 pr-5">
-                        {lineage.Structuur.Children.map(
-                            (hoofdstuk, hoofdstukIndex) => (
-                                <ListItem
-                                    activeArtikel={activeArtikel}
-                                    arrayIndex={0}
-                                    setActiveArtikel={setActiveArtikel}
-                                    selectArtikel={selectArtikel}
-                                    activeHoofdstuk={activeHoofdstuk}
-                                    hasChildren={hoofdstuk.Children.length > 0}
-                                    hoofdstukVolgnummer={hoofdstuk.Volgnummer}
-                                    listIndex={hoofdstukIndex}
-                                    hoofdstukIndex={hoofdstukIndex}
-                                    nest_1={null}
-                                    nest_2={null}
-                                    nest_3={null}
-                                    item={hoofdstuk}
-                                    changeActiveHoofdstuk={
-                                        changeActiveHoofdstuk
-                                    }
-                                    UUID={hoofdstuk.UUID}
-                                    key={hoofdstuk.UUID}
-                                    Titel={`Hoofdstuk ${hoofdstuk.Volgnummer} - 
+        const activeArtikel = 0
+        const setActiveArtikel = 0
+
+        // const [activeArtikel, setActiveArtikel] = useState([])
+
+        // useEffect(() => {
+        //     // Set Active Artikel if URL params are provided
+        //     const urlParams = location.search
+        //     if (urlParams) {
+        //         let [
+        //             hoofdstukIndex,
+        //             nest1,
+        //             nest2,
+        //             nest3,
+        //         ] = getQueryStringValues(urlParams)
+        //         setActiveArtikel([hoofdstukIndex, nest1, nest2, nest3])
+        //     } else {
+        //         setActiveArtikel([null, null, null, null])
+        //     }
+        // }, [])
+
+        return (
+            <div className="w-full inline-block flex-grow">
+                {dataLoaded ? (
+                    <div className="relative">
+                        <h2
+                            className="font-serif block text-gray-800 mt-4"
+                            onClick={() => changeActiveHoofdstuk(null)}
+                        >
+                            Inhoudsopgave verordening
+                        </h2>
+                        <ul className="relative pl-6 pr-5">
+                            {lineage.Structuur.Children.map(
+                                (hoofdstuk, hoofdstukIndex) => (
+                                    <ListItem
+                                        activeArtikel={activeArtikel}
+                                        arrayIndex={0}
+                                        setActiveArtikel={setActiveArtikel}
+                                        selectArtikel={selectArtikel}
+                                        activeHoofdstuk={activeHoofdstuk}
+                                        hasChildren={
+                                            hoofdstuk.Children.length > 0
+                                        }
+                                        hoofdstukVolgnummer={
+                                            hoofdstuk.Volgnummer
+                                        }
+                                        listIndex={hoofdstukIndex}
+                                        hoofdstukIndex={hoofdstukIndex}
+                                        nest_1={null}
+                                        nest_2={null}
+                                        nest_3={null}
+                                        item={hoofdstuk}
+                                        changeActiveHoofdstuk={
+                                            changeActiveHoofdstuk
+                                        }
+                                        UUID={hoofdstuk.UUID}
+                                        key={hoofdstuk.UUID}
+                                        Titel={`Hoofdstuk ${hoofdstuk.Volgnummer} - 
                                     ${hoofdstuk.Titel}`}
-                                >
-                                    {hoofdstuk.Children.length > 0 ? (
-                                        <ul className="pl-6 relative">
-                                            {hoofdstuk.Children.map(
-                                                (child, nest_1) => (
-                                                    <ListItem
-                                                        activeArtikel={
-                                                            activeArtikel
-                                                        }
-                                                        arrayIndex={1}
-                                                        setActiveArtikel={
-                                                            setActiveArtikel
-                                                        }
-                                                        selectArtikel={
-                                                            selectArtikel
-                                                        }
-                                                        activeHoofdstuk={
-                                                            activeHoofdstuk
-                                                        }
-                                                        hasChildren={
-                                                            child.Children
-                                                                .length > 0
-                                                        }
-                                                        hoofdstukVolgnummer={
-                                                            hoofdstuk.Volgnummer
-                                                        }
-                                                        item={child}
-                                                        listIndex={nest_1}
-                                                        hoofdstukIndex={
-                                                            hoofdstukIndex
-                                                        }
-                                                        nest_1={nest_1}
-                                                        nest_2={null}
-                                                        nest_3={null}
-                                                        changeActiveHoofdstuk={
-                                                            changeActiveHoofdstuk
-                                                        }
-                                                        key={child.UUID}
-                                                        UUID={child.UUID}
-                                                        Titel={child.Titel}
-                                                    >
-                                                        {child.Children.length >
-                                                        0 ? (
-                                                            <ul className="pl-6 relative">
-                                                                {child.Children.map(
-                                                                    (
-                                                                        childOfChild,
-                                                                        nest_2
-                                                                    ) => (
-                                                                        <ListItem
-                                                                            activeArtikel={
-                                                                                activeArtikel
-                                                                            }
-                                                                            arrayIndex={
-                                                                                2
-                                                                            }
-                                                                            setActiveArtikel={
-                                                                                setActiveArtikel
-                                                                            }
-                                                                            selectArtikel={
-                                                                                selectArtikel
-                                                                            }
-                                                                            activeHoofdstuk={
-                                                                                activeHoofdstuk
-                                                                            }
-                                                                            hasChildren={
-                                                                                childOfChild
+                                    >
+                                        {hoofdstuk.Children.length > 0 ? (
+                                            <ul className="pl-6 relative">
+                                                {hoofdstuk.Children.map(
+                                                    (child, nest_1) => (
+                                                        <ListItem
+                                                            activeArtikel={
+                                                                activeArtikel
+                                                            }
+                                                            arrayIndex={1}
+                                                            setActiveArtikel={
+                                                                setActiveArtikel
+                                                            }
+                                                            selectArtikel={
+                                                                selectArtikel
+                                                            }
+                                                            activeHoofdstuk={
+                                                                activeHoofdstuk
+                                                            }
+                                                            hasChildren={
+                                                                child.Children
+                                                                    .length > 0
+                                                            }
+                                                            hoofdstukVolgnummer={
+                                                                hoofdstuk.Volgnummer
+                                                            }
+                                                            item={child}
+                                                            listIndex={nest_1}
+                                                            hoofdstukIndex={
+                                                                hoofdstukIndex
+                                                            }
+                                                            nest_1={nest_1}
+                                                            nest_2={null}
+                                                            nest_3={null}
+                                                            changeActiveHoofdstuk={
+                                                                changeActiveHoofdstuk
+                                                            }
+                                                            key={child.UUID}
+                                                            UUID={child.UUID}
+                                                            Titel={child.Titel}
+                                                        >
+                                                            {child.Children
+                                                                .length > 0 ? (
+                                                                <ul className="pl-6 relative">
+                                                                    {child.Children.map(
+                                                                        (
+                                                                            childOfChild,
+                                                                            nest_2
+                                                                        ) => (
+                                                                            <ListItem
+                                                                                activeArtikel={
+                                                                                    activeArtikel
+                                                                                }
+                                                                                arrayIndex={
+                                                                                    2
+                                                                                }
+                                                                                setActiveArtikel={
+                                                                                    setActiveArtikel
+                                                                                }
+                                                                                selectArtikel={
+                                                                                    selectArtikel
+                                                                                }
+                                                                                activeHoofdstuk={
+                                                                                    activeHoofdstuk
+                                                                                }
+                                                                                hasChildren={
+                                                                                    childOfChild
+                                                                                        .Children
+                                                                                        .length >
+                                                                                    0
+                                                                                }
+                                                                                hoofdstukVolgnummer={
+                                                                                    hoofdstuk.Volgnummer
+                                                                                }
+                                                                                item={
+                                                                                    childOfChild
+                                                                                }
+                                                                                listIndex={
+                                                                                    nest_2
+                                                                                }
+                                                                                hoofdstukIndex={
+                                                                                    hoofdstukIndex
+                                                                                }
+                                                                                nest_1={
+                                                                                    nest_1
+                                                                                }
+                                                                                nest_2={
+                                                                                    nest_2
+                                                                                }
+                                                                                nest_3={
+                                                                                    null
+                                                                                }
+                                                                                changeActiveHoofdstuk={
+                                                                                    changeActiveHoofdstuk
+                                                                                }
+                                                                                key={
+                                                                                    childOfChild.UUID
+                                                                                }
+                                                                                UUID={
+                                                                                    childOfChild.UUID
+                                                                                }
+                                                                                Titel={
+                                                                                    childOfChild.Titel
+                                                                                }
+                                                                            >
+                                                                                {childOfChild
                                                                                     .Children
                                                                                     .length >
-                                                                                0
-                                                                            }
-                                                                            hoofdstukVolgnummer={
-                                                                                hoofdstuk.Volgnummer
-                                                                            }
-                                                                            item={
-                                                                                childOfChild
-                                                                            }
-                                                                            listIndex={
-                                                                                nest_2
-                                                                            }
-                                                                            hoofdstukIndex={
-                                                                                hoofdstukIndex
-                                                                            }
-                                                                            nest_1={
-                                                                                nest_1
-                                                                            }
-                                                                            nest_2={
-                                                                                nest_2
-                                                                            }
-                                                                            nest_3={
-                                                                                null
-                                                                            }
-                                                                            changeActiveHoofdstuk={
-                                                                                changeActiveHoofdstuk
-                                                                            }
-                                                                            key={
-                                                                                childOfChild.UUID
-                                                                            }
-                                                                            UUID={
-                                                                                childOfChild.UUID
-                                                                            }
-                                                                            Titel={
-                                                                                childOfChild.Titel
-                                                                            }
-                                                                        >
-                                                                            {childOfChild
-                                                                                .Children
-                                                                                .length >
-                                                                            0 ? (
-                                                                                <ul className="pl-6 relative">
-                                                                                    {childOfChild.Children.map(
-                                                                                        (
-                                                                                            childOfChildofChild,
-                                                                                            nest_3
-                                                                                        ) => (
-                                                                                            <ListItem
-                                                                                                activeArtikel={
-                                                                                                    activeArtikel
-                                                                                                }
-                                                                                                arrayIndex={
-                                                                                                    3
-                                                                                                }
-                                                                                                setActiveArtikel={
-                                                                                                    setActiveArtikel
-                                                                                                }
-                                                                                                selectArtikel={
-                                                                                                    selectArtikel
-                                                                                                }
-                                                                                                activeHoofdstuk={
-                                                                                                    activeHoofdstuk
-                                                                                                }
-                                                                                                hasChildren={
-                                                                                                    childOfChildofChild
-                                                                                                        .Children
-                                                                                                        .length >
-                                                                                                    0
-                                                                                                }
-                                                                                                hoofdstukVolgnummer={
-                                                                                                    hoofdstuk.Volgnummer
-                                                                                                }
-                                                                                                listIndex={
-                                                                                                    nest_3
-                                                                                                }
-                                                                                                hoofdstukIndex={
-                                                                                                    hoofdstukIndex
-                                                                                                }
-                                                                                                nest_1={
-                                                                                                    nest_1
-                                                                                                }
-                                                                                                nest_2={
-                                                                                                    nest_2
-                                                                                                }
-                                                                                                nest_3={
-                                                                                                    nest_3
-                                                                                                }
-                                                                                                item={
-                                                                                                    childOfChildofChild
-                                                                                                }
-                                                                                                changeActiveHoofdstuk={
-                                                                                                    changeActiveHoofdstuk
-                                                                                                }
-                                                                                                key={
-                                                                                                    childOfChildofChild.UUID
-                                                                                                }
-                                                                                                UUID={
-                                                                                                    childOfChildofChild.UUID
-                                                                                                }
-                                                                                                Titel={
-                                                                                                    childOfChildofChild.Titel
-                                                                                                }
-                                                                                            />
-                                                                                        )
-                                                                                    )}
-                                                                                </ul>
-                                                                            ) : null}
-                                                                        </ListItem>
-                                                                    )
-                                                                )}
-                                                            </ul>
-                                                        ) : null}
-                                                    </ListItem>
-                                                )
-                                            )}
-                                        </ul>
-                                    ) : null}
-                                </ListItem>
-                            )
-                        )}
-                    </ul>
-                </div>
-            ) : null}
-        </div>
-    )
+                                                                                0 ? (
+                                                                                    <ul className="pl-6 relative">
+                                                                                        {childOfChild.Children.map(
+                                                                                            (
+                                                                                                childOfChildofChild,
+                                                                                                nest_3
+                                                                                            ) => (
+                                                                                                <ListItem
+                                                                                                    activeArtikel={
+                                                                                                        activeArtikel
+                                                                                                    }
+                                                                                                    arrayIndex={
+                                                                                                        3
+                                                                                                    }
+                                                                                                    setActiveArtikel={
+                                                                                                        setActiveArtikel
+                                                                                                    }
+                                                                                                    selectArtikel={
+                                                                                                        selectArtikel
+                                                                                                    }
+                                                                                                    activeHoofdstuk={
+                                                                                                        activeHoofdstuk
+                                                                                                    }
+                                                                                                    hasChildren={
+                                                                                                        childOfChildofChild
+                                                                                                            .Children
+                                                                                                            .length >
+                                                                                                        0
+                                                                                                    }
+                                                                                                    hoofdstukVolgnummer={
+                                                                                                        hoofdstuk.Volgnummer
+                                                                                                    }
+                                                                                                    listIndex={
+                                                                                                        nest_3
+                                                                                                    }
+                                                                                                    hoofdstukIndex={
+                                                                                                        hoofdstukIndex
+                                                                                                    }
+                                                                                                    nest_1={
+                                                                                                        nest_1
+                                                                                                    }
+                                                                                                    nest_2={
+                                                                                                        nest_2
+                                                                                                    }
+                                                                                                    nest_3={
+                                                                                                        nest_3
+                                                                                                    }
+                                                                                                    item={
+                                                                                                        childOfChildofChild
+                                                                                                    }
+                                                                                                    changeActiveHoofdstuk={
+                                                                                                        changeActiveHoofdstuk
+                                                                                                    }
+                                                                                                    key={
+                                                                                                        childOfChildofChild.UUID
+                                                                                                    }
+                                                                                                    UUID={
+                                                                                                        childOfChildofChild.UUID
+                                                                                                    }
+                                                                                                    Titel={
+                                                                                                        childOfChildofChild.Titel
+                                                                                                    }
+                                                                                                />
+                                                                                            )
+                                                                                        )}
+                                                                                    </ul>
+                                                                                ) : null}
+                                                                            </ListItem>
+                                                                        )
+                                                                    )}
+                                                                </ul>
+                                                            ) : null}
+                                                        </ListItem>
+                                                    )
+                                                )}
+                                            </ul>
+                                        ) : null}
+                                    </ListItem>
+                                )
+                            )}
+                        </ul>
+                    </div>
+                ) : null}
+            </div>
+        )
+    }
 }
 
 export default withRouter(VerordeningenDetailSidebar)

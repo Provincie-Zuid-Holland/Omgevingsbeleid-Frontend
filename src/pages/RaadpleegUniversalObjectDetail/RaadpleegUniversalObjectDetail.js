@@ -197,56 +197,19 @@ class RaadpleegUniversalObjectDetail extends Component {
                     }                     
                 `}</style>
                 </Helmet>
-                <div className="w-1/4" id="raadpleeg-detail-sidebar">
-                    {!this.state.fullscreenLeafletViewer ? (
-                        <React.Fragment>
-                            {hashBool ? (
-                                <ButtonBackToPage
-                                    terugNaar="zoekresultaten"
-                                    url={`/zoekresultaten${searchQuery}`}
-                                />
-                            ) : (
-                                <ButtonBackToPage
-                                    terugNaar="startpagina"
-                                    url="/"
-                                />
-                            )}
-                            <h2 className="text-gray-800 mt-6 text-l font-serif block">
-                                Gerelateerde{' '}
-                                {this.props.dataModel.variables.Titel_Meervoud}
-                            </h2>
-                            <ul className="mt-4 pr-8">
-                                <li className="mt-2 text-gray-700">
-                                    <span className="text-sm block">
-                                        Hier komen gerelateerde{' '}
-                                        {
-                                            this.props.dataModel.variables
-                                                .Titel_Meervoud
-                                        }
-                                    </span>
-                                </li>
-                            </ul>
-                        </React.Fragment>
-                    ) : (
-                        <React.Fragment>
-                            <span
-                                onClick={this.toggleFullscreenLeafletViewer}
-                                className="text-l mb-2 inline-block text-gray-600 cursor-pointer pr-5"
-                            >
-                                <FontAwesomeIcon
-                                    className="mr-2"
-                                    icon={faAngleLeft}
-                                />
-                                <span>Terug naar artikelpagina</span>
-                            </span>
-                        </React.Fragment>
-                    )}
-                </div>
                 {dataLoaded ? (
                     <div
                         id="raadpleeg-detail-container-content"
-                        className={werkingsgebiedBoolean ? `w-2/4` : `w-3/4`}
+                        className={werkingsgebiedBoolean ? `w-3/4` : `w-full`}
                     >
+                        {hashBool ? (
+                            <ButtonBackToPage
+                                terugNaar="zoekresultaten"
+                                url={`/zoekresultaten${searchQuery}`}
+                            />
+                        ) : (
+                            <ButtonBackToPage terugNaar="startpagina" url="/" />
+                        )}
                         {/* Artikel Headers */}
                         <span className="text-l font-serif block text-gray-800">
                             {this.props.dataModel.variables.Titel_Enkelvoud}

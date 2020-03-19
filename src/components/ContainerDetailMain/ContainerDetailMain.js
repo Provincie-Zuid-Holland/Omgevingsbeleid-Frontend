@@ -168,8 +168,6 @@ class ContainerDetailMain extends Component {
                             </div>
                         </a>
                     ) : null}
-                    {console.log('titelEnkelvoud')}
-                    {console.log(titelEnkelvoud)}
                     {titelEnkelvoud !== 'Beleidsrelatie' ? (
                         <a
                             href={
@@ -183,7 +181,7 @@ class ContainerDetailMain extends Component {
                                               ? `${this.props.urlParams}`
                                               : ''
                                       }`
-                                    : `/detail/${this.props.overzichtSlug}/${this.props.match.params.single}`
+                                    : `/detail/${this.props.overzichtSlug}/${dataObject.UUID}`
                             }
                             target="_blank"
                             rel="noopener noreferrer"
