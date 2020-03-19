@@ -24,6 +24,14 @@ const getGeoJsonData = async (type, UUID, cancelToken) => {
     return data
 }
 
+const getWerkingsGebieden = async (pointA, pointB) => {
+    let res = await instance.get(
+        `ows?service=wfs&version=1.1.0&request=GetFeature&outputFormat=application/json&typeName=OMGEVINGSBELEID:Werkingsgebieden&cql_filter=INTERSECTS(Shape, POINT (82316.48 454183.36))&maxFeatures=10&propertyName=UUID,Gebied`
+    )
+    const data = res.data.features
+    return data
+}
+
 const cancelRequest = () => {
     source.cancel('Operation canceled by the user.')
 }
@@ -35,4 +43,4 @@ instance.interceptors.request.use(function(config) {
 })
 
 export default instance
-export { getGeoJsonData, cancelRequest, api_version }
+export { getGeoJsonData, getWerkingsGebieden, cancelRequest, api_version }

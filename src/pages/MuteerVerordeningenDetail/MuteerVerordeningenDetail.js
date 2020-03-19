@@ -388,7 +388,7 @@ class MuteerVerordeningenDetail extends Component {
                                         </div>
                                     </span>
                                     <span className="text-sm inline text-gray-700 -mt-5 pl-5 cursor-pointer hover:underline">
-                                        Ontwerp maken
+                                        Bewerken
                                     </span>
                                 </Link>
                             </div>

@@ -149,7 +149,7 @@ class SearchBar extends Component {
         const searchParams = new URLSearchParams(urlParams)
         const searchQuery = searchParams.get('query')
 
-        if (searchQuery) {
+        if (searchQuery && searchQuery !== 'null') {
             this.setState(
                 {
                     searchInput: searchQuery,

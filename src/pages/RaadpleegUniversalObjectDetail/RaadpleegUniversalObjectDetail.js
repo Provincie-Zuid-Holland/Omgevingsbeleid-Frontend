@@ -203,7 +203,7 @@ class RaadpleegUniversalObjectDetail extends Component {
                             {hashBool ? (
                                 <ButtonBackToPage
                                     terugNaar="zoekresultaten"
-                                    url={`/zoekresultaten?query=${searchQuery}`}
+                                    url={`/zoekresultaten${searchQuery}`}
                                 />
                             ) : (
                                 <ButtonBackToPage

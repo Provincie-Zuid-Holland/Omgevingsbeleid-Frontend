@@ -1,23 +1,40 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { format } from 'date-fns'
-import { Helmet } from 'react-helmet'
 import nlLocale from 'date-fns/locale/nl'
+import queryString from 'query-string'
 import {
-    faAngleLeft,
+    faAngleRight,
     faPrint,
     faExternalLinkAlt,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { toast } from 'react-toastify'
 import clonedeep from 'lodash.clonedeep'
 
 // Import Axios instance to connect with the API
 import axios from '../../API/axios'
 
 // Import Components
+import ButtonBackToPage from './../../components/ButtonBackToPage'
 import VerordeningenDetailSidebar from './VerordeningenDetailSidebar'
 import LoaderSmallSpan from './../../components/LoaderSmallSpan'
+
+// !REFACTOR! -> Wordt nu op meerdere plekken gebruikt, move naar utils
+function getQueryStringValues(urlParams) {
+    function parseIntOrSetToNull(item) {
+        if (item === 'null') {
+            return null
+        } else {
+            return parseInt(item)
+        }
+    }
+    const queryStringValues = queryString.parse(urlParams)
+    let hoofdstukIndex = parseIntOrSetToNull(queryStringValues.hoofdstuk)
+    let nest_1 = parseIntOrSetToNull(queryStringValues.nest_1)
+    let nest_2 = parseIntOrSetToNull(queryStringValues.nest_2)
+    let nest_3 = parseIntOrSetToNull(queryStringValues.nest_3)
+    return [hoofdstukIndex, nest_1, nest_2, nest_3]
+}
 
 class RaadpleegVerordeningsArtikelDetail extends Component {
     constructor(props) {
@@ -47,7 +64,6 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
     }
 
     changeActiveHoofdstuk(hoofdstukNummer) {
-        console.log(hoofdstukNummer)
         if (hoofdstukNummer !== null) {
             const parsedHoofdstukNummer = parseInt(hoofdstukNummer)
             // Het Parsed Hfst nummer doen we '- 1' om de index te verkrijgen
@@ -161,6 +177,18 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
             .catch(err => {
                 console.log(err)
             })
+
+        // Set Active Artikel if URL params are provided
+        const urlParams = this.props.location.search
+        if (urlParams) {
+            let [hoofdstukIndex, nest1, nest2, nest3] = getQueryStringValues(
+                urlParams
+            )
+
+            this.setState({
+                activeArtikel: [hoofdstukIndex, nest1, nest2, nest3],
+            })
+        }
     }
 
     render() {
@@ -168,98 +196,182 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
         const activeArtikel = this.state.activeArtikel
         let artikel = null
         let hoofdstukNummer = null
+        let hoofdstukTitel = null
+        let breadcrumb = null
 
         if (dataLoaded && activeArtikel) {
-            // Selecteer het artikel. Het artikel kan in een Paragraaf zitten, maar ook in een Paragraaf die in een groep zit. Hieronder selecteren we het juiste Artikel
+            hoofdstukNummer = this.state.lineage.Structuur.Children[
+                activeArtikel[0]
+            ].Volgnummer
+            hoofdstukTitel = this.state.lineage.Structuur.Children[
+                activeArtikel[0]
+            ].Titel
+
+            // Selecteer het artikel, en zet de variabele (artikel, hoofdstukNummer, etc)
+            // !REFACTOR! eigen functie(s)
             if (activeArtikel[3] !== null) {
                 artikel = this.state.lineage.Structuur.Children[
                     activeArtikel[0]
                 ].Children[activeArtikel[1]].Children[activeArtikel[2]]
                     .Children[activeArtikel[3]]
+
+                breadcrumb = (
+                    <React.Fragment>
+                        <span>{`${hoofdstukNummer}. ${hoofdstukTitel}`}</span>
+                        <FontAwesomeIcon className="mx-2" icon={faAngleRight} />
+                        <span>{`${hoofdstukNummer}.${
+                            this.state.lineage.Structuur.Children[
+                                activeArtikel[0]
+                            ].Children[activeArtikel[1]].Volgnummer
+                        } ${
+                            this.state.lineage.Structuur.Children[
+                                activeArtikel[0]
+                            ].Children[activeArtikel[1]].Titel
+                        }`}</span>
+                        <FontAwesomeIcon className="mx-2" icon={faAngleRight} />
+                        <span>{`${hoofdstukNummer}.
+                        ${
+                            this.state.lineage.Structuur.Children[
+                                activeArtikel[0]
+                            ].Children[activeArtikel[1]].Volgnummer
+                        }.
+                        ${
+                            this.state.lineage.Structuur.Children[
+                                activeArtikel[0]
+                            ].Children[activeArtikel[1]].Children[
+                                activeArtikel[2]
+                            ].Volgnummer
+                        } 
+                        ${
+                            this.state.lineage.Structuur.Children[
+                                activeArtikel[0]
+                            ].Children[activeArtikel[1]].Children[
+                                activeArtikel[2]
+                            ].Titel
+                        }`}</span>
+                    </React.Fragment>
+                )
             } else if (activeArtikel[2] !== null) {
                 artikel = this.state.lineage.Structuur.Children[
                     activeArtikel[0]
                 ].Children[activeArtikel[1]].Children[activeArtikel[2]]
+
+                breadcrumb = (
+                    <React.Fragment>
+                        <span>{`${hoofdstukNummer}. ${hoofdstukTitel}`}</span>
+                        <FontAwesomeIcon className="mx-2" icon={faAngleRight} />
+                        <span>{`${hoofdstukNummer}.${
+                            this.state.lineage.Structuur.Children[
+                                activeArtikel[0]
+                            ].Children[activeArtikel[1]].Volgnummer
+                        } ${
+                            this.state.lineage.Structuur.Children[
+                                activeArtikel[0]
+                            ].Children[activeArtikel[1]].Titel
+                        }`}</span>
+                    </React.Fragment>
+                )
             } else if (activeArtikel[1] !== null) {
                 artikel = this.state.lineage.Structuur.Children[
                     activeArtikel[0]
                 ].Children[activeArtikel[1]]
             }
+        }
 
-            hoofdstukNummer = this.state.lineage.Structuur.Children[
-                activeArtikel[0]
-            ].Volgnummer
+        let hashBool = false
+        let searchQuery = null
+        if (window.location.hash) {
+            hashBool = true
+            searchQuery = window.location.hash.substr(1)
         }
 
         return (
             <div
-                className="container mx-auto flex px-6 pb-20 mt-8"
+                className="container mx-auto flex px-6 pb-20"
                 id="raadpleeg-detail-container-main"
             >
-                <VerordeningenDetailSidebar
-                    changeActiveHoofdstuk={this.changeActiveHoofdstuk}
-                    activeHoofdstuk={this.state.activeHoofdstuk}
-                    dataLoaded={this.state.dataLoaded}
-                    lineage={this.state.lineage}
-                    selectArtikel={this.selectArtikel}
-                />
+                <div className="w-1/4">
+                    {hashBool ? (
+                        <ButtonBackToPage
+                            terugNaar="zoekresultaten"
+                            url={`/zoekresultaten?query=${searchQuery}`}
+                        />
+                    ) : (
+                        <ButtonBackToPage terugNaar="startpagina" url="/" />
+                    )}
+                    <VerordeningenDetailSidebar
+                        changeActiveHoofdstuk={this.changeActiveHoofdstuk}
+                        activeHoofdstuk={this.state.activeHoofdstuk}
+                        dataLoaded={this.state.dataLoaded}
+                        lineage={this.state.lineage}
+                        selectArtikel={this.selectArtikel}
+                    />
+                </div>
                 {dataLoaded ? (
                     artikel !== null ? (
-                        <div
-                            id="raadpleeg-detail-container-content text-gray-800"
-                            className={`w-3/4`}
-                        >
-                            {console.log(artikel)}
-                            {/* Artikel Headers */}
-                            <span className="text-l font-serif block text-gray-800">
-                                Artikel {hoofdstukNummer}.{artikel.Volgnummer}
-                            </span>
-                            <h1
-                                id="raadpleeg-detail-header-one"
-                                className="mt-2 heading-serif-2xl text-gray-800"
-                            >
-                                {artikel.Titel}
-                            </h1>
-
-                            {/* Meta Content */}
+                        <React.Fragment>
                             <div
-                                className="mb-8 block"
-                                id="raadpleeg-detail-container-meta-info"
+                                id="raadpleeg-detail-container-content text-gray-800"
+                                className={`w-3/4`}
                             >
-                                {dataLoaded ? (
-                                    <span className="text-gray-600 text-sm mr-3">
-                                        Vigerend sinds{' '}
-                                        {format(
-                                            new Date(artikel.Begin_Geldigheid),
-                                            'DD-MMMM-YYYY',
-                                            {
-                                                locale: nlLocale,
-                                            }
-                                        )}
-                                    </span>
-                                ) : (
-                                    <span className="mt-2 block">
-                                        <LoaderSmallSpan />
-                                    </span>
-                                )}
-                                <span className="text-gray-600 text-sm mr-3">
-                                    &bull;
+                                <div className="w-full block mb-8 text-gray-600 inline-block">
+                                    {breadcrumb}
+                                </div>
+
+                                {/* Artikel Headers */}
+                                <span className="text-l font-serif block text-gray-800">
+                                    Artikel {hoofdstukNummer}.
+                                    {artikel.Volgnummer}
                                 </span>
-                                <span
-                                    className="text-gray-600 text-sm mr-3 cursor-pointer"
-                                    onClick={() => window.print()}
+                                <h1
+                                    id="raadpleeg-detail-header-one"
+                                    className="mt-2 heading-serif-2xl text-gray-800"
                                 >
-                                    <FontAwesomeIcon
-                                        className="mr-2"
-                                        icon={faPrint}
-                                    />
-                                    Afdrukken
-                                </span>
+                                    {artikel.Titel}
+                                </h1>
+
+                                {/* Meta Content */}
+                                <div
+                                    className="mb-8 block"
+                                    id="raadpleeg-detail-container-meta-info"
+                                >
+                                    {dataLoaded ? (
+                                        <span className="text-gray-600 text-sm mr-3">
+                                            Vigerend sinds{' '}
+                                            {format(
+                                                new Date(
+                                                    artikel.Begin_Geldigheid
+                                                ),
+                                                'DD-MMMM-YYYY',
+                                                {
+                                                    locale: nlLocale,
+                                                }
+                                            )}
+                                        </span>
+                                    ) : (
+                                        <span className="mt-2 block">
+                                            <LoaderSmallSpan />
+                                        </span>
+                                    )}
+                                    <span className="text-gray-600 text-sm mr-3">
+                                        &bull;
+                                    </span>
+                                    <span
+                                        className="text-gray-600 text-sm mr-3 cursor-pointer"
+                                        onClick={() => window.print()}
+                                    >
+                                        <FontAwesomeIcon
+                                            className="mr-2"
+                                            icon={faPrint}
+                                        />
+                                        Afdrukken
+                                    </span>
+                                </div>
+                                <p className={`text-gray-700 text-sm mb-4`}>
+                                    {artikel.Inhoud}
+                                </p>
                             </div>
-                            <p className={`text-gray-700 text-sm mb-4`}>
-                                {artikel.Inhoud}
-                            </p>
-                        </div>
+                        </React.Fragment>
                     ) : (
                         <span className="italic text-gray-700 w-3/4 inline-block">
                             Selecteer een artikel

@@ -1,12 +1,31 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { withRouter } from 'react-router-dom'
+import queryString from 'query-string'
 
 import {
     faMinusSquare,
     faFileAlt,
     faPlusSquare,
 } from '@fortawesome/free-regular-svg-icons'
-import { faBook } from '@fortawesome/pro-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
+import useEventListener from './../../../utils/useEventListener'
+
+function getQueryStringValues(urlParams) {
+    function parseIntOrSetToNull(item) {
+        if (item === 'null') {
+            return null
+        } else {
+            return parseInt(item)
+        }
+    }
+    const queryStringValues = queryString.parse(urlParams)
+    let hoofdstukIndex = parseIntOrSetToNull(queryStringValues.hoofdstuk)
+    let nest_1 = parseIntOrSetToNull(queryStringValues.nest_1)
+    let nest_2 = parseIntOrSetToNull(queryStringValues.nest_2)
+    let nest_3 = parseIntOrSetToNull(queryStringValues.nest_3)
+    return [hoofdstukIndex, nest_1, nest_2, nest_3]
+}
 
 function ListItem({
     UUID,
@@ -23,8 +42,18 @@ function ListItem({
     nest_1,
     nest_2,
     nest_3,
+    setActiveArtikel,
+    arrayIndex,
+    activeArtikel,
 }) {
-    const [display, setDisplay] = useState(false)
+    // const [display, setDisplay] = useState(listIndex === indexOpen)
+    const display = activeArtikel[arrayIndex] === listIndex
+
+    if (arrayIndex === 1) {
+        console.log(Titel)
+        console.log(display)
+    }
+
     return (
         <li key={UUID} className={`mt-2 relative`}>
             <div
@@ -38,6 +67,18 @@ function ListItem({
                         nest_3
                     )
 
+                    console.log(activeArtikel)
+                    let newArray = activeArtikel
+                    let newValue = null
+                    if (newArray[arrayIndex] !== null) {
+                        newValue = null
+                    } else {
+                        newValue = listIndex
+                    }
+                    newArray[arrayIndex] = newValue
+                    console.log(newArray)
+                    setActiveArtikel(newArray)
+
                     if (
                         item.Type === 'Hoofdstuk' &&
                         activeHoofdstuk !== listIndex
@@ -49,7 +90,6 @@ function ListItem({
                     ) {
                         changeActiveHoofdstuk(null)
                     } else if (item.Type !== 'Artikel' && hasChildren) {
-                        setDisplay(!display)
                     }
                 }}
             >
@@ -95,25 +135,40 @@ function VerordeningenDetailSidebar({
     dataLoaded,
     lineage,
     selectArtikel,
+    location,
 }) {
+    const [activeArtikel, setActiveArtikel] = useState([])
+
+    useEffect(() => {
+        // Set Active Artikel if URL params are provided
+        const urlParams = location.search
+        if (urlParams) {
+            let [hoofdstukIndex, nest1, nest2, nest3] = getQueryStringValues(
+                urlParams
+            )
+            setActiveArtikel([hoofdstukIndex, nest1, nest2, nest3])
+        } else {
+            setActiveArtikel([null, null, null, null])
+        }
+    }, [])
+
     return (
-        <div className="w-1/4 inline-block flex-grow">
+        <div className="w-full inline-block flex-grow">
             {dataLoaded ? (
-                <div className="pl-6 relative">
-                    <h1
-                        className="text-sm text-gray-800 mb-4 cursor-pointer block"
+                <div className="relative">
+                    <h2
+                        className="font-serif block text-gray-800 mt-4"
                         onClick={() => changeActiveHoofdstuk(null)}
                     >
-                        <FontAwesomeIcon
-                            className="absolute mt-1 left-0  text-gray-700"
-                            icon={faBook}
-                        />
-                        {lineage.Titel}
-                    </h1>
-                    <ul className="relative">
+                        Inhoudsopgave verordening
+                    </h2>
+                    <ul className="relative pl-6 pr-5">
                         {lineage.Structuur.Children.map(
                             (hoofdstuk, hoofdstukIndex) => (
                                 <ListItem
+                                    activeArtikel={activeArtikel}
+                                    arrayIndex={0}
+                                    setActiveArtikel={setActiveArtikel}
                                     selectArtikel={selectArtikel}
                                     activeHoofdstuk={activeHoofdstuk}
                                     hasChildren={hoofdstuk.Children.length > 0}
@@ -137,6 +192,13 @@ function VerordeningenDetailSidebar({
                                             {hoofdstuk.Children.map(
                                                 (child, nest_1) => (
                                                     <ListItem
+                                                        activeArtikel={
+                                                            activeArtikel
+                                                        }
+                                                        arrayIndex={1}
+                                                        setActiveArtikel={
+                                                            setActiveArtikel
+                                                        }
                                                         selectArtikel={
                                                             selectArtikel
                                                         }
@@ -174,6 +236,15 @@ function VerordeningenDetailSidebar({
                                                                         nest_2
                                                                     ) => (
                                                                         <ListItem
+                                                                            activeArtikel={
+                                                                                activeArtikel
+                                                                            }
+                                                                            arrayIndex={
+                                                                                2
+                                                                            }
+                                                                            setActiveArtikel={
+                                                                                setActiveArtikel
+                                                                            }
                                                                             selectArtikel={
                                                                                 selectArtikel
                                                                             }
@@ -231,6 +302,15 @@ function VerordeningenDetailSidebar({
                                                                                             nest_3
                                                                                         ) => (
                                                                                             <ListItem
+                                                                                                activeArtikel={
+                                                                                                    activeArtikel
+                                                                                                }
+                                                                                                arrayIndex={
+                                                                                                    3
+                                                                                                }
+                                                                                                setActiveArtikel={
+                                                                                                    setActiveArtikel
+                                                                                                }
                                                                                                 selectArtikel={
                                                                                                     selectArtikel
                                                                                                 }
@@ -301,4 +381,4 @@ function VerordeningenDetailSidebar({
     )
 }
 
-export default VerordeningenDetailSidebar
+export default withRouter(VerordeningenDetailSidebar)

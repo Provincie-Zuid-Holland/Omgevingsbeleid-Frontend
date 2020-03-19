@@ -175,6 +175,13 @@ $base-color: #002f65;
     background-color: #ffffff;
 }
 
+// !REFACTOR! Vieze important statement maar nu geen tijd ivm deadline :-(
+.custom-popup {
+    a {
+        color: white !important;
+    }
+}
+
 #leaflet-preview-card {
     .leaflet-interactive {
         cursor: default;

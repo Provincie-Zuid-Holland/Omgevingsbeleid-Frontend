@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import ReactDOMServer from 'react-dom/server'
 import Leaflet from 'leaflet'
 import { Map, TileLayer, LayersControl, FeatureGroup } from 'react-leaflet'
 import Proj from 'proj4leaflet'
@@ -20,6 +21,31 @@ Leaflet.Icon.Default.mergeOptions({
     shadowUrl:
         'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/images/marker-shadow.png',
 })
+
+function CreateCustomPopup({ weergavenaam, lat, lng, point }) {
+    return (
+        <div className="text-base custom-popup">
+            <span className="font-bold block">Gemarkeerde Locatie</span>
+            <ul className="mb-4">
+                <li>{weergavenaam.split(',')[0]}</li>
+                <li>{weergavenaam.split(',')[1]}</li>
+                <li>
+                    GPS Locatie: {lat.toFixed(7)}, {lng.toFixed(7)}
+                </li>
+            </ul>
+            <a
+                href={`/zoekresultaten?geoQuery=${point.x.toFixed(
+                    2
+                )}+${point.y.toFixed(2)}&LatLng=${lat.toFixed(7)}-${lng.toFixed(
+                    7
+                )}`}
+                className="text-white mbg-color cursor-pointer hover:bg-blue-600 inline-block py-2 px-8 rounded focus:outline-none focus:shadow-outline"
+            >
+                Bekijk provinciaal beleid van deze locatie
+            </a>
+        </div>
+    )
+}
 
 const RDProj4 = `+proj=sterea+lat_0=52.15616055555555+lon_0=5.38763888888889+k=0.9999079+x_0=155000+y_0=463000+ellps=bessel+units=m+no_defs`
 const RDCrs = new Proj.CRS('EPSG:28992', RDProj4, {
@@ -47,6 +73,14 @@ const RDCrs = new Proj.CRS('EPSG:28992', RDProj4, {
         [595401.92, 903401.92],
     ]),
 })
+const RDProjection = new Proj.Projection(
+    'EPSG:28992',
+    RDProj4,
+    Leaflet.bounds([
+        [-285401.92, 22598.08],
+        [595401.92, 903401.92],
+    ])
+)
 
 const DEFAULT_VIEWPORT = {
     center: [52.086531, 4.316168],
@@ -77,14 +111,17 @@ export default class LeafletHalfScreenWidthViewer extends Component {
         import('./../../API/axiosLocatieserver').then(api => {
             api.getAdresData(lat, lng)
                 .then(data => {
-                    const customPopupHTML = `<div class="text-base"> <span class="font-bold block">Gemarkeerde Locatie</span><ul class="mb-4"><li>${
-                        data.weergavenaam.split(',')[0]
-                    }</li><li>${
-                        data.weergavenaam.split(',')[1]
-                    }</li> <li>GPS Locatie: ${lat.toFixed(7)}, ${lng.toFixed(
-                        7
-                    )}</li> </ul> <span class="mbg-color cursor-not-allowed hover:bg-blue-600 text-white inline-block py-2 px-8 rounded focus:outline-none focus:shadow-outline">Bekijk binnenkort het beleid van deze locatie</span></div>`
-
+                    console.log(lat, lng)
+                    const customPopupHTML = `<div>${ReactDOMServer.renderToString(
+                        <CreateCustomPopup
+                            weergavenaam={data.weergavenaam}
+                            lat={lat}
+                            lng={lng}
+                            point={RDProjection.project({ lat: lat, lng: lng })}
+                        />
+                    )}</div>`
+                    //rd_latlong = proj4(RDCrs,[lat,long]);
+                    // ${RDProjection.project({ lat: lat, lng: lng })}
                     layer._popup.setContent(customPopupHTML)
                 })
                 .catch(function(thrown) {

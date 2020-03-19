@@ -43,6 +43,8 @@ function getDimensieConstant(type) {
             return allDimensieConstants.THEMAS
         case 'Verordeningen':
             return allDimensieConstants.VERORDENINGSARTIKEL
+        case 'Artikel':
+            return allDimensieConstants.VERORDENINGSARTIKEL
         default:
             throw new Error(
                 `Whoops! Het type '${type}' kan niet binnen de allDimensieConstants gevonden worden.`
@@ -198,19 +200,10 @@ class RaadpleegZoekResultatenOverzicht extends Component {
         })
     }
 
-    componentDidMount() {
-        const urlParams = this.props.location.search
-        const searchParams = new URLSearchParams(urlParams)
-        const searchQuery = searchParams.get('query')
-        const searchFiltersOnly = searchParams.get('only')
-
+    getSearchNormaleQuery(searchQuery, searchFiltersOnly) {
         this.setState({
             searchQuery: searchQuery,
         })
-
-        if (!urlParams || urlParams.length === 0) {
-            return
-        }
 
         axios
             .get(
@@ -240,13 +233,87 @@ class RaadpleegZoekResultatenOverzicht extends Component {
             })
     }
 
+    getBeleidOpBasisVanWerkingsgebieden(werkingsgebiedenArray) {
+        axios
+            .get(`/search/geo?query=${werkingsgebiedenArray}`)
+            .then(res => {
+                const searchResults = res.data
+                this.setInitialOnPageFilters(searchResults)
+                this.setState(
+                    {
+                        searchFiltersOnly: null,
+                        searchResults: searchResults,
+                        dataLoaded: true,
+                    },
+                    () => console.log(this.state)
+                )
+            })
+            .catch(err => {
+                this.setState(
+                    {
+                        dataLoaded: true,
+                    },
+                    () => toast('Er is iets mis gegaan')
+                )
+            })
+    }
+
+    getSearchGeoQuery(searchGeoQuery, latLng) {
+        this.setState({
+            geoSearchQuery: latLng.replace('-', ' '),
+        })
+
+        import('./../../API/axiosGeoJSON').then(api => {
+            api.getWerkingsGebieden(searchGeoQuery)
+                .then(data => {
+                    console.log(data)
+                    const WerkingsgebiedenUUIDS = data.map(
+                        item => item.properties.UUID
+                    )
+                    this.getBeleidOpBasisVanWerkingsgebieden(
+                        WerkingsgebiedenUUIDS
+                    )
+                })
+                .catch(function(err) {
+                    console.log(err)
+                })
+        })
+    }
+
+    componentDidMount() {
+        const urlParams = this.props.location.search
+        const searchParams = new URLSearchParams(urlParams)
+        const searchQuery = searchParams.get('query')
+        const searchFiltersOnly = searchParams.get('only')
+        const searchGeoQuery = searchParams.get('geoQuery')
+        const latLng = searchParams.get('LatLng')
+
+        if (!urlParams || urlParams.length === 0) {
+            return
+        }
+
+        this.setState({
+            urlParams: urlParams,
+        })
+
+        if (searchQuery) {
+            this.getSearchNormaleQuery(searchQuery, searchFiltersOnly)
+        } else if (searchGeoQuery) {
+            this.getSearchGeoQuery(searchGeoQuery, latLng)
+        }
+    }
+
     render() {
         return (
             <div className="container mx-auto flex px-6 pb-8 mt-12">
                 <div className="w-1/4">
                     <ButtonBackToPage
                         terugNaar="startpagina"
-                        url={`/?query=${this.state.searchQuery}`}
+                        url={
+                            this.state.searchQuery
+                                ? `/?query=${this.state.searchQuery}`
+                                : `/`
+                        }
                     />
                     <h2 className="mt-6 text-l font-serif block text-gray-700">
                         Filteren
@@ -256,7 +323,10 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                         this.state.onPageFilters.filterArray.length > 0
                             ? this.state.onPageFilters.filterArray.map(
                                   (item, index) => (
-                                      <li className="mt-1 text-gray-700 text-sm">
+                                      <li
+                                          key={item}
+                                          className="mt-1 text-gray-700 text-sm"
+                                      >
                                           <label className="cursor-pointer select-none">
                                               <input
                                                   className="mr-2 leading-tight"
@@ -293,7 +363,13 @@ class RaadpleegZoekResultatenOverzicht extends Component {
 
                 <div className="w-2/4">
                     <span className="text-gray-600 text-sm">
-                        Zoekresultaten voor "{this.state.searchQuery}"
+                        Zoekresultaten voor
+                        {this.state.searchQuery
+                            ? `"${this.state.searchQuery}"`
+                            : null}
+                        {this.state.geoSearchQuery
+                            ? ` coördinaten "${this.state.geoSearchQuery}"`
+                            : null}
                     </span>
                     <ul>
                         {this.state.dataLoaded ? (
@@ -308,7 +384,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                                         return (
                                             <SearchResultItem
                                                 searchQuery={
-                                                    this.state.searchQuery
+                                                    this.state.urlParams
                                                 }
                                                 item={item}
                                                 key={item.UUID}
