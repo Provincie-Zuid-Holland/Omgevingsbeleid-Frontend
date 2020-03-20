@@ -64,6 +64,7 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
     }
 
     changeActiveHoofdstuk(hoofdstukNummer) {
+        console.log(hoofdstukNummer)
         if (hoofdstukNummer !== null) {
             const parsedHoofdstukNummer = parseInt(hoofdstukNummer)
             // Het Parsed Hfst nummer doen we '- 1' om de index te verkrijgen
@@ -180,12 +181,14 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
 
         // Set Active Artikel if URL params are provided
         const urlParams = this.props.location.search
+
         if (urlParams) {
             let [hoofdstukIndex, nest1, nest2, nest3] = getQueryStringValues(
                 urlParams
             )
 
             this.setState({
+                activeHoofdstuk: hoofdstukIndex,
                 activeArtikel: [hoofdstukIndex, nest1, nest2, nest3],
             })
         }

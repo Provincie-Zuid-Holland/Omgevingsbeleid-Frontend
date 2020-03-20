@@ -47,12 +47,8 @@ function ListItem({
     activeArtikel,
 }) {
     // const [display, setDisplay] = useState(listIndex === indexOpen)
-    const display = activeArtikel[arrayIndex] === listIndex
-
-    if (arrayIndex === 1) {
-        console.log(Titel)
-        console.log(display)
-    }
+    const display =
+        activeArtikel[arrayIndex] === listIndex && item.Type !== 'Hoofdstuk'
 
     return (
         <li key={UUID} className={`mt-2 relative`}>
@@ -67,29 +63,46 @@ function ListItem({
                         nest_3
                     )
 
-                    console.log(activeArtikel)
-                    let newArray = activeArtikel
-                    let newValue = null
-                    if (newArray[arrayIndex] !== null) {
-                        newValue = null
-                    } else {
-                        newValue = listIndex
+                    if (
+                        activeArtikel[arrayIndex] === listIndex &&
+                        item.Type === 'Artikel'
+                    ) {
+                        return
                     }
-                    newArray[arrayIndex] = newValue
-                    console.log(newArray)
-                    setActiveArtikel(newArray)
 
                     if (
                         item.Type === 'Hoofdstuk' &&
                         activeHoofdstuk !== listIndex
                     ) {
                         changeActiveHoofdstuk(listIndex)
+                        setActiveArtikel([listIndex, null, null, null])
                     } else if (
                         item.Type === 'Hoofdstuk' &&
                         activeHoofdstuk === listIndex
                     ) {
+                        console.log('2')
                         changeActiveHoofdstuk(null)
-                    } else if (item.Type !== 'Artikel' && hasChildren) {
+                        let newArray = activeArtikel
+                        newArray[0] = null
+                        setActiveArtikel(newArray)
+                    } else if (
+                        item.Type === 'Artikel' &&
+                        activeArtikel[arrayIndex] !== listIndex
+                    ) {
+                        console.log('3')
+                        let newArray = activeArtikel
+                        newArray[arrayIndex] = listIndex
+
+                        setActiveArtikel(newArray)
+                    } else {
+                        console.log('4')
+                        let newArray = activeArtikel
+                        let newValue = null
+                        if (activeArtikel[arrayIndex] === null) {
+                            newValue = listIndex
+                        }
+                        newArray[arrayIndex] = newValue
+                        setActiveArtikel(newArray)
                     }
                 }}
             >
@@ -107,7 +120,17 @@ function ListItem({
                             : faPlusSquare
                     }
                 />
-                <span className={`inline-block text-sm text-gray-800`}>
+                <span
+                    className={`inline-block text-sm text-gray-800 
+                    ${item.Type === 'Artikel' ? 'hover:underline' : ''}
+                    ${
+                        activeArtikel[arrayIndex] === listIndex &&
+                        item.Type === 'Artikel'
+                            ? 'font-bold'
+                            : ''
+                    }
+                    `}
+                >
                     {item.Type === 'Afdeling'
                         ? `${hoofdstukVolgnummer}.${item.Volgnummer} ${Titel} `
                         : ''}
@@ -121,6 +144,7 @@ function ListItem({
                     {item.Type === 'Hoofdstuk' ? Titel : ''}
                 </span>
             </div>
+
             {(activeHoofdstuk === listIndex && item.Type === 'Hoofdstuk') ||
             display
                 ? children
@@ -132,7 +156,13 @@ function ListItem({
 class VerordeningenDetailSidebar extends Component {
     constructor(props) {
         super(props)
+
+        this.state = {
+            activeArtikel: null,
+        }
+        this.setActiveArtikel = this.setActiveArtikel.bind(this)
     }
+
     // function VerordeningenDetailSidebar({
     //     activeHoofdstuk,
     //     changeActiveHoofdstuk,
@@ -142,34 +172,36 @@ class VerordeningenDetailSidebar extends Component {
     //     location,
     // }) {
 
+    setActiveArtikel(activeArtikel) {
+        this.setState({
+            activeArtikel: activeArtikel,
+        })
+    }
+
+    componentDidMount() {
+        // Set Active Artikel if URL params are provided
+        const urlParams = this.props.location.search
+        if (urlParams) {
+            let [hoofdstukIndex, nest1, nest2, nest3] = getQueryStringValues(
+                urlParams
+            )
+            this.setActiveArtikel([hoofdstukIndex, nest1, nest2, nest3])
+        } else {
+            this.setActiveArtikel([null, null, null, null])
+        }
+    }
+
     render() {
         const activeHoofdstuk = this.props.activeHoofdstuk
         const changeActiveHoofdstuk = this.props.changeActiveHoofdstuk
         const dataLoaded = this.props.dataLoaded
         const lineage = this.props.lineage
         const selectArtikel = this.props.selectArtikel
-        const location = this.props.location
 
-        const activeArtikel = 0
-        const setActiveArtikel = 0
+        const activeArtikel = this.state.activeArtikel
+        const setActiveArtikel = this.setActiveArtikel
 
-        // const [activeArtikel, setActiveArtikel] = useState([])
-
-        // useEffect(() => {
-        //     // Set Active Artikel if URL params are provided
-        //     const urlParams = location.search
-        //     if (urlParams) {
-        //         let [
-        //             hoofdstukIndex,
-        //             nest1,
-        //             nest2,
-        //             nest3,
-        //         ] = getQueryStringValues(urlParams)
-        //         setActiveArtikel([hoofdstukIndex, nest1, nest2, nest3])
-        //     } else {
-        //         setActiveArtikel([null, null, null, null])
-        //     }
-        // }, [])
+        console.log(activeHoofdstuk)
 
         return (
             <div className="w-full inline-block flex-grow">
