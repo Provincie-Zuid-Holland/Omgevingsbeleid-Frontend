@@ -2,8 +2,9 @@
 name: Bevinding
 about: De bevindingen n.a.v. het testen
 title: ''
-labels: ''
+labels: bevinding
 assignees: ''
+
 ---
 
 **Browser**
