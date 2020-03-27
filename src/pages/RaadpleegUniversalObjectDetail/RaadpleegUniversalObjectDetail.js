@@ -11,13 +11,12 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { toast } from 'react-toastify'
-import { PDFDownloadLink } from '@react-pdf/renderer'
 
 // Import Axios instance to connect with the API
 import axios from '../../API/axios'
 
 // Import Components
-import PDFDocument from './PDFDocument'
+// import PDFDocument from './PDFDocument'
 import RelatieComponent from './RelatieComponent'
 import LeafletTinyViewer from './../../components/LeafletTinyViewer'
 import ButtonBackToPage from './../../components/ButtonBackToPage'
@@ -310,7 +309,7 @@ class RaadpleegUniversalObjectDetail extends Component {
                             <span className="text-gray-600 text-sm mr-3">
                                 &bull;
                             </span>
-                            <span
+                            {/* <span
                                 onClick={this.toggleDownloadPDF}
                                 className="text-gray-600 text-sm mr-3 cursor-pointer"
                             >
@@ -362,12 +361,8 @@ class RaadpleegUniversalObjectDetail extends Component {
                                                             Hier kunt u
                                                             binnenkort het PDF
                                                             bestand downloaden .{' '}
-                                                            {/* De PDF is
-                                                            gegenereerd. Klik
-                                                            hier om deze te
-                                                            downloaden. */}
                                                         </div>
-                                                        {/* <span className="text-white inline-block bg-green-600 px-4 py-2 rounded mt-4">
+                                                        <span className="text-white inline-block bg-green-600 px-4 py-2 rounded mt-4">
                                                             <FontAwesomeIcon
                                                                 className="mr-2"
                                                                 icon={
@@ -375,7 +370,7 @@ class RaadpleegUniversalObjectDetail extends Component {
                                                                 }
                                                             />
                                                             Download
-                                                        </span> */}
+                                                        </span>
                                                     </div>
                                                 )
                                             }
@@ -385,7 +380,7 @@ class RaadpleegUniversalObjectDetail extends Component {
                             ) : null}
                             <span className="text-gray-600 text-sm mr-3">
                                 &bull;
-                            </span>
+                            </span> */}
                             <span
                                 className="text-gray-600 text-sm mr-3 cursor-pointer"
                                 onClick={() => window.print()}

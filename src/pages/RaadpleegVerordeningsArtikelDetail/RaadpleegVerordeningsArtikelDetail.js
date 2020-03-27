@@ -10,6 +10,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import clonedeep from 'lodash.clonedeep'
+import LoaderContent from './../../components/LoaderContent'
+import { toast } from 'react-toastify'
 
 // Import Axios instance to connect with the API
 import axios from '../../API/axios'
@@ -20,14 +22,16 @@ import VerordeningenDetailSidebar from './VerordeningenDetailSidebar'
 import LoaderSmallSpan from './../../components/LoaderSmallSpan'
 
 // !REFACTOR! -> Wordt nu op meerdere plekken gebruikt, move naar utils
-function getQueryStringValues(urlParams) {
-    function parseIntOrSetToNull(item) {
-        if (item === 'null') {
-            return null
-        } else {
-            return parseInt(item)
-        }
+function parseIntOrSetToNull(item) {
+    if (item === 'null') {
+        return null
+    } else {
+        return parseInt(item)
     }
+}
+
+// !REFACTOR! -> Wordt nu op meerdere plekken gebruikt, move naar utils
+function getQueryStringValues(urlParams) {
     const queryStringValues = queryString.parse(urlParams)
     let hoofdstukIndex = parseIntOrSetToNull(queryStringValues.hoofdstuk)
     let nest_1 = parseIntOrSetToNull(queryStringValues.nest_1)
@@ -41,251 +45,250 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
         super(props)
         this.state = {
             dataObject: null,
+            loadingNewObject: false,
             dataLoaded: false,
-            activeArtikel: null,
-        }
-
-        this.selectArtikel = this.selectArtikel.bind(this)
-
-        this.changeActiveHoofdstuk = this.changeActiveHoofdstuk.bind(this)
-
-        // Wordt gebruikt om de items in de verkregen verordeningsstructuur te populaten
-        this.populateFieldsAndSetState = this.populateFieldsAndSetState.bind(
-            this
-        )
-    }
-
-    selectArtikel(type, hoofdstukIndex, nest1, nest2, nest3) {
-        if (type !== 'Artikel') return
-
-        this.setState({
-            activeArtikel: [hoofdstukIndex, nest1, nest2, nest3],
-        })
-    }
-
-    changeActiveHoofdstuk(hoofdstukNummer) {
-        console.log(hoofdstukNummer)
-        if (hoofdstukNummer !== null) {
-            const parsedHoofdstukNummer = parseInt(hoofdstukNummer)
-            // Het Parsed Hfst nummer doen we '- 1' om de index te verkrijgen
-            this.setState({
-                activeHoofdstuk: parsedHoofdstukNummer,
-            })
-        } else if (hoofdstukNummer === null) {
-            this.setState({
-                activeHoofdstuk: null,
-            })
+            activeObjectPath: null,
         }
     }
 
-    populateFieldsAndSetState(lineage) {
-        lineage.Status = 'TEST'
+    getBreadcrumb({ hoofdstukNummer, hoofdstukTitel }) {
+        const activeObjectPath = this.state.activeObjectPath
+        const lineageStructuur = this.state.lineage.Structuur
+        let breadcrumb = null
 
-        let amountOfRequests = 0
-        let amountOfRequestsSolved = 0
-
-        const that = this
-
-        function getDataAndPopulateObject(child) {
-            amountOfRequests++
-
-            axios
-                .get(`/verordeningen/version/${child.UUID}`)
-                .then(res => {
-                    const object = res.data
-                    child.ID = object.ID
-                    child.Begin_Geldigheid = object.Begin_Geldigheid
-                    child.Eind_Geldigheid = object.Eind_Geldigheid
-                    child.Created_By = object.Created_By
-                    child.Created_Date = object.Created_Date
-                    child.Modified_By = object.Modified_By
-                    child.Modified_Date = object.Modified_Date
-                    child.Titel = object.Titel
-                    child.Inhoud = object.Inhoud
-                    child.Status = object.Status
-                    child.Type = object.Type
-                    child.Volgnummer = object.Volgnummer
-                    child.Werkingsgebied = object.Werkingsgebied
-                    child.Eigenaar_1 = object.Eigenaar_1
-                    child.Eigenaar_2 = object.Eigenaar_2
-                    child.Portefeuillehouder_1 = object.Portefeuillehouder_1
-                    child.Portefeuillehouder_2 = object.Portefeuillehouder_2
-                    child.Opdrachtgever = object.Opdrachtgever
-
-                    amountOfRequestsSolved++
-
-                    if (amountOfRequests === amountOfRequestsSolved) {
-                        that.setState(
-                            {
-                                dataLoaded: true,
-                                lineage: clonedeep(lineage),
-                            },
-                            () => console.log(that.state)
-                        )
-                    }
-                })
-                .catch(err => console.log(err))
+        if (activeObjectPath[3] !== null) {
+            breadcrumb = (
+                <React.Fragment>
+                    <span>{`${hoofdstukNummer}. ${hoofdstukTitel}`}</span>
+                    <FontAwesomeIcon className="mx-2" icon={faAngleRight} />
+                    <span>{`${hoofdstukNummer}.${
+                        lineageStructuur.Children[activeObjectPath[0]].Children[
+                            activeObjectPath[1]
+                        ].Volgnummer
+                    } ${
+                        lineageStructuur.Children[activeObjectPath[0]].Children[
+                            activeObjectPath[1]
+                        ].Titel
+                    }`}</span>
+                    <FontAwesomeIcon className="mx-2" icon={faAngleRight} />
+                    <span>{`${hoofdstukNummer}.
+                    ${
+                        lineageStructuur.Children[activeObjectPath[0]].Children[
+                            activeObjectPath[1]
+                        ].Volgnummer
+                    }.
+                    ${
+                        lineageStructuur.Children[activeObjectPath[0]].Children[
+                            activeObjectPath[1]
+                        ].Children[activeObjectPath[2]].Volgnummer
+                    } 
+                    ${
+                        lineageStructuur.Children[activeObjectPath[0]].Children[
+                            activeObjectPath[1]
+                        ].Children[activeObjectPath[2]].Titel
+                    }`}</span>
+                </React.Fragment>
+            )
+        } else if (activeObjectPath[2] !== null) {
+            breadcrumb = (
+                <React.Fragment>
+                    <span>{`${hoofdstukNummer}. ${hoofdstukTitel}`}</span>
+                    <FontAwesomeIcon className="mx-2" icon={faAngleRight} />
+                    <span>{`${hoofdstukNummer}.${
+                        lineageStructuur.Children[activeObjectPath[0]].Children[
+                            activeObjectPath[1]
+                        ].Volgnummer
+                    } ${
+                        lineageStructuur.Children[activeObjectPath[0]].Children[
+                            activeObjectPath[1]
+                        ].Titel
+                    }`}</span>
+                </React.Fragment>
+            )
         }
+        return breadcrumb
+    }
 
-        function recursiveGetDataForChildren(child) {
-            getDataAndPopulateObject(child)
-
-            const hasChildren = child.Children.length > 0
-            if (!hasChildren) return
-            child.Children.map(childOfChild => {
-                getDataAndPopulateObject(childOfChild)
-
-                const hasChildren = childOfChild.Children.length > 0
-                if (!hasChildren) return
-                childOfChild.Children.map((recChild, index) => {
-                    getDataAndPopulateObject(recChild)
-
-                    const hasChildren = recChild.Children.length > 0
-                    if (!hasChildren) return
-                    recursiveGetDataForChildren(recChild)
-                })
-            })
-        }
-
-        lineage.Structuur.Children.map((child, index) => {
-            const hasChildren = child.Children.length > 0
-            if (hasChildren) {
-                recursiveGetDataForChildren(child)
-            } else {
-                getDataAndPopulateObject(child)
-            }
-        })
-
-        if (lineage.Structuur.Children.length === 0) {
+    getAndSetLineage(ID) {
+        return axios.get(`/verordeningstructuur/${ID}`).then(res => {
+            // Get latest lineage
+            const lineage = res.data[res.data.length - 1]
+            // this.populateFieldsAndSetState(lineage)
             this.setState({
-                dataLoaded: true,
                 lineage: lineage,
             })
+        })
+    }
+
+    getAndSetVerordeningsObject(UUID) {
+        return axios.get(`/verordeningen/version/${UUID}`).then(res => {
+            // Get latest lineage
+            const verordeningsObject = res.data
+            // this.populateFieldsAndSetState(lineage)
+            this.setState({
+                verordeningsObject: verordeningsObject,
+            })
+        })
+    }
+
+    getAndSetLidObject(UUID) {
+        return axios.get(`/verordeningen/version/${UUID}`).then(res => {
+            // Get latest lineage
+            const lidObject = res.data
+            return lidObject
+        })
+    }
+
+    getActiveObjectInLineage() {
+        const lineage = this.state.lineage
+        const activeObjectPath = this.state.activeObjectPath
+        const [hoofdstukIndex, nest_1, nest_2, nest_3] = activeObjectPath
+
+        if (nest_3 !== null) {
+            return lineage.Structuur.Children[hoofdstukIndex].Children[nest_1]
+                .Children[nest_2].Children[nest_3]
+        } else if (nest_2 !== null) {
+            return lineage.Structuur.Children[hoofdstukIndex].Children[nest_1]
+                .Children[nest_2]
+        } else if (nest_1 !== null) {
+            return lineage.Structuur.Children[hoofdstukIndex].Children[nest_1]
         }
+    }
+
+    ifPresentGetAndSetLeden(UUID) {
+        const verordeningsObjectInLineage = this.getActiveObjectInLineage(UUID)
+        console.log(verordeningsObjectInLineage)
+
+        if (
+            verordeningsObjectInLineage.Children &&
+            verordeningsObjectInLineage.Children.length > 0
+        ) {
+            return Promise.all(
+                verordeningsObjectInLineage.Children.map(child =>
+                    this.getAndSetLidObject(child.UUID)
+                )
+            ).then(ledenObjecten =>
+                this.setState({
+                    ledenObjecten: ledenObjecten,
+                })
+            )
+        } else {
+            return Promise.resolve()
+        }
+    }
+
+    IfPresentGetAndSetUrlParams() {
+        const urlParams = this.props.location.search
+        return new Promise((resolve, reject) => {
+            if (urlParams) {
+                let [
+                    hoofdstukIndex,
+                    nest1,
+                    nest2,
+                    nest3,
+                ] = getQueryStringValues(urlParams)
+
+                this.setState(
+                    {
+                        activeObjectPath: [hoofdstukIndex, nest1, nest2, nest3],
+                    },
+                    () => resolve()
+                )
+            } else {
+                resolve()
+            }
+        })
     }
 
     componentDidMount() {
+        // Get Data from API
         const ID = this.props.match.params.lineageID
+        const UUID = this.props.match.params.objectUUID
 
-        // Get Lineage
-        axios
-            .get(`/verordeningstructuur/${ID}`)
-            .then(res => {
-                // Get latest lineage
-                const lineage = res.data[res.data.length - 1]
-                this.populateFieldsAndSetState(lineage)
+        // If there are URL paramaters, get and set them in State
+        // We use the URL parameters to see which verordeningsObject is active in the verordeningsStructure
+
+        Promise.all([
+            this.getAndSetLineage(ID),
+            this.IfPresentGetAndSetUrlParams(),
+            this.getAndSetVerordeningsObject(UUID),
+        ])
+            .then(() => {
+                if (this.state.verordeningsObject.Type === 'Artikel') {
+                    this.ifPresentGetAndSetLeden(UUID)
+                        .then(() => this.setState({ dataLoaded: true }))
+                        .catch(err => toast('Er is iets verkeerd gegaan'))
+                } else {
+                    this.setState({ dataLoaded: true })
+                }
             })
-            .catch(err => {
-                console.log(err)
-            })
+            .catch(err => toast('Er is iets verkeerd gegaan'))
+    }
 
-        // Set Active Artikel if URL params are provided
-        const urlParams = this.props.location.search
+    componentDidUpdate(prevProps) {
+        if (
+            prevProps.match.params.objectUUID !==
+            this.props.match.params.objectUUID
+        ) {
+            this.setState(
+                {
+                    loadingNewObject: true,
+                },
+                () => {
+                    const UUID = this.props.match.params.objectUUID
 
-        if (urlParams) {
-            let [hoofdstukIndex, nest1, nest2, nest3] = getQueryStringValues(
-                urlParams
+                    Promise.all([
+                        this.IfPresentGetAndSetUrlParams(),
+                        this.getAndSetVerordeningsObject(UUID),
+                    ])
+                        .then(() => {
+                            if (
+                                this.state.verordeningsObject.Type === 'Artikel'
+                            ) {
+                                this.ifPresentGetAndSetLeden(UUID)
+                                    .then(() =>
+                                        this.setState({
+                                            loadingNewObject: false,
+                                        })
+                                    )
+                                    .catch(err =>
+                                        toast('Er is iets verkeerd gegaan')
+                                    )
+                            } else {
+                                this.setState({ loadingNewObject: false })
+                            }
+                        })
+                        .catch(err => toast('Er is iets verkeerd gegaan'))
+                }
             )
-
-            this.setState({
-                activeHoofdstuk: hoofdstukIndex,
-                activeArtikel: [hoofdstukIndex, nest1, nest2, nest3],
-            })
         }
     }
 
     render() {
         const dataLoaded = this.state.dataLoaded
-        const activeArtikel = this.state.activeArtikel
-        let artikel = null
+        const loadingNewObject = this.state.loadingNewObject
+        const activeObjectPath = this.state.activeObjectPath
+
         let hoofdstukNummer = null
         let hoofdstukTitel = null
+        let artikel = this.state.verordeningsObject
+        console.log(artikel)
+
         let breadcrumb = null
 
-        if (dataLoaded && activeArtikel) {
+        if (dataLoaded && activeObjectPath) {
             hoofdstukNummer = this.state.lineage.Structuur.Children[
-                activeArtikel[0]
+                activeObjectPath[0]
             ].Volgnummer
+
             hoofdstukTitel = this.state.lineage.Structuur.Children[
-                activeArtikel[0]
+                activeObjectPath[0]
             ].Titel
 
-            // Selecteer het artikel, en zet de variabele (artikel, hoofdstukNummer, etc)
-            // !REFACTOR! eigen functie(s)
-            if (activeArtikel[3] !== null) {
-                artikel = this.state.lineage.Structuur.Children[
-                    activeArtikel[0]
-                ].Children[activeArtikel[1]].Children[activeArtikel[2]]
-                    .Children[activeArtikel[3]]
-
-                breadcrumb = (
-                    <React.Fragment>
-                        <span>{`${hoofdstukNummer}. ${hoofdstukTitel}`}</span>
-                        <FontAwesomeIcon className="mx-2" icon={faAngleRight} />
-                        <span>{`${hoofdstukNummer}.${
-                            this.state.lineage.Structuur.Children[
-                                activeArtikel[0]
-                            ].Children[activeArtikel[1]].Volgnummer
-                        } ${
-                            this.state.lineage.Structuur.Children[
-                                activeArtikel[0]
-                            ].Children[activeArtikel[1]].Titel
-                        }`}</span>
-                        <FontAwesomeIcon className="mx-2" icon={faAngleRight} />
-                        <span>{`${hoofdstukNummer}.
-                        ${
-                            this.state.lineage.Structuur.Children[
-                                activeArtikel[0]
-                            ].Children[activeArtikel[1]].Volgnummer
-                        }.
-                        ${
-                            this.state.lineage.Structuur.Children[
-                                activeArtikel[0]
-                            ].Children[activeArtikel[1]].Children[
-                                activeArtikel[2]
-                            ].Volgnummer
-                        } 
-                        ${
-                            this.state.lineage.Structuur.Children[
-                                activeArtikel[0]
-                            ].Children[activeArtikel[1]].Children[
-                                activeArtikel[2]
-                            ].Titel
-                        }`}</span>
-                    </React.Fragment>
-                )
-            } else if (activeArtikel[2] !== null) {
-                artikel = this.state.lineage.Structuur.Children[
-                    activeArtikel[0]
-                ].Children[activeArtikel[1]].Children[activeArtikel[2]]
-
-                breadcrumb = (
-                    <React.Fragment>
-                        <span>{`${hoofdstukNummer}. ${hoofdstukTitel}`}</span>
-                        <FontAwesomeIcon className="mx-2" icon={faAngleRight} />
-                        <span>{`${hoofdstukNummer}.${
-                            this.state.lineage.Structuur.Children[
-                                activeArtikel[0]
-                            ].Children[activeArtikel[1]].Volgnummer
-                        } ${
-                            this.state.lineage.Structuur.Children[
-                                activeArtikel[0]
-                            ].Children[activeArtikel[1]].Titel
-                        }`}</span>
-                    </React.Fragment>
-                )
-            } else if (activeArtikel[1] !== null) {
-                artikel = this.state.lineage.Structuur.Children[
-                    activeArtikel[0]
-                ].Children[activeArtikel[1]]
-            }
-        }
-
-        let hashBool = false
-        let searchQuery = null
-        if (window.location.hash) {
-            hashBool = true
-            searchQuery = window.location.hash.substr(1)
+            breadcrumb = this.getBreadcrumb({
+                hoofdstukNummer: hoofdstukNummer,
+                hoofdstukTitel: hoofdstukTitel,
+            })
         }
 
         return (
@@ -294,20 +297,24 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                 id="raadpleeg-detail-container-main"
             >
                 <div className="w-1/4">
-                    {hashBool ? (
-                        <ButtonBackToPage
-                            terugNaar="zoekresultaten"
-                            url={`/zoekresultaten?query=${searchQuery}`}
-                        />
-                    ) : (
-                        <ButtonBackToPage terugNaar="startpagina" url="/" />
-                    )}
+                    {/* If there is a searchQuery hash in the URl, return this in the ?query= parameter. Substring catches everything after the '#' */}
+                    <ButtonBackToPage
+                        terugNaar={
+                            window.location.hash
+                                ? 'zoekresultaten'
+                                : 'startpagina'
+                        }
+                        url={
+                            window.location.hash
+                                ? `/zoekresultaten?query=${window.location.hash.substr(
+                                      1
+                                  )}`
+                                : '/'
+                        }
+                    />
                     <VerordeningenDetailSidebar
-                        changeActiveHoofdstuk={this.changeActiveHoofdstuk}
-                        activeHoofdstuk={this.state.activeHoofdstuk}
                         dataLoaded={this.state.dataLoaded}
                         lineage={this.state.lineage}
-                        selectArtikel={this.selectArtikel}
                     />
                 </div>
                 {dataLoaded ? (
@@ -318,19 +325,23 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                                 className={`w-3/4`}
                             >
                                 <div className="w-full block mb-8 text-gray-600 inline-block">
-                                    {breadcrumb}
+                                    {loadingNewObject ? null : breadcrumb}
                                 </div>
 
                                 {/* Artikel Headers */}
                                 <span className="text-l font-serif block text-gray-800">
-                                    Artikel {hoofdstukNummer}.
-                                    {artikel.Volgnummer}
+                                    {loadingNewObject ? null : (
+                                        <React.Fragment>
+                                            Artikel {hoofdstukNummer}.
+                                            {artikel.Volgnummer}
+                                        </React.Fragment>
+                                    )}
                                 </span>
                                 <h1
                                     id="raadpleeg-detail-header-one"
                                     className="mt-2 heading-serif-2xl text-gray-800"
                                 >
-                                    {artikel.Titel}
+                                    {loadingNewObject ? null : artikel.Titel}
                                 </h1>
 
                                 {/* Meta Content */}
@@ -338,7 +349,7 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                                     className="mb-8 block"
                                     id="raadpleeg-detail-container-meta-info"
                                 >
-                                    {dataLoaded ? (
+                                    {dataLoaded && !loadingNewObject ? (
                                         <span className="text-gray-600 text-sm mr-3">
                                             Vigerend sinds{' '}
                                             {format(
@@ -370,8 +381,23 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                                         Afdrukken
                                     </span>
                                 </div>
-                                <p className={`text-gray-700 text-sm mb-4`}>
+                                <p
+                                    className={`text-gray-700 text-sm mb-4 whitespace-pre-line`}
+                                >
                                     {artikel.Inhoud}
+
+                                    {this.state.ledenObjecten
+                                        ? this.state.ledenObjecten.map(lid => {
+                                              return (
+                                                  <span
+                                                      key={lid.UUID}
+                                                      className="text-gray-700 text-sm mb-4 whitespace-pre-line block"
+                                                  >
+                                                      {lid.Inhoud}
+                                                  </span>
+                                              )
+                                          })
+                                        : null}
                                 </p>
                             </div>
                         </React.Fragment>
@@ -380,7 +406,9 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                             Selecteer een artikel
                         </span>
                     )
-                ) : null}
+                ) : (
+                    <LoaderContent />
+                )}
             </div>
         )
     }

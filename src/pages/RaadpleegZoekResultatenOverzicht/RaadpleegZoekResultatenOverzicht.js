@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import 'url-search-params-polyfill'
 
 // Import API
 import axios from './../../API/axios'
@@ -157,6 +158,9 @@ class RaadpleegZoekResultatenOverzicht extends Component {
             dataLoaded: false,
             onPageFilters: [],
         }
+        this.getAndSetVigerendeVerordeningenStructuur = this.getAndSetVigerendeVerordeningenStructuur.bind(
+            this
+        )
     }
 
     handleFilter(e, index) {
@@ -200,6 +204,115 @@ class RaadpleegZoekResultatenOverzicht extends Component {
         })
     }
 
+    // function generateVerordeningsPositions(searchResults) {
+    //     // Array where we push in the nested positions
+    //     // We reset this on every iteration over the Hoofdstukken
+    //     let nestedPositions = []
+    //     let positionFound = false
+    //     // We increase the positionFoundIndex for each level we traverse
+    //     // We use this to write in the array on the correct index
+    //     let positionFoundIndex = 0
+
+    //     function getPositionOfElement(UUIDToFind) {
+    //         const hoofdstukkenInStructure = vigerendeVerordeningsStructuur.Structuur.Children
+
+    //         hoofdstukkenInStructure.forEach((hoofdstuk, hoofdstukIndex) => {
+
+    //             // If the chapter doesn't have any children, or we already found the position we return
+    //             if (!hoofdstuk.Children || positionFound) return
+
+    //             // We reset the array on each Hoofdstuk
+    //             nestedPositions = []
+    //             nestedPositions[0] = hoofdstukIndex
+
+    //             const returnedValue = recursiveCheckForUUIDInChildren(hoofdstuk.Children, UUIDToFind)
+    //             console.log(returnedValue)
+    //             if (returnedValue) {
+    //                 console.log("array")
+    //                 console.log(returnedValue)
+    //                 return returnedValue
+    //             }
+    //         })
+    //     }
+
+    //     function recursiveCheckForUUIDInChildren(children, UUIDToFind) {
+
+    //         // We have traversed one level down, so we increase the positionFoundIndex
+    //         positionFoundIndex++
+
+    //         // If the UUID of the verordeningenObject is in the current Children array
+    //         if (children.find((item, itemIndex) => {
+    //             return item.UUID === UUIDToFind
+    //         })) {
+    //             console.log("FOUND!")
+    //             console.log(nestedPositions)
+    //             positionFound = true
+    //             return nestedPositions
+    //         } else {
+
+    //             let returnedRecursiveValue = null
+
+    //             // Else we loop over each of the children elements and check if they have Children elements (I know, I'm getting dizzy too...)
+    //             // If so we call this function on the child.Children
+    //             children.forEach((child, childIndex) => {
+    //                 // Push the position
+    //                 nestedPositions[positionFoundIndex] = childIndex
+
+    //                 if (child.Children) {
+    //                     returnedRecursiveValue = recursiveCheckForUUIDInChildren(child.Children, UUIDToFind)
+    //                 }
+    //             })
+
+    //             if (returnedRecursiveValue) {
+    //                 return returnedRecursiveValue
+    //             }
+
+    //             // We have gone through all the children and the children of the children
+    //             // So we go back up a level by decreasing the index:
+    //             positionFoundIndex--
+    //         }
+    //     }
+
+    //     return searchResults.map(item => {
+    //         if (item.Type === 'Verordeningen') {
+    //             item.positionInStructure = getPositionOfElement(item.UUID.toLowerCase())
+    //         } else {
+    //             return item
+    //         }
+    //     })
+    // }
+
+    generateVerordeningsPositions(searchResults) {
+        // Array where we push in the nested positions
+        // We reset this on every iteration over the Hoofdstukken
+        let nestedPositionsArray = []
+
+        function getPositionOfElement(UUID) {
+            console.log(UUID)
+            const hoofdstukkenInStructure = this.state
+                .vigerendeVerordeningsStructuur.Structuur.Children
+
+            hoofdstukkenInStructure.map((hoofdstuk, index) => {
+                nestedPositionsArray = []
+                nestedPositionsArray.push(index)
+
+                // if (hoofdstuk.Children)
+            })
+        }
+
+        function recursiveCheckForUUIDInChildren(children) {
+            children.find()
+        }
+
+        return searchResults.map(item => {
+            if (item.Type === 'Verordeningen') {
+                item.positionInStructure = getPositionOfElement(item.UUID)
+            } else {
+                return item
+            }
+        })
+    }
+
     getSearchNormaleQuery(searchQuery, searchFiltersOnly) {
         this.setState({
             searchQuery: searchQuery,
@@ -214,6 +327,13 @@ class RaadpleegZoekResultatenOverzicht extends Component {
             .then(res => {
                 const searchResults = res.data
                 this.setInitialOnPageFilters(searchResults)
+
+                // The 'Verordenings' objects are placed in a structure, but we need to check what position exactly so we can link towards the correct 'Verordening' including the parameters to set the verordeningsobject as active in the view. e.g.:
+                // /detail/verordeningen/102?hoofdstuk=0&nest_1=0&nest_2=0&nest_3=null
+                // const searchResultsWithVerordeningsPositions = this.generateVerordeningsPositions(
+                //     searchResults
+                // )
+
                 this.setState(
                     {
                         searchFiltersOnly: searchFiltersOnly,
@@ -280,6 +400,25 @@ class RaadpleegZoekResultatenOverzicht extends Component {
         })
     }
 
+    async getAndSetVigerendeVerordeningenStructuur() {
+        try {
+            const data = await axios
+                .get('/verordeningstructuur')
+                .then(res => res.data.find(item => item.Status === 'Vigerend'))
+            this.setState(
+                {
+                    vigerendeVerordeningsStructuur: data,
+                },
+                () => {
+                    console.log(this.state)
+                    return data
+                }
+            )
+        } catch {
+            toast('Er is iets mis gegaan')
+        }
+    }
+
     componentDidMount() {
         const urlParams = this.props.location.search
         const searchParams = new URLSearchParams(urlParams)
@@ -296,11 +435,13 @@ class RaadpleegZoekResultatenOverzicht extends Component {
             urlParams: urlParams,
         })
 
-        if (searchQuery) {
-            this.getSearchNormaleQuery(searchQuery, searchFiltersOnly)
-        } else if (searchGeoQuery) {
-            this.getSearchGeoQuery(searchGeoQuery, latLng)
-        }
+        this.getAndSetVigerendeVerordeningenStructuur().then(() => {
+            if (searchQuery) {
+                this.getSearchNormaleQuery(searchQuery, searchFiltersOnly)
+            } else if (searchGeoQuery) {
+                this.getSearchGeoQuery(searchGeoQuery, latLng)
+            }
+        })
     }
 
     render() {
@@ -365,7 +506,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                     <span className="text-gray-600 text-sm">
                         Zoekresultaten voor
                         {this.state.searchQuery
-                            ? `"${this.state.searchQuery}"`
+                            ? ` "${this.state.searchQuery}"`
                             : null}
                         {this.state.geoSearchQuery
                             ? ` coördinaten "${this.state.geoSearchQuery}"`
@@ -406,6 +547,130 @@ class RaadpleegZoekResultatenOverzicht extends Component {
             </div>
         )
     }
+}
+
+const vigerendeVerordeningsStructuur = {
+    Titel: 'Swens nieuwe VStr',
+    Structuur: {
+        Children: [
+            {
+                UUID: '676e59ec-72b8-4240-98a3-bf5e653743af',
+                Children: [
+                    {
+                        UUID: 'afbb9184-6a3b-4618-af3a-c876cd16fa5d',
+                        Children: [],
+                    },
+                    {
+                        UUID: 'd0d1b8b3-bc54-4c41-8e25-419d57dae385',
+                        Children: [
+                            {
+                                UUID: '5e2bf9a3-3fb5-4d59-830e-e6c487364f65',
+                                Children: [],
+                            },
+                            {
+                                UUID: 'e392b200-d9ad-44d8-8cdd-48058c3a104b',
+                                Children: [],
+                            },
+                        ],
+                    },
+                    {
+                        UUID: '5a0e4322-fb20-45ee-9c2d-99e785ebb5b5',
+                        Children: [],
+                    },
+                ],
+            },
+            {
+                UUID: '9dd7547c-7c2b-4398-b911-6bc4f13f6a2e',
+                Children: [
+                    {
+                        UUID: '8e8478c4-c5ce-44bb-a1bf-93fcaef2e05b',
+                        Children: [
+                            {
+                                UUID: '0fdad997-1c5f-4c30-9aa1-fecd78ae5c8a',
+                                Children: [
+                                    {
+                                        UUID:
+                                            '83747815-69c9-4444-b697-8eae563e43ba',
+                                        Children: [],
+                                    },
+                                    {
+                                        UUID:
+                                            'dd601eba-bd39-47f2-aefa-8ab2e92993f2',
+                                        Children: [],
+                                    },
+                                    {
+                                        UUID:
+                                            '98c34274-b8a9-4f72-95b0-f4a752ef6669',
+                                        Children: [],
+                                    },
+                                ],
+                            },
+                            {
+                                UUID: 'cf416a58-3f1b-46c3-bdf4-4eddaf2d4d62',
+                                Children: [],
+                            },
+                            {
+                                UUID: 'd9aaf2b8-59fa-4aac-9d54-2435d2c611fc',
+                                Children: [],
+                            },
+                            {
+                                UUID: '7dc546a1-d32e-4d38-9bdd-bbb968a48618',
+                                Children: [
+                                    {
+                                        UUID:
+                                            '5722bedd-5c94-4b4f-b303-b3c9532093cb',
+                                        Children: [],
+                                    },
+                                    {
+                                        UUID:
+                                            '64eefa32-51b3-428e-b4c4-50111b23dc0b',
+                                        Children: [],
+                                    },
+                                ],
+                            },
+                            {
+                                UUID: 'd3ddf2f0-99bc-41ec-8eb2-6d85262c88e1',
+                                Children: [],
+                            },
+                            {
+                                UUID: '15a9e2ff-3bcb-4b93-b490-0c185dacb72f',
+                                Children: [],
+                            },
+                        ],
+                    },
+                    {
+                        UUID: '0baeee04-7759-4c16-9e1c-309cdba84382',
+                        Children: [],
+                    },
+                ],
+            },
+        ],
+    },
+    Begin_Geldigheid: '1992-01-01T00:00:00',
+    Eind_Geldigheid: '2099-01-01T00:00:00',
+    Status: 'Concept',
+}
+
+const test = {
+    Structuur: {
+        Children: [
+            { UUID: '6e7a1e01-bac9-4388-8cbe-0f57487ba343', Children: [] },
+            {
+                UUID: '9d8f694e-babf-41ed-9d7d-4a7cfed61254',
+                Children: [
+                    {
+                        UUID: 'c6f8e553-02a6-4dc3-ac2d-cb8c64a4fb53',
+                        Children: [
+                            {
+                                UUID: '6b4eefa5-c165-46da-b5f9-4970720d1b3a',
+                                Children: [],
+                            },
+                        ],
+                    },
+                ],
+            },
+        ],
+    },
 }
 
 export default RaadpleegZoekResultatenOverzicht

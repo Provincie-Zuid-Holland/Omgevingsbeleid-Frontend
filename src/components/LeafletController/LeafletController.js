@@ -1,8 +1,7 @@
 import ReactDOM from 'react-dom'
 import { MapControl, withLeaflet } from 'react-leaflet'
 import { Control, DomUtil, DomEvent } from 'leaflet'
-
-import polyfillObjectAssign from './../../utils/polyfillObjectAssign'
+import cloneDeep from 'lodash.clonedeep'
 
 const DumbControl = Control.extend({
     options: {
@@ -29,8 +28,7 @@ const DumbControl = Control.extend({
 export default withLeaflet(
     class LeafletControl extends MapControl {
         createLeafletElement(props) {
-            polyfillObjectAssign()
-            return new DumbControl(Object.assign({}, props))
+            return new DumbControl(cloneDeep(props))
         }
 
         componentDidMount() {

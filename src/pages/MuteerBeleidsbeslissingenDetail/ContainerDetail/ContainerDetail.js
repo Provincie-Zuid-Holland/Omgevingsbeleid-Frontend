@@ -12,11 +12,11 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 // Import Components
-import PopUpDetailDropdown from './../../../components/PopUpDetailDropdown'
 import PopUpStatusAanpassen from './../../../components/PopUpStatusAanpassen'
 import HeadingMain from './../../../components/HeadingMain'
 import LoaderMainTitle from './../../../components/LoaderMainTitle'
 import LoaderSmallSpan from './../../../components/LoaderSmallSpan'
+import PopUpDetailDropdown from './../PopUpDetailDropdown'
 
 // Main Component - Main Container
 class ContainerDetail extends Component {

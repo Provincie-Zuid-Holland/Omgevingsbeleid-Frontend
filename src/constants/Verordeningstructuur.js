@@ -18,7 +18,7 @@ export const CRUD_PROPERTIES = {
     },
     Eind_Geldigheid: {
         initValue: null,
-        required: true,
+        required: false,
         requiredMessage: 'Vul een datum van uitwerkingstreding in',
     },
 }

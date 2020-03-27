@@ -25,7 +25,9 @@ function DndTitle({ item, hoofdstukVolgnummer, subVolgnummer }) {
             </span>
 
             {item.Inhoud ? (
-                <p className="block pl-5 pb-3">{item.Inhoud}</p>
+                <p className="block pl-5 pb-3 whitespace-pre-line">
+                    {item.Inhoud}
+                </p>
             ) : null}
         </div>
     )

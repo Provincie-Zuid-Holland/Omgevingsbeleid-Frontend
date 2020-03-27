@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Component } from 'react'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 import queryString from 'query-string'
 
 import {
@@ -28,43 +28,38 @@ function getQueryStringValues(urlParams) {
 }
 
 function ListItem({
-    UUID,
-    Titel,
     item,
     children,
-    changeActiveHoofdstuk,
     activeHoofdstuk,
     listIndex,
-    hoofdstukVolgnummer,
-    hasChildren,
-    selectArtikel,
+
     hoofdstukIndex,
     nest_1,
     nest_2,
     nest_3,
-    setActiveArtikel,
+    setPathToActiveSidebarElement,
     arrayIndex,
-    activeArtikel,
+    activeSidebarElementPath,
 }) {
     // const [display, setDisplay] = useState(listIndex === indexOpen)
     const display =
-        activeArtikel[arrayIndex] === listIndex && item.Type !== 'Hoofdstuk'
+        activeSidebarElementPath[arrayIndex] === listIndex &&
+        item.Type !== 'Hoofdstuk'
+    const UUID = item.UUID
 
     return (
         <li key={UUID} className={`mt-2 relative`}>
-            <div
+            <Link
+                to={
+                    item.Type === 'Artikel'
+                        ? `/detail/verordeningen/1/${item.UUID}?hoofdstuk=${hoofdstukIndex}&nest_1=${nest_1}&nest_2=${nest_2}&nest_3=${nest_3}`
+                        : `?hoofdstuk=${activeSidebarElementPath[0]}&nest_1=${activeSidebarElementPath[1]}&nest_2=${activeSidebarElementPath[2]}&nest_3=${activeSidebarElementPath[3]}`
+                }
                 className="cursor-pointer"
                 onClick={() => {
-                    selectArtikel(
-                        item.Type,
-                        hoofdstukIndex,
-                        nest_1,
-                        nest_2,
-                        nest_3
-                    )
-
+                    // !REFACTOR! Onduidelijke rommel
                     if (
-                        activeArtikel[arrayIndex] === listIndex &&
+                        activeSidebarElementPath[arrayIndex] === listIndex &&
                         item.Type === 'Artikel'
                     ) {
                         return
@@ -74,35 +69,35 @@ function ListItem({
                         item.Type === 'Hoofdstuk' &&
                         activeHoofdstuk !== listIndex
                     ) {
-                        changeActiveHoofdstuk(listIndex)
-                        setActiveArtikel([listIndex, null, null, null])
+                        setPathToActiveSidebarElement([
+                            listIndex,
+                            null,
+                            null,
+                            null,
+                        ])
                     } else if (
                         item.Type === 'Hoofdstuk' &&
                         activeHoofdstuk === listIndex
                     ) {
-                        console.log('2')
-                        changeActiveHoofdstuk(null)
-                        let newArray = activeArtikel
+                        let newArray = activeSidebarElementPath
                         newArray[0] = null
-                        setActiveArtikel(newArray)
+                        setPathToActiveSidebarElement(newArray)
                     } else if (
                         item.Type === 'Artikel' &&
-                        activeArtikel[arrayIndex] !== listIndex
+                        activeSidebarElementPath[arrayIndex] !== listIndex
                     ) {
-                        console.log('3')
-                        let newArray = activeArtikel
+                        let newArray = activeSidebarElementPath
                         newArray[arrayIndex] = listIndex
 
-                        setActiveArtikel(newArray)
+                        setPathToActiveSidebarElement(newArray)
                     } else {
-                        console.log('4')
-                        let newArray = activeArtikel
+                        let newArray = activeSidebarElementPath
                         let newValue = null
-                        if (activeArtikel[arrayIndex] === null) {
+                        if (activeSidebarElementPath[arrayIndex] === null) {
                             newValue = listIndex
                         }
                         newArray[arrayIndex] = newValue
-                        setActiveArtikel(newArray)
+                        setPathToActiveSidebarElement(newArray)
                     }
                 }}
             >
@@ -124,26 +119,27 @@ function ListItem({
                     className={`inline-block text-sm text-gray-800 
                     ${item.Type === 'Artikel' ? 'hover:underline' : ''}
                     ${
-                        activeArtikel[arrayIndex] === listIndex &&
+                        activeSidebarElementPath[arrayIndex] === listIndex &&
                         item.Type === 'Artikel'
                             ? 'font-bold'
                             : ''
                     }
                     `}
                 >
-                    {item.Type === 'Afdeling'
-                        ? `${hoofdstukVolgnummer}.${item.Volgnummer} ${Titel} `
+                    {/* {item.Type === 'Afdeling'
+                        ? `${hoofdstukVolgnummer}.${item.Volgnummer} ${item.Titel} `
                         : ''}
                     {item.Type === 'Paragraaf'
-                        ? `§ ${hoofdstukVolgnummer}.${item.Volgnummer} ${Titel}`
+                        ? `§ ${hoofdstukVolgnummer}.${item.Volgnummer} ${item.Titel}`
                         : ''}
                     {item.Type === 'Artikel'
-                        ? `Artikel ${hoofdstukVolgnummer}.${item.Volgnummer} - ${Titel}`
+                        ? `Artikel ${hoofdstukVolgnummer}.${item.Volgnummer} - ${item.Titel}`
                         : ''}
 
-                    {item.Type === 'Hoofdstuk' ? Titel : ''}
+                    {item.Type === 'Hoofdstuk' ? item.Titel : ''} */}
+                    {item.Titel}
                 </span>
-            </div>
+            </Link>
 
             {(activeHoofdstuk === listIndex && item.Type === 'Hoofdstuk') ||
             display
@@ -158,24 +154,20 @@ class VerordeningenDetailSidebar extends Component {
         super(props)
 
         this.state = {
-            activeArtikel: null,
+            activeSidebarElementPath: null,
         }
-        this.setActiveArtikel = this.setActiveArtikel.bind(this)
+        this.setPathToActiveSidebarElement = this.setPathToActiveSidebarElement.bind(
+            this
+        )
     }
 
-    // function VerordeningenDetailSidebar({
-    //     activeHoofdstuk,
-    //     changeActiveHoofdstuk,
-    //     dataLoaded,
-    //     lineage,
-    //     selectArtikel,
-    //     location,
-    // }) {
-
-    setActiveArtikel(activeArtikel) {
-        this.setState({
-            activeArtikel: activeArtikel,
-        })
+    setPathToActiveSidebarElement(activeSidebarElementPath) {
+        this.setState(
+            {
+                activeSidebarElementPath: activeSidebarElementPath,
+            },
+            () => console.log(this.state)
+        )
     }
 
     componentDidMount() {
@@ -185,42 +177,48 @@ class VerordeningenDetailSidebar extends Component {
             let [hoofdstukIndex, nest1, nest2, nest3] = getQueryStringValues(
                 urlParams
             )
-            this.setActiveArtikel([hoofdstukIndex, nest1, nest2, nest3])
+            this.setPathToActiveSidebarElement([
+                hoofdstukIndex,
+                nest1,
+                nest2,
+                nest3,
+            ])
         } else {
-            this.setActiveArtikel([null, null, null, null])
+            this.setPathToActiveSidebarElement([null, null, null, null])
         }
     }
 
     render() {
-        const activeHoofdstuk = this.props.activeHoofdstuk
-        const changeActiveHoofdstuk = this.props.changeActiveHoofdstuk
         const dataLoaded = this.props.dataLoaded
         const lineage = this.props.lineage
-        const selectArtikel = this.props.selectArtikel
 
-        const activeArtikel = this.state.activeArtikel
-        const setActiveArtikel = this.setActiveArtikel
+        const activeSidebarElementPath = this.state.activeSidebarElementPath
+        const setPathToActiveSidebarElement = this.setPathToActiveSidebarElement
 
-        console.log(activeHoofdstuk)
+        let activeHoofdstuk = null
+
+        if (dataLoaded) {
+            activeHoofdstuk = this.state.activeSidebarElementPath[0]
+        }
 
         return (
             <div className="w-full inline-block flex-grow">
                 {dataLoaded ? (
                     <div className="relative">
-                        <h2
-                            className="font-serif block text-gray-800 mt-4"
-                            onClick={() => changeActiveHoofdstuk(null)}
-                        >
+                        <h2 className="font-serif block text-gray-800 mt-4">
                             Inhoudsopgave verordening
                         </h2>
                         <ul className="relative pl-6 pr-5">
                             {lineage.Structuur.Children.map(
                                 (hoofdstuk, hoofdstukIndex) => (
                                     <ListItem
-                                        activeArtikel={activeArtikel}
+                                        activeSidebarElementPath={
+                                            activeSidebarElementPath
+                                        }
                                         arrayIndex={0}
-                                        setActiveArtikel={setActiveArtikel}
-                                        selectArtikel={selectArtikel}
+                                        setPathToActiveSidebarElement={
+                                            setPathToActiveSidebarElement
+                                        }
                                         activeHoofdstuk={activeHoofdstuk}
                                         hasChildren={
                                             hoofdstuk.Children.length > 0
@@ -234,28 +232,19 @@ class VerordeningenDetailSidebar extends Component {
                                         nest_2={null}
                                         nest_3={null}
                                         item={hoofdstuk}
-                                        changeActiveHoofdstuk={
-                                            changeActiveHoofdstuk
-                                        }
-                                        UUID={hoofdstuk.UUID}
                                         key={hoofdstuk.UUID}
-                                        Titel={`Hoofdstuk ${hoofdstuk.Volgnummer} - 
-                                    ${hoofdstuk.Titel}`}
                                     >
                                         {hoofdstuk.Children.length > 0 ? (
                                             <ul className="pl-6 relative">
                                                 {hoofdstuk.Children.map(
                                                     (child, nest_1) => (
                                                         <ListItem
-                                                            activeArtikel={
-                                                                activeArtikel
+                                                            activeSidebarElementPath={
+                                                                activeSidebarElementPath
                                                             }
                                                             arrayIndex={1}
-                                                            setActiveArtikel={
-                                                                setActiveArtikel
-                                                            }
-                                                            selectArtikel={
-                                                                selectArtikel
+                                                            setPathToActiveSidebarElement={
+                                                                setPathToActiveSidebarElement
                                                             }
                                                             activeHoofdstuk={
                                                                 activeHoofdstuk
@@ -275,15 +264,12 @@ class VerordeningenDetailSidebar extends Component {
                                                             nest_1={nest_1}
                                                             nest_2={null}
                                                             nest_3={null}
-                                                            changeActiveHoofdstuk={
-                                                                changeActiveHoofdstuk
-                                                            }
                                                             key={child.UUID}
-                                                            UUID={child.UUID}
-                                                            Titel={child.Titel}
                                                         >
                                                             {child.Children
-                                                                .length > 0 ? (
+                                                                .length > 0 &&
+                                                            child.Type !==
+                                                                'Artikel' ? (
                                                                 <ul className="pl-6 relative">
                                                                     {child.Children.map(
                                                                         (
@@ -291,17 +277,14 @@ class VerordeningenDetailSidebar extends Component {
                                                                             nest_2
                                                                         ) => (
                                                                             <ListItem
-                                                                                activeArtikel={
-                                                                                    activeArtikel
+                                                                                activeSidebarElementPath={
+                                                                                    activeSidebarElementPath
                                                                                 }
                                                                                 arrayIndex={
                                                                                     2
                                                                                 }
-                                                                                setActiveArtikel={
-                                                                                    setActiveArtikel
-                                                                                }
-                                                                                selectArtikel={
-                                                                                    selectArtikel
+                                                                                setPathToActiveSidebarElement={
+                                                                                    setPathToActiveSidebarElement
                                                                                 }
                                                                                 activeHoofdstuk={
                                                                                     activeHoofdstuk
@@ -333,23 +316,16 @@ class VerordeningenDetailSidebar extends Component {
                                                                                 nest_3={
                                                                                     null
                                                                                 }
-                                                                                changeActiveHoofdstuk={
-                                                                                    changeActiveHoofdstuk
-                                                                                }
                                                                                 key={
                                                                                     childOfChild.UUID
-                                                                                }
-                                                                                UUID={
-                                                                                    childOfChild.UUID
-                                                                                }
-                                                                                Titel={
-                                                                                    childOfChild.Titel
                                                                                 }
                                                                             >
                                                                                 {childOfChild
                                                                                     .Children
                                                                                     .length >
-                                                                                0 ? (
+                                                                                    0 &&
+                                                                                childOfChild.Type !==
+                                                                                    'Artikel' ? (
                                                                                     <ul className="pl-6 relative">
                                                                                         {childOfChild.Children.map(
                                                                                             (
@@ -357,17 +333,14 @@ class VerordeningenDetailSidebar extends Component {
                                                                                                 nest_3
                                                                                             ) => (
                                                                                                 <ListItem
-                                                                                                    activeArtikel={
-                                                                                                        activeArtikel
+                                                                                                    activeSidebarElementPath={
+                                                                                                        activeSidebarElementPath
                                                                                                     }
                                                                                                     arrayIndex={
                                                                                                         3
                                                                                                     }
-                                                                                                    setActiveArtikel={
-                                                                                                        setActiveArtikel
-                                                                                                    }
-                                                                                                    selectArtikel={
-                                                                                                        selectArtikel
+                                                                                                    setPathToActiveSidebarElement={
+                                                                                                        setPathToActiveSidebarElement
                                                                                                     }
                                                                                                     activeHoofdstuk={
                                                                                                         activeHoofdstuk
@@ -399,17 +372,8 @@ class VerordeningenDetailSidebar extends Component {
                                                                                                     item={
                                                                                                         childOfChildofChild
                                                                                                     }
-                                                                                                    changeActiveHoofdstuk={
-                                                                                                        changeActiveHoofdstuk
-                                                                                                    }
                                                                                                     key={
                                                                                                         childOfChildofChild.UUID
-                                                                                                    }
-                                                                                                    UUID={
-                                                                                                        childOfChildofChild.UUID
-                                                                                                    }
-                                                                                                    Titel={
-                                                                                                        childOfChildofChild.Titel
                                                                                                     }
                                                                                                 />
                                                                                             )

@@ -96,8 +96,7 @@ class App extends Component {
                     dataLoaded: true,
                 })
             })
-            .catch(() => {
-                localStorage.removeItem('access_token')
+            .catch(error => {
                 this.setState({
                     loggedIn: false,
                     user: null,
@@ -107,8 +106,10 @@ class App extends Component {
     }
 
     checkForInternetExplorer() {
-        // detecteerd IE8+ en Edge
-        if (document.documentMode || /Edge/.test(navigator.userAgent)) {
+        var ua = window.navigator.userAgent
+        var msie = ua.indexOf('MSIE ')
+        if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+            // If Internet Explorer, return version number
             window.alert(
                 'Deze website werkt met moderne browsers als Chrome, Firefox, Safari, etc'
             )
@@ -129,6 +130,8 @@ class App extends Component {
     }
 
     componentDidMount() {
+        // window.location.replace('https://omgevingsbeleidpzh.mendixcloud.com/p/')
+
         window.addEventListener('authEvent', e =>
             this.listenForExpiredSession(e)
         )
@@ -216,7 +219,7 @@ class App extends Component {
 
                         {/* Raadpleeg verordeningspagina */}
                         <Route
-                            path={`/detail/verordeningen/:lineageID`}
+                            path={`/detail/verordeningen/:lineageID/:objectUUID`}
                             render={() => (
                                 <RaadpleegVerordeningsArtikelDetail
                                     dataModel={dimensies.VERORDENINGSARTIKEL}
@@ -225,7 +228,7 @@ class App extends Component {
                             )}
                         />
 
-                        {/* Render raadpleeg dNeetail pagina's */}
+                        {/* Render raadpleeg detail pagina's */}
                         {detailPaginas.map(item => {
                             return (
                                 <Route

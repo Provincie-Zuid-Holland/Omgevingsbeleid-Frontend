@@ -394,7 +394,7 @@ class MuteerVerordeningenDetail extends Component {
                             </div>
                             <ContainerDetailMain
                                 dataObject={dataObject}
-                                objectID={this.props.match.params.lineageID}
+                                lineageID={this.props.match.params.lineageID}
                                 urlParams={this.props.location.search}
                                 overzichtSlug={overzichtSlug}
                                 titelEnkelvoud={dataObject.Type}

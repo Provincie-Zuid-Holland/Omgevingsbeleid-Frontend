@@ -175,8 +175,8 @@ class ContainerDetailMain extends Component {
                                 titelEnkelvoud === 'Paragraaf' ||
                                 titelEnkelvoud === 'Afdeling'
                                     ? `/detail/verordeningen/${
-                                          this.props.objectID
-                                      }${
+                                          this.props.lineageID
+                                      }/${this.props.dataObject.UUID}${
                                           this.props.urlParams
                                               ? `${this.props.urlParams}`
                                               : ''

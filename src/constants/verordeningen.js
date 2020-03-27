@@ -1,3 +1,4 @@
+import * as LID from './verordeningslid'
 import * as ARTIKEL from './verordeningsartikel'
 import * as PARAGRAAF from './verordeningsparagraaf'
 import * as AFDELING from './verordeningsafdeling'
@@ -13,6 +14,7 @@ export default {
     TITEL_ENKELVOUD,
     TITEL_MEERVOUD,
     API_ENDPOINT,
+    LID,
     ARTIKEL,
     PARAGRAAF,
     AFDELING,

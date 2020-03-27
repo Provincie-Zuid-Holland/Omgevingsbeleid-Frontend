@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import 'url-search-params-polyfill'
 
 function SearchBarPopupItem(props) {
     function selectQueryDataItem(nextOrPrevious, arrayLength) {

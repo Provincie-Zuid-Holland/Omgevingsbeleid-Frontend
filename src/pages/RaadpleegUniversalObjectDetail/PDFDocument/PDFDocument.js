@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import {
-    Page,
-    Text,
-    View,
-    Image,
-    Document,
-    StyleSheet,
-} from '@react-pdf/renderer'
+// import {
+//     Page,
+//     Text,
+//     View,
+//     Image,
+//     Document,
+//     StyleSheet,
+// } from '@react-pdf/renderer'
 
 // PDF Styles & Document
 const styles = StyleSheet.create({
