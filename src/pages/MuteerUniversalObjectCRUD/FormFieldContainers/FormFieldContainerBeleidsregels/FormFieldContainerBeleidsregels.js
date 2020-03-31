@@ -64,7 +64,7 @@ function FormFieldContainerBeleidsregels({
                         fieldValue={crudObject['Begin_Geldigheid']}
                         fieldLabel="Inwerkingtreding"
                         dataObjectProperty="Begin_Geldigheid"
-                        pValue="Indien bekend, kan hier de datum van inwerkingtreding worden ingevuld"
+                        pValue="Indien bekend, kan hier de datum treding worden ingevuld"
                         titelEnkelvoud={titelEnkelvoud}
                     />
 
@@ -74,7 +74,7 @@ function FormFieldContainerBeleidsregels({
                         fieldValue={crudObject['Eind_Geldigheid']}
                         fieldLabel="Uitwerkingtreding"
                         dataObjectProperty="Eind_Geldigheid"
-                        pValue="Indien bekend, kan hier de datum van uitwerkingtreding worden ingevuld"
+                        pValue="Indien bekend, kan hier de datum gtreding worden ingevuld"
                         titelEnkelvoud={titelEnkelvoud}
                     />
                 </div>

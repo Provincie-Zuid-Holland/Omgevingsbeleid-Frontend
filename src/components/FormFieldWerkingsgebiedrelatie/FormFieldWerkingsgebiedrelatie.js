@@ -34,7 +34,7 @@ class FormFieldWerkingsgebiedrelatie extends React.Component {
 
     render() {
         return (
-            <div className="w-50 mb-6">
+            <div className="mb-6">
                 <FormFieldTitelEnBeschrijving
                     dataObjectProperty={this.props.dataObjectProperty}
                     fieldLabel={this.props.fieldLabel}

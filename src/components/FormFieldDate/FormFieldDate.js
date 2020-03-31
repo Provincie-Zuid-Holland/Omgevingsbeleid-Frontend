@@ -11,7 +11,7 @@ function BeginGeldigheid({
     handleChange,
 }) {
     return (
-        <div className="w-50 px-3 mb-6">
+        <div className="px-3 mb-6">
             <FormFieldTitelEnBeschrijving
                 dataObjectProperty={dataObjectProperty}
                 fieldLabel={fieldLabel}
@@ -19,6 +19,7 @@ function BeginGeldigheid({
                 titelEnkelvoud={titelEnkelvoud}
             />
             <input
+                placeholder="dd-mm-jjjj"
                 value={fieldValue ? fieldValue : ''}
                 onChange={handleChange}
                 name={dataObjectProperty}
@@ -42,7 +43,7 @@ function EindGeldigheid({
     handleChange,
 }) {
     return (
-        <div className="w-full px-3">
+        <div className="px-3 mb-6">
             {hideToggleUitwerkingstrede ? null : (
                 <span
                     className="text-sm text-gray-700 underline mb-6 w-full block select-none cursor-pointer"
@@ -55,7 +56,7 @@ function EindGeldigheid({
             )}
 
             {toonUitwerkingTreding ? (
-                <div className="w-50 mb-6">
+                <div className="mb-6">
                     <FormFieldTitelEnBeschrijving
                         dataObjectProperty={dataObjectProperty}
                         fieldLabel={fieldLabel}
@@ -66,6 +67,7 @@ function EindGeldigheid({
                         value={fieldValue ? fieldValue : ''}
                         onChange={handleChange}
                         name={dataObjectProperty}
+                        placeholder="dd-mm-jjjj"
                         className="appearance-none block w-full text-gray-700 border border-gray-400 focus:border-gray-500 hover:border-gray-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
                         type="date"
                         id={`form-field-${titelEnkelvoud.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
