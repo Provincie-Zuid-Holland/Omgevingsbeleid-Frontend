@@ -49,7 +49,11 @@ function ListItemTitle({ item, itemActive }) {
     let title = null
 
     if (item.Type === 'Hoofdstuk') {
-        title = `${item.Titel}`
+        // Fallback for all uppercase titles in database...
+        let itemTitle = item.Titel
+        itemTitle = itemTitle.toLowerCase()
+        itemTitle = itemTitle.charAt(0).toUpperCase() + itemTitle.slice(1)
+        title = `${item.Volgnummer}. ${itemTitle}`
     } else if (item.Type === 'Afdeling') {
         title = `${item.Volgnummer} ${item.Titel}`
     } else if (item.Type === 'Paragraaf') {
