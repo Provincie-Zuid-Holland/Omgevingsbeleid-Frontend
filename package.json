@@ -2,7 +2,7 @@
     "name": "pzh",
     "version": "0.1.0",
     "private": true,
-    "homepage": "https://obzhprod.azureedge.net/",
+    "homepage": "https://obzhtest.azureedge.net/",
     "dependencies": {
         "@babel/core": "^7.6.4",
         "@fortawesome/fontawesome-svg-core": "^1.2.25",

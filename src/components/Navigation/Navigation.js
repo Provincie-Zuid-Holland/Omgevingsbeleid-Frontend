@@ -3,6 +3,7 @@ import { Link, withRouter } from 'react-router-dom'
 
 import { faCaretDown, faSignInAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { startOfMinute } from 'date-fns'
 
 // function getToken() {
 //     return localStorage.getItem('access_token')
@@ -184,6 +185,9 @@ class Navigation extends Component {
                                 className="text-blue"
                             >
                                 <Logo />
+                                <span className="px-1 text-gray-600 font-serif absolute ml-32 text-xs mt-2 pl-8 uppercase tracking-widest">
+                                    Beta
+                                </span>
                             </Link>
                         ) : (
                             <Link
