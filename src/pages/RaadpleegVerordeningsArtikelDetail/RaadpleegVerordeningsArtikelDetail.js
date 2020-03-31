@@ -61,7 +61,7 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                 <React.Fragment>
                     <span>{`${hoofdstukNummer}. ${hoofdstukTitel}`}</span>
                     <FontAwesomeIcon className="mx-2" icon={faAngleRight} />
-                    <span>{`${hoofdstukNummer}.${
+                    <span>{`${
                         lineageStructuur.Children[activeObjectPath[0]].Children[
                             activeObjectPath[1]
                         ].Volgnummer
@@ -71,12 +71,7 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                         ].Titel
                     }`}</span>
                     <FontAwesomeIcon className="mx-2" icon={faAngleRight} />
-                    <span>{`${hoofdstukNummer}.
-                    ${
-                        lineageStructuur.Children[activeObjectPath[0]].Children[
-                            activeObjectPath[1]
-                        ].Volgnummer
-                    }.
+                    <span>{`
                     ${
                         lineageStructuur.Children[activeObjectPath[0]].Children[
                             activeObjectPath[1]
@@ -94,7 +89,7 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                 <React.Fragment>
                     <span>{`${hoofdstukNummer}. ${hoofdstukTitel}`}</span>
                     <FontAwesomeIcon className="mx-2" icon={faAngleRight} />
-                    <span>{`${hoofdstukNummer}.${
+                    <span>{`${
                         lineageStructuur.Children[activeObjectPath[0]].Children[
                             activeObjectPath[1]
                         ].Volgnummer
@@ -157,7 +152,6 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
 
     ifPresentGetAndSetLeden(UUID) {
         const verordeningsObjectInLineage = this.getActiveObjectInLineage(UUID)
-        console.log(verordeningsObjectInLineage)
 
         if (
             verordeningsObjectInLineage.Children &&
@@ -305,7 +299,7 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                         }
                         url={
                             window.location.hash
-                                ? `/zoekresultaten?query=${window.location.hash.substr(
+                                ? `/zoekresultaten${window.location.hash.substr(
                                       1
                                   )}`
                                 : '/'
@@ -319,28 +313,24 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                 {dataLoaded ? (
                     artikel !== null ? (
                         <React.Fragment>
+                            {loadingNewObject ? <LoaderContent /> : null}
                             <div
                                 id="raadpleeg-detail-container-content text-gray-800"
                                 className={`w-3/4`}
                             >
                                 <div className="w-full block mb-8 text-gray-600 inline-block">
-                                    {loadingNewObject ? null : breadcrumb}
+                                    {breadcrumb}
                                 </div>
 
                                 {/* Artikel Headers */}
                                 <span className="text-l font-serif block text-gray-800">
-                                    {loadingNewObject ? null : (
-                                        <React.Fragment>
-                                            Artikel {hoofdstukNummer}.
-                                            {artikel.Volgnummer}
-                                        </React.Fragment>
-                                    )}
+                                    Artikel {' ' + artikel.Volgnummer}
                                 </span>
                                 <h1
                                     id="raadpleeg-detail-header-one"
                                     className="mt-2 heading-serif-2xl text-gray-800"
                                 >
-                                    {loadingNewObject ? null : artikel.Titel}
+                                    {artikel.Titel}
                                 </h1>
 
                                 {/* Meta Content */}
@@ -348,24 +338,16 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                                     className="mb-8 block"
                                     id="raadpleeg-detail-container-meta-info"
                                 >
-                                    {dataLoaded && !loadingNewObject ? (
-                                        <span className="text-gray-600 text-sm mr-3">
-                                            Vigerend sinds{' '}
-                                            {format(
-                                                new Date(
-                                                    artikel.Begin_Geldigheid
-                                                ),
-                                                'DD-MMMM-YYYY',
-                                                {
-                                                    locale: nlLocale,
-                                                }
-                                            )}
-                                        </span>
-                                    ) : (
-                                        <span className="mt-2 block">
-                                            <LoaderSmallSpan />
-                                        </span>
-                                    )}
+                                    <span className="text-gray-600 text-sm mr-3">
+                                        Vigerend sinds{' '}
+                                        {format(
+                                            new Date(artikel.Begin_Geldigheid),
+                                            'DD-MMMM-YYYY',
+                                            {
+                                                locale: nlLocale,
+                                            }
+                                        )}
+                                    </span>
                                     <span className="text-gray-600 text-sm mr-3">
                                         &bull;
                                     </span>
@@ -392,11 +374,7 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                                                       key={lid.UUID}
                                                       className="text-gray-700 text-sm mb-4 whitespace-pre-line block"
                                                   >
-                                                      {/* !REFACTOR! -> [BLOCKED] Swen db */}
-                                                      {lid.Inhoud.replace(
-                                                          /\r/gi,
-                                                          '\n'
-                                                      )}
+                                                      {lid.Inhoud}
                                                   </span>
                                               )
                                           })

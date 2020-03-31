@@ -132,7 +132,7 @@ function SearchResultItem(props) {
                               props.item.positionInStructure[3] !== undefined
                                   ? props.item.positionInStructure[3]
                                   : 'null'
-                          }`
+                          }#${props.searchQuery}`
                         : `/detail/${overzichtURL}/${props.item.UUID}#${props.searchQuery}`
                 }
             >
@@ -256,7 +256,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                 pathFound = true
             } else {
                 children.forEach((child, childIndex) => {
-                    // If item has no children -> Return
+                    // If item has no children OR pathFound equals true -> Return
                     if (
                         !child.Children ||
                         child.Children.length === 0 ||
@@ -266,6 +266,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
 
                     // Else push childIndex into indexPathToUUID,
                     indexPathToUUID[indexTraversed] = childIndex
+
                     // Increase indexTraversed because in the traverseChildren() call we traverse on level down
                     indexTraversed++
                     traverseChildren(child.Children)
@@ -288,8 +289,10 @@ class RaadpleegZoekResultatenOverzicht extends Component {
             return indexOfUUID
         }
 
+        // Initialize function
         traverseChildren(vigerendeVerordeningsStructuur)
 
+        // Return the found array with the path to the UUID
         return indexPathToUUID
     }
 

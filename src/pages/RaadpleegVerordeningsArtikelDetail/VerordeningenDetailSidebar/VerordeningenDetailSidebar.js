@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Component } from 'react'
-import { withRouter, Link } from 'react-router-dom'
+import { withRouter, Link, useLocation } from 'react-router-dom'
 import queryString from 'query-string'
 
 import {
@@ -9,8 +9,7 @@ import {
 } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import useEventListener from './../../../utils/useEventListener'
-
+// Function to get Query string parameters from the URL and return them in an array
 function getQueryStringValues(urlParams) {
     function parseIntOrSetToNull(item) {
         if (item === 'null') {
@@ -27,378 +26,275 @@ function getQueryStringValues(urlParams) {
     return [hoofdstukIndex, nest_1, nest_2, nest_3]
 }
 
+// Returns a title based on the item.Type
+function ListItemIcon({ item, itemActive }) {
+    return (
+        <FontAwesomeIcon
+            className={`${
+                item.Type === 'Artikel' ? 'ml-1' : ''
+            } absolute mt-1 left-0 -ml-6 text-gray-700 bg-gray-100`}
+            icon={
+                item.Type === 'Artikel'
+                    ? faFileAlt
+                    : itemActive
+                    ? faMinusSquare
+                    : faPlusSquare
+            }
+        />
+    )
+}
+
+// Returns a title based on the item.Type
+function ListItemTitle({ item, itemActive }) {
+    let title = null
+
+    if (item.Type === 'Hoofdstuk') {
+        title = `${item.Titel}`
+    } else if (item.Type === 'Afdeling') {
+        title = `${item.Volgnummer} ${item.Titel}`
+    } else if (item.Type === 'Paragraaf') {
+        title = `§ ${item.Volgnummer} ${item.Titel}`
+    } else if (item.Type === 'Artikel') {
+        title = `Artikel ${item.Volgnummer} - ${item.Titel}`
+    }
+
+    return (
+        <span
+            className={`inline-block text-sm text-gray-800 
+            ${item.Type === 'Artikel' ? 'hover:underline' : ''}
+            ${itemActive && item.Type === 'Artikel' ? 'font-bold' : ''}
+        `}
+        >
+            {title}
+        </span>
+    )
+}
+
+// Used in the ListItem component to turn article items into Links
+function WrapInLinkOrSpan({ children, isArtikel, url, onClick }) {
+    if (isArtikel) {
+        return (
+            <Link to={url} className="cursor-pointer" onClick={onClick}>
+                {children}
+            </Link>
+        )
+    } else {
+        return (
+            <span className="cursor-pointer" onClick={onClick}>
+                {children}
+            </span>
+        )
+    }
+}
+/**
+ * @param {Object} item - Contains the list item from the VerordeningsStructuur
+ * @param {Object} children - Contains potential nested list
+ * @param {Number} hoofdstukIndex, nest_1, nest_2, nest_3 - Index positions from the map() function of the different nested levels
+ * @param {Function} setActivePath - function that sets the active state (!REFACTOR! -> To local state)
+ * @param {Number} arrayIndex - is a number from 0 <--> 3 to indicate the nested level of the ListItem
+ * @param {Object} listIndex - contains the index position of the item from the mapped list
+ */
 function ListItem({
     item,
     children,
-    activeHoofdstuk,
-    listIndex,
-
     hoofdstukIndex,
     nest_1,
     nest_2,
     nest_3,
-    setPathToActiveSidebarElement,
+    activePath,
+    setActivePath,
     arrayIndex,
-    activeSidebarElementPath,
+    listIndex,
 }) {
-    // const [display, setDisplay] = useState(listIndex === indexOpen)
-    const display =
-        activeSidebarElementPath[arrayIndex] === listIndex &&
-        item.Type !== 'Hoofdstuk'
-    const UUID = item.UUID
+    const itemActive = activePath[arrayIndex] === listIndex
 
     return (
-        <li key={UUID} className={`mt-2 relative`}>
-            <Link
-                to={
-                    item.Type === 'Artikel'
-                        ? `/detail/verordeningen/1/${item.UUID}?hoofdstuk=${hoofdstukIndex}&nest_1=${nest_1}&nest_2=${nest_2}&nest_3=${nest_3}`
-                        : `?hoofdstuk=${activeSidebarElementPath[0]}&nest_1=${activeSidebarElementPath[1]}&nest_2=${activeSidebarElementPath[2]}&nest_3=${activeSidebarElementPath[3]}`
-                }
-                className="cursor-pointer"
+        <li className="mt-2 relative">
+            <WrapInLinkOrSpan
+                isArtikel={item.Type === 'Artikel'}
+                url={`/detail/verordeningen/1/${item.UUID}?hoofdstuk=${hoofdstukIndex}&nest_1=${nest_1}&nest_2=${nest_2}&nest_3=${nest_3}`}
                 onClick={() => {
-                    // !REFACTOR! Onduidelijke rommel
-                    if (
-                        activeSidebarElementPath[arrayIndex] === listIndex &&
-                        item.Type === 'Artikel'
-                    ) {
-                        return
-                    }
+                    let newActivePath = [hoofdstukIndex, nest_1, nest_2, nest_3]
 
-                    if (
-                        item.Type === 'Hoofdstuk' &&
-                        activeHoofdstuk !== listIndex
-                    ) {
-                        setPathToActiveSidebarElement([
-                            listIndex,
-                            null,
-                            null,
-                            null,
-                        ])
-                    } else if (
-                        item.Type === 'Hoofdstuk' &&
-                        activeHoofdstuk === listIndex
-                    ) {
-                        let newArray = activeSidebarElementPath
-                        newArray[0] = null
-                        setPathToActiveSidebarElement(newArray)
-                    } else if (
-                        item.Type === 'Artikel' &&
-                        activeSidebarElementPath[arrayIndex] !== listIndex
-                    ) {
-                        let newArray = activeSidebarElementPath
-                        newArray[arrayIndex] = listIndex
-
-                        setPathToActiveSidebarElement(newArray)
+                    if (itemActive) {
+                        // If user clicks on an item that is already open we reset that value to Null
+                        newActivePath[arrayIndex] = null
                     } else {
-                        let newArray = activeSidebarElementPath
-                        let newValue = null
-                        if (activeSidebarElementPath[arrayIndex] === null) {
-                            newValue = listIndex
-                        }
-                        newArray[arrayIndex] = newValue
-                        setPathToActiveSidebarElement(newArray)
+                        // Else the item is closed (null) so we assign it the listIndex to open it
+                        newActivePath[arrayIndex] = listIndex
                     }
+
+                    setActivePath(newActivePath)
                 }}
             >
-                <FontAwesomeIcon
-                    className={`${
-                        item.Type === 'Artikel' ? 'ml-1' : ''
-                    } absolute mt-1 left-0 -ml-6 text-gray-700 bg-gray-100`}
-                    icon={
-                        item.Type === 'Artikel'
-                            ? faFileAlt
-                            : display ||
-                              (item.Type === 'Hoofdstuk' &&
-                                  activeHoofdstuk === listIndex)
-                            ? faMinusSquare
-                            : faPlusSquare
-                    }
-                />
-                <span
-                    className={`inline-block text-sm text-gray-800 
-                    ${item.Type === 'Artikel' ? 'hover:underline' : ''}
-                    ${
-                        activeSidebarElementPath[arrayIndex] === listIndex &&
-                        item.Type === 'Artikel'
-                            ? 'font-bold'
-                            : ''
-                    }
-                    `}
-                >
-                    {/* {item.Type === 'Afdeling'
-                        ? `${hoofdstukVolgnummer}.${item.Volgnummer} ${item.Titel} `
-                        : ''}
-                    {item.Type === 'Paragraaf'
-                        ? `§ ${hoofdstukVolgnummer}.${item.Volgnummer} ${item.Titel}`
-                        : ''}
-                    {item.Type === 'Artikel'
-                        ? `Artikel ${hoofdstukVolgnummer}.${item.Volgnummer} - ${item.Titel}`
-                        : ''}
+                <ListItemIcon itemActive={itemActive} item={item} />
+                <ListItemTitle itemActive={itemActive} item={item} />
+            </WrapInLinkOrSpan>
 
-                    {item.Type === 'Hoofdstuk' ? item.Titel : ''} */}
-                    {item.Titel}
-                </span>
-            </Link>
-
-            {(activeHoofdstuk === listIndex && item.Type === 'Hoofdstuk') ||
-            display
-                ? children
-                : null}
+            {itemActive ? children : null}
         </li>
     )
 }
 
-class VerordeningenDetailSidebar extends Component {
-    constructor(props) {
-        super(props)
+function VerordeningenDetailSidebar({ dataLoaded, lineage }) {
+    let location = useLocation()
 
-        this.state = {
-            activeSidebarElementPath: null,
-        }
-        this.setPathToActiveSidebarElement = this.setPathToActiveSidebarElement.bind(
-            this
-        )
-    }
+    const [activePath, setActivePath] = useState(
+        getQueryStringValues(location.search)
+    )
 
-    setPathToActiveSidebarElement(activeSidebarElementPath) {
-        this.setState(
-            {
-                activeSidebarElementPath: activeSidebarElementPath,
-            },
-            () => console.log(this.state)
-        )
-    }
+    console.log(activePath)
 
-    componentDidMount() {
-        // Set Active Artikel if URL params are provided
-        const urlParams = this.props.location.search
-        if (urlParams) {
-            let [hoofdstukIndex, nest1, nest2, nest3] = getQueryStringValues(
-                urlParams
-            )
-            this.setPathToActiveSidebarElement([
-                hoofdstukIndex,
-                nest1,
-                nest2,
-                nest3,
-            ])
-        } else {
-            this.setPathToActiveSidebarElement([null, null, null, null])
-        }
-    }
-
-    render() {
-        const dataLoaded = this.props.dataLoaded
-        const lineage = this.props.lineage
-
-        const activeSidebarElementPath = this.state.activeSidebarElementPath
-        const setPathToActiveSidebarElement = this.setPathToActiveSidebarElement
-
-        let activeHoofdstuk = null
-
-        if (dataLoaded) {
-            activeHoofdstuk = this.state.activeSidebarElementPath[0]
-        }
-
-        return (
-            <div className="w-full inline-block flex-grow">
-                {dataLoaded ? (
-                    <div className="relative">
-                        <h2 className="font-serif block text-gray-800 mt-4">
-                            Inhoudsopgave verordening
-                        </h2>
-                        <ul className="relative pl-6 pr-5">
-                            {lineage.Structuur.Children.map(
-                                (hoofdstuk, hoofdstukIndex) => (
-                                    <ListItem
-                                        activeSidebarElementPath={
-                                            activeSidebarElementPath
-                                        }
-                                        arrayIndex={0}
-                                        setPathToActiveSidebarElement={
-                                            setPathToActiveSidebarElement
-                                        }
-                                        activeHoofdstuk={activeHoofdstuk}
-                                        hasChildren={
-                                            hoofdstuk.Children.length > 0
-                                        }
-                                        hoofdstukVolgnummer={
-                                            hoofdstuk.Volgnummer
-                                        }
-                                        listIndex={hoofdstukIndex}
-                                        hoofdstukIndex={hoofdstukIndex}
-                                        nest_1={null}
-                                        nest_2={null}
-                                        nest_3={null}
-                                        item={hoofdstuk}
-                                        key={hoofdstuk.UUID}
-                                    >
-                                        {hoofdstuk.Children.length > 0 ? (
-                                            <ul className="pl-6 relative">
-                                                {hoofdstuk.Children.map(
-                                                    (child, nest_1) => (
-                                                        <ListItem
-                                                            activeSidebarElementPath={
-                                                                activeSidebarElementPath
-                                                            }
-                                                            arrayIndex={1}
-                                                            setPathToActiveSidebarElement={
-                                                                setPathToActiveSidebarElement
-                                                            }
-                                                            activeHoofdstuk={
-                                                                activeHoofdstuk
-                                                            }
-                                                            hasChildren={
-                                                                child.Children
-                                                                    .length > 0
-                                                            }
-                                                            hoofdstukVolgnummer={
-                                                                hoofdstuk.Volgnummer
-                                                            }
-                                                            item={child}
-                                                            listIndex={nest_1}
-                                                            hoofdstukIndex={
-                                                                hoofdstukIndex
-                                                            }
-                                                            nest_1={nest_1}
-                                                            nest_2={null}
-                                                            nest_3={null}
-                                                            key={child.UUID}
-                                                        >
-                                                            {child.Children
-                                                                .length > 0 &&
-                                                            child.Type !==
-                                                                'Artikel' ? (
-                                                                <ul className="pl-6 relative">
-                                                                    {child.Children.map(
-                                                                        (
-                                                                            childOfChild,
-                                                                            nest_2
-                                                                        ) => (
-                                                                            <ListItem
-                                                                                activeSidebarElementPath={
-                                                                                    activeSidebarElementPath
-                                                                                }
-                                                                                arrayIndex={
-                                                                                    2
-                                                                                }
-                                                                                setPathToActiveSidebarElement={
-                                                                                    setPathToActiveSidebarElement
-                                                                                }
-                                                                                activeHoofdstuk={
-                                                                                    activeHoofdstuk
-                                                                                }
-                                                                                hasChildren={
-                                                                                    childOfChild
-                                                                                        .Children
-                                                                                        .length >
-                                                                                    0
-                                                                                }
-                                                                                hoofdstukVolgnummer={
-                                                                                    hoofdstuk.Volgnummer
-                                                                                }
-                                                                                item={
-                                                                                    childOfChild
-                                                                                }
-                                                                                listIndex={
-                                                                                    nest_2
-                                                                                }
-                                                                                hoofdstukIndex={
-                                                                                    hoofdstukIndex
-                                                                                }
-                                                                                nest_1={
-                                                                                    nest_1
-                                                                                }
-                                                                                nest_2={
-                                                                                    nest_2
-                                                                                }
-                                                                                nest_3={
-                                                                                    null
-                                                                                }
-                                                                                key={
-                                                                                    childOfChild.UUID
-                                                                                }
-                                                                            >
-                                                                                {childOfChild
-                                                                                    .Children
-                                                                                    .length >
-                                                                                    0 &&
-                                                                                childOfChild.Type !==
-                                                                                    'Artikel' ? (
-                                                                                    <ul className="pl-6 relative">
-                                                                                        {childOfChild.Children.map(
-                                                                                            (
-                                                                                                childOfChildofChild,
-                                                                                                nest_3
-                                                                                            ) => (
-                                                                                                <ListItem
-                                                                                                    activeSidebarElementPath={
-                                                                                                        activeSidebarElementPath
-                                                                                                    }
-                                                                                                    arrayIndex={
-                                                                                                        3
-                                                                                                    }
-                                                                                                    setPathToActiveSidebarElement={
-                                                                                                        setPathToActiveSidebarElement
-                                                                                                    }
-                                                                                                    activeHoofdstuk={
-                                                                                                        activeHoofdstuk
-                                                                                                    }
-                                                                                                    hasChildren={
-                                                                                                        childOfChildofChild
-                                                                                                            .Children
-                                                                                                            .length >
-                                                                                                        0
-                                                                                                    }
-                                                                                                    hoofdstukVolgnummer={
-                                                                                                        hoofdstuk.Volgnummer
-                                                                                                    }
-                                                                                                    listIndex={
-                                                                                                        nest_3
-                                                                                                    }
-                                                                                                    hoofdstukIndex={
-                                                                                                        hoofdstukIndex
-                                                                                                    }
-                                                                                                    nest_1={
-                                                                                                        nest_1
-                                                                                                    }
-                                                                                                    nest_2={
-                                                                                                        nest_2
-                                                                                                    }
-                                                                                                    nest_3={
-                                                                                                        nest_3
-                                                                                                    }
-                                                                                                    item={
-                                                                                                        childOfChildofChild
-                                                                                                    }
-                                                                                                    key={
-                                                                                                        childOfChildofChild.UUID
-                                                                                                    }
-                                                                                                />
-                                                                                            )
-                                                                                        )}
-                                                                                    </ul>
-                                                                                ) : null}
-                                                                            </ListItem>
-                                                                        )
-                                                                    )}
-                                                                </ul>
-                                                            ) : null}
-                                                        </ListItem>
-                                                    )
-                                                )}
-                                            </ul>
-                                        ) : null}
-                                    </ListItem>
-                                )
-                            )}
-                        </ul>
-                    </div>
-                ) : null}
-            </div>
-        )
-    }
+    return (
+        <div className="w-full inline-block flex-grow">
+            {dataLoaded ? (
+                <div className="relative">
+                    <h2 className="font-serif block text-gray-800 mt-4">
+                        Inhoudsopgave verordening
+                    </h2>
+                    <ul className="relative pl-6 pr-5">
+                        {lineage.Structuur.Children.map(
+                            (hoofdstuk, hoofdstukIndex) => (
+                                <ListItem
+                                    setActivePath={setActivePath}
+                                    activePath={activePath}
+                                    arrayIndex={0}
+                                    listIndex={hoofdstukIndex}
+                                    hoofdstukIndex={hoofdstukIndex}
+                                    nest_1={null}
+                                    nest_2={null}
+                                    nest_3={null}
+                                    item={hoofdstuk}
+                                    key={hoofdstuk.UUID}
+                                >
+                                    {hoofdstuk.Children.length > 0 ? (
+                                        <ul className="pl-6 relative">
+                                            {hoofdstuk.Children.map(
+                                                (child, nest_1) => (
+                                                    <ListItem
+                                                        setActivePath={
+                                                            setActivePath
+                                                        }
+                                                        activePath={activePath}
+                                                        arrayIndex={1}
+                                                        item={child}
+                                                        listIndex={nest_1}
+                                                        hoofdstukIndex={
+                                                            hoofdstukIndex
+                                                        }
+                                                        nest_1={nest_1}
+                                                        nest_2={null}
+                                                        nest_3={null}
+                                                        key={child.UUID}
+                                                    >
+                                                        {child.Children.length >
+                                                            0 &&
+                                                        child.Type !==
+                                                            'Artikel' ? (
+                                                            <ul className="pl-6 relative">
+                                                                {child.Children.map(
+                                                                    (
+                                                                        childOfChild,
+                                                                        nest_2
+                                                                    ) => (
+                                                                        <ListItem
+                                                                            setActivePath={
+                                                                                setActivePath
+                                                                            }
+                                                                            activePath={
+                                                                                activePath
+                                                                            }
+                                                                            arrayIndex={
+                                                                                2
+                                                                            }
+                                                                            item={
+                                                                                childOfChild
+                                                                            }
+                                                                            listIndex={
+                                                                                nest_2
+                                                                            }
+                                                                            hoofdstukIndex={
+                                                                                hoofdstukIndex
+                                                                            }
+                                                                            nest_1={
+                                                                                nest_1
+                                                                            }
+                                                                            nest_2={
+                                                                                nest_2
+                                                                            }
+                                                                            nest_3={
+                                                                                null
+                                                                            }
+                                                                            key={
+                                                                                childOfChild.UUID
+                                                                            }
+                                                                        >
+                                                                            {childOfChild
+                                                                                .Children
+                                                                                .length >
+                                                                                0 &&
+                                                                            childOfChild.Type !==
+                                                                                'Artikel' ? (
+                                                                                <ul className="pl-6 relative">
+                                                                                    {childOfChild.Children.map(
+                                                                                        (
+                                                                                            childOfChildofChild,
+                                                                                            nest_3
+                                                                                        ) => (
+                                                                                            <ListItem
+                                                                                                setActivePath={
+                                                                                                    setActivePath
+                                                                                                }
+                                                                                                activePath={
+                                                                                                    activePath
+                                                                                                }
+                                                                                                arrayIndex={
+                                                                                                    3
+                                                                                                }
+                                                                                                listIndex={
+                                                                                                    nest_3
+                                                                                                }
+                                                                                                hoofdstukIndex={
+                                                                                                    hoofdstukIndex
+                                                                                                }
+                                                                                                nest_1={
+                                                                                                    nest_1
+                                                                                                }
+                                                                                                nest_2={
+                                                                                                    nest_2
+                                                                                                }
+                                                                                                nest_3={
+                                                                                                    nest_3
+                                                                                                }
+                                                                                                item={
+                                                                                                    childOfChildofChild
+                                                                                                }
+                                                                                                key={
+                                                                                                    childOfChildofChild.UUID
+                                                                                                }
+                                                                                            />
+                                                                                        )
+                                                                                    )}
+                                                                                </ul>
+                                                                            ) : null}
+                                                                        </ListItem>
+                                                                    )
+                                                                )}
+                                                            </ul>
+                                                        ) : null}
+                                                    </ListItem>
+                                                )
+                                            )}
+                                        </ul>
+                                    ) : null}
+                                </ListItem>
+                            )
+                        )}
+                    </ul>
+                </div>
+            ) : null}
+        </div>
+    )
 }
 
 export default withRouter(VerordeningenDetailSidebar)
