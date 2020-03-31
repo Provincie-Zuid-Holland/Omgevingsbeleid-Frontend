@@ -1,12 +1,12 @@
-import React, { useState, useEffect, Component } from 'react'
-import { withRouter, Link, useLocation } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import queryString from 'query-string'
 
 import {
     faMinusSquare,
-    faFileAlt,
     faPlusSquare,
 } from '@fortawesome/free-regular-svg-icons'
+import { faAlignLeft } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 // Function to get Query string parameters from the URL and return them in an array
@@ -32,10 +32,10 @@ function ListItemIcon({ item, itemActive }) {
         <FontAwesomeIcon
             className={`${
                 item.Type === 'Artikel' ? 'ml-1' : ''
-            } absolute mt-1 left-0 -ml-6 text-gray-700 bg-gray-100`}
+            } absolute mt-1 left-0 -ml-5 text-gray-700 bg-gray-100 text-sm`}
             icon={
                 item.Type === 'Artikel'
-                    ? faFileAlt
+                    ? faAlignLeft
                     : itemActive
                     ? faMinusSquare
                     : faPlusSquare
@@ -152,7 +152,7 @@ function VerordeningenDetailSidebar({ dataLoaded, lineage }) {
                     <h2 className="font-serif block text-gray-800 mt-4">
                         Inhoudsopgave verordening
                     </h2>
-                    <ul className="relative pl-6 pr-5">
+                    <ul className="relative pl-5 pr-5">
                         {lineage.Structuur.Children.map(
                             (hoofdstuk, hoofdstukIndex) => (
                                 <ListItem
@@ -168,7 +168,7 @@ function VerordeningenDetailSidebar({ dataLoaded, lineage }) {
                                     key={hoofdstuk.UUID}
                                 >
                                     {hoofdstuk.Children.length > 0 ? (
-                                        <ul className="pl-6 relative">
+                                        <ul className="pl-5 relative">
                                             {hoofdstuk.Children.map(
                                                 (child, nest_1) => (
                                                     <ListItem
@@ -191,7 +191,7 @@ function VerordeningenDetailSidebar({ dataLoaded, lineage }) {
                                                             0 &&
                                                         child.Type !==
                                                             'Artikel' ? (
-                                                            <ul className="pl-6 relative">
+                                                            <ul className="pl-5 relative">
                                                                 {child.Children.map(
                                                                     (
                                                                         childOfChild,
@@ -235,7 +235,7 @@ function VerordeningenDetailSidebar({ dataLoaded, lineage }) {
                                                                                 0 &&
                                                                             childOfChild.Type !==
                                                                                 'Artikel' ? (
-                                                                                <ul className="pl-6 relative">
+                                                                                <ul className="pl-5 relative">
                                                                                     {childOfChild.Children.map(
                                                                                         (
                                                                                             childOfChildofChild,
@@ -297,4 +297,4 @@ function VerordeningenDetailSidebar({ dataLoaded, lineage }) {
     )
 }
 
-export default withRouter(VerordeningenDetailSidebar)
+export default VerordeningenDetailSidebar
