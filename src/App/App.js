@@ -33,10 +33,13 @@ import LoginForm from './../components/LoginForm'
 import * as Sentry from '@sentry/browser'
 import dimensies from '../constants/dimensies'
 
+console.log(process.env)
+
 if (process.env.NODE_ENV !== 'development') {
     Sentry.init({
         dsn: 'https://a9c9863a039942abb632f6ff844fea03@sentry.io/1777968',
         environment: process.env.NODE_ENV,
+        release: 'omgevingsbeleid@1.0.0',
     })
 }
 
