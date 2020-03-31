@@ -272,7 +272,6 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
         let hoofdstukNummer = null
         let hoofdstukTitel = null
         let artikel = this.state.verordeningsObject
-        console.log(artikel)
 
         let breadcrumb = null
 
@@ -393,7 +392,11 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                                                       key={lid.UUID}
                                                       className="text-gray-700 text-sm mb-4 whitespace-pre-line block"
                                                   >
-                                                      {lid.Inhoud}
+                                                      {/* !REFACTOR! -> [BLOCKED] Swen db */}
+                                                      {lid.Inhoud.replace(
+                                                          /\r/gi,
+                                                          '\n'
+                                                      )}
                                                   </span>
                                               )
                                           })

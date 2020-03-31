@@ -1,10 +1,8 @@
 import axios from 'axios'
 
-// Oude Base URL:
-// baseURL: `https://api-acctest-ob.westeurope.cloudapp.azure.com/dev/${api_version}`,
-
-// Nieuwe Base URL:
-// baseURL: `https://api-obzh-test.azurewebsites.net/${api_version}`,
+// Base URLS:
+// TEST: `https://api-obzh-test.azurewebsites.net/${api_version}`,
+// PROD: `https://api-obzh.azurewebsites.net/${api_version}`,
 
 const access_token = localStorage.getItem('access_token')
 const api_version = 'v0.1'

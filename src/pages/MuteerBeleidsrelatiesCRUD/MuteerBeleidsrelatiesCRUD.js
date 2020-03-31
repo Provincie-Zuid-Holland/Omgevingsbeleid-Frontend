@@ -105,6 +105,7 @@ class MuteerBeleidsrelatiesCRUD extends Component {
                     allFieldsComplete &&
                     !validator.isUUID(crudObject[key])
                 ) {
+                    // !REFACTOR! Validator eruit slopen en npm package verwijderen
                     toast(`Vul alle 'Personen' velden in`)
                     allFieldsComplete = false
                 }
