@@ -28,12 +28,11 @@ import AuthRoutes from './AuthRoutes'
 import Navigation from './../components/Navigation'
 import LoaderContent from './../components/LoaderContent'
 import LoginForm from './../components/LoginForm'
+import PopUpAnimatedContainer from './../components/PopUpAnimatedContainer'
 
 // Import Sentry (Bug tracking)
 import * as Sentry from '@sentry/browser'
 import dimensies from '../constants/dimensies'
-
-console.log(process.env)
 
 if (process.env.NODE_ENV !== 'development') {
     Sentry.init({
@@ -43,22 +42,62 @@ if (process.env.NODE_ENV !== 'development') {
     })
 }
 
-// !REFACTOR! - Algemene refactor punten
-// - Implement spread operator ({...this.state}) op elke 'variabele = this.state' (reference -> new)
-// - Add propTypes for type checking
-
 function ReAuthenticatePopup({ setLoginState }) {
     return (
         <React.Fragment>
-            <div className="bg-gray-900 opacity-50 z-40 absolute w-full h-full left-0 top-0"></div>
-            <div className="absolute w-full h-full z-40 left-0 top-0 flex justify-center items-center">
-                <div className="bg-white rounded p-5 text-gray-700">
-                    <h2 className="font-bold text-xl mb-2">Opnieuw inloggen</h2>
+            <div className="absolute top-0 left-0 z-40 w-full h-full bg-gray-900 opacity-50"></div>
+            <div className="absolute top-0 left-0 z-40 flex items-center justify-center w-full h-full">
+                <div className="p-5 text-gray-700 bg-white rounded">
+                    <h2 className="mb-2 text-xl font-bold">Opnieuw inloggen</h2>
                     <p>
                         De sessie is verlopen. U kunt hieronder opnieuw
                         inloggen.
                     </p>
                     <LoginForm setLoginState={setLoginState} />
+                </div>
+            </div>
+        </React.Fragment>
+    )
+}
+
+function WelcomePopup({ closePopup }) {
+    return (
+        <React.Fragment>
+            <div className="absolute top-0 left-0 z-40 w-full h-full bg-gray-900 opacity-50"></div>
+            <div className="absolute top-0 left-0 z-40 flex items-center justify-center w-full h-full">
+                <div className="max-w-xl p-10 text-gray-700 bg-white rounded">
+                    <div className="block mb-4">
+                        <div className="w-full h-16 logo-main" />
+                    </div>
+                    <h2 className="mt-4 mb-2 text-lg font-bold">
+                        Welkom op het vernieuwde Digitaal Omgevingsbeleid van
+                        provincie Zuid-Holland!
+                    </h2>
+                    <p>
+                        Welkom op het vernieuwde Digitaal Omgevingsbeleid van
+                        provincie Zuid-Holland. Net als in de oude omgeving kun
+                        je hier zoeken op provinciaal beleid, maar ziet alles er
+                        net even anders uit. Zo is er onder andere gewerkt aan
+                        een gebruiksvriendelijkere omgeving en betere weergaven.
+                        Omdat de website nog in ontwikkeling is kan het zijn dat
+                        sommige functionaliteiten niet goed werken. Kom je een
+                        fout tegen? Neem dan contact op door te mailen naar{' '}
+                        <a
+                            href="mailto:omgevingsbeleid@pzh.nl?subject=Feedback Omgevingsbeleid&body=Probeer zo duidelijk mogelijk te omschrijven waar je tegenaan liep"
+                            className="underline cursor-pointer"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            omgevingsbeleid@pzh.nl
+                        </a>
+                    </p>
+                    <span
+                        onClick={closePopup}
+                        id="aan-de-slag-close-popup"
+                        className="block px-4 py-3 mt-8 text-sm font-bold leading-tight text-center text-white rounded cursor-pointer mbg-color hover:underline"
+                    >
+                        Aan de slag
+                    </span>
                 </div>
             </div>
         </React.Fragment>
@@ -73,6 +112,7 @@ class App extends Component {
             user: null,
             dataLoaded: false,
             showReAuthenticatePopup: false,
+            showWelcomePopup: false,
         }
         this.checkIfUserIsAuthenticated = this.checkIfUserIsAuthenticated.bind(
             this
@@ -132,6 +172,20 @@ class App extends Component {
         }
     }
 
+    listenForLocalStorageChange(e) {
+        this.setLoginState(!!e.newValue)
+    }
+
+    checkForWelcomePopupInLocalStorage() {
+        const isInStorage = localStorage.getItem('omgevingsbeleid-welcome')
+        if (!isInStorage) {
+            this.setState({
+                showWelcomePopup: true,
+            })
+            localStorage.setItem('omgevingsbeleid-welcome', true)
+        }
+    }
+
     componentDidMount() {
         // window.location.replace('https://omgevingsbeleidpzh.mendixcloud.com/p/')
 
@@ -139,8 +193,22 @@ class App extends Component {
             this.listenForExpiredSession(e)
         )
 
+        window.addEventListener('storage', e =>
+            this.listenForLocalStorageChange(e)
+        )
+
         this.checkIfUserIsAuthenticated()
         this.checkForInternetExplorer()
+        this.checkForWelcomePopupInLocalStorage()
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('authEvent', e =>
+            this.listenForExpiredSession(e)
+        )
+        window.removeEventListener('storage', e =>
+            this.listenForLocalStorageChange(e)
+        )
     }
 
     render() {
@@ -202,6 +270,16 @@ class App extends Component {
                     <meta charSet="utf-8" />
                     <title>Omgevingsbeleid - Provincie Zuid-Holland</title>
                 </Helmet>
+
+                {this.state.showWelcomePopup && this.state.dataLoaded ? (
+                    <WelcomePopup
+                        closePopup={() =>
+                            this.setState({
+                                showWelcomePopup: false,
+                            })
+                        }
+                    />
+                ) : null}
 
                 {this.state.showReAuthenticatePopup ? (
                     <ReAuthenticatePopup setLoginState={this.setLoginState} />

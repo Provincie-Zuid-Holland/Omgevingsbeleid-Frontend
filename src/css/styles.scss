@@ -100,6 +100,14 @@ $base-color: #002f65;
     max-height: 50vh;
 }
 
+.logo-main {
+    background-image: url('../images/logo.png');
+    background-size: contain;
+    background-position: left center;
+    background-repeat: no-repeat;
+    display: block;
+}
+
 .logo-beeldmerk {
     background-image: url('../images/logo_beeldmerk.jpg');
     background-size: cover;

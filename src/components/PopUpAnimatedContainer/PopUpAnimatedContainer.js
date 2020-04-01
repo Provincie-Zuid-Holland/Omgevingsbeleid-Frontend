@@ -5,7 +5,7 @@ function PopUpAnimatedContainer(props) {
     return (
         <React.Fragment>
             <animated.div
-                className="fixed w-screen bg-gray-900 h-screen top-0 left-0 z-10"
+                className="fixed top-0 left-0 z-10 w-screen h-screen bg-gray-900"
                 style={useSpring({
                     config: { tension: 300 },
                     opacity: 0.25,
@@ -13,7 +13,7 @@ function PopUpAnimatedContainer(props) {
                 })}
             />
             <div className="fixed top-0 left-0 z-10">
-                <div className="flex h-screen w-screen top-0 left-0 justify-center items-center">
+                <div className="top-0 left-0 flex items-center justify-center w-screen h-screen">
                     <animated.div
                         style={useSpring({
                             config: { tension: 300 },

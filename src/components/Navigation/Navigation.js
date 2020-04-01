@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link, withRouter } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 import { faCaretDown, faSignInAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -68,13 +68,13 @@ class NavigationMenuPopUp extends Component {
     render() {
         return (
             <span
-                className="text-gray-600 text-sm mr-3 relative"
+                className="relative mr-3 text-sm text-gray-600"
                 ref={this.innerContainer}
             >
                 <span
                     id="navbar-toggle-popup"
                     onClick={this.toggleOpen}
-                    className="cursor-pointer select-none text-sm text-gray-800"
+                    className="text-sm text-gray-800 cursor-pointer select-none"
                 >
                     <span>
                         {this.getUserName() !== null
@@ -89,11 +89,11 @@ class NavigationMenuPopUp extends Component {
                 {this.state.open ? (
                     <div
                         id="navigation-tooltip-container"
-                        className="absolute bg-white rounded mt-2 w-48 -ml-12 text-gray-700"
+                        className="absolute w-48 mt-2 -ml-12 text-gray-700 bg-white rounded"
                     >
-                        <div className="h-full relative">
+                        <div className="relative h-full">
                             <ul className="text-sm text-gray-800">
-                                <li className="py-2 px-4 text-sm cursor-not-allowed">
+                                <li className="px-4 py-2 text-sm cursor-not-allowed">
                                     Mijn Instellingen
                                 </li>
                                 <li>
@@ -101,7 +101,7 @@ class NavigationMenuPopUp extends Component {
                                         <Link
                                             id="navbar-popup-href-raadpleeg-omgeving"
                                             to={`/`}
-                                            className="py-2 px-4 text-sm border-t border-gray-300 w-full inline-block"
+                                            className="inline-block w-full px-4 py-2 text-sm border-t border-gray-300"
                                             onClick={this.toggleOpen}
                                         >
                                             Raadpleegomgeving
@@ -110,7 +110,7 @@ class NavigationMenuPopUp extends Component {
                                         <Link
                                             id="navbar-popup-href-raadpleeg-omgeving"
                                             to={`/muteer/dashboard`}
-                                            className="py-2 px-4 text-sm border-t border-gray-300 w-full inline-block"
+                                            className="inline-block w-full px-4 py-2 text-sm border-t border-gray-300"
                                             onClick={this.toggleOpen}
                                         >
                                             Muteeromgeving
@@ -120,7 +120,7 @@ class NavigationMenuPopUp extends Component {
                                 <li>
                                     <Link
                                         id="navbar-popup-href-uitloggen"
-                                        className="py-2 px-4 text-sm border-t border-gray-300 w-full inline-block"
+                                        className="inline-block w-full px-4 py-2 text-sm border-t border-gray-300"
                                         to={`/login`}
                                         onClick={() => {
                                             logout()
@@ -169,49 +169,46 @@ function Logo() {
     )
 }
 
-class Navigation extends Component {
-    render() {
-        return (
-            <nav
-                className="bg-white fixed w-full z-20 top-0"
-                id="navigation-main"
-            >
-                <div className="lg:px-10 bg-white border-b border-gray-200 py-6 container mx-auto flex items-center justify-between flex-wrap bg-white">
-                    <div className="flex items-center flex-no-shrink text-black mr-6 py-2">
-                        {this.props.loggedIn ? (
-                            <Link
-                                id="href-naar-home"
-                                to={`/muteer/dashboard`}
-                                className="text-blue"
-                            >
-                                <Logo />
-                                <span className="px-1 text-gray-600 font-serif absolute ml-32 text-xs mt-2 pl-8 uppercase tracking-widest">
-                                    Beta
-                                </span>
-                            </Link>
-                        ) : (
-                            <Link
-                                id="href-naar-home"
-                                to={`/`}
-                                className="text-blue"
-                            >
-                                <Logo />
-                            </Link>
-                        )}
-                    </div>
-                    <div className="flex items-center justify-end">
-                        <LoginLogoutButton
-                            currentScreenMuteerOmgeving={this.props.location.pathname.includes(
-                                'muteer'
-                            )}
-                            setLoginState={this.props.setLoginState}
-                            loggedIn={this.props.loggedIn}
-                        />
-                    </div>
+function Navigation({ loggedIn, setLoginState }) {
+    let location = useLocation()
+
+    return (
+        <nav className="fixed top-0 z-20 w-full bg-white" id="navigation-main">
+            <div className="container flex flex-wrap items-center justify-between py-6 mx-auto bg-white border-b border-gray-200 lg:px-10">
+                <div className="flex items-center py-2 mr-6 text-black flex-no-shrink">
+                    {loggedIn ? (
+                        <Link
+                            id="href-naar-home"
+                            to={`/muteer/dashboard`}
+                            className="text-blue"
+                        >
+                            <Logo />
+                            <span className="absolute px-1 pl-8 mt-2 ml-32 font-serif text-xs tracking-widest text-gray-600 uppercase">
+                                Beta
+                            </span>
+                        </Link>
+                    ) : (
+                        <Link
+                            id="href-naar-home"
+                            to={`/`}
+                            className="text-blue"
+                        >
+                            <Logo />
+                        </Link>
+                    )}
                 </div>
-            </nav>
-        )
-    }
+                <div className="flex items-center justify-end">
+                    <LoginLogoutButton
+                        currentScreenMuteerOmgeving={location.pathname.includes(
+                            'muteer'
+                        )}
+                        setLoginState={setLoginState}
+                        loggedIn={loggedIn}
+                    />
+                </div>
+            </div>
+        </nav>
+    )
 }
 
-export default withRouter(Navigation)
+export default Navigation
