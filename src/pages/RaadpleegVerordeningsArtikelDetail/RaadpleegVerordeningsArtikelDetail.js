@@ -7,6 +7,8 @@ import {
     faAngleRight,
     faPrint,
     faExternalLinkAlt,
+    faCompressArrowsAlt,
+    faExpandArrowsAlt,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import clonedeep from 'lodash.clonedeep'
@@ -429,10 +431,19 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                                                         .toggleFullscreenLeafletViewer
                                                 }
                                             >
-                                                Bekijk in het groot
+                                                Bekijk in het
+                                                {this.state
+                                                    .fullscreenLeafletViewer
+                                                    ? ' klein'
+                                                    : ' groot'}
                                                 <FontAwesomeIcon
                                                     className="ml-2 text-gray-700"
-                                                    icon={faExternalLinkAlt}
+                                                    icon={
+                                                        this.state
+                                                            .fullscreenLeafletViewer
+                                                            ? faCompressArrowsAlt
+                                                            : faExpandArrowsAlt
+                                                    }
                                                 />
                                             </span>
                                         </div>
