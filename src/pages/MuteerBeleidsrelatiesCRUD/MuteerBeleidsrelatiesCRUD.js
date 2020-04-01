@@ -82,6 +82,7 @@ class MuteerBeleidsrelatiesCRUD extends Component {
         }))
     }
 
+    // !REFACTOR! -> Implement utility function
     checkForEmptyFields(crudObject) {
         const dataModel = this.props.dataModel
         let allFieldsComplete = true
@@ -241,6 +242,7 @@ class MuteerBeleidsrelatiesCRUD extends Component {
             crudObject: this.state.crudObject,
             setEditorState: this.setEditorState,
             Van_Beleidsbeslissing_Titel: this.state.Van_Beleidsbeslissing_Titel,
+            Van_Beleidsbeslissing_UUID: this.props.match.params.UUID,
         }
 
         return (

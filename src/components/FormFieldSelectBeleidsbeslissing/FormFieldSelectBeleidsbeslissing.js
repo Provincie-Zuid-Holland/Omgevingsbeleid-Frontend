@@ -7,8 +7,14 @@ import axios from './../../API/axios'
 // Import Components
 import LoaderSelect from './../LoaderSelect'
 
-function makeSelection(objectenArray, dataObjectProperty) {
+function makeSelection(objectenArray, dataObjectProperty, filterUUID) {
     let options = []
+
+    // FilterUUID is used to filter out the item that initiates the new relation, so an object can't make a relation with itself
+    if (filterUUID) {
+        objectenArray = objectenArray.filter(item => item.UUID !== filterUUID)
+    }
+
     objectenArray.forEach(arrayItem => {
         options.push({
             label: arrayItem.Titel,
@@ -37,7 +43,7 @@ class FormFieldSelectBeleidsbeslissing extends React.Component {
         return (
             <div className={`mb-6 w-full`}>
                 <label
-                    className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                    className="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
                     htmlFor={this.props.dataObjectProperty}
                 >
                     {this.props.fieldLabel ? this.props.fieldLabel : null}
@@ -86,7 +92,8 @@ class FormFieldSelectBeleidsbeslissing extends React.Component {
                 this.setState({
                     selectionArray: makeSelection(
                         objecten,
-                        this.props.dataObjectProperty
+                        this.props.dataObjectProperty,
+                        this.props.filter
                     ),
                     dataLoaded: true,
                 })

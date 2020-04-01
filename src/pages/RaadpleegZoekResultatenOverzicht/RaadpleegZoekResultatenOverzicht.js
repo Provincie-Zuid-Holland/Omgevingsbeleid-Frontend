@@ -14,13 +14,11 @@ import allDimensieConstants from './../../constants/dimensies'
 import ButtonBackToPage from './../../components/ButtonBackToPage'
 import LoaderContent from './../../components/LoaderContent'
 
-function getExcerpt(object) {
-    if (object.trim) {
-        let newObject = object
-        newObject.content = newObject.content.substring(0, 250) + '...'
-        return newObject
+function getExcerpt(text) {
+    if (text.length > 250) {
+        return text.substring(0, 250) + '...'
     } else {
-        return object
+        return text
     }
 }
 
@@ -53,54 +51,36 @@ function getDimensieConstant(type) {
     }
 }
 
-function SearchResultItem(props) {
+function SearchResultItem({ item, searchQuery }) {
     function getContent(propertyName) {
-        if (
-            (props.item.highlight === undefined ||
-                props.item.highlight[propertyName] === undefined) &&
-            props.item[propertyName] !== undefined
-        ) {
-            return {
-                setInnerHTML: false,
-                content: props.item[propertyName],
-                trim:
-                    props.item[propertyName] &&
-                    props.item[propertyName].length > 250,
-            }
-        } else if (props.item[propertyName] !== undefined) {
-            return {
-                setInnerHTML: true,
-                content: {
-                    __html: props.item.highlight[propertyName],
-                },
-            }
-        } else {
-            if (props.item.type === 'Beleidsbeslissingen') {
-                return {
-                    setInnerHTML: false,
-                    content: props.item.Omschrijving_Keuze,
-                    trim:
-                        props.item.Omschrijving_Keuze &&
-                        props.item.Omschrijving_Keuze.length > 250,
-                }
-            } else {
-                return {
-                    setInnerHTML: false,
-                    content: props.item.Omschrijving,
-                    trim:
-                        props.item.Omschrijving &&
-                        props.item.Omschrijving.length > 250,
-                }
-            }
+        console.log(item)
+        console.log(searchQuery)
+
+        // Get everything past the '=' of '?query=artikel'
+        const query = searchQuery.slice(
+            searchQuery.indexOf('=') + 1,
+            searchQuery.length
+        )
+
+        const omschrijving = getExcerpt(item.Omschrijving)
+
+        return {
+            setInnerHTML: true,
+            content: {
+                __html: omschrijving.replace(
+                    new RegExp(query, 'g'),
+                    `<span class="search-highlight">${query}</span>`
+                ),
+            },
         }
     }
 
     const content = {
-        Titel: getContent('Titel'),
-        Omschrijving: getExcerpt(getContent('Omschrijving')),
+        Titel: item.Titel,
+        Omschrijving: getContent('Omschrijving'),
     }
 
-    let type = props.item.Type
+    let type = item.Type
     if (type === 'Beleidsregels') {
         type = 'BeleidsRegels'
     }
@@ -110,57 +90,48 @@ function SearchResultItem(props) {
     const titelEnkelvoud = dimensieContants.TITEL_ENKELVOUD
 
     return (
-        <li className="border-b border-gray-300 py-5" key={props.item.UUID}>
+        <li className="py-5 border-b border-gray-300" key={item.UUID}>
             <Link
                 to={
-                    props.item.Type === 'Verordeningen'
-                        ? `/detail/verordeningen/1/${
-                              props.item.UUID
-                          }?hoofdstuk=${
-                              props.item.positionInStructure[0] !== undefined
-                                  ? props.item.positionInStructure[0]
+                    item.Type === 'Verordeningen'
+                        ? `/detail/verordeningen/1/${item.UUID}?hoofdstuk=${
+                              item.positionInStructure[0] !== undefined
+                                  ? item.positionInStructure[0]
                                   : 'null'
                           }&nest_1=${
-                              props.item.positionInStructure[1] !== undefined
-                                  ? props.item.positionInStructure[1]
+                              item.positionInStructure[1] !== undefined
+                                  ? item.positionInStructure[1]
                                   : 'null'
                           }&nest_2=${
-                              props.item.positionInStructure[2] !== undefined
-                                  ? props.item.positionInStructure[2]
+                              item.positionInStructure[2] !== undefined
+                                  ? item.positionInStructure[2]
                                   : 'null'
                           }&nest_3=${
-                              props.item.positionInStructure[3] !== undefined
-                                  ? props.item.positionInStructure[3]
+                              item.positionInStructure[3] !== undefined
+                                  ? item.positionInStructure[3]
                                   : 'null'
-                          }#${props.searchQuery}`
-                        : `/detail/${overzichtURL}/${props.item.UUID}#${props.searchQuery}`
+                          }#${searchQuery}`
+                        : `/detail/${overzichtURL}/${item.UUID}#${searchQuery}`
                 }
             >
-                {content.Titel.setInnerHTML ? (
-                    <h2
-                        className="text-l font-serif block text-gray-800"
-                        dangerouslySetInnerHTML={content.Titel.content}
-                    ></h2>
-                ) : (
-                    <h2 className="text-l font-serif block text-gray-800">
-                        {content.Titel.content}
-                    </h2>
-                )}
-                <span className="block text-gray-600 text-sm italic">
+                <h2 className="block font-serif text-gray-800 text-l">
+                    {content.Titel}
+                </h2>
+                <span className="block text-sm italic text-gray-600">
                     {titelEnkelvoud}
                 </span>
                 {content.Omschrijving.setInnerHTML ? (
                     <p
-                        className="mt-2 text-gray-700 text-sm"
+                        className="mt-2 text-sm text-gray-700"
                         dangerouslySetInnerHTML={content.Omschrijving.content}
                     ></p>
                 ) : content.Omschrijving.content &&
                   content.Omschrijving.content.length > 0 ? (
-                    <p className="mt-2 text-gray-700 text-sm">
+                    <p className="mt-2 text-sm text-gray-700">
                         {content.Omschrijving.content}
                     </p>
                 ) : (
-                    <p className="mt-2 text-gray-700 text-sm italic">
+                    <p className="mt-2 text-sm italic text-gray-700">
                         Er is nog geen omschrijving voor deze
                         {' ' + titelEnkelvoud.toLowerCase()}
                     </p>
@@ -449,7 +420,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
         console.log(this.state)
 
         return (
-            <div className="container mx-auto flex px-6 pb-8 mt-12">
+            <div className="container flex px-6 pb-8 mx-auto mt-12">
                 <div className="w-1/4">
                     <ButtonBackToPage
                         terugNaar="startpagina"
@@ -459,7 +430,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                                 : `/`
                         }
                     />
-                    <h2 className="mt-6 text-l font-serif block text-gray-700">
+                    <h2 className="block mt-6 font-serif text-gray-700 text-l">
                         Filteren
                     </h2>
                     <ul className="mt-4">
@@ -469,7 +440,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                                   (item, index) => (
                                       <li
                                           key={item}
-                                          className="mt-1 text-gray-700 text-sm"
+                                          className="mt-1 text-sm text-gray-700"
                                       >
                                           <label className="cursor-pointer select-none">
                                               <input
@@ -506,7 +477,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                 </div>
 
                 <div className="w-2/4">
-                    <span className="text-gray-600 text-sm">
+                    <span className="text-sm text-gray-600">
                         Zoekresultaten voor
                         {this.state.searchQuery
                             ? ` "${this.state.searchQuery}"`
@@ -538,7 +509,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                                     return null
                                 })
                             ) : (
-                                <span className="italic text-gray-600 text-sm mt-8 block">
+                                <span className="block mt-8 text-sm italic text-gray-600">
                                     Geen resultaten
                                 </span>
                             )

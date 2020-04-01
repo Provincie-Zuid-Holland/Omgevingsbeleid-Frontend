@@ -18,7 +18,7 @@ class ContainerCrudFields extends React.Component {
         return (
             <React.Fragment>
                 <ContainerMain>
-                    <div className="w-full inline-block flex-grow">
+                    <div className="flex-grow inline-block w-full">
                         <div>
                             <form
                                 className="mt-12"
@@ -33,6 +33,10 @@ class ContainerCrudFields extends React.Component {
                                             'Naar_Beleidsbeslissing'
                                         ] !== undefined ? (
                                             <FormFieldSelectBeleidsbeslissing
+                                                filter={
+                                                    this.context
+                                                        .Van_Beleidsbeslissing_UUID
+                                                }
                                                 handleChange={
                                                     this.context.handleChange
                                                 }
@@ -118,10 +122,10 @@ class ContainerCrudFields extends React.Component {
 
                                 {/* Submit */}
                                 <div className="fixed bottom-0 right-0 px-6">
-                                    <div className="bg-white shadow px-4 py-4 inline-block rounded-t">
+                                    <div className="inline-block px-4 py-4 bg-white rounded-t shadow">
                                         <input
                                             id="form-submit"
-                                            className="font-bold py-2 px-4 leading-tight text-sm rounded mbg-color text-white hover:underline"
+                                            className="px-4 py-2 text-sm font-bold leading-tight text-white rounded mbg-color hover:underline"
                                             type="submit"
                                             value="Opslaan"
                                         ></input>
