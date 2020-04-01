@@ -225,40 +225,6 @@ class MuteerBeleidsrelatiesCRUD extends Component {
         )
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        // Save to LocalStorage
-        // If page === edit set Key to Name_UUID
-        // If page === new set Key to Name
-        if (
-            this.state.dataLoaded === false ||
-            JSON.stringify(this.state.crudObject) ===
-                JSON.stringify(prevProps.crudObject)
-        ) {
-            return
-        }
-
-        if (!this.state.edit) {
-            const objectName = this.props.dataModel.variables.Object_Name
-            const localStorageObject = {
-                date: new Date(),
-                savedState: this.state.crudObject,
-            }
-            localStorage.setItem(objectName, JSON.stringify(localStorageObject))
-        } else {
-            const objectName = this.props.dataModel.variables.Object_Name
-            const objectID = this.props.match.params.single
-            const localStorageKey = `${objectName}_${objectID}`
-            const localStorageObject = {
-                date: new Date(),
-                savedState: this.state.crudObject,
-            }
-            localStorage.setItem(
-                localStorageKey,
-                JSON.stringify(localStorageObject)
-            )
-        }
-    }
-
     render() {
         const contextObject = {
             objectUUID: this.state.UUID,
@@ -291,15 +257,15 @@ class MuteerBeleidsrelatiesCRUD extends Component {
                               toe`}
                     </title>
                 </Helmet>
-                <div className="w-full py-32 px-6 mbg-color edit-header relative">
-                    <div className="lg:px-10 container mx-auto flex justify-center items-center">
+                <div className="relative w-full px-6 py-32 mbg-color edit-header">
+                    <div className="container flex items-center justify-center mx-auto lg:px-10">
                         <div className="w-full pr-20">
                             <ButtonBackToPage
                                 terugNaar={`beleidsrelatie`}
                                 color="text-white"
                                 url={`/muteer/beleidsrelaties/${this.props.match.params.UUID}`}
                             />
-                            <h1 className="heading-serif-4xl text-white">
+                            <h1 className="text-white heading-serif-4xl">
                                 Voeg een nieuwe beleidsrelatie toe
                             </h1>
                         </div>

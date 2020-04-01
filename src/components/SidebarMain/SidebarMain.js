@@ -103,7 +103,7 @@ function MainSideBarHeading(props) {
     )
 }
 
-function SidebarMain(props) {
+function SidebarMain() {
     const identifier = localStorage.getItem('identifier')
     let gebruikersNaam = null
     let gebruikersRol = null
@@ -111,8 +111,6 @@ function SidebarMain(props) {
         gebruikersNaam = JSON.parse(identifier).Gebruikersnaam.split(' ')[0]
         gebruikersRol = JSON.parse(identifier).Rol
     }
-
-    console.log(gebruikersRol)
 
     return (
         <div className="inline-block w-1/4 rounded">
