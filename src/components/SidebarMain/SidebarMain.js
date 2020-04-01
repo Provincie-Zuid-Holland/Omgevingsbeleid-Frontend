@@ -38,13 +38,13 @@ function ReturnNavLink(props) {
                     .toLowerCase()
                     .replace(' ', '-')}`}
                 activeClassName="mt-1 relative text-sm block leading-loose py-1 pr-2 font-bold rounded bg-gray-300 text-gray-800"
-                className="mt-1 relative text-sm block leading-loose py-1 px-2 text-gray-600 rounded cursor-pointer hover:bg-gray-300 hover:text-blue-900"
+                className="relative block px-2 py-1 mt-1 text-sm leading-loose text-gray-600 rounded cursor-pointer hover:bg-gray-300 hover:text-blue-900"
                 key={props.index}
                 to={props.url}
             >
                 {props.value}
                 <FontAwesomeIcon
-                    className="absolute text-xl right-0 h-8 mr-3 main-sidebar-arrow"
+                    className="absolute right-0 h-8 mr-3 text-xl main-sidebar-arrow"
                     icon={faAngleRight}
                 />
             </NavLink>
@@ -53,7 +53,7 @@ function ReturnNavLink(props) {
         return (
             <NavLink
                 activeClassName="mt-1 relative text-sm block leading-loose py-1 px-2 font-bold rounded bg-gray-300 text-gray-800"
-                className="mt-1 relative text-sm block leading-loose py-1 px-2 text-gray-600 rounded cursor-pointer hover:bg-gray-300 hover:text-blue-900"
+                className="relative block px-2 py-1 mt-1 text-sm leading-loose text-gray-600 rounded cursor-pointer hover:bg-gray-300 hover:text-blue-900"
                 key={props.index}
                 id={`sidebar-href-${props.value
                     .toLowerCase()
@@ -62,7 +62,7 @@ function ReturnNavLink(props) {
             >
                 {props.value}
                 <FontAwesomeIcon
-                    className="absolute text-xl right-0 h-8 mr-3 main-sidebar-arrow"
+                    className="absolute right-0 h-8 mr-3 text-xl main-sidebar-arrow"
                     icon={faAngleRight}
                 />
             </NavLink>
@@ -81,12 +81,12 @@ function returnMenuItems(menuItems) {
             />
         ) : (
             <li
-                className="text-gray-600 mt-1 relative text-sm block leading-loose py-1 px-2  rounded cursor-not-allowed hover:bg-gray-300 hover:text-blue-900"
+                className="relative block px-2 py-1 mt-1 text-sm leading-loose text-gray-600 rounded cursor-not-allowed hover:bg-gray-300 hover:text-blue-900"
                 key={index}
             >
                 {value}
                 <FontAwesomeIcon
-                    className="absolute text-xl text-grey-300 right-0 h-8 mr-3 main-sidebar-arrow"
+                    className="absolute right-0 h-8 mr-3 text-xl text-grey-300 main-sidebar-arrow"
                     icon={faAngleRight}
                 />
             </li>
@@ -97,7 +97,7 @@ function returnMenuItems(menuItems) {
 
 function MainSideBarHeading(props) {
     return (
-        <h2 className="mt-8 mb-2 pr-2 heading-serif-xl text-gray-800">
+        <h2 className="pr-2 mt-8 mb-2 text-gray-800 heading-serif-xl">
             {props.children}
         </h2>
     )
@@ -112,13 +112,15 @@ function SidebarMain(props) {
         gebruikersRol = JSON.parse(identifier).Rol
     }
 
+    console.log(gebruikersRol)
+
     return (
-        <div className="w-1/4 rounded inline-block">
+        <div className="inline-block w-1/4 rounded">
             <div>
-                <span className="heading-serif text-gray-800 mb-2 inline-block">
+                <span className="inline-block mb-2 text-gray-800 heading-serif">
                     Omgevingsbeleid
                 </span>
-                <h2 className="heading-serif-2xl block">
+                <h2 className="block heading-serif-2xl">
                     {gebruikersNaam !== null
                         ? `Welkom ${gebruikersNaam},`
                         : 'Welkom,'}
@@ -133,11 +135,11 @@ function SidebarMain(props) {
                 <ul>{returnMenuItems(menuItemsOmgevingsbeleid)}</ul>
                 {/* <MainSideBarHeading>Gebruiker</MainSideBarHeading>
                 <ul>{returnMenuItems(menuItemsGebruiker)}</ul> */}
-                {gebruikersRol === 'Beheerd' ||
-                'Functioneel beheerder' ||
-                'Technisch beheerder' ||
-                'Test runner' ||
-                'Tester' ? (
+                {gebruikersRol === 'Beheerder' ||
+                gebruikersRol === 'Functioneel beheerder' ||
+                gebruikersRol === 'Technisch beheerder' ||
+                gebruikersRol === 'Test runner' ||
+                gebruikersRol === 'Tester' ? (
                     <React.Fragment>
                         <MainSideBarHeading>Beheer</MainSideBarHeading>
                         <ul>{returnMenuItems(menuItemsBeheer)}</ul>
