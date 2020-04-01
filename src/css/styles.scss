@@ -352,17 +352,11 @@ $base-color: #002f65;
     height: 250px;
 }
 #full-screen-leaflet-container-true {
-    padding-top: 70px;
-    position: fixed;
-    top: 0px;
-    right: 0px;
-    width: 75vw;
+    height: 800px;
+    max-height: 80vh;
 }
 #full-screen-leaflet {
-    position: absolute !important; // overwrite Leaflets inline relative position
-    top: 70px;
-    height: calc(100vh - 70px);
-    right: 0px;
+    height: 100%;
 }
 
 .skip-border-last-child li:last-child {

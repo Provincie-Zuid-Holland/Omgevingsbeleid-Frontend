@@ -50,6 +50,7 @@ function RevisieListItem(props) {
     )
 }
 
+// !REFACTOR! -> File opschonen
 class RaadpleegUniversalObjectDetail extends Component {
     constructor(props) {
         super(props)
@@ -151,6 +152,7 @@ class RaadpleegUniversalObjectDetail extends Component {
 
         let werkingsGebiedUUID = null
 
+        // !REFACTOR! -> Dit zou 1 property moeten zijn
         if (werkingsgebiedBoolean && dataObject.Gebied) {
             werkingsGebiedUUID = dataObject.Gebied
         } else if (
@@ -172,7 +174,7 @@ class RaadpleegUniversalObjectDetail extends Component {
 
         return (
             <div
-                className="container mx-auto flex px-6 pb-20 mt-8"
+                className="container flex px-6 pb-20 mx-auto mt-8"
                 id="raadpleeg-detail-container-main"
             >
                 <Helmet>
@@ -199,7 +201,7 @@ class RaadpleegUniversalObjectDetail extends Component {
                 {dataLoaded ? (
                     <div
                         id="raadpleeg-detail-container-content"
-                        className={werkingsgebiedBoolean ? `w-3/4` : `w-full`}
+                        className={`w-full`}
                     >
                         {hashBool ? (
                             <ButtonBackToPage
@@ -210,23 +212,23 @@ class RaadpleegUniversalObjectDetail extends Component {
                             <ButtonBackToPage terugNaar="startpagina" url="/" />
                         )}
                         {/* Artikel Headers */}
-                        <span className="text-l font-serif block text-gray-800">
+                        <span className="block font-serif text-gray-800 text-l">
                             {this.props.dataModel.variables.Titel_Enkelvoud}
                         </span>
                         <h1
                             id="raadpleeg-detail-header-one"
-                            className="mt-2 heading-serif-2xl text-gray-800"
+                            className="mt-2 text-gray-800 heading-serif-2xl"
                         >
                             {console.log(dataObject)}
                             {dataObject.Titel}
                         </h1>
                         {/* Meta Content */}
                         <div
-                            className="mb-8 block"
+                            className="block mb-8"
                             id="raadpleeg-detail-container-meta-info"
                         >
                             {dataLoaded ? (
-                                <span className="text-gray-600 text-sm mr-3">
+                                <span className="mr-3 text-sm text-gray-600">
                                     {dataObject['Begin_Geldigheid'] !== null
                                         ? format(
                                               new Date(
@@ -238,14 +240,14 @@ class RaadpleegUniversalObjectDetail extends Component {
                                         : 'Er is nog geen begin geldigheid'}
                                 </span>
                             ) : (
-                                <span className="mt-2 block">
+                                <span className="block mt-2">
                                     <LoaderSmallSpan />
                                 </span>
                             )}
                             {this.state.revisieObjecten &&
                             this.state.revisieObjecten.length > 0 ? (
                                 <React.Fragment>
-                                    <span className="text-gray-600 text-sm mr-3">
+                                    <span className="mr-3 text-sm text-gray-600">
                                         &bull;
                                     </span>
                                     <PopUpRevisieContainer
@@ -306,12 +308,12 @@ class RaadpleegUniversalObjectDetail extends Component {
                                     </PopUpRevisieContainer>
                                 </React.Fragment>
                             ) : null}
-                            <span className="text-gray-600 text-sm mr-3">
+                            <span className="mr-3 text-sm text-gray-600">
                                 &bull;
                             </span>
                             {/* <span
                                 onClick={this.toggleDownloadPDF}
-                                className="text-gray-600 text-sm mr-3 cursor-pointer"
+                                className="mr-3 text-sm text-gray-600 cursor-pointer"
                             >
                                 <FontAwesomeIcon
                                     className="mr-2"
@@ -323,7 +325,7 @@ class RaadpleegUniversalObjectDetail extends Component {
                                 <PopUpAnimatedContainer small={true}>
                                     <React.Fragment>
                                         <span
-                                            className="text-gray-800 p-4 absolute right-0 top-0 cursor-pointer"
+                                            className="absolute top-0 right-0 p-4 text-gray-800 cursor-pointer"
                                             onClick={this.toggleDownloadPDF}
                                         >
                                             <FontAwesomeIcon
@@ -341,7 +343,7 @@ class RaadpleegUniversalObjectDetail extends Component {
                                                     titel={dataObject.Titel}
                                                 />
                                             }
-                                            className="text-gray-600 text-sm mr-3"
+                                            className="mr-3 text-sm text-gray-600"
                                             fileName="test.pdf"
                                         >
                                             {({ blob, url, loading, error }) =>
@@ -362,7 +364,7 @@ class RaadpleegUniversalObjectDetail extends Component {
                                                             binnenkort het PDF
                                                             bestand downloaden .{' '}
                                                         </div>
-                                                        <span className="text-white inline-block bg-green-600 px-4 py-2 rounded mt-4">
+                                                        <span className="inline-block px-4 py-2 mt-4 text-white bg-green-600 rounded">
                                                             <FontAwesomeIcon
                                                                 className="mr-2"
                                                                 icon={
@@ -378,11 +380,11 @@ class RaadpleegUniversalObjectDetail extends Component {
                                     </React.Fragment>
                                 </PopUpAnimatedContainer>
                             ) : null}
-                            <span className="text-gray-600 text-sm mr-3">
+                            <span className="mr-3 text-sm text-gray-600">
                                 &bull;
                             </span> */}
                             <span
-                                className="text-gray-600 text-sm mr-3 cursor-pointer"
+                                className="mr-3 text-sm text-gray-600 cursor-pointer"
                                 onClick={() => window.print()}
                             >
                                 <FontAwesomeIcon
@@ -433,6 +435,51 @@ class RaadpleegUniversalObjectDetail extends Component {
                         {titelEnkelvoud === 'Thema' ? (
                             <ContainerViewFieldsThema crudObject={dataObject} />
                         ) : null}
+
+                        {dataLoaded && werkingsgebiedBoolean ? (
+                            <div
+                                className="w-full mt-5"
+                                id="raadpleeg-detail-werkingsgebied"
+                            >
+                                <div className="flex items-center justify-between pb-3 text-gray-800">
+                                    <h2 className="block mb-2 font-serif text-lg tracking-wide text-gray-700">
+                                        Werkingsgebied
+                                    </h2>
+                                    {dataLoaded ? (
+                                        <span
+                                            className="px-2 text-xs cursor-pointer"
+                                            onClick={
+                                                this
+                                                    .toggleFullscreenLeafletViewer
+                                            }
+                                        >
+                                            Bekijk in het groot
+                                            <FontAwesomeIcon
+                                                className="ml-2 text-gray-700"
+                                                icon={faExternalLinkAlt}
+                                            />
+                                        </span>
+                                    ) : null}
+                                </div>
+
+                                <div
+                                    className="overflow-hidden rounded-lg"
+                                    id={`full-screen-leaflet-container-${this.state.fullscreenLeafletViewer}`}
+                                >
+                                    {console.log(
+                                        this.state.fullscreenLeafletViewer
+                                    )}
+                                    <LeafletTinyViewer
+                                        gebiedType="Werkingsgebieden"
+                                        gebiedUUID={werkingsGebiedUUID}
+                                        fullscreen={
+                                            this.state.fullscreenLeafletViewer
+                                        }
+                                    />
+                                </div>
+                            </div>
+                        ) : null}
+
                         {titelEnkelvoud === 'Beleidsbeslissing' ? (
                             <RelatieComponent
                                 crudObject={dataObject}
@@ -443,40 +490,6 @@ class RaadpleegUniversalObjectDetail extends Component {
                 ) : (
                     <LoaderContent />
                 )}
-                {dataLoaded && werkingsgebiedBoolean ? (
-                    <div
-                        className="w-1/4 pl-8"
-                        id="raadpleeg-detail-werkingsgebied"
-                    >
-                        <div className="flex justify-between items-center text-gray-800 pb-3">
-                            <h2 className="text-l font-serif">
-                                Werkingsgebied
-                            </h2>
-                            {dataLoaded ? (
-                                <span
-                                    className="text-xs cursor-pointer px-2"
-                                    onClick={this.toggleFullscreenLeafletViewer}
-                                >
-                                    Bekijk in het groot
-                                    <FontAwesomeIcon
-                                        className="ml-2 text-gray-700"
-                                        icon={faExternalLinkAlt}
-                                    />
-                                </span>
-                            ) : null}
-                        </div>
-
-                        <div
-                            id={`full-screen-leaflet-container-${this.state.fullscreenLeafletViewer}`}
-                        >
-                            <LeafletTinyViewer
-                                gebiedType="Werkingsgebieden"
-                                gebiedUUID={werkingsGebiedUUID}
-                                fullscreen={this.state.fullscreenLeafletViewer}
-                            />
-                        </div>
-                    </div>
-                ) : null}
             </div>
         )
     }

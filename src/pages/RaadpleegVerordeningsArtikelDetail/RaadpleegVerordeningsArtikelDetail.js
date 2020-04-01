@@ -19,7 +19,7 @@ import axios from '../../API/axios'
 // Import Components
 import ButtonBackToPage from './../../components/ButtonBackToPage'
 import VerordeningenDetailSidebar from './VerordeningenDetailSidebar'
-import LoaderSmallSpan from './../../components/LoaderSmallSpan'
+import LeafletTinyViewer from './../../components/LeafletTinyViewer'
 
 // !REFACTOR! -> Wordt nu op meerdere plekken gebruikt, move naar utils
 function parseIntOrSetToNull(item) {
@@ -48,7 +48,18 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
             loadingNewObject: false,
             dataLoaded: false,
             activeObjectPath: null,
+            fullscreenLeafletViewer: false,
         }
+
+        this.toggleFullscreenLeafletViewer = this.toggleFullscreenLeafletViewer.bind(
+            this
+        )
+    }
+
+    toggleFullscreenLeafletViewer() {
+        this.setState({
+            fullscreenLeafletViewer: !this.state.fullscreenLeafletViewer,
+        })
     }
 
     getBreadcrumb({ hoofdstukNummer, hoofdstukTitel }) {
@@ -267,6 +278,22 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
         let hoofdstukTitel = null
         let artikel = this.state.verordeningsObject
 
+        let werkingsgebiedBoolean = false
+        let werkingsGebiedUUID = null
+
+        // !REFACTOR! Dit zou null mogen zijn
+        if (
+            dataLoaded &&
+            artikel.Werkingsgebied !== '00000000-0000-0000-0000-000000000000' &&
+            artikel.Werkingsgebied !== null
+        ) {
+            werkingsgebiedBoolean = true
+            werkingsGebiedUUID = artikel.Werkingsgebied
+        }
+
+        console.log('werkingsGebiedUUID')
+        console.log(werkingsGebiedUUID)
+
         let breadcrumb = null
 
         if (dataLoaded && activeObjectPath) {
@@ -286,7 +313,7 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
 
         return (
             <div
-                className="container mx-auto flex px-6 pb-20"
+                className="container flex px-6 pb-20 mx-auto"
                 id="raadpleeg-detail-container-main"
             >
                 <div className="w-1/4">
@@ -316,74 +343,119 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                             {loadingNewObject ? <LoaderContent /> : null}
                             <div
                                 id="raadpleeg-detail-container-content text-gray-800"
-                                className={`w-3/4`}
+                                className={`w-3/4 pr-0 md:pr-24 md:pl-8 lg:pr-48 lg:pl-16`}
                             >
-                                <div className="w-full block mb-8 text-gray-600 inline-block">
-                                    {breadcrumb}
-                                </div>
+                                <div>
+                                    <div className="block inline-block w-full mb-8 text-gray-600">
+                                        {breadcrumb}
+                                    </div>
 
-                                {/* Artikel Headers */}
-                                <span className="text-l font-serif block text-gray-800">
-                                    Artikel {' ' + artikel.Volgnummer}
-                                </span>
-                                <h1
-                                    id="raadpleeg-detail-header-one"
-                                    className="mt-2 heading-serif-2xl text-gray-800"
-                                >
-                                    {artikel.Titel}
-                                </h1>
-
-                                {/* Meta Content */}
-                                <div
-                                    className="mb-8 block"
-                                    id="raadpleeg-detail-container-meta-info"
-                                >
-                                    <span className="text-gray-600 text-sm mr-3">
-                                        Vigerend sinds{' '}
-                                        {format(
-                                            new Date(artikel.Begin_Geldigheid),
-                                            'DD-MMMM-YYYY',
-                                            {
-                                                locale: nlLocale,
-                                            }
-                                        )}
+                                    {/* Artikel Headers */}
+                                    <span className="block font-serif text-gray-800 text-l">
+                                        Artikel {' ' + artikel.Volgnummer}
                                     </span>
-                                    <span className="text-gray-600 text-sm mr-3">
-                                        &bull;
-                                    </span>
-                                    <span
-                                        className="text-gray-600 text-sm mr-3 cursor-pointer"
-                                        onClick={() => window.print()}
+                                    <h1
+                                        id="raadpleeg-detail-header-one"
+                                        className="mt-2 text-gray-800 heading-serif-2xl"
                                     >
-                                        <FontAwesomeIcon
-                                            className="mr-2"
-                                            icon={faPrint}
-                                        />
-                                        Afdrukken
-                                    </span>
-                                </div>
-                                <p
-                                    className={`text-gray-700 text-sm mb-4 whitespace-pre-line`}
-                                >
-                                    {artikel.Inhoud}
+                                        {artikel.Titel}
+                                    </h1>
 
-                                    {this.state.ledenObjecten
-                                        ? this.state.ledenObjecten.map(lid => {
-                                              return (
-                                                  <span
-                                                      key={lid.UUID}
-                                                      className="text-gray-700 text-sm mb-4 whitespace-pre-line block"
-                                                  >
-                                                      {lid.Inhoud}
-                                                  </span>
+                                    {/* Meta Content */}
+                                    <div
+                                        className="block mb-8"
+                                        id="raadpleeg-detail-container-meta-info"
+                                    >
+                                        <span className="mr-3 text-sm text-gray-600">
+                                            Vigerend sinds{' '}
+                                            {format(
+                                                new Date(
+                                                    artikel.Begin_Geldigheid
+                                                ),
+                                                'DD-MMMM-YYYY',
+                                                {
+                                                    locale: nlLocale,
+                                                }
+                                            )}
+                                        </span>
+                                        <span className="mr-3 text-sm text-gray-600">
+                                            &bull;
+                                        </span>
+                                        <span
+                                            className="mr-3 text-sm text-gray-600 cursor-pointer"
+                                            onClick={() => window.print()}
+                                        >
+                                            <FontAwesomeIcon
+                                                className="mr-2"
+                                                icon={faPrint}
+                                            />
+                                            Afdrukken
+                                        </span>
+                                    </div>
+                                    <p
+                                        className={`text-gray-700 text-sm mb-4 whitespace-pre-line`}
+                                    >
+                                        {artikel.Inhoud}
+
+                                        {this.state.ledenObjecten
+                                            ? this.state.ledenObjecten.map(
+                                                  lid => {
+                                                      return (
+                                                          <span
+                                                              key={lid.UUID}
+                                                              className="block mb-4 text-sm text-gray-700 whitespace-pre-line"
+                                                          >
+                                                              {lid.Inhoud}
+                                                          </span>
+                                                      )
+                                                  }
                                               )
-                                          })
-                                        : null}
-                                </p>
+                                            : null}
+                                    </p>
+                                </div>
+                                {werkingsgebiedBoolean ? (
+                                    <div
+                                        className="w-full mt-5"
+                                        id="raadpleeg-detail-werkingsgebied"
+                                    >
+                                        <div className="flex items-center justify-between pb-3 text-gray-800">
+                                            <h2 className="block mb-2 font-serif text-lg tracking-wide text-gray-700">
+                                                Werkingsgebied
+                                            </h2>
+                                            <span
+                                                className="px-2 text-xs cursor-pointer"
+                                                onClick={
+                                                    this
+                                                        .toggleFullscreenLeafletViewer
+                                                }
+                                            >
+                                                Bekijk in het groot
+                                                <FontAwesomeIcon
+                                                    className="ml-2 text-gray-700"
+                                                    icon={faExternalLinkAlt}
+                                                />
+                                            </span>
+                                        </div>
+
+                                        <div
+                                            className="overflow-hidden rounded-lg"
+                                            id={`full-screen-leaflet-container-${this.state.fullscreenLeafletViewer}`}
+                                        >
+                                            <LeafletTinyViewer
+                                                gebiedType="Werkingsgebieden"
+                                                gebiedUUID={werkingsGebiedUUID}
+                                                fullscreen={
+                                                    this.state
+                                                        .fullscreenLeafletViewer
+                                                }
+                                            />
+                                        </div>
+                                    </div>
+                                ) : null}
                             </div>
                         </React.Fragment>
                     ) : (
-                        <span className="italic text-gray-700 w-3/4 inline-block">
+                        <span className="inline-block w-3/4 italic text-gray-700">
                             Selecteer een artikel
                         </span>
                     )

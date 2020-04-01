@@ -59,7 +59,10 @@ export default class LeafletTinyViewer extends Component {
     }
 
     componentDidUpdate(prevProps) {
+        console.log(prevProps.fullscreen)
+        console.log(this.props.fullscreen)
         if (this.props.fullscreen !== prevProps.fullscreen) {
+            console.log('CHANGED!!')
             this.leafletMap.current.leafletElement.invalidateSize()
             this.forceUpdate()
             this.setState({
