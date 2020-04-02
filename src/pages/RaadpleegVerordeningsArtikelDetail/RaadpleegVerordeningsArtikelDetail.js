@@ -180,6 +180,9 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                 })
             )
         } else {
+            this.setState({
+                ledenObjecten: null
+            })
             return Promise.resolve()
         }
     }
