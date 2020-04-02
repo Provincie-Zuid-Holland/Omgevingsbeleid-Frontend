@@ -165,6 +165,11 @@ function Logo() {
         <React.Fragment>
             <div className="logo-beeldmerk" />
             <div className="logo-tekst" />
+            <div className="absolute px-1 pl-4 ml-64 -mt-4">
+                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold leading-4 beta-logo text-yellow-700 uppercase">
+                    Beta
+                </span>
+            </div>
         </React.Fragment>
     )
 }
@@ -183,9 +188,6 @@ function Navigation({ loggedIn, setLoginState }) {
                             className="text-blue"
                         >
                             <Logo />
-                            <span className="absolute px-1 pl-8 mt-2 ml-32 font-serif text-xs tracking-widest text-gray-600 uppercase">
-                                Beta
-                            </span>
                         </Link>
                     ) : (
                         <Link
