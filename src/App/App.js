@@ -74,11 +74,10 @@ function WelcomePopup({ closePopup }) {
                         provincie Zuid-Holland!
                     </h2>
                     <p>
-                        Welkom op het vernieuwde Digitaal Omgevingsbeleid van
-                        provincie Zuid-Holland. Net als in de oude omgeving kun
-                        je hier zoeken op provinciaal beleid, maar ziet alles er
-                        net even anders uit. Zo is er onder andere gewerkt aan
-                        een gebruiksvriendelijkere omgeving en betere weergaven.
+                        Net als in de oude omgeving kun je hier zoeken op
+                        provinciaal beleid, maar ziet alles er net even anders
+                        uit. Zo is er onder andere gewerkt aan een
+                        gebruiksvriendelijkere omgeving en betere weergaven.
                         Omdat de website nog in ontwikkeling is kan het zijn dat
                         sommige functionaliteiten niet goed werken. Kom je een
                         fout tegen? Neem dan contact op door te mailen naar{' '}
