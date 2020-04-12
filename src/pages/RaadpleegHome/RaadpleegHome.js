@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 
 // Import Components
 import LeafletHalfScreenWidthViewer from './../../components/LeafletHalfScreenWidthViewer'
@@ -29,8 +30,17 @@ class RaadpleegHome extends Component {
                             </a>
                             .
                         </p>
-                        <div className="block mt-6">
+                        <div className="block mt-8">
                             <SearchBar />
+                        </div>
+                        <div className="mt-10">
+                            <Link
+                                to="/planning"
+                                className="text-gray-800 underline cursor-pointer"
+                            >
+                                Benieuwd waar we mee bezig zijn? Bekijk het
+                                hier.
+                            </Link>
                         </div>
                     </div>
                     <p className="mt-10 text-sm text-gray-600">

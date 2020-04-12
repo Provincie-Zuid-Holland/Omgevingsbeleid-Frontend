@@ -60,34 +60,34 @@ class ContainerDetail extends Component {
                     dataObject.Status === 'Vigerend' ||
                     dataObject.Status === 'Gepubliceerd' ? (
                         dimensieHistorie[0] && dataObject ? (
-                            <div className="absolute h-full left-0 bottom-0 pt-5 text-center">
-                                <div className="inline-block bg-indigo-900 absolute top-0 right-0 mt-5 status-bolletje" />
-                                <div className="h-full w-8 border-r-2 border-gray-400 inline-block" />
+                            <div className="absolute bottom-0 left-0 h-full pt-5 text-center">
+                                <div className="absolute top-0 right-0 inline-block mt-5 bg-indigo-900 status-bolletje" />
+                                <div className="inline-block w-8 h-full border-r-2 border-gray-400" />
                             </div>
                         ) : (
-                            <div className="absolute h-full left-0 bottom-0 text-center">
-                                <div className="h-5 w-8 border-r-2 border-gray-400 inline-block h-5" />
-                                <div className="inline-block bg-indigo-900 absolute top-0 right-0 mt-5 status-bolletje" />
+                            <div className="absolute bottom-0 left-0 h-full text-center">
+                                <div className="inline-block w-8 h-5 border-r-2 border-gray-400" />
+                                <div className="absolute top-0 right-0 inline-block mt-5 bg-indigo-900 status-bolletje" />
                             </div>
                         )
                     ) : (
-                        <div className="absolute h-full left-0 bottom-0 pt-5 text-center">
-                            <div className="relative absolute top-0 right-0">
-                                <div className="status-bolletje inline-block bg-yellow-600 right-0 absolute" />
-                                <div className="pulserende-ring border-yellow-600 top-0 absolute border-2 rounded-full" />
+                        <div className="absolute bottom-0 left-0 h-full pt-5 text-center">
+                            <div className="absolute relative top-0 right-0">
+                                <div className="absolute right-0 z-10 inline-block bg-yellow-600 status-bolletje" />
+                                <div className="absolute top-0 border-2 border-yellow-600 rounded-full pulserende-ring" />
                             </div>
-                            <div className="h-full w-16 border-r-2 border-yellow-400 inline-block" />
+                            <div className="relative inline-block w-16 h-full border-r-2 border-yellow-400 ml-min-2px" />
                         </div>
                     )
                 ) : null}
 
-                <div className="ml-16 pl-4 w-full">
+                <div className="w-full pl-4 ml-16">
                     {this.props.children}
 
                     {titelEnkelvoud === 'Beleidsbeslissing' ? (
                         <div
                             onClick={this.toggleDropdown}
-                            className="absolute right-0 top-0 hover:text-gray-800 text-gray-600 cursor-pointer p-5"
+                            className="absolute top-0 right-0 p-5 text-gray-600 cursor-pointer hover:text-gray-800"
                         >
                             <FontAwesomeIcon
                                 className="mr-2"
@@ -98,6 +98,7 @@ class ContainerDetail extends Component {
 
                     {this.state.dropdown ? (
                         <PopUpDetailDropdown
+                            raadpleegLink={`/detail/${this.props.overzichtSlug}/${dataObject.UUID}`}
                             dataObject={dataObject}
                             toggleDropdown={this.toggleDropdown}
                             openState={this.state.dropdown}
@@ -114,7 +115,7 @@ class ContainerDetail extends Component {
                         />
                     ) : null}
 
-                    <span className="text-gray-500 text-sm mb-1 block">
+                    <span className="block mb-1 text-sm text-gray-500">
                         {titelEnkelvoud}
                     </span>
 
@@ -133,7 +134,7 @@ class ContainerDetail extends Component {
                     dataObject.Status !== 'Vastgesteld' ? (
                         <Link
                             to={`/muteer/beleidsbeslissingen/edit/${this.props.match.params.single}`}
-                            className="underline text-blue-700 mt-2 inline-block"
+                            className="inline-block mt-2 text-blue-700 underline"
                         >
                             Bewerk Beleidsbeslissing
                         </Link>
@@ -141,10 +142,10 @@ class ContainerDetail extends Component {
 
                     {dataObject.Status === 'Vigerend' ||
                     dataObject.Status === 'Gepubliceerd' ? (
-                        <div className="mt-8 flex">
-                            <div className="flex justify-between items-center w-full mr-4 pr-4 border-r border-gray-300 py-2">
+                        <div className="flex mt-8">
+                            <div className="flex items-center justify-between w-full py-2 pr-4 mr-4 border-r border-gray-300">
                                 <div>
-                                    <span className="block font-bold text-gray-700 text-sm">
+                                    <span className="block text-sm font-bold text-gray-700">
                                         {/* isBefore */}
                                         {dataReceived &&
                                         dataObject['Begin_Geldigheid'] !==
@@ -172,14 +173,14 @@ class ContainerDetail extends Component {
                                                 : 'Er is nog geen begin geldigheid'}
                                         </span>
                                     ) : (
-                                        <span className="mt-2 block">
+                                        <span className="block mt-2">
                                             <LoaderSmallSpan />
                                         </span>
                                     )}
                                 </div>
                                 <div>
                                     <FontAwesomeIcon
-                                        className="text-gray-600 text-xl"
+                                        className="text-xl text-gray-600"
                                         icon={faCalendarAlt}
                                     />
                                 </div>
@@ -190,10 +191,10 @@ class ContainerDetail extends Component {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     id="href-idms-koppeling"
-                                    className="flex justify-between items-center w-full mr-4 pr-4 border-r border-gray-300 py-2"
+                                    className="flex items-center justify-between w-full py-2 pr-4 mr-4 border-r border-gray-300"
                                 >
                                     <div>
-                                        <span className="block font-bold text-gray-700 text-sm">
+                                        <span className="block text-sm font-bold text-gray-700">
                                             IDMS-koppeling
                                         </span>
                                         <span className="text-sm text-gray-700">
@@ -202,7 +203,7 @@ class ContainerDetail extends Component {
                                     </div>
                                     <div>
                                         <FontAwesomeIcon
-                                            className="text-gray-600 text-xl"
+                                            className="text-xl text-gray-600"
                                             icon={faLink}
                                         />
                                     </div>
@@ -210,14 +211,15 @@ class ContainerDetail extends Component {
                             ) : null}
                             {titelEnkelvoud !== 'Beleidsrelatie' ? (
                                 <a
-                                    href={`/detail/${this.props.overzichtSlug}/${this.props.match.params.single}`}
+                                    href={`/detail/${this.props.overzichtSlug}/${dataObject.UUID}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="flex justify-between items-center w-full py-2 cursor-pointer"
+                                    className="flex items-center justify-between w-full py-2 cursor-pointer"
                                 >
+                                    {console.log(dataObject)}
                                     <div>
                                         <div>
-                                            <span className="block font-bold text-gray-700 text-sm">
+                                            <span className="block text-sm font-bold text-gray-700">
                                                 Link naar raadpleegomgeving
                                             </span>
                                             <span className="text-sm text-gray-700">
@@ -231,7 +233,7 @@ class ContainerDetail extends Component {
                                     </div>
                                     <div>
                                         <FontAwesomeIcon
-                                            className="text-gray-600 text-xl"
+                                            className="text-xl text-gray-600"
                                             icon={faExternalLinkAlt}
                                         />
                                     </div>

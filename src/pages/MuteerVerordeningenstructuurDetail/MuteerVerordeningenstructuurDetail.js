@@ -37,7 +37,7 @@ function SectieOpslaan({ cancel, save, toggleMode }) {
         <div className="flex">
             <span
                 onClick={cancel}
-                className="inline-block text-sm text-red-500 cursor-pointer underline pr-4 p-2 flex items-center justify-center mr-4"
+                className="flex items-center justify-center inline-block p-2 pr-4 mr-4 text-sm text-red-500 underline cursor-pointer"
             >
                 Annuleren
             </span>
@@ -47,9 +47,9 @@ function SectieOpslaan({ cancel, save, toggleMode }) {
                         save()
                         toggleMode()
                     }}
-                    className="inline-block rounded font-semibold border border-green-600 text-white bg-green-600 hover:text-white cursor-pointer pr-4 p-2 flex items-center justify-center"
+                    className="flex items-center justify-center inline-block p-2 pr-4 font-semibold text-white bg-green-600 border border-green-600 rounded cursor-pointer hover:text-white"
                 >
-                    <span className="px-2 flex justify-center items-center inline-block">
+                    <span className="flex items-center justify-center inline-block px-2">
                         <FontAwesomeIcon className="text-xs" icon={faSave} />
                     </span>
                     Opslaan
@@ -73,24 +73,24 @@ function SectieToggleMode({ lineage, toggleMode, activeHoofdstuk }) {
         <div className="flex">
             <Link
                 to={url}
-                className="inline-block rounded font-semibold border m-base-border-color mbg-color-hover hover:text-white cursor-pointer m-color px-3 py-2 flex items-center justify-center mr-2"
+                className="flex items-center justify-center inline-block px-3 py-2 mr-2 font-semibold border rounded cursor-pointer m-base-border-color mbg-color-hover hover:text-white m-color"
             >
                 <FontAwesomeIcon className="text-xs" icon={faEdit} />
             </Link>
             <span
-                className="inline-block rounded font-semibold border m-base-border-color mbg-color-hover hover:text-white cursor-pointer m-color pr-4 p-2 flex items-center justify-center mr-2"
+                className="flex items-center justify-center inline-block p-2 pr-4 mr-2 font-semibold border rounded cursor-pointer m-base-border-color mbg-color-hover hover:text-white m-color"
                 onClick={() => toggleMode('voegSectieToeMode')}
             >
-                <span className="px-2 flex justify-center items-center inline-block">
+                <span className="flex items-center justify-center inline-block px-2">
                     <FontAwesomeIcon className="text-xs" icon={faPlus} />
                 </span>
                 Toevoegen
             </span>
             <span
                 onClick={() => toggleMode('editVolgordeMode')}
-                className="inline-block rounded font-semibold border m-base-border-color mbg-color-hover hover:text-white cursor-pointer m-color pr-4 p-2 flex items-center justify-center"
+                className="flex items-center justify-center inline-block p-2 pr-4 font-semibold border rounded cursor-pointer m-base-border-color mbg-color-hover hover:text-white m-color"
             >
-                <span className="px-2 flex justify-center items-center inline-block">
+                <span className="flex items-center justify-center inline-block px-2">
                     <FontAwesomeIcon className="text-xs" icon={faArrowsAlt} />
                 </span>
                 Volgorde
@@ -230,7 +230,7 @@ class MuteerVerordeningenstructuurDetail extends Component {
                     destIndex
                 )
 
-                ChildrenOfHoofdstuk = ChildrenOfHoofdstuk.map(child => {
+                ChildrenOfHoofdstuk = ChildrenOfHoofdstuk.map((child) => {
                     // ALS het iten.UUID overeenkomt met de sourceParentID, dan moeten we op dit child de Children property vervangen met de nieuw gesorteerde sub items
                     // Anders returnen we enkel de originele value van child
                     if (child.UUID === sourceParentId) {
@@ -253,7 +253,7 @@ class MuteerVerordeningenstructuurDetail extends Component {
 
                 let newDestSubItems = [...destSubItems]
                 newDestSubItems.splice(destIndex, 0, draggedItem)
-                ChildrenOfHoofdstuk = ChildrenOfHoofdstuk.map(item => {
+                ChildrenOfHoofdstuk = ChildrenOfHoofdstuk.map((item) => {
                     if (item.UUID === sourceParentId) {
                         item.Children = newSourceSubItems
                     } else if (item.UUID === destParentId) {
@@ -404,7 +404,7 @@ class MuteerVerordeningenstructuurDetail extends Component {
         }
 
         function removeProperties(children) {
-            const sanitizedChildren = children.map(child => {
+            const sanitizedChildren = children.map((child) => {
                 delete child.ID
                 delete child.Begin_Geldigheid
                 delete child.Eind_Geldigheid
@@ -497,7 +497,7 @@ class MuteerVerordeningenstructuurDetail extends Component {
 
             axios
                 .get(`/verordeningen/version/${child.UUID}`)
-                .then(res => {
+                .then((res) => {
                     const object = res.data
                     child.ID = object.ID
                     child.Begin_Geldigheid = object.Begin_Geldigheid
@@ -528,7 +528,7 @@ class MuteerVerordeningenstructuurDetail extends Component {
                         })
                     }
                 })
-                .catch(err => console.log(err))
+                .catch((err) => console.log(err))
         }
 
         function recursiveGetDataForChildren(child) {
@@ -536,7 +536,7 @@ class MuteerVerordeningenstructuurDetail extends Component {
 
             const hasChildren = child.Children.length > 0
             if (!hasChildren) return
-            child.Children.map(childOfChild => {
+            child.Children.map((childOfChild) => {
                 getDataAndPopulateObject(childOfChild)
 
                 const hasChildren = childOfChild.Children.length > 0
@@ -598,7 +598,7 @@ class MuteerVerordeningenstructuurDetail extends Component {
         // Get Lineage
         axios
             .get(`/verordeningstructuur/${ID}`)
-            .then(res => {
+            .then((res) => {
                 // Handle empty res
                 if (!res.data || !res.data[0]) {
                     this.handleError(
@@ -609,9 +609,15 @@ class MuteerVerordeningenstructuurDetail extends Component {
 
                 // Get latest lineage
                 const lineage = res.data[res.data.length - 1]
-                this.populateFieldsAndSetState(lineage)
+                this.setState({
+                    lineage: lineage,
+                    lineageCopy: lineage,
+                    dataLoaded: true,
+                })
+
+                // this.populateFieldsAndSetState(lineage)
             })
-            .catch(err => {
+            .catch((err) => {
                 console.log(err)
                 this.handleError('Er ging iets fout, probeer het later opnieuw')
             })
@@ -636,7 +642,7 @@ class MuteerVerordeningenstructuurDetail extends Component {
                 <Helmet>
                     <title>Omgevingsbeleid - {`Beheer Verordening`}</title>
                 </Helmet>
-                <div className="lg:px-10 container mx-auto flex pb-8">
+                <div className="container flex pb-8 mx-auto lg:px-10">
                     <ButtonBackToPage
                         terugNaar={` verordeningen`}
                         url={`/muteer/verordeningen`}
@@ -652,9 +658,9 @@ class MuteerVerordeningenstructuurDetail extends Component {
 
                     {/* Container */}
                     {this.state.dataLoaded ? (
-                        <div className="w-3/4 inline-block flex-grow pl-8 mb-20">
-                            <div className="bg-white text-gray-800 rounded shadow-lg">
-                                <div className="p-5 border-b border-gray-400 flex justify-between items-center">
+                        <div className="flex-grow inline-block w-3/4 pl-8 mb-20">
+                            <div className="text-gray-800 bg-white rounded shadow-lg">
+                                <div className="flex items-center justify-between p-5 border-b border-gray-400">
                                     <Heading
                                         activeHoofdstuk={
                                             this.state.activeHoofdstuk

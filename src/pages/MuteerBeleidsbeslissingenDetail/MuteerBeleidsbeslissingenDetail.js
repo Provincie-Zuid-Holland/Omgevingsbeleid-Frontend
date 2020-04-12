@@ -149,13 +149,13 @@ class MuteerBeleidsbeslissingenDetail extends Component {
         // Connect With the API
         axios
             .get(apiEndpoint)
-            .then(res => {
+            .then((res) => {
                 const dataObject = res.data
 
                 // Detail pages krijgen een array met objecten die we sorten
                 // Version pages krijgen enkel een object terug
                 if (this.state.pageType === 'detail') {
-                    dataObject.sort(function(a, b) {
+                    dataObject.sort(function (a, b) {
                         return (
                             new Date(b.Modified_Date) -
                             new Date(a.Modified_Date)
@@ -168,7 +168,7 @@ class MuteerBeleidsbeslissingenDetail extends Component {
                     () => this.generateDimensieHistorie()
                 )
             })
-            .catch(error => {
+            .catch((error) => {
                 if (error.response !== undefined) {
                     this.setState(
                         {
@@ -211,13 +211,13 @@ class MuteerBeleidsbeslissingenDetail extends Component {
                 `${apiEndpoint}/${objectID}`,
                 JSON.stringify(patchedCrudObject)
             )
-            .then(res => {
+            .then((res) => {
                 toast(
                     `Status succesvol gewijzigd naar ${patchedCrudObject.Status}`
                 )
                 this.updateStateMetResponse(res.data)
             })
-            .catch(error => {
+            .catch((error) => {
                 console.error(error)
                 toast('Er is iets misgegaan, probeer het later nog eens.')
             })
@@ -277,6 +277,7 @@ class MuteerBeleidsbeslissingenDetail extends Component {
 
         // Het vigerendeDimensieObject is de variabele waarin we het object dat vigerend is, wat het laatste in de de dimensieHistorie zit in plaatsen.
         let vigerendeDimensieObject = null
+        let vigerendeDimensieObjectIndex = null
         let isEenOntwerpInProgress = false
 
         // forEach loop om te kijken of er een vigerend object is en zo ja, welke index deze heeft
@@ -287,11 +288,20 @@ class MuteerBeleidsbeslissingenDetail extends Component {
                     dimensieObject.Status === 'Gepubliceerd'
                 ) {
                     vigerendeDimensieObject = dimensieObject
-                    // Als het vigerende item niet het laatste item in de array is, is er een ontwerp in concept
-                    isEenOntwerpInProgress =
-                        index + 1 !== this.state.dimensieHistorie.length
+                    vigerendeDimensieObjectIndex = index
                 }
             })
+        }
+
+        if (
+            this.state.dimensieHistorieSet &&
+            this.state.dimensieHistorie.length > 0 &&
+            (vigerendeDimensieObjectIndex === null ||
+                (vigerendeDimensieObjectIndex !==
+                    this.state.dimensieHistorie.length &&
+                    vigerendeDimensieObjectIndex !== null))
+        ) {
+            isEenOntwerpInProgress = true
         }
 
         return (
@@ -304,7 +314,7 @@ class MuteerBeleidsbeslissingenDetail extends Component {
                 </Helmet>
 
                 {/* Dimensie Container */}
-                <div className="w-full inline-block">
+                <div className="inline-block w-full">
                     <GenerateBackToButton
                         hash={this.props.location.hash}
                         dataObject={dataObject}
@@ -325,7 +335,7 @@ class MuteerBeleidsbeslissingenDetail extends Component {
                                 !isEenOntwerpInProgress ? (
                                     <div className="h-10 mt-5 ">
                                         <Link
-                                            className="flex items-center mt-5 w-1/2"
+                                            className="flex items-center w-1/2 mt-5"
                                             to={
                                                 this.props.location.hash ===
                                                 '#mijn-beleid'
@@ -334,15 +344,15 @@ class MuteerBeleidsbeslissingenDetail extends Component {
                                             }
                                             id={`href-ontwerp-maken`}
                                         >
-                                            <span className="relative w-8 h-10 border-r-2 flex items-center justify-end border-gray-300 pb-5 mr-2">
-                                                <div className="w-8 h-8 pt-1 absolute text-center bg-gray-300 rounded-full -right-4">
+                                            <span className="relative flex items-center justify-end w-8 h-10 pb-5 mr-2 border-r-2 border-gray-300">
+                                                <div className="absolute w-8 h-8 pt-1 text-center bg-gray-300 rounded-full -right-4">
                                                     <FontAwesomeIcon
-                                                        className="text-gray-600 relative"
+                                                        className="relative text-gray-600"
                                                         icon={faPlus}
                                                     />
                                                 </div>
                                             </span>
-                                            <span className="text-sm inline text-gray-700 -mt-5 pl-5 cursor-pointer hover:underline">
+                                            <span className="inline pl-5 -mt-5 text-sm text-gray-700 cursor-pointer hover:underline">
                                                 Ontwerp maken
                                             </span>
                                         </Link>
@@ -380,6 +390,9 @@ class MuteerBeleidsbeslissingenDetail extends Component {
                                         }
                                         vigerendeDimensieObject={
                                             vigerendeDimensieObject
+                                        }
+                                        vigerendeDimensieObjectIndex={
+                                            vigerendeDimensieObjectIndex
                                         }
                                     />
                                 ) : null}

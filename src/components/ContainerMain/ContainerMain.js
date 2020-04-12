@@ -7,11 +7,14 @@ import React from 'react'
 
 function ContainerMain(props) {
     return props.id ? (
-        <div className="lg:px-10 container mx-auto flex pb-8" id={props.id}>
+        <div
+            className="container flex pb-8 mx-auto sm:px-6 lg:px-8"
+            id={props.id}
+        >
             {props.children}
         </div>
     ) : (
-        <div className="lg:px-10 container mx-auto flex pb-8">
+        <div className="container flex pb-8 mx-auto sm:px-6 lg:px-8">
             {props.children}
         </div>
     )

@@ -1,11 +1,8 @@
 import React, { Component } from 'react'
 
 function DndTitle({ item, hoofdstukVolgnummer, subVolgnummer }) {
-    const volgnummer =
-        subVolgnummer && item.Type !== 'Artikel'
-            ? `${hoofdstukVolgnummer}.${subVolgnummer}.${item.Volgnummer}`
-            : `${hoofdstukVolgnummer}.${item.Volgnummer}`
-
+    const volgnummer = item.Volgnummer
+    console.log(item)
     return (
         <div>
             <span
@@ -24,11 +21,7 @@ function DndTitle({ item, hoofdstukVolgnummer, subVolgnummer }) {
                 {item.Titel}
             </span>
 
-            {item.Inhoud ? (
-                <p className="block pl-5 pb-3 whitespace-pre-line">
-                    {item.Inhoud}
-                </p>
-            ) : null}
+            <p className="block pb-3 pl-5 whitespace-pre-line">{item.Inhoud}</p>
         </div>
     )
 }

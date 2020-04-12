@@ -34,7 +34,7 @@ class NavigationMenuPopUp extends Component {
         })
     }
 
-    handleClick = e => {
+    handleClick = (e) => {
         if (
             !this.innerContainer.current.contains(e.target) &&
             this.state.open === true
@@ -179,7 +179,7 @@ function Navigation({ loggedIn, setLoginState }) {
 
     return (
         <nav className="fixed top-0 z-20 w-full bg-white" id="navigation-main">
-            <div className="container flex flex-wrap items-center justify-between py-6 mx-auto bg-white border-b border-gray-200 lg:px-10">
+            <div className="container flex flex-wrap items-center justify-between py-6 mx-auto bg-white border-b border-gray-200 sm:px-6 lg:px-8">
                 <div className="flex items-center py-2 mr-6 text-black flex-no-shrink">
                     {loggedIn ? (
                         <Link

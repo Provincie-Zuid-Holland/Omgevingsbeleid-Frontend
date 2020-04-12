@@ -20,6 +20,7 @@ import RaadpleegUniversalObjectDetail from './../pages/RaadpleegUniversalObjectD
 import RaadpleegVerordeningsArtikelDetail from './../pages/RaadpleegVerordeningsArtikelDetail'
 import RaadpleegZoekResultatenOverzicht from './../pages/RaadpleegZoekResultatenOverzicht'
 import Login from './../pages/Login'
+import Planning from './../pages/Planning'
 
 // Import Auth Routes
 import AuthRoutes from './AuthRoutes'
@@ -131,14 +132,14 @@ class App extends Component {
     checkIfUserIsAuthenticated() {
         axios
             .get('/tokeninfo')
-            .then(res => {
+            .then((res) => {
                 this.setState({
                     loggedIn: true,
                     user: res.data.identifier,
                     dataLoaded: true,
                 })
             })
-            .catch(error => {
+            .catch((error) => {
                 this.setState({
                     loggedIn: false,
                     user: null,
@@ -188,11 +189,11 @@ class App extends Component {
     componentDidMount() {
         // window.location.replace('https://omgevingsbeleidpzh.mendixcloud.com/p/')
 
-        window.addEventListener('authEvent', e =>
+        window.addEventListener('authEvent', (e) =>
             this.listenForExpiredSession(e)
         )
 
-        window.addEventListener('storage', e =>
+        window.addEventListener('storage', (e) =>
             this.listenForLocalStorageChange(e)
         )
 
@@ -202,10 +203,10 @@ class App extends Component {
     }
 
     componentWillUnmount() {
-        window.removeEventListener('authEvent', e =>
+        window.removeEventListener('authEvent', (e) =>
             this.listenForExpiredSession(e)
         )
-        window.removeEventListener('storage', e =>
+        window.removeEventListener('storage', (e) =>
             this.listenForLocalStorageChange(e)
         )
     }
@@ -291,6 +292,7 @@ class App extends Component {
                 {this.state.dataLoaded ? (
                     <Switch>
                         <Route path="/" exact component={RaadpleegHome} />
+                        <Route path="/planning" exact component={Planning} />
                         <Route
                             exact
                             path="/zoekresultaten"
@@ -309,7 +311,7 @@ class App extends Component {
                         />
 
                         {/* Render raadpleeg detail pagina's */}
-                        {detailPaginas.map(item => {
+                        {detailPaginas.map((item) => {
                             return (
                                 <Route
                                     key={item.slug}

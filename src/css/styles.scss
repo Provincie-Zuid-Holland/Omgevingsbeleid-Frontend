@@ -420,16 +420,31 @@ $base-color: #002f65;
 //     }
 // }
 
+.timeline-margin-left {
+    margin-left: calc(2rem - 2px);
+}
+
 .revisie-list-bolletje {
     top: -0.25rem;
     margin-left: -0.45rem;
 }
 
 .list-item-bolletje {
-    left: -10px;
     width: 15px;
     height: 15px;
     border-radius: 100%;
+}
+
+.bolletje-left-min-10 {
+    left: -10px;
+}
+
+.bolletje-left-min-7 {
+    left: -7px;
+}
+
+.bolletje-right-min-7 {
+    right: -7px;
 }
 
 .list-item-bolletje-bottom {
@@ -449,8 +464,8 @@ $base-color: #002f65;
 }
 
 .list-item-bolletje-branching {
-    left: -8.5px;
-    bottom: 0px;
+    left: -8px;
+    bottom: -11px;
     width: 15px;
     height: 15px;
     border-radius: 100%;
@@ -797,4 +812,8 @@ $base-color: #002f65;
 
 .beta-logo {
     background-color: #f7edd1;
+}
+
+.ml-min-2px {
+    margin-left: -2px;
 }

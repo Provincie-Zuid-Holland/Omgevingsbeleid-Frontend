@@ -15,10 +15,10 @@ import ButtonBackToPage from './../../components/ButtonBackToPage'
 import LoaderContent from './../../components/LoaderContent'
 
 function getExcerpt(text) {
-    if (text.length > 250) {
+    if (text && text.length > 250) {
         return text.substring(0, 250) + '...'
     } else {
-        return text
+        return ''
     }
 }
 
@@ -62,7 +62,9 @@ function SearchResultItem({ item, searchQuery }) {
             searchQuery.length
         )
 
-        const omschrijving = getExcerpt(item.Omschrijving)
+        const omschrijving = item.Omschrijving
+            ? getExcerpt(item.Omschrijving)
+            : ''
 
         return {
             setInnerHTML: true,
@@ -175,7 +177,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
         // In the mainFilterObject we place the types as properties. On those properties we place the metaData about the object type, e.g. the amount of items we have received in the response. The mainFilterObject will be set in state to display in the UI.
         let mainFilterObject = {}
 
-        searchResults.forEach(item => {
+        searchResults.forEach((item) => {
             // Create filter object with meta info about the filter type
             const filterObject = {
                 name: item.Type,
@@ -255,7 +257,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
         // Find and return index of 'item.UUID === UUIDToFind', else returns -1
         function findUUIDInArray(children) {
             const indexOfUUID = children.findIndex(
-                item => item.UUID === UUIDToFind
+                (item) => item.UUID === UUIDToFind
             )
             return indexOfUUID
         }
@@ -270,7 +272,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
     addVerordeningsPositionToSearchResults(searchResults) {
         // We map over the searchResults. If the item is of the type 'Verordeningen' we find the position of the UUID in the verordeningenStructure
         // Else we return the original item
-        const newSearchResults = searchResults.map(item => {
+        const newSearchResults = searchResults.map((item) => {
             if (item.Type === 'Verordeningen') {
                 // getPositionOfElement(item.UUID.toLowerCase())
                 const positionInStructure = this.generateVerordeningsPosition(
@@ -296,7 +298,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                     searchFiltersOnly ? `&only=${searchFiltersOnly}` : ``
                 }`
             )
-            .then(res => {
+            .then((res) => {
                 const searchResults = res.data
                 this.setInitialOnPageFilters(searchResults)
 
@@ -312,7 +314,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                     dataLoaded: true,
                 })
             })
-            .catch(err => {
+            .catch((err) => {
                 this.setState(
                     {
                         dataLoaded: true,
@@ -328,7 +330,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
     getBeleidOpBasisVanWerkingsgebieden(werkingsgebiedenArray) {
         axios
             .get(`/search/geo?query=${werkingsgebiedenArray}`)
-            .then(res => {
+            .then((res) => {
                 const searchResults = res.data
                 this.setInitialOnPageFilters(searchResults)
                 this.setState(
@@ -340,7 +342,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                     () => console.log(this.state)
                 )
             })
-            .catch(err => {
+            .catch((err) => {
                 this.setState(
                     {
                         dataLoaded: true,
@@ -355,18 +357,18 @@ class RaadpleegZoekResultatenOverzicht extends Component {
             geoSearchQuery: latLng.replace('-', ' '),
         })
 
-        import('./../../API/axiosGeoJSON').then(api => {
+        import('./../../API/axiosGeoJSON').then((api) => {
             api.getWerkingsGebieden(searchGeoQuery)
-                .then(data => {
+                .then((data) => {
                     console.log(data)
                     const WerkingsgebiedenUUIDS = data.map(
-                        item => item.properties.UUID
+                        (item) => item.properties.UUID
                     )
                     this.getBeleidOpBasisVanWerkingsgebieden(
                         WerkingsgebiedenUUIDS
                     )
                 })
-                .catch(function(err) {
+                .catch(function (err) {
                     console.log(err)
                 })
         })
@@ -376,7 +378,9 @@ class RaadpleegZoekResultatenOverzicht extends Component {
         try {
             const data = await axios
                 .get('/verordeningstructuur')
-                .then(res => res.data.find(item => item.Status === 'Vigerend'))
+                .then((res) =>
+                    res.data.find((item) => item.Status === 'Vigerend')
+                )
             this.setState(
                 {
                     vigerendeVerordeningsStructuur: data,
@@ -451,7 +455,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                                                           item
                                                       ].checked
                                                   }
-                                                  onChange={e =>
+                                                  onChange={(e) =>
                                                       this.handleFilter(
                                                           e,
                                                           index

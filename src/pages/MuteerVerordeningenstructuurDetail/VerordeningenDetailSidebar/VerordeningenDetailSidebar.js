@@ -72,14 +72,10 @@ function ListItem({
                 }`}
             >
                 {item.Type === 'Afdeling'
-                    ? `Afdeling ${hoofdstukVolgnummer}.${item.Volgnummer} - `
+                    ? `Afdeling ${item.Volgnummer} - `
                     : ''}
-                {item.Type === 'Paragraaf'
-                    ? `§ ${hoofdstukVolgnummer}.${item.Volgnummer} `
-                    : ''}
-                {item.Type === 'Artikel'
-                    ? `Artikel ${hoofdstukVolgnummer}.${item.Volgnummer} `
-                    : ''}
+                {item.Type === 'Paragraaf' ? `§ ${item.Volgnummer} ` : ''}
+                {item.Type === 'Artikel' ? `Artikel ${item.Volgnummer} ` : ''}
 
                 {Titel}
             </span>
@@ -98,20 +94,20 @@ function VerordeningenDetailSidebar({
     lineage,
 }) {
     return (
-        <div className="w-1/4 mt-5 inline-block flex-grow">
+        <div className="flex-grow inline-block w-1/4 mt-5">
             {dataLoaded ? (
-                <div className="pl-6 relative">
+                <div className="relative pl-6">
                     <h1
-                        className="text-sm text-gray-800 mb-4 cursor-pointer block"
+                        className="block mb-4 text-sm text-gray-800 cursor-pointer"
                         onClick={() => changeActiveHoofdstuk(null)}
                     >
                         <FontAwesomeIcon
-                            className="absolute mt-1 left-0  text-gray-700"
+                            className="absolute left-0 mt-1 text-gray-700"
                             icon={faBook}
                         />
                         {lineage.Titel}
                     </h1>
-                    <ul className="sidebar-line-left pl-6 relative">
+                    <ul className="relative pl-6 sidebar-line-left">
                         {lineage.Structuur.Children.map((hoofdstuk, index) => (
                             <ListItem
                                 activeHoofdstuk={activeHoofdstuk}
@@ -126,7 +122,7 @@ function VerordeningenDetailSidebar({
                                     ${hoofdstuk.Titel}`}
                             >
                                 {hoofdstuk.Children.length > 0 ? (
-                                    <ul className="sidebar-line-left pl-6 relative">
+                                    <ul className="relative pl-6 sidebar-line-left">
                                         {hoofdstuk.Children.map(
                                             (child, index) => (
                                                 <ListItem
@@ -151,7 +147,7 @@ function VerordeningenDetailSidebar({
                                                 >
                                                     {child.Children.length >
                                                     0 ? (
-                                                        <ul className="sidebar-line-left pl-6 relative sidebar-line-left">
+                                                        <ul className="relative pl-6 sidebar-line-left">
                                                             {child.Children.map(
                                                                 (
                                                                     childOfChild,
@@ -193,7 +189,7 @@ function VerordeningenDetailSidebar({
                                                                             .Children
                                                                             .length >
                                                                         0 ? (
-                                                                            <ul className="sidebar-line-left pl-6 relative">
+                                                                            <ul className="relative pl-6 sidebar-line-left">
                                                                                 {childOfChild.Children.map(
                                                                                     (
                                                                                         childOfChildofChild,

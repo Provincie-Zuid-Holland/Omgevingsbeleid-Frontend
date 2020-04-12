@@ -17,47 +17,38 @@ function PopupWachtwoordVergeten({ togglePopup }) {
         <PopUpAnimatedContainer small={true}>
             <div
                 onClick={togglePopup}
-                className="cursor-pointer absolute right-0 top-0 text-gray-600 px-3 py-2"
+                className="absolute top-0 right-0 px-3 py-2 text-gray-600 cursor-pointer"
                 id={`wachtwoord-reset-sluit-popup`}
             >
                 <FontAwesomeIcon icon={faTimes} />
             </div>
-            <h3 className="text-xl text-gray-800 mb-4 font-semibold">
+            <h3 className="mb-4 text-xl font-semibold text-gray-800">
                 Wachtwoord vergeten
             </h3>
 
-            <div className="border-l-4 purple-light-bg-color purple-border-color mb-4 p-4 relative">
-                <p className="text-sm mt-2 text-gray-700">
-                    Eind Q1 2020 willen wij het mogelijk maken om via je
-                    PZH-account te kunnen inloggen. Tot die tijd moet het nog
-                    met een e-mailadres en een wachtwoord.
+            <div className="relative p-4 mb-4 border-l-4 purple-light-bg-color purple-border-color">
+                <p className="mt-2 text-sm text-gray-700">
+                    Binnenkort willen wij het mogelijk maken dat medewerkers van
+                    provincie Zuid-Holland automatisch kunnen inloggen. Tot die
+                    tijd moet het nog met een e-mailadres en een wachtwoord.
                 </p>
             </div>
 
             <p className="py-1 text-gray-700">
-                Stuur een e-mail naar{' '}
-                <a
-                    id="wachtwoord-reset-anchor-mailto"
-                    href="mailto:t.van.gelder@pzh.nl"
-                    className="underline"
-                >
-                    Tom van Gelder (t.van.gelder@pzh.nl)
-                </a>{' '}
-                door op de link te klikken
-            </p>
-            <p className="py-1 text-gray-700">
-                Je ontvang dan binnen één werkdag een nieuw wachtwoord.
+                Wachtwoord vergeten? Stuur dan een e-mail naar het team
+                Omgevingsbeleid door op de link te klikken. Je ontvangt dan
+                binnen één werkdag een nieuw wachtwoord.
             </p>
             <div className="flex items-center justify-between mt-5">
                 <span
-                    className="underline cursor-pointer text-sm text-gray-700"
+                    className="text-sm text-gray-700 underline cursor-pointer"
                     onClick={togglePopup}
                 >
                     Annuleren
                 </span>
                 <a
-                    href="mailto:t.van.gelder@pzh.nl"
-                    className="bg-green-600 hover:bg-green-700 text-white inline-block py-2 px-8 rounded focus:outline-none focus:shadow-outline"
+                    href="mailto:omgevingsbeleid@pzh.nl?subject=Wachtwoord vergeten"
+                    className="inline-block px-8 py-2 text-white bg-green-600 rounded hover:bg-green-700 focus:outline-none focus:shadow-outline"
                     id="wachtwoord-reset-button-mailto"
                     onClick={togglePopup}
                 >
@@ -114,7 +105,7 @@ class LoginForm extends Component {
 
         axios
             .post('login', JSON.stringify(this.state))
-            .then(response => {
+            .then((response) => {
                 this.logDeployementType(response.data['deployment type'])
 
                 if (response.status >= 200 && response.status < 300) {
@@ -136,7 +127,7 @@ class LoginForm extends Component {
                     this.props.history.push('/muteer/dashboard')
                 }
             })
-            .catch(err => {
+            .catch((err) => {
                 console.log('err:')
                 console.log(err)
 
@@ -145,7 +136,7 @@ class LoginForm extends Component {
                 errorEl.classList.remove('hidden')
                 errorEl.classList.add('flex')
                 errorEl.classList.add('shake')
-                setTimeout(function() {
+                setTimeout(function () {
                     errorEl.classList.remove('shake')
                 }, 820)
                 this.resetLoadingState()
@@ -172,14 +163,14 @@ class LoginForm extends Component {
                 <form className="my-8" onSubmit={this.handleFormSubmit}>
                     <div className="mb-4">
                         <label
-                            className="block text-gray-700 text-sm font-bold mb-2"
+                            className="block mb-2 text-sm font-bold text-gray-700"
                             htmlFor="identifier"
                         >
                             E-mailadres
                         </label>
                         <input
                             required
-                            className="bg-white shadow appearance-none border rounded w-full py-3 leading-loose px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            className="w-full px-3 py-3 leading-tight leading-loose text-gray-700 bg-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                             name="identifier"
                             id="form-field-login-email"
                             type="text"
@@ -187,16 +178,16 @@ class LoginForm extends Component {
                             onChange={this.handleChange}
                         />
                     </div>
-                    <div className="mb-4 mt-6">
+                    <div className="mt-6 mb-4">
                         <label
-                            className="block text-gray-700 text-sm font-bold mb-2"
+                            className="block mb-2 text-sm font-bold text-gray-700"
                             htmlFor="password"
                         >
                             Wachtwoord
                         </label>
                         <input
                             required
-                            className="bg-white shadow appearance-none border rounded w-full py-4 pb-3 leading-loose px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                            className="w-full px-3 py-4 pb-3 mb-3 leading-tight leading-loose text-gray-700 bg-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                             name="password"
                             id="form-field-login-password"
                             type="password"
@@ -206,7 +197,7 @@ class LoginForm extends Component {
                     </div>
                     <div className="flex items-center">
                         <button
-                            className="mbg-color mbg-color-darker-hover text-white inline-block py-2 px-8 rounded focus:outline-none focus:shadow-outline"
+                            className="inline-block px-8 py-2 text-white rounded mbg-color mbg-color-darker-hover focus:outline-none focus:shadow-outline"
                             type="submit"
                             id="form-field-login-submit"
                         >
@@ -214,7 +205,7 @@ class LoginForm extends Component {
                             Inloggen
                         </button>
                         <span
-                            className="ml-4 text-sm text-gray-700 hover:text-gray-800 underline cursor-pointer"
+                            className="ml-4 text-sm text-gray-700 underline cursor-pointer hover:text-gray-800"
                             onClick={this.togglePopup}
                         >
                             Ik ben mijn wachtwoord vergeten
@@ -226,7 +217,7 @@ class LoginForm extends Component {
                     className="container items-center justify-center hidden"
                 >
                     <div
-                        className="bg-red-lightest w-full border border-red-light pr-10 text-red-600 px-4 py-3 rounded relative inline-block"
+                        className="relative inline-block w-full px-4 py-3 pr-10 text-red-600 border rounded bg-red-lightest border-red-light"
                         role="alert"
                     >
                         <span className="block sm:inline">
@@ -237,7 +228,7 @@ class LoginForm extends Component {
                             onClick={this.handleErrorMessage}
                         >
                             <svg
-                                className="fill-current h-6 w-6 text-red"
+                                className="w-6 h-6 fill-current text-red"
                                 role="button"
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 20 20"

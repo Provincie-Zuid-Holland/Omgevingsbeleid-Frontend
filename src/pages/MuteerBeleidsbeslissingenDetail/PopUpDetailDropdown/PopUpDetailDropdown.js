@@ -13,11 +13,13 @@ class PopUpDetailDropdown extends Component {
         this.handleClick = this.handleClick.bind(this)
     }
 
-    handleClick = e => {
+    handleClick = (e) => {
         if (
             !this.innerContainer.current.contains(e.target) &&
             this.props.openState === true
         ) {
+            console.log('clicked outside...')
+            console.log(e.target)
             this.props.toggleDropdown()
         }
     }
@@ -32,18 +34,16 @@ class PopUpDetailDropdown extends Component {
 
     render() {
         const status = this.props.dataObject.Status
-        console.log('status:')
-        console.log(status)
         return (
             <div
-                className="main-tooltip-container main-tooltip-container-muteer-detail tooltip-right absolute bg-white shadow rounded mt-2 w-48  text-gray-700 right-0 top-0 mr-2 mt-12"
+                className="absolute top-0 right-0 z-10 w-48 mt-2 mt-12 mr-2 text-gray-700 bg-white rounded shadow main-tooltip-container main-tooltip-container-muteer-detail tooltip-right"
                 ref={this.innerContainer}
             >
-                <div className="h-full relative">
+                <div className="relative h-full">
                     <ul className="text-sm text-gray-800">
                         {status !== 'Vigerend' && status !== 'Gepubliceerd' ? (
                             <li
-                                className="py-2 px-4 text-sm cursor-pointer"
+                                className="px-4 py-2 text-sm cursor-pointer"
                                 onClick={() => {
                                     this.props.toggleDropdown()
                                     this.props.toggleStatusPopup()
@@ -53,23 +53,26 @@ class PopUpDetailDropdown extends Component {
                             </li>
                         ) : null}
                         <li>
-                            <Link
+                            <a
+                                href={this.props.raadpleegLink}
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 id="navbar-popup-href-raadpleeg-omgeving"
-                                to={`/`}
-                                className="py-2 px-4 text-sm border-t border-gray-300 w-full inline-block"
+                                className="inline-block w-full px-4 py-2 text-sm border-t border-gray-300"
                             >
                                 Raadpleegomgeving
-                            </Link>
+                            </a>
                         </li>
                         <li>
-                            {console.log(this.props)}
-                            <Link
-                                id="navbar-popup-href-raadpleeg-omgeving"
-                                to={`/muteer/beleidsrelaties/${this.props.dataObject.UUID}`}
-                                className="py-2 px-4 text-sm border-t border-gray-300 w-full inline-block"
+                            <a
+                                href={`/muteer/beleidsrelaties/${this.props.dataObject.UUID}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                id="navbar-popup-href-beleidsrelaties"
+                                className="inline-block w-full px-4 py-2 text-sm border-t border-gray-300"
                             >
                                 Bekijk beleidsrelaties
-                            </Link>
+                            </a>
                         </li>
                     </ul>
                 </div>

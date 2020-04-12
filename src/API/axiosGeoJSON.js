@@ -3,8 +3,10 @@ import axios from 'axios'
 const access_token = localStorage.getItem('access_token')
 const api_version = '1.1.0'
 
+// https://geo-omgevingsbeleid-test.azurewebsites.net/OMGEVINGSBELEID/wms?service=WMS&version=1.1.0&request=GetMap&layers=OMGEVINGSBELEID%3AWerkingsgebieden&bbox=43662.62000000104%2C406692.0%2C138647.9990000017%2C483120.0&width=768&height=617&srs=EPSG%3A28992&format=application/openlayers
+
 const instance = axios.create({
-    baseURL: `https://geo-prod-ob.westeurope.cloudapp.azure.com/geoserver/`,
+    baseURL: `https://geo-omgevingsbeleid-test.azurewebsites.net/OMGEVINGSBELEID/`,
     headers: {
         'Content-Type': 'application/json',
         Authorization: `Token ${access_token}`,
@@ -36,7 +38,7 @@ const cancelRequest = () => {
     source.cancel('Operation canceled by the user.')
 }
 
-instance.interceptors.request.use(function(config) {
+instance.interceptors.request.use(function (config) {
     const access_token = localStorage.getItem('access_token')
     config.headers.Authorization = `Token ${access_token}`
     return config
