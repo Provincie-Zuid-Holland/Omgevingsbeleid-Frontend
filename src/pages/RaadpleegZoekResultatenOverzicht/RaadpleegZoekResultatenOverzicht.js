@@ -15,10 +15,12 @@ import ButtonBackToPage from './../../components/ButtonBackToPage'
 import LoaderContent from './../../components/LoaderContent'
 
 function getExcerpt(text) {
-    if (text && text.length > 250) {
+    if (!text) {
+        return ''
+    } else if (text.length > 250) {
         return text.substring(0, 250) + '...'
     } else {
-        return ''
+        return text
     }
 }
 
@@ -52,7 +54,7 @@ function getDimensieConstant(type) {
 }
 
 function SearchResultItem({ item, searchQuery }) {
-    function getContent(propertyName) {
+    function getContent() {
         console.log(item)
         console.log(searchQuery)
 
@@ -79,7 +81,7 @@ function SearchResultItem({ item, searchQuery }) {
 
     const content = {
         Titel: item.Titel,
-        Omschrijving: getContent('Omschrijving'),
+        Omschrijving: getContent(),
     }
 
     let type = item.Type
@@ -333,10 +335,15 @@ class RaadpleegZoekResultatenOverzicht extends Component {
             .then((res) => {
                 const searchResults = res.data
                 this.setInitialOnPageFilters(searchResults)
+
+                const searchResultsWithVerordeningsPositions = this.addVerordeningsPositionToSearchResults(
+                    searchResults
+                )
+
                 this.setState(
                     {
                         searchFiltersOnly: null,
-                        searchResults: searchResults,
+                        searchResults: searchResultsWithVerordeningsPositions,
                         dataLoaded: true,
                     },
                     () => console.log(this.state)

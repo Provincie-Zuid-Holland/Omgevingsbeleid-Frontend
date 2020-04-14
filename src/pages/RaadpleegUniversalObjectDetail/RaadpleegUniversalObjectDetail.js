@@ -88,7 +88,7 @@ class RaadpleegUniversalObjectDetail extends Component {
         // Connect With the API
         axios
             .get(apiEndpoint)
-            .then(res => {
+            .then((res) => {
                 console.log('RESPONSE:')
                 console.log(res.data)
                 const dataObject = res.data
@@ -99,7 +99,7 @@ class RaadpleegUniversalObjectDetail extends Component {
                     dataLoaded: true,
                 })
             })
-            .catch(error => {
+            .catch((error) => {
                 if (error.response !== undefined) {
                     if (error.response.status === 401) {
                         localStorage.removeItem('access_token')
@@ -165,10 +165,14 @@ class RaadpleegUniversalObjectDetail extends Component {
 
         const titelEnkelvoud = this.props.dataModel.variables.Titel_Enkelvoud
 
-        let hashBool = false
         let searchQuery = null
+
+        const urlParams = new URLSearchParams(window.location.search)
+        const fromPage = urlParams.get('fromPage')
+
+        // !Refactor! -> hash to searchParam
         if (window.location.hash) {
-            hashBool = true
+            console.log(window.location)
             searchQuery = window.location.hash.substr(1)
         }
 
@@ -203,10 +207,15 @@ class RaadpleegUniversalObjectDetail extends Component {
                         id="raadpleeg-detail-container-content"
                         className={`w-full`}
                     >
-                        {hashBool ? (
+                        {searchQuery ? (
                             <ButtonBackToPage
                                 terugNaar="zoekresultaten"
                                 url={`/zoekresultaten${searchQuery}`}
+                            />
+                        ) : fromPage ? (
+                            <ButtonBackToPage
+                                terugNaar="vorige pagina"
+                                url={fromPage}
                             />
                         ) : (
                             <ButtonBackToPage terugNaar="startpagina" url="/" />

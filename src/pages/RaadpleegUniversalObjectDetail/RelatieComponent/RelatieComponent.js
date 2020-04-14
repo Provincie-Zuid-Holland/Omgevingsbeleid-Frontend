@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 import LoaderSmallSpan from './../../../components/LoaderSmallSpan'
 
@@ -32,34 +32,34 @@ class RelatieComponent extends Component {
         const UUID = this.props.crudObject.UUID
         axios
             .get(`/beleidsrelaties?${vanuitEndpoint}_Beleidsbeslissing=${UUID}`)
-            .then(res => {
+            .then((res) => {
                 if (res.data.length === 0) return
                 let beleidsrelaties = res.data.filter(
-                    item => item.Status === 'Akkoord'
+                    (item) => item.Status === 'Akkoord'
                 )
                 console.log(beleidsrelaties)
 
                 cb(beleidsrelaties)
             })
-            .catch(err => console.log(err))
+            .catch((err) => console.log(err))
     }
 
     popExtFieldAndSetState(beleidsrelaties) {
         // In de bovenstaande request krijgen we enkel de velden van de relatie, maar we willen ook de titel naar de externe relatie tonen, hiervoor moeten we voor elk van de relaties een request doen om deze informatie te krijgen.
         // De response wordt vervolgens op het relatie object onder de property .data geplaatst
-        const axiosGETArray = beleidsrelaties.map(relatie => {
+        const axiosGETArray = beleidsrelaties.map((relatie) => {
             return axios
                 .get(
                     `/beleidsbeslissingen/version/${relatie.Naar_Beleidsbeslissing}`
                 )
-                .then(response => {
+                .then((response) => {
                     relatie.data = response.data
                 })
         })
 
         const that = this
 
-        Promise.all(axiosGETArray).then(function(values) {
+        Promise.all(axiosGETArray).then(function (values) {
             let newObject = that.state.koppelingenRelaties
             if (
                 newObject.beleidsbeslissingen &&
@@ -90,7 +90,7 @@ class RelatieComponent extends Component {
 
         // Voor elk item in de koppelingRelatieArray kijken we of deze al een actieve koppeling heeft op het gekregen crudObject
         return koppelingRelatieArray
-            .filter(item => {
+            .filter((item) => {
                 const propertyName = objecten[item].propertyName
                 return (
                     crudObject[propertyName] !== undefined &&
@@ -98,14 +98,14 @@ class RelatieComponent extends Component {
                     crudObject[propertyName].length > 0
                 )
             })
-            .map(item => objecten[item].propertyName)
+            .map((item) => objecten[item].propertyName)
     }
 
     genKoppelingenRelatiesObject(actieveKoppelingOfRelaties) {
         const crudObject = this.props.crudObject
         let propertyNamesMapped = []
         let newStateKoppelingenRelatiesObject = {}
-        actieveKoppelingOfRelaties.forEach(propertyName => {
+        actieveKoppelingOfRelaties.forEach((propertyName) => {
             // Als er al over de propertyName is gemapped return'en we
             if (propertyNamesMapped.includes(propertyName)) {
                 return
@@ -135,7 +135,7 @@ class RelatieComponent extends Component {
     ) {
         const objectIndex = newStateKoppelingenRelatiesObject[
             propertyName
-        ].findIndex(x => x.UUID === data.UUID)
+        ].findIndex((x) => x.UUID === data.UUID)
 
         newStateKoppelingenRelatiesObject[propertyName][objectIndex].data = data
 
@@ -164,7 +164,7 @@ class RelatieComponent extends Component {
             actieveKoppelingOfRelaties.map((propertyName, indexPropertyName) =>
                 newStateKoppelingenRelatiesObject[propertyName]
                     .filter(
-                        item =>
+                        (item) =>
                             objecten[propertyName.toLowerCase()] !== undefined
                     )
                     .forEach((koppeling, indexKoppeling) => {
@@ -174,7 +174,7 @@ class RelatieComponent extends Component {
                                     objecten[propertyName.toLowerCase()].api
                                 }/version/${koppeling.UUID}`
                             )
-                            .then(res => {
+                            .then((res) => {
                                 this.populizeDataPropertyAndSetState(
                                     propertyName,
                                     res.data,
@@ -184,12 +184,12 @@ class RelatieComponent extends Component {
                     })
             )
         )
-            .then(responses => {
+            .then((responses) => {
                 this.setState({
                     dataFromAPILoaded: true,
                 })
             })
-            .catch(err => console.log(err))
+            .catch((err) => console.log(err))
     }
 
     componentDidUpdate(prevProps) {
@@ -209,7 +209,7 @@ class RelatieComponent extends Component {
             Object.keys(this.state.koppelingenRelaties).length > 4
         return (
             <div className="mt-8">
-                <h2 className="block tracking-wide text-gray-700 text-lg font-serif">
+                <h2 className="block font-serif text-lg tracking-wide text-gray-700">
                     Relaties binnen de omgevingsvisie
                 </h2>
                 {verticalLayoutBool ? (
@@ -219,7 +219,7 @@ class RelatieComponent extends Component {
                     >
                         {this.state.koppelingenRelaties
                             ? Object.keys(this.state.koppelingenRelaties).map(
-                                  function(key, index) {
+                                  function (key, index) {
                                       if (
                                           index === 0 &&
                                           !that.state
@@ -280,7 +280,7 @@ class RelatieComponent extends Component {
                             {this.state.koppelingenRelaties
                                 ? Object.keys(
                                       this.state.koppelingenRelaties
-                                  ).map(function(key, index) {
+                                  ).map(function (key, index) {
                                       if (
                                           index === 0 &&
                                           !that.state
@@ -319,7 +319,7 @@ class RelatieComponent extends Component {
                         </ul>
                         {this.state.koppelingenRelaties
                             ? Object.keys(this.state.koppelingenRelaties).map(
-                                  function(key, index) {
+                                  function (key, index) {
                                       return (
                                           <TabbladInhoudRelatieComponent
                                               key={key}
@@ -363,10 +363,10 @@ function TabbladRelatieComponent(props) {
                     : borderStylesActiveSection
             }`}
         >
-            <span className="text-gray-700 font-bold text-lg block">
+            <span className="block text-lg font-bold text-gray-700">
                 {props.Titel.charAt(0).toUpperCase() + props.Titel.substring(1)}
             </span>
-            <span className="text-gray-600 text-sm block">
+            <span className="block text-sm text-gray-600">
                 {props.Length} gekoppeld
             </span>
         </li>
@@ -374,25 +374,27 @@ function TabbladRelatieComponent(props) {
 }
 
 function TabbladInhoudRelatieComponent(props) {
+    const location = useLocation()
     if (props.activeSection === props.titel) {
         return (
             <ul className={`${props.activeSection ? 'mb-3' : ''}`}>
                 {props.array.map((relatie, index) => {
+                    console.log(relatie)
                     return (
                         <li
                             key={relatie.data ? relatie.data.ID : index}
-                            className="py-2 pl-2 pr-6 border-b border-gray-300 hover:underline relative"
+                            className="relative py-2 pl-2 pr-6 border-b border-gray-300 hover:underline"
                         >
                             <Link
                                 to={
                                     relatie.data
                                         ? `/detail/${props.titel.toLowerCase()}/${
-                                              relatie.data.ID
-                                          }`
+                                              relatie.data.UUID
+                                          }?fromPage=${location.pathname}`
                                         : '#'
                                 }
                             >
-                                <span className="text-gray-700 block">
+                                <span className="block text-gray-700">
                                     {relatie.data ? (
                                         relatie.data.Titel
                                     ) : (
@@ -400,7 +402,7 @@ function TabbladInhoudRelatieComponent(props) {
                                     )}
                                 </span>
                                 <FontAwesomeIcon
-                                    className="absolute right-0 top-0 mt-3 mr-2  text-gray-600"
+                                    className="absolute top-0 right-0 mt-3 mr-2 text-gray-600"
                                     icon={faAngleRight}
                                 />
                             </Link>

@@ -19,7 +19,7 @@ class FormFieldSelectUserGroup extends Component {
         // Connect With the API
         axios
             .get(ApiEndpoint)
-            .then(res => {
+            .then((res) => {
                 const objecten = res.data
                 this.setState(
                     {
@@ -29,7 +29,7 @@ class FormFieldSelectUserGroup extends Component {
                     () => console.log(this.state)
                 )
             })
-            .catch(error => {
+            .catch((error) => {
                 this.setState({
                     dataLoaded: true,
                     error: true,
@@ -50,10 +50,10 @@ class FormFieldSelectUserGroup extends Component {
         const crudObject = this.props.crudObject
         return (
             <React.Fragment>
-                <span className="block tracking-wide text-gray-700 text-sm font-bold mb-2">
+                <span className="block mb-2 text-sm font-bold tracking-wide text-gray-700">
                     Personen
                 </span>
-                <div className="w-1/2 flex">
+                <div className="flex w-1/2">
                     {this.state.dataLoaded && !this.state.error ? (
                         <FormFieldSelectUser
                             editStatus={this.props.editStatus}
@@ -63,7 +63,6 @@ class FormFieldSelectUserGroup extends Component {
                             dataObjectProperty="Opdrachtgever"
                             gebruikersLijst={this.state.gebruikersLijst}
                             filter={'Opdrachtgever'}
-                            // fieldLabel="Titel"
                             pValue="Ambtelijk opdrachtgever"
                             titelEnkelvoud={this.props.titelEnkelvoud}
                         />

@@ -7,7 +7,7 @@ import axios from 'axios'
 const access_token = localStorage.getItem('access_token')
 const api_version = 'v0.1'
 const instance = axios.create({
-    baseURL: `https://api-obzh-dev.azurewebsites.net/${api_version}`,
+    baseURL: `https://api-obzh.azurewebsites.net/${api_version}`,
     headers: {
         'Content-Type': 'application/json',
         Authorization: `Token ${access_token}`,
