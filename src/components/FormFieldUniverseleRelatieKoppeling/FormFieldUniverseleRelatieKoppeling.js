@@ -12,9 +12,9 @@ import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFi
 import objecten from './ObjectenInformatie'
 
 // Function to sort in arrays with objects based on properties
-const nestedSort = function(prop, arr) {
+const nestedSort = function (prop, arr) {
     prop = prop.split('.')
-    arr.sort(function(a, b) {
+    arr.sort(function (a, b) {
         prop.forEach((item, index) => {
             a = a[prop[index]]
             b = b[prop[index]]
@@ -69,7 +69,7 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
         let nieuwKoppelingenRelatiesObject = this.state.koppelingenRelaties
         const index = nieuwKoppelingenRelatiesObject[
             itemObject.propertyName
-        ].findIndex(item => item.UUID === itemObject.item.UUID)
+        ].findIndex((item) => item.UUID === itemObject.item.UUID)
         nieuwKoppelingenRelatiesObject[itemObject.propertyName].splice(index, 1)
 
         this.setState({
@@ -81,7 +81,7 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
         let nieuwKoppelingenRelatiesObject = this.state.koppelingenRelaties
         const index = nieuwKoppelingenRelatiesObject[
             itemObject.propertyName
-        ].findIndex(item => item.UUID === itemObject.item.UUID)
+        ].findIndex((item) => item.UUID === itemObject.item.UUID)
         nieuwKoppelingenRelatiesObject[itemObject.propertyName][
             index
         ].Omschrijving = nieuweOmschrijving
@@ -166,7 +166,7 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
         let actieveKoppelingOfRelaties = []
 
         // Voor elk item in de koppelingRelatieArray kijken we of deze al een actieve koppeling heeft op het gekregen crudObject
-        koppelingRelatieArray.forEach(item => {
+        koppelingRelatieArray.forEach((item) => {
             const propertyName = objecten[item].propertyName
             if (
                 crudObject[propertyName] !== undefined &&
@@ -201,7 +201,7 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
         let actieveKoppelingOfRelaties = []
 
         // Stopt de actieve koppelingen property names in een array
-        koppelingRelatieArray.forEach(item => {
+        koppelingRelatieArray.forEach((item) => {
             const propertyName = objecten[item].propertyName
             if (
                 crudObject[propertyName] !== undefined &&
@@ -215,9 +215,9 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
         })
 
         // Map over de property names die in de crud object prop zitten
-        actieveKoppelingOfRelaties.forEach(item => {
+        actieveKoppelingOfRelaties.forEach((item) => {
             // map over het het 'item' property binnen het crudObject, bijvoorbeeld 'ambities'
-            crudObject[item].forEach(object => {
+            crudObject[item].forEach((object) => {
                 const omschrijving = object.Omschrijving
                 const UUID = object.UUID
                 // Als het een volledig nieuwe property name is die nog niet is toegevoegd (Dus een nieuw type)
@@ -233,7 +233,7 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
                 } else if (
                     this.state.koppelingenRelaties[item] &&
                     this.state.koppelingenRelaties[item].find(
-                        item => item.UUID === UUID
+                        (item) => item.UUID === UUID
                     ) === undefined
                 ) {
                     // Anders  we in de state, binnen de property name, naar een object met dezelfde UUID
@@ -257,7 +257,7 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
 
         axios
             .get(`${objecten[propertyName.toLowerCase()].api}/version/${UUID}`)
-            .then(res => {
+            .then((res) => {
                 if (nieuweKoppelingRelatieState[propertyName] === undefined) {
                     nieuweKoppelingRelatieState[propertyName] = []
                 }
@@ -287,7 +287,7 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
         let newStateKoppelingenRelatiesObject = {}
 
         // Loop over de actieveKoppelingOfRelaties (gekregen als prop vanuit componentDidMount())
-        actieveKoppelingOfRelaties.forEach(propertyName => {
+        actieveKoppelingOfRelaties.forEach((propertyName) => {
             // Als er al over de propertyName is gemapped return'en we
             if (propertyNamesMapped.includes(propertyName)) {
                 return
@@ -314,7 +314,7 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
         function findPropertyAndAddDataToStateObject(propertyName, data) {
             const objectIndex = newStateKoppelingenRelatiesObject[
                 propertyName
-            ].findIndex(x => x.UUID === data.UUID)
+            ].findIndex((x) => x.UUID === data.UUID)
 
             newStateKoppelingenRelatiesObject[propertyName][
                 objectIndex
@@ -324,7 +324,7 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
             // We sort the array based on the title
             if (
                 newStateKoppelingenRelatiesObject[propertyName].every(
-                    item => item.data !== undefined
+                    (item) => item.data !== undefined
                 )
             ) {
                 newStateKoppelingenRelatiesObject[propertyName] = nestedSort(
@@ -369,7 +369,7 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
                                     objecten[propertyName.toLowerCase()].api
                                 }/version/${koppeling.UUID}`
                             )
-                            .then(res => {
+                            .then((res) => {
                                 findPropertyAndAddDataToStateObject(
                                     propertyName,
                                     res.data
@@ -379,12 +379,12 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
                 )
             )
         )
-            .then(responses => {
+            .then((responses) => {
                 this.setState({
                     dataFromAPILoaded: true,
                 })
             })
-            .catch(err => console.log(err))
+            .catch((err) => console.log(err))
     }
 
     render() {
@@ -403,10 +403,10 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
             <React.Fragment>
                 {this.props.fieldLabel === 'Koppelingen' ? (
                     <React.Fragment>
-                        <h3 className="block tracking-wide text-gray-700 font-bold mb-2">
+                        <h3 className="block mb-2 font-bold tracking-wide text-gray-700">
                             Relaties
                         </h3>
-                        <p className="text-gray-700 text-sm mb-8">
+                        <p className="mb-8 text-sm text-gray-700">
                             Een relatie ga je, met wederzijds goedkeuren, aan
                             met andere beleidsbeslissingen. Deze beleidsrelaties
                             kun je op een later moment aangaan vanuit de
@@ -420,11 +420,11 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
                     pValue={this.props.pValue}
                 />
                 <div
-                    className="bg-white rounded shadow p-5"
+                    className="p-5 bg-white rounded shadow"
                     id={`form-field-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
                 >
-                    <div className="flex border-b border-gray-300 font-bold text-gray-700 text-sm py-2">
-                        <div className="w-40 mr-5 relative">Type</div>
+                    <div className="flex py-2 text-sm font-bold text-gray-700 border-b border-gray-300">
+                        <div className="relative w-40 mr-5">Type</div>
                         <div className="w-full">Titel</div>
                     </div>
                     <ul className="mb-3">
@@ -491,7 +491,7 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
                                             <li
                                                 key={index}
                                                 id={`form-field-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}-item-${index}`}
-                                                className="flex border-b border-gray-300 text-gray-700 text-sm py-2 hover:text-gray-900 cursor-pointer"
+                                                className="flex py-2 text-sm text-gray-700 border-b border-gray-300 cursor-pointer hover:text-gray-900"
                                                 onClick={() => {
                                                     this.togglePopupBewerk(
                                                         item,
@@ -499,15 +499,15 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
                                                     )
                                                 }}
                                             >
-                                                <div className="w-40 mr-5 relative">
+                                                <div className="relative w-40 mr-5">
                                                     {type}
                                                 </div>
-                                                <div className="w-full relative pr-8">
+                                                <div className="relative w-full pr-8">
                                                     {item.data
                                                         ? item.data.Titel
                                                         : null}
                                                     <FontAwesomeIcon
-                                                        className="absolute right-0 mt-1 mr-2 top-0"
+                                                        className="absolute top-0 right-0 mt-1 mr-2"
                                                         icon={faEye}
                                                     />
                                                 </div>
@@ -518,22 +518,22 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
                                 }
                             )
                         ) : (
-                            <span className="text-gray-700 text-sm block py-4">
+                            <span className="block py-4 text-sm text-gray-700">
                                 {this.props.placeholderTekst}
                             </span>
                         )}
                     </ul>
                     <div className="relative">
                         <div
-                            className="mbg-color rounded text inline-block text-white pl-4 text-sm py-1 mt-2 cursor-pointer mbg-color-darker-hover relative"
+                            className="relative inline-block py-1 pl-4 mt-2 text-sm text-white rounded cursor-pointer mbg-color text mbg-color-darker-hover"
                             onClick={this.toggleButton}
                             ref={this.button}
                             id={`nieuw-item-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
                         >
-                            <span className="py-1 inline-block select-none">
+                            <span className="inline-block py-1 select-none">
                                 {this.props.buttonTekst}
                             </span>
-                            <span className="ml-4 inline-block text-center py-1 border-l m-border-color px-4">
+                            <span className="inline-block px-4 py-1 ml-4 text-center border-l m-border-color">
                                 <FontAwesomeIcon
                                     className="mt-1 text-white"
                                     icon={faAngleDown}
@@ -541,7 +541,7 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
                             </span>
                             {this.state.buttonOpen ? (
                                 <ul
-                                    className="absolute bg-white rounded w-full top-100 left-0 text-gray-700 text-sm shadow"
+                                    className="absolute left-0 w-full text-sm text-gray-700 bg-white rounded shadow top-100"
                                     ref={this.dropdown}
                                 >
                                     {this.props.koppelingRelatieArray
@@ -556,7 +556,7 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
                                                               )
                                                           }}
                                                           id={`form-field-universele-koppeling-dropdown-button-${index}`}
-                                                          className="px-3 py-2 border-b border-gray-300 hover:bg-gray-100 cursor-pointer"
+                                                          className="px-3 py-2 border-b border-gray-300 cursor-pointer hover:bg-gray-100"
                                                       >
                                                           {
                                                               objecten[item]
@@ -599,8 +599,8 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
                         wijzigKoppelingRelatieFromLocalState={
                             this.wijzigKoppelingRelatieFromLocalState
                         }
-                        verwijderKoppelingRelatieToe={
-                            this.props.verwijderKoppelingRelatieToe
+                        verwijderKoppelingRelatie={
+                            this.props.verwijderKoppelingRelatie
                         }
                         verwijderKoppelingFromLocalState={
                             this.verwijderKoppelingFromLocalState
