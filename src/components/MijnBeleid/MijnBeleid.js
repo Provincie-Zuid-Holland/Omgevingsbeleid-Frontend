@@ -33,20 +33,20 @@ class MijnBeleid extends Component {
             "Thema's",
             'Verordeningen',
         ]
-        const lijstMetAPIEndpoints = dimensies.map(item => {
+        const lijstMetAPIEndpoints = dimensies.map((item) => {
             return {
                 endpoint: dataModel[item].variables.Api_Endpoint,
                 type: item,
             }
         })
-        const axiosRequests = lijstMetAPIEndpoints.map(dimensie => {
+        const axiosRequests = lijstMetAPIEndpoints.map((dimensie) => {
             return axios
                 .get(
                     dimensie.endpoint === 'beleidsbeslissingen'
                         ? `/${dimensie.endpoint}?Created_By=${this.state.authUser}&Eigenaar_1=${this.state.authUser}&Eigenaar_2=${this.state.authUser}&Opdrachtgever=${this.state.authUser}`
                         : `/${dimensie.endpoint}?Created_By=${this.state.authUser}`
                 )
-                .then(res => {
+                .then((res) => {
                     if (res.data.length === 0) {
                         return
                     } else {
@@ -61,19 +61,20 @@ class MijnBeleid extends Component {
                 })
         })
         Promise.all(axiosRequests)
-            .then(res => {
+            .then((res) => {
                 this.setState({
                     objecten: res,
                     dataReceived: true,
                 })
             })
-            .catch(err => console.log(err))
+            .catch((err) => console.log(err))
     }
 
     componentDidMount() {
         this.setState(
             {
-                authUser: JSON.parse(localStorage.getItem('identifier')).UUID,
+                authUser: JSON.parse(localStorage.getItem('__OB_identifier__'))
+                    .UUID,
             },
             () => this.getBeleidVanGebruiker()
         )
@@ -92,10 +93,12 @@ class MijnBeleid extends Component {
                                 fullWidth={true}
                             />
                         ) : null}
-                        <ul className="flex mt-8 flex-wrap">
+                        <ul className="flex flex-wrap mt-8">
                             {this.state.objecten.length > 0 &&
-                            !this.state.objecten.every(x => x === undefined) ? (
-                                this.state.objecten.map(array => {
+                            !this.state.objecten.every(
+                                (x) => x === undefined
+                            ) ? (
+                                this.state.objecten.map((array) => {
                                     if (!array) {
                                         return null
                                     }
@@ -135,7 +138,7 @@ class MijnBeleid extends Component {
                                     return items
                                 })
                             ) : (
-                                <span className="font-italic mb-4 text-gray-600">
+                                <span className="mb-4 text-gray-600 font-italic">
                                     U heeft nog geen beleid
                                 </span>
                             )}

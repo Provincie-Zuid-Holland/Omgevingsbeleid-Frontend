@@ -11,6 +11,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import './../css/tailwind.css'
 import './../css/styles.scss'
 
+// !REFACTOR! Old datamodel
 // Import Data Model
 import dataModel from './dataModel'
 
@@ -34,6 +35,8 @@ import PopUpAnimatedContainer from './../components/PopUpAnimatedContainer'
 // Import Sentry (Bug tracking)
 import * as Sentry from '@sentry/browser'
 import dimensies from '../constants/dimensies'
+
+console.log(process.env)
 
 if (process.env.NODE_ENV !== 'development') {
     Sentry.init({
@@ -113,6 +116,7 @@ class App extends Component {
             dataLoaded: false,
             showReAuthenticatePopup: false,
             showWelcomePopup: false,
+            showEnvironmentBanner: false,
         }
         this.checkIfUserIsAuthenticated = this.checkIfUserIsAuthenticated.bind(
             this
@@ -174,15 +178,16 @@ class App extends Component {
 
     listenForLocalStorageChange(e) {
         this.setLoginState(!!e.newValue)
+        console.log(e)
     }
 
     checkForWelcomePopupInLocalStorage() {
-        const isInStorage = localStorage.getItem('omgevingsbeleid-welcome')
+        const isInStorage = localStorage.getItem('__OB_welcome__')
         if (!isInStorage) {
             this.setState({
                 showWelcomePopup: true,
             })
-            localStorage.setItem('omgevingsbeleid-welcome', true)
+            localStorage.setItem('__OB_welcome__', true)
         }
     }
 

@@ -817,3 +817,46 @@ $base-color: #002f65;
 .ml-min-2px {
     margin-left: -2px;
 }
+
+// Banners
+
+.banner-dev {
+    background-color: #000066;
+    color: white;
+    .hide-banner {
+        &:hover,
+        &:focus {
+            background-color: #26267d; //=> color
+        }
+    }
+}
+.banner-test {
+    background-color: #f1c40f;
+    color: #4c3d00;
+    .hide-banner {
+        &:hover,
+        &:focus {
+            background-color: lighten(#f1c40f, 5%); //=> color
+        }
+    }
+}
+.banner-acc {
+    background-color: #2ecc71;
+    color: white;
+    .hide-banner {
+        &:hover,
+        &:focus {
+            background-color: darken(#2ecc71, 2%); //=> color
+        }
+    }
+}
+.banner-prod {
+    background-color: #990000;
+    color: white;
+    .hide-banner {
+        &:hover,
+        &:focus {
+            background-color: lighten(#990000, 5%); //=> color
+        }
+    }
+}

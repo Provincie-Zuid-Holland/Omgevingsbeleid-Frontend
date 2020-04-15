@@ -113,15 +113,15 @@ class LoginForm extends Component {
                     // identifier.UUID = identifier.UUID.LowerCase()
                     identifier.UUID = identifier.UUID.toLowerCase()
                     localStorage.setItem(
-                        'identifier',
+                        '__OB_identifier__',
                         JSON.stringify(identifier)
                     )
                     localStorage.setItem(
-                        'access_token',
+                        '__OB_access_token__',
                         response.data.access_token
                     )
                     const tokenTime = new Date()
-                    localStorage.setItem('token_date', tokenTime)
+                    localStorage.setItem('__OB_token_date__', tokenTime)
                     this.resetLoadingState()
                     this.props.setLoginState(true)
                     this.props.history.push('/muteer/dashboard')

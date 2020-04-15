@@ -62,7 +62,7 @@ class FormFieldSelectUserGroup extends Component {
                             fieldValue={crudObject['Opdrachtgever']}
                             dataObjectProperty="Opdrachtgever"
                             gebruikersLijst={this.state.gebruikersLijst}
-                            filter={'Opdrachtgever'}
+                            filter={'Ambtelijk Opdrachtgever'}
                             pValue="Ambtelijk opdrachtgever"
                             titelEnkelvoud={this.props.titelEnkelvoud}
                         />

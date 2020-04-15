@@ -64,7 +64,8 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
             })
         }
 
-        const UserUUID = JSON.parse(localStorage.getItem('identifier')).UUID
+        const UserUUID = JSON.parse(localStorage.getItem('__OB_identifier__'))
+            .UUID
         Promise.all([
             axios.get(
                 `/beleidsbeslissingen?Created_By=${UserUUID}&Eigenaar_1=${UserUUID}&Eigenaar_2=${UserUUID}&Opdrachtgever=${UserUUID}`
@@ -83,7 +84,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                     }
                 )
             )
-            .catch(errors => {
+            .catch((errors) => {
                 // react on errors.
                 console.error(errors)
             })
@@ -96,7 +97,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
     updateBeleidsrelaties(beleidsrelatieUUID, status) {
         let beleidsrelaties = this.state.beleidsrelaties
         let index = beleidsrelaties.findIndex(
-            x => x.UUID === beleidsrelatieUUID
+            (x) => x.UUID === beleidsrelatieUUID
         )
         if (index) {
             beleidsrelaties[index].Status = status
@@ -114,7 +115,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
     // Kijkt hoeveel bevestigde relaties er in het beleidsrelatie object zitten met de geleverde UUID
     countBevestigdeRelaties(UUID) {
         const beleidsrelaties = this.state.beleidsrelaties.filter(
-            beleidsrelatie =>
+            (beleidsrelatie) =>
                 (beleidsrelatie.Van_Beleidsbeslissing === UUID ||
                     beleidsrelatie.Naar_Beleidsbeslissing === UUID) &&
                 beleidsrelatie.Status === 'Akkoord'
@@ -125,7 +126,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
     // Kijkt hoeveel onbevestigde relaties er in het beleidsrelatie object zitten met de geleverde UUID
     countOnbevestigdeRelaties(UUID) {
         const beleidsrelaties = this.state.beleidsrelaties.filter(
-            beleidsrelatie =>
+            (beleidsrelatie) =>
                 beleidsrelatie.Van_Beleidsbeslissing === UUID &&
                 beleidsrelatie.Status === 'Open'
         )
@@ -135,7 +136,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
     // Kijkt hoeveel onbevestigde relaties er in het beleidsrelatie object zitten met de geleverde UUID
     countVerzoekRelaties(UUID) {
         const beleidsrelaties = this.state.beleidsrelaties.filter(
-            beleidsrelatie =>
+            (beleidsrelatie) =>
                 beleidsrelatie.Naar_Beleidsbeslissing === UUID &&
                 beleidsrelatie.Status === 'Open'
         )
@@ -145,7 +146,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
     // Kijkt hoeveel afgewezen relaties er in het beleidsrelatie object zitten met de geleverde UUID
     countAfgewezenRelaties(UUID) {
         const beleidsrelaties = this.state.beleidsrelaties.filter(
-            beleidsrelatie =>
+            (beleidsrelatie) =>
                 (beleidsrelatie.Naar_Beleidsbeslissing === UUID &&
                     beleidsrelatie.Status === 'NietAkkoord') ||
                 (beleidsrelatie.Van_Beleidsbeslissing === UUID &&
@@ -156,7 +157,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
 
     // Kijk voor elke beleidsbeslissing hoeveel en wat voor relaties deze heeft
     initializeBeleidsbeslissingen(beleidsbeslissingen) {
-        return beleidsbeslissingen.map(item => {
+        return beleidsbeslissingen.map((item) => {
             return {
                 Titel: item.Titel,
                 Status: item.Status,
@@ -189,7 +190,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                     this.setState({
                         currentView: 'detail',
                         currentBeleidsbeslissing: this.state.beleidsbeslissingenObject.find(
-                            element =>
+                            (element) =>
                                 element.UUID === this.props.match.params.UUID
                         ),
                     })
@@ -205,7 +206,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
         // We spreken van een beleidsrelatie als de UUID overeenkomt met Van_Beleidsbeslissing of Naar_Beleidsbeslissing
         // EN als de beleidsrelatie een Status heeft van 'Akkoord' of 'Open'
         let beleidsrelaties = this.state.beleidsrelaties.filter(
-            beleidsrelatie =>
+            (beleidsrelatie) =>
                 (beleidsrelatie.Van_Beleidsbeslissing === UUID ||
                     beleidsrelatie.Naar_Beleidsbeslissing === UUID) &&
                 beleidsrelatie.Status === 'Akkoord'
@@ -222,7 +223,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
         // Als het relatie.Van_Beleidsbeslissing !== UUID van de beleidsbeslissing GET relatie.Van_Beleidsbeslissing
         // Als het relatie.Van_Beleidsbeslissing === UUID van de beleidsbeslissing GET relatie.Naar_Beleidsbeslissing
 
-        const axiosGETArray = beleidsrelaties.map(relatie => {
+        const axiosGETArray = beleidsrelaties.map((relatie) => {
             return axios
                 .get(
                     `/beleidsbeslissingen/version/${
@@ -231,12 +232,14 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                             : relatie.Naar_Beleidsbeslissing
                     }`
                 )
-                .then(res => (relatie.beleidsrelatieGekoppeldObject = res.data))
+                .then(
+                    (res) => (relatie.beleidsrelatieGekoppeldObject = res.data)
+                )
         })
 
         const that = this
 
-        Promise.all(axiosGETArray).then(function(values) {
+        Promise.all(axiosGETArray).then(function (values) {
             that.setState({
                 RelatieArray: beleidsrelaties,
             })
@@ -252,7 +255,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
         // We spreken van een verzoek als de UUID overeenkomt met Naar_Beleidsbeslissing
         // EN als de beleidsrelatie een Status heeft van 'Open'
         let beleidsrelaties = this.state.beleidsrelaties.filter(
-            beleidsrelatie =>
+            (beleidsrelatie) =>
                 (beleidsrelatie.Naar_Beleidsbeslissing === UUID &&
                     beleidsrelatie.Status === 'Open') ||
                 (beleidsrelatie.Van_Beleidsbeslissing === UUID &&
@@ -262,7 +265,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
         // GET voor elke beleidsrelatie het gekoppelde beleidsbeslissing object
         // Als het relatie.Van_Beleidsbeslissing !== UUID van de beleidsbeslissing GET relatie.Van_Beleidsbeslissing
         // Als het relatie.Van_Beleidsbeslissing === UUID van de beleidsbeslissing GET relatie.Naar_Beleidsbeslissing
-        beleidsrelaties.forEach(relatie => {
+        beleidsrelaties.forEach((relatie) => {
             axios
                 .get(
                     `/beleidsbeslissingen/version/${
@@ -272,7 +275,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                     }
                     }`
                 )
-                .then(res => {
+                .then((res) => {
                     relatie.beleidsrelatieGekoppeldObject = res.data
                     return res.data
                 })
@@ -298,13 +301,13 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                 {this.state.currentView === 'overzicht' ? (
                     <React.Fragment>
                         <SidebarMain />
-                        <div className="w-3/4 rounded inline-block flex-grow pl-8">
-                            <h2 className="heading-serif text-gray-800 mb-4">
+                        <div className="flex-grow inline-block w-3/4 pl-8 rounded">
+                            <h2 className="mb-4 text-gray-800 heading-serif">
                                 Beleidsrelaties
                             </h2>
-                            <div className="bg-white shadow rounded p-5">
+                            <div className="p-5 bg-white rounded shadow">
                                 <ul>
-                                    <li className="flex border-b border-gray-200 text-sm font-semibold text-gray-800 py-2">
+                                    <li className="flex py-2 text-sm font-semibold text-gray-800 border-b border-gray-200">
                                         <div className="w-6/12 pl-10">
                                             Beleidsbeslissingen
                                         </div>
@@ -314,28 +317,28 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                                         <div className="w-1/12 text-center">
                                             <FontAwesomeIcon
                                                 title="Geaccepteerde beleidsrelatie"
-                                                className="text-gray-800 text-lg"
+                                                className="text-lg text-gray-800"
                                                 icon={faCheck}
                                             />
                                         </div>
                                         <div className="w-1/12 text-center">
                                             <FontAwesomeIcon
                                                 title="Een onbevstigde relatie, is een relatie die door de andere partij nog geaccepteerd moet worden"
-                                                className="text-gray-800 text-lg"
+                                                className="text-lg text-gray-800"
                                                 icon={faHourglass}
                                             />
                                         </div>
                                         <div className="w-1/12 text-center">
                                             <FontAwesomeIcon
                                                 title="Inkomend verzoek"
-                                                className="text-gray-800 text-lg"
+                                                className="text-lg text-gray-800"
                                                 icon={faEnvelope}
                                             />
                                         </div>
-                                        <div className="w-1/12 text-center mr-6 ">
+                                        <div className="w-1/12 mr-6 text-center ">
                                             <FontAwesomeIcon
                                                 title="Afgewezen relaties"
-                                                className="text-gray-800 text-lg"
+                                                className="text-lg text-gray-800"
                                                 icon={faTimes}
                                             />
                                         </div>
@@ -345,11 +348,11 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                                         beleidsbeslissingenObject.length !==
                                         0 ? (
                                             beleidsbeslissingenObject.map(
-                                                item => {
+                                                (item) => {
                                                     return (
                                                         <li key={item.UUID}>
                                                             <Link
-                                                                className="flex border-b border-gray-200 text-sm text-gray-800 py-2 relative items-center hover:bg-gray-100"
+                                                                className="relative flex items-center py-2 text-sm text-gray-800 border-b border-gray-200 hover:bg-gray-100"
                                                                 to={`/muteer/beleidsrelaties/${item.UUID}`}
                                                                 onClick={() =>
                                                                     this.setState(
@@ -361,12 +364,12 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                                                                     )
                                                                 }
                                                             >
-                                                                <span className="h-3 w-3 mbg-color rounded-full absolute ml-3 inline-block"></span>
+                                                                <span className="absolute inline-block w-3 h-3 ml-3 rounded-full mbg-color"></span>
                                                                 <div className="w-6/12 pl-10">
                                                                     {item.Titel}
                                                                 </div>
                                                                 <div className="w-2/12 text-center">
-                                                                    <span className="border m-color m-base-border-color px-1 py-1 text-xs rounded">
+                                                                    <span className="px-1 py-1 text-xs border rounded m-color m-base-border-color">
                                                                         Vigerend
                                                                     </span>
                                                                 </div>
@@ -388,14 +391,14 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                                                                         ? item.Verzoeken
                                                                         : '-'}
                                                                 </div>
-                                                                <div className="w-1/12 text-center mr-6 ">
+                                                                <div className="w-1/12 mr-6 text-center ">
                                                                     {item.Afgewezen !==
                                                                     0
                                                                         ? item.Afgewezen
                                                                         : '-'}
                                                                 </div>
                                                                 <FontAwesomeIcon
-                                                                    className="absolute text-gray-700 right-0 h-8 mr-3"
+                                                                    className="absolute right-0 h-8 mr-3 text-gray-700"
                                                                     icon={
                                                                         faAngleRight
                                                                     }
@@ -406,7 +409,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                                                 }
                                             )
                                         ) : (
-                                            <span className="font-italic inline-block mt-2 text-gray-600">
+                                            <span className="inline-block mt-2 text-gray-600 font-italic">
                                                 U heeft nog geen
                                                 beleidsbeslissingen
                                             </span>

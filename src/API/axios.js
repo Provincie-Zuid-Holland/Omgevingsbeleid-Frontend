@@ -1,13 +1,17 @@
 import axios from 'axios'
 
-// Base URLS:
-// TEST: `https://api-obzh-test.azurewebsites.net/${api_version}`,
-// PROD: `https://api-obzh.azurewebsites.net/${api_version}`,
-
-const access_token = localStorage.getItem('access_token')
 const api_version = 'v0.1'
+const environment = 'dev'
+const apiURLS = {
+    dev: `https://api-obzh-dev.azurewebsites.net/${api_version}`,
+    test: `https://api-obzh-test.azurewebsites.net/${api_version}`,
+    acc: `https://api-obzh-acc.azurewebsites.net/${api_version}`,
+    prod: `https://api-obzh.azurewebsites.net/${api_version}`,
+}
+
+const access_token = localStorage.getItem('__OB_access_token__')
 const instance = axios.create({
-    baseURL: `https://api-obzh.azurewebsites.net/${api_version}`,
+    baseURL: apiURLS[environment],
     headers: {
         'Content-Type': 'application/json',
         Authorization: `Token ${access_token}`,
@@ -15,7 +19,7 @@ const instance = axios.create({
 })
 
 instance.interceptors.request.use(function (config) {
-    const access_token = localStorage.getItem('access_token')
+    const access_token = localStorage.getItem('__OB_access_token__')
     config.headers.Authorization = `Token ${access_token}`
     return config
 })
@@ -36,4 +40,5 @@ instance.interceptors.response.use(
     }
 )
 
+export { environment }
 export default instance

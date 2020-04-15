@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import isToday from 'date-fns/is_today'
 
 import { faCaretDown, faSignInAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { startOfMinute } from 'date-fns'
+
+import { environment } from './../../API/axios'
 
 // function getToken() {
 //     return localStorage.getItem('access_token')
@@ -11,7 +13,7 @@ import { startOfMinute } from 'date-fns'
 
 function logout() {
     // Clear user token and profile data from localStorage
-    localStorage.removeItem('access_token')
+    localStorage.removeItem('__OB_access_token__')
 }
 
 class NavigationMenuPopUp extends Component {
@@ -55,7 +57,7 @@ class NavigationMenuPopUp extends Component {
     }
 
     getUserName() {
-        let identifier = localStorage.getItem('identifier')
+        let identifier = localStorage.getItem('__OB_identifier__')
         let gebruikersNaam = ''
         if (identifier !== null) {
             gebruikersNaam = JSON.parse(identifier).Gebruikersnaam.split(' ')[0]
@@ -139,12 +141,16 @@ class NavigationMenuPopUp extends Component {
     }
 }
 
-function LoginLogoutButton(props) {
-    if (props.loggedIn) {
+function LoginLogoutButton({
+    loggedIn,
+    currentScreenMuteerOmgeving,
+    setLoginState,
+}) {
+    if (loggedIn) {
         return (
             <NavigationMenuPopUp
-                currentScreenMuteerOmgeving={props.currentScreenMuteerOmgeving}
-                setLoginState={props.setLoginState}
+                currentScreenMuteerOmgeving={currentScreenMuteerOmgeving}
+                setLoginState={setLoginState}
             />
         )
     } else {
@@ -166,7 +172,7 @@ function Logo() {
             <div className="logo-beeldmerk" />
             <div className="logo-tekst" />
             <div className="absolute px-1 pl-4 ml-64 -mt-4">
-                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold leading-4 beta-logo text-yellow-700 uppercase">
+                <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold leading-4 beta-logo text-yellow-700 uppercase">
                     Beta
                 </span>
             </div>
@@ -174,11 +180,133 @@ function Logo() {
     )
 }
 
-function Navigation({ loggedIn, setLoginState }) {
-    let location = useLocation()
+function BannerEnvironment() {
+    const location = useLocation()
+    const pathname = location.pathname
+    const userIsInMuteerEnvironment = pathname.includes('/muteer/')
+
+    const getEnivronmentText = () => {
+        switch (environment) {
+            case 'dev':
+                return 'Ontwikkelomgeving'
+            case 'test':
+                return 'Testomgeving'
+            case 'acc':
+                return 'Acceptatieomgeving'
+            case 'prod':
+                return 'Live-omgeving'
+        }
+    }
+
+    // If the user removes the banner a variable gets set in Local Storage.
+    // This variable is valid for 24 hours and makes sure the banner will not show up again.
+    const hideBannerLocalStorage = () => {
+        const dateHideBanner = localStorage.getItem('__OB_hide_banner__')
+        console.log(dateHideBanner)
+        console.log(isToday(dateHideBanner))
+        return isToday(dateHideBanner)
+    }
+
+    const [showBanner, setShowBanner] = React.useState(
+        userIsInMuteerEnvironment && !hideBannerLocalStorage()
+    )
+
+    React.useEffect(() => {
+        if (!hideBannerLocalStorage()) {
+            addMarginTop()
+        }
+    }, [])
+
+    React.useEffect(() => {
+        if (userIsInMuteerEnvironment && !hideBannerLocalStorage()) {
+            addBanner()
+        } else {
+            removeBanner()
+        }
+    }, [userIsInMuteerEnvironment])
+
+    const removeBanner = () => {
+        const mainContainer = document.getElementById('main-container')
+        mainContainer.style.removeProperty('margin-top')
+        setShowBanner(false)
+    }
+
+    const addBanner = () => {
+        addMarginTop()
+        setShowBanner(true)
+    }
+
+    const setHideBannerLocalStorage = () => {
+        localStorage.setItem('__OB_hide_banner__', new Date())
+    }
+
+    const addMarginTop = () => {
+        const mainContainer = document.getElementById('main-container')
+        console.log('CALLED')
+        console.log(mainContainer)
+        mainContainer.style.marginTop = '118px'
+    }
+
+    const getEnvironmentCSSClass = () => {
+        switch (environment) {
+            case 'dev':
+                return 'banner-dev'
+            case 'test':
+                return 'banner-test'
+            case 'acc':
+                return 'banner-acc'
+            case 'prod':
+                return 'banner-prod'
+        }
+    }
+
+    if (!showBanner) return null
 
     return (
+        <div class={`relative ${getEnvironmentCSSClass()}`}>
+            <div className="max-w-screen-xl px-3 py-3 mx-auto sm:px-6 lg:px-8">
+                <div className="pr-16 sm:text-center sm:px-16">
+                    <p className="font-medium">
+                        <span className="text-sm font-semibold leading-4 tracking-wider uppercase rounded hide-banner">
+                            {getEnivronmentText()}
+                        </span>
+                    </p>
+                </div>
+                <div className="absolute inset-y-0 right-0 flex items-start pt-1 pr-1 sm:pt-1 sm:pr-2 sm:items-start">
+                    <button
+                        type="button"
+                        className="flex p-2 transition duration-150 ease-in-out rounded-lg focus:outline-none hide-banner"
+                        onClick={() => {
+                            setShowBanner(!showBanner)
+                            removeBanner()
+                            setHideBannerLocalStorage()
+                        }}
+                    >
+                        <svg
+                            className="w-6 h-6"
+                            stroke="currentColor"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12"
+                            />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+function Navigation({ loggedIn, setLoginState }) {
+    const location = useLocation()
+    return (
         <nav className="fixed top-0 z-20 w-full bg-white" id="navigation-main">
+            <BannerEnvironment />
             <div className="container flex flex-wrap items-center justify-between py-6 mx-auto bg-white border-b border-gray-200 sm:px-6 lg:px-8">
                 <div className="flex items-center py-2 mr-6 text-black flex-no-shrink">
                     {loggedIn ? (

@@ -104,7 +104,8 @@ function MainSideBarHeading(props) {
 }
 
 function SidebarMain() {
-    const identifier = localStorage.getItem('identifier')
+    // !Refactor! to useUserProfile hook
+    const identifier = localStorage.getItem('__OB_identifier__')
     let gebruikersNaam = null
     let gebruikersRol = null
     if (identifier !== null) {
