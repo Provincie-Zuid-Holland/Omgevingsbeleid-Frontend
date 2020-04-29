@@ -1,7 +1,11 @@
 import axios from 'axios'
 
-const api_version = 'v0.1'
-const environment = 'dev'
+const api_version = process.env.REACT_APP_API_VERSION
+const environment = process.env.REACT_APP_API_ENV
+const access_token = localStorage.getItem(
+    process.env.REACT_APP_KEY_API_ACCESS_TOKEN
+)
+
 const apiURLS = {
     dev: `https://api-obzh-dev.azurewebsites.net/${api_version}`,
     test: `https://api-obzh-test.azurewebsites.net/${api_version}`,
@@ -9,7 +13,6 @@ const apiURLS = {
     prod: `https://api-obzh.azurewebsites.net/${api_version}`,
 }
 
-const access_token = localStorage.getItem('__OB_access_token__')
 const instance = axios.create({
     baseURL: apiURLS[environment],
     headers: {
@@ -19,7 +22,6 @@ const instance = axios.create({
 })
 
 instance.interceptors.request.use(function (config) {
-    const access_token = localStorage.getItem('__OB_access_token__')
     config.headers.Authorization = `Token ${access_token}`
     return config
 })
