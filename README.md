@@ -2,13 +2,35 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## **Available Scripts**
+## First Time Setup
 
-In the project directory, you can run:
+To run this project for the first time you need to:
+- Install Git
+- Clone the code
+- Install Node.js
+- Run npm
+
+#### Git
+Go to [https://git-scm.com/](https://git-scm.com/) to install Git.
+
+#### Clone the code
+Create a new folder within your documents where you'll clone your code to. In Github go to the tab 'Code'.
+Click the green button 'Clone or download' and copy the link. 
+Using the commandprompt (opdrachtprompt), go to your recently added folder and run:
+
+    git clone <link>
+
+The code has now been cloned to your folder.
+
+#### Install Node.js
+Go to [https://nodejs.org/en/](https://nodejs.org/en/) and download the installer fit for your operating system. 
+
+#### Run npm
+Go to your created folder (project directory) using the commandprompt. Here you can run:
 
     npm start
-
-This runs the app in the development mode. Open [http://localhost:3000](http://localhost:3000) to view it in the browser. The page will reload if you make edits. You will also see any lint errors in the console.
+  
+This runs the app in the development mode. Open [http://localhost:3000](http://localhost:3000) to view it in the browser. The page will reload if you make edits to the code. You will also see any lint errors in the console. 
 
     npm test
 
