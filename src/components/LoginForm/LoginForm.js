@@ -13,15 +13,21 @@ import LoaderSpinner from './../LoaderSpinner'
 import PopUpAnimatedContainer from './../PopUpAnimatedContainer'
 
 function PopupWachtwoordVergeten({ togglePopup }) {
+    // Set focus to the cancel button for AY11
+    React.useEffect(() => {
+        document.getElementById('close-password-forget-popup').focus()
+    }, [])
+
     return (
         <PopUpAnimatedContainer small={true}>
-            <div
+            <button
                 onClick={togglePopup}
                 className="absolute top-0 right-0 px-3 py-2 text-gray-600 cursor-pointer"
                 id={`wachtwoord-reset-sluit-popup`}
+                tabIndex="0"
             >
                 <FontAwesomeIcon icon={faTimes} />
-            </div>
+            </button>
             <h3 className="mb-4 text-xl font-semibold text-gray-800">
                 Wachtwoord vergeten
             </h3>
@@ -40,20 +46,21 @@ function PopupWachtwoordVergeten({ togglePopup }) {
                 binnen één werkdag een nieuw wachtwoord.
             </p>
             <div className="flex items-center justify-between mt-5">
-                <span
+                <button
                     className="text-sm text-gray-700 underline cursor-pointer"
                     onClick={togglePopup}
+                    id="close-password-forget-popup"
                 >
                     Annuleren
-                </span>
-                <a
+                </button>
+                <button
                     href="mailto:omgevingsbeleid@pzh.nl?subject=Wachtwoord vergeten"
                     className="inline-block px-8 py-2 text-white bg-green-600 rounded hover:bg-green-700 focus:outline-none focus:shadow-outline"
                     id="wachtwoord-reset-button-mailto"
                     onClick={togglePopup}
                 >
                     Mail versturen
-                </a>
+                </button>
             </div>
         </PopUpAnimatedContainer>
     )
@@ -90,10 +97,7 @@ class LoginForm extends Component {
     }
 
     logDeployementType(type) {
-        console.log(
-            `%c ${type}!`,
-            'font-weight: bold; font-size: 50px;color: red; text-shadow: 3px 3px 0 rgb(217,31,38) , 6px 6px 0 rgb(226,91,14) , 9px 9px 0 rgb(245,221,8) , 12px 12px 0 rgb(5,148,68) , 15px 15px 0 rgb(2,135,206) , 18px 18px 0 rgb(4,77,145) , 21px 21px 0 rgb(42,21,113)'
-        )
+        console.log(`Type - ${type}!`)
     }
 
     handleFormSubmit(e) {
@@ -110,14 +114,14 @@ class LoginForm extends Component {
 
                 if (response.status >= 200 && response.status < 300) {
                     let identifier = response.data.identifier
-                    // identifier.UUID = identifier.UUID.LowerCase()
+
                     identifier.UUID = identifier.UUID.toLowerCase()
                     localStorage.setItem(
-                        '__OB_identifier__',
+                        process.env.REACT_APP_KEY_IDENTIFIER,
                         JSON.stringify(identifier)
                     )
                     localStorage.setItem(
-                        '__OB_access_token__',
+                        process.env.REACT_APP_KEY_API_ACCESS_TOKEN,
                         response.data.access_token
                     )
                     const tokenTime = new Date()
@@ -128,7 +132,6 @@ class LoginForm extends Component {
                 }
             })
             .catch((err) => {
-                console.log('err:')
                 console.log(err)
 
                 let errorEl = document.getElementById('error-message')
@@ -201,15 +204,23 @@ class LoginForm extends Component {
                             type="submit"
                             id="form-field-login-submit"
                         >
-                            {this.state.loading ? <LoaderSpinner /> : null}
+                            {this.state.loading ? (
+                                <span className="mr-2">
+                                    <LoaderSpinner />
+                                </span>
+                            ) : null}
                             Inloggen
                         </button>
-                        <span
+                        <button
                             className="ml-4 text-sm text-gray-700 underline cursor-pointer hover:text-gray-800"
-                            onClick={this.togglePopup}
+                            onClick={(e) => {
+                                e.preventDefault()
+                                this.togglePopup()
+                            }}
+                            tabIndex="0"
                         >
                             Ik ben mijn wachtwoord vergeten
-                        </span>
+                        </button>
                     </div>
                 </form>
                 <div
@@ -243,9 +254,5 @@ class LoginForm extends Component {
         )
     }
 }
-
-LoginForm.propTypes = {}
-
-LoginForm.defaultProps = {}
 
 export default withRouter(LoginForm)
