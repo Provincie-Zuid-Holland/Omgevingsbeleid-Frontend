@@ -1,11 +1,19 @@
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
+import { withRouter, useLocation, useHistory } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import 'url-search-params-polyfill'
 
-function SearchBarPopupItem(props) {
+function SearchBarPopupItem({
+    index,
+    value,
+    filterQuery,
+    filter,
+    arrayLength,
+    dataIndex,
+    setSearchBarPopupOpen,
+}) {
     function selectQueryDataItem(nextOrPrevious, arrayLength) {
         const currentIndex = document.activeElement.getAttribute('data-index')
 
@@ -31,43 +39,35 @@ function SearchBarPopupItem(props) {
     }
 
     return (
-        <li
-            key={props.index}
-            // tabIndex="0"
-            className={`relative`}
-        >
+        <li key={index} className={`relative`}>
             <Link
-                className={`px-5 w-full relative inline-block hover:underline hover:bg-gray-100 focus:underline focus:bg-gray-100 focus:shadow-outline cursor-pointer ${
-                    props.filter ? 'py-1' : 'py-2'
+                className={`px-5 w-full relative inline-block hover:bg-gray-50 focus:bg-gray-50 focus:shadow-outline cursor-pointer py-2`}
+                to={`/zoekresultaten?query=${value}${
+                    filterQuery ? `&only=${filterQuery}` : ''
                 }`}
-                to={`/zoekresultaten?query=${props.value}${
-                    props.filterQuery ? `&only=${props.filterQuery}` : ''
-                }`}
-                onKeyDown={e => {
+                onClick={() => setSearchBarPopupOpen(false)}
+                onKeyDown={(e) => {
                     if (e.keyCode === 40) {
                         // Arrow down
-                        selectQueryDataItem('next', props.arrayLength)
+                        selectQueryDataItem('next', arrayLength)
                     } else if (e.keyCode === 38) {
                         // Arrow up
-                        selectQueryDataItem('previous', props.arrayLength)
+                        selectQueryDataItem('previous', arrayLength)
                     }
                 }}
-                data-index={props.dataIndex}
+                data-index={dataIndex}
             >
-                {props.filter ? (
-                    <span className="pl-4 text-xs">
+                {filter ? (
+                    <span className="pl-4 text-sm">
                         In
-                        <span className="text-yellow-600">
-                            {' '}
-                            {props.filterQuery}
-                        </span>
+                        <span className="text-yellow-500"> {filterQuery}</span>
                     </span>
                 ) : (
                     <React.Fragment>
                         <span className="inline-block search-preview">
-                            {props.value}
+                            {value}
                         </span>
-                        <span className="absolute right-0 text-gray-500 text-xs top-0 mt-2 mr-3">
+                        <span className="absolute top-0 right-0 mt-3 mr-3 text-xs text-gray-500">
                             Zoeken in categorie
                         </span>
                     </React.Fragment>
@@ -77,10 +77,7 @@ function SearchBarPopupItem(props) {
     )
 }
 
-function SearchBarPopup(props) {
-    // {
-    //     name: 'beleidsrelaties',
-    // },
+function SearchBarPopup({ searchInput, setSearchBarPopupOpen }) {
     const filters = [
         {
             name: 'ambities',
@@ -113,22 +110,19 @@ function SearchBarPopup(props) {
 
     return (
         <ul
-            className="bg-white rounded-b absolute top-0 mt-10 border border-gray-300 shadow w-full text-gray-700 text-sm"
+            className="absolute top-0 w-full text-sm text-gray-700 bg-white border border-gray-300 rounded-b shadow"
             id="main-search-result-container"
         >
-            <SearchBarPopupItem
-                dataIndex={0}
-                key={0}
-                value={props.searchInput}
-            />
+            <SearchBarPopupItem dataIndex={0} key={0} value={searchInput} />
             {filters.map((item, index) => (
                 <SearchBarPopupItem
-                    value={props.searchInput}
+                    value={searchInput}
                     filterQuery={item.name}
                     key={item.name}
                     dataIndex={index + 1}
                     index={item.name}
                     filter={true}
+                    setSearchBarPopupOpen={setSearchBarPopupOpen}
                     arrayLength={filters.length}
                 />
             ))}
@@ -136,76 +130,100 @@ function SearchBarPopup(props) {
     )
 }
 
-class SearchBar extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            searchInput: '',
+const SearchBar = ({ width, compInNavigation }) => {
+    const location = useLocation()
+    const history = useHistory()
+
+    const [searchQuery, setSearchQuery] = React.useState('')
+    const [searchBarPopupOpen, setSearchBarPopupOpen] = React.useState(true)
+
+    const node = React.useRef()
+
+    React.useEffect(() => {
+        // Close searchBarPopup
+        function closeOnEscape(e) {
+            console.log('Key')
+            if (e.key === 'Escape') {
+                console.log('Close')
+                setSearchBarPopupOpen(false)
+            }
         }
-        this.handleChange = this.handleChange.bind(this)
-    }
+        document.addEventListener('keydown', closeOnEscape)
 
-    componentDidMount() {
-        const urlParams = this.props.location.search
-        const searchParams = new URLSearchParams(urlParams)
-        const searchQuery = searchParams.get('query')
-
-        if (searchQuery && searchQuery !== 'null') {
-            this.setState(
-                {
-                    searchInput: searchQuery,
-                },
-                () => console.log(this.state.searchInput)
-            )
+        const handleClick = (e) => {
+            if (node.current.contains(e.target)) {
+                // inside click
+                return
+            }
+            // outside click
+            setSearchBarPopupOpen(false)
         }
-    }
+        document.addEventListener('mousedown', handleClick)
 
-    handleChange(e) {
-        const name = e.target.name
-        const value = e.target.value
-        this.setState({
-            [name]: value,
-        })
-    }
-    render() {
-        return (
-            <div className="w-full block relative">
-                <input
-                    className="appearance-none w-full block text-gray-700 border border-gray-300 rounded py-3 pl-4 pr-12 leading-tight focus:outline-none hover:border-gray-400 focus:border-gray-400 shadow text-sm"
-                    name="searchInput"
-                    onChange={this.handleChange}
-                    autoComplete="off"
-                    id="search-query"
-                    type="text"
-                    value={this.state.searchInput}
-                    placeholder="Zoeken op artikelnummer, etc."
-                    onKeyDown={e => {
-                        if (e.keyCode === 13) {
-                            // Enter
-                            this.props.history.push(
-                                `/zoekresultaten?query=${this.state.searchInput}`
-                            )
-                        } else if (
-                            e.keyCode === 40 &&
-                            this.state.searchInput.length > 0
-                        ) {
-                            // Arrow Down
-                            document
-                                .querySelectorAll(`[data-index='0']`)[0]
-                                .focus()
-                        }
-                    }}
-                />
+        if (!compInNavigation) {
+            const urlParams = location.search
+            const searchParams = new URLSearchParams(urlParams)
+            const searchQuery = searchParams.get('query')
+            if (searchQuery) {
+                setSearchQuery(searchQuery)
+            }
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClick)
+            document.removeEventListener('keydown', closeOnEscape)
+        }
+    }, [])
+
+    return (
+        <div
+            ref={node}
+            className={`relative block ${width ? width : 'w-full'}`}
+        >
+            <input
+                className={`block w-full pr-10 form-input sm:text-sm sm:leading-5 ${
+                    searchQuery.length > 0 && searchBarPopupOpen
+                        ? 'rounded-b-none'
+                        : ''
+                }`}
+                name="searchInput"
+                onChange={(e) => {
+                    setSearchQuery(e.target.value)
+                    if (!searchBarPopupOpen) {
+                        setSearchBarPopupOpen(true)
+                    }
+                }}
+                onClick={() => setSearchBarPopupOpen(true)}
+                autoComplete="off"
+                id="search-query"
+                type="text"
+                value={searchQuery}
+                placeholder="Zoeken op artikelnummer, etc."
+                onKeyDown={(e) => {
+                    if (e.keyCode === 13) {
+                        // Enter
+                        setSearchBarPopupOpen(false)
+                        history.push(`/zoekresultaten?query=${searchQuery}`)
+                    } else if (e.keyCode === 40 && searchQuery.length > 0) {
+                        // Arrow Down
+                        document.querySelectorAll(`[data-index='0']`)[0].focus()
+                    }
+                }}
+            />
+            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                 <FontAwesomeIcon
-                    className="absolute right-0 top-0 mr-4 mt-4 text-gray-600 text-sm"
+                    className="ml-2 text-gray-400"
                     icon={faSearch}
                 />
-                {this.state.searchInput.length > 0 ? (
-                    <SearchBarPopup searchInput={this.state.searchInput} />
-                ) : null}
             </div>
-        )
-    }
+            {searchQuery.length > 0 && searchBarPopupOpen ? (
+                <SearchBarPopup
+                    setSearchBarPopupOpen={setSearchBarPopupOpen}
+                    searchInput={searchQuery}
+                />
+            ) : null}
+        </div>
+    )
 }
 
 export default withRouter(SearchBar)
