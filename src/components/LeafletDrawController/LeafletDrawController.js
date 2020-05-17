@@ -68,21 +68,16 @@ class EditControl extends MapControl {
         return createDrawElement(props)
     }
 
-    onDrawCreate = e => {
+    onDrawCreate = (e) => {
         const { onCreated } = this.props
         const { layerContainer } = this.props.leaflet
 
-        console.log(e)
-        this.setState(
-            {
-                currentLayerType: e.layerType,
-            },
-            () => console.log(this.state)
-        )
+        this.setState({
+            currentLayerType: e.layerType,
+        })
 
         // Remove all markers before adding new ones
         layerContainer.clearLayers()
-        console.log(layerContainer)
 
         layerContainer.addLayer(e.layer)
         onCreated && onCreated(e)
@@ -167,9 +162,8 @@ class EditControl extends MapControl {
 
         this.leafletElement.remove(map)
         this.leafletElement = createDrawElement(this.props)
-        this.leafletElement.addTo(map).on('click', () => {
-            // console.log('Clicked')
-        })
+        // this.leafletElement.addTo(map).on('click', () => {
+        // })
 
         return null
     }

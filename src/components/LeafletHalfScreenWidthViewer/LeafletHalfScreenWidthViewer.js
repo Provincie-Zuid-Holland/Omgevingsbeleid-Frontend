@@ -6,7 +6,7 @@ import Proj from 'proj4leaflet'
 
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import './../../../node_modules/leaflet/dist/leaflet.css'
+// import './../../../node_modules/leaflet/dist/leaflet.css'
 
 import LeafletController from './../../components/LeafletController'
 import LeafletDrawController from './../../components/LeafletDrawController'
@@ -25,7 +25,7 @@ Leaflet.Icon.Default.mergeOptions({
 function CreateCustomPopup({ weergavenaam, lat, lng, point }) {
     return (
         <div className="text-base custom-popup">
-            <span className="font-bold block">Gemarkeerde Locatie</span>
+            <span className="block font-bold">Gemarkeerde Locatie</span>
             <ul className="mb-4">
                 <li>{weergavenaam.split(',')[0]}</li>
                 <li>{weergavenaam.split(',')[1]}</li>
@@ -39,7 +39,7 @@ function CreateCustomPopup({ weergavenaam, lat, lng, point }) {
                 )}+${point.y.toFixed(2)}&LatLng=${lat.toFixed(7)}-${lng.toFixed(
                     7
                 )}`}
-                className="text-white mbg-color cursor-pointer hover:bg-blue-600 inline-block py-2 px-8 rounded focus:outline-none focus:shadow-outline"
+                className="inline-block px-8 py-2 text-white rounded cursor-pointer mbg-color hover:bg-blue-600 focus:outline-none focus:shadow-outline"
             >
                 Bekijk provinciaal beleid van deze locatie
             </a>
@@ -108,10 +108,9 @@ export default class LeafletHalfScreenWidthViewer extends Component {
         layer.bindPopup('Adres aan het laden...').openPopup()
         // layer._popup.setContent('something else')
 
-        import('./../../API/axiosLocatieserver').then(api => {
+        import('./../../API/axiosLocatieserver').then((api) => {
             api.getAdresData(lat, lng)
-                .then(data => {
-                    console.log(lat, lng)
+                .then((data) => {
                     const customPopupHTML = `<div>${ReactDOMServer.renderToString(
                         <CreateCustomPopup
                             weergavenaam={data.weergavenaam}
@@ -124,13 +123,13 @@ export default class LeafletHalfScreenWidthViewer extends Component {
                     // ${RDProjection.project({ lat: lat, lng: lng })}
                     layer._popup.setContent(customPopupHTML)
                 })
-                .catch(function(thrown) {
+                .catch(function (thrown) {
                     console.log(thrown)
                 })
         })
     }
 
-    _onCreated = e => {
+    _onCreated = (e) => {
         let type = e.layerType
 
         if (type === 'marker') {
@@ -142,48 +141,48 @@ export default class LeafletHalfScreenWidthViewer extends Component {
                 e.layer
             )
 
-            console.log('_onCreated: marker created', e)
+            // console.log('_onCreated: marker created', e)
         } else {
-            console.log('_onCreated: something else created:', type, e)
+            // console.log('_onCreated: something else created:', type, e)
         }
         // Do whatever else you need to. (save to db; etc)
 
         this._onChange()
     }
 
-    _onDeleted = e => {
+    _onDeleted = (e) => {
         let numDeleted = 0
-        e.layers.eachLayer(layer => {
+        e.layers.eachLayer((layer) => {
             numDeleted += 1
         })
-        console.log(`onDeleted: removed ${numDeleted} layers`, e)
+        // console.log(`onDeleted: removed ${numDeleted} layers`, e)
 
         this._onChange()
     }
 
-    _onMounted = drawControl => {
+    _onMounted = (drawControl) => {
         // console.log('_onMounted', drawControl)
     }
 
-    _onEditStart = e => {
-        console.log('_onEditStart', e)
+    _onEditStart = (e) => {
+        // console.log('_onEditStart', e)
     }
 
-    _onEditStop = e => {
-        console.log('_onEditStop', e)
+    _onEditStop = (e) => {
+        // console.log('_onEditStop', e)
     }
 
-    _onDeleteStart = e => {
-        console.log('_onDeleteStart', e)
+    _onDeleteStart = (e) => {
+        // console.log('_onDeleteStart', e)
     }
 
-    _onDeleteStop = e => {
-        console.log('_onDeleteStop', e)
+    _onDeleteStop = (e) => {
+        // console.log('_onDeleteStop', e)
     }
 
     _editableFG = null
 
-    _onFeatureGroupReady = reactFGref => {
+    _onFeatureGroupReady = (reactFGref) => {
         // store the ref for future access to content
         this._editableFG = reactFGref
     }
@@ -205,7 +204,7 @@ export default class LeafletHalfScreenWidthViewer extends Component {
         this.setState({ viewport: DEFAULT_VIEWPORT })
     }
 
-    onViewportChanged = viewport => {
+    onViewportChanged = (viewport) => {
         // this.setState({ viewport })
     }
 
@@ -311,7 +310,7 @@ export default class LeafletHalfScreenWidthViewer extends Component {
                     <LeafletController position="topleft">
                         <div
                             id="leaflet-search"
-                            className="bg-white rounded shadow relative flex justify-between items-center z-10 h-10 cursor-pointer"
+                            className="relative z-10 flex items-center justify-between h-10 bg-white rounded shadow cursor-pointer"
                         >
                             <div
                                 className={`w-10 h-10 flex justify-center items-center text-gray-600 hover:text-gray-700 ${
@@ -322,7 +321,7 @@ export default class LeafletHalfScreenWidthViewer extends Component {
                                 onClick={this.toggleLeafletSearch}
                             >
                                 <FontAwesomeIcon
-                                    className="text-lg inline-block w-10 cursor-pointer"
+                                    className="inline-block w-10 text-lg cursor-pointer"
                                     icon={faSearch}
                                     onClick={this.toggleLeafletSearch}
                                 />
@@ -336,7 +335,7 @@ export default class LeafletHalfScreenWidthViewer extends Component {
                         </div>
                     </LeafletController>
                     <FeatureGroup
-                        ref={reactFGref => {
+                        ref={(reactFGref) => {
                             this._onFeatureGroupReady(reactFGref)
                         }}
                     >

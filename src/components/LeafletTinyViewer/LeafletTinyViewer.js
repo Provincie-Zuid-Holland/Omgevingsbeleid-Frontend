@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import Leaflet from 'leaflet'
 import { Map, TileLayer } from 'react-leaflet'
-import './../../../node_modules/leaflet/dist/leaflet.css'
+// import './../../../node_modules/leaflet/dist/leaflet.css'
 import Proj from 'proj4leaflet'
 import LoaderLeafletTinyViewer from './../LoaderLeafletTinyViewer'
 
@@ -54,15 +54,12 @@ export default class LeafletTinyViewer extends Component {
         // this.setState({ viewport: DEFAULT_VIEWPORT })
     }
 
-    onViewportChanged = viewport => {
+    onViewportChanged = (viewport) => {
         this.setState({ viewport: viewport, bounds: null })
     }
 
     componentDidUpdate(prevProps) {
-        console.log(prevProps.fullscreen)
-        console.log(this.props.fullscreen)
         if (this.props.fullscreen !== prevProps.fullscreen) {
-            console.log('CHANGED!!')
             this.leafletMap.current.leafletElement.invalidateSize()
             this.forceUpdate()
             this.setState({
@@ -81,9 +78,9 @@ export default class LeafletTinyViewer extends Component {
             )
         }
 
-        import('./../../API/axiosGeoJSON').then(api => {
+        import('./../../API/axiosGeoJSON').then((api) => {
             api.getGeoJsonData(this.props.gebiedType, this.props.gebiedUUID)
-                .then(data => {
+                .then((data) => {
                     this.setState(
                         {
                             dataReceived: true,
@@ -92,7 +89,7 @@ export default class LeafletTinyViewer extends Component {
                             const leafletMap = this.leafletMap.current
 
                             const jsonLayer = Leaflet.Proj.geoJson(data, {
-                                style: feature => {
+                                style: (feature) => {
                                     return {
                                         stroke: true,
                                         fillColor: '#3388ff',
@@ -114,7 +111,7 @@ export default class LeafletTinyViewer extends Component {
                         }
                     )
                 })
-                .catch(function(thrown) {
+                .catch(function (thrown) {
                     if (axios.isCancel(thrown)) {
                         console.log('Request canceled -', thrown.message)
                     } else {
