@@ -31,16 +31,7 @@ class RaadpleegHome extends Component {
                             .
                         </p>
                         <div className="block mt-8">
-                            <SearchBar />
-                        </div>
-                        <div className="mt-10">
-                            <Link
-                                to="/planning"
-                                className="text-gray-800 underline cursor-pointer"
-                            >
-                                Benieuwd waar we mee bezig zijn? Bekijk het
-                                hier.
-                            </Link>
+                            <SearchBar width="w-full" />
                         </div>
                     </div>
                     <p className="mt-10 text-sm text-gray-600">
@@ -55,55 +46,15 @@ class RaadpleegHome extends Component {
                         >
                             omgevingsbeleid@pzh.nl
                         </a>
+                        . Wil je weten waar wij mee bezig zijn?{' '}
+                        <Link
+                            to="/planning"
+                            className="underline cursor-pointer"
+                        >
+                            Klik dan hier
+                        </Link>
                         .
                     </p>
-                    {/* <div>
-                        <h2 className="mt-10 text-gray-800 heading-serif">
-                            Recente Wijzigingen
-                        </h2>
-                        <ul className="mt-4 skip-border-last-child">
-                            <li className="w-full py-3 text-sm text-gray-700 border-b border-gray-300">
-                                <Link to="/artikel-detail">
-                                    <span className="mr-3">01-01-2019</span>
-                                    <span className="mr-1">Artikel 4.6</span>
-                                    <span className="mr-1">-</span>
-                                    <span>Werkingsgebied</span>
-                                </Link>
-                            </li>
-                            <li className="w-full py-3 text-sm text-gray-700 border-b border-gray-300">
-                                <Link to="/artikel-detail">
-                                    <span className="mr-3">01-01-2019</span>
-                                    <span className="mr-1">Artikel 4.6</span>
-                                    <span className="mr-1">-</span>
-                                    <span>Werkingsgebied</span>
-                                </Link>
-                            </li>
-                        </ul>
-                    </div>
-                    <div className="block w-full h-2 mt-6 border-b border-gray-300" />
-                    <div className="mb-10">
-                        <h2 className="mt-10 text-gray-800 heading-serif">
-                            Stukken die ter inspraak liggen
-                        </h2>
-                        <ul className="mt-4 skip-border-last-child">
-                            <li className="w-full py-3 text-sm text-gray-700 border-b border-gray-300">
-                                <Link to="/artikel-detail">
-                                    <span className="mr-3">01-01-2019</span>
-                                    <span className="mr-1">Artikel 4.6</span>
-                                    <span className="mr-1">-</span>
-                                    <span>Werkingsgebied</span>
-                                </Link>
-                            </li>
-                            <li className="w-full py-3 text-sm text-gray-700 border-b border-gray-300">
-                                <Link to="/artikel-detail">
-                                    <span className="mr-3">01-01-2019</span>
-                                    <span className="mr-1">Artikel 4.6</span>
-                                    <span className="mr-1">-</span>
-                                    <span>Werkingsgebied</span>
-                                </Link>
-                            </li>
-                        </ul>
-                    </div> */}
                 </div>
                 <div id="half-screen-leaflet-container">
                     <LeafletHalfScreenWidthViewer />
