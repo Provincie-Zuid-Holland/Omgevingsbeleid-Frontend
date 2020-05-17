@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { format } from 'date-fns'
-import isBefore from 'date-fns/is_before'
+import isBefore from 'date-fns/isBefore'
 import nlLocale from 'date-fns/locale/nl'
 import { faCalendarAlt } from '@fortawesome/free-regular-svg-icons'
 import {
@@ -20,7 +20,7 @@ import LoaderSmallSpan from '../LoaderSmallSpan'
 
 function StatusLabel(props) {
     return (
-        <span className="inline bg-blue-100 m-color ml-3 px-3 py-3 rounded-full font-bold text-sm">
+        <span className="inline px-3 py-3 ml-3 text-sm font-bold bg-blue-100 rounded-full m-color">
             Vigerend
         </span>
     )
@@ -67,7 +67,7 @@ class ContainerDetailMain extends Component {
                 {titelEnkelvoud === 'Beleidsbeslissing' ? (
                     <div
                         onClick={this.toggleDropdown}
-                        className="absolute right-0 top-0 hover:text-gray-800 text-gray-600 cursor-pointer p-5"
+                        className="absolute top-0 right-0 p-5 text-gray-600 cursor-pointer hover:text-gray-800"
                     >
                         <FontAwesomeIcon className="mr-2" icon={faEllipsisV} />
                     </div>
@@ -90,7 +90,7 @@ class ContainerDetailMain extends Component {
                     />
                 ) : null}
 
-                <span className="text-gray-500 text-sm mb-1 block">
+                <span className="block mb-1 text-sm text-gray-500">
                     {titelEnkelvoud}
                 </span>
 
@@ -105,10 +105,10 @@ class ContainerDetailMain extends Component {
                     <StatusLabel />
                 ) : null}
 
-                <div className="mt-8 flex">
-                    <div className="flex justify-between items-center w-full mr-4 pr-4 border-r border-gray-300 py-2">
+                <div className="flex mt-8">
+                    <div className="flex items-center justify-between w-full py-2 pr-4 mr-4 border-r border-gray-300">
                         <div>
-                            <span className="block font-bold text-gray-700 text-sm">
+                            <span className="block text-sm font-bold text-gray-700">
                                 {/* isBefore */}
                                 {dataReceived &&
                                 dataObject['Begin_Geldigheid'] !== null &&
@@ -126,20 +126,20 @@ class ContainerDetailMain extends Component {
                                               new Date(
                                                   dataObject['Begin_Geldigheid']
                                               ),
-                                              'D MMMM YYYY',
+                                              'd MMMM yyyy',
                                               { locale: nlLocale }
                                           )
                                         : 'Er is nog geen begin geldigheid'}
                                 </span>
                             ) : (
-                                <span className="mt-2 block">
+                                <span className="block mt-2">
                                     <LoaderSmallSpan />
                                 </span>
                             )}
                         </div>
                         <div>
                             <FontAwesomeIcon
-                                className="text-gray-600 text-xl"
+                                className="text-xl text-gray-600"
                                 icon={faCalendarAlt}
                             />
                         </div>
@@ -150,10 +150,10 @@ class ContainerDetailMain extends Component {
                             target="_blank"
                             rel="noopener noreferrer"
                             id="href-idms-koppeling"
-                            className="flex justify-between items-center w-full mr-4 pr-4 border-r border-gray-300 py-2"
+                            className="flex items-center justify-between w-full py-2 pr-4 mr-4 border-r border-gray-300"
                         >
                             <div>
-                                <span className="block font-bold text-gray-700 text-sm">
+                                <span className="block text-sm font-bold text-gray-700">
                                     IDMS-koppeling
                                 </span>
                                 <span className="text-sm text-gray-700">
@@ -162,7 +162,7 @@ class ContainerDetailMain extends Component {
                             </div>
                             <div>
                                 <FontAwesomeIcon
-                                    className="text-gray-600 text-xl"
+                                    className="text-xl text-gray-600"
                                     icon={faLink}
                                 />
                             </div>
@@ -185,11 +185,11 @@ class ContainerDetailMain extends Component {
                             }
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex justify-between items-center w-full py-2 cursor-pointer"
+                            className="flex items-center justify-between w-full py-2 cursor-pointer"
                         >
                             <div>
                                 <div>
-                                    <span className="block font-bold text-gray-700 text-sm">
+                                    <span className="block text-sm font-bold text-gray-700">
                                         Link naar raadpleegomgeving
                                     </span>
                                     <span className="text-sm text-gray-700">
@@ -203,7 +203,7 @@ class ContainerDetailMain extends Component {
                             </div>
                             <div>
                                 <FontAwesomeIcon
-                                    className="text-gray-600 text-xl"
+                                    className="text-xl text-gray-600"
                                     icon={faExternalLinkAlt}
                                 />
                             </div>
