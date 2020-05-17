@@ -14,7 +14,7 @@ import LeafletCardViewer from './../LeafletCardViewer'
 function CardWerkingsGebied(props) {
     return (
         <li
-            className="w-1/2 inline-block"
+            className="inline-block w-1/2"
             key={props.werkingsgebied.UUID}
             id={`form-field-werkingsgebied-${props.index}`}
             onClick={() => {
@@ -28,7 +28,7 @@ function CardWerkingsGebied(props) {
                         : ''
                 }`}
             >
-                <span className="text-sm w-full text-gray-700 p-4 block absolute bottom-0 bg-white z-10">
+                <span className="absolute bottom-0 z-10 block w-full p-4 text-sm text-gray-700 bg-white">
                     {props.werkingsgebied.Werkingsgebied}
                 </span>
             </div>
@@ -39,7 +39,7 @@ function CardWerkingsGebied(props) {
 function PopUpWerkingsGebiedContent(props) {
     let filteredContent = props.werkingsgebieden
     if (props.filterValue !== '') {
-        filteredContent = filteredContent.filter(item =>
+        filteredContent = filteredContent.filter((item) =>
             item.Werkingsgebied.toLowerCase().includes(
                 props.filterValue.toLowerCase()
             )
@@ -49,7 +49,7 @@ function PopUpWerkingsGebiedContent(props) {
     return (
         <React.Fragment>
             <animated.div
-                className="fixed w-screen bg-gray-900 h-screen top-0 left-0 z-10"
+                className="fixed top-0 left-0 z-10 w-screen h-screen bg-gray-900"
                 style={useSpring({
                     config: { tension: 300 },
                     opacity: 0.25,
@@ -57,18 +57,18 @@ function PopUpWerkingsGebiedContent(props) {
                 })}
             />
             <div className="fixed top-0 left-0 z-10">
-                <div className="flex h-screen w-screen top-0 left-0 justify-center items-center p-8">
+                <div className="top-0 left-0 flex items-center justify-center w-screen h-screen p-8">
                     <animated.div
                         style={useSpring({
                             config: { tension: 300 },
                             transform: 'scale(1)',
                             from: { transform: 'scale(0.75)' },
                         })}
-                        className="max-w-5xl relative bg-white rounded shadow px-6 py-6 popup-long"
+                        className="relative max-w-5xl px-6 py-6 bg-white rounded shadow popup-long"
                     >
                         <div
                             onClick={props.togglePopUp}
-                            className="cursor-pointer absolute right-0 top-0 text-gray-600 px-3 py-2"
+                            className="absolute top-0 right-0 px-3 py-2 text-gray-600 cursor-pointer"
                             id={`form-field-werkingsgebied-popup-sluiten`}
                         >
                             <FontAwesomeIcon icon={faTimes} />
@@ -79,9 +79,9 @@ function PopUpWerkingsGebiedContent(props) {
                         <p className="form-field-description">
                             Selecteer het werkingsgebied wat je wilt koppelen
                         </p>
-                        <div className="w-full block relative mt-4 mb-6">
+                        <div className="relative block w-full mt-4 mb-6">
                             <input
-                                className="appearance-none w-full block text-gray-700 border border-gray-400 rounded py-3 pl-4 pr-12 leading-tight focus:outline-none hover:border-gray-500 focus:border-gray-500 shadow text-sm"
+                                className="block w-full py-3 pl-4 pr-12 text-sm leading-tight text-gray-700 border border-gray-400 rounded shadow appearance-none focus:outline-none hover:border-gray-500 focus:border-gray-500"
                                 id={`form-field-werkingsgebied-zoekbalk`}
                                 type="text"
                                 value={props.filterValue}
@@ -89,11 +89,11 @@ function PopUpWerkingsGebiedContent(props) {
                                 placeholder="Zoeken... (typ minimaal 3 karakters)"
                             />
                             <FontAwesomeIcon
-                                className="absolute right-0 top-0 mr-4 mt-4 text-gray-600 text-sm"
+                                className="absolute top-0 right-0 mt-4 mr-4 text-sm text-gray-600"
                                 icon={faSearch}
                             />
                         </div>
-                        <div className="shadow border rounded px-4 py-4">
+                        <div className="px-4 py-4 border rounded shadow">
                             <ul className="flex-row overflow-y-auto max-h-half-screen">
                                 {props.dataLoaded ? (
                                     filteredContent.map((item, index) => {
@@ -126,9 +126,9 @@ function PopUpWerkingsGebiedContent(props) {
                                 )}
                             </ul>
                         </div>
-                        <div className="flex justify-between items-center mt-6">
+                        <div className="flex items-center justify-between mt-6">
                             <span
-                                className="text-gray-600 cursor-pointer text-sm underline"
+                                className="text-sm text-gray-600 underline cursor-pointer"
                                 onClick={props.togglePopUp}
                                 id={`form-field-werkingsgebied-annuleren`}
                             >
@@ -211,7 +211,7 @@ class PopUpWerkingsGebiedContainer extends Component {
             return null
         } else {
             let werkingsgebiedUUIDArray = []
-            objectenArray.slice(1).forEach(arrayItem => {
+            objectenArray.slice(1).forEach((arrayItem) => {
                 werkingsgebiedUUIDArray.push(arrayItem.UUID)
             })
             return werkingsgebiedUUIDArray
@@ -220,7 +220,7 @@ class PopUpWerkingsGebiedContainer extends Component {
 
     returnAxiosRequestArray(UUIDArray) {
         let axiosArray = []
-        UUIDArray.forEach(item => {
+        UUIDArray.forEach((item) => {
             axiosArray.push(axios.get('/user/12345/permissions'))
         })
     }
@@ -228,16 +228,16 @@ class PopUpWerkingsGebiedContainer extends Component {
     generateJSONForAllWerkingsgebieden(UUIDArray) {
         let werkingsgebiedenArray = []
         const that = this
-        import('./../../API/axiosGeoJSON').then(api => {
-            UUIDArray.forEach(item => {
+        import('./../../API/axiosGeoJSON').then((api) => {
+            UUIDArray.forEach((item) => {
                 api.getGeoJsonData('Werkingsgebieden', item)
-                    .then(data => {
+                    .then((data) => {
                         werkingsgebiedenArray.push(data)
                         that.setState({
                             werkingsgebieden: werkingsgebiedenArray,
                         })
                     })
-                    .catch(function(err) {
+                    .catch(function (err) {
                         console.log(err)
                     })
             })
@@ -247,7 +247,7 @@ class PopUpWerkingsGebiedContainer extends Component {
     componentDidMount() {
         axios
             .get('werkingsgebieden')
-            .then(res => {
+            .then((res) => {
                 res.data.shift()
                 const werkingsgebieden = res.data
                 this.setState({
@@ -255,7 +255,7 @@ class PopUpWerkingsGebiedContainer extends Component {
                     dataLoaded: true,
                 })
             })
-            .catch(error => {
+            .catch((error) => {
                 console.log(error)
             })
     }
@@ -314,13 +314,13 @@ class FormFieldWerkingsgebiedKoppeling extends Component {
     initializeWerkingsgebied(UUID) {
         axios
             .get(`/werkingsgebieden/${UUID}`)
-            .then(res => {
+            .then((res) => {
                 const response = res.data
                 this.setState({
                     gekoppeldGebied: response,
                 })
             })
-            .catch(error => {
+            .catch((error) => {
                 console.log(error)
             })
     }
@@ -362,20 +362,20 @@ class FormFieldWerkingsgebiedKoppeling extends Component {
         // Connect With the API
         axios
             .get(`/werkingsgebieden/${UUID}`)
-            .then(res => {
+            .then((res) => {
                 const response = res.data
                 this.setState({
                     gekoppeldGebied: response,
                 })
             })
-            .catch(error => {
+            .catch((error) => {
                 console.log(error)
             })
     }
 
     render() {
         return (
-            <div className="flex flex-wrap -mx-3 mb-6">
+            <div className="flex flex-wrap mb-6 -mx-3">
                 <div
                     className="w-full px-3"
                     id={`form-field-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
@@ -390,7 +390,7 @@ class FormFieldWerkingsgebiedKoppeling extends Component {
                     {this.state.gekoppeldGebied === null ? (
                         <React.Fragment>
                             <div
-                                className="mt-4 cursor-pointer rounded border-dashed border-2 px-3 py-3 text-gray-600 text-sm"
+                                className="px-3 py-3 mt-4 text-sm text-gray-600 border-2 border-dashed rounded cursor-pointer"
                                 onClick={this.togglePopUp}
                             >
                                 <FontAwesomeIcon
@@ -441,18 +441,18 @@ function GekoppeldGebiedCard(props) {
             })}
             className="flex rounded shadow"
         >
-            <div className="w-1/2 bg-white p-5 relative">
-                <h3 className="font-bold text-gray-700 text-sm py-2">
+            <div className="relative w-1/2 p-5 bg-white">
+                <h3 className="py-2 text-sm font-bold text-gray-700">
                     {props.title}
                 </h3>
-                <span className="text-gray-600 text-xs py-1">
+                <span className="py-1 text-xs text-gray-600">
                     Laatst gewijzigd op{' '}
-                    {format(props.laatstGewijzigd, 'DD	MMMM YYYY', {
+                    {format(new Date(props.laatstGewijzigd), 'dd	MMMM yyyy', {
                         locale: nlLocale,
                     })}
                 </span>
                 <span
-                    className="text-red-600 cursor-pointer text-sm underline absolute bottom-0 left-0 ml-5 mb-5"
+                    className="absolute bottom-0 left-0 mb-5 ml-5 text-sm text-red-600 underline cursor-pointer"
                     onClick={props.ontkoppelWerkingsgebied}
                     id={`form-field-werkingsgebied-ontkoppelen`}
                 >

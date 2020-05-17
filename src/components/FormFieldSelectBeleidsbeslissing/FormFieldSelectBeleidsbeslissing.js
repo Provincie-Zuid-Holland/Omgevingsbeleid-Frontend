@@ -12,10 +12,10 @@ function makeSelection(objectenArray, dataObjectProperty, filterUUID) {
 
     // FilterUUID is used to filter out the item that initiates the new relation, so an object can't make a relation with itself
     if (filterUUID) {
-        objectenArray = objectenArray.filter(item => item.UUID !== filterUUID)
+        objectenArray = objectenArray.filter((item) => item.UUID !== filterUUID)
     }
 
-    objectenArray.forEach(arrayItem => {
+    objectenArray.forEach((arrayItem) => {
         options.push({
             label: arrayItem.Titel,
             value: arrayItem.UUID,
@@ -70,7 +70,7 @@ class FormFieldSelectBeleidsbeslissing extends React.Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (this.props.fieldValue !== prevProps.fieldValue) {
             const selected = this.state.selectionArray.find(
-                arrayItem => arrayItem.value === this.props.fieldValue
+                (arrayItem) => arrayItem.value === this.props.fieldValue
             )
             this.setState({
                 selected: selected,
@@ -84,7 +84,7 @@ class FormFieldSelectBeleidsbeslissing extends React.Component {
         // Connect With the API
         axios
             .get(ApiEndpoint)
-            .then(res => {
+            .then((res) => {
                 const objecten = res.data.sort((a, b) =>
                     a.Titel > b.Titel ? 1 : -1
                 )
@@ -98,15 +98,8 @@ class FormFieldSelectBeleidsbeslissing extends React.Component {
                     dataLoaded: true,
                 })
             })
-            .catch(error => {
-                if (error.response !== undefined) {
-                    if (error.response.status === 401) {
-                        localStorage.removeItem('access_token')
-                        this.props.history.push('/login')
-                    }
-                } else {
-                    console.log(error)
-                }
+            .catch((error) => {
+                console.log(error)
             })
     }
 }

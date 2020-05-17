@@ -11,7 +11,7 @@ function makeSelection(objectenArray, dataObjectProperty) {
         return null
     } else {
         let options = []
-        objectenArray.slice(1).forEach(arrayItem => {
+        objectenArray.slice(1).forEach((arrayItem) => {
             options.push({
                 label: arrayItem.Werkingsgebied,
                 value: arrayItem.UUID,
@@ -58,7 +58,7 @@ class FormFieldWerkingsgebiedrelatie extends React.Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (this.props.fieldValue !== prevProps.fieldValue) {
             const selected = this.state.selectionArray.find(
-                arrayItem => arrayItem.value === this.props.fieldValue
+                (arrayItem) => arrayItem.value === this.props.fieldValue
             )
             this.setState({
                 selected: selected,
@@ -72,7 +72,7 @@ class FormFieldWerkingsgebiedrelatie extends React.Component {
         // Connect With the API
         axios
             .get(ApiEndpoint)
-            .then(res => {
+            .then((res) => {
                 const objecten = res.data
                 const selectionArray = makeSelection(
                     objecten,
@@ -81,7 +81,7 @@ class FormFieldWerkingsgebiedrelatie extends React.Component {
 
                 if (this.props.editStatus === true) {
                     const selected = selectionArray.find(
-                        arrayItem => arrayItem.value === this.props.fieldValue
+                        (arrayItem) => arrayItem.value === this.props.fieldValue
                     )
                     this.setState({
                         selectionArray,
@@ -91,15 +91,8 @@ class FormFieldWerkingsgebiedrelatie extends React.Component {
                     this.setState({ selectionArray })
                 }
             })
-            .catch(error => {
-                if (error.response !== undefined) {
-                    if (error.response.status === 401) {
-                        localStorage.removeItem('access_token')
-                        this.props.history.push('/login')
-                    }
-                } else {
-                    console.log(error)
-                }
+            .catch((error) => {
+                console.log(error)
             })
     }
 }

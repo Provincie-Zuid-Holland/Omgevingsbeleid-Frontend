@@ -23,7 +23,7 @@ class FormFieldTextArea extends React.Component {
 
     render() {
         return (
-            <div className="flex flex-wrap -mx-3 mb-6">
+            <div className="flex flex-wrap mb-6 -mx-3">
                 <div className="w-full px-3">
                     <FormFieldTitelEnBeschrijving
                         dataObjectProperty={this.props.dataObjectProperty}
@@ -36,17 +36,16 @@ class FormFieldTextArea extends React.Component {
                     <textarea
                         ref={this.textArea}
                         id={`form-field-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
-                        maxLength="15000"
                         value={
                             this.props.fieldValue ? this.props.fieldValue : ''
                         }
                         // required
-                        onChange={e => {
+                        onChange={(e) => {
                             this.updateElHeight()
                             this.props.handleChange(e)
                         }}
                         name={this.props.dataObjectProperty}
-                        className="appearance-none block resize-none w-full text-gray-700 border border-gray-400 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white hover:border-gray-500 focus:border-gray-500 h-24"
+                        className="block w-full h-24 px-4 py-3 leading-tight text-gray-700 border border-gray-400 rounded appearance-none resize-none focus:outline-none focus:bg-white hover:border-gray-500 focus:border-gray-500"
                         type="text"
                         placeholder={
                             this.props.placeholderTekst

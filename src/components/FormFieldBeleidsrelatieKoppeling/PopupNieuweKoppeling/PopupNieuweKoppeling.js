@@ -30,7 +30,7 @@ class PopupNieuweKoppeling extends Component {
         // Get Beleidsbeslissingen om koppelingen mee te maken
         axios
             .get('/beleidsbeslissingen')
-            .then(res => {
+            .then((res) => {
                 const responseObjecten = res.data
 
                 this.setState({
@@ -38,7 +38,7 @@ class PopupNieuweKoppeling extends Component {
                     dataLoaded: true,
                 })
             })
-            .catch(error => {
+            .catch((error) => {
                 this.setState({
                     dataLoaded: true,
                 })
@@ -73,7 +73,7 @@ class PopupNieuweKoppeling extends Component {
     }
 
     render() {
-        const filteredObjecten = this.state.objecten.filter(item =>
+        const filteredObjecten = this.state.objecten.filter((item) =>
             item.Titel.toLowerCase().includes(
                 this.state.zoekFilter.toLowerCase()
             )
@@ -192,7 +192,7 @@ class PopupNieuweKoppeling extends Component {
                                     id={`beleidsrelatie-begin-geldigheid`}
                                     // min={format(
                                     //     new Date(this.props.Begin_Geldigheid),
-                                    //     'YYYY-MM-DD'
+                                    //     'yyyy-MM-DD'
                                     // )}
                                 />
                             </div>
@@ -209,7 +209,7 @@ class PopupNieuweKoppeling extends Component {
                                     id={`beleidsrelatie-begin-geldigheid`}
                                     // min={format(
                                     //     new Date(this.props.Begin_Geldigheid),
-                                    //     'YYYY-MM-DD'
+                                    //     'yyyy-MM-DD'
                                     // )}
                                 />
                             </div>
@@ -251,7 +251,7 @@ class PopupNieuweKoppeling extends Component {
                                     : `hover:underline`
                             }`}
                             tabIndex="0"
-                            onClick={e => {
+                            onClick={(e) => {
                                 if (this.state.selected !== null) {
                                     this.volgendeScherm()
                                 } else {
@@ -269,7 +269,7 @@ class PopupNieuweKoppeling extends Component {
                                     : `hover:underline`
                             }`}
                             tabIndex="0"
-                            onClick={e => {
+                            onClick={(e) => {
                                 if (this.state.beschrijving.length > 0) {
                                     this.props.voegKoppelingRelatieToe(
                                         this.state.selected,
@@ -279,7 +279,7 @@ class PopupNieuweKoppeling extends Component {
                                     return
                                 }
                             }}
-                            onKeyPress={e => {
+                            onKeyPress={(e) => {
                                 if (
                                     e.key === 'Enter' &&
                                     this.state.beschrijving.length > 0
