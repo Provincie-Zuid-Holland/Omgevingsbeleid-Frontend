@@ -21,28 +21,17 @@ class FormFieldSelectUserGroup extends Component {
             .get(ApiEndpoint)
             .then((res) => {
                 const objecten = res.data
-                this.setState(
-                    {
-                        gebruikersLijst: objecten,
-                        dataLoaded: true,
-                    },
-                    () => console.log(this.state)
-                )
+                this.setState({
+                    gebruikersLijst: objecten,
+                    dataLoaded: true,
+                })
             })
             .catch((error) => {
                 this.setState({
                     dataLoaded: true,
                     error: true,
                 })
-                // !REFACTOR! Add toast notification al er iets mis gaat
-                if (error.response !== undefined) {
-                    if (error.response.status === 401) {
-                        localStorage.removeItem('access_token')
-                        this.props.history.push('/login')
-                    }
-                } else {
-                    console.log(error)
-                }
+                console.log(error)
             })
     }
 
@@ -81,6 +70,7 @@ class FormFieldSelectUserGroup extends Component {
                             dataObjectProperty="Eigenaar_1"
                             marginRight={true}
                             filter={'Behandelend Ambtenaar'}
+                            filterOtherProperty={crudObject['Eigenaar_2']}
                             pValue="Eerste eigenaar"
                             titelEnkelvoud={this.props.titelEnkelvoud}
                         />
@@ -96,6 +86,7 @@ class FormFieldSelectUserGroup extends Component {
                             fieldValue={crudObject['Eigenaar_2']}
                             dataObjectProperty="Eigenaar_2"
                             filter={'Behandelend Ambtenaar'}
+                            filterOtherProperty={crudObject['Eigenaar_1']}
                             pValue="Tweede eigenaar"
                             titelEnkelvoud={this.props.titelEnkelvoud}
                         />
@@ -110,6 +101,9 @@ class FormFieldSelectUserGroup extends Component {
                             editStatus={this.props.editStatus}
                             handleChange={this.props.handleChange}
                             filter={'Portefeuillehouder'}
+                            filterOtherProperty={
+                                crudObject['Portefeuillehouder_2']
+                            }
                             gebruikersLijst={this.state.gebruikersLijst}
                             fieldValue={crudObject['Portefeuillehouder_1']}
                             dataObjectProperty="Portefeuillehouder_1"
@@ -126,6 +120,9 @@ class FormFieldSelectUserGroup extends Component {
                             editStatus={this.props.editStatus}
                             gebruikersLijst={this.state.gebruikersLijst}
                             filter={'Portefeuillehouder'}
+                            filterOtherProperty={
+                                crudObject['Portefeuillehouder_1']
+                            }
                             handleChange={this.props.handleChange}
                             fieldValue={crudObject['Portefeuillehouder_2']}
                             dataObjectProperty="Portefeuillehouder_2"
