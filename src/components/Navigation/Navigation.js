@@ -1,169 +1,490 @@
 import React, { Component } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import isToday from 'date-fns/is_today'
+import isToday from 'date-fns/isToday'
 
-import { faCaretDown, faSignInAlt } from '@fortawesome/free-solid-svg-icons'
+import {
+    faCaretDown,
+    faSignInAlt,
+    faSearch,
+    faBars,
+    faTimes,
+    faEye,
+} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import { environment } from './../../API/axios'
+// Import API and Env variable used for the banner
+import axios, { environment } from './../../API/axios'
 
-// function getToken() {
-//     return localStorage.getItem('access_token')
-// }
+// Import dimension variables
+import allDimensies from './../../constants/dimensies'
 
-function logout() {
-    // Clear user token and profile data from localStorage
-    localStorage.removeItem('__OB_access_token__')
-}
+// Import useLockBodyScroll to stop html body scroll when the modal is open
+import useLockBodyScroll from './../../utils/useLockBodyScroll'
 
-class NavigationMenuPopUp extends Component {
-    constructor(props) {
-        super(props)
+import Transition from './../Transition'
+import LoaderSpinner from './../LoaderSpinner'
+import SearchBar from './../SearchBar'
 
-        this.state = {
-            open: false,
-        }
+function Navigation({ loggedIn, setLoginState }) {
+    const location = useLocation()
+    const pathname = location.pathname
+    const userIsInMuteerEnvironment = pathname.includes('/muteer/')
 
-        this.innerContainer = React.createRef()
-
-        this.toggleOpen = this.toggleOpen.bind(this)
-        this.handleClick = this.handleClick.bind(this)
+    // If the user removes the banner a variable gets set in Local Storage.
+    // This variable is valid for 24 hours and makes sure the banner will not show up again.
+    const hideBannerLocalStorage = () => {
+        const dateHideBanner = localStorage.getItem('__OB_hide_banner__')
+        return isToday(dateHideBanner)
     }
 
-    toggleOpen() {
-        this.setState({
-            open: !this.state.open,
-        })
+    function logout() {
+        // Clear user token and profile data from localStorage
+        localStorage.removeItem(process.env.REACT_APP_KEY_API_ACCESS_TOKEN)
+        localStorage.removeItem(process.env.REACT_APP_KEY_IDENTIFIER)
+
+        setLoginState(false)
     }
 
-    handleClick = (e) => {
-        if (
-            !this.innerContainer.current.contains(e.target) &&
-            this.state.open === true
-        ) {
-            this.setState({
-                open: false,
-            })
-            return
-        }
-    }
+    const showBanner = userIsInMuteerEnvironment && !hideBannerLocalStorage()
 
-    componentDidMount() {
-        document.addEventListener('mousedown', this.handleClick, false)
-    }
+    return (
+        <nav className="fixed top-0 z-20 w-full bg-white" id="navigation-main">
+            {/* Banner that displays the current environment */}
+            <BannerEnvironment
+                hideBannerLocalStorage={hideBannerLocalStorage}
+                userIsInMuteerEnvironment={userIsInMuteerEnvironment}
+            />
 
-    componentWillUnmount() {
-        document.removeEventListener('mousedown', this.handleClick, false)
-    }
-
-    getUserName() {
-        let identifier = localStorage.getItem('__OB_identifier__')
-        let gebruikersNaam = ''
-        if (identifier !== null) {
-            gebruikersNaam = JSON.parse(identifier).Gebruikersnaam.split(' ')[0]
-        } else {
-            gebruikersNaam = null
-        }
-        return gebruikersNaam
-    }
-
-    render() {
-        return (
-            <span
-                className="relative mr-3 text-sm text-gray-600"
-                ref={this.innerContainer}
-            >
-                <span
-                    id="navbar-toggle-popup"
-                    onClick={this.toggleOpen}
-                    className="text-sm text-gray-800 cursor-pointer select-none"
-                >
-                    <span>
-                        {this.getUserName() !== null
-                            ? `Ingelogd als ${this.getUserName()}`
-                            : 'Ingelogd'}
-                    </span>
-                    <FontAwesomeIcon
-                        className="ml-2 text-gray-700"
-                        icon={faCaretDown}
-                    />
-                </span>
-                {this.state.open ? (
-                    <div
-                        id="navigation-tooltip-container"
-                        className="absolute w-48 mt-2 -ml-12 text-gray-700 bg-white rounded"
+            {/* Main container */}
+            <div className="container flex flex-wrap items-center justify-between py-4 mx-auto bg-white border-b border-gray-200 sm:px-6 lg:px-8">
+                {/* Logo */}
+                <div className="flex items-center py-2 mr-6 text-black flex-no-shrink">
+                    <Link
+                        id="href-naar-home"
+                        to={loggedIn ? '/muteer/dashboard' : '/'}
+                        className="z-10 text-blue focus:border-primary"
                     >
-                        <div className="relative h-full">
-                            <ul className="text-sm text-gray-800">
-                                <li className="px-4 py-2 text-sm cursor-not-allowed">
-                                    Mijn Instellingen
-                                </li>
-                                <li>
-                                    {this.props.currentScreenMuteerOmgeving ? (
-                                        <Link
-                                            id="navbar-popup-href-raadpleeg-omgeving"
-                                            to={`/`}
-                                            className="inline-block w-full px-4 py-2 text-sm border-t border-gray-300"
-                                            onClick={this.toggleOpen}
-                                        >
-                                            Raadpleegomgeving
-                                        </Link>
-                                    ) : (
-                                        <Link
-                                            id="navbar-popup-href-raadpleeg-omgeving"
-                                            to={`/muteer/dashboard`}
-                                            className="inline-block w-full px-4 py-2 text-sm border-t border-gray-300"
-                                            onClick={this.toggleOpen}
-                                        >
-                                            Muteeromgeving
-                                        </Link>
-                                    )}
-                                </li>
-                                <li>
-                                    <Link
-                                        id="navbar-popup-href-uitloggen"
-                                        className="inline-block w-full px-4 py-2 text-sm border-t border-gray-300"
-                                        to={`/login`}
-                                        onClick={() => {
-                                            logout()
-                                            this.props.setLoginState(false)
-                                        }}
-                                    >
-                                        Uitloggen
-                                    </Link>
-                                </li>
-                            </ul>
-                        </div>
+                        <Logo />
+                    </Link>
+                </div>
+
+                {/* Searchbar if user is not on the homepage */}
+                {location.pathname !== '/' ? (
+                    <div className="absolute" style={{ marginLeft: '350px' }}>
+                        <SearchBar width="w-64" compInNavigation={true} />
                     </div>
                 ) : null}
-            </span>
-        )
-    }
+
+                {/* Buttons to toggle popup menu */}
+                <div className="flex items-center justify-end">
+                    {loggedIn && userIsInMuteerEnvironment ? (
+                        <Link
+                            to={'/'}
+                            className="px-4 py-2 mr-5 text-sm text-gray-700 transition duration-300 ease-in rounded hover:text-gray-800"
+                        >
+                            <FontAwesomeIcon className="mr-3" icon={faEye} />
+                            Raadplegen
+                        </Link>
+                    ) : null}
+                    <PopupMenu
+                        logout={logout}
+                        setLoginState={setLoginState}
+                        loggedIn={loggedIn}
+                        showBanner={showBanner}
+                    />
+                </div>
+            </div>
+        </nav>
+    )
 }
 
-function LoginLogoutButton({
-    loggedIn,
-    currentScreenMuteerOmgeving,
-    setLoginState,
-}) {
-    if (loggedIn) {
-        return (
-            <NavigationMenuPopUp
-                currentScreenMuteerOmgeving={currentScreenMuteerOmgeving}
-                setLoginState={setLoginState}
-            />
-        )
-    } else {
-        return (
-            <Link className="text-sm" to="/login" id="href-naar-inloggen">
-                <FontAwesomeIcon
-                    className="mr-2 text-gray-700"
-                    icon={faSignInAlt}
-                />
-                <span className="text-gray-800">Inloggen</span>
-            </Link>
-        )
+const PopupMenu = ({ loggedIn, showBanner, logout }) => {
+    // Popup state
+    const [isOpen, setIsOpen] = React.useState(false)
+    const [activeTab, setActiveTab] = React.useState('Ambities')
+    const [filterQuery, setFilterQuery] = React.useState('')
+
+    // Loading state
+    const [isLoading, setIsLoading] = React.useState(true)
+
+    // Dimension state
+    const [ambities, setAmbities] = React.useState(null)
+    const [opgaven, setOpgaven] = React.useState(null)
+    const [beleidskeuzes, setBeleidskeuzes] = React.useState(null)
+    const [maatregelen, setMaatregelen] = React.useState(null)
+    const [beleidsregels, setBeleidsregels] = React.useState(null)
+    const [verordeningStructuur, setVerordeningStructuur] = React.useState(null)
+
+    // On mount get dimension data from API
+    React.useEffect(() => {
+        Promise.all([
+            axios
+                .get(`${allDimensies.AMBITIES.API_ENDPOINT}`)
+                .then((res) => setAmbities(res.data))
+                .catch((err) => console.log(err)),
+            axios
+                .get(`${allDimensies.OPGAVEN.API_ENDPOINT}`)
+                .then((res) => setOpgaven(res.data))
+                .catch((err) => console.log(err)),
+            axios
+                .get(`${allDimensies.BELEIDSBESLISSINGEN.API_ENDPOINT}`)
+                .then((res) => setBeleidskeuzes(res.data))
+                .catch((err) => console.log(err)),
+            axios
+                .get(`${allDimensies.BELEIDSREGELS.API_ENDPOINT}`)
+                .then((res) => setBeleidsregels(res.data))
+                .catch((err) => console.log(err)),
+            axios
+                .get(`${allDimensies.MAATREGELEN.API_ENDPOINT}`)
+                .then((res) => setMaatregelen(res.data))
+                .catch((err) => console.log(err)),
+            axios
+                .get(`${allDimensies.VERORDENINGSTRUCTUUR.API_ENDPOINT}`)
+                .then((res) => {
+                    const firstLineage = res.data[0]
+                    let position = []
+                    const traverseItems = (children) => {
+                        if (children[0].Type !== 'Artikel') {
+                            position.push(0)
+                            return traverseItems(children[0].Children)
+                        } else {
+                            console.log(children[0])
+                            return children[0]
+                        }
+                    }
+
+                    let firstArtikel = traverseItems(
+                        firstLineage.Structuur.Children
+                    )
+                    const generateURL = (position, firstArtikel) => {
+                        if (position.length === 1) {
+                            return `/detail/verordeningen/${firstLineage.ID}/${firstArtikel.UUID}?hoofdstuk=0&nest_1=0&nest_2=null&nest_3=null`
+                        } else if (position.length === 2) {
+                            return `/detail/verordeningen/${firstLineage.ID}/${firstArtikel.UUID}?hoofdstuk=0&nest_1=0&nest_2=0&nest_3=null`
+                        } else if (position.length === 3) {
+                            return `/detail/verordeningen/${firstLineage.ID}/${firstArtikel.UUID}?hoofdstuk=0&nest_1=0&nest_2=0&nest_3=0`
+                        }
+                    }
+                    setVerordeningStructuur(generateURL(position, firstArtikel))
+                })
+                .catch((err) => console.log(err)),
+        ]).then(() => setIsLoading(false))
+    }, [])
+
+    const getCurrentConstants = () => {
+        switch (activeTab) {
+            case 'Ambities':
+                return allDimensies['AMBITIES']
+            case 'Opgaven':
+                return allDimensies['OPGAVEN']
+            case 'Beleidskeuzes':
+                return allDimensies['BELEIDSBESLISSINGEN']
+            case "Maatregelen (Programma's)":
+                return allDimensies['MAATREGELEN']
+            case 'Nadere beleidsregels':
+                return allDimensies['BELEIDSREGELS']
+
+            default:
+                return {}
+        }
     }
+
+    const getCurrentItems = () => {
+        switch (activeTab) {
+            case 'Ambities':
+                return ambities
+            case 'Opgaven':
+                return opgaven
+            case 'Beleidskeuzes':
+                return beleidskeuzes
+            case "Maatregelen (Programma's)":
+                return maatregelen
+            case 'Nadere beleidsregels':
+                return beleidsregels
+
+            default:
+                return {}
+        }
+    }
+
+    // If the modal is open we lock the HTML body scroll
+    useLockBodyScroll({ modalOpen: isOpen })
+
+    // Eventlistener for closing the modal with the Escape key
+    React.useEffect(() => {
+        function closeOnEscape(e) {
+            if (e.key === 'Escape') {
+                setIsOpen(false)
+            }
+        }
+        window.addEventListener('keydown', closeOnEscape)
+        return () => window.removeEventListener('keydown', closeOnEscape)
+    }, [])
+
+    return (
+        <React.Fragment>
+            <button
+                className="px-4 py-2 ml-6 font-semibold text-white rounded bg-primary"
+                aria-expanded={isOpen}
+                onClick={() => setIsOpen(!isOpen)}
+            >
+                <FontAwesomeIcon
+                    className="mr-4 text-sm"
+                    icon={isOpen ? faTimes : faBars}
+                />
+                {isOpen ? 'Menu sluiten' : 'Menu'}
+            </button>
+            <Transition
+                show={isOpen}
+                enter="transition ease-out duration-100 transform"
+                enterFrom="opacity-0 scale-95 -translate-y-5 transform"
+                enterTo="opacity-100 scale-100 translate-y-0 transform"
+                leave="transition ease-in duration-75 transform"
+                leaveFrom="opacity-100 scale-100 translate-y-0 transform"
+                leaveTo="opacity-0 scale-95 -translate-y-5 transform"
+            >
+                <div
+                    className="fixed top-0 left-0 w-full pt-24 bg-white"
+                    style={
+                        showBanner
+                            ? {
+                                  height: 'calc(100vh - 73px)',
+                                  top: '121px',
+                              }
+                            : {
+                                  height: 'calc(100vh - 73px)',
+                                  top: '73px',
+                              }
+                    }
+                >
+                    <div className="container flex h-full px-6 mx-auto">
+                        <div className="w-3/12 h-full border-r border-gray-300">
+                            <h3 className="font-bold text-gray-900 heading-xl">
+                                Omgevingsvisie
+                            </h3>
+                            <nav className="mt-5">
+                                <TabMenuItem
+                                    activeTab={activeTab}
+                                    tabTitle="Ambities"
+                                    setActiveTab={setActiveTab}
+                                />
+                                <TabMenuItem
+                                    activeTab={activeTab}
+                                    tabTitle="Opgaven"
+                                    setActiveTab={setActiveTab}
+                                />
+                                <TabMenuItem
+                                    activeTab={activeTab}
+                                    tabTitle="Beleidskeuzes"
+                                    setActiveTab={setActiveTab}
+                                />
+                            </nav>
+                            <h3 className="mt-16 font-bold text-gray-900 heading-xl">
+                                Uitvoering
+                            </h3>
+                            <nav className="mt-5">
+                                <TabMenuItem
+                                    activeTab={activeTab}
+                                    tabTitle="Maatregelen (Programma's)"
+                                    setActiveTab={setActiveTab}
+                                />
+                                <TabMenuItem
+                                    activeTab={activeTab}
+                                    tabTitle="Nadere beleidsregels"
+                                    setActiveTab={setActiveTab}
+                                />
+                                <TabMenuItemLink
+                                    href={
+                                        isLoading ? '#' : verordeningStructuur
+                                    }
+                                    tabId={`popup-menu-item-Verordening`}
+                                    tabTitle="Verordening"
+                                    setIsOpen={setIsOpen}
+                                />
+                            </nav>
+                            <h3 className="mt-16 font-bold text-gray-900 heading-xl">
+                                Omgevingsbeleid
+                            </h3>
+                            <nav className="mt-5">
+                                {loggedIn ? (
+                                    <React.Fragment>
+                                        <TabMenuItemLink
+                                            href="/muteer/dashboard"
+                                            tabTitle="Dashboard"
+                                            setIsOpen={setIsOpen}
+                                            tabId="popup-menu-item-to-dashboard"
+                                        />
+                                        <TabMenuItemLink
+                                            href={'/muteer/mijn-beleid'}
+                                            tabTitle="Mijn Beleid"
+                                            setIsOpen={setIsOpen}
+                                            tabId={`popup-menu-item-to-my-policies`}
+                                        />
+                                        <TabMenuItemLink
+                                            href={'/muteer/beleidsrelaties'}
+                                            tabTitle="Beleidsrelaties"
+                                            setIsOpen={setIsOpen}
+                                            tabId={`popup-menu-item-to-my-policy-relations`}
+                                        />
+                                        <TabMenuItemLink
+                                            href={'/login'}
+                                            tabTitle="Uitloggen"
+                                            setIsOpen={setIsOpen}
+                                            callback={() => {
+                                                logout()
+                                            }}
+                                            tabId={`popup-menu-item-logout`}
+                                        />
+                                    </React.Fragment>
+                                ) : (
+                                    <Link
+                                        id={`popup-menu-item-login`}
+                                        onClick={() => {
+                                            setIsOpen(false)
+                                        }}
+                                        to={'/login'}
+                                        className={`w-full font-medium rounded-md-l group flex items-center px-3 py-2 text-sm leading-5 hover:text-gray-900 transition ease-in-out duration-150 mt-1 text-gray-600 hover:bg-gray-50 focus:outline-none focus:bg-gray-50 cursor-pointer`}
+                                    >
+                                        <span class="truncate">Inloggen</span>
+                                    </Link>
+                                )}
+                            </nav>
+                        </div>
+                        <div className="w-9/12 pl-5">
+                            <div className="flex w-full pb-5 border-b border-gray-300">
+                                <h3 className="w-full font-bold text-gray-900 heading-xl">
+                                    {activeTab}{' '}
+                                    {isLoading ? null : (
+                                        <span className="ml-2 text-gray-600">
+                                            {
+                                                getCurrentItems().filter(
+                                                    (item) =>
+                                                        item.Titel.toLowerCase().includes(
+                                                            filterQuery.toLowerCase()
+                                                        )
+                                                ).length
+                                            }
+                                        </span>
+                                    )}
+                                </h3>
+                                <div>
+                                    <label for="filter-query" class="sr-only">
+                                        Filter
+                                    </label>
+                                    <div class="w-64 mt-1 relative rounded-md shadow-sm">
+                                        <input
+                                            id="filter-query"
+                                            value={filterQuery}
+                                            onChange={(e) =>
+                                                setFilterQuery(e.target.value)
+                                            }
+                                            class="form-input block w-full pr-10 sm:text-sm sm:leading-5"
+                                            placeholder={`Zoek in ${getCurrentConstants().TITEL_MEERVOUD.toLowerCase()}`}
+                                        />
+                                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                            <FontAwesomeIcon
+                                                className="ml-2 text-gray-400"
+                                                icon={faSearch}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="h-full pt-2 overflow-y-auto">
+                                <nav className="flex flex-wrap pb-12 items-top">
+                                    {isLoading ? (
+                                        <div className="flex items-center justify-center w-full h-24 text-gray-500">
+                                            <LoaderSpinner />
+                                        </div>
+                                    ) : (
+                                        getCurrentItems()
+                                            .filter((item) =>
+                                                item.Titel.toLowerCase().includes(
+                                                    filterQuery.toLowerCase()
+                                                )
+                                            )
+                                            .map((item, index) => (
+                                                <Link
+                                                    className={`w-1/2 group flex items-center px-3 py-2 text-sm leading-5 font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:bg-gray-100 transition ease-in-out duration-150 py-1 text-gray-700 hover:text-gray-900  inline-block ${
+                                                        index % 2 === 0
+                                                            ? 'pr-4'
+                                                            : 'pl-4'
+                                                    }`}
+                                                    onClick={() =>
+                                                        setIsOpen(false)
+                                                    }
+                                                    to={`/detail/${
+                                                        getCurrentConstants()
+                                                            .SLUG_OVERZICHT
+                                                    }/${item.UUID}`}
+                                                >
+                                                    {item.Titel}
+                                                </Link>
+                                            ))
+                                    )}
+                                    {!isLoading &&
+                                    getCurrentItems().filter((item) =>
+                                        item.Titel.toLowerCase().includes(
+                                            filterQuery.toLowerCase()
+                                        )
+                                    ).length === 0 ? (
+                                        <span
+                                            className="px-3 mt-2 text-gray-500 cursor-pointer hover:text-gray-700 text-italic"
+                                            onClick={() => {
+                                                setFilterQuery('')
+                                                document
+                                                    .getElementById(
+                                                        'filter-query'
+                                                    )
+                                                    .focus()
+                                            }}
+                                        >
+                                            Er zijn geen resultaten
+                                        </span>
+                                    ) : null}
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </Transition>
+        </React.Fragment>
+    )
+}
+
+const TabMenuItem = ({ activeTab, tabTitle, setActiveTab }) => {
+    const tabIsActive = activeTab === tabTitle
+
+    return (
+        <button
+            onClick={() => setActiveTab(tabTitle)}
+            id={`popup-menu-item-${tabTitle}`}
+            className={`w-full font-medium rounded-md-l group flex items-center px-3 py-2 text-sm leading-5 hover:text-gray-900 transition ease-in-out duration-150 mt-1 ${
+                tabIsActive
+                    ? 'text-gray-900 bg-gray-100 hover:bg-gray-50 focus:outline-none'
+                    : 'text-gray-600 hover:bg-gray-50 focus:outline-none focus:bg-gray-50 cursor-pointer'
+            }`}
+            aria-current={tabIsActive ? 'page' : false}
+        >
+            <span class="truncate">{tabTitle}</span>
+        </button>
+    )
+}
+
+const TabMenuItemLink = ({ tabTitle, href, setIsOpen, tabId, callback }) => {
+    return (
+        <Link
+            id={tabId}
+            onClick={() => {
+                setIsOpen(false)
+                if (callback) callback()
+            }}
+            to={href}
+            className={`w-full font-medium rounded-md-l group flex items-center px-3 py-2 text-sm leading-5 hover:text-gray-900 transition ease-in-out duration-150 mt-1 text-gray-600 hover:bg-gray-50 focus:outline-none focus:bg-gray-50 cursor-pointer`}
+        >
+            <span class="truncate">{tabTitle}</span>
+        </Link>
+    )
 }
 
 function Logo() {
@@ -171,6 +492,7 @@ function Logo() {
         <React.Fragment>
             <div className="logo-beeldmerk" />
             <div className="logo-tekst" />
+            {/* Beta Badge */}
             <div className="absolute px-1 pl-4 ml-64 -mt-4">
                 <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold leading-4 beta-logo text-yellow-700 uppercase">
                     Beta
@@ -180,11 +502,10 @@ function Logo() {
     )
 }
 
-function BannerEnvironment() {
-    const location = useLocation()
-    const pathname = location.pathname
-    const userIsInMuteerEnvironment = pathname.includes('/muteer/')
-
+function BannerEnvironment({
+    userIsInMuteerEnvironment,
+    hideBannerLocalStorage,
+}) {
     const getEnivronmentText = () => {
         switch (environment) {
             case 'dev':
@@ -196,15 +517,6 @@ function BannerEnvironment() {
             case 'prod':
                 return 'Live-omgeving'
         }
-    }
-
-    // If the user removes the banner a variable gets set in Local Storage.
-    // This variable is valid for 24 hours and makes sure the banner will not show up again.
-    const hideBannerLocalStorage = () => {
-        const dateHideBanner = localStorage.getItem('__OB_hide_banner__')
-        console.log(dateHideBanner)
-        console.log(isToday(dateHideBanner))
-        return isToday(dateHideBanner)
     }
 
     const [showBanner, setShowBanner] = React.useState(
@@ -242,8 +554,6 @@ function BannerEnvironment() {
 
     const addMarginTop = () => {
         const mainContainer = document.getElementById('main-container')
-        console.log('CALLED')
-        console.log(mainContainer)
         mainContainer.style.marginTop = '118px'
     }
 
@@ -263,7 +573,7 @@ function BannerEnvironment() {
     if (!showBanner) return null
 
     return (
-        <div class={`relative ${getEnvironmentCSSClass()}`}>
+        <div className={`relative ${getEnvironmentCSSClass()}`}>
             <div className="max-w-screen-xl px-3 py-3 mx-auto sm:px-6 lg:px-8">
                 <div className="pr-16 sm:text-center sm:px-16">
                     <p className="font-medium">
@@ -289,9 +599,9 @@ function BannerEnvironment() {
                             viewBox="0 0 24 24"
                         >
                             <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
                                 d="M6 18L18 6M6 6l12 12"
                             />
                         </svg>
@@ -299,45 +609,6 @@ function BannerEnvironment() {
                 </div>
             </div>
         </div>
-    )
-}
-
-function Navigation({ loggedIn, setLoginState }) {
-    const location = useLocation()
-    return (
-        <nav className="fixed top-0 z-20 w-full bg-white" id="navigation-main">
-            <BannerEnvironment />
-            <div className="container flex flex-wrap items-center justify-between py-6 mx-auto bg-white border-b border-gray-200 sm:px-6 lg:px-8">
-                <div className="flex items-center py-2 mr-6 text-black flex-no-shrink">
-                    {loggedIn ? (
-                        <Link
-                            id="href-naar-home"
-                            to={`/muteer/dashboard`}
-                            className="text-blue"
-                        >
-                            <Logo />
-                        </Link>
-                    ) : (
-                        <Link
-                            id="href-naar-home"
-                            to={`/`}
-                            className="text-blue"
-                        >
-                            <Logo />
-                        </Link>
-                    )}
-                </div>
-                <div className="flex items-center justify-end">
-                    <LoginLogoutButton
-                        currentScreenMuteerOmgeving={location.pathname.includes(
-                            'muteer'
-                        )}
-                        setLoginState={setLoginState}
-                        loggedIn={loggedIn}
-                    />
-                </div>
-            </div>
-        </nav>
     )
 }
 
