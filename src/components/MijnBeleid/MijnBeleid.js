@@ -73,8 +73,9 @@ class MijnBeleid extends Component {
     componentDidMount() {
         this.setState(
             {
-                authUser: JSON.parse(localStorage.getItem('__OB_identifier__'))
-                    .UUID,
+                authUser: JSON.parse(
+                    localStorage.getItem(process.env.REACT_APP_KEY_IDENTIFIER)
+                ).UUID,
             },
             () => this.getBeleidVanGebruiker()
         )

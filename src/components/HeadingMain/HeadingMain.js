@@ -10,11 +10,11 @@ class HeadingMain extends React.Component {
                 {this.props.status ? (
                     this.props.status === 'Vigerend' ||
                     this.props.status === 'Gepubliceerd' ? (
-                        <div className="px-2 py-1 border inline-block text-xs text-indigo-900 rounded border-indigo-900">
+                        <div className="inline-block px-2 py-1 text-xs text-indigo-900 border border-indigo-900 rounded">
                             {this.props.status}
                         </div>
                     ) : (
-                        <div className="px-2 py-1 border inline-block text-xs text-yellow-600 rounded border-yellow-600">
+                        <div className="inline-block px-2 py-1 text-xs border rounded text-secondary border-secondary">
                             {this.props.status}
                         </div>
                     )

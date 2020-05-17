@@ -5,7 +5,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 function LoaderSpinner() {
-    return <FontAwesomeIcon className="rotate-icon mr-2" icon={faSpinner} />
+    return <FontAwesomeIcon className="rotate-icon" icon={faSpinner} />
 }
 
 export default LoaderSpinner
