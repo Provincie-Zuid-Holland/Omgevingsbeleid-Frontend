@@ -48,8 +48,8 @@ function GenerateBackToButton({ overzichtSlug, pageType, hash, dataObject }) {
 function RevisieList({ dataObject, overzichtSlug, hash }) {
     return (
         <div>
-            <div className="w-24 h-6 border-r-2 flex items-center justify-end border-gray-300 pt-5 mr-2 " />
-            <ul className="revisie-list relative">
+            <div className="flex items-center justify-end w-24 h-6 pt-5 mr-2 border-r-2 border-gray-300 " />
+            <ul className="relative revisie-list">
                 {dataObject.map((item, index) => {
                     return (
                         <li key={item.UUID}>
@@ -62,16 +62,16 @@ function RevisieList({ dataObject, overzichtSlug, hash }) {
                                         item.UUID,
                                         hash
                                     )}
-                                    className="flex items-end h-6 relative mr-2 hover:underline"
+                                    className="relative flex items-end h-6 mr-2 hover:underline"
                                 >
-                                    <span className="text-xs text-gray-600 pr-5 w-24 text-right pr-4">
+                                    <span className="w-24 pr-4 pr-5 text-xs text-right text-gray-600">
                                         {format(
                                             new Date(item.Modified_Date),
-                                            'D MMM YYYY'
+                                            'd MMM yyyy'
                                         )}
                                     </span>
-                                    <div className="revisie-list-bolletje relative w-3 h-3 text-center bg-gray-300 rounded-full" />
-                                    <span className="text-xs text-gray-600 pr-5 w-24 pl-4">
+                                    <div className="relative w-3 h-3 text-center bg-gray-300 rounded-full revisie-list-bolletje" />
+                                    <span className="w-24 pl-4 pr-5 text-xs text-gray-600">
                                         Revisie
                                     </span>
                                 </Link>
@@ -139,13 +139,13 @@ class MuteerUniversalObjectDetail extends Component {
         // Connect With the API
         axios
             .get(apiEndpoint)
-            .then(res => {
+            .then((res) => {
                 const dataObject = res.data
 
                 // Detail pages krijgen een array met objecten die we sorten
                 // Version pages krijgen enkel een object terug
                 if (this.state.pageType === 'detail') {
-                    dataObject.sort(function(a, b) {
+                    dataObject.sort(function (a, b) {
                         return (
                             new Date(b.Modified_Date) -
                             new Date(a.Modified_Date)
@@ -155,7 +155,7 @@ class MuteerUniversalObjectDetail extends Component {
 
                 this.setState({ dataObject: dataObject, dataReceived: true })
             })
-            .catch(error => {
+            .catch((error) => {
                 if (error.response !== undefined) {
                     this.setState(
                         {
@@ -233,7 +233,7 @@ class MuteerUniversalObjectDetail extends Component {
                 </Helmet>
 
                 {/* Dimensie Container */}
-                <div className="w-full inline-block">
+                <div className="inline-block w-full">
                     <GenerateBackToButton
                         hash={this.props.location.hash}
                         dataObject={dataObject}
@@ -252,7 +252,7 @@ class MuteerUniversalObjectDetail extends Component {
                             {pageType === 'detail' ? (
                                 <div className="h-10 mt-5 ">
                                     <Link
-                                        className="flex items-center mt-5 w-1/2"
+                                        className="flex items-center w-1/2 mt-5"
                                         to={
                                             this.props.location.hash ===
                                             '#mijn-beleid'
@@ -261,15 +261,15 @@ class MuteerUniversalObjectDetail extends Component {
                                         }
                                         id={`href-ontwerp-maken`}
                                     >
-                                        <span className="relative w-24 h-10 border-r-2 flex items-center justify-end border-gray-300 pb-5 mr-2">
-                                            <div className="w-8 h-8 pt-1 absolute text-center bg-gray-300 rounded-full -right-4">
+                                        <span className="relative flex items-center justify-end w-24 h-10 pb-5 mr-2 border-r-2 border-gray-300">
+                                            <div className="absolute w-8 h-8 pt-1 text-center bg-gray-300 rounded-full -right-4">
                                                 <FontAwesomeIcon
-                                                    className="text-gray-600 relative"
+                                                    className="relative text-gray-600"
                                                     icon={faPlus}
                                                 />
                                             </div>
                                         </span>
-                                        <span className="text-sm inline text-gray-700 -mt-5 pl-5 cursor-pointer hover:underline">
+                                        <span className="inline pl-5 -mt-5 text-sm text-gray-700 cursor-pointer hover:underline">
                                             Ontwerp maken
                                         </span>
                                     </Link>

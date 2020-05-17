@@ -379,7 +379,6 @@ function TabbladInhoudRelatieComponent(props) {
         return (
             <ul className={`${props.activeSection ? 'mb-3' : ''}`}>
                 {props.array.map((relatie, index) => {
-                    console.log(relatie)
                     return (
                         <li
                             key={relatie.data ? relatie.data.ID : index}

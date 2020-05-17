@@ -55,9 +55,6 @@ function getDimensieConstant(type) {
 
 function SearchResultItem({ item, searchQuery }) {
     function getContent() {
-        console.log(item)
-        console.log(searchQuery)
-
         // Get everything past the '=' of '?query=artikel'
         const query = searchQuery.slice(
             searchQuery.indexOf('=') + 1,
@@ -340,14 +337,11 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                     searchResults
                 )
 
-                this.setState(
-                    {
-                        searchFiltersOnly: null,
-                        searchResults: searchResultsWithVerordeningsPositions,
-                        dataLoaded: true,
-                    },
-                    () => console.log(this.state)
-                )
+                this.setState({
+                    searchFiltersOnly: null,
+                    searchResults: searchResultsWithVerordeningsPositions,
+                    dataLoaded: true,
+                })
             })
             .catch((err) => {
                 this.setState(
@@ -359,18 +353,24 @@ class RaadpleegZoekResultatenOverzicht extends Component {
             })
     }
 
+    // searchGeoQuery parameter is used to get the Werkingsgebieden
+    // LatLng is set in state so we can display it in the UI above the results
     getSearchGeoQuery(searchGeoQuery, latLng) {
         this.setState({
             geoSearchQuery: latLng.replace('-', ' '),
         })
 
+        // Get werkingsgebieden
         import('./../../API/axiosGeoJSON').then((api) => {
             api.getWerkingsGebieden(searchGeoQuery)
                 .then((data) => {
-                    console.log(data)
+                    // Then get for each werkingsgebied te appropriate regulations and policies
+
+                    // Create array containing all the UUIDs we received from the .getWerkingsGebieden Query
                     const WerkingsgebiedenUUIDS = data.map(
                         (item) => item.properties.UUID
                     )
+
                     this.getBeleidOpBasisVanWerkingsgebieden(
                         WerkingsgebiedenUUIDS
                     )
@@ -393,7 +393,6 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                     vigerendeVerordeningsStructuur: data,
                 },
                 () => {
-                    console.log(this.state)
                     return data
                 }
             )
@@ -402,7 +401,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
         }
     }
 
-    componentDidMount() {
+    getSearchResults() {
         const urlParams = this.props.location.search
         const searchParams = new URLSearchParams(urlParams)
         const searchQuery = searchParams.get('query')
@@ -427,9 +426,23 @@ class RaadpleegZoekResultatenOverzicht extends Component {
         })
     }
 
-    render() {
-        console.log(this.state)
+    componentDidMount() {
+        this.getSearchResults()
+    }
 
+    componentDidUpdate(prevProps) {
+        // If new search query in URL we get the new results
+        if (this.props.location.search !== prevProps.location.search) {
+            this.setState(
+                {
+                    dataLoaded: false,
+                },
+                this.getSearchResults()
+            )
+        }
+    }
+
+    render() {
         return (
             <div className="container flex px-6 pb-8 mx-auto mt-12">
                 <div className="w-1/4">

@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { format } from 'date-fns'
 import { Link, withRouter } from 'react-router-dom'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -131,16 +130,10 @@ class MuteerBeleidsbeslissingenDetail extends Component {
             }
         })
 
-        this.setState(
-            {
-                dimensieHistorie: filteredDimensieHistorie,
-                dimensieHistorieSet: true,
-                // vigerendeDimensieObject: vigerendeDimensieObject,
-            },
-            () => {
-                console.log(this.state)
-            }
-        )
+        this.setState({
+            dimensieHistorie: filteredDimensieHistorie,
+            dimensieHistorieSet: true,
+        })
     }
 
     getAndSetDimensieDataFromApi() {
@@ -227,12 +220,9 @@ class MuteerBeleidsbeslissingenDetail extends Component {
         let dimensieHistorie = this.state.dimensieHistorie
         dimensieHistorie.push(responseObject)
 
-        this.setState(
-            {
-                dimensieHistorie: dimensieHistorie,
-            },
-            () => console.log(this.state)
-        )
+        this.setState({
+            dimensieHistorie: dimensieHistorie,
+        })
     }
 
     componentDidMount() {
@@ -295,7 +285,7 @@ class MuteerBeleidsbeslissingenDetail extends Component {
 
         if (
             this.state.dimensieHistorieSet &&
-            this.state.dimensieHistorie.length > 0 &&
+            this.state.dimensieHistorie.length > 1 &&
             (vigerendeDimensieObjectIndex === null ||
                 (vigerendeDimensieObjectIndex !==
                     this.state.dimensieHistorie.length &&

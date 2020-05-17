@@ -81,7 +81,7 @@ class RaadpleegUniversalObjectDetail extends Component {
     }
 
     initializeComponent() {
-        const ApiEndpointBase = this.props.dataModel.variables.Api_Endpoint
+        const ApiEndpointBase = this.props.dataModel.API_ENDPOINT
         let detail_id = this.props.match.params.id
         let apiEndpoint = `${ApiEndpointBase}/version/${detail_id}`
 
@@ -89,8 +89,6 @@ class RaadpleegUniversalObjectDetail extends Component {
         axios
             .get(apiEndpoint)
             .then((res) => {
-                console.log('RESPONSE:')
-                console.log(res.data)
                 const dataObject = res.data
                 const revisieObjecten = res.data
                 this.setState({
@@ -101,13 +99,10 @@ class RaadpleegUniversalObjectDetail extends Component {
             })
             .catch((error) => {
                 if (error.response !== undefined) {
-                    if (error.response.status === 401) {
-                        localStorage.removeItem('access_token')
-                        this.props.history.push('/login')
-                    } else if (error.response.status === 404) {
+                    if (error.response.status === 404) {
                         this.props.history.push(`/`)
                         toast(
-                            `Deze ${this.props.dataModel.variables.Titel_Enkelvoud.toLowerCase()} kon niet gevonden worden`
+                            `Deze ${this.props.dataModel.TITEL_ENKELVOUD.toLowerCase()} kon niet gevonden worden`
                         )
                     } else if (error.response.status === 422) {
                         this.props.history.push(`/login`)
@@ -163,7 +158,7 @@ class RaadpleegUniversalObjectDetail extends Component {
             werkingsGebiedUUID = dataObject.WerkingsGebieden[0].UUID
         }
 
-        const titelEnkelvoud = this.props.dataModel.variables.Titel_Enkelvoud
+        const titelEnkelvoud = this.props.dataModel.TITEL_ENKELVOUD
 
         let searchQuery = null
 
@@ -172,7 +167,6 @@ class RaadpleegUniversalObjectDetail extends Component {
 
         // !Refactor! -> hash to searchParam
         if (window.location.hash) {
-            console.log(window.location)
             searchQuery = window.location.hash.substr(1)
         }
 
@@ -222,13 +216,12 @@ class RaadpleegUniversalObjectDetail extends Component {
                         )}
                         {/* Artikel Headers */}
                         <span className="block font-serif text-gray-800 text-l">
-                            {this.props.dataModel.variables.Titel_Enkelvoud}
+                            {this.props.dataModel.TITEL_ENKELVOUD}
                         </span>
                         <h1
                             id="raadpleeg-detail-header-one"
                             className="mt-2 text-gray-800 heading-serif-2xl"
                         >
-                            {console.log(dataObject)}
                             {dataObject.Titel}
                         </h1>
                         {/* Meta Content */}
@@ -243,7 +236,7 @@ class RaadpleegUniversalObjectDetail extends Component {
                                               new Date(
                                                   dataObject['Begin_Geldigheid']
                                               ),
-                                              'D MMMM YYYY',
+                                              'd MMMM yyyy',
                                               { locale: nlLocale }
                                           )
                                         : 'Er is nog geen begin geldigheid'}
@@ -280,7 +273,7 @@ class RaadpleegUniversalObjectDetail extends Component {
                                                                               'Begin_Geldigheid'
                                                                           ]
                                                                       ),
-                                                                      'D MMM YYYY',
+                                                                      'd MMM yyyy',
                                                                       {
                                                                           locale: nlLocale,
                                                                       }
@@ -303,7 +296,7 @@ class RaadpleegUniversalObjectDetail extends Component {
                                                                               'Begin_Geldigheid'
                                                                           ]
                                                                       ),
-                                                                      'D MMM YYYY',
+                                                                      'd MMM yyyy',
                                                                       {
                                                                           locale: nlLocale,
                                                                       }
@@ -405,11 +398,6 @@ class RaadpleegUniversalObjectDetail extends Component {
                         </div>
 
                         {/* Inhoud Sectie */}
-                        {titelEnkelvoud === 'Beleidsregel' ? (
-                            <ContainerViewFieldsBeleidsregel
-                                crudObject={dataObject}
-                            />
-                        ) : null}
                         {titelEnkelvoud === 'Beleidsbeslissing' ? (
                             <ContainerViewFieldsBeleidsbeslissing
                                 crudObject={dataObject}
@@ -475,9 +463,6 @@ class RaadpleegUniversalObjectDetail extends Component {
                                     className="overflow-hidden rounded-lg"
                                     id={`full-screen-leaflet-container-${this.state.fullscreenLeafletViewer}`}
                                 >
-                                    {console.log(
-                                        this.state.fullscreenLeafletViewer
-                                    )}
                                     <LeafletTinyViewer
                                         gebiedType="Werkingsgebieden"
                                         gebiedUUID={werkingsGebiedUUID}

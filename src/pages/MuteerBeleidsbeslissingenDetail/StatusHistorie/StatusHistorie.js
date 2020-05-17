@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { format } from 'date-fns'
 import { Link } from 'react-router-dom'
 
 import cloneDeep from 'lodash.clonedeep'
 
 import ContainerDetail from '../ContainerDetail'
+
+const secondaryColor = '#CC9900'
 
 // Link naar detail pagina's van de revisies
 function makeURLForRevisieObject(overzichtSlug, objectID, objectUUID, hash) {
@@ -18,7 +19,7 @@ function makeURLForRevisieObject(overzichtSlug, objectID, objectUUID, hash) {
 
 function VertakkingsItemRightOnLine() {
     return (
-        <li className="relative vertakkings-item-right-on-line">
+        <li className="relative text-secondary vertakkings-item-right-on-line">
             <svg
                 className="absolute svg-branch"
                 width="34"
@@ -30,7 +31,7 @@ function VertakkingsItemRightOnLine() {
             >
                 <path
                     d="M37 0C37 21 2 18 2 39.5"
-                    stroke="#d69e2e"
+                    stroke={secondaryColor}
                     strokeWidth="2"
                 />
             </svg>
@@ -54,7 +55,7 @@ function VertakkingsItemLeftOnLine({ showDot }) {
             >
                 <path
                     d="M2 0C2 21.2658 37 18.2278 37 40"
-                    stroke="#d69e2e"
+                    stroke={secondaryColor}
                     strokeWidth="2"
                 />
             </svg>
@@ -89,7 +90,6 @@ function StatusHistorie({
         dimensieHistorie.length >= 1 &&
         dimensieHistorie[0].Status !== 'Vigerend'
     ) {
-        console.log('1!!!')
         isACheckedOutObject = true
         checkedOutObject = dimensieHistorie[0]
         dimensieHistorie = dimensieHistorie.slice(1)
@@ -97,16 +97,8 @@ function StatusHistorie({
         dimensieHistorie.length === 1 &&
         dimensieHistorie[0].Status === 'Vigerend'
     ) {
-        console.log('2!!!')
         dimensieHistorie = dimensieHistorie.slice(1)
-    } else {
-        console.log('ELSE!')
-        console.log(dimensieHistorie.length)
-        console.log(dimensieHistorie[0].Status)
     }
-
-    console.log(isACheckedOutObject)
-    console.log(checkedOutObject)
 
     return (
         <div>
@@ -203,8 +195,13 @@ function StatusHistorie({
                                     }`}
                                     key={dimensieObject.UUID}
                                 >
-                                    <div className="absolute top-0 inline-block w-full h-full border-l-2 border-yellow-600 status-yellow-border"></div>
-                                    <div className="absolute left-0 inline-block bg-yellow-600 list-item-bolletje bolletje-left-min-10" />
+                                    <div
+                                        style={{
+                                            left: '-4px',
+                                        }}
+                                        className="absolute top-0 inline-block w-full h-full border-l-2 border-secondary"
+                                    ></div>
+                                    <div className="absolute left-0 inline-block bg-secondary list-item-bolletje bolletje-left-min-10" />
 
                                     <div className="ml-8">
                                         <StatusBadge
@@ -219,186 +216,6 @@ function StatusHistorie({
             </ul>
         </div>
     )
-
-    // return (
-    //     <div>
-    //         {/* Blauw koppelstuk tussen vigerend en gele */}
-    //         {vigerendeDimensieObject && dimensieHistorie.length >= 2 ? (
-    //             <div className="flex items-center justify-end w-8 h-6 pt-5 mr-2 border-r-2 border-indigo-900 " />
-    //         ) : null}
-
-    //         {dimensieHistorie[0] && vigerendeDimensieObjectIndex !== 0 ? (
-    //             <ContainerDetail
-    //                 patchStatus={patchStatus}
-    //                 dataObject={dimensieHistorie[0]}
-    //                 pageType={pageType}
-    //                 overzichtSlug={overzichtSlug}
-    //                 titelEnkelvoud={titelEnkelvoud}
-    //                 dataReceived={dataReceived}
-    //                 noMarginBottom={true}
-    //                 dimensieHistorie={dimensieHistorie}
-    //             />
-    //         ) : null}
-
-    //         <ul
-    //             className={`relative ml-8 border-l-2 ${
-    //                 dimensieHistorie[0] && vigerendeDimensieObject
-    //                     ? 'border-indigo-900'
-    //                     : 'border-transparent'
-    //             }`}
-    //         >
-    //             {dimensieHistorie.map((dimensieObject, index) => {
-    //                 {
-    //                     /* Als de index 0 is willen we niks weergeven omdat we dat object in de containerDetail weergeven */
-    //                 }
-    //                 {
-    //                     /* if (index === 0 && vigerendeDimensieObjectIndex !== index) {
-    //                     return (
-    //                         <VertakkingsItemRightOnLine hideBolletje={true} />
-    //                     )
-    //                 } */
-    //                 }
-
-    //                 if (vigerendeDimensieObjectIndex === index || index === 0) {
-    //                     return null
-    //                 }
-
-    //                 if (
-    //                     (dimensieObject.Status === 'Vigerend' ||
-    //                         dimensieObject.Status === 'Gepubliceerd') &&
-    //                     dimensieHistorie.length > 0
-    //                 ) {
-    //                     return null
-    //                 } else if (dimensieObject.Status === 'Ontwerp GS Concept') {
-    //                     {
-    //                         /* 'Ontwerp GS Concept' is de eerste status, dus hierbij willen we een vertakkingsItemRight component plaatsen*/
-    //                     }
-
-    //                     {
-    //                         /* !REFACTOR! Hier moet in de toekomst een check bij om te kijken of 'Ontwerp GS Concept' na een 'vigerende' beleidsbeslissing komt. Er kan namelijk vanaf status 'Definitief ontwerp PS' ook nog naar 'Ontwerp GS Concept' gegaan worden. */
-    //                     }
-
-    //                     return (
-    //                         <React.Fragment key={dimensieObject.UUID}>
-    //                             <li
-    //                                 className={`relative flex items-center ml-8 relative ${
-    //                                     index === 1 ? 'pt-6 pb-2' : 'py-2'
-    //                                 }`}
-    //                                 key={dimensieObject.UUID}
-    //                             >
-    //                                 <div className="absolute top-0 inline-block w-full h-full border-l-2 border-yellow-600 status-yellow-border"></div>
-    //                                 <div className="absolute left-0 inline-block bg-yellow-600 list-item-bolletje bolletje-left-min-10" />
-
-    //                                 <div className="ml-8">
-    //                                     <div className="inline-block px-2 py-1 text-xs text-gray-700 border border-gray-700 rounded">
-    //                                         {dimensieObject.Status}
-    //                                     </div>
-    //                                 </div>
-    //                             </li>
-    //                             <VertakkingsItemRight />
-    //                         </React.Fragment>
-    //                     )
-    //                 } else if (dimensieHistorie.length !== 1) {
-    //                     {
-    //                         /* Als de status van een Vastgesteld naar vigerend gaat */
-    //                     }
-    //                     if (
-    //                         dimensieHistorie[index - 1] &&
-    //                         dimensieHistorie[index].Status === 'Vastgesteld' &&
-    //                         dimensieHistorie[index - 1].Status === 'Vigerend'
-    //                     ) {
-    //                         return (
-    //                             <React.Fragment key={dimensieObject.UUID}>
-    //                                 <VertakkingsItemLeftOnLine />
-    //                                 <li
-    //                                     className={`relative flex items-center ml-8 relative ${
-    //                                         index === 1 ? 'pt-6 pb-2' : 'py-2'
-    //                                     }`}
-    //                                     key={dimensieObject.UUID}
-    //                                 >
-    //                                     <div className="absolute top-0 inline-block w-full h-full border-l-2 border-yellow-600 status-yellow-border"></div>
-    //                                     <div className="absolute left-0 inline-block bg-yellow-600 list-item-bolletje bolletje-left-min-10" />
-
-    //                                     <div className="ml-8">
-    //                                         <div className="inline-block px-2 py-1 text-xs text-gray-700 border border-gray-700 rounded">
-    //                                             {dimensieObject.Status}
-    //                                         </div>
-    //                                     </div>
-    //                                 </li>
-    //                             </React.Fragment>
-    //                         )
-    //                     } else if (
-    //                         dimensieHistorie[index - 1] &&
-    //                         dimensieHistorie[index].Status ===
-    //                             'Ontwerp GS Concept' &&
-    //                         dimensieHistorie[index - 1].Status === 'Vigerend'
-    //                     ) {
-    //                         return (
-    //                             <React.Fragment key={dimensieObject.UUID}>
-    //                                 <VertakkingsItemLeftOnLine />
-    //                                 <li
-    //                                     className={`relative flex items-center ml-8 relative ${
-    //                                         index === 1 ? 'pt-6 pb-2' : 'py-2'
-    //                                     }`}
-    //                                     key={dimensieObject.UUID}
-    //                                 >
-    //                                     <div className="absolute top-0 inline-block w-full h-full border-l-2 border-yellow-600 status-yellow-border"></div>
-    //                                     <div className="absolute left-0 inline-block bg-yellow-600 list-item-bolletje bolletje-left-min-10" />
-
-    //                                     <div className="ml-8">
-    //                                         <div className="inline-block px-2 py-1 text-xs text-gray-700 border border-gray-700 rounded">
-    //                                             {dimensieObject.Status}
-    //                                         </div>
-    //                                     </div>
-    //                                 </li>
-    //                             </React.Fragment>
-    //                         )
-    //                     } else {
-    //                         {
-    //                             /* Dit is het normale list item wat gereturned wordt */
-    //                         }
-    //                         return (
-    //                             <li
-    //                                 className={`relative flex items-center ml-8 relative ${
-    //                                     index === 1 ? 'pt-6 pb-2' : 'py-2'
-    //                                 }`}
-    //                                 key={dimensieObject.UUID}
-    //                             >
-    //                                 <div className="absolute top-0 inline-block w-full h-full border-l-2 border-yellow-600 status-yellow-border"></div>
-    //                                 <div className="absolute left-0 inline-block bg-yellow-600 list-item-bolletje bolletje-left-min-10" />
-
-    //                                 <div className="ml-8">
-    //                                     <div className="inline-block px-2 py-1 text-xs text-gray-700 border border-gray-700 rounded">
-    //                                         {dimensieObject.Status}
-    //                                     </div>
-    //                                 </div>
-    //                             </li>
-    //                         )
-    //                     }
-    //                 }
-    //             })}
-
-    //             {dimensieHistorie.length === 0 ||
-    //             dimensieHistorie.length === 1 ? (
-    //                 <li className="relative flex items-center pt-8 pb-2 border-l border-transparent">
-    //                     <div className="absolute left-0 inline-block bg-indigo-900 list-item-bolletje bolletje-left-min-10-bottom" />
-    //                 </li>
-    //             ) : null}
-
-    //             {dimensieHistorie[0] && vigerendeDimensieObjectIndex !== 0 ? (
-    //                 vigerendeDimensieObject ? null : (
-    //                     <li
-    //                         className={`relative flex items-center ml-8 relative pt-8 pb-2`}
-    //                         key={dimensieHistorie[0].UUID}
-    //                     >
-    //                         <div className="absolute top-0 inline-block w-full h-full border-l-2 border-yellow-600 status-yellow-border"></div>
-    //                         <div className="absolute left-0 inline-block bg-yellow-600 list-item-bolletje bolletje-left-min-10-bottom" />
-    //                     </li>
-    //                 )
-    //             ) : null}
-    //         </ul>
-    //     </div>
-    // )
 }
 
 StatusHistorie.propTypes = {}

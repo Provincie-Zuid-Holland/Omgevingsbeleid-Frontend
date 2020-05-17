@@ -34,36 +34,33 @@ class ViewFieldIngelogdExtraInfo extends Component {
             'Opdrachtgever',
         ]
         const propertiesWithValue = propArray.filter(
-            item => this.props.crudObject[item] !== null
+            (item) => this.props.crudObject[item] !== null
         )
 
         this.setState({
             propertiesWithValue: propertiesWithValue,
         })
 
-        let axiosArray = propertiesWithValue.map(item =>
+        let axiosArray = propertiesWithValue.map((item) =>
             axios
                 .get(`/gebruikers/${this.props.crudObject[item]}`)
-                .then(res => {
+                .then((res) => {
                     const dataObject = res.data
                     this.setState({
                         [item]: dataObject,
                     })
                 })
-                .catch(error => {
+                .catch((error) => {
                     console.log(error)
                 })
         )
         Promise.all(axiosArray)
             .then(() =>
-                this.setState(
-                    {
-                        dataLoaded: true,
-                    },
-                    () => console.log(this.state)
-                )
+                this.setState({
+                    dataLoaded: true,
+                })
             )
-            .catch(err => console.log(err))
+            .catch((err) => console.log(err))
     }
 
     maakAfkortingVanNaam(gebruikersNaam) {
@@ -90,7 +87,7 @@ class ViewFieldIngelogdExtraInfo extends Component {
 
     render() {
         return (
-            <div className="bg-gray-100 mb-4 px-3 py-3 border-b border-t border-gray-200 ">
+            <div className="px-3 py-3 mb-4 bg-gray-100 border-t border-b border-gray-200 ">
                 <span className="text-sm text-gray-600">
                     Deze informatie zien alleen gebruikers die zijn ingelogd.
                 </span>
@@ -104,12 +101,12 @@ class ViewFieldIngelogdExtraInfo extends Component {
                                             index === 0 ? '' : '-ml-2'
                                         }`}
                                     >
-                                        <div className="w-8 h-8 border border-white bg-orange-500 flex justify-center items-center rounded-full circle-gebruiker font-lg mr-1 text-white text-xs">
+                                        <div className="flex items-center justify-center w-8 h-8 mr-1 text-xs text-white bg-yellow-400 border border-white rounded-full circle-gebruiker font-lg">
                                             {this.maakAfkortingVanNaam(
                                                 this.state[item].Gebruikersnaam
                                             )}
 
-                                            <div className="hidden absolute left-0 top-0 px-4 py-3 popup-gebruikersinfo mt-10 inline-block rounded whitespace-no-wrap z-10">
+                                            <div className="absolute top-0 left-0 z-10 hidden inline-block px-4 py-3 mt-10 whitespace-no-wrap rounded popup-gebruikersinfo">
                                                 <div className="block mb-1 text-xs">
                                                     {this.getPersonenRol(item)}
                                                 </div>
@@ -131,11 +128,11 @@ class ViewFieldIngelogdExtraInfo extends Component {
                             <a
                                 href={`//${this.props.crudObject['Weblink']}`}
                                 target="_blank"
-                                className="text-gray-600 text-sm font-semibold hover:underline"
+                                className="text-sm font-semibold text-gray-600 hover:underline"
                                 rel="noopener noreferrer"
                             >
                                 <FontAwesomeIcon
-                                    className="text-gray-600 mr-2"
+                                    className="mr-2 text-gray-600"
                                     icon={faLink}
                                 />
                                 IDMS-koppeling
@@ -144,7 +141,7 @@ class ViewFieldIngelogdExtraInfo extends Component {
                     </div>
                     <Link
                         to={`/muteer/beleidsbeslissingen/${this.props.crudObject.ID}`}
-                        className="m-color m-base-border-color border rounded px-3 py-2 cursor-pointer font-semibold text-xs tracking-wide"
+                        className="px-3 py-2 text-xs font-semibold tracking-wide border rounded cursor-pointer m-color m-base-border-color"
                     >
                         Openen in beheeromgeving
                     </Link>

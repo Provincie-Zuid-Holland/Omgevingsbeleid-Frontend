@@ -64,8 +64,9 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
             })
         }
 
-        const UserUUID = JSON.parse(localStorage.getItem('__OB_identifier__'))
-            .UUID
+        const UserUUID = JSON.parse(
+            localStorage.getItem(process.env.REACT_APP_KEY_IDENTIFIER)
+        ).UUID
         Promise.all([
             axios.get(
                 `/beleidsbeslissingen?Created_By=${UserUUID}&Eigenaar_1=${UserUUID}&Eigenaar_2=${UserUUID}&Opdrachtgever=${UserUUID}`
@@ -323,7 +324,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                                         </div>
                                         <div className="w-1/12 text-center">
                                             <FontAwesomeIcon
-                                                title="Een onbevstigde relatie, is een relatie die door de andere partij nog geaccepteerd moet worden"
+                                                title="Een onbevestigde relatie, is een relatie die door de andere partij nog geaccepteerd moet worden"
                                                 className="text-lg text-gray-800"
                                                 icon={faHourglass}
                                             />

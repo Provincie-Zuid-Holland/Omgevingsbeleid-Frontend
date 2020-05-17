@@ -19,34 +19,10 @@ class MuteerMeldingen extends Component {
     }
 
     componentDidMount() {
-        this.setState(
-            {
-                objecten: [],
-                dataReceived: true,
-            },
-            () => {
-                // // Connect With the API
-                // axios
-                //     .get('/api_endpoint_voor_beleidsbeslissingen')
-                //     .then(res => {
-                //         const objecten = res.data
-                //         this.setState({
-                //             objecten: objecten,
-                //             dataReceived: true,
-                //         })
-                //     })
-                //     .catch(error => {
-                //         if (error.response !== undefined) {
-                //             if (error.response.status === 401) {
-                //                 localStorage.removeItem('access_token')
-                //                 this.props.history.push('/login')
-                //             }
-                //         } else {
-                //             console.log(error)
-                //         }
-                //     })
-            }
-        )
+        this.setState({
+            objecten: [],
+            dataReceived: true,
+        })
     }
 
     render() {
@@ -60,9 +36,9 @@ class MuteerMeldingen extends Component {
                 <SidebarMain />
 
                 {/* Dashboard */}
-                <div className="w-3/4 rounded inline-block flex-grow pl-8 relative">
+                <div className="relative flex-grow inline-block w-3/4 pl-8 rounded">
                     <section>
-                        <h2 className="heading-serif text-gray-800 mb-4 mt-8">
+                        <h2 className="mt-8 mb-4 text-gray-800 heading-serif">
                             Mijn Meldingen
                         </h2>
 

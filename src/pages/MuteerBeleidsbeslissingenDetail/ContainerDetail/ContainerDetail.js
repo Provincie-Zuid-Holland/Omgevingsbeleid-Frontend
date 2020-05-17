@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import { format } from 'date-fns'
-import isBefore from 'date-fns/is_before'
+import isBefore from 'date-fns/isBefore'
 import nlLocale from 'date-fns/locale/nl'
 import { faCalendarAlt } from '@fortawesome/free-regular-svg-icons'
 import {
@@ -73,10 +73,10 @@ class ContainerDetail extends Component {
                     ) : (
                         <div className="absolute bottom-0 left-0 h-full pt-5 text-center">
                             <div className="absolute relative top-0 right-0">
-                                <div className="absolute right-0 z-10 inline-block bg-yellow-600 status-bolletje" />
-                                <div className="absolute top-0 border-2 border-yellow-600 rounded-full pulserende-ring" />
+                                <div className="absolute right-0 z-10 inline-block bg-secondary status-bolletje" />
+                                <div className="absolute top-0 border-2 rounded-full border-secondary pulserende-ring" />
                             </div>
-                            <div className="relative inline-block w-16 h-full border-r-2 border-yellow-400 ml-min-2px" />
+                            <div className="relative inline-block w-16 h-full border-r-2 opacity-25 border-secondary ml-min-2px" />
                         </div>
                     )
                 ) : null}
@@ -167,7 +167,7 @@ class ContainerDetail extends Component {
                                                               'Begin_Geldigheid'
                                                           ]
                                                       ),
-                                                      'D MMMM YYYY',
+                                                      'd MMMM yyyy',
                                                       { locale: nlLocale }
                                                   )
                                                 : 'Er is nog geen begin geldigheid'}
@@ -216,7 +216,6 @@ class ContainerDetail extends Component {
                                     rel="noopener noreferrer"
                                     className="flex items-center justify-between w-full py-2 cursor-pointer"
                                 >
-                                    {console.log(dataObject)}
                                     <div>
                                         <div>
                                             <span className="block text-sm font-bold text-gray-700">

@@ -18,8 +18,6 @@ class PopUpDetailDropdown extends Component {
             !this.innerContainer.current.contains(e.target) &&
             this.props.openState === true
         ) {
-            console.log('clicked outside...')
-            console.log(e.target)
             this.props.toggleDropdown()
         }
     }

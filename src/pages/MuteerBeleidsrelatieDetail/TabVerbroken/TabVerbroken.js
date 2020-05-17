@@ -11,7 +11,7 @@ import PopUpAnimatedContainer from './../../../components/PopUpAnimatedContainer
 function TabVerbroken(props) {
     return (
         <ul>
-            <li className="flex border-b border-gray-200 text-sm font-semibold text-gray-800 p-2">
+            <li className="flex p-2 text-sm font-semibold text-gray-800 border-b border-gray-200">
                 <div className="w-5/12">Beleidsbeslissingen</div>
                 <div className="w-4/12">Datum</div>
                 <div className="w-1/12">Status</div>
@@ -19,12 +19,11 @@ function TabVerbroken(props) {
             </li>
             {props.naarLoaded && props.vanLoaded ? (
                 props.verbrokenArray.length > 0 ? (
-                    props.verbrokenArray.map(relatie => {
-                        console.log(relatie)
+                    props.verbrokenArray.map((relatie) => {
                         return (
                             <li
                                 key={relatie.UUID}
-                                className="flex border-b border-gray-200 text-sm text-gray-800 py-2 px-2 relative items-center hover:bg-gray-100"
+                                className="relative flex items-center px-2 py-2 text-sm text-gray-800 border-b border-gray-200 hover:bg-gray-100"
                             >
                                 <div className="w-5/12 pr-4">
                                     {relatie.beleidsbeslissing &&
@@ -38,7 +37,7 @@ function TabVerbroken(props) {
                                     {relatie.Datum_Akkoord !== null
                                         ? format(
                                               new Date(relatie.Datum_Akkoord),
-                                              'D MMMM YYYY, HH:mm uur'
+                                              'd MMMM yyyy, HH:mm uur'
                                           )
                                         : null}
                                 </div>
@@ -72,7 +71,7 @@ function TabVerbroken(props) {
                                                         null
                                                     )
                                                 }
-                                                className="cursor-pointer absolute right-0 top-0 text-gray-600 px-3 py-2"
+                                                className="absolute top-0 right-0 px-3 py-2 text-gray-600 cursor-pointer"
                                                 id={`sluit-popup-beleidsrelatie-motivering`}
                                             >
                                                 <FontAwesomeIcon
@@ -92,7 +91,7 @@ function TabVerbroken(props) {
                         )
                     })
                 ) : (
-                    <span className="font-italic text-sm px-2 py-2 inline-block text-gray-600">
+                    <span className="inline-block px-2 py-2 text-sm text-gray-600 font-italic">
                         Er zijn nog geen verbroken beleidsrelaties
                     </span>
                 )

@@ -113,7 +113,7 @@ function ListItem({
     const itemActive = activePath[arrayIndex] === listIndex
 
     return (
-        <li className="mt-2 relative">
+        <li className="relative mt-2">
             <WrapInLinkOrSpan
                 isArtikel={item.Type === 'Artikel'}
                 url={`/detail/verordeningen/1/${item.UUID}?hoofdstuk=${hoofdstukIndex}&nest_1=${nest_1}&nest_2=${nest_2}&nest_3=${nest_3}`}
@@ -147,13 +147,11 @@ function VerordeningenDetailSidebar({ dataLoaded, lineage }) {
         getQueryStringValues(location.search)
     )
 
-    console.log(activePath)
-
     return (
-        <div className="w-full inline-block flex-grow">
+        <div className="flex-grow inline-block w-full">
             {dataLoaded ? (
                 <div className="relative">
-                    <h2 className="font-serif block text-gray-800 mt-4">
+                    <h2 className="block mt-4 font-serif text-gray-800">
                         Inhoudsopgave verordening
                     </h2>
                     <ul className="relative pl-5 pr-5">
@@ -172,7 +170,7 @@ function VerordeningenDetailSidebar({ dataLoaded, lineage }) {
                                     key={hoofdstuk.UUID}
                                 >
                                     {hoofdstuk.Children.length > 0 ? (
-                                        <ul className="pl-5 relative">
+                                        <ul className="relative pl-5">
                                             {hoofdstuk.Children.map(
                                                 (child, nest_1) => (
                                                     <ListItem
@@ -195,7 +193,7 @@ function VerordeningenDetailSidebar({ dataLoaded, lineage }) {
                                                             0 &&
                                                         child.Type !==
                                                             'Artikel' ? (
-                                                            <ul className="pl-5 relative">
+                                                            <ul className="relative pl-5">
                                                                 {child.Children.map(
                                                                     (
                                                                         childOfChild,
@@ -239,7 +237,7 @@ function VerordeningenDetailSidebar({ dataLoaded, lineage }) {
                                                                                 0 &&
                                                                             childOfChild.Type !==
                                                                                 'Artikel' ? (
-                                                                                <ul className="pl-5 relative">
+                                                                                <ul className="relative pl-5">
                                                                                     {childOfChild.Children.map(
                                                                                         (
                                                                                             childOfChildofChild,

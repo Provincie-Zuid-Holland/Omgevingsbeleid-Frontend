@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { format } from 'date-fns'
 import { withRouter } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
@@ -74,7 +73,7 @@ class MuteerBeleidsrelatieDetail extends Component {
     }
 
     getBeleidsbeslissingTitel(UUID) {
-        axios.get(`/beleidsbeslissingen/version/${UUID}`).then(res => {
+        axios.get(`/beleidsbeslissingen/version/${UUID}`).then((res) => {
             this.setState({
                 beleidsbeslissingTitel: res.data.Titel,
                 titelLoaded: true,
@@ -86,7 +85,7 @@ class MuteerBeleidsrelatieDetail extends Component {
         // Get alle beleidsrelaties die een Van_Beleidsbeslissing relatie hebben met de beleidsbeslissing die bekeken wordt
         axios
             .get(`/beleidsrelaties?Van_Beleidsbeslissing=${UUID}`)
-            .then(res => {
+            .then((res) => {
                 let beleidsrelaties = res.data
 
                 // Als er geen beleidsrelaties zijn => return
@@ -102,17 +101,17 @@ class MuteerBeleidsrelatieDetail extends Component {
                 }
 
                 // Als er beleidsrelaties zijn mappen we over de array. De return waarde van de map is een array met axios promises. Voor elke relatie binnen de map functie halen we de gekoppelde beleidsrelatie op. Als de data hiervan binnen is is koppelen we deze aan het relatie object.
-                const relatieGETRequests = beleidsrelaties.map(relatie => {
+                const relatieGETRequests = beleidsrelaties.map((relatie) => {
                     return axios
                         .get(
                             `/beleidsbeslissingen/version/${relatie.Naar_Beleidsbeslissing}`
                         )
-                        .then(res => (relatie.beleidsbeslissing = res.data))
+                        .then((res) => (relatie.beleidsbeslissing = res.data))
                 })
 
                 // Zodra alle promises zijn voldaan kunnen we de van_beleidsbeslissingen opslaan in de state
                 const that = this
-                Promise.all(relatieGETRequests).then(function(values) {
+                Promise.all(relatieGETRequests).then(function (values) {
                     that.setState({
                         Van_Beleidsbeslissingen: beleidsrelaties,
                         vanLoaded: true,
@@ -125,7 +124,7 @@ class MuteerBeleidsrelatieDetail extends Component {
         // Get alle beleidsrelaties die een Naar_Beleidsbeslissing relatie hebben met de beleidsbeslissing die bekeken wordt
         axios
             .get(`/beleidsrelaties?Naar_Beleidsbeslissing=${UUID}`)
-            .then(res => {
+            .then((res) => {
                 let beleidsrelaties = res.data
 
                 // Als er geen beleidsrelaties zijn => return
@@ -141,17 +140,17 @@ class MuteerBeleidsrelatieDetail extends Component {
                 }
 
                 // Als er beleidsrelaties zijn mappen we over de array. De return waarde van de map is een array met axios promises. Voor elke relatie binnen de map functie halen we de gekoppelde beleidsrelatie op. Als de data hiervan binnen is is koppelen we deze aan het relatie object.
-                const relatieGETRequests = beleidsrelaties.map(relatie => {
+                const relatieGETRequests = beleidsrelaties.map((relatie) => {
                     return axios
                         .get(
                             `/beleidsbeslissingen/version/${relatie.Van_Beleidsbeslissing}`
                         )
-                        .then(res => (relatie.beleidsbeslissing = res.data))
+                        .then((res) => (relatie.beleidsbeslissing = res.data))
                 })
 
                 // Zodra alle promises zijn voldaan kunnen we de van_beleidsbeslissingen opslaan in de state
                 const that = this
-                Promise.all(relatieGETRequests).then(function(values) {
+                Promise.all(relatieGETRequests).then(function (values) {
                     that.setState({
                         Naar_Beleidsbeslissingen: beleidsrelaties,
                         naarLoaded: true,
@@ -187,7 +186,7 @@ class MuteerBeleidsrelatieDetail extends Component {
                 `/beleidsrelaties/${beleidsrelatieObject.ID}`,
                 patchedBeleidsrelatieObject
             )
-            .then(res => {
+            .then((res) => {
                 toast('Beleidsrelatie geaccepteerd')
                 this.props.updateBeleidsrelaties(
                     beleidsrelatieObject.UUID,
@@ -197,11 +196,11 @@ class MuteerBeleidsrelatieDetail extends Component {
                 // Wijzigen in lokale state
                 if (
                     this.state.Van_Beleidsbeslissingen.find(
-                        x => x.UUID === beleidsrelatieObject.UUID
+                        (x) => x.UUID === beleidsrelatieObject.UUID
                     )
                 ) {
                     const itemIndex = this.state.Van_Beleidsbeslissingen.findIndex(
-                        x => x.UUID === beleidsrelatieObject.UUID
+                        (x) => x.UUID === beleidsrelatieObject.UUID
                     )
                     let newStateObject = this.state.Van_Beleidsbeslissingen
                     newStateObject[itemIndex].Status = 'Akkoord'
@@ -212,11 +211,11 @@ class MuteerBeleidsrelatieDetail extends Component {
                     })
                 } else if (
                     this.state.Naar_Beleidsbeslissingen.find(
-                        x => x.UUID === beleidsrelatieObject.UUID
+                        (x) => x.UUID === beleidsrelatieObject.UUID
                     )
                 ) {
                     const itemIndex = this.state.Naar_Beleidsbeslissingen.findIndex(
-                        x => x.UUID === beleidsrelatieObject.UUID
+                        (x) => x.UUID === beleidsrelatieObject.UUID
                     )
                     let newStateObject = this.state.Naar_Beleidsbeslissingen
                     newStateObject[itemIndex].Status = 'Akkoord'
@@ -227,7 +226,7 @@ class MuteerBeleidsrelatieDetail extends Component {
                     })
                 }
             })
-            .catch(err => console.log(err))
+            .catch((err) => console.log(err))
     }
 
     relatieAfwijzen(beleidsrelatieObject) {
@@ -242,14 +241,14 @@ class MuteerBeleidsrelatieDetail extends Component {
                 `/beleidsrelaties/${beleidsrelatieObject.ID}`,
                 patchedBeleidsrelatieObject
             )
-            .then(res => {
+            .then((res) => {
                 toast('Beleidsrelatie afgewezen')
                 this.props.updateBeleidsrelaties(
                     beleidsrelatieObject.UUID,
                     'NietAkkoord'
                 )
             })
-            .catch(err => console.log(err))
+            .catch((err) => console.log(err))
     }
 
     relatieVerbreken(beleidsrelatieObject) {
@@ -264,14 +263,14 @@ class MuteerBeleidsrelatieDetail extends Component {
                 `/beleidsrelaties/${beleidsrelatieObject.ID}`,
                 patchedBeleidsrelatieObject
             )
-            .then(res => {
+            .then((res) => {
                 toast('Beleidsrelatie verbroken')
                 this.props.updateBeleidsrelaties(
                     beleidsrelatieObject.UUID,
                     'Verbroken'
                 )
             })
-            .catch(err => console.log(err))
+            .catch((err) => console.log(err))
     }
 
     patchRelatieStatus(beleidsrelatieObject, nieuweStatus, toastNotificatie) {
@@ -286,14 +285,14 @@ class MuteerBeleidsrelatieDetail extends Component {
                 `/beleidsrelaties/${beleidsrelatieObject.ID}`,
                 patchedBeleidsrelatieObject
             )
-            .then(res => {
+            .then((res) => {
                 toast(toastNotificatie)
                 this.props.updateBeleidsrelaties(
                     beleidsrelatieObject.UUID,
                     nieuweStatus
                 )
             })
-            .catch(err => console.log(err))
+            .catch((err) => console.log(err))
     }
 
     toggleMotiveringPopup(UUID) {
@@ -320,7 +319,7 @@ class MuteerBeleidsrelatieDetail extends Component {
         let Naar_Beleidsbeslissingen = this.state.Naar_Beleidsbeslissingen
 
         const vanIndex = this.state.Van_Beleidsbeslissingen.findIndex(
-            x => x.UUID === uuid
+            (x) => x.UUID === uuid
         )
         if (vanIndex !== -1) {
             Van_Beleidsbeslissingen[vanIndex].Status = nieuweStatus
@@ -328,7 +327,7 @@ class MuteerBeleidsrelatieDetail extends Component {
         }
 
         const naarIndex = this.state.Naar_Beleidsbeslissingen.findIndex(
-            x => x.UUID === uuid
+            (x) => x.UUID === uuid
         )
         if (naarIndex !== -1) {
             Naar_Beleidsbeslissingen[naarIndex].Status = nieuweStatus
@@ -348,7 +347,7 @@ class MuteerBeleidsrelatieDetail extends Component {
             this.state.Naar_Beleidsbeslissingen
         )
         const relatieArray = alleBeleidsrelaties.filter(
-            beleidsrelatie =>
+            (beleidsrelatie) =>
                 ((beleidsrelatie.Van_Beleidsbeslissing === ParamUUID ||
                     beleidsrelatie.Naar_Beleidsbeslissing === ParamUUID) &&
                     beleidsrelatie.Status === 'Akkoord') ||
@@ -357,7 +356,7 @@ class MuteerBeleidsrelatieDetail extends Component {
         )
 
         const afgewezenArray = alleBeleidsrelaties.filter(
-            beleidsrelatie =>
+            (beleidsrelatie) =>
                 (beleidsrelatie.Van_Beleidsbeslissing === ParamUUID &&
                     beleidsrelatie.Status === 'NietAkkoord') ||
                 (beleidsrelatie.Naar_Beleidsbeslissing === ParamUUID &&
@@ -365,7 +364,7 @@ class MuteerBeleidsrelatieDetail extends Component {
         )
 
         const verbrokenArray = alleBeleidsrelaties.filter(
-            beleidsrelatie =>
+            (beleidsrelatie) =>
                 (beleidsrelatie.Van_Beleidsbeslissing === ParamUUID &&
                     beleidsrelatie.Status === 'Verbroken') ||
                 (beleidsrelatie.Naar_Beleidsbeslissing === ParamUUID &&
@@ -373,7 +372,7 @@ class MuteerBeleidsrelatieDetail extends Component {
         )
 
         const verzoekArray = alleBeleidsrelaties.filter(
-            beleidsrelatie =>
+            (beleidsrelatie) =>
                 beleidsrelatie.Naar_Beleidsbeslissing === ParamUUID &&
                 beleidsrelatie.Status === 'Open'
         )

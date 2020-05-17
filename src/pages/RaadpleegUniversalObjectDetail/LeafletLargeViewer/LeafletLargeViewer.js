@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import Leaflet from 'leaflet'
 import { Map, TileLayer } from 'react-leaflet'
-import './../../../../node_modules/leaflet/dist/leaflet.css'
+// import './../../../../node_modules/leaflet/dist/leaflet.css'
 import Proj from 'proj4leaflet'
 import LoaderLeafletLargeViewer from './../../../components/LoaderLeafletLargeViewer'
 
@@ -27,7 +27,10 @@ const RDCrs = new Proj.CRS('EPSG:28992', RDProj4, {
         0.21,
     ],
     zoom: 10,
-    bounds: Leaflet.bounds([[-285401.92, 22598.08], [595401.92, 903401.92]]),
+    bounds: Leaflet.bounds([
+        [-285401.92, 22598.08],
+        [595401.92, 903401.92],
+    ]),
 })
 
 const DEFAULT_VIEWPORT = {
@@ -50,14 +53,14 @@ export default class LeafletLargeViewer extends Component {
         this.setState({ viewport: DEFAULT_VIEWPORT })
     }
 
-    onViewportChanged = viewport => {
+    onViewportChanged = (viewport) => {
         this.setState({ viewport })
     }
 
     componentDidMount() {
-        import('./../../../API/axiosGeoJSON').then(api => {
+        import('./../../../API/axiosGeoJSON').then((api) => {
             api.getGeoJsonData(this.props.gebiedType, this.props.gebiedUUID)
-                .then(data => {
+                .then((data) => {
                     this.setState(
                         {
                             dataReceived: true,
@@ -66,7 +69,7 @@ export default class LeafletLargeViewer extends Component {
                             const leafletMap = this.leafletMap.current
 
                             Leaflet.Proj.geoJson(data, {
-                                style: feature => {
+                                style: (feature) => {
                                     return {
                                         stroke: true,
                                         fillColor: 'fffff',
@@ -77,7 +80,7 @@ export default class LeafletLargeViewer extends Component {
                         }
                     )
                 })
-                .catch(function(thrown) {
+                .catch(function (thrown) {
                     if (axios.isCancel(thrown)) {
                         console.log('Request canceled -', thrown.message)
                     } else {
@@ -88,7 +91,7 @@ export default class LeafletLargeViewer extends Component {
     }
 
     componentWillUnmount() {
-        import('./../../../API/axiosGeoJSON').then(api => {
+        import('./../../../API/axiosGeoJSON').then((api) => {
             api.cancelRequest()
         })
     }

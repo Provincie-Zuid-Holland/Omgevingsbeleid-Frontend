@@ -11,7 +11,7 @@ import PopUpAnimatedContainer from './../../../components/PopUpAnimatedContainer
 function TabVerzoeken(props) {
     return (
         <ul>
-            <li className="flex border-b border-gray-200 text-sm font-semibold text-gray-800 p-2">
+            <li className="flex p-2 text-sm font-semibold text-gray-800 border-b border-gray-200">
                 <div className="w-5/12">Beleidsbeslissingen</div>
                 <div className="w-2/12">Aangevraagd op</div>
                 <div className="w-1/12">Status</div>
@@ -20,11 +20,11 @@ function TabVerzoeken(props) {
             </li>
             {props.naarLoaded && props.vanLoaded ? (
                 props.verzoekArray.length > 0 ? (
-                    props.verzoekArray.map(verzoek => {
+                    props.verzoekArray.map((verzoek) => {
                         return (
                             <li
                                 key={verzoek.UUID}
-                                className="flex border-b border-gray-200 text-sm text-gray-800 px-2 relative items-center hover:bg-gray-100"
+                                className="relative flex items-center px-2 text-sm text-gray-800 border-b border-gray-200 hover:bg-gray-100"
                             >
                                 <div className="w-5/12 py-2">
                                     {verzoek.beleidsbeslissing &&
@@ -35,8 +35,8 @@ function TabVerzoeken(props) {
                                 <div className="w-2/12">
                                     {verzoek.Aanvraag_Datum !== null
                                         ? format(
-                                              verzoek.Aanvraag_Datum,
-                                              'D MMMM YYYY, HH:mm uur',
+                                              new Date(verzoek.Aanvraag_Datum),
+                                              'd MMMM yyyy, HH:mm uur',
                                               { locale: nlLocale }
                                           )
                                         : null}
@@ -61,7 +61,7 @@ function TabVerzoeken(props) {
                                                         null
                                                     )
                                                 }
-                                                className="cursor-pointer absolute right-0 top-0 text-gray-600 px-3 py-2"
+                                                className="absolute top-0 right-0 px-3 py-2 text-gray-600 cursor-pointer"
                                                 id={`sluit-popup-beleidsrelatie-motivering`}
                                             >
                                                 <FontAwesomeIcon
@@ -82,7 +82,7 @@ function TabVerzoeken(props) {
                                         onClick={() =>
                                             props.relatieAccepteren(verzoek)
                                         }
-                                        className="px-2 py-1 bg-green-600 hover:bg-green-700 text-white font-semibold rounded cursor-pointer shadow inline-block mr-2"
+                                        className="inline-block px-2 py-1 mr-2 font-semibold text-white bg-green-600 rounded shadow cursor-pointer hover:bg-green-700"
                                     >
                                         Accepteren
                                     </span>
@@ -90,7 +90,7 @@ function TabVerzoeken(props) {
                                         onClick={() =>
                                             props.relatieAfwijzen(verzoek)
                                         }
-                                        className="px-2 py-1 bg-red-600 hover:bg-red-700 text-white font-semibold rounded cursor-pointer shadow inline-block"
+                                        className="inline-block px-2 py-1 font-semibold text-white bg-red-600 rounded shadow cursor-pointer hover:bg-red-700"
                                     >
                                         Afwijzen
                                     </span>
@@ -99,7 +99,7 @@ function TabVerzoeken(props) {
                         )
                     })
                 ) : (
-                    <span className="font-italic text-sm px-2 py-2 inline-block text-gray-600">
+                    <span className="inline-block px-2 py-2 text-sm text-gray-600 font-italic">
                         Er zijn nog geen verzoeken
                     </span>
                 )

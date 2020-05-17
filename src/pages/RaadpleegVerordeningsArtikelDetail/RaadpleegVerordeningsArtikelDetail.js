@@ -118,7 +118,7 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
     }
 
     getAndSetLineage(ID) {
-        return axios.get(`/verordeningstructuur/${ID}`).then(res => {
+        return axios.get(`/verordeningstructuur/${ID}`).then((res) => {
             // Get latest lineage
             const lineage = res.data[res.data.length - 1]
             // this.populateFieldsAndSetState(lineage)
@@ -129,7 +129,7 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
     }
 
     getAndSetVerordeningsObject(UUID) {
-        return axios.get(`/verordeningen/version/${UUID}`).then(res => {
+        return axios.get(`/verordeningen/version/${UUID}`).then((res) => {
             // Get latest lineage
             const verordeningsObject = res.data
             // this.populateFieldsAndSetState(lineage)
@@ -140,7 +140,7 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
     }
 
     getAndSetLidObject(UUID) {
-        return axios.get(`/verordeningen/version/${UUID}`).then(res => {
+        return axios.get(`/verordeningen/version/${UUID}`).then((res) => {
             // Get latest lineage
             const lidObject = res.data
             return lidObject
@@ -171,17 +171,17 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
             verordeningsObjectInLineage.Children.length > 0
         ) {
             return Promise.all(
-                verordeningsObjectInLineage.Children.map(child =>
+                verordeningsObjectInLineage.Children.map((child) =>
                     this.getAndSetLidObject(child.UUID)
                 )
-            ).then(ledenObjecten =>
+            ).then((ledenObjecten) =>
                 this.setState({
                     ledenObjecten: ledenObjecten,
                 })
             )
         } else {
             this.setState({
-                ledenObjecten: null
+                ledenObjecten: null,
             })
             return Promise.resolve()
         }
@@ -227,12 +227,12 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                 if (this.state.verordeningsObject.Type === 'Artikel') {
                     this.ifPresentGetAndSetLeden(UUID)
                         .then(() => this.setState({ dataLoaded: true }))
-                        .catch(err => toast('Er is iets verkeerd gegaan'))
+                        .catch((err) => toast('Er is iets verkeerd gegaan'))
                 } else {
                     this.setState({ dataLoaded: true })
                 }
             })
-            .catch(err => toast('Er is iets verkeerd gegaan'))
+            .catch((err) => toast('Er is iets verkeerd gegaan'))
     }
 
     componentDidUpdate(prevProps) {
@@ -261,14 +261,14 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                                             loadingNewObject: false,
                                         })
                                     )
-                                    .catch(err =>
+                                    .catch((err) =>
                                         toast('Er is iets verkeerd gegaan')
                                     )
                             } else {
                                 this.setState({ loadingNewObject: false })
                             }
                         })
-                        .catch(err => toast('Er is iets verkeerd gegaan'))
+                        .catch((err) => toast('Er is iets verkeerd gegaan'))
                 }
             )
         }
@@ -295,9 +295,6 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
             werkingsgebiedBoolean = true
             werkingsGebiedUUID = artikel.Werkingsgebied
         }
-
-        console.log('werkingsGebiedUUID')
-        console.log(werkingsGebiedUUID)
 
         let breadcrumb = null
 
@@ -377,7 +374,7 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                                                 new Date(
                                                     artikel.Begin_Geldigheid
                                                 ),
-                                                'DD-MMMM-YYYY',
+                                                'dd-MM-yyyy',
                                                 {
                                                     locale: nlLocale,
                                                 }
@@ -404,7 +401,7 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
 
                                         {this.state.ledenObjecten
                                             ? this.state.ledenObjecten.map(
-                                                  lid => {
+                                                  (lid) => {
                                                       return (
                                                           <span
                                                               key={lid.UUID}

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { toast } from 'react-toastify'
-import { format } from 'date-fns'
 import { Link, withRouter } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 
@@ -80,7 +79,7 @@ class MuteerUniversalObjectCRUD extends Component {
             }
         }
 
-        this.setState(prevState => ({
+        this.setState((prevState) => ({
             crudObject: {
                 ...prevState.crudObject,
                 [name]: value,
@@ -94,7 +93,7 @@ class MuteerUniversalObjectCRUD extends Component {
         // Check voor elke property op het crudObject of die gelijk is aan de initValue
         // Indien dat het geval is, zet de waarde op null
         const crudObjectKeys = Object.keys(crudObject)
-        crudObjectKeys.map(property => {
+        crudObjectKeys.map((property) => {
             if (
                 crudObject[property] === null &&
                 crudObject[property] !==
@@ -113,7 +112,7 @@ class MuteerUniversalObjectCRUD extends Component {
         // Check voor elke property op het crudObject of die gelijk is aan de initValue
         // Indien dat het geval is, zet de waarde op null
         const crudObjectKeys = Object.keys(crudObject)
-        crudObjectKeys.map(property => {
+        crudObjectKeys.map((property) => {
             if (
                 crudObject[property] ===
                 dimensieConstants.CRUD_PROPERTIES[property].initValue
@@ -133,7 +132,7 @@ class MuteerUniversalObjectCRUD extends Component {
 
         axios
             .post(`${apiEndpoint}`, JSON.stringify(crudObject))
-            .then(res => {
+            .then((res) => {
                 this.props.history.push(
                     `/muteer/${overzichtSlug}/${res.data.ID}`
                 )
@@ -157,13 +156,14 @@ class MuteerUniversalObjectCRUD extends Component {
 
         axios
             .patch(`${apiEndpoint}/${objectID}`, JSON.stringify(crudObject))
-            .then(res => {
+            .then((res) => {
                 this.props.history.push(
                     `/muteer/${overzichtSlug}/${res.data.ID}`
                 )
                 toast('Opgeslagen')
             })
-            .catch(error => {
+            .catch((error) => {
+                console.log(error)
                 crudObject = this.formatGeldigheidDatesForUI(crudObject)
                 this.setState(
                     {
@@ -186,7 +186,7 @@ class MuteerUniversalObjectCRUD extends Component {
 
         let crudObject = this.state.crudObject
 
-        // Converteer de 'YYYY-MM-DD' waarden naar Date objecten
+        // Converteer de 'yyyy-MM-DD' waarden naar Date objecten
         // Of Verwijder de begin_ of eind_geldigheid properties als ze geen waarde hebben
         crudObject = this.formatGeldigheidDatesForAPI(crudObject)
 
@@ -245,7 +245,7 @@ class MuteerUniversalObjectCRUD extends Component {
     wijzigKoppelingRelatie(koppelingObject, nieuweOmschrijving) {
         let nieuwCrudObject = this.state.crudObject
         const index = nieuwCrudObject[koppelingObject.propertyName].findIndex(
-            item => item.UUID === koppelingObject.item.UUID
+            (item) => item.UUID === koppelingObject.item.UUID
         )
         nieuwCrudObject[koppelingObject.propertyName][
             index
@@ -262,7 +262,7 @@ class MuteerUniversalObjectCRUD extends Component {
     verwijderKoppelingRelatie(koppelingObject) {
         let nieuwCrudObject = this.state.crudObject
         const index = nieuwCrudObject[koppelingObject.propertyName].findIndex(
-            item => item.UUID === koppelingObject.item.UUID
+            (item) => item.UUID === koppelingObject.item.UUID
         )
         nieuwCrudObject[koppelingObject.propertyName].splice(index, 1)
 
@@ -278,15 +278,11 @@ class MuteerUniversalObjectCRUD extends Component {
     createAndSetCrudObject(responseObjectFromAPI) {
         const dimensieConstants = this.props.dimensieConstants
         const crudProperties = makeCrudProperties(dimensieConstants)
-        console.log(crudProperties)
         let crudObject = makeCrudObject({
             crudProperties: crudProperties,
             dimensieConstants: dimensieConstants,
             responseObject: responseObjectFromAPI,
         })
-
-        console.log('crudObject')
-        console.log(crudObject)
 
         this.setState({
             crudObject: crudObject,
@@ -301,14 +297,17 @@ class MuteerUniversalObjectCRUD extends Component {
 
         axios
             .get(`${apiEndpoint}/${objectID}`)
-            .then(res => {
+            .then((res) => {
                 const responseObject = res.data
 
                 // Create and set crudObject in state
                 // responseObject[0] is de laatste versie van het dimensie object
                 this.createAndSetCrudObject(responseObject[0])
             })
-            .catch(error => toast(`Er is iets misgegaan`))
+            .catch((error) => {
+                console.log(error)
+                toast(`Er is iets misgegaan`)
+            })
     }
 
     componentDidMount() {
@@ -365,7 +364,7 @@ class MuteerUniversalObjectCRUD extends Component {
 
                 {this.state.dataLoaded ? (
                     <ContainerMain>
-                        <div className="w-full inline-block flex-grow">
+                        <div className="flex-grow inline-block w-full">
                             <div>
                                 <form
                                     className="mt-12"

@@ -9,7 +9,6 @@ import WrapperUserInfo from './../../../../components/WrapperUserInfo'
 
 class ContainerViewFieldsBeleidsbeslissing extends Component {
     render() {
-        console.log(this.props)
         const crudObject = this.props.crudObject
         return (
             <React.Fragment>
