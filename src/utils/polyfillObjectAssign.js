@@ -2,7 +2,6 @@
 
 function polyfillObjectAssign() {
     if (typeof Object.assign !== 'function') {
-        console.log('Joe?')
         // Must be writable: true, enumerable: false, configurable: true
         Object.defineProperty(Object, 'assign', {
             value: function assign(target, varArgs) {

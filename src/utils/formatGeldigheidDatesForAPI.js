@@ -1,6 +1,7 @@
+// This function creates new Date objects for the formatted date properties of a crudObject.
+// If there is no date value
+
 function formatGeldigheidDatesForAPI(crudObject) {
-    // Converteer de 'YYYY-MM-DD' waarden naar Date objecten
-    // Als er geen waarde is, verwijder dan de property
     if (
         crudObject.Begin_Geldigheid !== null &&
         crudObject.Begin_Geldigheid !== ''

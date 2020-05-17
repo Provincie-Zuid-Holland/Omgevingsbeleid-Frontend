@@ -4,7 +4,6 @@ function scrollToElement(elSelector) {
     if (!el) return
 
     const yPosition = el.getBoundingClientRect().top + window.scrollY
-    console.log(yPosition)
     window.scroll({
         top: yPosition - 170,
         behavior: 'smooth',
