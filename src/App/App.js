@@ -1,7 +1,13 @@
 import React, { Component } from 'react'
+
+// For the routing we use React Router (https://reacttraining.com/react-router/)
 import { Route, Switch, withRouter } from 'react-router-dom'
-import axios from './../API/axios'
+
+// Helmet is the Document Head manager that we use, mostly for building dynamic page titles
 import { Helmet } from 'react-helmet'
+
+// Import axios instance
+import axios from './../API/axios'
 
 // Import Notification Library
 import { ToastContainer } from 'react-toastify'
@@ -10,12 +16,12 @@ import 'react-toastify/dist/ReactToastify.css'
 // Import Styling
 import './../css/tailwind.css'
 import './../css/styles.scss'
+import './../../node_modules/leaflet/dist/leaflet.css'
 
-// !REFACTOR! Old datamodel
-// Import Data Model
-import dataModel from './dataModel'
+// Import All the dimension constants. These contain the dimensions and there variables, e.g. API_ENDPOINT and TITEL_ENKELVOUD
+import allDimensies from './../constants/dimensies'
 
-// Import non-auth Pages
+// Import non authenticated pages
 import RaadpleegHome from './../pages/RaadpleegHome'
 import RaadpleegUniversalObjectDetail from './../pages/RaadpleegUniversalObjectDetail'
 import RaadpleegVerordeningsArtikelDetail from './../pages/RaadpleegVerordeningsArtikelDetail'
@@ -23,89 +29,66 @@ import RaadpleegZoekResultatenOverzicht from './../pages/RaadpleegZoekResultaten
 import Login from './../pages/Login'
 import Planning from './../pages/Planning'
 
-// Import Auth Routes
+// Import authenticated routes,
 import AuthRoutes from './AuthRoutes'
 
 // Import Components
 import Navigation from './../components/Navigation'
 import LoaderContent from './../components/LoaderContent'
-import LoginForm from './../components/LoginForm'
+import PopupWelcomeBeta from './../components/PopupWelcomeBeta'
 import PopUpAnimatedContainer from './../components/PopUpAnimatedContainer'
+import PopupReauthenticate from './../components/PopupReauthenticate'
+import Transition from './../components/Transition'
 
-// Import Sentry (Bug tracking)
+// Import and initialize Sentry for tracking bugs
 import * as Sentry from '@sentry/browser'
-import dimensies from '../constants/dimensies'
-
-console.log(process.env)
 
 if (process.env.NODE_ENV !== 'development') {
     Sentry.init({
-        dsn: 'https://a9c9863a039942abb632f6ff844fea03@sentry.io/1777968',
         environment: process.env.NODE_ENV,
-        release: 'omgevingsbeleid@1.0.0',
+        release: process.env.REACT_APP_RELEASE_VERSION,
     })
 }
 
-function ReAuthenticatePopup({ setLoginState }) {
-    return (
-        <React.Fragment>
-            <div className="absolute top-0 left-0 z-40 w-full h-full bg-gray-900 opacity-50"></div>
-            <div className="absolute top-0 left-0 z-40 flex items-center justify-center w-full h-full">
-                <div className="p-5 text-gray-700 bg-white rounded">
-                    <h2 className="mb-2 text-xl font-bold">Opnieuw inloggen</h2>
-                    <p>
-                        De sessie is verlopen. U kunt hieronder opnieuw
-                        inloggen.
-                    </p>
-                    <LoginForm setLoginState={setLoginState} />
-                </div>
-            </div>
-        </React.Fragment>
-    )
-}
-
-function WelcomePopup({ closePopup }) {
-    return (
-        <React.Fragment>
-            <div className="absolute top-0 left-0 z-40 w-full h-full bg-gray-900 opacity-50"></div>
-            <div className="absolute top-0 left-0 z-40 flex items-center justify-center w-full h-full">
-                <div className="max-w-xl p-10 text-gray-700 bg-white rounded">
-                    <div className="block mb-4">
-                        <div className="w-full h-16 logo-main" />
-                    </div>
-                    <h2 className="mt-4 mb-2 text-lg font-bold">
-                        Welkom op het vernieuwde Digitaal Omgevingsbeleid van
-                        provincie Zuid-Holland!
-                    </h2>
-                    <p>
-                        Net als in de oude omgeving kun je hier zoeken op
-                        provinciaal beleid, maar ziet alles er net even anders
-                        uit. Zo is er onder andere gewerkt aan een
-                        gebruiksvriendelijkere omgeving en betere weergaven.
-                        Omdat de website nog in ontwikkeling is kan het zijn dat
-                        sommige functionaliteiten niet goed werken. Kom je een
-                        fout tegen? Neem dan contact op door te mailen naar{' '}
-                        <a
-                            href="mailto:omgevingsbeleid@pzh.nl?subject=Feedback Omgevingsbeleid&body=Probeer zo duidelijk mogelijk te omschrijven waar je tegenaan liep"
-                            className="underline cursor-pointer"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            omgevingsbeleid@pzh.nl
-                        </a>
-                    </p>
-                    <span
-                        onClick={closePopup}
-                        id="aan-de-slag-close-popup"
-                        className="block px-4 py-3 mt-8 text-sm font-bold leading-tight text-center text-white rounded cursor-pointer mbg-color hover:underline"
-                    >
-                        Aan de slag
-                    </span>
-                </div>
-            </div>
-        </React.Fragment>
-    )
-}
+// Create array with detail pages to map through to create the routes
+const detailPaginas = [
+    {
+        slug: 'ambities',
+        dataModel: allDimensies.AMBITIES,
+    },
+    {
+        slug: 'beleidsregels',
+        dataModel: allDimensies.BELEIDSREGELS,
+    },
+    {
+        slug: 'doelen',
+        dataModel: allDimensies.DOELEN,
+    },
+    {
+        slug: 'belangen',
+        dataModel: allDimensies.BELANGEN,
+    },
+    {
+        slug: 'maatregelen',
+        dataModel: allDimensies.MAATREGELEN,
+    },
+    {
+        slug: 'beleidsbeslissingen',
+        dataModel: allDimensies.BELEIDSBESLISSINGEN,
+    },
+    {
+        slug: 'themas',
+        dataModel: allDimensies.THEMAS,
+    },
+    {
+        slug: 'opgaven',
+        dataModel: allDimensies.OPGAVEN,
+    },
+    {
+        slug: 'verordeningen',
+        dataModel: allDimensies.VERORDENINGSARTIKEL,
+    },
+]
 
 class App extends Component {
     constructor(props) {
@@ -125,14 +108,14 @@ class App extends Component {
         this.listenForExpiredSession = this.listenForExpiredSession.bind(this)
     }
 
+    // Used to pass to various components to update the loggedIn state, e.g. the <Navigation />
     setLoginState(loginState) {
         this.setState({
             loggedIn: loginState,
         })
     }
 
-    // Controleerd de tokenInfo om te kijken of de gebruiker is ingelogd
-    // !REFACTOR! Duidelijkere naam
+    // Makes a request on mount to the API to see if we get a 200 response, which means the user is logged in.
     checkIfUserIsAuthenticated() {
         axios
             .get('/tokeninfo')
@@ -152,6 +135,7 @@ class App extends Component {
             })
     }
 
+    // Used to check for Internet Explorer on mount and display an alert that we only support modern browsers. We do polyfill functionalities where needed for Internet Explorer.
     checkForInternetExplorer() {
         var ua = window.navigator.userAgent
         var msie = ua.indexOf('MSIE ')
@@ -163,43 +147,39 @@ class App extends Component {
         }
     }
 
+    // Used if users token session expires and needs to login again
     showReAuthenticatePopup(e) {
         this.setState({
             showReAuthenticatePopup: true,
         })
     }
 
+    // Function to show popup when the API gets an 401 unauthorized request, which indicates the token has expired.
     listenForExpiredSession(e) {
+        // In API/axios.js we make a new CustomEvent with the message below to indicate the token session has ended. In the mount we add an eventlistener and listen for this event to prompt the popup so the user can login again.
         if (e.detail.message === 'Authenticated sessie is afgelopen') {
-            // !REFACTOR! Add opnieuw inlog popup
+            this.setLoginState(false)
+            // TODO: Add opnieuw inlog popup
             // this.showReAuthenticatePopup(e)
         }
     }
 
-    listenForLocalStorageChange(e) {
-        this.setLoginState(!!e.newValue)
-        console.log(e)
-    }
-
+    // User gets shown a popup to communicate the application is still in BETA. This popup is only shown on the first visit. A localstorage item is set after it is shown.
     checkForWelcomePopupInLocalStorage() {
-        const isInStorage = localStorage.getItem('__OB_welcome__')
+        const isInStorage = localStorage.getItem(
+            process.env.REACT_APP_KEY_WELCOME_POPUP
+        )
         if (!isInStorage) {
             this.setState({
                 showWelcomePopup: true,
             })
-            localStorage.setItem('__OB_welcome__', true)
+            localStorage.setItem(process.env.REACT_APP_KEY_WELCOME_POPUP, true)
         }
     }
 
     componentDidMount() {
-        // window.location.replace('https://omgevingsbeleidpzh.mendixcloud.com/p/')
-
         window.addEventListener('authEvent', (e) =>
             this.listenForExpiredSession(e)
-        )
-
-        window.addEventListener('storage', (e) =>
-            this.listenForLocalStorageChange(e)
         )
 
         this.checkIfUserIsAuthenticated()
@@ -211,63 +191,18 @@ class App extends Component {
         window.removeEventListener('authEvent', (e) =>
             this.listenForExpiredSession(e)
         )
-        window.removeEventListener('storage', (e) =>
-            this.listenForLocalStorageChange(e)
-        )
     }
 
     render() {
-        // Array die gebruikt wordt om de routes te renderen van de detail pagina's
-        const detailPaginas = [
-            {
-                slug: 'ambities',
-                dataModel: dataModel.Ambities,
-            },
-            {
-                slug: 'beleidsregels',
-                dataModel: dataModel.BeleidsRegels,
-            },
-            {
-                slug: 'doelen',
-                dataModel: dataModel.Doelen,
-            },
-            {
-                slug: 'provinciale-belangen',
-                dataModel: dataModel.ProvincialeBelangen,
-            },
-            {
-                slug: 'belangen',
-                dataModel: dataModel.Belangen,
-            },
-            {
-                slug: 'maatregelen',
-                dataModel: dataModel.Maatregelen,
-            },
-            {
-                slug: 'beleidsbeslissingen',
-                dataModel: dataModel.Beleidsbeslissingen,
-            },
-            {
-                slug: 'themas',
-                dataModel: dataModel["Thema's"],
-            },
-            {
-                slug: 'opgaven',
-                dataModel: dataModel.Opgaven,
-            },
-            {
-                slug: 'verordeningen',
-                dataModel: dataModel.Verordeningen,
-            },
-        ]
+        // If user is in Mutate environment of the application
+        const locationEqualsMutateEnv =
+            this.props.location.pathname.includes('muteer') ||
+            this.props.location.pathname.includes('login')
 
         return (
             <main
                 className={`min-h-screen pt-12 ${
-                    this.props.location.pathname.includes('muteer') ||
-                    this.props.location.pathname.includes('login')
-                        ? 'bg-gray-100'
-                        : ''
+                    locationEqualsMutateEnv ? 'bg-gray-100' : ''
                 }`}
                 id="main-container"
             >
@@ -277,7 +212,7 @@ class App extends Component {
                 </Helmet>
 
                 {this.state.showWelcomePopup && this.state.dataLoaded ? (
-                    <WelcomePopup
+                    <PopupWelcomeBeta
                         closePopup={() =>
                             this.setState({
                                 showWelcomePopup: false,
@@ -287,35 +222,40 @@ class App extends Component {
                 ) : null}
 
                 {this.state.showReAuthenticatePopup ? (
-                    <ReAuthenticatePopup setLoginState={this.setLoginState} />
+                    <PopUpAnimatedContainer
+                        setLoginState={this.setLoginState}
+                    />
                 ) : null}
 
                 <Navigation
                     setLoginState={this.setLoginState}
                     loggedIn={this.state.loggedIn}
                 />
+
                 {this.state.dataLoaded ? (
                     <Switch>
+                        {/* Raadpleeg - The homepage where users can search for policies and regulations */}
                         <Route path="/" exact component={RaadpleegHome} />
-                        <Route path="/planning" exact component={Planning} />
+
+                        {/* Raadpleeg - Result page for search */}
                         <Route
                             exact
                             path="/zoekresultaten"
                             component={RaadpleegZoekResultatenOverzicht}
                         />
 
-                        {/* Raadpleeg verordeningspagina */}
+                        {/* Raadpleeg - Detail page for Article objects of the regulations */}
                         <Route
                             path={`/detail/verordeningen/:lineageID/:objectUUID`}
                             render={() => (
                                 <RaadpleegVerordeningsArtikelDetail
-                                    dataModel={dimensies.VERORDENINGSARTIKEL}
+                                    dataModel={allDimensies.VERORDENINGSARTIKEL}
                                     history={this.props.history}
                                 />
                             )}
                         />
 
-                        {/* Render raadpleeg detail pagina's */}
+                        {/* Raadpleeg - Detail pages for all the dimensions */}
                         {detailPaginas.map((item) => {
                             return (
                                 <Route
@@ -331,6 +271,11 @@ class App extends Component {
                                 />
                             )
                         })}
+
+                        {/* Planning page contains the development roadmap */}
+                        <Route path="/planning" exact component={Planning} />
+
+                        {/*  */}
                         <Route
                             path="/login"
                             render={() => (
@@ -349,6 +294,7 @@ class App extends Component {
                 ) : (
                     <LoaderContent />
                 )}
+
                 <ToastContainer position="bottom-left" />
             </main>
         )

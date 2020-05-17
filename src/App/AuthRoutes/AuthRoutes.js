@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
 import { Route, Switch } from 'react-router-dom'
 
-// Import Data Model
-import dataModel from './../dataModel'
-
 // Import HTTP Client
 import axios from './../../API/axios'
 
@@ -24,48 +21,52 @@ import MuteerVerordeningenStructuurCRUD from '../../pages/MuteerVerordeningenStr
 import MuteerVerordeningenDetail from '../../pages/MuteerVerordeningenDetail'
 import MuteerBeleidsbeslissingenDetail from '../../pages/MuteerBeleidsbeslissingenDetail'
 
-// Import Constants
+// Import All the dimension constants. These contain the dimensions and there variables, e.g. API_ENDPOINT and TITEL_ENKELVOUD
 import allDimensies from './../../constants/dimensies'
+
+// Import the regulation constants to pass down to the mutate regulation pages
 import allVerordeningen from './../../constants/verordeningen'
 
-function BeheerRoutes(props) {
-    const dimensies = [
-        {
-            slug: 'beleidsregels',
-            dataModelProperty: 'BeleidsRegels',
-        },
-        {
-            slug: 'maatregelen',
-            dataModelProperty: 'Maatregelen',
-        },
-        {
-            slug: 'opgaven',
-            dataModelProperty: 'Opgaven',
-        },
-        {
-            slug: 'ambities',
-            dataModelProperty: 'Ambities',
-        },
-        {
-            slug: 'belangen',
-            dataModelProperty: 'Belangen',
-        },
-        {
-            slug: 'themas',
-            dataModelProperty: "Thema's",
-        },
-        {
-            slug: 'beleidsbeslissingen',
-            dataModelProperty: 'Beleidsbeslissingen',
-        },
-    ]
+const BeheerRoutes = (props) => {
+    // const dimensies = [
+    //     {
+    //         slug: 'beleidsregels',
+    //         dataModelProperty: 'BeleidsRegels',
+    //     },
+    //     {
+    //         slug: 'maatregelen',
+    //         dataModelProperty: 'Maatregelen',
+    //     },
+    //     {
+    //         slug: 'opgaven',
+    //         dataModelProperty: 'Opgaven',
+    //     },
+    //     {
+    //         slug: 'ambities',
+    //         dataModelProperty: 'Ambities',
+    //     },
+    //     {
+    //         slug: 'belangen',
+    //         dataModelProperty: 'Belangen',
+    //     },
+    //     {
+    //         slug: 'themas',
+    //         dataModelProperty: "Thema's",
+    //     },
+    //     {
+    //         slug: 'beleidsbeslissingen',
+    //         dataModelProperty: 'Beleidsbeslissingen',
+    //     },
+    // ]
 
-    const authUser = props.authUser
+    // const authUser = props.authUser
 
-    const BeheerRouteJSX = Object.keys(allDimensies).map(dimensie => {
+    console.log(allDimensies)
+    const BeheerRouteJSX = Object.keys(allDimensies).map((dimensie) => {
         const dimensieConstants = allDimensies[dimensie]
         const overzichtSlug = allDimensies[dimensie].SLUG_OVERZICHT
         const createNewSlug = allDimensies[dimensie].SLUG_CREATE_NEW
+
         return (
             <React.Fragment key={createNewSlug}>
                 <Switch>
@@ -141,7 +142,7 @@ class AuthRoutes extends Component {
     }
 
     redirectToLogin() {
-        localStorage.removeItem('access_token')
+        localStorage.removeItem(process.env.REACT_APP_KEY_API_ACCESS_TOKEN)
         this.props.history.push('/login')
     }
 
@@ -241,7 +242,7 @@ class AuthRoutes extends Component {
                         exact
                         render={() => (
                             <MuteerVerordeningenstructuurDetail
-                                dataModel={dataModel.Verordeningen}
+                                dataModel={allDimensies.Verordeningen}
                                 history={this.props.history}
                             />
                         )}
@@ -251,7 +252,7 @@ class AuthRoutes extends Component {
                         exact
                         render={() => (
                             <MuteerVerordeningenstructuurOverzicht
-                                dataModel={dataModel.Verordeningen}
+                                dataModel={allDimensies.VERORDENINGSTRUCTUUR}
                                 history={this.props.history}
                             />
                         )}
@@ -334,7 +335,7 @@ class AuthRoutes extends Component {
                         exact
                         render={() => (
                             <MuteerBeleidsrelatiesCRUD
-                                dataModel={dataModel.Beleidsrelaties}
+                                dataModel={allDimensies.Beleidsrelaties}
                                 history={this.props.history}
                                 authUser={this.props.authUser}
                             />
@@ -345,7 +346,7 @@ class AuthRoutes extends Component {
                         exact
                         render={() => (
                             <MuteerBeleidsrelatiesOverzicht
-                                dataModel={dataModel.BeleidsRelatie}
+                                dataModel={allDimensies.BeleidsRelatie}
                                 history={this.props.history}
                                 authUser={this.props.authUser}
                             />
@@ -355,7 +356,7 @@ class AuthRoutes extends Component {
                         path="/muteer/beleidsrelaties"
                         render={() => (
                             <MuteerBeleidsrelatiesOverzicht
-                                dataModel={dataModel.BeleidsRelatie}
+                                dataModel={allDimensies.BeleidsRelatie}
                                 history={this.props.history}
                                 authUser={this.props.authUser}
                             />
