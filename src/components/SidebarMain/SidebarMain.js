@@ -38,7 +38,7 @@ function ReturnNavLink(props) {
                     .toLowerCase()
                     .replace(' ', '-')}`}
                 activeClassName="mt-1 relative text-sm block leading-loose py-1 pr-2 font-bold rounded bg-gray-300 text-gray-800"
-                className="relative block px-2 py-1 mt-1 text-sm leading-loose text-gray-600 rounded cursor-pointer hover:bg-gray-300 hover:text-blue-900"
+                className="relative block px-2 py-1 mt-1 text-sm leading-loose text-gray-600 rounded cursor-pointer hover:bg-gray-200 hover:text-gray-900"
                 key={props.index}
                 to={props.url}
             >
@@ -53,7 +53,7 @@ function ReturnNavLink(props) {
         return (
             <NavLink
                 activeClassName="mt-1 relative text-sm block leading-loose py-1 px-2 font-bold rounded bg-gray-300 text-gray-800"
-                className="relative block px-2 py-1 mt-1 text-sm leading-loose text-gray-600 rounded cursor-pointer hover:bg-gray-300 hover:text-blue-900"
+                className="relative block px-2 py-1 mt-1 text-sm leading-loose text-gray-600 rounded cursor-pointer hover:bg-gray-200 hover:text-gray-900"
                 key={props.index}
                 id={`sidebar-href-${props.value
                     .toLowerCase()
@@ -81,7 +81,7 @@ function returnMenuItems(menuItems) {
             />
         ) : (
             <li
-                className="relative block px-2 py-1 mt-1 text-sm leading-loose text-gray-600 rounded cursor-not-allowed hover:bg-gray-300 hover:text-blue-900"
+                className="relative block px-2 py-1 mt-1 text-sm leading-loose text-gray-600 rounded cursor-not-allowed hover:bg-gray-200 hover:text-gray-900"
                 key={index}
             >
                 {value}
@@ -105,7 +105,9 @@ function MainSideBarHeading(props) {
 
 function SidebarMain() {
     // !Refactor! to useUserProfile hook
-    const identifier = localStorage.getItem('__OB_identifier__')
+    const identifier = localStorage.getItem(
+        process.env.REACT_APP_KEY_IDENTIFIER
+    )
     let gebruikersNaam = null
     let gebruikersRol = null
     if (identifier !== null) {

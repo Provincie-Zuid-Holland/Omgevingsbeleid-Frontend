@@ -14,13 +14,15 @@ function WrapperUserInfo(AuthComponent) {
         checkUserToken() {
             axios
                 .get('/tokeninfo')
-                .then(res => {
+                .then((res) => {
                     this.setState({
                         user: res.data.identifier,
                     })
                 })
                 .catch(() => {
-                    localStorage.removeItem('access_token')
+                    localStorage.removeItem(
+                        process.env.REACT_APP_KEY_API_ACCESS_TOKEN
+                    )
                     this.setState({
                         user: null,
                     })

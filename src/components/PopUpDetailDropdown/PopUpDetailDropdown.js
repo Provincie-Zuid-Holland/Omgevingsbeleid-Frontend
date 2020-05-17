@@ -13,7 +13,7 @@ class PopUpDetailDropdown extends Component {
         this.handleClick = this.handleClick.bind(this)
     }
 
-    handleClick = e => {
+    handleClick = (e) => {
         if (
             !this.innerContainer.current.contains(e.target) &&
             this.props.openState === true
@@ -33,13 +33,13 @@ class PopUpDetailDropdown extends Component {
     render() {
         return (
             <div
-                className="main-tooltip-container main-tooltip-container-muteer-detail tooltip-right absolute bg-white shadow rounded mt-2 w-48  text-gray-700 right-0 top-0 mr-2 mt-12"
+                className="absolute top-0 right-0 w-48 mt-2 mt-12 mr-2 text-gray-700 bg-white rounded shadow main-tooltip-container main-tooltip-container-muteer-detail tooltip-right"
                 ref={this.innerContainer}
             >
-                <div className="h-full relative">
+                <div className="relative h-full">
                     <ul className="text-sm text-gray-800">
                         <li
-                            className="py-2 px-4 text-sm cursor-pointer"
+                            className="px-4 py-2 text-sm cursor-pointer"
                             onClick={() => {
                                 this.props.toggleDropdown()
                                 this.props.toggleStatusPopup()
@@ -51,17 +51,16 @@ class PopUpDetailDropdown extends Component {
                             <Link
                                 id="navbar-popup-href-raadpleeg-omgeving"
                                 to={`/`}
-                                className="py-2 px-4 text-sm border-t border-gray-300 w-full inline-block"
+                                className="inline-block w-full px-4 py-2 text-sm border-t border-gray-300"
                             >
                                 Raadpleegomgeving
                             </Link>
                         </li>
                         <li>
-                            {console.log(this.props)}
                             <Link
                                 id="navbar-popup-href-raadpleeg-omgeving"
                                 to={`/muteer/beleidsrelaties/${this.props.dataObject.UUID}`}
-                                className="py-2 px-4 text-sm border-t border-gray-300 w-full inline-block"
+                                className="inline-block w-full px-4 py-2 text-sm border-t border-gray-300"
                             >
                                 Bekijk beleidsrelaties
                             </Link>
