@@ -15,25 +15,25 @@ class EigenaarsDriehoekItem extends Component {
     componentDidMount() {
         axios
             .get(`/gebruikers/${this.props.UUID}`)
-            .then(res => {
+            .then((res) => {
                 const dataObject = res.data
                 this.setState({
                     gebruikersObject: dataObject,
                     dataLoaded: true,
                 })
             })
-            .catch(error => {
+            .catch((error) => {
                 console.log(error)
             })
     }
 
     render() {
         return (
-            <div className="bg-white shadow-md p-2 w-full rounded mb-2">
+            <div className="w-full p-2 mb-2 bg-white rounded shadow-md">
                 <div className="flex items-center">
-                    <div className="w-12 h-12 bg-orange-500 flex justify-center items-center rounded-full mr-2">
+                    <div className="flex items-center justify-center w-12 h-12 mr-2 rounded-full bg-secondary">
                         {this.state.gebruikersObject ? (
-                            <span className="text-white text-xl font-bold">
+                            <span className="text-xl font-bold text-white">
                                 {this.state.gebruikersObject.Gebruikersnaam.substring(
                                     0,
                                     1

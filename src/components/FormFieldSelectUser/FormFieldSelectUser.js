@@ -9,7 +9,7 @@ function makeSelection(objectenArray, dataObjectProperty) {
         return []
     } else {
         let options = []
-        objectenArray.forEach(arrayItem => {
+        objectenArray.forEach((arrayItem) => {
             options.push({
                 label: arrayItem.Gebruikersnaam,
                 value: arrayItem.UUID,
@@ -31,6 +31,48 @@ class FormFieldSelectUser extends React.Component {
             selectionArray: [],
             selected: null,
             dataLoaded: false,
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.props.fieldValue !== prevProps.fieldValue) {
+            const selected = this.state.selectionArray.find(
+                (arrayItem) => arrayItem.value === this.props.fieldValue
+            )
+            this.setState({
+                selected: selected,
+                dataLoaded: true,
+            })
+        }
+    }
+
+    componentDidMount() {
+        const objecten = this.props.gebruikersLijst
+            .sort((a, b) => (a.Gebruikersnaam > b.Gebruikersnaam ? 1 : -1))
+            .filter((e) => e.Rol === this.props.filter)
+
+        const selectionArray = makeSelection(
+            objecten,
+            this.props.dataObjectProperty
+        )
+
+        if (
+            this.props.editStatus === true ||
+            (this.props.titelEnkelvoud === 'Beleidsbeslissing' &&
+                this.props.dataObjectProperty === 'Eigenaar_1' &&
+                selectionArray)
+        ) {
+            const selected = selectionArray.find(
+                (arrayItem) => arrayItem.value === this.props.fieldValue
+            )
+
+            this.setState({
+                selectionArray: selectionArray,
+                selected: selected,
+                dataLoaded: true,
+            })
+        } else {
+            this.setState({ selectionArray: selectionArray, dataLoaded: true })
         }
     }
 
@@ -75,7 +117,15 @@ class FormFieldSelectUser extends React.Component {
                         }
                         styles={customStyles}
                         isClearable={true}
-                        options={this.state.selectionArray}
+                        options={
+                            this.props.filterOtherProperty
+                                ? this.state.selectionArray.filter(
+                                      (e) =>
+                                          e.value !==
+                                          this.props.filterOtherProperty
+                                  )
+                                : this.state.selectionArray
+                        }
                         placeholder={`Selecteer...`}
                     ></Select>
                 ) : (
@@ -83,48 +133,6 @@ class FormFieldSelectUser extends React.Component {
                 )}
             </div>
         )
-    }
-
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.props.fieldValue !== prevProps.fieldValue) {
-            const selected = this.state.selectionArray.find(
-                arrayItem => arrayItem.value === this.props.fieldValue
-            )
-            this.setState({
-                selected: selected,
-                dataLoaded: true,
-            })
-        }
-    }
-
-    componentDidMount() {
-        const objecten = this.props.gebruikersLijst
-            .sort((a, b) => (a.Gebruikersnaam > b.Gebruikersnaam ? 1 : -1))
-            .filter(e => e.Rol === this.props.filter)
-
-        const selectionArray = makeSelection(
-            objecten,
-            this.props.dataObjectProperty
-        )
-
-        if (
-            this.props.editStatus === true ||
-            (this.props.titelEnkelvoud === 'Beleidsbeslissing' &&
-                this.props.dataObjectProperty === 'Eigenaar_1' &&
-                selectionArray)
-        ) {
-            const selected = selectionArray.find(
-                arrayItem => arrayItem.value === this.props.fieldValue
-            )
-
-            this.setState({
-                selectionArray: selectionArray,
-                selected: selected,
-                dataLoaded: true,
-            })
-        } else {
-            this.setState({ selectionArray: selectionArray, dataLoaded: true })
-        }
     }
 }
 export default FormFieldSelectUser
