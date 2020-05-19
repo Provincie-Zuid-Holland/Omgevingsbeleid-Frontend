@@ -2,13 +2,46 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## **Available Scripts**
+## Pre-Requisites
+- Git
+- Clone of the repository
+- Node.js
+- NPM packages
 
-In the project directory, you can run:
+#### Git
+Go to [https://git-scm.com/](https://git-scm.com/) to install Git.
+
+#### Clone of the repository
+Create a new folder within your documents where you'll clone the repository to. In Github go to the tab 'Code'.
+Click the green button 'Clone or download' and copy the link. 
+Using a Terminal (opdrachtprompt), go to your recently added folder and run:
+
+    git clone <link>
+
+The code has now been cloned to your folder.
+
+#### Node.js
+Go to [https://nodejs.org/en/](https://nodejs.org/en/) and download the installer fit for your operating system. 
+To see if Node is installed, type node -v in the Terminal. If you receive the version number then Node is correctly installed.
+
+#### NPM packages
+Go to the folder where you cloned the repository to in the Terminal. To install the NPM packages, run:
+
+    pip install npm
+
+To see if NPM is installed, type npm -v in Terminal.
+Now you are ready to set up a local version of the project.
+
+## Setting up a local version
+To run this project locally and to be able to make changes you need to be able to do the following:
+- Run npm
+
+#### Run npm
+Go to your created folder (project directory) using the commandprompt. Here you can run:
 
     npm start
-
-This runs the app in the development mode. Open [http://localhost:3000](http://localhost:3000) to view it in the browser. The page will reload if you make edits. You will also see any lint errors in the console.
+  
+This runs the app in the development mode. Open [http://localhost:3000](http://localhost:3000) to view it in the browser. The page will reload if you make edits to the code. You will also see any lint errors in the console. 
 
     npm test
 
