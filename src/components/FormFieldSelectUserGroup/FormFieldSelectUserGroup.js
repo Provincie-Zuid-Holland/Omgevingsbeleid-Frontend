@@ -14,11 +14,8 @@ class FormFieldSelectUserGroup extends Component {
     }
 
     componentDidMount() {
-        const ApiEndpoint = 'gebruikers'
-
-        // Connect With the API
         axios
-            .get(ApiEndpoint)
+            .get('gebruikers')
             .then((res) => {
                 const objecten = res.data
                 this.setState({
@@ -51,7 +48,7 @@ class FormFieldSelectUserGroup extends Component {
                             fieldValue={crudObject['Opdrachtgever']}
                             dataObjectProperty="Opdrachtgever"
                             gebruikersLijst={this.state.gebruikersLijst}
-                            filter={'Ambtelijk Opdrachtgever'}
+                            filter={'Ambtelijk opdrachtgever'}
                             pValue="Ambtelijk opdrachtgever"
                             titelEnkelvoud={this.props.titelEnkelvoud}
                         />
