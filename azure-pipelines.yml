@@ -1,6 +1,9 @@
 trigger:
 - dev
 
+pool:
+  vmImage: 'windows-latest'
+
 extends:
   template: azure-pipelines-template.yml
   parameters:
