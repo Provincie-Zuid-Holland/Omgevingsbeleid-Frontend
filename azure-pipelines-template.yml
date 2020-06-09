@@ -12,21 +12,6 @@ parameters:
     default: ""
 
 steps:
-- bash: |
-    if [ -z "$env" ]; then
-      echo "##vso[task.logissue type=error;]Missing template parameter \"env\""
-      echo "##vso[task.complete result=Failed;]"
-    fi
-- bash: |
-    if [ -z "$target_store" ]; then
-      echo "##vso[task.logissue type=error;]Missing template parameter \"target_store\""
-      echo "##vso[task.complete result=Failed;]"
-    fi
-- bash: |
-    if [ -z "$fa-token" ]; then
-      echo "##vso[task.logissue type=error;]Missing template parameter \"fa-token\""
-      echo "##vso[task.complete result=Failed;]"
-    fi
 - task: NodeTool@0
   inputs:
     versionSpec: '10.x'
