@@ -11,7 +11,7 @@ import ContainerMain from './../../components/ContainerMain'
 
 const DocumentLink = ({ href, title, iconLeft, style }) => (
     <li className="py-2 border-b-2 border-gray-200">
-      <a href={href} className="flex items-center justify-between">
+      <a href={href} target="_blank" className="flex items-center justify-between">
         <div className="flex">
             <span className="flex items-center inline-block w-6">
                 <FontAwesomeIcon icon={iconLeft} className={style ? style : ''}/>

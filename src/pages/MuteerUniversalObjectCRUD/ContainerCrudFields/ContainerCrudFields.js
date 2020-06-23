@@ -247,7 +247,7 @@ class ContainerCrudFields extends React.Component {
                                             fieldValue={crudObject['Belangen']}
                                             fieldLabel="Koppelingen"
                                             dataObjectProperty="Koppelingen"
-                                            pValue="Aan welke ambities, opgaven, artikelen uit de verordening, maatregelen en nadere beleidsregels heeft deze beleidsbeslissing een koppeling?"
+                                            pValue="Aan welke ambities, opgaven, artikelen uit de verordening, maatregelen en beleidsregels heeft deze beleidsbeslissing een koppeling?"
                                             titelEnkelvoud={titelEnkelvoud}
                                             voegKoppelingRelatieToe={
                                                 voegKoppelingRelatieToe

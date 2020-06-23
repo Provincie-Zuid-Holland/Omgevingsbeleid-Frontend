@@ -1,3 +1,5 @@
+[![Build Status](https://dev.azure.com/Azab-sm/AADV-Omgevingsbeleid/_apis/build/status/Provincie-Zuid-Holland.Omgevingsbeleid-Frontend?branchName=dev)](https://dev.azure.com/Azab-sm/AADV-Omgevingsbeleid/_build/latest?definitionId=3&branchName=dev)
+
 # Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

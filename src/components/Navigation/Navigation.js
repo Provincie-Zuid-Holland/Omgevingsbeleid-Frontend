@@ -181,7 +181,7 @@ const PopupMenu = ({ loggedIn, showBanner, logout }) => {
                 return allDimensies['BELEIDSBESLISSINGEN']
             case "Maatregelen (Programma's)":
                 return allDimensies['MAATREGELEN']
-            case 'Nadere beleidsregels':
+            case 'Beleidsregels':
                 return allDimensies['BELEIDSREGELS']
 
             default:
@@ -199,7 +199,7 @@ const PopupMenu = ({ loggedIn, showBanner, logout }) => {
                 return beleidskeuzes
             case "Maatregelen (Programma's)":
                 return maatregelen
-            case 'Nadere beleidsregels':
+            case 'Beleidsregels':
                 return beleidsregels
 
             default:
@@ -290,7 +290,7 @@ const PopupMenu = ({ loggedIn, showBanner, logout }) => {
                                 />
                                 <TabMenuItem
                                     activeTab={activeTab}
-                                    tabTitle="Nadere beleidsregels"
+                                    tabTitle="Beleidsregels"
                                     setActiveTab={setActiveTab}
                                 />
                                 <TabMenuItemLink
