@@ -17,57 +17,40 @@ class MuteerVerordeningenstructuurOverzicht extends Component {
         super(props)
         this.state = {
             dataReceived: false,
+            objecten: [],
         }
     }
 
     getDataFromAPI(ApiEndpoint) {
-        this.setState(
-            {
-                objecten: [],
-            },
-            () => {
-                // Connect With the API
-                axios
-                    .get(ApiEndpoint)
-                    .then(res => {
-                        let objecten = res.data
-                        // objecten.shift()
-                        this.setState(
-                            {
-                                objecten: objecten,
-                                dataReceived: true,
-                            },
-                            () => console.log(this.state)
-                        )
-                    })
-                    .catch(error => {
-                        this.setState({
-                            dataReceived: true,
-                        })
-                        if (error.response !== undefined) {
-                            if (error.response.status === 401) {
-                                localStorage.removeItem('access_token')
-                                this.props.history.push('/login')
-                            }
-                        } else {
-                            console.log(error)
-                        }
-                    })
-            }
-        )
+        // Connect With the API
+        axios
+            .get(ApiEndpoint)
+            .then((res) => {
+                let objecten = res.data
+
+                this.setState({
+                    objecten: objecten,
+                    dataReceived: true,
+                })
+            })
+            .catch((error) => {
+                this.setState({
+                    dataReceived: true,
+                })
+            })
     }
 
     componentDidMount() {
-        const ApiEndpoint = this.props.dataModel.variables.Api_Endpoint
+        const ApiEndpoint = this.props.dataModel.API_ENDPOINT
         this.getDataFromAPI(ApiEndpoint)
     }
 
     render() {
-        const titelEnkelvoud = this.props.dataModel.variables.Titel_Enkelvoud
-        const titelMeervoud = this.props.dataModel.variables.Titel_Meervoud
-        const createNewSlug = this.props.dataModel.variables.Create_New_Slug
-        const overzichtSlug = this.props.dataModel.variables.Overzicht_Slug
-        const hoofdOnderdeelSlug = this.props.dataModel.variables.Overzicht_Slug
+        const titelEnkelvoud = this.props.dataModel.TITEL_ENKELVOUD
+        const titelMeervoud = this.props.dataModel.TITEL_MEERVOUD
+        const createNewSlug = this.props.dataModel.SLUG_CREATE_NEW
+        const overzichtSlug = this.props.dataModel.SLUG_OVERZICHT
+        const hoofdOnderdeelSlug = this.props.dataModel.SLUG_OVERZICHT
 
         return (
             <ContainerMain>
@@ -79,12 +62,12 @@ class MuteerVerordeningenstructuurOverzicht extends Component {
                 <SidebarMain />
 
                 {/* Container */}
-                <div className="w-3/4 rounded inline-block flex-grow pl-8">
-                    <h2 className="heading-serif text-gray-800 mb-4">
+                <div className="flex-grow inline-block w-3/4 pl-8 rounded">
+                    <h2 className="mb-4 text-gray-800 heading-serif">
                         {titelMeervoud}
                     </h2>
 
-                    <ul className="flex mt-8 flex-wrap">
+                    <ul className="flex flex-wrap mt-8">
                         {this.state.dataReceived ? (
                             <ButtonAddNewObject
                                 objectAantal={this.state.objecten.length}
@@ -101,7 +84,7 @@ class MuteerVerordeningenstructuurOverzicht extends Component {
                                 .map((object, index) => (
                                     <li
                                         key={object.ID}
-                                        className="mb-6 w-full display-inline"
+                                        className="w-full mb-6 display-inline"
                                     >
                                         {
                                             <CardObjectDetails
