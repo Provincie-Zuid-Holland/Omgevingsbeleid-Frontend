@@ -41,7 +41,7 @@ function SwitchToTabbladButton({
         >
             {tabbladTitle}
             {showLength && arrayLength ? (
-                <span className="bg-green-600 text-white text-bold ml-2 rounded-full px-2 py-1 text-sm">
+                <span className="px-2 py-1 ml-2 text-sm text-white bg-green-600 rounded-full text-bold">
                     {arrayLength}
                 </span>
             ) : null}
@@ -378,11 +378,11 @@ class MuteerBeleidsrelatieDetail extends Component {
         )
 
         return (
-            <div className="w-3/4 rounded inline-block flex-grow">
-                <div className="text-gray-600 text-sm w-full container mx-auto">
+            <div className="flex-grow inline-block w-3/4 rounded">
+                <div className="container w-full mx-auto text-sm text-gray-600">
                     <Link
                         onClick={this.props.backToOverzicht}
-                        className="text-gray-600 text-l mb-2 inline-block cursor-pointer"
+                        className="inline-block mb-2 text-gray-600 cursor-pointer text-l"
                         id="button-back-to-previous-page"
                         to={`/muteer/beleidsrelaties`}
                     >
@@ -391,19 +391,19 @@ class MuteerBeleidsrelatieDetail extends Component {
                     </Link>
                 </div>
 
-                <div className="bg-white shadow rounded p-5">
+                <div className="p-5 bg-white rounded shadow">
                     <div className="flex justify-between">
                         <div>
-                            <span className="text-gray-500 text-sm mb-1 block">
+                            <span className="block mb-1 text-sm text-gray-500">
                                 Beleidsbeslissing
                             </span>
-                            <h1 className="text-xl font-bold text-gray-800 inline-block mb-8">
+                            <h1 className="inline-block mb-8 text-xl font-bold text-gray-800">
                                 {this.state.titelLoaded ? (
                                     this.state.beleidsbeslissingTitel
                                 ) : (
                                     <LoaderMainTitle />
                                 )}
-                                <span className="border font-semibold m-color m-base-border-color px-1 py-1 text-xs rounded -mt-1 inline-block absolute ml-4">
+                                <span className="absolute inline-block px-1 py-1 ml-4 -mt-1 text-xs font-semibold border rounded m-color m-base-border-color">
                                     Vigerend
                                 </span>
                             </h1>
@@ -411,7 +411,7 @@ class MuteerBeleidsrelatieDetail extends Component {
                         <div>
                             <Link
                                 to={`/muteer/beleidsrelaties/${this.props.match.params.UUID}/nieuwe-relatie`}
-                                className="bg-green-600 hover:bg-green-700 px-2 py-2 text-white rounded text-sm font-semibold cursor-pointer"
+                                className="px-2 py-2 text-sm font-semibold text-white bg-green-600 rounded cursor-pointer hover:bg-green-700"
                             >
                                 <FontAwesomeIcon
                                     className="mr-2 text-white"
@@ -422,7 +422,7 @@ class MuteerBeleidsrelatieDetail extends Component {
                         </div>
                     </div>
 
-                    <div className="border-b border-gray-200 w-full mb-5">
+                    <div className="w-full mb-5 border-b border-gray-200">
                         <ul>
                             <SwitchToTabbladButton
                                 changeTabblad={this.changeTabblad}

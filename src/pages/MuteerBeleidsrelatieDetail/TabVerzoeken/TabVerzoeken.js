@@ -33,12 +33,12 @@ function TabVerzoeken(props) {
                                         : null}
                                 </div>
                                 <div className="w-2/12">
-                                    {verzoek.Aanvraag_Datum !== null
+                                    {verzoek.Created_Date !== null
                                         ? format(
-                                              new Date(verzoek.Aanvraag_Datum),
-                                              'd MMMM yyyy, HH:mm uur',
+                                              new Date(verzoek.Created_Date),
+                                              'd MMMM yyyy, HH:mm',
                                               { locale: nlLocale }
-                                          )
+                                          ) + ' uur'
                                         : null}
                                 </div>
                                 <div className="w-1/12">Open</div>
