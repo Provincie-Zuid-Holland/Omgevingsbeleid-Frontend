@@ -57,7 +57,6 @@ class MuteerVerordeningenCRUD extends Component {
     }
 
     handleChange(event, metaInfo, dataProp) {
-        console.log(event)
         let value
         let name
 
@@ -76,20 +75,17 @@ class MuteerVerordeningenCRUD extends Component {
             }
         }
 
-        this.setState(
-            prevState => ({
-                crudObject: {
-                    ...prevState.crudObject,
-                    [name]: value,
-                },
-            }),
-            () => console.log(this.state)
-        )
+        this.setState((prevState) => ({
+            crudObject: {
+                ...prevState.crudObject,
+                [name]: value,
+            },
+        }))
     }
 
     // Algemene State Handler voor de Editor
     setEditorState(stateValue, fieldName) {
-        this.setState(prevState => ({
+        this.setState((prevState) => ({
             crudObject: {
                 ...prevState.crudObject,
                 [fieldName]: stateValue,
@@ -103,7 +99,7 @@ class MuteerVerordeningenCRUD extends Component {
         // let requiredProperties = []
         // let requiredPropertyTypes = {}
         // Ga voor elk veld van het crudObject na of het een required field is
-        Object.keys(crudObject).forEach(function(key) {
+        Object.keys(crudObject).forEach(function (key) {
             if (dataModel.required.includes(key)) {
                 const dataModelFormat = dataModel.properties[key].format
 
@@ -158,7 +154,7 @@ class MuteerVerordeningenCRUD extends Component {
 
         let crudObject = this.state.crudObject
 
-        // Converteer de 'YYYY-MM-DD' waarden naar Date objecten
+        // Converteer de 'yyyy-MM-DD' waarden naar Date objecten
         if (
             crudObject.Begin_Geldigheid !== null &&
             crudObject.Begin_Geldigheid !== ''
@@ -201,11 +197,10 @@ class MuteerVerordeningenCRUD extends Component {
         function saveNewVerordening(crudObject, callback) {
             axios
                 .post(`/verordeningen`, JSON.stringify(crudObject))
-                .then(res => {
-                    console.log(res.data)
+                .then((res) => {
                     callback(res.data)
                 })
-                .catch(error => {
+                .catch((error) => {
                     toast(`Er is iets misgegaan`)
                     that.setSaveState(false)
                 })
@@ -217,11 +212,10 @@ class MuteerVerordeningenCRUD extends Component {
                     `/verordeningen/${verordeningsID}`,
                     JSON.stringify(crudObject)
                 )
-                .then(res => {
-                    console.log(res.data)
+                .then((res) => {
                     callback(res.data)
                 })
-                .catch(error => {
+                .catch((error) => {
                     toast(`Er is iets misgegaan`)
                     that.setSaveState(false)
                 })
@@ -275,7 +269,7 @@ class MuteerVerordeningenCRUD extends Component {
             if (nest_3 !== 'null') {
                 lineage.Structuur.Children[hoofdstukIndex].Children[
                     nest_1
-                ].Children[nest_2].Children.forEach(item => {
+                ].Children[nest_2].Children.forEach((item) => {
                     if (item.UUID === oldVerordeningsUUID) {
                         item.UUID = newVerordeningsUUID
                     }
@@ -283,21 +277,21 @@ class MuteerVerordeningenCRUD extends Component {
             } else if (nest_2 !== 'null') {
                 const nestedArray = lineage.Structuur.Children[
                     hoofdstukIndex
-                ].Children[nest_1].Children.forEach(item => {
+                ].Children[nest_1].Children.forEach((item) => {
                     if (item.UUID === oldVerordeningsUUID) {
                         item.UUID = newVerordeningsUUID
                     }
                 })
             } else if (nest_1 !== 'null') {
                 lineage.Structuur.Children[hoofdstukIndex].Children.forEach(
-                    item => {
+                    (item) => {
                         if (item.UUID === oldVerordeningsUUID) {
                             item.UUID = newVerordeningsUUID
                         }
                     }
                 )
             } else {
-                lineage.Structuur.Children.forEach(item => {
+                lineage.Structuur.Children.forEach((item) => {
                     if (item.UUID === oldVerordeningsUUID) {
                         item.UUID = newVerordeningsUUID
                     }
@@ -341,13 +335,13 @@ class MuteerVerordeningenCRUD extends Component {
                     `/verordeningstructuur/${lineageID}`,
                     verordeningsStructuurPostObject
                 )
-                .then(res => {
+                .then((res) => {
                     that.setSaveState(false)
                     history.push(
                         `/muteer/verordeningen/${lineageID}?actiefHoofdstuk=${hoofdstukIndex}`
                     )
                 })
-                .catch(err => console.log(err))
+                .catch((err) => console.log(err))
         }
 
         function saveNewStructuur(
@@ -388,12 +382,12 @@ class MuteerVerordeningenCRUD extends Component {
                     `/verordeningstructuur/${lineageID}`,
                     verordeningsStructuurPostObject
                 )
-                .then(res => {
+                .then((res) => {
                     history.push(
                         `/muteer/verordeningen/${lineageID}?actiefHoofdstuk=${hoofdstukIndex}`
                     )
                 })
-                .catch(err => {
+                .catch((err) => {
                     console.log(err)
                     that.setSaveState(false)
                     toast(`Er is iets misgegaan`)
@@ -414,7 +408,7 @@ class MuteerVerordeningenCRUD extends Component {
         this.setSaveState(true)
 
         if (this.state.edit) {
-            patchVerordening(crudObject, verordeningsID, response => {
+            patchVerordening(crudObject, verordeningsID, (response) => {
                 patchNewStructuur(
                     response,
                     urlParams,
@@ -425,8 +419,7 @@ class MuteerVerordeningenCRUD extends Component {
                 )
             })
         } else {
-            console.log('NO EDIT!')
-            saveNewVerordening(crudObject, response => {
+            saveNewVerordening(crudObject, (response) => {
                 saveNewStructuur(
                     response,
                     urlParams,
@@ -441,14 +434,14 @@ class MuteerVerordeningenCRUD extends Component {
     getAndSetVerordeningstructuur(ID) {
         axios
             .get(`/verordeningstructuur/${ID}`)
-            .then(res => {
+            .then((res) => {
                 // Get latest lineage
                 const lineage = res.data[res.data.length - 1]
                 this.setState({
                     lineage: lineage,
                 })
             })
-            .catch(err => {
+            .catch((err) => {
                 console.log(err)
             })
     }
@@ -481,11 +474,11 @@ class MuteerVerordeningenCRUD extends Component {
         // Connect with API and get data
         axios
             .get(`${apiEndpoint}/version/${objectID}`)
-            .then(res => {
+            .then((res) => {
                 const responseObject = res.data
                 this.createAndSetCrudObject(responseObject)
             })
-            .catch(error => toast(`Er is iets misgegaan`))
+            .catch((error) => toast(`Er is iets misgegaan`))
     }
 
     getHeaderTekst(type) {
@@ -586,8 +579,8 @@ class MuteerVerordeningenCRUD extends Component {
                             : `Omgevingsbeleid - Voeg een nieuwe verordening toe`}
                     </title>
                 </Helmet>
-                <div className="w-full py-32 px-6 mbg-color edit-header relative">
-                    <div className="lg:px-10 container mx-auto flex justify-center items-center">
+                <div className="relative w-full px-6 py-32 mbg-color edit-header">
+                    <div className="container flex items-center justify-center mx-auto lg:px-10">
                         <div className="w-full pr-20">
                             <ButtonBackToPage
                                 terugNaar={
@@ -602,7 +595,7 @@ class MuteerVerordeningenCRUD extends Component {
                                         : `/muteer/verordeningen/${lineageID}`
                                 }
                             />
-                            <h1 className="heading-serif-4xl text-white">
+                            <h1 className="text-white heading-serif-4xl">
                                 {headerTekst}
                             </h1>
                         </div>

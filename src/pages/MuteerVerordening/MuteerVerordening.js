@@ -17,10 +17,10 @@ import PopUpVerordeningSettings from './../../components/PopUpVerordeningSetting
 
 function HoofdstukSubSubItem(props) {
     return (
-        <li className="pl-10 text-gray-700 py-2 border-t border-gray-300 text-sm relative">
+        <li className="relative py-2 pl-10 text-sm text-gray-700 border-t border-gray-300">
             Afdeling 3.1 Titel van sub onderdeel
             <FontAwesomeIcon
-                className="font-xl absolute text-gray-600 mt-1 right-0 mr-2"
+                className="absolute right-0 mt-1 mr-2 text-gray-600 font-xl"
                 icon={faChevronRight}
             />
         </li>
@@ -46,16 +46,16 @@ class HoofdstukSubItem extends Component {
 
     render() {
         return (
-            <li className="text-gray-700 py-2 pr-2 border-b border-gray-300 text-sm relative">
+            <li className="relative py-2 pr-2 text-sm text-gray-700 border-b border-gray-300">
                 {this.state.openState === true ? (
                     <FontAwesomeIcon
-                        className="absolute cursor-pointer left-0 ml-4 mt-1"
+                        className="absolute left-0 mt-1 ml-4 cursor-pointer"
                         icon={faMinusSquare}
                         onClick={this.toggleOpenState}
                     />
                 ) : (
                     <FontAwesomeIcon
-                        className="absolute cursor-pointer left-0 ml-4 mt-1"
+                        className="absolute left-0 mt-1 ml-4 cursor-pointer"
                         icon={faPlusSquare}
                         onClick={this.toggleOpenState}
                     />
@@ -70,7 +70,7 @@ class HoofdstukSubItem extends Component {
                     Afdeling 3.1 Titel van sub onderdeel
                 </span>
                 <FontAwesomeIcon
-                    className="font-xl absolute text-gray-600 mt-1 mr-4 right-0"
+                    className="absolute right-0 mt-1 mr-4 text-gray-600 font-xl"
                     icon={faChevronRight}
                 />
                 {this.state.openState === true ? (
@@ -84,11 +84,11 @@ class HoofdstukSubItem extends Component {
 function HoofdstukSubContainer(props) {
     return (
         <div className="w-2/3 px-4 py-2">
-            <h3 className="heading-lg text-gray-800 block">Hoofdstuk 3</h3>
-            <span className="heading-lg text-gray-800 block font-bold">
+            <h3 className="block text-gray-800 heading-lg">Hoofdstuk 3</h3>
+            <span className="block font-bold text-gray-800 heading-lg">
                 Activiteiten in de fysieke leefomgeving
             </span>
-            <ul className="border-t border-gray-300 mt-2">{props.children}</ul>
+            <ul className="mt-2 border-t border-gray-300">{props.children}</ul>
         </div>
     )
 }
@@ -97,13 +97,13 @@ function HoofdstukMainItem(props) {
     return (
         <li
             onClick={() => props.setActiveItem(props.item)}
-            className="py-3 border-r border-gray-200 relative verordening-list-item text-sm cursor-pointer"
+            className="relative py-3 text-sm border-r border-gray-200 cursor-pointer verordening-list-item"
         >
-            <span className="pl-2 whitespace-pre-wrap inline-block">
+            <span className="inline-block pl-2 whitespace-pre-wrap">
                 Hoofstuk X Lorum Ipsum
             </span>
             <FontAwesomeIcon
-                className="font-xl absolute text-gray-600 mt-1 mr-4 right-0"
+                className="absolute right-0 mt-1 mr-4 text-gray-600 font-xl"
                 icon={faChevronRight}
             />
         </li>
@@ -112,7 +112,7 @@ function HoofdstukMainItem(props) {
 
 // function HoofdstukMainContainer() {
 //     return (
-//         <ul className="text-sm text-gray-700 verordening-list-container w-1/3">
+//         <ul className="w-1/3 text-sm text-gray-700 verordening-list-container">
 //             <HoofdstukMainItem />
 //             <HoofdstukMainItem />
 //             <HoofdstukMainItem />
@@ -171,7 +171,7 @@ class MuteerVerordening extends Component {
 
                     <div className="px-5 py-5 bg-white rounded shadow">
                         <div className="flex justify-between">
-                            <h2 className="heading-xl font-bold mb-2 mb-4">
+                            <h2 className="mb-2 mb-4 font-bold heading-xl">
                                 Verordening
                             </h2>
                             <div className="flex">
@@ -182,13 +182,13 @@ class MuteerVerordening extends Component {
 
                                 <div className="relative">
                                     <input
-                                        className="appearance-none w-48 block text-gray-700 border border-gray-300 rounded py-2 pl-4 pr-12 leading-tight focus:outline-none hover:border-gray-400 focus:border-gray-400 text-sm"
+                                        className="block w-48 py-2 pl-4 pr-12 text-sm leading-tight text-gray-700 border border-gray-300 rounded appearance-none focus:outline-none hover:border-gray-400 focus:border-gray-400"
                                         name="titel"
                                         type="text"
                                         placeholder="Zoeken"
                                     />
                                     <FontAwesomeIcon
-                                        className="absolute right-0 top-0 mr-4 mt-3 text-gray-600 text-sm"
+                                        className="absolute top-0 right-0 mt-3 mr-4 text-sm text-gray-600"
                                         icon={faSearch}
                                     />
                                 </div>
@@ -196,9 +196,9 @@ class MuteerVerordening extends Component {
                         </div>
 
                         <div className="flex">
-                            <ul className="text-sm text-gray-700 verordening-list-container w-1/3">
+                            <ul className="w-1/3 text-sm text-gray-700 verordening-list-container">
                                 {this.state.dataLoaded
-                                    ? this.state.objecten.map(item => {
+                                    ? this.state.objecten.map((item) => {
                                           return (
                                               <HoofdstukMainItem
                                                   setActiveItem={
@@ -242,20 +242,13 @@ class MuteerVerordening extends Component {
         // Connect With the API
         axios
             .get(ApiEndpoint)
-            .then(res => {
+            .then((res) => {
                 const objecten = res.data
                 this.setState({ objecten: objecten, dataLoaded: true })
             })
-            .catch(error => {
+            .catch((error) => {
                 this.setState({ dataLoaded: true })
-                if (error.response !== undefined) {
-                    if (error.response.status === 401) {
-                        localStorage.removeItem('access_token')
-                        this.props.history.push('/login')
-                    }
-                } else {
-                    console.log(error)
-                }
+                console.log(error)
             })
     }
 }

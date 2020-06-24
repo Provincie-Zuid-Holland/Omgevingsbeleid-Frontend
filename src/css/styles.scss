@@ -873,3 +873,12 @@ $base-color: #002f65;
         }
     }
 }
+
+.screen-minus-nav {
+    top: 85px;
+    height: calc(100vh - 250px);
+}
+
+.werkingsgebied-container {
+    height: calc(100% - 125px);
+}

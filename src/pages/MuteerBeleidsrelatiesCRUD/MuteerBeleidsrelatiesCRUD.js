@@ -40,19 +40,18 @@ class MuteerBeleidsrelatiesCRUD extends Component {
         this.verwijderKoppelingRelatieToe = this.verwijderKoppelingRelatieToe.bind(
             this
         )
-        this.checkForEmptyFields = this.checkForEmptyFields.bind(this)
     }
 
     componentDidMount() {
         const UUID = this.props.match.params.UUID
         axios
             .get(`/beleidsbeslissingen/version/${UUID}`)
-            .then(res =>
+            .then((res) =>
                 this.setState({
                     Van_Beleidsbeslissing_Titel: res.data.Titel,
                 })
             )
-            .catch(error => console.log(error))
+            .catch((error) => console.log(error))
     }
 
     handleChange(event) {
@@ -64,7 +63,7 @@ class MuteerBeleidsrelatiesCRUD extends Component {
             value = event.target.value
         }
 
-        this.setState(prevState => ({
+        this.setState((prevState) => ({
             crudObject: {
                 ...prevState.crudObject,
                 [name]: value,
@@ -74,47 +73,12 @@ class MuteerBeleidsrelatiesCRUD extends Component {
 
     // Algemene State Handler voor de Editor
     setEditorState(stateValue, fieldName) {
-        this.setState(prevState => ({
+        this.setState((prevState) => ({
             crudObject: {
                 ...prevState.crudObject,
                 [fieldName]: stateValue,
             },
         }))
-    }
-
-    // !REFACTOR! -> Implement utility function
-    checkForEmptyFields(crudObject) {
-        const dataModel = this.props.dataModel
-        let allFieldsComplete = true
-        // let requiredProperties = []
-        // let requiredPropertyTypes = {}
-        // Ga voor elk veld van het crudObject na of het een required field is
-        Object.keys(crudObject).forEach(function(key) {
-            if (dataModel.required.includes(key)) {
-                const dataModelFormat = dataModel.properties[key].format
-
-                // Check if the dataModel Type is equal to the type in the crudObject
-                if (
-                    dataModelFormat === 'uuid' &&
-                    allFieldsComplete &&
-                    !crudObject[key]
-                ) {
-                    toast(`Vul alle 'Personen' velden in`)
-                    allFieldsComplete = false
-                } else if (
-                    dataModelFormat === 'uuid' &&
-                    allFieldsComplete &&
-                    !validator.isUUID(crudObject[key])
-                ) {
-                    // !REFACTOR! Validator eruit slopen en npm package verwijderen
-                    toast(`Vul alle 'Personen' velden in`)
-                    allFieldsComplete = false
-                }
-            }
-        })
-        return allFieldsComplete
-
-        // Als het een required field is, kijk of het type overeen komt met die in het dataModel
     }
 
     validateDate(dateObject) {
@@ -135,10 +99,6 @@ class MuteerBeleidsrelatiesCRUD extends Component {
 
     handleSubmit(event) {
         event.preventDefault()
-
-        // Remove Local Storage Item
-        const objectName = this.props.dataModel.variables.Object_Name
-        localStorage.removeItem(objectName)
 
         let crudObject = this.state.crudObject
 
@@ -167,7 +127,7 @@ class MuteerBeleidsrelatiesCRUD extends Component {
                 )
                 toast('Opgeslagen')
             })
-            .catch(error => {
+            .catch((error) => {
                 console.log(error)
             })
     }
@@ -197,7 +157,7 @@ class MuteerBeleidsrelatiesCRUD extends Component {
     wijzigKoppelingRelatie(koppelingObject, nieuweOmschrijving) {
         let nieuwCrudObject = this.state.crudObject
         const index = nieuwCrudObject[koppelingObject.propertyName].findIndex(
-            item => item.UUID === koppelingObject.item.UUID
+            (item) => item.UUID === koppelingObject.item.UUID
         )
         nieuwCrudObject[koppelingObject.propertyName][
             index
@@ -214,7 +174,7 @@ class MuteerBeleidsrelatiesCRUD extends Component {
     verwijderKoppelingRelatieToe(koppelingObject) {
         let nieuwCrudObject = this.state.crudObject
         const index = nieuwCrudObject[koppelingObject.propertyName].findIndex(
-            item => item.UUID === koppelingObject.item.UUID
+            (item) => item.UUID === koppelingObject.item.UUID
         )
         nieuwCrudObject[koppelingObject.propertyName].splice(index, 1)
 
@@ -229,8 +189,8 @@ class MuteerBeleidsrelatiesCRUD extends Component {
     render() {
         const contextObject = {
             objectUUID: this.state.UUID,
-            titelEnkelvoud: this.props.dataModel.variables.Titel_Enkelvoud,
-            titelMeervoud: this.props.dataModel.variables.Titel_Meervoud,
+            titelEnkelvoud: this.props.dataModel.TITEL_ENKELVOUD,
+            titelMeervoud: this.props.dataModel.TITEL_MEERVOUD,
             overzichtSlug: this.props.overzichtSlug,
             objectID: this.props.match.params.single,
             editStatus: this.state.edit,

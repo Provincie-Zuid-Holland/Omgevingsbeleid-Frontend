@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { format } from 'date-fns'
 import { Link, withRouter } from 'react-router-dom'
 import { faPlus, faEllipsisV } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -52,7 +51,7 @@ class PopUpDetailDropdown extends Component {
         this.handleClick = this.handleClick.bind(this)
     }
 
-    handleClick = e => {
+    handleClick = (e) => {
         if (
             !this.innerContainer.current.contains(e.target) &&
             this.props.openState === true
@@ -72,13 +71,13 @@ class PopUpDetailDropdown extends Component {
     render() {
         return (
             <div
-                className="main-tooltip-container main-tooltip-container-muteer-detail tooltip-right absolute bg-white shadow rounded mt-2 w-48  text-gray-700 right-0 top-0 mr-2 mt-12"
+                className="absolute top-0 right-0 w-48 mt-2 mt-12 mr-2 text-gray-700 bg-white rounded shadow main-tooltip-container main-tooltip-container-muteer-detail tooltip-right"
                 ref={this.innerContainer}
             >
-                <div className="h-full relative">
+                <div className="relative h-full">
                     <ul className="text-sm text-gray-800">
                         <li
-                            className="py-2 px-4 text-sm cursor-pointer"
+                            className="px-4 py-2 text-sm cursor-pointer"
                             onClick={() => {
                                 this.props.toggleDropdown()
                                 this.props.deleteItem()
@@ -90,7 +89,7 @@ class PopUpDetailDropdown extends Component {
                             <Link
                                 id="navbar-popup-href-raadpleeg-omgeving"
                                 to={`/`}
-                                className="py-2 px-4 text-sm border-t border-gray-300 w-full inline-block"
+                                className="inline-block w-full px-4 py-2 text-sm border-t border-gray-300"
                             >
                                 Raadpleegomgeving
                             </Link>
@@ -142,19 +141,13 @@ class MuteerVerordeningenDetail extends Component {
         // Connect With the API
         axios
             .get(apiEndpoint)
-            .then(res => {
+            .then((res) => {
                 const dataObject = res.data
-                this.setState(
-                    { dataObject: dataObject, dataReceived: true },
-                    () => console.log(this.state)
-                )
+                this.setState({ dataObject: dataObject, dataReceived: true })
             })
-            .catch(error => {
+            .catch((error) => {
                 if (error.response !== undefined) {
-                    if (error.response.status === 401) {
-                        localStorage.removeItem('access_token')
-                        this.props.history.push('/login')
-                    } else if (error.response.status === 404) {
+                    if (error.response.status === 404) {
                         this.props.history.push(
                             `/muteer/${this.props.overzichtSlug}`
                         )
@@ -162,9 +155,6 @@ class MuteerVerordeningenDetail extends Component {
                             `Deze ${this.props.dataModel.variables.Titel_Enkelvoud.toLowerCase()} kon niet gevonden worden`
                         )
                     }
-                    this.setState({
-                        dataReceived: true,
-                    })
                 } else {
                     toast(`Er is iets misgegaan`)
                 }
@@ -193,8 +183,8 @@ class MuteerVerordeningenDetail extends Component {
 
         axios
             .patch(`/verordeningen/${dataObjectID}`, JSON.stringify(dataObject))
-            .then(res => console.log(res.data))
-            .catch(err => console.log(err))
+            .then((res) => console.log(res.data))
+            .catch((err) => console.log(err))
     }
 
     deleteItem() {
@@ -307,10 +297,10 @@ class MuteerVerordeningenDetail extends Component {
                 `/verordeningstructuur/${lineageID}`,
                 verordeningsStructuurPostObject
             )
-            .then(res =>
+            .then((res) =>
                 this.props.history.push(`/muteer/verordeningen/${lineageID}`)
             )
-            .catch(err => console.log(err))
+            .catch((err) => console.log(err))
     }
 
     // On initial mount, set pagetype and get data from API
@@ -321,14 +311,14 @@ class MuteerVerordeningenDetail extends Component {
         const ID = this.props.match.params.lineageID
         axios
             .get(`/verordeningstructuur/${ID}`)
-            .then(res => {
+            .then((res) => {
                 // Get latest lineage
                 const lineage = res.data[res.data.length - 1]
                 this.setState({
                     lineage: lineage,
                 })
             })
-            .catch(err => {
+            .catch((err) => {
                 console.log(err)
             })
     }
@@ -362,7 +352,7 @@ class MuteerVerordeningenDetail extends Component {
                 ) : null}
 
                 {/* Dimensie Container */}
-                <div className="w-full inline-block">
+                <div className="inline-block w-full">
                     <GenerateBackToButton
                         hash={this.props.location.hash}
                         lineageID={this.props.match.params.lineageID}
@@ -375,19 +365,19 @@ class MuteerVerordeningenDetail extends Component {
                         <div className="w-full">
                             <div className="h-10 mt-5 ">
                                 <Link
-                                    className="flex items-center mt-5 w-1/2"
+                                    className="flex items-center w-1/2 mt-5"
                                     to={`/muteer/verordeningen/${this.props.match.params.lineageID}/bewerk/${dataObject.Type}/${dataObject.UUID}/${dataObject.ID}${this.props.location.search}`}
                                     id={`href-ontwerp-maken`}
                                 >
-                                    <span className="relative w-24 h-10 border-r-2 flex items-center justify-end border-gray-300 pb-5 mr-2">
-                                        <div className="w-8 h-8 pt-1 absolute text-center bg-gray-300 rounded-full -right-4">
+                                    <span className="relative flex items-center justify-end w-24 h-10 pb-5 mr-2 border-r-2 border-gray-300">
+                                        <div className="absolute w-8 h-8 pt-1 text-center bg-gray-300 rounded-full -right-4">
                                             <FontAwesomeIcon
-                                                className="text-gray-600 relative"
+                                                className="relative text-gray-600"
                                                 icon={faPlus}
                                             />
                                         </div>
                                     </span>
-                                    <span className="text-sm inline text-gray-700 -mt-5 pl-5 cursor-pointer hover:underline">
+                                    <span className="inline pl-5 -mt-5 text-sm text-gray-700 cursor-pointer hover:underline">
                                         Bewerken
                                     </span>
                                 </Link>
@@ -402,7 +392,7 @@ class MuteerVerordeningenDetail extends Component {
                             >
                                 <div
                                     onClick={this.toggleDropdown}
-                                    className="absolute right-0 top-0 hover:text-gray-800 text-gray-600 cursor-pointer p-5"
+                                    className="absolute top-0 right-0 p-5 text-gray-600 cursor-pointer hover:text-gray-800"
                                 >
                                     <FontAwesomeIcon
                                         className="mr-2"

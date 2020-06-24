@@ -56,20 +56,17 @@ class MuteerVerordeningenStructuurCRUD extends Component {
             value = event.target.value
         }
 
-        this.setState(
-            prevState => ({
-                crudObject: {
-                    ...prevState.crudObject,
-                    [name]: value,
-                },
-            }),
-            () => console.log(this.state)
-        )
+        this.setState((prevState) => ({
+            crudObject: {
+                ...prevState.crudObject,
+                [name]: value,
+            },
+        }))
     }
 
     // Algemene State Handler voor de Editor
     setEditorState(stateValue, fieldName) {
-        this.setState(prevState => ({
+        this.setState((prevState) => ({
             crudObject: {
                 ...prevState.crudObject,
                 [fieldName]: stateValue,
@@ -102,7 +99,7 @@ class MuteerVerordeningenStructuurCRUD extends Component {
 
         let crudObject = this.state.crudObject
 
-        // Converteer de 'YYYY-MM-DD' waarden naar Date objecten
+        // Converteer de 'yyyy-MM-DD' waarden naar Date objecten
         // Of verwijder de property als de waarde null || '' is
         if (
             crudObject.Begin_Geldigheid !== null &&
@@ -148,7 +145,7 @@ class MuteerVerordeningenStructuurCRUD extends Component {
                     this.props.history.push(`/muteer/verordeningen`)
                     toast('Gewijzigd')
                 })
-                .catch(error => {
+                .catch((error) => {
                     // crudObject = this.setInitialValuesCrudObject(crudObject)
                     // Wijzig de data terug naar het format om in het input veld te tonen
                     crudObject = this.formatGeldigheidDatesForUI(crudObject)
@@ -168,7 +165,7 @@ class MuteerVerordeningenStructuurCRUD extends Component {
                     this.props.history.push(`/muteer/verordeningen`)
                     toast('Opgeslagen')
                 })
-                .catch(error => {
+                .catch((error) => {
                     // crudObject = this.setInitialValuesCrudObject(crudObject)
                     // Wijzig de data terug naar het format om in het input veld te tonen
                     crudObject = this.formatGeldigheidDatesForUI(crudObject)
@@ -204,7 +201,7 @@ class MuteerVerordeningenStructuurCRUD extends Component {
     wijzigKoppelingRelatie(koppelingObject, nieuweOmschrijving) {
         let nieuwCrudObject = this.state.crudObject
         const index = nieuwCrudObject[koppelingObject.propertyName].findIndex(
-            item => item.UUID === koppelingObject.item.UUID
+            (item) => item.UUID === koppelingObject.item.UUID
         )
         nieuwCrudObject[koppelingObject.propertyName][
             index
@@ -221,7 +218,7 @@ class MuteerVerordeningenStructuurCRUD extends Component {
     verwijderKoppelingRelatieToe(koppelingObject) {
         let nieuwCrudObject = this.state.crudObject
         const index = nieuwCrudObject[koppelingObject.propertyName].findIndex(
-            item => item.UUID === koppelingObject.item.UUID
+            (item) => item.UUID === koppelingObject.item.UUID
         )
         nieuwCrudObject[koppelingObject.propertyName].splice(index, 1)
 
@@ -255,7 +252,7 @@ class MuteerVerordeningenStructuurCRUD extends Component {
                 .get(
                     `/verordeningstructuur/version/${this.props.match.params.lineageUUID}`
                 )
-                .then(res => {
+                .then((res) => {
                     let crudObject = res.data
 
                     delete crudObject.ID
@@ -266,12 +263,12 @@ class MuteerVerordeningenStructuurCRUD extends Component {
                     delete crudObject.Created_Date
 
                     crudObject.Begin_Geldigheid = format(
-                        crudObject.Begin_Geldigheid,
-                        'YYYY-MM-DD'
+                        new Date(crudObject.Begin_Geldigheid),
+                        'yyyy-MM-dd'
                     )
                     crudObject.Eind_Geldigheid = format(
-                        crudObject.Eind_Geldigheid,
-                        'YYYY-MM-DD'
+                        new Date(crudObject.Eind_Geldigheid),
+                        'yyyy-MM-dd'
                     )
 
                     this.setState({
@@ -280,7 +277,7 @@ class MuteerVerordeningenStructuurCRUD extends Component {
                         crudObject: crudObject,
                     })
                 })
-                .catch(err => console.log(err))
+                .catch((err) => console.log(err))
         } else {
             this.createAndSetCrudObject()
         }
@@ -310,15 +307,15 @@ class MuteerVerordeningenStructuurCRUD extends Component {
                             : `Omgevingsbeleid - Voeg een nieuwe verordening toe`}
                     </title>
                 </Helmet>
-                <div className="w-full py-32 px-6 mbg-color edit-header relative">
-                    <div className="lg:px-10 container mx-auto flex justify-center items-center">
+                <div className="relative w-full px-6 py-32 mbg-color edit-header">
+                    <div className="container flex items-center justify-center mx-auto lg:px-10">
                         <div className="w-full pr-20">
                             <ButtonBackToPage
                                 terugNaar={`verordening`}
                                 color="text-white"
                                 url={`/muteer/verordeningen/${this.props.match.params.lineageID}`}
                             />
-                            <h1 className="heading-serif-4xl text-white">
+                            <h1 className="text-white heading-serif-4xl">
                                 {dataLoaded
                                     ? editStatus
                                         ? `Wijzig de verordening`
@@ -330,7 +327,7 @@ class MuteerVerordeningenStructuurCRUD extends Component {
                 </div>
                 {dataLoaded ? (
                     <ContainerMain>
-                        <div className="w-full inline-block flex-grow">
+                        <div className="flex-grow inline-block w-full">
                             <form
                                 className="mt-12"
                                 onSubmit={this.handleSubmit}
@@ -390,10 +387,10 @@ class MuteerVerordeningenStructuurCRUD extends Component {
 
                                 {/* Submit */}
                                 <div className="fixed bottom-0 right-0 px-6">
-                                    <div className="bg-white shadow px-4 py-4 inline-block rounded-t">
+                                    <div className="inline-block px-4 py-4 bg-white rounded-t shadow">
                                         <input
                                             id="form-submit"
-                                            className="font-bold py-2 px-4 leading-tight text-sm rounded mbg-color text-white hover:underline"
+                                            className="px-4 py-2 text-sm font-bold leading-tight text-white rounded mbg-color hover:underline"
                                             type="submit"
                                             value="Opslaan"
                                         ></input>

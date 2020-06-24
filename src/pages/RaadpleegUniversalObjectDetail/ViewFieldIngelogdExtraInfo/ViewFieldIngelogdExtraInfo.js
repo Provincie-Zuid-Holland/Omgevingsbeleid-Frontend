@@ -73,13 +73,13 @@ class ViewFieldIngelogdExtraInfo extends Component {
 
     getPersonenRol(item) {
         if (item === 'Eigenaar_1') {
-            return 'Eigenaar 1'
+            return 'Eerste eigenaar'
         } else if (item === 'Eigenaar_2') {
-            return 'Eigenaar 2'
+            return 'Tweede eigenaar'
         } else if (item === 'Portefeuillehouder_1') {
-            return 'Portefeuillehouder 1'
+            return 'Eerste portefeuillehouder'
         } else if (item === 'Portefeuillehouder_2') {
-            return 'Portefeuillehouder 2'
+            return 'Tweede portefeuillehouder'
         } else if (item === 'Opdrachtgever') {
             return 'Ambtelijk opdrachtgever'
         }

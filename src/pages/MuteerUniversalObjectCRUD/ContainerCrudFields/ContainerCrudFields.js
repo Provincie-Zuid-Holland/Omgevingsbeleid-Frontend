@@ -38,7 +38,7 @@ class ContainerCrudFields extends React.Component {
 
         return (
             <ContainerMain>
-                <div className="w-full inline-block flex-grow">
+                <div className="flex-grow inline-block w-full">
                     <div>
                         <form className="mt-12" onSubmit={handleSubmit}>
                             {/* 1. Beleidsbeslissingen sectie */}
@@ -247,7 +247,7 @@ class ContainerCrudFields extends React.Component {
                                             fieldValue={crudObject['Belangen']}
                                             fieldLabel="Koppelingen"
                                             dataObjectProperty="Koppelingen"
-                                            pValue="Aan welke ambities, opgaven, artikelen uit de verordening, maatregelen en nadere beleidsregels heeft deze beleidsbeslissing een koppeling?"
+                                            pValue="Aan welke ambities, opgaven, artikelen uit de verordening, maatregelen en beleidsregels heeft deze beleidsbeslissing een koppeling?"
                                             titelEnkelvoud={titelEnkelvoud}
                                             voegKoppelingRelatieToe={
                                                 voegKoppelingRelatieToe
@@ -1145,10 +1145,10 @@ class ContainerCrudFields extends React.Component {
 
                             {/* Submit */}
                             <div className="fixed bottom-0 right-0 px-6">
-                                <div className="bg-white shadow px-4 py-4 inline-block rounded-t">
+                                <div className="inline-block px-4 py-4 bg-white rounded-t shadow">
                                     <input
                                         id="form-submit"
-                                        className="font-bold py-2 px-4 leading-tight text-sm rounded mbg-color text-white hover:underline cursor-pointer"
+                                        className="px-4 py-2 text-sm font-bold leading-tight text-white rounded cursor-pointer mbg-color hover:underline"
                                         type="submit"
                                         value="Opslaan"
                                     ></input>
