@@ -10,7 +10,7 @@ import * as serviceWorker from './serviceWorker'
 import { BrowserRouter } from 'react-router-dom'
 
 if (typeof Object.assign != 'function') {
-    Object.assign = function(target, varArgs) {
+    Object.assign = function (target, varArgs) {
         // .length of function is 2
         'use strict'
         if (target == null) {
@@ -43,7 +43,7 @@ if (typeof Object.assign != 'function') {
 }
 
 if (!String.prototype.includes) {
-    String.prototype.includes = function(search, start) {
+    String.prototype.includes = function (search, start) {
         'use strict'
 
         if (search instanceof RegExp) {
@@ -58,7 +58,7 @@ if (!String.prototype.includes) {
 
 if (!Array.prototype.fill) {
     Object.defineProperty(Array.prototype, 'fill', {
-        value: function(value) {
+        value: function (value) {
             // Steps 1-2.
             if (this == null) {
                 throw new TypeError('this is null or not defined')
