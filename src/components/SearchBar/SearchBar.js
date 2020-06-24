@@ -142,9 +142,7 @@ const SearchBar = ({ width, compInNavigation }) => {
     React.useEffect(() => {
         // Close searchBarPopup
         function closeOnEscape(e) {
-            console.log('Key')
             if (e.key === 'Escape') {
-                console.log('Close')
                 setSearchBarPopupOpen(false)
             }
         }
