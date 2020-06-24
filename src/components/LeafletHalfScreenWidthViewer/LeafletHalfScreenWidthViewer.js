@@ -189,12 +189,13 @@ export default class LeafletHalfScreenWidthViewer extends Component {
 
     _onChange = () => {
         // this._editableFG contains the edited geometry, which can be manipulated through the leaflet API
-
         const { onChange } = this.props
 
         if (!this._editableFG || !onChange) {
             return
         }
+
+        console.log(this)
 
         const geojsonData = this._editableFG.leafletElement.toGeoJSON()
         onChange(geojsonData)
@@ -273,6 +274,7 @@ export default class LeafletHalfScreenWidthViewer extends Component {
     }
 
     render() {
+        console.log(this)
         return (
             <React.Fragment>
                 <Map

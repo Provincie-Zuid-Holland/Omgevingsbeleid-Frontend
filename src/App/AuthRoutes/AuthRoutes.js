@@ -27,41 +27,8 @@ import allDimensies from './../../constants/dimensies'
 // Import the regulation constants to pass down to the mutate regulation pages
 import allVerordeningen from './../../constants/verordeningen'
 
+// Component to generate a general overview View, a detail view and a CRUD view to edit and create
 const BeheerRoutes = (props) => {
-    // const dimensies = [
-    //     {
-    //         slug: 'beleidsregels',
-    //         dataModelProperty: 'BeleidsRegels',
-    //     },
-    //     {
-    //         slug: 'maatregelen',
-    //         dataModelProperty: 'Maatregelen',
-    //     },
-    //     {
-    //         slug: 'opgaven',
-    //         dataModelProperty: 'Opgaven',
-    //     },
-    //     {
-    //         slug: 'ambities',
-    //         dataModelProperty: 'Ambities',
-    //     },
-    //     {
-    //         slug: 'belangen',
-    //         dataModelProperty: 'Belangen',
-    //     },
-    //     {
-    //         slug: 'themas',
-    //         dataModelProperty: "Thema's",
-    //     },
-    //     {
-    //         slug: 'beleidsbeslissingen',
-    //         dataModelProperty: 'Beleidsbeslissingen',
-    //     },
-    // ]
-
-    // const authUser = props.authUser
-
-    console.log(allDimensies)
     const BeheerRouteJSX = Object.keys(allDimensies).map((dimensie) => {
         const dimensieConstants = allDimensies[dimensie]
         const overzichtSlug = allDimensies[dimensie].SLUG_OVERZICHT
@@ -335,32 +302,19 @@ class AuthRoutes extends Component {
                         exact
                         render={() => (
                             <MuteerBeleidsrelatiesCRUD
-                                dataModel={allDimensies.Beleidsrelaties}
+                                dataModel={allDimensies.BELEIDSRELATIES}
                                 history={this.props.history}
-                                authUser={this.props.authUser}
                             />
                         )}
                     />
                     <Route
                         path="/muteer/beleidsrelaties/:UUID"
                         exact
-                        render={() => (
-                            <MuteerBeleidsrelatiesOverzicht
-                                dataModel={allDimensies.BeleidsRelatie}
-                                history={this.props.history}
-                                authUser={this.props.authUser}
-                            />
-                        )}
+                        render={() => <MuteerBeleidsrelatiesOverzicht />}
                     />
                     <Route
                         path="/muteer/beleidsrelaties"
-                        render={() => (
-                            <MuteerBeleidsrelatiesOverzicht
-                                dataModel={allDimensies.BeleidsRelatie}
-                                history={this.props.history}
-                                authUser={this.props.authUser}
-                            />
-                        )}
+                        render={() => <MuteerBeleidsrelatiesOverzicht />}
                     />
                     <BeheerRoutes
                         authUser={this.props.authUser}
