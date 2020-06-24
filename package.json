@@ -47,6 +47,7 @@
         "tailwind": "npx tailwindcss build src/css/tailwind.src.css -c  tailwind.config.js -o src/css/tailwind.css",
         "start": "yarn tailwind && react-scripts start",
         "build": "yarn tailwind && react-scripts build",
+        "prod:build": "NODE_ENV=production npm run build",
         "test": "react-scripts test",
         "eject": "react-scripts eject"
     },
