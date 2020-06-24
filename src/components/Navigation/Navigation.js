@@ -1,14 +1,14 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import isToday from 'date-fns/isToday'
+import parseISO from 'date-fns/parseISO'
 
 import {
-    faCaretDown,
-    faSignInAlt,
     faSearch,
     faBars,
     faTimes,
     faEye,
+    faSignInAlt,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -34,7 +34,11 @@ function Navigation({ loggedIn, setLoginState }) {
     // This variable is valid for 24 hours and makes sure the banner will not show up again.
     const hideBannerLocalStorage = () => {
         const dateHideBanner = localStorage.getItem('__OB_hide_banner__')
-        return isToday(dateHideBanner)
+        return isToday(
+            typeof dateHideBanner === 'string'
+                ? parseISO(dateHideBanner)
+                : dateHideBanner
+        )
     }
 
     function logout() {
@@ -86,6 +90,27 @@ function Navigation({ loggedIn, setLoginState }) {
                             Raadplegen
                         </Link>
                     ) : null}
+                    {loggedIn && !userIsInMuteerEnvironment ? (
+                        <Link
+                            to={'/muteer/dashboard'}
+                            className="px-4 py-2 mr-5 text-sm text-gray-700 transition duration-300 ease-in rounded hover:text-gray-800"
+                        >
+                            <FontAwesomeIcon className="mr-3" icon={faEye} />
+                            Bewerken
+                        </Link>
+                    ) : null}
+                    {!loggedIn ? (
+                        <Link
+                            to={'/login'}
+                            className="px-4 py-2 mr-5 text-sm text-gray-700 transition duration-300 ease-in rounded hover:text-gray-800"
+                        >
+                            <FontAwesomeIcon
+                                className="mr-3"
+                                icon={faSignInAlt}
+                            />
+                            Inloggen
+                        </Link>
+                    ) : null}
                     <PopupMenu
                         logout={logout}
                         setLoginState={setLoginState}
@@ -106,6 +131,7 @@ const PopupMenu = ({ loggedIn, showBanner, logout }) => {
 
     // Loading state
     const [isLoading, setIsLoading] = React.useState(true)
+    const [verordeningIsLoading, setVerordeningIsLoading] = React.useState(true)
 
     // Dimension state
     const [ambities, setAmbities] = React.useState(null)
@@ -141,14 +167,17 @@ const PopupMenu = ({ loggedIn, showBanner, logout }) => {
             axios
                 .get(`${allDimensies.VERORDENINGSTRUCTUUR.API_ENDPOINT}`)
                 .then((res) => {
+                    // Generate the URL for the first item of the lineage
                     const firstLineage = res.data[0]
+                    // Used to push in the levels until we find an 'Artikel
                     let position = []
+
+                    // TODO: Fix bug when there is no article in the first [0][0][0]
                     const traverseItems = (children) => {
-                        if (children[0].Type !== 'Artikel') {
+                        if (children[0] && children[0].Type !== 'Artikel') {
                             position.push(0)
                             return traverseItems(children[0].Children)
                         } else {
-                            console.log(children[0])
                             return children[0]
                         }
                     }
@@ -166,6 +195,7 @@ const PopupMenu = ({ loggedIn, showBanner, logout }) => {
                         }
                     }
                     setVerordeningStructuur(generateURL(position, firstArtikel))
+                    setVerordeningIsLoading(false)
                 })
                 .catch((err) => console.log(err)),
         ]).then(() => setIsLoading(false))
@@ -181,7 +211,7 @@ const PopupMenu = ({ loggedIn, showBanner, logout }) => {
                 return allDimensies['BELEIDSBESLISSINGEN']
             case "Maatregelen (Programma's)":
                 return allDimensies['MAATREGELEN']
-            case 'Nadere beleidsregels':
+            case 'Beleidsregels':
                 return allDimensies['BELEIDSREGELS']
 
             default:
@@ -199,7 +229,7 @@ const PopupMenu = ({ loggedIn, showBanner, logout }) => {
                 return beleidskeuzes
             case "Maatregelen (Programma's)":
                 return maatregelen
-            case 'Nadere beleidsregels':
+            case 'Beleidsregels':
                 return beleidsregels
 
             default:
@@ -220,6 +250,8 @@ const PopupMenu = ({ loggedIn, showBanner, logout }) => {
         window.addEventListener('keydown', closeOnEscape)
         return () => window.removeEventListener('keydown', closeOnEscape)
     }, [])
+
+    const currentItems = getCurrentItems()
 
     return (
         <React.Fragment>
@@ -290,7 +322,7 @@ const PopupMenu = ({ loggedIn, showBanner, logout }) => {
                                 />
                                 <TabMenuItem
                                     activeTab={activeTab}
-                                    tabTitle="Nadere beleidsregels"
+                                    tabTitle="Beleidsregels"
                                     setActiveTab={setActiveTab}
                                 />
                                 <TabMenuItemLink
@@ -302,68 +334,21 @@ const PopupMenu = ({ loggedIn, showBanner, logout }) => {
                                     setIsOpen={setIsOpen}
                                 />
                             </nav>
-                            <h3 className="mt-16 font-bold text-gray-900 heading-xl">
-                                Omgevingsbeleid
-                            </h3>
-                            <nav className="mt-5">
-                                {loggedIn ? (
-                                    <React.Fragment>
-                                        <TabMenuItemLink
-                                            href="/muteer/dashboard"
-                                            tabTitle="Dashboard"
-                                            setIsOpen={setIsOpen}
-                                            tabId="popup-menu-item-to-dashboard"
-                                        />
-                                        <TabMenuItemLink
-                                            href={'/muteer/mijn-beleid'}
-                                            tabTitle="Mijn Beleid"
-                                            setIsOpen={setIsOpen}
-                                            tabId={`popup-menu-item-to-my-policies`}
-                                        />
-                                        <TabMenuItemLink
-                                            href={'/muteer/beleidsrelaties'}
-                                            tabTitle="Beleidsrelaties"
-                                            setIsOpen={setIsOpen}
-                                            tabId={`popup-menu-item-to-my-policy-relations`}
-                                        />
-                                        <TabMenuItemLink
-                                            href={'/login'}
-                                            tabTitle="Uitloggen"
-                                            setIsOpen={setIsOpen}
-                                            callback={() => {
-                                                logout()
-                                            }}
-                                            tabId={`popup-menu-item-logout`}
-                                        />
-                                    </React.Fragment>
-                                ) : (
-                                    <Link
-                                        id={`popup-menu-item-login`}
-                                        onClick={() => {
-                                            setIsOpen(false)
-                                        }}
-                                        to={'/login'}
-                                        className={`w-full font-medium rounded-md-l group flex items-center px-3 py-2 text-sm leading-5 hover:text-gray-900 transition ease-in-out duration-150 mt-1 text-gray-600 hover:bg-gray-50 focus:outline-none focus:bg-gray-50 cursor-pointer`}
-                                    >
-                                        <span class="truncate">Inloggen</span>
-                                    </Link>
-                                )}
-                            </nav>
                         </div>
                         <div className="w-9/12 pl-5">
                             <div className="flex w-full pb-5 border-b border-gray-300">
                                 <h3 className="w-full font-bold text-gray-900 heading-xl">
                                     {activeTab}{' '}
-                                    {isLoading ? null : (
+                                    {isLoading &&
+                                    verordeningIsLoading ? null : (
                                         <span className="ml-2 text-gray-600">
-                                            {
-                                                getCurrentItems().filter(
-                                                    (item) =>
-                                                        item.Titel.toLowerCase().includes(
-                                                            filterQuery.toLowerCase()
-                                                        )
-                                                ).length
-                                            }
+                                            {currentItems !== null
+                                                ? currentItems.filter((item) =>
+                                                      item.Titel.toLowerCase().includes(
+                                                          filterQuery.toLowerCase()
+                                                      )
+                                                  ).length
+                                                : null}
                                         </span>
                                     )}
                                 </h3>
@@ -392,12 +377,12 @@ const PopupMenu = ({ loggedIn, showBanner, logout }) => {
                             </div>
                             <div className="h-full pt-2 overflow-y-auto">
                                 <nav className="flex flex-wrap pb-12 items-top">
-                                    {isLoading ? (
+                                    {isLoading && !currentItems ? (
                                         <div className="flex items-center justify-center w-full h-24 text-gray-500">
                                             <LoaderSpinner />
                                         </div>
                                     ) : (
-                                        getCurrentItems()
+                                        currentItems
                                             .filter((item) =>
                                                 item.Titel.toLowerCase().includes(
                                                     filterQuery.toLowerCase()
@@ -423,7 +408,8 @@ const PopupMenu = ({ loggedIn, showBanner, logout }) => {
                                             ))
                                     )}
                                     {!isLoading &&
-                                    getCurrentItems().filter((item) =>
+                                    currentItems &&
+                                    currentItems.filter((item) =>
                                         item.Titel.toLowerCase().includes(
                                             filterQuery.toLowerCase()
                                         )
