@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
+import React, { Component, useLayoutEffect } from 'react'
 
 // For the routing we use React Router (https://reacttraining.com/react-router/)
-import { Route, Switch, withRouter } from 'react-router-dom'
+import { Route, Switch, withRouter, useHistory } from 'react-router-dom'
 
 // Helmet is the Document Head manager that we use, mostly for building dynamic page titles
 import { Helmet } from 'react-helmet'
@@ -285,9 +285,16 @@ class App extends Component {
                                 />
                             )}
                         />
+                        <Route
+                            path="/logout"
+                            render={() => (
+                                <Logout setLoginState={this.setLoginState} />
+                            )}
+                        />
                         <AuthRoutes
                             authUser={this.state.user}
                             loggedIn={this.state.loggedIn}
+                            setLoginState={this.setLoginState}
                             history={this.props.history}
                         />
                     </Switch>
@@ -299,6 +306,21 @@ class App extends Component {
             </main>
         )
     }
+}
+
+const Logout = ({ setLoginState }) => {
+    const history = useHistory()
+
+    React.useLayoutEffect(() => {
+        // Clear user token and profile data from localStorage
+        localStorage.removeItem(process.env.REACT_APP_KEY_API_ACCESS_TOKEN)
+        localStorage.removeItem(process.env.REACT_APP_KEY_IDENTIFIER)
+
+        setLoginState(false)
+        history.push('/')
+    }, [])
+
+    return null
 }
 
 export default withRouter(App)
