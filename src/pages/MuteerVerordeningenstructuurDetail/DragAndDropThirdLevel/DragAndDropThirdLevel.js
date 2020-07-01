@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import AddSection from '../AddSection'
 import DndTitle from '../DndTitle'
 import VerordeningObjectContent from './../VerordeningObjectContent'
+import AddObjectButton from './../AddObjectButton'
 
 import VerordeningContext from './../VerordeningContext'
 
@@ -20,6 +21,7 @@ function DragAndDropThirdLevel({
         userIsEditingOrder,
         userIsEditingSections,
         hoofdstukIndex,
+        addSectionType,
     } = React.useContext(VerordeningContext)
 
     return (
@@ -27,7 +29,7 @@ function DragAndDropThirdLevel({
             {(provided, snapshot) => (
                 <div
                     ref={provided.innerRef}
-                    className={`droppable-height
+                    className={`droppable-height pl-5
                             ${
                                 snapshot.isDraggingOver
                                     ? 'bg-gray-200'
@@ -71,9 +73,6 @@ function DragAndDropThirdLevel({
                                                   }`}
                                               >
                                                   <VerordeningObjectContent
-                                                      userIsEditingOrder={
-                                                          userIsEditingOrder
-                                                      }
                                                       item={item}
                                                       index={index}
                                                       pathToIndex={[
@@ -81,6 +80,16 @@ function DragAndDropThirdLevel({
                                                           nest_1,
                                                           nest_2,
                                                           index,
+                                                      ]}
+                                                  />
+                                                  <AddObjectButton
+                                                      nestType="parallel"
+                                                      item={item}
+                                                      index={[
+                                                          hoofdstukIndex,
+                                                          nest_1,
+                                                          nest_2,
+                                                          index + 1,
                                                       ]}
                                                   />
                                               </div>

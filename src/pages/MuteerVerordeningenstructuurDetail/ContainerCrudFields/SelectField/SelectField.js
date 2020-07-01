@@ -89,6 +89,10 @@ const customStyles = {
             boxShadow: 'none',
         },
     }),
+    menu: (base, state) => ({
+        ...base,
+        zIndex: 20,
+    }),
 }
 
 export default SelectField

@@ -4,6 +4,7 @@ import {
     faGripLines,
     faSave,
     faTimes,
+    faTrash,
 } from '@fortawesome/pro-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -12,13 +13,10 @@ import CrudDropdown from './../CrudDropdown'
 
 import VerordeningContext from './../VerordeningContext'
 
-function VerordeningObjectContent({
-    userIsEditingOrder,
-    item,
-    index,
-    pathToIndex,
-}) {
-    const {
+function VerordeningObjectContent({ item, index, pathToIndex }) {
+    let {
+        userIsEditingOrder,
+        userIsAddingSections,
         verordeningsLedenFromGET,
         setVerordeningsLedenFromGET,
         UUIDBeingEdited,
@@ -29,6 +27,7 @@ function VerordeningObjectContent({
         setIndexArrayToUUIDBeingEdited,
         patchRegulationObject,
         setVerordeningsObjectFromGET,
+        editContentOfArticle,
     } = React.useContext(VerordeningContext)
 
     const volgnummer = item.Volgnummer
@@ -36,9 +35,9 @@ function VerordeningObjectContent({
     const getStylesBasedOnType = () => {
         switch (item.Type) {
             case 'Afdeling':
-                return 'bg-primary-super-light text-gray-900'
+                return 'pl-5 bg-primary-super-light text-gray-900'
             case 'Paragraaf':
-                return 'bg-primary-super-light text-gray-900'
+                return 'pl-5 bg-primary-super-light text-gray-900'
             default:
                 return ''
         }
@@ -57,12 +56,23 @@ function VerordeningObjectContent({
         }
     }
 
-    const editingThisItemAndIsLoaded =
+    const editingthisItem =
         verordeningsObjectFromGET &&
-        verordeningsObjectFromGET.UUID === item.UUID &&
-        !verordeningsObjectIsLoading
+        verordeningsObjectFromGET.UUID === item.UUID
 
-    const itemHasLeden = item && item.Children.length > 0
+    const editingThisItemAndIsLoaded =
+        editingthisItem && !verordeningsObjectIsLoading
+
+    // We place Children in the verordeningsLedenFromGET if the user converts an article with no Leden into one with Leden
+    let itemHasLeden = false
+
+    // We mutate the leden of an object in the verordeningsObjectFromGET and verordeningsLedenFromGET
+    if (editingThisItemAndIsLoaded) {
+        itemHasLeden =
+            verordeningsLedenFromGET && verordeningsLedenFromGET.length > 0
+    } else {
+        itemHasLeden = item && item.Children.length > 0
+    }
 
     const isArtikel = item.Type === 'Artikel'
 
@@ -75,11 +85,14 @@ function VerordeningObjectContent({
             <div
                 className={`flex items-center relative ${
                     editingThisItemAndIsLoaded ? '' : 'pr-12'
-                } font-semibold block pl-5 py-3 ${getStylesBasedOnType()}`}
+                } font-semibold block py-3 ${getStylesBasedOnType()}`}
             >
                 <ReorderIcon userIsEditingOrder={userIsEditingOrder} />
                 {editingThisItemAndIsLoaded ? (
                     <TitleEditing
+                        setVerordeningsLedenFromGET={
+                            setVerordeningsLedenFromGET
+                        }
                         patchRegulationObject={patchRegulationObject}
                         setUUIDBeingEdited={setUUIDBeingEdited}
                         setVerordeningsObjectFromGET={
@@ -91,10 +104,15 @@ function VerordeningObjectContent({
                     />
                 ) : (
                     <span
-                        className={`transition-transform ease-in-out duration-100 transform ${
+                        className={`transition-transform transition-opacity ease-in-out duration-100 transform ${
                             userIsEditingOrder
                                 ? 'translate-x-8'
                                 : 'translate-x-0'
+                        }
+                        ${
+                            UUIDBeingEdited && !editingthisItem
+                                ? 'opacity-50'
+                                : 'opacity-100'
                         }`}
                     >
                         {getTitlePrepend()}
@@ -102,40 +120,67 @@ function VerordeningObjectContent({
                         {item.Titel ? item.Titel : ''}
                     </span>
                 )}
-
-                <CrudDropdown
-                    setIndexArrayToUUIDBeingEdited={
-                        setIndexArrayToUUIDBeingEdited
-                    }
-                    UUIDBeingEdited={UUIDBeingEdited}
-                    verordeningsObjectIsLoading={verordeningsObjectIsLoading}
-                    verordeningsObjectFromGET={verordeningsObjectFromGET}
-                    setUUIDBeingEdited={setUUIDBeingEdited}
-                    setVolgnummerBeingEdited={setVolgnummerBeingEdited}
-                    setIndexArrayToUUIDBeingEdited={
-                        setIndexArrayToUUIDBeingEdited
-                    }
-                    item={item}
-                    pathToIndex={pathToIndex}
-                />
+                {!userIsEditingOrder && !userIsAddingSections ? (
+                    <CrudDropdown
+                        setIndexArrayToUUIDBeingEdited={
+                            setIndexArrayToUUIDBeingEdited
+                        }
+                        UUIDBeingEdited={UUIDBeingEdited}
+                        verordeningsObjectIsLoading={
+                            verordeningsObjectIsLoading
+                        }
+                        verordeningsObjectFromGET={verordeningsObjectFromGET}
+                        setUUIDBeingEdited={setUUIDBeingEdited}
+                        setVolgnummerBeingEdited={setVolgnummerBeingEdited}
+                        setIndexArrayToUUIDBeingEdited={
+                            setIndexArrayToUUIDBeingEdited
+                        }
+                        item={item}
+                        pathToIndex={pathToIndex}
+                    />
+                ) : null}
             </div>
+
             {editingThisItemAndIsLoaded && !itemHasLeden && isArtikel ? (
-                <TextArea
-                    onChange={(e) => {
-                        setVerordeningsObjectFromGET({
-                            type: 'changeValue',
-                            value: e.target.value,
-                            name: 'Inhoud',
-                        })
-                    }}
-                >
-                    {verordeningsObjectFromGET.Inhoud}
-                </TextArea>
+                <React.Fragment>
+                    <TextArea
+                        onChange={(e) => {
+                            setVerordeningsObjectFromGET({
+                                type: 'changeValue',
+                                value: e.target.value,
+                                name: 'Inhoud',
+                            })
+                        }}
+                        value={
+                            verordeningsObjectFromGET.Inhoud
+                                ? verordeningsObjectFromGET.Inhoud
+                                : ''
+                        }
+                    />
+                    <span className="mt-2 text-sm text-gray-700">
+                        Dit artikel heeft geen leden.{' '}
+                        <span
+                            className="underline cursor-pointer"
+                            onClick={() =>
+                                editContentOfArticle({
+                                    type: 'convertToLidInhoud',
+                                })
+                            }
+                        >
+                            Zet bovenstaand veld om naar lid 1.
+                        </span>
+                    </span>
+                </React.Fragment>
             ) : !itemHasLeden && isArtikel ? (
                 <p
-                    className={`width-full block pl-5 whitespace-pre-line ${
-                        item.Inhoud ? 'pb-4' : ''
-                    }`}
+                    className={`width-full transition-opacity duration-100 ease-in-out block pr-2 whitespace-pre-line 
+                    ${item.Inhoud ? 'pb-4' : ''}
+                    ${
+                        UUIDBeingEdited && !editingthisItem
+                            ? 'opacity-50'
+                            : 'opacity-100'
+                    }
+                    `}
                 >
                     {item.Inhoud}
                 </p>
@@ -143,13 +188,45 @@ function VerordeningObjectContent({
 
             {editingThisItemAndIsLoaded && itemHasLeden && isArtikel ? (
                 <LedenEdit
+                    setVerordeningsObjectFromGET={setVerordeningsObjectFromGET}
+                    editContentOfArticle={editContentOfArticle}
                     setVerordeningsLedenFromGET={setVerordeningsLedenFromGET}
                     verordeningsLedenFromGET={verordeningsLedenFromGET}
                     item={item}
                 />
             ) : itemHasLeden && isArtikel ? (
-                <LedenView item={item} />
+                <LedenView
+                    transparent={UUIDBeingEdited && !editingthisItem}
+                    item={item}
+                />
             ) : null}
+        </div>
+    )
+}
+
+const DeleteIcon = ({
+    index,
+    setVerordeningsLedenFromGET,
+    setVerordeningsObjectFromGET,
+}) => {
+    if (index === 0) return null
+    return (
+        <div className="absolute top-0 right-0 flex items-center h-full pointer-events-none">
+            <button
+                onClick={() => {
+                    setVerordeningsLedenFromGET({
+                        type: 'removeSpecificIndex',
+                        index: index,
+                    })
+                    setVerordeningsObjectFromGET({
+                        type: 'removeSpecificIndexOfLeden',
+                        index: index,
+                    })
+                }}
+                className="w-8 h-8 -mr-6 transition-shadow duration-300 ease-in bg-white rounded shadow pointer-events-auto hover:shadow-md"
+            >
+                <FontAwesomeIcon icon={faTrash} />
+            </button>
         </div>
     )
 }
@@ -170,13 +247,12 @@ const ReorderIcon = ({ userIsEditingOrder }) => {
     )
 }
 
-const LedenView = ({ item }) => {
-    // Returns JSX of leden
+const LedenView = ({ item, transparent }) => {
     const listOfLeden = item.Children.filter((e) => e.Type === 'Lid')
     if (listOfLeden.length === 0) return null
 
     return (
-        <ol className="pb-4 pl-5">
+        <ol className={`pb-4 ${transparent ? 'opacity-50' : 'opacity-100'}`}>
             {listOfLeden.map((lid) => (
                 <li className="pb-1 whitespace-pre-line" id={lid.UUID}>
                     {lid.Inhoud}
@@ -190,32 +266,79 @@ const LedenEdit = ({
     item,
     verordeningsLedenFromGET,
     setVerordeningsLedenFromGET,
+    setVerordeningsObjectFromGET,
+    editContentOfArticle,
 }) => {
-    const listOfLeden = item.Children.filter((e) => e.Type === 'Lid')
-    if (listOfLeden.length === 0) return null
+    if (!verordeningsLedenFromGET) return null
     return (
         <div>
-            {listOfLeden.map((lid, index) => (
-                <TextArea
-                    onChange={(e) =>
-                        setVerordeningsLedenFromGET({
-                            type: 'changeValue',
-                            index: index,
-                            value: e.target.value,
-                            name: 'Inhoud',
+            {verordeningsLedenFromGET.map((lid, index) => (
+                <div key={lid.UUID} className="relative">
+                    <TextArea
+                        onChange={(e) =>
+                            setVerordeningsLedenFromGET({
+                                type: 'changeValue',
+                                index: index,
+                                value: e.target.value,
+                                name: 'Inhoud',
+                            })
+                        }
+                        value={lid.Inhoud ? lid.Inhoud : ''}
+                    />
+                    <DeleteIcon
+                        setVerordeningsLedenFromGET={
+                            setVerordeningsLedenFromGET
+                        }
+                        setVerordeningsObjectFromGET={
+                            setVerordeningsObjectFromGET
+                        }
+                        index={index}
+                    />
+                </div>
+            ))}
+            {verordeningsLedenFromGET.length === 1 ? (
+                <div className="flex justify-between w-full">
+                    <span
+                        className="mt-2 mr-2 text-sm text-gray-700 underline cursor-pointer"
+                        onClick={() =>
+                            editContentOfArticle({
+                                type: 'addLidToArticle',
+                            })
+                        }
+                    >
+                        + Lid toevoegen
+                    </span>
+                    <span className="mt-2 text-sm text-gray-700">
+                        Dit artikel bestaat uit leden.{' '}
+                        <span
+                            className="underline cursor-pointer"
+                            onClick={() =>
+                                editContentOfArticle({
+                                    type: 'convertToArtikelInhoud',
+                                })
+                            }
+                        >
+                            Zet lid 1 om naar artikelinhoud
+                        </span>
+                    </span>
+                </div>
+            ) : (
+                <span
+                    className="mt-2 mr-2 text-sm text-gray-700 underline cursor-pointer"
+                    onClick={() =>
+                        editContentOfArticle({
+                            type: 'addLidToArticle',
                         })
                     }
                 >
-                    {verordeningsLedenFromGET
-                        ? verordeningsLedenFromGET[index].Inhoud
-                        : null}
-                </TextArea>
-            ))}
+                    + Lid toevoegen
+                </span>
+            )}
         </div>
     )
 }
 
-const TextArea = ({ children, onChange }) => {
+const TextArea = ({ children, onChange, value }) => {
     const [style, setStyle] = React.useState({
         height: null,
     })
@@ -235,13 +358,13 @@ const TextArea = ({ children, onChange }) => {
             ref={ref}
             style={style}
             className="w-full px-4 py-2 text-gray-800 border rounded-md"
-        >
-            {children}
-        </textarea>
+            value={value}
+        ></textarea>
     )
 }
 
 const TitleEditing = ({
+    setVerordeningsLedenFromGET,
     patchRegulationObject,
     item,
     verordeningsObjectFromGET,
@@ -288,6 +411,9 @@ const TitleEditing = ({
                         setVerordeningsObjectFromGET({
                             type: 'cancel',
                         })
+                        setVerordeningsLedenFromGET({
+                            type: 'cancel',
+                        })
                     }}
                 />
             </div>
@@ -309,7 +435,7 @@ const SaveButton = ({ save }) => {
 const CancelButton = ({ cancel }) => {
     return (
         <button
-            className="flex items-center self-stretch justify-center inline-block px-3 ml-1 text-lg text-white rounded bg-primary hover:bg-red-700"
+            className="flex items-center self-stretch justify-center inline-block px-3 ml-1 text-lg text-white rounded bg-primary hover:bg-primary-darker"
             onClick={cancel}
         >
             <FontAwesomeIcon icon={faTimes} />

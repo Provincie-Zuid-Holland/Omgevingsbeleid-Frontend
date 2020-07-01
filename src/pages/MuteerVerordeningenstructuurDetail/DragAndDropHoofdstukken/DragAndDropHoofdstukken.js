@@ -6,13 +6,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import AddSection from './../AddSection'
 import CrudDropdown from './../CrudDropdown'
+import AddObjectButton from './../AddObjectButton'
 
 import VerordeningContext from './../VerordeningContext'
 
 function DragAndDropHoofdstukken({ hoofdstukItems, changeActiveChapter }) {
     const {
         patchRegulationObject,
-        verordeningsObjectIsLoading,
         setVerordeningsObjectFromGET,
         verordeningsObjectFromGET,
         UUIDBeingEdited,
@@ -47,6 +47,9 @@ function DragAndDropHoofdstukken({ hoofdstukItems, changeActiveChapter }) {
                             }
                         `}
                     >
+                        <div className="px-2 py-1">
+                            <AddObjectButton nestType="Hoofdstuk" index={[0]} />
+                        </div>
                         {hoofdstukItems.map((item, index) => (
                             <Draggable
                                 isDragDisabled={!userIsEditingOrder}
@@ -66,58 +69,62 @@ function DragAndDropHoofdstukken({ hoofdstukItems, changeActiveChapter }) {
                                                     : ''
                                             }`}
                                         >
-                                            {verordeningsObjectFromGET &&
-                                            verordeningsObjectFromGET.UUID ===
-                                                item.UUID ? (
-                                                <HoofdstukTitleEditing
-                                                    patchRegulationObject={
-                                                        patchRegulationObject
-                                                    }
-                                                    setUUIDBeingEdited={
-                                                        setUUIDBeingEdited
-                                                    }
-                                                    setVerordeningsObjectFromGET={
-                                                        setVerordeningsObjectFromGET
+                                            <div className="relative">
+                                                {verordeningsObjectFromGET &&
+                                                verordeningsObjectFromGET.UUID ===
+                                                    item.UUID ? (
+                                                    <HoofdstukTitleEditing
+                                                        patchRegulationObject={
+                                                            patchRegulationObject
+                                                        }
+                                                        setUUIDBeingEdited={
+                                                            setUUIDBeingEdited
+                                                        }
+                                                        setVerordeningsObjectFromGET={
+                                                            setVerordeningsObjectFromGET
+                                                        }
+                                                        verordeningsObjectFromGET={
+                                                            verordeningsObjectFromGET
+                                                        }
+                                                        snapshot={snapshot}
+                                                        itemIndex={index}
+                                                        item={item}
+                                                    />
+                                                ) : (
+                                                    <HoofdstukTitle
+                                                        snapshot={snapshot}
+                                                        changeActiveChapter={
+                                                            changeActiveChapter
+                                                        }
+                                                        itemIndex={index}
+                                                        item={item}
+                                                    />
+                                                )}
+
+                                                <CrudDropdown
+                                                    UUIDBeingEdited={
+                                                        UUIDBeingEdited
                                                     }
                                                     verordeningsObjectFromGET={
                                                         verordeningsObjectFromGET
                                                     }
-                                                    snapshot={snapshot}
-                                                    itemIndex={index}
                                                     item={item}
-                                                />
-                                            ) : (
-                                                <HoofdstukTitle
-                                                    snapshot={snapshot}
-                                                    changeActiveChapter={
-                                                        changeActiveChapter
+                                                    setUUIDBeingEdited={
+                                                        setUUIDBeingEdited
                                                     }
-                                                    itemIndex={index}
-                                                    item={item}
+                                                    setVolgnummerBeingEdited={
+                                                        setVolgnummerBeingEdited
+                                                    }
+                                                    setIndexArrayToUUIDBeingEdited={
+                                                        setIndexArrayToUUIDBeingEdited
+                                                    }
+                                                    pathToIndex={[index]}
                                                 />
-                                            )}
+                                            </div>
 
-                                            <CrudDropdown
-                                                UUIDBeingEdited={
-                                                    UUIDBeingEdited
-                                                }
-                                                verordeningsObjectIsLoading={
-                                                    verordeningsObjectIsLoading
-                                                }
-                                                verordeningsObjectFromGET={
-                                                    verordeningsObjectFromGET
-                                                }
-                                                item={item}
-                                                setUUIDBeingEdited={
-                                                    setUUIDBeingEdited
-                                                }
-                                                setVolgnummerBeingEdited={
-                                                    setVolgnummerBeingEdited
-                                                }
-                                                setIndexArrayToUUIDBeingEdited={
-                                                    setIndexArrayToUUIDBeingEdited
-                                                }
-                                                pathToIndex={[index]}
+                                            <AddObjectButton
+                                                nestType="Hoofdstuk"
+                                                index={[index + 1]}
                                             />
                                         </div>
                                         {provided.placeholder}

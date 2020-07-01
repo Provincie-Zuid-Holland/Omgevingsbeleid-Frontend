@@ -6,10 +6,11 @@ function Artikel({
     users,
     verordeningsObjectFromGET,
     setVerordeningsObjectFromGET,
+    setVerordeningsLedenFromGET,
+    verordeningsLedenFromGET,
     inheritWerkingsgebiedenFromArtikel,
     setInheritWerkingsgebiedenFromArtikel,
     hasLeden,
-    setVerordeningsLedenFromGET,
 }) {
     if (!verordeningsObjectFromGET) {
         return null
@@ -142,35 +143,62 @@ function Artikel({
                     </div>
                 </div>
                 <div className="mb-4">
-                    <label
-                        htmlFor="Eind_Geldigheid"
-                        className="block text-sm font-medium leading-5 text-gray-700"
-                    >
-                        Werkingsgebied
-                    </label>
                     {hasLeden && !inheritWerkingsgebiedenFromArtikel ? null : (
-                        <Werkingsgebied
-                            werkingsgebiedInParentState={
-                                verordeningsObjectFromGET
-                                    ? verordeningsObjectFromGET.Werkingsgebied
-                                    : null
-                            }
-                            setWerkingsgebiedInParentState={setWerkingsgebied}
-                        />
+                        <React.Fragment>
+                            <label
+                                htmlFor="Eind_Geldigheid"
+                                className="block text-sm font-medium leading-5 text-gray-700"
+                            >
+                                Werkingsgebied
+                            </label>
+                            <Werkingsgebied
+                                werkingsgebiedInParentState={
+                                    verordeningsObjectFromGET
+                                        ? verordeningsObjectFromGET.Werkingsgebied
+                                        : null
+                                }
+                                setWerkingsgebiedInParentState={
+                                    setWerkingsgebied
+                                }
+                            />
+                        </React.Fragment>
                     )}
                     {hasLeden ? (
-                        <div>
+                        <div className="mt-2">
                             <input
-                                for="inherit-werkingsgebieden-from-artikel"
+                                id="inherit-werkingsgebieden-from-artikel"
                                 type="checkbox"
+                                className="text-theme-green"
                                 checked={inheritWerkingsgebiedenFromArtikel}
-                                onChange={() =>
+                                onChange={() => {
+                                    if (!inheritWerkingsgebiedenFromArtikel) {
+                                        // User ticks the checkbox
+                                        // Remove werkingsgebieden from each lid
+                                        setVerordeningsLedenFromGET({
+                                            type: 'resetAllWerkingsgebieden',
+                                        })
+                                    } else {
+                                        // User unticks the checkbox
+                                        setVerordeningsLedenFromGET({
+                                            type: 'setValueForAll',
+                                            value:
+                                                verordeningsObjectFromGET.Werkingsgebied,
+                                        })
+                                        setVerordeningsObjectFromGET({
+                                            type: 'changeValue',
+                                            name: 'Werkingsgebied',
+                                            value: null,
+                                        })
+                                    }
                                     setInheritWerkingsgebiedenFromArtikel(
                                         !inheritWerkingsgebiedenFromArtikel
                                     )
-                                }
+                                }}
                             />
-                            <label id="inherit-werkingsgebieden-from-artikel">
+                            <label
+                                className="ml-2 text-sm text-gray-700 cursor-pointer"
+                                for="inherit-werkingsgebieden-from-artikel"
+                            >
                                 Alle leden van dit artikel gaan over hetzelfde
                                 werkingsgebied
                             </label>

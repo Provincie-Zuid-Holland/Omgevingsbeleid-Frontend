@@ -9,20 +9,13 @@ import {
 } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import clonedeep from 'lodash.clonedeep'
-
-import {
-    faPlus,
-    faArrowsAltV,
-    faSpinner,
-    faAngleLeft,
-    faChevronDown,
-    faChevronUp,
-} from '@fortawesome/pro-regular-svg-icons'
+import { faAngleLeft } from '@fortawesome/pro-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
+// Import Context
 import VerordeningContext from './VerordeningContext'
 
-// Import Componenents
+// Import global Componenents
 import ContainerMain from './../../components/ContainerMain'
 import LoaderContent from './../../components/LoaderContent'
 import Transition from './../../components/Transition'
@@ -30,18 +23,13 @@ import Transition from './../../components/Transition'
 // Utils
 import formatGeldigheidDatesForUI from './../../utils/formatGeldigheidDatesForUI'
 
-// DragAndDrop Components
+// Verordening Components
 import DragAndDropFirstLevel from './DragAndDropFirstLevel'
-import DragAndDropSecondLevel from './DragAndDropSecondLevel'
 import DragAndDropHoofdstukken from './DragAndDropHoofdstukken'
-import VerordeningenDetailSidebar from './VerordeningenDetailSidebar'
 import AddSectionsSidebar from './AddSectionsSidebar'
-
-// Object Fields for inline editing
-
-import Werkingsgebied from './ContainerCrudFields/Werkingsgebied'
-import Artikel from './ContainerCrudFields/Artikel'
-// import Leden from './ContainerCrudFields/Leden'
+import EditAddOrderSection from './EditAddOrderSection'
+import EditContentSidebar from './EditContentSidebar'
+import EditOrderSidebar from './EditOrderSidebar'
 
 // Import Axios instance to connect with the API
 import axios from './../../API/axios'
@@ -62,6 +50,7 @@ const MuteerVerordeningenstructuurDetail = () => {
 
     // [dataLoaded] - Contains a Boolean that is true when all API calls are done
     const [dataLoaded, setDataLoaded] = React.useState(false)
+
     // [patchingInProgress] - Contains a Boolean that is true when we are patching
     const [patchingInProgress, setPatchingInProgress] = React.useState(false)
 
@@ -82,6 +71,9 @@ const MuteerVerordeningenstructuurDetail = () => {
 
     // [addSectionMode] - Contains a boolean to represent the mode to add new objects
     const [addSectionMode, setAddSectionMode] = React.useState(false)
+
+    // [addSectionType] - Contains a string of 'Hoofdstuk', 'Afdeling', 'Paragraaf' or 'Artikel'
+    const [addSectionType, setAddSectionType] = React.useState(false)
 
     // [UUIDBeingEdited] - Contains a UUID of the object that the user is editing. This can be a Chapter, a Group or a Paragraph
     const [UUIDBeingEdited, setUUIDBeingEdited] = React.useState(null)
@@ -125,6 +117,12 @@ const MuteerVerordeningenstructuurDetail = () => {
             case 'changeValue':
                 newState[action.name] = action.value
                 return newState
+            case 'changeLidToArtikelInhoud':
+                newState[action.name] = action.value
+                if (newState.Children && newState.Children.length > 0) {
+                    delete newState.Children
+                }
+                return newState
             case 'changeSelectValue':
                 if (action.actionMeta.action === 'select-option') {
                     newState[action.property] = action.e.value
@@ -132,7 +130,13 @@ const MuteerVerordeningenstructuurDetail = () => {
                     newState[action.property] = null
                 }
                 return newState
+            case 'removeSpecificIndexOfLeden':
+                if (newState.Children && newState.Children.length > 0) {
+                    newState.Children.splice(action.index, 1)
+                }
+                return newState
             case 'cancel':
+                setLineage(lineageCopy)
                 return null
             default:
                 return state
@@ -164,6 +168,20 @@ const MuteerVerordeningenstructuurDetail = () => {
             case 'changeValue':
                 newState[action.index][action.name] = action.value
                 return newState
+            case 'changeValueForAllLeden':
+                newState.forEach((lid, index) => {
+                    newState[index][action.name] = action.value
+                })
+                return newState
+            case 'removeSpecificIndex':
+                newState.splice(action.index, 1)
+                return newState
+            case 'resetAllWerkingsgebieden':
+                newState.forEach((lid) => (lid.Werkingsgebied = null))
+                return newState
+            case 'setValueForAll':
+                newState.forEach((lid) => (lid.Werkingsgebied = action.value))
+                return newState
             case 'cancel':
                 return null
             default:
@@ -176,51 +194,184 @@ const MuteerVerordeningenstructuurDetail = () => {
         setVerordeningsLedenFromGET,
     ] = React.useReducer(verordeningsLedenFromGETReducer, null)
 
-    React.useEffect(() => {
-        console.log(verordeningsLedenFromGET)
-        if (
-            verordeningsLedenFromGET !== null &&
-            verordeningsObjectLedenIsLoading
-        ) {
-            setVerordeningsObjectLedenIsLoading(false)
-        }
-    }, [verordeningsLedenFromGET])
-
-    // [verordeningsObjectIsLoading] is true, GET request for [UUIDBeingEdited] to get the whole object, then setInState under [verordeningsObjectFromGET] and set [verordeningsObjectIsLoading] to null
+    // GET request for [UUIDBeingEdited] to get the whole object, then setInState under [verordeningsObjectFromGET] and set [verordeningsObjectIsLoading] to null
     React.useEffect(() => {
         if (UUIDBeingEdited === null) return
 
-        // Function to get the regulation object based on the UUID (UUIDBeingEdited)
-        const getVerordeningsObject = (UUIDBeingEdited) => {
-            setVerordeningsObjectIsLoading(true)
+        // Get the regulation object based on the UUID (UUIDBeingEdited)
+        setVerordeningsObjectIsLoading(true)
+        setVerordeningsObjectLedenIsLoading(true)
 
-            return axios
-                .get(`/verordeningen/version/${UUIDBeingEdited}?limit=1`)
-                .then((res) => {
-                    const initObject = formatGeldigheidDatesForUI(res.data)
-                    console.log(initObject)
-                    setVerordeningsObjectFromGET({
-                        type: 'initialize',
-                        initObject: initObject,
-                    })
-
-                    // If GET Object is of the type 'Artikel' we check if the article has leden with getLedenOfArticle()
-                    // If that is the case we need to get them from the API, so we postpone setting setVerordeningsObjectIsLoading(false)
-                    // We will do that after getting the leden
-                    if (res.data.Type === 'Artikel') {
-                        setVerordeningsObjectLedenIsLoading(true)
-                        getLedenOfArticle()
-                    } else {
-                        setVerordeningsObjectIsLoading(false)
-                    }
+        axios
+            .get(`/verordeningen/version/${UUIDBeingEdited}?limit=1`)
+            .then((res) => {
+                const initObject = formatGeldigheidDatesForUI(res.data)
+                setVerordeningsObjectFromGET({
+                    type: 'initialize',
+                    initObject: initObject,
                 })
-                .catch((err) => {
+
+                // If GET Object is of the type 'Artikel' we check if the article has leden with getLedenOfArticle()
+                // If that is the case we need to get them from the API, so we postpone setting setVerordeningsObjectIsLoading(false)
+                // We will do that after getting the leden
+                if (res.data.Type === 'Artikel') {
+                    getLedenOfArticle()
+                } else {
                     setVerordeningsObjectIsLoading(false)
-                })
+                    setVerordeningsObjectLedenIsLoading(false)
+                }
+            })
+            .catch((err) => {
+                setVerordeningsObjectLedenIsLoading(false)
+                setVerordeningsObjectIsLoading(false)
+            })
+    }, [UUIDBeingEdited])
+
+    const addSection = ({ index }) => {
+        // const index = [0, 1]
+        const depthOfObject = index.length
+        const newLineage = clonedeep(lineage)
+
+        const createNewVerordeningObject = async () => {
+            try {
+                const data = await axios
+                    .post('/verordeningen', {
+                        Titel: '',
+                        Inhoud: '',
+                        Status: 'Vigerend',
+                        Type: addSectionType ? addSectionType : 'Hoofdstuk',
+                        Volgnummer: '',
+                    })
+                    .then((res) => res.data)
+                return data
+            } catch (err) {
+                console.log('error', err)
+            }
         }
 
-        getVerordeningsObject(UUIDBeingEdited)
-    }, [UUIDBeingEdited])
+        createNewVerordeningObject().then((newObject) => {
+            const lineageObject = {
+                Children: [],
+                Inhoud: newObject.Inhoud,
+                Titel: newObject.Titel,
+                Type: newObject.Type,
+                UUID: newObject.UUID,
+                Volgnummer: newObject.Volgnummer,
+            }
+            switch (depthOfObject) {
+                case 1:
+                    // Hoofdstuk level
+                    newLineage.Structuur.Children.splice(
+                        [index[0]],
+                        0,
+                        lineageObject
+                    )
+                    // lineage.Structuur.Children[index[0]]
+                    break
+                case 2:
+                    // First level
+                    newLineage.Structuur.Children[index[0]].Children.splice(
+                        [index[1]],
+                        0,
+                        lineageObject
+                    )
+                    break
+                case 3:
+                    // Second level
+                    newLineage.Structuur.Children[index[0]].Children[
+                        index[1]
+                    ].Children.splice([index[2]], 0, lineageObject)
+                    // lineage.Structuur.Children[index[0]].Children[index[1]]
+                    //     .Children[index[2]]
+                    break
+                case 4:
+                    // Third level
+                    newLineage.Structuur.Children[index[0]].Children[
+                        index[1]
+                    ].Children[index[2]].Children.splice(
+                        [index[3]],
+                        0,
+                        lineageObject
+                    )
+                    break
+                default:
+                    break
+            }
+            // Save new lineage with new object in it :-)
+            setLineage(newLineage)
+
+            // Then set UUID, index to the object in the lineage and the property 'Volgnummer' of thee new object in state
+            // This will set the new object to edit mode
+            setUUIDBeingEdited(newObject.UUID)
+            setIndexArrayToUUIDBeingEdited(index)
+            setVolgnummerBeingEdited(newObject.Volgnummer)
+
+            setAddSectionMode(false)
+            setAddSectionType(null)
+        })
+    }
+
+    const editContentOfArticle = ({ type }) => {
+        // Make new Leden object, then place the Lid object as the new child
+        const createNewVerordeningsLid = async (inhoud = '') => {
+            try {
+                const data = await axios
+                    .post('/verordeningen', {
+                        Titel: '',
+                        Inhoud: inhoud,
+                        Status: 'Vigerend',
+                        Type: 'Lid',
+                        Volgnummer: '',
+                    })
+                    .then((res) => res.data)
+                return data
+            } catch (err) {
+                console.log('error', err)
+            }
+        }
+
+        switch (type) {
+            case 'convertToLidInhoud':
+                createNewVerordeningsLid(verordeningsObjectFromGET.Inhoud).then(
+                    (newObject) => {
+                        setVerordeningsObjectFromGET({
+                            type: 'changeValue',
+                            name: 'Inhoud',
+                            value: '',
+                        })
+                        setVerordeningsLedenFromGET({
+                            type: 'initialize',
+                            initObject: [newObject],
+                        })
+                    }
+                )
+                break
+            case 'convertToArtikelInhoud':
+                const lidInhoud = verordeningsLedenFromGET[0].Inhoud
+                setVerordeningsObjectFromGET({
+                    type: 'changeLidToArtikelInhoud',
+                    name: 'Inhoud',
+                    value: lidInhoud,
+                })
+                setVerordeningsLedenFromGET({ type: 'cancel' })
+                break
+            case 'addLidToArticle':
+                createNewVerordeningsLid().then((newObject) => {
+                    setVerordeningsObjectFromGET({
+                        type: 'changeValue',
+                        name: 'Inhoud',
+                        value: '',
+                    })
+                    setVerordeningsLedenFromGET({
+                        type: 'initialize',
+                        initObject: [...verordeningsLedenFromGET, newObject],
+                    })
+                })
+                break
+            default:
+                break
+        }
+    }
 
     // Function used to get the Leden of an article, when the user edits an article
     const getLedenOfArticle = () => {
@@ -259,6 +410,7 @@ const MuteerVerordeningenstructuurDetail = () => {
 
         if (artikelHasNoLeden) {
             setVerordeningsObjectIsLoading(false)
+            setVerordeningsObjectLedenIsLoading(false)
             return
         }
 
@@ -278,10 +430,12 @@ const MuteerVerordeningenstructuurDetail = () => {
                     initObject: ledenFromAPI,
                 })
                 setVerordeningsObjectIsLoading(false)
+                setVerordeningsObjectLedenIsLoading(false)
             })
             .catch((err) => {
                 console.log(err)
                 setVerordeningsObjectIsLoading(false)
+                setVerordeningsObjectLedenIsLoading(false)
             })
     }
 
@@ -343,17 +497,24 @@ const MuteerVerordeningenstructuurDetail = () => {
             )
 
         Promise.all([getLineage, getUsers]).then(() => setDataLoaded(true))
+    }, [])
 
+    React.useEffect(() => {
         // Eventlistener for closing editing modes with the Escape key
-        function closeOnEscape(e) {
+        const closeOnEscape = (e) => {
             if (e.key === 'Escape') {
-                setEditOrderMode(false)
-                setAddSectionMode(false)
+                if (editOrderMode) {
+                    setEditOrderMode(false)
+                    cancelReorder()
+                } else if (addSectionMode) {
+                    setAddSectionMode(false)
+                    setAddSectionType(null)
+                }
             }
         }
         window.addEventListener('keydown', closeOnEscape)
         return () => window.removeEventListener('keydown', closeOnEscape)
-    }, [])
+    }, [editOrderMode, addSectionMode])
 
     // Reorder sections for all four levels
     const onDragEnd = (result) => {
@@ -629,6 +790,11 @@ const MuteerVerordeningenstructuurDetail = () => {
         }
     }
 
+    const cancelReorder = () => {
+        console.log('RESET LINEAGE!!! ______')
+        setLineage(lineageCopy)
+    }
+
     // Function to patch a regulation object.
     // This object is represented in State under the verordeningsObjectFromGET state variable
     // This object can be of any type. If the object is an 'Artikel' we check if it has leden, as we have then have to patch them too
@@ -656,7 +822,7 @@ const MuteerVerordeningenstructuurDetail = () => {
         }
 
         // PATCH function that returns a promise
-        const patchRegulationObject = (patchObject) => {
+        const axiosPatchRegulationObject = (patchObject) => {
             return axios.patch(`verordeningen/${IDToPatch}`, patchObject)
         }
 
@@ -678,8 +844,6 @@ const MuteerVerordeningenstructuurDetail = () => {
                 return strippedObject
             }
             const strippedObject = stripPropertiesForLineage(object)
-
-            console.log(strippedObject)
 
             // The max depth can be 4
             const index = indexArrayToUUIDBeingEdited
@@ -754,17 +918,16 @@ const MuteerVerordeningenstructuurDetail = () => {
 
         const newRegulationObject = cleanUpProperties(verordeningsObjectFromGET)
 
-        // Check if object if of type Artikel and if it has Leden
-        const isArticle = newRegulationObject.Type === 'Artikel'
-        const hasChildren =
-            verordeningsLedenFromGET && verordeningsLedenFromGET.length > 0
-
-        // Execute
-        patchRegulationObject(newRegulationObject).then((res) => {
+        axiosPatchRegulationObject(newRegulationObject).then((res) => {
             let patchedRegulationObject = res.data
 
-            // If object is an article
-            if (isArticle && hasChildren) {
+            // Check if object if of type Artikel and if it has Leden
+            const isArticle = newRegulationObject.Type === 'Artikel'
+            const hasChildren =
+                verordeningsLedenFromGET && verordeningsLedenFromGET.length > 0
+
+            // If object is an article and has Leden
+            if (isArticle && hasChildren && !addSectionType) {
                 const patchPromisesLeden = verordeningsLedenFromGET.map(
                     (lid) => {
                         const lidID = lid.ID
@@ -788,8 +951,6 @@ const MuteerVerordeningenstructuurDetail = () => {
                 Promise.all(patchPromisesLeden)
                     .then((patchedLeden) => {
                         patchedRegulationObject.Children = patchedLeden
-                        console.log(patchedLeden)
-                        console.log(patchedRegulationObject)
                         patchNewUUIDInLineage({
                             object: patchedRegulationObject,
                             patchLeden: true,
@@ -806,6 +967,9 @@ const MuteerVerordeningenstructuurDetail = () => {
                     patchLeden: false,
                 })
             }
+
+            // Reset the type after each Patch
+            setAddSectionType(null)
         })
     }
 
@@ -870,6 +1034,38 @@ const MuteerVerordeningenstructuurDetail = () => {
             )
     }
 
+    const removeObject = (index) => {
+        const depthOfObject = index.length
+        const newLineage = clonedeep(lineage)
+
+        switch (depthOfObject) {
+            case 1:
+                newLineage.Structuur.Children.splice([index[0]], 1)
+                break
+            case 2:
+                newLineage.Structuur.Children[index[0]].Children.splice(
+                    [index[1]],
+                    1
+                )
+                break
+            case 3:
+                newLineage.Structuur.Children[index[0]].Children[
+                    index[1]
+                ].Children.splice([index[2]], 1)
+                break
+            case 4:
+                newLineage.Structuur.Children[index[0]].Children[
+                    index[1]
+                ].Children[index[2]].Children.splice([index[3]], 1)
+                break
+            default:
+                break
+        }
+        setSaveNewLineage(true)
+        setLineage(newLineage)
+        setLineageCopy(newLineage)
+    }
+
     const changeActiveChapter = (hoofdstukNummer) => {
         if (hoofdstukNummer !== null) {
             const parsedHoofdstukNummer = parseInt(hoofdstukNummer)
@@ -913,15 +1109,16 @@ const MuteerVerordeningenstructuurDetail = () => {
         : `/muteer/verordeningen`
 
     const verordeningsObjectAndPotentialLedenIsLoading =
-        verordeningsObjectIsLoading && verordeningsObjectLedenIsLoading
+        verordeningsObjectIsLoading || verordeningsObjectLedenIsLoading
 
     const context = {
         verordeningsObjectIsLoading: verordeningsObjectAndPotentialLedenIsLoading,
         setIndexArrayToUUIDBeingEdited: setIndexArrayToUUIDBeingEdited,
         setVerordeningsObjectFromGET: setVerordeningsObjectFromGET,
-        setVerordeningsLedenFromGET: setVerordeningsLedenFromGET,
         verordeningsObjectFromGET: verordeningsObjectFromGET,
+        setVerordeningsLedenFromGET: setVerordeningsLedenFromGET,
         verordeningsLedenFromGET: verordeningsLedenFromGET,
+        editContentOfArticle: editContentOfArticle,
         setVolgnummerBeingEdited: setVolgnummerBeingEdited,
         patchRegulationObject: patchRegulationObject,
         saveNewLineageStructure: saveNewLineageStructure,
@@ -930,11 +1127,15 @@ const MuteerVerordeningenstructuurDetail = () => {
         UUIDBeingEdited: UUIDBeingEdited,
         userIsAddingSections: addSectionMode,
         userIsEditingOrder: editOrderMode,
+        addSection: addSection,
+        addSectionType: addSectionType,
+        setAddSectionType: setAddSectionType,
         hoofdstukIndex: activeChapter,
         hoofdstukObject: hoofdstukObject,
         setAddSectionMode: setAddSectionMode,
         addSectionMode: addSectionMode,
         verordeningID: lineageID,
+        removeObject: removeObject,
         onDragEnd: onDragEnd,
         reorder: reorder,
     }
@@ -972,32 +1173,20 @@ const MuteerVerordeningenstructuurDetail = () => {
                         <div className="flex w-full" id="regulation-container">
                             <div className={`inline-block w-2/3 mb-20`}>
                                 <div className="text-gray-800 bg-white rounded shadow-lg">
-                                    <div
-                                        className={`flex items-center border-b border-gray-400`}
-                                    >
-                                        <Heading
-                                            show={
-                                                !editOrderMode &&
-                                                !addSectionMode
-                                            }
-                                            isActiveChapter={isActiveChapter}
-                                            activeChapter={activeChapter}
-                                            lineage={lineage}
-                                        />
-                                        <EditAddOrderSection
-                                            editOrderMode={editOrderMode}
-                                            addSectionMode={addSectionMode}
-                                            lineage={lineage}
-                                            isActiveChapter={isActiveChapter}
-                                            activeChapter={activeChapter}
-                                            toggleAdd={() =>
-                                                setAddSectionMode(true)
-                                            }
-                                            toggleOrder={() =>
-                                                setEditOrderMode(true)
-                                            }
-                                        />
-                                    </div>
+                                    <EditAddOrderSection
+                                        UUIDBeingEdited={UUIDBeingEdited}
+                                        editOrderMode={editOrderMode}
+                                        addSectionMode={addSectionMode}
+                                        lineage={lineage}
+                                        isActiveChapter={isActiveChapter}
+                                        activeChapter={activeChapter}
+                                        toggleAdd={() =>
+                                            setAddSectionMode(true)
+                                        }
+                                        toggleOrder={() =>
+                                            setEditOrderMode(true)
+                                        }
+                                    />
                                     <div>
                                         {activeChapter !== null ? (
                                             <DragAndDropFirstLevel
@@ -1017,19 +1206,19 @@ const MuteerVerordeningenstructuurDetail = () => {
                                 </div>
                             </div>
 
-                            {isActiveChapter ? (
-                                <MetaSidebar
-                                    saveNewLineageStructure={
-                                        saveNewLineageStructure
-                                    }
-                                    setAddSectionMode={setAddSectionMode}
-                                    userIsAddingSections={addSectionMode}
-                                    userIsEditingOrder={editOrderMode}
-                                    setEditOrderMode={setEditOrderMode}
-                                />
-                            ) : null}
+                            <EditOrderSidebar
+                                cancelReorder={cancelReorder}
+                                isActiveChapter={isActiveChapter}
+                                saveNewLineageStructure={
+                                    saveNewLineageStructure
+                                }
+                                setAddSectionMode={setAddSectionMode}
+                                userIsAddingSections={addSectionMode}
+                                userIsEditingOrder={editOrderMode}
+                                setEditOrderMode={setEditOrderMode}
+                            />
 
-                            {addSectionMode ? <AddSectionsSidebar /> : null}
+                            <AddSectionsSidebar show={addSectionMode} />
 
                             <EditContentSidebar
                                 setVerordeningsLedenFromGET={
@@ -1046,7 +1235,8 @@ const MuteerVerordeningenstructuurDetail = () => {
                                     verordeningsObjectFromGET
                                 }
                                 verordeningsObjectIsLoading={
-                                    verordeningsObjectIsLoading
+                                    verordeningsObjectIsLoading ||
+                                    verordeningsObjectLedenIsLoading
                                 }
                                 UUIDBeingEdited={UUIDBeingEdited}
                                 volgnummerBeingEdited={volgnummerBeingEdited}
@@ -1060,361 +1250,6 @@ const MuteerVerordeningenstructuurDetail = () => {
             </VerordeningContext.Provider>
         </React.Fragment>
     )
-}
-
-const EditContentSidebar = ({
-    verordeningsLedenFromGET,
-    setVerordeningsLedenFromGET,
-    users,
-    setVerordeningsObjectFromGET,
-    verordeningsObjectFromGET,
-    verordeningsObjectIsLoading,
-    UUIDBeingEdited,
-    volgnummerBeingEdited,
-}) => {
-    const verordeningsObjectIsLoaded =
-        UUIDBeingEdited &&
-        !verordeningsObjectIsLoading &&
-        verordeningsObjectFromGET !== null &&
-        verordeningsObjectFromGET.Type === 'Artikel'
-
-    const getType = () => {
-        if (verordeningsObjectIsLoaded) {
-            return verordeningsObjectFromGET.Type
-        } else {
-            return null
-        }
-    }
-
-    const currentType = getType()
-
-    return (
-        <FixedSidebarContainer show={verordeningsObjectIsLoaded}>
-            <div>
-                {verordeningsObjectIsLoading && verordeningsObjectFromGET ? (
-                    <div className="absolute flex items-center justify-center w-full h-64">
-                        <FontAwesomeIcon
-                            className="text-gray-500 rotate-icon"
-                            icon={faSpinner}
-                        />
-                    </div>
-                ) : null}
-                <Transition
-                    show={verordeningsObjectIsLoaded}
-                    enter="transition ease-out duration-100"
-                    enterFrom="opacity-0 transform translate-x-2"
-                    enterTo="opacity-100 transform translate-x-0"
-                    leave="transition ease-in duration-75"
-                    leaveFrom="opacity-100 transform translate-x-0"
-                    leaveTo="opacity-0 transform translate-x-2"
-                >
-                    <React.Fragment>
-                        {/* Return Artikel Edit Container */}
-                        <ContentSidebarContainer
-                            currentType={currentType}
-                            volgnummerBeingEdited={volgnummerBeingEdited}
-                        >
-                            <Artikel
-                                users={users}
-                                setVerordeningsObjectFromGET={
-                                    setVerordeningsObjectFromGET
-                                }
-                                verordeningsObjectFromGET={
-                                    verordeningsObjectFromGET
-                                }
-                            />
-                        </ContentSidebarContainer>
-
-                        {/* Return Leden  Edit Containers */}
-                        {verordeningsLedenFromGET &&
-                        verordeningsLedenFromGET.length > 0
-                            ? verordeningsLedenFromGET.map((lid, index) => (
-                                  <ContentSidebarContainer
-                                      marginTop={true}
-                                      currentType={'lid'}
-                                      volgnummerBeingEdited={index + 1}
-                                  >
-                                      <div className="flex-grow inline-block w-full">
-                                          <Werkingsgebied
-                                              werkingsgebiedInParentState={
-                                                  verordeningsLedenFromGET[
-                                                      index
-                                                  ].Werkingsgebied
-                                              }
-                                              setWerkingsgebiedInParentState={(
-                                                  UUID
-                                              ) =>
-                                                  setVerordeningsLedenFromGET({
-                                                      type: 'changeValue',
-                                                      value: UUID,
-                                                      name: 'Werkingsgebied',
-                                                      index: index,
-                                                  })
-                                              }
-                                          />
-                                      </div>
-                                  </ContentSidebarContainer>
-                              ))
-                            : null}
-                    </React.Fragment>
-                </Transition>
-            </div>
-        </FixedSidebarContainer>
-    )
-}
-
-const ContentSidebarContainer = ({
-    currentType,
-    volgnummerBeingEdited,
-    children,
-    marginTop,
-}) => {
-    const [open, setOpen] = React.useState(true)
-
-    return (
-        <div className={`mb-5 rounded-b shadow-md ${marginTop ? 'mt-5' : ''}`}>
-            <div
-                className={`flex items-center justify-between w-full h-12 p-4 font-semibold text-white cursor-pointer bg-primary ${
-                    open ? 'rounded-t' : 'rounded'
-                }`}
-                onClick={() => setOpen(!open)}
-            >
-                <span>
-                    Eigenschappen
-                    {' ' + currentType + ' ' + volgnummerBeingEdited}
-                </span>
-                <FontAwesomeIcon
-                    className="text-white"
-                    icon={open ? faChevronDown : faChevronUp}
-                />
-            </div>
-            <div
-                className={`p-4 bg-white rounded-b ${
-                    open ? 'block' : 'hidden'
-                }`}
-            >
-                {children}
-            </div>
-        </div>
-    )
-}
-
-const FixedSidebarContainer = ({ children, show, alignWithContainer }) => {
-    const [styles, setStyles] = React.useState(0)
-    const [windowSize, setWindowSize] = React.useState(null)
-
-    const verticalPadding = 20
-
-    React.useLayoutEffect(() => {
-        const initializeStyles = (val) => setStyles(val)
-        const regulationContainer = document.getElementById(
-            'regulation-container'
-        )
-        const navigation = document.getElementById('navigation-main')
-        const containerWidth = regulationContainer.offsetWidth
-        const oneThirdContainerWidth = containerWidth * 0.333
-
-        const offsetTop = alignWithContainer
-            ? regulationContainer.offsetTop - 20
-            : navigation.offsetTop + navigation.offsetHeight
-        const offsetLeft =
-            containerWidth * 0.666 + regulationContainer.offsetLeft
-
-        initializeStyles({
-            width: oneThirdContainerWidth,
-            yPosition: offsetTop + verticalPadding,
-            xPosition: offsetLeft,
-        })
-
-        const handleResize = () => {
-            setWindowSize(window.innerWidth)
-        }
-
-        window.addEventListener('resize', handleResize)
-        return () => window.removeEventListener('resize', handleResize)
-    }, [windowSize])
-
-    // Left gets +10 pixels to align it with the menu
-    return (
-        <div
-            className={`fixed z-10 inline-block pr-3 pl-10 ${
-                show ? '' : 'pointer-events-none'
-            }`}
-            style={{
-                width: styles.width + 'px',
-                top: styles.yPosition + 'px',
-                left: styles.xPosition + 12 + 'px',
-                height: `calc(100vh - ${styles.yPosition}px)`,
-                overflowY: 'auto',
-            }}
-        >
-            {children}
-        </div>
-    )
-}
-
-const MetaSidebar = ({
-    userIsEditingOrder,
-    setEditOrderMode,
-    saveNewLineageStructure,
-}) => {
-    const EditOrderComponent = () => (
-        <div>
-            <span className="mb-2 font-semibold text-gray-900">
-                Volgorde wijzigen
-            </span>
-            <p className="text-gray-800">
-                Je bent op dit moment de volgorde binnen dit hoofdstuk aan het
-                wijzigen
-            </p>
-            <div className="flex items-center mt-5">
-                <button
-                    className="flex items-center justify-center inline-block px-4 py-2 mr-4 font-semibold text-white bg-green-600 border border-green-600 rounded cursor-pointer hover:text-white"
-                    onClick={() => {
-                        saveNewLineageStructure()
-                        setEditOrderMode(false)
-                    }}
-                >
-                    Opslaan
-                </button>
-                <button
-                    className="text-sm text-gray-800 underline"
-                    onClick={() => setEditOrderMode(false)}
-                >
-                    Annuleren
-                </button>
-            </div>
-        </div>
-    )
-
-    return (
-        <FixedSidebarContainer
-            alignWithContainer={true}
-            show={userIsEditingOrder}
-        >
-            <div>
-                <Transition
-                    show={userIsEditingOrder}
-                    enter="transition ease,-out duration-100"
-                    enterFrom="opacity-0 transform translate-x-2"
-                    enterTo="opacity-100 transform translate-x-0"
-                    leave="transition ease-in duration-75"
-                    leaveFrom="opacity-100 transform translate-x-0"
-                    leaveTo="opacity-0 transform translate-x-2"
-                >
-                    <EditOrderComponent />
-                </Transition>
-            </div>
-        </FixedSidebarContainer>
-    )
-}
-
-// This component displays the UI to, edit, add and change the order of the regulation objects
-function EditAddOrderSection({
-    lineage,
-    toggleAdd,
-    toggleOrder,
-    isActiveChapter,
-    activeChapter,
-    editOrderMode,
-    addSectionMode,
-}) {
-    const EditAddOrderInactive = () => {
-        return (
-            <div className="flex self-stretch justify-end flex-grow">
-                <div className="flex items-center h-full">
-                    {/* Add button */}
-                    <button
-                        className="flex items-center justify-center inline-block w-12 h-12 h-full font-semibold text-gray-700 transition duration-100 ease-in border-l border-gray-400 cursor-pointer hover:bg-gray-50 hover:text-gray-900"
-                        onClick={toggleAdd}
-                    >
-                        <span className="flex items-center justify-center inline-block px-2">
-                            <FontAwesomeIcon
-                                className="absolute text-sm"
-                                icon={faPlus}
-                            />
-                        </span>
-                    </button>
-                    {/* Order button */}
-                    <button
-                        onClick={toggleOrder}
-                        className="flex items-center justify-center inline-block w-12 h-12 h-full font-semibold text-gray-700 transition duration-100 ease-in border-l border-gray-400 cursor-pointer hover:bg-gray-50 hover:text-gray-900"
-                    >
-                        <span className="flex items-center justify-center inline-block px-2">
-                            <FontAwesomeIcon
-                                className="absolute text-sm"
-                                icon={faArrowsAltV}
-                            />
-                        </span>
-                    </button>
-                </div>
-            </div>
-        )
-    }
-
-    const EditAddOrderActive = ({ editOrderMode, addSectionMode }) => {
-        return (
-            <div className="flex items-center w-full h-12 pl-10 text-white bg-primary">
-                <span className="absolute font-bold">
-                    Actie -{' '}
-                    {editOrderMode
-                        ? 'Volgorde wijzigen'
-                        : addSectionMode
-                        ? 'Nieuwe onderdelen toevoegen'
-                        : ''}
-                </span>
-            </div>
-        )
-    }
-
-    return (
-        <React.Fragment>
-            {!editOrderMode && !addSectionMode ? (
-                <EditAddOrderInactive />
-            ) : null}
-
-            {editOrderMode || addSectionMode ? (
-                <EditAddOrderActive
-                    editOrderMode={editOrderMode}
-                    addSectionMode={addSectionMode}
-                />
-            ) : null}
-        </React.Fragment>
-    )
-}
-
-function Heading({ activeHoofdstuk, lineage, isActiveChapter, show }) {
-    const text = activeHoofdstuk
-        ? 'Hoofdstuk ' +
-          lineage.Structuur.Children[activeHoofdstuk].Volgnummer +
-          ' - ' +
-          lineage.Structuur.Children[activeHoofdstuk].Titel
-        : lineage.Titel
-
-    if (!show) return null
-    if (isActiveChapter) {
-        return <div className="p-6" />
-    } else {
-        return <h2 className="p-4 text-lg font-bold text-gray-800">{text}</h2>
-    }
-}
-
-// Because we want to patch the object, we create a new object with the other properties stripped away
-const stripProperties = ({ type, object }) => {
-    switch (type) {
-        case 'Hoofdstuk':
-            return {
-                Begin_Geldigheid: object.Begin_Geldigheid,
-                Eind_Geldigheid: object.Eind_Geldigheid,
-                Volgnummer: object.Volgnummer,
-                Titel: object.Titel,
-                UUID: object.UUID,
-                ID: object.ID,
-            }
-
-        default:
-            return {}
-    }
 }
 
 export default withRouter(MuteerVerordeningenstructuurDetail)

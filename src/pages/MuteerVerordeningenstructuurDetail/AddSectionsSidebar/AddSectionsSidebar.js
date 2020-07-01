@@ -1,13 +1,20 @@
 import React from 'react'
 import Transition from '../../../components/Transition'
 
+import { faCircle } from '@fortawesome/pro-regular-svg-icons'
+import { faCheckCircle } from '@fortawesome/pro-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 import VerordeningContext from '../VerordeningContext'
 
-const AddSectionsSidebar = () => {
+const AddSectionsSidebar = ({ show }) => {
     const {
-        setAddSectionMode,
         saveNewLineageStructure,
-        userIsAddingSections,
+        setAddSectionMode,
+        addSectionMode,
+        addSectionType,
+        setAddSectionType,
+        hoofdstukIndex,
     } = React.useContext(VerordeningContext)
 
     const [styles, setStyles] = React.useState(0)
@@ -39,105 +46,128 @@ const AddSectionsSidebar = () => {
         return () => window.removeEventListener('resize', handleResize)
     }, [windowSize])
 
+    const userIsAddingSectionsInHoofdstukken =
+        hoofdstukIndex === null || hoofdstukIndex === undefined
+    console.log('hoofdstukIndex')
+    console.log(hoofdstukIndex)
+
     return (
-        <div
-            className="fixed inline-block pt-3 pl-10"
-            style={{
-                width: styles.width + 'px',
-                top: styles.yPosition + 'px',
-                left: styles.xPosition + 'px',
-            }}
+        <Transition
+            show={show}
+            enter="transition ease-out duration-100"
+            enterFrom="opacity-0 transform translate-x-2"
+            enterTo="opacity-100 transform translate-x-0"
+            leave="transition ease-in duration-75"
+            leaveFrom="opacity-100 transform translate-x-0"
+            leaveTo="opacity-0 transform translate-x-2"
         >
-            <Transition
-                show={userIsAddingSections}
-                enter="transition ease-out duration-100"
-                enterFrom="opacity-0 transform translate-x-2"
-                enterTo="opacity-100 transform translate-x-0"
-                leave="transition ease-in duration-75"
-                leaveFrom="opacity-100 transform translate-x-0"
-                leaveTo="opacity-0 transform translate-x-2"
+            <div
+                className="fixed inline-block pl-10"
+                style={{
+                    width: styles.width + 'px',
+                    top: styles.yPosition + 'px',
+                    left: styles.xPosition + 'px',
+                }}
             >
-                <div>
-                    <span className="mb-2 font-semibold text-gray-900">
-                        Onderdelen toevoegen
-                    </span>
-                    <p className="text-gray-800">
-                        Je kunt op dit moment onderdelen toevoegen. Sleep een
-                        onderdeel wat hieronder staat naar de plek waar je het
-                        onderdeel wilt toevoegen.
-                    </p>
+                <Transition
+                    show={addSectionMode}
+                    enter="transition ease-out duration-100"
+                    enterFrom="opacity-0 transform translate-x-2"
+                    enterTo="opacity-100 transform translate-x-0"
+                    leave="transition ease-in duration-75"
+                    leaveFrom="opacity-100 transform translate-x-0"
+                    leaveTo="opacity-0 transform translate-x-2"
+                >
                     <div>
-                        {/* <Droppable droppableId={'type-artikel'}>
-                            {(provided, snapshot) => (
+                        <span className="mb-2 font-semibold text-gray-900">
+                            Onderdelen toevoegen
+                        </span>
+                        <p className="text-gray-800">
+                            Je kunt op dit moment onderdelen toevoegen.
+                            {userIsAddingSectionsInHoofdstukken
+                                ? ''
+                                : 'Selecteer het onderdeel dat je wil toevoegen.'}
+                        </p>
+
+                        {userIsAddingSectionsInHoofdstukken ? null : (
+                            <div className="mt-5">
                                 <div
-                                    ref={provided.innerRef}
-                                    className="mt-5 font-bold text-gray-900 bg-gray-50"
+                                    className="block py-3 pl-5 mb-2 font-semibold text-gray-900 cursor-pointer bg-primary-super-light"
+                                    onClick={() => {
+                                        if (addSectionType !== 'Afdeling') {
+                                            setAddSectionType('Afdeling')
+                                        } else {
+                                            setAddSectionType(null)
+                                        }
+                                    }}
                                 >
-                                    <Draggable
-                                        index={0}
-                                        draggableId={'0000___addArtikel'}
-                                    >
-                                        {(provided, snapshot) => (
-                                            <div
-                                                className="flex items-center block py-3 pl-5 font-semibold text-gray-900 bg-primary-super-light"
-                                                ref={provided.innerRef}
-                                                {...provided.draggableProps}
-                                                {...provided.dragHandleProps}
-                                            >
-                                                Artikel!
-                                                {provided.placeholder}
-                                            </div>
-                                        )}
-                                    </Draggable>
+                                    <FontAwesomeIcon
+                                        className="mr-5 text-gray-700"
+                                        icon={
+                                            addSectionType === 'Afdeling'
+                                                ? faCheckCircle
+                                                : faCircle
+                                        }
+                                    />
+                                    Afdeling
                                 </div>
-                            )}
-                        </Droppable>
-                        <Droppable
-                            droppableId={'add-section'}
-                            meta="add-section"
-                        >
-                            {(provided, snapshot) => (
                                 <div
-                                    ref={provided.innerRef}
-                                    className="mt-5 font-bold text-gray-900 bg-gray-50"
+                                    className="block py-3 pl-5 mb-2 font-semibold text-gray-900 cursor-pointer bg-primary-super-light"
+                                    onClick={() => {
+                                        if (addSectionType !== 'Paragraaf') {
+                                            setAddSectionType('Paragraaf')
+                                        } else {
+                                            setAddSectionType(null)
+                                        }
+                                    }}
                                 >
-                                    <Draggable index={1} draggableId={'102'}>
-                                        {(provided, snapshot) => (
-                                            <div
-                                                className="flex items-center block py-3 pl-5 font-semibold text-gray-900 bg-primary-super-light"
-                                                ref={provided.innerRef}
-                                                {...provided.draggableProps}
-                                                {...provided.dragHandleProps}
-                                            >
-                                                Groep!
-                                                {provided.placeholder}
-                                            </div>
-                                        )}
-                                    </Draggable>
+                                    <FontAwesomeIcon
+                                        className="mr-5 text-gray-700"
+                                        icon={
+                                            addSectionType === 'Paragraaf'
+                                                ? faCheckCircle
+                                                : faCircle
+                                        }
+                                    />
+                                    Paragraaf
                                 </div>
-                            )}
-                        </Droppable> */}
+                                <div
+                                    className="block py-3 pl-5 mb-2 font-semibold text-gray-900 cursor-pointer bg-primary-super-light"
+                                    onClick={() => {
+                                        if (addSectionType !== 'Artikel') {
+                                            setAddSectionType('Artikel')
+                                        } else {
+                                            setAddSectionType(null)
+                                        }
+                                    }}
+                                >
+                                    <FontAwesomeIcon
+                                        className="mr-5 text-gray-700"
+                                        icon={
+                                            addSectionType === 'Artikel'
+                                                ? faCheckCircle
+                                                : faCircle
+                                        }
+                                    />
+                                    Artikel
+                                </div>
+                            </div>
+                        )}
+                        <div className="flex items-center mt-5">
+                            <button
+                                className="text-sm text-gray-800 underline"
+                                onClick={() => {
+                                    setAddSectionMode(false)
+                                    setAddSectionType(null)
+                                }}
+                            >
+                                Annuleren
+                            </button>
+                        </div>
                     </div>
-                    <div className="flex items-center mt-5">
-                        <button
-                            className="flex items-center justify-center inline-block px-4 py-2 mr-4 font-semibold text-white bg-green-600 border border-green-600 rounded cursor-pointer hover:text-white"
-                            onClick={() => {
-                                saveNewLineageStructure()
-                                setAddSectionMode(false)
-                            }}
-                        >
-                            Opslaan
-                        </button>
-                        <button
-                            className="text-sm text-gray-800 underline"
-                            onClick={() => setAddSectionMode(false)}
-                        >
-                            Annuleren
-                        </button>
-                    </div>
-                </div>
-            </Transition>
-        </div>
+                </Transition>
+            </div>
+        </Transition>
     )
 }
 

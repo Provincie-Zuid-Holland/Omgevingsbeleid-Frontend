@@ -4,6 +4,7 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import DragAndDropSecondLevel from '../DragAndDropSecondLevel'
 import AddSection from './../AddSection'
 import VerordeningObjectContent from './../VerordeningObjectContent'
+import AddObjectButton from './../AddObjectButton'
 
 import VerordeningContext from './../VerordeningContext'
 
@@ -16,6 +17,7 @@ function DragAndDropFirstLevel({ itemsInHoofdstuk }) {
         userIsEditingSections,
         hoofdstukIndex,
         hoofdstukVolgnummer,
+        addSectionType,
     } = React.useContext(VerordeningContext)
 
     return (
@@ -48,6 +50,14 @@ function DragAndDropFirstLevel({ itemsInHoofdstuk }) {
                                 Hoofdstuk {hoofdstukVolgnummer} -{' '}
                                 {hoofdstukObject.Titel}
                             </div>
+
+                            <div className="pl-5">
+                                <AddObjectButton
+                                    nestType="childOfHoofdstuk"
+                                    index={[hoofdstukIndex, 0]}
+                                />
+                            </div>
+
                             {itemsInHoofdstuk
                                 .filter((e) => e.Type !== 'Lid')
                                 .map((item, index) => (
@@ -65,16 +75,13 @@ function DragAndDropFirstLevel({ itemsInHoofdstuk }) {
                                                 {...provided.dragHandleProps}
                                             >
                                                 <div
-                                                    className={`bg-white ${
+                                                    className={`bg-white pl-5 ${
                                                         snapshot.isDragging
                                                             ? 'shadow-lg'
                                                             : ''
                                                     }`}
                                                 >
                                                     <VerordeningObjectContent
-                                                        userIsEditingOrder={
-                                                            userIsEditingOrder
-                                                        }
                                                         item={item}
                                                         index={index}
                                                         pathToIndex={[
@@ -82,14 +89,31 @@ function DragAndDropFirstLevel({ itemsInHoofdstuk }) {
                                                             index,
                                                         ]}
                                                     />
+                                                    <AddObjectButton
+                                                        nestType="subitems"
+                                                        item={item}
+                                                        index={[
+                                                            hoofdstukIndex,
+                                                            index,
+                                                            0,
+                                                        ]}
+                                                    />
                                                     <DragAndDropSecondLevel
+                                                        parentType={item.Type}
                                                         subVolgnummer={
                                                             item.Volgnummer
                                                         }
                                                         subItems={item.Children}
                                                         UUID={item.UUID}
-                                                        type={item.Type}
                                                         nest_1={index}
+                                                    />
+                                                    <AddObjectButton
+                                                        nestType="parallel"
+                                                        item={item}
+                                                        index={[
+                                                            hoofdstukIndex,
+                                                            index + 1,
+                                                        ]}
                                                     />
                                                 </div>
                                                 {userIsEditingSections ? (

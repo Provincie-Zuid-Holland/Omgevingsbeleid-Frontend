@@ -1,6 +1,11 @@
 import React from 'react'
 import { toast } from 'react-toastify'
-import { faSearch, faSpinner, faPlus } from '@fortawesome/pro-regular-svg-icons'
+import {
+    faSearch,
+    faSpinner,
+    faTimes,
+    faPlus,
+} from '@fortawesome/pro-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import axios from './../../../../API/axios'
@@ -12,6 +17,8 @@ const Werkingsgebied = ({
 }) => {
     const [popupOpen, setPopupOpen] = React.useState(false)
 
+    // werkingsgebiedInParentState only contains the UUID
+    // Contains the whole object that we get from the API
     const [werkingsgebied, setWerkingsgebied] = React.useState(null)
     const [
         werkingsgebiedTitelIsLoading,
@@ -21,11 +28,9 @@ const Werkingsgebied = ({
     // Function to GET the complete werkingsgebied object from the API
     // We need this in order to display the title
     React.useEffect(() => {
-        console.log(werkingsgebiedInParentState)
-
+        // If there is no werkingsgebied prop
         if (!werkingsgebiedInParentState) return
-        console.log('werkingsgebiedInParentState')
-        console.log(werkingsgebiedInParentState)
+        // If it is the prop is the same as the current one we have in state
         if (
             werkingsgebiedInParentState &&
             werkingsgebiedInParentState === werkingsgebied
@@ -48,35 +53,46 @@ const Werkingsgebied = ({
     return (
         <React.Fragment>
             {werkingsgebiedInParentState ? (
-                <div
-                    className={`h-64 flex mt-2 justify-center items-center relative block cursor-pointer`}
-                    onClick={() => setPopupOpen(true)}
-                >
+                <div>
                     <div
-                        className={`absolute top-0 left-0 z-10 w-full h-full border border-gray-100 rounded-md shadow`}
+                        className={`h-64 flex mt-2 justify-center items-center relative block cursor-pointer`}
+                        onClick={() => setPopupOpen(true)}
                     >
                         <div
-                            style={{
-                                backgroundImage:
-                                    'url("' +
-                                    `https://geo-omgevingsbeleid-test.azurewebsites.net/wms/reflect?format=image/png&layers=OMGEVINGSBELEID:Werkingsgebieden_brt&srs=EPSG:28992&width=450&bbox=43662.62,406692,140586.08,483120&cql_filter=UUID IN ('${werkingsgebiedInParentState}')` +
-                                    '")',
-                            }}
-                            className="block w-full h-full bg-center bg-cover rounded-md"
-                        ></div>
-                        <span class="absolute bottom-0 z-10 block w-full p-4 text-sm text-gray-700 bg-white">
-                            {werkingsgebiedTitelIsLoading
-                                ? 'Laden...'
-                                : werkingsgebied.Werkingsgebied}
+                            className={`cursor-pointer z-10 absolute top-0 left-0 w-full h-full border border-gray-100 rounded-md shadow`}
+                        >
+                            <div
+                                style={{
+                                    backgroundImage:
+                                        'url("' +
+                                        `https://geo-omgevingsbeleid-test.azurewebsites.net/wms/reflect?format=image/png&layers=OMGEVINGSBELEID:Werkingsgebieden_brt&srs=EPSG:28992&width=450&bbox=43662.62,406692,140586.08,483120&cql_filter=UUID IN ('${werkingsgebiedInParentState}')` +
+                                        '")',
+                                }}
+                                className="block w-full h-full bg-center bg-cover rounded-md"
+                            ></div>
+                            <span class="absolute bottom-0 block w-full p-4 text-sm text-gray-700 bg-white">
+                                {werkingsgebiedTitelIsLoading
+                                    ? 'Laden...'
+                                    : werkingsgebied.Werkingsgebied}
+                            </span>
+                        </div>
+                        <span
+                            className={`absolute top-0 left-0 flex items-center justify-center w-full h-full text-gray-500 -mt-4`}
+                        >
+                            <FontAwesomeIcon
+                                className="mr-2 rotate-icon"
+                                icon={faSpinner}
+                            />
                         </span>
                     </div>
                     <span
-                        className={`absolute top-0 left-0 flex items-center justify-center w-full h-full text-gray-500 -mt-4`}
+                        onClick={() => {
+                            setWerkingsgebiedInParentState(null)
+                            setWerkingsgebied(null)
+                        }}
+                        className="block mt-2 mb-4 text-xs text-red-700 underline cursor-pointer hover:text-red-800"
                     >
-                        <FontAwesomeIcon
-                            className="mr-2 rotate-icon"
-                            icon={faSpinner}
-                        />
+                        Dit werkingsgebied ontkoppelen
                     </span>
                 </div>
             ) : (
@@ -134,11 +150,41 @@ const WerkingsgebiedPopup = ({
         return `https://geo-omgevingsbeleid-test.azurewebsites.net/wms/reflect?format=image/png&layers=OMGEVINGSBELEID:Werkingsgebieden_brt&srs=EPSG:28992&width=450&bbox=43662.62,406692,140586.08,483120&cql_filter=UUID IN ('${UUID}')`
     }
 
+    React.useEffect(() => {
+        const fixedContainerEl = document.getElementById(
+            'fixed-container-edit-content-sidebar'
+        )
+
+        console.log(fixedContainerEl)
+
+        // Get original body overflow
+        const originalStyle = window.getComputedStyle(fixedContainerEl)
+            .overflowY
+
+        console.log(originalStyle)
+
+        // Prevent scrolling on mount
+        if (show) {
+            fixedContainerEl.style.overflowY = 'hidden'
+        }
+        // Re-enable scrolling when component unmounts
+        return () => {
+            fixedContainerEl.style.overflowY = originalStyle
+        }
+    }, [show]) // Empty array ensures effect is only run on mount and unmount
+
     return (
         <PopupContainer show={show} close={close}>
             <div className="container flex items-center justify-center pb-8 mx-auto sm:px-6 lg:px-8">
                 <div className="relative z-10 w-2/3 transition-all transform bg-white rounded-md rounded-lg shadow-xl screen-minus-nav">
-                    <div className="h-full px-8 pt-8 pb-12 bg-white">
+                    <div
+                        onClick={close}
+                        className="absolute top-0 right-0 px-3 py-2 text-gray-600 cursor-pointer"
+                        id={`close-werkingsgebied-popup`}
+                    >
+                        <FontAwesomeIcon icon={faTimes} />
+                    </div>
+                    <div className="h-full px-8 pt-8 pb-12">
                         <h2 className="form-field-label">
                             Werkingsgebied koppelen
                         </h2>
@@ -160,7 +206,7 @@ const WerkingsgebiedPopup = ({
                             />
                         </div>
 
-                        <div className="flex grid flex-wrap h-screen grid-cols-2 gap-4 overflow-y-auto werkingsgebied-container">
+                        <div className="grid h-screen grid-cols-2 gap-4 pb-2 pr-2 overflow-x-hidden overflow-y-auto werkingsgebied-container">
                             {isLoading
                                 ? null
                                 : werkingsgebieden
@@ -184,7 +230,7 @@ const WerkingsgebiedPopup = ({
                                                   }}
                                               >
                                                   <div
-                                                      className={`cursor-pointer absolute top-0 left-0 z-10 w-full h-full border border-gray-100 rounded-md shadow`}
+                                                      className={`cursor-pointer z-10 absolute top-0 left-0 w-full h-full border border-gray-100 rounded-md shadow`}
                                                   >
                                                       <div
                                                           style={{

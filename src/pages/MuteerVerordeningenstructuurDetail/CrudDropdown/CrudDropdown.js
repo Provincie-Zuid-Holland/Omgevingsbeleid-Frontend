@@ -17,6 +17,7 @@ const CrudDropdown = ({ item, pathToIndex }) => {
         setIndexArrayToUUIDBeingEdited,
         UUIDBeingEdited,
         setVolgnummerBeingEdited,
+        removeObject,
     } = React.useContext(VerordeningContext)
 
     const [isOpen, setIsOpen] = React.useState(false)
@@ -85,9 +86,12 @@ const CrudDropdown = ({ item, pathToIndex }) => {
                             </button>
                             <button
                                 onClick={() => {
-                                    window.confirm(
-                                        `Weet u zeker dat u dit ${item.Type} wilt verwijderen?`
+                                    const confirmation = window.confirm(
+                                        `Weet u zeker dat u dit ${item.Type.toLowerCase()} wilt verwijderen?`
                                     )
+                                    if (confirmation) {
+                                        removeObject(pathToIndex)
+                                    }
                                     setIsOpen(false)
                                 }}
                                 className="block w-full px-4 py-2 text-sm font-semibold leading-5 text-left text-red-700 hover:bg-gray-100 hover:text-red-800 focus:bg-gray-100 focus:text-red-900"
