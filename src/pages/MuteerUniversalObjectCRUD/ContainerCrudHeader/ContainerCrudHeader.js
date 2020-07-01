@@ -38,15 +38,15 @@ function ContainerCrudHeader(props) {
     // }
 
     return (
-        <div className="w-full py-24 px-6 mbg-color edit-header relative">
-            <div className="lg:px-10 container mx-auto flex justify-center items-center">
+        <div className="relative w-full px-6 py-24 mbg-color edit-header">
+            <div className="container flex items-center justify-center mx-auto lg:px-10">
                 <div className="w-full pr-20">
                     {props.editStatus === false ? (
                         props.location.hash === '#mijn-beleid' ? (
                             <ButtonBackToPage
                                 terugNaar={props.titelMeervoud.toLowerCase()}
                                 color="text-white"
-                                url={`/muteer/${props.overzichtSlug}`}
+                                url={`/muteer/mijn-beleid`}
                             />
                         ) : (
                             <ButtonBackToPage
