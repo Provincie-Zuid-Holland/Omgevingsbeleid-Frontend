@@ -362,7 +362,8 @@ class RaadpleegZoekResultatenOverzicht extends Component {
 
         // Get werkingsgebieden
         import('./../../API/axiosGeoJSON').then((api) => {
-            api.getWerkingsGebieden(searchGeoQuery)
+            const [pointA, pointB] = searchGeoQuery.split(' ')
+            api.getWerkingsGebieden(pointA, pointB)
                 .then((data) => {
                     // Then get for each werkingsgebied te appropriate regulations and policies
 
