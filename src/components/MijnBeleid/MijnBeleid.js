@@ -40,11 +40,12 @@ class MijnBeleid extends Component {
             }
         })
         const axiosRequests = lijstMetAPIEndpoints.map((dimensie) => {
+            const authUserUUID = this.state.authUser
             return axios
                 .get(
                     dimensie.endpoint === 'beleidsbeslissingen'
-                        ? `/${dimensie.endpoint}?Created_By=${this.state.authUser}&Eigenaar_1=${this.state.authUser}&Eigenaar_2=${this.state.authUser}&Opdrachtgever=${this.state.authUser}`
-                        : `/${dimensie.endpoint}?Created_By=${this.state.authUser}`
+                        ? `/${dimensie.endpoint}?Created_By=${authUserUUID}&Eigenaar_1=${authUserUUID}&Eigenaar_2=${authUserUUID}&Opdrachtgever=${authUserUUID}`
+                        : `/${dimensie.endpoint}?Created_By=${authUserUUID}`
                 )
                 .then((res) => {
                     if (res.data.length === 0) {
@@ -75,7 +76,7 @@ class MijnBeleid extends Component {
             {
                 authUser: JSON.parse(
                     localStorage.getItem(process.env.REACT_APP_KEY_IDENTIFIER)
-                ).UUID,
+                ).UUID.toUpperCase(),
             },
             () => this.getBeleidVanGebruiker()
         )
@@ -89,7 +90,9 @@ class MijnBeleid extends Component {
                         {!this.props.hideToevoegen ? (
                             <ButtonAddNewObject
                                 titelEnkelvoud={'Beleidsbeslissing'}
-                                createNewSlug={'nieuwe-beleidsbeslissing'}
+                                createNewSlug={
+                                    'nieuwe-beleidsbeslissing#mijn-beleid'
+                                }
                                 hoofdOnderdeelSlug={'beleidsbeslissingen'}
                                 fullWidth={true}
                             />
