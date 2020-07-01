@@ -162,29 +162,12 @@ class MuteerBeleidsbeslissingenDetail extends Component {
                 )
             })
             .catch((error) => {
-                if (error.response !== undefined) {
-                    this.setState(
-                        {
-                            dataReceived: true,
-                        },
-                        () => {
-                            if (error.response.status === 404) {
-                                this.props.history.push(
-                                    `/muteer/${this.props.overzichtSlug}`
-                                )
-                                toast(
-                                    `Deze ${this.props.dataModel.variables.Titel_Enkelvoud.toLowerCase()} kon niet gevonden worden`
-                                )
-                            }
-                        }
-                    )
+                if (error.response && error.response.status === 404) {
+                    this.props.history.push(`/muteer/dashboard`)
+                    toast(`Deze beleidsbeslissing kon niet gevonden worden`)
                 } else {
-                    this.setState(
-                        {
-                            dataReceived: true,
-                        },
-                        () => toast(`Er is iets misgegaan`)
-                    )
+                    this.props.history.push(`/muteer/dashboard`)
+                    toast(`Er is iets misgegaan, probeer het later opnieuw`)
                 }
             })
     }
@@ -268,7 +251,7 @@ class MuteerBeleidsbeslissingenDetail extends Component {
         // Het vigerendeDimensieObject is de variabele waarin we het object dat vigerend is, wat het laatste in de de dimensieHistorie zit in plaatsen.
         let vigerendeDimensieObject = null
         let vigerendeDimensieObjectIndex = null
-        let isEenOntwerpInProgress = false
+        let isAConceptInProgress = false
 
         // forEach loop om te kijken of er een vigerend object is en zo ja, welke index deze heeft
         if (this.state.dimensieHistorieSet) {
@@ -283,15 +266,21 @@ class MuteerBeleidsbeslissingenDetail extends Component {
             })
         }
 
+        const isVigerendObject = vigerendeDimensieObjectIndex !== null
+        const isConceptAfterVigerendObject =
+            isVigerendObject &&
+            vigerendeDimensieObjectIndex !==
+                this.state.dimensieHistorie.length - 1
+        const isVigerendObjectInLineageOfLengthOne =
+            isVigerendObject &&
+            vigerendeDimensieObjectIndex ===
+                this.state.dimensieHistorie.length - 1
+
         if (
-            this.state.dimensieHistorieSet &&
-            this.state.dimensieHistorie.length > 1 &&
-            (vigerendeDimensieObjectIndex === null ||
-                (vigerendeDimensieObjectIndex !==
-                    this.state.dimensieHistorie.length &&
-                    vigerendeDimensieObjectIndex !== null))
+            isConceptAfterVigerendObject &&
+            !isVigerendObjectInLineageOfLengthOne
         ) {
-            isEenOntwerpInProgress = true
+            isAConceptInProgress = true
         }
 
         return (
@@ -312,7 +301,8 @@ class MuteerBeleidsbeslissingenDetail extends Component {
                         pageType={pageType}
                     />
 
-                    {this.state.dataReceived ? (
+                    {this.state.dataReceived &&
+                    this.state.dimensieHistorieSet ? (
                         <div className="flex">
                             <div
                                 className={`${
@@ -322,7 +312,7 @@ class MuteerBeleidsbeslissingenDetail extends Component {
                                 } pr-8`}
                             >
                                 {pageType === 'detail' &&
-                                !isEenOntwerpInProgress ? (
+                                !isAConceptInProgress ? (
                                     <div className="h-10 mt-5 ">
                                         <Link
                                             className="flex items-center w-1/2 mt-5"
