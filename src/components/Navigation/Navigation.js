@@ -30,6 +30,9 @@ function Navigation({ loggedIn, setLoginState }) {
     const pathname = location.pathname
     const userIsInMuteerEnvironment = pathname.includes('/muteer/')
 
+    // State for popup menu
+    const [isOpen, setIsOpen] = React.useState(false)
+
     // If the user removes the banner a variable gets set in Local Storage.
     // This variable is valid for 24 hours and makes sure the banner will not show up again.
     const hideBannerLocalStorage = () => {
@@ -67,6 +70,9 @@ function Navigation({ loggedIn, setLoginState }) {
                         id="href-naar-home"
                         to={loggedIn ? '/muteer/dashboard' : '/'}
                         className="z-10 text-blue focus:border-primary"
+                        onClick={() => {
+                            setIsOpen(false)
+                        }}
                     >
                         <Logo />
                     </Link>
@@ -85,6 +91,9 @@ function Navigation({ loggedIn, setLoginState }) {
                         <Link
                             to={'/'}
                             className="px-4 py-2 mr-5 text-sm text-gray-700 transition duration-300 ease-in rounded hover:text-gray-800"
+                            onClick={() => {
+                                setIsOpen(false)
+                            }}
                         >
                             <FontAwesomeIcon className="mr-3" icon={faEye} />
                             Raadplegen
@@ -94,6 +103,9 @@ function Navigation({ loggedIn, setLoginState }) {
                         <Link
                             to={'/muteer/dashboard'}
                             className="px-4 py-2 mr-5 text-sm text-gray-700 transition duration-300 ease-in rounded hover:text-gray-800"
+                            onClick={() => {
+                                setIsOpen(false)
+                            }}
                         >
                             <FontAwesomeIcon className="mr-3" icon={faEye} />
                             Bewerken
@@ -103,6 +115,9 @@ function Navigation({ loggedIn, setLoginState }) {
                         <Link
                             to={'/login'}
                             className="px-4 py-2 mr-5 text-sm text-gray-700 transition duration-300 ease-in rounded hover:text-gray-800"
+                            onClick={() => {
+                                setIsOpen(false)
+                            }}
                         >
                             <FontAwesomeIcon
                                 className="mr-3"
@@ -112,6 +127,8 @@ function Navigation({ loggedIn, setLoginState }) {
                         </Link>
                     ) : null}
                     <PopupMenu
+                        isOpen={isOpen}
+                        setIsOpen={setIsOpen}
                         logout={logout}
                         setLoginState={setLoginState}
                         loggedIn={loggedIn}
@@ -123,9 +140,8 @@ function Navigation({ loggedIn, setLoginState }) {
     )
 }
 
-const PopupMenu = ({ loggedIn, showBanner, logout }) => {
+const PopupMenu = ({ loggedIn, showBanner, logout, isOpen, setIsOpen }) => {
     // Popup state
-    const [isOpen, setIsOpen] = React.useState(false)
     const [activeTab, setActiveTab] = React.useState('Ambities')
     const [filterQuery, setFilterQuery] = React.useState('')
 
@@ -153,7 +169,9 @@ const PopupMenu = ({ loggedIn, showBanner, logout }) => {
                 .then((res) => setOpgaven(res.data))
                 .catch((err) => console.log(err)),
             axios
-                .get(`${allDimensies.BELEIDSBESLISSINGEN.API_ENDPOINT}`)
+                .get(
+                    `${allDimensies.BELEIDSBESLISSINGEN.API_ENDPOINT}?Status=Vigerend`
+                )
                 .then((res) => setBeleidskeuzes(res.data))
                 .catch((err) => console.log(err)),
             axios
@@ -207,7 +225,7 @@ const PopupMenu = ({ loggedIn, showBanner, logout }) => {
                 return allDimensies['AMBITIES']
             case 'Opgaven':
                 return allDimensies['OPGAVEN']
-            case 'Beleidskeuzes':
+            case 'Beleidsbeslissingen':
                 return allDimensies['BELEIDSBESLISSINGEN']
             case "Maatregelen (Programma's)":
                 return allDimensies['MAATREGELEN']
@@ -225,7 +243,7 @@ const PopupMenu = ({ loggedIn, showBanner, logout }) => {
                 return ambities
             case 'Opgaven':
                 return opgaven
-            case 'Beleidskeuzes':
+            case 'Beleidsbeslissingen':
                 return beleidskeuzes
             case "Maatregelen (Programma's)":
                 return maatregelen
@@ -307,7 +325,7 @@ const PopupMenu = ({ loggedIn, showBanner, logout }) => {
                                 />
                                 <TabMenuItem
                                     activeTab={activeTab}
-                                    tabTitle="Beleidskeuzes"
+                                    tabTitle="Beleidsbeslissingen"
                                     setActiveTab={setActiveTab}
                                 />
                             </nav>
@@ -335,7 +353,7 @@ const PopupMenu = ({ loggedIn, showBanner, logout }) => {
                                 />
                             </nav>
                         </div>
-                        <div className="w-9/12 pl-5">
+                        <div className="flex flex-col w-9/12 pl-5">
                             <div className="flex w-full pb-5 border-b border-gray-300">
                                 <h3 className="w-full font-bold text-gray-900 heading-xl">
                                     {activeTab}{' '}
@@ -388,6 +406,15 @@ const PopupMenu = ({ loggedIn, showBanner, logout }) => {
                                                     filterQuery.toLowerCase()
                                                 )
                                             )
+                                            .sort(function (a, b) {
+                                                if (a.Titel < b.Titel) {
+                                                    return -1
+                                                }
+                                                if (a.Titel > b.Titel) {
+                                                    return 1
+                                                }
+                                                return 0
+                                            })
                                             .map((item, index) => (
                                                 <Link
                                                     className={`w-1/2 group flex items-center px-3 py-2 text-sm leading-5 font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:bg-gray-100 transition ease-in-out duration-150 py-1 text-gray-700 hover:text-gray-900  inline-block ${
