@@ -48,8 +48,6 @@ const AddSectionsSidebar = ({ show }) => {
 
     const userIsAddingSectionsInHoofdstukken =
         hoofdstukIndex === null || hoofdstukIndex === undefined
-    console.log('hoofdstukIndex')
-    console.log(hoofdstukIndex)
 
     return (
         <Transition
