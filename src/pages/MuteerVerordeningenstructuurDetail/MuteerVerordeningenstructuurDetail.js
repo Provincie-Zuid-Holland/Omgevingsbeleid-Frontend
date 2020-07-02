@@ -673,13 +673,15 @@ const MuteerVerordeningenstructuurDetail = () => {
                 let parentIndex = null
                 let childIndex = null
 
+                // The children are the .Children elements of the activeHoofdstuk (the firstLevel)
                 children.forEach((child, indexOfChild) => {
                     if (child.UUID === sourceParentId) {
                         parentIndex = indexOfChild
                     }
+
                     child.Children.forEach(
                         (childOfChild, indexOfChildOfChild) => {
-                            if (child.UUID === sourceParentId) {
+                            if (childOfChild.UUID === sourceParentId) {
                                 parentIndex = indexOfChild
                                 childIndex = indexOfChildOfChild
                             }
@@ -706,6 +708,13 @@ const MuteerVerordeningenstructuurDetail = () => {
                     .Children,
                 destinationParentId
             )
+
+            console.log(currentActiveChapter)
+            console.log(sourceParentIndex)
+            console.log(sourceChildIndex)
+
+            console.log('Current Lineage')
+            console.log(currentLineage.Structuur)
 
             // Array containing the children where the user dragged FROM
             const sourceParentElChildrenArray =
@@ -791,7 +800,6 @@ const MuteerVerordeningenstructuurDetail = () => {
     }
 
     const cancelReorder = () => {
-        console.log('RESET LINEAGE!!! ______')
         setLineage(lineageCopy)
     }
 
