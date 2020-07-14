@@ -27,9 +27,8 @@ const getGeoJsonData = async (type, UUID, cancelToken) => {
 }
 
 const getWerkingsGebieden = async (pointA, pointB) => {
-    console.log(pointA, pointB)
     let res = await instance.get(
-        `ows?service=wfs&version=1.1.0&request=GetFeature&outputFormat=application/json&typeName=OMGEVINGSBELEID:Werkingsgebieden&cql_filter=INTERSECTS(Shape, POINT (${pointA} ${pointB}))&maxFeatures=10&propertyName=UUID,Gebied`
+        `ows?service=wfs&version=1.1.0&request=GetFeature&outputFormat=application/json&typeName=OMGEVINGSBELEID:Werkingsgebieden&cql_filter=INTERSECTS(Shape, POINT (${pointA} ${pointB}))&propertyName=UUID,Gebied`
     )
     const data = res.data.features
     return data
