@@ -63,7 +63,7 @@ const AddObjectButton = ({ nestType, item, index }) => {
         } else {
             setShow(false)
         }
-    }, [addSectionType])
+    }, [addSectionType, item, nestType])
 
     const isHoofdstuk =
         nestType === 'Hoofdstuk' &&
@@ -94,7 +94,6 @@ const AddObjectButton = ({ nestType, item, index }) => {
                         className="text-sm text-green-500"
                         icon={faPlus}
                     />
-                    {item ? item.Type + item.Titel : ''} - {nestType}
                 </div>
             </div>
         </Transition>
