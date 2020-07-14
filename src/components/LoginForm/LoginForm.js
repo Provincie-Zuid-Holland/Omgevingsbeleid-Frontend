@@ -115,7 +115,6 @@ class LoginForm extends Component {
                 if (response.status >= 200 && response.status < 300) {
                     let identifier = response.data.identifier
 
-                    identifier.UUID = identifier.UUID.toLowerCase()
                     localStorage.setItem(
                         process.env.REACT_APP_KEY_IDENTIFIER,
                         JSON.stringify(identifier)
@@ -132,16 +131,18 @@ class LoginForm extends Component {
                 }
             })
             .catch((err) => {
-                console.log(err)
+                const displayErrorMsg = () => {
+                    let errorEl = document.getElementById('error-message')
+                    errorEl.classList.innerHTML = err
+                    errorEl.classList.remove('hidden')
+                    errorEl.classList.add('flex')
+                    errorEl.classList.add('shake')
+                    setTimeout(function () {
+                        errorEl.classList.remove('shake')
+                    }, 820)
+                }
 
-                let errorEl = document.getElementById('error-message')
-                errorEl.classList.innerHTML = err
-                errorEl.classList.remove('hidden')
-                errorEl.classList.add('flex')
-                errorEl.classList.add('shake')
-                setTimeout(function () {
-                    errorEl.classList.remove('shake')
-                }, 820)
+                displayErrorMsg()
                 this.resetLoadingState()
             })
     }

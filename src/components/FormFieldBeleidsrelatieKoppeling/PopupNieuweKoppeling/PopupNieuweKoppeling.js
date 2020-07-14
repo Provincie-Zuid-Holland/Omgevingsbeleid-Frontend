@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { toast } from 'react-toastify'
 
 import axios from './../../../API/axios'
 
@@ -38,7 +39,9 @@ class PopupNieuweKoppeling extends Component {
                     dataLoaded: true,
                 })
             })
-            .catch((error) => {
+            .catch((err) => {
+                console.log(err)
+                toast(process.env.REACT_APP_ERROR_MSG)
                 this.setState({
                     dataLoaded: true,
                 })
@@ -82,7 +85,7 @@ class PopupNieuweKoppeling extends Component {
             <PopUpAnimatedContainer>
                 <div
                     onClick={this.props.togglePopup}
-                    className="cursor-pointer absolute right-0 top-0 text-gray-600 px-3 py-2"
+                    className="absolute top-0 right-0 px-3 py-2 text-gray-600 cursor-pointer"
                     id={`form-field-beleidsrelatie-sluit-popup`}
                 >
                     <FontAwesomeIcon icon={faTimes} />
@@ -94,22 +97,22 @@ class PopupNieuweKoppeling extends Component {
                             Zoek en selecteer de beleidsbeslissing waarmee '
                             {this.props.titelMainObject}' een koppeling heeft
                         </p>
-                        <div className="w-full block relative mt-4 mb-6">
+                        <div className="relative block w-full mt-4 mb-6">
                             <input
                                 onChange={this.handleChange}
                                 value={this.state.zoekFilter}
-                                className="appearance-none w-full block text-gray-700 border border-gray-400 rounded py-3 pl-4 pr-12 leading-tight focus:outline-none hover:border-gray-500 focus:border-gray-500 shadow text-sm"
+                                className="block w-full py-3 pl-4 pr-12 text-sm leading-tight text-gray-700 border border-gray-400 rounded shadow appearance-none focus:outline-none hover:border-gray-500 focus:border-gray-500"
                                 id={`form-field-beleidsrelatie-zoekbalk`}
                                 type="text"
                                 name="zoekFilter"
                                 placeholder="Zoeken... (typ minimaal 3 karakters)"
                             />
                             <FontAwesomeIcon
-                                className="absolute right-0 top-0 mr-4 mt-4 text-gray-600 text-sm"
+                                className="absolute top-0 right-0 mt-4 mr-4 text-sm text-gray-600"
                                 icon={faSearch}
                             />
                         </div>
-                        <div className="shadow border rounded">
+                        <div className="border rounded shadow">
                             <ul className="flex-row overflow-y-auto popup-results-list">
                                 {this.state.objecten &&
                                 filteredObjecten.length > 0 ? (
@@ -121,7 +124,7 @@ class PopupNieuweKoppeling extends Component {
                                                         this.selectObject(item)
                                                     }}
                                                     id={`form-field-beleidsrelatie-item-${index}`}
-                                                    className="text-sm text-gray-700 px-4 py-2 cursor-pointer bg-gray-100 font-bold "
+                                                    className="px-4 py-2 text-sm font-bold text-gray-700 bg-gray-100 cursor-pointer "
                                                     key={item.UUID}
                                                 >
                                                     {item.Titel}
@@ -134,7 +137,7 @@ class PopupNieuweKoppeling extends Component {
                                                         this.selectObject(item)
                                                     }}
                                                     id={`form-field-beleidsrelatie-item-${index}`}
-                                                    className="text-sm text-gray-700 px-4 py-2 cursor-pointer hover:bg-gray-100"
+                                                    className="px-4 py-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-100"
                                                     key={item.UUID}
                                                 >
                                                     {item.Titel}
@@ -144,7 +147,7 @@ class PopupNieuweKoppeling extends Component {
                                     })
                                 ) : (
                                     <li
-                                        className="text-sm text-gray-700 px-4 py-2 cursor-not-allowed"
+                                        className="px-4 py-2 text-sm text-gray-700 cursor-not-allowed"
                                         key="0"
                                     >
                                         {this.state.dataLoaded ? (
@@ -160,7 +163,7 @@ class PopupNieuweKoppeling extends Component {
                                                 </span>
                                             )
                                         ) : (
-                                            <span className="loading italic text-gray-600">
+                                            <span className="italic text-gray-600 loading">
                                                 Beleidsbeslissingen laden...
                                             </span>
                                         )}
@@ -187,7 +190,7 @@ class PopupNieuweKoppeling extends Component {
                                     value={this.state.begin_geldigheid}
                                     onChange={this.handleChange}
                                     name={`begin_geldigheid`}
-                                    className="appearance-none block w-full text-gray-700 border border-gray-400 focus:border-gray-500 hover:border-gray-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
+                                    className="block w-full px-4 py-3 leading-tight text-gray-700 border border-gray-400 rounded appearance-none focus:border-gray-500 hover:border-gray-500 focus:outline-none focus:bg-white"
                                     type="date"
                                     id={`beleidsrelatie-begin-geldigheid`}
                                     // min={format(
@@ -204,7 +207,7 @@ class PopupNieuweKoppeling extends Component {
                                     value={this.state.eind_geldigheid}
                                     onChange={this.handleChange}
                                     name={`eind_geldigheid`}
-                                    className="appearance-none block w-full text-gray-700 border border-gray-400 focus:border-gray-500 hover:border-gray-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
+                                    className="block w-full px-4 py-3 leading-tight text-gray-700 border border-gray-400 rounded appearance-none focus:border-gray-500 hover:border-gray-500 focus:outline-none focus:bg-white"
                                     type="date"
                                     id={`beleidsrelatie-begin-geldigheid`}
                                     // min={format(
@@ -214,12 +217,12 @@ class PopupNieuweKoppeling extends Component {
                                 />
                             </div>
                         </div>
-                        <div className="mbg-color-lighter m-border-color border-l-4 px-4 py-4 my-4 text-sm text-gray-700">
+                        <div className="px-4 py-4 my-4 text-sm text-gray-700 border-l-4 mbg-color-lighter m-border-color">
                             Om er voor te zorgen dat de aangebrachte koppeling
                             daadwerkelijk van waarde is, vragen we je om de
                             koppeling te beschrijven.
                         </div>
-                        <p className="form-field-description mt-4">
+                        <p className="mt-4 form-field-description">
                             Beschrijf zo concreet mogelijk de relatie
                         </p>
                         <textarea
@@ -228,15 +231,15 @@ class PopupNieuweKoppeling extends Component {
                             required
                             onChange={this.handleChange}
                             name="beschrijving"
-                            className="appearance-none block w-full text-gray-700 border border-gray-400 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white hover:border-gray-500 focus:border-gray-500 h-24"
+                            className="block w-full h-24 px-4 py-3 leading-tight text-gray-700 border border-gray-400 rounded appearance-none focus:outline-none focus:bg-white hover:border-gray-500 focus:border-gray-500"
                             type="text"
                         />
                     </React.Fragment>
                 ) : null}
-                <div className="flex justify-between items-center mt-6">
+                <div className="flex items-center justify-between mt-6">
                     <span
                         tabIndex="0"
-                        className="text-gray-600 cursor-pointer text-sm underline"
+                        className="text-sm text-gray-600 underline cursor-pointer"
                         onClick={this.props.togglePopup}
                         id={`form-field-beleidsrelatie-annuleren`}
                     >

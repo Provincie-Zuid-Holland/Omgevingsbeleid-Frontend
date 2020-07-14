@@ -2,13 +2,7 @@ import React, { Component } from 'react'
 import { format } from 'date-fns'
 import { Helmet } from 'react-helmet'
 import nlLocale from 'date-fns/locale/nl'
-import {
-    faAngleLeft,
-    faTimes,
-    faFileDownload,
-    faPrint,
-    faExternalLinkAlt,
-} from '@fortawesome/free-solid-svg-icons'
+import { faPrint, faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { toast } from 'react-toastify'
 
@@ -23,7 +17,6 @@ import ButtonBackToPage from './../../components/ButtonBackToPage'
 import PopUpRevisieContainer from './../../components/PopUpRevisieContainer'
 import LoaderContent from './../../components/LoaderContent'
 import LoaderSmallSpan from './../../components/LoaderSmallSpan'
-import PopUpAnimatedContainer from './../../components/PopUpAnimatedContainer'
 
 // Import view containers
 import ContainerViewFieldsBeleidsbeslissing from './ContainerFields/ContainerViewFieldsBeleidsbeslissing'
@@ -33,7 +26,6 @@ import ContainerViewFieldsOpgave from './ContainerFields/ContainerViewFieldsOpga
 import ContainerViewFieldsAmbitie from './ContainerFields/ContainerViewFieldsAmbitie'
 import ContainerViewFieldsBelang from './ContainerFields/ContainerViewFieldsBelang'
 import ContainerViewFieldsThema from './ContainerFields/ContainerViewFieldsThema'
-import ContainerViewFieldsVerordeningsobject from './ContainerFields/ContainerViewFieldsVerordeningsobject'
 
 function RevisieListItem(props) {
     return (
@@ -97,23 +89,25 @@ class RaadpleegUniversalObjectDetail extends Component {
                     dataLoaded: true,
                 })
             })
-            .catch((error) => {
-                if (error.response !== undefined) {
-                    if (error.response.status === 404) {
+            .catch((err) => {
+                if (err.response !== undefined) {
+                    if (err.response.status === 404) {
                         this.props.history.push(`/`)
                         toast(
                             `Deze ${this.props.dataModel.TITEL_ENKELVOUD.toLowerCase()} kon niet gevonden worden`
                         )
-                    } else if (error.response.status === 422) {
+                    } else if (err.response.status === 422) {
                         this.props.history.push(`/login`)
                         toast(
                             `U moet voor nu nog inloggen om deze pagina te kunnen bekijken`
                         )
                     } else {
-                        toast(`Er is iets misgegaan`)
+                        console.log(err)
+                        toast(process.env.REACT_APP_ERROR_MSG)
                     }
                 } else {
-                    toast(`Er is iets misgegaan`)
+                    console.log(err)
+                    toast(process.env.REACT_APP_ERROR_MSG)
                 }
             })
     }
@@ -313,78 +307,6 @@ class RaadpleegUniversalObjectDetail extends Component {
                             <span className="mr-3 text-sm text-gray-600">
                                 &bull;
                             </span>
-                            {/* <span
-                                onClick={this.toggleDownloadPDF}
-                                className="mr-3 text-sm text-gray-600 cursor-pointer"
-                            >
-                                <FontAwesomeIcon
-                                    className="mr-2"
-                                    icon={faFileDownload}
-                                />
-                                Download als PDF
-                            </span>
-                            {this.state.downloadPDF ? (
-                                <PopUpAnimatedContainer small={true}>
-                                    <React.Fragment>
-                                        <span
-                                            className="absolute top-0 right-0 p-4 text-gray-800 cursor-pointer"
-                                            onClick={this.toggleDownloadPDF}
-                                        >
-                                            <FontAwesomeIcon
-                                                className="mr-2"
-                                                icon={faTimes}
-                                            />
-                                        </span>
-                                        <PDFDownloadLink
-                                            document={
-                                                <PDFDocument
-                                                    dataObject={dataObject}
-                                                    titelEnkelvoud={
-                                                        titelEnkelvoud
-                                                    }
-                                                    titel={dataObject.Titel}
-                                                />
-                                            }
-                                            className="mr-3 text-sm text-gray-600"
-                                            fileName="test.pdf"
-                                        >
-                                            {({ blob, url, loading, error }) =>
-                                                loading ? (
-                                                    <React.Fragment>
-                                                        <FontAwesomeIcon
-                                                            className="mr-2"
-                                                            icon={
-                                                                faFileDownload
-                                                            }
-                                                        />
-                                                        PDF Genereren...
-                                                    </React.Fragment>
-                                                ) : (
-                                                    <div className="p-4 text-center">
-                                                        <div>
-                                                            Hier kunt u
-                                                            binnenkort het PDF
-                                                            bestand downloaden .{' '}
-                                                        </div>
-                                                        <span className="inline-block px-4 py-2 mt-4 text-white bg-green-600 rounded">
-                                                            <FontAwesomeIcon
-                                                                className="mr-2"
-                                                                icon={
-                                                                    faFileDownload
-                                                                }
-                                                            />
-                                                            Download
-                                                        </span>
-                                                    </div>
-                                                )
-                                            }
-                                        </PDFDownloadLink>
-                                    </React.Fragment>
-                                </PopUpAnimatedContainer>
-                            ) : null}
-                            <span className="mr-3 text-sm text-gray-600">
-                                &bull;
-                            </span> */}
                             <span
                                 className="mr-3 text-sm text-gray-600 cursor-pointer"
                                 onClick={() => window.print()}

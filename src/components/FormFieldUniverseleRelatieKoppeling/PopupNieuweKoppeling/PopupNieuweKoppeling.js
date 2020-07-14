@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import axios from './../../../API/axios'
 import { faTimes, faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { toast } from 'react-toastify'
 
 import PopUpAnimatedContainer from './../../PopUpAnimatedContainer'
 import objecten from './../ObjectenInformatie'
@@ -49,8 +50,9 @@ class PopupNieuweKoppeling extends Component {
                     dataLoaded: true,
                 })
             })
-            .catch((error) => {
-                console.log(error)
+            .catch((err) => {
+                console.log(err)
+                toast(process.env.REACT_APP_ERROR_MSG)
                 this.setState({
                     dataLoaded: true,
                 })

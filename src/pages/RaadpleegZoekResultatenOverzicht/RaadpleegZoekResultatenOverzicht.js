@@ -273,9 +273,8 @@ class RaadpleegZoekResultatenOverzicht extends Component {
         // Else we return the original item
         const newSearchResults = searchResults.map((item) => {
             if (item.Type === 'Verordeningen') {
-                // getPositionOfElement(item.UUID.toLowerCase())
                 const positionInStructure = this.generateVerordeningsPosition(
-                    item.UUID.toLowerCase()
+                    item.UUID
                 )
                 item.positionInStructure = positionInStructure
                 return item
@@ -320,7 +319,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                     },
                     () => {
                         console.log(err)
-                        toast('Er is iets mis gegaan')
+                        toast(process.env.REACT_APP_ERROR_MSG)
                     }
                 )
             })
@@ -331,6 +330,8 @@ class RaadpleegZoekResultatenOverzicht extends Component {
             .get(`/search/geo?query=${werkingsgebiedenArray}`)
             .then((res) => {
                 const searchResults = res.data
+
+                // Creates the state to display the filter UI
                 this.setInitialOnPageFilters(searchResults)
 
                 const searchResultsWithVerordeningsPositions = this.addVerordeningsPositionToSearchResults(
@@ -344,12 +345,11 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                 })
             })
             .catch((err) => {
-                this.setState(
-                    {
-                        dataLoaded: true,
-                    },
-                    () => toast('Er is iets mis gegaan')
-                )
+                this.setState({
+                    dataLoaded: true,
+                })
+                console.log(err)
+                toast(process.env.REACT_APP_ERROR_MSG)
             })
     }
 
@@ -362,21 +362,30 @@ class RaadpleegZoekResultatenOverzicht extends Component {
 
         // Get werkingsgebieden
         import('./../../API/axiosGeoJSON').then((api) => {
-            api.getWerkingsGebieden(searchGeoQuery)
+            const [pointA, pointB] = searchGeoQuery.split(' ')
+            api.getWerkingsGebieden(pointA, pointB)
                 .then((data) => {
-                    // Then get for each werkingsgebied te appropriate regulations and policies
+                    // Then get for each werkingsgebied the appropriate regulations and policies
 
                     // Create array containing all the UUIDs we received from the .getWerkingsGebieden Query
                     const WerkingsgebiedenUUIDS = data.map(
                         (item) => item.properties.UUID
                     )
-
-                    this.getBeleidOpBasisVanWerkingsgebieden(
-                        WerkingsgebiedenUUIDS
-                    )
+                    if (WerkingsgebiedenUUIDS.length === 0) {
+                        this.setState({
+                            searchFiltersOnly: null,
+                            searchResults: null,
+                            dataLoaded: true,
+                        })
+                    } else {
+                        this.getBeleidOpBasisVanWerkingsgebieden(
+                            WerkingsgebiedenUUIDS
+                        )
+                    }
                 })
-                .catch(function (err) {
+                .catch((err) => {
                     console.log(err)
+                    toast(process.env.REACT_APP_ERROR_MSG)
                 })
         })
     }
@@ -397,7 +406,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                 }
             )
         } catch {
-            toast('Er is iets mis gegaan')
+            toast(process.env.REACT_APP_ERROR_MSG)
         }
     }
 

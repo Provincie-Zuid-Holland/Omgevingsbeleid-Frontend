@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 import axios from './../../../API/axios'
 
@@ -8,6 +8,8 @@ import LoaderSmallCircle from './../../../components/LoaderSmallCircle'
 
 import { faLink } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
+import UserContext from './../../../App/UserContext'
 
 class ViewFieldIngelogdExtraInfo extends Component {
     constructor(props) {
@@ -26,14 +28,14 @@ class ViewFieldIngelogdExtraInfo extends Component {
     }
 
     componentDidMount() {
-        const propArray = [
+        const eigenaren = [
             'Eigenaar_1',
             'Eigenaar_2',
             'Portefeuillehouder_1',
             'Portefeuillehouder_2',
             'Opdrachtgever',
         ]
-        const propertiesWithValue = propArray.filter(
+        const propertiesWithValue = eigenaren.filter(
             (item) => this.props.crudObject[item] !== null
         )
 
@@ -50,8 +52,8 @@ class ViewFieldIngelogdExtraInfo extends Component {
                         [item]: dataObject,
                     })
                 })
-                .catch((error) => {
-                    console.log(error)
+                .catch((err) => {
+                    console.log(err)
                 })
         )
         Promise.all(axiosArray)
@@ -60,7 +62,10 @@ class ViewFieldIngelogdExtraInfo extends Component {
                     dataLoaded: true,
                 })
             )
-            .catch((err) => console.log(err))
+            .catch((err) => {
+                console.log(err)
+                toast(process.env.REACT_APP_ERROR_MSG)
+            })
     }
 
     maakAfkortingVanNaam(gebruikersNaam) {
@@ -73,13 +78,13 @@ class ViewFieldIngelogdExtraInfo extends Component {
 
     getPersonenRol(item) {
         if (item === 'Eigenaar_1') {
-            return 'Eigenaar 1'
+            return 'Eerste eigenaar'
         } else if (item === 'Eigenaar_2') {
-            return 'Eigenaar 2'
+            return 'Tweede eigenaar'
         } else if (item === 'Portefeuillehouder_1') {
-            return 'Portefeuillehouder 1'
+            return 'Eerste portefeuillehouder'
         } else if (item === 'Portefeuillehouder_2') {
-            return 'Portefeuillehouder 2'
+            return 'Tweede portefeuillehouder'
         } else if (item === 'Opdrachtgever') {
             return 'Ambtelijk opdrachtgever'
         }
@@ -87,72 +92,91 @@ class ViewFieldIngelogdExtraInfo extends Component {
 
     render() {
         return (
-            <div className="px-3 py-3 mb-4 bg-gray-100 border-t border-b border-gray-200 ">
-                <span className="text-sm text-gray-600">
-                    Deze informatie zien alleen gebruikers die zijn ingelogd.
-                </span>
-                <div className="flex items-center justify-between mt-2">
-                    <div className="flex items-center">
-                        <ul className="flex mr-8">
-                            {this.state.propertiesWithValue.map((item, index) =>
-                                this.state.dataLoaded ? (
-                                    <li
-                                        className={`relative ${
-                                            index === 0 ? '' : '-ml-2'
-                                        }`}
-                                    >
-                                        <div className="flex items-center justify-center w-8 h-8 mr-1 text-xs text-white bg-yellow-400 border border-white rounded-full circle-gebruiker font-lg">
-                                            {this.maakAfkortingVanNaam(
-                                                this.state[item].Gebruikersnaam
-                                            )}
+            <UserContext.Consumer>
+                {(context) => (
+                    <div className="px-3 py-3 mb-4 bg-gray-100 border-t border-b border-gray-200 ">
+                        <span className="text-sm text-gray-600">
+                            Deze informatie zien alleen gebruikers die zijn
+                            ingelogd.
+                        </span>
+                        <div className="flex items-center justify-between mt-2">
+                            <div className="flex items-center">
+                                <ul className="flex mr-8">
+                                    {this.state.propertiesWithValue.map(
+                                        (item, index) =>
+                                            this.state.dataLoaded ? (
+                                                <li
+                                                    className={`relative ${
+                                                        index === 0
+                                                            ? ''
+                                                            : '-ml-2'
+                                                    }`}
+                                                >
+                                                    <div className="flex items-center justify-center w-8 h-8 mr-1 text-xs text-white bg-yellow-400 border border-white rounded-full circle-gebruiker font-lg">
+                                                        {this.maakAfkortingVanNaam(
+                                                            this.state[item]
+                                                                .Gebruikersnaam
+                                                        )}
 
-                                            <div className="absolute top-0 left-0 z-10 hidden inline-block px-4 py-3 mt-10 whitespace-no-wrap rounded popup-gebruikersinfo">
-                                                <div className="block mb-1 text-xs">
-                                                    {this.getPersonenRol(item)}
-                                                </div>
-                                                <div className="block text-sm font-semibold">
-                                                    {
-                                                        this.state[item]
-                                                            .Gebruikersnaam
-                                                    }
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                ) : (
-                                    <LoaderSmallCircle />
-                                )
-                            )}
-                        </ul>
-                        {this.props.crudObject['Weblink'] ? (
-                            <a
-                                href={`//${this.props.crudObject['Weblink']}`}
-                                target="_blank"
-                                className="text-sm font-semibold text-gray-600 hover:underline"
-                                rel="noopener noreferrer"
-                            >
-                                <FontAwesomeIcon
-                                    className="mr-2 text-gray-600"
-                                    icon={faLink}
-                                />
-                                IDMS-koppeling
-                            </a>
-                        ) : null}
+                                                        <div className="absolute top-0 left-0 z-10 hidden inline-block px-4 py-3 mt-10 whitespace-no-wrap rounded popup-gebruikersinfo">
+                                                            <div className="block mb-1 text-xs">
+                                                                {this.getPersonenRol(
+                                                                    item
+                                                                )}
+                                                            </div>
+                                                            <div className="block text-sm font-semibold">
+                                                                {
+                                                                    this.state[
+                                                                        item
+                                                                    ]
+                                                                        .Gebruikersnaam
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            ) : (
+                                                <LoaderSmallCircle />
+                                            )
+                                    )}
+                                </ul>
+                                {this.props.crudObject['Weblink'] ? (
+                                    <a
+                                        href={`//${this.props.crudObject['Weblink']}`}
+                                        target="_blank"
+                                        className="text-sm font-semibold text-gray-600 hover:underline"
+                                        rel="noopener noreferrer"
+                                    >
+                                        <FontAwesomeIcon
+                                            className="mr-2 text-gray-600"
+                                            icon={faLink}
+                                        />
+                                        IDMS-koppeling
+                                    </a>
+                                ) : null}
+                            </div>
+                            {(context &&
+                                context.user &&
+                                context.user.UUID &&
+                                this.props.crudObject.Created_By ===
+                                    context.user.UUID) ||
+                            this.state.Eigenaar_1 === context.user.UUID ||
+                            this.state.Eigenaar_2 === context.user.UUID ||
+                            this.state.Opdrachtgever === context.user.UUID ? (
+                                <Link
+                                    to={`/muteer/beleidsbeslissingen/${this.props.crudObject.ID}`}
+                                    className="px-3 py-2 text-xs font-semibold tracking-wide border rounded cursor-pointer m-color m-base-border-color"
+                                >
+                                    Openen in beheeromgeving{' '}
+                                    {this.state.Created_By}
+                                </Link>
+                            ) : null}
+                        </div>
                     </div>
-                    <Link
-                        to={`/muteer/beleidsbeslissingen/${this.props.crudObject.ID}`}
-                        className="px-3 py-2 text-xs font-semibold tracking-wide border rounded cursor-pointer m-color m-base-border-color"
-                    >
-                        Openen in beheeromgeving
-                    </Link>
-                </div>
-            </div>
+                )}
+            </UserContext.Consumer>
         )
     }
 }
-
-ViewFieldIngelogdExtraInfo.propTypes = {}
-
-ViewFieldIngelogdExtraInfo.defaultProps = {}
 
 export default ViewFieldIngelogdExtraInfo

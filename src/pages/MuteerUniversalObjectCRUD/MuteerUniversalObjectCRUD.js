@@ -138,13 +138,13 @@ class MuteerUniversalObjectCRUD extends Component {
                 )
                 toast('Opgeslagen')
             })
-            .catch(() => {
-                // crudObject = this.setInitialValuesCrudObject(crudObject)
-                // Wijzig de data terug naar het format om in het input veld te tonen
+            .catch((err) => {
                 crudObject = this.formatGeldigheidDatesForUI(crudObject)
                 this.setState({
                     crudObject: crudObject,
                 })
+                console.log(err)
+                toast(process.env.REACT_APP_ERROR_MSG)
             })
     }
 
@@ -158,22 +158,21 @@ class MuteerUniversalObjectCRUD extends Component {
             .patch(`${apiEndpoint}/${objectID}`, JSON.stringify(crudObject))
             .then((res) => {
                 this.props.history.push(
-                    `/muteer/${overzichtSlug}/${res.data.ID}`
+                    `/muteer/${overzichtSlug}/${res.data.ID}${
+                        this.props.location.hash === '#mijn-beleid'
+                            ? '#mijn-beleid'
+                            : ''
+                    }`
                 )
                 toast('Opgeslagen')
             })
-            .catch((error) => {
-                console.log(error)
+            .catch((err) => {
+                console.log(err)
+                toast(process.env.REACT_APP_ERROR_MSG)
                 crudObject = this.formatGeldigheidDatesForUI(crudObject)
-                this.setState(
-                    {
-                        crudObject: crudObject,
-                    },
-                    () =>
-                        toast(
-                            'Er is iets misgegaan, probeer het laten nog eens.'
-                        )
-                )
+                this.setState({
+                    crudObject: crudObject,
+                })
             })
     }
 
@@ -304,9 +303,9 @@ class MuteerUniversalObjectCRUD extends Component {
                 // responseObject[0] is de laatste versie van het dimensie object
                 this.createAndSetCrudObject(responseObject[0])
             })
-            .catch((error) => {
-                console.log(error)
-                toast(`Er is iets misgegaan`)
+            .catch((err) => {
+                console.log(err)
+                toast(process.env.REACT_APP_ERROR_MSG)
             })
     }
 
@@ -429,6 +428,14 @@ class MuteerUniversalObjectCRUD extends Component {
                                     ) : null}
 
                                     {titelEnkelvoud === 'Thema' ? (
+                                        <FormFieldContainerThemas
+                                            titelEnkelvoud={titelEnkelvoud}
+                                            crudObject={crudObject}
+                                            handleChange={handleChange}
+                                        />
+                                    ) : null}
+
+                                    {titelEnkelvoud === 'Verordening' ? (
                                         <FormFieldContainerThemas
                                             titelEnkelvoud={titelEnkelvoud}
                                             crudObject={crudObject}

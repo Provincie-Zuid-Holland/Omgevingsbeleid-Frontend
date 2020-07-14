@@ -47,7 +47,7 @@ class FormFieldBeleidsrelatieKoppeling extends Component {
         let nieuwKoppelingenRelatiesObject = this.state.koppelingenRelaties
         const index = nieuwKoppelingenRelatiesObject[
             itemObject.propertyName
-        ].findIndex(item => item.UUID === itemObject.item.UUID)
+        ].findIndex((item) => item.UUID === itemObject.item.UUID)
         nieuwKoppelingenRelatiesObject[itemObject.propertyName].splice(index, 1)
 
         this.setState(
@@ -62,7 +62,7 @@ class FormFieldBeleidsrelatieKoppeling extends Component {
         let nieuwKoppelingenRelatiesObject = this.state.koppelingenRelaties
         const index = nieuwKoppelingenRelatiesObject[
             itemObject.propertyName
-        ].findIndex(item => item.UUID === itemObject.item.UUID)
+        ].findIndex((item) => item.UUID === itemObject.item.UUID)
         nieuwKoppelingenRelatiesObject[itemObject.propertyName][
             index
         ].Omschrijving = nieuweOmschrijving
@@ -132,13 +132,15 @@ class FormFieldBeleidsrelatieKoppeling extends Component {
             // Haalt de bestaande beleidsrelaties op die gekoppeld zijn VAN deze beleidsbeslissing
             axios
                 .get(apiURL)
-                .then(res => {
+                .then((res) => {
                     this.setState({
                         objecten: res.data,
                         dataFromAPILoaded: true,
                     })
                 })
-                .catch(error => {
+                .catch((err) => {
+                    console.log(err)
+                    toast(process.env.REACT_APP_ERROR_MSG)
                     this.setState({
                         dataFromAPILoaded: true,
                     })
@@ -167,7 +169,7 @@ class FormFieldBeleidsrelatieKoppeling extends Component {
             () => {
                 axios
                     .post(`/beleidsrelaties`, nieuweBeleidsrelatie)
-                    .then(res => {
+                    .then((res) => {
                         const nieuweBeleidsrelatie = res.data
                         let nieuweObjecten = this.state.objecten
                         nieuweObjecten.push(nieuweBeleidsrelatie)
@@ -200,11 +202,11 @@ class FormFieldBeleidsrelatieKoppeling extends Component {
                     titelEnkelvoud={this.props.titelEnkelvoud}
                 />
                 <div
-                    className="bg-white rounded shadow p-5"
+                    className="p-5 bg-white rounded shadow"
                     id={`form-field-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
                 >
-                    <div className="flex border-b border-gray-300 font-bold text-gray-700 text-sm py-2">
-                        <div className="w-40 mr-5 relative">Type</div>
+                    <div className="flex py-2 text-sm font-bold text-gray-700 border-b border-gray-300">
+                        <div className="relative w-40 mr-5">Type</div>
                         <div className="w-full">Titel</div>
                     </div>
                     <ul className="mb-3">
@@ -216,7 +218,7 @@ class FormFieldBeleidsrelatieKoppeling extends Component {
                                 return (
                                     <li
                                         key={index}
-                                        className="flex border-b border-gray-300 text-gray-700 text-sm py-2 hover:text-gray-900 cursor-pointer"
+                                        className="flex py-2 text-sm text-gray-700 border-b border-gray-300 cursor-pointer hover:text-gray-900"
                                         onClick={() => {
                                             // this.togglePopupBewerk(
                                             //     item,
@@ -225,10 +227,10 @@ class FormFieldBeleidsrelatieKoppeling extends Component {
                                         }}
                                         id={`form-field-beleidsrelatie-${index}`}
                                     >
-                                        <div className="w-40 mr-5 relative">
+                                        <div className="relative w-40 mr-5">
                                             Beleidsrelatie
                                         </div>
-                                        <div className="w-full relative">
+                                        <div className="relative w-full">
                                             {/* {koppeling.data ? item.data.Titel : null} */}
                                             <FontAwesomeIcon
                                                 className="absolute right-0 mt-1 mr-2"
@@ -239,24 +241,24 @@ class FormFieldBeleidsrelatieKoppeling extends Component {
                                 )
                             })
                         ) : (
-                            <span className="text-gray-700 text-sm block py-4">
+                            <span className="block py-4 text-sm text-gray-700">
                                 {this.props.placeholderTekst}
                             </span>
                         )}
                     </ul>
                     <div className="relative">
                         <div
-                            className="mbg-color rounded text inline-block text-white pl-4 text-sm py-1 mt-2 cursor-pointer mbg-color-darker-hover relative"
+                            className="relative inline-block py-1 pl-4 mt-2 text-sm text-white rounded cursor-pointer mbg-color text mbg-color-darker-hover"
                             id="button-nieuwe-relatie"
                             onClick={() =>
                                 this.togglePopupNieuw('beleidsbeslissing')
                             }
                             ref={this.button}
                         >
-                            <span className="py-1 inline-block select-none">
+                            <span className="inline-block py-1 select-none">
                                 Nieuwe relatie
                             </span>
-                            <span className="ml-4 inline-block text-center py-1 border-l m-border-color px-4">
+                            <span className="inline-block px-4 py-1 ml-4 text-center border-l m-border-color">
                                 <FontAwesomeIcon
                                     className="mt-1 text-white"
                                     icon={faPlus}

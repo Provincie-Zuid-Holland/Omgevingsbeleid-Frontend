@@ -2,21 +2,37 @@ import React, { Component } from 'react'
 
 function DndTitle({ item, hoofdstukVolgnummer, subVolgnummer }) {
     const volgnummer = item.Volgnummer
-    console.log(item)
+
+    const getStylesBasedOnType = () => {
+        switch (item.Type) {
+            case 'Afdeling':
+                return 'mbg-color mbg-color-darker-hover text-white'
+            case 'Paragraaf':
+                return 'text-blood-red'
+            default:
+                return ''
+        }
+    }
+
+    const getTitlePrepend = () => {
+        switch (item.Type) {
+            case 'Afdeling':
+                return `Afdeling ${volgnummer} - `
+            case 'Paragraaf':
+                return `§ ${volgnummer} `
+            case 'Artikel':
+                return `Artikel ${volgnummer} `
+            default:
+                return null
+        }
+    }
+
     return (
         <div>
             <span
-                className={`font-semibold block pl-5 py-3
-            ${
-                item.Type === 'Afdeling'
-                    ? 'mbg-color mbg-color-darker-hover text-white'
-                    : ''
-            } 
-            ${item.Type === 'Paragraaf' ? 'text-blood-red' : ''}`}
+                className={`font-semibold block pl-5 py-3 ${getStylesBasedOnType()}`}
             >
-                {item.Type === 'Afdeling' ? `Afdeling ${volgnummer} - ` : ''}
-                {item.Type === 'Paragraaf' ? `§ ${volgnummer} ` : ''}
-                {item.Type === 'Artikel' ? `Artikel ${volgnummer} ` : ''}
+                {getTitlePrepend()}
 
                 {item.Titel}
             </span>
@@ -25,9 +41,5 @@ function DndTitle({ item, hoofdstukVolgnummer, subVolgnummer }) {
         </div>
     )
 }
-
-DndTitle.propTypes = {}
-
-DndTitle.defaultProps = {}
 
 export default DndTitle

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import { toast } from 'react-toastify'
 import { Link } from 'react-router-dom'
 
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
@@ -22,7 +22,7 @@ class ViewFieldBelangen extends Component {
         const promiseArray = belangen.map((item, index) =>
             axios
                 .get(`/belangen/version/${item.UUID}`)
-                .then(res => {
+                .then((res) => {
                     belangen[index].data = res.data
                     belangen[index].Titel = res.data.Titel
                     belangen[index].Type = res.data.Type
@@ -31,15 +31,18 @@ class ViewFieldBelangen extends Component {
                         belangen: belangen,
                     })
                 })
-                .catch(err => console.log(err))
+                .catch((err) => {
+                    console.log(err)
+                    toast(process.env.REACT_APP_ERROR_MSG)
+                })
         )
 
         Promise.all(promiseArray).then(() => {
             const nationaleBelangen = this.state.belangen.filter(
-                item => item.Type === 'Nationaal Belang'
+                (item) => item.Type === 'Nationaal Belang'
             )
             const wettelijkeTaken = this.state.belangen.filter(
-                item => item.Type === 'Wettelijke Taak & Bevoegdheid'
+                (item) => item.Type === 'Wettelijke Taak & Bevoegdheid'
             )
             this.setState({
                 dataLoaded: true,
@@ -55,24 +58,24 @@ class ViewFieldBelangen extends Component {
                 {this.state.nationaleBelangen &&
                 this.state.nationaleBelangen.length > 0 ? (
                     <div className="mb-6">
-                        <h2 className="block tracking-wide text-gray-700 text-lg font-serif mb-2">
+                        <h2 className="block mb-2 font-serif text-lg tracking-wide text-gray-700">
                             Nationaal belang
                         </h2>
                         <ul>
-                            {this.state.nationaleBelangen.map(item => (
+                            {this.state.nationaleBelangen.map((item) => (
                                 <li
-                                    className="text-gray-700 text-sm mb-2"
+                                    className="mb-2 text-sm text-gray-700"
                                     key={item.UUID}
                                 >
                                     <Link
-                                        className="cursor-pointer relative"
+                                        className="relative cursor-pointer"
                                         to={`/detail/belangen/${item.ID}`}
                                     >
                                         <FontAwesomeIcon
-                                            className="text-base absolute mt-1"
+                                            className="absolute mt-1 text-base"
                                             icon={faAngleRight}
                                         />
-                                        <span className="pl-4 inline-block">
+                                        <span className="inline-block pl-4">
                                             {item.Titel}
                                         </span>
                                     </Link>
@@ -84,24 +87,24 @@ class ViewFieldBelangen extends Component {
                 {this.state.wettelijkeTaken &&
                 this.state.wettelijkeTaken.length > 0 ? (
                     <div className="mb-6">
-                        <h2 className="block tracking-wide text-gray-700 text-lg font-serif mb-2">
+                        <h2 className="block mb-2 font-serif text-lg tracking-wide text-gray-700">
                             Wettelijke taak en bevoegdheid
                         </h2>
                         <ul>
-                            {this.state.wettelijkeTaken.map(item => (
+                            {this.state.wettelijkeTaken.map((item) => (
                                 <li
-                                    className="text-gray-700 text-sm mb-2"
+                                    className="mb-2 text-sm text-gray-700"
                                     key={item.UUID}
                                 >
                                     <Link
-                                        className="cursor-pointer relative"
+                                        className="relative cursor-pointer"
                                         to={`/detail/belangen/${item.ID}`}
                                     >
                                         <FontAwesomeIcon
-                                            className="text-base absolute mt-1"
+                                            className="absolute mt-1 text-base"
                                             icon={faAngleRight}
                                         />
-                                        <span className="pl-4 inline-block">
+                                        <span className="inline-block pl-4">
                                             {item.Titel}
                                         </span>
                                     </Link>
@@ -114,9 +117,5 @@ class ViewFieldBelangen extends Component {
         ) : null
     }
 }
-
-ViewFieldBelangen.propTypes = {}
-
-ViewFieldBelangen.defaultProps = {}
 
 export default ViewFieldBelangen

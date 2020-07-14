@@ -498,7 +498,7 @@ $base-color: #002f65;
     bottom: 11px;
 }
 
-@-webkit-keyframes pulsate {
+@keyframes pulsate {
     0% {
         transform: scale(0.1, 0.1);
         opacity: 0;
@@ -872,4 +872,17 @@ $base-color: #002f65;
             background-color: lighten(#990000, 5%); //=> color
         }
     }
+}
+
+.screen-minus-nav {
+    top: 85px;
+    height: calc(100vh - 250px);
+}
+
+.werkingsgebied-container {
+    height: calc(100% - 125px);
+}
+
+.duration-0 {
+    transition-duration: 1ms;
 }

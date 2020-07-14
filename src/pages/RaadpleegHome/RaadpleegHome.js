@@ -11,16 +11,23 @@ import ContainerMain from './../../components/ContainerMain'
 
 const DocumentLink = ({ href, title, iconLeft, style }) => (
     <li className="py-2 border-b-2 border-gray-200">
-      <a href={href} className="flex items-center justify-between">
-        <div className="flex">
-            <span className="flex items-center inline-block w-6">
-                <FontAwesomeIcon icon={iconLeft} className={style ? style : ''}/>
-            </span>
-          <span>{title}</span>
-        </div>
-      </a>
+        <a
+            href={href}
+            target="_blank"
+            className="flex items-center justify-between"
+        >
+            <div className="flex">
+                <span className="flex items-center inline-block w-6">
+                    <FontAwesomeIcon
+                        icon={iconLeft}
+                        className={style ? style : ''}
+                    />
+                </span>
+                <span>{title}</span>
+            </div>
+        </a>
     </li>
-  );
+)
 
 class RaadpleegHome extends Component {
     render() {
@@ -50,43 +57,45 @@ class RaadpleegHome extends Component {
                             <SearchBar width="w-full" />
                         </div>
                         <div className="mt-10">
-                            <h2 className="mt-8 text-gray-800 heading-serif-lg">Documenten</h2>
-                                <ul className="mt-4 text-gray-700">
-                                    <DocumentLink
-                                        href="docs/omgevingsvisie_zuid-holland.pdf"
-                                        iconLeft={faFilePdf}
-                                        title="De Zuid-Hollandse Omgevingsvisie"
-                                        rel="noopener noreferrer"
-                                    />
-                                    <DocumentLink
-                                        href="docs/omgevingsverordening_zuid-holland.pdf"
-                                        iconLeft={faFilePdf}
-                                        title="De Omgevingsverordening Zuid-Holland 2019"
-                                        rel="noopener noreferrer"
-                                    />
-                                    <DocumentLink
-                                        href="docs/programma_ruimte_zuid-holland.pdf"
-                                        iconLeft={faFilePdf}
-                                        title="Programma ruimte"
-                                        rel="noopener noreferrer"
-                                    />
-                                    <DocumentLink
-                                        href="docs/programma_mobiliteit_zuid-holland.pdf"
-                                        iconLeft={faFilePdf}
-                                        title="Programma mobiliteit"
-                                        rel="noopener noreferrer"
-                                    />
-                                    <DocumentLink
-                                        href="https://lta.zuid-holland.nl/"
-                                        iconLeft={faExternalLinkAlt}
-                                        title="De Lange Termijn Agenda Omgevingsbeleid"
-                                        style="text-sm"
-                                        rel="noopener noreferrer"
-                                    />
-                                </ul>
+                            <h2 className="mt-8 text-gray-800 heading-serif-lg">
+                                Documenten
+                            </h2>
+                            <ul className="mt-4 text-gray-700">
+                                <DocumentLink
+                                    href="docs/omgevingsvisie_zuid-holland.pdf"
+                                    iconLeft={faFilePdf}
+                                    title="De Zuid-Hollandse Omgevingsvisie"
+                                    rel="noopener noreferrer"
+                                />
+                                <DocumentLink
+                                    href="docs/omgevingsverordening_zuid-holland.pdf"
+                                    iconLeft={faFilePdf}
+                                    title="De Omgevingsverordening Zuid-Holland 2019"
+                                    rel="noopener noreferrer"
+                                />
+                                <DocumentLink
+                                    href="docs/programma_ruimte_zuid-holland.pdf"
+                                    iconLeft={faFilePdf}
+                                    title="Programma ruimte"
+                                    rel="noopener noreferrer"
+                                />
+                                <DocumentLink
+                                    href="docs/programma_mobiliteit_zuid-holland.pdf"
+                                    iconLeft={faFilePdf}
+                                    title="Programma mobiliteit"
+                                    rel="noopener noreferrer"
+                                />
+                                <DocumentLink
+                                    href="https://lta.zuid-holland.nl/"
+                                    iconLeft={faExternalLinkAlt}
+                                    title="De Lange Termijn Agenda Omgevingsbeleid"
+                                    style="text-sm"
+                                    rel="noopener noreferrer"
+                                />
+                            </ul>
                         </div>
                     </div>
-                    <p className="mt-10 text-sm text-gray-600">
+                    <p className="pb-8 mt-10 text-sm text-gray-600">
                         Omdat de website nog in ontwikkeling is kan het zijn dat
                         sommige functionaliteiten niet goed werken. Kom je een
                         fout tegen? Neem dan contact op door te mailen naar{' '}
