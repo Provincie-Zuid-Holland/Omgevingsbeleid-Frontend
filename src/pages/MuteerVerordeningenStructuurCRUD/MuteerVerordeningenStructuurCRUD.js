@@ -5,9 +5,7 @@ import { withRouter } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 
 // Import Components
-import ContainerCrudFields from './ContainerCrudFields'
 import ContainerMain from './../../components/ContainerMain'
-import ButtonSubmitFixed from './../../components/ButtonSubmitFixed'
 import ContainerFormSection from './../../components/ContainerFormSection'
 import FormFieldTextInput from './../../components/FormFieldTextInput'
 import ButtonBackToPage from './../../components/ButtonBackToPage'
@@ -16,9 +14,6 @@ import FormFieldDate from './../../components/FormFieldDate'
 
 // Import Axios instance to connect with the API
 import axios from './../../API/axios'
-
-// Create Context
-import APIcontext from './APIContext'
 
 // Import Utilities
 import makeCrudProperties from './../../utils/makeCrudProperties'
@@ -94,7 +89,6 @@ class MuteerVerordeningenStructuurCRUD extends Component {
         event.preventDefault()
 
         const dimensieConstants = this.props.dimensieConstants
-        const apiEndpoint = dimensieConstants.API_ENDPOINT
         const titelEnkelvoud = dimensieConstants.TITEL_ENKELVOUD
 
         let crudObject = this.state.crudObject
@@ -286,15 +280,10 @@ class MuteerVerordeningenStructuurCRUD extends Component {
     render() {
         const dimensieConstants = this.props.dimensieConstants
         const titelEnkelvoud = dimensieConstants.TITEL_ENKELVOUD
-        const titelMeervoud = dimensieConstants.TITEL_MEERVOUD
-        const overzichtSlug = dimensieConstants.SLUG_OVERZICHT
-
-        const objectID = this.props.match.params.single
 
         const editStatus = this.state.edit
         const crudObject = this.state.crudObject
         const dataLoaded = this.state.dataLoaded
-        const objectTitel = this.state.crudObject.Titel
 
         const handleChange = this.handleChange
 
