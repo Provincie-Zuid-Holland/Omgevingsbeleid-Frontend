@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { toast } from 'react-toastify'
 import { withRouter } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
-import validator from 'validator'
 
 // Import Components
 import ContainerCrudFields from './ContainerCrudFields'
@@ -51,7 +50,10 @@ class MuteerBeleidsrelatiesCRUD extends Component {
                     Van_Beleidsbeslissing_Titel: res.data.Titel,
                 })
             )
-            .catch((error) => console.log(error))
+            .catch((err) => {
+                console.log(err)
+                toast(process.env.REACT_APP_ERROR_MSG)
+            })
     }
 
     handleChange(event) {
@@ -127,8 +129,9 @@ class MuteerBeleidsrelatiesCRUD extends Component {
                 )
                 toast('Opgeslagen')
             })
-            .catch((error) => {
-                console.log(error)
+            .catch((err) => {
+                console.log(err)
+                toast(process.env.REACT_APP_ERROR_MSG)
             })
     }
 

@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
 import { Route, Switch } from 'react-router-dom'
 
-// Import HTTP Client
-import axios from './../../API/axios'
-
 // Import Pages
 import MuteerDashboard from './../../pages/MuteerDashboard'
 import MuteerMijnBeleid from './../../pages/MuteerMijnBeleid'
@@ -14,18 +11,13 @@ import MuteerUniversalObjectDetail from './../../pages/MuteerUniversalObjectDeta
 import MuteerUniversalObjectCRUD from './../../pages/MuteerUniversalObjectCRUD'
 import MuteerVerordeningenstructuurOverzicht from './../../pages/MuteerVerordeningenstructuurOverzicht'
 import MuteerVerordeningenstructuurDetail from './../../pages/MuteerVerordeningenstructuurDetail'
+import MuteerVerordeningenStructuurCRUD from './../../pages/MuteerVerordeningenStructuurCRUD'
 import MuteerBeleidsrelatiesOverzicht from './../../pages/MuteerBeleidsrelatiesOverzicht'
 import MuteerBeleidsrelatiesCRUD from './../../pages/MuteerBeleidsrelatiesCRUD'
-import MuteerVerordeningenCRUD from '../../pages/MuteerVerordeningenCRUD'
-import MuteerVerordeningenStructuurCRUD from '../../pages/MuteerVerordeningenStructuurCRUD'
-import MuteerVerordeningenDetail from '../../pages/MuteerVerordeningenDetail'
 import MuteerBeleidsbeslissingenDetail from '../../pages/MuteerBeleidsbeslissingenDetail'
 
 // Import All the dimension constants. These contain the dimensions and there variables, e.g. API_ENDPOINT and TITEL_ENKELVOUD
 import allDimensies from './../../constants/dimensies'
-
-// Import the regulation constants to pass down to the mutate regulation pages
-import allVerordeningen from './../../constants/verordeningen'
 
 // Component to generate a general overview View, a detail view and a CRUD view to edit and create
 const BeheerRoutes = (props) => {
@@ -150,63 +142,22 @@ class AuthRoutes extends Component {
                         component={MuteerMeldingen}
                     />
 
-                    {/* Verordeningen */}
+                    {/* Verordening */}
                     <Route
-                        path="/muteer/verordeningen/nieuwe-verordening"
                         exact
+                        path="/muteer/nieuwe-verordening"
                         render={() => (
                             <MuteerVerordeningenStructuurCRUD
+                                authUser={this.props.authUser}
                                 dimensieConstants={
                                     allDimensies.VERORDENINGSTRUCTUUR
                                 }
-                                history={this.props.history}
                             />
                         )}
                     />
                     <Route
-                        path="/muteer/verordeningen/bewerk-verordening/:lineageID/:lineageUUID"
                         exact
-                        render={() => (
-                            <MuteerVerordeningenStructuurCRUD
-                                dimensieConstants={
-                                    allDimensies.VERORDENINGSTRUCTUUR
-                                }
-                                history={this.props.history}
-                            />
-                        )}
-                    />
-                    <Route
-                        path="/muteer/verordeningen/:lineageID/nieuw/:type"
-                        render={() => (
-                            <MuteerVerordeningenCRUD
-                                dimensieConstants={allVerordeningen}
-                                history={this.props.history}
-                            />
-                        )}
-                    />
-                    <Route
-                        path="/muteer/verordeningen/:lineageID/bewerk/:type/:verordeningsUUID/:verordeningsID"
-                        render={() => (
-                            <MuteerVerordeningenCRUD
-                                editState={true}
-                                dimensieConstants={allVerordeningen}
-                                history={this.props.history}
-                            />
-                        )}
-                    />
-                    <Route
-                        path="/muteer/verordeningen/:lineageID/:type/:single"
-                        exact
-                        render={() => (
-                            <MuteerVerordeningenDetail
-                                dimensieConstants={allVerordeningen}
-                                history={this.props.history}
-                            />
-                        )}
-                    />
-                    <Route
                         path="/muteer/verordeningen/:lineageID"
-                        exact
                         render={() => (
                             <MuteerVerordeningenstructuurDetail
                                 dataModel={allDimensies.Verordeningen}

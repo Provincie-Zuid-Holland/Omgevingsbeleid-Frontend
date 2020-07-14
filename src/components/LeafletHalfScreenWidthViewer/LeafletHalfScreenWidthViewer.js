@@ -3,6 +3,7 @@ import ReactDOMServer from 'react-dom/server'
 import Leaflet from 'leaflet'
 import { Map, TileLayer, LayersControl, FeatureGroup } from 'react-leaflet'
 import Proj from 'proj4leaflet'
+import { toast } from 'react-toastify'
 
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -23,11 +24,6 @@ Leaflet.Icon.Default.mergeOptions({
 })
 
 function CreateCustomPopup({ weergavenaam, lat, lng, point }) {
-    // href={`/zoekresultaten?geoQuery=${point.x.toFixed(
-    //     2
-    // )}+${point.y.toFixed(2)}&LatLng=${lat.toFixed(7)}-${lng.toFixed(
-    //     7
-    // )}`}
     return (
         <div className="text-base custom-popup">
             <span className="block font-bold">Gemarkeerde Locatie</span>
@@ -38,10 +34,16 @@ function CreateCustomPopup({ weergavenaam, lat, lng, point }) {
                     GPS Locatie: {lat.toFixed(7)}, {lng.toFixed(7)}
                 </li>
             </ul>
-            <span className="inline-block px-8 py-2 text-white rounded cursor-pointer mbg-color hover:bg-blue-600 focus:outline-none focus:shadow-outline">
-                Binnenkort kunt u het provinciaal Omgevingsbeleid ook via de
-                kaart zoeken
-            </span>
+            <a
+                href={`/zoekresultaten?geoQuery=${point.x.toFixed(
+                    2
+                )}+${point.y.toFixed(2)}&LatLng=${lat.toFixed(7)}-${lng.toFixed(
+                    7
+                )}`}
+                className="inline-block px-8 py-2 text-white rounded cursor-pointer mbg-color hover:bg-blue-600 focus:outline-none focus:shadow-outline"
+            >
+                Bekijk provinciaal beleid van deze locatie
+            </a>
         </div>
     )
 }
@@ -72,6 +74,7 @@ const RDCrs = new Proj.CRS('EPSG:28992', RDProj4, {
         [595401.92, 903401.92],
     ]),
 })
+
 const RDProjection = new Proj.Projection(
     'EPSG:28992',
     RDProj4,
@@ -118,12 +121,11 @@ export default class LeafletHalfScreenWidthViewer extends Component {
                             point={RDProjection.project({ lat: lat, lng: lng })}
                         />
                     )}</div>`
-                    //rd_latlong = proj4(RDCrs,[lat,long]);
-                    // ${RDProjection.project({ lat: lat, lng: lng })}
                     layer._popup.setContent(customPopupHTML)
                 })
-                .catch(function (thrown) {
-                    console.log(thrown)
+                .catch(function (err) {
+                    console.log(err)
+                    toast(process.env.REACT_APP_ERROR_MSG)
                 })
         })
     }
@@ -193,8 +195,6 @@ export default class LeafletHalfScreenWidthViewer extends Component {
         if (!this._editableFG || !onChange) {
             return
         }
-
-        console.log(this)
 
         const geojsonData = this._editableFG.leafletElement.toGeoJSON()
         onChange(geojsonData)
@@ -273,17 +273,15 @@ export default class LeafletHalfScreenWidthViewer extends Component {
     }
 
     render() {
-        console.log(this)
         return (
             <React.Fragment>
                 <Map
-                    // onClick={this.onClickReset}
                     onViewportChanged={this.onViewportChanged}
                     viewport={this.state.viewport}
                     scrollWheelZoom={true}
+                    maxZoom={12}
                     zoomControl={true}
                     crs={this.state._RDCrs}
-                    // drawControl={true}
                     ref={this.leafletMap}
                     className="z-0"
                     id="half-screen-leaflet"
@@ -359,8 +357,6 @@ export default class LeafletHalfScreenWidthViewer extends Component {
                             }}
                         />
                     </FeatureGroup>
-
-                    {/* maxZoom='15' */}
 
                     {/* L.Proj.GeoJson */}
                 </Map>

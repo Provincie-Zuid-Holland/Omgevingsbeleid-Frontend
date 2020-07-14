@@ -31,6 +31,7 @@ const Werkingsgebied = ({
         // If there is no werkingsgebied prop
         if (!werkingsgebiedInParentState) return
         // If it is the prop is the same as the current one we have in state
+        console.log(werkingsgebied)
         if (
             werkingsgebiedInParentState &&
             werkingsgebiedInParentState === werkingsgebied
@@ -46,8 +47,10 @@ const Werkingsgebied = ({
                 setWerkingsgebiedTitelIsLoading(false)
             })
             .catch((err) => {
-                toast('Er is iets misgegaan, probeer het later nog eens')
+                console.log(err)
+                toast(process.env.REACT_APP_ERROR_MSG)
             })
+        // eslint-disable-next-line
     }, [werkingsgebiedInParentState])
 
     return (
@@ -70,7 +73,7 @@ const Werkingsgebied = ({
                                 }}
                                 className="block w-full h-full bg-center bg-cover rounded-md"
                             ></div>
-                            <span class="absolute bottom-0 block w-full p-4 text-sm text-gray-700 bg-white">
+                            <span className="absolute bottom-0 block w-full p-4 text-sm text-gray-700 bg-white">
                                 {werkingsgebiedTitelIsLoading
                                     ? 'Laden...'
                                     : werkingsgebied.Werkingsgebied}
@@ -136,9 +139,10 @@ const WerkingsgebiedPopup = ({
                 setWerkingsgebieden(res.data)
                 setIsLoading(false)
             })
-            .catch(() => {
+            .catch((err) => {
                 setIsLoading(false)
-                toast('Er is iets misgegaan, probeer het later nog eens')
+                console.log(err)
+                toast(process.env.REACT_APP_ERROR_MSG)
             })
     }
 
@@ -155,13 +159,9 @@ const WerkingsgebiedPopup = ({
             'fixed-container-edit-content-sidebar'
         )
 
-        console.log(fixedContainerEl)
-
         // Get original body overflow
         const originalStyle = window.getComputedStyle(fixedContainerEl)
             .overflowY
-
-        console.log(originalStyle)
 
         // Prevent scrolling on mount
         if (show) {
@@ -241,7 +241,7 @@ const WerkingsgebiedPopup = ({
                                                           }}
                                                           className="block w-full h-full bg-center bg-cover rounded-md-t"
                                                       ></div>
-                                                      <span class="absolute bottom-0 z-10 block w-full p-4 text-sm text-gray-700 bg-white">
+                                                      <span className="absolute bottom-0 z-10 block w-full p-4 text-sm text-gray-700 bg-white">
                                                           {
                                                               gebied.Werkingsgebied
                                                           }

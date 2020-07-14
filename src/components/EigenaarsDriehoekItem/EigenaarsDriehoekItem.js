@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { toast } from 'react-toastify'
 
 // Import Axios instance to connect with the API
 import axios from './../../API/axios'
@@ -22,8 +23,9 @@ class EigenaarsDriehoekItem extends Component {
                     dataLoaded: true,
                 })
             })
-            .catch((error) => {
-                console.log(error)
+            .catch((err) => {
+                console.log(err)
+                toast(process.env.REACT_APP_ERROR_MSG)
             })
     }
 

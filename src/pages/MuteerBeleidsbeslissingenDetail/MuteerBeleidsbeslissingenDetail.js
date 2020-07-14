@@ -161,13 +161,14 @@ class MuteerBeleidsbeslissingenDetail extends Component {
                     () => this.generateDimensieHistorie()
                 )
             })
-            .catch((error) => {
-                if (error.response && error.response.status === 404) {
+            .catch((err) => {
+                if (err.response && err.response.status === 404) {
                     this.props.history.push(`/muteer/dashboard`)
                     toast(`Deze beleidsbeslissing kon niet gevonden worden`)
                 } else {
                     this.props.history.push(`/muteer/dashboard`)
-                    toast(`Er is iets misgegaan, probeer het later opnieuw`)
+                    toast(process.env.REACT_APP_ERROR_MSG)
+                    console.log(err)
                 }
             })
     }
@@ -193,9 +194,9 @@ class MuteerBeleidsbeslissingenDetail extends Component {
                 )
                 this.updateStateMetResponse(res.data)
             })
-            .catch((error) => {
-                console.error(error)
-                toast('Er is iets misgegaan, probeer het later nog eens.')
+            .catch((err) => {
+                console.log(err)
+                toast(process.env.REACT_APP_ERROR_MSG)
             })
     }
 

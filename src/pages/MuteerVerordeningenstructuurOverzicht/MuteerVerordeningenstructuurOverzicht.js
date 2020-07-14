@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Helmet } from 'react-helmet'
-import PropTypes from 'prop-types'
+import { toast } from 'react-toastify'
+import { Link } from 'react-router-dom'
 
 // Import Componenents
 import ContainerMain from './../../components/ContainerMain'
@@ -33,7 +34,9 @@ class MuteerVerordeningenstructuurOverzicht extends Component {
                     dataReceived: true,
                 })
             })
-            .catch((error) => {
+            .catch((err) => {
+                console.log(err)
+                toast(process.env.REACT_APP_ERROR_MSG)
                 this.setState({
                     dataReceived: true,
                 })
@@ -69,14 +72,19 @@ class MuteerVerordeningenstructuurOverzicht extends Component {
 
                     <ul className="flex flex-wrap mt-8">
                         {this.state.dataReceived ? (
-                            <ButtonAddNewObject
-                                objectAantal={this.state.objecten.length}
-                                titelEnkelvoud={titelEnkelvoud}
-                                overzichtSlug={overzichtSlug}
-                                createNewSlug={createNewSlug}
-                                hoofdOnderdeelSlug={hoofdOnderdeelSlug}
-                                fullWidth={true}
-                            />
+                            <div
+                                className={`mb-6 display-inline mb-6 display-inline w-full`}
+                            >
+                                <Link
+                                    id={`object-add-new-${hoofdOnderdeelSlug.toLowerCase()}`}
+                                    className="flex items-center justify-center h-full px-4 py-4 overflow-hidden text-gray-600 no-underline border border-gray-300 border-dashed rounded hover:border-gray-400 transition-regular hover:text-gray-800"
+                                    to={`/muteer/nieuwe-verordening`}
+                                >
+                                    <span className="px-4 py-2 font-semibold text-center">
+                                        + Voeg {titelEnkelvoud} Toe
+                                    </span>
+                                </Link>
+                            </div>
                         ) : null}
                         {this.state.dataReceived ? (
                             this.state.objecten
@@ -113,9 +121,5 @@ class MuteerVerordeningenstructuurOverzicht extends Component {
         )
     }
 }
-
-MuteerVerordeningenstructuurOverzicht.propTypes = {}
-
-MuteerVerordeningenstructuurOverzicht.defaultProps = {}
 
 export default MuteerVerordeningenstructuurOverzicht

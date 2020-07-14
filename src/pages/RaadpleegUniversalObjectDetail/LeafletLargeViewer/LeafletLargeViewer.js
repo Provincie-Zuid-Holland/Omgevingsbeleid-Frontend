@@ -80,11 +80,12 @@ export default class LeafletLargeViewer extends Component {
                         }
                     )
                 })
-                .catch(function (thrown) {
-                    if (axios.isCancel(thrown)) {
-                        console.log('Request canceled -', thrown.message)
+                .catch(function (err) {
+                    if (axios.isCancel(err)) {
+                        console.log('Request canceled -', err.message)
                     } else {
-                        console.log(thrown)
+                        console.log(err)
+                        toast(process.env.REACT_APP_ERROR_MSG)
                     }
                 })
         })

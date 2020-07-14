@@ -73,8 +73,6 @@ const CrudDropdown = ({ item, pathToIndex }) => {
                         <div className="py-1">
                             <button
                                 onClick={() => {
-                                    console.log('CLICKED')
-                                    console.log(pathToIndex)
                                     setIsOpen(false)
                                     setIndexArrayToUUIDBeingEdited(pathToIndex)
                                     setVolgnummerBeingEdited(item.Volgnummer)

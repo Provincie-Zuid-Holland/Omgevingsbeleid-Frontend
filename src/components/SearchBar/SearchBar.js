@@ -208,7 +208,7 @@ const SearchBar = ({ width, compInNavigation }) => {
                     }
                 }}
             />
-            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+            <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                 <FontAwesomeIcon
                     className="ml-2 text-gray-400"
                     icon={faSearch}

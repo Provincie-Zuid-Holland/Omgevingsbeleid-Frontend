@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAngleLeft, faTimes, faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faAngleLeft, faPlus } from '@fortawesome/free-solid-svg-icons'
 
 import axios from './../../API/axios'
 
@@ -226,7 +226,10 @@ class MuteerBeleidsrelatieDetail extends Component {
                     })
                 }
             })
-            .catch((err) => console.log(err))
+            .catch((err) => {
+                console.log(err)
+                toast(process.env.REACT_APP_ERROR_MSG)
+            })
     }
 
     relatieAfwijzen(beleidsrelatieObject) {
@@ -270,7 +273,10 @@ class MuteerBeleidsrelatieDetail extends Component {
                     'Verbroken'
                 )
             })
-            .catch((err) => console.log(err))
+            .catch((err) => {
+                console.log(err)
+                toast(process.env.REACT_APP_ERROR_MSG)
+            })
     }
 
     patchRelatieStatus(beleidsrelatieObject, nieuweStatus, toastNotificatie) {
@@ -292,7 +298,10 @@ class MuteerBeleidsrelatieDetail extends Component {
                     nieuweStatus
                 )
             })
-            .catch((err) => console.log(err))
+            .catch((err) => {
+                console.log(err)
+                toast(process.env.REACT_APP_ERROR_MSG)
+            })
     }
 
     toggleMotiveringPopup(UUID) {

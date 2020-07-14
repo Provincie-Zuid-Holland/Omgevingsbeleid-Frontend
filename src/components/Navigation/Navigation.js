@@ -2,6 +2,7 @@ import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import isToday from 'date-fns/isToday'
 import parseISO from 'date-fns/parseISO'
+import { toast } from 'react-toastify'
 
 import {
     faSearch,
@@ -216,7 +217,12 @@ const PopupMenu = ({ loggedIn, showBanner, logout, isOpen, setIsOpen }) => {
                     setVerordeningIsLoading(false)
                 })
                 .catch((err) => console.log(err)),
-        ]).then(() => setIsLoading(false))
+        ])
+            .then(() => setIsLoading(false))
+            .catch((err) => {
+                console.log(err)
+                toast(process.env.REACT_APP_ERROR_MSG)
+            })
     }, [])
 
     const getCurrentConstants = () => {
@@ -371,20 +377,23 @@ const PopupMenu = ({ loggedIn, showBanner, logout, isOpen, setIsOpen }) => {
                                     )}
                                 </h3>
                                 <div>
-                                    <label for="filter-query" class="sr-only">
+                                    <label
+                                        htmlFor="filter-query"
+                                        className="sr-only"
+                                    >
                                         Filter
                                     </label>
-                                    <div class="w-64 mt-1 relative rounded-md shadow-sm">
+                                    <div className="relative w-64 mt-1 rounded-md shadow-sm">
                                         <input
                                             id="filter-query"
                                             value={filterQuery}
                                             onChange={(e) =>
                                                 setFilterQuery(e.target.value)
                                             }
-                                            class="form-input block w-full pr-10 sm:text-sm sm:leading-5"
+                                            className="block w-full pr-10 form-input sm:text-sm sm:leading-5"
                                             placeholder={`Zoek in ${getCurrentConstants().TITEL_MEERVOUD.toLowerCase()}`}
                                         />
-                                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                        <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                                             <FontAwesomeIcon
                                                 className="ml-2 text-gray-400"
                                                 icon={faSearch}
@@ -417,6 +426,7 @@ const PopupMenu = ({ loggedIn, showBanner, logout, isOpen, setIsOpen }) => {
                                             })
                                             .map((item, index) => (
                                                 <Link
+                                                    key={item.UUID}
                                                     className={`w-1/2 group flex items-center px-3 py-2 text-sm leading-5 font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:bg-gray-100 transition ease-in-out duration-150 py-1 text-gray-700 hover:text-gray-900  inline-block ${
                                                         index % 2 === 0
                                                             ? 'pr-4'
@@ -479,7 +489,7 @@ const TabMenuItem = ({ activeTab, tabTitle, setActiveTab }) => {
             }`}
             aria-current={tabIsActive ? 'page' : false}
         >
-            <span class="truncate">{tabTitle}</span>
+            <span className="truncate">{tabTitle}</span>
         </button>
     )
 }
@@ -495,7 +505,7 @@ const TabMenuItemLink = ({ tabTitle, href, setIsOpen, tabId, callback }) => {
             to={href}
             className={`w-full font-medium rounded-md-l group flex items-center px-3 py-2 text-sm leading-5 hover:text-gray-900 transition ease-in-out duration-150 mt-1 text-gray-600 hover:bg-gray-50 focus:outline-none focus:bg-gray-50 cursor-pointer`}
         >
-            <span class="truncate">{tabTitle}</span>
+            <span className="truncate">{tabTitle}</span>
         </Link>
     )
 }

@@ -2,13 +2,7 @@ import React, { Component } from 'react'
 import { format } from 'date-fns'
 import { Helmet } from 'react-helmet'
 import nlLocale from 'date-fns/locale/nl'
-import {
-    faAngleLeft,
-    faTimes,
-    faFileDownload,
-    faPrint,
-    faExternalLinkAlt,
-} from '@fortawesome/free-solid-svg-icons'
+import { faPrint, faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { toast } from 'react-toastify'
 
@@ -23,7 +17,6 @@ import ButtonBackToPage from './../../components/ButtonBackToPage'
 import PopUpRevisieContainer from './../../components/PopUpRevisieContainer'
 import LoaderContent from './../../components/LoaderContent'
 import LoaderSmallSpan from './../../components/LoaderSmallSpan'
-import PopUpAnimatedContainer from './../../components/PopUpAnimatedContainer'
 
 // Import view containers
 import ContainerViewFieldsBeleidsbeslissing from './ContainerFields/ContainerViewFieldsBeleidsbeslissing'
@@ -33,7 +26,6 @@ import ContainerViewFieldsOpgave from './ContainerFields/ContainerViewFieldsOpga
 import ContainerViewFieldsAmbitie from './ContainerFields/ContainerViewFieldsAmbitie'
 import ContainerViewFieldsBelang from './ContainerFields/ContainerViewFieldsBelang'
 import ContainerViewFieldsThema from './ContainerFields/ContainerViewFieldsThema'
-import ContainerViewFieldsVerordeningsobject from './ContainerFields/ContainerViewFieldsVerordeningsobject'
 
 function RevisieListItem(props) {
     return (
@@ -97,23 +89,25 @@ class RaadpleegUniversalObjectDetail extends Component {
                     dataLoaded: true,
                 })
             })
-            .catch((error) => {
-                if (error.response !== undefined) {
-                    if (error.response.status === 404) {
+            .catch((err) => {
+                if (err.response !== undefined) {
+                    if (err.response.status === 404) {
                         this.props.history.push(`/`)
                         toast(
                             `Deze ${this.props.dataModel.TITEL_ENKELVOUD.toLowerCase()} kon niet gevonden worden`
                         )
-                    } else if (error.response.status === 422) {
+                    } else if (err.response.status === 422) {
                         this.props.history.push(`/login`)
                         toast(
                             `U moet voor nu nog inloggen om deze pagina te kunnen bekijken`
                         )
                     } else {
-                        toast(`Er is iets misgegaan`)
+                        console.log(err)
+                        toast(process.env.REACT_APP_ERROR_MSG)
                     }
                 } else {
-                    toast(`Er is iets misgegaan`)
+                    console.log(err)
+                    toast(process.env.REACT_APP_ERROR_MSG)
                 }
             })
     }

@@ -222,6 +222,8 @@ const MuteerVerordeningenstructuurDetail = () => {
                 }
             })
             .catch((err) => {
+                console.log(err)
+                toast(process.env.REACT_APP_ERROR_MSG)
                 setVerordeningsObjectLedenIsLoading(false)
                 setVerordeningsObjectIsLoading(false)
             })
@@ -245,7 +247,8 @@ const MuteerVerordeningenstructuurDetail = () => {
                     .then((res) => res.data)
                 return data
             } catch (err) {
-                console.log('error', err)
+                console.log(err)
+                toast(process.env.REACT_APP_ERROR_MSG)
             }
         }
 
@@ -326,7 +329,8 @@ const MuteerVerordeningenstructuurDetail = () => {
                     .then((res) => res.data)
                 return data
             } catch (err) {
-                console.log('error', err)
+                console.log(err)
+                toast(process.env.REACT_APP_ERROR_MSG)
             }
         }
 
@@ -434,6 +438,7 @@ const MuteerVerordeningenstructuurDetail = () => {
             })
             .catch((err) => {
                 console.log(err)
+                toast(process.env.REACT_APP_ERROR_MSG)
                 setVerordeningsObjectIsLoading(false)
                 setVerordeningsObjectLedenIsLoading(false)
             })
@@ -472,7 +477,7 @@ const MuteerVerordeningenstructuurDetail = () => {
             .then((res) => {
                 // Handle empty res
                 if (!res.data || !res.data[0]) {
-                    handleError('Er ging iets fout, probeer het later opnieuw')
+                    toast(process.env.REACT_APP_ERROR_MSG)
                     return
                 }
 
@@ -483,7 +488,7 @@ const MuteerVerordeningenstructuurDetail = () => {
             })
             .catch((err) => {
                 console.log(err)
-                handleError('Er ging iets fout, probeer het later opnieuw')
+                toast(process.env.REACT_APP_ERROR_MSG)
             })
 
         const getUsers = axios
@@ -492,9 +497,10 @@ const MuteerVerordeningenstructuurDetail = () => {
                 const gebruikers = res.data
                 setUsers(gebruikers)
             })
-            .catch(() =>
-                handleError('Er ging iets fout, probeer het later opnieuw')
-            )
+            .catch((err) => {
+                console.log(err)
+                toast(process.env.REACT_APP_ERROR_MSG)
+            })
 
         Promise.all([getLineage, getUsers]).then(() => setDataLoaded(true))
     }, [])
@@ -708,13 +714,6 @@ const MuteerVerordeningenstructuurDetail = () => {
                     .Children,
                 destinationParentId
             )
-
-            console.log(currentActiveChapter)
-            console.log(sourceParentIndex)
-            console.log(sourceChildIndex)
-
-            console.log('Current Lineage')
-            console.log(currentLineage.Structuur)
 
             // Array containing the children where the user dragged FROM
             const sourceParentElChildrenArray =
@@ -964,11 +963,10 @@ const MuteerVerordeningenstructuurDetail = () => {
                             patchLeden: true,
                         })
                     })
-                    .catch(() =>
-                        toast(
-                            'Er is iets misgegaan, probeer het later nog eens'
-                        )
-                    )
+                    .catch((err) => {
+                        console.log(err)
+                        toast(process.env.REACT_APP_ERROR_MSG)
+                    })
             } else {
                 patchNewUUIDInLineage({
                     object: patchedRegulationObject,
@@ -1037,9 +1035,10 @@ const MuteerVerordeningenstructuurDetail = () => {
                 setVerordeningsObjectIsLoading(false)
                 setPatchingInProgress(false)
             })
-            .catch(() =>
-                toast('Er is iets misgegaan, probeer het later nog eens')
-            )
+            .catch((err) => {
+                console.log(err)
+                toast(process.env.REACT_APP_ERROR_MSG)
+            })
     }
 
     const removeObject = (index) => {

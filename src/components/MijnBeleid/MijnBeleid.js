@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { toast } from 'react-toastify'
 
 // Import API
 import axios from './../../API/axios'
@@ -68,7 +69,10 @@ class MijnBeleid extends Component {
                     dataReceived: true,
                 })
             })
-            .catch((err) => console.log(err))
+            .catch((err) => {
+                console.log(err)
+                toast(process.env.REACT_APP_ERROR_MSG)
+            })
     }
 
     componentDidMount() {
