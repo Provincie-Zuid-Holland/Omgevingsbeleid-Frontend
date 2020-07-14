@@ -37,8 +37,8 @@ function TabVerbroken(props) {
                                     {relatie.Datum_Akkoord !== null
                                         ? format(
                                               new Date(relatie.Datum_Akkoord),
-                                              'd MMMM yyyy, HH:mm uur'
-                                          )
+                                              'd MMMM yyyy, HH:mm'
+                                          ) + ' uur'
                                         : null}
                                 </div>
                                 <div className="w-1/12">

@@ -81,9 +81,9 @@ function FormFieldContainerMaatregelen({
                 beschrijving="Een maatregel beschrijft de wijze waarop uitvoering wordt gegeven aan beleid."
             >
                 <FormFieldWerkingsgebiedKoppelingSingle
-                    handleChange={handleChange}
+                    setWerkingsgebiedInParentState={handleChange}
+                    werkingsgebiedInParentState={crudObject['Gebied']}
                     titelEnkelvoud={titelEnkelvoud}
-                    fieldValue={crudObject['Gebied']}
                     fieldLabel="Selecteer werkingsgebied"
                     dataObjectProperty="Gebied"
                     pValue="Selecteer hier het werkingsgebied wat bij deze maatregel past."

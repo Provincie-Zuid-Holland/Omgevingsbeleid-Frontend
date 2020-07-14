@@ -1,20 +1,32 @@
-import React, { Component } from 'react'
-import ReactDOM from 'react-dom'
+import React from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
-import AddSection from './../AddSection'
+import { faSave, faTimes } from '@fortawesome/pro-regular-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-function DragAndDropHoofdstukken({
-    onDragEnd,
-    items,
-    dragBool,
-    voegSectieToeMode,
-    hoofdstukIndex,
-    changeActiveHoofdstuk,
-}) {
+import AddSection from './../AddSection'
+import CrudDropdown from './../CrudDropdown'
+import AddObjectButton from './../AddObjectButton'
+
+import VerordeningContext from './../VerordeningContext'
+
+function DragAndDropHoofdstukken({ hoofdstukItems, changeActiveChapter }) {
+    const {
+        patchRegulationObject,
+        setVerordeningsObjectFromGET,
+        verordeningsObjectFromGET,
+        UUIDBeingEdited,
+        setUUIDBeingEdited,
+        setVolgnummerBeingEdited,
+        setIndexArrayToUUIDBeingEdited,
+        userIsEditingOrder,
+        userIsEditingSections,
+        onDragEnd,
+    } = React.useContext(VerordeningContext)
+
     return (
         <DragDropContext onDragEnd={onDragEnd}>
-            {voegSectieToeMode ? (
+            {userIsEditingSections ? (
                 <AddSection
                     hoofdstukIndex={0}
                     nest_1={null}
@@ -23,17 +35,24 @@ function DragAndDropHoofdstukken({
                     type={'Hoofdstuk'}
                 />
             ) : null}
-            <Droppable droppableId="droppable" type="hoofdstukItem">
+            <Droppable type="hoofdstukItem" droppableId="droppable">
                 {(provided, snapshot) => (
                     <div
                         ref={provided.innerRef}
-                        className={
-                            snapshot.isDraggingOver ? 'bg-gray-200' : 'bg-white'
-                        }
+                        className={`py-1 
+                            ${
+                                snapshot.isDraggingOver
+                                    ? 'bg-gray-200'
+                                    : 'bg-white'
+                            }
+                        `}
                     >
-                        {items.map((item, index) => (
+                        <div className="px-2 py-1">
+                            <AddObjectButton nestType="Hoofdstuk" index={[0]} />
+                        </div>
+                        {hoofdstukItems.map((item, index) => (
                             <Draggable
-                                isDragDisabled={!dragBool}
+                                isDragDisabled={!userIsEditingOrder}
                                 key={item.UUID}
                                 draggableId={item.UUID}
                                 index={index}
@@ -44,37 +63,69 @@ function DragAndDropHoofdstukken({
                                             ref={provided.innerRef}
                                             {...provided.draggableProps}
                                             {...provided.dragHandleProps}
-                                            className={`w-full bg-white ${
+                                            className={`w-full bg-white relative px-2 py-1 ${
                                                 snapshot.isDragging
                                                     ? 'shadow-lg'
                                                     : ''
                                             }`}
                                         >
-                                            <div
-                                                className={`py-3 px-5 font-semibold
-                                                ${
-                                                    snapshot.isDragging
-                                                        ? ''
-                                                        : 'hover:bg-gray-100 cursor-pointer'
-                                                } 
-                                                ${
-                                                    item.Type === 'Afdeling'
-                                                        ? 'mbg-color text-white'
-                                                        : ''
-                                                } 
-                                                ${
-                                                    item.Type === 'Paragraaf'
-                                                        ? 'text-blood-red'
-                                                        : ''
-                                                }`}
-                                                onClick={() => {
-                                                    if (snapshot.isDragging)
-                                                        return
-                                                    changeActiveHoofdstuk(index)
-                                                }}
-                                            >
-                                                {`Hoofdstuk ${item.Volgnummer} - ${item.Titel}`}
+                                            <div className="relative">
+                                                {verordeningsObjectFromGET &&
+                                                verordeningsObjectFromGET.UUID ===
+                                                    item.UUID ? (
+                                                    <HoofdstukTitleEditing
+                                                        patchRegulationObject={
+                                                            patchRegulationObject
+                                                        }
+                                                        setUUIDBeingEdited={
+                                                            setUUIDBeingEdited
+                                                        }
+                                                        setVerordeningsObjectFromGET={
+                                                            setVerordeningsObjectFromGET
+                                                        }
+                                                        verordeningsObjectFromGET={
+                                                            verordeningsObjectFromGET
+                                                        }
+                                                        snapshot={snapshot}
+                                                        itemIndex={index}
+                                                        item={item}
+                                                    />
+                                                ) : (
+                                                    <HoofdstukTitle
+                                                        snapshot={snapshot}
+                                                        changeActiveChapter={
+                                                            changeActiveChapter
+                                                        }
+                                                        itemIndex={index}
+                                                        item={item}
+                                                    />
+                                                )}
+
+                                                <CrudDropdown
+                                                    UUIDBeingEdited={
+                                                        UUIDBeingEdited
+                                                    }
+                                                    verordeningsObjectFromGET={
+                                                        verordeningsObjectFromGET
+                                                    }
+                                                    item={item}
+                                                    setUUIDBeingEdited={
+                                                        setUUIDBeingEdited
+                                                    }
+                                                    setVolgnummerBeingEdited={
+                                                        setVolgnummerBeingEdited
+                                                    }
+                                                    setIndexArrayToUUIDBeingEdited={
+                                                        setIndexArrayToUUIDBeingEdited
+                                                    }
+                                                    pathToIndex={[index]}
+                                                />
                                             </div>
+
+                                            <AddObjectButton
+                                                nestType="Hoofdstuk"
+                                                index={[index + 1]}
+                                            />
                                         </div>
                                         {provided.placeholder}
                                     </div>
@@ -86,6 +137,89 @@ function DragAndDropHoofdstukken({
                 )}
             </Droppable>
         </DragDropContext>
+    )
+}
+
+const HoofdstukTitleEditing = ({
+    snapshot,
+    patchRegulationObject,
+    item,
+    verordeningsObjectFromGET,
+    setVerordeningsObjectFromGET,
+    setUUIDBeingEdited,
+}) => {
+    return (
+        <div
+            className={`py-1 pl-5 font-semibold rounded hover:bg-primary-super-light pr-1 bg-primary-super-light 
+            ${snapshot.isDragging ? '' : 'hover:bg-gray-100 cursor-pointer'}`}
+        >
+            <div className="flex items-center">
+                <span>Hoofdstuk</span>
+                <input
+                    type="text"
+                    value={verordeningsObjectFromGET.Volgnummer}
+                    onChange={(e) => {
+                        setVerordeningsObjectFromGET({
+                            type: 'changeValue',
+                            value: e.target.value,
+                            name: 'Volgnummer',
+                        })
+                    }}
+                    id="form-inline-volgnummer"
+                    className="inline-block w-12 mx-2 font-semibold text-center form-input sm:text-sm sm:leading-5"
+                />
+                <span>-</span>
+                <input
+                    placeholder="Titel"
+                    type="text"
+                    id="form-inline-title"
+                    value={verordeningsObjectFromGET.Titel}
+                    onChange={(e) => {
+                        setVerordeningsObjectFromGET({
+                            type: 'changeValue',
+                            value: e.target.value,
+                            name: 'Titel',
+                        })
+                    }}
+                    className="inline-block w-full ml-2 font-semibold form-input sm:text-sm sm:leading-5"
+                />
+                <button
+                    onClick={() => patchRegulationObject()}
+                    className="flex items-center self-stretch justify-center inline-block px-3 ml-1 text-lg text-white bg-green-500 rounded hover:bg-green-600"
+                >
+                    <FontAwesomeIcon icon={faSave} />
+                </button>
+                <button
+                    className="flex items-center self-stretch justify-center inline-block px-3 ml-1 text-lg text-white rounded bg-primary hover:bg-primary-darker"
+                    onClick={() => {
+                        setUUIDBeingEdited(null)
+                        setVerordeningsObjectFromGET({
+                            type: 'cancel',
+                        })
+                    }}
+                >
+                    <FontAwesomeIcon icon={faTimes} />
+                </button>
+            </div>
+        </div>
+    )
+}
+
+const HoofdstukTitle = ({ snapshot, item, itemIndex, changeActiveChapter }) => {
+    return (
+        <div
+            className={`py-3 pl-5 font-semibold hover:bg-primary-super-light pr-12 bg-primary-super-light rounded 
+            ${snapshot.isDragging ? '' : 'hover:bg-gray-100 cursor-pointer'} 
+            `}
+            onClick={() => {
+                if (snapshot.isDragging) return
+                changeActiveChapter(itemIndex)
+            }}
+        >
+            {`Hoofdstuk ${item.Volgnummer ? item.Volgnummer : ''} - ${
+                item.Titel ? item.Titel : ''
+            }`}
+        </div>
     )
 }
 

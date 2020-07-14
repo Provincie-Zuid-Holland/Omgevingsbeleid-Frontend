@@ -4,7 +4,7 @@ export const TYPE = 'Verordening'
 export const API_ENDPOINT = 'verordeningstructuur'
 
 export const SLUG_OVERZICHT = 'verordeningen'
-export const SLUG_CREATE_NEW = 'nieuwe-verordeningen'
+export const SLUG_CREATE_NEW = 'nieuwe-verordening'
 
 export const CRUD_PROPERTIES = {
     Titel: {
@@ -19,7 +19,7 @@ export const CRUD_PROPERTIES = {
     },
     Eind_Geldigheid: {
         initValue: null,
-        required: false,
+        required: true,
         requiredMessage: 'Vul een datum van uitwerkingstreding in',
     },
 }

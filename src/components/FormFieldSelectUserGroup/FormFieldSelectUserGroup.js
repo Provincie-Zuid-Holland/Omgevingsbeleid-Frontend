@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { toast } from 'react-toastify'
+
 import FormFieldSelectUser from './../FormFieldSelectUser'
 import axios from './../../API/axios'
 import LoaderSelect from './../LoaderSelect'
@@ -23,12 +25,13 @@ class FormFieldSelectUserGroup extends Component {
                     dataLoaded: true,
                 })
             })
-            .catch((error) => {
+            .catch((err) => {
                 this.setState({
                     dataLoaded: true,
                     error: true,
                 })
-                console.log(error)
+                console.log(err)
+                toast(process.env.REACT_APP_ERROR_MSG)
             })
     }
 

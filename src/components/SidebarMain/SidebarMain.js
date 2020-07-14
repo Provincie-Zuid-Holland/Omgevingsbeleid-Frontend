@@ -8,13 +8,10 @@ const menuItemsOmgevingsbeleid = {
     Dashboard: { url: '/muteer/dashboard', finished: true },
     'Mijn beleid': { url: '/muteer/mijn-beleid', finished: true },
     Beleidsrelaties: { url: '/muteer/beleidsrelaties', finished: true },
+    Uitloggen: { url: '/logout', finished: true },
     // Meldingen: { url: '/muteer/mijn-meldingen', finished: true },
     // 'API Test Omgeving': { url: '/muteer/api-test', finished: true },
 }
-
-// const menuItemsGebruiker = {
-//     'Mijn account': { url: '', finished: false },
-// }
 
 const menuItemsBeheer = {
     Beleidsbeslissingen: { url: '/muteer/beleidsbeslissingen', finished: true },
@@ -70,6 +67,7 @@ function ReturnNavLink(props) {
     }
 }
 
+// TODO: Refactor finished props... And put in own component
 function returnMenuItems(menuItems) {
     const listItems = Object.keys(menuItems).map((value, index) =>
         menuItems[value].finished ? (
@@ -134,8 +132,6 @@ function SidebarMain() {
             <nav className="pt-2">
                 <MainSideBarHeading>Omgevingsbeleid</MainSideBarHeading>
                 <ul>{returnMenuItems(menuItemsOmgevingsbeleid)}</ul>
-                {/* <MainSideBarHeading>Gebruiker</MainSideBarHeading>
-                <ul>{returnMenuItems(menuItemsGebruiker)}</ul> */}
                 {gebruikersRol === 'Beheerder' ||
                 gebruikersRol === 'Functioneel beheerder' ||
                 gebruikersRol === 'Technisch beheerder' ||

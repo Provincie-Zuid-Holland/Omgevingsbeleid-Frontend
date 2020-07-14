@@ -133,7 +133,13 @@ class ContainerDetail extends Component {
                     dataObject.Status !== 'Ontwerp in inspraak' &&
                     dataObject.Status !== 'Vastgesteld' ? (
                         <Link
-                            to={`/muteer/beleidsbeslissingen/edit/${this.props.match.params.single}`}
+                            to={`/muteer/beleidsbeslissingen/edit/${
+                                this.props.match.params.single
+                            }${
+                                this.props.location.hash === '#mijn-beleid'
+                                    ? '#mijn-beleid'
+                                    : ''
+                            }`}
                             className="inline-block mt-2 text-blue-700 underline"
                         >
                             Bewerk Beleidsbeslissing

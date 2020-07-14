@@ -6,12 +6,10 @@ import queryString from 'query-string'
 import {
     faAngleRight,
     faPrint,
-    faExternalLinkAlt,
     faCompressArrowsAlt,
     faExpandArrowsAlt,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import clonedeep from 'lodash.clonedeep'
 import LoaderContent from './../../components/LoaderContent'
 import { toast } from 'react-toastify'
 
@@ -147,6 +145,8 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
         })
     }
 
+    // Function to traverse to the object in the lineage
+    // The traversing is done based on the nested parameters from the URL
     getActiveObjectInLineage() {
         const lineage = this.state.lineage
         const activeObjectPath = this.state.activeObjectPath
@@ -226,13 +226,21 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
             .then(() => {
                 if (this.state.verordeningsObject.Type === 'Artikel') {
                     this.ifPresentGetAndSetLeden(UUID)
-                        .then(() => this.setState({ dataLoaded: true }))
-                        .catch((err) => toast('Er is iets verkeerd gegaan'))
+                        .then(() => {
+                            this.setState({ dataLoaded: true })
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                            toast(process.env.REACT_APP_ERROR_MSG)
+                        })
                 } else {
                     this.setState({ dataLoaded: true })
                 }
             })
-            .catch((err) => toast('Er is iets verkeerd gegaan'))
+            .catch((err) => {
+                console.log(err)
+                toast(process.env.REACT_APP_ERROR_MSG)
+            })
     }
 
     componentDidUpdate(prevProps) {
@@ -261,14 +269,18 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                                             loadingNewObject: false,
                                         })
                                     )
-                                    .catch((err) =>
-                                        toast('Er is iets verkeerd gegaan')
-                                    )
+                                    .catch((err) => {
+                                        console.log(err)
+                                        toast(process.env.REACT_APP_ERROR_MSG)
+                                    })
                             } else {
                                 this.setState({ loadingNewObject: false })
                             }
                         })
-                        .catch((err) => toast('Er is iets verkeerd gegaan'))
+                        .catch((err) => {
+                            console.log(err)
+                            toast(process.env.REACT_APP_ERROR_MSG)
+                        })
                 }
             )
         }

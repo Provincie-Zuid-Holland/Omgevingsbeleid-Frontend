@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Helmet } from 'react-helmet'
 import { toast } from 'react-toastify'
+import { useHistory } from 'react-router-dom'
 
 // Import Componenents
 import ContainerMain from './../../components/ContainerMain'
@@ -12,108 +13,114 @@ import LoaderCard from './../../components/LoaderCard'
 // Import Axios instance to connect with the API
 import axios from './../../API/axios'
 
-class MuteerUniversalObjectOverzicht extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            objecten: [],
-            dataReceived: false,
-        }
-        this.getAndSetDataFromAPI = this.getAndSetDataFromAPI.bind(this)
-    }
+// Import user context
+import UserContext from './../../App/UserContext'
 
-    getAndSetDataFromAPI(ApiEndpoint) {
+const MuteerUniversalObjectOverzicht = ({ dimensieConstants }) => {
+    const { user } = React.useContext(UserContext)
+
+    const [objecten, setObjecten] = React.useState([])
+    const [isLoading, setIsLoading] = React.useState(true)
+
+    let history = useHistory()
+
+    const getAndSetDataFromAPI = (ApiEndpoint) => {
         axios
             .get(ApiEndpoint)
-            .then(res => {
+            .then((res) => {
                 let objecten = res.data
-                this.setState({
-                    objecten: objecten,
-                    dataReceived: true,
-                })
+                setObjecten(objecten)
+                setIsLoading(false)
             })
-            .catch(error => {
-                this.setState(
-                    {
-                        dataReceived: true,
-                    },
-                    () =>
-                        toast(
-                            'Er ging iets mis met het verbinden met de server. Probeer het later opnieuw.'
-                        )
-                )
+            .catch((err) => {
+                setIsLoading(false)
+                console.log(err)
+                toast(process.env.REACT_APP_ERROR_MSG)
             })
     }
 
-    componentDidMount() {
-        const apiEndpoint = this.props.dimensieConstants.API_ENDPOINT
-        this.getAndSetDataFromAPI(apiEndpoint)
-    }
+    const checkAuth = () => {
+        if (!user) return
 
-    render() {
-        // Set variabelen vanuit het meegekregen dimensie constant object
-        const dimensieConstants = this.props.dimensieConstants
-
-        const titelEnkelvoud = dimensieConstants.TITEL_ENKELVOUD
-        const titelMeervoud = dimensieConstants.TITEL_MEERVOUD
-        const overzichtSlug = dimensieConstants.SLUG_OVERZICHT
-        const createNewSlug = dimensieConstants.SLUG_CREATE_NEW
-        const hoofdOnderdeelSlug = dimensieConstants.SLUG_OVERZICHT
-
-        return (
-            <ContainerMain>
-                <Helmet>
-                    <title>Omgevingsbeleid - {'Beheer ' + titelMeervoud}</title>
-                </Helmet>
-
-                {/* Sidebar */}
-                <SidebarMain />
-
-                {/* Container */}
-                <div className="w-3/4 rounded inline-block flex-grow pl-8">
-                    <h2 className="heading-serif text-gray-800 mb-4">
-                        {titelMeervoud}
-                    </h2>
-
-                    {this.state.dataReceived ? (
-                        <ul className="flex mt-8 flex-wrap">
-                            <ButtonAddNewObject
-                                objectAantal={this.state.objecten.length}
-                                titelEnkelvoud={titelEnkelvoud}
-                                overzichtSlug={overzichtSlug}
-                                createNewSlug={createNewSlug}
-                                hoofdOnderdeelSlug={hoofdOnderdeelSlug}
-                                fullWidth={true}
-                            />
-
-                            {this.state.objecten
-                                .sort((a, b) => (a.Titel > b.Titel ? 1 : -1))
-                                .map((object, index) => (
-                                    <li
-                                        key={object.ID}
-                                        className="mb-6 w-full display-inline"
-                                    >
-                                        <CardObjectDetails
-                                            index={index}
-                                            object={object}
-                                            overzichtSlug={overzichtSlug}
-                                            titelEnkelvoud={titelEnkelvoud}
-                                            hoofdOnderdeelSlug={overzichtSlug}
-                                            hideParagraaf={true}
-                                        />
-                                    </li>
-                                ))}
-                        </ul>
-                    ) : (
-                        <React.Fragment>
-                            <LoaderCard />
-                            <LoaderCard />
-                            <LoaderCard />
-                        </React.Fragment>
-                    )}
-                </div>
-            </ContainerMain>
+        const gebruikersRol = user.Rol
+        if (
+            gebruikersRol === 'Beheerder' ||
+            gebruikersRol === 'Functioneel beheerder' ||
+            gebruikersRol === 'Technisch beheerder' ||
+            gebruikersRol === 'Test runner' ||
+            gebruikersRol === 'Tester'
         )
+            return
+
+        history.push('/muteer/mijn-beleid')
     }
+
+    React.useLayoutEffect(() => {
+        const apiEndpoint = dimensieConstants.API_ENDPOINT
+        getAndSetDataFromAPI(apiEndpoint)
+        checkAuth()
+    }, [user])
+
+    const titelEnkelvoud = dimensieConstants.TITEL_ENKELVOUD
+    const titelMeervoud = dimensieConstants.TITEL_MEERVOUD
+    const overzichtSlug = dimensieConstants.SLUG_OVERZICHT
+    const createNewSlug = dimensieConstants.SLUG_CREATE_NEW
+    const hoofdOnderdeelSlug = dimensieConstants.SLUG_OVERZICHT
+
+    return (
+        <ContainerMain>
+            <Helmet>
+                <title>Omgevingsbeleid - {'Beheer ' + titelMeervoud}</title>
+            </Helmet>
+
+            {/* Sidebar */}
+            <SidebarMain />
+
+            {/* Container */}
+            <div className="flex-grow inline-block w-3/4 pl-8 rounded">
+                <h2 className="mb-4 text-gray-800 heading-serif">
+                    {titelMeervoud}
+                </h2>
+
+                {!isLoading ? (
+                    <ul className="flex flex-wrap mt-8">
+                        <ButtonAddNewObject
+                            objectAantal={objecten.length}
+                            titelEnkelvoud={titelEnkelvoud}
+                            overzichtSlug={overzichtSlug}
+                            createNewSlug={createNewSlug}
+                            hoofdOnderdeelSlug={hoofdOnderdeelSlug}
+                            fullWidth={true}
+                        />
+
+                        {objecten
+                            .sort((a, b) => (a.Titel > b.Titel ? 1 : -1))
+                            .map((object, index) => (
+                                <li
+                                    key={object.ID}
+                                    className="w-full mb-6 display-inline"
+                                >
+                                    <CardObjectDetails
+                                        index={index}
+                                        object={object}
+                                        overzichtSlug={overzichtSlug}
+                                        titelEnkelvoud={titelEnkelvoud}
+                                        hoofdOnderdeelSlug={overzichtSlug}
+                                        hideParagraaf={true}
+                                    />
+                                </li>
+                            ))}
+                    </ul>
+                ) : (
+                    <React.Fragment>
+                        <LoaderCard />
+                        <LoaderCard />
+                        <LoaderCard />
+                    </React.Fragment>
+                )}
+            </div>
+        </ContainerMain>
+    )
 }
+
 export default MuteerUniversalObjectOverzicht
