@@ -128,9 +128,9 @@ function FormFieldContainerBeleidsbeslissingen({
                 beschrijving="Het werkingsgebied geeft het gebied weer waarin de beleidsbeslissing werking heeft. Het gebied waar binnen bepaalde activiteiten gestimuleerd worden, of toegestaan zijn. Maar ook het gebied waar binnen bepaalde activiteiten juist niet zijn toegestaan. Heeft jouw beleidsbeslissing nog geen geschikt werkingsgebied, ontwikkel er dan een met iemand van Team GEO."
             >
                 <FormFieldWerkingsgebiedKoppeling
-                    handleChange={handleChange}
+                    setWerkingsgebiedInParentState={handleChange}
+                    werkingsgebiedInParentState={crudObject['WerkingsGebieden']}
                     titelEnkelvoud={titelEnkelvoud}
-                    fieldValue={crudObject['WerkingsGebieden']}
                     fieldLabel="Selecteer werkingsgebied"
                     dataObjectProperty="WerkingsGebieden"
                     pValue="Selecteer hier het werkingsgebied wat bij deze beleidsbeslissing past."
@@ -149,7 +149,7 @@ function FormFieldContainerBeleidsbeslissingen({
                     fieldValue={crudObject['Belangen']}
                     fieldLabel="Koppelingen"
                     dataObjectProperty="Koppelingen"
-                    pValue="Aan welke ambities, opgaven, artikelen uit de verordening, maatregelen en nadere beleidsregels heeft deze beleidsbeslissing een koppeling?"
+                    pValue="Aan welke ambities, opgaven, artikelen uit de verordening, maatregelen en beleidsregels heeft deze beleidsbeslissing een koppeling?"
                     titelEnkelvoud={titelEnkelvoud}
                     voegKoppelingRelatieToe={voegKoppelingRelatieToe}
                     wijzigKoppelingRelatie={wijzigKoppelingRelatie}

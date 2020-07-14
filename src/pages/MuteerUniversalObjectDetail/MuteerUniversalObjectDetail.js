@@ -155,17 +155,18 @@ class MuteerUniversalObjectDetail extends Component {
 
                 this.setState({ dataObject: dataObject, dataReceived: true })
             })
-            .catch((error) => {
-                if (error.response !== undefined) {
+            .catch((err) => {
+                if (err.response !== undefined) {
                     this.setState(
                         {
                             dataReceived: true,
                         },
                         () => {
-                            if (error.response.status === 404) {
+                            if (err.response.status === 404) {
                                 this.props.history.push(
                                     `/muteer/${this.props.overzichtSlug}`
                                 )
+                                console.log(err)
                                 toast(
                                     `Deze ${this.props.dataModel.variables.Titel_Enkelvoud.toLowerCase()} kon niet gevonden worden`
                                 )
@@ -177,7 +178,10 @@ class MuteerUniversalObjectDetail extends Component {
                         {
                             dataReceived: true,
                         },
-                        () => toast(`Er is iets misgegaan`)
+                        () => {
+                            console.log(err)
+                            toast(process.env.REACT_APP_ERROR_MSG)
+                        }
                     )
                 }
             })

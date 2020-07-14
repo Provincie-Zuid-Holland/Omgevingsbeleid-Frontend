@@ -1,4 +1,5 @@
 module.exports = {
+    purge: ['./src/**/*.js'],
     theme: {
         extend: {
             colors: {
@@ -7,6 +8,8 @@ module.exports = {
                 },
                 primary: {
                     default: '#002f65',
+                    darker: '#00234c',
+                    'super-light': '#ececf3',
                 },
                 secondary: {
                     default: '#CC9900',

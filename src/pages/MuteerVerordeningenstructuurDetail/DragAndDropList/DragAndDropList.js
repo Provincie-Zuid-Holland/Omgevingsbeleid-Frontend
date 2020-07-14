@@ -4,114 +4,105 @@ import { Link } from 'react-router-dom'
 
 import DragAndDropListNested from './../DragAndDropListNested'
 import AddSection from './../AddSection'
-import DndTitle from './../DndTitle'
+import VerordeningObjectContent from './../VerordeningObjectContent'
+
+// TODO: Remove DndTitle (refactored into VerordeningObjectContent)
 
 function DragAndDropList({
     onDragEnd,
     items,
-    dragBool,
-    voegSectieToeMode,
+    userIsEditingOrder,
+    userIsEditingSections,
     hoofdstukIndex,
     verordeningID,
     hoofdstukVolgnummer,
 }) {
     return (
-        <DragDropContext onDragEnd={onDragEnd}>
-            {voegSectieToeMode ? (
-                <AddSection
-                    hoofdstukIndex={hoofdstukIndex}
-                    nest_1={0}
-                    nest_2={null}
-                    nest_3={null}
-                    type={'Bovenste'}
-                />
-            ) : null}
-            <Droppable droppableId="droppable" type="droppableItem">
-                {(provided, snapshot) => (
-                    <div
-                        ref={provided.innerRef}
-                        className={
-                            snapshot.isDraggingOver ? 'bg-gray-200' : 'bg-white'
-                        }
-                    >
-                        {items.map((item, index) => (
-                            <Draggable
-                                isDragDisabled={!dragBool}
-                                key={item.UUID}
-                                draggableId={item.UUID}
-                                index={index}
-                            >
-                                {(provided, snapshot) => (
-                                    <div
-                                        id="dnd-container"
-                                        ref={provided.innerRef}
-                                        {...provided.draggableProps}
-                                        {...provided.dragHandleProps}
-                                    >
-                                        <Link
-                                            to={
-                                                !dragBool && !voegSectieToeMode
-                                                    ? `/muteer/verordeningen/${verordeningID}/${
-                                                          item.Type
-                                                      }/${
-                                                          item.UUID
-                                                      }?hoofdstuk=${hoofdstukIndex}&nest_1=${index}&nest_2=${null}&nest_3=${null}`
-                                                    : null
-                                            }
-                                            className={`w-full block bg-white hover:bg-gray-100 border-none hover:border-t hover:border-b hover:border-gray-300 ${
-                                                snapshot.isDragging
-                                                    ? 'shadow-lg'
-                                                    : ''
-                                            }
-                                            ${
-                                                dragBool || voegSectieToeMode
-                                                    ? 'cursor-default'
-                                                    : ''
-                                            }
-                                            `}
+        <div className="p-3">
+            <DragDropContext onDragEnd={onDragEnd}>
+                {userIsEditingSections ? (
+                    <AddSection
+                        hoofdstukIndex={hoofdstukIndex}
+                        nest_1={0}
+                        nest_2={null}
+                        nest_3={null}
+                        type={'Bovenste'}
+                    />
+                ) : null}
+                <Droppable droppableId="droppable" type="droppableItem">
+                    {(provided, snapshot) => (
+                        <div
+                            ref={provided.innerRef}
+                            className={
+                                snapshot.isDraggingOver
+                                    ? 'bg-gray-200'
+                                    : 'bg-white'
+                            }
+                        >
+                            {items.map((item, index) => (
+                                <Draggable
+                                    isDragDisabled={!userIsEditingOrder}
+                                    key={item.UUID}
+                                    draggableId={item.UUID}
+                                    index={index}
+                                >
+                                    {(provided, snapshot) => (
+                                        <div
+                                            id="dnd-container"
+                                            ref={provided.innerRef}
+                                            {...provided.draggableProps}
+                                            {...provided.dragHandleProps}
                                         >
-                                            <DndTitle
+                                            <VerordeningObjectContent
+                                                userIsDragging={
+                                                    snapshot.isDragging
+                                                }
+                                                userIsEditing={
+                                                    userIsEditingSections ||
+                                                    userIsEditingOrder
+                                                }
                                                 item={item}
+                                            />
+                                            <DragAndDropListNested
                                                 hoofdstukVolgnummer={
                                                     hoofdstukVolgnummer
                                                 }
-                                            />
-                                        </Link>
-                                        <DragAndDropListNested
-                                            hoofdstukVolgnummer={
-                                                hoofdstukVolgnummer
-                                            }
-                                            subVolgnummer={item.Volgnummer}
-                                            voegSectieToeMode={
-                                                voegSectieToeMode
-                                            }
-                                            verordeningID={verordeningID}
-                                            dragBool={dragBool}
-                                            subItems={item.Children}
-                                            UUID={item.UUID}
-                                            type={item.Type}
-                                            hoofdstukIndex={hoofdstukIndex}
-                                            nest_1={index}
-                                        />
-                                        {voegSectieToeMode ? (
-                                            <AddSection
+                                                subVolgnummer={item.Volgnummer}
+                                                userIsEditingSections={
+                                                    userIsEditingSections
+                                                }
+                                                verordeningID={verordeningID}
+                                                userIsEditingOrder={
+                                                    userIsEditingOrder
+                                                }
+                                                subItems={item.Children}
+                                                UUID={item.UUID}
+                                                type={item.Type}
                                                 hoofdstukIndex={hoofdstukIndex}
                                                 nest_1={index}
-                                                nest_2={0}
-                                                nest_3={null}
-                                                type={item.Type}
                                             />
-                                        ) : null}
-                                        {provided.placeholder}
-                                    </div>
-                                )}
-                            </Draggable>
-                        ))}
-                        {provided.placeholder}
-                    </div>
-                )}
-            </Droppable>
-        </DragDropContext>
+                                            {userIsEditingSections ? (
+                                                <AddSection
+                                                    hoofdstukIndex={
+                                                        hoofdstukIndex
+                                                    }
+                                                    nest_1={index}
+                                                    nest_2={0}
+                                                    nest_3={null}
+                                                    type={item.Type}
+                                                />
+                                            ) : null}
+                                            {provided.placeholder}
+                                        </div>
+                                    )}
+                                </Draggable>
+                            ))}
+                            {provided.placeholder}
+                        </div>
+                    )}
+                </Droppable>
+            </DragDropContext>
+        </div>
     )
 }
 

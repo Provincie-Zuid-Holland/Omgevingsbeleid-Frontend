@@ -1,0 +1,9 @@
+trigger:
+- dev
+
+extends:
+  template: azure-pipelines-template.yml
+  parameters:
+    env: "dev"
+    target: "obfrontenddev"
+    fa_token: $(fa_token)

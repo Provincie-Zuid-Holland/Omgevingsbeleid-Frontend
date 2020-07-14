@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import Leaflet from 'leaflet'
 import { Map, TileLayer } from 'react-leaflet'
+import { toast } from 'react-toastify'
 import Proj from 'proj4leaflet'
 import LoaderLeafletTinyViewer from './../LoaderLeafletTinyViewer'
 
@@ -99,11 +100,12 @@ export default class LeafletCardViewer extends Component {
                         }
                     )
                 })
-                .catch(function (thrown) {
-                    if (axios.isCancel(thrown)) {
-                        console.log('Request canceled -', thrown.message)
+                .catch(function (err) {
+                    if (axios.isCancel(err)) {
+                        console.log('Request canceled -', err.message)
                     } else {
-                        console.log(thrown)
+                        console.log(err)
+                        toast(process.env.REACT_APP_ERROR_MSG)
                     }
                 })
         })

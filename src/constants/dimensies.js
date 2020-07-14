@@ -1,6 +1,7 @@
 import * as AMBITIES from './ambities'
 import * as BELANGEN from './belangen'
 import * as BELEIDSREGELS from './beleidsregels'
+import * as BELEIDSRELATIES from './beleidsrelaties'
 import * as MAATREGELEN from './maatregelen'
 import * as OPGAVEN from './opgaven'
 import * as THEMAS from './themas'
@@ -13,6 +14,7 @@ export default {
     AMBITIES,
     BELANGEN,
     BELEIDSREGELS,
+    BELEIDSRELATIES,
     MAATREGELEN,
     OPGAVEN,
     THEMAS,

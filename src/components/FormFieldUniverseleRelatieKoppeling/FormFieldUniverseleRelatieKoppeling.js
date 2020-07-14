@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { toast } from 'react-toastify'
 import axios from './../../API/axios'
 
 import { faAngleDown, faEye } from '@fortawesome/free-solid-svg-icons'
@@ -384,7 +385,10 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
                     dataFromAPILoaded: true,
                 })
             })
-            .catch((err) => console.log(err))
+            .catch((err) => {
+                console.log(err)
+                toast(process.env.REACT_APP_ERROR_MSG)
+            })
     }
 
     render() {

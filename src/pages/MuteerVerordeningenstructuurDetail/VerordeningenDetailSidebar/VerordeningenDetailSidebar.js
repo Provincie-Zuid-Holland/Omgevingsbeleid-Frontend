@@ -13,8 +13,8 @@ function ListItem({
     Titel,
     item,
     children,
-    changeActiveHoofdstuk,
-    activeHoofdstuk,
+    changeActiveChapter,
+    activeChapter,
     listIndex,
     hoofdstukVolgnummer,
     hasChildren,
@@ -41,7 +41,7 @@ function ListItem({
                         ? faFileAlt
                         : display ||
                           (item.Type === 'Hoofdstuk' &&
-                              activeHoofdstuk === listIndex)
+                              activeChapter === listIndex)
                         ? faFolderOpen
                         : faFolder
                 }
@@ -50,14 +50,14 @@ function ListItem({
                 onClick={() => {
                     if (
                         item.Type === 'Hoofdstuk' &&
-                        activeHoofdstuk !== listIndex
+                        activeChapter !== listIndex
                     ) {
-                        changeActiveHoofdstuk(listIndex)
+                        changeActiveChapter(listIndex)
                     } else if (
                         item.Type === 'Hoofdstuk' &&
-                        activeHoofdstuk === listIndex
+                        activeChapter === listIndex
                     ) {
-                        changeActiveHoofdstuk(null)
+                        changeActiveChapter(null)
                     } else if (item.Type !== 'Artikel' && hasChildren) {
                         setDisplay(!display)
                     }
@@ -65,7 +65,7 @@ function ListItem({
                 className={`inline-block text-sm text-gray-800 ${
                     (hasChildren &&
                         item.Type === 'Hoofdstuk' &&
-                        activeHoofdstuk === listIndex) ||
+                        activeChapter === listIndex) ||
                     (display && hasChildren)
                         ? 'sidebar-line-left-span'
                         : ''
@@ -79,7 +79,7 @@ function ListItem({
 
                 {Titel}
             </span>
-            {(activeHoofdstuk === listIndex && item.Type === 'Hoofdstuk') ||
+            {(activeChapter === listIndex && item.Type === 'Hoofdstuk') ||
             display
                 ? children
                 : null}
@@ -88,164 +88,155 @@ function ListItem({
 }
 
 function VerordeningenDetailSidebar({
-    activeHoofdstuk,
-    changeActiveHoofdstuk,
-    dataLoaded,
+    activeChapter,
+    changeActiveChapter,
     lineage,
 }) {
     return (
-        <div className="flex-grow inline-block w-1/4 mt-5">
-            {dataLoaded ? (
-                <div className="relative pl-6">
-                    <h1
-                        className="block mb-4 text-sm text-gray-800 cursor-pointer"
-                        onClick={() => changeActiveHoofdstuk(null)}
-                    >
-                        <FontAwesomeIcon
-                            className="absolute left-0 mt-1 text-gray-700"
-                            icon={faBook}
-                        />
-                        {lineage.Titel}
-                    </h1>
-                    <ul className="relative pl-6 sidebar-line-left">
-                        {lineage.Structuur.Children.map((hoofdstuk, index) => (
-                            <ListItem
-                                activeHoofdstuk={activeHoofdstuk}
-                                hasChildren={hoofdstuk.Children.length > 0}
-                                hoofdstukVolgnummer={hoofdstuk.Volgnummer}
-                                listIndex={index}
-                                item={hoofdstuk}
-                                changeActiveHoofdstuk={changeActiveHoofdstuk}
-                                UUID={hoofdstuk.UUID}
-                                key={hoofdstuk.UUID}
-                                Titel={`Hoofdstuk ${hoofdstuk.Volgnummer} - 
+        <div className="flex-grow inline-block w-1/4">
+            <div className="relative pl-6">
+                <h1
+                    className="block mb-4 text-sm text-gray-800 cursor-pointer"
+                    onClick={() => changeActiveChapter(null)}
+                >
+                    <FontAwesomeIcon
+                        className="absolute left-0 mt-1 text-gray-700"
+                        icon={faBook}
+                    />
+                    {lineage.Titel}
+                </h1>
+                <ul className="relative pl-6 sidebar-line-left">
+                    {lineage.Structuur.Children.map((hoofdstuk, index) => (
+                        <ListItem
+                            activeChapter={activeChapter}
+                            hasChildren={hoofdstuk.Children.length > 0}
+                            hoofdstukVolgnummer={hoofdstuk.Volgnummer}
+                            listIndex={index}
+                            item={hoofdstuk}
+                            changeActiveChapter={changeActiveChapter}
+                            UUID={hoofdstuk.UUID}
+                            key={hoofdstuk.UUID}
+                            Titel={`Hoofdstuk ${hoofdstuk.Volgnummer} - 
                                     ${hoofdstuk.Titel}`}
-                            >
-                                {hoofdstuk.Children.length > 0 ? (
-                                    <ul className="relative pl-6 sidebar-line-left">
-                                        {hoofdstuk.Children.map(
-                                            (child, index) => (
-                                                <ListItem
-                                                    activeHoofdstuk={
-                                                        activeHoofdstuk
-                                                    }
-                                                    hasChildren={
-                                                        child.Children.length >
-                                                        0
-                                                    }
-                                                    hoofdstukVolgnummer={
-                                                        hoofdstuk.Volgnummer
-                                                    }
-                                                    item={child}
-                                                    listIndex={index}
-                                                    changeActiveHoofdstuk={
-                                                        changeActiveHoofdstuk
-                                                    }
-                                                    key={child.UUID}
-                                                    UUID={child.UUID}
-                                                    Titel={child.Titel}
-                                                >
-                                                    {child.Children.length >
-                                                    0 ? (
-                                                        <ul className="relative pl-6 sidebar-line-left">
-                                                            {child.Children.map(
-                                                                (
-                                                                    childOfChild,
+                        >
+                            {hoofdstuk.Children.length > 0 ? (
+                                <ul className="relative pl-6 sidebar-line-left">
+                                    {hoofdstuk.Children.map((child, index) => (
+                                        <ListItem
+                                            activeChapter={activeChapter}
+                                            hasChildren={
+                                                child.Children.length > 0
+                                            }
+                                            hoofdstukVolgnummer={
+                                                hoofdstuk.Volgnummer
+                                            }
+                                            item={child}
+                                            listIndex={index}
+                                            changeActiveChapter={
+                                                changeActiveChapter
+                                            }
+                                            key={child.UUID}
+                                            UUID={child.UUID}
+                                            Titel={child.Titel}
+                                        >
+                                            {child.Children.length > 0 ? (
+                                                <ul className="relative pl-6 sidebar-line-left">
+                                                    {child.Children.map(
+                                                        (
+                                                            childOfChild,
+                                                            index
+                                                        ) => (
+                                                            <ListItem
+                                                                activeChapter={
+                                                                    activeChapter
+                                                                }
+                                                                hasChildren={
+                                                                    childOfChild
+                                                                        .Children
+                                                                        .length >
+                                                                    0
+                                                                }
+                                                                hoofdstukVolgnummer={
+                                                                    hoofdstuk.Volgnummer
+                                                                }
+                                                                item={
+                                                                    childOfChild
+                                                                }
+                                                                listIndex={
                                                                     index
-                                                                ) => (
-                                                                    <ListItem
-                                                                        activeHoofdstuk={
-                                                                            activeHoofdstuk
-                                                                        }
-                                                                        hasChildren={
-                                                                            childOfChild
-                                                                                .Children
-                                                                                .length >
-                                                                            0
-                                                                        }
-                                                                        hoofdstukVolgnummer={
-                                                                            hoofdstuk.Volgnummer
-                                                                        }
-                                                                        item={
-                                                                            childOfChild
-                                                                        }
-                                                                        listIndex={
-                                                                            index
-                                                                        }
-                                                                        changeActiveHoofdstuk={
-                                                                            changeActiveHoofdstuk
-                                                                        }
-                                                                        key={
-                                                                            childOfChild.UUID
-                                                                        }
-                                                                        UUID={
-                                                                            childOfChild.UUID
-                                                                        }
-                                                                        Titel={
-                                                                            childOfChild.Titel
-                                                                        }
-                                                                    >
-                                                                        {childOfChild
-                                                                            .Children
-                                                                            .length >
-                                                                        0 ? (
-                                                                            <ul className="relative pl-6 sidebar-line-left">
-                                                                                {childOfChild.Children.map(
-                                                                                    (
-                                                                                        childOfChildofChild,
+                                                                }
+                                                                changeActiveChapter={
+                                                                    changeActiveChapter
+                                                                }
+                                                                key={
+                                                                    childOfChild.UUID
+                                                                }
+                                                                UUID={
+                                                                    childOfChild.UUID
+                                                                }
+                                                                Titel={
+                                                                    childOfChild.Titel
+                                                                }
+                                                            >
+                                                                {childOfChild
+                                                                    .Children
+                                                                    .length >
+                                                                0 ? (
+                                                                    <ul className="relative pl-6 sidebar-line-left">
+                                                                        {childOfChild.Children.map(
+                                                                            (
+                                                                                childOfChildofChild,
+                                                                                index
+                                                                            ) => (
+                                                                                <ListItem
+                                                                                    activeChapter={
+                                                                                        activeChapter
+                                                                                    }
+                                                                                    hasChildren={
+                                                                                        childOfChildofChild
+                                                                                            .Children
+                                                                                            .length >
+                                                                                        0
+                                                                                    }
+                                                                                    hoofdstukVolgnummer={
+                                                                                        hoofdstuk.Volgnummer
+                                                                                    }
+                                                                                    listIndex={
                                                                                         index
-                                                                                    ) => (
-                                                                                        <ListItem
-                                                                                            activeHoofdstuk={
-                                                                                                activeHoofdstuk
-                                                                                            }
-                                                                                            hasChildren={
-                                                                                                childOfChildofChild
-                                                                                                    .Children
-                                                                                                    .length >
-                                                                                                0
-                                                                                            }
-                                                                                            hoofdstukVolgnummer={
-                                                                                                hoofdstuk.Volgnummer
-                                                                                            }
-                                                                                            listIndex={
-                                                                                                index
-                                                                                            }
-                                                                                            item={
-                                                                                                childOfChildofChild
-                                                                                            }
-                                                                                            changeActiveHoofdstuk={
-                                                                                                changeActiveHoofdstuk
-                                                                                            }
-                                                                                            key={
-                                                                                                childOfChildofChild.UUID
-                                                                                            }
-                                                                                            UUID={
-                                                                                                childOfChildofChild.UUID
-                                                                                            }
-                                                                                            Titel={
-                                                                                                childOfChildofChild.Titel
-                                                                                            }
-                                                                                        />
-                                                                                    )
-                                                                                )}
-                                                                            </ul>
-                                                                        ) : null}
-                                                                    </ListItem>
-                                                                )
-                                                            )}
-                                                        </ul>
-                                                    ) : null}
-                                                </ListItem>
-                                            )
-                                        )}
-                                    </ul>
-                                ) : null}
-                            </ListItem>
-                        ))}
-                    </ul>
-                </div>
-            ) : null}
+                                                                                    }
+                                                                                    item={
+                                                                                        childOfChildofChild
+                                                                                    }
+                                                                                    changeActiveChapter={
+                                                                                        changeActiveChapter
+                                                                                    }
+                                                                                    key={
+                                                                                        childOfChildofChild.UUID
+                                                                                    }
+                                                                                    UUID={
+                                                                                        childOfChildofChild.UUID
+                                                                                    }
+                                                                                    Titel={
+                                                                                        childOfChildofChild.Titel
+                                                                                    }
+                                                                                />
+                                                                            )
+                                                                        )}
+                                                                    </ul>
+                                                                ) : null}
+                                                            </ListItem>
+                                                        )
+                                                    )}
+                                                </ul>
+                                            ) : null}
+                                        </ListItem>
+                                    ))}
+                                </ul>
+                            ) : null}
+                        </ListItem>
+                    ))}
+                </ul>
+            </div>
         </div>
     )
 }
