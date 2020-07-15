@@ -134,7 +134,11 @@ class MuteerUniversalObjectCRUD extends Component {
             .post(`${apiEndpoint}`, JSON.stringify(crudObject))
             .then((res) => {
                 this.props.history.push(
-                    `/muteer/${overzichtSlug}/${res.data.ID}`
+                    `/muteer/${overzichtSlug}/${res.data.ID}${
+                        this.props.location.hash === '#mijn-beleid'
+                            ? '#mijn-beleid'
+                            : ''
+                    }`
                 )
                 toast('Opgeslagen')
             })
