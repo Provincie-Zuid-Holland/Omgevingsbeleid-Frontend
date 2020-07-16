@@ -11,6 +11,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import UserContext from './../../../App/UserContext'
 
+const eigenaren = [
+    'Eigenaar_1',
+    'Eigenaar_2',
+    'Portefeuillehouder_1',
+    'Portefeuillehouder_2',
+    'Opdrachtgever',
+]
+
 class ViewFieldIngelogdExtraInfo extends Component {
     constructor(props) {
         super(props)
@@ -27,14 +35,8 @@ class ViewFieldIngelogdExtraInfo extends Component {
         this.getPersonenRol = this.getPersonenRol.bind(this)
     }
 
-    componentDidMount() {
-        const eigenaren = [
-            'Eigenaar_1',
-            'Eigenaar_2',
-            'Portefeuillehouder_1',
-            'Portefeuillehouder_2',
-            'Opdrachtgever',
-        ]
+    inititState = () => {
+        console.log('INIT')
         const propertiesWithValue = eigenaren.filter(
             (item) => this.props.crudObject[item] !== null
         )
@@ -90,6 +92,33 @@ class ViewFieldIngelogdExtraInfo extends Component {
         }
     }
 
+    componentDidMount() {
+        console.log('Mount')
+        this.inititState()
+    }
+
+    componentDidUpdate(prevProps) {
+        if (
+            this.props.crudObject &&
+            this.props.crudObject.UUID !== prevProps.crudObject.UUID
+        ) {
+            this.setState(
+                {
+                    dataLoaded: false,
+                    Eigenaar_1: null,
+                    Eigenaar_2: null,
+                    Portefeuillehouder_1: null,
+                    Portefeuillehouder_2: null,
+                    Opdrachtgever: null,
+                    propertiesWithValue: [],
+                },
+                () => {
+                    this.inititState()
+                }
+            )
+        }
+    }
+
     render() {
         return (
             <UserContext.Consumer>
@@ -113,10 +142,14 @@ class ViewFieldIngelogdExtraInfo extends Component {
                                                     }`}
                                                 >
                                                     <div className="flex items-center justify-center w-8 h-8 mr-1 text-xs text-white bg-yellow-400 border border-white rounded-full circle-gebruiker font-lg">
-                                                        {this.maakAfkortingVanNaam(
-                                                            this.state[item]
-                                                                .Gebruikersnaam
-                                                        )}
+                                                        {this.state[item]
+                                                            ? this.maakAfkortingVanNaam(
+                                                                  this.state[
+                                                                      item
+                                                                  ]
+                                                                      .Gebruikersnaam
+                                                              )
+                                                            : null}
 
                                                         <div className="absolute top-0 left-0 z-10 hidden inline-block px-4 py-3 mt-10 whitespace-no-wrap rounded popup-gebruikersinfo">
                                                             <div className="block mb-1 text-xs">
@@ -125,12 +158,15 @@ class ViewFieldIngelogdExtraInfo extends Component {
                                                                 )}
                                                             </div>
                                                             <div className="block text-sm font-semibold">
-                                                                {
-                                                                    this.state[
-                                                                        item
-                                                                    ]
-                                                                        .Gebruikersnaam
-                                                                }
+                                                                {this.state[
+                                                                    item
+                                                                ]
+                                                                    ? this
+                                                                          .state[
+                                                                          item
+                                                                      ]
+                                                                          .Gebruikersnaam
+                                                                    : null}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -155,6 +191,7 @@ class ViewFieldIngelogdExtraInfo extends Component {
                                     </a>
                                 ) : null}
                             </div>
+                            {console.log(context)}
                             {(context &&
                                 context.user &&
                                 context.user.UUID &&
