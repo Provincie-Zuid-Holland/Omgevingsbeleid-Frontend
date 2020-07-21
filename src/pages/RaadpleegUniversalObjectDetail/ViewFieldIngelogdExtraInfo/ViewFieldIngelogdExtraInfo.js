@@ -36,7 +36,7 @@ class ViewFieldIngelogdExtraInfo extends Component {
     }
 
     inititState = () => {
-        console.log('INIT')
+
         const propertiesWithValue = eigenaren.filter(
             (item) => this.props.crudObject[item] !== null
         )
@@ -93,7 +93,7 @@ class ViewFieldIngelogdExtraInfo extends Component {
     }
 
     componentDidMount() {
-        console.log('Mount')
+
         this.inititState()
     }
 
@@ -135,6 +135,7 @@ class ViewFieldIngelogdExtraInfo extends Component {
                                         (item, index) =>
                                             this.state.dataLoaded ? (
                                                 <li
+                                                    key={item}
                                                     className={`relative ${
                                                         index === 0
                                                             ? ''
@@ -172,13 +173,13 @@ class ViewFieldIngelogdExtraInfo extends Component {
                                                     </div>
                                                 </li>
                                             ) : (
-                                                <LoaderSmallCircle />
+                                                <LoaderSmallCircle key={item} />
                                             )
                                     )}
                                 </ul>
                                 {this.props.crudObject['Weblink'] ? (
                                     <a
-                                        href={`//${this.props.crudObject['Weblink']}`}
+                                        href={this.props.crudObject['Weblink']}
                                         target="_blank"
                                         className="text-sm font-semibold text-gray-600 hover:underline"
                                         rel="noopener noreferrer"

@@ -314,7 +314,7 @@ class App extends Component {
                         <LoaderContent />
                     )}
 
-                    <ToastContainer position="bottom-left" />
+                    <ToastContainer limit={1} position="bottom-left" />
                 </main>
             </UserContext.Provider>
         )
