@@ -22,6 +22,7 @@ import Transition from './../../components/Transition'
 
 // Utils
 import formatGeldigheidDatesForUI from './../../utils/formatGeldigheidDatesForUI'
+import formatGeldigheidDatesForAPI from './../../utils/formatGeldigheidDatesForAPI'
 
 // Verordening Components
 import DragAndDropFirstLevel from './DragAndDropFirstLevel'
@@ -811,8 +812,6 @@ const MuteerVerordeningenstructuurDetail = () => {
         // Func to strip away the extra properties in order to patch it
         const cleanUpProperties = (object) => {
             // Remove values that are not accepted by the API
-            delete object.Begin_Geldigheid
-            delete object.Eind_Geldigheid
             delete object.Created_By
             delete object.Created_Date
             delete object.Modified_By
@@ -923,7 +922,9 @@ const MuteerVerordeningenstructuurDetail = () => {
             setLineage(newLineage)
         }
 
-        const newRegulationObject = cleanUpProperties(verordeningsObjectFromGET)
+        const newRegulationObject = cleanUpProperties(
+            formatGeldigheidDatesForAPI(verordeningsObjectFromGET)
+        )
 
         axiosPatchRegulationObject(newRegulationObject).then((res) => {
             let patchedRegulationObject = res.data
@@ -942,7 +943,9 @@ const MuteerVerordeningenstructuurDetail = () => {
                         return axios
                             .patch(`verordeningen/${lidID}`, cleanedUpLid)
                             .then((res) => {
-                                const object = res.data
+                                const object = formatGeldigheidDatesForUI(
+                                    res.data
+                                )
                                 return {
                                     Inhoud: object.Inhoud,
                                     Type: object.Type,
