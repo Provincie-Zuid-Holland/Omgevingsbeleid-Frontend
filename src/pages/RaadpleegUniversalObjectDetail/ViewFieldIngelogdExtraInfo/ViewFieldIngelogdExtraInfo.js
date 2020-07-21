@@ -190,7 +190,6 @@ class ViewFieldIngelogdExtraInfo extends Component {
                                     </a>
                                 ) : null}
                             </div>
-
                             {(context &&
                                 context.user &&
                                 context.user !== null &&
