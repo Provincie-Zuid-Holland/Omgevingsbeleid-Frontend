@@ -55,7 +55,7 @@ function Artikel({
                         users={users}
                         label={'Eerste eigenaar'}
                         property={'Eigenaar_1'}
-                        filter={['Beleidseigenaar', 'Behandelend ambtenaar']}
+                        filter={['Beleidseigenaar', 'Behandelend Ambtenaar']}
                         setVerordeningsObjectFromGET={
                             setVerordeningsObjectFromGET
                         }
@@ -65,7 +65,7 @@ function Artikel({
                         users={users}
                         label={'Tweede eigenaar'}
                         property={'Eigenaar_2'}
-                        filter={['Beleidseigenaar', 'Behandelend ambtenaar']}
+                        filter={['Beleidseigenaar', 'Behandelend Ambtenaar']}
                         setVerordeningsObjectFromGET={
                             setVerordeningsObjectFromGET
                         }
