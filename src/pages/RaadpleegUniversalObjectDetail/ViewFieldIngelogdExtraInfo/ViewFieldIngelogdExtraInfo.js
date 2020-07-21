@@ -36,6 +36,7 @@ class ViewFieldIngelogdExtraInfo extends Component {
     }
 
     inititState = () => {
+
         const propertiesWithValue = eigenaren.filter(
             (item) => this.props.crudObject[item] !== null
         )
@@ -92,6 +93,7 @@ class ViewFieldIngelogdExtraInfo extends Component {
     }
 
     componentDidMount() {
+
         this.inititState()
     }
 
@@ -190,6 +192,7 @@ class ViewFieldIngelogdExtraInfo extends Component {
                                     </a>
                                 ) : null}
                             </div>
+                            {console.log(context)}
                             {(context &&
                                 context.user &&
                                 context.user.UUID &&
