@@ -349,7 +349,7 @@ export default class LeafletHalfScreenWidthViewer extends Component {
                             onDeleteStop={this._onDeleteStop}
                             draw={{
                                 marker: true,
-                                polygon: true,
+                                polygon: false,
                                 circle: false,
                                 rectangle: false,
                                 polyline: false,
@@ -357,8 +357,6 @@ export default class LeafletHalfScreenWidthViewer extends Component {
                             }}
                         />
                     </FeatureGroup>
-
-                    {/* L.Proj.GeoJson */}
                 </Map>
             </React.Fragment>
         )

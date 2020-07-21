@@ -183,6 +183,11 @@ $base-color: #002f65;
     background-color: #ffffff;
 }
 
+.leaflet-bar a:last-child {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
 // !REFACTOR! Vieze important statement maar nu geen tijd ivm deadline :-(
 .custom-popup {
     a {
@@ -601,7 +606,7 @@ $base-color: #002f65;
         display: none;
     }
 
-    .leaflet-touch .leaflet-draw-actions {
+    .leaflet-draw-actions {
         // overwrite inline styling set by Leaflet :-(
         left: 41px !important;
     }

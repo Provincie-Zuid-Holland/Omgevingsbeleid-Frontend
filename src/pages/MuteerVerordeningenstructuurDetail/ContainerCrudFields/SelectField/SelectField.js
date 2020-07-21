@@ -11,12 +11,20 @@ const SelectField = ({
     selected,
 }) => {
     const selectedUserUUID = verordeningsObjectFromGET[property]
+
     const selectedUserObj = users
         .filter((e) => e.Rol !== 'Geen')
         .find((e) => e.UUID === selectedUserUUID)
+
     const selectedUserUsername = selectedUserObj
         ? selectedUserObj.Gebruikersnaam
         : ''
+
+    if (!Array.isArray(filter)) {
+        filter = [filter]
+    }
+
+    const filteredUsers = users.filter((user) => filter.includes(user.Rol))
 
     return (
         <div className="mb-4">
@@ -54,18 +62,16 @@ const SelectField = ({
                     }
                     styles={customStyles}
                     isClearable={true}
-                    options={users
-                        .filter((user) => user.Rol === filter)
-                        .map((user) => {
-                            return {
-                                label: user.Gebruikersnaam,
+                    options={filteredUsers.map((user) => {
+                        return {
+                            label: user.Gebruikersnaam,
+                            value: user.UUID,
+                            target: {
                                 value: user.UUID,
-                                target: {
-                                    value: user.UUID,
-                                    name: property,
-                                },
-                            }
-                        })}
+                                name: property,
+                            },
+                        }
+                    })}
                     placeholder={`Selecteer...`}
                 />
             </div>
