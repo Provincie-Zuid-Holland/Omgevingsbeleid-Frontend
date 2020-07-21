@@ -193,7 +193,7 @@ class ContainerDetail extends Component {
                             </div>
                             {dataObject['Weblink'] ? (
                                 <a
-                                    href={`//${dataObject['Weblink']}`}
+                                    href={dataObject['Weblink']}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     id="href-idms-koppeling"
