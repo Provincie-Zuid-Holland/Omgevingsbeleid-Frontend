@@ -127,6 +127,7 @@ class LoginForm extends Component {
                     localStorage.setItem('__OB_token_date__', tokenTime)
                     this.resetLoadingState()
                     this.props.setLoginState(true)
+                    this.props.setLoginUser(identifier)
                     this.props.history.push('/muteer/dashboard')
                 }
             })
