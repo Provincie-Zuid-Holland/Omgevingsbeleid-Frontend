@@ -108,6 +108,7 @@ class App extends Component {
             this
         )
         this.setLoginState = this.setLoginState.bind(this)
+        this.setLoginUser = this.setLoginUser.bind(this)
         this.listenForExpiredSession = this.listenForExpiredSession.bind(this)
     }
 
@@ -115,6 +116,12 @@ class App extends Component {
     setLoginState(loginState) {
         this.setState({
             loggedIn: loginState,
+        })
+    }
+
+    setLoginUser(identifier) {
+        this.setState({
+            user: identifier,
         })
     }
 
@@ -290,6 +297,7 @@ class App extends Component {
                                 path="/login"
                                 render={() => (
                                     <Login
+                                        setLoginUser={this.setLoginUser}
                                         setLoginState={this.setLoginState}
                                         history={this.props.history}
                                     />

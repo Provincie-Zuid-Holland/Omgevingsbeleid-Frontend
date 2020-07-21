@@ -190,14 +190,20 @@ class ViewFieldIngelogdExtraInfo extends Component {
                                     </a>
                                 ) : null}
                             </div>
+
                             {(context &&
                                 context.user &&
+                                context.user !== null &&
                                 context.user.UUID &&
                                 this.props.crudObject.Created_By ===
                                     context.user.UUID) ||
-                            this.state.Eigenaar_1 === context.user.UUID ||
-                            this.state.Eigenaar_2 === context.user.UUID ||
-                            this.state.Opdrachtgever === context.user.UUID ? (
+                            (context.user &&
+                                this.state.Eigenaar_1 === context.user.UUID) ||
+                            (context.user &&
+                                this.state.Eigenaar_2 === context.user.UUID) ||
+                            (context.user &&
+                                this.state.Opdrachtgever ===
+                                    context.user.UUID) ? (
                                 <Link
                                     to={`/muteer/beleidsbeslissingen/${this.props.crudObject.ID}`}
                                     className="px-3 py-2 text-xs font-semibold tracking-wide border rounded cursor-pointer m-color m-base-border-color"
