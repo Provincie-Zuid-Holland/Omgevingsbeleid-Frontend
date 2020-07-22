@@ -68,11 +68,6 @@ export const CRUD_PROPERTIES = {
         required: ['Ontwerp', 'Vastgesteld', 'Gepubliceerd'],
         requiredMessage: 'Vul het aanleiding veld in',
     },
-    Afweging: {
-        initValue: '',
-        required: ['Ontwerp', 'Vastgesteld', 'Gepubliceerd'],
-        requiredMessage: 'Vul het afwegingen veld in',
-    },
     Provinciaal_Belang: {
         initValue: '',
         required: ['Ontwerp', 'Vastgesteld', 'Gepubliceerd'],
