@@ -1,8 +1,6 @@
 import React from 'react'
 import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFieldTitelEnBeschrijving'
 
-import debounce from './../../functions/debounce'
-
 class FormFieldTextArea extends React.Component {
     constructor(props) {
         super(props)

@@ -3,10 +3,10 @@ import React from 'react'
 function FormFieldTitelEnBeschrijving(props) {
     return (
         <React.Fragment>
-            <h3 className="block tracking-wide text-gray-700 font-bold mb-2">
+            <h3 className="block mb-2 font-bold tracking-wide text-gray-700">
                 {props.fieldLabel ? props.fieldLabel : null}
             </h3>
-            <p className="text-gray-700 text-sm mb-4">
+            <p className="mb-4 text-sm text-gray-700">
                 {props.pValue ? `${props.pValue} ` : ''}
                 {props.anchorText ? (
                     <a

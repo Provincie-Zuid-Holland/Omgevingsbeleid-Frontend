@@ -11,7 +11,7 @@ function BeginGeldigheid({
     handleChange,
 }) {
     return (
-        <div className="px-3 mb-6">
+        <div className="w-full px-3 mb-6">
             <FormFieldTitelEnBeschrijving
                 dataObjectProperty={dataObjectProperty}
                 fieldLabel={fieldLabel}
@@ -23,7 +23,7 @@ function BeginGeldigheid({
                 value={fieldValue ? fieldValue : ''}
                 onChange={handleChange}
                 name={dataObjectProperty}
-                className="appearance-none block w-full text-gray-700 border border-gray-400 focus:border-gray-500 hover:border-gray-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
+                className="block w-full px-4 py-3 leading-tight text-gray-700 border border-gray-400 rounded appearance-none focus:border-gray-500 hover:border-gray-500 focus:outline-none focus:bg-white"
                 type="date"
                 id={`form-field-${titelEnkelvoud.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
             />
@@ -43,10 +43,10 @@ function EindGeldigheid({
     handleChange,
 }) {
     return (
-        <div className="px-3 mb-6">
+        <div className="w-full px-3 mb-6">
             {hideToggleUitwerkingstrede ? null : (
                 <span
-                    className="text-sm text-gray-700 underline mb-6 w-full block select-none cursor-pointer"
+                    className="block w-full mb-6 text-sm text-gray-700 underline cursor-pointer select-none"
                     id="toggle-uitwerkingtreding"
                     onClick={toggleUitwerkingTreding}
                 >
@@ -68,7 +68,7 @@ function EindGeldigheid({
                         onChange={handleChange}
                         name={dataObjectProperty}
                         placeholder="dd-mm-jjjj"
-                        className="appearance-none block w-full text-gray-700 border border-gray-400 focus:border-gray-500 hover:border-gray-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
+                        className="block w-full px-4 py-3 leading-tight text-gray-700 border border-gray-400 rounded appearance-none focus:border-gray-500 hover:border-gray-500 focus:outline-none focus:bg-white"
                         type="date"
                         id={`form-field-${titelEnkelvoud.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
                     />
