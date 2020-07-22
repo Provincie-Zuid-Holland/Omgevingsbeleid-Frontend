@@ -97,7 +97,6 @@ class PopupNieuweKoppeling extends Component {
             })
         }
 
-        console.log(this.state.objecten)
         const filteredObjecten = this.state.objecten
             .filter(
                 (item) =>
