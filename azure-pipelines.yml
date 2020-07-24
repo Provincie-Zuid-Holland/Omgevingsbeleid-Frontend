@@ -1,9 +1,28 @@
 trigger:
-- dev
+  - dev
 
-extends:
-  template: azure-pipelines-template.yml
-  parameters:
-    env: "dev"
-    target: "obfrontenddev"
-    fa_token: $(fa_token)
+pr: none
+
+pool:
+  vmImage: "windows-latest"
+
+jobs:
+  - job: Build
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: "10.x"
+      displayName: "Install Node.js"
+
+    - script: npm config set "@fortawesome:registry" https://npm.fontawesome.com/ && npm config set "//npm.fontawesome.com/:_authToken" $(fa_token)
+      displayName: "FA token"
+    - script: npm install
+      displayName: "Install dependencies"
+    - script: Set REACT_APP_API_ENV=dev
+      displayName: "Set env"
+    - script: npm run-script build
+      displayName: "Build"
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: $(System.DefaultWorkingDirectory)/build
+        ArtifactName: BuildedApp_$(Build.SourceVersion)
