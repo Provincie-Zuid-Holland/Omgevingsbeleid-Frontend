@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import 'url-search-params-polyfill'
 
 // The parameter compInNavigation
-const SearchBar = ({ width, compInNavigation }) => {
+const SearchBar = ({ width, exactWidth, compInNavigation, placeholder }) => {
     const location = useLocation()
     const history = useHistory()
 
@@ -56,14 +56,19 @@ const SearchBar = ({ width, compInNavigation }) => {
     return (
         <div
             ref={node}
-            className={`relative block ${width ? width : 'w-full'}`}
+            className={`relative block ${
+                width && !exactWidth ? width : exactWidth ? '' : 'w-full'
+            }`}
+            style={
+                exactWidth
+                    ? {
+                          width: exactWidth,
+                      }
+                    : {}
+            }
         >
             <input
-                className={`block w-full pr-10 form-input sm:text-sm sm:leading-5 ${
-                    searchQuery.length > 0 && searchBarPopupOpen
-                        ? 'rounded-b-none'
-                        : ''
-                }`}
+                className={`block w-full pr-10 bg-gray-50 rounded-full text-gray-700 appearance-none px-5 py-2 border border-gray-200  sm:text-sm sm:leading-5`}
                 name="searchInput"
                 onChange={(e) => {
                     setSearchQuery(e.target.value)
@@ -76,7 +81,9 @@ const SearchBar = ({ width, compInNavigation }) => {
                 id="search-query"
                 type="text"
                 value={searchQuery}
-                placeholder="Zoeken op artikelnummer, etc."
+                placeholder={
+                    placeholder ? placeholder : 'Zoeken op artikelnummer, etc.'
+                }
                 onKeyDown={(e) => {
                     if (e.keyCode === 13) {
                         // Enter
@@ -84,13 +91,14 @@ const SearchBar = ({ width, compInNavigation }) => {
                         history.push(`/zoekresultaten?query=${searchQuery}`)
                     } else if (e.keyCode === 40 && searchQuery.length > 0) {
                         // Arrow Down
+                        e.preventDefault()
                         document.querySelectorAll(`[data-index='0']`)[0].focus()
                     }
                 }}
             />
             <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                 <FontAwesomeIcon
-                    className="ml-2 text-gray-400"
+                    className="ml-2 text-gray-500"
                     icon={faSearch}
                 />
             </div>
@@ -141,7 +149,7 @@ function SearchBarPopupItem({
     return (
         <li key={index} className={`relative`}>
             <Link
-                className={`px-5 w-full relative inline-block hover:bg-gray-50 focus:bg-gray-50 focus:shadow-outline cursor-pointer py-2`}
+                className={`text-gray-700 px-5 w-full relative inline-block hover:bg-gray-50 focus:bg-gray-50 focus:shadow-outline focus:rounded cursor-pointer py-2`}
                 to={`/zoekresultaten?query=${value}${
                     filterQuery ? `&only=${filterQuery}` : ''
                 }`}
@@ -151,9 +159,11 @@ function SearchBarPopupItem({
                 onKeyDown={(e) => {
                     if (e.keyCode === 40) {
                         // Arrow down
+                        e.preventDefault()
                         selectQueryDataItem('next', arrayLength)
                     } else if (e.keyCode === 38) {
                         // Arrow up
+                        e.preventDefault()
                         selectQueryDataItem('previous', arrayLength)
                     }
                 }}
@@ -206,34 +216,36 @@ function SearchBarPopup({ searchInput, setSearchBarPopupOpen }) {
             name: 'verordeningen',
         },
         {
-            name: 'beleidsbeslissingen',
+            name: 'beleidskeuzes',
         },
     ]
 
     return (
-        <ul
-            className="absolute top-0 w-full text-sm text-gray-700 bg-white border border-gray-300 rounded-b shadow"
+        <div
+            className="absolute top-0 w-full px-5"
             id="main-search-result-container"
         >
-            <SearchBarPopupItem
-                setSearchBarPopupOpen={setSearchBarPopupOpen}
-                dataIndex={0}
-                key={0}
-                value={searchInput}
-            />
-            {filters.map((item, index) => (
+            <ul className="text-sm text-gray-700 bg-white border border-gray-300 rounded-b shadow">
                 <SearchBarPopupItem
-                    value={searchInput}
-                    filterQuery={item.name}
-                    key={item.name}
-                    dataIndex={index + 1}
-                    index={item.name}
-                    filter={true}
                     setSearchBarPopupOpen={setSearchBarPopupOpen}
-                    arrayLength={filters.length}
+                    dataIndex={0}
+                    key={0}
+                    value={searchInput}
                 />
-            ))}
-        </ul>
+                {filters.map((item, index) => (
+                    <SearchBarPopupItem
+                        value={searchInput}
+                        filterQuery={item.name}
+                        key={item.name}
+                        dataIndex={index + 1}
+                        index={item.name}
+                        filter={true}
+                        setSearchBarPopupOpen={setSearchBarPopupOpen}
+                        arrayLength={filters.length}
+                    />
+                ))}
+            </ul>
+        </div>
     )
 }
 
