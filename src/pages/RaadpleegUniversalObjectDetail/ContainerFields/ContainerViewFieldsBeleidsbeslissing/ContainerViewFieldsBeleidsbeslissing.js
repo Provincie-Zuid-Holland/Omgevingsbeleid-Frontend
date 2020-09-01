@@ -16,7 +16,6 @@ class ContainerViewFieldsBeleidsbeslissing extends Component {
             <UserContext.Consumer>
                 {(context) => (
                     <React.Fragment>
-                        {console.log(context)}
                         {context && context.user ? (
                             <ViewFieldIngelogdExtraInfo
                                 crudObject={crudObject}
