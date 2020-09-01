@@ -6,7 +6,6 @@ module.exports = {
         roundedFull: ['responsive', 'focus'],
         margin: ['responsive', 'group-hover'],
     },
-    plugins: [require('@tailwindcss/typography')],
     theme: {
         extend: {
             colors: {
