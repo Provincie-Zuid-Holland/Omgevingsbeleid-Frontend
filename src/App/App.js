@@ -38,7 +38,6 @@ import LoaderContent from './../components/LoaderContent'
 import PopupWelcomeBeta from './../components/PopupWelcomeBeta'
 import PopUpAnimatedContainer from './../components/PopUpAnimatedContainer'
 import PopupReauthenticate from './../components/PopupReauthenticate'
-import Transition from './../components/Transition'
 
 // Import Context
 import UserContext from './UserContext'
@@ -76,7 +75,7 @@ const detailPaginas = [
         dataModel: allDimensies.MAATREGELEN,
     },
     {
-        slug: 'beleidsbeslissingen',
+        slug: 'beleidskeuzes',
         dataModel: allDimensies.BELEIDSBESLISSINGEN,
     },
     {

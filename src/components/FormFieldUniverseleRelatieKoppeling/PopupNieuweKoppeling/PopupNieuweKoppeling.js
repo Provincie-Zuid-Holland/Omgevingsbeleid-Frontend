@@ -158,7 +158,7 @@ class PopupNieuweKoppeling extends Component {
                     <React.Fragment>
                         <p className="form-field-description">
                             Zoek en selecteer {koppelTekst} welke je wilt
-                            koppelen met de beleidsbeslissing '
+                            koppelen met de beleidskeuze '
                             {this.props.titelMainObject}'
                         </p>
                         <div className="relative block w-full mt-4 mb-6">

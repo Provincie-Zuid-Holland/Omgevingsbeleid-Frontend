@@ -39,8 +39,8 @@ class PopUpBewerkKoppeling extends Component {
 
                 <p className="form-field-description">
                     Beschrijf de koppeling tussen het nationaal belang '
-                    {this.props.bewerkItem.item.data.Titel}' en de
-                    beleidsbeslissing '{this.props.titelMainObject}'
+                    {this.props.bewerkItem.item.data.Titel}' en de beleidskeuze
+                    '{this.props.titelMainObject}'
                 </p>
                 <p className="mt-4 form-field-description">
                     Beschrijf zo concreet mogelijk de relatie

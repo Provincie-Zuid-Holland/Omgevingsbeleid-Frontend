@@ -290,6 +290,10 @@ class RaadpleegZoekResultatenOverzicht extends Component {
             searchQuery: searchQuery,
         })
 
+        if (searchFiltersOnly === 'beleidskeuzes') {
+            searchFiltersOnly = 'beleidsbeslissingen'
+        }
+
         axios
             .get(
                 `/search?query=${searchQuery}&limit=10${

@@ -399,7 +399,7 @@ class MuteerUniversalObjectCRUD extends Component {
                                         />
                                     ) : null}
 
-                                    {titelEnkelvoud === 'Beleidsbeslissing' ? (
+                                    {titelEnkelvoud === 'Beleidskeuze' ? (
                                         <FormFieldContainerBeleidsbeslissingen
                                             titelEnkelvoud={titelEnkelvoud}
                                             crudObject={crudObject}

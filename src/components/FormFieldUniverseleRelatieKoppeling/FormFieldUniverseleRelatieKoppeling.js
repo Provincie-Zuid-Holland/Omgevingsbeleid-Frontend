@@ -412,8 +412,8 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
                         </h3>
                         <p className="mb-8 text-sm text-gray-700">
                             Een relatie ga je, met wederzijds goedkeuren, aan
-                            met andere beleidsbeslissingen. Deze beleidsrelaties
-                            kun je op een later moment aangaan vanuit de
+                            met andere beleidskeuzes. Deze beleidsrelaties kun
+                            je op een later moment aangaan vanuit de
                             beheeromgeving onder het kopje 'Beleidsrelaties'.
                         </p>
                     </React.Fragment>

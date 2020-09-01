@@ -93,11 +93,11 @@ class MijnBeleid extends Component {
                     <React.Fragment>
                         {!this.props.hideToevoegen ? (
                             <ButtonAddNewObject
-                                titelEnkelvoud={'Beleidsbeslissing'}
+                                titelEnkelvoud={'Beleidskeuze'}
                                 createNewSlug={
-                                    'nieuwe-beleidsbeslissing#mijn-beleid'
+                                    'nieuwe-beleidskeuze#mijn-beleid'
                                 }
-                                hoofdOnderdeelSlug={'beleidsbeslissingen'}
+                                hoofdOnderdeelSlug={'beleidskeuzes'}
                                 fullWidth={true}
                             />
                         ) : null}

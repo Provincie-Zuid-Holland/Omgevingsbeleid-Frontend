@@ -14,7 +14,7 @@ const menuItemsOmgevingsbeleid = {
 }
 
 const menuItemsBeheer = {
-    Beleidsbeslissingen: { url: '/muteer/beleidsbeslissingen', finished: true },
+    Beleidskeuzes: { url: '/muteer/beleidskeuzes', finished: true },
     // Beleidsrelaties: { url: '/muteer/beleidsrelaties', finished: true },
     Beleidsregels: { url: '/muteer/beleidsregels', finished: true },
     Maatregelen: { url: '/muteer/maatregelen', finished: true },

@@ -98,7 +98,6 @@ export default class LeafletTinyViewer extends Component {
                                 },
                             })
 
-                            // !Refactor!
                             jsonLayer.addTo(leafletMap.leafletElement)
                             const bounds = jsonLayer.getBounds()
                             if (!bounds.isValid()) return
@@ -110,6 +109,47 @@ export default class LeafletTinyViewer extends Component {
                             })
                         }
                     )
+                })
+                .catch((err) => {
+                    if (axios.isCancel(err)) {
+                        console.log('Request canceled -', err.message)
+                    } else {
+                        console.log(err)
+                        toast(process.env.REACT_APP_ERROR_MSG)
+                    }
+                })
+        })
+
+        import('./../../API/axiosGeoJSON').then((api) => {
+            api.getOnderverdeling(this.props.gebiedType, this.props.gebiedUUID)
+                .then((data) => {
+                    console.log(data)
+                    // this.setState(
+                    //     {
+                    //         dataReceived: true,
+                    //     },
+                    //     () => {
+                    //         const leafletMap = this.leafletMap.current
+                    //         const jsonLayer = Leaflet.Proj.geoJson(data, {
+                    //             style: (feature) => {
+                    //                 return {
+                    //                     stroke: true,
+                    //                     fillColor: '#3388ff',
+                    //                     fillOpacity: 0.1,
+                    //                 }
+                    //             },
+                    //         })
+                    //         // !Refactor!
+                    //         jsonLayer.addTo(leafletMap.leafletElement)
+                    //         const bounds = jsonLayer.getBounds()
+                    //         if (!bounds.isValid()) return
+                    //         // leafletMap.fitBounds(jsonLayer.getBounds())
+                    //         this.setState({
+                    //             bounds: jsonLayer.getBounds(),
+                    //             boundsObject: jsonLayer,
+                    //         })
+                    //     }
+                    // )
                 })
                 .catch((err) => {
                     if (axios.isCancel(err)) {
