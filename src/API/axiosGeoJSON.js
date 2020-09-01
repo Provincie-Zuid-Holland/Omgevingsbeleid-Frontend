@@ -26,6 +26,15 @@ const getGeoJsonData = async (type, UUID, cancelToken) => {
     return data
 }
 
+const getOnderverdeling = async (type, UUID) => {
+    let res = await instance.get(
+        `https://geo-omgevingsbeleid-test.azurewebsites.net/OMGEVINGSBELEID/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=OMGEVINGSBELEID%3AWerkingsgebieden_Onderverdeling&maxFeatures=50&outputFormat=application%2Fjson&cql_filter=UUID%20IN%20(%27${UUID}%27)`,
+        { cancelToken: source.token }
+    )
+    const data = res.data
+    return data
+}
+
 const getWerkingsGebieden = async (pointA, pointB) => {
     let res = await instance.get(
         `ows?service=wfs&version=1.1.0&request=GetFeature&outputFormat=application/json&typeName=OMGEVINGSBELEID:Werkingsgebieden&cql_filter=INTERSECTS(Shape, POINT (${pointA} ${pointB}))&propertyName=UUID,Gebied`
@@ -45,4 +54,10 @@ instance.interceptors.request.use(function (config) {
 })
 
 export default instance
-export { getGeoJsonData, getWerkingsGebieden, cancelRequest, api_version }
+export {
+    getGeoJsonData,
+    getOnderverdeling,
+    getWerkingsGebieden,
+    cancelRequest,
+    api_version,
+}
