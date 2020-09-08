@@ -8,14 +8,15 @@ import CreatableSelect from 'react-select/creatable'
 class FormFieldTags extends Component {
     constructor(props) {
         super(props)
-        // selectionArray: JSON.parse(this.props.fieldValue) || [],
         let selectionArray = ''
         if (this.props.fieldValue) {
-            try {
-                selectionArray = JSON.parse(this.props.fieldValue)
-            } catch (err) {
-                console.log(err)
-            }
+            selectionArray = this.props.fieldValue.split(',')
+            selectionArray = selectionArray.map((e) => {
+                return {
+                    value: e,
+                    label: e,
+                }
+            })
         }
         this.state = {
             selectionArray: selectionArray,
@@ -29,19 +30,20 @@ class FormFieldTags extends Component {
             this.setState({
                 selectionArray: newValue,
             })
+            const tags = newValue.map((i) => i.label).join(', ')
             const event = {
                 target: {
                     name: 'Tags',
-                    value: JSON.stringify(newValue),
+                    value: tags,
                 },
             }
-            this.props.handleChange(event)
+            this.props.handleChange(event, actionMeta)
         }
     }
 
     render() {
         return (
-            <div className="flex flex-wrap -mx-3">
+            <div className="w-full">
                 <div className="w-full px-3 mb-6">
                     <FormFieldTitelEnBeschrijving
                         dataObjectProperty={this.props.dataObjectProperty}
@@ -55,7 +57,8 @@ class FormFieldTags extends Component {
                         onChange={this.handleChange}
                         value={this.state.selectionArray}
                         placeholder={'Type hier uw tag(s)'}
-                        theme={theme => ({
+                        className="py-2"
+                        theme={(theme) => ({
                             ...theme,
                             borderRadius: '0.25rem',
                             colors: {
@@ -63,26 +66,13 @@ class FormFieldTags extends Component {
                                 primary: '#a0aec0',
                             },
                         })}
-                        noOptionsMessage={inputValue =>
+                        noOptionsMessage={(inputValue) =>
                             'Nog geen bestaande tags'
                         }
-                        formatCreateLabel={inputValue =>
+                        formatCreateLabel={(inputValue) =>
                             `Creëer de tag '${inputValue}'`
                         }
                     />
-                    {/* <input
-                        required
-                        // value={this.props.fieldValue}
-                        // onChange={this.props.handleChange}
-                        onChange={this.handleChange}
-                        value={this.state.fieldValue}
-                        onKeyPress={this.handleTagsChange}
-                        name={this.props.dataObjectProperty}
-                        className="appearance-none block w-full text-gray-700 border border-gray-400 rounded py-3 px-4 leading-tight focus:outline-none hover:border-gray-500 focus:border-gray-500"
-                        id="titel"
-                        type="text"
-                        placeholder={this.props.fieldLabel}
-                    /> */}
                 </div>
             </div>
         )
