@@ -4,10 +4,6 @@ trigger:
   - acc
   - production
 
-
-pool:
-  vmImage: "windows-latest"
-
 jobs:
   - job: Build
     steps:
