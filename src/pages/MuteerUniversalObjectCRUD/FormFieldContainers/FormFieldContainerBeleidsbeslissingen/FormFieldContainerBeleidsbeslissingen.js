@@ -62,15 +62,15 @@ function FormFieldContainerBeleidsbeslissingen({
             </ContainerFormSection>
 
             <ContainerFormSection
-                titel="Omschrijving werking beleidskeuze"
-                beschrijving="De werking van een beleidskeuze geeft aan in welke context en vanuit welke achtergrond de provincie hier beleid op voert."
+                titel="Toelichting Beleidskeuze"
+                beschrijving="Geef verdere inhoudelijke motivering van de beleidskeuze. Licht daarnaast conflicterende relaties met andere beleidskeuzes toe en beschrijf hoe hiermee wordt omgegaan."
             >
                 <FormFieldTextArea
                     handleChange={handleChange}
                     fieldValue={crudObject['Omschrijving_Werking']}
-                    fieldLabel="Werking"
+                    fieldLabel="Toelichting"
                     dataObjectProperty="Omschrijving_Werking"
-                    pValue="Wat is de werking van de beleidskeuze?"
+                    pValue="Verdere inhoudelijke motivering en de conflicterende relaties"
                     titelEnkelvoud={titelEnkelvoud}
                 />
             </ContainerFormSection>
@@ -85,14 +85,6 @@ function FormFieldContainerBeleidsbeslissingen({
                     fieldLabel="Aanleiding"
                     dataObjectProperty="Aanleiding"
                     pValue="Wat was de aanleiding voor de beleidskeuze?"
-                    titelEnkelvoud={titelEnkelvoud}
-                />
-                <FormFieldTextArea
-                    handleChange={handleChange}
-                    fieldValue={crudObject['Afweging']}
-                    fieldLabel="Afwegingen"
-                    dataObjectProperty="Afweging"
-                    pValue="Welke afwegingen hebben tot deze beleidskeuze geleid?"
                     titelEnkelvoud={titelEnkelvoud}
                 />
                 <FormFieldTextArea
