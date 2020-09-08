@@ -1,5 +1,5 @@
 trigger:
-  - test
+  - dev
 
 pr: none
 
@@ -18,11 +18,11 @@ jobs:
       displayName: "FA token"
     - script: npm install
       displayName: "Install dependencies"
-    - script: Set REACT_APP_API_ENV=test
+    - script: Set REACT_APP_API_ENV=dev
       displayName: "Set env"
-    - script: npm run-script build
+    - script: npm run-script prod:build
       displayName: "Build"
     - task: PublishBuildArtifacts@1
       inputs:
         PathtoPublish: $(System.DefaultWorkingDirectory)/build
-        ArtifactName: Test_Build_$(Build.SourceVersion)
+        ArtifactName: Dev_Build_$(Build.SourceVersion)
