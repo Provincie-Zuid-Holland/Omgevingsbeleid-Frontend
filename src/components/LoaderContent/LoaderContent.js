@@ -10,7 +10,7 @@ function LoaderContent() {
             id="loader-spinner"
             className="fixed top-0 left-0 z-50 flex items-center justify-center w-screen h-screen pointer-events-none"
         >
-            <div class="loader loader--style8" title="7">
+            <div className="loader loader--style8" title="7">
                 <svg
                     version="1.1"
                     id="Layer_1"
@@ -21,7 +21,7 @@ function LoaderContent() {
                     width="24px"
                     height="30px"
                     viewBox="0 0 24 30"
-                    style={{ enableBackground: 'new 0 0 50 50;' }}
+                    style={{ enableBackground: 'new 0 0 50 50' }}
                     xmlSpace="preserve"
                 >
                     <rect

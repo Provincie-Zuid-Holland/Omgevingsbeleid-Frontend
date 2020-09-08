@@ -2,7 +2,6 @@ import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import isToday from 'date-fns/isToday'
 import parseISO from 'date-fns/parseISO'
-import { toast } from 'react-toastify'
 
 import { faEye, faSignInAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'

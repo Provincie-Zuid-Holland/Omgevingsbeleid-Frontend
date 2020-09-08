@@ -178,7 +178,7 @@ const WerkingsgebiedPopup = ({
 }) => {
     const [filterQuery, setFilterQuery] = React.useState('')
     const [isLoading, setIsLoading] = React.useState(true)
-    const [werkingsgebieden, setWerkingsgebieden] = React.useState(null)
+    const [werkingsgebieden, setWerkingsgebieden] = React.useState([])
 
     const getAndSetWerkingsgebieden = () => {
         axios
@@ -190,6 +190,7 @@ const WerkingsgebiedPopup = ({
             .catch((err) => {
                 console.log(err)
                 toast(process.env.REACT_APP_ERROR_MSG)
+                setWerkingsgebieden([])
                 setIsLoading(false)
             })
     }
@@ -236,9 +237,8 @@ const WerkingsgebiedPopup = ({
                         </div>
 
                         <div className="grid h-screen grid-cols-2 gap-4 pb-2 pr-2 overflow-x-hidden overflow-y-auto werkingsgebied-container">
-                            {isLoading
-                                ? null
-                                : werkingsgebieden
+                            {!isLoading && werkingsgebieden
+                                ? werkingsgebieden
                                       .filter((e) =>
                                           e.Werkingsgebied.toLowerCase().includes(
                                               filterQuery.toLowerCase()
@@ -296,7 +296,8 @@ const WerkingsgebiedPopup = ({
                                                   </span>
                                               </div>
                                           )
-                                      })}
+                                      })
+                                : null}
                         </div>
                     </div>
                 </div>

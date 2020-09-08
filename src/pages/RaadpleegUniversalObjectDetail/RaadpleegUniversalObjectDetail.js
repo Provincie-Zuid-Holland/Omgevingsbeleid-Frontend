@@ -305,7 +305,7 @@ const BackButton = ({ fromPage, searchQuery }) => {
                     ? fromPage
                     : '/'
             }
-            className={`text-gray-500 mb-4 inline-block hover:underline`}
+            className={`text-gray-500 hover:text-gray-800 transition-colors duration-150 ease-in mb-4 inline-block`}
             id="button-back-to-previous-page"
         >
             <FontAwesomeIcon className="mr-2" icon={faArrowLeft} />
@@ -329,7 +329,7 @@ const Werkingsgebied = ({
                     className="px-2 text-xs cursor-pointer"
                     onClick={toggleFullscreenLeafletViewer}
                 >
-                    Bekijk in het groot
+                    Bekijk in het {fullscreenLeafletViewer ? 'klein' : 'groot'}
                     <FontAwesomeIcon
                         className="ml-2 text-gray-700"
                         icon={faExternalLinkAlt}

@@ -3,6 +3,7 @@ module.exports = {
     variants: {
         pointerEvents: ['responsive', 'hover'],
         display: ['responsive', 'hover', 'group-hover'],
+        textDecoration: ['responsive', 'hover', 'focus', 'group-hover'],
         roundedFull: ['responsive', 'focus'],
         margin: ['responsive', 'group-hover'],
     },
