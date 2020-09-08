@@ -18,7 +18,7 @@ jobs:
       displayName: "Install dependencies"
     - script: REACT_APP_API_ENV=$(Build.SourceBranchName)
       displayName: "Set env"
-    - script: npm run-script prod:build
+    - script: npm run-script build
       displayName: "Build"
     - task: PublishBuildArtifacts@1
       inputs:
