@@ -350,7 +350,9 @@ class MuteerUniversalObjectCRUD extends Component {
                 <Helmet>
                     <title>
                         {editStatus
-                            ? `Omgevingsbeleid - ${objectTitel}`
+                            ? `Omgevingsbeleid - ${
+                                  objectTitel ? objectTitel : ''
+                              }`
                             : `Omgevingsbeleid - Voeg een nieuwe ${titelEnkelvoud} toe`}
                     </title>
                 </Helmet>
@@ -397,7 +399,7 @@ class MuteerUniversalObjectCRUD extends Component {
                                         />
                                     ) : null}
 
-                                    {titelEnkelvoud === 'Beleidsbeslissing' ? (
+                                    {titelEnkelvoud === 'Beleidskeuze' ? (
                                         <FormFieldContainerBeleidsbeslissingen
                                             titelEnkelvoud={titelEnkelvoud}
                                             crudObject={crudObject}

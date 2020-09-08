@@ -122,16 +122,6 @@ function Hoofdstuk({
                     >
                         Werkingsgebied
                     </label>
-                    {/* <FormFieldWerkingsgebiedKoppeling
-                        handleChange={() => console.log("Joe")}
-                        titelEnkelvoud={"Test"}
-                        fieldValue={
-                            null
-                        }
-                        fieldLabel="Selecteer werkingsgebied"
-                        dataObjectProperty="WerkingsGebieden"
-                        pValue="Selecteer hier het werkingsgebied wat bij deze beleidsbeslissing past."
-                    /> */}
                     <Werkingsgebied
                         setVerordeningsObjectFromGET={
                             setVerordeningsObjectFromGET

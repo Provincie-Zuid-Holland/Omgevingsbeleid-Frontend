@@ -30,8 +30,8 @@ function EditAddOrderSection({
         const heightAddOrderBar = addOrderBar.offsetHeight
 
         const navigationMain = document.getElementById('navigation-main')
-        const heightNavigation =
-            navigationMain.offsetTop + navigationMain.offsetHeight
+        const heightNavigation = 0
+        // navigationMain.offsetTop + navigationMain.offsetHeight
 
         setHeightAddOrderBar({
             height: heightAddOrderBar,

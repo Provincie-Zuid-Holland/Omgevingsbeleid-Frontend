@@ -30,7 +30,7 @@ class PopupBewerkKoppeling extends Component {
             <PopUpAnimatedContainer>
                 <div
                     onClick={this.props.togglePopup}
-                    className="cursor-pointer absolute right-0 top-0 text-gray-600 px-3 py-2"
+                    className="absolute top-0 right-0 px-3 py-2 text-gray-600 cursor-pointer"
                     id={`form-field-beleidsrelatie-sluit-popup`}
                 >
                     <FontAwesomeIcon icon={faTimes} />
@@ -45,10 +45,10 @@ class PopupBewerkKoppeling extends Component {
 
                 <p className="form-field-description">
                     Beschrijf de koppeling tussen het nationaal belang '
-                    {this.props.bewerkItem.item.data.Titel}' en de
-                    beleidsbeslissing '{this.props.titelMainObject}'
+                    {this.props.bewerkItem.item.data.Titel}' en de beleidskeuze
+                    '{this.props.titelMainObject}'
                 </p>
-                <p className="form-field-description mt-4">
+                <p className="mt-4 form-field-description">
                     Beschrijf zo concreet mogelijk de relatie
                 </p>
                 <textarea
@@ -57,14 +57,14 @@ class PopupBewerkKoppeling extends Component {
                     id={`form-field-beleidsrelatie-beschrijving`}
                     onChange={this.handleChange}
                     name="omschrijving"
-                    className="appearance-none block w-full text-gray-700 border border-gray-400 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white hover:border-gray-500 focus:border-gray-500 h-24"
+                    className="block w-full h-24 px-4 py-3 leading-tight text-gray-700 border border-gray-400 rounded appearance-none focus:outline-none focus:bg-white hover:border-gray-500 focus:border-gray-500"
                     type="text"
                 />
-                <div className="flex justify-between items-center mt-6">
+                <div className="flex items-center justify-between mt-6">
                     <div>
                         <span
                             tabIndex="0"
-                            className="text-gray-600 cursor-pointer text-sm underline"
+                            className="text-sm text-gray-600 underline cursor-pointer"
                             onClick={this.props.togglePopup}
                             id={`form-field-beleidsrelatie-annuleren`}
                         >
@@ -72,7 +72,7 @@ class PopupBewerkKoppeling extends Component {
                         </span>
                         <span
                             tabIndex="0"
-                            className="text-red-600 cursor-pointer text-sm underline ml-4"
+                            className="ml-4 text-sm text-red-600 underline cursor-pointer"
                             onClick={() => {
                                 this.props.verwijderKoppelingRelatieToe(
                                     this.props.bewerkItem
@@ -94,7 +94,7 @@ class PopupBewerkKoppeling extends Component {
                                 : `hover:underline`
                         }`}
                         tabIndex="0"
-                        onClick={e => {
+                        onClick={(e) => {
                             if (this.state.omschrijving.length > 0) {
                                 this.props.wijzigKoppelingRelatie(
                                     this.props.bewerkItem,
@@ -109,7 +109,7 @@ class PopupBewerkKoppeling extends Component {
                                 return
                             }
                         }}
-                        onKeyPress={e => {
+                        onKeyPress={(e) => {
                             if (
                                 e.key === 'Enter' &&
                                 this.state.omschrijving.length > 0

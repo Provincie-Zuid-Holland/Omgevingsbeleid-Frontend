@@ -14,8 +14,8 @@ function checkRequiredFields(crudObject, dimensieConstants, titelEnkelvoud) {
     let alleVeldenIngevuld = true
 
     // De beleidsbeslissingen bevatten niet een boolean property met de required waarde, maar een array met de statussen waarin dat property verplicht is
-    if (titelEnkelvoud === 'Beleidsbeslissing') {
-        crudObjectProperties.forEach(property => {
+    if (titelEnkelvoud === 'Beleidskeuze') {
+        crudObjectProperties.forEach((property) => {
             if (
                 dimensieConstants.CRUD_PROPERTIES[property] &&
                 dimensieConstants.CRUD_PROPERTIES[property].required.includes(
@@ -26,7 +26,7 @@ function checkRequiredFields(crudObject, dimensieConstants, titelEnkelvoud) {
             }
         })
     } else {
-        crudObjectProperties.forEach(property => {
+        crudObjectProperties.forEach((property) => {
             if (
                 dimensieConstants.CRUD_PROPERTIES[property] &&
                 dimensieConstants.CRUD_PROPERTIES[property].required

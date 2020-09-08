@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import 'url-search-params-polyfill'
 
+import { faArrowLeft } from '@fortawesome/pro-regular-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 // Import API
 import axios from './../../API/axios'
 
@@ -70,7 +73,7 @@ function SearchResultItem({ item, searchQuery }) {
             content: {
                 __html: omschrijving.replace(
                     new RegExp(query, 'g'),
-                    `<span class="search-highlight">${query}</span>`
+                    `<mark class="marked-red">${query}</mark>`
                 ),
             },
         }
@@ -93,6 +96,7 @@ function SearchResultItem({ item, searchQuery }) {
     return (
         <li className="py-5 border-b border-gray-300" key={item.UUID}>
             <Link
+                className="group"
                 to={
                     item.Type === 'Verordeningen'
                         ? `/detail/verordeningen/1/${item.UUID}?hoofdstuk=${
@@ -115,24 +119,24 @@ function SearchResultItem({ item, searchQuery }) {
                         : `/detail/${overzichtURL}/${item.UUID}#${searchQuery}`
                 }
             >
-                <h2 className="block font-serif text-gray-800 text-l">
-                    {content.Titel}
-                </h2>
-                <span className="block text-sm italic text-gray-600">
+                <span className="block text-sm text-gray-600">
                     {titelEnkelvoud}
                 </span>
+                <h2 className="block text-lg font-semibold text-primary group-hover:underline">
+                    {content.Titel}
+                </h2>
                 {content.Omschrijving.setInnerHTML ? (
                     <p
-                        className="mt-2 text-sm text-gray-700"
+                        className="mt-2 text-gray-700"
                         dangerouslySetInnerHTML={content.Omschrijving.content}
                     ></p>
                 ) : content.Omschrijving.content &&
                   content.Omschrijving.content.length > 0 ? (
-                    <p className="mt-2 text-sm text-gray-700">
+                    <p className="mt-2 text-gray-700">
                         {content.Omschrijving.content}
                     </p>
                 ) : (
-                    <p className="mt-2 text-sm italic text-gray-700">
+                    <p className="mt-2 italic text-gray-700">
                         Er is nog geen omschrijving voor deze
                         {' ' + titelEnkelvoud.toLowerCase()}
                     </p>
@@ -290,6 +294,10 @@ class RaadpleegZoekResultatenOverzicht extends Component {
             searchQuery: searchQuery,
         })
 
+        if (searchFiltersOnly === 'beleidskeuzes') {
+            searchFiltersOnly = 'beleidsbeslissingen'
+        }
+
         axios
             .get(
                 `/search?query=${searchQuery}&limit=10${
@@ -307,7 +315,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                 )
 
                 this.setState({
-                    searchFiltersOnly: searchFiltersOnly,
+                    // searchFiltersOnly: searchFiltersOnly,
                     searchResults: searchResultsWithVerordeningsPositions,
                     dataLoaded: true,
                 })
@@ -455,18 +463,27 @@ class RaadpleegZoekResultatenOverzicht extends Component {
         return (
             <div className="container flex px-6 pb-8 mx-auto mt-12">
                 <div className="w-1/4">
-                    <ButtonBackToPage
-                        terugNaar="startpagina"
-                        url={
+                    <Link
+                        to={
                             this.state.searchQuery
                                 ? `/?query=${this.state.searchQuery}`
                                 : `/`
                         }
-                    />
-                    <h2 className="block mt-6 font-serif text-gray-700 text-l">
+                        className={`text-gray-600 hover:text-gray-700 text-sm mb-4 inline-block group`}
+                        id="button-back-to-previous-page"
+                    >
+                        <FontAwesomeIcon className="mr-2" icon={faArrowLeft} />
+                        <span>Startpagina</span>
+                    </Link>
+
+                    <h2 className="block text-lg font-semibold text-primary group-hover:underline">
                         Filteren
                     </h2>
                     <ul className="mt-4">
+                        <span className="block mb-2 font-semibold text-gray-900">
+                            Visie
+                        </span>
+
                         {this.state.onPageFilters.filterArray &&
                         this.state.onPageFilters.filterArray.length > 0
                             ? this.state.onPageFilters.filterArray.map(
@@ -493,7 +510,11 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                                                   name={item}
                                               />
                                               <span>
-                                                  {item} (
+                                                  {item ===
+                                                  'Beleidsbeslissingen'
+                                                      ? 'Beleidskeuzes'
+                                                      : item}
+                                                  (
                                                   {
                                                       this.state.onPageFilters[
                                                           item
@@ -510,13 +531,12 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                 </div>
 
                 <div className="w-2/4">
-                    <span className="text-sm text-gray-600">
-                        Zoekresultaten voor
+                    <span className="block text-xl font-bold opacity-25 text-primary-super-dark">
                         {this.state.searchQuery
-                            ? ` "${this.state.searchQuery}"`
+                            ? `Zoekresultaten voor "${this.state.searchQuery}"`
                             : null}
                         {this.state.geoSearchQuery
-                            ? ` coördinaten "${this.state.geoSearchQuery}"`
+                            ? `Zoekresultaten voor coördinaten "${this.state.geoSearchQuery}"`
                             : null}
                     </span>
                     <ul>

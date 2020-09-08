@@ -4,7 +4,7 @@ import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFi
 class FormFieldTextInput extends React.Component {
     render() {
         return (
-            <div className="-mx-3 w-full px-3 mb-6">
+            <div className="w-full mb-6">
                 <FormFieldTitelEnBeschrijving
                     dataObjectProperty={this.props.dataObjectProperty}
                     fieldLabel={this.props.fieldLabel}
@@ -17,7 +17,7 @@ class FormFieldTextInput extends React.Component {
                     value={this.props.fieldValue ? this.props.fieldValue : ''}
                     onChange={this.props.handleChange}
                     name={this.props.dataObjectProperty}
-                    className="appearance-none block w-full text-gray-700 border border-gray-400 rounded py-3 px-4 leading-tight focus:outline-none hover:border-gray-500 focus:border-gray-500"
+                    className="block w-full px-4 py-3 leading-tight text-gray-700 border border-gray-400 rounded appearance-none focus:outline-none hover:border-gray-500 focus:border-gray-500"
                     type="text"
                     placeholder={this.props.fieldLabel}
                 />

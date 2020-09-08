@@ -1,5 +1,6 @@
 html {
     height: 100%;
+    overflow: auto;
 }
 
 body {
@@ -112,10 +113,10 @@ $base-color: #002f65;
     background-position: center center;
     background-repeat: no-repeat;
     display: block;
-    height: 79px;
-    width: 79px;
+    height: 69px;
+    width: 69px;
     position: absolute;
-    margin-top: -26px;
+    margin-top: -34px;
 }
 
 .logo-tekst {
@@ -124,11 +125,16 @@ $base-color: #002f65;
     background-position: left center;
     background-repeat: no-repeat;
     display: block;
-    height: 32px;
-    width: 250px;
+    height: 24px;
+    width: 121px;
     position: absolute;
-    margin-top: -14px;
-    margin-left: 90px;
+    margin-top: -12px;
+    margin-left: 85px;
+}
+
+.beta-badge {
+    margin-left: 13rem;
+    margin-top: -0.9rem;
 }
 
 #main-container {
@@ -398,12 +404,14 @@ $base-color: #002f65;
     }
 }
 
-#half-screen-leaflet-container
-    .leaflet-control-container
-    .leaflet-control-zoom {
-    position: fixed;
+#leaflet-homepage .leaflet-control-container .leaflet-control-zoom {
+    position: absolute;
     right: 10px;
-    bottom: 30px;
+    bottom: 10px;
+}
+
+#leaflet-homepage .leaflet-control-container .leaflet-top.leaflet-left {
+    height: 100%;
 }
 
 .leaflet-control-layers-toggle {
@@ -684,8 +692,11 @@ $base-color: #002f65;
     }
 }
 
-.odd-pr-6:nth-child(odd) {
-    padding-right: 1.5rem;
+.odd-pr-3:nth-child(odd) {
+    padding-right: 0.75rem;
+}
+.even-pl-3:nth-child(even) {
+    padding-left: 0.75rem;
 }
 
 .DraftEditor-root :global(.public-DraftEditor-content) {
@@ -888,4 +899,157 @@ $base-color: #002f65;
 
 .duration-0 {
     transition-duration: 1ms;
+}
+
+.d3-tooltip {
+    position: absolute;
+    text-align: left;
+    white-space: normal;
+    padding: 4px;
+    font-size: 14px;
+    background: tan;
+    border: 1px solid gray;
+}
+
+#d3-tooltip {
+    &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 0 10px 10px 10px;
+        border-color: transparent transparent rgba(26, 32, 44, 100) transparent;
+        top: -10px;
+        z-index: 10;
+        right: calc(50% - 10px);
+    }
+    &:after {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 25px;
+        height: 35px;
+        top: -34px;
+        z-index: 10;
+        right: calc(50% - 12.5px);
+    }
+}
+
+mark {
+    &.marked-purple,
+    &.marked-orange,
+    &.marked-red {
+        padding: 0px 2px;
+    }
+
+    &.marked-purple {
+        background-color: #dadae8;
+    }
+    &.marked-orange {
+        background-color: #f8f1da;
+    }
+    &.marked-red {
+        background-color: #f1dad9;
+    }
+}
+
+#leaflet-homepage {
+    height: 500px;
+    width: 100%;
+    max-width: 64rem;
+    border-radius: 0.25rem;
+}
+
+.shadow-navigation {
+    box-shadow: 0 25px 50px -12px rgba(218, 218, 232, 0.75);
+}
+
+.soft-shadow-navigation {
+    box-shadow: 0 4px 6px -1px rgba(218, 218, 232, 0.4),
+        0 2px 4px -1px rgba(218, 218, 232, 0.4);
+}
+
+.hide-nav {
+    top: -150px;
+}
+
+.image-home-1 {
+    background-image: url('../images/image-home-1.png');
+}
+.image-home-2 {
+    background-image: url('../images/image-home-2.png');
+}
+.image-home-3 {
+    background-image: url('../images/image-home-3.png');
+}
+
+.quill-container {
+    .ql-toolbar.ql-snow {
+        padding: 0px;
+        border-top-left-radius: 0.25rem;
+        border-top-right-radius: 0.25rem;
+        background: white;
+        border-color: rgba(203, 213, 224, var(--border-opacity));
+        button {
+            height: 32px;
+            width: 36px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 6px;
+            &.ql-active {
+                color: #002f65;
+            }
+            .ql-fill {
+                fill: #4a5568;
+            }
+        }
+        .ql-formats {
+            display: flex;
+            .ql-header,
+            .ql-bold,
+            .ql-list {
+                border-right: 1px solid
+                    rgba(203, 213, 224, var(--border-opacity));
+            }
+        }
+    }
+    .editor.ql-container.ql-snow {
+        padding-bottom: 0.25rem;
+        border-bottom-left-radius: 0.25rem;
+        border-bottom-right-radius: 0.25rem;
+        background: white;
+        border-color: rgba(203, 213, 224, var(--border-opacity));
+        font-family: inherit;
+        .ql-editor {
+            color: #4a5568;
+            line-height: 1.25;
+            font-size: 1rem;
+            h2 {
+                font-size: 1.125rem;
+                margin-top: 10px;
+                margin-bottom: 5px;
+            }
+        }
+    }
+}
+
+#leaflet-tiny-viewer {
+    .leaflet-control {
+        margin-right: 0px;
+    }
+    .leaflet-control {
+        margin-top: 0px;
+    }
+    .leaflet-control-zoom.leaflet-control {
+        margin-right: 10px;
+    }
+    .leaflet-control-zoom.leaflet-control {
+        margin-top: 10px;
+    }
+    .leaflet-control-layers {
+        display: none;
+    }
 }

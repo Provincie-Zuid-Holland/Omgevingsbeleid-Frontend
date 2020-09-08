@@ -92,16 +92,28 @@ class MijnBeleid extends Component {
                 {this.state.dataReceived ? (
                     <React.Fragment>
                         {!this.props.hideToevoegen ? (
-                            <ButtonAddNewObject
-                                titelEnkelvoud={'Beleidsbeslissing'}
-                                createNewSlug={
-                                    'nieuwe-beleidsbeslissing#mijn-beleid'
-                                }
-                                hoofdOnderdeelSlug={'beleidsbeslissingen'}
-                                fullWidth={true}
-                            />
+                            <div className="flex">
+                                <div className="w-full mr-6">
+                                    <ButtonAddNewObject
+                                        titelEnkelvoud={'Beleidskeuze'}
+                                        createNewSlug={
+                                            'nieuwe-beleidskeuze#mijn-beleid'
+                                        }
+                                        hoofdOnderdeelSlug={'beleidskeuzes'}
+                                        fullWidth={true}
+                                    />
+                                </div>
+                                <ButtonAddNewObject
+                                    titelEnkelvoud={'Maatregel'}
+                                    createNewSlug={
+                                        'nieuwe-maatregel#mijn-beleid'
+                                    }
+                                    hoofdOnderdeelSlug={'maatregelen'}
+                                    fullWidth={true}
+                                />
+                            </div>
                         ) : null}
-                        <ul className="flex flex-wrap mt-8">
+                        <ul className="flex flex-wrap mt-5">
                             {this.state.objecten.length > 0 &&
                             !this.state.objecten.every(
                                 (x) => x === undefined
@@ -122,7 +134,7 @@ class MijnBeleid extends Component {
                                         return (
                                             <li
                                                 key={item.object.UUID}
-                                                className={`mb-6 w-1/2 display-inline odd-pr-6`}
+                                                className={`mb-6 w-1/2 display-inline odd-pr-3 even-pl-3`}
                                             >
                                                 {
                                                     <CardObjectDetailsHalfWidth

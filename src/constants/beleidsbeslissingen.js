@@ -1,8 +1,8 @@
-export const TITEL_ENKELVOUD = 'Beleidsbeslissing'
-export const TITEL_MEERVOUD = 'Beleidsbeslissingen'
+export const TITEL_ENKELVOUD = 'Beleidskeuze'
+export const TITEL_MEERVOUD = 'Beleidskeuzes'
 export const API_ENDPOINT = 'beleidsbeslissingen'
-export const SLUG_OVERZICHT = 'beleidsbeslissingen'
-export const SLUG_CREATE_NEW = 'nieuwe-beleidsbeslissing'
+export const SLUG_OVERZICHT = 'beleidskeuzes'
+export const SLUG_CREATE_NEW = 'nieuwe-beleidskeuze'
 
 // De required property bevat de statussen waarin de property verplicht is om in te vullen
 // De type property bevat de type van het veld. Op basis hiervan wordt de veld validatie gedaan
@@ -56,22 +56,17 @@ export const CRUD_PROPERTIES = {
     Omschrijving_Keuze: {
         initValue: '',
         required: ['Ontwerp', 'Vastgesteld', 'Gepubliceerd'],
-        requiredMessage: 'Vul de omschrijving van de beleidsbeslissing in',
+        requiredMessage: 'Vul de omschrijving van de beleidskeuze in',
     },
     Omschrijving_Werking: {
         initValue: '',
         required: ['Ontwerp', 'Vastgesteld', 'Gepubliceerd'],
-        requiredMessage: 'Vul de werking van de beleidsbeslissing in',
+        requiredMessage: 'Vul de werking van de beleidskeuze in',
     },
     Aanleiding: {
         initValue: '',
         required: ['Ontwerp', 'Vastgesteld', 'Gepubliceerd'],
         requiredMessage: 'Vul het aanleiding veld in',
-    },
-    Afweging: {
-        initValue: '',
-        required: ['Ontwerp', 'Vastgesteld', 'Gepubliceerd'],
-        requiredMessage: 'Vul het afwegingen veld in',
     },
     Provinciaal_Belang: {
         initValue: '',
@@ -151,7 +146,7 @@ export const CRUD_PROPERTIES = {
             'Vastgesteld',
             'Gepubliceerd',
         ],
-        requiredMessage: 'Zorg dat de beleidsbeslissing een status heeft',
+        requiredMessage: 'Zorg dat de beleidskeuze een status heeft',
     },
     Tags: {
         initValue: '',

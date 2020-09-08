@@ -1,37 +1,18 @@
 import React from 'react'
 
-function ViewFieldTitelEnInhoud(props) {
-    if (!props.fieldValue) {
-        return (
-            <div className="mb-6">
-                <h2 className="block mb-2 font-serif text-lg tracking-wide text-gray-700">
-                    {props.fieldTitel}
-                </h2>
-                <p className={`text-gray-700 text-sm mb-4 italic`}>
-                    Er is nog geen inhoud
-                </p>
-            </div>
-        )
-    }
-
-    // Split on \n new lines
-    const arrayOfParagraphs = props.fieldValue.split(/\r?\n/g)
-
+function ViewFieldTitelEnInhoud({ fieldValue, fieldTitel }) {
     return (
-        <div className="mb-6">
-            <h2 className="block mb-2 font-serif text-lg tracking-wide text-gray-700">
-                {props.fieldTitel}
+        <div className="mb-8">
+            <h2 className="block mb-1 text-lg font-semibold tracking-wide text-gray-800">
+                {fieldTitel}
             </h2>
-            {arrayOfParagraphs.map((item, index) => (
-                <p
-                    key={index}
-                    className={`text-gray-700 break-words text-sm ${
-                        index === arrayOfParagraphs.length ? 'mb-4' : 'mb-2'
-                    }`}
-                >
-                    {item}
-                </p>
-            ))}
+            <p
+                className={`text-gray-800 leading-7 break-words w-full whitespace-pre-line ${
+                    !fieldValue ? 'italic' : ''
+                }`}
+            >
+                {!fieldValue ? 'Er is nog geen inhoud' : fieldValue}
+            </p>
         </div>
     )
 }

@@ -2,9 +2,13 @@ import React, { Component } from 'react'
 import { format } from 'date-fns'
 import { Helmet } from 'react-helmet'
 import nlLocale from 'date-fns/locale/nl'
-import { faPrint, faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
+import {
+    faArrowLeft,
+    faExternalLinkAlt,
+} from '@fortawesome/pro-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { toast } from 'react-toastify'
+import { Link } from 'react-router-dom'
 
 // Import Axios instance to connect with the API
 import axios from '../../API/axios'
@@ -26,6 +30,7 @@ import ContainerViewFieldsOpgave from './ContainerFields/ContainerViewFieldsOpga
 import ContainerViewFieldsAmbitie from './ContainerFields/ContainerViewFieldsAmbitie'
 import ContainerViewFieldsBelang from './ContainerFields/ContainerViewFieldsBelang'
 import ContainerViewFieldsThema from './ContainerFields/ContainerViewFieldsThema'
+import RelatiesKoppelingen from './RelatiesKoppelingen'
 
 function RevisieListItem(props) {
     return (
@@ -42,7 +47,6 @@ function RevisieListItem(props) {
     )
 }
 
-// !REFACTOR! -> File opschonen
 class RaadpleegUniversalObjectDetail extends Component {
     constructor(props) {
         super(props)
@@ -77,7 +81,6 @@ class RaadpleegUniversalObjectDetail extends Component {
         let detail_id = this.props.match.params.id
         let apiEndpoint = `${ApiEndpointBase}/version/${detail_id}`
 
-        // Connect With the API
         axios
             .get(apiEndpoint)
             .then((res) => {
@@ -119,6 +122,7 @@ class RaadpleegUniversalObjectDetail extends Component {
     componentDidUpdate(prevProps) {
         if (this.props.match.params.id !== prevProps.match.params.id) {
             this.initializeComponent()
+            window.scrollTo(0, 0)
         }
     }
 
@@ -165,12 +169,13 @@ class RaadpleegUniversalObjectDetail extends Component {
         }
 
         return (
-            <div
-                className="container flex px-6 pb-20 mx-auto mt-8"
-                id="raadpleeg-detail-container-main"
-            >
-                <Helmet>
-                    <style type="text/css">{`
+            <React.Fragment>
+                <div
+                    className="container flex w-full px-6 mx-auto mt-8 mb-16 md:max-w-4xl"
+                    id="raadpleeg-detail-container-main"
+                >
+                    <Helmet>
+                        <style type="text/css">{`
                     @media print {
                         #raadpleeg-detail-sidebar,
                         #raadpleeg-detail-werkingsgebied,
@@ -189,226 +194,224 @@ class RaadpleegUniversalObjectDetail extends Component {
                         }
                     }                     
                 `}</style>
-                </Helmet>
-                {dataLoaded ? (
-                    <div
-                        id="raadpleeg-detail-container-content"
-                        className={`w-full`}
-                    >
-                        {searchQuery ? (
-                            <ButtonBackToPage
-                                terugNaar="zoekresultaten"
-                                url={`/zoekresultaten${searchQuery}`}
-                            />
-                        ) : fromPage ? (
-                            <ButtonBackToPage
-                                terugNaar="vorige pagina"
-                                url={fromPage}
-                            />
-                        ) : (
-                            <ButtonBackToPage terugNaar="startpagina" url="/" />
-                        )}
-                        {/* Artikel Headers */}
-                        <span className="block font-serif text-gray-800 text-l">
-                            {this.props.dataModel.TITEL_ENKELVOUD}
-                        </span>
-                        <h1
-                            id="raadpleeg-detail-header-one"
-                            className="mt-2 text-gray-800 heading-serif-2xl"
-                        >
-                            {dataObject.Titel}
-                        </h1>
-                        {/* Meta Content */}
+                    </Helmet>
+                    {dataLoaded ? (
                         <div
-                            className="block mb-8"
-                            id="raadpleeg-detail-container-meta-info"
+                            id="raadpleeg-detail-container-content"
+                            className={`w-full pt-6`}
                         >
-                            {dataLoaded ? (
-                                <span className="mr-3 text-sm text-gray-600">
-                                    {dataObject['Begin_Geldigheid'] !== null
+                            <div className="container absolute inset-x-0 hidden w-full px-6 mx-auto xl:flex">
+                                <div className="pl-3">
+                                    <BackButton
+                                        fromPage={fromPage}
+                                        searchQuery={searchQuery}
+                                    />
+                                </div>
+                            </div>
+                            <div className="block xl:hidden">
+                                <BackButton
+                                    fromPage={fromPage}
+                                    searchQuery={searchQuery}
+                                />
+                            </div>
+                            {/* Artikel Headers */}
+                            <Heading
+                                type={this.props.dataModel.TITEL_ENKELVOUD}
+                                titel={dataObject.Titel}
+                            />
+
+                            {/* Meta Content */}
+                            <MetaInfo
+                                dataLoaded={dataLoaded}
+                                revisieObjecten={this.state.revisieObjecten}
+                                dataObject={dataObject}
+                            />
+
+                            <div className="mt-8">
+                                {/* Inhoud Sectie */}
+                                {titelEnkelvoud === 'Beleidskeuze' ? (
+                                    <ContainerViewFieldsBeleidsbeslissing
+                                        crudObject={dataObject}
+                                    />
+                                ) : null}
+                                {titelEnkelvoud === 'Beleidsregel' ? (
+                                    <ContainerViewFieldsBeleidsregel
+                                        crudObject={dataObject}
+                                    />
+                                ) : null}
+                                {titelEnkelvoud === 'Maatregel' ? (
+                                    <ContainerViewFieldsMaatregel
+                                        crudObject={dataObject}
+                                    />
+                                ) : null}
+                                {titelEnkelvoud === 'Opgave' ? (
+                                    <ContainerViewFieldsOpgave
+                                        crudObject={dataObject}
+                                    />
+                                ) : null}
+                                {/*  */}
+                                {titelEnkelvoud === 'Ambitie' ? (
+                                    <ContainerViewFieldsAmbitie
+                                        crudObject={dataObject}
+                                    />
+                                ) : null}
+                                {titelEnkelvoud === 'Belang' ? (
+                                    <ContainerViewFieldsBelang
+                                        crudObject={dataObject}
+                                    />
+                                ) : null}
+                                {titelEnkelvoud === 'Thema' ? (
+                                    <ContainerViewFieldsThema
+                                        crudObject={dataObject}
+                                    />
+                                ) : null}
+                            </div>
+
+                            {werkingsgebiedBoolean ? (
+                                <Werkingsgebied
+                                    fullscreenLeafletViewer={
+                                        this.state.fullscreenLeafletViewer
+                                    }
+                                    toggleFullscreenLeafletViewer={
+                                        this.toggleFullscreenLeafletViewer
+                                    }
+                                    werkingsGebiedUUID={werkingsGebiedUUID}
+                                />
+                            ) : null}
+                        </div>
+                    ) : (
+                        <LoaderContent />
+                    )}
+                </div>
+                {/* <RelatieComponent
+                    crudObject={dataObject}
+                    urlParam={this.props.match.params.id}
+                /> */}
+                {dataLoaded && titelEnkelvoud === 'Beleidskeuze' ? (
+                    <RelatiesKoppelingen beleidskeuze={dataObject} />
+                ) : null}
+            </React.Fragment>
+        )
+    }
+}
+
+const BackButton = ({ fromPage, searchQuery }) => {
+    return (
+        <Link
+            to={
+                searchQuery
+                    ? `/zoekresultaten${searchQuery}`
+                    : fromPage
+                    ? fromPage
+                    : '/'
+            }
+            className={`text-gray-500 hover:text-gray-800 transition-colors duration-150 ease-in mb-4 inline-block`}
+            id="button-back-to-previous-page"
+        >
+            <FontAwesomeIcon className="mr-2" icon={faArrowLeft} />
+            <span>Terug</span>
+        </Link>
+    )
+}
+
+const Werkingsgebied = ({
+    fullscreenLeafletViewer,
+    toggleFullscreenLeafletViewer,
+    werkingsGebiedUUID,
+}) => {
+    return (
+        <div className="w-full mt-8" id="raadpleeg-detail-werkingsgebied">
+            <div className="flex items-center justify-between pb-3 text-gray-800">
+                <h2 className="block mb-1 text-lg font-semibold tracking-wide text-gray-800">
+                    Werkingsgebied
+                </h2>
+                <span
+                    className="px-2 text-xs cursor-pointer"
+                    onClick={toggleFullscreenLeafletViewer}
+                >
+                    Bekijk in het {fullscreenLeafletViewer ? 'klein' : 'groot'}
+                    <FontAwesomeIcon
+                        className="ml-2 text-gray-700"
+                        icon={faExternalLinkAlt}
+                    />
+                </span>
+            </div>
+
+            <div
+                className="overflow-hidden rounded-lg"
+                id={`full-screen-leaflet-container-${fullscreenLeafletViewer}`}
+            >
+                <LeafletTinyViewer
+                    gebiedType="Werkingsgebieden"
+                    gebiedUUID={werkingsGebiedUUID}
+                    fullscreen={fullscreenLeafletViewer}
+                />
+            </div>
+        </div>
+    )
+}
+
+const Heading = ({ type, titel }) => {
+    return (
+        <React.Fragment>
+            <span className="block text-xl font-bold opacity-25 text-primary-super-dark">
+                {type}
+            </span>
+            <h1
+                id="raadpleeg-detail-header-one"
+                className="mt-1 text-4xl font-semibold text-primary-super-dark "
+            >
+                {titel}
+            </h1>
+        </React.Fragment>
+    )
+}
+
+const MetaInfo = ({ revisieObjecten, dataObject }) => {
+    return (
+        <div className="block mt-2" id="raadpleeg-detail-container-meta-info">
+            <span className="mr-3 text-sm text-gray-800 opacity-75">
+                {dataObject['Begin_Geldigheid']
+                    ? 'Vigerend sinds ' +
+                      format(
+                          new Date(dataObject['Begin_Geldigheid']),
+                          'd MMMM yyyy',
+                          { locale: nlLocale }
+                      )
+                    : 'Er is nog geen begin geldigheid'}
+            </span>
+
+            {revisieObjecten && revisieObjecten.length > 0 ? (
+                <React.Fragment>
+                    <span className="mr-3 text-sm text-gray-600">&bull;</span>
+                    <PopUpRevisieContainer
+                        aantalRevisies={revisieObjecten.length - 1}
+                    >
+                        {revisieObjecten.map((item, index) => (
+                            <RevisieListItem
+                                key={dataObject.UUID}
+                                content={
+                                    dataObject['Begin_Geldigheid'] !== null
                                         ? format(
                                               new Date(
                                                   dataObject['Begin_Geldigheid']
                                               ),
-                                              'd MMMM yyyy',
-                                              { locale: nlLocale }
+                                              'd MMM yyyy',
+                                              {
+                                                  locale: nlLocale,
+                                              }
                                           )
-                                        : 'Er is nog geen begin geldigheid'}
-                                </span>
-                            ) : (
-                                <span className="block mt-2">
-                                    <LoaderSmallSpan />
-                                </span>
-                            )}
-                            {this.state.revisieObjecten &&
-                            this.state.revisieObjecten.length > 0 ? (
-                                <React.Fragment>
-                                    <span className="mr-3 text-sm text-gray-600">
-                                        &bull;
-                                    </span>
-                                    <PopUpRevisieContainer
-                                        aantalRevisies={
-                                            this.state.revisieObjecten.length -
-                                            1
-                                        }
-                                    >
-                                        {this.state.revisieObjecten.map(
-                                            (item, index) =>
-                                                index === 0 ? (
-                                                    <RevisieListItem
-                                                        key={dataObject.UUID}
-                                                        content={
-                                                            dataObject[
-                                                                'Begin_Geldigheid'
-                                                            ] !== null
-                                                                ? format(
-                                                                      new Date(
-                                                                          dataObject[
-                                                                              'Begin_Geldigheid'
-                                                                          ]
-                                                                      ),
-                                                                      'd MMM yyyy',
-                                                                      {
-                                                                          locale: nlLocale,
-                                                                      }
-                                                                  )
-                                                                : 'Er is nog geen begin geldigheid'
-                                                        }
-                                                        color="orange"
-                                                        current={true}
-                                                    />
-                                                ) : (
-                                                    <RevisieListItem
-                                                        key={dataObject.UUID}
-                                                        content={
-                                                            dataObject[
-                                                                'Begin_Geldigheid'
-                                                            ] !== null
-                                                                ? format(
-                                                                      new Date(
-                                                                          dataObject[
-                                                                              'Begin_Geldigheid'
-                                                                          ]
-                                                                      ),
-                                                                      'd MMM yyyy',
-                                                                      {
-                                                                          locale: nlLocale,
-                                                                      }
-                                                                  )
-                                                                : 'Er is nog geen begin geldigheid'
-                                                        }
-                                                        color="blue"
-                                                    />
-                                                )
-                                        )}
-                                    </PopUpRevisieContainer>
-                                </React.Fragment>
-                            ) : null}
-                            <span className="mr-3 text-sm text-gray-600">
-                                &bull;
-                            </span>
-                            <span
-                                className="mr-3 text-sm text-gray-600 cursor-pointer"
-                                onClick={() => window.print()}
-                            >
-                                <FontAwesomeIcon
-                                    className="mr-2"
-                                    icon={faPrint}
-                                />
-                                Afdrukken
-                            </span>
-                        </div>
-
-                        {/* Inhoud Sectie */}
-                        {titelEnkelvoud === 'Beleidsbeslissing' ? (
-                            <ContainerViewFieldsBeleidsbeslissing
-                                crudObject={dataObject}
+                                        : 'Er is nog geen begin geldigheid'
+                                }
+                                color={index === 0 ? 'orange' : 'blue'}
+                                current={index === 0 ? true : false}
                             />
-                        ) : null}
-                        {titelEnkelvoud === 'Beleidsregel' ? (
-                            <ContainerViewFieldsBeleidsregel
-                                crudObject={dataObject}
-                            />
-                        ) : null}
-                        {titelEnkelvoud === 'Maatregel' ? (
-                            <ContainerViewFieldsMaatregel
-                                crudObject={dataObject}
-                            />
-                        ) : null}
-                        {titelEnkelvoud === 'Opgave' ? (
-                            <ContainerViewFieldsOpgave
-                                crudObject={dataObject}
-                            />
-                        ) : null}
-                        {/*  */}
-                        {titelEnkelvoud === 'Ambitie' ? (
-                            <ContainerViewFieldsAmbitie
-                                crudObject={dataObject}
-                            />
-                        ) : null}
-                        {titelEnkelvoud === 'Belang' ? (
-                            <ContainerViewFieldsBelang
-                                crudObject={dataObject}
-                            />
-                        ) : null}
-                        {titelEnkelvoud === 'Thema' ? (
-                            <ContainerViewFieldsThema crudObject={dataObject} />
-                        ) : null}
-
-                        {dataLoaded && werkingsgebiedBoolean ? (
-                            <div
-                                className="w-full mt-5"
-                                id="raadpleeg-detail-werkingsgebied"
-                            >
-                                <div className="flex items-center justify-between pb-3 text-gray-800">
-                                    <h2 className="block mb-2 font-serif text-lg tracking-wide text-gray-700">
-                                        Werkingsgebied
-                                    </h2>
-                                    {dataLoaded ? (
-                                        <span
-                                            className="px-2 text-xs cursor-pointer"
-                                            onClick={
-                                                this
-                                                    .toggleFullscreenLeafletViewer
-                                            }
-                                        >
-                                            Bekijk in het groot
-                                            <FontAwesomeIcon
-                                                className="ml-2 text-gray-700"
-                                                icon={faExternalLinkAlt}
-                                            />
-                                        </span>
-                                    ) : null}
-                                </div>
-
-                                <div
-                                    className="overflow-hidden rounded-lg"
-                                    id={`full-screen-leaflet-container-${this.state.fullscreenLeafletViewer}`}
-                                >
-                                    <LeafletTinyViewer
-                                        gebiedType="Werkingsgebieden"
-                                        gebiedUUID={werkingsGebiedUUID}
-                                        fullscreen={
-                                            this.state.fullscreenLeafletViewer
-                                        }
-                                    />
-                                </div>
-                            </div>
-                        ) : null}
-
-                        {titelEnkelvoud === 'Beleidsbeslissing' ? (
-                            <RelatieComponent
-                                crudObject={dataObject}
-                                urlParam={this.props.match.params.id}
-                            />
-                        ) : null}
-                    </div>
-                ) : (
-                    <LoaderContent />
-                )}
-            </div>
-        )
-    }
+                        ))}
+                    </PopUpRevisieContainer>
+                </React.Fragment>
+            ) : null}
+        </div>
+    )
 }
 
 export default RaadpleegUniversalObjectDetail

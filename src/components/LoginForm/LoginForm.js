@@ -97,7 +97,7 @@ class LoginForm extends Component {
     }
 
     logDeployementType(type) {
-        console.log(`Type - ${type}!`)
+        console.log(`Environment - ${type}`)
     }
 
     handleFormSubmit(e) {

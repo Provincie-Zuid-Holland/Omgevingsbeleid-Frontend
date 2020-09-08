@@ -164,7 +164,7 @@ class MuteerBeleidsbeslissingenDetail extends Component {
             .catch((err) => {
                 if (err.response && err.response.status === 404) {
                     this.props.history.push(`/muteer/dashboard`)
-                    toast(`Deze beleidsbeslissing kon niet gevonden worden`)
+                    toast(`Deze beleidskeuze kon niet gevonden worden`)
                 } else {
                     this.props.history.push(`/muteer/dashboard`)
                     toast(process.env.REACT_APP_ERROR_MSG)
@@ -307,7 +307,7 @@ class MuteerBeleidsbeslissingenDetail extends Component {
                         <div className="flex">
                             <div
                                 className={`${
-                                    overzichtSlug !== 'beleidsbeslissingen'
+                                    overzichtSlug !== 'beleidskeuzes'
                                         ? 'w-full'
                                         : 'w-9/12'
                                 } pr-8`}

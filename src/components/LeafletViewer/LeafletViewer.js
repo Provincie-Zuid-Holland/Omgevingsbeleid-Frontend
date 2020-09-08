@@ -89,7 +89,7 @@ const DEFAULT_VIEWPORT = {
     zoom: 4,
 }
 
-export default class LeafletHalfScreenWidthViewer extends Component {
+export default class LeafletViewer extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -283,8 +283,9 @@ export default class LeafletHalfScreenWidthViewer extends Component {
                     zoomControl={true}
                     crs={this.state._RDCrs}
                     ref={this.leafletMap}
-                    className="z-0"
-                    id="half-screen-leaflet"
+                    className={`z-0 ${
+                        this.props.className ? this.props.className : ''
+                    }`}
                 >
                     <LayersControl position="topright">
                         <LayersControl.BaseLayer checked={true} name="Map">

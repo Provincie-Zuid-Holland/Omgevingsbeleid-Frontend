@@ -100,8 +100,7 @@ class ContainerDetailMain extends Component {
                     <LoaderMainTitle />
                 )}
 
-                {pageType === 'detail' &&
-                titelEnkelvoud === 'beleidsbeslissing' ? (
+                {pageType === 'detail' && titelEnkelvoud === 'beleidskeuze' ? (
                     <StatusLabel />
                 ) : null}
 

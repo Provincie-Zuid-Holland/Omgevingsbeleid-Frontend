@@ -179,7 +179,7 @@ class AuthRoutes extends Component {
                     {/* Beleidsbeslissingen */}
                     <Route
                         exact
-                        path={`/muteer/beleidsbeslissingen/nieuwe-beleidsbeslissing`}
+                        path={`/muteer/beleidskeuzes/nieuwe-beleidskeuze`}
                         render={() => (
                             <MuteerUniversalObjectCRUD
                                 authUser={this.props.authUser}
@@ -191,7 +191,7 @@ class AuthRoutes extends Component {
                     />
                     <Route
                         exact
-                        path={`/muteer/beleidsbeslissingen/edit/:single/:version`}
+                        path={`/muteer/beleidskeuzes/edit/:single/:version`}
                         render={() => (
                             <MuteerUniversalObjectCRUD
                                 authUser={this.props.authUser}
@@ -203,7 +203,7 @@ class AuthRoutes extends Component {
                     />
                     <Route
                         exact
-                        path={`/muteer/beleidsbeslissingen/edit/:single`}
+                        path={`/muteer/beleidskeuzes/edit/:single`}
                         render={() => (
                             <MuteerUniversalObjectCRUD
                                 authUser={this.props.authUser}
@@ -215,7 +215,7 @@ class AuthRoutes extends Component {
                     />
                     <Route
                         exact
-                        path={`/muteer/beleidsbeslissingen/:single/:version`}
+                        path={`/muteer/beleidskeuzes/:single/:version`}
                         render={() => (
                             <MuteerBeleidsbeslissingenDetail
                                 dimensieConstants={
@@ -226,7 +226,7 @@ class AuthRoutes extends Component {
                     />
                     <Route
                         exact
-                        path={`/muteer/beleidsbeslissingen/:single`}
+                        path={`/muteer/beleidskeuzes/:single`}
                         render={() => (
                             <MuteerBeleidsbeslissingenDetail
                                 dimensieConstants={
@@ -236,7 +236,7 @@ class AuthRoutes extends Component {
                         )}
                     />
                     <Route
-                        path={`/muteer/beleidsbeslissingen`}
+                        path={`/muteer/beleidskeuzes`}
                         exact
                         render={() => (
                             <MuteerUniversalObjectOverzicht

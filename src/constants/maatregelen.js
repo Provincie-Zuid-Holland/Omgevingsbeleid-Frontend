@@ -15,18 +15,18 @@ export const CRUD_PROPERTIES = {
         required: false,
         requiredMessage: '',
     },
-    Omschrijving: {
+    Toelichting: {
         initValue: '',
         required: false,
         requiredMessage: '',
     },
-    Verplicht_Programma: {
-        initValue: null,
+    Tags: {
+        initValue: '',
         required: false,
         requiredMessage: '',
     },
-    Specifiek_Of_Generiek: {
-        initValue: null,
+    Gebied_Duiding: {
+        initValue: '',
         required: false,
         requiredMessage: '',
     },
