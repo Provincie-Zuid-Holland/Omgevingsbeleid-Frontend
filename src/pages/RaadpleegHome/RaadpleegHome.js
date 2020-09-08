@@ -258,27 +258,27 @@ class RaadpleegHome extends Component {
                         </p>
                         <ul className="mt-4 text-gray-700">
                             <DocumentLink
-                                href="docs/omgevingsvisie_zuid-holland.pdf"
+                                href="docs/introductie_omgevingsvisie_Zuid-Holland.pdf"
                                 iconLeft={faFilePdf}
-                                title="De Zuid-Hollandse Omgevingsvisie"
+                                title="Introductie Omgevingsvisie Zuid-Holland"
                                 rel="noopener noreferrer"
                             />
                             <DocumentLink
-                                href="docs/omgevingsverordening_zuid-holland.pdf"
+                                href="docs/ruimtelijke_kwaliteit.pdf"
                                 iconLeft={faFilePdf}
-                                title="De Omgevingsverordening Zuid-Holland 2019"
+                                title="Bijlage Omgevingsvisie: Ruimtelijke kwaliteit"
                                 rel="noopener noreferrer"
                             />
                             <DocumentLink
-                                href="docs/programma_ruimte_zuid-holland.pdf"
+                                href="docs/programma_ruimte.pdf"
                                 iconLeft={faFilePdf}
-                                title="Programma ruimte"
+                                title="Programma Ruimte"
                                 rel="noopener noreferrer"
                             />
                             <DocumentLink
-                                href="docs/programma_mobiliteit_zuid-holland.pdf"
+                                href="docs/programma_mobiliteit.pdf"
                                 iconLeft={faFilePdf}
-                                title="Programma mobiliteit"
+                                title="Programma Mobiliteit"
                                 rel="noopener noreferrer"
                             />
                             <DocumentLink
@@ -339,10 +339,10 @@ const ZuidHollandSVG = () => {
             <g
                 id="Omgevingsbeleid---Raadpleegomgeving"
                 stroke="none"
-                stroke-width="1"
+                strokeWidth="1"
                 fill="none"
-                fill-rule="evenodd"
-                fill-opacity="0.15"
+                fillRule="evenodd"
+                fillOpacity="0.15"
             >
                 <g
                     id="2.0---Raadpleegomgeving---Start"
