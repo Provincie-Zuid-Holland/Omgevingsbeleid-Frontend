@@ -120,6 +120,7 @@ function SearchBarPopupItem({
     arrayLength,
     dataIndex,
     setSearchBarPopupOpen,
+    item,
 }) {
     // Function to handle arrow navigation through the items in the popup
     function selectQueryDataItem(nextOrPrevious, arrayLength) {
@@ -172,7 +173,7 @@ function SearchBarPopupItem({
                 {filter ? (
                     <span className="pl-4 text-sm">
                         In
-                        <span className="text-yellow-500"> {filterQuery}</span>
+                        <span className="text-yellow-600"> {item.name}</span>
                     </span>
                 ) : (
                     <React.Fragment>
@@ -192,31 +193,28 @@ function SearchBarPopupItem({
 function SearchBarPopup({ searchInput, setSearchBarPopupOpen }) {
     const filters = [
         {
+            filterQuery: 'beleidskeuzes',
+            name: 'beleidskeuzes',
+        },
+        {
+            filterQuery: 'ambities',
             name: 'ambities',
         },
         {
-            name: 'beleidsregels',
-        },
-        {
-            name: 'doelen',
-        },
-        {
-            name: 'belangen',
-        },
-        {
-            name: 'maatregelen',
-        },
-        {
-            name: 'themas',
-        },
-        {
+            filterQuery: 'opgaven',
             name: 'opgaven',
         },
         {
-            name: 'verordeningen',
+            filterQuery: 'maatregelen',
+            name: 'maatregelen',
         },
         {
-            name: 'beleidskeuzes',
+            filterQuery: 'verordeningen',
+            name: 'verordening',
+        },
+        {
+            filterQuery: 'beleidsregels',
+            name: 'beleidsregels',
         },
     ]
 
@@ -235,10 +233,11 @@ function SearchBarPopup({ searchInput, setSearchBarPopupOpen }) {
                 {filters.map((item, index) => (
                     <SearchBarPopupItem
                         value={searchInput}
-                        filterQuery={item.name}
+                        filterQuery={item.filterQuery}
                         key={item.name}
                         dataIndex={index + 1}
                         index={item.name}
+                        item={item}
                         filter={true}
                         setSearchBarPopupOpen={setSearchBarPopupOpen}
                         arrayLength={filters.length}
