@@ -1,5 +1,9 @@
 trigger:
 - dev
+- test
+- acc
+- production
+
 
 pool:
   vmImage: 'windows-latest'
