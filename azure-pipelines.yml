@@ -16,7 +16,7 @@ jobs:
       displayName: "FA token"
     - script: npm install
       displayName: "Install dependencies"
-    - script: Set REACT_APP_API_ENV=$(Build.SourceBranchName)
+    - script: REACT_APP_API_ENV=$(Build.SourceBranchName)
       displayName: "Set env"
     - script: npm run-script prod:build
       displayName: "Build"
