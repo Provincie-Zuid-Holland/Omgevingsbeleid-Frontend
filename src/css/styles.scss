@@ -1055,3 +1055,21 @@ mark {
         display: none;
     }
 }
+
+.status-flow-gradient {
+    background: linear-gradient(
+        180deg,
+        rgba(247, 250, 252, 0) 0%,
+        rgba(247, 250, 252, 1) 40%,
+        rgba(247, 250, 252, 1) 100%
+    );
+}
+
+.raadpleeg-innerhtml {
+    h2,
+    p,
+    strong,
+    span {
+        color: #2d3748 !important;
+    }
+}
