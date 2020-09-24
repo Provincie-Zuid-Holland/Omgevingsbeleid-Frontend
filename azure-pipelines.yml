@@ -1,10 +1,8 @@
 trigger:
   - dev
-
-pr: none
-
-pool:
-  vmImage: "windows-latest"
+  - test
+  - acc
+  - production
 
 jobs:
   - job: Build
@@ -18,11 +16,11 @@ jobs:
       displayName: "FA token"
     - script: npm install
       displayName: "Install dependencies"
-    - script: Set REACT_APP_API_ENV=dev
+    - script: REACT_APP_API_ENV=$(Build.SourceBranchName)
       displayName: "Set env"
-    - script: npm run-script prod:build
+    - script: npm run-script build
       displayName: "Build"
     - task: PublishBuildArtifacts@1
       inputs:
         PathtoPublish: $(System.DefaultWorkingDirectory)/build
-        ArtifactName: Dev_Build_$(Build.SourceVersion)
+        ArtifactName: BuildedApp
