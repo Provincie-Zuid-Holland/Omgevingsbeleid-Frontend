@@ -10,10 +10,15 @@ function makeCrudObject({ crudProperties, dimensieConstants, responseObject }) {
         // Als er een response object populaten we het crudObject op basis van de crudProperties met de waarden van het responseObject
         // Het response object is het gekregen object van de API
         crudProperties.forEach((crudProperty) => {
+            // If we patch a 'Beleidskeuze' we need to check the status
+            // If the .Status property is 'Vigerend' we need to change it to 'Ontwerp GS Concept'
+            const isMaatregelOrBeleidskeuze =
+                dimensieConstants.TITEL_ENKELVOUD === 'Beleidskeuze' ||
+                dimensieConstants.TITEL_ENKELVOUD === 'Maatregel'
+
             if (
-                // Als het een beleidsbeslissing met een Vigerende Status wijzigen we automatisch het Status property naar die van 'Ontwerp GS Concept'.
                 crudProperty === 'Status' &&
-                dimensieConstants.TITEL_ENKELVOUD === 'Beleidsbeslissing' &&
+                isMaatregelOrBeleidskeuze &&
                 (responseObject[crudProperty] === 'Gepubliceerd' ||
                     responseObject[crudProperty] === 'Vigerend')
             ) {

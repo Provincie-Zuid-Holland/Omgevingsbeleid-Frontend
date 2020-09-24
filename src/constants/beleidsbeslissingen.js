@@ -54,22 +54,22 @@ export const CRUD_PROPERTIES = {
         requiredMessage: 'Selecteer een opdrachtgever',
     },
     Omschrijving_Keuze: {
-        initValue: '',
+        initValue: null,
         required: ['Ontwerp', 'Vastgesteld', 'Gepubliceerd'],
         requiredMessage: 'Vul de omschrijving van de beleidskeuze in',
     },
     Omschrijving_Werking: {
-        initValue: '',
+        initValue: null,
         required: ['Ontwerp', 'Vastgesteld', 'Gepubliceerd'],
         requiredMessage: 'Vul de werking van de beleidskeuze in',
     },
     Aanleiding: {
-        initValue: '',
+        initValue: null,
         required: ['Ontwerp', 'Vastgesteld', 'Gepubliceerd'],
         requiredMessage: 'Vul het aanleiding veld in',
     },
     Provinciaal_Belang: {
-        initValue: '',
+        initValue: null,
         required: ['Ontwerp', 'Vastgesteld', 'Gepubliceerd'],
         requiredMessage: 'Vul het provinciaal belang veld in',
     },
@@ -79,12 +79,12 @@ export const CRUD_PROPERTIES = {
         requiredMessage: 'Selecteer een werkingsgebied',
     },
     Weblink: {
-        initValue: '',
+        initValue: null,
         required: ['Vastgesteld', 'Gepubliceerd'],
         requiredMessage: 'Vul de link in naar het besluitdocument op IDMS',
     },
     Besluitnummer: {
-        initValue: '',
+        initValue: null,
         required: ['Vastgesteld', 'Gepubliceerd'],
         requiredMessage: 'Vul het besluitnummer veld in van ',
     },
@@ -149,7 +149,7 @@ export const CRUD_PROPERTIES = {
         requiredMessage: 'Zorg dat de beleidskeuze een status heeft',
     },
     Tags: {
-        initValue: '',
+        initValue: null,
         required: [],
         requiredMessage: 'Vul het tags veld in',
     },
