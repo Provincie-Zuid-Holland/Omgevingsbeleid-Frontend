@@ -1,12 +1,13 @@
 export const TITEL_ENKELVOUD = 'Maatregel'
 export const TITEL_MEERVOUD = 'Maatregelen'
 export const API_ENDPOINT = 'maatregelen'
+export const API_ENDPOINT_VIGEREND = 'maatregelen/vigerend'
 export const SLUG_OVERZICHT = 'maatregelen'
 export const SLUG_CREATE_NEW = 'nieuwe-maatregel'
 
 export const CRUD_PROPERTIES = {
     Titel: {
-        initValue: '',
+        initValue: null,
         required: true,
         requiredMessage: 'Vul een titel in',
     },
@@ -20,18 +21,18 @@ export const CRUD_PROPERTIES = {
         required: false,
         requiredMessage: '',
     },
-    Tags: {
-        initValue: '',
-        required: false,
-        requiredMessage: '',
-    },
     Gebied_Duiding: {
-        initValue: '',
+        initValue: null,
         required: false,
         requiredMessage: '',
     },
     Weblink: {
-        initValue: '',
+        initValue: null,
+        required: false,
+        requiredMessage: '',
+    },
+    Status: {
+        initValue: 'Ontwerp GS Concept',
         required: false,
         requiredMessage: '',
     },

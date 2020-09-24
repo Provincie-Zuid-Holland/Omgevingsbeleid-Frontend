@@ -1,5 +1,4 @@
-import React, { Component, useLayoutEffect } from 'react'
-// Push to test
+import React, { Component, Suspense, lazy } from 'react'
 
 // For the routing we use React Router (https://reacttraining.com/react-router/)
 import { Route, Switch, withRouter, useHistory } from 'react-router-dom'
@@ -30,9 +29,6 @@ import RaadpleegZoekResultatenOverzicht from './../pages/RaadpleegZoekResultaten
 import Login from './../pages/Login'
 import Planning from './../pages/Planning'
 
-// Import authenticated routes,
-import AuthRoutes from './AuthRoutes'
-
 // Import Components
 import Navigation from './../components/Navigation'
 import LoaderContent from './../components/LoaderContent'
@@ -45,6 +41,8 @@ import UserContext from './UserContext'
 
 // Import and initialize Sentry for tracking bugs
 import * as Sentry from '@sentry/browser'
+
+const AuthRoutes = lazy(() => import('./AuthRoutes'))
 
 if (process.env.NODE_ENV !== 'development') {
     Sentry.init({
@@ -244,80 +242,86 @@ class App extends Component {
                     />
 
                     {this.state.dataLoaded ? (
-                        <Switch>
-                            {/* Raadpleeg - The homepage where users can search for policies and regulations */}
-                            <Route path="/" exact component={RaadpleegHome} />
+                        <Suspense fallback={<LoaderContent />}>
+                            <Switch>
+                                {/* Raadpleeg - The homepage where users can search for policies and regulations */}
+                                <Route
+                                    path="/"
+                                    exact
+                                    component={RaadpleegHome}
+                                />
 
-                            {/* Raadpleeg - Result page for search */}
-                            <Route
-                                exact
-                                path="/zoekresultaten"
-                                component={RaadpleegZoekResultatenOverzicht}
-                            />
+                                {/* Raadpleeg - Result page for search */}
+                                <Route
+                                    exact
+                                    path="/zoekresultaten"
+                                    component={RaadpleegZoekResultatenOverzicht}
+                                />
 
-                            {/* Raadpleeg - Detail page for Article objects of the regulations */}
-                            <Route
-                                path={`/detail/verordeningen/:lineageID/:objectUUID`}
-                                render={() => (
-                                    <RaadpleegVerordeningsArtikelDetail
-                                        dataModel={
-                                            allDimensies.VERORDENINGSARTIKEL
-                                        }
-                                        history={this.props.history}
-                                    />
-                                )}
-                            />
+                                {/* Raadpleeg - Detail page for Article objects of the regulations */}
+                                <Route
+                                    path={`/detail/verordeningen/:lineageID/:objectUUID`}
+                                    render={() => (
+                                        <RaadpleegVerordeningsArtikelDetail
+                                            dataModel={
+                                                allDimensies.VERORDENINGSARTIKEL
+                                            }
+                                            history={this.props.history}
+                                        />
+                                    )}
+                                />
 
-                            {/* Raadpleeg - Detail pages for all the dimensions */}
-                            {detailPaginas.map((item) => {
-                                return (
-                                    <Route
-                                        key={item.slug}
-                                        path={`/detail/${item.slug}/:id`}
-                                        render={({ match }) => (
-                                            <RaadpleegUniversalObjectDetail
-                                                dataModel={item.dataModel}
-                                                history={this.props.history}
-                                                match={match}
-                                            />
-                                        )}
-                                    />
-                                )
-                            })}
+                                {/* Raadpleeg - Detail pages for all the dimensions */}
+                                {detailPaginas.map((item) => {
+                                    return (
+                                        <Route
+                                            key={item.slug}
+                                            path={`/detail/${item.slug}/:id`}
+                                            render={({ match }) => (
+                                                <RaadpleegUniversalObjectDetail
+                                                    dataModel={item.dataModel}
+                                                    history={this.props.history}
+                                                    match={match}
+                                                />
+                                            )}
+                                        />
+                                    )
+                                })}
 
-                            {/* Planning page contains the development roadmap */}
-                            <Route
-                                path="/planning"
-                                exact
-                                component={Planning}
-                            />
+                                {/* Planning page contains the development roadmap */}
+                                <Route
+                                    path="/planning"
+                                    exact
+                                    component={Planning}
+                                />
 
-                            {/*  */}
-                            <Route
-                                path="/login"
-                                render={() => (
-                                    <Login
-                                        setLoginUser={this.setLoginUser}
-                                        setLoginState={this.setLoginState}
-                                        history={this.props.history}
-                                    />
-                                )}
-                            />
-                            <Route
-                                path="/logout"
-                                render={() => (
-                                    <Logout
-                                        setLoginState={this.setLoginState}
-                                    />
-                                )}
-                            />
-                            <AuthRoutes
-                                authUser={this.state.user}
-                                loggedIn={this.state.loggedIn}
-                                setLoginState={this.setLoginState}
-                                history={this.props.history}
-                            />
-                        </Switch>
+                                {/*  */}
+                                <Route
+                                    path="/login"
+                                    render={() => (
+                                        <Login
+                                            setLoginUser={this.setLoginUser}
+                                            setLoginState={this.setLoginState}
+                                            history={this.props.history}
+                                        />
+                                    )}
+                                />
+                                <Route
+                                    path="/logout"
+                                    render={() => (
+                                        <Logout
+                                            setLoginState={this.setLoginState}
+                                        />
+                                    )}
+                                />
+                                <AuthRoutes
+                                    authUser={this.state.user}
+                                    loggedIn={this.state.loggedIn}
+                                    setLoginState={this.setLoginState}
+                                    history={this.props.history}
+                                />
+                            </Switch>
+                        </Suspense>
                     ) : (
                         <LoaderContent />
                     )}

@@ -26,8 +26,7 @@ function Navigation({ loggedIn, setLoginState }) {
 
     React.useEffect(() => {
         const userIsInMuteer =
-            location.pathname.includes('muteer') ||
-            location.pathname.includes('login')
+            pathname.includes('muteer') || pathname.includes('login')
         setLocationEqualsMutateEnv(userIsInMuteer)
     }, [pathname])
 

@@ -58,7 +58,7 @@ class FormFieldSelectUser extends React.Component {
 
         if (
             this.props.editStatus === true ||
-            (this.props.titelEnkelvoud === 'Beleidsbeslissing' &&
+            (this.props.titelEnkelvoud === 'Beleidskeuze' &&
                 this.props.dataObjectProperty === 'Eigenaar_1' &&
                 selectionArray)
         ) {

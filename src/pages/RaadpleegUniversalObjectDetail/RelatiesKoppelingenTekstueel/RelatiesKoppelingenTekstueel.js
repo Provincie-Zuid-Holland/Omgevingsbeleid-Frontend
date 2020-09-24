@@ -109,7 +109,11 @@ const ListItem = ({
                     className="hover:underline"
                 >
                     <span
-                        className={`inline-block w-3 h-3 mr-2 rounded-full bg-${connectionPropertiesColors[property].class}`}
+                        className={`inline-block w-3 h-3 mr-2 rounded-full`}
+                        style={{
+                            backgroundColor:
+                                connectionPropertiesColors[property].hex,
+                        }}
                     />
                     <span>{titel}</span>
                 </Link>

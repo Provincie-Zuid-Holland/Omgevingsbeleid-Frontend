@@ -84,17 +84,12 @@ class ContainerDetail extends Component {
                 <div className="w-full pl-4 ml-16">
                     {this.props.children}
 
-                    {titelEnkelvoud === 'Beleidsbeslissing' ? (
-                        <div
-                            onClick={this.toggleDropdown}
-                            className="absolute top-0 right-0 p-5 text-gray-600 cursor-pointer hover:text-gray-800"
-                        >
-                            <FontAwesomeIcon
-                                className="mr-2"
-                                icon={faEllipsisV}
-                            />
-                        </div>
-                    ) : null}
+                    <div
+                        onClick={this.toggleDropdown}
+                        className="absolute top-0 right-0 p-5 text-gray-600 cursor-pointer hover:text-gray-800"
+                    >
+                        <FontAwesomeIcon className="mr-2" icon={faEllipsisV} />
+                    </div>
 
                     {this.state.dropdown ? (
                         <PopUpDetailDropdown
@@ -105,7 +100,6 @@ class ContainerDetail extends Component {
                             toggleStatusPopup={this.toggleStatusPopup}
                         />
                     ) : null}
-
                     {this.state.statusPopup ? (
                         <PopUpStatusAanpassen
                             dataObject={dataObject}
@@ -133,7 +127,7 @@ class ContainerDetail extends Component {
                     dataObject.Status !== 'Ontwerp in inspraak' &&
                     dataObject.Status !== 'Vastgesteld' ? (
                         <Link
-                            to={`/muteer/beleidskeuzes/edit/${
+                            to={`/muteer/${this.props.overzichtSlug}/edit/${
                                 this.props.match.params.single
                             }${
                                 this.props.location.hash === '#mijn-beleid'
@@ -142,7 +136,7 @@ class ContainerDetail extends Component {
                             }`}
                             className="inline-block mt-2 text-blue-700 underline"
                         >
-                            Bewerk Beleidskeuze
+                            Bewerk {this.props.titelEnkelvoud}
                         </Link>
                     ) : null}
 

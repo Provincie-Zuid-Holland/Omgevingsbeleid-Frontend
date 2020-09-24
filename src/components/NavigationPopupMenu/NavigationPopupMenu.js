@@ -62,7 +62,7 @@ const NavigationPopupMenu = ({
                 .then((res) => setBeleidsregels(res.data))
                 .catch((err) => console.log(err)),
             axios
-                .get(`${allDimensies.MAATREGELEN.API_ENDPOINT}`)
+                .get(`${allDimensies.MAATREGELEN.API_ENDPOINT_VIGEREND}`)
                 .then((res) => setMaatregelen(res.data))
                 .catch((err) => console.log(err)),
             axios

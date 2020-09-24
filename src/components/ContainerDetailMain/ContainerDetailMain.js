@@ -64,7 +64,7 @@ class ContainerDetailMain extends Component {
                 }`}
             >
                 {this.props.children}
-                {titelEnkelvoud === 'Beleidsbeslissing' ? (
+                {titelEnkelvoud === 'Beleidskeuze' ? (
                     <div
                         onClick={this.toggleDropdown}
                         className="absolute top-0 right-0 p-5 text-gray-600 cursor-pointer hover:text-gray-800"

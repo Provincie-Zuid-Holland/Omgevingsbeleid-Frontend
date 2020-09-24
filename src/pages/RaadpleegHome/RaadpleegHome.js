@@ -11,7 +11,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // Import Components
 import LeafletViewer from './../../components/LeafletViewer'
 import SearchBar from './../../components/SearchBar'
-import ContainerMain from './../../components/ContainerMain'
+import smoothscroll from 'smoothscroll-polyfill'
+
+smoothscroll.polyfill()
 
 const DocumentLink = ({ href, title, iconLeft, style }) => (
     <li className="py-2 border-b-2 border-gray-200">
@@ -197,25 +199,26 @@ class RaadpleegHome extends Component {
                     />
                     <div className="flex flex-col justify-center w-full">
                         <h2 className="text-3xl font-bold sm:text-4xl text-theme-red">
-                            Uitvoering
+                            Omgevingsverordening
                         </h2>
                         <p className="my-5 mt-4 leading-7 text-gray-700">
-                            Bij de uitvoering komen de maatregelen en de
-                            activiteiten uit het Omgevingprogramma die bij
-                            elkaar horen samen in verschillende{' '}
+                            Voor het in stand houden van goede
+                            omgevingskwaliteit zijn er regels nodig over wat wel
+                            en niet is toegestaan binnen de provinciegrenzen.
+                            Denk bijvoorbeeld aan regels in stiltegebieden of
+                            ter bescherming van cultureel erfgoed. Het merendeel
+                            van deze regels betreffen{' '}
+                            <mark className="marked-red">instructieregels</mark>{' '}
+                            die voorschrijven hoe waterschappen en gemeenten
+                            bepaalde onderwerpen op moeten nemen in hun plannen.
+                            Daarnaast zijn er een aantal{' '}
                             <mark className="marked-red">
-                                uitvoeringsplannen
-                            </mark>
-                            . Voor het in stand houden van goede
-                            omgevingskwaliteit horen echter ook regels. De
-                            regels die de provincie stelt aan anderen worden
-                            ondergebracht in de{' '}
-                            <mark className="marked-red">
-                                Omgevingsverordening
-                            </mark>
-                            . Regels waar de provincie zelf aan moet houden
-                            staan omschreven in{' '}
-                            <mark className="marked-red">beleidsregels</mark>.
+                                direct werkende regels
+                            </mark>{' '}
+                            waar burgers en bedrijven zich aan moeten houden. Al
+                            deze regels van de provincie over de fysieke
+                            leefomgeving zijn ondergebracht in de{' '}
+                            <b>Omgevingsverordening</b>.
                         </p>
                     </div>
                 </div>

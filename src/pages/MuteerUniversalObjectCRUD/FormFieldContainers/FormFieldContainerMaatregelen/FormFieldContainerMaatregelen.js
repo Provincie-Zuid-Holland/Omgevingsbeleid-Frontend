@@ -14,6 +14,8 @@ import {
     FormFieldTags,
 } from './../../../../components/FormFieldsExport'
 
+import UserContext from './../../../../App/UserContext'
+
 const initialValueToelichting = `<h2><b>Rolkeuze</b></h2><p><br><br></p><h2><b>Uitvoering</b></h2><p><br><br></p>`
 
 function FormFieldContainerMaatregelen({
@@ -21,8 +23,8 @@ function FormFieldContainerMaatregelen({
     crudObject,
     handleChange,
 }) {
-    console.log('crudobject:')
-    console.log(crudObject)
+    const { user } = React.useContext(UserContext)
+
     return (
         <React.Fragment>
             <ContainerFormSection
@@ -83,49 +85,42 @@ function FormFieldContainerMaatregelen({
                 />
             </ContainerFormSection>
 
-            <ContainerFormSection
-                titel="Aanvullende informatie"
-                beschrijving="In deze sectie vragen we aanvullende informatie zoals de link naar het IDMS besluitdocument."
-            >
-                <FormFieldWeblink
-                    handleChange={handleChange}
-                    fieldValue={crudObject['Weblink']}
-                    dataObjectProperty="Weblink"
-                    fieldLabel="IDMS"
-                    pValue="Vul hier de link in naar het besluitdocument op IDMS. (Eigenschappen → Algemeen → Snelkoppeling kopiëren)."
-                    titelEnkelvoud={titelEnkelvoud}
-                />
-
-                <div className="flex flex-wrap -mx-3">
-                    <FormFieldDate
+            {user && user.Rol === 'Beheerder' ? (
+                <ContainerFormSection
+                    titel="Aanvullende informatie"
+                    beschrijving="In deze sectie vragen we aanvullende informatie zoals de link naar het IDMS besluitdocument."
+                >
+                    <FormFieldWeblink
                         handleChange={handleChange}
-                        fieldValue={crudObject['Begin_Geldigheid']}
-                        fieldLabel="Inwerkingtreding"
-                        dataObjectProperty="Begin_Geldigheid"
-                        pValue="Indien bekend, kan hier de datum van inwerkingtreding worden ingevuld"
+                        fieldValue={crudObject['Weblink']}
+                        dataObjectProperty="Weblink"
+                        fieldLabel="IDMS"
+                        pValue="Vul hier de link in naar het besluitdocument op IDMS. (Eigenschappen → Algemeen → Snelkoppeling kopiëren)."
                         titelEnkelvoud={titelEnkelvoud}
                     />
 
-                    <FormFieldDate
-                        openUitwerkingstrede={true}
-                        handleChange={handleChange}
-                        fieldValue={crudObject['Eind_Geldigheid']}
-                        dataObjectProperty="Eind_Geldigheid"
-                        fieldLabel="Uitwerkingtreding"
-                        pValue="Indien bekend, kan hier de datum van uitwerkingtreding worden ingevuld"
-                        titelEnkelvoud={titelEnkelvoud}
-                    />
+                    <div className="flex flex-wrap -mx-3">
+                        <FormFieldDate
+                            handleChange={handleChange}
+                            fieldValue={crudObject['Begin_Geldigheid']}
+                            fieldLabel="Inwerkingtreding"
+                            dataObjectProperty="Begin_Geldigheid"
+                            pValue="Indien bekend, kan hier de datum van inwerkingtreding worden ingevuld"
+                            titelEnkelvoud={titelEnkelvoud}
+                        />
 
-                    <FormFieldTags
-                        handleChange={handleChange}
-                        dataObjectProperty="Tags"
-                        fieldValue={crudObject['Tags']}
-                        fieldLabel="Tags"
-                        pValue="Om deze maatregel vindbaar te maken voor de raadplegers, vragen we je om tags toe te voegen. "
-                        titelEnkelvoud={titelEnkelvoud}
-                    />
-                </div>
-            </ContainerFormSection>
+                        <FormFieldDate
+                            openUitwerkingstrede={true}
+                            handleChange={handleChange}
+                            fieldValue={crudObject['Eind_Geldigheid']}
+                            dataObjectProperty="Eind_Geldigheid"
+                            fieldLabel="Uitwerkingtreding"
+                            pValue="Indien bekend, kan hier de datum van uitwerkingtreding worden ingevuld"
+                            titelEnkelvoud={titelEnkelvoud}
+                        />
+                    </div>
+                </ContainerFormSection>
+            ) : null}
         </React.Fragment>
     )
 }

@@ -126,10 +126,6 @@ class MuteerVerordeningenStructuurCRUD extends Component {
 
         if (this.state.edit) {
             crudObject.Status = 'Concept'
-            crudObject.Structuur = {
-                Children: [],
-            }
-
             axios
                 .patch(
                     `/verordeningstructuur/${this.props.match.params.lineageID}`,

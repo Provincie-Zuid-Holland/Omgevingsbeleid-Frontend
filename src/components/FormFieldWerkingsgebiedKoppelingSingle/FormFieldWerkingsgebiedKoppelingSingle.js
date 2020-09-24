@@ -27,10 +27,6 @@ const FormFieldWerkingsgebiedKoppelingSingle = ({
     // werkingsgebiedInParentState only contains the UUID
     // Contains the whole object that we get from the API
     const [werkingsgebied, setWerkingsgebied] = React.useState(null)
-    const [
-        werkingsgebiedTitelIsLoading,
-        setWerkingsgebiedTitelIsLoading,
-    ] = React.useState(true)
 
     // Function to GET the complete werkingsgebied object from the API
     // We need this in order to display the title
@@ -43,14 +39,12 @@ const FormFieldWerkingsgebiedKoppelingSingle = ({
         )
             return
 
-        setWerkingsgebiedTitelIsLoading(true)
         setWerkingsgebied(null)
 
         axios
             .get(`/werkingsgebieden/${werkingsgebiedInParentState}`)
             .then((res) => {
                 setWerkingsgebied(res.data)
-                setWerkingsgebiedTitelIsLoading(false)
             })
             .catch((err) => {
                 console.log(err)

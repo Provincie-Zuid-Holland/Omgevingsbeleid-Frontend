@@ -123,13 +123,6 @@ function StatusHistorie({
                 />
             ) : null}
 
-            {dimensieHistorie.length === 0 ? (
-                <div className="relative w-8">
-                    <div className="flex items-center justify-end h-6 pt-5 border-r-2 border-indigo-900"></div>
-                    <div className="absolute bottom-0 inline-block bg-indigo-900 list-item-bolletje bolletje-right-min-7" />
-                </div>
-            ) : null}
-
             <ul
                 className={`relative timeline-margin-left border-l-2 ${
                     vigerendeDimensieObject
@@ -153,6 +146,20 @@ function StatusHistorie({
                                         status={dimensieObject.Status}
                                     />
                                 </div>
+                            </React.Fragment>
+                        )
+                    } else if (
+                        dimensieObject.Status === 'Vigerend' &&
+                        index === 0 &&
+                        dimensieHistorie[1] &&
+                        dimensieHistorie[1].Status === 'Vastgesteld' &&
+                        isACheckedOutObject
+                    ) {
+                        /* If item is vigerend and there is an item before it, but no item after it */
+                        return (
+                            <React.Fragment>
+                                <VertakkingsItemRightOnLine />
+                                <VertakkingsItemLeftOnLine showDot={true} />
                             </React.Fragment>
                         )
                     } else if (
@@ -213,6 +220,16 @@ function StatusHistorie({
                         )
                     }
                 })}
+                {/* Element to fade out the start, only show if the first item (last in dimensieHistorie) doesn't have a Status of 'Vigerend' */}
+                {(dimensieHistorie &&
+                    dimensieHistorie.length > 1 &&
+                    dimensieHistorie[dimensieHistorie.length - 1].Status !==
+                        'Vigerend') ||
+                (dimensieHistorie &&
+                    dimensieHistorie.length === 1 &&
+                    dimensieHistorie[0].Status !== 'Vigerend') ? (
+                    <div className="absolute bottom-0 left-0 block w-12 h-4 -ml-1 status-flow-gradient" />
+                ) : null}
             </ul>
         </div>
     )

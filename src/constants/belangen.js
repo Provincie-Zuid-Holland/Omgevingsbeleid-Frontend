@@ -6,22 +6,22 @@ export const SLUG_CREATE_NEW = 'nieuw-belang'
 
 export const CRUD_PROPERTIES = {
     Titel: {
-        initValue: '',
+        initValue: null,
         required: true,
         requiredMessage: 'Vul een titel in',
     },
     Omschrijving: {
-        initValue: '',
+        initValue: null,
         required: false,
         requiredMessage: '',
     },
     Type: {
-        initValue: '',
+        initValue: null,
         required: true,
         requiredMessage: 'Vul het type in',
     },
     Weblink: {
-        initValue: '',
+        initValue: null,
         required: false,
         requiredMessage: '',
     },

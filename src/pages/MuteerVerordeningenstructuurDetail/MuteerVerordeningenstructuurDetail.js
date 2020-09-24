@@ -306,8 +306,8 @@ const MuteerVerordeningenstructuurDetail = () => {
 
             // Then set UUID, index to the object in the lineage and the property 'Volgnummer' of thee new object in state
             // This will set the new object to edit mode
-            setUUIDBeingEdited(newObject.UUID)
             setIndexArrayToUUIDBeingEdited(index)
+            setUUIDBeingEdited(newObject.UUID)
             setVolgnummerBeingEdited(newObject.Volgnummer)
 
             setAddSectionMode(false)

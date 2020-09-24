@@ -31,7 +31,7 @@ const Werkingsgebied = ({
         // If there is no werkingsgebied prop
         if (!werkingsgebiedInParentState) return
         // If it is the prop is the same as the current one we have in state
-        console.log(werkingsgebied)
+
         if (
             werkingsgebiedInParentState &&
             werkingsgebiedInParentState === werkingsgebied
@@ -74,7 +74,7 @@ const Werkingsgebied = ({
                                 className="block w-full h-full bg-center bg-cover rounded-md"
                             ></div>
                             <span className="absolute bottom-0 block w-full p-4 text-sm text-gray-700 bg-white">
-                                {werkingsgebiedTitelIsLoading
+                                {werkingsgebiedTitelIsLoading || !werkingsgebied
                                     ? 'Laden...'
                                     : werkingsgebied.Werkingsgebied}
                             </span>
@@ -207,7 +207,7 @@ const WerkingsgebiedPopup = ({
                         </div>
 
                         <div className="grid h-screen grid-cols-2 gap-4 pb-2 pr-2 overflow-x-hidden overflow-y-auto werkingsgebied-container">
-                            {isLoading
+                            {isLoading && !werkingsgebieden
                                 ? null
                                 : werkingsgebieden
                                       .filter((e) =>

@@ -1,9 +1,5 @@
 import React from 'react'
 
-// Import Icons
-import { faSpinner } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
 function LoaderContent() {
     return (
         <div
