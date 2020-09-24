@@ -38,7 +38,7 @@ const FixedSidebarContainer = ({
 
         window.addEventListener('resize', handleResize)
         return () => window.removeEventListener('resize', handleResize)
-    }, [windowSize])
+    }, [windowSize, alignWithContainer])
 
     // Left gets +10 pixels to align it with the menu
     return (

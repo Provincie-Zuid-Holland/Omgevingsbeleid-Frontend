@@ -1,6 +1,11 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
-import { faPlus, faArrowsAltV } from '@fortawesome/pro-regular-svg-icons'
+import {
+    faPlus,
+    faArrowsAltV,
+    faPencil,
+} from '@fortawesome/pro-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 // This component displays the UI to, edit, add and change the order of the regulation objects
@@ -28,10 +33,7 @@ function EditAddOrderSection({
         const offsetLeftAddOrderBar = addOrderBar.offsetLeft
         const widthAddOrderBar = addOrderBar.offsetWidth
         const heightAddOrderBar = addOrderBar.offsetHeight
-
-        const navigationMain = document.getElementById('navigation-main')
         const heightNavigation = 0
-        // navigationMain.offsetTop + navigationMain.offsetHeight
 
         setHeightAddOrderBar({
             height: heightAddOrderBar,
@@ -107,6 +109,8 @@ function EditAddOrderSection({
                 <React.Fragment>
                     {!editOrderMode && !addSectionMode ? (
                         <EditAddOrderInactive
+                            lineage={lineage}
+                            activeChapter={activeChapter}
                             UUIDBeingEdited={UUIDBeingEdited}
                             toggleAdd={toggleAdd}
                             toggleOrder={toggleOrder}
@@ -126,52 +130,70 @@ function EditAddOrderSection({
     )
 }
 
-const EditAddOrderInactive = ({ toggleAdd, toggleOrder, UUIDBeingEdited }) => {
+const EditAddOrderInactive = ({
+    toggleAdd,
+    toggleOrder,
+    UUIDBeingEdited,
+    activeChapter,
+    lineage,
+}) => {
     return (
         <div className={`flex self-stretch justify-end flex-grow`}>
             <div className="flex items-center h-full">
-                {/* Add button */}
-                <button
-                    className={`flex items-center justify-center inline-block w-12 h-12 h-full font-semibold text-gray-700 transition duration-100 ease-in border-l border-gray-400 hover:bg-gray-50 hover:text-gray-900 ${
-                        UUIDBeingEdited
-                            ? 'cursor-not-allowed'
-                            : 'cursor-pointer'
-                    }`}
-                    onClick={() => {
-                        if (!UUIDBeingEdited) {
-                            toggleAdd()
-                        }
-                    }}
-                >
-                    <span className="flex items-center justify-center inline-block px-2">
-                        <FontAwesomeIcon
-                            className="absolute text-sm"
-                            icon={faPlus}
-                        />
-                    </span>
-                </button>
-                {/* Order button */}
-                <button
-                    onClick={() => {
-                        if (!UUIDBeingEdited) {
-                            toggleOrder()
-                        }
-                    }}
-                    className={`flex items-center justify-center inline-block w-12 h-12 h-full font-semibold text-gray-700 transition duration-100 ease-in border-l border-gray-400 hover:bg-gray-50 hover:text-gray-900 ${
-                        UUIDBeingEdited
-                            ? 'cursor-not-allowed'
-                            : 'cursor-pointer'
-                    }`}
-                >
-                    <span className="flex items-center justify-center inline-block px-2">
-                        <FontAwesomeIcon
-                            className="absolute text-sm"
-                            icon={faArrowsAltV}
-                        />
-                    </span>
-                </button>
+                {activeChapter === null ? (
+                    <Button
+                        href={`/muteer/bewerk-verordening/${lineage.ID}/${lineage.UUID}`}
+                        UUIDBeingEdited={UUIDBeingEdited}
+                        toggleFunction={toggleAdd}
+                        icon={faPencil}
+                    />
+                ) : null}
+                <Button
+                    UUIDBeingEdited={UUIDBeingEdited}
+                    toggleFunction={toggleAdd}
+                    icon={faPlus}
+                />
+                <Button
+                    UUIDBeingEdited={UUIDBeingEdited}
+                    toggleFunction={toggleOrder}
+                    icon={faArrowsAltV}
+                />
             </div>
         </div>
+    )
+}
+
+const Button = ({ toggleFunction, icon, UUIDBeingEdited, href }) => {
+    if (href) {
+        return (
+            <Link
+                to={href}
+                className={`flex items-center justify-center w-12 h-full font-semibold text-gray-700 transition duration-100 ease-in border-l border-gray-400 hover:bg-gray-50 hover:text-gray-900 ${
+                    UUIDBeingEdited ? 'cursor-not-allowed' : 'cursor-pointer'
+                }`}
+            >
+                <span className="flex items-center justify-center px-2">
+                    <FontAwesomeIcon className="absolute text-sm" icon={icon} />
+                </span>
+            </Link>
+        )
+    }
+
+    return (
+        <button
+            className={`flex items-center justify-center w-12 h-full font-semibold text-gray-700 transition duration-100 ease-in border-l border-gray-400 hover:bg-gray-50 hover:text-gray-900 ${
+                UUIDBeingEdited ? 'cursor-not-allowed' : 'cursor-pointer'
+            }`}
+            onClick={() => {
+                if (!UUIDBeingEdited) {
+                    toggleFunction()
+                }
+            }}
+        >
+            <span className="flex items-center justify-center px-2">
+                <FontAwesomeIcon className="absolute text-sm" icon={icon} />
+            </span>
+        </button>
     )
 }
 

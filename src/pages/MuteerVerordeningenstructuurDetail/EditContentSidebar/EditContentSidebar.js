@@ -36,6 +36,30 @@ const EditContentSidebar = ({
         verordeningsObjectFromGET !== null &&
         verordeningsObjectFromGET.Type === 'Artikel'
 
+    React.useEffect(() => {
+        if (!verordeningsObjectIsLoaded) return
+
+        // If leden all have a werkingsgebied and they are the same
+        if (
+            verordeningsLedenFromGET &&
+            verordeningsLedenFromGET.every((e) => e.Werkingsgebied)
+        ) {
+            const werkingsgebiedLid = verordeningsLedenFromGET[0].Werkingsgebied
+            const allLedenHaveSameGebied = verordeningsLedenFromGET.every(
+                (e) => e.Werkingsgebied === werkingsgebiedLid
+            )
+
+            if (
+                allLedenHaveSameGebied &&
+                verordeningsObjectFromGET.Werkingsgebied === werkingsgebiedLid
+            ) {
+                setInheritWerkingsgebiedenFromArtikel(true)
+            } else {
+                setInheritWerkingsgebiedenFromArtikel(false)
+            }
+        }
+    }, [verordeningsObjectIsLoaded])
+
     const getType = () => {
         if (verordeningsObjectIsLoaded) {
             return verordeningsObjectFromGET.Type

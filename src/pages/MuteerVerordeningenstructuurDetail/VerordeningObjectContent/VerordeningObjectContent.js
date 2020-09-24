@@ -12,6 +12,7 @@ import Transition from './../../../components/Transition'
 import CrudDropdown from './../CrudDropdown'
 
 import VerordeningContext from './../VerordeningContext'
+import { toast } from 'react-toastify'
 
 function VerordeningObjectContent({ item, index, pathToIndex }) {
     let {
@@ -90,6 +91,7 @@ function VerordeningObjectContent({ item, index, pathToIndex }) {
                 <ReorderIcon userIsEditingOrder={userIsEditingOrder} />
                 {editingThisItemAndIsLoaded ? (
                     <TitleEditing
+                        verordeningsLedenFromGET={verordeningsLedenFromGET}
                         setVerordeningsLedenFromGET={
                             setVerordeningsLedenFromGET
                         }
@@ -365,15 +367,32 @@ const TextArea = ({ children, onChange, value }) => {
 
 const TitleEditing = ({
     setVerordeningsLedenFromGET,
+    verordeningsLedenFromGET,
     patchRegulationObject,
     item,
     verordeningsObjectFromGET,
     setVerordeningsObjectFromGET,
     setUUIDBeingEdited,
 }) => {
+    const checkForWerkingsgebied = () => {
+        const artikelHasGebied = verordeningsObjectFromGET.Werkingsgebied
+        if (verordeningsLedenFromGET) {
+            const allLedenHaveGebied = verordeningsLedenFromGET.every(
+                (e) => e.Werkingsgebied
+            )
+            return artikelHasGebied || allLedenHaveGebied
+        } else {
+            return artikelHasGebied
+        }
+    }
+
     return (
         <div className={`w-full font-semibold rounded`}>
-            <div className="flex items-center">
+            <div
+                className={`flex items-center ${
+                    item.Type === 'Afdeling' ? 'pr-2' : ''
+                }`}
+            >
                 <span>{item.Type}</span>
                 <input
                     type="text"
@@ -404,7 +423,16 @@ const TitleEditing = ({
                     className="inline-block w-full ml-2 font-semibold form-input sm:text-sm sm:leading-5"
                 />
 
-                <SaveButton save={() => patchRegulationObject()} />
+                <SaveButton
+                    save={() => {
+                        const werkingsGebiedenHasValue = checkForWerkingsgebied()
+                        if (!werkingsGebiedenHasValue) {
+                            toast('Selecteer een werkingsgebied')
+                            return
+                        }
+                        patchRegulationObject()
+                    }}
+                />
                 <CancelButton
                     cancel={() => {
                         setUUIDBeingEdited(null)
