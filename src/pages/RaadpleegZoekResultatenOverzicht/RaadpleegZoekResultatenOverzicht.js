@@ -162,9 +162,10 @@ class RaadpleegZoekResultatenOverzicht extends Component {
         this.generateVerordeningsPosition = this.generateVerordeningsPosition.bind(
             this
         )
+        this.handleFilter = this.handleFilter.bind(this)
     }
 
-    handleFilter(e, index) {
+    handleFilter(e) {
         const name = e.target.name
         let newOnPageFilters = this.state.onPageFilters
         newOnPageFilters[name].checked = !newOnPageFilters[name].checked
@@ -206,8 +207,10 @@ class RaadpleegZoekResultatenOverzicht extends Component {
     }
 
     generateVerordeningsPosition(UUIDToFind) {
+        if (!this.state.vigerendeVerordeningsStructuur) return []
+
         // Curren structure of vigerende verordeningsstructure
-        const vigerendeVerordeningsStructuur = this.state
+        const vigerendeVerordeningsStructuurChildren = this.state
             .vigerendeVerordeningsStructuur.Structuur.Children
 
         // Used to push in the indexes to traverse to the UUIDToFind
@@ -266,7 +269,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
         }
 
         // Initialize function
-        traverseChildren(vigerendeVerordeningsStructuur)
+        traverseChildren(vigerendeVerordeningsStructuurChildren)
 
         // Return the found array with the path to the UUID
         return indexPathToUUID
@@ -306,6 +309,17 @@ class RaadpleegZoekResultatenOverzicht extends Component {
             )
             .then((res) => {
                 const searchResults = res.data
+                    .filter(
+                        (e) =>
+                            e.Type !== 'Doelen' &&
+                            e.Type !== 'Themas' &&
+                            e.Type !== 'Belangen'
+                    )
+                    .filter(
+                        (e) =>
+                            e.Type === 'Maatregelen' && e.Status !== 'Vigerend'
+                    )
+
                 this.setInitialOnPageFilters(searchResults)
 
                 // The 'Verordenings' objects are placed in a structure, but we need to check what position exactly so we can link towards the correct 'Verordening' including the parameters to set the verordeningsobject as active in the view. e.g.:
@@ -402,9 +416,18 @@ class RaadpleegZoekResultatenOverzicht extends Component {
         try {
             const data = await axios
                 .get('/verordeningstructuur')
-                .then((res) =>
-                    res.data.find((item) => item.Status === 'Vigerend')
-                )
+                .then((res) => {
+                    const vigerendeVerordening = res.data.find(
+                        (item) => item.Status === 'Vigerend'
+                    )
+                    if (vigerendeVerordening) {
+                        return vigerendeVerordening
+                    } else if (res.data.length > 0) {
+                        return res.data[0]
+                    } else {
+                        throw 'No data from API'
+                    }
+                })
             this.setState(
                 {
                     vigerendeVerordeningsStructuur: data,
@@ -460,6 +483,43 @@ class RaadpleegZoekResultatenOverzicht extends Component {
     }
 
     render() {
+        // Beleidskeuzes
+        // Ambities
+        // Opgaven
+        // Maatregelen
+        // Verordening
+        // Beleidsregels
+
+        const checkForActiveFilter = (onPageFilters) => {
+            if (!onPageFilters || !onPageFilters.filterArray) return []
+
+            let activeFilter = false
+            let amountOfFilters = 0
+
+            onPageFilters.filterArray.forEach((filterType) => {
+                if (!onPageFilters[filterType].checked) {
+                    activeFilter = true
+                    amountOfFilters++
+                }
+            })
+
+            return [activeFilter, amountOfFilters]
+        }
+
+        const onPageFilters = this.state.onPageFilters
+        let [filterIsActive, amountOfFilters] = checkForActiveFilter(
+            onPageFilters
+        )
+
+        const filters = [
+            'Beleidsbeslissingen',
+            'Ambities',
+            'Opgaven',
+            'Maatregelen',
+            'Verordeningen',
+            'BeleidsRegels',
+        ].filter((e) => onPageFilters[e])
+
         return (
             <div className="container flex px-6 pb-8 mx-auto mt-12">
                 <div className="w-1/4">
@@ -480,52 +540,16 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                         Filteren
                     </h2>
                     <ul className="mt-4">
-                        <span className="block mb-2 font-semibold text-gray-900">
-                            Visie
-                        </span>
-
-                        {this.state.onPageFilters.filterArray &&
-                        this.state.onPageFilters.filterArray.length > 0
-                            ? this.state.onPageFilters.filterArray.map(
-                                  (item, index) => (
-                                      <li
-                                          key={item}
-                                          className="mt-1 text-sm text-gray-700"
-                                      >
-                                          <label className="cursor-pointer select-none">
-                                              <input
-                                                  className="mr-2 leading-tight"
-                                                  type="checkbox"
-                                                  checked={
-                                                      this.state.onPageFilters[
-                                                          item
-                                                      ].checked
-                                                  }
-                                                  onChange={(e) =>
-                                                      this.handleFilter(
-                                                          e,
-                                                          index
-                                                      )
-                                                  }
-                                                  name={item}
-                                              />
-                                              <span>
-                                                  {item ===
-                                                  'Beleidsbeslissingen'
-                                                      ? 'Beleidskeuzes'
-                                                      : item}
-                                                  (
-                                                  {
-                                                      this.state.onPageFilters[
-                                                          item
-                                                      ].count
-                                                  }
-                                                  )
-                                              </span>
-                                          </label>
-                                      </li>
-                                  )
-                              )
+                        {onPageFilters.filterArray &&
+                        onPageFilters.filterArray.length > 0
+                            ? filters.map((filter) => (
+                                  <FilterItem
+                                      count={onPageFilters[filter].count}
+                                      handleFilter={this.handleFilter}
+                                      checked={!onPageFilters[filter].checked}
+                                      item={filter}
+                                  />
+                              ))
                             : null}
                     </ul>
                 </div>
@@ -546,8 +570,12 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                             this.state.searchResults.length > 0 ? (
                                 this.state.searchResults.map((item, index) => {
                                     if (
-                                        this.state.onPageFilters[item.Type]
-                                            .checked
+                                        (filterIsActive &&
+                                            amountOfFilters > 0 &&
+                                            !onPageFilters[item.Type]
+                                                .checked) ||
+                                        (!filterIsActive &&
+                                            amountOfFilters === 0)
                                     ) {
                                         return (
                                             <SearchResultItem
@@ -574,6 +602,26 @@ class RaadpleegZoekResultatenOverzicht extends Component {
             </div>
         )
     }
+}
+
+const FilterItem = ({ handleFilter, checked, item, count }) => {
+    return (
+        <li key={item} className="mt-1 text-sm text-gray-700">
+            <label className="cursor-pointer select-none">
+                <input
+                    className="mr-2 leading-tight"
+                    type="checkbox"
+                    checked={checked}
+                    onChange={(e) => handleFilter(e)}
+                    name={item}
+                />
+                <span>
+                    {item === 'Beleidsbeslissingen' ? 'Beleidskeuzes' : item} (
+                    {count})
+                </span>
+            </label>
+        </li>
+    )
 }
 
 export default RaadpleegZoekResultatenOverzicht

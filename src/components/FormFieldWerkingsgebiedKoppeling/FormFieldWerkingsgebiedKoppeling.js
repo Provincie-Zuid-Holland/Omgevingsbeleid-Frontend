@@ -25,43 +25,38 @@ const FormFieldWerkingsgebiedKoppeling = ({
     const [popupOpen, setPopupOpen] = React.useState(false)
 
     // werkingsgebiedInParentState only contains the UUID
-    // Contains the whole object that we get from the API
+    // 'werkingsgebied' Contains the whole object that we get from the API
+    // We need this in order to dislay information of the object
     const [werkingsgebied, setWerkingsgebied] = React.useState(null)
-    const [
-        werkingsgebiedTitelIsLoading,
-        setWerkingsgebiedTitelIsLoading,
-    ] = React.useState(true)
 
-    // Function to GET the complete werkingsgebied object from the API
-    // We need this in order to display the title
+    // On every change in the werkingsgebiedInParentState we GET the 'werkingsgebied' data from the API
     React.useEffect(() => {
         // If there is no werkingsgebied prop
         if (!werkingsgebiedInParentState) return
 
-        // If the prop is the same as the current one we have in state
+        // If the UUID the user selected is the same as the current one we have in state we return
+        const userSelectedTheSameUUID =
+            werkingsgebied &&
+            werkingsgebiedInParentState[0].UUID === werkingsgebied.UUID
         if (
             !Array.isArray(werkingsgebiedInParentState) ||
             werkingsgebiedInParentState.length === 0 ||
-            (werkingsgebiedInParentState.length > 0 &&
-                werkingsgebiedInParentState[0] === werkingsgebied)
+            userSelectedTheSameUUID
         ) {
             return
         }
 
-        setWerkingsgebiedTitelIsLoading(true)
         setWerkingsgebied(null)
-
         axios
             .get(`/werkingsgebieden/${werkingsgebiedInParentState[0].UUID}`)
             .then((res) => {
                 setWerkingsgebied(res.data)
-                setWerkingsgebiedTitelIsLoading(false)
             })
             .catch((err) => {
                 console.log(err)
                 toast(process.env.REACT_APP_ERROR_MSG)
             })
-    }, [werkingsgebiedInParentState])
+    }, [werkingsgebiedInParentState, werkingsgebied])
 
     return (
         <React.Fragment>

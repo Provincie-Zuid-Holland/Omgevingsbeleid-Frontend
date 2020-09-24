@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom'
 // Import Componenents
 import ContainerMain from './../../components/ContainerMain'
 import SidebarMain from './../../components/SidebarMain'
-import ButtonAddNewObject from './../../components/ButtonAddNewObject'
 import CardObjectDetails from './../../components/CardObjectDetails'
 import LoaderCard from './../../components/LoaderCard'
 
@@ -51,7 +50,6 @@ class MuteerVerordeningenstructuurOverzicht extends Component {
     render() {
         const titelEnkelvoud = this.props.dataModel.TITEL_ENKELVOUD
         const titelMeervoud = this.props.dataModel.TITEL_MEERVOUD
-        const createNewSlug = this.props.dataModel.SLUG_CREATE_NEW
         const overzichtSlug = this.props.dataModel.SLUG_OVERZICHT
         const hoofdOnderdeelSlug = this.props.dataModel.SLUG_OVERZICHT
 

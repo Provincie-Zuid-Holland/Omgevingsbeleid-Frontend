@@ -165,8 +165,8 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
 
     ifPresentGetAndSetLeden(UUID) {
         const verordeningsObjectInLineage = this.getActiveObjectInLineage(UUID)
-
         if (
+            verordeningsObjectInLineage &&
             verordeningsObjectInLineage.Children &&
             verordeningsObjectInLineage.Children.length > 0
         ) {
