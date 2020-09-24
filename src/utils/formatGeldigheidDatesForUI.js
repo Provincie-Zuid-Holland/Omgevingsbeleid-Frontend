@@ -7,7 +7,7 @@ function formatGeldigheidDatesForUI(crudObject) {
     if (
         crudObject.Begin_Geldigheid !== undefined &&
         crudObject.Begin_Geldigheid !== null &&
-        isValid(crudObject.Begin_Geldigheid)
+        isValid(new Date(crudObject.Begin_Geldigheid))
     ) {
         crudObject.Begin_Geldigheid = format(
             new Date(crudObject.Begin_Geldigheid),
@@ -21,7 +21,7 @@ function formatGeldigheidDatesForUI(crudObject) {
     if (
         crudObject.Eind_Geldigheid !== undefined &&
         crudObject.Eind_Geldigheid !== null &&
-        isValid(crudObject.Eind_Geldigheid)
+        isValid(new Date(crudObject.Eind_Geldigheid))
     ) {
         crudObject.Eind_Geldigheid = format(
             new Date(crudObject.Eind_Geldigheid),
