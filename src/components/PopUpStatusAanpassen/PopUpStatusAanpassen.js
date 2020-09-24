@@ -19,15 +19,15 @@ function PopUpStatusAanpassen({
     return (
         <PopUpAnimatedContainer small={true}>
             <div className="text-gray-800">
-                <h2 className="font-bold mb-4">Status aanpassen</h2>
-                <div className="inline-block relative w-64">
+                <h2 className="mb-4 font-bold">Status aanpassen</h2>
+                <div className="relative inline-block w-64">
                     <select
                         required
                         value={fieldValue}
-                        onChange={event => setSelect(event.target.value)}
+                        onChange={(event) => setSelect(event.target.value)}
                         value={selectValue}
                         name={'Status'}
-                        className="appearance-none block w-full text-gray-700 border bg-white border-gray-400 rounded py-3 px-4 leading-tight focus:outline-none hover:border-gray-500 focus:border-gray-500"
+                        className="block w-full px-4 py-3 leading-tight text-gray-700 bg-white border border-gray-400 rounded appearance-none focus:outline-none hover:border-gray-500 focus:border-gray-500"
                     >
                         <option disabled value="">
                             {' '}
@@ -45,9 +45,9 @@ function PopUpStatusAanpassen({
                               )
                             : null}
                     </select>
-                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                    <div className="absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 pointer-events-none">
                         <svg
-                            className="fill-current h-4 w-4"
+                            className="w-4 h-4 fill-current"
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 20 20"
                         >
@@ -55,9 +55,9 @@ function PopUpStatusAanpassen({
                         </svg>
                     </div>
                 </div>
-                <div className="flex justify-between mt-5 items-center text-sm">
+                <div className="flex items-center justify-between mt-5 text-sm">
                     <div
-                        className="underline text-gray-600 cursor-pointer"
+                        className="text-gray-600 underline cursor-pointer"
                         onClick={toggleStatusPopup}
                     >
                         Annuleren
@@ -85,7 +85,6 @@ function PopUpStatusAanpassen({
     )
 }
 
-// !REFACTOR! -> 'Gepubliceerd eruit? - Overleggen met Swen'
 PopUpStatusAanpassen.propTypes = {
     status: PropTypes.oneOf([
         'Ontwerp GS Concept',
@@ -100,6 +99,8 @@ PopUpStatusAanpassen.propTypes = {
         'Vigerend',
         'Vigerend gearchiveerd',
         'Gepubliceerd',
+        'Niet-Actief',
+        'Uitgecheckt',
     ]),
 }
 
