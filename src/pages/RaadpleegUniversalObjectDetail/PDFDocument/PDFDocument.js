@@ -288,7 +288,7 @@ class PDFDocument extends Component {
         const dataObject = true
         const objectTitel = this.props.titel
 
-        if (titelEnkelvoud === 'Beleidsbeslissing') {
+        if (titelEnkelvoud === 'Beleidskeuze') {
             return (
                 <PDFContainerViewFieldsBeleidsbeslissing
                     crudObject={dataObject}

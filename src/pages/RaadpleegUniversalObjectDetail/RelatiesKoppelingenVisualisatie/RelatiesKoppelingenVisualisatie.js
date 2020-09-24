@@ -82,7 +82,12 @@ const RelatiesKoppelingenVisualisatie = ({
 
         setConnectedProperties(activeConnectionProperties)
         setData(data)
-    }, [beleidskeuze])
+    }, [
+        beleidskeuze,
+        beleidsRelaties,
+        connectionProperties,
+        connectionPropertiesColors,
+    ])
 
     /* The useRef Hook creates a variable that "holds on" to a value across rendering
        passes. In this case it will hold our component's SVG DOM element. It's
@@ -232,7 +237,12 @@ const RelatiesKoppelingenVisualisatie = ({
                             className="flex items-center mt-1 text-sm text-gray-800"
                         >
                             <span
-                                className={`inline-block w-3 h-3 mr-2 rounded-full bg-${connectionPropertiesColors[property].class}`}
+                                className={`inline-block w-3 h-3 mr-2 rounded-full`}
+                                style={{
+                                    backgroundColor:
+                                        connectionPropertiesColors[property]
+                                            .hex,
+                                }}
                             />
                             <span>{property}</span>
                         </li>

@@ -8,7 +8,7 @@ import {
 } from '@fortawesome/pro-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { toast } from 'react-toastify'
-import { Link } from 'react-router-dom'
+import { Link, useParams, useHistory } from 'react-router-dom'
 
 // Import Axios instance to connect with the API
 import axios from '../../API/axios'
@@ -21,6 +21,7 @@ import ButtonBackToPage from './../../components/ButtonBackToPage'
 import PopUpRevisieContainer from './../../components/PopUpRevisieContainer'
 import LoaderContent from './../../components/LoaderContent'
 import LoaderSmallSpan from './../../components/LoaderSmallSpan'
+import Transition from './../../components/Transition'
 
 // Import view containers
 import ContainerViewFieldsBeleidsbeslissing from './ContainerFields/ContainerViewFieldsBeleidsbeslissing'
@@ -32,75 +33,41 @@ import ContainerViewFieldsBelang from './ContainerFields/ContainerViewFieldsBela
 import ContainerViewFieldsThema from './ContainerFields/ContainerViewFieldsThema'
 import RelatiesKoppelingen from './RelatiesKoppelingen'
 
-function RevisieListItem(props) {
-    return (
-        <li className="py-2">
-            <span
-                className={`inline-block w-4 h-4 bg-${props.color}-500 rounded-full mt-1 absolute`}
-            />
-            <span
-                className={`pl-6 text-sm ${props.current ? 'font-bold' : null}`}
-            >
-                {props.content}
-            </span>
-        </li>
-    )
-}
+const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
+    let { id } = useParams()
+    let history = useHistory()
 
-class RaadpleegUniversalObjectDetail extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            dataObject: null,
-            revisieObjecten: null,
-            dataLoaded: false,
-            fullscreenLeafletViewer: false,
-            downloadPDF: false,
-        }
-        this.toggleFullscreenLeafletViewer = this.toggleFullscreenLeafletViewer.bind(
-            this
-        )
-        this.toggleDownloadPDF = this.toggleDownloadPDF.bind(this)
-        this.initializeComponent = this.initializeComponent.bind(this)
-    }
+    const [dataObject, setDataObject] = React.useState(null)
+    const [revisieObjecten, setRevisieObjecten] = React.useState(null)
+    const [dataLoaded, setDataLoaded] = React.useState(false)
+    const [
+        fullscreenLeafletViewer,
+        setFullscreenLeafletViewer,
+    ] = React.useState(false)
 
-    toggleDownloadPDF() {
-        this.setState({
-            downloadPDF: !this.state.downloadPDF,
-        })
-    }
-
-    toggleFullscreenLeafletViewer() {
-        this.setState({
-            fullscreenLeafletViewer: !this.state.fullscreenLeafletViewer,
-        })
-    }
-
-    initializeComponent() {
-        const ApiEndpointBase = this.props.dataModel.API_ENDPOINT
-        let detail_id = this.props.match.params.id
-        let apiEndpoint = `${ApiEndpointBase}/version/${detail_id}`
+    const initializeComponent = () => {
+        const ApiEndpointBase = dataModel.API_ENDPOINT
+        let apiEndpoint = `${ApiEndpointBase}/version/${id}`
 
         axios
             .get(apiEndpoint)
             .then((res) => {
                 const dataObject = res.data
                 const revisieObjecten = res.data
-                this.setState({
-                    dataObject: dataObject,
-                    revisieObjecten: revisieObjecten,
-                    dataLoaded: true,
-                })
+                setDataObject(dataObject)
+                setRevisieObjecten(revisieObjecten)
+                setDataLoaded(true)
+                window.scrollTo(0, 0)
             })
             .catch((err) => {
                 if (err.response !== undefined) {
                     if (err.response.status === 404) {
-                        this.props.history.push(`/`)
+                        history.push(`/`)
                         toast(
-                            `Deze ${this.props.dataModel.TITEL_ENKELVOUD.toLowerCase()} kon niet gevonden worden`
+                            `Deze ${dataModel.TITEL_ENKELVOUD.toLowerCase()} kon niet gevonden worden`
                         )
                     } else if (err.response.status === 422) {
-                        this.props.history.push(`/login`)
+                        history.push(`/login`)
                         toast(
                             `U moet voor nu nog inloggen om deze pagina te kunnen bekijken`
                         )
@@ -115,67 +82,80 @@ class RaadpleegUniversalObjectDetail extends Component {
             })
     }
 
-    componentDidMount() {
-        this.initializeComponent()
-    }
+    // Init on mount
+    React.useEffect(() => {
+        initializeComponent()
+    }, [])
 
-    componentDidUpdate(prevProps) {
-        if (this.props.match.params.id !== prevProps.match.params.id) {
-            this.initializeComponent()
-            window.scrollTo(0, 0)
-        }
-    }
+    // Init when url param { id } changes
+    React.useEffect(() => {
+        setDataLoaded(false)
+        initializeComponent()
+        window.scrollTo(0, 0)
+    }, [id])
 
-    render() {
-        const dataObject = this.state.dataObject
-        const dataLoaded = this.state.dataLoaded
-        let werkingsgebiedBoolean = false
+    // Returns boolean
+    // There are two objects with werkingsgebieden:
+    // - Maatregelen
+    // - Beleidskeuzes (also known as beleidsbeslissingen)
+    const checkIfObjectHasWerkingsgebied = () => {
+        if (!dataLoaded || !dataObject) return false
 
-        // Werkingsgebieden zijn er bij de volgende objecten:
-        // - Beleidsbeslissing
+        // Check if there is a werkingsgebied
         if (
-            dataObject !== null &&
-            (dataObject.Gebied ||
-                (dataObject.WerkingsGebieden && dataObject.WerkingsGebieden[0]))
+            dataObject.Gebied ||
+            (dataObject.WerkingsGebieden && dataObject.WerkingsGebieden[0])
         ) {
-            werkingsgebiedBoolean = true
+            return true
         } else {
-            werkingsgebiedBoolean = false
+            return false
         }
+    }
 
-        let werkingsGebiedUUID = null
+    const getWerkingsgbiedUUID = (hasWerkingsGebied) => {
+        if (!hasWerkingsGebied) return null
 
-        // !REFACTOR! -> Dit zou 1 property moeten zijn
-        if (werkingsgebiedBoolean && dataObject.Gebied) {
-            werkingsGebiedUUID = dataObject.Gebied
+        if (dataObject.Gebied) {
+            // Object is a maatregel, which contains the UUID in a string value
+            return dataObject.Gebied
         } else if (
-            werkingsgebiedBoolean &&
             dataObject.WerkingsGebieden &&
             dataObject.WerkingsGebieden[0]
         ) {
-            werkingsGebiedUUID = dataObject.WerkingsGebieden[0].UUID
+            // Object is a beleidskeuze/beleidsbeslissing, which holds the werkingsgebieden in an array.
+            // We always need the first value in the array
+            return dataObject.WerkingsGebieden[0].UUID
         }
+    }
 
-        const titelEnkelvoud = this.props.dataModel.TITEL_ENKELVOUD
+    const hasWerkingsGebied = checkIfObjectHasWerkingsgebied()
+    const werkingsGebiedUUID = getWerkingsgbiedUUID(hasWerkingsGebied)
 
+    const getSearchQuery = () => {
         let searchQuery = null
 
         const urlParams = new URLSearchParams(window.location.search)
         const fromPage = urlParams.get('fromPage')
 
-        // !Refactor! -> hash to searchParam
         if (window.location.hash) {
             searchQuery = window.location.hash.substr(1)
         }
 
-        return (
-            <React.Fragment>
-                <div
-                    className="container flex w-full px-6 mx-auto mt-8 mb-16 md:max-w-4xl"
-                    id="raadpleeg-detail-container-main"
-                >
-                    <Helmet>
-                        <style type="text/css">{`
+        return [searchQuery, fromPage]
+    }
+
+    const [searchQuery, fromPage] = getSearchQuery()
+
+    const titelEnkelvoud = dataModel.TITEL_ENKELVOUD
+
+    return (
+        <React.Fragment>
+            <div
+                className="container flex w-full px-6 mx-auto mt-8 mb-16 md:max-w-4xl"
+                id="raadpleeg-detail-container-main"
+            >
+                <Helmet>
+                    <style type="text/css">{`
                     @media print {
                         #raadpleeg-detail-sidebar,
                         #raadpleeg-detail-werkingsgebied,
@@ -194,105 +174,107 @@ class RaadpleegUniversalObjectDetail extends Component {
                         }
                     }                     
                 `}</style>
-                    </Helmet>
-                    {dataLoaded ? (
-                        <div
-                            id="raadpleeg-detail-container-content"
-                            className={`w-full pt-6`}
-                        >
-                            <div className="container absolute inset-x-0 hidden w-full px-6 mx-auto xl:flex">
-                                <div className="pl-3">
-                                    <BackButton
-                                        fromPage={fromPage}
-                                        searchQuery={searchQuery}
-                                    />
-                                </div>
-                            </div>
-                            <div className="block xl:hidden">
+                </Helmet>
+                {!dataLoaded ? <LoaderContent /> : null}
+                <Transition
+                    show={dataLoaded}
+                    enter="transition ease-out duration-500"
+                    enterFrom="opacity-0"
+                    enterTo="opacity-100"
+                    leave="transition ease-in duration-200"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
+                >
+                    <div
+                        id="raadpleeg-detail-container-content"
+                        className={`w-full pt-6`}
+                    >
+                        <div className="container absolute inset-x-0 hidden w-full px-6 mx-auto xl:flex">
+                            <div className="pl-3">
                                 <BackButton
                                     fromPage={fromPage}
                                     searchQuery={searchQuery}
                                 />
                             </div>
-                            {/* Artikel Headers */}
-                            <Heading
-                                type={this.props.dataModel.TITEL_ENKELVOUD}
-                                titel={dataObject.Titel}
+                        </div>
+                        <div className="block xl:hidden">
+                            <BackButton
+                                fromPage={fromPage}
+                                searchQuery={searchQuery}
                             />
+                        </div>
 
-                            {/* Meta Content */}
-                            <MetaInfo
-                                dataLoaded={dataLoaded}
-                                revisieObjecten={this.state.revisieObjecten}
-                                dataObject={dataObject}
-                            />
+                        <Heading
+                            type={titelEnkelvoud}
+                            titel={dataObject ? dataObject.Titel : null}
+                        />
 
-                            <div className="mt-8">
-                                {/* Inhoud Sectie */}
-                                {titelEnkelvoud === 'Beleidskeuze' ? (
-                                    <ContainerViewFieldsBeleidsbeslissing
-                                        crudObject={dataObject}
-                                    />
-                                ) : null}
-                                {titelEnkelvoud === 'Beleidsregel' ? (
-                                    <ContainerViewFieldsBeleidsregel
-                                        crudObject={dataObject}
-                                    />
-                                ) : null}
-                                {titelEnkelvoud === 'Maatregel' ? (
-                                    <ContainerViewFieldsMaatregel
-                                        crudObject={dataObject}
-                                    />
-                                ) : null}
-                                {titelEnkelvoud === 'Opgave' ? (
-                                    <ContainerViewFieldsOpgave
-                                        crudObject={dataObject}
-                                    />
-                                ) : null}
-                                {/*  */}
-                                {titelEnkelvoud === 'Ambitie' ? (
-                                    <ContainerViewFieldsAmbitie
-                                        crudObject={dataObject}
-                                    />
-                                ) : null}
-                                {titelEnkelvoud === 'Belang' ? (
-                                    <ContainerViewFieldsBelang
-                                        crudObject={dataObject}
-                                    />
-                                ) : null}
-                                {titelEnkelvoud === 'Thema' ? (
-                                    <ContainerViewFieldsThema
-                                        crudObject={dataObject}
-                                    />
-                                ) : null}
-                            </div>
+                        {/* Meta Content */}
+                        <MetaInfo
+                            dataLoaded={dataLoaded}
+                            revisieObjecten={revisieObjecten}
+                            dataObject={dataObject}
+                        />
 
-                            {werkingsgebiedBoolean ? (
-                                <Werkingsgebied
-                                    fullscreenLeafletViewer={
-                                        this.state.fullscreenLeafletViewer
-                                    }
-                                    toggleFullscreenLeafletViewer={
-                                        this.toggleFullscreenLeafletViewer
-                                    }
-                                    werkingsGebiedUUID={werkingsGebiedUUID}
+                        {/* These contain the fields that need to be displayed for the different objects */}
+                        <div className="mt-8">
+                            {titelEnkelvoud === 'Beleidskeuze' ? (
+                                <ContainerViewFieldsBeleidsbeslissing
+                                    crudObject={dataObject}
+                                />
+                            ) : null}
+                            {titelEnkelvoud === 'Beleidsregel' ? (
+                                <ContainerViewFieldsBeleidsregel
+                                    crudObject={dataObject}
+                                />
+                            ) : null}
+                            {titelEnkelvoud === 'Maatregel' ? (
+                                <ContainerViewFieldsMaatregel
+                                    crudObject={dataObject}
+                                />
+                            ) : null}
+                            {titelEnkelvoud === 'Opgave' ? (
+                                <ContainerViewFieldsOpgave
+                                    crudObject={dataObject}
+                                />
+                            ) : null}
+                            {/*  */}
+                            {titelEnkelvoud === 'Ambitie' ? (
+                                <ContainerViewFieldsAmbitie
+                                    crudObject={dataObject}
+                                />
+                            ) : null}
+                            {titelEnkelvoud === 'Belang' ? (
+                                <ContainerViewFieldsBelang
+                                    crudObject={dataObject}
+                                />
+                            ) : null}
+                            {titelEnkelvoud === 'Thema' ? (
+                                <ContainerViewFieldsThema
+                                    crudObject={dataObject}
                                 />
                             ) : null}
                         </div>
-                    ) : (
-                        <LoaderContent />
-                    )}
-                </div>
-                {/* <RelatieComponent
-                    crudObject={dataObject}
-                    urlParam={this.props.match.params.id}
-                /> */}
-                {dataLoaded && titelEnkelvoud === 'Beleidskeuze' ? (
-                    <RelatiesKoppelingen beleidskeuze={dataObject} />
-                ) : null}
-            </React.Fragment>
-        )
-    }
+
+                        {hasWerkingsGebied ? (
+                            <Werkingsgebied
+                                fullscreenLeafletViewer={
+                                    fullscreenLeafletViewer
+                                }
+                                setFullscreenLeafletViewer={
+                                    setFullscreenLeafletViewer
+                                }
+                                werkingsGebiedUUID={werkingsGebiedUUID}
+                            />
+                        ) : null}
+                    </div>
+                </Transition>
+            </div>
+            {dataLoaded && titelEnkelvoud === 'Beleidskeuze' ? (
+                <RelatiesKoppelingen beleidskeuze={dataObject} />
+            ) : null}
+        </React.Fragment>
+    )
 }
 
 const BackButton = ({ fromPage, searchQuery }) => {
@@ -316,7 +298,7 @@ const BackButton = ({ fromPage, searchQuery }) => {
 
 const Werkingsgebied = ({
     fullscreenLeafletViewer,
-    toggleFullscreenLeafletViewer,
+    setFullscreenLeafletViewer,
     werkingsGebiedUUID,
 }) => {
     return (
@@ -327,7 +309,9 @@ const Werkingsgebied = ({
                 </h2>
                 <span
                     className="px-2 text-xs cursor-pointer"
-                    onClick={toggleFullscreenLeafletViewer}
+                    onClick={() =>
+                        setFullscreenLeafletViewer(!fullscreenLeafletViewer)
+                    }
                 >
                     Bekijk in het {fullscreenLeafletViewer ? 'klein' : 'groot'}
                     <FontAwesomeIcon
@@ -411,6 +395,21 @@ const MetaInfo = ({ revisieObjecten, dataObject }) => {
                 </React.Fragment>
             ) : null}
         </div>
+    )
+}
+
+function RevisieListItem(props) {
+    return (
+        <li className="py-2">
+            <span
+                className={`inline-block w-4 h-4 bg-${props.color}-500 rounded-full mt-1 absolute`}
+            />
+            <span
+                className={`pl-6 text-sm ${props.current ? 'font-bold' : null}`}
+            >
+                {props.content}
+            </span>
+        </li>
     )
 }
 

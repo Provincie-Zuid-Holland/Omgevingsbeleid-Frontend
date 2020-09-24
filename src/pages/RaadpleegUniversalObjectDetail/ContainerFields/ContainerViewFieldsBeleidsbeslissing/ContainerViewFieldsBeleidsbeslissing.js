@@ -39,12 +39,6 @@ class ContainerViewFieldsBeleidsbeslissing extends Component {
                                 fieldValue={crudObject['Aanleiding']}
                             />
                         ) : null}
-                        {crudObject['Afweging'] ? (
-                            <ViewFieldTitelEnInhoud
-                                fieldTitel="Afwegingen"
-                                fieldValue={crudObject['Afweging']}
-                            />
-                        ) : null}
                         {crudObject['Provinciaal_Belang'] ? (
                             <ViewFieldTitelEnInhoud
                                 fieldTitel="Provinciaal belang"
