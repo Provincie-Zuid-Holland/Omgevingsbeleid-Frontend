@@ -1,6 +1,7 @@
 export const TITEL_ENKELVOUD = 'Maatregel'
 export const TITEL_MEERVOUD = 'Maatregelen'
 export const API_ENDPOINT = 'maatregelen'
+export const API_ENDPOINT_VIGEREND = 'maatregelen/vigerend'
 export const SLUG_OVERZICHT = 'maatregelen'
 export const SLUG_CREATE_NEW = 'nieuwe-maatregel'
 
