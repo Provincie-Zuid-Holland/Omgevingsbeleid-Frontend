@@ -93,6 +93,7 @@ class ContainerDetail extends Component {
 
                     {this.state.dropdown ? (
                         <PopUpDetailDropdown
+                            titelEnkelvoud={titelEnkelvoud}
                             raadpleegLink={`/detail/${this.props.overzichtSlug}/${dataObject.UUID}`}
                             dataObject={dataObject}
                             toggleDropdown={this.toggleDropdown}

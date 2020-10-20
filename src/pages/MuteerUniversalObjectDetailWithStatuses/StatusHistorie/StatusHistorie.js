@@ -81,24 +81,66 @@ function StatusHistorie({
     vigerendeDimensieObject,
     vigerendeDimensieObjectIndex,
 }) {
-    // Reverse de array aangezien we niet de chronologische volgorde willen, willen beginnen bij de laatste versie
+    // If there is a checked out, or an object with a Status of 'Vigerend' we want to remove it from the history
+    const prepareHistorieForUI = () => {
+        if (
+            dimensieHistorie.length >= 1 &&
+            dimensieHistorie[0].Status !== 'Vigerend'
+        ) {
+            dimensieHistorie = dimensieHistorie.slice(1)
+        } else if (
+            dimensieHistorie.length === 1 &&
+            dimensieHistorie[0].Status === 'Vigerend'
+        ) {
+            dimensieHistorie = dimensieHistorie.slice(1)
+        } else if (
+            dimensieHistorie.length >= 1 &&
+            dimensieHistorie[0].Status === 'Vigerend' &&
+            dimensieHistorie[1].Status !== 'Vastgesteld'
+        ) {
+            // The object with a status of "Vigerend" hasn't been through the full status flow.
+            // Instead it has been edited with `?modus=wijzig_vigerend`
+            dimensieHistorie.splice(1, 1)
+        }
+
+        return dimensieHistorie
+    }
+
+    // Returns a boolean and if true the object
+    const checkForCheckedOutObject = () => {
+        let isACheckedOutObject = false
+        let checkedOutObject = null
+
+        if (
+            dimensieHistorie.length > 1 &&
+            dimensieHistorie[0].Status !== 'Vigerend'
+        ) {
+            isACheckedOutObject = true
+            checkedOutObject = dimensieHistorie[0]
+        } else if (
+            dimensieHistorie.length > 1 &&
+            dimensieHistorie[0] &&
+            dimensieHistorie[0].Status === 'Vigerend' &&
+            dimensieHistorie[1] &&
+            dimensieHistorie[1].Status !== 'Vastgesteld'
+        ) {
+            // The object with a status of "Vigerend" hasn't been through the full status flow.
+            // Instead it has been edited with `?modus=wijzig_vigerend`
+            isACheckedOutObject = true
+            checkedOutObject = dimensieHistorie[1]
+        }
+
+        return [isACheckedOutObject, checkedOutObject]
+    }
+
+    // The dimensieHistorie contains the old versions of the object
+    // We reverse it to make it start at the last version (see the UI)
     dimensieHistorie = cloneDeep(dimensieHistorie).reverse()
 
-    let isACheckedOutObject = false
-    let checkedOutObject = null
-    if (
-        dimensieHistorie.length >= 1 &&
-        dimensieHistorie[0].Status !== 'Vigerend'
-    ) {
-        isACheckedOutObject = true
-        checkedOutObject = dimensieHistorie[0]
-        dimensieHistorie = dimensieHistorie.slice(1)
-    } else if (
-        dimensieHistorie.length === 1 &&
-        dimensieHistorie[0].Status === 'Vigerend'
-    ) {
-        dimensieHistorie = dimensieHistorie.slice(1)
-    }
+    const [isACheckedOutObject, checkedOutObject] = checkForCheckedOutObject()
+
+    // Remove any object that we don't want to display in the 'Status UI Flow'
+    dimensieHistorie = prepareHistorieForUI()
 
     return (
         <div>
@@ -123,6 +165,7 @@ function StatusHistorie({
                 />
             ) : null}
 
+            {/* Status UI Flow */}
             <ul
                 className={`relative timeline-margin-left border-l-2 ${
                     vigerendeDimensieObject
@@ -170,6 +213,41 @@ function StatusHistorie({
                     ) {
                         /* If item is vigerend and there is an item before it, but no item after it */
                         return <VertakkingsItemLeftOnLine showDot={true} />
+                    } else if (
+                        dimensieObject.Status === 'Vigerend' &&
+                        dimensieHistorie[index + 1] &&
+                        dimensieHistorie[index + 1].Status !== 'Vastgesteld'
+                    ) {
+                        /* If item is vigerend and hasn't been through the whole process of the statusses */
+                        return (
+                            <React.Fragment>
+                                <li
+                                    className={`relative flex items-center ml-8 ${
+                                        index === 0 ? 'pt-12 pb-2' : 'pb-4 pt-5'
+                                    }`}
+                                    key={dimensieObject.UUID}
+                                >
+                                    <div
+                                        style={{
+                                            left: '-4px',
+                                        }}
+                                        className="absolute top-0 inline-block w-full h-full border-l-2 border-secondary"
+                                    ></div>
+                                </li>
+                                <li
+                                    className="absolute flex items-center py-2 -mt-10"
+                                    key={dimensieObject.UUID}
+                                >
+                                    <div className="absolute left-0 z-10 inline-block bg-indigo-900 list-item-bolletje bolletje-left-min-10" />
+
+                                    <div className="ml-16">
+                                        <StatusBadge
+                                            status={dimensieObject.Status}
+                                        />
+                                    </div>
+                                </li>
+                            </React.Fragment>
+                        )
                     } else if (
                         dimensieObject.Status === 'Vigerend' &&
                         dimensieHistorie[index + 1]
@@ -234,9 +312,5 @@ function StatusHistorie({
         </div>
     )
 }
-
-StatusHistorie.propTypes = {}
-
-StatusHistorie.defaultProps = {}
 
 export default StatusHistorie

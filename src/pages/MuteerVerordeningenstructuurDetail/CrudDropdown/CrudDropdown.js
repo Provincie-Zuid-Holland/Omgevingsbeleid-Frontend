@@ -182,7 +182,8 @@ const ConfirmDelete = ({ item, deleteItem, show, setDeleteIsOpen }) => {
                                             Je staat op het punt om{' '}
                                             {item.Type.toLowerCase()}{' '}
                                             {item.Volgnummer} te verwijderen.
-                                            {item.Children.length > 0 ? (
+                                            {item.Children.length > 0 &&
+                                            item.Type !== 'Artikel' ? (
                                                 <span>
                                                     {' '}
                                                     Op dit moment{' '}
@@ -211,13 +212,18 @@ const ConfirmDelete = ({ item, deleteItem, show, setDeleteIsOpen }) => {
                                     </button>
                                     <button
                                         onClick={() => {
-                                            if (item.Children.length > 0) return
+                                            if (
+                                                item.Children.length > 0 &&
+                                                item.Type !== 'Artikel'
+                                            )
+                                                return
                                             setDeleteIsOpen(false)
                                             deleteItem()
                                         }}
                                         type="button"
                                         className={`inline-flex justify-center px-4 py-2 text-base font-medium leading-6 text-white transition duration-150 ease-in-out ${
-                                            item.Children.length > 0
+                                            item.Children.length > 0 &&
+                                            item.Type !== 'Artikel'
                                                 ? 'bg-gray-400 cursor-not-allowed'
                                                 : 'bg-red-600 hover:bg-red-500'
                                         } border border-transparent rounded-md shadow-sm focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo sm:text-sm sm:leading-5`}

@@ -426,7 +426,12 @@ const TitleEditing = ({
                 <SaveButton
                     save={() => {
                         const werkingsGebiedenHasValue = checkForWerkingsgebied()
-                        if (!werkingsGebiedenHasValue) {
+                        console.log('item.Type')
+                        console.log(item.Type)
+                        if (
+                            item.Type === 'Artikel' &&
+                            !werkingsGebiedenHasValue
+                        ) {
                             toast('Selecteer een werkingsgebied')
                             return
                         }

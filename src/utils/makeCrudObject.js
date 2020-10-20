@@ -1,7 +1,13 @@
 import formatGeldigheidDatesForUI from './formatGeldigheidDatesForUI'
 
 // Function to make an object containing the fields that the user can edit
-function makeCrudObject({ crudProperties, dimensieConstants, responseObject }) {
+// If wijzigVigerend is passed it means the user is editing a beleidskeuze without changing the 'vigerend' status
+function makeCrudObject({
+    crudProperties,
+    dimensieConstants,
+    responseObject,
+    wijzigVigerend,
+}) {
     // Het initiele object wat gereturned zal worden
     // Hierop plaatsen we alle properties die gewijzigd moeten worden
     let crudObject = {}
@@ -19,6 +25,7 @@ function makeCrudObject({ crudProperties, dimensieConstants, responseObject }) {
             if (
                 crudProperty === 'Status' &&
                 isMaatregelOrBeleidskeuze &&
+                !wijzigVigerend &&
                 (responseObject[crudProperty] === 'Gepubliceerd' ||
                     responseObject[crudProperty] === 'Vigerend')
             ) {
