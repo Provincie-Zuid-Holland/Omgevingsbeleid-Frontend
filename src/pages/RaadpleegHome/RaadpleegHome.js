@@ -153,16 +153,12 @@ class RaadpleegHome extends Component {
                             provincie de toekomst van Zuid-Holland voor zich
                             ziet. De Omgevingsvisie bevat verschillende
                             onderdelen: in de{' '}
-                            <mark className="marked-purple">7 ambities</mark>{' '}
+                            <mark className="marked-purple">ambities</mark>{' '}
                             wordt omschreven waar we als provincie heen willen,
                             de{' '}
-                            <mark className="marked-purple">
-                                18 beleidsdoelen
-                            </mark>{' '}
+                            <mark className="marked-purple">beleidsdoelen</mark>{' '}
                             geven hier richting aan en de{' '}
-                            <mark className="marked-purple">
-                                74 beleidskeuzes
-                            </mark>{' '}
+                            <mark className="marked-purple">beleidskeuzes</mark>{' '}
                             bepalen hoe de ambities bereikt dienen te worden.
                         </p>
                     </div>
