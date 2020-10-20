@@ -2,6 +2,8 @@ import React from 'react'
 
 import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFieldTitelEnBeschrijving'
 
+var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
+
 function BeginGeldigheid({
     dataObjectProperty,
     fieldLabel,
@@ -9,6 +11,7 @@ function BeginGeldigheid({
     titelEnkelvoud,
     fieldValue,
     handleChange,
+    disabled,
 }) {
     return (
         <div className="w-full px-3 mb-6">
@@ -19,7 +22,8 @@ function BeginGeldigheid({
                 titelEnkelvoud={titelEnkelvoud}
             />
             <input
-                placeholder="dd-mm-jjjj"
+                disabled={disabled}
+                placeholder={isSafari ? 'jjjj-mm-dd' : 'dd-mm-jjjj'}
                 value={fieldValue ? fieldValue : ''}
                 onChange={handleChange}
                 name={dataObjectProperty}
@@ -41,6 +45,7 @@ function EindGeldigheid({
     titelEnkelvoud,
     fieldValue,
     handleChange,
+    disabled,
 }) {
     return (
         <div className="w-full px-3 mb-6">
@@ -64,10 +69,11 @@ function EindGeldigheid({
                         titelEnkelvoud={titelEnkelvoud}
                     />
                     <input
+                        disabled={disabled}
                         value={fieldValue ? fieldValue : ''}
                         onChange={handleChange}
                         name={dataObjectProperty}
-                        placeholder="dd-mm-jjjj"
+                        placeholder={isSafari ? 'jjjj-mm-dd' : 'dd-mm-jjjj'}
                         className="block w-full px-4 py-3 leading-tight text-gray-700 border border-gray-400 rounded appearance-none focus:border-gray-500 hover:border-gray-500 focus:outline-none focus:bg-white"
                         type="date"
                         id={`form-field-${titelEnkelvoud.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
@@ -108,6 +114,7 @@ class FormFieldDate extends React.Component {
                 titelEnkelvoud={this.props.titelEnkelvoud}
                 fieldValue={this.props.fieldValue}
                 handleChange={this.props.handleChange}
+                disabled={this.props.disabled}
             />
         ) : (
             <BeginGeldigheid
@@ -117,6 +124,7 @@ class FormFieldDate extends React.Component {
                 titelEnkelvoud={this.props.titelEnkelvoud}
                 fieldValue={this.props.fieldValue}
                 handleChange={this.props.handleChange}
+                disabled={this.props.disabled}
             />
         )
     }
