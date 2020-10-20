@@ -211,6 +211,8 @@ const RelatiesKoppelingenVisualisatie = ({
         }
     }, [data, d3Container.current])
 
+    const isVerordeningItem = href && href.includes('verordening')
+
     return (
         <div className="flex">
             <div className="flex flex-col justify-between w-full">
@@ -261,7 +263,7 @@ const RelatiesKoppelingenVisualisatie = ({
                     />
                 </div>
                 <Link
-                    to={href}
+                    to={isVerordeningItem ? '#' : href}
                     id="d3-tooltip"
                     style={{
                         left: variables.left,
@@ -271,7 +273,11 @@ const RelatiesKoppelingenVisualisatie = ({
                 >
                     <div
                         id="d3-tooltip-title"
-                        class="px-4 py-2 rounded bg-gray-900 text-white shadow hover:underline"
+                        class={`px-4 py-2 rounded bg-gray-900 text-white shadow ${
+                            isVerordeningItem
+                                ? 'cursor-default'
+                                : 'hover:underline'
+                        }`}
                     />
                 </Link>
             </div>

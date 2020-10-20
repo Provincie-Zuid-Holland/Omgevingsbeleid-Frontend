@@ -96,6 +96,9 @@ const ListItem = ({
         return path
     }
 
+    const href = generateHref({ property: property, UUID: UUID })
+    const isVerordeningItem = href && href.includes('verordening')
+
     return (
         <li className="relative block mt-1 text-sm text-gray-800">
             <div
@@ -105,8 +108,10 @@ const ListItem = ({
                 }
             >
                 <Link
-                    to={generateHref({ property: property, UUID: UUID })}
-                    className="hover:underline"
+                    to={isVerordeningItem ? '#' : href}
+                    className={
+                        isVerordeningItem ? 'cursor-default' : 'hover:underline'
+                    }
                 >
                     <span
                         className={`inline-block w-3 h-3 mr-2 rounded-full`}
