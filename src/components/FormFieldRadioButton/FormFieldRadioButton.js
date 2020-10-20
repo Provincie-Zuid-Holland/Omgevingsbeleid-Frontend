@@ -14,7 +14,10 @@ function FormFieldRadioButton({
                 <p className="mb-4 text-sm text-gray-700">{label}</p>
             ) : null}
 
-            <div className="mt-4">
+            <div
+                className="mt-4"
+                id={`form-field-${titelEnkelvoud.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
+            >
                 {options.map((option) => {
                     const id = `form-field-${titelEnkelvoud.toLowerCase()}-${dataObjectProperty.toLowerCase()}-${option}`
                     return (

@@ -195,7 +195,6 @@ export default class LeafletTinyViewer extends Component {
                             const jsonLayer = Leaflet.Proj.geoJson(data, {
                                 onEachFeature: onEachFeature,
                                 style: (feature) => {
-                                    console.log(feature.properties.Gebied)
                                     colorsIndex++
                                     return {
                                         stroke: true,
@@ -209,7 +208,6 @@ export default class LeafletTinyViewer extends Component {
                             let layerArray = []
                             jsonLayer.eachLayer(function (layer) {
                                 layerArray.push(layer)
-                                console.log(layer)
                             })
                             this.setState({
                                 werkingsgebied: layerArray,
@@ -262,7 +260,6 @@ export default class LeafletTinyViewer extends Component {
                             let layerArray = []
                             jsonLayer.eachLayer(function (layer) {
                                 layerArray.push(layer)
-                                console.log(layer)
                             })
                             this.setState({
                                 onderverdelingen: layerArray,

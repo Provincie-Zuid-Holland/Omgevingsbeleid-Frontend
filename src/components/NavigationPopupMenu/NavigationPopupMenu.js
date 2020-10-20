@@ -139,7 +139,7 @@ const NavigationPopupMenu = ({
                 return beleidsregels
 
             default:
-                return {}
+                return []
         }
     }
 
@@ -285,7 +285,7 @@ const NavigationPopupMenu = ({
                             </div>
                             <div className="h-full pt-2 overflow-y-auto">
                                 <nav className="flex flex-wrap pb-12 items-top">
-                                    {isLoading && !currentItems ? (
+                                    {isLoading || !currentItems ? (
                                         <div className="flex items-center justify-center w-full h-24 text-gray-500">
                                             <LoaderSpinner />
                                         </div>
