@@ -269,6 +269,10 @@ export default class LeafletViewer extends Component {
             activeSearchMarker: markerID,
         })
 
+        // Create popup
+        const coordinates = Leaflet.latLng(lng, lat)
+        this._createCustomPopup(coordinates.lat, coordinates.lng, markerID)
+
         leafletMap.leafletElement.setView(Leaflet.latLng(lng, lat), zoomLevel)
     }
 
