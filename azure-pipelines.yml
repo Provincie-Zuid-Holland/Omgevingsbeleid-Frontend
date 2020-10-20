@@ -4,6 +4,10 @@ trigger:
   - acc
   - production
 
+
+pool:
+  vmImage: "windows-latest"
+
 jobs:
   - job: Build
     steps:
@@ -16,7 +20,7 @@ jobs:
       displayName: "FA token"
     - script: npm install
       displayName: "Install dependencies"
-    - script: REACT_APP_API_ENV=$(Build.SourceBranchName)
+    - script: Set REACT_APP_API_ENV=$(Build.SourceBranchName)
       displayName: "Set env"
     - script: npm run-script build
       displayName: "Build"
