@@ -31,6 +31,7 @@ import ContainerViewFieldsOpgave from './ContainerFields/ContainerViewFieldsOpga
 import ContainerViewFieldsAmbitie from './ContainerFields/ContainerViewFieldsAmbitie'
 import ContainerViewFieldsBelang from './ContainerFields/ContainerViewFieldsBelang'
 import ContainerViewFieldsThema from './ContainerFields/ContainerViewFieldsThema'
+import ViewFieldGebiedDuiding from './ViewFieldGebiedDuiding'
 import RelatiesKoppelingen from './RelatiesKoppelingen'
 
 const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
@@ -256,7 +257,7 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
                             ) : null}
                         </div>
 
-                        {hasWerkingsGebied ? (
+                        {hasWerkingsGebied && dataLoaded ? (
                             <Werkingsgebied
                                 fullscreenLeafletViewer={
                                     fullscreenLeafletViewer
@@ -265,6 +266,14 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
                                     setFullscreenLeafletViewer
                                 }
                                 werkingsGebiedUUID={werkingsGebiedUUID}
+                            />
+                        ) : null}
+
+                        {titelEnkelvoud === 'Maatregel' &&
+                        dataLoaded &&
+                        dataObject['Gebied_Duiding'] !== undefined ? (
+                            <ViewFieldGebiedDuiding
+                                gebiedDuiding={dataObject['Gebied_Duiding']}
                             />
                         ) : null}
                     </div>

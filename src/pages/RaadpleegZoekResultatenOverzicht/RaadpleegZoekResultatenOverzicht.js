@@ -58,23 +58,27 @@ function getDimensieConstant(type) {
 
 function SearchResultItem({ item, searchQuery }) {
     function getContent() {
-        // Get everything past the '=' of '?query=artikel'
-        const query = searchQuery.slice(
-            searchQuery.indexOf('=') + 1,
-            searchQuery.length
+        console.log(item.omschrijving)
+        const params = new URLSearchParams(
+            document.location.search.substring(1)
         )
+
+        // Get everything past the '=' of '?query=artikel'
+        const query = params.get('query')
 
         const omschrijving = item.Omschrijving
             ? getExcerpt(item.Omschrijving)
             : ''
 
+        const markedOmschrijving = omschrijving.replace(
+            new RegExp(query, 'g'),
+            `<mark class="marked-red">${query}</mark>`
+        )
+
         return {
             setInnerHTML: true,
             content: {
-                __html: omschrijving.replace(
-                    new RegExp(query, 'g'),
-                    `<mark class="marked-red">${query}</mark>`
-                ),
+                __html: markedOmschrijving,
             },
         }
     }
@@ -317,7 +321,9 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                     )
                     .filter(
                         (e) =>
-                            e.Type === 'Maatregelen' && e.Status !== 'Vigerend'
+                            (e.Type === 'Maatregelen' &&
+                                e.Status !== 'Vigerend') ||
+                            e.Type !== 'Maatregelen'
                     )
 
                 this.setInitialOnPageFilters(searchResults)
@@ -616,8 +622,12 @@ const FilterItem = ({ handleFilter, checked, item, count }) => {
                     name={item}
                 />
                 <span>
-                    {item === 'Beleidsbeslissingen' ? 'Beleidskeuzes' : item} (
-                    {count})
+                    {item === 'Beleidsbeslissingen'
+                        ? 'Beleidskeuzes'
+                        : item === 'Verordeningen'
+                        ? 'Artikelen'
+                        : item}{' '}
+                    ({count})
                 </span>
             </label>
         </li>

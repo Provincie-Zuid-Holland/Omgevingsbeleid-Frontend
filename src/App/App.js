@@ -44,10 +44,14 @@ import * as Sentry from '@sentry/browser'
 
 const AuthRoutes = lazy(() => import('./AuthRoutes'))
 
-if (process.env.NODE_ENV !== 'development') {
+if (
+    process.env.REACT_APP_SENTRY_DSN &&
+    process.env.NODE_ENV !== 'development'
+) {
     Sentry.init({
         environment: process.env.NODE_ENV,
         release: process.env.REACT_APP_RELEASE_VERSION,
+        dsn: process.env.REACT_APP_SENTRY_DSN,
     })
 }
 
@@ -60,10 +64,6 @@ const detailPaginas = [
     {
         slug: 'beleidsregels',
         dataModel: allDimensies.BELEIDSREGELS,
-    },
-    {
-        slug: 'doelen',
-        dataModel: allDimensies.DOELEN,
     },
     {
         slug: 'belangen',

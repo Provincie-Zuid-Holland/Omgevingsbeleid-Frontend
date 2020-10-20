@@ -459,20 +459,23 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                                                 />
                                             </span>
                                         </div>
-
-                                        <div
-                                            className="overflow-hidden rounded-lg"
-                                            id={`full-screen-leaflet-container-${this.state.fullscreenLeafletViewer}`}
-                                        >
-                                            <LeafletTinyViewer
-                                                gebiedType="Werkingsgebieden"
-                                                gebiedUUID={werkingsGebiedUUID}
-                                                fullscreen={
-                                                    this.state
-                                                        .fullscreenLeafletViewer
-                                                }
-                                            />
-                                        </div>
+                                        {!loadingNewObject ? (
+                                            <div
+                                                className="overflow-hidden rounded-lg"
+                                                id={`full-screen-leaflet-container-${this.state.fullscreenLeafletViewer}`}
+                                            >
+                                                <LeafletTinyViewer
+                                                    gebiedType="Werkingsgebieden"
+                                                    gebiedUUID={
+                                                        werkingsGebiedUUID
+                                                    }
+                                                    fullscreen={
+                                                        this.state
+                                                            .fullscreenLeafletViewer
+                                                    }
+                                                />
+                                            </div>
+                                        ) : null}
                                     </div>
                                 ) : null}
                             </div>

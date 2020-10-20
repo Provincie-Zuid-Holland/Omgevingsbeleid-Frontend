@@ -32,6 +32,7 @@ class FormFieldTextArea extends React.Component {
                         anchorLink={this.props.anchorLink}
                     />
                     <textarea
+                        disabled={this.props.disabled}
                         ref={this.textArea}
                         id={`form-field-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
                         value={

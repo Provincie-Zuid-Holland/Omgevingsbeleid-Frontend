@@ -21,6 +21,7 @@ const FormFieldWerkingsgebiedKoppeling = ({
     titelEnkelvoud,
     fieldLabel,
     pValue,
+    disabled,
 }) => {
     const [popupOpen, setPopupOpen] = React.useState(false)
 
@@ -66,7 +67,13 @@ const FormFieldWerkingsgebiedKoppeling = ({
                 pValue={pValue}
                 titelEnkelvoud={titelEnkelvoud}
             />
-            <div className="flex flex-wrap mb-6 -mx-3">
+            <div
+                className={`flex flex-wrap mb-6 -mx-3 ${
+                    disabled
+                        ? 'opacity-75 pointer-events-none cursor-not-allowed'
+                        : ''
+                }`}
+            >
                 <div
                     className="w-full px-3"
                     id={`form-field-${titelEnkelvoud.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}

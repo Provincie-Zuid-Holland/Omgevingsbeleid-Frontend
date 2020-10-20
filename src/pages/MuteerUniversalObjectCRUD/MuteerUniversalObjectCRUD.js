@@ -129,8 +129,6 @@ class MuteerUniversalObjectCRUD extends Component {
         const apiEndpoint = dimensieConstants.API_ENDPOINT
         const overzichtSlug = dimensieConstants.SLUG_OVERZICHT
 
-        // crudObject = this.setEmptyValuesToNullCrudObject(crudObject)
-
         axios
             .post(`${apiEndpoint}`, JSON.stringify(crudObject))
             .then((res) => {
@@ -202,6 +200,7 @@ class MuteerUniversalObjectCRUD extends Component {
         // Converteer de 'yyyy-MM-DD' waarden naar Date objecten
         // Of Verwijder de begin_ of eind_geldigheid properties als ze geen waarde hebben
         crudObject = this.formatGeldigheidDatesForAPI(crudObject)
+
         // Check of de verplichte velden zijn ingevuld als het een beleidsbeslissing is
         // !REFACTOR! - velden check voor andere dimensies (Bespreken STUM)
         const alleVeldenIngevuld = checkRequiredFields(
@@ -241,8 +240,6 @@ class MuteerUniversalObjectCRUD extends Component {
 
         let nieuwCrudObject = this.state.crudObject
 
-        // !REFACTOR! Deze logica mag in de makeCrudObject functie
-        // Als de relatie Array nog niet initialized is, maak deze aan
         if (typeof nieuwCrudObject[propertyName] === 'string') {
             nieuwCrudObject[propertyName] = []
         }
@@ -292,10 +289,15 @@ class MuteerUniversalObjectCRUD extends Component {
     createAndSetCrudObject(responseObjectFromAPI) {
         const dimensieConstants = this.props.dimensieConstants
         const crudProperties = makeCrudProperties(dimensieConstants)
+
+        let params = new URL(document.location).searchParams
+        let modus = params.get('modus')
+
         let crudObject = makeCrudObject({
             crudProperties: crudProperties,
             dimensieConstants: dimensieConstants,
             responseObject: responseObjectFromAPI,
+            wijzigVigerend: modus, // modus contains
         })
 
         this.setState({
@@ -307,15 +309,49 @@ class MuteerUniversalObjectCRUD extends Component {
     getAndSetDimensieDataFromApi() {
         const objectID = this.props.match.params.single
         const dimensieConstants = this.props.dimensieConstants
+        const titelEnkelvoud = dimensieConstants.TITEL_ENKELVOUD
         const apiEndpoint = dimensieConstants.API_ENDPOINT
+
+        let params = new URL(document.location).searchParams
+        // If modus equals 'wijzig_vigerend', the user is editing a vigerend object
+        let modus = params.get('modus')
+
         axios
             .get(`${apiEndpoint}/${objectID}`)
             .then((res) => {
                 const responseObject = res.data
+                let crudObject = null
 
-                // Create and set crudObject in state
-                // responseObject[0] is de laatste versie van het dimensie object
-                let crudObject = responseObject[0]
+                if (
+                    (titelEnkelvoud === 'Maatregel' &&
+                        modus &&
+                        modus === 'wijzig_vigerend') ||
+                    (titelEnkelvoud === 'Beleidskeuze' &&
+                        modus &&
+                        modus === 'wijzig_vigerend')
+                ) {
+                    // Get the first object with a status of 'Vigerend'
+                    crudObject = responseObject.find(
+                        (e) => e.Status === 'Vigerend'
+                    )
+                } else if (
+                    titelEnkelvoud === 'Beleidskeuze' ||
+                    titelEnkelvoud === 'Maatregel'
+                ) {
+                    // Probleem:
+                    // - Wanneer we een beleidskeuze opslaan in een tussentijdsproces popt deze bovenop de stack
+                    // - Deze willen we overslaan bij het editen, maar er is geen mogelijkheid om onderscheid te maken
+                    //   tussen een vigerende versie die
+
+                    // crudObject = responseObject.find(
+                    //     (e) => e.Status !== 'Vigerend'
+                    // )
+
+                    crudObject = responseObject[0]
+                } else {
+                    crudObject = responseObject[0]
+                }
+
                 crudObject = formatGeldigheidDatesForUI(crudObject)
                 this.createAndSetCrudObject(crudObject)
             })

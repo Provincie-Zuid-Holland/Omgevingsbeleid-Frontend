@@ -104,6 +104,7 @@ class FormFieldSelectUser extends React.Component {
                 <p className="form-field-description">{`${this.props.pValue}`}</p>
                 {this.state.dataLoaded ? (
                     <Select
+                        isDisabled={this.props.disabled}
                         id={`form-field-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
                         className="border border-gray-400 rounded hover:border-gray-500 focus:border-gray-500"
                         name={this.props.dataObjectProperty}

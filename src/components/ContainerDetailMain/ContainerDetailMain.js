@@ -75,6 +75,7 @@ class ContainerDetailMain extends Component {
 
                 {this.state.dropdown ? (
                     <PopUpDetailDropdown
+                        titelEnkelvoud={titelEnkelvoud}
                         dataObject={dataObject}
                         toggleDropdown={this.toggleDropdown}
                         openState={this.state.dropdown}

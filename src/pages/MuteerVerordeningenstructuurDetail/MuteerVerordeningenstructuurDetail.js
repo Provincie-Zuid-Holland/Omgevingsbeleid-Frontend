@@ -120,9 +120,12 @@ const MuteerVerordeningenstructuurDetail = () => {
                 return newState
             case 'changeLidToArtikelInhoud':
                 newState[action.name] = action.value
+                console.log(lineage)
                 if (newState.Children && newState.Children.length > 0) {
+                    console.log(newState)
                     delete newState.Children
                 }
+                console.log(newState)
                 return newState
             case 'changeSelectValue':
                 if (action.actionMeta.action === 'select-option') {
@@ -163,6 +166,7 @@ const MuteerVerordeningenstructuurDetail = () => {
     // [verordeningsLedenFromGET] - Contains the leden objects in an array if the [verordeningsObjectFromGET] is an Article and has Children
     const verordeningsLedenFromGETReducer = (state, action) => {
         const newState = clonedeep(state)
+
         switch (action.type) {
             case 'initialize':
                 return action.initObject
@@ -262,6 +266,7 @@ const MuteerVerordeningenstructuurDetail = () => {
                 UUID: newObject.UUID,
                 Volgnummer: newObject.Volgnummer,
             }
+
             switch (depthOfObject) {
                 case 1:
                     // Hoofdstuk level
@@ -844,11 +849,16 @@ const MuteerVerordeningenstructuurDetail = () => {
                     UUID: object.UUID,
                     Volgnummer: object.Volgnummer,
                 }
+
                 if (patchLeden) {
                     strippedObject.Children = object.Children
+                } else {
+                    strippedObject.Children = []
                 }
+
                 return strippedObject
             }
+
             const strippedObject = stripPropertiesForLineage(object)
 
             // The max depth can be 4

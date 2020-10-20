@@ -233,7 +233,7 @@ const MuteerUniversalObjectDetailWithStatuses = ({ dimensieConstants }) => {
                 />
 
                 {dataReceived && dimensieHistorieSet ? (
-                    <div className="flex">
+                    <div className="flex pb-24">
                         <div
                             className={`${
                                 overzichtSlug !== 'beleidskeuzes' ||
