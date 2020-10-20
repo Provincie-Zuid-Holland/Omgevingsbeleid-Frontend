@@ -268,10 +268,11 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
                                 werkingsGebiedUUID={werkingsGebiedUUID}
                             />
                         ) : null}
-
+                        {console.log(dataObject)}
                         {titelEnkelvoud === 'Maatregel' &&
                         dataLoaded &&
-                        dataObject['Gebied_Duiding'] !== undefined ? (
+                        dataObject['Gebied_Duiding'] &&
+                        dataObject['Gebied'] ? (
                             <ViewFieldGebiedDuiding
                                 gebiedDuiding={dataObject['Gebied_Duiding']}
                             />
