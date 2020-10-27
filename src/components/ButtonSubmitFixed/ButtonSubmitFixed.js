@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-function ButtonSubmitFixed({ saving }) {
+function ButtonSubmitFixed() {
     return (
         <div className="fixed bottom-0 right-0 z-10 px-6">
             <div className="inline-block px-4 py-4 bg-white rounded-t shadow">

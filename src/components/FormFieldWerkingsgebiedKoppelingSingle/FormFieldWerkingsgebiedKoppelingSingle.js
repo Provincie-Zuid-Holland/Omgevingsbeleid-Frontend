@@ -50,7 +50,7 @@ const FormFieldWerkingsgebiedKoppelingSingle = ({
                 console.log(err)
                 toast(process.env.REACT_APP_ERROR_MSG)
             })
-    }, [werkingsgebiedInParentState])
+    }, [werkingsgebiedInParentState, werkingsgebied])
 
     return (
         <React.Fragment>

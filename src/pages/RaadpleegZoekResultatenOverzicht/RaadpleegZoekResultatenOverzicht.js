@@ -10,7 +10,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import axios from './../../API/axios'
 
 // Import Data Model
-// import dataModel from './../../App/dataModel'
 import allDimensieConstants from './../../constants/dimensies'
 
 // Import Components
@@ -58,7 +57,6 @@ function getDimensieConstant(type) {
 
 function SearchResultItem({ item, searchQuery }) {
     function getContent() {
-        console.log(item.omschrijving)
         const params = new URLSearchParams(
             document.location.search.substring(1)
         )
@@ -96,6 +94,18 @@ function SearchResultItem({ item, searchQuery }) {
     const dimensieContants = getDimensieConstant(type)
     const overzichtURL = dimensieContants.SLUG_OVERZICHT
     const titelEnkelvoud = dimensieContants.TITEL_ENKELVOUD
+
+    // Fallback for verordeningsitems that have not been found in the vigerende structure
+    if (
+        (item &&
+            item.positionInStructure &&
+            item.positionInStructure[0] === null) ||
+        (item &&
+            item.positionInStructure &&
+            item.positionInStructure.length === 0)
+    ) {
+        return null
+    }
 
     return (
         <li className="py-5 border-b border-gray-300" key={item.UUID}>
@@ -335,7 +345,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                 )
 
                 this.setState({
-                    // searchFiltersOnly: searchFiltersOnly,
+                    searchFiltersOnly: searchFiltersOnly,
                     searchResults: searchResultsWithVerordeningsPositions,
                     dataLoaded: true,
                 })
@@ -449,6 +459,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
 
     getSearchResults() {
         const urlParams = this.props.location.search
+
         const searchParams = new URLSearchParams(urlParams)
         const searchQuery = searchParams.get('query')
         const searchFiltersOnly = searchParams.get('only')
@@ -542,22 +553,31 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                         <span>Startpagina</span>
                     </Link>
 
-                    <h2 className="block text-lg font-semibold text-primary group-hover:underline">
-                        Filteren
-                    </h2>
-                    <ul className="mt-4">
-                        {onPageFilters.filterArray &&
-                        onPageFilters.filterArray.length > 0
-                            ? filters.map((filter) => (
-                                  <FilterItem
-                                      count={onPageFilters[filter].count}
-                                      handleFilter={this.handleFilter}
-                                      checked={!onPageFilters[filter].checked}
-                                      item={filter}
-                                  />
-                              ))
-                            : null}
-                    </ul>
+                    {this.state.dataLoaded &&
+                    this.state.searchFiltersOnly === null ? (
+                        <React.Fragment>
+                            <h2 className="block text-lg font-semibold text-primary group-hover:underline">
+                                Filteren
+                            </h2>
+                            <ul className="mt-4">
+                                {onPageFilters.filterArray &&
+                                onPageFilters.filterArray.length > 0
+                                    ? filters.map((filter) => (
+                                          <FilterItem
+                                              count={
+                                                  onPageFilters[filter].count
+                                              }
+                                              handleFilter={this.handleFilter}
+                                              checked={
+                                                  !onPageFilters[filter].checked
+                                              }
+                                              item={filter}
+                                          />
+                                      ))
+                                    : null}
+                            </ul>
+                        </React.Fragment>
+                    ) : null}
                 </div>
 
                 <div className="w-2/4">

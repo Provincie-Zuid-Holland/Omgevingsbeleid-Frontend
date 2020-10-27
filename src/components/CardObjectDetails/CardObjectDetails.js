@@ -26,17 +26,17 @@ function CardObjectItem({
     return (
         <ContainerAnimateContent>
             <Link
-                className="relative inline-block h-full w-full px-4 pb-6 pt-4 shadow-md rounded overflow-hidden bg-white"
+                className="relative inline-block w-full h-full px-4 pt-4 pb-6 overflow-hidden bg-white rounded shadow-md"
                 to={`/muteer/${hoofdOnderdeelSlug}/${object.ID}`}
                 id={`object-card-${titelEnkelvoud.toLowerCase()}-${index}`}
             >
-                <h5 className="text-gray-600 text-sm font-light py-1">
+                <h5 className="py-1 text-sm font-light text-gray-600">
                     {titelEnkelvoud}
                 </h5>
                 <h2 className="text-xl font-bold text-gray-800">
                     {object.Titel}
                 </h2>
-                <p className="text-gray-700 text-base pr-4">
+                <p className="pr-4 text-base text-gray-700">
                     {object.Omschrijving !== undefined && hideParagraaf !== true
                         ? getExcerptIfNeeded(object.Omschrijving)
                         : null}
@@ -44,7 +44,7 @@ function CardObjectItem({
                         ? getExcerptIfNeeded(object.Motivering)
                         : null}
                 </p>
-                <span className="bottom-0 right-0 absolute font-bold w-8 h-10 text-gray-400 object-left-top">
+                <span className="absolute bottom-0 right-0 object-left-top w-8 h-10 font-bold text-gray-400">
                     <FontAwesomeIcon className="text-2xl" icon={faAngleRight} />
                 </span>
             </Link>

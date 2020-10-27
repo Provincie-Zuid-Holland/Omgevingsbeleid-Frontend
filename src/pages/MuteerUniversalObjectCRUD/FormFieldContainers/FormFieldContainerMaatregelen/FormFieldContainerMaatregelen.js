@@ -58,7 +58,6 @@ function FormFieldContainerMaatregelen({
                         fieldValue={crudObject['Toelichting']}
                         dataObjectProperty="Toelichting"
                         placeholder="Schrijf hier uw toelichting..."
-                        toolbar={[{ header: 2 }, 'bold', { list: 'bullet' }]}
                     />
                 </FormFieldInputContainer>
             </ContainerFormSection>
