@@ -1,3 +1,5 @@
+import { currentDate, futureDate, currentDateFormatted } from './testValues'
+
 export const TITEL_ENKELVOUD = 'Ambitie'
 export const TITEL_MEERVOUD = 'Ambities'
 export const API_ENDPOINT = 'ambities'
@@ -8,34 +10,40 @@ export const SLUG_OVERZICHT = 'ambities'
 // Wordt gebruikt bij CRUD detail pagina's
 export const SLUG_CREATE_NEW = 'nieuwe-ambitie'
 
-// !REFACTOR!
-// Werd gebruikt als key bij het opslaan van de state in LocalStorage
-export const OBJECT_NAME = 'Ambitie'
-
 export const CRUD_PROPERTIES = {
     Titel: {
-        initValue: '',
+        initValue: null,
         required: true,
         requiredMessage: 'Vul een titel in',
+        testValue: `Test ambitie ${currentDateFormatted}`,
+        type: 'text input',
     },
     Omschrijving: {
-        initValue: '',
+        initValue: null,
         required: false,
         requiredMessage: '',
+        testValue: 'Omschrijving',
+        type: 'text input',
     },
     Weblink: {
-        initValue: '',
+        initValue: null,
         required: false,
         requiredMessage: '',
+        testValue: 'Weblink',
+        type: 'text input',
     },
     Begin_Geldigheid: {
         initValue: null,
         required: true,
         requiredMessage: 'Vul een datum van inwerkingstreding in',
+        testValue: currentDate,
+        type: 'date input',
     },
     Eind_Geldigheid: {
         initValue: null,
         required: false,
         requiredMessage: 'Vul een datum van uitwerkingstreding in',
+        testValue: futureDate,
+        type: 'date input',
     },
 }

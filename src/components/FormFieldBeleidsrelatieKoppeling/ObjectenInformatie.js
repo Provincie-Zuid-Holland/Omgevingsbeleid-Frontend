@@ -7,8 +7,8 @@
 const objecten = {
     beleidsbeslissing: {
         buttonTekst: 'belang',
-        volledigeTitel: 'Beleidsbeslissing',
-        volledigeTitelMeervoud: 'Beleidsbeslissingen',
+        volledigeTitel: 'Beleidskeuze',
+        volledigeTitelMeervoud: 'Beleidskeuzes',
         api: '/beleidsbeslissingen',
         filterType: 'Nationaal Belang',
         propertyName: 'beleidsbeslissing',

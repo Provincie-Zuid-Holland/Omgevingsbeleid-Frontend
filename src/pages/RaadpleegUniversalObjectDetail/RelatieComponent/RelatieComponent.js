@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 import LoaderSmallSpan from './../../../components/LoaderSmallSpan'
 
@@ -37,11 +38,13 @@ class RelatieComponent extends Component {
                 let beleidsrelaties = res.data.filter(
                     (item) => item.Status === 'Akkoord'
                 )
-                console.log(beleidsrelaties)
 
                 cb(beleidsrelaties)
             })
-            .catch((err) => console.log(err))
+            .catch((err) => {
+                console.log(err)
+                toast(process.env.REACT_APP_ERROR_MSG)
+            })
     }
 
     popExtFieldAndSetState(beleidsrelaties) {
@@ -189,7 +192,10 @@ class RelatieComponent extends Component {
                     dataFromAPILoaded: true,
                 })
             })
-            .catch((err) => console.log(err))
+            .catch((err) => {
+                console.log(err)
+                toast(process.env.REACT_APP_ERROR_MSG)
+            })
     }
 
     componentDidUpdate(prevProps) {

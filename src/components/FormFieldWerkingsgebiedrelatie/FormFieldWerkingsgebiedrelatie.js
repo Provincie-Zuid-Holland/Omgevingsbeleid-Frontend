@@ -1,4 +1,5 @@
 import React from 'react'
+import { toast } from 'react-toastify'
 
 // Import Axios instance to connect with the API
 import axios from './../../API/axios'
@@ -91,8 +92,9 @@ class FormFieldWerkingsgebiedrelatie extends React.Component {
                     this.setState({ selectionArray })
                 }
             })
-            .catch((error) => {
-                console.log(error)
+            .catch((err) => {
+                console.log(err)
+                toast(process.env.REACT_APP_ERROR_MSG)
             })
     }
 }

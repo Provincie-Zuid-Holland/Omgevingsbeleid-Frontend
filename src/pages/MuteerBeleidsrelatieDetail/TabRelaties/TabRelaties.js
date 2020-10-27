@@ -12,10 +12,11 @@ function TabRelaties(props) {
     return (
         <ul>
             <li className="flex p-2 text-sm font-semibold text-gray-800 border-b border-gray-200">
-                <div className="w-5/12">Beleidsbeslissingen</div>
-                <div className="w-4/12">Datum</div>
+                <div className="w-5/12">Beleidskeuzes</div>
+                <div className="w-2/12">Aangevraagd op</div>
                 <div className="w-1/12">Status</div>
-                <div className="w-3/12 pl-8">Motivering</div>
+                <div className="w-2/12 pl-4">Motivering</div>
+                <div className="w-2/12">Actie</div>
             </li>
             {props.naarLoaded && props.vanLoaded ? (
                 props.relatieArray.length > 0 ? (
@@ -33,12 +34,12 @@ function TabRelaties(props) {
                                         <LoaderMainTitle />
                                     )}
                                 </div>
-                                <div className="w-4/12">
-                                    {relatie.Datum_Akkoord !== null
+                                <div className="w-2/12">
+                                    {relatie.Created_Date !== null
                                         ? format(
-                                              new Date(relatie.Datum_Akkoord),
-                                              'd MMMM yyyy, HH:mm uur'
-                                          )
+                                              new Date(relatie.Created_Date),
+                                              'd MMMM yyyy, HH:mm'
+                                          ) + ' uur'
                                         : null}
                                 </div>
                                 <div className="w-1/12">
@@ -50,7 +51,7 @@ function TabRelaties(props) {
                                         ? 'Afgewezen'
                                         : null}
                                 </div>
-                                <div className="w-3/12 pl-8">
+                                <div className="w-2/12 pl-4">
                                     <span
                                         onClick={() => {
                                             props.toggleMotiveringPopup(

@@ -1,20 +1,13 @@
 import formatGeldigheidDatesForUI from './formatGeldigheidDatesForUI'
 
 // Function to make an object containing the fields that the user can edit
-function makeCrudObject({ crudProperties, dimensieConstants, responseObject }) {
-    // Key waarden van de properties die gebruikt worden voor het maken van koppelingen
-    const koppelingenKeysArray = [
-        'Ambities',
-        'Belangen',
-        'BeleidsRegels',
-        'Doelen',
-        'Maatregelen',
-        'Opgaven',
-        'Themas',
-        'Verordening',
-        'WerkingsGebieden',
-    ]
-
+// If wijzigVigerend is passed it means the user is editing a beleidskeuze without changing the 'vigerend' status
+function makeCrudObject({
+    crudProperties,
+    dimensieConstants,
+    responseObject,
+    wijzigVigerend,
+}) {
     // Het initiele object wat gereturned zal worden
     // Hierop plaatsen we alle properties die gewijzigd moeten worden
     let crudObject = {}
@@ -22,11 +15,17 @@ function makeCrudObject({ crudProperties, dimensieConstants, responseObject }) {
     if (responseObject) {
         // Als er een response object populaten we het crudObject op basis van de crudProperties met de waarden van het responseObject
         // Het response object is het gekregen object van de API
-        crudProperties.forEach(crudProperty => {
+        crudProperties.forEach((crudProperty) => {
+            // If we patch a 'Beleidskeuze' we need to check the status
+            // If the .Status property is 'Vigerend' we need to change it to 'Ontwerp GS Concept'
+            const isMaatregelOrBeleidskeuze =
+                dimensieConstants.TITEL_ENKELVOUD === 'Beleidskeuze' ||
+                dimensieConstants.TITEL_ENKELVOUD === 'Maatregel'
+
             if (
-                // Als het een beleidsbeslissing met een Vigerende Status wijzigen we automatisch het Status property naar die van 'Ontwerp GS Concept'.
                 crudProperty === 'Status' &&
-                dimensieConstants.TITEL_ENKELVOUD === 'Beleidsbeslissing' &&
+                isMaatregelOrBeleidskeuze &&
+                !wijzigVigerend &&
                 (responseObject[crudProperty] === 'Gepubliceerd' ||
                     responseObject[crudProperty] === 'Vigerend')
             ) {
@@ -38,7 +37,7 @@ function makeCrudObject({ crudProperties, dimensieConstants, responseObject }) {
         })
     } else {
         // Als er geen responseObject is initializen we de waarde voor elke crudProperty
-        crudProperties.forEach(crudProperty => {
+        crudProperties.forEach((crudProperty) => {
             crudObject[crudProperty] =
                 dimensieConstants.CRUD_PROPERTIES[crudProperty].initValue
         })

@@ -12,7 +12,7 @@ function TabVerzoeken(props) {
     return (
         <ul>
             <li className="flex p-2 text-sm font-semibold text-gray-800 border-b border-gray-200">
-                <div className="w-5/12">Beleidsbeslissingen</div>
+                <div className="w-5/12">Beleidskeuzes</div>
                 <div className="w-2/12">Aangevraagd op</div>
                 <div className="w-1/12">Status</div>
                 <div className="w-2/12">Motivering</div>
@@ -33,12 +33,12 @@ function TabVerzoeken(props) {
                                         : null}
                                 </div>
                                 <div className="w-2/12">
-                                    {verzoek.Aanvraag_Datum !== null
+                                    {verzoek.Created_Date !== null
                                         ? format(
-                                              new Date(verzoek.Aanvraag_Datum),
-                                              'd MMMM yyyy, HH:mm uur',
+                                              new Date(verzoek.Created_Date),
+                                              'd MMMM yyyy, HH:mm',
                                               { locale: nlLocale }
-                                          )
+                                          ) + ' uur'
                                         : null}
                                 </div>
                                 <div className="w-1/12">Open</div>

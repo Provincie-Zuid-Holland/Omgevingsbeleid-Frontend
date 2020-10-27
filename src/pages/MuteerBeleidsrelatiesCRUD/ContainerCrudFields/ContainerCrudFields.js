@@ -27,7 +27,7 @@ class ContainerCrudFields extends React.Component {
                                 <React.Fragment>
                                     <ContainerFormSection
                                         titel="Beleidsrelatie"
-                                        beschrijving={`Geef aan met welke beleidsbeslissing '${this.context.Van_Beleidsbeslissing_Titel}' een relatie moet krijgen en motiveer waarom.`}
+                                        beschrijving={`Geef aan met welke beleidskeuze '${this.context.Van_Beleidsbeslissing_Titel}' een relatie moet krijgen en motiveer waarom.`}
                                     >
                                         {crudObject[
                                             'Naar_Beleidsbeslissing'
@@ -45,7 +45,7 @@ class ContainerCrudFields extends React.Component {
                                                         'Naar_Beleidsbeslissing'
                                                     ]
                                                 }
-                                                fieldLabel="Naar Beleidsbeslissing"
+                                                fieldLabel="Naar beleidskeuze"
                                                 dataObjectProperty="Naar_Beleidsbeslissing"
                                                 titelEnkelvoud={titelEnkelvoud}
                                             />

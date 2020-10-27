@@ -1,55 +1,55 @@
-import React, { Component } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
+import { toast } from 'react-toastify'
 
 // Import API
 import axios from './../../API/axios'
-
-// Import Datamodel
-import dataModel from './../../App/dataModel'
 
 // Import Componenten
 import LoaderCardHalfWidth from './../../components/LoaderCardHalfWidth'
 import CardObjectDetailsHalfWidth from './../../components/CardObjectDetailsHalfWidth'
 import ButtonAddNewObject from './../../components/ButtonAddNewObject'
 
-class MijnBeleid extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            dataReceived: false,
-            objecten: [],
-            authUser: null,
-        }
-    }
+// Import All the dimension constants. These contain the dimensions and there variables, e.g. API_ENDPOINT and TITEL_ENKELVOUD
+import allDimensies from './../../constants/dimensies'
 
-    getBeleidVanGebruiker() {
-        const dimensies = [
-            'Ambities',
-            'Opgaven',
-            'BeleidsRegels',
-            'Doelen',
-            'Belangen',
-            'Beleidsbeslissingen',
-            'Maatregelen',
-            "Thema's",
-            'Verordeningen',
-        ]
-        const lijstMetAPIEndpoints = dimensies.map((item) => {
-            return {
-                endpoint: dataModel[item].variables.Api_Endpoint,
-                type: item,
-            }
-        })
-        const axiosRequests = lijstMetAPIEndpoints.map((dimensie) => {
-            return axios
-                .get(
-                    dimensie.endpoint === 'beleidsbeslissingen'
-                        ? `/${dimensie.endpoint}?Created_By=${this.state.authUser}&Eigenaar_1=${this.state.authUser}&Eigenaar_2=${this.state.authUser}&Opdrachtgever=${this.state.authUser}`
-                        : `/${dimensie.endpoint}?Created_By=${this.state.authUser}`
-                )
-                .then((res) => {
-                    if (res.data.length === 0) {
-                        return
-                    } else {
+import UserContext from './../../App/UserContext'
+
+const MijnBeleid = ({ hideAddNew }) => {
+    const { user } = React.useContext(UserContext)
+
+    const [dataReceived, setDataReceived] = React.useState(false)
+    const [policies, setPolicies] = React.useState([])
+
+    React.useEffect(() => {
+        const getAndSetBeleidVanGebruiker = () => {
+            const skipDimensies = [
+                'BELEIDSRELATIES',
+                'DOELEN',
+                'VERORDENINGSTRUCTUUR',
+                'VERORDENINGSARTIKEL',
+            ]
+
+            const policyEndpointsAndTypes = Object.keys(allDimensies)
+                .filter((dimensie) => !skipDimensies.includes(dimensie))
+                .map((dimensie) => {
+                    return {
+                        endpoint: allDimensies[dimensie].API_ENDPOINT,
+                        type: dimensie,
+                    }
+                })
+
+            const axiosRequests = policyEndpointsAndTypes.map((dimensie) => {
+                return axios
+                    .get(
+                        dimensie.endpoint === 'beleidsbeslissingen'
+                            ? `/${dimensie.endpoint}?Created_By=${user.UUID}&Eigenaar_1=${user.UUID}&Eigenaar_2=${user.UUID}&Opdrachtgever=${user.UUID}`
+                            : `/${dimensie.endpoint}?Created_By=${user.UUID}`
+                    )
+                    .then((res) => {
+                        if (res.data.length === 0) return
+
+                        // Assign type of dimensie to the object
                         const newArray = res.data.map((array, index) => {
                             return {
                                 type: dimensie.type,
@@ -57,113 +57,106 @@ class MijnBeleid extends Component {
                             }
                         })
                         return newArray
-                    }
-                })
-        })
-        Promise.all(axiosRequests)
-            .then((res) => {
-                this.setState({
-                    objecten: res,
-                    dataReceived: true,
-                })
+                    })
             })
-            .catch((err) => console.log(err))
-    }
 
-    componentDidMount() {
-        this.setState(
-            {
-                authUser: JSON.parse(
-                    localStorage.getItem(process.env.REACT_APP_KEY_IDENTIFIER)
-                ).UUID,
-            },
-            () => this.getBeleidVanGebruiker()
-        )
-    }
+            Promise.all(axiosRequests)
+                .then((res) => {
+                    setPolicies(res)
+                    setDataReceived(true)
+                })
+                .catch((err) => {
+                    console.log(err)
+                    toast(process.env.REACT_APP_ERROR_MSG)
+                })
+        }
 
-    render() {
-        return (
-            <div className="MijnBeleid">
-                {this.state.dataReceived ? (
-                    <React.Fragment>
-                        {!this.props.hideToevoegen ? (
-                            <ButtonAddNewObject
-                                titelEnkelvoud={'Beleidsbeslissing'}
-                                createNewSlug={'nieuwe-beleidsbeslissing'}
-                                hoofdOnderdeelSlug={'beleidsbeslissingen'}
-                                fullWidth={true}
-                            />
+        getAndSetBeleidVanGebruiker()
+    }, [user.UUID])
+
+    return (
+        <div className="MijnBeleid">
+            {dataReceived ? (
+                <React.Fragment>
+                    {!hideAddNew ? <AddNewSection /> : null}
+                    <ul className="flex flex-wrap mt-5">
+                        {policies.map((dimensie) => {
+                            if (!dimensie) return null
+
+                            return dimensie.map((policy, index) => {
+                                const overzichtSlug =
+                                    allDimensies[policy.type].SLUG_OVERZICHT
+                                const titelEnkelvoud =
+                                    allDimensies[policy.type].TITEL_ENKELVOUD
+
+                                return (
+                                    <li
+                                        key={policy.object.UUID}
+                                        className={`mb-6 w-1/2 display-inline odd-pr-3 even-pl-3`}
+                                    >
+                                        {
+                                            <CardObjectDetailsHalfWidth
+                                                fullWidth={true}
+                                                index={index}
+                                                mijnBeleid={true}
+                                                object={policy.object}
+                                                titelEnkelvoud={titelEnkelvoud}
+                                                hideParagraaf={true}
+                                                overzichtSlug={overzichtSlug}
+                                            />
+                                        }
+                                    </li>
+                                )
+                            })
+                        })}
+                        {policies.length === 0 ? (
+                            <span className="mb-4 text-gray-600 font-italic">
+                                U heeft nog geen beleid
+                            </span>
                         ) : null}
-                        <ul className="flex flex-wrap mt-8">
-                            {this.state.objecten.length > 0 &&
-                            !this.state.objecten.every(
-                                (x) => x === undefined
-                            ) ? (
-                                this.state.objecten.map((array) => {
-                                    if (!array) {
-                                        return null
-                                    }
-                                    const items = array.map((item, index) => {
-                                        const type = item.type
-                                        const overzichtSlug =
-                                            dataModel[type].variables
-                                                .Overzicht_Slug
-                                        const titelEnkelvoud =
-                                            dataModel[type].variables
-                                                .Titel_Enkelvoud
-
-                                        return (
-                                            <li
-                                                key={item.object.UUID}
-                                                className={`mb-6 w-1/2 display-inline odd-pr-6`}
-                                            >
-                                                {
-                                                    <CardObjectDetailsHalfWidth
-                                                        fullWidth={true}
-                                                        index={index}
-                                                        mijnBeleid={true}
-                                                        object={item.object}
-                                                        titelEnkelvoud={
-                                                            titelEnkelvoud
-                                                        }
-                                                        hideParagraaf={true}
-                                                        overzichtSlug={
-                                                            overzichtSlug
-                                                        }
-                                                    />
-                                                }
-                                            </li>
-                                        )
-                                    })
-
-                                    return items
-                                })
-                            ) : (
-                                <span className="mb-4 text-gray-600 font-italic">
-                                    U heeft nog geen beleid
-                                </span>
-                            )}
-                        </ul>
-                    </React.Fragment>
-                ) : (
-                    <div className="mt-8">
-                        <div className="flex flex-row w-full">
-                            <LoaderCardHalfWidth mr={true} />
-                            <LoaderCardHalfWidth />
-                        </div>
-                        <div className="flex flex-row w-full">
-                            <LoaderCardHalfWidth mr={true} />
-                            <LoaderCardHalfWidth />
-                        </div>
+                    </ul>
+                </React.Fragment>
+            ) : (
+                <div className="mt-8">
+                    <div className="flex flex-row w-full">
+                        <LoaderCardHalfWidth mr={true} />
+                        <LoaderCardHalfWidth />
                     </div>
-                )}
-            </div>
-        )
-    }
+                    <div className="flex flex-row w-full">
+                        <LoaderCardHalfWidth mr={true} />
+                        <LoaderCardHalfWidth />
+                    </div>
+                </div>
+            )}
+        </div>
+    )
 }
 
-MijnBeleid.propTypes = {}
+const AddNewSection = () => {
+    return (
+        <div className="flex">
+            <div className="w-full mr-6">
+                <ButtonAddNewObject
+                    titelEnkelvoud={'Beleidskeuze'}
+                    createNewSlug={'nieuwe-beleidskeuze#mijn-beleid'}
+                    hoofdOnderdeelSlug={'beleidskeuzes'}
+                />
+            </div>
+            <ButtonAddNewObject
+                titelEnkelvoud={'Maatregel'}
+                createNewSlug={'nieuwe-maatregel#mijn-beleid'}
+                hoofdOnderdeelSlug={'maatregelen'}
+            />
+        </div>
+    )
+}
 
-MijnBeleid.defaultProps = {}
+MijnBeleid.propTypes = {
+    hideAddNew: PropTypes.bool,
+}
+
+MijnBeleid.defaultProps = {
+    hideAddNew: false,
+}
 
 export default MijnBeleid

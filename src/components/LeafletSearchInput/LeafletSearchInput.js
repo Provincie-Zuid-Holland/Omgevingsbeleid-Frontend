@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { debounce } from './../../functions'
+import { toast } from 'react-toastify'
+import debounce from './../../utils/debounce'
 
 class LeafletSearchInput extends Component {
     constructor(props) {
@@ -33,15 +34,15 @@ class LeafletSearchInput extends Component {
     }
 
     locatieServerSuggestCancel() {
-        import('./../../API/axiosLocatieserver').then(api => {
+        import('./../../API/axiosLocatieserver').then((api) => {
             api.cancelRequest()
         })
     }
 
     locatieServerLookupQuery(id, naam) {
-        import('./../../API/axiosLocatieserver').then(api => {
+        import('./../../API/axiosLocatieserver').then((api) => {
             api.getLookupData(id)
-                .then(data => {
+                .then((data) => {
                     this.setState({
                         queryData: [],
                         searchQuery: naam,
@@ -54,8 +55,8 @@ class LeafletSearchInput extends Component {
                     const lng = parseFloat(latLng[1]).toFixed(20)
                     this.props.mapPanTo(lng, lat, data.type)
                 })
-                .catch(function(thrown) {
-                    console.log(thrown)
+                .catch((err) => {
+                    toast(process.env.REACT_APP_ERROR_MSG)
                 })
         })
     }
@@ -68,26 +69,27 @@ class LeafletSearchInput extends Component {
             return
         }
 
-        import('./../../API/axiosLocatieserver').then(api => {
+        import('./../../API/axiosLocatieserver').then((api) => {
             this.setState({
                 dataLoading: true,
             })
             const that = this
             api.getSuggestData(value)
-                .then(data => {
+                .then((data) => {
                     that.setState({
                         queryData: data.response.docs,
                         dataLoading: false,
                     })
                 })
-                .catch(function(thrown) {
+                .catch((err) => {
                     that.setState({
                         dataLoading: false,
                     })
-                    if (axios.isCancel(thrown)) {
-                        console.log('Request canceled -', thrown.message)
+                    if (axios.isCancel(err)) {
+                        console.log('Request canceled -', err.message)
                     } else {
-                        console.log(thrown)
+                        console.log(err)
+                        toast(process.env.REACT_APP_ERROR_MSG)
                     }
                 })
         })
@@ -121,13 +123,13 @@ class LeafletSearchInput extends Component {
         return (
             <React.Fragment>
                 <input
-                    className="appearance-none text-gray-700 py-3 px-5 leading-tight focus:outline-none text-sm ml-3 h-10 w-64 rounded"
+                    className="w-64 h-10 px-5 py-3 ml-3 text-sm leading-tight text-gray-700 rounded appearance-none focus:outline-none"
                     type="text"
                     ref={this.props.reference}
                     placeholder="Zoeken op de kaart"
                     onChange={this.handleChange}
                     value={this.state.searchQuery}
-                    onKeyDown={e => {
+                    onKeyDown={(e) => {
                         if (
                             e.keyCode === 40 &&
                             this.state.queryData.length > 0
@@ -142,7 +144,7 @@ class LeafletSearchInput extends Component {
                 {this.state.queryData.length > 0 ? (
                     <ul
                         id="searchQueryResults"
-                        className="bg-white rounded-b absolute top-0 mt-10 ml-15 w-56 border-t border-gray-300 shadow"
+                        className="absolute top-0 w-56 mt-10 bg-white border-t border-gray-300 rounded-b shadow ml-15"
                         ref={this.suggestList}
                     >
                         {this.state.queryData.map((item, index) => {
@@ -158,7 +160,7 @@ class LeafletSearchInput extends Component {
                                             item.weergavenaam
                                         )
                                     }
-                                    onKeyDown={e => {
+                                    onKeyDown={(e) => {
                                         if (e.keyCode === 13) {
                                             // Enter keyCode
                                             this.locatieServerLookupQuery(

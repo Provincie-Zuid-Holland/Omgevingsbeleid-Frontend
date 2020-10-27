@@ -6,12 +6,10 @@ import queryString from 'query-string'
 import {
     faAngleRight,
     faPrint,
-    faExternalLinkAlt,
     faCompressArrowsAlt,
     faExpandArrowsAlt,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import clonedeep from 'lodash.clonedeep'
 import LoaderContent from './../../components/LoaderContent'
 import { toast } from 'react-toastify'
 
@@ -32,7 +30,6 @@ function parseIntOrSetToNull(item) {
     }
 }
 
-// !REFACTOR! -> Wordt nu op meerdere plekken gebruikt, move naar utils
 function getQueryStringValues(urlParams) {
     const queryStringValues = queryString.parse(urlParams)
     let hoofdstukIndex = parseIntOrSetToNull(queryStringValues.hoofdstuk)
@@ -147,6 +144,8 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
         })
     }
 
+    // Function to traverse to the object in the lineage
+    // The traversing is done based on the nested parameters from the URL
     getActiveObjectInLineage() {
         const lineage = this.state.lineage
         const activeObjectPath = this.state.activeObjectPath
@@ -165,8 +164,8 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
 
     ifPresentGetAndSetLeden(UUID) {
         const verordeningsObjectInLineage = this.getActiveObjectInLineage(UUID)
-
         if (
+            verordeningsObjectInLineage &&
             verordeningsObjectInLineage.Children &&
             verordeningsObjectInLineage.Children.length > 0
         ) {
@@ -198,9 +197,19 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                     nest3,
                 ] = getQueryStringValues(urlParams)
 
+                const activeObjectPath = [hoofdstukIndex, nest1, nest2, nest3]
+
+                // Fallback for when an item couldn't be found in the vigerende structure
+                if (activeObjectPath[0] === null) {
+                    this.props.history.push('/')
+                    toast(
+                        `Dit onderdeel van de verordening kon niet gevonden worden in de vigerende structuur`
+                    )
+                }
+
                 this.setState(
                     {
-                        activeObjectPath: [hoofdstukIndex, nest1, nest2, nest3],
+                        activeObjectPath: activeObjectPath,
                     },
                     () => resolve()
                 )
@@ -226,13 +235,21 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
             .then(() => {
                 if (this.state.verordeningsObject.Type === 'Artikel') {
                     this.ifPresentGetAndSetLeden(UUID)
-                        .then(() => this.setState({ dataLoaded: true }))
-                        .catch((err) => toast('Er is iets verkeerd gegaan'))
+                        .then(() => {
+                            this.setState({ dataLoaded: true })
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                            toast(process.env.REACT_APP_ERROR_MSG)
+                        })
                 } else {
                     this.setState({ dataLoaded: true })
                 }
             })
-            .catch((err) => toast('Er is iets verkeerd gegaan'))
+            .catch((err) => {
+                console.log(err)
+                toast(process.env.REACT_APP_ERROR_MSG)
+            })
     }
 
     componentDidUpdate(prevProps) {
@@ -261,14 +278,18 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                                             loadingNewObject: false,
                                         })
                                     )
-                                    .catch((err) =>
-                                        toast('Er is iets verkeerd gegaan')
-                                    )
+                                    .catch((err) => {
+                                        console.log(err)
+                                        toast(process.env.REACT_APP_ERROR_MSG)
+                                    })
                             } else {
                                 this.setState({ loadingNewObject: false })
                             }
                         })
-                        .catch((err) => toast('Er is iets verkeerd gegaan'))
+                        .catch((err) => {
+                            console.log(err)
+                            toast(process.env.REACT_APP_ERROR_MSG)
+                        })
                 }
             )
         }
@@ -447,20 +468,23 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                                                 />
                                             </span>
                                         </div>
-
-                                        <div
-                                            className="overflow-hidden rounded-lg"
-                                            id={`full-screen-leaflet-container-${this.state.fullscreenLeafletViewer}`}
-                                        >
-                                            <LeafletTinyViewer
-                                                gebiedType="Werkingsgebieden"
-                                                gebiedUUID={werkingsGebiedUUID}
-                                                fullscreen={
-                                                    this.state
-                                                        .fullscreenLeafletViewer
-                                                }
-                                            />
-                                        </div>
+                                        {!loadingNewObject ? (
+                                            <div
+                                                className="overflow-hidden rounded-lg"
+                                                id={`full-screen-leaflet-container-${this.state.fullscreenLeafletViewer}`}
+                                            >
+                                                <LeafletTinyViewer
+                                                    gebiedType="Werkingsgebieden"
+                                                    gebiedUUID={
+                                                        werkingsGebiedUUID
+                                                    }
+                                                    fullscreen={
+                                                        this.state
+                                                            .fullscreenLeafletViewer
+                                                    }
+                                                />
+                                            </div>
+                                        ) : null}
                                     </div>
                                 ) : null}
                             </div>

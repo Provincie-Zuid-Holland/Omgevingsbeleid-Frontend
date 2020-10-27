@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
+import React, { Component, Suspense, lazy } from 'react'
 
 // For the routing we use React Router (https://reacttraining.com/react-router/)
-import { Route, Switch, withRouter } from 'react-router-dom'
+import { Route, Switch, withRouter, useHistory } from 'react-router-dom'
 
 // Helmet is the Document Head manager that we use, mostly for building dynamic page titles
 import { Helmet } from 'react-helmet'
@@ -29,24 +29,29 @@ import RaadpleegZoekResultatenOverzicht from './../pages/RaadpleegZoekResultaten
 import Login from './../pages/Login'
 import Planning from './../pages/Planning'
 
-// Import authenticated routes,
-import AuthRoutes from './AuthRoutes'
-
 // Import Components
 import Navigation from './../components/Navigation'
 import LoaderContent from './../components/LoaderContent'
 import PopupWelcomeBeta from './../components/PopupWelcomeBeta'
 import PopUpAnimatedContainer from './../components/PopUpAnimatedContainer'
-import PopupReauthenticate from './../components/PopupReauthenticate'
-import Transition from './../components/Transition'
+// import PopupReauthenticate from './../components/PopupReauthenticate'
+
+// Import Context
+import UserContext from './UserContext'
 
 // Import and initialize Sentry for tracking bugs
 import * as Sentry from '@sentry/browser'
 
-if (process.env.NODE_ENV !== 'development') {
+const AuthRoutes = lazy(() => import('./AuthRoutes'))
+
+if (
+    process.env.REACT_APP_SENTRY_DSN &&
+    process.env.NODE_ENV !== 'development'
+) {
     Sentry.init({
         environment: process.env.NODE_ENV,
         release: process.env.REACT_APP_RELEASE_VERSION,
+        dsn: process.env.REACT_APP_SENTRY_DSN,
     })
 }
 
@@ -61,10 +66,6 @@ const detailPaginas = [
         dataModel: allDimensies.BELEIDSREGELS,
     },
     {
-        slug: 'doelen',
-        dataModel: allDimensies.DOELEN,
-    },
-    {
         slug: 'belangen',
         dataModel: allDimensies.BELANGEN,
     },
@@ -73,7 +74,7 @@ const detailPaginas = [
         dataModel: allDimensies.MAATREGELEN,
     },
     {
-        slug: 'beleidsbeslissingen',
+        slug: 'beleidskeuzes',
         dataModel: allDimensies.BELEIDSBESLISSINGEN,
     },
     {
@@ -105,6 +106,7 @@ class App extends Component {
             this
         )
         this.setLoginState = this.setLoginState.bind(this)
+        this.setLoginUser = this.setLoginUser.bind(this)
         this.listenForExpiredSession = this.listenForExpiredSession.bind(this)
     }
 
@@ -112,6 +114,12 @@ class App extends Component {
     setLoginState(loginState) {
         this.setState({
             loggedIn: loginState,
+        })
+    }
+
+    setLoginUser(identifier) {
+        this.setState({
+            user: identifier,
         })
     }
 
@@ -126,7 +134,7 @@ class App extends Component {
                     dataLoaded: true,
                 })
             })
-            .catch((error) => {
+            .catch(() => {
                 this.setState({
                     loggedIn: false,
                     user: null,
@@ -200,105 +208,144 @@ class App extends Component {
             this.props.location.pathname.includes('login')
 
         return (
-            <main
-                className={`min-h-screen pt-12 ${
-                    locationEqualsMutateEnv ? 'bg-gray-100' : ''
-                }`}
-                id="main-container"
-            >
-                <Helmet>
-                    <meta charSet="utf-8" />
-                    <title>Omgevingsbeleid - Provincie Zuid-Holland</title>
-                </Helmet>
+            <UserContext.Provider value={{ user: this.state.user }}>
+                <main
+                    className={`min-h-screen pt-12 ${
+                        locationEqualsMutateEnv ? 'bg-gray-100' : ''
+                    }`}
+                    id="main-container"
+                >
+                    <Helmet>
+                        <meta charSet="utf-8" />
+                        <title>Omgevingsbeleid - Provincie Zuid-Holland</title>
+                    </Helmet>
 
-                {this.state.showWelcomePopup && this.state.dataLoaded ? (
-                    <PopupWelcomeBeta
-                        closePopup={() =>
-                            this.setState({
-                                showWelcomePopup: false,
-                            })
-                        }
-                    />
-                ) : null}
+                    {this.state.showWelcomePopup && this.state.dataLoaded ? (
+                        <PopupWelcomeBeta
+                            closePopup={() =>
+                                this.setState({
+                                    showWelcomePopup: false,
+                                })
+                            }
+                        />
+                    ) : null}
 
-                {this.state.showReAuthenticatePopup ? (
-                    <PopUpAnimatedContainer
+                    {this.state.showReAuthenticatePopup ? (
+                        <PopUpAnimatedContainer
+                            setLoginState={this.setLoginState}
+                        />
+                    ) : null}
+
+                    <Navigation
                         setLoginState={this.setLoginState}
+                        loggedIn={this.state.loggedIn}
                     />
-                ) : null}
 
-                <Navigation
-                    setLoginState={this.setLoginState}
-                    loggedIn={this.state.loggedIn}
-                />
-
-                {this.state.dataLoaded ? (
-                    <Switch>
-                        {/* Raadpleeg - The homepage where users can search for policies and regulations */}
-                        <Route path="/" exact component={RaadpleegHome} />
-
-                        {/* Raadpleeg - Result page for search */}
-                        <Route
-                            exact
-                            path="/zoekresultaten"
-                            component={RaadpleegZoekResultatenOverzicht}
-                        />
-
-                        {/* Raadpleeg - Detail page for Article objects of the regulations */}
-                        <Route
-                            path={`/detail/verordeningen/:lineageID/:objectUUID`}
-                            render={() => (
-                                <RaadpleegVerordeningsArtikelDetail
-                                    dataModel={allDimensies.VERORDENINGSARTIKEL}
-                                    history={this.props.history}
-                                />
-                            )}
-                        />
-
-                        {/* Raadpleeg - Detail pages for all the dimensions */}
-                        {detailPaginas.map((item) => {
-                            return (
+                    {this.state.dataLoaded ? (
+                        <Suspense fallback={<LoaderContent />}>
+                            <Switch>
+                                {/* Raadpleeg - The homepage where users can search for policies and regulations */}
                                 <Route
-                                    key={item.slug}
-                                    path={`/detail/${item.slug}/:id`}
-                                    render={({ match }) => (
-                                        <RaadpleegUniversalObjectDetail
-                                            dataModel={item.dataModel}
+                                    path="/"
+                                    exact
+                                    component={RaadpleegHome}
+                                />
+
+                                {/* Raadpleeg - Result page for search */}
+                                <Route
+                                    exact
+                                    path="/zoekresultaten"
+                                    component={RaadpleegZoekResultatenOverzicht}
+                                />
+
+                                {/* Raadpleeg - Detail page for Article objects of the regulations */}
+                                <Route
+                                    path={`/detail/verordeningen/:lineageID/:objectUUID`}
+                                    render={() => (
+                                        <RaadpleegVerordeningsArtikelDetail
+                                            dataModel={
+                                                allDimensies.VERORDENINGSARTIKEL
+                                            }
                                             history={this.props.history}
-                                            match={match}
                                         />
                                     )}
                                 />
-                            )
-                        })}
 
-                        {/* Planning page contains the development roadmap */}
-                        <Route path="/planning" exact component={Planning} />
+                                {/* Raadpleeg - Detail pages for all the dimensions */}
+                                {detailPaginas.map((item) => {
+                                    return (
+                                        <Route
+                                            key={item.slug}
+                                            path={`/detail/${item.slug}/:id`}
+                                            render={({ match }) => (
+                                                <RaadpleegUniversalObjectDetail
+                                                    dataModel={item.dataModel}
+                                                    history={this.props.history}
+                                                    match={match}
+                                                />
+                                            )}
+                                        />
+                                    )
+                                })}
 
-                        {/*  */}
-                        <Route
-                            path="/login"
-                            render={() => (
-                                <Login
+                                {/* Planning page contains the development roadmap */}
+                                <Route
+                                    path="/planning"
+                                    exact
+                                    component={Planning}
+                                />
+
+                                {/*  */}
+                                <Route
+                                    path="/login"
+                                    render={() => (
+                                        <Login
+                                            setLoginUser={this.setLoginUser}
+                                            setLoginState={this.setLoginState}
+                                            history={this.props.history}
+                                        />
+                                    )}
+                                />
+                                <Route
+                                    path="/logout"
+                                    render={() => (
+                                        <Logout
+                                            setLoginState={this.setLoginState}
+                                        />
+                                    )}
+                                />
+                                <AuthRoutes
+                                    authUser={this.state.user}
+                                    loggedIn={this.state.loggedIn}
                                     setLoginState={this.setLoginState}
                                     history={this.props.history}
                                 />
-                            )}
-                        />
-                        <AuthRoutes
-                            authUser={this.state.user}
-                            loggedIn={this.state.loggedIn}
-                            history={this.props.history}
-                        />
-                    </Switch>
-                ) : (
-                    <LoaderContent />
-                )}
+                            </Switch>
+                        </Suspense>
+                    ) : (
+                        <LoaderContent />
+                    )}
 
-                <ToastContainer position="bottom-left" />
-            </main>
+                    <ToastContainer limit={1} position="bottom-left" />
+                </main>
+            </UserContext.Provider>
         )
     }
+}
+
+const Logout = ({ setLoginState }) => {
+    const history = useHistory()
+
+    React.useLayoutEffect(() => {
+        // Clear user token and profile data from localStorage
+        localStorage.removeItem(process.env.REACT_APP_KEY_API_ACCESS_TOKEN)
+        localStorage.removeItem(process.env.REACT_APP_KEY_IDENTIFIER)
+
+        setLoginState(false)
+        history.push('/')
+    }, [])
+
+    return null
 }
 
 export default withRouter(App)

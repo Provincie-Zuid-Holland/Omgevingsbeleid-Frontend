@@ -1,8 +1,6 @@
 import React from 'react'
 import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFieldTitelEnBeschrijving'
 
-import debounce from './../../functions/debounce'
-
 class FormFieldTextArea extends React.Component {
     constructor(props) {
         super(props)
@@ -34,6 +32,7 @@ class FormFieldTextArea extends React.Component {
                         anchorLink={this.props.anchorLink}
                     />
                     <textarea
+                        disabled={this.props.disabled}
                         ref={this.textArea}
                         id={`form-field-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
                         value={

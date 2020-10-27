@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import axios from './../../../API/axios'
 import { faTimes, faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { toast } from 'react-toastify'
 
 import PopUpAnimatedContainer from './../../PopUpAnimatedContainer'
 import objecten from './../ObjectenInformatie'
@@ -49,8 +50,9 @@ class PopupNieuweKoppeling extends Component {
                     dataLoaded: true,
                 })
             })
-            .catch((error) => {
-                console.log(error)
+            .catch((err) => {
+                console.log(err)
+                toast(process.env.REACT_APP_ERROR_MSG)
                 this.setState({
                     dataLoaded: true,
                 })
@@ -95,7 +97,6 @@ class PopupNieuweKoppeling extends Component {
             })
         }
 
-        console.log(this.state.objecten)
         const filteredObjecten = this.state.objecten
             .filter(
                 (item) =>
@@ -157,7 +158,7 @@ class PopupNieuweKoppeling extends Component {
                     <React.Fragment>
                         <p className="form-field-description">
                             Zoek en selecteer {koppelTekst} welke je wilt
-                            koppelen met de beleidsbeslissing '
+                            koppelen met de beleidskeuze '
                             {this.props.titelMainObject}'
                         </p>
                         <div className="relative block w-full mt-4 mb-6">

@@ -12,7 +12,7 @@ class FormFieldSelect extends React.Component {
                     titelEnkelvoud={this.props.titelEnkelvoud}
                 />
 
-                <div className="inline-block relative w-64">
+                <div className="relative inline-block w-full">
                     <select
                         value={
                             this.props.fieldValue === null
@@ -22,7 +22,7 @@ class FormFieldSelect extends React.Component {
                         onChange={this.props.handleChange}
                         id={`form-field-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
                         name={this.props.dataObjectProperty}
-                        className="appearance-none block w-full text-gray-700 border bg-white border-gray-400 rounded py-3 px-4 leading-tight focus:outline-none hover:border-gray-500 focus:border-gray-500"
+                        className="block w-full px-4 py-3 leading-tight text-gray-700 bg-white border border-gray-400 rounded appearance-none focus:outline-none hover:border-gray-500 focus:border-gray-500"
                     >
                         <option disabled value={''}>
                             - selecteer een optie -
@@ -35,9 +35,9 @@ class FormFieldSelect extends React.Component {
                             )
                         })}
                     </select>
-                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                    <div className="absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 pointer-events-none">
                         <svg
-                            className="fill-current h-4 w-4"
+                            className="w-4 h-4 fill-current"
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 20 20"
                         >

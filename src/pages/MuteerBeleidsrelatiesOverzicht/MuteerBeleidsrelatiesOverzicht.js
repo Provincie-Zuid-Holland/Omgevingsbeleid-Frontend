@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Helmet } from 'react-helmet'
 import { Link, withRouter } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -67,6 +68,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
         const UserUUID = JSON.parse(
             localStorage.getItem(process.env.REACT_APP_KEY_IDENTIFIER)
         ).UUID
+
         Promise.all([
             axios.get(
                 `/beleidsbeslissingen?Created_By=${UserUUID}&Eigenaar_1=${UserUUID}&Eigenaar_2=${UserUUID}&Opdrachtgever=${UserUUID}`
@@ -85,9 +87,9 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                     }
                 )
             )
-            .catch((errors) => {
-                // react on errors.
-                console.error(errors)
+            .catch((err) => {
+                console.log(err)
+                toast(process.env.REACT_APP_ERROR_MSG)
             })
     }
 
@@ -310,7 +312,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                                 <ul>
                                     <li className="flex py-2 text-sm font-semibold text-gray-800 border-b border-gray-200">
                                         <div className="w-6/12 pl-10">
-                                            Beleidsbeslissingen
+                                            Beleidskeuzes
                                         </div>
                                         <div className="w-2/12 text-center">
                                             Status
@@ -411,8 +413,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                                             )
                                         ) : (
                                             <span className="inline-block mt-2 text-gray-600 font-italic">
-                                                U heeft nog geen
-                                                beleidsbeslissingen
+                                                U heeft nog geen beleidskeuzes
                                             </span>
                                         )
                                     ) : (

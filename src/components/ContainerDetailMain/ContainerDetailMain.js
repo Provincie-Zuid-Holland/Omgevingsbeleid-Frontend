@@ -64,7 +64,7 @@ class ContainerDetailMain extends Component {
                 }`}
             >
                 {this.props.children}
-                {titelEnkelvoud === 'Beleidsbeslissing' ? (
+                {titelEnkelvoud === 'Beleidskeuze' ? (
                     <div
                         onClick={this.toggleDropdown}
                         className="absolute top-0 right-0 p-5 text-gray-600 cursor-pointer hover:text-gray-800"
@@ -75,6 +75,7 @@ class ContainerDetailMain extends Component {
 
                 {this.state.dropdown ? (
                     <PopUpDetailDropdown
+                        titelEnkelvoud={titelEnkelvoud}
                         dataObject={dataObject}
                         toggleDropdown={this.toggleDropdown}
                         openState={this.state.dropdown}
@@ -100,8 +101,7 @@ class ContainerDetailMain extends Component {
                     <LoaderMainTitle />
                 )}
 
-                {pageType === 'detail' &&
-                titelEnkelvoud === 'beleidsbeslissing' ? (
+                {pageType === 'detail' && titelEnkelvoud === 'beleidskeuze' ? (
                     <StatusLabel />
                 ) : null}
 
@@ -146,7 +146,7 @@ class ContainerDetailMain extends Component {
                     </div>
                     {dataObject['Weblink'] ? (
                         <a
-                            href={`//${dataObject['Weblink']}`}
+                            href={dataObject['Weblink']}
                             target="_blank"
                             rel="noopener noreferrer"
                             id="href-idms-koppeling"
