@@ -1,30 +1,29 @@
 trigger:
-  - dev
-  - test
-  - acc
-  - production
-
+    - dev
+    - test
+    - acc
+    - production
 
 pool:
-  vmImage: "windows-latest"
+    vmImage: 'windows-latest'
 
 jobs:
-  - job: Build
-    steps:
-    - task: NodeTool@0
-      inputs:
-        versionSpec: "10.x"
-      displayName: "Install Node.js"
+    - job: Build
+      steps:
+          - task: NodeTool@0
+            inputs:
+                versionSpec: '10.x'
+            displayName: 'Install Node.js'
 
-    - script: npm config set "@fortawesome:registry" https://npm.fontawesome.com/ && npm config set "//npm.fontawesome.com/:_authToken" $(fa_token)
-      displayName: "FA token"
-    - script: npm install
-      displayName: "Install dependencies"
-    - script: Set REACT_APP_API_ENV=$(Build.SourceBranchName)
-      displayName: "Set env"
-    - script: npm run-script build
-      displayName: "Build"
-    - task: PublishBuildArtifacts@1
-      inputs:
-        PathtoPublish: $(System.DefaultWorkingDirectory)/build
-        ArtifactName: BuildedApp
+          - script: npm config set "@fortawesome:registry" https://npm.fontawesome.com/ && npm config set "//npm.fontawesome.com/:_authToken" $(fa_token)
+            displayName: 'FA token'
+          - script: npm install
+            displayName: 'Install dependencies'
+          - script: Set REACT_APP_API_ENV=$(Build.SourceBranchName)
+            displayName: 'Set env'
+          - script: npm run-script build
+            displayName: 'Build'
+          - task: PublishBuildArtifacts@1
+            inputs:
+                PathtoPublish: $(System.DefaultWorkingDirectory)/build
+                ArtifactName: BuildedApp
