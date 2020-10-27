@@ -34,7 +34,7 @@ import Navigation from './../components/Navigation'
 import LoaderContent from './../components/LoaderContent'
 import PopupWelcomeBeta from './../components/PopupWelcomeBeta'
 import PopUpAnimatedContainer from './../components/PopUpAnimatedContainer'
-import PopupReauthenticate from './../components/PopupReauthenticate'
+// import PopupReauthenticate from './../components/PopupReauthenticate'
 
 // Import Context
 import UserContext from './UserContext'

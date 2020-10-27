@@ -85,12 +85,9 @@ const MuteerUniversalObjectOverzicht = ({ dimensieConstants }) => {
                 {!isLoading ? (
                     <ul className="flex flex-wrap mt-8">
                         <ButtonAddNewObject
-                            objectAantal={objecten.length}
                             titelEnkelvoud={titelEnkelvoud}
-                            overzichtSlug={overzichtSlug}
                             createNewSlug={createNewSlug}
                             hoofdOnderdeelSlug={hoofdOnderdeelSlug}
-                            fullWidth={true}
                         />
 
                         {objecten

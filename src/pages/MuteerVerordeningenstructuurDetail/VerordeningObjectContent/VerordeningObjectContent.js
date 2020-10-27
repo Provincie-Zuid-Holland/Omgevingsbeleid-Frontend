@@ -426,8 +426,6 @@ const TitleEditing = ({
                 <SaveButton
                     save={() => {
                         const werkingsGebiedenHasValue = checkForWerkingsgebied()
-                        console.log('item.Type')
-                        console.log(item.Type)
                         if (
                             item.Type === 'Artikel' &&
                             !werkingsGebiedenHasValue

@@ -1,23 +1,14 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
 function ButtonAddNewObject({
-    overzichtSlug,
     createNewSlug,
-    objectAantal,
     hoofdOnderdeelSlug,
-    fullWidth,
     titelEnkelvoud,
 }) {
     return (
-        <div
-            className={`mb-6 display-inline display-inline
-                ${
-                    objectAantal % 2 !== 0 || fullWidth === true
-                        ? ' w-full'
-                        : ' w-1/2'
-                }`}
-        >
+        <div className={`mb-6 display-inline display-inline w-full`}>
             <Link
                 id={`object-add-new-${hoofdOnderdeelSlug.toLowerCase()}`}
                 className="flex items-center justify-center h-full px-4 py-4 overflow-hidden text-gray-600 no-underline border border-gray-300 border-dashed rounded hover:border-gray-400 transition-regular hover:text-gray-800"
@@ -29,6 +20,12 @@ function ButtonAddNewObject({
             </Link>
         </div>
     )
+}
+
+ButtonAddNewObject.propTypes = {
+    createNewSlug: PropTypes.string.isRequired,
+    hoofdOnderdeelSlug: PropTypes.string.isRequired,
+    titelEnkelvoud: PropTypes.string.isRequired,
 }
 
 export default ButtonAddNewObject

@@ -1,9 +1,9 @@
 import React from 'react'
 
-import SelectField from './../SelectField'
-import Werkingsgebied from './../Werkingsgebied'
+import SelectField from '../SelectField'
+import Werkingsgebied from '../Werkingsgebied'
 
-import FormFieldWerkingsgebiedKoppeling from './../../../../components/FormFieldWerkingsgebiedKoppeling'
+import FormFieldWerkingsgebiedKoppeling from '../../../../components/FormFieldWerkingsgebiedKoppeling'
 
 function Hoofdstuk({
     users,

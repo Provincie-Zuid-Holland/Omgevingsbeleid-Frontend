@@ -9,8 +9,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import Transition from './../../../components/Transition'
 import FixedSidebarContainer from './../FixedSidebarContainer'
-import Werkingsgebied from './../ContainerCrudFields/Werkingsgebied'
-import Artikel from './../ContainerCrudFields/Artikel'
+import Werkingsgebied from '../ContainerCrudFields/Werkingsgebied'
+import Artikel from '../ContainerCrudFields/Artikel'
 
 const EditContentSidebar = ({
     verordeningsLedenFromGET,
@@ -58,7 +58,11 @@ const EditContentSidebar = ({
                 setInheritWerkingsgebiedenFromArtikel(false)
             }
         }
-    }, [verordeningsObjectIsLoaded])
+    }, [
+        verordeningsObjectIsLoaded,
+        verordeningsLedenFromGET,
+        verordeningsObjectFromGET,
+    ])
 
     const getType = () => {
         if (verordeningsObjectIsLoaded) {

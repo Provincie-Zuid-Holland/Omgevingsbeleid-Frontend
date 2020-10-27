@@ -18,14 +18,14 @@ class MuteerDashboard extends Component {
                 <SidebarMain />
 
                 {/* Dashboard */}
-                <div className="w-3/4 rounded inline-block flex-grow pl-8 relative">
+                <div className="relative flex-grow inline-block w-3/4 pl-8 rounded">
                     <section>
-                        <h2 className="heading-serif text-gray-800">
+                        <h2 className="text-gray-800 heading-serif">
                             Mijn beleid
                         </h2>
 
                         <MijnBeleid
-                            hideToevoegen={true}
+                            hideAddNew={true}
                             authUser={this.props.authUser}
                         />
                     </section>

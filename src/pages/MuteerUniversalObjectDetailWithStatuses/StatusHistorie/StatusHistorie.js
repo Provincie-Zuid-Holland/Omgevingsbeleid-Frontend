@@ -128,6 +128,13 @@ function StatusHistorie({
             // Instead it has been edited with `?modus=wijzig_vigerend`
             isACheckedOutObject = true
             checkedOutObject = dimensieHistorie[1]
+        } else if (
+            dimensieHistorie.length === 1 &&
+            dimensieHistorie[0].Status !== 'Vigerend'
+        ) {
+            // Newly created object
+            isACheckedOutObject = true
+            checkedOutObject = dimensieHistorie[0]
         }
 
         return [isACheckedOutObject, checkedOutObject]

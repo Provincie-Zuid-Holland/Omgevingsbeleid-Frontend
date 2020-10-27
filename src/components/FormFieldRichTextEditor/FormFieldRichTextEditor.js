@@ -1,28 +1,36 @@
 import React from 'react'
 import Quill from 'quill'
+
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
-import MarkdownIt from 'markdown-it'
-import TurndownService from 'turndown'
 
 function FormFieldRichTextEditor({
     dataObjectProperty,
     placeholder,
     handleChange,
-    toolbar,
     initialValue,
     fieldValue,
 }) {
-    const quillOptions = {
-        modules: {
-            toolbar: toolbar,
-        },
-        placeholder: placeholder,
-        theme: 'snow',
-    }
+    const initializeQuillEditor = React.useCallback(() => {
+        const quillOptions = {
+            modules: {
+                toolbar: [{ header: 2 }, 'bold', { list: 'bullet' }],
+            },
+            placeholder: placeholder,
+            theme: 'snow',
+        }
 
-    React.useLayoutEffect(() => {
         const editor = new Quill('.editor', quillOptions)
+
+        // Paste text without styles (https://github.com/quilljs/quill/issues/1184)
+        editor.clipboard.addMatcher(Node.ELEMENT_NODE, (node, delta) => {
+            delta.ops = delta.ops.map((op) => {
+                return {
+                    insert: op.insert,
+                }
+            })
+            return delta
+        })
 
         // Disable tab (https://github.com/quilljs/quill/issues/110)
         delete editor.getModule('keyboard').bindings['9']
@@ -47,6 +55,10 @@ function FormFieldRichTextEditor({
             }
         })
     }, [])
+
+    React.useLayoutEffect(() => {
+        initializeQuillEditor()
+    }, [initializeQuillEditor])
 
     return (
         <div className="quill-container">
