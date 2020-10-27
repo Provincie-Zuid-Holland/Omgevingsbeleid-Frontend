@@ -27,10 +27,6 @@ const FormFieldWerkingsgebiedKoppelingSingle = ({
     // werkingsgebiedInParentState only contains the UUID
     // Contains the whole object that we get from the API
     const [werkingsgebied, setWerkingsgebied] = React.useState(null)
-    const [
-        werkingsgebiedTitelIsLoading,
-        setWerkingsgebiedTitelIsLoading,
-    ] = React.useState(true)
 
     // Function to GET the complete werkingsgebied object from the API
     // We need this in order to display the title
@@ -43,20 +39,18 @@ const FormFieldWerkingsgebiedKoppelingSingle = ({
         )
             return
 
-        setWerkingsgebiedTitelIsLoading(true)
         setWerkingsgebied(null)
 
         axios
             .get(`/werkingsgebieden/${werkingsgebiedInParentState}`)
             .then((res) => {
                 setWerkingsgebied(res.data)
-                setWerkingsgebiedTitelIsLoading(false)
             })
             .catch((err) => {
                 console.log(err)
                 toast(process.env.REACT_APP_ERROR_MSG)
             })
-    }, [werkingsgebiedInParentState])
+    }, [werkingsgebiedInParentState, werkingsgebied])
 
     return (
         <React.Fragment>
@@ -178,7 +172,7 @@ const WerkingsgebiedPopup = ({
 }) => {
     const [filterQuery, setFilterQuery] = React.useState('')
     const [isLoading, setIsLoading] = React.useState(true)
-    const [werkingsgebieden, setWerkingsgebieden] = React.useState(null)
+    const [werkingsgebieden, setWerkingsgebieden] = React.useState([])
 
     const getAndSetWerkingsgebieden = () => {
         axios
@@ -190,6 +184,7 @@ const WerkingsgebiedPopup = ({
             .catch((err) => {
                 console.log(err)
                 toast(process.env.REACT_APP_ERROR_MSG)
+                setWerkingsgebieden([])
                 setIsLoading(false)
             })
     }
@@ -236,9 +231,8 @@ const WerkingsgebiedPopup = ({
                         </div>
 
                         <div className="grid h-screen grid-cols-2 gap-4 pb-2 pr-2 overflow-x-hidden overflow-y-auto werkingsgebied-container">
-                            {isLoading
-                                ? null
-                                : werkingsgebieden
+                            {!isLoading && werkingsgebieden
+                                ? werkingsgebieden
                                       .filter((e) =>
                                           e.Werkingsgebied.toLowerCase().includes(
                                               filterQuery.toLowerCase()
@@ -296,7 +290,8 @@ const WerkingsgebiedPopup = ({
                                                   </span>
                                               </div>
                                           )
-                                      })}
+                                      })
+                                : null}
                         </div>
                     </div>
                 </div>

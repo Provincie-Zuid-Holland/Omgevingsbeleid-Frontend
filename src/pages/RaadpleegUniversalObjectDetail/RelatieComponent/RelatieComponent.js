@@ -38,7 +38,6 @@ class RelatieComponent extends Component {
                 let beleidsrelaties = res.data.filter(
                     (item) => item.Status === 'Akkoord'
                 )
-                console.log(beleidsrelaties)
 
                 cb(beleidsrelaties)
             })

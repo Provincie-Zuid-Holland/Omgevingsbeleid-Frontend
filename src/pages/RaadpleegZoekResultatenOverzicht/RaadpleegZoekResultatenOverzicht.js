@@ -3,11 +3,13 @@ import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import 'url-search-params-polyfill'
 
+import { faArrowLeft } from '@fortawesome/pro-regular-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 // Import API
 import axios from './../../API/axios'
 
 // Import Data Model
-// import dataModel from './../../App/dataModel'
 import allDimensieConstants from './../../constants/dimensies'
 
 // Import Components
@@ -55,23 +57,26 @@ function getDimensieConstant(type) {
 
 function SearchResultItem({ item, searchQuery }) {
     function getContent() {
-        // Get everything past the '=' of '?query=artikel'
-        const query = searchQuery.slice(
-            searchQuery.indexOf('=') + 1,
-            searchQuery.length
+        const params = new URLSearchParams(
+            document.location.search.substring(1)
         )
+
+        // Get everything past the '=' of '?query=artikel'
+        const query = params.get('query')
 
         const omschrijving = item.Omschrijving
             ? getExcerpt(item.Omschrijving)
             : ''
 
+        const markedOmschrijving = omschrijving.replace(
+            new RegExp(query, 'g'),
+            `<mark class="marked-red">${query}</mark>`
+        )
+
         return {
             setInnerHTML: true,
             content: {
-                __html: omschrijving.replace(
-                    new RegExp(query, 'g'),
-                    `<span class="search-highlight">${query}</span>`
-                ),
+                __html: markedOmschrijving,
             },
         }
     }
@@ -90,9 +95,22 @@ function SearchResultItem({ item, searchQuery }) {
     const overzichtURL = dimensieContants.SLUG_OVERZICHT
     const titelEnkelvoud = dimensieContants.TITEL_ENKELVOUD
 
+    // Fallback for verordeningsitems that have not been found in the vigerende structure
+    if (
+        (item &&
+            item.positionInStructure &&
+            item.positionInStructure[0] === null) ||
+        (item &&
+            item.positionInStructure &&
+            item.positionInStructure.length === 0)
+    ) {
+        return null
+    }
+
     return (
         <li className="py-5 border-b border-gray-300" key={item.UUID}>
             <Link
+                className="group"
                 to={
                     item.Type === 'Verordeningen'
                         ? `/detail/verordeningen/1/${item.UUID}?hoofdstuk=${
@@ -115,24 +133,24 @@ function SearchResultItem({ item, searchQuery }) {
                         : `/detail/${overzichtURL}/${item.UUID}#${searchQuery}`
                 }
             >
-                <h2 className="block font-serif text-gray-800 text-l">
-                    {content.Titel}
-                </h2>
-                <span className="block text-sm italic text-gray-600">
+                <span className="block text-sm text-gray-600">
                     {titelEnkelvoud}
                 </span>
+                <h2 className="block text-lg font-semibold text-primary group-hover:underline">
+                    {content.Titel}
+                </h2>
                 {content.Omschrijving.setInnerHTML ? (
                     <p
-                        className="mt-2 text-sm text-gray-700"
+                        className="mt-2 text-gray-700"
                         dangerouslySetInnerHTML={content.Omschrijving.content}
                     ></p>
                 ) : content.Omschrijving.content &&
                   content.Omschrijving.content.length > 0 ? (
-                    <p className="mt-2 text-sm text-gray-700">
+                    <p className="mt-2 text-gray-700">
                         {content.Omschrijving.content}
                     </p>
                 ) : (
-                    <p className="mt-2 text-sm italic text-gray-700">
+                    <p className="mt-2 italic text-gray-700">
                         Er is nog geen omschrijving voor deze
                         {' ' + titelEnkelvoud.toLowerCase()}
                     </p>
@@ -158,9 +176,10 @@ class RaadpleegZoekResultatenOverzicht extends Component {
         this.generateVerordeningsPosition = this.generateVerordeningsPosition.bind(
             this
         )
+        this.handleFilter = this.handleFilter.bind(this)
     }
 
-    handleFilter(e, index) {
+    handleFilter(e) {
         const name = e.target.name
         let newOnPageFilters = this.state.onPageFilters
         newOnPageFilters[name].checked = !newOnPageFilters[name].checked
@@ -202,8 +221,10 @@ class RaadpleegZoekResultatenOverzicht extends Component {
     }
 
     generateVerordeningsPosition(UUIDToFind) {
+        if (!this.state.vigerendeVerordeningsStructuur) return []
+
         // Curren structure of vigerende verordeningsstructure
-        const vigerendeVerordeningsStructuur = this.state
+        const vigerendeVerordeningsStructuurChildren = this.state
             .vigerendeVerordeningsStructuur.Structuur.Children
 
         // Used to push in the indexes to traverse to the UUIDToFind
@@ -262,7 +283,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
         }
 
         // Initialize function
-        traverseChildren(vigerendeVerordeningsStructuur)
+        traverseChildren(vigerendeVerordeningsStructuurChildren)
 
         // Return the found array with the path to the UUID
         return indexPathToUUID
@@ -290,6 +311,10 @@ class RaadpleegZoekResultatenOverzicht extends Component {
             searchQuery: searchQuery,
         })
 
+        if (searchFiltersOnly === 'beleidskeuzes') {
+            searchFiltersOnly = 'beleidsbeslissingen'
+        }
+
         axios
             .get(
                 `/search?query=${searchQuery}&limit=10${
@@ -298,6 +323,19 @@ class RaadpleegZoekResultatenOverzicht extends Component {
             )
             .then((res) => {
                 const searchResults = res.data
+                    .filter(
+                        (e) =>
+                            e.Type !== 'Doelen' &&
+                            e.Type !== 'Themas' &&
+                            e.Type !== 'Belangen'
+                    )
+                    .filter(
+                        (e) =>
+                            (e.Type === 'Maatregelen' &&
+                                e.Status !== 'Vigerend') ||
+                            e.Type !== 'Maatregelen'
+                    )
+
                 this.setInitialOnPageFilters(searchResults)
 
                 // The 'Verordenings' objects are placed in a structure, but we need to check what position exactly so we can link towards the correct 'Verordening' including the parameters to set the verordeningsobject as active in the view. e.g.:
@@ -394,9 +432,18 @@ class RaadpleegZoekResultatenOverzicht extends Component {
         try {
             const data = await axios
                 .get('/verordeningstructuur')
-                .then((res) =>
-                    res.data.find((item) => item.Status === 'Vigerend')
-                )
+                .then((res) => {
+                    const vigerendeVerordening = res.data.find(
+                        (item) => item.Status === 'Vigerend'
+                    )
+                    if (vigerendeVerordening) {
+                        return vigerendeVerordening
+                    } else if (res.data.length > 0) {
+                        return res.data[0]
+                    } else {
+                        throw 'No data from API'
+                    }
+                })
             this.setState(
                 {
                     vigerendeVerordeningsStructuur: data,
@@ -412,6 +459,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
 
     getSearchResults() {
         const urlParams = this.props.location.search
+
         const searchParams = new URLSearchParams(urlParams)
         const searchQuery = searchParams.get('query')
         const searchFiltersOnly = searchParams.get('only')
@@ -452,71 +500,93 @@ class RaadpleegZoekResultatenOverzicht extends Component {
     }
 
     render() {
+        // Beleidskeuzes
+        // Ambities
+        // Opgaven
+        // Maatregelen
+        // Verordening
+        // Beleidsregels
+
+        const checkForActiveFilter = (onPageFilters) => {
+            if (!onPageFilters || !onPageFilters.filterArray) return []
+
+            let activeFilter = false
+            let amountOfFilters = 0
+
+            onPageFilters.filterArray.forEach((filterType) => {
+                if (!onPageFilters[filterType].checked) {
+                    activeFilter = true
+                    amountOfFilters++
+                }
+            })
+
+            return [activeFilter, amountOfFilters]
+        }
+
+        const onPageFilters = this.state.onPageFilters
+        let [filterIsActive, amountOfFilters] = checkForActiveFilter(
+            onPageFilters
+        )
+
+        const filters = [
+            'Beleidsbeslissingen',
+            'Ambities',
+            'Opgaven',
+            'Maatregelen',
+            'Verordeningen',
+            'BeleidsRegels',
+        ].filter((e) => onPageFilters[e])
+
         return (
             <div className="container flex px-6 pb-8 mx-auto mt-12">
                 <div className="w-1/4">
-                    <ButtonBackToPage
-                        terugNaar="startpagina"
-                        url={
+                    <Link
+                        to={
                             this.state.searchQuery
                                 ? `/?query=${this.state.searchQuery}`
                                 : `/`
                         }
-                    />
-                    <h2 className="block mt-6 font-serif text-gray-700 text-l">
-                        Filteren
-                    </h2>
-                    <ul className="mt-4">
-                        {this.state.onPageFilters.filterArray &&
-                        this.state.onPageFilters.filterArray.length > 0
-                            ? this.state.onPageFilters.filterArray.map(
-                                  (item, index) => (
-                                      <li
-                                          key={item}
-                                          className="mt-1 text-sm text-gray-700"
-                                      >
-                                          <label className="cursor-pointer select-none">
-                                              <input
-                                                  className="mr-2 leading-tight"
-                                                  type="checkbox"
-                                                  checked={
-                                                      this.state.onPageFilters[
-                                                          item
-                                                      ].checked
-                                                  }
-                                                  onChange={(e) =>
-                                                      this.handleFilter(
-                                                          e,
-                                                          index
-                                                      )
-                                                  }
-                                                  name={item}
-                                              />
-                                              <span>
-                                                  {item} (
-                                                  {
-                                                      this.state.onPageFilters[
-                                                          item
-                                                      ].count
-                                                  }
-                                                  )
-                                              </span>
-                                          </label>
-                                      </li>
-                                  )
-                              )
-                            : null}
-                    </ul>
+                        className={`text-gray-600 hover:text-gray-700 text-sm mb-4 inline-block group`}
+                        id="button-back-to-previous-page"
+                    >
+                        <FontAwesomeIcon className="mr-2" icon={faArrowLeft} />
+                        <span>Startpagina</span>
+                    </Link>
+
+                    {this.state.dataLoaded &&
+                    this.state.searchFiltersOnly === null ? (
+                        <React.Fragment>
+                            <h2 className="block text-lg font-semibold text-primary group-hover:underline">
+                                Filteren
+                            </h2>
+                            <ul className="mt-4">
+                                {onPageFilters.filterArray &&
+                                onPageFilters.filterArray.length > 0
+                                    ? filters.map((filter) => (
+                                          <FilterItem
+                                              count={
+                                                  onPageFilters[filter].count
+                                              }
+                                              handleFilter={this.handleFilter}
+                                              checked={
+                                                  !onPageFilters[filter].checked
+                                              }
+                                              item={filter}
+                                          />
+                                      ))
+                                    : null}
+                            </ul>
+                        </React.Fragment>
+                    ) : null}
                 </div>
 
                 <div className="w-2/4">
-                    <span className="text-sm text-gray-600">
-                        Zoekresultaten voor
+                    <span className="block text-xl font-bold opacity-25 text-primary-super-dark">
                         {this.state.searchQuery
-                            ? ` "${this.state.searchQuery}"`
+                            ? `Zoekresultaten voor "${this.state.searchQuery}"`
                             : null}
                         {this.state.geoSearchQuery
-                            ? ` coördinaten "${this.state.geoSearchQuery}"`
+                            ? `Zoekresultaten voor coördinaten "${this.state.geoSearchQuery}"`
                             : null}
                     </span>
                     <ul>
@@ -526,8 +596,12 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                             this.state.searchResults.length > 0 ? (
                                 this.state.searchResults.map((item, index) => {
                                     if (
-                                        this.state.onPageFilters[item.Type]
-                                            .checked
+                                        (filterIsActive &&
+                                            amountOfFilters > 0 &&
+                                            !onPageFilters[item.Type]
+                                                .checked) ||
+                                        (!filterIsActive &&
+                                            amountOfFilters === 0)
                                     ) {
                                         return (
                                             <SearchResultItem
@@ -554,6 +628,30 @@ class RaadpleegZoekResultatenOverzicht extends Component {
             </div>
         )
     }
+}
+
+const FilterItem = ({ handleFilter, checked, item, count }) => {
+    return (
+        <li key={item} className="mt-1 text-sm text-gray-700">
+            <label className="cursor-pointer select-none">
+                <input
+                    className="mr-2 leading-tight"
+                    type="checkbox"
+                    checked={checked}
+                    onChange={(e) => handleFilter(e)}
+                    name={item}
+                />
+                <span>
+                    {item === 'Beleidsbeslissingen'
+                        ? 'Beleidskeuzes'
+                        : item === 'Verordeningen'
+                        ? 'Artikelen'
+                        : item}{' '}
+                    ({count})
+                </span>
+            </label>
+        </li>
+    )
 }
 
 export default RaadpleegZoekResultatenOverzicht

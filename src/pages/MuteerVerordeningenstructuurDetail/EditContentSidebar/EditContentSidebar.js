@@ -9,8 +9,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import Transition from './../../../components/Transition'
 import FixedSidebarContainer from './../FixedSidebarContainer'
-import Werkingsgebied from './../ContainerCrudFields/Werkingsgebied'
-import Artikel from './../ContainerCrudFields/Artikel'
+import Werkingsgebied from '../ContainerCrudFields/Werkingsgebied'
+import Artikel from '../ContainerCrudFields/Artikel'
 
 const EditContentSidebar = ({
     verordeningsLedenFromGET,
@@ -35,6 +35,34 @@ const EditContentSidebar = ({
         !verordeningsObjectIsLoading &&
         verordeningsObjectFromGET !== null &&
         verordeningsObjectFromGET.Type === 'Artikel'
+
+    React.useEffect(() => {
+        if (!verordeningsObjectIsLoaded) return
+
+        // If leden all have a werkingsgebied and they are the same
+        if (
+            verordeningsLedenFromGET &&
+            verordeningsLedenFromGET.every((e) => e.Werkingsgebied)
+        ) {
+            const werkingsgebiedLid = verordeningsLedenFromGET[0].Werkingsgebied
+            const allLedenHaveSameGebied = verordeningsLedenFromGET.every(
+                (e) => e.Werkingsgebied === werkingsgebiedLid
+            )
+
+            if (
+                allLedenHaveSameGebied &&
+                verordeningsObjectFromGET.Werkingsgebied === werkingsgebiedLid
+            ) {
+                setInheritWerkingsgebiedenFromArtikel(true)
+            } else {
+                setInheritWerkingsgebiedenFromArtikel(false)
+            }
+        }
+    }, [
+        verordeningsObjectIsLoaded,
+        verordeningsLedenFromGET,
+        verordeningsObjectFromGET,
+    ])
 
     const getType = () => {
         if (verordeningsObjectIsLoaded) {

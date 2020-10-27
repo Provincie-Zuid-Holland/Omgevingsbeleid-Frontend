@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { toast } from 'react-toastify'
-import { Link, withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 
 // Import Components
@@ -93,7 +93,7 @@ class MuteerUniversalObjectCRUD extends Component {
         // Check voor elke property op het crudObject of die gelijk is aan de initValue
         // Indien dat het geval is, zet de waarde op null
         const crudObjectKeys = Object.keys(crudObject)
-        crudObjectKeys.map((property) => {
+        crudObjectKeys.forEach((property) => {
             if (
                 crudObject[property] === null &&
                 crudObject[property] !==
@@ -112,7 +112,7 @@ class MuteerUniversalObjectCRUD extends Component {
         // Check voor elke property op het crudObject of die gelijk is aan de initValue
         // Indien dat het geval is, zet de waarde op null
         const crudObjectKeys = Object.keys(crudObject)
-        crudObjectKeys.map((property) => {
+        crudObjectKeys.forEach((property) => {
             if (
                 crudObject[property] ===
                 dimensieConstants.CRUD_PROPERTIES[property].initValue
@@ -127,8 +127,6 @@ class MuteerUniversalObjectCRUD extends Component {
         const dimensieConstants = this.props.dimensieConstants
         const apiEndpoint = dimensieConstants.API_ENDPOINT
         const overzichtSlug = dimensieConstants.SLUG_OVERZICHT
-
-        // crudObject = this.setEmptyValuesToNullCrudObject(crudObject)
 
         axios
             .post(`${apiEndpoint}`, JSON.stringify(crudObject))
@@ -183,6 +181,15 @@ class MuteerUniversalObjectCRUD extends Component {
     handleSubmit(event) {
         event.preventDefault()
 
+        const removeEmptyFields = (obj) => {
+            Object.keys(obj).forEach((property) => {
+                if (obj[property] === null || obj[property] === undefined) {
+                    delete obj[property]
+                }
+            })
+            return obj
+        }
+
         const dimensieConstants = this.props.dimensieConstants
         const apiEndpoint = dimensieConstants.API_ENDPOINT
         const titelEnkelvoud = dimensieConstants.TITEL_ENKELVOUD
@@ -200,6 +207,8 @@ class MuteerUniversalObjectCRUD extends Component {
             dimensieConstants,
             titelEnkelvoud
         )
+
+        crudObject = removeEmptyFields(crudObject)
 
         if (!alleVeldenIngevuld) {
             this.setState({
@@ -230,8 +239,6 @@ class MuteerUniversalObjectCRUD extends Component {
 
         let nieuwCrudObject = this.state.crudObject
 
-        // !REFACTOR! Deze logica mag in de makeCrudObject functie
-        // Als de relatie Array nog niet initialized is, maak deze aan
         if (typeof nieuwCrudObject[propertyName] === 'string') {
             nieuwCrudObject[propertyName] = []
         }
@@ -281,10 +288,15 @@ class MuteerUniversalObjectCRUD extends Component {
     createAndSetCrudObject(responseObjectFromAPI) {
         const dimensieConstants = this.props.dimensieConstants
         const crudProperties = makeCrudProperties(dimensieConstants)
+
+        let params = new URL(document.location).searchParams
+        let modus = params.get('modus')
+
         let crudObject = makeCrudObject({
             crudProperties: crudProperties,
             dimensieConstants: dimensieConstants,
             responseObject: responseObjectFromAPI,
+            wijzigVigerend: modus, // modus contains
         })
 
         this.setState({
@@ -296,16 +308,51 @@ class MuteerUniversalObjectCRUD extends Component {
     getAndSetDimensieDataFromApi() {
         const objectID = this.props.match.params.single
         const dimensieConstants = this.props.dimensieConstants
+        const titelEnkelvoud = dimensieConstants.TITEL_ENKELVOUD
         const apiEndpoint = dimensieConstants.API_ENDPOINT
+
+        let params = new URL(document.location).searchParams
+        // If modus equals 'wijzig_vigerend', the user is editing a vigerend object
+        let modus = params.get('modus')
 
         axios
             .get(`${apiEndpoint}/${objectID}`)
             .then((res) => {
                 const responseObject = res.data
+                let crudObject = null
 
-                // Create and set crudObject in state
-                // responseObject[0] is de laatste versie van het dimensie object
-                this.createAndSetCrudObject(responseObject[0])
+                if (
+                    (titelEnkelvoud === 'Maatregel' &&
+                        modus &&
+                        modus === 'wijzig_vigerend') ||
+                    (titelEnkelvoud === 'Beleidskeuze' &&
+                        modus &&
+                        modus === 'wijzig_vigerend')
+                ) {
+                    // Get the first object with a status of 'Vigerend'
+                    crudObject = responseObject.find(
+                        (e) => e.Status === 'Vigerend'
+                    )
+                } else if (
+                    titelEnkelvoud === 'Beleidskeuze' ||
+                    titelEnkelvoud === 'Maatregel'
+                ) {
+                    // Probleem:
+                    // - Wanneer we een beleidskeuze opslaan in een tussentijdsproces popt deze bovenop de stack
+                    // - Deze willen we overslaan bij het editen, maar er is geen mogelijkheid om onderscheid te maken
+                    //   tussen een vigerende versie die
+
+                    // crudObject = responseObject.find(
+                    //     (e) => e.Status !== 'Vigerend'
+                    // )
+
+                    crudObject = responseObject[0]
+                } else {
+                    crudObject = responseObject[0]
+                }
+
+                crudObject = formatGeldigheidDatesForUI(crudObject)
+                this.createAndSetCrudObject(crudObject)
             })
             .catch((err) => {
                 console.log(err)
@@ -350,7 +397,9 @@ class MuteerUniversalObjectCRUD extends Component {
                 <Helmet>
                     <title>
                         {editStatus
-                            ? `Omgevingsbeleid - ${objectTitel}`
+                            ? `Omgevingsbeleid - ${
+                                  objectTitel ? objectTitel : ''
+                              }`
                             : `Omgevingsbeleid - Voeg een nieuwe ${titelEnkelvoud} toe`}
                     </title>
                 </Helmet>
@@ -397,7 +446,7 @@ class MuteerUniversalObjectCRUD extends Component {
                                         />
                                     ) : null}
 
-                                    {titelEnkelvoud === 'Beleidsbeslissing' ? (
+                                    {titelEnkelvoud === 'Beleidskeuze' ? (
                                         <FormFieldContainerBeleidsbeslissingen
                                             titelEnkelvoud={titelEnkelvoud}
                                             crudObject={crudObject}

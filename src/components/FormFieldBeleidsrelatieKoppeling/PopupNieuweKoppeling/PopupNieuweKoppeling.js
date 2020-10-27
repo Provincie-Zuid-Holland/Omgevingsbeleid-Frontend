@@ -94,7 +94,7 @@ class PopupNieuweKoppeling extends Component {
                 {this.state.actievePagina === 1 ? (
                     <React.Fragment>
                         <p className="form-field-description">
-                            Zoek en selecteer de beleidsbeslissing waarmee '
+                            Zoek en selecteer de beleidskeuze waarmee '
                             {this.props.titelMainObject}' een koppeling heeft
                         </p>
                         <div className="relative block w-full mt-4 mb-6">
@@ -164,7 +164,7 @@ class PopupNieuweKoppeling extends Component {
                                             )
                                         ) : (
                                             <span className="italic text-gray-600 loading">
-                                                Beleidsbeslissingen laden...
+                                                Beleidskeuzes laden...
                                             </span>
                                         )}
                                     </li>
@@ -177,8 +177,8 @@ class PopupNieuweKoppeling extends Component {
                     <React.Fragment>
                         <p className="form-field-description">
                             Beschrijf de koppeling tussen het nationaal belang '
-                            {this.state.selected.Titel}' en de beleidsbeslissing
-                            '{this.props.titelMainObject}' en vul de
+                            {this.state.selected.Titel}' en de beleidskeuze '
+                            {this.props.titelMainObject}' en vul de
                             inwerkingtreding en uitwerkingtreding in.
                         </p>
                         <div className="flex">

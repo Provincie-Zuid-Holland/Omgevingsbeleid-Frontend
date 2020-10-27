@@ -1,4 +1,6 @@
 const VOLGENDE_STATUS = {
+    null: ['Ontwerp GS Concept'],
+    Ontwerp: ['Ontwerp GS Concept'],
     'Ontwerp GS Concept': ['Ontwerp GS'],
     'Ontwerp GS': ['Ontwerp PS', 'Ontwerp in inspraak'],
     'Ontwerp PS': ['Ontwerp in inspraak', 'Ontwerp GS Concept'],

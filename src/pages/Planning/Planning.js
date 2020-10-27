@@ -19,7 +19,9 @@ const ListItem = ({ title, content, completed }) => {
                 )}
             </div>
             <div className="w-full">
-                <span className="text-gray-900 heading-serif-xl">{title}</span>
+                <span className="text-2xl font-semibold text-gray-900">
+                    {title}
+                </span>
                 <p className="mt-2">{content}</p>
             </div>
         </li>
@@ -34,7 +36,7 @@ const Planning = () => {
             </div>
             <div className="container mx-auto">
                 <div className="max-w-4xl mx-auto sm:px-6 lg:px-8">
-                    <h1 className="mt-8 text-gray-900 heading-serif-2xl">
+                    <h1 className="mt-8 text-2xl font-semibold text-gray-900">
                         Wat staat er op onze planning?
                     </h1>
                     <ul className="mt-10 text-gray-800">

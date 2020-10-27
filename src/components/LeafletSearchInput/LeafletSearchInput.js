@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { debounce } from './../../functions'
 import { toast } from 'react-toastify'
+import debounce from './../../utils/debounce'
 
 class LeafletSearchInput extends Component {
     constructor(props) {
@@ -56,7 +56,6 @@ class LeafletSearchInput extends Component {
                     this.props.mapPanTo(lng, lat, data.type)
                 })
                 .catch((err) => {
-                    console.log(err)
                     toast(process.env.REACT_APP_ERROR_MSG)
                 })
         })

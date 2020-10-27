@@ -4,7 +4,7 @@ import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFi
 class FormFieldWeblink extends React.Component {
     render() {
         return (
-            <div className="flex flex-wrap -mx-3 mb-6">
+            <div className="flex flex-wrap mb-6 -mx-3">
                 <div className="w-full px-3">
                     <FormFieldTitelEnBeschrijving
                         dataObjectProperty={this.props.dataObjectProperty}
@@ -17,9 +17,10 @@ class FormFieldWeblink extends React.Component {
                         value={this.props.fieldValue || ''}
                         onChange={this.props.handleChange}
                         name="Weblink"
-                        className="appearance-none block w-full text-gray-700 border border-gray-400 rounded py-3 px-4 leading-tight focus:outline-none hover:border-gray-500 focus:border-gray-500"
+                        className="block w-full px-4 py-3 leading-tight text-gray-700 border border-gray-400 rounded appearance-none focus:outline-none hover:border-gray-500 focus:border-gray-500"
                         placeholder={this.props.fieldLabel}
                         id={`form-field-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
+                        disabled={this.props.disabled}
                     />
                 </div>
             </div>

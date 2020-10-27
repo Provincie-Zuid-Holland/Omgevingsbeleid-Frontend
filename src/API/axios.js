@@ -41,5 +41,8 @@ instance.interceptors.response.use(
     }
 )
 
-export { environment }
+const baseURL = instance.defaults.baseURL
+// const baseURL = 'TEST'
+
+export { environment, baseURL }
 export default instance

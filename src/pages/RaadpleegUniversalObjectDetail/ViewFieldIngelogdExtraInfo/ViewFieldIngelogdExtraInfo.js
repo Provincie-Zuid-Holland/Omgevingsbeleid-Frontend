@@ -118,10 +118,29 @@ class ViewFieldIngelogdExtraInfo extends Component {
     }
 
     render() {
+        const canUserEdit = (context) => {
+            const contextAndUUIDExist =
+                context &&
+                context.user &&
+                context.user !== null &&
+                context.user.UUID
+
+            const userCreatedObjectOrIsOwner =
+                this.props.crudObject.Created_By === context.user.UUID ||
+                (context.user && this.state.Eigenaar_1 === context.user.UUID) ||
+                (context.user && this.state.Eigenaar_2 === context.user.UUID) ||
+                (context.user && this.state.Opdrachtgever === context.user.UUID)
+
+            const userCanEdit =
+                contextAndUUIDExist && userCreatedObjectOrIsOwner
+
+            return userCanEdit
+        }
+
         return (
             <UserContext.Consumer>
                 {(context) => (
-                    <div className="px-3 py-3 mb-4 bg-gray-100 border-t border-b border-gray-200 ">
+                    <div className="px-3 py-3 mb-5 bg-gray-100 border border-gray-200 rounded-md ">
                         <span className="text-sm text-gray-600">
                             Deze informatie zien alleen gebruikers die zijn
                             ingelogd.
@@ -190,19 +209,7 @@ class ViewFieldIngelogdExtraInfo extends Component {
                                     </a>
                                 ) : null}
                             </div>
-                            {(context &&
-                                context.user &&
-                                context.user !== null &&
-                                context.user.UUID &&
-                                this.props.crudObject.Created_By ===
-                                    context.user.UUID) ||
-                            (context.user &&
-                                this.state.Eigenaar_1 === context.user.UUID) ||
-                            (context.user &&
-                                this.state.Eigenaar_2 === context.user.UUID) ||
-                            (context.user &&
-                                this.state.Opdrachtgever ===
-                                    context.user.UUID) ? (
+                            {canUserEdit(context) ? (
                                 <Link
                                     to={`/muteer/beleidsbeslissingen/${this.props.crudObject.ID}`}
                                     className="px-3 py-2 text-xs font-semibold tracking-wide border rounded cursor-pointer m-color m-base-border-color"

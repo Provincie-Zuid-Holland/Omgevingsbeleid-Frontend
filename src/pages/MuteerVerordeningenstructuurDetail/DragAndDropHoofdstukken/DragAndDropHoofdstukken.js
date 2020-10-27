@@ -214,6 +214,7 @@ const HoofdstukTitle = ({ snapshot, item, itemIndex, changeActiveChapter }) => {
             onClick={() => {
                 if (snapshot.isDragging) return
                 changeActiveChapter(itemIndex)
+                window.scrollTo(0, 0)
             }}
         >
             {`Hoofdstuk ${item.Volgnummer ? item.Volgnummer : ''} - ${

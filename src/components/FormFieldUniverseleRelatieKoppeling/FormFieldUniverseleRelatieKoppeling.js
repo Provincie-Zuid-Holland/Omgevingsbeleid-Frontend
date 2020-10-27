@@ -403,6 +403,9 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
         // Als tijdens het map'en de propertyName al in de propertyNamesMapped array staat, slaat die 'm over
         let propertyNamesMapped = []
 
+        // User can disable the component (e.g. in beleidskeuzes with a 'vigerend' status)
+        const disabled = this.props.disabled
+
         return (
             <React.Fragment>
                 {this.props.fieldLabel === 'Koppelingen' ? (
@@ -412,8 +415,8 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
                         </h3>
                         <p className="mb-8 text-sm text-gray-700">
                             Een relatie ga je, met wederzijds goedkeuren, aan
-                            met andere beleidsbeslissingen. Deze beleidsrelaties
-                            kun je op een later moment aangaan vanuit de
+                            met andere beleidskeuzes. Deze beleidsrelaties kun
+                            je op een later moment aangaan vanuit de
                             beheeromgeving onder het kopje 'Beleidsrelaties'.
                         </p>
                     </React.Fragment>
@@ -424,7 +427,11 @@ class FormFieldUniverseleRelatieKoppeling extends Component {
                     pValue={this.props.pValue}
                 />
                 <div
-                    className="p-5 bg-white rounded shadow"
+                    className={`p-5 bg-white rounded shadow ${
+                        disabled
+                            ? 'opacity-75 pointer-events-none cursor-not-allowed'
+                            : ''
+                    }`}
                     id={`form-field-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
                 >
                     <div className="flex py-2 text-sm font-bold text-gray-700 border-b border-gray-300">

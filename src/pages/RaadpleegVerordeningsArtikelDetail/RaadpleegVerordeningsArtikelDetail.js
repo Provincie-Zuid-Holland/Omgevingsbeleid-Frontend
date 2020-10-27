@@ -30,7 +30,6 @@ function parseIntOrSetToNull(item) {
     }
 }
 
-// !REFACTOR! -> Wordt nu op meerdere plekken gebruikt, move naar utils
 function getQueryStringValues(urlParams) {
     const queryStringValues = queryString.parse(urlParams)
     let hoofdstukIndex = parseIntOrSetToNull(queryStringValues.hoofdstuk)
@@ -165,8 +164,8 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
 
     ifPresentGetAndSetLeden(UUID) {
         const verordeningsObjectInLineage = this.getActiveObjectInLineage(UUID)
-
         if (
+            verordeningsObjectInLineage &&
             verordeningsObjectInLineage.Children &&
             verordeningsObjectInLineage.Children.length > 0
         ) {
@@ -198,9 +197,19 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                     nest3,
                 ] = getQueryStringValues(urlParams)
 
+                const activeObjectPath = [hoofdstukIndex, nest1, nest2, nest3]
+
+                // Fallback for when an item couldn't be found in the vigerende structure
+                if (activeObjectPath[0] === null) {
+                    this.props.history.push('/')
+                    toast(
+                        `Dit onderdeel van de verordening kon niet gevonden worden in de vigerende structuur`
+                    )
+                }
+
                 this.setState(
                     {
-                        activeObjectPath: [hoofdstukIndex, nest1, nest2, nest3],
+                        activeObjectPath: activeObjectPath,
                     },
                     () => resolve()
                 )
@@ -459,20 +468,23 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                                                 />
                                             </span>
                                         </div>
-
-                                        <div
-                                            className="overflow-hidden rounded-lg"
-                                            id={`full-screen-leaflet-container-${this.state.fullscreenLeafletViewer}`}
-                                        >
-                                            <LeafletTinyViewer
-                                                gebiedType="Werkingsgebieden"
-                                                gebiedUUID={werkingsGebiedUUID}
-                                                fullscreen={
-                                                    this.state
-                                                        .fullscreenLeafletViewer
-                                                }
-                                            />
-                                        </div>
+                                        {!loadingNewObject ? (
+                                            <div
+                                                className="overflow-hidden rounded-lg"
+                                                id={`full-screen-leaflet-container-${this.state.fullscreenLeafletViewer}`}
+                                            >
+                                                <LeafletTinyViewer
+                                                    gebiedType="Werkingsgebieden"
+                                                    gebiedUUID={
+                                                        werkingsGebiedUUID
+                                                    }
+                                                    fullscreen={
+                                                        this.state
+                                                            .fullscreenLeafletViewer
+                                                    }
+                                                />
+                                            </div>
+                                        ) : null}
                                     </div>
                                 ) : null}
                             </div>

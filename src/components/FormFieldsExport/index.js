@@ -14,10 +14,14 @@ import FormFieldWerkingsgebiedKoppeling from '../FormFieldWerkingsgebiedKoppelin
 import FormFieldUniverseleRelatieKoppeling from '../FormFieldUniverseleRelatieKoppeling'
 import FormFieldWerkingsgebiedKoppelingSingle from '../FormFieldWerkingsgebiedKoppelingSingle'
 import FormFieldWerkingsgebiedrelatie from '../FormFieldWerkingsgebiedrelatie'
+import FormFieldRadioButton from '../FormFieldRadioButton'
+import FormFieldRichTextEditor from '../FormFieldRichTextEditor'
+import FormFieldInputContainer from '../FormFieldInputContainer'
 
+// test
 export {
-    FormFieldBeleidsrelatieKoppeling,
     FormFieldDate,
+    FormFieldBeleidsrelatieKoppeling,
     FormFieldSelect,
     FormFieldSelectBeleidsbeslissing,
     FormFieldSelectUser,
@@ -32,4 +36,7 @@ export {
     FormFieldUniverseleRelatieKoppeling,
     FormFieldWerkingsgebiedKoppelingSingle,
     FormFieldWerkingsgebiedrelatie,
+    FormFieldRadioButton,
+    FormFieldRichTextEditor,
+    FormFieldInputContainer,
 }

@@ -32,7 +32,7 @@ function FormFieldContainerOpgaven({
 
             <ContainerFormSection
                 titel="Omschrijving opgave"
-                beschrijving="Een opgave bevindt zich op tactisch niveau, tussen het niveau van de ambities en de beleidsbeslissingen."
+                beschrijving="Een opgave bevindt zich op tactisch niveau, tussen het niveau van de ambities en de beleidskeuzes."
             >
                 <FormFieldTextArea
                     handleChange={handleChange}

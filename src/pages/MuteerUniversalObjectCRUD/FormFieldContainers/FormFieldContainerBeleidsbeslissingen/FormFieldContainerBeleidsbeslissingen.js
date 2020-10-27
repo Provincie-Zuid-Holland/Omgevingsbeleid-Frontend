@@ -13,6 +13,8 @@ import {
     FormFieldWerkingsgebiedKoppeling,
 } from './../../../../components/FormFieldsExport'
 
+import UserContext from './../../../../App/UserContext'
+
 function FormFieldContainerBeleidsbeslissingen({
     titelEnkelvoud,
     crudObject,
@@ -22,6 +24,24 @@ function FormFieldContainerBeleidsbeslissingen({
     wijzigKoppelingRelatie,
     verwijderKoppelingRelatie,
 }) {
+    // If the beleidskeuze is 'vigerend' we need to specify who can edit which fields
+    const isVigerend = crudObject.Status === 'Vigerend'
+
+    const { user } = React.useContext(UserContext)
+    const userUUID = user.UUID
+    const userRol = user.Rol
+
+    const userIsAllowed =
+        userRol === 'Beheerder' ||
+        userRol === 'Functioneel beheerder' ||
+        userUUID === crudObject.Eigenaar_1 ||
+        userUUID === crudObject.Eigenaar_2
+
+    // The following fields should be editable when userIsAllowed true
+    // - FormFieldSelectUserGroup (specific rules for each field, see FormFieldSelectUserGroup component)
+    // - FormFieldUniverseleRelatieKoppeling
+    // The rest of the fields should be disabled if (isVigerend === true && !userIsAllowed)
+
     return (
         <React.Fragment>
             <ContainerFormSection
@@ -29,14 +49,16 @@ function FormFieldContainerBeleidsbeslissingen({
                 beschrijving="De algemene informatie bevat een duidelijke titel en de betrokken personen."
             >
                 <FormFieldTextInput
+                    disabled={isVigerend}
                     handleChange={handleChange}
                     fieldValue={crudObject['Titel']}
                     dataObjectProperty="Titel"
                     fieldLabel="Titel"
-                    pValue="Formuleer in enkele woorden de titel van de beleidsbeslissing."
+                    pValue="Formuleer in enkele woorden de titel van de beleidskeuze."
                     titelEnkelvoud={titelEnkelvoud}
                 />
                 <FormFieldSelectUserGroup
+                    disabled={isVigerend && !userIsAllowed}
                     handleChange={handleChange}
                     crudObject={crudObject}
                     marginRight={true}
@@ -47,10 +69,11 @@ function FormFieldContainerBeleidsbeslissingen({
             </ContainerFormSection>
 
             <ContainerFormSection
-                titel="Omschrijving beleidsbeslissing"
-                beschrijving="Een beleidsbeslissing betreft een (politieke) beleidskeuze en heeft rechtsgevolgen voor derden."
+                titel="Omschrijving beleidskeuze"
+                beschrijving="Een beleidskeuze betreft een (politieke) beleidskeuze en heeft rechtsgevolgen voor derden."
             >
                 <FormFieldTextArea
+                    disabled={isVigerend}
                     handleChange={handleChange}
                     fieldValue={crudObject['Omschrijving_Keuze']}
                     placeholderTekst="Wat wil de provincie bereiken?"
@@ -62,15 +85,16 @@ function FormFieldContainerBeleidsbeslissingen({
             </ContainerFormSection>
 
             <ContainerFormSection
-                titel="Omschrijving werking beleidsbeslissing"
-                beschrijving="De werking van een beleidsbeslissing geeft aan in welke context en vanuit welke achtergrond de provincie hier beleid op voert."
+                titel="Toelichting Beleidskeuze"
+                beschrijving="Geef verdere inhoudelijke motivering van de beleidskeuze. Licht daarnaast conflicterende relaties met andere beleidskeuzes toe en beschrijf hoe hiermee wordt omgegaan."
             >
                 <FormFieldTextArea
+                    disabled={isVigerend}
                     handleChange={handleChange}
                     fieldValue={crudObject['Omschrijving_Werking']}
-                    fieldLabel="Werking"
+                    fieldLabel="Toelichting"
                     dataObjectProperty="Omschrijving_Werking"
-                    pValue="Wat is de werking van de beleidsbeslissing?"
+                    pValue="Verdere inhoudelijke motivering en de conflicterende relaties"
                     titelEnkelvoud={titelEnkelvoud}
                 />
             </ContainerFormSection>
@@ -80,22 +104,16 @@ function FormFieldContainerBeleidsbeslissingen({
                 beschrijving="De motivering is de reden waarom de provincie deze beleidskeuze maakt."
             >
                 <FormFieldTextArea
+                    disabled={isVigerend}
                     handleChange={handleChange}
                     fieldValue={crudObject['Aanleiding']}
                     fieldLabel="Aanleiding"
                     dataObjectProperty="Aanleiding"
-                    pValue="Wat was de aanleiding voor de beleidsbeslissing?"
+                    pValue="Wat was de aanleiding voor de beleidskeuze?"
                     titelEnkelvoud={titelEnkelvoud}
                 />
                 <FormFieldTextArea
-                    handleChange={handleChange}
-                    fieldValue={crudObject['Afweging']}
-                    fieldLabel="Afwegingen"
-                    dataObjectProperty="Afweging"
-                    pValue="Welke afwegingen hebben tot deze beleidsbeslissing geleid?"
-                    titelEnkelvoud={titelEnkelvoud}
-                />
-                <FormFieldTextArea
+                    disabled={isVigerend}
                     handleChange={handleChange}
                     fieldValue={crudObject['Provinciaal_Belang']}
                     fieldLabel="Provinciaal belang"
@@ -106,6 +124,7 @@ function FormFieldContainerBeleidsbeslissingen({
                     titelEnkelvoud={titelEnkelvoud}
                 />
                 <FormFieldUniverseleRelatieKoppeling
+                    disabled={isVigerend}
                     placeholderTekst="Er is nog geen Nationaal belang of 'Wettelijke taken & bevoegdheden' gekoppeld."
                     buttonTekst="Koppel belang of taak"
                     titelMainObject={crudObject['Titel']}
@@ -113,7 +132,7 @@ function FormFieldContainerBeleidsbeslissingen({
                     fieldValue={crudObject['Belangen']}
                     fieldLabel="Nationaal Belang en Wettelijke taken & bevoegdheden"
                     dataObjectProperty="Belangen"
-                    pValue="Indien deze beleidsbeslissing een nationaal belang dient of voortkomt uit een wettelijke taak of bevoegdheid, selecteer dit hieronder."
+                    pValue="Indien deze beleidskeuze een nationaal belang dient of voortkomt uit een wettelijke taak of bevoegdheid, selecteer dit hieronder."
                     titelEnkelvoud={titelEnkelvoud}
                     wijzigKoppelingRelatie={wijzigKoppelingRelatie}
                     voegKoppelingRelatieToe={voegKoppelingRelatieToe}
@@ -125,31 +144,33 @@ function FormFieldContainerBeleidsbeslissingen({
 
             <ContainerFormSection
                 titel="Werkingsgebied"
-                beschrijving="Het werkingsgebied geeft het gebied weer waarin de beleidsbeslissing werking heeft. Het gebied waar binnen bepaalde activiteiten gestimuleerd worden, of toegestaan zijn. Maar ook het gebied waar binnen bepaalde activiteiten juist niet zijn toegestaan. Heeft jouw beleidsbeslissing nog geen geschikt werkingsgebied, ontwikkel er dan een met iemand van Team GEO."
+                beschrijving="Het werkingsgebied geeft het gebied weer waarin de beleidskeuze werking heeft. Het gebied waar binnen bepaalde activiteiten gestimuleerd worden, of toegestaan zijn. Maar ook het gebied waar binnen bepaalde activiteiten juist niet zijn toegestaan. Heeft jouw beleidskeuze nog geen geschikt werkingsgebied, ontwikkel er dan een met iemand van Team GEO."
             >
                 <FormFieldWerkingsgebiedKoppeling
+                    disabled={isVigerend}
                     setWerkingsgebiedInParentState={handleChange}
                     werkingsgebiedInParentState={crudObject['WerkingsGebieden']}
                     titelEnkelvoud={titelEnkelvoud}
                     fieldLabel="Selecteer werkingsgebied"
                     dataObjectProperty="WerkingsGebieden"
-                    pValue="Selecteer hier het werkingsgebied wat bij deze beleidsbeslissing past."
+                    pValue="Selecteer hier het werkingsgebied wat bij deze beleidskeuze past."
                 />
             </ContainerFormSection>
 
             <ContainerFormSection
                 titel="Koppelingen"
-                beschrijving="Integraal Omgevingsbeleid betekent dat deze beleidsbeslissing koppelingen met andere onderdelen van het provinciale beleid heeft. Koppelingen leg je, eenzijdig, met andere beleidsobjecten, zoals een artikel uit de verordening of een ambitie."
+                beschrijving="Integraal Omgevingsbeleid betekent dat deze beleidskeuze koppelingen met andere onderdelen van het provinciale beleid heeft. Koppelingen leg je, eenzijdig, met andere beleidsobjecten, zoals een artikel uit de verordening of een ambitie."
             >
                 <FormFieldUniverseleRelatieKoppeling
-                    placeholderTekst="Er zijn nog geen relaties aangebracht voor deze beleidsbeslissing"
+                    disabled={isVigerend && !userIsAllowed}
+                    placeholderTekst="Er zijn nog geen relaties aangebracht voor deze beleidskeuze"
                     buttonTekst="Nieuwe koppeling"
                     titelMainObject={crudObject['Titel']}
                     handleChange={handleChange}
                     fieldValue={crudObject['Belangen']}
                     fieldLabel="Koppelingen"
                     dataObjectProperty="Koppelingen"
-                    pValue="Aan welke ambities, opgaven, artikelen uit de verordening, maatregelen en beleidsregels heeft deze beleidsbeslissing een koppeling?"
+                    pValue="Aan welke ambities, opgaven, artikelen uit de verordening, maatregelen en beleidsregels heeft deze beleidskeuze een koppeling?"
                     titelEnkelvoud={titelEnkelvoud}
                     voegKoppelingRelatieToe={voegKoppelingRelatieToe}
                     wijzigKoppelingRelatie={wijzigKoppelingRelatie}
@@ -172,6 +193,7 @@ function FormFieldContainerBeleidsbeslissingen({
                 beschrijving="In deze sectie vragen we aanvullende informatie zoals de link naar het IDMS besluitdocument en het besluitnummer."
             >
                 <FormFieldWeblink
+                    disabled={isVigerend}
                     handleChange={handleChange}
                     fieldValue={crudObject['Weblink']}
                     dataObjectProperty="Weblink"
@@ -181,6 +203,7 @@ function FormFieldContainerBeleidsbeslissingen({
                 />
 
                 <FormFieldTextInput
+                    disabled={isVigerend}
                     handleChange={handleChange}
                     fieldValue={crudObject['Besluitnummer']}
                     fieldLabel="Besluitnummer"
@@ -192,6 +215,7 @@ function FormFieldContainerBeleidsbeslissingen({
 
                 <div className="flex flex-wrap -mx-3">
                     <FormFieldDate
+                        disabled={isVigerend}
                         handleChange={handleChange}
                         fieldValue={crudObject['Begin_Geldigheid']}
                         fieldLabel="Datum inwerkingtreding"
@@ -201,6 +225,7 @@ function FormFieldContainerBeleidsbeslissingen({
                         titelEnkelvoud={titelEnkelvoud}
                     />
                     <FormFieldDate
+                        disabled={isVigerend}
                         handleChange={handleChange}
                         notRequired={true}
                         fieldValue={crudObject['Eind_Geldigheid']}

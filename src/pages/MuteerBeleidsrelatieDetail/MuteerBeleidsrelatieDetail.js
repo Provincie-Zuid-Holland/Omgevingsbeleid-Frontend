@@ -82,7 +82,7 @@ class MuteerBeleidsrelatieDetail extends Component {
     }
 
     getBeleidsrelatiesVanBeleidsbeslissing(UUID) {
-        // Get alle beleidsrelaties die een Van_Beleidsbeslissing relatie hebben met de beleidsbeslissing die bekeken wordt
+        // Get alle beleidsrelaties die een Van_Beleidsbeslissing relatie hebben met de beleidskeuze die bekeken wordt
         axios
             .get(`/beleidsrelaties?Van_Beleidsbeslissing=${UUID}`)
             .then((res) => {
@@ -351,7 +351,6 @@ class MuteerBeleidsrelatieDetail extends Component {
 
     render() {
         const ParamUUID = this.props.match.params.UUID
-        // const beleidsbeslissing = this.props.beleidsbeslissing
         const alleBeleidsrelaties = this.state.Van_Beleidsbeslissingen.concat(
             this.state.Naar_Beleidsbeslissingen
         )
@@ -404,7 +403,7 @@ class MuteerBeleidsrelatieDetail extends Component {
                     <div className="flex justify-between">
                         <div>
                             <span className="block mb-1 text-sm text-gray-500">
-                                Beleidsbeslissing
+                                Beleidskeuze
                             </span>
                             <h1 className="inline-block mb-8 text-xl font-bold text-gray-800">
                                 {this.state.titelLoaded ? (

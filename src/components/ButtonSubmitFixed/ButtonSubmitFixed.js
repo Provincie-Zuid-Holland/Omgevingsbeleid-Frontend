@@ -1,12 +1,12 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-function ButtonSubmitFixed({ saving }) {
+function ButtonSubmitFixed() {
     return (
-        <div className="fixed bottom-0 right-0 px-6">
-            <div className="bg-white shadow px-4 py-4 inline-block rounded-t">
+        <div className="fixed bottom-0 right-0 z-10 px-6">
+            <div className="inline-block px-4 py-4 bg-white rounded-t shadow">
                 <button
                     id="form-submit"
-                    className="font-bold cursor-pointer py-2 px-4 leading-tight text-sm rounded mbg-color text-white hover:underline"
+                    className="px-4 py-2 text-sm font-bold leading-tight text-white rounded cursor-pointer mbg-color hover:underline"
                     type="submit"
                 >
                     Opslaan
