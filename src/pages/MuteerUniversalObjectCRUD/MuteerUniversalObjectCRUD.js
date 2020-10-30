@@ -315,6 +315,12 @@ class MuteerUniversalObjectCRUD extends Component {
         // If modus equals 'wijzig_vigerend', the user is editing a vigerend object
         let modus = params.get('modus')
 
+        const isMaatregelOrBeleidskeuze =
+            titelEnkelvoud === 'Maatregel' || titelEnkelvoud === 'Beleidskeuze'
+        const isWijzigVigerendOrOntwerpMaken =
+            (modus && modus === 'wijzig_vigerend') ||
+            (modus && modus === 'ontwerp_maken')
+
         axios
             .get(`${apiEndpoint}/${objectID}`)
             .then((res) => {
@@ -322,12 +328,8 @@ class MuteerUniversalObjectCRUD extends Component {
                 let crudObject = null
 
                 if (
-                    (titelEnkelvoud === 'Maatregel' &&
-                        modus &&
-                        modus === 'wijzig_vigerend') ||
-                    (titelEnkelvoud === 'Beleidskeuze' &&
-                        modus &&
-                        modus === 'wijzig_vigerend')
+                    isMaatregelOrBeleidskeuze &&
+                    isWijzigVigerendOrOntwerpMaken
                 ) {
                     // Get the first object with a status of 'Vigerend'
                     crudObject = responseObject.find(
@@ -342,11 +344,9 @@ class MuteerUniversalObjectCRUD extends Component {
                     // - Deze willen we overslaan bij het editen, maar er is geen mogelijkheid om onderscheid te maken
                     //   tussen een vigerende versie die
 
-                    // crudObject = responseObject.find(
-                    //     (e) => e.Status !== 'Vigerend'
-                    // )
-
-                    crudObject = responseObject[0]
+                    crudObject = responseObject.find(
+                        (e) => e.Aanpassing_Op === null
+                    )
                 } else {
                     crudObject = responseObject[0]
                 }

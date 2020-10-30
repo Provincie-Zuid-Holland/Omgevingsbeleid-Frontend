@@ -246,11 +246,11 @@ const MuteerUniversalObjectDetailWithStatuses = ({ dimensieConstants }) => {
                                 <div className="h-10 mt-5 ">
                                     <Link
                                         className="flex items-center w-1/2 mt-5"
-                                        to={
+                                        to={`/muteer/${overzichtSlug}/edit/${single}?modus=ontwerp_maken${
                                             location.hash === '#mijn-beleid'
-                                                ? `/muteer/${overzichtSlug}/edit/${single}#mijn-beleid`
-                                                : `/muteer/${overzichtSlug}/edit/${single}`
-                                        }
+                                                ? '#mijn-beleid'
+                                                : ''
+                                        }`}
                                         id={`href-ontwerp-maken`}
                                     >
                                         <span className="relative flex items-center justify-end w-8 h-10 pb-5 mr-2 border-r-2 border-gray-300">
@@ -310,7 +310,13 @@ const MuteerUniversalObjectDetailWithStatuses = ({ dimensieConstants }) => {
                             dataObject.Eigenaar_2 !== undefined ||
                             dataObject.Portefeuillehouder_1 !== undefined ||
                             dataObject.Portefeuillehouder_2 !== undefined) ? (
-                            <EigenaarsDriehoek dataObject={dataObject} />
+                            <EigenaarsDriehoek
+                                dataObject={
+                                    vigerendeDimensieObject
+                                        ? vigerendeDimensieObject
+                                        : dataObject
+                                }
+                            />
                         ) : null}
                     </div>
                 ) : (

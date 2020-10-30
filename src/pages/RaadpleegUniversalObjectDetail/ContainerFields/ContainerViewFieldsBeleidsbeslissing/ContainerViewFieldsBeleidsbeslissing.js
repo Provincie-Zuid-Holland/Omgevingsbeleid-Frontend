@@ -30,7 +30,7 @@ const ContainerViewFieldsBeleidsbeslissing = ({ crudObject }) => {
                     {crudObject['Afweging'] ? (
                         <ViewFieldTitelEnInhoud
                             fieldTitel="Afweging"
-                            fieldValue={crudObject['Omschrijving_Werking']}
+                            fieldValue={crudObject['Afweging']}
                         />
                     ) : null}
                     {crudObject['Aanleiding'] ? (

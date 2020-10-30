@@ -6,22 +6,30 @@ function makeCrudObject({
     crudProperties,
     dimensieConstants,
     responseObject,
-    wijzigVigerend,
+    modus,
 }) {
     // Het initiele object wat gereturned zal worden
     // Hierop plaatsen we alle properties die gewijzigd moeten worden
     let crudObject = {}
 
     if (responseObject) {
+        const wijzigVigerend = modus === 'wijzig_vigerend'
+
+        // If we patch a 'Beleidskeuze' or a 'Maatregel' we need to check the status
+        // If the .Status property is 'Vigerend' we need to change it to 'Ontwerp GS Concept'
+        // But only if the user is not editing a vigerend without going through the process
+        const isMaatregelOrBeleidskeuze =
+            dimensieConstants.TITEL_ENKELVOUD === 'Beleidskeuze' ||
+            dimensieConstants.TITEL_ENKELVOUD === 'Maatregel'
+
+        // If the user is
+        if (isMaatregelOrBeleidskeuze && wijzigVigerend) {
+            crudObject.Aanpassing_Op = responseObject.UUID
+        }
+
         // Als er een response object populaten we het crudObject op basis van de crudProperties met de waarden van het responseObject
         // Het response object is het gekregen object van de API
         crudProperties.forEach((crudProperty) => {
-            // If we patch a 'Beleidskeuze' we need to check the status
-            // If the .Status property is 'Vigerend' we need to change it to 'Ontwerp GS Concept'
-            const isMaatregelOrBeleidskeuze =
-                dimensieConstants.TITEL_ENKELVOUD === 'Beleidskeuze' ||
-                dimensieConstants.TITEL_ENKELVOUD === 'Maatregel'
-
             if (
                 crudProperty === 'Status' &&
                 isMaatregelOrBeleidskeuze &&
