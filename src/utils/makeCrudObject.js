@@ -24,9 +24,7 @@ function makeCrudObject({
 
         // If the user is
         if (isMaatregelOrBeleidskeuze && wijzigVigerend) {
-            console.log(responseObject.UUID)
             crudObject.Aanpassing_Op = responseObject.UUID
-            console.log(crudObject.Aanpassing_Op)
         }
 
         // Als er een response object populaten we het crudObject op basis van de crudProperties met de waarden van het responseObject
