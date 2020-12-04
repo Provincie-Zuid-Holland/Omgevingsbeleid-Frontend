@@ -8,6 +8,12 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import LoaderBeleidsrelatieRegel from './../../../components/LoaderBeleidsrelatieRegel'
 import PopUpAnimatedContainer from './../../../components/PopUpAnimatedContainer'
 
+/**
+ * 
+ * @function
+ * @memberof MuteerBeleidsrelatieDetail
+ * @param {any} props - Een verzameling van eigendommen (properties).
+ */
 function TabVerzoeken(props) {
     return (
         <ul>

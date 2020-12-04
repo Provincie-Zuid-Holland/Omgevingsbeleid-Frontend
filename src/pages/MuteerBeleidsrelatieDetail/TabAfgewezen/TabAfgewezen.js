@@ -8,6 +8,12 @@ import LoaderBeleidsrelatieRegel from './../../../components/LoaderBeleidsrelati
 import LoaderMainTitle from './../../../components/LoaderMainTitle'
 import PopUpAnimatedContainer from './../../../components/PopUpAnimatedContainer'
 
+/**
+ * 
+ * @function
+ * @memberof MuteerBeleidsrelatieDetail
+ * @param {any} props - Een verzameling van eigendommen (properties).
+ */
 function TabAfgewezen(props) {
     return (
         <ul>

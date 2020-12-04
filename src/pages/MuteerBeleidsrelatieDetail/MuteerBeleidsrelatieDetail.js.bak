@@ -16,16 +16,6 @@ import TabVerzoeken from './TabVerzoeken'
 import TabAfgewezen from './TabAfgewezen'
 import TabVerbroken from './TabVerbroken'
 
-/**
- * Functie om van tabblad te wisselen door middel van een knop.
- * @function
- * @memberof MuteerBeleidsrelatieDetail
- * @param  {object} currentTabblad
- * @param  {object} tabbladName
- * @param  {object} changeTabblad
- * @param  {object} showLength
- * @param  {object} arrayLength
- */
 function SwitchToTabbladButton({
     currentTabblad,
     tabbladName,
@@ -58,9 +48,7 @@ function SwitchToTabbladButton({
         </li>
     )
 }
-/**
- * @extends {Component}
- */
+
 class MuteerBeleidsrelatieDetail extends Component {
     constructor(props) {
         super(props)
@@ -83,11 +71,7 @@ class MuteerBeleidsrelatieDetail extends Component {
         this.changeTabblad = this.changeTabblad.bind(this)
         this.updateStatus = this.updateStatus.bind(this)
     }
-    /**
-    * Get beleidsbeslissing titel op basis van UUID. 
-    * @method
-    * @param {UUID} UUID - De UUID van de versie van de beleidsbeslissing.
-    */
+
     getBeleidsbeslissingTitel(UUID) {
         axios.get(`/beleidsbeslissingen/version/${UUID}`).then((res) => {
             this.setState({
@@ -97,11 +81,6 @@ class MuteerBeleidsrelatieDetail extends Component {
         })
     }
 
-    /**
-     * Get alle beleidsrelaties die een Van_Beleidsbeslissing relatie hebben met de beleidskeuze die bekeken wordt
-     *@method
-     *@param {UUID} UUID - De UUID van Van_Beleidsbeslissing. 
-     */
     getBeleidsrelatiesVanBeleidsbeslissing(UUID) {
         // Get alle beleidsrelaties die een Van_Beleidsbeslissing relatie hebben met de beleidskeuze die bekeken wordt
         axios
@@ -109,7 +88,7 @@ class MuteerBeleidsrelatieDetail extends Component {
             .then((res) => {
                 let beleidsrelaties = res.data
 
-                /**  Als er geen beleidsrelaties zijn => return */
+                // Als er geen beleidsrelaties zijn => return
                 if (beleidsrelaties.length === 0) {
                     this.setState(
                         {
@@ -121,12 +100,7 @@ class MuteerBeleidsrelatieDetail extends Component {
                     )
                 }
 
-                /**
-                * Als er beleidsrelaties zijn mappen we over de array. 
-                * De return waarde van de map is een array met axios promises.
-                * Voor elke relatie binnen de map functie halen we de gekoppelde beleidsrelatie op. 
-                * Als de data hiervan binnen is is koppelen we deze aan het relatie object.
-                */
+                // Als er beleidsrelaties zijn mappen we over de array. De return waarde van de map is een array met axios promises. Voor elke relatie binnen de map functie halen we de gekoppelde beleidsrelatie op. Als de data hiervan binnen is is koppelen we deze aan het relatie object.
                 const relatieGETRequests = beleidsrelaties.map((relatie) => {
                     return axios
                         .get(
@@ -135,7 +109,7 @@ class MuteerBeleidsrelatieDetail extends Component {
                         .then((res) => (relatie.beleidsbeslissing = res.data))
                 })
 
-                /** Zodra alle promises zijn voldaan kunnen we de van_beleidsbeslissingen opslaan in de state */
+                // Zodra alle promises zijn voldaan kunnen we de van_beleidsbeslissingen opslaan in de state
                 const that = this
                 Promise.all(relatieGETRequests).then(function (values) {
                     that.setState({
@@ -146,11 +120,6 @@ class MuteerBeleidsrelatieDetail extends Component {
             })
     }
 
-    /** 
-     * Get alle beleidsrelaties die een Naar_Beleidsbeslissing relatie hebben met de beleidsbeslissing die bekeken wordt.
-     * @method
-     * @param {UUID} - UUID van beleidsrelaties.
-     * */
     getBeleidsrelatiesNaarBeleidsbeslissing(UUID) {
         // Get alle beleidsrelaties die een Naar_Beleidsbeslissing relatie hebben met de beleidsbeslissing die bekeken wordt
         axios
@@ -158,7 +127,7 @@ class MuteerBeleidsrelatieDetail extends Component {
             .then((res) => {
                 let beleidsrelaties = res.data
 
-                /** Als er geen beleidsrelaties zijn => return */
+                // Als er geen beleidsrelaties zijn => return
                 if (beleidsrelaties.length === 0) {
                     this.setState(
                         {
@@ -170,12 +139,7 @@ class MuteerBeleidsrelatieDetail extends Component {
                     )
                 }
 
-                /** 
-                *Als er beleidsrelaties zijn mappen we over de array. 
-                *De return waarde van de map is een array met axios promises. 
-                *Voor elke relatie binnen de map functie halen we de gekoppelde beleidsrelatie op. 
-                *Als de data hiervan binnen is is koppelen we deze aan het relatie object.
-                */
+                // Als er beleidsrelaties zijn mappen we over de array. De return waarde van de map is een array met axios promises. Voor elke relatie binnen de map functie halen we de gekoppelde beleidsrelatie op. Als de data hiervan binnen is is koppelen we deze aan het relatie object.
                 const relatieGETRequests = beleidsrelaties.map((relatie) => {
                     return axios
                         .get(
@@ -184,7 +148,7 @@ class MuteerBeleidsrelatieDetail extends Component {
                         .then((res) => (relatie.beleidsbeslissing = res.data))
                 })
 
-                /** Zodra alle promises zijn voldaan kunnen we de van_beleidsbeslissingen opslaan in de state */
+                // Zodra alle promises zijn voldaan kunnen we de van_beleidsbeslissingen opslaan in de state
                 const that = this
                 Promise.all(relatieGETRequests).then(function (values) {
                     that.setState({
@@ -194,28 +158,19 @@ class MuteerBeleidsrelatieDetail extends Component {
                 })
             })
     }
-    /**
-     * Een methode om te controleren of een component gemount is. 
-     * @method
-     * @param {none} - none
-     */
+
     componentDidMount() {
         const beleidsbeslissingUUID = this.props.match.params.UUID
 
-        /** Van de beleidsbeslissing hebben we enkel de titel nodig.*/
+        // Van de beleidsbeslissing hebben we enkel de titel nodig.
         this.getBeleidsbeslissingTitel(beleidsbeslissingUUID)
 
-        /** 
-        * Beleidsrelaties bestaan met twee relaties, naar en van een beleidsbeslissing.
-        * Beidde worden opgehaald met de onderstaande functies.
-        */
+        // Beleidsrelaties bestaan met twee relaties, naar en van een beleidsbeslissing.
+        // Beidde worden opgehaald met de onderstaande functies.
         this.getBeleidsrelatiesVanBeleidsbeslissing(beleidsbeslissingUUID)
         this.getBeleidsrelatiesNaarBeleidsbeslissing(beleidsbeslissingUUID)
     }
-    /**
-     * @method
-     * @param {object} beleidsrelatieObject - een object bestaande uit de volgende variabelen: Status, Begin_Geldigheid en Datum_Akkoord
-     */
+
     relatieAccepteren(beleidsrelatieObject) {
         const patchedBeleidsrelatieObject = {
             Status: 'Akkoord',
@@ -238,7 +193,7 @@ class MuteerBeleidsrelatieDetail extends Component {
                     'Akkoord'
                 )
 
-                /** Wijzigen in lokale state */
+                // Wijzigen in lokale state
                 if (
                     this.state.Van_Beleidsbeslissingen.find(
                         (x) => x.UUID === beleidsrelatieObject.UUID
@@ -277,10 +232,6 @@ class MuteerBeleidsrelatieDetail extends Component {
             })
     }
 
-    /**
-     * @method
-     * @param {object} beleidsrelatieObject - object bestaande uit de volgende variabelen: Begin_Geldigheid, Eind_Geldigheid, Datum_Akkoord en Status.
-     */
     relatieAfwijzen(beleidsrelatieObject) {
         const patchedBeleidsrelatieObject = {
             Begin_Geldigheid: beleidsrelatieObject.Begin_Geldigheid,
@@ -303,10 +254,6 @@ class MuteerBeleidsrelatieDetail extends Component {
             .catch((err) => console.log(err))
     }
 
-    /**
-     * @method
-     * @param {object} beleidsrelatieObject - object bestaande uit de volgende variabelen: Begin_Geldigheid, Eind_Geldigheid, Datum_Akkoord en Status.
-     */
     relatieVerbreken(beleidsrelatieObject) {
         const patchedBeleidsrelatieObject = {
             Begin_Geldigheid: beleidsrelatieObject.Begin_Geldigheid,
@@ -331,11 +278,7 @@ class MuteerBeleidsrelatieDetail extends Component {
                 toast(process.env.REACT_APP_ERROR_MSG)
             })
     }
-     /**
-     * @method
-     * @param {object} beleidsrelatieObject - object bestaande uit de volgende variabelen: Begin_Geldigheid, Eind_Geldigheid, Datum_Akkoord en Status.
-     * @param {string} nieuweStatus - string die een status aangeeft wat gebruikt wordt voor de patchRelatieStatus methode. 
-     */
+
     patchRelatieStatus(beleidsrelatieObject, nieuweStatus, toastNotificatie) {
         const patchedBeleidsrelatieObject = {
             Begin_Geldigheid: beleidsrelatieObject.Begin_Geldigheid,
@@ -360,40 +303,26 @@ class MuteerBeleidsrelatieDetail extends Component {
                 toast(process.env.REACT_APP_ERROR_MSG)
             })
     }
-    /**
-     * @method
-     * @param {UUID} UUID - De UUID wordt gebruikt voor de motiveringPopUp.
-     */
+
     toggleMotiveringPopup(UUID) {
         this.setState({
             motiveringPopUp: UUID,
         })
     }
-    /**
-     * @method
-     * @param {UUID} UUID - De UUID wordt gebruikt voor de toggleVerbreekPopup.
-     */
+
     toggleVerbreekPopup(UUID) {
         this.setState({
             verbreekPopUp: UUID,
         })
     }
-    /**
-     * @method
-     * @param {string} tabbladName - De naam van de tabblad wordt hiermee getoond als huidige tabblad naam.
-     */
+
     changeTabblad(tabbladName) {
         this.setState({
             currentTabblad: tabbladName,
         })
     }
 
-    /** 
-     * Wordt gebruikt om de lokale state te updaten bij bijvoorbeeld het intrekken van een relatie verzoek.
-     * @method
-     * @param {UUID} uuid - De uuid wordt gebruikt om de index van Van_Beleidsbeslissingen object te vinden.
-     * @param {string} nieuweStatus - Wordt gebruikt om een nieuwe status te koppelen aan het Van_Beleidsbeslissingen object.  
-     */ 
+    // Wordt gebruikt om de lokale state te updaten bij bijvoorbeeld het intrekken van een relatie verzoek
     updateStatus(uuid, nieuweStatus) {
         let Van_Beleidsbeslissingen = this.state.Van_Beleidsbeslissingen
         let Naar_Beleidsbeslissingen = this.state.Naar_Beleidsbeslissingen

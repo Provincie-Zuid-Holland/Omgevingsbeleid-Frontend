@@ -43,12 +43,9 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
     }
 
     // ***
-    /** Lifecycle Functions*/
+    // Lifecycle Functions
 
-    /** Als de gebruiker de url veranderd, verander naar de 'overzicht' over de 'detail' view 
-    * @method
-    * @param {?} prevProps - wordt deze param niet gebruikt? 
-    */
+    // Als de gebruiker de url veranderd, verander naar de 'overzicht' over de 'detail' view
     componentDidUpdate(prevProps) {
         if (
             this.props.match.params.UUID === undefined &&
@@ -60,10 +57,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
         }
     }
 
-    /** Als het component gemount wordt, haal alle beleidsbeslissingen en beleidsrelaties => setState op en initialize state 
-     * @method
-     * @param - none;
-    */
+    // Als het component gemount wordt, haal alle beleidsbeslissingen en beleidsrelaties => setState op en initialize state
     componentDidMount() {
         if (this.props.match.params.UUID !== undefined) {
             this.setState({
@@ -100,14 +94,9 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
     }
 
     // ***
-    /** Methods*/
+    // Methods
 
-    /** 
-    * Update de status van een beleidsrelatie en initialized opnieuw de State om de UI te updaten 
-    * @method
-    * @param {UUID} beleidsrelatieUUID - UUID van beleidsrelatie.
-    * @param {string} status - status.
-    */
+    // Update de status van een beleidsrelatie en initialized opnieuw de State om de UI te updaten
     updateBeleidsrelaties(beleidsrelatieUUID, status) {
         let beleidsrelaties = this.state.beleidsrelaties
         let index = beleidsrelaties.findIndex(
@@ -126,11 +115,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
         }
     }
 
-    /** 
-     * Kijkt hoeveel bevestigde relaties er in het beleidsrelatie object zitten met de geleverde UUID
-     * @method
-     * @param {UUID} UUID - UUID van beleidsrelatie object.
-    */
+    // Kijkt hoeveel bevestigde relaties er in het beleidsrelatie object zitten met de geleverde UUID
     countBevestigdeRelaties(UUID) {
         const beleidsrelaties = this.state.beleidsrelaties.filter(
             (beleidsrelatie) =>
@@ -141,11 +126,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
         return beleidsrelaties.length
     }
 
-    /** 
-    * Kijkt hoeveel onbevestigde relaties er in het beleidsrelatie object zitten met de geleverde UUID 
-    * @method
-    * @param {UUID} UUID - UUID van beleidsrelatie object voor countOnbevestigdeRelaties.
-    */
+    // Kijkt hoeveel onbevestigde relaties er in het beleidsrelatie object zitten met de geleverde UUID
     countOnbevestigdeRelaties(UUID) {
         const beleidsrelaties = this.state.beleidsrelaties.filter(
             (beleidsrelatie) =>
@@ -155,11 +136,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
         return beleidsrelaties.length
     }
 
-    /** 
-    * Kijkt hoeveel onbevestigde relaties er in het beleidsrelatie object zitten met de geleverde UUID  
-    * @method
-    * @param {UUID} UUID - UUID van beleidsrelatie object voor countVerzoekRelaties.
-    */
+    // Kijkt hoeveel onbevestigde relaties er in het beleidsrelatie object zitten met de geleverde UUID
     countVerzoekRelaties(UUID) {
         const beleidsrelaties = this.state.beleidsrelaties.filter(
             (beleidsrelatie) =>
@@ -169,10 +146,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
         return beleidsrelaties.length
     }
 
-    /** Kijkt hoeveel afgewezen relaties er in het beleidsrelatie object zitten met de geleverde UUID
-    * @method
-    * @param {UUID} UUID - UUID van beleidsrelatie object voor countAfgewezenRelaties.
-    */
+    // Kijkt hoeveel afgewezen relaties er in het beleidsrelatie object zitten met de geleverde UUID
     countAfgewezenRelaties(UUID) {
         const beleidsrelaties = this.state.beleidsrelaties.filter(
             (beleidsrelatie) =>
@@ -184,10 +158,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
         return beleidsrelaties.length
     }
 
-    /** Kijk voor elke beleidsbeslissing hoeveel en wat voor relaties deze heeft
-     * @method
-     * @param {Array} beleidsbeslissingen - array van hoeveelheid en wat voor relaties binnen beleidsbeslissingen  
-     */
+    // Kijk voor elke beleidsbeslissing hoeveel en wat voor relaties deze heeft
     initializeBeleidsbeslissingen(beleidsbeslissingen) {
         return beleidsbeslissingen.map((item) => {
             return {
@@ -204,11 +175,9 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
         })
     }
 
-    /** 
-    *Na het ophalen van de data in de API, Initialize de state
-    *Map over alle beleidsbeslissingen en return een array met voor elke beleidsbeslissing een object met:
-    *Titel, Status, het aantal Bevestigde, het aantal Onbevestigde, UUID
-    */
+    // Na het ophalen van de data in de API, Initialize de state
+    // Map over alle beleidsbeslissingen en return een array met voor elke beleidsbeslissing een object met:
+    // Titel, Status, het aantal Bevestigde, het aantal Onbevestigde, UUID
     initializeState() {
         this.setState(
             {
@@ -233,18 +202,12 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
         )
     }
 
-    /** 
-    *Maak de array waar de relatie objecten van de desbetreffende beleidsbeslissing in zitten
-    *Voor elke relatie halen we ook de beleidsbeslissing op, zodat we in het detail scherm info zoals de titel kunnen tonen
-    * @method
-    * @param {UUID} UUID - UUID van 
-    */
+    // Maak de array waar de relatie objecten van de desbetreffende beleidsbeslissing in zitten
+    // Voor elke relatie halen we ook de beleidsbeslissing op, zodat we in het detail scherm info zoals de titel kunnen tonen
     generateRelatieArray(UUID) {
-        /** 
-        *We filteren op basis van de gekregen beleidsbeslissing UUID parameter
-        *We spreken van een beleidsrelatie als de UUID overeenkomt met Van_Beleidsbeslissing of Naar_Beleidsbeslissing
-        *EN als de beleidsrelatie een Status heeft van 'Akkoord' of 'Open'
-        */
+        // We filteren op basis van de gekregen beleidsbeslissing UUID parameter
+        // We spreken van een beleidsrelatie als de UUID overeenkomt met Van_Beleidsbeslissing of Naar_Beleidsbeslissing
+        // EN als de beleidsrelatie een Status heeft van 'Akkoord' of 'Open'
         let beleidsrelaties = this.state.beleidsrelaties.filter(
             (beleidsrelatie) =>
                 (beleidsrelatie.Van_Beleidsbeslissing === UUID ||
@@ -252,20 +215,16 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                 beleidsrelatie.Status === 'Akkoord'
         )
 
-        /**
-        *(beleidsrelatie.Van_Beleidsbeslissing === UUID &&
-        *     beleidsrelatie.Status === 'Open') ||
-        *(beleidsrelatie.Naar_Beleidsbeslissing === UUID &&
-        *     beleidsrelatie.Status === 'NietAkkoord') ||
-        *(beleidsrelatie.Van_Beleidsbeslissing === UUID &&
-        *     beleidsrelatie.Status === 'NietAkkoord')
-        */
+        // (beleidsrelatie.Van_Beleidsbeslissing === UUID &&
+        //     beleidsrelatie.Status === 'Open') ||
+        // (beleidsrelatie.Naar_Beleidsbeslissing === UUID &&
+        //     beleidsrelatie.Status === 'NietAkkoord') ||
+        // (beleidsrelatie.Van_Beleidsbeslissing === UUID &&
+        //     beleidsrelatie.Status === 'NietAkkoord')
 
-        /**
-        * GET voor elke beleidsrelatie het gekoppelde beleidsbeslissing object
-        * Als het relatie.Van_Beleidsbeslissing !== UUID van de beleidsbeslissing GET relatie.Van_Beleidsbeslissing
-        * Als het relatie.Van_Beleidsbeslissing === UUID van de beleidsbeslissing GET relatie.Naar_Beleidsbeslissing
-        */
+        // GET voor elke beleidsrelatie het gekoppelde beleidsbeslissing object
+        // Als het relatie.Van_Beleidsbeslissing !== UUID van de beleidsbeslissing GET relatie.Van_Beleidsbeslissing
+        // Als het relatie.Van_Beleidsbeslissing === UUID van de beleidsbeslissing GET relatie.Naar_Beleidsbeslissing
 
         const axiosGETArray = beleidsrelaties.map((relatie) => {
             return axios
@@ -292,16 +251,12 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
         return beleidsrelaties
     }
 
-    /**
-    * Maak de array waar de verzoek objecten van de desbetreffende beleidsbeslissing in zitten
-    * Voor elk verzoek halen we ook de beleidsbeslissing op, zodat we in het detail scherm info zoals de titel kunnen tonen
-    */
+    // Maak de array waar de verzoek objecten van de desbetreffende beleidsbeslissing in zitten
+    // Voor elk verzoek halen we ook de beleidsbeslissing op, zodat we in het detail scherm info zoals de titel kunnen tonen
     generateVerzoekArray(UUID) {
-        /**
-        * We filteren op basis van de gekregen beleidsbeslissing UUID parameter
-        * We spreken van een verzoek als de UUID overeenkomt met Naar_Beleidsbeslissing
-        * EN als de beleidsrelatie een Status heeft van 'Open'
-        */
+        // We filteren op basis van de gekregen beleidsbeslissing UUID parameter
+        // We spreken van een verzoek als de UUID overeenkomt met Naar_Beleidsbeslissing
+        // EN als de beleidsrelatie een Status heeft van 'Open'
         let beleidsrelaties = this.state.beleidsrelaties.filter(
             (beleidsrelatie) =>
                 (beleidsrelatie.Naar_Beleidsbeslissing === UUID &&
@@ -310,11 +265,9 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                     beleidsrelatie.Status === 'Open')
         )
 
-        /** 
-        * GET voor elke beleidsrelatie het gekoppelde beleidsbeslissing object
-        * Als het relatie.Van_Beleidsbeslissing !== UUID van de beleidsbeslissing GET relatie.Van_Beleidsbeslissing
-        * Als het relatie.Van_Beleidsbeslissing === UUID van de beleidsbeslissing GET relatie.Naar_Beleidsbeslissing
-        */
+        // GET voor elke beleidsrelatie het gekoppelde beleidsbeslissing object
+        // Als het relatie.Van_Beleidsbeslissing !== UUID van de beleidsbeslissing GET relatie.Van_Beleidsbeslissing
+        // Als het relatie.Van_Beleidsbeslissing === UUID van de beleidsbeslissing GET relatie.Naar_Beleidsbeslissing
         beleidsrelaties.forEach((relatie) => {
             axios
                 .get(
@@ -335,7 +288,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
     }
 
     render() {
-        /** Sort object */
+        // Sort object
         const beleidsbeslissingenObject = this.state.beleidsbeslissingenObject
             ? this.state.beleidsbeslissingenObject.sort((a, b) =>
                   a.Titel > b.Titel ? 1 : -1

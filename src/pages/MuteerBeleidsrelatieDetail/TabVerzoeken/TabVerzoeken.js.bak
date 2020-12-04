@@ -1,75 +1,59 @@
 import React, { Component } from 'react'
 import { format } from 'date-fns'
+import nlLocale from 'date-fns/locale/nl'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 
 import LoaderBeleidsrelatieRegel from './../../../components/LoaderBeleidsrelatieRegel'
-import LoaderMainTitle from './../../../components/LoaderMainTitle'
 import PopUpAnimatedContainer from './../../../components/PopUpAnimatedContainer'
 
-/**
- * 
- * @function
- * @memberof MuteerBeleidsrelatieDetail
- * @param {any} props - Een verzameling van eigendommen (properties).
- */
-function TabVerbroken(props) {
+function TabVerzoeken(props) {
     return (
         <ul>
             <li className="flex p-2 text-sm font-semibold text-gray-800 border-b border-gray-200">
                 <div className="w-5/12">Beleidskeuzes</div>
-                <div className="w-4/12">Datum</div>
+                <div className="w-2/12">Aangevraagd op</div>
                 <div className="w-1/12">Status</div>
-                <div className="w-3/12 pl-8">Motivering</div>
+                <div className="w-2/12">Motivering</div>
+                <div className="w-2/12">Actie</div>
             </li>
             {props.naarLoaded && props.vanLoaded ? (
-                props.verbrokenArray.length > 0 ? (
-                    props.verbrokenArray.map((relatie) => {
+                props.verzoekArray.length > 0 ? (
+                    props.verzoekArray.map((verzoek) => {
                         return (
                             <li
-                                key={relatie.UUID}
-                                className="relative flex items-center px-2 py-2 text-sm text-gray-800 border-b border-gray-200 hover:bg-gray-100"
+                                key={verzoek.UUID}
+                                className="relative flex items-center px-2 text-sm text-gray-800 border-b border-gray-200 hover:bg-gray-100"
                             >
-                                <div className="w-5/12 pr-4">
-                                    {relatie.beleidsbeslissing &&
-                                    relatie.beleidsbeslissing.Titel ? (
-                                        relatie.beleidsbeslissing.Titel
-                                    ) : (
-                                        <LoaderMainTitle />
-                                    )}
+                                <div className="w-5/12 py-2">
+                                    {verzoek.beleidsbeslissing &&
+                                    verzoek.beleidsbeslissing.Titel
+                                        ? verzoek.beleidsbeslissing.Titel
+                                        : null}
                                 </div>
-                                <div className="w-4/12">
-                                    {relatie.Datum_Akkoord !== null
+                                <div className="w-2/12">
+                                    {verzoek.Created_Date !== null
                                         ? format(
-                                              new Date(relatie.Datum_Akkoord),
-                                              'd MMMM yyyy, HH:mm'
+                                              new Date(verzoek.Created_Date),
+                                              'd MMMM yyyy, HH:mm',
+                                              { locale: nlLocale }
                                           ) + ' uur'
                                         : null}
                                 </div>
-                                <div className="w-1/12">
-                                    {relatie.Status === 'Akkoord'
-                                        ? 'Bevestigd'
-                                        : relatie.Status === 'Open'
-                                        ? 'In afwachting'
-                                        : relatie.Status === 'NietAkkoord'
-                                        ? 'Afgewezen'
-                                        : relatie.Status === 'Verbroken'
-                                        ? 'Verbroken'
-                                        : null}
-                                </div>
-                                <div className="w-3/12 pl-8">
+                                <div className="w-1/12">Open</div>
+                                <div className="w-2/12">
                                     <span
                                         onClick={() => {
                                             props.toggleMotiveringPopup(
-                                                relatie.UUID
+                                                verzoek.UUID
                                             )
                                         }}
                                         className="underline cursor-pointer"
                                     >
                                         Bekijk motivering
                                     </span>
-                                    {props.motiveringPopUp === relatie.UUID ? (
+                                    {props.motiveringPopUp === verzoek.UUID ? (
                                         <PopUpAnimatedContainer small={true}>
                                             <div
                                                 onClick={() =>
@@ -88,17 +72,35 @@ function TabVerbroken(props) {
                                                 Motivering
                                             </h3>
                                             <p className="form-field-description">
-                                                {relatie.Omschrijving}
+                                                {verzoek.Omschrijving}
                                             </p>
                                         </PopUpAnimatedContainer>
                                     ) : null}
+                                </div>
+                                <div className="w-2/12">
+                                    <span
+                                        onClick={() =>
+                                            props.relatieAccepteren(verzoek)
+                                        }
+                                        className="inline-block px-2 py-1 mr-2 font-semibold text-white bg-green-600 rounded shadow cursor-pointer hover:bg-green-700"
+                                    >
+                                        Accepteren
+                                    </span>
+                                    <span
+                                        onClick={() =>
+                                            props.relatieAfwijzen(verzoek)
+                                        }
+                                        className="inline-block px-2 py-1 font-semibold text-white bg-red-600 rounded shadow cursor-pointer hover:bg-red-700"
+                                    >
+                                        Afwijzen
+                                    </span>
                                 </div>
                             </li>
                         )
                     })
                 ) : (
                     <span className="inline-block px-2 py-2 text-sm text-gray-600 font-italic">
-                        Er zijn nog geen verbroken beleidsrelaties
+                        Er zijn nog geen verzoeken
                     </span>
                 )
             ) : (
@@ -112,4 +114,4 @@ function TabVerbroken(props) {
     )
 }
 
-export default TabVerbroken
+export default TabVerzoeken
