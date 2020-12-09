@@ -11,14 +11,12 @@ import FormFieldNumberInput from '../FormFieldNumberInput'
 import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving'
 import FormFieldWeblink from '../FormFieldWeblink'
 import FormFieldWerkingsgebiedKoppeling from '../FormFieldWerkingsgebiedKoppeling'
-import FormFieldUniverseleRelatieKoppeling from '../FormFieldUniverseleRelatieKoppeling'
-import FormFieldWerkingsgebiedKoppelingSingle from '../FormFieldWerkingsgebiedKoppelingSingle'
+import FormFieldRelatieKoppeling from '../FormFieldRelatieKoppeling'
 import FormFieldWerkingsgebiedrelatie from '../FormFieldWerkingsgebiedrelatie'
 import FormFieldRadioButton from '../FormFieldRadioButton'
 import FormFieldRichTextEditor from '../FormFieldRichTextEditor'
 import FormFieldInputContainer from '../FormFieldInputContainer'
 
-// test
 export {
     FormFieldDate,
     FormFieldBeleidsrelatieKoppeling,
@@ -33,10 +31,9 @@ export {
     FormFieldTitelEnBeschrijving,
     FormFieldWeblink,
     FormFieldWerkingsgebiedKoppeling,
-    FormFieldUniverseleRelatieKoppeling,
-    FormFieldWerkingsgebiedKoppelingSingle,
     FormFieldWerkingsgebiedrelatie,
     FormFieldRadioButton,
     FormFieldRichTextEditor,
     FormFieldInputContainer,
+    FormFieldRelatieKoppeling,
 }

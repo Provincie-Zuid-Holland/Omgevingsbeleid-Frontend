@@ -8,7 +8,7 @@ function BeginGeldigheid({
     dataObjectProperty,
     fieldLabel,
     pValue,
-    titelEnkelvoud,
+    titleSingular,
     fieldValue,
     handleChange,
     disabled,
@@ -19,7 +19,7 @@ function BeginGeldigheid({
                 dataObjectProperty={dataObjectProperty}
                 fieldLabel={fieldLabel}
                 pValue={pValue}
-                titelEnkelvoud={titelEnkelvoud}
+                titleSingular={titleSingular}
             />
             <input
                 disabled={disabled}
@@ -29,7 +29,7 @@ function BeginGeldigheid({
                 name={dataObjectProperty}
                 className="block w-full px-4 py-3 leading-tight text-gray-700 border border-gray-400 rounded appearance-none focus:border-gray-500 hover:border-gray-500 focus:outline-none focus:bg-white"
                 type="date"
-                id={`form-field-${titelEnkelvoud.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
+                id={`form-field-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
             />
         </div>
     )
@@ -42,7 +42,7 @@ function EindGeldigheid({
     dataObjectProperty,
     fieldLabel,
     pValue,
-    titelEnkelvoud,
+    titleSingular,
     fieldValue,
     handleChange,
     disabled,
@@ -66,7 +66,7 @@ function EindGeldigheid({
                         dataObjectProperty={dataObjectProperty}
                         fieldLabel={fieldLabel}
                         pValue={pValue}
-                        titelEnkelvoud={titelEnkelvoud}
+                        titleSingular={titleSingular}
                     />
                     <input
                         disabled={disabled}
@@ -76,7 +76,7 @@ function EindGeldigheid({
                         placeholder={isSafari ? 'jjjj-mm-dd' : 'dd-mm-jjjj'}
                         className="block w-full px-4 py-3 leading-tight text-gray-700 border border-gray-400 rounded appearance-none focus:border-gray-500 hover:border-gray-500 focus:outline-none focus:bg-white"
                         type="date"
-                        id={`form-field-${titelEnkelvoud.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
+                        id={`form-field-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
                     />
                 </div>
             ) : null}
@@ -111,7 +111,7 @@ class FormFieldDate extends React.Component {
                 dataObjectProperty={this.props.dataObjectProperty}
                 fieldLabel={this.props.fieldLabel}
                 pValue={this.props.pValue}
-                titelEnkelvoud={this.props.titelEnkelvoud}
+                titleSingular={this.props.titleSingular}
                 fieldValue={this.props.fieldValue}
                 handleChange={this.props.handleChange}
                 disabled={this.props.disabled}
@@ -121,7 +121,7 @@ class FormFieldDate extends React.Component {
                 dataObjectProperty={this.props.dataObjectProperty}
                 fieldLabel={this.props.fieldLabel}
                 pValue={this.props.pValue}
-                titelEnkelvoud={this.props.titelEnkelvoud}
+                titleSingular={this.props.titleSingular}
                 fieldValue={this.props.fieldValue}
                 handleChange={this.props.handleChange}
                 disabled={this.props.disabled}

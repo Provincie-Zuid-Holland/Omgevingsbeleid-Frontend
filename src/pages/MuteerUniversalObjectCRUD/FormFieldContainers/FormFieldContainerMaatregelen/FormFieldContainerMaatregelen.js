@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 import ContainerFormSection from './../../../../components/ContainerFormSection'
@@ -7,11 +7,10 @@ import {
     FormFieldDate,
     FormFieldTextInput,
     FormFieldWeblink,
-    FormFieldWerkingsgebiedKoppelingSingle,
+    FormFieldWerkingsgebiedKoppeling,
     FormFieldRadioButton,
     FormFieldRichTextEditor,
     FormFieldInputContainer,
-    FormFieldTags,
 } from './../../../../components/FormFieldsExport'
 
 import UserContext from './../../../../App/UserContext'
@@ -19,7 +18,7 @@ import UserContext from './../../../../App/UserContext'
 const initialValueToelichting = `<h2><b>Rolkeuze</b></h2><p><br><br></p><h2><b>Uitvoering</b></h2><p><br><br></p>`
 
 function FormFieldContainerMaatregelen({
-    titelEnkelvoud,
+    titleSingular,
     crudObject,
     handleChange,
 }) {
@@ -37,7 +36,7 @@ function FormFieldContainerMaatregelen({
                     dataObjectProperty="Titel"
                     fieldLabel="Titel"
                     pValue="Maximaal 10 woorden. Moet de lading dekken van het onderwerp. Bijvoorbeeld ‘Opstellen van gebiedsprofielen’"
-                    titelEnkelvoud={titelEnkelvoud}
+                    titleSingular={titleSingular}
                 />
             </ContainerFormSection>
 
@@ -53,6 +52,7 @@ function FormFieldContainerMaatregelen({
                         }
                     />
                     <FormFieldRichTextEditor
+                        titleSingular={titleSingular}
                         initialValue={initialValueToelichting}
                         handleChange={handleChange}
                         fieldValue={crudObject['Toelichting']}
@@ -66,10 +66,11 @@ function FormFieldContainerMaatregelen({
                 titel="Werkingsgebied"
                 beschrijving="Het werkingsgebied geeft het gebied weer waarin de maatregel werking heeft. Het gebied waar binnen bepaalde activiteiten gestimuleerd worden, of toegestaan zijn. Maar ook het gebied waar binnen bepaalde activiteiten juist niet zijn toegestaan. Heeft jouw maatregel nog geen geschikt werkingsgebied, ontwikkel er dan een met iemand van Team GEO (teamgeo@pzh.nl)."
             >
-                <FormFieldWerkingsgebiedKoppelingSingle
+                <FormFieldWerkingsgebiedKoppeling
                     setWerkingsgebiedInParentState={handleChange}
                     werkingsgebiedInParentState={crudObject['Gebied']}
-                    titelEnkelvoud={titelEnkelvoud}
+                    crudObject={crudObject}
+                    titleSingular={titleSingular}
                     fieldLabel="Selecteer werkingsgebied"
                     dataObjectProperty="Gebied"
                     pValue="Selecteer hier het werkingsgebied wat bij deze maatregel past."
@@ -79,7 +80,7 @@ function FormFieldContainerMaatregelen({
                     handleChange={handleChange}
                     fieldValue={crudObject['Gebied_Duiding']}
                     dataObjectProperty="Gebied_Duiding"
-                    titelEnkelvoud={titelEnkelvoud}
+                    titleSingular={titleSingular}
                     label="Intentie van het werkingsgebied"
                 />
             </ContainerFormSection>
@@ -95,7 +96,7 @@ function FormFieldContainerMaatregelen({
                         dataObjectProperty="Weblink"
                         fieldLabel="IDMS"
                         pValue="Vul hier de link in naar het besluitdocument op IDMS. (Eigenschappen → Algemeen → Snelkoppeling kopiëren)."
-                        titelEnkelvoud={titelEnkelvoud}
+                        titleSingular={titleSingular}
                     />
 
                     <div className="flex flex-wrap -mx-3">
@@ -105,7 +106,7 @@ function FormFieldContainerMaatregelen({
                             fieldLabel="Inwerkingtreding"
                             dataObjectProperty="Begin_Geldigheid"
                             pValue="Indien bekend, kan hier de datum van inwerkingtreding worden ingevuld"
-                            titelEnkelvoud={titelEnkelvoud}
+                            titleSingular={titleSingular}
                         />
 
                         <FormFieldDate
@@ -115,7 +116,7 @@ function FormFieldContainerMaatregelen({
                             dataObjectProperty="Eind_Geldigheid"
                             fieldLabel="Uitwerkingtreding"
                             pValue="Indien bekend, kan hier de datum van uitwerkingtreding worden ingevuld"
-                            titelEnkelvoud={titelEnkelvoud}
+                            titleSingular={titleSingular}
                         />
                     </div>
                 </ContainerFormSection>
@@ -125,7 +126,7 @@ function FormFieldContainerMaatregelen({
 }
 
 FormFieldContainerMaatregelen.propTypes = {
-    titelEnkelvoud: PropTypes.string,
+    titleSingular: PropTypes.string,
     crudObject: PropTypes.object,
     handleChange: PropTypes.func,
 }

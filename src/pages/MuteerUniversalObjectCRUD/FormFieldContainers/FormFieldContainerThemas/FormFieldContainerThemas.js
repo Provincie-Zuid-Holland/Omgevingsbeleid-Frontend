@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 import ContainerFormSection from './../../../../components/ContainerFormSection'
@@ -9,11 +9,7 @@ import {
     FormFieldWeblink,
 } from './../../../../components/FormFieldsExport'
 
-function FormFieldContainerThemas({
-    titelEnkelvoud,
-    crudObject,
-    handleChange,
-}) {
+function FormFieldContainerThemas({ titleSingular, crudObject, handleChange }) {
     return (
         <React.Fragment>
             <ContainerFormSection
@@ -26,7 +22,7 @@ function FormFieldContainerThemas({
                     dataObjectProperty="Titel"
                     fieldLabel="Titel"
                     pValue="Beschrijf in een aantal woorden de titel van dit thema."
-                    titelEnkelvoud={titelEnkelvoud}
+                    titleSingular={titleSingular}
                 />
             </ContainerFormSection>
 
@@ -40,7 +36,7 @@ function FormFieldContainerThemas({
                     fieldLabel="Omschrijving"
                     dataObjectProperty="Omschrijving"
                     pValue="Geef een korte omschrijving van dit thema."
-                    titelEnkelvoud={titelEnkelvoud}
+                    titleSingular={titleSingular}
                 />
             </ContainerFormSection>
 
@@ -54,7 +50,7 @@ function FormFieldContainerThemas({
                     dataObjectProperty="Weblink"
                     fieldLabel="IDMS"
                     pValue="Vul hier de link in naar het besluitdocument op IDMS. (Eigenschappen > Algemeen > Snelkoppeling kopiëren)."
-                    titelEnkelvoud={titelEnkelvoud}
+                    titleSingular={titleSingular}
                 />
                 <div className="flex flex-wrap -mx-3">
                     <FormFieldDate
@@ -63,7 +59,7 @@ function FormFieldContainerThemas({
                         fieldLabel="Inwerkingtreding"
                         dataObjectProperty="Begin_Geldigheid"
                         pValue="Indien bekend, kan hier de datum van inwerkingtreding worden ingevuld"
-                        titelEnkelvoud={titelEnkelvoud}
+                        titleSingular={titleSingular}
                     />
                     <FormFieldDate
                         openUitwerkingstrede={true}
@@ -72,7 +68,7 @@ function FormFieldContainerThemas({
                         fieldLabel="Uitwerkingtreding"
                         dataObjectProperty="Eind_Geldigheid"
                         pValue="Indien bekend, kan hier de datum van uitwerkingtreding worden ingevuld"
-                        titelEnkelvoud={titelEnkelvoud}
+                        titleSingular={titleSingular}
                     />
                 </div>
             </ContainerFormSection>
@@ -81,7 +77,7 @@ function FormFieldContainerThemas({
 }
 
 FormFieldContainerThemas.propTypes = {
-    titelEnkelvoud: PropTypes.string,
+    titleSingular: PropTypes.string,
     crudObject: PropTypes.object,
     handleChange: PropTypes.func,
 }

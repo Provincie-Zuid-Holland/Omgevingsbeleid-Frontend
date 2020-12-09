@@ -31,8 +31,8 @@ Create a .env file in the root of the project.
 ```jsx
 REACT_APP_API_VERSION = 'v0.1' // Used in the API url (in axios.js)
 REACT_APP_API_ENV = 'dev' // Used in the API url (in axios.js)
-REACT_APP_KEY_API_ACCESS_TOKEN = '__OB_access_token__' // Used to set login token
-REACT_APP_KEY_IDENTIFIER = '__OB_identifier__' // Used to set login identifier
+REACT_APP_KEY_API_ACCESS_TOKEN = 'OB_access_token' // Used to set login token
+REACT_APP_KEY_IDENTIFIER = 'OB_identifier' // Used to set login identifier
 REACT_APP_ERROR_MSG = 'Er is iets misgegaan, probeer het later nog eens' // Error message
 ```
 

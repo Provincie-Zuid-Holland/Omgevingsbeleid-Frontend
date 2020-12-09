@@ -176,7 +176,7 @@ class PopupNieuweKoppeling extends Component {
                 {this.state.actievePagina === 2 ? (
                     <React.Fragment>
                         <p className="form-field-description">
-                            Beschrijf de koppeling tussen het nationaal belang '
+                            Beschrijf de koppeling tussen '
                             {this.state.selected.Titel}' en de beleidskeuze '
                             {this.props.titelMainObject}' en vul de
                             inwerkingtreding en uitwerkingtreding in.

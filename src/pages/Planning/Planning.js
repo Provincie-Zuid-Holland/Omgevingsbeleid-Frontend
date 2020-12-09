@@ -5,29 +5,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import ButtonBackToPage from './../../components/ButtonBackToPage'
 
-const ListItem = ({ title, content, completed }) => {
-    return (
-        <li className="flex mb-10">
-            <div className="w-8">
-                {completed ? (
-                    <FontAwesomeIcon
-                        className="relative mt-1 text-lg text-green-600"
-                        icon={faCheck}
-                    />
-                ) : (
-                    <span className="relative inline-block w-4 h-4 mt-2 bg-white border border-gray-600 rounded" />
-                )}
-            </div>
-            <div className="w-full">
-                <span className="text-2xl font-semibold text-gray-900">
-                    {title}
-                </span>
-                <p className="mt-2">{content}</p>
-            </div>
-        </li>
-    )
-}
-
+/**
+ * Component to display the planning
+ */
 const Planning = () => {
     return (
         <React.Fragment>
@@ -85,6 +65,29 @@ const Planning = () => {
                 </div>
             </div>
         </React.Fragment>
+    )
+}
+
+const ListItem = ({ title, content, completed }) => {
+    return (
+        <li className="flex mb-10">
+            <div className="w-8">
+                {completed ? (
+                    <FontAwesomeIcon
+                        className="relative mt-1 text-lg text-green-600"
+                        icon={faCheck}
+                    />
+                ) : (
+                    <span className="relative inline-block w-4 h-4 mt-2 bg-white border border-gray-600 rounded" />
+                )}
+            </div>
+            <div className="w-full">
+                <span className="text-2xl font-semibold text-gray-900">
+                    {title}
+                </span>
+                <p className="mt-2">{content}</p>
+            </div>
+        </li>
     )
 }
 

@@ -4,7 +4,7 @@ import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFi
 const FormFieldTextInput = ({
     dataObjectProperty,
     pValue,
-    titelEnkelvoud,
+    titleSingular,
     fieldValue,
     handleChange,
     fieldLabel,
@@ -16,12 +16,12 @@ const FormFieldTextInput = ({
                 dataObjectProperty={dataObjectProperty}
                 fieldLabel={fieldLabel}
                 pValue={pValue}
-                titelEnkelvoud={titelEnkelvoud}
+                titleSingular={titleSingular}
             />
 
             <input
                 disabled={disabled}
-                id={`form-field-${titelEnkelvoud.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
+                id={`form-field-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
                 value={fieldValue ? fieldValue : ''}
                 onChange={handleChange}
                 name={dataObjectProperty}

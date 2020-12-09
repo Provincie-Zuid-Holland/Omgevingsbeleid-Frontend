@@ -13,6 +13,9 @@ import axios from './../../API/axios'
 // Create Context
 import APIcontext from './APIContext'
 
+/**
+ * @returns The CRUD page for beleidsrelaties
+ */
 class MuteerBeleidsrelatiesCRUD extends Component {
     constructor(props) {
         super(props)
@@ -192,8 +195,8 @@ class MuteerBeleidsrelatiesCRUD extends Component {
     render() {
         const contextObject = {
             objectUUID: this.state.UUID,
-            titelEnkelvoud: this.props.dataModel.TITEL_ENKELVOUD,
-            titelMeervoud: this.props.dataModel.TITEL_MEERVOUD,
+            titleSingular: this.props.dataModel.TITLE_SINGULAR,
+            titelMeervoud: this.props.dataModel.TITLE_PLURAL,
             overzichtSlug: this.props.overzichtSlug,
             objectID: this.props.match.params.single,
             editStatus: this.state.edit,
@@ -214,11 +217,11 @@ class MuteerBeleidsrelatiesCRUD extends Component {
                     <title>
                         {contextObject.editStatus
                             ? `Omgevingsbeleid - Wijzig ${
-                                  contextObject.titelEnkelvoud
+                                  contextObject.titleSingular
                               }${' '}
                             ${contextObject.objectID}`
                             : `Omgevingsbeleid - Voeg een nieuwe${' '}
-                            ${contextObject.titelEnkelvoud}${' '}
+                            ${contextObject.titleSingular}${' '}
                               toe`}
                     </title>
                 </Helmet>

@@ -1,14 +1,25 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { format } from 'date-fns'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 
-import LoaderBeleidsrelatieRegel from './../../../components/LoaderBeleidsrelatieRegel'
-import LoaderMainTitle from './../../../components/LoaderMainTitle'
-import PopUpAnimatedContainer from './../../../components/PopUpAnimatedContainer'
+import LoaderBeleidsrelatieRegel from '../../../components/LoaderBeleidsrelatieRegel'
+import LoaderMainTitle from '../../../components/LoaderMainTitle'
+import PopUpAnimatedContainer from '../../../components/PopUpAnimatedContainer'
 
-function TabVerbroken(props) {
+/**
+ * @prop {boolean} loaded true if the incoming relationships have loaded
+ * @prop {array} rejected contains the relations
+ * @prop {string} motivationPopUp contains the UUID of a beleidsrelatie
+ * @prop {function} setMotivationPopUp takes a UUID and set it in parent state in motivationPopUp
+ */
+function TabRejected({
+    loaded,
+    rejected,
+    motivationPopUp,
+    setMotivationPopUp,
+}) {
     return (
         <ul>
             <li className="flex p-2 text-sm font-semibold text-gray-800 border-b border-gray-200">
@@ -17,9 +28,9 @@ function TabVerbroken(props) {
                 <div className="w-1/12">Status</div>
                 <div className="w-3/12 pl-8">Motivering</div>
             </li>
-            {props.naarLoaded && props.vanLoaded ? (
-                props.verbrokenArray.length > 0 ? (
-                    props.verbrokenArray.map((relatie) => {
+            {loaded ? (
+                rejected.length > 0 ? (
+                    rejected.map((relatie) => {
                         return (
                             <li
                                 key={relatie.UUID}
@@ -48,28 +59,22 @@ function TabVerbroken(props) {
                                         ? 'In afwachting'
                                         : relatie.Status === 'NietAkkoord'
                                         ? 'Afgewezen'
-                                        : relatie.Status === 'Verbroken'
-                                        ? 'Verbroken'
                                         : null}
                                 </div>
                                 <div className="w-3/12 pl-8">
                                     <span
                                         onClick={() => {
-                                            props.toggleMotiveringPopup(
-                                                relatie.UUID
-                                            )
+                                            setMotivationPopUp(relatie.UUID)
                                         }}
                                         className="underline cursor-pointer"
                                     >
                                         Bekijk motivering
                                     </span>
-                                    {props.motiveringPopUp === relatie.UUID ? (
+                                    {motivationPopUp === relatie.UUID ? (
                                         <PopUpAnimatedContainer small={true}>
                                             <div
                                                 onClick={() =>
-                                                    props.toggleMotiveringPopup(
-                                                        null
-                                                    )
+                                                    setMotivationPopUp(null)
                                                 }
                                                 className="absolute top-0 right-0 px-3 py-2 text-gray-600 cursor-pointer"
                                                 id={`sluit-popup-beleidsrelatie-motivering`}
@@ -92,7 +97,7 @@ function TabVerbroken(props) {
                     })
                 ) : (
                     <span className="inline-block px-2 py-2 text-sm text-gray-600 font-italic">
-                        Er zijn nog geen verbroken beleidsrelaties
+                        Er zijn nog geen afgewezen beleidsrelaties
                     </span>
                 )
             ) : (
@@ -106,4 +111,4 @@ function TabVerbroken(props) {
     )
 }
 
-export default TabVerbroken
+export default TabRejected

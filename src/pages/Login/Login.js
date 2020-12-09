@@ -4,6 +4,11 @@ import { Helmet } from 'react-helmet'
 // Import Components
 import LoginForm from './../../components/LoginForm'
 
+/**
+ *
+ * @param {function} setLoginUser Callback to set user state in App component state
+ * @param {function} setLoginState Callback to set login state in App component state
+ */
 const Login = ({ setLoginUser, setLoginState }) => {
     return (
         <div className="container flex flex-wrap mx-auto mt-4 rounded">
@@ -15,9 +20,8 @@ const Login = ({ setLoginUser, setLoginState }) => {
                     Inloggen
                 </h1>
                 <p className="text-gray-700">
-                    Als beleidsmedewerker bij de provincie Zuid-Holland, of als
-                    Statenlid van de provincie Zuid-Holland kun je hier inloggen
-                    om in de cloud te werken aan het Omgevingsbeleid.
+                    Als beleidsmedewerker van provincie Zuid-Holland kun je hier
+                    inloggen om te werken aan het Omgevingsbeleid.
                 </p>
 
                 <LoginForm

@@ -199,11 +199,11 @@ class FormFieldBeleidsrelatieKoppeling extends Component {
                     dataObjectProperty={this.props.dataObjectProperty}
                     fieldLabel={this.props.fieldLabel}
                     pValue={this.props.pValue}
-                    titelEnkelvoud={this.props.titelEnkelvoud}
+                    titleSingular={this.props.titleSingular}
                 />
                 <div
                     className="p-5 bg-white rounded shadow"
-                    id={`form-field-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
+                    id={`form-field-${this.props.titleSingular.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
                 >
                     <div className="flex py-2 text-sm font-bold text-gray-700 border-b border-gray-300">
                         <div className="relative w-40 mr-5">Type</div>

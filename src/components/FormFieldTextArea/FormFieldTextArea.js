@@ -27,14 +27,14 @@ class FormFieldTextArea extends React.Component {
                         dataObjectProperty={this.props.dataObjectProperty}
                         fieldLabel={this.props.fieldLabel}
                         pValue={this.props.pValue}
-                        titelEnkelvoud={this.props.titelEnkelvoud}
+                        titleSingular={this.props.titleSingular}
                         anchorText={this.props.anchorText}
                         anchorLink={this.props.anchorLink}
                     />
                     <textarea
                         disabled={this.props.disabled}
                         ref={this.textArea}
-                        id={`form-field-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
+                        id={`form-field-${this.props.titleSingular.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
                         value={
                             this.props.fieldValue ? this.props.fieldValue : ''
                         }

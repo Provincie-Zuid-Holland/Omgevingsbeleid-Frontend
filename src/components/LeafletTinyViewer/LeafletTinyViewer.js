@@ -181,7 +181,6 @@ export default class LeafletTinyViewer extends Component {
                             dataReceived: true,
                         },
                         () => {
-                            let colorsIndex = -1
                             const leafletMap = this.leafletMap.current
 
                             function onEachFeature(feature, layer) {
@@ -195,7 +194,6 @@ export default class LeafletTinyViewer extends Component {
                             const jsonLayer = Leaflet.Proj.geoJson(data, {
                                 onEachFeature: onEachFeature,
                                 style: (feature) => {
-                                    colorsIndex++
                                     return {
                                         stroke: true,
                                         color: '#3388ff', // custom blue color for the first werkingsgebied,
@@ -234,7 +232,6 @@ export default class LeafletTinyViewer extends Component {
                         },
                         () => {
                             let colorsIndex = -1
-                            const leafletMap = this.leafletMap.current
 
                             function onEachFeature(feature, layer) {
                                 if (feature.properties) {
@@ -366,8 +363,8 @@ export default class LeafletTinyViewer extends Component {
                                                     maxWidth: '100%',
                                                     height: this.props
                                                         .fullscreen
-                                                        ? '800px'
-                                                        : '250px',
+                                                        ? '1000px'
+                                                        : '500px',
                                                 }}
                                             >
                                                 <div className="w-full">

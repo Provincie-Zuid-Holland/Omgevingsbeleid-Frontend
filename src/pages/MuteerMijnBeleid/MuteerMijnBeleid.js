@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Helmet } from 'react-helmet'
 
 // Import Components
@@ -6,30 +6,33 @@ import ContainerMain from './../../components/ContainerMain'
 import MijnBeleid from './../../components/MijnBeleid'
 import SidebarMain from './../../components/SidebarMain'
 
-class MuteerMijnBeleid extends Component {
-    render() {
-        return (
-            <ContainerMain>
-                <Helmet>
-                    <title>Omgevingsbeleid - Mijn Beleid</title>
-                </Helmet>
+/**
+ *
+ * @param {object} authUser - contains the logged in user object
+ * @returns The page where the user can see his/her policies
+ */
+const MuteerMijnBeleid = ({ authUser }) => {
+    return (
+        <ContainerMain>
+            <Helmet>
+                <title>Omgevingsbeleid - Mijn Beleid</title>
+            </Helmet>
 
-                {/* Sidebar */}
-                <SidebarMain />
+            {/* Sidebar */}
+            <SidebarMain />
 
-                {/* Dashboard */}
-                <div className="w-3/4 rounded inline-block flex-grow pl-8 relative">
-                    <section>
-                        <h2 className="heading-serif text-gray-800 mb-4">
-                            Mijn beleid
-                        </h2>
+            {/* Dashboard */}
+            <div className="relative flex-grow inline-block w-3/4 pl-8 rounded">
+                <section>
+                    <h2 className="mb-4 text-gray-800 heading-serif">
+                        Mijn beleid
+                    </h2>
 
-                        <MijnBeleid authUser={this.props.authUser} />
-                    </section>
-                </div>
-            </ContainerMain>
-        )
-    }
+                    <MijnBeleid authUser={authUser} />
+                </section>
+            </div>
+        </ContainerMain>
+    )
 }
 
 export default MuteerMijnBeleid

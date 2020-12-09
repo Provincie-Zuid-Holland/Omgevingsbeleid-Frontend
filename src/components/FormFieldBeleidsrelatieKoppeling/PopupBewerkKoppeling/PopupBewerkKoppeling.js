@@ -44,7 +44,7 @@ class PopupBewerkKoppeling extends Component {
                 </h3>
 
                 <p className="form-field-description">
-                    Beschrijf de koppeling tussen het nationaal belang '
+                    Beschrijf de koppeling tussen '
                     {this.props.bewerkItem.item.data.Titel}' en de beleidskeuze
                     '{this.props.titelMainObject}'
                 </p>

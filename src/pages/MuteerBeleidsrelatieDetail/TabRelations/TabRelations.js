@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { format } from 'date-fns'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -8,7 +8,28 @@ import LoaderBeleidsrelatieRegel from './../../../components/LoaderBeleidsrelati
 import LoaderMainTitle from './../../../components/LoaderMainTitle'
 import PopUpAnimatedContainer from './../../../components/PopUpAnimatedContainer'
 
-function TabRelaties(props) {
+/**
+ * @prop {boolean} loaded true if all the data from parent component is loaded
+ * @prop {array} relations contains the relations
+ * @prop {string} motivationPopUp contains the UUID of a beleidsrelatie
+ * @prop {function} setMotivationPopUp takes a UUID and set it in parent state in motivationPopUp
+ * @prop {function} setDisconnectPopup takes a UUID and set it in parent state in motivationPopUp
+ * @prop {string} disconnectPopUp contains the UUID of a beleidsrelatie
+ * @prop {string} beleidsbeslissingTitle contains the title of the beleidsobject
+ * @prop {function} relationshipDisconnect function to disconnect a relationship
+ * @prop {function} updateStatus function to update a status in parent state
+ */
+function TabRelations({
+    loaded,
+    relations,
+    motivationPopUp,
+    setMotivationPopUp,
+    setDisconnectPopup,
+    disconnectPopUp,
+    beleidsbeslissingTitle,
+    relationshipDisconnect,
+    updateStatus,
+}) {
     return (
         <ul>
             <li className="flex p-2 text-sm font-semibold text-gray-800 border-b border-gray-200">
@@ -18,9 +39,9 @@ function TabRelaties(props) {
                 <div className="w-2/12 pl-4">Motivering</div>
                 <div className="w-2/12">Actie</div>
             </li>
-            {props.naarLoaded && props.vanLoaded ? (
-                props.relatieArray.length > 0 ? (
-                    props.relatieArray.map((relatie) => {
+            {loaded ? (
+                relations.length > 0 ? (
+                    relations.map((relatie) => {
                         return (
                             <li
                                 key={relatie.UUID}
@@ -54,21 +75,17 @@ function TabRelaties(props) {
                                 <div className="w-2/12 pl-4">
                                     <span
                                         onClick={() => {
-                                            props.toggleMotiveringPopup(
-                                                relatie.UUID
-                                            )
+                                            setMotivationPopUp(relatie.UUID)
                                         }}
                                         className="underline cursor-pointer"
                                     >
                                         Bekijk motivering
                                     </span>
-                                    {props.motiveringPopUp === relatie.UUID ? (
+                                    {motivationPopUp === relatie.UUID ? (
                                         <PopUpAnimatedContainer small={true}>
                                             <div
                                                 onClick={() =>
-                                                    props.toggleMotiveringPopup(
-                                                        null
-                                                    )
+                                                    setMotivationPopUp(null)
                                                 }
                                                 className="absolute top-0 right-0 px-3 py-2 text-gray-600 cursor-pointer"
                                                 id={`sluit-popup-beleidsrelatie-motivering`}
@@ -89,9 +106,7 @@ function TabRelaties(props) {
                                 <div className="flex justify-end w-2/12">
                                     <span
                                         onClick={() => {
-                                            props.toggleVerbreekPopup(
-                                                relatie.UUID
-                                            )
+                                            setDisconnectPopup(relatie.UUID)
                                         }}
                                         className="text-red-600 underline cursor-pointer"
                                     >
@@ -99,13 +114,11 @@ function TabRelaties(props) {
                                             ? 'Relatie verwijderen'
                                             : 'Verzoek intrekken'}
                                     </span>
-                                    {props.verbreekPopUp === relatie.UUID ? (
+                                    {disconnectPopUp === relatie.UUID ? (
                                         <PopUpAnimatedContainer small={true}>
                                             <div
                                                 onClick={() =>
-                                                    props.toggleVerbreekPopup(
-                                                        null
-                                                    )
+                                                    setDisconnectPopup(null)
                                                 }
                                                 className="absolute top-0 right-0 px-3 py-2 text-gray-600 cursor-pointer"
                                                 id={`sluit-popup-beleidsrelatie-motivering`}
@@ -124,8 +137,8 @@ function TabRelaties(props) {
                                                 <p className="mt-2 text-sm text-gray-700">
                                                     {relatie.Status ===
                                                     'Akkoord'
-                                                        ? `Je staat op het punt om de beleidsrelatie tussen "${props.beleidsbeslissingTitel}" en "${relatie.beleidsbeslissing.Titel}" te verbreken`
-                                                        : `Je staat op het punt om het beleidsrelatie verzoek tussen "${props.beleidsbeslissingTitel}" en "${relatie.beleidsbeslissing.Titel}" in te trekken`}
+                                                        ? `Je staat op het punt om de beleidsrelatie tussen "${beleidsbeslissingTitle}" en "${relatie.beleidsbeslissing.Titel}" te verbreken`
+                                                        : `Je staat op het punt om het beleidsrelatie verzoek tussen "${beleidsbeslissingTitle}" en "${relatie.beleidsbeslissing.Titel}" in te trekken`}
                                                 </p>
                                             </div>
                                             <h4 className="mb-2 font-bold">
@@ -144,9 +157,7 @@ function TabRelaties(props) {
                                                 <span
                                                     className="text-sm text-gray-600 underline cursor-pointer"
                                                     onClick={() => {
-                                                        props.toggleVerbreekPopup(
-                                                            null
-                                                        )
+                                                        setDisconnectPopup(null)
                                                     }}
                                                 >
                                                     Annuleren
@@ -154,13 +165,11 @@ function TabRelaties(props) {
                                                 <span
                                                     className="px-4 py-2 text-sm font-bold leading-tight text-white rounded cursor-pointer mbg-color hover:underline"
                                                     onClick={() => {
-                                                        props.relatieVerbreken(
+                                                        relationshipDisconnect(
                                                             relatie
                                                         )
-                                                        props.toggleVerbreekPopup(
-                                                            null
-                                                        )
-                                                        props.updateStatus(
+                                                        setDisconnectPopup(null)
+                                                        updateStatus(
                                                             relatie.UUID,
                                                             relatie.Status ===
                                                                 'Akkoord'
@@ -197,4 +206,4 @@ function TabRelaties(props) {
     )
 }
 
-export default TabRelaties
+export default TabRelations

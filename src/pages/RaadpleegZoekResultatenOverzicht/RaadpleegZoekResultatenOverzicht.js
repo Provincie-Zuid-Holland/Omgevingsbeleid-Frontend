@@ -13,7 +13,6 @@ import axios from './../../API/axios'
 import allDimensieConstants from './../../constants/dimensies'
 
 // Import Components
-import ButtonBackToPage from './../../components/ButtonBackToPage'
 import LoaderContent from './../../components/LoaderContent'
 
 function getExcerpt(text) {
@@ -92,8 +91,8 @@ function SearchResultItem({ item, searchQuery }) {
     }
 
     const dimensieContants = getDimensieConstant(type)
-    const overzichtURL = dimensieContants.SLUG_OVERZICHT
-    const titelEnkelvoud = dimensieContants.TITEL_ENKELVOUD
+    const overzichtURL = dimensieContants.SLUG_OVERVIEW
+    const titleSingular = dimensieContants.TITLE_SINGULAR
 
     // Fallback for verordeningsitems that have not been found in the vigerende structure
     if (
@@ -133,8 +132,11 @@ function SearchResultItem({ item, searchQuery }) {
                         : `/detail/${overzichtURL}/${item.UUID}#${searchQuery}`
                 }
             >
-                <span className="block text-sm text-gray-600">
-                    {titelEnkelvoud}
+                <span
+                    className="block text-sm text-gray-600"
+                    data-test="search-result-type"
+                >
+                    {titleSingular}
                 </span>
                 <h2 className="block text-lg font-semibold text-primary group-hover:underline">
                     {content.Titel}
@@ -152,7 +154,7 @@ function SearchResultItem({ item, searchQuery }) {
                 ) : (
                     <p className="mt-2 italic text-gray-700">
                         Er is nog geen omschrijving voor deze
-                        {' ' + titelEnkelvoud.toLowerCase()}
+                        {' ' + titleSingular.toLowerCase()}
                     </p>
                 )}
             </Link>
@@ -441,7 +443,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                     } else if (res.data.length > 0) {
                         return res.data[0]
                     } else {
-                        throw 'No data from API'
+                        throw new Error('No data from API')
                     }
                 })
             this.setState(
@@ -559,7 +561,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                             <h2 className="block text-lg font-semibold text-primary group-hover:underline">
                                 Filteren
                             </h2>
-                            <ul className="mt-4">
+                            <ul id="filter-search-results" className="mt-4">
                                 {onPageFilters.filterArray &&
                                 onPageFilters.filterArray.length > 0
                                     ? filters.map((filter) => (
@@ -589,7 +591,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                             ? `Zoekresultaten voor coördinaten "${this.state.geoSearchQuery}"`
                             : null}
                     </span>
-                    <ul>
+                    <ul id="search-results">
                         {this.state.dataLoaded ? (
                             // this.state.searchResults.length > 0 ? (
                             this.state.searchResults &&
@@ -631,9 +633,24 @@ class RaadpleegZoekResultatenOverzicht extends Component {
 }
 
 const FilterItem = ({ handleFilter, checked, item, count }) => {
+    const dimensieContants = getDimensieConstant(item)
+    const titleSingular = dimensieContants.TITLE_SINGULAR
+
+    const itemTitle =
+        item === 'Beleidsbeslissingen'
+            ? 'Beleidskeuzes'
+            : item === 'Verordeningen'
+            ? 'Artikelen'
+            : item === 'Opgaven'
+            ? 'Beleidsdoelen'
+            : item
+
     return (
         <li key={item} className="mt-1 text-sm text-gray-700">
-            <label className="cursor-pointer select-none">
+            <label
+                className="cursor-pointer select-none"
+                id={`filter-for-${titleSingular}`}
+            >
                 <input
                     className="mr-2 leading-tight"
                     type="checkbox"
@@ -642,12 +659,7 @@ const FilterItem = ({ handleFilter, checked, item, count }) => {
                     name={item}
                 />
                 <span>
-                    {item === 'Beleidsbeslissingen'
-                        ? 'Beleidskeuzes'
-                        : item === 'Verordeningen'
-                        ? 'Artikelen'
-                        : item}{' '}
-                    ({count})
+                    {itemTitle} ({count})
                 </span>
             </label>
         </li>

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { withRouter, useLocation, useHistory } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
@@ -6,7 +6,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import 'url-search-params-polyfill'
 
 // The parameter compInNavigation
-const SearchBar = ({ width, exactWidth, compInNavigation, placeholder }) => {
+const SearchBar = ({
+    width,
+    exactWidth,
+    compInNavigation,
+    placeholder,
+    id,
+}) => {
     const location = useLocation()
     const history = useHistory()
 
@@ -51,7 +57,7 @@ const SearchBar = ({ width, exactWidth, compInNavigation, placeholder }) => {
             document.removeEventListener('mousedown', handleClick)
             document.removeEventListener('keydown', closeOnEscape)
         }
-    }, [])
+    }, [compInNavigation, location])
 
     return (
         <div
@@ -78,7 +84,7 @@ const SearchBar = ({ width, exactWidth, compInNavigation, placeholder }) => {
                 }}
                 onClick={() => setSearchBarPopupOpen(true)}
                 autoComplete="off"
-                id="search-query"
+                id={id ? id : 'search-query'}
                 type="text"
                 value={searchQuery}
                 placeholder={
@@ -180,9 +186,6 @@ function SearchBarPopupItem({
                         <span className="inline-block search-preview">
                             {value}
                         </span>
-                        <span className="absolute top-0 right-0 mt-3 mr-3 text-xs text-gray-500">
-                            Zoeken in categorie
-                        </span>
                     </React.Fragment>
                 )}
             </Link>
@@ -202,7 +205,7 @@ function SearchBarPopup({ searchInput, setSearchBarPopupOpen }) {
         },
         {
             filterQuery: 'opgaven',
-            name: 'opgaven',
+            name: 'beleidsdoelen',
         },
         {
             filterQuery: 'maatregelen',
