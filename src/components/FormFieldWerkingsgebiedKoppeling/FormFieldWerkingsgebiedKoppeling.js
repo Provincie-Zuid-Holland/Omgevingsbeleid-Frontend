@@ -2,6 +2,7 @@ import React from 'react'
 import { toast } from 'react-toastify'
 import format from 'date-fns/format'
 import nlLocale from 'date-fns/locale/nl'
+import { Transition } from '@headlessui/react'
 import {
     faSearch,
     faSpinner,
@@ -18,10 +19,11 @@ const FormFieldWerkingsgebiedKoppeling = ({
     setWerkingsgebiedInParentState,
     werkingsgebiedInParentState,
     dataObjectProperty,
-    titelEnkelvoud,
+    titleSingular,
     fieldLabel,
     pValue,
     disabled,
+    crudObject,
 }) => {
     const [popupOpen, setPopupOpen] = React.useState(false)
 
@@ -32,32 +34,55 @@ const FormFieldWerkingsgebiedKoppeling = ({
 
     // On every change in the werkingsgebiedInParentState we GET the 'werkingsgebied' data from the API
     React.useEffect(() => {
-        // If there is no werkingsgebied prop
-        if (!werkingsgebiedInParentState) return
+        if (dataObjectProperty === 'Gebied') {
+            // If there is no werkingsgebied prop
+            if (
+                !werkingsgebiedInParentState ||
+                (werkingsgebied &&
+                    werkingsgebiedInParentState === werkingsgebied.UUID)
+            )
+                return
 
-        // If the UUID the user selected is the same as the current one we have in state we return
-        const userSelectedTheSameUUID =
-            werkingsgebied &&
-            werkingsgebiedInParentState[0].UUID === werkingsgebied.UUID
-        if (
-            !Array.isArray(werkingsgebiedInParentState) ||
-            werkingsgebiedInParentState.length === 0 ||
-            userSelectedTheSameUUID
-        ) {
-            return
+            setWerkingsgebied(null)
+
+            axios
+                .get(`/werkingsgebieden/${werkingsgebiedInParentState}`)
+                .then((res) => {
+                    setWerkingsgebied(res.data)
+                })
+                .catch((err) => {
+                    console.log(err)
+                    toast(process.env.REACT_APP_ERROR_MSG)
+                })
+        } else if (dataObjectProperty === 'WerkingsGebieden') {
+            // If there is no werkingsgebied prop
+            if (!werkingsgebiedInParentState) return
+
+            // If the UUID the user selected is the same as the current one we have in state we return
+            const userSelectedTheSameUUID =
+                werkingsgebied &&
+                werkingsgebiedInParentState[0].UUID === werkingsgebied.UUID
+
+            if (
+                !Array.isArray(werkingsgebiedInParentState) ||
+                werkingsgebiedInParentState.length === 0 ||
+                userSelectedTheSameUUID
+            ) {
+                return
+            }
+
+            setWerkingsgebied(null)
+            axios
+                .get(`/werkingsgebieden/${werkingsgebiedInParentState[0].UUID}`)
+                .then((res) => {
+                    setWerkingsgebied(res.data)
+                })
+                .catch((err) => {
+                    console.log(err)
+                    toast(process.env.REACT_APP_ERROR_MSG)
+                })
         }
-
-        setWerkingsgebied(null)
-        axios
-            .get(`/werkingsgebieden/${werkingsgebiedInParentState[0].UUID}`)
-            .then((res) => {
-                setWerkingsgebied(res.data)
-            })
-            .catch((err) => {
-                console.log(err)
-                toast(process.env.REACT_APP_ERROR_MSG)
-            })
-    }, [werkingsgebiedInParentState, werkingsgebied])
+    }, [werkingsgebiedInParentState, werkingsgebied, dataObjectProperty])
 
     return (
         <React.Fragment>
@@ -65,7 +90,7 @@ const FormFieldWerkingsgebiedKoppeling = ({
                 dataObjectProperty={dataObjectProperty}
                 fieldLabel={fieldLabel}
                 pValue={pValue}
-                titelEnkelvoud={titelEnkelvoud}
+                titleSingular={titleSingular}
             />
             <div
                 className={`flex flex-wrap mb-6 -mx-3 ${
@@ -76,80 +101,27 @@ const FormFieldWerkingsgebiedKoppeling = ({
             >
                 <div
                     className="w-full px-3"
-                    id={`form-field-${titelEnkelvoud.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
+                    id={`form-field-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
                 >
-                    {werkingsgebiedInParentState &&
-                    Array.isArray(werkingsgebiedInParentState) &&
-                    werkingsgebiedInParentState.length > 0 ? (
-                        <div>
-                            <div className="flex rounded shadow">
-                                <div className="relative w-1/2 p-5 bg-white">
-                                    <h3 className="py-2 text-sm font-bold text-gray-700">
-                                        {werkingsgebied
-                                            ? werkingsgebied.Werkingsgebied
-                                            : null}
-                                    </h3>
-                                    <span className="py-1 text-xs text-gray-600">
-                                        Laatst gewijzigd op{' '}
-                                        {werkingsgebied
-                                            ? format(
-                                                  new Date(
-                                                      werkingsgebied.Modified_Date
-                                                  ),
-                                                  'dd	MMMM yyyy',
-                                                  {
-                                                      locale: nlLocale,
-                                                  }
-                                              )
-                                            : null}
-                                    </span>
-                                    <span
-                                        className="absolute bottom-0 left-0 mb-5 ml-5 text-sm text-red-600 underline cursor-pointer"
-                                        onClick={() => {
-                                            setWerkingsgebiedInParentState({
-                                                target: {
-                                                    name: dataObjectProperty,
-                                                    value: null,
-                                                },
-                                            })
-                                            setWerkingsgebied(null)
-                                        }}
-                                        id={`form-field-werkingsgebied-ontkoppelen`}
-                                    >
-                                        Dit werkingsgebied ontkoppelen
-                                    </span>
-                                </div>
-                                <div className="w-1/2 h-64">
-                                    <div
-                                        className={`flex justify-center items-center relative block cursor-pointer w-full h-full`}
-                                        onClick={() => setPopupOpen(true)}
-                                    >
-                                        <div
-                                            className={`cursor-pointer z-10 absolute top-0 left-0 w-full h-full border border-gray-100`}
-                                        >
-                                            <div
-                                                style={{
-                                                    backgroundImage:
-                                                        'url("' +
-                                                        `https://geo-omgevingsbeleid-test.azurewebsites.net/wms/reflect?format=image/png&layers=OMGEVINGSBELEID:Werkingsgebieden_brt&srs=EPSG:28992&width=450&bbox=43662.62,406692,140586.08,483120&cql_filter=UUID IN ('${werkingsgebiedInParentState[0].UUID}')` +
-                                                        '")',
-                                                }}
-                                                className="block w-full h-full bg-center bg-cover"
-                                            ></div>
-                                        </div>
-                                        <span
-                                            className={`absolute top-0 left-0 flex items-center justify-center w-full h-full text-gray-500 -mt-4`}
-                                        >
-                                            <FontAwesomeIcon
-                                                className="mr-2 rotate-icon"
-                                                icon={faSpinner}
-                                            />
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    ) : (
+                    <CardSelectedWerkingsgebied
+                        show={!!werkingsgebied}
+                        setPopupOpen={setPopupOpen}
+                        dataObjectProperty={dataObjectProperty}
+                        setWerkingsgebiedInParentState={
+                            setWerkingsgebiedInParentState
+                        }
+                        setWerkingsgebied={setWerkingsgebied}
+                        werkingsgebied={werkingsgebied}
+                    />
+                    <Transition
+                        show={!werkingsgebied}
+                        enter="transition ease-out duration-150 transform"
+                        enterFrom="opacity-0 scale-95"
+                        enterTo="opacity-100 scale-100"
+                        leave="transition ease-in duration-0 transform"
+                        leaveFrom="opacity-100 scale-100"
+                        leaveTo="opacity-0 scale-95"
+                    >
                         <div
                             className="flex justify-center w-full px-4 py-2 mt-2 border-2 border-gray-400 border-dashed rounded-md cursor-pointer"
                             onClick={() => setPopupOpen(true)}
@@ -164,7 +136,7 @@ const FormFieldWerkingsgebiedKoppeling = ({
                                 </span>
                             </div>
                         </div>
-                    )}
+                    </Transition>
                     <WerkingsgebiedPopup
                         dataObjectProperty={dataObjectProperty}
                         setWerkingsgebiedInParentState={
@@ -176,6 +148,97 @@ const FormFieldWerkingsgebiedKoppeling = ({
                 </div>
             </div>
         </React.Fragment>
+    )
+}
+
+const CardSelectedWerkingsgebied = ({
+    setPopupOpen,
+    setWerkingsgebiedInParentState,
+    setWerkingsgebied,
+    dataObjectProperty,
+    werkingsgebied,
+    show,
+}) => {
+    return (
+        <Transition
+            show={show}
+            enter="transition ease-out duration-150 transform"
+            enterFrom="opacity-0 scale-95"
+            enterTo="opacity-100 scale-100"
+            leave="transition ease-in duration-0 transform"
+            leaveFrom="opacity-100 scale-100"
+            leaveTo="opacity-0 scale-95"
+        >
+            <div className="flex rounded shadow">
+                <div
+                    className="relative w-1/2 p-5 bg-white"
+                    id="selected-werkingsgebied"
+                >
+                    <h3 className="pb-1 text-sm font-bold text-gray-700">
+                        {werkingsgebied ? werkingsgebied.Werkingsgebied : null}
+                    </h3>
+                    <span className="text-xs text-gray-600">
+                        Laatst gewijzigd op{' '}
+                        {werkingsgebied
+                            ? format(
+                                  new Date(werkingsgebied.Modified_Date),
+                                  'dd	MMMM yyyy',
+                                  {
+                                      locale: nlLocale,
+                                  }
+                              )
+                            : null}
+                    </span>
+                    <span
+                        className="absolute bottom-0 left-0 px-5 py-5 text-sm text-red-600 underline transition-colors ease-in cursor-pointer duration-50 hover:text-red-800"
+                        onClick={() => {
+                            setWerkingsgebiedInParentState({
+                                target: {
+                                    name: dataObjectProperty,
+                                    value: null,
+                                },
+                            })
+                            setWerkingsgebied(null)
+                        }}
+                        id={`form-field-werkingsgebied-ontkoppelen`}
+                    >
+                        Dit werkingsgebied ontkoppelen
+                    </span>
+                </div>
+                <div className="w-1/2 h-64">
+                    <div
+                        className={`flex justify-center items-center relative cursor-pointer w-full h-full`}
+                        onClick={() => setPopupOpen(true)}
+                    >
+                        <div
+                            className={`cursor-pointer z-10 absolute top-0 left-0 w-full h-full border border-gray-100`}
+                        >
+                            <div
+                                style={{
+                                    backgroundImage:
+                                        'url("' +
+                                        `https://geo-omgevingsbeleid-test.azurewebsites.net/wms/reflect?format=image/png&layers=OMGEVINGSBELEID:Werkingsgebieden_brt&srs=EPSG:28992&width=450&bbox=43662.62,406692,140586.08,483120&cql_filter=UUID IN ('${
+                                            werkingsgebied
+                                                ? werkingsgebied.UUID
+                                                : ''
+                                        }')` +
+                                        '")',
+                                }}
+                                className="block w-full h-full bg-center bg-cover"
+                            ></div>
+                        </div>
+                        <span
+                            className={`absolute top-0 left-0 flex items-center justify-center w-full h-full text-gray-500 -mt-4`}
+                        >
+                            <FontAwesomeIcon
+                                className="mr-2 rotate-icon"
+                                icon={faSpinner}
+                            />
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </Transition>
     )
 }
 
@@ -207,14 +270,38 @@ const WerkingsgebiedPopup = ({
         getAndSetWerkingsgebieden()
     }, [])
 
-    const getImageUrl = ({ UUID }) => {
+    const getImageUrl = (UUID) => {
         return `https://geo-omgevingsbeleid-test.azurewebsites.net/wms/reflect?format=image/png&layers=OMGEVINGSBELEID:Werkingsgebieden_brt&srs=EPSG:28992&width=450&bbox=43662.62,406692,140586.08,483120&cql_filter=UUID IN ('${UUID}')`
+    }
+
+    const setInParent = (uuid) => {
+        if (dataObjectProperty === 'Gebied') {
+            // Array containing the UUID's
+            setWerkingsgebiedInParentState({
+                target: {
+                    name: dataObjectProperty,
+                    value: uuid,
+                },
+            })
+        } else if (dataObjectProperty === 'WerkingsGebieden') {
+            // Single string of UUID
+            setWerkingsgebiedInParentState({
+                target: {
+                    name: dataObjectProperty,
+                    value: [
+                        {
+                            UUID: uuid,
+                        },
+                    ],
+                },
+            })
+        }
     }
 
     return (
         <PopupContainer show={show} close={close}>
             <div className="container flex items-center justify-center pb-8 mx-auto sm:px-6 lg:px-8">
-                <div className="relative z-10 w-2/3 transition-all transform bg-white rounded-md rounded-lg shadow-xl screen-minus-nav">
+                <div className="relative z-10 w-2/3 transition-all transform bg-white rounded-md shadow-xl screen-minus-nav">
                     <div
                         onClick={close}
                         className="absolute top-0 right-0 px-3 py-2 text-gray-600 cursor-pointer"
@@ -254,26 +341,13 @@ const WerkingsgebiedPopup = ({
                                           )
                                       )
                                       .map((gebied, index) => {
-                                          const url = getImageUrl({
-                                              UUID: gebied.UUID,
-                                          })
+                                          const url = getImageUrl(gebied.UUID)
                                           return (
                                               <div
-                                                  className={`h-64 flex justify-center items-center relative block`}
+                                                  key={gebied.UUID}
+                                                  className={`h-64 flex justify-center items-center relative`}
                                                   onClick={() => {
-                                                      setWerkingsgebiedInParentState(
-                                                          {
-                                                              target: {
-                                                                  name: dataObjectProperty,
-                                                                  value: [
-                                                                      {
-                                                                          UUID:
-                                                                              gebied.UUID,
-                                                                      },
-                                                                  ],
-                                                              },
-                                                          }
-                                                      )
+                                                      setInParent(gebied.UUID)
                                                       close()
                                                   }}
                                               >

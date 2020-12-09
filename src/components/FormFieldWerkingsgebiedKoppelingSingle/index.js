@@ -1,3 +1,0 @@
-import FormFieldWerkingsgebiedKoppelingSingle from './FormFieldWerkingsgebiedKoppelingSingle.js'
-
-export default FormFieldWerkingsgebiedKoppelingSingle
