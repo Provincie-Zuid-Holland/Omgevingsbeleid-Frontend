@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { toast } from 'react-toastify'
 
 import PopUpAnimatedContainer from './../../PopUpAnimatedContainer'
-import objecten from './../ObjectenInformatie'
+import objecten from './../../../constants/koppelingen'
 
 class PopupNieuweKoppeling extends Component {
     constructor(props) {
@@ -129,7 +129,7 @@ class PopupNieuweKoppeling extends Component {
                 koppelTekst = 'de beleidsregel'
                 break
             case 'doelen':
-                koppelTekst = 'het doel'
+                koppelTekst = 'de beleidsprestatie'
                 break
             case 'maatregelen':
                 koppelTekst = 'de maatregel'

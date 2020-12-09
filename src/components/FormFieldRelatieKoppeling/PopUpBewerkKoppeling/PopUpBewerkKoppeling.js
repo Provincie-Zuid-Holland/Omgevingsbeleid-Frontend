@@ -38,9 +38,9 @@ class PopUpBewerkKoppeling extends Component {
                 <h3 className="form-field-label">koppelen</h3>
 
                 <p className="form-field-description">
-                    Beschrijf de koppeling tussen het nationaal belang '
-                    {this.props.bewerkItem.item.data.Titel}' en de beleidskeuze
-                    '{this.props.titelMainObject}'
+                    Beschrijf de koppeling tussen '
+                    {this.props.bewerkItem.item.Titel}' en de beleidskeuze '
+                    {this.props.titelMainObject}'
                 </p>
                 <p className="mt-4 form-field-description">
                     Beschrijf zo concreet mogelijk de relatie
@@ -72,9 +72,6 @@ class PopUpBewerkKoppeling extends Component {
                                 this.props.verwijderKoppelingRelatie(
                                     this.props.bewerkItem
                                 )
-                                this.props.verwijderKoppelingFromLocalState(
-                                    this.props.bewerkItem
-                                )
                                 this.props.togglePopup()
                             }}
                         >
@@ -95,10 +92,6 @@ class PopUpBewerkKoppeling extends Component {
                                     this.props.bewerkItem,
                                     this.state.omschrijving
                                 )
-                                this.props.wijzigKoppelingRelatieFromLocalState(
-                                    this.props.bewerkItem,
-                                    this.state.omschrijving
-                                )
                                 this.props.togglePopup()
                             } else {
                                 return
@@ -110,10 +103,6 @@ class PopUpBewerkKoppeling extends Component {
                                 this.state.omschrijving.length > 0
                             ) {
                                 this.props.wijzigKoppelingRelatie(
-                                    this.props.bewerkItem,
-                                    this.state.omschrijving
-                                )
-                                this.props.wijzigKoppelingRelatieFromLocalState(
                                     this.props.bewerkItem,
                                     this.state.omschrijving
                                 )

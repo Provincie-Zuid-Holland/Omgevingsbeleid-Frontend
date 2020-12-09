@@ -33,13 +33,13 @@ const objecten = {
         propertyName: 'Ambities',
         type: 'Ambitie',
     },
-    opgaven: {
-        buttonTekst: 'opgaven',
-        volledigeTitel: 'Opgaven',
-        volledigeTitelMeervoud: 'Opgaven',
+    beleidsdoelen: {
+        buttonTekst: 'beleidsdoelen',
+        volledigeTitel: 'Beleidsdoelen',
+        volledigeTitelMeervoud: 'Beleidsdoelen',
         api: '/opgaven',
         propertyName: 'Opgaven',
-        type: 'Opgave',
+        type: 'Beleidsdoel',
     },
     themas: {
         buttonTekst: 'themas',
@@ -49,13 +49,13 @@ const objecten = {
         propertyName: 'Themas',
         type: 'Thema',
     },
-    doelen: {
-        buttonTekst: 'doelen',
-        volledigeTitel: 'Doelen',
-        volledigeTitelMeervoud: 'Doelen',
+    beleidsprestaties: {
+        buttonTekst: 'beleidsprestaties',
+        volledigeTitel: 'Beleidsprestaties',
+        volledigeTitelMeervoud: 'Beleidsprestaties',
         api: '/doelen',
         propertyName: 'Doelen',
-        type: 'Doel',
+        type: 'Beleidsprestatie',
     },
     maatregelen: {
         buttonTekst: 'maatregelen',
