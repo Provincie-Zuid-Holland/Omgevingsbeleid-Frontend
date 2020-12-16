@@ -4,6 +4,52 @@ import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFi
 
 var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
 
+class FormFieldDate extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            toonUitwerkingTreding:
+                this.props.fieldValue !== '' || this.props.openUitwerkingstrede,
+        }
+        this.toggleUitwerkingTreding = this.toggleUitwerkingTreding.bind(this)
+    }
+
+    toggleUitwerkingTreding() {
+        this.setState({
+            toonUitwerkingTreding: !this.state.toonUitwerkingTreding,
+        })
+    }
+
+    render() {
+        return this.props.dataObjectProperty === 'Eind_Geldigheid' ? (
+            <EindGeldigheid
+                hideToggleUitwerkingstrede={
+                    this.props.hideToggleUitwerkingstrede
+                }
+                toggleUitwerkingTreding={this.toggleUitwerkingTreding}
+                toonUitwerkingTreding={this.state.toonUitwerkingTreding}
+                dataObjectProperty={this.props.dataObjectProperty}
+                fieldLabel={this.props.fieldLabel}
+                pValue={this.props.pValue}
+                titleSingular={this.props.titleSingular}
+                fieldValue={this.props.fieldValue}
+                handleChange={this.props.handleChange}
+                disabled={this.props.disabled}
+            />
+        ) : (
+            <BeginGeldigheid
+                dataObjectProperty={this.props.dataObjectProperty}
+                fieldLabel={this.props.fieldLabel}
+                pValue={this.props.pValue}
+                titleSingular={this.props.titleSingular}
+                fieldValue={this.props.fieldValue}
+                handleChange={this.props.handleChange}
+                disabled={this.props.disabled}
+            />
+        )
+    }
+}
+
 function BeginGeldigheid({
     dataObjectProperty,
     fieldLabel,
@@ -84,49 +130,4 @@ function EindGeldigheid({
     )
 }
 
-class FormFieldDate extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            toonUitwerkingTreding:
-                this.props.fieldValue !== '' || this.props.openUitwerkingstrede,
-        }
-        this.toggleUitwerkingTreding = this.toggleUitwerkingTreding.bind(this)
-    }
-
-    toggleUitwerkingTreding() {
-        this.setState({
-            toonUitwerkingTreding: !this.state.toonUitwerkingTreding,
-        })
-    }
-
-    render() {
-        return this.props.dataObjectProperty === 'Eind_Geldigheid' ? (
-            <EindGeldigheid
-                hideToggleUitwerkingstrede={
-                    this.props.hideToggleUitwerkingstrede
-                }
-                toggleUitwerkingTreding={this.toggleUitwerkingTreding}
-                toonUitwerkingTreding={this.state.toonUitwerkingTreding}
-                dataObjectProperty={this.props.dataObjectProperty}
-                fieldLabel={this.props.fieldLabel}
-                pValue={this.props.pValue}
-                titleSingular={this.props.titleSingular}
-                fieldValue={this.props.fieldValue}
-                handleChange={this.props.handleChange}
-                disabled={this.props.disabled}
-            />
-        ) : (
-            <BeginGeldigheid
-                dataObjectProperty={this.props.dataObjectProperty}
-                fieldLabel={this.props.fieldLabel}
-                pValue={this.props.pValue}
-                titleSingular={this.props.titleSingular}
-                fieldValue={this.props.fieldValue}
-                handleChange={this.props.handleChange}
-                disabled={this.props.disabled}
-            />
-        )
-    }
-}
 export default FormFieldDate

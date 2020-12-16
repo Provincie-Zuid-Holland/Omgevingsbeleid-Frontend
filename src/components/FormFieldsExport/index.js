@@ -1,4 +1,3 @@
-import FormFieldBeleidsrelatieKoppeling from '../FormFieldBeleidsrelatieKoppeling'
 import FormFieldDate from '../FormFieldDate'
 import FormFieldSelect from '../FormFieldSelect'
 import FormFieldSelectBeleidsbeslissing from '../FormFieldSelectBeleidsbeslissing'
@@ -19,7 +18,6 @@ import FormFieldInputContainer from '../FormFieldInputContainer'
 
 export {
     FormFieldDate,
-    FormFieldBeleidsrelatieKoppeling,
     FormFieldSelect,
     FormFieldSelectBeleidsbeslissing,
     FormFieldSelectUser,
