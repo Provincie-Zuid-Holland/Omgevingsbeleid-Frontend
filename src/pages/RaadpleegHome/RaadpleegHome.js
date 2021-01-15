@@ -322,7 +322,7 @@ const Image = ({ image, position }) => {
                     : position === 'right'
                     ? 'ml-16'
                     : ''
-            } text-white bg-indigo-700 sm:inline-block ${image}`}
+            } text-white bg-gray-100 sm:inline-block ${image}`}
             style={imageStyles}
         />
     )
