@@ -122,6 +122,9 @@ class PopupNieuweKoppeling extends Component {
             case 'opgaven':
                 koppelTekst = 'de opgave'
                 break
+            case 'beleidsdoelen':
+                koppelTekst = 'het beleidsdoel'
+                break
             case 'themas':
                 koppelTekst = 'het thema'
                 break
@@ -129,6 +132,9 @@ class PopupNieuweKoppeling extends Component {
                 koppelTekst = 'de beleidsregel'
                 break
             case 'doelen':
+                koppelTekst = 'de beleidsprestatie'
+                break
+            case 'beleidsprestaties':
                 koppelTekst = 'de beleidsprestatie'
                 break
             case 'maatregelen':
