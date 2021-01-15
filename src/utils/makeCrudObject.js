@@ -1,3 +1,5 @@
+import clonedeep from 'lodash.clonedeep'
+
 import formatGeldigheidDatesForUI from './formatGeldigheidDatesForUI'
 
 // Function to make an object containing the fields that the user can edit
@@ -48,8 +50,9 @@ function makeCrudObject({
     } else {
         // Als er geen responseObject is initializen we de waarde voor elke crudProperty
         crudProperties.forEach((crudProperty) => {
-            crudObject[crudProperty] =
+            crudObject[crudProperty] = clonedeep(
                 dimensieConstants.CRUD_PROPERTIES[crudProperty].initValue
+            )
         })
     }
 
