@@ -1,3 +1,5 @@
+import clonedeep from 'lodash.clonedeep'
+
 import formatGeldigheidDatesForUI from './formatGeldigheidDatesForUI'
 
 // Function to make an object containing the fields that the user can edit
@@ -19,10 +21,9 @@ function makeCrudObject({
         // If the .Status property is 'Vigerend' we need to change it to 'Ontwerp GS Concept'
         // But only if the user is not editing a vigerend without going through the process
         const isMaatregelOrBeleidskeuze =
-            dimensieConstants.TITEL_ENKELVOUD === 'Beleidskeuze' ||
-            dimensieConstants.TITEL_ENKELVOUD === 'Maatregel'
+            dimensieConstants.TITLE_SINGULAR === 'Beleidskeuze' ||
+            dimensieConstants.TITLE_SINGULAR === 'Maatregel'
 
-        // If the user is
         if (isMaatregelOrBeleidskeuze && wijzigVigerend) {
             crudObject.Aanpassing_Op = responseObject.UUID
         }
@@ -31,10 +32,13 @@ function makeCrudObject({
         // Het response object is het gekregen object van de API
         crudProperties.forEach((crudProperty) => {
             if (
-                crudProperty === 'Status' &&
-                isMaatregelOrBeleidskeuze &&
-                !wijzigVigerend &&
-                (responseObject[crudProperty] === 'Gepubliceerd' ||
+                (crudProperty === 'Status' &&
+                    isMaatregelOrBeleidskeuze &&
+                    !wijzigVigerend &&
+                    responseObject[crudProperty] === 'Gepubliceerd') ||
+                (crudProperty === 'Status' &&
+                    isMaatregelOrBeleidskeuze &&
+                    !wijzigVigerend &&
                     responseObject[crudProperty] === 'Vigerend')
             ) {
                 crudObject[crudProperty] = 'Ontwerp GS Concept'
@@ -46,8 +50,9 @@ function makeCrudObject({
     } else {
         // Als er geen responseObject is initializen we de waarde voor elke crudProperty
         crudProperties.forEach((crudProperty) => {
-            crudObject[crudProperty] =
+            crudObject[crudProperty] = clonedeep(
                 dimensieConstants.CRUD_PROPERTIES[crudProperty].initValue
+            )
         })
     }
 

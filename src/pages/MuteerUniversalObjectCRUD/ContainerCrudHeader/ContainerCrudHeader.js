@@ -7,8 +7,8 @@ import LoaderMainTitle from '../../../components/LoaderMainTitle'
 function ContainerCrudHeader({
     editStatus,
     dataLoaded,
-    objectTitel,
-    titelEnkelvoud,
+    objectTitle,
+    titleSingular,
     overzichtSlug,
     objectID,
     titelMeervoud,
@@ -18,10 +18,10 @@ function ContainerCrudHeader({
     const getMainTitle = () => {
         if (editStatus && dataLoaded) {
             // Als de gebruiker een bestaand object bewerkt
-            return objectTitel
+            return objectTitle
         } else if (dataLoaded) {
             // Als de gebruiker een nieuw object aanmaakt
-            return `Voeg een nieuwe ${titelEnkelvoud.toLowerCase()} toe`
+            return `Voeg een nieuwe ${titleSingular.toLowerCase()} toe`
         } else {
             return ''
         }

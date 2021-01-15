@@ -15,7 +15,7 @@ import FormFields from './../../../components/FormFieldsExport'
 class ContainerCrudFields extends React.Component {
     render() {
         const crudObject = this.context.crudObject
-        const titelEnkelvoud = this.context.titelEnkelvoud
+        const titleSingular = this.context.titleSingular
 
         return (
             <ContainerMain>
@@ -37,7 +37,7 @@ class ContainerCrudFields extends React.Component {
                                     fieldLabel="Titel"
                                     dataObjectProperty="Titel"
                                     pValue="Vul hier uw titel in"
-                                    titelEnkelvoud={this.context.titelEnkelvoud}
+                                    titleSingular={this.context.titleSingular}
                                 />
                             </ContainerFormSection>
                             <ContainerFormSection titel="Aanvullende informatie">
@@ -53,7 +53,7 @@ class ContainerCrudFields extends React.Component {
                                         notRequired={true}
                                         dataObjectProperty="Begin_Geldigheid"
                                         pValue="Indien bekend, kan hier de datum van inwerkingtreding worden ingevuld"
-                                        titelEnkelvoud={titelEnkelvoud}
+                                        titleSingular={titleSingular}
                                         openUitwerkingstrede={true}
                                     />
 
@@ -69,7 +69,7 @@ class ContainerCrudFields extends React.Component {
                                         fieldLabel="Datum uitwerkingtreding"
                                         dataObjectProperty="Eind_Geldigheid"
                                         pValue="Indien bekend, kan hier de datum van uitwerkingtreding worden ingevuld"
-                                        titelEnkelvoud={titelEnkelvoud}
+                                        titleSingular={titleSingular}
                                     />
                                 </div>
                             </ContainerFormSection>

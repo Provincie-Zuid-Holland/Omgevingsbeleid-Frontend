@@ -17,7 +17,7 @@ function getExcerpt(tekst) {
 function CardObjectDetailsHalfWidth({
     object,
     overzichtSlug,
-    titelEnkelvoud,
+    titleSingular,
     hideParagraaf,
     fullWidth,
     index,
@@ -29,13 +29,13 @@ function CardObjectDetailsHalfWidth({
                 className={`relative inline-block h-full px-4 pb-6 pt-4 shadow-md rounded overflow-hidden bg-white ${
                     fullWidth ? 'w-full' : 'w-1/2'
                 }`}
-                id={`object-card-${titelEnkelvoud.toLowerCase()}-${index}`}
+                id={`object-card-${titleSingular.toLowerCase()}-${index}`}
                 to={`/muteer/${overzichtSlug}/${object.ID}${
                     mijnBeleid ? '#mijn-beleid' : ''
                 }`}
             >
                 <h5 className="text-gray-600 text-sm font-light py-1">
-                    {titelEnkelvoud}
+                    {titleSingular}
                 </h5>
                 <h2 className="text-xl font-bold text-gray-800">
                     {object.Titel}

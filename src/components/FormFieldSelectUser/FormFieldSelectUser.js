@@ -58,7 +58,7 @@ class FormFieldSelectUser extends React.Component {
 
         if (
             this.props.editStatus === true ||
-            (this.props.titelEnkelvoud === 'Beleidskeuze' &&
+            (this.props.titleSingular === 'Beleidskeuze' &&
                 this.props.dataObjectProperty === 'Eigenaar_1' &&
                 selectionArray)
         ) {
@@ -105,7 +105,7 @@ class FormFieldSelectUser extends React.Component {
                 {this.state.dataLoaded ? (
                     <Select
                         isDisabled={this.props.disabled}
-                        id={`form-field-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
+                        id={`form-field-${this.props.titleSingular.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
                         className="border border-gray-400 rounded hover:border-gray-500 focus:border-gray-500"
                         name={this.props.dataObjectProperty}
                         value={this.state.selected}

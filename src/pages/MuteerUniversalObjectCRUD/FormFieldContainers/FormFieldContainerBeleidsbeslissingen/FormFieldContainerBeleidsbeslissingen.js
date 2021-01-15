@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import clonedeep from 'lodash.clonedeep'
 
@@ -9,14 +9,14 @@ import {
     FormFieldTextArea,
     FormFieldWeblink,
     FormFieldSelectUserGroup,
-    FormFieldUniverseleRelatieKoppeling,
     FormFieldWerkingsgebiedKoppeling,
+    FormFieldRelatieKoppeling,
 } from './../../../../components/FormFieldsExport'
 
 import UserContext from './../../../../App/UserContext'
 
 function FormFieldContainerBeleidsbeslissingen({
-    titelEnkelvoud,
+    titleSingular,
     crudObject,
     handleChange,
     editStatus,
@@ -33,15 +33,15 @@ function FormFieldContainerBeleidsbeslissingen({
 
     const userIsAllowed =
         userRol === 'Beheerder' ||
+        userRol === 'Superuser' ||
         userRol === 'Functioneel beheerder' ||
         userUUID === crudObject.Eigenaar_1 ||
         userUUID === crudObject.Eigenaar_2
 
     // The following fields should be editable when userIsAllowed true
     // - FormFieldSelectUserGroup (specific rules for each field, see FormFieldSelectUserGroup component)
-    // - FormFieldUniverseleRelatieKoppeling
+    // - FormFieldRelatieKoppeling
     // The rest of the fields should be disabled if (isVigerend === true && !userIsAllowed)
-
     return (
         <React.Fragment>
             <ContainerFormSection
@@ -55,7 +55,7 @@ function FormFieldContainerBeleidsbeslissingen({
                     dataObjectProperty="Titel"
                     fieldLabel="Titel"
                     pValue="Formuleer in enkele woorden de titel van de beleidskeuze."
-                    titelEnkelvoud={titelEnkelvoud}
+                    titleSingular={titleSingular}
                 />
                 <FormFieldSelectUserGroup
                     disabled={isVigerend && !userIsAllowed}
@@ -63,7 +63,7 @@ function FormFieldContainerBeleidsbeslissingen({
                     crudObject={crudObject}
                     marginRight={true}
                     fieldLabel="Personen"
-                    titelEnkelvoud={titelEnkelvoud}
+                    titleSingular={titleSingular}
                     editStatus={editStatus}
                 />
             </ContainerFormSection>
@@ -80,7 +80,7 @@ function FormFieldContainerBeleidsbeslissingen({
                     fieldLabel="Wat wil de provincie bereiken?"
                     dataObjectProperty="Omschrijving_Keuze"
                     pValue="Formuleer in één of enkele zinnen een concrete doelstelling op tactisch niveau. Beschrijf hier het 'wat' en vanuit welke rol."
-                    titelEnkelvoud={titelEnkelvoud}
+                    titleSingular={titleSingular}
                 />
             </ContainerFormSection>
 
@@ -95,7 +95,7 @@ function FormFieldContainerBeleidsbeslissingen({
                     fieldLabel="Toelichting"
                     dataObjectProperty="Omschrijving_Werking"
                     pValue="Verdere inhoudelijke motivering en de conflicterende relaties"
-                    titelEnkelvoud={titelEnkelvoud}
+                    titleSingular={titleSingular}
                 />
             </ContainerFormSection>
 
@@ -110,7 +110,7 @@ function FormFieldContainerBeleidsbeslissingen({
                     fieldLabel="Aanleiding"
                     dataObjectProperty="Aanleiding"
                     pValue="Wat was de aanleiding voor de beleidskeuze?"
-                    titelEnkelvoud={titelEnkelvoud}
+                    titleSingular={titleSingular}
                 />
                 <FormFieldTextArea
                     disabled={isVigerend}
@@ -121,9 +121,9 @@ function FormFieldContainerBeleidsbeslissingen({
                     pValue="Beschrijf en motiveer het provinciaal belang"
                     anchorText="(zie Artikel 2.3 van de Omgevingswet)"
                     anchorLink="https://zoek.officielebekendmakingen.nl/stb-2016-156.html#d16e418"
-                    titelEnkelvoud={titelEnkelvoud}
+                    titleSingular={titleSingular}
                 />
-                <FormFieldUniverseleRelatieKoppeling
+                <FormFieldRelatieKoppeling
                     disabled={isVigerend}
                     placeholderTekst="Er is nog geen Nationaal belang of 'Wettelijke taken & bevoegdheden' gekoppeld."
                     buttonTekst="Koppel belang of taak"
@@ -133,11 +133,11 @@ function FormFieldContainerBeleidsbeslissingen({
                     fieldLabel="Nationaal Belang en Wettelijke taken & bevoegdheden"
                     dataObjectProperty="Belangen"
                     pValue="Indien deze beleidskeuze een nationaal belang dient of voortkomt uit een wettelijke taak of bevoegdheid, selecteer dit hieronder."
-                    titelEnkelvoud={titelEnkelvoud}
-                    wijzigKoppelingRelatie={wijzigKoppelingRelatie}
+                    titleSingular={titleSingular}
                     voegKoppelingRelatieToe={voegKoppelingRelatieToe}
+                    wijzigKoppelingRelatie={wijzigKoppelingRelatie}
                     verwijderKoppelingRelatie={verwijderKoppelingRelatie}
-                    koppelingRelatieArray={['belangen', 'taken']}
+                    connectionProperties={['belangen', 'taken']}
                     crudObject={clonedeep(crudObject)}
                 />
             </ContainerFormSection>
@@ -150,7 +150,7 @@ function FormFieldContainerBeleidsbeslissingen({
                     disabled={isVigerend}
                     setWerkingsgebiedInParentState={handleChange}
                     werkingsgebiedInParentState={crudObject['WerkingsGebieden']}
-                    titelEnkelvoud={titelEnkelvoud}
+                    titleSingular={titleSingular}
                     fieldLabel="Selecteer werkingsgebied"
                     dataObjectProperty="WerkingsGebieden"
                     pValue="Selecteer hier het werkingsgebied wat bij deze beleidskeuze past."
@@ -161,7 +161,7 @@ function FormFieldContainerBeleidsbeslissingen({
                 titel="Koppelingen"
                 beschrijving="Integraal Omgevingsbeleid betekent dat deze beleidskeuze koppelingen met andere onderdelen van het provinciale beleid heeft. Koppelingen leg je, eenzijdig, met andere beleidsobjecten, zoals een artikel uit de verordening of een ambitie."
             >
-                <FormFieldUniverseleRelatieKoppeling
+                <FormFieldRelatieKoppeling
                     disabled={isVigerend && !userIsAllowed}
                     placeholderTekst="Er zijn nog geen relaties aangebracht voor deze beleidskeuze"
                     buttonTekst="Nieuwe koppeling"
@@ -170,17 +170,17 @@ function FormFieldContainerBeleidsbeslissingen({
                     fieldValue={crudObject['Belangen']}
                     fieldLabel="Koppelingen"
                     dataObjectProperty="Koppelingen"
-                    pValue="Aan welke ambities, opgaven, artikelen uit de verordening, maatregelen en beleidsregels heeft deze beleidskeuze een koppeling?"
-                    titelEnkelvoud={titelEnkelvoud}
+                    pValue="Aan welke ambities, beleidsdoelen, artikelen uit de verordening, maatregelen en beleidsregels heeft deze beleidskeuze een koppeling?"
+                    titleSingular={titleSingular}
                     voegKoppelingRelatieToe={voegKoppelingRelatieToe}
                     wijzigKoppelingRelatie={wijzigKoppelingRelatie}
                     verwijderKoppelingRelatie={verwijderKoppelingRelatie}
-                    koppelingRelatieArray={[
+                    connectionProperties={[
                         'ambities',
-                        'opgaven',
+                        'beleidsdoelen',
                         'themas',
                         'beleidsregels',
-                        'doelen',
+                        'beleidsprestaties',
                         'maatregelen',
                         'verordening',
                     ]}
@@ -199,7 +199,7 @@ function FormFieldContainerBeleidsbeslissingen({
                     dataObjectProperty="Weblink"
                     fieldLabel="IDMS"
                     pValue="Vul hier de link in naar het besluitdocument op IDMS. (Eigenschappen > Algemeen > Snelkoppeling kopiëren)."
-                    titelEnkelvoud={titelEnkelvoud}
+                    titleSingular={titleSingular}
                 />
 
                 <FormFieldTextInput
@@ -210,7 +210,7 @@ function FormFieldContainerBeleidsbeslissingen({
                     dataObjectProperty="Besluitnummer"
                     notRequired={true}
                     pValue="Geef hier het PZH besluitnummer."
-                    titelEnkelvoud={titelEnkelvoud}
+                    titleSingular={titleSingular}
                 />
 
                 <div className="flex flex-wrap -mx-3">
@@ -222,7 +222,7 @@ function FormFieldContainerBeleidsbeslissingen({
                         notRequired={true}
                         dataObjectProperty="Begin_Geldigheid"
                         pValue="Indien bekend, kan hier de datum van inwerkingtreding worden ingevuld"
-                        titelEnkelvoud={titelEnkelvoud}
+                        titleSingular={titleSingular}
                     />
                     <FormFieldDate
                         disabled={isVigerend}
@@ -232,7 +232,7 @@ function FormFieldContainerBeleidsbeslissingen({
                         fieldLabel="Datum uitwerkingtreding"
                         dataObjectProperty="Eind_Geldigheid"
                         pValue="Indien bekend, kan hier de datum van uitwerkingtreding worden ingevuld"
-                        titelEnkelvoud={titelEnkelvoud}
+                        titleSingular={titleSingular}
                     />
                 </div>
             </ContainerFormSection>
@@ -241,7 +241,7 @@ function FormFieldContainerBeleidsbeslissingen({
 }
 
 FormFieldContainerBeleidsbeslissingen.propTypes = {
-    titelEnkelvoud: PropTypes.string.isRequired,
+    titleSingular: PropTypes.string.isRequired,
     crudObject: PropTypes.object.isRequired,
     handleChange: PropTypes.func.isRequired,
 }

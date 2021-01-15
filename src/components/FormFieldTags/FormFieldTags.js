@@ -49,10 +49,10 @@ class FormFieldTags extends Component {
                         dataObjectProperty={this.props.dataObjectProperty}
                         fieldLabel={this.props.fieldLabel}
                         pValue={this.props.pValue}
-                        titelEnkelvoud={this.props.titelEnkelvoud}
+                        titleSingular={this.props.titleSingular}
                     />
                     <CreatableSelect
-                        id={`form-field-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
+                        id={`form-field-${this.props.titleSingular.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
                         isMulti
                         onChange={this.handleChange}
                         value={this.state.selectionArray}

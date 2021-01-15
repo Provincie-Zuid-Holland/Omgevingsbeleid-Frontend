@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { toast } from 'react-toastify'
 
 import FormFieldSelectUser from './../FormFieldSelectUser'
@@ -9,7 +9,7 @@ const FormFieldSelectUserGroup = ({
     crudObject,
     editStatus,
     handleChange,
-    titelEnkelvoud,
+    titleSingular,
     disabled,
 }) => {
     const [gebruikersLijst, setGebruikersLijst] = React.useState([])
@@ -49,7 +49,7 @@ const FormFieldSelectUserGroup = ({
                         gebruikersLijst={gebruikersLijst}
                         filter={'Ambtelijk opdrachtgever'}
                         pValue="Ambtelijk opdrachtgever"
-                        titelEnkelvoud={titelEnkelvoud}
+                        titleSingular={titleSingular}
                     />
                 ) : (
                     <LoaderSelect />
@@ -69,7 +69,7 @@ const FormFieldSelectUserGroup = ({
                         filter={'Behandelend Ambtenaar'}
                         filterOtherProperty={crudObject['Eigenaar_2']}
                         pValue="Eerste eigenaar"
-                        titelEnkelvoud={titelEnkelvoud}
+                        titleSingular={titleSingular}
                     />
                 ) : (
                     <LoaderSelect />
@@ -86,7 +86,7 @@ const FormFieldSelectUserGroup = ({
                         filter={'Behandelend Ambtenaar'}
                         filterOtherProperty={crudObject['Eigenaar_1']}
                         pValue="Tweede eigenaar"
-                        titelEnkelvoud={titelEnkelvoud}
+                        titleSingular={titleSingular}
                     />
                 ) : (
                     <LoaderSelect />
@@ -106,7 +106,7 @@ const FormFieldSelectUserGroup = ({
                         dataObjectProperty="Portefeuillehouder_1"
                         marginRight={true}
                         pValue="Eerste portefeuillehouder"
-                        titelEnkelvoud={titelEnkelvoud}
+                        titleSingular={titleSingular}
                     />
                 ) : (
                     <LoaderSelect />
@@ -123,7 +123,7 @@ const FormFieldSelectUserGroup = ({
                         fieldValue={crudObject['Portefeuillehouder_2']}
                         dataObjectProperty="Portefeuillehouder_2"
                         pValue="Tweede portefeuillehouder"
-                        titelEnkelvoud={titelEnkelvoud}
+                        titleSingular={titleSingular}
                     />
                 ) : (
                     <LoaderSelect />

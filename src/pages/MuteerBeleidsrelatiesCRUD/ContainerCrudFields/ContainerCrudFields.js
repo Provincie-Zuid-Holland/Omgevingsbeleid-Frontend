@@ -13,7 +13,7 @@ import FormFieldSelectBeleidsbeslissing from './../../../components/FormFieldSel
 class ContainerCrudFields extends React.Component {
     render() {
         const crudObject = this.context.crudObject
-        const titelEnkelvoud = this.context.titelEnkelvoud
+        const titleSingular = this.context.titleSingular
 
         return (
             <React.Fragment>
@@ -47,7 +47,7 @@ class ContainerCrudFields extends React.Component {
                                                 }
                                                 fieldLabel="Naar beleidskeuze"
                                                 dataObjectProperty="Naar_Beleidsbeslissing"
-                                                titelEnkelvoud={titelEnkelvoud}
+                                                titleSingular={titleSingular}
                                             />
                                         ) : null}
 
@@ -63,7 +63,7 @@ class ContainerCrudFields extends React.Component {
                                                 fieldLabel="Motivering"
                                                 dataObjectProperty="Omschrijving"
                                                 pValue="Geef een korte motivering van deze beleidsrelatie"
-                                                titelEnkelvoud={titelEnkelvoud}
+                                                titleSingular={titleSingular}
                                             />
                                         ) : null}
 
@@ -85,8 +85,8 @@ class ContainerCrudFields extends React.Component {
                                                     fieldLabel="Inwerkingtreding van de relatie"
                                                     dataObjectProperty="Begin_Geldigheid"
                                                     pValue="Indien bekend, kan hier de begin datum van de relatie worden ingevuld"
-                                                    titelEnkelvoud={
-                                                        titelEnkelvoud
+                                                    titleSingular={
+                                                        titleSingular
                                                     }
                                                 />
                                             ) : null}
@@ -111,8 +111,8 @@ class ContainerCrudFields extends React.Component {
                                                     fieldLabel="Uitwerkingtreding van de relatie"
                                                     dataObjectProperty="Eind_Geldigheid"
                                                     pValue="Indien bekend, kan hier de eind datum van de relatie worden ingevuld"
-                                                    titelEnkelvoud={
-                                                        titelEnkelvoud
+                                                    titleSingular={
+                                                        titleSingular
                                                     }
                                                 />
                                             ) : null}

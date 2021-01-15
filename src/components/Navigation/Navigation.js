@@ -166,7 +166,10 @@ function Navigation({ loggedIn, setLoginState }) {
                                 setIsOpen(false)
                             }}
                         >
-                            <FontAwesomeIcon className="mr-3" icon={faEye} />
+                            <FontAwesomeIcon
+                                className="mr-3 text-lg"
+                                icon={faEye}
+                            />
                             Raadplegen
                         </Link>
                     ) : null}
@@ -178,7 +181,10 @@ function Navigation({ loggedIn, setLoginState }) {
                                 setIsOpen(false)
                             }}
                         >
-                            <FontAwesomeIcon className="mr-3" icon={faEye} />
+                            <FontAwesomeIcon
+                                className="mr-3 text-lg"
+                                icon={faEye}
+                            />
                             Bewerken
                         </Link>
                     ) : null}
@@ -191,7 +197,7 @@ function Navigation({ loggedIn, setLoginState }) {
                             }}
                         >
                             <FontAwesomeIcon
-                                className="mx-1"
+                                className="mx-1 text-lg"
                                 icon={faSignInAlt}
                             />
                         </Link>
@@ -229,7 +235,7 @@ function BannerEnvironment({
     userIsInMuteerEnvironment,
     hideBannerLocalStorage,
 }) {
-    const getEnivronmentText = () => {
+    const getEnvironmentText = () => {
         switch (environment) {
             case 'dev':
                 return 'Ontwikkelomgeving'
@@ -239,6 +245,8 @@ function BannerEnvironment({
                 return 'Acceptatieomgeving'
             case 'prod':
                 return 'Live-omgeving'
+            default:
+                return 'No environment set'
         }
     }
 
@@ -251,6 +259,17 @@ function BannerEnvironment({
         if (!hideBannerLocalStorage()) {
             addMarginTop()
         }
+    }, [hideBannerLocalStorage])
+
+    const removeBanner = React.useCallback(() => {
+        const mainContainer = document.getElementById('main-container')
+        mainContainer.style.removeProperty('margin-top')
+        setShowBanner(false)
+    }, [])
+
+    const addBanner = React.useCallback(() => {
+        addMarginTop()
+        setShowBanner(true)
     }, [])
 
     React.useEffect(() => {
@@ -259,18 +278,12 @@ function BannerEnvironment({
         } else {
             removeBanner()
         }
-    }, [userIsInMuteerEnvironment])
-
-    const removeBanner = () => {
-        const mainContainer = document.getElementById('main-container')
-        mainContainer.style.removeProperty('margin-top')
-        setShowBanner(false)
-    }
-
-    const addBanner = () => {
-        addMarginTop()
-        setShowBanner(true)
-    }
+    }, [
+        userIsInMuteerEnvironment,
+        addBanner,
+        removeBanner,
+        hideBannerLocalStorage,
+    ])
 
     const setHideBannerLocalStorage = () => {
         localStorage.setItem('__OB_hide_banner__', new Date())
@@ -291,6 +304,8 @@ function BannerEnvironment({
                 return 'banner-acc'
             case 'prod':
                 return 'banner-prod'
+            default:
+                return 'banner-dev'
         }
     }
 
@@ -302,7 +317,7 @@ function BannerEnvironment({
                 <div className="pr-16 sm:text-center sm:px-16">
                     <p className="font-medium">
                         <span className="text-sm font-semibold leading-4 tracking-wider uppercase rounded hide-banner">
-                            {getEnivronmentText()}
+                            {getEnvironmentText()}
                         </span>
                     </p>
                 </div>
