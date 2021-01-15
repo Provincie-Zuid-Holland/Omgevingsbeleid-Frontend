@@ -41,12 +41,12 @@ function FormFieldContainerMaatregelen({
             </ContainerFormSection>
 
             <ContainerFormSection
-                titel="Toelichting maatregel"
+                titel="Omschrijving maatregel"
                 beschrijving="Een maatregel beschrijft de wijze waarop uitvoering wordt gegeven aan beleid."
             >
                 <FormFieldInputContainer>
                     <FormFieldTitelEnBeschrijving
-                        fieldLabel={'Toelichting'}
+                        fieldLabel={'Omschrijving'}
                         pValue={
                             "Formuleer in één of enkele zinnen een concrete doelstelling op tactisch niveau. Beschrijf hier het 'wat' en vanuit welke rol."
                         }
@@ -57,7 +57,7 @@ function FormFieldContainerMaatregelen({
                         handleChange={handleChange}
                         fieldValue={crudObject['Toelichting']}
                         dataObjectProperty="Toelichting"
-                        placeholder="Schrijf hier uw toelichting..."
+                        placeholder="Schrijf hier uw omschrijving..."
                     />
                 </FormFieldInputContainer>
             </ContainerFormSection>
