@@ -23,8 +23,6 @@ function MuteerBeleidsrelaties() {
     const { UUID } = useParams()
 
     const updateBeleidsrelaties = (beleidsrelatieUUID, status) => {
-        console.log(beleidsrelatieUUID)
-
         const index = beleidsrelaties.findIndex(
             (x) => x.UUID === beleidsrelatieUUID
         )
@@ -42,7 +40,9 @@ function MuteerBeleidsrelaties() {
     }, [UUID])
 
     React.useEffect(() => {
-        const UserUUID = user.UUID
+        const UserUUID = user ? user.UUID : null
+
+        if (!UserUUID) return
 
         Promise.all([
             axios.get(

@@ -301,7 +301,11 @@ class MuteerVerordeningenStructuurCRUD extends Component {
                             <ButtonBackToPage
                                 terugNaar={`verordening`}
                                 color="text-white"
-                                url={`/muteer/verordeningen/${this.props.match.params.lineageID}`}
+                                url={
+                                    this.props.match.params.lineageID
+                                        ? `/muteer/verordeningen/${this.props.match.params.lineageID}`
+                                        : `/muteer/verordeningen`
+                                }
                             />
                             <h1 className="text-white heading-serif-4xl">
                                 {dataLoaded
