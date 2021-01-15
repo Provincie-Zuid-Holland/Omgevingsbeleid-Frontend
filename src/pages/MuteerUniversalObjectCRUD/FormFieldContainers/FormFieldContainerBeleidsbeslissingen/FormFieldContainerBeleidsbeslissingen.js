@@ -33,6 +33,7 @@ function FormFieldContainerBeleidsbeslissingen({
 
     const userIsAllowed =
         userRol === 'Beheerder' ||
+        userRol === 'Superuser' ||
         userRol === 'Functioneel beheerder' ||
         userUUID === crudObject.Eigenaar_1 ||
         userUUID === crudObject.Eigenaar_2
@@ -123,7 +124,7 @@ function FormFieldContainerBeleidsbeslissingen({
                     titleSingular={titleSingular}
                 />
                 <FormFieldRelatieKoppeling
-                    disabled={isVigerend && !userIsAllowed}
+                    disabled={isVigerend}
                     placeholderTekst="Er is nog geen Nationaal belang of 'Wettelijke taken & bevoegdheden' gekoppeld."
                     buttonTekst="Koppel belang of taak"
                     titelMainObject={crudObject['Titel']}
