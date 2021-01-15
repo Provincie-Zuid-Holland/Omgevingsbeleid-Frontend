@@ -11,6 +11,7 @@ class FormFieldWeblink extends React.Component {
                         fieldLabel={this.props.fieldLabel}
                         pValue={this.props.pValue}
                         titleSingular={this.props.titleSingular}
+                        disabled={this.props.disabled}
                     />
                     <input
                         type="text"

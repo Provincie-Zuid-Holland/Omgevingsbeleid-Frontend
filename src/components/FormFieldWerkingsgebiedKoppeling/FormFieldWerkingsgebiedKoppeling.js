@@ -91,6 +91,7 @@ const FormFieldWerkingsgebiedKoppeling = ({
                 fieldLabel={fieldLabel}
                 pValue={pValue}
                 titleSingular={titleSingular}
+                disabled={disabled}
             />
             <div
                 className={`flex flex-wrap mb-6 -mx-3 ${

@@ -105,8 +105,8 @@ function MainSideBarHeading(props) {
 
 function SidebarMain() {
     const { user } = React.useContext(UserContext)
-    const gebruikersNaam = user.Gebruikersnaam
-    const gebruikersRol = user.Rol
+    const gebruikersNaam = user ? user.Gebruikersnaam : null
+    const gebruikersRol = user ? user.Rol : null
 
     return (
         <div className="inline-block w-1/4 rounded">

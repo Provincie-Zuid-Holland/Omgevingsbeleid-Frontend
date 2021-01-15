@@ -167,11 +167,12 @@ const FormFieldRelatieKoppeling = ({
             <FormFieldTitelEnBeschrijving
                 fieldLabel={fieldLabel}
                 pValue={pValue}
+                disabled={disabled}
             />
             <div
                 className={`p-5 bg-white rounded shadow ${
                     disabled
-                        ? 'opacity-75 pointer-events-none cursor-not-allowed'
+                        ? 'opacity-75 cursor-not-allowed pointer-events-none'
                         : ''
                 }`}
                 id={`form-field-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}

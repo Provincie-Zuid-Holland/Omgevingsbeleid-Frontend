@@ -10,6 +10,10 @@ const FormFieldTextInput = ({
     fieldLabel,
     disabled,
 }) => {
+    if (disabled) {
+        pValue = pValue + ' (Kan niet zonder besluitvorming worden gewijzigd)'
+    }
+
     return (
         <div className="w-full mb-6">
             <FormFieldTitelEnBeschrijving

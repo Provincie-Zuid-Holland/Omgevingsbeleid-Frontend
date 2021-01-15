@@ -62,6 +62,7 @@ function BeginGeldigheid({
     return (
         <div className="w-full px-3 mb-6">
             <FormFieldTitelEnBeschrijving
+                disabled={disabled}
                 dataObjectProperty={dataObjectProperty}
                 fieldLabel={fieldLabel}
                 pValue={pValue}
@@ -113,6 +114,7 @@ function EindGeldigheid({
                         fieldLabel={fieldLabel}
                         pValue={pValue}
                         titleSingular={titleSingular}
+                        disabled={disabled}
                     />
                     <input
                         disabled={disabled}
