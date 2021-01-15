@@ -272,6 +272,8 @@ function GenerateBackToButton({ overzichtSlug, pageType, hash, dataObject }) {
 
 // Generate list for revisies
 function RevisieList({ dataObject, overzichtSlug, hash }) {
+    dataObject.shift() // remove First object, as we already got that in the parent element view
+
     return (
         <div>
             <div className="flex items-center justify-end w-24 h-6 pt-5 mr-2 border-r-2 border-gray-300 " />
@@ -290,7 +292,10 @@ function RevisieList({ dataObject, overzichtSlug, hash }) {
                                     )}
                                     className="relative flex items-end h-6 mr-2 hover:underline"
                                 >
-                                    <span className="w-24 pr-4 pr-5 text-xs text-right text-gray-600">
+                                    <span
+                                        className="w-24 pr-4 pr-5 text-xs text-right text-gray-600"
+                                        title="Laatst gewijzigd op"
+                                    >
                                         {format(
                                             new Date(item.Modified_Date),
                                             'd MMM yyyy'
