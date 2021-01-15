@@ -1,4 +1,5 @@
 import React from 'react'
+import { Helmet } from 'react-helmet'
 
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -11,6 +12,17 @@ import ButtonBackToPage from './../../components/ButtonBackToPage'
 const Planning = () => {
     return (
         <React.Fragment>
+            <Helmet>
+                <title>Planning - Omgevingsbeleid Provincie Zuid-Holland</title>
+                <meta
+                    property="og:title"
+                    content="Planning - Omgevingsbeleid Provincie Zuid-Holland"
+                />
+                <meta
+                    property="og:description"
+                    content="De website over het digitaal omgevingsbeleid van de Provincie Zuid-Holland is continu in ontwikkeling, op deze pagina delen we graag waar we mee bezig zijn en wat we hebben afgerond."
+                />
+            </Helmet>
             <div className="container mx-auto sm:px-6 lg:px-8">
                 <ButtonBackToPage terugNaar="startpagina" url="/" />
             </div>
@@ -47,17 +59,12 @@ const Planning = () => {
                             completed={false}
                         />
                         <ListItem
-                            title="Optimaliseren"
-                            content="Ons team blijft continue bezig om het systeem te optimaliseren, zowel technisch als zichtbare punten voor de gebruikers."
-                            completed={false}
-                        />
-                        <ListItem
                             title="Revisieoverzicht"
                             content="Het vergelijken van twee verschillende versies."
                             completed={false}
                         />
                         <ListItem
-                            title="Huisstijl provincie"
+                            title="Huisstijl provincie (planning 2021 Q1)"
                             content="In samenwerking met communicatie zorgen we dat het systeem blijft aansluiten op de huisstijl van de provincie. Zo blijft het herkenbaar voor iedereen, maar zijn we wel vrij om e.e.a. aan te passen."
                             completed={false}
                         />
@@ -74,7 +81,7 @@ const ListItem = ({ title, content, completed }) => {
             <div className="w-8">
                 {completed ? (
                     <FontAwesomeIcon
-                        className="relative mt-1 text-lg text-green-600"
+                        className="relative mt-2 text-lg text-green-600"
                         icon={faCheck}
                     />
                 ) : (

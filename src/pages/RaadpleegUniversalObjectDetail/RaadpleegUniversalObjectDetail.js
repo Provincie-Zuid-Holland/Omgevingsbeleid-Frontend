@@ -147,6 +147,14 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
 
     const [searchQuery, fromPage] = getSearchQuery()
 
+    const getTitle = () => {
+        if (!dataLoaded) return ''
+
+        return `${
+            dataObject ? dataObject.Titel : null
+        } (${titleSingular}) - Omgevingsbeleid Provincie Zuid-Holland`
+    }
+
     return (
         <React.Fragment>
             <div
@@ -154,6 +162,7 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
                 id="raadpleeg-detail-container-main"
             >
                 <Helmet>
+                    <title>{getTitle()}</title>
                     <style type="text/css">{`
                     @media print {
                         #raadpleeg-detail-sidebar,
@@ -247,7 +256,6 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
                                     crudObject={dataObject}
                                 />
                             ) : null}
-                            {/*  */}
                             {titleSingular === 'Ambitie' ? (
                                 <ContainerViewFieldsAmbitie
                                     crudObject={dataObject}
