@@ -74,6 +74,8 @@ const MijnBeleid = ({ hideAddNew }) => {
         }
 
         getAndSetBeleidVanGebruiker()
+
+        return () => null
     }, [user])
 
     return (

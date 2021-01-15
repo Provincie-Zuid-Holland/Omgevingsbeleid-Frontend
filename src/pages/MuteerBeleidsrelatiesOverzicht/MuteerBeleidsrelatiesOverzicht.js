@@ -150,8 +150,6 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                 ),
             },
             () => {
-                console.log('Init1')
-                console.log(this.state.beleidsbeslissingenObject)
                 if (this.props.currentView !== 'detail') {
                     this.setState({
                         currentBeleidsbeslissing: this.state.beleidsbeslissingenObject.find(
