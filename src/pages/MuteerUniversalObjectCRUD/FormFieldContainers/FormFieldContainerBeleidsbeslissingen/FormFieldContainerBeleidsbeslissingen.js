@@ -36,7 +36,7 @@ function FormFieldContainerBeleidsbeslissingen({
         userRol === 'Superuser' ||
         userRol === 'Functioneel beheerder' ||
         userRol === 'Behandelend Ambtenaar' ||
-        userRol === 'Technisch Beheerder' ||
+        userRol === 'Technisch beheerder' ||
         userUUID === crudObject.Eigenaar_1 ||
         userUUID === crudObject.Eigenaar_2
 
