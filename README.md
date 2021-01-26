@@ -145,3 +145,20 @@ Static testing is done via ES Lint. Unit testing is done with Jest and React Tes
 The cypress test right now consists of testing the dimensions, with test to create, read and update the dimensions. These integration test live inside the /cypress folder. Inside we have the /integration folder, which contains the actual tests.
 
 The API calls to the server are all stubbed. They live inside the /fixtures folder. The fixture files are created automatically by setting the `"RECORD"` environmental variable to `true` and then running the test with `npm run cy:run`. After the fixtures have been created you `"RECORD"` back to `false` and the tests will be stubbed.
+
+To set the environmental variable for Cypress you need a `cypress.json` file in the root of your directory. To be able to run authenticated tests you will also need to provide user credentials:
+
+```JSON
+{
+    "video": false,
+    "baseUrl": "http://localhost:3000",
+    "env": {
+        "env": "dev",
+        "RECORD": true,
+        "API_VERSION": "api-version",
+        "ACCESS_TOKEN": "local-storage-key",
+        "USERNAME": "username@domain.com",
+        "PASSWORD": "password"
+    }
+}
+```

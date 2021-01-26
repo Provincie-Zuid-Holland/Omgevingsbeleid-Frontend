@@ -13,6 +13,8 @@ function RelatiesKoppelingenTekstueel({
         switch (property) {
             case 'Doelen':
                 return 'Beleidsprestaties'
+            case 'Opgaven':
+                return 'Beleidsdoelen'
             default:
                 return property
         }
@@ -97,7 +99,7 @@ const ListItem = ({
             Belangen: 'belangen',
             Maatregelen: 'maatregelen',
             Themas: 'themas',
-            Opgaven: 'opgaven',
+            Opgaven: 'Beleidsdoelen',
             Verordening: 'verordeningen',
         }
 

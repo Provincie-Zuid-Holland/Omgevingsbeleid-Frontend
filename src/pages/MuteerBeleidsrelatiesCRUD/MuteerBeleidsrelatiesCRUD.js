@@ -7,6 +7,8 @@ import { Helmet } from 'react-helmet'
 import ContainerCrudFields from './ContainerCrudFields'
 import ButtonBackToPage from './../../components/ButtonBackToPage'
 
+import eindDateIsBeforeBeginDate from './../../utils/eindDateIsBeforeBeginDate'
+
 // Import Axios instance to connect with the API
 import axios from './../../API/axios'
 
@@ -107,22 +109,34 @@ class MuteerBeleidsrelatiesCRUD extends Component {
 
         let crudObject = this.state.crudObject
 
-        // Zet de Date String om naar een Date Object en kijkt of deze geldig is
-        crudObject.Begin_Geldigheid = new Date(crudObject.Begin_Geldigheid)
-        if (this.validateDate(crudObject.Begin_Geldigheid)) {
-            // Datum is geldig
-        } else {
+        if (
+            crudObject.Naar_Beleidsbeslissing === '' ||
+            !crudObject.Naar_Beleidsbeslissing
+        ) {
+            toast('Selecteer een beleidskeuze')
+            return
+        }
+        if (!this.validateDate(new Date(crudObject.Begin_Geldigheid))) {
             toast('Vul een inwerkingtreding datum in')
             return
         }
 
-        crudObject.Eind_Geldigheid = new Date(crudObject.Eind_Geldigheid)
-        if (this.validateDate(crudObject.Eind_Geldigheid)) {
-            // Datum is geldig
-        } else {
+        if (!this.validateDate(new Date(crudObject.Eind_Geldigheid))) {
             toast('Vul een uitwerkingtreding datum in')
             return
         }
+
+        if (
+            eindDateIsBeforeBeginDate(this.props.dataModel.TITLE_SINGULAR, {
+                Begin_Geldigheid: new Date(crudObject.Begin_Geldigheid),
+                Eind_Geldigheid: new Date(crudObject.Eind_Geldigheid),
+            })
+        ) {
+            return
+        }
+
+        crudObject.Begin_Geldigheid = new Date(crudObject.Begin_Geldigheid)
+        crudObject.Eind_Geldigheid = new Date(crudObject.Eind_Geldigheid)
 
         axios
             .post(`/beleidsrelaties`, JSON.stringify(crudObject))
