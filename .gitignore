@@ -5,7 +5,7 @@
 
 # testing
 /coverage
-/cypress/fixtures/
+cypress/fixtures
 cypress.json
 
 # production
