@@ -164,7 +164,7 @@ const RelatiesKoppelingenVisualisatie = ({
                         Belangen: 'belangen',
                         Maatregelen: 'maatregelen',
                         Themas: 'themas',
-                        Opgaven: 'opgaven',
+                        Opgaven: 'beleidsdoelen',
                         Verordening: 'verordeningen',
                     }
 
@@ -217,6 +217,8 @@ const RelatiesKoppelingenVisualisatie = ({
         switch (property) {
             case 'Doelen':
                 return 'Beleidsprestaties'
+            case 'Opgaven':
+                return 'Beleidsdoelen'
             default:
                 return property
         }
