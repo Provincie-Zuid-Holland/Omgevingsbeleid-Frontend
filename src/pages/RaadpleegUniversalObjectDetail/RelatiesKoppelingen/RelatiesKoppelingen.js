@@ -8,9 +8,9 @@ const connectionProperties = [
     'Ambities',
     'Belangen',
     'BeleidsRegels',
-    'Doelen',
+    'Beleidsprestaties',
     'Maatregelen',
-    'Opgaven',
+    'Beleidsdoelen',
     'Themas',
     'Verordening',
 ]
@@ -29,7 +29,7 @@ const connectionPropertiesColors = {
         hex: '#718096',
         class: 'gray-600',
     },
-    Doelen: {
+    Beleidsprestaties: {
         hex: '#ECC94B',
         class: 'yellow-500',
     },
@@ -37,7 +37,7 @@ const connectionPropertiesColors = {
         hex: '#48BB78',
         class: 'green-500',
     },
-    Opgaven: {
+    Beleidsdoelen: {
         hex: '#3182CE',
         class: 'blue-600',
     },
@@ -67,10 +67,10 @@ const RelatiesKoppelingen = ({ beleidskeuze }) => {
 
     React.useEffect(() => {
         const beleidsrelatiesVan = axios
-            .get(`/beleidsrelaties?Van_Beleidsbeslissing=${beleidskeuze.UUID}`)
+            .get(`/beleidsrelaties?Van_Beleidskeuze=${beleidskeuze.UUID}`)
             .then((res) => res.data)
         const beleidsrelatiesNaar = axios
-            .get(`/beleidsrelaties?Naar_Beleidsbeslissing=${beleidskeuze.UUID}`)
+            .get(`/beleidsrelaties?Naar_Beleidskeuze=${beleidskeuze.UUID}`)
             .then((res) => res.data)
 
         Promise.all([beleidsrelatiesVan, beleidsrelatiesNaar])
@@ -80,10 +80,10 @@ const RelatiesKoppelingen = ({ beleidskeuze }) => {
                 const relatiesNaar = relaties[1]
 
                 const relatiesVanUUIDS = relatiesVan.map(
-                    (relatie) => relatie.Naar_Beleidsbeslissing
+                    (relatie) => relatie.Naar_Beleidskeuze
                 )
                 const relatiesNaarUUIDS = relatiesNaar.map(
-                    (relatie) => relatie.Van_Beleidsbeslissing
+                    (relatie) => relatie.Van_Beleidskeuze
                 )
                 const relatieUUIDS = [...relatiesVanUUIDS, ...relatiesNaarUUIDS]
 
@@ -93,7 +93,7 @@ const RelatiesKoppelingen = ({ beleidskeuze }) => {
                 // Get data from API and set in state
                 const getAllRelatieBeleidskeuzes = relatieUUIDS.map((UUID) =>
                     axios
-                        .get(`/beleidsbeslissingen/version/${UUID}`)
+                        .get(`/version/beleidskeuzes/${UUID}`)
                         .then((res) => res.data)
                 )
                 Promise.all(getAllRelatieBeleidskeuzes).then((relaties) => {

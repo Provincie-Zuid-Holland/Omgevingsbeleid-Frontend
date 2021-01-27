@@ -2,7 +2,7 @@ import { currentDate, futureDate, currentDateFormatted } from './testValues'
 
 export const TITLE_SINGULAR = 'Beleidsdoel'
 export const TITLE_PLURAL = 'Beleidsdoelen'
-export const API_ENDPOINT = 'opgaven'
+export const API_ENDPOINT = 'beleidsdoelen'
 export const SLUG_OVERVIEW = 'beleidsdoelen'
 export const SLUG_CREATE_NEW = 'nieuw-beleidsdoel'
 

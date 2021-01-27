@@ -2,7 +2,8 @@ import { currentDate, futureDate, currentDateFormatted } from './testValues'
 
 export const TITLE_SINGULAR = 'Beleidskeuze'
 export const TITLE_PLURAL = 'Beleidskeuzes'
-export const API_ENDPOINT = 'beleidsbeslissingen'
+export const API_ENDPOINT = 'beleidskeuzes'
+export const API_ENDPOINT_VIGEREND = 'valid/beleidskeuzes'
 export const SLUG_OVERVIEW = 'beleidskeuzes'
 export const SLUG_CREATE_NEW = 'nieuwe-beleidskeuze'
 
@@ -154,7 +155,7 @@ export const CRUD_PROPERTIES = {
         required: [],
         requiredMessage: '',
     },
-    Doelen: {
+    Beleidsprestaties: {
         initValue: [],
         required: [],
         requiredMessage: '',
@@ -164,7 +165,7 @@ export const CRUD_PROPERTIES = {
         required: [],
         requiredMessage: '',
     },
-    Opgaven: {
+    Beleidsdoelen: {
         initValue: [],
         required: [],
         requiredMessage: '',

@@ -31,7 +31,7 @@ function FormFieldContainerBeleidsregels({
             </ContainerFormSection>
 
             <ContainerFormSection
-                titel="Omschrijving opgave"
+                titel="Omschrijving beleidsregel"
                 beschrijving="Een beleidsregel geeft weer op welke wijze de provincie invulling geeft aan een medebewindstaak. "
             >
                 <FormFieldTextArea

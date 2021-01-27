@@ -4,7 +4,7 @@ import { toast } from 'react-toastify'
 
 import PopUpAnimatedContainer from './../PopUpAnimatedContainer'
 
-import VOLGENDE_STATUS from './../../constants/beleidsbeslissingStatusAanpassen'
+import VOLGENDE_STATUS from './../../constants/beleidskeuzeStatusAanpassen'
 
 function PopUpStatusAanpassen({
     dataObject,

@@ -7,10 +7,10 @@ let getAccessToken = () =>
     localStorage.getItem(process.env.REACT_APP_KEY_API_ACCESS_TOKEN)
 
 const apiURLS = {
-    dev: `https://api-obzh-dev.azurewebsites.net/${api_version}`,
-    test: `https://api-obzh-test.azurewebsites.net/${api_version}`,
-    acc: `https://api-obzh-acc.azurewebsites.net/${api_version}`,
-    prod: `https://api-obzh.azurewebsites.net/${api_version}`,
+    dev: `https://api-omgevingsbeleid-dev-v2.azurewebsites.net/${api_version}`,
+    test: `https://api-omgevingsbeleid-test-v2.azurewebsites.net/${api_version}`,
+    acc: `https://api-omgevingsbeleid-acc-v2.azurewebsites.net/${api_version}`,
+    prod: `https://api-omgevingsbeleid-v2.azurewebsites.net/${api_version}`,
 }
 
 const instance = axios.create({
@@ -21,7 +21,7 @@ const instance = axios.create({
 })
 
 instance.interceptors.request.use(function (config) {
-    config.headers.Authorization = `Token ${getAccessToken()}`
+    config.headers.Authorization = `Bearer ${getAccessToken()}`
     return config
 })
 

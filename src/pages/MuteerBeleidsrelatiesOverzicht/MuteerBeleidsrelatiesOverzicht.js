@@ -26,8 +26,8 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
         super(props)
         this.state = {
             dataLoaded: false,
-            beleidsbeslissingenObject: null,
-            currentBeleidsbeslissing: {},
+            beleidskeuzesObject: null,
+            currentBeleidskeuze: {},
         }
         this.initializeState = this.initializeState.bind(this)
         this.updateBeleidsrelaties = this.updateBeleidsrelaties.bind(this)
@@ -83,8 +83,8 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
     countBevestigdeRelaties(UUID) {
         const beleidsrelaties = this.props.beleidsrelaties.filter(
             (beleidsrelatie) =>
-                (beleidsrelatie.Van_Beleidsbeslissing === UUID ||
-                    beleidsrelatie.Naar_Beleidsbeslissing === UUID) &&
+                (beleidsrelatie.Van_Beleidskeuze === UUID ||
+                    beleidsrelatie.Naar_Beleidskeuze === UUID) &&
                 beleidsrelatie.Status === 'Akkoord'
         )
         return beleidsrelaties.length
@@ -94,7 +94,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
     countOnbevestigdeRelaties(UUID) {
         const beleidsrelaties = this.props.beleidsrelaties.filter(
             (beleidsrelatie) =>
-                beleidsrelatie.Van_Beleidsbeslissing === UUID &&
+                beleidsrelatie.Van_Beleidskeuze === UUID &&
                 beleidsrelatie.Status === 'Open'
         )
         return beleidsrelaties.length
@@ -104,7 +104,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
     countVerzoekRelaties(UUID) {
         const beleidsrelaties = this.props.beleidsrelaties.filter(
             (beleidsrelatie) =>
-                beleidsrelatie.Naar_Beleidsbeslissing === UUID &&
+                beleidsrelatie.Naar_Beleidskeuze === UUID &&
                 beleidsrelatie.Status === 'Open'
         )
         return beleidsrelaties.length
@@ -114,17 +114,17 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
     countAfgewezenRelaties(UUID) {
         const beleidsrelaties = this.props.beleidsrelaties.filter(
             (beleidsrelatie) =>
-                (beleidsrelatie.Naar_Beleidsbeslissing === UUID &&
+                (beleidsrelatie.Naar_Beleidskeuze === UUID &&
                     beleidsrelatie.Status === 'NietAkkoord') ||
-                (beleidsrelatie.Van_Beleidsbeslissing === UUID &&
+                (beleidsrelatie.Van_Beleidskeuze === UUID &&
                     beleidsrelatie.Status === 'NietAkkoord')
         )
         return beleidsrelaties.length
     }
 
-    // Kijk voor elke beleidsbeslissing hoeveel en wat voor relaties deze heeft
-    initializeBeleidsbeslissingen(beleidsbeslissingen) {
-        return beleidsbeslissingen.map((item) => {
+    // Kijk voor elke beleidskeuze hoeveel en wat voor relaties deze heeft
+    initializeBeleidskeuzes(beleidskeuzes) {
+        return beleidskeuzes.map((item) => {
             return {
                 Titel: item.Titel,
                 Status: item.Status,
@@ -140,19 +140,19 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
     }
 
     // Na het ophalen van de data in de API, Initialize de state
-    // Map over alle beleidsbeslissingen en return een array met voor elke beleidsbeslissing een object met:
+    // Map over alle beleidskeuzes en return een array met voor elke beleidskeuze een object met:
     // Titel, Status, het aantal Bevestigde, het aantal Onbevestigde, UUID
     initializeState() {
         this.setState(
             {
-                beleidsbeslissingenObject: this.initializeBeleidsbeslissingen(
-                    this.props.beleidsbeslissingen
+                beleidskeuzesObject: this.initializeBeleidskeuzes(
+                    this.props.beleidskeuzes
                 ),
             },
             () => {
                 if (this.props.currentView !== 'detail') {
                     this.setState({
-                        currentBeleidsbeslissing: this.state.beleidsbeslissingenObject.find(
+                        currentBeleidskeuze: this.state.beleidskeuzesObject.find(
                             (e) => e.UUID === this.props.match.params.UUID
                         ),
                         dataLoaded: true,
@@ -166,30 +166,30 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
         )
     }
 
-    // Maak de array waar de relatie objecten van de desbetreffende beleidsbeslissing in zitten
-    // Voor elke relatie halen we ook de beleidsbeslissing op, zodat we in het detail scherm info zoals de titel kunnen tonen
+    // Maak de array waar de relatie objecten van de desbetreffende beleidskeuze in zitten
+    // Voor elke relatie halen we ook de beleidskeuze op, zodat we in het detail scherm info zoals de titel kunnen tonen
     generateRelatieArray(UUID) {
-        // We filteren op basis van de gekregen beleidsbeslissing UUID parameter
-        // We spreken van een beleidsrelatie als de UUID overeenkomt met Van_Beleidsbeslissing of Naar_Beleidsbeslissing
+        // We filteren op basis van de gekregen beleidskeuze UUID parameter
+        // We spreken van een beleidsrelatie als de UUID overeenkomt met Van_Beleidskeuze of Naar_Beleidskeuze
         // EN als de beleidsrelatie een Status heeft van 'Akkoord' of 'Open'
         let beleidsrelaties = this.props.beleidsrelaties.filter(
             (beleidsrelatie) =>
-                (beleidsrelatie.Van_Beleidsbeslissing === UUID ||
-                    beleidsrelatie.Naar_Beleidsbeslissing === UUID) &&
+                (beleidsrelatie.Van_Beleidskeuze === UUID ||
+                    beleidsrelatie.Naar_Beleidskeuze === UUID) &&
                 beleidsrelatie.Status === 'Akkoord'
         )
 
-        // GET voor elke beleidsrelatie het gekoppelde beleidsbeslissing object
-        // Als het relatie.Van_Beleidsbeslissing !== UUID van de beleidsbeslissing GET relatie.Van_Beleidsbeslissing
-        // Als het relatie.Van_Beleidsbeslissing === UUID van de beleidsbeslissing GET relatie.Naar_Beleidsbeslissing
+        // GET voor elke beleidsrelatie het gekoppelde beleidskeuze object
+        // Als het relatie.Van_Beleidskeuze !== UUID van de beleidskeuze GET relatie.Van_Beleidskeuze
+        // Als het relatie.Van_Beleidskeuze === UUID van de beleidskeuze GET relatie.Naar_Beleidskeuze
 
         const axiosGETArray = beleidsrelaties.map((relatie) => {
             return axios
                 .get(
-                    `/beleidsbeslissingen/version/${
-                        relatie.Van_Beleidsbeslissing !== UUID
-                            ? relatie.Van_Beleidsbeslissing
-                            : relatie.Naar_Beleidsbeslissing
+                    `version/beleidskeuzes/${
+                        relatie.Van_Beleidskeuze !== UUID
+                            ? relatie.Van_Beleidskeuze
+                            : relatie.Naar_Beleidskeuze
                     }`
                 )
                 .then(
@@ -208,30 +208,30 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
         return beleidsrelaties
     }
 
-    // Maak de array waar de verzoek objecten van de desbetreffende beleidsbeslissing in zitten
-    // Voor elk verzoek halen we ook de beleidsbeslissing op, zodat we in het detail scherm info zoals de titel kunnen tonen
+    // Maak de array waar de verzoek objecten van de desbetreffende beleidskeuze in zitten
+    // Voor elk verzoek halen we ook de beleidskeuze op, zodat we in het detail scherm info zoals de titel kunnen tonen
     generateVerzoekArray(UUID) {
-        // We filteren op basis van de gekregen beleidsbeslissing UUID parameter
-        // We spreken van een verzoek als de UUID overeenkomt met Naar_Beleidsbeslissing
+        // We filteren op basis van de gekregen beleidskeuze UUID parameter
+        // We spreken van een verzoek als de UUID overeenkomt met Naar_Beleidskeuze
         // EN als de beleidsrelatie een Status heeft van 'Open'
         let beleidsrelaties = this.props.beleidsrelaties.filter(
             (beleidsrelatie) =>
-                (beleidsrelatie.Naar_Beleidsbeslissing === UUID &&
+                (beleidsrelatie.Naar_Beleidskeuze === UUID &&
                     beleidsrelatie.Status === 'Open') ||
-                (beleidsrelatie.Van_Beleidsbeslissing === UUID &&
+                (beleidsrelatie.Van_Beleidskeuze === UUID &&
                     beleidsrelatie.Status === 'Open')
         )
 
-        // GET voor elke beleidsrelatie het gekoppelde beleidsbeslissing object
-        // Als het relatie.Van_Beleidsbeslissing !== UUID van de beleidsbeslissing GET relatie.Van_Beleidsbeslissing
-        // Als het relatie.Van_Beleidsbeslissing === UUID van de beleidsbeslissing GET relatie.Naar_Beleidsbeslissing
+        // GET voor elke beleidsrelatie het gekoppelde beleidskeuze object
+        // Als het relatie.Van_Beleidskeuze !== UUID van de beleidskeuze GET relatie.Van_Beleidskeuze
+        // Als het relatie.Van_Beleidskeuze === UUID van de beleidskeuze GET relatie.Naar_Beleidskeuze
         beleidsrelaties.forEach((relatie) => {
             axios
                 .get(
-                    `/beleidsbeslissingen/version/${
-                        relatie.Van_Beleidsbeslissing !== UUID
-                            ? relatie.Van_Beleidsbeslissing
-                            : relatie.Naar_Beleidsbeslissing
+                    `/version/beleidskeuzes/${
+                        relatie.Van_Beleidskeuze !== UUID
+                            ? relatie.Van_Beleidskeuze
+                            : relatie.Naar_Beleidskeuze
                     }
                     }`
                 )
@@ -246,8 +246,8 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
 
     render() {
         // Sort object
-        const beleidsbeslissingenObject = this.state.beleidsbeslissingenObject
-            ? this.state.beleidsbeslissingenObject.sort((a, b) =>
+        const beleidskeuzesObject = this.state.beleidskeuzesObject
+            ? this.state.beleidskeuzesObject.sort((a, b) =>
                   a.Titel > b.Titel ? 1 : -1
               )
             : []
@@ -304,90 +304,85 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                                         </div>
                                     </li>
                                     {this.state.dataLoaded &&
-                                    beleidsbeslissingenObject !== null ? (
-                                        beleidsbeslissingenObject.length !==
-                                        0 ? (
-                                            beleidsbeslissingenObject.map(
-                                                (item) => {
-                                                    return (
-                                                        <li
-                                                            key={item.UUID}
-                                                            className="beleids-item"
+                                    beleidskeuzesObject !== null ? (
+                                        beleidskeuzesObject.length !== 0 ? (
+                                            beleidskeuzesObject.map((item) => {
+                                                return (
+                                                    <li
+                                                        key={item.UUID}
+                                                        className="beleids-item"
+                                                    >
+                                                        <Link
+                                                            className="relative flex items-center py-2 text-sm text-gray-800 border-b border-gray-200 hover:bg-gray-100"
+                                                            to={`/muteer/beleidsrelaties/${item.UUID}`}
+                                                            onClick={() => {
+                                                                this.props.setCurrentView(
+                                                                    'detail'
+                                                                )
+                                                                this.setState({
+                                                                    currentBeleidskeuze: item,
+                                                                })
+                                                            }}
                                                         >
-                                                            <Link
-                                                                className="relative flex items-center py-2 text-sm text-gray-800 border-b border-gray-200 hover:bg-gray-100"
-                                                                to={`/muteer/beleidsrelaties/${item.UUID}`}
-                                                                onClick={() => {
-                                                                    this.props.setCurrentView(
-                                                                        'detail'
-                                                                    )
-                                                                    this.setState(
-                                                                        {
-                                                                            currentBeleidsbeslissing: item,
-                                                                        }
-                                                                    )
-                                                                }}
+                                                            <span className="absolute inline-block w-3 h-3 ml-3 rounded-full mbg-color"></span>
+                                                            <div
+                                                                className="w-6/12 pl-10"
+                                                                data-testid="title"
                                                             >
-                                                                <span className="absolute inline-block w-3 h-3 ml-3 rounded-full mbg-color"></span>
-                                                                <div
-                                                                    className="w-6/12 pl-10"
-                                                                    data-testid="title"
-                                                                >
-                                                                    {item.Titel}
-                                                                </div>
-                                                                <div className="w-2/12">
-                                                                    <span
-                                                                        className={`px-1 py-1 text-xs leading-8 ${
-                                                                            item.Status ===
-                                                                            'Vigerend'
-                                                                                ? 'm-color'
-                                                                                : 'text-secondary'
-                                                                        } 
+                                                                {item.Titel}
+                                                            </div>
+                                                            <div className="w-2/12">
+                                                                <span
+                                                                    className={`px-1 py-1 text-xs leading-8 ${
+                                                                        item.Status ===
+                                                                        'Vigerend'
+                                                                            ? 'm-color'
+                                                                            : 'text-secondary'
+                                                                    } 
                                                                     `}
-                                                                    >
-                                                                        {
-                                                                            item.Status
-                                                                        }
-                                                                    </span>
-                                                                </div>
-                                                                <div className="w-1/12 text-center">
-                                                                    {item.Bevestigd !==
-                                                                    0
-                                                                        ? item.Bevestigd
-                                                                        : '-'}
-                                                                </div>
-                                                                <div className="w-1/12 text-center">
-                                                                    {item.Onbevestigd !==
-                                                                    0
-                                                                        ? item.Onbevestigd
-                                                                        : '-'}
-                                                                </div>
-                                                                <div
-                                                                    className="w-1/12 text-center"
-                                                                    data-testid="incoming"
                                                                 >
-                                                                    {item.Verzoeken !==
-                                                                    0
-                                                                        ? item.Verzoeken
-                                                                        : '-'}
-                                                                </div>
-                                                                <div className="w-1/12 mr-6 text-center ">
-                                                                    {item.Afgewezen !==
-                                                                    0
-                                                                        ? item.Afgewezen
-                                                                        : '-'}
-                                                                </div>
-                                                                <FontAwesomeIcon
-                                                                    className="absolute right-0 h-8 mr-3 text-gray-700"
-                                                                    icon={
-                                                                        faAngleRight
+                                                                    {
+                                                                        item.Status
                                                                     }
-                                                                />
-                                                            </Link>
-                                                        </li>
-                                                    )
-                                                }
-                                            )
+                                                                </span>
+                                                            </div>
+                                                            <div className="w-1/12 text-center">
+                                                                {item.Bevestigd !==
+                                                                0
+                                                                    ? item.Bevestigd
+                                                                    : '-'}
+                                                            </div>
+                                                            <div className="w-1/12 text-center">
+                                                                {item.Onbevestigd !==
+                                                                0
+                                                                    ? item.Onbevestigd
+                                                                    : '-'}
+                                                            </div>
+                                                            <div
+                                                                className="w-1/12 text-center"
+                                                                data-testid="incoming"
+                                                            >
+                                                                {item.Verzoeken !==
+                                                                0
+                                                                    ? item.Verzoeken
+                                                                    : '-'}
+                                                            </div>
+                                                            <div className="w-1/12 mr-6 text-center ">
+                                                                {item.Afgewezen !==
+                                                                0
+                                                                    ? item.Afgewezen
+                                                                    : '-'}
+                                                            </div>
+                                                            <FontAwesomeIcon
+                                                                className="absolute right-0 h-8 mr-3 text-gray-700"
+                                                                icon={
+                                                                    faAngleRight
+                                                                }
+                                                            />
+                                                        </Link>
+                                                    </li>
+                                                )
+                                            })
                                         ) : (
                                             <span className="inline-block mt-2 text-gray-600 font-italic">
                                                 U heeft nog geen beleidskeuzes

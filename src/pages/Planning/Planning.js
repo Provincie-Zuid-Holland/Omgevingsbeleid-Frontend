@@ -50,7 +50,7 @@ const Planning = () => {
                         />
                         <ListItem
                             title="Netwerkvisualisatie"
-                            content="Een visuele presentatie van de koppelingen en relaties van het beleid en de verordening. Zo wordt de samenhang tussen de ambitie’s, opgaven en beleidskeuze’s inzichtelijk."
+                            content="Een visuele presentatie van de koppelingen en relaties van het beleid en de verordening. Zo wordt de samenhang tussen de ambitie’s, beleidsdoelen en beleidskeuze’s inzichtelijk."
                             completed={false}
                         />
                         <ListItem

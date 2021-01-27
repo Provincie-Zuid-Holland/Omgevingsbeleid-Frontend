@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { toast } from 'react-toastify'
 import { withRouter } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
+import cloneDeep from 'lodash.clonedeep'
 
 // Import Components
 import ContainerCrudHeader from './ContainerCrudHeader'
@@ -13,9 +14,9 @@ import ContainerMain from './../../components/ContainerMain'
 import FormFieldContainerAmbities from './FormFieldContainers/FormFieldContainerAmbities'
 import FormFieldContainerBelangen from './FormFieldContainers/FormFieldContainerBelangen'
 import FormFieldContainerBeleidsregels from './FormFieldContainers/FormFieldContainerBeleidsregels'
-import FormFieldContainerBeleidsbeslissingen from './FormFieldContainers/FormFieldContainerBeleidsbeslissingen'
+import FormFieldContainerBeleidskeuzes from './FormFieldContainers/FormFieldContainerBeleidskeuzes'
 import FormFieldContainerMaatregelen from './FormFieldContainers/FormFieldContainerMaatregelen'
-import FormFieldContainerOpgaven from './FormFieldContainers/FormFieldContainerOpgaven'
+import FormFieldContainerBeleidsdoelen from './FormFieldContainers/FormFieldContainerBeleidsdoelen'
 import FormFieldContainerThemas from './FormFieldContainers/FormFieldContainerThemas'
 import FormFieldContainerBeleidsprestaties from './FormFieldContainers/FormFieldContainerBeleidsprestaties'
 
@@ -199,14 +200,15 @@ class MuteerUniversalObjectCRUD extends Component {
         const dimensieConstants = this.props.dimensieConstants
         const apiEndpoint = dimensieConstants.API_ENDPOINT
         const titleSingular = dimensieConstants.TITLE_SINGULAR
+        const titlePlural = dimensieConstants.TITLE_PLURAL
 
-        let crudObject = this.state.crudObject
+        let crudObject = cloneDeep(this.state.crudObject)
 
         // Converteer de 'yyyy-MM-DD' waarden naar Date objecten
         // Of Verwijder de begin_ of eind_geldigheid properties als ze geen waarde hebben
         crudObject = this.formatGeldigheidDatesForAPI(crudObject)
 
-        // Check of de verplichte velden zijn ingevuld als het een beleidsbeslissing is
+        // Check of de verplichte velden zijn ingevuld als het een beleidskeuze is
         // !REFACTOR! - velden check voor andere dimensies (Bespreken STUM)
         const alleVeldenIngevuld = checkRequiredFields(
             crudObject,
@@ -245,6 +247,8 @@ class MuteerUniversalObjectCRUD extends Component {
         }
 
         let nieuwCrudObject = this.state.crudObject
+
+        console.log(nieuwCrudObject)
 
         if (typeof nieuwCrudObject[propertyName] === 'string') {
             nieuwCrudObject[propertyName] = []
@@ -460,7 +464,7 @@ class MuteerUniversalObjectCRUD extends Component {
                                     ) : null}
 
                                     {titleSingular === 'Beleidskeuze' ? (
-                                        <FormFieldContainerBeleidsbeslissingen
+                                        <FormFieldContainerBeleidskeuzes
                                             titleSingular={titleSingular}
                                             crudObject={crudObject}
                                             handleChange={handleChange}
@@ -486,7 +490,7 @@ class MuteerUniversalObjectCRUD extends Component {
                                     ) : null}
 
                                     {titleSingular === 'Beleidsdoel' ? (
-                                        <FormFieldContainerOpgaven
+                                        <FormFieldContainerBeleidsdoelen
                                             titleSingular={titleSingular}
                                             crudObject={crudObject}
                                             handleChange={handleChange}

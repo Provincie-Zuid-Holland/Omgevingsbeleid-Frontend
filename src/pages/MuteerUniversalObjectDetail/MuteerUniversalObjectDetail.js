@@ -55,7 +55,7 @@ class MuteerUniversalObjectDetail extends Component {
             return `${apiEndpoint}/${objectID}`
         } else if (this.state.pageType === 'version') {
             const objectUUID = this.props.match.params.version
-            return `${apiEndpoint}/version/${objectUUID}`
+            return `/version/${apiEndpoint}/${objectUUID}`
         }
     }
 
@@ -174,7 +174,7 @@ class MuteerUniversalObjectDetail extends Component {
                     <div className="flex">
                         <div
                             className={`${
-                                overzichtSlug !== 'beleidsbeslissingen'
+                                overzichtSlug !== 'beleidskeuzes'
                                     ? 'w-full'
                                     : 'w-9/12'
                             } pr-8`}

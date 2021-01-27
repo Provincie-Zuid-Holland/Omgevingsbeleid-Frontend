@@ -42,9 +42,9 @@ function TabRequests({
                                 className="relative flex items-center px-2 text-sm text-gray-800 border-b border-gray-200 hover:bg-gray-100"
                             >
                                 <div className="w-5/12 py-2">
-                                    {verzoek.beleidsbeslissing &&
-                                    verzoek.beleidsbeslissing.Titel
-                                        ? verzoek.beleidsbeslissing.Titel
+                                    {verzoek.beleidskeuze &&
+                                    verzoek.beleidskeuze.Titel
+                                        ? verzoek.beleidskeuze.Titel
                                         : null}
                                 </div>
                                 <div className="w-2/12">

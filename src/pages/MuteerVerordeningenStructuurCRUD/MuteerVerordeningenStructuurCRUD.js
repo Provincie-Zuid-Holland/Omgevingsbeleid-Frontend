@@ -112,7 +112,7 @@ class MuteerVerordeningenStructuurCRUD extends Component {
             crudObject.Eind_Geldigheid = new Date(crudObject.Eind_Geldigheid)
         }
 
-        // Check of de verplichte velden zijn ingevuld als het een beleidsbeslissing is
+        // Check of de verplichte velden zijn ingevuld als het een beleidskeuze is
         // !REFACTOR! - velden check voor andere dimensies (Bespreken STUM)
         const alleVeldenIngevuld = checkRequiredFields(
             crudObject,

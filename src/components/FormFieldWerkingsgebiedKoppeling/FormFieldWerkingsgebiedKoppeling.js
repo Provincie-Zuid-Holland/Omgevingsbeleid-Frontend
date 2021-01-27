@@ -46,7 +46,7 @@ const FormFieldWerkingsgebiedKoppeling = ({
             setWerkingsgebied(null)
 
             axios
-                .get(`/werkingsgebieden/${werkingsgebiedInParentState}`)
+                .get(`/version/werkingsgebieden/${werkingsgebiedInParentState}`)
                 .then((res) => {
                     setWerkingsgebied(res.data)
                 })
@@ -73,7 +73,9 @@ const FormFieldWerkingsgebiedKoppeling = ({
 
             setWerkingsgebied(null)
             axios
-                .get(`/werkingsgebieden/${werkingsgebiedInParentState[0].UUID}`)
+                .get(
+                    `/version/werkingsgebieden/${werkingsgebiedInParentState[0].UUID}`
+                )
                 .then((res) => {
                     setWerkingsgebied(res.data)
                 })

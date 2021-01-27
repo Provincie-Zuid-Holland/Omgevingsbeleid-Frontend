@@ -183,8 +183,9 @@ const FormFieldRelatieKoppeling = ({
                 </div>
                 <ul className="mb-3">
                     {dataLoaded ? (
-                        connectionProperties.map(
-                            (koppelingRelatieNaam, index) => {
+                        connectionProperties
+                            .sort((a, b) => a.localeCompare(b))
+                            .map((koppelingRelatieNaam, index) => {
                                 const propertyName =
                                     objecten[koppelingRelatieNaam].propertyName
                                 if (
@@ -237,8 +238,7 @@ const FormFieldRelatieKoppeling = ({
                                         )
                                     }
                                 )
-                            }
-                        )
+                            })
                     ) : (
                         <span className="block py-4 text-sm text-gray-700">
                             {placeholderTekst}
@@ -352,20 +352,22 @@ const Dropdown = ({
                         ref={dropdownRef}
                     >
                         {connectionProperties
-                            ? connectionProperties.map((item, index) => {
-                                  return (
-                                      <li
-                                          key={index}
-                                          onClick={() => {
-                                              togglePopupNieuw(item)
-                                          }}
-                                          id={`form-field-universele-koppeling-dropdown-button-${index}`}
-                                          className="px-3 py-2 border-b border-gray-300 cursor-pointer hover:bg-gray-100"
-                                      >
-                                          {objecten[item].buttonTekst}
-                                      </li>
-                                  )
-                              })
+                            ? connectionProperties
+                                  .sort((a, b) => a.localeCompare(b))
+                                  .map((item, index) => {
+                                      return (
+                                          <li
+                                              key={index}
+                                              onClick={() => {
+                                                  togglePopupNieuw(item)
+                                              }}
+                                              id={`form-field-universele-koppeling-dropdown-button-${index}`}
+                                              className="px-3 py-2 border-b border-gray-300 cursor-pointer hover:bg-gray-100"
+                                          >
+                                              {objecten[item].buttonTekst}
+                                          </li>
+                                      )
+                                  })
                             : null}
                     </ul>
                 ) : null}

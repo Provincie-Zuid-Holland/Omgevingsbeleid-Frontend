@@ -7,7 +7,7 @@ import ViewFieldIngelogdExtraInfo from './../../ViewFieldIngelogdExtraInfo'
 
 import UserContext from './../../../../App/UserContext'
 
-const ContainerViewFieldsBeleidsbeslissing = ({ crudObject }) => {
+const ContainerViewFieldsBeleidskeuze = ({ crudObject }) => {
     return (
         <UserContext.Consumer>
             {(context) => (
@@ -65,4 +65,4 @@ const ContainerViewFieldsBeleidsbeslissing = ({ crudObject }) => {
     )
 }
 
-export default ContainerViewFieldsBeleidsbeslissing
+export default ContainerViewFieldsBeleidskeuze

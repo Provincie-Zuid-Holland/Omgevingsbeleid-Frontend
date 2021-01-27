@@ -38,9 +38,9 @@ function TabDisconnected({
                                 className="relative flex items-center px-2 py-2 text-sm text-gray-800 border-b border-gray-200 hover:bg-gray-100"
                             >
                                 <div className="w-5/12 pr-4">
-                                    {relatie.beleidsbeslissing &&
-                                    relatie.beleidsbeslissing.Titel ? (
-                                        relatie.beleidsbeslissing.Titel
+                                    {relatie.beleidskeuze &&
+                                    relatie.beleidskeuze.Titel ? (
+                                        relatie.beleidskeuze.Titel
                                     ) : (
                                         <LoaderMainTitle />
                                     )}
