@@ -88,7 +88,7 @@ const detailPaginas = [
     },
     {
         slug: 'beleidsdoelen',
-        dataModel: allDimensies.OPGAVEN,
+        dataModel: allDimensies.BELEIDSDOELEN,
     },
     {
         slug: 'verordeningen',

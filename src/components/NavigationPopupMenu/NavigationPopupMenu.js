@@ -34,7 +34,7 @@ const NavigationPopupMenu = ({
 
     // Dimension state
     const [ambities, setAmbities] = React.useState(null)
-    const [opgaven, setOpgaven] = React.useState(null)
+    const [beleidsdoelen, setBeleidsdoelen] = React.useState(null)
     const [beleidsprestaties, setBeleidsprestaties] = React.useState(null)
     const [beleidskeuzes, setBeleidskeuzes] = React.useState(null)
     const [maatregelen, setMaatregelen] = React.useState(null)
@@ -49,8 +49,8 @@ const NavigationPopupMenu = ({
                 .then((res) => setAmbities(res.data))
                 .catch((err) => console.log(err)),
             axios
-                .get(`${allDimensies.OPGAVEN.API_ENDPOINT}`)
-                .then((res) => setOpgaven(res.data))
+                .get(`${allDimensies.BELEIDSDOELEN.API_ENDPOINT}`)
+                .then((res) => setBeleidsdoelen(res.data))
                 .catch((err) => console.log(err)),
             axios
                 .get(`${allDimensies.DOELEN.API_ENDPOINT}`)
@@ -117,7 +117,7 @@ const NavigationPopupMenu = ({
             case 'Ambities':
                 return allDimensies['AMBITIES']
             case 'Beleidsdoelen':
-                return allDimensies['OPGAVEN']
+                return allDimensies['BELEIDSDOELEN']
             case 'Beleidskeuzes':
                 return allDimensies['BELEIDSBESLISSINGEN']
             case "Maatregelen (Programma's)":
@@ -137,7 +137,7 @@ const NavigationPopupMenu = ({
             case 'Ambities':
                 return ambities
             case 'Beleidsdoelen':
-                return opgaven
+                return beleidsdoelen
             case 'Beleidskeuzes':
                 return beleidskeuzes
             case "Maatregelen (Programma's)":
@@ -216,7 +216,6 @@ const NavigationPopupMenu = ({
                                     tabTitle="Ambities"
                                     setActiveTab={setActiveTab}
                                 />
-                                {/* Beleidsdoelen was previously opgaven */}
                                 <TabMenuItem
                                     activeTab={activeTab}
                                     tabTitle="Beleidsdoelen"

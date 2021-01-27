@@ -119,9 +119,6 @@ class PopupNieuweKoppeling extends Component {
             case 'ambities':
                 koppelTekst = 'de ambitie'
                 break
-            case 'opgaven':
-                koppelTekst = 'de opgave'
-                break
             case 'beleidsdoelen':
                 koppelTekst = 'het beleidsdoel'
                 break

@@ -164,7 +164,7 @@ export const CRUD_PROPERTIES = {
         required: [],
         requiredMessage: '',
     },
-    Opgaven: {
+    Beleidsdoelen: {
         initValue: [],
         required: [],
         requiredMessage: '',

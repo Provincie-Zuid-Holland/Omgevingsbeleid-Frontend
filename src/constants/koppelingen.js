@@ -31,8 +31,8 @@ const objecten = {
         buttonTekst: 'beleidsdoelen',
         volledigeTitel: 'Beleidsdoelen',
         volledigeTitelMeervoud: 'Beleidsdoelen',
-        api: '/opgaven',
-        propertyName: 'Opgaven',
+        api: '/beleidsdoelen',
+        propertyName: 'Beleidsdoelen',
         type: 'Beleidsdoel',
     },
     themas: {

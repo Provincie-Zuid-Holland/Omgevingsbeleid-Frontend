@@ -3,7 +3,7 @@ import * as BELANGEN from './belangen'
 import * as BELEIDSREGELS from './beleidsregels'
 import * as BELEIDSRELATIES from './beleidsrelaties'
 import * as MAATREGELEN from './maatregelen'
-import * as OPGAVEN from './opgaven'
+import * as BELEIDSDOELEN from './beleidsdoelen'
 import * as THEMAS from './themas'
 import * as BELEIDSBESLISSINGEN from './beleidsbeslissingen'
 import * as VERORDENINGSTRUCTUUR from './verordeningstructuur'
@@ -16,7 +16,7 @@ const constants = {
     BELEIDSREGELS,
     BELEIDSRELATIES,
     MAATREGELEN,
-    OPGAVEN,
+    BELEIDSDOELEN,
     THEMAS,
     BELEIDSBESLISSINGEN,
     VERORDENINGSTRUCTUUR,

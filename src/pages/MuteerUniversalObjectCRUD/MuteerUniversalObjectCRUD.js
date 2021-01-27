@@ -15,7 +15,7 @@ import FormFieldContainerBelangen from './FormFieldContainers/FormFieldContainer
 import FormFieldContainerBeleidsregels from './FormFieldContainers/FormFieldContainerBeleidsregels'
 import FormFieldContainerBeleidsbeslissingen from './FormFieldContainers/FormFieldContainerBeleidsbeslissingen'
 import FormFieldContainerMaatregelen from './FormFieldContainers/FormFieldContainerMaatregelen'
-import FormFieldContainerOpgaven from './FormFieldContainers/FormFieldContainerOpgaven'
+import FormFieldContainerBeleidsdoelen from './FormFieldContainers/FormFieldContainerBeleidsdoelen'
 import FormFieldContainerThemas from './FormFieldContainers/FormFieldContainerThemas'
 import FormFieldContainerBeleidsprestaties from './FormFieldContainers/FormFieldContainerBeleidsprestaties'
 
@@ -486,7 +486,7 @@ class MuteerUniversalObjectCRUD extends Component {
                                     ) : null}
 
                                     {titleSingular === 'Beleidsdoel' ? (
-                                        <FormFieldContainerOpgaven
+                                        <FormFieldContainerBeleidsdoelen
                                             titleSingular={titleSingular}
                                             crudObject={crudObject}
                                             handleChange={handleChange}

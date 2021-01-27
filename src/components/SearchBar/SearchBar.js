@@ -204,7 +204,7 @@ function SearchBarPopup({ searchInput, setSearchBarPopupOpen }) {
             name: 'ambities',
         },
         {
-            filterQuery: 'opgaven',
+            filterQuery: 'beleidsdoelen',
             name: 'beleidsdoelen',
         },
         {

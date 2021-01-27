@@ -1,15 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ContainerFormSection from './../../../../components/ContainerFormSection'
+import ContainerFormSection from '../../../../components/ContainerFormSection'
 import {
     FormFieldDate,
     FormFieldTextInput,
     FormFieldTextArea,
     FormFieldWeblink,
-} from './../../../../components/FormFieldsExport'
+} from '../../../../components/FormFieldsExport'
 
-function FormFieldContainerOpgaven({
+function FormFieldContainerBeleidsdoelen({
     titleSingular,
     crudObject,
     handleChange,
@@ -82,12 +82,12 @@ function FormFieldContainerOpgaven({
     )
 }
 
-FormFieldContainerOpgaven.propTypes = {
+FormFieldContainerBeleidsdoelen.propTypes = {
     titleSingular: PropTypes.string,
     crudObject: PropTypes.object,
     handleChange: PropTypes.func,
 }
 
-FormFieldContainerOpgaven.defaultProps = {}
+FormFieldContainerBeleidsdoelen.defaultProps = {}
 
-export default FormFieldContainerOpgaven
+export default FormFieldContainerBeleidsdoelen
