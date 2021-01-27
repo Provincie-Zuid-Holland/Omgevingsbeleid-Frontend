@@ -98,14 +98,14 @@ const AuthRoutes = ({ authUser, loggedIn }) => {
                 )}
             />
 
-            {/* Beleidsbeslissingen Pages */}
+            {/* Beleidskeuzes Pages */}
             <Route
                 exact
                 path={`/muteer/beleidskeuzes/nieuwe-beleidskeuze`}
                 render={() => (
                     <MuteerUniversalObjectCRUD
                         authUser={authUser}
-                        dimensieConstants={allDimensies.BELEIDSBESLISSINGEN}
+                        dimensieConstants={allDimensies.BELEIDSKEUZES}
                     />
                 )}
             />
@@ -115,7 +115,7 @@ const AuthRoutes = ({ authUser, loggedIn }) => {
                 render={() => (
                     <MuteerUniversalObjectCRUD
                         authUser={authUser}
-                        dimensieConstants={allDimensies.BELEIDSBESLISSINGEN}
+                        dimensieConstants={allDimensies.BELEIDSKEUZES}
                     />
                 )}
             />
@@ -125,7 +125,7 @@ const AuthRoutes = ({ authUser, loggedIn }) => {
                 render={() => (
                     <MuteerUniversalObjectCRUD
                         authUser={authUser}
-                        dimensieConstants={allDimensies.BELEIDSBESLISSINGEN}
+                        dimensieConstants={allDimensies.BELEIDSKEUZES}
                     />
                 )}
             />
@@ -134,7 +134,7 @@ const AuthRoutes = ({ authUser, loggedIn }) => {
                 path={`/muteer/beleidskeuzes/:single/:version`}
                 render={() => (
                     <MuteerUniversalObjectDetailWithStatuses
-                        dimensieConstants={allDimensies.BELEIDSBESLISSINGEN}
+                        dimensieConstants={allDimensies.BELEIDSKEUZES}
                     />
                 )}
             />
@@ -143,7 +143,7 @@ const AuthRoutes = ({ authUser, loggedIn }) => {
                 path={`/muteer/beleidskeuzes/:single`}
                 render={() => (
                     <MuteerUniversalObjectDetailWithStatuses
-                        dimensieConstants={allDimensies.BELEIDSBESLISSINGEN}
+                        dimensieConstants={allDimensies.BELEIDSKEUZES}
                     />
                 )}
             />
@@ -226,9 +226,9 @@ const AuthRoutes = ({ authUser, loggedIn }) => {
 // Component to generate a general overview View, a detail view and a CRUD view to edit and create
 const BeheerRoutes = (props) => {
     const BeheerRouteJSX = Object.keys(allDimensies).map((dimensie) => {
-        // We have custom detail pages for beleidsbeslissingen (beleidskeuzes) en maatregelen
+        // We have custom detail pages for beleidskeuzes (beleidskeuzes) en maatregelen
         const returnDetailPages =
-            dimensie !== 'BELEIDSBESLISSINGEN' && dimensie !== 'MAATREGELEN'
+            dimensie !== 'BELEIDSKEUZES' && dimensie !== 'MAATREGELEN'
         const dimensieConstants = allDimensies[dimensie]
         const overzichtSlug = allDimensies[dimensie].SLUG_OVERVIEW
         const createNewSlug = allDimensies[dimensie].SLUG_CREATE_NEW

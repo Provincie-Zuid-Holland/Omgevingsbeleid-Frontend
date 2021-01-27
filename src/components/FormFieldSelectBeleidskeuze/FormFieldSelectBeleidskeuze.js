@@ -30,7 +30,7 @@ function makeSelection(objectenArray, dataObjectProperty, filterUUID) {
     return options
 }
 
-class FormFieldSelectBeleidsbeslissing extends React.Component {
+class FormFieldSelectBeleidskeuze extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -81,7 +81,7 @@ class FormFieldSelectBeleidsbeslissing extends React.Component {
     }
 
     componentDidMount() {
-        const ApiEndpoint = 'beleidsbeslissingen'
+        const ApiEndpoint = 'beleidskeuzes'
         // Connect With the API
         axios
             .get(ApiEndpoint)
@@ -106,4 +106,4 @@ class FormFieldSelectBeleidsbeslissing extends React.Component {
     }
 }
 
-export default FormFieldSelectBeleidsbeslissing
+export default FormFieldSelectBeleidskeuze

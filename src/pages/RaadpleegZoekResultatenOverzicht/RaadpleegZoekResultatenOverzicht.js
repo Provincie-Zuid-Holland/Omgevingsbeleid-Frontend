@@ -31,16 +31,16 @@ function getDimensieConstant(type) {
             return allDimensieConstants.AMBITIES
         case 'Belangen':
             return allDimensieConstants.BELANGEN
-        case 'Beleidsbeslissingen':
-            return allDimensieConstants.BELEIDSBESLISSINGEN
+        case 'Beleidskeuzes':
+            return allDimensieConstants.BELEIDSKEUZES
         case 'BeleidsRegels':
             return allDimensieConstants.BELEIDSREGELS
-        case 'Doelen':
-            return allDimensieConstants.DOELEN
+        case 'Beleidsprestaties':
+            return allDimensieConstants.BELEIDSPRESTATIES
         case 'Maatregelen':
             return allDimensieConstants.MAATREGELEN
-        case 'Opgaven':
-            return allDimensieConstants.OPGAVEN
+        case 'Beleidsdoelen':
+            return allDimensieConstants.BELEIDSDOELEN
         case 'Themas':
             return allDimensieConstants.THEMAS
         case 'Verordeningen':
@@ -314,7 +314,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
         })
 
         if (searchFiltersOnly === 'beleidskeuzes') {
-            searchFiltersOnly = 'beleidsbeslissingen'
+            searchFiltersOnly = 'beleidskeuzes'
         }
 
         axios
@@ -502,13 +502,6 @@ class RaadpleegZoekResultatenOverzicht extends Component {
     }
 
     render() {
-        // Beleidskeuzes
-        // Ambities
-        // Opgaven
-        // Maatregelen
-        // Verordening
-        // Beleidsregels
-
         const checkForActiveFilter = (onPageFilters) => {
             if (!onPageFilters || !onPageFilters.filterArray) return []
 
@@ -531,9 +524,9 @@ class RaadpleegZoekResultatenOverzicht extends Component {
         )
 
         const filters = [
-            'Beleidsbeslissingen',
+            'Beleidskeuzes',
             'Ambities',
-            'Opgaven',
+            'Beleidsdoelen',
             'Maatregelen',
             'Verordeningen',
             'BeleidsRegels',
@@ -635,15 +628,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
 const FilterItem = ({ handleFilter, checked, item, count }) => {
     const dimensieContants = getDimensieConstant(item)
     const titleSingular = dimensieContants.TITLE_SINGULAR
-
-    const itemTitle =
-        item === 'Beleidsbeslissingen'
-            ? 'Beleidskeuzes'
-            : item === 'Verordeningen'
-            ? 'Artikelen'
-            : item === 'Opgaven'
-            ? 'Beleidsdoelen'
-            : item
+    const itemTitle = item === 'Verordeningen' ? 'Artikelen' : item
 
     return (
         <li key={item} className="mt-1 text-sm text-gray-700">

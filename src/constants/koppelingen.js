@@ -47,8 +47,8 @@ const objecten = {
         buttonTekst: 'beleidsprestaties',
         volledigeTitel: 'Beleidsprestaties',
         volledigeTitelMeervoud: 'Beleidsprestaties',
-        api: '/doelen',
-        propertyName: 'Doelen',
+        api: '/beleidsprestaties',
+        propertyName: 'Beleidsprestaties',
         type: 'Beleidsprestatie',
     },
     maatregelen: {

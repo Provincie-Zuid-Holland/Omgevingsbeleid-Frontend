@@ -15,7 +15,7 @@ import PopUpAnimatedContainer from './../../../components/PopUpAnimatedContainer
  * @prop {function} setMotivationPopUp takes a UUID and set it in parent state in motivationPopUp
  * @prop {function} setDisconnectPopup takes a UUID and set it in parent state in motivationPopUp
  * @prop {string} disconnectPopUp contains the UUID of a beleidsrelatie
- * @prop {string} beleidsbeslissingTitle contains the title of the beleidsobject
+ * @prop {string} beleidskeuzeTitle contains the title of the beleidsobject
  * @prop {function} relationshipDisconnect function to disconnect a relationship
  * @prop {function} updateStatus function to update a status in parent state
  */
@@ -26,7 +26,7 @@ function TabRelations({
     setMotivationPopUp,
     setDisconnectPopup,
     disconnectPopUp,
-    beleidsbeslissingTitle,
+    beleidskeuzeTitle,
     relationshipDisconnect,
     updateStatus,
 }) {
@@ -48,9 +48,9 @@ function TabRelations({
                                 className="relative flex items-center px-2 py-2 text-sm text-gray-800 border-b border-gray-200 hover:bg-gray-100"
                             >
                                 <div className="w-5/12 pr-4">
-                                    {relatie.beleidsbeslissing &&
-                                    relatie.beleidsbeslissing.Titel ? (
-                                        relatie.beleidsbeslissing.Titel
+                                    {relatie.beleidskeuze &&
+                                    relatie.beleidskeuze.Titel ? (
+                                        relatie.beleidskeuze.Titel
                                     ) : (
                                         <LoaderMainTitle />
                                     )}
@@ -137,8 +137,8 @@ function TabRelations({
                                                 <p className="mt-2 text-sm text-gray-700">
                                                     {relatie.Status ===
                                                     'Akkoord'
-                                                        ? `Je staat op het punt om de beleidsrelatie tussen "${beleidsbeslissingTitle}" en "${relatie.beleidsbeslissing.Titel}" te verbreken`
-                                                        : `Je staat op het punt om het beleidsrelatie verzoek tussen "${beleidsbeslissingTitle}" en "${relatie.beleidsbeslissing.Titel}" in te trekken`}
+                                                        ? `Je staat op het punt om de beleidsrelatie tussen "${beleidskeuzeTitle}" en "${relatie.beleidskeuze.Titel}" te verbreken`
+                                                        : `Je staat op het punt om het beleidsrelatie verzoek tussen "${beleidskeuzeTitle}" en "${relatie.beleidskeuze.Titel}" in te trekken`}
                                                 </p>
                                             </div>
                                             <h4 className="mb-2 font-bold">

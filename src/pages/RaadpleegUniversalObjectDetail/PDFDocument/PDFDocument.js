@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     },
 })
 
-function PDFContainerViewFieldsBeleidsbeslissing(props) {
+function PDFContainerViewFieldsBeleidskeuze(props) {
     return (
         <Document>
             <Page size="A4" style={styles.page}>
@@ -225,7 +225,7 @@ function PDFContainerViewFieldsMaatregel() {
         </Document>
     )
 }
-function PDFContainerViewFieldsOpgave() {
+function PDFContainerViewFieldsBeleidsdoelen() {
     return (
         <Document>
             <Page size="A4" style={styles.page}>
@@ -290,7 +290,7 @@ class PDFDocument extends Component {
 
         if (titleSingular === 'Beleidskeuze') {
             return (
-                <PDFContainerViewFieldsBeleidsbeslissing
+                <PDFContainerViewFieldsBeleidskeuze
                     crudObject={dataObject}
                     objectTitle={objectTitle}
                 />
@@ -301,8 +301,10 @@ class PDFDocument extends Component {
             )
         } else if (titleSingular === 'Maatregel') {
             return <PDFContainerViewFieldsMaatregel crudObject={dataObject} />
-        } else if (titleSingular === 'Opgave') {
-            return <PDFContainerViewFieldsOpgave crudObject={dataObject} />
+        } else if (titleSingular === 'Beleidsdoel') {
+            return (
+                <PDFContainerViewFieldsBeleidsdoelen crudObject={dataObject} />
+            )
         } else if (titleSingular === 'Ambitie') {
             return <PDFContainerViewFieldsAmbitie crudObject={dataObject} />
         } else if (titleSingular === 'Belang') {

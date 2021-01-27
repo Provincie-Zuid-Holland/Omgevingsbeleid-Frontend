@@ -30,7 +30,7 @@ const RelatiesKoppelingenVisualisatie = ({
             links: [],
         }
 
-        // First we push in the beleidsbeslissing node object into the data object
+        // First we push in the beleidskeuze node object into the data object
         data.nodes.push({
             id: beleidskeuze.UUID,
             name: beleidskeuze.Titel,
@@ -160,11 +160,11 @@ const RelatiesKoppelingenVisualisatie = ({
                     const slugs = {
                         Ambities: 'ambities',
                         BeleidsRegels: 'beleidsregels',
-                        Doelen: 'beleidsprestaties',
+                        Beleidsprestaties: 'beleidsprestaties',
                         Belangen: 'belangen',
                         Maatregelen: 'maatregelen',
                         Themas: 'themas',
-                        Opgaven: 'beleidsdoelen',
+                        Beleidsdoelen: 'beleidsdoelen',
                         Verordening: 'verordeningen',
                     }
 
@@ -217,8 +217,6 @@ const RelatiesKoppelingenVisualisatie = ({
         switch (property) {
             case 'Doelen':
                 return 'Beleidsprestaties'
-            case 'Opgaven':
-                return 'Beleidsdoelen'
             default:
                 return property
         }

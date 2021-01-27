@@ -20,10 +20,10 @@ import PopUpRevisieContainer from './../../components/PopUpRevisieContainer'
 import LoaderContent from './../../components/LoaderContent'
 
 // Import view containers
-import ContainerViewFieldsBeleidsbeslissing from './ContainerFields/ContainerViewFieldsBeleidsbeslissing'
+import ContainerViewFieldsBeleidskeuze from './ContainerFields/ContainerViewFieldsBeleidskeuze'
 import ContainerViewFieldsBeleidsregel from './ContainerFields/ContainerViewFieldsBeleidsregel'
 import ContainerViewFieldsMaatregel from './ContainerFields/ContainerViewFieldsMaatregel'
-import ContainerViewFieldsOpgave from './ContainerFields/ContainerViewFieldsOpgave'
+import ContainerViewFieldsBeleidsdoelen from './ContainerFields/ContainerViewFieldsBeleidsdoelen'
 import ContainerViewFieldsAmbitie from './ContainerFields/ContainerViewFieldsAmbitie'
 import ContainerViewFieldsBelang from './ContainerFields/ContainerViewFieldsBelang'
 import ContainerViewFieldsThema from './ContainerFields/ContainerViewFieldsThema'
@@ -98,7 +98,7 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
     // Returns boolean
     // There are two objects with werkingsgebieden:
     // - Maatregelen
-    // - Beleidskeuzes (also known as beleidsbeslissingen)
+    // - Beleidskeuzes (also known as beleidskeuzes)
     const checkIfObjectHasWerkingsgebied = () => {
         if (!dataLoaded || !dataObject) return false
 
@@ -123,7 +123,7 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
             dataObject.WerkingsGebieden &&
             dataObject.WerkingsGebieden[0]
         ) {
-            // Object is a beleidskeuze/beleidsbeslissing, which holds the werkingsgebieden in an array.
+            // Object is a beleidskeuze/beleidskeuze, which holds the werkingsgebieden in an array.
             // We always need the first value in the array
             return dataObject.WerkingsGebieden[0].UUID
         }
@@ -232,7 +232,7 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
                             id="raadpleeg-detail-container-main"
                         >
                             {titleSingular === 'Beleidskeuze' ? (
-                                <ContainerViewFieldsBeleidsbeslissing
+                                <ContainerViewFieldsBeleidskeuze
                                     crudObject={dataObject}
                                 />
                             ) : null}
@@ -252,7 +252,7 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
                                 />
                             ) : null}
                             {titleSingular === 'Beleidsdoel' ? (
-                                <ContainerViewFieldsOpgave
+                                <ContainerViewFieldsBeleidsdoelen
                                     crudObject={dataObject}
                                 />
                             ) : null}

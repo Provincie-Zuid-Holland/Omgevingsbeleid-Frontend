@@ -174,7 +174,7 @@ class MuteerUniversalObjectDetail extends Component {
                     <div className="flex">
                         <div
                             className={`${
-                                overzichtSlug !== 'beleidsbeslissingen'
+                                overzichtSlug !== 'beleidskeuzes'
                                     ? 'w-full'
                                     : 'w-9/12'
                             } pr-8`}

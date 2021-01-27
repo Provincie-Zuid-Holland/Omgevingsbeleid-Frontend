@@ -53,12 +53,12 @@ const NavigationPopupMenu = ({
                 .then((res) => setBeleidsdoelen(res.data))
                 .catch((err) => console.log(err)),
             axios
-                .get(`${allDimensies.DOELEN.API_ENDPOINT}`)
+                .get(`${allDimensies.BELEIDSPRESTATIES.API_ENDPOINT}`)
                 .then((res) => setBeleidsprestaties(res.data))
                 .catch((err) => console.log(err)),
             axios
                 .get(
-                    `${allDimensies.BELEIDSBESLISSINGEN.API_ENDPOINT}?Status=Vigerend`
+                    `${allDimensies.BELEIDSKEUZES.API_ENDPOINT}?Status=Vigerend`
                 )
                 .then((res) => setBeleidskeuzes(res.data))
                 .catch((err) => console.log(err)),
@@ -119,13 +119,13 @@ const NavigationPopupMenu = ({
             case 'Beleidsdoelen':
                 return allDimensies['BELEIDSDOELEN']
             case 'Beleidskeuzes':
-                return allDimensies['BELEIDSBESLISSINGEN']
+                return allDimensies['BELEIDSKEUZES']
             case "Maatregelen (Programma's)":
                 return allDimensies['MAATREGELEN']
             case 'Beleidsregels':
                 return allDimensies['BELEIDSREGELS']
             case 'Beleidsprestaties':
-                return allDimensies['DOELEN']
+                return allDimensies['BELEIDSPRESTATIES']
 
             default:
                 return {}

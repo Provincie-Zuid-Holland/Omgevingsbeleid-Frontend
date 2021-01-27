@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import clonedeep from 'lodash.clonedeep'
 
-import ContainerFormSection from './../../../../components/ContainerFormSection'
+import ContainerFormSection from '../../../../components/ContainerFormSection'
 import {
     FormFieldDate,
     FormFieldTextInput,
@@ -11,11 +11,11 @@ import {
     FormFieldSelectUserGroup,
     FormFieldWerkingsgebiedKoppeling,
     FormFieldRelatieKoppeling,
-} from './../../../../components/FormFieldsExport'
+} from '../../../../components/FormFieldsExport'
 
-import UserContext from './../../../../App/UserContext'
+import UserContext from '../../../../App/UserContext'
 
-function FormFieldContainerBeleidsbeslissingen({
+function FormFieldContainerBeleidskeuzes({
     titleSingular,
     crudObject,
     handleChange,
@@ -242,12 +242,12 @@ function FormFieldContainerBeleidsbeslissingen({
     )
 }
 
-FormFieldContainerBeleidsbeslissingen.propTypes = {
+FormFieldContainerBeleidskeuzes.propTypes = {
     titleSingular: PropTypes.string.isRequired,
     crudObject: PropTypes.object.isRequired,
     handleChange: PropTypes.func.isRequired,
 }
 
-FormFieldContainerBeleidsbeslissingen.defaultProps = {}
+FormFieldContainerBeleidskeuzes.defaultProps = {}
 
-export default FormFieldContainerBeleidsbeslissingen
+export default FormFieldContainerBeleidskeuzes
