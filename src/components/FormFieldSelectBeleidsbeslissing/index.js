@@ -1,0 +1,3 @@
+import FormFieldSelectBeleidsbeslissing from './FormFieldSelectBeleidsbeslissing.js'
+
+export default FormFieldSelectBeleidsbeslissing

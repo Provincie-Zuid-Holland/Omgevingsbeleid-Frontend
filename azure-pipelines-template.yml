@@ -1,0 +1,50 @@
+# Master template for deployment to azure blob storage
+
+parameters:
+  - name: env
+    type: string
+    default: ""
+  - name: target_store
+    type: string
+    default: ""
+  - name: fa-token
+    type: string
+    default: ""
+
+steps:
+- bash: |
+    if [ -z "$env" ]; then
+      echo "##vso[task.logissue type=error;]Missing template parameter \"env\""
+      echo "##vso[task.complete result=Failed;]"
+    fi
+- bash: |
+    if [ -z "$target_store" ]; then
+      echo "##vso[task.logissue type=error;]Missing template parameter \"target_store\""
+      echo "##vso[task.complete result=Failed;]"
+    fi
+- bash: |
+    if [ -z "$fa-token" ]; then
+      echo "##vso[task.logissue type=error;]Missing template parameter \"fa-token\""
+      echo "##vso[task.complete result=Failed;]"
+    fi
+- task: NodeTool@0
+  inputs:
+    versionSpec: '10.x'
+  displayName: 'Install Node.js'
+
+- script: npm config set "@fortawesome:registry" https://npm.fontawesome.com/ && npm config set "//npm.fontawesome.com/:_authToken" ${{ parameters['fa-token'] }}
+  displayName: 'FA token'
+- script: npm install
+  displayName: 'Install dependencies'
+- script: Set REACT_APP_API_ENV=${{ parameters['env'] }}
+  displayName: 'Set env'
+- script: npm run-script build
+  displayName: 'Build'
+- task: AzureFileCopy@4
+  inputs:
+    SourcePath: 'public/'
+    azureSubscription: 'PZH-Azure-SP'
+    Destination: 'AzureBlob'
+    ContainerName: '$web'
+    storage: ${{ parameters['target_store'] }}
+  displayName: 'Copy to blob'
