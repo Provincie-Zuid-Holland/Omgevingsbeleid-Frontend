@@ -18,7 +18,7 @@ function CardObjectItem({
     ID,
     object,
     overzichtSlug,
-    titelEnkelvoud,
+    titleSingular,
     hoofdOnderdeelSlug,
     hideParagraaf,
     index,
@@ -28,10 +28,10 @@ function CardObjectItem({
             <Link
                 className="relative inline-block w-full h-full px-4 pt-4 pb-6 overflow-hidden bg-white rounded shadow-md"
                 to={`/muteer/${hoofdOnderdeelSlug}/${object.ID}`}
-                id={`object-card-${titelEnkelvoud.toLowerCase()}-${index}`}
+                id={`object-card-${titleSingular.toLowerCase()}-${index}`}
             >
                 <h5 className="py-1 text-sm font-light text-gray-600">
-                    {titelEnkelvoud}
+                    {titleSingular}
                 </h5>
                 <h2 className="text-xl font-bold text-gray-800">
                     {object.Titel}

@@ -1,6 +1,5 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { withRouter, useHistory } from 'react-router-dom'
+import React from 'react'
+import { useHistory } from 'react-router-dom'
 
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -119,8 +118,6 @@ const LoginForm = ({ setLoginState, setLoginUser }) => {
                         process.env.REACT_APP_KEY_API_ACCESS_TOKEN,
                         response.data.access_token
                     )
-                    const tokenTime = new Date()
-                    localStorage.setItem('__OB_token_date__', tokenTime)
                     setLoading(false)
                     setLoginState(true)
                     setLoginUser(identifier)
@@ -157,7 +154,7 @@ const LoginForm = ({ setLoginState, setLoginUser }) => {
                     </label>
                     <input
                         required
-                        className="w-full px-3 py-3 leading-tight leading-loose text-gray-700 bg-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                        className="w-full px-3 py-3 leading-loose text-gray-700 bg-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                         name="identifier"
                         id="form-field-login-email"
                         data-testid="form-field-login-email"
@@ -175,7 +172,7 @@ const LoginForm = ({ setLoginState, setLoginUser }) => {
                     </label>
                     <input
                         required
-                        className="w-full px-3 py-4 pb-3 mb-3 leading-tight leading-loose text-gray-700 bg-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                        className="w-full px-3 py-4 pb-3 mb-3 leading-loose text-gray-700 bg-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                         name="password"
                         id="form-field-login-password"
                         data-testid="form-field-login-password"

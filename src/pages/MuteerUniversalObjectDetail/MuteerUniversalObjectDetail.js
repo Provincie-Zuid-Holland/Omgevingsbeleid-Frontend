@@ -15,84 +15,10 @@ import ContainerDetailMain from '../../components/ContainerDetailMain'
 // Import Axios instance to connect with the API
 import axios from '../../API/axios'
 
-// Generate Back Button for Detail or Version page
-function GenerateBackToButton({ overzichtSlug, pageType, hash, dataObject }) {
-    if (pageType === 'detail') {
-        if (hash === '#mijn-beleid') {
-            return (
-                <ButtonBackToPage
-                    terugNaar={` mijn beleid`}
-                    url={`/muteer/mijn-beleid`}
-                />
-            )
-        } else {
-            return (
-                <ButtonBackToPage
-                    terugNaar={` overzicht`}
-                    url={`/muteer/${overzichtSlug}`}
-                />
-            )
-        }
-    } else if (pageType === 'version') {
-        const dataObjectID = dataObject.ID
-        return (
-            <ButtonBackToPage
-                terugNaar={`huidige versie`}
-                url={`/muteer/${overzichtSlug}/${dataObjectID}`}
-            />
-        )
-    }
-}
-
-// Generate list for revisies
-function RevisieList({ dataObject, overzichtSlug, hash }) {
-    return (
-        <div>
-            <div className="flex items-center justify-end w-24 h-6 pt-5 mr-2 border-r-2 border-gray-300 " />
-            <ul className="relative revisie-list">
-                {dataObject.map((item, index) => {
-                    return (
-                        <li key={item.UUID}>
-                            <div className="flex items-center justify-between">
-                                <Link
-                                    id={`revisie-item-${index}`}
-                                    to={makeURLForRevisieObject(
-                                        overzichtSlug,
-                                        item.ID,
-                                        item.UUID,
-                                        hash
-                                    )}
-                                    className="relative flex items-end h-6 mr-2 hover:underline"
-                                >
-                                    <span className="w-24 pr-4 pr-5 text-xs text-right text-gray-600">
-                                        {format(
-                                            new Date(item.Modified_Date),
-                                            'd MMM yyyy'
-                                        )}
-                                    </span>
-                                    <div className="relative w-3 h-3 text-center bg-gray-300 rounded-full revisie-list-bolletje" />
-                                    <span className="w-24 pl-4 pr-5 text-xs text-gray-600">
-                                        Revisie
-                                    </span>
-                                </Link>
-                            </div>
-                        </li>
-                    )
-                })}
-            </ul>
-        </div>
-    )
-}
-
-// Link naar detail pagina's van de revisies
-function makeURLForRevisieObject(overzichtSlug, objectID, objectUUID, hash) {
-    if (hash === '#mijn-beleid') {
-        return `/muteer/${overzichtSlug}/${objectID}/${objectUUID}#mijn-beleid`
-    } else {
-        return `/muteer/${overzichtSlug}/${objectID}/${objectUUID}`
-    }
-}
-
+/**
+ * @param {object} dimensieConstants - Contains all the variables of the dimension (e.g. Maatregelen). The dimensieContants come from the constant files export src/constants/dimensies.js.
+ * @returns a detail page where a dimension object can be displayed
+ */
 class MuteerUniversalObjectDetail extends Component {
     constructor(props) {
         super(props)
@@ -210,8 +136,8 @@ class MuteerUniversalObjectDetail extends Component {
     render() {
         // Variables to give as props
         const dimensieConstants = this.props.dimensieConstants
-        const titelEnkelvoud = dimensieConstants.TITEL_ENKELVOUD
-        const overzichtSlug = dimensieConstants.SLUG_OVERZICHT
+        const titleSingular = dimensieConstants.TITLE_SINGULAR
+        const overzichtSlug = dimensieConstants.SLUG_OVERVIEW
 
         const pageType = this.state.pageType
         const dataReceived = this.state.dataReceived
@@ -285,7 +211,7 @@ class MuteerUniversalObjectDetail extends Component {
                                 ambitie_id={this.props.match.params.single}
                                 pageType={pageType}
                                 overzichtSlug={overzichtSlug}
-                                titelEnkelvoud={titelEnkelvoud}
+                                titleSingular={titleSingular}
                                 dataReceived={dataReceived}
                             />
 
@@ -312,6 +238,89 @@ class MuteerUniversalObjectDetail extends Component {
                 </div>
             </ContainerMain>
         )
+    }
+}
+
+// Generate Back Button for Detail or Version page
+function GenerateBackToButton({ overzichtSlug, pageType, hash, dataObject }) {
+    if (pageType === 'detail') {
+        if (hash === '#mijn-beleid') {
+            return (
+                <ButtonBackToPage
+                    terugNaar={` mijn beleid`}
+                    url={`/muteer/mijn-beleid`}
+                />
+            )
+        } else {
+            return (
+                <ButtonBackToPage
+                    terugNaar={` overzicht`}
+                    url={`/muteer/${overzichtSlug}`}
+                />
+            )
+        }
+    } else if (pageType === 'version') {
+        const dataObjectID = dataObject.ID
+        return (
+            <ButtonBackToPage
+                terugNaar={`huidige versie`}
+                url={`/muteer/${overzichtSlug}/${dataObjectID}`}
+            />
+        )
+    }
+}
+
+// Generate list for revisies
+function RevisieList({ dataObject, overzichtSlug, hash }) {
+    dataObject.shift() // remove First object, as we already got that in the parent element view
+
+    return (
+        <div>
+            <div className="flex items-center justify-end w-24 h-6 pt-5 mr-2 border-r-2 border-gray-300 " />
+            <ul className="relative revisie-list">
+                {dataObject.map((item, index) => {
+                    return (
+                        <li key={item.UUID}>
+                            <div className="flex items-center justify-between">
+                                <Link
+                                    id={`revisie-item-${index}`}
+                                    to={makeURLForRevisieObject(
+                                        overzichtSlug,
+                                        item.ID,
+                                        item.UUID,
+                                        hash
+                                    )}
+                                    className="relative flex items-end h-6 mr-2 hover:underline"
+                                >
+                                    <span
+                                        className="w-24 pr-4 pr-5 text-xs text-right text-gray-600"
+                                        title="Laatst gewijzigd op"
+                                    >
+                                        {format(
+                                            new Date(item.Modified_Date),
+                                            'd MMM yyyy'
+                                        )}
+                                    </span>
+                                    <div className="relative w-3 h-3 text-center bg-gray-300 rounded-full revisie-list-bolletje" />
+                                    <span className="w-24 pl-4 pr-5 text-xs text-gray-600">
+                                        Revisie
+                                    </span>
+                                </Link>
+                            </div>
+                        </li>
+                    )
+                })}
+            </ul>
+        </div>
+    )
+}
+
+// Link naar detail pagina's van de revisies
+function makeURLForRevisieObject(overzichtSlug, objectID, objectUUID, hash) {
+    if (hash === '#mijn-beleid') {
+        return `/muteer/${overzichtSlug}/${objectID}/${objectUUID}#mijn-beleid`
+    } else {
+        return `/muteer/${overzichtSlug}/${objectID}/${objectUUID}`
     }
 }
 

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 function ButtonAddNewObject({
     createNewSlug,
     hoofdOnderdeelSlug,
-    titelEnkelvoud,
+    titleSingular,
 }) {
     return (
         <div className={`mb-6 display-inline display-inline w-full`}>
@@ -15,7 +15,7 @@ function ButtonAddNewObject({
                 to={`/muteer/${hoofdOnderdeelSlug}/${createNewSlug}`}
             >
                 <span className="px-4 py-2 font-semibold text-center">
-                    + Voeg {titelEnkelvoud} Toe
+                    + Voeg {titleSingular} Toe
                 </span>
             </Link>
         </div>
@@ -25,7 +25,7 @@ function ButtonAddNewObject({
 ButtonAddNewObject.propTypes = {
     createNewSlug: PropTypes.string.isRequired,
     hoofdOnderdeelSlug: PropTypes.string.isRequired,
-    titelEnkelvoud: PropTypes.string.isRequired,
+    titleSingular: PropTypes.string.isRequired,
 }
 
 export default ButtonAddNewObject

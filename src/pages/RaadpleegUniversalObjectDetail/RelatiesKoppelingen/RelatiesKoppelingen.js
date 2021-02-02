@@ -101,7 +101,7 @@ const RelatiesKoppelingen = ({ beleidskeuze }) => {
                     setIsLoading(false)
                 })
             })
-    }, [])
+    }, [beleidskeuze.UUID])
 
     if (isLoading) return null
 

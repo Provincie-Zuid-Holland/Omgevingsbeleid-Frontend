@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Helmet } from 'react-helmet'
 import { toast } from 'react-toastify'
 import { useHistory } from 'react-router-dom'
@@ -16,6 +16,10 @@ import axios from './../../API/axios'
 // Import user context
 import UserContext from './../../App/UserContext'
 
+/**
+ * A component to display all the objects from a specific dimension
+ * @param {Object} dimensieConstants - Contains the variables of the dimension
+ */
 const MuteerUniversalObjectOverzicht = ({ dimensieConstants }) => {
     const { user } = React.useContext(UserContext)
 
@@ -39,7 +43,7 @@ const MuteerUniversalObjectOverzicht = ({ dimensieConstants }) => {
             })
     }
 
-    const checkAuth = () => {
+    const checkAuth = React.useCallback(() => {
         if (!user) return
 
         const gebruikersRol = user.Rol
@@ -53,19 +57,19 @@ const MuteerUniversalObjectOverzicht = ({ dimensieConstants }) => {
             return
 
         history.push('/muteer/mijn-beleid')
-    }
+    }, [user, history])
 
     React.useLayoutEffect(() => {
         const apiEndpoint = dimensieConstants.API_ENDPOINT
         getAndSetDataFromAPI(apiEndpoint)
         checkAuth()
-    }, [user])
+    }, [user, checkAuth, dimensieConstants])
 
-    const titelEnkelvoud = dimensieConstants.TITEL_ENKELVOUD
-    const titelMeervoud = dimensieConstants.TITEL_MEERVOUD
-    const overzichtSlug = dimensieConstants.SLUG_OVERZICHT
+    const titleSingular = dimensieConstants.TITLE_SINGULAR
+    const titelMeervoud = dimensieConstants.TITLE_PLURAL
+    const overzichtSlug = dimensieConstants.SLUG_OVERVIEW
     const createNewSlug = dimensieConstants.SLUG_CREATE_NEW
-    const hoofdOnderdeelSlug = dimensieConstants.SLUG_OVERZICHT
+    const hoofdOnderdeelSlug = dimensieConstants.SLUG_OVERVIEW
 
     return (
         <ContainerMain>
@@ -85,7 +89,7 @@ const MuteerUniversalObjectOverzicht = ({ dimensieConstants }) => {
                 {!isLoading ? (
                     <ul className="flex flex-wrap mt-8">
                         <ButtonAddNewObject
-                            titelEnkelvoud={titelEnkelvoud}
+                            titleSingular={titleSingular}
                             createNewSlug={createNewSlug}
                             hoofdOnderdeelSlug={hoofdOnderdeelSlug}
                         />
@@ -101,7 +105,7 @@ const MuteerUniversalObjectOverzicht = ({ dimensieConstants }) => {
                                         index={index}
                                         object={object}
                                         overzichtSlug={overzichtSlug}
-                                        titelEnkelvoud={titelEnkelvoud}
+                                        titleSingular={titleSingular}
                                         hoofdOnderdeelSlug={overzichtSlug}
                                         hideParagraaf={true}
                                     />

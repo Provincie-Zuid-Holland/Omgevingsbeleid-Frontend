@@ -4,7 +4,7 @@ function FormFieldRadioButton({
     options = [],
     handleChange,
     dataObjectProperty,
-    titelEnkelvoud,
+    titleSingular,
     label,
     fieldValue,
 }) {
@@ -16,10 +16,10 @@ function FormFieldRadioButton({
 
             <div
                 className="mt-4"
-                id={`form-field-${titelEnkelvoud.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
+                id={`form-field-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
             >
                 {options.map((option) => {
-                    const id = `form-field-${titelEnkelvoud.toLowerCase()}-${dataObjectProperty.toLowerCase()}-${option}`
+                    const id = `form-field-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}-${option}`
                     return (
                         <div key={option} className="flex items-center mb-4">
                             <input

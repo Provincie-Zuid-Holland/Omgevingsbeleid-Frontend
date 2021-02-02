@@ -4,15 +4,15 @@ import * as PARAGRAAF from './verordeningsparagraaf'
 import * as AFDELING from './verordeningsafdeling'
 import * as HOOFDSTUK from './verordeningshoofdstuk'
 
-const TITEL_ENKELVOUD = 'Verordening'
-const TITEL_MEERVOUD = 'Verordeningen'
+const TITLE_SINGULAR = 'Verordening'
+const TITLE_PLURAL = 'Verordeningen'
 const API_ENDPOINT = 'verordeningen'
-const SLUG_OVERZICHT = 'verordeningen'
+const SLUG_OVERVIEW = 'verordeningen'
 
 export default {
-    SLUG_OVERZICHT,
-    TITEL_ENKELVOUD,
-    TITEL_MEERVOUD,
+    SLUG_OVERVIEW,
+    TITLE_SINGULAR,
+    TITLE_PLURAL,
     API_ENDPOINT,
     LID,
     ARTIKEL,
