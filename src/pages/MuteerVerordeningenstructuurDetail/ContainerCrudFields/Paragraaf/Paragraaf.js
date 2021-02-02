@@ -19,7 +19,7 @@ function Paragraaf() {
     const context = useContext(APIcontext)
 
     const crudObject = context.crudObject
-    const titelEnkelvoud = context.titelEnkelvoud
+    const titleSingular = context.titleSingular
 
     return (
         <React.Fragment>
@@ -36,7 +36,7 @@ function Paragraaf() {
                                 fieldLabel="Paragraaf"
                                 dataObjectProperty="Volgnummer"
                                 pValue="Nummer"
-                                titelEnkelvoud={titelEnkelvoud}
+                                titleSingular={titleSingular}
                             />
                             <FormFieldTextInput
                                 handleChange={context.handleChange}
@@ -44,7 +44,7 @@ function Paragraaf() {
                                 fieldLabel="Titel"
                                 dataObjectProperty="Titel"
                                 pValue="Beschrijf in een aantal woorden de titel van deze paragraaf"
-                                titelEnkelvoud={titelEnkelvoud}
+                                titleSingular={titleSingular}
                             />
                         </ContainerFormSection>
 
@@ -62,7 +62,7 @@ function Paragraaf() {
                                     notRequired={true}
                                     dataObjectProperty="Begin_Geldigheid"
                                     pValue="Indien bekend, kan hier de datum van inwerkingtreding worden ingevuld"
-                                    titelEnkelvoud={titelEnkelvoud}
+                                    titleSingular={titleSingular}
                                 />
 
                                 {/* Eind Geldigheid */}
@@ -74,7 +74,7 @@ function Paragraaf() {
                                     fieldLabel="Datum uitwerkingtreding"
                                     dataObjectProperty="Eind_Geldigheid"
                                     pValue="Indien bekend, kan hier de datum van uitwerkingtreding worden ingevuld"
-                                    titelEnkelvoud={titelEnkelvoud}
+                                    titleSingular={titleSingular}
                                 />
                             </div>
                         </ContainerFormSection>

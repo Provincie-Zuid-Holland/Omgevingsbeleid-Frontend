@@ -4,24 +4,28 @@ import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFi
 const FormFieldTextInput = ({
     dataObjectProperty,
     pValue,
-    titelEnkelvoud,
+    titleSingular,
     fieldValue,
     handleChange,
     fieldLabel,
     disabled,
 }) => {
+    if (disabled) {
+        pValue = pValue + ' (Kan niet zonder besluitvorming worden gewijzigd)'
+    }
+
     return (
         <div className="w-full mb-6">
             <FormFieldTitelEnBeschrijving
                 dataObjectProperty={dataObjectProperty}
                 fieldLabel={fieldLabel}
                 pValue={pValue}
-                titelEnkelvoud={titelEnkelvoud}
+                titleSingular={titleSingular}
             />
 
             <input
                 disabled={disabled}
-                id={`form-field-${titelEnkelvoud.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
+                id={`form-field-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
                 value={fieldValue ? fieldValue : ''}
                 onChange={handleChange}
                 name={dataObjectProperty}

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 
 function useCloseWithEscapeKey(ref, callback) {
     useEffect(() => {
@@ -14,7 +14,7 @@ function useCloseWithEscapeKey(ref, callback) {
             // Unbind the event listener on clean up
             document.removeEventListener('keydown', handleKeyEvent)
         }
-    }, [ref])
+    }, [ref, callback])
 }
 
 export default useCloseWithEscapeKey

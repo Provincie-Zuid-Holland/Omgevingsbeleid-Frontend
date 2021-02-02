@@ -1,6 +1,43 @@
+// @font-face {
+//     font-family: 'Frutiger LT Std';
+//     src: url('./../fonts/FrutigerLTStd-Roman.woff2') format('woff2'),
+//         url('./../fonts/FrutigerLTStd-Roman.woff') format('woff');
+//     font-weight: normal;
+//     font-style: normal;
+//     font-display: swap;
+// }
+
+// @font-face {
+//     font-family: 'Frutiger LT Std';
+//     src: url('./../fonts/FrutigerLTStd-Italic.woff2') format('woff2'),
+//         url('./../fonts/FrutigerLTStd-Italic.woff') format('woff');
+//     font-weight: normal;
+//     font-style: italic;
+//     font-display: swap;
+// }
+
+// @font-face {
+//     font-family: 'Frutiger LT Std';
+//     src: url('./../fonts/FrutigerLTStd-Bold.woff2') format('woff2'),
+//         url('./../fonts/FrutigerLTStd-Bold.woff') format('woff');
+//     font-weight: bold;
+//     font-style: normal;
+//     font-display: swap;
+// }
+
+// @font-face {
+//     font-family: 'Frutiger LT Std';
+//     src: url('./../fonts/FrutigerLTStd-BoldItalic.woff2') format('woff2'),
+//         url('./../fonts/FrutigerLTStd-BoldItalic.woff') format('woff');
+//     font-weight: bold;
+//     font-style: italic;
+//     font-display: swap;
+// }
+
 html {
     height: 100%;
     overflow: auto;
+    // font-size: 14px;
 }
 
 body {
@@ -9,6 +46,9 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
         'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
         'Helvetica Neue', sans-serif;
+    // font-family: 'Frutiger LT Std', -apple-system, BlinkMacSystemFont,
+    //     'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
+    //     'Droid Sans', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -51,6 +91,10 @@ $base-color: #002f65;
 
 .mbg-color-lighter {
     background-color: #f3f2f7;
+}
+
+.bg-color-theme-red {
+    background-color: #990000;
 }
 
 .m-color {
@@ -368,10 +412,10 @@ $base-color: #002f65;
     right: 0px;
 }
 #full-screen-leaflet-container-false {
-    height: 250px;
+    height: 500px;
 }
 #full-screen-leaflet-container-true {
-    height: 800px;
+    height: 1000px;
     max-height: 80vh;
 }
 #full-screen-leaflet {
@@ -965,7 +1009,7 @@ mark {
 }
 
 .shadow-navigation {
-    box-shadow: 0 15px 20px -12px rgba(218, 218, 232, 0.75);
+    box-shadow: 0 15px 20px -12px rgba(218, 218, 232, 0.4);
 }
 
 .soft-shadow-navigation {

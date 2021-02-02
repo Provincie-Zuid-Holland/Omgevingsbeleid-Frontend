@@ -9,10 +9,10 @@ import * as serviceWorker from './serviceWorker'
 
 import { BrowserRouter } from 'react-router-dom'
 
+// Object Assign polyfill
 if (typeof Object.assign != 'function') {
+    // eslint-disable-next-line no-extend-native
     Object.assign = function (target, varArgs) {
-        // .length of function is 2
-        'use strict'
         if (target == null) {
             // TypeError if undefined or null
             throw new TypeError('Cannot convert undefined or null to object')
@@ -42,10 +42,10 @@ if (typeof Object.assign != 'function') {
     }
 }
 
+// String .includes polyfill
 if (!String.prototype.includes) {
+    // eslint-disable-next-line no-extend-native
     String.prototype.includes = function (search, start) {
-        'use strict'
-
         if (search instanceof RegExp) {
             throw TypeError('first argument must not be a RegExp')
         }
@@ -56,7 +56,9 @@ if (!String.prototype.includes) {
     }
 }
 
+// Array .fill polyfill
 if (!Array.prototype.fill) {
+    // eslint-disable-next-line no-extend-native
     Object.defineProperty(Array.prototype, 'fill', {
         value: function (value) {
             // Steps 1-2.

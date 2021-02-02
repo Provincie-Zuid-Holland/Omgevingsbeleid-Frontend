@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 
 function DndTitle({ item, hoofdstukVolgnummer, subVolgnummer }) {
     const volgnummer = item.Volgnummer

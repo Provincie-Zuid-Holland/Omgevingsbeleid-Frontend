@@ -1,5 +1,5 @@
 import React from 'react'
-import Transition from './../Transition'
+import { Transition } from '@headlessui/react'
 import useLockBodyScroll from './../../utils/useLockBodyScroll.js'
 
 function PopupContainer({ children, show, close }) {
@@ -28,7 +28,7 @@ function PopupContainer({ children, show, close }) {
             document.removeEventListener('mousedown', handleClick)
             window.removeEventListener('keydown', closeOnEscape)
         }
-    }, [])
+    }, [close])
 
     // Lock window scroll when the modal is open
     useLockBodyScroll({ modalOpen: show })
@@ -49,11 +49,12 @@ function PopupContainer({ children, show, close }) {
                 leaveTo="opacity-0"
             >
                 <div className="fixed inset-0 transition-opacity">
-                    <div className="absolute inset-0 bg-gray-800 opacity-50"></div>
+                    <div className="absolute inset-0 w-full h-full bg-gray-800 opacity-50"></div>
                 </div>
             </Transition>
 
             <Transition
+                className="w-screen h-screen"
                 show={show}
                 enter="ease-out duration-300"
                 enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
@@ -62,7 +63,7 @@ function PopupContainer({ children, show, close }) {
                 leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-                <div className="w-full" ref={node}>
+                <div className="w-full h-full" ref={node}>
                     {children}
                 </div>
             </Transition>

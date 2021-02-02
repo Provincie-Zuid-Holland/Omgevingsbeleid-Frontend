@@ -1,3 +1,6 @@
+/* eslint-disable */
+// TODO: For now ESLint is disabled, because this file will be refactored in the future, based on a new data structure
+
 import React from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
@@ -45,7 +48,7 @@ function DragAndDropFirstLevel({ itemsInHoofdstuk }) {
                             `}
                         >
                             <div
-                                className={`flex items-center font-semibold block pl-5 py-3 bg-primary-super-light text-gray-900 mb-2`}
+                                className={`flex items-center font-semibold pl-5 py-3 bg-primary-super-light text-gray-900 mb-2`}
                             >
                                 Hoofdstuk {hoofdstukVolgnummer} -{' '}
                                 {hoofdstukObject.Titel}
