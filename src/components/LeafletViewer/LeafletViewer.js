@@ -177,12 +177,6 @@ export default class LeafletViewer extends Component {
     }
 
     _onDeleted = (e) => {
-        let numDeleted = 0
-        e.layers.eachLayer((layer) => {
-            numDeleted += 1
-        })
-        // console.log(`onDeleted: removed ${numDeleted} layers`, e)
-
         this._onChange()
     }
 
