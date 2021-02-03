@@ -27,29 +27,29 @@ function getExcerpt(text) {
 
 function getDimensieConstant(type) {
     switch (type) {
-        case 'Ambities':
+        case 'ambities':
             return allDimensieConstants.AMBITIES
-        case 'Belangen':
+        case 'belangen':
             return allDimensieConstants.BELANGEN
-        case 'Beleidskeuzes':
+        case 'beleidskeuzes':
             return allDimensieConstants.BELEIDSKEUZES
-        case 'BeleidsRegels':
+        case 'beleidsregels':
             return allDimensieConstants.BELEIDSREGELS
-        case 'Beleidsprestaties':
+        case 'beleidsprestaties':
             return allDimensieConstants.BELEIDSPRESTATIES
-        case 'Maatregelen':
+        case 'maatregelen':
             return allDimensieConstants.MAATREGELEN
-        case 'Beleidsdoelen':
+        case 'beleidsdoelen':
             return allDimensieConstants.BELEIDSDOELEN
-        case 'Themas':
+        case 'themas':
             return allDimensieConstants.THEMAS
-        case 'Verordeningen':
+        case 'verordeningen':
             return allDimensieConstants.VERORDENINGSARTIKEL
-        case 'Artikel':
+        case 'artikel':
             return allDimensieConstants.VERORDENINGSARTIKEL
         default:
             throw new Error(
-                `Whoops! Het type '${type}' kan niet binnen de allDimensieConstants gevonden worden.`
+                `Oh no! The type '${type}' could not be found within allDimensieConstants...`
             )
     }
 }
@@ -191,6 +191,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
     }
 
     setInitialOnPageFilters(searchResults) {
+        console.log(searchResults)
         // In the filterArray we place all the types of objects we received from the API
         let filterArray = []
 
@@ -216,6 +217,8 @@ class RaadpleegZoekResultatenOverzicht extends Component {
         })
 
         mainFilterObject.filterArray = filterArray
+
+        console.log(mainFilterObject)
 
         this.setState({
             onPageFilters: mainFilterObject,
@@ -524,12 +527,13 @@ class RaadpleegZoekResultatenOverzicht extends Component {
         )
 
         const filters = [
-            'Beleidskeuzes',
-            'Ambities',
-            'Beleidsdoelen',
-            'Maatregelen',
-            'Verordeningen',
-            'BeleidsRegels',
+            'beleidskeuzes',
+            'ambities',
+            'beleidsprestaties',
+            'beleidsdoelen',
+            'maatregelen',
+            'verordeningen',
+            'beleidsregels',
         ].filter((e) => onPageFilters[e])
 
         return (
@@ -555,6 +559,8 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                                 Filteren
                             </h2>
                             <ul id="filter-search-results" className="mt-4">
+                                {console.log(onPageFilters)}
+                                {console.log(filters)}
                                 {onPageFilters.filterArray &&
                                 onPageFilters.filterArray.length > 0
                                     ? filters.map((filter) => (

@@ -93,7 +93,7 @@ const RelatiesKoppelingen = ({ beleidskeuze }) => {
                 // Get data from API and set in state
                 const getAllRelatieBeleidskeuzes = relatieUUIDS.map((UUID) =>
                     axios
-                        .get(`/beleidskeuzes/version/${UUID}`)
+                        .get(`/version/beleidskeuzes/${UUID}`)
                         .then((res) => res.data)
                 )
                 Promise.all(getAllRelatieBeleidskeuzes).then((relaties) => {

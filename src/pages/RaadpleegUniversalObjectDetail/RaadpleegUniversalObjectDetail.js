@@ -55,7 +55,7 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
     ] = React.useState(false)
 
     const ApiEndpointBase = dataModel.API_ENDPOINT
-    const apiEndpoint = `${ApiEndpointBase}/version/${id}`
+    const apiEndpoint = `version/${ApiEndpointBase}/${id}`
     const titleSingular = dataModel.TITLE_SINGULAR
 
     // Init when url param { id } changes
@@ -70,7 +70,6 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
                 setDataObject(dataObject)
                 setRevisieObjecten(revisieObjecten)
                 setDataLoaded(true)
-                window.scrollTo(0, 0)
             })
             .catch((err) => {
                 if (err.response !== undefined) {
@@ -95,6 +94,10 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
             })
     }, [id, apiEndpoint, history, titleSingular])
 
+    React.useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [dataLoaded])
+
     // Returns boolean
     // There are two objects with werkingsgebieden:
     // - Maatregelen
@@ -118,7 +121,7 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
 
         if (dataObject.Gebied) {
             // Object is a maatregel, which contains the UUID in a string value
-            return dataObject.Gebied
+            return dataObject.Gebied.UUID
         } else if (
             dataObject.WerkingsGebieden &&
             dataObject.WerkingsGebieden[0]
@@ -158,7 +161,7 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
     return (
         <React.Fragment>
             <div
-                className="container flex w-full px-6 mx-auto mt-8 mb-16 md:max-w-4xl"
+                className="container flex w-full px-6 pb-16 mx-auto mt-8 md:max-w-4xl"
                 id="raadpleeg-detail-container-main"
             >
                 <Helmet>

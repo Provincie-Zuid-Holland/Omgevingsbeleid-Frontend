@@ -16,6 +16,7 @@ Cypress.Commands.add('saveLocalStorage', () => {
 Cypress.Commands.add('restoreLocalStorage', () => {
     cy.readFile(localStoragePath).then((savedLocalStorage) => {
         Object.keys(savedLocalStorage).forEach((key) => {
+            if (key === 'OB_welkom_popup') return
             localStorage.setItem(key, LOCAL_STORAGE_MEMORY[key])
         })
     })
@@ -42,7 +43,13 @@ const login = () => {
 
     // POST login info
     cy.get('#form-field-login-submit').click()
+    cy.contains('Mijn beleid', { timeout: 10000 }).should('exist')
 }
+
+before(() => {
+    // Clean out local storage
+    cy.writeFile(localStoragePath, {})
+})
 
 beforeEach(() => {
     cy.restoreLocalStorage()
@@ -86,6 +93,7 @@ beforeEach(() => {
                 })
             })
         })
+
         cy.fixture('dimensies').then((data) => {
             data.forEach((request) => {
                 cy.route({
@@ -107,11 +115,6 @@ beforeEach(() => {
 
 afterEach(() => {
     cy.saveLocalStorage()
-})
-
-before(() => {
-    // Clean out local storage
-    cy.writeFile(localStoragePath, {})
 })
 
 after(() => {

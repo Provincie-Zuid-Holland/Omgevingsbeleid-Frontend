@@ -186,7 +186,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
         const axiosGETArray = beleidsrelaties.map((relatie) => {
             return axios
                 .get(
-                    `/beleidskeuzes/version/${
+                    `version/beleidskeuzes/${
                         relatie.Van_Beleidskeuze !== UUID
                             ? relatie.Van_Beleidskeuze
                             : relatie.Naar_Beleidskeuze
@@ -228,7 +228,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
         beleidsrelaties.forEach((relatie) => {
             axios
                 .get(
-                    `/beleidskeuzes/version/${
+                    `/version/beleidskeuzes/${
                         relatie.Van_Beleidskeuze !== UUID
                             ? relatie.Van_Beleidskeuze
                             : relatie.Naar_Beleidskeuze

@@ -49,7 +49,7 @@ class MuteerBeleidsrelatiesCRUD extends Component {
     componentDidMount() {
         const UUID = this.props.match.params.UUID
         axios
-            .get(`/beleidskeuzes/version/${UUID}`)
+            .get(`version/beleidskeuzes/${UUID}`)
             .then((res) =>
                 this.setState({
                     Van_Beleidskeuze_Titel: res.data.Titel,

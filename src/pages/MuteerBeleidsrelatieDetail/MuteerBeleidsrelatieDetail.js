@@ -49,7 +49,7 @@ const MuteerBeleidsrelatieDetail = ({
     const { UUID } = useParams()
 
     const getAndSetBeleidskeuze = (UUID) =>
-        axios.get(`/beleidskeuzes/version/${UUID}`).then((res) => {
+        axios.get(`version/beleidskeuzes/${UUID}`).then((res) => {
             setBeleidsObject(res.data)
             // setState({
             //     beleidskeuzeStatus: res.data.Status,
@@ -70,7 +70,7 @@ const MuteerBeleidsrelatieDetail = ({
                 outgoing.map((relatie) =>
                     axios
                         .get(
-                            `/beleidskeuzes/version/${relatie.Naar_Beleidskeuze}`
+                            `version/beleidskeuzes/${relatie.Naar_Beleidskeuze}`
                         )
                         .then((res) => (relatie.beleidskeuze = res.data))
                 )
@@ -89,7 +89,7 @@ const MuteerBeleidsrelatieDetail = ({
                 incoming.map((relatie) =>
                     axios
                         .get(
-                            `/beleidskeuzes/version/${relatie.Van_Beleidskeuze}`
+                            `version/beleidskeuzes/${relatie.Van_Beleidskeuze}`
                         )
                         .then((res) => (relatie.beleidskeuze = res.data))
                 )

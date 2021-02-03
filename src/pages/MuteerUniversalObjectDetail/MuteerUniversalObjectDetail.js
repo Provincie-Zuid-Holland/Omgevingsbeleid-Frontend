@@ -55,7 +55,7 @@ class MuteerUniversalObjectDetail extends Component {
             return `${apiEndpoint}/${objectID}`
         } else if (this.state.pageType === 'version') {
             const objectUUID = this.props.match.params.version
-            return `${apiEndpoint}/version/${objectUUID}`
+            return `/version/${apiEndpoint}/${objectUUID}`
         }
     }
 

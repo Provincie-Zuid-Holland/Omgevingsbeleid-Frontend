@@ -93,7 +93,7 @@ const MuteerUniversalObjectDetailWithStatuses = ({ dimensieConstants }) => {
             if (pageType === 'detail') {
                 return `${apiEndpoint}/${single}`
             } else if (pageType === 'version') {
-                return `${apiEndpoint}/version/${version}`
+                return `/version/${apiEndpoint}/${version}`
             }
         }
 
