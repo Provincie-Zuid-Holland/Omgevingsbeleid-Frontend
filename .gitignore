@@ -29,3 +29,6 @@ yarn-error.log*
 
 # CSS
 src/css/tailwind.css
+
+# .bak
+.bak
