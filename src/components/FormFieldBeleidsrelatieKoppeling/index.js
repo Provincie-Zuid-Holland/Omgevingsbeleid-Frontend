@@ -1,0 +1,3 @@
+import FormFieldBeleidsrelatieKoppeling from './FormFieldBeleidsrelatieKoppeling.js'
+
+export default FormFieldBeleidsrelatieKoppeling

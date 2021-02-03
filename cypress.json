@@ -1,0 +1,9 @@
+{
+    "video": false,
+    "baseUrl": "http://localhost:3000",
+    "env": {
+        "env": "dev",
+        "RECORD": false,
+        "API_VERSION": "v0.1"
+    }
+}
