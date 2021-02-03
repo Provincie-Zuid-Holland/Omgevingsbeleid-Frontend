@@ -18,6 +18,7 @@ import LoaderMainTitle from './../../../components/LoaderMainTitle'
 import LoaderSmallSpan from './../../../components/LoaderSmallSpan'
 import PopUpDetailDropdown from './../PopUpDetailDropdown'
 
+// Main Component - Main Container
 class ContainerDetail extends Component {
     constructor(props) {
         super(props)
@@ -43,10 +44,10 @@ class ContainerDetail extends Component {
 
     render() {
         const dataObject = this.props.dataObject
-        const titleSingular = this.props.titleSingular
+        const titelEnkelvoud = this.props.titelEnkelvoud
         const pageType = this.props.pageType
-        const isLoading = this.props.isLoading
-        const dimensionHistory = this.props.dimensionHistory
+        const dataReceived = this.props.dataReceived
+        const dimensieHistorie = this.props.dimensieHistorie
 
         return (
             <div
@@ -55,10 +56,10 @@ class ContainerDetail extends Component {
                 `}
             >
                 {/* Verticale lijn + bolletje */}
-                {!isLoading && dataObject ? (
+                {dataReceived ? (
                     dataObject.Status === 'Vigerend' ||
                     dataObject.Status === 'Gepubliceerd' ? (
-                        dimensionHistory[0] && dataObject ? (
+                        dimensieHistorie[0] && dataObject ? (
                             <div className="absolute bottom-0 left-0 h-full pt-5 text-center">
                                 <div className="absolute top-0 right-0 inline-block mt-5 bg-indigo-900 status-bolletje" />
                                 <div className="inline-block w-8 h-full border-r-2 border-gray-400" />
@@ -71,7 +72,7 @@ class ContainerDetail extends Component {
                         )
                     ) : (
                         <div className="absolute bottom-0 left-0 h-full pt-5 text-center">
-                            <div className="relative top-0 right-0">
+                            <div className="absolute relative top-0 right-0">
                                 <div className="absolute right-0 z-10 inline-block bg-secondary status-bolletje" />
                                 <div className="absolute top-0 border-2 rounded-full border-secondary pulserende-ring" />
                             </div>
@@ -86,14 +87,13 @@ class ContainerDetail extends Component {
                     <div
                         onClick={this.toggleDropdown}
                         className="absolute top-0 right-0 p-5 text-gray-600 cursor-pointer hover:text-gray-800"
-                        id="container-detail-dropdown-dots"
                     >
                         <FontAwesomeIcon className="mr-2" icon={faEllipsisV} />
                     </div>
 
                     {this.state.dropdown ? (
                         <PopUpDetailDropdown
-                            titleSingular={titleSingular}
+                            titelEnkelvoud={titelEnkelvoud}
                             raadpleegLink={`/detail/${this.props.overzichtSlug}/${dataObject.UUID}`}
                             dataObject={dataObject}
                             toggleDropdown={this.toggleDropdown}
@@ -101,7 +101,6 @@ class ContainerDetail extends Component {
                             toggleStatusPopup={this.toggleStatusPopup}
                         />
                     ) : null}
-
                     {this.state.statusPopup ? (
                         <PopUpStatusAanpassen
                             dataObject={dataObject}
@@ -112,10 +111,10 @@ class ContainerDetail extends Component {
                     ) : null}
 
                     <span className="block mb-1 text-sm text-gray-500">
-                        {titleSingular}
+                        {titelEnkelvoud}
                     </span>
 
-                    {!isLoading ? (
+                    {dataReceived ? (
                         <HeadingMain
                             titel={dataObject.Titel}
                             status={dataObject.Status}
@@ -138,7 +137,7 @@ class ContainerDetail extends Component {
                             }`}
                             className="inline-block mt-2 text-blue-700 underline"
                         >
-                            Bewerk {this.props.titleSingular}
+                            Bewerk {this.props.titelEnkelvoud}
                         </Link>
                     ) : null}
 
@@ -149,7 +148,7 @@ class ContainerDetail extends Component {
                                 <div>
                                     <span className="block text-sm font-bold text-gray-700">
                                         {/* isBefore */}
-                                        {!isLoading &&
+                                        {dataReceived &&
                                         dataObject['Begin_Geldigheid'] !==
                                             null &&
                                         isBefore(
@@ -159,7 +158,7 @@ class ContainerDetail extends Component {
                                             ? 'Vigerend sinds'
                                             : 'Vigerend vanaf'}
                                     </span>
-                                    {!isLoading ? (
+                                    {dataReceived ? (
                                         <span className="text-sm text-gray-700">
                                             {dataObject['Begin_Geldigheid'] !==
                                             null
@@ -211,7 +210,7 @@ class ContainerDetail extends Component {
                                     </div>
                                 </a>
                             ) : null}
-                            {titleSingular !== 'Beleidsrelatie' ? (
+                            {titelEnkelvoud !== 'Beleidsrelatie' ? (
                                 <a
                                     href={`/detail/${this.props.overzichtSlug}/${dataObject.UUID}`}
                                     target="_blank"
@@ -224,8 +223,8 @@ class ContainerDetail extends Component {
                                                 Link naar raadpleegomgeving
                                             </span>
                                             <span className="text-sm text-gray-700">
-                                                {!isLoading ? (
-                                                    `Bekijk ${titleSingular.toLowerCase()}`
+                                                {dataReceived ? (
+                                                    `Bekijk ${titelEnkelvoud.toLowerCase()}`
                                                 ) : (
                                                     <LoaderMainTitle />
                                                 )}

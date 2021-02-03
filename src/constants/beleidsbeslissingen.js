@@ -1,9 +1,7 @@
-import { currentDate, futureDate, currentDateFormatted } from './testValues'
-
-export const TITLE_SINGULAR = 'Beleidskeuze'
-export const TITLE_PLURAL = 'Beleidskeuzes'
+export const TITEL_ENKELVOUD = 'Beleidskeuze'
+export const TITEL_MEERVOUD = 'Beleidskeuzes'
 export const API_ENDPOINT = 'beleidsbeslissingen'
-export const SLUG_OVERVIEW = 'beleidskeuzes'
+export const SLUG_OVERZICHT = 'beleidskeuzes'
 export const SLUG_CREATE_NEW = 'nieuwe-beleidskeuze'
 
 // De required property bevat de statussen waarin de property verplicht is om in te vullen
@@ -19,8 +17,6 @@ export const CRUD_PROPERTIES = {
             'Gepubliceerd',
         ],
         requiredMessage: 'Vul een titel in',
-        testValue: `Test beleidskeuze ${currentDateFormatted}`,
-        type: 'text input',
     },
     Eigenaar_1: {
         initValue: null,
@@ -31,15 +27,11 @@ export const CRUD_PROPERTIES = {
             'Gepubliceerd',
         ],
         requiredMessage: 'Selecteer een eerste eigenaar',
-        testValue: `Alex de Roos`,
-        type: 'react select',
     },
     Eigenaar_2: {
         initValue: null,
         required: ['Ontwerp', 'Vastgesteld', 'Gepubliceerd'],
         requiredMessage: 'Selecteer een tweede eigenaar',
-        testValue: `Maurice Hermans`,
-        type: 'react select',
     },
     Portefeuillehouder_1: {
         initValue: null,
@@ -50,84 +42,61 @@ export const CRUD_PROPERTIES = {
             'Gepubliceerd',
         ],
         requiredMessage: 'Selecteer een eerste portefeuillehouder',
-        testValue: `Willy de Zoete`,
-        type: 'react select',
     },
     Portefeuillehouder_2: {
         initValue: null,
         required: [],
         requiredMessage: 'Selecteer een tweede portefeuillehouder',
-        testValue: `Adri Bom-Lemstra`,
-        type: 'react select',
     },
     Opdrachtgever: {
         initValue: null,
         required: ['Ontwerp', 'Vastgesteld', 'Gepubliceerd'],
         requiredMessage: 'Selecteer een opdrachtgever',
-        testValue: `Albert Koffeman`,
-        type: 'react select',
     },
     Omschrijving_Keuze: {
         initValue: null,
         required: ['Ontwerp', 'Vastgesteld', 'Gepubliceerd'],
         requiredMessage: 'Vul de omschrijving van de beleidskeuze in',
-        testValue: `Test tekst over wat de beleidskeuze wil bereiken`,
-        type: 'text input',
     },
     Omschrijving_Werking: {
         initValue: null,
         required: ['Ontwerp', 'Vastgesteld', 'Gepubliceerd'],
-        requiredMessage: 'Vul de toelichting van de beleidskeuze in',
-        testValue: `Test toelichting van de beleidskeuze`,
-        type: 'text input',
+        requiredMessage: 'Vul de werking van de beleidskeuze in',
     },
     Aanleiding: {
         initValue: null,
         required: ['Ontwerp', 'Vastgesteld', 'Gepubliceerd'],
         requiredMessage: 'Vul het aanleiding veld in',
-        testValue: `Test aanleiding van de beleidskeuze`,
-        type: 'text input',
     },
     Provinciaal_Belang: {
         initValue: null,
         required: ['Ontwerp', 'Vastgesteld', 'Gepubliceerd'],
         requiredMessage: 'Vul het provinciaal belang veld in',
-        testValue: `Test aanleiding van de beleidskeuze`,
-        type: 'text input',
     },
     WerkingsGebieden: {
         initValue: [],
         required: ['Ontwerp', 'Vastgesteld', 'Gepubliceerd'],
         requiredMessage: 'Selecteer een werkingsgebied',
-        type: 'werkingsgebied',
     },
     Weblink: {
         initValue: null,
         required: ['Vastgesteld', 'Gepubliceerd'],
         requiredMessage: 'Vul de link in naar het besluitdocument op IDMS',
-        testValue: `Test weblink`,
-        type: 'text input',
     },
     Besluitnummer: {
         initValue: null,
         required: ['Vastgesteld', 'Gepubliceerd'],
         requiredMessage: 'Vul het besluitnummer veld in van ',
-        testValue: `Test besluitnummer`,
-        type: 'text input',
     },
     Begin_Geldigheid: {
         initValue: null,
         required: ['Vastgesteld', 'Gepubliceerd'],
         requiredMessage: 'Vul een datum van inwerkingstreding in',
-        testValue: currentDate,
-        type: 'date input',
     },
     Eind_Geldigheid: {
         initValue: null,
         required: [],
         requiredMessage: 'Vul een datum van uitwerkingstreding in',
-        testValue: futureDate,
-        type: 'date input',
     },
     BeleidsRegels: {
         initValue: [],
@@ -178,7 +147,6 @@ export const CRUD_PROPERTIES = {
             'Gepubliceerd',
         ],
         requiredMessage: 'Zorg dat de beleidskeuze een status heeft',
-        type: 'hidden',
     },
     Tags: {
         initValue: null,

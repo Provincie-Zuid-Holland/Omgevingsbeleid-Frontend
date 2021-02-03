@@ -6,7 +6,7 @@ describe('FormFieldRadioButton', () => {
     const defaultProps = {}
     const mockHandleChange = jest.fn()
 
-    const titleSingular = 'Maatregel'
+    const titelEnkelvoud = 'Maatregel'
     const options = ['Gebiedsspecifiek', 'Generiek']
     const fieldValue = 'Gebiedsspecifiek'
     const secondOption = 'Generiek'
@@ -21,7 +21,7 @@ describe('FormFieldRadioButton', () => {
                 handleChange={mockHandleChange}
                 fieldValue={fieldValue}
                 dataObjectProperty={dataObjectProperty}
-                titleSingular={titleSingular}
+                titelEnkelvoud={titelEnkelvoud}
                 label="Intentie van het werkingsgebied"
                 {...props}
             />
@@ -31,7 +31,7 @@ describe('FormFieldRadioButton', () => {
 
     it('Should be checked when options include fieldValue', () => {
         const props = { ...defaultProps }
-        const id = `form-field-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}-${
+        const id = `form-field-${titelEnkelvoud.toLowerCase()}-${dataObjectProperty.toLowerCase()}-${
             options[0]
         }`
         const { container } = render(
@@ -40,7 +40,7 @@ describe('FormFieldRadioButton', () => {
                 handleChange={mockHandleChange}
                 fieldValue={fieldValue}
                 dataObjectProperty={dataObjectProperty}
-                titleSingular={titleSingular}
+                titelEnkelvoud={titelEnkelvoud}
                 label="Intentie van het werkingsgebied"
                 {...props}
             />

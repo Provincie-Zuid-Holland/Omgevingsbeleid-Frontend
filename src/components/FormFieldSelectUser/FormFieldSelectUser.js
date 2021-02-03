@@ -4,14 +4,6 @@ import Select from 'react-select'
 // Import Components
 import LoaderSelect from './../LoaderSelect'
 
-/**
- * Function to filter through the objectenArray and return the options.
- *
- * @function
- *
- * @param {array} objectenArray - Array of the user.
- * @param {string} dataObjectProperty - Parameter used for the name variable used for the options target.
- */
 function makeSelection(objectenArray, dataObjectProperty) {
     if (objectenArray.length === 0) {
         return []
@@ -32,12 +24,6 @@ function makeSelection(objectenArray, dataObjectProperty) {
     }
 }
 
-/**
- * Class that renders the FormFieldSelectUser.
- *
- * @class
- * @extends React.Component
- */
 class FormFieldSelectUser extends React.Component {
     constructor(props) {
         super(props)
@@ -47,15 +33,7 @@ class FormFieldSelectUser extends React.Component {
             dataLoaded: false,
         }
     }
-    /**
-     * Function to update the prevProps and set the state variables.
-     *
-     * @function
-     *
-     * @param {props} prevProps - Parameter that is used to show the previous property value.
-     * @param {props} prevState - Parameter that is used to show the previous state value.
-     * @param {jest} snapshot - Jest parameter that is used for testing.
-     */
+
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (this.props.fieldValue !== prevProps.fieldValue) {
             const selected = this.state.selectionArray.find(
@@ -68,11 +46,6 @@ class FormFieldSelectUser extends React.Component {
         }
     }
 
-    /**
-     * Function to set the state based on certain variables.
-     *
-     * @function
-     */
     componentDidMount() {
         const objecten = this.props.gebruikersLijst
             .sort((a, b) => (a.Gebruikersnaam > b.Gebruikersnaam ? 1 : -1))
@@ -85,7 +58,7 @@ class FormFieldSelectUser extends React.Component {
 
         if (
             this.props.editStatus === true ||
-            (this.props.titleSingular === 'Beleidskeuze' &&
+            (this.props.titelEnkelvoud === 'Beleidskeuze' &&
                 this.props.dataObjectProperty === 'Eigenaar_1' &&
                 selectionArray)
         ) {
@@ -132,7 +105,7 @@ class FormFieldSelectUser extends React.Component {
                 {this.state.dataLoaded ? (
                     <Select
                         isDisabled={this.props.disabled}
-                        id={`form-field-${this.props.titleSingular.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
+                        id={`form-field-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
                         className="border border-gray-400 rounded hover:border-gray-500 focus:border-gray-500"
                         name={this.props.dataObjectProperty}
                         value={this.state.selected}

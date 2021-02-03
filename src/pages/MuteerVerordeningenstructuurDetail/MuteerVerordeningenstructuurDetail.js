@@ -1,6 +1,3 @@
-/* eslint-disable */
-// TODO: For now ESLint is disabled, because this file will be refactored in the future, based on a new data structure
-
 import React from 'react'
 import { Helmet } from 'react-helmet'
 import {
@@ -46,9 +43,8 @@ const reorder = (list, startIndex, endIndex) => {
     return result
 }
 
-/**
- * This component holds a complete verordening, with the ability to edit, add and delete object in it
- */
+// TODO: I refactored the DragAndDrop components, remove the old components
+
 const MuteerVerordeningenstructuurDetail = () => {
     // This component has two views. The overview of all the chapters (e.g. activeChapter === Null) and a view that shows the activeChapter (e.g. activeChapter === 0). This view is conditional based on the value of activeChapter.
     // This component is quite complex, as it holds the whole structure and provides the user with several ways to edit that structure
@@ -124,9 +120,12 @@ const MuteerVerordeningenstructuurDetail = () => {
                 return newState
             case 'changeLidToArtikelInhoud':
                 newState[action.name] = action.value
+                console.log(lineage)
                 if (newState.Children && newState.Children.length > 0) {
+                    console.log(newState)
                     delete newState.Children
                 }
+                console.log(newState)
                 return newState
             case 'changeSelectValue':
                 if (action.actionMeta.action === 'select-option') {
@@ -999,6 +998,40 @@ const MuteerVerordeningenstructuurDetail = () => {
 
         // Display loader overlay
         setPatchingInProgress(true)
+
+        function removePropertiesFromLineageStructuur(lineage) {
+            const structuurObject = clonedeep(lineage.Structuur)
+            return removeProperties(structuurObject.Children)
+        }
+
+        // To Patch the structure we need to remove all the properties that don't belong in the structure
+        function removeProperties(children) {
+            const sanitizedChildren = children.map((child) => {
+                delete child.ID
+                delete child.Begin_Geldigheid
+                delete child.Eind_Geldigheid
+                delete child.Created_By
+                delete child.Created_Date
+                delete child.Modified_By
+                delete child.Modified_Date
+                delete child.Titel
+                delete child.Inhoud
+                delete child.Status
+                delete child.Type
+                delete child.Volgnummer
+                delete child.Werkingsgebied
+                delete child.Eigenaar_1
+                delete child.Eigenaar_2
+                delete child.Portefeuillehouder_1
+                delete child.Portefeuillehouder_2
+                delete child.Opdrachtgever
+                if (child.Children.length > 0) {
+                    removeProperties(child.Children)
+                }
+                return child
+            })
+            return sanitizedChildren
+        }
 
         // Save de aangepaste lineage naar de lineageCopy
         setLineageCopy(clonedeep(lineage))

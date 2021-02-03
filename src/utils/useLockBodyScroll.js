@@ -1,22 +1,17 @@
-import { useLayoutEffect } from 'react'
+import React, { useLayoutEffect } from 'react'
 
 function useLockBodyScroll({ modalOpen }) {
     useLayoutEffect(() => {
-        // Get original html overflow
-        const originalStyle = window.getComputedStyle(
-            document.getElementsByTagName('html')[0]
-        ).overflow
+        // Get original body overflow
+        const originalStyle = window.getComputedStyle(document.body).overflow
 
         // Prevent scrolling on mount
         if (modalOpen) {
-            document.getElementsByTagName('html')[0].style.overflow = 'hidden'
+            document.body.style.overflow = 'hidden'
         }
-
         // Re-enable scrolling when component unmounts
         return () => {
-            document.getElementsByTagName(
-                'html'
-            )[0].style.overflow = originalStyle
+            document.body.style.overflow = originalStyle
         }
     }, [modalOpen]) // Empty array ensures effect is only run on mount and unmount
 }

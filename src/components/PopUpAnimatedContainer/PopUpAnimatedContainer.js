@@ -1,13 +1,6 @@
 import React from 'react'
 import { useSpring, animated } from 'react-spring'
 
-/**
- * Component that renders the PopUpAnimatedContainer component.
- *
- * @component
- *
- * @param {props} props - Parameter that is used to show a class small, large or normal and to display information within the animated.div.
- */
 function PopUpAnimatedContainer(props) {
     return (
         <React.Fragment>

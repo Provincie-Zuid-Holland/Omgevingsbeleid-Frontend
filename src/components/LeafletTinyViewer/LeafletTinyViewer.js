@@ -6,7 +6,7 @@ import { toast } from 'react-toastify'
 import Proj from 'proj4leaflet'
 import LoaderLeafletTinyViewer from './../LoaderLeafletTinyViewer'
 import LeafletController from './../LeafletController'
-import { Transition } from '@headlessui/react'
+import Transition from './../Transition'
 
 import {
     faLayerGroup,
@@ -125,12 +125,6 @@ const DEFAULT_VIEWPORT = {
     zoom: 5,
 }
 
-/**
- * Class that sets the state for a certain amount of variables and create a reference for the leafletMap variable and binds the initializeComponent.
- *
- * @class
- * @extends Component
- */
 export default class LeafletTinyViewer extends Component {
     constructor(props) {
         super(props)
@@ -147,33 +141,14 @@ export default class LeafletTinyViewer extends Component {
         this.initializeComponent = this.initializeComponent.bind(this)
     }
 
-    /**
-     * Function that does nothing.
-     *
-     * @function
-     */
     onClickReset = () => {
         // this.setState({ viewport: DEFAULT_VIEWPORT })
     }
 
-    /**
-     * Function that changes the viewport by setting the state based on the viewport value.
-     *
-     * @function
-     *
-     * @param {object} viewport - The value of this parameter is used to set the new viewport state.
-     */
     onViewportChanged = (viewport) => {
         this.setState({ viewport: viewport, bounds: null })
     }
 
-    /**
-     * Function that updates the leafletMap parameters and checks the previous values with the prevProps and set the new one based on the current value.
-     *
-     * @function
-     *
-     * @param {object} prevProps - Parameter containing the previous values.
-     */
     componentDidUpdate(prevProps) {
         if (
             this.props.fullscreen !== prevProps.fullscreen &&
@@ -190,12 +165,6 @@ export default class LeafletTinyViewer extends Component {
         }
     }
 
-    /**
-     * Function that removes a layer from the currentLeafletMap.leafletElement if currentLeafletmap and this.state.boundsObject contain a value.
-     * It then imports the API axiosGeoJSON and then uses the GeoJsonData.
-     *
-     * @function
-     */
     initializeComponent() {
         const currentLeafletMap = this.leafletMap.current
         if (currentLeafletMap && this.state.boundsObject) {
@@ -212,6 +181,7 @@ export default class LeafletTinyViewer extends Component {
                             dataReceived: true,
                         },
                         () => {
+                            let colorsIndex = -1
                             const leafletMap = this.leafletMap.current
 
                             function onEachFeature(feature, layer) {
@@ -225,6 +195,7 @@ export default class LeafletTinyViewer extends Component {
                             const jsonLayer = Leaflet.Proj.geoJson(data, {
                                 onEachFeature: onEachFeature,
                                 style: (feature) => {
+                                    colorsIndex++
                                     return {
                                         stroke: true,
                                         color: '#3388ff', // custom blue color for the first werkingsgebied,
@@ -263,6 +234,7 @@ export default class LeafletTinyViewer extends Component {
                         },
                         () => {
                             let colorsIndex = -1
+                            const leafletMap = this.leafletMap.current
 
                             function onEachFeature(feature, layer) {
                                 if (feature.properties) {
@@ -306,11 +278,6 @@ export default class LeafletTinyViewer extends Component {
         })
     }
 
-    /**
-     * Function that calls the initializeComponent function within this javascript file.
-     *
-     * @function
-     */
     componentDidMount() {
         this.initializeComponent()
     }
@@ -399,8 +366,8 @@ export default class LeafletTinyViewer extends Component {
                                                     maxWidth: '100%',
                                                     height: this.props
                                                         .fullscreen
-                                                        ? '1000px'
-                                                        : '500px',
+                                                        ? '800px'
+                                                        : '250px',
                                                 }}
                                             >
                                                 <div className="w-full">
@@ -489,11 +456,6 @@ export default class LeafletTinyViewer extends Component {
                                                                           index
                                                                       ) => (
                                                                           <li
-                                                                              key={
-                                                                                  layer
-                                                                                      .feature
-                                                                                      .id
-                                                                              }
                                                                               className="flex justify-between px-2 py-1 pl-8 text-gray-700 hover:text-gray-800 focus:text-gray-900 hover:bg-gray-50"
                                                                               onClick={() => {
                                                                                   this.forceUpdate()
@@ -673,14 +635,6 @@ export default class LeafletTinyViewer extends Component {
     }
 }
 
-/**
- * Function to toggle (open/close) the div inside this function. It uses to display the title and children value.
- *
- * @function
- *
- * @param {object} children - Parameter used to display value in a div.
- * @param {string} title - Parameter used to display value in a span.
- */
 const ToggleableSection = ({ children, title }) => {
     const [open, setOpen] = React.useState(true)
     return (

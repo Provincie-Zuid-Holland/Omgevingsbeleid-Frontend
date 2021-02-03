@@ -1,12 +1,5 @@
-import React from 'react'
+import React, { Component } from 'react'
 
-/**
- * Component that renders the PopupWelcomeBeta component.
- *
- * @component
- *
- * @param {boolean} closePopup - Parameter that is used for an onclick function to hide the rendered popup if set to true.
- */
 const PopupWelcomeBeta = ({ closePopup }) => {
     return (
         <React.Fragment>

@@ -18,13 +18,6 @@ import HeadingMain from '../HeadingMain'
 import LoaderMainTitle from '../LoaderMainTitle'
 import LoaderSmallSpan from '../LoaderSmallSpan'
 
-/**
- * Function to display the status on a label.
- *
- * @function
- *
- * @param {object} props - Containing a set value and not used within this function.
- */
 function StatusLabel(props) {
     return (
         <span className="inline px-3 py-3 ml-3 text-sm font-bold bg-blue-100 rounded-full m-color">
@@ -33,12 +26,7 @@ function StatusLabel(props) {
     )
 }
 
-/**
- * Class that renders the ContainerDetailMain.
- *
- * @class
- * @extends {Component}
- */
+// Main Component - Main Container
 class ContainerDetailMain extends Component {
     constructor(props) {
         super(props)
@@ -50,23 +38,12 @@ class ContainerDetailMain extends Component {
         this.toggleStatusPopup = this.toggleStatusPopup.bind(this)
     }
 
-    /**
-     * Function to toggle (hide/show) the dropdown.
-     *
-     * @function
-     */
-
     toggleDropdown() {
         this.setState({
             dropdown: !this.state.dropdown,
         })
     }
 
-    /**
-     * Function to toggle (hide/show) the statusPopup.
-     *
-     * @function
-     */
     toggleStatusPopup() {
         this.setState({
             statusPopup: !this.state.statusPopup,
@@ -75,7 +52,7 @@ class ContainerDetailMain extends Component {
 
     render() {
         const dataObject = this.props.dataObject
-        const titleSingular = this.props.titleSingular
+        const titelEnkelvoud = this.props.titelEnkelvoud
         const pageType = this.props.pageType
         const titel = dataObject.Titel
         const dataReceived = this.props.dataReceived
@@ -87,7 +64,7 @@ class ContainerDetailMain extends Component {
                 }`}
             >
                 {this.props.children}
-                {titleSingular === 'Beleidskeuze' ? (
+                {titelEnkelvoud === 'Beleidskeuze' ? (
                     <div
                         onClick={this.toggleDropdown}
                         className="absolute top-0 right-0 p-5 text-gray-600 cursor-pointer hover:text-gray-800"
@@ -98,7 +75,7 @@ class ContainerDetailMain extends Component {
 
                 {this.state.dropdown ? (
                     <PopUpDetailDropdown
-                        titleSingular={titleSingular}
+                        titelEnkelvoud={titelEnkelvoud}
                         dataObject={dataObject}
                         toggleDropdown={this.toggleDropdown}
                         openState={this.state.dropdown}
@@ -115,7 +92,7 @@ class ContainerDetailMain extends Component {
                 ) : null}
 
                 <span className="block mb-1 text-sm text-gray-500">
-                    {titleSingular}
+                    {titelEnkelvoud}
                 </span>
 
                 {dataReceived ? (
@@ -124,7 +101,7 @@ class ContainerDetailMain extends Component {
                     <LoaderMainTitle />
                 )}
 
-                {pageType === 'detail' && titleSingular === 'beleidskeuze' ? (
+                {pageType === 'detail' && titelEnkelvoud === 'beleidskeuze' ? (
                     <StatusLabel />
                 ) : null}
 
@@ -191,12 +168,12 @@ class ContainerDetailMain extends Component {
                             </div>
                         </a>
                     ) : null}
-                    {titleSingular !== 'Beleidsrelatie' ? (
+                    {titelEnkelvoud !== 'Beleidsrelatie' ? (
                         <a
                             href={
-                                titleSingular === 'Artikel' ||
-                                titleSingular === 'Paragraaf' ||
-                                titleSingular === 'Afdeling'
+                                titelEnkelvoud === 'Artikel' ||
+                                titelEnkelvoud === 'Paragraaf' ||
+                                titelEnkelvoud === 'Afdeling'
                                     ? `/detail/verordeningen/${
                                           this.props.lineageID
                                       }/${this.props.dataObject.UUID}${
@@ -217,7 +194,7 @@ class ContainerDetailMain extends Component {
                                     </span>
                                     <span className="text-sm text-gray-700">
                                         {dataReceived ? (
-                                            `Bekijk ${titleSingular.toLowerCase()}`
+                                            `Bekijk ${titelEnkelvoud.toLowerCase()}`
                                         ) : (
                                             <LoaderMainTitle />
                                         )}

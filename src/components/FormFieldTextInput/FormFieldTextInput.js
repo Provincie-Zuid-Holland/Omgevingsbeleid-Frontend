@@ -1,44 +1,27 @@
 import React from 'react'
 import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFieldTitelEnBeschrijving'
 
-/**
- * Component to render the FormFieldTextInput.
- *
- * @component
- *
- * @param {string} dataObjectProperty - Parameter is part of the id of the FormFieldTitelenBeschrijving.
- * @param {string} pValue - Parameter that displays a text and is a part of the FormFieldTitelenBeschrijving.
- * @param {string} titelEnkelvoud - Paramter that is part of the id of the FormFieldTitelenBeshrijving.
- * @param {string} fieldValue - Parameter that is part of the placeholder for the FormFieldTitelenBeschrijving.
- * @param {boolean} handleChange - Parameter that can be set to true or false if the input can be changed.
- * @param {string} fieldLabel - Label of the FormFieldTitelenBeschrijving.
- * @param {boolean} disabled - Parameter that can be set true to disable input of the FormFieldTextInput.
- */
 const FormFieldTextInput = ({
     dataObjectProperty,
     pValue,
-    titleSingular,
+    titelEnkelvoud,
     fieldValue,
     handleChange,
     fieldLabel,
     disabled,
 }) => {
-    if (disabled) {
-        pValue = pValue + ' (Kan niet zonder besluitvorming worden gewijzigd)'
-    }
-
     return (
         <div className="w-full mb-6">
             <FormFieldTitelEnBeschrijving
                 dataObjectProperty={dataObjectProperty}
                 fieldLabel={fieldLabel}
                 pValue={pValue}
-                titleSingular={titleSingular}
+                titelEnkelvoud={titelEnkelvoud}
             />
 
             <input
                 disabled={disabled}
-                id={`form-field-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
+                id={`form-field-${titelEnkelvoud.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
                 value={fieldValue ? fieldValue : ''}
                 onChange={handleChange}
                 name={dataObjectProperty}

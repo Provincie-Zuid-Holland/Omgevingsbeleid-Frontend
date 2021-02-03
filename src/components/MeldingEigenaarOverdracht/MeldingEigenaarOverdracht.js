@@ -2,12 +2,6 @@ import React, { Component } from 'react'
 import { faPeopleCarry, faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-/**
- * Class that renders the MeldingEigenaarOverdracht component that prompts the user in accepting/declining the ownership of an item within the application.
- *
- * @class
- * @extends Component
- */
 class MeldingEigenaarOverdracht extends Component {
     render() {
         return (

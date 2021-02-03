@@ -1,9 +1,9 @@
 import { currentDate, futureDate, currentDateFormatted } from './testValues'
 
-export const TITLE_SINGULAR = 'Belang'
-export const TITLE_PLURAL = 'Belangen'
+export const TITEL_ENKELVOUD = 'Belang'
+export const TITEL_MEERVOUD = 'Belangen'
 export const API_ENDPOINT = 'belangen'
-export const SLUG_OVERVIEW = 'belangen'
+export const SLUG_OVERZICHT = 'belangen'
 export const SLUG_CREATE_NEW = 'nieuw-belang'
 
 export const CRUD_PROPERTIES = {

@@ -7,14 +7,6 @@ import axios from './../../API/axios'
 import Select from 'react-select'
 import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFieldTitelEnBeschrijving'
 
-/**
- * Function to push values to dataObjectProperty if objectenArray.length not equal to 1.
- *
- * @function
- *
- * @param {array} objectenArray - Parameter used in an if else statement.
- * @param {string} dataObjectProperty - Parameter that is used to set the option of objectenArray.
- */
 function makeSelection(objectenArray, dataObjectProperty) {
     if (objectenArray.length === 1) {
         return null
@@ -35,12 +27,6 @@ function makeSelection(objectenArray, dataObjectProperty) {
     }
 }
 
-/**
- * Class that renders the FormFieldWerkingsgebiedrelatie.
- *
- * @class
- * @extends React.Component
- */
 class FormFieldWerkingsgebiedrelatie extends React.Component {
     state = {
         selectionArray: [],
@@ -54,11 +40,11 @@ class FormFieldWerkingsgebiedrelatie extends React.Component {
                     dataObjectProperty={this.props.dataObjectProperty}
                     fieldLabel={this.props.fieldLabel}
                     pValue={this.props.pValue}
-                    titleSingular={this.props.titleSingular}
+                    titelEnkelvoud={this.props.titelEnkelvoud}
                 />
                 {this.state.selectionArray.length !== 0 ? (
                     <Select
-                        id={`form-field-${this.props.titleSingular.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
+                        id={`form-field-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
                         value={this.state.selected}
                         onChange={this.props.handleChange}
                         options={this.state.selectionArray}
@@ -70,15 +56,6 @@ class FormFieldWerkingsgebiedrelatie extends React.Component {
         )
     }
 
-    /**
-     * Function to find arrayItem within selectionArray.
-     *
-     * @function
-     *
-     * @param {props} prevProps - Parameter used to check fieldValue with previous props.
-     * @param {string} prevState - Parameter not used in this function.
-     * @param {*} snapshot - Parameter that is not used in this function.
-     */
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (this.props.fieldValue !== prevProps.fieldValue) {
             const selected = this.state.selectionArray.find(
@@ -90,11 +67,6 @@ class FormFieldWerkingsgebiedrelatie extends React.Component {
         }
     }
 
-    /**
-     * Function to get werkingsgebieden through the axios API.
-     *
-     * @function
-     */
     componentDidMount() {
         const ApiEndpoint = 'werkingsgebieden'
 

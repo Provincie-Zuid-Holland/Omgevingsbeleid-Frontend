@@ -36,7 +36,7 @@ function PDFContainerViewFieldsBeleidsbeslissing(props) {
             <Page size="A4" style={styles.page}>
                 <View style={styles.section}>
                     <Image src={process.env.PUBLIC_URL + '/images/logo.png'} />
-                    <Text style={styles.title}>{props.objectTitle}</Text>
+                    <Text style={styles.title}>{props.objectTitel}</Text>
                     <Text style={styles.text}>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                         Vestibulum pulvinar sollicitudin tellus nec volutpat.
@@ -284,30 +284,30 @@ function PDFContainerViewFieldsThema() {
 
 class PDFDocument extends Component {
     render() {
-        const titleSingular = this.props.titleSingular
+        const titelEnkelvoud = this.props.titelEnkelvoud
         const dataObject = true
-        const objectTitle = this.props.titel
+        const objectTitel = this.props.titel
 
-        if (titleSingular === 'Beleidskeuze') {
+        if (titelEnkelvoud === 'Beleidskeuze') {
             return (
                 <PDFContainerViewFieldsBeleidsbeslissing
                     crudObject={dataObject}
-                    objectTitle={objectTitle}
+                    objectTitel={objectTitel}
                 />
             )
-        } else if (titleSingular === 'Beleidsregel') {
+        } else if (titelEnkelvoud === 'Beleidsregel') {
             return (
                 <PDFContainerViewFieldsBeleidsregel crudObject={dataObject} />
             )
-        } else if (titleSingular === 'Maatregel') {
+        } else if (titelEnkelvoud === 'Maatregel') {
             return <PDFContainerViewFieldsMaatregel crudObject={dataObject} />
-        } else if (titleSingular === 'Opgave') {
+        } else if (titelEnkelvoud === 'Opgave') {
             return <PDFContainerViewFieldsOpgave crudObject={dataObject} />
-        } else if (titleSingular === 'Ambitie') {
+        } else if (titelEnkelvoud === 'Ambitie') {
             return <PDFContainerViewFieldsAmbitie crudObject={dataObject} />
-        } else if (titleSingular === 'Belang') {
+        } else if (titelEnkelvoud === 'Belang') {
             return <PDFContainerViewFieldsBelang crudObject={dataObject} />
-        } else if (titleSingular === 'Thema') {
+        } else if (titelEnkelvoud === 'Thema') {
             return <PDFContainerViewFieldsThema crudObject={dataObject} />
         } else {
             return null

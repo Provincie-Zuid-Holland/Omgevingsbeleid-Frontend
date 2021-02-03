@@ -4,11 +4,6 @@ import React from 'react'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-/**
- * Component that renders the LoaderSaving component with a spinner icon used from FontAwesome.
- *
- * @component
- */
 function LoaderSaving() {
     return (
         <div className="fixed flex justify-center items-center w-screen h-screen pointer-events-none left-0 top-0 z-50">

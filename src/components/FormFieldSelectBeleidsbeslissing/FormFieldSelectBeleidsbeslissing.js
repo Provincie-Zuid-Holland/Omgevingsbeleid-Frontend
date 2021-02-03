@@ -8,15 +8,6 @@ import axios from './../../API/axios'
 // Import Components
 import LoaderSelect from './../LoaderSelect'
 
-/**
- * Function to filter through the objectenArray.
- *
- * @function
- *
- * @param {array} objectenArray - Array containing a collection of Beleidsbeslissingen.
- * @param {string} dataObjectProperty - The name of one of the Beleidsbeslissingen.
- * @param {string} filterUUID - FilterUUID is used to filter out the item that initiates the new relation, so an object can't make a relation with itself
- */
 function makeSelection(objectenArray, dataObjectProperty, filterUUID) {
     let options = []
 
@@ -39,12 +30,6 @@ function makeSelection(objectenArray, dataObjectProperty, filterUUID) {
     return options
 }
 
-/**
- * Class that renders the FormFieldSelectBeleidsbeslissing.
- *
- * @class
- * @extends React.Component
- */
 class FormFieldSelectBeleidsbeslissing extends React.Component {
     constructor(props) {
         super(props)
@@ -69,7 +54,7 @@ class FormFieldSelectBeleidsbeslissing extends React.Component {
                 </p>
                 {this.state.dataLoaded ? (
                     <Select
-                        id={`form-field-${this.props.titleSingular.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
+                        id={`form-field-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
                         value={this.state.selected}
                         name={this.props.dataObjectProperty}
                         onChange={this.props.handleChange}
@@ -83,15 +68,6 @@ class FormFieldSelectBeleidsbeslissing extends React.Component {
         )
     }
 
-    /**
-     * Function to find the selected state and to set the state.
-     *
-     * @Function
-     *
-     * @param {props} prevProps - Previous set property.
-     * @param {state} prevState - Previous set state, not used in this function.
-     * @param {*} snapshot - is a feature of Jest that allows you to test Javascript objects, not used in this function.
-     */
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (this.props.fieldValue !== prevProps.fieldValue) {
             const selected = this.state.selectionArray.find(
@@ -103,11 +79,7 @@ class FormFieldSelectBeleidsbeslissing extends React.Component {
             })
         }
     }
-    /**
-     * Function to get Beleidsbeslissingen to connect with through axios to an API.
-     *
-     * @function
-     */
+
     componentDidMount() {
         const ApiEndpoint = 'beleidsbeslissingen'
         // Connect With the API

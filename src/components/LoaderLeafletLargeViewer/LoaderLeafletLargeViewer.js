@@ -1,11 +1,6 @@
 import React from 'react'
 import ContentLoader from 'react-content-loader'
 
-/**
- * Component that uses the ContentLoader and sets the props for it.
- *
- * @component
- */
 const LoaderLeafletLargeViewer = () => (
     <ContentLoader
         speed={2}

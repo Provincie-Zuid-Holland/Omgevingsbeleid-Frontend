@@ -1,59 +1,25 @@
-Cypress.Commands.add('fillInFormField', ({ type, idOfElement, testValue }) => {
-    switch (type) {
-        case 'hidden':
-            // Value of property is automatically generated
-            return
-        case 'react select':
-            cy.get(idOfElement, { timeout: 10000 })
-                .click()
-                .type(testValue + '{enter}')
-
-            return
-        case 'date input':
-            cy.get(idOfElement, { timeout: 10000 })
-                .type(testValue)
-                .should('have.value', testValue)
-            break
-        case 'text input':
-            cy.get(idOfElement, { timeout: 10000 })
-                .type(testValue)
-                .should('have.value', testValue)
-            break
-        case 'select':
-            cy.get(idOfElement, { timeout: 10000 })
-                .select(testValue)
-                .should('have.value', testValue)
-            break
-        case 'werkingsgebied':
-            cy.get(idOfElement, { timeout: 10000 }).click()
-
-            cy.get('#form-field-werkingsgebied-zoekbalk').type(
-                'Provincie Zuid-Holland'
-            )
-
-            cy.get('.werkingsgebied-container div', {
-                timeout: 10000,
-            })
-                .first()
-                .click()
-
-            cy.get('#selected-werkingsgebied').should('exist')
-
-            break
-        case 'radio input':
-            cy.get(idOfElement, { timeout: 10000 })
-                .get('[type="radio"]')
-                .check(testValue)
-                .should('be.checked')
-            break
-        case 'rich text editor':
-            cy.get(idOfElement, { timeout: 10000 })
-                .type('{selectall}' + testValue)
-                .contains(testValue)
-                .should('exist')
-            break
-        default:
-            cy.log('Default break')
-            break
-    }
-})
+// ***********************************************
+// This example commands.js shows you how to
+// create various custom commands and overwrite
+// existing commands.
+//
+// For more comprehensive examples of custom
+// commands please read more here:
+// https://on.cypress.io/custom-commands
+// ***********************************************
+//
+//
+// -- This is a parent command --
+// Cypress.Commands.add("login", (email, password) => { ... })
+//
+//
+// -- This is a child command --
+// Cypress.Commands.add("drag", { prevSubject: 'element'}, (subject, options) => { ... })
+//
+//
+// -- This is a dual command --
+// Cypress.Commands.add("dismiss", { prevSubject: 'optional'}, (subject, options) => { ... })
+//
+//
+// -- This will overwrite an existing command --
+// Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })

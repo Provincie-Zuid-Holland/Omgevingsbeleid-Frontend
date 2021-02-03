@@ -2,15 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
-/**
- * Component that is linked to a button, that creates an object with createNewSlug, hoofdOnderdeelSlug and titelEnkelvoud.
- *
- * @component
- */
 function ButtonAddNewObject({
     createNewSlug,
     hoofdOnderdeelSlug,
-    titleSingular,
+    titelEnkelvoud,
 }) {
     return (
         <div className={`mb-6 display-inline display-inline w-full`}>
@@ -20,7 +15,7 @@ function ButtonAddNewObject({
                 to={`/muteer/${hoofdOnderdeelSlug}/${createNewSlug}`}
             >
                 <span className="px-4 py-2 font-semibold text-center">
-                    + Voeg {titleSingular} Toe
+                    + Voeg {titelEnkelvoud} Toe
                 </span>
             </Link>
         </div>
@@ -30,7 +25,7 @@ function ButtonAddNewObject({
 ButtonAddNewObject.propTypes = {
     createNewSlug: PropTypes.string.isRequired,
     hoofdOnderdeelSlug: PropTypes.string.isRequired,
-    titleSingular: PropTypes.string.isRequired,
+    titelEnkelvoud: PropTypes.string.isRequired,
 }
 
 export default ButtonAddNewObject

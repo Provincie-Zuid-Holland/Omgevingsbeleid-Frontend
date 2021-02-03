@@ -6,33 +6,24 @@ import PopUpAnimatedContainer from './../PopUpAnimatedContainer'
 
 import VOLGENDE_STATUS from './../../constants/beleidsbeslissingStatusAanpassen'
 
-/**
- * Component that renders the PopUpStatusAanpassen component.
- *
- * @component
- *
- * @param {object} dataObject - Parameter that can be set to the patchStatus object if the onclick function is called and selectValue is not empty.
- * @param {string} fieldValue - Parameter that sets the value element to the select element.
- * @param {} handleChange - Parameter that is not used within this component.
- * @param {array} status - Parameter that contains a collection of status, which are used within the select element.
- * @param {boolean} toggleStatusPopup - Parameter that is used to show or hide the StatusPopup.
- * @param {object} patchStatus - Parameter that contains the dataObject, selectValue parameters, when the onClick function is used within the rendered component.
- */
 function PopUpStatusAanpassen({
     dataObject,
+    fieldValue,
+    handleChange,
     status,
-    patchStatus,
     toggleStatusPopup,
+    patchStatus,
 }) {
     const [selectValue, setSelect] = useState('')
 
     return (
         <PopUpAnimatedContainer small={true}>
-            <div id="popup-edit-status" className="text-gray-800">
+            <div className="text-gray-800">
                 <h2 className="mb-4 font-bold">Status aanpassen</h2>
                 <div className="relative inline-block w-64">
                     <select
                         required
+                        value={fieldValue}
                         onChange={(event) => setSelect(event.target.value)}
                         value={selectValue}
                         name={'Status'}

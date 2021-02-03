@@ -1,2 +1,2 @@
-export const TITLE_SINGULAR = 'Beleidsrelatie'
-export const TITLE_PLURAL = 'Beleidsrelaties'
+export const TITEL_ENKELVOUD = 'Beleidsrelatie'
+export const TITEL_MEERVOUD = 'Beleidsrelaties'

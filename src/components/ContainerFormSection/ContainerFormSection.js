@@ -1,11 +1,5 @@
 import React from 'react'
 
-/**
- * Class that renders the ContainerFormSection.
- *
- * @class
- * @extends React.Component
- */
 class ContainerFormSection extends React.Component {
     render() {
         return (

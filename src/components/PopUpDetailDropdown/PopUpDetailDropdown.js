@@ -1,12 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 
-/**
- * Class that renders the PopUpDetailDropdown component.
- *
- * @class
- * @extends Component
- */
 class PopUpDetailDropdown extends Component {
     constructor(props) {
         super(props)
@@ -19,13 +13,6 @@ class PopUpDetailDropdown extends Component {
         this.handleClick = this.handleClick.bind(this)
     }
 
-    /**
-     * Function that handles click events from the user.
-     *
-     * @function
-     *
-     * @param {e} e - Parameter used to catch click event from user.
-     */
     handleClick = (e) => {
         if (
             !this.innerContainer.current.contains(e.target) &&
@@ -35,20 +22,10 @@ class PopUpDetailDropdown extends Component {
         }
     }
 
-    /**
-     * Function to add the click event listener.
-     *
-     * @function
-     */
     componentDidMount() {
         document.addEventListener('mousedown', this.handleClick, false)
     }
 
-    /**
-     * Funcion to remove the click event listener.
-     *
-     * @function
-     */
     componentWillUnmount() {
         document.removeEventListener('mousedown', this.handleClick, false)
     }

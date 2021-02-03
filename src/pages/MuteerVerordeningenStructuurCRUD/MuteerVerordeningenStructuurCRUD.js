@@ -21,9 +21,6 @@ import makeCrudObject from './../../utils/makeCrudObject'
 import checkRequiredFields from './../../utils/checkRequiredFields'
 import formatGeldigheidDatesForUI from './../../utils/formatGeldigheidDatesForUI'
 
-/**
- * The page where the user can create new and edit existing verordeningstructures
- */
 class MuteerVerordeningenStructuurCRUD extends Component {
     constructor(props) {
         super(props)
@@ -92,7 +89,7 @@ class MuteerVerordeningenStructuurCRUD extends Component {
         event.preventDefault()
 
         const dimensieConstants = this.props.dimensieConstants
-        const titleSingular = dimensieConstants.TITLE_SINGULAR
+        const titelEnkelvoud = dimensieConstants.TITEL_ENKELVOUD
 
         let crudObject = this.state.crudObject
 
@@ -117,7 +114,7 @@ class MuteerVerordeningenStructuurCRUD extends Component {
         const alleVeldenIngevuld = checkRequiredFields(
             crudObject,
             dimensieConstants,
-            titleSingular
+            titelEnkelvoud
         )
 
         if (!alleVeldenIngevuld) {
@@ -278,7 +275,7 @@ class MuteerVerordeningenStructuurCRUD extends Component {
 
     render() {
         const dimensieConstants = this.props.dimensieConstants
-        const titleSingular = dimensieConstants.TITLE_SINGULAR
+        const titelEnkelvoud = dimensieConstants.TITEL_ENKELVOUD
 
         const editStatus = this.state.edit
         const crudObject = this.state.crudObject
@@ -301,11 +298,7 @@ class MuteerVerordeningenStructuurCRUD extends Component {
                             <ButtonBackToPage
                                 terugNaar={`verordening`}
                                 color="text-white"
-                                url={
-                                    this.props.match.params.lineageID
-                                        ? `/muteer/verordeningen/${this.props.match.params.lineageID}`
-                                        : `/muteer/verordeningen`
-                                }
+                                url={`/muteer/verordeningen/${this.props.match.params.lineageID}`}
                             />
                             <h1 className="text-white heading-serif-4xl">
                                 {dataLoaded
@@ -335,7 +328,7 @@ class MuteerVerordeningenStructuurCRUD extends Component {
                                             fieldLabel="Titel"
                                             dataObjectProperty="Titel"
                                             pValue="Vul hier uw titel in"
-                                            titleSingular={titleSingular}
+                                            titelEnkelvoud={titelEnkelvoud}
                                         />
                                     </ContainerFormSection>
                                     <ContainerFormSection titel="Aanvullende informatie">
@@ -353,7 +346,7 @@ class MuteerVerordeningenStructuurCRUD extends Component {
                                                 notRequired={true}
                                                 dataObjectProperty="Begin_Geldigheid"
                                                 pValue="Indien bekend, kan hier de datum van inwerkingtreding worden ingevuld"
-                                                titleSingular={titleSingular}
+                                                titelEnkelvoud={titelEnkelvoud}
                                                 openUitwerkingstrede={true}
                                             />
 
@@ -371,7 +364,7 @@ class MuteerVerordeningenStructuurCRUD extends Component {
                                                 fieldLabel="Datum uitwerkingtreding"
                                                 dataObjectProperty="Eind_Geldigheid"
                                                 pValue="Indien bekend, kan hier de datum van uitwerkingtreding worden ingevuld"
-                                                titleSingular={titleSingular}
+                                                titelEnkelvoud={titelEnkelvoud}
                                             />
                                         </div>
                                     </ContainerFormSection>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 
 import {
     faGripLines,
@@ -106,7 +106,7 @@ function VerordeningObjectContent({ item, index, pathToIndex }) {
                     />
                 ) : (
                     <span
-                        className={`transition ease-in-out duration-100 transform ${
+                        className={`transition-transform transition-opacity ease-in-out duration-100 transform ${
                             userIsEditingOrder
                                 ? 'translate-x-8'
                                 : 'translate-x-0'
@@ -134,6 +134,9 @@ function VerordeningObjectContent({ item, index, pathToIndex }) {
                         verordeningsObjectFromGET={verordeningsObjectFromGET}
                         setUUIDBeingEdited={setUUIDBeingEdited}
                         setVolgnummerBeingEdited={setVolgnummerBeingEdited}
+                        setIndexArrayToUUIDBeingEdited={
+                            setIndexArrayToUUIDBeingEdited
+                        }
                         item={item}
                         pathToIndex={pathToIndex}
                     />
@@ -453,7 +456,7 @@ const SaveButton = ({ save }) => {
     return (
         <button
             onClick={save}
-            className="flex items-center self-stretch justify-center px-3 ml-1 text-lg text-white bg-green-500 rounded hover:bg-green-600"
+            className="flex items-center self-stretch justify-center inline-block px-3 ml-1 text-lg text-white bg-green-500 rounded hover:bg-green-600"
         >
             <FontAwesomeIcon icon={faSave} />
         </button>
@@ -463,7 +466,7 @@ const SaveButton = ({ save }) => {
 const CancelButton = ({ cancel }) => {
     return (
         <button
-            className="flex items-center self-stretch justify-center px-3 ml-1 text-lg text-white rounded bg-primary hover:bg-primary-darker"
+            className="flex items-center self-stretch justify-center inline-block px-3 ml-1 text-lg text-white rounded bg-primary hover:bg-primary-darker"
             onClick={cancel}
         >
             <FontAwesomeIcon icon={faTimes} />

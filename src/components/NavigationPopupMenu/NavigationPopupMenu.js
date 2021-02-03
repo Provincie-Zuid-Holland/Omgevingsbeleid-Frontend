@@ -1,7 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { Transition } from '@headlessui/react'
 
 import { faSearch, faBars, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -15,19 +14,9 @@ import allDimensies from './../../constants/dimensies'
 // Import useLockBodyScroll to stop html body scroll when the modal is open
 import useLockBodyScroll from './../../utils/useLockBodyScroll'
 
+import Transition from './../Transition'
 import LoaderSpinner from './../LoaderSpinner'
 
-/**
- * Component that renders the NavigationPopupMenu component.
- *
- * @component
- *
- * @param {} loggedIn - Parameter is not used within this component.
- * @param {booelan} showBanner - Parameter that if set to true, will show the banner.
- * @param {} logout - Parameter is not used within this component.
- * @param {boolean} isOpen - Parameter that is used to show certain elements within the rendered component, if the parameter is set true.
- * @param {boolean} setIsOpen - Parameter that is used for an onclick function to set the isOpen parameter to true or false, when the parameter itsef is set to true or false.
- */
 const NavigationPopupMenu = ({
     loggedIn,
     showBanner,
@@ -46,7 +35,6 @@ const NavigationPopupMenu = ({
     // Dimension state
     const [ambities, setAmbities] = React.useState(null)
     const [opgaven, setOpgaven] = React.useState(null)
-    const [beleidsprestaties, setBeleidsprestaties] = React.useState(null)
     const [beleidskeuzes, setBeleidskeuzes] = React.useState(null)
     const [maatregelen, setMaatregelen] = React.useState(null)
     const [beleidsregels, setBeleidsregels] = React.useState(null)
@@ -62,10 +50,6 @@ const NavigationPopupMenu = ({
             axios
                 .get(`${allDimensies.OPGAVEN.API_ENDPOINT}`)
                 .then((res) => setOpgaven(res.data))
-                .catch((err) => console.log(err)),
-            axios
-                .get(`${allDimensies.DOELEN.API_ENDPOINT}`)
-                .then((res) => setBeleidsprestaties(res.data))
                 .catch((err) => console.log(err)),
             axios
                 .get(
@@ -123,16 +107,11 @@ const NavigationPopupMenu = ({
             })
     }, [])
 
-    /**
-     * Function to check if the activeTab parameter is linked to a currentContstant case and return the specific allDimensies parameter.
-     *
-     * @function
-     */
     const getCurrentConstants = () => {
         switch (activeTab) {
             case 'Ambities':
                 return allDimensies['AMBITIES']
-            case 'Beleidsdoelen':
+            case 'Opgaven':
                 return allDimensies['OPGAVEN']
             case 'Beleidskeuzes':
                 return allDimensies['BELEIDSBESLISSINGEN']
@@ -140,24 +119,17 @@ const NavigationPopupMenu = ({
                 return allDimensies['MAATREGELEN']
             case 'Beleidsregels':
                 return allDimensies['BELEIDSREGELS']
-            case 'Beleidsprestaties':
-                return allDimensies['DOELEN']
 
             default:
                 return {}
         }
     }
 
-    /**
-     * Function to check if the activeTab parameter is linked to a CurrentItem case and return the specific allDimensies parameter.
-     *
-     * @function
-     */
     const getCurrentItems = () => {
         switch (activeTab) {
             case 'Ambities':
                 return ambities
-            case 'Beleidsdoelen':
+            case 'Opgaven':
                 return opgaven
             case 'Beleidskeuzes':
                 return beleidskeuzes
@@ -165,8 +137,6 @@ const NavigationPopupMenu = ({
                 return maatregelen
             case 'Beleidsregels':
                 return beleidsregels
-            case 'Beleidsprestaties':
-                return beleidsprestaties
 
             default:
                 return []
@@ -185,14 +155,13 @@ const NavigationPopupMenu = ({
         }
         window.addEventListener('keydown', closeOnEscape)
         return () => window.removeEventListener('keydown', closeOnEscape)
-    }, [setIsOpen])
+    }, [])
 
     const currentItems = getCurrentItems()
 
     return (
         <React.Fragment>
             <button
-                id="popup-menu-toggle"
                 className="px-2 py-2 text-gray-800 transition duration-300 ease-in rounded hover:text-gray-800"
                 aria-expanded={isOpen}
                 onClick={() => setIsOpen(!isOpen)}
@@ -204,15 +173,14 @@ const NavigationPopupMenu = ({
             </button>
             <Transition
                 show={isOpen}
-                enter="transition ease-out duration-300"
-                enterFrom="opacity-0 -translate-y-5"
-                enterTo="opacity-100 translate-y-0"
-                leave="transition ease-in duration-300"
-                leaveFrom="opacity-100 translate-y-0"
-                leaveTo="opacity-0 -translate-y-5"
+                enter="transition ease-out duration-100 transform"
+                enterFrom="opacity-0 scale-95 -translate-y-5 transform"
+                enterTo="opacity-100 scale-100 translate-y-0 transform"
+                leave="transition ease-in duration-75 transform"
+                leaveFrom="opacity-100 scale-100 translate-y-0 transform"
+                leaveTo="opacity-0 scale-95 -translate-y-5 transform"
             >
                 <div
-                    id="popup-menu"
                     className="fixed top-0 left-0 w-full pt-24 bg-white"
                     style={
                         showBanner
@@ -237,10 +205,9 @@ const NavigationPopupMenu = ({
                                     tabTitle="Ambities"
                                     setActiveTab={setActiveTab}
                                 />
-                                {/* Beleidsdoelen was previously opgaven */}
                                 <TabMenuItem
                                     activeTab={activeTab}
-                                    tabTitle="Beleidsdoelen"
+                                    tabTitle="Opgaven"
                                     setActiveTab={setActiveTab}
                                 />
                                 <TabMenuItem
@@ -260,11 +227,6 @@ const NavigationPopupMenu = ({
                                 />
                                 <TabMenuItem
                                     activeTab={activeTab}
-                                    tabTitle="Beleidsprestaties"
-                                    setActiveTab={setActiveTab}
-                                />
-                                <TabMenuItem
-                                    activeTab={activeTab}
                                     tabTitle="Beleidsregels"
                                     setActiveTab={setActiveTab}
                                 />
@@ -280,10 +242,7 @@ const NavigationPopupMenu = ({
                         </div>
                         <div className="flex flex-col w-9/12 pl-5">
                             <div className="flex w-full pb-5 border-b border-gray-300">
-                                <h3
-                                    id={`selected-type-${activeTab}`}
-                                    className="w-full font-bold text-gray-900 heading-xl"
-                                >
+                                <h3 className="w-full font-bold text-gray-900 heading-xl">
                                     {activeTab}{' '}
                                     {isLoading &&
                                     verordeningIsLoading ? null : (
@@ -313,7 +272,7 @@ const NavigationPopupMenu = ({
                                                 setFilterQuery(e.target.value)
                                             }
                                             className="block w-full pr-10 form-input sm:text-sm sm:leading-5"
-                                            placeholder={`Zoek in ${getCurrentConstants().TITLE_PLURAL.toLowerCase()}`}
+                                            placeholder={`Zoek in ${getCurrentConstants().TITEL_MEERVOUD.toLowerCase()}`}
                                         />
                                         <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                                             <FontAwesomeIcon
@@ -325,10 +284,7 @@ const NavigationPopupMenu = ({
                                 </div>
                             </div>
                             <div className="h-full pt-2 overflow-y-auto">
-                                <nav
-                                    id="popup-menu-active-nav"
-                                    className="flex flex-wrap pb-12 items-top"
-                                >
+                                <nav className="flex flex-wrap pb-12 items-top">
                                     {isLoading || !currentItems ? (
                                         <div className="flex items-center justify-center w-full h-24 text-gray-500">
                                             <LoaderSpinner />
@@ -352,7 +308,7 @@ const NavigationPopupMenu = ({
                                             .map((item, index) => (
                                                 <Link
                                                     key={item.UUID}
-                                                    className={`w-1/2 group flex items-center px-3 py-2 text-sm leading-5 font-medium text-gray-700 rounded-md hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:bg-gray-100 transition ease-in-out duration-150  ${
+                                                    className={`w-1/2 group flex items-center px-3 py-2 text-sm leading-5 font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:bg-gray-100 transition ease-in-out duration-150 py-1 text-gray-700 hover:text-gray-900  inline-block ${
                                                         index % 2 === 0
                                                             ? 'pr-4'
                                                             : 'pl-4'
@@ -362,7 +318,7 @@ const NavigationPopupMenu = ({
                                                     }
                                                     to={`/detail/${
                                                         getCurrentConstants()
-                                                            .SLUG_OVERVIEW
+                                                            .SLUG_OVERZICHT
                                                     }/${item.UUID}`}
                                                 >
                                                     {item.Titel}
@@ -400,15 +356,6 @@ const NavigationPopupMenu = ({
     )
 }
 
-/**
- * Function to render the TabMenuItem in the NavigationPopupMenu component.
- *
- * @function
- *
- * @param {boolean} activeTab - Parameter that is used to set the tabTitle to tabIsActive, if activeTab is set true.
- * @param {string} tabTitle - Parameter that contains the title of the tab.
- * @param {function} setActiveTab - Parameter that is used to set the tabTitle parameter as activeTab.
- */
 const TabMenuItem = ({ activeTab, tabTitle, setActiveTab }) => {
     const tabIsActive = activeTab === tabTitle
 
@@ -428,16 +375,6 @@ const TabMenuItem = ({ activeTab, tabTitle, setActiveTab }) => {
     )
 }
 
-/**
- * Function to render the TabMenuItemLink component, that contains a link.
- *
- * @function
- *
- * @param {string} tabTitle - Parameter that displays the tabTitle of the Link element.
- * @param {} href - Parameter that contains an URL where the user navigates too, when the user click on the Link element.
- * @param {function} setIsOpen - Parameter that is used for an onclick function to set the isOpen parameter to true or false.
- * @param {int} tabId - Parameter that contains the id of the Tab.
- */
 const TabMenuItemLink = ({ tabTitle, href, setIsOpen, tabId, callback }) => {
     return (
         <Link

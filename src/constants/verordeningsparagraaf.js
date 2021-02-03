@@ -1,5 +1,5 @@
-export const TITLE_SINGULAR = 'Paragraaf'
-export const TITLE_PLURAL = 'Paragraven'
+export const TITEL_ENKELVOUD = 'Paragraaf'
+export const TITEL_MEERVOUD = 'Paragraven'
 export const TYPE = 'Paragraaf'
 
 export const CRUD_PROPERTIES = {

@@ -12,14 +12,6 @@ import { environment } from './../../API/axios'
 import NavigationPopupMenu from './../NavigationPopupMenu'
 import SearchBar from './../SearchBar'
 
-/**
- * Component that renders the Navigation component and displays where the user is and can go too.
- *
- * @component
- *
- * @param {boolean} loggedIn - Paramter used in to show or hide elements within the rendered component.
- * @param {boolean} setLoginState - Parameter used to display if user is logged in, in the navigation component.
- */
 function Navigation({ loggedIn, setLoginState }) {
     const location = useLocation()
     const pathname = location.pathname
@@ -174,10 +166,7 @@ function Navigation({ loggedIn, setLoginState }) {
                                 setIsOpen(false)
                             }}
                         >
-                            <FontAwesomeIcon
-                                className="mr-3 text-lg"
-                                icon={faEye}
-                            />
+                            <FontAwesomeIcon className="mr-3" icon={faEye} />
                             Raadplegen
                         </Link>
                     ) : null}
@@ -189,10 +178,7 @@ function Navigation({ loggedIn, setLoginState }) {
                                 setIsOpen(false)
                             }}
                         >
-                            <FontAwesomeIcon
-                                className="mr-3 text-lg"
-                                icon={faEye}
-                            />
+                            <FontAwesomeIcon className="mr-3" icon={faEye} />
                             Bewerken
                         </Link>
                     ) : null}
@@ -205,7 +191,7 @@ function Navigation({ loggedIn, setLoginState }) {
                             }}
                         >
                             <FontAwesomeIcon
-                                className="mx-1 text-lg"
+                                className="mx-1"
                                 icon={faSignInAlt}
                             />
                         </Link>
@@ -224,11 +210,6 @@ function Navigation({ loggedIn, setLoginState }) {
     )
 }
 
-/**
- * Function that renders the Logo in the Navigation component.
- *
- * @function
- */
 function Logo() {
     return (
         <React.Fragment>
@@ -244,19 +225,11 @@ function Logo() {
     )
 }
 
-/**
- * Function to render the BannerEnvironment component.
- *
- * @function
- *
- * @param {boolean} userIsInMuteerEnvironment - Parameter used within the function to show the banner within the rendered component.
- * @param {boolean} hideBannerLocalStorage - Parameter used within the function to hide the banner within the rendered component.
- */
 function BannerEnvironment({
     userIsInMuteerEnvironment,
     hideBannerLocalStorage,
 }) {
-    const getEnvironmentText = () => {
+    const getEnivronmentText = () => {
         switch (environment) {
             case 'dev':
                 return 'Ontwikkelomgeving'
@@ -266,8 +239,6 @@ function BannerEnvironment({
                 return 'Acceptatieomgeving'
             case 'prod':
                 return 'Live-omgeving'
-            default:
-                return 'No environment set'
         }
     }
 
@@ -280,17 +251,6 @@ function BannerEnvironment({
         if (!hideBannerLocalStorage()) {
             addMarginTop()
         }
-    }, [hideBannerLocalStorage])
-
-    const removeBanner = React.useCallback(() => {
-        const mainContainer = document.getElementById('main-container')
-        mainContainer.style.removeProperty('margin-top')
-        setShowBanner(false)
-    }, [])
-
-    const addBanner = React.useCallback(() => {
-        addMarginTop()
-        setShowBanner(true)
     }, [])
 
     React.useEffect(() => {
@@ -299,12 +259,18 @@ function BannerEnvironment({
         } else {
             removeBanner()
         }
-    }, [
-        userIsInMuteerEnvironment,
-        addBanner,
-        removeBanner,
-        hideBannerLocalStorage,
-    ])
+    }, [userIsInMuteerEnvironment])
+
+    const removeBanner = () => {
+        const mainContainer = document.getElementById('main-container')
+        mainContainer.style.removeProperty('margin-top')
+        setShowBanner(false)
+    }
+
+    const addBanner = () => {
+        addMarginTop()
+        setShowBanner(true)
+    }
 
     const setHideBannerLocalStorage = () => {
         localStorage.setItem('__OB_hide_banner__', new Date())
@@ -325,8 +291,6 @@ function BannerEnvironment({
                 return 'banner-acc'
             case 'prod':
                 return 'banner-prod'
-            default:
-                return 'banner-dev'
         }
     }
 
@@ -338,7 +302,7 @@ function BannerEnvironment({
                 <div className="pr-16 sm:text-center sm:px-16">
                     <p className="font-medium">
                         <span className="text-sm font-semibold leading-4 tracking-wider uppercase rounded hide-banner">
-                            {getEnvironmentText()}
+                            {getEnivronmentText()}
                         </span>
                     </p>
                 </div>

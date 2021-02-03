@@ -1,26 +1,15 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { toast } from 'react-toastify'
 
 import FormFieldSelectUser from './../FormFieldSelectUser'
 import axios from './../../API/axios'
 import LoaderSelect from './../LoaderSelect'
 
-/**
- * Component that is used to display the user group.
- *
- * @component
- *
- * @param {object} crudObject - Containing the ownership level of the user group.
- * @param {string} editStatus - Status of the selected user.
- * @param {boolean} handleChange - Can be set true or false if the user is allowed to change.
- * @param {string} titelEnkelvoud - Title of the selected user.
- * @param {boolean} disabled - Can be set true or false if the user is disabled or not.
- */
 const FormFieldSelectUserGroup = ({
     crudObject,
     editStatus,
     handleChange,
-    titleSingular,
+    titelEnkelvoud,
     disabled,
 }) => {
     const [gebruikersLijst, setGebruikersLijst] = React.useState([])
@@ -60,7 +49,7 @@ const FormFieldSelectUserGroup = ({
                         gebruikersLijst={gebruikersLijst}
                         filter={'Ambtelijk opdrachtgever'}
                         pValue="Ambtelijk opdrachtgever"
-                        titleSingular={titleSingular}
+                        titelEnkelvoud={titelEnkelvoud}
                     />
                 ) : (
                     <LoaderSelect />
@@ -80,7 +69,7 @@ const FormFieldSelectUserGroup = ({
                         filter={'Behandelend Ambtenaar'}
                         filterOtherProperty={crudObject['Eigenaar_2']}
                         pValue="Eerste eigenaar"
-                        titleSingular={titleSingular}
+                        titelEnkelvoud={titelEnkelvoud}
                     />
                 ) : (
                     <LoaderSelect />
@@ -97,7 +86,7 @@ const FormFieldSelectUserGroup = ({
                         filter={'Behandelend Ambtenaar'}
                         filterOtherProperty={crudObject['Eigenaar_1']}
                         pValue="Tweede eigenaar"
-                        titleSingular={titleSingular}
+                        titelEnkelvoud={titelEnkelvoud}
                     />
                 ) : (
                     <LoaderSelect />
@@ -117,7 +106,7 @@ const FormFieldSelectUserGroup = ({
                         dataObjectProperty="Portefeuillehouder_1"
                         marginRight={true}
                         pValue="Eerste portefeuillehouder"
-                        titleSingular={titleSingular}
+                        titelEnkelvoud={titelEnkelvoud}
                     />
                 ) : (
                     <LoaderSelect />
@@ -134,7 +123,7 @@ const FormFieldSelectUserGroup = ({
                         fieldValue={crudObject['Portefeuillehouder_2']}
                         dataObjectProperty="Portefeuillehouder_2"
                         pValue="Tweede portefeuillehouder"
-                        titleSingular={titleSingular}
+                        titelEnkelvoud={titelEnkelvoud}
                     />
                 ) : (
                     <LoaderSelect />

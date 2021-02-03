@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 
 const PopUpDetailDropdown = ({
@@ -7,34 +7,28 @@ const PopUpDetailDropdown = ({
     toggleDropdown,
     toggleStatusPopup,
     raadpleegLink,
-    titleSingular,
+    titelEnkelvoud,
 }) => {
     const innerContainer = React.useRef(null)
 
-    const handleClick = React.useCallback(
-        (e) => {
-            if (
-                !innerContainer.current.contains(e.target) &&
-                openState === true
-            ) {
-                toggleDropdown()
-            }
-        },
-        [openState, toggleDropdown]
-    )
+    const handleClick = (e) => {
+        if (!innerContainer.current.contains(e.target) && openState === true) {
+            toggleDropdown()
+        }
+    }
 
     React.useEffect(() => {
         document.addEventListener('mousedown', handleClick, false)
 
         return () =>
             document.removeEventListener('mousedown', handleClick, false)
-    }, [handleClick])
+    }, [])
 
     const status = dataObject.Status
 
     return (
         <div
-            className="absolute top-0 right-0 z-10 w-48 mr-2 text-gray-700 bg-white rounded shadow main-tooltip-container main-tooltip-container-muteer-detail tooltip-right"
+            className="absolute top-0 right-0 z-10 w-48 mt-2 mt-12 mr-2 text-gray-700 bg-white rounded shadow main-tooltip-container main-tooltip-container-muteer-detail tooltip-right"
             ref={innerContainer}
         >
             <div className="relative h-full">
@@ -57,17 +51,12 @@ const PopUpDetailDropdown = ({
                             target="_blank"
                             rel="noopener noreferrer"
                             id="navbar-popup-href-raadpleeg-omgeving"
-                            className={`inline-block w-full px-4 py-2 text-sm border-gray-300 ${
-                                status !== 'Vigerend' &&
-                                status !== 'Gepubliceerd'
-                                    ? 'border-t'
-                                    : ''
-                            }`}
+                            className="inline-block w-full px-4 py-2 text-sm border-t border-gray-300"
                         >
                             Raadpleegomgeving
                         </a>
                     </li>
-                    {titleSingular === 'Beleidskeuze' &&
+                    {titelEnkelvoud === 'Beleidskeuze' &&
                     status === 'Vigerend' ? (
                         <li>
                             <Link
@@ -80,7 +69,7 @@ const PopUpDetailDropdown = ({
                         </li>
                     ) : null}
 
-                    {titleSingular === 'Beleidskeuze' ? (
+                    {titelEnkelvoud === 'Beleidskeuze' ? (
                         <li>
                             <a
                                 href={`/muteer/beleidsrelaties/${dataObject.UUID}`}

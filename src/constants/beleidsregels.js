@@ -1,9 +1,9 @@
 import { currentDate, futureDate, currentDateFormatted } from './testValues'
 
-export const TITLE_SINGULAR = 'Beleidsregel'
-export const TITLE_PLURAL = 'Beleidsregels'
+export const TITEL_ENKELVOUD = 'Beleidsregel'
+export const TITEL_MEERVOUD = 'Beleidsregels'
 export const API_ENDPOINT = 'beleidsregels'
-export const SLUG_OVERVIEW = 'beleidsregels'
+export const SLUG_OVERZICHT = 'beleidsregels'
 export const SLUG_CREATE_NEW = 'nieuwe-beleidsregel'
 
 export const CRUD_PROPERTIES = {

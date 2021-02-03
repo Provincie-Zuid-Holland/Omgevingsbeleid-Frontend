@@ -1,11 +1,6 @@
 import React from 'react'
 import ContentLoader from 'react-content-loader'
 
-/**
- * Component used to render the LoaderBeleidsrelatieRegel and using the imported ContentLoader component.
- *
- * @component
- */
 const LoaderBeleidsrelatieRegel = () => (
     <ContentLoader
         className="w-full rounded block my-2 h-5"

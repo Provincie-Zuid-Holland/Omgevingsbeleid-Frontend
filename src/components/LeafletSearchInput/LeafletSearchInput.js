@@ -3,12 +3,6 @@ import axios from 'axios'
 import { toast } from 'react-toastify'
 import debounce from './../../utils/debounce'
 
-/**
- * Class that renders the LeafletSearchInput and binds serveral variables from the state.
- *
- * @class
- * @extends Component
- */
 class LeafletSearchInput extends Component {
     constructor(props) {
         super(props)
@@ -27,13 +21,6 @@ class LeafletSearchInput extends Component {
         this.suggestList = React.createRef()
     }
 
-    /**
-     * Function to set the searchQuery to a certain value and calling the locatieServerSuggestQuery function with the same certain value.
-     *
-     * @function
-     *
-     * @param {e} e - Event parameter that can be caught and used within the function.
-     */
     handleChange(e) {
         const value = e.target.value
         this.setState(
@@ -46,25 +33,12 @@ class LeafletSearchInput extends Component {
         )
     }
 
-    /**
-     * Function to import the API axiosLocatieServer and cancel the API request.
-     *
-     * @function
-     */
     locatieServerSuggestCancel() {
         import('./../../API/axiosLocatieserver').then((api) => {
             api.cancelRequest()
         })
     }
 
-    /**
-     * Function to import the API axiosLocatieServer and then get the lookupData through an API get request. Then the lookupData is used further in the function.
-     *
-     * @function
-     *
-     * @param {int} id - ID used for to get the LookupData.
-     * @param {string} naam - Parameter used as a value in searchQuery.
-     */
     locatieServerLookupQuery(id, naam) {
         import('./../../API/axiosLocatieserver').then((api) => {
             api.getLookupData(id)
@@ -87,13 +61,6 @@ class LeafletSearchInput extends Component {
         })
     }
 
-    /**
-     * Function to get the suggested query value input from user, import the axiosLocatieserver API and then use the get API to set queryData.
-     *
-     * @function
-     *
-     * @param {string} value - User input, used to get suggested data through and API.
-     */
     locatieServerSuggestQuery(value) {
         if (value === '') {
             this.setState({
@@ -128,13 +95,6 @@ class LeafletSearchInput extends Component {
         })
     }
 
-    /**
-     * Function that selects the next/previous queryData.
-     *
-     * @function
-     *
-     * @param {string} nextOrPrevious - Parameter used to check if the user has clicked on 'next' or 'previous'.
-     */
     selectQueryDataItem(nextOrPrevious) {
         const currentIndex = document.activeElement.getAttribute('data-index')
 

@@ -17,7 +17,6 @@ import FormFieldContainerBeleidsbeslissingen from './FormFieldContainers/FormFie
 import FormFieldContainerMaatregelen from './FormFieldContainers/FormFieldContainerMaatregelen'
 import FormFieldContainerOpgaven from './FormFieldContainers/FormFieldContainerOpgaven'
 import FormFieldContainerThemas from './FormFieldContainers/FormFieldContainerThemas'
-import FormFieldContainerBeleidsprestaties from './FormFieldContainers/FormFieldContainerBeleidsprestaties'
 
 // Import Axios instance to connect with the API
 import axios from './../../API/axios'
@@ -29,11 +28,6 @@ import checkRequiredFields from './../../utils/checkRequiredFields'
 import formatGeldigheidDatesForUI from './../../utils/formatGeldigheidDatesForUI'
 import formatGeldigheidDatesForAPI from './../../utils/formatGeldigheidDatesForAPI'
 
-/**
- * @param {object} authUser - contains the logged in user object
- * @param {object} dimensieConstants - Contains all the variables of the dimension (e.g. Maatregelen). The dimensieContants come from the constant files export src/constants/dimensies.js.
- * @returns a page where the user can create new or edit existing dimension objects (e.g. Maatregelen)
- */
 class MuteerUniversalObjectCRUD extends Component {
     constructor(props) {
         super(props)
@@ -132,7 +126,7 @@ class MuteerUniversalObjectCRUD extends Component {
     postDimensieObject(crudObject) {
         const dimensieConstants = this.props.dimensieConstants
         const apiEndpoint = dimensieConstants.API_ENDPOINT
-        const overzichtSlug = dimensieConstants.SLUG_OVERVIEW
+        const overzichtSlug = dimensieConstants.SLUG_OVERZICHT
 
         axios
             .post(`${apiEndpoint}`, JSON.stringify(crudObject))
@@ -160,7 +154,7 @@ class MuteerUniversalObjectCRUD extends Component {
         const dimensieConstants = this.props.dimensieConstants
         const apiEndpoint = dimensieConstants.API_ENDPOINT
         const objectID = this.props.match.params.single
-        const overzichtSlug = dimensieConstants.SLUG_OVERVIEW
+        const overzichtSlug = dimensieConstants.SLUG_OVERZICHT
 
         axios
             .patch(`${apiEndpoint}/${objectID}`, JSON.stringify(crudObject))
@@ -198,7 +192,7 @@ class MuteerUniversalObjectCRUD extends Component {
 
         const dimensieConstants = this.props.dimensieConstants
         const apiEndpoint = dimensieConstants.API_ENDPOINT
-        const titleSingular = dimensieConstants.TITLE_SINGULAR
+        const titelEnkelvoud = dimensieConstants.TITEL_ENKELVOUD
 
         let crudObject = this.state.crudObject
 
@@ -211,7 +205,7 @@ class MuteerUniversalObjectCRUD extends Component {
         const alleVeldenIngevuld = checkRequiredFields(
             crudObject,
             dimensieConstants,
-            titleSingular
+            titelEnkelvoud
         )
 
         crudObject = removeEmptyFields(crudObject)
@@ -237,10 +231,9 @@ class MuteerUniversalObjectCRUD extends Component {
         }
     }
 
-    voegKoppelingRelatieToe(propertyName, object, omschrijving, callback) {
+    voegKoppelingRelatieToe(propertyName, object, omschrijving) {
         const nieuwObject = {
             UUID: object.UUID,
-            Titel: object.Titel,
             Omschrijving: omschrijving,
         }
 
@@ -249,27 +242,21 @@ class MuteerUniversalObjectCRUD extends Component {
         if (typeof nieuwCrudObject[propertyName] === 'string') {
             nieuwCrudObject[propertyName] = []
         }
-
         nieuwCrudObject[propertyName].push(nieuwObject)
 
         this.setState(
             {
                 crudObject: nieuwCrudObject,
             },
-            () => {
-                toast('Koppeling toegevoegd')
-                callback(nieuwCrudObject)
-            }
+            () => toast('Koppeling toegevoegd')
         )
     }
 
-    wijzigKoppelingRelatie(koppelingObject, nieuweOmschrijving, callback) {
+    wijzigKoppelingRelatie(koppelingObject, nieuweOmschrijving) {
         let nieuwCrudObject = this.state.crudObject
-
         const index = nieuwCrudObject[koppelingObject.propertyName].findIndex(
             (item) => item.UUID === koppelingObject.item.UUID
         )
-
         nieuwCrudObject[koppelingObject.propertyName][
             index
         ].Omschrijving = nieuweOmschrijving
@@ -278,10 +265,7 @@ class MuteerUniversalObjectCRUD extends Component {
             {
                 crudObject: nieuwCrudObject,
             },
-            () => {
-                toast('Koppeling gewijzigd')
-                callback(nieuwCrudObject)
-            }
+            () => toast('Koppeling gewijzigd')
         )
     }
 
@@ -312,7 +296,7 @@ class MuteerUniversalObjectCRUD extends Component {
             crudProperties: crudProperties,
             dimensieConstants: dimensieConstants,
             responseObject: responseObjectFromAPI,
-            modus: modus,
+            wijzigVigerend: modus, // modus contains
         })
 
         this.setState({
@@ -324,20 +308,12 @@ class MuteerUniversalObjectCRUD extends Component {
     getAndSetDimensieDataFromApi() {
         const objectID = this.props.match.params.single
         const dimensieConstants = this.props.dimensieConstants
-        const titleSingular = dimensieConstants.TITLE_SINGULAR
+        const titelEnkelvoud = dimensieConstants.TITEL_ENKELVOUD
         const apiEndpoint = dimensieConstants.API_ENDPOINT
 
         let params = new URL(document.location).searchParams
-
         // If modus equals 'wijzig_vigerend', the user is editing a vigerend object
         let modus = params.get('modus')
-
-        const isMaatregelOrBeleidskeuze =
-            titleSingular === 'Maatregel' || titleSingular === 'Beleidskeuze'
-
-        const isWijzigVigerendOrOntwerpMaken =
-            (modus && modus === 'wijzig_vigerend') ||
-            (modus && modus === 'ontwerp_maken')
 
         axios
             .get(`${apiEndpoint}/${objectID}`)
@@ -346,20 +322,31 @@ class MuteerUniversalObjectCRUD extends Component {
                 let crudObject = null
 
                 if (
-                    isMaatregelOrBeleidskeuze &&
-                    isWijzigVigerendOrOntwerpMaken
+                    (titelEnkelvoud === 'Maatregel' &&
+                        modus &&
+                        modus === 'wijzig_vigerend') ||
+                    (titelEnkelvoud === 'Beleidskeuze' &&
+                        modus &&
+                        modus === 'wijzig_vigerend')
                 ) {
                     // Get the first object with a status of 'Vigerend'
                     crudObject = responseObject.find(
                         (e) => e.Status === 'Vigerend'
                     )
                 } else if (
-                    titleSingular === 'Beleidskeuze' ||
-                    titleSingular === 'Maatregel'
+                    titelEnkelvoud === 'Beleidskeuze' ||
+                    titelEnkelvoud === 'Maatregel'
                 ) {
-                    crudObject = responseObject.find(
-                        (e) => e.Aanpassing_Op === null
-                    )
+                    // Probleem:
+                    // - Wanneer we een beleidskeuze opslaan in een tussentijdsproces popt deze bovenop de stack
+                    // - Deze willen we overslaan bij het editen, maar er is geen mogelijkheid om onderscheid te maken
+                    //   tussen een vigerende versie die
+
+                    // crudObject = responseObject.find(
+                    //     (e) => e.Status !== 'Vigerend'
+                    // )
+
+                    crudObject = responseObject[0]
                 } else {
                     crudObject = responseObject[0]
                 }
@@ -392,16 +379,16 @@ class MuteerUniversalObjectCRUD extends Component {
 
     render() {
         const dimensieConstants = this.props.dimensieConstants
-        const titleSingular = dimensieConstants.TITLE_SINGULAR
-        const titelMeervoud = dimensieConstants.TITLE_PLURAL
-        const overzichtSlug = dimensieConstants.SLUG_OVERVIEW
+        const titelEnkelvoud = dimensieConstants.TITEL_ENKELVOUD
+        const titelMeervoud = dimensieConstants.TITEL_MEERVOUD
+        const overzichtSlug = dimensieConstants.SLUG_OVERZICHT
 
         const objectID = this.props.match.params.single
 
         const editStatus = this.state.edit
         const crudObject = this.state.crudObject
         const dataLoaded = this.state.dataLoaded
-        const objectTitle = this.state.crudObject.Titel
+        const objectTitel = this.state.crudObject.Titel
 
         const handleChange = this.handleChange
 
@@ -411,19 +398,19 @@ class MuteerUniversalObjectCRUD extends Component {
                     <title>
                         {editStatus
                             ? `Omgevingsbeleid - ${
-                                  objectTitle ? objectTitle : ''
+                                  objectTitel ? objectTitel : ''
                               }`
-                            : `Omgevingsbeleid - Voeg een nieuwe ${titleSingular} toe`}
+                            : `Omgevingsbeleid - Voeg een nieuwe ${titelEnkelvoud} toe`}
                     </title>
                 </Helmet>
 
                 <ContainerCrudHeader
                     dataLoaded={dataLoaded}
-                    objectTitle={objectTitle}
+                    objectTitel={objectTitel}
                     editStatus={editStatus}
                     titelMeervoud={titelMeervoud}
                     overzichtSlug={overzichtSlug}
-                    titleSingular={titleSingular}
+                    titelEnkelvoud={titelEnkelvoud}
                     objectID={objectID}
                 />
 
@@ -435,33 +422,33 @@ class MuteerUniversalObjectCRUD extends Component {
                                     className="mt-12"
                                     onSubmit={this.handleSubmit}
                                 >
-                                    {titleSingular === 'Ambitie' ? (
+                                    {titelEnkelvoud === 'Ambitie' ? (
                                         <FormFieldContainerAmbities
-                                            titleSingular={titleSingular}
+                                            titelEnkelvoud={titelEnkelvoud}
                                             crudObject={crudObject}
                                             handleChange={handleChange}
                                         />
                                     ) : null}
 
-                                    {titleSingular === 'Belang' ? (
+                                    {titelEnkelvoud === 'Belang' ? (
                                         <FormFieldContainerBelangen
-                                            titleSingular={titleSingular}
+                                            titelEnkelvoud={titelEnkelvoud}
                                             crudObject={crudObject}
                                             handleChange={handleChange}
                                         />
                                     ) : null}
 
-                                    {titleSingular === 'Beleidsregel' ? (
+                                    {titelEnkelvoud === 'Beleidsregel' ? (
                                         <FormFieldContainerBeleidsregels
-                                            titleSingular={titleSingular}
+                                            titelEnkelvoud={titelEnkelvoud}
                                             crudObject={crudObject}
                                             handleChange={handleChange}
                                         />
                                     ) : null}
 
-                                    {titleSingular === 'Beleidskeuze' ? (
+                                    {titelEnkelvoud === 'Beleidskeuze' ? (
                                         <FormFieldContainerBeleidsbeslissingen
-                                            titleSingular={titleSingular}
+                                            titelEnkelvoud={titelEnkelvoud}
                                             crudObject={crudObject}
                                             handleChange={handleChange}
                                             editStatus={editStatus}
@@ -477,41 +464,33 @@ class MuteerUniversalObjectCRUD extends Component {
                                         />
                                     ) : null}
 
-                                    {titleSingular === 'Maatregel' ? (
+                                    {titelEnkelvoud === 'Maatregel' ? (
                                         <FormFieldContainerMaatregelen
-                                            titleSingular={titleSingular}
+                                            titelEnkelvoud={titelEnkelvoud}
                                             crudObject={crudObject}
                                             handleChange={handleChange}
                                         />
                                     ) : null}
 
-                                    {titleSingular === 'Beleidsdoel' ? (
+                                    {titelEnkelvoud === 'Opgave' ? (
                                         <FormFieldContainerOpgaven
-                                            titleSingular={titleSingular}
+                                            titelEnkelvoud={titelEnkelvoud}
                                             crudObject={crudObject}
                                             handleChange={handleChange}
                                         />
                                     ) : null}
 
-                                    {titleSingular === 'Beleidsprestatie' ? (
-                                        <FormFieldContainerBeleidsprestaties
-                                            titleSingular={titleSingular}
-                                            crudObject={crudObject}
-                                            handleChange={handleChange}
-                                        />
-                                    ) : null}
-
-                                    {titleSingular === 'Thema' ? (
+                                    {titelEnkelvoud === 'Thema' ? (
                                         <FormFieldContainerThemas
-                                            titleSingular={titleSingular}
+                                            titelEnkelvoud={titelEnkelvoud}
                                             crudObject={crudObject}
                                             handleChange={handleChange}
                                         />
                                     ) : null}
 
-                                    {titleSingular === 'Verordening' ? (
+                                    {titelEnkelvoud === 'Verordening' ? (
                                         <FormFieldContainerThemas
-                                            titleSingular={titleSingular}
+                                            titelEnkelvoud={titelEnkelvoud}
                                             crudObject={crudObject}
                                             handleChange={handleChange}
                                         />

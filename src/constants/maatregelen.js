@@ -1,10 +1,10 @@
 import { currentDate, futureDate, currentDateFormatted } from './testValues'
 
-export const TITLE_SINGULAR = 'Maatregel'
-export const TITLE_PLURAL = 'Maatregelen'
+export const TITEL_ENKELVOUD = 'Maatregel'
+export const TITEL_MEERVOUD = 'Maatregelen'
 export const API_ENDPOINT = 'maatregelen'
 export const API_ENDPOINT_VIGEREND = 'maatregelen/vigerend'
-export const SLUG_OVERVIEW = 'maatregelen'
+export const SLUG_OVERZICHT = 'maatregelen'
 export const SLUG_CREATE_NEW = 'nieuwe-maatregel'
 
 export const CRUD_PROPERTIES = {
@@ -12,7 +12,7 @@ export const CRUD_PROPERTIES = {
         initValue: null,
         required: true,
         requiredMessage: 'Vul een titel in',
-        testValue: `Test maatregel ${currentDateFormatted}`,
+        testValue: `Test beleidsregel ${currentDateFormatted}`,
         type: 'text input',
     },
     Gebied: {
@@ -20,14 +20,14 @@ export const CRUD_PROPERTIES = {
         required: false,
         requiredMessage: '',
         testValue: null,
-        type: 'werkingsgebied',
+        type: 'select gebied',
     },
     Toelichting: {
         initValue: '',
         required: false,
         requiredMessage: '',
         testValue: `Toelichting`,
-        type: 'rich text editor',
+        type: 'text input',
     },
     Gebied_Duiding: {
         initValue: `Indicatief`,

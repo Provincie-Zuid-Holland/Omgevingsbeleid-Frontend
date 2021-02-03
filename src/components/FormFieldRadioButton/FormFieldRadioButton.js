@@ -1,15 +1,10 @@
 import React from 'react'
 
-/**
- * Component that adds as a Radio button to the form field, that accepts users input.
- *
- * @component
- */
 function FormFieldRadioButton({
     options = [],
     handleChange,
     dataObjectProperty,
-    titleSingular,
+    titelEnkelvoud,
     label,
     fieldValue,
 }) {
@@ -21,10 +16,10 @@ function FormFieldRadioButton({
 
             <div
                 className="mt-4"
-                id={`form-field-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
+                id={`form-field-${titelEnkelvoud.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
             >
                 {options.map((option) => {
-                    const id = `form-field-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}-${option}`
+                    const id = `form-field-${titelEnkelvoud.toLowerCase()}-${dataObjectProperty.toLowerCase()}-${option}`
                     return (
                         <div key={option} className="flex items-center mb-4">
                             <input

@@ -1,11 +1,6 @@
 import React from 'react'
 import ContentLoader from 'react-content-loader'
 
-/**
- * Component that sets the props for the ContentLoader and generates a Tiny viewer version of the Leaflet.
- *
- * @component
- */
 const LoaderLeafletTinyViewer = () => (
     <ContentLoader
         speed={2}

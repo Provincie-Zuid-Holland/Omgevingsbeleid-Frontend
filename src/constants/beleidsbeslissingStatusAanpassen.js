@@ -15,6 +15,7 @@ const VOLGENDE_STATUS = {
     Vastgesteld: ['Vigerend'],
     Vigerend: ['Vigerend gearchiveerd'],
     'Vigerend Gearchiveerd': [],
+    Gepubliceerd: [],
 }
 
 export default VOLGENDE_STATUS

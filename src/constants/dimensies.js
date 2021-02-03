@@ -10,7 +10,7 @@ import * as VERORDENINGSTRUCTUUR from './verordeningstructuur'
 import * as VERORDENINGSARTIKEL from './verordeningsartikel'
 import * as DOELEN from './doelen'
 
-const constants = {
+export default {
     AMBITIES,
     BELANGEN,
     BELEIDSREGELS,
@@ -23,5 +23,3 @@ const constants = {
     VERORDENINGSARTIKEL,
     DOELEN,
 }
-
-export default constants

@@ -1,12 +1,6 @@
 import React from 'react'
 import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFieldTitelEnBeschrijving'
 
-/**
- * Class that renders the FormFieldTextArea.
- *
- * @class
- * @extends React.Component
- */
 class FormFieldTextArea extends React.Component {
     constructor(props) {
         super(props)
@@ -14,21 +8,11 @@ class FormFieldTextArea extends React.Component {
         this.updateElHeight = this.updateElHeight.bind(this)
     }
 
-    /**
-     * Function to call the function updateElHeight.
-     *
-     * @function
-     */
     componentDidMount() {
         // Set height van de textArea componenten op basis van de inhoud
         this.updateElHeight()
     }
 
-    /**
-     * Function to set the height of the textArea based on the content within it.
-     *
-     * @function
-     */
     updateElHeight() {
         const textAreaNode = this.textArea.current
         textAreaNode.style.height = '1px'
@@ -43,15 +27,14 @@ class FormFieldTextArea extends React.Component {
                         dataObjectProperty={this.props.dataObjectProperty}
                         fieldLabel={this.props.fieldLabel}
                         pValue={this.props.pValue}
-                        disabled={this.props.disabled}
-                        titleSingular={this.props.titleSingular}
+                        titelEnkelvoud={this.props.titelEnkelvoud}
                         anchorText={this.props.anchorText}
                         anchorLink={this.props.anchorLink}
                     />
                     <textarea
                         disabled={this.props.disabled}
                         ref={this.textArea}
-                        id={`form-field-${this.props.titleSingular.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
+                        id={`form-field-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
                         value={
                             this.props.fieldValue ? this.props.fieldValue : ''
                         }

@@ -12,9 +12,6 @@ import LoaderCard from './../../components/LoaderCard'
 // Import Axios instance to connect with the API
 import axios from './../../API/axios'
 
-/**
- * Component to display all the verordening structures that exist
- */
 class MuteerVerordeningenstructuurOverzicht extends Component {
     constructor(props) {
         super(props)
@@ -51,10 +48,10 @@ class MuteerVerordeningenstructuurOverzicht extends Component {
     }
 
     render() {
-        const titleSingular = this.props.dataModel.TITLE_SINGULAR
-        const titelMeervoud = this.props.dataModel.TITLE_PLURAL
-        const overzichtSlug = this.props.dataModel.SLUG_OVERVIEW
-        const hoofdOnderdeelSlug = this.props.dataModel.SLUG_OVERVIEW
+        const titelEnkelvoud = this.props.dataModel.TITEL_ENKELVOUD
+        const titelMeervoud = this.props.dataModel.TITEL_MEERVOUD
+        const overzichtSlug = this.props.dataModel.SLUG_OVERZICHT
+        const hoofdOnderdeelSlug = this.props.dataModel.SLUG_OVERZICHT
 
         return (
             <ContainerMain>
@@ -82,7 +79,7 @@ class MuteerVerordeningenstructuurOverzicht extends Component {
                                     to={`/muteer/nieuwe-verordening`}
                                 >
                                     <span className="px-4 py-2 font-semibold text-center">
-                                        + Voeg {titleSingular} Toe
+                                        + Voeg {titelEnkelvoud} Toe
                                     </span>
                                 </Link>
                             </div>
@@ -100,7 +97,7 @@ class MuteerVerordeningenstructuurOverzicht extends Component {
                                                 index={index}
                                                 object={object}
                                                 overzichtSlug={overzichtSlug}
-                                                titleSingular={titleSingular}
+                                                titelEnkelvoud={titelEnkelvoud}
                                                 hoofdOnderdeelSlug={
                                                     overzichtSlug
                                                 }

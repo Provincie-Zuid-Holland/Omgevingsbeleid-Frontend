@@ -2,13 +2,6 @@ import React, { Component } from 'react'
 import LoginForm from './../LoginForm'
 
 // setLoginState is passed from App
-/**
- * Component that renders the PopupReauthenticate component.
- *
- * @component
- *
- * @param {boolean} setLoginState - Parameter that is passed from the App and used to set the loginState of a user.
- */
 const PopupReauthenticate = ({ setLoginState }) => {
     return (
         <React.Fragment>

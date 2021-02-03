@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import ContainerFormSection from './../../../../components/ContainerFormSection'
@@ -10,7 +10,7 @@ import {
 } from './../../../../components/FormFieldsExport'
 
 function FormFieldContainerOpgaven({
-    titleSingular,
+    titelEnkelvoud,
     crudObject,
     handleChange,
 }) {
@@ -25,22 +25,22 @@ function FormFieldContainerOpgaven({
                     fieldValue={crudObject['Titel']}
                     dataObjectProperty="Titel"
                     fieldLabel="Titel"
-                    pValue="Formuleer in enkele woorden de titel van dit beleidsdoel."
-                    titleSingular={titleSingular}
+                    pValue="Formuleer in enkele woorden de titel van deze opgave."
+                    titelEnkelvoud={titelEnkelvoud}
                 />
             </ContainerFormSection>
 
             <ContainerFormSection
-                titel="Omschrijving beleidsdoel"
-                beschrijving="Een beleidsdoel bevindt zich op tactisch niveau, tussen het niveau van de ambities en de beleidskeuzes."
+                titel="Omschrijving opgave"
+                beschrijving="Een opgave bevindt zich op tactisch niveau, tussen het niveau van de ambities en de beleidskeuzes."
             >
                 <FormFieldTextArea
                     handleChange={handleChange}
                     fieldValue={crudObject['Omschrijving']}
                     fieldLabel="Omschrijving"
                     dataObjectProperty="Omschrijving"
-                    pValue="Geef een korte omschrijving van dit beleidsdoel."
-                    titleSingular={titleSingular}
+                    pValue="Geef een korte omschrijving van deze opgave."
+                    titelEnkelvoud={titelEnkelvoud}
                 />
             </ContainerFormSection>
 
@@ -54,7 +54,7 @@ function FormFieldContainerOpgaven({
                     dataObjectProperty="Weblink"
                     fieldLabel="IDMS"
                     pValue="Vul hier de link in naar het besluitdocument op IDMS. (Eigenschappen > Algemeen > Snelkoppeling kopiëren)."
-                    titleSingular={titleSingular}
+                    titelEnkelvoud={titelEnkelvoud}
                 />
 
                 <div className="flex flex-wrap -mx-3">
@@ -64,7 +64,7 @@ function FormFieldContainerOpgaven({
                         fieldLabel="Inwerkingtreding"
                         dataObjectProperty="Begin_Geldigheid"
                         pValue="Indien bekend, kan hier de datum van inwerkingtreding worden ingevuld"
-                        titleSingular={titleSingular}
+                        titelEnkelvoud={titelEnkelvoud}
                     />
 
                     <FormFieldDate
@@ -74,7 +74,7 @@ function FormFieldContainerOpgaven({
                         fieldLabel="Uitwerkingtreding"
                         dataObjectProperty="Eind_Geldigheid"
                         pValue="Indien bekend, kan hier de datum van uitwerkingtreding worden ingevuld"
-                        titleSingular={titleSingular}
+                        titelEnkelvoud={titelEnkelvoud}
                     />
                 </div>
             </ContainerFormSection>
@@ -83,7 +83,7 @@ function FormFieldContainerOpgaven({
 }
 
 FormFieldContainerOpgaven.propTypes = {
-    titleSingular: PropTypes.string,
+    titelEnkelvoud: PropTypes.string,
     crudObject: PropTypes.object,
     handleChange: PropTypes.func,
 }

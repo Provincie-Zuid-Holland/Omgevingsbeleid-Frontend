@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { format } from 'date-fns'
 import { Helmet } from 'react-helmet'
 import nlLocale from 'date-fns/locale/nl'
@@ -9,15 +9,19 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { toast } from 'react-toastify'
 import { Link, useParams, useHistory } from 'react-router-dom'
-import { Transition } from '@headlessui/react'
 
 // Import Axios instance to connect with the API
 import axios from '../../API/axios'
 
 // Import Components
+// import PDFDocument from './PDFDocument'
+import RelatieComponent from './RelatieComponent'
 import LeafletTinyViewer from './../../components/LeafletTinyViewer'
+import ButtonBackToPage from './../../components/ButtonBackToPage'
 import PopUpRevisieContainer from './../../components/PopUpRevisieContainer'
 import LoaderContent from './../../components/LoaderContent'
+import LoaderSmallSpan from './../../components/LoaderSmallSpan'
+import Transition from './../../components/Transition'
 
 // Import view containers
 import ContainerViewFieldsBeleidsbeslissing from './ContainerFields/ContainerViewFieldsBeleidsbeslissing'
@@ -27,40 +31,24 @@ import ContainerViewFieldsOpgave from './ContainerFields/ContainerViewFieldsOpga
 import ContainerViewFieldsAmbitie from './ContainerFields/ContainerViewFieldsAmbitie'
 import ContainerViewFieldsBelang from './ContainerFields/ContainerViewFieldsBelang'
 import ContainerViewFieldsThema from './ContainerFields/ContainerViewFieldsThema'
-import ContainerViewFieldsBeleidsprestatie from './ContainerFields/ContainerViewFieldsBeleidsprestatie'
 import ViewFieldGebiedDuiding from './ViewFieldGebiedDuiding'
 import RelatiesKoppelingen from './RelatiesKoppelingen'
 
-/**
- * A detail page for a dimensie object.
- * Every object has its own fields. For example the dimension Maatregelen has <ContainerViewFieldsMaatregel />)
- * @param {object} dataModel - Contains the dimensieConstants of the object (e.g. titleSingular)
- */
 const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
     let { id } = useParams()
     let history = useHistory()
 
     const [dataObject, setDataObject] = React.useState(null)
-
-    // Contains the history of an object (all the edits)
     const [revisieObjecten, setRevisieObjecten] = React.useState(null)
-
-    // Boolean if data is loaded
     const [dataLoaded, setDataLoaded] = React.useState(false)
-
-    // Boolean to toggle the large view
     const [
         fullscreenLeafletViewer,
         setFullscreenLeafletViewer,
     ] = React.useState(false)
 
-    const ApiEndpointBase = dataModel.API_ENDPOINT
-    const apiEndpoint = `${ApiEndpointBase}/version/${id}`
-    const titleSingular = dataModel.TITLE_SINGULAR
-
-    // Init when url param { id } changes
-    React.useEffect(() => {
-        setDataLoaded(false)
+    const initializeComponent = () => {
+        const ApiEndpointBase = dataModel.API_ENDPOINT
+        let apiEndpoint = `${ApiEndpointBase}/version/${id}`
 
         axios
             .get(apiEndpoint)
@@ -77,7 +65,7 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
                     if (err.response.status === 404) {
                         history.push(`/`)
                         toast(
-                            `Deze ${titleSingular.toLowerCase()} kon niet gevonden worden`
+                            `Deze ${dataModel.TITEL_ENKELVOUD.toLowerCase()} kon niet gevonden worden`
                         )
                     } else if (err.response.status === 422) {
                         history.push(`/login`)
@@ -93,7 +81,19 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
                     toast(process.env.REACT_APP_ERROR_MSG)
                 }
             })
-    }, [id, apiEndpoint, history, titleSingular])
+    }
+
+    // Init on mount
+    React.useEffect(() => {
+        initializeComponent()
+    }, [])
+
+    // Init when url param { id } changes
+    React.useEffect(() => {
+        setDataLoaded(false)
+        initializeComponent()
+        window.scrollTo(0, 0)
+    }, [id])
 
     // Returns boolean
     // There are two objects with werkingsgebieden:
@@ -147,13 +147,7 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
 
     const [searchQuery, fromPage] = getSearchQuery()
 
-    const getTitle = () => {
-        if (!dataLoaded) return ''
-
-        return `${
-            dataObject ? dataObject.Titel : null
-        } (${titleSingular}) - Omgevingsbeleid Provincie Zuid-Holland`
-    }
+    const titelEnkelvoud = dataModel.TITEL_ENKELVOUD
 
     return (
         <React.Fragment>
@@ -162,7 +156,6 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
                 id="raadpleeg-detail-container-main"
             >
                 <Helmet>
-                    <title>{getTitle()}</title>
                     <style type="text/css">{`
                     @media print {
                         #raadpleeg-detail-sidebar,
@@ -213,7 +206,7 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
                         </div>
 
                         <Heading
-                            type={titleSingular}
+                            type={titelEnkelvoud}
                             titel={dataObject ? dataObject.Titel : null}
                         />
 
@@ -225,48 +218,39 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
                         />
 
                         {/* These contain the fields that need to be displayed for the different objects */}
-                        <div
-                            className={`mt-8 ${
-                                titleSingular === 'Beleidskeuze' ? '' : 'pb-20'
-                            }`}
-                            id="raadpleeg-detail-container-main"
-                        >
-                            {titleSingular === 'Beleidskeuze' ? (
+                        <div className="mt-8">
+                            {titelEnkelvoud === 'Beleidskeuze' ? (
                                 <ContainerViewFieldsBeleidsbeslissing
                                     crudObject={dataObject}
                                 />
                             ) : null}
-                            {titleSingular === 'Beleidsregel' ? (
+                            {titelEnkelvoud === 'Beleidsregel' ? (
                                 <ContainerViewFieldsBeleidsregel
                                     crudObject={dataObject}
                                 />
                             ) : null}
-                            {titleSingular === 'Beleidsprestatie' ? (
-                                <ContainerViewFieldsBeleidsprestatie
-                                    crudObject={dataObject}
-                                />
-                            ) : null}
-                            {titleSingular === 'Maatregel' ? (
+                            {titelEnkelvoud === 'Maatregel' ? (
                                 <ContainerViewFieldsMaatregel
                                     crudObject={dataObject}
                                 />
                             ) : null}
-                            {titleSingular === 'Beleidsdoel' ? (
+                            {titelEnkelvoud === 'Opgave' ? (
                                 <ContainerViewFieldsOpgave
                                     crudObject={dataObject}
                                 />
                             ) : null}
-                            {titleSingular === 'Ambitie' ? (
+                            {/*  */}
+                            {titelEnkelvoud === 'Ambitie' ? (
                                 <ContainerViewFieldsAmbitie
                                     crudObject={dataObject}
                                 />
                             ) : null}
-                            {titleSingular === 'Belang' ? (
+                            {titelEnkelvoud === 'Belang' ? (
                                 <ContainerViewFieldsBelang
                                     crudObject={dataObject}
                                 />
                             ) : null}
-                            {titleSingular === 'Thema' ? (
+                            {titelEnkelvoud === 'Thema' ? (
                                 <ContainerViewFieldsThema
                                     crudObject={dataObject}
                                 />
@@ -284,7 +268,8 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
                                 werkingsGebiedUUID={werkingsGebiedUUID}
                             />
                         ) : null}
-                        {titleSingular === 'Maatregel' &&
+                        {console.log(dataObject)}
+                        {titelEnkelvoud === 'Maatregel' &&
                         dataLoaded &&
                         dataObject['Gebied_Duiding'] &&
                         dataObject['Gebied'] ? (
@@ -295,7 +280,7 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
                     </div>
                 </Transition>
             </div>
-            {dataLoaded && titleSingular === 'Beleidskeuze' ? (
+            {dataLoaded && titelEnkelvoud === 'Beleidskeuze' ? (
                 <RelatiesKoppelingen beleidskeuze={dataObject} />
             ) : null}
         </React.Fragment>

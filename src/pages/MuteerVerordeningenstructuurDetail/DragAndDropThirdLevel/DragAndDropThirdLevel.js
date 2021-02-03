@@ -1,6 +1,3 @@
-/* eslint-disable */
-// TODO: For now ESLint is disabled, because this file will be refactored in the future, based on a new data structure
-
 import React from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { Link } from 'react-router-dom'

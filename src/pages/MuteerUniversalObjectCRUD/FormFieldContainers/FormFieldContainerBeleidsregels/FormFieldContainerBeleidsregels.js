@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import ContainerFormSection from './../../../../components/ContainerFormSection'
@@ -7,10 +7,11 @@ import {
     FormFieldTextInput,
     FormFieldTextArea,
     FormFieldWeblink,
+    FormFieldSelect,
 } from './../../../../components/FormFieldsExport'
 
 function FormFieldContainerBeleidsregels({
-    titleSingular,
+    titelEnkelvoud,
     crudObject,
     handleChange,
 }) {
@@ -26,7 +27,7 @@ function FormFieldContainerBeleidsregels({
                     dataObjectProperty="Titel"
                     fieldLabel="Titel"
                     pValue="Formuleer in enkele woorden de titel van deze beleidsregel."
-                    titleSingular={titleSingular}
+                    titelEnkelvoud={titelEnkelvoud}
                 />
             </ContainerFormSection>
 
@@ -40,7 +41,7 @@ function FormFieldContainerBeleidsregels({
                     fieldLabel="Omschrijving"
                     dataObjectProperty="Omschrijving"
                     pValue="Geef een korte omschrijving van deze beleidsregel."
-                    titleSingular={titleSingular}
+                    titelEnkelvoud={titelEnkelvoud}
                 />
             </ContainerFormSection>
 
@@ -54,7 +55,7 @@ function FormFieldContainerBeleidsregels({
                     dataObjectProperty="Weblink"
                     fieldLabel="IDMS"
                     pValue="Vul hier de link in naar het besluitdocument op IDMS. (Eigenschappen > Algemeen > Snelkoppeling kopiëren)."
-                    titleSingular={titleSingular}
+                    titelEnkelvoud={titelEnkelvoud}
                 />
 
                 <div className="flex flex-wrap -mx-3">
@@ -64,7 +65,7 @@ function FormFieldContainerBeleidsregels({
                         fieldLabel="Inwerkingtreding"
                         dataObjectProperty="Begin_Geldigheid"
                         pValue="Indien bekend, kan hier de datum treding worden ingevuld"
-                        titleSingular={titleSingular}
+                        titelEnkelvoud={titelEnkelvoud}
                     />
 
                     <FormFieldDate
@@ -74,7 +75,7 @@ function FormFieldContainerBeleidsregels({
                         fieldLabel="Uitwerkingtreding"
                         dataObjectProperty="Eind_Geldigheid"
                         pValue="Indien bekend, kan hier de datum gtreding worden ingevuld"
-                        titleSingular={titleSingular}
+                        titelEnkelvoud={titelEnkelvoud}
                     />
                 </div>
             </ContainerFormSection>
@@ -83,7 +84,7 @@ function FormFieldContainerBeleidsregels({
 }
 
 FormFieldContainerBeleidsregels.propTypes = {
-    titleSingular: PropTypes.string,
+    titelEnkelvoud: PropTypes.string,
     crudObject: PropTypes.object,
     handleChange: PropTypes.func,
 }

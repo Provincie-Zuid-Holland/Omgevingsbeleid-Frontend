@@ -1,5 +1,5 @@
-export const TITLE_SINGULAR = 'Afdeling'
-export const TITLE_PLURAL = 'Afdelingen'
+export const TITEL_ENKELVOUD = 'Afdeling'
+export const TITEL_MEERVOUD = 'Afdelingen'
 export const TYPE = 'Afdeling'
 
 export const CRUD_PROPERTIES = {

@@ -3,7 +3,7 @@ import React from 'react'
 import { faPlus } from '@fortawesome/pro-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import { Transition } from '@headlessui/react'
+import Transition from './../../../components/Transition'
 
 import VerordeningContext from './../VerordeningContext'
 

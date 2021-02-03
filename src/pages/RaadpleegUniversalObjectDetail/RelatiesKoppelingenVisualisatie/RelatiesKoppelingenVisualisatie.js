@@ -160,11 +160,11 @@ const RelatiesKoppelingenVisualisatie = ({
                     const slugs = {
                         Ambities: 'ambities',
                         BeleidsRegels: 'beleidsregels',
-                        Doelen: 'beleidsprestaties',
+                        Doelen: 'doelen',
                         Belangen: 'belangen',
                         Maatregelen: 'maatregelen',
                         Themas: 'themas',
-                        Opgaven: 'beleidsdoelen',
+                        Opgaven: 'opgaven',
                         Verordening: 'verordeningen',
                     }
 
@@ -209,20 +209,9 @@ const RelatiesKoppelingenVisualisatie = ({
                 node.attr('cx', (d) => d.x + 100).attr('cy', (d) => d.y + 100)
             })
         }
-    }, [data, location.pathname])
+    }, [data, d3Container.current])
 
     const isVerordeningItem = href && href.includes('verordening')
-
-    const getPropertyName = (property) => {
-        switch (property) {
-            case 'Doelen':
-                return 'Beleidsprestaties'
-            case 'Opgaven':
-                return 'Beleidsdoelen'
-            default:
-                return property
-        }
-    }
 
     return (
         <div className="flex">
@@ -257,7 +246,7 @@ const RelatiesKoppelingenVisualisatie = ({
                                             .hex,
                                 }}
                             />
-                            <span>{getPropertyName(property)}</span>
+                            <span>{property}</span>
                         </li>
                     ))}
                 </ul>

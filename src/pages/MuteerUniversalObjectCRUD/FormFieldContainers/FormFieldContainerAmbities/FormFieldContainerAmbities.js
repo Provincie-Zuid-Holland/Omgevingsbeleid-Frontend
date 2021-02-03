@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import ContainerFormSection from './../../../../components/ContainerFormSection'
@@ -10,7 +10,7 @@ import {
 } from './../../../../components/FormFieldsExport'
 
 function FormFieldContainerAmbities({
-    titleSingular,
+    titelEnkelvoud,
     crudObject,
     handleChange,
 }) {
@@ -26,7 +26,7 @@ function FormFieldContainerAmbities({
                     dataObjectProperty="Titel"
                     fieldLabel="Titel"
                     pValue="Formuleer in enkele woorden de titel van deze ambitie."
-                    titleSingular={titleSingular}
+                    titelEnkelvoud={titelEnkelvoud}
                 />
             </ContainerFormSection>
 
@@ -39,8 +39,8 @@ function FormFieldContainerAmbities({
                     fieldValue={crudObject['Omschrijving']}
                     fieldLabel="Omschrijving"
                     dataObjectProperty="Omschrijving"
-                    pValue="Geef een korte omschrijving van deze ambitie"
-                    titleSingular={titleSingular}
+                    pValue="Geef een korte omschrijving van deze maatregel"
+                    titelEnkelvoud={titelEnkelvoud}
                 />
             </ContainerFormSection>
 
@@ -54,7 +54,7 @@ function FormFieldContainerAmbities({
                     dataObjectProperty="Weblink"
                     fieldLabel="IDMS"
                     pValue="Vul hier de link in naar het besluitdocument op IDMS. (Eigenschappen > Algemeen > Snelkoppeling kopiëren)."
-                    titleSingular={titleSingular}
+                    titelEnkelvoud={titelEnkelvoud}
                 />
 
                 <div className="flex flex-wrap -mx-3">
@@ -64,7 +64,7 @@ function FormFieldContainerAmbities({
                         fieldValue={crudObject['Begin_Geldigheid']}
                         fieldLabel="Inwerkingtreding"
                         pValue="Indien bekend, kan hier de datum van inwerkingtreding worden ingevuld"
-                        titleSingular={titleSingular}
+                        titelEnkelvoud={titelEnkelvoud}
                     />
 
                     <FormFieldDate
@@ -74,7 +74,7 @@ function FormFieldContainerAmbities({
                         fieldValue={crudObject['Eind_Geldigheid']}
                         fieldLabel="Uitwerkingtreding"
                         pValue="Indien bekend, kan hier de datum van uitwerkingtreding worden ingevuld"
-                        titleSingular={titleSingular}
+                        titelEnkelvoud={titelEnkelvoud}
                     />
                 </div>
             </ContainerFormSection>
@@ -83,7 +83,7 @@ function FormFieldContainerAmbities({
 }
 
 FormFieldContainerAmbities.propTypes = {
-    titleSingular: PropTypes.string,
+    titelEnkelvoud: PropTypes.string,
     crudObject: PropTypes.object,
     handleChange: PropTypes.func,
 }

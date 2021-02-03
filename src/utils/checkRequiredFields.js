@@ -3,7 +3,7 @@ import { toast } from 'react-toastify'
 import scrollToElement from './scrollToElement'
 import eindDateIsBeforeBeginDate from './eindDateIsBeforeBeginDate'
 
-function checkRequiredFields(crudObject, dimensieConstants, titleSingular) {
+function checkRequiredFields(crudObject, dimensieConstants, titelEnkelvoud) {
     const status = crudObject.Status
     const crudObjectProperties = Object.keys(crudObject)
 
@@ -14,7 +14,7 @@ function checkRequiredFields(crudObject, dimensieConstants, titleSingular) {
     let alleVeldenIngevuld = true
 
     // De beleidsbeslissingen bevatten niet een boolean property met de required waarde, maar een array met de statussen waarin dat property verplicht is
-    if (titleSingular === 'Beleidskeuze') {
+    if (titelEnkelvoud === 'Beleidskeuze') {
         crudObjectProperties.forEach((property) => {
             if (
                 dimensieConstants.CRUD_PROPERTIES[property] &&
@@ -45,7 +45,7 @@ function checkRequiredFields(crudObject, dimensieConstants, titleSingular) {
         crudObject.Eind_Geldigheid !== ''
     ) {
         const isEindDateBeforeBegin = eindDateIsBeforeBeginDate(
-            titleSingular,
+            titelEnkelvoud,
             crudObject
         )
         if (isEindDateBeforeBegin) {
@@ -63,16 +63,16 @@ function checkRequiredFields(crudObject, dimensieConstants, titleSingular) {
 
         if (!propertyHasValue) {
             // Notificeer de gebruiker
-            const titleSingular = dimensieConstants.TITLE_SINGULAR
+            const titelEnkelvoud = dimensieConstants.TITEL_ENKELVOUD
             toast(dimensieConstants.CRUD_PROPERTIES[property].requiredMessage)
             console.warn(
-                `Element met id 'form-field-${titleSingular.toLowerCase()}-${property.toLowerCase()}' heeft geen waarde`
+                `Element met id 'form-field-${titelEnkelvoud.toLowerCase()}-${property.toLowerCase()}' heeft geen waarde`
             )
 
             // !REFACTOR! Scope creep alleVeldenIngevuld
             // Als er nog niet naar een element is gescrolled, scroll naar het element
             if (!pageScrolledToElement) {
-                const elSelector = `form-field-${titleSingular.toLowerCase()}-${property.toLowerCase()}`
+                const elSelector = `form-field-${titelEnkelvoud.toLowerCase()}-${property.toLowerCase()}`
                 scrollToElement(elSelector)
                 pageScrolledToElement = true
                 alleVeldenIngevuld = false

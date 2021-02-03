@@ -1,5 +1,5 @@
-export const TITLE_SINGULAR = 'Lid'
-export const TITLE_PLURAL = 'Leden'
+export const TITEL_ENKELVOUD = 'Lid'
+export const TITEL_MEERVOUD = 'Leden'
 export const TYPE = 'Lid'
 
 export const CRUD_PROPERTIES = {
