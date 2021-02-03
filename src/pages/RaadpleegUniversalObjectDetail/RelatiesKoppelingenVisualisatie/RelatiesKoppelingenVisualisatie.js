@@ -213,15 +213,6 @@ const RelatiesKoppelingenVisualisatie = ({
 
     const isVerordeningItem = href && href.includes('verordening')
 
-    const getPropertyName = (property) => {
-        switch (property) {
-            case 'Doelen':
-                return 'Beleidsprestaties'
-            default:
-                return property
-        }
-    }
-
     return (
         <div className="flex">
             <div className="flex flex-col justify-between w-full">
@@ -255,7 +246,7 @@ const RelatiesKoppelingenVisualisatie = ({
                                             .hex,
                                 }}
                             />
-                            <span>{getPropertyName(property)}</span>
+                            <span>{property}</span>
                         </li>
                     ))}
                 </ul>

@@ -57,9 +57,7 @@ const NavigationPopupMenu = ({
                 .then((res) => setBeleidsprestaties(res.data))
                 .catch((err) => console.log(err)),
             axios
-                .get(
-                    `${allDimensies.BELEIDSKEUZES.API_ENDPOINT}?Status=Vigerend`
-                )
+                .get(`${allDimensies.BELEIDSKEUZES.API_ENDPOINT_VIGEREND}`)
                 .then((res) => setBeleidskeuzes(res.data))
                 .catch((err) => console.log(err)),
             axios

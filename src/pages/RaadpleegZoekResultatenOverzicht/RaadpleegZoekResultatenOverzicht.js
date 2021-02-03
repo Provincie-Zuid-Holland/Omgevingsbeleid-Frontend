@@ -327,7 +327,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                 const searchResults = res.data
                     .filter(
                         (e) =>
-                            e.Type !== 'Doelen' &&
+                            e.Type !== 'Beleidsprestaties' &&
                             e.Type !== 'Themas' &&
                             e.Type !== 'Belangen'
                     )

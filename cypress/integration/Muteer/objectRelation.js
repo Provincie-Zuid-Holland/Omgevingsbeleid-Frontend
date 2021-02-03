@@ -38,7 +38,7 @@ describe('Dimension Status', () => {
                                 .click()
                             cy.contains('Nieuwe relatie').click()
                             cy.get(
-                                '#form-field-beleidsrelatie-naar_beleidsbeslissing',
+                                '#form-field-beleidsrelatie-naar_beleidskeuze',
                                 {
                                     timeout: 15000,
                                 }

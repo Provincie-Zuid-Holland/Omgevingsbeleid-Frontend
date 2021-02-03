@@ -3,7 +3,7 @@ import { currentDate, futureDate, currentDateFormatted } from './testValues'
 export const TITLE_SINGULAR = 'Maatregel'
 export const TITLE_PLURAL = 'Maatregelen'
 export const API_ENDPOINT = 'maatregelen'
-export const API_ENDPOINT_VIGEREND = 'maatregelen/vigerend'
+export const API_ENDPOINT_VIGEREND = 'valid/maatregelen'
 export const SLUG_OVERVIEW = 'maatregelen'
 export const SLUG_CREATE_NEW = 'nieuwe-maatregel'
 
