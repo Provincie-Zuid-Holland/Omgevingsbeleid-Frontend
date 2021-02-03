@@ -5,6 +5,14 @@ import React from 'react'
 // /pages/MuteerUniversalObjectCRUD/ContainerMain
 // /components/Navigation
 
+/**
+ * Component that shows the content based on the given id from props.
+ *
+ * @component
+ *
+ * @param {props} props - Parameter containing a certain value that can be used within the function.
+ */
+
 function ContainerMain(props) {
     return props.id ? (
         <div

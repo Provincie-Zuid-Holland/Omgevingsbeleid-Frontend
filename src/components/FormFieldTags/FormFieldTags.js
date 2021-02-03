@@ -5,6 +5,12 @@ import CreatableSelect from 'react-select/creatable'
 // In CrudObject state: een comma seperated string
 // In local state: een array met items
 
+/**
+ * Class that renders the FormFieldTags.
+ *
+ * @class
+ * @extends Component
+ */
 class FormFieldTags extends Component {
     constructor(props) {
         super(props)
@@ -25,6 +31,14 @@ class FormFieldTags extends Component {
         this.handleChange = this.handleChange.bind(this)
     }
 
+    /**
+     * Function to change the name and value variables.
+     *
+     * @function
+     *
+     * @param {array} newValue - New array that will be set as a new value.
+     * @param {object} actionMeta - 001
+     */
     handleChange = (newValue, actionMeta) => {
         if (newValue) {
             this.setState({
@@ -49,10 +63,10 @@ class FormFieldTags extends Component {
                         dataObjectProperty={this.props.dataObjectProperty}
                         fieldLabel={this.props.fieldLabel}
                         pValue={this.props.pValue}
-                        titelEnkelvoud={this.props.titelEnkelvoud}
+                        titleSingular={this.props.titleSingular}
                     />
                     <CreatableSelect
-                        id={`form-field-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
+                        id={`form-field-${this.props.titleSingular.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
                         isMulti
                         onChange={this.handleChange}
                         value={this.state.selectionArray}

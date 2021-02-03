@@ -6,6 +6,12 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
+/**
+ * Class that renders a MeldingAlgemeen Component that shows a certain title and children based on the prop value it has received from the parent component.
+ *
+ * @class
+ * @extends
+ */
 class MeldingAlgemeen extends Component {
     render() {
         let icon
@@ -18,7 +24,7 @@ class MeldingAlgemeen extends Component {
         }
 
         return (
-            <div className="bg-white rounded shadow p-4 mb-4">
+            <div className="p-4 mb-4 bg-white rounded shadow">
                 <div className="flex items-center justify-start">
                     <div className="rounded-full mbg-color w-12 h-12 inline-block text-white flex justify-center items-center">
                         <FontAwesomeIcon icon={icon} />

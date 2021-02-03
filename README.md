@@ -31,8 +31,8 @@ Create a .env file in the root of the project.
 ```jsx
 REACT_APP_API_VERSION = 'v0.1' // Used in the API url (in axios.js)
 REACT_APP_API_ENV = 'dev' // Used in the API url (in axios.js)
-REACT_APP_KEY_API_ACCESS_TOKEN = '__OB_access_token__' // Used to set login token
-REACT_APP_KEY_IDENTIFIER = '__OB_identifier__' // Used to set login identifier
+REACT_APP_KEY_API_ACCESS_TOKEN = 'OB_access_token' // Used to set login token
+REACT_APP_KEY_IDENTIFIER = 'OB_identifier' // Used to set login identifier
 REACT_APP_ERROR_MSG = 'Er is iets misgegaan, probeer het later nog eens' // Error message
 ```
 
@@ -146,9 +146,27 @@ The cypress test right now consists of testing the dimensions, with test to crea
 
 The API calls to the server are all stubbed. They live inside the /fixtures folder. The fixture files are created automatically by setting the `"RECORD"` environmental variable to `true` and then running the test with `npm run cy:run`. After the fixtures have been created you `"RECORD"` back to `false` and the tests will be stubbed.
 
-## Document with JSDoc
+To set the environmental variable for Cypress you need a `cypress.json` file in the root of your directory. To be able to run authenticated tests you will also need to provide user credentials:
+
+```JSON
+{
+    "video": false,
+    "baseUrl": "http://localhost:3000",
+    "env": {
+        "env": "dev",
+        "RECORD": true,
+        "API_VERSION": "api-version",
+        "ACCESS_TOKEN": "local-storage-key",
+        "USERNAME": "username@domain.com",
+        "PASSWORD": "password"
+            }
+}
+```
+
+## JSDoc
 
 ---
+
 To install JSDoc Globally to document code use the following steps:
 
 ```
@@ -156,7 +174,8 @@ npm install -g jsdoc
 ```
 
 You then create a jsdoc.json config file in the root with the following settings:
-* you can edit the parameters below.
+
+-   you can edit the parameters below.
 
 ```
 {
@@ -182,6 +201,7 @@ With the following command you generate/override the doc environment:
 ```
 jsdoc -c jsdoc.json
 ```
+
 A docs folder will be created (if you didn't have on yet), in that folder you can open the index.html to view the documentation in your browser.
 
 See the following link for tags that can be used in the comments of code/examples: [JSDoc](https://jsdoc.app/index.html)

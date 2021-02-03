@@ -18,7 +18,7 @@ import './../css/tailwind.css'
 import './../css/styles.scss'
 import './../../node_modules/leaflet/dist/leaflet.css'
 
-// Import All the dimension constants. These contain the dimensions and there variables, e.g. API_ENDPOINT and TITEL_ENKELVOUD
+// Import All the dimension constants. These contain the dimensions and there variables, e.g. API_ENDPOINT and TITLE_SINGULAR
 import allDimensies from './../constants/dimensies'
 
 // Import non authenticated pages
@@ -30,6 +30,7 @@ import Login from './../pages/Login'
 import Planning from './../pages/Planning'
 
 // Import Components
+import FeedbackComponent from './../components/FeedbackComponent'
 import Navigation from './../components/Navigation'
 import LoaderContent from './../components/LoaderContent'
 import PopupWelcomeBeta from './../components/PopupWelcomeBeta'
@@ -78,11 +79,15 @@ const detailPaginas = [
         dataModel: allDimensies.BELEIDSBESLISSINGEN,
     },
     {
+        slug: 'beleidsprestaties',
+        dataModel: allDimensies.DOELEN,
+    },
+    {
         slug: 'themas',
         dataModel: allDimensies.THEMAS,
     },
     {
-        slug: 'opgaven',
+        slug: 'beleidsdoelen',
         dataModel: allDimensies.OPGAVEN,
     },
     {
@@ -147,7 +152,7 @@ class App extends Component {
     checkForInternetExplorer() {
         var ua = window.navigator.userAgent
         var msie = ua.indexOf('MSIE ')
-        if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+        if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv:11\./)) {
             // If Internet Explorer, return version number
             window.alert(
                 'Deze website werkt met moderne browsers als Chrome, Firefox, Safari, etc'
@@ -209,7 +214,7 @@ class App extends Component {
 
         return (
             <UserContext.Provider value={{ user: this.state.user }}>
-                <main
+                <div
                     className={`min-h-screen pt-12 ${
                         locationEqualsMutateEnv ? 'bg-gray-100' : ''
                     }`}
@@ -318,7 +323,6 @@ class App extends Component {
                                     authUser={this.state.user}
                                     loggedIn={this.state.loggedIn}
                                     setLoginState={this.setLoginState}
-                                    history={this.props.history}
                                 />
                             </Switch>
                         </Suspense>
@@ -327,7 +331,8 @@ class App extends Component {
                     )}
 
                     <ToastContainer limit={1} position="bottom-left" />
-                </main>
+                    <FeedbackComponent />
+                </div>
             </UserContext.Provider>
         )
     }
@@ -336,14 +341,18 @@ class App extends Component {
 const Logout = ({ setLoginState }) => {
     const history = useHistory()
 
-    React.useLayoutEffect(() => {
+    const cleanup = React.useCallback(() => {
         // Clear user token and profile data from localStorage
         localStorage.removeItem(process.env.REACT_APP_KEY_API_ACCESS_TOKEN)
         localStorage.removeItem(process.env.REACT_APP_KEY_IDENTIFIER)
 
         setLoginState(false)
         history.push('/')
-    }, [])
+    }, [setLoginState, history])
+
+    React.useLayoutEffect(() => {
+        cleanup()
+    }, [cleanup])
 
     return null
 }

@@ -2,6 +2,12 @@ import React, { Component } from 'react'
 import { faLink } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
+/**
+ * Class that renders a MeldingKoppeling component
+ *
+ * @class
+ * @extends Component
+ */
 class MeldingKoppeling extends Component {
     render() {
         return (

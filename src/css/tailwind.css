@@ -20156,6 +20156,10 @@ video {
   line-height: 1.5;
 }
 
+.text-md {
+  font-size: 1.1rem;
+}
+
 .heading {
   display: inline-block;
 }

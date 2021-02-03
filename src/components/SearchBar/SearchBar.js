@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { withRouter, useLocation, useHistory } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
@@ -6,7 +6,23 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import 'url-search-params-polyfill'
 
 // The parameter compInNavigation
-const SearchBar = ({ width, exactWidth, compInNavigation, placeholder }) => {
+/**
+ * Component that renders the searchBar component.
+ *
+ * @component
+ *
+ * @param {string} width - Parameter that is used to set the width of an element within the rendered component.
+ * @param {string} exactWidth - Parameter that can be set as a value for the width parameter.
+ * @param {boolean} compInNavigation - Parameter that is used in a if statement to set values to certain variables.
+ * @param {string} placeholder - Parameter that shows a placeholder in the SearchBar.
+ */
+const SearchBar = ({
+    width,
+    exactWidth,
+    compInNavigation,
+    placeholder,
+    id,
+}) => {
     const location = useLocation()
     const history = useHistory()
 
@@ -51,7 +67,7 @@ const SearchBar = ({ width, exactWidth, compInNavigation, placeholder }) => {
             document.removeEventListener('mousedown', handleClick)
             document.removeEventListener('keydown', closeOnEscape)
         }
-    }, [])
+    }, [compInNavigation, location])
 
     return (
         <div
@@ -78,7 +94,7 @@ const SearchBar = ({ width, exactWidth, compInNavigation, placeholder }) => {
                 }}
                 onClick={() => setSearchBarPopupOpen(true)}
                 autoComplete="off"
-                id="search-query"
+                id={id ? id : 'search-query'}
                 type="text"
                 value={searchQuery}
                 placeholder={
@@ -112,6 +128,20 @@ const SearchBar = ({ width, exactWidth, compInNavigation, placeholder }) => {
     )
 }
 
+/**
+ * Function to render the SearchBarPopupItem component.
+ *
+ * @function
+ *
+ * @param {int} index - Parameter used as the index key for the SearchBarPopupItem.
+ * @param {string} value - Parameter that is used as an value for a query that is used within a link in the rendered component
+ * @param {string} filterQuery - Parameter that is used to filter the query based on its value.
+ * @param {boolean} filter - If this parameter is true, certain elements will be shown.
+ * @param {int} arrayLength - Parameter that has the length of the array as value.
+ * @param {int} dataIndex - Parameter used as the data-index value of an link tag.
+ * @param {boolean} setSearchBarPopupOpen - Parameter that if set to true the SearchBarPopup component will be shown.
+ * @param {object} item - Parameter that its value of is used for an element.
+ */
 function SearchBarPopupItem({
     index,
     value,
@@ -180,9 +210,6 @@ function SearchBarPopupItem({
                         <span className="inline-block search-preview">
                             {value}
                         </span>
-                        <span className="absolute top-0 right-0 mt-3 mr-3 text-xs text-gray-500">
-                            Zoeken in categorie
-                        </span>
                     </React.Fragment>
                 )}
             </Link>
@@ -190,6 +217,14 @@ function SearchBarPopupItem({
     )
 }
 
+/**
+ * Function that renders the SearchBarPopup component that is used within other functions.
+ *
+ * @function
+ *
+ * @param {string} searchInput - Parameter used to set the value of the SearchBarPopupItem component.
+ * @param {boolean} setSearchBarPopupOpen - Parameter used to toggle the SearchBarPopup component by setting it true or false.
+ */
 function SearchBarPopup({ searchInput, setSearchBarPopupOpen }) {
     const filters = [
         {
@@ -202,7 +237,7 @@ function SearchBarPopup({ searchInput, setSearchBarPopupOpen }) {
         },
         {
             filterQuery: 'opgaven',
-            name: 'opgaven',
+            name: 'beleidsdoelen',
         },
         {
             filterQuery: 'maatregelen',

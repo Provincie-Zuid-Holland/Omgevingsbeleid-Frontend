@@ -3,6 +3,11 @@ import { MapControl, withLeaflet } from 'react-leaflet'
 import { Control, DomUtil, DomEvent } from 'leaflet'
 import cloneDeep from 'lodash.clonedeep'
 
+/**
+ * Function to extend the controller.
+ *
+ * @function
+ */
 const DumbControl = Control.extend({
     options: {
         className: '',
@@ -26,6 +31,12 @@ const DumbControl = Control.extend({
 })
 
 export default withLeaflet(
+    /**
+     * Class that renders the LeafletControl.
+     *
+     * @class
+     * @extends MapControl
+     */
     class LeafletControl extends MapControl {
         createLeafletElement(props) {
             return new DumbControl(cloneDeep(props))

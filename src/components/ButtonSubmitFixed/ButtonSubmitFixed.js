@@ -1,5 +1,9 @@
 import React from 'react'
-
+/**
+ * A component that shows a button with the text "Opslaan" and the type of submit.
+ *
+ * @component
+ */
 function ButtonSubmitFixed() {
     return (
         <div className="fixed bottom-0 right-0 z-10 px-6">

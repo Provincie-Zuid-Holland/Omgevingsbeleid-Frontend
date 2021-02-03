@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Helmet } from 'react-helmet'
 import { Link, withRouter } from 'react-router-dom'
-import { toast } from 'react-toastify'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -14,21 +13,21 @@ import {
 
 import axios from './../../API/axios'
 
-import ContainerMain from './../../components/ContainerMain'
 import SidebarMain from './../../components/SidebarMain'
+
 import MuteerBeleidsrelatieDetail from './../MuteerBeleidsrelatieDetail'
 import LoaderBeleidsrelatieRegel from './../../components/LoaderBeleidsrelatieRegel'
 
+/**
+ * Returns the overzicht page of beleidsrelaties
+ */
 class MuteerBeleidsrelatiesOverzicht extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            beleidsbeslissingen: null,
-            beleidsrelaties: null,
             dataLoaded: false,
             beleidsbeslissingenObject: null,
-            currentView: 'overzicht',
-            currentUUID: null,
+            currentBeleidsbeslissing: {},
         }
         this.initializeState = this.initializeState.bind(this)
         this.updateBeleidsrelaties = this.updateBeleidsrelaties.bind(this)
@@ -43,73 +42,27 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
     }
 
     // ***
-    /** Lifecycle Functions*/
+    // Lifecycle Functions
 
-    /** Als de gebruiker de url veranderd, verander naar de 'overzicht' over de 'detail' view 
-    * @method
-    * @param {?} prevProps - wordt deze param niet gebruikt? 
-    */
+    // Als de gebruiker de url veranderd, verander naar de 'overzicht' over de 'detail' view
     componentDidUpdate(prevProps) {
         if (
-            this.props.match.params.UUID === undefined &&
-            this.state.currentView !== 'overzicht'
+            this.props.parentDataLoaded &&
+            this.props.parentDataLoaded !== prevProps.parentDataLoaded
         ) {
-            this.setState({
-                currentView: 'overzicht',
-            })
+            this.initializeState()
         }
     }
 
-    /** Als het component gemount wordt, haal alle beleidsbeslissingen en beleidsrelaties => setState op en initialize state 
-     * @method
-     * @param - none;
-    */
     componentDidMount() {
-        if (this.props.match.params.UUID !== undefined) {
-            this.setState({
-                currentView: 'detail',
-            })
+        if (this.props.parentDataLoaded) {
+            this.initializeState()
         }
-
-        const UserUUID = JSON.parse(
-            localStorage.getItem(process.env.REACT_APP_KEY_IDENTIFIER)
-        ).UUID
-
-        Promise.all([
-            axios.get(
-                `/beleidsbeslissingen?Created_By=${UserUUID}&Eigenaar_1=${UserUUID}&Eigenaar_2=${UserUUID}&Opdrachtgever=${UserUUID}`
-            ),
-            axios.get(`/beleidsrelaties`),
-        ])
-            .then(([beleidsbeslissingen, beleidsrelaties]) =>
-                this.setState(
-                    {
-                        beleidsbeslissingen: beleidsbeslissingen.data,
-                        beleidsrelaties: beleidsrelaties.data,
-                        dataLoaded: true,
-                    },
-                    () => {
-                        this.initializeState()
-                    }
-                )
-            )
-            .catch((err) => {
-                console.log(err)
-                toast(process.env.REACT_APP_ERROR_MSG)
-            })
     }
 
-    // ***
-    /** Methods*/
-
-    /** 
-    * Update de status van een beleidsrelatie en initialized opnieuw de State om de UI te updaten 
-    * @method
-    * @param {UUID} beleidsrelatieUUID - UUID van beleidsrelatie.
-    * @param {string} status - status.
-    */
+    // Update de status van een beleidsrelatie en initialized opnieuw de State om de UI te updaten
     updateBeleidsrelaties(beleidsrelatieUUID, status) {
-        let beleidsrelaties = this.state.beleidsrelaties
+        let beleidsrelaties = this.props.beleidsrelaties
         let index = beleidsrelaties.findIndex(
             (x) => x.UUID === beleidsrelatieUUID
         )
@@ -126,13 +79,9 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
         }
     }
 
-    /** 
-     * Kijkt hoeveel bevestigde relaties er in het beleidsrelatie object zitten met de geleverde UUID
-     * @method
-     * @param {UUID} UUID - UUID van beleidsrelatie object.
-    */
+    // Kijkt hoeveel bevestigde relaties er in het beleidsrelatie object zitten met de geleverde UUID
     countBevestigdeRelaties(UUID) {
-        const beleidsrelaties = this.state.beleidsrelaties.filter(
+        const beleidsrelaties = this.props.beleidsrelaties.filter(
             (beleidsrelatie) =>
                 (beleidsrelatie.Van_Beleidsbeslissing === UUID ||
                     beleidsrelatie.Naar_Beleidsbeslissing === UUID) &&
@@ -141,13 +90,9 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
         return beleidsrelaties.length
     }
 
-    /** 
-    * Kijkt hoeveel onbevestigde relaties er in het beleidsrelatie object zitten met de geleverde UUID 
-    * @method
-    * @param {UUID} UUID - UUID van beleidsrelatie object voor countOnbevestigdeRelaties.
-    */
+    // Kijkt hoeveel onbevestigde relaties er in het beleidsrelatie object zitten met de geleverde UUID
     countOnbevestigdeRelaties(UUID) {
-        const beleidsrelaties = this.state.beleidsrelaties.filter(
+        const beleidsrelaties = this.props.beleidsrelaties.filter(
             (beleidsrelatie) =>
                 beleidsrelatie.Van_Beleidsbeslissing === UUID &&
                 beleidsrelatie.Status === 'Open'
@@ -155,13 +100,9 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
         return beleidsrelaties.length
     }
 
-    /** 
-    * Kijkt hoeveel onbevestigde relaties er in het beleidsrelatie object zitten met de geleverde UUID  
-    * @method
-    * @param {UUID} UUID - UUID van beleidsrelatie object voor countVerzoekRelaties.
-    */
+    // Kijkt hoeveel onbevestigde relaties er in het beleidsrelatie object zitten met de geleverde UUID
     countVerzoekRelaties(UUID) {
-        const beleidsrelaties = this.state.beleidsrelaties.filter(
+        const beleidsrelaties = this.props.beleidsrelaties.filter(
             (beleidsrelatie) =>
                 beleidsrelatie.Naar_Beleidsbeslissing === UUID &&
                 beleidsrelatie.Status === 'Open'
@@ -169,12 +110,9 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
         return beleidsrelaties.length
     }
 
-    /** Kijkt hoeveel afgewezen relaties er in het beleidsrelatie object zitten met de geleverde UUID
-    * @method
-    * @param {UUID} UUID - UUID van beleidsrelatie object voor countAfgewezenRelaties.
-    */
+    // Kijkt hoeveel afgewezen relaties er in het beleidsrelatie object zitten met de geleverde UUID
     countAfgewezenRelaties(UUID) {
-        const beleidsrelaties = this.state.beleidsrelaties.filter(
+        const beleidsrelaties = this.props.beleidsrelaties.filter(
             (beleidsrelatie) =>
                 (beleidsrelatie.Naar_Beleidsbeslissing === UUID &&
                     beleidsrelatie.Status === 'NietAkkoord') ||
@@ -184,10 +122,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
         return beleidsrelaties.length
     }
 
-    /** Kijk voor elke beleidsbeslissing hoeveel en wat voor relaties deze heeft
-     * @method
-     * @param {Array} beleidsbeslissingen - array van hoeveelheid en wat voor relaties binnen beleidsbeslissingen  
-     */
+    // Kijk voor elke beleidsbeslissing hoeveel en wat voor relaties deze heeft
     initializeBeleidsbeslissingen(beleidsbeslissingen) {
         return beleidsbeslissingen.map((item) => {
             return {
@@ -204,68 +139,49 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
         })
     }
 
-    /** 
-    *Na het ophalen van de data in de API, Initialize de state
-    *Map over alle beleidsbeslissingen en return een array met voor elke beleidsbeslissing een object met:
-    *Titel, Status, het aantal Bevestigde, het aantal Onbevestigde, UUID
-    */
+    // Na het ophalen van de data in de API, Initialize de state
+    // Map over alle beleidsbeslissingen en return een array met voor elke beleidsbeslissing een object met:
+    // Titel, Status, het aantal Bevestigde, het aantal Onbevestigde, UUID
     initializeState() {
         this.setState(
             {
                 beleidsbeslissingenObject: this.initializeBeleidsbeslissingen(
-                    this.state.beleidsbeslissingen
+                    this.props.beleidsbeslissingen
                 ),
             },
             () => {
-                if (
-                    this.props.match.params.UUID !== undefined &&
-                    this.state.currentView !== 'detail'
-                ) {
+                if (this.props.currentView !== 'detail') {
                     this.setState({
-                        currentView: 'detail',
                         currentBeleidsbeslissing: this.state.beleidsbeslissingenObject.find(
-                            (element) =>
-                                element.UUID === this.props.match.params.UUID
+                            (e) => e.UUID === this.props.match.params.UUID
                         ),
+                        dataLoaded: true,
+                    })
+                } else {
+                    this.setState({
+                        dataLoaded: true,
                     })
                 }
             }
         )
     }
 
-    /** 
-    *Maak de array waar de relatie objecten van de desbetreffende beleidsbeslissing in zitten
-    *Voor elke relatie halen we ook de beleidsbeslissing op, zodat we in het detail scherm info zoals de titel kunnen tonen
-    * @method
-    * @param {UUID} UUID - UUID van 
-    */
+    // Maak de array waar de relatie objecten van de desbetreffende beleidsbeslissing in zitten
+    // Voor elke relatie halen we ook de beleidsbeslissing op, zodat we in het detail scherm info zoals de titel kunnen tonen
     generateRelatieArray(UUID) {
-        /** 
-        *We filteren op basis van de gekregen beleidsbeslissing UUID parameter
-        *We spreken van een beleidsrelatie als de UUID overeenkomt met Van_Beleidsbeslissing of Naar_Beleidsbeslissing
-        *EN als de beleidsrelatie een Status heeft van 'Akkoord' of 'Open'
-        */
-        let beleidsrelaties = this.state.beleidsrelaties.filter(
+        // We filteren op basis van de gekregen beleidsbeslissing UUID parameter
+        // We spreken van een beleidsrelatie als de UUID overeenkomt met Van_Beleidsbeslissing of Naar_Beleidsbeslissing
+        // EN als de beleidsrelatie een Status heeft van 'Akkoord' of 'Open'
+        let beleidsrelaties = this.props.beleidsrelaties.filter(
             (beleidsrelatie) =>
                 (beleidsrelatie.Van_Beleidsbeslissing === UUID ||
                     beleidsrelatie.Naar_Beleidsbeslissing === UUID) &&
                 beleidsrelatie.Status === 'Akkoord'
         )
 
-        /**
-        *(beleidsrelatie.Van_Beleidsbeslissing === UUID &&
-        *     beleidsrelatie.Status === 'Open') ||
-        *(beleidsrelatie.Naar_Beleidsbeslissing === UUID &&
-        *     beleidsrelatie.Status === 'NietAkkoord') ||
-        *(beleidsrelatie.Van_Beleidsbeslissing === UUID &&
-        *     beleidsrelatie.Status === 'NietAkkoord')
-        */
-
-        /**
-        * GET voor elke beleidsrelatie het gekoppelde beleidsbeslissing object
-        * Als het relatie.Van_Beleidsbeslissing !== UUID van de beleidsbeslissing GET relatie.Van_Beleidsbeslissing
-        * Als het relatie.Van_Beleidsbeslissing === UUID van de beleidsbeslissing GET relatie.Naar_Beleidsbeslissing
-        */
+        // GET voor elke beleidsrelatie het gekoppelde beleidsbeslissing object
+        // Als het relatie.Van_Beleidsbeslissing !== UUID van de beleidsbeslissing GET relatie.Van_Beleidsbeslissing
+        // Als het relatie.Van_Beleidsbeslissing === UUID van de beleidsbeslissing GET relatie.Naar_Beleidsbeslissing
 
         const axiosGETArray = beleidsrelaties.map((relatie) => {
             return axios
@@ -292,17 +208,13 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
         return beleidsrelaties
     }
 
-    /**
-    * Maak de array waar de verzoek objecten van de desbetreffende beleidsbeslissing in zitten
-    * Voor elk verzoek halen we ook de beleidsbeslissing op, zodat we in het detail scherm info zoals de titel kunnen tonen
-    */
+    // Maak de array waar de verzoek objecten van de desbetreffende beleidsbeslissing in zitten
+    // Voor elk verzoek halen we ook de beleidsbeslissing op, zodat we in het detail scherm info zoals de titel kunnen tonen
     generateVerzoekArray(UUID) {
-        /**
-        * We filteren op basis van de gekregen beleidsbeslissing UUID parameter
-        * We spreken van een verzoek als de UUID overeenkomt met Naar_Beleidsbeslissing
-        * EN als de beleidsrelatie een Status heeft van 'Open'
-        */
-        let beleidsrelaties = this.state.beleidsrelaties.filter(
+        // We filteren op basis van de gekregen beleidsbeslissing UUID parameter
+        // We spreken van een verzoek als de UUID overeenkomt met Naar_Beleidsbeslissing
+        // EN als de beleidsrelatie een Status heeft van 'Open'
+        let beleidsrelaties = this.props.beleidsrelaties.filter(
             (beleidsrelatie) =>
                 (beleidsrelatie.Naar_Beleidsbeslissing === UUID &&
                     beleidsrelatie.Status === 'Open') ||
@@ -310,11 +222,9 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                     beleidsrelatie.Status === 'Open')
         )
 
-        /** 
-        * GET voor elke beleidsrelatie het gekoppelde beleidsbeslissing object
-        * Als het relatie.Van_Beleidsbeslissing !== UUID van de beleidsbeslissing GET relatie.Van_Beleidsbeslissing
-        * Als het relatie.Van_Beleidsbeslissing === UUID van de beleidsbeslissing GET relatie.Naar_Beleidsbeslissing
-        */
+        // GET voor elke beleidsrelatie het gekoppelde beleidsbeslissing object
+        // Als het relatie.Van_Beleidsbeslissing !== UUID van de beleidsbeslissing GET relatie.Van_Beleidsbeslissing
+        // Als het relatie.Van_Beleidsbeslissing === UUID van de beleidsbeslissing GET relatie.Naar_Beleidsbeslissing
         beleidsrelaties.forEach((relatie) => {
             axios
                 .get(
@@ -335,7 +245,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
     }
 
     render() {
-        /** Sort object */
+        // Sort object
         const beleidsbeslissingenObject = this.state.beleidsbeslissingenObject
             ? this.state.beleidsbeslissingenObject.sort((a, b) =>
                   a.Titel > b.Titel ? 1 : -1
@@ -343,12 +253,12 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
             : []
 
         return (
-            <ContainerMain>
+            <React.Fragment>
                 <Helmet>
                     <title>Omgevingsbeleid - Beleidsrelaties</title>
                 </Helmet>
 
-                {this.state.currentView === 'overzicht' ? (
+                {this.props.currentView === 'overzicht' ? (
                     <React.Fragment>
                         <SidebarMain />
                         <div className="flex-grow inline-block w-3/4 pl-8 rounded">
@@ -356,7 +266,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                                 Beleidsrelaties
                             </h2>
                             <div className="p-5 bg-white rounded shadow">
-                                <ul>
+                                <ul id="beleidskeuzes-overview">
                                     <li className="flex py-2 text-sm font-semibold text-gray-800 border-b border-gray-200">
                                         <div className="w-6/12 pl-10">
                                             Beleidskeuzes
@@ -400,27 +310,44 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                                             beleidsbeslissingenObject.map(
                                                 (item) => {
                                                     return (
-                                                        <li key={item.UUID}>
+                                                        <li
+                                                            key={item.UUID}
+                                                            className="beleids-item"
+                                                        >
                                                             <Link
                                                                 className="relative flex items-center py-2 text-sm text-gray-800 border-b border-gray-200 hover:bg-gray-100"
                                                                 to={`/muteer/beleidsrelaties/${item.UUID}`}
-                                                                onClick={() =>
+                                                                onClick={() => {
+                                                                    this.props.setCurrentView(
+                                                                        'detail'
+                                                                    )
                                                                     this.setState(
                                                                         {
                                                                             currentBeleidsbeslissing: item,
-                                                                            currentView:
-                                                                                'Detail',
                                                                         }
                                                                     )
-                                                                }
+                                                                }}
                                                             >
                                                                 <span className="absolute inline-block w-3 h-3 ml-3 rounded-full mbg-color"></span>
-                                                                <div className="w-6/12 pl-10">
+                                                                <div
+                                                                    className="w-6/12 pl-10"
+                                                                    data-testid="title"
+                                                                >
                                                                     {item.Titel}
                                                                 </div>
-                                                                <div className="w-2/12 text-center">
-                                                                    <span className="px-1 py-1 text-xs border rounded m-color m-base-border-color">
-                                                                        Vigerend
+                                                                <div className="w-2/12">
+                                                                    <span
+                                                                        className={`px-1 py-1 text-xs leading-8 ${
+                                                                            item.Status ===
+                                                                            'Vigerend'
+                                                                                ? 'm-color'
+                                                                                : 'text-secondary'
+                                                                        } 
+                                                                    `}
+                                                                    >
+                                                                        {
+                                                                            item.Status
+                                                                        }
                                                                     </span>
                                                                 </div>
                                                                 <div className="w-1/12 text-center">
@@ -435,7 +362,10 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                                                                         ? item.Onbevestigd
                                                                         : '-'}
                                                                 </div>
-                                                                <div className="w-1/12 text-center">
+                                                                <div
+                                                                    className="w-1/12 text-center"
+                                                                    data-testid="incoming"
+                                                                >
                                                                     {item.Verzoeken !==
                                                                     0
                                                                         ? item.Verzoeken
@@ -476,19 +406,13 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                     </React.Fragment>
                 ) : (
                     <MuteerBeleidsrelatieDetail
-                        // !REFACTOR!
-                        // beleidsbeslissing={this.state.currentBeleidsbeslissing}
-                        dataLoaded={this.state.dataLoaded}
                         updateBeleidsrelaties={this.updateBeleidsrelaties}
-                        backToOverzicht={() => {
-                            this.setState({
-                                currentView: 'overzicht',
-                                currentUUID: null,
-                            })
-                        }}
+                        backToOverzicht={() =>
+                            this.props.setCurrentView('overzicht')
+                        }
                     />
                 )}
-            </ContainerMain>
+            </React.Fragment>
         )
     }
 }

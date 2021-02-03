@@ -7,6 +7,11 @@ const TransitionContext = React.createContext({
     parent: {},
 })
 
+/**
+ * Function that sets the isInitialRender const and returns the current value of it.
+ *
+ * @function
+ */
 function useIsInitialRender() {
     const isInitialRender = useRef(true)
     useEffect(() => {
@@ -15,6 +20,21 @@ function useIsInitialRender() {
     return isInitialRender.current
 }
 
+/**
+ * Function that renders the CSSTransition component.
+ *
+ * @function
+ *
+ * @param {boolean} show - Parameter that is set true if the ReactCSSTransition is shown.
+ * @param {string} enter - Parameter that contains a value that is used to set the length of the enterClasses variable.
+ * @param {string} enterFrom - Parameter that contains a value that is used to set the length of the enterFromClasses variable.
+ * @param {string} enterTo - Parameter that contains a value that is used to set the length of the enterToClasses variable.
+ * @param {string} leave - Parameter that contains a value that is used to set the length of the leaveClasses variable.
+ * @param {string} leaveFrom - Parameter that contains a value that is used to set the length of the leaveFromClasses variable.
+ * @param {string} leaveTo - Parameter that contains a value that is used to set the length of the leaveToClasses variable.
+ * @param {boolean} appear - Parameter that is set true if the ReactCSSTransition should appear.
+ * @param {object} children - Parameter containing the value within the ReactCSSTransition component.
+ */
 function CSSTransition({
     show,
     enter = '',
@@ -75,6 +95,14 @@ function CSSTransition({
     )
 }
 
+/**
+ * Component that renders the Transition component, using the CSSTransition and TransistionContext.Provider components.
+ *
+ * @function
+ *
+ * @param {boolean} show - Parameter that is set true, will show the CSSTransition in the component and is part of the value of the TransitionContext.Provider component.
+ * @param {boolean} appear - Parameter that is set true, if the CSSTransition component should appear and is part of the value of the TransitionContext.Provider component.
+ */
 function Transition({ show, appear, ...rest }) {
     const { parent } = useContext(TransitionContext)
     const isInitialRender = useIsInitialRender()

@@ -1,5 +1,10 @@
 import React from 'react'
 
+/**
+ * Component that renders the LoaderContent component that is used in serveral components.
+ *
+ * @component
+ */
 function LoaderContent() {
     return (
         <div

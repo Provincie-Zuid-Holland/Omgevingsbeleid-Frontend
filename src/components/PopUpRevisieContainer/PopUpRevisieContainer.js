@@ -2,6 +2,12 @@ import React, { Component } from 'react'
 import { faClock } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
+/**
+ * Component that renders the PopUpRevisieContainer component.
+ *
+ * @component
+ * @extends Component
+ */
 class PopUpRevisieContainer extends Component {
     constructor(props) {
         super(props)
@@ -16,12 +22,24 @@ class PopUpRevisieContainer extends Component {
         this.handleClick = this.handleClick.bind(this)
     }
 
+    /**
+     * Function to set (toggle) the state of open.
+     *
+     * @function
+     */
     toggleOpen() {
         this.setState({
             open: !this.state.open,
         })
     }
 
+    /**
+     * Function that handles click events from the user and based on the values the state of open is set to false.
+     *
+     * @function
+     *
+     * @param {e} e - Parameter used to catch click event from user.
+     */
     handleClick = e => {
         if (
             this.innerContainer.current &&
@@ -35,10 +53,20 @@ class PopUpRevisieContainer extends Component {
         }
     }
 
+    /**
+     * Function to add the click event listener.
+     *
+     * @function
+     */
     componentDidMount() {
         document.addEventListener('mousedown', this.handleClick, false)
     }
 
+    /**
+     * Funcion to remove the click event listener.
+     *
+     * @function
+     */
     componentWillUnmount() {
         document.removeEventListener('mousedown', this.handleClick, false)
     }

@@ -10,11 +10,18 @@ import LoaderCardHalfWidth from './../../components/LoaderCardHalfWidth'
 import CardObjectDetailsHalfWidth from './../../components/CardObjectDetailsHalfWidth'
 import ButtonAddNewObject from './../../components/ButtonAddNewObject'
 
-// Import All the dimension constants. These contain the dimensions and there variables, e.g. API_ENDPOINT and TITEL_ENKELVOUD
+// Import All the dimension constants. These contain the dimensions and there variables, e.g. API_ENDPOINT and TITLE_SINGULAR
 import allDimensies from './../../constants/dimensies'
 
 import UserContext from './../../App/UserContext'
 
+/**
+ * Component that renders the MijnBeleid component.
+ *
+ * @component
+ *
+ * @param {boolean} hideAddNew - Parameter used to add the AddNewSection based if the parameter is true or false.
+ */
 const MijnBeleid = ({ hideAddNew }) => {
     const { user } = React.useContext(UserContext)
 
@@ -22,6 +29,8 @@ const MijnBeleid = ({ hideAddNew }) => {
     const [policies, setPolicies] = React.useState([])
 
     React.useEffect(() => {
+        if (!user) return
+
         const getAndSetBeleidVanGebruiker = () => {
             const skipDimensies = [
                 'BELEIDSRELATIES',
@@ -72,7 +81,9 @@ const MijnBeleid = ({ hideAddNew }) => {
         }
 
         getAndSetBeleidVanGebruiker()
-    }, [user.UUID])
+
+        return () => null
+    }, [user])
 
     return (
         <div className="MijnBeleid">
@@ -85,9 +96,9 @@ const MijnBeleid = ({ hideAddNew }) => {
 
                             return dimensie.map((policy, index) => {
                                 const overzichtSlug =
-                                    allDimensies[policy.type].SLUG_OVERZICHT
-                                const titelEnkelvoud =
-                                    allDimensies[policy.type].TITEL_ENKELVOUD
+                                    allDimensies[policy.type].SLUG_OVERVIEW
+                                const titleSingular =
+                                    allDimensies[policy.type].TITLE_SINGULAR
 
                                 return (
                                     <li
@@ -100,7 +111,7 @@ const MijnBeleid = ({ hideAddNew }) => {
                                                 index={index}
                                                 mijnBeleid={true}
                                                 object={policy.object}
-                                                titelEnkelvoud={titelEnkelvoud}
+                                                titleSingular={titleSingular}
                                                 hideParagraaf={true}
                                                 overzichtSlug={overzichtSlug}
                                             />
@@ -132,18 +143,23 @@ const MijnBeleid = ({ hideAddNew }) => {
     )
 }
 
+/**
+ * Function to render a AddNewSection component that is part of the MijnBeleid component, only if the parameter hideAddNew of MijnBeleid is set true.
+ *
+ * @function
+ */
 const AddNewSection = () => {
     return (
         <div className="flex">
             <div className="w-full mr-6">
                 <ButtonAddNewObject
-                    titelEnkelvoud={'Beleidskeuze'}
+                    titleSingular={'Beleidskeuze'}
                     createNewSlug={'nieuwe-beleidskeuze#mijn-beleid'}
                     hoofdOnderdeelSlug={'beleidskeuzes'}
                 />
             </div>
             <ButtonAddNewObject
-                titelEnkelvoud={'Maatregel'}
+                titleSingular={'Maatregel'}
                 createNewSlug={'nieuwe-maatregel#mijn-beleid'}
                 hoofdOnderdeelSlug={'maatregelen'}
             />

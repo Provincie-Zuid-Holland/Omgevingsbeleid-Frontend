@@ -1,42 +1,48 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import React from 'react'
 import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFieldTitelEnBeschrijving'
 
-class FormFieldNumberInput extends Component {
-    constructor(props) {
-        super(props)
-    }
-    null
-    render() {
-        return (
-            <div className="flex flex-wrap -mx-3">
-                <div className="w-full px-3 mb-6">
-                    <FormFieldTitelEnBeschrijving
-                        dataObjectProperty={this.props.dataObjectProperty}
-                        fieldLabel={this.props.fieldLabel}
-                        pValue={this.props.pValue}
-                        titelEnkelvoud={this.props.titelEnkelvoud}
-                    />
+/**
+ * Component that renders the FormFieldNumberInput.
+ *
+ * @component
+ *
+ * @param {string} dataObjectProperty - Parameter that contains part of the id value of the input.
+ * @param {string} pValue - Parameter that contains the pValue of the FormFieldTitelEnBeschrijving component.
+ * @param {string} titleSingular - Parameter that contains part of the id value of the input.
+ * @param {string} fieldValue - Parameter that may contain the value for the input variable value.
+ * @param {object} handleChange - Parameter that contains the value for the input variable onChange.
+ * @param {string} fieldLabel - Parameter that contains the value for the FormFieldTitelEnBeschrijving component variable fieldLabel.
+ */
+const FormFieldNumberInput = ({
+    dataObjectProperty,
+    pValue,
+    titleSingular,
+    fieldValue,
+    handleChange,
+    fieldLabel,
+}) => {
+    return (
+        <div className="flex flex-wrap -mx-3">
+            <div className="w-full px-3 mb-6">
+                <FormFieldTitelEnBeschrijving
+                    dataObjectProperty={dataObjectProperty}
+                    fieldLabel={fieldLabel}
+                    pValue={pValue}
+                    titleSingular={titleSingular}
+                />
 
-                    <input
-                        id={`form-field-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
-                        value={
-                            this.props.fieldValue ? this.props.fieldValue : ''
-                        }
-                        onChange={this.props.handleChange}
-                        name={this.props.dataObjectProperty}
-                        className="appearance-none block w-48 text-gray-700 border border-gray-400 rounded py-3 px-4 leading-tight focus:outline-none hover:border-gray-500 focus:border-gray-500"
-                        type="number"
-                        placeholder={this.props.fieldLabel}
-                    />
-                </div>
+                <input
+                    id={`form-field-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
+                    value={fieldValue ? fieldValue : ''}
+                    onChange={handleChange}
+                    name={dataObjectProperty}
+                    className="block w-48 px-4 py-3 leading-tight text-gray-700 border border-gray-400 rounded appearance-none focus:outline-none hover:border-gray-500 focus:border-gray-500"
+                    type="number"
+                    placeholder={fieldLabel}
+                />
             </div>
-        )
-    }
+        </div>
+    )
 }
-
-FormFieldNumberInput.propTypes = {}
-
-FormFieldNumberInput.defaultProps = {}
 
 export default FormFieldNumberInput

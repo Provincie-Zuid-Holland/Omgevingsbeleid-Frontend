@@ -4,11 +4,73 @@ import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFi
 
 var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
 
+/**
+ * Class that renders the FormFieldDate component.
+ *
+ * @class
+ * @extends React.Component
+ */
+class FormFieldDate extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            toonUitwerkingTreding:
+                this.props.fieldValue !== '' || this.props.openUitwerkingstrede,
+        }
+        this.toggleUitwerkingTreding = this.toggleUitwerkingTreding.bind(this)
+    }
+
+    /**
+     * Function to set the state of toonUitwerkingTreding.
+     *
+     * @function
+     */
+    toggleUitwerkingTreding() {
+        this.setState({
+            toonUitwerkingTreding: !this.state.toonUitwerkingTreding,
+        })
+    }
+
+    render() {
+        return this.props.dataObjectProperty === 'Eind_Geldigheid' ? (
+            <EindGeldigheid
+                hideToggleUitwerkingstrede={
+                    this.props.hideToggleUitwerkingstrede
+                }
+                toggleUitwerkingTreding={this.toggleUitwerkingTreding}
+                toonUitwerkingTreding={this.state.toonUitwerkingTreding}
+                dataObjectProperty={this.props.dataObjectProperty}
+                fieldLabel={this.props.fieldLabel}
+                pValue={this.props.pValue}
+                titleSingular={this.props.titleSingular}
+                fieldValue={this.props.fieldValue}
+                handleChange={this.props.handleChange}
+                disabled={this.props.disabled}
+            />
+        ) : (
+            <BeginGeldigheid
+                dataObjectProperty={this.props.dataObjectProperty}
+                fieldLabel={this.props.fieldLabel}
+                pValue={this.props.pValue}
+                titleSingular={this.props.titleSingular}
+                fieldValue={this.props.fieldValue}
+                handleChange={this.props.handleChange}
+                disabled={this.props.disabled}
+            />
+        )
+    }
+}
+
+/**
+ * Function to set the BeginGeldigheid based on user input.
+ *
+ * @function
+ */
 function BeginGeldigheid({
     dataObjectProperty,
     fieldLabel,
     pValue,
-    titelEnkelvoud,
+    titleSingular,
     fieldValue,
     handleChange,
     disabled,
@@ -16,10 +78,11 @@ function BeginGeldigheid({
     return (
         <div className="w-full px-3 mb-6">
             <FormFieldTitelEnBeschrijving
+                disabled={disabled}
                 dataObjectProperty={dataObjectProperty}
                 fieldLabel={fieldLabel}
                 pValue={pValue}
-                titelEnkelvoud={titelEnkelvoud}
+                titleSingular={titleSingular}
             />
             <input
                 disabled={disabled}
@@ -29,12 +92,17 @@ function BeginGeldigheid({
                 name={dataObjectProperty}
                 className="block w-full px-4 py-3 leading-tight text-gray-700 border border-gray-400 rounded appearance-none focus:border-gray-500 hover:border-gray-500 focus:outline-none focus:bg-white"
                 type="date"
-                id={`form-field-${titelEnkelvoud.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
+                id={`form-field-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
             />
         </div>
     )
 }
 
+/**
+ * Function to set the EindGeldigheid based on user input.
+ *
+ * @function
+ */
 function EindGeldigheid({
     hideToggleUitwerkingstrede,
     toggleUitwerkingTreding,
@@ -42,7 +110,7 @@ function EindGeldigheid({
     dataObjectProperty,
     fieldLabel,
     pValue,
-    titelEnkelvoud,
+    titleSingular,
     fieldValue,
     handleChange,
     disabled,
@@ -66,7 +134,8 @@ function EindGeldigheid({
                         dataObjectProperty={dataObjectProperty}
                         fieldLabel={fieldLabel}
                         pValue={pValue}
-                        titelEnkelvoud={titelEnkelvoud}
+                        titleSingular={titleSingular}
+                        disabled={disabled}
                     />
                     <input
                         disabled={disabled}
@@ -76,7 +145,7 @@ function EindGeldigheid({
                         placeholder={isSafari ? 'jjjj-mm-dd' : 'dd-mm-jjjj'}
                         className="block w-full px-4 py-3 leading-tight text-gray-700 border border-gray-400 rounded appearance-none focus:border-gray-500 hover:border-gray-500 focus:outline-none focus:bg-white"
                         type="date"
-                        id={`form-field-${titelEnkelvoud.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
+                        id={`form-field-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
                     />
                 </div>
             ) : null}
@@ -84,49 +153,4 @@ function EindGeldigheid({
     )
 }
 
-class FormFieldDate extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            toonUitwerkingTreding:
-                this.props.fieldValue !== '' || this.props.openUitwerkingstrede,
-        }
-        this.toggleUitwerkingTreding = this.toggleUitwerkingTreding.bind(this)
-    }
-
-    toggleUitwerkingTreding() {
-        this.setState({
-            toonUitwerkingTreding: !this.state.toonUitwerkingTreding,
-        })
-    }
-
-    render() {
-        return this.props.dataObjectProperty === 'Eind_Geldigheid' ? (
-            <EindGeldigheid
-                hideToggleUitwerkingstrede={
-                    this.props.hideToggleUitwerkingstrede
-                }
-                toggleUitwerkingTreding={this.toggleUitwerkingTreding}
-                toonUitwerkingTreding={this.state.toonUitwerkingTreding}
-                dataObjectProperty={this.props.dataObjectProperty}
-                fieldLabel={this.props.fieldLabel}
-                pValue={this.props.pValue}
-                titelEnkelvoud={this.props.titelEnkelvoud}
-                fieldValue={this.props.fieldValue}
-                handleChange={this.props.handleChange}
-                disabled={this.props.disabled}
-            />
-        ) : (
-            <BeginGeldigheid
-                dataObjectProperty={this.props.dataObjectProperty}
-                fieldLabel={this.props.fieldLabel}
-                pValue={this.props.pValue}
-                titelEnkelvoud={this.props.titelEnkelvoud}
-                fieldValue={this.props.fieldValue}
-                handleChange={this.props.handleChange}
-                disabled={this.props.disabled}
-            />
-        )
-    }
-}
 export default FormFieldDate

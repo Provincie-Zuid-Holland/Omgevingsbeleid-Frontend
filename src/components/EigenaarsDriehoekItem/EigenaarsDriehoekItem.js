@@ -4,6 +4,12 @@ import { toast } from 'react-toastify'
 // Import Axios instance to connect with the API
 import axios from './../../API/axios'
 
+/**
+ * Class that renders a EigenaarsDriehoekItem.
+ *
+ * @class
+ * @extends Component
+ */
 class EigenaarsDriehoekItem extends Component {
     constructor(props) {
         super(props)
@@ -12,7 +18,11 @@ class EigenaarsDriehoekItem extends Component {
             gebruikersObject: null,
         }
     }
-
+    /**
+     * Function to get gebruikers with the given UUID through axios.
+     *
+     * @function
+     */
     componentDidMount() {
         axios
             .get(`/gebruikers/${this.props.UUID}`)

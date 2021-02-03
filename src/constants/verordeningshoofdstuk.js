@@ -1,5 +1,5 @@
-export const TITEL_ENKELVOUD = 'Hoofdstuk'
-export const TITEL_MEERVOUD = 'Hoofdstukken'
+export const TITLE_SINGULAR = 'Hoofdstuk'
+export const TITLE_PLURAL = 'Hoofdstukken'
 export const TYPE = 'Hoofdstuk'
 
 export const CRUD_PROPERTIES = {
