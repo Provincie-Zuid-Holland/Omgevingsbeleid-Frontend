@@ -12,7 +12,7 @@ function PopUpAnimatedContainer(props) {
                     from: { opacity: 0 },
                 })}
             />
-            <div className="fixed top-0 left-0 z-10">
+            <div className="fixed top-0 left-0 z-50">
                 <div className="top-0 left-0 flex items-center justify-center w-screen h-screen">
                     <animated.div
                         style={useSpring({
