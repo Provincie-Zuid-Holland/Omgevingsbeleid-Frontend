@@ -125,7 +125,7 @@ class ContainerCrudFields extends React.Component {
                                     <div className="inline-block px-4 py-4 bg-white rounded-t shadow">
                                         <input
                                             id="form-submit"
-                                            className="px-4 py-2 text-sm font-bold leading-tight text-white rounded mbg-color hover:underline"
+                                            className="px-4 py-2 text-sm font-bold leading-tight text-white rounded cursor-pointer mbg-color hover:underline"
                                             type="submit"
                                             value="Opslaan"
                                         ></input>

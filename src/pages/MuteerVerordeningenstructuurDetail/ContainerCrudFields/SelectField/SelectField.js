@@ -1,17 +1,7 @@
 import React from 'react'
 import Select from 'react-select'
 
-const SelectField = ({
-    users,
-    label,
-    property,
-    filter,
-    setVerordeningsObjectFromGET,
-    verordeningsObjectFromGET,
-    selected,
-}) => {
-    const selectedUserUUID = verordeningsObjectFromGET[property]
-
+const getUsername = (users, selectedUserUUID) => {
     const selectedUserObj = users
         .filter((e) => e.Rol !== 'Geen')
         .find((e) => e.UUID === selectedUserUUID)
@@ -20,11 +10,30 @@ const SelectField = ({
         ? selectedUserObj.Gebruikersnaam
         : ''
 
+    return selectedUserUsername
+}
+
+const SelectField = ({
+    users,
+    label,
+    property,
+    filter,
+    setVerordeningsObjectFromGET,
+    verordeningsObjectFromGET,
+    selected,
+    excludeValue,
+}) => {
+    const selectedUserUUID = verordeningsObjectFromGET[property]
+
     if (!Array.isArray(filter)) {
         filter = [filter]
     }
 
-    const filteredUsers = users.filter((user) => filter.includes(user.Rol))
+    const filteredUsers = users
+        .filter((user) => filter.includes(user.Rol))
+        .filter((user) => user.UUID !== verordeningsObjectFromGET[excludeValue])
+
+    const selectedUserUsername = getUsername(users, selectedUserUUID)
 
     return (
         <div className="mb-4">

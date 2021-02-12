@@ -21,7 +21,8 @@ import SwitchToTabbladButton from './SwitchToTabbladButton'
  *
  * @param {function} updateBeleidsrelaties - Updates the beleidsrelaties in the parentstate
  * @param {function} backToOverzicht - Sets the page type to 'overzicht'
- * @returns The detail page for a beleidsbeslissing. Here the user can find and delete existing, and create new relations.
+ * @returns The detail page for the relations of beleidskeuzes.
+ * Here the user can accept, reject, delete existing, and create new relations between beleidskeuzes.
  */
 const MuteerBeleidsrelatieDetail = ({
     updateBeleidsrelaties,
@@ -80,7 +81,7 @@ const MuteerBeleidsrelatieDetail = ({
                                 (res) => (relatie.beleidsbeslissing = res.data)
                             )
                     )
-                ).then(() => setOutgoing_Beleidsbeslissingen(outgoing))
+                ).then(() => setOutgoing_Beleidsbeslissingen([...outgoing]))
             })
 
     // Get alle beleidsrelaties die een Naar_Beleidsbeslissing relatie hebben met de beleidsbeslissing die bekeken wordt
@@ -103,7 +104,7 @@ const MuteerBeleidsrelatieDetail = ({
                                 (res) => (relatie.beleidsbeslissing = res.data)
                             )
                     )
-                ).then(() => setIncoming_Beleidsbeslissingen(incoming))
+                ).then(() => setIncoming_Beleidsbeslissingen([...incoming]))
             })
 
     const relationshipAccept = (beleidsrelatieObject) => {
@@ -134,7 +135,7 @@ const MuteerBeleidsrelatieDetail = ({
                     let newStateObject = outgoing_Beleidsbeslissingen
                     newStateObject[itemIndex].Status = 'Akkoord'
                     newStateObject[itemIndex].Datum_Akkoord = new Date()
-                    setOutgoing_Beleidsbeslissingen(newStateObject)
+                    setOutgoing_Beleidsbeslissingen([...newStateObject])
                     setSavingInProgress(false)
                 } else if (
                     incoming_Beleidsbeslissingen.find(
@@ -145,9 +146,11 @@ const MuteerBeleidsrelatieDetail = ({
                         (x) => x.UUID === beleidsrelatieObject.UUID
                     )
                     let newStateObject = incoming_Beleidsbeslissingen
+
                     newStateObject[itemIndex].Status = 'Akkoord'
                     newStateObject[itemIndex].Datum_Akkoord = new Date()
-                    setIncoming_Beleidsbeslissingen(newStateObject)
+
+                    setIncoming_Beleidsbeslissingen([...newStateObject])
                     setSavingInProgress(false)
                 }
             })
@@ -230,8 +233,8 @@ const MuteerBeleidsrelatieDetail = ({
             incoming_Beleidsbeslissingen[naarIndex].Datum_Akkoord = new Date()
         }
 
-        setIncoming_Beleidsbeslissingen(incoming_Beleidsbeslissingen)
-        setOutgoing_Beleidsbeslissingen(outgoing_Beleidsbeslissingen)
+        setIncoming_Beleidsbeslissingen([...incoming_Beleidsbeslissingen])
+        setOutgoing_Beleidsbeslissingen([...outgoing_Beleidsbeslissingen])
     }
 
     React.useEffect(() => {

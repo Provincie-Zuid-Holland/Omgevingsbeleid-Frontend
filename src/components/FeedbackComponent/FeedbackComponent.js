@@ -57,13 +57,13 @@ const FeedbackComponent = () => {
     const location = useLocation()
     const [userIsOnEditPage, setUserIsOnEditPage] = React.useState(false)
 
-    const checkIfUserIsOnEditPage = React.useCallback(() => {
-        return location.pathname.includes('/edit/')
+    const checkIfUserIsOnMutatePage = React.useCallback(() => {
+        return location.pathname.includes('/muteer/')
     }, [location])
 
     React.useEffect(() => {
-        setUserIsOnEditPage(checkIfUserIsOnEditPage())
-    }, [checkIfUserIsOnEditPage])
+        setUserIsOnEditPage(checkIfUserIsOnMutatePage())
+    }, [checkIfUserIsOnMutatePage])
 
     const mailTo = getMailToLink()
 

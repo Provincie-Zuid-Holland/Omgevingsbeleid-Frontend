@@ -14,9 +14,9 @@ import UserContext from './../../../App/UserContext'
 const eigenaren = [
     'Eigenaar_1',
     'Eigenaar_2',
+    'Opdrachtgever',
     'Portefeuillehouder_1',
     'Portefeuillehouder_2',
-    'Opdrachtgever',
 ]
 
 class ViewFieldIngelogdExtraInfo extends Component {
