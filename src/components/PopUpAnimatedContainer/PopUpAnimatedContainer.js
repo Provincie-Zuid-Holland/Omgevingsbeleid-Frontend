@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSpring, animated } from 'react-spring'
 
-function PopUpAnimatedContainer(props) {
+function PopUpAnimatedContainer({ small, large, children }) {
     return (
         <React.Fragment>
             <animated.div
@@ -21,14 +21,14 @@ function PopUpAnimatedContainer(props) {
                             from: { transform: 'scale(0.75)' },
                         })}
                         className={`max-w-5xl relative bg-white rounded shadow px-8 py-8 ${
-                            props.small
+                            small
                                 ? 'popup-small'
-                                : props.large
+                                : large
                                 ? 'popup-large'
                                 : 'popup-normal'
                         }`}
                     >
-                        {props.children}
+                        {children}
                     </animated.div>
                 </div>
             </div>
