@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { toast } from 'react-toastify'
-import { Link } from 'react-router-dom'
-
+import { Link, withRouter } from 'react-router-dom'
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -53,6 +52,8 @@ class ViewFieldBelangen extends Component {
     }
 
     render() {
+        const currentPath = this.props.history.location.pathname
+
         return this.state.dataLoaded ? (
             <div>
                 {this.state.nationaleBelangen &&
@@ -69,7 +70,7 @@ class ViewFieldBelangen extends Component {
                                 >
                                     <Link
                                         className="relative cursor-pointer"
-                                        to={`/detail/belangen/${item.ID}`}
+                                        to={`/detail/belangen/${item.UUID}?fromPage=${currentPath}`}
                                     >
                                         <FontAwesomeIcon
                                             className="absolute mt-1 text-base"
@@ -98,7 +99,7 @@ class ViewFieldBelangen extends Component {
                                 >
                                     <Link
                                         className="relative cursor-pointer"
-                                        to={`/detail/belangen/${item.ID}`}
+                                        to={`/detail/belangen/${item.UUID}?fromPage=${currentPath}`}
                                     >
                                         <FontAwesomeIcon
                                             className="absolute mt-1 text-base"
@@ -118,4 +119,4 @@ class ViewFieldBelangen extends Component {
     }
 }
 
-export default ViewFieldBelangen
+export default withRouter(ViewFieldBelangen)
