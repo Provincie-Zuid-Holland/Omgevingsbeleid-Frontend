@@ -54,7 +54,7 @@ const FormFieldWerkingsgebiedKoppeling = ({
                     console.log(err)
                     toast(process.env.REACT_APP_ERROR_MSG)
                 })
-        } else if (dataObjectProperty === 'WerkingsGebieden') {
+        } else if (dataObjectProperty === 'Werkingsgebieden') {
             // If there is no werkingsgebied prop
             if (!werkingsgebiedInParentState) return
 
@@ -214,7 +214,7 @@ const CardSelectedWerkingsgebied = ({
                         onClick={() => setPopupOpen(true)}
                     >
                         <div
-                            className={`cursor-pointer z-10 absolute top-0 left-0 w-full h-full border border-gray-100`}
+                            className={`cursor-pointer absolute top-0 left-0 w-full h-full border border-gray-100`}
                         >
                             <div
                                 style={{
@@ -231,6 +231,7 @@ const CardSelectedWerkingsgebied = ({
                             ></div>
                         </div>
                         <span
+                            style={{ zIndex: '-1' }}
                             className={`absolute top-0 left-0 flex items-center justify-center w-full h-full text-gray-500 -mt-4`}
                         >
                             <FontAwesomeIcon
@@ -286,7 +287,7 @@ const WerkingsgebiedPopup = ({
                     value: uuid,
                 },
             })
-        } else if (dataObjectProperty === 'WerkingsGebieden') {
+        } else if (dataObjectProperty === 'Werkingsgebieden') {
             // Single string of UUID
             setWerkingsgebiedInParentState({
                 target: {
@@ -355,7 +356,7 @@ const WerkingsgebiedPopup = ({
                                                   }}
                                               >
                                                   <div
-                                                      className={`cursor-pointer z-10 absolute top-0 left-0 w-full h-full border border-gray-100 rounded-md shadow`}
+                                                      className={`cursor-pointer z-0 absolute top-0 left-0 w-full h-full border border-gray-100 rounded-md shadow`}
                                                   >
                                                       <div
                                                           style={{
@@ -373,6 +374,7 @@ const WerkingsgebiedPopup = ({
                                                       </span>
                                                   </div>
                                                   <span
+                                                      style={{ zIndex: '-1' }}
                                                       className={`absolute top-0 left-0 flex items-center justify-center w-full h-full text-gray-500 -mt-4 ${
                                                           index % 2 === 0
                                                               ? 'mr-4'

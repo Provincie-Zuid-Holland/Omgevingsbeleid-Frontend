@@ -1,7 +1,7 @@
 import React from 'react'
 import { format } from 'date-fns'
-import { Helmet } from 'react-helmet'
 import nlLocale from 'date-fns/locale/nl'
+import { Helmet } from 'react-helmet'
 import {
     faArrowLeft,
     faExternalLinkAlt,
@@ -40,7 +40,8 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
     let { id } = useParams()
     let history = useHistory()
 
-    const [dataObject, setDataObject] = React.useState(null)
+    const [dataObject, setDataObject] = React.useState(null) // The object we want to display
+    const [lineageID, setLineageID] = React.useState(null) // Used to get the whole history of the object
 
     // Contains the history of an object (all the edits)
     const [revisieObjecten, setRevisieObjecten] = React.useState(null)
@@ -54,9 +55,14 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
         setFullscreenLeafletViewer,
     ] = React.useState(false)
 
-    const ApiEndpointBase = dataModel.API_ENDPOINT
-    const apiEndpoint = `version/${ApiEndpointBase}/${id}`
+    const apiEndpointBase = dataModel.API_ENDPOINT
     const titleSingular = dataModel.TITLE_SINGULAR
+    const apiEndpoint = `version/${apiEndpointBase}/${id}`
+
+    React.useEffect(() => {
+        if (!dataLoaded) return
+        window.scrollTo(0, 0)
+    }, [dataLoaded])
 
     // Init when url param { id } changes
     React.useEffect(() => {
@@ -66,10 +72,15 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
             .get(apiEndpoint)
             .then((res) => {
                 const dataObject = res.data
-                const revisieObjecten = res.data
                 setDataObject(dataObject)
-                setRevisieObjecten(revisieObjecten)
-                setDataLoaded(true)
+                return res.data.ID
+            })
+            .then((newLineageID) => {
+                if (newLineageID === lineageID) {
+                    setDataLoaded(true)
+                } else {
+                    setLineageID(newLineageID)
+                }
             })
             .catch((err) => {
                 if (err.response !== undefined) {
@@ -94,21 +105,118 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
             })
     }, [id, apiEndpoint, history, titleSingular])
 
+    // Because the history is intact, every past revision object that has been 'vigerend'
+    // still has that status. In this function we calculate a status to display in the UI,
+    // based on the revision history. We also filter out object that have been edited while 'vigerend',
+    // To display only the latest object. We do this based on the property 'Aanpassing_Op'
+    const prepRevisions = (revisions) => {
+        const sortedFilteredRevisions = revisions
+            .sort(
+                (a, b) => new Date(b.Modified_Date) - new Date(a.Modified_Date)
+            )
+            .filter((revision) => revision.Status === 'Vigerend')
+
+        // Give each object a uiStatus
+        // We need this because the first object with a status of Vigerend is the current one, which is still 'Vigerend'
+        // But the older objects with a status 'Vigerend', are actually archived
+        // They keep their 'Vigerend' status, because we don't change the history in our dataModel
+        // So after the first object with a status of 'Vigerend', we want to display a status of 'Archived' in the UI
+        const preppedRevisions = sortedFilteredRevisions
+            .filter((revision, index) => {
+                const objectHasLaterVersion = sortedFilteredRevisions.findIndex(
+                    (e) => e.Aanpassing_Op === revision.UUID
+                )
+                if (objectHasLaterVersion !== -1) return false
+                // if (revision.Aanpassing_Op === null) return true
+
+                // Check if this revision has an 'Aanpassing_Op' value
+                // and if there is another object in revisions that has the same 'Aanpassing_Op' value, but earlier in the array
+                // indicating that there is a later version of this 'vigerend' object
+                const indexOfLastEdited = sortedFilteredRevisions.findIndex(
+                    (e) => e.Aanpassing_Op === revision.Aanpassing_Op
+                )
+
+                const editedWithLaterVersion =
+                    revision.Aanpassing_Op &&
+                    index !== indexOfLastEdited &&
+                    indexOfLastEdited !== -1
+
+                if (editedWithLaterVersion) return false
+
+                return true
+            })
+            .map((revision, index) => {
+                if (index === 0) {
+                    // If it is the first item with a Status of 'Vigerend'
+                    revision.uiStatus = 'Vigerend'
+                } else {
+                    revision.uiStatus = 'Gearchiveerd'
+                }
+
+                return revision
+            })
+
+        const firstInspraakIndex = sortedFilteredRevisions.findIndex(
+            (revision) => revision.Status === 'Ontwerp in inspraak'
+        )
+
+        const firstVigerendIndex = sortedFilteredRevisions.findIndex(
+            (revision) => revision.Status === 'Vigerend'
+        )
+
+        // If one of the items doesn't exist, return
+        if (firstInspraakIndex === -1 || firstVigerendIndex === -1)
+            return preppedRevisions
+
+        const inspraakComesBeforeVigerend =
+            firstInspraakIndex < firstVigerendIndex
+
+        // Check if the item with a Status 'Ontwerp in inspraak' is newer,
+        // then the last item with a Status of 'Vigerend'
+        // If so, place this item on index 0
+        if (inspraakComesBeforeVigerend) {
+            const firstInspraakItem =
+                sortedFilteredRevisions[firstInspraakIndex]
+            firstInspraakItem.uiStatus = 'In inspraak'
+            preppedRevisions.splice(0, 0, firstInspraakItem)
+        }
+
+        return preppedRevisions
+    }
+
     React.useEffect(() => {
-        window.scrollTo(0, 0)
-    }, [dataLoaded])
+        if (!lineageID && lineageID !== 0) return
+
+        // We only want to show the revisions on the type of Beleidskeuze
+        if (titleSingular !== 'Beleidskeuze') {
+            setDataLoaded(true)
+            return
+        }
+
+        axios
+            .get(`${apiEndpointBase}/${lineageID}`)
+            .then((res) => {
+                const preppedRevisions = prepRevisions(res.data)
+                setRevisieObjecten(preppedRevisions)
+                setDataLoaded(true)
+            })
+            .catch((err) => {
+                console.log(err)
+                toast(process.env.REACT_APP_ERROR_MSG)
+            })
+    }, [lineageID, titleSingular])
 
     // Returns boolean
     // There are two objects with werkingsgebieden:
     // - Maatregelen
-    // - Beleidskeuzes (also known as beleidskeuzes)
+    // - Beleidskeuzes
     const checkIfObjectHasWerkingsgebied = () => {
         if (!dataLoaded || !dataObject) return false
 
         // Check if there is a werkingsgebied
         if (
             dataObject.Gebied ||
-            (dataObject.WerkingsGebieden && dataObject.WerkingsGebieden[0])
+            (dataObject.Werkingsgebieden && dataObject.Werkingsgebieden[0])
         ) {
             return true
         } else {
@@ -123,12 +231,12 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
             // Object is a maatregel, which contains the UUID in a string value
             return dataObject.Gebied.UUID
         } else if (
-            dataObject.WerkingsGebieden &&
-            dataObject.WerkingsGebieden[0]
+            dataObject.Werkingsgebieden &&
+            dataObject.Werkingsgebieden[0]
         ) {
             // Object is a beleidskeuze/beleidskeuze, which holds the werkingsgebieden in an array.
             // We always need the first value in the array
-            return dataObject.WerkingsGebieden[0].UUID
+            return dataObject.Werkingsgebieden[0].UUID
         }
     }
 
@@ -195,10 +303,11 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
                     leave="transition ease-in duration-200"
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
+                    className="w-full"
                 >
                     <div
                         id="raadpleeg-detail-container-content"
-                        className={`w-full pt-6`}
+                        className={`w-full`}
                     >
                         <div className="container absolute inset-x-0 hidden w-full px-6 mx-auto xl:flex">
                             <div className="pl-3">
@@ -222,9 +331,11 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
 
                         {/* Meta Content */}
                         <MetaInfo
+                            titleSingular={titleSingular}
                             dataLoaded={dataLoaded}
                             revisieObjecten={revisieObjecten}
                             dataObject={dataObject}
+                            currentUUID={id}
                         />
 
                         {/* These contain the fields that need to be displayed for the different objects */}
@@ -379,44 +490,53 @@ const Heading = ({ type, titel }) => {
     )
 }
 
-const MetaInfo = ({ revisieObjecten, dataObject }) => {
+const MetaInfo = ({
+    revisieObjecten,
+    dataObject,
+    currentUUID,
+    titleSingular,
+}) => {
+    const getVigerendText = () => {
+        if (!dataObject['Begin_Geldigheid'])
+            return 'Er is nog geen begin geldigheid'
+
+        const textDate = format(
+            new Date(dataObject['Begin_Geldigheid']),
+            'd MMMM yyyy',
+            {
+                locale: nlLocale,
+            }
+        )
+        const isActive =
+            dataObject.Status && dataObject.Status === 'Vigerend'
+                ? 'Vigerend sinds'
+                : 'Vigerend vanaf'
+
+        return isActive + ' ' + textDate
+    }
+
+    const vigerendText = getVigerendText()
+
     return (
         <div className="block mt-2" id="raadpleeg-detail-container-meta-info">
             <span className="mr-3 text-sm text-gray-800 opacity-75">
-                {dataObject['Begin_Geldigheid']
-                    ? 'Vigerend sinds ' +
-                      format(
-                          new Date(dataObject['Begin_Geldigheid']),
-                          'd MMMM yyyy',
-                          { locale: nlLocale }
-                      )
-                    : 'Er is nog geen begin geldigheid'}
+                {vigerendText}
             </span>
 
             {revisieObjecten && revisieObjecten.length > 0 ? (
                 <React.Fragment>
                     <span className="mr-3 text-sm text-gray-600">&bull;</span>
                     <PopUpRevisieContainer
-                        aantalRevisies={revisieObjecten.length - 1}
+                        dataObject={dataObject}
+                        type={titleSingular}
+                        amountOfRevisions={revisieObjecten.length - 1}
+                        revisieObjecten={revisieObjecten}
                     >
                         {revisieObjecten.map((item, index) => (
                             <RevisieListItem
-                                key={dataObject.UUID}
-                                content={
-                                    dataObject['Begin_Geldigheid'] !== null
-                                        ? format(
-                                              new Date(
-                                                  dataObject['Begin_Geldigheid']
-                                              ),
-                                              'd MMM yyyy',
-                                              {
-                                                  locale: nlLocale,
-                                              }
-                                          )
-                                        : 'Er is nog geen begin geldigheid'
-                                }
-                                color={index === 0 ? 'orange' : 'blue'}
-                                current={index === 0 ? true : false}
+                                currentUUID={currentUUID}
+                                item={item}
+                                key={item.UUID}
                             />
                         ))}
                     </PopUpRevisieContainer>
@@ -426,17 +546,48 @@ const MetaInfo = ({ revisieObjecten, dataObject }) => {
     )
 }
 
-function RevisieListItem(props) {
+function RevisieListItem({ item, currentUUID }) {
+    const getDate = (item) => {
+        return item['Begin_Geldigheid'] !== null
+            ? format(new Date(item['Begin_Geldigheid']), 'd MMM yyyy', {
+                  locale: nlLocale,
+              })
+            : 'Er is nog geen begin geldigheid'
+    }
+
+    const date = getDate(item)
+    const status = item.uiStatus
+    const isActive = item.UUID === currentUUID
+
     return (
-        <li className="py-2">
-            <span
-                className={`inline-block w-4 h-4 bg-${props.color}-500 rounded-full mt-1 absolute`}
-            />
-            <span
-                className={`pl-6 text-sm ${props.current ? 'font-bold' : null}`}
+        <li className={`bg-white ${isActive ? '' : 'hover:bg-gray-100'}`}>
+            <Link
+                className={`inline-block py-3 ${
+                    isActive ? 'cursor-default' : ''
+                }`}
+                to={`/detail/beleidskeuzes/${item.UUID}`}
+                onClick={(e) => {
+                    if (isActive) {
+                        e.preventDefault()
+                        return
+                    }
+                }}
             >
-                {props.content}
-            </span>
+                <span
+                    className={`inline-block w-2 h-2 rounded-full mt-2 -ml-1 absolute ${
+                        status === 'In inspraak'
+                            ? 'bg-red-700'
+                            : status === 'Vigerend'
+                            ? 'bg-yellow-500 pulsate'
+                            : status === 'Gearchiveerd'
+                            ? 'bg-blue-900'
+                            : ''
+                    }`}
+                />
+                <span
+                    className={`pl-6 text-sm ${isActive ? 'font-bold' : ''}`}
+                >{`${status} (${date})`}</span>
+            </Link>
         </li>
     )
 }

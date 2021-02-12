@@ -49,6 +49,7 @@ class MuteerUniversalObjectCRUD extends Component {
         }
 
         this.handleChange = this.handleChange.bind(this)
+        this.prepareForRequest = this.prepareForRequest.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.voegKoppelingRelatieToe = this.voegKoppelingRelatieToe.bind(this)
         this.wijzigKoppelingRelatie = this.wijzigKoppelingRelatie.bind(this)
@@ -227,6 +228,7 @@ class MuteerUniversalObjectCRUD extends Component {
 
         // If the user is editing an object PATCH, else POST
         if (this.state.edit) {
+            crudObject = this.prepareForRequest(crudObject, 'patch')
             this.patchDimensieObject(crudObject)
         } else {
             // Als het dimensie object een beleidsrelatie is wijzigen we de volgende properties
@@ -235,20 +237,72 @@ class MuteerUniversalObjectCRUD extends Component {
                 crudObject.Aanvraag_Datum = new Date()
             }
 
+            crudObject = this.prepareForRequest(crudObject, 'post')
             this.postDimensieObject(crudObject)
         }
+    }
+
+    // Remove .Title properties from Connection objects
+    prepareForRequest(crudObject, type) {
+        // Get the connections
+        const getConnectionProperties = () => {
+            const crudProperties = this.props.dimensieConstants.CRUD_PROPERTIES
+            const connectionKeys = Object.keys(crudProperties).filter(
+                (key) => crudProperties[key].type === 'connection'
+            )
+            return connectionKeys
+        }
+
+        const connectionProperties = getConnectionProperties()
+
+        connectionProperties.forEach((key) => {
+            crudObject[key].forEach((connection, index) => {
+                crudObject[key][index] = {
+                    UUID: connection.UUID,
+                    Koppeling_Omschrijving: connection.Koppeling_Omschrijving,
+                }
+            })
+        })
+
+        if (type === 'post') return crudObject
+
+        // Edit for PATCH
+        const eigenaren = [
+            'Eigenaar_1',
+            'Eigenaar_2',
+            'Opdrachtgever',
+            'Portefeuillehouder_1',
+            'Portefeuillehouder_2',
+        ]
+
+        eigenaren.forEach((eigenaar) => {
+            if (!crudObject.hasOwnProperty(eigenaar)) return
+            if (
+                typeof crudObject[eigenaar] === 'object' &&
+                crudObject[eigenaar] !== null
+            ) {
+                crudObject[eigenaar] = crudObject[eigenaar].UUID
+            }
+        })
+
+        crudObject?.Werkingsgebieden?.forEach((gebied, index) => {
+            crudObject.Werkingsgebieden[index] = { UUID: gebied.UUID }
+        })
+
+        return crudObject
     }
 
     voegKoppelingRelatieToe(propertyName, object, omschrijving, callback) {
         const nieuwObject = {
             UUID: object.UUID,
             Titel: object.Titel,
-            Omschrijving: omschrijving,
+            Koppeling_Omschrijving: omschrijving,
+            Type: object.Type,
         }
 
-        let nieuwCrudObject = this.state.crudObject
+        console.log(nieuwObject)
 
-        console.log(nieuwCrudObject)
+        let nieuwCrudObject = this.state.crudObject
 
         if (typeof nieuwCrudObject[propertyName] === 'string') {
             nieuwCrudObject[propertyName] = []
@@ -408,6 +462,8 @@ class MuteerUniversalObjectCRUD extends Component {
         const objectTitle = this.state.crudObject.Titel
 
         const handleChange = this.handleChange
+
+        console.log(crudObject)
 
         return (
             <div>

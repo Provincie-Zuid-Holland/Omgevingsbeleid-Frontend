@@ -108,10 +108,10 @@ const FormFieldRelatieKoppeling = ({
             crudObject
         )
 
-        // If there are no existing connections we return
-        if (propertiesWithExistingConnections.length === 0) {
-            return
-        }
+        // // If there are no existing connections we return
+        // if (propertiesWithExistingConnections.length === 0) {
+        //     return
+        // }
 
         // Contains the properties we have already mapped
         // We need this because 'Belang' en 'Taak' are both different types, but they do have the same propertyName on the crudObject
@@ -137,6 +137,7 @@ const FormFieldRelatieKoppeling = ({
         })
 
         setKoppelingenRelaties({ ...newStateKoppelingenRelatiesObject })
+
         setDataLoaded(true)
     }, [connectionProperties, crudObject])
 
@@ -211,6 +212,10 @@ const FormFieldRelatieKoppeling = ({
                                     (item, index) => {
                                         let type =
                                             objecten[koppelingRelatieNaam].type
+                                        if (type === 'Nationaal Belang') {
+                                            console.log(item)
+                                            type = item.Type
+                                        }
 
                                         return (
                                             <li

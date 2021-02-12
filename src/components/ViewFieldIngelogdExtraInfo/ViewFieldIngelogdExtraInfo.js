@@ -2,14 +2,14 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
-import axios from './../../../API/axios'
+import axios from '../../API/axios'
 
-import LoaderSmallCircle from './../../../components/LoaderSmallCircle'
+import LoaderSmallCircle from '../LoaderSmallCircle'
 
 import { faLink } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import UserContext from './../../../App/UserContext'
+import UserContext from '../../App/UserContext'
 
 const eigenarenProperties = [
     'Eigenaar_1',
@@ -19,7 +19,7 @@ const eigenarenProperties = [
     'Opdrachtgever',
 ]
 
-const ViewFieldIngelogdExtraInfo = ({ crudObject }) => {
+const ViewFieldIngelogdExtraInfo = ({ crudObject, hideEdit, className }) => {
     const [canUserEdit, setCanUserEdit] = React.useState(false)
     const [eigenaren, setEigenaren] = React.useState({})
 
@@ -62,7 +62,11 @@ const ViewFieldIngelogdExtraInfo = ({ crudObject }) => {
     return (
         <UserContext.Consumer>
             {(context) => (
-                <div className="px-3 py-3 mb-5 bg-gray-100 border border-gray-200 rounded-md ">
+                <div
+                    className={`px-3 py-3 bg-gray-100 border border-gray-200 rounded-md ${
+                        className ? className : ''
+                    }`}
+                >
                     <span className="text-sm text-gray-600">
                         Deze informatie zien alleen gebruikers die zijn
                         ingelogd.
@@ -85,7 +89,7 @@ const ViewFieldIngelogdExtraInfo = ({ crudObject }) => {
                                 </a>
                             ) : null}
                         </div>
-                        {canUserEdit ? (
+                        {canUserEdit && !hideEdit ? (
                             <Link
                                 to={`/muteer/beleidskeuzes/${crudObject.ID}`}
                                 className="px-3 py-2 text-xs font-semibold tracking-wide border rounded cursor-pointer m-color m-base-border-color"
@@ -135,25 +139,27 @@ const EigenarenList = ({ eigenaren }) => {
 
     return (
         <ul className="flex mr-8">
-            {Object.keys(eigenaren).map((item, index) => (
-                <li
-                    key={item}
-                    className={`relative ${index === 0 ? '' : '-ml-2'}`}
-                >
-                    <div className="flex items-center justify-center w-8 h-8 mr-1 text-xs text-white bg-yellow-400 border border-white rounded-full circle-gebruiker font-lg">
-                        {getAbbrevationFromUsername(eigenaren[item])}
+            {Object.keys(eigenaren)
+                .filter((item) => eigenaren[item])
+                .map((item, index) => (
+                    <li
+                        key={item}
+                        className={`relative ${index === 0 ? '' : '-ml-2'}`}
+                    >
+                        <div className="flex items-center justify-center w-8 h-8 mr-1 text-xs text-white bg-yellow-400 border border-white rounded-full circle-gebruiker font-lg">
+                            {getAbbrevationFromUsername(eigenaren[item])}
 
-                        <div className="absolute top-0 left-0 z-10 hidden inline-block px-4 py-3 mt-10 whitespace-no-wrap rounded popup-gebruikersinfo">
-                            <div className="block mb-1 text-xs">
-                                {getPersonenRol(item)}
-                            </div>
-                            <div className="block text-sm font-semibold">
-                                {getUsername(eigenaren[item])}
+                            <div className="absolute top-0 left-0 z-10 hidden inline-block px-4 py-3 mt-10 whitespace-no-wrap rounded popup-gebruikersinfo">
+                                <div className="block mb-1 text-xs">
+                                    {getPersonenRol(item)}
+                                </div>
+                                <div className="block text-sm font-semibold">
+                                    {getUsername(eigenaren[item])}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </li>
-            ))}
+                    </li>
+                ))}
         </ul>
     )
 }

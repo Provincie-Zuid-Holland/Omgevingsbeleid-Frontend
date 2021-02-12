@@ -64,7 +64,7 @@ const objecten = {
         volledigeTitel: 'Verordening',
         volledigeTitelMeervoud: 'Verordeningen',
         api: '/verordeningen',
-        propertyName: 'Verordening',
+        propertyName: 'Verordeningen',
         type: 'Verordening',
     },
     beleidsregels: {
@@ -72,7 +72,7 @@ const objecten = {
         volledigeTitel: 'Beleidsregels',
         volledigeTitelMeervoud: 'Beleidsregels',
         api: '/beleidsregels',
-        propertyName: 'BeleidsRegels',
+        propertyName: 'Beleidsregels',
         type: 'Beleidsregel',
     },
 }

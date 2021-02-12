@@ -225,82 +225,84 @@ const AuthRoutes = ({ authUser, loggedIn }) => {
 
 // Component to generate a general overview View, a detail view and a CRUD view to edit and create
 const BeheerRoutes = (props) => {
-    const BeheerRouteJSX = Object.keys(allDimensies).map((dimensie) => {
-        // We have custom detail pages for beleidskeuzes (beleidskeuzes) en maatregelen
-        const returnDetailPages =
-            dimensie !== 'BELEIDSKEUZES' && dimensie !== 'MAATREGELEN'
-        const dimensieConstants = allDimensies[dimensie]
-        const overzichtSlug = allDimensies[dimensie].SLUG_OVERVIEW
-        const createNewSlug = allDimensies[dimensie].SLUG_CREATE_NEW
+    const BeheerRouteJSX = Object.keys(allDimensies)
+        .filter((dimensie) => allDimensies[dimensie].SLUG_CREATE_NEW)
+        .map((dimensie) => {
+            // We have custom detail pages for beleidskeuzes (beleidskeuzes) en maatregelen
+            const returnDetailPages =
+                dimensie !== 'BELEIDSKEUZES' && dimensie !== 'MAATREGELEN'
+            const dimensieConstants = allDimensies[dimensie]
+            const overzichtSlug = allDimensies[dimensie].SLUG_OVERVIEW
+            const createNewSlug = allDimensies[dimensie].SLUG_CREATE_NEW
 
-        return (
-            <React.Fragment key={createNewSlug}>
-                <Switch>
-                    <Route
-                        exact
-                        path={`/muteer/${overzichtSlug}/${createNewSlug}`}
-                        render={() => (
-                            <MuteerUniversalObjectCRUD
-                                authUser={props.authUser}
-                                dimensieConstants={dimensieConstants}
-                            />
-                        )}
-                    />
-                    <Route
-                        exact
-                        path={`/muteer/${overzichtSlug}/edit/:single/:version`}
-                        render={() => (
-                            <MuteerUniversalObjectCRUD
-                                authUser={props.authUser}
-                                dimensieConstants={dimensieConstants}
-                            />
-                        )}
-                    />
-                    <Route
-                        exact
-                        path={`/muteer/${overzichtSlug}/edit/:single`}
-                        render={() => (
-                            <MuteerUniversalObjectCRUD
-                                authUser={props.authUser}
-                                dimensieConstants={dimensieConstants}
-                            />
-                        )}
-                    />
-                    {returnDetailPages ? (
+            return (
+                <React.Fragment key={createNewSlug}>
+                    <Switch>
                         <Route
                             exact
-                            path={`/muteer/${overzichtSlug}/:single/:version`}
+                            path={`/muteer/${overzichtSlug}/${createNewSlug}`}
                             render={() => (
-                                <MuteerUniversalObjectDetail
+                                <MuteerUniversalObjectCRUD
+                                    authUser={props.authUser}
                                     dimensieConstants={dimensieConstants}
                                 />
                             )}
                         />
-                    ) : null}
-                    {returnDetailPages ? (
                         <Route
                             exact
-                            path={`/muteer/${overzichtSlug}/:single`}
+                            path={`/muteer/${overzichtSlug}/edit/:single/:version`}
                             render={() => (
-                                <MuteerUniversalObjectDetail
+                                <MuteerUniversalObjectCRUD
+                                    authUser={props.authUser}
                                     dimensieConstants={dimensieConstants}
                                 />
                             )}
                         />
-                    ) : null}
-                    <Route
-                        path={`/muteer/${overzichtSlug}`}
-                        exact
-                        render={() => (
-                            <MuteerUniversalObjectOverzicht
-                                dimensieConstants={dimensieConstants}
+                        <Route
+                            exact
+                            path={`/muteer/${overzichtSlug}/edit/:single`}
+                            render={() => (
+                                <MuteerUniversalObjectCRUD
+                                    authUser={props.authUser}
+                                    dimensieConstants={dimensieConstants}
+                                />
+                            )}
+                        />
+                        {returnDetailPages ? (
+                            <Route
+                                exact
+                                path={`/muteer/${overzichtSlug}/:single/:version`}
+                                render={() => (
+                                    <MuteerUniversalObjectDetail
+                                        dimensieConstants={dimensieConstants}
+                                    />
+                                )}
                             />
-                        )}
-                    />
-                </Switch>
-            </React.Fragment>
-        )
-    })
+                        ) : null}
+                        {returnDetailPages ? (
+                            <Route
+                                exact
+                                path={`/muteer/${overzichtSlug}/:single`}
+                                render={() => (
+                                    <MuteerUniversalObjectDetail
+                                        dimensieConstants={dimensieConstants}
+                                    />
+                                )}
+                            />
+                        ) : null}
+                        <Route
+                            path={`/muteer/${overzichtSlug}`}
+                            exact
+                            render={() => (
+                                <MuteerUniversalObjectOverzicht
+                                    dimensieConstants={dimensieConstants}
+                                />
+                            )}
+                        />
+                    </Switch>
+                </React.Fragment>
+            )
+        })
 
     return BeheerRouteJSX
 }

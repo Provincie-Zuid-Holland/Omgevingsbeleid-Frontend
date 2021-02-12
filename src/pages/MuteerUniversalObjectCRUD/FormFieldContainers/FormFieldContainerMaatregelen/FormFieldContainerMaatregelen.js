@@ -11,6 +11,7 @@ import {
     FormFieldRadioButton,
     FormFieldRichTextEditor,
     FormFieldInputContainer,
+    FormFieldSelectUserGroup,
 } from './../../../../components/FormFieldsExport'
 
 import UserContext from './../../../../App/UserContext'
@@ -36,6 +37,13 @@ function FormFieldContainerMaatregelen({
                     dataObjectProperty="Titel"
                     fieldLabel="Titel"
                     pValue="Maximaal 10 woorden. Moet de lading dekken van het onderwerp. Bijvoorbeeld ‘Opstellen van gebiedsprofielen’"
+                    titleSingular={titleSingular}
+                />
+                <FormFieldSelectUserGroup
+                    handleChange={handleChange}
+                    crudObject={crudObject}
+                    marginRight={true}
+                    fieldLabel="Personen"
                     titleSingular={titleSingular}
                 />
             </ContainerFormSection>
