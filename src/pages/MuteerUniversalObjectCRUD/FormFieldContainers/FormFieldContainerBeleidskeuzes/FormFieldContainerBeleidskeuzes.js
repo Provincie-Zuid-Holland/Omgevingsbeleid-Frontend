@@ -151,10 +151,10 @@ function FormFieldContainerBeleidskeuzes({
                 <FormFieldWerkingsgebiedKoppeling
                     disabled={isVigerend}
                     setWerkingsgebiedInParentState={handleChange}
-                    werkingsgebiedInParentState={crudObject['WerkingsGebieden']}
+                    werkingsgebiedInParentState={crudObject['Werkingsgebieden']}
                     titleSingular={titleSingular}
                     fieldLabel="Selecteer werkingsgebied"
-                    dataObjectProperty="WerkingsGebieden"
+                    dataObjectProperty="Werkingsgebieden"
                     pValue="Selecteer hier het werkingsgebied wat bij deze beleidskeuze past."
                 />
             </ContainerFormSection>

@@ -134,9 +134,12 @@ const PopupRevisieoverzicht = ({
 
         console.log('Do API Request!')
 
-        // axios
-        //     .get(`changes/beleidskeuzes/${leftSelect}/${rightSelect}`)
-        //     .then((res) => console.log(res))
+        axios
+            .get(`changes/beleidskeuzes/${leftSelect}/${rightSelect}`)
+            .then((res) => {
+                setChangesFromApi(apiResponse)
+                console.log(apiResponse)
+            })
     }, [leftSelect, rightSelect])
 
     // Disables body vertical scroll when revisieOverzicht is open
@@ -180,12 +183,12 @@ const PopupRevisieoverzicht = ({
                         ref={innerContainer}
                     >
                         <div className="relative z-50 w-full overflow-hidden text-gray-700 bg-white rounded-md shadow-lg">
-                            <div className="block w-full p-8 pb-0 bg-gray-100">
+                            <div className="block w-full p-10 pb-0 bg-gray-100">
                                 <div
                                     onClick={() =>
                                         setRevisieoverzichtOpen(false)
                                     }
-                                    className="absolute top-0 right-0 px-3 py-2 mt-5 mr-6 text-gray-600 transition-colors duration-100 ease-in cursor-pointer hover:text-gray-800"
+                                    className="absolute top-0 right-0 px-3 py-2 mt-8 mr-8 text-gray-600 transition-colors duration-100 ease-in cursor-pointer hover:text-gray-800"
                                     id={`close-revisieoverzicht`}
                                 >
                                     <FontAwesomeIcon
@@ -203,11 +206,11 @@ const PopupRevisieoverzicht = ({
                             </div>
                             <div
                                 id="revisieoverzicht-select-container"
-                                className="block w-full px-8 pt-5 pb-6 bg-gray-100 border-b border-gray-300"
+                                className="block w-full px-10 pt-5 pb-6 bg-gray-100 border-b border-gray-300"
                             >
                                 <div className="flex items-center justify-between">
                                     <Select
-                                        className="w-1/2 mr-4 shadow"
+                                        className="w-1/2 mr-5 shadow"
                                         id={`revisie-from`}
                                         name="revisie-form-from"
                                         onChange={(e) => setLeftSelect(e.value)}
@@ -215,7 +218,7 @@ const PopupRevisieoverzicht = ({
                                         placeholder={`Selecteer een beleidskeuze...`}
                                     />
                                     <Select
-                                        className="w-1/2 ml-4 shadow"
+                                        className="w-1/2 ml-5 shadow"
                                         id={`revisie-from`}
                                         name="revisie-form-from"
                                         onChange={(e) =>
@@ -226,13 +229,17 @@ const PopupRevisieoverzicht = ({
                                     />
                                 </div>
                             </div>
-                            <div className="w-full p-8 bg-white">
+                            <div className="w-full bg-white">
                                 {isLoading ? (
                                     <div className="flex items-center justify-center w-full h-64 text-xl text-gray-600">
                                         <LoaderSpinner />
                                     </div>
                                 ) : (
-                                    <Content changesFromApi={changesFromApi} />
+                                    <ChangeContainer
+                                        oldObject={changesFromApi.old}
+                                        changesObject={changesFromApi.changes}
+                                        marginRight={true}
+                                    />
                                 )}
                             </div>
                         </div>
@@ -243,24 +250,429 @@ const PopupRevisieoverzicht = ({
     )
 }
 
-const Content = ({ changesFromApi }) => {
+const ContainerLeft = ({ children }) => (
+    <div className={`w-1/2 pr-5`}>{children}</div>
+)
+
+const ContainerRight = ({ children }) => (
+    <div className={`w-1/2 pl-5`}>{children}</div>
+)
+
+const ChangeContainer = ({ oldObject, changesObject, marginRight }) => {
     return (
-        <div className="flex justify-between h-screen ">
-            <div className="w-1/2 h-64 mr-4">
-                <span className="block text-lg font-bold opacity-25 text-primary-super-dark">
-                    Beleidskeuze
-                </span>
-                <h3 className="mt-2 text-3xl font-semibold text-primary-super-dark ">
-                    Titel van de beleidskeuze
-                </h3>
-            </div>
-            <div className="w-1/2 h-64 ml-4">
-                <span className="block text-lg font-bold opacity-25 text-primary-super-dark">
-                    Beleidskeuze
-                </span>
+        <div className="min-h-screen">
+            <div className="flex flex-wrap justify-between p-10">
+                {/* Title */}
+                <ContainerLeft>
+                    <span className="block text-lg font-bold opacity-25 text-primary-super-dark">
+                        Beleidskeuze
+                    </span>
+                    <Title title={oldObject.Title} />
+                </ContainerLeft>
+
+                <ContainerRight>
+                    <span className="block text-lg font-bold opacity-25 text-primary-super-dark">
+                        Beleidskeuze
+                    </span>
+                    <Title title={changesObject.Title} />
+                </ContainerRight>
+
+                {/* Date */}
+                <ContainerLeft>
+                    <ValidText dataObject={oldObject} />
+                </ContainerLeft>
+
+                <ContainerRight>
+                    <ValidText dataObject={changesObject} />
+                </ContainerRight>
+
+                {/* Omschrijving Keuze */}
+                <ContainerLeft>
+                    <Text
+                        content={oldObject.Omschrijving_Keuze}
+                        label="Wat wil de provincie bereiken?"
+                    />
+                </ContainerLeft>
+
+                <ContainerRight>
+                    <Text
+                        content={changesObject.Omschrijving_Keuze}
+                        label="Wat wil de provincie bereiken?"
+                    />
+                </ContainerRight>
+
+                {/* Omschrijving Werking */}
+                <ContainerLeft>
+                    <Text
+                        content={oldObject.Omschrijving_Werking}
+                        label="Werking"
+                    />
+                </ContainerLeft>
+
+                <ContainerRight>
+                    <Text
+                        content={changesObject.Omschrijving_Werking}
+                        label="Werking"
+                    />
+                </ContainerRight>
+
+                {/* Aanleiding */}
+                <ContainerLeft>
+                    <Text content={oldObject.Aanleiding} label="Aanleiding" />
+                </ContainerLeft>
+
+                <ContainerRight>
+                    <Text
+                        content={changesObject.Aanleiding}
+                        label="Aanleiding"
+                    />
+                </ContainerRight>
+
+                {/* Provinciaal Belang */}
+                <ContainerLeft>
+                    <Text
+                        content={oldObject.Provinciaal_Belang}
+                        label="Provinciaal Belang"
+                    />
+                </ContainerLeft>
+
+                <ContainerRight>
+                    <Text
+                        content={changesObject.Provinciaal_Belang}
+                        label="Provinciaal Belang"
+                    />
+                </ContainerRight>
+
+                {/* Nationaal Belangen */}
+                <ContainerLeft>
+                    <Belangen
+                        placeholder="Er zijn geen nationale belangen gekoppeld"
+                        label="Nationale Belangen"
+                        object={oldObject}
+                        type="Nationaal Belang"
+                    />
+                </ContainerLeft>
+
+                <ContainerRight>
+                    <Belangen
+                        placeholder="Er zijn geen nationale belangen gekoppeld"
+                        label="Nationale Belangen"
+                        containsChanges={true}
+                        object={changesObject}
+                        type="Nationaal Belang"
+                    />
+                </ContainerRight>
+
+                {/* Wettelijke Taak & Bevoegdheid */}
+                <ContainerLeft>
+                    <Belangen
+                        placeholder="Er zijn geen wettelijke taken gekoppeld"
+                        label="Wettelijke Taken"
+                        object={oldObject}
+                        type="Wettelijke Taak & Bevoegdheid"
+                    />
+                </ContainerLeft>
+
+                <ContainerRight>
+                    <Belangen
+                        placeholder="Er zijn geen wettelijke taken gekoppeld"
+                        label="Wettelijke Taken"
+                        containsChanges={true}
+                        object={changesObject}
+                        type="Wettelijke Taak & Bevoegdheid"
+                    />
+                </ContainerRight>
+
+                {/* Koppelingen & Relaties */}
+                <ContainerLeft>
+                    <RelatiesKoppelingenTekstueel beleidskeuze={oldObject} />
+                </ContainerLeft>
+
+                <ContainerRight>
+                    <RelatiesKoppelingenTekstueel
+                        beleidskeuze={changesObject}
+                        containsChanges={true}
+                    />
+                </ContainerRight>
             </div>
         </div>
     )
+}
+
+const Title = ({ title }) => {
+    return (
+        <h2 className="mt-2 text-3xl font-semibold text-primary-super-dark ">
+            {title}
+        </h2>
+    )
+}
+
+const Text = ({ content, label }) => {
+    return (
+        <div className="mb-8">
+            {label ? (
+                <h3 className="block mb-1 text-lg font-semibold tracking-wide text-gray-800">
+                    {label}
+                </h3>
+            ) : null}
+            <p
+                className={`text-gray-800 leading-7 break-words w-full whitespace-pre-line`}
+            >
+                {!content ? 'Er is nog geen inhoud' : content}
+            </p>
+        </div>
+    )
+}
+
+const ValidText = ({ dataObject }) => {
+    const getTextValidFromSince = (dataObject) => {
+        if (!dataObject['Begin_Geldigheid'])
+            return 'Er is nog geen begin geldigheid'
+
+        const textDate = format(
+            new Date(dataObject['Begin_Geldigheid']),
+            'd MMMM yyyy',
+            {
+                locale: nlLocale,
+            }
+        )
+        const isActive =
+            dataObject.Status && dataObject.Status === 'Vigerend'
+                ? 'Vigerend sinds'
+                : 'Vigerend vanaf'
+
+        return isActive + ' ' + textDate
+    }
+
+    const validText = getTextValidFromSince(dataObject)
+
+    return (
+        <span className="inline-block mb-3 text-base text-gray-600 ">
+            {validText}
+        </span>
+    )
+}
+
+const Belangen = ({ label, object, type, containsChanges, placeholder }) => {
+    const getBelangen = (containsChanges, object, type) => {
+        if (!containsChanges) {
+            return object.Belangen.filter((e) => e.Type === type)
+        } else {
+            const belangen = []
+            Object.keys(object.Belangen).forEach((key) =>
+                object.Belangen[key].forEach((belang) => {
+                    belangen.push({ ...belang, changeType: key })
+                })
+            )
+
+            return belangen
+        }
+    }
+
+    const objects = getBelangen(containsChanges, object, type)
+
+    return (
+        <div className="mb-8">
+            {label ? (
+                <h3 className="block mb-3 text-lg font-semibold tracking-wide text-gray-800">
+                    {label}
+                </h3>
+            ) : null}
+            {objects && objects.length > 0 ? (
+                objects.map((object) => {
+                    return <BelangenBlock object={object} />
+                })
+            ) : (
+                <span className="italic text-gray-600">{placeholder}</span>
+            )}
+        </div>
+    )
+}
+
+const BelangenBlock = ({ object }) => {
+    const containerStyle =
+        object.changeType === 'removed'
+            ? { backgroundColor: '#f4c9c6', textDecoration: 'line-through' } // Red
+            : object.changeType === 'new'
+            ? { backgroundColor: '#e5f0ef' } // Green
+            : { backgroundColor: '#f2f2f7' } // Purple
+
+    return (
+        <div className={`p-5 mb-4 rounded-md`} style={containerStyle}>
+            <span className="block mb-1 font-bold m-color-puple">
+                {object.Titel}
+            </span>
+            <p className="w-full leading-7 text-gray-800 break-words whitespace-pre-line">
+                {object.Omschrijving}
+            </p>
+        </div>
+    )
+}
+
+function RelatiesKoppelingenTekstueel({
+    beleidskeuze,
+    beleidsRelaties,
+    containsChanges,
+}) {
+    // if (!beleidskeuze || !beleidsRelaties) return null
+    if (!beleidskeuze) return null
+
+    const propertyHasNoValue = (property) =>
+        !beleidskeuze[property] || beleidskeuze[property].length === 0
+
+    const getValuesOf = (property) => {
+        if (!containsChanges) return beleidskeuze[property]
+
+        // Else we need to get the values from the changes properties ('removed', 'same', etc.)
+        const values = []
+        Object.keys(beleidskeuze[property]).forEach((key) =>
+            beleidskeuze[property][key].forEach((value) => {
+                values.push({ ...value, changeType: key })
+            })
+        )
+        return values
+    }
+
+    return (
+        <div>
+            {connectionProperties.map((property) => {
+                if (propertyHasNoValue(property)) return null
+
+                const values = getValuesOf(property)
+
+                return (
+                    <div className="mt-4">
+                        <h3 className="text-sm font-bold text-gray-800">
+                            {property}
+                        </h3>
+                        <ul className="mt-2">
+                            {values.map((connection) => (
+                                <ListItem
+                                    connection={connection}
+                                    titel={connection.Titel}
+                                    omschrijving={connection.Omschrijving}
+                                    property={property}
+                                    UUID={connection.UUID}
+                                />
+                            ))}
+                        </ul>
+                    </div>
+                )
+            })}
+            {/* {beleidsRelaties.length > 0 ? (
+                <div className="mt-4">
+                    <h3 className="text-sm font-bold text-gray-800">
+                        Beleidskeuzes
+                    </h3>
+                    <ul className="mt-2">
+                        {beleidsRelaties.map((beleidsrelatie) => (
+                            <ListItem
+                                connection={beleidsrelatie}
+                                titel={beleidsrelatie.Titel}
+                                property="Beleidskeuzes"
+                                UUID={beleidsrelatie.UUID}
+                            />
+                        ))}
+                    </ul>
+                </div>
+            ) : null} */}
+        </div>
+    )
+}
+
+const ListItem = ({ property, UUID, titel, omschrijving, connection }) => {
+    const textStyle =
+        connection.changeType === 'removed'
+            ? { backgroundColor: '#f4c9c6', textDecoration: 'line-through' } // Red
+            : connection.changeType === 'new'
+            ? { backgroundColor: '#e5f0ef' } // Green
+            : {}
+
+    return (
+        <li className="relative block mt-1 text-sm text-gray-800">
+            <div className="inline-flex items-center group">
+                <span>
+                    <span
+                        className={`inline-block w-3 h-3 mr-2 rounded-full`}
+                        style={{
+                            backgroundColor:
+                                connectionPropertiesColors[property].hex,
+                        }}
+                    />
+                    <span className="px-1" style={textStyle}>
+                        {connection.Titel}
+                    </span>
+                </span>
+                {connection.Omschrijving && connection.Omschrijving !== '' ? (
+                    <div
+                        id="d3-tooltip"
+                        class="absolute hidden group-hover:block top-0 mt-8 z-20 cursor-default"
+                        style={{
+                            left: '5px',
+                        }}
+                    >
+                        <div
+                            id={UUID}
+                            class="px-4 py-2 rounded bg-gray-900 text-white shadow"
+                        >
+                            {connection.Omschrijving}
+                        </div>
+                    </div>
+                ) : null}
+            </div>
+        </li>
+    )
+}
+
+const connectionProperties = [
+    'Ambities',
+    'Belangen',
+    'BeleidsRegels',
+    'Beleidsprestaties',
+    'Maatregelen',
+    'Beleidsdoelen',
+    'Themas',
+    'Verordening',
+]
+
+// https://tailwindcss.com/docs/customizing-colors#default-color-palette
+const connectionPropertiesColors = {
+    Ambities: {
+        hex: '#ED8936',
+        class: 'orange-500',
+    },
+    Belangen: {
+        hex: '#D53F8C',
+        class: 'pink-600',
+    },
+    BeleidsRegels: {
+        hex: '#718096',
+        class: 'gray-600',
+    },
+    Beleidsprestaties: {
+        hex: '#ECC94B',
+        class: 'yellow-500',
+    },
+    Maatregelen: {
+        hex: '#48BB78',
+        class: 'green-500',
+    },
+    Beleidsdoelen: {
+        hex: '#3182CE',
+        class: 'blue-600',
+    },
+    Themas: {
+        hex: '#38B2AC',
+        class: 'teal-500',
+    },
+    Verordening: {
+        hex: '#E53E3E',
+        class: 'red-600',
+    },
+    Beleidskeuzes: {
+        hex: '#805AD5',
+        class: 'purple-600',
+    },
 }
 
 const apiResponse = {

@@ -57,7 +57,7 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
 
     const apiEndpointBase = dataModel.API_ENDPOINT
     const titleSingular = dataModel.TITLE_SINGULAR
-    const apiEndpoint = `${apiEndpointBase}/version/${id}`
+    const apiEndpoint = `version/${apiEndpointBase}/${id}`
 
     React.useEffect(() => {
         if (!dataLoaded) return
@@ -184,7 +184,7 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
         // Check if there is a werkingsgebied
         if (
             dataObject.Gebied ||
-            (dataObject.WerkingsGebieden && dataObject.WerkingsGebieden[0])
+            (dataObject.Werkingsgebieden && dataObject.Werkingsgebieden[0])
         ) {
             return true
         } else {
@@ -199,12 +199,12 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
             // Object is a maatregel, which contains the UUID in a string value
             return dataObject.Gebied.UUID
         } else if (
-            dataObject.WerkingsGebieden &&
-            dataObject.WerkingsGebieden[0]
+            dataObject.Werkingsgebieden &&
+            dataObject.Werkingsgebieden[0]
         ) {
             // Object is a beleidskeuze/beleidskeuze, which holds the werkingsgebieden in an array.
             // We always need the first value in the array
-            return dataObject.WerkingsGebieden[0].UUID
+            return dataObject.Werkingsgebieden[0].UUID
         }
     }
 
