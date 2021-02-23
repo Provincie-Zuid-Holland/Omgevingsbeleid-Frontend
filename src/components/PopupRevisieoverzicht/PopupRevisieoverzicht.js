@@ -10,10 +10,12 @@ import Select from 'react-select'
 import axios from '../../API/axios'
 
 import LoaderSpinner from '../LoaderSpinner'
+import LeafletTinyViewer from './../LeafletTinyViewer'
 
 import useClickOutsideContainer from './../../utils/useClickOutsideContainer'
 import useCloseWithEscapeKey from './../../utils/useCloseWithEscapeKey'
 import useLockBodyScroll from './../../utils/useLockBodyScroll'
+import { select } from 'd3'
 
 const getVigerendText = (dataObject) => {
     if (!dataObject['Begin_Geldigheid'])
@@ -99,13 +101,20 @@ const PopupRevisieoverzicht = ({
         if (fixedContainerEl.scrollWidth <= event.clientX) return
 
         setRevisieoverzichtOpen(false)
-        setChangesFromApi(null)
     })
 
     useCloseWithEscapeKey(innerContainer, () => {
         setRevisieoverzichtOpen(false)
-        setChangesFromApi(null)
     })
+
+    // Reset when the user opens the window
+    React.useLayoutEffect(() => {
+        if (revisieoverzichtOpen) {
+            setLeftSelect(null)
+            setRightSelect(null)
+            setChangesFromApi(null)
+        }
+    }, [revisieoverzichtOpen])
 
     React.useEffect(() => {
         if (revisieoverzichtOpen) {
@@ -116,6 +125,39 @@ const PopupRevisieoverzicht = ({
             }, 110) // duration of the Transition + 1ms margin, this prevents two scrollbars
         }
     }, [revisieoverzichtOpen])
+
+    const selectOnScroll = () => {
+        const selectContainer = document.getElementById(
+            'revisieoverzicht-select-container'
+        )
+        const selectHeader = document.getElementById('revisieoverzicht-header')
+        const selectWidth = selectContainer.offsetWidth
+        const extraMargin = 32
+        const selectHeight = selectContainer.offsetHeight + extraMargin
+        const selectTop = selectContainer.getBoundingClientRect().top
+        const headerBottom = selectHeader.getBoundingClientRect().bottom
+
+        if (selectTop < 0) {
+            selectContainer.classList.add('fixed', 'top-0', 'z-10', 'shadow-md')
+            selectContainer.style.width = selectWidth + 'px'
+            selectHeader.style.marginBottom = selectHeight + 'px'
+        } else if (headerBottom > 0) {
+            selectContainer.style.width = '100%'
+            selectHeader.style.marginBottom = 0 + 'px'
+            selectContainer.classList.remove(
+                'fixed',
+                'top-0',
+                'z-10',
+                'shadow-md'
+            )
+        }
+    }
+    //     window.addEventListener('scroll', checkScroll)
+
+    //     return () => {
+    //         window.removeEventListener('scroll', checkScroll)
+    //     }
+    // }, [])
 
     React.useEffect(() => {
         revisieObjecten = revisieObjecten.sort(
@@ -167,6 +209,7 @@ const PopupRevisieoverzicht = ({
             </Transition>
             <div
                 id="revisieoverzicht-container-fixed"
+                onScroll={selectOnScroll}
                 className={`fixed inset-0 z-10 w-full overflow-y-auto ${
                     revisieoverzichtOpen ? '' : 'pointer-events-none'
                 }`}
@@ -185,11 +228,13 @@ const PopupRevisieoverzicht = ({
                         ref={innerContainer}
                     >
                         <div className="relative z-50 w-full text-gray-700 bg-white rounded-md shadow-md">
-                            <div className="block w-full p-10 pb-0 bg-gray-100 rounded-t-md">
+                            <div
+                                className="block w-full p-10 pb-0 transition-shadow duration-200 ease-in bg-gray-100 rounded-t-md"
+                                id="revisieoverzicht-header"
+                            >
                                 <div
                                     onClick={() => {
                                         setRevisieoverzichtOpen(false)
-                                        setChangesFromApi(null)
                                     }}
                                     className="absolute top-0 right-0 px-3 py-2 mt-8 mr-8 text-gray-600 transition-colors duration-100 ease-in cursor-pointer hover:text-gray-800"
                                     id={`close-revisieoverzicht`}
@@ -241,7 +286,7 @@ const PopupRevisieoverzicht = ({
                                     <ChangeContainer
                                         oldObject={changesFromApi.old}
                                         changesObject={changesFromApi.changes}
-                                        marginRight={true}
+                                        originalObject={dataObject}
                                     />
                                 ) : (
                                     <div className="flex items-center justify-center w-full h-64 text-xl text-gray-600">
@@ -268,7 +313,8 @@ const ContainerRight = ({ children }) => (
     <div className={`w-1/2 pl-5`}>{children}</div>
 )
 
-const ChangeContainer = ({ oldObject, changesObject, marginRight }) => {
+const ChangeContainer = ({ oldObject, changesObject, originalObject }) => {
+    console.log(originalObject)
     return (
         <div className="min-h-screen pb-16">
             <div className="mt-8">
@@ -410,14 +456,59 @@ const ChangeContainer = ({ oldObject, changesObject, marginRight }) => {
             <div>
                 <DividerWithTitle title={`Koppelingen & Relaties`} />
                 <RelatiesKoppelingenTekstueel
-                    beleidskeuze={oldObject}
                     objectOld={oldObject}
                     objectChanges={changesObject}
                 />
             </div>
             <div className="mt-10">
-                <DividerWithTitle title={`Werkingsgbied`} singleTitle={true} />
-                <ContainerMain></ContainerMain>
+                <DividerWithTitle title={`Werkingsgebied`} singleTitle={true} />
+                <ContainerMain>
+                    <Werkingsgebied
+                        originalObject={originalObject}
+                        oldObject={oldObject}
+                        changesObject={changesObject}
+                    />
+                </ContainerMain>
+            </div>
+        </div>
+    )
+}
+
+const Werkingsgebied = ({ originalObject, oldObject, changesObject }) => {
+    const getTitleOfNewWerkingsgebied = () => {
+        // We get this werkingsgebied from the changesObject.
+        // This means the 'Werkingsgebieden' value will contain an object with the 'new', 'removed' and 'same' properties
+        // We first check 'new', if the array is empty we check 'same'. If that is also empty we know that the rightSelect state value has no werkingsgebied
+        // If that is the case, we return a unique string to indicate that, else we set the title
+        if (
+            changesObject.Werkingsgebieden.new.length > 0 &&
+            changesObject.Werkingsgebieden.removed.length > 0
+        ) {
+            return `Beleidskeuze "${originalObject.Titel}" is gewijzigd van gebied "${changesObject.Werkingsgebieden.removed[0].Werkingsgebied}" naar gebied "${changesObject.Werkingsgebieden.new[0].Werkingsgebied}".`
+        } else if (changesObject.Werkingsgebieden.same.length > 0) {
+            return `Beleidskeuze "${originalObject.Titel}" is niet gewijzigd, en is gekoppeld aan "${changesObject.Werkingsgebieden.same[0].Werkingsgebied}".`
+        } else if (changesObject.Werkingsgebieden.removed.length > 0) {
+            return `Beleidskeuze "${originalObject.Titel}" was gekoppeld aan gebied "${changesObject.Werkingsgebieden.removed[0].Werkingsgebied}", maar deze koppeling is verwijderd.`
+        } else {
+            // The leftSelect value and the rightSelect value both didn't have a werkingsgebied
+            return `Beleidskeuze "${originalObject.Titel}" heeft voor beidde geselecteerde objecten geen werkingsgebied`
+        }
+    }
+
+    const title = getTitleOfNewWerkingsgebied()
+
+    return (
+        <div className="w-full">
+            <p
+                className={`text-gray-800 mt-4 leading-7 break-words w-full whitespace-pre-line`}
+            >
+                {title}
+            </p>
+            <div className="mt-4 rounded-lg" id={`revision-overview-leaflet`}>
+                <LeafletTinyViewer
+                    gebiedType="Werkingsgebieden"
+                    gebiedUUID={oldObject.Werkingsgebieden[0].UUID}
+                />
             </div>
         </div>
     )
@@ -564,10 +655,9 @@ const BelangenBlock = ({ object }) => {
 function RelatiesKoppelingenTekstueel({
     objectOld,
     objectChanges,
-    beleidskeuze,
     beleidsRelaties,
 }) {
-    if (!beleidskeuze) return null
+    if (!objectOld || !objectChanges) return
 
     const getValuesOf = (property, obj, containsChanges) => {
         if (!containsChanges && obj[property]) return obj[property]
@@ -767,689 +857,6 @@ const connectionPropertiesColors = {
     Beleidskeuzes: {
         hex: '#805AD5',
         class: 'purple-600',
-    },
-}
-
-const apiResponse = {
-    changes: {
-        Aanleiding: 'string',
-        Aanpassing_Op: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-        Afweging: 'string',
-        Ambities: {
-            new: [
-                {
-                    Begin_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    Created_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Created_Date: '2021-02-10T12:09:53.638Z',
-                    Eind_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    ID: 0,
-                    Modified_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Modified_Date: '2021-02-10T12:09:53.638Z',
-                    Omschrijving: 'string',
-                    Titel: 'string',
-                    UUID: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Weblink: 'string',
-                },
-            ],
-            removed: [
-                {
-                    Begin_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    Created_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Created_Date: '2021-02-10T12:09:53.638Z',
-                    Eind_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    ID: 0,
-                    Modified_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Modified_Date: '2021-02-10T12:09:53.638Z',
-                    Omschrijving: 'string',
-                    Titel: 'string',
-                    UUID: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Weblink: 'string',
-                },
-            ],
-            same: [
-                {
-                    Begin_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    Created_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Created_Date: '2021-02-10T12:09:53.638Z',
-                    Eind_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    ID: 0,
-                    Modified_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Modified_Date: '2021-02-10T12:09:53.638Z',
-                    Omschrijving: 'string',
-                    Titel: 'string',
-                    UUID: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Weblink: 'string',
-                },
-            ],
-        },
-        Begin_Geldigheid: '2021-02-10T12:09:53.638Z',
-        Belangen: {
-            new: [
-                {
-                    Begin_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    Created_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Created_Date: '2021-02-10T12:09:53.638Z',
-                    Eind_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    ID: 0,
-                    Modified_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Modified_Date: '2021-02-10T12:09:53.638Z',
-                    Omschrijving: 'string',
-                    Titel: 'string',
-                    Type: 'Nationaal Belang',
-                    UUID: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Weblink: 'string',
-                },
-            ],
-            removed: [
-                {
-                    Begin_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    Created_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Created_Date: '2021-02-10T12:09:53.638Z',
-                    Eind_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    ID: 0,
-                    Modified_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Modified_Date: '2021-02-10T12:09:53.638Z',
-                    Omschrijving: 'string',
-                    Titel: 'string',
-                    Type: 'Nationaal Belang',
-                    UUID: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Weblink: 'string',
-                },
-            ],
-            same: [
-                {
-                    Begin_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    Created_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Created_Date: '2021-02-10T12:09:53.638Z',
-                    Eind_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    ID: 0,
-                    Modified_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Modified_Date: '2021-02-10T12:09:53.638Z',
-                    Omschrijving: 'string',
-                    Titel: 'string',
-                    Type: 'Nationaal Belang',
-                    UUID: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Weblink: 'string',
-                },
-            ],
-        },
-        Beleidsdoelen: {
-            new: [
-                {
-                    Begin_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    Created_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Created_Date: '2021-02-10T12:09:53.638Z',
-                    Eind_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    ID: 0,
-                    Modified_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Modified_Date: '2021-02-10T12:09:53.638Z',
-                    Omschrijving: 'string',
-                    Titel: 'string',
-                    UUID: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Weblink: 'string',
-                },
-            ],
-            removed: [
-                {
-                    Begin_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    Created_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Created_Date: '2021-02-10T12:09:53.638Z',
-                    Eind_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    ID: 0,
-                    Modified_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Modified_Date: '2021-02-10T12:09:53.638Z',
-                    Omschrijving: 'string',
-                    Titel: 'string',
-                    UUID: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Weblink: 'string',
-                },
-            ],
-            same: [
-                {
-                    Begin_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    Created_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Created_Date: '2021-02-10T12:09:53.638Z',
-                    Eind_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    ID: 0,
-                    Modified_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Modified_Date: '2021-02-10T12:09:53.638Z',
-                    Omschrijving: 'string',
-                    Titel: 'string',
-                    UUID: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Weblink: 'string',
-                },
-            ],
-        },
-        Beleidsprestaties: {
-            new: [
-                {
-                    Begin_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    Created_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Created_Date: '2021-02-10T12:09:53.638Z',
-                    Eind_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    ID: 0,
-                    Modified_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Modified_Date: '2021-02-10T12:09:53.638Z',
-                    Omschrijving: 'string',
-                    Titel: 'string',
-                    UUID: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Weblink: 'string',
-                },
-            ],
-            removed: [
-                {
-                    Begin_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    Created_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Created_Date: '2021-02-10T12:09:53.638Z',
-                    Eind_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    ID: 0,
-                    Modified_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Modified_Date: '2021-02-10T12:09:53.638Z',
-                    Omschrijving: 'string',
-                    Titel: 'string',
-                    UUID: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Weblink: 'string',
-                },
-            ],
-            same: [
-                {
-                    Begin_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    Created_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Created_Date: '2021-02-10T12:09:53.638Z',
-                    Eind_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    ID: 0,
-                    Modified_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Modified_Date: '2021-02-10T12:09:53.638Z',
-                    Omschrijving: 'string',
-                    Titel: 'string',
-                    UUID: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Weblink: 'string',
-                },
-            ],
-        },
-        Beleidsregels: {
-            new: [
-                {
-                    Begin_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    Created_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Created_Date: '2021-02-10T12:09:53.638Z',
-                    Eind_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    ID: 0,
-                    Modified_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Modified_Date: '2021-02-10T12:09:53.638Z',
-                    Omschrijving: 'string',
-                    Titel: 'string',
-                    UUID: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Weblink: 'string',
-                },
-            ],
-            removed: [
-                {
-                    Begin_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    Created_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Created_Date: '2021-02-10T12:09:53.638Z',
-                    Eind_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    ID: 0,
-                    Modified_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Modified_Date: '2021-02-10T12:09:53.638Z',
-                    Omschrijving: 'string',
-                    Titel: 'string',
-                    UUID: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Weblink: 'string',
-                },
-            ],
-            same: [
-                {
-                    Begin_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    Created_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Created_Date: '2021-02-10T12:09:53.638Z',
-                    Eind_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    ID: 0,
-                    Modified_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Modified_Date: '2021-02-10T12:09:53.638Z',
-                    Omschrijving: 'string',
-                    Titel: 'string',
-                    UUID: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Weblink: 'string',
-                },
-            ],
-        },
-        Besluitnummer: 'string',
-        Created_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-        Created_Date: '2021-02-10T12:09:53.638Z',
-        Eigenaar_1: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-        Eigenaar_2: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-        Eind_Geldigheid: '2021-02-10T12:09:53.638Z',
-        ID: 0,
-        Maatregelen: {
-            new: [
-                {
-                    Aanpassing_Op: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Begin_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    Created_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Created_Date: '2021-02-10T12:09:53.638Z',
-                    Eind_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    Gebied: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Gebied_Duiding: 'Indicatief',
-                    ID: 0,
-                    Modified_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Modified_Date: '2021-02-10T12:09:53.638Z',
-                    Omschrijving: 'string',
-                    Status: 'Definitief ontwerp GS',
-                    Tags: 'string',
-                    Titel: 'string',
-                    Toelichting: 'string',
-                    Toelichting_Raw: 'string',
-                    UUID: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Weblink: 'string',
-                },
-            ],
-            removed: [
-                {
-                    Aanpassing_Op: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Begin_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    Created_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Created_Date: '2021-02-10T12:09:53.638Z',
-                    Eind_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    Gebied: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Gebied_Duiding: 'Indicatief',
-                    ID: 0,
-                    Modified_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Modified_Date: '2021-02-10T12:09:53.638Z',
-                    Omschrijving: 'string',
-                    Status: 'Definitief ontwerp GS',
-                    Tags: 'string',
-                    Titel: 'string',
-                    Toelichting: 'string',
-                    Toelichting_Raw: 'string',
-                    UUID: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Weblink: 'string',
-                },
-            ],
-            same: [
-                {
-                    Aanpassing_Op: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Begin_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    Created_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Created_Date: '2021-02-10T12:09:53.638Z',
-                    Eind_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    Gebied: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Gebied_Duiding: 'Indicatief',
-                    ID: 0,
-                    Modified_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Modified_Date: '2021-02-10T12:09:53.638Z',
-                    Omschrijving: 'string',
-                    Status: 'Definitief ontwerp GS',
-                    Tags: 'string',
-                    Titel: 'string',
-                    Toelichting: 'string',
-                    Toelichting_Raw: 'string',
-                    UUID: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Weblink: 'string',
-                },
-            ],
-        },
-        Modified_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-        Modified_Date: '2021-02-10T12:09:53.638Z',
-        Omschrijving_Keuze: 'string',
-        Omschrijving_Werking: 'string',
-        Opdrachtgever: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-        Portefeuillehouder_1: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-        Portefeuillehouder_2: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-        Provinciaal_Belang: 'string',
-        Status: 'Definitief ontwerp GS',
-        Tags: 'string',
-        Themas: {
-            new: [
-                {
-                    Begin_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    Created_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Created_Date: '2021-02-10T12:09:53.638Z',
-                    Eind_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    ID: 0,
-                    Modified_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Modified_Date: '2021-02-10T12:09:53.638Z',
-                    Omschrijving: 'string',
-                    Titel: 'string',
-                    UUID: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Weblink: 'string',
-                },
-            ],
-            removed: [
-                {
-                    Begin_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    Created_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Created_Date: '2021-02-10T12:09:53.638Z',
-                    Eind_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    ID: 0,
-                    Modified_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Modified_Date: '2021-02-10T12:09:53.638Z',
-                    Omschrijving: 'string',
-                    Titel: 'string',
-                    UUID: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Weblink: 'string',
-                },
-            ],
-            same: [
-                {
-                    Begin_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    Created_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Created_Date: '2021-02-10T12:09:53.638Z',
-                    Eind_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    ID: 0,
-                    Modified_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Modified_Date: '2021-02-10T12:09:53.638Z',
-                    Omschrijving: 'string',
-                    Titel: 'string',
-                    UUID: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Weblink: 'string',
-                },
-            ],
-        },
-        Titel: 'string',
-        UUID: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-        Verordeningen: {
-            new: [
-                {
-                    Begin_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    Created_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Created_Date: '2021-02-10T12:09:53.638Z',
-                    Eigenaar_1: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Eigenaar_2: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Eind_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    Gebied: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    ID: 0,
-                    Inhoud: 'string',
-                    Modified_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Modified_Date: '2021-02-10T12:09:53.638Z',
-                    Opdrachtgever: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Portefeuillehouder_1:
-                        '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Portefeuillehouder_2:
-                        '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Status: 'string',
-                    Titel: 'string',
-                    Type: 'Hoofdstuk',
-                    UUID: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Volgnummer: 'string',
-                    Weblink: 'string',
-                },
-            ],
-            removed: [
-                {
-                    Begin_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    Created_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Created_Date: '2021-02-10T12:09:53.638Z',
-                    Eigenaar_1: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Eigenaar_2: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Eind_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    Gebied: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    ID: 0,
-                    Inhoud: 'string',
-                    Modified_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Modified_Date: '2021-02-10T12:09:53.638Z',
-                    Opdrachtgever: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Portefeuillehouder_1:
-                        '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Portefeuillehouder_2:
-                        '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Status: 'string',
-                    Titel: 'string',
-                    Type: 'Hoofdstuk',
-                    UUID: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Volgnummer: 'string',
-                    Weblink: 'string',
-                },
-            ],
-            same: [
-                {
-                    Begin_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    Created_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Created_Date: '2021-02-10T12:09:53.638Z',
-                    Eigenaar_1: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Eigenaar_2: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Eind_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    Gebied: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    ID: 0,
-                    Inhoud: 'string',
-                    Modified_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Modified_Date: '2021-02-10T12:09:53.638Z',
-                    Opdrachtgever: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Portefeuillehouder_1:
-                        '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Portefeuillehouder_2:
-                        '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Status: 'string',
-                    Titel: 'string',
-                    Type: 'Hoofdstuk',
-                    UUID: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Volgnummer: 'string',
-                    Weblink: 'string',
-                },
-            ],
-        },
-        Weblink: 'string',
-        Werkingsgebieden: {
-            new: [
-                {
-                    Begin_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    Created_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Created_Date: '2021-02-10T12:09:53.638Z',
-                    Eind_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    ID: 0,
-                    Modified_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Modified_Date: '2021-02-10T12:09:53.638Z',
-                    UUID: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Werkingsgebied: 'string',
-                    symbol: 'string',
-                },
-            ],
-            removed: [
-                {
-                    Begin_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    Created_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Created_Date: '2021-02-10T12:09:53.638Z',
-                    Eind_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    ID: 0,
-                    Modified_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Modified_Date: '2021-02-10T12:09:53.638Z',
-                    UUID: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Werkingsgebied: 'string',
-                    symbol: 'string',
-                },
-            ],
-            same: [
-                {
-                    Begin_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    Created_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Created_Date: '2021-02-10T12:09:53.638Z',
-                    Eind_Geldigheid: '2021-02-10T12:09:53.638Z',
-                    ID: 0,
-                    Modified_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Modified_Date: '2021-02-10T12:09:53.638Z',
-                    UUID: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    Werkingsgebied: 'string',
-                    symbol: 'string',
-                },
-            ],
-        },
-    },
-    old: {
-        Aanleiding: 'string',
-        Aanpassing_Op: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-        Afweging: 'string',
-        Ambities: [
-            {
-                Begin_Geldigheid: '2021-02-10T12:09:53.638Z',
-                Created_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                Created_Date: '2021-02-10T12:09:53.638Z',
-                Eind_Geldigheid: '2021-02-10T12:09:53.638Z',
-                ID: 0,
-                Modified_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                Modified_Date: '2021-02-10T12:09:53.638Z',
-                Omschrijving: 'string',
-                Titel: 'string',
-                UUID: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                Weblink: 'string',
-            },
-        ],
-        Begin_Geldigheid: '2021-02-10T12:09:53.638Z',
-        Belangen: [
-            {
-                Begin_Geldigheid: '2021-02-10T12:09:53.638Z',
-                Created_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                Created_Date: '2021-02-10T12:09:53.638Z',
-                Eind_Geldigheid: '2021-02-10T12:09:53.638Z',
-                ID: 0,
-                Modified_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                Modified_Date: '2021-02-10T12:09:53.638Z',
-                Omschrijving: 'string',
-                Titel: 'string',
-                Type: 'Nationaal Belang',
-                UUID: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                Weblink: 'string',
-            },
-        ],
-        Beleidsdoelen: [
-            {
-                Begin_Geldigheid: '2021-02-10T12:09:53.638Z',
-                Created_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                Created_Date: '2021-02-10T12:09:53.638Z',
-                Eind_Geldigheid: '2021-02-10T12:09:53.638Z',
-                ID: 0,
-                Modified_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                Modified_Date: '2021-02-10T12:09:53.638Z',
-                Omschrijving: 'string',
-                Titel: 'string',
-                UUID: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                Weblink: 'string',
-            },
-        ],
-        Beleidsprestaties: [
-            {
-                Begin_Geldigheid: '2021-02-10T12:09:53.638Z',
-                Created_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                Created_Date: '2021-02-10T12:09:53.638Z',
-                Eind_Geldigheid: '2021-02-10T12:09:53.638Z',
-                ID: 0,
-                Modified_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                Modified_Date: '2021-02-10T12:09:53.638Z',
-                Omschrijving: 'string',
-                Titel: 'string',
-                UUID: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                Weblink: 'string',
-            },
-        ],
-        Beleidsregels: [
-            {
-                Begin_Geldigheid: '2021-02-10T12:09:53.638Z',
-                Created_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                Created_Date: '2021-02-10T12:09:53.638Z',
-                Eind_Geldigheid: '2021-02-10T12:09:53.638Z',
-                ID: 0,
-                Modified_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                Modified_Date: '2021-02-10T12:09:53.638Z',
-                Omschrijving: 'string',
-                Titel: 'string',
-                UUID: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                Weblink: 'string',
-            },
-        ],
-        Besluitnummer: 'string',
-        Created_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-        Created_Date: '2021-02-10T12:09:53.638Z',
-        Eigenaar_1: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-        Eigenaar_2: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-        Eind_Geldigheid: '2021-02-10T12:09:53.638Z',
-        ID: 0,
-        Maatregelen: [
-            {
-                Aanpassing_Op: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                Begin_Geldigheid: '2021-02-10T12:09:53.638Z',
-                Created_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                Created_Date: '2021-02-10T12:09:53.638Z',
-                Eind_Geldigheid: '2021-02-10T12:09:53.638Z',
-                Gebied: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                Gebied_Duiding: 'Indicatief',
-                ID: 0,
-                Modified_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                Modified_Date: '2021-02-10T12:09:53.638Z',
-                Omschrijving: 'string',
-                Status: 'Definitief ontwerp GS',
-                Tags: 'string',
-                Titel: 'string',
-                Toelichting: 'string',
-                Toelichting_Raw: 'string',
-                UUID: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                Weblink: 'string',
-            },
-        ],
-        Modified_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-        Modified_Date: '2021-02-10T12:09:53.638Z',
-        Omschrijving_Keuze: 'string',
-        Omschrijving_Werking: 'string',
-        Opdrachtgever: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-        Portefeuillehouder_1: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-        Portefeuillehouder_2: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-        Provinciaal_Belang: 'string',
-        Status: 'Definitief ontwerp GS',
-        Tags: 'string',
-        Themas: [
-            {
-                Begin_Geldigheid: '2021-02-10T12:09:53.638Z',
-                Created_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                Created_Date: '2021-02-10T12:09:53.638Z',
-                Eind_Geldigheid: '2021-02-10T12:09:53.638Z',
-                ID: 0,
-                Modified_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                Modified_Date: '2021-02-10T12:09:53.638Z',
-                Omschrijving: 'string',
-                Titel: 'string',
-                UUID: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                Weblink: 'string',
-            },
-        ],
-        Titel: 'string',
-        UUID: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-        Verordeningen: [
-            {
-                Begin_Geldigheid: '2021-02-10T12:09:53.638Z',
-                Created_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                Created_Date: '2021-02-10T12:09:53.638Z',
-                Eigenaar_1: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                Eigenaar_2: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                Eind_Geldigheid: '2021-02-10T12:09:53.638Z',
-                Gebied: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                ID: 0,
-                Inhoud: 'string',
-                Modified_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                Modified_Date: '2021-02-10T12:09:53.638Z',
-                Opdrachtgever: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                Portefeuillehouder_1: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                Portefeuillehouder_2: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                Status: 'string',
-                Titel: 'string',
-                Type: 'Hoofdstuk',
-                UUID: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                Volgnummer: 'string',
-                Weblink: 'string',
-            },
-        ],
-        Weblink: 'string',
-        Werkingsgebieden: [
-            {
-                Begin_Geldigheid: '2021-02-10T12:09:53.638Z',
-                Created_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                Created_Date: '2021-02-10T12:09:53.638Z',
-                Eind_Geldigheid: '2021-02-10T12:09:53.638Z',
-                ID: 0,
-                Modified_By: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                Modified_Date: '2021-02-10T12:09:53.638Z',
-                UUID: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                Werkingsgebied: 'string',
-                symbol: 'string',
-            },
-        ],
     },
 }
 

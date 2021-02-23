@@ -1193,3 +1193,14 @@ mark {
         text-decoration: none !important;
     }
 }
+
+#revision-overview-leaflet {
+    height: 500px;
+    width: 100%;
+
+    .leaflet-container {
+        position: relative;
+        height: 100%;
+        width: 100%;
+    }
+}
