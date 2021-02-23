@@ -15,7 +15,6 @@ import LeafletTinyViewer from './../LeafletTinyViewer'
 import useClickOutsideContainer from './../../utils/useClickOutsideContainer'
 import useCloseWithEscapeKey from './../../utils/useCloseWithEscapeKey'
 import useLockBodyScroll from './../../utils/useLockBodyScroll'
-import { select } from 'd3'
 
 const getVigerendText = (dataObject) => {
     if (!dataObject['Begin_Geldigheid'])
@@ -54,14 +53,18 @@ function makeSelection(objects, leftSelect, rightSelect) {
         }
     }
 
-    const getObjects = (objects, type) =>
-        objects.map((obj, index) => {
+    const getObjects = (objects, type) => {
+        const aanpassingOpUUIDS = objects.filter(
+            (e) => e.Aanpassing_Op !== null
+        )
+        return objects.map((obj, index) => {
             return {
                 label: `${obj.Status} (${getVigerendText(obj)})`,
                 value: obj.UUID,
                 isDisabled: checkIsDisabled(index, type),
             }
         })
+    }
 
     const objectsLeft = getObjects(objects, 'left')
     const objectsRight = getObjects(objects, 'right')
@@ -152,12 +155,6 @@ const PopupRevisieoverzicht = ({
             )
         }
     }
-    //     window.addEventListener('scroll', checkScroll)
-
-    //     return () => {
-    //         window.removeEventListener('scroll', checkScroll)
-    //     }
-    // }, [])
 
     React.useEffect(() => {
         revisieObjecten = revisieObjecten.sort(
@@ -314,7 +311,6 @@ const ContainerRight = ({ children }) => (
 )
 
 const ChangeContainer = ({ oldObject, changesObject, originalObject }) => {
-    console.log(originalObject)
     return (
         <div className="min-h-screen pb-16">
             <div className="mt-8">
