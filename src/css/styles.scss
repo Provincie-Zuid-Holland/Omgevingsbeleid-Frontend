@@ -109,6 +109,10 @@ $base-color: #002f65;
     border-color: #464792;
 }
 
+.m-color-puple {
+    color: #000066;
+}
+
 .purple-border-color {
     border-color: #000066;
 }
@@ -550,6 +554,20 @@ $base-color: #002f65;
     opacity: 0;
 }
 
+.pulsate::before {
+    content: '';
+    height: 0.5rem;
+    width: 0.5rem;
+    display: block;
+    left: 0;
+    top: 0;
+    animation: pulsate-big 2s ease-out;
+    animation-iteration-count: infinite;
+    opacity: 0;
+    background: inherit;
+    border-radius: 100%;
+}
+
 .svg-branch {
     left: -2px;
     bottom: 11px;
@@ -565,6 +583,20 @@ $base-color: #002f65;
     }
     100% {
         transform: scale(1.2, 1.2);
+        opacity: 0;
+    }
+}
+
+@keyframes pulsate-big {
+    0% {
+        transform: scale(0.1, 0.1);
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.75, 1.75);
         opacity: 0;
     }
 }
@@ -1130,5 +1162,9 @@ mark {
     ul {
         list-style: disc;
         padding-left: 20px;
+    }
+    ol {
+        padding-left: 20px;
+        list-style: decimal;
     }
 }
