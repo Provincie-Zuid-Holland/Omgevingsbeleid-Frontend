@@ -280,8 +280,6 @@ export default class LeafletTinyViewer extends Component {
     }
 
     render() {
-        console.log('this.state:')
-        console.log(this.state)
         return (
             <React.Fragment>
                 {this.state.dataReceived === true ? (

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Transition } from '@headlessui/react'
-import { format } from 'date-fns'
+import { format, isDate } from 'date-fns'
 import nlLocale from 'date-fns/locale/nl'
 import { useParams } from 'react-router-dom'
 import { faTimes } from '@fortawesome/pro-regular-svg-icons'
@@ -10,13 +10,18 @@ import Select from 'react-select'
 import axios from '../../API/axios'
 
 import LoaderSpinner from '../LoaderSpinner'
-import LeafletTinyViewer from './../LeafletTinyViewer'
+import LeafletRevisionOverview from './../LeafletRevisionOverview'
+import ViewFieldIngelogdExtraInfo from './../ViewFieldIngelogdExtraInfo'
 
 import useClickOutsideContainer from './../../utils/useClickOutsideContainer'
 import useCloseWithEscapeKey from './../../utils/useCloseWithEscapeKey'
 import useLockBodyScroll from './../../utils/useLockBodyScroll'
 
+import UserContext from './../../App/UserContext'
+
 const getVigerendText = (dataObject) => {
+    // Toevoegen van de datum in de revisie: "Vigerend van <datum inwerkingtreding> tot <datum uitwerkingtreding>" voor gearchiveerde beleidskeuzes.
+    // Voor vigerende beleidskeuzes: "Vigerend van <datum inwerkingtreding> tot heden"
     if (!dataObject['Begin_Geldigheid'])
         return 'Er is nog geen begin geldigheid'
 
@@ -46,25 +51,21 @@ function makeSelection(objects, leftSelect, rightSelect) {
 
         if (optionsType === 'left') {
             // Disabled if the rightSelectIndex comes after the current object index
-            return rightSelectIndex <= index
+            return index <= rightSelectIndex
         } else if (optionsType === 'right') {
             // Disabled if the leftSelectIndex comes after the current object index
-            return leftSelectIndex >= index
+            return index >= leftSelectIndex
         }
     }
 
-    const getObjects = (objects, type) => {
-        const aanpassingOpUUIDS = objects.filter(
-            (e) => e.Aanpassing_Op !== null
-        )
-        return objects.map((obj, index) => {
+    const getObjects = (objects, type) =>
+        objects.map((obj, index) => {
             return {
-                label: `${obj.Status} (${getVigerendText(obj)})`,
+                label: `${getVigerendText(obj)} (${obj.uiStatus})`,
                 value: obj.UUID,
                 isDisabled: checkIsDisabled(index, type),
             }
         })
-    }
 
     const objectsLeft = getObjects(objects, 'left')
     const objectsRight = getObjects(objects, 'right')
@@ -134,6 +135,10 @@ const PopupRevisieoverzicht = ({
             'revisieoverzicht-select-container'
         )
         const selectHeader = document.getElementById('revisieoverzicht-header')
+
+        if (!selectContainer) return
+        if (!selectHeader) return
+
         const selectWidth = selectContainer.offsetWidth
         const extraMargin = 32
         const selectHeight = selectContainer.offsetHeight + extraMargin
@@ -275,16 +280,35 @@ const PopupRevisieoverzicht = ({
                                 </div>
                             </div>
                             <div className="w-full bg-white rounded-b-md">
-                                {isLoading ? (
+                                {isLoading && !changesFromApi ? (
                                     <div className="flex items-center justify-center w-full h-64 text-xl text-gray-600">
                                         <LoaderSpinner />
                                     </div>
-                                ) : changesFromApi ? (
+                                ) : changesFromApi && !isLoading ? (
                                     <ChangeContainer
+                                        revisieObjecten={revisieObjecten}
                                         oldObject={changesFromApi.old}
                                         changesObject={changesFromApi.changes}
                                         originalObject={dataObject}
                                     />
+                                ) : changesFromApi && isLoading ? (
+                                    <React.Fragment>
+                                        <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-screen h-screen text-xl text-gray-600">
+                                            <LoaderSpinner />
+                                        </div>
+                                        <div className="opacity-50">
+                                            <ChangeContainer
+                                                revisieObjecten={
+                                                    revisieObjecten
+                                                }
+                                                oldObject={changesFromApi.old}
+                                                changesObject={
+                                                    changesFromApi.changes
+                                                }
+                                                originalObject={dataObject}
+                                            />
+                                        </div>
+                                    </React.Fragment>
                                 ) : (
                                     <div className="flex items-center justify-center w-full h-64 text-xl text-gray-600">
                                         <span className="italic text-gray-500">
@@ -310,7 +334,13 @@ const ContainerRight = ({ children }) => (
     <div className={`w-1/2 pl-5`}>{children}</div>
 )
 
-const ChangeContainer = ({ oldObject, changesObject, originalObject }) => {
+const ChangeContainer = ({
+    oldObject,
+    changesObject,
+    originalObject,
+    revisieObjecten,
+}) => {
+    const { user } = React.useContext(UserContext)
     return (
         <div className="min-h-screen pb-16">
             <div className="mt-8">
@@ -320,23 +350,47 @@ const ChangeContainer = ({ oldObject, changesObject, originalObject }) => {
                         <span className="block text-lg font-bold opacity-25 text-primary-super-dark">
                             Beleidskeuze
                         </span>
-                        <Title title={oldObject.Title} />
+                        <Title title={oldObject.Titel} />
                     </ContainerLeft>
 
                     <ContainerRight>
                         <span className="block text-lg font-bold opacity-25 text-primary-super-dark">
                             Beleidskeuze
                         </span>
-                        <Title title={changesObject.Title} />
+                        <Title title={changesObject.Titel} />
                     </ContainerRight>
+
+                    {user ? (
+                        <div className="flex justify-between w-full mt-4">
+                            <ContainerLeft>
+                                <ViewFieldIngelogdExtraInfo
+                                    hideEdit={true}
+                                    crudObject={oldObject}
+                                />
+                            </ContainerLeft>
+
+                            <ContainerRight>
+                                <ViewFieldIngelogdExtraInfo
+                                    hideEdit={true}
+                                    crudObject={changesObject}
+                                />
+                            </ContainerRight>
+                        </div>
+                    ) : null}
 
                     {/* Date */}
                     <ContainerLeft>
-                        <ValidText dataObject={oldObject} />
+                        <ValidText
+                            revisieObjecten={revisieObjecten}
+                            dataObject={oldObject}
+                        />
                     </ContainerLeft>
 
                     <ContainerRight>
-                        <ValidText dataObject={changesObject} />
+                        <ValidText
+                            revisieObjecten={revisieObjecten}
+                            dataObject={changesObject}
+                        />
                     </ContainerRight>
 
                     {/* Omschrijving Keuze */}
@@ -480,18 +534,47 @@ const Werkingsgebied = ({ originalObject, oldObject, changesObject }) => {
             changesObject.Werkingsgebieden.new.length > 0 &&
             changesObject.Werkingsgebieden.removed.length > 0
         ) {
-            return `Beleidskeuze "${originalObject.Titel}" is gewijzigd van gebied "${changesObject.Werkingsgebieden.removed[0].Werkingsgebied}" naar gebied "${changesObject.Werkingsgebieden.new[0].Werkingsgebied}".`
+            return `Beleidskeuze '${originalObject.Titel}' is gewijzigd van gebied '${changesObject.Werkingsgebieden.removed[0].Werkingsgebied}' naar gebied '${changesObject.Werkingsgebieden.new[0].Werkingsgebied}'.`
+        } else if (changesObject.Werkingsgebieden.new.length > 0) {
+            return `Beleidskeuze '${originalObject.Titel}' heeft '${changesObject.Werkingsgebieden.new[0].Werkingsgebied}' als werkingsgebied gekregen.`
         } else if (changesObject.Werkingsgebieden.same.length > 0) {
-            return `Beleidskeuze "${originalObject.Titel}" is niet gewijzigd, en is gekoppeld aan "${changesObject.Werkingsgebieden.same[0].Werkingsgebied}".`
+            return `Beleidskeuze '${originalObject.Titel}' is niet gewijzigd, en is gekoppeld aan '${changesObject.Werkingsgebieden.same[0].Werkingsgebied}'.`
         } else if (changesObject.Werkingsgebieden.removed.length > 0) {
-            return `Beleidskeuze "${originalObject.Titel}" was gekoppeld aan gebied "${changesObject.Werkingsgebieden.removed[0].Werkingsgebied}", maar deze koppeling is verwijderd.`
+            return `Beleidskeuze '${originalObject.Titel}' was gekoppeld aan gebied '${changesObject.Werkingsgebieden.removed[0].Werkingsgebied}', maar deze koppeling is verwijderd.`
         } else {
             // The leftSelect value and the rightSelect value both didn't have a werkingsgebied
-            return `Beleidskeuze "${originalObject.Titel}" heeft voor beidde geselecteerde objecten geen werkingsgebied`
+            return `Beleidskeuze '${originalObject.Titel}' heeft voor beidde geselecteerde objecten geen werkingsgebied`
         }
     }
 
+    const getGebieden = () => {
+        const gebiedenChanges = {
+            new: [],
+            removed: [],
+            same: [],
+        }
+
+        const gebiedenUUIDS = []
+
+        Object.keys(gebiedenChanges).forEach((changeProperty) => {
+            changesObject.Werkingsgebieden[changeProperty].forEach(
+                (werkingsgebied) => {
+                    gebiedenChanges[changeProperty] = werkingsgebied.UUID
+                    gebiedenUUIDS.push(werkingsgebied.UUID)
+                }
+            )
+        })
+
+        return [gebiedenUUIDS, gebiedenChanges]
+    }
+
     const title = getTitleOfNewWerkingsgebied()
+    const [gebiedenUUIDS, gebiedenChanges] = getGebieden()
+    // ? '#E74C3C' // Red
+    // : isSame
+    // ? '#2980B9' // Blue
+    // : isNew
+    // ? '#2ECC71' // Green
 
     return (
         <div className="w-full">
@@ -500,13 +583,39 @@ const Werkingsgebied = ({ originalObject, oldObject, changesObject }) => {
             >
                 {title}
             </p>
-            <div className="mt-4 rounded-lg" id={`revision-overview-leaflet`}>
-                <LeafletTinyViewer
-                    gebiedType="Werkingsgebieden"
-                    gebiedUUID={oldObject.Werkingsgebieden[0].UUID}
+            <div
+                className="mt-4 overflow-hidden border border-gray-300 rounded-lg"
+                id={`revision-overview-leaflet`}
+            >
+                <LeafletRevisionOverview
+                    gebiedenUUIDS={gebiedenUUIDS}
+                    gebiedenChanges={gebiedenChanges}
                 />
             </div>
+            <ul className="mt-4">
+                <LegendaItem color="#E74C3C">
+                    Verwijderd werkingsgebied
+                </LegendaItem>
+                <LegendaItem color="#2ECC71">
+                    Toegevoegd werkingsgebied
+                </LegendaItem>
+                <LegendaItem color="#2980B9">
+                    Ongewijzigd werkingsgebied
+                </LegendaItem>
+            </ul>
         </div>
+    )
+}
+
+const LegendaItem = ({ color, children }) => {
+    return (
+        <li className="flex items-center mt-1">
+            <span
+                style={{ backgroundColor: color }}
+                className="inline-block w-3 h-3 mr-2 rounded-full"
+            />
+            <span>{children}</span>
+        </li>
     )
 }
 
@@ -539,9 +648,10 @@ const DividerWithTitle = ({ title, singleTitle }) => {
 
 const Title = ({ title }) => {
     return (
-        <h2 className="mt-2 text-3xl font-semibold text-primary-super-dark ">
-            {title}
-        </h2>
+        <h2
+            className="mt-2 text-2xl font-semibold text-primary-super-dark"
+            dangerouslySetInnerHTML={{ __html: title }}
+        />
     )
 }
 
@@ -563,30 +673,71 @@ const Text = ({ content, label }) => {
     )
 }
 
-const ValidText = ({ dataObject }) => {
+const ValidText = ({ dataObject, revisieObjecten }) => {
+    if (!revisieObjecten) return null
+
+    revisieObjecten = revisieObjecten.sort(
+        (a, b) => new Date(b.Begin_Geldigheid) - new Date(a.Begin_Geldigheid)
+    )
+
+    const uiStatus = revisieObjecten.find((e) => e.UUID === dataObject.UUID)
+        .uiStatus
+
     const getTextValidFromSince = (dataObject) => {
+        // Toevoegen van de datum in de revisie: "Vigerend van <datum inwerkingtreding> tot <datum uitwerkingtreding>" voor gearchiveerde beleidskeuzes.
+        // Voor vigerende beleidskeuzes: "Vigerend van <datum inwerkingtreding> tot heden"
         if (!dataObject['Begin_Geldigheid'])
             return 'Er is nog geen begin geldigheid'
 
-        const textDate = format(
-            new Date(dataObject['Begin_Geldigheid']),
-            'd MMMM yyyy',
-            {
+        const formatDate = (date) =>
+            format(new Date(date), 'd MMMM yyyy', {
                 locale: nlLocale,
-            }
-        )
-        const isActive =
-            dataObject.Status && dataObject.Status === 'Vigerend'
-                ? 'Vigerend sinds'
-                : 'Vigerend vanaf'
+            })
 
-        return isActive + ' ' + textDate
+        const dateStart = formatDate(dataObject['Begin_Geldigheid'])
+
+        const getDateFromNextVigerendObject = () => {
+            const indexOfCurrentObj = revisieObjecten.findIndex(
+                (e) => e.UUID === dataObject.UUID
+            )
+
+            const endDateOfNextVigerend =
+                indexOfCurrentObj !== 0 &&
+                revisieObjecten[indexOfCurrentObj - 1] &&
+                revisieObjecten[indexOfCurrentObj - 1].Begin_Geldigheid
+                    ? revisieObjecten[indexOfCurrentObj - 1].Begin_Geldigheid
+                    : null
+
+            if (endDateOfNextVigerend) {
+                return format(endDateOfNextVigerend)
+            } else {
+                return null
+            }
+        }
+
+        const dateEnd = isDate(new Date(dataObject['Eind_Geldigheid']))
+            ? formatDate(dataObject['Begin_Geldigheid'])
+            : getDateFromNextVigerendObject()
+
+        const isCurrentlyVigerend = uiStatus && uiStatus === 'Vigerend'
+        const isArchived = uiStatus && uiStatus === 'Gearchiveerd'
+
+        console.log(dataObject.uiStatus)
+
+        if (isCurrentlyVigerend) {
+            return `Vigerend vanaf ${dateStart} tot heden`
+        } else if (isArchived) {
+            const dateEndText = dateEnd ? `tot ${dateEnd}` : ``
+            return `Vigerend vanaf ${dateStart} ${dateEndText}`
+        } else {
+            return `Vigerend vanaf ${dateStart}`
+        }
     }
 
     const validText = getTextValidFromSince(dataObject)
 
     return (
-        <span className="inline-block mb-3 text-base text-gray-600 ">
+        <span className="inline-block my-3 text-base text-gray-600 ">
             {validText}
         </span>
     )
@@ -737,24 +888,6 @@ function RelatiesKoppelingenTekstueel({
                     </ContainerMain>
                 )
             })}
-
-            {/* {beleidsRelaties.length > 0 ? (
-                <div className="mt-4">
-                    <h3 className="text-sm font-bold text-gray-800">
-                        Beleidskeuzes
-                    </h3>
-                    <ul className="mt-2">
-                        {beleidsRelaties.map((beleidsrelatie) => (
-                            <ListItem
-                                connection={beleidsrelatie}
-                                titel={beleidsrelatie.Titel}
-                                property="Beleidskeuzes"
-                                UUID={beleidsrelatie.UUID}
-                            />
-                        ))}
-                    </ul>
-                </div>
-            ) : null} */}
         </div>
     )
 }
@@ -817,7 +950,7 @@ const connectionProperties = [
     'Maatregelen',
     'Beleidsdoelen',
     'Themas',
-    'Verordening',
+    'Verordeningen',
 ]
 
 // https://tailwindcss.com/docs/customizing-colors#default-color-palette
@@ -846,7 +979,7 @@ const connectionPropertiesColors = {
         hex: '#38B2AC',
         class: 'teal-500',
     },
-    Verordening: {
+    Verordeningen: {
         hex: '#E53E3E',
         class: 'red-600',
     },
