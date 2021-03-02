@@ -132,6 +132,7 @@ const ListItem = ({
                     >
                         <div
                             id={UUID}
+                            style={{ maxWidth: '50vw' }}
                             class="px-4 py-2 rounded bg-gray-900 text-white shadow"
                         >
                             {omschrijving}

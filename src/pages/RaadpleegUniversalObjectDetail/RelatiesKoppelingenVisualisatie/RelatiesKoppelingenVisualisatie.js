@@ -273,6 +273,7 @@ const RelatiesKoppelingenVisualisatie = ({
                 >
                     <div
                         id="d3-tooltip-title"
+                        style={{ maxWidth: '50vw' }}
                         class={`px-4 py-2 rounded bg-gray-900 text-white shadow ${
                             isVerordeningItem
                                 ? 'cursor-default'
