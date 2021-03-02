@@ -33,9 +33,9 @@ class EigenaarsDriehoekItem extends Component {
         return (
             <div className="w-full p-2 mb-2 bg-white rounded shadow-md">
                 <div className="flex items-center">
-                    <div className="flex items-center justify-center w-12 h-12 mr-2 rounded-full bg-secondary">
+                    <div className="flex items-center justify-center flex-shrink-0 w-10 h-10 mr-3 rounded-full bg-pzh-yellow-dark">
                         {this.state.gebruikersObject ? (
-                            <span className="text-xl font-bold text-white">
+                            <span className="mt-1 text-xl font-bold text-white">
                                 {this.state.gebruikersObject.Gebruikersnaam.substring(
                                     0,
                                     1
@@ -44,7 +44,7 @@ class EigenaarsDriehoekItem extends Component {
                         ) : null}
                     </div>
                     <div>
-                        <span className="block text-sm text-gray-700">
+                        <span className="block text-xs text-gray-700">
                             {this.props.eigenaarType}
                         </span>
                         <span className="block text-sm font-bold text-gray-800">

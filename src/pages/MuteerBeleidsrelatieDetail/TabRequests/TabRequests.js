@@ -26,7 +26,7 @@ function TabRequests({
 }) {
     return (
         <ul>
-            <li className="flex p-2 text-sm font-semibold text-gray-800 border-b border-gray-200">
+            <li className="flex p-2 text-sm font-bold text-gray-800 border-b border-gray-200">
                 <div className="w-5/12">Beleidskeuzes</div>
                 <div className="w-2/12">Aangevraagd op</div>
                 <div className="w-1/12">Status</div>
@@ -79,7 +79,7 @@ function TabRequests({
                                                     icon={faTimes}
                                                 />
                                             </div>
-                                            <h3 className="form-field-label">
+                                            <h3 className="form-field-label font-bold">
                                                 Motivering
                                             </h3>
                                             <p className="form-field-description">
@@ -93,7 +93,7 @@ function TabRequests({
                                         onClick={() =>
                                             relationshipAccept(verzoek)
                                         }
-                                        className="inline-block px-2 py-1 mr-2 font-semibold text-white bg-green-600 rounded shadow cursor-pointer hover:bg-green-700"
+                                        className="inline-block px-2 py-1 mr-2 font-bold text-white bg-pzh-green rounded shadow cursor-pointer hover:bg-pzh-green-dark"
                                     >
                                         Accepteren
                                     </span>
@@ -101,7 +101,7 @@ function TabRequests({
                                         onClick={() =>
                                             relationshipReject(verzoek)
                                         }
-                                        className="inline-block px-2 py-1 font-semibold text-white bg-red-600 rounded shadow cursor-pointer hover:bg-red-700"
+                                        className="inline-block px-2 py-1 font-bold text-white bg-red-600 rounded shadow cursor-pointer hover:bg-red-700"
                                     >
                                         Afwijzen
                                     </span>

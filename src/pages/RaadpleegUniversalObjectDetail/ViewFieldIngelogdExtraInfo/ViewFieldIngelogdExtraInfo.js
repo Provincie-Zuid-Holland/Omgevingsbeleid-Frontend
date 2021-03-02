@@ -159,23 +159,26 @@ class ViewFieldIngelogdExtraInfo extends Component {
                                                             : '-ml-2'
                                                     }`}
                                                 >
-                                                    <div className="flex items-center justify-center w-8 h-8 mr-1 text-xs text-white bg-yellow-400 border border-white rounded-full circle-gebruiker font-lg">
-                                                        {this.state[item]
-                                                            ? this.maakAfkortingVanNaam(
-                                                                  this.state[
-                                                                      item
-                                                                  ]
-                                                                      .Gebruikersnaam
-                                                              )
-                                                            : null}
+                                                    <div className="flex items-center justify-center w-8 h-8 mr-1 text-xs text-white border border-white rounded-full bg-pzh-blue circle-gebruiker font-lg">
+                                                        <span className="font-bold">
+                                                            {this.state[item]
+                                                                ? this.maakAfkortingVanNaam(
+                                                                      this
+                                                                          .state[
+                                                                          item
+                                                                      ]
+                                                                          .Gebruikersnaam
+                                                                  )
+                                                                : null}
+                                                        </span>
 
                                                         <div className="absolute top-0 left-0 z-10 hidden inline-block px-4 py-3 mt-10 whitespace-no-wrap rounded popup-gebruikersinfo">
-                                                            <div className="block mb-1 text-xs">
+                                                            <div className="block text-xs">
                                                                 {this.getPersonenRol(
                                                                     item
                                                                 )}
                                                             </div>
-                                                            <div className="block text-sm font-semibold">
+                                                            <div className="block text-sm font-bold">
                                                                 {this.state[
                                                                     item
                                                                 ]
@@ -198,7 +201,7 @@ class ViewFieldIngelogdExtraInfo extends Component {
                                     <a
                                         href={this.props.crudObject['Weblink']}
                                         target="_blank"
-                                        className="text-sm font-semibold text-gray-600 hover:underline"
+                                        className="text-sm font-bold text-gray-600 hover:underline"
                                         rel="noopener noreferrer"
                                     >
                                         <FontAwesomeIcon
@@ -212,7 +215,7 @@ class ViewFieldIngelogdExtraInfo extends Component {
                             {canUserEdit(context) ? (
                                 <Link
                                     to={`/muteer/beleidskeuzes/${this.props.crudObject.ID}`}
-                                    className="px-3 py-2 text-xs font-semibold tracking-wide border rounded cursor-pointer m-color m-base-border-color"
+                                    className="px-3 py-2 text-xs font-bold tracking-wide border rounded cursor-pointer text-pzh-blue border-pzh-blue"
                                 >
                                     Openen in beheeromgeving{' '}
                                     {this.state.Created_By}

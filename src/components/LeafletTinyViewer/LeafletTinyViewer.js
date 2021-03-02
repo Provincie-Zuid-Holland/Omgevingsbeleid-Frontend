@@ -58,7 +58,7 @@ const colors = [
     '#e53e3e', // .bg-red-600
     '#dd6b20', // .bg-orange-600
     '#d69e2e', // .bg-yellow-600
-    '#38a169', // .bg-green-600
+    '#38a169', // .bg-pzh-green
     '#319795', // .bg-teal-600
     '#3182ce', // .bg-blue-600
     '#5a67d8', // .bg-indigo-600
@@ -645,7 +645,7 @@ const ToggleableSection = ({ children, title }) => {
                 onClick={() => setOpen(!open)}
                 className="flex items-center justify-between w-full p-5 text-left bg-orange-100"
             >
-                <span className="font-semibold">{title}</span>
+                <span className="font-bold">{title}</span>
                 <FontAwesomeIcon icon={open ? faChevronUp : faChevronDown} />
             </button>
             {open ? <div className="pb-10">{children}</div> : null}

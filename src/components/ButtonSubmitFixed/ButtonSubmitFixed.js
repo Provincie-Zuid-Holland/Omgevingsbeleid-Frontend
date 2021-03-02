@@ -6,7 +6,7 @@ function ButtonSubmitFixed() {
             <div className="inline-block px-4 py-4 bg-white rounded-t shadow">
                 <button
                     id="form-submit"
-                    className="px-4 py-2 text-sm font-bold leading-tight text-white rounded cursor-pointer mbg-color hover:underline"
+                    className="px-4 py-2 text-sm font-bold leading-tight text-white rounded cursor-pointer bg-pzh-blue hover:underline"
                     type="submit"
                 >
                     Opslaan

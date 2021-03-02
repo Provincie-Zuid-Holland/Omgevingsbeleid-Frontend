@@ -150,7 +150,7 @@ const HoofdstukTitleEditing = ({
 }) => {
     return (
         <div
-            className={`py-1 pl-5 font-semibold rounded hover:bg-primary-super-light pr-1 bg-primary-super-light 
+            className={`py-1 pl-5 font-bold rounded hover:bg-pzh-blue-super-light pr-1 bg-pzh-blue-super-light 
             ${snapshot.isDragging ? '' : 'hover:bg-gray-100 cursor-pointer'}`}
         >
             <div className="flex items-center">
@@ -166,7 +166,7 @@ const HoofdstukTitleEditing = ({
                         })
                     }}
                     id="form-inline-volgnummer"
-                    className="inline-block w-12 mx-2 font-semibold text-center form-input sm:text-sm sm:leading-5"
+                    className="inline-block w-12 mx-2 font-bold text-center form-input "
                 />
                 <span>-</span>
                 <input
@@ -181,16 +181,16 @@ const HoofdstukTitleEditing = ({
                             name: 'Titel',
                         })
                     }}
-                    className="inline-block w-full ml-2 font-semibold form-input sm:text-sm sm:leading-5"
+                    className="inline-block w-full ml-2 font-bold form-input "
                 />
                 <button
                     onClick={() => patchRegulationObject()}
-                    className="flex items-center self-stretch justify-center inline-block px-3 ml-1 text-lg text-white bg-green-500 rounded hover:bg-green-600"
+                    className="flex items-center self-stretch justify-center inline-block px-3 ml-1 text-lg text-white bg-green-500 rounded hover:bg-pzh-green"
                 >
                     <FontAwesomeIcon icon={faSave} />
                 </button>
                 <button
-                    className="flex items-center self-stretch justify-center inline-block px-3 ml-1 text-lg text-white rounded bg-primary hover:bg-primary-darker"
+                    className="flex items-center self-stretch justify-center inline-block px-3 ml-1 text-lg text-white rounded bg-pzh-blue hover:bg-pzh-blue-dark"
                     onClick={() => {
                         setUUIDBeingEdited(null)
                         setVerordeningsObjectFromGET({
@@ -208,7 +208,7 @@ const HoofdstukTitleEditing = ({
 const HoofdstukTitle = ({ snapshot, item, itemIndex, changeActiveChapter }) => {
     return (
         <div
-            className={`py-3 pl-5 font-semibold hover:bg-primary-super-light pr-12 bg-primary-super-light rounded 
+            className={`py-3 pl-5 font-bold hover:bg-pzh-blue-super-light pr-12 bg-pzh-blue-super-light rounded 
             ${snapshot.isDragging ? '' : 'hover:bg-gray-100 cursor-pointer'} 
             `}
             onClick={() => {

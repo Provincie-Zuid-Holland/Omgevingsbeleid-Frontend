@@ -48,7 +48,7 @@ function DragAndDropFirstLevel({ itemsInHoofdstuk }) {
                             `}
                         >
                             <div
-                                className={`flex items-center font-semibold pl-5 py-3 bg-primary-super-light text-gray-900 mb-2`}
+                                className={`flex items-center font-bold pl-5 py-3 bg-pzh-blue-super-light text-gray-900 mb-2`}
                             >
                                 Hoofdstuk {hoofdstukVolgnummer} -{' '}
                                 {hoofdstukObject.Titel}

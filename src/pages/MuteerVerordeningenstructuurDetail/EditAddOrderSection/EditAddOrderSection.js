@@ -168,7 +168,7 @@ const Button = ({ toggleFunction, icon, UUIDBeingEdited, href }) => {
         return (
             <Link
                 to={href}
-                className={`flex items-center justify-center w-12 h-full font-semibold text-gray-700 transition duration-100 ease-in border-l border-gray-400 hover:bg-gray-50 hover:text-gray-900 ${
+                className={`flex items-center justify-center w-12 h-full font-bold text-gray-700 transition duration-100 ease-in border-l border-gray-400 hover:bg-gray-50 hover:text-gray-900 ${
                     UUIDBeingEdited ? 'cursor-not-allowed' : 'cursor-pointer'
                 }`}
             >
@@ -181,7 +181,7 @@ const Button = ({ toggleFunction, icon, UUIDBeingEdited, href }) => {
 
     return (
         <button
-            className={`flex items-center justify-center w-12 h-full font-semibold text-gray-700 transition duration-100 ease-in border-l border-gray-400 hover:bg-gray-50 hover:text-gray-900 ${
+            className={`flex items-center justify-center w-12 h-full font-bold text-gray-700 transition duration-100 ease-in border-l border-gray-400 hover:bg-gray-50 hover:text-gray-900 ${
                 UUIDBeingEdited ? 'cursor-not-allowed' : 'cursor-pointer'
             }`}
             onClick={() => {
@@ -199,7 +199,7 @@ const Button = ({ toggleFunction, icon, UUIDBeingEdited, href }) => {
 
 const EditAddOrderActive = ({ fixedActive, editOrderMode, addSectionMode }) => {
     return (
-        <div className="flex items-center w-full h-12 pl-10 text-white bg-primary">
+        <div className="flex items-center w-full h-12 pl-10 text-white bg-pzh-blue">
             <span
                 className={`absolute font-bold transition-all ease-in duration-100 ${
                     fixedActive ? 'pl-16' : 'pl-0'

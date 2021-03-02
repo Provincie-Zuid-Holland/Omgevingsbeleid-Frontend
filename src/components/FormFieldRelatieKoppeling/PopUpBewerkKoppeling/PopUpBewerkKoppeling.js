@@ -30,12 +30,12 @@ class PopUpBewerkKoppeling extends Component {
             <PopUpAnimatedContainer>
                 <div
                     onClick={this.props.togglePopup}
-                    className="absolute top-0 right-0 px-3 py-2 text-gray-600 cursor-pointer"
+                    className="absolute top-0 right-0 px-6 py-4 text-gray-600 cursor-pointer"
                     id={`form-field-koppeling-sluit-popup`}
                 >
                     <FontAwesomeIcon icon={faTimes} />
                 </div>
-                <h3 className="form-field-label">koppelen</h3>
+                <h3 className="form-field-label font-bold">koppelen</h3>
 
                 <p className="form-field-description">
                     Beschrijf de koppeling tussen '
@@ -80,7 +80,7 @@ class PopUpBewerkKoppeling extends Component {
                     </div>
 
                     <div
-                        className={`font-bold py-2 px-4 cursor-pointer leading-tight text-sm rounded bg-green-600 text-white ${
+                        className={`font-bold py-2 px-4 cursor-pointer leading-tight text-sm rounded bg-pzh-green text-white ${
                             this.state.omschrijving.length === 0
                                 ? `cursor-not-allowed opacity-50`
                                 : `hover:underline`

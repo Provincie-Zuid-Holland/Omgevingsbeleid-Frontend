@@ -132,7 +132,7 @@ const FormFieldWerkingsgebiedKoppeling = ({
                                     className="mr-2 text-gray-400"
                                     icon={faPlus}
                                 />
-                                <span className="py-4 pr-4 font-semibold text-gray-400">
+                                <span className="py-4 pr-4 font-bold text-gray-400">
                                     Werkingsgebied koppelen
                                 </span>
                             </div>
@@ -311,7 +311,7 @@ const WerkingsgebiedPopup = ({
                         <FontAwesomeIcon icon={faTimes} />
                     </div>
                     <div className="h-full px-8 pt-8 pb-12">
-                        <h2 className="form-field-label">
+                        <h2 className="form-field-label font-bold">
                             Werkingsgebied koppelen
                         </h2>
                         <span className="form-field-description">

@@ -237,7 +237,7 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
     return (
         <React.Fragment>
             <div
-                className="container flex w-full px-6 mx-auto mt-8 mb-12 md:max-w-4xl"
+                className="container flex w-full px-6 mx-auto mt-8 mb-12 md:max-w-3xl"
                 id="raadpleeg-detail-container-main"
             >
                 <Helmet>
@@ -277,13 +277,11 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
                         id="raadpleeg-detail-container-content"
                         className={`w-full`}
                     >
-                        <div className="container absolute inset-x-0 hidden w-full px-6 mx-auto xl:flex">
-                            <div className="pl-3">
-                                <BackButton
-                                    fromPage={fromPage}
-                                    searchQuery={searchQuery}
-                                />
-                            </div>
+                        <div className="container absolute inset-x-0 hidden w-full mx-auto xl:flex">
+                            <BackButton
+                                fromPage={fromPage}
+                                searchQuery={searchQuery}
+                            />
                         </div>
                         <div className="block xl:hidden">
                             <BackButton
@@ -394,7 +392,7 @@ const BackButton = ({ fromPage, searchQuery }) => {
                     ? fromPage
                     : '/'
             }
-            className={`text-gray-500 hover:text-gray-800 transition-colors duration-150 ease-in mb-4 inline-block`}
+            className={`text-pzh-blue opacity-75 hover:opacity-100 transition-opacity ease-in duration-100 mb-4 inline-block`}
             id="button-back-to-previous-page"
         >
             <FontAwesomeIcon className="mr-2" icon={faArrowLeft} />
@@ -410,8 +408,8 @@ const Werkingsgebied = ({
 }) => {
     return (
         <div className="w-full mt-8" id="raadpleeg-detail-werkingsgebied">
-            <div className="flex items-center justify-between pb-3 text-gray-800">
-                <h2 className="block mb-1 text-lg font-semibold tracking-wide text-gray-800">
+            <div className="flex items-center justify-between pb-3">
+                <h2 className="block mb-1 text-lg font-bold tracking-wide text-pzh-blue">
                     Werkingsgebied
                 </h2>
                 <span
@@ -445,12 +443,12 @@ const Werkingsgebied = ({
 const Heading = ({ type, titel }) => {
     return (
         <React.Fragment>
-            <span className="block text-xl font-bold opacity-25 text-primary-super-dark">
+            <span className="block mb-2 text-xl font-bold opacity-25 text-pzh-blue">
                 {type}
             </span>
             <h1
                 id="raadpleeg-detail-header-one"
-                className="mt-1 text-4xl font-semibold text-primary-super-dark "
+                className="mt-1 text-4xl font-bold text-pzh-blue "
             >
                 {titel}
             </h1>
@@ -486,8 +484,8 @@ const MetaInfo = ({
     const vigerendText = getVigerendText()
 
     return (
-        <div className="block mt-2" id="raadpleeg-detail-container-meta-info">
-            <span className="mr-3 text-sm text-gray-800 opacity-75">
+        <div className="block" id="raadpleeg-detail-container-meta-info">
+            <span className="mr-3 text-sm opacity-75 text-pzh-blue-dark">
                 {vigerendText}
             </span>
         </div>

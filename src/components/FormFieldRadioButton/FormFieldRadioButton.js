@@ -29,7 +29,7 @@ function FormFieldRadioButton({
                                 checked={fieldValue === option}
                                 onChange={handleChange}
                                 value={option}
-                                className="w-4 h-4 text-green-600 transition duration-150 ease-in-out cursor-pointer form-radio"
+                                className="w-4 h-4 transition duration-150 ease-in-out cursor-pointer form-radio"
                             />
                             <label htmlFor={id} className="ml-3">
                                 <span className="block text-sm leading-5 text-gray-700 cursor-pointer">

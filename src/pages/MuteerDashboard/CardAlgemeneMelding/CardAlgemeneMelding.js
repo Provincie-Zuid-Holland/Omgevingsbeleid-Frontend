@@ -18,25 +18,25 @@ class CardAlgemeneMelding extends Component {
         }
 
         return (
-            <div className="bg-white rounded shadow p-4 mb-4">
+            <div className="p-4 mb-4 bg-white rounded shadow">
                 <div className="flex items-center justify-start">
-                    <div className="rounded-full mbg-color w-12 h-12 inline-block text-white flex justify-center items-center">
+                    <div className="flex items-center justify-center inline-block w-12 h-12 text-white rounded-full bg-pzh-blue">
                         <FontAwesomeIcon icon={icon} />
                     </div>
-                    <h3 className="heading-lg text-gray-800 font-bold ml-4">
+                    <h3 className="ml-4 text-lg font-bold text-gray-800">
                         {this.props.titel}
                     </h3>
 
-                    <span className="absolute right-0 text-gray-600 mr-16 text-sm">
+                    <span className="absolute right-0 mr-16 text-sm text-gray-600">
                         2 uur geleden
                     </span>
                 </div>
-                <div className="pl-16 pb-4">
+                <div className="pb-4 pl-16">
                     {this.props.children}
-                    <span className="button button-main cursor-not-allowed mr-4">
+                    <span className="px-4 py-2 mr-4 font-bold rounded cursor-not-allowed button-main">
                         {this.props.buttonText}
                     </span>
-                    <span className="text-gray-700 text-sm underline cursor-not-allowed hover:text-gray-900">
+                    <span className="text-sm text-gray-700 underline cursor-not-allowed hover:text-gray-900">
                         Melding verbergen
                     </span>
                 </div>

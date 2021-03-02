@@ -20,7 +20,7 @@ function SwitchToTabbladButton({
 
     return (
         <li
-            className={`py-2 px-5 text-lg m-color inline-block font-bold m-base-border-color ${
+            className={`py-1 px-5 text-lg text-pzh-blue inline-block font-bold border-pzh-blue ${
                 isActive ? 'border-b-2' : 'cursor-pointer hover:border-b-2'
             }`}
             onClick={() => {
@@ -30,7 +30,7 @@ function SwitchToTabbladButton({
         >
             {tabbladTitle}
             {showNotification ? (
-                <span className="px-2 py-1 ml-2 text-sm text-white bg-green-600 rounded-full text-bold">
+                <span className="px-2 py-1 ml-2 text-sm text-white bg-pzh-green rounded-full text-bold">
                     {arrayLength}
                 </span>
             ) : null}

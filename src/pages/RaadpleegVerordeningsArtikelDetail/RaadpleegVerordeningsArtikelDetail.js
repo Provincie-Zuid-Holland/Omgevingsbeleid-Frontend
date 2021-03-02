@@ -379,7 +379,7 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                                     </span>
                                     <h1
                                         id="raadpleeg-detail-header-one"
-                                        className="mt-2 text-gray-800 heading-serif-2xl"
+                                        className="mt-2 text-2xl text-gray-800"
                                     >
                                         {artikel.Titel}
                                     </h1>

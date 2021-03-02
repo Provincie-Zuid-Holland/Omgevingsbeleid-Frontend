@@ -242,7 +242,14 @@ const RelatiesKoppelingenVisualisatie = ({
                 {/* Legenda */}
                 <ul className="mt-10">
                     <li className="flex items-center mt-1 text-sm text-gray-800">
-                        <span className="inline-block w-3 h-3 mr-2 bg-purple-600 rounded-full" />
+                        <span
+                            className="inline-block w-3 h-3 mr-2 rounded-full"
+                            style={{
+                                backgroundColor:
+                                    connectionPropertiesColors.Beleidskeuzes
+                                        .hex,
+                            }}
+                        />
                         <span>Beleidskeuze</span>
                     </li>
                     {connectedProperties.map((property) => (
@@ -285,7 +292,7 @@ const RelatiesKoppelingenVisualisatie = ({
                 >
                     <div
                         id="d3-tooltip-title"
-                        class={`px-4 py-2 rounded bg-gray-900 text-white shadow ${
+                        class={`px-4 py-2 rounded text-sm bg-gray-900 text-white shadow ${
                             isVerordeningItem
                                 ? 'cursor-default'
                                 : 'hover:underline'

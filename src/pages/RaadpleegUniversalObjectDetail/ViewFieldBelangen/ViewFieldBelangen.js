@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { toast } from 'react-toastify'
 import { Link, useLocation } from 'react-router-dom'
 
-import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
+// import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
+import { faAngleRight } from '@fortawesome/pro-light-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import axios from './../../../API/axios'
@@ -49,7 +50,7 @@ const ViewFieldBelangen = ({ fieldValue }) => {
         <div>
             {nationaleBelangen && nationaleBelangen.length > 0 ? (
                 <div className="mb-6">
-                    <h2 className="block mb-1 text-lg font-semibold tracking-wide text-gray-800">
+                    <h2 className="block mb-1 text-lg font-bold tracking-wide text-pzh-blue">
                         Nationaal belang
                     </h2>
                     <ul className="mt-1">
@@ -61,7 +62,7 @@ const ViewFieldBelangen = ({ fieldValue }) => {
             ) : null}
             {wettelijkeTaken && wettelijkeTaken.length > 0 ? (
                 <div className="mb-6">
-                    <h2 className="block mb-1 text-lg font-semibold tracking-wide text-gray-800">
+                    <h2 className="block mb-1 text-lg font-bold tracking-wide text-pzh-blue">
                         Wettelijke taak en bevoegdheid
                     </h2>
                     <ul className="mt-1">
