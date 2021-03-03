@@ -7,10 +7,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import ContainerAnimateContent from './../ContainerAnimateContent'
 
 /**
- * Function that adds a ... to the text when text total is more than 100 characters.
+ * Function that adds a ... to the end of the text when text total exceeds a fixed amount of characters.
  *
  * @function
- * @param {string} tekst amount of text where the function checks if the amount of text does not exceed 100 characters.
+ *
+ * @param {string} tekst - Amount of characters where the function checks if the amount accedes fixed amount of characters.
  */
 function getExcerpt(tekst) {
     if (tekst.length > 100) {
@@ -21,17 +22,17 @@ function getExcerpt(tekst) {
 }
 
 /**
- * Component that renders the CardObjectDetailsHalfWidth Component.
+ * Component that renders the ContainerAnimateContent component that is used within the rendered CardObjectDetailsHalfWidth Component.
  *
  * @component
  *
- * @param {object} object - Parameter that is used within a url and it's content in the elements.
- * @param {string} overzichtSlug - Parameter that is used within a url.
- * @param {string} titelEnkelvoud - Parameter that is used within a url and in a element.
- * @param {boolean} hideParagraaf - Boolean that can be true of false, depending if the paragraaf needs to be hidden or shown.
- * @param {boolean} fullWidth - Parameter that can be set true or false depending if the width full is used or with half.
- * @param {int} index - Index of card object.
- * @param {boolean} mijnBeleid - Parameter that can be set to true or false to show a certain string.
+ * @param {object} object - Parameter containing a collection of values used within the component for the link element, in conditional operators and to display the value.
+ * @param {string} overzichtSlug - Parameter that is used as the main category within a url.
+ * @param {string} titleSingular - Parameter that is used within a url and in a element.
+ * @param {boolean} hideParagraaf - Parameter that can be set true to hide the paragraaf.
+ * @param {boolean} fullWidth - Parameter that can be set true or false depending if the width full or half is used.
+ * @param {int} index - Parameter that is used as the index for the ID of the link within the CardObjectItem component.
+ * @param {boolean} mijnBeleid - Parameter that is used to show the user his/her beleid object otherwise it will just show the base url.
  */
 function CardObjectDetailsHalfWidth({
     object,
@@ -53,13 +54,13 @@ function CardObjectDetailsHalfWidth({
                     mijnBeleid ? '#mijn-beleid' : ''
                 }`}
             >
-                <h5 className="text-gray-600 text-sm font-light py-1">
+                <h5 className="py-1 text-sm font-light text-gray-600">
                     {titleSingular}
                 </h5>
                 <h2 className="text-xl font-bold text-gray-800">
                     {object.Titel}
                 </h2>
-                <p className="text-gray-700 text-base pr-4">
+                <p className="pr-4 text-base text-gray-700">
                     {object.Omschrijving !== undefined && hideParagraaf !== true
                         ? getExcerpt(object.Omschrijving)
                         : null}
@@ -67,7 +68,7 @@ function CardObjectDetailsHalfWidth({
                         ? getExcerpt(object.Motivering)
                         : null}
                 </p>
-                <span className="bottom-0 right-0 absolute font-bold w-8 h-10 text-gray-400 object-left-top">
+                <span className="absolute bottom-0 right-0 object-left-top w-8 h-10 font-bold text-gray-400">
                     <FontAwesomeIcon className="text-2xl" icon={faAngleRight} />
                 </span>
             </Link>

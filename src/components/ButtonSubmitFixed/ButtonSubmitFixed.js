@@ -1,6 +1,6 @@
 import React from 'react'
 /**
- * A component that shows a button with the text "Opslaan" and the type of submit.
+ * A component that renders a fixed place submit button element with the text "Opslaan", in which a user can submit data in a form.
  *
  * @component
  */

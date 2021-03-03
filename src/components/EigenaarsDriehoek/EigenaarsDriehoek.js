@@ -3,11 +3,11 @@ import React from 'react'
 import EigenaarsDriehoekItem from './../EigenaarsDriehoekItem'
 
 /**
- * Component that renders the EigenaarsDriehoek using the React.Fragment and EigenaarsDriehoekItem components
+ * Component that renders a EigenaarsDriehoekItem component depending on if the dataObject contains the certain owner.
  *
  * @component
  *
- * @param {object} dataObject - Parameter values used for conditional statements within the component.
+ * @param {object} dataObject - Parameter that contains a collection of owners and each owner is used for conditional statements within the component to show/hide the EigenaarsDriehoekItem component based on value.
  */
 const EigenaarsDriehoek = ({ dataObject }) => {
     if (
@@ -21,7 +21,7 @@ const EigenaarsDriehoek = ({ dataObject }) => {
     }
 
     return (
-        <React.Fragment>
+        <>
             <div className="w-3/12">
                 <h2 className="mb-2 font-serif text-gray-700">
                     Eigenaarsdriehoek
@@ -57,7 +57,7 @@ const EigenaarsDriehoek = ({ dataObject }) => {
                     />
                 ) : null}
             </div>
-        </React.Fragment>
+        </>
     )
 }
 

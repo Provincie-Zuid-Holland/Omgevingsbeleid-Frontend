@@ -5,7 +5,9 @@ import { toast } from 'react-toastify'
 import axios from './../../API/axios'
 
 /**
- * Class that renders a EigenaarsDriehoekItem.
+ * Class that renders a EigenaarsDriehoekItem component for the EigenaarsDriehoek component. It uses the states dataloaded and gebruikersObject within the component and functions.
+ * The state dataLoaded is used within the componentDidMount function to set the state to true.
+ * The state gebruikersObject is used to store data from the axios get request within the componentDidmount function and the data is then used within the rendered component.
  *
  * @class
  * @extends Component

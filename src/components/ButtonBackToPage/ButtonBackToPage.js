@@ -5,13 +5,13 @@ import { faAngleLeft } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 /**
- * Component that creates a button to the previous page.
+ * Component that renders a link and a button element that navigates the user to the previous page.
  *
  * @component
  *
- * @param {string} terugNaar - Parameter that is used to send the user to the previous page.
- * @param {string} color - The color of the button that is used to go back.
- * @param {string} url - The url of the previous page.
+ * @param {string} terugNaar - Parameter that displays the previous page on the rendered button element.
+ * @param {string} color - Parameter that sets the color of the rendereed button element that is used to go back.
+ * @param {string} url - Parameter that sets the previous url page where the user goes back to.
  */
 const ButtonBackToPage = ({ terugNaar, color, url }) => {
     if (!color) {

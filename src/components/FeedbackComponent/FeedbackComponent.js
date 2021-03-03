@@ -12,7 +12,7 @@ import { format } from 'date-fns'
 import nlLocale from 'date-fns/locale/nl'
 
 /**
- * Function to get the browser from the user and return it.
+ * Function to get the browser info from the user and set it for the variable sBrowser.
  *
  * @function
  */
@@ -51,7 +51,7 @@ const getBrowserName = () => {
 }
 
 /**
- * Function that sets the date and browser variables and returns as part of a link.
+ * Function that sets/gets the date and browser variables and returns them as a mailto link with the date as a part of the subject and the browser as part of the body of the feedback email.
  *
  * @function
  */
@@ -64,7 +64,7 @@ const getMailToLink = () => {
 }
 
 /**
- * Component that renders the FeedbackComponent component.
+ * Component that renders the FeedbackComponent component, in which the user can click on the link to send a feedbackmessage of the page they are on, including which browser they are using and the date/timestamp.
  *
  * @component
  */

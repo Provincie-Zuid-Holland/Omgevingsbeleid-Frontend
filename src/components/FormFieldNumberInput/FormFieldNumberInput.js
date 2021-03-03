@@ -6,12 +6,12 @@ import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFi
  *
  * @component
  *
- * @param {string} dataObjectProperty - Parameter that contains part of the id value of the input.
- * @param {string} pValue - Parameter that contains the pValue of the FormFieldTitelEnBeschrijving component.
- * @param {string} titleSingular - Parameter that contains part of the id value of the input.
- * @param {string} fieldValue - Parameter that may contain the value for the input variable value.
- * @param {object} handleChange - Parameter that contains the value for the input variable onChange.
- * @param {string} fieldLabel - Parameter that contains the value for the FormFieldTitelEnBeschrijving component variable fieldLabel.
+ * @param {string} dataObjectProperty - Parameter that may contain the string 'Eind_Geldigheid' and is used within this function to assign the dataObjectProperty variable for the imported FormFieldTitelEnBeschrijving and is used to assign the name and part of the id variable for the input element.
+ * @param {string} pValue - Parameter that is used within this function to assign the pValue variable for the imported FormFieldTitelEnBeschrijving.
+ * @param {string} titleSingular - Parameter that is used within this function to assign the titleSingular variable for the imported FormFieldTitelEnBeschrijving and is used as part of the id for the input element.
+ * @param {string} fieldValue - Parameter that is used within this function in a conditional operator to set the value to the value variable of the input element.
+ * @param {boolean} handleChange - Parameter that is used within this function to set the onChange variable to true if the input element has been changed.
+ * @param {string} fieldLabel - Parameter that contains the value for the imported FormFieldTitelEnBeschrijving component variable fieldLabel.
  */
 const FormFieldNumberInput = ({
     dataObjectProperty,

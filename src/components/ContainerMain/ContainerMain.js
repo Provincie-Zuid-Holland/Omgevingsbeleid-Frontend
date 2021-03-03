@@ -6,11 +6,27 @@ import React from 'react'
 // /components/Navigation
 
 /**
- * Component that shows the content based on the given id from props.
+ * Component that renders a ContainerMain component that contains a div containing a id or without with props.children, depending if the props.id contains a value.
+ * This component is used within the following pages:
+ * MuteerBeleidsrelaties,
+ * ContainerCrudFields,
+ * MuteerDashboard,
+ * MuteerMeldingen,
+ * MuteerMijnAccount,
+ * MuteerMijnBeleid,
+ * MuteerUniversalObjectCRUD,
+ * MuteerUniversalObjectDetail,
+ * MuteerUniversalObjectDetailWithStatuses,
+ * MuteerUniversalObjectOverzicht,
+ * ContainerCrudFields,
+ * MuteerVerordeningenstructuurDetail,
+ * Afdeling,
+ * Paragraaf,
+ * MuteerVerordeningenstructuurOverzicht.
  *
  * @component
  *
- * @param {props} props - Parameter containing a certain value that can be used within the function.
+ * @param {props} props - Parameter that contains a collection of values used to see if it contains an id to show a div with id and props.children or without the id.
  */
 
 function ContainerMain(props) {

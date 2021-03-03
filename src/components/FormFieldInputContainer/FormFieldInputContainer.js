@@ -1,7 +1,7 @@
 import React from 'react'
 
 /**
- * Component used to display a variable inside a div container.
+ * Component used to display a FormFieldInputContainer, containing children values within a flex box div within a div.
  *
  * @component
  *

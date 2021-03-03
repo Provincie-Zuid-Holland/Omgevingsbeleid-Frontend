@@ -19,11 +19,11 @@ import LoaderMainTitle from '../LoaderMainTitle'
 import LoaderSmallSpan from '../LoaderSmallSpan'
 
 /**
- * Function to display the status on a label.
+ * Function to display a statusLabel within the ContainerDetailMain component.
  *
  * @function
  *
- * @param {object} props - Containing a set value and not used within this function.
+ * @param {object} props - Containing a set value and is not used within this function.
  */
 function StatusLabel(props) {
     return (
@@ -34,7 +34,8 @@ function StatusLabel(props) {
 }
 
 /**
- * Class that renders the ContainerDetailMain.
+ * Class that renders the ContainerDetailMain component that is used within the muteeruniversalObjectDetail page.
+ *
  *
  * @class
  * @extends {Component}
@@ -51,7 +52,7 @@ class ContainerDetailMain extends Component {
     }
 
     /**
-     * Function to toggle (hide/show) the dropdown.
+     * Function to toggle (hide/show) the dropdown element by toggling the dropdown state.
      *
      * @function
      */
@@ -63,7 +64,7 @@ class ContainerDetailMain extends Component {
     }
 
     /**
-     * Function to toggle (hide/show) the statusPopup.
+     * Function to toggle (hide/show) the statusPopup by toggling the statusPopup state.
      *
      * @function
      */
