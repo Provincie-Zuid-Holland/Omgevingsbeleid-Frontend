@@ -14,9 +14,9 @@ import UserContext from './../../../App/UserContext'
 const eigenaren = [
     'Eigenaar_1',
     'Eigenaar_2',
+    'Opdrachtgever',
     'Portefeuillehouder_1',
     'Portefeuillehouder_2',
-    'Opdrachtgever',
 ]
 
 class ViewFieldIngelogdExtraInfo extends Component {
@@ -211,7 +211,7 @@ class ViewFieldIngelogdExtraInfo extends Component {
                             </div>
                             {canUserEdit(context) ? (
                                 <Link
-                                    to={`/muteer/beleidsbeslissingen/${this.props.crudObject.ID}`}
+                                    to={`/muteer/beleidskeuzes/${this.props.crudObject.ID}`}
                                     className="px-3 py-2 text-xs font-semibold tracking-wide border rounded cursor-pointer m-color m-base-border-color"
                                 >
                                     Openen in beheeromgeving{' '}

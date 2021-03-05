@@ -5,6 +5,7 @@ import { format, isValid } from 'date-fns'
 function formatGeldigheidDatesForUI(crudObject) {
     // Format Begin_Geldigheid
     if (
+        crudObject &&
         crudObject.Begin_Geldigheid !== undefined &&
         crudObject.Begin_Geldigheid !== null &&
         isValid(new Date(crudObject.Begin_Geldigheid))
@@ -13,12 +14,13 @@ function formatGeldigheidDatesForUI(crudObject) {
             new Date(crudObject.Begin_Geldigheid),
             'yyyy-MM-dd'
         )
-    } else if (crudObject.Begin_Geldigheid === 'Invalid Date') {
+    } else if (crudObject && crudObject.Begin_Geldigheid === 'Invalid Date') {
         crudObject.Begin_Geldigheid = null
     }
 
     // Format Eind_Geldigheid
     if (
+        crudObject &&
         crudObject.Eind_Geldigheid !== undefined &&
         crudObject.Eind_Geldigheid !== null &&
         isValid(new Date(crudObject.Eind_Geldigheid))
@@ -27,7 +29,7 @@ function formatGeldigheidDatesForUI(crudObject) {
             new Date(crudObject.Eind_Geldigheid),
             'yyyy-MM-dd'
         )
-    } else if (crudObject.Eind_Geldigheid === 'Invalid Date') {
+    } else if (crudObject && crudObject.Eind_Geldigheid === 'Invalid Date') {
         crudObject.Eind_Geldigheid = null
     }
 

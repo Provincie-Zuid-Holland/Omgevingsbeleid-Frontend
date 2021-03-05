@@ -158,13 +158,14 @@ const RelatiesKoppelingenVisualisatie = ({
 
                 const generateHref = ({ property, UUID }) => {
                     const slugs = {
+                        Beleidskeuzes: 'beleidskeuzes',
                         Ambities: 'ambities',
                         BeleidsRegels: 'beleidsregels',
-                        Doelen: 'doelen',
+                        Doelen: 'beleidsprestaties',
                         Belangen: 'belangen',
                         Maatregelen: 'maatregelen',
                         Themas: 'themas',
-                        Opgaven: 'opgaven',
+                        Opgaven: 'beleidsdoelen',
                         Verordening: 'verordeningen',
                     }
 
@@ -209,9 +210,20 @@ const RelatiesKoppelingenVisualisatie = ({
                 node.attr('cx', (d) => d.x + 100).attr('cy', (d) => d.y + 100)
             })
         }
-    }, [data, d3Container.current])
+    }, [data, location.pathname])
 
     const isVerordeningItem = href && href.includes('verordening')
+
+    const getPropertyName = (property) => {
+        switch (property) {
+            case 'Doelen':
+                return 'Beleidsprestaties'
+            case 'Opgaven':
+                return 'Beleidsdoelen'
+            default:
+                return property
+        }
+    }
 
     return (
         <div className="flex">
@@ -246,7 +258,7 @@ const RelatiesKoppelingenVisualisatie = ({
                                             .hex,
                                 }}
                             />
-                            <span>{property}</span>
+                            <span>{getPropertyName(property)}</span>
                         </li>
                     ))}
                 </ul>
@@ -273,6 +285,7 @@ const RelatiesKoppelingenVisualisatie = ({
                 >
                     <div
                         id="d3-tooltip-title"
+                        style={{ maxWidth: '50vw' }}
                         class={`px-4 py-2 rounded bg-gray-900 text-white shadow ${
                             isVerordeningItem
                                 ? 'cursor-default'

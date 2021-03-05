@@ -1,13 +1,9 @@
 import { currentDate, futureDate, currentDateFormatted } from './testValues'
 
-export const TITEL_ENKELVOUD = 'Ambitie'
-export const TITEL_MEERVOUD = 'Ambities'
+export const TITLE_SINGULAR = 'Ambitie'
+export const TITLE_PLURAL = 'Ambities'
 export const API_ENDPOINT = 'ambities'
-
-// Wordt gebruikt voor de overzicht pagina's
-export const SLUG_OVERZICHT = 'ambities'
-
-// Wordt gebruikt bij CRUD detail pagina's
+export const SLUG_OVERVIEW = 'ambities'
 export const SLUG_CREATE_NEW = 'nieuwe-ambitie'
 
 export const CRUD_PROPERTIES = {

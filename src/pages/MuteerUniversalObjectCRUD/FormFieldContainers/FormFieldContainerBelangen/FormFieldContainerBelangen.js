@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 import ContainerFormSection from './../../../../components/ContainerFormSection'
@@ -17,7 +17,7 @@ const BelangTypeValues = [
 ]
 
 function FormFieldContainerBelangen({
-    titelEnkelvoud,
+    titleSingular,
     crudObject,
     handleChange,
 }) {
@@ -33,12 +33,12 @@ function FormFieldContainerBelangen({
                     dataObjectProperty="Titel"
                     fieldLabel="Titel"
                     pValue="Formuleer in enkele woorden de titel van dit nationaal belang of deze wettelijke taak."
-                    titelEnkelvoud={titelEnkelvoud}
+                    titleSingular={titleSingular}
                 />
 
                 <FormFieldSelect
                     handleChange={handleChange}
-                    titelEnkelvoud={titelEnkelvoud}
+                    titleSingular={titleSingular}
                     fieldValue={crudObject['Type']}
                     selectArray={BelangTypeValues}
                     fieldLabel="Type"
@@ -56,7 +56,7 @@ function FormFieldContainerBelangen({
                     fieldLabel="Omschrijving"
                     dataObjectProperty="Omschrijving"
                     pValue="Geef een korte omschrijving van dit nationaal belang of deze wettelijke taak."
-                    titelEnkelvoud={titelEnkelvoud}
+                    titleSingular={titleSingular}
                 />
             </ContainerFormSection>
 
@@ -70,7 +70,7 @@ function FormFieldContainerBelangen({
                     dataObjectProperty="Weblink"
                     fieldLabel="IDMS"
                     pValue="Vul hier de link in naar het besluitdocument op IDMS. (Eigenschappen > Algemeen > Snelkoppeling kopiëren)."
-                    titelEnkelvoud={titelEnkelvoud}
+                    titleSingular={titleSingular}
                 />
 
                 <div className="flex flex-wrap -mx-3">
@@ -80,7 +80,7 @@ function FormFieldContainerBelangen({
                         fieldLabel="Inwerkingtreding"
                         dataObjectProperty="Begin_Geldigheid"
                         pValue="Indien bekend, kan hier de datum van inwerkingtreding worden ingevuld"
-                        titelEnkelvoud={titelEnkelvoud}
+                        titleSingular={titleSingular}
                     />
 
                     <FormFieldDate
@@ -91,7 +91,7 @@ function FormFieldContainerBelangen({
                         fieldLabel="Uitwerkingtreding"
                         dataObjectProperty="Eind_Geldigheid"
                         pValue="Indien bekend, kan hier de datum van uitwerkingtreding worden ingevuld"
-                        titelEnkelvoud={titelEnkelvoud}
+                        titleSingular={titleSingular}
                     />
                 </div>
             </ContainerFormSection>
@@ -100,7 +100,7 @@ function FormFieldContainerBelangen({
 }
 
 FormFieldContainerBelangen.propTypes = {
-    titelEnkelvoud: PropTypes.string,
+    titleSingular: PropTypes.string,
     crudObject: PropTypes.object,
     handleChange: PropTypes.func,
 }

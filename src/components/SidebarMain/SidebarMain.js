@@ -4,6 +4,8 @@ import { NavLink } from 'react-router-dom'
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
+import UserContext from './../../App/UserContext'
+
 const menuItemsOmgevingsbeleid = {
     Dashboard: { url: '/muteer/dashboard', finished: true },
     'Mijn beleid': { url: '/muteer/mijn-beleid', finished: true },
@@ -15,14 +17,14 @@ const menuItemsOmgevingsbeleid = {
 
 const menuItemsBeheer = {
     Beleidskeuzes: { url: '/muteer/beleidskeuzes', finished: true },
-    // Beleidsrelaties: { url: '/muteer/beleidsrelaties', finished: true },
     Beleidsregels: { url: '/muteer/beleidsregels', finished: true },
     Maatregelen: { url: '/muteer/maatregelen', finished: true },
-    Opgaven: { url: '/muteer/opgaven', finished: true },
     Ambities: { url: '/muteer/ambities', finished: true },
     Belangen: { url: '/muteer/belangen', finished: true },
     Themas: { url: '/muteer/themas', finished: true },
     Verordening: { url: '/muteer/verordeningen', finished: true },
+    Beleidsdoelen: { url: '/muteer/beleidsdoelen', finished: true },
+    Beleidsprestaties: { url: '/muteer/beleidsprestaties', finished: true },
 }
 
 function ReturnNavLink(props) {
@@ -102,16 +104,9 @@ function MainSideBarHeading(props) {
 }
 
 function SidebarMain() {
-    // !Refactor! to useUserProfile hook
-    const identifier = localStorage.getItem(
-        process.env.REACT_APP_KEY_IDENTIFIER
-    )
-    let gebruikersNaam = null
-    let gebruikersRol = null
-    if (identifier !== null) {
-        gebruikersNaam = JSON.parse(identifier).Gebruikersnaam.split(' ')[0]
-        gebruikersRol = JSON.parse(identifier).Rol
-    }
+    const { user } = React.useContext(UserContext)
+    const gebruikersNaam = user ? user.Gebruikersnaam : null
+    const gebruikersRol = user ? user.Rol : null
 
     return (
         <div className="inline-block w-1/4 rounded">

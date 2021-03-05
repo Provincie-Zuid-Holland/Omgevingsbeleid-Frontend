@@ -9,7 +9,6 @@ import VerordeningContext from '../VerordeningContext'
 
 const AddSectionsSidebar = ({ show }) => {
     const {
-        saveNewLineageStructure,
         setAddSectionMode,
         addSectionMode,
         addSectionType,

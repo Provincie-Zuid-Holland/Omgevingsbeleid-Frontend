@@ -1,10 +1,10 @@
 import { currentDate, futureDate, currentDateFormatted } from './testValues'
 
-export const TITEL_ENKELVOUD = 'Doel'
-export const TITEL_MEERVOUD = `Doelen`
+export const TITLE_SINGULAR = 'Beleidsprestatie'
+export const TITLE_PLURAL = `Beleidsprestaties`
 export const API_ENDPOINT = 'doelen'
-export const SLUG_OVERZICHT = 'doelen'
-export const SLUG_CREATE_NEW = 'nieuw-doel'
+export const SLUG_OVERVIEW = 'beleidsprestaties'
+export const SLUG_CREATE_NEW = 'nieuw-beleidsprestatie'
 
 export const CRUD_PROPERTIES = {
     Titel: {

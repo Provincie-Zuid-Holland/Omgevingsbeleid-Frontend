@@ -1,13 +1,28 @@
 import React, { Component } from 'react'
 import ReactDOMServer from 'react-dom/server'
 import Leaflet from 'leaflet'
-import { Map, TileLayer, LayersControl, FeatureGroup } from 'react-leaflet'
+
+import {
+    Map,
+    TileLayer,
+    LayersControl,
+    FeatureGroup,
+    Layer,
+} from 'react-leaflet'
 import Proj from 'proj4leaflet'
 import { toast } from 'react-toastify'
 
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import './../../../node_modules/leaflet/dist/leaflet.css'
+
+import {
+    RDProj4,
+    RDCrs,
+    leafletBounds,
+    tileURL,
+    tileURLSattelite,
+    leafletCenter,
+} from './../../constants/leaflet'
 
 import LeafletController from './../../components/LeafletController'
 import LeafletDrawController from './../../components/LeafletDrawController'
@@ -48,44 +63,9 @@ function CreateCustomPopup({ weergavenaam, lat, lng, point }) {
     )
 }
 
-const RDProj4 = `+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +towgs84=565.417,50.3319,465.552,-0.398957,0.343988,-1.8774,4.0725 +units=m +no_defs`
-const RDCrs = new Proj.CRS('EPSG:28992', RDProj4, {
-    origin: [-285401.92, 22598.08],
-    resolutions: [
-        3440.64,
-        1720.32,
-        860.16,
-        430.08,
-        215.04,
-        107.52,
-        53.76,
-        26.88,
-        13.44,
-        6.72,
-        3.36,
-        1.68,
-        0.84,
-        0.42,
-        0.21,
-    ],
-    zoom: 10,
-    bounds: Leaflet.bounds([
-        [-285401.92, 22598.08],
-        [595401.92, 903401.92],
-    ]),
-})
-
-const RDProjection = new Proj.Projection(
-    'EPSG:28992',
-    RDProj4,
-    Leaflet.bounds([
-        [-285401.92, 22598.08],
-        [595401.92, 903401.92],
-    ])
-)
+const RDProjection = new Proj.Projection('EPSG:28992', RDProj4, leafletBounds)
 
 const DEFAULT_VIEWPORT = {
-    center: [52.086531, 4.316168],
     zoom: 4,
 }
 
@@ -93,7 +73,6 @@ export default class LeafletViewer extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            _RDCrs: RDCrs,
             viewport: DEFAULT_VIEWPORT,
             pinpointMarker: false,
             leafletSearch: false,
@@ -152,12 +131,6 @@ export default class LeafletViewer extends Component {
     }
 
     _onDeleted = (e) => {
-        let numDeleted = 0
-        e.layers.eachLayer((layer) => {
-            numDeleted += 1
-        })
-        // console.log(`onDeleted: removed ${numDeleted} layers`, e)
-
         this._onChange()
     }
 
@@ -202,10 +175,6 @@ export default class LeafletViewer extends Component {
 
     onClickReset = () => {
         this.setState({ viewport: DEFAULT_VIEWPORT })
-    }
-
-    onViewportChanged = (viewport) => {
-        // this.setState({ viewport })
     }
 
     togglePinMarker() {
@@ -280,12 +249,13 @@ export default class LeafletViewer extends Component {
         return (
             <React.Fragment>
                 <Map
-                    onViewportChanged={this.onViewportChanged}
+                    center={leafletCenter}
+                    continuousWorld={true}
                     viewport={this.state.viewport}
                     scrollWheelZoom={true}
                     maxZoom={12}
                     zoomControl={true}
-                    crs={this.state._RDCrs}
+                    crs={RDCrs}
                     ref={this.leafletMap}
                     className={`z-0 ${
                         this.props.className ? this.props.className : ''
@@ -294,19 +264,18 @@ export default class LeafletViewer extends Component {
                     <LayersControl position="topright">
                         <LayersControl.BaseLayer checked={true} name="Map">
                             <TileLayer
-                                url="https://geodata.nationaalgeoregister.nl/tiles/service/tms/1.0.0/brtachtergrondkaartgrijs/EPSG:28992/{z}/{x}/{y}.png"
+                                url={tileURL}
                                 minZoom="3"
                                 continuousWorld="true"
-                                tms="true"
                                 attribution='Map data: <a href="http://www.kadaster.nl">Kadaster</a>'
                             />
                         </LayersControl.BaseLayer>
                         <LayersControl.BaseLayer name="Satelliet">
                             <TileLayer
-                                url="https://geodata.nationaalgeoregister.nl/luchtfoto/rgb/tms/1.0.0/2018_ortho25/EPSG:28992/{z}/{x}/{y}.png"
+                                url={tileURLSattelite}
                                 minZoom="3"
                                 continuousWorld="true"
-                                tms="true"
+                                wmts={false}
                                 attribution='Map data: <a href="http://www.kadaster.nl">Kadaster</a>'
                             />
                         </LayersControl.BaseLayer>
