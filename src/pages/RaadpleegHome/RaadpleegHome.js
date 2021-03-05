@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import { faFilePdf } from '@fortawesome/free-regular-svg-icons'
 import {
@@ -12,21 +12,292 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import LeafletViewer from './../../components/LeafletViewer'
 import SearchBar from './../../components/SearchBar'
 import smoothscroll from 'smoothscroll-polyfill'
-
 smoothscroll.polyfill()
 
-const DocumentLink = ({ href, title, iconLeft, style }) => (
+/**
+ * Landing page component.
+ */
+const RaadpleegHome = () => {
+    const scrollToElement = ({ id }) => {
+        const el = document.getElementById(id)
+        const y = el.getBoundingClientRect().top + window.pageYOffset - 100
+        window.scrollTo({
+            top: y,
+            behavior: 'smooth',
+        })
+    }
+
+    return (
+        <div>
+            <div className="container flex px-6 pt-0 mx-auto mt-6 mb-16 sm:mt-8 sm:py-10 sm:px-6 lg:px-8">
+                <div className="w-full pr-12">
+                    <h1 className="mb-4 text-3xl font-bold sm:text-4xl text-primary">
+                        Omgevingsbeleid
+                    </h1>
+                    <Paragraph>
+                        Provincie Zuid-Holland heeft haar beleid eenvoudiger,
+                        transparanter en toegankelijker gemaakt. Via deze
+                        website kunt u al het Omgevingsbeleid van de provincie
+                        Zuid-Holland inzien. Denk bijvoorbeeld aan de
+                        provinciale ambities voor een duurzame economie, de
+                        regelgeving rondom gevaarlijke gassen of aan de
+                        maatregelen die de provincie neemt om natuur te
+                        herstellen. Zo wordt voor iedereen zichtbaar waar de
+                        provincie aan wil werken en wat binnen de
+                        provinciegrenzen is toegestaan. Daarnaast kan het
+                        Omgevingsbeleid digitaal worden aangepast zodat het
+                        altijd up-to-date is.
+                    </Paragraph>
+                    <div className="mt-5 font-semibold text-gray-900">
+                        <div
+                            className="relative flex items-center cursor-pointer group"
+                            onClick={() =>
+                                scrollToElement({ id: 'homepage-visie' })
+                            }
+                        >
+                            <FontAwesomeIcon
+                                icon={faArrowRight}
+                                className="absolute transition-all duration-100 ease-in group-hover:ml-1"
+                            />
+                            <span className="pl-6">
+                                Hoe is het beleid opgebouwd?
+                            </span>
+                        </div>
+                        <div
+                            onClick={() =>
+                                scrollToElement({ id: 'homepage-kaart' })
+                            }
+                            className="relative flex items-center mt-3 cursor-pointer group"
+                        >
+                            <FontAwesomeIcon
+                                icon={faArrowRight}
+                                className="absolute transition-all duration-100 ease-in group-hover:ml-1"
+                            />
+                            <span className="pl-6">Beleid op de kaart</span>
+                        </div>
+                    </div>
+                </div>
+                <div className="items-center justify-center hidden w-full h-full sm:flex">
+                    <ZuidHollandSVG />
+                </div>
+            </div>
+            <div className="bg-primary-super-dark">
+                <div className="container flex flex-col items-center justify-center px-6 py-10 pb-8 mx-auto text-white sm:px-6 lg:px-8">
+                    <h2
+                        id="homepage-zoeken"
+                        className="mb-3 text-2xl font-bold"
+                    >
+                        Zoeken in het beleid
+                    </h2>
+                    <p className="mb-6 leading-7 text-gray-white">
+                        Waar bent u naar op zoek binnen het beleid van de
+                        provincie Zuid-Holland?
+                    </p>
+                    <div className="flex justify-center w-full">
+                        <div className="w-full lg:w-1/2">
+                            <SearchBar
+                                id="search-query-home"
+                                placeholder="Zoek op onderdelen uit de visie, programma of de uitvoering"
+                            />
+                        </div>
+                    </div>
+                    <span
+                        onClick={() =>
+                            scrollToElement({ id: 'homepage-kaart' })
+                        }
+                        className="mt-5 text-white underline opacity-75 cursor-pointer"
+                    >
+                        Liever zoeken op de kaart? Dat kan!
+                    </span>
+                </div>
+            </div>
+            <div className="container flex px-6 py-8 pt-16 pb-8 mx-auto mb-0 sm:mb-16 sm:px-6 lg:px-8 sm:py-12 md:py-20">
+                <Image image="image-home-1" position="left" />
+                <div className="flex flex-col justify-center w-full">
+                    <h2
+                        id="homepage-visie"
+                        className="text-3xl font-bold sm:text-4xl text-primary"
+                    >
+                        Omgevingsvisie
+                    </h2>
+                    <Paragraph>
+                        De <b>Omgevingsvisie</b> van de provincie Zuid-Holland
+                        geeft aan waar de provincie voor staat. Het beschrijft
+                        hoe de provincie de toekomst van Zuid-Holland voor zich
+                        ziet. De Omgevingsvisie bevat verschillende onderdelen:
+                        in de <mark className="marked-purple">ambities</mark>{' '}
+                        wordt omschreven waar we als provincie heen willen, de{' '}
+                        <mark className="marked-purple">beleidsdoelen</mark>{' '}
+                        geven hier richting aan en de{' '}
+                        <mark className="marked-purple">beleidskeuzes</mark>{' '}
+                        bepalen hoe de ambities bereikt dienen te worden.
+                    </Paragraph>
+                </div>
+            </div>
+            <div className="container flex px-6 py-8 pb-8 mx-auto mb-0 sm:mb-16 lg:px-8">
+                <div className="flex flex-col justify-center w-full">
+                    <h2
+                        id="homepage-omgevingsprogramma"
+                        className="text-3xl font-bold sm:text-4xl text-theme-orange"
+                    >
+                        Omgevingsprogramma
+                    </h2>
+                    <Paragraph>
+                        In het <b>Omgevingsprogramma</b> staat beschreven welke{' '}
+                        <mark className="marked-orange">maatregelen</mark> de
+                        provincie treft om de visie waar te maken. Het
+                        Omgevingsprogramma geeft bijvoorbeeld aan voor welke
+                        initiatieven subsidies worden verleend en aan welke
+                        provinciale wegen wordt gewerkt. Het Omgevingsprogramma
+                        is een overzicht van alle maatregelen inclusief de
+                        onderliggende activiteiten.
+                    </Paragraph>
+                </div>
+                <Image image="image-home-2" position="right" />
+            </div>
+            <div className="container flex px-6 py-8 pb-8 mx-auto mb-0 sm:mb-16 lg:px-8">
+                <Image image="image-home-3" position="left" />
+                <div className="flex flex-col justify-center w-full">
+                    <h2 className="text-3xl font-bold sm:text-4xl text-theme-red">
+                        Omgevingsverordening
+                    </h2>
+                    <Paragraph>
+                        Voor het in stand houden van goede omgevingskwaliteit
+                        zijn er regels nodig over wat wel en niet is toegestaan
+                        binnen de provinciegrenzen. Denk bijvoorbeeld aan regels
+                        in stiltegebieden of ter bescherming van cultureel
+                        erfgoed. Het merendeel van deze regels betreffen{' '}
+                        <mark className="marked-red">instructieregels</mark> die
+                        voorschrijven hoe waterschappen en gemeenten bepaalde
+                        onderwerpen op moeten nemen in hun plannen. Daarnaast
+                        zijn er een aantal{' '}
+                        <mark className="marked-red">
+                            direct werkende regels
+                        </mark>{' '}
+                        waar burgers en bedrijven zich aan moeten houden. Al
+                        deze regels van de provincie over de fysieke
+                        leefomgeving zijn ondergebracht in de{' '}
+                        <b>Omgevingsverordening</b>.
+                    </Paragraph>
+                </div>
+            </div>
+            <div className="w-full pb-4 bg-primary-light">
+                <div className="container w-full max-w-5xl px-6 py-20 pb-8 mx-auto lg:px-8">
+                    <h2
+                        id="homepage-kaart"
+                        className="text-3xl font-bold sm:text-4xl text-primary"
+                    >
+                        Beleid op de kaart
+                    </h2>
+                    <p className="my-5 mt-4 leading-7 text-gray-700">
+                        Wilt u het beleid en de regelgeving van de provincie op
+                        een specifieke locatie raadplegen? Zoek hieronder op een
+                        locatie of markeer een punt of vorm op de kaart.
+                    </p>
+                    <div className="w-full mx-auto" id="leaflet-homepage">
+                        <LeafletViewer className="w-full border border-gray-300 rounded" />
+                    </div>
+                    <span
+                        onClick={() =>
+                            scrollToElement({ id: 'homepage-zoeken' })
+                        }
+                        className="block w-full py-2 mt-5 text-center text-gray-800 underline opacity-75 cursor-pointer"
+                    >
+                        Liever zoeken op de tekst? Dat kan!
+                    </span>
+                </div>
+            </div>
+            <div className="container flex flex-col px-6 pt-16 pb-12 mx-auto mb-0 sm:mb-16 sm:flex-row lg:px-8">
+                <div className="w-full pr-8">
+                    <h3 className="mb-4 text-2xl font-bold text-primary">
+                        Documenten & Links
+                    </h3>
+                    <p className="text-gray-800">
+                        We zijn hard bezig met het vullen van onze database.
+                        Sommige onderdelen bieden we op dit moment nog aan als
+                        PDF’s.
+                    </p>
+                    <ul className="mt-4 text-gray-700">
+                        <DocumentLink
+                            href="docs/introductie_omgevingsvisie_Zuid-Holland.pdf"
+                            iconLeft={faFilePdf}
+                            title="Introductie Omgevingsvisie Zuid-Holland"
+                            rel="noopener noreferrer"
+                        />
+                        <DocumentLink
+                            href="docs/ruimtelijke_kwaliteit.pdf"
+                            iconLeft={faFilePdf}
+                            title="Bijlage Omgevingsvisie: Ruimtelijke kwaliteit"
+                            rel="noopener noreferrer"
+                        />
+                        <DocumentLink
+                            href="docs/programma_ruimte.pdf"
+                            iconLeft={faFilePdf}
+                            title="Programma Ruimte"
+                            rel="noopener noreferrer"
+                        />
+                        <DocumentLink
+                            href="docs/programma_mobiliteit.pdf"
+                            iconLeft={faFilePdf}
+                            title="Programma Mobiliteit"
+                            rel="noopener noreferrer"
+                        />
+                        <DocumentLink
+                            href="https://lta.zuid-holland.nl/"
+                            iconLeft={faExternalLinkAlt}
+                            title="De Lange Termijn Agenda Omgevingsbeleid"
+                            className="text-sm"
+                            rel="noopener noreferrer"
+                        />
+                    </ul>
+                </div>
+                <div className="w-full mt-8 sm:mt-0">
+                    <h3 className="mb-4 text-2xl font-bold text-primary">
+                        In ontwikkeling
+                    </h3>
+                    <p className="pb-8 text-gray-800">
+                        Omdat de website nog in ontwikkeling is kan het zijn dat
+                        sommige functionaliteiten niet goed werken. Kom je een
+                        fout tegen? Neem dan contact op door te mailen naar{' '}
+                        <a
+                            href="mailto:omgevingsbeleid@pzh.nl?subject=Feedback Omgevingsbeleid&body=Probeer zo duidelijk mogelijk te omschrijven waar je tegenaan liep"
+                            className="underline cursor-pointer"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            omgevingsbeleid@pzh.nl
+                        </a>
+                        .
+                        <br />
+                        <br />
+                        Wil je weten waar wij mee bezig zijn?{' '}
+                        <Link
+                            to="/planning"
+                            className="underline cursor-pointer"
+                        >
+                            Klik dan hier
+                        </Link>
+                        .
+                    </p>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+const DocumentLink = ({ href, title, iconLeft, className }) => (
     <li className="py-2 border-b-2 border-gray-200">
         <a
             href={href}
             target="_blank"
+            rel="noreferrer"
             className="flex items-center justify-between"
         >
             <div className="flex">
                 <span className="flex items-center w-6">
                     <FontAwesomeIcon
                         icon={iconLeft}
-                        className={style ? style : ''}
+                        className={className ? className : ''}
                     />
                 </span>
                 <span>{title}</span>
@@ -35,294 +306,30 @@ const DocumentLink = ({ href, title, iconLeft, style }) => (
     </li>
 )
 
-const scrollToElement = ({ id }) => {
-    const el = document.getElementById(id)
-    const y = el.getBoundingClientRect().top + window.pageYOffset - 100
-    window.scrollTo({
-        top: y,
-        behavior: 'smooth',
-    })
-}
-
-const imageStyles = {
-    height: '400px',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center center',
-    backgroundRepeat: 'no-repeat',
-}
-
-class RaadpleegHome extends Component {
-    render() {
-        return (
-            <div>
-                <div className="container flex px-6 pt-0 mx-auto mt-6 mb-16 sm:mt-8 sm:py-10 sm:px-6 lg:px-8">
-                    <div className="w-full pr-12">
-                        <h1 className="mb-4 text-3xl font-bold sm:text-4xl text-primary">
-                            Omgevingsbeleid
-                        </h1>
-                        <p className="my-5 mt-4 leading-7 text-gray-700">
-                            Provincie Zuid-Holland heeft haar beleid
-                            eenvoudiger, transparanter en toegankelijker
-                            gemaakt. Via deze website kunt u al het
-                            Omgevingsbeleid van de provincie Zuid-Holland
-                            inzien. Denk bijvoorbeeld aan de provinciale
-                            ambities voor een duurzame economie, de regelgeving
-                            rondom gevaarlijke gassen of aan de maatregelen die
-                            de provincie neemt om natuur te herstellen. Zo wordt
-                            voor iedereen zichtbaar waar de provincie aan wil
-                            werken en wat binnen de provinciegrenzen is
-                            toegestaan. Daarnaast kan het Omgevingsbeleid
-                            digitaal worden aangepast zodat het altijd
-                            up-to-date is.
-                        </p>
-                        <div className="mt-5 font-semibold text-gray-900">
-                            <div
-                                className="relative flex items-center cursor-pointer group"
-                                onClick={() =>
-                                    scrollToElement({ id: 'homepage-visie' })
-                                }
-                            >
-                                <FontAwesomeIcon
-                                    icon={faArrowRight}
-                                    className="absolute transition-all duration-100 ease-in group-hover:ml-1"
-                                />
-                                <span className="pl-6">
-                                    Hoe is het beleid opgebouwd?
-                                </span>
-                            </div>
-                            <div
-                                onClick={() =>
-                                    scrollToElement({ id: 'homepage-kaart' })
-                                }
-                                className="relative flex items-center mt-3 cursor-pointer group"
-                            >
-                                <FontAwesomeIcon
-                                    icon={faArrowRight}
-                                    className="absolute transition-all duration-100 ease-in group-hover:ml-1"
-                                />
-                                <span className="pl-6">Beleid op de kaart</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="items-center justify-center hidden w-full h-full sm:flex">
-                        <ZuidHollandSVG />
-                    </div>
-                </div>
-                <div className="bg-primary-super-dark">
-                    <div className="container flex flex-col items-center justify-center px-6 py-10 pb-8 mx-auto text-white sm:px-6 lg:px-8">
-                        <h2
-                            id="homepage-zoeken"
-                            className="mb-3 text-2xl font-bold"
-                        >
-                            Zoeken in het beleid
-                        </h2>
-                        <p className="mb-6 leading-7 text-gray-white">
-                            Waar bent u naar op zoek binnen het beleid van de
-                            provincie Zuid-Holland?
-                        </p>
-                        <div className="flex justify-center w-full">
-                            <div className="w-full lg:w-1/2">
-                                <SearchBar placeholder="Zoek op onderdelen uit de visie, programma of de uitvoering" />
-                            </div>
-                        </div>
-                        <span
-                            onClick={() =>
-                                scrollToElement({ id: 'homepage-kaart' })
-                            }
-                            className="mt-5 text-white underline opacity-75 cursor-pointer"
-                        >
-                            Liever zoeken op de kaart? Dat kan!
-                        </span>
-                    </div>
-                </div>
-                <div className="container flex px-6 py-8 pt-16 pb-8 mx-auto mb-0 sm:mb-16 sm:px-6 lg:px-8 sm:py-12 md:py-20">
-                    <div
-                        className="hidden w-full h-full mr-16 text-white bg-indigo-700 sm:inline-block image-home-1"
-                        style={imageStyles}
-                    />
-                    <div className="flex flex-col justify-center w-full">
-                        <h2
-                            id="homepage-visie"
-                            className="text-3xl font-bold sm:text-4xl text-primary"
-                        >
-                            Visie
-                        </h2>
-                        <p className="my-5 mt-4 leading-7 text-gray-700">
-                            De visie van de provincie Zuid-Holland geeft aan
-                            waar de provincie voor staat. Het beschrijft hoe de
-                            provincie de toekomst van Zuid-Holland voor zich
-                            ziet. De Omgevingsvisie bevat verschillende
-                            onderdelen: in de{' '}
-                            <mark className="marked-purple">ambities</mark>{' '}
-                            wordt omschreven waar we als provincie heen willen,
-                            de{' '}
-                            <mark className="marked-purple">beleidsdoelen</mark>{' '}
-                            geven hier richting aan en de{' '}
-                            <mark className="marked-purple">beleidskeuzes</mark>{' '}
-                            bepalen hoe de ambities bereikt dienen te worden.
-                        </p>
-                    </div>
-                </div>
-                <div className="container flex px-6 py-8 pb-8 mx-auto mb-0 sm:mb-16 lg:px-8">
-                    <div className="flex flex-col justify-center w-full">
-                        <h2
-                            id="homepage-omgevingsprogramma"
-                            className="text-3xl font-bold sm:text-4xl text-theme-orange"
-                        >
-                            Omgevingsprogramma
-                        </h2>
-                        <p className="my-5 mt-4 leading-7 text-gray-700">
-                            In het <b>Omgevingsprogramma</b> staat beschreven
-                            welke{' '}
-                            <mark className="marked-orange">maatregelen</mark>{' '}
-                            de provincie treft om de visie waar te maken. Het
-                            Omgevingsprogramma geeft bijvoorbeeld aan voor welke
-                            initiatieven subsidies worden verleend en aan welke
-                            provinciale wegen wordt gewerkt. Het
-                            Omgevingsprogramma is een overzicht van alle
-                            maatregelen inclusief de onderliggende activiteiten.
-                        </p>
-                    </div>
-                    <div
-                        className="hidden w-full h-full ml-16 text-white bg-indigo-700 sm:inline-block image-home-2"
-                        style={imageStyles}
-                    />
-                </div>
-                <div className="container flex px-6 py-8 pb-8 mx-auto mb-0 sm:mb-16 lg:px-8">
-                    <div
-                        className="hidden w-full h-full mr-16 text-white bg-indigo-700 sm:inline-block image-home-3"
-                        style={imageStyles}
-                    />
-                    <div className="flex flex-col justify-center w-full">
-                        <h2 className="text-3xl font-bold sm:text-4xl text-theme-red">
-                            Omgevingsverordening
-                        </h2>
-                        <p className="my-5 mt-4 leading-7 text-gray-700">
-                            Voor het in stand houden van goede
-                            omgevingskwaliteit zijn er regels nodig over wat wel
-                            en niet is toegestaan binnen de provinciegrenzen.
-                            Denk bijvoorbeeld aan regels in stiltegebieden of
-                            ter bescherming van cultureel erfgoed. Het merendeel
-                            van deze regels betreffen{' '}
-                            <mark className="marked-red">instructieregels</mark>{' '}
-                            die voorschrijven hoe waterschappen en gemeenten
-                            bepaalde onderwerpen op moeten nemen in hun plannen.
-                            Daarnaast zijn er een aantal{' '}
-                            <mark className="marked-red">
-                                direct werkende regels
-                            </mark>{' '}
-                            waar burgers en bedrijven zich aan moeten houden. Al
-                            deze regels van de provincie over de fysieke
-                            leefomgeving zijn ondergebracht in de{' '}
-                            <b>Omgevingsverordening</b>.
-                        </p>
-                    </div>
-                </div>
-                <div className="w-full pb-4 bg-primary-light">
-                    <div className="container w-full max-w-5xl px-6 py-20 pb-8 mx-auto lg:px-8">
-                        <h2
-                            id="homepage-kaart"
-                            className="text-3xl font-bold sm:text-4xl text-primary"
-                        >
-                            Beleid op de kaart
-                        </h2>
-                        <p className="my-5 mt-4 leading-7 text-gray-700">
-                            Wilt u het beleid en de regelgeving van de provincie
-                            op een specifieke locatie raadplegen? Zoek hieronder
-                            op een locatie of markeer een punt of vorm op de
-                            kaart.
-                        </p>
-                        <div className="w-full mx-auto" id="leaflet-homepage">
-                            <LeafletViewer className="w-full border border-gray-300 rounded" />
-                        </div>
-                        <span
-                            onClick={() =>
-                                scrollToElement({ id: 'homepage-zoeken' })
-                            }
-                            className="block w-full py-2 mt-5 text-center text-gray-800 underline opacity-75 cursor-pointer"
-                        >
-                            Liever zoeken op de tekst? Dat kan!
-                        </span>
-                    </div>
-                </div>
-                <div className="container flex flex-col px-6 pt-16 pb-12 mx-auto mb-0 sm:mb-16 sm:flex-row lg:px-8">
-                    <div className="w-full pr-8">
-                        <h3 className="mb-4 text-2xl font-bold text-primary">
-                            Documenten
-                        </h3>
-                        <p className="text-gray-800">
-                            We zijn hard bezig met het vullen van onze database.
-                            Sommige onderdelen bieden we op dit moment nog aan
-                            als PDF’s.
-                        </p>
-                        <ul className="mt-4 text-gray-700">
-                            <DocumentLink
-                                href="docs/introductie_omgevingsvisie_Zuid-Holland.pdf"
-                                iconLeft={faFilePdf}
-                                title="Introductie Omgevingsvisie Zuid-Holland"
-                                rel="noopener noreferrer"
-                            />
-                            <DocumentLink
-                                href="docs/ruimtelijke_kwaliteit.pdf"
-                                iconLeft={faFilePdf}
-                                title="Bijlage Omgevingsvisie: Ruimtelijke kwaliteit"
-                                rel="noopener noreferrer"
-                            />
-                            <DocumentLink
-                                href="docs/programma_ruimte.pdf"
-                                iconLeft={faFilePdf}
-                                title="Programma Ruimte"
-                                rel="noopener noreferrer"
-                            />
-                            <DocumentLink
-                                href="docs/programma_mobiliteit.pdf"
-                                iconLeft={faFilePdf}
-                                title="Programma Mobiliteit"
-                                rel="noopener noreferrer"
-                            />
-                            <DocumentLink
-                                href="https://lta.zuid-holland.nl/"
-                                iconLeft={faExternalLinkAlt}
-                                title="De Lange Termijn Agenda Omgevingsbeleid"
-                                style="text-sm"
-                                rel="noopener noreferrer"
-                            />
-                        </ul>
-                    </div>
-                    <div className="w-full mt-8 sm:mt-0">
-                        <h3 className="mb-4 text-2xl font-bold text-primary">
-                            In ontwikkeling
-                        </h3>
-                        <p className="pb-8 text-gray-800">
-                            Omdat de website nog in ontwikkeling is kan het zijn
-                            dat sommige functionaliteiten niet goed werken. Kom
-                            je een fout tegen? Neem dan contact op door te
-                            mailen naar{' '}
-                            <a
-                                href="mailto:omgevingsbeleid@pzh.nl?subject=Feedback Omgevingsbeleid&body=Probeer zo duidelijk mogelijk te omschrijven waar je tegenaan liep"
-                                className="underline cursor-pointer"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                omgevingsbeleid@pzh.nl
-                            </a>
-                            .
-                            <br />
-                            <br />
-                            Wil je weten waar wij mee bezig zijn?{' '}
-                            <Link
-                                to="/planning"
-                                className="underline cursor-pointer"
-                            >
-                                Klik dan hier
-                            </Link>
-                            .
-                        </p>
-                    </div>
-                </div>
-            </div>
-        )
+const Image = ({ image, position }) => {
+    const imageStyles = {
+        height: '400px',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center center',
+        backgroundRepeat: 'no-repeat',
     }
+
+    return (
+        <div
+            className={`hidden w-full h-full ${
+                position === 'left'
+                    ? 'mr-16'
+                    : position === 'right'
+                    ? 'ml-16'
+                    : ''
+            } text-white bg-gray-100 sm:inline-block ${image}`}
+            style={imageStyles}
+        />
+    )
+}
+
+const Paragraph = ({ children }) => {
+    return <p className="my-5 mt-4 leading-6 text-gray-900">{children}</p>
 }
 
 const ZuidHollandSVG = () => {
@@ -334,7 +341,7 @@ const ZuidHollandSVG = () => {
             version="1.1"
             xmlns="http://www.w3.org/2000/svg"
         >
-            <title>Path</title>
+            <title>Illustratie van Zuid-Holland</title>
             <g
                 id="Omgevingsbeleid---Raadpleegomgeving"
                 stroke="none"

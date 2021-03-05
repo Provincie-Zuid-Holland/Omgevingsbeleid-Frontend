@@ -9,6 +9,17 @@ function RelatiesKoppelingenTekstueel({
 }) {
     if (!beleidskeuze || !beleidsRelaties) return null
 
+    const getPropertyName = (property) => {
+        switch (property) {
+            case 'Doelen':
+                return 'Beleidsprestaties'
+            case 'Opgaven':
+                return 'Beleidsdoelen'
+            default:
+                return property
+        }
+    }
+
     return (
         <div>
             {connectionProperties.map((property) => {
@@ -21,7 +32,7 @@ function RelatiesKoppelingenTekstueel({
                 return (
                     <div className="mt-4">
                         <h3 className="text-sm font-bold text-gray-800">
-                            {property}
+                            {getPropertyName(property)}
                         </h3>
                         <ul className="mt-2">
                             {beleidskeuze[property].map((koppeling) => (
@@ -84,11 +95,11 @@ const ListItem = ({
         const slugs = {
             Ambities: 'ambities',
             BeleidsRegels: 'beleidsregels',
-            Doelen: 'doelen',
+            Doelen: 'beleidsprestaties',
             Belangen: 'belangen',
             Maatregelen: 'maatregelen',
             Themas: 'themas',
-            Opgaven: 'opgaven',
+            Opgaven: 'Beleidsdoelen',
             Verordening: 'verordeningen',
         }
 

@@ -1,6 +1,43 @@
+// @font-face {
+//     font-family: 'Frutiger LT Std';
+//     src: url('./../fonts/FrutigerLTStd-Roman.woff2') format('woff2'),
+//         url('./../fonts/FrutigerLTStd-Roman.woff') format('woff');
+//     font-weight: normal;
+//     font-style: normal;
+//     font-display: swap;
+// }
+
+// @font-face {
+//     font-family: 'Frutiger LT Std';
+//     src: url('./../fonts/FrutigerLTStd-Italic.woff2') format('woff2'),
+//         url('./../fonts/FrutigerLTStd-Italic.woff') format('woff');
+//     font-weight: normal;
+//     font-style: italic;
+//     font-display: swap;
+// }
+
+// @font-face {
+//     font-family: 'Frutiger LT Std';
+//     src: url('./../fonts/FrutigerLTStd-Bold.woff2') format('woff2'),
+//         url('./../fonts/FrutigerLTStd-Bold.woff') format('woff');
+//     font-weight: bold;
+//     font-style: normal;
+//     font-display: swap;
+// }
+
+// @font-face {
+//     font-family: 'Frutiger LT Std';
+//     src: url('./../fonts/FrutigerLTStd-BoldItalic.woff2') format('woff2'),
+//         url('./../fonts/FrutigerLTStd-BoldItalic.woff') format('woff');
+//     font-weight: bold;
+//     font-style: italic;
+//     font-display: swap;
+// }
+
 html {
     height: 100%;
     overflow: auto;
+    // font-size: 14px;
 }
 
 body {
@@ -9,6 +46,9 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
         'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
         'Helvetica Neue', sans-serif;
+    // font-family: 'Frutiger LT Std', -apple-system, BlinkMacSystemFont,
+    //     'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
+    //     'Droid Sans', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -53,6 +93,10 @@ $base-color: #002f65;
     background-color: #f3f2f7;
 }
 
+.bg-color-theme-red {
+    background-color: #990000;
+}
+
 .m-color {
     color: $base-color;
 }
@@ -63,6 +107,10 @@ $base-color: #002f65;
 
 .m-border-color {
     border-color: #464792;
+}
+
+.m-color-puple {
+    color: #000066;
 }
 
 .purple-border-color {
@@ -368,10 +416,10 @@ $base-color: #002f65;
     right: 0px;
 }
 #full-screen-leaflet-container-false {
-    height: 250px;
+    height: 500px;
 }
 #full-screen-leaflet-container-true {
-    height: 800px;
+    height: 1000px;
     max-height: 80vh;
 }
 #full-screen-leaflet {
@@ -506,6 +554,20 @@ $base-color: #002f65;
     opacity: 0;
 }
 
+.pulsate::before {
+    content: '';
+    height: 0.5rem;
+    width: 0.5rem;
+    display: block;
+    left: 0;
+    top: 0;
+    animation: pulsate-big 2s ease-out;
+    animation-iteration-count: infinite;
+    opacity: 0;
+    background: inherit;
+    border-radius: 100%;
+}
+
 .svg-branch {
     left: -2px;
     bottom: 11px;
@@ -521,6 +583,20 @@ $base-color: #002f65;
     }
     100% {
         transform: scale(1.2, 1.2);
+        opacity: 0;
+    }
+}
+
+@keyframes pulsate-big {
+    0% {
+        transform: scale(0.1, 0.1);
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.75, 1.75);
         opacity: 0;
     }
 }
@@ -965,7 +1041,7 @@ mark {
 }
 
 .shadow-navigation {
-    box-shadow: 0 15px 20px -12px rgba(218, 218, 232, 0.75);
+    box-shadow: 0 15px 20px -12px rgba(218, 218, 232, 0.4);
 }
 
 .soft-shadow-navigation {
@@ -1086,5 +1162,9 @@ mark {
     ul {
         list-style: disc;
         padding-left: 20px;
+    }
+    ol {
+        padding-left: 20px;
+        list-style: decimal;
     }
 }

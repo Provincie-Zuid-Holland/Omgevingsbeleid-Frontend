@@ -67,10 +67,14 @@ const RelatiesKoppelingen = ({ beleidskeuze }) => {
 
     React.useEffect(() => {
         const beleidsrelatiesVan = axios
-            .get(`/beleidsrelaties?Van_Beleidsbeslissing=${beleidskeuze.UUID}`)
+            .get(
+                `/beleidsrelaties?Van_Beleidsbeslissing=${beleidskeuze.UUID}&Status=Akkoord`
+            )
             .then((res) => res.data)
         const beleidsrelatiesNaar = axios
-            .get(`/beleidsrelaties?Naar_Beleidsbeslissing=${beleidskeuze.UUID}`)
+            .get(
+                `/beleidsrelaties?Naar_Beleidsbeslissing=${beleidskeuze.UUID}&Status=Akkoord`
+            )
             .then((res) => res.data)
 
         Promise.all([beleidsrelatiesVan, beleidsrelatiesNaar])
@@ -101,7 +105,7 @@ const RelatiesKoppelingen = ({ beleidskeuze }) => {
                     setIsLoading(false)
                 })
             })
-    }, [])
+    }, [beleidskeuze.UUID])
 
     if (isLoading) return null
 

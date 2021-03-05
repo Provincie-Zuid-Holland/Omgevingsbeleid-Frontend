@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 
 import ViewFieldTitelEnInhoud from './../../ViewFieldTitelEnInhoud'
 import ViewFieldTags from './../../ViewFieldTags'
@@ -30,7 +30,7 @@ const ContainerViewFieldsBeleidsbeslissing = ({ crudObject }) => {
                     {crudObject['Afweging'] ? (
                         <ViewFieldTitelEnInhoud
                             fieldTitel="Afweging"
-                            fieldValue={crudObject['Omschrijving_Werking']}
+                            fieldValue={crudObject['Afweging']}
                         />
                     ) : null}
                     {crudObject['Aanleiding'] ? (

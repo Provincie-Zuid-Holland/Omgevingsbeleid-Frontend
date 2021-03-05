@@ -52,7 +52,7 @@ class ContainerDetailMain extends Component {
 
     render() {
         const dataObject = this.props.dataObject
-        const titelEnkelvoud = this.props.titelEnkelvoud
+        const titleSingular = this.props.titleSingular
         const pageType = this.props.pageType
         const titel = dataObject.Titel
         const dataReceived = this.props.dataReceived
@@ -64,7 +64,7 @@ class ContainerDetailMain extends Component {
                 }`}
             >
                 {this.props.children}
-                {titelEnkelvoud === 'Beleidskeuze' ? (
+                {titleSingular === 'Beleidskeuze' ? (
                     <div
                         onClick={this.toggleDropdown}
                         className="absolute top-0 right-0 p-5 text-gray-600 cursor-pointer hover:text-gray-800"
@@ -75,7 +75,7 @@ class ContainerDetailMain extends Component {
 
                 {this.state.dropdown ? (
                     <PopUpDetailDropdown
-                        titelEnkelvoud={titelEnkelvoud}
+                        titleSingular={titleSingular}
                         dataObject={dataObject}
                         toggleDropdown={this.toggleDropdown}
                         openState={this.state.dropdown}
@@ -92,7 +92,7 @@ class ContainerDetailMain extends Component {
                 ) : null}
 
                 <span className="block mb-1 text-sm text-gray-500">
-                    {titelEnkelvoud}
+                    {titleSingular}
                 </span>
 
                 {dataReceived ? (
@@ -101,7 +101,7 @@ class ContainerDetailMain extends Component {
                     <LoaderMainTitle />
                 )}
 
-                {pageType === 'detail' && titelEnkelvoud === 'beleidskeuze' ? (
+                {pageType === 'detail' && titleSingular === 'beleidskeuze' ? (
                     <StatusLabel />
                 ) : null}
 
@@ -168,12 +168,12 @@ class ContainerDetailMain extends Component {
                             </div>
                         </a>
                     ) : null}
-                    {titelEnkelvoud !== 'Beleidsrelatie' ? (
+                    {titleSingular !== 'Beleidsrelatie' ? (
                         <a
                             href={
-                                titelEnkelvoud === 'Artikel' ||
-                                titelEnkelvoud === 'Paragraaf' ||
-                                titelEnkelvoud === 'Afdeling'
+                                titleSingular === 'Artikel' ||
+                                titleSingular === 'Paragraaf' ||
+                                titleSingular === 'Afdeling'
                                     ? `/detail/verordeningen/${
                                           this.props.lineageID
                                       }/${this.props.dataObject.UUID}${
@@ -194,7 +194,7 @@ class ContainerDetailMain extends Component {
                                     </span>
                                     <span className="text-sm text-gray-700">
                                         {dataReceived ? (
-                                            `Bekijk ${titelEnkelvoud.toLowerCase()}`
+                                            `Bekijk ${titleSingular.toLowerCase()}`
                                         ) : (
                                             <LoaderMainTitle />
                                         )}

@@ -8,22 +8,19 @@ import VOLGENDE_STATUS from './../../constants/beleidsbeslissingStatusAanpassen'
 
 function PopUpStatusAanpassen({
     dataObject,
-    fieldValue,
-    handleChange,
     status,
-    toggleStatusPopup,
     patchStatus,
+    toggleStatusPopup,
 }) {
     const [selectValue, setSelect] = useState('')
 
     return (
         <PopUpAnimatedContainer small={true}>
-            <div className="text-gray-800">
+            <div id="popup-edit-status" className="text-gray-800">
                 <h2 className="mb-4 font-bold">Status aanpassen</h2>
                 <div className="relative inline-block w-64">
                     <select
                         required
-                        value={fieldValue}
                         onChange={(event) => setSelect(event.target.value)}
                         value={selectValue}
                         name={'Status'}

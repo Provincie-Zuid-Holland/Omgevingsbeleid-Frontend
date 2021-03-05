@@ -54,7 +54,7 @@ class FormFieldSelectBeleidsbeslissing extends React.Component {
                 </p>
                 {this.state.dataLoaded ? (
                     <Select
-                        id={`form-field-${this.props.titelEnkelvoud.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
+                        id={`form-field-${this.props.titleSingular.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
                         value={this.state.selected}
                         name={this.props.dataObjectProperty}
                         onChange={this.props.handleChange}
