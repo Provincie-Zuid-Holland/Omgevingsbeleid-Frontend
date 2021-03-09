@@ -191,7 +191,7 @@ const CardSelectedWerkingsgebied = ({
                             : null}
                     </span>
                     <span
-                        className="absolute bottom-0 left-0 px-5 py-5 text-sm text-red-600 underline transition-colors ease-in cursor-pointer duration-50 hover:text-red-800"
+                        className="absolute bottom-0 left-0 px-5 py-5 text-sm text-red-600 underline transition-colors duration-100 ease-in cursor-pointer hover:text-red-800"
                         onClick={() => {
                             setWerkingsgebiedInParentState({
                                 target: {

@@ -1,5 +1,7 @@
 import React from 'react'
 
+import LoaderSpinner from './../../../components/LoaderSpinner'
+
 import RelatiesKoppelingenVisualisatie from './../RelatiesKoppelingenVisualisatie'
 import RelatiesKoppelingenTekstueel from './../RelatiesKoppelingenTekstueel'
 import axios from '../../../API/axios'
@@ -67,10 +69,14 @@ const RelatiesKoppelingen = ({ beleidskeuze }) => {
 
     React.useEffect(() => {
         const beleidsrelatiesVan = axios
-            .get(`/beleidsrelaties?Van_Beleidsbeslissing=${beleidskeuze.UUID}`)
+            .get(
+                `/beleidsrelaties?Van_Beleidsbeslissing=${beleidskeuze.UUID}&Status=Akkoord`
+            )
             .then((res) => res.data)
         const beleidsrelatiesNaar = axios
-            .get(`/beleidsrelaties?Naar_Beleidsbeslissing=${beleidskeuze.UUID}`)
+            .get(
+                `/beleidsrelaties?Naar_Beleidsbeslissing=${beleidskeuze.UUID}&Status=Akkoord`
+            )
             .then((res) => res.data)
 
         Promise.all([beleidsrelatiesVan, beleidsrelatiesNaar])
@@ -103,8 +109,6 @@ const RelatiesKoppelingen = ({ beleidskeuze }) => {
             })
     }, [beleidskeuze.UUID])
 
-    if (isLoading) return null
-
     return (
         <div className="w-full pb-24 bg-orange-100">
             <div className="container max-w-4xl pt-16 mx-auto">
@@ -134,7 +138,7 @@ const RelatiesKoppelingen = ({ beleidskeuze }) => {
                         />
                     </div>
                     <div className="mt-6">
-                        {activeTab === 'Visueel' ? (
+                        {!isLoading && activeTab === 'Visueel' ? (
                             <RelatiesKoppelingenVisualisatie
                                 beleidskeuze={beleidskeuze}
                                 beleidsRelaties={beleidsRelaties}
@@ -143,7 +147,7 @@ const RelatiesKoppelingen = ({ beleidskeuze }) => {
                                     connectionPropertiesColors
                                 }
                             />
-                        ) : activeTab === 'Tekstueel' ? (
+                        ) : !isLoading && activeTab === 'Tekstueel' ? (
                             <RelatiesKoppelingenTekstueel
                                 beleidskeuze={beleidskeuze}
                                 beleidsRelaties={beleidsRelaties}
@@ -152,6 +156,10 @@ const RelatiesKoppelingen = ({ beleidskeuze }) => {
                                     connectionPropertiesColors
                                 }
                             />
+                        ) : isLoading ? (
+                            <div className="flex items-center justify-center w-full p-24 text-gray-500">
+                                <LoaderSpinner />
+                            </div>
                         ) : null}
                     </div>
                 </div>
