@@ -2,6 +2,7 @@ import React from 'react'
 import { Helmet } from 'react-helmet'
 import { toast } from 'react-toastify'
 import { useHistory } from 'react-router-dom'
+import { useQuery } from 'react-query'
 
 // Import Componenents
 import ContainerMain from './../../components/ContainerMain'
@@ -23,8 +24,8 @@ import UserContext from './../../App/UserContext'
 const MuteerUniversalObjectOverzicht = ({ dimensieConstants }) => {
     const { user } = React.useContext(UserContext)
 
-    const [objecten, setObjecten] = React.useState([])
-    const [isLoading, setIsLoading] = React.useState(true)
+    // const [objecten, setObjecten] = React.useState([])
+    // const [isLoading, setIsLoading] = React.useState(true)
 
     let history = useHistory()
 
@@ -33,15 +34,23 @@ const MuteerUniversalObjectOverzicht = ({ dimensieConstants }) => {
             .get(ApiEndpoint)
             .then((res) => {
                 let objecten = res.data
-                setObjecten(objecten)
-                setIsLoading(false)
+                // setObjecten(objecten)
+                // setIsLoading(false)
             })
             .catch((err) => {
-                setIsLoading(false)
+                // setIsLoading(false)
                 console.log(err)
                 toast(process.env.REACT_APP_ERROR_MSG)
             })
     }
+
+    const { isLoading, isError, data, error } = useQuery(
+        dimensieConstants.TITLE_PLURAL,
+        async () => {
+            const res = await axios.get(dimensieConstants.API_ENDPOINT)
+            return res.data
+        }
+    )
 
     const checkAuth = React.useCallback(() => {
         if (!user) return
@@ -61,7 +70,7 @@ const MuteerUniversalObjectOverzicht = ({ dimensieConstants }) => {
 
     React.useLayoutEffect(() => {
         const apiEndpoint = dimensieConstants.API_ENDPOINT
-        getAndSetDataFromAPI(apiEndpoint)
+        // getAndSetDataFromAPI(apiEndpoint)
         checkAuth()
     }, [user, checkAuth, dimensieConstants])
 
@@ -94,7 +103,7 @@ const MuteerUniversalObjectOverzicht = ({ dimensieConstants }) => {
                             hoofdOnderdeelSlug={hoofdOnderdeelSlug}
                         />
 
-                        {objecten
+                        {data
                             .sort((a, b) => (a.Titel > b.Titel ? 1 : -1))
                             .map((object, index) => (
                                 <li

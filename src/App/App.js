@@ -1,5 +1,9 @@
 import React, { Component, Suspense, lazy } from 'react'
 
+// Devtools for react-query. Automatically excluded in production build
+import { QueryClient, QueryClientProvider } from 'react-query'
+import { ReactQueryDevtools } from 'react-query/devtools'
+
 // For the routing we use React Router (https://reacttraining.com/react-router/)
 import { Route, Switch, withRouter, useHistory } from 'react-router-dom'
 
@@ -56,45 +60,19 @@ if (
     })
 }
 
-// Create array with detail pages to map through to create the routes
-const detailPaginas = [
-    {
-        slug: 'ambities',
-        dataModel: allDimensies.AMBITIES,
+// Create a client
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            queryFn: async ({ queryKey }) => {
+                const { data } = await axios.get(
+                    `https://api-omgevingsbeleid-dev-v2.azurewebsites.net/${queryKey[0]}`
+                )
+                return data
+            },
+        },
     },
-    {
-        slug: 'beleidsregels',
-        dataModel: allDimensies.BELEIDSREGELS,
-    },
-    {
-        slug: 'belangen',
-        dataModel: allDimensies.BELANGEN,
-    },
-    {
-        slug: 'maatregelen',
-        dataModel: allDimensies.MAATREGELEN,
-    },
-    {
-        slug: 'beleidskeuzes',
-        dataModel: allDimensies.BELEIDSKEUZES,
-    },
-    {
-        slug: 'beleidsprestaties',
-        dataModel: allDimensies.BELEIDSPRESTATIES,
-    },
-    {
-        slug: 'themas',
-        dataModel: allDimensies.THEMAS,
-    },
-    {
-        slug: 'beleidsdoelen',
-        dataModel: allDimensies.BELEIDSDOELEN,
-    },
-    {
-        slug: 'verordeningen',
-        dataModel: allDimensies.VERORDENINGSARTIKEL,
-    },
-]
+})
 
 class App extends Component {
     constructor(props) {
@@ -214,125 +192,141 @@ class App extends Component {
 
         return (
             <UserContext.Provider value={{ user: this.state.user }}>
-                <div
-                    className={`min-h-screen pt-12 ${
-                        locationEqualsMutateEnv ? 'bg-gray-100' : ''
-                    }`}
-                    id="main-container"
-                >
-                    <Helmet>
-                        <meta charSet="utf-8" />
-                        <title>Omgevingsbeleid - Provincie Zuid-Holland</title>
-                    </Helmet>
+                <QueryClientProvider client={queryClient}>
+                    <div
+                        className={`min-h-screen pt-12 ${
+                            locationEqualsMutateEnv ? 'bg-gray-100' : ''
+                        }`}
+                        id="main-container"
+                    >
+                        <Helmet>
+                            <meta charSet="utf-8" />
+                            <title>
+                                Omgevingsbeleid - Provincie Zuid-Holland
+                            </title>
+                        </Helmet>
 
-                    {this.state.showWelcomePopup && this.state.dataLoaded ? (
-                        <PopupWelcomeBeta
-                            closePopup={() =>
-                                this.setState({
-                                    showWelcomePopup: false,
-                                })
-                            }
-                        />
-                    ) : null}
+                        {this.state.showWelcomePopup &&
+                        this.state.dataLoaded ? (
+                            <PopupWelcomeBeta
+                                closePopup={() =>
+                                    this.setState({
+                                        showWelcomePopup: false,
+                                    })
+                                }
+                            />
+                        ) : null}
 
-                    {this.state.showReAuthenticatePopup ? (
-                        <PopUpAnimatedContainer
+                        {this.state.showReAuthenticatePopup ? (
+                            <PopUpAnimatedContainer
+                                setLoginState={this.setLoginState}
+                            />
+                        ) : null}
+
+                        <Navigation
                             setLoginState={this.setLoginState}
+                            loggedIn={this.state.loggedIn}
                         />
-                    ) : null}
 
-                    <Navigation
-                        setLoginState={this.setLoginState}
-                        loggedIn={this.state.loggedIn}
-                    />
+                        {this.state.dataLoaded ? (
+                            <Suspense fallback={<LoaderContent />}>
+                                <Switch>
+                                    {/* Raadpleeg - The homepage where users can search for policies and regulations */}
+                                    <Route
+                                        path="/"
+                                        exact
+                                        component={RaadpleegHome}
+                                    />
 
-                    {this.state.dataLoaded ? (
-                        <Suspense fallback={<LoaderContent />}>
-                            <Switch>
-                                {/* Raadpleeg - The homepage where users can search for policies and regulations */}
-                                <Route
-                                    path="/"
-                                    exact
-                                    component={RaadpleegHome}
-                                />
+                                    {/* Raadpleeg - Result page for search */}
+                                    <Route
+                                        exact
+                                        path="/zoekresultaten"
+                                        component={
+                                            RaadpleegZoekResultatenOverzicht
+                                        }
+                                    />
 
-                                {/* Raadpleeg - Result page for search */}
-                                <Route
-                                    exact
-                                    path="/zoekresultaten"
-                                    component={RaadpleegZoekResultatenOverzicht}
-                                />
+                                    {/* Raadpleeg - Detail page for Article objects of the regulations */}
+                                    <Route
+                                        path={`/detail/verordeningen/:lineageID/:objectUUID`}
+                                        render={() => (
+                                            <RaadpleegVerordeningsArtikelDetail
+                                                dataModel={
+                                                    allDimensies.VERORDENINGSARTIKEL
+                                                }
+                                                history={this.props.history}
+                                            />
+                                        )}
+                                    />
 
-                                {/* Raadpleeg - Detail page for Article objects of the regulations */}
-                                <Route
-                                    path={`/detail/verordeningen/:lineageID/:objectUUID`}
-                                    render={() => (
-                                        <RaadpleegVerordeningsArtikelDetail
-                                            dataModel={
-                                                allDimensies.VERORDENINGSARTIKEL
-                                            }
-                                            history={this.props.history}
-                                        />
-                                    )}
-                                />
+                                    {/* Raadpleeg - Detail pages for all the dimensions */}
+                                    {detailPaginas.map((item) => {
+                                        return (
+                                            <Route
+                                                key={item.slug}
+                                                path={`/detail/${item.slug}/:id`}
+                                                render={({ match }) => (
+                                                    <RaadpleegUniversalObjectDetail
+                                                        dataModel={
+                                                            item.dataModel
+                                                        }
+                                                        history={
+                                                            this.props.history
+                                                        }
+                                                        match={match}
+                                                    />
+                                                )}
+                                            />
+                                        )
+                                    })}
 
-                                {/* Raadpleeg - Detail pages for all the dimensions */}
-                                {detailPaginas.map((item) => {
-                                    return (
-                                        <Route
-                                            key={item.slug}
-                                            path={`/detail/${item.slug}/:id`}
-                                            render={({ match }) => (
-                                                <RaadpleegUniversalObjectDetail
-                                                    dataModel={item.dataModel}
-                                                    history={this.props.history}
-                                                    match={match}
-                                                />
-                                            )}
-                                        />
-                                    )
-                                })}
+                                    {/* Planning page contains the development roadmap */}
+                                    <Route
+                                        path="/planning"
+                                        exact
+                                        component={Planning}
+                                    />
 
-                                {/* Planning page contains the development roadmap */}
-                                <Route
-                                    path="/planning"
-                                    exact
-                                    component={Planning}
-                                />
+                                    {/*  */}
+                                    <Route
+                                        path="/login"
+                                        render={() => (
+                                            <Login
+                                                setLoginUser={this.setLoginUser}
+                                                setLoginState={
+                                                    this.setLoginState
+                                                }
+                                                history={this.props.history}
+                                            />
+                                        )}
+                                    />
+                                    <Route
+                                        path="/logout"
+                                        render={() => (
+                                            <Logout
+                                                setLoginState={
+                                                    this.setLoginState
+                                                }
+                                            />
+                                        )}
+                                    />
+                                    <AuthRoutes
+                                        authUser={this.state.user}
+                                        loggedIn={this.state.loggedIn}
+                                        setLoginState={this.setLoginState}
+                                    />
+                                </Switch>
+                            </Suspense>
+                        ) : (
+                            <LoaderContent />
+                        )}
 
-                                {/*  */}
-                                <Route
-                                    path="/login"
-                                    render={() => (
-                                        <Login
-                                            setLoginUser={this.setLoginUser}
-                                            setLoginState={this.setLoginState}
-                                            history={this.props.history}
-                                        />
-                                    )}
-                                />
-                                <Route
-                                    path="/logout"
-                                    render={() => (
-                                        <Logout
-                                            setLoginState={this.setLoginState}
-                                        />
-                                    )}
-                                />
-                                <AuthRoutes
-                                    authUser={this.state.user}
-                                    loggedIn={this.state.loggedIn}
-                                    setLoginState={this.setLoginState}
-                                />
-                            </Switch>
-                        </Suspense>
-                    ) : (
-                        <LoaderContent />
-                    )}
-
-                    <ToastContainer limit={1} position="bottom-left" />
-                    <FeedbackComponent />
-                </div>
+                        <ToastContainer limit={1} position="bottom-left" />
+                        <FeedbackComponent />
+                    </div>
+                    <ReactQueryDevtools initialIsOpen={false} />
+                </QueryClientProvider>
             </UserContext.Provider>
         )
     }
@@ -356,5 +350,45 @@ const Logout = ({ setLoginState }) => {
 
     return null
 }
+
+// Create array with detail pages to map through to create the routes
+const detailPaginas = [
+    {
+        slug: 'ambities',
+        dataModel: allDimensies.AMBITIES,
+    },
+    {
+        slug: 'beleidsregels',
+        dataModel: allDimensies.BELEIDSREGELS,
+    },
+    {
+        slug: 'belangen',
+        dataModel: allDimensies.BELANGEN,
+    },
+    {
+        slug: 'maatregelen',
+        dataModel: allDimensies.MAATREGELEN,
+    },
+    {
+        slug: 'beleidskeuzes',
+        dataModel: allDimensies.BELEIDSKEUZES,
+    },
+    {
+        slug: 'beleidsprestaties',
+        dataModel: allDimensies.BELEIDSPRESTATIES,
+    },
+    {
+        slug: 'themas',
+        dataModel: allDimensies.THEMAS,
+    },
+    {
+        slug: 'beleidsdoelen',
+        dataModel: allDimensies.BELEIDSDOELEN,
+    },
+    {
+        slug: 'verordeningen',
+        dataModel: allDimensies.VERORDENINGSARTIKEL,
+    },
+]
 
 export default withRouter(App)
