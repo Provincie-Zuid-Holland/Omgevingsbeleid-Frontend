@@ -22,31 +22,31 @@ const EigenaarsDriehoek = ({ dataObject }) => {
                 {dataObject.Eigenaar_1 ? (
                     <EigenaarsDriehoekItem
                         eigenaarType="Eerste eigenaar"
-                        UUID={dataObject.Eigenaar_1}
+                        owner={dataObject.Eigenaar_1}
                     />
                 ) : null}
                 {dataObject.Eigenaar_2 ? (
                     <EigenaarsDriehoekItem
                         eigenaarType="Tweede eigenaar"
-                        UUID={dataObject.Eigenaar_2}
+                        owner={dataObject.Eigenaar_2}
                     />
                 ) : null}
                 {dataObject.Opdrachtgever ? (
                     <EigenaarsDriehoekItem
                         eigenaarType="Ambtelijk opdrachtgever"
-                        UUID={dataObject.Opdrachtgever}
+                        owner={dataObject.Opdrachtgever}
                     />
                 ) : null}
                 {dataObject.Portefeuillehouder_1 ? (
                     <EigenaarsDriehoekItem
                         eigenaarType="Eerste portefeuillehouder"
-                        UUID={dataObject.Portefeuillehouder_1}
+                        owner={dataObject.Portefeuillehouder_1}
                     />
                 ) : null}
                 {dataObject.Portefeuillehouder_2 ? (
                     <EigenaarsDriehoekItem
                         eigenaarType="Tweede portefeuillehouder"
-                        UUID={dataObject.Portefeuillehouder_2}
+                        owner={dataObject.Portefeuillehouder_2}
                     />
                 ) : null}
             </div>

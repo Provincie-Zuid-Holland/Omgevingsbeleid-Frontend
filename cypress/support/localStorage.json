@@ -1,1 +1,5 @@
-{}
+{
+  "OB_access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MTY1MDY1MzksIm5iZiI6MTYxNjUwNjUzOSwianRpIjoiMjhmOTgyZGUtNjk2MS00MzRjLWJjNTUtMjIzZDNhNGM3MmJjIiwiZXhwIjoxNjE2NTIwOTM5LCJpZGVudGl0eSI6eyJVVUlEIjoiMzU5QTkyNTQtNTk4RS00QkZFLUJDRUMtQUE1MjFFOTU4ODFBIiwiR2VicnVpa2Vyc25hYW0iOiJBaWRlbiBCdWlzIiwiRW1haWwiOiJoZWxsb0BhaWRlbmJ1aXMuY29tIiwiUm9sIjoiQmVoZWVyZGVyIn0sImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.5Pnj--GqprXth66t3mWpMhQB7OQFbeGmFpWtrMZOCDo",
+  "OB_identifier": "{\"Email\":\"hello@aidenbuis.com\",\"Gebruikersnaam\":\"Aiden Buis\",\"Rol\":\"Beheerder\",\"UUID\":\"359A9254-598E-4BFE-BCEC-AA521E95881A\"}",
+  "OB_welkom_popup": "true"
+}

@@ -207,9 +207,7 @@ class MuteerUniversalObjectCRUD extends Component {
 
         // Converteer de 'yyyy-MM-DD' waarden naar Date objecten
         // Of Verwijder de begin_ of eind_geldigheid properties als ze geen waarde hebben
-        console.log(crudObject.Eind_Geldigheid)
         crudObject = this.formatGeldigheidDatesForAPI(crudObject)
-        console.log(crudObject.Eind_Geldigheid)
 
         // Check of de verplichte velden zijn ingevuld als het een beleidskeuze is
         // !REFACTOR! - velden check voor andere dimensies (Bespreken STUM)
@@ -279,10 +277,15 @@ class MuteerUniversalObjectCRUD extends Component {
 
         eigenaren.forEach((eigenaar) => {
             if (!crudObject.hasOwnProperty(eigenaar)) return
-            crudObject[eigenaar] = crudObject[eigenaar].UUID
+            if (
+                typeof crudObject[eigenaar] === 'object' &&
+                crudObject[eigenaar] !== null
+            ) {
+                crudObject[eigenaar] = crudObject[eigenaar].UUID
+            }
         })
 
-        crudObject.Werkingsgebieden.forEach((gebied, index) => {
+        crudObject?.Werkingsgebieden?.forEach((gebied, index) => {
             crudObject.Werkingsgebieden[index] = { UUID: gebied.UUID }
         })
 
@@ -294,7 +297,10 @@ class MuteerUniversalObjectCRUD extends Component {
             UUID: object.UUID,
             Titel: object.Titel,
             Koppeling_Omschrijving: omschrijving,
+            Type: object.Type,
         }
+
+        console.log(nieuwObject)
 
         let nieuwCrudObject = this.state.crudObject
 
@@ -456,6 +462,8 @@ class MuteerUniversalObjectCRUD extends Component {
         const objectTitle = this.state.crudObject.Titel
 
         const handleChange = this.handleChange
+
+        console.log(crudObject)
 
         return (
             <div>

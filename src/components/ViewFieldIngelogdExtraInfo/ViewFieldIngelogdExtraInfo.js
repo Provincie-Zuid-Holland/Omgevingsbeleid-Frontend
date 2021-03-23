@@ -139,25 +139,27 @@ const EigenarenList = ({ eigenaren }) => {
 
     return (
         <ul className="flex mr-8">
-            {Object.keys(eigenaren).map((item, index) => (
-                <li
-                    key={item}
-                    className={`relative ${index === 0 ? '' : '-ml-2'}`}
-                >
-                    <div className="flex items-center justify-center w-8 h-8 mr-1 text-xs text-white bg-yellow-400 border border-white rounded-full circle-gebruiker font-lg">
-                        {getAbbrevationFromUsername(eigenaren[item])}
+            {Object.keys(eigenaren)
+                .filter((item) => eigenaren[item])
+                .map((item, index) => (
+                    <li
+                        key={item}
+                        className={`relative ${index === 0 ? '' : '-ml-2'}`}
+                    >
+                        <div className="flex items-center justify-center w-8 h-8 mr-1 text-xs text-white bg-yellow-400 border border-white rounded-full circle-gebruiker font-lg">
+                            {getAbbrevationFromUsername(eigenaren[item])}
 
-                        <div className="absolute top-0 left-0 z-10 hidden inline-block px-4 py-3 mt-10 whitespace-no-wrap rounded popup-gebruikersinfo">
-                            <div className="block mb-1 text-xs">
-                                {getPersonenRol(item)}
-                            </div>
-                            <div className="block text-sm font-semibold">
-                                {getUsername(eigenaren[item])}
+                            <div className="absolute top-0 left-0 z-10 hidden inline-block px-4 py-3 mt-10 whitespace-no-wrap rounded popup-gebruikersinfo">
+                                <div className="block mb-1 text-xs">
+                                    {getPersonenRol(item)}
+                                </div>
+                                <div className="block text-sm font-semibold">
+                                    {getUsername(eigenaren[item])}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </li>
-            ))}
+                    </li>
+                ))}
         </ul>
     )
 }

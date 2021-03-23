@@ -136,8 +136,6 @@ const FormFieldRelatieKoppeling = ({
             })
         })
 
-        console.log(newStateKoppelingenRelatiesObject)
-
         setKoppelingenRelaties({ ...newStateKoppelingenRelatiesObject })
 
         setDataLoaded(true)
@@ -214,6 +212,10 @@ const FormFieldRelatieKoppeling = ({
                                     (item, index) => {
                                         let type =
                                             objecten[koppelingRelatieNaam].type
+                                        if (type === 'Nationaal Belang') {
+                                            console.log(item)
+                                            type = item.Type
+                                        }
 
                                         return (
                                             <li
