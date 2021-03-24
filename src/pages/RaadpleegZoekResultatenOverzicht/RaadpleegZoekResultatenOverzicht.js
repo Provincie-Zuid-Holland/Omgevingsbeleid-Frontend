@@ -14,6 +14,7 @@ import allDimensieConstants from './../../constants/dimensies'
 
 // Import Components
 import LoaderContent from './../../components/LoaderContent'
+import LoaderSpinner from './../../components/LoaderSpinner'
 
 function getExcerpt(text) {
     if (!text) {
@@ -85,12 +86,7 @@ function SearchResultItem({ item, searchQuery }) {
         Omschrijving: getContent(),
     }
 
-    let type = item.Type
-    if (type === 'Beleidsregels') {
-        type = 'BeleidsRegels'
-    }
-
-    const dimensieContants = getDimensieConstant(type)
+    const dimensieContants = getDimensieConstant(item.Type)
     const overzichtURL = dimensieContants.SLUG_OVERVIEW
     const titleSingular = dimensieContants.TITLE_SINGULAR
 
@@ -171,6 +167,8 @@ class RaadpleegZoekResultatenOverzicht extends Component {
             searchResults: null,
             dataLoaded: false,
             onPageFilters: [],
+            searchOffset: 10,
+            loadingMoreResults: false,
         }
         this.getAndSetVigerendeVerordeningenStructuur = this.getAndSetVigerendeVerordeningenStructuur.bind(
             this
@@ -179,6 +177,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
             this
         )
         this.handleFilter = this.handleFilter.bind(this)
+        this.getMoreSearchResults = this.getMoreSearchResults.bind(this)
     }
 
     handleFilter(e) {
@@ -191,7 +190,6 @@ class RaadpleegZoekResultatenOverzicht extends Component {
     }
 
     setInitialOnPageFilters(searchResults) {
-        console.log(searchResults)
         // In the filterArray we place all the types of objects we received from the API
         let filterArray = []
 
@@ -217,8 +215,6 @@ class RaadpleegZoekResultatenOverzicht extends Component {
         })
 
         mainFilterObject.filterArray = filterArray
-
-        console.log(mainFilterObject)
 
         this.setState({
             onPageFilters: mainFilterObject,
@@ -309,6 +305,64 @@ class RaadpleegZoekResultatenOverzicht extends Component {
             }
         })
         return newSearchResults
+    }
+
+    getMoreSearchResults() {
+        this.setState({
+            loadingMoreResults: true,
+        })
+
+        const searchParams = new URLSearchParams(this.props.location.search)
+        const searchQuery = searchParams.get('query')
+        const searchFiltersOnly = searchParams.get('only')
+
+        axios
+            .get(
+                `/search?query=${searchQuery}&limit=10&offset=${
+                    this.state.searchOffset
+                }${searchFiltersOnly ? `&only=${searchFiltersOnly}` : ``}`
+            )
+            .then((res) => {
+                const searchResults = res.data
+                    .filter(
+                        (e) =>
+                            e.Type !== 'Beleidsprestaties' &&
+                            e.Type !== 'Themas' &&
+                            e.Type !== 'Belangen'
+                    )
+                    .filter(
+                        (e) =>
+                            (e.Type === 'Maatregelen' &&
+                                e.Status !== 'Vigerend') ||
+                            e.Type !== 'Maatregelen'
+                    )
+
+                this.setInitialOnPageFilters(searchResults)
+
+                const searchResultsWithVerordeningsPositions = this.addVerordeningsPositionToSearchResults(
+                    searchResults
+                )
+
+                this.setState({
+                    searchResults: [
+                        ...this.state.searchResults,
+                        ...searchResultsWithVerordeningsPositions,
+                    ],
+                    loadingMoreResults: false,
+                    searchOffset: this.state.searchOffset + 10,
+                })
+            })
+            .catch((err) => {
+                this.setState(
+                    {
+                        dataLoaded: true,
+                    },
+                    () => {
+                        console.log(err)
+                        toast(process.env.REACT_APP_ERROR_MSG)
+                    }
+                )
+            })
     }
 
     getSearchNormaleQuery(searchQuery, searchFiltersOnly) {
@@ -498,6 +552,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
             this.setState(
                 {
                     dataLoaded: false,
+                    searchOffset: 10,
                 },
                 this.getSearchResults()
             )
@@ -590,7 +645,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                             ? `Zoekresultaten voor coördinaten "${this.state.geoSearchQuery}"`
                             : null}
                     </span>
-                    <ul id="search-results">
+                    <ul id="search-results" className="mb-10">
                         {this.state.dataLoaded ? (
                             // this.state.searchResults.length > 0 ? (
                             this.state.searchResults &&
@@ -625,6 +680,22 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                             <LoaderContent />
                         )}
                     </ul>
+                    <div className="mb-16">
+                        {this.state.searchQuery && this.state.dataLoaded ? (
+                            <button
+                                onClick={() => {
+                                    if (this.state.loadingMoreResults) return
+                                    this.getMoreSearchResults()
+                                }}
+                                className="w-full px-5 py-4 font-bold text-center text-gray-500 transition-colors duration-200 ease-in bg-gray-200 rounded-md hover:bg-gray-300 hover:text-gray-700"
+                            >
+                                {this.state.loadingMoreResults ? (
+                                    <LoaderSpinner className="mr-2" />
+                                ) : null}
+                                <span>Laad meer zoekresultaten</span>
+                            </button>
+                        ) : null}
+                    </div>
                 </div>
             </div>
         )

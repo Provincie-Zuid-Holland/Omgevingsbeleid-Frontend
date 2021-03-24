@@ -4,8 +4,13 @@ import React from 'react'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-function LoaderSpinner() {
-    return <FontAwesomeIcon className="rotate-icon" icon={faSpinner} />
+function LoaderSpinner({ className }) {
+    return (
+        <FontAwesomeIcon
+            className={`rotate-icon ${className ? className : ''}`}
+            icon={faSpinner}
+        />
+    )
 }
 
 export default LoaderSpinner
