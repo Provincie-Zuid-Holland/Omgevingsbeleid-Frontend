@@ -6,6 +6,7 @@
 # testing
 /coverage
 cypress/fixtures
+cypress/support/localStorage.json
 cypress.json
 
 # production
