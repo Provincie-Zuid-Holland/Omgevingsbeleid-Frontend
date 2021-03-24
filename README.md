@@ -1,4 +1,4 @@
-# README
+<img src="https://www.zuid-holland.nl/publish/pages/26873/pzh_basislogo_rgb_1_0.svg" alt="Provincie Zuid-Holland logo" width="220px">
 
 # Omgevingsbeleid front-end
 
