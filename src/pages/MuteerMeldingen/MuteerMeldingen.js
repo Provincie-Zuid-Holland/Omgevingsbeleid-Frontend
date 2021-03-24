@@ -38,7 +38,7 @@ class MuteerMeldingen extends Component {
                 {/* Dashboard */}
                 <div className="relative flex-grow inline-block w-3/4 pl-8 rounded">
                     <section>
-                        <h2 className="mt-8 mb-4 text-gray-800 heading-serif">
+                        <h2 className="mt-8 mb-4 text-gray-800">
                             Mijn Meldingen
                         </h2>
 

@@ -170,7 +170,7 @@ const NavigationPopupMenu = ({
         <React.Fragment>
             <button
                 id="popup-menu-toggle"
-                className="px-2 py-2 text-gray-800 transition duration-300 ease-in rounded hover:text-gray-800"
+                className="flex items-center justify-center px-2 py-2 text-gray-800 transition-colors duration-100 ease-in rounded hover:bg-gray-100 hover:text-gray-900"
                 aria-expanded={isOpen}
                 onClick={() => setIsOpen(!isOpen)}
             >
@@ -190,7 +190,7 @@ const NavigationPopupMenu = ({
             >
                 <div
                     id="popup-menu"
-                    className="fixed top-0 left-0 w-full pt-24 bg-white"
+                    className="fixed top-0 left-0 w-full pt-16 bg-white"
                     style={
                         showBanner
                             ? {
@@ -204,8 +204,8 @@ const NavigationPopupMenu = ({
                     }
                 >
                     <div className="container flex h-full px-6 mx-auto">
-                        <div className="w-3/12 h-full border-r border-gray-300">
-                            <h3 className="font-bold text-gray-900 heading-xl">
+                        <div className="w-3/12 h-full pt-4 border-r border-gray-300">
+                            <h3 className="text-xl font-bold text-pzh-blue">
                                 Omgevingsvisie
                             </h3>
                             <nav className="mt-5">
@@ -225,7 +225,7 @@ const NavigationPopupMenu = ({
                                     setActiveTab={setActiveTab}
                                 />
                             </nav>
-                            <h3 className="mt-16 font-bold text-gray-900 heading-xl">
+                            <h3 className="mt-16 text-xl font-bold text-pzh-blue">
                                 Uitvoering
                             </h3>
                             <nav className="mt-5">
@@ -255,10 +255,10 @@ const NavigationPopupMenu = ({
                             </nav>
                         </div>
                         <div className="flex flex-col w-9/12 pl-5">
-                            <div className="flex w-full pb-5 border-b border-gray-300">
+                            <div className="flex items-end w-full pb-5 border-b border-gray-300">
                                 <h3
                                     id={`selected-type-${activeTab}`}
-                                    className="w-full font-bold text-gray-900 heading-xl"
+                                    className="w-full text-xl font-bold text-pzh-blue"
                                 >
                                     {activeTab}{' '}
                                     {isLoading &&
@@ -288,7 +288,7 @@ const NavigationPopupMenu = ({
                                             onChange={(e) =>
                                                 setFilterQuery(e.target.value)
                                             }
-                                            className="block w-full pr-10 form-input sm:text-sm sm:leading-5"
+                                            className="block w-full pr-10 form-input "
                                             placeholder={`Zoek in ${getCurrentConstants().TITLE_PLURAL.toLowerCase()}`}
                                         />
                                         <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
@@ -328,7 +328,7 @@ const NavigationPopupMenu = ({
                                             .map((item, index) => (
                                                 <Link
                                                     key={item.UUID}
-                                                    className={`w-1/2 group flex items-center px-3 py-2 text-sm leading-5 font-medium text-gray-700 rounded-md hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:bg-gray-100 transition ease-in-out duration-150  ${
+                                                    className={`w-1/2 group flex items-center px-3 py-2 text-sm leading-5 font-medium rounded-md hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition ease-in-out duration-150  ${
                                                         index % 2 === 0
                                                             ? 'pr-4'
                                                             : 'pl-4'
@@ -385,8 +385,8 @@ const TabMenuItem = ({ activeTab, tabTitle, setActiveTab }) => {
             id={`popup-menu-item-${tabTitle}`}
             className={`w-full font-medium rounded-md-l group flex items-center px-3 py-2 text-sm leading-5 hover:text-gray-900 transition ease-in-out duration-150 mt-1 ${
                 tabIsActive
-                    ? 'text-gray-900 bg-gray-100 hover:bg-gray-50 focus:outline-none'
-                    : 'text-gray-600 hover:bg-gray-50 focus:outline-none focus:bg-gray-50 cursor-pointer'
+                    ? 'bg-gray-100 hover:bg-gray-100 focus:outline-none'
+                    : 'hover:bg-gray-100 focus:outline-none focus:bg-gray-50 cursor-pointer'
             }`}
             aria-current={tabIsActive ? 'page' : false}
         >
@@ -404,7 +404,7 @@ const TabMenuItemLink = ({ tabTitle, href, setIsOpen, tabId, callback }) => {
                 if (callback) callback()
             }}
             to={href}
-            className={`w-full font-medium rounded-md-l group flex items-center px-3 py-2 text-sm leading-5 hover:text-gray-900 transition ease-in-out duration-150 mt-1 text-gray-600 hover:bg-gray-50 focus:outline-none focus:bg-gray-50 cursor-pointer`}
+            className={`w-full font-medium rounded-md-l group flex items-center px-3 py-2 text-sm leading-5 hover:text-gray-900 transition ease-in-out duration-150 mt-1 hover:bg-gray-100 focus:outline-none focus:bg-gray-50 cursor-pointer`}
         >
             <span className="truncate">{tabTitle}</span>
         </Link>

@@ -67,9 +67,7 @@ class MuteerVerordeningenstructuurOverzicht extends Component {
 
                 {/* Container */}
                 <div className="flex-grow inline-block w-3/4 pl-8 rounded">
-                    <h2 className="mb-4 text-gray-800 heading-serif">
-                        {titelMeervoud}
-                    </h2>
+                    <h2 className="mb-4 text-gray-800">{titelMeervoud}</h2>
 
                     <ul className="flex flex-wrap mt-8">
                         {this.state.dataReceived ? (
@@ -81,7 +79,7 @@ class MuteerVerordeningenstructuurOverzicht extends Component {
                                     className="flex items-center justify-center h-full px-4 py-4 overflow-hidden text-gray-600 no-underline border border-gray-300 border-dashed rounded hover:border-gray-400 transition-regular hover:text-gray-800"
                                     to={`/muteer/nieuwe-verordening`}
                                 >
-                                    <span className="px-4 py-2 font-semibold text-center">
+                                    <span className="px-4 py-2 font-bold text-center">
                                         + Voeg {titleSingular} Toe
                                     </span>
                                 </Link>

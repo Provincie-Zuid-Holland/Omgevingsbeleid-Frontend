@@ -24,9 +24,7 @@ const MuteerMijnBeleid = ({ authUser }) => {
             {/* Dashboard */}
             <div className="relative flex-grow inline-block w-3/4 pl-8 rounded">
                 <section>
-                    <h2 className="mb-4 text-gray-800 heading-serif">
-                        Mijn beleid
-                    </h2>
+                    <h2 className="mb-4 text-gray-800">Mijn beleid</h2>
 
                     <MijnBeleid authUser={authUser} />
                 </section>

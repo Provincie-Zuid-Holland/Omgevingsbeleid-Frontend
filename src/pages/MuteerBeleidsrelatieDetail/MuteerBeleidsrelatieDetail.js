@@ -124,7 +124,7 @@ const MuteerBeleidsrelatieDetail = ({
                     let newStateObject = outgoing_Beleidskeuzes
                     newStateObject[itemIndex].Status = 'Akkoord'
                     newStateObject[itemIndex].Datum_Akkoord = new Date()
-                    setOutgoing_Beleidskeuzes(newStateObject)
+                    setOutgoing_Beleidskeuzes([...newStateObject])
                     setSavingInProgress(false)
                 } else if (
                     incoming_Beleidskeuzes.find(
@@ -137,7 +137,7 @@ const MuteerBeleidsrelatieDetail = ({
                     let newStateObject = incoming_Beleidskeuzes
                     newStateObject[itemIndex].Status = 'Akkoord'
                     newStateObject[itemIndex].Datum_Akkoord = new Date()
-                    setIncoming_Beleidskeuzes(newStateObject)
+                    setIncoming_Beleidskeuzes([...newStateObject])
                     setSavingInProgress(false)
                 }
             })
@@ -220,8 +220,8 @@ const MuteerBeleidsrelatieDetail = ({
             incoming_Beleidskeuzes[naarIndex].Datum_Akkoord = new Date()
         }
 
-        setIncoming_Beleidskeuzes(incoming_Beleidskeuzes)
-        setOutgoing_Beleidskeuzes(outgoing_Beleidskeuzes)
+        setIncoming_Beleidskeuzes([...incoming_Beleidskeuzes])
+        setOutgoing_Beleidskeuzes([...outgoing_Beleidskeuzes])
     }
 
     React.useEffect(() => {
@@ -307,10 +307,10 @@ const MuteerBeleidsrelatieDetail = ({
                             )}
                             {!isLoading ? (
                                 <span
-                                    className={`absolute inline-block px-1 py-1 ml-4 -mt-1 text-xs font-semibold border rounded  ${
+                                    className={`absolute inline-block px-1 pt-1 ml-4 -mt-1 text-xs font-bold border rounded  ${
                                         beleidsObject.Status === 'Vigerend'
-                                            ? 'm-color m-base-border-color'
-                                            : 'text-secondary border-secondary'
+                                            ? 'text-pzh-blue border-pzh-blue'
+                                            : 'text-pzh-yellow-dark border-pzh-yellow-dark'
                                     } 
                                                                     `}
                                 >
@@ -322,7 +322,7 @@ const MuteerBeleidsrelatieDetail = ({
                     <div>
                         <Link
                             to={`/muteer/beleidsrelaties/${UUID}/nieuwe-relatie`}
-                            className="px-2 py-2 text-sm font-semibold text-white bg-green-600 rounded cursor-pointer hover:bg-green-700"
+                            className="px-2 pt-2 pb-1 text-sm font-bold text-white rounded cursor-pointer bg-pzh-green hover:bg-pzh-green-dark"
                         >
                             <FontAwesomeIcon
                                 className="mr-2 text-white"

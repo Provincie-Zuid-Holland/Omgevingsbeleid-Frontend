@@ -5,7 +5,7 @@ class ContainerFormSection extends React.Component {
         return (
             <div className="flex pb-8 mb-8 border-b-2 border-gray-300">
                 <div className="w-1/3 pr-20">
-                    <h2 className="m-color font-bold mb-2 text-lg">
+                    <h2 className="text-pzh-blue font-bold mb-2 text-lg">
                         {/* Algemene informatie */}
                         {this.props.titel}
                     </h2>

@@ -179,6 +179,7 @@ const RelatiesKoppelingenVisualisatie = ({
 
                 const generateHref = ({ property, UUID }) => {
                     const slugs = {
+                        Beleidskeuzes: 'beleidskeuzes',
                         Ambities: 'ambities',
                         BeleidsRegels: 'beleidsregels',
                         Beleidsprestaties: 'beleidsprestaties',

@@ -134,7 +134,7 @@ const FormFieldWerkingsgebiedKoppeling = ({
                                     className="mr-2 text-gray-400"
                                     icon={faPlus}
                                 />
-                                <span className="py-4 pr-4 font-semibold text-gray-400">
+                                <span className="py-4 pr-4 font-bold text-gray-400">
                                     Werkingsgebied koppelen
                                 </span>
                             </div>
@@ -193,7 +193,7 @@ const CardSelectedWerkingsgebied = ({
                             : null}
                     </span>
                     <span
-                        className="absolute bottom-0 left-0 px-5 py-5 text-sm text-red-600 underline transition-colors ease-in cursor-pointer duration-50 hover:text-red-800"
+                        className="absolute bottom-0 left-0 px-5 py-5 text-sm text-red-600 underline transition-colors duration-100 ease-in cursor-pointer hover:text-red-800"
                         onClick={() => {
                             setWerkingsgebiedInParentState({
                                 target: {
@@ -314,7 +314,7 @@ const WerkingsgebiedPopup = ({
                         <FontAwesomeIcon icon={faTimes} />
                     </div>
                     <div className="h-full px-8 pt-8 pb-12">
-                        <h2 className="form-field-label">
+                        <h2 className="form-field-label font-bold">
                             Werkingsgebied koppelen
                         </h2>
                         <span className="form-field-description">

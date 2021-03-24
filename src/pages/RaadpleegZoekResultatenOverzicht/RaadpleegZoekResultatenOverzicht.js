@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import 'url-search-params-polyfill'
+import DOMPurify from 'dompurify'
 
 import { faArrowLeft } from '@fortawesome/pro-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -54,7 +55,7 @@ function getDimensieConstant(type) {
     }
 }
 
-function SearchResultItem({ item, searchQuery }) {
+function SearchResultItem({ item, searchQuery, index }) {
     function getContent() {
         const params = new URLSearchParams(
             document.location.search.substring(1)
@@ -107,7 +108,12 @@ function SearchResultItem({ item, searchQuery }) {
     }
 
     return (
-        <li className="py-5 border-b border-gray-300" key={item.UUID}>
+        <li
+            className={`px-4 py-5 transition-colors duration-100 ease-in bg-white border-b border-gray-300 hover:bg-gray-100 ${
+                index === 0 ? 'border-t' : ''
+            }`}
+            key={item.UUID}
+        >
             <Link
                 className="group"
                 to={
@@ -133,26 +139,24 @@ function SearchResultItem({ item, searchQuery }) {
                 }
             >
                 <span
-                    className="block text-sm text-gray-600"
+                    className="block text-sm opacity-75 text-pzh-blue"
                     data-test="search-result-type"
                 >
                     {titleSingular}
                 </span>
-                <h2 className="block text-lg font-semibold text-primary group-hover:underline">
+                <h2 className="block mt-1 text-lg font-bold text-pzh-blue group-hover:underline">
                     {content.Titel}
                 </h2>
                 {content.Omschrijving.setInnerHTML ? (
                     <p
-                        className="mt-2 text-gray-700"
+                        className="mt-2"
                         dangerouslySetInnerHTML={content.Omschrijving.content}
                     ></p>
                 ) : content.Omschrijving.content &&
                   content.Omschrijving.content.length > 0 ? (
-                    <p className="mt-2 text-gray-700">
-                        {content.Omschrijving.content}
-                    </p>
+                    <p className="mt-2">{content.Omschrijving.content}</p>
                 ) : (
-                    <p className="mt-2 italic text-gray-700">
+                    <p className="mt-2 italic">
                         Er is nog geen omschrijving voor deze
                         {' ' + titleSingular.toLowerCase()}
                     </p>
@@ -160,6 +164,35 @@ function SearchResultItem({ item, searchQuery }) {
             </Link>
         </li>
     )
+}
+
+const Omschrijving = ({ content, titleSingular }) => {
+    if (content.Omschrijving.setInnerHTML) {
+        const cleanHTML = DOMPurify.sanitize(
+            content.Omschrijving.content.__html
+        )
+
+        return (
+            <p
+                className="mt-2 text-gray-700"
+                dangerouslySetInnerHTML={{ __html: cleanHTML }}
+            ></p>
+        )
+    } else if (
+        content.Omschrijving.content &&
+        content.Omschrijving.content.length > 0
+    ) {
+        return (
+            <p className="mt-2 text-gray-700">{content.Omschrijving.content}</p>
+        )
+    } else {
+        return (
+            <p className="mt-2 italic text-gray-700">
+                Er is nog geen omschrijving voor deze
+                {' ' + titleSingular.toLowerCase()}
+            </p>
+        )
+    }
 }
 
 class RaadpleegZoekResultatenOverzicht extends Component {
@@ -361,7 +394,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                         dataLoaded: true,
                     },
                     () => {
-                        console.log(err)
+                        console.error(err)
                         toast(process.env.REACT_APP_ERROR_MSG)
                     }
                 )
@@ -391,7 +424,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                 this.setState({
                     dataLoaded: true,
                 })
-                console.log(err)
+                console.error(err)
                 toast(process.env.REACT_APP_ERROR_MSG)
             })
     }
@@ -427,7 +460,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                     }
                 })
                 .catch((err) => {
-                    console.log(err)
+                    console.error(err)
                     toast(process.env.REACT_APP_ERROR_MSG)
                 })
         })
@@ -545,7 +578,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                                 ? `/?query=${this.state.searchQuery}`
                                 : `/`
                         }
-                        className={`text-gray-600 hover:text-gray-700 text-sm mb-4 inline-block group`}
+                        className={`text-pzh-blue opacity-75 hover:opacity-100 text-sm mb-4 inline-block group transition-opacity ease-in duration-100`}
                         id="button-back-to-previous-page"
                     >
                         <FontAwesomeIcon className="mr-2" icon={faArrowLeft} />
@@ -555,7 +588,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                     {this.state.dataLoaded &&
                     this.state.searchFiltersOnly === null ? (
                         <React.Fragment>
-                            <h2 className="block text-lg font-semibold text-primary group-hover:underline">
+                            <h2 className="block text-lg font-bold text-pzh-blue group-hover:underline">
                                 Filteren
                             </h2>
                             <ul id="filter-search-results" className="mt-4">
@@ -565,6 +598,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                                 onPageFilters.filterArray.length > 0
                                     ? filters.map((filter) => (
                                           <FilterItem
+                                              key={filter}
                                               count={
                                                   onPageFilters[filter].count
                                               }
@@ -582,7 +616,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                 </div>
 
                 <div className="w-2/4">
-                    <span className="block text-xl font-bold opacity-25 text-primary-super-dark">
+                    <span className="block pl-4 text-xl font-bold opacity-25 text-pzh-blue">
                         {this.state.searchQuery
                             ? `Zoekresultaten voor "${this.state.searchQuery}"`
                             : null}
@@ -590,9 +624,8 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                             ? `Zoekresultaten voor coördinaten "${this.state.geoSearchQuery}"`
                             : null}
                     </span>
-                    <ul id="search-results">
+                    <ul id="search-results" className="mt-4 mb-12">
                         {this.state.dataLoaded ? (
-                            // this.state.searchResults.length > 0 ? (
                             this.state.searchResults &&
                             this.state.searchResults.length > 0 ? (
                                 this.state.searchResults.map((item, index) => {
@@ -606,6 +639,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                                     ) {
                                         return (
                                             <SearchResultItem
+                                                index={index}
                                                 searchQuery={
                                                     this.state.urlParams
                                                 }

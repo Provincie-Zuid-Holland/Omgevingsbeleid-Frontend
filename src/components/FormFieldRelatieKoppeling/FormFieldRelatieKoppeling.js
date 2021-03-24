@@ -337,7 +337,7 @@ const Dropdown = ({
     return (
         <div className="relative">
             <div
-                className="relative inline-block py-1 pl-4 mt-2 text-sm text-white rounded cursor-pointer mbg-color text mbg-color-darker-hover"
+                className="relative inline-block py-1 pl-4 mt-2 text-sm text-white transition duration-200 ease-in rounded cursor-pointer bg-pzh-blue text hover:bg-pzh-blue-dark"
                 onClick={() => setDropdownOpen(!dropdownOpen)}
                 ref={buttonRef}
                 id={`nieuw-item-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
@@ -345,7 +345,7 @@ const Dropdown = ({
                 <span className="inline-block py-1 select-none">
                     {buttonTekst}
                 </span>
-                <span className="inline-block px-4 py-1 ml-4 text-center border-l m-border-color">
+                <span className="inline-block px-4 py-1 ml-4 text-center border-l border-white border-opacity-25">
                     <FontAwesomeIcon
                         className="mt-1 text-white"
                         icon={faAngleDown}

@@ -139,12 +139,12 @@ class PopupNieuweKoppeling extends Component {
             <PopUpAnimatedContainer>
                 <div
                     onClick={this.props.togglePopup}
-                    className="absolute top-0 right-0 px-3 py-2 text-gray-600 cursor-pointer"
+                    className="absolute top-0 right-0 px-6 py-4 text-gray-600 cursor-pointer"
                     id={`form-field-koppeling-sluit-popup`}
                 >
                     <FontAwesomeIcon icon={faTimes} />
                 </div>
-                <h3 className="form-field-label">
+                <h3 className="form-field-label font-bold">
                     {objecten[this.state.type].volledigeTitel} koppelen
                 </h3>
                 {this.state.actievePagina === 1 ? (
@@ -240,7 +240,7 @@ class PopupNieuweKoppeling extends Component {
                             {this.state.selected.Titel}' en '
                             {this.props.titelMainObject}'
                         </p>
-                        <div className="px-4 py-4 my-4 text-sm text-gray-700 border-l-4 mbg-color-lighter m-border-color">
+                        <div className="px-4 py-4 my-4 text-sm text-gray-700 border-l-4 bg-pzh-blue-super-light border-pzh-blue">
                             Om er voor te zorgen dat de aangebrachte koppeling
                             daadwerkelijk van waarde is, vragen we je om de
                             koppeling te beschrijven.
@@ -270,7 +270,7 @@ class PopupNieuweKoppeling extends Component {
                     </span>
                     {this.state.actievePagina === 1 ? (
                         <div
-                            className={`font-bold py-2 px-4 cursor-pointer leading-tight text-sm rounded bg-green-600 text-white ${
+                            className={`font-bold py-2 px-4 cursor-pointer leading-tight text-sm rounded bg-pzh-green text-white ${
                                 this.state.selected === null
                                     ? `cursor-not-allowed opacity-50`
                                     : `hover:underline`
@@ -302,7 +302,7 @@ class PopupNieuweKoppeling extends Component {
                         </div>
                     ) : (
                         <div
-                            className={`font-bold py-2 px-4 cursor-pointer leading-tight text-sm rounded bg-green-600 text-white ${
+                            className={`font-bold py-2 px-4 cursor-pointer leading-tight text-sm rounded bg-pzh-green text-white ${
                                 this.state.beschrijving.length === 0
                                     ? `cursor-not-allowed opacity-50`
                                     : `hover:underline`

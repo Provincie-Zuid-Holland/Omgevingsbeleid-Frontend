@@ -46,7 +46,7 @@ function VoegSectieToePopup({
                 {type === 'Hoofdstuk' ? (
                     <li>
                         <Link
-                            className="p-4 rounded hover:bg-gray-100 text-center font-semibold w-24 cursor-pointer inline-block"
+                            className="p-4 rounded hover:bg-gray-100 text-center font-bold w-24 cursor-pointer inline-block"
                             to={`/muteer/verordeningen/${lineageID}/nieuw/Hoofdstuk?hoofdstuk=${hoofdstukIndex}&nest_1=${nest_1}&nest_2=${nest_2}&nest_3=${nest_3}`}
                         >
                             <FontAwesomeIcon
@@ -60,7 +60,7 @@ function VoegSectieToePopup({
                 {type === 'Bovenste' || type === 'Afdeling' ? (
                     <li>
                         <Link
-                            className="p-4 rounded hover:bg-gray-100 text-center font-semibold w-24 cursor-pointer inline-block"
+                            className="p-4 rounded hover:bg-gray-100 text-center font-bold w-24 cursor-pointer inline-block"
                             to={`/muteer/verordeningen/${lineageID}/nieuw/Afdeling?hoofdstuk=${hoofdstukIndex}&nest_1=${nest_1}&nest_2=${nest_2}&nest_3=${nest_3}`}
                         >
                             <FontAwesomeIcon
@@ -76,7 +76,7 @@ function VoegSectieToePopup({
                 type === 'Paragraaf' ? (
                     <li>
                         <Link
-                            className="p-4 rounded hover:bg-gray-100 text-center font-semibold w-24 cursor-pointer inline-block"
+                            className="p-4 rounded hover:bg-gray-100 text-center font-bold w-24 cursor-pointer inline-block"
                             to={`/muteer/verordeningen/${lineageID}/nieuw/Paragraaf?hoofdstuk=${hoofdstukIndex}&nest_1=${nest_1}&nest_2=${nest_2}&nest_3=${nest_3}`}
                         >
                             <FontAwesomeIcon
@@ -90,7 +90,7 @@ function VoegSectieToePopup({
                 {type !== 'Bovenste' && type !== 'Hoofdstuk' ? (
                     <li>
                         <Link
-                            className="p-4 rounded hover:bg-gray-100 text-center font-semibold w-24 cursor-pointer inline-block"
+                            className="p-4 rounded hover:bg-gray-100 text-center font-bold w-24 cursor-pointer inline-block"
                             to={`/muteer/verordeningen/${lineageID}/nieuw/Artikel?hoofdstuk=${hoofdstukIndex}&nest_1=${nest_1}&nest_2=${nest_2}&nest_3=${nest_3}`}
                         >
                             <FontAwesomeIcon
@@ -161,9 +161,9 @@ class AddSection extends Component {
             >
                 <div className="absolute w-full h-0 border-b border-gray-300 opacity-0 popup-divider transition-regular cursor-pointer" />
                 <span className="popup-plus-icon transition-regular z-10 rounded-full bg-white p-2 cursor-pointer">
-                    <span className="flex bg-white justify-center items-center border-2 border-green-600 text-green-600 w-5 h-5 rounded-full font-bold">
+                    <span className="flex bg-white justify-center items-center border-2 border-pzh-green text-pzh-green w-5 h-5 rounded-full font-bold">
                         <FontAwesomeIcon
-                            className="relative text-green-600 text-xs"
+                            className="relative text-pzh-green text-xs"
                             icon={faPlus}
                         />
                     </span>

@@ -24,12 +24,6 @@ const ContainerViewFieldsBeleidskeuze = ({ crudObject }) => {
                             fieldValue={crudObject['Omschrijving_Keuze']}
                         />
                     ) : null}
-                    {crudObject['Omschrijving_Werking'] ? (
-                        <ViewFieldTitelEnInhoud
-                            fieldTitel="Werking"
-                            fieldValue={crudObject['Omschrijving_Werking']}
-                        />
-                    ) : null}
                     {crudObject['Afweging'] ? (
                         <ViewFieldTitelEnInhoud
                             fieldTitel="Afweging"
@@ -46,6 +40,12 @@ const ContainerViewFieldsBeleidskeuze = ({ crudObject }) => {
                         <ViewFieldTitelEnInhoud
                             fieldTitel="Provinciaal belang"
                             fieldValue={crudObject['Provinciaal_Belang']}
+                        />
+                    ) : null}
+                    {crudObject['Omschrijving_Werking'] ? (
+                        <ViewFieldTitelEnInhoud
+                            fieldTitel="Toelichting"
+                            fieldValue={crudObject['Omschrijving_Werking']}
                         />
                     ) : null}
                     {crudObject['Belangen'] &&

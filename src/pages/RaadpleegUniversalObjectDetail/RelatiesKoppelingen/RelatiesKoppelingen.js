@@ -1,5 +1,7 @@
 import React from 'react'
 
+import LoaderSpinner from './../../../components/LoaderSpinner'
+
 import RelatiesKoppelingenVisualisatie from './../RelatiesKoppelingenVisualisatie'
 import RelatiesKoppelingenTekstueel from './../RelatiesKoppelingenTekstueel'
 import axios from '../../../API/axios'
@@ -15,47 +17,39 @@ const connectionProperties = [
     'Verordening',
 ]
 
-// https://tailwindcss.com/docs/customizing-colors#default-color-palette
 const connectionPropertiesColors = {
     MainObject: {
         hex: '#553c9a',
         class: 'purple-800',
     },
     Ambities: {
-        hex: '#ED8936',
-        class: 'orange-500',
+        hex: '#aa0067',
     },
     Belangen: {
-        hex: '#D53F8C',
-        class: 'pink-600',
+        hex: '#ff6b02',
     },
     BeleidsRegels: {
-        hex: '#718096',
-        class: 'gray-600',
+        hex: '#76bc21',
     },
     Beleidsprestaties: {
         hex: '#ECC94B',
         class: 'yellow-500',
     },
     Maatregelen: {
-        hex: '#48BB78',
-        class: 'green-500',
+        hex: '#503d90',
     },
     Beleidsdoelen: {
         hex: '#3182CE',
         class: 'blue-600',
     },
     Themas: {
-        hex: '#38B2AC',
-        class: 'teal-500',
+        hex: '#847062',
     },
     Verordening: {
-        hex: '#E53E3E',
-        class: 'red-600',
+        hex: '#eb7085',
     },
     Beleidskeuzes: {
-        hex: '#805AD5',
-        class: 'purple-600',
+        hex: '#7badde',
     },
 }
 
@@ -77,7 +71,7 @@ const RelatiesKoppelingen = ({ dataObject, titleSingular }) => {
             .then((res) => res.data)
         const beleidsrelatiesNaar = axios
             .get(
-                `/beleidsrelaties?filters\=Status:Akkoord,Naar_Beleidskeuze:${dataObject.UUID}`
+                `/beleidsrelaties?filters=Status:Akkoord,Naar_Beleidskeuze:${dataObject.UUID}`
             )
             .then((res) => res.data)
 
@@ -94,28 +88,8 @@ const RelatiesKoppelingen = ({ dataObject, titleSingular }) => {
     }
 
     const initBeleidsobject = () => {
-        // const beleidsrelatiesVan = axios
-        //     .get(
-        //         `/beleidsrelaties?filters=Status:Akkoord,Van_Beleidskeuze:${dataObject.UUID}`
-        //     )
-        //     .then((res) => res.data)
-        // const beleidsrelatiesNaar = axios
-        //     .get(
-        //         `/beleidsrelaties?filters\=Status:Akkoord,Naar_Beleidskeuze:${dataObject.UUID}`
-        //     )
-        //     .then((res) => res.data)
         setBeleidsRelaties(dataObject.Ref_Beleidskeuzes)
-
-        // Promise.all([beleidsrelatiesVan, beleidsrelatiesNaar]).then(
-        //     (relaties) => {
-        //         // Generate UUID's of all the beleidskeuzes that this beleidskeuze has a relationship with
-        //         const relatiesVan = relaties[0]
-        //         const relatiesNaar = relaties[1]
-
-        //         setBeleidsRelaties([...relatiesVan, ...relatiesNaar])
         setIsLoading(false)
-        //     }
-        // )
     }
 
     React.useEffect(() => {
@@ -126,13 +100,11 @@ const RelatiesKoppelingen = ({ dataObject, titleSingular }) => {
         }
     }, [dataObject.UUID])
 
-    if (isLoading) return null
-
     return (
         <div className="w-full pb-24 bg-orange-100">
-            <div className="container max-w-4xl pt-16 mx-auto">
+            <div className="container max-w-3xl pt-16 mx-auto">
                 <div className="px-6">
-                    <h2 className="block mb-1 text-lg font-semibold tracking-wide text-yellow-700">
+                    <h2 className="block mb-1 text-lg font-bold tracking-wide text-yellow-700">
                         Koppelingen & Relaties
                     </h2>
                     <p>
@@ -157,7 +129,7 @@ const RelatiesKoppelingen = ({ dataObject, titleSingular }) => {
                         />
                     </div>
                     <div className="mt-6">
-                        {activeTab === 'Visueel' ? (
+                        {!isLoading && activeTab === 'Visueel' ? (
                             <RelatiesKoppelingenVisualisatie
                                 titleSingular={titleSingular}
                                 beleidsObject={dataObject}
@@ -167,7 +139,7 @@ const RelatiesKoppelingen = ({ dataObject, titleSingular }) => {
                                     connectionPropertiesColors
                                 }
                             />
-                        ) : activeTab === 'Tekstueel' ? (
+                        ) : !isLoading && activeTab === 'Tekstueel' ? (
                             <RelatiesKoppelingenTekstueel
                                 beleidsObject={dataObject}
                                 beleidsRelaties={beleidsRelaties}
@@ -176,6 +148,10 @@ const RelatiesKoppelingen = ({ dataObject, titleSingular }) => {
                                     connectionPropertiesColors
                                 }
                             />
+                        ) : isLoading ? (
+                            <div className="flex items-center justify-center w-full p-24 text-gray-500">
+                                <LoaderSpinner />
+                            </div>
                         ) : null}
                     </div>
                 </div>
@@ -187,7 +163,7 @@ const RelatiesKoppelingen = ({ dataObject, titleSingular }) => {
 const TabButton = ({ activeTab, onClick, title }) => {
     return (
         <button
-            className={`border-opacity-0 transition duration-100 ease-in border-b-2 border-primary-super-dark px-5 py-2 font-bold text-primary-super-dark ${
+            className={`border-opacity-0 transition duration-100 ease-in border-b-2 border-pzh-blue px-5 py-2 font-bold text-pzh-blue ${
                 activeTab === title
                     ? 'border-opacity-100'
                     : 'hover:border-opacity-25 focus:border-opacity-50'

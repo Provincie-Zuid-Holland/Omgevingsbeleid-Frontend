@@ -7,7 +7,7 @@ class CardKoppeling extends Component {
         return (
             <div className="bg-white rounded shadow p-4 mb-4">
                 <div className="flex items-center justify-start">
-                    <div className="rounded-full mbg-color w-12 h-12 inline-block text-white flex justify-center items-center">
+                    <div className="rounded-full bg-pzh-blue w-12 h-12 inline-block text-white flex justify-center items-center">
                         <FontAwesomeIcon className="font-xl" icon={faLink} />
                     </div>
                     <h3 className="inline-block font-bold text-lg ml-4 text-gray-800">
@@ -39,7 +39,7 @@ class CardKoppeling extends Component {
                             ex ea commodo consequat."
                         </p>
                     </div>
-                    <span className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded cursor-not-allowed text-sm mr-2">
+                    <span className="bg-pzh-green hover:bg-pzh-green-dark text-white font-bold py-2 px-4 rounded cursor-not-allowed text-sm mr-2">
                         Accepteren
                     </span>
                     <span className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded cursor-not-allowed text-sm mr-4">

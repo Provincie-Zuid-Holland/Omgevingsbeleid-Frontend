@@ -15,10 +15,8 @@ const EigenaarsDriehoek = ({ dataObject }) => {
 
     return (
         <React.Fragment>
-            <div className="w-3/12">
-                <h2 className="mb-2 font-serif text-gray-700">
-                    Eigenaarsdriehoek
-                </h2>
+            <div className="w-4/12">
+                <h2 className="mb-2 text-gray-700">Eigenaarsdriehoek</h2>
                 {dataObject.Eigenaar_1 ? (
                     <EigenaarsDriehoekItem
                         eigenaarType="Eerste eigenaar"
