@@ -16,7 +16,7 @@ import ContainerMain from './../../components/ContainerMain'
 function MuteerBeleidsrelaties() {
     const [currentView, setCurrentView] = React.useState('overzicht')
     const [beleidsrelaties, setBeleidsrelaties] = React.useState([])
-    const [beleidsbeslissingen, setBeleidsbeslissingen] = React.useState([])
+    const [beleidskeuzes, setBeleidskeuzes] = React.useState([])
     const [isLoading, setIsLoading] = React.useState(true)
 
     const { user } = React.useContext(UserContext)
@@ -46,12 +46,12 @@ function MuteerBeleidsrelaties() {
 
         Promise.all([
             axios.get(
-                `/beleidsbeslissingen?Created_By=${UserUUID}&Eigenaar_1=${UserUUID}&Eigenaar_2=${UserUUID}&Opdrachtgever=${UserUUID}`
+                `/beleidskeuzes?Created_By=${UserUUID}&Eigenaar_1=${UserUUID}&Eigenaar_2=${UserUUID}&Opdrachtgever=${UserUUID}`
             ),
             axios.get(`/beleidsrelaties`),
         ])
-            .then(([beleidsbeslissingen, beleidsrelaties]) => {
-                setBeleidsbeslissingen(beleidsbeslissingen.data)
+            .then(([beleidskeuzes, beleidsrelaties]) => {
+                setBeleidskeuzes(beleidskeuzes.data)
                 setBeleidsrelaties(beleidsrelaties.data)
                 setIsLoading(false)
             })
@@ -65,7 +65,7 @@ function MuteerBeleidsrelaties() {
         return (
             <ContainerMain>
                 <MuteerBeleidsrelatiesOverzicht
-                    beleidsbeslissingen={beleidsbeslissingen}
+                    beleidskeuzes={beleidskeuzes}
                     beleidsrelaties={beleidsrelaties}
                     parentDataLoaded={!isLoading}
                     currentView={currentView}

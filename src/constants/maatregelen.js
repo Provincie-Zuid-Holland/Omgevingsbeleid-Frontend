@@ -3,7 +3,7 @@ import { currentDate, futureDate, currentDateFormatted } from './testValues'
 export const TITLE_SINGULAR = 'Maatregel'
 export const TITLE_PLURAL = 'Maatregelen'
 export const API_ENDPOINT = 'maatregelen'
-export const API_ENDPOINT_VIGEREND = 'maatregelen/vigerend'
+export const API_ENDPOINT_VIGEREND = 'valid/maatregelen'
 export const SLUG_OVERVIEW = 'maatregelen'
 export const SLUG_CREATE_NEW = 'nieuwe-maatregel'
 
@@ -14,6 +14,41 @@ export const CRUD_PROPERTIES = {
         requiredMessage: 'Vul een titel in',
         testValue: `Test maatregel ${currentDateFormatted}`,
         type: 'text input',
+    },
+    Eigenaar_1: {
+        initValue: null,
+        required: false,
+        requiredMessage: 'Selecteer een eerste eigenaar',
+        testValue: `Alex de Roos`,
+        type: 'react select',
+    },
+    Eigenaar_2: {
+        initValue: null,
+        required: false,
+        requiredMessage: 'Selecteer een tweede eigenaar',
+        testValue: `Maurice Hermans`,
+        type: 'react select',
+    },
+    Portefeuillehouder_1: {
+        initValue: null,
+        required: false,
+        requiredMessage: 'Selecteer een eerste portefeuillehouder',
+        testValue: `Willy de Zoete`,
+        type: 'react select',
+    },
+    Portefeuillehouder_2: {
+        initValue: null,
+        required: false,
+        requiredMessage: 'Selecteer een tweede portefeuillehouder',
+        testValue: `Adri Bom-Lemstra`,
+        type: 'react select',
+    },
+    Opdrachtgever: {
+        initValue: null,
+        required: false,
+        requiredMessage: 'Selecteer een opdrachtgever',
+        testValue: `Albert Koffeman`,
+        type: 'react select',
     },
     Gebied: {
         initValue: null,

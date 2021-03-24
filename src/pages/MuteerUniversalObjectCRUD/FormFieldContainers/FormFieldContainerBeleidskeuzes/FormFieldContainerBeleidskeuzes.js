@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import clonedeep from 'lodash.clonedeep'
 
-import ContainerFormSection from './../../../../components/ContainerFormSection'
+import ContainerFormSection from '../../../../components/ContainerFormSection'
 import {
     FormFieldDate,
     FormFieldTextInput,
@@ -11,11 +11,11 @@ import {
     FormFieldSelectUserGroup,
     FormFieldWerkingsgebiedKoppeling,
     FormFieldRelatieKoppeling,
-} from './../../../../components/FormFieldsExport'
+} from '../../../../components/FormFieldsExport'
 
-import UserContext from './../../../../App/UserContext'
+import UserContext from '../../../../App/UserContext'
 
-function FormFieldContainerBeleidsbeslissingen({
+function FormFieldContainerBeleidskeuzes({
     titleSingular,
     crudObject,
     handleChange,
@@ -83,7 +83,7 @@ function FormFieldContainerBeleidsbeslissingen({
                     pValue="Hier geef je aan welke keuze de provincie heeft genomen. Formuleer in één of enkele zinnen wat de provincie wil bereiken en welke rechtsgevolgen dit eventueel heeft voor derden."
                     titleSingular={titleSingular}
                 />
-          
+
                 <FormFieldTextArea
                     disabled={isVigerend}
                     handleChange={handleChange}
@@ -115,12 +115,11 @@ function FormFieldContainerBeleidsbeslissingen({
                     titleSingular={titleSingular}
                 />
             </ContainerFormSection>
-                    
+
             <ContainerFormSection
                 titel="Nationaal beleid"
                 beschrijving="Nationale doelstellingen kunnen de aanleiding vormen voor provinciaal beleid. Zo kan het Rijk wettelijke taken & bevoegdheden voor de provincie hebben vastgelegd of kan provinciaal beleid Nationale belangen uit de Nationale Omgevingsvisie (NOVI) dienen."
             >
-                    
                 <FormFieldRelatieKoppeling
                     disabled={isVigerend}
                     placeholderTekst="Er is nog geen Nationaal belang of 'Wettelijke taken & bevoegdheden' gekoppeld."
@@ -147,7 +146,7 @@ function FormFieldContainerBeleidsbeslissingen({
                 <FormFieldWerkingsgebiedKoppeling
                     disabled={isVigerend}
                     setWerkingsgebiedInParentState={handleChange}
-                    werkingsgebiedInParentState={crudObject['WerkingsGebieden']}
+                    werkingsgebiedInParentState={crudObject['Werkingsgebieden']}
                     titleSingular={titleSingular}
                     fieldLabel="Selecteer werkingsgebied"
                     dataObjectProperty="WerkingsGebieden"
@@ -238,12 +237,12 @@ function FormFieldContainerBeleidsbeslissingen({
     )
 }
 
-FormFieldContainerBeleidsbeslissingen.propTypes = {
+FormFieldContainerBeleidskeuzes.propTypes = {
     titleSingular: PropTypes.string.isRequired,
     crudObject: PropTypes.object.isRequired,
     handleChange: PropTypes.func.isRequired,
 }
 
-FormFieldContainerBeleidsbeslissingen.defaultProps = {}
+FormFieldContainerBeleidskeuzes.defaultProps = {}
 
-export default FormFieldContainerBeleidsbeslissingen
+export default FormFieldContainerBeleidskeuzes

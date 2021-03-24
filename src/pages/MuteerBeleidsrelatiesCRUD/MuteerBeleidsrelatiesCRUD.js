@@ -26,14 +26,14 @@ class MuteerBeleidsrelatiesCRUD extends Component {
             crudObject: {
                 Begin_Geldigheid: '',
                 Eind_Geldigheid: '',
-                Naar_Beleidsbeslissing: '',
+                Naar_Beleidskeuze: '',
                 Omschrijving: '',
                 Titel: '',
-                Van_Beleidsbeslissing: this.props.match.params.UUID,
+                Van_Beleidskeuze: this.props.match.params.UUID,
                 Status: 'Open',
                 Aanvraag_Datum: new Date(),
             },
-            Van_Beleidsbeslissing_Titel: '...',
+            Van_Beleidskeuze_Titel: '...',
         }
 
         this.handleChange = this.handleChange.bind(this)
@@ -49,10 +49,10 @@ class MuteerBeleidsrelatiesCRUD extends Component {
     componentDidMount() {
         const UUID = this.props.match.params.UUID
         axios
-            .get(`/beleidsbeslissingen/version/${UUID}`)
+            .get(`version/beleidskeuzes/${UUID}`)
             .then((res) =>
                 this.setState({
-                    Van_Beleidsbeslissing_Titel: res.data.Titel,
+                    Van_Beleidskeuze_Titel: res.data.Titel,
                 })
             )
             .catch((err) => {
@@ -110,8 +110,8 @@ class MuteerBeleidsrelatiesCRUD extends Component {
         let crudObject = this.state.crudObject
 
         if (
-            crudObject.Naar_Beleidsbeslissing === '' ||
-            !crudObject.Naar_Beleidsbeslissing
+            crudObject.Naar_Beleidskeuze === '' ||
+            !crudObject.Naar_Beleidskeuze
         ) {
             toast('Selecteer een beleidskeuze')
             return
@@ -221,8 +221,8 @@ class MuteerBeleidsrelatiesCRUD extends Component {
             handleChange: this.handleChange,
             crudObject: this.state.crudObject,
             setEditorState: this.setEditorState,
-            Van_Beleidsbeslissing_Titel: this.state.Van_Beleidsbeslissing_Titel,
-            Van_Beleidsbeslissing_UUID: this.props.match.params.UUID,
+            Van_Beleidskeuze_Titel: this.state.Van_Beleidskeuze_Titel,
+            Van_Beleidskeuze_UUID: this.props.match.params.UUID,
         }
 
         return (

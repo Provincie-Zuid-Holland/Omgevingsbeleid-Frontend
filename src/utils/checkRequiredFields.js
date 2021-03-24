@@ -13,7 +13,7 @@ function checkRequiredFields(crudObject, dimensieConstants, titleSingular) {
     // Boolean om te returnen
     let alleVeldenIngevuld = true
 
-    // De beleidsbeslissingen bevatten niet een boolean property met de required waarde, maar een array met de statussen waarin dat property verplicht is
+    // De beleidskeuzes bevatten niet een boolean property met de required waarde, maar een array met de statussen waarin dat property verplicht is
     if (titleSingular === 'Beleidskeuze') {
         crudObjectProperties.forEach((property) => {
             if (

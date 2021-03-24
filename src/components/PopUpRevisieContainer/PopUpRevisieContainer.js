@@ -45,56 +45,62 @@ const PopUpRevisieContainer = ({
     }
 
     return (
-        <div
-            className="relative z-50 inline-block mr-3 text-sm text-gray-600"
-            ref={innerContainer}
-        >
-            <span
-                onClick={() => setOpen(!open)}
-                className="cursor-pointer select-none"
+        <div className="relative inline-block">
+            <div
+                className="inline-block mr-3 text-sm text-gray-600"
+                ref={innerContainer}
             >
-                <FontAwesomeIcon className="mr-2" icon={faClock} />
-                <span className="hover:underline">
-                    {getAmountText(amountOfRevisions)}
+                <span
+                    onClick={() => setOpen(!open)}
+                    className="cursor-pointer select-none"
+                >
+                    <FontAwesomeIcon className="mr-2" icon={faClock} />
+                    <span className="hover:underline">
+                        {getAmountText(amountOfRevisions)}
+                    </span>
                 </span>
-            </span>
-            <Transition
-                show={open}
-                enter="transition ease-out duration-150 transform"
-                enterFrom="-translate-y-1 scale-95"
-                enterTo="translate-y-0 scale-100"
-                leave="transition ease-in duration-100 transform"
-                leaveFrom="translate-y-0 scale-100"
-                leaveTo="-translate-y-1 scale-95"
-            >
-                <div className="absolute left-0 z-20 w-64 mt-3 -ml-24 text-gray-700 bg-white rounded main-tooltip-container">
-                    <div
-                        className="relative h-full overflow-y-auto"
-                        style={{ maxHeight: '50vh' }}
-                    >
-                        <div className="absolute top-0 z-0 w-1 h-full ml-5 border-l border-gray-300" />
-                        <ul className="pl-5">{children}</ul>
-                    </div>
-                    {type === 'Beleidskeuze' ? (
+            </div>
+            <div className="absolute top-0 left-0 z-50 inline-block mt-6">
+                <Transition
+                    show={open}
+                    enter="transition ease-out duration-150 transform"
+                    enterFrom="-translate-y-1 scale-95"
+                    enterTo="translate-y-0 scale-100"
+                    leave="transition ease-in duration-100 transform"
+                    leaveFrom="translate-y-0 scale-100"
+                    leaveTo="-translate-y-1 scale-95"
+                >
+                    <div className="absolute left-0 z-20 w-64 mt-3 -ml-24 text-gray-700 bg-white rounded main-tooltip-container">
                         <div
-                            onClick={() => {
-                                setOpen(false)
-                                setRevisieoverzichtOpen(true)
-                            }}
-                            className="flex items-center justify-between px-5 py-3 transition-colors duration-100 ease-in border-t border-gray-300 cursor-pointer hover:bg-gray-100"
+                            className="relative h-full overflow-y-auto"
+                            style={{ maxHeight: '50vh' }}
                         >
-                            <span>Vergelijken</span>
-                            <FontAwesomeIcon icon={faChevronRight} />
+                            <div className="absolute top-0 z-0 w-1 h-full ml-5 border-l border-gray-300" />
+                            <ul className="pl-5">{children}</ul>
                         </div>
-                    ) : null}
-                </div>
-            </Transition>
-            <PopupRevisieoverzicht
-                dataObject={dataObject}
-                revisieObjecten={revisieObjecten}
-                revisieoverzichtOpen={revisieoverzichtOpen}
-                setRevisieoverzichtOpen={setRevisieoverzichtOpen}
-            />
+                        {type === 'Beleidskeuze' &&
+                        revisieObjecten &&
+                        revisieObjecten.length > 1 ? (
+                            <div
+                                onClick={() => {
+                                    setOpen(false)
+                                    setRevisieoverzichtOpen(true)
+                                }}
+                                className="flex items-center justify-between px-5 py-3 transition-colors duration-100 ease-in border-t border-gray-300 cursor-pointer hover:bg-gray-100"
+                            >
+                                <span>Vergelijken</span>
+                                <FontAwesomeIcon icon={faChevronRight} />
+                            </div>
+                        ) : null}
+                    </div>
+                </Transition>
+                <PopupRevisieoverzicht
+                    dataObject={dataObject}
+                    revisieObjecten={revisieObjecten}
+                    revisieoverzichtOpen={revisieoverzichtOpen}
+                    setRevisieoverzichtOpen={setRevisieoverzichtOpen}
+                />
+            </div>
         </div>
     )
 }

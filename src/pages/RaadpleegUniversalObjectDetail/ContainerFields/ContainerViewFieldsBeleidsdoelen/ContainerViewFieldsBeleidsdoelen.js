@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import ViewFieldTitelEnInhoud from './../../ViewFieldTitelEnInhoud'
+import ViewFieldTitelEnInhoud from '../../ViewFieldTitelEnInhoud'
 
-class ContainerViewFieldsOpgave extends Component {
+class ContainerViewFieldsBeleidsdoelen extends Component {
     render() {
         const crudObject = this.props.crudObject
         return (
@@ -17,4 +17,4 @@ class ContainerViewFieldsOpgave extends Component {
     }
 }
 
-export default ContainerViewFieldsOpgave
+export default ContainerViewFieldsBeleidsdoelen

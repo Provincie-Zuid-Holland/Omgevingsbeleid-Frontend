@@ -3,21 +3,22 @@ import * as d3 from 'd3'
 import { Link, useLocation } from 'react-router-dom'
 
 const RelatiesKoppelingenVisualisatie = ({
-    beleidskeuze,
+    beleidsObject,
     connectionProperties,
     connectionPropertiesColors,
     beleidsRelaties,
+    titleSingular,
 }) => {
     const location = useLocation()
 
-    const [variables, setVariables] = React.useState({})
+    const [variables, setVariables] = React.useState({}) // X and Y positions for the Tooltip
     const [data, setData] = React.useState(null)
     const [href, setHref] = React.useState('#')
-    const [connectedProperties, setConnectedProperties] = React.useState([])
+    const [connectedProperties, setConnectedProperties] = React.useState([]) // Properties that contain connections
 
     // Prepare and set data for the D3 Visualisation
     React.useEffect(() => {
-        if (!beleidskeuze) return
+        if (!beleidsObject) return
 
         // Generate data Object with two objects inside of it, nodes and links
         // The properties on the nodes objects are { id: UUID, name: Titel, color: '#' }
@@ -30,12 +31,12 @@ const RelatiesKoppelingenVisualisatie = ({
             links: [],
         }
 
-        // First we push in the beleidsbeslissing node object into the data object
+        // First we push in the beleidsObject node object into the data object
         data.nodes.push({
-            id: beleidskeuze.UUID,
-            name: beleidskeuze.Titel,
-            property: 'BeleidskeuzeMain',
-            color: connectionPropertiesColors.Beleidskeuzes.hex,
+            id: beleidsObject.UUID,
+            name: beleidsObject.Titel,
+            property: 'beleidsObjectMain',
+            color: connectionPropertiesColors.MainObject.hex,
         })
 
         // Holds the properties that have connections
@@ -43,14 +44,17 @@ const RelatiesKoppelingenVisualisatie = ({
 
         // Output the node and link object for each property
         // We use the index for the ID
-        connectionProperties.forEach((property, propertyIndex) => {
-            if (!beleidskeuze[property] || beleidskeuze[property].length === 0)
+        connectionProperties.forEach((property) => {
+            if (
+                !beleidsObject[property] ||
+                beleidsObject[property].length === 0
+            )
                 return
 
-            // Connection property exist in beleidskeuze, so we push it
+            // Connection property exist in beleidsObject, so we push it
             activeConnectionProperties.push(property)
 
-            beleidskeuze[property].forEach((connection) => {
+            beleidsObject[property].forEach((connection) => {
                 data.nodes.push({
                     id: connection.UUID,
                     name: connection.Titel,
@@ -59,13 +63,14 @@ const RelatiesKoppelingenVisualisatie = ({
                 })
                 data.links.push({
                     source: connection.UUID,
-                    target: beleidskeuze.UUID,
+                    target: beleidsObject.UUID,
                 })
             })
         })
 
         // If there are beleidsrelaties, push them as well
         if (beleidsRelaties.length > 0) {
+            activeConnectionProperties.push('Beleidskeuzes')
             beleidsRelaties.forEach((beleidsrelatie) => {
                 data.nodes.push({
                     id: beleidsrelatie.UUID,
@@ -75,7 +80,7 @@ const RelatiesKoppelingenVisualisatie = ({
                 })
                 data.links.push({
                     source: beleidsrelatie.UUID,
-                    target: beleidskeuze.UUID,
+                    target: beleidsObject.UUID,
                 })
             })
         }
@@ -83,7 +88,7 @@ const RelatiesKoppelingenVisualisatie = ({
         setConnectedProperties(activeConnectionProperties)
         setData(data)
     }, [
-        beleidskeuze,
+        beleidsObject,
         beleidsRelaties,
         connectionProperties,
         connectionPropertiesColors,
@@ -104,14 +109,30 @@ const RelatiesKoppelingenVisualisatie = ({
             const links = data.links
             const nodes = data.nodes
 
-            // Generate cool simulation effect, ha
+            /**
+             * When we simulate the nodes, we need to define their strength of attracting or repelling each other.
+             * The higher the strength, the more they repel each other.
+             * The more nodes we have, the stronger our strength need to be in order to create the space for the nodes
+             * https://www.d3indepth.com/force-layout/#forcemanybody
+             */
+            const generateStrength = (nodes) => {
+                if (nodes.length > 20) return -100
+                if (nodes.length > 10) return -70
+                return -30 // Default
+            }
+
+            const strength = generateStrength(nodes)
+
+            /**
+             * Generate the simulation with d3-force https://github.com/d3/d3-force
+             */
             const simulation = d3
                 .forceSimulation(nodes)
                 .force(
                     'link',
                     d3.forceLink(links).id((d) => d.id)
                 )
-                .force('charge', d3.forceManyBody())
+                .force('charge', d3.forceManyBody().strength(strength))
                 .force('x', d3.forceX())
                 .force('y', d3.forceY())
 
@@ -133,7 +154,7 @@ const RelatiesKoppelingenVisualisatie = ({
                 .selectAll('circle')
                 .data(nodes)
                 .join('circle')
-                .attr('r', 7.5)
+                .attr('r', 7.5) // r equals the radius of the circle (node)
                 .attr('fill', (d) => d.color)
                 .on('mouseover', handleMouseOver)
                 .on('mouseout', handleMouseOut)
@@ -144,7 +165,7 @@ const RelatiesKoppelingenVisualisatie = ({
             // In here we handle the tooltip
             function handleMouseOver(d, i) {
                 // We don't want to show the popup on the main beleidskeuze
-                if (d.property === 'BeleidskeuzeMain') return
+                if (d.property === 'beleidsObjectMain') return
 
                 // Activate display
                 tooltip.style('display', 'block')
@@ -161,12 +182,13 @@ const RelatiesKoppelingenVisualisatie = ({
                         Beleidskeuzes: 'beleidskeuzes',
                         Ambities: 'ambities',
                         BeleidsRegels: 'beleidsregels',
-                        Doelen: 'beleidsprestaties',
+                        Beleidsprestaties: 'beleidsprestaties',
                         Belangen: 'belangen',
                         Maatregelen: 'maatregelen',
                         Themas: 'themas',
-                        Opgaven: 'beleidsdoelen',
+                        Beleidsdoelen: 'beleidsdoelen',
                         Verordening: 'verordeningen',
+                        Beleidskeuzes: 'beleidskeuzes',
                     }
 
                     const path = `/detail/${slugs[property]}/${UUID}?fromPage=${location.pathname}`
@@ -186,6 +208,7 @@ const RelatiesKoppelingenVisualisatie = ({
                 })
 
                 const tooltipWidth = tooltipEl.offsetWidth
+                // const circleWidth = 24
                 const circleWidth = 24
                 const { x, y } = this.getBoundingClientRect()
 
@@ -213,96 +236,99 @@ const RelatiesKoppelingenVisualisatie = ({
     }, [data, location.pathname])
 
     const isVerordeningItem = href && href.includes('verordening')
+    const hasNoConnections = false
 
-    const getPropertyName = (property) => {
-        switch (property) {
-            case 'Doelen':
-                return 'Beleidsprestaties'
-            case 'Opgaven':
-                return 'Beleidsdoelen'
-            default:
-                return property
-        }
-    }
-
-    return (
-        <div className="flex">
-            <div className="flex flex-col justify-between w-full">
-                <div>
-                    <h3 className="font-bold text-gray-800">
-                        Netwerkvisualisatie
-                    </h3>
-                    <p className="mt-2 leading-7 text-gray-800 break-words">
-                        Deze netwerkvisualisatie laat zien waar de beleidskeuze{' '}
-                        <span className="italic">“{beleidskeuze.Titel}”</span>{' '}
-                        aan verbonden is.
-                    </p>
+    if (hasNoConnections) {
+        return (
+            <div className="flex">
+                <div className="flex flex-col justify-between w-full">
+                    <div>
+                        <p className="mt-2 leading-7 text-gray-800 break-words">
+                            Er zijn nog geen koppelingen naar{' '}
+                            <span className="italic">
+                                “{beleidsObject.Titel}”
+                            </span>
+                            .
+                        </p>
+                    </div>
                 </div>
+            </div>
+        )
+    } else {
+        return (
+            <div className="flex">
+                <div className="flex flex-col justify-between w-full">
+                    <div>
+                        <h3 className="font-bold text-gray-800">
+                            Netwerkvisualisatie
+                        </h3>
+                        <p className="mt-2 leading-7 text-gray-800 break-words">
+                            Deze netwerkvisualisatie laat zien waar de{' '}
+                            {titleSingular.toLowerCase()}{' '}
+                            <span className="italic">
+                                “{beleidsObject.Titel}”
+                            </span>{' '}
+                            aan verbonden is.
+                        </p>
+                    </div>
 
-                {/* Legenda */}
-                <ul className="mt-10">
-                    <li className="flex items-center mt-1 text-sm text-gray-800">
-                        <span
-                            className="inline-block w-3 h-3 mr-2 rounded-full"
-                            style={{
-                                backgroundColor:
-                                    connectionPropertiesColors.Beleidskeuzes
-                                        .hex,
-                            }}
-                        />
-                        <span>Beleidskeuze</span>
-                    </li>
-                    {connectedProperties.map((property) => (
-                        <li
-                            key={property}
-                            className="flex items-center mt-1 text-sm text-gray-800"
-                        >
-                            <span
-                                className={`inline-block w-3 h-3 mr-2 rounded-full`}
-                                style={{
-                                    backgroundColor:
-                                        connectionPropertiesColors[property]
-                                            .hex,
-                                }}
-                            />
-                            <span>{getPropertyName(property)}</span>
+                    {/* Legenda */}
+                    <ul className="mt-10">
+                        <li className="flex items-center mt-1 text-sm text-gray-800">
+                            <span className="inline-block w-3 h-3 mr-2 bg-purple-800 rounded-full" />
+                            <span>{beleidsObject.Titel}</span>
                         </li>
-                    ))}
-                </ul>
-            </div>
-            <div className="block w-full">
-                <div className="container flex items-center justify-center mx-auto">
-                    <svg
-                        className="d3-component"
-                        style={{
-                            width: '100%',
-                            height: '200px',
-                        }}
-                        ref={d3Container}
-                    />
+                        {connectedProperties.map((property) => (
+                            <li
+                                key={property}
+                                className="flex items-center mt-1 text-sm text-gray-800"
+                            >
+                                <span
+                                    className={`inline-block w-3 h-3 mr-2 rounded-full`}
+                                    style={{
+                                        backgroundColor:
+                                            connectionPropertiesColors[property]
+                                                .hex,
+                                    }}
+                                />
+                                <span>{property}</span>
+                            </li>
+                        ))}
+                    </ul>
                 </div>
-                <Link
-                    to={isVerordeningItem ? '#' : href}
-                    id="d3-tooltip"
-                    style={{
-                        left: variables.left,
-                        top: variables.top,
-                    }}
-                    class="absolute hidden hover:block"
-                >
-                    <div
-                        id="d3-tooltip-title"
-                        style={{ maxWidth: '50vw' }}
-                        class={`px-4 py-2 rounded text-sm bg-gray-900 text-white shadow ${
-                            isVerordeningItem
-                                ? 'cursor-default'
-                                : 'hover:underline'
-                        }`}
-                    />
-                </Link>
+                <div className="block w-full">
+                    <div className="container flex items-center justify-center mx-auto">
+                        <svg
+                            className="d3-component"
+                            style={{
+                                width: '100%',
+                                height: '200px',
+                            }}
+                            ref={d3Container}
+                        />
+                    </div>
+                    <Link
+                        to={isVerordeningItem ? '#' : href}
+                        id="d3-tooltip"
+                        style={{
+                            left: variables.left,
+                            top: variables.top,
+                        }}
+                        class="absolute hidden hover:block"
+                    >
+                        <div
+                            id="d3-tooltip-title"
+                            class={`px-4 py-2 rounded bg-gray-900 text-white shadow ${
+                                isVerordeningItem
+                                    ? 'cursor-default'
+                                    : 'hover:underline'
+                            }`}
+                        />
+                    </Link>
+                </div>
             </div>
-        </div>
-    )
+        )
+    }
 }
 
 export default RelatiesKoppelingenVisualisatie

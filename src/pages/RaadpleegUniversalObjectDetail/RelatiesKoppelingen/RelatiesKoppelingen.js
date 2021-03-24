@@ -10,14 +10,18 @@ const connectionProperties = [
     'Ambities',
     'Belangen',
     'BeleidsRegels',
-    'Doelen',
+    'Beleidsprestaties',
     'Maatregelen',
-    'Opgaven',
+    'Beleidsdoelen',
     'Themas',
     'Verordening',
 ]
 
 const connectionPropertiesColors = {
+    MainObject: {
+        hex: '#553c9a',
+        class: 'purple-800',
+    },
     Ambities: {
         hex: '#aa0067',
     },
@@ -27,14 +31,16 @@ const connectionPropertiesColors = {
     BeleidsRegels: {
         hex: '#76bc21',
     },
-    Doelen: {
-        hex: '#00804d',
+    Beleidsprestaties: {
+        hex: '#ECC94B',
+        class: 'yellow-500',
     },
     Maatregelen: {
         hex: '#503d90',
     },
-    Opgaven: {
-        hex: '#838383',
+    Beleidsdoelen: {
+        hex: '#3182CE',
+        class: 'blue-600',
     },
     Themas: {
         hex: '#847062',
@@ -47,7 +53,7 @@ const connectionPropertiesColors = {
     },
 }
 
-const RelatiesKoppelingen = ({ beleidskeuze }) => {
+const RelatiesKoppelingen = ({ dataObject, titleSingular }) => {
     const [beleidsRelaties, setBeleidsRelaties] = React.useState([])
     const [isLoading, setIsLoading] = React.useState(true)
     const [activeTab, setActiveTab] = React.useState('Visueel')
@@ -57,47 +63,42 @@ const RelatiesKoppelingen = ({ beleidskeuze }) => {
         activeTab,
     ])
 
-    React.useEffect(() => {
+    const initBeleidskeuze = () => {
         const beleidsrelatiesVan = axios
             .get(
-                `/beleidsrelaties?Van_Beleidsbeslissing=${beleidskeuze.UUID}&Status=Akkoord`
+                `/beleidsrelaties?filters=Status:Akkoord,Van_Beleidskeuze:${dataObject.UUID}`
             )
             .then((res) => res.data)
         const beleidsrelatiesNaar = axios
             .get(
-                `/beleidsrelaties?Naar_Beleidsbeslissing=${beleidskeuze.UUID}&Status=Akkoord`
+                `/beleidsrelaties?filters=Status:Akkoord,Naar_Beleidskeuze:${dataObject.UUID}`
             )
             .then((res) => res.data)
 
-        Promise.all([beleidsrelatiesVan, beleidsrelatiesNaar])
-            .then((relaties) => {
+        Promise.all([beleidsrelatiesVan, beleidsrelatiesNaar]).then(
+            (relaties) => {
                 // Generate UUID's of all the beleidskeuzes that this beleidskeuze has a relationship with
                 const relatiesVan = relaties[0]
                 const relatiesNaar = relaties[1]
 
-                const relatiesVanUUIDS = relatiesVan.map(
-                    (relatie) => relatie.Naar_Beleidsbeslissing
-                )
-                const relatiesNaarUUIDS = relatiesNaar.map(
-                    (relatie) => relatie.Van_Beleidsbeslissing
-                )
-                const relatieUUIDS = [...relatiesVanUUIDS, ...relatiesNaarUUIDS]
+                setBeleidsRelaties([...relatiesVan, ...relatiesNaar])
+                setIsLoading(false)
+            }
+        )
+    }
 
-                return relatieUUIDS
-            })
-            .then((relatieUUIDS) => {
-                // Get data from API and set in state
-                const getAllRelatieBeleidskeuzes = relatieUUIDS.map((UUID) =>
-                    axios
-                        .get(`/beleidsbeslissingen/version/${UUID}`)
-                        .then((res) => res.data)
-                )
-                Promise.all(getAllRelatieBeleidskeuzes).then((relaties) => {
-                    setBeleidsRelaties(relaties)
-                    setIsLoading(false)
-                })
-            })
-    }, [beleidskeuze.UUID])
+    const initBeleidsobject = () => {
+        setBeleidsRelaties(dataObject.Ref_Beleidskeuzes)
+        setIsLoading(false)
+    }
+
+    React.useEffect(() => {
+        if (titleSingular === 'Beleidskeuze') {
+            initBeleidskeuze()
+        } else {
+            initBeleidsobject()
+        }
+    }, [dataObject.UUID])
 
     return (
         <div className="w-full pb-24 bg-orange-100">
@@ -130,7 +131,8 @@ const RelatiesKoppelingen = ({ beleidskeuze }) => {
                     <div className="mt-6">
                         {!isLoading && activeTab === 'Visueel' ? (
                             <RelatiesKoppelingenVisualisatie
-                                beleidskeuze={beleidskeuze}
+                                titleSingular={titleSingular}
+                                beleidsObject={dataObject}
                                 beleidsRelaties={beleidsRelaties}
                                 connectionProperties={connectionProperties}
                                 connectionPropertiesColors={
@@ -139,7 +141,7 @@ const RelatiesKoppelingen = ({ beleidskeuze }) => {
                             />
                         ) : !isLoading && activeTab === 'Tekstueel' ? (
                             <RelatiesKoppelingenTekstueel
-                                beleidskeuze={beleidskeuze}
+                                beleidsObject={dataObject}
                                 beleidsRelaties={beleidsRelaties}
                                 connectionProperties={connectionProperties}
                                 connectionPropertiesColors={

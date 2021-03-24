@@ -8,7 +8,7 @@ import ContainerMain from './../../../components/ContainerMain'
 import ContainerFormSection from './../../../components/ContainerFormSection'
 import FormFieldTextArea from './../../../components/FormFieldTextArea'
 import FormFieldDate from './../../../components/FormFieldDate'
-import FormFieldSelectBeleidsbeslissing from './../../../components/FormFieldSelectBeleidsbeslissing'
+import FormFieldSelectBeleidskeuze from './../../../components/FormFieldSelectBeleidskeuze'
 
 class ContainerCrudFields extends React.Component {
     render() {
@@ -27,26 +27,25 @@ class ContainerCrudFields extends React.Component {
                                 <React.Fragment>
                                     <ContainerFormSection
                                         titel="Beleidsrelatie"
-                                        beschrijving={`Geef aan met welke beleidskeuze '${this.context.Van_Beleidsbeslissing_Titel}' een relatie moet krijgen en motiveer waarom.`}
+                                        beschrijving={`Geef aan met welke beleidskeuze '${this.context.Van_Beleidskeuze_Titel}' een relatie moet krijgen en motiveer waarom.`}
                                     >
-                                        {crudObject[
-                                            'Naar_Beleidsbeslissing'
-                                        ] !== undefined ? (
-                                            <FormFieldSelectBeleidsbeslissing
+                                        {crudObject['Naar_Beleidskeuze'] !==
+                                        undefined ? (
+                                            <FormFieldSelectBeleidskeuze
                                                 filter={
                                                     this.context
-                                                        .Van_Beleidsbeslissing_UUID
+                                                        .Van_Beleidskeuze_UUID
                                                 }
                                                 handleChange={
                                                     this.context.handleChange
                                                 }
                                                 fieldValue={
                                                     crudObject[
-                                                        'Naar_Beleidsbeslissing'
+                                                        'Naar_Beleidskeuze'
                                                     ]
                                                 }
                                                 fieldLabel="Naar beleidskeuze"
-                                                dataObjectProperty="Naar_Beleidsbeslissing"
+                                                dataObjectProperty="Naar_Beleidskeuze"
                                                 titleSingular={titleSingular}
                                             />
                                         ) : null}

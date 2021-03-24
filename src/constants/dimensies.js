@@ -3,12 +3,12 @@ import * as BELANGEN from './belangen'
 import * as BELEIDSREGELS from './beleidsregels'
 import * as BELEIDSRELATIES from './beleidsrelaties'
 import * as MAATREGELEN from './maatregelen'
-import * as OPGAVEN from './opgaven'
+import * as BELEIDSDOELEN from './beleidsdoelen'
 import * as THEMAS from './themas'
-import * as BELEIDSBESLISSINGEN from './beleidsbeslissingen'
+import * as BELEIDSKEUZES from './beleidskeuzes'
 import * as VERORDENINGSTRUCTUUR from './verordeningstructuur'
 import * as VERORDENINGSARTIKEL from './verordeningsartikel'
-import * as DOELEN from './doelen'
+import * as BELEIDSPRESTATIES from './beleidsprestaties'
 
 const constants = {
     AMBITIES,
@@ -16,12 +16,12 @@ const constants = {
     BELEIDSREGELS,
     BELEIDSRELATIES,
     MAATREGELEN,
-    OPGAVEN,
+    BELEIDSDOELEN,
     THEMAS,
-    BELEIDSBESLISSINGEN,
+    BELEIDSKEUZES,
     VERORDENINGSTRUCTUUR,
     VERORDENINGSARTIKEL,
-    DOELEN,
+    BELEIDSPRESTATIES,
 }
 
 export default constants

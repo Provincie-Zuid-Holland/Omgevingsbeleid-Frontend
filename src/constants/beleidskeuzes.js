@@ -2,7 +2,8 @@ import { currentDate, futureDate, currentDateFormatted } from './testValues'
 
 export const TITLE_SINGULAR = 'Beleidskeuze'
 export const TITLE_PLURAL = 'Beleidskeuzes'
-export const API_ENDPOINT = 'beleidsbeslissingen'
+export const API_ENDPOINT = 'beleidskeuzes'
+export const API_ENDPOINT_VIGEREND = 'valid/beleidskeuzes'
 export const SLUG_OVERVIEW = 'beleidskeuzes'
 export const SLUG_CREATE_NEW = 'nieuwe-beleidskeuze'
 
@@ -95,7 +96,7 @@ export const CRUD_PROPERTIES = {
         testValue: `Test aanleiding van de beleidskeuze`,
         type: 'text input',
     },
-    WerkingsGebieden: {
+    Werkingsgebieden: {
         initValue: [],
         required: ['Ontwerp', 'Vastgesteld', 'Gepubliceerd'],
         requiredMessage: 'Selecteer een werkingsgebied',
@@ -129,45 +130,53 @@ export const CRUD_PROPERTIES = {
         testValue: futureDate,
         type: 'date input',
     },
-    BeleidsRegels: {
+    Beleidsregels: {
         initValue: [],
         required: [],
         requiredMessage: '',
+        type: 'connection',
     },
-    Verordening: {
+    Verordeningen: {
         initValue: [],
         required: [],
         requiredMessage: '',
+        type: 'connection',
     },
     Maatregelen: {
         initValue: [],
         required: [],
         requiredMessage: '',
+        type: 'connection',
     },
     Themas: {
         initValue: [],
         required: [],
         requiredMessage: '',
+        type: 'connection',
     },
     Ambities: {
         initValue: [],
         required: [],
         requiredMessage: '',
+        type: 'connection',
     },
-    Doelen: {
+    Beleidsprestaties: {
         initValue: [],
         required: [],
         requiredMessage: '',
+        type: 'connection',
     },
     Belangen: {
         initValue: [],
         required: [],
         requiredMessage: '',
+        type: 'connection',
     },
-    Opgaven: {
+    Beleidsdoelen: {
         initValue: [],
         required: [],
         requiredMessage: '',
+        type: 'connection',
     },
     Status: {
         initValue: 'Ontwerp GS Concept',
@@ -184,5 +193,6 @@ export const CRUD_PROPERTIES = {
         initValue: null,
         required: [],
         requiredMessage: 'Vul het tags veld in',
+        type: null,
     },
 }

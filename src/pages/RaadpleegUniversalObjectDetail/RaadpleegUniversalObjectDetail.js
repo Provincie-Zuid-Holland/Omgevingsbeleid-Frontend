@@ -20,10 +20,10 @@ import PopUpRevisieContainer from './../../components/PopUpRevisieContainer'
 import LoaderContent from './../../components/LoaderContent'
 
 // Import view containers
-import ContainerViewFieldsBeleidsbeslissing from './ContainerFields/ContainerViewFieldsBeleidsbeslissing'
+import ContainerViewFieldsBeleidskeuze from './ContainerFields/ContainerViewFieldsBeleidskeuze'
 import ContainerViewFieldsBeleidsregel from './ContainerFields/ContainerViewFieldsBeleidsregel'
 import ContainerViewFieldsMaatregel from './ContainerFields/ContainerViewFieldsMaatregel'
-import ContainerViewFieldsOpgave from './ContainerFields/ContainerViewFieldsOpgave'
+import ContainerViewFieldsBeleidsdoelen from './ContainerFields/ContainerViewFieldsBeleidsdoelen'
 import ContainerViewFieldsAmbitie from './ContainerFields/ContainerViewFieldsAmbitie'
 import ContainerViewFieldsBelang from './ContainerFields/ContainerViewFieldsBelang'
 import ContainerViewFieldsThema from './ContainerFields/ContainerViewFieldsThema'
@@ -57,7 +57,7 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
 
     const apiEndpointBase = dataModel.API_ENDPOINT
     const titleSingular = dataModel.TITLE_SINGULAR
-    const apiEndpoint = `${apiEndpointBase}/version/${id}`
+    const apiEndpoint = `version/${apiEndpointBase}/${id}`
 
     React.useEffect(() => {
         if (!dataLoaded) return
@@ -105,46 +105,78 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
             })
     }, [id, apiEndpoint, history, titleSingular])
 
+    // Because the history is intact, every past revision object that has been 'vigerend'
+    // still has that status. In this function we calculate a status to display in the UI,
+    // based on the revision history. We also filter out object that have been edited while 'vigerend',
+    // To display only the latest object. We do this based on the property 'Aanpassing_Op'
     const prepRevisions = (revisions) => {
-        const sortedRevisions = revisions.sort(
-            (a, b) => new Date(b.Modified_Date) - new Date(a.Modified_Date)
-        )
-
-        const preppedRevisions = sortedRevisions.filter(
-            (revision) => revision.Status === 'Vigerend'
-        )
-
-        const firstInspraakIndex = sortedRevisions.findIndex(
-            (revision, index) => revision.Status === 'Ontwerp in inspraak'
-        )
-
-        const firstVigerendIndex = sortedRevisions.findIndex(
-            (revision, index) => revision.Status === 'Vigerend'
-        )
+        const sortedFilteredRevisions = revisions
+            .sort(
+                (a, b) => new Date(b.Modified_Date) - new Date(a.Modified_Date)
+            )
+            .filter((revision) => revision.Status === 'Vigerend')
 
         // Give each object a uiStatus
         // We need this because the first object with a status of Vigerend is the current one, which is still 'Vigerend'
         // But the older objects with a status 'Vigerend', are actually archived
         // They keep their 'Vigerend' status, because we don't change the history in our dataModel
         // So after the first object with a status of 'Vigerend', we want to display a status of 'Archived' in the UI
-        preppedRevisions.forEach((revision, index) => {
-            if (index === 0) {
-                // If it is the first item with a Status of 'Vigerend'
-                revision.uiStatus = 'Vigerend'
-            } else {
-                revision.uiStatus = 'Gearchiveerd'
-            }
-        })
+        const preppedRevisions = sortedFilteredRevisions
+            .filter((revision, index) => {
+                const objectHasLaterVersion = sortedFilteredRevisions.findIndex(
+                    (e) => e.Aanpassing_Op === revision.UUID
+                )
+                if (objectHasLaterVersion !== -1) return false
+                // if (revision.Aanpassing_Op === null) return true
+
+                // Check if this revision has an 'Aanpassing_Op' value
+                // and if there is another object in revisions that has the same 'Aanpassing_Op' value, but earlier in the array
+                // indicating that there is a later version of this 'vigerend' object
+                const indexOfLastEdited = sortedFilteredRevisions.findIndex(
+                    (e) => e.Aanpassing_Op === revision.Aanpassing_Op
+                )
+
+                const editedWithLaterVersion =
+                    revision.Aanpassing_Op &&
+                    index !== indexOfLastEdited &&
+                    indexOfLastEdited !== -1
+
+                if (editedWithLaterVersion) return false
+
+                return true
+            })
+            .map((revision, index) => {
+                if (index === 0) {
+                    // If it is the first item with a Status of 'Vigerend'
+                    revision.uiStatus = 'Vigerend'
+                } else {
+                    revision.uiStatus = 'Gearchiveerd'
+                }
+
+                return revision
+            })
+
+        const firstInspraakIndex = sortedFilteredRevisions.findIndex(
+            (revision) => revision.Status === 'Ontwerp in inspraak'
+        )
+
+        const firstVigerendIndex = sortedFilteredRevisions.findIndex(
+            (revision) => revision.Status === 'Vigerend'
+        )
 
         // If one of the items doesn't exist, return
         if (firstInspraakIndex === -1 || firstVigerendIndex === -1)
             return preppedRevisions
 
+        const inspraakComesBeforeVigerend =
+            firstInspraakIndex < firstVigerendIndex
+
         // Check if the item with a Status 'Ontwerp in inspraak' is newer,
         // then the last item with a Status of 'Vigerend'
         // If so, place this item on index 0
-        if (firstInspraakIndex < firstVigerendIndex) {
-            const firstInspraakItem = sortedRevisions[firstInspraakIndex]
+        if (inspraakComesBeforeVigerend) {
+            const firstInspraakItem =
+                sortedFilteredRevisions[firstInspraakIndex]
             firstInspraakItem.uiStatus = 'In inspraak'
             preppedRevisions.splice(0, 0, firstInspraakItem)
         }
@@ -184,7 +216,7 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
         // Check if there is a werkingsgebied
         if (
             dataObject.Gebied ||
-            (dataObject.WerkingsGebieden && dataObject.WerkingsGebieden[0])
+            (dataObject.Werkingsgebieden && dataObject.Werkingsgebieden[0])
         ) {
             return true
         } else {
@@ -197,14 +229,14 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
 
         if (dataObject.Gebied) {
             // Object is a maatregel, which contains the UUID in a string value
-            return dataObject.Gebied
+            return dataObject.Gebied.UUID
         } else if (
-            dataObject.WerkingsGebieden &&
-            dataObject.WerkingsGebieden[0]
+            dataObject.Werkingsgebieden &&
+            dataObject.Werkingsgebieden[0]
         ) {
-            // Object is a beleidskeuze/beleidsbeslissing, which holds the werkingsgebieden in an array.
+            // Object is a beleidskeuze/beleidskeuze, which holds the werkingsgebieden in an array.
             // We always need the first value in the array
-            return dataObject.WerkingsGebieden[0].UUID
+            return dataObject.Werkingsgebieden[0].UUID
         }
     }
 
@@ -237,7 +269,7 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
     return (
         <React.Fragment>
             <div
-                className="container flex w-full px-6 mx-auto mt-8 mb-12 md:max-w-3xl"
+                className="container flex w-full px-6 pb-16 mx-auto mt-8 md:max-w-4xl"
                 id="raadpleeg-detail-container-main"
             >
                 <Helmet>
@@ -312,7 +344,7 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
                             id="raadpleeg-detail-container-main"
                         >
                             {titleSingular === 'Beleidskeuze' ? (
-                                <ContainerViewFieldsBeleidsbeslissing
+                                <ContainerViewFieldsBeleidskeuze
                                     crudObject={dataObject}
                                 />
                             ) : null}
@@ -332,7 +364,7 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
                                 />
                             ) : null}
                             {titleSingular === 'Beleidsdoel' ? (
-                                <ContainerViewFieldsOpgave
+                                <ContainerViewFieldsBeleidsdoelen
                                     crudObject={dataObject}
                                 />
                             ) : null}
@@ -375,8 +407,11 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
                     </div>
                 </Transition>
             </div>
-            {dataLoaded && titleSingular === 'Beleidskeuze' ? (
-                <RelatiesKoppelingen beleidskeuze={dataObject} />
+            {dataLoaded ? (
+                <RelatiesKoppelingen
+                    titleSingular={titleSingular}
+                    dataObject={dataObject}
+                />
             ) : null}
         </React.Fragment>
     )
@@ -484,10 +519,30 @@ const MetaInfo = ({
     const vigerendText = getVigerendText()
 
     return (
-        <div className="block" id="raadpleeg-detail-container-meta-info">
-            <span className="mr-3 text-sm opacity-75 text-pzh-blue-dark">
+        <div className="block mt-2" id="raadpleeg-detail-container-meta-info">
+            <span className="mr-3 text-sm text-gray-800 opacity-75">
                 {vigerendText}
             </span>
+
+            {revisieObjecten && revisieObjecten.length > 0 ? (
+                <React.Fragment>
+                    <span className="mr-3 text-sm text-gray-600">&bull;</span>
+                    <PopUpRevisieContainer
+                        dataObject={dataObject}
+                        type={titleSingular}
+                        amountOfRevisions={revisieObjecten.length - 1}
+                        revisieObjecten={revisieObjecten}
+                    >
+                        {revisieObjecten.map((item, index) => (
+                            <RevisieListItem
+                                currentUUID={currentUUID}
+                                item={item}
+                                key={item.UUID}
+                            />
+                        ))}
+                    </PopUpRevisieContainer>
+                </React.Fragment>
+            ) : null}
         </div>
     )
 }

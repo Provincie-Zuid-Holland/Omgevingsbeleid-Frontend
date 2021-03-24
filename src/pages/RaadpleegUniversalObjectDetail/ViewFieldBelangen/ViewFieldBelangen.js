@@ -17,7 +17,7 @@ const ViewFieldBelangen = ({ fieldValue }) => {
     React.useEffect(() => {
         const promiseArray = belangen.map((item, index) =>
             axios
-                .get(`/belangen/version/${item.UUID}`)
+                .get(`/version/belangen/${item.UUID}`)
                 .then((res) => {
                     belangen[index].data = res.data
                     belangen[index].Titel = res.data.Titel

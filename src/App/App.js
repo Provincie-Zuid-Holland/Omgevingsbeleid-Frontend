@@ -76,11 +76,11 @@ const detailPaginas = [
     },
     {
         slug: 'beleidskeuzes',
-        dataModel: allDimensies.BELEIDSBESLISSINGEN,
+        dataModel: allDimensies.BELEIDSKEUZES,
     },
     {
         slug: 'beleidsprestaties',
-        dataModel: allDimensies.DOELEN,
+        dataModel: allDimensies.BELEIDSPRESTATIES,
     },
     {
         slug: 'themas',
@@ -88,7 +88,7 @@ const detailPaginas = [
     },
     {
         slug: 'beleidsdoelen',
-        dataModel: allDimensies.OPGAVEN,
+        dataModel: allDimensies.BELEIDSDOELEN,
     },
     {
         slug: 'verordeningen',

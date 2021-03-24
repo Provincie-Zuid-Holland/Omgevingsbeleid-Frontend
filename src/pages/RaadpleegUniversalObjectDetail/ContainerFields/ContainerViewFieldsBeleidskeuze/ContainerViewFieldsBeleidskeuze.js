@@ -3,17 +3,20 @@ import React from 'react'
 import ViewFieldTitelEnInhoud from './../../ViewFieldTitelEnInhoud'
 import ViewFieldTags from './../../ViewFieldTags'
 import ViewFieldBelangen from './../../ViewFieldBelangen'
-import ViewFieldIngelogdExtraInfo from './../../ViewFieldIngelogdExtraInfo'
+import ViewFieldIngelogdExtraInfo from '../../../../components/ViewFieldIngelogdExtraInfo'
 
 import UserContext from './../../../../App/UserContext'
 
-const ContainerViewFieldsBeleidsbeslissing = ({ crudObject }) => {
+const ContainerViewFieldsBeleidskeuze = ({ crudObject }) => {
     return (
         <UserContext.Consumer>
             {(context) => (
                 <React.Fragment>
                     {context && context.user ? (
-                        <ViewFieldIngelogdExtraInfo crudObject={crudObject} />
+                        <ViewFieldIngelogdExtraInfo
+                            className="mb-5"
+                            crudObject={crudObject}
+                        />
                     ) : null}
                     {crudObject['Omschrijving_Keuze'] ? (
                         <ViewFieldTitelEnInhoud
@@ -65,4 +68,4 @@ const ContainerViewFieldsBeleidsbeslissing = ({ crudObject }) => {
     )
 }
 
-export default ContainerViewFieldsBeleidsbeslissing
+export default ContainerViewFieldsBeleidskeuze

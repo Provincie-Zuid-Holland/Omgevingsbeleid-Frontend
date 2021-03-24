@@ -93,7 +93,7 @@ const MuteerUniversalObjectDetailWithStatuses = ({ dimensieConstants }) => {
             if (pageType === 'detail') {
                 return `${apiEndpoint}/${single}`
             } else if (pageType === 'version') {
-                return `${apiEndpoint}/version/${version}`
+                return `/version/${apiEndpoint}/${version}`
             }
         }
 
@@ -129,21 +129,21 @@ const MuteerUniversalObjectDetailWithStatuses = ({ dimensieConstants }) => {
     const patchStatus = (crudObject, newStatus) => {
         const apiEndpoint = dimensieConstants.API_ENDPOINT
         const objectID = crudObject.ID
-        let crudObjectToPatch = cloneDeep(crudObject)
-        crudObjectToPatch.Status = newStatus
-        crudObjectToPatch = deleteUnkownProperties(crudObjectToPatch)
-        crudObjectToPatch = deletePropertiesWithNullValue(crudObjectToPatch)
+        // let crudObjectToPatch = cloneDeep(crudObject)
+        // crudObjectToPatch.Status = newStatus
+        // crudObjectToPatch = deleteUnkownProperties(crudObjectToPatch)
+        // crudObjectToPatch = deletePropertiesWithNullValue(crudObjectToPatch)
 
         axios
             .patch(
                 `${apiEndpoint}/${objectID}`,
-                JSON.stringify(crudObjectToPatch)
+                JSON.stringify({
+                    Status: newStatus,
+                })
             )
             .then((res) => {
                 setDimensionHistory([res.data, ...dimensionHistory])
-                toast(
-                    `Status succesvol gewijzigd naar ${crudObjectToPatch.Status}`
-                )
+                toast(`Status succesvol gewijzigd naar ${newStatus}`)
             })
             .catch((err) => {
                 console.log(err)
