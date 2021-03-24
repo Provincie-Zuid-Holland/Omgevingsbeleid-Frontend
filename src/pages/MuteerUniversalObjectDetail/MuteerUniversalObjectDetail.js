@@ -192,7 +192,7 @@ class MuteerUniversalObjectDetail extends Component {
                                         id={`href-ontwerp-maken`}
                                     >
                                         <span className="relative flex items-center justify-end w-24 h-10 pb-5 mr-2 border-r-2 border-gray-300">
-                                            <div className="absolute w-8 h-8 pt-1 text-center bg-gray-300 rounded-full -right-4">
+                                            <div className="absolute flex items-center justify-center w-8 h-8 text-center bg-gray-300 rounded-full -right-4">
                                                 <FontAwesomeIcon
                                                     className="relative text-gray-600"
                                                     icon={faPlus}

@@ -262,43 +262,41 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                     <React.Fragment>
                         <SidebarMain />
                         <div className="flex-grow inline-block w-3/4 pl-8 rounded">
-                            <h2 className="mb-4 text-gray-800 heading-serif">
+                            <h2 className="mb-4 text-gray-800">
                                 Beleidsrelaties
                             </h2>
                             <div className="p-5 bg-white rounded shadow">
                                 <ul id="beleidskeuzes-overview">
-                                    <li className="flex py-2 text-sm font-semibold text-gray-800 border-b border-gray-200">
+                                    <li className="flex py-2 text-sm font-bold text-gray-800 border-b border-gray-200">
                                         <div className="w-6/12 pl-10">
                                             Beleidskeuzes
                                         </div>
-                                        <div className="w-2/12 text-center">
-                                            Status
-                                        </div>
+                                        <div className="w-2/12">Status</div>
                                         <div className="w-1/12 text-center">
                                             <FontAwesomeIcon
                                                 title="Geaccepteerde beleidsrelatie"
-                                                className="text-lg text-gray-800"
+                                                className="text-gray-800 "
                                                 icon={faCheck}
                                             />
                                         </div>
                                         <div className="w-1/12 text-center">
                                             <FontAwesomeIcon
                                                 title="Een onbevestigde relatie, is een relatie die door de andere partij nog geaccepteerd moet worden"
-                                                className="text-lg text-gray-800"
+                                                className="text-gray-800 "
                                                 icon={faHourglass}
                                             />
                                         </div>
                                         <div className="w-1/12 text-center">
                                             <FontAwesomeIcon
                                                 title="Inkomend verzoek"
-                                                className="text-lg text-gray-800"
+                                                className="text-gray-800 "
                                                 icon={faEnvelope}
                                             />
                                         </div>
                                         <div className="w-1/12 mr-6 text-center ">
                                             <FontAwesomeIcon
                                                 title="Afgewezen relaties"
-                                                className="text-lg text-gray-800"
+                                                className="text-gray-800 "
                                                 icon={faTimes}
                                             />
                                         </div>
@@ -315,7 +313,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                                                             className="beleids-item"
                                                         >
                                                             <Link
-                                                                className="relative flex items-center py-2 text-sm text-gray-800 border-b border-gray-200 hover:bg-gray-100"
+                                                                className="relative flex items-center py-1 text-sm text-gray-800 border-b border-gray-200 hover:bg-gray-100"
                                                                 to={`/muteer/beleidsrelaties/${item.UUID}`}
                                                                 onClick={() => {
                                                                     this.props.setCurrentView(
@@ -328,7 +326,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                                                                     )
                                                                 }}
                                                             >
-                                                                <span className="absolute inline-block w-3 h-3 ml-3 rounded-full mbg-color"></span>
+                                                                <span className="absolute inline-block w-3 h-3 ml-3 rounded-full bg-pzh-blue"></span>
                                                                 <div
                                                                     className="w-6/12 pl-10"
                                                                     data-testid="title"
@@ -337,11 +335,11 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                                                                 </div>
                                                                 <div className="w-2/12">
                                                                     <span
-                                                                        className={`px-1 py-1 text-xs leading-8 ${
+                                                                        className={`inline-block px-1 py-1 text-xs leading-8 ${
                                                                             item.Status ===
                                                                             'Vigerend'
-                                                                                ? 'm-color'
-                                                                                : 'text-secondary'
+                                                                                ? 'text-pzh-blue'
+                                                                                : 'text-pzh-yellow-dark'
                                                                         } 
                                                                     `}
                                                                     >

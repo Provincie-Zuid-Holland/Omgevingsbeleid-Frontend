@@ -6,7 +6,6 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { Link } from 'react-router-dom'
 
 import AddSection from '../AddSection'
-import DndTitle from '../DndTitle'
 import VerordeningObjectContent from './../VerordeningObjectContent'
 import AddObjectButton from './../AddObjectButton'
 

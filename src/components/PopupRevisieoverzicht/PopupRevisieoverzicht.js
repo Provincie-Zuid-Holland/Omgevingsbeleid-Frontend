@@ -193,7 +193,7 @@ const PopupRevisieoverzicht = ({
                                         icon={faTimes}
                                     />
                                 </div>
-                                <h2 className="block mb-1 text-xl font-semibold tracking-wide m-color-puple">
+                                <h2 className="block mb-1 text-xl font-bold tracking-wide text-pzh-blue">
                                     Revisieoverzicht
                                 </h2>
                                 <p className="w-full leading-7 text-gray-800 break-words whitespace-pre-line">
@@ -247,15 +247,15 @@ const Content = ({ changesFromApi }) => {
     return (
         <div className="flex justify-between h-screen ">
             <div className="w-1/2 h-64 mr-4">
-                <span className="block text-lg font-bold opacity-25 text-primary-super-dark">
+                <span className="block text-lg font-bold opacity-25 text-pzh-blue">
                     Beleidskeuze
                 </span>
-                <h3 className="mt-2 text-3xl font-semibold text-primary-super-dark ">
+                <h3 className="mt-2 text-3xl font-bold text-pzh-blue ">
                     Titel van de beleidskeuze
                 </h3>
             </div>
             <div className="w-1/2 h-64 ml-4">
-                <span className="block text-lg font-bold opacity-25 text-primary-super-dark">
+                <span className="block text-lg font-bold opacity-25 text-pzh-blue">
                     Beleidskeuze
                 </span>
             </div>

@@ -6,7 +6,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const ButtonBackToPage = ({ terugNaar, color, url }) => {
     if (!color) {
-        color = 'text-gray-600'
+        color =
+            'text-pzh-blue opacity-75 hover:opacity-100 transition-opacity ease-in duration-100'
     }
     return (
         <Link

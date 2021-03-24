@@ -239,7 +239,7 @@ class MuteerBeleidsrelatiesCRUD extends Component {
                               toe`}
                     </title>
                 </Helmet>
-                <div className="relative w-full px-6 py-32 mbg-color edit-header">
+                <div className="relative w-full px-6 py-32 bg-pzh-blue edit-header">
                     <div className="container flex items-center justify-center mx-auto lg:px-10">
                         <div className="w-full pr-20">
                             <ButtonBackToPage
@@ -247,7 +247,7 @@ class MuteerBeleidsrelatiesCRUD extends Component {
                                 color="text-white"
                                 url={`/muteer/beleidsrelaties/${this.props.match.params.UUID}`}
                             />
-                            <h1 className="text-white heading-serif-4xl">
+                            <h1 className="text-4xl text-white">
                                 Voeg een nieuwe beleidsrelatie toe
                             </h1>
                         </div>

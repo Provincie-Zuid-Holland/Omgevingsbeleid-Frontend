@@ -15,11 +15,9 @@ function MuteerMijnAccount(props) {
             <SidebarMain />
 
             {/* Dashboard */}
-            <div className="w-3/4 rounded inline-block flex-grow pl-8 relative">
+            <div className="relative flex-grow inline-block w-3/4 pl-8 rounded">
                 <section>
-                    <h2 className="heading-serif text-gray-700 mb-4 mt-8">
-                        Mijn Account
-                    </h2>
+                    <h2 className="mt-8 mb-4 text-gray-700">Mijn Account</h2>
                     <div>
                         <h3>Gebruikersnaam</h3>
                         <p>{props.authUser ? props.authUser.Rol : null}</p>

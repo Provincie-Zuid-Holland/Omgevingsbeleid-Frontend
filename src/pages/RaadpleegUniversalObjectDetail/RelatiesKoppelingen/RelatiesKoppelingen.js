@@ -17,43 +17,33 @@ const connectionProperties = [
     'Verordening',
 ]
 
-// https://tailwindcss.com/docs/customizing-colors#default-color-palette
 const connectionPropertiesColors = {
     Ambities: {
-        hex: '#ED8936',
-        class: 'orange-500',
+        hex: '#aa0067',
     },
     Belangen: {
-        hex: '#D53F8C',
-        class: 'pink-600',
+        hex: '#ff6b02',
     },
     BeleidsRegels: {
-        hex: '#718096',
-        class: 'gray-600',
+        hex: '#76bc21',
     },
     Doelen: {
-        hex: '#ECC94B',
-        class: 'yellow-500',
+        hex: '#00804d',
     },
     Maatregelen: {
-        hex: '#48BB78',
-        class: 'green-500',
+        hex: '#503d90',
     },
     Opgaven: {
-        hex: '#3182CE',
-        class: 'blue-600',
+        hex: '#838383',
     },
     Themas: {
-        hex: '#38B2AC',
-        class: 'teal-500',
+        hex: '#847062',
     },
     Verordening: {
-        hex: '#E53E3E',
-        class: 'red-600',
+        hex: '#eb7085',
     },
     Beleidskeuzes: {
-        hex: '#805AD5',
-        class: 'purple-600',
+        hex: '#7badde',
     },
 }
 
@@ -111,9 +101,9 @@ const RelatiesKoppelingen = ({ beleidskeuze }) => {
 
     return (
         <div className="w-full pb-24 bg-orange-100">
-            <div className="container max-w-4xl pt-16 mx-auto">
+            <div className="container max-w-3xl pt-16 mx-auto">
                 <div className="px-6">
-                    <h2 className="block mb-1 text-lg font-semibold tracking-wide text-yellow-700">
+                    <h2 className="block mb-1 text-lg font-bold tracking-wide text-yellow-700">
                         Koppelingen & Relaties
                     </h2>
                     <p>
@@ -171,7 +161,7 @@ const RelatiesKoppelingen = ({ beleidskeuze }) => {
 const TabButton = ({ activeTab, onClick, title }) => {
     return (
         <button
-            className={`border-opacity-0 transition duration-100 ease-in border-b-2 border-primary-super-dark px-5 py-2 font-bold text-primary-super-dark ${
+            className={`border-opacity-0 transition duration-100 ease-in border-b-2 border-pzh-blue px-5 py-2 font-bold text-pzh-blue ${
                 activeTab === title
                     ? 'border-opacity-100'
                     : 'hover:border-opacity-25 focus:border-opacity-50'

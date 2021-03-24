@@ -55,7 +55,7 @@ function CreateCustomPopup({ weergavenaam, lat, lng, point }) {
                 )}+${point.y.toFixed(2)}&LatLng=${lat.toFixed(7)}-${lng.toFixed(
                     7
                 )}`}
-                className="inline-block px-8 py-2 text-white rounded cursor-pointer mbg-color hover:bg-blue-600 focus:outline-none focus:shadow-outline"
+                className="inline-block px-8 py-2 text-white rounded cursor-pointer bg-pzh-blue hover:bg-blue-600 focus:outline-none focus:shadow-outline"
             >
                 Bekijk provinciaal beleid van deze locatie
             </a>
