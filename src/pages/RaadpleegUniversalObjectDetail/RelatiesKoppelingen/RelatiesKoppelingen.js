@@ -17,6 +17,10 @@ const connectionProperties = [
 
 // https://tailwindcss.com/docs/customizing-colors#default-color-palette
 const connectionPropertiesColors = {
+    MainObject: {
+        hex: '#553c9a',
+        class: 'purple-800',
+    },
     Ambities: {
         hex: '#ED8936',
         class: 'orange-500',
@@ -55,7 +59,7 @@ const connectionPropertiesColors = {
     },
 }
 
-const RelatiesKoppelingen = ({ beleidskeuze }) => {
+const RelatiesKoppelingen = ({ dataObject, titleSingular }) => {
     const [beleidsRelaties, setBeleidsRelaties] = React.useState([])
     const [isLoading, setIsLoading] = React.useState(true)
     const [activeTab, setActiveTab] = React.useState('Visueel')
@@ -65,43 +69,62 @@ const RelatiesKoppelingen = ({ beleidskeuze }) => {
         activeTab,
     ])
 
-    React.useEffect(() => {
+    const initBeleidskeuze = () => {
         const beleidsrelatiesVan = axios
-            .get(`/beleidsrelaties?Van_Beleidskeuze=${beleidskeuze.UUID}`)
+            .get(
+                `/beleidsrelaties?filters=Status:Akkoord,Van_Beleidskeuze:${dataObject.UUID}`
+            )
             .then((res) => res.data)
         const beleidsrelatiesNaar = axios
-            .get(`/beleidsrelaties?Naar_Beleidskeuze=${beleidskeuze.UUID}`)
+            .get(
+                `/beleidsrelaties?filters\=Status:Akkoord,Naar_Beleidskeuze:${dataObject.UUID}`
+            )
             .then((res) => res.data)
 
-        Promise.all([beleidsrelatiesVan, beleidsrelatiesNaar])
-            .then((relaties) => {
+        Promise.all([beleidsrelatiesVan, beleidsrelatiesNaar]).then(
+            (relaties) => {
                 // Generate UUID's of all the beleidskeuzes that this beleidskeuze has a relationship with
                 const relatiesVan = relaties[0]
                 const relatiesNaar = relaties[1]
 
-                const relatiesVanUUIDS = relatiesVan.map(
-                    (relatie) => relatie.Naar_Beleidskeuze
-                )
-                const relatiesNaarUUIDS = relatiesNaar.map(
-                    (relatie) => relatie.Van_Beleidskeuze
-                )
-                const relatieUUIDS = [...relatiesVanUUIDS, ...relatiesNaarUUIDS]
+                setBeleidsRelaties([...relatiesVan, ...relatiesNaar])
+                setIsLoading(false)
+            }
+        )
+    }
 
-                return relatieUUIDS
-            })
-            .then((relatieUUIDS) => {
-                // Get data from API and set in state
-                const getAllRelatieBeleidskeuzes = relatieUUIDS.map((UUID) =>
-                    axios
-                        .get(`/version/beleidskeuzes/${UUID}`)
-                        .then((res) => res.data)
-                )
-                Promise.all(getAllRelatieBeleidskeuzes).then((relaties) => {
-                    setBeleidsRelaties(relaties)
-                    setIsLoading(false)
-                })
-            })
-    }, [beleidskeuze.UUID])
+    const initBeleidsobject = () => {
+        // const beleidsrelatiesVan = axios
+        //     .get(
+        //         `/beleidsrelaties?filters=Status:Akkoord,Van_Beleidskeuze:${dataObject.UUID}`
+        //     )
+        //     .then((res) => res.data)
+        // const beleidsrelatiesNaar = axios
+        //     .get(
+        //         `/beleidsrelaties?filters\=Status:Akkoord,Naar_Beleidskeuze:${dataObject.UUID}`
+        //     )
+        //     .then((res) => res.data)
+        setBeleidsRelaties(dataObject.Ref_Beleidskeuzes)
+
+        // Promise.all([beleidsrelatiesVan, beleidsrelatiesNaar]).then(
+        //     (relaties) => {
+        //         // Generate UUID's of all the beleidskeuzes that this beleidskeuze has a relationship with
+        //         const relatiesVan = relaties[0]
+        //         const relatiesNaar = relaties[1]
+
+        //         setBeleidsRelaties([...relatiesVan, ...relatiesNaar])
+        setIsLoading(false)
+        //     }
+        // )
+    }
+
+    React.useEffect(() => {
+        if (titleSingular === 'Beleidskeuze') {
+            initBeleidskeuze()
+        } else {
+            initBeleidsobject()
+        }
+    }, [dataObject.UUID])
 
     if (isLoading) return null
 
@@ -136,7 +159,8 @@ const RelatiesKoppelingen = ({ beleidskeuze }) => {
                     <div className="mt-6">
                         {activeTab === 'Visueel' ? (
                             <RelatiesKoppelingenVisualisatie
-                                beleidskeuze={beleidskeuze}
+                                titleSingular={titleSingular}
+                                beleidsObject={dataObject}
                                 beleidsRelaties={beleidsRelaties}
                                 connectionProperties={connectionProperties}
                                 connectionPropertiesColors={
@@ -145,7 +169,7 @@ const RelatiesKoppelingen = ({ beleidskeuze }) => {
                             />
                         ) : activeTab === 'Tekstueel' ? (
                             <RelatiesKoppelingenTekstueel
-                                beleidskeuze={beleidskeuze}
+                                beleidsObject={dataObject}
                                 beleidsRelaties={beleidsRelaties}
                                 connectionProperties={connectionProperties}
                                 connectionPropertiesColors={

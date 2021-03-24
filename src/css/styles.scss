@@ -1002,7 +1002,7 @@ $base-color: #002f65;
         border-color: transparent transparent rgba(26, 32, 44, 100) transparent;
         top: -10px;
         z-index: 10;
-        left: calc(20px);
+        left: calc(50% - 10px);
     }
     &:after {
         content: '';
