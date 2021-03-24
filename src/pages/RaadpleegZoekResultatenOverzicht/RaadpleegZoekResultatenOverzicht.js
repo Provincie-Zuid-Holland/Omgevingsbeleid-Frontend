@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import 'url-search-params-polyfill'
+import DOMPurify from 'dompurify'
 
 import { faArrowLeft } from '@fortawesome/pro-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -163,6 +164,35 @@ function SearchResultItem({ item, searchQuery, index }) {
             </Link>
         </li>
     )
+}
+
+const Omschrijving = ({ content, titleSingular }) => {
+    if (content.Omschrijving.setInnerHTML) {
+        const cleanHTML = DOMPurify.sanitize(
+            content.Omschrijving.content.__html
+        )
+
+        return (
+            <p
+                className="mt-2 text-gray-700"
+                dangerouslySetInnerHTML={{ __html: cleanHTML }}
+            ></p>
+        )
+    } else if (
+        content.Omschrijving.content &&
+        content.Omschrijving.content.length > 0
+    ) {
+        return (
+            <p className="mt-2 text-gray-700">{content.Omschrijving.content}</p>
+        )
+    } else {
+        return (
+            <p className="mt-2 italic text-gray-700">
+                Er is nog geen omschrijving voor deze
+                {' ' + titleSingular.toLowerCase()}
+            </p>
+        )
+    }
 }
 
 class RaadpleegZoekResultatenOverzicht extends Component {
@@ -361,7 +391,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                         dataLoaded: true,
                     },
                     () => {
-                        console.log(err)
+                        console.error(err)
                         toast(process.env.REACT_APP_ERROR_MSG)
                     }
                 )
@@ -391,7 +421,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                 this.setState({
                     dataLoaded: true,
                 })
-                console.log(err)
+                console.error(err)
                 toast(process.env.REACT_APP_ERROR_MSG)
             })
     }
@@ -427,7 +457,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                     }
                 })
                 .catch((err) => {
-                    console.log(err)
+                    console.error(err)
                     toast(process.env.REACT_APP_ERROR_MSG)
                 })
         })
@@ -569,6 +599,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                                 onPageFilters.filterArray.length > 0
                                     ? filters.map((filter) => (
                                           <FilterItem
+                                              key={filter}
                                               count={
                                                   onPageFilters[filter].count
                                               }
@@ -596,7 +627,6 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                     </span>
                     <ul id="search-results" className="mt-4 mb-12">
                         {this.state.dataLoaded ? (
-                            // this.state.searchResults.length > 0 ? (
                             this.state.searchResults &&
                             this.state.searchResults.length > 0 ? (
                                 this.state.searchResults.map((item, index) => {
