@@ -409,8 +409,11 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
                     </div>
                 </Transition>
             </div>
-            {dataLoaded && titleSingular === 'Beleidskeuze' ? (
-                <RelatiesKoppelingen beleidskeuze={dataObject} />
+            {dataLoaded ? (
+                <RelatiesKoppelingen
+                    titleSingular={titleSingular}
+                    dataObject={dataObject}
+                />
             ) : null}
         </React.Fragment>
     )

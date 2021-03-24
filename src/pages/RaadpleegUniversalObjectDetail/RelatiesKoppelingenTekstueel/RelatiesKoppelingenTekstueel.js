@@ -2,34 +2,71 @@ import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
 function RelatiesKoppelingenTekstueel({
-    beleidskeuze,
+    beleidsObject,
     beleidsRelaties,
     connectionProperties,
     connectionPropertiesColors,
 }) {
-    if (!beleidskeuze || !beleidsRelaties) return null
+    if (!beleidsObject || !beleidsRelaties) return null
 
-    return (
-        <div>
-            {connectionProperties.map((property) => {
-                if (
-                    !beleidskeuze[property] ||
-                    beleidskeuze[property].length === 0
-                )
-                    return null
+    if (beleidsRelaties.length === 0) {
+        return (
+            <div className="flex">
+                <div className="flex flex-col justify-between w-full">
+                    <div>
+                        <p className="mt-2 leading-7 text-gray-800 break-words">
+                            Er zijn nog geen koppelingen naar{' '}
+                            <span className="italic">
+                                “{beleidsObject.Titel}”
+                            </span>
+                            .
+                        </p>
+                    </div>
+                </div>
+            </div>
+        )
+    } else {
+        return (
+            <div>
+                {connectionProperties.map((property) => {
+                    if (
+                        !beleidsObject[property] ||
+                        beleidsObject[property].length === 0
+                    )
+                        return null
 
-                return (
+                    return (
+                        <div className="mt-4">
+                            <h3 className="text-sm font-bold text-gray-800">
+                                {property}
+                            </h3>
+                            <ul className="mt-2">
+                                {beleidsObject[property].map((koppeling) => (
+                                    <ListItem
+                                        titel={koppeling.Titel}
+                                        omschrijving={koppeling.Omschrijving}
+                                        property={property}
+                                        UUID={koppeling.UUID}
+                                        connectionPropertiesColors={
+                                            connectionPropertiesColors
+                                        }
+                                    />
+                                ))}
+                            </ul>
+                        </div>
+                    )
+                })}
+                {beleidsRelaties.length > 0 ? (
                     <div className="mt-4">
                         <h3 className="text-sm font-bold text-gray-800">
-                            {property}
+                            Beleidskeuzes
                         </h3>
                         <ul className="mt-2">
-                            {beleidskeuze[property].map((koppeling) => (
+                            {beleidsRelaties.map((beleidsrelatie) => (
                                 <ListItem
-                                    titel={koppeling.Titel}
-                                    omschrijving={koppeling.Omschrijving}
-                                    property={property}
-                                    UUID={koppeling.UUID}
+                                    titel={beleidsrelatie.Titel}
+                                    property="Beleidskeuzes"
+                                    UUID={beleidsrelatie.UUID}
                                     connectionPropertiesColors={
                                         connectionPropertiesColors
                                     }
@@ -37,29 +74,10 @@ function RelatiesKoppelingenTekstueel({
                             ))}
                         </ul>
                     </div>
-                )
-            })}
-            {beleidsRelaties.length > 0 ? (
-                <div className="mt-4">
-                    <h3 className="text-sm font-bold text-gray-800">
-                        Beleidskeuzes
-                    </h3>
-                    <ul className="mt-2">
-                        {beleidsRelaties.map((beleidsrelatie) => (
-                            <ListItem
-                                titel={beleidsrelatie.Titel}
-                                property="Beleidskeuzes"
-                                UUID={beleidsrelatie.UUID}
-                                connectionPropertiesColors={
-                                    connectionPropertiesColors
-                                }
-                            />
-                        ))}
-                    </ul>
-                </div>
-            ) : null}
-        </div>
-    )
+                ) : null}
+            </div>
+        )
+    }
 }
 
 const ListItem = ({
