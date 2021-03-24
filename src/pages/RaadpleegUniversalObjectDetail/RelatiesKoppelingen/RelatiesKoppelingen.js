@@ -1,5 +1,7 @@
 import React from 'react'
 
+import LoaderSpinner from './../../../components/LoaderSpinner'
+
 import RelatiesKoppelingenVisualisatie from './../RelatiesKoppelingenVisualisatie'
 import RelatiesKoppelingenTekstueel from './../RelatiesKoppelingenTekstueel'
 import axios from '../../../API/axios'
@@ -8,54 +10,50 @@ const connectionProperties = [
     'Ambities',
     'Belangen',
     'BeleidsRegels',
-    'Doelen',
+    'Beleidsprestaties',
     'Maatregelen',
-    'Opgaven',
+    'Beleidsdoelen',
     'Themas',
     'Verordening',
 ]
 
-// https://tailwindcss.com/docs/customizing-colors#default-color-palette
 const connectionPropertiesColors = {
+    MainObject: {
+        hex: '#553c9a',
+        class: 'purple-800',
+    },
     Ambities: {
-        hex: '#ED8936',
-        class: 'orange-500',
+        hex: '#aa0067',
     },
     Belangen: {
-        hex: '#D53F8C',
-        class: 'pink-600',
+        hex: '#ff6b02',
     },
     BeleidsRegels: {
-        hex: '#718096',
-        class: 'gray-600',
+        hex: '#76bc21',
     },
-    Doelen: {
+    Beleidsprestaties: {
         hex: '#ECC94B',
         class: 'yellow-500',
     },
     Maatregelen: {
-        hex: '#48BB78',
-        class: 'green-500',
+        hex: '#503d90',
     },
-    Opgaven: {
+    Beleidsdoelen: {
         hex: '#3182CE',
         class: 'blue-600',
     },
     Themas: {
-        hex: '#38B2AC',
-        class: 'teal-500',
+        hex: '#847062',
     },
     Verordening: {
-        hex: '#E53E3E',
-        class: 'red-600',
+        hex: '#eb7085',
     },
     Beleidskeuzes: {
-        hex: '#805AD5',
-        class: 'purple-600',
+        hex: '#7badde',
     },
 }
 
-const RelatiesKoppelingen = ({ beleidskeuze }) => {
+const RelatiesKoppelingen = ({ dataObject, titleSingular }) => {
     const [beleidsRelaties, setBeleidsRelaties] = React.useState([])
     const [isLoading, setIsLoading] = React.useState(true)
     const [activeTab, setActiveTab] = React.useState('Visueel')
@@ -65,55 +63,48 @@ const RelatiesKoppelingen = ({ beleidskeuze }) => {
         activeTab,
     ])
 
-    React.useEffect(() => {
+    const initBeleidskeuze = () => {
         const beleidsrelatiesVan = axios
             .get(
-                `/beleidsrelaties?Van_Beleidsbeslissing=${beleidskeuze.UUID}&Status=Akkoord`
+                `/beleidsrelaties?filters=Status:Akkoord,Van_Beleidskeuze:${dataObject.UUID}`
             )
             .then((res) => res.data)
         const beleidsrelatiesNaar = axios
             .get(
-                `/beleidsrelaties?Naar_Beleidsbeslissing=${beleidskeuze.UUID}&Status=Akkoord`
+                `/beleidsrelaties?filters=Status:Akkoord,Naar_Beleidskeuze:${dataObject.UUID}`
             )
             .then((res) => res.data)
 
-        Promise.all([beleidsrelatiesVan, beleidsrelatiesNaar])
-            .then((relaties) => {
+        Promise.all([beleidsrelatiesVan, beleidsrelatiesNaar]).then(
+            (relaties) => {
                 // Generate UUID's of all the beleidskeuzes that this beleidskeuze has a relationship with
                 const relatiesVan = relaties[0]
                 const relatiesNaar = relaties[1]
 
-                const relatiesVanUUIDS = relatiesVan.map(
-                    (relatie) => relatie.Naar_Beleidsbeslissing
-                )
-                const relatiesNaarUUIDS = relatiesNaar.map(
-                    (relatie) => relatie.Van_Beleidsbeslissing
-                )
-                const relatieUUIDS = [...relatiesVanUUIDS, ...relatiesNaarUUIDS]
+                setBeleidsRelaties([...relatiesVan, ...relatiesNaar])
+                setIsLoading(false)
+            }
+        )
+    }
 
-                return relatieUUIDS
-            })
-            .then((relatieUUIDS) => {
-                // Get data from API and set in state
-                const getAllRelatieBeleidskeuzes = relatieUUIDS.map((UUID) =>
-                    axios
-                        .get(`/beleidsbeslissingen/version/${UUID}`)
-                        .then((res) => res.data)
-                )
-                Promise.all(getAllRelatieBeleidskeuzes).then((relaties) => {
-                    setBeleidsRelaties(relaties)
-                    setIsLoading(false)
-                })
-            })
-    }, [beleidskeuze.UUID])
+    const initBeleidsobject = () => {
+        setBeleidsRelaties(dataObject.Ref_Beleidskeuzes)
+        setIsLoading(false)
+    }
 
-    if (isLoading) return null
+    React.useEffect(() => {
+        if (titleSingular === 'Beleidskeuze') {
+            initBeleidskeuze()
+        } else {
+            initBeleidsobject()
+        }
+    }, [dataObject.UUID])
 
     return (
         <div className="w-full pb-24 bg-orange-100">
-            <div className="container max-w-4xl pt-16 mx-auto">
+            <div className="container max-w-3xl pt-16 mx-auto">
                 <div className="px-6">
-                    <h2 className="block mb-1 text-lg font-semibold tracking-wide text-yellow-700">
+                    <h2 className="block mb-1 text-lg font-bold tracking-wide text-yellow-700">
                         Koppelingen & Relaties
                     </h2>
                     <p>
@@ -138,24 +129,29 @@ const RelatiesKoppelingen = ({ beleidskeuze }) => {
                         />
                     </div>
                     <div className="mt-6">
-                        {activeTab === 'Visueel' ? (
+                        {!isLoading && activeTab === 'Visueel' ? (
                             <RelatiesKoppelingenVisualisatie
-                                beleidskeuze={beleidskeuze}
+                                titleSingular={titleSingular}
+                                beleidsObject={dataObject}
                                 beleidsRelaties={beleidsRelaties}
                                 connectionProperties={connectionProperties}
                                 connectionPropertiesColors={
                                     connectionPropertiesColors
                                 }
                             />
-                        ) : activeTab === 'Tekstueel' ? (
+                        ) : !isLoading && activeTab === 'Tekstueel' ? (
                             <RelatiesKoppelingenTekstueel
-                                beleidskeuze={beleidskeuze}
+                                beleidsObject={dataObject}
                                 beleidsRelaties={beleidsRelaties}
                                 connectionProperties={connectionProperties}
                                 connectionPropertiesColors={
                                     connectionPropertiesColors
                                 }
                             />
+                        ) : isLoading ? (
+                            <div className="flex items-center justify-center w-full p-24 text-gray-500">
+                                <LoaderSpinner />
+                            </div>
                         ) : null}
                     </div>
                 </div>
@@ -167,7 +163,7 @@ const RelatiesKoppelingen = ({ beleidskeuze }) => {
 const TabButton = ({ activeTab, onClick, title }) => {
     return (
         <button
-            className={`border-opacity-0 transition duration-100 ease-in border-b-2 border-primary-super-dark px-5 py-2 font-bold text-primary-super-dark ${
+            className={`border-opacity-0 transition duration-100 ease-in border-b-2 border-pzh-blue px-5 py-2 font-bold text-pzh-blue ${
                 activeTab === title
                     ? 'border-opacity-100'
                     : 'hover:border-opacity-25 focus:border-opacity-50'

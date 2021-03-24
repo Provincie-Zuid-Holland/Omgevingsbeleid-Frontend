@@ -172,7 +172,7 @@ const ContentSidebarContainer = ({
     return (
         <div className={`mb-5 rounded-b shadow-md ${marginTop ? 'mt-5' : ''}`}>
             <div
-                className={`flex items-center justify-between w-full p-4 font-semibold text-white cursor-pointer bg-primary ${
+                className={`flex items-center justify-between w-full p-4 font-bold text-white cursor-pointer bg-pzh-blue ${
                     open ? 'rounded-t' : 'rounded'
                 }`}
                 onClick={() => setOpen(!open)}

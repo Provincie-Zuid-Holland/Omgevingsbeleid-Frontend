@@ -15,7 +15,7 @@ import PopUpAnimatedContainer from './../../../components/PopUpAnimatedContainer
  * @prop {function} setMotivationPopUp takes a UUID and set it in parent state in motivationPopUp
  * @prop {function} setDisconnectPopup takes a UUID and set it in parent state in motivationPopUp
  * @prop {string} disconnectPopUp contains the UUID of a beleidsrelatie
- * @prop {string} beleidsbeslissingTitle contains the title of the beleidsobject
+ * @prop {string} beleidskeuzeTitle contains the title of the beleidsobject
  * @prop {function} relationshipDisconnect function to disconnect a relationship
  * @prop {function} updateStatus function to update a status in parent state
  */
@@ -26,18 +26,18 @@ function TabRelations({
     setMotivationPopUp,
     setDisconnectPopup,
     disconnectPopUp,
-    beleidsbeslissingTitle,
+    beleidskeuzeTitle,
     relationshipDisconnect,
     updateStatus,
 }) {
     return (
         <ul>
-            <li className="flex p-2 text-sm font-semibold text-gray-800 border-b border-gray-200">
+            <li className="flex p-2 text-sm font-bold text-gray-800 border-b border-gray-200">
                 <div className="w-5/12">Beleidskeuzes</div>
                 <div className="w-2/12">Aangevraagd op</div>
                 <div className="w-1/12">Status</div>
                 <div className="w-2/12 pl-4">Motivering</div>
-                <div className="w-2/12">Actie</div>
+                <div className="flex justify-end w-2/12">Actie</div>
             </li>
             {loaded ? (
                 relations.length > 0 ? (
@@ -48,9 +48,9 @@ function TabRelations({
                                 className="relative flex items-center px-2 py-2 text-sm text-gray-800 border-b border-gray-200 hover:bg-gray-100"
                             >
                                 <div className="w-5/12 pr-4">
-                                    {relatie.beleidsbeslissing &&
-                                    relatie.beleidsbeslissing.Titel ? (
-                                        relatie.beleidsbeslissing.Titel
+                                    {relatie.beleidskeuze &&
+                                    relatie.beleidskeuze.Titel ? (
+                                        relatie.beleidskeuze.Titel
                                     ) : (
                                         <LoaderMainTitle />
                                     )}
@@ -94,7 +94,7 @@ function TabRelations({
                                                     icon={faTimes}
                                                 />
                                             </div>
-                                            <h3 className="form-field-label">
+                                            <h3 className="form-field-label font-bold">
                                                 Motivering
                                             </h3>
                                             <p className="form-field-description">
@@ -133,12 +133,12 @@ function TabRelations({
                                                     ? ' verbreken'
                                                     : ' verzoek intrekken'}
                                             </h3>
-                                            <div className="relative p-4 mb-4 border-l-4 purple-light-bg-color purple-border-color">
+                                            <div className="relative p-4 mb-4 border-l-4 bg-pzh-blue-super-light border-pzh-blue">
                                                 <p className="mt-2 text-sm text-gray-700">
                                                     {relatie.Status ===
                                                     'Akkoord'
-                                                        ? `Je staat op het punt om de beleidsrelatie tussen "${beleidsbeslissingTitle}" en "${relatie.beleidsbeslissing.Titel}" te verbreken`
-                                                        : `Je staat op het punt om het beleidsrelatie verzoek tussen "${beleidsbeslissingTitle}" en "${relatie.beleidsbeslissing.Titel}" in te trekken`}
+                                                        ? `Je staat op het punt om de beleidsrelatie tussen "${beleidskeuzeTitle}" en "${relatie.beleidskeuze.Titel}" te verbreken`
+                                                        : `Je staat op het punt om het beleidsrelatie verzoek tussen "${beleidskeuzeTitle}" en "${relatie.beleidskeuze.Titel}" in te trekken`}
                                                 </p>
                                             </div>
                                             <h4 className="mb-2 font-bold">
@@ -163,7 +163,7 @@ function TabRelations({
                                                     Annuleren
                                                 </span>
                                                 <span
-                                                    className="px-4 py-2 text-sm font-bold leading-tight text-white rounded cursor-pointer mbg-color hover:underline"
+                                                    className="px-4 py-2 text-sm font-bold leading-tight text-white rounded cursor-pointer bg-pzh-blue hover:underline"
                                                     onClick={() => {
                                                         relationshipDisconnect(
                                                             relatie

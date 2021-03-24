@@ -1,8 +1,8 @@
 import allDimensies from '../../../src/constants/dimensies'
-import statusFlow from '../../../src/constants/beleidsbeslissingStatusAanpassen'
+import statusFlow from '../../../src/constants/beleidskeuzeStatusAanpassen'
 
 // The dimension objects we will handle in the CRUD test
-const dimensions = [allDimensies.BELEIDSBESLISSINGEN, allDimensies.MAATREGELEN]
+const dimensions = [allDimensies.BELEIDSKEUZES, allDimensies.MAATREGELEN]
 
 describe('Dimension Status', () => {
     dimensions.forEach((dimensie, index) => {

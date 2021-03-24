@@ -5,12 +5,12 @@ const getSubUrl = (url, apiVersion) => url.slice(url.indexOf(`/` + apiVersion))
 // The dimension objects we will handle in the CRUD test
 const dimensions = [
     allDimensies.MAATREGELEN,
-    allDimensies.BELEIDSBESLISSINGEN,
-    allDimensies.OPGAVEN,
+    allDimensies.BELEIDSKEUZES,
+    allDimensies.BELEIDSDOELEN,
     allDimensies.AMBITIES,
     allDimensies.BELANGEN,
     allDimensies.BELEIDSREGELS,
-    allDimensies.DOELEN,
+    allDimensies.BELEIDSPRESTATIES,
     allDimensies.THEMAS,
 ]
 

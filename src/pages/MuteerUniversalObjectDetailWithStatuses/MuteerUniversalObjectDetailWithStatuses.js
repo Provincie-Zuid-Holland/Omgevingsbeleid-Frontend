@@ -93,7 +93,7 @@ const MuteerUniversalObjectDetailWithStatuses = ({ dimensieConstants }) => {
             if (pageType === 'detail') {
                 return `${apiEndpoint}/${single}`
             } else if (pageType === 'version') {
-                return `${apiEndpoint}/version/${version}`
+                return `/version/${apiEndpoint}/${version}`
             }
         }
 
@@ -129,21 +129,21 @@ const MuteerUniversalObjectDetailWithStatuses = ({ dimensieConstants }) => {
     const patchStatus = (crudObject, newStatus) => {
         const apiEndpoint = dimensieConstants.API_ENDPOINT
         const objectID = crudObject.ID
-        let crudObjectToPatch = cloneDeep(crudObject)
-        crudObjectToPatch.Status = newStatus
-        crudObjectToPatch = deleteUnkownProperties(crudObjectToPatch)
-        crudObjectToPatch = deletePropertiesWithNullValue(crudObjectToPatch)
+        // let crudObjectToPatch = cloneDeep(crudObject)
+        // crudObjectToPatch.Status = newStatus
+        // crudObjectToPatch = deleteUnkownProperties(crudObjectToPatch)
+        // crudObjectToPatch = deletePropertiesWithNullValue(crudObjectToPatch)
 
         axios
             .patch(
                 `${apiEndpoint}/${objectID}`,
-                JSON.stringify(crudObjectToPatch)
+                JSON.stringify({
+                    Status: newStatus,
+                })
             )
             .then((res) => {
                 setDimensionHistory([res.data, ...dimensionHistory])
-                toast(
-                    `Status succesvol gewijzigd naar ${crudObjectToPatch.Status}`
-                )
+                toast(`Status succesvol gewijzigd naar ${newStatus}`)
             })
             .catch((err) => {
                 console.log(err)
@@ -267,7 +267,7 @@ const MuteerUniversalObjectDetailWithStatuses = ({ dimensieConstants }) => {
                                         id={`href-ontwerp-maken`}
                                     >
                                         <span className="relative flex items-center justify-end w-8 h-10 pb-5 mr-2 border-r-2 border-gray-300">
-                                            <div className="absolute w-8 h-8 pt-1 text-center bg-gray-300 rounded-full -right-4">
+                                            <div className="absolute flex items-center justify-center w-8 h-8 text-center bg-gray-300 rounded-full -right-4">
                                                 <FontAwesomeIcon
                                                     className="relative text-gray-600"
                                                     icon={faPlus}

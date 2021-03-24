@@ -95,7 +95,7 @@ const CrudDropdown = ({ item, pathToIndex }) => {
                                         )
                                         setUUIDBeingEdited(item.UUID)
                                     }}
-                                    className="block w-full px-4 py-2 text-sm font-semibold leading-5 text-left text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900"
+                                    className="block w-full px-4 py-2 text-sm font-bold leading-5 text-left text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900"
                                 >
                                     Wijzigen
                                 </button>
@@ -106,7 +106,7 @@ const CrudDropdown = ({ item, pathToIndex }) => {
                                             setDeleteIsOpen(true)
                                         }
                                     }}
-                                    className="block w-full px-4 py-2 text-sm font-semibold leading-5 text-left text-red-700 hover:bg-gray-100 hover:text-red-800 focus:bg-gray-100 focus:text-red-900"
+                                    className="block w-full px-4 py-2 text-sm font-bold leading-5 text-left text-red-700 hover:bg-gray-100 hover:text-red-800 focus:bg-gray-100 focus:text-red-900"
                                 >
                                     Verwijderen
                                 </button>
@@ -158,7 +158,7 @@ const ConfirmDelete = ({ item, deleteItem, show, setDeleteIsOpen }) => {
                                 <div>
                                     <div className="flex items-center justify-between">
                                         <h3
-                                            className="text-lg font-semibold leading-6 text-primary"
+                                            className="text-lg font-bold leading-6 text-pzh-blue"
                                             id="modal-headline"
                                         >
                                             Verwijderen{' '}
@@ -172,7 +172,7 @@ const ConfirmDelete = ({ item, deleteItem, show, setDeleteIsOpen }) => {
                                             }
                                         >
                                             <FontAwesomeIcon
-                                                className="text-primary"
+                                                className="text-pzh-blue"
                                                 icon={faTimes}
                                             />
                                         </span>
@@ -226,7 +226,7 @@ const ConfirmDelete = ({ item, deleteItem, show, setDeleteIsOpen }) => {
                                             item.Type !== 'Artikel'
                                                 ? 'bg-gray-400 cursor-not-allowed'
                                                 : 'bg-red-600 hover:bg-red-500'
-                                        } border border-transparent rounded-md shadow-sm focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo sm:text-sm sm:leading-5`}
+                                        } border border-transparent rounded-md shadow-sm focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo `}
                                     >
                                         Verwijder {item.Type.toLowerCase()}
                                     </button>

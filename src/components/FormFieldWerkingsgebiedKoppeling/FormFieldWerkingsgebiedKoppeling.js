@@ -46,7 +46,7 @@ const FormFieldWerkingsgebiedKoppeling = ({
             setWerkingsgebied(null)
 
             axios
-                .get(`/werkingsgebieden/${werkingsgebiedInParentState}`)
+                .get(`/version/werkingsgebieden/${werkingsgebiedInParentState}`)
                 .then((res) => {
                     setWerkingsgebied(res.data)
                 })
@@ -54,7 +54,7 @@ const FormFieldWerkingsgebiedKoppeling = ({
                     console.log(err)
                     toast(process.env.REACT_APP_ERROR_MSG)
                 })
-        } else if (dataObjectProperty === 'WerkingsGebieden') {
+        } else if (dataObjectProperty === 'Werkingsgebieden') {
             // If there is no werkingsgebied prop
             if (!werkingsgebiedInParentState) return
 
@@ -73,7 +73,9 @@ const FormFieldWerkingsgebiedKoppeling = ({
 
             setWerkingsgebied(null)
             axios
-                .get(`/werkingsgebieden/${werkingsgebiedInParentState[0].UUID}`)
+                .get(
+                    `/version/werkingsgebieden/${werkingsgebiedInParentState[0].UUID}`
+                )
                 .then((res) => {
                     setWerkingsgebied(res.data)
                 })
@@ -132,7 +134,7 @@ const FormFieldWerkingsgebiedKoppeling = ({
                                     className="mr-2 text-gray-400"
                                     icon={faPlus}
                                 />
-                                <span className="py-4 pr-4 font-semibold text-gray-400">
+                                <span className="py-4 pr-4 font-bold text-gray-400">
                                     Werkingsgebied koppelen
                                 </span>
                             </div>
@@ -191,7 +193,7 @@ const CardSelectedWerkingsgebied = ({
                             : null}
                     </span>
                     <span
-                        className="absolute bottom-0 left-0 px-5 py-5 text-sm text-red-600 underline transition-colors ease-in cursor-pointer duration-50 hover:text-red-800"
+                        className="absolute bottom-0 left-0 px-5 py-5 text-sm text-red-600 underline transition-colors duration-100 ease-in cursor-pointer hover:text-red-800"
                         onClick={() => {
                             setWerkingsgebiedInParentState({
                                 target: {
@@ -212,7 +214,7 @@ const CardSelectedWerkingsgebied = ({
                         onClick={() => setPopupOpen(true)}
                     >
                         <div
-                            className={`cursor-pointer z-10 absolute top-0 left-0 w-full h-full border border-gray-100`}
+                            className={`cursor-pointer absolute top-0 left-0 w-full h-full border border-gray-100`}
                         >
                             <div
                                 style={{
@@ -229,6 +231,7 @@ const CardSelectedWerkingsgebied = ({
                             ></div>
                         </div>
                         <span
+                            style={{ zIndex: '-1' }}
                             className={`absolute top-0 left-0 flex items-center justify-center w-full h-full text-gray-500 -mt-4`}
                         >
                             <FontAwesomeIcon
@@ -284,7 +287,7 @@ const WerkingsgebiedPopup = ({
                     value: uuid,
                 },
             })
-        } else if (dataObjectProperty === 'WerkingsGebieden') {
+        } else if (dataObjectProperty === 'Werkingsgebieden') {
             // Single string of UUID
             setWerkingsgebiedInParentState({
                 target: {
@@ -311,7 +314,7 @@ const WerkingsgebiedPopup = ({
                         <FontAwesomeIcon icon={faTimes} />
                     </div>
                     <div className="h-full px-8 pt-8 pb-12">
-                        <h2 className="form-field-label">
+                        <h2 className="form-field-label font-bold">
                             Werkingsgebied koppelen
                         </h2>
                         <span className="form-field-description">
@@ -353,7 +356,7 @@ const WerkingsgebiedPopup = ({
                                                   }}
                                               >
                                                   <div
-                                                      className={`cursor-pointer z-10 absolute top-0 left-0 w-full h-full border border-gray-100 rounded-md shadow`}
+                                                      className={`cursor-pointer z-0 absolute top-0 left-0 w-full h-full border border-gray-100 rounded-md shadow`}
                                                   >
                                                       <div
                                                           style={{
@@ -371,6 +374,7 @@ const WerkingsgebiedPopup = ({
                                                       </span>
                                                   </div>
                                                   <span
+                                                      style={{ zIndex: '-1' }}
                                                       className={`absolute top-0 left-0 flex items-center justify-center w-full h-full text-gray-500 -mt-4 ${
                                                           index % 2 === 0
                                                               ? 'mr-4'

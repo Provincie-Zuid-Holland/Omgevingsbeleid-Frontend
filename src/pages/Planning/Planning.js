@@ -28,10 +28,10 @@ const Planning = () => {
             </div>
             <div className="container mx-auto">
                 <div className="max-w-4xl mx-auto sm:px-6 lg:px-8">
-                    <h1 className="mt-8 text-2xl font-semibold text-gray-900">
+                    <h1 className="mt-8 text-2xl font-bold text-pzh-blue">
                         Wat staat er op onze planning?
                     </h1>
-                    <ul className="mt-10 text-gray-800">
+                    <ul className="pb-8 mt-10 mb-24">
                         <ListItem
                             title="Beta versie online zetten (6 april 2020)"
                             content="We hebben de “oude” omgeving vervangen met de nieuwe
@@ -50,7 +50,7 @@ const Planning = () => {
                         />
                         <ListItem
                             title="Netwerkvisualisatie"
-                            content="Een visuele presentatie van de koppelingen en relaties van het beleid en de verordening. Zo wordt de samenhang tussen de ambitie’s, opgaven en beleidskeuze’s inzichtelijk."
+                            content="Een visuele presentatie van de koppelingen en relaties van het beleid en de verordening. Zo wordt de samenhang tussen de ambitie’s, beleidsdoelen en beleidskeuze’s inzichtelijk."
                             completed={false}
                         />
                         <ListItem
@@ -81,15 +81,15 @@ const ListItem = ({ title, content, completed }) => {
             <div className="w-8">
                 {completed ? (
                     <FontAwesomeIcon
-                        className="relative mt-2 text-lg text-green-600"
+                        className="relative mt-1 text-lg text-pzh-green"
                         icon={faCheck}
                     />
                 ) : (
-                    <span className="relative inline-block w-4 h-4 mt-2 bg-white border border-gray-600 rounded" />
+                    <span className="relative inline-block w-4 h-4 mt-1 bg-white border border-gray-600 rounded" />
                 )}
             </div>
             <div className="w-full">
-                <span className="text-2xl font-semibold text-gray-900">
+                <span className="text-2xl font-bold text-pzh-blue">
                     {title}
                 </span>
                 <p className="mt-2">{content}</p>

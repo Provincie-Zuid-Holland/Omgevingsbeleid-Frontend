@@ -60,27 +60,27 @@ class ContainerDetail extends Component {
                     dataObject.Status === 'Gepubliceerd' ? (
                         dimensionHistory[0] && dataObject ? (
                             <div className="absolute bottom-0 left-0 h-full pt-5 text-center">
-                                <div className="absolute top-0 right-0 inline-block mt-5 bg-indigo-900 status-bolletje" />
+                                <div className="absolute top-0 right-0 inline-block mt-5 bg-pzh-blue status-bolletje" />
                                 <div className="inline-block w-8 h-full border-r-2 border-gray-400" />
                             </div>
                         ) : (
                             <div className="absolute bottom-0 left-0 h-full text-center">
                                 <div className="inline-block w-8 h-5 border-r-2 border-gray-400" />
-                                <div className="absolute top-0 right-0 inline-block mt-5 bg-indigo-900 status-bolletje" />
+                                <div className="absolute top-0 right-0 inline-block mt-5 bg-pzh-blue status-bolletje" />
                             </div>
                         )
                     ) : (
                         <div className="absolute bottom-0 left-0 h-full pt-5 text-center">
                             <div className="relative top-0 right-0">
-                                <div className="absolute right-0 z-10 inline-block bg-secondary status-bolletje" />
-                                <div className="absolute top-0 border-2 rounded-full border-secondary pulserende-ring" />
+                                <div className="absolute right-0 z-10 inline-block bg-pzh-yellow-dark status-bolletje" />
+                                <div className="absolute top-0 border-2 rounded-full border-pzh-yellow-dark pulserende-ring" />
                             </div>
-                            <div className="relative inline-block w-16 h-full border-r-2 opacity-25 border-secondary ml-min-2px" />
+                            <div className="relative inline-block w-8 h-full border-r-2 opacity-25 border-pzh-yellow-dark" />
                         </div>
                     )
                 ) : null}
 
-                <div className="w-full pl-4 ml-16">
+                <div className="w-full pl-4 ml-5">
                     {this.props.children}
 
                     <div
@@ -136,7 +136,7 @@ class ContainerDetail extends Component {
                                     ? '#mijn-beleid'
                                     : ''
                             }`}
-                            className="inline-block mt-2 text-blue-700 underline"
+                            className="inline-block mt-2 underline text-pzh-blue hover:text-pzh-blue-dark pzh-transition-colors"
                         >
                             Bewerk {this.props.titleSingular}
                         </Link>
@@ -145,7 +145,7 @@ class ContainerDetail extends Component {
                     {dataObject.Status === 'Vigerend' ||
                     dataObject.Status === 'Gepubliceerd' ? (
                         <div className="flex mt-8">
-                            <div className="flex items-center justify-between w-full py-2 pr-4 mr-4 border-r border-gray-300">
+                            <div className="flex items-center justify-between w-full py-2 pr-4 border-r border-gray-300">
                                 <div>
                                     <span className="block text-sm font-bold text-gray-700">
                                         {/* isBefore */}
@@ -193,7 +193,7 @@ class ContainerDetail extends Component {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     id="href-idms-koppeling"
-                                    className="flex items-center justify-between w-full py-2 pr-4 mr-4 border-r border-gray-300"
+                                    className="flex items-center justify-between w-full px-4 py-2 border-r border-gray-300 hover:bg-gray-50 pzh-transition-colors"
                                 >
                                     <div>
                                         <span className="block text-sm font-bold text-gray-700">
@@ -205,7 +205,7 @@ class ContainerDetail extends Component {
                                     </div>
                                     <div>
                                         <FontAwesomeIcon
-                                            className="text-xl text-gray-600"
+                                            className="text-lg text-gray-600"
                                             icon={faLink}
                                         />
                                     </div>
@@ -216,7 +216,7 @@ class ContainerDetail extends Component {
                                     href={`/detail/${this.props.overzichtSlug}/${dataObject.UUID}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="flex items-center justify-between w-full py-2 cursor-pointer"
+                                    className="flex items-center justify-between w-full py-2 pl-4 cursor-pointer hover:bg-gray-50 pzh-transition-colors"
                                 >
                                     <div>
                                         <div>
@@ -234,7 +234,7 @@ class ContainerDetail extends Component {
                                     </div>
                                     <div>
                                         <FontAwesomeIcon
-                                            className="text-xl text-gray-600"
+                                            className="mr-4 text-lg text-gray-600"
                                             icon={faExternalLinkAlt}
                                         />
                                     </div>

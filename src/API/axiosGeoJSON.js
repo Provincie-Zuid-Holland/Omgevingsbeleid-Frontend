@@ -28,7 +28,7 @@ const getGeoJsonData = async (type, UUID, cancelToken) => {
 
 const getOnderverdeling = async (type, UUID) => {
     let res = await instance.get(
-        `https://geo-omgevingsbeleid-test.azurewebsites.net/OMGEVINGSBELEID/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=OMGEVINGSBELEID%3AWerkingsgebieden_Onderverdeling&maxFeatures=50&outputFormat=application%2Fjson&cql_filter=UUID%20IN%20(%27${UUID}%27)`,
+        `ows?service=wfs&version=1.0.0&request=GetFeature&typeName=OMGEVINGSBELEID%3AWerkingsgebieden_Onderverdeling&maxFeatures=50&outputFormat=application%2Fjson&cql_filter=UUID%20IN%20(%27${UUID}%27)`,
         { cancelToken: source.token }
     )
     const data = res.data
