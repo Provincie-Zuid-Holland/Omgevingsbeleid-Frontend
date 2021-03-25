@@ -80,7 +80,7 @@ class ContainerCrudFields extends React.Component {
                             <div className="bg-white shadow px-4 py-4 inline-block rounded-t">
                                 <input
                                     id="form-submit"
-                                    className="font-bold py-2 px-4 leading-tight text-sm rounded mbg-color text-white hover:underline"
+                                    className="font-bold py-2 px-4 leading-tight text-sm rounded bg-pzh-blue text-white hover:underline"
                                     type="submit"
                                     value="Opslaan"
                                 ></input>

@@ -1,6 +1,6 @@
 import FormFieldDate from '../FormFieldDate'
 import FormFieldSelect from '../FormFieldSelect'
-import FormFieldSelectBeleidsbeslissing from '../FormFieldSelectBeleidsbeslissing'
+import FormFieldSelectBeleidskeuze from '../FormFieldSelectBeleidskeuze'
 import FormFieldSelectUser from '../FormFieldSelectUser'
 import FormFieldSelectUserGroup from '../FormFieldSelectUserGroup'
 import FormFieldTags from '../FormFieldTags'
@@ -19,7 +19,7 @@ import FormFieldInputContainer from '../FormFieldInputContainer'
 export {
     FormFieldDate,
     FormFieldSelect,
-    FormFieldSelectBeleidsbeslissing,
+    FormFieldSelectBeleidskeuze,
     FormFieldSelectUser,
     FormFieldSelectUserGroup,
     FormFieldTags,

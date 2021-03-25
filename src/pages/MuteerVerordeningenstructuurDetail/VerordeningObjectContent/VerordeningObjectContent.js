@@ -36,9 +36,9 @@ function VerordeningObjectContent({ item, index, pathToIndex }) {
     const getStylesBasedOnType = () => {
         switch (item.Type) {
             case 'Afdeling':
-                return 'pl-5 bg-primary-super-light text-gray-900'
+                return 'pl-5 bg-pzh-blue-super-light text-gray-900'
             case 'Paragraaf':
-                return 'pl-5 bg-primary-super-light text-gray-900'
+                return 'pl-5 bg-pzh-blue-super-light text-gray-900'
             default:
                 return ''
         }
@@ -86,7 +86,7 @@ function VerordeningObjectContent({ item, index, pathToIndex }) {
             <div
                 className={`flex items-center relative ${
                     editingThisItemAndIsLoaded ? '' : 'pr-12'
-                } font-semibold block py-3 ${getStylesBasedOnType()}`}
+                } font-bold block py-3 ${getStylesBasedOnType()}`}
             >
                 <ReorderIcon userIsEditingOrder={userIsEditingOrder} />
                 {editingThisItemAndIsLoaded ? (
@@ -384,7 +384,7 @@ const TitleEditing = ({
     }
 
     return (
-        <div className={`w-full font-semibold rounded`}>
+        <div className={`w-full font-bold rounded`}>
             <div
                 className={`flex items-center ${
                     item.Type === 'Afdeling' ? 'pr-2' : ''
@@ -402,7 +402,7 @@ const TitleEditing = ({
                         })
                     }}
                     id="form-inline-volgnummer"
-                    className="inline-block w-16 mx-2 font-semibold text-center form-input sm:text-sm sm:leading-5"
+                    className="inline-block w-16 mx-2 font-bold text-center form-input "
                 />
                 <span>-</span>
                 <input
@@ -417,7 +417,7 @@ const TitleEditing = ({
                             name: 'Titel',
                         })
                     }}
-                    className="inline-block w-full ml-2 font-semibold form-input sm:text-sm sm:leading-5"
+                    className="inline-block w-full ml-2 font-bold form-input "
                 />
 
                 <SaveButton
@@ -453,7 +453,7 @@ const SaveButton = ({ save }) => {
     return (
         <button
             onClick={save}
-            className="flex items-center self-stretch justify-center px-3 ml-1 text-lg text-white bg-green-500 rounded hover:bg-green-600"
+            className="flex items-center self-stretch justify-center px-3 ml-1 text-lg text-white bg-green-500 rounded hover:bg-pzh-green"
         >
             <FontAwesomeIcon icon={faSave} />
         </button>
@@ -463,7 +463,7 @@ const SaveButton = ({ save }) => {
 const CancelButton = ({ cancel }) => {
     return (
         <button
-            className="flex items-center self-stretch justify-center px-3 ml-1 text-lg text-white rounded bg-primary hover:bg-primary-darker"
+            className="flex items-center self-stretch justify-center px-3 ml-1 text-lg text-white rounded bg-pzh-blue hover:bg-pzh-blue-dark"
             onClick={cancel}
         >
             <FontAwesomeIcon icon={faTimes} />

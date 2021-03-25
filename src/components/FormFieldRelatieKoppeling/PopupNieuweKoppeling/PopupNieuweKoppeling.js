@@ -116,6 +116,31 @@ class PopupNieuweKoppeling extends Component {
         })
     }
 
+    getTypeText(type) {
+        switch (type) {
+            case 'belangen':
+                return 'het belang'
+            case 'taken':
+                return 'de taak'
+            case 'ambities':
+                return 'de ambitie'
+            case 'beleidsdoelen':
+                return 'het beleidsdoel'
+            case 'themas':
+                return 'het thema'
+            case 'beleidsregels':
+                return 'de beleidsregel'
+            case 'beleidsprestaties':
+                return 'de beleidsprestatie'
+            case 'maatregelen':
+                return 'de maatregel'
+            case 'verordening':
+                return 'de verordening'
+            default:
+                return 'het object'
+        }
+    }
+
     render() {
         const propertyName = objecten[this.state.type].propertyName
         const crudObject = JSON.parse(JSON.stringify(this.props.crudObject))
@@ -138,64 +163,25 @@ class PopupNieuweKoppeling extends Component {
             )
             .filter((item) => !actieveKoppelingen.includes(item.UUID))
 
-        let koppelTekst = ''
-        switch (this.state.type) {
-            case 'belangen':
-                koppelTekst = 'het belang'
-                break
-            case 'taken':
-                koppelTekst = 'de taak'
-                break
-            case 'ambities':
-                koppelTekst = 'de ambitie'
-                break
-            case 'opgaven':
-                koppelTekst = 'de opgave'
-                break
-            case 'beleidsdoelen':
-                koppelTekst = 'het beleidsdoel'
-                break
-            case 'themas':
-                koppelTekst = 'het thema'
-                break
-            case 'beleidsregels':
-                koppelTekst = 'de beleidsregel'
-                break
-            case 'doelen':
-                koppelTekst = 'de beleidsprestatie'
-                break
-            case 'beleidsprestaties':
-                koppelTekst = 'de beleidsprestatie'
-                break
-            case 'maatregelen':
-                koppelTekst = 'de maatregel'
-                break
-            case 'verordening':
-                koppelTekst = 'de verordening'
-                break
-            default:
-                koppelTekst = 'het object'
-                break
-        }
+        let typeText = this.getTypeText(this.state.type)
 
         return (
             <PopUpAnimatedContainer>
                 <div
                     onClick={this.props.togglePopup}
-                    className="absolute top-0 right-0 px-3 py-2 text-gray-600 cursor-pointer"
+                    className="absolute top-0 right-0 px-6 py-4 text-gray-600 cursor-pointer"
                     id={`form-field-koppeling-sluit-popup`}
                 >
                     <FontAwesomeIcon icon={faTimes} />
                 </div>
-                <h3 className="form-field-label">
+                <h3 className="form-field-label font-bold">
                     {objecten[this.state.type].volledigeTitel} koppelen
                 </h3>
                 {this.state.actievePagina === 1 ? (
                     <React.Fragment>
                         <p className="form-field-description">
-                            Zoek en selecteer {koppelTekst} welke je wilt
-                            koppelen met de beleidskeuze '
-                            {this.props.titelMainObject}'
+                            Zoek en selecteer {typeText} welke je wilt koppelen
+                            met de beleidskeuze '{this.props.titelMainObject}'
                         </p>
                         <div className="relative block w-full mt-4 mb-6">
                             <input
@@ -284,7 +270,7 @@ class PopupNieuweKoppeling extends Component {
                             {this.state.selected.Titel}' en '
                             {this.props.titelMainObject}'
                         </p>
-                        <div className="px-4 py-4 my-4 text-sm text-gray-700 border-l-4 mbg-color-lighter m-border-color">
+                        <div className="px-4 py-4 my-4 text-sm text-gray-700 border-l-4 bg-pzh-blue-super-light border-pzh-blue">
                             Om er voor te zorgen dat de aangebrachte koppeling
                             daadwerkelijk van waarde is, vragen we je om de
                             koppeling te beschrijven.
@@ -314,7 +300,7 @@ class PopupNieuweKoppeling extends Component {
                     </span>
                     {this.state.actievePagina === 1 ? (
                         <div
-                            className={`font-bold py-2 px-4 cursor-pointer leading-tight text-sm rounded bg-green-600 text-white ${
+                            className={`font-bold py-2 px-4 cursor-pointer leading-tight text-sm rounded bg-pzh-green text-white ${
                                 this.state.selected === null
                                     ? `cursor-not-allowed opacity-50`
                                     : `hover:underline`
@@ -346,7 +332,7 @@ class PopupNieuweKoppeling extends Component {
                         </div>
                     ) : (
                         <div
-                            className={`font-bold py-2 px-4 cursor-pointer leading-tight text-sm rounded bg-green-600 text-white ${
+                            className={`font-bold py-2 px-4 cursor-pointer leading-tight text-sm rounded bg-pzh-green text-white ${
                                 this.state.beschrijving.length === 0
                                     ? `cursor-not-allowed opacity-50`
                                     : `hover:underline`

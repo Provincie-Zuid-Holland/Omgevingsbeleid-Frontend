@@ -76,11 +76,11 @@ const detailPaginas = [
     },
     {
         slug: 'beleidskeuzes',
-        dataModel: allDimensies.BELEIDSBESLISSINGEN,
+        dataModel: allDimensies.BELEIDSKEUZES,
     },
     {
         slug: 'beleidsprestaties',
-        dataModel: allDimensies.DOELEN,
+        dataModel: allDimensies.BELEIDSPRESTATIES,
     },
     {
         slug: 'themas',
@@ -88,7 +88,7 @@ const detailPaginas = [
     },
     {
         slug: 'beleidsdoelen',
-        dataModel: allDimensies.OPGAVEN,
+        dataModel: allDimensies.BELEIDSDOELEN,
     },
     {
         slug: 'verordeningen',
@@ -215,7 +215,7 @@ class App extends Component {
         return (
             <UserContext.Provider value={{ user: this.state.user }}>
                 <div
-                    className={`min-h-screen pt-12 ${
+                    className={`min-h-screen text-pzh-blue-dark pt-12 ${
                         locationEqualsMutateEnv ? 'bg-gray-100' : ''
                     }`}
                     id="main-container"

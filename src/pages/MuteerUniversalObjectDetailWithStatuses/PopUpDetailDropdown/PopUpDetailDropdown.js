@@ -41,7 +41,7 @@ const PopUpDetailDropdown = ({
                 <ul className="text-sm text-gray-800">
                     {status !== 'Vigerend' && status !== 'Gepubliceerd' ? (
                         <li
-                            className="px-4 py-2 text-sm cursor-pointer"
+                            className="px-4 py-2 text-sm cursor-pointer hover:bg-gray-100"
                             onClick={() => {
                                 toggleDropdown()
                                 toggleStatusPopup()
@@ -57,7 +57,7 @@ const PopUpDetailDropdown = ({
                             target="_blank"
                             rel="noopener noreferrer"
                             id="navbar-popup-href-raadpleeg-omgeving"
-                            className={`inline-block w-full px-4 py-2 text-sm border-gray-300 ${
+                            className={`inline-block w-full px-4 py-2 text-sm hover:bg-gray-100 border-gray-300 ${
                                 status !== 'Vigerend' &&
                                 status !== 'Gepubliceerd'
                                     ? 'border-t'
@@ -73,7 +73,7 @@ const PopUpDetailDropdown = ({
                             <Link
                                 to={`/muteer/beleidskeuzes/edit/${dataObject.ID}?modus=wijzig_vigerend`}
                                 id="navbar-popup-wijzig-vigerend"
-                                className="inline-block w-full px-4 py-2 text-sm border-t border-gray-300"
+                                className="inline-block w-full px-4 py-2 text-sm border-t border-gray-300 hover:bg-gray-100"
                             >
                                 Wijzigen zonder besluitvormingsproces
                             </Link>
@@ -87,7 +87,7 @@ const PopUpDetailDropdown = ({
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 id="navbar-popup-href-beleidsrelaties"
-                                className="inline-block w-full px-4 py-2 text-sm border-t border-gray-300"
+                                className="inline-block w-full px-4 py-2 text-sm border-t border-gray-300 hover:bg-gray-100"
                             >
                                 Bekijk beleidsrelaties
                             </a>

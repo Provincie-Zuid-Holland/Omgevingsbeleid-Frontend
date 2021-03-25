@@ -74,6 +74,12 @@ class FormFieldSelectUser extends React.Component {
      * @function
      */
     componentDidMount() {
+        let fieldValue = this.props.fieldValue
+
+        if (fieldValue && typeof fieldValue === 'object' && fieldValue.UUID) {
+            fieldValue = fieldValue.UUID
+        }
+
         const objecten = this.props.gebruikersLijst
             .sort((a, b) => (a.Gebruikersnaam > b.Gebruikersnaam ? 1 : -1))
             .filter((e) => e.Rol === this.props.filter)
@@ -89,9 +95,9 @@ class FormFieldSelectUser extends React.Component {
                 this.props.dataObjectProperty === 'Eigenaar_1' &&
                 selectionArray)
         ) {
-            const selected = selectionArray.find(
-                (arrayItem) => arrayItem.value === this.props.fieldValue
-            )
+            const selected = selectionArray.find((arrayItem) => {
+                return arrayItem.value === fieldValue
+            })
 
             this.setState({
                 selectionArray: selectionArray,
@@ -136,13 +142,13 @@ class FormFieldSelectUser extends React.Component {
                         className="border border-gray-400 rounded hover:border-gray-500 focus:border-gray-500"
                         name={this.props.dataObjectProperty}
                         value={this.state.selected}
-                        onChange={(e, metaInfo) =>
+                        onChange={(e, metaInfo) => {
                             this.props.handleChange(
                                 e,
                                 metaInfo,
                                 this.props.dataObjectProperty
                             )
-                        }
+                        }}
                         styles={customStyles}
                         isClearable={true}
                         options={

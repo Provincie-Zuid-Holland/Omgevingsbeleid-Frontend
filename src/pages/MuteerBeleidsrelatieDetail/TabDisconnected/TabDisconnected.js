@@ -23,7 +23,7 @@ function TabDisconnected({
 }) {
     return (
         <ul>
-            <li className="flex p-2 text-sm font-semibold text-gray-800 border-b border-gray-200">
+            <li className="flex p-2 text-sm font-bold text-gray-800 border-b border-gray-200">
                 <div className="w-5/12">Beleidskeuzes</div>
                 <div className="w-4/12">Datum</div>
                 <div className="w-1/12">Status</div>
@@ -38,9 +38,9 @@ function TabDisconnected({
                                 className="relative flex items-center px-2 py-2 text-sm text-gray-800 border-b border-gray-200 hover:bg-gray-100"
                             >
                                 <div className="w-5/12 pr-4">
-                                    {relatie.beleidsbeslissing &&
-                                    relatie.beleidsbeslissing.Titel ? (
-                                        relatie.beleidsbeslissing.Titel
+                                    {relatie.beleidskeuze &&
+                                    relatie.beleidskeuze.Titel ? (
+                                        relatie.beleidskeuze.Titel
                                     ) : (
                                         <LoaderMainTitle />
                                     )}
@@ -86,7 +86,7 @@ function TabDisconnected({
                                                     icon={faTimes}
                                                 />
                                             </div>
-                                            <h3 className="form-field-label">
+                                            <h3 className="form-field-label font-bold">
                                                 Motivering
                                             </h3>
                                             <p className="form-field-description">

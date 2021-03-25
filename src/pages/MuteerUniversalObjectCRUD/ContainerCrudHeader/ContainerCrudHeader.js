@@ -50,7 +50,7 @@ function ContainerCrudHeader({
     const backUrl = getBackUrl()
 
     return (
-        <div className="relative w-full px-6 py-24 mbg-color edit-header">
+        <div className="relative w-full px-6 py-24 bg-pzh-blue edit-header">
             <div className="container flex items-center justify-center mx-auto lg:px-10">
                 <div className="w-full pr-20">
                     <ButtonBackToPage
@@ -60,7 +60,7 @@ function ContainerCrudHeader({
                     />
 
                     {dataLoaded ? (
-                        <h1 className="text-4xl font-semibold text-white">
+                        <h1 className="text-4xl font-bold text-white">
                             {mainTitle}
                         </h1>
                     ) : (

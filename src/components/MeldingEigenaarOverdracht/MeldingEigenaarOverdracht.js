@@ -13,7 +13,7 @@ class MeldingEigenaarOverdracht extends Component {
         return (
             <div className="p-4 mb-4 bg-white rounded shadow">
                 <div className="flex items-center justify-start">
-                    <div className="flex items-center justify-center inline-block w-12 h-12 text-white rounded-full mbg-color">
+                    <div className="flex items-center justify-center inline-block w-12 h-12 text-white rounded-full bg-pzh-blue">
                         <FontAwesomeIcon icon={faPeopleCarry} />
                     </div>
                     <h3 className="inline-block ml-4 text-lg font-bold text-gray-800">
@@ -64,7 +64,7 @@ class MeldingEigenaarOverdracht extends Component {
                         <p className="mb-4 text-sm text-gray-700">
                             Wil je dit eigenaarschap accepteren?
                         </p>
-                        <span className="px-4 py-2 mr-2 text-sm font-bold text-white bg-green-600 rounded cursor-not-allowed hover:bg-green-700">
+                        <span className="px-4 py-2 mr-2 text-sm font-bold text-white bg-pzh-green rounded cursor-not-allowed hover:bg-pzh-green-dark">
                             Accepteren
                         </span>
                         <span className="px-4 py-2 mr-4 text-sm font-bold text-white bg-red-600 rounded cursor-not-allowed hover:bg-red-700">

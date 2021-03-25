@@ -87,7 +87,7 @@ function Hoofdstuk({
                                 })
                             }}
                             id="Begin_Geldigheid"
-                            className="block w-full form-input sm:text-sm sm:leading-5"
+                            className="block w-full form-input "
                         />
                     </div>
                 </div>
@@ -111,7 +111,7 @@ function Hoofdstuk({
                                 })
                             }}
                             id="Eind_Geldigheid"
-                            className="block w-full form-input sm:text-sm sm:leading-5"
+                            className="block w-full form-input "
                         />
                     </div>
                 </div>

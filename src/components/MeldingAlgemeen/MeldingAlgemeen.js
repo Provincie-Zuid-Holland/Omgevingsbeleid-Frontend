@@ -26,23 +26,23 @@ class MeldingAlgemeen extends Component {
         return (
             <div className="p-4 mb-4 bg-white rounded shadow">
                 <div className="flex items-center justify-start">
-                    <div className="rounded-full mbg-color w-12 h-12 inline-block text-white flex justify-center items-center">
+                    <div className="flex items-center justify-center inline-block w-12 h-12 text-white rounded-full bg-pzh-blue">
                         <FontAwesomeIcon icon={icon} />
                     </div>
-                    <h3 className="heading-lg font-bold ml-4">
+                    <h3 className="ml-4 text-lg font-bold">
                         {this.props.titel}
                     </h3>
 
-                    <span className="absolute right-0 text-gray-600 mr-16 text-sm">
+                    <span className="absolute right-0 mr-16 text-sm text-gray-600">
                         2 uur geleden
                     </span>
                 </div>
-                <div className="pl-16 pb-6">{this.props.children}</div>
-                <div className="pl-16 pb-4">
-                    <span className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded cursor-not-allowed text-sm mr-4">
+                <div className="pb-6 pl-16">{this.props.children}</div>
+                <div className="pb-4 pl-16">
+                    <span className="px-4 py-2 mr-4 text-sm font-bold text-white rounded cursor-not-allowed bg-pzh-green hover:bg-pzh-green-dark">
                         {this.props.buttonText}
                     </span>
-                    <span className="text-gray-700 text-sm underline cursor-not-allowed hover:text-gray-900">
+                    <span className="text-sm text-gray-700 underline cursor-not-allowed hover:text-gray-900">
                         Melding verbergen
                     </span>
                 </div>

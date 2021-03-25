@@ -43,6 +43,28 @@ function Artikel({
                 <div>
                     <SelectField
                         users={users}
+                        label={'Eerste eigenaar'}
+                        property={'Eigenaar_1'}
+                        filter={['Beleidseigenaar', 'Behandelend Ambtenaar']}
+                        excludeValue={'Eigenaar_2'}
+                        setVerordeningsObjectFromGET={
+                            setVerordeningsObjectFromGET
+                        }
+                        verordeningsObjectFromGET={verordeningsObjectFromGET}
+                    />
+                    <SelectField
+                        users={users}
+                        label={'Tweede eigenaar'}
+                        property={'Eigenaar_2'}
+                        excludeValue={'Eigenaar_1'}
+                        filter={['Beleidseigenaar', 'Behandelend Ambtenaar']}
+                        setVerordeningsObjectFromGET={
+                            setVerordeningsObjectFromGET
+                        }
+                        verordeningsObjectFromGET={verordeningsObjectFromGET}
+                    />
+                    <SelectField
+                        users={users}
                         label={'Opdrachtgever'}
                         property={'Opdrachtgever'}
                         filter={'Ambtelijk opdrachtgever'}
@@ -53,28 +75,9 @@ function Artikel({
                     />
                     <SelectField
                         users={users}
-                        label={'Eerste eigenaar'}
-                        property={'Eigenaar_1'}
-                        filter={['Beleidseigenaar', 'Behandelend Ambtenaar']}
-                        setVerordeningsObjectFromGET={
-                            setVerordeningsObjectFromGET
-                        }
-                        verordeningsObjectFromGET={verordeningsObjectFromGET}
-                    />
-                    <SelectField
-                        users={users}
-                        label={'Tweede eigenaar'}
-                        property={'Eigenaar_2'}
-                        filter={['Beleidseigenaar', 'Behandelend Ambtenaar']}
-                        setVerordeningsObjectFromGET={
-                            setVerordeningsObjectFromGET
-                        }
-                        verordeningsObjectFromGET={verordeningsObjectFromGET}
-                    />
-                    <SelectField
-                        users={users}
                         label={'Eerste portefeuillehouder'}
                         property={'Portefeuillehouder_1'}
+                        excludeValue={'Portefeuillehouder_2'}
                         filter={'Portefeuillehouder'}
                         setVerordeningsObjectFromGET={
                             setVerordeningsObjectFromGET
@@ -85,6 +88,7 @@ function Artikel({
                         users={users}
                         label={'Tweede portefeuillehouder'}
                         property={'Portefeuillehouder_2'}
+                        excludeValue={'Portefeuillehouder_1'}
                         filter={'Portefeuillehouder'}
                         setVerordeningsObjectFromGET={
                             setVerordeningsObjectFromGET
@@ -114,7 +118,7 @@ function Artikel({
                                 })
                             }}
                             id="Begin_Geldigheid"
-                            className="block w-full form-input sm:text-sm sm:leading-5"
+                            className="block w-full form-input "
                         />
                     </div>
                 </div>
@@ -138,7 +142,7 @@ function Artikel({
                                 })
                             }}
                             id="Eind_Geldigheid"
-                            className="block w-full form-input sm:text-sm sm:leading-5"
+                            className="block w-full form-input "
                         />
                     </div>
                 </div>

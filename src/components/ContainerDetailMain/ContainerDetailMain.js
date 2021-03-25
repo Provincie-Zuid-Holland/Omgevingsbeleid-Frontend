@@ -10,6 +10,7 @@ import {
     faEllipsisV,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Transition } from '@headlessui/react'
 
 // Import Components
 import PopUpDetailDropdown from '../PopUpDetailDropdown'
@@ -27,7 +28,7 @@ import LoaderSmallSpan from '../LoaderSmallSpan'
  */
 function StatusLabel(props) {
     return (
-        <span className="inline px-3 py-3 ml-3 text-sm font-bold bg-blue-100 rounded-full m-color">
+        <span className="inline px-3 py-3 ml-3 text-sm font-bold bg-blue-100 rounded-full text-pzh-blue">
             Vigerend
         </span>
     )
@@ -119,6 +120,8 @@ class ContainerDetailMain extends Component {
                     {titleSingular}
                 </span>
 
+                {console.log(titel)}
+
                 {dataReceived ? (
                     <HeadingMain titel={titel} />
                 ) : (
@@ -130,7 +133,7 @@ class ContainerDetailMain extends Component {
                 ) : null}
 
                 <div className="flex mt-8">
-                    <div className="flex items-center justify-between w-full py-2 pr-4 mr-4 border-r border-gray-300">
+                    <div className="flex items-center justify-between w-full py-2 pr-4 border-r border-gray-300">
                         <div>
                             <span className="block text-sm font-bold text-gray-700">
                                 {/* isBefore */}
@@ -174,7 +177,7 @@ class ContainerDetailMain extends Component {
                             target="_blank"
                             rel="noopener noreferrer"
                             id="href-idms-koppeling"
-                            className="flex items-center justify-between w-full py-2 pr-4 mr-4 border-r border-gray-300"
+                            className="flex items-center justify-between w-full px-4 py-2 border-r border-gray-300 hover:bg-gray-50 pzh-transition-colors"
                         >
                             <div>
                                 <span className="block text-sm font-bold text-gray-700">
@@ -186,7 +189,7 @@ class ContainerDetailMain extends Component {
                             </div>
                             <div>
                                 <FontAwesomeIcon
-                                    className="text-xl text-gray-600"
+                                    className="text-lg text-gray-600"
                                     icon={faLink}
                                 />
                             </div>
@@ -209,7 +212,7 @@ class ContainerDetailMain extends Component {
                             }
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center justify-between w-full py-2 cursor-pointer"
+                            className="flex items-center justify-between w-full py-2 pl-4 cursor-pointer hover:bg-gray-50 pzh-transition-colors"
                         >
                             <div>
                                 <div>
@@ -227,7 +230,7 @@ class ContainerDetailMain extends Component {
                             </div>
                             <div>
                                 <FontAwesomeIcon
-                                    className="text-xl text-gray-600"
+                                    className="mr-4 text-lg text-gray-600"
                                     icon={faExternalLinkAlt}
                                 />
                             </div>

@@ -11,11 +11,12 @@ import {
     FormFieldRadioButton,
     FormFieldRichTextEditor,
     FormFieldInputContainer,
+    FormFieldSelectUserGroup,
 } from './../../../../components/FormFieldsExport'
 
 import UserContext from './../../../../App/UserContext'
 
-const initialValueToelichting = `<h2><b>Rolkeuze</b></h2><p><br><br></p><h2><b>Uitvoering</b></h2><p><br><br></p>`
+const initialValueToelichting = `<p><b>Rolkeuze</b></p><p><br><br></p><p><b>Beleidskeuzes</b></p><p><br><br></p><p><b>Is de maatregel gebiedsspecifiek?</b></p><p><br><br></p><p><b>Toelichting</b></p><p><br><br></p>`
 
 function FormFieldContainerMaatregelen({
     titleSingular,
@@ -35,20 +36,27 @@ function FormFieldContainerMaatregelen({
                     fieldValue={crudObject['Titel']}
                     dataObjectProperty="Titel"
                     fieldLabel="Titel"
-                    pValue="Maximaal 10 woorden. Moet de lading dekken van het onderwerp. Bijvoorbeeld ‘Opstellen van gebiedsprofielen’"
+                    pValue="Formuleer in enkele woorden de titel van de maatregel."
+                    titleSingular={titleSingular}
+                />
+                <FormFieldSelectUserGroup
+                    handleChange={handleChange}
+                    crudObject={crudObject}
+                    marginRight={true}
+                    fieldLabel="Personen"
                     titleSingular={titleSingular}
                 />
             </ContainerFormSection>
 
             <ContainerFormSection
                 titel="Omschrijving maatregel"
-                beschrijving="Een maatregel beschrijft de wijze waarop uitvoering wordt gegeven aan beleid."
+                beschrijving="In deze sectie kun je alle tekst met betrekking tot de maatregel kwijt. Een goede beleidstekst is kort, krachtig en actief opgeschreven. Zo weet de lezer direct wat de provincie gaat doen en waarom dit van belang is. Schrijf altijd ‘de provincie’, en niet ‘wij’. Maak indien nodig gebruik van tekstopmaak."
             >
                 <FormFieldInputContainer>
                     <FormFieldTitelEnBeschrijving
                         fieldLabel={'Omschrijving'}
                         pValue={
-                            "Formuleer in één of enkele zinnen een concrete doelstelling op tactisch niveau. Beschrijf hier het 'wat' en vanuit welke rol."
+                            "Een maatregel beschrijft de wijze waarop uitvoering wordt gegeven aan beleid. Formuleer wat de provincie gaat realiseren, of de maatregel voor een specifiek gebied van toepassing is, aan welke beleidskeuzes de maatregel bijdraagt en in welke rol de provincie op zich neemt."
                         }
                     />
                     <FormFieldRichTextEditor
@@ -64,7 +72,7 @@ function FormFieldContainerMaatregelen({
 
             <ContainerFormSection
                 titel="Werkingsgebied"
-                beschrijving="Het werkingsgebied geeft het gebied weer waarin de maatregel werking heeft. Het gebied waar binnen bepaalde activiteiten gestimuleerd worden, of toegestaan zijn. Maar ook het gebied waar binnen bepaalde activiteiten juist niet zijn toegestaan. Heeft jouw maatregel nog geen geschikt werkingsgebied, ontwikkel er dan een met iemand van Team GEO (teamgeo@pzh.nl)."
+                beschrijving="Het werkingsgebied geeft het gebied weer waar de maatregel betrekking op heeft. Binnen dit gebied worden bepaalde activiteiten gestimuleerd, ontwikkeld,  toegestaan of juist verboden."
             >
                 <FormFieldWerkingsgebiedKoppeling
                     setWerkingsgebiedInParentState={handleChange}
@@ -73,7 +81,7 @@ function FormFieldContainerMaatregelen({
                     titleSingular={titleSingular}
                     fieldLabel="Selecteer werkingsgebied"
                     dataObjectProperty="Gebied"
-                    pValue="Selecteer hier het werkingsgebied wat bij deze maatregel past."
+                    pValue="Selecteer het werkingsgebied wat bij deze maatregel van toepassing is. Heeft jouw maatregel nog geen geschikt werkingsgebied, of moet het huidige gebied aangepast worden? Neem dan contact op via omgevingsbeleid@pzh.nl."
                 />
                 <FormFieldRadioButton
                     options={['Indicatief', 'Exact']}
@@ -81,7 +89,7 @@ function FormFieldContainerMaatregelen({
                     fieldValue={crudObject['Gebied_Duiding']}
                     dataObjectProperty="Gebied_Duiding"
                     titleSingular={titleSingular}
-                    label="Intentie van het werkingsgebied"
+                    label="Geef de intentie van het werkingsgebied aan. De intentie is de manier waarop de geometrie van het gebied geïnterpreteerd moet worden, niet de nauwkeurigheid van het gebied."
                 />
             </ContainerFormSection>
 

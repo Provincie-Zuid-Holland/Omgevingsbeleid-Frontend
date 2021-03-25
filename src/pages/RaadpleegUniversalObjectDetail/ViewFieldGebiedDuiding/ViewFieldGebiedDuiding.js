@@ -8,7 +8,7 @@ function ViewFieldGebiedDuiding({ gebiedDuiding }) {
                 className={`text-gray-700 text-sm mt-1 leading-7 break-words w-full whitespace-pre-line`}
             >
                 {gebiedDuiding
-                    ? 'Intentie werkingsgebied:' + gebiedDuiding.toLowerCase()
+                    ? 'Intentie werkingsgebied: ' + gebiedDuiding.toLowerCase()
                     : null}
             </p>
         </div>

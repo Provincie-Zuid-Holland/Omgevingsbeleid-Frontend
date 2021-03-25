@@ -27,7 +27,7 @@ const formats = [
     // 'direction',
     // 'code-block',
     // 'formula'
-    // 'image'
+    'image',
     // 'video'
 ]
 
@@ -56,7 +56,7 @@ function FormFieldRichTextEditor({
 
         const quillOptions = {
             modules: {
-                toolbar: [{ header: 2 }, 'bold', { list: 'bullet' }],
+                toolbar: [{ header: 2 }, 'bold', { list: 'bullet' }, 'image'],
             },
             placeholder: placeholder,
             theme: 'snow',

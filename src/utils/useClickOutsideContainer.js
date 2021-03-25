@@ -1,10 +1,10 @@
-import { useEffect } from 'react'
+import React from 'react'
 
 function useClickOutsideContainer(ref, callback) {
-    useEffect(() => {
+    React.useEffect(() => {
         const handleClickOutside = (event) => {
             if (ref.current && !ref.current.contains(event.target)) {
-                callback()
+                callback(event)
             }
         }
 

@@ -6,8 +6,6 @@ import DragAndDropListNested from './../DragAndDropListNested'
 import AddSection from './../AddSection'
 import VerordeningObjectContent from './../VerordeningObjectContent'
 
-// TODO: Remove DndTitle (refactored into VerordeningObjectContent)
-
 function DragAndDropList({
     onDragEnd,
     items,

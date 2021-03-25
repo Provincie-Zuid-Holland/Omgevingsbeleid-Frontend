@@ -34,7 +34,7 @@ const MijnBeleid = ({ hideAddNew }) => {
         const getAndSetBeleidVanGebruiker = () => {
             const skipDimensies = [
                 'BELEIDSRELATIES',
-                'DOELEN',
+                'BELEIDSPRESTATIES',
                 'VERORDENINGSTRUCTUUR',
                 'VERORDENINGSARTIKEL',
             ]
@@ -51,9 +51,9 @@ const MijnBeleid = ({ hideAddNew }) => {
             const axiosRequests = policyEndpointsAndTypes.map((dimensie) => {
                 return axios
                     .get(
-                        dimensie.endpoint === 'beleidsbeslissingen'
-                            ? `/${dimensie.endpoint}?Created_By=${user.UUID}&Eigenaar_1=${user.UUID}&Eigenaar_2=${user.UUID}&Opdrachtgever=${user.UUID}`
-                            : `/${dimensie.endpoint}?Created_By=${user.UUID}`
+                        dimensie.endpoint === 'beleidskeuzes'
+                            ? `/${dimensie.endpoint}?filters=Created_By:${user.UUID},Eigenaar_1:${user.UUID},Eigenaar_2:${user.UUID},Opdrachtgever:${user.UUID}`
+                            : `/${dimensie.endpoint}?filters=Created_By:${user.UUID}`
                     )
                     .then((res) => {
                         if (res.data.length === 0) return

@@ -12,14 +12,8 @@ import { environment } from './../../API/axios'
 import NavigationPopupMenu from './../NavigationPopupMenu'
 import SearchBar from './../SearchBar'
 
-/**
- * Component that renders the Navigation component and displays where the user is and can go too.
- *
- * @component
- *
- * @param {boolean} loggedIn - Paramter used in to show or hide elements within the rendered component.
- * @param {boolean} setLoginState - Parameter used to display if user is logged in, in the navigation component.
- */
+import logoSVG from './../../images/PZH_Basislogo.svg'
+
 function Navigation({ loggedIn, setLoginState }) {
     const location = useLocation()
     const pathname = location.pathname
@@ -76,10 +70,10 @@ function Navigation({ loggedIn, setLoginState }) {
             // If user is in the muteer environment we don't want to show a shadow
             if (locationEqualsMutateEnv) return
 
-            if (currScroll > 52) {
+            if (currScroll > 94) {
                 header.classList.add('soft-shadow-navigation')
                 header.classList.remove('shadow-navigation')
-            } else if (currScroll < 52) {
+            } else if (currScroll < 94) {
                 if (!header.classList.contains('shadow-navigation')) {
                     header.classList.remove('soft-shadow-navigation')
                     header.classList.add('shadow-navigation')
@@ -91,7 +85,7 @@ function Navigation({ loggedIn, setLoginState }) {
         }
 
         const toggleHeader = (direction, curScroll) => {
-            if (direction === 2 && curScroll > 52) {
+            if (direction === 2 && curScroll > 94) {
                 header.classList.add('hide-nav')
                 prevDirection = direction
             } else if (direction === 1) {
@@ -142,13 +136,13 @@ function Navigation({ loggedIn, setLoginState }) {
             />
 
             {/* Main container */}
-            <div className="container flex flex-wrap items-center justify-between py-6 mx-auto bg-white sm:px-6 lg:px-8">
+            <div className="container flex flex-wrap items-center justify-between px-4 mx-auto bg-white">
                 {/* Logo */}
-                <div className="flex items-center py-2 mr-6 text-black flex-no-shrink">
+                <div className="flex items-center mr-6 text-black flex-no-shrink">
                     <Link
                         id="href-naar-home"
                         to={loggedIn ? '/muteer/dashboard' : '/'}
-                        className="z-10 ml-3 sm:ml-0 text-blue focus:border-primary"
+                        className="z-10 ml-3 sm:ml-0"
                         onClick={() => {
                             setIsOpen(false)
                         }}
@@ -167,48 +161,30 @@ function Navigation({ loggedIn, setLoginState }) {
                         />
                     </div>
                     {loggedIn && userIsInMuteerEnvironment ? (
-                        <Link
-                            to={'/'}
-                            className="px-4 py-2 mr-5 text-sm text-gray-700 transition duration-300 ease-in rounded hover:text-gray-800"
-                            onClick={() => {
-                                setIsOpen(false)
-                            }}
-                        >
-                            <FontAwesomeIcon
-                                className="mr-3 text-lg"
-                                icon={faEye}
-                            />
-                            Raadplegen
-                        </Link>
+                        <MenuIcon
+                            setIsOpen={setIsOpen}
+                            to="/"
+                            icon={faEye}
+                            className="mr-3"
+                            children="Raadplegen"
+                        />
                     ) : null}
                     {loggedIn && !userIsInMuteerEnvironment ? (
-                        <Link
-                            to={'/muteer/dashboard'}
-                            className="px-4 py-2 mr-5 text-sm text-gray-700 transition duration-300 ease-in rounded hover:text-gray-800"
-                            onClick={() => {
-                                setIsOpen(false)
-                            }}
-                        >
-                            <FontAwesomeIcon
-                                className="mr-3 text-lg"
-                                icon={faEye}
-                            />
-                            Bewerken
-                        </Link>
+                        <MenuIcon
+                            setIsOpen={setIsOpen}
+                            to="/muteer/dashboard"
+                            icon={faEye}
+                            className="mr-3"
+                            children="Bewerken"
+                        />
                     ) : null}
                     {!loggedIn ? (
-                        <Link
-                            to={'/login'}
-                            className="px-2 py-2 text-gray-800 transition duration-300 ease-in rounded hover:text-gray-800"
-                            onClick={() => {
-                                setIsOpen(false)
-                            }}
-                        >
-                            <FontAwesomeIcon
-                                className="mx-1 text-lg"
-                                icon={faSignInAlt}
-                            />
-                        </Link>
+                        <MenuIcon
+                            setIsOpen={setIsOpen}
+                            to="/login"
+                            icon={faSignInAlt}
+                            className="mx-1"
+                        />
                     ) : null}
                     <NavigationPopupMenu
                         isOpen={isOpen}
@@ -224,23 +200,29 @@ function Navigation({ loggedIn, setLoginState }) {
     )
 }
 
-/**
- * Function that renders the Logo in the Navigation component.
- *
- * @function
- */
+const MenuIcon = ({ to, icon, className, setIsOpen, children = null }) => {
+    return (
+        <Link
+            to={to}
+            className="flex items-center justify-center px-2 py-2 text-gray-800 transition duration-300 ease-in rounded hover:text-gray-800"
+            onClick={() => {
+                setIsOpen(false)
+            }}
+        >
+            <FontAwesomeIcon className={`${className} text-sm`} icon={icon} />
+            <div className="mt-1 text-sm">{children}</div>
+        </Link>
+    )
+}
+
 function Logo() {
     return (
-        <React.Fragment>
-            <div className="logo-beeldmerk" />
-            <div className="logo-tekst" />
-            {/* Beta Badge */}
-            <div className="absolute px-1 pl-4 -mt-4 beta-badge">
-                <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold leading-4 beta-logo text-yellow-700 uppercase">
-                    Beta
-                </span>
-            </div>
-        </React.Fragment>
+        <img
+            className="inline-block"
+            title="Provincie Zuid-Holland Logo"
+            style={{ height: '96px' }}
+            src={logoSVG}
+        />
     )
 }
 
@@ -334,10 +316,10 @@ function BannerEnvironment({
 
     return (
         <div className={`relative ${getEnvironmentCSSClass()}`}>
-            <div className="max-w-screen-xl px-3 py-3 mx-auto sm:px-6 lg:px-8">
+            <div className="max-w-screen-xl px-3 py-2 mx-auto sm:px-6 lg:px-8">
                 <div className="pr-16 sm:text-center sm:px-16">
                     <p className="font-medium">
-                        <span className="text-sm font-semibold leading-4 tracking-wider uppercase rounded hide-banner">
+                        <span className="text-sm font-bold leading-4 tracking-wider uppercase rounded hide-banner">
                             {getEnvironmentText()}
                         </span>
                     </p>
@@ -345,7 +327,7 @@ function BannerEnvironment({
                 <div className="absolute inset-y-0 right-0 flex items-start pt-1 pr-1 sm:pt-1 sm:pr-2 sm:items-start">
                     <button
                         type="button"
-                        className="flex p-2 transition duration-150 ease-in-out rounded-lg focus:outline-none hide-banner"
+                        className="flex p-1 transition duration-150 ease-in-out rounded-lg focus:outline-none hide-banner"
                         onClick={() => {
                             setShowBanner(!showBanner)
                             removeBanner()

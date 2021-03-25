@@ -17,11 +17,9 @@ const Login = ({ setLoginUser, setLoginState }) => {
             <Helmet>
                 <title>Login - Omgevingsbeleid - Provincie Zuid-Holland</title>
             </Helmet>
-            <div className="w-1/2 pb-8 pl-0 pr-10 lg:pl-10 md:pl-10 xs:pl-10">
-                <h1 className="my-4 font-serif text-2xl text-gray-800">
-                    Inloggen
-                </h1>
-                <p className="text-gray-700">
+            <div className="w-1/2 pb-8 pl-0 pr-10 sm:pl-5">
+                <h1 className="mt-4 mb-2 text-2xl text-pzh-blue">Inloggen</h1>
+                <p>
                     Als beleidsmedewerker van provincie Zuid-Holland kun je hier
                     inloggen om te werken aan het Omgevingsbeleid.
                 </p>

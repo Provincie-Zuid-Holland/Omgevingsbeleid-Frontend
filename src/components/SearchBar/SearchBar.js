@@ -84,7 +84,7 @@ const SearchBar = ({
             }
         >
             <input
-                className={`block w-full pr-10 bg-gray-50 rounded-full text-gray-700 appearance-none px-5 py-2 border border-gray-200  sm:text-sm sm:leading-5`}
+                className={`block w-full pr-10 bg-gray-50 rounded-full appearance-none px-3 py-1 border hover:border-gray-300 border-gray-200 transition-colors ease-in duration-100`}
                 name="searchInput"
                 onChange={(e) => {
                     setSearchQuery(e.target.value)
@@ -180,7 +180,7 @@ function SearchBarPopupItem({
     return (
         <li key={index} className={`relative`}>
             <Link
-                className={`text-gray-700 px-5 w-full relative inline-block hover:bg-gray-50 focus:bg-gray-50 focus:shadow-outline focus:rounded cursor-pointer py-2`}
+                className={`px-5 w-full relative inline-block hover:bg-gray-50 focus:bg-gray-50 focus:shadow-outline focus:rounded cursor-pointer py-2`}
                 to={`/zoekresultaten?query=${value}${
                     filterQuery ? `&only=${filterQuery}` : ''
                 }`}
@@ -203,7 +203,10 @@ function SearchBarPopupItem({
                 {filter ? (
                     <span className="pl-4 text-sm">
                         In
-                        <span className="text-yellow-600"> {item.name}</span>
+                        <span className="text-pzh-yellow-dark">
+                            {' '}
+                            {item.name}
+                        </span>
                     </span>
                 ) : (
                     <React.Fragment>
@@ -236,7 +239,7 @@ function SearchBarPopup({ searchInput, setSearchBarPopupOpen }) {
             name: 'ambities',
         },
         {
-            filterQuery: 'opgaven',
+            filterQuery: 'beleidsdoelen',
             name: 'beleidsdoelen',
         },
         {
@@ -258,7 +261,7 @@ function SearchBarPopup({ searchInput, setSearchBarPopupOpen }) {
             className="absolute top-0 w-full px-5"
             id="main-search-result-container"
         >
-            <ul className="text-sm text-gray-700 bg-white border border-gray-300 rounded-b shadow">
+            <ul className="text-base bg-white border border-gray-300 rounded-b shadow">
                 <SearchBarPopupItem
                     setSearchBarPopupOpen={setSearchBarPopupOpen}
                     dataIndex={0}

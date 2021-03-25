@@ -15,7 +15,7 @@ const EditOrderSidebar = ({
 
     const EditOrderComponent = () => (
         <div>
-            <span className="mb-2 font-semibold text-gray-900">
+            <span className="mb-2 font-bold text-gray-900">
                 Volgorde wijzigen
             </span>
             <p className="text-gray-800">
@@ -25,7 +25,7 @@ const EditOrderSidebar = ({
             </p>
             <div className="flex items-center mt-5">
                 <button
-                    className="flex items-center justify-center inline-block px-4 py-2 mr-4 font-semibold text-white bg-green-600 border border-green-600 rounded cursor-pointer hover:text-white"
+                    className="flex items-center justify-center inline-block px-4 py-2 mr-4 font-bold text-white bg-pzh-green border border-pzh-green rounded cursor-pointer hover:text-white"
                     onClick={() => {
                         saveNewLineageStructure()
                         setEditOrderMode(false)
