@@ -9,7 +9,8 @@ import axios from './../../API/axios'
 import LoaderSelect from './../LoaderSelect'
 
 /**
- * Function to filter through the objectenArray.
+ * Function that is used to set the value of objectenArray if the filterUUID contains an value otherwise it will use the given value of objectenArray and map through the array items.
+ * Which it will then use to set each value for the options variables.
  *
  * @function
  *
@@ -39,6 +40,13 @@ function makeSelection(objectenArray, dataObjectProperty, filterUUID) {
     return options
 }
 
+/**
+ * Class that renders the FormFieldSelectBeleidskeuze component using the imported Select and LoaderSelect components to style/amnimate the select box and uses the props given and states to display value but only if given state/props contains a value.
+ * This class is used in the page ContainerCrudFields.js.
+ *
+ * @class
+ * @extends React.Component
+ */
 class FormFieldSelectBeleidskeuze extends React.Component {
     constructor(props) {
         super(props)
@@ -78,11 +86,12 @@ class FormFieldSelectBeleidskeuze extends React.Component {
     }
 
     /**
-     * Function to find the selected state and to set the state.
+     * Function that checks if the current props.fieldvalue is not equal to the prevProps.fieldValue. If so the selected variable will receive the search results of the selectionArray
+     * and then set the state of selected to the selected value and dataLoaded to true.
      *
      * @Function
      *
-     * @param {props} prevProps - Previous set property.
+     * @param {props} prevProps - Previous set value used in a conditional operator to check if it is not equal to the current value.
      * @param {state} prevState - Previous set state, not used in this function.
      * @param {*} snapshot - is a feature of Jest that allows you to test Javascript objects, not used in this function.
      */
@@ -98,7 +107,7 @@ class FormFieldSelectBeleidskeuze extends React.Component {
         }
     }
     /**
-     * Function to get Beleidsbeslissingen to connect with through axios to an API.
+     * Function that sets the ApiEndpoint to "beleidskeuzes", so it can get the information and use it to set the value of the objecten variable and to set the state of the selectionArray variable which is used in the componentDidUpdate function.
      *
      * @function
      */

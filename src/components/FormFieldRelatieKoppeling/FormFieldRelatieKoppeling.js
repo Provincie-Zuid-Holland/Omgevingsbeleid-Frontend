@@ -10,6 +10,14 @@ import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFi
 
 import objecten from './../../constants/koppelingen'
 
+/**
+ * Function to get and return the propertiesWithExistingConnections, which are used within the FormFieldRelatieKoppeling component.
+ *
+ * @function
+ *
+ * @param {array} connectionProperties - Parameter containing the collection of object properties that is looped through in the getPropertiesWithConnectionsFromCrudObject function.
+ * @param {object} crudObject - Parameter that contains the object information from the API and is used to check if it is not undefined, null or has a string length of more than 1 charater
+ */
 function getPropertiesWithConnectionsFromCrudObject(
     connectionProperties,
     crudObject

@@ -22,7 +22,8 @@ function getExcerpt(tekst) {
 }
 
 /**
- * Component that renders the ContainerAnimateContent component that is used within the rendered CardObjectDetailsHalfWidth Component.
+ * Component that renders the CardObjectDetailsHalfWidth and renders the imported ContainerAnimateContent component within it.
+ * This component is used in the MijnBeleid component.
  *
  * @component
  *

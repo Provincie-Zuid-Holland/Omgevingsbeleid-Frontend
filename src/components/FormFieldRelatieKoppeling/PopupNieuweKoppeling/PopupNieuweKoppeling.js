@@ -8,7 +8,11 @@ import PopUpAnimatedContainer from './../../PopUpAnimatedContainer'
 import objecten from './../../../constants/koppelingen'
 
 /**
- * Class that renders teh PopupNieuweKoppeling component.
+ * Class that renders the PopupNieuweKoppeling component in a imported PopUpAnimatedContainer,
+ * in which the user on the first page searches a koppeltekst which they want to connect to the beleidskeuze.
+ * On the second page the user describes the relationship between the koppeltekst value and the beleidskeuze.
+ *
+ * This component is used within the FormFieldRelatieKoppeling component.
  *
  * @class
  * @extends Component

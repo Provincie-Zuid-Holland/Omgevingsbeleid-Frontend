@@ -117,6 +117,20 @@ function EindGeldigheid({
 
 /**
  * Class that renders the FormFieldDate component. In the class it will either render the EindGeldigheid component or the BeginGeldigheid component, based on if the dataObjectProperty is equal to 'Eind-Geldigheid'.
+ * This class is used in the pages:
+ * ContainerCrudFields,
+ * FormFieldContainerAmbities,
+ * FormFieldContainerBelangen,
+ * FormFieldContainerBeleidsbeslissingen,
+ * FormFieldContainerBeleidsprestaties,
+ * FormFieldContainerBeleidsregels,
+ * FormFieldContainerMaatregelen,
+ * FormFieldContainerOpgaven,
+ * FormFieldContainerThemas,
+ * MuteerVerordeningenStructuurCRUD,
+ * ContainerCrudFields,
+ * Afdeling,
+ * Paragraaf
  *
  * @class
  * @extends React.Component

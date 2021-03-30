@@ -5,12 +5,13 @@ import Select from 'react-select'
 import LoaderSelect from './../LoaderSelect'
 
 /**
- * Function to filter through the objectenArray and return the options.
+ * Function that checks if the objectenArray contains a value by checking the length,
+ * otherwise it will map through each array item and returns the set value for each variable in the options object.
  *
  * @function
  *
- * @param {array} objectenArray - Array of the user.
- * @param {string} dataObjectProperty - Parameter used for the name variable used for the options target.
+ * @param {array} objectenArray - Parameter given that contains an array that is used to set the value for each variable of options.
+ * @param {string} dataObjectProperty - Parameter given that is used to set the name variable of the target variable of options.
  */
 function makeSelection(objectenArray, dataObjectProperty) {
     if (objectenArray.length === 0) {
@@ -33,7 +34,7 @@ function makeSelection(objectenArray, dataObjectProperty) {
 }
 
 /**
- * Class that renders the FormFieldSelectUser.
+ * Class that renders the FormFieldSelectUser component in which the user can .
  *
  * @class
  * @extends React.Component

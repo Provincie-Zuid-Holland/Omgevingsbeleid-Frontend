@@ -2,7 +2,8 @@ import React from 'react'
 import { useSpring, animated } from 'react-spring'
 
 /**
- * Component that renders an animated div component from react-spring libary and with a set style that also contains the useSpring component from the react-spring libary. The animated div contains the props.children value.
+ * Component that renders an imported animated div component from react-spring libary and with a set style that also contains the imported useSpring component from the react-spring libary.
+ * That displays the props.children value within it.
  *
  * @component
  *

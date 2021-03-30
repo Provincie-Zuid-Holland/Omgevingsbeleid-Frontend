@@ -4,6 +4,7 @@ import EigenaarsDriehoekItem from './../EigenaarsDriehoekItem'
 
 /**
  * Component that renders a EigenaarsDriehoekItem component depending on if the dataObject contains the certain owner.
+ * The component is used in the page MuteerUniversalObjectWithStatuses.
  *
  * @component
  *
@@ -21,7 +22,7 @@ const EigenaarsDriehoek = ({ dataObject }) => {
     }
 
     return (
-        <React.Fragment>
+        <>
             <div className="w-4/12">
                 <h2 className="mb-2 text-gray-700">Eigenaarsdriehoek</h2>
                 {dataObject.Eigenaar_1 ? (

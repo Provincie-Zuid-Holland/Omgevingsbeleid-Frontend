@@ -20,7 +20,7 @@ import LoaderMainTitle from '../LoaderMainTitle'
 import LoaderSmallSpan from '../LoaderSmallSpan'
 
 /**
- * Function to display a statusLabel within the ContainerDetailMain component.
+ * Function to display a statusLabel within the ContainerDetailMain component with the text "Vigerend".
  *
  * @function
  *
@@ -36,7 +36,8 @@ function StatusLabel(props) {
 
 /**
  * Class that renders the ContainerDetailMain component that is used within the muteeruniversalObjectDetail page.
- *
+ * The class uses the parent props given to it, in conditional operators to show/hide the imported components or parts of elements, if they contain a value.
+ * The class is used in the page MuteerUniversalObjectDetail.
  *
  * @class
  * @extends {Component}
@@ -65,7 +66,7 @@ class ContainerDetailMain extends Component {
     }
 
     /**
-     * Function to toggle (hide/show) the statusPopup by toggling the statusPopup state.
+     * Function to toggle (hide/show) the statusPopup by setting the statusPopup state.
      *
      * @function
      */

@@ -65,6 +65,7 @@ const getMailToLink = () => {
 
 /**
  * Component that renders the FeedbackComponent component, in which the user can click on the link to send a feedbackmessage of the page they are on, including which browser they are using and the date/timestamp.
+ * This component is used by the components feedback and App.
  *
  * @component
  */

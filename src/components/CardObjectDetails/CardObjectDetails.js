@@ -24,6 +24,7 @@ function getExcerptIfNeeded(tekst) {
 /**
  * Component that renders the imported ContainerAnimateContent component and uses a link and icon within it,
  * that the user can click on it to take the user to a certain link based on the parameters given.
+ * This component is used in the components CardObjectDetails and CardObjectDetailsHalfWidth.
  *
  * @component
  *
