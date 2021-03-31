@@ -29,7 +29,7 @@ function FormFieldContainerMaatregelen({
         <React.Fragment>
             <ContainerFormSection
                 titel="Algemene informatie"
-                beschrijving="De algemene informatie bevat een duidelijke titel."
+                beschrijving="De algemene informatie bevat een duidelijke titel en de betrokken collega's."
             >
                 <FormFieldTextInput
                     handleChange={handleChange}
