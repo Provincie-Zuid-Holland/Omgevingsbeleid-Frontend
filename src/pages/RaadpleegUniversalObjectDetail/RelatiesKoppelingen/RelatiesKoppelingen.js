@@ -102,7 +102,7 @@ const RelatiesKoppelingen = ({ dataObject, titleSingular }) => {
 
     return (
         <div className="w-full pb-24 bg-orange-100">
-            <div className="container max-w-3xl pt-16 mx-auto">
+            <div className="container max-w-4xl pt-16 mx-auto">
                 <div className="px-6">
                     <h2 className="block mb-1 text-lg font-bold tracking-wide text-yellow-700">
                         Koppelingen & Relaties
