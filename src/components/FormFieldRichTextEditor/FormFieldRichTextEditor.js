@@ -92,9 +92,19 @@ function FormFieldRichTextEditor({
             return new Delta().insert(plaintext)
         })
 
+        // Method to get html content and prevent ql-cursor elements:
+        // https://github.com/quilljs/quill/issues/1682
+        const getQuillHtml = (editor) => {
+            const tempCont = document.createElement('div')
+            const tempEditor = new Quill(tempCont)
+            tempEditor.setContents(editor.getContents())
+            return '' + tempEditor.root.innerHTML
+        }
+
         editor.on('editor-change', function (eventName, ...args) {
             if (eventName === 'text-change') {
-                const justHtml = editor.root.innerHTML
+                // const justHtml = editor.root.innerHTML
+                const justHtml = getQuillHtml(editor)
                 handleChange({
                     target: {
                         name: dataObjectProperty,
