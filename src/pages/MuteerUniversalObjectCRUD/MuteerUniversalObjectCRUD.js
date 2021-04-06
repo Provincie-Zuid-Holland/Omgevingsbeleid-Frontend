@@ -190,7 +190,13 @@ class MuteerUniversalObjectCRUD extends Component {
         event.preventDefault()
 
         const removeEmptyFields = (obj) => {
+            const skipProperties = [
+                'Gebied',
+                'Begin_Geldigheid',
+                'Eind_Geldigheid',
+            ]
             Object.keys(obj).forEach((property) => {
+                if (skipProperties.includes(property)) return
                 if (obj[property] === null || obj[property] === undefined) {
                     delete obj[property]
                 }
@@ -201,7 +207,6 @@ class MuteerUniversalObjectCRUD extends Component {
         const dimensieConstants = this.props.dimensieConstants
         const apiEndpoint = dimensieConstants.API_ENDPOINT
         const titleSingular = dimensieConstants.TITLE_SINGULAR
-        const titlePlural = dimensieConstants.TITLE_PLURAL
 
         let crudObject = cloneDeep(this.state.crudObject)
 
@@ -299,8 +304,6 @@ class MuteerUniversalObjectCRUD extends Component {
             Koppeling_Omschrijving: omschrijving,
             Type: object.Type,
         }
-
-        console.log(nieuwObject)
 
         let nieuwCrudObject = this.state.crudObject
 
