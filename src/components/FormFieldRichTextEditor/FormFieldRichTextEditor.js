@@ -5,31 +5,43 @@ import Quill from 'quill'
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 
-// Disabled formats are commented out
-// https://quilljs.com/docs/formats/
-const formats = [
-    // 'background',
-    'bold',
-    // 'color',
-    // 'font',
-    // 'code',
-    // 'italic',
-    // 'link',
-    // 'size',
-    // 'strike',
-    // 'script',
-    // 'underline',
-    // 'blockquote',
-    'header',
-    // 'indent',
-    'list',
-    // 'align',
-    // 'direction',
-    // 'code-block',
-    // 'formula'
-    'image',
-    // 'video'
-]
+/**
+ * Checks if the formats we have received are accepted
+ * @param {array} allowedFormats contains the types we want to accept in the editor
+ */
+const getFormats = (editorFormats) => {
+    // https://quilljs.com/docs/formats/
+    const acceptedFormats = [
+        'background',
+        'bold',
+        'color',
+        'font',
+        'code',
+        'italic',
+        'link',
+        'size',
+        'strike',
+        'script',
+        'underline',
+        'blockquote',
+        'header',
+        'indent',
+        'list',
+        'align',
+        'direction',
+        'code-block',
+        'formula',
+        'image',
+        'video',
+    ]
+
+    editorFormats.forEach((format) => {
+        if (!acceptedFormats.includes(format))
+            throw new Error('Not an accepted format')
+    })
+
+    return editorFormats
+}
 
 /**
  * Component to render an WYSIWYG Editor
@@ -47,22 +59,30 @@ function FormFieldRichTextEditor({
     initialValue,
     fieldValue,
     titleSingular,
+    editorFormats,
+    disabled,
+    editorToolbar,
 }) {
     const editorRef = React.useRef(null)
 
     const initializeQuillEditor = React.useCallback(() => {
         if (editorRef.current) return
 
+        const formats = getFormats(editorFormats)
+
         const quillOptions = {
             modules: {
-                toolbar: [{ header: 2 }, 'bold', { list: 'bullet' }, 'image'],
+                toolbar: disabled ? [] : editorToolbar,
             },
             placeholder: placeholder,
             theme: 'snow',
             formats: formats,
         }
 
-        const editor = new Quill('.editor', quillOptions)
+        const editor = new Quill(
+            `#quill-container-${dataObjectProperty}`,
+            quillOptions
+        )
         editorRef.current = editor
 
         // Paste text without styles (https://github.com/quilljs/quill/issues/1184)
@@ -113,12 +133,19 @@ function FormFieldRichTextEditor({
                 })
             }
         })
+
+        if (disabled) {
+            editor.enable(false)
+        }
     }, [
         dataObjectProperty,
         fieldValue,
+        disabled,
         handleChange,
         initialValue,
         placeholder,
+        editorFormats,
+        editorToolbar,
     ])
 
     React.useLayoutEffect(() => {
@@ -128,9 +155,12 @@ function FormFieldRichTextEditor({
     return (
         <div
             id={`form-field-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
-            className="quill-container"
+            className={`quill-container ${disabled ? 'opacity-50' : ''}`}
         >
-            <div className="editor" />
+            <div
+                className="editor"
+                id={`quill-container-${dataObjectProperty}`}
+            />
         </div>
     )
 }

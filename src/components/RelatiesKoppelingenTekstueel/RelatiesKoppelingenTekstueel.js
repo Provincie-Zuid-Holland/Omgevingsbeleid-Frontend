@@ -7,9 +7,15 @@ function RelatiesKoppelingenTekstueel({
     connectionProperties,
     connectionPropertiesColors,
 }) {
-    if (!beleidsObject || !beleidsRelaties) return null
+    if (!beleidsObject) return null
 
-    if (beleidsRelaties.length === 0) {
+    const hasKoppelingen = connectionProperties.filter((prop) => {
+        return beleidsObject[prop] && beleidsObject[prop].length > 0
+    })
+
+    if (!beleidsRelaties && !hasKoppelingen) return null
+
+    if (beleidsRelaties.length === 0 && !hasKoppelingen) {
         return (
             <div className="flex">
                 <div className="flex flex-col justify-between w-full">
@@ -43,10 +49,12 @@ function RelatiesKoppelingenTekstueel({
                             <ul className="mt-2">
                                 {beleidsObject[property].map((koppeling) => (
                                     <ListItem
-                                        titel={koppeling.Titel}
-                                        omschrijving={koppeling.Omschrijving}
+                                        titel={koppeling.Object.Titel}
+                                        omschrijving={
+                                            koppeling.Object.Omschrijving
+                                        }
                                         property={property}
-                                        UUID={koppeling.UUID}
+                                        UUID={koppeling.Object.UUID}
                                         connectionPropertiesColors={
                                             connectionPropertiesColors
                                         }
@@ -88,20 +96,20 @@ const ListItem = ({
     omschrijving,
 }) => {
     const location = useLocation()
-    const [left, setLeft] = React.useState('0px')
 
-    const generateLeft = (elWidth) => {
-        const tooltipEl = document.getElementById(UUID)
-        if (!tooltipEl) return
+    // const generateLeft = (elWidth) => {
+    //     const tooltipEl = document.getElementById(UUID)
+    //     if (!tooltipEl) return
 
-        const tooltipElWidth = tooltipEl.offsetWidth
-        return elWidth / 2 - tooltipElWidth / 2 + 10 + 'px'
-    }
+    //     const tooltipElWidth = tooltipEl.offsetWidth
+    //     return elWidth / 2 - tooltipElWidth / 2 + 10 + 'px'
+    // }
 
     const generateHref = ({ property, UUID }) => {
         const slugs = {
+            Beleidskeuzes: 'beleidskeuzes',
             Ambities: 'ambities',
-            BeleidsRegels: 'beleidsregels',
+            Beleidsregels: 'beleidsregels',
             Beleidsprestaties: 'beleidsprestaties',
             Belangen: 'belangen',
             Maatregelen: 'maatregelen',
@@ -119,12 +127,7 @@ const ListItem = ({
 
     return (
         <li className="relative block mt-1 text-sm text-gray-800">
-            <div
-                className="inline-flex items-center group"
-                onMouseOver={(e) =>
-                    setLeft(generateLeft(e.currentTarget.offsetWidth))
-                }
-            >
+            <div className="inline-flex items-center group">
                 <Link
                     to={isVerordeningItem ? '#' : href}
                     className={
@@ -141,13 +144,7 @@ const ListItem = ({
                     <span>{titel}</span>
                 </Link>
                 {omschrijving && omschrijving !== '' ? (
-                    <div
-                        id="d3-tooltip"
-                        class="absolute hidden group-hover:block top-0 mt-8 z-20 cursor-default"
-                        style={{
-                            left: left,
-                        }}
-                    >
+                    <div class="absolute hidden group-hover:block top-0 mt-8 z-20 cursor-default d3-tooltip-text">
                         <div
                             id={UUID}
                             style={{ maxWidth: '50vw' }}

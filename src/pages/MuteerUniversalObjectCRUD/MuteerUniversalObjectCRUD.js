@@ -263,7 +263,7 @@ class MuteerUniversalObjectCRUD extends Component {
         connectionProperties.forEach((key) => {
             crudObject[key].forEach((connection, index) => {
                 crudObject[key][index] = {
-                    UUID: connection.UUID,
+                    UUID: connection.Object.UUID,
                     Koppeling_Omschrijving: connection.Koppeling_Omschrijving,
                 }
             })
@@ -271,7 +271,12 @@ class MuteerUniversalObjectCRUD extends Component {
 
         if (type === 'post') return crudObject
 
-        // Edit for PATCH
+        // Continue prepping the object for a PATCH Request
+
+        if (crudObject.Gebied && crudObject.Gebied.UUID) {
+            crudObject.Gebied = crudObject.Gebied.UUID
+        }
+
         const eigenaren = [
             'Eigenaar_1',
             'Eigenaar_2',
@@ -291,7 +296,7 @@ class MuteerUniversalObjectCRUD extends Component {
         })
 
         crudObject?.Werkingsgebieden?.forEach((gebied, index) => {
-            crudObject.Werkingsgebieden[index] = { UUID: gebied.UUID }
+            crudObject.Werkingsgebieden[index] = { UUID: gebied.Object.UUID }
         })
 
         return crudObject
@@ -328,12 +333,12 @@ class MuteerUniversalObjectCRUD extends Component {
         let nieuwCrudObject = this.state.crudObject
 
         const index = nieuwCrudObject[koppelingObject.propertyName].findIndex(
-            (item) => item.UUID === koppelingObject.item.UUID
+            (item) => item.Object.UUID === koppelingObject.item.Object.UUID
         )
 
         nieuwCrudObject[koppelingObject.propertyName][
             index
-        ].Omschrijving = nieuweOmschrijving
+        ].Koppeling_Omschrijving = nieuweOmschrijving
 
         this.setState(
             {
@@ -542,6 +547,7 @@ class MuteerUniversalObjectCRUD extends Component {
 
                                     {titleSingular === 'Maatregel' ? (
                                         <FormFieldContainerMaatregelen
+                                            editStatus={editStatus}
                                             titleSingular={titleSingular}
                                             crudObject={crudObject}
                                             handleChange={handleChange}

@@ -1,15 +1,15 @@
 import React from 'react'
 
-import LoaderSpinner from './../../../components/LoaderSpinner'
+import LoaderSpinner from '../LoaderSpinner'
 
-import RelatiesKoppelingenVisualisatie from './../RelatiesKoppelingenVisualisatie'
-import RelatiesKoppelingenTekstueel from './../RelatiesKoppelingenTekstueel'
-import axios from '../../../API/axios'
+import RelatiesKoppelingenVisualisatie from '../RelatiesKoppelingenVisualisatie'
+import RelatiesKoppelingenTekstueel from '../RelatiesKoppelingenTekstueel'
+import axios from './../../API/axios'
 
 const connectionProperties = [
     'Ambities',
     'Belangen',
-    'BeleidsRegels',
+    'Beleidsregels',
     'Beleidsprestaties',
     'Maatregelen',
     'Beleidsdoelen',
@@ -20,7 +20,6 @@ const connectionProperties = [
 const connectionPropertiesColors = {
     MainObject: {
         hex: '#553c9a',
-        class: 'purple-800',
     },
     Ambities: {
         hex: '#aa0067',
@@ -28,19 +27,17 @@ const connectionPropertiesColors = {
     Belangen: {
         hex: '#ff6b02',
     },
-    BeleidsRegels: {
+    Beleidsregels: {
         hex: '#76bc21',
     },
     Beleidsprestaties: {
         hex: '#ECC94B',
-        class: 'yellow-500',
     },
     Maatregelen: {
         hex: '#503d90',
     },
     Beleidsdoelen: {
         hex: '#3182CE',
-        class: 'blue-600',
     },
     Themas: {
         hex: '#847062',
@@ -53,7 +50,11 @@ const connectionPropertiesColors = {
     },
 }
 
-const RelatiesKoppelingen = ({ dataObject, titleSingular }) => {
+const RelatiesKoppelingen = ({
+    dataObject,
+    titleSingular,
+    titleSingularPrefix,
+}) => {
     const [beleidsRelaties, setBeleidsRelaties] = React.useState([])
     const [isLoading, setIsLoading] = React.useState(true)
     const [activeTab, setActiveTab] = React.useState('Visueel')
@@ -66,12 +67,13 @@ const RelatiesKoppelingen = ({ dataObject, titleSingular }) => {
     const initBeleidskeuze = () => {
         const beleidsrelatiesVan = axios
             .get(
-                `/beleidsrelaties?filters=Status:Akkoord,Van_Beleidskeuze:${dataObject.UUID}`
+                `/beleidsrelaties?all_filters=Status:Akkoord,Van_Beleidskeuze:${dataObject.UUID}`
             )
             .then((res) => res.data)
+
         const beleidsrelatiesNaar = axios
             .get(
-                `/beleidsrelaties?filters=Status:Akkoord,Naar_Beleidskeuze:${dataObject.UUID}`
+                `/beleidsrelaties?all_filters=Status:Akkoord,Naar_Beleidskeuze:${dataObject.UUID}`
             )
             .then((res) => res.data)
 
@@ -132,6 +134,7 @@ const RelatiesKoppelingen = ({ dataObject, titleSingular }) => {
                         {!isLoading && activeTab === 'Visueel' ? (
                             <RelatiesKoppelingenVisualisatie
                                 titleSingular={titleSingular}
+                                titleSingularPrefix={titleSingularPrefix}
                                 beleidsObject={dataObject}
                                 beleidsRelaties={beleidsRelaties}
                                 connectionProperties={connectionProperties}

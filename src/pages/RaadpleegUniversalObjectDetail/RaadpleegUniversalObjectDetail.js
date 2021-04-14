@@ -29,7 +29,7 @@ import ContainerViewFieldsBelang from './ContainerFields/ContainerViewFieldsBela
 import ContainerViewFieldsThema from './ContainerFields/ContainerViewFieldsThema'
 import ContainerViewFieldsBeleidsprestatie from './ContainerFields/ContainerViewFieldsBeleidsprestatie'
 import ViewFieldGebiedDuiding from './ViewFieldGebiedDuiding'
-import RelatiesKoppelingen from './RelatiesKoppelingen'
+import RelatiesKoppelingen from '../../components/RelatiesKoppelingen'
 
 /**
  * A detail page for a dimensie object.
@@ -57,6 +57,7 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
 
     const apiEndpointBase = dataModel.API_ENDPOINT
     const titleSingular = dataModel.TITLE_SINGULAR
+    const titleSingularPrefix = dataModel.TITLE_SINGULAR_PREFIX
     const apiEndpoint = `version/${apiEndpointBase}/${id}`
 
     React.useEffect(() => {
@@ -236,7 +237,7 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
         ) {
             // Object is a beleidskeuze/beleidskeuze, which holds the werkingsgebieden in an array.
             // We always need the first value in the array
-            return dataObject.Werkingsgebieden[0].UUID
+            return dataObject.Werkingsgebieden[0].Object.UUID
         }
     }
 
@@ -410,6 +411,7 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
             {dataLoaded ? (
                 <RelatiesKoppelingen
                     titleSingular={titleSingular}
+                    titleSingularPrefix={titleSingularPrefix}
                     dataObject={dataObject}
                 />
             ) : null}

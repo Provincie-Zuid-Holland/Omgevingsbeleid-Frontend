@@ -209,7 +209,7 @@ const MuteerVerordeningenstructuurDetail = () => {
         setVerordeningsObjectLedenIsLoading(true)
 
         axios
-            .get(`/verordeningen/version/${UUIDBeingEdited}?limit=1`)
+            .get(`/version/verordeningen/${UUIDBeingEdited}?limit=1`)
             .then((res) => {
                 const initObject = formatGeldigheidDatesForUI(res.data)
                 setVerordeningsObjectFromGET({
@@ -428,7 +428,7 @@ const MuteerVerordeningenstructuurDetail = () => {
         // Get an array of axios Promises that return the Leden objects
         const getAllLeden = ledenOfArtikel.map((lid) =>
             axios
-                .get(`/verordeningen/version/${lid.UUID}`)
+                .get(`/version/verordeningen/${lid.UUID}`)
                 .then((res) => res.data)
                 .catch((err) => console.log(err))
         )
@@ -460,10 +460,6 @@ const MuteerVerordeningenstructuurDetail = () => {
 
     // After first render
     React.useEffect(() => {
-        // - GET structuur van verordening lineage - Query: /verordeningstructuur/:ID
-        // - Populate elk verordeningsobject obv UUID met de version - Query:
-        //     - /verordeningen/version/:UUID
-
         const searchParams = location.search
         if (searchParams) {
             const activeChapterFromURL = searchParams.slice(

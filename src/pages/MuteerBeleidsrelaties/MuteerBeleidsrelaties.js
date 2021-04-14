@@ -36,6 +36,8 @@ function MuteerBeleidsrelaties() {
     React.useLayoutEffect(() => {
         if (UUID) {
             setCurrentView('detail')
+        } else {
+            setCurrentView('overzicht')
         }
     }, [UUID])
 
@@ -46,7 +48,7 @@ function MuteerBeleidsrelaties() {
 
         Promise.all([
             axios.get(
-                `/beleidskeuzes?Created_By=${UserUUID}&Eigenaar_1=${UserUUID}&Eigenaar_2=${UserUUID}&Opdrachtgever=${UserUUID}`
+                `/beleidskeuzes?any_filters=Created_By:${UserUUID},Eigenaar_1:${UserUUID},Eigenaar_2:${UserUUID},Opdrachtgever:${UserUUID}`
             ),
             axios.get(`/beleidsrelaties`),
         ])
