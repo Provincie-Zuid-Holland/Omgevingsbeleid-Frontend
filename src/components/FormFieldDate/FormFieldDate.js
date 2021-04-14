@@ -20,7 +20,19 @@ class FormFieldDate extends React.Component {
         })
     }
 
+    /**
+     * The standard dates are created in the back-end
+     * To keep the UI clean we return an empty string
+     */
+    getFieldValue(value) {
+        const standardDates = ['1753-01-01', '10000-01-01']
+        if (standardDates.includes(value)) return ''
+        return value
+    }
+
     render() {
+        const fieldValue = this.getFieldValue(this.props.fieldValue)
+
         return this.props.dataObjectProperty === 'Eind_Geldigheid' ? (
             <EindGeldigheid
                 hideToggleUitwerkingstrede={
@@ -32,7 +44,7 @@ class FormFieldDate extends React.Component {
                 fieldLabel={this.props.fieldLabel}
                 pValue={this.props.pValue}
                 titleSingular={this.props.titleSingular}
-                fieldValue={this.props.fieldValue}
+                fieldValue={fieldValue}
                 handleChange={this.props.handleChange}
                 disabled={this.props.disabled}
             />
@@ -42,7 +54,7 @@ class FormFieldDate extends React.Component {
                 fieldLabel={this.props.fieldLabel}
                 pValue={this.props.pValue}
                 titleSingular={this.props.titleSingular}
-                fieldValue={this.props.fieldValue}
+                fieldValue={fieldValue}
                 handleChange={this.props.handleChange}
                 disabled={this.props.disabled}
             />
