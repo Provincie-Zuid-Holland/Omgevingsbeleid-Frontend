@@ -974,7 +974,9 @@ h6,
 }
 
 #d3-tooltip,
+.d3-tooltip-text,
 .tooltip-content {
+    max-width: 50vw;
     &:before {
         content: '';
         display: block;
@@ -997,6 +999,13 @@ h6,
         top: -34px;
         z-index: 10;
         right: calc(50% - 12.5px);
+    }
+}
+
+.d3-tooltip-text {
+    padding-bottom: 25px;
+    &:before {
+        left: 25px;
     }
 }
 
