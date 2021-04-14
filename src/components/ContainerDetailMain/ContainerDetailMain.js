@@ -96,8 +96,6 @@ class ContainerDetailMain extends Component {
                     {titleSingular}
                 </span>
 
-                {console.log(titel)}
-
                 {dataReceived ? (
                     <HeadingMain titel={titel} />
                 ) : (

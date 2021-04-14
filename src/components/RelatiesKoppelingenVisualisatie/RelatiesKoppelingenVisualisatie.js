@@ -8,6 +8,7 @@ const RelatiesKoppelingenVisualisatie = ({
     connectionPropertiesColors,
     beleidsRelaties,
     titleSingular,
+    titleSingularPrefix,
 }) => {
     const location = useLocation()
 
@@ -56,13 +57,13 @@ const RelatiesKoppelingenVisualisatie = ({
 
             beleidsObject[property].forEach((connection) => {
                 data.nodes.push({
-                    id: connection.UUID,
-                    name: connection.Titel,
+                    id: connection.Object.UUID,
+                    name: connection.Object.Titel,
                     property: property,
                     color: connectionPropertiesColors[property].hex,
                 })
                 data.links.push({
-                    source: connection.UUID,
+                    source: connection.Object.UUID,
                     target: beleidsObject.UUID,
                 })
             })
@@ -104,7 +105,7 @@ const RelatiesKoppelingenVisualisatie = ({
     React.useEffect(() => {
         if (data && d3Container.current) {
             const svg = d3.select(d3Container.current)
-            svg.attr('viewBox', [50, 50, 125, 125])
+            svg.attr('viewBox', [50, 25, 100, 150])
 
             const links = data.links
             const nodes = data.nodes
@@ -116,8 +117,8 @@ const RelatiesKoppelingenVisualisatie = ({
              * https://www.d3indepth.com/force-layout/#forcemanybody
              */
             const generateStrength = (nodes) => {
-                if (nodes.length > 20) return -100
-                if (nodes.length > 10) return -70
+                if (nodes.length > 20) return -150
+                if (nodes.length > 10) return -100
                 return -30 // Default
             }
 
@@ -181,14 +182,13 @@ const RelatiesKoppelingenVisualisatie = ({
                     const slugs = {
                         Beleidskeuzes: 'beleidskeuzes',
                         Ambities: 'ambities',
-                        BeleidsRegels: 'beleidsregels',
+                        Beleidsregels: 'beleidsregels',
                         Beleidsprestaties: 'beleidsprestaties',
                         Belangen: 'belangen',
                         Maatregelen: 'maatregelen',
                         Themas: 'themas',
                         Beleidsdoelen: 'beleidsdoelen',
                         Verordening: 'verordeningen',
-                        Beleidskeuzes: 'beleidskeuzes',
                     }
 
                     const path = `/detail/${slugs[property]}/${UUID}?fromPage=${location.pathname}`
@@ -263,8 +263,8 @@ const RelatiesKoppelingenVisualisatie = ({
                             Netwerkvisualisatie
                         </h3>
                         <p className="mt-2 leading-7 text-gray-800 break-words">
-                            Deze netwerkvisualisatie laat zien waar de{' '}
-                            {titleSingular.toLowerCase()}{' '}
+                            Deze netwerkvisualisatie laat zien waar{' '}
+                            {titleSingularPrefix} {titleSingular.toLowerCase()}{' '}
                             <span className="italic">
                                 “{beleidsObject.Titel}”
                             </span>{' '}
@@ -302,7 +302,7 @@ const RelatiesKoppelingenVisualisatie = ({
                             className="d3-component"
                             style={{
                                 width: '100%',
-                                height: '200px',
+                                height: '250px',
                             }}
                             ref={d3Container}
                         />

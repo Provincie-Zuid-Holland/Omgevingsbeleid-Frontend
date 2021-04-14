@@ -86,11 +86,7 @@ function SearchResultItem({ item, searchQuery, index }) {
         Omschrijving: getContent(),
     }
 
-    let type = item.Type
-    if (type === 'Beleidsregels') {
-        type = 'BeleidsRegels'
-    }
-
+    const type = item.Type
     const dimensieContants = getDimensieConstant(type)
     const overzichtURL = dimensieContants.SLUG_OVERVIEW
     const titleSingular = dimensieContants.TITLE_SINGULAR

@@ -408,21 +408,6 @@ const ChangeContainer = ({
                         />
                     </ContainerRight>
 
-                    {/* Omschrijving Werking */}
-                    <ContainerLeft>
-                        <Text
-                            content={oldObject.Omschrijving_Werking}
-                            label="Werking"
-                        />
-                    </ContainerLeft>
-
-                    <ContainerRight>
-                        <Text
-                            content={changesObject.Omschrijving_Werking}
-                            label="Werking"
-                        />
-                    </ContainerRight>
-
                     {/* Aanleiding */}
                     <ContainerLeft>
                         <Text
@@ -450,6 +435,21 @@ const ChangeContainer = ({
                         <Text
                             content={changesObject.Provinciaal_Belang}
                             label="Provinciaal Belang"
+                        />
+                    </ContainerRight>
+
+                    {/* Omschrijving Toelichting */}
+                    <ContainerLeft>
+                        <Text
+                            content={oldObject.Omschrijving_Werking}
+                            label="Toelichting"
+                        />
+                    </ContainerLeft>
+
+                    <ContainerRight>
+                        <Text
+                            content={changesObject.Omschrijving_Werking}
+                            label="Toelichting"
                         />
                     </ContainerRight>
 
@@ -559,8 +559,8 @@ const Werkingsgebied = ({ originalObject, oldObject, changesObject }) => {
         Object.keys(gebiedenChanges).forEach((changeProperty) => {
             changesObject.Werkingsgebieden[changeProperty].forEach(
                 (werkingsgebied) => {
-                    gebiedenChanges[changeProperty] = werkingsgebied.UUID
-                    gebiedenUUIDS.push(werkingsgebied.UUID)
+                    gebiedenChanges[changeProperty] = werkingsgebied.Object.UUID
+                    gebiedenUUIDS.push(werkingsgebied.Object.UUID)
                 }
             )
         })
@@ -570,11 +570,6 @@ const Werkingsgebied = ({ originalObject, oldObject, changesObject }) => {
 
     const title = getTitleOfNewWerkingsgebied()
     const [gebiedenUUIDS, gebiedenChanges] = getGebieden()
-    // ? '#E74C3C' // Red
-    // : isSame
-    // ? '#2980B9' // Blue
-    // : isNew
-    // ? '#2ECC71' // Green
 
     return (
         <div className="w-full">
@@ -715,17 +710,21 @@ const ValidText = ({ dataObject, revisieObjecten }) => {
             }
         }
 
+        console.log(dataObject['Eind_Geldigheid'])
+
         const dateEnd = isDate(new Date(dataObject['Eind_Geldigheid']))
-            ? formatDate(dataObject['Begin_Geldigheid'])
+            ? formatDate(dataObject['Eind_Geldigheid'])
             : getDateFromNextVigerendObject()
 
         const isCurrentlyVigerend = uiStatus && uiStatus === 'Vigerend'
         const isArchived = uiStatus && uiStatus === 'Gearchiveerd'
 
-        console.log(dataObject.uiStatus)
-
         if (isCurrentlyVigerend) {
             return `Vigerend vanaf ${dateStart} tot heden`
+        } else if (dataObject.Begin_Geldigheid === '1753-01-01T00:00:00Z') {
+            return `Vigerend tot ${dateEnd}`
+        } else if (dataObject.Eind_Geldigheid !== '9999-12-31T23:59:59Z') {
+            return `Vigerend vanaf ${dateStart}`
         } else if (isArchived) {
             const dateEndText = dateEnd ? `tot ${dateEnd}` : ``
             return `Vigerend vanaf ${dateStart} ${dateEndText}`
@@ -746,12 +745,14 @@ const ValidText = ({ dataObject, revisieObjecten }) => {
 const Belangen = ({ label, object, type, containsChanges, placeholder }) => {
     const getBelangen = (containsChanges, object, type) => {
         if (!containsChanges) {
-            return object.Belangen.filter((e) => e.Type === type)
+            return object.Belangen.filter((e) => e.Type === type).map(
+                (e) => e.Object
+            )
         } else {
             const belangen = []
             Object.keys(object.Belangen).forEach((key) =>
                 object.Belangen[key].forEach((belang) => {
-                    belangen.push({ ...belang, changeType: key })
+                    belangen.push({ ...belang.Object, changeType: key })
                 })
             )
 
@@ -840,13 +841,14 @@ function RelatiesKoppelingenTekstueel({
                                     {valuesOld && valuesOld.length > 0 ? (
                                         valuesOld.map((connection) => (
                                             <ListItem
-                                                connection={connection}
-                                                titel={connection.Titel}
+                                                connection={connection.Object}
+                                                titel={connection.Object.Titel}
                                                 omschrijving={
-                                                    connection.Omschrijving
+                                                    connection.Object
+                                                        .Omschrijving
                                                 }
                                                 property={property}
-                                                UUID={connection.UUID}
+                                                UUID={connection.Object.UUID}
                                             />
                                         ))
                                     ) : (
@@ -867,13 +869,14 @@ function RelatiesKoppelingenTekstueel({
                                     {valuesChanges && valuesOld.length > 0 ? (
                                         valuesChanges.map((connection) => (
                                             <ListItem
-                                                connection={connection}
-                                                titel={connection.Titel}
+                                                connection={connection.Object}
+                                                titel={connection.Object.Titel}
                                                 omschrijving={
-                                                    connection.Omschrijving
+                                                    connection.Object
+                                                        .Omschrijving
                                                 }
                                                 property={property}
-                                                UUID={connection.UUID}
+                                                UUID={connection.Object.UUID}
                                             />
                                         ))
                                     ) : (
