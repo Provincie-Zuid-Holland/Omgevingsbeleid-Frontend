@@ -51,50 +51,27 @@ const MuteerBeleidsrelatieDetail = ({
     const getAndSetBeleidskeuze = (UUID) =>
         axios.get(`version/beleidskeuzes/${UUID}`).then((res) => {
             setBeleidsObject(res.data)
-            // setState({
-            //     beleidskeuzeStatus: res.data.Status,
-            //     beleidskeuzeTitle: res.data.Titel,
-            //     titelLoaded: true,
-            // })
         })
 
     // Get alle beleidsrelaties die een Van_Beleidskeuze relatie hebben met de beleidskeuze die bekeken wordt
     const getBeleidsrelatiesVanBeleidskeuze = (UUID) =>
-        axios.get(`/beleidsrelaties?Van_Beleidskeuze=${UUID}`).then((res) => {
-            const outgoing = res.data
-            if (outgoing.length === 0) return
-
-            // Als er outgoing zijn mappen we over de array. De return waarde van de map is een array met axios promises. Voor elke relatie binnen de map functie halen we de gekoppelde beleidsrelatie op. Als de data hiervan binnen is is koppelen we deze aan het relatie object.
-            // Zodra alle promises zijn voldaan kunnen we de van_beleidskeuzes opslaan in de state
-            Promise.all(
-                outgoing.map((relatie) =>
-                    axios
-                        .get(
-                            `version/beleidskeuzes/${relatie.Naar_Beleidskeuze}`
-                        )
-                        .then((res) => (relatie.beleidskeuze = res.data))
-                )
-            ).then(() => setOutgoing_Beleidskeuzes(outgoing))
-        })
+        axios
+            .get(`/beleidsrelaties?all_filters=Van_Beleidskeuze:${UUID}`)
+            .then((res) => {
+                const outgoing = res.data
+                if (outgoing.length === 0) return
+                setOutgoing_Beleidskeuzes(outgoing)
+            })
 
     // Get alle beleidsrelaties die een Naar_Beleidskeuze relatie hebben met de beleidskeuze die bekeken wordt
     const getBeleidsrelatiesNaarBeleidskeuze = (UUID) =>
-        axios.get(`/beleidsrelaties?Naar_Beleidskeuze=${UUID}`).then((res) => {
-            const incoming = res.data
-            if (incoming.length === 0) return
-
-            // Als er incoming zijn mappen we over de array. De return waarde van de map is een array met axios promises. Voor elke relatie binnen de map functie halen we de gekoppelde beleidsrelatie op. Als de data hiervan binnen is is koppelen we deze aan het relatie object.
-            // Zodra alle promises zijn voldaan kunnen we de van_beleidskeuzes opslaan in de state
-            return Promise.all(
-                incoming.map((relatie) =>
-                    axios
-                        .get(
-                            `version/beleidskeuzes/${relatie.Van_Beleidskeuze}`
-                        )
-                        .then((res) => (relatie.beleidskeuze = res.data))
-                )
-            ).then(() => setIncoming_Beleidskeuzes(incoming))
-        })
+        axios
+            .get(`/beleidsrelaties?all_filters=Naar_Beleidskeuze:${UUID}`)
+            .then((res) => {
+                const incoming = res.data
+                if (incoming.length === 0) return
+                setIncoming_Beleidskeuzes(incoming)
+            })
 
     const relationshipAccept = (beleidsrelatieObject) => {
         const patchedBeleidsrelatieObject = {
@@ -224,19 +201,21 @@ const MuteerBeleidsrelatieDetail = ({
         setOutgoing_Beleidskeuzes([...outgoing_Beleidskeuzes])
     }
 
+    /** Initialize detail page */
     React.useEffect(() => {
-        // Beleidsrelaties bestaan met twee relaties, naar en van een beleidskeuze.
-        // Beidde worden opgehaald met de onderstaande functies.
-        // Van de beleidskeuze hebben we enkel de titel nodig.
+        if (!UUID) return () => null
+
         Promise.all([
             getAndSetBeleidskeuze(UUID),
             getBeleidsrelatiesVanBeleidskeuze(UUID),
             getBeleidsrelatiesNaarBeleidskeuze(UUID),
         ]).then(() => {
+            console.log('JOE!')
             setIsLoading(false)
         })
     }, [UUID])
 
+    /** Generate all necessary data for the different tabs */
     React.useEffect(() => {
         const alleBeleidsrelaties = outgoing_Beleidskeuzes.concat(
             incoming_Beleidskeuzes
@@ -244,32 +223,32 @@ const MuteerBeleidsrelatieDetail = ({
 
         const newRelatieArray = alleBeleidsrelaties.filter(
             (beleidsrelatie) =>
-                ((beleidsrelatie.Van_Beleidskeuze === UUID ||
-                    beleidsrelatie.Naar_Beleidskeuze === UUID) &&
+                ((beleidsrelatie.Van_Beleidskeuze.UUID === UUID ||
+                    beleidsrelatie.Naar_Beleidskeuze.UUID === UUID) &&
                     beleidsrelatie.Status === 'Akkoord') ||
-                (beleidsrelatie.Van_Beleidskeuze === UUID &&
+                (beleidsrelatie.Van_Beleidskeuze.UUID === UUID &&
                     beleidsrelatie.Status === 'Open')
         )
 
         const newAfgewezenArray = alleBeleidsrelaties.filter(
             (beleidsrelatie) =>
-                (beleidsrelatie.Van_Beleidskeuze === UUID &&
+                (beleidsrelatie.Van_Beleidskeuze.UUID === UUID &&
                     beleidsrelatie.Status === 'NietAkkoord') ||
-                (beleidsrelatie.Naar_Beleidskeuze === UUID &&
+                (beleidsrelatie.Naar_Beleidskeuze.UUID === UUID &&
                     beleidsrelatie.Status === 'NietAkkoord')
         )
 
         const newVerbrokenArray = alleBeleidsrelaties.filter(
             (beleidsrelatie) =>
-                (beleidsrelatie.Van_Beleidskeuze === UUID &&
+                (beleidsrelatie.Van_Beleidskeuze.UUID === UUID &&
                     beleidsrelatie.Status === 'Verbroken') ||
-                (beleidsrelatie.Naar_Beleidskeuze === UUID &&
+                (beleidsrelatie.Naar_Beleidskeuze.UUID === UUID &&
                     beleidsrelatie.Status === 'Verbroken')
         )
 
         const newVerzoekArray = alleBeleidsrelaties.filter(
             (beleidsrelatie) =>
-                beleidsrelatie.Naar_Beleidskeuze === UUID &&
+                beleidsrelatie.Naar_Beleidskeuze.UUID === UUID &&
                 beleidsrelatie.Status === 'Open'
         )
 
@@ -300,11 +279,12 @@ const MuteerBeleidsrelatieDetail = ({
                             Beleidskeuze
                         </span>
                         <h1 className="inline-block mb-8 text-xl font-bold text-gray-800">
-                            {!isLoading ? (
-                                beleidsObject.Titel
-                            ) : (
+                            {isLoading ? (
                                 <LoaderMainTitle />
+                            ) : (
+                                beleidsObject.Titel
                             )}
+
                             {!isLoading ? (
                                 <span
                                     className={`absolute inline-block px-1 pt-1 ml-4 -mt-1 text-xs font-bold border rounded  ${

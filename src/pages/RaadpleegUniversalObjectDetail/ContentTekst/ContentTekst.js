@@ -5,9 +5,7 @@ class ContentTekst extends Component {
         return (
             <div className="mt-6 text-gray-800">
                 {this.props.titel ? (
-                    <h2 className="text-lg font-serif block mb-3">
-                        {this.props.titel}
-                    </h2>
+                    <h2 className="block mb-3 text-lg">{this.props.titel}</h2>
                 ) : null}
                 <p>{this.props.content}</p>
             </div>

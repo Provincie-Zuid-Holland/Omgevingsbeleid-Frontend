@@ -20,9 +20,10 @@ function SwitchToTabbladButton({
 
     return (
         <li
-            className={`py-1 px-5 text-lg text-pzh-blue inline-block font-bold border-pzh-blue ${
+            className={`py-1 px-5 text-lg text-pzh-blue relative inline-block font-bold border-pzh-blue ${
                 isActive ? 'border-b-2' : 'cursor-pointer hover:border-b-2'
-            }`}
+            }
+            ${showNotification ? 'pr-8' : ''}`}
             onClick={() => {
                 if (isActive) return
                 setActiveTab(tabName)
@@ -30,9 +31,9 @@ function SwitchToTabbladButton({
         >
             {tabbladTitle}
             {showNotification ? (
-                <span className="px-2 py-1 ml-2 text-sm text-white bg-pzh-green rounded-full text-bold">
-                    {arrayLength}
-                </span>
+                <div className="absolute top-0 right-0 flex items-center justify-center w-5 h-5 py-1 ml-2 text-sm text-white rounded-full bg-pzh-green text-bold">
+                    <span className="mt-1">{arrayLength}</span>
+                </div>
             ) : null}
         </li>
     )

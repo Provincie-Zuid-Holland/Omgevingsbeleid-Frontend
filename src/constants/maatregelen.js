@@ -1,6 +1,7 @@
 import { currentDate, futureDate, currentDateFormatted } from './testValues'
 
 export const TITLE_SINGULAR = 'Maatregel'
+export const TITLE_SINGULAR_PREFIX = 'de'
 export const TITLE_PLURAL = 'Maatregelen'
 export const API_ENDPOINT = 'maatregelen'
 export const API_ENDPOINT_VIGEREND = 'valid/maatregelen'

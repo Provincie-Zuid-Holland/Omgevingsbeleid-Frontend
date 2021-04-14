@@ -10,8 +10,8 @@ import FormFieldNumberInput from '../FormFieldNumberInput'
 import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving'
 import FormFieldWeblink from '../FormFieldWeblink'
 import FormFieldWerkingsgebiedKoppeling from '../FormFieldWerkingsgebiedKoppeling'
+import FormFieldWerkingsgebied from '../FormFieldWerkingsgebied'
 import FormFieldRelatieKoppeling from '../FormFieldRelatieKoppeling'
-import FormFieldWerkingsgebiedrelatie from '../FormFieldWerkingsgebiedrelatie'
 import FormFieldRadioButton from '../FormFieldRadioButton'
 import FormFieldRichTextEditor from '../FormFieldRichTextEditor'
 import FormFieldInputContainer from '../FormFieldInputContainer'
@@ -29,7 +29,7 @@ export {
     FormFieldTitelEnBeschrijving,
     FormFieldWeblink,
     FormFieldWerkingsgebiedKoppeling,
-    FormFieldWerkingsgebiedrelatie,
+    FormFieldWerkingsgebied,
     FormFieldRadioButton,
     FormFieldRichTextEditor,
     FormFieldInputContainer,

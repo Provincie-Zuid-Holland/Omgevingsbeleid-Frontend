@@ -1,4 +1,5 @@
 export const TITLE_SINGULAR = 'Verordening'
+export const TITLE_SINGULAR_PREFIX = 'de'
 export const TITLE_PLURAL = 'Verordeningen'
 export const TYPE = 'Verordening'
 export const API_ENDPOINT = 'verordeningstructuur'

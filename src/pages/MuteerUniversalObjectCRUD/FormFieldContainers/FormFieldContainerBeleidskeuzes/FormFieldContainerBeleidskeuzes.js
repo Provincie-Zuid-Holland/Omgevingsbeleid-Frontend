@@ -3,13 +3,16 @@ import PropTypes from 'prop-types'
 import clonedeep from 'lodash.clonedeep'
 
 import ContainerFormSection from '../../../../components/ContainerFormSection'
+import FormFieldTitelEnBeschrijving from './../../../../components/FormFieldTitelEnBeschrijving'
 import {
     FormFieldDate,
+    FormFieldInputContainer,
     FormFieldTextInput,
     FormFieldTextArea,
     FormFieldWeblink,
     FormFieldSelectUserGroup,
-    FormFieldWerkingsgebiedKoppeling,
+    FormFieldRichTextEditor,
+    FormFieldWerkingsgebied,
     FormFieldRelatieKoppeling,
 } from '../../../../components/FormFieldsExport'
 
@@ -74,46 +77,71 @@ function FormFieldContainerBeleidskeuzes({
                 titel="Beleidstekst"
                 beschrijving="In deze sectie kun je alle tekst met betrekking tot de beleidskeuze kwijt. Een goede beleidstekst is kort, krachtig en actief opgeschreven. Zo weet de lezer direct welke keuze de provincie maakt en waarom dit van belang is. Schrijf altijd ‘de provincie’, en niet ‘wij’."
             >
-                <FormFieldTextArea
-                    disabled={isVigerend}
-                    handleChange={handleChange}
-                    fieldValue={crudObject['Omschrijving_Keuze']}
-                    fieldLabel="Wat wil de provincie bereiken?"
-                    dataObjectProperty="Omschrijving_Keuze"
-                    pValue="Hier geef je aan welke keuze de provincie heeft genomen. Formuleer in één of enkele zinnen wat de provincie wil bereiken en welke rechtsgevolgen dit eventueel heeft voor derden."
-                    titleSingular={titleSingular}
-                />
+                <FormFieldInputContainer>
+                    <FormFieldTitelEnBeschrijving
+                        fieldLabel="Wat wil de provincie bereiken?"
+                        pValue="Hier geef je aan welke keuze de provincie heeft genomen. Formuleer in één of enkele zinnen wat de provincie wil bereiken en welke rechtsgevolgen dit eventueel heeft voor derden."
+                    />
+                    <FormFieldRichTextEditor
+                        editorFormats={['image']}
+                        editorToolbar={['image']}
+                        titleSingular={titleSingular}
+                        handleChange={handleChange}
+                        fieldValue={crudObject['Omschrijving_Keuze']}
+                        dataObjectProperty="Omschrijving_Keuze"
+                        disabled={isVigerend}
+                    />
+                </FormFieldInputContainer>
 
-                <FormFieldTextArea
-                    disabled={isVigerend}
-                    handleChange={handleChange}
-                    fieldValue={crudObject['Aanleiding']}
-                    fieldLabel="Aanleiding"
-                    dataObjectProperty="Aanleiding"
-                    pValue="De aanleiding geeft de lezer informatie over welke ontwikkelingen gaande zijn in de maatschappij en waarom de provincie hier op inspeelt. Beschrijf hier welk probleem, dreiging of kans ten grondslag ligt aan de beleidskeuze."
-                    titleSingular={titleSingular}
-                />
-                <FormFieldTextArea
-                    disabled={isVigerend}
-                    handleChange={handleChange}
-                    fieldValue={crudObject['Provinciaal_Belang']}
-                    fieldLabel="Provinciaal belang"
-                    dataObjectProperty="Provinciaal_Belang"
-                    pValue="Beschrijf waarom de provincie deze keuze maakt en waarom dit niet (enkel) kan worden overgelaten aan andere overheden. Vanuit juridisch perspectief is het belangrijk om het provinciaal belang te definiëren. Zie ook"
-                    anchorText="artikel 2.3 van de Omgevingswet"
-                    anchorLink="https://zoek.officielebekendmakingen.nl/stb-2016-156.html#d16e418"
-                    titleSingular={titleSingular}
-                />
+                <FormFieldInputContainer>
+                    <FormFieldTitelEnBeschrijving
+                        fieldLabel="Aanleiding"
+                        pValue="De aanleiding geeft de lezer informatie over welke ontwikkelingen gaande zijn in de maatschappij en waarom de provincie hier op inspeelt. Beschrijf hier welk probleem, dreiging of kans ten grondslag ligt aan de beleidskeuze."
+                    />
+                    <FormFieldRichTextEditor
+                        editorFormats={['image']}
+                        editorToolbar={['image']}
+                        titleSingular={titleSingular}
+                        handleChange={handleChange}
+                        fieldValue={crudObject['Aanleiding']}
+                        dataObjectProperty="Aanleiding"
+                        disabled={isVigerend}
+                    />
+                </FormFieldInputContainer>
 
-                <FormFieldTextArea
-                    disabled={isVigerend}
-                    handleChange={handleChange}
-                    fieldValue={crudObject['Omschrijving_Werking']}
-                    fieldLabel="Toelichting"
-                    dataObjectProperty="Omschrijving_Werking"
-                    pValue="Op welke thema’s, onderwerpen en gebieden gaat de beleidskeuze iets wijzigen, en waarom is dit gewenst? Beschrijf ook de relatie met andere beleidsterreinen."
-                    titleSingular={titleSingular}
-                />
+                <FormFieldInputContainer>
+                    <FormFieldTitelEnBeschrijving
+                        fieldLabel="Provinciaal belang"
+                        pValue="Beschrijf waarom de provincie deze keuze maakt en waarom dit niet (enkel) kan worden overgelaten aan andere overheden. Vanuit juridisch perspectief is het belangrijk om het provinciaal belang te definiëren. Zie ook"
+                        anchorText="artikel 2.3 van de Omgevingswet"
+                        anchorLink="https://zoek.officielebekendmakingen.nl/stb-2016-156.html#d16e418"
+                    />
+                    <FormFieldRichTextEditor
+                        editorFormats={['image']}
+                        editorToolbar={['image']}
+                        titleSingular={titleSingular}
+                        handleChange={handleChange}
+                        fieldValue={crudObject['Provinciaal_Belang']}
+                        dataObjectProperty="Provinciaal_Belang"
+                        disabled={isVigerend}
+                    />
+                </FormFieldInputContainer>
+
+                <FormFieldInputContainer>
+                    <FormFieldTitelEnBeschrijving
+                        fieldLabel="Toelichting"
+                        pValue="Op welke thema’s, onderwerpen en gebieden gaat de beleidskeuze iets wijzigen, en waarom is dit gewenst? Beschrijf ook de relatie met andere beleidsterreinen."
+                    />
+                    <FormFieldRichTextEditor
+                        editorFormats={['image']}
+                        editorToolbar={['image']}
+                        titleSingular={titleSingular}
+                        handleChange={handleChange}
+                        fieldValue={crudObject['Omschrijving_Werking']}
+                        dataObjectProperty="Omschrijving_Werking"
+                        disabled={isVigerend}
+                    />
+                </FormFieldInputContainer>
             </ContainerFormSection>
 
             <ContainerFormSection
@@ -143,13 +171,13 @@ function FormFieldContainerBeleidskeuzes({
                 titel="Werkingsgebied"
                 beschrijving="Het werkingsgebied geeft het gebied weer waar de beleidskeuze betrekking op heeft. Binnen dit gebied worden bepaalde activiteiten gestimuleerd, ontwikkeld,  toegestaan of juist verboden."
             >
-                <FormFieldWerkingsgebiedKoppeling
+                <FormFieldWerkingsgebied
                     disabled={isVigerend}
                     setWerkingsgebiedInParentState={handleChange}
                     werkingsgebiedInParentState={crudObject['Werkingsgebieden']}
                     titleSingular={titleSingular}
                     fieldLabel="Selecteer werkingsgebied"
-                    dataObjectProperty="WerkingsGebieden"
+                    dataObjectProperty="Werkingsgebieden"
                     pValue="Selecteer het werkingsgebied wat bij deze beleidskeuze van toepassing is. Heeft jouw beleidskeuze nog geen geschikt werkingsgebied, of moet het huidige gebied aangepast worden? Neem dan contact op via omgevingsbeleid@pzh.nl."
                 />
             </ContainerFormSection>
