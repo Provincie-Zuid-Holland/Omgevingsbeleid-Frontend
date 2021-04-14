@@ -1,4 +1,5 @@
 export const TITLE_SINGULAR = 'Afdeling'
+export const TITLE_SINGULAR_PREFIX = 'de'
 export const TITLE_PLURAL = 'Afdelingen'
 export const TYPE = 'Afdeling'
 

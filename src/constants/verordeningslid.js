@@ -1,4 +1,5 @@
 export const TITLE_SINGULAR = 'Lid'
+export const TITLE_SINGULAR_PREFIX = 'het'
 export const TITLE_PLURAL = 'Leden'
 export const TYPE = 'Lid'
 

@@ -1,6 +1,7 @@
 import { currentDate, futureDate, currentDateFormatted } from './testValues'
 
 export const TITLE_SINGULAR = 'Beleidsdoel'
+export const TITLE_SINGULAR_PREFIX = 'het'
 export const TITLE_PLURAL = 'Beleidsdoelen'
 export const API_ENDPOINT = 'beleidsdoelen'
 export const SLUG_OVERVIEW = 'beleidsdoelen'

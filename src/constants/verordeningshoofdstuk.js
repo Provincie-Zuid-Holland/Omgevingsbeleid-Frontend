@@ -1,4 +1,5 @@
 export const TITLE_SINGULAR = 'Hoofdstuk'
+export const TITLE_SINGULAR_PREFIX = 'het'
 export const TITLE_PLURAL = 'Hoofdstukken'
 export const TYPE = 'Hoofdstuk'
 
