@@ -212,7 +212,7 @@ const FormFieldRelatieKoppeling = ({
                                         let type =
                                             objecten[koppelingRelatieNaam].type
                                         if (type === 'Nationaal Belang') {
-                                            type = item.Type
+                                            type = item.Object.Type
                                         }
 
                                         return (
