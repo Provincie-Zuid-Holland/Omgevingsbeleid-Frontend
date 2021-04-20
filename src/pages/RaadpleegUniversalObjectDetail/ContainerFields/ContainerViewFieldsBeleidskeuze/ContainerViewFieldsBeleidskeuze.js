@@ -4,6 +4,7 @@ import ViewFieldTitelEnInhoud from './../../ViewFieldTitelEnInhoud'
 import ViewFieldTags from './../../ViewFieldTags'
 import ViewFieldBelangen from './../../ViewFieldBelangen'
 import ViewFieldIngelogdExtraInfo from '../../../../components/ViewFieldIngelogdExtraInfo'
+import ViewFieldInnerHTML from './../../ViewFieldInnerHTML'
 
 import UserContext from './../../../../App/UserContext'
 
@@ -19,33 +20,33 @@ const ContainerViewFieldsBeleidskeuze = ({ crudObject }) => {
                         />
                     ) : null}
                     {crudObject['Omschrijving_Keuze'] ? (
-                        <ViewFieldTitelEnInhoud
+                        <ViewFieldInnerHTML
                             fieldTitel="Wat wil de provincie bereiken?"
-                            fieldValue={crudObject['Omschrijving_Keuze']}
+                            html={crudObject['Omschrijving_Keuze']}
                         />
                     ) : null}
                     {crudObject['Afweging'] ? (
-                        <ViewFieldTitelEnInhoud
+                        <ViewFieldInnerHTML
                             fieldTitel="Afweging"
-                            fieldValue={crudObject['Afweging']}
+                            html={crudObject['Afweging']}
                         />
                     ) : null}
                     {crudObject['Aanleiding'] ? (
-                        <ViewFieldTitelEnInhoud
+                        <ViewFieldInnerHTML
                             fieldTitel="Aanleiding"
-                            fieldValue={crudObject['Aanleiding']}
+                            html={crudObject['Aanleiding']}
                         />
                     ) : null}
                     {crudObject['Provinciaal_Belang'] ? (
-                        <ViewFieldTitelEnInhoud
+                        <ViewFieldInnerHTML
                             fieldTitel="Provinciaal belang"
-                            fieldValue={crudObject['Provinciaal_Belang']}
+                            html={crudObject['Provinciaal_Belang']}
                         />
                     ) : null}
                     {crudObject['Omschrijving_Werking'] ? (
-                        <ViewFieldTitelEnInhoud
+                        <ViewFieldInnerHTML
                             fieldTitel="Toelichting"
-                            fieldValue={crudObject['Omschrijving_Werking']}
+                            html={crudObject['Omschrijving_Werking']}
                         />
                     ) : null}
                     {crudObject['Belangen'] &&
