@@ -312,10 +312,12 @@ class MuteerUniversalObjectCRUD extends Component {
 
     voegKoppelingRelatieToe(propertyName, object, omschrijving, callback) {
         const nieuwObject = {
-            UUID: object.UUID,
-            Titel: object.Titel,
             Koppeling_Omschrijving: omschrijving,
-            Type: object.Type,
+            Object: {
+                UUID: object.UUID,
+                Titel: object.Titel,
+                Type: object.Type,
+            },
         }
 
         let nieuwCrudObject = this.state.crudObject
