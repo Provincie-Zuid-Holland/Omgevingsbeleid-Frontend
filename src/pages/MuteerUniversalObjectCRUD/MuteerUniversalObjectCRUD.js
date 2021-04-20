@@ -24,6 +24,7 @@ import FormFieldContainerBeleidsprestaties from './FormFieldContainers/FormField
 import axios from './../../API/axios'
 
 // Import Utilities
+import eindDateIsBeforeBeginDate from './../../utils/eindDateIsBeforeBeginDate'
 import makeCrudProperties from './../../utils/makeCrudProperties'
 import makeCrudObject from './../../utils/makeCrudObject'
 import checkRequiredFields from './../../utils/checkRequiredFields'
@@ -57,11 +58,6 @@ class MuteerUniversalObjectCRUD extends Component {
             this
         )
         this.getAndSetDimensieDataFromApi = this.getAndSetDimensieDataFromApi.bind(
-            this
-        )
-
-        this.formatGeldigheidDatesForUI = formatGeldigheidDatesForUI.bind(this)
-        this.formatGeldigheidDatesForAPI = formatGeldigheidDatesForAPI.bind(
             this
         )
     }
@@ -149,7 +145,7 @@ class MuteerUniversalObjectCRUD extends Component {
                 toast('Opgeslagen')
             })
             .catch((err) => {
-                crudObject = this.formatGeldigheidDatesForUI(crudObject)
+                crudObject = formatGeldigheidDatesForUI(crudObject)
                 this.setState({
                     crudObject: crudObject,
                 })
@@ -179,7 +175,7 @@ class MuteerUniversalObjectCRUD extends Component {
             .catch((err) => {
                 console.log(err)
                 toast(process.env.REACT_APP_ERROR_MSG)
-                crudObject = this.formatGeldigheidDatesForUI(crudObject)
+                crudObject = formatGeldigheidDatesForUI(crudObject)
                 this.setState({
                     crudObject: crudObject,
                 })
@@ -188,6 +184,25 @@ class MuteerUniversalObjectCRUD extends Component {
 
     handleSubmit(event) {
         event.preventDefault()
+
+        const checkDates = (crudObject, titleSingular) => {
+            if (
+                crudObject.Begin_Geldigheid !== null &&
+                crudObject.Begin_Geldigheid !== '' &&
+                crudObject.Eind_Geldigheid !== null &&
+                crudObject.Eind_Geldigheid !== ''
+            ) {
+                const isEindDateBeforeBegin = eindDateIsBeforeBeginDate(
+                    titleSingular,
+                    {
+                        Begin_Geldigheid: new Date(crudObject.Begin_Geldigheid),
+                        Eind_Geldigheid: new Date(crudObject.Eind_Geldigheid),
+                    }
+                )
+
+                return isEindDateBeforeBegin
+            }
+        }
 
         const removeEmptyFields = (obj) => {
             const skipProperties = [
@@ -210,33 +225,26 @@ class MuteerUniversalObjectCRUD extends Component {
 
         let crudObject = cloneDeep(this.state.crudObject)
 
-        // Converteer de 'yyyy-MM-DD' waarden naar Date objecten
-        // Of Verwijder de begin_ of eind_geldigheid properties als ze geen waarde hebben
-        crudObject = this.formatGeldigheidDatesForAPI(crudObject)
-
-        // Check of de verplichte velden zijn ingevuld als het een beleidskeuze is
-        // !REFACTOR! - velden check voor andere dimensies (Bespreken STUM)
-        const alleVeldenIngevuld = checkRequiredFields(
+        const containsRequiredUnfilledField = checkRequiredFields(
             crudObject,
             dimensieConstants,
             titleSingular
         )
+        if (containsRequiredUnfilledField) return
 
+        const isEindDateBeforeBegin = checkDates(crudObject, titleSingular)
+        if (isEindDateBeforeBegin) return
+
+        // Create date objects out of string values ('yyyy-MM-DD')
+        crudObject = formatGeldigheidDatesForAPI(crudObject)
         crudObject = removeEmptyFields(crudObject)
 
-        if (!alleVeldenIngevuld) {
-            this.setState({
-                crudObject: this.formatGeldigheidDatesForUI(crudObject),
-            })
-            return
-        }
-
-        // If the user is editing an object PATCH, else POST
+        // PATCH or POST based on the edit state
         if (this.state.edit) {
             crudObject = this.prepareForRequest(crudObject, 'patch')
             this.patchDimensieObject(crudObject)
         } else {
-            // Als het dimensie object een beleidsrelatie is wijzigen we de volgende properties
+            // If we POST an object to the 'beleidsrelaties' endpoint we need to add these properties
             if (apiEndpoint === 'beleidsrelaties') {
                 crudObject.Status = 'Open'
                 crudObject.Aanvraag_Datum = new Date()
@@ -470,8 +478,6 @@ class MuteerUniversalObjectCRUD extends Component {
         const objectTitle = this.state.crudObject.Titel
 
         const handleChange = this.handleChange
-
-        console.log(crudObject)
 
         return (
             <div>
