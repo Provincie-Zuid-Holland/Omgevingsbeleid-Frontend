@@ -2,7 +2,6 @@ import React from 'react'
 import { Transition } from '@headlessui/react'
 import { format, isDate } from 'date-fns'
 import nlLocale from 'date-fns/locale/nl'
-import { useParams } from 'react-router-dom'
 import { faTimes } from '@fortawesome/pro-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Select from 'react-select'
@@ -190,8 +189,6 @@ const PopupRevisieoverzicht = ({
 
     // Disables body vertical scroll when revisieOverzicht is open
     useLockBodyScroll({ modalOpen: bodyLock })
-
-    console.log(changesFromApi)
 
     return (
         <React.Fragment>
@@ -807,13 +804,18 @@ function RelatiesKoppelingenTekstueel({
 }) {
     if (!objectOld || !objectChanges) return
 
-    const getValuesOf = (property, obj, containsChanges) => {
-        if (!containsChanges && obj[property]) return obj[property]
-        if (
-            (!containsChanges && !obj[property]) ||
-            (containsChanges && !obj[property])
-        )
-            return []
+    /**
+     * The changeObject connection properties contain objects with three potential properties:
+     * { new: {}, same: {}, removed: {} }
+     * We loop through these properties and push them into an array
+     * The key (e.g. 'new') is pushed onto the object under the property 'changeType'
+     * This changeType property determines the styling
+     * @param {string} property - Property that contains the values
+     * @param {object} obj - Object to get the values from
+     * @returns {array} containing the changed objects
+     */
+    const getValuesOfChangeObject = (property, obj) => {
+        if (obj[property]) return []
 
         // Else we need to get the values from the changes properties ('removed', 'same', etc.)
         const values = []
@@ -822,14 +824,19 @@ function RelatiesKoppelingenTekstueel({
                 values.push({ ...value, changeType: key })
             })
         )
+
         return values
     }
 
     return (
         <div>
             {connectionProperties.map((property) => {
-                const valuesOld = getValuesOf(property, objectOld, false)
-                const valuesChanges = getValuesOf(property, objectChanges, true)
+                const valuesOld = objectOld[property] ? objectOld[property] : []
+                const valuesChanges = getValuesOfChangeObject(
+                    property,
+                    objectChanges
+                )
+
                 return (
                     <ContainerMain>
                         <ContainerLeft>
@@ -866,7 +873,8 @@ function RelatiesKoppelingenTekstueel({
                                     {property}
                                 </h3>
                                 <ul className="mt-2">
-                                    {valuesChanges && valuesOld.length > 0 ? (
+                                    {valuesChanges &&
+                                    valuesChanges.length > 0 ? (
                                         valuesChanges.map((connection) => (
                                             <ListItem
                                                 connection={connection.Object}
