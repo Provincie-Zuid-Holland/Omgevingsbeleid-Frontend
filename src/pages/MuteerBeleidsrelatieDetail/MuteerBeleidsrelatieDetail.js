@@ -144,6 +144,7 @@ const MuteerBeleidsrelatieDetail = ({
                 toast('Beleidsrelatie afgewezen')
                 setSavingInProgress(false)
                 updateBeleidsrelaties(beleidsrelatieObject.UUID, 'NietAkkoord')
+                updateStatus(beleidsrelatieObject.UUID, 'NietAkkoord')
             })
             .catch((err) => {
                 console.log(err)
@@ -180,13 +181,15 @@ const MuteerBeleidsrelatieDetail = ({
     }
 
     // Wordt gebruikt om de lokale state te updaten bij bijvoorbeeld het intrekken van een relatie verzoek
-    const updateStatus = (uuid, nieuweStatus) => {
+    const updateStatus = (uuid, nieuweStatus, updateDatumAkkoord) => {
         const vanIndex = outgoing_Beleidskeuzes.findIndex(
             (x) => x.UUID === uuid
         )
+
         if (vanIndex !== -1) {
             outgoing_Beleidskeuzes[vanIndex].Status = nieuweStatus
-            outgoing_Beleidskeuzes[vanIndex].Datum_Akkoord = new Date()
+            if (updateDatumAkkoord)
+                outgoing_Beleidskeuzes[vanIndex].Datum_Akkoord = new Date()
         }
 
         const naarIndex = incoming_Beleidskeuzes.findIndex(
@@ -194,8 +197,11 @@ const MuteerBeleidsrelatieDetail = ({
         )
         if (naarIndex !== -1) {
             incoming_Beleidskeuzes[naarIndex].Status = nieuweStatus
-            incoming_Beleidskeuzes[naarIndex].Datum_Akkoord = new Date()
+            if (updateDatumAkkoord)
+                incoming_Beleidskeuzes[naarIndex].Datum_Akkoord = new Date()
         }
+
+        console.log('UPDATE LOCAL STATE!!!')
 
         setIncoming_Beleidskeuzes([...incoming_Beleidskeuzes])
         setOutgoing_Beleidskeuzes([...outgoing_Beleidskeuzes])
@@ -210,7 +216,6 @@ const MuteerBeleidsrelatieDetail = ({
             getBeleidsrelatiesVanBeleidskeuze(UUID),
             getBeleidsrelatiesNaarBeleidskeuze(UUID),
         ]).then(() => {
-            console.log('JOE!')
             setIsLoading(false)
         })
     }, [UUID])

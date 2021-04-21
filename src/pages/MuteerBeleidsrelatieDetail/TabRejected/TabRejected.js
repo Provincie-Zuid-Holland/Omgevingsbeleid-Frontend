@@ -54,7 +54,7 @@ function TabRejected({
                                               new Date(relatie.Modified_Date),
                                               'd MMMM yyyy, HH:mm'
                                           ) + ' uur'
-                                        : null}
+                                        : 'Zojuist afgewezen'}
                                 </div>
                                 <div className="w-1/12">
                                     {relatie.Status === 'Akkoord'

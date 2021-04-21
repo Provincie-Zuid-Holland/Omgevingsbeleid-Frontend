@@ -164,7 +164,8 @@ function TabRelations({
                                                             relatie.Status ===
                                                                 'Akkoord'
                                                                 ? 'Verbroken'
-                                                                : 'NietAkkoord'
+                                                                : 'NietAkkoord',
+                                                            true
                                                         )
                                                     }}
                                                 >
