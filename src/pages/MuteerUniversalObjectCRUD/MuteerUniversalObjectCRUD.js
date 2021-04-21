@@ -364,7 +364,7 @@ class MuteerUniversalObjectCRUD extends Component {
     verwijderKoppelingRelatie(koppelingObject) {
         let nieuwCrudObject = this.state.crudObject
         const index = nieuwCrudObject[koppelingObject.propertyName].findIndex(
-            (item) => item.UUID === koppelingObject.item.UUID
+            (item) => item.Object.UUID === koppelingObject.item.Object.UUID
         )
         nieuwCrudObject[koppelingObject.propertyName].splice(index, 1)
 
