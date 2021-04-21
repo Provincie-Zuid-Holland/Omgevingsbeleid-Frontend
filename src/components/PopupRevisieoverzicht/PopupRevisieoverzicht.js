@@ -191,6 +191,8 @@ const PopupRevisieoverzicht = ({
     // Disables body vertical scroll when revisieOverzicht is open
     useLockBodyScroll({ modalOpen: bodyLock })
 
+    console.log(changesFromApi)
+
     return (
         <React.Fragment>
             <Transition
@@ -709,8 +711,6 @@ const ValidText = ({ dataObject, revisieObjecten }) => {
                 return null
             }
         }
-
-        console.log(dataObject['Eind_Geldigheid'])
 
         const dateEnd = isDate(new Date(dataObject['Eind_Geldigheid']))
             ? formatDate(dataObject['Eind_Geldigheid'])
