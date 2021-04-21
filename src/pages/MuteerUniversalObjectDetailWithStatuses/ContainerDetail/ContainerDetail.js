@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
 import { withRouter, Link } from 'react-router-dom'
-import { format } from 'date-fns'
-import isBefore from 'date-fns/isBefore'
-import nlLocale from 'date-fns/locale/nl'
 import { faCalendarAlt } from '@fortawesome/free-regular-svg-icons'
 import {
     faLink,
@@ -17,6 +14,9 @@ import HeadingMain from './../../../components/HeadingMain'
 import LoaderMainTitle from './../../../components/LoaderMainTitle'
 import LoaderSmallSpan from './../../../components/LoaderSmallSpan'
 import PopUpDetailDropdown from './../PopUpDetailDropdown'
+
+// Import Utilities
+import getVigerendText from './../../../utils/getVigerendText'
 
 class ContainerDetail extends Component {
     constructor(props) {
@@ -47,6 +47,14 @@ class ContainerDetail extends Component {
         const pageType = this.props.pageType
         const isLoading = this.props.isLoading
         const dimensionHistory = this.props.dimensionHistory
+
+        const validDate = getVigerendText({ dataObject })
+        const validDatePrefix = getVigerendText({
+            dataObject,
+            prefixOnly: true,
+        })
+
+        console.log(validDatePrefix)
 
         return (
             <div
@@ -93,6 +101,7 @@ class ContainerDetail extends Component {
 
                     {this.state.dropdown ? (
                         <PopUpDetailDropdown
+                            slug={this.props.overzichtSlug}
                             titleSingular={titleSingular}
                             raadpleegLink={`/detail/${this.props.overzichtSlug}/${dataObject.UUID}`}
                             dataObject={dataObject}
@@ -148,31 +157,13 @@ class ContainerDetail extends Component {
                             <div className="flex items-center justify-between w-full py-2 pr-4 border-r border-gray-300">
                                 <div>
                                     <span className="block text-sm font-bold text-gray-700">
-                                        {/* isBefore */}
-                                        {!isLoading &&
-                                        dataObject['Begin_Geldigheid'] !==
-                                            null &&
-                                        isBefore(
-                                            dataObject['Begin_Geldigheid'],
-                                            new Date()
-                                        )
-                                            ? 'Vigerend sinds'
-                                            : 'Vigerend vanaf'}
+                                        {!isLoading && validDatePrefix}
+                                        {console.log('validDatePrefix')}
+                                        {console.log(validDatePrefix)}
                                     </span>
                                     {!isLoading ? (
                                         <span className="text-sm text-gray-700">
-                                            {dataObject['Begin_Geldigheid'] !==
-                                            null
-                                                ? format(
-                                                      new Date(
-                                                          dataObject[
-                                                              'Begin_Geldigheid'
-                                                          ]
-                                                      ),
-                                                      'd MMMM yyyy',
-                                                      { locale: nlLocale }
-                                                  )
-                                                : 'Er is nog geen begin geldigheid'}
+                                            {validDate}
                                         </span>
                                     ) : (
                                         <span className="block mt-2">
