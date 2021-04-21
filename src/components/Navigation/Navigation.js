@@ -3,13 +3,14 @@ import { Link, useLocation } from 'react-router-dom'
 import isToday from 'date-fns/isToday'
 import parseISO from 'date-fns/parseISO'
 
-import { faEye, faSignInAlt } from '@fortawesome/free-solid-svg-icons'
+import { faEye, faSignInAlt } from '@fortawesome/pro-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 // Import API and Env variable used for the banner
 import { environment } from './../../API/axios'
 
 import NavigationPopupMenu from './../NavigationPopupMenu'
+import GraphPopupMenu from './../GraphPopupMenu'
 import SearchBar from './../SearchBar'
 
 import logoSVG from './../../images/PZH_Basislogo.svg'
@@ -20,6 +21,7 @@ function Navigation({ loggedIn, setLoginState }) {
     const userIsInMuteerEnvironment = pathname.includes('/muteer/')
 
     // State for popup menu
+    const [graphIsOpen, setGraphIsOpen] = React.useState(false)
     const [isOpen, setIsOpen] = React.useState(false)
     const [
         locationEqualsMutateEnv,
@@ -178,6 +180,7 @@ function Navigation({ loggedIn, setLoginState }) {
                             children="Bewerken"
                         />
                     ) : null}
+
                     {!loggedIn ? (
                         <MenuIcon
                             setIsOpen={setIsOpen}
@@ -186,6 +189,13 @@ function Navigation({ loggedIn, setLoginState }) {
                             className="mx-1"
                         />
                     ) : null}
+
+                    <GraphPopupMenu
+                        graphIsOpen={graphIsOpen}
+                        setGraphIsOpen={setGraphIsOpen}
+                        showBanner={showBanner}
+                    />
+
                     <NavigationPopupMenu
                         isOpen={isOpen}
                         setIsOpen={setIsOpen}
@@ -222,6 +232,7 @@ function Logo() {
             title="Provincie Zuid-Holland Logo"
             style={{ height: '96px' }}
             src={logoSVG}
+            alt="Provincie Zuid-Holland Logo"
         />
     )
 }
