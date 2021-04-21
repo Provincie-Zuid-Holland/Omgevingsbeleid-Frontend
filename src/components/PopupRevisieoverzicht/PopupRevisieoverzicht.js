@@ -689,42 +689,12 @@ const ValidText = ({ dataObject, revisieObjecten }) => {
             })
 
         const dateStart = formatDate(dataObject['Begin_Geldigheid'])
-
-        const getDateFromNextVigerendObject = () => {
-            const indexOfCurrentObj = revisieObjecten.findIndex(
-                (e) => e.UUID === dataObject.UUID
-            )
-
-            const endDateOfNextVigerend =
-                indexOfCurrentObj !== 0 &&
-                revisieObjecten[indexOfCurrentObj - 1] &&
-                revisieObjecten[indexOfCurrentObj - 1].Begin_Geldigheid
-                    ? revisieObjecten[indexOfCurrentObj - 1].Begin_Geldigheid
-                    : null
-
-            if (endDateOfNextVigerend) {
-                return format(endDateOfNextVigerend)
-            } else {
-                return null
-            }
-        }
-
-        const dateEnd = isDate(new Date(dataObject['Eind_Geldigheid']))
-            ? formatDate(dataObject['Eind_Geldigheid'])
-            : getDateFromNextVigerendObject()
-
         const isCurrentlyVigerend = uiStatus && uiStatus === 'Vigerend'
-        const isArchived = uiStatus && uiStatus === 'Gearchiveerd'
 
         if (isCurrentlyVigerend) {
             return `Vigerend vanaf ${dateStart} tot heden`
         } else if (dataObject.Begin_Geldigheid === '1753-01-01T00:00:00Z') {
-            return `Vigerend tot ${dateEnd}`
-        } else if (dataObject.Eind_Geldigheid !== '9999-12-31T23:59:59Z') {
-            return `Vigerend vanaf ${dateStart}`
-        } else if (isArchived) {
-            const dateEndText = dateEnd ? `tot ${dateEnd}` : ``
-            return `Vigerend vanaf ${dateStart} ${dateEndText}`
+            return `Er is geen begin geldigheid`
         } else {
             return `Vigerend vanaf ${dateStart}`
         }
@@ -742,7 +712,7 @@ const ValidText = ({ dataObject, revisieObjecten }) => {
 const Belangen = ({ label, object, type, containsChanges, placeholder }) => {
     const getBelangen = (containsChanges, object, type) => {
         if (!containsChanges) {
-            return object.Belangen.filter((e) => e.Type === type).map(
+            return object.Belangen.filter((e) => e.Object.Type === type).map(
                 (e) => e.Object
             )
         } else {
@@ -752,8 +722,7 @@ const Belangen = ({ label, object, type, containsChanges, placeholder }) => {
                     belangen.push({ ...belang.Object, changeType: key })
                 })
             )
-
-            return belangen
+            return belangen.filter((e) => e.Type === type)
         }
     }
 
