@@ -7,7 +7,7 @@ import {
     FormFieldDate,
     FormFieldTextInput,
     FormFieldWeblink,
-    FormFieldWerkingsgebiedKoppeling,
+    FormFieldWerkingsgebied,
     FormFieldRadioButton,
     FormFieldRichTextEditor,
     FormFieldInputContainer,
@@ -22,6 +22,7 @@ function FormFieldContainerMaatregelen({
     titleSingular,
     crudObject,
     handleChange,
+    editStatus,
 }) {
     const { user } = React.useContext(UserContext)
 
@@ -40,6 +41,7 @@ function FormFieldContainerMaatregelen({
                     titleSingular={titleSingular}
                 />
                 <FormFieldSelectUserGroup
+                    editStatus={editStatus}
                     handleChange={handleChange}
                     crudObject={crudObject}
                     marginRight={true}
@@ -56,16 +58,23 @@ function FormFieldContainerMaatregelen({
                     <FormFieldTitelEnBeschrijving
                         fieldLabel={'Omschrijving'}
                         pValue={
-                            "Een maatregel beschrijft de wijze waarop uitvoering wordt gegeven aan beleid. Formuleer wat de provincie gaat realiseren, of de maatregel voor een specifiek gebied van toepassing is, aan welke beleidskeuzes de maatregel bijdraagt en in welke rol de provincie op zich neemt."
+                            'Een maatregel beschrijft de wijze waarop uitvoering wordt gegeven aan beleid. Formuleer wat de provincie gaat realiseren, of de maatregel voor een specifiek gebied van toepassing is, aan welke beleidskeuzes de maatregel bijdraagt en in welke rol de provincie op zich neemt.'
                         }
                     />
                     <FormFieldRichTextEditor
+                        editorFormats={['bold', 'header', 'list', 'image']}
                         titleSingular={titleSingular}
                         initialValue={initialValueToelichting}
                         handleChange={handleChange}
                         fieldValue={crudObject['Toelichting']}
                         dataObjectProperty="Toelichting"
                         placeholder="Schrijf hier uw omschrijving..."
+                        editorToolbar={[
+                            { header: 2 },
+                            'bold',
+                            { list: 'bullet' },
+                            'image',
+                        ]}
                     />
                 </FormFieldInputContainer>
             </ContainerFormSection>
@@ -74,7 +83,7 @@ function FormFieldContainerMaatregelen({
                 titel="Werkingsgebied"
                 beschrijving="Het werkingsgebied geeft het gebied weer waar de maatregel betrekking op heeft. Binnen dit gebied worden bepaalde activiteiten gestimuleerd, ontwikkeld,  toegestaan of juist verboden."
             >
-                <FormFieldWerkingsgebiedKoppeling
+                <FormFieldWerkingsgebied
                     setWerkingsgebiedInParentState={handleChange}
                     werkingsgebiedInParentState={crudObject['Gebied']}
                     crudObject={crudObject}

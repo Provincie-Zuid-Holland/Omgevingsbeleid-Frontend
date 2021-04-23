@@ -15,20 +15,7 @@ import axios from './../../API/axios'
 import PopupContainer from './../PopupContainer'
 import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFieldTitelEnBeschrijving'
 
-/**
- * Component that renders the FormFieldWerkingsgebiedKoppeling.
- *
- * @component
- *
- * @param {object} setWerkingsgebiedInParentState - Parameter that contains the UUID
- * @param {object} werkingsgebiedInParentState - Parameter that contains the whole object that is received through the API.
- * @param {string} dataObjectProperty - Name of the setWerkingsgebiedInParentState.
- * @param {string} titelEnkelvoud - Title of FormFieldTitelEnBeschrijving.
- * @param {string} fieldLabel - Label of FormFieldTitelEnBeschrijving.
- * @param {string} pValue - Text value of FormFieldTitelEnBeschrijving.
- * @param {boolean} disabled - If set true the div that gets returned will not allow a cursor.
- */
-const FormFieldWerkingsgebiedKoppeling = ({
+const FormFieldWerkingsgebied = ({
     setWerkingsgebiedInParentState,
     werkingsgebiedInParentState,
     dataObjectProperty,
@@ -38,46 +25,19 @@ const FormFieldWerkingsgebiedKoppeling = ({
     disabled,
 }) => {
     const [popupOpen, setPopupOpen] = React.useState(false)
-
-    // werkingsgebiedInParentState only contains the UUID
-    // 'werkingsgebied' Contains the whole object that we get from the API
-    // We need this in order to dislay information of the object
     const [werkingsgebied, setWerkingsgebied] = React.useState(null)
 
-    // On every change in the werkingsgebiedInParentState we GET the 'werkingsgebied' data from the API
     React.useEffect(() => {
         if (dataObjectProperty === 'Gebied') {
-            // If there is no werkingsgebied prop
-            if (
-                !werkingsgebiedInParentState ||
-                (werkingsgebied &&
-                    werkingsgebiedInParentState.UUID === werkingsgebied.UUID) ||
-                (werkingsgebied &&
-                    werkingsgebiedInParentState === werkingsgebied.UUID)
-            )
-                return
-
-            setWerkingsgebied(werkingsgebiedInParentState[0])
+            setWerkingsgebied(werkingsgebiedInParentState)
         } else if (dataObjectProperty === 'Werkingsgebieden') {
-            // If there is no werkingsgebied prop
-            if (!werkingsgebiedInParentState) return
-
-            // If the UUID the user selected is the same as the current one we have in state we return
-            const userSelectedTheSameUUID =
-                werkingsgebied &&
-                werkingsgebiedInParentState[0].UUID === werkingsgebied.UUID
-
-            if (
-                !Array.isArray(werkingsgebiedInParentState) ||
-                werkingsgebiedInParentState.length === 0 ||
-                userSelectedTheSameUUID
-            ) {
-                return
+            if (werkingsgebiedInParentState && werkingsgebiedInParentState[0]) {
+                setWerkingsgebied(werkingsgebiedInParentState[0].Object)
+            } else {
+                setWerkingsgebied(null)
             }
-
-            setWerkingsgebied(werkingsgebiedInParentState[0])
         }
-    }, [werkingsgebiedInParentState, werkingsgebied, dataObjectProperty])
+    }, [werkingsgebiedInParentState, dataObjectProperty])
 
     return (
         <React.Fragment>
@@ -147,16 +107,6 @@ const FormFieldWerkingsgebiedKoppeling = ({
     )
 }
 
-/**
- * Function to render the WerkingsgebiedPopup component.
- *
- * @function
- *
- * @param {boolean} show - Parameter that if is set to true will show the PopupContainer.
- * @param {boolean} close - Parameter that is used to close the PopupContainer onClick.
- * @param {object} setWerkingsgebiedInParentState - Parameter that contains certain values.
- * @param {string} dataObjectProperty - Parameter that is part of the name of setWerkingsgebiedInParentState.
- */
 const CardSelectedWerkingsgebied = ({
     setPopupOpen,
     setWerkingsgebiedInParentState,
@@ -201,10 +151,12 @@ const CardSelectedWerkingsgebied = ({
                             setWerkingsgebiedInParentState({
                                 target: {
                                     name: dataObjectProperty,
-                                    value: null,
+                                    value:
+                                        dataObjectProperty === 'Gebied'
+                                            ? null
+                                            : [],
                                 },
                             })
-                            setWerkingsgebied(null)
                         }}
                         id={`form-field-werkingsgebied-ontkoppelen`}
                     >
@@ -249,16 +201,6 @@ const CardSelectedWerkingsgebied = ({
     )
 }
 
-/**
- * Function that renders the WerkingsgebiedPopup component using the PopupContainer component.
- *
- * @function
- *
- * @param {boolean} show - Parameter if set true shows the PopupContainer component.
- * @param {boolean} close - Parameter if set true hides (closes) the PopupContainer component.
- * @param {object} setWerkingsgebiedInParentState - Parameter that is used to give value to the target variable and give it to the parent state.
- * @param {object} dataObjectProperty - Parameters value used in the condition statement and part of the value that is set within the setWerkingsGebiedInParentState object.
- */
 const WerkingsgebiedPopup = ({
     show,
     close,
@@ -291,13 +233,13 @@ const WerkingsgebiedPopup = ({
         return `https://geo-omgevingsbeleid-test.azurewebsites.net/wms/reflect?format=image/png&layers=OMGEVINGSBELEID:Werkingsgebieden_brt&srs=EPSG:28992&width=450&bbox=43662.62,406692,140586.08,483120&cql_filter=UUID IN ('${UUID}')`
     }
 
-    const setInParent = (uuid) => {
+    const setInParent = (gebied) => {
         if (dataObjectProperty === 'Gebied') {
             // Array containing the UUID's
             setWerkingsgebiedInParentState({
                 target: {
                     name: dataObjectProperty,
-                    value: uuid,
+                    value: gebied,
                 },
             })
         } else if (dataObjectProperty === 'Werkingsgebieden') {
@@ -307,7 +249,7 @@ const WerkingsgebiedPopup = ({
                     name: dataObjectProperty,
                     value: [
                         {
-                            UUID: uuid,
+                            Object: gebied,
                         },
                     ],
                 },
@@ -364,7 +306,7 @@ const WerkingsgebiedPopup = ({
                                                   key={gebied.UUID}
                                                   className={`h-64 flex justify-center items-center relative`}
                                                   onClick={() => {
-                                                      setInParent(gebied.UUID)
+                                                      setInParent(gebied)
                                                       close()
                                                   }}
                                               >
@@ -410,4 +352,4 @@ const WerkingsgebiedPopup = ({
     )
 }
 
-export default FormFieldWerkingsgebiedKoppeling
+export default FormFieldWerkingsgebied

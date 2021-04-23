@@ -215,14 +215,12 @@ const FormFieldRelatieKoppeling = ({
                                 }
 
                                 // Anders returnen we de list items door te loopen over koppelingenRelaties[propertyName]
-                                // TODO: Add types for Verordenings objects. Waiting for the API change
                                 return koppelingenRelaties[propertyName].map(
                                     (item, index) => {
                                         let type =
                                             objecten[koppelingRelatieNaam].type
                                         if (type === 'Nationaal Belang') {
-                                            console.log(item)
-                                            type = item.Type
+                                            type = item.Object.Type
                                         }
 
                                         return (
@@ -241,7 +239,7 @@ const FormFieldRelatieKoppeling = ({
                                                     {type}
                                                 </div>
                                                 <div className="relative w-full pr-8">
-                                                    {item.Titel}
+                                                    {item.Object.Titel}
                                                     <FontAwesomeIcon
                                                         className="absolute top-0 right-0 mt-1 mr-2"
                                                         icon={faEye}

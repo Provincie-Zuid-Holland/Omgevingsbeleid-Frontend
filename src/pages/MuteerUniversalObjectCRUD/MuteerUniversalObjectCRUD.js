@@ -190,7 +190,13 @@ class MuteerUniversalObjectCRUD extends Component {
         event.preventDefault()
 
         const removeEmptyFields = (obj) => {
+            const skipProperties = [
+                'Gebied',
+                'Begin_Geldigheid',
+                'Eind_Geldigheid',
+            ]
             Object.keys(obj).forEach((property) => {
+                if (skipProperties.includes(property)) return
                 if (obj[property] === null || obj[property] === undefined) {
                     delete obj[property]
                 }
@@ -201,7 +207,6 @@ class MuteerUniversalObjectCRUD extends Component {
         const dimensieConstants = this.props.dimensieConstants
         const apiEndpoint = dimensieConstants.API_ENDPOINT
         const titleSingular = dimensieConstants.TITLE_SINGULAR
-        const titlePlural = dimensieConstants.TITLE_PLURAL
 
         let crudObject = cloneDeep(this.state.crudObject)
 
@@ -258,7 +263,7 @@ class MuteerUniversalObjectCRUD extends Component {
         connectionProperties.forEach((key) => {
             crudObject[key].forEach((connection, index) => {
                 crudObject[key][index] = {
-                    UUID: connection.UUID,
+                    UUID: connection.Object.UUID,
                     Koppeling_Omschrijving: connection.Koppeling_Omschrijving,
                 }
             })
@@ -266,7 +271,12 @@ class MuteerUniversalObjectCRUD extends Component {
 
         if (type === 'post') return crudObject
 
-        // Edit for PATCH
+        // Continue prepping the object for a PATCH Request
+
+        if (crudObject.Gebied && crudObject.Gebied.UUID) {
+            crudObject.Gebied = crudObject.Gebied.UUID
+        }
+
         const eigenaren = [
             'Eigenaar_1',
             'Eigenaar_2',
@@ -286,7 +296,7 @@ class MuteerUniversalObjectCRUD extends Component {
         })
 
         crudObject?.Werkingsgebieden?.forEach((gebied, index) => {
-            crudObject.Werkingsgebieden[index] = { UUID: gebied.UUID }
+            crudObject.Werkingsgebieden[index] = { UUID: gebied.Object.UUID }
         })
 
         return crudObject
@@ -294,13 +304,13 @@ class MuteerUniversalObjectCRUD extends Component {
 
     voegKoppelingRelatieToe(propertyName, object, omschrijving, callback) {
         const nieuwObject = {
-            UUID: object.UUID,
-            Titel: object.Titel,
             Koppeling_Omschrijving: omschrijving,
-            Type: object.Type,
+            Object: {
+                UUID: object.UUID,
+                Titel: object.Titel,
+                Type: object.Type,
+            },
         }
-
-        console.log(nieuwObject)
 
         let nieuwCrudObject = this.state.crudObject
 
@@ -325,12 +335,12 @@ class MuteerUniversalObjectCRUD extends Component {
         let nieuwCrudObject = this.state.crudObject
 
         const index = nieuwCrudObject[koppelingObject.propertyName].findIndex(
-            (item) => item.UUID === koppelingObject.item.UUID
+            (item) => item.Object.UUID === koppelingObject.item.Object.UUID
         )
 
         nieuwCrudObject[koppelingObject.propertyName][
             index
-        ].Omschrijving = nieuweOmschrijving
+        ].Koppeling_Omschrijving = nieuweOmschrijving
 
         this.setState(
             {
@@ -539,6 +549,7 @@ class MuteerUniversalObjectCRUD extends Component {
 
                                     {titleSingular === 'Maatregel' ? (
                                         <FormFieldContainerMaatregelen
+                                            editStatus={editStatus}
                                             titleSingular={titleSingular}
                                             crudObject={crudObject}
                                             handleChange={handleChange}

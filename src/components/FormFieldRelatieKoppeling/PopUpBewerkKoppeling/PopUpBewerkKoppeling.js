@@ -52,12 +52,12 @@ class PopUpBewerkKoppeling extends Component {
                 >
                     <FontAwesomeIcon icon={faTimes} />
                 </div>
-                <h3 className="form-field-label font-bold">koppelen</h3>
+                <h3 className="font-bold form-field-label">koppelen</h3>
 
                 <p className="form-field-description">
                     Beschrijf de koppeling tussen '
-                    {this.props.bewerkItem.item.Titel}' en de beleidskeuze '
-                    {this.props.titelMainObject}'
+                    {this.props.bewerkItem.item.Object.Titel}' en de
+                    beleidskeuze '{this.props.titelMainObject}'
                 </p>
                 <p className="mt-4 form-field-description">
                     Beschrijf zo concreet mogelijk de relatie

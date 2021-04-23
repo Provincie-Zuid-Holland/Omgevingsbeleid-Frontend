@@ -20,6 +20,7 @@ import axios from '../../API/axios'
 import ButtonBackToPage from './../../components/ButtonBackToPage'
 import VerordeningenDetailSidebar from './VerordeningenDetailSidebar'
 import LeafletTinyViewer from './../../components/LeafletTinyViewer'
+import RelatiesKoppelingen from '../../components/RelatiesKoppelingen'
 
 // !REFACTOR! -> Wordt nu op meerdere plekken gebruikt, move naar utils
 function parseIntOrSetToNull(item) {
@@ -126,7 +127,7 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
     }
 
     getAndSetVerordeningsObject(UUID) {
-        return axios.get(`/verordeningen/version/${UUID}`).then((res) => {
+        return axios.get(`/version/verordeningen/${UUID}`).then((res) => {
             // Get latest lineage
             const verordeningsObject = res.data
             // this.populateFieldsAndSetState(lineage)
@@ -137,7 +138,7 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
     }
 
     getAndSetLidObject(UUID) {
-        return axios.get(`/verordeningen/version/${UUID}`).then((res) => {
+        return axios.get(`/version/verordeningen/${UUID}`).then((res) => {
             // Get latest lineage
             const lidObject = res.data
             return lidObject
@@ -307,14 +308,13 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
         let werkingsgebiedBoolean = false
         let werkingsGebiedUUID = null
 
-        // !REFACTOR! Dit zou null mogen zijn
         if (
             dataLoaded &&
-            artikel.Werkingsgebied !== '00000000-0000-0000-0000-000000000000' &&
-            artikel.Werkingsgebied !== null
+            artikel.Gebied !== '00000000-0000-0000-0000-000000000000' &&
+            artikel.Gebied !== null
         ) {
             werkingsgebiedBoolean = true
-            werkingsGebiedUUID = artikel.Werkingsgebied
+            werkingsGebiedUUID = artikel.Gebied.UUID
         }
 
         let breadcrumb = null
@@ -366,7 +366,7 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                             {loadingNewObject ? <LoaderContent /> : null}
                             <div
                                 id="raadpleeg-detail-container-content text-gray-800"
-                                className={`w-3/4 pr-0 md:pr-24 md:pl-8 lg:pr-48 lg:pl-16`}
+                                className={`w-3/4 pr-0 md:pl-8 lg:pl-16`}
                             >
                                 <div>
                                     <div className="block inline-block w-full mb-8 text-gray-600">
@@ -374,12 +374,12 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                                     </div>
 
                                     {/* Artikel Headers */}
-                                    <span className="block font-serif text-gray-800 text-l">
+                                    <span className="block mb-1 text-lg font-bold tracking-wide text-pzh-blue-dark">
                                         Artikel {' ' + artikel.Volgnummer}
                                     </span>
                                     <h1
                                         id="raadpleeg-detail-header-one"
-                                        className="mt-2 text-2xl text-gray-800"
+                                        className="mt-1 text-4xl font-bold text-pzh-blue "
                                     >
                                         {artikel.Titel}
                                     </h1>
@@ -416,7 +416,7 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                                         </span>
                                     </div>
                                     <p
-                                        className={`text-gray-700 text-sm mb-4 whitespace-pre-line`}
+                                        className={`leading-7 break-words w-full whitespace-pre-line `}
                                     >
                                         {artikel.Inhoud}
 
@@ -442,7 +442,7 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                                         id="raadpleeg-detail-werkingsgebied"
                                     >
                                         <div className="flex items-center justify-between pb-3 text-gray-800">
-                                            <h2 className="block mb-2 font-serif text-lg tracking-wide text-gray-700">
+                                            <h2 className="block mb-1 text-lg font-bold tracking-wide text-pzh-blue">
                                                 Werkingsgebied
                                             </h2>
                                             <span
@@ -487,6 +487,13 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                                         ) : null}
                                     </div>
                                 ) : null}
+                                <div className="mt-16">
+                                    <RelatiesKoppelingen
+                                        titleSingular={'Artikel'}
+                                        titleSingularPrefix={'het'}
+                                        dataObject={artikel}
+                                    />
+                                </div>
                             </div>
                         </React.Fragment>
                     ) : (

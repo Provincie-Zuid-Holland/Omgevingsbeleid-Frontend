@@ -47,21 +47,33 @@ class FormFieldSelectUser extends React.Component {
             selected: null,
             dataLoaded: false,
         }
+
+        this.getSelected = this.getSelected.bind(this)
     }
-    /**
-     * Function to update the prevProps and set the state variables.
-     *
-     * @function
-     *
-     * @param {props} prevProps - Parameter that is used to show the previous property value.
-     * @param {props} prevState - Parameter that is used to show the previous state value.
-     * @param {jest} snapshot - Jest parameter that is used for testing.
-     */
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.props.fieldValue !== prevProps.fieldValue) {
-            const selected = this.state.selectionArray.find(
-                (arrayItem) => arrayItem.value === this.props.fieldValue
+
+    getSelected(fieldValue, selectionArray) {
+        let selected = null
+        if (typeof fieldValue === 'string') {
+            selected = selectionArray.find(
+                (arrayItem) => arrayItem.value === fieldValue
             )
+        } else if (typeof fieldValue === 'object' && fieldValue !== null) {
+            selected = selectionArray.find(
+                (arrayItem) => arrayItem.value === fieldValue.UUID
+            )
+        }
+        return selected
+    }
+
+    componentDidUpdate(prevProps) {
+        const fieldValue = this.props.fieldValue
+
+        if (fieldValue !== prevProps.fieldValue) {
+            const selected = this.getSelected(
+                fieldValue,
+                this.state.selectionArray
+            )
+
             this.setState({
                 selected: selected,
                 dataLoaded: true,
@@ -96,9 +108,7 @@ class FormFieldSelectUser extends React.Component {
                 this.props.dataObjectProperty === 'Eigenaar_1' &&
                 selectionArray)
         ) {
-            const selected = selectionArray.find((arrayItem) => {
-                return arrayItem.value === fieldValue
-            })
+            const selected = this.getSelected(fieldValue, selectionArray)
 
             this.setState({
                 selectionArray: selectionArray,

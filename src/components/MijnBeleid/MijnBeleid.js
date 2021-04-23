@@ -52,8 +52,8 @@ const MijnBeleid = ({ hideAddNew }) => {
                 return axios
                     .get(
                         dimensie.endpoint === 'beleidskeuzes'
-                            ? `/${dimensie.endpoint}?filters=Created_By:${user.UUID},Eigenaar_1:${user.UUID},Eigenaar_2:${user.UUID},Opdrachtgever:${user.UUID}`
-                            : `/${dimensie.endpoint}?filters=Created_By:${user.UUID}`
+                            ? `/${dimensie.endpoint}?any_filters=Created_By:${user.UUID},Eigenaar_1:${user.UUID},Eigenaar_2:${user.UUID},Opdrachtgever:${user.UUID}`
+                            : `/${dimensie.endpoint}?any_filters=Created_By:${user.UUID}`
                     )
                     .then((res) => {
                         if (res.data.length === 0) return

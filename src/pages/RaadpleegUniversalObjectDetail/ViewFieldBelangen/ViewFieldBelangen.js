@@ -1,50 +1,26 @@
-import React, { Component } from 'react'
-import { toast } from 'react-toastify'
+import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
 // import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
 import { faAngleRight } from '@fortawesome/pro-light-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import axios from './../../../API/axios'
-
 const ViewFieldBelangen = ({ fieldValue }) => {
-    const [belangen, setBelangen] = React.useState(fieldValue)
     const [nationaleBelangen, setNationaleBelangen] = React.useState([])
     const [wettelijkeTaken, setWettelijkeTaken] = React.useState([])
     const [dataLoaded, setDataLoaded] = React.useState(false)
 
     React.useEffect(() => {
-        const promiseArray = belangen.map((item, index) =>
-            axios
-                .get(`/version/belangen/${item.UUID}`)
-                .then((res) => {
-                    belangen[index].data = res.data
-                    belangen[index].Titel = res.data.Titel
-                    belangen[index].Type = res.data.Type
-                    belangen[index].ID = res.data.ID
-
-                    setBelangen(belangen)
-                })
-                .catch((err) => {
-                    console.log(err)
-                    toast(process.env.REACT_APP_ERROR_MSG)
-                })
+        setNationaleBelangen(
+            fieldValue.filter((item) => item.Object.Type === 'Nationaal Belang')
         )
-
-        Promise.all(promiseArray).then(() => {
-            const nationaleBelangen = belangen.filter(
-                (item) => item.Type === 'Nationaal Belang'
+        setWettelijkeTaken(
+            fieldValue.filter(
+                (item) => item.Object.Type === 'Wettelijke Taak & Bevoegdheid'
             )
-            const wettelijkeTaken = belangen.filter(
-                (item) => item.Type === 'Wettelijke Taak & Bevoegdheid'
-            )
-
-            setDataLoaded(true)
-            setNationaleBelangen(nationaleBelangen)
-            setWettelijkeTaken(wettelijkeTaken)
-        })
-    }, [])
+        )
+        setDataLoaded(true)
+    }, [fieldValue])
 
     return dataLoaded ? (
         <div>
@@ -55,7 +31,7 @@ const ViewFieldBelangen = ({ fieldValue }) => {
                     </h2>
                     <ul className="mt-1">
                         {nationaleBelangen.map((item) => (
-                            <BelangenListItem item={item} />
+                            <BelangenListItem item={item.Object} />
                         ))}
                     </ul>
                 </div>
@@ -67,7 +43,7 @@ const ViewFieldBelangen = ({ fieldValue }) => {
                     </h2>
                     <ul className="mt-1">
                         {wettelijkeTaken.map((item) => (
-                            <BelangenListItem item={item} />
+                            <BelangenListItem item={item.Object} />
                         ))}
                     </ul>
                 </div>

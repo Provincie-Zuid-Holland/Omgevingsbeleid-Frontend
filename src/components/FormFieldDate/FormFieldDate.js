@@ -4,19 +4,64 @@ import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFi
 
 var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
 
-/**
- * Function to set the BeginGeldigheid based on user input.
- *
- * @param {string} dataObjectProperty - Parameter that may contain the string 'Eind_Geldigheid' and is used within this function to assign the dataObjectProperty variable for the imported FormFieldTitelEnBeschrijving and is used to assign the name and part of the id variable for the input element.
- * @param {string} fieldLabel - Parameter that is used within this function to assign the fieldLabel variable for the imported FormFieldTitelEnBeschrijving.
- * @param {string} pValue - Parameter that is used within this function to assign the pValue variable for the imported FormFieldTitelEnBeschrijving.
- * @param {string} titleSingular - Parameter that is used within this function to assign the titleSingular variable for the imported FormFieldTitelEnBeschrijving and is used as part of the id for the input element.
- * @param {string} fieldValue - Parameter that is used within this function in a conditional operator to set the value to the value variable of the input element.
- * @param {boolean} handleChange - Parameter that is used within this function to set the onChange variable to true if the input element has been changed.
- * @param {boolean} disabled -  Parameter that is used within this function and in the imported FormFieldTitelEnBeschrijving to set the disabled variable, if set true, the input and/or imported FormFieldTitelEnBeschrijving will be disabled.
- *
- * @function
- */
+class FormFieldDate extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            toonUitwerkingTreding:
+                this.props.fieldValue !== '' || this.props.openUitwerkingstrede,
+        }
+        this.toggleUitwerkingTreding = this.toggleUitwerkingTreding.bind(this)
+    }
+
+    toggleUitwerkingTreding() {
+        this.setState({
+            toonUitwerkingTreding: !this.state.toonUitwerkingTreding,
+        })
+    }
+
+    /**
+     * The standard dates are created in the back-end
+     * To keep the UI clean we return an empty string
+     */
+    getFieldValue(value) {
+        const standardDates = ['1753-01-01', '10000-01-01']
+        if (standardDates.includes(value)) return ''
+        return value
+    }
+
+    render() {
+        const fieldValue = this.getFieldValue(this.props.fieldValue)
+
+        return this.props.dataObjectProperty === 'Eind_Geldigheid' ? (
+            <EindGeldigheid
+                hideToggleUitwerkingstrede={
+                    this.props.hideToggleUitwerkingstrede
+                }
+                toggleUitwerkingTreding={this.toggleUitwerkingTreding}
+                toonUitwerkingTreding={this.state.toonUitwerkingTreding}
+                dataObjectProperty={this.props.dataObjectProperty}
+                fieldLabel={this.props.fieldLabel}
+                pValue={this.props.pValue}
+                titleSingular={this.props.titleSingular}
+                fieldValue={fieldValue}
+                handleChange={this.props.handleChange}
+                disabled={this.props.disabled}
+            />
+        ) : (
+            <BeginGeldigheid
+                dataObjectProperty={this.props.dataObjectProperty}
+                fieldLabel={this.props.fieldLabel}
+                pValue={this.props.pValue}
+                titleSingular={this.props.titleSingular}
+                fieldValue={fieldValue}
+                handleChange={this.props.handleChange}
+                disabled={this.props.disabled}
+            />
+        )
+    }
+}
+
 function BeginGeldigheid({
     dataObjectProperty,
     fieldLabel,

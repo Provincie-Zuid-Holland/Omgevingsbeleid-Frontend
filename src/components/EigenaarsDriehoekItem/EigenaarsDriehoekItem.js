@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 /**
  * Component that renders the EigenaarsDriehoekItem component to display as an item within the EigenaarsDrihoek component.
  * It receives the variables owner and eigenaarType and uses the owner variable in a conditionary operator to check if it contains value and to set the second part of the Gebruikersnaam in uppercase and in furter to display the Gebruikersnaam fully.
@@ -16,9 +16,9 @@ const EigenaarsDriehoekItem = ({ owner, eigenaarType }) => {
     return (
         <div className="w-full p-2 mb-2 bg-white rounded shadow-md">
             <div className="flex items-center">
-                <div className="flex items-center justify-center flex-shrink-0 w-12 h-12 mr-2 rounded-full bg-secondary">
+                <div className="flex items-center justify-center flex-shrink-0 w-12 h-12 mr-2 border-4 border-gray-200 rounded-full bg-pzh-blue">
                     {owner ? (
-                        <span className="text-xl font-bold text-white">
+                        <span className="mt-1 text-xl font-bold text-white">
                             {owner.Gebruikersnaam.substring(0, 1).toUpperCase()}
                         </span>
                     ) : null}

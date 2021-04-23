@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { useParams } from 'react-router-dom'
 import { faClock } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -45,11 +45,8 @@ const PopUpRevisieContainer = ({
     }
 
     return (
-        <div className="relative inline-block">
-            <div
-                className="inline-block mr-3 text-sm text-gray-600"
-                ref={innerContainer}
-            >
+        <div className="relative inline-block" ref={innerContainer}>
+            <div className="z-10 inline-block mr-3 text-sm text-gray-600">
                 <span
                     onClick={() => setOpen(!open)}
                     className="cursor-pointer select-none"

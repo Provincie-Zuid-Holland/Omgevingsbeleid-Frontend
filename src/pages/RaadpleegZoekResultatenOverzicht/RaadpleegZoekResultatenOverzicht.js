@@ -86,11 +86,7 @@ function SearchResultItem({ item, searchQuery, index }) {
         Omschrijving: getContent(),
     }
 
-    let type = item.Type
-    if (type === 'Beleidsregels') {
-        type = 'BeleidsRegels'
-    }
-
+    const type = item.Type
     const dimensieContants = getDimensieConstant(type)
     const overzichtURL = dimensieContants.SLUG_OVERVIEW
     const titleSingular = dimensieContants.TITLE_SINGULAR
@@ -224,7 +220,6 @@ class RaadpleegZoekResultatenOverzicht extends Component {
     }
 
     setInitialOnPageFilters(searchResults) {
-        console.log(searchResults)
         // In the filterArray we place all the types of objects we received from the API
         let filterArray = []
 
@@ -250,8 +245,6 @@ class RaadpleegZoekResultatenOverzicht extends Component {
         })
 
         mainFilterObject.filterArray = filterArray
-
-        console.log(mainFilterObject)
 
         this.setState({
             onPageFilters: mainFilterObject,
@@ -592,8 +585,6 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                                 Filteren
                             </h2>
                             <ul id="filter-search-results" className="mt-4">
-                                {console.log(onPageFilters)}
-                                {console.log(filters)}
                                 {onPageFilters.filterArray &&
                                 onPageFilters.filterArray.length > 0
                                     ? filters.map((filter) => (
