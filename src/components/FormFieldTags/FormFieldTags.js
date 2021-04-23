@@ -6,7 +6,8 @@ import CreatableSelect from 'react-select/creatable'
 // In local state: een array met items
 
 /**
- * Class that renders the FormFieldTags.
+ * Class that renders the FormFieldTags component using the imported FormFieldTitelEnBeschrijving component to give a title and description to the FormFieldTags component
+ * and the import CreateableSelect component to give the option to the user to select multiple tags.
  *
  * @class
  * @extends Component

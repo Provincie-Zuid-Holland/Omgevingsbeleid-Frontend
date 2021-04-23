@@ -2,7 +2,8 @@ import React from 'react'
 import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFieldTitelEnBeschrijving'
 
 /**
- * Class that renders the FormFieldTextArea.
+ * Class that renders the FormFieldTextArea component that uses the imported FormFieldTitelEnBescrhijving component to display a title and description of the FormFieldTextArea component.
+ * The FormFieldTextArea component also displays a textarea element which height scales based on user input.
  *
  * @class
  * @extends React.Component
@@ -15,7 +16,7 @@ class FormFieldTextArea extends React.Component {
     }
 
     /**
-     * Function to call the function updateElHeight.
+     * Function to call the function updateElHeight when the content of the textArea components exceeds the set height.
      *
      * @function
      */
@@ -25,7 +26,7 @@ class FormFieldTextArea extends React.Component {
     }
 
     /**
-     * Function to set the height of the textArea based on the content within it.
+     * Function to set the height of the textArea and to add the scrollbar based on the content within it.
      *
      * @function
      */

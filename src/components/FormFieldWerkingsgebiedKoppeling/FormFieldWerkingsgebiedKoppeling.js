@@ -16,17 +16,26 @@ import PopupContainer from './../PopupContainer'
 import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFieldTitelEnBeschrijving'
 
 /**
- * Component that renders the FormFieldWerkingsgebiedKoppeling.
+ * Component that renders the FormFieldWerkingsgebiedKoppeling component, that uses the imported components;
+ * FormFieldTitelEnBeschrijving, to display the Title and description of the FormFieldWerkingsgebiedKoppeling component,
+ * CardSelectedWerkingsgebied component, to disconnect the selected werkingsgebied and the WerkingsgebiedPopup component to select a werkingsgebied that the user wants connected.
+ *
+ * The imported transition component is used for the animation of part of the FormFieldWerkingsgebiedKoppeling component.
+ *
+ * This component is used in the following pages:
+ * FormFieldContainerMaatregelen
+ * Hoofdstuk
  *
  * @component
  *
- * @param {object} setWerkingsgebiedInParentState - Parameter that contains the UUID
- * @param {object} werkingsgebiedInParentState - Parameter that contains the whole object that is received through the API.
- * @param {string} dataObjectProperty - Name of the setWerkingsgebiedInParentState.
- * @param {string} titelEnkelvoud - Title of FormFieldTitelEnBeschrijving.
- * @param {string} fieldLabel - Label of FormFieldTitelEnBeschrijving.
- * @param {string} pValue - Text value of FormFieldTitelEnBeschrijving.
- * @param {boolean} disabled - If set true the div that gets returned will not allow a cursor.
+ * @param {function} setWerkingsgebiedInParentState - Parameter that is used to set the state value of the werkingsgebiedInparentState variable.
+ * @param {function} werkingsgebiedInParentState - Parameter that is passed down from the parent and contains the UUID of the werkingsgebied object.
+ * @param {string} dataObjectProperty - Parameter that is passed down from the parent and contains the werkingsgebied value of the werkingsgebied object.
+ * @param {string} titleSingular - Parameter that is passed down from the parent and contains the title value of the werkingsgebied object that is used in the id of a div within this component and its value is passed down to the FormFieldTitelEnBeschrijving component.
+ * @param {string} fieldLabel - Parameter that is passed down from the parent and contains the field label value of the werkingsgebied object, which value is passed down to the FormFieldTitelEnBeschrijving component.
+ * @param {string} pValue - Parameter that is passed down from the parent and contains the paragraf value of the werkingsgebied object, which value is passed down to the FormFieldTitelEnBeschrijving component.
+ * @param {boolean} disabled - Parameter that is passed down from the parent, which value is passed down to the FormFieldTitelEnBeschrijving component and used in this component in a conditional operator of a div to set a certain style value.
+ * @param {object} crudObject - this parameter is not used within this component.
  */
 const FormFieldWerkingsgebiedKoppeling = ({
     setWerkingsgebiedInParentState,
@@ -148,14 +157,18 @@ const FormFieldWerkingsgebiedKoppeling = ({
 }
 
 /**
- * Function to render the WerkingsgebiedPopup component.
+ * Function that renders the CardSelectedWerkingsgebied component, which is used within the FormFieldWerkingsgebiedKoppeling component, while using the imported Transition component for the animation.
+ * On this component the user sees a title with the selected werkingsgebied, when the werkingsgebied was last updated,
+ * a button with the text "Dit werkingsgebied ontkoppelen" to disconnect the werkingsgebied and an backgroundimage containing a map of the Netherlands that is filtered on the UUID of the
  *
  * @function
  *
- * @param {boolean} show - Parameter that if is set to true will show the PopupContainer.
- * @param {boolean} close - Parameter that is used to close the PopupContainer onClick.
- * @param {object} setWerkingsgebiedInParentState - Parameter that contains certain values.
- * @param {string} dataObjectProperty - Parameter that is part of the name of setWerkingsgebiedInParentState.
+ * @param {function} setPopupOpen - Parameter that is used set the state of the popupOpen variable to true.
+ * @param {function} setWerkingsgebiedInParentState - Parameter that is used to set the state value of the werkingsgebiedInParentState variable.
+ * @param {function} setWerkingsgebied - Parameter that is used to set the state value of the werkingsgebied variable.
+ * @param {object} dataObjectProperty - Parameter that is used to set the value within the target state value of the werkingsgebiedInParentState variable.
+ * @param {object} werkingsgebied - Parameter used for conditional operators within the CardSelectedWerkingsgebied component, to display the title, a certain date format and the UUID for the url backgroundimage if it contains a value.
+ * @param {boolean} show - Parameter to toggle the Transition component, that displays the CardSelectedWerkingsgebied component in a certain animation.
  */
 const CardSelectedWerkingsgebied = ({
     setPopupOpen,
@@ -250,7 +263,11 @@ const CardSelectedWerkingsgebied = ({
 }
 
 /**
- * Function that renders the WerkingsgebiedPopup component using the PopupContainer component.
+ * Function that renders the WerkingsgebiedPopup component, which is used in the FormFieldWerkingsgebiedKoppeling component, using the imported PopupContainer component, to display the component with an animated entry and closure.
+ * This component displays a title and description that instructs the user to select a werkingsgebied that the user wants connected
+ * and the list of werkingsgebieden containing a clickable div to set the setInParent variable to the gebied.UUID value and a background image of each werkingsgebied.
+ *
+ * The component gets the information needed for the werkingsgebieden by using the getAndSetWerkingsgebieden function and for the background image the getImageUrl function.
  *
  * @function
  *

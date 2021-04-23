@@ -8,12 +8,13 @@ import Select from 'react-select'
 import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFieldTitelEnBeschrijving'
 
 /**
- * Function to push values to dataObjectProperty if objectenArray.length not equal to 1.
+ * Function that returns null or options value based on the objectenArray.length. If the objectenArray.length is equal to 1, the function will return null
+ * otherwise the objectenArray will return a new array list named options and skipping the first array value.
  *
  * @function
  *
- * @param {array} objectenArray - Parameter used in an if else statement.
- * @param {string} dataObjectProperty - Parameter that is used to set the option of objectenArray.
+ * @param {array} objectenArray - Parameter that is used in a conditional operator to check if the array length is longer then 1.
+ * @param {string} dataObjectProperty - Parameter that is used to set the target name value of the new options array list.
  */
 function makeSelection(objectenArray, dataObjectProperty) {
     if (objectenArray.length === 1) {
@@ -36,7 +37,9 @@ function makeSelection(objectenArray, dataObjectProperty) {
 }
 
 /**
- * Class that renders the FormFieldWerkingsgebiedrelatie.
+ * Class that renders the FormFieldWerkingsgebiedrelatie component that displays a title and description using the imported component FormFieldTitelEnBeschrijving
+ * and displays the imported Select component if the selectionArray.length state exceeds 0 and in which the user can select a werkingsgebiedrelatie(s) by using the component.
+ *
  *
  * @class
  * @extends React.Component
@@ -71,7 +74,9 @@ class FormFieldWerkingsgebiedrelatie extends React.Component {
     }
 
     /**
-     * Function to find arrayItem within selectionArray.
+     * Function that checks in a conditional operator if the props.fieldValue is not equal to the prevProps.fieldValue,
+     * if so the selected variable will be updated with the search results of selectionArray.find otherwise the selected state will be set to the variable selected.
+     *
      *
      * @function
      *
@@ -91,7 +96,8 @@ class FormFieldWerkingsgebiedrelatie extends React.Component {
     }
 
     /**
-     * Function to get werkingsgebieden through the axios API.
+     * Function to get werkingsgebieden through the axios API endpoint and to set the data to the objecten variable with the results and set the value to the selectionArray through the makeSelection function.
+     *
      *
      * @function
      */

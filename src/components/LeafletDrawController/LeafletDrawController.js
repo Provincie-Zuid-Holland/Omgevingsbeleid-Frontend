@@ -25,7 +25,8 @@ const eventHandlers = {
 }
 
 /**
- * Class that renders the EditControl.
+ * Class that renders the EditControl component and uses the extended imported MapControl.
+ * This component does not render anything and only contains a collection of functions and a static collection of variables.
  *
  * @class
  * @extends MapControl
@@ -75,22 +76,22 @@ class EditControl extends MapControl {
     }
 
     /**
-     * Function that returns the createDrawElement with a props value.
+     * Function that uses the createDrawElement function with the passed down props value.
      *
      * @function
      *
-     * @param {props} props - Parameter that contains the value that is used within the function.
+     * @param {object} props - Parameter that contains a collection of data which is passed down from the parent and used in the createDrawElement function.
      */
     createLeafletElement(props) {
         return createDrawElement(props)
     }
 
     /**
-     * Function to create drawing.
+     * Function to set the state of the currentLayerType and to set the onCreated and layerContainer variables.
      *
      * @function
      *
-     * @param {e} e - Event parameter that can be caught and used within the function.
+     * @param {e} e - Parameter that contains the layerType value which is used to set the value of the currentLayerType state.
      */
     onDrawCreate = (e) => {
         const { onCreated } = this.props
@@ -108,7 +109,6 @@ class EditControl extends MapControl {
     }
 
     /**
-     * 002
      *
      * @function
      */
@@ -145,7 +145,6 @@ class EditControl extends MapControl {
     }
 
     /**
-     * 003
      *
      * @function
      */
@@ -163,7 +162,6 @@ class EditControl extends MapControl {
     }
 
     /**
-     * 003
      *
      * @function
      *
@@ -203,11 +201,12 @@ class EditControl extends MapControl {
 }
 
 /**
- * 003
+ * Function that creates a Draw element based on the props given and uses this to set the value to layerContainer, draw, edit, position variables
+ * which are used in the leaflet.drawLocal and eventually the function returns a newDraw object.
  *
  * @function
  *
- * @param {*} props
+ * @param {object} props - Parameter that contains a collection of data that is used within the function to set the values of layerContainer, draw, edit and position variables.
  */
 function createDrawElement(props) {
     const { layerContainer } = props.leaflet

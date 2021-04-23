@@ -34,7 +34,12 @@ function makeSelection(objectenArray, dataObjectProperty) {
 }
 
 /**
- * Class that renders the FormFieldSelectUser component in which the user can .
+ * Class that renders the FormFieldSelectUser component which is part of the component FormFieldSelectUserGroup, in which the user can select a user based on the role given.
+ *
+ * Furthermore this component is imported and used in the following pages/components:
+ * FormFieldSelectUserGroup
+ * FormFieldContainerBeleidskeuzes
+ * FormFieldContainerMaatregelen
  *
  * @class
  * @extends React.Component
@@ -64,7 +69,13 @@ class FormFieldSelectUser extends React.Component {
         }
         return selected
     }
-
+    /**
+     * Function to update the prevProps and set the state variables only if the current fielValue is not equal to the previous fieldValue.
+     *
+     * @function
+     *
+     * @param {props} prevProps - Parameter that is used to show the previous property value.
+     */
     componentDidUpdate(prevProps) {
         const fieldValue = this.props.fieldValue
 
@@ -82,7 +93,7 @@ class FormFieldSelectUser extends React.Component {
     }
 
     /**
-     * Function to set the state based on certain variables.
+     * Function to set the state of the props given based on the conditional operators.
      *
      * @function
      */

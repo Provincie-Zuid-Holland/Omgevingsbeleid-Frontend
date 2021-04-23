@@ -6,7 +6,12 @@ import axios from './../../API/axios'
 import LoaderSelect from './../LoaderSelect'
 
 /**
- * Component that is used to display the user group.
+ * Component that is used to display the user group component, by first getting the users through axios and adding it to the gebruikersLijst variable.
+ * Then loading the values of the gebruikersLijst variable in the dropdown element of the FormFieldSelectUser component based on the role filter.
+ *
+ * This component is imported and used in the following pages:
+ * FormFieldContainerBeleidskeuzes
+ * FormFieldContainerMaatregelen
  *
  * @component
  *
@@ -44,7 +49,7 @@ const FormFieldSelectUserGroup = ({
     }, [])
 
     return (
-        <React.Fragment>
+        <>
             <span className="block mb-2 text-sm font-bold tracking-wide text-gray-700">
                 Personen
             </span>
@@ -140,7 +145,7 @@ const FormFieldSelectUserGroup = ({
                     <LoaderSelect />
                 )}
             </div>
-        </React.Fragment>
+        </>
     )
 }
 
