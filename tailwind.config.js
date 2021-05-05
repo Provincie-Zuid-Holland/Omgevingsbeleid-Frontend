@@ -3,7 +3,10 @@ module.exports = {
         fontWeight: false,
         lineHeight: false,
     },
-    purge: ['./src/**/*.js'],
+    purge: {
+        enabled: process.env.NODE_ENV === 'production' ? true : false,
+        content: ['./src/**/*.js'],
+    },
     variants: {
         pointerEvents: ['responsive', 'hover'],
         display: ['responsive', 'hover', 'group-hover'],
