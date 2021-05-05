@@ -784,10 +784,11 @@ function RelatiesKoppelingenTekstueel({
      * @returns {array} containing the changed objects
      */
     const getValuesOfChangeObject = (property, obj) => {
-        if (obj[property]) return []
+        const values = []
+
+        if (!obj[property]) return values
 
         // Else we need to get the values from the changes properties ('removed', 'same', etc.)
-        const values = []
         Object.keys(obj[property]).forEach((key) =>
             obj[property][key].forEach((value) => {
                 values.push({ ...value, changeType: key })
@@ -817,14 +818,8 @@ function RelatiesKoppelingenTekstueel({
                                     {valuesOld && valuesOld.length > 0 ? (
                                         valuesOld.map((connection) => (
                                             <ListItem
-                                                connection={connection.Object}
-                                                titel={connection.Object.Titel}
-                                                omschrijving={
-                                                    connection.Object
-                                                        .Omschrijving
-                                                }
+                                                connection={connection}
                                                 property={property}
-                                                UUID={connection.Object.UUID}
                                             />
                                         ))
                                     ) : (
@@ -846,14 +841,11 @@ function RelatiesKoppelingenTekstueel({
                                     valuesChanges.length > 0 ? (
                                         valuesChanges.map((connection) => (
                                             <ListItem
-                                                connection={connection.Object}
-                                                titel={connection.Object.Titel}
-                                                omschrijving={
-                                                    connection.Object
-                                                        .Omschrijving
+                                                changeType={
+                                                    connection.changeType
                                                 }
+                                                connection={connection}
                                                 property={property}
-                                                UUID={connection.Object.UUID}
                                             />
                                         ))
                                     ) : (
@@ -880,7 +872,7 @@ const ContainerMain = ({ children }) => {
     )
 }
 
-const ListItem = ({ property, UUID, titel, omschrijving, connection }) => {
+const ListItem = ({ property, connection }) => {
     const textStyle =
         connection.changeType === 'removed'
             ? { backgroundColor: '#f4c9c6', textDecoration: 'line-through' } // Red
@@ -900,10 +892,11 @@ const ListItem = ({ property, UUID, titel, omschrijving, connection }) => {
                         }}
                     />
                     <span className="px-1" style={textStyle}>
-                        {connection.Titel}
+                        {connection.Object?.Titel}
                     </span>
                 </span>
-                {connection.Omschrijving && connection.Omschrijving !== '' ? (
+                {connection.Koppeling_Omschrijving &&
+                connection.Koppeling_Omschrijving !== '' ? (
                     <div
                         class="absolute hidden group-hover:block top-0 pt-3 mt-5 z-20 cursor-default tooltip-content pb-6 px-4"
                         style={{
@@ -911,10 +904,10 @@ const ListItem = ({ property, UUID, titel, omschrijving, connection }) => {
                         }}
                     >
                         <div
-                            id={UUID}
+                            id={connection.Object?.UUID}
                             class="px-5 py-3 rounded bg-gray-900 text-white shadow leading-7 break-words whitespace-pre-line"
                         >
-                            {connection.Omschrijving}
+                            {connection.Koppeling_Omschrijving}
                         </div>
                     </div>
                 ) : null}
