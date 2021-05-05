@@ -600,6 +600,7 @@ h6,
 
 .leaflet-control-container,
 .leaflet-retina {
+    .leaflet-control .leaflet-draw-toolbar a,
     .leaflet-draw-toolbar a,
     .leaflet-touch .leaflet-bar a,
     .leaflet-draw-toolbar a:hover,
@@ -662,7 +663,7 @@ h6,
 
     .leaflet-draw-actions {
         // overwrite inline styling set by Leaflet :-(
-        left: 41px !important;
+        left: 51px !important;
     }
 
     #leaflet-search {
