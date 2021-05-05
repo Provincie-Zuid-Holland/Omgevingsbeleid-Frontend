@@ -220,7 +220,7 @@ const MenuIcon = ({ to, icon, className, setIsOpen, children = null }) => {
             }}
         >
             <FontAwesomeIcon className={`${className} text-sm`} icon={icon} />
-            <div className="mt-1 text-sm">{children}</div>
+            <div className="text-sm">{children}</div>
         </Link>
     )
 }

@@ -292,7 +292,7 @@ const MuteerBeleidsrelatieDetail = ({
 
                             {!isLoading ? (
                                 <span
-                                    className={`absolute inline-block px-1 pt-1 ml-4 -mt-1 text-xs font-bold border rounded  ${
+                                    className={`absolute inline-block px-1 ml-4 -mt-1 text-xs font-bold border rounded  ${
                                         beleidsObject.Status === 'Vigerend'
                                             ? 'text-pzh-blue border-pzh-blue'
                                             : 'text-pzh-yellow-dark border-pzh-yellow-dark'
@@ -307,7 +307,7 @@ const MuteerBeleidsrelatieDetail = ({
                     <div>
                         <Link
                             to={`/muteer/beleidsrelaties/${UUID}/nieuwe-relatie`}
-                            className="px-2 pt-2 pb-1 text-sm font-bold text-white rounded cursor-pointer bg-pzh-green hover:bg-pzh-green-dark"
+                            className="px-2 pt-1 pb-1 text-sm font-bold text-white rounded cursor-pointer bg-pzh-green hover:bg-pzh-green-dark"
                         >
                             <FontAwesomeIcon
                                 className="mr-2 text-white"

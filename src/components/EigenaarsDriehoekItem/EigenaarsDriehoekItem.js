@@ -8,7 +8,7 @@ const EigenaarsDriehoekItem = ({ owner, eigenaarType }) => {
             <div className="flex items-center">
                 <div className="flex items-center justify-center flex-shrink-0 w-12 h-12 mr-2 border-4 border-gray-200 rounded-full bg-pzh-blue">
                     {owner ? (
-                        <span className="mt-1 text-xl font-bold text-white">
+                        <span className="text-xl font-bold text-white">
                             {owner.Gebruikersnaam.substring(0, 1).toUpperCase()}
                         </span>
                     ) : null}
