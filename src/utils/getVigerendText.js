@@ -33,15 +33,14 @@ const getVigerendText = ({ dataObject, prefix, prefixOnly }) => {
         locale: nlLocale,
     })
 
-    const objectHasValidStatus = dataObject.Status === 'Vigerend'
-    const objectWillTurnValidInFuture =
-        objectHasValidStatus &&
-        isBefore(dataObject['Begin_Geldigheid'], new Date())
+    const objectWillTurnValidInFuture = isBefore(
+        new Date(),
+        new Date(dataObject['Begin_Geldigheid'])
+    )
+
     const textPrefix = objectWillTurnValidInFuture
         ? 'Vigerend vanaf'
-        : objectHasValidStatus
-        ? 'Vigerend sinds'
-        : 'Vigerend vanaf'
+        : 'Vigerend sinds'
 
     if (prefixOnly) {
         return textPrefix
