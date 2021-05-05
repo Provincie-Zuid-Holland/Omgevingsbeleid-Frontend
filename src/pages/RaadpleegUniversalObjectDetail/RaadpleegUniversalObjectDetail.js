@@ -14,6 +14,9 @@ import { Transition } from '@headlessui/react'
 // Import Axios instance to connect with the API
 import axios from '../../API/axios'
 
+// Import Utilities
+import getVigerendText from './../../utils/getVigerendText'
+
 // Import Components
 import LeafletTinyViewer from './../../components/LeafletTinyViewer'
 import PopUpRevisieContainer from './../../components/PopUpRevisieContainer'
@@ -499,26 +502,7 @@ const MetaInfo = ({
     currentUUID,
     titleSingular,
 }) => {
-    const getVigerendText = () => {
-        if (!dataObject['Begin_Geldigheid'])
-            return 'Er is nog geen begin geldigheid'
-
-        const textDate = format(
-            new Date(dataObject['Begin_Geldigheid']),
-            'd MMMM yyyy',
-            {
-                locale: nlLocale,
-            }
-        )
-        const isActive =
-            dataObject.Status && dataObject.Status === 'Vigerend'
-                ? 'Vigerend sinds'
-                : 'Vigerend vanaf'
-
-        return isActive + ' ' + textDate
-    }
-
-    const vigerendText = getVigerendText()
+    const vigerendText = getVigerendText({ dataObject, prefix: true })
 
     return (
         <div className="block mt-2" id="raadpleeg-detail-container-meta-info">

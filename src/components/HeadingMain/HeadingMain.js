@@ -11,7 +11,7 @@ const HeadingMain = ({ titel, status }) => {
             {status ? (
                 <span
                     id="object-status"
-                    className={`inline-block font-bold relative -mt-4 px-2 pt-2 pb-1 text-xs border rounded ${
+                    className={`inline-block font-bold relative -mt-4 px-2 pt-1 pb-1 text-xs border rounded ${
                         isVigerend
                             ? 'text-pzh-blue border-pzh-blue'
                             : 'text-pzh-yellow-dark border-pzh-yellow-dark'
