@@ -2,7 +2,6 @@ import React from 'react'
 import { Transition } from '@headlessui/react'
 import { format, isDate } from 'date-fns'
 import nlLocale from 'date-fns/locale/nl'
-import { useParams } from 'react-router-dom'
 import { faTimes } from '@fortawesome/pro-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Select from 'react-select'
@@ -690,44 +689,12 @@ const ValidText = ({ dataObject, revisieObjecten }) => {
             })
 
         const dateStart = formatDate(dataObject['Begin_Geldigheid'])
-
-        const getDateFromNextVigerendObject = () => {
-            const indexOfCurrentObj = revisieObjecten.findIndex(
-                (e) => e.UUID === dataObject.UUID
-            )
-
-            const endDateOfNextVigerend =
-                indexOfCurrentObj !== 0 &&
-                revisieObjecten[indexOfCurrentObj - 1] &&
-                revisieObjecten[indexOfCurrentObj - 1].Begin_Geldigheid
-                    ? revisieObjecten[indexOfCurrentObj - 1].Begin_Geldigheid
-                    : null
-
-            if (endDateOfNextVigerend) {
-                return format(endDateOfNextVigerend)
-            } else {
-                return null
-            }
-        }
-
-        console.log(dataObject['Eind_Geldigheid'])
-
-        const dateEnd = isDate(new Date(dataObject['Eind_Geldigheid']))
-            ? formatDate(dataObject['Eind_Geldigheid'])
-            : getDateFromNextVigerendObject()
-
         const isCurrentlyVigerend = uiStatus && uiStatus === 'Vigerend'
-        const isArchived = uiStatus && uiStatus === 'Gearchiveerd'
 
         if (isCurrentlyVigerend) {
             return `Vigerend vanaf ${dateStart} tot heden`
         } else if (dataObject.Begin_Geldigheid === '1753-01-01T00:00:00Z') {
-            return `Vigerend tot ${dateEnd}`
-        } else if (dataObject.Eind_Geldigheid !== '9999-12-31T23:59:59Z') {
-            return `Vigerend vanaf ${dateStart}`
-        } else if (isArchived) {
-            const dateEndText = dateEnd ? `tot ${dateEnd}` : ``
-            return `Vigerend vanaf ${dateStart} ${dateEndText}`
+            return `Er is geen begin geldigheid`
         } else {
             return `Vigerend vanaf ${dateStart}`
         }
@@ -745,7 +712,7 @@ const ValidText = ({ dataObject, revisieObjecten }) => {
 const Belangen = ({ label, object, type, containsChanges, placeholder }) => {
     const getBelangen = (containsChanges, object, type) => {
         if (!containsChanges) {
-            return object.Belangen.filter((e) => e.Type === type).map(
+            return object.Belangen.filter((e) => e.Object.Type === type).map(
                 (e) => e.Object
             )
         } else {
@@ -755,8 +722,7 @@ const Belangen = ({ label, object, type, containsChanges, placeholder }) => {
                     belangen.push({ ...belang.Object, changeType: key })
                 })
             )
-
-            return belangen
+            return belangen.filter((e) => e.Type === type)
         }
     }
 
@@ -807,29 +773,40 @@ function RelatiesKoppelingenTekstueel({
 }) {
     if (!objectOld || !objectChanges) return
 
-    const getValuesOf = (property, obj, containsChanges) => {
-        if (!containsChanges && obj[property]) return obj[property]
-        if (
-            (!containsChanges && !obj[property]) ||
-            (containsChanges && !obj[property])
-        )
-            return []
+    /**
+     * The changeObject connection properties contain objects with three potential properties:
+     * { new: {}, same: {}, removed: {} }
+     * We loop through these properties and push them into an array
+     * The key (e.g. 'new') is pushed onto the object under the property 'changeType'
+     * This changeType property determines the styling
+     * @param {string} property - Property that contains the values
+     * @param {object} obj - Object to get the values from
+     * @returns {array} containing the changed objects
+     */
+    const getValuesOfChangeObject = (property, obj) => {
+        const values = []
+
+        if (!obj[property]) return values
 
         // Else we need to get the values from the changes properties ('removed', 'same', etc.)
-        const values = []
         Object.keys(obj[property]).forEach((key) =>
             obj[property][key].forEach((value) => {
                 values.push({ ...value, changeType: key })
             })
         )
+
         return values
     }
 
     return (
         <div>
             {connectionProperties.map((property) => {
-                const valuesOld = getValuesOf(property, objectOld, false)
-                const valuesChanges = getValuesOf(property, objectChanges, true)
+                const valuesOld = objectOld[property] ? objectOld[property] : []
+                const valuesChanges = getValuesOfChangeObject(
+                    property,
+                    objectChanges
+                )
+
                 return (
                     <ContainerMain>
                         <ContainerLeft>
@@ -841,14 +818,8 @@ function RelatiesKoppelingenTekstueel({
                                     {valuesOld && valuesOld.length > 0 ? (
                                         valuesOld.map((connection) => (
                                             <ListItem
-                                                connection={connection.Object}
-                                                titel={connection.Object.Titel}
-                                                omschrijving={
-                                                    connection.Object
-                                                        .Omschrijving
-                                                }
+                                                connection={connection}
                                                 property={property}
-                                                UUID={connection.Object.UUID}
                                             />
                                         ))
                                     ) : (
@@ -866,17 +837,15 @@ function RelatiesKoppelingenTekstueel({
                                     {property}
                                 </h3>
                                 <ul className="mt-2">
-                                    {valuesChanges && valuesOld.length > 0 ? (
+                                    {valuesChanges &&
+                                    valuesChanges.length > 0 ? (
                                         valuesChanges.map((connection) => (
                                             <ListItem
-                                                connection={connection.Object}
-                                                titel={connection.Object.Titel}
-                                                omschrijving={
-                                                    connection.Object
-                                                        .Omschrijving
+                                                changeType={
+                                                    connection.changeType
                                                 }
+                                                connection={connection}
                                                 property={property}
-                                                UUID={connection.Object.UUID}
                                             />
                                         ))
                                     ) : (
@@ -903,7 +872,7 @@ const ContainerMain = ({ children }) => {
     )
 }
 
-const ListItem = ({ property, UUID, titel, omschrijving, connection }) => {
+const ListItem = ({ property, connection }) => {
     const textStyle =
         connection.changeType === 'removed'
             ? { backgroundColor: '#f4c9c6', textDecoration: 'line-through' } // Red
@@ -923,10 +892,11 @@ const ListItem = ({ property, UUID, titel, omschrijving, connection }) => {
                         }}
                     />
                     <span className="px-1" style={textStyle}>
-                        {connection.Titel}
+                        {connection.Object?.Titel}
                     </span>
                 </span>
-                {connection.Omschrijving && connection.Omschrijving !== '' ? (
+                {connection.Koppeling_Omschrijving &&
+                connection.Koppeling_Omschrijving !== '' ? (
                     <div
                         class="absolute hidden group-hover:block top-0 pt-3 mt-5 z-20 cursor-default tooltip-content pb-6 px-4"
                         style={{
@@ -934,10 +904,10 @@ const ListItem = ({ property, UUID, titel, omschrijving, connection }) => {
                         }}
                     >
                         <div
-                            id={UUID}
+                            id={connection.Object?.UUID}
                             class="px-5 py-3 rounded bg-gray-900 text-white shadow leading-7 break-words whitespace-pre-line"
                         >
-                            {connection.Omschrijving}
+                            {connection.Koppeling_Omschrijving}
                         </div>
                     </div>
                 ) : null}

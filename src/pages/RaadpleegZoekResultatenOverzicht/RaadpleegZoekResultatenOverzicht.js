@@ -558,7 +558,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
             'beleidsprestaties',
             'beleidsdoelen',
             'maatregelen',
-            'verordeningen',
+            // 'verordeningen',
             'beleidsregels',
         ].filter((e) => onPageFilters[e])
 

@@ -2,6 +2,7 @@ import React from 'react'
 
 function FormFieldRadioButton({
     options = [],
+    disabled,
     handleChange,
     dataObjectProperty,
     titleSingular,
@@ -15,7 +16,11 @@ function FormFieldRadioButton({
             ) : null}
 
             <div
-                className="mt-4"
+                className={`mt-4 ${
+                    disabled
+                        ? 'opacity-50 cursor-not-allowed pointer-events-none'
+                        : ''
+                }`}
                 id={`form-field-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
             >
                 {options.map((option) => {

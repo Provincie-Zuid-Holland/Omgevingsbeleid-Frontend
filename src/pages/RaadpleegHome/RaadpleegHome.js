@@ -94,7 +94,7 @@ const RaadpleegHome = () => {
                         provincie Zuid-Holland?
                     </p>
                     <div className="flex justify-center w-full">
-                        <div className="w-full lg:w-1/2">
+                        <div className="w-full lg:w-1/2 text-pzh-blue-dark">
                             <SearchBar
                                 id="search-query-home"
                                 placeholder="Zoek op onderdelen uit de visie, programma of de uitvoering"

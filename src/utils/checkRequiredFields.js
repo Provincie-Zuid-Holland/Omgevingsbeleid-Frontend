@@ -1,86 +1,108 @@
 import { toast } from 'react-toastify'
-
 import scrollToElement from './scrollToElement'
-import eindDateIsBeforeBeginDate from './eindDateIsBeforeBeginDate'
 
+/**
+ * @param {string} property Contains the property that we want to check
+ * @param {object} crudObject Contains the object that is being edited
+ * @returns {boolean} indicating if object has a value on the property
+ */
+const checkIfPropertyHasValue = (property, crudObject) => {
+    const propertyHasValue =
+        crudObject[property] !== undefined &&
+        crudObject[property] !== null &&
+        crudObject[property] !== [] &&
+        crudObject[property] !== '' &&
+        crudObject[property] !== 'Invalid Date'
+
+    return propertyHasValue
+}
+
+/**
+ * Some crudObjects have a Status field. For these objects we want to check the required field based on the status
+ * @param {object} crudObject
+ * @returns {boolean} indicating if this object has a status field
+ */
+const checkIfObjectHasStatusField = (crudObject) =>
+    crudObject.hasOwnProperty('Status')
+
+/**
+ * @param {string} property Contains the property that we want to check
+ * @param {object} crudObject Contains the object that is being edited
+ * @param {object} dimensieConstants Contains the variables of this object type
+ * @returns a Boolean indicating if the property is required
+ */
+const checkIfPropertyIsRequired = (property, crudObject, dimensieConstants) => {
+    const objectHasStatusField = checkIfObjectHasStatusField(crudObject)
+
+    if (objectHasStatusField) {
+        const status = crudObject.Status
+        return dimensieConstants.CRUD_PROPERTIES[property]?.required.includes(
+            status
+        )
+    } else {
+        return dimensieConstants.CRUD_PROPERTIES[property].required
+    }
+}
+
+/**
+ * Triggers a toast notification and scrolls to the element
+ * @param {object} dimensieConstants Contains the variables of this object type
+ * @param {string} property Contains the property that we want to check
+ * @param {boolean} scrolledToElement Indicates if the browser is already scrolled to an element
+ */
+const notifyUser = (dimensieConstants, property, scrolledToElement) => {
+    const titleSingular = dimensieConstants.TITLE_SINGULAR
+
+    toast(dimensieConstants.CRUD_PROPERTIES[property].requiredMessage)
+
+    console.warn(
+        `Element met id 'form-field-${titleSingular.toLowerCase()}-${property.toLowerCase()}' heeft geen waarde`
+    )
+
+    if (scrolledToElement) return
+
+    const elementID = `form-field-${titleSingular.toLowerCase()}-${property.toLowerCase()}`
+    scrollToElement(elementID)
+}
+
+/**
+ * @param {object} crudObject Contains the object that is being edited
+ * @param {object} dimensieConstants Contains the variables of this object type
+ * @param {string} titleSingular Contains the title of the object type
+ * @returns a boolean indicating if all the required fields have been filled in
+ */
 function checkRequiredFields(crudObject, dimensieConstants, titleSingular) {
-    const status = crudObject.Status
     const crudObjectProperties = Object.keys(crudObject)
 
-    // Er kunnen meerdere properties niet ingevuld zijn, maar er kan maar naar 1 element gescrolled worden. Zodra dat is gebeurd zetten we de 'pageScrolledToElement' naar true en zal de scrollToElement functie niet meer aangeroepen worden
-    let pageScrolledToElement = false
+    // Indicator to only trigger a page scroll once in notifyUser()
+    let scrolledToElement = false
 
-    // Boolean om te returnen
-    let alleVeldenIngevuld = true
-
-    // De beleidskeuzes bevatten niet een boolean property met de required waarde, maar een array met de statussen waarin dat property verplicht is
-    if (titleSingular === 'Beleidskeuze') {
-        crudObjectProperties.forEach((property) => {
-            if (
-                dimensieConstants.CRUD_PROPERTIES[property] &&
-                dimensieConstants.CRUD_PROPERTIES[property].required.includes(
-                    status
-                )
-            ) {
-                checkIfPropertyHasValue(property)
-            }
-        })
-    } else {
-        crudObjectProperties.forEach((property) => {
-            if (
-                dimensieConstants.CRUD_PROPERTIES[property] &&
-                dimensieConstants.CRUD_PROPERTIES[property].required
-            ) {
-                checkIfPropertyHasValue(property)
-            }
-        })
-    }
-
-    // Als beidde velden een waarde hebben wordt er gekeken of de eind datum niet voor de begin datum is. Als dat wel het geval is krijgt de gebruiker in notificatie en krijgt alleVeldenIngevuld de waarde false
-    if (
-        alleVeldenIngevuld &&
-        crudObject.Begin_Geldigheid !== null &&
-        crudObject.Begin_Geldigheid !== '' &&
-        crudObject.Eind_Geldigheid !== null &&
-        crudObject.Eind_Geldigheid !== ''
-    ) {
-        const isEindDateBeforeBegin = eindDateIsBeforeBeginDate(
-            titleSingular,
-            crudObject
+    // Map over the properties and return a 'false' value if
+    // the property IS required and IS NOT filled in.
+    // Ele we return a 'true' value.
+    const filledInValues = crudObjectProperties.map((property) => {
+        const propertyIsRequired = checkIfPropertyIsRequired(
+            property,
+            crudObject,
+            dimensieConstants
         )
-        if (isEindDateBeforeBegin) {
-            alleVeldenIngevuld = false
+
+        if (!propertyIsRequired) return true
+
+        const hasValue = checkIfPropertyHasValue(property, crudObject)
+
+        if (hasValue) {
+            return true
+        } else {
+            notifyUser(dimensieConstants, property, scrolledToElement)
+            scrolledToElement = true
+            return false
         }
-    }
+    })
 
-    function checkIfPropertyHasValue(property) {
-        const propertyHasValue =
-            crudObject[property] !== undefined &&
-            crudObject[property] !== null &&
-            crudObject[property] !== [] &&
-            crudObject[property] !== '' &&
-            crudObject[property] !== 'Invalid Date'
+    const containsRequiredUnfilledField = filledInValues.includes(false)
 
-        if (!propertyHasValue) {
-            // Notificeer de gebruiker
-            const titleSingular = dimensieConstants.TITLE_SINGULAR
-            toast(dimensieConstants.CRUD_PROPERTIES[property].requiredMessage)
-            console.warn(
-                `Element met id 'form-field-${titleSingular.toLowerCase()}-${property.toLowerCase()}' heeft geen waarde`
-            )
-
-            // !REFACTOR! Scope creep alleVeldenIngevuld
-            // Als er nog niet naar een element is gescrolled, scroll naar het element
-            if (!pageScrolledToElement) {
-                const elSelector = `form-field-${titleSingular.toLowerCase()}-${property.toLowerCase()}`
-                scrollToElement(elSelector)
-                pageScrolledToElement = true
-                alleVeldenIngevuld = false
-            }
-        }
-    }
-
-    return alleVeldenIngevuld
+    return containsRequiredUnfilledField
 }
 
 export default checkRequiredFields

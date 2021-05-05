@@ -24,7 +24,21 @@ function FormFieldContainerMaatregelen({
     handleChange,
     editStatus,
 }) {
+    // If the beleidskeuze is 'vigerend' we need to specify who can edit which fields
+    const isVigerend = crudObject.Status === 'Vigerend'
+
     const { user } = React.useContext(UserContext)
+    const userUUID = user.UUID
+    const userRol = user.Rol
+
+    const userIsAllowed =
+        userRol === 'Beheerder' ||
+        userRol === 'Superuser' ||
+        userRol === 'Functioneel beheerder' ||
+        userRol === 'Behandelend Ambtenaar' ||
+        userRol === 'Technisch beheerder' ||
+        userUUID === crudObject.Eigenaar_1 ||
+        userUUID === crudObject.Eigenaar_2
 
     return (
         <React.Fragment>
@@ -33,6 +47,7 @@ function FormFieldContainerMaatregelen({
                 beschrijving="De algemene informatie bevat een duidelijke titel en de betrokken collega's."
             >
                 <FormFieldTextInput
+                    disabled={isVigerend}
                     handleChange={handleChange}
                     fieldValue={crudObject['Titel']}
                     dataObjectProperty="Titel"
@@ -41,6 +56,7 @@ function FormFieldContainerMaatregelen({
                     titleSingular={titleSingular}
                 />
                 <FormFieldSelectUserGroup
+                    disabled={isVigerend && !userIsAllowed}
                     editStatus={editStatus}
                     handleChange={handleChange}
                     crudObject={crudObject}
@@ -56,12 +72,14 @@ function FormFieldContainerMaatregelen({
             >
                 <FormFieldInputContainer>
                     <FormFieldTitelEnBeschrijving
+                        disabled={isVigerend}
                         fieldLabel={'Omschrijving'}
                         pValue={
                             'Een maatregel beschrijft de wijze waarop uitvoering wordt gegeven aan beleid. Formuleer wat de provincie gaat realiseren, of de maatregel voor een specifiek gebied van toepassing is, aan welke beleidskeuzes de maatregel bijdraagt en in welke rol de provincie op zich neemt.'
                         }
                     />
                     <FormFieldRichTextEditor
+                        disabled={isVigerend}
                         editorFormats={['bold', 'header', 'list', 'image']}
                         titleSingular={titleSingular}
                         initialValue={initialValueToelichting}
@@ -69,12 +87,16 @@ function FormFieldContainerMaatregelen({
                         fieldValue={crudObject['Toelichting']}
                         dataObjectProperty="Toelichting"
                         placeholder="Schrijf hier uw omschrijving..."
-                        editorToolbar={[
-                            { header: 2 },
-                            'bold',
-                            { list: 'bullet' },
-                            'image',
-                        ]}
+                        editorToolbar={
+                            isVigerend
+                                ? []
+                                : [
+                                      { header: 2 },
+                                      'bold',
+                                      { list: 'bullet' },
+                                      'image',
+                                  ]
+                        }
                     />
                 </FormFieldInputContainer>
             </ContainerFormSection>
@@ -84,6 +106,7 @@ function FormFieldContainerMaatregelen({
                 beschrijving="Het werkingsgebied geeft het gebied weer waar de maatregel betrekking op heeft. Binnen dit gebied worden bepaalde activiteiten gestimuleerd, ontwikkeld,  toegestaan of juist verboden."
             >
                 <FormFieldWerkingsgebied
+                    disabled={isVigerend}
                     setWerkingsgebiedInParentState={handleChange}
                     werkingsgebiedInParentState={crudObject['Gebied']}
                     crudObject={crudObject}
@@ -93,6 +116,7 @@ function FormFieldContainerMaatregelen({
                     pValue="Selecteer het werkingsgebied wat bij deze maatregel van toepassing is. Heeft jouw maatregel nog geen geschikt werkingsgebied, of moet het huidige gebied aangepast worden? Neem dan contact op via omgevingsbeleid@pzh.nl."
                 />
                 <FormFieldRadioButton
+                    disabled={isVigerend}
                     options={['Indicatief', 'Exact']}
                     handleChange={handleChange}
                     fieldValue={crudObject['Gebied_Duiding']}
@@ -102,12 +126,15 @@ function FormFieldContainerMaatregelen({
                 />
             </ContainerFormSection>
 
-            {user && user.Rol === 'Beheerder' ? (
+            {(user && user.Rol === 'Beheerder') ||
+            (user && user.Rol === 'Functioneel beheerder') ||
+            (user && user.Rol === 'Technisch beheerder') ? (
                 <ContainerFormSection
                     titel="Aanvullende informatie"
                     beschrijving="In deze sectie vragen we aanvullende informatie zoals de link naar het IDMS besluitdocument."
                 >
                     <FormFieldWeblink
+                        disabled={isVigerend}
                         handleChange={handleChange}
                         fieldValue={crudObject['Weblink']}
                         dataObjectProperty="Weblink"
@@ -118,6 +145,7 @@ function FormFieldContainerMaatregelen({
 
                     <div className="flex flex-wrap -mx-3">
                         <FormFieldDate
+                            disabled={isVigerend}
                             handleChange={handleChange}
                             fieldValue={crudObject['Begin_Geldigheid']}
                             fieldLabel="Inwerkingtreding"
@@ -127,6 +155,7 @@ function FormFieldContainerMaatregelen({
                         />
 
                         <FormFieldDate
+                            disabled={isVigerend}
                             openUitwerkingstrede={true}
                             handleChange={handleChange}
                             fieldValue={crudObject['Eind_Geldigheid']}
