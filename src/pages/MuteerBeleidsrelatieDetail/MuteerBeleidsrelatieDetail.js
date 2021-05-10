@@ -201,8 +201,6 @@ const MuteerBeleidsrelatieDetail = ({
                 incoming_Beleidskeuzes[naarIndex].Datum_Akkoord = new Date()
         }
 
-        console.log('UPDATE LOCAL STATE!!!')
-
         setIncoming_Beleidskeuzes([...incoming_Beleidskeuzes])
         setOutgoing_Beleidskeuzes([...outgoing_Beleidskeuzes])
     }

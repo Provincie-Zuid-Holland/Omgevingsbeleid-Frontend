@@ -54,8 +54,6 @@ class ContainerDetail extends Component {
             prefixOnly: true,
         })
 
-        console.log(validDatePrefix)
-
         return (
             <div
                 className={`relative flex w-full px-5 py-5 shadow-md rounded bg-white 
@@ -158,8 +156,6 @@ class ContainerDetail extends Component {
                                 <div>
                                     <span className="block text-sm font-bold text-gray-700">
                                         {!isLoading && validDatePrefix}
-                                        {console.log('validDatePrefix')}
-                                        {console.log(validDatePrefix)}
                                     </span>
                                     {!isLoading ? (
                                         <span className="text-sm text-gray-700">

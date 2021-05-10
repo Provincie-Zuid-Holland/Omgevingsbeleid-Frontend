@@ -112,13 +112,11 @@ class MuteerVerordeningenStructuurCRUD extends Component {
             crudObject.Eind_Geldigheid = new Date(crudObject.Eind_Geldigheid)
         }
 
-        console.log('JOEEE')
         const containsRequiredUnfilledField = checkContainsRequiredUnfilledField(
             crudObject,
             dimensieConstants,
             titleSingular
         )
-        console.log(containsRequiredUnfilledField)
         if (containsRequiredUnfilledField) {
             this.setState({
                 crudObject: this.formatGeldigheidDatesForUI(crudObject),
