@@ -27,7 +27,7 @@ import axios from './../../API/axios'
 import eindDateIsBeforeBeginDate from './../../utils/eindDateIsBeforeBeginDate'
 import makeCrudProperties from './../../utils/makeCrudProperties'
 import makeCrudObject from './../../utils/makeCrudObject'
-import checkRequiredFields from './../../utils/checkRequiredFields'
+import checkContainsRequiredUnfilledField from './../../utils/checkContainsRequiredUnfilledField'
 import formatGeldigheidDatesForUI from './../../utils/formatGeldigheidDatesForUI'
 import formatGeldigheidDatesForAPI from './../../utils/formatGeldigheidDatesForAPI'
 
@@ -225,7 +225,7 @@ class MuteerUniversalObjectCRUD extends Component {
 
         let crudObject = cloneDeep(this.state.crudObject)
 
-        const containsRequiredUnfilledField = checkRequiredFields(
+        const containsRequiredUnfilledField = checkContainsRequiredUnfilledField(
             crudObject,
             dimensieConstants,
             titleSingular

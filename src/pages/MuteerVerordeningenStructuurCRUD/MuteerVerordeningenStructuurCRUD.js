@@ -18,7 +18,7 @@ import axios from './../../API/axios'
 // Import Utilities
 import makeCrudProperties from './../../utils/makeCrudProperties'
 import makeCrudObject from './../../utils/makeCrudObject'
-import checkRequiredFields from './../../utils/checkRequiredFields'
+import checkContainsRequiredUnfilledField from './../../utils/checkContainsRequiredUnfilledField'
 import formatGeldigheidDatesForUI from './../../utils/formatGeldigheidDatesForUI'
 
 /**
@@ -112,15 +112,14 @@ class MuteerVerordeningenStructuurCRUD extends Component {
             crudObject.Eind_Geldigheid = new Date(crudObject.Eind_Geldigheid)
         }
 
-        // Check of de verplichte velden zijn ingevuld als het een beleidskeuze is
-        // !REFACTOR! - velden check voor andere dimensies (Bespreken STUM)
-        const alleVeldenIngevuld = checkRequiredFields(
+        console.log('JOEEE')
+        const containsRequiredUnfilledField = checkContainsRequiredUnfilledField(
             crudObject,
             dimensieConstants,
             titleSingular
         )
-
-        if (!alleVeldenIngevuld) {
+        console.log(containsRequiredUnfilledField)
+        if (containsRequiredUnfilledField) {
             this.setState({
                 crudObject: this.formatGeldigheidDatesForUI(crudObject),
             })
