@@ -946,8 +946,8 @@ function RelationsConnectionsText({ originalObject, objectChanges }) {
                                         ))
                                     ) : (
                                         <span className="mt-2 italic text-gray-600">
-                                            Er zijn nog geen koppelingen vanuit{' '}
-                                            {property.toLowerCase()}
+                                            Er zijn geen{' '}
+                                            {property.toLowerCase()} gekoppeld
                                         </span>
                                     )}
                                 </ul>
@@ -972,8 +972,8 @@ function RelationsConnectionsText({ originalObject, objectChanges }) {
                                         ))
                                     ) : (
                                         <span className="mt-2 italic text-gray-600">
-                                            {property.toLowerCase()} heeft nog
-                                            geen koppelingen
+                                            Er zijn geen{' '}
+                                            {property.toLowerCase()} gekoppeld
                                         </span>
                                     )}
                                 </ul>
