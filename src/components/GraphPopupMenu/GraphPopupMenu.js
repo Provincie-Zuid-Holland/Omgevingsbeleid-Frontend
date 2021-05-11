@@ -17,36 +17,49 @@ import axios from './../../API/axios'
 
 import LoaderSpinner from './../LoaderSpinner'
 
-const connectionPropertiesColors = {
+const typeSingleVariants = {
+    ambities: 'Ambitie',
+}
+
+const connectionProperties = {
     mainobject: {
         hex: '#553c9a',
     },
     ambities: {
         hex: '#aa0067',
+        singular: 'Ambitie',
     },
     belangen: {
         hex: '#ff6b02',
+        singular: 'Belang',
     },
     beleidsregels: {
         hex: '#76bc21',
+        singular: 'Beleidsregel',
     },
     beleidsprestaties: {
         hex: '#ecc94b',
+        singular: 'Beleidsprestatie',
     },
     maatregelen: {
         hex: '#503d90',
+        singular: 'Maatregel',
     },
     beleidsdoelen: {
         hex: '#3182ce',
+        singular: 'beleidsdoel',
     },
     themas: {
         hex: '#847062',
+        singular: 'Thema',
     },
     verordening: {
         hex: '#eb7085',
+        singular: 'Verordening',
     },
     beleidskeuzes: {
         hex: '#7badde',
+        singular: 'Beleidskeuze',
     },
 }
 
@@ -60,7 +73,7 @@ const GraphPopupMenu = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
     const prepareData = (data) => {
         if (!data) return null
         data.nodes.forEach((node) => {
-            node.color = connectionPropertiesColors[node.Type].hex
+            node.color = connectionProperties[node.Type].hex
             node.id = node.UUID
         })
         return data
@@ -85,11 +98,12 @@ const GraphPopupMenu = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
         const svg = d3.select(d3Container.current)
 
         const bounding = d3Container.current.getBoundingClientRect()
+
         svg.attr('viewBox', [
-            -bounding.width / 2 + 100,
-            -bounding.height / 2 + 100,
-            bounding.width,
-            bounding.height,
+            -bounding.width / 2, // Center horizontally
+            -bounding.height / 2,
+            bounding.width * 1.25,
+            bounding.height * 1.15,
         ])
 
         const links = data.links
@@ -142,26 +156,67 @@ const GraphPopupMenu = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
             .selectAll('circle')
             .data(nodes)
             .join('circle')
+            .attr(
+                'class',
+                'cursor-pointer transition transform ease-in duration-200 scale-100'
+            )
             .attr('r', 7.5) // r equals the radius of the circle (node)
             .attr('fill', (d) => d.color)
             .on('mouseover', handleMouseOver)
             .on('mouseout', handleMouseOut)
+            .on('click', function (clickedEl) {
+                // Get UUID from clicked element
+                const uuidSource = clickedEl.UUID
+                if (!uuidSource) return
 
-        const tooltip = d3.select('#d3-tooltip')
+                const connectedLinks = links.filter(
+                    (link) =>
+                        link.target.UUID === uuidSource ||
+                        link.source.UUID === uuidSource
+                )
+
+                svg.selectAll('circle')
+                    .attr('opacity', 1)
+                    .filter((circle) =>
+                        connectedLinks.every(
+                            (e) =>
+                                e.source.UUID !== circle.UUID &&
+                                e.target.UUID !== circle.UUID
+                        )
+                    )
+                    .attr('opacity', 0.25)
+            })
+
+        const tooltip = d3.select('#d3-tooltip-network-graph')
 
         // Create Event Handlers for mouse.
         // In here we handle the tooltip
-        function handleMouseOver(d, i) {
+        function handleMouseOver(d) {
+            this.setAttribute('r', 8.5)
+
             // We don't want to show the popup on the main beleidskeuze
             if (d.property === 'beleidsObjectMain') return
 
             // Activate display
             tooltip.style('display', 'block')
 
-            const tooltipTitleEl = document.getElementById('d3-tooltip-title')
+            const tooltipTitleEl = document.getElementById(
+                'd3-tooltip-network-graph-title'
+            )
+            const tooltipTypeEl = document.getElementById(
+                'd3-tooltip-network-graph-type'
+            )
             tooltipTitleEl.innerHTML = d.Titel
+            const singularType = connectionProperties[d.Type]?.singular
+            if (singularType) {
+                tooltipTypeEl.innerHTML = singularType
+            } else {
+                tooltipTypeEl.innerHTML = d.Type
+            }
 
-            const tooltipEl = document.getElementById('d3-tooltip')
+            const tooltipEl = document.getElementById(
+                'd3-tooltip-network-graph'
+            )
 
             const generateHref = ({ property, UUID }) => {
                 const slugs = {
@@ -195,17 +250,20 @@ const GraphPopupMenu = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
             const tooltipWidth = tooltipEl.offsetWidth
 
             const circleWidth = 24
-            const { x, y } = this.getBoundingClientRect()
+            const { x, bottom } = this.getBoundingClientRect()
+
+            const tooltipHeight = tooltipEl.getBoundingClientRect().height
 
             setVariables({
-                left: x - tooltipWidth / 2 + circleWidth / 2 - 2, //Center tooltip in the middle
-                top: y - 80,
+                left: x - tooltipWidth / 2 + circleWidth / 2 - 5, //Center tooltip in the middle
+                top: bottom - tooltipHeight + 16,
             })
         }
 
         function handleMouseOut(d, i) {
             // Reset display property, user can still see it when hovering over it
             tooltip.style('display', '')
+            this.setAttribute('r', 7.5)
         }
 
         // Update
@@ -263,8 +321,8 @@ const GraphPopupMenu = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
                 leaveTo="opacity-0 -translate-y-5"
             >
                 <div
-                    id="popup-menu"
-                    className="fixed top-0 left-0 w-full pt-5 bg-white"
+                    id="popup-menu-graph"
+                    className="fixed top-0 left-0 w-full bg-white"
                     style={
                         showBanner
                             ? {
@@ -277,29 +335,33 @@ const GraphPopupMenu = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
                               }
                     }
                 >
-                    <div className="flex h-full">
-                        <svg
-                            className="d3-component"
-                            style={{
-                                width: '100%',
-                                height: '100%',
-                            }}
-                            ref={d3Container}
-                        />
-                        <Link
-                            to={href}
-                            id="d3-tooltip"
-                            style={{
-                                left: variables.left,
-                                top: variables.top,
-                            }}
-                            class="absolute hidden hover:block"
-                        >
-                            <div
-                                id="d3-tooltip-title"
-                                class={`px-4 py-2 rounded bg-gray-900 text-white shadow hover:underline`}
+                    <div className="container flex h-full mx-auto">
+                        <div className="w-1/4 pl-6">Sidebar</div>
+                        <div className="w-3/4">
+                            <svg
+                                className="d3-component h-full w-full"
+                                ref={d3Container}
                             />
-                        </Link>
+                            <div
+                                id="d3-tooltip-network-graph"
+                                style={{
+                                    left: variables.left,
+                                    top: variables.top,
+                                }}
+                                class="absolute hidden hover:block bg-white shadow-md rounded px-4 py-2"
+                            >
+                                <Link to={href} className="group">
+                                    <div
+                                        id="d3-tooltip-network-graph-type"
+                                        class={`text-gray-600`}
+                                    />
+                                    <div
+                                        id="d3-tooltip-network-graph-title"
+                                        class={`text-pzh-blue-dark group-hover:underline `}
+                                    />
+                                </Link>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </Transition>
