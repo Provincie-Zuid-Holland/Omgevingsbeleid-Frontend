@@ -30,6 +30,7 @@ import makeCrudObject from './../../utils/makeCrudObject'
 import checkContainsRequiredUnfilledField from './../../utils/checkContainsRequiredUnfilledField'
 import formatGeldigheidDatesForUI from './../../utils/formatGeldigheidDatesForUI'
 import formatGeldigheidDatesForAPI from './../../utils/formatGeldigheidDatesForAPI'
+import handleError from './../../utils/handleError'
 
 /**
  * @param {object} authUser - contains the logged in user object
@@ -145,12 +146,11 @@ class MuteerUniversalObjectCRUD extends Component {
                 toast('Opgeslagen')
             })
             .catch((err) => {
-                crudObject = formatGeldigheidDatesForUI(crudObject)
-                this.setState({
-                    crudObject: crudObject,
-                })
-                console.log(err)
-                toast(process.env.REACT_APP_ERROR_MSG)
+                handleError(err)
+                // crudObject = formatGeldigheidDatesForUI(crudObject)
+                // this.setState({
+                //     crudObject: crudObject,
+                // })
             })
     }
 
@@ -173,12 +173,11 @@ class MuteerUniversalObjectCRUD extends Component {
                 toast('Opgeslagen')
             })
             .catch((err) => {
-                console.log(err)
-                toast(process.env.REACT_APP_ERROR_MSG)
-                crudObject = formatGeldigheidDatesForUI(crudObject)
-                this.setState({
-                    crudObject: crudObject,
-                })
+                handleError(err)
+                // crudObject = formatGeldigheidDatesForUI(crudObject)
+                // this.setState({
+                //     crudObject: this.,
+                // })
             })
     }
 
