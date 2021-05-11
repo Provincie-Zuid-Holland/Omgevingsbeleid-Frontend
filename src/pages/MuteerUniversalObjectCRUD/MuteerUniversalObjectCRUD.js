@@ -281,14 +281,13 @@ class MuteerUniversalObjectCRUD extends Component {
             crudObject.Werkingsgebieden[index] = { UUID: gebied.Object.UUID }
         })
 
-        if (type === 'post') return crudObject
-
-        // Continue prepping the object for a PATCH Request
-
         if (crudObject.Gebied && crudObject.Gebied.UUID) {
             crudObject.Gebied = crudObject.Gebied.UUID
         }
 
+        if (type === 'post') return crudObject
+
+        // Continue prepping the object for a PATCH Request
         const eigenaren = [
             'Eigenaar_1',
             'Eigenaar_2',
