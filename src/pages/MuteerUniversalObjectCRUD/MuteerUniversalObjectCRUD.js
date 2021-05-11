@@ -277,6 +277,10 @@ class MuteerUniversalObjectCRUD extends Component {
             })
         })
 
+        crudObject?.Werkingsgebieden?.forEach((gebied, index) => {
+            crudObject.Werkingsgebieden[index] = { UUID: gebied.Object.UUID }
+        })
+
         if (type === 'post') return crudObject
 
         // Continue prepping the object for a PATCH Request
@@ -301,10 +305,6 @@ class MuteerUniversalObjectCRUD extends Component {
             ) {
                 crudObject[eigenaar] = crudObject[eigenaar].UUID
             }
-        })
-
-        crudObject?.Werkingsgebieden?.forEach((gebied, index) => {
-            crudObject.Werkingsgebieden[index] = { UUID: gebied.Object.UUID }
         })
 
         return crudObject
