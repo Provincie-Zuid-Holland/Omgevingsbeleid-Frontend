@@ -78,7 +78,7 @@ export const CRUD_PROPERTIES = {
         ],
         requiredMessage: 'Vul de omschrijving van de beleidskeuze in',
         testValue: `Test tekst over wat de beleidskeuze wil bereiken`,
-        type: 'text input',
+        type: 'rich text editor',
     },
     Omschrijving_Werking: {
         initValue: null,
@@ -93,7 +93,7 @@ export const CRUD_PROPERTIES = {
         ],
         requiredMessage: 'Vul de toelichting van de beleidskeuze in',
         testValue: `Test toelichting van de beleidskeuze`,
-        type: 'text input',
+        type: 'rich text editor',
     },
     Aanleiding: {
         initValue: null,
@@ -108,7 +108,7 @@ export const CRUD_PROPERTIES = {
         ],
         requiredMessage: 'Vul het aanleiding veld in',
         testValue: `Test aanleiding van de beleidskeuze`,
-        type: 'text input',
+        type: 'rich text editor',
     },
     Provinciaal_Belang: {
         initValue: null,
@@ -123,7 +123,7 @@ export const CRUD_PROPERTIES = {
         ],
         requiredMessage: 'Vul het provinciaal belang veld in',
         testValue: `Test aanleiding van de beleidskeuze`,
-        type: 'text input',
+        type: 'rich text editor',
     },
     Werkingsgebieden: {
         initValue: [],

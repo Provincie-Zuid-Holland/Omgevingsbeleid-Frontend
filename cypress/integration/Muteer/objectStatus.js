@@ -40,8 +40,17 @@ describe('Dimension Status', () => {
         })
 
         it(`User can toggle the popup to edit the status of '${titlePlural}`, () => {
+            // Click on element to go to the overview page
+            cy.get(`#sidebar-href-${titelMeervoud.replace(`'`, '')}`, {
+                timeout: 20000,
+            }).click()
+
+            cy.contains(crudProperties.Titel.testValue, {
+                timeout: 30000,
+            }).click()
+
             cy.get('#container-detail-dropdown-dots', {
-                timeout: 10000,
+                timeout: 30000,
             }).click()
             cy.contains('Status aanpassen').click()
             cy.get('#popup-edit-status').should('be.visible')
@@ -50,7 +59,15 @@ describe('Dimension Status', () => {
         })
 
         it(`User can go through the status flow of '${titlePlural}`, () => {
-            Object.keys(statusFlow).forEach((status) => {
+            cy.get(`#sidebar-href-${titelMeervoud.replace(`'`, '')}`, {
+                timeout: 20000,
+            }).click()
+
+            cy.contains(crudProperties.Titel.testValue, {
+                timeout: 30000,
+            }).click()
+
+            Object.keys(statusFlow).forEach(() => {
                 cy.get('#object-status')
                     .invoke('text')
                     .then((currentStatus) => {
