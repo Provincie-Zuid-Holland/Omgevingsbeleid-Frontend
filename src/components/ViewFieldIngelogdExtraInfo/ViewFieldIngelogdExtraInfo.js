@@ -40,15 +40,13 @@ const ViewFieldIngelogdExtraInfo = ({ crudObject, hideEdit, className }) => {
 
     const getCanUserEdit = (user) => {
         const contextAndUUIDExist = user && user !== null && user.UUID
-
         const userCreatedObjectOrIsOwner =
-            crudObject.Created_By === user.UUID ||
-            (user && eigenaren.Eigenaar_1 === user.UUID) ||
-            (user && eigenaren.Eigenaar_2 === user.UUID) ||
-            (user && eigenaren.Opdrachtgever === user.UUID)
+            crudObject.Created_By?.UUID === user.UUID ||
+            (user && eigenaren.Eigenaar_1?.UUID === user.UUID) ||
+            (user && eigenaren.Eigenaar_2?.UUID === user.UUID) ||
+            (user && eigenaren.Opdrachtgever?.UUID === user.UUID)
 
         const userCanEdit = contextAndUUIDExist && userCreatedObjectOrIsOwner
-
         return userCanEdit
     }
 
@@ -78,7 +76,7 @@ const ViewFieldIngelogdExtraInfo = ({ crudObject, hideEdit, className }) => {
                                 <a
                                     href={crudObject['Weblink']}
                                     target="_blank"
-                                    className="text-sm font-bold text-gray-600 hover:underline"
+                                    className="text-sm mr-4 font-bold text-gray-600 hover:underline"
                                     rel="noopener noreferrer"
                                 >
                                     <FontAwesomeIcon
@@ -94,7 +92,7 @@ const ViewFieldIngelogdExtraInfo = ({ crudObject, hideEdit, className }) => {
                                 to={`/muteer/beleidskeuzes/${crudObject.ID}`}
                                 className="px-3 py-2 text-xs font-bold tracking-wide border rounded cursor-pointer text-pzh-blue border-pzh-blue"
                             >
-                                Openen in beheeromgeving {this.state.Created_By}
+                                Openen in beheeromgeving
                             </Link>
                         ) : null}
                     </div>

@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
-import { format } from 'date-fns'
-import isBefore from 'date-fns/isBefore'
-import nlLocale from 'date-fns/locale/nl'
 import { faCalendarAlt } from '@fortawesome/free-regular-svg-icons'
 import {
     faLink,
@@ -10,7 +7,6 @@ import {
     faEllipsisV,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Transition } from '@headlessui/react'
 
 // Import Components
 import PopUpDetailDropdown from '../PopUpDetailDropdown'
@@ -18,6 +14,9 @@ import PopUpStatusAanpassen from '../PopUpStatusAanpassen'
 import HeadingMain from '../HeadingMain'
 import LoaderMainTitle from '../LoaderMainTitle'
 import LoaderSmallSpan from '../LoaderSmallSpan'
+
+// Import Utilities
+import getVigerendText from './../../utils/getVigerendText'
 
 /**
  * Function to display a statusLabel within the ContainerDetailMain component with the text "Vigerend".
@@ -83,6 +82,12 @@ class ContainerDetailMain extends Component {
         const titel = dataObject.Titel
         const dataReceived = this.props.dataReceived
 
+        const validDate = getVigerendText({ dataObject })
+        const validDatePrefix = getVigerendText({
+            dataObject,
+            prefixOnly: true,
+        })
+
         return (
             <div
                 className={`relative inline-block w-full px-6 py-5 shadow-md rounded bg-white -mb-2 ${
@@ -135,27 +140,11 @@ class ContainerDetailMain extends Component {
                     <div className="flex items-center justify-between w-full py-2 pr-4 border-r border-gray-300">
                         <div>
                             <span className="block text-sm font-bold text-gray-700">
-                                {/* isBefore */}
-                                {dataReceived &&
-                                dataObject['Begin_Geldigheid'] !== null &&
-                                isBefore(
-                                    dataObject['Begin_Geldigheid'],
-                                    new Date()
-                                )
-                                    ? 'Vigerend sinds'
-                                    : 'Vigerend vanaf'}
+                                {dataReceived && validDatePrefix}
                             </span>
                             {dataReceived ? (
                                 <span className="text-sm text-gray-700">
-                                    {dataObject['Begin_Geldigheid'] !== null
-                                        ? format(
-                                              new Date(
-                                                  dataObject['Begin_Geldigheid']
-                                              ),
-                                              'd MMMM yyyy',
-                                              { locale: nlLocale }
-                                          )
-                                        : 'Er is nog geen begin geldigheid'}
+                                    {validDate}
                                 </span>
                             ) : (
                                 <span className="block mt-2">

@@ -75,7 +75,7 @@ function FormFieldRichTextEditor({
             modules: {
                 toolbar: disabled ? [] : editorToolbar,
             },
-            placeholder: placeholder,
+            placeholder: disabled ? '' : placeholder,
             theme: 'snow',
             formats: formats,
         }
