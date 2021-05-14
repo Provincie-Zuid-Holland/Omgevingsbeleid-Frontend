@@ -135,7 +135,6 @@ const GraphPopupMenu = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
             svg.selectAll('circle').attr('opacity', 1)
             setClickedNode(null)
         } else {
-            console.log('setClickedNode')
             setClickedNode(clickedEl)
 
             const connectedLinks = links.filter(
@@ -167,9 +166,11 @@ const GraphPopupMenu = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
             .catch((err) => console.error('error: ', err?.message))
     }, [])
 
-    /* The useRef Hook creates a variable that "holds on" to a value across rendering
+    /**
+     * The useRef Hook creates a variable that "holds on" to a value across rendering
        passes. In this case it will hold our component's SVG DOM element. It's
-       initialized null and React will assign it later (see the return statement) */
+       initialized null and React will assign it later (see the return statement)
+     */
     const d3Container = React.useRef(null)
 
     const initializeD3 = () => {
@@ -178,23 +179,27 @@ const GraphPopupMenu = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
 
         if (!links || !nodes) return
 
-        // Get current SVG element
+        /**
+         * Get current SVG element
+         */
         const svgElement = d3.select(d3Container.current)
 
-        // Set viewBox attribute
+        /**
+         * Set viewBox attribute
+         */
         const bounding = d3Container.current.getBoundingClientRect()
-        svgElement.attr('viewBox', [
-            -bounding.width / 2, // Center horizontally
-            -bounding.height / 2,
-            bounding.width * 1.25,
-            bounding.height * 1.15,
-        ])
+        svgElement
+            .attr('viewBox', [
+                -bounding.width / 2, // Center horizontally
+                -bounding.height / 2,
+                bounding.width * 1.25,
+                bounding.height * 1.15,
+            ])
+            .style('transform-origin', '50% 50% 0')
 
         svgElement.call(
             d3.zoom().on('zoom', function () {
                 console.log(d3.event.transform)
-                console.log(svgElement.selectAll())
-
                 svgElement.attr('transform', d3.event.transform)
             }),
             d3.zoomIdentity.scale(0.5)
@@ -299,7 +304,6 @@ const GraphPopupMenu = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
 
             const circleWidth = 24
             const { x, bottom } = this.getBoundingClientRect()
-
             const tooltipHeight = tooltipEl.getBoundingClientRect().height
 
             setVariables({
@@ -383,9 +387,9 @@ const GraphPopupMenu = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
                               }
                     }
                 >
-                    <div className="container flex h-full mx-auto relative">
-                        <div className="w-1/4 pl-6">Sidebar</div>
-                        <div className="w-3/4">
+                    <div className="container flex h-full mx-auto">
+                        <div className="w-1/4 my-10 pl-6">Sidebar</div>
+                        <div className="w-3/4 rounded-md overflow-hidden border my-10">
                             <svg
                                 className="d3-component h-full w-full"
                                 ref={d3Container}
@@ -432,51 +436,61 @@ const ClickedElementPopup = ({ clickedNode, setGraphIsOpen }) => {
     const [localOpenState, setLocalOpenState] = React.useState(false)
 
     React.useEffect(() => {
-        setLocalOpenState(true)
+        if (!clickedNode) {
+            setLocalOpenState(false)
+        } else {
+            setLocalOpenState(true)
+        }
     }, [clickedNode])
 
-    if (!clickedNode || !localOpenState) return null
-
-    const title = clickedNode.Titel
-    const type = clickedNode.Type
+    const title = clickedNode?.Titel
+    const type = clickedNode?.Type
     const singularTitle = connectionProperties[type]?.singular
     const singularTitlePrefix = connectionProperties[type]?.prefix
-    const href = generateHref({ property: type, UUID: clickedNode.UUID })
+    const href = generateHref({ property: type, UUID: clickedNode?.UUID })
 
     return (
-        <Transition
-            show={localOpenState}
-            enter="transition ease-out duration-150 transform"
-            enterFrom="opacity-0 scale-95"
-            enterTo="opacity-100 scale-100"
-            leave="transition ease-in duration-0 transform"
-            leaveFrom="opacity-100 scale-100"
-            leaveTo="opacity-0 scale-95"
-        >
-            <div className="bg-white py-2 pr-5 rouned shadow-md text-lg absolute right-0 bottom-0 mb-10">
-                <Link
-                    className="group block pt-0 p-3"
-                    to={href}
-                    onClick={() => setGraphIsOpen(false)}
-                >
-                    <span class="text-gray-600 block">{type}</span>
-                    <span class="block text-pzh-blue-dark">{title}</span>
-                    <span className="group-hover:underline">
-                        {singularTitle && singularTitlePrefix
-                            ? `Bekijk ${singularTitlePrefix} ${singularTitle}`
-                            : `Bekijk dit object`}
-                    </span>
-                </Link>
-                <span
-                    onClick={() => {
-                        setLocalOpenState(false)
-                    }}
-                    className="mt-2 mx-1 right-0 top-0 absolute mr-1 pb-1 px-2 hover:bg-gray-200 rounded-md cursor-pointer"
-                >
-                    <FontAwesomeIcon icon={faTimes} />
-                </span>
+        <div className="absolute left-0 top-0 w-full h-full pointer-events-none">
+            <div className="container flex h-full mx-auto relative">
+                <div className="bottom-0 right-0 mb-12 mr-2 inset-uy-ato absolute">
+                    <Transition
+                        show={localOpenState}
+                        enter="transition ease-out duration-150 transform"
+                        enterFrom="opacity-0 scale-95"
+                        enterTo="opacity-100 scale-100"
+                        leave="transition ease-in duration-0 transform"
+                        leaveFrom="opacity-100 scale-100"
+                        leaveTo="opacity-0 scale-95"
+                    >
+                        <div className="bg-white py-2 pr-5 rouned pointer-events-auto shadow-md text-lg relative">
+                            <Link
+                                className="group block pt-0 p-3"
+                                to={href}
+                                onClick={() => setGraphIsOpen(false)}
+                            >
+                                <span class="text-gray-600 block">{type}</span>
+                                <span class="block text-pzh-blue-dark">
+                                    {title}
+                                </span>
+                                <span className="group-hover:underline">
+                                    {singularTitle && singularTitlePrefix
+                                        ? `Bekijk ${singularTitlePrefix} ${singularTitle}`
+                                        : `Bekijk dit object`}
+                                </span>
+                            </Link>
+                            <span
+                                onClick={() => {
+                                    setLocalOpenState(false)
+                                }}
+                                className="mt-2 mx-1 right-0 top-0 absolute mr-1 pb-1 px-2 hover:bg-gray-200 rounded-md cursor-pointer"
+                            >
+                                <FontAwesomeIcon icon={faTimes} />
+                            </span>
+                        </div>
+                    </Transition>
+                </div>
             </div>
-        </Transition>
+        </div>
     )
 }
 
