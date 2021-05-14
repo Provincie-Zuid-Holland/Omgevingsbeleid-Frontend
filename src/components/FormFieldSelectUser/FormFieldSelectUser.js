@@ -36,11 +36,6 @@ function makeSelection(objectenArray, dataObjectProperty) {
 /**
  * Class that renders the FormFieldSelectUser component which is part of the component FormFieldSelectUserGroup, in which the user can select a user based on the role given.
  *
- * Furthermore this component is imported and used in the following pages/components:
- * FormFieldSelectUserGroup
- * FormFieldContainerBeleidskeuzes
- * FormFieldContainerMaatregelen
- *
  * @class
  * @extends React.Component
  */

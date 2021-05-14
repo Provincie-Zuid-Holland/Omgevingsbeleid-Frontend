@@ -42,7 +42,6 @@ function makeSelection(objectenArray, dataObjectProperty, filterUUID) {
 
 /**
  * Class that renders the FormFieldSelectBeleidskeuze component using the imported Select and LoaderSelect components to style/amnimate the select box and uses the props given and states to display value but only if given state/props contains a value.
- * This class is used in the page ContainerCrudFields.js.
  *
  * @class
  * @extends React.Component
@@ -92,10 +91,8 @@ class FormFieldSelectBeleidskeuze extends React.Component {
      * @Function
      *
      * @param {props} prevProps - Previous set value used in a conditional operator to check if it is not equal to the current value.
-     * @param {state} prevState - Previous set state, not used in this function.
-     * @param {*} snapshot - is a feature of Jest that allows you to test Javascript objects, not used in this function.
      */
-    componentDidUpdate(prevProps, prevState, snapshot) {
+    componentDidUpdate(prevProps) {
         if (this.props.fieldValue !== prevProps.fieldValue) {
             const selected = this.state.selectionArray.find(
                 (arrayItem) => arrayItem.value === this.props.fieldValue

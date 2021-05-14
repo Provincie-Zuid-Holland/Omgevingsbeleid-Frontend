@@ -5,8 +5,6 @@ import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFi
  * Class that renders the FormFieldSelect component with a imported FormFieldTitelEnBeschrijving component which is used to describe the FormFieldSelect component.
  * The FormFieldSelect component lets the user choose from a few options given as a prop value by the FormFieldContainerBelangen component.
  *
- * The Class is imported and used in the following page FormFieldContainerBelangen.js
- *
  * @class
  * @extends React.Component
  */

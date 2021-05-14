@@ -9,10 +9,6 @@ import LoaderSelect from './../LoaderSelect'
  * Component that is used to display the user group component, by first getting the users through axios and adding it to the gebruikersLijst variable.
  * Then loading the values of the gebruikersLijst variable in the dropdown element of the FormFieldSelectUser component based on the role filter.
  *
- * This component is imported and used in the following pages:
- * FormFieldContainerBeleidskeuzes
- * FormFieldContainerMaatregelen
- *
  * @component
  *
  * @param {object} crudObject - Containing the ownership level of the user group.

@@ -4,7 +4,6 @@ import EigenaarsDriehoekItem from './../EigenaarsDriehoekItem'
 
 /**
  * Component that renders a EigenaarsDriehoekItem component depending on if the dataObject contains the certain owner.
- * The component is used in the page MuteerUniversalObjectWithStatuses.
  *
  * @component
  *

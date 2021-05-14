@@ -24,22 +24,17 @@ function getExcerptIfNeeded(tekst) {
 /**
  * Component that renders the imported ContainerAnimateContent component and uses a link and icon within it,
  * that the user can click on it to take the user to a certain link based on the parameters given.
- * This component is used in the components CardObjectDetails and CardObjectDetailsHalfWidth.
  *
  * @component
  *
- * @param {int} ID - Parameter that is not used within this function.
  * @param {object} object - Collection of data for the CardObjectItem as an ID for the link element, title text for the h2 tag and used for the conditional (ternary) operator to show or hide the Omschrijving and/or Motivering values.
- * @param {string} overzichtSlug - Parameter that is not used within this function.
  * @param {string} titleSingular - Parameter that is part of the id of the link element and is also the title text for the h5 tag of the CardObjectItem.
  * @param {string} hoofdOnderdeelSlug - Parameter that is used as the main part (category) in the URL link.
  * @param {string} hideParagraaf - Parameter that is set to true to hide the Omschrijving and or Motivering of object within the conditional (ternary) operator within the CardObjectItem component.
  * @param {int} index - Parameter that is used as the index for the ID of the link within the CardObjectItem component.
  */
 function CardObjectItem({
-    ID,
     object,
-    overzichtSlug,
     titleSingular,
     hoofdOnderdeelSlug,
     hideParagraaf,

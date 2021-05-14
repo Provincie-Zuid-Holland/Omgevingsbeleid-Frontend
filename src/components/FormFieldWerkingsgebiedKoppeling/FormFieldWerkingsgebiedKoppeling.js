@@ -22,10 +22,6 @@ import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFi
  *
  * The imported transition component is used for the animation of part of the FormFieldWerkingsgebiedKoppeling component.
  *
- * This component is used in the following pages:
- * FormFieldContainerMaatregelen
- * Hoofdstuk
- *
  * @component
  *
  * @param {function} setWerkingsgebiedInParentState - Parameter that is used to set the state value of the werkingsgebiedInparentState variable.
@@ -35,7 +31,6 @@ import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFi
  * @param {string} fieldLabel - Parameter that is passed down from the parent and contains the field label value of the werkingsgebied object, which value is passed down to the FormFieldTitelEnBeschrijving component.
  * @param {string} pValue - Parameter that is passed down from the parent and contains the paragraf value of the werkingsgebied object, which value is passed down to the FormFieldTitelEnBeschrijving component.
  * @param {boolean} disabled - Parameter that is passed down from the parent, which value is passed down to the FormFieldTitelEnBeschrijving component and used in this component in a conditional operator of a div to set a certain style value.
- * @param {object} crudObject - this parameter is not used within this component.
  */
 const FormFieldWerkingsgebiedKoppeling = ({
     setWerkingsgebiedInParentState,

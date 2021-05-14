@@ -4,20 +4,6 @@ import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFi
 /**
  * Component that renders the FormFieldTextInput component where the input of the user is registered in the formfield while using the imported FormFieldTitelEnBeschrijving component to display the formfield title and description.
  *
- * This component is used in the following pages:
- * FormFieldContainerAmbities
- * FormFieldContainerBelangen
- * FormFieldContainerBeleidsdoelen
- * FormFieldContainerBeleidskeuzes
- * FormFieldContainerBeleidsprestaties
- * FormFieldContainerBeleidsregels
- * FormFieldContainerMaatregelen
- * FormFieldContainerThemas
- * MuteerVerordeningenStructuurCrud
- * ContainerCrudFields
- * Afdeling
- * Paragraaf
- *
  * @component
  *
  * @param {string} dataObjectProperty - Parameter that is used for the FormFieldTitelEnBeschrijving imported component to store a string variable and it's used as a part of the id of name of the input element.

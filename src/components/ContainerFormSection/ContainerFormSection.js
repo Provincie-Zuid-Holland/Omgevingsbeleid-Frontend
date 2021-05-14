@@ -2,20 +2,6 @@ import React from 'react'
 
 /**
  * Class that renders the ContainerFormSection and displays the props.titel, props.beschrijving and props.children values within it.
- * The component is used in pages:
- * ContainerCrudFields,
- * FormFieldContainerAmbities,
- * FormFieldContainerBelangen,
- * FormFieldContainerBeleidsbeslissingen,
- * FormFieldContainerBeleidsprestaties,
- * FormFieldContainerBeleidsregels,
- * FormFieldContainerMaatregelen,
- * FormFieldContainerOpgaven,
- * FormFieldContainerThemas,
- * MuteerVerordeningenStructuurCRUD,
- * ContainerCrudFields,
- * Afdeling,
- * Paragraaf
  *
  * @class
  * @extends React.Component

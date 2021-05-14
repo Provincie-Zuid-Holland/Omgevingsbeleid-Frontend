@@ -4,6 +4,12 @@ import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFi
 
 var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
 
+/**
+ * Class that renders the FormFieldDate component. In the class it will either render the EindGeldigheid component or the BeginGeldigheid component, based on if the dataObjectProperty is equal to 'Eind-Geldigheid'.
+ * @class
+ * @extends React.Component
+ */
+
 class FormFieldDate extends React.Component {
     constructor(props) {
         super(props)
@@ -158,77 +164,6 @@ function EindGeldigheid({
             ) : null}
         </div>
     )
-}
-
-/**
- * Class that renders the FormFieldDate component. In the class it will either render the EindGeldigheid component or the BeginGeldigheid component, based on if the dataObjectProperty is equal to 'Eind-Geldigheid'.
- * This class is used in the pages:
- * ContainerCrudFields,
- * FormFieldContainerAmbities,
- * FormFieldContainerBelangen,
- * FormFieldContainerBeleidsbeslissingen,
- * FormFieldContainerBeleidsprestaties,
- * FormFieldContainerBeleidsregels,
- * FormFieldContainerMaatregelen,
- * FormFieldContainerOpgaven,
- * FormFieldContainerThemas,
- * MuteerVerordeningenStructuurCRUD,
- * ContainerCrudFields,
- * Afdeling,
- * Paragraaf
- *
- * @class
- * @extends React.Component
- */
-class FormFieldDate extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            toonUitwerkingTreding:
-                this.props.fieldValue !== '' || this.props.openUitwerkingstrede,
-        }
-        this.toggleUitwerkingTreding = this.toggleUitwerkingTreding.bind(this)
-    }
-
-    /**
-     * Function to set the state of toonUitwerkingTreding.
-     *
-     * @function
-     */
-    toggleUitwerkingTreding() {
-        this.setState({
-            toonUitwerkingTreding: !this.state.toonUitwerkingTreding,
-        })
-    }
-
-    render() {
-        return this.props.dataObjectProperty === 'Eind_Geldigheid' ? (
-            <EindGeldigheid
-                hideToggleUitwerkingstrede={
-                    this.props.hideToggleUitwerkingstrede
-                }
-                toggleUitwerkingTreding={this.toggleUitwerkingTreding}
-                toonUitwerkingTreding={this.state.toonUitwerkingTreding}
-                dataObjectProperty={this.props.dataObjectProperty}
-                fieldLabel={this.props.fieldLabel}
-                pValue={this.props.pValue}
-                titleSingular={this.props.titleSingular}
-                fieldValue={this.props.fieldValue}
-                handleChange={this.props.handleChange}
-                disabled={this.props.disabled}
-            />
-        ) : (
-            <BeginGeldigheid
-                dataObjectProperty={this.props.dataObjectProperty}
-                fieldLabel={this.props.fieldLabel}
-                pValue={this.props.pValue}
-                titleSingular={this.props.titleSingular}
-                fieldValue={this.props.fieldValue}
-                handleChange={this.props.handleChange}
-                disabled={this.props.disabled}
-            />
-        )
-    }
 }
 
 export default FormFieldDate

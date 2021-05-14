@@ -77,14 +77,11 @@ class FormFieldWerkingsgebiedrelatie extends React.Component {
      * Function that checks in a conditional operator if the props.fieldValue is not equal to the prevProps.fieldValue,
      * if so the selected variable will be updated with the search results of selectionArray.find otherwise the selected state will be set to the variable selected.
      *
-     *
      * @function
      *
      * @param {props} prevProps - Parameter used to check fieldValue with previous props.
-     * @param {string} prevState - Parameter not used in this function.
-     * @param {*} snapshot - Parameter that is not used in this function.
      */
-    componentDidUpdate(prevProps, prevState, snapshot) {
+    componentDidUpdate(prevProps) {
         if (this.props.fieldValue !== prevProps.fieldValue) {
             const selected = this.state.selectionArray.find(
                 (arrayItem) => arrayItem.value === this.props.fieldValue

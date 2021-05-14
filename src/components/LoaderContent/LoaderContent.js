@@ -1,7 +1,7 @@
 import React from 'react'
 
 /**
- * Component that renders the LoaderContent component that is used in serveral components.
+ * Component that returns a loader spinner.
  *
  * @component
  */

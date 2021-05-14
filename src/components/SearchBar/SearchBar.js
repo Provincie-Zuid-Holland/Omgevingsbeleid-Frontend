@@ -5,7 +5,6 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import 'url-search-params-polyfill'
 
-// The parameter compInNavigation
 /**
  * Component that renders the searchBar component.
  *
