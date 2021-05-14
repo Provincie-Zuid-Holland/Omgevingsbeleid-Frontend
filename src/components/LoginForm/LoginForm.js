@@ -11,6 +11,14 @@ import axios from './../../API/axios'
 import LoaderSpinner from './../LoaderSpinner'
 import PopUpAnimatedContainer from './../PopUpAnimatedContainer'
 
+/**
+ * Function that renders a popup animated container that the user can use to reset their password when they have forgotten it.
+ *
+ * @function
+ *
+ * @param {boolean} show - Parameter that is set true if the popup should be displayed.
+ * @param {function} togglePopup - Parameter that is used to call the togglePopup function, that toggles (hide/show) the popup.
+ */
 function PopupWachtwoordVergeten({ show, togglePopup }) {
     // Set focus to the cancel button for AY11
     React.useEffect(() => {
@@ -70,6 +78,14 @@ function PopupWachtwoordVergeten({ show, togglePopup }) {
     )
 }
 
+/**
+ * Component that renders a login form in which the user can log into the application.
+ *
+ * @component
+ *
+ * @param {boolean} setLoginState - Param that is set true, if the user is authenticated and has permission to login.
+ * @param {int} setLoginUser - Param that contains the identifier of the user that has authenticated.
+ */
 const LoginForm = ({ setLoginState, setLoginUser }) => {
     const history = useHistory()
 

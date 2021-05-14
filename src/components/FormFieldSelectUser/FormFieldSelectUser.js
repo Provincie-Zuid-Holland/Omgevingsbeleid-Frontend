@@ -4,6 +4,15 @@ import Select from 'react-select'
 // Import Components
 import LoaderSelect from './../LoaderSelect'
 
+/**
+ * Function that checks if the objectenArray contains a value by checking the length,
+ * otherwise it will map through each array item and returns the set value for each variable in the options object.
+ *
+ * @function
+ *
+ * @param {array} objectenArray - Parameter given that contains an array that is used to set the value for each variable of options.
+ * @param {string} dataObjectProperty - Parameter given that is used to set the name variable of the target variable of options.
+ */
 function makeSelection(objectenArray, dataObjectProperty) {
     if (objectenArray.length === 0) {
         return []
@@ -24,6 +33,17 @@ function makeSelection(objectenArray, dataObjectProperty) {
     }
 }
 
+/**
+ * Class that renders the FormFieldSelectUser component which is part of the component FormFieldSelectUserGroup, in which the user can select a user based on the role given.
+ *
+ * Furthermore this component is imported and used in the following pages/components:
+ * FormFieldSelectUserGroup
+ * FormFieldContainerBeleidskeuzes
+ * FormFieldContainerMaatregelen
+ *
+ * @class
+ * @extends React.Component
+ */
 class FormFieldSelectUser extends React.Component {
     constructor(props) {
         super(props)
@@ -49,7 +69,13 @@ class FormFieldSelectUser extends React.Component {
         }
         return selected
     }
-
+    /**
+     * Function to update the prevProps and set the state variables only if the current fielValue is not equal to the previous fieldValue.
+     *
+     * @function
+     *
+     * @param {props} prevProps - Parameter that is used to show the previous property value.
+     */
     componentDidUpdate(prevProps) {
         const fieldValue = this.props.fieldValue
 
@@ -66,6 +92,11 @@ class FormFieldSelectUser extends React.Component {
         }
     }
 
+    /**
+     * Function to set the state of the props given based on the conditional operators.
+     *
+     * @function
+     */
     componentDidMount() {
         let fieldValue = this.props.fieldValue
 

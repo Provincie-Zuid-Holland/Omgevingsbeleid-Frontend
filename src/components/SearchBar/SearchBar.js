@@ -6,6 +6,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import 'url-search-params-polyfill'
 
 // The parameter compInNavigation
+/**
+ * Component that renders the searchBar component.
+ *
+ * @component
+ *
+ * @param {string} width - Parameter that is used to set the width of an element within the rendered component.
+ * @param {string} exactWidth - Parameter that can be set as a value for the width parameter.
+ * @param {boolean} compInNavigation - Parameter that is used in a if statement to set values to certain variables.
+ * @param {string} placeholder - Parameter that shows a placeholder in the SearchBar.
+ */
 const SearchBar = ({
     width,
     exactWidth,
@@ -118,6 +128,20 @@ const SearchBar = ({
     )
 }
 
+/**
+ * Function to render the SearchBarPopupItem component.
+ *
+ * @function
+ *
+ * @param {int} index - Parameter used as the index key for the SearchBarPopupItem.
+ * @param {string} value - Parameter that is used as an value for a query that is used within a link in the rendered component
+ * @param {string} filterQuery - Parameter that is used to filter the query based on its value.
+ * @param {boolean} filter - If this parameter is true, certain elements will be shown.
+ * @param {int} arrayLength - Parameter that has the length of the array as value.
+ * @param {int} dataIndex - Parameter used as the data-index value of an link tag.
+ * @param {boolean} setSearchBarPopupOpen - Parameter that if set to true the SearchBarPopup component will be shown.
+ * @param {object} item - Parameter that its value of is used for an element.
+ */
 function SearchBarPopupItem({
     index,
     value,
@@ -196,6 +220,14 @@ function SearchBarPopupItem({
     )
 }
 
+/**
+ * Function that renders the SearchBarPopup component that is used within other functions.
+ *
+ * @function
+ *
+ * @param {string} searchInput - Parameter used to set the value of the SearchBarPopupItem component.
+ * @param {boolean} setSearchBarPopupOpen - Parameter used to toggle the SearchBarPopup component by setting it true or false.
+ */
 function SearchBarPopup({ searchInput, setSearchBarPopupOpen }) {
     const filters = [
         {

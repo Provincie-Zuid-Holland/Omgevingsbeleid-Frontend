@@ -1,6 +1,11 @@
 import React from 'react'
 import ContentLoader from 'react-content-loader'
 
+/**
+ * Component that sets the style options of the ContentLoader component for the Main Title.
+ *
+ * @component
+ */
 const LoaderMainTitle = () => (
     <ContentLoader className="w-20 block mt-5 mb-6" width="50" height="10">
         <rect x="0" y="0" rx="5" ry="5" width="100%" height="100%" />

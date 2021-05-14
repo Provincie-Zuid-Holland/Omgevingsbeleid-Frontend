@@ -237,6 +237,14 @@ function Logo() {
     )
 }
 
+/**
+ * Function to render the BannerEnvironment component.
+ *
+ * @function
+ *
+ * @param {boolean} userIsInMuteerEnvironment - Parameter used within the function to show the banner within the rendered component.
+ * @param {boolean} hideBannerLocalStorage - Parameter used within the function to hide the banner within the rendered component.
+ */
 function BannerEnvironment({
     userIsInMuteerEnvironment,
     hideBannerLocalStorage,

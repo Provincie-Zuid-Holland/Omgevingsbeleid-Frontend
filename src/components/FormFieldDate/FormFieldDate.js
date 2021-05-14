@@ -94,6 +94,22 @@ function BeginGeldigheid({
     )
 }
 
+/**
+ * Function to set the EindGeldigheid based on user input.
+ *
+ * @param {boolean} hideToggleUitwerkingstrede - Parameter that is used within this function in the conditional operator and if set false, will show the Uitwerkingstrede element.
+ * @param {function} toggleUitwerkingTreding - Parameter that is used within this function as a onClick function and in the FormFieldDate class to set (toggle) the state of toonUitwerkingTreding.
+ * @param {string} toonUitwerkingTreding - Parameter that is used within this function in a conditional operator to show/hide text and its state is set (toggled) within the FormFieldDate class.
+ * @param {string} dataObjectProperty - Parameter that may contain the string 'Eind_Geldigheid' and is used within this function to assign the dataObjectProperty variable for the imported FormFieldTitelEnBeschrijving and is used to assign the name and part of the id variable for the input element.
+ * @param {string} fieldLabel - Parameter that is used within this function to assign the fieldLabel variable in the imported FormFieldTitelEnBeschrijving component.
+ * @param {string} pValue - Parameter that is used within this function to assign the pValue variable in the imported FormFieldTitelEnBeschrijving component.
+ * @param {string} titleSingular - Parameter that is used within this function to assign the titleSingular variable for the imported FormFieldTitelEnBeschrijving and is used as part of the id in a conditional operator for the input element.
+ * @param {string} fieldValue - Parameter that is used within this function in a conditional operator to set the value to the value variable of the input element.
+ * @param {boolean} handleChange - Parameter that is used within this function to set the onChange variable to true if the input element has been changed.
+ * @param {boolean} disabled -  Parameter that is used within this function and in the imported FormFieldTitelEnBeschrijving to set the disabled variable, if set true, the input and/or imported FormFieldTitelEnBeschrijving will be disabled.
+ *
+ * @function
+ */
 function EindGeldigheid({
     hideToggleUitwerkingstrede,
     toggleUitwerkingTreding,
@@ -142,6 +158,77 @@ function EindGeldigheid({
             ) : null}
         </div>
     )
+}
+
+/**
+ * Class that renders the FormFieldDate component. In the class it will either render the EindGeldigheid component or the BeginGeldigheid component, based on if the dataObjectProperty is equal to 'Eind-Geldigheid'.
+ * This class is used in the pages:
+ * ContainerCrudFields,
+ * FormFieldContainerAmbities,
+ * FormFieldContainerBelangen,
+ * FormFieldContainerBeleidsbeslissingen,
+ * FormFieldContainerBeleidsprestaties,
+ * FormFieldContainerBeleidsregels,
+ * FormFieldContainerMaatregelen,
+ * FormFieldContainerOpgaven,
+ * FormFieldContainerThemas,
+ * MuteerVerordeningenStructuurCRUD,
+ * ContainerCrudFields,
+ * Afdeling,
+ * Paragraaf
+ *
+ * @class
+ * @extends React.Component
+ */
+class FormFieldDate extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            toonUitwerkingTreding:
+                this.props.fieldValue !== '' || this.props.openUitwerkingstrede,
+        }
+        this.toggleUitwerkingTreding = this.toggleUitwerkingTreding.bind(this)
+    }
+
+    /**
+     * Function to set the state of toonUitwerkingTreding.
+     *
+     * @function
+     */
+    toggleUitwerkingTreding() {
+        this.setState({
+            toonUitwerkingTreding: !this.state.toonUitwerkingTreding,
+        })
+    }
+
+    render() {
+        return this.props.dataObjectProperty === 'Eind_Geldigheid' ? (
+            <EindGeldigheid
+                hideToggleUitwerkingstrede={
+                    this.props.hideToggleUitwerkingstrede
+                }
+                toggleUitwerkingTreding={this.toggleUitwerkingTreding}
+                toonUitwerkingTreding={this.state.toonUitwerkingTreding}
+                dataObjectProperty={this.props.dataObjectProperty}
+                fieldLabel={this.props.fieldLabel}
+                pValue={this.props.pValue}
+                titleSingular={this.props.titleSingular}
+                fieldValue={this.props.fieldValue}
+                handleChange={this.props.handleChange}
+                disabled={this.props.disabled}
+            />
+        ) : (
+            <BeginGeldigheid
+                dataObjectProperty={this.props.dataObjectProperty}
+                fieldLabel={this.props.fieldLabel}
+                pValue={this.props.pValue}
+                titleSingular={this.props.titleSingular}
+                fieldValue={this.props.fieldValue}
+                handleChange={this.props.handleChange}
+                disabled={this.props.disabled}
+            />
+        )
+    }
 }
 
 export default FormFieldDate

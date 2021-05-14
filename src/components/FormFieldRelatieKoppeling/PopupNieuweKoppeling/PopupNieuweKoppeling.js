@@ -7,6 +7,16 @@ import { toast } from 'react-toastify'
 import PopUpAnimatedContainer from './../../PopUpAnimatedContainer'
 import objecten from './../../../constants/koppelingen'
 
+/**
+ * Class that renders the PopupNieuweKoppeling component in a imported PopUpAnimatedContainer,
+ * in which the user on the first page searches a koppeltekst which they want to connect to the beleidskeuze.
+ * On the second page the user describes the relationship between the koppeltekst value and the beleidskeuze.
+ *
+ * This component is used within the FormFieldRelatieKoppeling component.
+ *
+ * @class
+ * @extends Component
+ */
 class PopupNieuweKoppeling extends Component {
     constructor(props) {
         super(props)
@@ -23,6 +33,11 @@ class PopupNieuweKoppeling extends Component {
         this.handleChange = this.handleChange.bind(this)
     }
 
+    /**
+     * Function that adds the EventListener keypress "Enter".
+     *
+     * @function
+     */
     componentDidMount() {
         window.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
@@ -59,6 +74,13 @@ class PopupNieuweKoppeling extends Component {
             })
     }
 
+    /**
+     * Function to setState of the selected state within the function.
+     *
+     * @function
+     *
+     * @param {object} object - Parameter used as an value of the selected state within the function.
+     */
     selectObject(object) {
         if (this.state.selected === object) {
             this.setState({
@@ -71,12 +93,24 @@ class PopupNieuweKoppeling extends Component {
         }
     }
 
+    /**
+     * Function to set the state of the actievePagina variable with a new value.
+     *
+     * @function
+     */
     volgendeScherm() {
         this.setState({
             actievePagina: this.state.actievePagina + 1,
         })
     }
 
+    /**
+     * Function to handle change of the user and set the name variable by using the value.
+     *
+     * @function
+     *
+     * @param {e} e - Parameter that is used to catch any changes given by the user.
+     */
     handleChange(e) {
         const name = e.target.name
         const value = e.target.value

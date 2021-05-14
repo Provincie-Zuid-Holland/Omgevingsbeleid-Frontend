@@ -18,6 +18,13 @@ import LoaderSmallSpan from '../LoaderSmallSpan'
 // Import Utilities
 import getVigerendText from './../../utils/getVigerendText'
 
+/**
+ * Function to display a statusLabel within the ContainerDetailMain component with the text "Vigerend".
+ *
+ * @function
+ *
+ * @param {object} props - Containing a set value and is not used within this function.
+ */
 function StatusLabel(props) {
     return (
         <span className="inline px-3 py-3 ml-3 text-sm font-bold bg-blue-100 rounded-full text-pzh-blue">
@@ -26,7 +33,14 @@ function StatusLabel(props) {
     )
 }
 
-// Main Component - Main Container
+/**
+ * Class that renders the ContainerDetailMain component that is used within the muteeruniversalObjectDetail page.
+ * The class uses the parent props given to it, in conditional operators to show/hide the imported components or parts of elements, if they contain a value.
+ * The class is used in the page MuteerUniversalObjectDetail.
+ *
+ * @class
+ * @extends {Component}
+ */
 class ContainerDetailMain extends Component {
     constructor(props) {
         super(props)
@@ -38,12 +52,23 @@ class ContainerDetailMain extends Component {
         this.toggleStatusPopup = this.toggleStatusPopup.bind(this)
     }
 
+    /**
+     * Function to toggle (hide/show) the dropdown element by toggling the dropdown state.
+     *
+     * @function
+     */
+
     toggleDropdown() {
         this.setState({
             dropdown: !this.state.dropdown,
         })
     }
 
+    /**
+     * Function to toggle (hide/show) the statusPopup by setting the statusPopup state.
+     *
+     * @function
+     */
     toggleStatusPopup() {
         this.setState({
             statusPopup: !this.state.statusPopup,

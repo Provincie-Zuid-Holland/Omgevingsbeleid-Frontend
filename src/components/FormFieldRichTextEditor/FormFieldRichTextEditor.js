@@ -45,12 +45,13 @@ const getFormats = (editorFormats) => {
 
 /**
  * Component to render an WYSIWYG Editor
- * @param {string} dataObjectProperty
- * @param {string} placeholder
- * @param {function} handleChange
- * @param {string} initialValue
- * @param {string} fieldValue
- * @param {string} titleSingular
+ *
+ * @param {string} dataObjectProperty - Parameter used to create unique ID's.
+ * @param {string} placeholder - Parameter part of the quilOptions variable in the component.
+ * @param {function} handleChange - Parameter used to set the name and value of the target within the editor.
+ * @param {string} initialValue - Parameter used to load in the template value if there is no fieldValue.
+ * @param {string} fieldValue - Parameter used to set the value of the editor.root.innerHTML variable.
+ * @param {string} titleSingular - Parameter containing the title of the object in a singular form.
  */
 function FormFieldRichTextEditor({
     dataObjectProperty,

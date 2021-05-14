@@ -17,13 +17,16 @@ import useLockBodyScroll from './../../utils/useLockBodyScroll'
 
 import LoaderSpinner from './../LoaderSpinner'
 
-const NavigationPopupMenu = ({
-    loggedIn,
-    showBanner,
-    logout,
-    isOpen,
-    setIsOpen,
-}) => {
+/**
+ * Component that renders the NavigationPopupMenu component.
+ *
+ * @component
+ *
+ * @param {boolean} showBanner - Parameter that if set to true, will show the banner.
+ * @param {boolean} isOpen - Parameter that is used to show certain elements within the rendered component, if the parameter is set true.
+ * @param {boolean} setIsOpen - Parameter that is used for an onclick function to set the isOpen parameter to true or false, when the parameter itsef is set to true or false.
+ */
+const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
     // Popup state
     const [activeTab, setActiveTab] = React.useState('Ambities')
     const [filterQuery, setFilterQuery] = React.useState('')
@@ -110,6 +113,11 @@ const NavigationPopupMenu = ({
             })
     }, [])
 
+    /**
+     * Function to check if the activeTab parameter is linked to a currentContstant case and return the specific allDimensies parameter.
+     *
+     * @function
+     */
     const getCurrentConstants = () => {
         switch (activeTab) {
             case 'Ambities':
@@ -130,6 +138,11 @@ const NavigationPopupMenu = ({
         }
     }
 
+    /**
+     * Function to check if the activeTab parameter is linked to a CurrentItem case and return the specific allDimensies parameter.
+     *
+     * @function
+     */
     const getCurrentItems = () => {
         switch (activeTab) {
             case 'Ambities':
@@ -376,6 +389,15 @@ const NavigationPopupMenu = ({
     )
 }
 
+/**
+ * Function to render the TabMenuItem in the NavigationPopupMenu component.
+ *
+ * @function
+ *
+ * @param {boolean} activeTab - Parameter that is used to set the tabTitle to tabIsActive, if activeTab is set true.
+ * @param {string} tabTitle - Parameter that contains the title of the tab.
+ * @param {function} setActiveTab - Parameter that is used to set the tabTitle parameter as activeTab.
+ */
 const TabMenuItem = ({ activeTab, tabTitle, setActiveTab }) => {
     const tabIsActive = activeTab === tabTitle
 
@@ -395,6 +417,16 @@ const TabMenuItem = ({ activeTab, tabTitle, setActiveTab }) => {
     )
 }
 
+/**
+ * Function to render the TabMenuItemLink component, that contains a link.
+ *
+ * @function
+ *
+ * @param {string} tabTitle - Parameter that displays the tabTitle of the Link element.
+ * @param {} href - Parameter that contains an URL where the user navigates too, when the user click on the Link element.
+ * @param {function} setIsOpen - Parameter that is used for an onclick function to set the isOpen parameter to true or false.
+ * @param {int} tabId - Parameter that contains the id of the Tab.
+ */
 const TabMenuItemLink = ({ tabTitle, href, setIsOpen, tabId, callback }) => {
     return (
         <Link
