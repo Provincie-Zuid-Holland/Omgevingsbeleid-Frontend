@@ -22,19 +22,11 @@ import LoaderSpinner from './../LoaderSpinner'
  *
  * @component
  *
- * @param {} loggedIn - Parameter is not used within this component.
- * @param {booelan} showBanner - Parameter that if set to true, will show the banner.
- * @param {} logout - Parameter is not used within this component.
+ * @param {boolean} showBanner - Parameter that if set to true, will show the banner.
  * @param {boolean} isOpen - Parameter that is used to show certain elements within the rendered component, if the parameter is set true.
  * @param {boolean} setIsOpen - Parameter that is used for an onclick function to set the isOpen parameter to true or false, when the parameter itsef is set to true or false.
  */
-const NavigationPopupMenu = ({
-    loggedIn,
-    showBanner,
-    logout,
-    isOpen,
-    setIsOpen,
-}) => {
+const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
     // Popup state
     const [activeTab, setActiveTab] = React.useState('Ambities')
     const [filterQuery, setFilterQuery] = React.useState('')

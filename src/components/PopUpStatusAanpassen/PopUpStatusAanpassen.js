@@ -12,11 +12,9 @@ import VOLGENDE_STATUS from './../../constants/beleidskeuzeStatusAanpassen'
  * @component
  *
  * @param {object} dataObject - Parameter that can be set to the patchStatus object if the onclick function is called and selectValue is not empty.
- * @param {string} fieldValue - Parameter that sets the value element to the select element.
- * @param {} handleChange - Parameter that is not used within this component.
+ * @param {object} patchStatus - Parameter that contains the dataObject, selectValue parameters, when the onClick function is used within the rendered component.
  * @param {array} status - Parameter that contains a collection of status, which are used within the select element.
  * @param {boolean} toggleStatusPopup - Parameter that is used to show or hide the StatusPopup.
- * @param {object} patchStatus - Parameter that contains the dataObject, selectValue parameters, when the onClick function is used within the rendered component.
  */
 function PopUpStatusAanpassen({
     dataObject,
