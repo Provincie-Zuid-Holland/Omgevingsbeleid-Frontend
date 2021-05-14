@@ -11,7 +11,7 @@ function ViewFieldInnerHTML({ html, fieldTitel }) {
                 </h2>
             ) : null}
             <div
-                className="raadpleeg-innerhtml"
+                className="w-full mb-8 leading-7 break-words whitespace-pre-line raadpleeg-innerhtml"
                 dangerouslySetInnerHTML={{ __html: cleanHtml }}
             ></div>
         </div>

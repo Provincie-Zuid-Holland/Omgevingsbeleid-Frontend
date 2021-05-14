@@ -1,10 +1,9 @@
 import React from 'react'
 
-import ViewFieldTitelEnInhoud from './../../ViewFieldTitelEnInhoud'
+import ViewFieldInnerHTML from './../../ViewFieldInnerHTML'
 import ViewFieldTags from './../../ViewFieldTags'
 import ViewFieldBelangen from './../../ViewFieldBelangen'
 import ViewFieldIngelogdExtraInfo from '../../../../components/ViewFieldIngelogdExtraInfo'
-import ViewFieldInnerHTML from './../../ViewFieldInnerHTML'
 
 import UserContext from './../../../../App/UserContext'
 

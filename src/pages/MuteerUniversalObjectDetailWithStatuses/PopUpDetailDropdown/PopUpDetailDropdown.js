@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 const PopUpDetailDropdown = ({
+    slug,
     dataObject,
     openState,
     toggleDropdown,
@@ -67,11 +68,12 @@ const PopUpDetailDropdown = ({
                             Raadpleegomgeving
                         </a>
                     </li>
-                    {titleSingular === 'Beleidskeuze' &&
-                    status === 'Vigerend' ? (
+                    {(titleSingular === 'Beleidskeuze' &&
+                        status === 'Vigerend') ||
+                    (titleSingular === 'Maatregel' && status === 'Vigerend') ? (
                         <li>
                             <Link
-                                to={`/muteer/beleidskeuzes/edit/${dataObject.ID}?modus=wijzig_vigerend`}
+                                to={`/muteer/${slug}/edit/${dataObject.ID}?modus=wijzig_vigerend`}
                                 id="navbar-popup-wijzig-vigerend"
                                 className="inline-block w-full px-4 py-2 text-sm border-t border-gray-300 hover:bg-gray-100"
                             >

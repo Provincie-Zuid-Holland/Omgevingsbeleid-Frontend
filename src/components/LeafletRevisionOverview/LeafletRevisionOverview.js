@@ -276,7 +276,7 @@ export default class LeafletRevisionOverview extends Component {
                                         }
                                     },
                                 })
-                                // jsonLayer.addTo(leafletMap.leafletElement)
+
                                 let layerArray = []
                                 jsonLayer.eachLayer(function (layer) {
                                     layerArray.push(layer)

@@ -51,7 +51,7 @@ function RelatiesKoppelingenTekstueel({
                                     <ListItem
                                         titel={koppeling.Object.Titel}
                                         omschrijving={
-                                            koppeling.Object.Omschrijving
+                                            koppeling.Koppeling_Omschrijving
                                         }
                                         property={property}
                                         UUID={koppeling.Object.UUID}
