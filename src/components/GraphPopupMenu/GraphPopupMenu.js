@@ -1,24 +1,36 @@
 import React from 'react'
 import { Transition } from '@headlessui/react'
 import * as d3 from 'd3'
-import { Link, useLocation } from 'react-router-dom'
-
-import {
-    faBars,
-    faTimes,
-    faChartNetwork,
-} from '@fortawesome/pro-solid-svg-icons'
+import { Link } from 'react-router-dom'
+import { faTimes, faChartNetwork } from '@fortawesome/pro-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-// Import useLockBodyScroll to stop html body scroll when the modal is open
 import useLockBodyScroll from './../../utils/useLockBodyScroll'
 
 import axios from './../../API/axios'
 
-import LoaderSpinner from './../LoaderSpinner'
+/**
+ * Function that returns the href slug to a detail page of a specific object
+ * @param {object} props
+ * @param {string} string - Type of the object
+ * @param {string} UUID - UUID of the object
+ * @returns {string} containing the url slug
+ */
+const generateHref = ({ property, UUID }) => {
+    const slugs = {
+        beleidskeuzes: 'beleidskeuzes',
+        ambities: 'ambities',
+        beleidsregels: 'beleidsregels',
+        beleidsprestaties: 'beleidsprestaties',
+        belangen: 'belangen',
+        maatregelen: 'maatregelen',
+        themas: 'themas',
+        beleidsdoelen: 'beleidsdoelen',
+        verordening: 'verordeningen',
+    }
 
-const typeSingleVariants = {
-    ambities: 'Ambitie',
+    const path = `/detail/${slugs[property]}/${UUID}}`
+    return path
 }
 
 const connectionProperties = {
@@ -28,47 +40,75 @@ const connectionProperties = {
     ambities: {
         hex: '#aa0067',
         singular: 'Ambitie',
+        prefix: 'de',
     },
     belangen: {
         hex: '#ff6b02',
         singular: 'Belang',
+        prefix: 'het',
     },
     beleidsregels: {
         hex: '#76bc21',
         singular: 'Beleidsregel',
+        prefix: 'de',
     },
     beleidsprestaties: {
         hex: '#ecc94b',
         singular: 'Beleidsprestatie',
+        prefix: 'de',
     },
     maatregelen: {
         hex: '#503d90',
         singular: 'Maatregel',
+        prefix: 'de',
     },
     beleidsdoelen: {
         hex: '#3182ce',
         singular: 'beleidsdoel',
+        prefix: 'het',
     },
     themas: {
         hex: '#847062',
         singular: 'Thema',
+        prefix: 'het',
     },
     verordening: {
         hex: '#eb7085',
         singular: 'Verordening',
+        prefix: 'de',
     },
     beleidskeuzes: {
         hex: '#7badde',
         singular: 'Beleidskeuze',
+        prefix: 'de',
     },
 }
 
+/**
+ * TODO:
+ * [ ] - If the space below the cursor is too small for the height of the tooltip, display it above it
+ * [ ] - On detail page change, give node with corresponding UUID an active state
+ * [ ] - Reset button to reset clicked element
+ * [ ] - Filter sidebar
+ * [ ] - Look into zoom & pan (https://stackoverflow.com/questions/38597582/d3-js-pan-and-zoom-jumps-when-using-mouse-after-programatic-zoom & https://github.com/d3/d3-zoom#zoom-events)
+ * @param {object} props
+ * @param {boolean} graphIsOpen - Inidicates if the graph popup is open
+ * @param {function} setGraphIsOpen - Function to toggle the graphIsOpen value to a true/false value
+ * @param {boolean} showBanner - Indicates if the user is shown a banner above the navigation (needed to calc. the height)
+ * @returns A component that displays a d3 force graph that shows the relations and connections of all the policies
+ */
 const GraphPopupMenu = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
     useLockBodyScroll({ modalOpen: graphIsOpen })
 
     const [data, setData] = React.useState([])
     const [variables, setVariables] = React.useState({}) // X and Y positions for the Tooltip
     const [href, setHref] = React.useState('#')
+    const [clickedNode, setClickedNode] = React.useState(null)
+    const clickedNodeRef = React.useRef(null)
+
+    React.useEffect(() => {
+        clickedNodeRef.current = clickedNode
+    }, [clickedNode])
 
     const prepareData = (data) => {
         if (!data) return null
@@ -77,6 +117,44 @@ const GraphPopupMenu = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
             node.id = node.UUID
         })
         return data
+    }
+
+    /**
+     * Function to handle click on a node
+     * @param {object} clickedEl - Contains the node that is clicked
+     * @param {object} svg - Contains the SVG container in a Selection object
+     * @param {*} links
+     * @returns
+     */
+    const handleNodeClick = (clickedEl, svg, links) => {
+        // Get UUID from clicked element
+        const uuidSource = clickedEl.UUID
+        if (!uuidSource) return
+
+        if (uuidSource === clickedNodeRef.current?.UUID) {
+            svg.selectAll('circle').attr('opacity', 1)
+            setClickedNode(null)
+        } else {
+            console.log('setClickedNode')
+            setClickedNode(clickedEl)
+
+            const connectedLinks = links.filter(
+                (link) =>
+                    link.target.UUID === uuidSource ||
+                    link.source.UUID === uuidSource
+            )
+
+            svg.selectAll('circle')
+                .attr('opacity', 1)
+                .filter((circle) =>
+                    connectedLinks.every(
+                        (e) =>
+                            e.source.UUID !== circle.UUID &&
+                            e.target.UUID !== circle.UUID
+                    )
+                )
+                .attr('opacity', 0.25)
+        }
     }
 
     React.useEffect(() => {
@@ -95,21 +173,32 @@ const GraphPopupMenu = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
     const d3Container = React.useRef(null)
 
     const initializeD3 = () => {
-        const svg = d3.select(d3Container.current)
+        const links = data.links
+        const nodes = data.nodes
 
+        if (!links || !nodes) return
+
+        // Get current SVG element
+        const svgElement = d3.select(d3Container.current)
+
+        // Set viewBox attribute
         const bounding = d3Container.current.getBoundingClientRect()
-
-        svg.attr('viewBox', [
+        svgElement.attr('viewBox', [
             -bounding.width / 2, // Center horizontally
             -bounding.height / 2,
             bounding.width * 1.25,
             bounding.height * 1.15,
         ])
 
-        const links = data.links
-        const nodes = data.nodes
+        svgElement.call(
+            d3.zoom().on('zoom', function () {
+                console.log(d3.event.transform)
+                console.log(svgElement.selectAll())
 
-        if (!links || !nodes) return
+                svgElement.attr('transform', d3.event.transform)
+            }),
+            d3.zoomIdentity.scale(0.5)
+        )
 
         /**
          * When we simulate the nodes, we need to define their strength of attracting or repelling each other.
@@ -139,7 +228,7 @@ const GraphPopupMenu = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
             .force('y', d3.forceY())
 
         // Generate Links
-        const link = svg
+        const link = svgElement
             .append('g')
             .attr('stroke', '#999')
             .attr('stroke-opacity', 0.6)
@@ -149,7 +238,7 @@ const GraphPopupMenu = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
             .attr('stroke-width', (d) => Math.sqrt(d.value))
 
         // Generate Nodes
-        const node = svg
+        const node = svgElement
             .append('g')
             .attr('stroke', '#fff')
             .attr('stroke-width', 1.5)
@@ -164,42 +253,21 @@ const GraphPopupMenu = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
             .attr('fill', (d) => d.color)
             .on('mouseover', handleMouseOver)
             .on('mouseout', handleMouseOut)
-            .on('click', function (clickedEl) {
-                // Get UUID from clicked element
-                const uuidSource = clickedEl.UUID
-                if (!uuidSource) return
-
-                const connectedLinks = links.filter(
-                    (link) =>
-                        link.target.UUID === uuidSource ||
-                        link.source.UUID === uuidSource
-                )
-
-                svg.selectAll('circle')
-                    .attr('opacity', 1)
-                    .filter((circle) =>
-                        connectedLinks.every(
-                            (e) =>
-                                e.source.UUID !== circle.UUID &&
-                                e.target.UUID !== circle.UUID
-                        )
-                    )
-                    .attr('opacity', 0.25)
-            })
+            .on('click', (clickedEl) =>
+                handleNodeClick(clickedEl, svgElement, links)
+            )
 
         const tooltip = d3.select('#d3-tooltip-network-graph')
 
         // Create Event Handlers for mouse.
-        // In here we handle the tooltip
+        // In here we handle the hover styles and the tooltip
         function handleMouseOver(d) {
             this.setAttribute('r', 8.5)
 
-            // We don't want to show the popup on the main beleidskeuze
-            if (d.property === 'beleidsObjectMain') return
-
-            // Activate display
+            // Activate display on the tooltip
             tooltip.style('display', 'block')
 
+            // Set title and type in the element
             const tooltipTitleEl = document.getElementById(
                 'd3-tooltip-network-graph-title'
             )
@@ -208,32 +276,8 @@ const GraphPopupMenu = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
             )
             tooltipTitleEl.innerHTML = d.Titel
             const singularType = connectionProperties[d.Type]?.singular
-            if (singularType) {
-                tooltipTypeEl.innerHTML = singularType
-            } else {
-                tooltipTypeEl.innerHTML = d.Type
-            }
+            tooltipTypeEl.innerHTML = singularType ? singularType : d.Type
 
-            const tooltipEl = document.getElementById(
-                'd3-tooltip-network-graph'
-            )
-
-            const generateHref = ({ property, UUID }) => {
-                const slugs = {
-                    beleidskeuzes: 'beleidskeuzes',
-                    ambities: 'ambities',
-                    beleidsregels: 'beleidsregels',
-                    beleidsprestaties: 'beleidsprestaties',
-                    belangen: 'belangen',
-                    maatregelen: 'maatregelen',
-                    themas: 'themas',
-                    beleidsdoelen: 'beleidsdoelen',
-                    verordening: 'verordeningen',
-                }
-
-                const path = `/detail/${slugs[property]}/${UUID}}`
-                return path
-            }
             const hrefURL = generateHref({
                 property: d.Type,
                 UUID: d.id,
@@ -246,6 +290,10 @@ const GraphPopupMenu = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
                 left: 0,
                 top: 0,
             })
+
+            const tooltipEl = document.getElementById(
+                'd3-tooltip-network-graph'
+            )
 
             const tooltipWidth = tooltipEl.offsetWidth
 
@@ -335,7 +383,7 @@ const GraphPopupMenu = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
                               }
                     }
                 >
-                    <div className="container flex h-full mx-auto">
+                    <div className="container flex h-full mx-auto relative">
                         <div className="w-1/4 pl-6">Sidebar</div>
                         <div className="w-3/4">
                             <svg
@@ -348,7 +396,7 @@ const GraphPopupMenu = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
                                     left: variables.left,
                                     top: variables.top,
                                 }}
-                                class="absolute hidden hover:block bg-white shadow-md rounded px-4 py-2"
+                                class="absolute hidden z-50 hover:block bg-white shadow-md rounded px-4 py-2"
                             >
                                 <Link to={href} className="group">
                                     <div
@@ -362,10 +410,74 @@ const GraphPopupMenu = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
                                 </Link>
                             </div>
                         </div>
+                        <ClickedElementPopup
+                            clickedNode={clickedNode}
+                            setGraphIsOpen={setGraphIsOpen}
+                        />
                     </div>
                 </div>
             </Transition>
         </React.Fragment>
     )
 }
+
+/**
+ *
+ * @param {object} props
+ * @param {object} clickedNode - The corresponding node that has been clicked
+ * @param {object} setGraphIsOpen - Function to open and close the graph popup menu
+ * @returns Component that indicates what element has been clicked, with a link to the detail page
+ */
+const ClickedElementPopup = ({ clickedNode, setGraphIsOpen }) => {
+    const [localOpenState, setLocalOpenState] = React.useState(false)
+
+    React.useEffect(() => {
+        setLocalOpenState(true)
+    }, [clickedNode])
+
+    if (!clickedNode || !localOpenState) return null
+
+    const title = clickedNode.Titel
+    const type = clickedNode.Type
+    const singularTitle = connectionProperties[type]?.singular
+    const singularTitlePrefix = connectionProperties[type]?.prefix
+    const href = generateHref({ property: type, UUID: clickedNode.UUID })
+
+    return (
+        <Transition
+            show={localOpenState}
+            enter="transition ease-out duration-150 transform"
+            enterFrom="opacity-0 scale-95"
+            enterTo="opacity-100 scale-100"
+            leave="transition ease-in duration-0 transform"
+            leaveFrom="opacity-100 scale-100"
+            leaveTo="opacity-0 scale-95"
+        >
+            <div className="bg-white py-2 pr-5 rouned shadow-md text-lg absolute right-0 bottom-0 mb-10">
+                <Link
+                    className="group block pt-0 p-3"
+                    to={href}
+                    onClick={() => setGraphIsOpen(false)}
+                >
+                    <span class="text-gray-600 block">{type}</span>
+                    <span class="block text-pzh-blue-dark">{title}</span>
+                    <span className="group-hover:underline">
+                        {singularTitle && singularTitlePrefix
+                            ? `Bekijk ${singularTitlePrefix} ${singularTitle}`
+                            : `Bekijk dit object`}
+                    </span>
+                </Link>
+                <span
+                    onClick={() => {
+                        setLocalOpenState(false)
+                    }}
+                    className="mt-2 mx-1 right-0 top-0 absolute mr-1 pb-1 px-2 hover:bg-gray-200 rounded-md cursor-pointer"
+                >
+                    <FontAwesomeIcon icon={faTimes} />
+                </span>
+            </div>
+        </Transition>
+    )
+}
+
 export default GraphPopupMenu
