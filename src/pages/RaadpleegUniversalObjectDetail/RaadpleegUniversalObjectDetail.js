@@ -90,9 +90,13 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
                 if (err.response !== undefined) {
                     if (err.response.status === 404) {
                         history.push(`/`)
-                        toast(
-                            `Deze ${titleSingular.toLowerCase()} kon niet gevonden worden`
-                        )
+                        titleSingular === 'Artikel'
+                            ? toast(
+                                  `Dit ${titleSingular.toLowerCase()} kon niet gevonden worden`
+                              )
+                            : toast(
+                                  `Deze ${titleSingular.toLowerCase()} kon niet gevonden worden`
+                              )
                     } else if (err.response.status === 422) {
                         history.push(`/login`)
                         toast(

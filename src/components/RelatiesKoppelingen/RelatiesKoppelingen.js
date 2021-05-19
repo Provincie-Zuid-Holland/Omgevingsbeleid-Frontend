@@ -14,7 +14,7 @@ const connectionProperties = [
     'Maatregelen',
     'Beleidsdoelen',
     'Themas',
-    'Verordening',
+    'Verordeningen',
 ]
 
 const connectionPropertiesColors = {
@@ -42,7 +42,7 @@ const connectionPropertiesColors = {
     Themas: {
         hex: '#847062',
     },
-    Verordening: {
+    Verordeningen: {
         hex: '#eb7085',
     },
     Beleidskeuzes: {
@@ -58,49 +58,68 @@ const RelatiesKoppelingen = ({
     const [beleidsRelaties, setBeleidsRelaties] = React.useState([])
     const [isLoading, setIsLoading] = React.useState(true)
     const [activeTab, setActiveTab] = React.useState('Visueel')
+    const [verordeningsStructure, setVerordeningStructure] = React.useState(
+        null
+    )
 
     // As the height of the containers will vary by the content, we make sure the user can immediately see the whole container by scrolling down
     React.useEffect(() => window.scrollTo(0, document.body.scrollHeight), [
         activeTab,
     ])
 
-    const initBeleidskeuze = () => {
-        const beleidsrelatiesVan = axios
-            .get(
-                `/beleidsrelaties?all_filters=Status:Akkoord,Van_Beleidskeuze:${dataObject.UUID}`
-            )
-            .then((res) => res.data)
-
-        const beleidsrelatiesNaar = axios
-            .get(
-                `/beleidsrelaties?all_filters=Status:Akkoord,Naar_Beleidskeuze:${dataObject.UUID}`
-            )
-            .then((res) => res.data)
-
-        Promise.all([beleidsrelatiesVan, beleidsrelatiesNaar]).then(
-            (relaties) => {
-                // Generate UUID's of all the beleidskeuzes that this beleidskeuze has a relationship with
-                const relatiesVan = relaties[0]
-                const relatiesNaar = relaties[1]
-
-                setBeleidsRelaties([...relatiesVan, ...relatiesNaar])
-                setIsLoading(false)
-            }
-        )
-    }
-
-    const initBeleidsobject = () => {
-        setBeleidsRelaties(dataObject.Ref_Beleidskeuzes)
-        setIsLoading(false)
-    }
-
     React.useEffect(() => {
+        setIsLoading(true)
+
+        const getAndSetVigerendeVerordening = () => {
+            axios.get('/verordeningstructuur').then((res) => {
+                const vigerendeVerordening = res.data.find(
+                    (item) => item.Status === 'Vigerend'
+                )
+
+                if (vigerendeVerordening) {
+                    setVerordeningStructure(vigerendeVerordening)
+                }
+            })
+        }
+
+        const initBeleidskeuze = () => {
+            const beleidsrelatiesVan = axios
+                .get(
+                    `/beleidsrelaties?all_filters=Status:Akkoord,Van_Beleidskeuze:${dataObject.UUID}`
+                )
+                .then((res) => res.data)
+
+            const beleidsrelatiesNaar = axios
+                .get(
+                    `/beleidsrelaties?all_filters=Status:Akkoord,Naar_Beleidskeuze:${dataObject.UUID}`
+                )
+                .then((res) => res.data)
+
+            Promise.all([beleidsrelatiesVan, beleidsrelatiesNaar]).then(
+                (relaties) => {
+                    // Generate UUID's of all the beleidskeuzes that this beleidskeuze has a relationship with
+                    const relatiesVan = relaties[0]
+                    const relatiesNaar = relaties[1]
+
+                    setBeleidsRelaties([...relatiesVan, ...relatiesNaar])
+                    setIsLoading(false)
+                }
+            )
+        }
+
+        const initBeleidsobject = () => {
+            setBeleidsRelaties(dataObject.Ref_Beleidskeuzes)
+            setIsLoading(false)
+        }
+
         if (titleSingular === 'Beleidskeuze') {
             initBeleidskeuze()
+            getAndSetVigerendeVerordening()
         } else {
             initBeleidsobject()
+            getAndSetVigerendeVerordening()
         }
-    }, [dataObject.UUID])
+    }, [dataObject.UUID, titleSingular, dataObject.Ref_Beleidskeuzes])
 
     return (
         <div className="w-full pb-24 bg-orange-100">
@@ -133,6 +152,7 @@ const RelatiesKoppelingen = ({
                     <div className="mt-6">
                         {!isLoading && activeTab === 'Visueel' ? (
                             <RelatiesKoppelingenVisualisatie
+                                verordeningsStructure={verordeningsStructure}
                                 titleSingular={titleSingular}
                                 titleSingularPrefix={titleSingularPrefix}
                                 beleidsObject={dataObject}
@@ -144,6 +164,7 @@ const RelatiesKoppelingen = ({
                             />
                         ) : !isLoading && activeTab === 'Tekstueel' ? (
                             <RelatiesKoppelingenTekstueel
+                                verordeningsStructure={verordeningsStructure}
                                 beleidsObject={dataObject}
                                 beleidsRelaties={beleidsRelaties}
                                 connectionProperties={connectionProperties}

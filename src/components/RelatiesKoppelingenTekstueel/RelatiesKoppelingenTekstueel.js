@@ -97,14 +97,6 @@ const ListItem = ({
 }) => {
     const location = useLocation()
 
-    // const generateLeft = (elWidth) => {
-    //     const tooltipEl = document.getElementById(UUID)
-    //     if (!tooltipEl) return
-
-    //     const tooltipElWidth = tooltipEl.offsetWidth
-    //     return elWidth / 2 - tooltipElWidth / 2 + 10 + 'px'
-    // }
-
     const generateHref = ({ property, UUID }) => {
         const slugs = {
             Beleidskeuzes: 'beleidskeuzes',
@@ -115,7 +107,7 @@ const ListItem = ({
             Maatregelen: 'maatregelen',
             Themas: 'themas',
             Beleidsdoelen: 'Beleidsdoelen',
-            Verordening: 'verordeningen',
+            Verordeningen: 'verordeningen',
         }
 
         const path = `/detail/${slugs[property]}/${UUID}?fromPage=${location.pathname}`
