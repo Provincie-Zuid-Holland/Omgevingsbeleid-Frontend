@@ -19,7 +19,7 @@ import getVigerendText from './../../utils/getVigerendText'
 
 // Import Components
 import LeafletTinyViewer from './../../components/LeafletTinyViewer'
-import PopUpRevisieContainer from './../../components/PopUpRevisieContainer'
+import PopUpRevisionContainer from './../../components/PopUpRevisionContainer'
 import LoaderContent from './../../components/LoaderContent'
 
 // Import view containers
@@ -47,7 +47,7 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
     const [lineageID, setLineageID] = React.useState(null) // Used to get the whole history of the object
 
     // Contains the history of an object (all the edits)
-    const [revisieObjecten, setRevisieObjecten] = React.useState(null)
+    const [revisionObjects, setRevisionObjects] = React.useState(null)
 
     // Boolean if data is loaded
     const [dataLoaded, setDataLoaded] = React.useState(false)
@@ -90,9 +90,13 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
                 if (err.response !== undefined) {
                     if (err.response.status === 404) {
                         history.push(`/`)
-                        toast(
-                            `Deze ${titleSingular.toLowerCase()} kon niet gevonden worden`
-                        )
+                        titleSingular === 'Artikel'
+                            ? toast(
+                                  `Dit ${titleSingular.toLowerCase()} kon niet gevonden worden`
+                              )
+                            : toast(
+                                  `Deze ${titleSingular.toLowerCase()} kon niet gevonden worden`
+                              )
                     } else if (err.response.status === 422) {
                         history.push(`/login`)
                         toast(
@@ -201,7 +205,7 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
             .get(`${apiEndpointBase}/${lineageID}`)
             .then((res) => {
                 const preppedRevisions = prepRevisions(res.data)
-                setRevisieObjecten(preppedRevisions)
+                setRevisionObjects(preppedRevisions)
                 setDataLoaded(true)
             })
             .catch((err) => {
@@ -335,7 +339,7 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
                         <MetaInfo
                             titleSingular={titleSingular}
                             dataLoaded={dataLoaded}
-                            revisieObjecten={revisieObjecten}
+                            revisionObjects={revisionObjects}
                             dataObject={dataObject}
                             currentUUID={id}
                         />
@@ -497,7 +501,7 @@ const Heading = ({ type, titel }) => {
 }
 
 const MetaInfo = ({
-    revisieObjecten,
+    revisionObjects,
     dataObject,
     currentUUID,
     titleSingular,
@@ -510,23 +514,22 @@ const MetaInfo = ({
                 {vigerendText}
             </span>
 
-            {revisieObjecten && revisieObjecten.length > 0 ? (
+            {revisionObjects && revisionObjects.length > 0 ? (
                 <React.Fragment>
                     <span className="mr-3 text-sm text-gray-600">&bull;</span>
-                    <PopUpRevisieContainer
+                    <PopUpRevisionContainer
                         dataObject={dataObject}
-                        type={titleSingular}
-                        amountOfRevisions={revisieObjecten.length - 1}
-                        revisieObjecten={revisieObjecten}
+                        titleSingular={titleSingular}
+                        revisionObjects={revisionObjects}
                     >
-                        {revisieObjecten.map((item, index) => (
+                        {revisionObjects.map((item, index) => (
                             <RevisieListItem
                                 currentUUID={currentUUID}
                                 item={item}
                                 key={item.UUID}
                             />
                         ))}
-                    </PopUpRevisieContainer>
+                    </PopUpRevisionContainer>
                 </React.Fragment>
             ) : null}
         </div>

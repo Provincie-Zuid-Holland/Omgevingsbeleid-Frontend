@@ -80,7 +80,7 @@ describe('User can create, read and update the dimensions', () => {
 
             // Click on element to go to the CRUD page to create a new object
             cy.get(`#object-add-new-${overzichtSlug.toLowerCase()}`, {
-                timeout: 10000,
+                timeout: 30000,
             }).click()
 
             // Fill in the test values for every property

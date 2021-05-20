@@ -50,6 +50,13 @@ function ReturnNavLink({ value, index, url }) {
 }
 
 // TODO: Refactor finished props... And put in own component
+/**
+ * Function to render the returnMenuItems component using the ReturnNavLink component.
+ *
+ * @function
+ *
+ * @param {array} menuItems - Parameter used to render the ReturnNavLink component based on the value of the parameter.
+ */
 function returnMenuItems(menuItems) {
     const listItems = Object.keys(menuItems).map((value, index) =>
         menuItems[value].finished ? (
@@ -75,6 +82,13 @@ function returnMenuItems(menuItems) {
     return listItems
 }
 
+/**
+ * Function to render the MainSideBarHeading component.
+ *
+ * @function
+ *
+ * @param {props} props - Parameter that renders the value within the component.
+ */
 function MainSideBarHeading(props) {
     return (
         <h2 className="pr-2 mt-8 mb-2 text-xl text-gray-800">
@@ -83,6 +97,11 @@ function MainSideBarHeading(props) {
     )
 }
 
+/**
+ * Component that renders the SideBarMain component.
+ *
+ * @component
+ */
 function SidebarMain() {
     const { user } = React.useContext(UserContext)
     const gebruikersNaam = user ? user.Gebruikersnaam : null

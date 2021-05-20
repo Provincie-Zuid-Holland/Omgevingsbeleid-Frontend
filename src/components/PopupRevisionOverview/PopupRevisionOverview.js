@@ -18,35 +18,52 @@ import useLockBodyScroll from './../../utils/useLockBodyScroll'
 
 import UserContext from './../../App/UserContext'
 
-const getVigerendText = (dataObject) => {
-    // Toevoegen van de datum in de revisie: "Vigerend van <datum inwerkingtreding> tot <datum uitwerkingtreding>" voor gearchiveerde beleidskeuzes.
-    // Voor vigerende beleidskeuzes: "Vigerend van <datum inwerkingtreding> tot heden"
-    if (!dataObject['Begin_Geldigheid'])
-        return 'Er is nog geen begin geldigheid'
+/**
+ *
+ * @param {object} object - Object we want the validity text of
+ * @returns {string} - Text indicating the validity of the object
+ */
+const getValidText = (object) => {
+    if (!object['Begin_Geldigheid']) return 'Er is nog geen begin geldigheid'
 
     const textDate = format(
-        new Date(dataObject['Begin_Geldigheid']),
+        new Date(object['Begin_Geldigheid']),
         'd MMMM yyyy',
         {
             locale: nlLocale,
         }
     )
     const isActive =
-        dataObject.Status && dataObject.Status === 'Vigerend'
-            ? 'Sinds'
-            : 'Vanaf'
+        object.Status && object.Status === 'Vigerend' ? 'Sinds' : 'Vanaf'
 
     return isActive + ' ' + textDate
 }
 
-function makeSelection(objects, leftSelect, rightSelect) {
-    const leftSelectIndex = objects.findIndex((e) => e.UUID === leftSelect)
-    const rightSelectIndex = objects.findIndex((e) => e.UUID === rightSelect)
-
-    // The left select can only contain properties that are
+/**
+ *
+ * @param {array} revisionObjects - Array containing the revisions
+ * @param {null|string} leftSelect - Contains null if none is selected, else it contains the UUID that is selected
+ * @param {null|string} rightSelect - Contains null if none is selected, else it contains the UUID that is selected
+ * @returns
+ */
+function getSelectOptions(revisionObjects, leftSelect, rightSelect) {
+    /**
+     * Checks if an options is disabled.
+     * When we select an option, we disable the previous or following options, based on the optionsType
+     * @param {number} index - Index in of the item in the revisionObjects array
+     * @param {string} optionsType - Indicicating if
+     * @returns {boolean} indicating if the option is disabled or not
+     */
     const checkIsDisabled = (index, optionsType) => {
         if (optionsType === 'left' && !rightSelect) return false
         if (optionsType === 'right' && !leftSelect) return false
+
+        const leftSelectIndex = revisionObjects.findIndex(
+            (e) => e.UUID === leftSelect
+        )
+        const rightSelectIndex = revisionObjects.findIndex(
+            (e) => e.UUID === rightSelect
+        )
 
         if (optionsType === 'left') {
             // Disabled if the rightSelectIndex comes after the current object index
@@ -57,26 +74,41 @@ function makeSelection(objects, leftSelect, rightSelect) {
         }
     }
 
-    const getObjects = (objects, type) =>
-        objects.map((obj, index) => {
+    /**
+     *
+     * @param {array} revisionObjects - Contains the revision objects
+     * @param {string} type - Indicator if this is the 'left' or 'right' element
+     * @returns {array} Returns the options that we pass to the Select element
+     */
+    const getOptions = (revisionObjects, type) =>
+        revisionObjects.map((obj, index) => {
             return {
-                label: `${getVigerendText(obj)} (${obj.uiStatus})`,
+                label: `${getValidText(obj)} (${obj.uiStatus})`,
                 value: obj.UUID,
                 isDisabled: checkIsDisabled(index, type),
             }
         })
 
-    const objectsLeft = getObjects(objects, 'left')
-    const objectsRight = getObjects(objects, 'right')
+    const optionsLeft = getOptions(revisionObjects, 'left')
+    const optionsRight = getOptions(revisionObjects, 'right')
 
-    return [objectsLeft, objectsRight]
+    return [optionsLeft, optionsRight]
 }
 
-const PopupRevisieoverzicht = ({
-    revisieoverzichtOpen,
-    setRevisieoverzichtOpen,
-    revisieObjecten,
+/**
+ *
+ * @param {object} props
+ * @param {boolean} revisionOverviewOpen - Indicating if the revision overview is open
+ * @param {function} setRevisionOverviewOpen -
+ * @param {object} dataObject - Contains the object of the detail page we are viewing
+ * @param {array} revisionObjects - Array containing revisions of the object
+ * @returns
+ */
+const PopupRevisionOverview = ({
+    revisionOverviewOpen,
+    setRevisionOverviewOpen,
     dataObject,
+    revisionObjects,
 }) => {
     // Used to lock the vertical body scroll (overflow)
     const [bodyLock, setBodyLock] = React.useState(false)
@@ -98,42 +130,42 @@ const PopupRevisieoverzicht = ({
         // scrollWidth gets the width of the element without the scrollbar
 
         const fixedContainerEl = document.getElementById(
-            'revisieoverzicht-container-fixed'
+            'revisionOverview-container-fixed'
         )
 
         if (fixedContainerEl.scrollWidth <= event.clientX) return
 
-        setRevisieoverzichtOpen(false)
+        setRevisionOverviewOpen(false)
     })
 
     useCloseWithEscapeKey(innerContainer, () => {
-        setRevisieoverzichtOpen(false)
+        setRevisionOverviewOpen(false)
     })
 
     // Reset when the user opens the window
     React.useLayoutEffect(() => {
-        if (revisieoverzichtOpen) {
+        if (revisionOverviewOpen) {
             setLeftSelect(null)
             setRightSelect(null)
             setChangesFromApi(null)
         }
-    }, [revisieoverzichtOpen])
+    }, [revisionOverviewOpen])
 
     React.useEffect(() => {
-        if (revisieoverzichtOpen) {
+        if (revisionOverviewOpen) {
             setBodyLock(true)
         } else {
             setTimeout(() => {
                 setBodyLock(false)
             }, 110) // duration of the Transition + 1ms margin, this prevents two scrollbars
         }
-    }, [revisieoverzichtOpen])
+    }, [revisionOverviewOpen])
 
     const selectOnScroll = () => {
         const selectContainer = document.getElementById(
-            'revisieoverzicht-select-container'
+            'revisionOverview-select-container'
         )
-        const selectHeader = document.getElementById('revisieoverzicht-header')
+        const selectHeader = document.getElementById('revisionOverview-header')
 
         if (!selectContainer) return
         if (!selectHeader) return
@@ -161,7 +193,7 @@ const PopupRevisieoverzicht = ({
     }
 
     React.useEffect(() => {
-        revisieObjecten = revisieObjecten.sort(
+        revisionObjects = revisionObjects.sort(
             (a, b) =>
                 new Date(b.Begin_Geldigheid) - new Date(a.Begin_Geldigheid)
         )
@@ -169,7 +201,7 @@ const PopupRevisieoverzicht = ({
         const [
             optionsFromRevisionsLeft,
             optionsFromRevisionsRight,
-        ] = makeSelection(revisieObjecten, leftSelect, rightSelect)
+        ] = getSelectOptions(revisionObjects, leftSelect, rightSelect)
 
         setOptionsLeft(optionsFromRevisionsLeft)
         setOptionsRight(optionsFromRevisionsRight)
@@ -193,7 +225,7 @@ const PopupRevisieoverzicht = ({
     return (
         <React.Fragment>
             <Transition
-                show={revisieoverzichtOpen}
+                show={revisionOverviewOpen}
                 enter="ease-out duration-300"
                 enterFrom="opacity-0"
                 enterTo="opacity-100"
@@ -209,14 +241,14 @@ const PopupRevisieoverzicht = ({
                 </div>
             </Transition>
             <div
-                id="revisieoverzicht-container-fixed"
+                id="revisionOverview-container-fixed"
                 onScroll={selectOnScroll}
                 className={`fixed inset-0 z-10 w-full overflow-y-auto ${
-                    revisieoverzichtOpen ? '' : 'pointer-events-none'
+                    revisionOverviewOpen ? '' : 'pointer-events-none'
                 }`}
             >
                 <Transition
-                    show={revisieoverzichtOpen}
+                    show={revisionOverviewOpen}
                     enter="transition ease-out duration-150 transform"
                     enterFrom="-translate-y-1 scale-95"
                     enterTo="translate-y-0 scale-100"
@@ -231,14 +263,14 @@ const PopupRevisieoverzicht = ({
                         <div className="relative z-50 w-full text-gray-700 bg-white rounded-md shadow-md">
                             <div
                                 className="block w-full p-10 pb-0 transition-shadow duration-200 ease-in bg-gray-100 rounded-t-md"
-                                id="revisieoverzicht-header"
+                                id="revisionOverview-header"
                             >
                                 <div
                                     onClick={() => {
-                                        setRevisieoverzichtOpen(false)
+                                        setRevisionOverviewOpen(false)
                                     }}
                                     className="absolute top-0 right-0 px-3 py-2 mt-8 mr-8 text-gray-600 transition-colors duration-100 ease-in cursor-pointer hover:text-gray-800"
-                                    id={`close-revisieoverzicht`}
+                                    id={`close-revisionOverview`}
                                 >
                                     <FontAwesomeIcon
                                         className="text-lg"
@@ -254,7 +286,7 @@ const PopupRevisieoverzicht = ({
                                 </p>
                             </div>
                             <div
-                                id="revisieoverzicht-select-container"
+                                id="revisionOverview-select-container"
                                 className="block w-full px-10 pt-5 pb-6 bg-gray-100 border-b border-gray-300"
                             >
                                 <div className="flex items-center justify-between">
@@ -285,7 +317,7 @@ const PopupRevisieoverzicht = ({
                                     </div>
                                 ) : changesFromApi && !isLoading ? (
                                     <ChangeContainer
-                                        revisieObjecten={revisieObjecten}
+                                        revisionObjects={revisionObjects}
                                         oldObject={changesFromApi.old}
                                         changesObject={changesFromApi.changes}
                                         originalObject={dataObject}
@@ -297,8 +329,8 @@ const PopupRevisieoverzicht = ({
                                         </div>
                                         <div className="opacity-50">
                                             <ChangeContainer
-                                                revisieObjecten={
-                                                    revisieObjecten
+                                                revisionObjects={
+                                                    revisionObjects
                                                 }
                                                 oldObject={changesFromApi.old}
                                                 changesObject={
@@ -325,26 +357,45 @@ const PopupRevisieoverzicht = ({
     )
 }
 
+/**
+ *
+ * @param {object} children - Children component(s)
+ * @returns Wrapper element
+ */
 const ContainerLeft = ({ children }) => (
     <div className={`w-1/2 pr-5`}>{children}</div>
 )
 
+/**
+ *
+ * @param {object} children - Children component(s)
+ * @returns Wrapper element
+ */
 const ContainerRight = ({ children }) => (
     <div className={`w-1/2 pl-5`}>{children}</div>
 )
 
+/**
+ *
+ * @param {object} props
+ * @param {object} oldObject
+ * @param {object} changesObject
+ * @param {object} originalObject
+ * @param {object} revisionObjects
+ * @returns
+ */
 const ChangeContainer = ({
     oldObject,
     changesObject,
     originalObject,
-    revisieObjecten,
+    revisionObjects,
 }) => {
     const { user } = React.useContext(UserContext)
     return (
         <div className="min-h-screen pb-16">
             <div className="mt-8">
                 <ContainerMain>
-                    {/* Title */}
+                    {/* Section - Title */}
                     <ContainerLeft>
                         <span className="block text-lg font-bold opacity-25 text-primary-super-dark">
                             Beleidskeuze
@@ -359,6 +410,7 @@ const ChangeContainer = ({
                         <Title title={changesObject.Titel} />
                     </ContainerRight>
 
+                    {/* Section - Display extra information if user is logged in */}
                     {user ? (
                         <div className="flex justify-between w-full mt-4">
                             <ContainerLeft>
@@ -377,82 +429,82 @@ const ChangeContainer = ({
                         </div>
                     ) : null}
 
-                    {/* Date */}
+                    {/* Section - Date */}
                     <ContainerLeft>
                         <ValidText
-                            revisieObjecten={revisieObjecten}
-                            dataObject={oldObject}
+                            revisionObjects={revisionObjects}
+                            object={oldObject}
                         />
                     </ContainerLeft>
 
                     <ContainerRight>
                         <ValidText
-                            revisieObjecten={revisieObjecten}
-                            dataObject={changesObject}
+                            revisionObjects={revisionObjects}
+                            object={changesObject}
                         />
                     </ContainerRight>
 
-                    {/* Omschrijving Keuze */}
+                    {/* Section - Omschrijving Keuze */}
                     <ContainerLeft>
                         <Text
-                            content={oldObject.Omschrijving_Keuze}
+                            textContent={oldObject.Omschrijving_Keuze}
                             label="Wat wil de provincie bereiken?"
                         />
                     </ContainerLeft>
 
                     <ContainerRight>
                         <Text
-                            content={changesObject.Omschrijving_Keuze}
+                            textContent={changesObject.Omschrijving_Keuze}
                             label="Wat wil de provincie bereiken?"
                         />
                     </ContainerRight>
 
-                    {/* Aanleiding */}
+                    {/* Section - Aanleiding */}
                     <ContainerLeft>
                         <Text
-                            content={oldObject.Aanleiding}
+                            textContent={oldObject.Aanleiding}
                             label="Aanleiding"
                         />
                     </ContainerLeft>
 
                     <ContainerRight>
                         <Text
-                            content={changesObject.Aanleiding}
+                            textContent={changesObject.Aanleiding}
                             label="Aanleiding"
                         />
                     </ContainerRight>
 
-                    {/* Provinciaal Belang */}
+                    {/* Section - Provinciaal Belang */}
                     <ContainerLeft>
                         <Text
-                            content={oldObject.Provinciaal_Belang}
+                            textContent={oldObject.Provinciaal_Belang}
                             label="Provinciaal Belang"
                         />
                     </ContainerLeft>
 
                     <ContainerRight>
                         <Text
-                            content={changesObject.Provinciaal_Belang}
+                            textContent={changesObject.Provinciaal_Belang}
                             label="Provinciaal Belang"
                         />
                     </ContainerRight>
 
-                    {/* Omschrijving Toelichting */}
+                    {/* Section - Omschrijving Toelichting */}
                     <ContainerLeft>
                         <Text
-                            content={oldObject.Omschrijving_Werking}
+                            textContent={oldObject.Omschrijving_Werking}
                             label="Toelichting"
                         />
                     </ContainerLeft>
 
                     <ContainerRight>
                         <Text
-                            content={changesObject.Omschrijving_Werking}
+                            textContent={changesObject.Omschrijving_Werking}
                             label="Toelichting"
                         />
                     </ContainerRight>
 
-                    {/* Nationaal Belangen */}
+                    {/* Section - Nationaal Belangen */}
                     <ContainerLeft>
                         <Belangen
                             placeholder="Er zijn geen nationale belangen gekoppeld"
@@ -472,7 +524,7 @@ const ChangeContainer = ({
                         />
                     </ContainerRight>
 
-                    {/* Wettelijke Taak & Bevoegdheid */}
+                    {/* Section - Wettelijke Taak & Bevoegdheid */}
                     <ContainerLeft>
                         <Belangen
                             placeholder="Er zijn geen wettelijke taken gekoppeld"
@@ -491,30 +543,24 @@ const ChangeContainer = ({
                             type="Wettelijke Taak & Bevoegdheid"
                         />
                     </ContainerRight>
-
-                    {/* </ContainerLeft>
-
-                    <ContainerRight>
-                        <RelatiesKoppelingenTekstueel
-                            beleidskeuze={changesObject}
-                            containsChanges={true}
-                        />
-                    </ContainerRight> */}
                 </ContainerMain>
             </div>
+
+            {/* Section - Koppelingen */}
             <div>
                 <DividerWithTitle title={`Koppelingen & Relaties`} />
-                <RelatiesKoppelingenTekstueel
-                    objectOld={oldObject}
+                <RelationsConnectionsText
+                    originalObject={oldObject}
                     objectChanges={changesObject}
                 />
             </div>
+
+            {/* Section - GEO */}
             <div className="mt-10">
                 <DividerWithTitle title={`Werkingsgebied`} singleTitle={true} />
                 <ContainerMain>
-                    <Werkingsgebied
+                    <RevisionWerkingsgebied
                         originalObject={originalObject}
-                        oldObject={oldObject}
                         changesObject={changesObject}
                     />
                 </ContainerMain>
@@ -523,12 +569,21 @@ const ChangeContainer = ({
     )
 }
 
-const Werkingsgebied = ({ originalObject, oldObject, changesObject }) => {
-    const getTitleOfNewWerkingsgebied = () => {
-        // We get this werkingsgebied from the changesObject.
-        // This means the 'Werkingsgebieden' value will contain an object with the 'new', 'removed' and 'same' properties
-        // We first check 'new', if the array is empty we check 'same'. If that is also empty we know that the rightSelect state value has no werkingsgebied
-        // If that is the case, we return a unique string to indicate that, else we set the title
+/**
+ * @param {Object} props
+ * @param {Object} props.originalObject - Contains the object in its original form
+ * @param {Object} props.changesObject - Contains the object with changes on the properties (e.g. Propertie: {"new": [...], "removed": [...], "same": [...]})
+ * @returns Component that displays the changes of the GEO property on a Leaflet map
+ */
+const RevisionWerkingsgebied = ({ originalObject, changesObject }) => {
+    /**
+     * We get this werkingsgebied from the changesObject.
+     * This means the 'Werkingsgebieden' value will contain an object with the 'new', 'removed' and 'same' properties
+     * We first check 'new', if the array is empty we check 'same'. If that is also empty we know that the rightSelect state value has no werkingsgebied
+     * If that is the case, we return a unique string to indicate that, else we set the title
+     * @returns {string} Contains a string that indicates the changes to the GEO properties
+     */
+    const getSentenceIndicatingChange = () => {
         if (
             changesObject.Werkingsgebieden.new.length > 0 &&
             changesObject.Werkingsgebieden.removed.length > 0
@@ -546,7 +601,10 @@ const Werkingsgebied = ({ originalObject, oldObject, changesObject }) => {
         }
     }
 
-    const getGebieden = () => {
+    /**
+     * @returns {array} containing an Array and an Object. The array contains the GEO UUIDS. The Object contains the changes of the object.
+     */
+    const getGEO = () => {
         const gebiedenChanges = {
             new: [],
             removed: [],
@@ -567,15 +625,15 @@ const Werkingsgebied = ({ originalObject, oldObject, changesObject }) => {
         return [gebiedenUUIDS, gebiedenChanges]
     }
 
-    const title = getTitleOfNewWerkingsgebied()
-    const [gebiedenUUIDS, gebiedenChanges] = getGebieden()
+    const sentenceIndicatingChange = getSentenceIndicatingChange()
+    const [gebiedenUUIDS, gebiedenChanges] = getGEO()
 
     return (
         <div className="w-full">
             <p
                 className={`text-gray-800 mt-4 leading-7 break-words w-full whitespace-pre-line`}
             >
-                {title}
+                {sentenceIndicatingChange}
             </p>
             <div
                 className="mt-4 overflow-hidden border border-gray-300 rounded-lg"
@@ -587,32 +645,49 @@ const Werkingsgebied = ({ originalObject, oldObject, changesObject }) => {
                 />
             </div>
             <ul className="mt-4">
-                <LegendaItem color="#E74C3C">
-                    Verwijderd werkingsgebied
-                </LegendaItem>
-                <LegendaItem color="#2ECC71">
-                    Toegevoegd werkingsgebied
-                </LegendaItem>
-                <LegendaItem color="#2980B9">
-                    Ongewijzigd werkingsgebied
-                </LegendaItem>
+                <LegendaItem
+                    color="#E74C3C"
+                    label="Verwijderd werkingsgebied"
+                />
+                <LegendaItem
+                    color="#2ECC71"
+                    label="Toegevoegd werkingsgebied"
+                />
+                <LegendaItem
+                    color="#2980B9"
+                    label="Ongewijzigd werkingsgebied"
+                />
             </ul>
         </div>
     )
 }
 
-const LegendaItem = ({ color, children }) => {
+/**
+ *
+ * @param {object} props
+ * @param {string} props.color - Background color
+ * @param {object} props.label - Legenda label
+ * @returns A component for a legenda item containing a color indicator and a label
+ */
+const LegendaItem = ({ color, label }) => {
     return (
         <li className="flex items-center mt-1">
             <span
                 style={{ backgroundColor: color }}
                 className="inline-block w-3 h-3 mr-2 rounded-full"
             />
-            <span>{children}</span>
+            <span>{label}</span>
         </li>
     )
 }
 
+/**
+ *
+ * @param {object} props
+ * @param {string} props.title - Title that is displayed with the horizontal rule
+ * @param {boolean} props.singleTitle - boolean indicating if the component only needs to render one title
+ * @returns A component that displays a divider block containing one or two titles
+ */
 const DividerWithTitle = ({ title, singleTitle }) => {
     if (singleTitle) {
         return (
@@ -640,6 +715,12 @@ const DividerWithTitle = ({ title, singleTitle }) => {
     }
 }
 
+/**
+ *
+ * @param {object} props
+ * @param {string} props.title - Title of the object containing HTML in order to display the changes.
+ * @returns An Header 2 Title with inner HTML
+ */
 const Title = ({ title }) => {
     return (
         <h2
@@ -649,7 +730,14 @@ const Title = ({ title }) => {
     )
 }
 
-const Text = ({ content, label }) => {
+/**
+ *
+ * @param {object} props
+ * @param {object} props.textContent - Contains the text that is set with innerHTML. The HTML contains the changes.
+ * @param {object} props.label - Contains the label
+ * @returns A paragraph with an optional label above it
+ */
+const Text = ({ textContent, label }) => {
     return (
         <div className="mb-8">
             {label ? (
@@ -660,27 +748,34 @@ const Text = ({ content, label }) => {
             <p
                 className={`text-gray-800 leading-7 break-words w-full whitespace-pre-line`}
                 dangerouslySetInnerHTML={{
-                    __html: content ? content : 'Er is geen inhoud',
+                    __html: textContent ? textContent : 'Er is geen inhoud',
                 }}
             />
         </div>
     )
 }
 
-const ValidText = ({ dataObject, revisieObjecten }) => {
-    if (!revisieObjecten) return null
+/**
+ *
+ * @param {object} props
+ * @param {object} props.object - Contains the object we want the valid text from
+ * @param {array} props.revisionObjects - Contains the previous valid objects. We need this because these objects contain the uiStatus property. This property indicates if an object is archived or not.
+ * @returns The text indicating the period of validity of the object
+ */
+const ValidText = ({ object, revisionObjects }) => {
+    if (!revisionObjects) return null
 
-    revisieObjecten = revisieObjecten.sort(
+    revisionObjects = revisionObjects.sort(
         (a, b) => new Date(b.Begin_Geldigheid) - new Date(a.Begin_Geldigheid)
     )
 
-    const uiStatus = revisieObjecten.find((e) => e.UUID === dataObject.UUID)
+    const uiStatus = revisionObjects.find((e) => e.UUID === object.UUID)
         .uiStatus
 
-    const getTextValidFromSince = (dataObject) => {
+    const getTextValidFromSince = (object) => {
         // Toevoegen van de datum in de revisie: "Vigerend van <datum inwerkingtreding> tot <datum uitwerkingtreding>" voor gearchiveerde beleidskeuzes.
         // Voor vigerende beleidskeuzes: "Vigerend van <datum inwerkingtreding> tot heden"
-        if (!dataObject['Begin_Geldigheid'])
+        if (!object['Begin_Geldigheid'])
             return 'Er is nog geen begin geldigheid'
 
         const formatDate = (date) =>
@@ -688,19 +783,19 @@ const ValidText = ({ dataObject, revisieObjecten }) => {
                 locale: nlLocale,
             })
 
-        const dateStart = formatDate(dataObject['Begin_Geldigheid'])
+        const dateStart = formatDate(object['Begin_Geldigheid'])
         const isCurrentlyVigerend = uiStatus && uiStatus === 'Vigerend'
 
         if (isCurrentlyVigerend) {
             return `Vigerend vanaf ${dateStart} tot heden`
-        } else if (dataObject.Begin_Geldigheid === '1753-01-01T00:00:00Z') {
+        } else if (object.Begin_Geldigheid === '1753-01-01T00:00:00Z') {
             return `Er is geen begin geldigheid`
         } else {
             return `Vigerend vanaf ${dateStart}`
         }
     }
 
-    const validText = getTextValidFromSince(dataObject)
+    const validText = getTextValidFromSince(object)
 
     return (
         <span className="inline-block my-3 text-base text-gray-600 ">
@@ -709,7 +804,24 @@ const ValidText = ({ dataObject, revisieObjecten }) => {
     )
 }
 
+/**
+ *
+ * @param {object} props
+ * @param {string} props.label - Label to display above the section
+ * @param {object} props.object - The object to display belangen of
+ * @param {string} props.type - String indicating the type of Belang
+ * @param {boolean} props.containsChanges - Inidicating if the object contains changes
+ * @param {string} props.placeholder - Placeholder when there are no connections
+ * @returns A section to display the 'Belangen' of an object
+ */
 const Belangen = ({ label, object, type, containsChanges, placeholder }) => {
+    /**
+     *
+     * @param {boolean} containsChanges
+     * @param {object} object
+     * @param {string} type
+     * @returns
+     */
     const getBelangen = (containsChanges, object, type) => {
         if (!containsChanges) {
             return object.Belangen.filter((e) => e.Object.Type === type).map(
@@ -726,6 +838,18 @@ const Belangen = ({ label, object, type, containsChanges, placeholder }) => {
         }
     }
 
+    /**
+     *
+     * @param {object} object - Contains the object we want get the style for
+     * @returns
+     */
+    const getContainerStyle = (object) =>
+        object.changeType === 'removed'
+            ? { backgroundColor: '#f4c9c6', textDecoration: 'line-through' } // Removed - Red
+            : object.changeType === 'new'
+            ? { backgroundColor: '#e5f0ef' } // New     - Green
+            : { backgroundColor: '#f2f2f7' } // Default - Purple
+
     const objects = getBelangen(containsChanges, object, type)
 
     return (
@@ -737,7 +861,20 @@ const Belangen = ({ label, object, type, containsChanges, placeholder }) => {
             ) : null}
             {objects && objects.length > 0 ? (
                 objects.map((object) => {
-                    return <BelangenBlock object={object} />
+                    const containerStyle = getContainerStyle(object)
+                    return (
+                        <div
+                            className={`p-5 mb-4 rounded-md`}
+                            style={containerStyle}
+                        >
+                            <span className="block mb-1 font-bold m-color-puple">
+                                {object.Titel}
+                            </span>
+                            <p className="w-full leading-7 text-gray-800 break-words whitespace-pre-line">
+                                {object.Omschrijving}
+                            </p>
+                        </div>
+                    )
                 })
             ) : (
                 <span className="italic text-gray-600">{placeholder}</span>
@@ -746,32 +883,15 @@ const Belangen = ({ label, object, type, containsChanges, placeholder }) => {
     )
 }
 
-const BelangenBlock = ({ object }) => {
-    const containerStyle =
-        object.changeType === 'removed'
-            ? { backgroundColor: '#f4c9c6', textDecoration: 'line-through' } // Red
-            : object.changeType === 'new'
-            ? { backgroundColor: '#e5f0ef' } // Green
-            : { backgroundColor: '#f2f2f7' } // Purple
-
-    return (
-        <div className={`p-5 mb-4 rounded-md`} style={containerStyle}>
-            <span className="block mb-1 font-bold m-color-puple">
-                {object.Titel}
-            </span>
-            <p className="w-full leading-7 text-gray-800 break-words whitespace-pre-line">
-                {object.Omschrijving}
-            </p>
-        </div>
-    )
-}
-
-function RelatiesKoppelingenTekstueel({
-    objectOld,
-    objectChanges,
-    beleidsRelaties,
-}) {
-    if (!objectOld || !objectChanges) return
+/**
+ *
+ * @param {object} props
+ * @param {object} props.originalObject - Contains the original object
+ * @param {object} props.objectChanges - Contains the object that has changes
+ * @returns A section that indicates the changes in connections
+ */
+function RelationsConnectionsText({ originalObject, objectChanges }) {
+    if (!originalObject || !objectChanges) return
 
     /**
      * The changeObject connection properties contain objects with three potential properties:
@@ -801,7 +921,9 @@ function RelatiesKoppelingenTekstueel({
     return (
         <div>
             {connectionProperties.map((property) => {
-                const valuesOld = objectOld[property] ? objectOld[property] : []
+                const valuesOld = originalObject[property]
+                    ? originalObject[property]
+                    : []
                 const valuesChanges = getValuesOfChangeObject(
                     property,
                     objectChanges
@@ -817,15 +939,15 @@ function RelatiesKoppelingenTekstueel({
                                 <ul className="mt-2">
                                     {valuesOld && valuesOld.length > 0 ? (
                                         valuesOld.map((connection) => (
-                                            <ListItem
+                                            <ConnectionListItem
                                                 connection={connection}
                                                 property={property}
                                             />
                                         ))
                                     ) : (
                                         <span className="mt-2 italic text-gray-600">
-                                            Er zijn nog geen koppelingen vanuit{' '}
-                                            {property.toLowerCase()}
+                                            Er zijn geen{' '}
+                                            {property.toLowerCase()} gekoppeld
                                         </span>
                                     )}
                                 </ul>
@@ -840,7 +962,7 @@ function RelatiesKoppelingenTekstueel({
                                     {valuesChanges &&
                                     valuesChanges.length > 0 ? (
                                         valuesChanges.map((connection) => (
-                                            <ListItem
+                                            <ConnectionListItem
                                                 changeType={
                                                     connection.changeType
                                                 }
@@ -850,8 +972,8 @@ function RelatiesKoppelingenTekstueel({
                                         ))
                                     ) : (
                                         <span className="mt-2 italic text-gray-600">
-                                            {property} heeft nog geen
-                                            koppelingen
+                                            Er zijn geen{' '}
+                                            {property.toLowerCase()} gekoppeld
                                         </span>
                                     )}
                                 </ul>
@@ -864,6 +986,11 @@ function RelatiesKoppelingenTekstueel({
     )
 }
 
+/**
+ *
+ * @param {object} children - contains the child components
+ * @returns A wrapper container element
+ */
 const ContainerMain = ({ children }) => {
     return (
         <div className="flex flex-wrap justify-between px-10 mt-2">
@@ -872,13 +999,23 @@ const ContainerMain = ({ children }) => {
     )
 }
 
-const ListItem = ({ property, connection }) => {
+/**
+ *
+ * @param {object} props
+ * @param {string} props.property - Name of the property
+ * @param {object} props.connection - Object containing the connection
+ * @returns A list item that displays the connecting (and potentially the changes to it)
+ */
+const ConnectionListItem = ({ property, connection }) => {
+    /**
+     * Gets style to indicate changes to the object
+     */
     const textStyle =
         connection.changeType === 'removed'
-            ? { backgroundColor: '#f4c9c6', textDecoration: 'line-through' } // Red
+            ? { backgroundColor: '#f4c9c6', textDecoration: 'line-through' } // Removed - Red
             : connection.changeType === 'new'
-            ? { backgroundColor: '#e5f0ef' } // Green
-            : {}
+            ? { backgroundColor: '#e5f0ef' } // New - Green
+            : {} // Default
 
     return (
         <li className="relative block mt-1 text-sm text-gray-800">
@@ -962,4 +1099,4 @@ const connectionPropertiesColors = {
     },
 }
 
-export default PopupRevisieoverzicht
+export default PopupRevisionOverview

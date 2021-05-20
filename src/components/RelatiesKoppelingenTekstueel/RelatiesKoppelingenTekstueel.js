@@ -1,6 +1,13 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
+const getObjectFromRelation = (object) =>
+    object.hasOwnProperty('Van_Beleidskeuze')
+        ? object.Van_Beleidskeuze
+        : object.hasOwnProperty('Naar_Beleidskeuze')
+        ? object.Naar_Beleidskeuze
+        : null
+
 function RelatiesKoppelingenTekstueel({
     beleidsObject,
     beleidsRelaties,
@@ -70,16 +77,24 @@ function RelatiesKoppelingenTekstueel({
                             Beleidskeuzes
                         </h3>
                         <ul className="mt-2">
-                            {beleidsRelaties.map((beleidsrelatie) => (
-                                <ListItem
-                                    titel={beleidsrelatie.Titel}
-                                    property="Beleidskeuzes"
-                                    UUID={beleidsrelatie.UUID}
-                                    connectionPropertiesColors={
-                                        connectionPropertiesColors
-                                    }
-                                />
-                            ))}
+                            {beleidsRelaties.map((beleidsrelatie) => {
+                                const relationObject = getObjectFromRelation(
+                                    beleidsrelatie
+                                )
+
+                                if (!relationObject) return null
+
+                                return (
+                                    <ListItem
+                                        titel={relationObject.Titel}
+                                        property="Beleidskeuzes"
+                                        UUID={relationObject.UUID}
+                                        connectionPropertiesColors={
+                                            connectionPropertiesColors
+                                        }
+                                    />
+                                )
+                            })}
                         </ul>
                     </div>
                 ) : null}
@@ -97,14 +112,6 @@ const ListItem = ({
 }) => {
     const location = useLocation()
 
-    // const generateLeft = (elWidth) => {
-    //     const tooltipEl = document.getElementById(UUID)
-    //     if (!tooltipEl) return
-
-    //     const tooltipElWidth = tooltipEl.offsetWidth
-    //     return elWidth / 2 - tooltipElWidth / 2 + 10 + 'px'
-    // }
-
     const generateHref = ({ property, UUID }) => {
         const slugs = {
             Beleidskeuzes: 'beleidskeuzes',
@@ -115,7 +122,7 @@ const ListItem = ({
             Maatregelen: 'maatregelen',
             Themas: 'themas',
             Beleidsdoelen: 'Beleidsdoelen',
-            Verordening: 'verordeningen',
+            Verordeningen: 'verordeningen',
         }
 
         const path = `/detail/${slugs[property]}/${UUID}?fromPage=${location.pathname}`

@@ -4,6 +4,15 @@ import Select from 'react-select'
 // Import Components
 import LoaderSelect from './../LoaderSelect'
 
+/**
+ * Function that checks if the objectenArray contains a value by checking the length,
+ * otherwise it will map through each array item and returns the set value for each variable in the options object.
+ *
+ * @function
+ *
+ * @param {array} objectenArray - Parameter given that contains an array that is used to set the value for each variable of options.
+ * @param {string} dataObjectProperty - Parameter given that is used to set the name variable of the target variable of options.
+ */
 function makeSelection(objectenArray, dataObjectProperty) {
     if (objectenArray.length === 0) {
         return []
@@ -24,6 +33,12 @@ function makeSelection(objectenArray, dataObjectProperty) {
     }
 }
 
+/**
+ * Class that renders the FormFieldSelectUser component which is part of the component FormFieldSelectUserGroup, in which the user can select a user based on the role given.
+ *
+ * @class
+ * @extends React.Component
+ */
 class FormFieldSelectUser extends React.Component {
     constructor(props) {
         super(props)
@@ -49,7 +64,13 @@ class FormFieldSelectUser extends React.Component {
         }
         return selected
     }
-
+    /**
+     * Function to update the prevProps and set the state variables only if the current fielValue is not equal to the previous fieldValue.
+     *
+     * @function
+     *
+     * @param {props} prevProps - Parameter that is used to show the previous property value.
+     */
     componentDidUpdate(prevProps) {
         const fieldValue = this.props.fieldValue
 
@@ -66,6 +87,11 @@ class FormFieldSelectUser extends React.Component {
         }
     }
 
+    /**
+     * Function to set the state of the props given based on the conditional operators.
+     *
+     * @function
+     */
     componentDidMount() {
         let fieldValue = this.props.fieldValue
 
@@ -97,6 +123,41 @@ class FormFieldSelectUser extends React.Component {
             })
         } else {
             this.setState({ selectionArray: selectionArray, dataLoaded: true })
+        }
+    }
+
+    /**
+     * Function that returns filtered select options, based on the filterOtherProperty prop
+     * This makes sure a user can't select a previously selected user (e.g. eigenaar_1 and eigenaar_2 can't be the same user)
+     */
+    getOptions() {
+        const filterOtherProperty = this.props.filterOtherProperty
+
+        if (filterOtherProperty) {
+            return this.state.selectionArray.filter((e) => {
+                const filterTypeIsString =
+                    typeof filterOtherProperty === 'string'
+                const filterTypeIsObject =
+                    typeof filterOtherProperty === 'object' &&
+                    filterOtherProperty !== null
+
+                /**
+                 * If the filterType is a string containing the UUID, we return it
+                 * If it is an object, we get the UUID string and return that
+                 */
+                const filterOtherPropertyUUID = filterTypeIsString
+                    ? filterOtherProperty
+                    : filterTypeIsObject
+                    ? filterOtherProperty.UUID
+                    : filterOtherProperty
+
+                /**
+                 * Filter out select options with a value that is the same as the 'filterOtherPropertyUUID'
+                 */
+                return e.value !== filterOtherPropertyUUID
+            })
+        } else {
+            return this.state.selectionArray
         }
     }
 
@@ -142,15 +203,7 @@ class FormFieldSelectUser extends React.Component {
                         }}
                         styles={customStyles}
                         isClearable={true}
-                        options={
-                            this.props.filterOtherProperty
-                                ? this.state.selectionArray.filter(
-                                      (e) =>
-                                          e.value !==
-                                          this.props.filterOtherProperty
-                                  )
-                                : this.state.selectionArray
-                        }
+                        options={this.getOptions()}
                         placeholder={`Selecteer...`}
                     ></Select>
                 ) : (

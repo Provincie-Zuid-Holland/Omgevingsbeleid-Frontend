@@ -104,6 +104,12 @@ const DEFAULT_VIEWPORT = {
     zoom: 5,
 }
 
+/**
+ * Class that sets the state for a certain amount of variables and create a reference for the leafletMap variable and binds the initializeComponent.
+ *
+ * @class
+ * @extends Component
+ */
 export default class LeafletTinyViewer extends Component {
     constructor(props) {
         super(props)
@@ -119,14 +125,33 @@ export default class LeafletTinyViewer extends Component {
         this.initializeComponent = this.initializeComponent.bind(this)
     }
 
+    /**
+     * Function that does nothing.
+     *
+     * @function
+     */
     onClickReset = () => {
         // this.setState({ viewport: DEFAULT_VIEWPORT })
     }
 
+    /**
+     * Function that changes the viewport by setting the state based on the viewport value.
+     *
+     * @function
+     *
+     * @param {object} viewport - The value of this parameter is used to set the new viewport state.
+     */
     onViewportChanged = (viewport) => {
         this.setState({ viewport: viewport, bounds: null })
     }
 
+    /**
+     * Function that updates the leafletMap parameters and checks the previous values with the prevProps and set the new one based on the current value.
+     *
+     * @function
+     *
+     * @param {object} prevProps - Parameter containing the previous values.
+     */
     componentDidUpdate(prevProps) {
         if (
             this.props.fullscreen !== prevProps.fullscreen &&
@@ -143,6 +168,12 @@ export default class LeafletTinyViewer extends Component {
         }
     }
 
+    /**
+     * Function that removes a layer from the currentLeafletMap.leafletElement if currentLeafletmap and this.state.boundsObject contain a value.
+     * It then imports the API axiosGeoJSON and then uses the GeoJsonData.
+     *
+     * @function
+     */
     initializeComponent() {
         const currentLeafletMap = this.leafletMap.current
         if (currentLeafletMap && this.state.boundsObject) {
@@ -253,6 +284,11 @@ export default class LeafletTinyViewer extends Component {
         })
     }
 
+    /**
+     * Function that calls the initializeComponent function within this javascript file.
+     *
+     * @function
+     */
     componentDidMount() {
         this.initializeComponent()
     }
@@ -614,6 +650,14 @@ export default class LeafletTinyViewer extends Component {
     }
 }
 
+/**
+ * Function to toggle (open/close) the div inside this function. It uses to display the title and children value.
+ *
+ * @function
+ *
+ * @param {object} children - Parameter used to display value in a div.
+ * @param {string} title - Parameter used to display value in a span.
+ */
 const ToggleableSection = ({ children, title }) => {
     const [open, setOpen] = React.useState(true)
     return (

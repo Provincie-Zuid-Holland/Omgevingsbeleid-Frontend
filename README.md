@@ -159,6 +159,49 @@ To set the environmental variable for Cypress you need a `cypress.json` file in 
         "ACCESS_TOKEN": "local-storage-key",
         "USERNAME": "username@domain.com",
         "PASSWORD": "password"
+            }
+}
+```
+
+## JSDoc
+
+---
+
+To install JSDoc Globally to document code use the following steps:
+
+```
+npm install -g jsdoc
+```
+
+You then create a jsdoc.json config file in the root with the following settings:
+
+-   you can edit the parameters below.
+
+```
+{
+    "source": {
+        "include":["src/pages/", "README.md"],
+        "includePattern": ".+\\.js(doc|x)?$",
+        "excludePattern": "(node_modules/|docs)"
+    },
+    "plugins": ["plugins/markdown"],
+    "templates": {
+        "cleverLinks": true,
+        "monospaceLinks": true
+    },
+    "opts": {
+        "recurse": true,
+        "destination": "./docs/"
     }
 }
 ```
+
+With the following command you generate/override the doc environment:
+
+```
+jsdoc -c jsdoc.json
+```
+
+A docs folder will be created (if you didn't have on yet), in that folder you can open the index.html to view the documentation in your browser.
+
+See the following link for tags that can be used in the comments of code/examples: [JSDoc](https://jsdoc.app/index.html)

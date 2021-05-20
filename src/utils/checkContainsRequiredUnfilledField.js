@@ -7,12 +7,18 @@ import scrollToElement from './scrollToElement'
  * @returns {boolean} indicating if object has a value on the property
  */
 const checkIfPropertyHasValue = (property, crudObject) => {
+    const isEmptyArray =
+        Array.isArray(crudObject[property]) && crudObject[property].length === 0
+
     const propertyHasValue =
         crudObject[property] !== undefined &&
         crudObject[property] !== null &&
-        crudObject[property] !== [] &&
         crudObject[property] !== '' &&
-        crudObject[property] !== 'Invalid Date'
+        crudObject[property] !== 'Invalid Date' &&
+        crudObject[property] !== '1753-01-01' &&
+        crudObject[property] !== '10000-01-01' &&
+        crudObject[property] !== '<p><br></p>' &&
+        !isEmptyArray
 
     return propertyHasValue
 }
@@ -33,8 +39,9 @@ const checkIfObjectHasStatusField = (crudObject) =>
  */
 const checkIfPropertyIsRequired = (property, crudObject, dimensieConstants) => {
     const objectHasStatusField = checkIfObjectHasStatusField(crudObject)
-
-    if (objectHasStatusField) {
+    if (dimensieConstants.TITLE_SINGULAR === 'Verordening') {
+        return false
+    } else if (objectHasStatusField) {
         const status = crudObject.Status
         return dimensieConstants.CRUD_PROPERTIES[property]?.required.includes(
             status
@@ -71,7 +78,11 @@ const notifyUser = (dimensieConstants, property, scrolledToElement) => {
  * @param {string} titleSingular Contains the title of the object type
  * @returns a boolean indicating if all the required fields have been filled in
  */
-function checkRequiredFields(crudObject, dimensieConstants, titleSingular) {
+function checkContainsRequiredUnfilledField(
+    crudObject,
+    dimensieConstants,
+    titleSingular
+) {
     const crudObjectProperties = Object.keys(crudObject)
 
     // Indicator to only trigger a page scroll once in notifyUser()
@@ -101,8 +112,7 @@ function checkRequiredFields(crudObject, dimensieConstants, titleSingular) {
     })
 
     const containsRequiredUnfilledField = filledInValues.includes(false)
-
     return containsRequiredUnfilledField
 }
 
-export default checkRequiredFields
+export default checkContainsRequiredUnfilledField

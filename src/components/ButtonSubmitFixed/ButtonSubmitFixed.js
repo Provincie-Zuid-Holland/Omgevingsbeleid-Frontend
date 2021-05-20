@@ -1,5 +1,9 @@
 import React from 'react'
-
+/**
+ * A component that renders a fixed place submit button element with the text "Opslaan", in which a user can submit data in a form.
+ *
+ * @component
+ */
 function ButtonSubmitFixed() {
     return (
         <div className="fixed bottom-0 right-0 z-10 px-6">

@@ -15,7 +15,7 @@ describe('FormFieldRadioButton', () => {
     it('should render', () => {
         const props = { ...defaultProps }
 
-        const { asFragment, queryByText } = render(
+        const { queryByText } = render(
             <FormFieldRadioButton
                 options={options}
                 handleChange={mockHandleChange}
@@ -34,7 +34,7 @@ describe('FormFieldRadioButton', () => {
         const id = `form-field-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}-${
             options[0]
         }`
-        const { container } = render(
+        render(
             <FormFieldRadioButton
                 options={['Gebiedsspecifiek', 'Generiek']}
                 handleChange={mockHandleChange}
@@ -45,10 +45,8 @@ describe('FormFieldRadioButton', () => {
                 {...props}
             />
         )
-        const initialCheckedInput = screen.getByDisplayValue(fieldValue)
+
         const otherInput = screen.getByDisplayValue(secondOption)
         fireEvent.click(otherInput)
-        // expect(initialCheckedInput.checked).toBeFalsy()
-        // expect(otherInput.checked).toBeTruthy()
     })
 })

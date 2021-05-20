@@ -5,6 +5,18 @@ import FormFieldSelectUser from './../FormFieldSelectUser'
 import axios from './../../API/axios'
 import LoaderSelect from './../LoaderSelect'
 
+/**
+ * Component that is used to display the user group component, by first getting the users through axios and adding it to the gebruikersLijst variable.
+ * Then loading the values of the gebruikersLijst variable in the dropdown element of the FormFieldSelectUser component based on the role filter.
+ *
+ * @component
+ *
+ * @param {object} crudObject - Containing the ownership level of the user group.
+ * @param {string} editStatus - Status of the selected user.
+ * @param {boolean} handleChange - Can be set true or false if the user is allowed to change.
+ * @param {string} titelEnkelvoud - Title of the selected user.
+ * @param {boolean} disabled - Can be set true or false if the user is disabled or not.
+ */
 const FormFieldSelectUserGroup = ({
     crudObject,
     editStatus,
@@ -33,7 +45,7 @@ const FormFieldSelectUserGroup = ({
     }, [])
 
     return (
-        <React.Fragment>
+        <>
             <span className="block mb-2 text-sm font-bold tracking-wide text-gray-700">
                 Personen
             </span>
@@ -129,7 +141,7 @@ const FormFieldSelectUserGroup = ({
                     <LoaderSelect />
                 )}
             </div>
-        </React.Fragment>
+        </>
     )
 }
 

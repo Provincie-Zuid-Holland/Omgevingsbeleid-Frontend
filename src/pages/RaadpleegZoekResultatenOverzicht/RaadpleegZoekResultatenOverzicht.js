@@ -13,6 +13,9 @@ import axios from './../../API/axios'
 // Import Data Model
 import allDimensieConstants from './../../constants/dimensies'
 
+// Import Utils
+import generateVerordeningsPosition from './../../utils/generateVerordeningsPosition'
+
 // Import Components
 import LoaderContent from './../../components/LoaderContent'
 
@@ -204,7 +207,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
         this.getAndSetVigerendeVerordeningenStructuur = this.getAndSetVigerendeVerordeningenStructuur.bind(
             this
         )
-        this.generateVerordeningsPosition = this.generateVerordeningsPosition.bind(
+        this.generateVerordeningsPosition = generateVerordeningsPosition.bind(
             this
         )
         this.handleFilter = this.handleFilter.bind(this)
@@ -251,74 +254,74 @@ class RaadpleegZoekResultatenOverzicht extends Component {
         })
     }
 
-    generateVerordeningsPosition(UUIDToFind) {
-        if (!this.state.vigerendeVerordeningsStructuur) return []
+    // generateVerordeningsPosition(UUIDToFind) {
+    //     if (!this.state.vigerendeVerordeningsStructuur) return []
 
-        // Curren structure of vigerende verordeningsstructure
-        const vigerendeVerordeningsStructuurChildren = this.state
-            .vigerendeVerordeningsStructuur.Structuur.Children
+    //     // Curren structure of vigerende verordeningsstructure
+    //     const vigerendeVerordeningsStructuurChildren = this.state
+    //         .vigerendeVerordeningsStructuur.Structuur.Children
 
-        // Used to push in the indexes to traverse to the UUIDToFind
-        let indexPathToUUID = []
+    //     // Used to push in the indexes to traverse to the UUIDToFind
+    //     let indexPathToUUID = []
 
-        // Used to push the current index while traversing into the right index of indexPathToUUID. We increase/decrease on every nested level change.
-        let indexTraversed = 0
+    //     // Used to push the current index while traversing into the right index of indexPathToUUID. We increase/decrease on every nested level change.
+    //     let indexTraversed = 0
 
-        // Becomes true when we've found the UUIDToFind
-        let pathFound = false
+    //     // Becomes true when we've found the UUIDToFind
+    //     let pathFound = false
 
-        // Func to recursively traverse through the children and find the UUID in the properties
-        function traverseChildren(children) {
-            if (pathFound) return
+    //     // Func to recursively traverse through the children and find the UUID in the properties
+    //     function traverseChildren(children) {
+    //         if (pathFound) return
 
-            // Returns foundIndex() of the UUIDToFind with the objects in the children array
-            const indexOfUUIDInArray = findUUIDInArray(children)
+    //         // Returns foundIndex() of the UUIDToFind with the objects in the children array
+    //         const indexOfUUIDInArray = findUUIDInArray(children)
 
-            // For each child in the array we first check if the UUID exists in the childs, else we traverse one level to the children of each child and check recrusively from there
-            if (indexOfUUIDInArray !== -1) {
-                indexPathToUUID[indexTraversed] = indexOfUUIDInArray
-                pathFound = true
-            } else {
-                children.forEach((child, childIndex) => {
-                    // If item has no children OR pathFound equals true -> Return
-                    if (
-                        !child.Children ||
-                        child.Children.length === 0 ||
-                        pathFound
-                    )
-                        return
+    //         // For each child in the array we first check if the UUID exists in the childs, else we traverse one level to the children of each child and check recrusively from there
+    //         if (indexOfUUIDInArray !== -1) {
+    //             indexPathToUUID[indexTraversed] = indexOfUUIDInArray
+    //             pathFound = true
+    //         } else {
+    //             children.forEach((child, childIndex) => {
+    //                 // If item has no children OR pathFound equals true -> Return
+    //                 if (
+    //                     !child.Children ||
+    //                     child.Children.length === 0 ||
+    //                     pathFound
+    //                 )
+    //                     return
 
-                    // Else push childIndex into indexPathToUUID,
-                    indexPathToUUID[indexTraversed] = childIndex
+    //                 // Else push childIndex into indexPathToUUID,
+    //                 indexPathToUUID[indexTraversed] = childIndex
 
-                    // Increase indexTraversed because in the traverseChildren() call we traverse on level down
-                    indexTraversed++
-                    traverseChildren(child.Children)
+    //                 // Increase indexTraversed because in the traverseChildren() call we traverse on level down
+    //                 indexTraversed++
+    //                 traverseChildren(child.Children)
 
-                    // It is possible that we found the Path to the UUID in the traverseChildren() call above. If that is the case we want to return
-                    if (pathFound) return
+    //                 // It is possible that we found the Path to the UUID in the traverseChildren() call above. If that is the case we want to return
+    //                 if (pathFound) return
 
-                    // Else we are done traversing through the children, we replace the item on the current indexPathToUUID index with a null value and then decrease the indexTraversed again
-                    indexPathToUUID.splice(indexTraversed, 1, null)
-                    indexTraversed--
-                })
-            }
-        }
+    //                 // Else we are done traversing through the children, we replace the item on the current indexPathToUUID index with a null value and then decrease the indexTraversed again
+    //                 indexPathToUUID.splice(indexTraversed, 1, null)
+    //                 indexTraversed--
+    //             })
+    //         }
+    //     }
 
-        // Find and return index of 'item.UUID === UUIDToFind', else returns -1
-        function findUUIDInArray(children) {
-            const indexOfUUID = children.findIndex(
-                (item) => item.UUID === UUIDToFind
-            )
-            return indexOfUUID
-        }
+    //     // Find and return index of 'item.UUID === UUIDToFind', else returns -1
+    //     function findUUIDInArray(children) {
+    //         const indexOfUUID = children.findIndex(
+    //             (item) => item.UUID === UUIDToFind
+    //         )
+    //         return indexOfUUID
+    //     }
 
-        // Initialize function
-        traverseChildren(vigerendeVerordeningsStructuurChildren)
+    //     // Initialize function
+    //     traverseChildren(vigerendeVerordeningsStructuurChildren)
 
-        // Return the found array with the path to the UUID
-        return indexPathToUUID
-    }
+    //     // Return the found array with the path to the UUID
+    //     return indexPathToUUID
+    // }
 
     addVerordeningsPositionToSearchResults(searchResults) {
         // We map over the searchResults. If the item is of the type 'Verordeningen' we find the position of the UUID in the verordeningenStructure
@@ -326,7 +329,8 @@ class RaadpleegZoekResultatenOverzicht extends Component {
         const newSearchResults = searchResults.map((item) => {
             if (item.Type === 'Verordeningen') {
                 const positionInStructure = this.generateVerordeningsPosition(
-                    item.UUID
+                    item.UUID,
+                    this.state.vigerendeVerordeningsStructuur
                 )
                 item.positionInStructure = positionInStructure
                 return item
