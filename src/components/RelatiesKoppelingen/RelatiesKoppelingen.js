@@ -50,6 +50,14 @@ const connectionPropertiesColors = {
     },
 }
 
+/**
+ *
+ * @param {object} props
+ * @param {object} dataObject - Contains the object of which we want to display the relations
+ * @param {string} titleSingular - Contains the title of this object in a singular form
+ * @param {string} titleSingularPrefix - Contains the prefix of the title (de/het)
+ * @returns A component containing two tabs containing a visual and a textual child component that displays the connections to the dataObject
+ */
 const RelatiesKoppelingen = ({
     dataObject,
     titleSingular,
@@ -70,54 +78,123 @@ const RelatiesKoppelingen = ({
     React.useEffect(() => {
         setIsLoading(true)
 
-        const getAndSetVigerendeVerordening = () => {
-            axios.get('/verordeningstructuur').then((res) => {
-                const vigerendeVerordening = res.data.find(
-                    (item) => item.Status === 'Vigerend'
+        /**
+         * Function to get and find the first vigerende Verordening
+         * @returns {Promise} Promise object contains the vigerende verordening or undefined
+         */
+        const getVigerendeVerordening = () =>
+            axios
+                .get('/verordeningstructuur')
+                .then((res) =>
+                    res.data.find((item) => item.Status === 'Vigerend')
                 )
 
-                if (vigerendeVerordening) {
-                    setVerordeningStructure(vigerendeVerordening)
-                }
+        /**
+         * A function to filter out relations. Filter out relations that
+         * - Have a different status then 'Vigerend'
+         * - Have the same UUID as the UUID on the dataObject
+         * @param {object[]} relations - Contains the relation objects we want to filter out
+         */
+        const filterOutUnvalidRelations = (relations) => {
+            if (relations.length === 0) {
+                return relations
+            } else if (relations[0].hasOwnProperty('Van_Beleidskeuze')) {
+                return relations.filter(
+                    (relation) =>
+                        relation.Van_Beleidskeuze.Status === 'Vigerend' &&
+                        relation.Van_Beleidskeuze.UUID !== dataObject.UUID
+                )
+            } else if (relations[0].hasOwnProperty('Naar_Beleidskeuze')) {
+                return relations.filter(
+                    (relation) =>
+                        relation.Naar_Beleidskeuze.Status === 'Vigerend' &&
+                        relation.Naar_Beleidskeuze.UUID !== dataObject.UUID
+                )
+            } else {
+                return []
+            }
+        }
+
+        /**
+         * Function to get and the relations from an object
+         * @returns {Promise} Promise object contains the data from the API
+         */
+        const getBeleidsrelatiesFrom = (uuidFrom) =>
+            axios
+                .get(
+                    `/beleidsrelaties?all_filters=Status:Akkoord,Van_Beleidskeuze:${uuidFrom}`
+                )
+                .then((res) => {
+                    const filteredRelations = filterOutUnvalidRelations(
+                        res.data
+                    )
+
+                    return filteredRelations
+                })
+
+        /**
+         * Function to get and the relations to an object
+         * @returns {Promise} Promise object contains the data from the API
+         */
+        const getBeleidsrelatiesTo = (uuidTo) =>
+            axios
+                .get(
+                    `/beleidsrelaties?all_filters=Status:Akkoord,Naar_Beleidskeuze:${uuidTo}`
+                )
+                .then((res) => {
+                    const filteredRelations = filterOutUnvalidRelations(
+                        res.data
+                    )
+
+                    return filteredRelations
+                })
+
+        /**
+         * Function to inialize the needed data for the object of type 'Beleidskeuze'
+         * Gets the relations from and to the object, and gets the active verordeningsStructure
+         * When data is set in State we set the loading state to False
+         */
+        const initBeleidskeuze = () => {
+            const beleidsrelatiesVan = getBeleidsrelatiesFrom(dataObject.UUID)
+            const beleidsrelatiesNaar = getBeleidsrelatiesTo(dataObject.UUID)
+            const getVerordeningsStructure = getVigerendeVerordening()
+
+            Promise.all([
+                beleidsrelatiesVan,
+                beleidsrelatiesNaar,
+                getVerordeningsStructure,
+            ]).then((responses) => {
+                const relatiesVan = responses[0]
+                const relatiesNaar = responses[1]
+                const vigerendeVerordening = responses[2]
+
+                setBeleidsRelaties([...relatiesVan, ...relatiesNaar])
+                setVerordeningStructure(vigerendeVerordening)
+
+                setIsLoading(false)
             })
         }
 
-        const initBeleidskeuze = () => {
-            const beleidsrelatiesVan = axios
-                .get(
-                    `/beleidsrelaties?all_filters=Status:Akkoord,Van_Beleidskeuze:${dataObject.UUID}`
-                )
-                .then((res) => res.data)
-
-            const beleidsrelatiesNaar = axios
-                .get(
-                    `/beleidsrelaties?all_filters=Status:Akkoord,Naar_Beleidskeuze:${dataObject.UUID}`
-                )
-                .then((res) => res.data)
-
-            Promise.all([beleidsrelatiesVan, beleidsrelatiesNaar]).then(
-                (relaties) => {
-                    // Generate UUID's of all the beleidskeuzes that this beleidskeuze has a relationship with
-                    const relatiesVan = relaties[0]
-                    const relatiesNaar = relaties[1]
-
-                    setBeleidsRelaties([...relatiesVan, ...relatiesNaar])
-                    setIsLoading(false)
-                }
-            )
-        }
-
+        /**
+         * Function to inialize the needed data for objects that are NOT of type 'Beleidskeuze'
+         * Sets the relations to beleidskeuzes in state, and gets the active verordeningsStructure
+         * When data is set in State we set the loading state to False
+         */
         const initBeleidsobject = () => {
             setBeleidsRelaties(dataObject.Ref_Beleidskeuzes)
-            setIsLoading(false)
+            getVigerendeVerordening().then((vigerendeVerordening) => {
+                setVerordeningStructure(vigerendeVerordening)
+                setIsLoading(false)
+            })
         }
 
+        /**
+         * Initialize the data
+         */
         if (titleSingular === 'Beleidskeuze') {
             initBeleidskeuze()
-            getAndSetVigerendeVerordening()
         } else {
             initBeleidsobject()
-            getAndSetVigerendeVerordening()
         }
     }, [dataObject.UUID, titleSingular, dataObject.Ref_Beleidskeuzes])
 
@@ -184,6 +261,14 @@ const RelatiesKoppelingen = ({
     )
 }
 
+/**
+ *
+ * @param {object} props
+ * @param {string} activeTab - Contains the currently active tab
+ * @param {function} onClick - Function to switch the active tab
+ * @param {string} title - The title of the tab
+ * @returns A component that renders a tab button
+ */
 const TabButton = ({ activeTab, onClick, title }) => {
     return (
         <button

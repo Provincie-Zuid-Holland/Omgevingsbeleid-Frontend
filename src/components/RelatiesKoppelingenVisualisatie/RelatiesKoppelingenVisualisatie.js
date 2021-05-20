@@ -110,7 +110,7 @@ const RelatiesKoppelingenVisualisatie = ({
             const svg = d3.select(d3Container.current)
             svg.selectAll('*').remove()
 
-            svg.attr('viewBox', [50, 25, 100, 150])
+            svg.attr('viewBox', [50, -25, 100, 250])
 
             const links = data.links
             const nodes = data.nodes
@@ -226,10 +226,10 @@ const RelatiesKoppelingenVisualisatie = ({
                         Verordeningen: 'verordeningen',
                     }
 
-                    const path = `/detail/${slugs[property]}/${UUID}?fromPage=${
+                    const path = `/detail/${slugs[property]}/${UUID}${
                         location.pathname.includes('verordeningen')
                             ? ''
-                            : location.pathname
+                            : '?fromPage=' + location.pathname
                     }`
 
                     return path
@@ -324,19 +324,21 @@ const RelatiesKoppelingenVisualisatie = ({
                         className="d3-component"
                         style={{
                             width: '100%',
-                            height: '250px',
+                            height: '400px',
                         }}
                         ref={d3Container}
                     />
                 </div>
                 <Link
-                    to={href}
+                    to={href ? href : '#'}
                     id="d3-tooltip"
                     style={{
                         left: variables.left,
                         top: variables.top,
                     }}
-                    class="absolute hidden hover:block"
+                    class={`absolute hidden hover:block ${
+                        href ? 'cursor-pointer' : 'cursor-default'
+                    }`}
                 >
                     <div
                         id="d3-tooltip-title"
