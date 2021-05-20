@@ -21,7 +21,7 @@ import cloneDeep from 'lodash.clonedeep'
 const filterMenu = {
     Visie: ['ambities', 'beleidsdoelen', 'beleidskeuzes', 'beleidsprestaties'],
     Omgevingsprogramma: ['maatregelen'],
-    Uitvoering: ['verordening', 'beleidsregels'],
+    Uitvoering: ['verordeningen', 'beleidsregels'],
     Overig: ['themas', 'belangen'],
 }
 
@@ -71,7 +71,7 @@ const connectionProperties = {
         plural: "Thema's",
         prefix: 'het',
     },
-    verordening: {
+    verordeningen: {
         hex: '#eb7085',
         singular: 'Verordening',
         plural: 'Verordeningsartikelen',
@@ -165,9 +165,12 @@ const GraphPopupMenu = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
             const filterTypes = [] // Contains the types that are present in the nodes
             const filterState = {} // The state we will return in the format {'Beleidskeuze': true}
 
+            const getInitialFilterState = (type) =>
+                filterMenu.Visie.includes(type)
+
             const addNodeType = (type) => {
                 filterTypes.push(type)
-                filterState[type] = true
+                filterState[type] = getInitialFilterState(type)
             }
 
             nodes.forEach((node) =>
@@ -212,6 +215,11 @@ const GraphPopupMenu = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
         if (!data) return null
 
         data.nodes.forEach((node) => {
+            if (!connectionProperties[node.Type]) {
+                console.error(
+                    `Node with type ${node.Type} doesn't exist on connection properties`
+                )
+            }
             node.color = connectionProperties[node.Type].hex
             node.id = node.UUID
         })
