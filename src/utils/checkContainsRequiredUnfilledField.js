@@ -12,7 +12,9 @@ const checkIfPropertyHasValue = (property, crudObject) => {
         crudObject[property] !== null &&
         crudObject[property] !== [] &&
         crudObject[property] !== '' &&
-        crudObject[property] !== 'Invalid Date'
+        crudObject[property] !== 'Invalid Date' &&
+        crudObject[property] !== '1753-01-01' &&
+        crudObject[property] !== '10000-01-01'
 
     return propertyHasValue
 }
@@ -91,10 +93,16 @@ function checkContainsRequiredUnfilledField(
             crudObject,
             dimensieConstants
         )
-
+        if (property === 'Begin_Geldigheid') {
+            console.log('Required: ', propertyIsRequired)
+        }
         if (!propertyIsRequired) return true
 
         const hasValue = checkIfPropertyHasValue(property, crudObject)
+        if (property === 'Begin_Geldigheid') {
+            console.log('Has Value: ', hasValue)
+            console.log('Value is: ', crudObject[property])
+        }
 
         if (hasValue) {
             return true
