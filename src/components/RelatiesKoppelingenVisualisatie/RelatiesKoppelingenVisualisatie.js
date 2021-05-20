@@ -2,6 +2,8 @@ import React from 'react'
 import * as d3 from 'd3'
 import { Link, useLocation } from 'react-router-dom'
 
+import generateVerordeningsPosition from './../../utils/generateVerordeningsPosition'
+
 const RelatiesKoppelingenVisualisatie = ({
     beleidsObject,
     connectionProperties,
@@ -9,6 +11,7 @@ const RelatiesKoppelingenVisualisatie = ({
     beleidsRelaties,
     titleSingular,
     titleSingularPrefix,
+    verordeningsStructure,
 }) => {
     const location = useLocation()
 
@@ -105,7 +108,9 @@ const RelatiesKoppelingenVisualisatie = ({
     React.useEffect(() => {
         if (data && d3Container.current) {
             const svg = d3.select(d3Container.current)
-            svg.attr('viewBox', [50, 25, 100, 150])
+            svg.selectAll('*').remove()
+
+            svg.attr('viewBox', [50, -25, 100, 250])
 
             const links = data.links
             const nodes = data.nodes
@@ -178,6 +183,36 @@ const RelatiesKoppelingenVisualisatie = ({
 
                 const tooltipEl = document.getElementById('d3-tooltip')
 
+                const generateHrefVerordeningsartikel = (uuid) => {
+                    const positionInVerordening = generateVerordeningsPosition(
+                        uuid,
+                        verordeningsStructure
+                    )
+
+                    if (positionInVerordening.length === 0) return null
+
+                    const path = `/detail/verordeningen/${
+                        verordeningsStructure.ID
+                    }/${uuid}?hoofdstuk=${
+                        positionInVerordening[0] !== undefined
+                            ? positionInVerordening[0]
+                            : 'null'
+                    }&nest_1=${
+                        positionInVerordening[1] !== undefined
+                            ? positionInVerordening[1]
+                            : 'null'
+                    }&nest_2=${
+                        positionInVerordening[2] !== undefined
+                            ? positionInVerordening[2]
+                            : 'null'
+                    }&nest_3=${
+                        positionInVerordening[3] !== undefined
+                            ? positionInVerordening[3]
+                            : 'null'
+                    }`
+                    return path
+                }
+
                 const generateHref = ({ property, UUID }) => {
                     const slugs = {
                         Beleidskeuzes: 'beleidskeuzes',
@@ -188,16 +223,25 @@ const RelatiesKoppelingenVisualisatie = ({
                         Maatregelen: 'maatregelen',
                         Themas: 'themas',
                         Beleidsdoelen: 'beleidsdoelen',
-                        Verordening: 'verordeningen',
+                        Verordeningen: 'verordeningen',
                     }
 
-                    const path = `/detail/${slugs[property]}/${UUID}?fromPage=${location.pathname}`
+                    const path = `/detail/${slugs[property]}/${UUID}${
+                        location.pathname.includes('verordeningen')
+                            ? ''
+                            : '?fromPage=' + location.pathname
+                    }`
+
                     return path
                 }
-                const hrefURL = generateHref({
-                    property: d.property,
-                    UUID: d.id,
-                })
+
+                const hrefURL =
+                    d.property === 'Verordeningen'
+                        ? generateHrefVerordeningsartikel(d.id)
+                        : generateHref({
+                              property: d.property,
+                              UUID: d.id,
+                          })
 
                 setHref(hrefURL)
 
@@ -235,100 +279,75 @@ const RelatiesKoppelingenVisualisatie = ({
         }
     }, [data, location.pathname])
 
-    const isVerordeningItem = href && href.includes('verordening')
-    const hasNoConnections = false
-
-    if (hasNoConnections) {
-        return (
-            <div className="flex">
-                <div className="flex flex-col justify-between w-full">
-                    <div>
-                        <p className="mt-2 leading-7 text-gray-800 break-words">
-                            Er zijn nog geen koppelingen naar{' '}
-                            <span className="italic">
-                                “{beleidsObject.Titel}”
-                            </span>
-                            .
-                        </p>
-                    </div>
+    return (
+        <div className="flex">
+            <div className="flex flex-col justify-between w-full">
+                <div>
+                    <h3 className="font-bold text-gray-800">
+                        Netwerkvisualisatie
+                    </h3>
+                    <p className="mt-2 leading-7 text-gray-800 break-words">
+                        Deze netwerkvisualisatie laat zien waar{' '}
+                        {titleSingularPrefix} {titleSingular.toLowerCase()}{' '}
+                        <span className="italic">“{beleidsObject.Titel}”</span>{' '}
+                        aan verbonden is.
+                    </p>
                 </div>
-            </div>
-        )
-    } else {
-        return (
-            <div className="flex">
-                <div className="flex flex-col justify-between w-full">
-                    <div>
-                        <h3 className="font-bold text-gray-800">
-                            Netwerkvisualisatie
-                        </h3>
-                        <p className="mt-2 leading-7 text-gray-800 break-words">
-                            Deze netwerkvisualisatie laat zien waar{' '}
-                            {titleSingularPrefix} {titleSingular.toLowerCase()}{' '}
-                            <span className="italic">
-                                “{beleidsObject.Titel}”
-                            </span>{' '}
-                            aan verbonden is.
-                        </p>
-                    </div>
 
-                    {/* Legenda */}
-                    <ul className="mt-10">
-                        <li className="flex items-center mt-1 text-sm text-gray-800">
-                            <span className="inline-block w-3 h-3 mr-2 bg-purple-800 rounded-full" />
-                            <span>{beleidsObject.Titel}</span>
+                {/* Legenda */}
+                <ul className="mt-10">
+                    <li className="flex items-center mt-1 text-sm text-gray-800">
+                        <span className="flex-shrink-0 inline-block w-3 h-3 mr-2 bg-purple-800 rounded-full" />
+                        <span>{beleidsObject.Titel}</span>
+                    </li>
+                    {connectedProperties.map((property) => (
+                        <li
+                            key={property}
+                            className="flex items-center mt-1 text-sm text-gray-800"
+                        >
+                            <span
+                                className={`inline-block w-3 h-3 mr-2 rounded-full`}
+                                style={{
+                                    backgroundColor:
+                                        connectionPropertiesColors[property]
+                                            .hex,
+                                }}
+                            />
+                            <span>{property}</span>
                         </li>
-                        {connectedProperties.map((property) => (
-                            <li
-                                key={property}
-                                className="flex items-center mt-1 text-sm text-gray-800"
-                            >
-                                <span
-                                    className={`inline-block w-3 h-3 mr-2 rounded-full`}
-                                    style={{
-                                        backgroundColor:
-                                            connectionPropertiesColors[property]
-                                                .hex,
-                                    }}
-                                />
-                                <span>{property}</span>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-                <div className="block w-full">
-                    <div className="container flex items-center justify-center mx-auto">
-                        <svg
-                            className="d3-component"
-                            style={{
-                                width: '100%',
-                                height: '250px',
-                            }}
-                            ref={d3Container}
-                        />
-                    </div>
-                    <Link
-                        to={isVerordeningItem ? '#' : href}
-                        id="d3-tooltip"
-                        style={{
-                            left: variables.left,
-                            top: variables.top,
-                        }}
-                        class="absolute hidden hover:block"
-                    >
-                        <div
-                            id="d3-tooltip-title"
-                            class={`px-4 py-2 rounded bg-gray-900 text-white shadow ${
-                                isVerordeningItem
-                                    ? 'cursor-default'
-                                    : 'hover:underline'
-                            }`}
-                        />
-                    </Link>
-                </div>
+                    ))}
+                </ul>
             </div>
-        )
-    }
+            <div className="block w-full">
+                <div className="container flex items-center justify-center mx-auto">
+                    <svg
+                        className="d3-component"
+                        style={{
+                            width: '100%',
+                            height: '400px',
+                        }}
+                        ref={d3Container}
+                    />
+                </div>
+                <Link
+                    to={href ? href : '#'}
+                    id="d3-tooltip"
+                    style={{
+                        left: variables.left,
+                        top: variables.top,
+                    }}
+                    class={`absolute hidden hover:block ${
+                        href ? 'cursor-pointer' : 'cursor-default'
+                    }`}
+                >
+                    <div
+                        id="d3-tooltip-title"
+                        class={`px-4 py-2 rounded bg-gray-900 text-white shadow hover:underline`}
+                    />
+                </Link>
+            </div>
+        </div>
+    )
 }
 
 export default RelatiesKoppelingenVisualisatie

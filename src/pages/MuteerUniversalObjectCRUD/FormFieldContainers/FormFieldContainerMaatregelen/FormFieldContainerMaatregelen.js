@@ -126,7 +126,9 @@ function FormFieldContainerMaatregelen({
                 />
             </ContainerFormSection>
 
-            {user && user.Rol === 'Beheerder' ? (
+            {(user && user.Rol === 'Beheerder') ||
+            (user && user.Rol === 'Functioneel beheerder') ||
+            (user && user.Rol === 'Technisch beheerder') ? (
                 <ContainerFormSection
                     titel="Aanvullende informatie"
                     beschrijving="In deze sectie vragen we aanvullende informatie zoals de link naar het IDMS besluitdocument."

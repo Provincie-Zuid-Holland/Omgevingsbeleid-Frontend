@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
 import { withRouter, Link } from 'react-router-dom'
-import { format } from 'date-fns'
-import isBefore from 'date-fns/isBefore'
-import nlLocale from 'date-fns/locale/nl'
 import { faCalendarAlt } from '@fortawesome/free-regular-svg-icons'
 import {
     faLink,
@@ -17,6 +14,9 @@ import HeadingMain from './../../../components/HeadingMain'
 import LoaderMainTitle from './../../../components/LoaderMainTitle'
 import LoaderSmallSpan from './../../../components/LoaderSmallSpan'
 import PopUpDetailDropdown from './../PopUpDetailDropdown'
+
+// Import Utilities
+import getVigerendText from './../../../utils/getVigerendText'
 
 class ContainerDetail extends Component {
     constructor(props) {
@@ -48,10 +48,22 @@ class ContainerDetail extends Component {
         const isLoading = this.props.isLoading
         const dimensionHistory = this.props.dimensionHistory
 
+        const validDate = getVigerendText({ dataObject })
+        const validDatePrefix = getVigerendText({
+            dataObject,
+            prefixOnly: true,
+        })
+
         return (
             <div
-                className={`relative flex w-full px-5 py-5 shadow-md rounded bg-white 
+                className={`relative flex w-full py-5 shadow-md rounded bg-white 
                 ${pageType === 'version' ? 'mt-6' : ''}
+                ${
+                    dataObject.Status === 'Vigerend' ||
+                    dataObject.Status === 'Gepubliceerd'
+                        ? 'px-5'
+                        : 'pl-16 pr-5'
+                }
                 `}
             >
                 {/* Verticale lijn + bolletje */}
@@ -70,12 +82,12 @@ class ContainerDetail extends Component {
                             </div>
                         )
                     ) : (
-                        <div className="absolute bottom-0 left-0 h-full pt-5 text-center">
+                        <div className="absolute bottom-0 left-0 h-full pt-5 text-center yellow-line-container">
                             <div className="relative top-0 right-0">
                                 <div className="absolute right-0 z-10 inline-block bg-pzh-yellow-dark status-bolletje" />
                                 <div className="absolute top-0 border-2 rounded-full border-pzh-yellow-dark pulserende-ring" />
                             </div>
-                            <div className="relative inline-block w-8 h-full border-r-2 opacity-25 border-pzh-yellow-dark" />
+                            <div className="relative inline-block w-16 h-full border-r-2 opacity-25 border-pzh-yellow-dark" />
                         </div>
                     )
                 ) : null}
@@ -93,6 +105,7 @@ class ContainerDetail extends Component {
 
                     {this.state.dropdown ? (
                         <PopUpDetailDropdown
+                            slug={this.props.overzichtSlug}
                             titleSingular={titleSingular}
                             raadpleegLink={`/detail/${this.props.overzichtSlug}/${dataObject.UUID}`}
                             dataObject={dataObject}
@@ -148,31 +161,11 @@ class ContainerDetail extends Component {
                             <div className="flex items-center justify-between w-full py-2 pr-4 border-r border-gray-300">
                                 <div>
                                     <span className="block text-sm font-bold text-gray-700">
-                                        {/* isBefore */}
-                                        {!isLoading &&
-                                        dataObject['Begin_Geldigheid'] !==
-                                            null &&
-                                        isBefore(
-                                            dataObject['Begin_Geldigheid'],
-                                            new Date()
-                                        )
-                                            ? 'Vigerend sinds'
-                                            : 'Vigerend vanaf'}
+                                        {!isLoading && validDatePrefix}
                                     </span>
                                     {!isLoading ? (
                                         <span className="text-sm text-gray-700">
-                                            {dataObject['Begin_Geldigheid'] !==
-                                            null
-                                                ? format(
-                                                      new Date(
-                                                          dataObject[
-                                                              'Begin_Geldigheid'
-                                                          ]
-                                                      ),
-                                                      'd MMMM yyyy',
-                                                      { locale: nlLocale }
-                                                  )
-                                                : 'Er is nog geen begin geldigheid'}
+                                            {validDate}
                                         </span>
                                     ) : (
                                         <span className="block mt-2">

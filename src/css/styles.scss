@@ -524,6 +524,10 @@ h6,
     opacity: 0;
 }
 
+.yellow-line-container {
+    margin-left: -2px;
+}
+
 .pulsate::before {
     content: '';
     height: 0.5rem;
@@ -600,6 +604,7 @@ h6,
 
 .leaflet-control-container,
 .leaflet-retina {
+    .leaflet-control .leaflet-draw-toolbar a,
     .leaflet-draw-toolbar a,
     .leaflet-touch .leaflet-bar a,
     .leaflet-draw-toolbar a:hover,
@@ -662,7 +667,7 @@ h6,
 
     .leaflet-draw-actions {
         // overwrite inline styling set by Leaflet :-(
-        left: 41px !important;
+        left: 51px !important;
     }
 
     #leaflet-search {
@@ -878,7 +883,7 @@ h6,
 }
 
 .vertakkings-item-right-on-line {
-    height: 28px;
+    height: 20px;
     margin-top: 13px;
     position: relative;
     top: -13px;
@@ -963,6 +968,10 @@ h6,
     transition-duration: 1ms;
 }
 
+#d3-tooltip-network-graph {
+    border-color: transparent transparent rgba(255, 255, 255, 100) transparent;
+}
+
 .d3-tooltip {
     position: absolute;
     text-align: left;
@@ -973,6 +982,7 @@ h6,
     border: 1px solid gray;
 }
 
+#d3-tooltip-network-graph,
 #d3-tooltip,
 .d3-tooltip-text,
 .tooltip-content {
@@ -999,6 +1009,20 @@ h6,
         top: -34px;
         z-index: 10;
         right: calc(50% - 12.5px);
+    }
+}
+
+#d3-tooltip-network-graph {
+    &:before {
+        border-color: transparent transparent rgba(255, 255, 255, 100)
+            transparent;
+    }
+    &:after {
+        height: 10px;
+        top: -10px;
+        border-width: 0 40px 40px 40px;
+        border-color: transparent transparent rgba(255, 255, 255, 0) transparent;
+        left: calc(50% - 40px);
     }
 }
 
@@ -1207,4 +1231,8 @@ mark {
         height: 100%;
         width: 100%;
     }
+}
+
+.revision-insert p {
+    background-color: #e5f0ef;
 }

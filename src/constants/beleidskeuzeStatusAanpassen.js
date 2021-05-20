@@ -13,7 +13,7 @@ const VOLGENDE_STATUS = {
     ],
     'Definitief ontwerp PS': ['Vastgesteld', 'Ontwerp GS Concept'],
     Vastgesteld: ['Vigerend'],
-    Vigerend: ['Vigerend gearchiveerd'],
+    Vigerend: ['Vigerend gearchiveerd', 'Uitgecheckt'],
     'Vigerend Gearchiveerd': [],
 }
 

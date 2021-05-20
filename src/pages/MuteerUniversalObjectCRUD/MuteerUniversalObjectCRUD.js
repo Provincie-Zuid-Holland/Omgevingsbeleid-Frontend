@@ -27,9 +27,10 @@ import axios from './../../API/axios'
 import eindDateIsBeforeBeginDate from './../../utils/eindDateIsBeforeBeginDate'
 import makeCrudProperties from './../../utils/makeCrudProperties'
 import makeCrudObject from './../../utils/makeCrudObject'
-import checkRequiredFields from './../../utils/checkRequiredFields'
+import checkContainsRequiredUnfilledField from './../../utils/checkContainsRequiredUnfilledField'
 import formatGeldigheidDatesForUI from './../../utils/formatGeldigheidDatesForUI'
 import formatGeldigheidDatesForAPI from './../../utils/formatGeldigheidDatesForAPI'
+import handleError from './../../utils/handleError'
 
 /**
  * @param {object} authUser - contains the logged in user object
@@ -145,12 +146,11 @@ class MuteerUniversalObjectCRUD extends Component {
                 toast('Opgeslagen')
             })
             .catch((err) => {
-                crudObject = formatGeldigheidDatesForUI(crudObject)
-                this.setState({
-                    crudObject: crudObject,
-                })
-                console.log(err)
-                toast(process.env.REACT_APP_ERROR_MSG)
+                handleError(err)
+                // crudObject = formatGeldigheidDatesForUI(crudObject)
+                // this.setState({
+                //     crudObject: crudObject,
+                // })
             })
     }
 
@@ -173,12 +173,11 @@ class MuteerUniversalObjectCRUD extends Component {
                 toast('Opgeslagen')
             })
             .catch((err) => {
-                console.log(err)
-                toast(process.env.REACT_APP_ERROR_MSG)
-                crudObject = formatGeldigheidDatesForUI(crudObject)
-                this.setState({
-                    crudObject: crudObject,
-                })
+                handleError(err)
+                // crudObject = formatGeldigheidDatesForUI(crudObject)
+                // this.setState({
+                //     crudObject: this.,
+                // })
             })
     }
 
@@ -209,6 +208,11 @@ class MuteerUniversalObjectCRUD extends Component {
                 'Gebied',
                 'Begin_Geldigheid',
                 'Eind_Geldigheid',
+                'Eigenaar_1',
+                'Eigenaar_2',
+                'Portefeuillehouder_1',
+                'Portefeuillehouder_2',
+                'Opdrachtgever',
             ]
             Object.keys(obj).forEach((property) => {
                 if (skipProperties.includes(property)) return
@@ -225,7 +229,7 @@ class MuteerUniversalObjectCRUD extends Component {
 
         let crudObject = cloneDeep(this.state.crudObject)
 
-        const containsRequiredUnfilledField = checkRequiredFields(
+        const containsRequiredUnfilledField = checkContainsRequiredUnfilledField(
             crudObject,
             dimensieConstants,
             titleSingular
@@ -277,14 +281,17 @@ class MuteerUniversalObjectCRUD extends Component {
             })
         })
 
-        if (type === 'post') return crudObject
-
-        // Continue prepping the object for a PATCH Request
+        crudObject?.Werkingsgebieden?.forEach((gebied, index) => {
+            crudObject.Werkingsgebieden[index] = { UUID: gebied.Object.UUID }
+        })
 
         if (crudObject.Gebied && crudObject.Gebied.UUID) {
             crudObject.Gebied = crudObject.Gebied.UUID
         }
 
+        if (type === 'post') return crudObject
+
+        // Continue prepping the object for a PATCH Request
         const eigenaren = [
             'Eigenaar_1',
             'Eigenaar_2',
@@ -301,10 +308,6 @@ class MuteerUniversalObjectCRUD extends Component {
             ) {
                 crudObject[eigenaar] = crudObject[eigenaar].UUID
             }
-        })
-
-        crudObject?.Werkingsgebieden?.forEach((gebied, index) => {
-            crudObject.Werkingsgebieden[index] = { UUID: gebied.Object.UUID }
         })
 
         return crudObject
@@ -364,7 +367,7 @@ class MuteerUniversalObjectCRUD extends Component {
     verwijderKoppelingRelatie(koppelingObject) {
         let nieuwCrudObject = this.state.crudObject
         const index = nieuwCrudObject[koppelingObject.propertyName].findIndex(
-            (item) => item.UUID === koppelingObject.item.UUID
+            (item) => item.Object.UUID === koppelingObject.item.Object.UUID
         )
         nieuwCrudObject[koppelingObject.propertyName].splice(index, 1)
 

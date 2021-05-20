@@ -214,10 +214,10 @@ function SearchBarPopup({ searchInput, setSearchBarPopupOpen }) {
             filterQuery: 'maatregelen',
             name: 'maatregelen',
         },
-        {
-            filterQuery: 'verordeningen',
-            name: 'verordening',
-        },
+        // {
+        //     filterQuery: 'verordeningen',
+        //     name: 'verordening',
+        // },
         {
             filterQuery: 'beleidsregels',
             name: 'beleidsregels',

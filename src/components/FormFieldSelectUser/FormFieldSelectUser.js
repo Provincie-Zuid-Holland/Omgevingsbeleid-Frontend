@@ -100,6 +100,41 @@ class FormFieldSelectUser extends React.Component {
         }
     }
 
+    /**
+     * Function that returns filtered select options, based on the filterOtherProperty prop
+     * This makes sure a user can't select a previously selected user (e.g. eigenaar_1 and eigenaar_2 can't be the same user)
+     */
+    getOptions() {
+        const filterOtherProperty = this.props.filterOtherProperty
+
+        if (filterOtherProperty) {
+            return this.state.selectionArray.filter((e) => {
+                const filterTypeIsString =
+                    typeof filterOtherProperty === 'string'
+                const filterTypeIsObject =
+                    typeof filterOtherProperty === 'object' &&
+                    filterOtherProperty !== null
+
+                /**
+                 * If the filterType is a string containing the UUID, we return it
+                 * If it is an object, we get the UUID string and return that
+                 */
+                const filterOtherPropertyUUID = filterTypeIsString
+                    ? filterOtherProperty
+                    : filterTypeIsObject
+                    ? filterOtherProperty.UUID
+                    : filterOtherProperty
+
+                /**
+                 * Filter out select options with a value that is the same as the 'filterOtherPropertyUUID'
+                 */
+                return e.value !== filterOtherPropertyUUID
+            })
+        } else {
+            return this.state.selectionArray
+        }
+    }
+
     render() {
         const customStyles = {
             control: (base, state) => ({
@@ -142,15 +177,7 @@ class FormFieldSelectUser extends React.Component {
                         }}
                         styles={customStyles}
                         isClearable={true}
-                        options={
-                            this.props.filterOtherProperty
-                                ? this.state.selectionArray.filter(
-                                      (e) =>
-                                          e.value !==
-                                          this.props.filterOtherProperty
-                                  )
-                                : this.state.selectionArray
-                        }
+                        options={this.getOptions()}
                         placeholder={`Selecteer...`}
                     ></Select>
                 ) : (
