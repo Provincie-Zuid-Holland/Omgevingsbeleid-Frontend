@@ -38,6 +38,10 @@ const checkForInvalidRequiredValues = (obj) => {
 
         requiredStatuses.forEach((status) => {
             const isValid = validStatuses.includes(status)
+            if (!isValid) {
+                console.log(`Status "${status}" is not valid`)
+            }
+            expect(isValid).toBe(true)
         })
     })
 }

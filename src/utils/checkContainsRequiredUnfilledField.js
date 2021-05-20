@@ -7,14 +7,18 @@ import scrollToElement from './scrollToElement'
  * @returns {boolean} indicating if object has a value on the property
  */
 const checkIfPropertyHasValue = (property, crudObject) => {
+    const isEmptyArray =
+        Array.isArray(crudObject[property]) && crudObject[property].length === 0
+
     const propertyHasValue =
         crudObject[property] !== undefined &&
         crudObject[property] !== null &&
-        crudObject[property] !== [] &&
         crudObject[property] !== '' &&
         crudObject[property] !== 'Invalid Date' &&
         crudObject[property] !== '1753-01-01' &&
-        crudObject[property] !== '10000-01-01'
+        crudObject[property] !== '10000-01-01' &&
+        crudObject[property] !== '<p><br></p>' &&
+        !isEmptyArray
 
     return propertyHasValue
 }
@@ -93,16 +97,10 @@ function checkContainsRequiredUnfilledField(
             crudObject,
             dimensieConstants
         )
-        if (property === 'Begin_Geldigheid') {
-            console.log('Required: ', propertyIsRequired)
-        }
+
         if (!propertyIsRequired) return true
 
         const hasValue = checkIfPropertyHasValue(property, crudObject)
-        if (property === 'Begin_Geldigheid') {
-            console.log('Has Value: ', hasValue)
-            console.log('Value is: ', crudObject[property])
-        }
 
         if (hasValue) {
             return true

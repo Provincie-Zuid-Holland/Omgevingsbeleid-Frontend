@@ -15,7 +15,7 @@ export const CRUD_PROPERTIES = {
     Titel: {
         initValue: '',
         required: [
-            'Ontwerp GS concept',
+            'Ontwerp GS Concept',
             'Ontwerp GS',
             'Ontwerp PS',
             'Ontwerp in inspraak',
