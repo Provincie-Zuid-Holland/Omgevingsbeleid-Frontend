@@ -15,6 +15,13 @@ import allDimensies from './../../constants/dimensies'
 
 import UserContext from './../../App/UserContext'
 
+/**
+ * Component that renders the MijnBeleid component.
+ *
+ * @component
+ *
+ * @param {boolean} hideAddNew - Parameter used to add the AddNewSection based if the parameter is true or false.
+ */
 const MijnBeleid = ({ hideAddNew }) => {
     const { user } = React.useContext(UserContext)
 
@@ -136,6 +143,11 @@ const MijnBeleid = ({ hideAddNew }) => {
     )
 }
 
+/**
+ * Function to render a AddNewSection component that is part of the MijnBeleid component, only if the parameter hideAddNew of MijnBeleid is set true.
+ *
+ * @function
+ */
 const AddNewSection = () => {
     return (
         <div className="flex">

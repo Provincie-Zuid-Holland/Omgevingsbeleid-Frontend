@@ -4,6 +4,12 @@ import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFi
 
 var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
 
+/**
+ * Class that renders the FormFieldDate component. In the class it will either render the EindGeldigheid component or the BeginGeldigheid component, based on if the dataObjectProperty is equal to 'Eind-Geldigheid'.
+ * @class
+ * @extends React.Component
+ */
+
 class FormFieldDate extends React.Component {
     constructor(props) {
         super(props)
@@ -94,6 +100,22 @@ function BeginGeldigheid({
     )
 }
 
+/**
+ * Function to set the EindGeldigheid based on user input.
+ *
+ * @param {boolean} hideToggleUitwerkingstrede - Parameter that is used within this function in the conditional operator and if set false, will show the Uitwerkingstrede element.
+ * @param {function} toggleUitwerkingTreding - Parameter that is used within this function as a onClick function and in the FormFieldDate class to set (toggle) the state of toonUitwerkingTreding.
+ * @param {string} toonUitwerkingTreding - Parameter that is used within this function in a conditional operator to show/hide text and its state is set (toggled) within the FormFieldDate class.
+ * @param {string} dataObjectProperty - Parameter that may contain the string 'Eind_Geldigheid' and is used within this function to assign the dataObjectProperty variable for the imported FormFieldTitelEnBeschrijving and is used to assign the name and part of the id variable for the input element.
+ * @param {string} fieldLabel - Parameter that is used within this function to assign the fieldLabel variable in the imported FormFieldTitelEnBeschrijving component.
+ * @param {string} pValue - Parameter that is used within this function to assign the pValue variable in the imported FormFieldTitelEnBeschrijving component.
+ * @param {string} titleSingular - Parameter that is used within this function to assign the titleSingular variable for the imported FormFieldTitelEnBeschrijving and is used as part of the id in a conditional operator for the input element.
+ * @param {string} fieldValue - Parameter that is used within this function in a conditional operator to set the value to the value variable of the input element.
+ * @param {boolean} handleChange - Parameter that is used within this function to set the onChange variable to true if the input element has been changed.
+ * @param {boolean} disabled -  Parameter that is used within this function and in the imported FormFieldTitelEnBeschrijving to set the disabled variable, if set true, the input and/or imported FormFieldTitelEnBeschrijving will be disabled.
+ *
+ * @function
+ */
 function EindGeldigheid({
     hideToggleUitwerkingstrede,
     toggleUitwerkingTreding,

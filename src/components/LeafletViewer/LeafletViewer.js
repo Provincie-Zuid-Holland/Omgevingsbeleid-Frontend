@@ -38,6 +38,16 @@ Leaflet.Icon.Default.mergeOptions({
         'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/images/marker-shadow.png',
 })
 
+/**
+ * Function to create a custom Popup
+ *
+ * @function
+ *
+ * @param {array} weergavenaam - Parameter used to show a string weergavenaam.
+ * @param {Float} lat - Parameter used as a latitude value for the GPS location.
+ * @param {float} lng - Paramter used as a longitude value for the GPS location.
+ * @param {object} point - Parameter that is used in a url to show a certain location based on the parameters lat and lng.
+ */
 function CreateCustomPopup({ weergavenaam, lat, lng, point }) {
     return (
         <div className="text-sm custom-popup">
@@ -69,6 +79,12 @@ const DEFAULT_VIEWPORT = {
     zoom: 4,
 }
 
+/**
+ * Class that sets the state for a certain amount of variables and create a reference for the leafletMap and leafletSearch variable and binds certain variables.
+ *
+ * @class
+ * @extends Component
+ */
 export default class LeafletViewer extends Component {
     constructor(props) {
         super(props)
@@ -85,6 +101,15 @@ export default class LeafletViewer extends Component {
         this.leafletSearch = React.createRef()
     }
 
+    /**
+     * Function that creates a custom popup with the parameters lat, lng and layer.
+     *
+     * @function
+     *
+     * @param {float} lat - Parameter that contains the latitude value that is used in the custom created popup.
+     * @param {float} lng - Parameter that contains the longitude value that is used in the custom created popup.
+     * @param {string} layer - Parameter used to bind text to the popup.
+     */
     _createCustomPopup(lat, lng, layer) {
         layer.bindPopup('Adres aan het laden...').openPopup()
         // layer._popup.setContent('something else')
@@ -173,6 +198,11 @@ export default class LeafletViewer extends Component {
         onChange(geojsonData)
     }
 
+    /**
+     * Function that sets the viewport state to the default value viewport.
+     *
+     * @function
+     */
     onClickReset = () => {
         this.setState({ viewport: DEFAULT_VIEWPORT })
     }
@@ -183,6 +213,11 @@ export default class LeafletViewer extends Component {
         })
     }
 
+    /**
+     * Function that sets the leafletSearch parameter to a toggled stat of leafletSearch.
+     *
+     * @function
+     */
     toggleLeafletSearch() {
         this.setState(
             {
@@ -199,6 +234,15 @@ export default class LeafletViewer extends Component {
         )
     }
 
+    /**
+     * Function to set the zoomLevel of each type parameter value based on the value. Also to set the state of activeSearchMarker to the markerID value and create a popup pased on the parameters.
+     *
+     * @function
+     *
+     * @param {float} lng - Parameter that contains the longitude value that is set for the coordinates object.
+     * @param {float} lat - Parameter that contains the latitude value that is set for the coordinates object.
+     * @param {string} type - Parameter that is used to check which type it is and to set the zoomLevel of each type value.
+     */
     mapPanTo(lng, lat, type) {
         let zoomLevel
         switch (type) {

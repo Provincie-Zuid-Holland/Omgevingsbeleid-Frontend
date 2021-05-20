@@ -3,6 +3,11 @@ import { MapControl, withLeaflet } from 'react-leaflet'
 import { Control, DomUtil, DomEvent } from 'leaflet'
 import cloneDeep from 'lodash.clonedeep'
 
+/**
+ * Object that uses the Control.extend function containing the options variable, _controlDiv (returned by the onAdd function) and the map when the onRemove function is used.
+ *
+ * @object
+ */
 const DumbControl = Control.extend({
     options: {
         className: '',
@@ -26,7 +31,21 @@ const DumbControl = Control.extend({
 })
 
 export default withLeaflet(
+    /**
+     * Class that renders the LeafletControl component while extending the component by using the imported MapControl. The component returns nothing if leafletElement and leafletElement.getContainer() both contain a value.
+     * otherwise the component returns a created portal in the DOM and renders the children inside in the leafletElement.getContainer element.
+     *
+     * @class
+     * @extends MapControl
+     */
     class LeafletControl extends MapControl {
+        /**
+         * Function that returns a new object based on the DumbControl object while using the imported cloneDeep function from lodash.clonedeep with the props value.
+         *
+         * @function
+         *
+         * @param {object} props - parameter containing a collection of data which is passed down from the parent and used within the cloneDeep function.
+         */
         createLeafletElement(props) {
             return new DumbControl(cloneDeep(props))
         }

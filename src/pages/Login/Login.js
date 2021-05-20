@@ -5,6 +5,8 @@ import { Helmet } from 'react-helmet'
 import LoginForm from './../../components/LoginForm'
 
 /**
+ * Component page that imports the component LoginForm, so the user is able to login the application and reset the password when needed.
+ * This component renders the title of the page (using the imported Helmet libary, to get the plain HTML tag and output the plain HTML tag), other tags with given text information and the imported LoginForm component with set information.
  *
  * @param {function} setLoginUser Callback to set user state in App component state
  * @param {function} setLoginState Callback to set login state in App component state

@@ -5,6 +5,13 @@ import CreatableSelect from 'react-select/creatable'
 // In CrudObject state: een comma seperated string
 // In local state: een array met items
 
+/**
+ * Class that renders the FormFieldTags component using the imported FormFieldTitelEnBeschrijving component to give a title and description to the FormFieldTags component
+ * and the import CreateableSelect component to give the option to the user to select multiple tags.
+ *
+ * @class
+ * @extends Component
+ */
 class FormFieldTags extends Component {
     constructor(props) {
         super(props)
@@ -25,6 +32,14 @@ class FormFieldTags extends Component {
         this.handleChange = this.handleChange.bind(this)
     }
 
+    /**
+     * Function to change the name and value variables.
+     *
+     * @function
+     *
+     * @param {array} newValue - New array that will be set as a new value.
+     * @param {object} actionMeta - 001
+     */
     handleChange = (newValue, actionMeta) => {
         if (newValue) {
             this.setState({
