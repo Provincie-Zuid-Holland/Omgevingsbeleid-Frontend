@@ -56,8 +56,14 @@ class ContainerDetail extends Component {
 
         return (
             <div
-                className={`relative flex w-full px-5 py-5 shadow-md rounded bg-white 
+                className={`relative flex w-full py-5 shadow-md rounded bg-white 
                 ${pageType === 'version' ? 'mt-6' : ''}
+                ${
+                    dataObject.Status === 'Vigerend' ||
+                    dataObject.Status === 'Gepubliceerd'
+                        ? 'px-5'
+                        : 'pl-16 pr-5'
+                }
                 `}
             >
                 {/* Verticale lijn + bolletje */}
@@ -76,12 +82,12 @@ class ContainerDetail extends Component {
                             </div>
                         )
                     ) : (
-                        <div className="absolute bottom-0 left-0 h-full pt-5 text-center">
+                        <div className="absolute bottom-0 left-0 h-full pt-5 text-center yellow-line-container">
                             <div className="relative top-0 right-0">
                                 <div className="absolute right-0 z-10 inline-block bg-pzh-yellow-dark status-bolletje" />
                                 <div className="absolute top-0 border-2 rounded-full border-pzh-yellow-dark pulserende-ring" />
                             </div>
-                            <div className="relative inline-block w-8 h-full border-r-2 opacity-25 border-pzh-yellow-dark" />
+                            <div className="relative inline-block w-16 h-full border-r-2 opacity-25 border-pzh-yellow-dark" />
                         </div>
                     )
                 ) : null}

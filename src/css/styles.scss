@@ -524,6 +524,10 @@ h6,
     opacity: 0;
 }
 
+.yellow-line-container {
+    margin-left: -2px;
+}
+
 .pulsate::before {
     content: '';
     height: 0.5rem;
