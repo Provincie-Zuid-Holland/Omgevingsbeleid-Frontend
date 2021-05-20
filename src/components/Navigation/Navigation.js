@@ -190,11 +190,11 @@ function Navigation({ loggedIn, setLoginState }) {
                         />
                     ) : null}
 
-                    <GraphPopupMenu
+                    {/* <GraphPopupMenu
                         graphIsOpen={graphIsOpen}
                         setGraphIsOpen={setGraphIsOpen}
                         showBanner={showBanner}
-                    />
+                    /> */}
 
                     <NavigationPopupMenu
                         isOpen={isOpen}
