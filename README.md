@@ -71,7 +71,7 @@ Builds the app for production to the **`\*build**`\*\* folder. It correctly bund
 npm run build
 ```
 
-Builds the application just as `npm run build` would do, but also [purges](https://tailwindcss.com/docs/controlling-file-size) the generated Tailwind files.
+Builds the application just as `npm run build` would do, but also [purges](https://tailwindcss.com/docs/controlling-file-size) the generated Tailwind files. There are two commands to create a build. One for windows `prod:build-win` and one for OSX `prod:build-osx`.
 
 ```
 npm run prod:build
