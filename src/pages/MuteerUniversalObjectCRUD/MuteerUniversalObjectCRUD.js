@@ -208,6 +208,11 @@ class MuteerUniversalObjectCRUD extends Component {
                 'Gebied',
                 'Begin_Geldigheid',
                 'Eind_Geldigheid',
+                'Eigenaar_1',
+                'Eigenaar_2',
+                'Portefeuillehouder_1',
+                'Portefeuillehouder_2',
+                'Opdrachtgever',
             ]
             Object.keys(obj).forEach((property) => {
                 if (skipProperties.includes(property)) return
