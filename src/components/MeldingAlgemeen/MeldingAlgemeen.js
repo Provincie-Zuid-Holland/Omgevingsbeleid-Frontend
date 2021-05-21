@@ -7,7 +7,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 /**
- * Class that renders a MeldingAlgemeen Component that shows a certain title and children based on the prop value it has received from the parent component.
+ * Class that renders the MeldingAlgemeen Component that displays a general notification to the user.
  *
  * @class
  * @extends

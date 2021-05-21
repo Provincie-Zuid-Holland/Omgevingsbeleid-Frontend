@@ -32,8 +32,7 @@ const DumbControl = Control.extend({
 
 export default withLeaflet(
     /**
-     * Class that renders the LeafletControl component while extending the component by using the imported MapControl. The component returns nothing if leafletElement and leafletElement.getContainer() both contain a value.
-     * otherwise the component returns a created portal in the DOM and renders the children inside in the leafletElement.getContainer element.
+     * Class that renders the LeafletControl component that contains the leafletElements.
      *
      * @class
      * @extends MapControl

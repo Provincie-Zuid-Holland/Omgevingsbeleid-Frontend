@@ -11,11 +11,11 @@ import LoaderSelect from './../LoaderSelect'
  *
  * @component
  *
- * @param {object} crudObject - Containing the ownership level of the user group.
- * @param {string} editStatus - Status of the selected user.
- * @param {boolean} handleChange - Can be set true or false if the user is allowed to change.
- * @param {string} titelEnkelvoud - Title of the selected user.
- * @param {boolean} disabled - Can be set true or false if the user is disabled or not.
+ * @param {object} crudObject - Contains the object that can be edited.
+ * @param {boolean} editStatus - Can be set True if
+ * @param {function} handleChange - Function change handler.
+ * @param {string} titleSingular - Title of the object in a singular form.
+ * @param {boolean} disabled - Disables the component.
  */
 const FormFieldSelectUserGroup = ({
     crudObject,

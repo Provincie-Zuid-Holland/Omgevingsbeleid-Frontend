@@ -86,41 +86,13 @@ const connectionProperties = {
 }
 
 /**
- * Function that returns the href slug to a detail page of a specific object
- * @param {object} props
- * @param {string} string - Type of the object
- * @param {string} UUID - UUID of the object
- * @returns {string} containing the url slug
- */
-const generateHref = ({ property, UUID }) => {
-    const slugs = {
-        beleidskeuzes: 'beleidskeuzes',
-        ambities: 'ambities',
-        beleidsregels: 'beleidsregels',
-        beleidsprestaties: 'beleidsprestaties',
-        belangen: 'belangen',
-        maatregelen: 'maatregelen',
-        themas: 'themas',
-        beleidsdoelen: 'beleidsdoelen',
-        verordening: 'verordeningen',
-    }
-
-    const path = `/detail/${slugs[property]}/${UUID}`
-    return path
-}
-
-/**
- * TODO:
- * [x] - Filter sidebar
- * [x] - On detail page change, give node with corresponding UUID an active state
- * [x] - Reset button to reset clicked element
- * [ ] - If the space below the cursor is too small for the height of the tooltip, display it above it
- * [ ] - Look into zoom & pan (https://stackoverflow.com/questions/38597582/d3-js-pan-and-zoom-jumps-when-using-mouse-after-programatic-zoom & https://github.com/d3/d3-zoom#zoom-events)
- * @param {object} props
- * @param {boolean} graphIsOpen - Inidicates if the graph popup is open
- * @param {function} setGraphIsOpen - Function to toggle the graphIsOpen value to a true/false value
- * @param {boolean} showBanner - Indicates if the user is shown a banner above the navigation (needed to calc. the height)
- * @returns A component that displays a d3 force graph that shows the relations and connections of all the policies
+ * Component that renders the GraphPopupMenu component that displays a button to to show/hide the graph component.
+ *
+ * @component
+ *
+ * @param {boolean} graphIsOpen - Parameter to show/hide the graph component
+ * @param {function} setGraphIsOpen - Function to edit parent state
+ * @param {boolean} showBanner - Parameter to set the height and position of the popup-menu div.
  */
 const GraphPopupMenu = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
     /**
@@ -430,11 +402,11 @@ const GraphPopupMenu = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
                     const tooltipEl = document.getElementById(
                         'd3-tooltip-network-graph'
                     )
-                    const popupMenuGraph = document.getElementById(
-                        'd3-graph-container'
-                    )
+                    const popupMenuGraph =
+                        document.getElementById('d3-graph-container')
                     const { x, bottom } = nodeElement.getBoundingClientRect()
-                    const graphContainerBounding = popupMenuGraph.getBoundingClientRect()
+                    const graphContainerBounding =
+                        popupMenuGraph.getBoundingClientRect()
                     const tooltipWidth = tooltipEl.offsetWidth
                     const circleWidth = 24
 
@@ -647,12 +619,13 @@ const GraphPopupMenu = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
                                                         <li
                                                             onClick={() => {
                                                                 setFilters({
-                                                                    type:
-                                                                        'toggleFilter',
-                                                                    filterType: filterKey,
-                                                                    newState: !filters[
-                                                                        filterKey
-                                                                    ],
+                                                                    type: 'toggleFilter',
+                                                                    filterType:
+                                                                        filterKey,
+                                                                    newState:
+                                                                        !filters[
+                                                                            filterKey
+                                                                        ],
                                                                 })
                                                             }}
                                                             className="cursor-pointer hover:text-gray-900"

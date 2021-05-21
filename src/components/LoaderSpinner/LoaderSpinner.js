@@ -5,7 +5,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 /**
- * Component that returns the FontAwesomeIcon spinner and is imported by other components.
+ * Component that renders the LoaderSpinner component, which displays a rotating spinner icon.
  *
  * @component
  */

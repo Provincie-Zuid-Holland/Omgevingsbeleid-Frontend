@@ -2,7 +2,7 @@ import React from 'react'
 import ContentLoader from 'react-content-loader'
 
 /**
- * Component that renders the LoaderSmallSpan component using the imported ContentLoader and setting its style, width and height.
+ * Component that renders the LoaderSmallSpan component, which loads a rectangle shape before the smallSpan component is displayed.
  *
  * @component
  */
