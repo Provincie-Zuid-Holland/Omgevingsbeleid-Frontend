@@ -2,7 +2,7 @@ import React from 'react'
 import ContentLoader from 'react-content-loader'
 
 /**
- * Component that sets the style options of the ContentLoader component for the Main Title.
+ * Component that renders the LoaderMainTitle component, which loads a rectangle shape before the MainTitle component is displayed.
  *
  * @component
  */

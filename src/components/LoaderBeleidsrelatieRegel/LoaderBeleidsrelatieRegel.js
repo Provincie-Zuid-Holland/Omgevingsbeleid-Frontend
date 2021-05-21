@@ -2,7 +2,7 @@ import React from 'react'
 import ContentLoader from 'react-content-loader'
 
 /**
- * Component used to render the LoaderBeleidsrelatieRegel and using the imported ContentLoader component.
+ * Component that renders the LoaderBeleidsrelatieRegel component that renders a grey rectancle before the BeleidsrelatieRegel is displayed.
  *
  * @component
  */

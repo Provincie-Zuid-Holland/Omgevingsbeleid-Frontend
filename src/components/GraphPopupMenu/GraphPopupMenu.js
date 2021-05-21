@@ -50,6 +50,15 @@ const connectionPropertiesColors = {
     },
 }
 
+/**
+ * Component that renders the GraphPopupMenu component that displays a button to to show/hide the graph component.
+ *
+ * @component
+ *
+ * @param {boolean} graphIsOpen - Parameter to show/hide the graph component
+ * @param {function} setGraphIsOpen - Function to edit parent state
+ * @param {boolean} showBanner - Parameter to set the height and position of the popup-menu div.
+ */
 const GraphPopupMenu = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
     useLockBodyScroll({ modalOpen: graphIsOpen })
 
