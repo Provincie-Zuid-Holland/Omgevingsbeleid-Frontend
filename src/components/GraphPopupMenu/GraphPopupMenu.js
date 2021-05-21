@@ -110,10 +110,6 @@ const generateHref = ({ property, UUID }) => {
 }
 
 /**
- * Component that renders the GraphPopupMenu component that displays a button to to show/hide the graph component.
- *
- * @component
- *
  * TODO:
  * [x] - Filter sidebar
  * [x] - On detail page change, give node with corresponding UUID an active state
