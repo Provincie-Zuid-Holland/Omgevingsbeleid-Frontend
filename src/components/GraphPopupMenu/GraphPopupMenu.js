@@ -27,58 +27,68 @@ const filterMenu = {
 
 /**
  * Contains the Hex, Singular, Plural and the Singular Prefix values for the different node types
+ * Light color is calculated by changing the HSLA (L) value to 90%
  */
 const connectionProperties = {
     ambities: {
         hex: '#aa0067',
+        hexLight: '#ffcceb',
         singular: 'Ambitie',
         plural: 'Ambities',
         prefix: 'de',
     },
     belangen: {
         hex: '#ff6b02',
+        hexLight: '#ffe1cc',
         singular: 'Belang',
         plural: 'Belangen',
         prefix: 'het',
     },
     beleidsregels: {
         hex: '#76bc21',
+        hexLight: '#e7f7d4',
         singular: 'Beleidsregel',
         plural: 'Beleidsregels',
         prefix: 'de',
     },
     beleidsprestaties: {
         hex: '#ecc94b',
+        hexLight: '#faf1d1',
         singular: 'Beleidsprestatie',
         plural: 'Beleidsprestaties',
         prefix: 'de',
     },
     maatregelen: {
         hex: '#503d90',
+        hexLight: '#e0dbf0',
         singular: 'Maatregel',
         plural: 'Maatregelen',
         prefix: 'de',
     },
     beleidsdoelen: {
         hex: '#3182ce',
+        hexLight: '#d6e6f5',
         singular: 'beleidsdoel',
         plural: 'Beleidsdoelen',
         prefix: 'het',
     },
     themas: {
         hex: '#847062',
+        hexLight: '#e9e5e2',
         singular: 'Thema',
         plural: "Thema's",
         prefix: 'het',
     },
     verordeningen: {
         hex: '#eb7085',
+        hexLight: '#f9d2d9',
         singular: 'Verordening',
         plural: 'Verordeningsartikelen',
         prefix: 'de',
     },
     beleidskeuzes: {
         hex: '#7badde',
+        hexLight: '#d6e5f5',
         singular: 'Beleidskeuze',
         plural: 'Beleidskeuzes',
         prefix: 'de',
@@ -144,12 +154,12 @@ const GraphPopupMenu = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
     const [href, setHref] = React.useState('#')
 
     /**
-     * The last clicked nod
+     * The last clicked node
      */
     const [clickedNode, setClickedNode] = React.useState(null)
 
     /**
-     * The location is used
+     * The location is used in order to get the UUID parameter
      */
     const location = useLocation()
 
@@ -221,6 +231,7 @@ const GraphPopupMenu = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
                 )
             }
             node.color = connectionProperties[node.Type].hex
+            node.colorLight = connectionProperties[node.Type].hexLight
             node.id = node.UUID
         })
 
@@ -233,7 +244,12 @@ const GraphPopupMenu = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
      */
     const resetNodes = () => {
         const svgElement = d3.select(d3Container.current)
-        svgElement.selectAll('circle').attr('opacity', 1).attr('r', 7.5)
+        svgElement
+            .selectAll('circle')
+            .attr('fill', (d) => d.color)
+            .attr('r', 7.5)
+
+        svgElement.selectAll('line').attr('stroke-opacity', 0.6)
         setClickedNode(null)
     }
 
@@ -245,21 +261,10 @@ const GraphPopupMenu = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
      * @param {array} links - Contains the d3 links
      * @returns
      */
-    const handleNodeClick = (clickedEl, svgElement, links) => {
-        const uuidSource = clickedEl.UUID
-        if (!uuidSource) return
-
-        if (uuidSource === clickedNodeRef.current?.UUID) {
-            /**
-             * If the currently clicked node is the same as the previous still active node we reset the state
-             */
-
-            resetNodes()
-        } else {
-            /**
-             * The user clicked on a new node, so we set this node in the clickedNode state
-             * and update the styles of this and all the connecting nodes
-             */
+    const handleNodeClick = React.useCallback(
+        (clickedEl, svgElement, links) => {
+            const uuidSource = clickedEl.UUID
+            if (!uuidSource) return
 
             const connectedLinks = links.filter(
                 (link) =>
@@ -267,27 +272,63 @@ const GraphPopupMenu = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
                     link.source.UUID === uuidSource
             )
 
-            svgElement
-                .selectAll('circle')
-                .attr('opacity', 1)
-                .filter((circle) =>
-                    connectedLinks.every(
-                        (e) =>
-                            e.source.UUID !== circle.UUID &&
-                            e.target.UUID !== circle.UUID
+            const selectCircles = () => {
+                svgElement
+                    .selectAll('circle')
+                    .attr('fill', (d) => d.color)
+                    // .attr('opacity', 1)
+                    .attr('r', 7.5)
+                    .filter((circle) =>
+                        connectedLinks.every(
+                            (e) =>
+                                e.source.UUID !== circle.UUID &&
+                                e.target.UUID !== circle.UUID
+                        )
                     )
-                )
-                .attr('opacity', 0.25)
+                    // .attr('opacity', 0.25)
+                    .attr('fill', (d) => d.colorLight)
 
-            svgElement
-                .selectAll('circle')
-                .filter((circle) => circle.UUID === uuidSource)
-                .attr('opacity', 1)
-                .attr('r', 10)
+                svgElement
+                    .selectAll('circle')
+                    .filter((circle) => circle.UUID === uuidSource)
+                    // .attr('opacity', 1)
+                    .attr('fill', (d) => d.color)
+                    .attr('r', 10)
+            }
 
-            setClickedNode(clickedEl)
-        }
-    }
+            const selectLinks = () => {
+                // 'stroke-opacity'
+                svgElement
+                    .selectAll('line')
+                    .attr('stroke-opacity', 0.2)
+                    .filter(
+                        (link) =>
+                            link.source.UUID === uuidSource ||
+                            link.target.UUID === uuidSource
+                    )
+                    .attr('stroke-opacity', 0.6)
+            }
+
+            if (uuidSource === clickedNodeRef.current?.UUID) {
+                /**
+                 * If the currently clicked node is the same as the previous still active node we reset the state
+                 */
+
+                resetNodes()
+            } else {
+                /**
+                 * The user clicked on a new node, so we set this node in the clickedNode state
+                 * and update the styles of this and all the connecting nodes
+                 */
+
+                selectCircles()
+                selectLinks()
+
+                setClickedNode(clickedEl)
+            }
+        },
+        []
+    )
 
     React.useEffect(() => {
         axios
@@ -343,22 +384,25 @@ const GraphPopupMenu = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
      * @param {array} links - contains the links
      * @param {array} nodes - contains the nodes
      */
-    const updateActiveNodeBasedOnURL = (links, nodes) => {
-        let match = matchPath(location.pathname, {
-            path: `/detail/:slug/:uuid`,
-            exact: true,
-        })
+    const updateActiveNodeBasedOnURL = React.useCallback(
+        (links, nodes) => {
+            let match = matchPath(location.pathname, {
+                path: `/detail/:slug/:uuid`,
+                exact: true,
+            })
 
-        const uuidFromUrl = match?.params?.uuid
-        if (!uuidFromUrl) return
+            const uuidFromUrl = match?.params?.uuid
+            if (!uuidFromUrl) return
 
-        const svgElement = d3.select(d3Container.current)
-        const clickedEl = nodes.find((e) => e.UUID === uuidFromUrl)
+            const svgElement = d3.select(d3Container.current)
+            const clickedEl = nodes.find((e) => e.UUID === uuidFromUrl)
 
-        if (!clickedEl) return
+            if (!clickedEl) return
 
-        handleNodeClick(clickedEl, svgElement, links)
-    }
+            handleNodeClick(clickedEl, svgElement, links)
+        },
+        [location.pathname, handleNodeClick]
+    )
 
     /* The useEffect Hook is for running side effects outside of React,
           for instance inserting elements into the DOM using D3 */
@@ -488,33 +532,47 @@ const GraphPopupMenu = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
              * Get current SVG element
              */
             const svgElement = d3.select(d3Container.current)
-            svgElement.selectAll('*').remove()
+            svgElement.selectAll('*').remove() // Remove all D3 Nodes
+
+            /**
+             * Reset clicked node in State
+             */
+            setClickedNode(null)
 
             /**
              * Set viewBox attribute
              */
             const bounding = d3Container.current.getBoundingClientRect()
-            svgElement
-                .attr('viewBox', [
-                    -bounding.width / 2, // Center horizontally
-                    -bounding.height / 2,
-                    bounding.width * 1.25,
-                    bounding.height * 1.15,
-                ])
-                .style('transform-origin', '50% 50% 0')
-
-            // svgElement.call(
-            //     d3.zoom().on('zoom', function () {
-            //         svgElement.attr('transform', d3.event.transform)
-            //     }),
-            //     d3.zoomIdentity.scale(0.5)
-            // )
-
-            const strength = generateStrength(nodes)
+            svgElement.attr('viewBox', [
+                -bounding.width / 2, // Center horizontally
+                -bounding.height / 2, // Center vertically
+                bounding.width * 1.25,
+                bounding.height * 1.15,
+            ])
 
             /**
-             * Generate the simulation with d3-force https://github.com/d3/d3-force
+             * Setup Zoom
              */
+            const zoomed = () => {
+                const maxZoom = 0.5
+                const transformEvent = d3.event.transform
+                const newZoom = transformEvent.k
+
+                if (newZoom < maxZoom) return
+
+                const transform = transformEvent.toString()
+
+                svgElement.selectAll('g').attr('transform', transform)
+            }
+
+            var zoom = d3.zoom().on('zoom', zoomed)
+            svgElement.call(zoom).on('dblclick.zoom', null)
+
+            /**
+             * Setup the Force Simulation
+             * https://github.com/d3/d3-force
+             */
+            const strength = generateStrength(nodes)
             const simulation = d3
                 .forceSimulation(nodes)
                 .force(
@@ -557,7 +615,7 @@ const GraphPopupMenu = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
 
             updateActiveNodeBasedOnURL(links, nodes)
 
-            // Update
+            // Handle updates
             simulation.on('tick', () => {
                 link.attr('x1', (d) => d.source.x + 100)
                     .attr('y1', (d) => d.source.y + 100)
@@ -573,7 +631,13 @@ const GraphPopupMenu = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
             if (!graphIsOpen) return
             initializeD3(data, filters)
         }, 250)
-    }, [graphIsOpen, data, filters])
+    }, [
+        data,
+        graphIsOpen,
+        filters,
+        handleNodeClick,
+        updateActiveNodeBasedOnURL,
+    ])
 
     // Event listener for closing the modal with the Escape key
     React.useEffect(() => {
@@ -709,7 +773,7 @@ const GraphPopupMenu = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
                                 <Link
                                     onClick={() => setGraphIsOpen(false)}
                                     to={href}
-                                    className="group"
+                                    className="select-none group"
                                 >
                                     <div
                                         id="d3-tooltip-network-graph-type"
@@ -717,7 +781,7 @@ const GraphPopupMenu = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
                                     />
                                     <div
                                         id="d3-tooltip-network-graph-title"
-                                        class={`text-pzh-blue-dark group-hover:underline `}
+                                        class={`text-pzh-blue-dark group-hover:underline truncate`}
                                     />
                                 </Link>
                             </div>
@@ -725,6 +789,7 @@ const GraphPopupMenu = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
                         <ClickedElementPopup
                             clickedNode={clickedNode}
                             setGraphIsOpen={setGraphIsOpen}
+                            resetNodes={resetNodes}
                         />
                         <ResetClickedElement
                             resetNodes={resetNodes}
@@ -742,9 +807,10 @@ const GraphPopupMenu = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
  * @param {object} props
  * @param {object} clickedNode - The corresponding node that has been clicked
  * @param {object} setGraphIsOpen - Function to open and close the graph popup menu
+ * @param {function} resetNodes - Function to reset the styles of all nodes, and set clickedNode to null
  * @returns Component that indicates what element has been clicked, with a link to the detail page
  */
-const ClickedElementPopup = ({ clickedNode, setGraphIsOpen }) => {
+const ClickedElementPopup = ({ clickedNode, setGraphIsOpen, resetNodes }) => {
     const [localOpenState, setLocalOpenState] = React.useState(false)
 
     React.useEffect(() => {
@@ -793,8 +859,9 @@ const ClickedElementPopup = ({ clickedNode, setGraphIsOpen }) => {
                             <span
                                 onClick={() => {
                                     setLocalOpenState(false)
+                                    resetNodes()
                                 }}
-                                className="absolute top-0 right-0 flex items-center px-2 py-1 mx-1 mt-2 mr-1 rounded-md cursor-pointer hover:bg-gray-200"
+                                className="absolute top-0 right-0 flex items-center justify-center w-5 h-5 mx-1 mt-2 mr-1 transition-colors duration-100 ease-in rounded cursor-pointer hover:bg-gray-200"
                             >
                                 <FontAwesomeIcon icon={faTimes} />
                             </span>
@@ -810,6 +877,7 @@ const ClickedElementPopup = ({ clickedNode, setGraphIsOpen }) => {
  *
  * @param {object} props
  * @param {object} clickedNode - The corresponding node that has been clicked
+ * @param {function} resetNodes - Function to reset the styles of all nodes, and set clickedNode to null
  * @returns Component that indicates what element has been clicked, with a link to the detail page
  */
 const ResetClickedElement = ({ clickedNode, resetNodes }) => {
