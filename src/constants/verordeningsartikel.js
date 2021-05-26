@@ -2,7 +2,7 @@ export const TITLE_SINGULAR = 'Artikel'
 export const TITLE_SINGULAR_PREFIX = 'het'
 export const TITLE_PLURAL = 'Artikelen'
 export const TYPE = 'Artikel'
-export const API_ENDPOINT = 'verordening'
+export const API_ENDPOINT = 'verordeningen'
 export const SLUG_OVERVIEW = 'verordeningen'
 
 export const CRUD_PROPERTIES = {

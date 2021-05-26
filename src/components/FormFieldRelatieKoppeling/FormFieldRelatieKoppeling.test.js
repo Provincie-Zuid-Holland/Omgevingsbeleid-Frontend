@@ -11,7 +11,6 @@ describe('FormFieldRelatieKoppeling', () => {
         fieldLabel: 'Label',
         pValue: 'Description',
         dataObjectProperty: 'property',
-        titleSingular: 'singular',
         placeholderTekst: 'placeholder',
         buttonTekst: 'New connection',
         titelMainObject: 'Titel',

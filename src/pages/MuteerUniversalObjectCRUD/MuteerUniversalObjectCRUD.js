@@ -3,6 +3,7 @@ import { toast } from 'react-toastify'
 import { withRouter } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import cloneDeep from 'lodash.clonedeep'
+import * as axiosPackage from 'axios'
 
 // Import Components
 import ContainerCrudHeader from './ContainerCrudHeader'
@@ -91,42 +92,6 @@ class MuteerUniversalObjectCRUD extends Component {
         }))
     }
 
-    setInitialValuesCrudObject(crudObject) {
-        const dimensieConstants = this.props.dimensieConstants
-
-        // Check voor elke property op het crudObject of die gelijk is aan de initValue
-        // Indien dat het geval is, zet de waarde op null
-        const crudObjectKeys = Object.keys(crudObject)
-        crudObjectKeys.forEach((property) => {
-            if (
-                crudObject[property] === null &&
-                crudObject[property] !==
-                    dimensieConstants.CRUD_PROPERTIES[property].initValue
-            ) {
-                crudObject[property] =
-                    dimensieConstants.CRUD_PROPERTIES[property].initValue
-            }
-        })
-        return crudObject
-    }
-
-    setEmptyValuesToNullCrudObject(crudObject) {
-        const dimensieConstants = this.props.dimensieConstants
-
-        // Check voor elke property op het crudObject of die gelijk is aan de initValue
-        // Indien dat het geval is, zet de waarde op null
-        const crudObjectKeys = Object.keys(crudObject)
-        crudObjectKeys.forEach((property) => {
-            if (
-                crudObject[property] ===
-                dimensieConstants.CRUD_PROPERTIES[property].initValue
-            ) {
-                crudObject[property] = null
-            }
-        })
-        return crudObject
-    }
-
     postDimensieObject(crudObject) {
         const dimensieConstants = this.props.dimensieConstants
         const apiEndpoint = dimensieConstants.API_ENDPOINT
@@ -149,7 +114,7 @@ class MuteerUniversalObjectCRUD extends Component {
                 this.setState({
                     crudObject: crudObject,
                 })
-                console.log(err)
+                console.warn(err)
                 toast(process.env.REACT_APP_ERROR_MSG)
             })
     }
@@ -161,7 +126,9 @@ class MuteerUniversalObjectCRUD extends Component {
         const overzichtSlug = dimensieConstants.SLUG_OVERVIEW
 
         axios
-            .patch(`${apiEndpoint}/${objectID}`, JSON.stringify(crudObject))
+            .patch(`${apiEndpoint}/${objectID}`, JSON.stringify(crudObject), {
+                cancelToken: this.axiosCancelSource.token,
+            })
             .then((res) => {
                 this.props.history.push(
                     `/muteer/${overzichtSlug}/${res.data.ID}${
@@ -173,12 +140,16 @@ class MuteerUniversalObjectCRUD extends Component {
                 toast('Opgeslagen')
             })
             .catch((err) => {
-                console.log(err)
-                toast(process.env.REACT_APP_ERROR_MSG)
-                crudObject = formatGeldigheidDatesForUI(crudObject)
-                this.setState({
-                    crudObject: crudObject,
-                })
+                if (axiosPackage.isCancel(err)) {
+                    console.warn('Request cancelled...')
+                } else {
+                    console.warn(err)
+                    toast(process.env.REACT_APP_ERROR_MSG)
+                    crudObject = formatGeldigheidDatesForUI(crudObject)
+                    this.setState({
+                        crudObject: crudObject,
+                    })
+                }
             })
     }
 
@@ -416,7 +387,9 @@ class MuteerUniversalObjectCRUD extends Component {
             (modus && modus === 'ontwerp_maken')
 
         axios
-            .get(`${apiEndpoint}/${objectID}`)
+            .get(`${apiEndpoint}/${objectID}`, {
+                cancelToken: this.axiosCancelSource.token,
+            })
             .then((res) => {
                 const responseObject = res.data
                 let crudObject = null
@@ -444,12 +417,14 @@ class MuteerUniversalObjectCRUD extends Component {
                 this.createAndSetCrudObject(crudObject)
             })
             .catch((err) => {
-                console.log(err)
+                console.warn(err)
                 toast(process.env.REACT_APP_ERROR_MSG)
             })
     }
 
     componentDidMount() {
+        this.axiosCancelSource = axiosPackage.CancelToken.source()
+
         if (this.props.match.params.single) {
             // Als er een waarde in de single parameter zit bewerkt de gebruiker een bestaand object
             this.setState(
@@ -464,6 +439,10 @@ class MuteerUniversalObjectCRUD extends Component {
             // Anders maakt de gebruiker een nieuw object aan
             this.createAndSetCrudObject()
         }
+    }
+
+    componentWillUnmount() {
+        this.axiosCancelSource.cancel('Axios request canceled.')
     }
 
     render() {
