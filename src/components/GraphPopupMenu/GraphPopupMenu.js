@@ -66,8 +66,8 @@ const connectionProperties = {
         prefix: 'de',
     },
     beleidsdoelen: {
-        hex: '#3182ce',
-        hexLight: '#d6e6f5',
+        hex: '#B24A00',
+        hexLight: '#FFE1CC',
         singular: 'beleidsdoel',
         plural: 'Beleidsdoelen',
         prefix: 'het',
