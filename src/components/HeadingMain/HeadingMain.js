@@ -1,7 +1,7 @@
 import React from 'react'
 
 /**
- * Component that renders the HeadingMain component displaying a titel and status Vigerend or Gepubliceerd.
+ * Component that renders the HeadingMain component displaying a titel and status.
  *
  * @component
  *

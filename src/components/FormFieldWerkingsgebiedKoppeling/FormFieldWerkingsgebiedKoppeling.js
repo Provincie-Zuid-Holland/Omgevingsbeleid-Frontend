@@ -22,7 +22,7 @@ import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFi
  *
  * @param {function} setWerkingsgebiedInParentState - Parameter that is used to set the state value of the werkingsgebiedInparentState variable.
  * @param {function} werkingsgebiedInParentState - Parameter that contains the UUID of the werkingsgebied object.
- * @param {string} dataObjectProperty - Parameter containing the werkingsgebied data property.
+ * @param {string} dataObjectProperty - This field contains the property name for a geographical area, as this is not always the same on the crudObject.
  * @param {string} titleSingular - Parameter containing the title of the object in a singular form.
  * @param {string} fieldLabel - Parameter containing the label of the field.
  * @param {string} pValue - Parameter containing the paragraph value of the field, containing a description.
@@ -156,8 +156,8 @@ const FormFieldWerkingsgebiedKoppeling = ({
  * @param {function} setPopupOpen - Parameter that is used set the state of the popupOpen variable.
  * @param {function} setWerkingsgebiedInParentState - Function to edit parent state.
  * @param {function} setWerkingsgebied - Function to edit parent state
- * @param {object} dataObjectProperty - Parameter containing the werkingsgebied data property.
- * @param {object} werkingsgebied - Parameter containing the werkingsgebied value.
+ * @param {string} dataObjectProperty - Parameter containing the werkingsgebied data property.
+ * @param {string} werkingsgebied - Parameter containing the werkingsgebied value.
  * @param {boolean} show - Parameter used to show the transition.
  */
 const CardSelectedWerkingsgebied = ({
@@ -260,8 +260,8 @@ const CardSelectedWerkingsgebied = ({
  *
  * @param {boolean} show - Parameter that is used to show the PopupContainer component.
  * @param {boolean} close - Parameter that is called to close the PopupContainer component.
- * @param {object} setWerkingsgebiedInParentState - Function to edit parent state.
- * @param {object} dataObjectProperty - containing the werkingsgebied data property.
+ * @param {function} setWerkingsgebiedInParentState - Function to edit parent state.
+ * @param {string} dataObjectProperty - containing the werkingsgebied data property.
  */
 const WerkingsgebiedPopup = ({
     show,

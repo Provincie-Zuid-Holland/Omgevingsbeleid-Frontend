@@ -37,6 +37,7 @@ class FormFieldTags extends Component {
      * @function
      *
      * @param {array} newValue - Parameter used to set the value of the tags.
+     * @param {object} actionMeta - Contains meta information about the event from a select input (e.g. when a user clears the select field)
      */
     handleChange = (newValue, actionMeta) => {
         if (newValue) {

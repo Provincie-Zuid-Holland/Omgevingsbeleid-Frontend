@@ -12,7 +12,7 @@ import LoaderSelect from './../LoaderSelect'
  * @component
  *
  * @param {object} crudObject - Contains the object that can be edited.
- * @param {boolean} editStatus - Can be set True if
+ * @param {boolean} editStatus - Contains a boolean indicating if the page is for a new object, or an existing object
  * @param {function} handleChange - Function change handler.
  * @param {string} titleSingular - Title of the object in a singular form.
  * @param {boolean} disabled - Disables the component.
