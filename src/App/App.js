@@ -39,6 +39,7 @@ import PopUpAnimatedContainer from './../components/PopUpAnimatedContainer'
 
 // Import Context
 import UserContext from './UserContext'
+import GraphContext from './GraphContext'
 
 // Import and initialize Sentry for tracking bugs
 import * as Sentry from '@sentry/browser'
@@ -106,13 +107,21 @@ class App extends Component {
             showReAuthenticatePopup: false,
             showWelcomePopup: false,
             showEnvironmentBanner: false,
+            graphIsOpen: false,
         }
         this.checkIfUserIsAuthenticated = this.checkIfUserIsAuthenticated.bind(
             this
         )
+        this.setGraphIsOpen = this.setGraphIsOpen.bind(this)
         this.setLoginState = this.setLoginState.bind(this)
         this.setLoginUser = this.setLoginUser.bind(this)
         this.listenForExpiredSession = this.listenForExpiredSession.bind(this)
+    }
+
+    setGraphIsOpen(newState) {
+        this.setState({
+            graphIsOpen: newState,
+        })
     }
 
     // Used to pass to various components to update the loggedIn state, e.g. the <Navigation />
@@ -213,127 +222,147 @@ class App extends Component {
             this.props.location.pathname.includes('login')
 
         return (
-            <UserContext.Provider value={{ user: this.state.user }}>
-                <div
-                    className={`min-h-screen text-pzh-blue-dark pt-12 ${
-                        locationEqualsMutateEnv ? 'bg-gray-100' : ''
-                    }`}
-                    id="main-container"
-                >
-                    <Helmet>
-                        <meta charSet="utf-8" />
-                        <title>Omgevingsbeleid - Provincie Zuid-Holland</title>
-                    </Helmet>
+            <GraphContext.Provider
+                value={{
+                    graphIsOpen: this.state.graphIsOpen,
+                    setGraphIsOpen: this.setGraphIsOpen,
+                }}
+            >
+                <UserContext.Provider value={{ user: this.state.user }}>
+                    <div
+                        className={`min-h-screen text-pzh-blue-dark pt-12 ${
+                            locationEqualsMutateEnv ? 'bg-gray-100' : ''
+                        }`}
+                        id="main-container"
+                    >
+                        <Helmet>
+                            <meta charSet="utf-8" />
+                            <title>
+                                Omgevingsbeleid - Provincie Zuid-Holland
+                            </title>
+                        </Helmet>
 
-                    {this.state.showWelcomePopup && this.state.dataLoaded ? (
-                        <PopupWelcomeBeta
-                            closePopup={() =>
-                                this.setState({
-                                    showWelcomePopup: false,
-                                })
-                            }
-                        />
-                    ) : null}
+                        {this.state.showWelcomePopup &&
+                        this.state.dataLoaded ? (
+                            <PopupWelcomeBeta
+                                closePopup={() =>
+                                    this.setState({
+                                        showWelcomePopup: false,
+                                    })
+                                }
+                            />
+                        ) : null}
 
-                    {this.state.showReAuthenticatePopup ? (
-                        <PopUpAnimatedContainer
+                        {this.state.showReAuthenticatePopup ? (
+                            <PopUpAnimatedContainer
+                                setLoginState={this.setLoginState}
+                            />
+                        ) : null}
+
+                        <Navigation
                             setLoginState={this.setLoginState}
+                            loggedIn={this.state.loggedIn}
                         />
-                    ) : null}
 
-                    <Navigation
-                        setLoginState={this.setLoginState}
-                        loggedIn={this.state.loggedIn}
-                    />
+                        {this.state.dataLoaded ? (
+                            <Suspense fallback={<LoaderContent />}>
+                                <Switch>
+                                    {/* Raadpleeg - The homepage where users can search for policies and regulations */}
+                                    <Route
+                                        path="/"
+                                        exact
+                                        component={RaadpleegHome}
+                                    />
 
-                    {this.state.dataLoaded ? (
-                        <Suspense fallback={<LoaderContent />}>
-                            <Switch>
-                                {/* Raadpleeg - The homepage where users can search for policies and regulations */}
-                                <Route
-                                    path="/"
-                                    exact
-                                    component={RaadpleegHome}
-                                />
+                                    {/* Raadpleeg - Result page for search */}
+                                    <Route
+                                        exact
+                                        path="/zoekresultaten"
+                                        component={
+                                            RaadpleegZoekResultatenOverzicht
+                                        }
+                                    />
 
-                                {/* Raadpleeg - Result page for search */}
-                                <Route
-                                    exact
-                                    path="/zoekresultaten"
-                                    component={RaadpleegZoekResultatenOverzicht}
-                                />
+                                    {/* Raadpleeg - Detail page for Article objects of the regulations */}
+                                    <Route
+                                        path={`/detail/verordeningen/:lineageID/:objectUUID`}
+                                        render={() => (
+                                            <RaadpleegVerordeningsArtikelDetail
+                                                dataModel={
+                                                    allDimensies.VERORDENINGSARTIKEL
+                                                }
+                                                history={this.props.history}
+                                            />
+                                        )}
+                                    />
 
-                                {/* Raadpleeg - Detail page for Article objects of the regulations */}
-                                <Route
-                                    path={`/detail/verordeningen/:lineageID/:objectUUID`}
-                                    render={() => (
-                                        <RaadpleegVerordeningsArtikelDetail
-                                            dataModel={
-                                                allDimensies.VERORDENINGSARTIKEL
-                                            }
-                                            history={this.props.history}
-                                        />
-                                    )}
-                                />
+                                    {/* Raadpleeg - Detail pages for all the dimensions */}
+                                    {detailPaginas.map((item) => {
+                                        return (
+                                            <Route
+                                                key={item.slug}
+                                                path={`/detail/${item.slug}/:id`}
+                                                render={({ match }) => (
+                                                    <RaadpleegUniversalObjectDetail
+                                                        dataModel={
+                                                            item.dataModel
+                                                        }
+                                                        history={
+                                                            this.props.history
+                                                        }
+                                                        match={match}
+                                                    />
+                                                )}
+                                            />
+                                        )
+                                    })}
 
-                                {/* Raadpleeg - Detail pages for all the dimensions */}
-                                {detailPaginas.map((item) => {
-                                    return (
-                                        <Route
-                                            key={item.slug}
-                                            path={`/detail/${item.slug}/:id`}
-                                            render={({ match }) => (
-                                                <RaadpleegUniversalObjectDetail
-                                                    dataModel={item.dataModel}
-                                                    history={this.props.history}
-                                                    match={match}
-                                                />
-                                            )}
-                                        />
-                                    )
-                                })}
+                                    {/* Planning page contains the development roadmap */}
+                                    <Route
+                                        path="/planning"
+                                        exact
+                                        component={Planning}
+                                    />
 
-                                {/* Planning page contains the development roadmap */}
-                                <Route
-                                    path="/planning"
-                                    exact
-                                    component={Planning}
-                                />
+                                    {/*  */}
+                                    <Route
+                                        path="/login"
+                                        render={() => (
+                                            <Login
+                                                setLoginUser={this.setLoginUser}
+                                                setLoginState={
+                                                    this.setLoginState
+                                                }
+                                                history={this.props.history}
+                                            />
+                                        )}
+                                    />
+                                    <Route
+                                        path="/logout"
+                                        render={() => (
+                                            <Logout
+                                                setLoginState={
+                                                    this.setLoginState
+                                                }
+                                            />
+                                        )}
+                                    />
+                                    <AuthRoutes
+                                        authUser={this.state.user}
+                                        loggedIn={this.state.loggedIn}
+                                        setLoginState={this.setLoginState}
+                                    />
+                                </Switch>
+                            </Suspense>
+                        ) : (
+                            <LoaderContent />
+                        )}
 
-                                {/*  */}
-                                <Route
-                                    path="/login"
-                                    render={() => (
-                                        <Login
-                                            setLoginUser={this.setLoginUser}
-                                            setLoginState={this.setLoginState}
-                                            history={this.props.history}
-                                        />
-                                    )}
-                                />
-                                <Route
-                                    path="/logout"
-                                    render={() => (
-                                        <Logout
-                                            setLoginState={this.setLoginState}
-                                        />
-                                    )}
-                                />
-                                <AuthRoutes
-                                    authUser={this.state.user}
-                                    loggedIn={this.state.loggedIn}
-                                    setLoginState={this.setLoginState}
-                                />
-                            </Switch>
-                        </Suspense>
-                    ) : (
-                        <LoaderContent />
-                    )}
-
-                    <ToastContainer limit={1} position="bottom-left" />
-                    <FeedbackComponent />
-                </div>
-            </UserContext.Provider>
+                        <ToastContainer limit={1} position="bottom-left" />
+                        <FeedbackComponent />
+                    </div>
+                </UserContext.Provider>
+            </GraphContext.Provider>
         )
     }
 }

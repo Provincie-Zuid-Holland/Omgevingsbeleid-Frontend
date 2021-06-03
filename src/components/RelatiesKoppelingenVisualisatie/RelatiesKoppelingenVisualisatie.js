@@ -4,6 +4,9 @@ import { Link, useLocation } from 'react-router-dom'
 
 import generateVerordeningsPosition from './../../utils/generateVerordeningsPosition'
 
+// Import Context
+import GraphContext from './../../App/GraphContext'
+
 const RelatiesKoppelingenVisualisatie = ({
     beleidsObject,
     connectionProperties,
@@ -14,6 +17,8 @@ const RelatiesKoppelingenVisualisatie = ({
     verordeningsStructure,
 }) => {
     const location = useLocation()
+
+    const { setGraphIsOpen } = React.useContext(GraphContext)
 
     const [variables, setVariables] = React.useState({}) // X and Y positions for the Tooltip
     const [data, setData] = React.useState(null)
@@ -318,7 +323,7 @@ const RelatiesKoppelingenVisualisatie = ({
                     ))}
                 </ul>
             </div>
-            <div className="block w-full">
+            <div className="relative block w-full">
                 <div className="container flex items-center justify-center mx-auto">
                     <svg
                         className="d3-component"
@@ -345,6 +350,14 @@ const RelatiesKoppelingenVisualisatie = ({
                         class={`px-4 py-2 rounded bg-gray-900 text-white shadow hover:underline`}
                     />
                 </Link>
+                <div
+                    className="absolute bottom-0 right-0 px-3 py-1 font-bold transition-colors duration-100 ease-in border rounded-md cursor-pointer hover:text-white text-pzh-blue border-pzh-blue hover:bg-pzh-blue"
+                    onClick={() => {
+                        setGraphIsOpen(true)
+                    }}
+                >
+                    Bekijk grote netwerkvisualisatie
+                </div>
             </div>
         </div>
     )

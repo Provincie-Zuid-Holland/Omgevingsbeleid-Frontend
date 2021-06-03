@@ -5,13 +5,15 @@ import {
     faExternalLinkAlt,
     faArrowRight,
 } from '@fortawesome/pro-solid-svg-icons'
+import smoothscroll from 'smoothscroll-polyfill'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
+import GraphContext from './../../App/GraphContext'
 
 // Import Components
 import LeafletViewer from './../../components/LeafletViewer'
 import SearchBar from './../../components/SearchBar'
-import smoothscroll from 'smoothscroll-polyfill'
 smoothscroll.polyfill()
 
 /**
@@ -26,6 +28,8 @@ const RaadpleegHome = () => {
             behavior: 'smooth',
         })
     }
+
+    const { setGraphIsOpen } = React.useContext(GraphContext)
 
     return (
         <div>
@@ -74,6 +78,18 @@ const RaadpleegHome = () => {
                                 className="absolute transition-all duration-100 ease-in group-hover:ml-1"
                             />
                             <span className="pl-6">Beleid op de kaart</span>
+                        </div>
+                        <div
+                            className="relative flex items-center mt-3 cursor-pointer group"
+                            onClick={() => setGraphIsOpen(true)}
+                        >
+                            <FontAwesomeIcon
+                                icon={faArrowRight}
+                                className="absolute transition-all duration-100 ease-in group-hover:ml-1"
+                            />
+                            <span className="pl-6">
+                                Grafische weergave van het beleid
+                            </span>
                         </div>
                     </div>
                 </div>
