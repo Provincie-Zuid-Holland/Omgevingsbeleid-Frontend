@@ -122,7 +122,6 @@ const LoginForm = ({ setLoginState, setLoginUser }) => {
             )
             .then((response) => {
                 console.log(`Environment - ${response.data['deployment type']}`)
-
                 if (response.status >= 200 && response.status < 300) {
                     let identifier = response.data.identifier
 
@@ -164,7 +163,7 @@ const LoginForm = ({ setLoginState, setLoginUser }) => {
                 <div>
                     <label
                         className="block mb-2 text-sm font-bold text-pzh-blue"
-                        htmlFor="identifier"
+                        htmlFor="form-field-login-email"
                     >
                         E-mailadres
                     </label>
@@ -182,7 +181,7 @@ const LoginForm = ({ setLoginState, setLoginUser }) => {
                 <div className="my-6">
                     <label
                         className="block mb-2 text-sm font-bold text-pzh-blue"
-                        htmlFor="password"
+                        htmlFor="form-field-login-password"
                     >
                         Wachtwoord
                     </label>
@@ -205,11 +204,12 @@ const LoginForm = ({ setLoginState, setLoginUser }) => {
                         data-testid="form-field-login-submit"
                     >
                         {loading ? (
-                            <span className="mr-2">
+                            <span alt="laden..." className="mr-2">
                                 <LoaderSpinner />
                             </span>
                         ) : null}
                         Inloggen
+                        {loading ? '...' : ''}
                     </button>
                     <button
                         className="ml-4 text-sm underline cursor-pointer"
