@@ -257,13 +257,14 @@ const RelatiesKoppelingenVisualisatie = ({
                 })
 
                 const tooltipWidth = tooltipEl.offsetWidth
-                // const circleWidth = 24
                 const circleWidth = 24
                 const { x, y } = this.getBoundingClientRect()
+                const xPos = x - tooltipWidth / 2 + circleWidth / 2 //Center tooltip in the middle
+                const yPos = y + 35 + window.pageYOffset
 
                 setVariables({
-                    left: x - tooltipWidth / 2 + circleWidth / 2, //Center tooltip in the middle
-                    top: y + 35 + window.pageYOffset,
+                    left: xPos,
+                    top: yPos,
                 })
             }
 
@@ -334,22 +335,6 @@ const RelatiesKoppelingenVisualisatie = ({
                         ref={d3Container}
                     />
                 </div>
-                <Link
-                    to={href ? href : '#'}
-                    id="d3-tooltip"
-                    style={{
-                        left: variables.left,
-                        top: variables.top,
-                    }}
-                    class={`absolute hidden hover:block ${
-                        href ? 'cursor-pointer' : 'cursor-default'
-                    }`}
-                >
-                    <div
-                        id="d3-tooltip-title"
-                        class={`px-4 py-2 rounded bg-gray-900 text-white shadow hover:underline`}
-                    />
-                </Link>
                 <div
                     className="absolute bottom-0 right-0 px-3 py-1 font-bold transition-colors duration-100 ease-in border rounded-md cursor-pointer hover:text-white text-pzh-blue border-pzh-blue hover:bg-pzh-blue"
                     onClick={() => {
@@ -359,6 +344,22 @@ const RelatiesKoppelingenVisualisatie = ({
                     Bekijk grote netwerkvisualisatie
                 </div>
             </div>
+            <Link
+                to={href ? href : '#'}
+                id="d3-tooltip"
+                style={{
+                    left: variables.left,
+                    top: variables.top,
+                }}
+                class={`absolute hidden hover:block ${
+                    href ? 'cursor-pointer' : 'cursor-default'
+                }`}
+            >
+                <div
+                    id="d3-tooltip-title"
+                    class={`px-4 py-2 rounded bg-gray-900 text-white shadow hover:underline`}
+                />
+            </Link>
         </div>
     )
 }

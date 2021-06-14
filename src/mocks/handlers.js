@@ -12,6 +12,28 @@ const dimensions = [
     'BELEIDSKEUZES',
 ]
 
+const graph = {
+    links: [
+        {
+            source: '0000-0001',
+            target: '0000-0002',
+            type: 'Koppeling',
+        },
+    ],
+    nodes: [
+        {
+            Titel: 'Test node 1',
+            Type: 'beleidsdoelen',
+            UUID: '0000-0001',
+        },
+        {
+            Titel: 'Test node 2',
+            Type: 'beleidsdoelen',
+            UUID: '0000-0002',
+        },
+    ],
+}
+
 const werkingsgebieden = [
     {
         ID: 2,
@@ -118,6 +140,13 @@ export const handlers = [
         'https://api-obzh-dev.azurewebsites.net/v0.1/werkingsgebieden',
         (req, res, ctx) => {
             return res(ctx.status(200), ctx.json(werkingsgebieden))
+        }
+    ),
+
+    rest.get(
+        'https://api-obzh-dev.azurewebsites.net/v0.1/graph',
+        (req, res, ctx) => {
+            return res(ctx.status(200), ctx.json(graph))
         }
     ),
 

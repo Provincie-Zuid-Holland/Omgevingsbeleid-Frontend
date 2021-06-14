@@ -23,7 +23,7 @@ describe('Constants', () => {
         .filter((dimensionKey) =>
             allDimensies[dimensionKey].hasOwnProperty('CRUD_PROPERTIES')
         )
-        .filter((dimensionKey) => dimensionKey === 'VERORDENINGSARTIKEL')
+        .filter((dimensionKey) => dimensionKey !== 'VERORDENINGSARTIKEL')
         .forEach((dimensionKey) => {
             it(`The ${dimensionKey} constant properties should also exist on the API object`, async () => {
                 const dimension = allDimensies[dimensionKey]

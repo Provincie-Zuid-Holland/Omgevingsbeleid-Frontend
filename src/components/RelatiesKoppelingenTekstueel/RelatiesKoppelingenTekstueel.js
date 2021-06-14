@@ -17,7 +17,7 @@ function RelatiesKoppelingenTekstueel({
 }) {
     if (!beleidsObject) return null
 
-    const hasKoppelingen = connectionProperties.filter((prop) => {
+    const hasKoppelingen = connectionProperties.some((prop) => {
         return beleidsObject[prop] && beleidsObject[prop].length > 0
     })
 
