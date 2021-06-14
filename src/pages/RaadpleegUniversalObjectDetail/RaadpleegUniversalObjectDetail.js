@@ -8,8 +8,9 @@ import {
 } from '@fortawesome/pro-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { toast } from 'react-toastify'
-import { Link, useParams, useHistory } from 'react-router-dom'
+import { Link, useParams, useHistory, useLocation } from 'react-router-dom'
 import { Transition } from '@headlessui/react'
+import { useLastLocation } from 'react-router-last-location'
 
 // Import Axios instance to connect with the API
 import axios from '../../API/axios'
@@ -318,16 +319,10 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
                         className={`w-full`}
                     >
                         <div className="container absolute inset-x-0 hidden w-full mx-auto xl:flex">
-                            <BackButton
-                                fromPage={fromPage}
-                                searchQuery={searchQuery}
-                            />
+                            <BackButton />
                         </div>
                         <div className="block xl:hidden">
-                            <BackButton
-                                fromPage={fromPage}
-                                searchQuery={searchQuery}
-                            />
+                            <BackButton />
                         </div>
 
                         <Heading
@@ -426,22 +421,31 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
     )
 }
 
-const BackButton = ({ fromPage, searchQuery }) => {
+const BackButton = () => {
+    const history = useHistory()
+    const location = useLocation()
+    const lastLocation = useLastLocation()
+
+    const goBack = () => {
+        if (
+            lastLocation?.pathname &&
+            lastLocation.pathname !== location.pathname
+        ) {
+            history.goBack()
+        } else {
+            history.push('/')
+        }
+    }
+
     return (
-        <Link
-            to={
-                searchQuery
-                    ? `/zoekresultaten${searchQuery}`
-                    : fromPage
-                    ? fromPage
-                    : '/'
-            }
-            className={`text-pzh-blue opacity-75 hover:opacity-100 transition-opacity ease-in duration-100 mb-4 inline-block`}
+        <div
+            onClick={() => goBack()}
+            className={`text-pzh-blue cursor-pointer opacity-75 hover:opacity-100 transition-opacity ease-in duration-100 mb-4 inline-block`}
             id="button-back-to-previous-page"
         >
             <FontAwesomeIcon className="mr-2" icon={faArrowLeft} />
             <span>Terug</span>
-        </Link>
+        </div>
     )
 }
 
