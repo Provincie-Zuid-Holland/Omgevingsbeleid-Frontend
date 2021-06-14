@@ -43,7 +43,7 @@ const NetworkGraphClickedElementPopup = ({
     return (
         <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
             <div className="container relative flex h-full mx-auto">
-                <div className="absolute bottom-0 right-0 mb-12 mr-2">
+                <div className="absolute bottom-0 right-0 mx-2 mb-2">
                     <Transition
                         show={localOpenState}
                         enter="transition ease-out duration-150 transform"
@@ -53,8 +53,12 @@ const NetworkGraphClickedElementPopup = ({
                         leaveFrom="opacity-100 scale-100"
                         leaveTo="opacity-0 scale-95"
                     >
-                        <div className="relative py-2 pr-5 text-lg bg-white shadow-md pointer-events-auto rouned">
+                        <div
+                            role="tooltip"
+                            className="relative py-2 pr-5 text-lg bg-white shadow-md pointer-events-auto rouned"
+                        >
                             <Link
+                                role="link"
                                 className="block p-3 pt-0 group"
                                 to={href}
                                 onClick={() => setGraphIsOpen(false)}
@@ -65,16 +69,24 @@ const NetworkGraphClickedElementPopup = ({
                                 <span className="block text-pzh-blue-dark">
                                     {title}
                                 </span>
-                                <span className="group-hover:underline">
+                                <span className="underline text-pzh-blue">
                                     {singularTitle && singularTitlePrefix
                                         ? `Bekijk ${singularTitlePrefix} ${singularTitle}`
                                         : `Bekijk dit object`}
                                 </span>
                             </Link>
                             <span
+                                role="button"
+                                tabIndex="0"
                                 onClick={() => {
                                     setLocalOpenState(false)
                                     resetNodes()
+                                }}
+                                onKeyPress={(e) => {
+                                    if (e.key === 'Enter') {
+                                        setLocalOpenState(false)
+                                        resetNodes()
+                                    }
                                 }}
                                 className="absolute top-0 right-0 flex items-center justify-center w-5 h-5 mx-1 mt-2 mr-1 transition-colors duration-100 ease-in rounded cursor-pointer hover:bg-gray-200"
                             >

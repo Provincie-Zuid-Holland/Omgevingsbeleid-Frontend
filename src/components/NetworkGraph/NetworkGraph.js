@@ -2,7 +2,8 @@ import React from 'react'
 import * as d3 from 'd3'
 import cloneDeep from 'lodash.clonedeep'
 import { Transition } from '@headlessui/react'
-import { useLocation, matchPath } from 'react-router-dom'
+import { useLocation, useHistory, matchPath } from 'react-router-dom'
+import { useLastLocation } from 'react-router-last-location'
 
 import axios from '../../API/axios'
 
@@ -59,6 +60,16 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
      * The location is used in order to get the UUID parameter
      */
     const location = useLocation()
+
+    /**
+     * History is set to push a custom url when the graph is Open
+     */
+    const history = useHistory()
+
+    /**
+     * Used to get the UUID paramater for detail pages
+     */
+    const lastLocation = useLastLocation()
 
     /**
      * The useRef Hook creates a variable that "holds on" to a value across rendering
@@ -170,11 +181,13 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
      * @param {object} clickedEl - Contains the node that is clicked
      * @param {object} svgElement - Contains the SVG container in a Selection object
      * @param {array} links - Contains the d3 links
+     * @param {boolean} isNotClicked - Contains a boolean if the function is called without a click from the user. This is used to prevent resetting the clicked node state. Normally when a node is clicked a second time we want to reset the clicked node state. We use this value in the function updateActiveNodeBasedOnURL().
      * @returns
      */
     const handleNodeClick = React.useCallback(
-        (clickedEl, svgElement, links) => {
+        (clickedEl, svgElement, links, refresh) => {
             const uuidSource = clickedEl.UUID
+
             if (!uuidSource) return
 
             const connectedLinks = links.filter(
@@ -220,7 +233,7 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
                     .attr('stroke-opacity', 0.6)
             }
 
-            if (uuidSource === clickedNodeRef.current?.UUID) {
+            if (uuidSource === clickedNodeRef.current?.UUID && !refresh) {
                 /**
                  * If the currently clicked node is the same as the previous still active node we reset the state
                  */
@@ -290,13 +303,15 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
 
     /**
      * Function to check if the updated location contains a UUID that exists as a node.
-     * If it does, we set it as as active by calling handleNodeClick
+     * If it does, we set it as active by calling handleNodeClick
      * @param {array} links - contains the links
      * @param {array} nodes - contains the nodes
      */
     const updateActiveNodeBasedOnURL = React.useCallback(
         (links, nodes) => {
-            let match = matchPath(location.pathname, {
+            if (!lastLocation) return
+
+            let match = matchPath(lastLocation.pathname, {
                 path: `/detail/:slug/:uuid`,
                 exact: true,
             })
@@ -308,11 +323,29 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
             const clickedEl = nodes.find((e) => e.UUID === uuidFromUrl)
 
             if (!clickedEl) return
-
-            handleNodeClick(clickedEl, svgElement, links)
+            handleNodeClick(clickedEl, svgElement, links, true)
         },
-        [location.pathname, handleNodeClick]
+        [handleNodeClick, lastLocation]
     )
+
+    /**
+     * Close popup when the location path changes
+     */
+    React.useLayoutEffect(() => {
+        if (location.pathname !== '/netwerkvisualisatie' && graphIsOpen)
+            setGraphIsOpen(false)
+        if (location.pathname === '/netwerkvisualisatie' && !graphIsOpen)
+            setGraphIsOpen(true)
+    }, [location.pathname, setGraphIsOpen, graphIsOpen])
+
+    /**
+     * When the graph is open we want it to have custom URL
+     */
+    React.useLayoutEffect(() => {
+        if (graphIsOpen) {
+            history.push('/netwerkvisualisatie')
+        }
+    }, [graphIsOpen, history])
 
     /**
      * Hook to initialize the D3 Graph
@@ -381,9 +414,12 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
                     const { x, bottom } = nodeElement.getBoundingClientRect()
                     const tooltipWidth = tooltipEl.offsetWidth
                     const circleWidth = 24
+                    const leftPosition =
+                        x - tooltipWidth / 2 + circleWidth / 2 - 5
+                    const bottomPosition = bottom - 65
                     const newVariables = {
-                        left: x - tooltipWidth / 2 + circleWidth / 2 - 5,
-                        top: bottom - 65,
+                        left: leftPosition,
+                        top: bottomPosition,
                     }
 
                     setVariables(newVariables)
@@ -406,8 +442,8 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
                     }
                 }
 
-                updateTooltipCoordinates()
                 updateTooltipContent()
+                updateTooltipCoordinates()
                 updateNodeStyles()
             }
 
@@ -444,7 +480,7 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
 
             const [links, nodes] = getFilteredData(data, filters)
 
-            if (!links || !nodes) return
+            if (!links || !nodes || !d3Container.current) return
 
             /**
              * Get current SVG element
@@ -504,6 +540,7 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
             // Generate Links
             const link = svgElement
                 .append('g')
+                .attr('data-testid', 'test-g-links')
                 .attr('stroke', '#999')
                 .attr('stroke-opacity', 0.6)
                 .selectAll('line')
@@ -514,11 +551,13 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
             // Generate Nodes
             const node = svgElement
                 .append('g')
+                .attr('data-testid', 'test-g-nodes')
                 .attr('stroke', '#fff')
                 .attr('stroke-width', 1.5)
                 .selectAll('circle')
                 .data(nodes)
                 .join('circle')
+                .attr('data-testid', (d) => d.id)
                 .attr(
                     'class',
                     'cursor-pointer transition transform ease-in duration-200 scale-100'
@@ -608,8 +647,18 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
                                 }}
                             >
                                 <svg
+                                    role="img"
                                     className="w-full h-full d3-component"
                                     ref={d3Container}
+                                />
+                                <NetworkGraphResetClickedElement
+                                    resetNodes={resetNodes}
+                                    clickedNode={clickedNode}
+                                />
+                                <NetworkGraphClickedElementPopup
+                                    clickedNode={clickedNode}
+                                    setGraphIsOpen={setGraphIsOpen}
+                                    resetNodes={resetNodes}
                                 />
                             </div>
                         </div>
@@ -617,15 +666,6 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
                             href={href}
                             variables={variables}
                             setGraphIsOpen={setGraphIsOpen}
-                        />
-                        <NetworkGraphClickedElementPopup
-                            clickedNode={clickedNode}
-                            setGraphIsOpen={setGraphIsOpen}
-                            resetNodes={resetNodes}
-                        />
-                        <NetworkGraphResetClickedElement
-                            resetNodes={resetNodes}
-                            clickedNode={clickedNode}
                         />
                     </div>
                 </div>

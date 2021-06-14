@@ -1,15 +1,47 @@
-import { render } from '@testing-library/react';
-import React from 'react';
-import NetworkGraphTooltip from './NetworkGraphTooltip';
+import { render, fireEvent, screen } from '@testing-library/react'
+import '@testing-library/jest-dom'
+import { MemoryRouter } from 'react-router-dom'
+import React from 'react'
+
+import NetworkGraphTooltip from './NetworkGraphTooltip'
 
 describe('NetworkGraphTooltip', () => {
-    const defaultProps = {};
+    const setup = () => {
+        const setGraphIsOpenMock = jest.fn()
+
+        const defaultProps = {
+            variables: {
+                left: 10,
+                top: 10,
+            },
+            setGraphIsOpen: setGraphIsOpenMock,
+            href: '/href',
+        }
+
+        const props = { ...defaultProps }
+        render(
+            <MemoryRouter>
+                <NetworkGraphTooltip {...props} />
+            </MemoryRouter>
+        )
+        return { setGraphIsOpenMock }
+    }
 
     it('should render', () => {
-        const props = {...defaultProps};
-        const { asFragment, queryByText } = render(<NetworkGraphTooltip {...props} />);
+        setup()
+        expect(screen.getByRole('tooltip')).toBeTruthy()
+    })
 
-        expect(asFragment()).toMatchSnapshot();
-        expect(queryByText('NetworkGraphTooltip')).toBeTruthy();
-    });
-});
+    it('should close when the user clicks on the tooltip', () => {
+        const { setGraphIsOpenMock } = setup()
+        const tooltip = screen.getByRole('tooltip')
+        fireEvent.click(tooltip)
+        expect(setGraphIsOpenMock).toBeCalledTimes(1)
+    })
+
+    it('should link to the supplied href', () => {
+        setup()
+        const tooltip = screen.getByRole('tooltip')
+        expect(tooltip).toHaveAttribute('href', '/href')
+    })
+})

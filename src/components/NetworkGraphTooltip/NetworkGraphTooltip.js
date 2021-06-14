@@ -15,6 +15,7 @@ const NetworkGraphTooltip = ({ variables, setGraphIsOpen, href }) => {
                 onClick={() => setGraphIsOpen(false)}
                 to={href}
                 className="select-none group"
+                role="tooltip"
             >
                 <div
                     id="d3-tooltip-network-graph-type"
@@ -23,6 +24,7 @@ const NetworkGraphTooltip = ({ variables, setGraphIsOpen, href }) => {
                 <div
                     id="d3-tooltip-network-graph-title"
                     className={`text-pzh-blue-dark group-hover:underline truncate`}
+                    style={{ maxWidth: '400px' }}
                 />
             </Link>
         </div>

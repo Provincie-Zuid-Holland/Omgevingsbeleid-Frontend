@@ -22,7 +22,7 @@ const NetworkGraphResetClickedElement = ({ clickedNode, resetNodes }) => {
     }, [clickedNode])
 
     return (
-        <div className="absolute top-0 left-0 w-full h-full my-10 pointer-events-none">
+        <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
             <div className="container relative flex h-full mx-auto">
                 <div className="absolute top-0 right-0 mt-2 mr-2">
                     <Transition
@@ -35,8 +35,11 @@ const NetworkGraphResetClickedElement = ({ clickedNode, resetNodes }) => {
                         leaveTo="opacity-0 scale-95"
                     >
                         <div
+                            role="button"
+                            tabIndex="0"
                             onClick={() => resetNodes()}
                             className="relative flex items-center justify-center px-2 py-2 mt-0 text-lg transition-shadow duration-100 ease-in bg-white rounded shadow-md cursor-pointer pointer-events-auto hover:shadow-lg"
+                            data-testid="button-reset-nodes"
                         >
                             <FontAwesomeIcon icon={faUndo} />
                         </div>

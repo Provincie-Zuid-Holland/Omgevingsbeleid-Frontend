@@ -1,6 +1,8 @@
 import React from 'react'
 import { faArrowLeft } from '@fortawesome/pro-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useHistory, useLocation } from 'react-router-dom'
+import { useLastLocation } from 'react-router-last-location'
 
 import networkGraphConnectionProperties from '../../constants/networkGraphConnectionProperties'
 import networkGraphFilterMenu from '../../constants/networkGraphFilterMenu'
@@ -12,11 +14,35 @@ import networkGraphFilterMenu from '../../constants/networkGraphFilterMenu'
  * @returns A component that displays a sidebar with functionality to filter node types
  */
 const NetworkGraphSidebar = ({ setGraphIsOpen, filters, setFilters }) => {
+    /**
+     * History is set to push a custom url when the graph is Open
+     */
+    const history = useHistory()
+    const location = useLocation()
+    const lastLocation = useLastLocation()
+
+    /** Set initial lastLocation, as the networkGraph can update the URL */
+    const lastLocationRef = React.useRef(lastLocation)
+
+    const goBack = () => {
+        if (
+            lastLocationRef?.current?.pathname &&
+            lastLocationRef?.current?.pathname !== location.pathname
+        ) {
+            history.push(lastLocationRef?.current?.pathname)
+        } else {
+            history.push('/')
+        }
+    }
+
     return (
         <div className="w-1/4 pl-6 my-10">
             <div
                 className="mb-6 text-sm text-gray-600 transition-colors duration-100 ease-in cursor-pointer hover:text-gray-800 "
-                onClick={() => setGraphIsOpen(false)}
+                onClick={() => {
+                    goBack()
+                    setGraphIsOpen(false)
+                }}
             >
                 <FontAwesomeIcon className="mr-2" icon={faArrowLeft} />
                 <span>Vorige pagina</span>
@@ -81,5 +107,4 @@ const NetworkGraphSidebar = ({ setGraphIsOpen, filters, setFilters }) => {
         </div>
     )
 }
-
 export default NetworkGraphSidebar
