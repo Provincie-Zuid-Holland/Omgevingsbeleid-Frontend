@@ -4,7 +4,7 @@ import { toast } from 'react-toastify'
 import debounce from './../../utils/debounce'
 
 /**
- * Class that renders the LeafletSearchInput and binds serveral variables from the state.
+ * Class that renders the LeafletSearchInput component that shows a input field in which a user can search werkgebieden on a map.
  *
  * @class
  * @extends Component
@@ -28,7 +28,7 @@ class LeafletSearchInput extends Component {
     }
 
     /**
-     * Function to set the searchQuery to a certain value and calling the locatieServerSuggestQuery function with the same certain value.
+     * Function to set the state of the searchQuery and use the value parameter in the locatieServerSuggestQuery function.
      *
      * @function
      *
@@ -47,7 +47,7 @@ class LeafletSearchInput extends Component {
     }
 
     /**
-     * Function to import the API axiosLocatieServer and cancel the API request.
+     * Function to import the API axiosLocatieServer and then cancel the API request.
      *
      * @function
      */

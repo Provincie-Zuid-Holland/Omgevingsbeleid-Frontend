@@ -15,6 +15,20 @@ import axios from './../../API/axios'
 import PopupContainer from './../PopupContainer'
 import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFieldTitelEnBeschrijving'
 
+/**
+ * Component that renders a FormFieldWerkingsgebied component in which a user can select a Werkingsgebied.
+ *
+ * @component
+ *
+ * @param {function} setWerkingsgebiedInParentState - Function to set Werkingsgebied in parent state
+ * @param {function} werkingsgebiedInParentState - Function to get Werkingsgebied from parent state
+ * @param {string} dataObjectProperty - Containing a string with the werkingsgebied
+ * @param {string} titleSingular - Parameter containing the title of the object in a singular form.
+ * @param {string} fieldLabel - Label of the field
+ * @param {string} pValue - Paragraph value of the field, containing a description
+ * @param {boolean} disabled - Parameter used to disable the FormFieldTitelEnBeschrijving component.
+ */
+
 const FormFieldWerkingsgebied = ({
     setWerkingsgebiedInParentState,
     werkingsgebiedInParentState,

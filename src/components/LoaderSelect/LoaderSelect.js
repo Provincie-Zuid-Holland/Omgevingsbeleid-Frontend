@@ -2,7 +2,7 @@ import React from 'react'
 import ContentLoader from 'react-content-loader'
 
 /**
- * Component that renders the LoaderSelect component using a set style, width and height of the imported ContentLoader component.
+ * Component that renders the LoaderSelect component, which loads a rectangle shape before the Select component is displayed.
  *
  * @component
  */

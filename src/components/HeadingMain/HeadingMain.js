@@ -1,21 +1,12 @@
 import React from 'react'
 
 /**
- * Component that renders the HeadingMain component, while using the variables titel and status, which are passed down from the parent.
- * The component displays a div containing a h1 tag containing the titel variable (passed down from the parent) and uses the status variable in the
- * conditional operator to either display the status or not. Based on the isVigerend variable (which is set true if the status contains a certain value),
- * the color and border color of the status is set.
- *
- * This component is imported by the following component:
- * ContainerDetailMain
- *
- * This component is imported by the following page:
- * ContainerDetail
+ * Component that renders the HeadingMain component displaying a titel and status.
  *
  * @component
  *
- * @param {string} titel - Parameter displaying the titel within the component within the h1 tags, which value is passed down from the parent.
- * @param {string} status - Parameter used in a conditional operator to check if the isVigerend variable can be set to true, also used in a conditional operator to display the status variable within the component.
+ * @param {string} titel - Parameter containing a titel displayed in h1 tag.
+ * @param {string} status - Parameter containing the status Vigerend or Gepubliceerd.
  */
 const HeadingMain = ({ titel, status }) => {
     const isVigerend = status === 'Vigerend' || status === 'Gepubliceerd'

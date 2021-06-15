@@ -2,7 +2,7 @@ import React from 'react'
 import ContentLoader from 'react-content-loader'
 
 /**
- * Component that sets the props for the ContentLoader and generates a Tiny viewer version of the Leaflet.
+ * Component that renders the LoaderLeafletTinyViewer component, which loads a rectangle shape before the LeafletTinyViewer component is displayed.
  *
  * @component
  */

@@ -105,6 +105,17 @@ const DEFAULT_VIEWPORT = {
     zoom: 4,
 }
 
+/**
+ * Class that renders the LeafletRevisionOverwiew component based on if the dataReceived state is set to true, it will display the following components imported from react-leaflet:
+ * - Map -- In which the user sees a map it can interact with of all the Werkingsgebieden.
+ * - LeafletController -- Which contains a interactive legenda, which the user can use to filter on the map.
+ * - LayersControl -- Which contains an interactive layer control, which the user can use to cycle through layers on the map to present different information and overlays.
+ *
+ * If the dataReceived state is false, the default imported LoaderLeafletTinyViewer component will be shown.
+ *
+ * @class
+ * @extends Component
+ */
 export default class LeafletRevisionOverview extends Component {
     constructor(props) {
         super(props)
@@ -689,6 +700,15 @@ export default class LeafletRevisionOverview extends Component {
     }
 }
 
+/**
+ * Component that renders the ToggleableSection component which displays a button which either contains the options of the legenda or Achtergrondlaag of the map when clicked on.
+ *
+ * @component
+ *
+ * @param {object} children - Parameter containing the collection within the component.
+ * @param {string} title - Parameter containing the title of the component.
+ * @param {int} positionTop - Parameter containing the top position of the component.
+ */
 const ToggleableSection = ({ children, title, positionTop }) => {
     const [open, setOpen] = React.useState(true)
     return (

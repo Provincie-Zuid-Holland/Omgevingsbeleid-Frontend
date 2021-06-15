@@ -3,19 +3,6 @@ import React from 'react'
 /**
  * Component that renders the FormFieldTitelEnBeschrijving component that is used to display the title and description of the FormField component based on the props given.
  *
- * This component is imported by the following components:
- * FormFieldDate
- * FormFieldNumberInput
- * FormFieldRelatieKoppeling
- * FormFieldSelect
- * FormFieldsExport
- * FormFieldTags
- * FormFieldTextArea
- * FormFieldTextInput
- * FormFieldWeblink
- * FormFieldWerkingsgebiedKoppeling
- * FormFieldWerkingsgebiedrelatie
- *
  * This component is imported by the following page:
  * FormFieldContainerMaatregelen
  *

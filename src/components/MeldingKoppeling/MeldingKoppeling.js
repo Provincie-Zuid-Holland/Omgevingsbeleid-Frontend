@@ -3,7 +3,7 @@ import { faLink } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 /**
- * Class that renders a MeldingKoppeling component
+ * Class that renders the MeldingKoppeling component, which notifies the user when a connection request for a werkingsgebied is created.
  *
  * @class
  * @extends Component
