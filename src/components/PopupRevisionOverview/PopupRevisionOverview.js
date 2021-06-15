@@ -588,13 +588,14 @@ const RevisionWerkingsgebied = ({ originalObject, changesObject }) => {
             changesObject.Werkingsgebieden.new.length > 0 &&
             changesObject.Werkingsgebieden.removed.length > 0
         ) {
-            return `Beleidskeuze '${originalObject.Titel}' is gewijzigd van gebied '${changesObject.Werkingsgebieden.removed[0].Werkingsgebied}' naar gebied '${changesObject.Werkingsgebieden.new[0].Werkingsgebied}'.`
+            return `Beleidskeuze '${originalObject.Titel}' is gewijzigd van gebied '${changesObject?.Werkingsgebieden?.removed[0]?.Object?.Werkingsgebied}' naar gebied '${changesObject?.Werkingsgebieden?.new[0]?.Object?.Werkingsgebied}'.`
         } else if (changesObject.Werkingsgebieden.new.length > 0) {
-            return `Beleidskeuze '${originalObject.Titel}' heeft '${changesObject.Werkingsgebieden.new[0].Werkingsgebied}' als werkingsgebied gekregen.`
+            return `Beleidskeuze '${originalObject.Titel}' heeft '${changesObject?.Werkingsgebieden?.new[0]?.Object?.Werkingsgebied}' als werkingsgebied gekregen.`
         } else if (changesObject.Werkingsgebieden.same.length > 0) {
-            return `Beleidskeuze '${originalObject.Titel}' is niet gewijzigd, en is gekoppeld aan '${changesObject.Werkingsgebieden.same[0].Werkingsgebied}'.`
+            console.log(changesObject.Werkingsgebieden)
+            return `Beleidskeuze '${originalObject.Titel}' is niet gewijzigd, en is gekoppeld aan '${changesObject?.Werkingsgebieden?.same[0]?.Object?.Werkingsgebied}'.`
         } else if (changesObject.Werkingsgebieden.removed.length > 0) {
-            return `Beleidskeuze '${originalObject.Titel}' was gekoppeld aan gebied '${changesObject.Werkingsgebieden.removed[0].Werkingsgebied}', maar deze koppeling is verwijderd.`
+            return `Beleidskeuze '${originalObject.Titel}' was gekoppeld aan gebied '${changesObject?.Werkingsgebieden?.removed[0]?.Object?.Werkingsgebied}', maar deze koppeling is verwijderd.`
         } else {
             // The leftSelect value and the rightSelect value both didn't have a werkingsgebied
             return `Beleidskeuze '${originalObject.Titel}' heeft voor beidde geselecteerde objecten geen werkingsgebied`

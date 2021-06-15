@@ -35,9 +35,9 @@ const FormFieldTextInput = ({
                 pValue={pValue}
                 titleSingular={titleSingular}
             />
-
             <input
                 disabled={disabled}
+                data-testid={`form-field-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
                 id={`form-field-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
                 value={fieldValue ? fieldValue : ''}
                 onChange={handleChange}
