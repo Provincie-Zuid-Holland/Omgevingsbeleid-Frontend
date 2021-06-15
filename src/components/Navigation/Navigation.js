@@ -10,8 +10,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { environment } from './../../API/axios'
 
 import NavigationPopupMenu from './../NavigationPopupMenu'
-import GraphPopupMenu from './../GraphPopupMenu'
+import NetworkGraph from './../NetworkGraph'
 import SearchBar from './../SearchBar'
+
+import GraphContext from './../../App/GraphContext'
 
 import logoSVG from './../../images/PZH_Basislogo.svg'
 
@@ -21,7 +23,7 @@ function Navigation({ loggedIn, setLoginState }) {
     const userIsInMuteerEnvironment = pathname.includes('/muteer/')
 
     // State for popup menu
-    const [graphIsOpen, setGraphIsOpen] = React.useState(false)
+    const { graphIsOpen, setGraphIsOpen } = React.useContext(GraphContext)
     const [isOpen, setIsOpen] = React.useState(false)
     const [
         locationEqualsMutateEnv,
@@ -102,6 +104,23 @@ function Navigation({ loggedIn, setLoginState }) {
             window.removeEventListener('scroll', checkScroll)
         }
     }, [locationEqualsMutateEnv])
+
+    React.useEffect(() => {
+        if (graphIsOpen) {
+            const header = document.getElementById('navigation-main')
+            header.classList.remove('transition-all', 'duration-200', 'ease-in')
+            header.classList.remove('hide-nav')
+            window.setTimeout(
+                () =>
+                    header.classList.add(
+                        'transition-all',
+                        'duration-200',
+                        'ease-in'
+                    ),
+                100
+            )
+        }
+    }, [graphIsOpen])
 
     // If the user removes the banner a variable gets set in Local Storage.
     // This variable is valid for 24 hours and makes sure the banner will not show up again.
@@ -190,11 +209,11 @@ function Navigation({ loggedIn, setLoginState }) {
                         />
                     ) : null}
 
-                    {/* <GraphPopupMenu
+                    <NetworkGraph
                         graphIsOpen={graphIsOpen}
                         setGraphIsOpen={setGraphIsOpen}
                         showBanner={showBanner}
-                    /> */}
+                    />
 
                     <NavigationPopupMenu
                         isOpen={isOpen}

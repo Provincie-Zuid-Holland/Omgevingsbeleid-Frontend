@@ -1,12 +1,13 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
-const getObjectFromRelation = (object) =>
-    object.hasOwnProperty('Van_Beleidskeuze')
-        ? object.Van_Beleidskeuze
-        : object.hasOwnProperty('Naar_Beleidskeuze')
-        ? object.Naar_Beleidskeuze
-        : null
+const getObjectFromRelation = (relation) => {
+    return relation.hasOwnProperty('Van_Beleidskeuze')
+        ? relation.Van_Beleidskeuze
+        : relation.hasOwnProperty('Naar_Beleidskeuze')
+        ? relation.Naar_Beleidskeuze
+        : relation
+}
 
 function RelatiesKoppelingenTekstueel({
     beleidsObject,
@@ -16,7 +17,7 @@ function RelatiesKoppelingenTekstueel({
 }) {
     if (!beleidsObject) return null
 
-    const hasKoppelingen = connectionProperties.filter((prop) => {
+    const hasKoppelingen = connectionProperties.some((prop) => {
         return beleidsObject[prop] && beleidsObject[prop].length > 0
     })
 

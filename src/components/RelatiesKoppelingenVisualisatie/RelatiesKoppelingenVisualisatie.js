@@ -4,6 +4,9 @@ import { Link, useLocation } from 'react-router-dom'
 
 import generateVerordeningsPosition from './../../utils/generateVerordeningsPosition'
 
+// Import Context
+import GraphContext from './../../App/GraphContext'
+
 const RelatiesKoppelingenVisualisatie = ({
     beleidsObject,
     connectionProperties,
@@ -14,6 +17,8 @@ const RelatiesKoppelingenVisualisatie = ({
     verordeningsStructure,
 }) => {
     const location = useLocation()
+
+    const { setGraphIsOpen } = React.useContext(GraphContext)
 
     const [variables, setVariables] = React.useState({}) // X and Y positions for the Tooltip
     const [data, setData] = React.useState(null)
@@ -252,13 +257,14 @@ const RelatiesKoppelingenVisualisatie = ({
                 })
 
                 const tooltipWidth = tooltipEl.offsetWidth
-                // const circleWidth = 24
                 const circleWidth = 24
                 const { x, y } = this.getBoundingClientRect()
+                const xPos = x - tooltipWidth / 2 + circleWidth / 2 //Center tooltip in the middle
+                const yPos = y + 35 + window.pageYOffset
 
                 setVariables({
-                    left: x - tooltipWidth / 2 + circleWidth / 2, //Center tooltip in the middle
-                    top: y + 35 + window.pageYOffset,
+                    left: xPos,
+                    top: yPos,
                 })
             }
 
@@ -318,7 +324,7 @@ const RelatiesKoppelingenVisualisatie = ({
                     ))}
                 </ul>
             </div>
-            <div className="block w-full">
+            <div className="relative block w-full">
                 <div className="container flex items-center justify-center mx-auto">
                     <svg
                         className="d3-component"
@@ -329,23 +335,31 @@ const RelatiesKoppelingenVisualisatie = ({
                         ref={d3Container}
                     />
                 </div>
-                <Link
-                    to={href ? href : '#'}
-                    id="d3-tooltip"
-                    style={{
-                        left: variables.left,
-                        top: variables.top,
+                <div
+                    className="absolute bottom-0 right-0 px-3 py-1 font-bold transition-colors duration-100 ease-in border rounded-md cursor-pointer hover:text-white text-pzh-blue border-pzh-blue hover:bg-pzh-blue"
+                    onClick={() => {
+                        setGraphIsOpen(true)
                     }}
-                    class={`absolute hidden hover:block ${
-                        href ? 'cursor-pointer' : 'cursor-default'
-                    }`}
                 >
-                    <div
-                        id="d3-tooltip-title"
-                        class={`px-4 py-2 rounded bg-gray-900 text-white shadow hover:underline`}
-                    />
-                </Link>
+                    Bekijk grote netwerkvisualisatie
+                </div>
             </div>
+            <Link
+                to={href ? href : '#'}
+                id="d3-tooltip"
+                style={{
+                    left: variables.left,
+                    top: variables.top,
+                }}
+                class={`absolute hidden hover:block ${
+                    href ? 'cursor-pointer' : 'cursor-default'
+                }`}
+            >
+                <div
+                    id="d3-tooltip-title"
+                    class={`px-4 py-2 rounded bg-gray-900 text-white shadow hover:underline`}
+                />
+            </Link>
         </div>
     )
 }
