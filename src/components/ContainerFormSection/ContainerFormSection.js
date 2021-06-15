@@ -8,6 +8,7 @@ import React from 'react'
  */
 class ContainerFormSection extends React.Component {
     render() {
+        if (this.props.hide) return null
         return (
             <div className="flex pb-8 mb-8 border-b-2 border-gray-300">
                 <div className="w-1/3 pr-20">

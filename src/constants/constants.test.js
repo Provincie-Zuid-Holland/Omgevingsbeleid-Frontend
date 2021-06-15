@@ -12,7 +12,10 @@ const fetchData = (slug) => {
     return api
         .get(slug)
         .then((res) => res.data)
-        .catch((err) => console.log(`Error with ${slug}`))
+        .catch(
+            (err) =>
+                new Error(`Error fetching data for ${slug} - message: `, err)
+        )
 }
 
 describe('Constants', () => {
@@ -20,6 +23,7 @@ describe('Constants', () => {
         .filter((dimensionKey) =>
             allDimensies[dimensionKey].hasOwnProperty('CRUD_PROPERTIES')
         )
+        .filter((dimensionKey) => dimensionKey !== 'VERORDENINGSARTIKEL')
         .forEach((dimensionKey) => {
             it(`The ${dimensionKey} constant properties should also exist on the API object`, async () => {
                 const dimension = allDimensies[dimensionKey]
@@ -27,7 +31,9 @@ describe('Constants', () => {
                 const crudProperties = Object.keys(dimension.CRUD_PROPERTIES)
                 const data = await fetchData(apiURL)
 
-                if (data === undefined || data.length === 0) return
+                expect(data).toBeTruthy()
+
+                if (!data || data.length === 0) return
 
                 const firstObject = data[0]
 
@@ -42,6 +48,6 @@ describe('Constants', () => {
                     }
                     expect(hasProperty).toBe(true)
                 })
-            })
+            }, 30000)
         })
 })

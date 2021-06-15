@@ -1,11 +1,11 @@
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import React from 'react'
 import ButtonAddNewObject from './ButtonAddNewObject'
 import { MemoryRouter } from 'react-router-dom'
 
 describe('ButtonAddNewObject', () => {
     it('should render', () => {
-        const { queryByText } = render(
+        render(
             <MemoryRouter>
                 <ButtonAddNewObject
                     createNewSlug={'nieuwe-ambitie'}
@@ -14,6 +14,6 @@ describe('ButtonAddNewObject', () => {
                 />
             </MemoryRouter>
         )
-        expect(queryByText('+ Voeg ambitie Toe')).toBeTruthy()
+        expect(screen.queryByText('+ Voeg ambitie Toe')).toBeTruthy()
     })
 })

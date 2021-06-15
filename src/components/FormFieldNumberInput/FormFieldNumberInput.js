@@ -34,6 +34,7 @@ const FormFieldNumberInput = ({
 
                 <input
                     id={`form-field-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
+                    data-testid={`form-field-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
                     value={fieldValue ? fieldValue : ''}
                     onChange={handleChange}
                     name={dataObjectProperty}
