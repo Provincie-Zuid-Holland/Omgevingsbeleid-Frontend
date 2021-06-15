@@ -257,7 +257,7 @@ function SearchBarPopup({ searchInput, setSearchBarPopupOpen }) {
 
     return (
         <div
-            className="absolute top-0 w-full px-5"
+            className="absolute top-0 z-10 w-full px-5"
             id="main-search-result-container"
         >
             <ul className="text-base bg-white border border-gray-300 rounded-b shadow">
