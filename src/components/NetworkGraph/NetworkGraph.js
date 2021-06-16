@@ -60,6 +60,11 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
      * Set to true when the first init is done
      */
     const [firstInitDone, setFirstInitDone] = React.useState(false)
+    const firstInitDoneRef = React.useRef(null)
+
+    React.useEffect(() => {
+        firstInitDoneRef.current = firstInitDone
+    }, [firstInitDone])
 
     /**
      * The location is used in order to get the UUID parameter
@@ -78,8 +83,9 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
     const lastLocationRef = React.useRef(null)
 
     React.useEffect(() => {
-        if (lastLocation && !lastLocationRef.current)
+        if (lastLocation && !lastLocationRef.current) {
             lastLocationRef.current = lastLocation.pathname
+        }
     }, [lastLocation])
 
     /**
@@ -313,63 +319,12 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
     }
 
     /**
-     * Function to initialize or persist the active node.
-     * When it initializes we check if the updated location contains a UUID that exists as a node.
-     * If it does, we set it as active by calling handleNodeClick
-     * We want to persist the active clickedNode when there is a clickedNode in state with a different UUID then the one from the URL.
-     * @param {array} nodes - contains the d3 nodes
-     * @param {array} links - contains the d3 links
-     */
-    const persistOrInitActiveNode = React.useCallback(
-        (links, nodes) => {
-            /**
-             * Check if there is a previous URL with an UUID
-             * @returns {null|string} - if found return string containing the UUID, else return null
-             */
-            const getUUIDFromPreviousUrl = () => {
-                if (!lastLocationRef.current) return null
-
-                let match = matchPath(lastLocationRef.current, {
-                    path: `/detail/:slug/:uuid`,
-                    exact: true,
-                })
-                const uuidFromUrl = match?.params?.uuid
-                if (!uuidFromUrl) return null
-
-                return uuidFromUrl
-            }
-
-            const svgElement = d3.select(d3Container.current)
-
-            if (firstInitDone && !clickedNodeRef.current) {
-                /**
-                 * There is no previously clickedNode in state that we need to persist
-                 * We also already initialized so we can safely return
-                 */
-                return
-            }
-
-            const uuidFromURL = getUUIDFromPreviousUrl()
-
-            if (!uuidFromURL && clickedNodeRef.current) {
-                handleNodeClick(clickedNodeRef.current, svgElement, links, true)
-            } else if (uuidFromURL) {
-                const clickedEl = nodes.find((e) => e.UUID === uuidFromURL)
-                if (!clickedEl) return
-                handleNodeClick(clickedEl, svgElement, links, true)
-            }
-
-            setFirstInitDone(true)
-        },
-        [handleNodeClick, firstInitDone]
-    )
-
-    /**
      * Close popup when the location path changes
      */
     React.useLayoutEffect(() => {
         if (location.pathname !== '/netwerkvisualisatie' && graphIsOpen) {
             setGraphIsOpen(false)
+            setFirstInitDone(false)
             lastLocationRef.current = null
             clickedNodeRef.current = null
         }
@@ -515,6 +470,60 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
                 return -30 // Default
             }
 
+            /**
+             * Function to initialize or persist the active node.
+             * When it initializes we check if the updated location contains a UUID that exists as a node.
+             * If it does, we set it as active by calling handleNodeClick
+             * We want to persist the active clickedNode when there is a clickedNode in state with a different UUID then the one from the URL.
+             * @param {array} nodes - contains the d3 nodes
+             * @param {array} links - contains the d3 links
+             */
+            const persistOrInitActiveNode = (links, nodes) => {
+                /**
+                 * Check if there is a previous URL with an UUID
+                 * @returns {null|string} - if found return string containing the UUID, else return null
+                 */
+                const getUUIDFromPreviousUrl = () => {
+                    if (!lastLocationRef.current) return null
+
+                    let match = matchPath(lastLocationRef.current, {
+                        path: `/detail/:slug/:uuid`,
+                        exact: true,
+                    })
+                    const uuidFromUrl = match?.params?.uuid
+                    if (!uuidFromUrl) return null
+
+                    return uuidFromUrl
+                }
+
+                const svgElement = d3.select(d3Container.current)
+
+                if (firstInitDoneRef.current && !clickedNodeRef.current) {
+                    /**
+                     * There is no previously clickedNode in state that we need to persist
+                     * We also already initialized so we can safely return
+                     */
+                    return
+                }
+
+                const uuidFromURL = getUUIDFromPreviousUrl()
+
+                if (!uuidFromURL && clickedNodeRef.current) {
+                    handleNodeClick(
+                        clickedNodeRef.current,
+                        svgElement,
+                        links,
+                        true
+                    )
+                } else if (uuidFromURL) {
+                    const clickedEl = nodes.find((e) => e.UUID === uuidFromURL)
+                    if (!clickedEl) return
+                    handleNodeClick(clickedEl, svgElement, links, true)
+                }
+
+                setFirstInitDone(true)
+            }
+
             data = cloneDeep(data)
 
             const [links, nodes] = getFilteredData(data, filters)
@@ -629,7 +638,7 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
             if (!graphIsOpen) return
             initializeD3(data, filters)
         }, 250)
-    }, [data, graphIsOpen, filters, handleNodeClick, persistOrInitActiveNode])
+    }, [data, graphIsOpen, filters, handleNodeClick])
 
     /**
      * Update the graph styles to give it the correct height.
