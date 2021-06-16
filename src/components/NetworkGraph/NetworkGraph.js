@@ -78,10 +78,8 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
     const lastLocationRef = React.useRef(null)
 
     React.useEffect(() => {
-        if (lastLocation && !lastLocationRef.current) {
-            console.log('Update location ' + lastLocation.pathname)
+        if (lastLocation && !lastLocationRef.current)
             lastLocationRef.current = lastLocation.pathname
-        }
     }, [lastLocation])
 
     /**
