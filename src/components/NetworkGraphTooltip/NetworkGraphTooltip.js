@@ -12,7 +12,11 @@ const NetworkGraphTooltip = ({ variables, setGraphIsOpen, href }) => {
             className="absolute z-50 hidden px-4 py-2 bg-white rounded shadow-md hover:block"
         >
             <Link
-                onClick={() => setGraphIsOpen(false)}
+                onClick={(e) => {
+                    if (!e.metaKey) {
+                        setGraphIsOpen(false)
+                    }
+                }}
                 to={href}
                 className="select-none group"
                 role="tooltip"

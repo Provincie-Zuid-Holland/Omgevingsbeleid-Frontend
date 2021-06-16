@@ -61,7 +61,11 @@ const NetworkGraphClickedElementPopup = ({
                                 role="link"
                                 className="block p-3 pt-0 group"
                                 to={href}
-                                onClick={() => setGraphIsOpen(false)}
+                                onClick={(e) => {
+                                    if (!e.metaKey) {
+                                        setGraphIsOpen(false)
+                                    }
+                                }}
                             >
                                 <span className="block text-gray-600">
                                     {type}
