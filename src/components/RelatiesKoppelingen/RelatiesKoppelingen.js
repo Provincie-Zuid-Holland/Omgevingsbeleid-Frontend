@@ -37,7 +37,7 @@ const connectionPropertiesColors = {
         hex: '#503d90',
     },
     Beleidsdoelen: {
-        hex: '#3182CE',
+        hex: '#B24A00',
     },
     Themas: {
         hex: '#847062',
