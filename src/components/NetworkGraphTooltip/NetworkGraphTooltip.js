@@ -13,7 +13,7 @@ const NetworkGraphTooltip = ({ variables, setGraphIsOpen, href }) => {
         >
             <Link
                 onClick={(e) => {
-                    if (!e.metaKey) {
+                    if (!e.shiftKey && !e.ctrlKey && !e.metaKey) {
                         setGraphIsOpen(false)
                     }
                 }}

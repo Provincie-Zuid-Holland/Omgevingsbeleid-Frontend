@@ -62,7 +62,11 @@ const NetworkGraphClickedElementPopup = ({
                                 className="block p-3 pt-0 group"
                                 to={href}
                                 onClick={(e) => {
-                                    if (!e.metaKey) {
+                                    if (
+                                        !e.shiftKey &&
+                                        !e.ctrlKey &&
+                                        !e.metaKey
+                                    ) {
                                         setGraphIsOpen(false)
                                     }
                                 }}
