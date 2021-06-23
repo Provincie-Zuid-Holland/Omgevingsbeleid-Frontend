@@ -372,10 +372,10 @@ const TitleEditing = ({
     setUUIDBeingEdited,
 }) => {
     const checkForWerkingsgebied = () => {
-        const artikelHasGebied = verordeningsObjectFromGET.Werkingsgebied
+        const artikelHasGebied = verordeningsObjectFromGET.Gebied
         if (verordeningsLedenFromGET) {
             const allLedenHaveGebied = verordeningsLedenFromGET.every(
-                (e) => e.Werkingsgebied
+                (e) => e.Gebied
             )
             return artikelHasGebied || allLedenHaveGebied
         } else {
