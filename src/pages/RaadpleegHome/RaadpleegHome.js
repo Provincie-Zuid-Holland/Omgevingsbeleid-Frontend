@@ -88,7 +88,7 @@ const RaadpleegHome = () => {
                                 className="absolute transition-all duration-100 ease-in group-hover:ml-1"
                             />
                             <span className="pl-6">
-                                Grafische weergave van het beleid
+                                Netwerkvisualisatie van het beleid
                             </span>
                         </div>
                     </div>

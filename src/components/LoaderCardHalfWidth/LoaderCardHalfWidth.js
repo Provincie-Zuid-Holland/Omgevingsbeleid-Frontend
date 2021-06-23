@@ -2,11 +2,11 @@ import React from 'react'
 import ContentLoader from 'react-content-loader'
 
 /**
- * Component that renders the LoaderCard component at half width, using the param props.
+ * Component that renders the LoaderCardHalfWidth component, which loads a rectangle at half width based on the parameters given before a component is displayed.
  *
  * @component
  *
- * @param {props} props - Parameter used to in a boolean to see if one style is used or the other.
+ * @param {props} props - Parameter that is used to set the margin of the component.
  */
 const LoaderCardHalfWidth = props => (
     <ContentLoader

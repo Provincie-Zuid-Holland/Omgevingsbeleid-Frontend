@@ -2,8 +2,7 @@ import React from 'react'
 import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFieldTitelEnBeschrijving'
 
 /**
- * Class that renders the FormFieldTextArea component that uses the imported FormFieldTitelEnBescrhijving component to display a title and description of the FormFieldTextArea component.
- * The FormFieldTextArea component also displays a textarea element which height scales based on user input.
+ * Class that renders the FormFieldTextArea component that displays a title, description and a text area in which a user can add a description.
  *
  * @class
  * @extends React.Component

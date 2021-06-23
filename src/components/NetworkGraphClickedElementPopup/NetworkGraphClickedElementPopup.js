@@ -20,6 +20,7 @@ const NetworkGraphClickedElementPopup = ({
     clickedNode,
     setGraphIsOpen,
     resetNodes,
+    verordeningsStructure,
 }) => {
     const [localOpenState, setLocalOpenState] = React.useState(false)
 
@@ -38,6 +39,7 @@ const NetworkGraphClickedElementPopup = ({
     const href = networkGraphGenerateHref({
         property: type,
         UUID: clickedNode?.UUID,
+        verordeningsStructure: verordeningsStructure,
     })
 
     return (
@@ -55,21 +57,29 @@ const NetworkGraphClickedElementPopup = ({
                     >
                         <div
                             role="tooltip"
-                            className="relative py-2 pr-5 text-lg bg-white shadow-md pointer-events-auto rouned"
+                            className="relative py-2 pr-5 text-base bg-white shadow-md pointer-events-auto rouned"
                         >
                             <Link
                                 role="link"
                                 className="block p-3 pt-0 group"
                                 to={href}
-                                onClick={() => setGraphIsOpen(false)}
+                                onClick={(e) => {
+                                    if (
+                                        !e.shiftKey &&
+                                        !e.ctrlKey &&
+                                        !e.metaKey
+                                    ) {
+                                        setGraphIsOpen(false)
+                                    }
+                                }}
                             >
-                                <span className="block text-gray-600">
-                                    {type}
+                                <span className="block text-sm text-gray-600">
+                                    {singularTitle}
                                 </span>
                                 <span className="block text-pzh-blue-dark">
                                     {title}
                                 </span>
-                                <span className="underline text-pzh-blue">
+                                <span className="text-sm underline text-pzh-blue">
                                     {singularTitle && singularTitlePrefix
                                         ? `Bekijk ${singularTitlePrefix} ${singularTitle}`
                                         : `Bekijk dit object`}

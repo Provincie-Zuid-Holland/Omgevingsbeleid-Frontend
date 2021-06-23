@@ -347,6 +347,10 @@ class App extends Component {
                                             />
                                         )}
                                     />
+                                    <Route
+                                        path="/netwerkvisualisatie"
+                                        render={() => null}
+                                    />
                                     <AuthRoutes
                                         authUser={this.state.user}
                                         loggedIn={this.state.loggedIn}

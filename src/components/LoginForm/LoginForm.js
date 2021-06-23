@@ -12,12 +12,12 @@ import LoaderSpinner from './../LoaderSpinner'
 import PopUpAnimatedContainer from './../PopUpAnimatedContainer'
 
 /**
- * Function that renders a popup animated container that the user can use to reset their password when they have forgotten it.
+ * Function that renders the PopupWachtwoordVergeten component, which displays a popup in which the user can reset their password.
  *
  * @function
  *
- * @param {boolean} show - Parameter that is set true if the popup should be displayed.
- * @param {function} togglePopup - Parameter that is used to call the togglePopup function, that toggles (hide/show) the popup.
+ * @param {boolean} show - Parameter that is used to display the popup component.
+ * @param {function} togglePopup - Parameter that is used to (hide/show) the popup component.
  */
 function PopupWachtwoordVergeten({ show, togglePopup }) {
     // Set focus to the cancel button for AY11
@@ -83,8 +83,8 @@ function PopupWachtwoordVergeten({ show, togglePopup }) {
  *
  * @component
  *
- * @param {boolean} setLoginState - Param that is set true, if the user is authenticated and has permission to login.
- * @param {int} setLoginUser - Param that contains the identifier of the user that has authenticated.
+ * @param {function} setLoginState - Function to edit parent state.
+ * @param {function} setLoginUser - Function to edit parent state.
  */
 const LoginForm = ({ setLoginState, setLoginUser }) => {
     const history = useHistory()

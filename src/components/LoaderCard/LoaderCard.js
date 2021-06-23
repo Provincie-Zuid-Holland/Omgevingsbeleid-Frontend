@@ -2,7 +2,7 @@ import React from 'react'
 import ContentLoader from 'react-content-loader'
 
 /**
- * Component that loads the ContentLoader from the imported react-content-loader.
+ * Component that renders the LoaderCard component, which loads a rectangle shape before a component is displayed.
  *
  * @component
  */

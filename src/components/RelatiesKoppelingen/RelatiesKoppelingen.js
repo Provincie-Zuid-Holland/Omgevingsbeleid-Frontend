@@ -22,31 +22,31 @@ const connectionPropertiesColors = {
         hex: '#553c9a',
     },
     Ambities: {
-        hex: '#aa0067',
+        hex: '#AA0067',
     },
     Belangen: {
-        hex: '#ff6b02',
+        hex: '#D11F3D',
     },
     Beleidsregels: {
-        hex: '#76bc21',
+        hex: '#7BADDE',
     },
     Beleidsprestaties: {
-        hex: '#ECC94B',
+        hex: '#76BC21',
     },
     Maatregelen: {
-        hex: '#503d90',
+        hex: '#00804D',
     },
     Beleidsdoelen: {
-        hex: '#3182CE',
+        hex: '#FF6B02',
     },
     Themas: {
         hex: '#847062',
     },
     Verordeningen: {
-        hex: '#eb7085',
+        hex: '#281F6B',
     },
     Beleidskeuzes: {
-        hex: '#7badde',
+        hex: '#EFCC36',
     },
 }
 

@@ -214,7 +214,12 @@ function FormFieldContainerBeleidskeuzes({
             </ContainerFormSection>
 
             <ContainerFormSection
-                hide={userRol !== 'Beheerder' && userRol !== 'Superuser'}
+                hide={
+                    userRol !== 'Beheerder' &&
+                    userRol !== 'Functioneel beheerder' &&
+                    userRol !== 'Technisch beheerder' &&
+                    userRol !== 'Superuser'
+                }
                 titel="Aanvullende informatie"
                 beschrijving="In deze sectie vragen we aanvullende informatie die bij de beleidskeuze hoort."
             >
