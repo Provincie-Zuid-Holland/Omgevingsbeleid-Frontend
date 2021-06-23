@@ -22,20 +22,30 @@ function Artikel({
                   setVerordeningsObjectFromGET({
                       type: 'changeValue',
                       value: UUID,
-                      name: 'Werkingsgebied',
+                      name: 'Gebied',
                   })
                   setVerordeningsLedenFromGET({
                       type: 'changeValueForAllLeden',
                       value: UUID,
-                      name: 'Werkingsgebied',
+                      name: 'Gebied',
                   })
               }
             : (UUID) =>
                   setVerordeningsObjectFromGET({
                       type: 'changeValue',
                       value: UUID,
-                      name: 'Werkingsgebied',
+                      name: 'Gebied',
                   })
+
+    /**
+     * The standard dates are created in the back-end
+     * To keep the UI clean we return an empty string
+     */
+    const getDateValue = (value) => {
+        const standardDates = ['1753-01-01', '10000-01-01']
+        if (standardDates.includes(value)) return ''
+        return value
+    }
 
     return (
         <div className="flex-grow inline-block w-full">
@@ -107,9 +117,9 @@ function Artikel({
                         <input
                             placeholder="dd-mm-jjjj"
                             type="date"
-                            value={
+                            value={getDateValue(
                                 verordeningsObjectFromGET['Begin_Geldigheid']
-                            }
+                            )}
                             onChange={(e) => {
                                 setVerordeningsObjectFromGET({
                                     type: 'changeValue',
@@ -118,7 +128,7 @@ function Artikel({
                                 })
                             }}
                             id="Begin_Geldigheid"
-                            className="block w-full form-input sm:text-sm sm:leading-5"
+                            className="block w-full form-input "
                         />
                     </div>
                 </div>
@@ -133,7 +143,9 @@ function Artikel({
                         <input
                             placeholder="dd-mm-jjjj"
                             type="date"
-                            value={verordeningsObjectFromGET.Eind_Geldigheid}
+                            value={getDateValue(
+                                verordeningsObjectFromGET.Eind_Geldigheid
+                            )}
                             onChange={(e) => {
                                 setVerordeningsObjectFromGET({
                                     type: 'changeValue',
@@ -142,7 +154,7 @@ function Artikel({
                                 })
                             }}
                             id="Eind_Geldigheid"
-                            className="block w-full form-input sm:text-sm sm:leading-5"
+                            className="block w-full form-input "
                         />
                     </div>
                 </div>
@@ -158,7 +170,7 @@ function Artikel({
                             <Werkingsgebied
                                 werkingsgebiedInParentState={
                                     verordeningsObjectFromGET
-                                        ? verordeningsObjectFromGET.Werkingsgebied
+                                        ? verordeningsObjectFromGET.Gebied
                                         : null
                                 }
                                 setWerkingsgebiedInParentState={
@@ -186,11 +198,11 @@ function Artikel({
                                         setVerordeningsLedenFromGET({
                                             type: 'setValueForAll',
                                             value:
-                                                verordeningsObjectFromGET.Werkingsgebied,
+                                                verordeningsObjectFromGET.Gebied,
                                         })
                                         setVerordeningsObjectFromGET({
                                             type: 'changeValue',
-                                            name: 'Werkingsgebied',
+                                            name: 'Gebied',
                                             value: null,
                                         })
                                     }

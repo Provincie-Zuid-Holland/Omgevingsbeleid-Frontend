@@ -4,6 +4,11 @@ import React from 'react'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
+/**
+ * Component that renders the LoaderSaving component, which displays a rotating spinner icon with the text "Opslaan..." underneath it when something is busy saving.
+ *
+ * @component
+ */
 function LoaderSaving() {
     return (
         <div className="fixed flex justify-center items-center w-screen h-screen pointer-events-none left-0 top-0 z-50">

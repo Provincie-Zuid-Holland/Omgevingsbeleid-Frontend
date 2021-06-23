@@ -64,7 +64,7 @@ function ListItemTitle({ item, itemActive }) {
 
     return (
         <span
-            className={`inline-block text-sm text-gray-800 
+            className={`inline-block text-sm text-pzh-blue-dark 
             ${item.Type === 'Artikel' ? 'hover:underline' : ''}
             ${itemActive && item.Type === 'Artikel' ? 'font-bold' : ''}
         `}
@@ -151,7 +151,7 @@ function VerordeningenDetailSidebar({ dataLoaded, lineage }) {
         <div className="flex-grow inline-block w-full">
             {dataLoaded ? (
                 <div className="relative">
-                    <h2 className="block mt-4 font-serif text-gray-800">
+                    <h2 className="block text-lg font-bold tracking-wide text-pzh-blue-dark">
                         Inhoudsopgave verordening
                     </h2>
                     <ul className="relative pl-5 pr-5">

@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { toast } from 'react-toastify'
 import { withRouter } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
+import cloneDeep from 'lodash.clonedeep'
+import * as axiosPackage from 'axios'
 
 // Import Components
 import ContainerCrudHeader from './ContainerCrudHeader'
@@ -13,9 +15,9 @@ import ContainerMain from './../../components/ContainerMain'
 import FormFieldContainerAmbities from './FormFieldContainers/FormFieldContainerAmbities'
 import FormFieldContainerBelangen from './FormFieldContainers/FormFieldContainerBelangen'
 import FormFieldContainerBeleidsregels from './FormFieldContainers/FormFieldContainerBeleidsregels'
-import FormFieldContainerBeleidsbeslissingen from './FormFieldContainers/FormFieldContainerBeleidsbeslissingen'
+import FormFieldContainerBeleidskeuzes from './FormFieldContainers/FormFieldContainerBeleidskeuzes'
 import FormFieldContainerMaatregelen from './FormFieldContainers/FormFieldContainerMaatregelen'
-import FormFieldContainerOpgaven from './FormFieldContainers/FormFieldContainerOpgaven'
+import FormFieldContainerBeleidsdoelen from './FormFieldContainers/FormFieldContainerBeleidsdoelen'
 import FormFieldContainerThemas from './FormFieldContainers/FormFieldContainerThemas'
 import FormFieldContainerBeleidsprestaties from './FormFieldContainers/FormFieldContainerBeleidsprestaties'
 
@@ -23,11 +25,13 @@ import FormFieldContainerBeleidsprestaties from './FormFieldContainers/FormField
 import axios from './../../API/axios'
 
 // Import Utilities
+import eindDateIsBeforeBeginDate from './../../utils/eindDateIsBeforeBeginDate'
 import makeCrudProperties from './../../utils/makeCrudProperties'
 import makeCrudObject from './../../utils/makeCrudObject'
-import checkRequiredFields from './../../utils/checkRequiredFields'
+import checkContainsRequiredUnfilledField from './../../utils/checkContainsRequiredUnfilledField'
 import formatGeldigheidDatesForUI from './../../utils/formatGeldigheidDatesForUI'
 import formatGeldigheidDatesForAPI from './../../utils/formatGeldigheidDatesForAPI'
+import handleError from './../../utils/handleError'
 
 /**
  * @param {object} authUser - contains the logged in user object
@@ -48,6 +52,7 @@ class MuteerUniversalObjectCRUD extends Component {
         }
 
         this.handleChange = this.handleChange.bind(this)
+        this.prepareForRequest = this.prepareForRequest.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.voegKoppelingRelatieToe = this.voegKoppelingRelatieToe.bind(this)
         this.wijzigKoppelingRelatie = this.wijzigKoppelingRelatie.bind(this)
@@ -55,11 +60,6 @@ class MuteerUniversalObjectCRUD extends Component {
             this
         )
         this.getAndSetDimensieDataFromApi = this.getAndSetDimensieDataFromApi.bind(
-            this
-        )
-
-        this.formatGeldigheidDatesForUI = formatGeldigheidDatesForUI.bind(this)
-        this.formatGeldigheidDatesForAPI = formatGeldigheidDatesForAPI.bind(
             this
         )
     }
@@ -93,42 +93,6 @@ class MuteerUniversalObjectCRUD extends Component {
         }))
     }
 
-    setInitialValuesCrudObject(crudObject) {
-        const dimensieConstants = this.props.dimensieConstants
-
-        // Check voor elke property op het crudObject of die gelijk is aan de initValue
-        // Indien dat het geval is, zet de waarde op null
-        const crudObjectKeys = Object.keys(crudObject)
-        crudObjectKeys.forEach((property) => {
-            if (
-                crudObject[property] === null &&
-                crudObject[property] !==
-                    dimensieConstants.CRUD_PROPERTIES[property].initValue
-            ) {
-                crudObject[property] =
-                    dimensieConstants.CRUD_PROPERTIES[property].initValue
-            }
-        })
-        return crudObject
-    }
-
-    setEmptyValuesToNullCrudObject(crudObject) {
-        const dimensieConstants = this.props.dimensieConstants
-
-        // Check voor elke property op het crudObject of die gelijk is aan de initValue
-        // Indien dat het geval is, zet de waarde op null
-        const crudObjectKeys = Object.keys(crudObject)
-        crudObjectKeys.forEach((property) => {
-            if (
-                crudObject[property] ===
-                dimensieConstants.CRUD_PROPERTIES[property].initValue
-            ) {
-                crudObject[property] = null
-            }
-        })
-        return crudObject
-    }
-
     postDimensieObject(crudObject) {
         const dimensieConstants = this.props.dimensieConstants
         const apiEndpoint = dimensieConstants.API_ENDPOINT
@@ -147,12 +111,11 @@ class MuteerUniversalObjectCRUD extends Component {
                 toast('Opgeslagen')
             })
             .catch((err) => {
-                crudObject = this.formatGeldigheidDatesForUI(crudObject)
-                this.setState({
-                    crudObject: crudObject,
-                })
-                console.log(err)
-                toast(process.env.REACT_APP_ERROR_MSG)
+                handleError(err)
+                // crudObject = formatGeldigheidDatesForUI(crudObject)
+                // this.setState({
+                //     crudObject: crudObject,
+                // })
             })
     }
 
@@ -163,7 +126,9 @@ class MuteerUniversalObjectCRUD extends Component {
         const overzichtSlug = dimensieConstants.SLUG_OVERVIEW
 
         axios
-            .patch(`${apiEndpoint}/${objectID}`, JSON.stringify(crudObject))
+            .patch(`${apiEndpoint}/${objectID}`, JSON.stringify(crudObject), {
+                cancelToken: this.axiosCancelSource.token,
+            })
             .then((res) => {
                 this.props.history.push(
                     `/muteer/${overzichtSlug}/${res.data.ID}${
@@ -175,20 +140,49 @@ class MuteerUniversalObjectCRUD extends Component {
                 toast('Opgeslagen')
             })
             .catch((err) => {
-                console.log(err)
-                toast(process.env.REACT_APP_ERROR_MSG)
-                crudObject = this.formatGeldigheidDatesForUI(crudObject)
-                this.setState({
-                    crudObject: crudObject,
-                })
+                handleError(err)
+                // crudObject = formatGeldigheidDatesForUI(crudObject)
+                // this.setState({
+                //     crudObject: this.,
+                // })
             })
     }
 
     handleSubmit(event) {
         event.preventDefault()
 
+        const checkDates = (crudObject, titleSingular) => {
+            if (
+                crudObject.Begin_Geldigheid !== null &&
+                crudObject.Begin_Geldigheid !== '' &&
+                crudObject.Eind_Geldigheid !== null &&
+                crudObject.Eind_Geldigheid !== ''
+            ) {
+                const isEindDateBeforeBegin = eindDateIsBeforeBeginDate(
+                    titleSingular,
+                    {
+                        Begin_Geldigheid: new Date(crudObject.Begin_Geldigheid),
+                        Eind_Geldigheid: new Date(crudObject.Eind_Geldigheid),
+                    }
+                )
+
+                return isEindDateBeforeBegin
+            }
+        }
+
         const removeEmptyFields = (obj) => {
+            const skipProperties = [
+                'Gebied',
+                'Begin_Geldigheid',
+                'Eind_Geldigheid',
+                'Eigenaar_1',
+                'Eigenaar_2',
+                'Portefeuillehouder_1',
+                'Portefeuillehouder_2',
+                'Opdrachtgever',
+            ]
             Object.keys(obj).forEach((property) => {
+                if (skipProperties.includes(property)) return
                 if (obj[property] === null || obj[property] === undefined) {
                     delete obj[property]
                 }
@@ -200,48 +194,100 @@ class MuteerUniversalObjectCRUD extends Component {
         const apiEndpoint = dimensieConstants.API_ENDPOINT
         const titleSingular = dimensieConstants.TITLE_SINGULAR
 
-        let crudObject = this.state.crudObject
+        let crudObject = cloneDeep(this.state.crudObject)
 
-        // Converteer de 'yyyy-MM-DD' waarden naar Date objecten
-        // Of Verwijder de begin_ of eind_geldigheid properties als ze geen waarde hebben
-        crudObject = this.formatGeldigheidDatesForAPI(crudObject)
-
-        // Check of de verplichte velden zijn ingevuld als het een beleidsbeslissing is
-        // !REFACTOR! - velden check voor andere dimensies (Bespreken STUM)
-        const alleVeldenIngevuld = checkRequiredFields(
+        const containsRequiredUnfilledField = checkContainsRequiredUnfilledField(
             crudObject,
             dimensieConstants,
             titleSingular
         )
+        if (containsRequiredUnfilledField) return
 
+        const isEindDateBeforeBegin = checkDates(crudObject, titleSingular)
+        if (isEindDateBeforeBegin) return
+
+        // Create date objects out of string values ('yyyy-MM-DD')
+        crudObject = formatGeldigheidDatesForAPI(crudObject)
         crudObject = removeEmptyFields(crudObject)
 
-        if (!alleVeldenIngevuld) {
-            this.setState({
-                crudObject: this.formatGeldigheidDatesForUI(crudObject),
-            })
-            return
-        }
-
-        // If the user is editing an object PATCH, else POST
+        // PATCH or POST based on the edit state
         if (this.state.edit) {
+            crudObject = this.prepareForRequest(crudObject, 'patch')
             this.patchDimensieObject(crudObject)
         } else {
-            // Als het dimensie object een beleidsrelatie is wijzigen we de volgende properties
+            // If we POST an object to the 'beleidsrelaties' endpoint we need to add these properties
             if (apiEndpoint === 'beleidsrelaties') {
                 crudObject.Status = 'Open'
                 crudObject.Aanvraag_Datum = new Date()
             }
 
+            crudObject = this.prepareForRequest(crudObject, 'post')
             this.postDimensieObject(crudObject)
         }
     }
 
+    // Remove .Title properties from Connection objects
+    prepareForRequest(crudObject, type) {
+        // Get the connections
+        const getConnectionProperties = () => {
+            const crudProperties = this.props.dimensieConstants.CRUD_PROPERTIES
+            const connectionKeys = Object.keys(crudProperties).filter(
+                (key) => crudProperties[key].type === 'connection'
+            )
+            return connectionKeys
+        }
+
+        const connectionProperties = getConnectionProperties()
+
+        connectionProperties.forEach((key) => {
+            crudObject[key].forEach((connection, index) => {
+                crudObject[key][index] = {
+                    UUID: connection.Object.UUID,
+                    Koppeling_Omschrijving: connection.Koppeling_Omschrijving,
+                }
+            })
+        })
+
+        crudObject?.Werkingsgebieden?.forEach((gebied, index) => {
+            crudObject.Werkingsgebieden[index] = { UUID: gebied.Object.UUID }
+        })
+
+        if (crudObject.Gebied && crudObject.Gebied.UUID) {
+            crudObject.Gebied = crudObject.Gebied.UUID
+        }
+
+        if (type === 'post') return crudObject
+
+        // Continue prepping the object for a PATCH Request
+        const eigenaren = [
+            'Eigenaar_1',
+            'Eigenaar_2',
+            'Opdrachtgever',
+            'Portefeuillehouder_1',
+            'Portefeuillehouder_2',
+        ]
+
+        eigenaren.forEach((eigenaar) => {
+            if (!crudObject.hasOwnProperty(eigenaar)) return
+            if (
+                typeof crudObject[eigenaar] === 'object' &&
+                crudObject[eigenaar] !== null
+            ) {
+                crudObject[eigenaar] = crudObject[eigenaar].UUID
+            }
+        })
+
+        return crudObject
+    }
+
     voegKoppelingRelatieToe(propertyName, object, omschrijving, callback) {
         const nieuwObject = {
-            UUID: object.UUID,
-            Titel: object.Titel,
-            Omschrijving: omschrijving,
+            Koppeling_Omschrijving: omschrijving,
+            Object: {
+                UUID: object.UUID,
+                Titel: object.Titel,
+                Type: object.Type,
+            },
         }
 
         let nieuwCrudObject = this.state.crudObject
@@ -267,12 +313,12 @@ class MuteerUniversalObjectCRUD extends Component {
         let nieuwCrudObject = this.state.crudObject
 
         const index = nieuwCrudObject[koppelingObject.propertyName].findIndex(
-            (item) => item.UUID === koppelingObject.item.UUID
+            (item) => item.Object.UUID === koppelingObject.item.Object.UUID
         )
 
         nieuwCrudObject[koppelingObject.propertyName][
             index
-        ].Omschrijving = nieuweOmschrijving
+        ].Koppeling_Omschrijving = nieuweOmschrijving
 
         this.setState(
             {
@@ -288,7 +334,7 @@ class MuteerUniversalObjectCRUD extends Component {
     verwijderKoppelingRelatie(koppelingObject) {
         let nieuwCrudObject = this.state.crudObject
         const index = nieuwCrudObject[koppelingObject.propertyName].findIndex(
-            (item) => item.UUID === koppelingObject.item.UUID
+            (item) => item.Object.UUID === koppelingObject.item.Object.UUID
         )
         nieuwCrudObject[koppelingObject.propertyName].splice(index, 1)
 
@@ -340,7 +386,9 @@ class MuteerUniversalObjectCRUD extends Component {
             (modus && modus === 'ontwerp_maken')
 
         axios
-            .get(`${apiEndpoint}/${objectID}`)
+            .get(`${apiEndpoint}/${objectID}`, {
+                cancelToken: this.axiosCancelSource.token,
+            })
             .then((res) => {
                 const responseObject = res.data
                 let crudObject = null
@@ -368,12 +416,14 @@ class MuteerUniversalObjectCRUD extends Component {
                 this.createAndSetCrudObject(crudObject)
             })
             .catch((err) => {
-                console.log(err)
+                console.warn(err)
                 toast(process.env.REACT_APP_ERROR_MSG)
             })
     }
 
     componentDidMount() {
+        this.axiosCancelSource = axiosPackage.CancelToken.source()
+
         if (this.props.match.params.single) {
             // Als er een waarde in de single parameter zit bewerkt de gebruiker een bestaand object
             this.setState(
@@ -388,6 +438,10 @@ class MuteerUniversalObjectCRUD extends Component {
             // Anders maakt de gebruiker een nieuw object aan
             this.createAndSetCrudObject()
         }
+    }
+
+    componentWillUnmount() {
+        this.axiosCancelSource.cancel('Axios request canceled.')
     }
 
     render() {
@@ -431,10 +485,7 @@ class MuteerUniversalObjectCRUD extends Component {
                     <ContainerMain>
                         <div className="flex-grow inline-block w-full">
                             <div>
-                                <form
-                                    className="mt-12"
-                                    onSubmit={this.handleSubmit}
-                                >
+                                <form className="mt-12">
                                     {titleSingular === 'Ambitie' ? (
                                         <FormFieldContainerAmbities
                                             titleSingular={titleSingular}
@@ -460,7 +511,7 @@ class MuteerUniversalObjectCRUD extends Component {
                                     ) : null}
 
                                     {titleSingular === 'Beleidskeuze' ? (
-                                        <FormFieldContainerBeleidsbeslissingen
+                                        <FormFieldContainerBeleidskeuzes
                                             titleSingular={titleSingular}
                                             crudObject={crudObject}
                                             handleChange={handleChange}
@@ -479,6 +530,7 @@ class MuteerUniversalObjectCRUD extends Component {
 
                                     {titleSingular === 'Maatregel' ? (
                                         <FormFieldContainerMaatregelen
+                                            editStatus={editStatus}
                                             titleSingular={titleSingular}
                                             crudObject={crudObject}
                                             handleChange={handleChange}
@@ -486,7 +538,7 @@ class MuteerUniversalObjectCRUD extends Component {
                                     ) : null}
 
                                     {titleSingular === 'Beleidsdoel' ? (
-                                        <FormFieldContainerOpgaven
+                                        <FormFieldContainerBeleidsdoelen
                                             titleSingular={titleSingular}
                                             crudObject={crudObject}
                                             handleChange={handleChange}
@@ -517,7 +569,9 @@ class MuteerUniversalObjectCRUD extends Component {
                                         />
                                     ) : null}
 
-                                    <ButtonSubmitFixed />
+                                    <ButtonSubmitFixed
+                                        submit={this.handleSubmit}
+                                    />
                                 </form>
                             </div>
                         </div>

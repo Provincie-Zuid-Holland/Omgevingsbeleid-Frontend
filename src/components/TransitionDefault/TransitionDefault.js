@@ -2,6 +2,14 @@ import React from 'react'
 
 import Transition from './../Transition'
 
+/**
+ * Component that renders the TransitionDefault component using the Transition component.
+ *
+ * @component
+ *
+ * @param {boolean} show - Parameter used asa a variable for the Transition component.
+ * @param {object} children - Parameter that is used to display the object within the Transition component.
+ */
 const TransitionDefault = ({ show, children }) => {
     return (
         <Transition

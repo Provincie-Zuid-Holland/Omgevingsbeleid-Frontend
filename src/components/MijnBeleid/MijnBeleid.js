@@ -15,6 +15,13 @@ import allDimensies from './../../constants/dimensies'
 
 import UserContext from './../../App/UserContext'
 
+/**
+ * Component that renders the MijnBeleid component.
+ *
+ * @component
+ *
+ * @param {boolean} hideAddNew - Parameter used to add the AddNewSection based if the parameter is true or false.
+ */
 const MijnBeleid = ({ hideAddNew }) => {
     const { user } = React.useContext(UserContext)
 
@@ -27,7 +34,7 @@ const MijnBeleid = ({ hideAddNew }) => {
         const getAndSetBeleidVanGebruiker = () => {
             const skipDimensies = [
                 'BELEIDSRELATIES',
-                'DOELEN',
+                'BELEIDSPRESTATIES',
                 'VERORDENINGSTRUCTUUR',
                 'VERORDENINGSARTIKEL',
             ]
@@ -44,9 +51,9 @@ const MijnBeleid = ({ hideAddNew }) => {
             const axiosRequests = policyEndpointsAndTypes.map((dimensie) => {
                 return axios
                     .get(
-                        dimensie.endpoint === 'beleidsbeslissingen'
-                            ? `/${dimensie.endpoint}?Created_By=${user.UUID}&Eigenaar_1=${user.UUID}&Eigenaar_2=${user.UUID}&Opdrachtgever=${user.UUID}`
-                            : `/${dimensie.endpoint}?Created_By=${user.UUID}`
+                        dimensie.endpoint === 'beleidskeuzes'
+                            ? `/${dimensie.endpoint}?any_filters=Created_By:${user.UUID},Eigenaar_1:${user.UUID},Eigenaar_2:${user.UUID},Opdrachtgever:${user.UUID}`
+                            : `/${dimensie.endpoint}?any_filters=Created_By:${user.UUID}`
                     )
                     .then((res) => {
                         if (res.data.length === 0) return
@@ -136,6 +143,11 @@ const MijnBeleid = ({ hideAddNew }) => {
     )
 }
 
+/**
+ * Function to render a AddNewSection component that is part of the MijnBeleid component, only if the parameter hideAddNew of MijnBeleid is set true.
+ *
+ * @function
+ */
 const AddNewSection = () => {
     return (
         <div className="flex">

@@ -17,13 +17,16 @@ import useLockBodyScroll from './../../utils/useLockBodyScroll'
 
 import LoaderSpinner from './../LoaderSpinner'
 
-const NavigationPopupMenu = ({
-    loggedIn,
-    showBanner,
-    logout,
-    isOpen,
-    setIsOpen,
-}) => {
+/**
+ * Component that renders the NavigationPopupMenu component.
+ *
+ * @component
+ *
+ * @param {boolean} showBanner - Parameter that if set to true, will show the banner.
+ * @param {boolean} isOpen - Parameter that is used to show certain elements within the rendered component, if the parameter is set true.
+ * @param {boolean} setIsOpen - Parameter that is used for an onclick function to set the isOpen parameter to true or false, when the parameter itsef is set to true or false.
+ */
+const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
     // Popup state
     const [activeTab, setActiveTab] = React.useState('Ambities')
     const [filterQuery, setFilterQuery] = React.useState('')
@@ -34,7 +37,7 @@ const NavigationPopupMenu = ({
 
     // Dimension state
     const [ambities, setAmbities] = React.useState(null)
-    const [opgaven, setOpgaven] = React.useState(null)
+    const [beleidsdoelen, setBeleidsdoelen] = React.useState(null)
     const [beleidsprestaties, setBeleidsprestaties] = React.useState(null)
     const [beleidskeuzes, setBeleidskeuzes] = React.useState(null)
     const [maatregelen, setMaatregelen] = React.useState(null)
@@ -49,17 +52,15 @@ const NavigationPopupMenu = ({
                 .then((res) => setAmbities(res.data))
                 .catch((err) => console.log(err)),
             axios
-                .get(`${allDimensies.OPGAVEN.API_ENDPOINT}`)
-                .then((res) => setOpgaven(res.data))
+                .get(`${allDimensies.BELEIDSDOELEN.API_ENDPOINT}`)
+                .then((res) => setBeleidsdoelen(res.data))
                 .catch((err) => console.log(err)),
             axios
-                .get(`${allDimensies.DOELEN.API_ENDPOINT}`)
+                .get(`${allDimensies.BELEIDSPRESTATIES.API_ENDPOINT}`)
                 .then((res) => setBeleidsprestaties(res.data))
                 .catch((err) => console.log(err)),
             axios
-                .get(
-                    `${allDimensies.BELEIDSBESLISSINGEN.API_ENDPOINT}?Status=Vigerend`
-                )
+                .get(`${allDimensies.BELEIDSKEUZES.API_ENDPOINT_VIGEREND}`)
                 .then((res) => setBeleidskeuzes(res.data))
                 .catch((err) => console.log(err)),
             axios
@@ -112,32 +113,42 @@ const NavigationPopupMenu = ({
             })
     }, [])
 
+    /**
+     * Function to check if the activeTab parameter is linked to a currentContstant case and return the specific allDimensies parameter.
+     *
+     * @function
+     */
     const getCurrentConstants = () => {
         switch (activeTab) {
             case 'Ambities':
                 return allDimensies['AMBITIES']
             case 'Beleidsdoelen':
-                return allDimensies['OPGAVEN']
+                return allDimensies['BELEIDSDOELEN']
             case 'Beleidskeuzes':
-                return allDimensies['BELEIDSBESLISSINGEN']
+                return allDimensies['BELEIDSKEUZES']
             case "Maatregelen (Programma's)":
                 return allDimensies['MAATREGELEN']
             case 'Beleidsregels':
                 return allDimensies['BELEIDSREGELS']
             case 'Beleidsprestaties':
-                return allDimensies['DOELEN']
+                return allDimensies['BELEIDSPRESTATIES']
 
             default:
                 return {}
         }
     }
 
+    /**
+     * Function to check if the activeTab parameter is linked to a CurrentItem case and return the specific allDimensies parameter.
+     *
+     * @function
+     */
     const getCurrentItems = () => {
         switch (activeTab) {
             case 'Ambities':
                 return ambities
             case 'Beleidsdoelen':
-                return opgaven
+                return beleidsdoelen
             case 'Beleidskeuzes':
                 return beleidskeuzes
             case "Maatregelen (Programma's)":
@@ -172,7 +183,7 @@ const NavigationPopupMenu = ({
         <React.Fragment>
             <button
                 id="popup-menu-toggle"
-                className="px-2 py-2 text-gray-800 transition duration-300 ease-in rounded hover:text-gray-800"
+                className="flex items-center justify-center px-2 py-2 text-gray-800 transition-colors duration-100 ease-in rounded hover:bg-gray-100 hover:text-gray-900"
                 aria-expanded={isOpen}
                 onClick={() => setIsOpen(!isOpen)}
             >
@@ -183,16 +194,16 @@ const NavigationPopupMenu = ({
             </button>
             <Transition
                 show={isOpen}
-                enter="transition ease-out duration-300"
+                enter="transition ease-out duration-200"
                 enterFrom="opacity-0 -translate-y-5"
                 enterTo="opacity-100 translate-y-0"
-                leave="transition ease-in duration-300"
+                leave="transition ease-in duration-200"
                 leaveFrom="opacity-100 translate-y-0"
                 leaveTo="opacity-0 -translate-y-5"
             >
                 <div
                     id="popup-menu"
-                    className="fixed top-0 left-0 w-full pt-24 bg-white"
+                    className="fixed top-0 left-0 w-full pt-16 bg-white"
                     style={
                         showBanner
                             ? {
@@ -206,8 +217,8 @@ const NavigationPopupMenu = ({
                     }
                 >
                     <div className="container flex h-full px-6 mx-auto">
-                        <div className="w-3/12 h-full border-r border-gray-300">
-                            <h3 className="font-bold text-gray-900 heading-xl">
+                        <div className="w-3/12 h-full pt-4 border-r border-gray-300">
+                            <h3 className="text-xl font-bold text-pzh-blue">
                                 Omgevingsvisie
                             </h3>
                             <nav className="mt-5">
@@ -216,7 +227,6 @@ const NavigationPopupMenu = ({
                                     tabTitle="Ambities"
                                     setActiveTab={setActiveTab}
                                 />
-                                {/* Beleidsdoelen was previously opgaven */}
                                 <TabMenuItem
                                     activeTab={activeTab}
                                     tabTitle="Beleidsdoelen"
@@ -228,7 +238,7 @@ const NavigationPopupMenu = ({
                                     setActiveTab={setActiveTab}
                                 />
                             </nav>
-                            <h3 className="mt-16 font-bold text-gray-900 heading-xl">
+                            <h3 className="mt-16 text-xl font-bold text-pzh-blue">
                                 Uitvoering
                             </h3>
                             <nav className="mt-5">
@@ -258,10 +268,10 @@ const NavigationPopupMenu = ({
                             </nav>
                         </div>
                         <div className="flex flex-col w-9/12 pl-5">
-                            <div className="flex w-full pb-5 border-b border-gray-300">
+                            <div className="flex items-end w-full pb-5 border-b border-gray-300">
                                 <h3
                                     id={`selected-type-${activeTab}`}
-                                    className="w-full font-bold text-gray-900 heading-xl"
+                                    className="w-full text-xl font-bold text-pzh-blue"
                                 >
                                     {activeTab}{' '}
                                     {isLoading &&
@@ -291,7 +301,7 @@ const NavigationPopupMenu = ({
                                             onChange={(e) =>
                                                 setFilterQuery(e.target.value)
                                             }
-                                            className="block w-full pr-10 form-input sm:text-sm sm:leading-5"
+                                            className="block w-full pr-10 form-input "
                                             placeholder={`Zoek in ${getCurrentConstants().TITLE_PLURAL.toLowerCase()}`}
                                         />
                                         <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
@@ -331,7 +341,7 @@ const NavigationPopupMenu = ({
                                             .map((item, index) => (
                                                 <Link
                                                     key={item.UUID}
-                                                    className={`w-1/2 group flex items-center px-3 py-2 text-sm leading-5 font-medium text-gray-700 rounded-md hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:bg-gray-100 transition ease-in-out duration-150  ${
+                                                    className={`w-1/2 group flex items-center px-3 py-2 text-sm leading-5 font-medium rounded-md hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition ease-in-out duration-150  ${
                                                         index % 2 === 0
                                                             ? 'pr-4'
                                                             : 'pl-4'
@@ -379,6 +389,15 @@ const NavigationPopupMenu = ({
     )
 }
 
+/**
+ * Function to render the TabMenuItem in the NavigationPopupMenu component.
+ *
+ * @function
+ *
+ * @param {boolean} activeTab - Parameter that is used to set the tabTitle to tabIsActive, if activeTab is set true.
+ * @param {string} tabTitle - Parameter that contains the title of the tab.
+ * @param {function} setActiveTab - Parameter that is used to set the tabTitle parameter as activeTab.
+ */
 const TabMenuItem = ({ activeTab, tabTitle, setActiveTab }) => {
     const tabIsActive = activeTab === tabTitle
 
@@ -388,8 +407,8 @@ const TabMenuItem = ({ activeTab, tabTitle, setActiveTab }) => {
             id={`popup-menu-item-${tabTitle}`}
             className={`w-full font-medium rounded-md-l group flex items-center px-3 py-2 text-sm leading-5 hover:text-gray-900 transition ease-in-out duration-150 mt-1 ${
                 tabIsActive
-                    ? 'text-gray-900 bg-gray-100 hover:bg-gray-50 focus:outline-none'
-                    : 'text-gray-600 hover:bg-gray-50 focus:outline-none focus:bg-gray-50 cursor-pointer'
+                    ? 'bg-gray-100 hover:bg-gray-100 focus:outline-none'
+                    : 'hover:bg-gray-100 focus:outline-none focus:bg-gray-50 cursor-pointer'
             }`}
             aria-current={tabIsActive ? 'page' : false}
         >
@@ -398,6 +417,16 @@ const TabMenuItem = ({ activeTab, tabTitle, setActiveTab }) => {
     )
 }
 
+/**
+ * Function to render the TabMenuItemLink component, that contains a link.
+ *
+ * @function
+ *
+ * @param {string} tabTitle - Parameter that displays the tabTitle of the Link element.
+ * @param {} href - Parameter that contains an URL where the user navigates too, when the user click on the Link element.
+ * @param {function} setIsOpen - Parameter that is used for an onclick function to set the isOpen parameter to true or false.
+ * @param {int} tabId - Parameter that contains the id of the Tab.
+ */
 const TabMenuItemLink = ({ tabTitle, href, setIsOpen, tabId, callback }) => {
     return (
         <Link
@@ -407,7 +436,7 @@ const TabMenuItemLink = ({ tabTitle, href, setIsOpen, tabId, callback }) => {
                 if (callback) callback()
             }}
             to={href}
-            className={`w-full font-medium rounded-md-l group flex items-center px-3 py-2 text-sm leading-5 hover:text-gray-900 transition ease-in-out duration-150 mt-1 text-gray-600 hover:bg-gray-50 focus:outline-none focus:bg-gray-50 cursor-pointer`}
+            className={`w-full font-medium rounded-md-l group flex items-center px-3 py-2 text-sm leading-5 hover:text-gray-900 transition ease-in-out duration-150 mt-1 hover:bg-gray-100 focus:outline-none focus:bg-gray-50 cursor-pointer`}
         >
             <span className="truncate">{tabTitle}</span>
         </Link>

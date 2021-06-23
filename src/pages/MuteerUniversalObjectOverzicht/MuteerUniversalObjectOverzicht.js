@@ -82,9 +82,7 @@ const MuteerUniversalObjectOverzicht = ({ dimensieConstants }) => {
 
             {/* Container */}
             <div className="flex-grow inline-block w-3/4 pl-8 rounded">
-                <h2 className="mb-4 text-gray-800 heading-serif">
-                    {titelMeervoud}
-                </h2>
+                <h2 className="mb-4 text-gray-800">{titelMeervoud}</h2>
 
                 {!isLoading ? (
                     <ul className="flex flex-wrap mt-8">

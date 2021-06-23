@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
-import { format } from 'date-fns'
-import isBefore from 'date-fns/isBefore'
-import nlLocale from 'date-fns/locale/nl'
 import { faCalendarAlt } from '@fortawesome/free-regular-svg-icons'
 import {
     faLink,
@@ -18,15 +15,29 @@ import HeadingMain from '../HeadingMain'
 import LoaderMainTitle from '../LoaderMainTitle'
 import LoaderSmallSpan from '../LoaderSmallSpan'
 
-function StatusLabel(props) {
+// Import Utilities
+import getVigerendText from './../../utils/getVigerendText'
+
+/**
+ * Function to display a statusLabel within the ContainerDetailMain component with the text "Vigerend".
+ *
+ * @function
+ */
+function StatusLabel() {
     return (
-        <span className="inline px-3 py-3 ml-3 text-sm font-bold bg-blue-100 rounded-full m-color">
+        <span className="inline px-3 py-3 ml-3 text-sm font-bold bg-blue-100 rounded-full text-pzh-blue">
             Vigerend
         </span>
     )
 }
 
-// Main Component - Main Container
+/**
+ * Class that renders the ContainerDetailMain component that is used within the muteeruniversalObjectDetail page.
+ * The class uses the parent props given to it, in conditional operators to show/hide the imported components or parts of elements, if they contain a value.
+ *
+ * @class
+ * @extends {Component}
+ */
 class ContainerDetailMain extends Component {
     constructor(props) {
         super(props)
@@ -38,12 +49,23 @@ class ContainerDetailMain extends Component {
         this.toggleStatusPopup = this.toggleStatusPopup.bind(this)
     }
 
+    /**
+     * Function to toggle (hide/show) the dropdown element by toggling the dropdown state.
+     *
+     * @function
+     */
+
     toggleDropdown() {
         this.setState({
             dropdown: !this.state.dropdown,
         })
     }
 
+    /**
+     * Function to toggle (hide/show) the statusPopup by setting the statusPopup state.
+     *
+     * @function
+     */
     toggleStatusPopup() {
         this.setState({
             statusPopup: !this.state.statusPopup,
@@ -56,6 +78,12 @@ class ContainerDetailMain extends Component {
         const pageType = this.props.pageType
         const titel = dataObject.Titel
         const dataReceived = this.props.dataReceived
+
+        const validDate = getVigerendText({ dataObject })
+        const validDatePrefix = getVigerendText({
+            dataObject,
+            prefixOnly: true,
+        })
 
         return (
             <div
@@ -106,30 +134,14 @@ class ContainerDetailMain extends Component {
                 ) : null}
 
                 <div className="flex mt-8">
-                    <div className="flex items-center justify-between w-full py-2 pr-4 mr-4 border-r border-gray-300">
+                    <div className="flex items-center justify-between w-full py-2 pr-4 border-r border-gray-300">
                         <div>
                             <span className="block text-sm font-bold text-gray-700">
-                                {/* isBefore */}
-                                {dataReceived &&
-                                dataObject['Begin_Geldigheid'] !== null &&
-                                isBefore(
-                                    dataObject['Begin_Geldigheid'],
-                                    new Date()
-                                )
-                                    ? 'Vigerend sinds'
-                                    : 'Vigerend vanaf'}
+                                {dataReceived && validDatePrefix}
                             </span>
                             {dataReceived ? (
                                 <span className="text-sm text-gray-700">
-                                    {dataObject['Begin_Geldigheid'] !== null
-                                        ? format(
-                                              new Date(
-                                                  dataObject['Begin_Geldigheid']
-                                              ),
-                                              'd MMMM yyyy',
-                                              { locale: nlLocale }
-                                          )
-                                        : 'Er is nog geen begin geldigheid'}
+                                    {validDate}
                                 </span>
                             ) : (
                                 <span className="block mt-2">
@@ -150,7 +162,7 @@ class ContainerDetailMain extends Component {
                             target="_blank"
                             rel="noopener noreferrer"
                             id="href-idms-koppeling"
-                            className="flex items-center justify-between w-full py-2 pr-4 mr-4 border-r border-gray-300"
+                            className="flex items-center justify-between w-full px-4 py-2 border-r border-gray-300 hover:bg-gray-50 pzh-transition-colors"
                         >
                             <div>
                                 <span className="block text-sm font-bold text-gray-700">
@@ -162,7 +174,7 @@ class ContainerDetailMain extends Component {
                             </div>
                             <div>
                                 <FontAwesomeIcon
-                                    className="text-xl text-gray-600"
+                                    className="text-lg text-gray-600"
                                     icon={faLink}
                                 />
                             </div>
@@ -185,7 +197,7 @@ class ContainerDetailMain extends Component {
                             }
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center justify-between w-full py-2 cursor-pointer"
+                            className="flex items-center justify-between w-full py-2 pl-4 cursor-pointer hover:bg-gray-50 pzh-transition-colors"
                         >
                             <div>
                                 <div>
@@ -203,7 +215,7 @@ class ContainerDetailMain extends Component {
                             </div>
                             <div>
                                 <FontAwesomeIcon
-                                    className="text-xl text-gray-600"
+                                    className="mr-4 text-lg text-gray-600"
                                     icon={faExternalLinkAlt}
                                 />
                             </div>

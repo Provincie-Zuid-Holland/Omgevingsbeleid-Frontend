@@ -7,6 +7,14 @@ import axios from './../../API/axios'
 import Select from 'react-select'
 import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFieldTitelEnBeschrijving'
 
+/**
+ * Function to create a new array "options" based on the parameters given.
+ *
+ * @function
+ *
+ * @param {array} objectenArray - Parameter that is used to check if the array length is longer than 1.
+ * @param {string} dataObjectProperty - Parameter that is used to set the target name value of the new "options" array list.
+ */
 function makeSelection(objectenArray, dataObjectProperty) {
     if (objectenArray.length === 1) {
         return null
@@ -27,6 +35,12 @@ function makeSelection(objectenArray, dataObjectProperty) {
     }
 }
 
+/**
+ * Class that renders the FormFieldWerkingsgebiedrelatie component that displays a title an description and a dropdown box where the user can select a werkingsgebied from a list of werkingsgebieden.
+ *
+ * @class
+ * @extends React.Component
+ */
 class FormFieldWerkingsgebiedrelatie extends React.Component {
     state = {
         selectionArray: [],
@@ -56,7 +70,14 @@ class FormFieldWerkingsgebiedrelatie extends React.Component {
         )
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
+    /**
+     * Function that checks if the current fieldValue is not equal to the previous fieldValue and updates the selected parameter state with the selectionArray search results.
+     *
+     * @function
+     *
+     * @param {props} prevProps - Parameter used to check fieldValue with previous props.
+     */
+    componentDidUpdate(prevProps) {
         if (this.props.fieldValue !== prevProps.fieldValue) {
             const selected = this.state.selectionArray.find(
                 (arrayItem) => arrayItem.value === this.props.fieldValue
@@ -67,6 +88,11 @@ class FormFieldWerkingsgebiedrelatie extends React.Component {
         }
     }
 
+    /**
+     * Function to get the data from the ApiEndpoint 'werkingsgebieden'
+     *
+     * @function
+     */
     componentDidMount() {
         const ApiEndpoint = 'werkingsgebieden'
 

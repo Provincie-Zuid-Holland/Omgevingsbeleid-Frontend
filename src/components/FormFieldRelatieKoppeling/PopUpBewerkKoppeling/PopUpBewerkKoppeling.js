@@ -4,6 +4,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import PopUpAnimatedContainer from './../../PopUpAnimatedContainer'
 
+/**
+ * Class that renders the PopUpBewerkKoppeling component in a imported PopUpAnimatedContainer,
+ * in which the user can edit the description of the relationship between de bewerkItem and the beleidskeuze.
+ *
+ * This component is used within the component FormFieldRelatieKoppeling.
+ *
+ * @class
+ * @extends Component
+ */
 class PopUpBewerkKoppeling extends Component {
     constructor(props) {
         super(props)
@@ -11,11 +20,19 @@ class PopUpBewerkKoppeling extends Component {
             type: this.props.type,
             objecten: [],
             selected: null,
-            omschrijving: this.props.bewerkItem.item.Omschrijving || '',
+            omschrijving:
+                this.props.bewerkItem.item.Koppeling_Omschrijving || '',
         }
         this.handleChange = this.handleChange.bind(this)
     }
 
+    /**
+     * Function that sets the value variable to the name variable, based on the e.target values.
+     *
+     * @function
+     *
+     * @param {e} e - Parameter that is used to catch any changes triggered by the user.
+     */
     handleChange(e) {
         const name = e.target.name
         const value = e.target.value
@@ -30,17 +47,17 @@ class PopUpBewerkKoppeling extends Component {
             <PopUpAnimatedContainer>
                 <div
                     onClick={this.props.togglePopup}
-                    className="absolute top-0 right-0 px-3 py-2 text-gray-600 cursor-pointer"
+                    className="absolute top-0 right-0 px-6 py-4 text-gray-600 cursor-pointer"
                     id={`form-field-koppeling-sluit-popup`}
                 >
                     <FontAwesomeIcon icon={faTimes} />
                 </div>
-                <h3 className="form-field-label">koppelen</h3>
+                <h3 className="font-bold form-field-label">koppelen</h3>
 
                 <p className="form-field-description">
                     Beschrijf de koppeling tussen '
-                    {this.props.bewerkItem.item.Titel}' en de beleidskeuze '
-                    {this.props.titelMainObject}'
+                    {this.props.bewerkItem.item.Object.Titel}' en de
+                    beleidskeuze '{this.props.titelMainObject}'
                 </p>
                 <p className="mt-4 form-field-description">
                     Beschrijf zo concreet mogelijk de relatie
@@ -80,7 +97,7 @@ class PopUpBewerkKoppeling extends Component {
                     </div>
 
                     <div
-                        className={`font-bold py-2 px-4 cursor-pointer leading-tight text-sm rounded bg-green-600 text-white ${
+                        className={`font-bold py-2 px-4 cursor-pointer leading-tight text-sm rounded bg-pzh-green text-white ${
                             this.state.omschrijving.length === 0
                                 ? `cursor-not-allowed opacity-50`
                                 : `hover:underline`

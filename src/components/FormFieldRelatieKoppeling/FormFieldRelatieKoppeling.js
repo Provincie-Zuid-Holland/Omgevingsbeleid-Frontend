@@ -10,6 +10,14 @@ import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFi
 
 import objecten from './../../constants/koppelingen'
 
+/**
+ * Function to get and return the propertiesWithExistingConnections, which are used within the FormFieldRelatieKoppeling component.
+ *
+ * @function
+ *
+ * @param {array} connectionProperties - Parameter containing the collection of object properties that is looped through in the getPropertiesWithConnectionsFromCrudObject function.
+ * @param {object} crudObject - Parameter that contains the object information from the API and is used to check if it is not undefined, null or has a string length of more than 1 charater
+ */
 function getPropertiesWithConnectionsFromCrudObject(
     connectionProperties,
     crudObject
@@ -108,10 +116,10 @@ const FormFieldRelatieKoppeling = ({
             crudObject
         )
 
-        // If there are no existing connections we return
-        if (propertiesWithExistingConnections.length === 0) {
-            return
-        }
+        // // If there are no existing connections we return
+        // if (propertiesWithExistingConnections.length === 0) {
+        //     return
+        // }
 
         // Contains the properties we have already mapped
         // We need this because 'Belang' en 'Taak' are both different types, but they do have the same propertyName on the crudObject
@@ -137,6 +145,7 @@ const FormFieldRelatieKoppeling = ({
         })
 
         setKoppelingenRelaties({ ...newStateKoppelingenRelatiesObject })
+
         setDataLoaded(true)
     }, [connectionProperties, crudObject])
 
@@ -183,8 +192,9 @@ const FormFieldRelatieKoppeling = ({
                 </div>
                 <ul className="mb-3">
                     {dataLoaded ? (
-                        connectionProperties.map(
-                            (koppelingRelatieNaam, index) => {
+                        connectionProperties
+                            .sort((a, b) => a.localeCompare(b))
+                            .map((koppelingRelatieNaam, index) => {
                                 const propertyName =
                                     objecten[koppelingRelatieNaam].propertyName
                                 if (
@@ -205,11 +215,13 @@ const FormFieldRelatieKoppeling = ({
                                 }
 
                                 // Anders returnen we de list items door te loopen over koppelingenRelaties[propertyName]
-                                // TODO: Add types for Verordenings objects. Waiting for the API change
                                 return koppelingenRelaties[propertyName].map(
                                     (item, index) => {
                                         let type =
                                             objecten[koppelingRelatieNaam].type
+                                        if (type === 'Nationaal Belang') {
+                                            type = item.Object.Type
+                                        }
 
                                         return (
                                             <li
@@ -227,7 +239,7 @@ const FormFieldRelatieKoppeling = ({
                                                     {type}
                                                 </div>
                                                 <div className="relative w-full pr-8">
-                                                    {item.Titel}
+                                                    {item.Object.Titel}
                                                     <FontAwesomeIcon
                                                         className="absolute top-0 right-0 mt-1 mr-2"
                                                         icon={faEye}
@@ -237,8 +249,7 @@ const FormFieldRelatieKoppeling = ({
                                         )
                                     }
                                 )
-                            }
-                        )
+                            })
                     ) : (
                         <span className="block py-4 text-sm text-gray-700">
                             {placeholderTekst}
@@ -332,7 +343,7 @@ const Dropdown = ({
     return (
         <div className="relative">
             <div
-                className="relative inline-block py-1 pl-4 mt-2 text-sm text-white rounded cursor-pointer mbg-color text mbg-color-darker-hover"
+                className="relative inline-block py-1 pl-4 mt-2 text-sm text-white transition duration-200 ease-in rounded cursor-pointer bg-pzh-blue text hover:bg-pzh-blue-dark"
                 onClick={() => setDropdownOpen(!dropdownOpen)}
                 ref={buttonRef}
                 id={`nieuw-item-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
@@ -340,7 +351,7 @@ const Dropdown = ({
                 <span className="inline-block py-1 select-none">
                     {buttonTekst}
                 </span>
-                <span className="inline-block px-4 py-1 ml-4 text-center border-l m-border-color">
+                <span className="inline-block px-4 py-1 ml-4 text-center border-l border-white border-opacity-25">
                     <FontAwesomeIcon
                         className="mt-1 text-white"
                         icon={faAngleDown}
@@ -352,20 +363,22 @@ const Dropdown = ({
                         ref={dropdownRef}
                     >
                         {connectionProperties
-                            ? connectionProperties.map((item, index) => {
-                                  return (
-                                      <li
-                                          key={index}
-                                          onClick={() => {
-                                              togglePopupNieuw(item)
-                                          }}
-                                          id={`form-field-universele-koppeling-dropdown-button-${index}`}
-                                          className="px-3 py-2 border-b border-gray-300 cursor-pointer hover:bg-gray-100"
-                                      >
-                                          {objecten[item].buttonTekst}
-                                      </li>
-                                  )
-                              })
+                            ? connectionProperties
+                                  .sort((a, b) => a.localeCompare(b))
+                                  .map((item, index) => {
+                                      return (
+                                          <li
+                                              key={index}
+                                              onClick={() => {
+                                                  togglePopupNieuw(item)
+                                              }}
+                                              id={`form-field-universele-koppeling-dropdown-button-${index}`}
+                                              className="px-3 py-2 border-b border-gray-300 cursor-pointer hover:bg-gray-100"
+                                          >
+                                              {objecten[item].buttonTekst}
+                                          </li>
+                                      )
+                                  })
                             : null}
                     </ul>
                 ) : null}

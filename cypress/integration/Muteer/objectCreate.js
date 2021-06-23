@@ -5,12 +5,12 @@ const getSubUrl = (url, apiVersion) => url.slice(url.indexOf(`/` + apiVersion))
 // The dimension objects we will handle in the CRUD test
 const dimensions = [
     allDimensies.MAATREGELEN,
-    allDimensies.BELEIDSBESLISSINGEN,
-    allDimensies.OPGAVEN,
+    allDimensies.BELEIDSKEUZES,
+    allDimensies.BELEIDSDOELEN,
     allDimensies.AMBITIES,
     allDimensies.BELANGEN,
     allDimensies.BELEIDSREGELS,
-    allDimensies.DOELEN,
+    allDimensies.BELEIDSPRESTATIES,
     allDimensies.THEMAS,
 ]
 
@@ -80,7 +80,7 @@ describe('User can create, read and update the dimensions', () => {
 
             // Click on element to go to the CRUD page to create a new object
             cy.get(`#object-add-new-${overzichtSlug.toLowerCase()}`, {
-                timeout: 10000,
+                timeout: 30000,
             }).click()
 
             // Fill in the test values for every property

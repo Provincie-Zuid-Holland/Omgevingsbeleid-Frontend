@@ -15,6 +15,19 @@ import axios from './../../API/axios'
 import PopupContainer from './../PopupContainer'
 import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFieldTitelEnBeschrijving'
 
+/**
+ * Component that renders the FormFieldWerkingsgebiedKoppeling component that displays a title and description with a button in which the user can connect a Werkingsgebied.
+ *
+ * @component
+ *
+ * @param {function} setWerkingsgebiedInParentState - Parameter that is used to set the state value of the werkingsgebiedInparentState variable.
+ * @param {function} werkingsgebiedInParentState - Parameter that contains the UUID of the werkingsgebied object.
+ * @param {string} dataObjectProperty - This field contains the property name for a geographical area, as this is not always the same on the crudObject.
+ * @param {string} titleSingular - Parameter containing the title of the object in a singular form.
+ * @param {string} fieldLabel - Parameter containing the label of the field.
+ * @param {string} pValue - Parameter containing the paragraph value of the field, containing a description.
+ * @param {boolean} disabled - Disables the component.
+ */
 const FormFieldWerkingsgebiedKoppeling = ({
     setWerkingsgebiedInParentState,
     werkingsgebiedInParentState,
@@ -23,7 +36,6 @@ const FormFieldWerkingsgebiedKoppeling = ({
     fieldLabel,
     pValue,
     disabled,
-    crudObject,
 }) => {
     const [popupOpen, setPopupOpen] = React.useState(false)
 
@@ -39,22 +51,14 @@ const FormFieldWerkingsgebiedKoppeling = ({
             if (
                 !werkingsgebiedInParentState ||
                 (werkingsgebied &&
+                    werkingsgebiedInParentState.UUID === werkingsgebied.UUID) ||
+                (werkingsgebied &&
                     werkingsgebiedInParentState === werkingsgebied.UUID)
             )
                 return
 
-            setWerkingsgebied(null)
-
-            axios
-                .get(`/werkingsgebieden/${werkingsgebiedInParentState}`)
-                .then((res) => {
-                    setWerkingsgebied(res.data)
-                })
-                .catch((err) => {
-                    console.log(err)
-                    toast(process.env.REACT_APP_ERROR_MSG)
-                })
-        } else if (dataObjectProperty === 'WerkingsGebieden') {
+            setWerkingsgebied(werkingsgebiedInParentState[0])
+        } else if (dataObjectProperty === 'Werkingsgebieden') {
             // If there is no werkingsgebied prop
             if (!werkingsgebiedInParentState) return
 
@@ -71,16 +75,7 @@ const FormFieldWerkingsgebiedKoppeling = ({
                 return
             }
 
-            setWerkingsgebied(null)
-            axios
-                .get(`/werkingsgebieden/${werkingsgebiedInParentState[0].UUID}`)
-                .then((res) => {
-                    setWerkingsgebied(res.data)
-                })
-                .catch((err) => {
-                    console.log(err)
-                    toast(process.env.REACT_APP_ERROR_MSG)
-                })
+            setWerkingsgebied(werkingsgebiedInParentState[0])
         }
     }, [werkingsgebiedInParentState, werkingsgebied, dataObjectProperty])
 
@@ -132,7 +127,7 @@ const FormFieldWerkingsgebiedKoppeling = ({
                                     className="mr-2 text-gray-400"
                                     icon={faPlus}
                                 />
-                                <span className="py-4 pr-4 font-semibold text-gray-400">
+                                <span className="py-4 pr-4 font-bold text-gray-400">
                                     Werkingsgebied koppelen
                                 </span>
                             </div>
@@ -152,6 +147,19 @@ const FormFieldWerkingsgebiedKoppeling = ({
     )
 }
 
+/**
+ * Function that renders the CardSelectedWerkingsgebied component in which the user sees when the selected werkingsgebied is last updated and a option to disconnect a werkingsgebied.
+ *
+ *
+ * @function
+ *
+ * @param {function} setPopupOpen - Parameter that is used set the state of the popupOpen variable.
+ * @param {function} setWerkingsgebiedInParentState - Function to edit parent state.
+ * @param {function} setWerkingsgebied - Function to edit parent state
+ * @param {string} dataObjectProperty - Parameter containing the werkingsgebied data property.
+ * @param {string} werkingsgebied - Parameter containing the werkingsgebied value.
+ * @param {boolean} show - Parameter used to show the transition.
+ */
 const CardSelectedWerkingsgebied = ({
     setPopupOpen,
     setWerkingsgebiedInParentState,
@@ -191,7 +199,7 @@ const CardSelectedWerkingsgebied = ({
                             : null}
                     </span>
                     <span
-                        className="absolute bottom-0 left-0 px-5 py-5 text-sm text-red-600 underline transition-colors ease-in cursor-pointer duration-50 hover:text-red-800"
+                        className="absolute bottom-0 left-0 px-5 py-5 text-sm text-red-600 underline transition-colors duration-100 ease-in cursor-pointer hover:text-red-800"
                         onClick={() => {
                             setWerkingsgebiedInParentState({
                                 target: {
@@ -212,7 +220,7 @@ const CardSelectedWerkingsgebied = ({
                         onClick={() => setPopupOpen(true)}
                     >
                         <div
-                            className={`cursor-pointer z-10 absolute top-0 left-0 w-full h-full border border-gray-100`}
+                            className={`cursor-pointer absolute top-0 left-0 w-full h-full border border-gray-100`}
                         >
                             <div
                                 style={{
@@ -229,6 +237,7 @@ const CardSelectedWerkingsgebied = ({
                             ></div>
                         </div>
                         <span
+                            style={{ zIndex: '-1' }}
                             className={`absolute top-0 left-0 flex items-center justify-center w-full h-full text-gray-500 -mt-4`}
                         >
                             <FontAwesomeIcon
@@ -243,6 +252,17 @@ const CardSelectedWerkingsgebied = ({
     )
 }
 
+/**
+ * Function that renders the WerkingsgebiedPopup component displaying a popup containing a map and a option for the user to connect werkingsgebieden.
+ *
+ *
+ * @function
+ *
+ * @param {boolean} show - Parameter that is used to show the PopupContainer component.
+ * @param {boolean} close - Parameter that is called to close the PopupContainer component.
+ * @param {function} setWerkingsgebiedInParentState - Function to edit parent state.
+ * @param {string} dataObjectProperty - containing the werkingsgebied data property.
+ */
 const WerkingsgebiedPopup = ({
     show,
     close,
@@ -284,7 +304,7 @@ const WerkingsgebiedPopup = ({
                     value: uuid,
                 },
             })
-        } else if (dataObjectProperty === 'WerkingsGebieden') {
+        } else if (dataObjectProperty === 'Werkingsgebieden') {
             // Single string of UUID
             setWerkingsgebiedInParentState({
                 target: {
@@ -311,7 +331,7 @@ const WerkingsgebiedPopup = ({
                         <FontAwesomeIcon icon={faTimes} />
                     </div>
                     <div className="h-full px-8 pt-8 pb-12">
-                        <h2 className="form-field-label">
+                        <h2 className="font-bold form-field-label">
                             Werkingsgebied koppelen
                         </h2>
                         <span className="form-field-description">
@@ -353,7 +373,7 @@ const WerkingsgebiedPopup = ({
                                                   }}
                                               >
                                                   <div
-                                                      className={`cursor-pointer z-10 absolute top-0 left-0 w-full h-full border border-gray-100 rounded-md shadow`}
+                                                      className={`cursor-pointer z-0 absolute top-0 left-0 w-full h-full border border-gray-100 rounded-md shadow`}
                                                   >
                                                       <div
                                                           style={{
@@ -371,6 +391,7 @@ const WerkingsgebiedPopup = ({
                                                       </span>
                                                   </div>
                                                   <span
+                                                      style={{ zIndex: '-1' }}
                                                       className={`absolute top-0 left-0 flex items-center justify-center w-full h-full text-gray-500 -mt-4 ${
                                                           index % 2 === 0
                                                               ? 'mr-4'

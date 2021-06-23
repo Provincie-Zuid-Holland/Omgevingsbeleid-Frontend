@@ -12,6 +12,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import LoaderContent from './../../components/LoaderContent'
 import { toast } from 'react-toastify'
+import { Transition } from '@headlessui/react'
 
 // Import Axios instance to connect with the API
 import axios from '../../API/axios'
@@ -20,6 +21,7 @@ import axios from '../../API/axios'
 import ButtonBackToPage from './../../components/ButtonBackToPage'
 import VerordeningenDetailSidebar from './VerordeningenDetailSidebar'
 import LeafletTinyViewer from './../../components/LeafletTinyViewer'
+import RelatiesKoppelingen from '../../components/RelatiesKoppelingen'
 
 // !REFACTOR! -> Wordt nu op meerdere plekken gebruikt, move naar utils
 function parseIntOrSetToNull(item) {
@@ -126,7 +128,7 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
     }
 
     getAndSetVerordeningsObject(UUID) {
-        return axios.get(`/verordeningen/version/${UUID}`).then((res) => {
+        return axios.get(`/version/verordeningen/${UUID}`).then((res) => {
             // Get latest lineage
             const verordeningsObject = res.data
             // this.populateFieldsAndSetState(lineage)
@@ -137,7 +139,7 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
     }
 
     getAndSetLidObject(UUID) {
-        return axios.get(`/verordeningen/version/${UUID}`).then((res) => {
+        return axios.get(`/version/verordeningen/${UUID}`).then((res) => {
             // Get latest lineage
             const lidObject = res.data
             return lidObject
@@ -236,14 +238,22 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                 if (this.state.verordeningsObject.Type === 'Artikel') {
                     this.ifPresentGetAndSetLeden(UUID)
                         .then(() => {
-                            this.setState({ dataLoaded: true })
+                            this.setState({ dataLoaded: true }, () =>
+                                window.setTimeout(() => {
+                                    window.scrollTo(0, 0)
+                                }, 1)
+                            )
                         })
                         .catch((err) => {
                             console.log(err)
                             toast(process.env.REACT_APP_ERROR_MSG)
                         })
                 } else {
-                    this.setState({ dataLoaded: true })
+                    this.setState({ dataLoaded: true }, () =>
+                        window.setTimeout(() => {
+                            window.scrollTo(0, 0)
+                        }, 1)
+                    )
                 }
             })
             .catch((err) => {
@@ -253,6 +263,10 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
     }
 
     componentDidUpdate(prevProps) {
+        window.setTimeout(() => {
+            window.scrollTo(0, 0)
+        }, 1)
+
         if (
             prevProps.match.params.objectUUID !==
             this.props.match.params.objectUUID
@@ -273,11 +287,11 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                                 this.state.verordeningsObject.Type === 'Artikel'
                             ) {
                                 this.ifPresentGetAndSetLeden(UUID)
-                                    .then(() =>
+                                    .then(() => {
                                         this.setState({
                                             loadingNewObject: false,
                                         })
-                                    )
+                                    })
                                     .catch((err) => {
                                         console.log(err)
                                         toast(process.env.REACT_APP_ERROR_MSG)
@@ -307,14 +321,13 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
         let werkingsgebiedBoolean = false
         let werkingsGebiedUUID = null
 
-        // !REFACTOR! Dit zou null mogen zijn
         if (
             dataLoaded &&
-            artikel.Werkingsgebied !== '00000000-0000-0000-0000-000000000000' &&
-            artikel.Werkingsgebied !== null
+            artikel.Gebied !== '00000000-0000-0000-0000-000000000000' &&
+            artikel.Gebied !== null
         ) {
             werkingsgebiedBoolean = true
-            werkingsGebiedUUID = artikel.Werkingsgebied
+            werkingsGebiedUUID = artikel.Gebied.UUID
         }
 
         let breadcrumb = null
@@ -333,6 +346,8 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                 hoofdstukTitel: hoofdstukTitel,
             })
         }
+
+        const show = (dataLoaded && !loadingNewObject && !!artikel) === true
 
         return (
             <div
@@ -360,141 +375,143 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                         lineage={this.state.lineage}
                     />
                 </div>
-                {dataLoaded ? (
-                    artikel !== null ? (
-                        <React.Fragment>
-                            {loadingNewObject ? <LoaderContent /> : null}
-                            <div
-                                id="raadpleeg-detail-container-content text-gray-800"
-                                className={`w-3/4 pr-0 md:pr-24 md:pl-8 lg:pr-48 lg:pl-16`}
-                            >
-                                <div>
-                                    <div className="block inline-block w-full mb-8 text-gray-600">
-                                        {breadcrumb}
-                                    </div>
-
-                                    {/* Artikel Headers */}
-                                    <span className="block font-serif text-gray-800 text-l">
-                                        Artikel {' ' + artikel.Volgnummer}
-                                    </span>
-                                    <h1
-                                        id="raadpleeg-detail-header-one"
-                                        className="mt-2 text-gray-800 heading-serif-2xl"
-                                    >
-                                        {artikel.Titel}
-                                    </h1>
-
-                                    {/* Meta Content */}
-                                    <div
-                                        className="block mb-8"
-                                        id="raadpleeg-detail-container-meta-info"
-                                    >
-                                        <span className="mr-3 text-sm text-gray-600">
-                                            Vigerend sinds{' '}
-                                            {format(
-                                                new Date(
-                                                    artikel.Begin_Geldigheid
-                                                ),
-                                                'dd-MM-yyyy',
-                                                {
-                                                    locale: nlLocale,
-                                                }
-                                            )}
-                                        </span>
-                                        <span className="mr-3 text-sm text-gray-600">
-                                            &bull;
-                                        </span>
-                                        <span
-                                            className="mr-3 text-sm text-gray-600 cursor-pointer"
-                                            onClick={() => window.print()}
-                                        >
-                                            <FontAwesomeIcon
-                                                className="mr-2"
-                                                icon={faPrint}
-                                            />
-                                            Afdrukken
-                                        </span>
-                                    </div>
-                                    <p
-                                        className={`text-gray-700 text-sm mb-4 whitespace-pre-line`}
-                                    >
-                                        {artikel.Inhoud}
-
-                                        {this.state.ledenObjecten
-                                            ? this.state.ledenObjecten.map(
-                                                  (lid) => {
-                                                      return (
-                                                          <span
-                                                              key={lid.UUID}
-                                                              className="block mb-4 text-sm text-gray-700 whitespace-pre-line"
-                                                          >
-                                                              {lid.Inhoud}
-                                                          </span>
-                                                      )
-                                                  }
-                                              )
-                                            : null}
-                                    </p>
-                                </div>
-                                {werkingsgebiedBoolean ? (
-                                    <div
-                                        className="w-full mt-5"
-                                        id="raadpleeg-detail-werkingsgebied"
-                                    >
-                                        <div className="flex items-center justify-between pb-3 text-gray-800">
-                                            <h2 className="block mb-2 font-serif text-lg tracking-wide text-gray-700">
-                                                Werkingsgebied
-                                            </h2>
-                                            <span
-                                                className="px-2 text-xs cursor-pointer"
-                                                onClick={
-                                                    this
-                                                        .toggleFullscreenLeafletViewer
-                                                }
-                                            >
-                                                Bekijk in het
-                                                {this.state
-                                                    .fullscreenLeafletViewer
-                                                    ? ' klein'
-                                                    : ' groot'}
-                                                <FontAwesomeIcon
-                                                    className="ml-2 text-gray-700"
-                                                    icon={
-                                                        this.state
-                                                            .fullscreenLeafletViewer
-                                                            ? faCompressArrowsAlt
-                                                            : faExpandArrowsAlt
-                                                    }
-                                                />
-                                            </span>
-                                        </div>
-                                        {!loadingNewObject ? (
-                                            <div
-                                                className="overflow-hidden rounded-lg"
-                                                id={`full-screen-leaflet-container-${this.state.fullscreenLeafletViewer}`}
-                                            >
-                                                <LeafletTinyViewer
-                                                    gebiedType="Werkingsgebieden"
-                                                    gebiedUUID={
-                                                        werkingsGebiedUUID
-                                                    }
-                                                    fullscreen={
-                                                        this.state
-                                                            .fullscreenLeafletViewer
-                                                    }
-                                                />
-                                            </div>
-                                        ) : null}
-                                    </div>
-                                ) : null}
+                <Transition
+                    show={show}
+                    enter="transition ease-out duration-200"
+                    enterFrom="opacity-0"
+                    enterTo="opacity-100"
+                    leave="transition ease-in duration-100"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
+                    className="w-3/4 pr-0 md:pl-8 lg:pl-16"
+                >
+                    <div
+                        id="raadpleeg-detail-container-content text-gray-800"
+                        // className={`w-3/4 pr-0 md:pl-8 lg:pl-16`}
+                    >
+                        <div>
+                            <div className="block inline-block w-full mb-8 text-gray-600">
+                                {breadcrumb}
                             </div>
-                        </React.Fragment>
-                    ) : (
-                        <span className="inline-block w-3/4 italic text-gray-700">
-                            Selecteer een artikel
-                        </span>
-                    )
-                ) : (
+
+                            {/* Artikel Headers */}
+                            <span className="block mb-1 text-lg font-bold tracking-wide text-pzh-blue-dark">
+                                Artikel {' ' + artikel?.Volgnummer}
+                            </span>
+                            <h1
+                                id="raadpleeg-detail-header-one"
+                                className="mt-1 text-4xl font-bold text-pzh-blue "
+                            >
+                                {artikel?.Titel}
+                            </h1>
+
+                            {/* Meta Content */}
+                            <div
+                                className="block mb-8"
+                                id="raadpleeg-detail-container-meta-info"
+                            >
+                                <span className="mr-3 text-sm text-gray-600">
+                                    Vigerend sinds{' '}
+                                    {artikel?.Begin_Geldigheid
+                                        ? format(
+                                              new Date(
+                                                  artikel?.Begin_Geldigheid
+                                              ),
+                                              'dd-MM-yyyy',
+                                              {
+                                                  locale: nlLocale,
+                                              }
+                                          )
+                                        : null}
+                                </span>
+                                <span className="mr-3 text-sm text-gray-600">
+                                    &bull;
+                                </span>
+                                <span
+                                    className="mr-3 text-sm text-gray-600 cursor-pointer"
+                                    onClick={() => window.print()}
+                                >
+                                    <FontAwesomeIcon
+                                        className="mr-2"
+                                        icon={faPrint}
+                                    />
+                                    Afdrukken
+                                </span>
+                            </div>
+                            <p
+                                className={`leading-7 break-words w-full whitespace-pre-line `}
+                            >
+                                {artikel?.Inhoud}
+
+                                {this.state.ledenObjecten
+                                    ? this.state.ledenObjecten.map((lid) => {
+                                          return (
+                                              <span
+                                                  key={lid?.UUID}
+                                                  className="block mb-4 text-sm text-gray-700 whitespace-pre-line"
+                                              >
+                                                  {lid?.Inhoud}
+                                              </span>
+                                          )
+                                      })
+                                    : null}
+                            </p>
+                        </div>
+                        {werkingsgebiedBoolean ? (
+                            <div
+                                className="w-full mt-5"
+                                id="raadpleeg-detail-werkingsgebied"
+                            >
+                                <div className="flex items-center justify-between pb-3 text-gray-800">
+                                    <h2 className="block mb-1 text-lg font-bold tracking-wide text-pzh-blue">
+                                        Werkingsgebied
+                                    </h2>
+                                    <span
+                                        className="px-2 text-xs cursor-pointer"
+                                        onClick={
+                                            this.toggleFullscreenLeafletViewer
+                                        }
+                                    >
+                                        Bekijk in het
+                                        {this.state.fullscreenLeafletViewer
+                                            ? ' klein'
+                                            : ' groot'}
+                                        <FontAwesomeIcon
+                                            className="ml-2 text-gray-700"
+                                            icon={
+                                                this.state
+                                                    .fullscreenLeafletViewer
+                                                    ? faCompressArrowsAlt
+                                                    : faExpandArrowsAlt
+                                            }
+                                        />
+                                    </span>
+                                </div>
+                                <div
+                                    className="overflow-hidden rounded-lg"
+                                    id={`full-screen-leaflet-container-${this.state.fullscreenLeafletViewer}`}
+                                >
+                                    <LeafletTinyViewer
+                                        gebiedType="Werkingsgebieden"
+                                        gebiedUUID={werkingsGebiedUUID}
+                                        fullscreen={
+                                            this.state.fullscreenLeafletViewer
+                                        }
+                                    />
+                                </div>
+                            </div>
+                        ) : null}
+                        <div className="mt-16">
+                            <RelatiesKoppelingen
+                                titleSingular={'Artikel'}
+                                titleSingularPrefix={'het'}
+                                dataObject={artikel}
+                            />
+                        </div>
+                    </div>
+                </Transition>
+
+                {dataLoaded && !loadingNewObject && artikel ? null : (
                     <LoaderContent />
                 )}
             </div>

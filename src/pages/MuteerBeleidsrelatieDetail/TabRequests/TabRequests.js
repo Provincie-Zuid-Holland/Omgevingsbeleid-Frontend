@@ -1,12 +1,10 @@
 import React from 'react'
+import { useParams } from 'react-router-dom'
 import { format } from 'date-fns'
 import nlLocale from 'date-fns/locale/nl'
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimes } from '@fortawesome/free-solid-svg-icons'
-
 import LoaderBeleidsrelatieRegel from '../../../components/LoaderBeleidsrelatieRegel'
-import PopUpAnimatedContainer from '../../../components/PopUpAnimatedContainer'
+import PopupMotivation from '../PopupMotivation/PopupMotivation'
 
 /**
  * @prop {boolean} loaded true if all the data from parent component is loaded
@@ -24,9 +22,19 @@ function TabRequests({
     relationshipAccept,
     relationshipReject,
 }) {
+    const { UUID } = useParams()
+
+    const getPropertyFromRelation = (relation, property) => {
+        if (relation.Van_Beleidskeuze.UUID === UUID) {
+            return relation.Naar_Beleidskeuze[property]
+        } else if (relation.Naar_Beleidskeuze.UUID === UUID) {
+            return relation.Van_Beleidskeuze[property]
+        }
+    }
+
     return (
         <ul>
-            <li className="flex p-2 text-sm font-semibold text-gray-800 border-b border-gray-200">
+            <li className="flex p-2 text-sm font-bold text-gray-800 border-b border-gray-200">
                 <div className="w-5/12">Beleidskeuzes</div>
                 <div className="w-2/12">Aangevraagd op</div>
                 <div className="w-1/12">Status</div>
@@ -36,17 +44,13 @@ function TabRequests({
             {loaded ? (
                 requests.length > 0 ? (
                     requests.map((verzoek) => {
+                        const titel = getPropertyFromRelation(verzoek, 'Titel')
                         return (
                             <li
                                 key={verzoek.UUID}
                                 className="relative flex items-center px-2 text-sm text-gray-800 border-b border-gray-200 hover:bg-gray-100"
                             >
-                                <div className="w-5/12 py-2">
-                                    {verzoek.beleidsbeslissing &&
-                                    verzoek.beleidsbeslissing.Titel
-                                        ? verzoek.beleidsbeslissing.Titel
-                                        : null}
-                                </div>
+                                <div className="w-5/12 py-2">{titel}</div>
                                 <div className="w-2/12">
                                     {verzoek.Created_Date !== null
                                         ? format(
@@ -66,34 +70,18 @@ function TabRequests({
                                     >
                                         Bekijk motivering
                                     </span>
-                                    {motivationPopUp === verzoek.UUID ? (
-                                        <PopUpAnimatedContainer small={true}>
-                                            <div
-                                                onClick={() =>
-                                                    setMotivationPopUp(null)
-                                                }
-                                                className="absolute top-0 right-0 px-3 py-2 text-gray-600 cursor-pointer"
-                                                id={`sluit-popup-beleidsrelatie-motivering`}
-                                            >
-                                                <FontAwesomeIcon
-                                                    icon={faTimes}
-                                                />
-                                            </div>
-                                            <h3 className="form-field-label">
-                                                Motivering
-                                            </h3>
-                                            <p className="form-field-description">
-                                                {verzoek.Omschrijving}
-                                            </p>
-                                        </PopUpAnimatedContainer>
-                                    ) : null}
+                                    <PopupMotivation
+                                        motivationPopUp={motivationPopUp}
+                                        setMotivationPopUp={setMotivationPopUp}
+                                        relatie={verzoek}
+                                    />
                                 </div>
-                                <div className="w-2/12">
+                                <div className="w-2/12 text-xs">
                                     <span
                                         onClick={() =>
                                             relationshipAccept(verzoek)
                                         }
-                                        className="inline-block px-2 py-1 mr-2 font-semibold text-white bg-green-600 rounded shadow cursor-pointer hover:bg-green-700"
+                                        className="inline-block px-2 py-1 mr-2 font-bold text-white rounded shadow cursor-pointer bg-pzh-green hover:bg-pzh-green-dark"
                                     >
                                         Accepteren
                                     </span>
@@ -101,7 +89,7 @@ function TabRequests({
                                         onClick={() =>
                                             relationshipReject(verzoek)
                                         }
-                                        className="inline-block px-2 py-1 font-semibold text-white bg-red-600 rounded shadow cursor-pointer hover:bg-red-700"
+                                        className="inline-block px-2 py-1 font-bold text-white bg-red-600 rounded shadow cursor-pointer hover:bg-red-700"
                                     >
                                         Afwijzen
                                     </span>

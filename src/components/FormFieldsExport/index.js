@@ -1,6 +1,6 @@
 import FormFieldDate from '../FormFieldDate'
 import FormFieldSelect from '../FormFieldSelect'
-import FormFieldSelectBeleidsbeslissing from '../FormFieldSelectBeleidsbeslissing'
+import FormFieldSelectBeleidskeuze from '../FormFieldSelectBeleidskeuze'
 import FormFieldSelectUser from '../FormFieldSelectUser'
 import FormFieldSelectUserGroup from '../FormFieldSelectUserGroup'
 import FormFieldTags from '../FormFieldTags'
@@ -10,8 +10,8 @@ import FormFieldNumberInput from '../FormFieldNumberInput'
 import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving'
 import FormFieldWeblink from '../FormFieldWeblink'
 import FormFieldWerkingsgebiedKoppeling from '../FormFieldWerkingsgebiedKoppeling'
+import FormFieldWerkingsgebied from '../FormFieldWerkingsgebied'
 import FormFieldRelatieKoppeling from '../FormFieldRelatieKoppeling'
-import FormFieldWerkingsgebiedrelatie from '../FormFieldWerkingsgebiedrelatie'
 import FormFieldRadioButton from '../FormFieldRadioButton'
 import FormFieldRichTextEditor from '../FormFieldRichTextEditor'
 import FormFieldInputContainer from '../FormFieldInputContainer'
@@ -19,7 +19,7 @@ import FormFieldInputContainer from '../FormFieldInputContainer'
 export {
     FormFieldDate,
     FormFieldSelect,
-    FormFieldSelectBeleidsbeslissing,
+    FormFieldSelectBeleidskeuze,
     FormFieldSelectUser,
     FormFieldSelectUserGroup,
     FormFieldTags,
@@ -29,7 +29,7 @@ export {
     FormFieldTitelEnBeschrijving,
     FormFieldWeblink,
     FormFieldWerkingsgebiedKoppeling,
-    FormFieldWerkingsgebiedrelatie,
+    FormFieldWerkingsgebied,
     FormFieldRadioButton,
     FormFieldRichTextEditor,
     FormFieldInputContainer,

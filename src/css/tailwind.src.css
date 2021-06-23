@@ -1,3 +1,7 @@
+.svg-inline--fa {
+    font-size: 14px;
+}
+
 @tailwind base;
 
 @tailwind components;
@@ -24,46 +28,14 @@
     font-size: 1.1rem;
 }
 
-.heading {
-    @apply inline-block;
-}
-
-.heading-lg {
-    @apply text-lg;
-}
-
-.heading-xl {
-    @apply text-xl;
-}
-
-.heading-serif {
-    @apply font-serif;
-}
-
-.heading-serif-lg {
-    @apply font-serif text-lg;
-}
-
-.heading-serif-xl {
-    @apply font-serif text-xl;
-}
-
-.heading-serif-2xl {
-    @apply font-serif text-2xl;
-}
-
-.heading-serif-4xl {
-    @apply font-serif text-4xl;
-}
-
 .form-field-label {
-    @apply block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase;
+    @apply block mb-2 text-xs tracking-wide text-gray-700 uppercase;
 }
 
 .form-field-description {
     @apply mb-2 text-sm text-gray-700;
 }
 
-.button {
-    @apply px-4 py-2 font-bold rounded;
+.pzh-transition-colors {
+    @apply transition-colors duration-200 ease-in;
 }

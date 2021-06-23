@@ -1,6 +1,19 @@
 import React from 'react'
 import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFieldTitelEnBeschrijving'
 
+/**
+ * Component that renders the FormFieldTextInput component where the input of the user is registered in the formfield while using the imported FormFieldTitelEnBeschrijving component to display the formfield title and description.
+ *
+ * @component
+ *
+ * @param {string} dataObjectProperty - Parameter that is used for the FormFieldTitelEnBeschrijving imported component to store a string variable and it's used as a part of the id of name of the input element.
+ * @param {string} pValue - Parameter that can display text and is a part of the FormFieldTitelenBeschrijving.
+ * @param {string} titelEnkelvoud - Paramter that is part of the id of the FormFieldTitelenBeshrijving.
+ * @param {string} fieldValue - Parameter that is part of the placeholder for the FormFieldTitelenBeschrijving.
+ * @param {boolean} handleChange - Parameter that is set true if the input can be changed.
+ * @param {string} fieldLabel - Label of the FormFieldTitelenBeschrijving.
+ * @param {boolean} disabled - Parameter that can be set true to disable input of the FormFieldTextInput.
+ */
 const FormFieldTextInput = ({
     dataObjectProperty,
     pValue,
@@ -22,9 +35,9 @@ const FormFieldTextInput = ({
                 pValue={pValue}
                 titleSingular={titleSingular}
             />
-
             <input
                 disabled={disabled}
+                data-testid={`form-field-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
                 id={`form-field-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
                 value={fieldValue ? fieldValue : ''}
                 onChange={handleChange}

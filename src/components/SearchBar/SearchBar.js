@@ -5,7 +5,16 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import 'url-search-params-polyfill'
 
-// The parameter compInNavigation
+/**
+ * Component that renders the searchBar component.
+ *
+ * @component
+ *
+ * @param {string} width - Parameter that is used to set the width of an element within the rendered component.
+ * @param {string} exactWidth - Parameter that can be set as a value for the width parameter.
+ * @param {boolean} compInNavigation - Parameter that is used in a if statement to set values to certain variables.
+ * @param {string} placeholder - Parameter that shows a placeholder in the SearchBar.
+ */
 const SearchBar = ({
     width,
     exactWidth,
@@ -74,7 +83,7 @@ const SearchBar = ({
             }
         >
             <input
-                className={`block w-full pr-10 bg-gray-50 rounded-full text-gray-700 appearance-none px-5 py-2 border border-gray-200  sm:text-sm sm:leading-5`}
+                className={`block w-full pr-10 bg-gray-50 rounded-full appearance-none px-3 py-1 border hover:border-gray-300 border-gray-200 transition-colors ease-in duration-100`}
                 name="searchInput"
                 onChange={(e) => {
                     setSearchQuery(e.target.value)
@@ -118,6 +127,20 @@ const SearchBar = ({
     )
 }
 
+/**
+ * Function to render the SearchBarPopupItem component.
+ *
+ * @function
+ *
+ * @param {int} index - Parameter used as the index key for the SearchBarPopupItem.
+ * @param {string} value - Parameter that is used as an value for a query that is used within a link in the rendered component
+ * @param {string} filterQuery - Parameter that is used to filter the query based on its value.
+ * @param {boolean} filter - If this parameter is true, certain elements will be shown.
+ * @param {int} arrayLength - Parameter that has the length of the array as value.
+ * @param {int} dataIndex - Parameter used as the data-index value of an link tag.
+ * @param {boolean} setSearchBarPopupOpen - Parameter that if set to true the SearchBarPopup component will be shown.
+ * @param {object} item - Parameter that its value of is used for an element.
+ */
 function SearchBarPopupItem({
     index,
     value,
@@ -156,7 +179,7 @@ function SearchBarPopupItem({
     return (
         <li key={index} className={`relative`}>
             <Link
-                className={`text-gray-700 px-5 w-full relative inline-block hover:bg-gray-50 focus:bg-gray-50 focus:shadow-outline focus:rounded cursor-pointer py-2`}
+                className={`px-5 w-full relative inline-block hover:bg-gray-50 focus:bg-gray-50 focus:shadow-outline focus:rounded cursor-pointer py-2`}
                 to={`/zoekresultaten?query=${value}${
                     filterQuery ? `&only=${filterQuery}` : ''
                 }`}
@@ -179,7 +202,10 @@ function SearchBarPopupItem({
                 {filter ? (
                     <span className="pl-4 text-sm">
                         In
-                        <span className="text-yellow-600"> {item.name}</span>
+                        <span className="text-pzh-yellow-dark">
+                            {' '}
+                            {item.name}
+                        </span>
                     </span>
                 ) : (
                     <React.Fragment>
@@ -193,6 +219,14 @@ function SearchBarPopupItem({
     )
 }
 
+/**
+ * Function that renders the SearchBarPopup component that is used within other functions.
+ *
+ * @function
+ *
+ * @param {string} searchInput - Parameter used to set the value of the SearchBarPopupItem component.
+ * @param {boolean} setSearchBarPopupOpen - Parameter used to toggle the SearchBarPopup component by setting it true or false.
+ */
 function SearchBarPopup({ searchInput, setSearchBarPopupOpen }) {
     const filters = [
         {
@@ -204,17 +238,17 @@ function SearchBarPopup({ searchInput, setSearchBarPopupOpen }) {
             name: 'ambities',
         },
         {
-            filterQuery: 'opgaven',
+            filterQuery: 'beleidsdoelen',
             name: 'beleidsdoelen',
         },
         {
             filterQuery: 'maatregelen',
             name: 'maatregelen',
         },
-        {
-            filterQuery: 'verordeningen',
-            name: 'verordening',
-        },
+        // {
+        //     filterQuery: 'verordeningen',
+        //     name: 'verordening',
+        // },
         {
             filterQuery: 'beleidsregels',
             name: 'beleidsregels',
@@ -223,10 +257,10 @@ function SearchBarPopup({ searchInput, setSearchBarPopupOpen }) {
 
     return (
         <div
-            className="absolute top-0 w-full px-5"
+            className="absolute top-0 z-10 w-full px-5"
             id="main-search-result-container"
         >
-            <ul className="text-sm text-gray-700 bg-white border border-gray-300 rounded-b shadow">
+            <ul className="text-base bg-white border border-gray-300 rounded-b shadow">
                 <SearchBarPopupItem
                     setSearchBarPopupOpen={setSearchBarPopupOpen}
                     dataIndex={0}

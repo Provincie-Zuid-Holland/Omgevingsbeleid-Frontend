@@ -11,6 +11,11 @@ import { faCommentAltLines } from '@fortawesome/pro-regular-svg-icons'
 import { format } from 'date-fns'
 import nlLocale from 'date-fns/locale/nl'
 
+/**
+ * Function to get the browser info from the user and set it for the variable sBrowser.
+ *
+ * @function
+ */
 const getBrowserName = () => {
     var sBrowser,
         sUsrAg = navigator.userAgent
@@ -45,6 +50,11 @@ const getBrowserName = () => {
     return sBrowser
 }
 
+/**
+ * Function that sets/gets the date and browser variables and returns them as a mailto link with the date as a part of the subject and the browser as part of the body of the feedback email.
+ *
+ * @function
+ */
 const getMailToLink = () => {
     const date =
         format(new Date(), 'd MMMM yyyy, HH:mm', { locale: nlLocale }) + ' uur'
@@ -53,6 +63,12 @@ const getMailToLink = () => {
     return `mailto:omgevingsbeleid@pzh.nl?subject=Feedback%20obzh.nl%20(${date})&body=Ik%20heb%20feedback%20op%20de%20website.%20Ik%20heb%20de%20website%20bekeken%20met%20${browser}%20en%20heb%20de%20volgende%20feedback%3A%0D%0A`
 }
 
+/**
+ * Component that renders the FeedbackComponent component, in which the user can click on the link to send a feedbackmessage of the page they are on, including which browser they are using and the date/timestamp.
+ * This component is used by the components feedback and App.
+ *
+ * @component
+ */
 const FeedbackComponent = () => {
     const location = useLocation()
     const [userIsOnEditPage, setUserIsOnEditPage] = React.useState(false)
@@ -72,7 +88,7 @@ const FeedbackComponent = () => {
             <div className="container relative flex px-6 pt-0 mx-auto sm:mt-8 sm:py-10 sm:px-6 lg:px-8">
                 <a
                     href={mailTo}
-                    className={`absolute pointer-events-auto bottom-0 px-4 pt-2 pb-4 font-semibold text-white transition duration-200 ease-out transform translate-y-2 cursor-pointer rounded-t-md bg-color-theme-red hover:translate-y-0 ${
+                    className={`absolute pointer-events-auto bottom-0 px-3 pt-2 pb-3 font-bold text-white transition duration-200 ease-out transform translate-y-2 cursor-pointer rounded-t-md bg-pzh-red hover:translate-y-0 ${
                         userIsOnEditPage ? 'left-0 ml-8' : 'right-0 mr-8'
                     }`}
                 >

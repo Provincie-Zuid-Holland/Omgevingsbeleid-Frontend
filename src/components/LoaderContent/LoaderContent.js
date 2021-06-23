@@ -1,5 +1,10 @@
 import React from 'react'
 
+/**
+ * Component that renders the LoaderContent component which displays an animated loader spinner.
+ *
+ * @component
+ */
 function LoaderContent() {
     return (
         <div

@@ -1,7 +1,7 @@
-import { useEffect } from 'react'
+import React from 'react'
 
 function useCloseWithEscapeKey(ref, callback) {
-    useEffect(() => {
+    React.useEffect(() => {
         const handleKeyEvent = (e) => {
             if (ref.current && e.code === 'Escape') {
                 callback()

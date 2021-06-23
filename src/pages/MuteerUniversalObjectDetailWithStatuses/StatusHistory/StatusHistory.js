@@ -4,7 +4,7 @@ import cloneDeep from 'lodash.clonedeep'
 
 import ContainerDetail from '../ContainerDetail'
 
-const secondaryColor = '#CC9900'
+const secondaryColor = '#c6a410'
 
 /**
  * Contains the visual flow of the past statusses and the container of the checked out object
@@ -93,7 +93,7 @@ function StatusHistory({
         <div>
             {/* This is the blue line between the checked out object and the current 'vigerend' object */}
             {vigerendeDimensieObject ? (
-                <div className="flex items-center justify-end w-8 h-6 pt-5 mr-2 border-r-2 border-indigo-900 " />
+                <div className="flex items-center justify-end w-8 h-6 pt-5 mr-2 border-r-2 border-pzh-blue " />
             ) : null}
 
             {/* Detail Container that always displays the latest object that is checked out */}
@@ -116,7 +116,7 @@ function StatusHistory({
             <ul
                 className={`relative timeline-margin-left border-l-2 ${
                     vigerendeDimensieObject
-                        ? 'border-indigo-900'
+                        ? 'border-pzh-blue'
                         : 'border-transparent'
                 }`}
             >
@@ -130,7 +130,7 @@ function StatusHistory({
                         return (
                             <React.Fragment key={dimensieObject.UUID}>
                                 <VertakkingsItemRightOnLine />
-                                <div className="absolute left-0 z-10 inline-block bg-indigo-900 list-item-bolletje bolletje-left-min-10" />
+                                <div className="absolute left-0 z-10 inline-block bg-pzh-blue list-item-bolletje bolletje-left-min-10" />
                                 <div className="absolute ml-16 -mt-3">
                                     <StatusBadge
                                         status={dimensieObject.Status}
@@ -148,7 +148,7 @@ function StatusHistory({
                         /* If item is vigerend and there is an item before it, but no item after it */
                         return (
                             <React.Fragment key={dimensieObject.UUID}>
-                                <VertakkingsItemRightOnLine />
+                                <VertakkingsItemRightOnLine noMargin={true} />
                                 <VertakkingsItemLeftOnLine showDot={true} />
                             </React.Fragment>
                         )
@@ -182,11 +182,11 @@ function StatusHistory({
                                         style={{
                                             left: '-4px',
                                         }}
-                                        className="absolute top-0 inline-block w-full h-full border-l-2 border-secondary"
+                                        className="absolute top-0 inline-block w-full h-full border-l-2 border-pzh-yellow-dark"
                                     ></div>
                                 </li>
                                 <li className="absolute flex items-center py-2 -mt-10">
-                                    <div className="absolute left-0 z-10 inline-block bg-indigo-900 list-item-bolletje bolletje-left-min-10" />
+                                    <div className="absolute left-0 z-10 inline-block bg-pzh-blue list-item-bolletje bolletje-left-min-10" />
 
                                     <div className="ml-16">
                                         <StatusBadge
@@ -205,7 +205,7 @@ function StatusHistory({
                             <React.Fragment key={dimensieObject.UUID}>
                                 <VertakkingsItemRightOnLine />
                                 <li className="absolute flex items-center py-2 -mt-5">
-                                    <div className="absolute left-0 z-10 inline-block bg-indigo-900 list-item-bolletje bolletje-left-min-10" />
+                                    <div className="absolute left-0 z-10 inline-block bg-pzh-blue list-item-bolletje bolletje-left-min-10" />
 
                                     <div className="ml-16">
                                         <StatusBadge
@@ -228,9 +228,9 @@ function StatusHistory({
                                         style={{
                                             left: '-4px',
                                         }}
-                                        className="absolute top-0 inline-block w-full h-full border-l-2 border-secondary"
+                                        className="absolute top-0 inline-block w-full h-full border-l-2 border-pzh-yellow-dark"
                                     ></div>
-                                    <div className="absolute left-0 inline-block bg-secondary list-item-bolletje bolletje-left-min-10" />
+                                    <div className="absolute left-0 inline-block bg-pzh-yellow-dark list-item-bolletje bolletje-left-min-10" />
 
                                     <div className="ml-8">
                                         <StatusBadge
@@ -250,19 +250,25 @@ function StatusHistory({
                 (dimensionHistory &&
                     dimensionHistory.length === 1 &&
                     dimensionHistory[0].Status !== 'Vigerend') ? (
-                    <div className="absolute bottom-0 left-0 block w-12 h-4 -ml-1 status-flow-gradient" />
+                    <div className="absolute bottom-0 left-0 block w-10 h-4 -ml-1 status-flow-gradient" />
                 ) : null}
             </ul>
         </div>
     )
 }
 
-function VertakkingsItemRightOnLine() {
+function VertakkingsItemRightOnLine({ noMargin }) {
     return (
-        <li className="relative text-secondary vertakkings-item-right-on-line">
+        <li
+            className={`relative text-pzh-yellow-dark ${
+                noMargin
+                    ? 'vertakkings-item-right-on-line-no-margin'
+                    : 'vertakkings-item-right-on-line'
+            }`}
+        >
             <svg
                 className="absolute svg-branch"
-                width="34"
+                width="46"
                 height="40"
                 viewBox="0 0 39 42"
                 fill="none"
@@ -283,10 +289,10 @@ function VertakkingsItemLeftOnLine({ showDot }) {
     return (
         <li className="relative vertakkings-item-left">
             {showDot ? (
-                <div className="absolute top-0 left-0 z-10 inline-block bg-indigo-900 list-item-bolletje bolletje-left-min-7" />
+                <div className="absolute top-0 left-0 z-10 inline-block bg-pzh-blue list-item-bolletje bolletje-left-min-7" />
             ) : null}
             <svg
-                width="33"
+                width="43"
                 height="40"
                 viewBox="0 0 39 40"
                 fill="none"
@@ -304,7 +310,7 @@ function VertakkingsItemLeftOnLine({ showDot }) {
 
 function StatusBadge({ status }) {
     return (
-        <div className="inline-block px-2 py-1 text-xs text-gray-700 border border-gray-700 rounded">
+        <div className="inline-block px-2 pt-1 text-xs text-gray-700 border border-gray-700 rounded">
             {status}
         </div>
     )

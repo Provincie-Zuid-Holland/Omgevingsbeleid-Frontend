@@ -183,10 +183,10 @@ const MuteerVerordeningenstructuurDetail = () => {
                 newState.splice(action.index, 1)
                 return newState
             case 'resetAllWerkingsgebieden':
-                newState.forEach((lid) => (lid.Werkingsgebied = null))
+                newState.forEach((lid) => (lid.Gebied = null))
                 return newState
             case 'setValueForAll':
-                newState.forEach((lid) => (lid.Werkingsgebied = action.value))
+                newState.forEach((lid) => (lid.Gebied = action.value))
                 return newState
             case 'cancel':
                 return null
@@ -209,7 +209,7 @@ const MuteerVerordeningenstructuurDetail = () => {
         setVerordeningsObjectLedenIsLoading(true)
 
         axios
-            .get(`/verordeningen/version/${UUIDBeingEdited}?limit=1`)
+            .get(`/version/verordeningen/${UUIDBeingEdited}?limit=1`)
             .then((res) => {
                 const initObject = formatGeldigheidDatesForUI(res.data)
                 setVerordeningsObjectFromGET({
@@ -428,7 +428,7 @@ const MuteerVerordeningenstructuurDetail = () => {
         // Get an array of axios Promises that return the Leden objects
         const getAllLeden = ledenOfArtikel.map((lid) =>
             axios
-                .get(`/verordeningen/version/${lid.UUID}`)
+                .get(`/version/verordeningen/${lid.UUID}`)
                 .then((res) => res.data)
                 .catch((err) => console.log(err))
         )
@@ -460,10 +460,6 @@ const MuteerVerordeningenstructuurDetail = () => {
 
     // After first render
     React.useEffect(() => {
-        // - GET structuur van verordening lineage - Query: /verordeningstructuur/:ID
-        // - Populate elk verordeningsobject obv UUID met de version - Query:
-        //     - /verordeningen/version/:UUID
-
         const searchParams = location.search
         if (searchParams) {
             const activeChapterFromURL = searchParams.slice(
@@ -812,8 +808,11 @@ const MuteerVerordeningenstructuurDetail = () => {
     // Function to patch a regulation object.
     // This object is represented in State under the verordeningsObjectFromGET state variable
     // This object can be of any type. If the object is an 'Artikel' we check if it has leden, as we have then have to patch them too
+    // Refactor: This function is based on a lot of side effects, e.g. verordeningsObjectFromGET. It would be good to keep this function functional with parameters
     const patchRegulationObject = () => {
         const IDToPatch = verordeningsObjectFromGET.ID
+
+        const getUUIDFrom = () => {}
 
         // Func to strip away the extra properties in order to patch it
         const cleanUpProperties = (object) => {
@@ -829,6 +828,25 @@ const MuteerVerordeningenstructuurDetail = () => {
             Object.keys(object).forEach(
                 (key) => object[key] === null && delete object[key]
             )
+
+            const potentialObjects = [
+                'Gebied',
+                'Eigenaar_1',
+                'Eigenaar_2',
+                'Opdrachtgever',
+                'Portefeuillehouder_1',
+                'Portefeuillehouder_2',
+            ]
+
+            potentialObjects.forEach((potentialObject) => {
+                if (
+                    object.hasOwnProperty(potentialObject) &&
+                    typeof object[potentialObject] === 'object' &&
+                    object[potentialObject] !== null
+                ) {
+                    object[potentialObject] = object[potentialObject].UUID
+                }
+            })
 
             return object
         }
@@ -867,29 +885,51 @@ const MuteerVerordeningenstructuurDetail = () => {
             const depthOfObject = index.length
 
             const newLineage = clonedeep(lineage)
+
             let objectInLineage = null
             let strippedObjectWithChildren = null
 
+            const removeExistingProperties = (obj, existingObj) => {
+                Object.keys(existingObj).forEach((key) => {
+                    if (key === 'Children') return
+                    delete obj[key]
+                })
+                return obj
+            }
+
             switch (depthOfObject) {
                 case 1:
-                    objectInLineage = newLineage.Structuur.Children[index[0]]
-                    strippedObjectWithChildren = Object.assign(
+                    objectInLineage = clonedeep(
+                        newLineage.Structuur.Children[index[0]]
+                    )
+                    objectInLineage = removeExistingProperties(
                         objectInLineage,
                         strippedObject
                     )
+
+                    strippedObjectWithChildren = Object.assign(
+                        strippedObject,
+                        objectInLineage
+                    )
+
                     newLineage.Structuur.Children[
                         index[0]
                     ] = strippedObjectWithChildren
                     break
                 case 2:
-                    objectInLineage =
+                    objectInLineage = clonedeep(
                         newLineage.Structuur.Children[index[0]].Children[
                             index[1]
                         ]
-
-                    strippedObjectWithChildren = Object.assign(
+                    )
+                    objectInLineage = removeExistingProperties(
                         objectInLineage,
                         strippedObject
+                    )
+
+                    strippedObjectWithChildren = Object.assign(
+                        strippedObject,
+                        objectInLineage
                     )
 
                     newLineage.Structuur.Children[index[0]].Children[
@@ -897,27 +937,41 @@ const MuteerVerordeningenstructuurDetail = () => {
                     ] = strippedObjectWithChildren
                     break
                 case 3:
-                    objectInLineage =
+                    objectInLineage = clonedeep(
                         newLineage.Structuur.Children[index[0]].Children[
                             index[1]
                         ].Children[index[2]]
-                    strippedObjectWithChildren = Object.assign(
+                    )
+                    objectInLineage = removeExistingProperties(
                         objectInLineage,
                         strippedObject
                     )
+
+                    strippedObjectWithChildren = Object.assign(
+                        strippedObject,
+                        objectInLineage
+                    )
+
                     newLineage.Structuur.Children[index[0]].Children[
                         index[1]
                     ].Children[index[2]] = strippedObjectWithChildren
                     break
                 case 4:
-                    objectInLineage =
+                    objectInLineage = clonedeep(
                         newLineage.Structuur.Children[index[0]].Children[
                             index[1]
                         ].Children[index[2]].Children[index[3]]
-                    strippedObjectWithChildren = Object.assign(
+                    )
+                    objectInLineage = removeExistingProperties(
                         objectInLineage,
                         strippedObject
                     )
+
+                    strippedObjectWithChildren = Object.assign(
+                        strippedObject,
+                        objectInLineage
+                    )
+
                     newLineage.Structuur.Children[index[0]].Children[
                         index[1]
                     ].Children[index[2]].Children[

@@ -27,49 +27,36 @@ const menuItemsBeheer = {
     Beleidsprestaties: { url: '/muteer/beleidsprestaties', finished: true },
 }
 
-function ReturnNavLink(props) {
-    // If Dashboard exact, else not
-    if (props.value === 'Dashboard') {
-        return (
-            <NavLink
-                exact
-                id={`sidebar-href-${props.value
-                    .toLowerCase()
-                    .replace(' ', '-')}`}
-                activeClassName="mt-1 relative text-sm block leading-loose py-1 pr-2 font-bold rounded bg-gray-300 text-gray-800"
-                className="relative block px-2 py-1 mt-1 text-sm leading-loose text-gray-600 rounded cursor-pointer hover:bg-gray-200 hover:text-gray-900"
-                key={props.index}
-                to={props.url}
-            >
-                {props.value}
-                <FontAwesomeIcon
-                    className="absolute right-0 h-8 mr-3 text-xl main-sidebar-arrow"
-                    icon={faAngleRight}
-                />
-            </NavLink>
-        )
-    } else {
-        return (
-            <NavLink
-                activeClassName="mt-1 relative text-sm block leading-loose py-1 px-2 font-bold rounded bg-gray-300 text-gray-800"
-                className="relative block px-2 py-1 mt-1 text-sm leading-loose text-gray-600 rounded cursor-pointer hover:bg-gray-200 hover:text-gray-900"
-                key={props.index}
-                id={`sidebar-href-${props.value
-                    .toLowerCase()
-                    .replace(' ', '-')}`}
-                to={props.url}
-            >
-                {props.value}
-                <FontAwesomeIcon
-                    className="absolute right-0 h-8 mr-3 text-xl main-sidebar-arrow"
-                    icon={faAngleRight}
-                />
-            </NavLink>
-        )
-    }
+function ReturnNavLink({ value, index, url }) {
+    return (
+        <NavLink
+            exact={value === 'Dashboard'}
+            id={`sidebar-href-${value.toLowerCase().replace(' ', '-')}`}
+            activeClassName="font-bold bg-gray-300 text-gray-800 hover:bg-gray-300"
+            className="relative flex items-center px-2 py-1 mt-1 text-sm leading-loose text-gray-600 rounded cursor-pointer hover:bg-gray-200 hover:text-gray-900"
+            key={index}
+            to={url}
+            activeStyle={{
+                cursor: 'default !important',
+            }}
+        >
+            {value}
+            <FontAwesomeIcon
+                className="absolute right-0 h-8 mr-3 text-lg main-sidebar-arrow"
+                icon={faAngleRight}
+            />
+        </NavLink>
+    )
 }
 
 // TODO: Refactor finished props... And put in own component
+/**
+ * Function to render the returnMenuItems component using the ReturnNavLink component.
+ *
+ * @function
+ *
+ * @param {array} menuItems - Parameter used to render the ReturnNavLink component based on the value of the parameter.
+ */
 function returnMenuItems(menuItems) {
     const listItems = Object.keys(menuItems).map((value, index) =>
         menuItems[value].finished ? (
@@ -95,14 +82,26 @@ function returnMenuItems(menuItems) {
     return listItems
 }
 
+/**
+ * Function to render the MainSideBarHeading component.
+ *
+ * @function
+ *
+ * @param {props} props - Parameter that renders the value within the component.
+ */
 function MainSideBarHeading(props) {
     return (
-        <h2 className="pr-2 mt-8 mb-2 text-gray-800 heading-serif-xl">
+        <h2 className="pr-2 mt-8 mb-2 text-xl text-gray-800">
             {props.children}
         </h2>
     )
 }
 
+/**
+ * Component that renders the SideBarMain component.
+ *
+ * @component
+ */
 function SidebarMain() {
     const { user } = React.useContext(UserContext)
     const gebruikersNaam = user ? user.Gebruikersnaam : null
@@ -111,10 +110,10 @@ function SidebarMain() {
     return (
         <div className="inline-block w-1/4 rounded">
             <div>
-                <span className="inline-block mb-2 text-gray-800 heading-serif">
+                <span className="inline-block mt-1 mb-2 text-gray-800">
                     Omgevingsbeleid
                 </span>
-                <h2 className="block heading-serif-2xl">
+                <h2 className="block text-2xl">
                     {gebruikersNaam !== null
                         ? `Welkom ${gebruikersNaam},`
                         : 'Welkom,'}

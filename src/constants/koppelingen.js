@@ -31,8 +31,8 @@ const objecten = {
         buttonTekst: 'beleidsdoelen',
         volledigeTitel: 'Beleidsdoelen',
         volledigeTitelMeervoud: 'Beleidsdoelen',
-        api: '/opgaven',
-        propertyName: 'Opgaven',
+        api: '/beleidsdoelen',
+        propertyName: 'Beleidsdoelen',
         type: 'Beleidsdoel',
     },
     themas: {
@@ -47,8 +47,8 @@ const objecten = {
         buttonTekst: 'beleidsprestaties',
         volledigeTitel: 'Beleidsprestaties',
         volledigeTitelMeervoud: 'Beleidsprestaties',
-        api: '/doelen',
-        propertyName: 'Doelen',
+        api: '/beleidsprestaties',
+        propertyName: 'Beleidsprestaties',
         type: 'Beleidsprestatie',
     },
     maatregelen: {
@@ -64,7 +64,7 @@ const objecten = {
         volledigeTitel: 'Verordening',
         volledigeTitelMeervoud: 'Verordeningen',
         api: '/verordeningen',
-        propertyName: 'Verordening',
+        propertyName: 'Verordeningen',
         type: 'Verordening',
     },
     beleidsregels: {
@@ -72,7 +72,7 @@ const objecten = {
         volledigeTitel: 'Beleidsregels',
         volledigeTitelMeervoud: 'Beleidsregels',
         api: '/beleidsregels',
-        propertyName: 'BeleidsRegels',
+        propertyName: 'Beleidsregels',
         type: 'Beleidsregel',
     },
 }

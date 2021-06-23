@@ -1,12 +1,13 @@
 import React from 'react'
 import { format } from 'date-fns'
+import { useParams } from 'react-router-dom'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 
 import LoaderBeleidsrelatieRegel from './../../../components/LoaderBeleidsrelatieRegel'
-import LoaderMainTitle from './../../../components/LoaderMainTitle'
 import PopUpAnimatedContainer from './../../../components/PopUpAnimatedContainer'
+import PopupMotivation from '../PopupMotivation/PopupMotivation'
 
 /**
  * @prop {boolean} loaded true if all the data from parent component is loaded
@@ -15,7 +16,7 @@ import PopUpAnimatedContainer from './../../../components/PopUpAnimatedContainer
  * @prop {function} setMotivationPopUp takes a UUID and set it in parent state in motivationPopUp
  * @prop {function} setDisconnectPopup takes a UUID and set it in parent state in motivationPopUp
  * @prop {string} disconnectPopUp contains the UUID of a beleidsrelatie
- * @prop {string} beleidsbeslissingTitle contains the title of the beleidsobject
+ * @prop {string} beleidskeuzeTitle contains the title of the beleidsobject
  * @prop {function} relationshipDisconnect function to disconnect a relationship
  * @prop {function} updateStatus function to update a status in parent state
  */
@@ -26,35 +27,39 @@ function TabRelations({
     setMotivationPopUp,
     setDisconnectPopup,
     disconnectPopUp,
-    beleidsbeslissingTitle,
     relationshipDisconnect,
     updateStatus,
+    beleidskeuzeTitle,
 }) {
+    const { UUID } = useParams()
+
+    const getPropertyFromRelation = (relation, property) => {
+        if (relation.Van_Beleidskeuze.UUID === UUID) {
+            return relation.Naar_Beleidskeuze[property]
+        } else if (relation.Naar_Beleidskeuze.UUID === UUID) {
+            return relation.Van_Beleidskeuze[property]
+        }
+    }
+
     return (
         <ul>
-            <li className="flex p-2 text-sm font-semibold text-gray-800 border-b border-gray-200">
+            <li className="flex p-2 text-sm font-bold text-gray-800 border-b border-gray-200">
                 <div className="w-5/12">Beleidskeuzes</div>
                 <div className="w-2/12">Aangevraagd op</div>
                 <div className="w-1/12">Status</div>
                 <div className="w-2/12 pl-4">Motivering</div>
-                <div className="w-2/12">Actie</div>
+                <div className="flex justify-end w-2/12">Actie</div>
             </li>
             {loaded ? (
                 relations.length > 0 ? (
                     relations.map((relatie) => {
+                        const title = getPropertyFromRelation(relatie, 'Titel')
                         return (
                             <li
                                 key={relatie.UUID}
                                 className="relative flex items-center px-2 py-2 text-sm text-gray-800 border-b border-gray-200 hover:bg-gray-100"
                             >
-                                <div className="w-5/12 pr-4">
-                                    {relatie.beleidsbeslissing &&
-                                    relatie.beleidsbeslissing.Titel ? (
-                                        relatie.beleidsbeslissing.Titel
-                                    ) : (
-                                        <LoaderMainTitle />
-                                    )}
-                                </div>
+                                <div className="w-5/12 pr-4">{title}</div>
                                 <div className="w-2/12">
                                     {relatie.Created_Date !== null
                                         ? format(
@@ -81,27 +86,12 @@ function TabRelations({
                                     >
                                         Bekijk motivering
                                     </span>
-                                    {motivationPopUp === relatie.UUID ? (
-                                        <PopUpAnimatedContainer small={true}>
-                                            <div
-                                                onClick={() =>
-                                                    setMotivationPopUp(null)
-                                                }
-                                                className="absolute top-0 right-0 px-3 py-2 text-gray-600 cursor-pointer"
-                                                id={`sluit-popup-beleidsrelatie-motivering`}
-                                            >
-                                                <FontAwesomeIcon
-                                                    icon={faTimes}
-                                                />
-                                            </div>
-                                            <h3 className="form-field-label">
-                                                Motivering
-                                            </h3>
-                                            <p className="form-field-description">
-                                                {relatie.Omschrijving}
-                                            </p>
-                                        </PopUpAnimatedContainer>
-                                    ) : null}
+
+                                    <PopupMotivation
+                                        motivationPopUp={motivationPopUp}
+                                        setMotivationPopUp={setMotivationPopUp}
+                                        relatie={relatie}
+                                    />
                                 </div>
                                 <div className="flex justify-end w-2/12">
                                     <span
@@ -133,12 +123,12 @@ function TabRelations({
                                                     ? ' verbreken'
                                                     : ' verzoek intrekken'}
                                             </h3>
-                                            <div className="relative p-4 mb-4 border-l-4 purple-light-bg-color purple-border-color">
+                                            <div className="relative p-4 mb-4 border-l-4 bg-pzh-blue-super-light border-pzh-blue">
                                                 <p className="mt-2 text-sm text-gray-700">
                                                     {relatie.Status ===
                                                     'Akkoord'
-                                                        ? `Je staat op het punt om de beleidsrelatie tussen "${beleidsbeslissingTitle}" en "${relatie.beleidsbeslissing.Titel}" te verbreken`
-                                                        : `Je staat op het punt om het beleidsrelatie verzoek tussen "${beleidsbeslissingTitle}" en "${relatie.beleidsbeslissing.Titel}" in te trekken`}
+                                                        ? `Je staat op het punt om de beleidsrelatie tussen "${beleidskeuzeTitle}" en "${title}" te verbreken`
+                                                        : `Je staat op het punt om het beleidsrelatie verzoek tussen "${beleidskeuzeTitle}" en "${title}" in te trekken`}
                                                 </p>
                                             </div>
                                             <h4 className="mb-2 font-bold">
@@ -163,7 +153,7 @@ function TabRelations({
                                                     Annuleren
                                                 </span>
                                                 <span
-                                                    className="px-4 py-2 text-sm font-bold leading-tight text-white rounded cursor-pointer mbg-color hover:underline"
+                                                    className="px-4 py-2 text-sm font-bold leading-tight text-white rounded cursor-pointer bg-pzh-blue hover:underline"
                                                     onClick={() => {
                                                         relationshipDisconnect(
                                                             relatie
@@ -174,7 +164,8 @@ function TabRelations({
                                                             relatie.Status ===
                                                                 'Akkoord'
                                                                 ? 'Verbroken'
-                                                                : 'NietAkkoord'
+                                                                : 'NietAkkoord',
+                                                            true
                                                         )
                                                     }}
                                                 >

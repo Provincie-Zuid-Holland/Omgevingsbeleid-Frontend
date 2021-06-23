@@ -1,4 +1,5 @@
 export const TITLE_SINGULAR = 'Paragraaf'
+export const TITLE_SINGULAR_PREFIX = 'de'
 export const TITLE_PLURAL = 'Paragraven'
 export const TYPE = 'Paragraaf'
 

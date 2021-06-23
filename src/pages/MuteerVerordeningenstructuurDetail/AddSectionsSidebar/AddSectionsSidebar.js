@@ -76,7 +76,7 @@ const AddSectionsSidebar = ({ show }) => {
                     leaveTo="opacity-0 transform translate-x-2"
                 >
                     <div>
-                        <span className="mb-2 font-semibold text-gray-900">
+                        <span className="mb-2 font-bold text-gray-900">
                             Onderdelen toevoegen
                         </span>
                         <p className="text-gray-800">
@@ -89,7 +89,7 @@ const AddSectionsSidebar = ({ show }) => {
                         {userIsAddingSectionsInHoofdstukken ? null : (
                             <div className="mt-5">
                                 <div
-                                    className="block py-3 pl-5 mb-2 font-semibold text-gray-900 cursor-pointer bg-primary-super-light"
+                                    className="block py-3 pl-5 mb-2 font-bold text-gray-900 cursor-pointer bg-pzh-blue-super-light"
                                     onClick={() => {
                                         if (addSectionType !== 'Afdeling') {
                                             setAddSectionType('Afdeling')
@@ -109,7 +109,7 @@ const AddSectionsSidebar = ({ show }) => {
                                     Afdeling
                                 </div>
                                 <div
-                                    className="block py-3 pl-5 mb-2 font-semibold text-gray-900 cursor-pointer bg-primary-super-light"
+                                    className="block py-3 pl-5 mb-2 font-bold text-gray-900 cursor-pointer bg-pzh-blue-super-light"
                                     onClick={() => {
                                         if (addSectionType !== 'Paragraaf') {
                                             setAddSectionType('Paragraaf')
@@ -129,7 +129,7 @@ const AddSectionsSidebar = ({ show }) => {
                                     Paragraaf
                                 </div>
                                 <div
-                                    className="block py-3 pl-5 mb-2 font-semibold text-gray-900 cursor-pointer bg-primary-super-light"
+                                    className="block py-3 pl-5 mb-2 font-bold text-gray-900 cursor-pointer bg-pzh-blue-super-light"
                                     onClick={() => {
                                         if (addSectionType !== 'Artikel') {
                                             setAddSectionType('Artikel')

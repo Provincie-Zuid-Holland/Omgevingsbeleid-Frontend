@@ -24,6 +24,12 @@ const eventHandlers = {
     onDeleteStop: 'draw:deletestop',
 }
 
+/**
+ * Class that contains a collection of functions used within the Leaflet component.
+ *
+ * @class
+ * @extends MapControl
+ */
 class EditControl extends MapControl {
     constructor(props) {
         super(props)
@@ -68,10 +74,24 @@ class EditControl extends MapControl {
         }),
     }
 
+    /**
+     * Function that uses the createDrawElement function with the passed down props value.
+     *
+     * @function
+     *
+     * @param {object} props - Parameter that contains a collection of data which is passed down from the parent and used in the createDrawElement function.
+     */
     createLeafletElement(props) {
         return createDrawElement(props)
     }
 
+    /**
+     * Function to set the state of the currentLayerType and to set the onCreated and layerContainer variables.
+     *
+     * @function
+     *
+     * @param {e} e - Parameter that contains the layerType value which is used to set the value of the currentLayerType state.
+     */
     onDrawCreate = (e) => {
         const { onCreated } = this.props
         const { layerContainer } = this.props.leaflet
@@ -165,6 +185,14 @@ class EditControl extends MapControl {
     }
 }
 
+/**
+ * Function that creates a Draw element based on the props given and uses this to set the value to layerContainer, draw, edit, position variables
+ * which are used in the leaflet.drawLocal and eventually the function returns a newDraw object.
+ *
+ * @function
+ *
+ * @param {object} props - Parameter that contains a collection of data that is used within the function to set the values of layerContainer, draw, edit and position variables.
+ */
 function createDrawElement(props) {
     const { layerContainer } = props.leaflet
     const { draw, edit, position } = props
