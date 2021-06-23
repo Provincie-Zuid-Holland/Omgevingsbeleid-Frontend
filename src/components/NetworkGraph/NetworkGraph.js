@@ -89,6 +89,25 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
     }, [lastLocation])
 
     /**
+     * Used to generate the position of verordening articles for the Href
+     */
+    const [verordeningsStructure, setVerordeningStructure] = React.useState(
+        null
+    )
+
+    /**
+     * Get and set verordeningstructuur in state on Mount
+     */
+    React.useLayoutEffect(() => {
+        axios.get('/verordeningstructuur').then((res) => {
+            const vigerendeVerordeningResponse = res.data.find(
+                (item) => item.Status === 'Vigerend'
+            )
+            setVerordeningStructure(vigerendeVerordeningResponse)
+        })
+    }, [])
+
+    /**
      * The useRef Hook creates a variable that "holds on" to a value across rendering
        passes. In this case it will hold our component's SVG DOM element. It's
        initialized null and React will assign it later (see the return statement)
@@ -388,6 +407,7 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
                     const hrefURL = networkGraphGenerateHref({
                         property: d.Type,
                         UUID: d.id,
+                        verordeningsStructure: verordeningsStructure,
                     })
 
                     setHref(hrefURL)
@@ -486,10 +506,22 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
                 const getUUIDFromPreviousUrl = () => {
                     if (!lastLocationRef.current) return null
 
-                    let match = matchPath(lastLocationRef.current, {
-                        path: `/detail/:slug/:uuid`,
-                        exact: true,
-                    })
+                    const getMatch = () => {
+                        if (lastLocationRef.current.includes('verordeningen')) {
+                            return matchPath(lastLocationRef.current, {
+                                path: `/detail/:slug/:id/:uuid`,
+                                exact: true,
+                            })
+                        } else {
+                            return matchPath(lastLocationRef.current, {
+                                path: `/detail/:slug/:uuid`,
+                                exact: true,
+                            })
+                        }
+                    }
+
+                    let match = getMatch()
+
                     const uuidFromUrl = match?.params?.uuid
                     if (!uuidFromUrl) return null
 
@@ -528,7 +560,13 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
 
             const [links, nodes] = getFilteredData(data, filters)
 
-            if (!links || !nodes || !d3Container.current) return
+            if (
+                !links ||
+                !nodes ||
+                !d3Container.current ||
+                !verordeningsStructure
+            )
+                return
 
             /**
              * Get current SVG element
@@ -638,7 +676,7 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
             if (!graphIsOpen) return
             initializeD3(data, filters)
         }, 250)
-    }, [data, graphIsOpen, filters, handleNodeClick])
+    }, [data, graphIsOpen, filters, handleNodeClick, verordeningsStructure])
 
     /**
      * Update the graph styles to give it the correct height.
@@ -701,6 +739,9 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
                                     clickedNode={clickedNode}
                                     setGraphIsOpen={setGraphIsOpen}
                                     resetNodes={resetNodes}
+                                    verordeningsStructure={
+                                        verordeningsStructure
+                                    }
                                 />
                             </div>
                         </div>

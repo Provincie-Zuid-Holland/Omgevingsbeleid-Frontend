@@ -23,11 +23,11 @@ const NetworkGraphTooltip = ({ variables, setGraphIsOpen, href }) => {
             >
                 <div
                     id="d3-tooltip-network-graph-type"
-                    className={`text-gray-600`}
+                    className={`text-gray-600 text-sm`}
                 />
                 <div
                     id="d3-tooltip-network-graph-title"
-                    className={`text-pzh-blue-dark group-hover:underline truncate`}
+                    className={`text-pzh-blue-dark group-hover:underline truncate text-base`}
                     style={{ maxWidth: '400px' }}
                 />
             </Link>
