@@ -72,7 +72,7 @@ describe('NetworkGraph', () => {
 
         fireEvent.click(firstNode)
 
-        const tooltipType = screen.queryByText('beleidsdoelen')
+        const tooltipType = screen.queryByText('Beleidsdoelen')
         expect(tooltipType).toBeInTheDocument()
 
         const tooltipTitle = screen.queryByText('Test node 1')
