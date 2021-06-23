@@ -1,5 +1,6 @@
 import React from 'react'
 import { Route, Switch, useHistory } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 // Import Pages
 import MuteerDashboard from './../../pages/MuteerDashboard'
@@ -22,8 +23,9 @@ import allDimensies from './../../constants/dimensies'
 const AuthRoutes = ({ authUser, loggedIn }) => {
     const history = useHistory()
 
-    /*const redirectToLogin = React.useCallback(() => {
+    const redirectToLogin = React.useCallback(() => {
         localStorage.removeItem(process.env.REACT_APP_KEY_API_ACCESS_TOKEN)
+        toast('Voor deze actie moet u ingelogd zijn')
         history.push('/login')
     }, [history])
 
@@ -31,7 +33,7 @@ const AuthRoutes = ({ authUser, loggedIn }) => {
         if (!loggedIn) {
             redirectToLogin()
         }
-    }, [loggedIn, redirectToLogin])*/
+    }, [loggedIn, redirectToLogin])
 
     return (
         <Switch>
