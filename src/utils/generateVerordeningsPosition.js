@@ -58,7 +58,6 @@ const generateVerordeningsPosition = (UUIDToFind, verordeningsStructure) => {
 
     // Initialize function
     traverseChildren(vigerendeVerordeningsStructuurChildren)
-    console.log('indexPathToUUID- ', indexPathToUUID)
     // Return the found array with the path to the UUID
     return indexPathToUUID
 }

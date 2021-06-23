@@ -42,16 +42,16 @@ const EditContentSidebar = ({
         // If leden all have a werkingsgebied and they are the same
         if (
             verordeningsLedenFromGET &&
-            verordeningsLedenFromGET.every((e) => e.Werkingsgebied)
+            verordeningsLedenFromGET.every((e) => e.Gebied)
         ) {
-            const werkingsgebiedLid = verordeningsLedenFromGET[0].Werkingsgebied
+            const werkingsgebiedLid = verordeningsLedenFromGET[0].Gebied
             const allLedenHaveSameGebied = verordeningsLedenFromGET.every(
-                (e) => e.Werkingsgebied === werkingsgebiedLid
+                (e) => e.Gebied === werkingsgebiedLid
             )
 
             if (
                 allLedenHaveSameGebied &&
-                verordeningsObjectFromGET.Werkingsgebied === werkingsgebiedLid
+                verordeningsObjectFromGET.Gebied === werkingsgebiedLid
             ) {
                 setInheritWerkingsgebiedenFromArtikel(true)
             } else {
@@ -137,7 +137,7 @@ const EditContentSidebar = ({
                                               werkingsgebiedInParentState={
                                                   verordeningsLedenFromGET[
                                                       index
-                                                  ].Werkingsgebied
+                                                  ].Gebied
                                               }
                                               setWerkingsgebiedInParentState={(
                                                   UUID
@@ -145,7 +145,7 @@ const EditContentSidebar = ({
                                                   setVerordeningsLedenFromGET({
                                                       type: 'changeValue',
                                                       value: UUID,
-                                                      name: 'Werkingsgebied',
+                                                      name: 'Gebied',
                                                       index: index,
                                                   })
                                               }

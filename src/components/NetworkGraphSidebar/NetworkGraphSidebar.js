@@ -64,40 +64,11 @@ const NetworkGraphSidebar = ({ setGraphIsOpen, filters, setFilters }) => {
                                 .sort()
                                 .map((filterKey) => {
                                     return (
-                                        <li
-                                            onClick={() => {
-                                                setFilters({
-                                                    type: 'toggleFilter',
-                                                    filterType: filterKey,
-                                                    newState: !filters[
-                                                        filterKey
-                                                    ],
-                                                })
-                                            }}
-                                            className="cursor-pointer hover:text-gray-900"
-                                            key={filterKey}
-                                        >
-                                            <input
-                                                className="mr-2 leading-tight"
-                                                type="checkbox"
-                                                checked={filters[filterKey]}
-                                                name={filterKey}
-                                            />
-                                            {
-                                                networkGraphConnectionProperties[
-                                                    filterKey
-                                                ]?.plural
-                                            }
-                                            <span
-                                                className="inline-block w-2 h-2 ml-2 rounded-full"
-                                                style={{
-                                                    backgroundColor:
-                                                        networkGraphConnectionProperties[
-                                                            filterKey
-                                                        ]?.hex,
-                                                }}
-                                            />
-                                        </li>
+                                        <ListItem
+                                            setFilters={setFilters}
+                                            filterKey={filterKey}
+                                            filters={filters}
+                                        />
                                     )
                                 })}
                         </ul>
@@ -107,4 +78,36 @@ const NetworkGraphSidebar = ({ setGraphIsOpen, filters, setFilters }) => {
         </div>
     )
 }
+
+const ListItem = ({ setFilters, filterKey, filters }) => {
+    return (
+        <li
+            onClick={() =>
+                setFilters({
+                    type: 'toggleFilter',
+                    filterType: filterKey,
+                    newState: !filters[filterKey],
+                })
+            }
+            className={`cursor-pointer transition duration-100 ease-in hover:text-gray-900`}
+            key={filterKey}
+        >
+            <input
+                className="mr-2 leading-tight"
+                type="checkbox"
+                checked={filters[filterKey]}
+                name={filterKey}
+            />
+            <span>{networkGraphConnectionProperties[filterKey]?.plural}</span>
+            <span
+                className="inline-block w-2 h-2 ml-2 rounded-full"
+                style={{
+                    backgroundColor:
+                        networkGraphConnectionProperties[filterKey]?.hex,
+                }}
+            />
+        </li>
+    )
+}
+
 export default NetworkGraphSidebar

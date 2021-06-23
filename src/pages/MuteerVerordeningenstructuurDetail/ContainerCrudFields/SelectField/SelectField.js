@@ -23,7 +23,19 @@ const SelectField = ({
     selected,
     excludeValue,
 }) => {
-    const selectedUserUUID = verordeningsObjectFromGET[property]
+    const getUUIDFromValue = (value, property) => {
+        if (typeof value === 'string') {
+            return value
+        } else if (typeof value === 'object' && value !== null) {
+            return value.UUID
+        } else {
+            return null
+        }
+    }
+
+    const selectedUserUUID = getUUIDFromValue(
+        verordeningsObjectFromGET[property]
+    )
 
     if (!Array.isArray(filter)) {
         filter = [filter]

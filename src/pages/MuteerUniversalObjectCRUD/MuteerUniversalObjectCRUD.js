@@ -485,10 +485,7 @@ class MuteerUniversalObjectCRUD extends Component {
                     <ContainerMain>
                         <div className="flex-grow inline-block w-full">
                             <div>
-                                <form
-                                    className="mt-12"
-                                    onSubmit={this.handleSubmit}
-                                >
+                                <form className="mt-12">
                                     {titleSingular === 'Ambitie' ? (
                                         <FormFieldContainerAmbities
                                             titleSingular={titleSingular}
@@ -572,7 +569,9 @@ class MuteerUniversalObjectCRUD extends Component {
                                         />
                                     ) : null}
 
-                                    <ButtonSubmitFixed />
+                                    <ButtonSubmitFixed
+                                        submit={this.handleSubmit}
+                                    />
                                 </form>
                             </div>
                         </div>

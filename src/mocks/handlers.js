@@ -90,7 +90,7 @@ const gebruikers = [
 
 const getDimensions = dimensions.map((dimension) => {
     const apiSlug = allDimensies[dimension].API_ENDPOINT
-    const url = `https://api-obzh-dev.azurewebsites.net/v0.1/${apiSlug}/1`
+    const url = `${baseURL}/${apiSlug}/1`
     const testResponse = {}
 
     Object.keys(allDimensies[dimension].CRUD_PROPERTIES).forEach((key) => {
@@ -105,7 +105,7 @@ const getDimensions = dimensions.map((dimension) => {
 
 const patchDimensions = dimensions.map((dimension) => {
     const apiSlug = allDimensies[dimension].API_ENDPOINT
-    const url = `https://api-obzh-dev.azurewebsites.net/v0.1/${apiSlug}/1`
+    const url = `${baseURL}/${apiSlug}/1`
     const testResponse = {}
 
     Object.keys(allDimensies[dimension].CRUD_PROPERTIES).forEach((key) => {
@@ -136,26 +136,17 @@ export const handlers = [
         )
     }),
 
-    rest.get(
-        'https://api-obzh-dev.azurewebsites.net/v0.1/werkingsgebieden',
-        (req, res, ctx) => {
-            return res(ctx.status(200), ctx.json(werkingsgebieden))
-        }
-    ),
+    rest.get(`${baseURL}/werkingsgebieden`, (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(werkingsgebieden))
+    }),
 
-    rest.get(
-        'https://api-obzh-dev.azurewebsites.net/v0.1/graph',
-        (req, res, ctx) => {
-            return res(ctx.status(200), ctx.json(graph))
-        }
-    ),
+    rest.get(`${baseURL}/graph`, (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(graph))
+    }),
 
-    rest.get(
-        'https://api-obzh-dev.azurewebsites.net/v0.1/gebruikers',
-        (req, res, ctx) => {
-            return res(ctx.status(200), ctx.json(gebruikers))
-        }
-    ),
+    rest.get(`${baseURL}/gebruikers`, (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(gebruikers))
+    }),
 
     ...getDimensions,
     ...patchDimensions,
