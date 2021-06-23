@@ -65,6 +65,7 @@ const NetworkGraphSidebar = ({ setGraphIsOpen, filters, setFilters }) => {
                                 .map((filterKey) => {
                                     return (
                                         <ListItem
+                                            key={filterKey}
                                             setFilters={setFilters}
                                             filterKey={filterKey}
                                             filters={filters}
