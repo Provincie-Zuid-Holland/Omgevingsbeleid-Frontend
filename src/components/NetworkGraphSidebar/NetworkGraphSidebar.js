@@ -33,7 +33,6 @@ const NetworkGraphSidebar = ({ setGraphIsOpen, filters, setFilters }) => {
                 lastLocationRef?.current?.pathname +
                 lastLocationRef?.current?.search
 
-            console.log(lastLocationUrl)
             history.push(lastLocationUrl)
         } else {
             history.push('/')
