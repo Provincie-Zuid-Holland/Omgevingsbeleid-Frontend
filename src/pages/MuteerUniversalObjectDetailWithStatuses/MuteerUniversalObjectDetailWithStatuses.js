@@ -4,7 +4,6 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Helmet } from 'react-helmet'
 import { toast } from 'react-toastify'
-import cloneDeep from 'lodash.clonedeep'
 
 // Import Components
 import LoaderContent from './../../components/LoaderContent'
@@ -17,10 +16,6 @@ import StatusHistory from './StatusHistory'
 
 // Import Axios instance to connect with the API
 import axios from '../../API/axios'
-
-// Import Utils
-import deletePropertiesWithNullValue from '../../utils/deletePropertiesWithNullValue'
-import deleteUnkownProperties from '../../utils/deleteUnkownProperties'
 
 /**
  * A detail page of a dimension object with a status
@@ -129,10 +124,6 @@ const MuteerUniversalObjectDetailWithStatuses = ({ dimensieConstants }) => {
     const patchStatus = (crudObject, newStatus) => {
         const apiEndpoint = dimensieConstants.API_ENDPOINT
         const objectID = crudObject.ID
-        // let crudObjectToPatch = cloneDeep(crudObject)
-        // crudObjectToPatch.Status = newStatus
-        // crudObjectToPatch = deleteUnkownProperties(crudObjectToPatch)
-        // crudObjectToPatch = deletePropertiesWithNullValue(crudObjectToPatch)
 
         axios
             .patch(
@@ -280,7 +271,6 @@ const MuteerUniversalObjectDetailWithStatuses = ({ dimensieConstants }) => {
                                     </Link>
                                 </div>
                             ) : null}
-
                             {/* Container of the object that has a status of 'vigerend' */}
                             {vigerendeDimensieObject ? (
                                 <ContainerDetail

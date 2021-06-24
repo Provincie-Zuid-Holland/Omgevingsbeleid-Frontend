@@ -16,7 +16,11 @@ function ContainerCrudHeader({
     const location = useLocation()
 
     const getMainTitle = () => {
-        if (editStatus && dataLoaded) {
+        if (titleSingular === 'Beleidsmodule' && !editStatus) {
+            return 'Voeg een nieuwe module toe'
+        } else if (titleSingular === 'Beleidsmodule' && editStatus) {
+            return 'Bewerk module'
+        } else if (editStatus && dataLoaded) {
             // Als de gebruiker een bestaand object bewerkt
             return objectTitle
         } else if (dataLoaded) {

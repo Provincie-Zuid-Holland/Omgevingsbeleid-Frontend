@@ -16,6 +16,7 @@ import MuteerUniversalObjectOverzicht from './../../pages/MuteerUniversalObjectO
 import MuteerUniversalObjectDetail from './../../pages/MuteerUniversalObjectDetail'
 import MuteerUniversalObjectDetailWithStatuses from './../../pages/MuteerUniversalObjectDetailWithStatuses'
 import MuteerUniversalObjectCRUD from './../../pages/MuteerUniversalObjectCRUD'
+import MuteerBeleidsmodulesOverview from './../../pages/MuteerBeleidsmodulesOverview'
 
 // Import All the dimension constants. These contain the dimensions and there variables, e.g. API_ENDPOINT and TITLE_SINGULAR
 import allDimensies from './../../constants/dimensies'
@@ -150,6 +151,29 @@ const AuthRoutes = ({ authUser, loggedIn }) => {
                 )}
             />
 
+            {/* Beleidsmodules pages */}
+
+            <Route
+                exact
+                path={`/muteer/${allDimensies.BELEIDSMODULES.SLUG_OVERVIEW}/${allDimensies.BELEIDSMODULES.SLUG_CREATE_NEW}`}
+                render={() => (
+                    <MuteerUniversalObjectCRUD
+                        authUser={authUser}
+                        dimensieConstants={allDimensies.BELEIDSMODULES}
+                    />
+                )}
+            />
+
+            <Route
+                exact
+                path={`/muteer/${allDimensies.BELEIDSMODULES.SLUG_OVERVIEW}/:single`}
+                render={() => (
+                    <MuteerBeleidsmodulesOverview
+                        dimensieConstants={allDimensies.BELEIDSKEUZES}
+                    />
+                )}
+            />
+
             {/* Maatregelen pages */}
             <Route
                 exact
@@ -230,9 +254,11 @@ const BeheerRoutes = (props) => {
     const BeheerRouteJSX = Object.keys(allDimensies)
         .filter((dimensie) => allDimensies[dimensie].SLUG_CREATE_NEW)
         .map((dimensie) => {
-            // We have custom detail pages for beleidskeuzes (beleidskeuzes) en maatregelen
+            // We have custom detail pages for beleidskeuzes (beleidskeuzes), maatregelen and beleidsmodules
             const returnDetailPages =
-                dimensie !== 'BELEIDSKEUZES' && dimensie !== 'MAATREGELEN'
+                dimensie !== 'BELEIDSKEUZES' &&
+                dimensie !== 'MAATREGELEN' &&
+                dimensie !== 'BELEIDSMODULES'
             const dimensieConstants = allDimensies[dimensie]
             const overzichtSlug = allDimensies[dimensie].SLUG_OVERVIEW
             const createNewSlug = allDimensies[dimensie].SLUG_CREATE_NEW

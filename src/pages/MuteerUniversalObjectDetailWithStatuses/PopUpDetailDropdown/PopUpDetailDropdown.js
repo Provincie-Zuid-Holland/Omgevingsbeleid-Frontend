@@ -7,6 +7,7 @@ const PopUpDetailDropdown = ({
     openState,
     toggleDropdown,
     toggleStatusPopup,
+    toggleModulesPopup,
     raadpleegLink,
     titleSingular,
 }) => {
@@ -68,6 +69,17 @@ const PopUpDetailDropdown = ({
                             Raadpleegomgeving
                         </a>
                     </li>
+
+                    <li
+                        className="px-4 py-2 text-sm border-t border-gray-300 cursor-pointer hover:bg-gray-100"
+                        onClick={() => {
+                            toggleDropdown()
+                            toggleModulesPopup()
+                        }}
+                    >
+                        Wijzig module
+                    </li>
+
                     {(titleSingular === 'Beleidskeuze' &&
                         status === 'Vigerend') ||
                     (titleSingular === 'Maatregel' && status === 'Vigerend') ? (

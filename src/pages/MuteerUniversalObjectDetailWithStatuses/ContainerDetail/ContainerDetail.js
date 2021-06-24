@@ -9,6 +9,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 // Import Components
+import PopUpModules from './../../../components/PopUpModules'
 import PopUpStatusAanpassen from './../../../components/PopUpStatusAanpassen'
 import HeadingMain from './../../../components/HeadingMain'
 import LoaderMainTitle from './../../../components/LoaderMainTitle'
@@ -24,8 +25,10 @@ class ContainerDetail extends Component {
         this.state = {
             dropdown: false,
             statusPopup: false,
+            modulesPopup: false,
         }
         this.toggleDropdown = this.toggleDropdown.bind(this)
+        this.toggleModulesPopup = this.toggleModulesPopup.bind(this)
         this.toggleStatusPopup = this.toggleStatusPopup.bind(this)
     }
 
@@ -38,6 +41,12 @@ class ContainerDetail extends Component {
     toggleStatusPopup() {
         this.setState({
             statusPopup: !this.state.statusPopup,
+        })
+    }
+
+    toggleModulesPopup() {
+        this.setState({
+            modulesPopup: !this.state.modulesPopup,
         })
     }
 
@@ -109,9 +118,10 @@ class ContainerDetail extends Component {
                             titleSingular={titleSingular}
                             raadpleegLink={`/detail/${this.props.overzichtSlug}/${dataObject.UUID}`}
                             dataObject={dataObject}
-                            toggleDropdown={this.toggleDropdown}
                             openState={this.state.dropdown}
+                            toggleDropdown={this.toggleDropdown}
                             toggleStatusPopup={this.toggleStatusPopup}
+                            toggleModulesPopup={this.toggleModulesPopup}
                         />
                     ) : null}
 
@@ -121,6 +131,13 @@ class ContainerDetail extends Component {
                             status={dataObject.Status}
                             patchStatus={this.props.patchStatus}
                             toggleStatusPopup={this.toggleStatusPopup}
+                        />
+                    ) : null}
+                    {this.state.modulesPopup ? (
+                        <PopUpModules
+                            titleSingular={titleSingular}
+                            dataObject={dataObject}
+                            toggleModulesPopup={this.toggleModulesPopup}
                         />
                     ) : null}
 
