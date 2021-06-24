@@ -858,37 +858,41 @@ const MuteerVerordeningenstructuurDetail = () => {
 
         // After patching the object we need to get the returned UUID and save it in the lineage
         // We will use the state value indexArrayToUUIDBeingEdited for this
+        /**
+         *
+         * @param {props}
+         * @param {object} object - Contains the verordeningen object (/version/verordeningen/UUID). This differs from the corresponding object in the lineage.
+         * @param {boolean} patchLeden - Indicating if the object has leden
+         */
         const patchNewUUIDInLineage = ({ object, patchLeden }) => {
-            // In order to put the object on the lineage, we need to strip all the properties except for Inhoud, Titel, Type,UUID and Volgnummer
-            const stripPropertiesForLineage = (object) => {
-                let strippedObject = {
-                    Inhoud: object.Inhoud,
-                    Titel: object.Titel,
-                    Type: object.Type,
-                    UUID: object.UUID,
-                    Volgnummer: object.Volgnummer,
-                }
-
-                if (patchLeden) {
-                    strippedObject.Children = object.Children
-                } else {
-                    strippedObject.Children = []
-                }
-
-                return strippedObject
-            }
-
-            const strippedObject = stripPropertiesForLineage(object)
+            /**
+             * This function strips alls the properties of the object in order to patch it
+             * An example of a property that will be removed is Created_At
+             * @param {object} object - The object we will return a stripped version of
+             */
+            const stripPropertiesForLineage = (object) => ({
+                Inhoud: object.Inhoud,
+                Titel: object.Titel,
+                Type: object.Type,
+                UUID: object.UUID,
+                Volgnummer: object.Volgnummer,
+                Children: patchLeden ? object.Children : [],
+            })
 
             // The max depth can be 4
             const index = indexArrayToUUIDBeingEdited
             const depthOfObject = index.length
 
+            // Contains the new lineage we will save to the state
             const newLineage = clonedeep(lineage)
 
-            let objectInLineage = null
-            let strippedObjectWithChildren = null
-
+            /**
+             * Function that takes all the properties on the 'existingObj' param and deletes them on the 'obj' param
+             * Important: The 'Children' property on the 'obj' param will never be deleted
+             * @param {object} obj - The object we want to clean
+             * @param {object} existingObj - Contains the properties we will delete on the
+             * @returns the cleaned 'obj' parameter
+             */
             const removeExistingProperties = (obj, existingObj) => {
                 Object.keys(existingObj).forEach((key) => {
                     if (key === 'Children') return
@@ -897,86 +901,74 @@ const MuteerVerordeningenstructuurDetail = () => {
                 return obj
             }
 
-            switch (depthOfObject) {
-                case 1:
-                    objectInLineage = clonedeep(
-                        newLineage.Structuur.Children[index[0]]
-                    )
-                    objectInLineage = removeExistingProperties(
-                        objectInLineage,
-                        strippedObject
-                    )
-
-                    strippedObjectWithChildren = Object.assign(
-                        strippedObject,
-                        objectInLineage
-                    )
-
-                    newLineage.Structuur.Children[
-                        index[0]
-                    ] = strippedObjectWithChildren
-                    break
-                case 2:
-                    objectInLineage = clonedeep(
+            /**
+             *
+             * @param {number} depth - Contains the depth of the object in the lineage
+             * @returns the corresponding object
+             */
+            const getObjectInLineage = (depth) => {
+                if (depth === 1) {
+                    return clonedeep(newLineage.Structuur.Children[index[0]])
+                } else if (depth === 2) {
+                    return clonedeep(
                         newLineage.Structuur.Children[index[0]].Children[
                             index[1]
                         ]
                     )
-                    objectInLineage = removeExistingProperties(
-                        objectInLineage,
-                        strippedObject
-                    )
-
-                    strippedObjectWithChildren = Object.assign(
-                        strippedObject,
-                        objectInLineage
-                    )
-
-                    newLineage.Structuur.Children[index[0]].Children[
-                        index[1]
-                    ] = strippedObjectWithChildren
-                    break
-                case 3:
-                    objectInLineage = clonedeep(
+                } else if (depth === 3) {
+                    return clonedeep(
                         newLineage.Structuur.Children[index[0]].Children[
                             index[1]
                         ].Children[index[2]]
                     )
-                    objectInLineage = removeExistingProperties(
-                        objectInLineage,
-                        strippedObject
-                    )
-
-                    strippedObjectWithChildren = Object.assign(
-                        strippedObject,
-                        objectInLineage
-                    )
-
-                    newLineage.Structuur.Children[index[0]].Children[
-                        index[1]
-                    ].Children[index[2]] = strippedObjectWithChildren
-                    break
-                case 4:
-                    objectInLineage = clonedeep(
+                } else if (depth === 4) {
+                    return clonedeep(
                         newLineage.Structuur.Children[index[0]].Children[
                             index[1]
                         ].Children[index[2]].Children[index[3]]
                     )
-                    objectInLineage = removeExistingProperties(
-                        objectInLineage,
-                        strippedObject
-                    )
+                }
+            }
 
-                    strippedObjectWithChildren = Object.assign(
-                        strippedObject,
-                        objectInLineage
-                    )
+            /**
+             * Remove all the fields (e.g. Created_At) from the object that we can't PATCH to the API
+             * This strippedObject contains the changes we've made
+             */
+            const strippedObject = stripPropertiesForLineage(object)
 
+            /**
+             * Find the corresponding object in the lineage structure
+             * This object does not contain the changes made yet
+             */
+            const objectFromLineage = getObjectInLineage(depthOfObject)
+
+            // if (!patchLeden && )
+            if (!patchLeden && objectFromLineage.Type !== 'Artikel') {
+                strippedObject.Children = objectFromLineage.Children
+            }
+
+            switch (depthOfObject) {
+                // Hoofdstuk
+                case 1:
+                    newLineage.Structuur.Children[index[0]] = strippedObject
+                    break
+                // Paragraaf || Afdeling || Artikel
+                case 2:
                     newLineage.Structuur.Children[index[0]].Children[
                         index[1]
-                    ].Children[index[2]].Children[
-                        index[3]
-                    ] = strippedObjectWithChildren
+                    ] = strippedObject
+                    break
+                // Afdeling || Artikel
+                case 3:
+                    newLineage.Structuur.Children[index[0]].Children[
+                        index[1]
+                    ].Children[index[2]] = strippedObject
+                    break
+                // Artikel
+                case 4:
+                    newLineage.Structuur.Children[index[0]].Children[
+                        index[1]
+                    ].Children[index[2]].Children[index[3]] = strippedObject
                     break
                 default:
                     break
@@ -998,7 +990,6 @@ const MuteerVerordeningenstructuurDetail = () => {
             const isArticle = newRegulationObject.Type === 'Artikel'
             const hasChildren =
                 verordeningsLedenFromGET && verordeningsLedenFromGET.length > 0
-
             // If object is an article and has Leden
             if (isArticle && hasChildren && !addSectionType) {
                 const patchPromisesLeden = verordeningsLedenFromGET.map(
