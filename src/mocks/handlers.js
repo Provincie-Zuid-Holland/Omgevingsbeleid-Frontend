@@ -61,7 +61,7 @@ const werkingsgebieden = [
     },
 ]
 
-const gebruikers = [
+const users = [
     {
         UUID: '79A74958-DB05-464C-BD19-011D85672E4D',
         Gebruikersnaam: 'Annette ter Kuile',
@@ -145,7 +145,7 @@ export const handlers = [
     }),
 
     rest.get(`${baseURL}/gebruikers`, (req, res, ctx) => {
-        return res(ctx.status(200), ctx.json(gebruikers))
+        return res(ctx.status(200), ctx.json(users))
     }),
 
     ...getDimensions,
