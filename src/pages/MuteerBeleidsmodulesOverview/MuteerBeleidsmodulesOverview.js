@@ -72,14 +72,14 @@ function MuteerBeleidsmodulesOverview({}) {
 
     return (
         <div className="container flex flex-col pb-8 mx-auto sm:px-6 lg:px-8">
-            <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div className="-my-2 sm:-mx-6 lg:-mx-8">
                 <div className="inline-block w-full align-middle">
                     <ButtonBackToPage
                         terugNaar={'overzicht'}
                         url={`/muteer/${allDimensies.BELEIDSMODULES.SLUG_OVERVIEW}`}
                     />
-                    <div className="pb-16 overflow-hidden rounded-md shadow-md sm:rounded-lg">
-                        <div className="flex justify-between w-full px-6 pt-4">
+                    <div className="pb-16 bg-white rounded-md shadow-md">
+                        <div className="flex items-end justify-between w-full px-6 pt-4">
                             <div>
                                 <span className="text-lg font-bold text-gray-500">
                                     Module
@@ -87,6 +87,30 @@ function MuteerBeleidsmodulesOverview({}) {
                                 <h1 className="mt-1 text-2xl text-pzh-blue-dark">
                                     {currentBeleidsmodule.Titel}
                                 </h1>
+                            </div>
+                            <div className="flex">
+                                <select
+                                    value={''}
+                                    id={`modules-select-status`}
+                                    name={'modules-select-status'}
+                                    className="block w-32 px-3 pt-2 pb-1 pr-5 leading-tight text-gray-700 bg-white border border-gray-400 rounded appearance-none overflow-ellipsis focus:outline-none hover:border-gray-500 focus:border-gray-500"
+                                >
+                                    <option disabled value={''}>
+                                        Status
+                                    </option>
+                                    <option value={'TEST'}>Test</option>
+                                </select>
+                                <select
+                                    value={''}
+                                    id={`modules-select-type`}
+                                    name={'modules-select-type'}
+                                    className="block w-32 px-3 pt-2 pb-1 pr-5 ml-2 leading-tight text-gray-700 bg-white border border-gray-400 rounded appearance-none overflow-ellipsis focus:outline-none hover:border-gray-500 focus:border-gray-500"
+                                >
+                                    <option disabled value={''}>
+                                        Beleidsstuk
+                                    </option>
+                                    <option value={'TEST'}>Test</option>
+                                </select>
                             </div>
                         </div>
                         {dataLoaded ? (
@@ -99,7 +123,7 @@ function MuteerBeleidsmodulesOverview({}) {
                                     }}
                                 >
                                     In de module {currentBeleidsmodule.Titel}{' '}
-                                    zitten{' '}
+                                    {policies.length === 1 ? 'zit' : 'zitten'}{' '}
                                     <span className="font-bold">
                                         {policies.length} beleidsstukken
                                     </span>

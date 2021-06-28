@@ -118,6 +118,7 @@ class ContainerDetail extends Component {
                             titleSingular={titleSingular}
                             raadpleegLink={`/detail/${this.props.overzichtSlug}/${dataObject.UUID}`}
                             dataObject={dataObject}
+                            setDataObject={this.props.setDataObject}
                             openState={this.state.dropdown}
                             toggleDropdown={this.toggleDropdown}
                             toggleStatusPopup={this.toggleStatusPopup}
@@ -135,6 +136,7 @@ class ContainerDetail extends Component {
                     ) : null}
                     {this.state.modulesPopup ? (
                         <PopUpModules
+                            setDataObject={this.props.setDataObject}
                             titleSingular={titleSingular}
                             dataObject={dataObject}
                             toggleModulesPopup={this.toggleModulesPopup}
@@ -149,6 +151,7 @@ class ContainerDetail extends Component {
                         <HeadingMain
                             titel={dataObject.Titel}
                             status={dataObject.Status}
+                            modules={dataObject.Ref_Beleidsmodules}
                         />
                     ) : (
                         <LoaderMainTitle />
@@ -226,7 +229,7 @@ class ContainerDetail extends Component {
                                     href={`/detail/${this.props.overzichtSlug}/${dataObject.UUID}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="flex items-center justify-between w-full py-2 pl-4 cursor-pointer hover:bg-gray-50 pzh-transition-colors"
+                                    className="flex items-center justify-between w-full py-2 pl-4 rounded-r cursor-pointer hover:bg-gray-50 pzh-transition-colors"
                                 >
                                     <div>
                                         <div>

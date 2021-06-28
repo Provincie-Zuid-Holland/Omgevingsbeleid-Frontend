@@ -274,6 +274,7 @@ const MuteerUniversalObjectDetailWithStatuses = ({ dimensieConstants }) => {
                             {/* Container of the object that has a status of 'vigerend' */}
                             {vigerendeDimensieObject ? (
                                 <ContainerDetail
+                                    setDataObject={setDataObject}
                                     dimensionHistory={dimensionHistory}
                                     patchStatus={patchStatus}
                                     dataObject={vigerendeDimensieObject}

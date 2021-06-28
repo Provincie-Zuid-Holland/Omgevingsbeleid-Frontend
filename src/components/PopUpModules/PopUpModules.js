@@ -18,7 +18,12 @@ import { API_ENDPOINT } from './../../constants/beleidsmodules'
  * @param {function} toggleModulesPopup - Function to show or hide the modulesPopup.
  * @returns A component to change the status of an object
  */
-function PopUpModules({ dataObject, toggleModulesPopup, titleSingular }) {
+function PopUpModules({
+    dataObject,
+    setDataObject,
+    toggleModulesPopup,
+    titleSingular,
+}) {
     const [beleidsmodules, setBeleidsmodules] = React.useState([])
     const [dataLoaded, setDataLoaded] = React.useState(false)
     const [initialModule, setInitialModule] = useState(null)
@@ -56,7 +61,16 @@ function PopUpModules({ dataObject, toggleModulesPopup, titleSingular }) {
                 [type]: [...currentConnections, newConnection],
             })
             .then((res) => {
-                console.log(res)
+                // On add, push to Ref_Beleidsmodules: [{ID: 1, UUID: "6B569424-254F-411B-A219-F2BFF19895A5", Titel: "Beleidsmodule van Aiden"}]
+                dataObject.Ref_Beleidsmodules.push({
+                    ID: res.data.ID,
+                    UUID: res.data.UUID,
+                    Titel: res.data.Titel,
+                })
+                setDataObject({ ...dataObject })
+                toast(
+                    `${titleSingular} toegevoegd aan module '${beleidsmodule.Titel}'`
+                )
             })
             .catch((err) => handleError(err))
     }
