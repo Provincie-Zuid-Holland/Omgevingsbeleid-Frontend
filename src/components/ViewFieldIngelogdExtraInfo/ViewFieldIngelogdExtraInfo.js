@@ -11,6 +11,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import UserContext from '../../App/UserContext'
 
+import * as MAATREGELEN from './../../constants/maatregelen'
+import * as BELEIDSKEUZES from './../../constants/beleidskeuzes'
+
 const eigenarenProperties = [
     'Eigenaar_1',
     'Eigenaar_2',
@@ -76,7 +79,7 @@ const ViewFieldIngelogdExtraInfo = ({ crudObject, hideEdit, className }) => {
                                 <a
                                     href={crudObject['Weblink']}
                                     target="_blank"
-                                    className="text-sm mr-4 font-bold text-gray-600 hover:underline"
+                                    className="mr-4 text-sm font-bold text-gray-600 hover:underline"
                                     rel="noopener noreferrer"
                                 >
                                     <FontAwesomeIcon
@@ -89,7 +92,13 @@ const ViewFieldIngelogdExtraInfo = ({ crudObject, hideEdit, className }) => {
                         </div>
                         {canUserEdit && !hideEdit ? (
                             <Link
-                                to={`/muteer/beleidskeuzes/${crudObject.ID}`}
+                                to={`/muteer/${
+                                    crudObject.hasOwnProperty(
+                                        'Ref_Beleidskeuzes'
+                                    )
+                                        ? MAATREGELEN.SLUG_OVERVIEW
+                                        : BELEIDSKEUZES.SLUG_OVERVIEW
+                                }/${crudObject.ID}`}
                                 className="px-3 py-2 text-xs font-bold tracking-wide border rounded cursor-pointer text-pzh-blue border-pzh-blue"
                             >
                                 Openen in beheeromgeving
