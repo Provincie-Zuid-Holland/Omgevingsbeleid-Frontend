@@ -1,6 +1,16 @@
 import React from "react"
 import { useSpring, animated } from "react-spring"
 
+/**
+ * Component which can be used to display components in an animated popup container.
+ *
+ * @function
+ *
+ * @param {boolean} small - Parameter that is used to set the size of the popup.
+ * @param {boolean} large - Parameter that is used to set the size of the popup.
+ * @param {object} children - Parameter containing props used within the popup.
+ * @param {string} reference - Parameter containing the reference of the popup.
+ */
 function PopUpAnimatedContainer({ small, large, children, reference }) {
     return (
         <div>

@@ -19,9 +19,11 @@ import useLockBodyScroll from "./../../utils/useLockBodyScroll"
 import UserContext from "./../../App/UserContext"
 
 /**
+ * Function to check the text within the object if it's valid.
  *
- * @param {object} object - Object we want the validity text of
- * @returns {string} - Text indicating the validity of the object
+ * @function
+ *
+ * @param {object} object - The text within this object parameter is checked within this function.
  */
 const getValidText = (object) => {
     if (!object["Begin_Geldigheid"]) return "Er is nog geen begin geldigheid"
@@ -40,18 +42,22 @@ const getValidText = (object) => {
 }
 
 /**
+ * Function that returns the left and right revision options.
+ *
+ * @function
  *
  * @param {array} revisionObjects - Array containing the revisions
- * @param {null|string} leftSelect - Contains null if none is selected, else it contains the UUID that is selected
- * @param {null|string} rightSelect - Contains null if none is selected, else it contains the UUID that is selected
- * @returns
+ * @param {string} leftSelect - Contains the UUID value of the left selected option.
+ * @param {string} rightSelect - Contains the UUID value of the right selected option.
  */
 function getSelectOptions(revisionObjects, leftSelect, rightSelect) {
     /**
      * Checks if an options is disabled.
      * When we select an option, we disable the previous or following options, based on the optionsType
+     * @function
+     *
      * @param {number} index - Index in of the item in the revisionObjects array
-     * @param {string} optionsType - Indicicating if
+     * @param {string} optionsType - Containing the options type value.
      * @returns {boolean} indicating if the option is disabled or not
      */
     const checkIsDisabled = (index, optionsType) => {
@@ -75,10 +81,12 @@ function getSelectOptions(revisionObjects, leftSelect, rightSelect) {
     }
 
     /**
+     * Function to return the label, value and isDisabled value of each revision object of the revisionObjects array.
+     *
+     * @function
      *
      * @param {array} revisionObjects - Contains the revision objects
-     * @param {string} type - Indicator if this is the 'left' or 'right' element
-     * @returns {array} Returns the options that we pass to the Select element
+     * @param {string} type - Parameter containing the 'left' or 'right' value.
      */
     const getOptions = (revisionObjects, type) =>
         revisionObjects.map((obj, index) => {
@@ -96,13 +104,14 @@ function getSelectOptions(revisionObjects, leftSelect, rightSelect) {
 }
 
 /**
+ * Component that renders the PopupRevisionOverview component, which displays an Revisieoverzicht with a list of beleidskeuzes, which the user can compare two beleidskeuzes of.
  *
- * @param {object} props
+ * @Component
+ *
  * @param {boolean} revisionOverviewOpen - Indicating if the revision overview is open
- * @param {function} setRevisionOverviewOpen -
- * @param {object} dataObject - Contains the object of the detail page we are viewing
- * @param {array} revisionObjects - Array containing revisions of the object
- * @returns
+ * @param {function} setRevisionOverviewOpen - Function to open/close the RevisionOverviewOpen popup.
+ * @param {object} dataObject - Parameter containing the collection of information of a beleidskeuze.
+ * @param {array} revisionObjects - Parameter containing the collection of revisions in object form.
  */
 const PopupRevisionOverview = ({
     revisionOverviewOpen,
@@ -356,31 +365,37 @@ const PopupRevisionOverview = ({
 }
 
 /**
+ * Component that renders the ContainerLeft component which displays a container left with children components in it.
+ *
+ * @component
  *
  * @param {object} children - Children component(s)
- * @returns Wrapper element
  */
 const ContainerLeft = ({ children }) => (
     <div className={`w-1/2 pr-5`}>{children}</div>
 )
 
 /**
+ * Component that renders the ContainerRight component which displays a container right with children components in it.
+ *
+ * @component
  *
  * @param {object} children - Children component(s)
- * @returns Wrapper element
  */
 const ContainerRight = ({ children }) => (
     <div className={`w-1/2 pl-5`}>{children}</div>
 )
 
 /**
+ * Component that renders the ChangeContainer component, which displays a beleidskeuze on the left and a beleidskeuze on the right, which the user can compare the changes.
+ *
+ * @component
  *
  * @param {object} props
  * @param {object} oldObject
  * @param {object} changesObject
  * @param {object} originalObject
  * @param {object} revisionObjects
- * @returns
  */
 const ChangeContainer = ({
     oldObject,
@@ -568,10 +583,12 @@ const ChangeContainer = ({
 }
 
 /**
- * @param {Object} props
- * @param {Object} props.originalObject - Contains the object in its original form
- * @param {Object} props.changesObject - Contains the object with changes on the properties (e.g. Propertie: {"new": [...], "removed": [...], "same": [...]})
- * @returns Component that displays the changes of the GEO property on a Leaflet map
+ * Component that renders the RevisionWerkingsgebied component, which displays the revisie werkingsgebied on a map.
+ *
+ * @component
+ *
+ * @param {Object} originalObject - Contains the object in its original form
+ * @param {Object} changesObject - Contains the object with changes on the properties (e.g. Propertie: {"new": [...], "removed": [...], "same": [...]})
  */
 const RevisionWerkingsgebied = ({ originalObject, changesObject }) => {
     /**
@@ -661,11 +678,12 @@ const RevisionWerkingsgebied = ({ originalObject, changesObject }) => {
 }
 
 /**
+ * Component that renders the LegendaItem component, which displays a label.
  *
- * @param {object} props
- * @param {string} props.color - Background color
- * @param {object} props.label - Legenda label
- * @returns A component for a legenda item containing a color indicator and a label
+ * @component
+ *
+ * @param {string} color - Parameter containing the background color of the label
+ * @param {object} label - Parameter containing the label text for the legenda item
  */
 const LegendaItem = ({ color, label }) => {
     return (
@@ -680,11 +698,12 @@ const LegendaItem = ({ color, label }) => {
 }
 
 /**
+ * Component that renders the DividerWithTitle component, which displays a title within a top and bottom divider for a singleTitle container and in a left and right container.
  *
- * @param {object} props
- * @param {string} props.title - Title that is displayed with the horizontal rule
- * @param {boolean} props.singleTitle - boolean indicating if the component only needs to render one title
- * @returns A component that displays a divider block containing one or two titles
+ * @component
+ *
+ * @param {string} title - Title that is displayed within a top and bottom divider.
+ * @param {boolean} singleTitle - Parameter used to check if there is only one title.
  */
 const DividerWithTitle = ({ title, singleTitle }) => {
     if (singleTitle) {
@@ -714,10 +733,11 @@ const DividerWithTitle = ({ title, singleTitle }) => {
 }
 
 /**
+ * Component that renders the Title component, which displays a title with html markup.
  *
- * @param {object} props
- * @param {string} props.title - Title of the object containing HTML in order to display the changes.
- * @returns An Header 2 Title with inner HTML
+ * @component
+ *
+ * @param {string} title - Parameter containing a title with html markup.
  */
 const Title = ({ title }) => {
     return (
@@ -729,11 +749,12 @@ const Title = ({ title }) => {
 }
 
 /**
+ * Component that renders the Text component, which displays a label and text.
  *
- * @param {object} props
- * @param {object} props.textContent - Contains the text that is set with innerHTML. The HTML contains the changes.
- * @param {object} props.label - Contains the label
- * @returns A paragraph with an optional label above it
+ * @component
+ *
+ * @param {string} textContent - Parameter containing the text content in HTML markup form.
+ * @param {string} label - Parameter containing the label text.
  */
 const Text = ({ textContent, label }) => {
     return (
@@ -754,11 +775,12 @@ const Text = ({ textContent, label }) => {
 }
 
 /**
+ * Component that renders the ValidText component, which displays the validText when checked within the component.
  *
- * @param {object} props
- * @param {object} props.object - Contains the object we want the valid text from
- * @param {array} props.revisionObjects - Contains the previous valid objects. We need this because these objects contain the uiStatus property. This property indicates if an object is archived or not.
- * @returns The text indicating the period of validity of the object
+ * @component
+ *
+ * @param {object} object - Parameter containing the Begin_Geldigheid date.
+ * @param {array} revisionObjects - Parameter containing a collection of revision in objects form.
  */
 const ValidText = ({ object, revisionObjects }) => {
     if (!revisionObjects) return null
@@ -804,22 +826,25 @@ const ValidText = ({ object, revisionObjects }) => {
 }
 
 /**
+ * Component that renders the Belangen component, which displays the label, titel and omschrijving of a belang.
  *
- * @param {object} props
- * @param {string} props.label - Label to display above the section
- * @param {object} props.object - The object to display belangen of
- * @param {string} props.type - String indicating the type of Belang
- * @param {boolean} props.containsChanges - Inidicating if the object contains changes
- * @param {string} props.placeholder - Placeholder when there are no connections
- * @returns A section to display the 'Belangen' of an object
+ * @component
+ *
+ * @param {string} label - Label of a belang
+ * @param {object} object - Parameter containing the Belang information.
+ * @param {string} type - String indicating the type of Belang
+ * @param {boolean} containsChanges - Parameter containing a boolean value if a belang contains changes.
+ * @param {string} placeholder - Parameter containing the placeholder used within the component.
  */
 const Belangen = ({ label, object, type, containsChanges, placeholder }) => {
     /**
+     * Function to get and filter through the belangen.
      *
-     * @param {boolean} containsChanges
-     * @param {object} object
-     * @param {string} type
-     * @returns
+     * @function
+     *
+     * @param {boolean} containsChanges - Parameter to check if the belangen contain changes.
+     * @param {object} object - Parameter containing the belangen.
+     * @param {string} type - Parameter containing the type value.
      */
     const getBelangen = (containsChanges, object, type) => {
         if (!containsChanges) {
@@ -838,9 +863,11 @@ const Belangen = ({ label, object, type, containsChanges, placeholder }) => {
     }
 
     /**
+     * Function that changes the style of the container based on the object parameter.
      *
-     * @param {object} object - Contains the object we want get the style for
-     * @returns
+     * @function
+     *
+     * @param {object} object - Parameter containing the type of container.
      */
     const getContainerStyle = (object) =>
         object.changeType === "removed"
@@ -883,11 +910,12 @@ const Belangen = ({ label, object, type, containsChanges, placeholder }) => {
 }
 
 /**
+ * Component that renders the RelationsConnectionsText component which displays two containers containing the connected relations between objects.
  *
- * @param {object} props
- * @param {object} props.originalObject - Contains the original object
- * @param {object} props.objectChanges - Contains the object that has changes
- * @returns A section that indicates the changes in connections
+ * @component
+ *
+ * @param {object} originalObject - Contains the original object
+ * @param {object} objectChanges - Contains changes saved within the object.
  */
 function RelationsConnectionsText({ originalObject, objectChanges }) {
     if (!originalObject || !objectChanges) return

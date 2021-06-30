@@ -17,6 +17,15 @@ const eigenarenProperties = [
     "Opdrachtgever",
 ]
 
+/**
+ * Component that renders the ViewFieldIngelogdExtraInfo component and displays a owner list and a button to open the list in the admin area.
+ *
+ * @component
+ *
+ * @param {object} crudObject - Parameter containing a collection of data from the parent state.
+ * @param {boolean} hideEdit - Parameter used to hide the edit field.
+ * @param {string} className - Parameter used to set the style of the div.
+ */
 const ViewFieldIngelogdExtraInfo = ({ crudObject, hideEdit, className }) => {
     const [canUserEdit, setCanUserEdit] = React.useState(false)
     const [eigenaren, setEigenaren] = React.useState({})
@@ -110,12 +119,26 @@ const ViewFieldIngelogdExtraInfo = ({ crudObject, hideEdit, className }) => {
     )
 }
 
+/**
+ * Component that renders the EigenarenList component, which displays the ownerlist.
+ *
+ * @component
+ *
+ * @param {Array} eigenaren - Parameter containing a collection of owners.
+ */
 const EigenarenList = ({ eigenaren }) => {
     const getUsername = (item) => {
         if (!item) return null
         return item.Gebruikersnaam
     }
 
+    /**
+     * Function that gets the abbrevation from the username.
+     *
+     * @function
+     *
+     * @param {Array} item - parameter containing a collection of users.
+     */
     const getAbbrevationFromUsername = (item) => {
         const username = getUsername(item)
         if (!username) return null

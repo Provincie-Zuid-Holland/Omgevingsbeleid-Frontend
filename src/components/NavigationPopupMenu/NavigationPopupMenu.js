@@ -20,9 +20,11 @@ import LoaderSpinner from "./../LoaderSpinner"
 /**
  * Component that renders the NavigationPopupMenu component.
  *
- * @param {boolean} showBanner - Parameter that if set to true, will show the banner.
- * @param {boolean} isOpen - Parameter that is used to show certain elements within the rendered component, if the parameter is set true.
- * @param {boolean} setIsOpen - Parameter that is used for an onclick function to set the isOpen parameter to true or false, when the parameter itsef is set to true or false.
+ * @component
+ *
+ * @param {boolean} showBanner - Parameter that is used to show the banner within the component.
+ * @param {boolean} isOpen - Parameter that is used to show the modal component.
+ * @param {function} setIsOpen - Function to edit parent state.
  */
 const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
     // Popup state
@@ -417,10 +419,12 @@ const TabMenuItem = ({ activeTab, tabTitle, setActiveTab }) => {
 /**
  * Function to render the TabMenuItemLink component, that contains a link.
  *
- * @param {string} tabTitle - Parameter that displays the tabTitle of the Link element.
- * @param {} href - Parameter that contains an URL where the user navigates too, when the user click on the Link element.
- * @param {function} setIsOpen - Parameter that is used for an onclick function to set the isOpen parameter to true or false.
- * @param {number} tabId - Parameter that contains the id of the Tab.
+ * @function
+ *
+ * @param {string} tabTitle - Parameter that displays the title of the link.
+ * @param {url} href - Parameter that contains the target location of the link.
+ * @param {function} setIsOpen - Parameter used to set the parent state to false.
+ * @param {int} tabId - Parameter that contains the id of the link.
  */
 const TabMenuItemLink = ({ tabTitle, href, setIsOpen, tabId, callback }) => {
     return (

@@ -9,6 +9,16 @@ const getObjectFromRelation = (relation) => {
         : relation
 }
 
+/**
+ * Component that renders the RelatiesKoppelingenTekstueel component,
+ *
+ * @component
+ *
+ * @param {object} beleidsObject - Parameter containing the information of a beleid
+ * @param {Array} beleidsRelaties - Parameter containing a collection of beleidsRelaties.
+ * @param {Array} connectionProperties - Parameter containing a collection of connection properties.
+ * @param {Array} connectionPropertiesColors - Parameter containing a collection of connection property colors.
+ */
 function RelatiesKoppelingenTekstueel({
     beleidsObject,
     beleidsRelaties,
@@ -103,6 +113,17 @@ function RelatiesKoppelingenTekstueel({
     }
 }
 
+/**
+ * Component that renders the ListItem component, which displays a list of Verordening items which each item contain a title and description.
+ *
+ * @component
+ *
+ * @param {string} property - Parameter containing the property value.
+ * @param {UUID} UUID - Parameter containing the UUID value.
+ * @param {Array} connectionPropertiesColors - Parameter containing a collection of connection property colors.
+ * @param {string} titel - Parameter containing the titel of each list item
+ * @param {string} omschrijving - Parameter containing the omschrijving of each list item.
+ */
 const ListItem = ({
     property,
     UUID,
