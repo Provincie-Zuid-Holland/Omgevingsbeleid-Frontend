@@ -1,10 +1,5 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
-import { toast } from 'react-toastify'
-
-import axios from '../../API/axios'
-
-import LoaderSmallCircle from '../LoaderSmallCircle'
 
 import { faLink } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -19,6 +14,15 @@ const eigenarenProperties = [
     'Opdrachtgever',
 ]
 
+/**
+ * Component that renders the ViewFieldIngelogdExtraInfo component and displays a owner list and a button to open the list in the admin area.
+ *
+ * @component
+ *
+ * @param {object} crudObject - Parameter containing a collection of data from the parent state.
+ * @param {boolean} hideEdit - Parameter used to hide the edit field.
+ * @param {string} className - Parameter used to set the style of the div.
+ */
 const ViewFieldIngelogdExtraInfo = ({ crudObject, hideEdit, className }) => {
     const [canUserEdit, setCanUserEdit] = React.useState(false)
     const [eigenaren, setEigenaren] = React.useState({})
@@ -38,6 +42,13 @@ const ViewFieldIngelogdExtraInfo = ({ crudObject, hideEdit, className }) => {
         setEigenaren(newEigenaren)
     }, [crudObject])
 
+    /**
+     * Function to get all users (admins) that can edit.
+     *
+     * @function
+     *
+     * @param {object} user - Parameter that contains the information of the user.
+     */
     const getCanUserEdit = (user) => {
         const contextAndUUIDExist = user && user !== null && user.UUID
         const userCreatedObjectOrIsOwner =
@@ -76,7 +87,7 @@ const ViewFieldIngelogdExtraInfo = ({ crudObject, hideEdit, className }) => {
                                 <a
                                     href={crudObject['Weblink']}
                                     target="_blank"
-                                    className="text-sm mr-4 font-bold text-gray-600 hover:underline"
+                                    className="mr-4 text-sm font-bold text-gray-600 hover:underline"
                                     rel="noopener noreferrer"
                                 >
                                     <FontAwesomeIcon
@@ -102,12 +113,26 @@ const ViewFieldIngelogdExtraInfo = ({ crudObject, hideEdit, className }) => {
     )
 }
 
+/**
+ * Component that renders the EigenarenList component, which displays the ownerlist.
+ *
+ * @component
+ *
+ * @param {Array} eigenaren - Parameter containing a collection of owners.
+ */
 const EigenarenList = ({ eigenaren }) => {
     const getUsername = (item) => {
         if (!item) return null
         return item.Gebruikersnaam
     }
 
+    /**
+     * Function that gets the abbrevation from the username.
+     *
+     * @function
+     *
+     * @param {Array} item - parameter containing a collection of users.
+     */
     const getAbbrevationFromUsername = (item) => {
         const username = getUsername(item)
         if (!username) return null

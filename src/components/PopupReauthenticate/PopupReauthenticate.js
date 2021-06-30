@@ -3,11 +3,11 @@ import LoginForm from './../LoginForm'
 
 // setLoginState is passed from App
 /**
- * Component that renders the PopupReauthenticate component.
+ * Component that renders the PopupReauthenticate component which displays a popup that the user's session is timed out and an option to log back in.
  *
  * @component
  *
- * @param {boolean} setLoginState - Parameter that is passed from the App and used to set the loginState of a user.
+ * @param {function} setLoginState - Function to edit parent state.
  */
 const PopupReauthenticate = ({ setLoginState }) => {
     return (

@@ -3,12 +3,12 @@ import React from 'react'
 import Transition from './../Transition'
 
 /**
- * Component that renders the TransitionDefault component using the Transition component.
+ * Component that renders the default transition, with the rendered children within it.
  *
  * @component
  *
- * @param {boolean} show - Parameter used asa a variable for the Transition component.
- * @param {object} children - Parameter that is used to display the object within the Transition component.
+ * @param {boolean} show - Parameter containing the boolean value to show the transition.
+ * @param {object} children - Parameter that contains a collection which it renders within the component.
  */
 const TransitionDefault = ({ show, children }) => {
     return (
