@@ -6,14 +6,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import 'url-search-params-polyfill'
 
 /**
- * Component that renders the searchBar component.
+ * Component that renders the searchBar component, which displays a searchBar in the navigation bar.
  *
  * @component
  *
- * @param {string} width - Parameter that is used to set the width of an element within the rendered component.
- * @param {string} exactWidth - Parameter that can be set as a value for the width parameter.
- * @param {boolean} compInNavigation - Parameter that is used in a if statement to set values to certain variables.
- * @param {string} placeholder - Parameter that shows a placeholder in the SearchBar.
+ * @param {string} width - Parameter that contains the width of the SearchBar component.
+ * @param {string} exactWidth - Parameter that contains the exact width of the SearchBar component.
+ * @param {boolean} compInNavigation - Parameter that is used to check if the component is not in the navbar.
+ * @param {string} placeholder - Parameter that contains the placeholder value.
  */
 const SearchBar = ({
     width,
@@ -128,18 +128,18 @@ const SearchBar = ({
 }
 
 /**
- * Function to render the SearchBarPopupItem component.
+ * Component that renders the SearchBarPopupItem component, which displays the searchbar items within a popup.
  *
- * @function
+ * @component
  *
- * @param {int} index - Parameter used as the index key for the SearchBarPopupItem.
- * @param {string} value - Parameter that is used as an value for a query that is used within a link in the rendered component
- * @param {string} filterQuery - Parameter that is used to filter the query based on its value.
- * @param {boolean} filter - If this parameter is true, certain elements will be shown.
- * @param {int} arrayLength - Parameter that has the length of the array as value.
- * @param {int} dataIndex - Parameter used as the data-index value of an link tag.
- * @param {boolean} setSearchBarPopupOpen - Parameter that if set to true the SearchBarPopup component will be shown.
- * @param {object} item - Parameter that its value of is used for an element.
+ * @param {int} index - Parameter that contains the index value.
+ * @param {string} value - Parameter that contains a value used in a query.
+ * @param {string} filterQuery - Parameter that contains the filter that is used within the query.
+ * @param {boolean} filter - Parameter containing a boolean value to display the name or value of the search results.
+ * @param {int} arrayLength - Parameter that contains the array length.
+ * @param {int} dataIndex - Parameter that contains the data index value.
+ * @param {function} setSearchBarPopupOpen - Function that is set in the parent state.
+ * @param {object} item - Parameter that contains the information of the item.
  */
 function SearchBarPopupItem({
     index,
@@ -220,12 +220,12 @@ function SearchBarPopupItem({
 }
 
 /**
- * Function that renders the SearchBarPopup component that is used within other functions.
+ * Component that renders the SearchBarPopup component that displays the SearchBarPopupItem component within a popup.
  *
- * @function
+ * @Component
  *
- * @param {string} searchInput - Parameter used to set the value of the SearchBarPopupItem component.
- * @param {boolean} setSearchBarPopupOpen - Parameter used to toggle the SearchBarPopup component by setting it true or false.
+ * @param {string} searchInput - Parameter that contains the search input value.
+ * @param {function} setSearchBarPopupOpen - Function that is set in the parent state.
  */
 function SearchBarPopup({ searchInput, setSearchBarPopupOpen }) {
     const filters = [

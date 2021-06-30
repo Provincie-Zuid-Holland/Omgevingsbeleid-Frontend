@@ -8,7 +8,7 @@ const TransitionContext = React.createContext({
 })
 
 /**
- * Function that sets the isInitialRender const and returns the current value of it.
+ * Function that sets the initial values.
  *
  * @function
  */
@@ -25,15 +25,15 @@ function useIsInitialRender() {
  *
  * @function
  *
- * @param {boolean} show - Parameter that is set true if the ReactCSSTransition is shown.
- * @param {string} enter - Parameter that contains a value that is used to set the length of the enterClasses variable.
- * @param {string} enterFrom - Parameter that contains a value that is used to set the length of the enterFromClasses variable.
- * @param {string} enterTo - Parameter that contains a value that is used to set the length of the enterToClasses variable.
- * @param {string} leave - Parameter that contains a value that is used to set the length of the leaveClasses variable.
- * @param {string} leaveFrom - Parameter that contains a value that is used to set the length of the leaveFromClasses variable.
- * @param {string} leaveTo - Parameter that contains a value that is used to set the length of the leaveToClasses variable.
- * @param {boolean} appear - Parameter that is set true if the ReactCSSTransition should appear.
- * @param {object} children - Parameter containing the value within the ReactCSSTransition component.
+ * @param {boolean} show - Parameter that is used to show the component.
+ * @param {string} enter - Parameter that contains a value that is used to set the style of the component.
+ * @param {string} enterFrom - Parameter that contains a value that is used to set the style of the component.
+ * @param {string} enterTo - Parameter that contains a value that is used to set the style of the component.
+ * @param {string} leave - Parameter that contains a value that is used to set the style of the component.
+ * @param {string} leaveFrom - Parameter that contains a value that is used to set the style of the component.
+ * @param {string} leaveTo - Parameter that contains a value that is used to set the style of the component.
+ * @param {boolean} appear - Parameter that is used to show the ReactCSSTransition component.
+ * @param {object} children - Parameter containing the value rendered within the ReactCSSTransition component.
  */
 function CSSTransition({
     show,
@@ -96,12 +96,12 @@ function CSSTransition({
 }
 
 /**
- * Component that renders the Transition component, using the CSSTransition and TransistionContext.Provider components.
+ * Function that returns the value object with parameters provided by the TransitionContext.
  *
  * @function
  *
- * @param {boolean} show - Parameter that is set true, will show the CSSTransition in the component and is part of the value of the TransitionContext.Provider component.
- * @param {boolean} appear - Parameter that is set true, if the CSSTransition component should appear and is part of the value of the TransitionContext.Provider component.
+ * @param {boolean} show - Parameter that contains the boolean value if the CSSTransition component should be shown.
+ * @param {boolean} appear - Parameter that contains the boolean value if the CSSTransition component should appear.
  */
 function Transition({ show, appear, ...rest }) {
     const { parent } = useContext(TransitionContext)

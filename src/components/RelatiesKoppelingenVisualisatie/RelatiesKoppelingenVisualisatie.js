@@ -7,6 +7,19 @@ import generateVerordeningsPosition from './../../utils/generateVerordeningsPosi
 // Import Context
 import GraphContext from './../../App/GraphContext'
 
+/**
+ * Component that renders the RelatiesKoppelingenVisualisatie component, which displays a Netwerkvisualisatie map which shows the beleids objecten connections.
+ *
+ * @component
+ *
+ * @param {object} beleidsObject -  Parameter containing the information of a beleid
+ * @param {Array} connectionProperties - Parameter containing a collection of connection properties.
+ * @param {Array} connectionPropertiesColors - Parameter containing a collection of connection property colors.
+ * @param {Array} beleidsRelaties - Parameter containing a collection of beleidsRelaties.
+ * @param {string} titleSingular - Parameter containing the title in singular form.
+ * @param {string} titleSingularPrefix - Parameter containing the title in singular prefix form.
+ * @param {object} verordeningsStructure - Parameter containing the verorderings structure information.
+ */
 const RelatiesKoppelingenVisualisatie = ({
     beleidsObject,
     connectionProperties,
@@ -181,9 +194,8 @@ const RelatiesKoppelingenVisualisatie = ({
                 // Activate display
                 tooltip.style('display', 'block')
 
-                const tooltipTitleEl = document.getElementById(
-                    'd3-tooltip-title'
-                )
+                const tooltipTitleEl =
+                    document.getElementById('d3-tooltip-title')
                 tooltipTitleEl.innerHTML = d.name
 
                 const tooltipEl = document.getElementById('d3-tooltip')

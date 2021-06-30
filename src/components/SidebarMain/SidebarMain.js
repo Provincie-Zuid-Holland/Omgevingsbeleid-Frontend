@@ -27,6 +27,17 @@ const menuItemsBeheer = {
     Beleidsprestaties: { url: '/muteer/beleidsprestaties', finished: true },
 }
 
+/**
+ * Component that renders the ReturnNavLink component, which displays the value parameter with an arrow in which a user can navigate on click.
+ *
+ * @component
+ *
+ * @param {string} value - Parameter containing a value.
+ * @param {int} index - Parameter used for the key value of the NavLink component.
+ * @param {string} url - Parameter containing the target destination of the url.
+ *
+ * @returns
+ */
 function ReturnNavLink({ value, index, url }) {
     return (
         <NavLink
@@ -51,11 +62,11 @@ function ReturnNavLink({ value, index, url }) {
 
 // TODO: Refactor finished props... And put in own component
 /**
- * Function to render the returnMenuItems component using the ReturnNavLink component.
+ * Component to render the returnMenuItems component, which displays a list of menu items.
  *
- * @function
+ * @component
  *
- * @param {array} menuItems - Parameter used to render the ReturnNavLink component based on the value of the parameter.
+ * @param {array} menuItems - Parameter containing a list of menu items.
  */
 function returnMenuItems(menuItems) {
     const listItems = Object.keys(menuItems).map((value, index) =>
@@ -98,7 +109,7 @@ function MainSideBarHeading(props) {
 }
 
 /**
- * Component that renders the SideBarMain component.
+ * Component that renders the SideBarMain component, which displays the usersname and user's role.
  *
  * @component
  */

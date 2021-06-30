@@ -17,6 +17,14 @@ import GraphContext from './../../App/GraphContext'
 
 import logoSVG from './../../images/PZH_Basislogo.svg'
 
+/**
+ * Component that renders the Navigation component, which displays a navbar on top of the page which the user can use to login, logout and search within the omgevingsbeleid.
+ *
+ * @component
+ *
+ * @param {boolean} loggedIn - Parameter that is set true if user is logged in.
+ * @param {function} setLoginState - Function to edit parent state.
+ */
 function Navigation({ loggedIn, setLoginState }) {
     const location = useLocation()
     const pathname = location.pathname
@@ -25,10 +33,8 @@ function Navigation({ loggedIn, setLoginState }) {
     // State for popup menu
     const { graphIsOpen, setGraphIsOpen } = React.useContext(GraphContext)
     const [isOpen, setIsOpen] = React.useState(false)
-    const [
-        locationEqualsMutateEnv,
-        setLocationEqualsMutateEnv,
-    ] = React.useState(false)
+    const [locationEqualsMutateEnv, setLocationEqualsMutateEnv] =
+        React.useState(false)
 
     React.useEffect(() => {
         const userIsInMuteer =
@@ -133,6 +139,11 @@ function Navigation({ loggedIn, setLoginState }) {
         )
     }
 
+    /**
+     * Function to logout the user.
+     *
+     * @function
+     */
     function logout() {
         // Clear user token and profile data from localStorage
         localStorage.removeItem(process.env.REACT_APP_KEY_API_ACCESS_TOKEN)
@@ -244,6 +255,11 @@ const MenuIcon = ({ to, icon, className, setIsOpen, children = null }) => {
     )
 }
 
+/**
+ * Function to display the PZH logo.
+ *
+ * @function
+ */
 function Logo() {
     return (
         <img
@@ -257,7 +273,7 @@ function Logo() {
 }
 
 /**
- * Function to render the BannerEnvironment component.
+ * Function to render the BannerEnvironment component, which displays the environment.
  *
  * @function
  *
