@@ -34,7 +34,6 @@ const MijnBeleid = ({ hideAddNew }) => {
         const getAndSetBeleidVanGebruiker = () => {
             const skipDimensies = [
                 'BELEIDSRELATIES',
-                'BELEIDSPRESTATIES',
                 'VERORDENINGSTRUCTUUR',
                 'VERORDENINGSARTIKEL',
             ]
