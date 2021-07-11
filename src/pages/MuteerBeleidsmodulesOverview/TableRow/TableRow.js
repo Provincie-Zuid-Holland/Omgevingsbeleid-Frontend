@@ -20,7 +20,6 @@ const TableRow = ({ policy }) => {
                     ? 'Beleidskeuze'
                     : 'Maatregel'}
             </TableDataCell>
-            <TableDataCell>{policy.Object.Status}</TableDataCell>
             <TableDataCell>
                 <Link
                     className="hover:text-gray-900 hover:underline"

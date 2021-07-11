@@ -150,18 +150,6 @@ function MuteerBeleidsmodulesOverview() {
                                             </TableHeading>
 
                                             <TableHeading
-                                                property={'status'}
-                                                sorting={sorting}
-                                                setSorting={setSorting}
-                                                label="Status"
-                                            >
-                                                <SortIcon
-                                                    sorting={sorting}
-                                                    property="status"
-                                                />
-                                            </TableHeading>
-
-                                            <TableHeading
                                                 label="UUID"
                                                 noIcon={true}
                                             />
