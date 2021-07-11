@@ -196,15 +196,26 @@ class MuteerUniversalObjectCRUD extends Component {
 
         let crudObject = cloneDeep(this.state.crudObject)
 
-        const containsRequiredUnfilledField = checkContainsRequiredUnfilledField(
-            crudObject,
-            dimensieConstants,
-            titleSingular
-        )
-        if (containsRequiredUnfilledField) return
+        // If modus equals 'wijzig_vigerend', the user is editing a vigerend object
+        const params = new URL(document.location).searchParams
+        const modus = params.get('modus')
+        const userIsEditingVigerend = modus === 'wijzig_vigerend'
 
-        const isEindDateBeforeBegin = checkDates(crudObject, titleSingular)
-        if (isEindDateBeforeBegin) return
+        /**
+         * It can happen that an object already has a Status of 'Vigerend' and is missing a required field.
+         * When the user is editing a vigerend object they can't edit these fields. To prevent this bug we
+         * only check the fields if the user is not editing a object with a status of 'Vigerend' (Wijzigen zonder besluitingsproces)
+         */
+        if (!userIsEditingVigerend) {
+            const containsRequiredUnfilledField = checkContainsRequiredUnfilledField(
+                crudObject,
+                dimensieConstants
+            )
+            if (containsRequiredUnfilledField) return
+
+            const isEindDateBeforeBegin = checkDates(crudObject, titleSingular)
+            if (isEindDateBeforeBegin) return
+        }
 
         // Create date objects out of string values ('yyyy-MM-DD')
         crudObject = formatGeldigheidDatesForAPI(crudObject)

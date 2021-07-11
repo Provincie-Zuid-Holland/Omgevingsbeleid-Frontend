@@ -75,14 +75,9 @@ const notifyUser = (dimensieConstants, property, scrolledToElement) => {
 /**
  * @param {object} crudObject Contains the object that is being edited
  * @param {object} dimensieConstants Contains the variables of this object type
- * @param {string} titleSingular Contains the title of the object type
  * @returns a boolean indicating if all the required fields have been filled in
  */
-function checkContainsRequiredUnfilledField(
-    crudObject,
-    dimensieConstants,
-    titleSingular
-) {
+function checkContainsRequiredUnfilledField(crudObject, dimensieConstants) {
     const crudObjectProperties = Object.keys(crudObject)
 
     // Indicator to only trigger a page scroll once in notifyUser()
