@@ -1,78 +1,97 @@
 import React from 'react'
-import { Link, useParams, useHistory } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAngleRight } from '@fortawesome/pro-solid-svg-icons'
 
 import allDimensies from './../../constants/dimensies'
 
 import axios from '../../API/axios'
 
+import TableRow from './TableRow'
+import TableHeading from './TableHeading'
+import ModuleFilters from './ModuleFilters'
+import SortIcon from './SortIcon'
+import ModuleAmount from './ModuleAmount'
+
 import ButtonBackToPage from './../../components/ButtonBackToPage'
 import LoaderSpinner from './../../components/LoaderSpinner'
 
+import useModuleSort from './../../utils/useModuleSort'
+import useModuleFilter from './../../utils/useModuleFilter'
 import handleError from './../../utils/handleError'
 
-function MuteerBeleidsmodulesOverview({}) {
+/**
+ * @returns A component that renders an overview of a specific Beleidsmodule
+ */
+function MuteerBeleidsmodulesOverview() {
     const [currentBeleidsmodule, setCurrentBeleidsmodule] = React.useState([])
     const [policies, setPolicies] = React.useState([])
     const [dataLoaded, setDataLoaded] = React.useState(false)
+
+    const [sorting, setSorting, sortPolicies] = useModuleSort()
+    const [filters, setFilters, filterPolicies] = useModuleFilter()
 
     const params = useParams()
     const history = useHistory()
 
     /**
-     * Function that gets and sets the beleidsmodules
+     * Effect to init the component:
+     * 1. Get and set all the beleidsmodules in state
+     * 2. Get and set the currently active beleidsmodule in state
      */
-    const getAndSetBeleidsmodules = () => {
-        axios
-            .get(`/${allDimensies.BELEIDSMODULES.API_ENDPOINT}`)
-            .then((res) => {
-                const currentBeleidsmodule = findAndSetCurrentBeleidsmodule(
-                    res.data
-                )
-                return currentBeleidsmodule
-            })
-            .then((currentBeleidsmodule) => {
-                const policies = [
-                    ...currentBeleidsmodule.Maatregelen,
-                    ...currentBeleidsmodule.Beleidskeuzes,
-                ]
-                setPolicies(policies)
-                setDataLoaded(true)
-            })
-            .catch((err) => {
-                handleError(err)
-            })
-    }
-
-    /**
-     * Function to find the corresponding active beleidsmodule based on the single parameter from the URL and set it in state
-     * @param {array} beleidsmodules - Contains the API response
-     * @returns {null|object} currentBeleidsmodule or null if there is none found
-     */
-    const findAndSetCurrentBeleidsmodule = (beleidsmodules) => {
-        const currentBeleidsmodule = beleidsmodules.find(
-            (module) => module.ID === parseInt(params.single)
-        )
-
-        if (currentBeleidsmodule) {
-            setCurrentBeleidsmodule(currentBeleidsmodule)
-            return currentBeleidsmodule
-        } else {
-            toast('Deze beleidsmodule kon niet gevonden worden')
-            history.push(`/muteer/${allDimensies.BELEIDSMODULES.SLUG_OVERVIEW}`)
-            return null
-        }
-    }
-
     React.useEffect(() => {
+        /**
+         * Function to find the corresponding active beleidsmodule based on the single parameter from the URL and set it in state
+         * @param {array} beleidsmodules - Contains the API response
+         * @returns {null|object} currentBeleidsmodule or null if there is none found
+         */
+        const findAndSetCurrentBeleidsmodule = (beleidsmodules) => {
+            const currentBeleidsmodule = beleidsmodules.find(
+                (module) => module.ID === parseInt(params.single)
+            )
+
+            if (currentBeleidsmodule) {
+                setCurrentBeleidsmodule(currentBeleidsmodule)
+                return currentBeleidsmodule
+            } else {
+                toast('Deze beleidsmodule kon niet gevonden worden')
+                history.push(
+                    `/muteer/${allDimensies.BELEIDSMODULES.SLUG_OVERVIEW}`
+                )
+            }
+        }
+
+        /**
+         * Function that gets and sets the beleidsmodules
+         */
+        const getAndSetBeleidsmodules = () => {
+            axios
+                .get(`/${allDimensies.BELEIDSMODULES.API_ENDPOINT}`)
+                .then((res) => {
+                    const currentBeleidsmodule = findAndSetCurrentBeleidsmodule(
+                        res.data
+                    )
+                    return currentBeleidsmodule
+                })
+                .then((currentBeleidsmodule) => {
+                    const policies = [
+                        ...currentBeleidsmodule.Maatregelen,
+                        ...currentBeleidsmodule.Beleidskeuzes,
+                    ]
+                    setPolicies(policies)
+                    setFilters({ type: 'init', policies: policies })
+                    setDataLoaded(true)
+                })
+                .catch((err) => {
+                    handleError(err)
+                })
+        }
+
         getAndSetBeleidsmodules()
-    }, [])
+    }, [history, params, setFilters])
 
     return (
         <div className="container flex flex-col pb-8 mx-auto sm:px-6 lg:px-8">
-            <div className="-my-2 sm:-mx-6 lg:-mx-8">
+            <div className="mt-5">
                 <div className="inline-block w-full align-middle">
                     <ButtonBackToPage
                         terugNaar={'overzicht'}
@@ -89,82 +108,75 @@ function MuteerBeleidsmodulesOverview({}) {
                                 </h1>
                             </div>
                             <div className="flex">
-                                <select
-                                    value={''}
-                                    id={`modules-select-status`}
-                                    name={'modules-select-status'}
-                                    className="block w-32 px-3 pt-2 pb-1 pr-5 leading-tight text-gray-700 bg-white border border-gray-400 rounded appearance-none overflow-ellipsis focus:outline-none hover:border-gray-500 focus:border-gray-500"
-                                >
-                                    <option disabled value={''}>
-                                        Status
-                                    </option>
-                                    <option value={'TEST'}>Test</option>
-                                </select>
-                                <select
-                                    value={''}
-                                    id={`modules-select-type`}
-                                    name={'modules-select-type'}
-                                    className="block w-32 px-3 pt-2 pb-1 pr-5 ml-2 leading-tight text-gray-700 bg-white border border-gray-400 rounded appearance-none overflow-ellipsis focus:outline-none hover:border-gray-500 focus:border-gray-500"
-                                >
-                                    <option disabled value={''}>
-                                        Beleidsstuk
-                                    </option>
-                                    <option value={'TEST'}>Test</option>
-                                </select>
+                                <ModuleFilters
+                                    filters={filters}
+                                    setFilters={setFilters}
+                                />
                             </div>
                         </div>
                         {dataLoaded ? (
-                            <div className="px-6">
-                                <div
-                                    className="block w-full px-3 py-2 my-4 rounded-md bg-pzh-blue-dark"
-                                    style={{
-                                        backgroundColor:
-                                            'RGBA(39, 174, 96, 0.1)',
-                                    }}
-                                >
-                                    In de module {currentBeleidsmodule.Titel}{' '}
-                                    {policies.length === 1 ? 'zit' : 'zitten'}{' '}
-                                    <span className="font-bold">
-                                        {policies.length} beleidsstukken
-                                    </span>
-                                </div>
-                            </div>
+                            <ModuleAmount
+                                currentBeleidsmodule={currentBeleidsmodule}
+                                policies={policies}
+                            />
                         ) : null}
                         <div className="px-4">
                             {dataLoaded ? (
                                 <table className="min-w-full divide-y divide-gray-200">
                                     <thead>
                                         <tr>
-                                            <th
-                                                scope="col"
-                                                className="px-3 py-3 text-sm font-medium tracking-wider text-left text-gray-800"
+                                            <TableHeading
+                                                property={'title'}
+                                                sorting={sorting}
+                                                setSorting={setSorting}
+                                                label="Titel"
                                             >
-                                                Titel
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                className="px-3 py-3 text-sm font-medium tracking-wider text-left text-gray-800"
+                                                <SortIcon
+                                                    sorting={sorting}
+                                                    property="title"
+                                                />
+                                            </TableHeading>
+
+                                            <TableHeading
+                                                property={'type'}
+                                                sorting={sorting}
+                                                setSorting={setSorting}
+                                                label="Beleidsstuk"
                                             >
-                                                Beleidsstuk
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                className="px-3 py-3 text-sm font-medium tracking-wider text-left text-gray-800"
+                                                <SortIcon
+                                                    sorting={sorting}
+                                                    property="type"
+                                                />
+                                            </TableHeading>
+
+                                            <TableHeading
+                                                property={'status'}
+                                                sorting={sorting}
+                                                setSorting={setSorting}
+                                                label="Status"
                                             >
-                                                Status
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                className="px-3 py-3 text-sm font-medium tracking-wider text-left text-gray-800"
+                                                <SortIcon
+                                                    sorting={sorting}
+                                                    property="status"
+                                                />
+                                            </TableHeading>
+
+                                            <TableHeading
+                                                label="UUID"
+                                                noIcon={true}
+                                            />
+
+                                            <TableHeading
+                                                property={'date'}
+                                                sorting={sorting}
+                                                setSorting={setSorting}
+                                                label="Bewerkingsdatum"
                                             >
-                                                UUID
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                className="px-3 py-3 text-sm font-medium tracking-wider text-left text-gray-800"
-                                            >
-                                                Bewerkingsdatum
-                                            </th>
+                                                <SortIcon
+                                                    sorting={sorting}
+                                                    property="date"
+                                                />
+                                            </TableHeading>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -174,9 +186,23 @@ function MuteerBeleidsmodulesOverview({}) {
                                                 module.
                                             </span>
                                         ) : (
-                                            policies.map((policy) => (
-                                                <TableRow policy={policy} />
-                                            ))
+                                            policies
+                                                .sort((a, b) => {
+                                                    return sortPolicies(
+                                                        a,
+                                                        b,
+                                                        sorting
+                                                    )
+                                                })
+                                                .filter((policy) => {
+                                                    return filterPolicies(
+                                                        policy,
+                                                        filters
+                                                    )
+                                                })
+                                                .map((policy) => (
+                                                    <TableRow policy={policy} />
+                                                ))
                                         )}
                                     </tbody>
                                 </table>
@@ -192,40 +218,5 @@ function MuteerBeleidsmodulesOverview({}) {
         </div>
     )
 }
-
-const TableRow = ({ policy }) => {
-    return (
-        <tr key={policy.Object.UUID}>
-            <TableDataCell>{policy.Object.Titel}</TableDataCell>
-            <TableDataCell>
-                {policy.Object.hasOwnProperty('Aanpassing_Op')
-                    ? 'Beleidskeuze'
-                    : 'Maatregel'}
-            </TableDataCell>
-            <TableDataCell>{policy.Object.Status}</TableDataCell>
-            <TableDataCell>{policy.Object.UUID}</TableDataCell>
-            <TableDataCell>
-                {new Intl.DateTimeFormat('nl-NL', {
-                    weekday: 'long',
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                    hour: 'numeric',
-                    minute: 'numeric',
-                }).format(new Date(policy.Object.Modified_Date))}
-            </TableDataCell>
-        </tr>
-    )
-}
-
-const TableDataCell = ({ className, children }) => (
-    <td
-        className={`px-3 py-3 text-sm text-gray-800 whitespace-nowrap ${
-            className ? className : ''
-        }`}
-    >
-        {children}
-    </td>
-)
 
 export default MuteerBeleidsmodulesOverview
