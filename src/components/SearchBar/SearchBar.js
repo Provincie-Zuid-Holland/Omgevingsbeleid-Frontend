@@ -10,7 +10,7 @@ import { searchBarFilters } from "./../../constants/searchBarFilters"
 import SearchBarPopupItem from "./../SearchBarPopupItem"
 
 /**
- * Component that renders the searchBar component, which displays a searchBar in the navigation bar.
+ * Component that renders the searchBar component, which displays a search bar which can be used within a component/page.
  *
  * @component
  *

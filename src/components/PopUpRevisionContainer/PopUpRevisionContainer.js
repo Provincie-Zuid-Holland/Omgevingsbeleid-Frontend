@@ -18,7 +18,7 @@ import useCloseWithEscapeKey from "./../../utils/useCloseWithEscapeKey"
  * @param {string} titleSingular - Title of the object in a singular form
  * @param {object} dataObject - Parameter containing the object data.
  * @param {array} revisionObjects - Parameter containing a list of revisionObjects.
- * @param {object} children - Parameter containing props that is used within the popup.
+ * @param {object} children - Can contain child component(s).
  */
 const PopUpRevisionContainer = ({
     titleSingular,
@@ -27,8 +27,9 @@ const PopUpRevisionContainer = ({
     children,
 }) => {
     const [open, setOpen] = React.useState(false)
-    const [revisionOverviewOpen, setRevisionOverviewOpen] =
-        React.useState(false)
+    const [revisionOverviewOpen, setRevisionOverviewOpen] = React.useState(
+        false
+    )
     const amountOfRevisions = revisionObjects ? revisionObjects.length - 1 : 0
 
     const innerContainer = React.useRef(null)
@@ -95,7 +96,7 @@ const PopUpRevisionContainer = ({
  * @param {array} revisionListItems - Parameter containing a list of revision list items.
  * @param {function} setOpen - Function to close the revision timeline popup.
  * @param {function} setRevisionOverviewOpen - Function to edit parent state
- * @param {object} titleSingular - Title of the object in a singular form
+ * @param {string} titleSingular - Title of the object in a singular form
  * @param {array} revisionObjects - Parameter containing a list of revision in object form.
  */
 const PopupRevisionTimeline = ({

@@ -17,7 +17,7 @@ const getObjectFromRelation = (relation) => {
  * @param {object} beleidsObject - Parameter containing the information of a beleid
  * @param {Array} beleidsRelaties - Parameter containing a collection of beleidsRelaties.
  * @param {Array} connectionProperties - Parameter containing a collection of connection properties.
- * @param {Array} connectionPropertiesColors - Parameter containing a collection of connection property colors.
+ * @param {object} connectionPropertiesColors - Parameter containing a collection of connection property colors.
  */
 function RelatiesKoppelingenTekstueel({
     beleidsObject,
@@ -89,8 +89,9 @@ function RelatiesKoppelingenTekstueel({
                         </h3>
                         <ul className="mt-2">
                             {beleidsRelaties.map((beleidsrelatie) => {
-                                const relationObject =
-                                    getObjectFromRelation(beleidsrelatie)
+                                const relationObject = getObjectFromRelation(
+                                    beleidsrelatie
+                                )
 
                                 if (!relationObject) return null
 
@@ -119,8 +120,8 @@ function RelatiesKoppelingenTekstueel({
  * @component
  *
  * @param {string} property - Parameter containing the property value.
- * @param {UUID} UUID - Parameter containing the UUID value.
- * @param {Array} connectionPropertiesColors - Parameter containing a collection of connection property colors.
+ * @param {string} UUID - Parameter containing the UUID value.
+ * @param {object} connectionPropertiesColors - Parameter containing a collection of connection property colors.
  * @param {string} titel - Parameter containing the titel of each list item
  * @param {string} omschrijving - Parameter containing the omschrijving of each list item.
  */

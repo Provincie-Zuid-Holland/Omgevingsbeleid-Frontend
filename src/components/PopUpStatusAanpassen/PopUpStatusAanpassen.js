@@ -13,8 +13,8 @@ import VOLGENDE_STATUS from "./../../constants/beleidskeuzeStatusAanpassen"
  *
  * @param {object} dataObject - Parameter containing the data in object form.
  * @param {function} patchStatus - Function that is set in the parent state.
- * @param {array} status - Parameter that contains a collection of statuses.
- * @param {boolean} toggleStatusPopup - Parameter that is used to show or hide the StatusPopup.
+ * @param {string} status - Parameter that contains a status.
+ * @param {function} toggleStatusPopup - Function that is used to toggle the StatusPopup.
  */
 function PopUpStatusAanpassen({
     dataObject,

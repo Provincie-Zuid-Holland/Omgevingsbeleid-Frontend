@@ -14,7 +14,7 @@ import GraphContext from "./../../App/GraphContext"
  *
  * @param {object} beleidsObject -  Parameter containing the information of a beleid
  * @param {Array} connectionProperties - Parameter containing a collection of connection properties.
- * @param {Array} connectionPropertiesColors - Parameter containing a collection of connection property colors.
+ * @param {object} connectionPropertiesColors - Parameter containing a collection of connection property colors.
  * @param {Array} beleidsRelaties - Parameter containing a collection of beleidsRelaties.
  * @param {string} titleSingular - Parameter containing the title in singular form.
  * @param {string} titleSingularPrefix - Parameter containing the title in singular prefix form.

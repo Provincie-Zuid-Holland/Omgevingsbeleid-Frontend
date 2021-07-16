@@ -8,8 +8,8 @@ import { useSpring, animated } from "react-spring"
  *
  * @param {boolean} small - Parameter that is used to set the size of the popup.
  * @param {boolean} large - Parameter that is used to set the size of the popup.
- * @param {object} children - Parameter containing props used within the popup.
- * @param {string} reference - Parameter containing the reference of the popup.
+ * @param {object} children - Can contain child component(s).
+ * @param {object} reference - Parameter containing the reference of the popup.
  */
 function PopUpAnimatedContainer({ small, large, children, reference }) {
     return (

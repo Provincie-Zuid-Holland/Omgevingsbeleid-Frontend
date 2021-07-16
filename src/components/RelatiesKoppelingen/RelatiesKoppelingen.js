@@ -83,8 +83,7 @@ const RelatiesKoppelingen = ({
 
         /**
          * Function to get and find the first vigerende Verordening
-         *
-         * @function
+         * @returns {Promise} Promise object contains the vigerende verordening or undefined
          */
         const getVigerendeVerordening = () =>
             axios
@@ -127,7 +126,7 @@ const RelatiesKoppelingen = ({
          *
          * @function
          *
-         * @param {UUID} uuidFrom - Parameter containing a UUID.
+         * @param {string} uuidFrom - Parameter containing a UUID.
          */
         const getBeleidsrelatiesFrom = (uuidFrom) =>
             axios
@@ -143,11 +142,10 @@ const RelatiesKoppelingen = ({
                 })
 
         /**
-         * Function to get and return the beleidsrelaties specified on the Naar_Beleidskeuze from an API request using the uuidTo parameter.
+         * Function to get and the relations to an object
+         * @returns {Promise} Promise object contains the data from the API
          *
-         * @function
-         *
-         * @param {UUID} uuidTo - Parameter containing a UUID
+         * @param {string} uuidTo - Parameter containing a UUID
          *
          */
         const getBeleidsrelatiesTo = (uuidTo) =>

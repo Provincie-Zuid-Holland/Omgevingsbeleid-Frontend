@@ -7,9 +7,9 @@ import useLockBodyScroll from "./../../utils/useLockBodyScroll.js"
  *
  * @component
  *
- * @param {object} children - Parameter containing props that is used within the popup.
+ * @param {object} children - Can contain child component(s).
  * @param {boolean} show - Parameter that is used to show the transitions of the popup.
- * @param {boolean} close - Parameter that is used to close the popup.
+ * @param {function} close - Function that is used to close the popup.
  */
 function PopupContainer({ children, show, close }) {
     const node = React.useRef()

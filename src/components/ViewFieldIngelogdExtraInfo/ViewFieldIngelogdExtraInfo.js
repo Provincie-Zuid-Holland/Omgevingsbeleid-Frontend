@@ -87,7 +87,7 @@ const ViewFieldIngelogdExtraInfo = ({ crudObject, hideEdit, className }) => {
                                 <a
                                     href={crudObject["Weblink"]}
                                     target="_blank"
-                                    className="mr-4 text-sm font-bold text-gray-600 hover:underline"
+                                    className="text-sm mr-4 font-bold text-gray-600 hover:underline"
                                     rel="noopener noreferrer"
                                 >
                                     <FontAwesomeIcon
@@ -124,7 +124,7 @@ const ViewFieldIngelogdExtraInfo = ({ crudObject, hideEdit, className }) => {
  *
  * @component
  *
- * @param {Array} eigenaren - Parameter containing a collection of owners.
+ * @param {object} eigenaren - Parameter containing a collection of owners.
  */
 const EigenarenList = ({ eigenaren }) => {
     const getUsername = (item) => {
@@ -137,7 +137,7 @@ const EigenarenList = ({ eigenaren }) => {
      *
      * @function
      *
-     * @param {Array} item - parameter containing a collection of users.
+     * @param {string} item - Parameter containing a text value.
      */
     const getAbbrevationFromUsername = (item) => {
         const username = getUsername(item)

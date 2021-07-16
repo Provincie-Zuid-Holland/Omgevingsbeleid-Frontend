@@ -19,7 +19,7 @@ import useLockBodyScroll from "./../../utils/useLockBodyScroll"
 import UserContext from "./../../App/UserContext"
 
 /**
- * Function to check the text within the object if it's valid.
+ * Function to get the text indicating its validity.
  *
  * @function
  *
@@ -110,8 +110,8 @@ function getSelectOptions(revisionObjects, leftSelect, rightSelect) {
  *
  * @param {boolean} revisionOverviewOpen - Indicating if the revision overview is open
  * @param {function} setRevisionOverviewOpen - Function to open/close the RevisionOverviewOpen popup.
- * @param {object} dataObject - Parameter containing the collection of information of a beleidskeuze.
- * @param {array} revisionObjects - Parameter containing the collection of revisions in object form.
+ * @param {object} dataObject - Contains the data of the object the user is viewing on the detail page.
+ * @param {object[]} revisionObjects - Parameter containing the collection of revisions in object form.
  */
 const PopupRevisionOverview = ({
     revisionOverviewOpen,
@@ -207,8 +207,10 @@ const PopupRevisionOverview = ({
                 new Date(b.Begin_Geldigheid) - new Date(a.Begin_Geldigheid)
         )
 
-        const [optionsFromRevisionsLeft, optionsFromRevisionsRight] =
-            getSelectOptions(revisionObjects, leftSelect, rightSelect)
+        const [
+            optionsFromRevisionsLeft,
+            optionsFromRevisionsRight,
+        ] = getSelectOptions(revisionObjects, leftSelect, rightSelect)
 
         setOptionsLeft(optionsFromRevisionsLeft)
         setOptionsRight(optionsFromRevisionsRight)
@@ -391,11 +393,10 @@ const ContainerRight = ({ children }) => (
  *
  * @component
  *
- * @param {object} props
- * @param {object} oldObject
- * @param {object} changesObject
- * @param {object} originalObject
- * @param {object} revisionObjects
+ * @param {object} oldObject - Parameter that contains the old object data.
+ * @param {object} changesObject - Contains the object with changes.
+ * @param {object} originalObject - Contains the object in its original form
+ * @param {array} revisionObjects - Parameter containing a list of revisions from the parent state.
  */
 const ChangeContainer = ({
     oldObject,
@@ -583,7 +584,7 @@ const ChangeContainer = ({
 }
 
 /**
- * Component that renders the RevisionWerkingsgebied component, which displays the revisie werkingsgebied on a map.
+ * Component that displays the revisie werkingsgebied on a map.
  *
  * @component
  *
@@ -678,12 +679,10 @@ const RevisionWerkingsgebied = ({ originalObject, changesObject }) => {
 }
 
 /**
- * Component that renders the LegendaItem component, which displays a label.
- *
- * @component
- *
- * @param {string} color - Parameter containing the background color of the label
- * @param {object} label - Parameter containing the label text for the legenda item
+ * @param {object} props
+ * @param {string} props.color - Background color
+ * @param {object} props.label - Legenda label
+ * @returns A component for a legenda item containing a color indicator and a label
  */
 const LegendaItem = ({ color, label }) => {
     return (
@@ -775,7 +774,7 @@ const Text = ({ textContent, label }) => {
 }
 
 /**
- * Component that renders the ValidText component, which displays the validText when checked within the component.
+ * The text indicating the period of validity of the object.
  *
  * @component
  *
@@ -789,9 +788,8 @@ const ValidText = ({ object, revisionObjects }) => {
         (a, b) => new Date(b.Begin_Geldigheid) - new Date(a.Begin_Geldigheid)
     )
 
-    const uiStatus = revisionObjects.find(
-        (e) => e.UUID === object.UUID
-    ).uiStatus
+    const uiStatus = revisionObjects.find((e) => e.UUID === object.UUID)
+    .uiStatus
 
     const getTextValidFromSince = (object) => {
         // Toevoegen van de datum in de revisie: "Vigerend van <datum inwerkingtreding> tot <datum uitwerkingtreding>" voor gearchiveerde beleidskeuzes.
@@ -912,10 +910,10 @@ const Belangen = ({ label, object, type, containsChanges, placeholder }) => {
 /**
  * Component that renders the RelationsConnectionsText component which displays two containers containing the connected relations between objects.
  *
- * @component
- *
- * @param {object} originalObject - Contains the original object
- * @param {object} objectChanges - Contains changes saved within the object.
+ * @param {object} props
+ * @param {object} props.originalObject - Contains the original object
+ * @param {object} props.objectChanges - Contains the object that has changes
+ * @returns A section that indicates the changes in connections
  */
 function RelationsConnectionsText({ originalObject, objectChanges }) {
     if (!originalObject || !objectChanges) return
