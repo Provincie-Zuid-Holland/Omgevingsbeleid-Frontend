@@ -9,6 +9,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 // Import Components
+import PopUpModules from './../../../components/PopUpModules'
 import PopUpStatusAanpassen from './../../../components/PopUpStatusAanpassen'
 import HeadingMain from './../../../components/HeadingMain'
 import LoaderMainTitle from './../../../components/LoaderMainTitle'
@@ -24,8 +25,10 @@ class ContainerDetail extends Component {
         this.state = {
             dropdown: false,
             statusPopup: false,
+            modulesPopup: false,
         }
         this.toggleDropdown = this.toggleDropdown.bind(this)
+        this.toggleModulesPopup = this.toggleModulesPopup.bind(this)
         this.toggleStatusPopup = this.toggleStatusPopup.bind(this)
     }
 
@@ -38,6 +41,12 @@ class ContainerDetail extends Component {
     toggleStatusPopup() {
         this.setState({
             statusPopup: !this.state.statusPopup,
+        })
+    }
+
+    toggleModulesPopup() {
+        this.setState({
+            modulesPopup: !this.state.modulesPopup,
         })
     }
 
@@ -109,9 +118,11 @@ class ContainerDetail extends Component {
                             titleSingular={titleSingular}
                             raadpleegLink={`/detail/${this.props.overzichtSlug}/${dataObject.UUID}`}
                             dataObject={dataObject}
-                            toggleDropdown={this.toggleDropdown}
+                            setDataObject={this.props.setDataObject}
                             openState={this.state.dropdown}
+                            toggleDropdown={this.toggleDropdown}
                             toggleStatusPopup={this.toggleStatusPopup}
+                            toggleModulesPopup={this.toggleModulesPopup}
                         />
                     ) : null}
 
@@ -123,6 +134,14 @@ class ContainerDetail extends Component {
                             toggleStatusPopup={this.toggleStatusPopup}
                         />
                     ) : null}
+                    {this.state.modulesPopup ? (
+                        <PopUpModules
+                            setDataObject={this.props.setDataObject}
+                            titleSingular={titleSingular}
+                            dataObject={dataObject}
+                            toggleModulesPopup={this.toggleModulesPopup}
+                        />
+                    ) : null}
 
                     <span className="block mb-1 text-sm text-gray-500">
                         {titleSingular}
@@ -132,6 +151,7 @@ class ContainerDetail extends Component {
                         <HeadingMain
                             titel={dataObject.Titel}
                             status={dataObject.Status}
+                            modules={dataObject.Ref_Beleidsmodules}
                         />
                     ) : (
                         <LoaderMainTitle />
@@ -209,7 +229,7 @@ class ContainerDetail extends Component {
                                     href={`/detail/${this.props.overzichtSlug}/${dataObject.UUID}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="flex items-center justify-between w-full py-2 pl-4 cursor-pointer hover:bg-gray-50 pzh-transition-colors"
+                                    className="flex items-center justify-between w-full py-2 pl-4 rounded-r cursor-pointer hover:bg-gray-50 pzh-transition-colors"
                                 >
                                     <div>
                                         <div>

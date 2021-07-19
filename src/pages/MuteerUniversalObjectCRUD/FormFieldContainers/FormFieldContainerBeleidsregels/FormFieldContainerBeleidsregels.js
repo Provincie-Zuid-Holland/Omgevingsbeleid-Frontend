@@ -57,6 +57,15 @@ function FormFieldContainerBeleidsregels({
                     titleSingular={titleSingular}
                 />
 
+                <FormFieldTextInput
+                    handleChange={handleChange}
+                    fieldValue={crudObject['Externe_URL']}
+                    dataObjectProperty="Externe_URL"
+                    fieldLabel="Externe URL"
+                    pValue={null}
+                    titleSingular={titleSingular}
+                />
+
                 <div className="flex flex-wrap -mx-3">
                     <FormFieldDate
                         handleChange={handleChange}
