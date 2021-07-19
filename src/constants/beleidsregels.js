@@ -29,6 +29,13 @@ export const CRUD_PROPERTIES = {
         testValue: `Weblink`,
         type: 'text input',
     },
+    Externe_URL: {
+        initValue: null,
+        required: false,
+        requiredMessage: '',
+        testValue: `Weblink`,
+        type: 'text input',
+    },
     Begin_Geldigheid: {
         initValue: null,
         required: true,
