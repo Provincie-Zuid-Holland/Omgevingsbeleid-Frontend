@@ -1,17 +1,18 @@
-import React from 'react'
+/* istanbul ignore file */
+import React from "react"
 import {
     faEllipsisH,
     faSpinner,
     faTimes,
-} from '@fortawesome/pro-regular-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+} from "@fortawesome/pro-regular-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
-import Transition from './../../../components/Transition'
+import { Transition } from "@headlessui/react"
 
-import useClickOutsideContainer from './../../../utils/useClickOutsideContainer'
-import useCloseWithEscapeKey from './../../../utils/useCloseWithEscapeKey'
+import useClickOutsideContainer from "./../../../utils/useClickOutsideContainer"
+import useCloseWithEscapeKey from "./../../../utils/useCloseWithEscapeKey"
 
-import VerordeningContext from './../VerordeningContext'
+import VerordeningContext from "./../VerordeningContext"
 
 const CrudDropdown = ({ item, pathToIndex }) => {
     const {
@@ -49,7 +50,7 @@ const CrudDropdown = ({ item, pathToIndex }) => {
             />
             <span
                 className={`absolute inset-y-0 right-0 w-12 py-1 mr-2 cursor-pointer ${
-                    verordeningsObjectFromGET ? 'pointer-events-none' : ''
+                    verordeningsObjectFromGET ? "pointer-events-none" : ""
                 }`}
             >
                 {verordeningsObjectIsLoading ? (
@@ -70,17 +71,18 @@ const CrudDropdown = ({ item, pathToIndex }) => {
                 ) : null}
 
                 <Transition
+                    className="relative z-50"
                     show={isOpen}
-                    enter="transition ease-out duration-100 transform"
+                    enter="transition ease-out duration-100 transform z-50"
                     enterFrom="opacity-0 scale-95 -translate-y-5 transform"
                     enterTo="opacity-100 scale-100 translate-y-0 transform"
-                    leave="transition ease-in duration-75 transform"
+                    leave="transition ease-in duration-75 transform z-50"
                     leaveFrom="opacity-100 scale-100 translate-y-0 transform"
                     leaveTo="opacity-0 scale-95 -translate-y-5 transform"
                 >
                     <div
                         ref={dropdownRef}
-                        className="absolute right-0 z-10 w-56 mt-2 overflow-y-hidden origin-top-right rounded-md shadow-lg"
+                        className="absolute right-0 z-50 w-56 mt-2 overflow-y-hidden origin-top-right rounded-md shadow-lg"
                     >
                         <div className="bg-white rounded-md shadow-xs">
                             <div className="py-1 overflow-y-hidden">
@@ -161,8 +163,8 @@ const ConfirmDelete = ({ item, deleteItem, show, setDeleteIsOpen }) => {
                                             className="text-lg font-bold leading-6 text-pzh-blue"
                                             id="modal-headline"
                                         >
-                                            Verwijderen{' '}
-                                            {item.Type.toLowerCase()}{' '}
+                                            Verwijderen{" "}
+                                            {item.Type.toLowerCase()}{" "}
                                             {item.Volgnummer}
                                         </h3>
                                         <span
@@ -179,20 +181,20 @@ const ConfirmDelete = ({ item, deleteItem, show, setDeleteIsOpen }) => {
                                     </div>
                                     <div className="mt-2">
                                         <p className="text-sm text-gray-800">
-                                            Je staat op het punt om{' '}
-                                            {item.Type.toLowerCase()}{' '}
+                                            Je staat op het punt om{" "}
+                                            {item.Type.toLowerCase()}{" "}
                                             {item.Volgnummer} te verwijderen.
                                             {item.Children.length > 0 &&
-                                            item.Type !== 'Artikel' ? (
+                                            item.Type !== "Artikel" ? (
                                                 <span>
-                                                    {' '}
-                                                    Op dit moment{' '}
+                                                    {" "}
+                                                    Op dit moment{" "}
                                                     {item.Children.length === 1
                                                         ? `valt er ${item.Children.length} onderdeel `
-                                                        : `vallen er ${item.Children.length} onderdelen `}{' '}
-                                                    onder. Je kunt pas{' '}
-                                                    {item.Type.toLowerCase()}{' '}
-                                                    {item.Volgnummer}{' '}
+                                                        : `vallen er ${item.Children.length} onderdelen `}{" "}
+                                                    onder. Je kunt pas{" "}
+                                                    {item.Type.toLowerCase()}{" "}
+                                                    {item.Volgnummer}{" "}
                                                     verwijderen zodra de
                                                     onderliggende onderdelen
                                                     verwijderd zijn.
@@ -214,7 +216,7 @@ const ConfirmDelete = ({ item, deleteItem, show, setDeleteIsOpen }) => {
                                         onClick={() => {
                                             if (
                                                 item.Children.length > 0 &&
-                                                item.Type !== 'Artikel'
+                                                item.Type !== "Artikel"
                                             )
                                                 return
                                             setDeleteIsOpen(false)
@@ -223,9 +225,9 @@ const ConfirmDelete = ({ item, deleteItem, show, setDeleteIsOpen }) => {
                                         type="button"
                                         className={`inline-flex justify-center px-4 py-2 text-base font-medium leading-6 text-white transition duration-150 ease-in-out ${
                                             item.Children.length > 0 &&
-                                            item.Type !== 'Artikel'
-                                                ? 'bg-gray-400 cursor-not-allowed'
-                                                : 'bg-red-600 hover:bg-red-500'
+                                            item.Type !== "Artikel"
+                                                ? "bg-gray-400 cursor-not-allowed"
+                                                : "bg-red-600 hover:bg-red-500"
                                         } border border-transparent rounded-md shadow-sm focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo `}
                                     >
                                         Verwijder {item.Type.toLowerCase()}

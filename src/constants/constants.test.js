@@ -28,7 +28,6 @@ describe('Constants', () => {
             it(`The ${dimensionKey} constant properties should also exist on the API object`, async () => {
                 const dimension = allDimensies[dimensionKey]
                 const apiURL = `${dimension.API_ENDPOINT}`
-                const crudProperties = Object.keys(dimension.CRUD_PROPERTIES)
                 const data = await fetchData(apiURL)
 
                 expect(data).toBeTruthy()
@@ -37,12 +36,14 @@ describe('Constants', () => {
 
                 const firstObject = data[0]
 
+                const crudProperties = Object.keys(dimension.CRUD_PROPERTIES)
+
                 // Check that it has the crud properties
                 crudProperties.forEach((property) => {
                     const hasProperty = firstObject.hasOwnProperty(property)
                     if (!hasProperty) {
                         console.log(
-                            `Property ${property} is not here`,
+                            `Property ${property} is on object of type ${dimensionKey}: `,
                             firstObject
                         )
                     }

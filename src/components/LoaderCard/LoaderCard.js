@@ -3,8 +3,6 @@ import ContentLoader from 'react-content-loader'
 
 /**
  * Component that renders the LoaderCard component, which loads a rectangle shape before a component is displayed.
- *
- * @component
  */
 const LoaderCard = () => (
     <ContentLoader className="w-full mb-6" width="400" height="50">

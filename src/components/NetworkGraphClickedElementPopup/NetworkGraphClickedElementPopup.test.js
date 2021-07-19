@@ -25,6 +25,7 @@ const setup = (clickedNode) => {
         setGraphIsOpen: setGraphIsOpenMock,
         resetNodes: resetNodesMock,
     }
+
     render(
         <MemoryRouter>
             <NetworkGraphClickedElementPopup {...defaultProps} />
@@ -60,7 +61,7 @@ describe('NetworkGraphClickedElementPopup', () => {
 
     it('should display the type of the clickedNode in the popup', () => {
         setup()
-        expect(screen.getByText('beleidskeuzes')).toBeTruthy()
+        expect(screen.getByText('Beleidskeuze')).toBeTruthy()
     })
 
     it('should contain a link to go to the detail page of the object', () => {
@@ -83,8 +84,8 @@ describe('NetworkGraphClickedElementPopup', () => {
         const closeBtn = screen.queryByRole('button')
         fireEvent.click(closeBtn)
         expect(resetNodesMock).toBeCalledTimes(1)
-        await waitForElementToBeRemoved(() => screen.getByText('beleidskeuzes'))
-        expect(screen.queryByText('beleidskeuzes')).not.toBeTruthy()
+        await waitForElementToBeRemoved(() => screen.getByText('Beleidskeuze'))
+        expect(screen.queryByText('Beleidskeuze')).not.toBeTruthy()
     })
 
     it('should close the popup when user focusses the close button and presses the enter key', async () => {
@@ -96,8 +97,8 @@ describe('NetworkGraphClickedElementPopup', () => {
             charCode: 13,
         })
         expect(resetNodesMock).toBeCalledTimes(1)
-        await waitForElementToBeRemoved(() => screen.getByText('beleidskeuzes'))
-        expect(screen.queryByText('beleidskeuzes')).not.toBeTruthy()
+        await waitForElementToBeRemoved(() => screen.getByText('Beleidskeuze'))
+        expect(screen.queryByText('Beleidskeuze')).not.toBeTruthy()
     })
 
     it('should not close the popup when user focusses the close button and presses a different key', async () => {
@@ -109,6 +110,6 @@ describe('NetworkGraphClickedElementPopup', () => {
             charCode: 8,
         })
         expect(resetNodesMock).toBeCalledTimes(0)
-        expect(screen.queryByText('beleidskeuzes')).toBeTruthy()
+        expect(screen.queryByText('Beleidskeuze')).toBeTruthy()
     })
 })

@@ -5,9 +5,6 @@ import debounce from './../../utils/debounce'
 
 /**
  * Class that renders the LeafletSearchInput component that shows a input field in which a user can search werkgebieden on a map.
- *
- * @class
- * @extends Component
  */
 class LeafletSearchInput extends Component {
     constructor(props) {
@@ -30,7 +27,7 @@ class LeafletSearchInput extends Component {
     /**
      * Function to set the state of the searchQuery and use the value parameter in the locatieServerSuggestQuery function.
      *
-     * @function
+     *
      *
      * @param {e} e - Event parameter that can be caught and used within the function.
      */
@@ -49,7 +46,7 @@ class LeafletSearchInput extends Component {
     /**
      * Function to import the API axiosLocatieServer and then cancel the API request.
      *
-     * @function
+     *
      */
     locatieServerSuggestCancel() {
         import('./../../API/axiosLocatieserver').then((api) => {
@@ -60,7 +57,7 @@ class LeafletSearchInput extends Component {
     /**
      * Function to import the API axiosLocatieServer and then get the lookupData through an API get request. Then the lookupData is used further in the function.
      *
-     * @function
+     *
      *
      * @param {int} id - ID used for to get the LookupData.
      * @param {string} naam - Parameter used as a value in searchQuery.
@@ -90,7 +87,7 @@ class LeafletSearchInput extends Component {
     /**
      * Function to get the suggested query value input from user, import the axiosLocatieserver API and then use the get API to set queryData.
      *
-     * @function
+     *
      *
      * @param {string} value - User input, used to get suggested data through and API.
      */
@@ -131,7 +128,7 @@ class LeafletSearchInput extends Component {
     /**
      * Function that selects the next/previous queryData.
      *
-     * @function
+     *
      *
      * @param {string} nextOrPrevious - Parameter used to check if the user has clicked on 'next' or 'previous'.
      */

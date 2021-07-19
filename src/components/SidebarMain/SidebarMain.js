@@ -53,8 +53,6 @@ function ReturnNavLink({ value, index, url }) {
 /**
  * Function to render the returnMenuItems component using the ReturnNavLink component.
  *
- * @function
- *
  * @param {array} menuItems - Parameter used to render the ReturnNavLink component based on the value of the parameter.
  */
 function returnMenuItems(menuItems) {
@@ -85,8 +83,6 @@ function returnMenuItems(menuItems) {
 /**
  * Function to render the MainSideBarHeading component.
  *
- * @function
- *
  * @param {props} props - Parameter that renders the value within the component.
  */
 function MainSideBarHeading(props) {
@@ -99,8 +95,6 @@ function MainSideBarHeading(props) {
 
 /**
  * Component that renders the SideBarMain component.
- *
- * @component
  */
 function SidebarMain() {
     const { user } = React.useContext(UserContext)

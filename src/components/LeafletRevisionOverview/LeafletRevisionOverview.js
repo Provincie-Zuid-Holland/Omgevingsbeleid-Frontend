@@ -112,9 +112,6 @@ const DEFAULT_VIEWPORT = {
  * - LayersControl -- Which contains an interactive layer control, which the user can use to cycle through layers on the map to present different information and overlays.
  *
  * If the dataReceived state is false, the default imported LoaderLeafletTinyViewer component will be shown.
- *
- * @class
- * @extends Component
  */
 export default class LeafletRevisionOverview extends Component {
     constructor(props) {
@@ -702,8 +699,6 @@ export default class LeafletRevisionOverview extends Component {
 
 /**
  * Component that renders the ToggleableSection component which displays a button which either contains the options of the legenda or Achtergrondlaag of the map when clicked on.
- *
- * @component
  *
  * @param {object} children - Parameter containing the collection within the component.
  * @param {string} title - Parameter containing the title of the component.

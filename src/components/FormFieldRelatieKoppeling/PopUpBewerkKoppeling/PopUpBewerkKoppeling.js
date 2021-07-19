@@ -5,13 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import PopUpAnimatedContainer from './../../PopUpAnimatedContainer'
 
 /**
- * Class that renders the PopUpBewerkKoppeling component in a imported PopUpAnimatedContainer,
- * in which the user can edit the description of the relationship between de bewerkItem and the beleidskeuze.
- *
- * This component is used within the component FormFieldRelatieKoppeling.
- *
- * @class
- * @extends Component
+ * @returns Component where a user can edit an existing connection
  */
 class PopUpBewerkKoppeling extends Component {
     constructor(props) {
@@ -29,9 +23,8 @@ class PopUpBewerkKoppeling extends Component {
     /**
      * Function that sets the value variable to the name variable, based on the e.target values.
      *
-     * @function
      *
-     * @param {e} e - Parameter that is used to catch any changes triggered by the user.
+     * @param {Event & { target: HTMLInputElement }} e
      */
     handleChange(e) {
         const name = e.target.name

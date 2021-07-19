@@ -17,7 +17,7 @@ class FormFieldTextArea extends React.Component {
     /**
      * Function to call the function updateElHeight when the content of the textArea components exceeds the set height.
      *
-     * @function
+     *
      */
     componentDidMount() {
         // Set height van de textArea componenten op basis van de inhoud
@@ -27,7 +27,7 @@ class FormFieldTextArea extends React.Component {
     /**
      * Function to set the height of the textArea and to add the scrollbar based on the content within it.
      *
-     * @function
+     *
      */
     updateElHeight() {
         const textAreaNode = this.textArea.current

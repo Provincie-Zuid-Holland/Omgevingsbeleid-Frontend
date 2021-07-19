@@ -53,7 +53,7 @@
         "build": "yarn tailwind && react-scripts build",
         "prod:build-osx": "NODE_ENV=production GENERATE_SOURCEMAP=false npm run build",
         "prod:build-win": "SET NODE_ENV=production&& SET GENERATE_SOURCEMAP=false&& npm run build",
-        "test": "react-scripts test --coverage --watchAll",
+        "test": "react-scripts test --watchAll --coverage",
         "eject": "react-scripts eject",
         "cy:run": "cypress run",
         "docs": "jsdoc -c jsdoc.json"

@@ -1,3 +1,3 @@
-import MuteerBeleidsrelatieDetail from './MuteerBeleidsrelatieDetail.js'
+import MuteerBeleidsrelatiesDetail from "./MuteerBeleidsrelatiesDetail.js"
 
-export default MuteerBeleidsrelatieDetail
+export default MuteerBeleidsrelatiesDetail

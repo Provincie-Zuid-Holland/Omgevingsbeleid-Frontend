@@ -62,7 +62,7 @@ const NetworkGraphClickedElementPopup = ({
                             <Link
                                 role="link"
                                 className="block p-3 pt-0 group"
-                                to={href}
+                                to={href ? href : '#'}
                                 onClick={(e) => {
                                     if (
                                         !e.shiftKey &&

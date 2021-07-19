@@ -18,8 +18,6 @@ import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFi
 /**
  * Component that renders a FormFieldWerkingsgebied component in which a user can select a Werkingsgebied.
  *
- * @component
- *
  * @param {function} setWerkingsgebiedInParentState - Function to set Werkingsgebied in parent state
  * @param {function} werkingsgebiedInParentState - Function to get Werkingsgebied from parent state
  * @param {string} dataObjectProperty - Containing a string with the werkingsgebied

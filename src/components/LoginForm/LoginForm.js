@@ -14,8 +14,6 @@ import PopUpAnimatedContainer from './../PopUpAnimatedContainer'
 /**
  * Function that renders the PopupWachtwoordVergeten component, which displays a popup in which the user can reset their password.
  *
- * @function
- *
  * @param {boolean} show - Parameter that is used to display the popup component.
  * @param {function} togglePopup - Parameter that is used to (hide/show) the popup component.
  */
@@ -80,8 +78,6 @@ function PopupWachtwoordVergeten({ show, togglePopup }) {
 
 /**
  * Component that renders a login form in which the user can log into the application.
- *
- * @component
  *
  * @param {function} setLoginState - Function to edit parent state.
  * @param {function} setLoginUser - Function to edit parent state.
@@ -170,7 +166,7 @@ const LoginForm = ({ setLoginState, setLoginUser }) => {
                     <input
                         required
                         className="w-full px-3 py-2 leading-loose bg-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                        name="identifier"
+                        name="email"
                         id="form-field-login-email"
                         data-testid="form-field-login-email"
                         type="text"

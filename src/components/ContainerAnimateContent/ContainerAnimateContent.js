@@ -5,8 +5,6 @@ import { useSpring, animated } from 'react-spring'
  * Component that renders an imported animated div component from react-spring libary and with a set style that also contains the imported useSpring component from the react-spring libary.
  * That displays the props.children value within it.
  *
- * @component
- *
  * @param {props} props - Parameter that contains value given when function is called and is rendered within the animated.div element.
  */
 

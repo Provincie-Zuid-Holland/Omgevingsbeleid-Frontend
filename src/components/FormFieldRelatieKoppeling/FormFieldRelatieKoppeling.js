@@ -13,8 +13,6 @@ import objecten from './../../constants/koppelingen'
 /**
  * Function to get and return the propertiesWithExistingConnections, which are used within the FormFieldRelatieKoppeling component.
  *
- * @function
- *
  * @param {array} connectionProperties - Parameter containing the collection of object properties that is looped through in the getPropertiesWithConnectionsFromCrudObject function.
  * @param {object} crudObject - Parameter that contains the object information from the API and is used to check if it is not undefined, null or has a string length of more than 1 charater
  */
@@ -115,11 +113,6 @@ const FormFieldRelatieKoppeling = ({
             connectionProperties,
             crudObject
         )
-
-        // // If there are no existing connections we return
-        // if (propertiesWithExistingConnections.length === 0) {
-        //     return
-        // }
 
         // Contains the properties we have already mapped
         // We need this because 'Belang' en 'Taak' are both different types, but they do have the same propertyName on the crudObject
@@ -287,7 +280,6 @@ const FormFieldRelatieKoppeling = ({
                     objecten={objecten}
                 />
             ) : null}
-
             {popupOpenBewerk ? (
                 <PopupBewerkKoppeling
                     titelMainObject={titelMainObject}

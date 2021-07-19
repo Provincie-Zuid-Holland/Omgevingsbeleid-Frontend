@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
+
 import ViewFieldTitelEnInhoud from './../../ViewFieldTitelEnInhoud'
+import ViewFieldExternalURL from './../../ViewFieldExternalURL'
 
 class ContainerViewFieldsBeleidsregel extends Component {
     render() {
@@ -12,6 +14,7 @@ class ContainerViewFieldsBeleidsregel extends Component {
                         fieldValue={crudObject['Omschrijving']}
                     />
                 ) : null}
+                <ViewFieldExternalURL externalURL={crudObject['Externe_URL']} />
             </React.Fragment>
         )
     }

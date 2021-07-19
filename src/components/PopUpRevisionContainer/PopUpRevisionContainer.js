@@ -1,14 +1,14 @@
-import React from 'react'
-import { useParams } from 'react-router-dom'
-import { faClock } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Transition } from '@headlessui/react'
-import { faChevronRight } from '@fortawesome/pro-regular-svg-icons'
+import React from "react"
+import { useParams } from "react-router-dom"
+import { faClock } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { Transition } from "@headlessui/react"
+import { faChevronRight } from "@fortawesome/pro-regular-svg-icons"
 
-import PopupRevisionOverview from './../PopupRevisionOverview'
+import PopupRevisionOverview from "./../PopupRevisionOverview"
 
-import useClickOutsideContainer from './../../utils/useClickOutsideContainer'
-import useCloseWithEscapeKey from './../../utils/useCloseWithEscapeKey'
+import useClickOutsideContainer from "./../../utils/useClickOutsideContainer"
+import useCloseWithEscapeKey from "./../../utils/useCloseWithEscapeKey"
 
 /**
  *
@@ -48,8 +48,8 @@ const PopUpRevisionContainer = ({
     })
 
     const getAmountText = (amountOfRevisions) => {
-        const singleOrPlural = amountOfRevisions === 1 ? 'revisie' : 'revisies'
-        const text = amountOfRevisions + ' ' + singleOrPlural
+        const singleOrPlural = amountOfRevisions === 1 ? "revisie" : "revisies"
+        const text = amountOfRevisions + " " + singleOrPlural
         return text
     }
 
@@ -118,13 +118,13 @@ const PopupRevisionTimeline = ({
             <div className="absolute left-0 z-20 w-64 mt-3 -ml-24 text-gray-700 bg-white rounded main-tooltip-container">
                 <div
                     className="relative h-full overflow-y-auto"
-                    style={{ maxHeight: '50vh' }}
+                    style={{ maxHeight: "50vh" }}
                 >
                     <div className="absolute top-0 z-0 w-1 h-full ml-5 border-l border-gray-300" />
                     <ul className="pl-5">{revisionListItems}</ul>
                 </div>
 
-                {titleSingular === 'Beleidskeuze' &&
+                {titleSingular === "Beleidskeuze" &&
                 revisionObjects &&
                 revisionObjects.length > 1 ? (
                     <div
