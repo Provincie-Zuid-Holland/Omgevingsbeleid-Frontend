@@ -12,7 +12,7 @@ import {
 import Proj from "proj4leaflet"
 import { toast } from "react-toastify"
 
-import { faSearch } from "@fortawesome/free-solid-svg-icons"
+import { faSearch } from "@fortawesome/pro-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 import {

@@ -1,8 +1,8 @@
-import React from 'react'
+import React from "react"
 
 // Import Icons
-import { faSpinner } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSpinner } from "@fortawesome/pro-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 /**
  * Component that renders the LoaderSaving component, which displays a rotating spinner icon with the text "Opslaan..." underneath it when something is busy saving.

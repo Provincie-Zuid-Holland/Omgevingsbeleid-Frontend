@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import { toast } from "react-toastify"
 import { Transition } from "@headlessui/react"
 
-import { faSearch, faBars, faTimes } from "@fortawesome/free-solid-svg-icons"
+import { faSearch, faBars, faTimes } from "@fortawesome/pro-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 // Import API and Env variable used for the banner
@@ -265,6 +265,7 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
                                 />
                             </nav>
                         </div>
+                        {/* REFACTOR */}
                         <div className="flex flex-col w-9/12 pl-5">
                             <div className="flex items-end w-full pb-5 border-b border-gray-300">
                                 <h3
@@ -277,7 +278,7 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
                                         <span className="ml-2 text-gray-600">
                                             {currentItems !== null
                                                 ? currentItems.filter((item) =>
-                                                      item.Titel.toLowerCase().includes(
+                                                      item?.Titel?.toLowerCase()?.includes(
                                                           filterQuery.toLowerCase()
                                                       )
                                                   ).length
@@ -323,7 +324,7 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
                                     ) : (
                                         currentItems
                                             .filter((item) =>
-                                                item.Titel.toLowerCase().includes(
+                                                item?.Titel?.toLowerCase()?.includes(
                                                     filterQuery.toLowerCase()
                                                 )
                                             )
@@ -359,8 +360,8 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
                                     {!isLoading &&
                                     currentItems &&
                                     currentItems.filter((item) =>
-                                        item.Titel.toLowerCase().includes(
-                                            filterQuery.toLowerCase()
+                                        item?.Titel?.toLowerCase()?.includes(
+                                            filterQuery?.toLowerCase()
                                         )
                                     ).length === 0 ? (
                                         <span
@@ -419,7 +420,7 @@ const TabMenuItem = ({ activeTab, tabTitle, setActiveTab }) => {
  * @param {string} tabTitle - Parameter that displays the tabTitle of the Link element.
  * @param {} href - Parameter that contains an URL where the user navigates too, when the user click on the Link element.
  * @param {function} setIsOpen - Parameter that is used for an onclick function to set the isOpen parameter to true or false.
- * @param {int} tabId - Parameter that contains the id of the Tab.
+ * @param {number} tabId - Parameter that contains the id of the Tab.
  */
 const TabMenuItemLink = ({ tabTitle, href, setIsOpen, tabId, callback }) => {
     return (

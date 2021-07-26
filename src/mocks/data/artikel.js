@@ -1,0 +1,62 @@
+const artikel = {
+    ID: 2,
+    UUID: "7F7CFF43-DCBD-46DE-A93A",
+    Begin_Geldigheid: "2019-03-29T00:00:00Z",
+    Eind_Geldigheid: "3000-01-01T00:00:00Z",
+    Created_By: {
+        UUID: "1EFF5CDF-3B34-4C34-B3B7",
+        Gebruikersnaam: "John Doe",
+        Rol: "Beheerder",
+        Status: null,
+    },
+    Created_Date: "2020-03-23T00:00:00Z",
+    Modified_By: {
+        UUID: "359A9254-598E-4BFE-BCEC",
+        Gebruikersnaam: "John Doe",
+        Rol: "Beheerder",
+        Status: "Actief",
+    },
+    Modified_Date: "2021-06-24T07:14:55.790000Z",
+    Eigenaar_1: {
+        UUID: "669EDE3C-20BB-47ED-9E6D",
+        Gebruikersnaam: "John Doe",
+        Rol: "Geen",
+        Status: null,
+    },
+    Eigenaar_2: {
+        UUID: "669EDE3C-20BB-47ED-9E6D",
+        Gebruikersnaam: "John Doe",
+        Rol: "Geen",
+        Status: null,
+    },
+    Portefeuillehouder_1: null,
+    Portefeuillehouder_2: null,
+    Opdrachtgever: {
+        UUID: "675144F8-56ED-48DD-AB26",
+        Gebruikersnaam: "John Doe",
+        Rol: "Beheerder",
+        Status: null,
+    },
+    Titel: "Begripsbepalingen",
+    Inhoud:
+        "Bijlage I bij deze verordening bevat begrippen en definities voor de toepassing van deze verordening en de daarop berustende bepalingen. Bewerkt\n",
+    Weblink: null,
+    Status: "Vigerend",
+    Volgnummer: "1.1",
+    Type: "Artikel",
+    Gebied: {
+        ID: 47,
+        UUID: "C8DBFE2D-2E63-4987-9BA7",
+        Begin_Geldigheid: "2018-10-30T00:00:00Z",
+        Eind_Geldigheid: "2999-12-31T23:59:59Z",
+        Created_By: "00000000-0000-0000-0000-000000000000",
+        Created_Date: "2018-10-30T00:00:00Z",
+        Modified_By: "00000000-0000-0000-0000-000000000000",
+        Modified_Date: "2018-10-30T00:00:00Z",
+        Werkingsgebied: "Vaarwegen lijst A en lijst B",
+        symbol: null,
+    },
+    Ref_Beleidskeuzes: [],
+}
+
+export { artikel }

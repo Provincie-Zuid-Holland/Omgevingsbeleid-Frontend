@@ -1,34 +1,34 @@
-import React, { Component } from 'react'
-import axios from './../../../API/axios'
-import { faTimes, faSearch } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { toast } from 'react-toastify'
+import React, { Component } from "react"
+import axios from "./../../../API/axios"
+import { faTimes, faSearch } from "@fortawesome/pro-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { toast } from "react-toastify"
 
-import PopUpAnimatedContainer from './../../PopUpAnimatedContainer'
-import objecten from './../../../constants/koppelingen'
+import PopUpAnimatedContainer from "./../../PopUpAnimatedContainer"
+import objecten from "./../../../constants/koppelingen"
 
 const getTypeText = (type) => {
     switch (type) {
-        case 'belangen':
-            return 'het belang'
-        case 'taken':
-            return 'de taak'
-        case 'ambities':
-            return 'de ambitie'
-        case 'beleidsdoelen':
-            return 'het beleidsdoel'
-        case 'themas':
-            return 'het thema'
-        case 'beleidsregels':
-            return 'de beleidsregel'
-        case 'beleidsprestaties':
-            return 'de beleidsprestatie'
-        case 'maatregelen':
-            return 'de maatregel'
-        case 'verordening':
-            return 'de verordening'
+        case "belangen":
+            return "het belang"
+        case "taken":
+            return "de taak"
+        case "ambities":
+            return "de ambitie"
+        case "beleidsdoelen":
+            return "het beleidsdoel"
+        case "themas":
+            return "het thema"
+        case "beleidsregels":
+            return "de beleidsregel"
+        case "beleidsprestaties":
+            return "de beleidsprestatie"
+        case "maatregelen":
+            return "de maatregel"
+        case "verordening":
+            return "de verordening"
         default:
-            return 'het object'
+            return "het object"
     }
 }
 
@@ -45,8 +45,8 @@ class PopupNieuweKoppeling extends Component {
             type: this.props.type,
             objecten: [],
             selected: null,
-            beschrijving: '',
-            zoekFilter: '',
+            beschrijving: "",
+            zoekFilter: "",
             actievePagina: 1,
             dataLoaded: false,
         }
@@ -60,8 +60,8 @@ class PopupNieuweKoppeling extends Component {
      *
      */
     componentDidMount() {
-        window.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
+        window.addEventListener("keypress", (e) => {
+            if (e.key === "Enter") {
                 e.preventDefault()
             }
         })
@@ -155,7 +155,7 @@ class PopupNieuweKoppeling extends Component {
         const filteredObjecten = this.state.objecten
             .filter(
                 (item) =>
-                    item.Type !== 'Lid' &&
+                    item.Type !== "Lid" &&
                     item.Titel &&
                     item.Titel.toLowerCase().includes(
                         this.state.zoekFilter.toLowerCase()
@@ -209,8 +209,8 @@ class PopupNieuweKoppeling extends Component {
                                             }}
                                             className={`px-4 py-2 text-sm text-gray-700 cursor-pointer ${
                                                 this.state.selected === item
-                                                    ? 'bg-gray-100 font-bold'
-                                                    : 'hover:bg-gray-100'
+                                                    ? "bg-gray-100 font-bold"
+                                                    : "hover:bg-gray-100"
                                             }`}
                                             key={item.UUID}
                                             id={`form-field-koppeling-item-${index}`}
@@ -240,7 +240,7 @@ class PopupNieuweKoppeling extends Component {
                                                 {
                                                     objecten[this.state.type]
                                                         .volledigeTitelMeervoud
-                                                }{' '}
+                                                }{" "}
                                                 laden...
                                             </span>
                                         )}
@@ -303,7 +303,7 @@ class PopupNieuweKoppeling extends Component {
                             }}
                             onKeyPress={(e) => {
                                 if (
-                                    e.key === 'Enter' &&
+                                    e.key === "Enter" &&
                                     this.state.beschrijving.length > 0
                                 ) {
                                     this.props.voegKoppelingRelatieToe(
@@ -340,7 +340,7 @@ class PopupNieuweKoppeling extends Component {
                             }}
                             onKeyPress={(e) => {
                                 if (
-                                    e.key === 'Enter' &&
+                                    e.key === "Enter" &&
                                     this.state.beschrijving.length > 0
                                 ) {
                                     this.props.voegKoppelingRelatieToe(

@@ -82,7 +82,7 @@ function Navigation({ loggedIn, setLoginState }) {
                         <SearchBar
                             width="w-64"
                             placeholder="Zoek in het omgevingsbeleid"
-                            compInNavigation={true}
+                            componentInNavbar={true}
                         />
                     </div>
                     {loggedIn && userIsInMuteerEnvironment ? (
@@ -152,7 +152,7 @@ const MenuIcon = ({
                     className={`${className} text-sm`}
                     icon={icon}
                 />
-                <span class="sr-only">{screenReaderLabel}</span>
+                <span className="sr-only">{screenReaderLabel}</span>
             </span>
             <div className="text-sm">{children}</div>
         </Link>

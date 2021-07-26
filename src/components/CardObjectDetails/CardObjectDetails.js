@@ -1,9 +1,9 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React from "react"
+import { Link } from "react-router-dom"
+import { faAngleRight } from "@fortawesome/pro-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
-import ContainerAnimateContent from './../ContainerAnimateContent'
+import ContainerAnimateContent from "./../ContainerAnimateContent"
 
 /**
  * @param {Object} object - The object we want to display
@@ -26,7 +26,7 @@ function CardObjectDetails({
             : `object-card-${titleSingular.toLowerCase()}`
 
     const detailPageLink = `/muteer/${hoofdOnderdeelSlug}/${object.ID}${
-        mijnBeleid ? '#mijn-beleid' : ''
+        mijnBeleid ? "#mijn-beleid" : ""
     }`
 
     return (

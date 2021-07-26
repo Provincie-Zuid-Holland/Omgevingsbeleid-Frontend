@@ -5,7 +5,7 @@ import {
     faFolder,
     faFileAlt,
     faFolderOpen,
-} from "@fortawesome/free-regular-svg-icons"
+} from "@fortawesome/pro-regular-svg-icons"
 import { faBook } from "@fortawesome/pro-regular-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 

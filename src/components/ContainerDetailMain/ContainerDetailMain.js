@@ -1,7 +1,7 @@
 import React from "react"
 import { withRouter } from "react-router-dom"
-import { faCalendarAlt } from "@fortawesome/free-regular-svg-icons"
-import { faLink, faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons"
+import { faCalendarAlt } from "@fortawesome/pro-regular-svg-icons"
+import { faLink, faExternalLinkAlt } from "@fortawesome/pro-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 // Import Components

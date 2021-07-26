@@ -16,6 +16,11 @@ import { beleidsrelaties } from "./data/beleidsrelaties"
 import { beleidsregels } from "./data/beleidsregels"
 import { maatregelen } from "./data/maatregelen"
 import { themas } from "./data/themas"
+import { geoWerkingsgebied } from "./data/geoWerkingsgebied"
+import { artikel } from "./data/artikel"
+import { search } from "./data/search"
+import { geoSuggest } from "./data/geoSuggest"
+import { geoLookup } from "./data/geoLookup"
 
 const dimensions = [
     "AMBITIES",
@@ -114,9 +119,23 @@ export const handlers = [
         return res(ctx.status(200), ctx.json(ambities))
     }),
 
+    rest.get(
+        `https://geo-omgevingsbeleid-test.azurewebsites.net/OMGEVINGSBELEID/ows`,
+        (req, res, ctx) => {
+            return res(ctx.status(200), ctx.json(geoWerkingsgebied))
+        }
+    ),
+
     rest.get(`${baseURL}/beleidskeuzes`, (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(beleidskeuzes))
     }),
+
+    rest.get(
+        `${baseURL}/beleidskeuzes/${beleidskeuzes[0].ID}`,
+        (req, res, ctx) => {
+            return res(ctx.status(200), ctx.json([beleidskeuzes[0]]))
+        }
+    ),
 
     rest.get(
         `${baseURL}/version/beleidskeuzes/${beleidskeuzes[0].UUID}`,
@@ -163,6 +182,32 @@ export const handlers = [
     rest.get(`${baseURL}/verordeningstructuur`, (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(verordeningstructuur))
     }),
+
+    rest.get(`${baseURL}/verordeningstructuur/:id`, (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(verordeningstructuur))
+    }),
+
+    rest.get(`${baseURL}/version/verordeningen/:uuid`, (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(artikel))
+    }),
+
+    rest.get(`${baseURL}/search`, (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(search))
+    }),
+
+    rest.get(
+        `https://geodata.nationaalgeoregister.nl/locatieserver/v3/suggest`,
+        (req, res, ctx) => {
+            return res(ctx.status(200), ctx.json(geoSuggest))
+        }
+    ),
+
+    rest.get(
+        `https://geodata.nationaalgeoregister.nl/locatieserver/v3/lookup`,
+        (req, res, ctx) => {
+            return res(ctx.status(200), ctx.json(geoLookup))
+        }
+    ),
 
     ...getDimensions,
     ...patchDimensions,

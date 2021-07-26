@@ -234,10 +234,10 @@ const PopupRevisionOverview = ({
                 leaveTo="opacity-0"
             >
                 <div
-                    class="fixed inset-0 transition-opacity"
+                    className="fixed inset-0 transition-opacity"
                     aria-hidden="true"
                 >
-                    <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+                    <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
                 </div>
             </Transition>
             <div
@@ -1035,14 +1035,14 @@ const ConnectionListItem = ({ property, connection }) => {
                 {connection.Koppeling_Omschrijving &&
                 connection.Koppeling_Omschrijving !== "" ? (
                     <div
-                        class="absolute hidden group-hover:block top-0 pt-3 mt-5 z-20 cursor-default tooltip-content pb-6 px-4"
+                        className="absolute top-0 z-20 hidden px-4 pt-3 pb-6 mt-5 cursor-default group-hover:block tooltip-content"
                         style={{
                             left: "5px",
                         }}
                     >
                         <div
                             id={connection.Object?.UUID}
-                            class="px-5 py-3 rounded bg-gray-900 text-white shadow leading-7 break-words whitespace-pre-line"
+                            className="px-5 py-3 leading-7 text-white break-words whitespace-pre-line bg-gray-900 rounded shadow"
                         >
                             {connection.Koppeling_Omschrijving}
                         </div>

@@ -1,5 +1,5 @@
-import React from 'react'
-import { useSpring, animated } from 'react-spring'
+import React from "react"
+import { useSpring, animated } from "react-spring"
 
 /**
  * Component that renders an imported animated div component from react-spring libary and with a set style that also contains the imported useSpring component from the react-spring libary.
@@ -14,8 +14,8 @@ function ContainerAnimateContent(props) {
             style={useSpring({
                 config: { tension: 250 },
                 opacity: 1,
-                transform: 'scale(1)',
-                from: { opacity: 0, transform: 'scale(0.95)' },
+                transform: "scale(1)",
+                from: { opacity: 0, transform: "scale(0.95)" },
             })}
         >
             {props.children}

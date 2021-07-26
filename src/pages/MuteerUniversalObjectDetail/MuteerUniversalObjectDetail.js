@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import { format } from "date-fns"
 import { Link, withRouter } from "react-router-dom"
-import { faPlus } from "@fortawesome/free-solid-svg-icons"
+import { faPlus } from "@fortawesome/pro-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Helmet } from "react-helmet"
 import { toast } from "react-toastify"

@@ -1,9 +1,9 @@
-import React from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import React from "react"
+import { Link, useLocation } from "react-router-dom"
 
-// import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
-import { faAngleRight } from '@fortawesome/pro-light-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// import { faAngleRight } from '@fortawesome/pro-solid-svg-icons'
+import { faAngleRight } from "@fortawesome/pro-light-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 const ViewFieldBelangen = ({ fieldValue }) => {
     const [nationaleBelangen, setNationaleBelangen] = React.useState([])
@@ -12,11 +12,11 @@ const ViewFieldBelangen = ({ fieldValue }) => {
 
     React.useEffect(() => {
         setNationaleBelangen(
-            fieldValue.filter((item) => item.Object.Type === 'Nationaal Belang')
+            fieldValue.filter((item) => item.Object.Type === "Nationaal Belang")
         )
         setWettelijkeTaken(
             fieldValue.filter(
-                (item) => item.Object.Type === 'Wettelijke Taak & Bevoegdheid'
+                (item) => item.Object.Type === "Wettelijke Taak & Bevoegdheid"
             )
         )
         setDataLoaded(true)
@@ -31,7 +31,10 @@ const ViewFieldBelangen = ({ fieldValue }) => {
                     </h2>
                     <ul className="mt-1">
                         {nationaleBelangen.map((item) => (
-                            <BelangenListItem item={item.Object} />
+                            <BelangenListItem
+                                key={item?.Object?.UUID}
+                                item={item.Object}
+                            />
                         ))}
                     </ul>
                 </div>
@@ -43,7 +46,10 @@ const ViewFieldBelangen = ({ fieldValue }) => {
                     </h2>
                     <ul className="mt-1">
                         {wettelijkeTaken.map((item) => (
-                            <BelangenListItem item={item.Object} />
+                            <BelangenListItem
+                                key={item?.Object?.UUID}
+                                item={item.Object}
+                            />
                         ))}
                     </ul>
                 </div>

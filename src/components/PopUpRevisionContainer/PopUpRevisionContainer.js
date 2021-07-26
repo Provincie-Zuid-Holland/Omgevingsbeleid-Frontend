@@ -1,6 +1,6 @@
 import React from "react"
 import { useParams } from "react-router-dom"
-import { faClock } from "@fortawesome/free-solid-svg-icons"
+import { faClock } from "@fortawesome/pro-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Transition } from "@headlessui/react"
 import { faChevronRight } from "@fortawesome/pro-regular-svg-icons"

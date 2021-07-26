@@ -1,14 +1,14 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from "react"
+import PropTypes from "prop-types"
 
-import { faAngleDown, faEye } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faAngleDown, faEye } from "@fortawesome/pro-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
-import PopupNieuweKoppeling from './PopupNieuweKoppeling'
-import PopupBewerkKoppeling from './PopUpBewerkKoppeling'
-import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFieldTitelEnBeschrijving'
+import PopupNieuweKoppeling from "./PopupNieuweKoppeling"
+import PopupBewerkKoppeling from "./PopUpBewerkKoppeling"
+import FormFieldTitelEnBeschrijving from "../FormFieldTitelEnBeschrijving/FormFieldTitelEnBeschrijving"
 
-import objecten from './../../constants/koppelingen'
+import objecten from "./../../constants/koppelingen"
 
 /**
  * Function to get and return the propertiesWithExistingConnections, which are used within the FormFieldRelatieKoppeling component.
@@ -153,7 +153,7 @@ const FormFieldRelatieKoppeling = ({
 
     return (
         <React.Fragment>
-            {fieldLabel === 'Koppelingen' ? (
+            {fieldLabel === "Koppelingen" ? (
                 <React.Fragment>
                     <h3 className="block mb-2 font-bold tracking-wide text-gray-700">
                         Relaties
@@ -174,8 +174,8 @@ const FormFieldRelatieKoppeling = ({
             <div
                 className={`p-5 bg-white rounded shadow ${
                     disabled
-                        ? 'opacity-75 cursor-not-allowed pointer-events-none'
-                        : ''
+                        ? "opacity-75 cursor-not-allowed pointer-events-none"
+                        : ""
                 }`}
                 id={`form-field-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
             >
@@ -212,7 +212,7 @@ const FormFieldRelatieKoppeling = ({
                                     (item, index) => {
                                         let type =
                                             objecten[koppelingRelatieNaam].type
-                                        if (type === 'Nationaal Belang') {
+                                        if (type === "Nationaal Belang") {
                                             type = item.Object.Type
                                         }
 
@@ -326,10 +326,10 @@ const Dropdown = ({
                 setDropdownOpen(false)
             }
         }
-        document.addEventListener('mousedown', handleClickOutside, false)
+        document.addEventListener("mousedown", handleClickOutside, false)
 
         return () =>
-            document.removeEventListener('mousedown', handleClickOutside, false)
+            document.removeEventListener("mousedown", handleClickOutside, false)
     }, [setDropdownOpen])
 
     return (

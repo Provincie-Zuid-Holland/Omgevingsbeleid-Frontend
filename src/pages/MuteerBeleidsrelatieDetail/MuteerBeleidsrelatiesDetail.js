@@ -4,7 +4,7 @@ import { withRouter, useParams } from "react-router-dom"
 import { toast } from "react-toastify"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faAngleLeft, faPlus } from "@fortawesome/free-solid-svg-icons"
+import { faAngleLeft, faPlus } from "@fortawesome/pro-solid-svg-icons"
 
 import axios from "../../API/axios"
 
