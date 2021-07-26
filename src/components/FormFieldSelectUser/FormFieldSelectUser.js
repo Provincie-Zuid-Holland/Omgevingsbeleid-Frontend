@@ -8,8 +8,6 @@ import LoaderSelect from './../LoaderSelect'
  * Function that checks if the objectenArray contains a value by checking the length,
  * otherwise it will map through each array item and returns the set value for each variable in the options object.
  *
- * @function
- *
  * @param {array} objectenArray - Parameter given that contains an array that is used to set the value for each variable of options.
  * @param {string} dataObjectProperty - Parameter given that is used to set the name variable of the target variable of options.
  */
@@ -67,7 +65,7 @@ class FormFieldSelectUser extends React.Component {
     /**
      * Function to update the prevProps and set the state variables only if the current fielValue is not equal to the previous fieldValue.
      *
-     * @function
+     *
      *
      * @param {props} prevProps - Parameter that is used to show the previous property value.
      */
@@ -90,7 +88,7 @@ class FormFieldSelectUser extends React.Component {
     /**
      * Function to set the state of the props given based on the conditional operators.
      *
-     * @function
+     *
      */
     componentDidMount() {
         let fieldValue = this.props.fieldValue

@@ -1,12 +1,13 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+/* istanbul ignore file */
+import React from "react"
+import { Link } from "react-router-dom"
 
 import {
     faPlus,
     faArrowsAltV,
     faPencil,
-} from '@fortawesome/pro-regular-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+} from "@fortawesome/pro-regular-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 // This component displays the UI to, edit, add and change the order of the regulation objects
 function EditAddOrderSection({
@@ -28,7 +29,7 @@ function EditAddOrderSection({
     const [fixedActive, setFixedActive] = React.useState(false)
 
     React.useEffect(() => {
-        const addOrderBar = document.getElementById('verordening-order-add')
+        const addOrderBar = document.getElementById("verordening-order-add")
         const offsetTopAddOrderBar = addOrderBar.offsetTop
         const offsetLeftAddOrderBar = addOrderBar.offsetLeft
         const widthAddOrderBar = addOrderBar.offsetWidth
@@ -37,28 +38,28 @@ function EditAddOrderSection({
 
         setHeightAddOrderBar({
             height: heightAddOrderBar,
-            width: '100%',
-            display: 'block',
+            width: "100%",
+            display: "block",
         })
 
         setFixedStyle({
             left: offsetLeftAddOrderBar,
             top: heightNavigation,
             width: widthAddOrderBar,
-            position: 'fixed',
-            display: 'flex',
-            alignItems: 'center',
-            borderBottomWidth: '1px',
-            borderColor: '#cbd5e0',
-            backgroundColor: '#FFF',
+            position: "fixed",
+            display: "flex",
+            alignItems: "center",
+            borderBottomWidth: "1px",
+            borderColor: "#cbd5e0",
+            backgroundColor: "#FFF",
             zIndex: 10,
         })
 
         setRegularStyle({
-            display: 'flex',
-            alignItems: 'center',
-            borderBottomWidth: '1px',
-            borderColor: '#cbd5e0',
+            display: "flex",
+            alignItems: "center",
+            borderBottomWidth: "1px",
+            borderColor: "#cbd5e0",
         })
 
         let last_known_scroll_position = 0
@@ -88,9 +89,9 @@ function EditAddOrderSection({
             }
         }
 
-        window.addEventListener('scroll', throttleScroll)
+        window.addEventListener("scroll", throttleScroll)
 
-        return () => window.removeEventListener('scroll', throttleScroll)
+        return () => window.removeEventListener("scroll", throttleScroll)
     }, [activeChapter])
 
     return (
@@ -169,7 +170,7 @@ const Button = ({ toggleFunction, icon, UUIDBeingEdited, href }) => {
             <Link
                 to={href}
                 className={`flex items-center justify-center w-12 h-full font-bold text-gray-700 transition duration-100 ease-in border-l border-gray-400 hover:bg-gray-50 hover:text-gray-900 ${
-                    UUIDBeingEdited ? 'cursor-not-allowed' : 'cursor-pointer'
+                    UUIDBeingEdited ? "cursor-not-allowed" : "cursor-pointer"
                 }`}
             >
                 <span className="flex items-center justify-center px-2">
@@ -182,7 +183,7 @@ const Button = ({ toggleFunction, icon, UUIDBeingEdited, href }) => {
     return (
         <button
             className={`flex items-center justify-center w-12 h-full font-bold text-gray-700 transition duration-100 ease-in border-l border-gray-400 hover:bg-gray-50 hover:text-gray-900 ${
-                UUIDBeingEdited ? 'cursor-not-allowed' : 'cursor-pointer'
+                UUIDBeingEdited ? "cursor-not-allowed" : "cursor-pointer"
             }`}
             onClick={() => {
                 if (!UUIDBeingEdited) {
@@ -202,15 +203,15 @@ const EditAddOrderActive = ({ fixedActive, editOrderMode, addSectionMode }) => {
         <div className="flex items-center w-full h-12 pl-10 text-white bg-pzh-blue">
             <span
                 className={`absolute font-bold transition-all ease-in duration-100 ${
-                    fixedActive ? 'pl-16' : 'pl-0'
+                    fixedActive ? "pl-16" : "pl-0"
                 }`}
             >
-                Actie -{' '}
+                Actie -{" "}
                 {editOrderMode
-                    ? 'Volgorde wijzigen'
+                    ? "Volgorde wijzigen"
                     : addSectionMode
-                    ? 'Nieuwe onderdelen toevoegen'
-                    : ''}
+                    ? "Nieuwe onderdelen toevoegen"
+                    : ""}
             </span>
         </div>
     )
@@ -218,9 +219,9 @@ const EditAddOrderActive = ({ fixedActive, editOrderMode, addSectionMode }) => {
 
 function Heading({ activeHoofdstuk, lineage, isActiveChapter, show }) {
     const text = activeHoofdstuk
-        ? 'Hoofdstuk ' +
+        ? "Hoofdstuk " +
           lineage.Structuur.Children[activeHoofdstuk].Volgnummer +
-          ' - ' +
+          " - " +
           lineage.Structuur.Children[activeHoofdstuk].Titel
         : lineage.Titel
 

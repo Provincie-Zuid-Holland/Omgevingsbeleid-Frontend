@@ -5,8 +5,6 @@ import { Link } from 'react-router-dom'
 /**
  * Component that renders a Link and button elements that lets the user add a certain new object based on the parameters given.
  *
- * @component
- *
  * @param {string} createNewSlug - Parameter that is part of the link element where the user navigates to.
  * @param {string} hoofdOnderdeelSlug - Parameter that is the main part (categorie) of the link element where the user navigates to.
  * @param {string} titleSingular - Parameter that is part of the text of the button element that is being rendered.

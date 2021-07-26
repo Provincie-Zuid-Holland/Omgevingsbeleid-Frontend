@@ -1,19 +1,12 @@
-import React from 'react'
+import React from "react"
 
 /**
- * Component that renders the FormFieldTitelEnBeschrijving component that is used to display the title and description of the FormField component based on the props given.
- *
- * This component is imported by the following page:
- * FormFieldContainerMaatregelen
- *
- * @component
- *
- * @param {props} props - Parameter that contains the value collection of the variables pValue, fieldLabel, anchorText and anchorLink.
+ * @returns A label and description of a FormField component
  */
 function FormFieldTitelEnBeschrijving(props) {
     let pValue = props.pValue
     if (props.disabled) {
-        pValue = pValue + ' (Kan niet zonder besluitvorming worden gewijzigd)'
+        pValue = pValue + " (Kan niet zonder besluitvorming worden gewijzigd)"
     }
     return (
         <>
@@ -21,7 +14,7 @@ function FormFieldTitelEnBeschrijving(props) {
                 {props.fieldLabel ? props.fieldLabel : null}
             </h3>
             <p className="mb-4 text-sm text-gray-700">
-                {pValue ? `${pValue} ` : ''}
+                {pValue ? `${pValue} ` : ""}
                 {props.anchorText ? (
                     <a
                         href={[props.anchorLink]}

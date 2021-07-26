@@ -114,8 +114,6 @@ function BeginGeldigheid({
  * @param {string} fieldValue - Parameter that is used within this function in a conditional operator to set the value to the value variable of the input element.
  * @param {boolean} handleChange - Parameter that is used within this function to set the onChange variable to true if the input element has been changed.
  * @param {boolean} disabled -  Parameter that is used within this function and in the imported FormFieldTitelEnBeschrijving to set the disabled variable, if set true, the input and/or imported FormFieldTitelEnBeschrijving will be disabled.
- *
- * @function
  */
 function EindGeldigheid({
     hideToggleUitwerkingstrede,

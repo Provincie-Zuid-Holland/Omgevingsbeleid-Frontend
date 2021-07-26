@@ -1,10 +1,10 @@
-import React from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import React from "react"
+import { Link, useLocation } from "react-router-dom"
 
 const getObjectFromRelation = (relation) => {
-    return relation.hasOwnProperty('Van_Beleidskeuze')
+    return relation.hasOwnProperty("Van_Beleidskeuze")
         ? relation.Van_Beleidskeuze
-        : relation.hasOwnProperty('Naar_Beleidskeuze')
+        : relation.hasOwnProperty("Naar_Beleidskeuze")
         ? relation.Naar_Beleidskeuze
         : relation
 }
@@ -29,7 +29,7 @@ function RelatiesKoppelingenTekstueel({
                 <div className="flex flex-col justify-between w-full">
                     <div>
                         <p className="mt-2 leading-7 text-gray-800 break-words">
-                            Er zijn nog geen koppelingen naar{' '}
+                            Er zijn nog geen koppelingen naar{" "}
                             <span className="italic">
                                 “{beleidsObject.Titel}”
                             </span>
@@ -115,15 +115,15 @@ const ListItem = ({
 
     const generateHref = ({ property, UUID }) => {
         const slugs = {
-            Beleidskeuzes: 'beleidskeuzes',
-            Ambities: 'ambities',
-            Beleidsregels: 'beleidsregels',
-            Beleidsprestaties: 'beleidsprestaties',
-            Belangen: 'belangen',
-            Maatregelen: 'maatregelen',
-            Themas: 'themas',
-            Beleidsdoelen: 'Beleidsdoelen',
-            Verordeningen: 'verordeningen',
+            Beleidskeuzes: "beleidskeuzes",
+            Ambities: "ambities",
+            Beleidsregels: "beleidsregels",
+            Beleidsprestaties: "beleidsprestaties",
+            Belangen: "belangen",
+            Maatregelen: "maatregelen",
+            Themas: "themas",
+            Beleidsdoelen: "Beleidsdoelen",
+            Verordeningen: "verordeningen",
         }
 
         const path = `/detail/${slugs[property]}/${UUID}?fromPage=${location.pathname}`
@@ -131,15 +131,15 @@ const ListItem = ({
     }
 
     const href = generateHref({ property: property, UUID: UUID })
-    const isVerordeningItem = href && href.includes('verordening')
+    const isVerordeningItem = href && href.includes("verordening")
 
     return (
         <li className="relative block mt-1 text-sm text-gray-800">
             <div className="inline-flex items-center group">
                 <Link
-                    to={isVerordeningItem ? '#' : href}
+                    to={isVerordeningItem ? "#" : href}
                     className={
-                        isVerordeningItem ? 'cursor-default' : 'hover:underline'
+                        isVerordeningItem ? "cursor-default" : "hover:underline"
                     }
                 >
                     <span
@@ -151,12 +151,12 @@ const ListItem = ({
                     />
                     <span>{titel}</span>
                 </Link>
-                {omschrijving && omschrijving !== '' ? (
-                    <div class="absolute hidden group-hover:block top-0 mt-8 z-20 cursor-default d3-tooltip-text">
+                {omschrijving && omschrijving !== "" ? (
+                    <div className="absolute top-0 z-20 hidden mt-8 cursor-default group-hover:block d3-tooltip-text">
                         <div
                             id={UUID}
-                            style={{ maxWidth: '50vw' }}
-                            class="px-4 py-2 rounded bg-gray-900 text-white shadow"
+                            style={{ maxWidth: "50vw" }}
+                            className="px-4 py-2 text-white bg-gray-900 rounded shadow"
                         >
                             {omschrijving}
                         </div>

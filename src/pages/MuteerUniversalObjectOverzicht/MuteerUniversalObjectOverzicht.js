@@ -105,7 +105,6 @@ const MuteerUniversalObjectOverzicht = ({ dimensieConstants }) => {
                                         overzichtSlug={overzichtSlug}
                                         titleSingular={titleSingular}
                                         hoofdOnderdeelSlug={overzichtSlug}
-                                        hideParagraaf={true}
                                     />
                                 </li>
                             ))}

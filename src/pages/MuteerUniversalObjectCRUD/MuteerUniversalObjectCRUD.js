@@ -20,6 +20,7 @@ import FormFieldContainerMaatregelen from './FormFieldContainers/FormFieldContai
 import FormFieldContainerBeleidsdoelen from './FormFieldContainers/FormFieldContainerBeleidsdoelen'
 import FormFieldContainerThemas from './FormFieldContainers/FormFieldContainerThemas'
 import FormFieldContainerBeleidsprestaties from './FormFieldContainers/FormFieldContainerBeleidsprestaties'
+import FormFieldContainerBeleidsmodules from './FormFieldContainers/FormFieldContainerBeleidsmodules'
 
 // Import Axios instance to connect with the API
 import axios from './../../API/axios'
@@ -357,7 +358,7 @@ class MuteerUniversalObjectCRUD extends Component {
         let crudObject = makeCrudObject({
             crudProperties: crudProperties,
             dimensieConstants: dimensieConstants,
-            responseObject: responseObjectFromAPI,
+            existingObj: responseObjectFromAPI,
             modus: modus,
         })
 
@@ -488,6 +489,14 @@ class MuteerUniversalObjectCRUD extends Component {
                                 <form className="mt-12">
                                     {titleSingular === 'Ambitie' ? (
                                         <FormFieldContainerAmbities
+                                            titleSingular={titleSingular}
+                                            crudObject={crudObject}
+                                            handleChange={handleChange}
+                                        />
+                                    ) : null}
+
+                                    {titleSingular === 'Beleidsmodule' ? (
+                                        <FormFieldContainerBeleidsmodules
                                             titleSingular={titleSingular}
                                             crudObject={crudObject}
                                             handleChange={handleChange}

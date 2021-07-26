@@ -5,8 +5,6 @@ import useLockBodyScroll from './../../utils/useLockBodyScroll.js'
 /**
  * Component that renders the PopupContainer component.
  *
- * @component
- *
  * @param {object} children - Parameter containing information that is displayed within the transition.
  * @param {boolean} show - Parameter that is used to show or hide the transitions.
  * @param {boolean} close - Parameter that is used to close the PopupContainer component when, the user clicks on the Escape key or if the user clicks outside the PopupContainer.

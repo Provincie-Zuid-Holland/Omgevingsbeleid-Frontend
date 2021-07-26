@@ -29,10 +29,7 @@ const NetworkGraphSidebar = ({ setGraphIsOpen, filters, setFilters }) => {
             lastLocationRef?.current?.pathname &&
             lastLocationRef?.current?.pathname !== location.pathname
         ) {
-            const lastLocationUrl =
-                lastLocationRef?.current?.pathname +
-                lastLocationRef?.current?.search
-            history.push(lastLocationUrl)
+            history.push(lastLocationRef?.current?.pathname)
         } else {
             history.push('/')
         }
@@ -68,6 +65,7 @@ const NetworkGraphSidebar = ({ setGraphIsOpen, filters, setFilters }) => {
                                 .map((filterKey) => {
                                     return (
                                         <ListItem
+                                            key={filterKey}
                                             setFilters={setFilters}
                                             filterKey={filterKey}
                                             filters={filters}

@@ -7,8 +7,6 @@ import React from 'react'
  *
  * @param {object} owner - Parameter that contains the collection of information of the owner.
  * @param {string} eigenaarType - Parameter that displays the type of owner in the component.
- *
- * @component
  */
 const EigenaarsDriehoekItem = ({ owner, eigenaarType }) => {
     if (!owner) return null

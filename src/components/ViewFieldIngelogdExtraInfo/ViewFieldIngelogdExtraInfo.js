@@ -1,22 +1,20 @@
-import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
-import { toast } from 'react-toastify'
+import React from "react"
+import { Link } from "react-router-dom"
+// import { faLink } from "@fortawesome/pro-solid-svg-icons"
+import { faLink } from "@fortawesome/pro-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
-import axios from '../../API/axios'
+import UserContext from "../../App/UserContext"
 
-import LoaderSmallCircle from '../LoaderSmallCircle'
-
-import { faLink } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
-import UserContext from '../../App/UserContext'
+import * as MAATREGELEN from "./../../constants/maatregelen"
+import * as BELEIDSKEUZES from "./../../constants/beleidskeuzes"
 
 const eigenarenProperties = [
-    'Eigenaar_1',
-    'Eigenaar_2',
-    'Portefeuillehouder_1',
-    'Portefeuillehouder_2',
-    'Opdrachtgever',
+    "Eigenaar_1",
+    "Eigenaar_2",
+    "Portefeuillehouder_1",
+    "Portefeuillehouder_2",
+    "Opdrachtgever",
 ]
 
 const ViewFieldIngelogdExtraInfo = ({ crudObject, hideEdit, className }) => {
@@ -38,31 +36,35 @@ const ViewFieldIngelogdExtraInfo = ({ crudObject, hideEdit, className }) => {
         setEigenaren(newEigenaren)
     }, [crudObject])
 
-    const getCanUserEdit = (user) => {
-        const contextAndUUIDExist = user && user !== null && user.UUID
-        const userCreatedObjectOrIsOwner =
-            crudObject.Created_By?.UUID === user.UUID ||
-            (user && eigenaren.Eigenaar_1?.UUID === user.UUID) ||
-            (user && eigenaren.Eigenaar_2?.UUID === user.UUID) ||
-            (user && eigenaren.Opdrachtgever?.UUID === user.UUID)
+    const getCanUserEdit = React.useCallback(
+        (user) => {
+            const userExists = user && user !== null && user.UUID
+            if (!userExists) return false
 
-        const userCanEdit = contextAndUUIDExist && userCreatedObjectOrIsOwner
-        return userCanEdit
-    }
+            const userCreatedObjectOrIsOwner =
+                crudObject.Created_By?.UUID === user.UUID ||
+                (user && eigenaren.Eigenaar_1?.UUID === user.UUID) ||
+                (user && eigenaren.Eigenaar_2?.UUID === user.UUID) ||
+                (user && eigenaren.Opdrachtgever?.UUID === user.UUID)
+            const userCanEdit = userExists && userCreatedObjectOrIsOwner
+            return userCanEdit
+        },
+        [crudObject, eigenaren]
+    )
 
     // Check if user can edit the object
     // If so we display the extra information
     React.useEffect(() => {
         const newCanUserEdit = getCanUserEdit(user)
         setCanUserEdit(newCanUserEdit)
-    }, [crudObject, user])
+    }, [crudObject, getCanUserEdit, user])
 
     return (
         <UserContext.Consumer>
             {(context) => (
                 <div
                     className={`px-3 py-3 bg-gray-100 border border-gray-200 rounded-md ${
-                        className ? className : ''
+                        className ? className : ""
                     }`}
                 >
                     <span className="text-sm text-gray-600">
@@ -72,11 +74,11 @@ const ViewFieldIngelogdExtraInfo = ({ crudObject, hideEdit, className }) => {
                     <div className="flex items-center justify-between mt-2">
                         <div className="flex items-center">
                             <EigenarenList eigenaren={eigenaren} />
-                            {crudObject['Weblink'] ? (
+                            {crudObject["Weblink"] ? (
                                 <a
-                                    href={crudObject['Weblink']}
+                                    href={crudObject["Weblink"]}
                                     target="_blank"
-                                    className="text-sm mr-4 font-bold text-gray-600 hover:underline"
+                                    className="mr-4 text-sm font-bold text-gray-600 hover:underline"
                                     rel="noopener noreferrer"
                                 >
                                     <FontAwesomeIcon
@@ -89,7 +91,13 @@ const ViewFieldIngelogdExtraInfo = ({ crudObject, hideEdit, className }) => {
                         </div>
                         {canUserEdit && !hideEdit ? (
                             <Link
-                                to={`/muteer/beleidskeuzes/${crudObject.ID}`}
+                                to={`/muteer/${
+                                    crudObject.hasOwnProperty(
+                                        "Ref_Beleidskeuzes"
+                                    )
+                                        ? MAATREGELEN.SLUG_OVERVIEW
+                                        : BELEIDSKEUZES.SLUG_OVERVIEW
+                                }/${crudObject.ID}`}
                                 className="px-3 py-2 text-xs font-bold tracking-wide border rounded cursor-pointer text-pzh-blue border-pzh-blue"
                             >
                                 Openen in beheeromgeving
@@ -112,7 +120,7 @@ const EigenarenList = ({ eigenaren }) => {
         const username = getUsername(item)
         if (!username) return null
 
-        const stringArray = username.split(' ')
+        const stringArray = username.split(" ")
         const voornaam = stringArray[0]
         const achternaam = stringArray[stringArray.length - 1]
 
@@ -120,16 +128,16 @@ const EigenarenList = ({ eigenaren }) => {
     }
 
     const getPersonenRol = (item) => {
-        if (item === 'Eigenaar_1') {
-            return 'Eerste eigenaar'
-        } else if (item === 'Eigenaar_2') {
-            return 'Tweede eigenaar'
-        } else if (item === 'Portefeuillehouder_1') {
-            return 'Eerste portefeuillehouder'
-        } else if (item === 'Portefeuillehouder_2') {
-            return 'Tweede portefeuillehouder'
-        } else if (item === 'Opdrachtgever') {
-            return 'Ambtelijk opdrachtgever'
+        if (item === "Eigenaar_1") {
+            return "Eerste eigenaar"
+        } else if (item === "Eigenaar_2") {
+            return "Tweede eigenaar"
+        } else if (item === "Portefeuillehouder_1") {
+            return "Eerste portefeuillehouder"
+        } else if (item === "Portefeuillehouder_2") {
+            return "Tweede portefeuillehouder"
+        } else if (item === "Opdrachtgever") {
+            return "Ambtelijk opdrachtgever"
         } else {
             return null
         }
@@ -142,7 +150,7 @@ const EigenarenList = ({ eigenaren }) => {
                 .map((item, index) => (
                     <li
                         key={item}
-                        className={`relative ${index === 0 ? '' : '-ml-2'}`}
+                        className={`relative ${index === 0 ? "" : "-ml-2"}`}
                     >
                         <div className="flex items-center justify-center w-8 h-8 mr-1 text-xs text-white border border-white rounded-full bg-pzh-blue circle-gebruiker font-lg">
                             <span className="font-bold">

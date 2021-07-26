@@ -7,14 +7,12 @@ import PopUpAnimatedContainer from './../PopUpAnimatedContainer'
 import VOLGENDE_STATUS from './../../constants/beleidskeuzeStatusAanpassen'
 
 /**
- * Component that renders the PopUpStatusAanpassen component.
  *
- * @component
- *
- * @param {object} dataObject - Parameter that can be set to the patchStatus object if the onclick function is called and selectValue is not empty.
- * @param {object} patchStatus - Parameter that contains the dataObject, selectValue parameters, when the onClick function is used within the rendered component.
- * @param {array} status - Parameter that contains a collection of status, which are used within the select element.
- * @param {boolean} toggleStatusPopup - Parameter that is used to show or hide the StatusPopup.
+ * @param {object} dataObject - Contains the object that is being displayed
+ * @param {function} patchStatus - Function to call the API and patch the new status
+ * @param {string} status - Contains the current status of the dataObject
+ * @param {function} toggleStatusPopup - Function to show or hide the StatusPopup.
+ * @returns A component to change the status of an object
  */
 function PopUpStatusAanpassen({
     dataObject,
@@ -22,6 +20,7 @@ function PopUpStatusAanpassen({
     patchStatus,
     toggleStatusPopup,
 }) {
+    console.log(typeof status)
     const [selectValue, setSelect] = useState('')
 
     return (

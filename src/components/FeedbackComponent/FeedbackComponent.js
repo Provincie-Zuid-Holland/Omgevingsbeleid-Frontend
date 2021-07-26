@@ -13,8 +13,6 @@ import nlLocale from 'date-fns/locale/nl'
 
 /**
  * Function to get the browser info from the user and set it for the variable sBrowser.
- *
- * @function
  */
 const getBrowserName = () => {
     var sBrowser,
@@ -52,8 +50,6 @@ const getBrowserName = () => {
 
 /**
  * Function that sets/gets the date and browser variables and returns them as a mailto link with the date as a part of the subject and the browser as part of the body of the feedback email.
- *
- * @function
  */
 const getMailToLink = () => {
     const date =
@@ -66,8 +62,6 @@ const getMailToLink = () => {
 /**
  * Component that renders the FeedbackComponent component, in which the user can click on the link to send a feedbackmessage of the page they are on, including which browser they are using and the date/timestamp.
  * This component is used by the components feedback and App.
- *
- * @component
  */
 const FeedbackComponent = () => {
     const location = useLocation()

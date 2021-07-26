@@ -1,12 +1,12 @@
-import React from 'react'
-import { faTimes } from '@fortawesome/pro-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Link } from 'react-router-dom'
-import { Transition } from '@headlessui/react'
+import React from "react"
+import { faTimes } from "@fortawesome/pro-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { Link } from "react-router-dom"
+import { Transition } from "@headlessui/react"
 
-import networkGraphGenerateHref from '../../utils/networkGraphGenerateHref'
+import networkGraphGenerateHref from "../../utils/networkGraphGenerateHref"
 
-import networkGraphConnectionProperties from '../../constants/networkGraphConnectionProperties'
+import networkGraphConnectionProperties from "../../constants/networkGraphConnectionProperties"
 
 /**
  *
@@ -62,7 +62,7 @@ const NetworkGraphClickedElementPopup = ({
                             <Link
                                 role="link"
                                 className="block p-3 pt-0 group"
-                                to={href}
+                                to={href ? href : "#"}
                                 onClick={(e) => {
                                     if (
                                         !e.shiftKey &&
@@ -93,7 +93,7 @@ const NetworkGraphClickedElementPopup = ({
                                     resetNodes()
                                 }}
                                 onKeyPress={(e) => {
-                                    if (e.key === 'Enter') {
+                                    if (e.key === "Enter") {
                                         setLocalOpenState(false)
                                         resetNodes()
                                     }

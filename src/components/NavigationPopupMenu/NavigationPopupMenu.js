@@ -1,26 +1,24 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { toast } from 'react-toastify'
-import { Transition } from '@headlessui/react'
+import React from "react"
+import { Link } from "react-router-dom"
+import { toast } from "react-toastify"
+import { Transition } from "@headlessui/react"
 
-import { faSearch, faBars, faTimes } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSearch, faBars, faTimes } from "@fortawesome/pro-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 // Import API and Env variable used for the banner
-import axios from './../../API/axios'
+import axios from "./../../API/axios"
 
 // Import dimension variables
-import allDimensies from './../../constants/dimensies'
+import allDimensies from "./../../constants/dimensies"
 
 // Import useLockBodyScroll to stop html body scroll when the modal is open
-import useLockBodyScroll from './../../utils/useLockBodyScroll'
+import useLockBodyScroll from "./../../utils/useLockBodyScroll"
 
-import LoaderSpinner from './../LoaderSpinner'
+import LoaderSpinner from "./../LoaderSpinner"
 
 /**
  * Component that renders the NavigationPopupMenu component.
- *
- * @component
  *
  * @param {boolean} showBanner - Parameter that if set to true, will show the banner.
  * @param {boolean} isOpen - Parameter that is used to show certain elements within the rendered component, if the parameter is set true.
@@ -28,8 +26,8 @@ import LoaderSpinner from './../LoaderSpinner'
  */
 const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
     // Popup state
-    const [activeTab, setActiveTab] = React.useState('Ambities')
-    const [filterQuery, setFilterQuery] = React.useState('')
+    const [activeTab, setActiveTab] = React.useState("Ambities")
+    const [filterQuery, setFilterQuery] = React.useState("")
 
     // Loading state
     const [isLoading, setIsLoading] = React.useState(true)
@@ -81,7 +79,7 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
 
                     // TODO: Fix bug when there is no article in the first [0][0][0]
                     const traverseItems = (children) => {
-                        if (children[0] && children[0].Type !== 'Artikel') {
+                        if (children[0] && children[0].Type !== "Artikel") {
                             position.push(0)
                             return traverseItems(children[0].Children)
                         } else {
@@ -116,22 +114,22 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
     /**
      * Function to check if the activeTab parameter is linked to a currentContstant case and return the specific allDimensies parameter.
      *
-     * @function
+     *
      */
     const getCurrentConstants = () => {
         switch (activeTab) {
-            case 'Ambities':
-                return allDimensies['AMBITIES']
-            case 'Beleidsdoelen':
-                return allDimensies['BELEIDSDOELEN']
-            case 'Beleidskeuzes':
-                return allDimensies['BELEIDSKEUZES']
+            case "Ambities":
+                return allDimensies["AMBITIES"]
+            case "Beleidsdoelen":
+                return allDimensies["BELEIDSDOELEN"]
+            case "Beleidskeuzes":
+                return allDimensies["BELEIDSKEUZES"]
             case "Maatregelen (Programma's)":
-                return allDimensies['MAATREGELEN']
-            case 'Beleidsregels':
-                return allDimensies['BELEIDSREGELS']
-            case 'Beleidsprestaties':
-                return allDimensies['BELEIDSPRESTATIES']
+                return allDimensies["MAATREGELEN"]
+            case "Beleidsregels":
+                return allDimensies["BELEIDSREGELS"]
+            case "Beleidsprestaties":
+                return allDimensies["BELEIDSPRESTATIES"]
 
             default:
                 return {}
@@ -141,21 +139,21 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
     /**
      * Function to check if the activeTab parameter is linked to a CurrentItem case and return the specific allDimensies parameter.
      *
-     * @function
+     *
      */
     const getCurrentItems = () => {
         switch (activeTab) {
-            case 'Ambities':
+            case "Ambities":
                 return ambities
-            case 'Beleidsdoelen':
+            case "Beleidsdoelen":
                 return beleidsdoelen
-            case 'Beleidskeuzes':
+            case "Beleidskeuzes":
                 return beleidskeuzes
             case "Maatregelen (Programma's)":
                 return maatregelen
-            case 'Beleidsregels':
+            case "Beleidsregels":
                 return beleidsregels
-            case 'Beleidsprestaties':
+            case "Beleidsprestaties":
                 return beleidsprestaties
 
             default:
@@ -169,12 +167,12 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
     // Eventlistener for closing the modal with the Escape key
     React.useEffect(() => {
         function closeOnEscape(e) {
-            if (e.key === 'Escape') {
+            if (e.key === "Escape") {
                 setIsOpen(false)
             }
         }
-        window.addEventListener('keydown', closeOnEscape)
-        return () => window.removeEventListener('keydown', closeOnEscape)
+        window.addEventListener("keydown", closeOnEscape)
+        return () => window.removeEventListener("keydown", closeOnEscape)
     }, [setIsOpen])
 
     const currentItems = getCurrentItems()
@@ -207,12 +205,12 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
                     style={
                         showBanner
                             ? {
-                                  height: 'calc(100vh - 73px)',
-                                  top: '121px',
+                                  height: "calc(100vh - 73px)",
+                                  top: "121px",
                               }
                             : {
-                                  height: 'calc(100vh - 73px)',
-                                  top: '73px',
+                                  height: "calc(100vh - 73px)",
+                                  top: "73px",
                               }
                     }
                 >
@@ -259,7 +257,7 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
                                 />
                                 <TabMenuItemLink
                                     href={
-                                        isLoading ? '#' : verordeningStructuur
+                                        isLoading ? "#" : verordeningStructuur
                                     }
                                     tabId={`popup-menu-item-Verordening`}
                                     tabTitle="Verordening"
@@ -267,19 +265,20 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
                                 />
                             </nav>
                         </div>
+                        {/* REFACTOR */}
                         <div className="flex flex-col w-9/12 pl-5">
                             <div className="flex items-end w-full pb-5 border-b border-gray-300">
                                 <h3
                                     id={`selected-type-${activeTab}`}
                                     className="w-full text-xl font-bold text-pzh-blue"
                                 >
-                                    {activeTab}{' '}
+                                    {activeTab}{" "}
                                     {isLoading &&
                                     verordeningIsLoading ? null : (
                                         <span className="ml-2 text-gray-600">
                                             {currentItems !== null
                                                 ? currentItems.filter((item) =>
-                                                      item.Titel.toLowerCase().includes(
+                                                      item?.Titel?.toLowerCase()?.includes(
                                                           filterQuery.toLowerCase()
                                                       )
                                                   ).length
@@ -325,7 +324,7 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
                                     ) : (
                                         currentItems
                                             .filter((item) =>
-                                                item.Titel.toLowerCase().includes(
+                                                item?.Titel?.toLowerCase()?.includes(
                                                     filterQuery.toLowerCase()
                                                 )
                                             )
@@ -343,8 +342,8 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
                                                     key={item.UUID}
                                                     className={`w-1/2 group flex items-center px-3 py-2 text-sm leading-5 font-medium rounded-md hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition ease-in-out duration-150  ${
                                                         index % 2 === 0
-                                                            ? 'pr-4'
-                                                            : 'pl-4'
+                                                            ? "pr-4"
+                                                            : "pl-4"
                                                     }`}
                                                     onClick={() =>
                                                         setIsOpen(false)
@@ -361,17 +360,17 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
                                     {!isLoading &&
                                     currentItems &&
                                     currentItems.filter((item) =>
-                                        item.Titel.toLowerCase().includes(
-                                            filterQuery.toLowerCase()
+                                        item?.Titel?.toLowerCase()?.includes(
+                                            filterQuery?.toLowerCase()
                                         )
                                     ).length === 0 ? (
                                         <span
                                             className="px-3 mt-2 text-gray-500 cursor-pointer hover:text-gray-700 text-italic"
                                             onClick={() => {
-                                                setFilterQuery('')
+                                                setFilterQuery("")
                                                 document
                                                     .getElementById(
-                                                        'filter-query'
+                                                        "filter-query"
                                                     )
                                                     .focus()
                                             }}
@@ -392,8 +391,6 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
 /**
  * Function to render the TabMenuItem in the NavigationPopupMenu component.
  *
- * @function
- *
  * @param {boolean} activeTab - Parameter that is used to set the tabTitle to tabIsActive, if activeTab is set true.
  * @param {string} tabTitle - Parameter that contains the title of the tab.
  * @param {function} setActiveTab - Parameter that is used to set the tabTitle parameter as activeTab.
@@ -407,10 +404,10 @@ const TabMenuItem = ({ activeTab, tabTitle, setActiveTab }) => {
             id={`popup-menu-item-${tabTitle}`}
             className={`w-full font-medium rounded-md-l group flex items-center px-3 py-2 text-sm leading-5 hover:text-gray-900 transition ease-in-out duration-150 mt-1 ${
                 tabIsActive
-                    ? 'bg-gray-100 hover:bg-gray-100 focus:outline-none'
-                    : 'hover:bg-gray-100 focus:outline-none focus:bg-gray-50 cursor-pointer'
+                    ? "bg-gray-100 hover:bg-gray-100 focus:outline-none"
+                    : "hover:bg-gray-100 focus:outline-none focus:bg-gray-50 cursor-pointer"
             }`}
-            aria-current={tabIsActive ? 'page' : false}
+            aria-current={tabIsActive ? "page" : false}
         >
             <span className="truncate">{tabTitle}</span>
         </button>
@@ -420,12 +417,10 @@ const TabMenuItem = ({ activeTab, tabTitle, setActiveTab }) => {
 /**
  * Function to render the TabMenuItemLink component, that contains a link.
  *
- * @function
- *
  * @param {string} tabTitle - Parameter that displays the tabTitle of the Link element.
  * @param {} href - Parameter that contains an URL where the user navigates too, when the user click on the Link element.
  * @param {function} setIsOpen - Parameter that is used for an onclick function to set the isOpen parameter to true or false.
- * @param {int} tabId - Parameter that contains the id of the Tab.
+ * @param {number} tabId - Parameter that contains the id of the Tab.
  */
 const TabMenuItemLink = ({ tabTitle, href, setIsOpen, tabId, callback }) => {
     return (

@@ -1,23 +1,24 @@
-import React, { Component } from 'react'
-import { useSpring, animated } from 'react-spring'
-import { Link, withRouter } from 'react-router-dom'
+/* istanbul ignore file */
+import React, { Component } from "react"
+import { useSpring, animated } from "react-spring"
+import { Link, withRouter } from "react-router-dom"
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faPlus } from "@fortawesome/pro-solid-svg-icons"
 import {
     faTag,
     faParagraph,
     faAlignLeft,
     faHeading,
-} from '@fortawesome/pro-regular-svg-icons'
+} from "@fortawesome/pro-regular-svg-icons"
 
 function AnimatedContainer({ classes, children, reference, onClick }) {
     return (
         <animated.div
             style={useSpring({
                 config: { tension: 550 },
-                transform: 'scale(1)',
-                from: { transform: 'scale(0.9)' },
+                transform: "scale(1)",
+                from: { transform: "scale(0.9)" },
             })}
             className={classes}
             ref={reference}
@@ -43,58 +44,58 @@ function VoegSectieToePopup({
             reference={reference}
         >
             <ul className="flex">
-                {type === 'Hoofdstuk' ? (
+                {type === "Hoofdstuk" ? (
                     <li>
                         <Link
-                            className="p-4 rounded hover:bg-gray-100 text-center font-bold w-24 cursor-pointer inline-block"
+                            className="inline-block w-24 p-4 font-bold text-center rounded cursor-pointer hover:bg-gray-100"
                             to={`/muteer/verordeningen/${lineageID}/nieuw/Hoofdstuk?hoofdstuk=${hoofdstukIndex}&nest_1=${nest_1}&nest_2=${nest_2}&nest_3=${nest_3}`}
                         >
                             <FontAwesomeIcon
-                                className="relative text-lg inline-block mb-2"
+                                className="relative inline-block mb-2 text-lg"
                                 icon={faHeading}
                             />
                             <span className="block">Hoofdstuk</span>
                         </Link>
                     </li>
                 ) : null}
-                {type === 'Bovenste' || type === 'Afdeling' ? (
+                {type === "Bovenste" || type === "Afdeling" ? (
                     <li>
                         <Link
-                            className="p-4 rounded hover:bg-gray-100 text-center font-bold w-24 cursor-pointer inline-block"
+                            className="inline-block w-24 p-4 font-bold text-center rounded cursor-pointer hover:bg-gray-100"
                             to={`/muteer/verordeningen/${lineageID}/nieuw/Afdeling?hoofdstuk=${hoofdstukIndex}&nest_1=${nest_1}&nest_2=${nest_2}&nest_3=${nest_3}`}
                         >
                             <FontAwesomeIcon
-                                className="relative text-lg inline-block mb-2"
+                                className="relative inline-block mb-2 text-lg"
                                 icon={faTag}
                             />
                             <span className="block">Afdeling</span>
                         </Link>
                     </li>
                 ) : null}
-                {type === 'Bovenste' ||
-                type === 'Afdeling' ||
-                type === 'Paragraaf' ? (
+                {type === "Bovenste" ||
+                type === "Afdeling" ||
+                type === "Paragraaf" ? (
                     <li>
                         <Link
-                            className="p-4 rounded hover:bg-gray-100 text-center font-bold w-24 cursor-pointer inline-block"
+                            className="inline-block w-24 p-4 font-bold text-center rounded cursor-pointer hover:bg-gray-100"
                             to={`/muteer/verordeningen/${lineageID}/nieuw/Paragraaf?hoofdstuk=${hoofdstukIndex}&nest_1=${nest_1}&nest_2=${nest_2}&nest_3=${nest_3}`}
                         >
                             <FontAwesomeIcon
-                                className="relative text-lg inline-block mb-2"
+                                className="relative inline-block mb-2 text-lg"
                                 icon={faParagraph}
                             />
                             <span className="block">Paragraaf</span>
                         </Link>
                     </li>
                 ) : null}
-                {type !== 'Bovenste' && type !== 'Hoofdstuk' ? (
+                {type !== "Bovenste" && type !== "Hoofdstuk" ? (
                     <li>
                         <Link
-                            className="p-4 rounded hover:bg-gray-100 text-center font-bold w-24 cursor-pointer inline-block"
+                            className="inline-block w-24 p-4 font-bold text-center rounded cursor-pointer hover:bg-gray-100"
                             to={`/muteer/verordeningen/${lineageID}/nieuw/Artikel?hoofdstuk=${hoofdstukIndex}&nest_1=${nest_1}&nest_2=${nest_2}&nest_3=${nest_3}`}
                         >
                             <FontAwesomeIcon
-                                className="relative text-lg inline-block mb-2"
+                                className="relative inline-block mb-2 text-lg"
                                 icon={faAlignLeft}
                             />
                             <span className="block">Artikel</span>
@@ -142,28 +143,28 @@ class AddSection extends Component {
     }
 
     componentDidMount() {
-        document.addEventListener('mousedown', this.handleClick, false)
-        document.addEventListener('keydown', this.escFunction, false)
+        document.addEventListener("mousedown", this.handleClick, false)
+        document.addEventListener("keydown", this.escFunction, false)
     }
 
     componentWillUnmount() {
-        document.removeEventListener('mousedown', this.handleClick, false)
-        document.removeEventListener('keydown', this.escFunction, false)
+        document.removeEventListener("mousedown", this.handleClick, false)
+        document.removeEventListener("keydown", this.escFunction, false)
     }
 
     render() {
         return (
             <AnimatedContainer
                 classes={`w-full text-gray-700 text-sm py-2 inline-block flex justify-center items-center relative cursor-pointer verordening-sectie-popup-container ${
-                    this.state.showPopup ? 'z-30' : ''
+                    this.state.showPopup ? "z-30" : ""
                 }`}
                 onClick={this.togglePopup}
             >
-                <div className="absolute w-full h-0 border-b border-gray-300 opacity-0 popup-divider transition-regular cursor-pointer" />
-                <span className="popup-plus-icon transition-regular z-10 rounded-full bg-white p-2 cursor-pointer">
-                    <span className="flex bg-white justify-center items-center border-2 border-pzh-green text-pzh-green w-5 h-5 rounded-full font-bold">
+                <div className="absolute w-full h-0 border-b border-gray-300 opacity-0 cursor-pointer popup-divider transition-regular" />
+                <span className="z-10 p-2 bg-white rounded-full cursor-pointer popup-plus-icon transition-regular">
+                    <span className="flex items-center justify-center w-5 h-5 font-bold bg-white border-2 rounded-full border-pzh-green text-pzh-green">
                         <FontAwesomeIcon
-                            className="relative text-pzh-green text-xs"
+                            className="relative text-xs text-pzh-green"
                             icon={faPlus}
                         />
                     </span>

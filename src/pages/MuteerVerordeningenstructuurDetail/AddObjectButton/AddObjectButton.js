@@ -1,11 +1,12 @@
-import React from 'react'
+/* istanbul ignore file */
+import React from "react"
 
-import { faPlus } from '@fortawesome/pro-regular-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus } from "@fortawesome/pro-regular-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
-import { Transition } from '@headlessui/react'
+import { Transition } from "@headlessui/react"
 
-import VerordeningContext from './../VerordeningContext'
+import VerordeningContext from "./../VerordeningContext"
 
 // First properties are the AddSectionTypes. E.G. 'Paragraaf.
 // When the user has 'Paragraaf' selected to add as a new section, we look at conditionals['Paragraaf] to see where we can place this object
@@ -13,19 +14,19 @@ import VerordeningContext from './../VerordeningContext'
 
 const conditionals = {
     Afdeling: {
-        parallel: ['Afdeling', 'Paragraaf'],
+        parallel: ["Afdeling", "Paragraaf"],
         subitems: [],
-        addFromTop: ['childOfHoofdstuk'],
+        addFromTop: ["childOfHoofdstuk"],
     },
     Paragraaf: {
-        parallel: ['Paragraaf', 'Afdeling'],
-        subitems: ['Afdeling'],
-        addFromTop: ['childOfHoofdstuk'],
+        parallel: ["Paragraaf", "Afdeling"],
+        subitems: ["Afdeling"],
+        addFromTop: ["childOfHoofdstuk"],
     },
     Artikel: {
-        parallel: ['Artikel'],
-        subitems: ['Paragraaf', 'Afdeling'],
-        addFromTop: ['childOfHoofdstuk'],
+        parallel: ["Artikel"],
+        subitems: ["Paragraaf", "Afdeling"],
+        addFromTop: ["childOfHoofdstuk"],
     },
 }
 
@@ -46,7 +47,7 @@ const AddObjectButton = ({ nestType, item, index }) => {
         } else if (!item) {
             // AddObjectButton is above the DragAndDrop Component
             const placeableAtTopOfALevel = conditionals[addSectionType][
-                'addFromTop'
+                "addFromTop"
             ].includes(nestType)
             if (placeableAtTopOfALevel) {
                 setShow(true)
@@ -66,7 +67,7 @@ const AddObjectButton = ({ nestType, item, index }) => {
     }, [addSectionType, item, nestType])
 
     const isHoofdstuk =
-        nestType === 'Hoofdstuk' &&
+        nestType === "Hoofdstuk" &&
         hoofdstukIndex === null &&
         userIsAddingSections
 
@@ -84,7 +85,7 @@ const AddObjectButton = ({ nestType, item, index }) => {
             leaveTo="opacity-0 transform scale-0"
         >
             <div
-                className={nestType === 'subitems' ? 'pl-5' : ''}
+                className={nestType === "subitems" ? "pl-5" : ""}
                 onClick={() => {
                     addSection({ index: index })
                 }}
