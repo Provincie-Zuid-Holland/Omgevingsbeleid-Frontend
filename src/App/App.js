@@ -301,15 +301,11 @@ class App extends Component {
                                             <Route
                                                 key={item.slug}
                                                 path={`/detail/${item.slug}/:id`}
-                                                render={({ match }) => (
+                                                render={() => (
                                                     <RaadpleegUniversalObjectDetail
                                                         dataModel={
                                                             item.dataModel
                                                         }
-                                                        history={
-                                                            this.props.history
-                                                        }
-                                                        match={match}
                                                     />
                                                 )}
                                             />
