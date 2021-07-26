@@ -2,7 +2,7 @@
 
 # Omgevingsbeleid front-end
 
-An application that digitalizes the environmental policies of the Province of South-Holland. In the application non authorized users can consult the policies, where authorized users can also mutate the policies.
+An application that digitalizes the environmental policies of the Province of South-Holland. In the application non authorized users can consult the policies, where authorized users can also mutate the policies. You can view the roadmap [here](https://www.figma.com/proto/hg7QFPhoCg0juUu3jEdG6w/Omgevingsbeleid-Roadmap?page-id=0%3A1&node-id=1%3A4&viewport=430%2C426%2C0.17213496565818787&scaling=min-zoom&starting-point-node-id=1%3A4).
 
 ## Pre-Requisites
 
