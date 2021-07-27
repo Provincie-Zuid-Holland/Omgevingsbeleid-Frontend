@@ -1,3 +1,3 @@
-import RaadpleegZoekResultatenOverzicht from './RaadpleegZoekResultatenOverzicht.js'
+import RaadpleegZoekResultatenOverzicht from "./RaadpleegZoekResultatenOverzicht.js"
 
 export default RaadpleegZoekResultatenOverzicht

@@ -1,5 +1,5 @@
-import React from 'react'
-import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFieldTitelEnBeschrijving'
+import React from "react"
+import FormFieldTitelEnBeschrijving from "../FormFieldTitelEnBeschrijving/FormFieldTitelEnBeschrijving"
 
 /**
  * Component that renders the FormFieldNumberInput with the imported FormFieldTitelEnBeschrijving component within, that displays the Titel and description of the formfield, based on the props given to the external component.
@@ -33,7 +33,7 @@ const FormFieldNumberInput = ({
                 <input
                     id={`form-field-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
                     data-testid={`form-field-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
-                    value={fieldValue ? fieldValue : ''}
+                    value={fieldValue ? fieldValue : ""}
                     onChange={handleChange}
                     name={dataObjectProperty}
                     className="block w-48 px-4 py-3 leading-tight text-gray-700 border border-gray-400 rounded appearance-none focus:outline-none hover:border-gray-500 focus:border-gray-500"

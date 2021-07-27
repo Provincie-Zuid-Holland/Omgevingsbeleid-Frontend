@@ -11,8 +11,9 @@ import { MemoryRouter, Route } from "react-router-dom"
 import allDimensies from "./../../constants/dimensies"
 import RaadpleegVerordeningsArtikelDetail from "./RaadpleegVerordeningsArtikelDetail"
 
-jest.mock("./../../components/LeafletTinyViewer", () => () =>
-    "LeafletTinyViewer"
+jest.mock(
+    "./../../components/LeafletTinyViewer",
+    () => () => "LeafletTinyViewer"
 )
 
 describe("RaadpleegVerordeningsArtikelDetail", () => {

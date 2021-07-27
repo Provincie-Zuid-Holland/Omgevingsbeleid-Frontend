@@ -1,3 +1,3 @@
-import LoaderSpinner from './LoaderSpinner.js'
+import LoaderSpinner from "./LoaderSpinner.js"
 
 export default LoaderSpinner

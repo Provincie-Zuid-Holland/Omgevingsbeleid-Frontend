@@ -33,8 +33,7 @@ const beleidsrelaties = [
             Portefeuillehouder_2: null,
             Opdrachtgever: "C1F2D842-1618-4D8E-8765-20C427686AA1",
             Status: "Ontwerp GS Concept",
-            Titel:
-                "Human Capital, een beroepsbevolking met de juiste vaardigheden en kennis",
+            Titel: "Human Capital, een beroepsbevolking met de juiste vaardigheden en kennis",
             Omschrijving_Keuze:
                 "1.\tWat wil de provincie bereiken?  \nDe aanwezigheid van voldoende Human Capital, zowel in kwantitatieve als in kwalitatieve zin, is een belangrijke randvoorwaarde voor een goed functionerende regionale economie. Een adaptief, adequaat en goed opgeleid arbeidspotentieel, goed onderwijs om nieuwe instroom te realiseren en om bestaande werknemers bij en om te scholen alsmede een goed werkende arbeidsmarkt zijn daarmee essentieel voor een slimmer, schoner, sterker Zuid-Holland.\nDaarnaast is er een persoonlijk belang voor de mensen die het \u2018menselijk kapitaal\u2019 vormen. Werk is tenslotte meer dan inkomen. Het vervult een belangrijke sociale en maatschappelijk functie en voorziet in de mogelijkheid om je te kunnen ontplooien, deel te kunnen nemen en bij te kunnen dragen aan de maatschappij. \n2.\tEn hoe gaan we dat bereiken?\nDoor het door samen met de EBZ ge\u00efnitieerde Human Capital akkoord uit te voeren, waarin kwantitatieve doelstellingen benoemd zijn nodig om tot die gewenste situatie te komen. Een akkoord dat inmiddels door meer dan 100 partijen in Zuid-Holland is onderschreven en daarnaast door te investeren in een programmateam en te zorgen voor cofinanciering van concrete projecten.\n",
             Omschrijving_Werking:
@@ -121,8 +120,7 @@ const beleidsrelaties = [
             Portefeuillehouder_2: "073D77C1-5A3F-45A3-83A0-D7E691FCEB82",
             Opdrachtgever: "27138AF8-C277-415B-82C8-E5E21E80A580",
             Status: "Ontwerp GS Concept",
-            Titel:
-                "Test aanpassing op flow (Gewijzigd, geen tussentijdse aanpassing)",
+            Titel: "Test aanpassing op flow (Gewijzigd, geen tussentijdse aanpassing)",
             Omschrijving_Keuze: null,
             Omschrijving_Werking: null,
             Aanleiding: null,
@@ -233,8 +231,7 @@ const beleidsrelaties = [
             Portefeuillehouder_2: "073D77C1-5A3F-45A3-83A0-D7E691FCEB82",
             Opdrachtgever: "27138AF8-C277-415B-82C8-E5E21E80A580",
             Status: "Ontwerp GS Concept",
-            Titel:
-                "Test aanpassing op flow (Gewijzigd, geen tussentijdse aanpassing)",
+            Titel: "Test aanpassing op flow (Gewijzigd, geen tussentijdse aanpassing)",
             Omschrijving_Keuze: null,
             Omschrijving_Werking: null,
             Aanleiding: null,
@@ -315,8 +312,7 @@ const beleidsrelaties = [
             Portefeuillehouder_2: "073D77C1-5A3F-45A3-83A0-D7E691FCEB82",
             Opdrachtgever: "27138AF8-C277-415B-82C8-E5E21E80A580",
             Status: "Ontwerp GS Concept",
-            Titel:
-                "Test aanpassing op flow (Gewijzigd, geen tussentijdse aanpassing)",
+            Titel: "Test aanpassing op flow (Gewijzigd, geen tussentijdse aanpassing)",
             Omschrijving_Keuze: null,
             Omschrijving_Werking: null,
             Aanleiding: null,
@@ -397,8 +393,7 @@ const beleidsrelaties = [
             Portefeuillehouder_2: "073D77C1-5A3F-45A3-83A0-D7E691FCEB82",
             Opdrachtgever: "27138AF8-C277-415B-82C8-E5E21E80A580",
             Status: "Ontwerp GS Concept",
-            Titel:
-                "Test aanpassing op flow (Gewijzigd, geen tussentijdse aanpassing)",
+            Titel: "Test aanpassing op flow (Gewijzigd, geen tussentijdse aanpassing)",
             Omschrijving_Keuze: null,
             Omschrijving_Werking: null,
             Aanleiding: null,
@@ -479,8 +474,7 @@ const beleidsrelaties = [
             Portefeuillehouder_2: "073D77C1-5A3F-45A3-83A0-D7E691FCEB82",
             Opdrachtgever: "27138AF8-C277-415B-82C8-E5E21E80A580",
             Status: "Ontwerp GS Concept",
-            Titel:
-                "Test aanpassing op flow (Gewijzigd, geen tussentijdse aanpassing)",
+            Titel: "Test aanpassing op flow (Gewijzigd, geen tussentijdse aanpassing)",
             Omschrijving_Keuze: null,
             Omschrijving_Werking: null,
             Aanleiding: null,
@@ -561,8 +555,7 @@ const beleidsrelaties = [
             Portefeuillehouder_2: "073D77C1-5A3F-45A3-83A0-D7E691FCEB82",
             Opdrachtgever: "27138AF8-C277-415B-82C8-E5E21E80A580",
             Status: "Ontwerp GS Concept",
-            Titel:
-                "Test aanpassing op flow (Gewijzigd, geen tussentijdse aanpassing)",
+            Titel: "Test aanpassing op flow (Gewijzigd, geen tussentijdse aanpassing)",
             Omschrijving_Keuze: null,
             Omschrijving_Werking: null,
             Aanleiding: null,
@@ -643,8 +636,7 @@ const beleidsrelaties = [
             Portefeuillehouder_2: "073D77C1-5A3F-45A3-83A0-D7E691FCEB82",
             Opdrachtgever: "27138AF8-C277-415B-82C8-E5E21E80A580",
             Status: "Ontwerp GS Concept",
-            Titel:
-                "Test aanpassing op flow (Gewijzigd, geen tussentijdse aanpassing)",
+            Titel: "Test aanpassing op flow (Gewijzigd, geen tussentijdse aanpassing)",
             Omschrijving_Keuze: null,
             Omschrijving_Werking: null,
             Aanleiding: null,
@@ -725,8 +717,7 @@ const beleidsrelaties = [
             Portefeuillehouder_2: "073D77C1-5A3F-45A3-83A0-D7E691FCEB82",
             Opdrachtgever: "27138AF8-C277-415B-82C8-E5E21E80A580",
             Status: "Ontwerp GS Concept",
-            Titel:
-                "Test aanpassing op flow (Gewijzigd, geen tussentijdse aanpassing)",
+            Titel: "Test aanpassing op flow (Gewijzigd, geen tussentijdse aanpassing)",
             Omschrijving_Keuze: null,
             Omschrijving_Werking: null,
             Aanleiding: null,
@@ -1033,8 +1024,7 @@ const beleidsrelaties = [
             Portefeuillehouder_2: null,
             Opdrachtgever: "C1F2D842-1618-4D8E-8765-20C427686AA1",
             Status: "Ontwerp GS Concept",
-            Titel:
-                "Human Capital, een beroepsbevolking met de juiste vaardigheden en kennis",
+            Titel: "Human Capital, een beroepsbevolking met de juiste vaardigheden en kennis",
             Omschrijving_Keuze:
                 "1.\tWat wil de provincie bereiken?  \nDe aanwezigheid van voldoende Human Capital, zowel in kwantitatieve als in kwalitatieve zin, is een belangrijke randvoorwaarde voor een goed functionerende regionale economie. Een adaptief, adequaat en goed opgeleid arbeidspotentieel, goed onderwijs om nieuwe instroom te realiseren en om bestaande werknemers bij en om te scholen alsmede een goed werkende arbeidsmarkt zijn daarmee essentieel voor een slimmer, schoner, sterker Zuid-Holland.\nDaarnaast is er een persoonlijk belang voor de mensen die het \u2018menselijk kapitaal\u2019 vormen. Werk is tenslotte meer dan inkomen. Het vervult een belangrijke sociale en maatschappelijk functie en voorziet in de mogelijkheid om je te kunnen ontplooien, deel te kunnen nemen en bij te kunnen dragen aan de maatschappij. \n2.\tEn hoe gaan we dat bereiken?\nDoor het door samen met de EBZ ge\u00efnitieerde Human Capital akkoord uit te voeren, waarin kwantitatieve doelstellingen benoemd zijn nodig om tot die gewenste situatie te komen. Een akkoord dat inmiddels door meer dan 100 partijen in Zuid-Holland is onderschreven en daarnaast door te investeren in een programmateam en te zorgen voor cofinanciering van concrete projecten.\n",
             Omschrijving_Werking:
@@ -1065,8 +1055,7 @@ const beleidsrelaties = [
             Portefeuillehouder_2: null,
             Opdrachtgever: "780818EA-3411-46E8-B2D1-E51C1F41E087",
             Status: "Ontwerp GS Concept",
-            Titel:
-                "Het stimuleren van de transitie naar een Circulair Zuid-Holland",
+            Titel: "Het stimuleren van de transitie naar een Circulair Zuid-Holland",
             Omschrijving_Keuze:
                 "De provincie wil een volledige circulaire economie in Zuid-Holland bereiken in 2050 met als tussendoel 50% reductie van (primaire) materialen in 2030. De provincie zet daarbij in op de transitiethema\u2019s Bouw, Kunststoffen, Groene grondstoffen & Voedsel en Maakindustrie. Dit doet de provincie vanuit verschillende rollen in samenwerking met verschillende partners.",
             Omschrijving_Werking:
@@ -1122,8 +1111,7 @@ const beleidsrelaties = [
             Portefeuillehouder_2: null,
             Opdrachtgever: "C1F2D842-1618-4D8E-8765-20C427686AA1",
             Status: "Ontwerp GS Concept",
-            Titel:
-                "Human Capital, een beroepsbevolking met de juiste vaardigheden en kennis",
+            Titel: "Human Capital, een beroepsbevolking met de juiste vaardigheden en kennis",
             Omschrijving_Keuze:
                 "1.\tWat wil de provincie bereiken?  \nDe aanwezigheid van voldoende Human Capital, zowel in kwantitatieve als in kwalitatieve zin, is een belangrijke randvoorwaarde voor een goed functionerende regionale economie. Een adaptief, adequaat en goed opgeleid arbeidspotentieel, goed onderwijs om nieuwe instroom te realiseren en om bestaande werknemers bij en om te scholen alsmede een goed werkende arbeidsmarkt zijn daarmee essentieel voor een slimmer, schoner, sterker Zuid-Holland.\nDaarnaast is er een persoonlijk belang voor de mensen die het \u2018menselijk kapitaal\u2019 vormen. Werk is tenslotte meer dan inkomen. Het vervult een belangrijke sociale en maatschappelijk functie en voorziet in de mogelijkheid om je te kunnen ontplooien, deel te kunnen nemen en bij te kunnen dragen aan de maatschappij. \n2.\tEn hoe gaan we dat bereiken?\nDoor het door samen met de EBZ ge\u00efnitieerde Human Capital akkoord uit te voeren, waarin kwantitatieve doelstellingen benoemd zijn nodig om tot die gewenste situatie te komen. Een akkoord dat inmiddels door meer dan 100 partijen in Zuid-Holland is onderschreven en daarnaast door te investeren in een programmateam en te zorgen voor cofinanciering van concrete projecten.\n",
             Omschrijving_Werking:
@@ -1210,8 +1198,7 @@ const beleidsrelaties = [
             Portefeuillehouder_2: null,
             Opdrachtgever: "C1F2D842-1618-4D8E-8765-20C427686AA1",
             Status: "Ontwerp GS Concept",
-            Titel:
-                "Human Capital, een beroepsbevolking met de juiste vaardigheden en kennis",
+            Titel: "Human Capital, een beroepsbevolking met de juiste vaardigheden en kennis",
             Omschrijving_Keuze:
                 "1.\tWat wil de provincie bereiken?  \nDe aanwezigheid van voldoende Human Capital, zowel in kwantitatieve als in kwalitatieve zin, is een belangrijke randvoorwaarde voor een goed functionerende regionale economie. Een adaptief, adequaat en goed opgeleid arbeidspotentieel, goed onderwijs om nieuwe instroom te realiseren en om bestaande werknemers bij en om te scholen alsmede een goed werkende arbeidsmarkt zijn daarmee essentieel voor een slimmer, schoner, sterker Zuid-Holland.\nDaarnaast is er een persoonlijk belang voor de mensen die het \u2018menselijk kapitaal\u2019 vormen. Werk is tenslotte meer dan inkomen. Het vervult een belangrijke sociale en maatschappelijk functie en voorziet in de mogelijkheid om je te kunnen ontplooien, deel te kunnen nemen en bij te kunnen dragen aan de maatschappij. \n2.\tEn hoe gaan we dat bereiken?\nDoor het door samen met de EBZ ge\u00efnitieerde Human Capital akkoord uit te voeren, waarin kwantitatieve doelstellingen benoemd zijn nodig om tot die gewenste situatie te komen. Een akkoord dat inmiddels door meer dan 100 partijen in Zuid-Holland is onderschreven en daarnaast door te investeren in een programmateam en te zorgen voor cofinanciering van concrete projecten.\n",
             Omschrijving_Werking:
@@ -1242,8 +1229,7 @@ const beleidsrelaties = [
             Portefeuillehouder_2: null,
             Opdrachtgever: "D1535AA4-C48E-4880-A374-94487FAB5F71",
             Status: "Ontwerp GS Concept",
-            Titel:
-                "Een uitstekend ecosysteem voor innovatie en ondernemerschap bevorderen",
+            Titel: "Een uitstekend ecosysteem voor innovatie en ondernemerschap bevorderen",
             Omschrijving_Keuze:
                 "De Provincie wil samen met andere overheden, ondernemers en kennisinstellingen Zuid-Holland als economische topregio versterken. \n\nDit doet zij door de kennisinfrastructuur en innovatiekracht te versterken, een uitstekende fysieke omgeving voor economische activiteiten en groei en vernieuwing van het bedrijfsleven te stimuleren, en een transitie vorm te geven naar een duurzame, circulaire en digitale economie. Onderdeel daarvan is dat de Provincie een uitstekend ecosysteem voor innovatie en ondernemerschap bevordert. Dit doet de Provincie door de inzet van verschillende beleidsmaatregelen gericht op het beter benutten van het innovatiepotentieel van de bedrijven en kennisinstellingen in Zuid-Holland.",
             Omschrijving_Werking:
@@ -1299,8 +1285,7 @@ const beleidsrelaties = [
             Portefeuillehouder_2: null,
             Opdrachtgever: "C1F2D842-1618-4D8E-8765-20C427686AA1",
             Status: "Ontwerp GS Concept",
-            Titel:
-                "Human Capital, een beroepsbevolking met de juiste vaardigheden en kennis",
+            Titel: "Human Capital, een beroepsbevolking met de juiste vaardigheden en kennis",
             Omschrijving_Keuze:
                 "1.\tWat wil de provincie bereiken?  \nDe aanwezigheid van voldoende Human Capital, zowel in kwantitatieve als in kwalitatieve zin, is een belangrijke randvoorwaarde voor een goed functionerende regionale economie. Een adaptief, adequaat en goed opgeleid arbeidspotentieel, goed onderwijs om nieuwe instroom te realiseren en om bestaande werknemers bij en om te scholen alsmede een goed werkende arbeidsmarkt zijn daarmee essentieel voor een slimmer, schoner, sterker Zuid-Holland.\nDaarnaast is er een persoonlijk belang voor de mensen die het \u2018menselijk kapitaal\u2019 vormen. Werk is tenslotte meer dan inkomen. Het vervult een belangrijke sociale en maatschappelijk functie en voorziet in de mogelijkheid om je te kunnen ontplooien, deel te kunnen nemen en bij te kunnen dragen aan de maatschappij. \n2.\tEn hoe gaan we dat bereiken?\nDoor het door samen met de EBZ ge\u00efnitieerde Human Capital akkoord uit te voeren, waarin kwantitatieve doelstellingen benoemd zijn nodig om tot die gewenste situatie te komen. Een akkoord dat inmiddels door meer dan 100 partijen in Zuid-Holland is onderschreven en daarnaast door te investeren in een programmateam en te zorgen voor cofinanciering van concrete projecten.\n",
             Omschrijving_Werking:
@@ -1331,8 +1316,7 @@ const beleidsrelaties = [
             Portefeuillehouder_2: null,
             Opdrachtgever: "D1535AA4-C48E-4880-A374-94487FAB5F71",
             Status: "Ontwerp GS Concept",
-            Titel:
-                "De provincie Zuid-Holland stimuleert de digitale transitie van de economie door in te zetten op goede digitale randvoorwaarden voor de regionale sectoren",
+            Titel: "De provincie Zuid-Holland stimuleert de digitale transitie van de economie door in te zetten op goede digitale randvoorwaarden voor de regionale sectoren",
             Omschrijving_Keuze:
                 "Maatschappelijk gezien biedt digitalisering zowel kansen als bedreigingen. Kansen in het leveren van een grote bijdrage aan oplossingen voor maatschappelijke opgaves, bijvoorbeeld de energietransitie, autonoom vervoer en circulaire economie. Bedreigingen waar het gaat om cybcercrime, privacy en het risico dat een grote groep van de bevolking niet mee kan komen met de snelle ICT ontwikkelingen (de zogenaamde \u2018digital divide\u2019) . \nDe toepassing van digitalisering in de economische sectoren in Zuid-Holland heeft een zeer grote impact. Door het gebruik van digitalisering zijn processen effici\u00ebnter geworden en zijn er nieuwe business modellen gekomen in bijna alle sectoren. Het bedrijfsleven in Zuid-Holland kent relatief veel digitaal -intensieve sectoren zoals vervoer en opslag, handel en tuinbouw. Daardoor heeft digitalisering ook een bovengemiddeld grote impact op onze economie. Wij weten dat sterke sectoren zoals het havenindustrieel complex en de tuinbouwsector in de komende 10-15 jaar hun huidige verdienmodellen drastisch zullen transformeren en dat dit mede wordt mogelijk gemaakt door digitalisering.\nOm de economie goed te kunnen ondersteunen bij deze digitale transitie is het belangrijk dat voor alle sectoren de digitale randvoorwaarden op orde zijn. De provincie Zuid-Holland focust zich daarbij op de volgende randvoorwaarden:\nDigitale connectiviteit: stimuleren van samenwerking voor de realisatie van glasvezel en 5G; \nDigitale Innovatie: optimale stimulering en toepassing van digitale innovaties in onze economische sectoren en maatschappelijke opgaves; \nDigitale Kennis en Vaardigheden: beroepsbevolking en bedrijfsleven hebben de kennis en vaardigheden die nodig zijn om de huidige economische sectoren toekomstbestendig te houden;\nCyber Security:\nZorgen voor cyberweerbare economische sectoren;\nVersterken van het regionale cyberveiligheidscluster. ",
             Omschrijving_Werking:
@@ -1388,8 +1372,7 @@ const beleidsrelaties = [
             Portefeuillehouder_2: null,
             Opdrachtgever: "C1F2D842-1618-4D8E-8765-20C427686AA1",
             Status: "Ontwerp GS Concept",
-            Titel:
-                "Human Capital, een beroepsbevolking met de juiste vaardigheden en kennis",
+            Titel: "Human Capital, een beroepsbevolking met de juiste vaardigheden en kennis",
             Omschrijving_Keuze:
                 "1.\tWat wil de provincie bereiken?  \nDe aanwezigheid van voldoende Human Capital, zowel in kwantitatieve als in kwalitatieve zin, is een belangrijke randvoorwaarde voor een goed functionerende regionale economie. Een adaptief, adequaat en goed opgeleid arbeidspotentieel, goed onderwijs om nieuwe instroom te realiseren en om bestaande werknemers bij en om te scholen alsmede een goed werkende arbeidsmarkt zijn daarmee essentieel voor een slimmer, schoner, sterker Zuid-Holland.\nDaarnaast is er een persoonlijk belang voor de mensen die het \u2018menselijk kapitaal\u2019 vormen. Werk is tenslotte meer dan inkomen. Het vervult een belangrijke sociale en maatschappelijk functie en voorziet in de mogelijkheid om je te kunnen ontplooien, deel te kunnen nemen en bij te kunnen dragen aan de maatschappij. \n2.\tEn hoe gaan we dat bereiken?\nDoor het door samen met de EBZ ge\u00efnitieerde Human Capital akkoord uit te voeren, waarin kwantitatieve doelstellingen benoemd zijn nodig om tot die gewenste situatie te komen. Een akkoord dat inmiddels door meer dan 100 partijen in Zuid-Holland is onderschreven en daarnaast door te investeren in een programmateam en te zorgen voor cofinanciering van concrete projecten.\n",
             Omschrijving_Werking:
@@ -1420,8 +1403,7 @@ const beleidsrelaties = [
             Portefeuillehouder_2: null,
             Opdrachtgever: "EFE6A088-C4F0-4D95-9721-5F1EC66400E2",
             Status: "Vigerend",
-            Titel:
-                "De provincie Zuid Holland draagt bij aan het behoud van de wereldpositie die de Rotterdamse haven bezit.",
+            Titel: "De provincie Zuid Holland draagt bij aan het behoud van de wereldpositie die de Rotterdamse haven bezit.",
             Omschrijving_Keuze:
                 "De Provincie Zuid-Holland versterkt samen met andere overheden, ondernemers en kennisinstellingen Zuid-Holland als economische topregio. Dit doet zij door de kennisinfrastructuur en innovatiekracht te versterken, groei en vernieuwing van het bedrijfsleven te stimuleren en een transitie vorm te geven naar een duurzame en digitale economie\n\nHet Rotterdamse havengebied verandert van een klassieke haveneconomie naar een kennisintensief complex gebaseerd op (informatie)technologie, hernieuwbare grondstoffen en innovatieve diensten. Wij willen dit moderniseringsproces faciliteren. Wij gaan daarvoor innovatie en investeringen binnen de sector stimuleren met de inzet van ons ruimtelijk instrumentarium, onze taken op het gebied van infrastructuur en milieu en de lobby in Brussel en bij het Rijk. Wij willen de samenwerking tussen de havens in de Vlaams-Nederlandse Delta bevorderen. ",
             Omschrijving_Werking:

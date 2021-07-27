@@ -1,18 +1,18 @@
-import React, { Component } from 'react'
-import { Helmet } from 'react-helmet'
-import { Link, withRouter } from 'react-router-dom'
+import React, { Component } from "react"
+import { Helmet } from "react-helmet"
+import { Link, withRouter } from "react-router-dom"
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
     faAngleRight,
     faHourglass,
     faCheck,
     faEnvelope,
     faTimes,
-} from '@fortawesome/pro-solid-svg-icons'
+} from "@fortawesome/pro-solid-svg-icons"
 
-import SidebarMain from './../../components/SidebarMain'
-import LoaderBeleidsrelatieRegel from './../../components/LoaderBeleidsrelatieRegel'
+import SidebarMain from "./../../components/SidebarMain"
+import LoaderBeleidsrelatieRegel from "./../../components/LoaderBeleidsrelatieRegel"
 
 /**
  * Returns the overzicht page of beleidsrelaties
@@ -29,9 +29,8 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
         this.initializeState = this.initializeState.bind(this)
         this.updateBeleidsrelaties = this.updateBeleidsrelaties.bind(this)
         this.countBevestigdeRelaties = this.countBevestigdeRelaties.bind(this)
-        this.countOnbevestigdeRelaties = this.countOnbevestigdeRelaties.bind(
-            this
-        )
+        this.countOnbevestigdeRelaties =
+            this.countOnbevestigdeRelaties.bind(this)
         this.countVerzoekRelaties = this.countVerzoekRelaties.bind(this)
         this.countAfgewezenRelaties = this.countAfgewezenRelaties.bind(this)
         this.generateRelatieArray = this.generateRelatieArray.bind(this)
@@ -82,7 +81,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
             (beleidsrelatie) =>
                 (beleidsrelatie.Van_Beleidskeuze.UUID === UUID ||
                     beleidsrelatie.Naar_Beleidskeuze.UUID === UUID) &&
-                beleidsrelatie.Status === 'Akkoord'
+                beleidsrelatie.Status === "Akkoord"
         )
         return beleidsrelaties.length
     }
@@ -92,7 +91,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
         const beleidsrelaties = this.props.beleidsrelaties.filter(
             (beleidsrelatie) =>
                 beleidsrelatie.Van_Beleidskeuze.UUID === UUID &&
-                beleidsrelatie.Status === 'Open'
+                beleidsrelatie.Status === "Open"
         )
         return beleidsrelaties.length
     }
@@ -102,7 +101,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
         const beleidsrelaties = this.props.beleidsrelaties.filter(
             (beleidsrelatie) =>
                 beleidsrelatie.Naar_Beleidskeuze.UUID === UUID &&
-                beleidsrelatie.Status === 'Open'
+                beleidsrelatie.Status === "Open"
         )
         return beleidsrelaties.length
     }
@@ -112,9 +111,9 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
         const beleidsrelaties = this.props.beleidsrelaties.filter(
             (beleidsrelatie) =>
                 (beleidsrelatie.Naar_Beleidskeuze.UUID === UUID &&
-                    beleidsrelatie.Status === 'NietAkkoord') ||
+                    beleidsrelatie.Status === "NietAkkoord") ||
                 (beleidsrelatie.Van_Beleidskeuze.UUID === UUID &&
-                    beleidsrelatie.Status === 'NietAkkoord')
+                    beleidsrelatie.Status === "NietAkkoord")
         )
         return beleidsrelaties.length
     }
@@ -147,11 +146,12 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                 ),
             },
             () => {
-                if (this.props.currentView !== 'detail') {
+                if (this.props.currentView !== "detail") {
                     this.setState({
-                        currentBeleidskeuze: this.state.beleidskeuzesObject.find(
-                            (e) => e.UUID === this.props.match.params.UUID
-                        ),
+                        currentBeleidskeuze:
+                            this.state.beleidskeuzesObject.find(
+                                (e) => e.UUID === this.props.match.params.UUID
+                            ),
                         dataLoaded: true,
                     })
                 } else {
@@ -173,7 +173,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
             (beleidsrelatie) =>
                 (beleidsrelatie.Van_Beleidskeuze.UUID === UUID ||
                     beleidsrelatie.Naar_Beleidskeuze.UUID === UUID) &&
-                beleidsrelatie.Status === 'Akkoord'
+                beleidsrelatie.Status === "Akkoord"
         )
 
         this.setState({
@@ -192,9 +192,9 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
         return this.props.beleidsrelaties.filter(
             (beleidsrelatie) =>
                 (beleidsrelatie.Naar_Beleidskeuze.UUID === UUID &&
-                    beleidsrelatie.Status === 'Open') ||
+                    beleidsrelatie.Status === "Open") ||
                 (beleidsrelatie.Van_Beleidskeuze.UUID === UUID &&
-                    beleidsrelatie.Status === 'Open')
+                    beleidsrelatie.Status === "Open")
         )
     }
 
@@ -264,10 +264,11 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                                                     to={`/muteer/beleidsrelaties/${item.UUID}`}
                                                     onClick={() => {
                                                         this.props.setCurrentView(
-                                                            'detail'
+                                                            "detail"
                                                         )
                                                         this.setState({
-                                                            currentBeleidskeuze: item,
+                                                            currentBeleidskeuze:
+                                                                item,
                                                         })
                                                     }}
                                                 >
@@ -282,9 +283,9 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                                                         <span
                                                             className={`inline-block px-1 py-1 text-xs leading-8 ${
                                                                 item.Status ===
-                                                                'Vigerend'
-                                                                    ? 'text-pzh-blue'
-                                                                    : 'text-pzh-yellow-dark'
+                                                                "Vigerend"
+                                                                    ? "text-pzh-blue"
+                                                                    : "text-pzh-yellow-dark"
                                                             } 
                                                                     `}
                                                         >
@@ -294,12 +295,12 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                                                     <div className="w-1/12 text-center">
                                                         {item.Bevestigd !== 0
                                                             ? item.Bevestigd
-                                                            : '-'}
+                                                            : "-"}
                                                     </div>
                                                     <div className="w-1/12 text-center">
                                                         {item.Onbevestigd !== 0
                                                             ? item.Onbevestigd
-                                                            : '-'}
+                                                            : "-"}
                                                     </div>
                                                     <div
                                                         className="w-1/12 text-center"
@@ -307,12 +308,12 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                                                     >
                                                         {item.Verzoeken !== 0
                                                             ? item.Verzoeken
-                                                            : '-'}
+                                                            : "-"}
                                                     </div>
                                                     <div className="w-1/12 mr-6 text-center ">
                                                         {item.Afgewezen !== 0
                                                             ? item.Afgewezen
-                                                            : '-'}
+                                                            : "-"}
                                                     </div>
                                                     <FontAwesomeIcon
                                                         className="absolute right-0 h-8 mr-3 text-gray-700"

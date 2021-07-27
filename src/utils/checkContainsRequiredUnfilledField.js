@@ -1,5 +1,5 @@
-import { toast } from 'react-toastify'
-import scrollToElement from './scrollToElement'
+import { toast } from "react-toastify"
+import scrollToElement from "./scrollToElement"
 
 /**
  * @param {string} property Contains the property that we want to check
@@ -13,11 +13,11 @@ const checkIfPropertyHasValue = (property, crudObject) => {
     const propertyHasValue =
         crudObject[property] !== undefined &&
         crudObject[property] !== null &&
-        crudObject[property] !== '' &&
-        crudObject[property] !== 'Invalid Date' &&
-        crudObject[property] !== '1753-01-01' &&
-        crudObject[property] !== '10000-01-01' &&
-        crudObject[property] !== '<p><br></p>' &&
+        crudObject[property] !== "" &&
+        crudObject[property] !== "Invalid Date" &&
+        crudObject[property] !== "1753-01-01" &&
+        crudObject[property] !== "10000-01-01" &&
+        crudObject[property] !== "<p><br></p>" &&
         !isEmptyArray
 
     return propertyHasValue
@@ -29,7 +29,7 @@ const checkIfPropertyHasValue = (property, crudObject) => {
  * @returns {boolean} indicating if this object has a status field
  */
 const checkIfObjectHasStatusField = (crudObject) =>
-    crudObject.hasOwnProperty('Status')
+    crudObject.hasOwnProperty("Status")
 
 /**
  * @param {string} property Contains the property that we want to check
@@ -39,7 +39,7 @@ const checkIfObjectHasStatusField = (crudObject) =>
  */
 const checkIfPropertyIsRequired = (property, crudObject, dimensieConstants) => {
     const objectHasStatusField = checkIfObjectHasStatusField(crudObject)
-    if (dimensieConstants.TITLE_SINGULAR === 'Verordening') {
+    if (dimensieConstants.TITLE_SINGULAR === "Verordening") {
         return false
     } else if (objectHasStatusField) {
         const status = crudObject.Status

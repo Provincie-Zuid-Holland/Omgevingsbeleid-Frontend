@@ -1,4 +1,4 @@
-import allDimensies from '../../../src/constants/dimensies'
+import allDimensies from "../../../src/constants/dimensies"
 
 const getSubUrl = (url, apiVersion) => url.slice(url.indexOf(`/` + apiVersion))
 
@@ -14,17 +14,17 @@ const dimensions = [
     allDimensies.THEMAS,
 ]
 
-beforeEach(() => cy.visit('/muteer/dashboard'))
+beforeEach(() => cy.visit("/muteer/dashboard"))
 
-describe('User can create, read and update the dimensions', () => {
-    const apiVersion = Cypress.env('API_VERSION')
+describe("User can create, read and update the dimensions", () => {
+    const apiVersion = Cypress.env("API_VERSION")
 
     // We declare an empty array to gather XHR responses
     const xhrData = []
     after(() => {
         // In record mode, save gathered XHR data to local JSON file
-        if (Cypress.env('RECORD')) {
-            const path = './cypress/fixtures/dimensies.json'
+        if (Cypress.env("RECORD")) {
+            const path = "./cypress/fixtures/dimensies.json"
             cy.writeFile(path, xhrData)
         }
     })
@@ -39,7 +39,7 @@ describe('User can create, read and update the dimensions', () => {
             cy.server({
                 // Here we handle all requests passing through Cypress' server
                 onResponse: (response) => {
-                    if (Cypress.env('RECORD')) {
+                    if (Cypress.env("RECORD")) {
                         const url = getSubUrl(response.url, apiVersion)
                         const method = response.method
                         const data = response.response.body
@@ -50,19 +50,19 @@ describe('User can create, read and update the dimensions', () => {
             })
 
             // This tells Cypress to hook into any GET request
-            if (Cypress.env('RECORD')) {
+            if (Cypress.env("RECORD")) {
                 cy.route({
-                    method: 'GET',
-                    url: '*',
+                    method: "GET",
+                    url: "*",
                 })
                 cy.route({
-                    method: 'POST',
-                    url: '*',
+                    method: "POST",
+                    url: "*",
                 })
             }
 
-            if (!Cypress.env('RECORD')) {
-                cy.fixture('dimensies').then((data) => {
+            if (!Cypress.env("RECORD")) {
+                cy.fixture("dimensies").then((data) => {
                     data.forEach((request) => {
                         cy.route({
                             method: request.method,
@@ -74,7 +74,7 @@ describe('User can create, read and update the dimensions', () => {
             }
 
             // Click on element to go to the overview page
-            cy.get(`#sidebar-href-${titelMeervoud.replace(`'`, '')}`, {
+            cy.get(`#sidebar-href-${titelMeervoud.replace(`'`, "")}`, {
                 timeout: 10000,
             }).click()
 

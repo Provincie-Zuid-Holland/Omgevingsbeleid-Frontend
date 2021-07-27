@@ -1,10 +1,10 @@
-import { toast } from 'react-toastify'
+import { toast } from "react-toastify"
 
 const errorMessages = {
-    'Image filesize larger than 1MB in text':
-        'De afbeelding is te groot (Max. 1MB)',
-    'Image width larger than 800px in text':
-        'De afbeelding is te groot (800x600)',
+    "Image filesize larger than 1MB in text":
+        "De afbeelding is te groot (Max. 1MB)",
+    "Image width larger than 800px in text":
+        "De afbeelding is te groot (800x600)",
 }
 
 const standardError = (error) => {

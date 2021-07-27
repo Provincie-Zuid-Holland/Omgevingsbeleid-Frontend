@@ -1,5 +1,5 @@
-import React from 'react'
-import ContentLoader from 'react-content-loader'
+import React from "react"
+import ContentLoader from "react-content-loader"
 
 /**
  * Component that renders the LoaderSelect component, which loads a rectangle shape before the Select component is displayed.

@@ -1,11 +1,11 @@
-import React from 'react'
-import { faArrowLeft } from '@fortawesome/pro-regular-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useHistory, useLocation } from 'react-router-dom'
-import { useLastLocation } from 'react-router-last-location'
+import React from "react"
+import { faArrowLeft } from "@fortawesome/pro-regular-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { useHistory, useLocation } from "react-router-dom"
+import { useLastLocation } from "react-router-last-location"
 
-import networkGraphConnectionProperties from '../../constants/networkGraphConnectionProperties'
-import networkGraphFilterMenu from '../../constants/networkGraphFilterMenu'
+import networkGraphConnectionProperties from "../../constants/networkGraphConnectionProperties"
+import networkGraphFilterMenu from "../../constants/networkGraphFilterMenu"
 
 /**
  *
@@ -31,7 +31,7 @@ const NetworkGraphSidebar = ({ setGraphIsOpen, filters, setFilters }) => {
         ) {
             history.push(lastLocationRef?.current?.pathname)
         } else {
-            history.push('/')
+            history.push("/")
         }
     }
 
@@ -85,7 +85,7 @@ const ListItem = ({ setFilters, filterKey, filters }) => {
         <li
             onClick={() =>
                 setFilters({
-                    type: 'toggleFilter',
+                    type: "toggleFilter",
                     filterType: filterKey,
                     newState: !filters[filterKey],
                 })

@@ -1,2 +1,2 @@
-export { default } from './RelatiesKoppelingen';
-export * from './RelatiesKoppelingen';
+export { default } from "./RelatiesKoppelingen"
+export * from "./RelatiesKoppelingen"

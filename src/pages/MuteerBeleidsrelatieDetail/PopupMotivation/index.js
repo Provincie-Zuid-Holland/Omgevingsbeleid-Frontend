@@ -1,2 +1,2 @@
-export { default } from './PopupMotivation';
-export * from './PopupMotivation';
+export { default } from "./PopupMotivation"
+export * from "./PopupMotivation"

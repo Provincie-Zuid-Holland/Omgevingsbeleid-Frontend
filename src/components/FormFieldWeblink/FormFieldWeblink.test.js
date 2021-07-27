@@ -12,8 +12,7 @@ describe("FormFieldWeblink", () => {
         fieldValue: defaultValue,
         dataObjectProperty: "Weblink",
         fieldLabel: "IDMS",
-        pValue:
-            "Vul hier de link in naar het besluitdocument op IDMS. (Eigenschappen > Algemeen > Snelkoppeling kopiëren).",
+        pValue: "Vul hier de link in naar het besluitdocument op IDMS. (Eigenschappen > Algemeen > Snelkoppeling kopiëren).",
         titleSingular: "titleSingular",
     }
 

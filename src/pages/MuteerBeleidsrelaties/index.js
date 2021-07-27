@@ -1,2 +1,2 @@
-export { default } from './MuteerBeleidsrelaties';
-export * from './MuteerBeleidsrelaties';
+export { default } from "./MuteerBeleidsrelaties"
+export * from "./MuteerBeleidsrelaties"

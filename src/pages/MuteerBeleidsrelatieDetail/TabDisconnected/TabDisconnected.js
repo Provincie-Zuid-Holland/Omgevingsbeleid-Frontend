@@ -1,9 +1,9 @@
-import React from 'react'
-import { format } from 'date-fns'
-import { useParams } from 'react-router-dom'
+import React from "react"
+import { format } from "date-fns"
+import { useParams } from "react-router-dom"
 
-import LoaderBeleidsrelatieRegel from '../../../components/LoaderBeleidsrelatieRegel'
-import PopupMotivation from '../PopupMotivation/PopupMotivation'
+import LoaderBeleidsrelatieRegel from "../../../components/LoaderBeleidsrelatieRegel"
+import PopupMotivation from "../PopupMotivation/PopupMotivation"
 
 /**
  * @prop {boolean} loaded true if the incoming relationships have loaded
@@ -39,7 +39,7 @@ function TabDisconnected({
             {loaded ? (
                 disconnected.length > 0 ? (
                     disconnected.map((relatie) => {
-                        const title = getPropertyFromRelation(relatie, 'Titel')
+                        const title = getPropertyFromRelation(relatie, "Titel")
                         return (
                             <li
                                 key={relatie.UUID}
@@ -50,19 +50,19 @@ function TabDisconnected({
                                     {relatie.Datum_Akkoord !== null
                                         ? format(
                                               new Date(relatie.Datum_Akkoord),
-                                              'd MMMM yyyy, HH:mm'
-                                          ) + ' uur'
+                                              "d MMMM yyyy, HH:mm"
+                                          ) + " uur"
                                         : null}
                                 </div>
                                 <div className="w-1/12">
-                                    {relatie.Status === 'Akkoord'
-                                        ? 'Bevestigd'
-                                        : relatie.Status === 'Open'
-                                        ? 'In afwachting'
-                                        : relatie.Status === 'NietAkkoord'
-                                        ? 'Afgewezen'
-                                        : relatie.Status === 'Verbroken'
-                                        ? 'Verbroken'
+                                    {relatie.Status === "Akkoord"
+                                        ? "Bevestigd"
+                                        : relatie.Status === "Open"
+                                        ? "In afwachting"
+                                        : relatie.Status === "NietAkkoord"
+                                        ? "Afgewezen"
+                                        : relatie.Status === "Verbroken"
+                                        ? "Verbroken"
                                         : null}
                                 </div>
                                 <div className="w-3/12 pl-8">

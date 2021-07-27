@@ -40,9 +40,8 @@ class MuteerVerordeningenStructuurCRUD extends Component {
         this.voegKoppelingRelatieToe = this.voegKoppelingRelatieToe.bind(this)
         this.createAndSetCrudObject = this.createAndSetCrudObject.bind(this)
         this.wijzigKoppelingRelatie = this.wijzigKoppelingRelatie.bind(this)
-        this.verwijderKoppelingRelatieToe = this.verwijderKoppelingRelatieToe.bind(
-            this
-        )
+        this.verwijderKoppelingRelatieToe =
+            this.verwijderKoppelingRelatieToe.bind(this)
         this.formatGeldigheidDatesForUI = formatGeldigheidDatesForUI.bind(this)
     }
 
@@ -113,11 +112,12 @@ class MuteerVerordeningenStructuurCRUD extends Component {
             crudObject.Eind_Geldigheid = new Date(crudObject.Eind_Geldigheid)
         }
 
-        const containsRequiredUnfilledField = checkContainsRequiredUnfilledField(
-            crudObject,
-            dimensieConstants,
-            titleSingular
-        )
+        const containsRequiredUnfilledField =
+            checkContainsRequiredUnfilledField(
+                crudObject,
+                dimensieConstants,
+                titleSingular
+            )
         if (containsRequiredUnfilledField) {
             this.setState({
                 crudObject: this.formatGeldigheidDatesForUI(crudObject),
@@ -194,9 +194,8 @@ class MuteerVerordeningenStructuurCRUD extends Component {
         const index = nieuwCrudObject[koppelingObject.propertyName].findIndex(
             (item) => item.UUID === koppelingObject.item.UUID
         )
-        nieuwCrudObject[koppelingObject.propertyName][
-            index
-        ].Omschrijving = nieuweOmschrijving
+        nieuwCrudObject[koppelingObject.propertyName][index].Omschrijving =
+            nieuweOmschrijving
 
         this.setState(
             {

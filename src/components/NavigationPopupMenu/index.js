@@ -1,2 +1,2 @@
-export { default } from './NavigationPopupMenu';
-export * from './NavigationPopupMenu';
+export { default } from "./NavigationPopupMenu"
+export * from "./NavigationPopupMenu"

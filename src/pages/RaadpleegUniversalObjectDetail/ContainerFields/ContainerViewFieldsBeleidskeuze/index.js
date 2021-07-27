@@ -1,3 +1,3 @@
-import ContainerViewFieldsBeleidskeuze from './ContainerViewFieldsBeleidskeuze.js'
+import ContainerViewFieldsBeleidskeuze from "./ContainerViewFieldsBeleidskeuze.js"
 
 export default ContainerViewFieldsBeleidskeuze

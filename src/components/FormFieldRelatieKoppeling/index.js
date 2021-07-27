@@ -1,2 +1,2 @@
-export { default } from './FormFieldRelatieKoppeling';
-export * from './FormFieldRelatieKoppeling';
+export { default } from "./FormFieldRelatieKoppeling"
+export * from "./FormFieldRelatieKoppeling"
