@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react"
 
 // Pages met aparte container:
 // /pages/Login

@@ -1,8 +1,8 @@
-import { render, screen, fireEvent } from '@testing-library/react'
-import '@testing-library/jest-dom'
-import React from 'react'
+import { render, screen, fireEvent } from "@testing-library/react"
+import "@testing-library/jest-dom"
+import React from "react"
 
-import useClickOutsideContainer from './useClickOutsideContainer'
+import useClickOutsideContainer from "./useClickOutsideContainer"
 
 const setup = () => {
     const callbackMock = jest.fn()
@@ -23,17 +23,17 @@ const TestComponent = ({ callbackMock }) => {
     )
 }
 
-describe('useClickOutsideContainer', () => {
-    it('Does not call the callback when the user clicks inside', () => {
+describe("useClickOutsideContainer", () => {
+    it("Does not call the callback when the user clicks inside", () => {
         const { callbackMock } = setup()
-        const elInside = screen.getByText('inside')
+        const elInside = screen.getByText("inside")
         fireEvent.mouseDown(elInside, { target: elInside })
         expect(callbackMock).toHaveBeenCalledTimes(0)
     })
 
-    it('Call the callback when user clicks outside', () => {
+    it("Call the callback when user clicks outside", () => {
         const { callbackMock } = setup()
-        const elOutside = screen.getByText('outside')
+        const elOutside = screen.getByText("outside")
         fireEvent.mouseDown(elOutside, { target: elOutside })
         expect(callbackMock).toHaveBeenCalledTimes(1)
     })

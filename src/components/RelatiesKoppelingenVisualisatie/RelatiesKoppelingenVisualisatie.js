@@ -181,9 +181,8 @@ const RelatiesKoppelingenVisualisatie = ({
                 // Activate display
                 tooltip.style("display", "block")
 
-                const tooltipTitleEl = document.getElementById(
-                    "d3-tooltip-title"
-                )
+                const tooltipTitleEl =
+                    document.getElementById("d3-tooltip-title")
                 tooltipTitleEl.innerHTML = d.name
 
                 const tooltipEl = document.getElementById("d3-tooltip")

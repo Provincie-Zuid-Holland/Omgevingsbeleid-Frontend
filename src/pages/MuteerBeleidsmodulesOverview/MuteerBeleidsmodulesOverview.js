@@ -1,23 +1,23 @@
-import React from 'react'
-import { useParams, useHistory } from 'react-router-dom'
-import { toast } from 'react-toastify'
+import React from "react"
+import { useParams, useHistory } from "react-router-dom"
+import { toast } from "react-toastify"
 
-import allDimensies from './../../constants/dimensies'
+import allDimensies from "./../../constants/dimensies"
 
-import axios from '../../API/axios'
+import axios from "../../API/axios"
 
-import TableRow from './TableRow'
-import TableHeading from './TableHeading'
-import ModuleFilters from './ModuleFilters'
-import SortIcon from './SortIcon'
-import ModuleAmount from './ModuleAmount'
+import TableRow from "./TableRow"
+import TableHeading from "./TableHeading"
+import ModuleFilters from "./ModuleFilters"
+import SortIcon from "./SortIcon"
+import ModuleAmount from "./ModuleAmount"
 
-import ButtonBackToPage from './../../components/ButtonBackToPage'
-import LoaderSpinner from './../../components/LoaderSpinner'
+import ButtonBackToPage from "./../../components/ButtonBackToPage"
+import LoaderSpinner from "./../../components/LoaderSpinner"
 
-import useModuleSort from './../../utils/useModuleSort'
-import useModuleFilter from './../../utils/useModuleFilter'
-import handleError from './../../utils/handleError'
+import useModuleSort from "./../../utils/useModuleSort"
+import useModuleFilter from "./../../utils/useModuleFilter"
+import handleError from "./../../utils/handleError"
 
 /**
  * @returns A component that renders an overview of a specific Beleidsmodule
@@ -53,7 +53,7 @@ function MuteerBeleidsmodulesOverview() {
                 setCurrentBeleidsmodule(currentBeleidsmodule)
                 return currentBeleidsmodule
             } else {
-                toast('Deze beleidsmodule kon niet gevonden worden')
+                toast("Deze beleidsmodule kon niet gevonden worden")
                 history.push(
                     `/muteer/${allDimensies.BELEIDSMODULES.SLUG_OVERVIEW}`
                 )
@@ -78,7 +78,7 @@ function MuteerBeleidsmodulesOverview() {
                         ...currentBeleidsmodule.Beleidskeuzes,
                     ]
                     setPolicies(policies)
-                    setFilters({ type: 'init', policies: policies })
+                    setFilters({ type: "init", policies: policies })
                     setDataLoaded(true)
                 })
                 .catch((err) => {
@@ -94,7 +94,7 @@ function MuteerBeleidsmodulesOverview() {
             <div className="mt-5">
                 <div className="inline-block w-full align-middle">
                     <ButtonBackToPage
-                        terugNaar={'overzicht'}
+                        terugNaar={"overzicht"}
                         url={`/muteer/${allDimensies.BELEIDSMODULES.SLUG_OVERVIEW}`}
                     />
                     <div className="pb-16 bg-white rounded-md shadow-md">
@@ -126,7 +126,7 @@ function MuteerBeleidsmodulesOverview() {
                                     <thead>
                                         <tr>
                                             <TableHeading
-                                                property={'title'}
+                                                property={"title"}
                                                 sorting={sorting}
                                                 setSorting={setSorting}
                                                 label="Titel"
@@ -138,7 +138,7 @@ function MuteerBeleidsmodulesOverview() {
                                             </TableHeading>
 
                                             <TableHeading
-                                                property={'type'}
+                                                property={"type"}
                                                 sorting={sorting}
                                                 setSorting={setSorting}
                                                 label="Beleidsstuk"
@@ -155,7 +155,7 @@ function MuteerBeleidsmodulesOverview() {
                                             />
 
                                             <TableHeading
-                                                property={'date'}
+                                                property={"date"}
                                                 sorting={sorting}
                                                 setSorting={setSorting}
                                                 label="Bewerkingsdatum"

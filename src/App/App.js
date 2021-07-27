@@ -108,9 +108,8 @@ class App extends Component {
             showEnvironmentBanner: false,
             graphIsOpen: false,
         }
-        this.checkIfUserIsAuthenticated = this.checkIfUserIsAuthenticated.bind(
-            this
-        )
+        this.checkIfUserIsAuthenticated =
+            this.checkIfUserIsAuthenticated.bind(this)
         this.setGraphIsOpen = this.setGraphIsOpen.bind(this)
         this.setLoginState = this.setLoginState.bind(this)
         this.setLoginUser = this.setLoginUser.bind(this)

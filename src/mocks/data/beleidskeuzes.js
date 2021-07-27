@@ -289,8 +289,7 @@ const beleidskeuzes = [
                     Created_Date: "2020-03-10T14:32:19.747000Z",
                     Modified_By: "BDAF9E43-6026-4FE3-8D4E-BB5DDEC728E6",
                     Modified_Date: "2020-03-10T14:32:19.747000Z",
-                    Titel:
-                        "Uitvoeringsregeling vaarwegprofielen Zuid-Holland 2015",
+                    Titel: "Uitvoeringsregeling vaarwegprofielen Zuid-Holland 2015",
                     Omschrijving: null,
                     Weblink: "weergeven/11821949021848468",
                     Externe_URL: null,

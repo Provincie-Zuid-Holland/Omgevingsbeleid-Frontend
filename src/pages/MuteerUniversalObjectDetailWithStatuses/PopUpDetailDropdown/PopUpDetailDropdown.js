@@ -1,12 +1,12 @@
-import React from 'react'
-import { toast } from 'react-toastify'
-import { Link } from 'react-router-dom'
+import React from "react"
+import { toast } from "react-toastify"
+import { Link } from "react-router-dom"
 
-import axios from './../../../API/axios'
+import axios from "./../../../API/axios"
 
-import handleError from './../../../utils/handleError'
+import handleError from "./../../../utils/handleError"
 
-import { API_ENDPOINT } from './../../../constants/beleidsmodules'
+import { API_ENDPOINT } from "./../../../constants/beleidsmodules"
 
 const PopUpDetailDropdown = ({
     slug,
@@ -34,10 +34,10 @@ const PopUpDetailDropdown = ({
     )
 
     React.useEffect(() => {
-        document.addEventListener('mousedown', handleClick, false)
+        document.addEventListener("mousedown", handleClick, false)
 
         return () =>
-            document.removeEventListener('mousedown', handleClick, false)
+            document.removeEventListener("mousedown", handleClick, false)
     }, [handleClick])
 
     const removeFromModules = async () => {
@@ -57,9 +57,9 @@ const PopUpDetailDropdown = ({
 
         if (!allBeleidsmodules) return
 
-        const connectionProperty = dataObject.hasOwnProperty('Aanpassing_Op')
-            ? 'Beleidskeuzes'
-            : 'Maatregelen'
+        const connectionProperty = dataObject.hasOwnProperty("Aanpassing_Op")
+            ? "Beleidskeuzes"
+            : "Maatregelen"
 
         const modulesWithExistingConnection = allBeleidsmodules.filter(
             (module) =>
@@ -91,9 +91,10 @@ const PopUpDetailDropdown = ({
         )
             .then((res) => {
                 res.forEach((response) => {
-                    dataObject.Ref_Beleidsmodules = dataObject.Ref_Beleidsmodules.filter(
-                        (module) => response.ID !== module.ID
-                    )
+                    dataObject.Ref_Beleidsmodules =
+                        dataObject.Ref_Beleidsmodules.filter(
+                            (module) => response.ID !== module.ID
+                        )
                 })
 
                 setDataObject({ ...dataObject })
@@ -109,8 +110,8 @@ const PopUpDetailDropdown = ({
         >
             <div className="relative h-full">
                 <ul className="text-sm text-gray-800">
-                    {dataObject.Status !== 'Vigerend' &&
-                    dataObject.Status !== 'Gepubliceerd' ? (
+                    {dataObject.Status !== "Vigerend" &&
+                    dataObject.Status !== "Gepubliceerd" ? (
                         <li
                             className="px-4 py-2 text-sm cursor-pointer hover:bg-gray-100"
                             onClick={() => {
@@ -129,10 +130,10 @@ const PopUpDetailDropdown = ({
                             rel="noopener noreferrer"
                             id="navbar-popup-href-raadpleeg-omgeving"
                             className={`inline-block w-full px-4 py-2 text-sm hover:bg-gray-100 border-gray-300 ${
-                                dataObject.Status !== 'Vigerend' &&
-                                dataObject.Status !== 'Gepubliceerd'
-                                    ? 'border-t'
-                                    : ''
+                                dataObject.Status !== "Vigerend" &&
+                                dataObject.Status !== "Gepubliceerd"
+                                    ? "border-t"
+                                    : ""
                             }`}
                         >
                             Raadpleegomgeving
@@ -151,14 +152,14 @@ const PopUpDetailDropdown = ({
                         }}
                     >
                         {dataObject?.Ref_Beleidsmodules?.length === 0
-                            ? 'Toevoegen aan module'
-                            : 'Verwijderen uit module'}
+                            ? "Toevoegen aan module"
+                            : "Verwijderen uit module"}
                     </li>
 
-                    {(titleSingular === 'Beleidskeuze' &&
-                        dataObject.Status === 'Vigerend') ||
-                    (titleSingular === 'Maatregel' &&
-                        dataObject.Status === 'Vigerend') ? (
+                    {(titleSingular === "Beleidskeuze" &&
+                        dataObject.Status === "Vigerend") ||
+                    (titleSingular === "Maatregel" &&
+                        dataObject.Status === "Vigerend") ? (
                         <li>
                             <Link
                                 to={`/muteer/${slug}/edit/${dataObject.ID}?modus=wijzig_vigerend`}
@@ -170,7 +171,7 @@ const PopUpDetailDropdown = ({
                         </li>
                     ) : null}
 
-                    {titleSingular === 'Beleidskeuze' ? (
+                    {titleSingular === "Beleidskeuze" ? (
                         <li>
                             <a
                                 href={`/muteer/beleidsrelaties/${dataObject.UUID}`}

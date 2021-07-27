@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react"
 
 /**
  * Custom useHook that implements the logic to filter based on:
@@ -8,14 +8,14 @@ import React from 'react'
 const useModuleFilter = () => {
     const filterReducer = (state, action) => {
         switch (action.type) {
-            case 'init':
+            case "init":
                 const policies = action.policies
                 const availableTypes = policies.map(
                     (policy) => policy.Object.Status
                 )
-                state.statusFilters = ['Status', ...new Set(availableTypes)]
+                state.statusFilters = ["Status", ...new Set(availableTypes)]
                 return { ...state }
-            case 'changeValue':
+            case "changeValue":
                 state[action.property] = action.newValue
                 return { ...state }
             default:
@@ -24,18 +24,18 @@ const useModuleFilter = () => {
     }
 
     const [filters, setFilters] = React.useReducer(filterReducer, {
-        statusFilters: ['Status'],
-        selectedStatus: 'Status',
-        typeFilters: ['Beleidstuk', 'Beleidskeuze', 'Maatregel'],
-        selectedType: 'Beleidstuk',
+        statusFilters: ["Status"],
+        selectedStatus: "Status",
+        typeFilters: ["Beleidstuk", "Beleidskeuze", "Maatregel"],
+        selectedType: "Beleidstuk",
     })
 
     const getObjectType = (obj) =>
-        obj.Object.hasOwnProperty('Aanleiding') ? 'Beleidskeuze' : 'Maatregel'
+        obj.Object.hasOwnProperty("Aanleiding") ? "Beleidskeuze" : "Maatregel"
 
     const filterPolicies = (policy, filters) => {
-        const activeStatusFilter = filters.selectedStatus !== 'Status'
-        const activeTypeFilter = filters.selectedType !== 'Beleidstuk'
+        const activeStatusFilter = filters.selectedStatus !== "Status"
+        const activeTypeFilter = filters.selectedType !== "Beleidstuk"
 
         const getFilteredOutByStatus = () => {
             if (!activeStatusFilter) return false

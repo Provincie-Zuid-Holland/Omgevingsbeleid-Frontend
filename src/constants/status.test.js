@@ -1,6 +1,6 @@
-import * as MAATREGELEN from './maatregelen'
-import * as BELEIDSKEUZES from './beleidskeuzes'
-import beleidskeuzeStatusAanpassen from './beleidskeuzeStatusAanpassen'
+import * as MAATREGELEN from "./maatregelen"
+import * as BELEIDSKEUZES from "./beleidskeuzes"
+import beleidskeuzeStatusAanpassen from "./beleidskeuzeStatusAanpassen"
 
 /**
  * Extracts all the valid possible statuses from the nextStatusObject
@@ -46,12 +46,12 @@ const checkForInvalidRequiredValues = (obj) => {
     })
 }
 
-describe('Status', () => {
-    it('Beleidskeuze required fields contain no invalid Status types', () => {
+describe("Status", () => {
+    it("Beleidskeuze required fields contain no invalid Status types", () => {
         checkForInvalidRequiredValues(BELEIDSKEUZES)
     })
 
-    it('Maatregelen required fields contain no invalid Status types', () => {
+    it("Maatregelen required fields contain no invalid Status types", () => {
         checkForInvalidRequiredValues(MAATREGELEN)
     })
 })

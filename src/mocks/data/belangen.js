@@ -26,8 +26,7 @@ const belangen = [
             {
                 ID: 732,
                 UUID: "B8A79FDE-ED2E-4AEC-B8E7-759C2E4A6B3A",
-                Titel:
-                    "Een uitstekend ecosysteem voor innovatie en ondernemerschap bevorderen",
+                Titel: "Een uitstekend ecosysteem voor innovatie en ondernemerschap bevorderen",
             },
         ],
     },
@@ -58,8 +57,7 @@ const belangen = [
             {
                 ID: 732,
                 UUID: "B8A79FDE-ED2E-4AEC-B8E7-759C2E4A6B3A",
-                Titel:
-                    "Een uitstekend ecosysteem voor innovatie en ondernemerschap bevorderen",
+                Titel: "Een uitstekend ecosysteem voor innovatie en ondernemerschap bevorderen",
             },
         ],
     },

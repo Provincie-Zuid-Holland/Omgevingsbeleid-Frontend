@@ -109,10 +109,11 @@ const FormFieldRelatieKoppeling = ({
      * If they exist, we add the type and set them in state
      */
     const initializeConnections = React.useCallback(() => {
-        const propertiesWithExistingConnections = getPropertiesWithConnectionsFromCrudObject(
-            connectionProperties,
-            crudObject
-        )
+        const propertiesWithExistingConnections =
+            getPropertiesWithConnectionsFromCrudObject(
+                connectionProperties,
+                crudObject
+            )
 
         // Contains the properties we have already mapped
         // We need this because 'Belang' en 'Taak' are both different types, but they do have the same propertyName on the crudObject

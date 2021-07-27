@@ -1,2 +1,2 @@
-export { default } from './RevisieListItem';
-export * from './RevisieListItem';
+export { default } from "./RevisieListItem"
+export * from "./RevisieListItem"

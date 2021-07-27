@@ -198,8 +198,7 @@ function Artikel({
                                         // User unticks the checkbox
                                         setVerordeningsLedenFromGET({
                                             type: "setValueForAll",
-                                            value:
-                                                verordeningsObjectFromGET.Gebied,
+                                            value: verordeningsObjectFromGET.Gebied,
                                         })
                                         setVerordeningsObjectFromGET({
                                             type: "changeValue",

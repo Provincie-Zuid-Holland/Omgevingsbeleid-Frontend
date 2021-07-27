@@ -1,3 +1,3 @@
-import Hoofdstuk from './Hoofdstuk.js'
+import Hoofdstuk from "./Hoofdstuk.js"
 
 export default Hoofdstuk

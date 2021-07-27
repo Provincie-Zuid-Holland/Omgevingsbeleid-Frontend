@@ -1,6 +1,6 @@
-import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCaretDown } from '@fortawesome/pro-solid-svg-icons'
+import React from "react"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faCaretDown } from "@fortawesome/pro-solid-svg-icons"
 
 /**
  *
@@ -21,13 +21,13 @@ const ModuleFilterType = ({ filters, setFilters }) => (
             value={filters.selectedType}
             onChange={(event) =>
                 setFilters({
-                    type: 'changeValue',
+                    type: "changeValue",
                     newValue: event.target.value,
-                    property: 'selectedType',
+                    property: "selectedType",
                 })
             }
             id={`modules-select-type`}
-            name={'modules-select-type'}
+            name={"modules-select-type"}
             className="relative block w-32 px-3 pt-2 pb-1 pr-5 ml-2 leading-tight text-gray-700 bg-white border border-gray-400 rounded appearance-none overflow-ellipsis focus:outline-none hover:border-gray-500 focus:border-gray-500"
         >
             {filters.typeFilters.map((filter) => (
@@ -49,13 +49,13 @@ const ModuleFilterStatus = ({ filters, setFilters }) => (
             value={filters.selectedStatus}
             onChange={(event) =>
                 setFilters({
-                    type: 'changeValue',
+                    type: "changeValue",
                     newValue: event.target.value,
-                    property: 'selectedStatus',
+                    property: "selectedStatus",
                 })
             }
             id={`modules-select-status`}
-            name={'modules-select-status'}
+            name={"modules-select-status"}
             className="block w-32 px-3 pt-2 pb-1 pr-5 leading-tight text-gray-700 bg-white border border-gray-400 rounded appearance-none overflow-ellipsis focus:outline-none hover:border-gray-500 focus:border-gray-500"
         >
             {filters.statusFilters.map((filter) => (

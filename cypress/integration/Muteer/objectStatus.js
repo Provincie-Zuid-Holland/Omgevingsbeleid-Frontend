@@ -1,10 +1,10 @@
-import allDimensies from '../../../src/constants/dimensies'
-import statusFlow from '../../../src/constants/beleidskeuzeStatusAanpassen'
+import allDimensies from "../../../src/constants/dimensies"
+import statusFlow from "../../../src/constants/beleidskeuzeStatusAanpassen"
 
 // The dimension objects we will handle in the CRUD test
 const dimensions = [allDimensies.BELEIDSKEUZES, allDimensies.MAATREGELEN]
 
-describe('Dimension Status', () => {
+describe("Dimension Status", () => {
     dimensions.forEach((dimensie, index) => {
         const titleSingular = dimensie.TITLE_SINGULAR.toLowerCase()
         const titlePlural = dimensie.TITLE_PLURAL.toLowerCase()
@@ -14,7 +14,7 @@ describe('Dimension Status', () => {
 
         it(`User can create a new '${titleSingular} with a status of 'Ontwerp GS Concept'`, () => {
             // Click on element to go to the overview page
-            cy.get(`#sidebar-href-${titelMeervoud.replace(`'`, '')}`, {
+            cy.get(`#sidebar-href-${titelMeervoud.replace(`'`, "")}`, {
                 timeout: 20000,
             }).click()
 
@@ -36,12 +36,12 @@ describe('Dimension Status', () => {
             // Submit form
             cy.get(`#form-submit`).click()
 
-            cy.contains('Ontwerp GS Concept')
+            cy.contains("Ontwerp GS Concept")
         })
 
         it(`User can toggle the popup to edit the status of '${titlePlural}`, () => {
             // Click on element to go to the overview page
-            cy.get(`#sidebar-href-${titelMeervoud.replace(`'`, '')}`, {
+            cy.get(`#sidebar-href-${titelMeervoud.replace(`'`, "")}`, {
                 timeout: 20000,
             }).click()
 
@@ -49,17 +49,17 @@ describe('Dimension Status', () => {
                 timeout: 30000,
             }).click()
 
-            cy.get('#container-detail-dropdown-dots', {
+            cy.get("#container-detail-dropdown-dots", {
                 timeout: 30000,
             }).click()
-            cy.contains('Status aanpassen').click()
-            cy.get('#popup-edit-status').should('be.visible')
-            cy.contains('Annuleren').click()
-            cy.get('#popup-edit-status').should('not.exist')
+            cy.contains("Status aanpassen").click()
+            cy.get("#popup-edit-status").should("be.visible")
+            cy.contains("Annuleren").click()
+            cy.get("#popup-edit-status").should("not.exist")
         })
 
         it(`User can go through the status flow of '${titlePlural}`, () => {
-            cy.get(`#sidebar-href-${titelMeervoud.replace(`'`, '')}`, {
+            cy.get(`#sidebar-href-${titelMeervoud.replace(`'`, "")}`, {
                 timeout: 20000,
             }).click()
 
@@ -68,41 +68,41 @@ describe('Dimension Status', () => {
             }).click()
 
             Object.keys(statusFlow).forEach(() => {
-                cy.get('#object-status')
-                    .invoke('text')
+                cy.get("#object-status")
+                    .invoke("text")
                     .then((currentStatus) => {
-                        if (currentStatus === 'Vigerend') return
+                        if (currentStatus === "Vigerend") return
 
-                        cy.get('#container-detail-dropdown-dots').click()
-                        cy.contains('Status aanpassen').click()
+                        cy.get("#container-detail-dropdown-dots").click()
+                        cy.contains("Status aanpassen").click()
 
                         const possibleNextStatusses = statusFlow[currentStatus]
                         const selectValue = possibleNextStatusses[0]
 
-                        cy.log('CURRENT VALUE')
+                        cy.log("CURRENT VALUE")
                         cy.log(currentStatus)
 
-                        cy.log('SELECT')
+                        cy.log("SELECT")
                         cy.log(selectValue)
 
-                        cy.get('#popup-edit-status select').select(selectValue)
-                        cy.contains('Aanpassen').click()
+                        cy.get("#popup-edit-status select").select(selectValue)
+                        cy.contains("Aanpassen").click()
 
-                        cy.get('#popup-edit-status').should('not.exist')
+                        cy.get("#popup-edit-status").should("not.exist")
 
                         cy.contains(
                             `Status succesvol gewijzigd naar ${selectValue}`
-                        ).should('exist')
+                        ).should("exist")
 
                         cy.wait(250) // Wait till the DOM updates
 
-                        cy.contains(new RegExp(selectValue, 'g'), {
+                        cy.contains(new RegExp(selectValue, "g"), {
                             timeout: 10000,
-                        }).should('exist')
+                        }).should("exist")
                     })
             })
 
-            cy.visit('/muteer/dashboard')
+            cy.visit("/muteer/dashboard")
         })
     })
 })

@@ -1,2 +1,2 @@
-export { default } from './SwitchToTabbladButton';
-export * from './SwitchToTabbladButton';
+export { default } from "./SwitchToTabbladButton"
+export * from "./SwitchToTabbladButton"

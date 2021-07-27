@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react"
 
 /**
  * Custom useHook that implements the logic to sort based on policy properties
@@ -6,11 +6,11 @@ import React from 'react'
 const useModuleSort = () => {
     const sortingReducer = (state, action) => {
         switch (action.type) {
-            case 'toggle':
+            case "toggle":
                 state.activeSorting = action.property
                 state[action.property] = !state[action.property]
                 return { ...state }
-            case 'reactivate':
+            case "reactivate":
                 state.activeSorting = action.property
                 return { ...state }
             default:
@@ -23,32 +23,32 @@ const useModuleSort = () => {
         type: false,
         status: false,
         date: false,
-        activeSorting: 'title',
+        activeSorting: "title",
     })
 
     const getObjectType = (obj) =>
-        obj.Object.hasOwnProperty('Aanleiding') ? 'Beleidskeuze' : 'Maatregel'
+        obj.Object.hasOwnProperty("Aanleiding") ? "Beleidskeuze" : "Maatregel"
 
     const sortPolicies = (a, b, sorting) => {
-        if (sorting.activeSorting === 'title') {
+        if (sorting.activeSorting === "title") {
             if (sorting.title) {
                 return a.Object.Titel.localeCompare(b.Object.Titel)
             } else {
                 return b.Object.Titel.localeCompare(a.Object.Titel)
             }
-        } else if (sorting.activeSorting === 'type') {
+        } else if (sorting.activeSorting === "type") {
             if (sorting.type) {
                 return getObjectType(a).localeCompare(getObjectType(b))
             } else {
                 return getObjectType(b).localeCompare(getObjectType(a))
             }
-        } else if (sorting.activeSorting === 'status') {
+        } else if (sorting.activeSorting === "status") {
             if (sorting.status) {
                 return a.Object.Status.localeCompare(b.Object.Status)
             } else {
                 return b.Object.Status.localeCompare(a.Object.Status)
             }
-        } else if (sorting.activeSorting === 'date') {
+        } else if (sorting.activeSorting === "date") {
             if (sorting.date) {
                 return (
                     new Date(b.Object.Modified_Date) -

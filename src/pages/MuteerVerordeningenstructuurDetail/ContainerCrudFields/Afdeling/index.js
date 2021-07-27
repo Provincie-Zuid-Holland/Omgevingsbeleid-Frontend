@@ -1,3 +1,3 @@
-import Afdeling from './Afdeling.js'
+import Afdeling from "./Afdeling.js"
 
 export default Afdeling

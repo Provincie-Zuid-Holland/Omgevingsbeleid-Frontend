@@ -38,8 +38,7 @@ const artikel = {
         Status: null,
     },
     Titel: "Begripsbepalingen",
-    Inhoud:
-        "Bijlage I bij deze verordening bevat begrippen en definities voor de toepassing van deze verordening en de daarop berustende bepalingen. Bewerkt\n",
+    Inhoud: "Bijlage I bij deze verordening bevat begrippen en definities voor de toepassing van deze verordening en de daarop berustende bepalingen. Bewerkt\n",
     Weblink: null,
     Status: "Vigerend",
     Volgnummer: "1.1",
