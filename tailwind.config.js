@@ -13,6 +13,7 @@ module.exports = {
         textDecoration: ['responsive', 'hover', 'focus', 'group-hover'],
         roundedFull: ['responsive', 'focus'],
         margin: ['responsive', 'group-hover'],
+        textColor: ['responsive', 'hover', 'focus', 'group-hover'],
     },
     theme: {
         extend: {
