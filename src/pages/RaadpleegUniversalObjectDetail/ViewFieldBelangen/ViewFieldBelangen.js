@@ -1,7 +1,5 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
-
-// import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
 import { faAngleRight } from '@fortawesome/pro-light-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 

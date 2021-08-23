@@ -21,7 +21,8 @@ import SwitchToTabbladButton from './SwitchToTabbladButton'
  *
  * @param {function} updateBeleidsrelaties - Updates the beleidsrelaties in the parentstate
  * @param {function} backToOverzicht - Sets the page type to 'overzicht'
- * @returns The detail page for a beleidskeuze. Here the user can find and delete existing, and create new relations.
+ * @returns The detail page for the relations of beleidskeuzes.
+ * Here the user can accept, reject, delete existing, and create new relations between beleidskeuzes.
  */
 const MuteerBeleidsrelatieDetail = ({
     updateBeleidsrelaties,
