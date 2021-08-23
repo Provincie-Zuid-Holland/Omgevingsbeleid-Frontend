@@ -1,20 +1,18 @@
-import React from 'react'
-import { useHistory } from 'react-router-dom'
+import React from "react"
+import { useHistory } from "react-router-dom"
 
-import { faTimes } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTimes } from "@fortawesome/pro-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 // Import API
-import axios from './../../API/axios'
+import axios from "./../../API/axios"
 
 // Import Components
-import LoaderSpinner from './../LoaderSpinner'
-import PopUpAnimatedContainer from './../PopUpAnimatedContainer'
+import LoaderSpinner from "./../LoaderSpinner"
+import PopUpAnimatedContainer from "./../PopUpAnimatedContainer"
 
 /**
  * Function that renders the PopupWachtwoordVergeten component, which displays a popup in which the user can reset their password.
- *
- * @function
  *
  * @param {boolean} show - Parameter that is used to display the popup component.
  * @param {function} togglePopup - Parameter that is used to (hide/show) the popup component.
@@ -22,7 +20,7 @@ import PopUpAnimatedContainer from './../PopUpAnimatedContainer'
 function PopupWachtwoordVergeten({ show, togglePopup }) {
     // Set focus to the cancel button for AY11
     React.useEffect(() => {
-        if (show) document.getElementById('close-password-forget-popup').focus()
+        if (show) document.getElementById("close-password-forget-popup").focus()
     }, [show])
 
     if (!show) return null
@@ -81,29 +79,27 @@ function PopupWachtwoordVergeten({ show, togglePopup }) {
 /**
  * Component that renders a login form in which the user can log into the application.
  *
- * @component
- *
  * @param {function} setLoginState - Function to edit parent state.
  * @param {function} setLoginUser - Function to edit parent state.
  */
 const LoginForm = ({ setLoginState, setLoginUser }) => {
     const history = useHistory()
 
-    const [identifier, setIdentifier] = React.useState('')
-    const [password, setPassword] = React.useState('')
+    const [identifier, setIdentifier] = React.useState("")
+    const [password, setPassword] = React.useState("")
     const [loading, setLoading] = React.useState(false)
     const [wachtwoordResetPopup, setWachtwoordResetPopup] = React.useState(
         false
     )
 
     const displayErrorMsg = (err) => {
-        let errorEl = document.getElementById('error-message')
+        let errorEl = document.getElementById("error-message")
         errorEl.classList.innerHTML = err
-        errorEl.classList.remove('hidden')
-        errorEl.classList.add('flex')
-        errorEl.classList.add('shake')
+        errorEl.classList.remove("hidden")
+        errorEl.classList.add("flex")
+        errorEl.classList.add("shake")
         setTimeout(function () {
-            errorEl.classList.remove('shake')
+            errorEl.classList.remove("shake")
         }, 820)
     }
 
@@ -114,14 +110,14 @@ const LoginForm = ({ setLoginState, setLoginUser }) => {
 
         axios
             .post(
-                'login',
+                "login",
                 JSON.stringify({
                     identifier: identifier,
                     password: password,
                 })
             )
             .then((response) => {
-                console.log(`Environment - ${response.data['deployment type']}`)
+                console.log(`Environment - ${response.data["deployment type"]}`)
                 if (response.status >= 200 && response.status < 300) {
                     let identifier = response.data.identifier
 
@@ -136,7 +132,7 @@ const LoginForm = ({ setLoginState, setLoginUser }) => {
                     setLoading(false)
                     setLoginState(true)
                     setLoginUser(identifier)
-                    history.push('/muteer/dashboard')
+                    history.push("/muteer/dashboard")
                 }
             })
             .catch((err) => {
@@ -146,9 +142,9 @@ const LoginForm = ({ setLoginState, setLoginUser }) => {
     }
 
     const handleErrorMessage = (e) => {
-        let errorEl = document.getElementById('error-message')
-        errorEl.classList.add('hidden')
-        errorEl.classList.remove('flex')
+        let errorEl = document.getElementById("error-message")
+        errorEl.classList.add("hidden")
+        errorEl.classList.remove("flex")
     }
 
     return (
@@ -170,7 +166,7 @@ const LoginForm = ({ setLoginState, setLoginUser }) => {
                     <input
                         required
                         className="w-full px-3 py-2 leading-loose bg-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                        name="identifier"
+                        name="email"
                         id="form-field-login-email"
                         data-testid="form-field-login-email"
                         type="text"
@@ -209,7 +205,7 @@ const LoginForm = ({ setLoginState, setLoginUser }) => {
                             </span>
                         ) : null}
                         Inloggen
-                        {loading ? '...' : ''}
+                        {loading ? "..." : ""}
                     </button>
                     <button
                         className="ml-4 text-sm underline cursor-pointer"

@@ -1,21 +1,21 @@
-import React from 'react'
-import { Link, useParams, useLocation } from 'react-router-dom'
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Helmet } from 'react-helmet'
-import { toast } from 'react-toastify'
+import React from "react"
+import { Link, useParams, useLocation } from "react-router-dom"
+import { faPlus } from "@fortawesome/pro-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { Helmet } from "react-helmet"
+import { toast } from "react-toastify"
 
 // Import Components
-import LoaderContent from './../../components/LoaderContent'
-import ButtonBackToPage from '../../components/ButtonBackToPage'
-import EigenaarsDriehoek from '../../components/EigenaarsDriehoek'
-import ContainerMain from '../../components/ContainerMain'
+import LoaderContent from "./../../components/LoaderContent"
+import ButtonBackToPage from "../../components/ButtonBackToPage"
+import EigenaarsDriehoek from "../../components/EigenaarsDriehoek"
+import ContainerMain from "../../components/ContainerMain"
 
-import ContainerDetail from './ContainerDetail'
-import StatusHistory from './StatusHistory'
+import ContainerDetail from "./ContainerDetail"
+import StatusHistory from "./StatusHistory"
 
 // Import Axios instance to connect with the API
-import axios from '../../API/axios'
+import axios from "../../API/axios"
 
 /**
  * A detail page of a dimension object with a status
@@ -30,7 +30,7 @@ const MuteerUniversalObjectDetailWithStatuses = ({ dimensieConstants }) => {
     const { single, version } = useParams()
 
     const [pageType, setPageType] = React.useState(
-        version ? 'version' : 'detail'
+        version ? "version" : "detail"
     )
     const [dataObject, setDataObject] = React.useState(null)
     const [dimensionHistory, setDimensionHistory] = React.useState(null)
@@ -85,9 +85,9 @@ const MuteerUniversalObjectDetailWithStatuses = ({ dimensieConstants }) => {
     const getAndSetDimensieDataFromApi = React.useCallback(() => {
         const getApiEndpoint = () => {
             const apiEndpoint = dimensieConstants.API_ENDPOINT
-            if (pageType === 'detail') {
+            if (pageType === "detail") {
                 return `${apiEndpoint}/${single}`
-            } else if (pageType === 'version') {
+            } else if (pageType === "version") {
                 return `/version/${apiEndpoint}/${version}`
             }
         }
@@ -99,9 +99,9 @@ const MuteerUniversalObjectDetailWithStatuses = ({ dimensieConstants }) => {
             .then((res) => {
                 let dataObjectFromAPI = null
 
-                if (pageType === 'detail') {
+                if (pageType === "detail") {
                     dataObjectFromAPI = res.data[0]
-                } else if (pageType === 'version') {
+                } else if (pageType === "version") {
                     dataObjectFromAPI = res.data
                 }
                 setDataObject(dataObjectFromAPI)
@@ -151,7 +151,7 @@ const MuteerUniversalObjectDetailWithStatuses = ({ dimensieConstants }) => {
             if (!dimensionHistory) return isAConceptInProgress
 
             const isVigerendObject =
-                dimensionHistory.findIndex((e) => e.Status === 'Vigerend') !==
+                dimensionHistory.findIndex((e) => e.Status === "Vigerend") !==
                 -1
 
             const isConceptAfterVigerendObject =
@@ -180,8 +180,8 @@ const MuteerUniversalObjectDetailWithStatuses = ({ dimensieConstants }) => {
     const getVigerendDimensionObjectAndIndex = React.useCallback(() => {
         if (!dimensionHistory) return [null, null]
 
-        const object = dimensionHistory.find((e) => e.Status === 'Vigerend')
-        const index = dimensionHistory.findIndex((e) => e.Status === 'Vigerend')
+        const object = dimensionHistory.find((e) => e.Status === "Vigerend")
+        const index = dimensionHistory.findIndex((e) => e.Status === "Vigerend")
 
         if (index === -1) {
             return [null, null]
@@ -193,7 +193,7 @@ const MuteerUniversalObjectDetailWithStatuses = ({ dimensieConstants }) => {
     /** Effect when user switch from a version to a detail page and vice versa. Resets and initializes state. Will also fire on mount */
     React.useEffect(() => {
         if (pageType === version) return
-        setPageType(version ? 'version' : 'detail')
+        setPageType(version ? "version" : "detail")
         setDataObject(null)
         setIsLoading(true)
         getAndSetDimensieDataFromApi()
@@ -219,10 +219,10 @@ const MuteerUniversalObjectDetailWithStatuses = ({ dimensieConstants }) => {
         <ContainerMain>
             <Helmet>
                 <title>
-                    Omgevingsbeleid{' '}
+                    Omgevingsbeleid{" "}
                     {dataObject && dataObject.Titel
-                        ? ' - ' + dataObject.Titel
-                        : ''}
+                        ? " - " + dataObject.Titel
+                        : ""}
                 </title>
             </Helmet>
 
@@ -239,21 +239,21 @@ const MuteerUniversalObjectDetailWithStatuses = ({ dimensieConstants }) => {
                     <div className="flex pb-24">
                         <div
                             className={`${
-                                overzichtSlug !== 'beleidskeuzes' ||
-                                overzichtSlug !== 'maatregelen'
-                                    ? 'w-full'
-                                    : 'w-9/12'
+                                overzichtSlug !== "beleidskeuzes" ||
+                                overzichtSlug !== "maatregelen"
+                                    ? "w-full"
+                                    : "w-9/12"
                             } pr-8`}
                         >
                             {/* Button to make a new design */}
-                            {pageType === 'detail' && !isAConceptInProgress ? (
+                            {pageType === "detail" && !isAConceptInProgress ? (
                                 <div className="h-10 mt-5 ">
                                     <Link
                                         className="flex items-center w-1/2 mt-5"
                                         to={`/muteer/${overzichtSlug}/edit/${single}?modus=ontwerp_maken${
-                                            location.hash === '#mijn-beleid'
-                                                ? '#mijn-beleid'
-                                                : ''
+                                            location.hash === "#mijn-beleid"
+                                                ? "#mijn-beleid"
+                                                : ""
                                         }`}
                                         id={`href-ontwerp-maken`}
                                     >
@@ -286,7 +286,7 @@ const MuteerUniversalObjectDetailWithStatuses = ({ dimensieConstants }) => {
                             ) : null}
 
                             {/* Contains the container detail of the checked out object, and the UI of the flow of statusses */}
-                            {!isLoading && pageType === 'detail' ? (
+                            {!isLoading && pageType === "detail" ? (
                                 <StatusHistory
                                     patchStatus={patchStatus}
                                     pageType={pageType}
@@ -322,8 +322,8 @@ const MuteerUniversalObjectDetailWithStatuses = ({ dimensieConstants }) => {
 
 // Generate Back Button for Detail or Version page
 function GenerateBackToButton({ overzichtSlug, pageType, hash, dataObject }) {
-    if (pageType === 'detail') {
-        if (hash === '#mijn-beleid') {
+    if (pageType === "detail") {
+        if (hash === "#mijn-beleid") {
             return (
                 <ButtonBackToPage
                     terugNaar={` mijn beleid`}
@@ -338,7 +338,7 @@ function GenerateBackToButton({ overzichtSlug, pageType, hash, dataObject }) {
                 />
             )
         }
-    } else if (pageType === 'version') {
+    } else if (pageType === "version") {
         const dataObjectID = dataObject.ID
         return (
             <ButtonBackToPage

@@ -1,4 +1,5 @@
-import React from 'react'
+/* istanbul ignore file */
+import React from "react"
 
 const APIContext = React.createContext()
 

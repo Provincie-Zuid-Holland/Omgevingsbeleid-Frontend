@@ -1,11 +1,11 @@
-import React from 'react'
-import * as d3 from 'd3'
-import { Link, useLocation } from 'react-router-dom'
+import React from "react"
+import * as d3 from "d3"
+import { Link, useLocation } from "react-router-dom"
 
-import generateVerordeningsPosition from './../../utils/generateVerordeningsPosition'
+import generateVerordeningsPosition from "./../../utils/generateVerordeningsPosition"
 
 // Import Context
-import GraphContext from './../../App/GraphContext'
+import GraphContext from "./../../App/GraphContext"
 
 const RelatiesKoppelingenVisualisatie = ({
     beleidsObject,
@@ -22,7 +22,7 @@ const RelatiesKoppelingenVisualisatie = ({
 
     const [variables, setVariables] = React.useState({}) // X and Y positions for the Tooltip
     const [data, setData] = React.useState(null)
-    const [href, setHref] = React.useState('#')
+    const [href, setHref] = React.useState("#")
     const [connectedProperties, setConnectedProperties] = React.useState([]) // Properties that contain connections
 
     // Prepare and set data for the D3 Visualisation
@@ -44,7 +44,7 @@ const RelatiesKoppelingenVisualisatie = ({
         data.nodes.push({
             id: beleidsObject.UUID,
             name: beleidsObject.Titel,
-            property: 'beleidsObjectMain',
+            property: "beleidsObjectMain",
             color: connectionPropertiesColors.MainObject.hex,
         })
 
@@ -79,12 +79,12 @@ const RelatiesKoppelingenVisualisatie = ({
 
         // If there are beleidsrelaties, push them as well
         if (beleidsRelaties.length > 0) {
-            activeConnectionProperties.push('Beleidskeuzes')
+            activeConnectionProperties.push("Beleidskeuzes")
             beleidsRelaties.forEach((beleidsrelatie) => {
                 data.nodes.push({
                     id: beleidsrelatie.UUID,
                     name: beleidsrelatie.Titel,
-                    property: 'Beleidskeuzes',
+                    property: "Beleidskeuzes",
                     color: connectionPropertiesColors.Beleidskeuzes.hex,
                 })
                 data.links.push({
@@ -113,9 +113,9 @@ const RelatiesKoppelingenVisualisatie = ({
     React.useEffect(() => {
         if (data && d3Container.current) {
             const svg = d3.select(d3Container.current)
-            svg.selectAll('*').remove()
+            svg.selectAll("*").remove()
 
-            svg.attr('viewBox', [50, -25, 100, 250])
+            svg.attr("viewBox", [50, -25, 100, 250])
 
             const links = data.links
             const nodes = data.nodes
@@ -140,53 +140,53 @@ const RelatiesKoppelingenVisualisatie = ({
             const simulation = d3
                 .forceSimulation(nodes)
                 .force(
-                    'link',
+                    "link",
                     d3.forceLink(links).id((d) => d.id)
                 )
-                .force('charge', d3.forceManyBody().strength(strength))
-                .force('x', d3.forceX())
-                .force('y', d3.forceY())
+                .force("charge", d3.forceManyBody().strength(strength))
+                .force("x", d3.forceX())
+                .force("y", d3.forceY())
 
             // Generate Links
             const link = svg
-                .append('g')
-                .attr('stroke', '#999')
-                .attr('stroke-opacity', 0.6)
-                .selectAll('line')
+                .append("g")
+                .attr("stroke", "#999")
+                .attr("stroke-opacity", 0.6)
+                .selectAll("line")
                 .data(links)
-                .join('line')
-                .attr('stroke-width', (d) => Math.sqrt(d.value))
+                .join("line")
+                .attr("stroke-width", (d) => Math.sqrt(d.value))
 
             // Generate Nodes
             const node = svg
-                .append('g')
-                .attr('stroke', '#fff')
-                .attr('stroke-width', 1.5)
-                .selectAll('circle')
+                .append("g")
+                .attr("stroke", "#fff")
+                .attr("stroke-width", 1.5)
+                .selectAll("circle")
                 .data(nodes)
-                .join('circle')
-                .attr('r', 7.5) // r equals the radius of the circle (node)
-                .attr('fill', (d) => d.color)
-                .on('mouseover', handleMouseOver)
-                .on('mouseout', handleMouseOut)
+                .join("circle")
+                .attr("r", 7.5) // r equals the radius of the circle (node)
+                .attr("fill", (d) => d.color)
+                .on("mouseover", handleMouseOver)
+                .on("mouseout", handleMouseOut)
 
-            const tooltip = d3.select('#d3-tooltip')
+            const tooltip = d3.select("#d3-tooltip")
 
             // Create Event Handlers for mouse.
             // In here we handle the tooltip
             function handleMouseOver(d, i) {
                 // We don't want to show the popup on the main beleidskeuze
-                if (d.property === 'beleidsObjectMain') return
+                if (d.property === "beleidsObjectMain") return
 
                 // Activate display
-                tooltip.style('display', 'block')
+                tooltip.style("display", "block")
 
                 const tooltipTitleEl = document.getElementById(
-                    'd3-tooltip-title'
+                    "d3-tooltip-title"
                 )
                 tooltipTitleEl.innerHTML = d.name
 
-                const tooltipEl = document.getElementById('d3-tooltip')
+                const tooltipEl = document.getElementById("d3-tooltip")
 
                 const generateHrefVerordeningsartikel = (uuid) => {
                     const positionInVerordening = generateVerordeningsPosition(
@@ -201,47 +201,47 @@ const RelatiesKoppelingenVisualisatie = ({
                     }/${uuid}?hoofdstuk=${
                         positionInVerordening[0] !== undefined
                             ? positionInVerordening[0]
-                            : 'null'
+                            : "null"
                     }&nest_1=${
                         positionInVerordening[1] !== undefined
                             ? positionInVerordening[1]
-                            : 'null'
+                            : "null"
                     }&nest_2=${
                         positionInVerordening[2] !== undefined
                             ? positionInVerordening[2]
-                            : 'null'
+                            : "null"
                     }&nest_3=${
                         positionInVerordening[3] !== undefined
                             ? positionInVerordening[3]
-                            : 'null'
+                            : "null"
                     }`
                     return path
                 }
 
                 const generateHref = ({ property, UUID }) => {
                     const slugs = {
-                        Beleidskeuzes: 'beleidskeuzes',
-                        Ambities: 'ambities',
-                        Beleidsregels: 'beleidsregels',
-                        Beleidsprestaties: 'beleidsprestaties',
-                        Belangen: 'belangen',
-                        Maatregelen: 'maatregelen',
-                        Themas: 'themas',
-                        Beleidsdoelen: 'beleidsdoelen',
-                        Verordeningen: 'verordeningen',
+                        Beleidskeuzes: "beleidskeuzes",
+                        Ambities: "ambities",
+                        Beleidsregels: "beleidsregels",
+                        Beleidsprestaties: "beleidsprestaties",
+                        Belangen: "belangen",
+                        Maatregelen: "maatregelen",
+                        Themas: "themas",
+                        Beleidsdoelen: "beleidsdoelen",
+                        Verordeningen: "verordeningen",
                     }
 
                     const path = `/detail/${slugs[property]}/${UUID}${
-                        location.pathname.includes('verordeningen')
-                            ? ''
-                            : '?fromPage=' + location.pathname
+                        location.pathname.includes("verordeningen")
+                            ? ""
+                            : "?fromPage=" + location.pathname
                     }`
 
                     return path
                 }
 
                 const hrefURL =
-                    d.property === 'Verordeningen'
+                    d.property === "Verordeningen"
                         ? generateHrefVerordeningsartikel(d.id)
                         : generateHref({
                               property: d.property,
@@ -270,17 +270,17 @@ const RelatiesKoppelingenVisualisatie = ({
 
             function handleMouseOut(d, i) {
                 // Reset display property, user can still see it when hovering over it
-                tooltip.style('display', '')
+                tooltip.style("display", "")
             }
 
             // Update
-            simulation.on('tick', () => {
-                link.attr('x1', (d) => d.source.x + 100)
-                    .attr('y1', (d) => d.source.y + 100)
-                    .attr('x2', (d) => d.target.x + 100)
-                    .attr('y2', (d) => d.target.y + 100)
+            simulation.on("tick", () => {
+                link.attr("x1", (d) => d.source.x + 100)
+                    .attr("y1", (d) => d.source.y + 100)
+                    .attr("x2", (d) => d.target.x + 100)
+                    .attr("y2", (d) => d.target.y + 100)
 
-                node.attr('cx', (d) => d.x + 100).attr('cy', (d) => d.y + 100)
+                node.attr("cx", (d) => d.x + 100).attr("cy", (d) => d.y + 100)
             })
         }
     }, [data, location.pathname])
@@ -293,9 +293,9 @@ const RelatiesKoppelingenVisualisatie = ({
                         Netwerkvisualisatie
                     </h3>
                     <p className="mt-2 leading-7 text-gray-800 break-words">
-                        Deze netwerkvisualisatie laat zien waar{' '}
-                        {titleSingularPrefix} {titleSingular.toLowerCase()}{' '}
-                        <span className="italic">“{beleidsObject.Titel}”</span>{' '}
+                        Deze netwerkvisualisatie laat zien waar{" "}
+                        {titleSingularPrefix} {titleSingular.toLowerCase()}{" "}
+                        <span className="italic">“{beleidsObject.Titel}”</span>{" "}
                         aan verbonden is.
                     </p>
                 </div>
@@ -329,8 +329,8 @@ const RelatiesKoppelingenVisualisatie = ({
                     <svg
                         className="d3-component"
                         style={{
-                            width: '100%',
-                            height: '400px',
+                            width: "100%",
+                            height: "400px",
                         }}
                         ref={d3Container}
                     />
@@ -345,19 +345,19 @@ const RelatiesKoppelingenVisualisatie = ({
                 </div>
             </div>
             <Link
-                to={href ? href : '#'}
+                to={href ? href : "#"}
                 id="d3-tooltip"
                 style={{
                     left: variables.left,
                     top: variables.top,
                 }}
-                class={`absolute hidden hover:block ${
-                    href ? 'cursor-pointer' : 'cursor-default'
+                className={`absolute hidden hover:block ${
+                    href ? "cursor-pointer" : "cursor-default"
                 }`}
             >
                 <div
                     id="d3-tooltip-title"
-                    class={`px-4 py-2 rounded bg-gray-900 text-white shadow hover:underline`}
+                    className={`px-4 py-2 rounded bg-gray-900 text-white shadow hover:underline`}
                 />
             </Link>
         </div>

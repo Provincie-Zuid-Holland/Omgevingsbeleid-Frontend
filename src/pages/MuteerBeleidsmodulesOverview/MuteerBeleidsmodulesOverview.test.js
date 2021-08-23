@@ -1,15 +1,24 @@
-import { render } from '@testing-library/react';
-import React from 'react';
-import MuteerBeleidsmodulesOverview from './MuteerBeleidsmodulesOverview';
+import { render, screen } from "@testing-library/react"
+import React from "react"
+import { MemoryRouter, Route } from "react-router-dom"
 
-describe('MuteerBeleidsmodulesOverview', () => {
-    const defaultProps = {};
+import MuteerBeleidsmodulesOverview from "./MuteerBeleidsmodulesOverview"
 
-    it('should render', () => {
-        const props = {...defaultProps};
-        const { asFragment, queryByText } = render(<MuteerBeleidsmodulesOverview {...props} />);
+describe("MuteerBeleidsmodulesOverview", () => {
+    const defaultProps = {}
 
-        expect(asFragment()).toMatchSnapshot();
-        expect(queryByText('MuteerBeleidsmodulesOverview')).toBeTruthy();
-    });
-});
+    const path = `/muteer/beleidsmodules/edit/1`
+    const initialEntries = `/muteer/beleidsmodules/edit/1`
+
+    it("should render", () => {
+        render(
+            <MemoryRouter initialEntries={[initialEntries]}>
+                <Route path={path}>
+                    <MuteerBeleidsmodulesOverview {...defaultProps} />)
+                </Route>
+            </MemoryRouter>
+        )
+        const text = screen.getByText("Module")
+        expect(text).toBeTruthy()
+    })
+})

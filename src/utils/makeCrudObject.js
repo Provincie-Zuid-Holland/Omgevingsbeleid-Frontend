@@ -2,53 +2,53 @@ import clonedeep from 'lodash.clonedeep'
 
 import formatGeldigheidDatesForUI from './formatGeldigheidDatesForUI'
 
-// Function to make an object containing the fields that the user can edit
-// If wijzigVigerend is passed it means the user is editing a beleidskeuze without changing the 'vigerend' status
+/**
+ * Function to initialize an object with the appropriate properties and values
+ * @param {object} props
+ * @param {string[]} crudProperties - Contains the CRUD properties
+ * @param {object} dimensieConstants - Contains the constant object
+ * @param {undefined|object} existingObj - Contains the existing object (when the user is editing an existing one)
+ * @param {undefined|string} modus - Contains a string of value 'wijzig_vigerend' when the user is editing an object with a Status of 'Vigerend'
+ * @returns {object} - Returns the prepared CRUD Object
+ */
 function makeCrudObject({
     crudProperties,
     dimensieConstants,
-    responseObject,
+    existingObj,
     modus,
 }) {
-    // Het initiele object wat gereturned zal worden
-    // Hierop plaatsen we alle properties die gewijzigd moeten worden
-    let crudObject = {}
+    const crudObject = {}
 
-    if (responseObject) {
+    if (existingObj) {
         const wijzigVigerend = modus === 'wijzig_vigerend'
-
-        // If we patch a 'Beleidskeuze' or a 'Maatregel' we need to check the status
-        // If the .Status property is 'Vigerend' we need to change it to 'Ontwerp GS Concept'
-        // But only if the user is not editing a vigerend without going through the process
         const isMaatregelOrBeleidskeuze =
             dimensieConstants.TITLE_SINGULAR === 'Beleidskeuze' ||
             dimensieConstants.TITLE_SINGULAR === 'Maatregel'
 
+        /**
+         * If the user is editing an object that has a Status 'Vigerend' and
+         * is in the 'wijzigVigerend' mode we add the previous UUID as the value of 'Aanpassing_Op'
+         */
         if (isMaatregelOrBeleidskeuze && wijzigVigerend) {
-            crudObject.Aanpassing_Op = responseObject.UUID
+            crudObject.Aanpassing_Op = existingObj.UUID
         }
 
-        // Als er een response object populaten we het crudObject op basis van de crudProperties met de waarden van het responseObject
-        // Het response object is het gekregen object van de API
+        /** Initialize the crudObject with the values from the existing Object */
         crudProperties.forEach((crudProperty) => {
-            if (
-                (crudProperty === 'Status' &&
-                    isMaatregelOrBeleidskeuze &&
-                    !wijzigVigerend &&
-                    responseObject[crudProperty] === 'Gepubliceerd') ||
-                (crudProperty === 'Status' &&
-                    isMaatregelOrBeleidskeuze &&
-                    !wijzigVigerend &&
-                    responseObject[crudProperty] === 'Vigerend')
-            ) {
+            const resetStatus =
+                crudProperty === 'Status' &&
+                existingObj.Status === 'Vigerend' &&
+                isMaatregelOrBeleidskeuze &&
+                !wijzigVigerend
+
+            if (resetStatus) {
                 crudObject[crudProperty] = 'Ontwerp GS Concept'
             } else {
-                // Wijs de waarde aan van het responseObject die we terugkregen van het responseObject
-                crudObject[crudProperty] = responseObject[crudProperty]
+                crudObject[crudProperty] = existingObj[crudProperty]
             }
         })
     } else {
-        // Als er geen responseObject is initializen we de waarde voor elke crudProperty
+        /** Initialize values from the crud properties constant */
         crudProperties.forEach((crudProperty) => {
             crudObject[crudProperty] = clonedeep(
                 dimensieConstants.CRUD_PROPERTIES[crudProperty].initValue
@@ -56,9 +56,8 @@ function makeCrudObject({
         })
     }
 
-    crudObject = formatGeldigheidDatesForUI(crudObject)
-
-    return crudObject
+    /** Format dates to 'yyyy-MM-dd' in order to display in UI */
+    return formatGeldigheidDatesForUI(crudObject)
 }
 
 export default makeCrudObject

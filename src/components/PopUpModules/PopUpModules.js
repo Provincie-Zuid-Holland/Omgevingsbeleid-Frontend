@@ -1,15 +1,14 @@
-import React, { useState } from 'react'
-import { toast } from 'react-toastify'
-import ContentLoader from 'react-content-loader'
+import React, { useState } from "react"
+import { toast } from "react-toastify"
+import ContentLoader from "react-content-loader"
 
-import axios from '../../API/axios'
+import axios from "../../API/axios"
 
-import handleError from './../../utils/handleError'
+import handleError from "./../../utils/handleError"
 
-import PopUpAnimatedContainer from './../PopUpAnimatedContainer'
-import LoaderSelect from './../LoaderSelect'
+import PopUpAnimatedContainer from "./../PopUpAnimatedContainer"
 
-import { API_ENDPOINT } from './../../constants/beleidsmodules'
+import { API_ENDPOINT } from "./../../constants/beleidsmodules"
 
 /**
  * @param {object} dataObject - Contains the object that is being displayed
@@ -27,26 +26,26 @@ function PopUpModules({
     const [beleidsmodules, setBeleidsmodules] = React.useState([])
     const [dataLoaded, setDataLoaded] = React.useState(false)
     const [initialModule, setInitialModule] = useState(null)
-    const [selectValue, setSelectValue] = useState('')
+    const [selectValue, setSelectValue] = useState("")
 
     /**
      * Function to add to or remove from a module
      */
     const patchModule = () => {
         const type =
-            titleSingular === 'Beleidskeuze' ? 'Beleidskeuzes' : 'Maatregelen'
+            titleSingular === "Beleidskeuze" ? "Beleidskeuzes" : "Maatregelen"
 
         const beleidsmodule = beleidsmodules.find((e) => e.UUID === selectValue)
 
         // We only need to add it to the new module
         const newConnection = {
-            Koppeling_Omschrijving: '',
+            Koppeling_Omschrijving: "",
             UUID: dataObject.UUID,
         }
 
         const currentConnections = beleidsmodule[type]
             .map((connection) => {
-                if (connection.hasOwnProperty('Object')) {
+                if (connection.hasOwnProperty("Object")) {
                     connection.UUID = connection.Object.UUID
                     delete connection.Object
                     return connection
@@ -79,7 +78,7 @@ function PopUpModules({
      * Function that gets and sets the beleidsmodulen
      */
     const getAndSetBeleidsmodules = () => {
-        axios.get('/beleidsmodules').then((res) => {
+        axios.get("/beleidsmodules").then((res) => {
             setBeleidsmodules(res.data)
             setDataLoaded(true)
         })
@@ -87,7 +86,7 @@ function PopUpModules({
 
     React.useEffect(() => {
         const type =
-            titleSingular === 'Beleidskeuze' ? 'Beleidskeuzes' : 'Maatregelen'
+            titleSingular === "Beleidskeuze" ? "Beleidskeuzes" : "Maatregelen"
 
         // Check if the dataObject.UUID exists in one of the policies of the beleidsmodules
         const activeModule = beleidsmodules?.find((module) =>
@@ -120,12 +119,11 @@ function PopUpModules({
                                 setSelectValue(event.target.value)
                             }
                             value={selectValue}
-                            name={'Status'}
+                            name={"Status"}
                             className="block w-full px-4 py-3 leading-tight text-gray-700 bg-white border border-gray-400 rounded appearance-none focus:outline-none hover:border-gray-500 focus:border-gray-500"
                         >
                             <option disabled value="">
-                                {' '}
-                                - selecteer een optie -{' '}
+                                - selecteer een optie -
                             </option>
                             {beleidsmodules
                                 ? beleidsmodules.map((arrayItem, index) => {
@@ -157,6 +155,7 @@ function PopUpModules({
                         height="60"
                     >
                         <rect
+                            data-testid="select-loader"
                             x="0"
                             y="0"
                             rx="5"
@@ -175,19 +174,19 @@ function PopUpModules({
                     </div>
                     <div
                         className={`bg-pzh-green pzh-transition-colors px-8 py-2 text-white rounded font-bold ${
-                            selectValue !== ''
-                                ? 'cursor-pointer hover:bg-pzh-green-dark'
-                                : 'cursor-not-allowed'
+                            selectValue !== ""
+                                ? "cursor-pointer hover:bg-pzh-green-dark"
+                                : "cursor-not-allowed"
                         }`}
                         onClick={() => {
                             if (
-                                selectValue !== '' &&
+                                selectValue !== "" &&
                                 selectValue !== initialModule?.UUID
                             ) {
                                 toggleModulesPopup()
                                 patchModule()
                             } else if (selectValue !== initialModule?.UUID) {
-                                toast('Selecteer eerst een nieuwe status')
+                                toast("Selecteer eerst een nieuwe status")
                             } else {
                                 toggleModulesPopup()
                             }

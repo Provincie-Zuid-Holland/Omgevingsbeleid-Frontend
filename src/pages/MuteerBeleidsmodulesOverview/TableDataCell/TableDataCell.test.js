@@ -1,15 +1,35 @@
-import { render } from '@testing-library/react';
-import React from 'react';
-import TableDataCell from './TableDataCell';
+import { render, screen } from "@testing-library/react"
+import React from "react"
+import "@testing-library/jest-dom"
 
-describe('TableDataCell', () => {
-    const defaultProps = {};
+import TableDataCell from "./TableDataCell"
 
-    it('should render', () => {
-        const props = {...defaultProps};
-        const { asFragment, queryByText } = render(<TableDataCell {...props} />);
+describe("TableDataCell", () => {
+    const setup = (className = null) =>
+        render(
+            <table>
+                <tbody>
+                    <tr>
+                        <TableDataCell className={className}>
+                            <div>Test</div>
+                        </TableDataCell>
+                    </tr>
+                </tbody>
+            </table>
+        )
 
-        expect(asFragment()).toMatchSnapshot();
-        expect(queryByText('TableDataCell')).toBeTruthy();
-    });
-});
+    it("should render", () => {
+        setup()
+        expect(screen.getByText("Test")).toBeTruthy()
+    })
+
+    it("should display prop classes when passed", () => {
+        setup("test-class")
+        expect(screen.getByRole("cell")).toHaveClass("test-class")
+    })
+
+    it("should not display prop classes if none are passed", () => {
+        setup()
+        expect(screen.getByRole("cell")).not.toHaveClass("test-class")
+    })
+})

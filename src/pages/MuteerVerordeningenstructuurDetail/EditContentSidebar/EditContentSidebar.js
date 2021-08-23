@@ -1,16 +1,17 @@
-import React from 'react'
+/* istanbul ignore file */
+import React from "react"
 
 import {
     faSpinner,
     faChevronDown,
     faChevronUp,
-} from '@fortawesome/pro-regular-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+} from "@fortawesome/pro-regular-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { Transition } from "@headlessui/react"
 
-import Transition from './../../../components/Transition'
-import FixedSidebarContainer from './../FixedSidebarContainer'
-import Werkingsgebied from '../ContainerCrudFields/Werkingsgebied'
-import Artikel from '../ContainerCrudFields/Artikel'
+import FixedSidebarContainer from "./../FixedSidebarContainer"
+import Werkingsgebied from "../ContainerCrudFields/Werkingsgebied"
+import Artikel from "../ContainerCrudFields/Artikel"
 
 const EditContentSidebar = ({
     verordeningsLedenFromGET,
@@ -34,7 +35,7 @@ const EditContentSidebar = ({
         UUIDBeingEdited &&
         !verordeningsObjectIsLoading &&
         verordeningsObjectFromGET !== null &&
-        verordeningsObjectFromGET.Type === 'Artikel'
+        verordeningsObjectFromGET.Type === "Artikel"
 
     React.useEffect(() => {
         if (!verordeningsObjectIsLoaded) return
@@ -76,7 +77,7 @@ const EditContentSidebar = ({
 
     return (
         <FixedSidebarContainer
-            elementID={'fixed-container-edit-content-sidebar'}
+            elementID={"fixed-container-edit-content-sidebar"}
             show={verordeningsObjectIsLoaded}
         >
             <div className="relative">
@@ -89,7 +90,7 @@ const EditContentSidebar = ({
                     </div>
                 ) : null}
                 <Transition
-                    show={verordeningsObjectIsLoaded}
+                    show={!!verordeningsObjectIsLoaded}
                     enter="transition ease-out duration-100"
                     enterFrom="opacity-0 transform translate-x-2"
                     enterTo="opacity-100 transform translate-x-0"
@@ -129,7 +130,7 @@ const EditContentSidebar = ({
                             ? verordeningsLedenFromGET.map((lid, index) => (
                                   <ContentSidebarContainer
                                       marginTop={true}
-                                      currentType={'lid'}
+                                      currentType={"lid"}
                                       volgnummerBeingEdited={index + 1}
                                   >
                                       <div className="flex-grow inline-block w-full">
@@ -143,9 +144,9 @@ const EditContentSidebar = ({
                                                   UUID
                                               ) =>
                                                   setVerordeningsLedenFromGET({
-                                                      type: 'changeValue',
+                                                      type: "changeValue",
                                                       value: UUID,
-                                                      name: 'Gebied',
+                                                      name: "Gebied",
                                                       index: index,
                                                   })
                                               }
@@ -170,16 +171,16 @@ const ContentSidebarContainer = ({
     const [open, setOpen] = React.useState(true)
 
     return (
-        <div className={`mb-5 rounded-b shadow-md ${marginTop ? 'mt-5' : ''}`}>
+        <div className={`mb-5 rounded-b shadow-md ${marginTop ? "mt-5" : ""}`}>
             <div
                 className={`flex items-center justify-between w-full p-4 font-bold text-white cursor-pointer bg-pzh-blue ${
-                    open ? 'rounded-t' : 'rounded'
+                    open ? "rounded-t" : "rounded"
                 }`}
                 onClick={() => setOpen(!open)}
             >
                 <span>
                     Eigenschappen
-                    {' ' + currentType + ' ' + volgnummerBeingEdited}
+                    {" " + currentType + " " + volgnummerBeingEdited}
                 </span>
                 <FontAwesomeIcon
                     className="text-white"
@@ -188,7 +189,7 @@ const ContentSidebarContainer = ({
             </div>
             <div
                 className={`p-4 bg-white rounded-b ${
-                    open ? 'block' : 'hidden'
+                    open ? "block" : "hidden"
                 }`}
             >
                 {children}

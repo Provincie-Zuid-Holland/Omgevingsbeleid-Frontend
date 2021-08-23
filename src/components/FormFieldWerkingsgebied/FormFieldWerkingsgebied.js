@@ -1,24 +1,22 @@
-import React from 'react'
-import { toast } from 'react-toastify'
-import format from 'date-fns/format'
-import nlLocale from 'date-fns/locale/nl'
-import { Transition } from '@headlessui/react'
+import React from "react"
+import { toast } from "react-toastify"
+import format from "date-fns/format"
+import nlLocale from "date-fns/locale/nl"
+import { Transition } from "@headlessui/react"
 import {
     faSearch,
     faSpinner,
     faTimes,
     faPlus,
-} from '@fortawesome/pro-regular-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+} from "@fortawesome/pro-regular-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
-import axios from './../../API/axios'
-import PopupContainer from './../PopupContainer'
-import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFieldTitelEnBeschrijving'
+import axios from "./../../API/axios"
+import PopupContainer from "./../PopupContainer"
+import FormFieldTitelEnBeschrijving from "../FormFieldTitelEnBeschrijving/FormFieldTitelEnBeschrijving"
 
 /**
  * Component that renders a FormFieldWerkingsgebied component in which a user can select a Werkingsgebied.
- *
- * @component
  *
  * @param {function} setWerkingsgebiedInParentState - Function to set Werkingsgebied in parent state
  * @param {function} werkingsgebiedInParentState - Function to get Werkingsgebied from parent state
@@ -42,9 +40,9 @@ const FormFieldWerkingsgebied = ({
     const [werkingsgebied, setWerkingsgebied] = React.useState(null)
 
     React.useEffect(() => {
-        if (dataObjectProperty === 'Gebied') {
+        if (dataObjectProperty === "Gebied") {
             setWerkingsgebied(werkingsgebiedInParentState)
-        } else if (dataObjectProperty === 'Werkingsgebieden') {
+        } else if (dataObjectProperty === "Werkingsgebieden") {
             if (werkingsgebiedInParentState && werkingsgebiedInParentState[0]) {
                 setWerkingsgebied(werkingsgebiedInParentState[0].Object)
             } else {
@@ -65,8 +63,8 @@ const FormFieldWerkingsgebied = ({
             <div
                 className={`flex flex-wrap mb-6 -mx-3 ${
                     disabled
-                        ? 'opacity-75 pointer-events-none cursor-not-allowed'
-                        : ''
+                        ? "opacity-75 pointer-events-none cursor-not-allowed"
+                        : ""
                 }`}
             >
                 <div
@@ -148,11 +146,11 @@ const CardSelectedWerkingsgebied = ({
                         {werkingsgebied ? werkingsgebied.Werkingsgebied : null}
                     </h3>
                     <span className="text-xs text-gray-600">
-                        Laatst gewijzigd op{' '}
+                        Laatst gewijzigd op{" "}
                         {werkingsgebied
                             ? format(
                                   new Date(werkingsgebied.Modified_Date),
-                                  'dd	MMMM yyyy',
+                                  "dd	MMMM yyyy",
                                   {
                                       locale: nlLocale,
                                   }
@@ -166,7 +164,7 @@ const CardSelectedWerkingsgebied = ({
                                 target: {
                                     name: dataObjectProperty,
                                     value:
-                                        dataObjectProperty === 'Gebied'
+                                        dataObjectProperty === "Gebied"
                                             ? null
                                             : [],
                                 },
@@ -192,7 +190,7 @@ const CardSelectedWerkingsgebied = ({
                                         `https://geo-omgevingsbeleid-test.azurewebsites.net/wms/reflect?format=image/png&layers=OMGEVINGSBELEID:Werkingsgebieden_brt&srs=EPSG:28992&width=450&bbox=43662.62,406692,140586.08,483120&cql_filter=UUID IN ('${
                                             werkingsgebied
                                                 ? werkingsgebied.UUID
-                                                : ''
+                                                : ""
                                         }')` +
                                         '")',
                                 }}
@@ -200,7 +198,7 @@ const CardSelectedWerkingsgebied = ({
                             ></div>
                         </div>
                         <span
-                            style={{ zIndex: '-1' }}
+                            style={{ zIndex: "-1" }}
                             className={`absolute top-0 left-0 flex items-center justify-center w-full h-full text-gray-500 -mt-4`}
                         >
                             <FontAwesomeIcon
@@ -221,7 +219,7 @@ const WerkingsgebiedPopup = ({
     setWerkingsgebiedInParentState,
     dataObjectProperty,
 }) => {
-    const [filterQuery, setFilterQuery] = React.useState('')
+    const [filterQuery, setFilterQuery] = React.useState("")
     const [isLoading, setIsLoading] = React.useState(true)
     const [werkingsgebieden, setWerkingsgebieden] = React.useState(null)
 
@@ -248,7 +246,7 @@ const WerkingsgebiedPopup = ({
     }
 
     const setInParent = (gebied) => {
-        if (dataObjectProperty === 'Gebied') {
+        if (dataObjectProperty === "Gebied") {
             // Array containing the UUID's
             setWerkingsgebiedInParentState({
                 target: {
@@ -256,7 +254,7 @@ const WerkingsgebiedPopup = ({
                     value: gebied,
                 },
             })
-        } else if (dataObjectProperty === 'Werkingsgebieden') {
+        } else if (dataObjectProperty === "Werkingsgebieden") {
             // Single string of UUID
             setWerkingsgebiedInParentState({
                 target: {
@@ -309,8 +307,8 @@ const WerkingsgebiedPopup = ({
                                 ? null
                                 : werkingsgebieden
                                       .filter((e) =>
-                                          e.Werkingsgebied.toLowerCase().includes(
-                                              filterQuery.toLowerCase()
+                                          e.Werkingsgebied?.toLowerCase().includes(
+                                              filterQuery?.toLowerCase()
                                           )
                                       )
                                       .map((gebied, index) => {
@@ -343,11 +341,11 @@ const WerkingsgebiedPopup = ({
                                                       </span>
                                                   </div>
                                                   <span
-                                                      style={{ zIndex: '-1' }}
+                                                      style={{ zIndex: "-1" }}
                                                       className={`absolute top-0 left-0 flex items-center justify-center w-full h-full text-gray-500 -mt-4 ${
                                                           index % 2 === 0
-                                                              ? 'mr-4'
-                                                              : 'ml-4'
+                                                              ? "mr-4"
+                                                              : "ml-4"
                                                       }`}
                                                   >
                                                       <FontAwesomeIcon

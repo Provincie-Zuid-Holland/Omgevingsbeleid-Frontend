@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react'
+/* istanbul ignore file */
+import React, { useState, useEffect } from "react"
 
 import {
     faFolder,
     faFileAlt,
     faFolderOpen,
-} from '@fortawesome/free-regular-svg-icons'
-import { faBook } from '@fortawesome/pro-regular-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+} from "@fortawesome/pro-regular-svg-icons"
+import { faBook } from "@fortawesome/pro-regular-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 function ListItem({
     UUID,
@@ -24,23 +25,23 @@ function ListItem({
         <li
             key={UUID}
             className={`mt-2 relative sidebar-line-horizontal
-            ${hasChildren ? '' : 'sidebar-line-left-full'}
+            ${hasChildren ? "" : "sidebar-line-left-full"}
             ${
-                item.Type !== 'Artikel' && hasChildren
-                    ? 'cursor-pointer'
-                    : 'cursor-default'
+                item.Type !== "Artikel" && hasChildren
+                    ? "cursor-pointer"
+                    : "cursor-default"
             }
             `}
         >
             <FontAwesomeIcon
                 className={`${
-                    item.Type === 'Artikel' ? 'ml-1' : ''
+                    item.Type === "Artikel" ? "ml-1" : ""
                 } absolute mt-1 left-0 -ml-6 text-gray-700 bg-gray-100`}
                 icon={
-                    item.Type === 'Artikel'
+                    item.Type === "Artikel"
                         ? faFileAlt
                         : display ||
-                          (item.Type === 'Hoofdstuk' &&
+                          (item.Type === "Hoofdstuk" &&
                               activeChapter === listIndex)
                         ? faFolderOpen
                         : faFolder
@@ -49,37 +50,37 @@ function ListItem({
             <span
                 onClick={() => {
                     if (
-                        item.Type === 'Hoofdstuk' &&
+                        item.Type === "Hoofdstuk" &&
                         activeChapter !== listIndex
                     ) {
                         changeActiveChapter(listIndex)
                     } else if (
-                        item.Type === 'Hoofdstuk' &&
+                        item.Type === "Hoofdstuk" &&
                         activeChapter === listIndex
                     ) {
                         changeActiveChapter(null)
-                    } else if (item.Type !== 'Artikel' && hasChildren) {
+                    } else if (item.Type !== "Artikel" && hasChildren) {
                         setDisplay(!display)
                     }
                 }}
                 className={`inline-block text-sm text-gray-800 ${
                     (hasChildren &&
-                        item.Type === 'Hoofdstuk' &&
+                        item.Type === "Hoofdstuk" &&
                         activeChapter === listIndex) ||
                     (display && hasChildren)
-                        ? 'sidebar-line-left-span'
-                        : ''
+                        ? "sidebar-line-left-span"
+                        : ""
                 }`}
             >
-                {item.Type === 'Afdeling'
+                {item.Type === "Afdeling"
                     ? `Afdeling ${item.Volgnummer} - `
-                    : ''}
-                {item.Type === 'Paragraaf' ? `§ ${item.Volgnummer} ` : ''}
-                {item.Type === 'Artikel' ? `Artikel ${item.Volgnummer} ` : ''}
+                    : ""}
+                {item.Type === "Paragraaf" ? `§ ${item.Volgnummer} ` : ""}
+                {item.Type === "Artikel" ? `Artikel ${item.Volgnummer} ` : ""}
 
                 {Titel}
             </span>
-            {(activeChapter === listIndex && item.Type === 'Hoofdstuk') ||
+            {(activeChapter === listIndex && item.Type === "Hoofdstuk") ||
             display
                 ? children
                 : null}

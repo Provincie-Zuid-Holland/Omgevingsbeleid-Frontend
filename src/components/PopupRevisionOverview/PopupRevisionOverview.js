@@ -1,22 +1,22 @@
-import React from 'react'
-import { Transition } from '@headlessui/react'
-import { format, isDate } from 'date-fns'
-import nlLocale from 'date-fns/locale/nl'
-import { faTimes } from '@fortawesome/pro-regular-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import Select from 'react-select'
+import React from "react"
+import { Transition } from "@headlessui/react"
+import { format, isDate } from "date-fns"
+import nlLocale from "date-fns/locale/nl"
+import { faTimes } from "@fortawesome/pro-regular-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import Select from "react-select"
 
-import axios from '../../API/axios'
+import axios from "../../API/axios"
 
-import LoaderSpinner from '../LoaderSpinner'
-import LeafletRevisionOverview from './../LeafletRevisionOverview'
-import ViewFieldIngelogdExtraInfo from './../ViewFieldIngelogdExtraInfo'
+import LoaderSpinner from "../LoaderSpinner"
+import LeafletRevisionOverview from "./../LeafletRevisionOverview"
+import ViewFieldIngelogdExtraInfo from "./../ViewFieldIngelogdExtraInfo"
 
-import useClickOutsideContainer from './../../utils/useClickOutsideContainer'
-import useCloseWithEscapeKey from './../../utils/useCloseWithEscapeKey'
-import useLockBodyScroll from './../../utils/useLockBodyScroll'
+import useClickOutsideContainer from "./../../utils/useClickOutsideContainer"
+import useCloseWithEscapeKey from "./../../utils/useCloseWithEscapeKey"
+import useLockBodyScroll from "./../../utils/useLockBodyScroll"
 
-import UserContext from './../../App/UserContext'
+import UserContext from "./../../App/UserContext"
 
 /**
  *
@@ -24,19 +24,19 @@ import UserContext from './../../App/UserContext'
  * @returns {string} - Text indicating the validity of the object
  */
 const getValidText = (object) => {
-    if (!object['Begin_Geldigheid']) return 'Er is nog geen begin geldigheid'
+    if (!object["Begin_Geldigheid"]) return "Er is nog geen begin geldigheid"
 
     const textDate = format(
-        new Date(object['Begin_Geldigheid']),
-        'd MMMM yyyy',
+        new Date(object["Begin_Geldigheid"]),
+        "d MMMM yyyy",
         {
             locale: nlLocale,
         }
     )
     const isActive =
-        object.Status && object.Status === 'Vigerend' ? 'Sinds' : 'Vanaf'
+        object.Status && object.Status === "Vigerend" ? "Sinds" : "Vanaf"
 
-    return isActive + ' ' + textDate
+    return isActive + " " + textDate
 }
 
 /**
@@ -55,8 +55,8 @@ function getSelectOptions(revisionObjects, leftSelect, rightSelect) {
      * @returns {boolean} indicating if the option is disabled or not
      */
     const checkIsDisabled = (index, optionsType) => {
-        if (optionsType === 'left' && !rightSelect) return false
-        if (optionsType === 'right' && !leftSelect) return false
+        if (optionsType === "left" && !rightSelect) return false
+        if (optionsType === "right" && !leftSelect) return false
 
         const leftSelectIndex = revisionObjects.findIndex(
             (e) => e.UUID === leftSelect
@@ -65,10 +65,10 @@ function getSelectOptions(revisionObjects, leftSelect, rightSelect) {
             (e) => e.UUID === rightSelect
         )
 
-        if (optionsType === 'left') {
+        if (optionsType === "left") {
             // Disabled if the rightSelectIndex comes after the current object index
             return index <= rightSelectIndex
-        } else if (optionsType === 'right') {
+        } else if (optionsType === "right") {
             // Disabled if the leftSelectIndex comes after the current object index
             return index >= leftSelectIndex
         }
@@ -89,8 +89,8 @@ function getSelectOptions(revisionObjects, leftSelect, rightSelect) {
             }
         })
 
-    const optionsLeft = getOptions(revisionObjects, 'left')
-    const optionsRight = getOptions(revisionObjects, 'right')
+    const optionsLeft = getOptions(revisionObjects, "left")
+    const optionsRight = getOptions(revisionObjects, "right")
 
     return [optionsLeft, optionsRight]
 }
@@ -130,7 +130,7 @@ const PopupRevisionOverview = ({
         // scrollWidth gets the width of the element without the scrollbar
 
         const fixedContainerEl = document.getElementById(
-            'revisionOverview-container-fixed'
+            "revisionOverview-container-fixed"
         )
 
         if (fixedContainerEl.scrollWidth <= event.clientX) return
@@ -163,9 +163,9 @@ const PopupRevisionOverview = ({
 
     const selectOnScroll = () => {
         const selectContainer = document.getElementById(
-            'revisionOverview-select-container'
+            "revisionOverview-select-container"
         )
-        const selectHeader = document.getElementById('revisionOverview-header')
+        const selectHeader = document.getElementById("revisionOverview-header")
 
         if (!selectContainer) return
         if (!selectHeader) return
@@ -177,17 +177,17 @@ const PopupRevisionOverview = ({
         const headerBottom = selectHeader.getBoundingClientRect().bottom
 
         if (selectTop < 0) {
-            selectContainer.classList.add('fixed', 'top-0', 'z-10', 'shadow-md')
-            selectContainer.style.width = selectWidth + 'px'
-            selectHeader.style.marginBottom = selectHeight + 'px'
+            selectContainer.classList.add("fixed", "top-0", "z-10", "shadow-md")
+            selectContainer.style.width = selectWidth + "px"
+            selectHeader.style.marginBottom = selectHeight + "px"
         } else if (headerBottom > 0) {
-            selectContainer.style.width = '100%'
-            selectHeader.style.marginBottom = 0 + 'px'
+            selectContainer.style.width = "100%"
+            selectHeader.style.marginBottom = 0 + "px"
             selectContainer.classList.remove(
-                'fixed',
-                'top-0',
-                'z-10',
-                'shadow-md'
+                "fixed",
+                "top-0",
+                "z-10",
+                "shadow-md"
             )
         }
     }
@@ -234,17 +234,17 @@ const PopupRevisionOverview = ({
                 leaveTo="opacity-0"
             >
                 <div
-                    class="fixed inset-0 transition-opacity"
+                    className="fixed inset-0 transition-opacity"
                     aria-hidden="true"
                 >
-                    <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+                    <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
                 </div>
             </Transition>
             <div
                 id="revisionOverview-container-fixed"
                 onScroll={selectOnScroll}
                 className={`fixed inset-0 z-10 w-full overflow-y-auto ${
-                    revisionOverviewOpen ? '' : 'pointer-events-none'
+                    revisionOverviewOpen ? "" : "pointer-events-none"
                 }`}
             >
                 <Transition
@@ -592,7 +592,6 @@ const RevisionWerkingsgebied = ({ originalObject, changesObject }) => {
         } else if (changesObject.Werkingsgebieden.new.length > 0) {
             return `Beleidskeuze '${originalObject.Titel}' heeft '${changesObject?.Werkingsgebieden?.new[0]?.Object?.Werkingsgebied}' als werkingsgebied gekregen.`
         } else if (changesObject.Werkingsgebieden.same.length > 0) {
-            console.log(changesObject.Werkingsgebieden)
             return `Beleidskeuze '${originalObject.Titel}' is niet gewijzigd, en is gekoppeld aan '${changesObject?.Werkingsgebieden?.same[0]?.Object?.Werkingsgebied}'.`
         } else if (changesObject.Werkingsgebieden.removed.length > 0) {
             return `Beleidskeuze '${originalObject.Titel}' was gekoppeld aan gebied '${changesObject?.Werkingsgebieden?.removed[0]?.Object?.Werkingsgebied}', maar deze koppeling is verwijderd.`
@@ -749,7 +748,7 @@ const Text = ({ textContent, label }) => {
             <p
                 className={`text-gray-800 leading-7 break-words w-full whitespace-pre-line`}
                 dangerouslySetInnerHTML={{
-                    __html: textContent ? textContent : 'Er is geen inhoud',
+                    __html: textContent ? textContent : "Er is geen inhoud",
                 }}
             />
         </div>
@@ -776,20 +775,20 @@ const ValidText = ({ object, revisionObjects }) => {
     const getTextValidFromSince = (object) => {
         // Toevoegen van de datum in de revisie: "Vigerend van <datum inwerkingtreding> tot <datum uitwerkingtreding>" voor gearchiveerde beleidskeuzes.
         // Voor vigerende beleidskeuzes: "Vigerend van <datum inwerkingtreding> tot heden"
-        if (!object['Begin_Geldigheid'])
-            return 'Er is nog geen begin geldigheid'
+        if (!object["Begin_Geldigheid"])
+            return "Er is nog geen begin geldigheid"
 
         const formatDate = (date) =>
-            format(new Date(date), 'd MMMM yyyy', {
+            format(new Date(date), "d MMMM yyyy", {
                 locale: nlLocale,
             })
 
-        const dateStart = formatDate(object['Begin_Geldigheid'])
-        const isCurrentlyVigerend = uiStatus && uiStatus === 'Vigerend'
+        const dateStart = formatDate(object["Begin_Geldigheid"])
+        const isCurrentlyVigerend = uiStatus && uiStatus === "Vigerend"
 
         if (isCurrentlyVigerend) {
             return `Vigerend vanaf ${dateStart} tot heden`
-        } else if (object.Begin_Geldigheid === '1753-01-01T00:00:00Z') {
+        } else if (object.Begin_Geldigheid === "1753-01-01T00:00:00Z") {
             return `Er is geen begin geldigheid`
         } else {
             return `Vigerend vanaf ${dateStart}`
@@ -845,11 +844,11 @@ const Belangen = ({ label, object, type, containsChanges, placeholder }) => {
      * @returns
      */
     const getContainerStyle = (object) =>
-        object.changeType === 'removed'
-            ? { backgroundColor: '#f4c9c6', textDecoration: 'line-through' } // Removed - Red
-            : object.changeType === 'new'
-            ? { backgroundColor: '#e5f0ef' } // New     - Green
-            : { backgroundColor: '#f2f2f7' } // Default - Purple
+        object.changeType === "removed"
+            ? { backgroundColor: "#f4c9c6", textDecoration: "line-through" } // Removed - Red
+            : object.changeType === "new"
+            ? { backgroundColor: "#e5f0ef" } // New     - Green
+            : { backgroundColor: "#f2f2f7" } // Default - Purple
 
     const objects = getBelangen(containsChanges, object, type)
 
@@ -947,7 +946,7 @@ function RelationsConnectionsText({ originalObject, objectChanges }) {
                                         ))
                                     ) : (
                                         <span className="mt-2 italic text-gray-600">
-                                            Er zijn geen{' '}
+                                            Er zijn geen{" "}
                                             {property.toLowerCase()} gekoppeld
                                         </span>
                                     )}
@@ -973,7 +972,7 @@ function RelationsConnectionsText({ originalObject, objectChanges }) {
                                         ))
                                     ) : (
                                         <span className="mt-2 italic text-gray-600">
-                                            Er zijn geen{' '}
+                                            Er zijn geen{" "}
                                             {property.toLowerCase()} gekoppeld
                                         </span>
                                     )}
@@ -1012,10 +1011,10 @@ const ConnectionListItem = ({ property, connection }) => {
      * Gets style to indicate changes to the object
      */
     const textStyle =
-        connection.changeType === 'removed'
-            ? { backgroundColor: '#f4c9c6', textDecoration: 'line-through' } // Removed - Red
-            : connection.changeType === 'new'
-            ? { backgroundColor: '#e5f0ef' } // New - Green
+        connection.changeType === "removed"
+            ? { backgroundColor: "#f4c9c6", textDecoration: "line-through" } // Removed - Red
+            : connection.changeType === "new"
+            ? { backgroundColor: "#e5f0ef" } // New - Green
             : {} // Default
 
     return (
@@ -1034,16 +1033,16 @@ const ConnectionListItem = ({ property, connection }) => {
                     </span>
                 </span>
                 {connection.Koppeling_Omschrijving &&
-                connection.Koppeling_Omschrijving !== '' ? (
+                connection.Koppeling_Omschrijving !== "" ? (
                     <div
-                        class="absolute hidden group-hover:block top-0 pt-3 mt-5 z-20 cursor-default tooltip-content pb-6 px-4"
+                        className="absolute top-0 z-20 hidden px-4 pt-3 pb-6 mt-5 cursor-default group-hover:block tooltip-content"
                         style={{
-                            left: '5px',
+                            left: "5px",
                         }}
                     >
                         <div
                             id={connection.Object?.UUID}
-                            class="px-5 py-3 rounded bg-gray-900 text-white shadow leading-7 break-words whitespace-pre-line"
+                            className="px-5 py-3 leading-7 text-white break-words whitespace-pre-line bg-gray-900 rounded shadow"
                         >
                             {connection.Koppeling_Omschrijving}
                         </div>
@@ -1055,48 +1054,48 @@ const ConnectionListItem = ({ property, connection }) => {
 }
 
 const connectionProperties = [
-    'Ambities',
-    'Beleidsregels',
-    'Beleidsprestaties',
-    'Maatregelen',
-    'Beleidsdoelen',
-    'Themas',
-    'Verordeningen',
+    "Ambities",
+    "Beleidsregels",
+    "Beleidsprestaties",
+    "Maatregelen",
+    "Beleidsdoelen",
+    "Themas",
+    "Verordeningen",
 ]
 
 // https://tailwindcss.com/docs/customizing-colors#default-color-palette
 const connectionPropertiesColors = {
     Ambities: {
-        hex: '#ED8936',
-        class: 'orange-500',
+        hex: "#ED8936",
+        class: "orange-500",
     },
     Beleidsregels: {
-        hex: '#718096',
-        class: 'gray-600',
+        hex: "#718096",
+        class: "gray-600",
     },
     Beleidsprestaties: {
-        hex: '#ECC94B',
-        class: 'yellow-500',
+        hex: "#ECC94B",
+        class: "yellow-500",
     },
     Maatregelen: {
-        hex: '#48BB78',
-        class: 'green-500',
+        hex: "#48BB78",
+        class: "green-500",
     },
     Beleidsdoelen: {
-        hex: '#3182CE',
-        class: 'blue-600',
+        hex: "#3182CE",
+        class: "blue-600",
     },
     Themas: {
-        hex: '#38B2AC',
-        class: 'teal-500',
+        hex: "#38B2AC",
+        class: "teal-500",
     },
     Verordeningen: {
-        hex: '#E53E3E',
-        class: 'red-600',
+        hex: "#E53E3E",
+        class: "red-600",
     },
     Beleidskeuzes: {
-        hex: '#805AD5',
-        class: 'purple-600',
+        hex: "#805AD5",
+        class: "purple-600",
     },
 }
 

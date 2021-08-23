@@ -1,24 +1,22 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { toast } from 'react-toastify'
+import React from "react"
+import PropTypes from "prop-types"
+import { toast } from "react-toastify"
 
 // Import API
-import axios from './../../API/axios'
+import axios from "./../../API/axios"
 
 // Import Componenten
-import LoaderCardHalfWidth from './../../components/LoaderCardHalfWidth'
-import CardObjectDetailsHalfWidth from './../../components/CardObjectDetailsHalfWidth'
-import ButtonAddNewObject from './../../components/ButtonAddNewObject'
+import LoaderCardHalfWidth from "./../../components/LoaderCardHalfWidth"
+import CardObjectDetails from "./../../components/CardObjectDetails"
+import ButtonAddNewObject from "./../../components/ButtonAddNewObject"
 
 // Import All the dimension constants. These contain the dimensions and there variables, e.g. API_ENDPOINT and TITLE_SINGULAR
-import allDimensies from './../../constants/dimensies'
+import allDimensies from "./../../constants/dimensies"
 
-import UserContext from './../../App/UserContext'
+import UserContext from "./../../App/UserContext"
 
 /**
  * Component that renders the MijnBeleid component.
- *
- * @component
  *
  * @param {boolean} hideAddNew - Parameter used to add the AddNewSection based if the parameter is true or false.
  */
@@ -33,9 +31,9 @@ const MijnBeleid = ({ hideAddNew }) => {
 
         const getAndSetBeleidVanGebruiker = () => {
             const skipDimensies = [
-                'BELEIDSRELATIES',
-                'VERORDENINGSTRUCTUUR',
-                'VERORDENINGSARTIKEL',
+                "BELEIDSRELATIES",
+                "VERORDENINGSTRUCTUUR",
+                "VERORDENINGSARTIKEL",
             ]
 
             const policyEndpointsAndTypes = Object.keys(allDimensies)
@@ -47,10 +45,10 @@ const MijnBeleid = ({ hideAddNew }) => {
                     }
                 })
 
-            const axiosRequests = policyEndpointsAndTypes.map((dimensie) => {
-                return axios
+            const axiosRequests = policyEndpointsAndTypes.map((dimensie) =>
+                axios
                     .get(
-                        dimensie.endpoint === 'beleidskeuzes'
+                        dimensie.endpoint === "beleidskeuzes"
                             ? `/${dimensie.endpoint}?any_filters=Created_By:${user.UUID},Eigenaar_1:${user.UUID},Eigenaar_2:${user.UUID},Opdrachtgever:${user.UUID}`
                             : `/${dimensie.endpoint}?any_filters=Created_By:${user.UUID}`
                     )
@@ -66,7 +64,7 @@ const MijnBeleid = ({ hideAddNew }) => {
                         })
                         return newArray
                     })
-            })
+            )
 
             Promise.all(axiosRequests)
                 .then((res) => {
@@ -105,14 +103,14 @@ const MijnBeleid = ({ hideAddNew }) => {
                                         className={`mb-6 w-1/2 display-inline odd-pr-3 even-pl-3`}
                                     >
                                         {
-                                            <CardObjectDetailsHalfWidth
-                                                fullWidth={true}
+                                            <CardObjectDetails
                                                 index={index}
                                                 mijnBeleid={true}
                                                 object={policy.object}
                                                 titleSingular={titleSingular}
-                                                hideParagraaf={true}
-                                                overzichtSlug={overzichtSlug}
+                                                hoofdOnderdeelSlug={
+                                                    overzichtSlug
+                                                }
                                             />
                                         }
                                     </li>
@@ -144,23 +142,21 @@ const MijnBeleid = ({ hideAddNew }) => {
 
 /**
  * Function to render a AddNewSection component that is part of the MijnBeleid component, only if the parameter hideAddNew of MijnBeleid is set true.
- *
- * @function
  */
 const AddNewSection = () => {
     return (
         <div className="flex">
             <div className="w-full mr-6">
                 <ButtonAddNewObject
-                    titleSingular={'Beleidskeuze'}
-                    createNewSlug={'nieuwe-beleidskeuze#mijn-beleid'}
-                    hoofdOnderdeelSlug={'beleidskeuzes'}
+                    titleSingular={"Beleidskeuze"}
+                    createNewSlug={"nieuwe-beleidskeuze#mijn-beleid"}
+                    hoofdOnderdeelSlug={"beleidskeuzes"}
                 />
             </div>
             <ButtonAddNewObject
-                titleSingular={'Maatregel'}
-                createNewSlug={'nieuwe-maatregel#mijn-beleid'}
-                hoofdOnderdeelSlug={'maatregelen'}
+                titleSingular={"Maatregel"}
+                createNewSlug={"nieuwe-maatregel#mijn-beleid"}
+                hoofdOnderdeelSlug={"maatregelen"}
             />
         </div>
     )

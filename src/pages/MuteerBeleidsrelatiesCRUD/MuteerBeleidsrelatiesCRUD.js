@@ -1,19 +1,19 @@
-import React, { Component } from 'react'
-import { toast } from 'react-toastify'
-import { withRouter } from 'react-router-dom'
-import { Helmet } from 'react-helmet'
+import React, { Component } from "react"
+import { toast } from "react-toastify"
+import { withRouter } from "react-router-dom"
+import { Helmet } from "react-helmet"
 
 // Import Components
-import ContainerCrudFields from './ContainerCrudFields'
-import ButtonBackToPage from './../../components/ButtonBackToPage'
+import ContainerCrudFields from "./ContainerCrudFields"
+import ButtonBackToPage from "./../../components/ButtonBackToPage"
 
-import eindDateIsBeforeBeginDate from './../../utils/eindDateIsBeforeBeginDate'
+import eindDateIsBeforeBeginDate from "./../../utils/eindDateIsBeforeBeginDate"
 
 // Import Axios instance to connect with the API
-import axios from './../../API/axios'
+import axios from "./../../API/axios"
 
 // Create Context
-import APIcontext from './APIContext'
+import APIcontext from "./APIContext"
 
 /**
  * @returns The CRUD page for beleidsrelaties
@@ -24,26 +24,20 @@ class MuteerBeleidsrelatiesCRUD extends Component {
         // CrudObject contains the editable fields
         this.state = {
             crudObject: {
-                Begin_Geldigheid: '',
-                Eind_Geldigheid: '',
-                Naar_Beleidskeuze: '',
-                Omschrijving: '',
-                Titel: '',
+                Begin_Geldigheid: "",
+                Eind_Geldigheid: "",
+                Naar_Beleidskeuze: "",
+                Omschrijving: "",
+                Titel: "",
                 Van_Beleidskeuze: this.props.match.params.UUID,
-                Status: 'Open',
+                Status: "Open",
                 Aanvraag_Datum: new Date(),
             },
-            Van_Beleidskeuze_Titel: '...',
+            Van_Beleidskeuze_Titel: "...",
         }
 
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
-        this.setEditorState = this.setEditorState.bind(this)
-        this.voegKoppelingRelatieToe = this.voegKoppelingRelatieToe.bind(this)
-        this.wijzigKoppelingRelatie = this.wijzigKoppelingRelatie.bind(this)
-        this.verwijderKoppelingRelatieToe = this.verwijderKoppelingRelatieToe.bind(
-            this
-        )
     }
 
     componentDidMount() {
@@ -66,7 +60,7 @@ class MuteerBeleidsrelatiesCRUD extends Component {
         const type = event.target.type
 
         let value = event.target.value
-        if (type === 'date') {
+        if (type === "date") {
             value = event.target.value
         }
 
@@ -78,18 +72,8 @@ class MuteerBeleidsrelatiesCRUD extends Component {
         }))
     }
 
-    // Algemene State Handler voor de Editor
-    setEditorState(stateValue, fieldName) {
-        this.setState((prevState) => ({
-            crudObject: {
-                ...prevState.crudObject,
-                [fieldName]: stateValue,
-            },
-        }))
-    }
-
     validateDate(dateObject) {
-        if (Object.prototype.toString.call(dateObject) === '[object Date]') {
+        if (Object.prototype.toString.call(dateObject) === "[object Date]") {
             // it is a date
             if (isNaN(dateObject.getTime())) {
                 // date is not valid
@@ -110,19 +94,19 @@ class MuteerBeleidsrelatiesCRUD extends Component {
         let crudObject = this.state.crudObject
 
         if (
-            crudObject.Naar_Beleidskeuze === '' ||
+            crudObject.Naar_Beleidskeuze === "" ||
             !crudObject.Naar_Beleidskeuze
         ) {
-            toast('Selecteer een beleidskeuze')
+            toast("Selecteer een beleidskeuze")
             return
         }
         if (!this.validateDate(new Date(crudObject.Begin_Geldigheid))) {
-            toast('Vul een inwerkingtreding datum in')
+            toast("Vul een inwerkingtreding datum in")
             return
         }
 
         if (!this.validateDate(new Date(crudObject.Eind_Geldigheid))) {
-            toast('Vul een uitwerkingtreding datum in')
+            toast("Vul een uitwerkingtreding datum in")
             return
         }
 
@@ -144,66 +128,12 @@ class MuteerBeleidsrelatiesCRUD extends Component {
                 this.props.history.push(
                     `/muteer/beleidsrelaties/${this.props.match.params.UUID}`
                 )
-                toast('Opgeslagen')
+                toast("Opgeslagen")
             })
             .catch((err) => {
                 console.log(err)
                 toast(process.env.REACT_APP_ERROR_MSG)
             })
-    }
-
-    voegKoppelingRelatieToe(propertyName, object, omschrijving) {
-        const nieuwObject = {
-            UUID: object.UUID,
-            Omschrijving: omschrijving,
-        }
-
-        // let nieuweArray = this.state.crudObject[propertyName]
-        let nieuwCrudObject = this.state.crudObject
-        // Als de relatie Array nog niet initialized is, maak deze aan
-        if (typeof nieuwCrudObject[propertyName] === 'string') {
-            nieuwCrudObject[propertyName] = []
-        }
-        nieuwCrudObject[propertyName].push(nieuwObject)
-
-        this.setState(
-            {
-                crudObject: nieuwCrudObject,
-            },
-            () => toast('Koppeling toegevoegd')
-        )
-    }
-
-    wijzigKoppelingRelatie(koppelingObject, nieuweOmschrijving) {
-        let nieuwCrudObject = this.state.crudObject
-        const index = nieuwCrudObject[koppelingObject.propertyName].findIndex(
-            (item) => item.UUID === koppelingObject.item.UUID
-        )
-        nieuwCrudObject[koppelingObject.propertyName][
-            index
-        ].Omschrijving = nieuweOmschrijving
-
-        this.setState(
-            {
-                crudObject: nieuwCrudObject,
-            },
-            () => toast('Koppeling gewijzigd')
-        )
-    }
-
-    verwijderKoppelingRelatieToe(koppelingObject) {
-        let nieuwCrudObject = this.state.crudObject
-        const index = nieuwCrudObject[koppelingObject.propertyName].findIndex(
-            (item) => item.UUID === koppelingObject.item.UUID
-        )
-        nieuwCrudObject[koppelingObject.propertyName].splice(index, 1)
-
-        this.setState(
-            {
-                crudObject: nieuwCrudObject,
-            },
-            () => toast('Koppeling verwijderd')
-        )
     }
 
     render() {
@@ -215,12 +145,8 @@ class MuteerBeleidsrelatiesCRUD extends Component {
             objectID: this.props.match.params.single,
             editStatus: this.state.edit,
             handleSubmit: this.handleSubmit,
-            voegKoppelingRelatieToe: this.voegKoppelingRelatieToe,
-            wijzigKoppelingRelatie: this.wijzigKoppelingRelatie,
-            verwijderKoppelingRelatieToe: this.verwijderKoppelingRelatieToe,
             handleChange: this.handleChange,
             crudObject: this.state.crudObject,
-            setEditorState: this.setEditorState,
             Van_Beleidskeuze_Titel: this.state.Van_Beleidskeuze_Titel,
             Van_Beleidskeuze_UUID: this.props.match.params.UUID,
         }
@@ -232,10 +158,10 @@ class MuteerBeleidsrelatiesCRUD extends Component {
                         {contextObject.editStatus
                             ? `Omgevingsbeleid - Wijzig ${
                                   contextObject.titleSingular
-                              }${' '}
+                              }${" "}
                             ${contextObject.objectID}`
-                            : `Omgevingsbeleid - Voeg een nieuwe${' '}
-                            ${contextObject.titleSingular}${' '}
+                            : `Omgevingsbeleid - Voeg een nieuwe${" "}
+                            ${contextObject.titleSingular}${" "}
                               toe`}
                     </title>
                 </Helmet>

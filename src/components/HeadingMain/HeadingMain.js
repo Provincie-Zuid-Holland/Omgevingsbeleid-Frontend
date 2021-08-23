@@ -1,12 +1,9 @@
-import React from 'react'
-
-import { faCubes } from '@fortawesome/pro-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React from "react"
+import { faCubes } from "@fortawesome/pro-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 /**
  * Component that renders the HeadingMain component displaying a titel and status.
- *
- * @component
  *
  * @param {string} titel - Parameter containing a titel displayed in h1 tag.
  * @param {string} status - Parameter containing the status Vigerend or Gepubliceerd.
@@ -30,14 +27,14 @@ const HeadingMain = ({ titel, status, modules }) => {
  * @returns A component displaying the current status
  */
 const BadgeStatus = ({ status }) => {
-    const isVigerend = status === 'Vigerend' || status === 'Gepubliceerd'
+    const isVigerend = status === "Vigerend"
     return (
         <span
             id="object-status"
             className={`inline-block font-bold mr-2 my-1 px-2 pt-1 text-xs border rounded ${
                 isVigerend
-                    ? 'text-pzh-blue border-pzh-blue'
-                    : 'text-pzh-yellow-dark border-pzh-yellow-dark'
+                    ? "text-pzh-blue border-pzh-blue"
+                    : "text-pzh-yellow-dark border-pzh-yellow-dark"
             }`}
         >
             {status}
@@ -53,6 +50,7 @@ const BadgeStatus = ({ status }) => {
 const BadgesModules = ({ modules }) =>
     modules.map((module) => (
         <a
+            key={module.Titel}
             href={`/muteer/beleidsmodules/${module.ID}`}
             target="_blank"
             rel="noreferrer"

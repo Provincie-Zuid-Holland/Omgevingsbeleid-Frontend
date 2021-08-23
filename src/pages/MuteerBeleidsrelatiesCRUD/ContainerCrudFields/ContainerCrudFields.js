@@ -1,14 +1,14 @@
-import React from 'react'
+import React from "react"
 
 // Import Context
-import APIcontext from './../APIContext'
+import APIcontext from "./../APIContext"
 
 // Import Components
-import ContainerMain from './../../../components/ContainerMain'
-import ContainerFormSection from './../../../components/ContainerFormSection'
-import FormFieldTextArea from './../../../components/FormFieldTextArea'
-import FormFieldDate from './../../../components/FormFieldDate'
-import FormFieldSelectBeleidskeuze from './../../../components/FormFieldSelectBeleidskeuze'
+import ContainerMain from "./../../../components/ContainerMain"
+import ContainerFormSection from "./../../../components/ContainerFormSection"
+import FormFieldTextArea from "./../../../components/FormFieldTextArea"
+import FormFieldDate from "./../../../components/FormFieldDate"
+import FormFieldSelectBeleidskeuze from "./../../../components/FormFieldSelectBeleidskeuze"
 
 class ContainerCrudFields extends React.Component {
     render() {
@@ -29,7 +29,7 @@ class ContainerCrudFields extends React.Component {
                                         titel="Beleidsrelatie"
                                         beschrijving={`Geef aan met welke beleidskeuze '${this.context.Van_Beleidskeuze_Titel}' een relatie moet krijgen en motiveer waarom.`}
                                     >
-                                        {crudObject['Naar_Beleidskeuze'] !==
+                                        {crudObject["Naar_Beleidskeuze"] !==
                                         undefined ? (
                                             <FormFieldSelectBeleidskeuze
                                                 filter={
@@ -41,7 +41,7 @@ class ContainerCrudFields extends React.Component {
                                                 }
                                                 fieldValue={
                                                     crudObject[
-                                                        'Naar_Beleidskeuze'
+                                                        "Naar_Beleidskeuze"
                                                     ]
                                                 }
                                                 fieldLabel="Naar beleidskeuze"
@@ -50,14 +50,14 @@ class ContainerCrudFields extends React.Component {
                                             />
                                         ) : null}
 
-                                        {crudObject['Omschrijving'] !==
+                                        {crudObject["Omschrijving"] !==
                                         undefined ? (
                                             <FormFieldTextArea
                                                 handleChange={
                                                     this.context.handleChange
                                                 }
                                                 fieldValue={
-                                                    crudObject['Omschrijving']
+                                                    crudObject["Omschrijving"]
                                                 }
                                                 fieldLabel="Motivering"
                                                 dataObjectProperty="Omschrijving"
@@ -69,7 +69,7 @@ class ContainerCrudFields extends React.Component {
                                         {/* Geldigheid */}
                                         <div className="flex flex-wrap -mx-3">
                                             {/* Begin Geldigheid */}
-                                            {crudObject['Begin_Geldigheid'] !==
+                                            {crudObject["Begin_Geldigheid"] !==
                                             undefined ? (
                                                 <FormFieldDate
                                                     handleChange={
@@ -78,7 +78,7 @@ class ContainerCrudFields extends React.Component {
                                                     }
                                                     fieldValue={
                                                         crudObject[
-                                                            'Begin_Geldigheid'
+                                                            "Begin_Geldigheid"
                                                         ]
                                                     }
                                                     fieldLabel="Inwerkingtreding van de relatie"
@@ -91,7 +91,7 @@ class ContainerCrudFields extends React.Component {
                                             ) : null}
 
                                             {/* Eind Geldigheid */}
-                                            {crudObject['Eind_Geldigheid'] !==
+                                            {crudObject["Eind_Geldigheid"] !==
                                             undefined ? (
                                                 <FormFieldDate
                                                     openUitwerkingstrede={true}
@@ -104,7 +104,7 @@ class ContainerCrudFields extends React.Component {
                                                     }
                                                     fieldValue={
                                                         crudObject[
-                                                            'Eind_Geldigheid'
+                                                            "Eind_Geldigheid"
                                                         ]
                                                     }
                                                     fieldLabel="Uitwerkingtreding van de relatie"

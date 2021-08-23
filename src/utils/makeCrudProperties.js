@@ -1,7 +1,8 @@
-// Maakt en returned een array met de bewerkbare properties van het dimensie object
-function makeCrudProperties(dimensieConstants) {
-    const crudProperties = Object.keys(dimensieConstants.CRUD_PROPERTIES)
-    return crudProperties
-}
+/**
+ * @param {object} dimensieConstants - The constant object
+ * @returns {array} - Containing the CRUD properties of the object
+ */
+const makeCrudProperties = (dimensieConstants) =>
+    Object.keys(dimensieConstants.CRUD_PROPERTIES)
 
 export default makeCrudProperties

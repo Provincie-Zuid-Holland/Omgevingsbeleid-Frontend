@@ -41,7 +41,7 @@ export default withLeaflet(
         /**
          * Function that returns a new object based on the DumbControl object while using the imported cloneDeep function from lodash.clonedeep with the props value.
          *
-         * @function
+         *
          *
          * @param {object} props - parameter containing a collection of data which is passed down from the parent and used within the cloneDeep function.
          */

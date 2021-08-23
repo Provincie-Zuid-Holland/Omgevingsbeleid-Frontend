@@ -3,8 +3,6 @@ import ContentLoader from 'react-content-loader'
 
 /**
  * Component that renders the LoaderLeafletTinyViewer component, which loads a rectangle shape before the LeafletTinyViewer component is displayed.
- *
- * @component
  */
 const LoaderLeafletTinyViewer = () => (
     <ContentLoader

@@ -31,8 +31,9 @@ const networkGraphGenerateHref = ({
             UUID,
             verordeningsStructure
         )
+
         const href = `/detail/verordeningen/${
-            verordeningsStructure.ID
+            verordeningsStructure?.ID
         }/${UUID}?hoofdstuk=${
             positionInVerordening[0] !== undefined
                 ? positionInVerordening[0]

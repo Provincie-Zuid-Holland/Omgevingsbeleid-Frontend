@@ -1,15 +1,16 @@
+/* istanbul ignore file */
 /* eslint-disable */
 // TODO: For now ESLint is disabled, because this file will be refactored in the future, based on a new data structure
 
-import React from 'react'
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
-import { Link } from 'react-router-dom'
+import React from "react"
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
+import { Link } from "react-router-dom"
 
-import AddSection from '../AddSection'
-import VerordeningObjectContent from './../VerordeningObjectContent'
-import AddObjectButton from './../AddObjectButton'
+import AddSection from "../AddSection"
+import VerordeningObjectContent from "./../VerordeningObjectContent"
+import AddObjectButton from "./../AddObjectButton"
 
-import VerordeningContext from './../VerordeningContext'
+import VerordeningContext from "./../VerordeningContext"
 
 function DragAndDropThirdLevel({
     subVolgnummer,
@@ -34,14 +35,14 @@ function DragAndDropThirdLevel({
                     className={`droppable-height pl-5
                             ${
                                 snapshot.isDraggingOver
-                                    ? 'bg-gray-200'
-                                    : 'bg-white'
+                                    ? "bg-gray-200"
+                                    : "bg-white"
                             }
                             `}
                 >
                     {subItems && subItems.length > 0
                         ? subItems
-                              .filter((e) => e.Type !== 'Lid')
+                              .filter((e) => e.Type !== "Lid")
                               .map((item, index) => (
                                   <Draggable
                                       key={item.UUID}
@@ -70,8 +71,8 @@ function DragAndDropThirdLevel({
                                               <div
                                                   className={`bg-white ${
                                                       snapshot.isDragging
-                                                          ? 'shadow-lg'
-                                                          : ''
+                                                          ? "shadow-lg"
+                                                          : ""
                                                   }`}
                                               >
                                                   <VerordeningObjectContent

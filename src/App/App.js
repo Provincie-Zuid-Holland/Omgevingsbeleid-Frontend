@@ -1,54 +1,53 @@
-import React, { Component, Suspense, lazy } from 'react'
+import React, { Component, Suspense, lazy } from "react"
 
 // For the routing we use React Router (https://reacttraining.com/react-router/)
-import { Route, Switch, withRouter, useHistory } from 'react-router-dom'
+import { Route, Switch, withRouter, useHistory } from "react-router-dom"
 
 // Helmet is the Document Head manager that we use, mostly for building dynamic page titles
-import { Helmet } from 'react-helmet'
+import { Helmet } from "react-helmet"
 
 // Import axios instance
-import axios from './../API/axios'
+import axios from "./../API/axios"
 
 // Import Notification Library
-import { ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+import { ToastContainer } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 // Import Styling
-import './../css/tailwind.css'
-import './../css/styles.scss'
-import './../../node_modules/leaflet/dist/leaflet.css'
+import "./../css/tailwind.css"
+import "./../css/styles.scss"
+import "./../../node_modules/leaflet/dist/leaflet.css"
 
 // Import All the dimension constants. These contain the dimensions and there variables, e.g. API_ENDPOINT and TITLE_SINGULAR
-import allDimensies from './../constants/dimensies'
+import allDimensies from "./../constants/dimensies"
 
 // Import non authenticated pages
-import RaadpleegHome from './../pages/RaadpleegHome'
-import RaadpleegUniversalObjectDetail from './../pages/RaadpleegUniversalObjectDetail'
-import RaadpleegVerordeningsArtikelDetail from './../pages/RaadpleegVerordeningsArtikelDetail'
-import RaadpleegZoekResultatenOverzicht from './../pages/RaadpleegZoekResultatenOverzicht'
-import Login from './../pages/Login'
-import Planning from './../pages/Planning'
+import RaadpleegHome from "./../pages/RaadpleegHome"
+import RaadpleegUniversalObjectDetail from "./../pages/RaadpleegUniversalObjectDetail"
+import RaadpleegVerordeningsArtikelDetail from "./../pages/RaadpleegVerordeningsArtikelDetail"
+import RaadpleegZoekResultatenOverzicht from "./../pages/RaadpleegZoekResultatenOverzicht"
+import Login from "./../pages/Login"
+import Planning from "./../pages/Planning"
 
 // Import Components
-import FeedbackComponent from './../components/FeedbackComponent'
-import Navigation from './../components/Navigation'
-import LoaderContent from './../components/LoaderContent'
-import PopupWelcomeBeta from './../components/PopupWelcomeBeta'
-import PopUpAnimatedContainer from './../components/PopUpAnimatedContainer'
-// import PopupReauthenticate from './../components/PopupReauthenticate'
+import FeedbackComponent from "./../components/FeedbackComponent"
+import Navigation from "./../components/Navigation"
+import LoaderContent from "./../components/LoaderContent"
+import PopupWelcomeBeta from "./../components/PopupWelcomeBeta"
+import PopUpAnimatedContainer from "./../components/PopUpAnimatedContainer"
 
 // Import Context
-import UserContext from './UserContext'
-import GraphContext from './GraphContext'
+import UserContext from "./UserContext"
+import GraphContext from "./GraphContext"
 
 // Import and initialize Sentry for tracking bugs
-import * as Sentry from '@sentry/browser'
+import * as Sentry from "@sentry/browser"
 
-const AuthRoutes = lazy(() => import('./AuthRoutes'))
+const AuthRoutes = lazy(() => import("./AuthRoutes"))
 
 if (
     process.env.REACT_APP_SENTRY_DSN &&
-    process.env.NODE_ENV !== 'development'
+    process.env.NODE_ENV !== "development"
 ) {
     Sentry.init({
         environment: process.env.NODE_ENV,
@@ -60,39 +59,39 @@ if (
 // Create array with detail pages to map through to create the routes
 const detailPaginas = [
     {
-        slug: 'ambities',
+        slug: "ambities",
         dataModel: allDimensies.AMBITIES,
     },
     {
-        slug: 'beleidsregels',
+        slug: "beleidsregels",
         dataModel: allDimensies.BELEIDSREGELS,
     },
     {
-        slug: 'belangen',
+        slug: "belangen",
         dataModel: allDimensies.BELANGEN,
     },
     {
-        slug: 'maatregelen',
+        slug: "maatregelen",
         dataModel: allDimensies.MAATREGELEN,
     },
     {
-        slug: 'beleidskeuzes',
+        slug: "beleidskeuzes",
         dataModel: allDimensies.BELEIDSKEUZES,
     },
     {
-        slug: 'beleidsprestaties',
+        slug: "beleidsprestaties",
         dataModel: allDimensies.BELEIDSPRESTATIES,
     },
     {
-        slug: 'themas',
+        slug: "themas",
         dataModel: allDimensies.THEMAS,
     },
     {
-        slug: 'beleidsdoelen',
+        slug: "beleidsdoelen",
         dataModel: allDimensies.BELEIDSDOELEN,
     },
     {
-        slug: 'verordeningen',
+        slug: "verordeningen",
         dataModel: allDimensies.VERORDENINGSARTIKEL,
     },
 ]
@@ -140,7 +139,7 @@ class App extends Component {
     // Makes a request on mount to the API to see if we get a 200 response, which means the user is logged in.
     checkIfUserIsAuthenticated() {
         axios
-            .get('/tokeninfo')
+            .get("/tokeninfo")
             .then((res) => {
                 this.setState({
                     loggedIn: true,
@@ -160,11 +159,11 @@ class App extends Component {
     // Used to check for Internet Explorer on mount and display an alert that we only support modern browsers. We do polyfill functionalities where needed for Internet Explorer.
     checkForInternetExplorer() {
         var ua = window.navigator.userAgent
-        var msie = ua.indexOf('MSIE ')
+        var msie = ua.indexOf("MSIE ")
         if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv:11\./)) {
             // If Internet Explorer, return version number
             window.alert(
-                'Deze website werkt met moderne browsers als Chrome, Firefox, Safari, etc'
+                "Deze website werkt met moderne browsers als Chrome, Firefox, Safari, etc"
             )
         }
     }
@@ -179,7 +178,7 @@ class App extends Component {
     // Function to show popup when the API gets an 401 unauthorized request, which indicates the token has expired.
     listenForExpiredSession(e) {
         // In API/axios.js we make a new CustomEvent with the message below to indicate the token session has ended. In the mount we add an eventlistener and listen for this event to prompt the popup so the user can login again.
-        if (e.detail.message === 'Authenticated sessie is afgelopen') {
+        if (e.detail.message === "Authenticated sessie is afgelopen") {
             this.setLoginState(false)
             // TODO: Add opnieuw inlog popup
             // this.showReAuthenticatePopup(e)
@@ -200,7 +199,7 @@ class App extends Component {
     }
 
     componentDidMount() {
-        window.addEventListener('authEvent', (e) =>
+        window.addEventListener("authEvent", (e) =>
             this.listenForExpiredSession(e)
         )
 
@@ -210,7 +209,7 @@ class App extends Component {
     }
 
     componentWillUnmount() {
-        window.removeEventListener('authEvent', (e) =>
+        window.removeEventListener("authEvent", (e) =>
             this.listenForExpiredSession(e)
         )
     }
@@ -218,8 +217,8 @@ class App extends Component {
     render() {
         // If user is in Mutate environment of the application
         const locationEqualsMutateEnv =
-            this.props.location.pathname.includes('muteer') ||
-            this.props.location.pathname.includes('login')
+            this.props.location.pathname.includes("muteer") ||
+            this.props.location.pathname.includes("login")
 
         return (
             <GraphContext.Provider
@@ -231,7 +230,7 @@ class App extends Component {
                 <UserContext.Provider value={{ user: this.state.user }}>
                     <div
                         className={`min-h-screen text-pzh-blue-dark pt-12 ${
-                            locationEqualsMutateEnv ? 'bg-gray-100' : ''
+                            locationEqualsMutateEnv ? "bg-gray-100" : ""
                         }`}
                         id="main-container"
                     >
@@ -302,15 +301,11 @@ class App extends Component {
                                             <Route
                                                 key={item.slug}
                                                 path={`/detail/${item.slug}/:id`}
-                                                render={({ match }) => (
+                                                render={() => (
                                                     <RaadpleegUniversalObjectDetail
                                                         dataModel={
                                                             item.dataModel
                                                         }
-                                                        history={
-                                                            this.props.history
-                                                        }
-                                                        match={match}
                                                     />
                                                 )}
                                             />
@@ -380,7 +375,7 @@ const Logout = ({ setLoginState }) => {
         localStorage.removeItem(process.env.REACT_APP_KEY_IDENTIFIER)
 
         setLoginState(false)
-        history.push('/')
+        history.push("/")
     }, [setLoginState, history])
 
     React.useLayoutEffect(() => {

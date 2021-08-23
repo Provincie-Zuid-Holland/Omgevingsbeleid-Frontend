@@ -358,7 +358,7 @@ class MuteerUniversalObjectCRUD extends Component {
         let crudObject = makeCrudObject({
             crudProperties: crudProperties,
             dimensieConstants: dimensieConstants,
-            responseObject: responseObjectFromAPI,
+            existingObj: responseObjectFromAPI,
             modus: modus,
         })
 

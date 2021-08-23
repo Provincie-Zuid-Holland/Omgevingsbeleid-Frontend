@@ -1,39 +1,35 @@
-import React from 'react'
-import { format } from 'date-fns'
-import nlLocale from 'date-fns/locale/nl'
-import { Helmet } from 'react-helmet'
-import {
-    faArrowLeft,
-    faExternalLinkAlt,
-} from '@fortawesome/pro-regular-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { toast } from 'react-toastify'
-import { Link, useParams, useHistory, useLocation } from 'react-router-dom'
-import { Transition } from '@headlessui/react'
-import { useLastLocation } from 'react-router-last-location'
+import React from "react"
+
+import { Helmet } from "react-helmet"
+import { toast } from "react-toastify"
+import { useParams, useHistory } from "react-router-dom"
+import { Transition } from "@headlessui/react"
 
 // Import Axios instance to connect with the API
-import axios from '../../API/axios'
-
-// Import Utilities
-import getVigerendText from './../../utils/getVigerendText'
+import axios from "../../API/axios"
 
 // Import Components
-import LeafletTinyViewer from './../../components/LeafletTinyViewer'
-import PopUpRevisionContainer from './../../components/PopUpRevisionContainer'
-import LoaderContent from './../../components/LoaderContent'
+import LoaderContent from "./../../components/LoaderContent"
 
 // Import view containers
-import ContainerViewFieldsBeleidskeuze from './ContainerFields/ContainerViewFieldsBeleidskeuze'
-import ContainerViewFieldsBeleidsregel from './ContainerFields/ContainerViewFieldsBeleidsregel'
-import ContainerViewFieldsMaatregel from './ContainerFields/ContainerViewFieldsMaatregel'
-import ContainerViewFieldsBeleidsdoelen from './ContainerFields/ContainerViewFieldsBeleidsdoelen'
-import ContainerViewFieldsAmbitie from './ContainerFields/ContainerViewFieldsAmbitie'
-import ContainerViewFieldsBelang from './ContainerFields/ContainerViewFieldsBelang'
-import ContainerViewFieldsThema from './ContainerFields/ContainerViewFieldsThema'
-import ContainerViewFieldsBeleidsprestatie from './ContainerFields/ContainerViewFieldsBeleidsprestatie'
-import ViewFieldGebiedDuiding from './ViewFieldGebiedDuiding'
-import RelatiesKoppelingen from '../../components/RelatiesKoppelingen'
+import ContainerViewFieldsBeleidsprestatie from "./ContainerFields/ContainerViewFieldsBeleidsprestatie"
+import ContainerViewFieldsBeleidsdoelen from "./ContainerFields/ContainerViewFieldsBeleidsdoelen"
+import ContainerViewFieldsBeleidskeuze from "./ContainerFields/ContainerViewFieldsBeleidskeuze"
+import ContainerViewFieldsBeleidsregel from "./ContainerFields/ContainerViewFieldsBeleidsregel"
+import ContainerViewFieldsMaatregel from "./ContainerFields/ContainerViewFieldsMaatregel"
+import ContainerViewFieldsAmbitie from "./ContainerFields/ContainerViewFieldsAmbitie"
+import ContainerViewFieldsBelang from "./ContainerFields/ContainerViewFieldsBelang"
+import ContainerViewFieldsThema from "./ContainerFields/ContainerViewFieldsThema"
+
+import ViewFieldGebiedDuiding from "./ViewFieldGebiedDuiding"
+import Werkingsgebied from "./Werkingsgebied"
+import BackButton from "./BackButton"
+import MetaInfo from "./MetaInfo"
+import Heading from "./Heading"
+
+import RelatiesKoppelingen from "../../components/RelatiesKoppelingen"
+
+import { prepareRevisions } from "../../utils/prepareRevisions"
 
 /**
  * A detail page for a dimensie object.
@@ -69,143 +65,63 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
         window.scrollTo(0, 0)
     }, [dataLoaded])
 
-    // Init when url param { id } changes
+    const handleError = React.useCallback(
+        (err) => {
+            if (err.response === undefined) {
+                console.error(err)
+                toast(process.env.REACT_APP_ERROR_MSG)
+                return
+            } else if (err.response.status === 404) {
+                history.push(`/`)
+                toast(`${titleSingular} kon niet gevonden worden`)
+            } else if (err.response.status === 422) {
+                history.push(`/login`)
+                toast(
+                    `U moet voor nu nog inloggen om deze pagina te kunnen bekijken`
+                )
+            } else {
+                console.error(err)
+                toast(process.env.REACT_APP_ERROR_MSG)
+            }
+        },
+        [titleSingular, history]
+    )
+
+    const getVersionOfObject = React.useCallback(
+        () =>
+            axios
+                .get(apiEndpoint)
+                .then((res) => res.data)
+                .catch((err) => {
+                    handleError(err)
+                }),
+        [apiEndpoint, handleError]
+    )
+
+    // Initialize useEffect
     React.useEffect(() => {
         setDataLoaded(false)
-
-        axios
-            .get(apiEndpoint)
-            .then((res) => {
-                const dataObject = res.data
-                setDataObject(dataObject)
-                return res.data.ID
+        getVersionOfObject()
+            .then((data) => {
+                setDataObject(data)
+                return data.ID
             })
             .then((newLineageID) => {
                 if (newLineageID === lineageID) {
+                    // User is on the same lineageID
                     setDataLoaded(true)
                 } else {
+                    // The user navigated to a different lineageID
                     setLineageID(newLineageID)
                 }
             })
-            .catch((err) => {
-                if (err.response !== undefined) {
-                    if (err.response.status === 404) {
-                        history.push(`/`)
-                        titleSingular === 'Artikel'
-                            ? toast(
-                                  `Dit ${titleSingular.toLowerCase()} kon niet gevonden worden`
-                              )
-                            : toast(
-                                  `Deze ${titleSingular.toLowerCase()} kon niet gevonden worden`
-                              )
-                    } else if (err.response.status === 422) {
-                        history.push(`/login`)
-                        toast(
-                            `U moet voor nu nog inloggen om deze pagina te kunnen bekijken`
-                        )
-                    } else {
-                        console.log(err)
-                        toast(process.env.REACT_APP_ERROR_MSG)
-                    }
-                } else {
-                    console.log(err)
-                    toast(process.env.REACT_APP_ERROR_MSG)
-                }
-            })
-    }, [id, apiEndpoint, history, titleSingular])
+    }, [getVersionOfObject, lineageID])
 
-    // Because the history is intact, every past revision object that has been 'vigerend'
-    // still has that status. In this function we calculate a status to display in the UI,
-    // based on the revision history. We also filter out object that have been edited while 'vigerend',
-    // To display only the latest object. We do this based on the property 'Aanpassing_Op'
-    const prepRevisions = (revisions) => {
-        const sortedFilteredRevisions = revisions
-            .sort(
-                (a, b) => new Date(b.Modified_Date) - new Date(a.Modified_Date)
-            )
-            .filter((revision) => revision.Status === 'Vigerend')
-
-        // Give each object a uiStatus
-        // We need this because the first object with a status of Vigerend is the current one, which is still 'Vigerend'
-        // But the older objects with a status 'Vigerend', are actually archived
-        // They keep their 'Vigerend' status, because we don't change the history in our dataModel
-        // So after the first object with a status of 'Vigerend', we want to display a status of 'Archived' in the UI
-        const preppedRevisions = sortedFilteredRevisions
-            .filter((revision, index) => {
-                const objectHasLaterVersion = sortedFilteredRevisions.findIndex(
-                    (e) => e.Aanpassing_Op === revision.UUID
-                )
-                if (objectHasLaterVersion !== -1) return false
-                // if (revision.Aanpassing_Op === null) return true
-
-                // Check if this revision has an 'Aanpassing_Op' value
-                // and if there is another object in revisions that has the same 'Aanpassing_Op' value, but earlier in the array
-                // indicating that there is a later version of this 'vigerend' object
-                const indexOfLastEdited = sortedFilteredRevisions.findIndex(
-                    (e) => e.Aanpassing_Op === revision.Aanpassing_Op
-                )
-
-                const editedWithLaterVersion =
-                    revision.Aanpassing_Op &&
-                    index !== indexOfLastEdited &&
-                    indexOfLastEdited !== -1
-
-                if (editedWithLaterVersion) return false
-
-                return true
-            })
-            .map((revision, index) => {
-                if (index === 0) {
-                    // If it is the first item with a Status of 'Vigerend'
-                    revision.uiStatus = 'Vigerend'
-                } else {
-                    revision.uiStatus = 'Gearchiveerd'
-                }
-
-                return revision
-            })
-
-        const firstInspraakIndex = sortedFilteredRevisions.findIndex(
-            (revision) => revision.Status === 'Ontwerp in inspraak'
-        )
-
-        const firstVigerendIndex = sortedFilteredRevisions.findIndex(
-            (revision) => revision.Status === 'Vigerend'
-        )
-
-        // If one of the items doesn't exist, return
-        if (firstInspraakIndex === -1 || firstVigerendIndex === -1)
-            return preppedRevisions
-
-        const inspraakComesBeforeVigerend =
-            firstInspraakIndex < firstVigerendIndex
-
-        // Check if the item with a Status 'Ontwerp in inspraak' is newer,
-        // then the last item with a Status of 'Vigerend'
-        // If so, place this item on index 0
-        if (inspraakComesBeforeVigerend) {
-            const firstInspraakItem =
-                sortedFilteredRevisions[firstInspraakIndex]
-            firstInspraakItem.uiStatus = 'In inspraak'
-            preppedRevisions.splice(0, 0, firstInspraakItem)
-        }
-
-        return preppedRevisions
-    }
-
-    React.useEffect(() => {
-        if (!lineageID && lineageID !== 0) return
-
-        // We only want to show the revisions on the type of Beleidskeuze
-        if (titleSingular !== 'Beleidskeuze') {
-            setDataLoaded(true)
-            return
-        }
-
+    const getAndSetRevisionObjects = React.useCallback(() => {
         axios
             .get(`${apiEndpointBase}/${lineageID}`)
             .then((res) => {
-                const preppedRevisions = prepRevisions(res.data)
+                const preppedRevisions = prepareRevisions(res.data)
                 setRevisionObjects(preppedRevisions)
                 setDataLoaded(true)
             })
@@ -213,7 +129,20 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
                 console.log(err)
                 toast(process.env.REACT_APP_ERROR_MSG)
             })
-    }, [lineageID, titleSingular])
+    }, [lineageID, apiEndpointBase])
+
+    // useEffect triggered when there is a new lineageID set
+    React.useEffect(() => {
+        if (!lineageID && lineageID !== 0) return
+
+        // We only want to show the revisions on the type of Beleidskeuze
+        if (titleSingular !== "Beleidskeuze") {
+            setDataLoaded(true)
+            return
+        }
+
+        getAndSetRevisionObjects()
+    }, [getAndSetRevisionObjects, lineageID, titleSingular])
 
     // Returns boolean
     // There are two objects with werkingsgebieden:
@@ -252,23 +181,8 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
     const hasWerkingsGebied = checkIfObjectHasWerkingsgebied()
     const werkingsGebiedUUID = getWerkingsgbiedUUID(hasWerkingsGebied)
 
-    const getSearchQuery = () => {
-        let searchQuery = null
-
-        const urlParams = new URLSearchParams(window.location.search)
-        const fromPage = urlParams.get('fromPage')
-
-        if (window.location.hash) {
-            searchQuery = window.location.hash.substr(1)
-        }
-
-        return [searchQuery, fromPage]
-    }
-
-    const [searchQuery, fromPage] = getSearchQuery()
-
     const getTitle = () => {
-        if (!dataLoaded) return ''
+        if (!dataLoaded) return ""
 
         return `${
             dataObject ? dataObject.Titel : null
@@ -342,46 +256,39 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
                         {/* These contain the fields that need to be displayed for the different objects */}
                         <div
                             className={`mt-8 ${
-                                titleSingular === 'Beleidskeuze' ? '' : 'pb-20'
+                                titleSingular === "Beleidskeuze" ? "" : "pb-20"
                             }`}
                             id="raadpleeg-detail-container-main"
                         >
-                            {titleSingular === 'Beleidskeuze' ? (
+                            {titleSingular === "Beleidskeuze" ? (
                                 <ContainerViewFieldsBeleidskeuze
                                     crudObject={dataObject}
                                 />
-                            ) : null}
-                            {titleSingular === 'Beleidsregel' ? (
+                            ) : titleSingular === "Beleidsregel" ? (
                                 <ContainerViewFieldsBeleidsregel
                                     crudObject={dataObject}
                                 />
-                            ) : null}
-                            {titleSingular === 'Beleidsprestatie' ? (
+                            ) : titleSingular === "Beleidsprestatie" ? (
                                 <ContainerViewFieldsBeleidsprestatie
                                     crudObject={dataObject}
                                 />
-                            ) : null}
-                            {titleSingular === 'Maatregel' ? (
+                            ) : titleSingular === "Maatregel" ? (
                                 <ContainerViewFieldsMaatregel
                                     crudObject={dataObject}
                                 />
-                            ) : null}
-                            {titleSingular === 'Beleidsdoel' ? (
+                            ) : titleSingular === "Beleidsdoel" ? (
                                 <ContainerViewFieldsBeleidsdoelen
                                     crudObject={dataObject}
                                 />
-                            ) : null}
-                            {titleSingular === 'Ambitie' ? (
+                            ) : titleSingular === "Ambitie" ? (
                                 <ContainerViewFieldsAmbitie
                                     crudObject={dataObject}
                                 />
-                            ) : null}
-                            {titleSingular === 'Belang' ? (
+                            ) : titleSingular === "Belang" ? (
                                 <ContainerViewFieldsBelang
                                     crudObject={dataObject}
                                 />
-                            ) : null}
-                            {titleSingular === 'Thema' ? (
+                            ) : titleSingular === "Thema" ? (
                                 <ContainerViewFieldsThema
                                     crudObject={dataObject}
                                 />
@@ -399,12 +306,12 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
                                 werkingsGebiedUUID={werkingsGebiedUUID}
                             />
                         ) : null}
-                        {titleSingular === 'Maatregel' &&
+                        {titleSingular === "Maatregel" &&
                         dataLoaded &&
-                        dataObject['Gebied_Duiding'] &&
-                        dataObject['Gebied'] ? (
+                        dataObject["Gebied_Duiding"] &&
+                        dataObject["Gebied"] ? (
                             <ViewFieldGebiedDuiding
-                                gebiedDuiding={dataObject['Gebied_Duiding']}
+                                gebiedDuiding={dataObject["Gebied_Duiding"]}
                             />
                         ) : null}
                     </div>
@@ -418,171 +325,6 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
                 />
             ) : null}
         </React.Fragment>
-    )
-}
-
-const BackButton = () => {
-    const history = useHistory()
-    const location = useLocation()
-    const lastLocation = useLastLocation()
-
-    const goBack = () => {
-        if (
-            lastLocation?.pathname &&
-            lastLocation.pathname !== location.pathname
-        ) {
-            history.goBack()
-        } else {
-            history.push('/')
-        }
-    }
-
-    return (
-        <div
-            onClick={() => goBack()}
-            className={`text-pzh-blue cursor-pointer opacity-75 hover:opacity-100 transition-opacity ease-in duration-100 mb-4 inline-block`}
-            id="button-back-to-previous-page"
-        >
-            <FontAwesomeIcon className="mr-2" icon={faArrowLeft} />
-            <span>Terug</span>
-        </div>
-    )
-}
-
-const Werkingsgebied = ({
-    fullscreenLeafletViewer,
-    setFullscreenLeafletViewer,
-    werkingsGebiedUUID,
-}) => {
-    return (
-        <div className="w-full mt-8" id="raadpleeg-detail-werkingsgebied">
-            <div className="flex items-center justify-between pb-3">
-                <h2 className="block mb-1 text-lg font-bold tracking-wide text-pzh-blue">
-                    Werkingsgebied
-                </h2>
-                <span
-                    className="px-2 text-xs cursor-pointer"
-                    onClick={() =>
-                        setFullscreenLeafletViewer(!fullscreenLeafletViewer)
-                    }
-                >
-                    Bekijk in het {fullscreenLeafletViewer ? 'klein' : 'groot'}
-                    <FontAwesomeIcon
-                        className="ml-2 text-gray-700"
-                        icon={faExternalLinkAlt}
-                    />
-                </span>
-            </div>
-
-            <div
-                className="overflow-hidden rounded-lg"
-                id={`full-screen-leaflet-container-${fullscreenLeafletViewer}`}
-            >
-                <LeafletTinyViewer
-                    gebiedType="Werkingsgebieden"
-                    gebiedUUID={werkingsGebiedUUID}
-                    fullscreen={fullscreenLeafletViewer}
-                />
-            </div>
-        </div>
-    )
-}
-
-const Heading = ({ type, titel }) => {
-    return (
-        <React.Fragment>
-            <span className="block mb-2 text-xl font-bold opacity-25 text-pzh-blue">
-                {type}
-            </span>
-            <h1
-                id="raadpleeg-detail-header-one"
-                className="mt-1 text-4xl font-bold text-pzh-blue "
-            >
-                {titel}
-            </h1>
-        </React.Fragment>
-    )
-}
-
-const MetaInfo = ({
-    revisionObjects,
-    dataObject,
-    currentUUID,
-    titleSingular,
-}) => {
-    const vigerendText = getVigerendText({ dataObject, prefix: true })
-
-    return (
-        <div className="block mt-2" id="raadpleeg-detail-container-meta-info">
-            <span className="mr-3 text-sm text-gray-800 opacity-75">
-                {vigerendText}
-            </span>
-
-            {revisionObjects && revisionObjects.length > 0 ? (
-                <React.Fragment>
-                    <span className="mr-3 text-sm text-gray-600">&bull;</span>
-                    <PopUpRevisionContainer
-                        dataObject={dataObject}
-                        titleSingular={titleSingular}
-                        revisionObjects={revisionObjects}
-                    >
-                        {revisionObjects.map((item, index) => (
-                            <RevisieListItem
-                                currentUUID={currentUUID}
-                                item={item}
-                                key={item.UUID}
-                            />
-                        ))}
-                    </PopUpRevisionContainer>
-                </React.Fragment>
-            ) : null}
-        </div>
-    )
-}
-
-function RevisieListItem({ item, currentUUID }) {
-    const getDate = (item) => {
-        return item['Begin_Geldigheid'] !== null
-            ? format(new Date(item['Begin_Geldigheid']), 'd MMM yyyy', {
-                  locale: nlLocale,
-              })
-            : 'Er is nog geen begin geldigheid'
-    }
-
-    const date = getDate(item)
-    const status = item.uiStatus
-    const isActive = item.UUID === currentUUID
-
-    return (
-        <li className={`bg-white ${isActive ? '' : 'hover:bg-gray-100'}`}>
-            <Link
-                className={`inline-block py-3 ${
-                    isActive ? 'cursor-default' : ''
-                }`}
-                to={`/detail/beleidskeuzes/${item.UUID}`}
-                onClick={(e) => {
-                    if (isActive) {
-                        e.preventDefault()
-                        return
-                    }
-                }}
-            >
-                <span
-                    className={`inline-block w-2 h-2 rounded-full mt-2 -ml-1 absolute ${
-                        status === 'In inspraak'
-                            ? 'bg-red-700'
-                            : status === 'Vigerend'
-                            ? 'bg-yellow-500 pulsate'
-                            : status === 'Gearchiveerd'
-                            ? 'bg-blue-900'
-                            : ''
-                    }`}
-                />
-                <span
-                    className={`pl-6 text-sm ${isActive ? 'font-bold' : ''}`}
-                >{`${status} (${date})`}</span>
-            </Link>
-        </li>
     )
 }
 

@@ -3,8 +3,6 @@ import ContentLoader from 'react-content-loader'
 
 /**
  * Component that renders the LoaderMainTitle component, which loads a rectangle shape before the MainTitle component is displayed.
- *
- * @component
  */
 const LoaderMainTitle = () => (
     <ContentLoader className="w-20 block mt-5 mb-6" width="50" height="10">
