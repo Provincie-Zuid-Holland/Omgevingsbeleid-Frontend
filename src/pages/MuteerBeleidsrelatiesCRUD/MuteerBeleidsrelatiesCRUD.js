@@ -92,7 +92,6 @@ class MuteerBeleidsrelatiesCRUD extends Component {
         event.preventDefault()
 
         let crudObject = this.state.crudObject
-
         if (
             crudObject.Naar_Beleidskeuze === "" ||
             !crudObject.Naar_Beleidskeuze

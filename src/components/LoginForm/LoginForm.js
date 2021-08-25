@@ -64,7 +64,7 @@ function PopupWachtwoordVergeten({ show, togglePopup }) {
                 </button>
                 <button
                     href="mailto:omgevingsbeleid@pzh.nl?subject=Wachtwoord vergeten"
-                    className="inline-block px-8 py-2 text-white rounded pzh-transition-colors bg-pzh-green hover:bg-pzh-green-dark focus:outline-none focus:shadow-outline"
+                    className="inline-block px-8 py-2 text-white rounded pzh-transition-colors bg-pzh-green hover:bg-pzh-green-dark focus:outline-none focus:ring"
                     id="wachtwoord-reset-button-mailto"
                     data-testid="wachtwoord-reset-button-mailto"
                     onClick={togglePopup}
@@ -165,7 +165,7 @@ const LoginForm = ({ setLoginState, setLoginUser }) => {
                     </label>
                     <input
                         required
-                        className="w-full px-3 py-2 leading-loose bg-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                        className="w-full px-3 py-2 leading-loose bg-white border rounded shadow appearance-none focus:outline-none focus:ring"
                         name="email"
                         id="form-field-login-email"
                         data-testid="form-field-login-email"
@@ -183,7 +183,7 @@ const LoginForm = ({ setLoginState, setLoginUser }) => {
                     </label>
                     <input
                         required
-                        className="w-full px-3 py-2 leading-loose bg-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                        className="w-full px-3 py-2 leading-loose bg-white border rounded shadow appearance-none focus:outline-none focus:ring"
                         name="password"
                         id="form-field-login-password"
                         data-testid="form-field-login-password"
@@ -194,7 +194,7 @@ const LoginForm = ({ setLoginState, setLoginUser }) => {
                 </div>
                 <div className="flex items-center">
                     <button
-                        className="inline-block px-8 pt-2 pb-2 text-white transition-colors duration-200 ease-in rounded bg-pzh-blue hover:bg-pzh-blue-dark focus:outline-none focus:shadow-outline"
+                        className="inline-block px-8 pt-2 pb-2 text-white transition-colors duration-200 ease-in rounded bg-pzh-blue hover:bg-pzh-blue-dark focus:outline-none focus:ring"
                         type="submit"
                         id="form-field-login-submit"
                         data-testid="form-field-login-submit"
