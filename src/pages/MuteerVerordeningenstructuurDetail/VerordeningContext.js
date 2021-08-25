@@ -1,4 +1,5 @@
-import { createContext } from 'react'
+/* istanbul ignore file */
+import { createContext } from "react"
 
 const VerordeningContext = createContext({})
 

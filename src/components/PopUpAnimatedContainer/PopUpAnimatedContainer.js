@@ -1,5 +1,5 @@
-import React from 'react'
-import { useSpring, animated } from 'react-spring'
+import React from "react"
+import { useSpring, animated } from "react-spring"
 
 function PopUpAnimatedContainer({ small, large, children, reference }) {
     return (
@@ -18,15 +18,15 @@ function PopUpAnimatedContainer({ small, large, children, reference }) {
                         ref={reference}
                         style={useSpring({
                             config: { tension: 300 },
-                            transform: 'scale(1)',
-                            from: { transform: 'scale(0.75)' },
+                            transform: "scale(1)",
+                            from: { transform: "scale(0.75)" },
                         })}
                         className={`max-w-5xl relative bg-white rounded shadow p-6 ${
                             small
-                                ? 'popup-small'
+                                ? "popup-small"
                                 : large
-                                ? 'popup-large'
-                                : 'popup-normal'
+                                ? "popup-large"
+                                : "popup-normal"
                         }`}
                     >
                         {children}

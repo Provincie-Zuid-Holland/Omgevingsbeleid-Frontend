@@ -1,19 +1,17 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from "react"
+import PropTypes from "prop-types"
 
-import { faAngleDown, faEye } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faAngleDown, faEye } from "@fortawesome/pro-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
-import PopupNieuweKoppeling from './PopupNieuweKoppeling'
-import PopupBewerkKoppeling from './PopUpBewerkKoppeling'
-import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFieldTitelEnBeschrijving'
+import PopupNieuweKoppeling from "./PopupNieuweKoppeling"
+import PopupBewerkKoppeling from "./PopUpBewerkKoppeling"
+import FormFieldTitelEnBeschrijving from "../FormFieldTitelEnBeschrijving/FormFieldTitelEnBeschrijving"
 
-import objecten from './../../constants/koppelingen'
+import objecten from "./../../constants/koppelingen"
 
 /**
  * Function to get and return the propertiesWithExistingConnections, which are used within the FormFieldRelatieKoppeling component.
- *
- * @function
  *
  * @param {array} connectionProperties - Parameter containing the collection of object properties that is looped through in the getPropertiesWithConnectionsFromCrudObject function.
  * @param {object} crudObject - Parameter that contains the object information from the API and is used to check if it is not undefined, null or has a string length of more than 1 charater
@@ -111,15 +109,11 @@ const FormFieldRelatieKoppeling = ({
      * If they exist, we add the type and set them in state
      */
     const initializeConnections = React.useCallback(() => {
-        const propertiesWithExistingConnections = getPropertiesWithConnectionsFromCrudObject(
-            connectionProperties,
-            crudObject
-        )
-
-        // // If there are no existing connections we return
-        // if (propertiesWithExistingConnections.length === 0) {
-        //     return
-        // }
+        const propertiesWithExistingConnections =
+            getPropertiesWithConnectionsFromCrudObject(
+                connectionProperties,
+                crudObject
+            )
 
         // Contains the properties we have already mapped
         // We need this because 'Belang' en 'Taak' are both different types, but they do have the same propertyName on the crudObject
@@ -160,7 +154,7 @@ const FormFieldRelatieKoppeling = ({
 
     return (
         <React.Fragment>
-            {fieldLabel === 'Koppelingen' ? (
+            {fieldLabel === "Koppelingen" ? (
                 <React.Fragment>
                     <h3 className="block mb-2 font-bold tracking-wide text-gray-700">
                         Relaties
@@ -181,8 +175,8 @@ const FormFieldRelatieKoppeling = ({
             <div
                 className={`p-5 bg-white rounded shadow ${
                     disabled
-                        ? 'opacity-75 cursor-not-allowed pointer-events-none'
-                        : ''
+                        ? "opacity-75 cursor-not-allowed pointer-events-none"
+                        : ""
                 }`}
                 id={`form-field-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
             >
@@ -219,7 +213,7 @@ const FormFieldRelatieKoppeling = ({
                                     (item, index) => {
                                         let type =
                                             objecten[koppelingRelatieNaam].type
-                                        if (type === 'Nationaal Belang') {
+                                        if (type === "Nationaal Belang") {
                                             type = item.Object.Type
                                         }
 
@@ -287,7 +281,6 @@ const FormFieldRelatieKoppeling = ({
                     objecten={objecten}
                 />
             ) : null}
-
             {popupOpenBewerk ? (
                 <PopupBewerkKoppeling
                     titelMainObject={titelMainObject}
@@ -334,10 +327,10 @@ const Dropdown = ({
                 setDropdownOpen(false)
             }
         }
-        document.addEventListener('mousedown', handleClickOutside, false)
+        document.addEventListener("mousedown", handleClickOutside, false)
 
         return () =>
-            document.removeEventListener('mousedown', handleClickOutside, false)
+            document.removeEventListener("mousedown", handleClickOutside, false)
     }, [setDropdownOpen])
 
     return (

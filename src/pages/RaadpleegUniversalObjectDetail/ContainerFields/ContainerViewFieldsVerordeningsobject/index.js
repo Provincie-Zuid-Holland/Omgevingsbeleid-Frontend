@@ -1,3 +1,3 @@
-import ContainerViewFieldsVerordeningsobject from './ContainerViewFieldsVerordeningsobject.js'
+import ContainerViewFieldsVerordeningsobject from "./ContainerViewFieldsVerordeningsobject.js"
 
 export default ContainerViewFieldsVerordeningsobject

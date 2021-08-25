@@ -1,3 +1,3 @@
-import MuteerBeleidsrelatiesCRUD from './MuteerBeleidsrelatiesCRUD.js'
+import MuteerBeleidsrelatiesCRUD from "./MuteerBeleidsrelatiesCRUD.js"
 
 export default MuteerBeleidsrelatiesCRUD

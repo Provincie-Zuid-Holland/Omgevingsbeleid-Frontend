@@ -1,3 +1,3 @@
-import LoaderMainTitle from './LoaderMainTitle.js'
+import LoaderMainTitle from "./LoaderMainTitle.js"
 
 export default LoaderMainTitle

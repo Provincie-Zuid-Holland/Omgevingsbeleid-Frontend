@@ -1,3 +1,3 @@
-import Werkingsgebied from './Werkingsgebied.js'
+import Werkingsgebied from "./Werkingsgebied.js"
 
 export default Werkingsgebied

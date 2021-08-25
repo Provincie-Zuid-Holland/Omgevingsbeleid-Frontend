@@ -1,8 +1,7 @@
-import React from 'react'
+import React from "react"
 
 /**
  * Component that renders the FormFieldRadioButton component that maps through the options array to create radio buttons with a label.
- * This component is used within the FormFieldContainerMaatregelen.js page.
  *
  * @param {array} options - Parameter that contains a list of values that are used to map through and create radio buttons with labels.
  * @param {boolean} handleChange - Parameter that is used within this function to set the onChange variable to true if the input element has been changed.
@@ -10,8 +9,6 @@ import React from 'react'
  * @param {string} titleSingular - Parameter used as part of the div id and id set in the options array within this component.
  * @param {string} label - Paramater that is only displayed if it contains a value.
  * @param {string} fieldValue - Parameter that will receive the option value, when checked by the user.
- *
- * @component
  */
 function FormFieldRadioButton({
     options = [],
@@ -31,8 +28,8 @@ function FormFieldRadioButton({
             <div
                 className={`mt-4 ${
                     disabled
-                        ? 'opacity-50 cursor-not-allowed pointer-events-none'
-                        : ''
+                        ? "opacity-50 cursor-not-allowed pointer-events-none"
+                        : ""
                 }`}
                 id={`form-field-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
             >

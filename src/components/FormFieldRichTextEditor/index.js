@@ -1,2 +1,2 @@
-export { default } from './FormFieldRichTextEditor';
-export * from './FormFieldRichTextEditor';
+export { default } from "./FormFieldRichTextEditor"
+export * from "./FormFieldRichTextEditor"

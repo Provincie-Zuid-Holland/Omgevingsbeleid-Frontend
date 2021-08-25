@@ -1,11 +1,9 @@
-import React from 'react'
-import { Transition } from '@headlessui/react'
-import useLockBodyScroll from './../../utils/useLockBodyScroll.js'
+import React from "react"
+import { Transition } from "@headlessui/react"
+import useLockBodyScroll from "./../../utils/useLockBodyScroll.js"
 
 /**
  * Component that renders the PopupContainer component.
- *
- * @component
  *
  * @param {object} children - Parameter containing information that is displayed within the transition.
  * @param {boolean} show - Parameter that is used to show or hide the transitions.
@@ -16,7 +14,7 @@ function PopupContainer({ children, show, close }) {
 
     React.useEffect(() => {
         const closeOnEscape = (e) => {
-            if (e.key === 'Escape' && close) {
+            if (e.key === "Escape" && close) {
                 close()
             }
         }
@@ -31,11 +29,11 @@ function PopupContainer({ children, show, close }) {
             }
         }
 
-        document.addEventListener('mousedown', handleClick)
-        window.addEventListener('keydown', closeOnEscape)
+        document.addEventListener("mousedown", handleClick)
+        window.addEventListener("keydown", closeOnEscape)
         return () => {
-            document.removeEventListener('mousedown', handleClick)
-            window.removeEventListener('keydown', closeOnEscape)
+            document.removeEventListener("mousedown", handleClick)
+            window.removeEventListener("keydown", closeOnEscape)
         }
     }, [close])
 
@@ -45,7 +43,7 @@ function PopupContainer({ children, show, close }) {
     return (
         <div
             className={`fixed bottom-0 inset-x-0 px-4 pb-4 z-50 sm:inset-0 sm:items-center sm:justify-center sm:flex ${
-                show ? '' : 'pointer-events-none'
+                show ? "" : "pointer-events-none"
             }`}
         >
             <Transition

@@ -1,3 +1,0 @@
-import FormFieldWerkingsgebiedKoppeling from './FormFieldWerkingsgebiedKoppeling.js'
-
-export default FormFieldWerkingsgebiedKoppeling
