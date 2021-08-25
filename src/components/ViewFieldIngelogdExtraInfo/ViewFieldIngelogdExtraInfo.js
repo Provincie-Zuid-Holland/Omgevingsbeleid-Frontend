@@ -76,7 +76,7 @@ const ViewFieldIngelogdExtraInfo = ({ crudObject, hideEdit, className }) => {
                                 <a
                                     href={crudObject['Weblink']}
                                     target="_blank"
-                                    className="text-sm mr-4 font-bold text-gray-600 hover:underline"
+                                    className="mr-4 text-sm font-bold text-gray-600 hover:underline"
                                     rel="noopener noreferrer"
                                 >
                                     <FontAwesomeIcon
@@ -149,7 +149,7 @@ const EigenarenList = ({ eigenaren }) => {
                                 {getAbbrevationFromUsername(eigenaren[item])}
                             </span>
 
-                            <div className="absolute top-0 left-0 z-10 hidden inline-block px-4 py-3 mt-10 whitespace-no-wrap rounded popup-gebruikersinfo">
+                            <div className="absolute top-0 left-0 z-10 hidden inline-block px-4 py-3 mt-10 rounded whitespace-nowrap popup-gebruikersinfo">
                                 <div className="block text-xs">
                                     {getPersonenRol(item)}
                                 </div>
