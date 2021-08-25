@@ -1,3 +1,3 @@
-import LeafletSearchInput from './LeafletSearchInput.js'
+import LeafletSearchInput from "./LeafletSearchInput.js"
 
 export default LeafletSearchInput

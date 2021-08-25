@@ -1,35 +1,40 @@
-import { format, isValid } from 'date-fns'
+import { format, isValid } from "date-fns"
 
-// This function formats the date properties Begin_Geldigheid and Eind_Geldigheid. It needs the whole crudObject as a parameter, formats the dates and returns the whole crudObject.
-// The date values are in the timestamp data type. We first convert this to a Date object and then format this using date-fns format() function to a string.
+/**
+ * Format Begin_Geldigheid and Eind_Geldigheid in order to display them in the UI
+ * @param {object} crudObject - Object containing the dates
+ * @returns {object} Returns the crudObject with formatted dates
+ */
 function formatGeldigheidDatesForUI(crudObject) {
-    // Format Begin_Geldigheid
-    if (
-        crudObject &&
+    if (!crudObject) return
+
+    const beginGeldigheidIsValid =
         crudObject.Begin_Geldigheid !== undefined &&
         crudObject.Begin_Geldigheid !== null &&
         isValid(new Date(crudObject.Begin_Geldigheid))
-    ) {
-        crudObject.Begin_Geldigheid = format(
-            new Date(crudObject.Begin_Geldigheid),
-            'yyyy-MM-dd'
-        )
-    } else if (crudObject && crudObject.Begin_Geldigheid === 'Invalid Date') {
-        crudObject.Begin_Geldigheid = null
-    }
 
-    // Format Eind_Geldigheid
-    if (
-        crudObject &&
+    const eindGeldigheidIsValid =
         crudObject.Eind_Geldigheid !== undefined &&
         crudObject.Eind_Geldigheid !== null &&
         isValid(new Date(crudObject.Eind_Geldigheid))
-    ) {
+
+    /** Format Begin_Geldigheid */
+    if (beginGeldigheidIsValid) {
+        crudObject.Begin_Geldigheid = format(
+            new Date(crudObject.Begin_Geldigheid),
+            "yyyy-MM-dd"
+        )
+    } else if (crudObject.Begin_Geldigheid === "Invalid Date") {
+        crudObject.Begin_Geldigheid = null
+    }
+
+    /** Format Eind_Geldigheid */
+    if (eindGeldigheidIsValid) {
         crudObject.Eind_Geldigheid = format(
             new Date(crudObject.Eind_Geldigheid),
-            'yyyy-MM-dd'
+            "yyyy-MM-dd"
         )
-    } else if (crudObject && crudObject.Eind_Geldigheid === 'Invalid Date') {
+    } else if (crudObject.Eind_Geldigheid === "Invalid Date") {
         crudObject.Eind_Geldigheid = null
     }
 

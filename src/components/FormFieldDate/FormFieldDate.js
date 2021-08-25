@@ -1,6 +1,6 @@
-import React from 'react'
+import React from "react"
 
-import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFieldTitelEnBeschrijving'
+import FormFieldTitelEnBeschrijving from "../FormFieldTitelEnBeschrijving/FormFieldTitelEnBeschrijving"
 
 var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
 
@@ -15,7 +15,7 @@ class FormFieldDate extends React.Component {
         super(props)
         this.state = {
             toonUitwerkingTreding:
-                this.props.fieldValue !== '' || this.props.openUitwerkingstrede,
+                this.props.fieldValue !== "" || this.props.openUitwerkingstrede,
         }
         this.toggleUitwerkingTreding = this.toggleUitwerkingTreding.bind(this)
     }
@@ -31,15 +31,15 @@ class FormFieldDate extends React.Component {
      * To keep the UI clean we return an empty string
      */
     getFieldValue(value) {
-        const standardDates = ['1753-01-01', '10000-01-01']
-        if (standardDates.includes(value)) return ''
+        const standardDates = ["1753-01-01", "10000-01-01"]
+        if (standardDates.includes(value)) return ""
         return value
     }
 
     render() {
         const fieldValue = this.getFieldValue(this.props.fieldValue)
 
-        return this.props.dataObjectProperty === 'Eind_Geldigheid' ? (
+        return this.props.dataObjectProperty === "Eind_Geldigheid" ? (
             <EindGeldigheid
                 hideToggleUitwerkingstrede={
                     this.props.hideToggleUitwerkingstrede
@@ -88,8 +88,8 @@ function BeginGeldigheid({
             />
             <input
                 disabled={disabled}
-                placeholder={isSafari ? 'jjjj-mm-dd' : 'dd-mm-jjjj'}
-                value={fieldValue ? fieldValue : ''}
+                placeholder={isSafari ? "jjjj-mm-dd" : "dd-mm-jjjj"}
+                value={fieldValue ? fieldValue : ""}
                 onChange={handleChange}
                 name={dataObjectProperty}
                 className="block w-full px-4 py-3 leading-tight text-gray-700 border border-gray-400 rounded appearance-none focus:border-gray-500 hover:border-gray-500 focus:outline-none focus:bg-white"
@@ -114,8 +114,6 @@ function BeginGeldigheid({
  * @param {string} fieldValue - Parameter that is used within this function in a conditional operator to set the value to the value variable of the input element.
  * @param {boolean} handleChange - Parameter that is used within this function to set the onChange variable to true if the input element has been changed.
  * @param {boolean} disabled -  Parameter that is used within this function and in the imported FormFieldTitelEnBeschrijving to set the disabled variable, if set true, the input and/or imported FormFieldTitelEnBeschrijving will be disabled.
- *
- * @function
  */
 function EindGeldigheid({
     hideToggleUitwerkingstrede,
@@ -137,7 +135,7 @@ function EindGeldigheid({
                     id="toggle-uitwerkingtreding"
                     onClick={toggleUitwerkingTreding}
                 >
-                    {toonUitwerkingTreding ? 'Verberg' : 'Toon'} veld voor
+                    {toonUitwerkingTreding ? "Verberg" : "Toon"} veld voor
                     uitwerkingtreding
                 </span>
             )}
@@ -153,10 +151,10 @@ function EindGeldigheid({
                     />
                     <input
                         disabled={disabled}
-                        value={fieldValue ? fieldValue : ''}
+                        value={fieldValue ? fieldValue : ""}
                         onChange={handleChange}
                         name={dataObjectProperty}
-                        placeholder={isSafari ? 'jjjj-mm-dd' : 'dd-mm-jjjj'}
+                        placeholder={isSafari ? "jjjj-mm-dd" : "dd-mm-jjjj"}
                         className="block w-full px-4 py-3 leading-tight text-gray-700 border border-gray-400 rounded appearance-none focus:border-gray-500 hover:border-gray-500 focus:outline-none focus:bg-white"
                         type="date"
                         id={`form-field-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}

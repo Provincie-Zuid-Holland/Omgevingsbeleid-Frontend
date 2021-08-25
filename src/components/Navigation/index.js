@@ -1,3 +1,3 @@
-import Navigation from './Navigation.js'
+import Navigation from "./Navigation.js"
 
 export default Navigation

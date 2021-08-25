@@ -1,11 +1,9 @@
-import React from 'react'
+import React from "react"
 
-import EigenaarsDriehoekItem from './../EigenaarsDriehoekItem'
+import EigenaarsDriehoekItem from "./../EigenaarsDriehoekItem"
 
 /**
  * Component that renders a EigenaarsDriehoekItem component depending on if the dataObject contains the certain owner.
- *
- * @component
  *
  * @param {object} dataObject - Parameter that contains a collection of owners and each owner is used for conditional statements within the component to show/hide the EigenaarsDriehoekItem component based on value.
  */

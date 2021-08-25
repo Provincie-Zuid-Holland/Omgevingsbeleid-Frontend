@@ -1,7 +1,7 @@
-import React from 'react'
-import { faUndo } from '@fortawesome/pro-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Transition } from '@headlessui/react'
+import React from "react"
+import { faUndo } from "@fortawesome/pro-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { Transition } from "@headlessui/react"
 
 /**
  *

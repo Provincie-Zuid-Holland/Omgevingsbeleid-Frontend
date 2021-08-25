@@ -1,19 +1,20 @@
-import React, { useContext } from 'react'
+/* istanbul ignore file */
+import React, { useContext } from "react"
 
 // Import Context
-import APIcontext from './../../APIContext'
+import APIcontext from "./../../APIContext"
 
 // Import Components
-import ContainerMain from './../../../../components/ContainerMain'
-import ContainerFormSection from './../../../../components/ContainerFormSection'
+import ContainerMain from "./../../../../components/ContainerMain"
+import ContainerFormSection from "./../../../../components/ContainerFormSection"
 
 // Import Form Fields
 import {
     FormFieldTextInput,
     FormFieldDate,
-} from './../../../../components/FormFieldsExport'
+} from "./../../../../components/FormFieldsExport"
 
-import ButtonSubmitFixed from './../../../../components/ButtonSubmitFixed'
+import ButtonSubmitFixed from "./../../../../components/ButtonSubmitFixed"
 
 function Afdeling() {
     const context = useContext(APIcontext)
@@ -24,7 +25,7 @@ function Afdeling() {
     return (
         <React.Fragment>
             <ContainerMain>
-                <div className="w-full inline-block flex-grow">
+                <div className="flex-grow inline-block w-full">
                     <form className="mt-12" onSubmit={context.handleSubmit}>
                         <ContainerFormSection
                             titel="Algemene informatie"
@@ -32,7 +33,7 @@ function Afdeling() {
                         >
                             <FormFieldTextInput
                                 handleChange={context.handleChange}
-                                fieldValue={crudObject['Volgnummer']}
+                                fieldValue={crudObject["Volgnummer"]}
                                 fieldLabel="Afdeling"
                                 dataObjectProperty="Volgnummer"
                                 pValue="Nummer"
@@ -40,7 +41,7 @@ function Afdeling() {
                             />
                             <FormFieldTextInput
                                 handleChange={context.handleChange}
-                                fieldValue={crudObject['Titel']}
+                                fieldValue={crudObject["Titel"]}
                                 fieldLabel="Titel"
                                 dataObjectProperty="Titel"
                                 pValue="Beschrijf in een aantal woorden de titel van deze afdeling"
@@ -57,7 +58,7 @@ function Afdeling() {
                                 {/* Begin Geldigheid */}
                                 <FormFieldDate
                                     handleChange={context.handleChange}
-                                    fieldValue={crudObject['Begin_Geldigheid']}
+                                    fieldValue={crudObject["Begin_Geldigheid"]}
                                     fieldLabel="Datum inwerkingtreding"
                                     notRequired={true}
                                     dataObjectProperty="Begin_Geldigheid"
@@ -70,7 +71,7 @@ function Afdeling() {
                                 <FormFieldDate
                                     handleChange={context.handleChange}
                                     notRequired={true}
-                                    fieldValue={crudObject['Eind_Geldigheid']}
+                                    fieldValue={crudObject["Eind_Geldigheid"]}
                                     fieldLabel="Datum uitwerkingtreding"
                                     dataObjectProperty="Eind_Geldigheid"
                                     pValue="Indien bekend, kan hier de datum van uitwerkingtreding worden ingevuld"

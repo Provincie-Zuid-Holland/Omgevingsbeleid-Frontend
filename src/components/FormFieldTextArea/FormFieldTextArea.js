@@ -1,5 +1,5 @@
-import React from 'react'
-import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFieldTitelEnBeschrijving'
+import React from "react"
+import FormFieldTitelEnBeschrijving from "../FormFieldTitelEnBeschrijving/FormFieldTitelEnBeschrijving"
 
 /**
  * Class that renders the FormFieldTextArea component that displays a title, description and a text area in which a user can add a description.
@@ -17,7 +17,7 @@ class FormFieldTextArea extends React.Component {
     /**
      * Function to call the function updateElHeight when the content of the textArea components exceeds the set height.
      *
-     * @function
+     *
      */
     componentDidMount() {
         // Set height van de textArea componenten op basis van de inhoud
@@ -27,12 +27,12 @@ class FormFieldTextArea extends React.Component {
     /**
      * Function to set the height of the textArea and to add the scrollbar based on the content within it.
      *
-     * @function
+     *
      */
     updateElHeight() {
         const textAreaNode = this.textArea.current
-        textAreaNode.style.height = '1px'
-        textAreaNode.style.height = textAreaNode.scrollHeight + 10 + 'px'
+        textAreaNode.style.height = "1px"
+        textAreaNode.style.height = textAreaNode.scrollHeight + 10 + "px"
     }
 
     render() {
@@ -53,7 +53,7 @@ class FormFieldTextArea extends React.Component {
                         ref={this.textArea}
                         id={`form-field-${this.props.titleSingular.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
                         value={
-                            this.props.fieldValue ? this.props.fieldValue : ''
+                            this.props.fieldValue ? this.props.fieldValue : ""
                         }
                         // required
                         onChange={(e) => {

@@ -1,3 +1,3 @@
-import AuthRoutes from './AuthRoutes.js'
+import AuthRoutes from "./AuthRoutes.js"
 
 export default AuthRoutes
