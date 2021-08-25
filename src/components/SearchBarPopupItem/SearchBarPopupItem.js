@@ -61,7 +61,7 @@ function SearchBarPopupItem({
     return (
         <li className={`relative`}>
             <Link
-                className={`px-5 w-full relative inline-block hover:bg-gray-50 focus:bg-gray-50 focus:shadow-outline focus:rounded cursor-pointer py-2`}
+                className={`px-5 w-full relative inline-block hover:bg-gray-50 focus:bg-gray-50 focus:ring focus:rounded cursor-pointer py-2`}
                 to={href}
                 onClick={() => {
                     setSearchBarPopupOpen(false)

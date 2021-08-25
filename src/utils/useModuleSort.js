@@ -17,7 +17,6 @@ const useModuleSort = () => {
                 throw new Error()
         }
     }
-
     const [sorting, setSorting] = React.useReducer(sortingReducer, {
         title: true,
         type: false,

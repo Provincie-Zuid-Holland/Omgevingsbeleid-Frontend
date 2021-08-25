@@ -4,6 +4,7 @@ export const TITLE_SINGULAR = "Beleidsprestatie"
 export const TITLE_SINGULAR_PREFIX = "de"
 export const TITLE_PLURAL = `Beleidsprestaties`
 export const API_ENDPOINT = "beleidsprestaties"
+export const API_ENDPOINT_VIGEREND = "valid/beleidsprestaties"
 export const SLUG_OVERVIEW = "beleidsprestaties"
 export const SLUG_CREATE_NEW = "nieuw-beleidsprestatie"
 

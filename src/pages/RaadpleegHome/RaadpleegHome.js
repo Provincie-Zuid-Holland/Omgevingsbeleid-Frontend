@@ -221,27 +221,9 @@ const RaadpleegHome = () => {
                     </p>
                     <ul className="mt-4">
                         <DocumentLink
-                            href="docs/introductie_omgevingsvisie_Zuid-Holland.pdf"
+                            href="docs/Omgevingsvisie_Zuid-Holland_Deel_1.pdf"
                             iconLeft={faFilePdf}
-                            title="Introductie Omgevingsvisie Zuid-Holland"
-                            rel="noopener noreferrer"
-                        />
-                        <DocumentLink
-                            href="docs/ruimtelijke_kwaliteit.pdf"
-                            iconLeft={faFilePdf}
-                            title="Bijlage Omgevingsvisie: Ruimtelijke kwaliteit"
-                            rel="noopener noreferrer"
-                        />
-                        <DocumentLink
-                            href="docs/programma_ruimte.pdf"
-                            iconLeft={faFilePdf}
-                            title="Programma Ruimte"
-                            rel="noopener noreferrer"
-                        />
-                        <DocumentLink
-                            href="docs/programma_mobiliteit.pdf"
-                            iconLeft={faFilePdf}
-                            title="Programma Mobiliteit"
+                            title="Omgevingsvisie Zuid-Holland Deel 1"
                             rel="noopener noreferrer"
                         />
                         <DocumentLink

@@ -84,6 +84,10 @@ export const handlers = [
         return res(ctx.status(200), ctx.json(beleidsregels))
     }),
 
+    rest.get(`${baseURL}/valid/beleidsregels`, (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(beleidsregels))
+    }),
+
     rest.get(
         `${baseURL}/beleidsregels/${beleidsregels[0].ID}`,
         (req, res, ctx) => {
@@ -103,7 +107,15 @@ export const handlers = [
         return res(ctx.status(200), ctx.json(themas))
     }),
 
+    rest.get(`${baseURL}/valid/themas`, (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(themas))
+    }),
+
     rest.get(`${baseURL}/werkingsgebieden`, (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(werkingsgebieden))
+    }),
+
+    rest.get(`${baseURL}/valid/werkingsgebieden`, (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(werkingsgebieden))
     }),
 
@@ -119,6 +131,10 @@ export const handlers = [
         return res(ctx.status(200), ctx.json(ambities))
     }),
 
+    rest.get(`${baseURL}/valid/ambities`, (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(ambities))
+    }),
+
     rest.get(
         `https://geo-omgevingsbeleid-test.azurewebsites.net/OMGEVINGSBELEID/ows`,
         (req, res, ctx) => {
@@ -127,6 +143,10 @@ export const handlers = [
     ),
 
     rest.get(`${baseURL}/beleidskeuzes`, (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(beleidskeuzes))
+    }),
+
+    rest.get(`${baseURL}/valid/beleidskeuzes`, (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(beleidskeuzes))
     }),
 
@@ -144,11 +164,11 @@ export const handlers = [
         }
     ),
 
-    rest.get(`${baseURL}/valid/beleidskeuzes`, (req, res, ctx) => {
-        return res(ctx.status(200), ctx.json(beleidskeuzes))
+    rest.get(`${baseURL}/beleidsmodules`, (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(beleidsmodules))
     }),
 
-    rest.get(`${baseURL}/beleidsmodules`, (req, res, ctx) => {
+    rest.get(`${baseURL}/valid/beleidsmodules`, (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(beleidsmodules))
     }),
 
@@ -163,7 +183,15 @@ export const handlers = [
         return res(ctx.status(200), ctx.json(belangen))
     }),
 
+    rest.get(`${baseURL}/valid/belangen`, (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(belangen))
+    }),
+
     rest.get(`${baseURL}/beleidsrelaties`, (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(beleidsrelaties))
+    }),
+
+    rest.get(`${baseURL}/valid/beleidsrelaties`, (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(beleidsrelaties))
     }),
 
@@ -175,11 +203,23 @@ export const handlers = [
         return res(ctx.status(200), ctx.json(beleidsdoelen))
     }),
 
+    rest.get(`${baseURL}/valid/beleidsdoelen`, (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(beleidsdoelen))
+    }),
+
     rest.get(`${baseURL}/beleidsprestaties`, (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(beleidsprestaties))
     }),
 
+    rest.get(`${baseURL}/valid/beleidsprestaties`, (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(beleidsprestaties))
+    }),
+
     rest.get(`${baseURL}/verordeningstructuur`, (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(verordeningstructuur))
+    }),
+
+    rest.get(`${baseURL}/valid/verordeningstructuur`, (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(verordeningstructuur))
     }),
 

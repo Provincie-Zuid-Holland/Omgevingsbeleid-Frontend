@@ -4,6 +4,7 @@ export const TITLE_SINGULAR = "Ambitie"
 export const TITLE_SINGULAR_PREFIX = "de"
 export const TITLE_PLURAL = "Ambities"
 export const API_ENDPOINT = "ambities"
+export const API_ENDPOINT_VIGEREND = "valid/ambities"
 export const SLUG_OVERVIEW = "ambities"
 export const SLUG_CREATE_NEW = "nieuwe-ambitie"
 

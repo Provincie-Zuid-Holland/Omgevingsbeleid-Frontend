@@ -66,8 +66,10 @@ const RelatiesKoppelingen = ({
     const [beleidsRelaties, setBeleidsRelaties] = React.useState([])
     const [isLoading, setIsLoading] = React.useState(true)
     const [activeTab, setActiveTab] = React.useState("Visueel")
-    const [verordeningsStructure, setVerordeningStructure] =
-        React.useState(null)
+
+    const [verordeningsStructure, setVerordeningStructure] = React.useState(
+        null
+    )
 
     // As the height of the containers will vary by the content, we make sure the user can immediately see the whole container by scrolling down
     React.useEffect(
@@ -122,7 +124,7 @@ const RelatiesKoppelingen = ({
         const getBeleidsrelatiesFrom = (uuidFrom) =>
             axios
                 .get(
-                    `/beleidsrelaties?all_filters=Status:Akkoord,Van_Beleidskeuze:${uuidFrom}`
+                    `/valid/beleidsrelaties?all_filters=Status:Akkoord,Van_Beleidskeuze:${uuidFrom}`
                 )
                 .then((res) => {
                     const filteredRelations = filterOutUnvalidRelations(
@@ -139,7 +141,7 @@ const RelatiesKoppelingen = ({
         const getBeleidsrelatiesTo = (uuidTo) =>
             axios
                 .get(
-                    `/beleidsrelaties?all_filters=Status:Akkoord,Naar_Beleidskeuze:${uuidTo}`
+                    `/valid/beleidsrelaties?all_filters=Status:Akkoord,Naar_Beleidskeuze:${uuidTo}`
                 )
                 .then((res) => {
                     const filteredRelations = filterOutUnvalidRelations(

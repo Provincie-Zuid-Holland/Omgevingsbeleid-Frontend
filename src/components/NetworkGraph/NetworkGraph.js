@@ -375,8 +375,9 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
              * @param {object} d - Contains the node data from the mouseOver event
              * @param {number} i - Contains the index of the node
              */
-            const handleMouseOver = (d, i) => {
-                const nodeElement = d3.selectAll("circle").nodes()[i]
+            const handleMouseOver = (event, d) => {
+                const index = d.index
+                const nodeElement = d3.selectAll("circle").nodes()[index]
 
                 /**
                  * Updates the tooltips Title, Subtitle and Href
@@ -427,8 +428,7 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
                     const { x, bottom } = nodeElement.getBoundingClientRect()
                     const tooltipWidth = tooltipEl.offsetWidth
                     const circleWidth = 24
-                    const leftPosition =
-                        x - tooltipWidth / 2 + circleWidth / 2 - 5
+                    const leftPosition = x - tooltipWidth / 2 + circleWidth / 2
                     const bottomPosition = bottom - 65
                     const newVariables = {
                         left: leftPosition,
@@ -465,8 +465,9 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
              * @param {object} d - Contains the node from the mouseOut event
              * @param {number} i - Contains the index of the node
              */
-            const handleMouseOut = (d, i) => {
-                const nodeElement = d3.selectAll("circle").nodes()[i]
+            const handleMouseOut = (event, d) => {
+                const index = d.index
+                const nodeElement = d3.selectAll("circle").nodes()[index]
                 const tooltip = d3.select("#d3-tooltip-network-graph")
                 // Reset display property, user can still see it when hovering over it
                 tooltip.style("display", "")
@@ -490,8 +491,8 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
             }
 
             /**
-             * Function to initialize or persist the active node.
-             * When it initializes we check if the updated location contains a UUID that exists as a node.
+             * Function to initialize or persist the active node when user comes from a detail page.
+             * When it initializes we check if the updated location contains an UUID that exists as a node.
              * If it does, we set it as active by calling handleNodeClick
              * We want to persist the active clickedNode when there is a clickedNode in state with a different UUID then the one from the URL.
              * @param {array} nodes - contains the d3 nodes
@@ -592,19 +593,21 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
             /**
              * Setup Zoom
              */
-            const zoomed = () => {
-                const maxZoom = 0.5
-                const transformEvent = d3.event.transform
+            const maxZoom = 0.5
+            const minZoom = 15
+            const zoomed = (event) => {
+                const transformEvent = event.transform
                 const newZoom = transformEvent.k
-
                 if (newZoom < maxZoom) return
 
                 const transform = transformEvent.toString()
-
                 svgElement.selectAll("g").attr("transform", transform)
             }
+            var zoom = d3
+                .zoom()
+                .scaleExtent([maxZoom, minZoom])
+                .on("zoom", zoomed)
 
-            var zoom = d3.zoom().on("zoom", zoomed)
             svgElement.call(zoom).on("dblclick.zoom", null)
 
             /**
@@ -651,7 +654,8 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
                 .attr("fill", (d) => d.color)
                 .on("mouseover", handleMouseOver)
                 .on("mouseout", handleMouseOut)
-                .on("click", (clickedEl) =>
+
+                .on("click", (event, clickedEl) =>
                     handleNodeClick(clickedEl, svgElement, links)
                 )
 

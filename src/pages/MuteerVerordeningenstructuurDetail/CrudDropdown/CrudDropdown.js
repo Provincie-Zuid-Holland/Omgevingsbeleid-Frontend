@@ -84,7 +84,7 @@ const CrudDropdown = ({ item, pathToIndex }) => {
                         ref={dropdownRef}
                         className="absolute right-0 z-50 w-56 mt-2 overflow-y-hidden origin-top-right rounded-md shadow-lg"
                     >
-                        <div className="bg-white rounded-md shadow-xs">
+                        <div className="bg-white rounded-md ring-1 ring-black ring-opacity-5">
                             <div className="py-1 overflow-y-hidden">
                                 <button
                                     onClick={() => {
@@ -228,7 +228,7 @@ const ConfirmDelete = ({ item, deleteItem, show, setDeleteIsOpen }) => {
                                             item.Type !== "Artikel"
                                                 ? "bg-gray-400 cursor-not-allowed"
                                                 : "bg-red-600 hover:bg-red-500"
-                                        } border border-transparent rounded-md shadow-sm focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo `}
+                                        } border border-transparent rounded-md shadow-sm focus:outline-none focus:border-indigo-700 focus:ring-indigo `}
                                     >
                                         Verwijder {item.Type.toLowerCase()}
                                     </button>

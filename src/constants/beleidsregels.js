@@ -4,6 +4,7 @@ export const TITLE_SINGULAR = "Beleidsregel"
 export const TITLE_SINGULAR_PREFIX = "de"
 export const TITLE_PLURAL = "Beleidsregels"
 export const API_ENDPOINT = "beleidsregels"
+export const API_ENDPOINT_VIGEREND = "valid/beleidsregels"
 export const SLUG_OVERVIEW = "beleidsregels"
 export const SLUG_CREATE_NEW = "nieuwe-beleidsregel"
 
