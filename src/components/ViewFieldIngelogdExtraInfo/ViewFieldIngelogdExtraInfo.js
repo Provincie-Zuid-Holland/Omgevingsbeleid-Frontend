@@ -9,9 +9,6 @@ import UserContext from "../../App/UserContext"
 import * as MAATREGELEN from "./../../constants/maatregelen"
 import * as BELEIDSKEUZES from "./../../constants/beleidskeuzes"
 
-import * as MAATREGELEN from './../../constants/maatregelen'
-import * as BELEIDSKEUZES from './../../constants/beleidskeuzes'
-
 const eigenarenProperties = [
     "Eigenaar_1",
     "Eigenaar_2",
@@ -160,7 +157,7 @@ const EigenarenList = ({ eigenaren }) => {
                                 {getAbbrevationFromUsername(eigenaren[item])}
                             </span>
 
-                            <div className="absolute top-0 left-0 z-10 hidden inline-block px-4 py-3 mt-10 whitespace-nowrap rounded popup-gebruikersinfo">
+                            <div className="absolute top-0 left-0 z-10 hidden inline-block px-4 py-3 mt-10 rounded whitespace-nowrap popup-gebruikersinfo">
                                 <div className="block text-xs">
                                     {getPersonenRol(item)}
                                 </div>
