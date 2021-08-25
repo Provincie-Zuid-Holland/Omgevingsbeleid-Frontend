@@ -1,2 +1,2 @@
-export { default } from './FormFieldWerkingsgebied';
-export * from './FormFieldWerkingsgebied';
+export { default } from "./FormFieldWerkingsgebied"
+export * from "./FormFieldWerkingsgebied"

@@ -1,2 +1,2 @@
-export { default } from './ModuleAmount';
-export * from './ModuleAmount';
+export { default } from "./ModuleAmount"
+export * from "./ModuleAmount"

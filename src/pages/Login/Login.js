@@ -1,8 +1,8 @@
-import React from 'react'
-import { Helmet } from 'react-helmet'
+import React from "react"
+import { Helmet } from "react-helmet"
 
 // Import Components
-import LoginForm from './../../components/LoginForm'
+import LoginForm from "./../../components/LoginForm"
 
 /**
  * Component page that imports the component LoginForm, so the user is able to login the application and reset the password when needed.

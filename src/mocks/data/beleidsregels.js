@@ -18,8 +18,7 @@ const beleidsregels = [
             Status: "Actief",
         },
         Modified_Date: "2021-07-11T11:30:22.553000Z",
-        Titel:
-            "Aanvullend beleidskader voor de huisvesting van verblijfsgerechtigden.",
+        Titel: "Aanvullend beleidskader voor de huisvesting van verblijfsgerechtigden.",
         Omschrijving: null,
         Weblink: "weergeven/11821949021848457",
         Externe_URL: "google.com",

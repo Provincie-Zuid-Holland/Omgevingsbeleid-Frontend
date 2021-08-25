@@ -1,19 +1,19 @@
-import networkGraphGenerateHref from './networkGraphGenerateHref'
-import { matchPath } from 'react-router-dom'
+import networkGraphGenerateHref from "./networkGraphGenerateHref"
+import { matchPath } from "react-router-dom"
 
 const properties = [
-    'beleidskeuzes',
-    'ambities',
-    'beleidsregels',
-    'beleidsprestaties',
-    'belangen',
-    'maatregelen',
-    'themas',
-    'beleidsdoelen',
+    "beleidskeuzes",
+    "ambities",
+    "beleidsregels",
+    "beleidsprestaties",
+    "belangen",
+    "maatregelen",
+    "themas",
+    "beleidsdoelen",
 ]
 
-describe('NetworkGraphGenerateHref', () => {
-    const UUID = '0000-0000-0000-0000'
+describe("NetworkGraphGenerateHref", () => {
+    const UUID = "0000-0000-0000-0000"
 
     const setup = (property, verordeningsStructure = null) => {
         const href = networkGraphGenerateHref({
@@ -36,7 +36,7 @@ describe('NetworkGraphGenerateHref', () => {
     properties.forEach((property) => {
         it(`Returns a href for property ${property}`, () => {
             const { uuidFromURL, slugFromURL } = setup(property)
-            expect(uuidFromURL).toEqual('0000-0000-0000-0000')
+            expect(uuidFromURL).toEqual("0000-0000-0000-0000")
             expect(uuidFromURL).not.toEqual(undefined)
             expect(slugFromURL).toEqual(property)
             expect(slugFromURL).not.toEqual(undefined)
@@ -44,7 +44,7 @@ describe('NetworkGraphGenerateHref', () => {
     })
 
     it(`Returns a undefined for property 'verordeningen' if no 'verordeningsStructure' is provided`, () => {
-        const { uuidFromURL, slugFromURL } = setup('verordeningen')
+        const { uuidFromURL, slugFromURL } = setup("verordeningen")
         expect(uuidFromURL).toEqual(undefined)
         expect(slugFromURL).toEqual(undefined)
     })
@@ -61,12 +61,12 @@ describe('NetworkGraphGenerateHref', () => {
             },
         }
 
-        const { href } = setup('verordeningen', verordeningsStructure)
+        const { href } = setup("verordeningen", verordeningsStructure)
 
-        console.log('href, ', href)
+        console.log("href, ", href)
 
         expect(href).toEqual(
-            '/detail/verordeningen/1/0000-0000-0000-0000?hoofdstuk=0&nest_1=null&nest_2=null&nest_3=null'
+            "/detail/verordeningen/1/0000-0000-0000-0000?hoofdstuk=0&nest_1=null&nest_2=null&nest_3=null"
         )
     })
 })

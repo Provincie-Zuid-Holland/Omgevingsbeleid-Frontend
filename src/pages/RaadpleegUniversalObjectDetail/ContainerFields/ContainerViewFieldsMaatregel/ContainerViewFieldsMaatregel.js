@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
+import React, { Component } from "react"
 
-import ViewFieldInnerHTML from './../../ViewFieldInnerHTML'
+import ViewFieldInnerHTML from "./../../ViewFieldInnerHTML"
 
-import ViewFieldIngelogdExtraInfo from '../../../../components/ViewFieldIngelogdExtraInfo'
+import ViewFieldIngelogdExtraInfo from "../../../../components/ViewFieldIngelogdExtraInfo"
 
-import UserContext from './../../../../App/UserContext'
+import UserContext from "./../../../../App/UserContext"
 
 class ContainerViewFieldsMaatregel extends Component {
     render() {
@@ -19,9 +19,9 @@ class ContainerViewFieldsMaatregel extends Component {
                                 crudObject={crudObject}
                             />
                         ) : null}
-                        {crudObject['Toelichting'] !== undefined ? (
+                        {crudObject["Toelichting"] !== undefined ? (
                             <ViewFieldInnerHTML
-                                html={crudObject['Toelichting']}
+                                html={crudObject["Toelichting"]}
                             />
                         ) : null}
                     </React.Fragment>

@@ -1,3 +1,3 @@
-import PopupWelcomeBeta from './PopupWelcomeBeta.js'
+import PopupWelcomeBeta from "./PopupWelcomeBeta.js"
 
 export default PopupWelcomeBeta

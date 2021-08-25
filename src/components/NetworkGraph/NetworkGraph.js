@@ -91,9 +91,8 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
     /**
      * Used to generate the position of verordening articles for the Href
      */
-    const [verordeningsStructure, setVerordeningStructure] = React.useState(
-        null
-    )
+    const [verordeningsStructure, setVerordeningStructure] =
+        React.useState(null)
 
     /**
      * Get and set verordeningstructuur in state on Mount
@@ -608,6 +607,7 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
                 .zoom()
                 .scaleExtent([maxZoom, minZoom])
                 .on("zoom", zoomed)
+
             svgElement.call(zoom).on("dblclick.zoom", null)
 
             /**
@@ -654,6 +654,7 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
                 .attr("fill", (d) => d.color)
                 .on("mouseover", handleMouseOver)
                 .on("mouseout", handleMouseOut)
+
                 .on("click", (event, clickedEl) =>
                     handleNodeClick(clickedEl, svgElement, links)
                 )

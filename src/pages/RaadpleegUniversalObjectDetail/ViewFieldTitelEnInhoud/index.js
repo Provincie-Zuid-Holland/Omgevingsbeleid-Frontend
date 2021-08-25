@@ -1,3 +1,3 @@
-import ViewFieldTitelEnInhoud from './ViewFieldTitelEnInhoud.js'
+import ViewFieldTitelEnInhoud from "./ViewFieldTitelEnInhoud.js"
 
 export default ViewFieldTitelEnInhoud

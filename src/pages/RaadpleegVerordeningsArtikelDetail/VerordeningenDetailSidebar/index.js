@@ -1,3 +1,3 @@
-import VerordeningenDetailSidebar from './VerordeningenDetailSidebar.js'
+import VerordeningenDetailSidebar from "./VerordeningenDetailSidebar.js"
 
 export default VerordeningenDetailSidebar

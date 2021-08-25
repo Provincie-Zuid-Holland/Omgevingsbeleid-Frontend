@@ -88,9 +88,8 @@ const LoginForm = ({ setLoginState, setLoginUser }) => {
     const [identifier, setIdentifier] = React.useState("")
     const [password, setPassword] = React.useState("")
     const [loading, setLoading] = React.useState(false)
-    const [wachtwoordResetPopup, setWachtwoordResetPopup] = React.useState(
-        false
-    )
+    const [wachtwoordResetPopup, setWachtwoordResetPopup] =
+        React.useState(false)
 
     const displayErrorMsg = (err) => {
         let errorEl = document.getElementById("error-message")

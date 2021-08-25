@@ -1,7 +1,7 @@
-import makeCrudProperties from './makeCrudProperties'
+import makeCrudProperties from "./makeCrudProperties"
 
-describe('makeCrudProperties', () => {
-    it('returns the keys of an object', () => {
+describe("makeCrudProperties", () => {
+    it("returns the keys of an object", () => {
         const dimensieConstants = {
             CRUD_PROPERTIES: {
                 propOne: null,
@@ -11,6 +11,6 @@ describe('makeCrudProperties', () => {
         }
 
         const crudProps = makeCrudProperties(dimensieConstants)
-        expect(crudProps).toStrictEqual(['propOne', 'propTwo', 'propThree'])
+        expect(crudProps).toStrictEqual(["propOne", "propTwo", "propThree"])
     })
 })

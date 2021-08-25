@@ -5,10 +5,8 @@ const useBanner = (graphIsOpen) => {
     const location = useLocation()
     const pathname = location.pathname
 
-    const [
-        locationEqualsMutateEnv,
-        setLocationEqualsMutateEnv,
-    ] = React.useState(false)
+    const [locationEqualsMutateEnv, setLocationEqualsMutateEnv] =
+        React.useState(false)
 
     React.useEffect(() => {
         const userIsInMuteer =

@@ -329,8 +329,9 @@ export default class LeafletTinyViewer extends Component {
                                         }
                                         onClick={() =>
                                             this.setState({
-                                                layerControlOpen: !this.state
-                                                    .layerControlOpen,
+                                                layerControlOpen:
+                                                    !this.state
+                                                        .layerControlOpen,
                                             })
                                         }
                                     >
@@ -357,9 +358,9 @@ export default class LeafletTinyViewer extends Component {
                                                 className="absolute top-0 left-0 flex items-center justify-center w-8 h-8 p-2 mr-8 text-gray-700 transform -translate-x-8 bg-orange-100 rounded-l opacity-100 hover:text-gray-800"
                                                 onClick={() =>
                                                     this.setState({
-                                                        layerControlOpen: !this
-                                                            .state
-                                                            .layerControlOpen,
+                                                        layerControlOpen:
+                                                            !this.state
+                                                                .layerControlOpen,
                                                     })
                                                 }
                                             >

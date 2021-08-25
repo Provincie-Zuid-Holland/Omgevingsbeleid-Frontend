@@ -1,3 +1,3 @@
-import ContainerDetail from './ContainerDetail.js'
+import ContainerDetail from "./ContainerDetail.js"
 
 export default ContainerDetail

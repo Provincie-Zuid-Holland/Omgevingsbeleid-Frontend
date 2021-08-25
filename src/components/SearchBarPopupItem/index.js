@@ -1,2 +1,2 @@
-export { default } from './SearchBarPopupItem';
-export * from './SearchBarPopupItem';
+export { default } from "./SearchBarPopupItem"
+export * from "./SearchBarPopupItem"

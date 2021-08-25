@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
-import { toast } from 'react-toastify'
+import React, { useState } from "react"
+import PropTypes from "prop-types"
+import { toast } from "react-toastify"
 
-import PopUpAnimatedContainer from './../PopUpAnimatedContainer'
+import PopUpAnimatedContainer from "./../PopUpAnimatedContainer"
 
-import VOLGENDE_STATUS from './../../constants/beleidskeuzeStatusAanpassen'
+import VOLGENDE_STATUS from "./../../constants/beleidskeuzeStatusAanpassen"
 
 /**
  *
@@ -21,7 +21,7 @@ function PopUpStatusAanpassen({
     toggleStatusPopup,
 }) {
     console.log(typeof status)
-    const [selectValue, setSelect] = useState('')
+    const [selectValue, setSelect] = useState("")
 
     return (
         <PopUpAnimatedContainer small={true}>
@@ -32,12 +32,12 @@ function PopUpStatusAanpassen({
                         required
                         onChange={(event) => setSelect(event.target.value)}
                         value={selectValue}
-                        name={'Status'}
+                        name={"Status"}
                         className="block w-full px-4 py-3 leading-tight text-gray-700 bg-white border border-gray-400 rounded appearance-none focus:outline-none hover:border-gray-500 focus:border-gray-500"
                     >
                         <option disabled value="">
-                            {' '}
-                            - selecteer een optie -{' '}
+                            {" "}
+                            - selecteer een optie -{" "}
                         </option>
                         {VOLGENDE_STATUS[status]
                             ? VOLGENDE_STATUS[status].map(
@@ -70,16 +70,16 @@ function PopUpStatusAanpassen({
                     </div>
                     <div
                         className={`bg-pzh-green pzh-transition-colors px-8 py-2 text-white rounded font-bold ${
-                            selectValue !== ''
-                                ? 'cursor-pointer hover:bg-pzh-green-dark'
-                                : 'cursor-not-allowed'
+                            selectValue !== ""
+                                ? "cursor-pointer hover:bg-pzh-green-dark"
+                                : "cursor-not-allowed"
                         }`}
                         onClick={() => {
-                            if (selectValue !== '') {
+                            if (selectValue !== "") {
                                 patchStatus(dataObject, selectValue)
                                 toggleStatusPopup()
                             } else {
-                                toast('Selecteer eerst een nieuwe status')
+                                toast("Selecteer eerst een nieuwe status")
                             }
                         }}
                     >
@@ -93,20 +93,20 @@ function PopUpStatusAanpassen({
 
 PopUpStatusAanpassen.propTypes = {
     status: PropTypes.oneOf([
-        'Ontwerp GS Concept',
-        'Ontwerp GS',
-        'Ontwerp PS',
-        'Ontwerp in inspraak',
-        'Definitief ontwerp GS concept',
-        'Definitief ontwerp GS',
-        'Definitief ontwerp PS',
-        'Vastgesteld',
-        'Datum vastgesteld - Later toevoegen',
-        'Vigerend',
-        'Vigerend gearchiveerd',
-        'Gepubliceerd',
-        'Niet-Actief',
-        'Uitgecheckt',
+        "Ontwerp GS Concept",
+        "Ontwerp GS",
+        "Ontwerp PS",
+        "Ontwerp in inspraak",
+        "Definitief ontwerp GS concept",
+        "Definitief ontwerp GS",
+        "Definitief ontwerp PS",
+        "Vastgesteld",
+        "Datum vastgesteld - Later toevoegen",
+        "Vigerend",
+        "Vigerend gearchiveerd",
+        "Gepubliceerd",
+        "Niet-Actief",
+        "Uitgecheckt",
     ]),
 }
 

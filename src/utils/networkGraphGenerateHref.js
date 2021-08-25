@@ -1,4 +1,4 @@
-import generateVerordeningsPosition from './generateVerordeningsPosition'
+import generateVerordeningsPosition from "./generateVerordeningsPosition"
 
 /**
  * Function that returns the href slug to a detail page of a specific object
@@ -15,18 +15,18 @@ const networkGraphGenerateHref = ({
     if (!property) return null
 
     const slugs = {
-        beleidskeuzes: 'beleidskeuzes',
-        ambities: 'ambities',
-        beleidsregels: 'beleidsregels',
-        beleidsprestaties: 'beleidsprestaties',
-        belangen: 'belangen',
-        maatregelen: 'maatregelen',
-        themas: 'themas',
-        beleidsdoelen: 'beleidsdoelen',
-        verordeningen: 'verordeningen',
+        beleidskeuzes: "beleidskeuzes",
+        ambities: "ambities",
+        beleidsregels: "beleidsregels",
+        beleidsprestaties: "beleidsprestaties",
+        belangen: "belangen",
+        maatregelen: "maatregelen",
+        themas: "themas",
+        beleidsdoelen: "beleidsdoelen",
+        verordeningen: "verordeningen",
     }
 
-    if (property === 'verordeningen') {
+    if (property === "verordeningen") {
         const positionInVerordening = generateVerordeningsPosition(
             UUID,
             verordeningsStructure
@@ -37,19 +37,19 @@ const networkGraphGenerateHref = ({
         }/${UUID}?hoofdstuk=${
             positionInVerordening[0] !== undefined
                 ? positionInVerordening[0]
-                : 'null'
+                : "null"
         }&nest_1=${
             positionInVerordening[1] !== undefined
                 ? positionInVerordening[1]
-                : 'null'
+                : "null"
         }&nest_2=${
             positionInVerordening[2] !== undefined
                 ? positionInVerordening[2]
-                : 'null'
+                : "null"
         }&nest_3=${
             positionInVerordening[3] !== undefined
                 ? positionInVerordening[3]
-                : 'null'
+                : "null"
         }`
 
         return href

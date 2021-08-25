@@ -19,8 +19,7 @@ const search = [
         Omschrijving:
             "Hiermee wordt zeker gesteld dat de regionale keringen voldoende veilig zijn. ",
         RANK: 192,
-        Titel:
-            "De waterschappen toetsen periodiek de regionale waterkeringen aan de in de verordening vastgestelde veiligheidsnorm.",
+        Titel: "De waterschappen toetsen periodiek de regionale waterkeringen aan de in de verordening vastgestelde veiligheidsnorm.",
         Type: "maatregelen",
         UUID: "A81F484D-E751-4C27-B871-5C144BE5F327",
     },

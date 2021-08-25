@@ -66,14 +66,16 @@ const RelatiesKoppelingen = ({
     const [beleidsRelaties, setBeleidsRelaties] = React.useState([])
     const [isLoading, setIsLoading] = React.useState(true)
     const [activeTab, setActiveTab] = React.useState("Visueel")
+
     const [verordeningsStructure, setVerordeningStructure] = React.useState(
         null
     )
 
     // As the height of the containers will vary by the content, we make sure the user can immediately see the whole container by scrolling down
-    React.useEffect(() => window.scrollTo(0, document.body.scrollHeight), [
-        activeTab,
-    ])
+    React.useEffect(
+        () => window.scrollTo(0, document.body.scrollHeight),
+        [activeTab]
+    )
 
     React.useEffect(() => {
         setIsLoading(true)

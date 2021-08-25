@@ -1,2 +1,2 @@
-export { default } from './PopUpModules';
-export * from './PopUpModules';
+export { default } from "./PopUpModules"
+export * from "./PopUpModules"

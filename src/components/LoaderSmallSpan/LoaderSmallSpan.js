@@ -1,5 +1,5 @@
-import React from 'react'
-import ContentLoader from 'react-content-loader'
+import React from "react"
+import ContentLoader from "react-content-loader"
 
 /**
  * Component that renders the LoaderSmallSpan component, which loads a rectangle shape before the smallSpan component is displayed.
