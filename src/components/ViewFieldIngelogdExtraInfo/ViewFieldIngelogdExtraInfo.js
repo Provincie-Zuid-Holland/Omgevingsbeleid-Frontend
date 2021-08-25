@@ -9,6 +9,9 @@ import UserContext from "../../App/UserContext"
 import * as MAATREGELEN from "./../../constants/maatregelen"
 import * as BELEIDSKEUZES from "./../../constants/beleidskeuzes"
 
+import * as MAATREGELEN from './../../constants/maatregelen'
+import * as BELEIDSKEUZES from './../../constants/beleidskeuzes'
+
 const eigenarenProperties = [
     "Eigenaar_1",
     "Eigenaar_2",
