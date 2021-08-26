@@ -4,6 +4,7 @@
     "private": true,
     "homepage": "https://obzhtest.azureedge.net/",
     "dependencies": {
+        "@craco/craco": "^6.2.0",
         "@fortawesome/fontawesome-svg-core": "^1.2.36",
         "@fortawesome/pro-duotone-svg-icons": "^5.15.4",
         "@fortawesome/pro-light-svg-icons": "^5.15.4",
@@ -43,12 +44,14 @@
         "url-search-params-polyfill": "^8.1.1"
     },
     "scripts": {
-        "tailwind": "npx tailwindcss build src/css/tailwind.src.css -c  tailwind.config.js -o src/css/tailwind.css",
-        "start": "npm run-script tailwind && react-scripts start",
-        "build": "npm run-script tailwind && react-scripts build",
+        "build-tailwind": "npx tailwindcss-cli@latest build -i src/css/tailwind.src.css -c  tailwind.config.js -o src/css/tailwind.css",
+        "prestart": "npm run-script build-tailwind",
+        "prebuild": "npm run-script build-tailwind",
+        "start": "craco start",
+        "build": "craco build",
         "prod:build-osx": "NODE_ENV=production GENERATE_SOURCEMAP=false npm run build",
         "prod:build-win": "SET NODE_ENV=production&& SET GENERATE_SOURCEMAP=false&& npm run build",
-        "test": "react-scripts test --coverage --verbose --watchAll --transformIgnorePatterns \"node_modules/(?!your-module-name)/\"",
+        "test": "craco test --coverage --verbose --watchAll --transformIgnorePatterns \"node_modules/(?!your-module-name)/\"",
         "eject": "react-scripts eject",
         "cy:run": "cypress run",
         "docs": "jsdoc -c jsdoc.json"
@@ -71,10 +74,13 @@
         "@babel/preset-env": "^7.15.0",
         "@testing-library/jest-dom": "^5.14.1",
         "@testing-library/react": "^12.0.0",
+        "autoprefixer": "^9.8.6",
         "better-docs": "^2.3.2",
         "cypress": "^8.3.0",
-        "tailwindcss": "^2.2.7",
-        "msw": "^0.35.0"
+        "eslint-plugin-cypress": "^2.11.3",
+        "msw": "^0.35.0",
+        "postcss": "^7.0.36",
+        "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.7"
     },
     "msw": {
         "workerDirectory": "public"

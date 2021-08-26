@@ -3,10 +3,7 @@ module.exports = {
         fontWeight: false,
         lineHeight: false,
     },
-    purge: {
-        enabled: process.env.NODE_ENV === "production" ? true : false,
-        content: ["./src/**/*.js"],
-    },
+    purge: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
     variants: {
         pointerEvents: ["responsive", "hover"],
         display: ["responsive", "hover", "group-hover"],
@@ -28,7 +25,6 @@ module.exports = {
             "5xl": "3rem",
             "6xl": "4rem",
         },
-
         screens: {
             sm: "640px",
             md: "768px",
@@ -36,6 +32,7 @@ module.exports = {
             xl: "1280px",
         },
         colors: {
+            white: "#FFF",
             gray: {
                 50: "#f9fafb",
                 100: "#f7fafc",
@@ -147,61 +144,57 @@ module.exports = {
                 800: "#97266d",
                 900: "#702459",
             },
-        },
-        extend: {
             /** Add custom PZH colors */
-            colors: {
-                "pzh-red": {
-                    DEFAULT: "#d11f3d",
-                    light: "#eb7085",
-                    dark: "#97162c",
-                },
-                "pzh-yellow": {
-                    DEFAULT: "#efcc36",
-                    light: "#f1db7e",
-                    dark: "#c6a410",
-                },
-                "pzh-blue": {
-                    DEFAULT: "#281f6b",
-                    light: "#7badde",
-                    dark: "#16113b",
-                    "super-light": "#ececf3", // Custom
-                },
-                "pzh-pink": {
-                    DEFAULT: "#aa0067",
-                    light: "#d76aac",
-                    dark: "#750047",
-                },
-                "pzh-orange": {
-                    DEFAULT: "#ff6b02",
-                    light: "#fba66a",
-                    dark: "#b24a00",
-                },
-                "pzh-apple-green": {
-                    DEFAULT: "#76bc21",
-                    light: "#add57d",
-                    dark: "#629623",
-                },
-                "pzh-green": {
-                    DEFAULT: "#00804d",
-                    light: "#61b375",
-                    dark: "#004d2e",
-                },
-                "pzh-purple": {
-                    DEFAULT: "#503d90",
-                    light: "#9b99cc",
-                    dark: "#32265a",
-                },
-                "pzh-cool-gray": {
-                    DEFAULT: "#838383",
-                    light: "#bfbfbf",
-                    dark: "#5c5c5c",
-                },
-                "pzh-warm-gray": {
-                    DEFAULT: "#847062",
-                    light: "#beb1a7",
-                    dark: "#584b41",
-                },
+            "pzh-red": {
+                DEFAULT: "#d11f3d",
+                light: "#eb7085",
+                dark: "#97162c",
+            },
+            "pzh-yellow": {
+                DEFAULT: "#efcc36",
+                light: "#f1db7e",
+                dark: "#c6a410",
+            },
+            "pzh-blue": {
+                DEFAULT: "#281f6b",
+                light: "#7badde",
+                dark: "#16113b",
+                "super-light": "#ececf3", // Custom
+            },
+            "pzh-pink": {
+                DEFAULT: "#aa0067",
+                light: "#d76aac",
+                dark: "#750047",
+            },
+            "pzh-orange": {
+                DEFAULT: "#ff6b02",
+                light: "#fba66a",
+                dark: "#b24a00",
+            },
+            "pzh-apple-green": {
+                DEFAULT: "#76bc21",
+                light: "#add57d",
+                dark: "#629623",
+            },
+            "pzh-green": {
+                DEFAULT: "#00804d",
+                light: "#61b375",
+                dark: "#004d2e",
+            },
+            "pzh-purple": {
+                DEFAULT: "#503d90",
+                light: "#9b99cc",
+                dark: "#32265a",
+            },
+            "pzh-cool-gray": {
+                DEFAULT: "#838383",
+                light: "#bfbfbf",
+                dark: "#5c5c5c",
+            },
+            "pzh-warm-gray": {
+                DEFAULT: "#847062",
+                light: "#beb1a7",
+                dark: "#584b41",
             },
         },
     },
