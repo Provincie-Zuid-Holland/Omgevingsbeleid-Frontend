@@ -424,7 +424,7 @@ const TabMenuItem = ({ activeTab, tabTitle, setActiveTab }) => {
  * @param {string} tabTitle - Parameter that displays the title of the link.
  * @param {url} href - Parameter that contains the target location of the link.
  * @param {function} setIsOpen - Parameter used to set the parent state to false.
- * @param {int} tabId - Parameter that contains the id of the link.
+ * @param {number} tabId - Parameter that contains the id of the link.
  */
 const TabMenuItemLink = ({ tabTitle, href, setIsOpen, tabId, callback }) => {
     return (

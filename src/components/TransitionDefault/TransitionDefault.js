@@ -1,14 +1,12 @@
-import React from 'react'
+import React from "react"
 
-import Transition from './../Transition'
+import Transition from "./../Transition"
 
 /**
- * Component that renders the default transition, with the rendered children within it.
+ * Displays a default Transition component with the rendered children within it.
  *
- * @component
- *
- * @param {boolean} show - Parameter containing the boolean value to show the transition.
- * @param {object} children - Parameter that contains a collection which it renders within the component.
+ * @param {boolean} show - Contains a boolean value to show the transition.
+ * @param {object} children - Contains a collection which is rendered within the component.
  */
 const TransitionDefault = ({ show, children }) => {
     return (

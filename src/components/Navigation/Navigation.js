@@ -17,9 +17,7 @@ import logoSVG from "./../../images/PZH_Basislogo.svg"
 import useBanner from "../../utils/useBanner"
 
 /**
- * Component that renders the Navigation component, which displays a navbar on top of the page which the user can use to login, logout and search within the omgevingsbeleid.
- *
- * @component
+ * Displays a navbar on top of the page which the user can use to login, logout and search within the omgevingsbeleid.
  *
  * @param {boolean} loggedIn - Parameter that is set true if user is logged in.
  * @param {function} setLoginState - Function to edit parent state.

@@ -10,14 +10,14 @@ const getObjectFromRelation = (relation) => {
 }
 
 /**
- * Component that renders the RelatiesKoppelingenTekstueel component,
+ * Displays the connections between beleids objecten.
  *
  * @component
  *
- * @param {object} beleidsObject - Parameter containing the information of a beleid
- * @param {Array} beleidsRelaties - Parameter containing a collection of beleidsRelaties.
- * @param {Array} connectionProperties - Parameter containing a collection of connection properties.
- * @param {object} connectionPropertiesColors - Parameter containing a collection of connection property colors.
+ * @param {object} beleidsObject - Contains the information of a beleid in object form.
+ * @param {Array} beleidsRelaties - Contains a collection of beleidsRelaties.
+ * @param {Array} connectionProperties - Contains a collection of connection properties.
+ * @param {object} connectionPropertiesColors - Contains a collection of connection property colors in object form.
  */
 function RelatiesKoppelingenTekstueel({
     beleidsObject,
@@ -89,9 +89,8 @@ function RelatiesKoppelingenTekstueel({
                         </h3>
                         <ul className="mt-2">
                             {beleidsRelaties.map((beleidsrelatie) => {
-                                const relationObject = getObjectFromRelation(
-                                    beleidsrelatie
-                                )
+                                const relationObject =
+                                    getObjectFromRelation(beleidsrelatie)
 
                                 if (!relationObject) return null
 
@@ -115,15 +114,15 @@ function RelatiesKoppelingenTekstueel({
 }
 
 /**
- * Component that renders the ListItem component, which displays a list of Verordening items which each item contain a title and description.
+ * Displays a list of Verordening items which each item contains a title and description.
  *
  * @component
  *
- * @param {string} property - Parameter containing the property value.
- * @param {string} UUID - Parameter containing the UUID value.
- * @param {object} connectionPropertiesColors - Parameter containing a collection of connection property colors.
- * @param {string} titel - Parameter containing the titel of each list item
- * @param {string} omschrijving - Parameter containing the omschrijving of each list item.
+ * @param {string} property - Contains the property value.
+ * @param {string} UUID - Contains the UUID value.
+ * @param {object} connectionPropertiesColors - Contains a collection of connection property colors.
+ * @param {string} titel - Contains the titel of each list item
+ * @param {string} omschrijving - Contains the omschrijving of each list item.
  */
 const ListItem = ({
     property,

@@ -2,8 +2,7 @@ import React from "react"
 import FormFieldTitelEnBeschrijving from "../FormFieldTitelEnBeschrijving/FormFieldTitelEnBeschrijving"
 
 /**
- * Component that renders the FormFieldNumberInput with the imported FormFieldTitelEnBeschrijving component within, that displays the Titel and description of the formfield, based on the props given to the external component.
- * Furthermore the component accepts input from the user and updates the value based on user input.
+ * 
  *
  * @param {string} dataObjectProperty - Parameter that may contain the string 'Eind_Geldigheid' and is used within this function to assign the dataObjectProperty variable for the imported FormFieldTitelEnBeschrijving and is used to assign the name and part of the id variable for the input element.
  * @param {string} pValue - Parameter that is used within this function to assign the pValue variable for the imported FormFieldTitelEnBeschrijving.

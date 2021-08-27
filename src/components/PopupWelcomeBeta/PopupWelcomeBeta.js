@@ -5,9 +5,7 @@ import logoSVG from "./../../images/PZH_Basislogo.svg"
 import useLockBodyScroll from "./../../utils/useLockBodyScroll"
 
 /**
- * Component that renders the PopupWelcomeBeta component which displays a popup with a welcome text and a close button.
- *
- * @component
+ * Displays a popup with a welcome text and a close button.
  *
  * @param {function} closePopup - Function to close the popup.
  */

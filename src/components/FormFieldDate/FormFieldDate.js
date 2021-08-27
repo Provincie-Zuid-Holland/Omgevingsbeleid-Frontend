@@ -15,9 +15,9 @@ function FormFieldDate({
      * The standard dates are created in the back-end
      * To keep the UI clean we return an empty string
      */
-    const parseFieldValue = (value) => {
+    const getFieldValue = (value) => {
         const standardDates = ["1753-01-01", "10000-01-01"]
-        if (!value || standardDates.includes(value)) return ""
+        if (standardDates.includes(value)) return ""
         return value
     }
 
@@ -35,7 +35,7 @@ function FormFieldDate({
             <input
                 disabled={disabled}
                 placeholder={isSafari ? "jjjj-mm-dd" : "dd-mm-jjjj"}
-                value={parseFieldValue(fieldValue)}
+                value={fieldValue ? fieldValue : ""}
                 onChange={handleChange}
                 name={dataObjectProperty}
                 className="block w-full px-4 py-3 leading-tight text-gray-700 border border-gray-400 rounded appearance-none focus:border-gray-500 hover:border-gray-500 focus:outline-none focus:bg-white"

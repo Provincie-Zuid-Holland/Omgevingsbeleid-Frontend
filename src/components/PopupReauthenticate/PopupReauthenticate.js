@@ -1,11 +1,9 @@
-import React, { Component } from 'react'
-import LoginForm from './../LoginForm'
+import React, { Component } from "react"
+import LoginForm from "./../LoginForm"
 
 // setLoginState is passed from App
 /**
- * Component that renders the PopupReauthenticate component which displays a popup that the user's session is timed out and an option to log back in.
- *
- * @component
+ * Displays a popup that the user's session is timed out and an option to log back in.
  *
  * @param {function} setLoginState - Function to edit parent state.
  */

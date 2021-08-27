@@ -6,9 +6,9 @@ import React from "react"
 // /components/Navigation
 
 /**
- * Component that renders a ContainerMain component that contains a div containing a id or without with props.children, depending if the props.id contains a value.
+ * Displays a container which may contain a id if passed down from parent.
  *
- * @param {props} props - Parameter that contains a collection of values used to see if it contains an id to show a div with id and props.children or without the id.
+ * @param {props} props - Contains values passed down from parent.
  */
 
 function ContainerMain(props) {

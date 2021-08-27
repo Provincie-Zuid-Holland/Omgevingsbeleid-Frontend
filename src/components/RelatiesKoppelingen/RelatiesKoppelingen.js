@@ -51,9 +51,7 @@ const connectionPropertiesColors = {
 }
 
 /**
- * Component that renders the RelatiesKoppelingen component, which displays the visueel or tekstueel related connections within the containers.
- *
- * @component
+ * Displays the connections to this policy object in a visual and textual form
  *
  * @param {object} dataObject - Contains the object of which we want to display the relations
  * @param {string} titleSingular - Contains the title of this object in a singular form
@@ -162,9 +160,9 @@ const RelatiesKoppelingen = ({
                 })
 
         /**
-         * Function to set the intitialized data for a Beleidskeuze.
-         *
-         * @function
+         * Function to inialize the needed data for the object of type 'Beleidskeuze'
+         * Gets the relations from and to the object, and gets the active verordeningsStructure
+         * When data is set in State we set the loading state to False
          */
         const initBeleidskeuze = () => {
             const beleidsrelatiesVan = getBeleidsrelatiesFrom(dataObject.UUID)
@@ -189,8 +187,6 @@ const RelatiesKoppelingen = ({
 
         /**
          * Function to set the intitialized data for a Beleidsobject.
-         *
-         * @function
          */
         const initBeleidsobject = () => {
             setBeleidsRelaties(dataObject.Ref_Beleidskeuzes)
@@ -274,9 +270,7 @@ const RelatiesKoppelingen = ({
 }
 
 /**
- * Component that renders the TabButton component, which displays a tab button which the user can click to switch tabs.
- *
- * @function
+ * Displays a tab button which the user can click to switch tabs.
  *
  * @param {string} activeTab - Contains the title of the active tab
  * @param {function} onClick - Function to switch the active tab

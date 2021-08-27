@@ -1,7 +1,7 @@
 import React from "react"
 
 /**
- * Class that renders the ContainerFormSection and displays the props.titel, props.beschrijving and props.children values within it.
+ * Displays the props.titel, props.beschrijving and props.children values within it.
  *
  * @class
  * @extends React.Component

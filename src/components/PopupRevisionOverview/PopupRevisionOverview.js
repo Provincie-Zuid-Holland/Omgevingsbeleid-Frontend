@@ -47,8 +47,9 @@ const getValidText = (object) => {
  * @function
  *
  * @param {array} revisionObjects - Array containing the revisions
- * @param {string} leftSelect - Contains the UUID value of the left selected option.
- * @param {string} rightSelect - Contains the UUID value of the right selected option.
+ * @param {null|string} leftSelect - Contains null if none is selected, else it contains the UUID that is selected
+ * @param {null|string} rightSelect - Contains null if none is selected, else it contains the UUID that is selected
+ * @returns
  */
 function getSelectOptions(revisionObjects, leftSelect, rightSelect) {
     /**
@@ -207,10 +208,8 @@ const PopupRevisionOverview = ({
                 new Date(b.Begin_Geldigheid) - new Date(a.Begin_Geldigheid)
         )
 
-        const [
-            optionsFromRevisionsLeft,
-            optionsFromRevisionsRight,
-        ] = getSelectOptions(revisionObjects, leftSelect, rightSelect)
+        const [optionsFromRevisionsLeft, optionsFromRevisionsRight] =
+            getSelectOptions(revisionObjects, leftSelect, rightSelect)
 
         setOptionsLeft(optionsFromRevisionsLeft)
         setOptionsRight(optionsFromRevisionsRight)
@@ -788,8 +787,9 @@ const ValidText = ({ object, revisionObjects }) => {
         (a, b) => new Date(b.Begin_Geldigheid) - new Date(a.Begin_Geldigheid)
     )
 
-    const uiStatus = revisionObjects.find((e) => e.UUID === object.UUID)
-    .uiStatus
+    const uiStatus = revisionObjects.find(
+        (e) => e.UUID === object.UUID
+    ).uiStatus
 
     const getTextValidFromSince = (object) => {
         // Toevoegen van de datum in de revisie: "Vigerend van <datum inwerkingtreding> tot <datum uitwerkingtreding>" voor gearchiveerde beleidskeuzes.

@@ -18,13 +18,11 @@ const eigenarenProperties = [
 ]
 
 /**
- * Component that renders the ViewFieldIngelogdExtraInfo component and displays a owner list and a button to open the list in the admin area.
+ * Displays a owner list and a button to open the list in the admin area.
  *
- * @component
- *
- * @param {object} crudObject - Parameter containing a collection of data from the parent state.
- * @param {boolean} hideEdit - Parameter used to hide the edit field.
- * @param {string} className - Parameter used to set the style of the div.
+ * @param {object} crudObject - Contains a collection of data from the parent state.
+ * @param {boolean} hideEdit - Used to hide the edit field.
+ * @param {string} className - Used to set the style of the div.
  */
 const ViewFieldIngelogdExtraInfo = ({ crudObject, hideEdit, className }) => {
     const [canUserEdit, setCanUserEdit] = React.useState(false)
@@ -87,7 +85,7 @@ const ViewFieldIngelogdExtraInfo = ({ crudObject, hideEdit, className }) => {
                                 <a
                                     href={crudObject["Weblink"]}
                                     target="_blank"
-                                    className="text-sm mr-4 font-bold text-gray-600 hover:underline"
+                                    className="mr-4 text-sm font-bold text-gray-600 hover:underline"
                                     rel="noopener noreferrer"
                                 >
                                     <FontAwesomeIcon
@@ -120,11 +118,11 @@ const ViewFieldIngelogdExtraInfo = ({ crudObject, hideEdit, className }) => {
 }
 
 /**
- * Component that renders the EigenarenList component, which displays the ownerlist.
+ * Displays a list of owners.
  *
  * @component
  *
- * @param {object} eigenaren - Parameter containing a collection of owners.
+ * @param {object} eigenaren - Contains a collection of owners.
  */
 const EigenarenList = ({ eigenaren }) => {
     const getUsername = (item) => {
@@ -134,8 +132,6 @@ const EigenarenList = ({ eigenaren }) => {
 
     /**
      * Function that gets the abbrevation from the username.
-     *
-     * @function
      *
      * @param {string} item - Parameter containing a text value.
      */
@@ -150,6 +146,11 @@ const EigenarenList = ({ eigenaren }) => {
         return voornaam[0] + achternaam[0]
     }
 
+    /**
+     * Returns the Role name of a user based on the value of the item parameter.
+     *
+     * @param {string} item - Contains the role type in text form.
+     */
     const getPersonenRol = (item) => {
         if (item === "Eigenaar_1") {
             return "Eerste eigenaar"

@@ -23,17 +23,15 @@ function useIsInitialRender() {
 /**
  * Function that renders the CSSTransition component.
  *
- * @function
- *
- * @param {boolean} show - Parameter that is used to show the component.
- * @param {string} enter - Parameter that contains a value that is used to set the style of the component.
- * @param {string} enterFrom - Parameter that contains a value that is used to set the style of the component.
- * @param {string} enterTo - Parameter that contains a value that is used to set the style of the component.
- * @param {string} leave - Parameter that contains a value that is used to set the style of the component.
- * @param {string} leaveFrom - Parameter that contains a value that is used to set the style of the component.
- * @param {string} leaveTo - Parameter that contains a value that is used to set the style of the component.
- * @param {boolean} appear - Parameter that is used to show the ReactCSSTransition component.
- * @param {object} children - Parameter containing the value rendered within the ReactCSSTransition component.
+ * @param {boolean} show - Contains a value used to show the component.
+ * @param {string} enter - Contains a value that is used to set the style of the component.
+ * @param {string} enterFrom - Contains a value that is used to set the style of the component.
+ * @param {string} enterTo - Contains a value that is used to set the style of the component.
+ * @param {string} leave - Contains a value that is used to set the style of the component.
+ * @param {string} leaveFrom - Contains a value that is used to set the style of the component.
+ * @param {string} leaveTo - Contains a value used to set the style of the component.
+ * @param {boolean} appear - Contains a value used to show the ReactCSSTransition component.
+ * @param {object} children - Contains the value rendered within the ReactCSSTransition component.
  */
 function CSSTransition({
     show,
@@ -96,7 +94,7 @@ function CSSTransition({
 }
 
 /**
- * Function that returns the value object with parameters provided by the TransitionContext.
+ * Returns the value object with parameters provided by the TransitionContext.
  *
  * @function
  *
