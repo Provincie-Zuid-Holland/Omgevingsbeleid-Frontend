@@ -181,14 +181,16 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
         <React.Fragment>
             <button
                 id="popup-menu-toggle"
-                className="flex items-center justify-center px-2 py-2 text-gray-800 transition-colors duration-100 ease-in rounded hover:bg-gray-100 hover:text-gray-900"
+                className="relative flex items-center justify-center py-2 pl-2 -mr-4 text-gray-800 transition-colors duration-100 ease-in rounded hover:bg-gray-100 hover:text-gray-900"
                 aria-expanded={isOpen}
                 onClick={() => setIsOpen(!isOpen)}
             >
                 <FontAwesomeIcon
                     className="mx-1"
+                    style={{ fontSize: "0.9rem", marginTop: "-0.2rem" }}
                     icon={isOpen ? faTimes : faBars}
                 />
+                <span className="ml-1 font-bold">Menu</span>
             </button>
             <Transition
                 show={isOpen}

@@ -13,6 +13,13 @@ module.exports = {
         textColor: ["responsive", "hover", "focus", "group-hover"],
     },
     theme: {
+        screens: {
+            sm: "640px",
+            md: "768px",
+            lg: "1024px",
+            xl: "1280px",
+            "2xl": "1440px",
+        },
         fontSize: {
             xs: "0.75rem",
             sm: "0.875rem",
@@ -24,12 +31,6 @@ module.exports = {
             "4xl": "2.25rem",
             "5xl": "3rem",
             "6xl": "4rem",
-        },
-        screens: {
-            sm: "640px",
-            md: "768px",
-            lg: "1024px",
-            xl: "1280px",
         },
         colors: {
             white: "#FFF",

@@ -108,8 +108,9 @@ class App extends Component {
             showEnvironmentBanner: false,
             graphIsOpen: false,
         }
-        this.checkIfUserIsAuthenticated =
-            this.checkIfUserIsAuthenticated.bind(this)
+        this.checkIfUserIsAuthenticated = this.checkIfUserIsAuthenticated.bind(
+            this
+        )
         this.setGraphIsOpen = this.setGraphIsOpen.bind(this)
         this.setLoginState = this.setLoginState.bind(this)
         this.setLoginUser = this.setLoginUser.bind(this)
@@ -228,7 +229,7 @@ class App extends Component {
             >
                 <UserContext.Provider value={{ user: this.state.user }}>
                     <div
-                        className={`min-h-screen text-pzh-blue-dark pt-12 ${
+                        className={`min-h-screen text-pzh-blue-dark ${
                             locationEqualsMutateEnv ? "bg-gray-100" : ""
                         }`}
                         id="main-container"

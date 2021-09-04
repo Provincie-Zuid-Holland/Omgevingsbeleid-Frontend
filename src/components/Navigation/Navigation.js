@@ -8,18 +8,24 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 import NavigationPopupMenu from "./../NavigationPopupMenu"
 import NetworkGraph from "./../NetworkGraph"
-import SearchBar from "./../SearchBar"
+import DNABar from "./../DNABar"
 import BannerEnvironment from "./../BannerEnvironment"
 
 import GraphContext from "./../../App/GraphContext"
 
 import logoSVG from "./../../images/PZH_Basislogo.svg"
 import useBanner from "../../utils/useBanner"
+import { useWindowSize } from "../../utils/useWindowSize"
 
 function Navigation({ loggedIn, setLoginState }) {
     const location = useLocation()
     const pathname = location.pathname
     const userIsInMuteerEnvironment = pathname.includes("/muteer/")
+    const windowSize = useWindowSize()
+
+    const [DNABarWidth, setDNABarWidth] = React.useState(
+        windowSize.width <= 768 ? 40 : 96
+    )
 
     // State for popup menu
     const [isOpen, setIsOpen] = React.useState(false)
@@ -47,87 +53,92 @@ function Navigation({ loggedIn, setLoginState }) {
 
     const showBanner = userIsInMuteerEnvironment && !hideBannerLocalStorage()
 
+    /**
+     * # Logo
+     * -> Het logo heeft een minimale hoogte van 70 pixels.
+     * -> Hoogte logo (inclusief bounding box): 96 pixels
+     *
+     * # Grid
+     * -> Het grid heeft zes kollomen
+     * ->
+     */
+
     return (
-        <nav
-            className={`fixed top-0 z-20 w-full transition-all duration-200 ease-in bg-white ${
-                locationEqualsMutateEnv ? "" : "shadow-navigation"
-            }`}
-            id="navigation-main"
-        >
-            {/* Banner that displays the current environment */}
-            <BannerEnvironment
-                hideBannerLocalStorage={hideBannerLocalStorage}
-                userIsInMuteerEnvironment={userIsInMuteerEnvironment}
-            />
+        <div>
+            <nav
+                className={`fixed top-0 z-20 w-full transition-all duration-200 ease-in bg-white border-b`}
+                id="navigation-main"
+            >
+                {/* Banner that displays the current environment */}
+                <BannerEnvironment
+                    hideBannerLocalStorage={hideBannerLocalStorage}
+                    userIsInMuteerEnvironment={userIsInMuteerEnvironment}
+                />
 
-            {/* Main container */}
-            <div className="container flex flex-wrap items-center justify-between px-4 mx-auto bg-white">
-                {/* Logo */}
-                <div className="flex items-center mr-6 text-black flex-no-shrink">
-                    <Link
-                        id="href-naar-home"
-                        to={loggedIn ? "/muteer/dashboard" : "/"}
-                        className="z-10 ml-3 sm:ml-0"
-                        onClick={() => {
-                            setIsOpen(false)
-                        }}
-                    >
-                        <Logo />
-                    </Link>
-                </div>
+                {/* Main container */}
+                <div className="grid grid-cols-6 gap-12 bg-white pzh-container">
+                    {/* Logo */}
+                    <div className="col-start-1 col-end-3 my-auto">
+                        <Link
+                            id="href-naar-home"
+                            to={loggedIn ? "/muteer/dashboard" : "/"}
+                            className="relative z-10"
+                            style={{ "margin-left": "-96px" }}
+                            onClick={() => {
+                                setIsOpen(false)
+                            }}
+                        >
+                            <Logo />
+                        </Link>
+                    </div>
 
-                {/* Buttons to toggle popup menu */}
-                <div className="flex items-center justify-end">
-                    <div className="hidden mr-5 md:inline-block">
-                        <SearchBar
-                            width="w-64"
-                            placeholder="Zoek in het omgevingsbeleid"
-                            componentInNavbar={true}
+                    {/* Buttons to toggle popup menu */}
+                    <div className="flex items-center justify-end col-span-3 col-end-7 my-auto">
+                        {loggedIn && userIsInMuteerEnvironment ? (
+                            <MenuIcon
+                                setIsOpen={setIsOpen}
+                                to="/"
+                                icon={faEye}
+                                className="mr-3"
+                                children="Raadplegen"
+                            />
+                        ) : null}
+                        {loggedIn && !userIsInMuteerEnvironment ? (
+                            <MenuIcon
+                                setIsOpen={setIsOpen}
+                                to="/muteer/dashboard"
+                                icon={faEye}
+                                className="mr-3"
+                                children="Bewerken"
+                            />
+                        ) : null}
+
+                        {!loggedIn ? (
+                            <MenuIcon
+                                setIsOpen={setIsOpen}
+                                to="/login"
+                                icon={faSignInAlt}
+                                className="mx-1"
+                                Label="Inloggen"
+                            />
+                        ) : null}
+
+                        <NetworkGraph
+                            graphIsOpen={graphIsOpen}
+                            setGraphIsOpen={setGraphIsOpen}
+                            showBanner={showBanner}
+                        />
+
+                        <NavigationPopupMenu
+                            showBanner={showBanner}
+                            isOpen={isOpen}
+                            setIsOpen={setIsOpen}
                         />
                     </div>
-                    {loggedIn && userIsInMuteerEnvironment ? (
-                        <MenuIcon
-                            setIsOpen={setIsOpen}
-                            to="/"
-                            icon={faEye}
-                            className="mr-3"
-                            children="Raadplegen"
-                        />
-                    ) : null}
-                    {loggedIn && !userIsInMuteerEnvironment ? (
-                        <MenuIcon
-                            setIsOpen={setIsOpen}
-                            to="/muteer/dashboard"
-                            icon={faEye}
-                            className="mr-3"
-                            children="Bewerken"
-                        />
-                    ) : null}
-
-                    {!loggedIn ? (
-                        <MenuIcon
-                            setIsOpen={setIsOpen}
-                            to="/login"
-                            icon={faSignInAlt}
-                            className="mx-1"
-                            screenReaderLabel="Login"
-                        />
-                    ) : null}
-
-                    <NetworkGraph
-                        graphIsOpen={graphIsOpen}
-                        setGraphIsOpen={setGraphIsOpen}
-                        showBanner={showBanner}
-                    />
-
-                    <NavigationPopupMenu
-                        showBanner={showBanner}
-                        isOpen={isOpen}
-                        setIsOpen={setIsOpen}
-                    />
                 </div>
-            </div>
-        </nav>
+            </nav>
+            <DNABar />
+        </div>
     )
 }
 
@@ -136,7 +147,7 @@ const MenuIcon = ({
     icon,
     className,
     setIsOpen,
-    screenReaderLabel,
+    Label,
     children = null,
 }) => {
     return (
@@ -150,9 +161,10 @@ const MenuIcon = ({
             <span>
                 <FontAwesomeIcon
                     className={`${className} text-sm`}
+                    style={{ fontSize: "0.9rem", marginTop: "-0.2rem" }}
                     icon={icon}
                 />
-                <span className="sr-only">{screenReaderLabel}</span>
+                <span className="ml-1 font-bold">{Label}</span>
             </span>
             <div className="text-sm">{children}</div>
         </Link>

@@ -10,12 +10,12 @@ import { searchBarFilters } from "./../../constants/searchBarFilters"
 import SearchBarPopupItem from "./../SearchBarPopupItem"
 
 /**
- * @param {undefined|string} width - Parameter that is used to set the width of an element within the rendered component.
- * @param {boolean} componentInNavbar - Parameter that is used in a if statement to set values to certain variables.
- * @param {string} placeholder - Parameter that shows a placeholder in the SearchBar.
- * @returns SearchBar Component
+ * @param {string} placeholder - Placeholder text
+ * @param {string} id - Custom ID, defaults to search-query
+ * @param {string} className - custom classNames
+ * @returns SearchBar component that a user can use to search through policies
  */
-const SearchBar = ({ width, componentInNavbar, placeholder, id }) => {
+const SearchBar = ({ placeholder, id = "search-query", className = "" }) => {
     const location = useLocation()
     const history = useHistory()
 
@@ -49,21 +49,18 @@ const SearchBar = ({ width, componentInNavbar, placeholder, id }) => {
     }
 
     React.useEffect(() => {
-        // If the component is on the Raadpleeg homepage (not in the navbar)
-        if (!componentInNavbar) {
-            const urlParams = location.search
-            const searchParams = new URLSearchParams(urlParams)
-            const searchQuery = searchParams.get("query")
-            if (searchQuery) {
-                setSearchQuery(searchQuery)
-            }
+        const urlParams = location.search
+        const searchParams = new URLSearchParams(urlParams)
+        const searchQuery = searchParams.get("query")
+        if (searchQuery) {
+            setSearchQuery(searchQuery)
         }
-    }, [componentInNavbar, location])
+    }, [location])
 
     return (
         <div
             ref={searchBarRef}
-            className={`relative block ${width ? width : "w-full"}`}
+            className={`relative block w-full ${className}`}
         >
             <input
                 className={`block w-full pr-10 bg-gray-50 rounded-full appearance-none px-3 py-1 border hover:border-gray-300 border-gray-200 transition-colors ease-in duration-100`}
@@ -76,7 +73,7 @@ const SearchBar = ({ width, componentInNavbar, placeholder, id }) => {
                 }}
                 onClick={() => setSearchBarPopupOpen(true)}
                 autoComplete="off"
-                id={id ? id : "search-query"}
+                id={id}
                 type="text"
                 value={searchQuery}
                 placeholder={
