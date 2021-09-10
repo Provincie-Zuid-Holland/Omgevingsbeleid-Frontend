@@ -5,8 +5,8 @@ import React from "react"
  * The eigenaarType variable is used to display what kind of owner the owner variable is linked to.
  * This component is used by the component EigenaarsDriehoek.
  *
- * @param {object} owner - Parameter that contains the collection of information of the owner.
- * @param {string} eigenaarType - Parameter that displays the type of owner in the component.
+ * @param {object} owner - Contains the collection of information of the owner.
+ * @param {string} eigenaarType - Displays the type of owner in the component.
  */
 const EigenaarsDriehoekItem = ({ owner, eigenaarType }) => {
     if (!owner) return null

@@ -46,10 +46,9 @@ const getValidText = (object) => {
  *
  * @function
  *
- * @param {array} revisionObjects - Array containing the revisions
+ * @param {array} revisionObjects - Contains the revision objects
  * @param {null|string} leftSelect - Contains null if none is selected, else it contains the UUID that is selected
  * @param {null|string} rightSelect - Contains null if none is selected, else it contains the UUID that is selected
- * @returns
  */
 function getSelectOptions(revisionObjects, leftSelect, rightSelect) {
     /**
@@ -82,9 +81,7 @@ function getSelectOptions(revisionObjects, leftSelect, rightSelect) {
     }
 
     /**
-     * Function to return the label, value and isDisabled value of each revision object of the revisionObjects array.
-     *
-     * @function
+     * Function to map over the revision objects and return the value of the label, value and isDisabled parameters.
      *
      * @param {array} revisionObjects - Contains the revision objects
      * @param {string} type - Parameter containing the 'left' or 'right' value.
@@ -105,14 +102,14 @@ function getSelectOptions(revisionObjects, leftSelect, rightSelect) {
 }
 
 /**
- * Component that renders the PopupRevisionOverview component, which displays an Revisieoverzicht with a list of beleidskeuzes, which the user can compare two beleidskeuzes of.
+ * Displays an popup containing the Revisieoverzicht with a list of beleidskeuzes, which the user can compare two beleidskeuzes.
  *
  * @Component
  *
  * @param {boolean} revisionOverviewOpen - Indicating if the revision overview is open
  * @param {function} setRevisionOverviewOpen - Function to open/close the RevisionOverviewOpen popup.
  * @param {object} dataObject - Contains the data of the object the user is viewing on the detail page.
- * @param {object[]} revisionObjects - Parameter containing the collection of revisions in object form.
+ * @param {object[]} revisionObjects - Containing a collection of revisions in object form.
  */
 const PopupRevisionOverview = ({
     revisionOverviewOpen,
@@ -366,9 +363,7 @@ const PopupRevisionOverview = ({
 }
 
 /**
- * Component that renders the ContainerLeft component which displays a container left with children components in it.
- *
- * @component
+ * Displays a container aligned to the left with children components in it.
  *
  * @param {object} children - Children component(s)
  */
@@ -377,9 +372,7 @@ const ContainerLeft = ({ children }) => (
 )
 
 /**
- * Component that renders the ContainerRight component which displays a container right with children components in it.
- *
- * @component
+ * Displays a container aligned to the right with children components in it.
  *
  * @param {object} children - Children component(s)
  */
@@ -388,14 +381,12 @@ const ContainerRight = ({ children }) => (
 )
 
 /**
- * Component that renders the ChangeContainer component, which displays a beleidskeuze on the left and a beleidskeuze on the right, which the user can compare the changes.
+ * Displays a beleidskeuze on the left and a beleidskeuze on the right, which the user can compare the changes.
  *
- * @component
- *
- * @param {object} oldObject - Parameter that contains the old object data.
+ * @param {object} oldObject - Contains the old object data.
  * @param {object} changesObject - Contains the object with changes.
  * @param {object} originalObject - Contains the object in its original form
- * @param {array} revisionObjects - Parameter containing a list of revisions from the parent state.
+ * @param {array} revisionObjects - Contains a list of revisions from the parent state.
  */
 const ChangeContainer = ({
     oldObject,
@@ -583,9 +574,7 @@ const ChangeContainer = ({
 }
 
 /**
- * Component that displays the revisie werkingsgebied on a map.
- *
- * @component
+ * Displays the revisie werkingsgebied on a map.
  *
  * @param {Object} originalObject - Contains the object in its original form
  * @param {Object} changesObject - Contains the object with changes on the properties (e.g. Propertie: {"new": [...], "removed": [...], "same": [...]})
@@ -696,12 +685,10 @@ const LegendaItem = ({ color, label }) => {
 }
 
 /**
- * Component that renders the DividerWithTitle component, which displays a title within a top and bottom divider for a singleTitle container and in a left and right container.
+ * Displays a title component with a divider.
  *
- * @component
- *
- * @param {string} title - Title that is displayed within a top and bottom divider.
- * @param {boolean} singleTitle - Parameter used to check if there is only one title.
+ * @param {string} title - Title displayed within a top and bottom divider.
+ * @param {boolean} singleTitle - Used to check if there is only one title.
  */
 const DividerWithTitle = ({ title, singleTitle }) => {
     if (singleTitle) {
@@ -731,9 +718,7 @@ const DividerWithTitle = ({ title, singleTitle }) => {
 }
 
 /**
- * Component that renders the Title component, which displays a title with html markup.
- *
- * @component
+ * Displays a title containing html markup.
  *
  * @param {string} title - Parameter containing a title with html markup.
  */
@@ -747,12 +732,10 @@ const Title = ({ title }) => {
 }
 
 /**
- * Component that renders the Text component, which displays a label and text.
+ * Displays a label and text containing html markup.
  *
- * @component
- *
- * @param {string} textContent - Parameter containing the text content in HTML markup form.
- * @param {string} label - Parameter containing the label text.
+ * @param {string} textContent - Contains the text content in HTML markup form.
+ * @param {string} label - Contains the text label.
  */
 const Text = ({ textContent, label }) => {
     return (
@@ -775,10 +758,8 @@ const Text = ({ textContent, label }) => {
 /**
  * The text indicating the period of validity of the object.
  *
- * @component
- *
- * @param {object} object - Parameter containing the Begin_Geldigheid date.
- * @param {array} revisionObjects - Parameter containing a collection of revision in objects form.
+ * @param {object} object - Contains the Begin_Geldigheid date.
+ * @param {array} revisionObjects - Contains a collection of revisions in object form.
  */
 const ValidText = ({ object, revisionObjects }) => {
     if (!revisionObjects) return null
@@ -824,25 +805,21 @@ const ValidText = ({ object, revisionObjects }) => {
 }
 
 /**
- * Component that renders the Belangen component, which displays the label, titel and omschrijving of a belang.
- *
- * @component
+ * Displays the label, titel and omschrijving of a belang.
  *
  * @param {string} label - Label of a belang
- * @param {object} object - Parameter containing the Belang information.
+ * @param {object} object - Contains the Belang information in object form.
  * @param {string} type - String indicating the type of Belang
- * @param {boolean} containsChanges - Parameter containing a boolean value if a belang contains changes.
- * @param {string} placeholder - Parameter containing the placeholder used within the component.
+ * @param {boolean} containsChanges - Used to check if a belang contains changes.
+ * @param {string} placeholder - Contains the placeholder used within the component.
  */
 const Belangen = ({ label, object, type, containsChanges, placeholder }) => {
     /**
      * Function to get and filter through the belangen.
      *
-     * @function
-     *
-     * @param {boolean} containsChanges - Parameter to check if the belangen contain changes.
-     * @param {object} object - Parameter containing the belangen.
-     * @param {string} type - Parameter containing the type value.
+     * @param {boolean} containsChanges - Used to check if the belangen contain changes.
+     * @param {object} object - Contains the belangen in object form.
+     * @param {string} type - Contains the type value.
      */
     const getBelangen = (containsChanges, object, type) => {
         if (!containsChanges) {
@@ -863,9 +840,7 @@ const Belangen = ({ label, object, type, containsChanges, placeholder }) => {
     /**
      * Function that changes the style of the container based on the object parameter.
      *
-     * @function
-     *
-     * @param {object} object - Parameter containing the type of container.
+     * @param {object} object - Contains the type of container.
      */
     const getContainerStyle = (object) =>
         object.changeType === "removed"
@@ -908,11 +883,10 @@ const Belangen = ({ label, object, type, containsChanges, placeholder }) => {
 }
 
 /**
- * Component that renders the RelationsConnectionsText component which displays two containers containing the connected relations between objects.
+ * Displays two containers containing the connected relations between objects.
  *
- * @param {object} props
- * @param {object} props.originalObject - Contains the original object
- * @param {object} props.objectChanges - Contains the object that has changes
+ * @param {object} originalObject - Contains the original object
+ * @param {object} objectChanges - Contains the object that has changes
  * @returns A section that indicates the changes in connections
  */
 function RelationsConnectionsText({ originalObject, objectChanges }) {
@@ -1012,6 +986,7 @@ function RelationsConnectionsText({ originalObject, objectChanges }) {
 }
 
 /**
+ * Displays the main container of the PopUpRevisionOverview component.
  *
  * @param {object} children - contains the child components
  * @returns A wrapper container element
@@ -1025,10 +1000,10 @@ const ContainerMain = ({ children }) => {
 }
 
 /**
+ * Displays list of connected list items.
  *
- * @param {object} props
- * @param {string} props.property - Name of the property
- * @param {object} props.connection - Object containing the connection
+ * @param {string} property - Name of the property used to define the color
+ * @param {object} connection - Contains the connection information of a revision
  * @returns A list item that displays the connecting (and potentially the changes to it)
  */
 const ConnectionListItem = ({ property, connection }) => {

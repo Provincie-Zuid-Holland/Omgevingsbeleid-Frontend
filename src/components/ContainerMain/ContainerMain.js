@@ -6,7 +6,7 @@ import React from "react"
 // /components/Navigation
 
 /**
- * Displays a container which may contain a id if passed down from parent.
+ * Displays either a container with or without an id.
  *
  * @param {props} props - Contains values passed down from parent.
  */

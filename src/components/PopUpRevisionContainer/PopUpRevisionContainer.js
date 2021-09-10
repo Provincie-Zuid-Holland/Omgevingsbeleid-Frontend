@@ -11,9 +11,7 @@ import useClickOutsideContainer from "./../../utils/useClickOutsideContainer"
 import useCloseWithEscapeKey from "./../../utils/useCloseWithEscapeKey"
 
 /**
- * Component that renders the PopUpRevisionContainer component which displays revisions in a timeline form and a overview of revisions.
- *
- * @component
+ * Displays revisions in a timeline form and a overview of revisions.
  *
  * @param {string} titleSingular - Title of the object in a singular form
  * @param {object} dataObject - Parameter containing the object data.
@@ -27,9 +25,8 @@ const PopUpRevisionContainer = ({
     children,
 }) => {
     const [open, setOpen] = React.useState(false)
-    const [revisionOverviewOpen, setRevisionOverviewOpen] = React.useState(
-        false
-    )
+    const [revisionOverviewOpen, setRevisionOverviewOpen] =
+        React.useState(false)
     const amountOfRevisions = revisionObjects ? revisionObjects.length - 1 : 0
 
     const innerContainer = React.useRef(null)

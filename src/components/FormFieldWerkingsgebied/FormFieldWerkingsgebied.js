@@ -16,7 +16,7 @@ import PopupContainer from "./../PopupContainer"
 import FormFieldTitelEnBeschrijving from "../FormFieldTitelEnBeschrijving/FormFieldTitelEnBeschrijving"
 
 /**
- * Component that renders a FormFieldWerkingsgebied component in which a user can select a Werkingsgebied.
+ * Displays a form field in which a user can select a Werkingsgebied.
  *
  * @param {function} setWerkingsgebiedInParentState - Function to set Werkingsgebied in parent state
  * @param {function} werkingsgebiedInParentState - Function to get Werkingsgebied from parent state
@@ -24,7 +24,7 @@ import FormFieldTitelEnBeschrijving from "../FormFieldTitelEnBeschrijving/FormFi
  * @param {string} titleSingular - Parameter containing the title of the object in a singular form.
  * @param {string} fieldLabel - Label of the field
  * @param {string} pValue - Paragraph value of the field, containing a description
- * @param {boolean} disabled - Parameter used to disable the FormFieldTitelEnBeschrijving component.
+ * @param {boolean} disabled - Used to disable the FormFieldTitelEnBeschrijving component.
  */
 
 const FormFieldWerkingsgebied = ({

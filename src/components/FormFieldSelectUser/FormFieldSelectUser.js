@@ -46,6 +46,12 @@ class FormFieldSelectUser extends React.Component {
         this.getSelected = this.getSelected.bind(this)
     }
 
+    /**
+     * Function to find the selected value in the selectionArray.
+     *
+     * @param {string || object} fieldValue - Value used to find arrayItem within selectionArray.
+     * @param {array} selectionArray - Contains a list of users.
+     */
     getSelected(fieldValue, selectionArray) {
         let selected = null
         if (typeof fieldValue === "string") {
@@ -82,7 +88,6 @@ class FormFieldSelectUser extends React.Component {
 
     /**
      * Function to set the state of the props given based on the conditional operators.
-     *
      *
      */
     componentDidMount() {

@@ -10,7 +10,7 @@ import networkGraphFilterMenu from "../../constants/networkGraphFilterMenu"
 /**
  * Displays a sidebar in the network graph component
  *
- * @param {function} setFilters - Value is set in the ListItem component, which is set in the parent state.
+ * @param {function} setFilters - Value is set in the parent state.
  * @param {object} filters - Contains filter value which is used in the ListItem component.
  * @param {function} setGraphIsOpen - Contains a boolean value which is set in the parent state to close/open the graph component.
  *
@@ -86,6 +86,12 @@ const NetworkGraphSidebar = ({ setGraphIsOpen, filters, setFilters }) => {
     )
 }
 
+/**
+ *
+ * @param {function} setFilters - Value is set in the parent state.
+ * @param {number} filterKey - Contains a key value of the filter.
+ * @param {object} filters - Contains a collection of filters in object form.
+ */
 const ListItem = ({ setFilters, filterKey, filters }) => {
     return (
         <li

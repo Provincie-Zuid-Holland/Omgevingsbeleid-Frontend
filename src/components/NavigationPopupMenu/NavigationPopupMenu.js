@@ -18,12 +18,10 @@ import useLockBodyScroll from "./../../utils/useLockBodyScroll"
 import LoaderSpinner from "./../LoaderSpinner"
 
 /**
- * Component that renders the NavigationPopupMenu component.
+ * Displays the navigation menu in a popup menu.
  *
- * @component
- *
- * @param {boolean} showBanner - Parameter that is used to show the banner within the component.
- * @param {boolean} isOpen - Parameter that is used to show the modal component.
+ * @param {boolean} showBanner - Used to display the banner within the component.
+ * @param {boolean} isOpen - Used to display the modal component.
  * @param {function} setIsOpen - Function to edit parent state.
  */
 const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
@@ -115,8 +113,6 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
 
     /**
      * Function to check if the activeTab parameter is linked to a currentContstant case and return the specific allDimensies parameter.
-     *
-     *
      */
     const getCurrentConstants = () => {
         switch (activeTab) {
@@ -140,8 +136,6 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
 
     /**
      * Function to check if the activeTab parameter is linked to a CurrentItem case and return the specific allDimensies parameter.
-     *
-     *
      */
     const getCurrentItems = () => {
         switch (activeTab) {
@@ -421,10 +415,10 @@ const TabMenuItem = ({ activeTab, tabTitle, setActiveTab }) => {
  *
  * @function
  *
- * @param {string} tabTitle - Parameter that displays the title of the link.
- * @param {url} href - Parameter that contains the target location of the link.
- * @param {function} setIsOpen - Parameter used to set the parent state to false.
- * @param {number} tabId - Parameter that contains the id of the link.
+ * @param {string} tabTitle - Displays the title of the link.
+ * @param {url} href - Contains the target location of the link.
+ * @param {function} setIsOpen - Used to set the parent state to false.
+ * @param {number} tabId - Contains the id of the link.
  */
 const TabMenuItemLink = ({ tabTitle, href, setIsOpen, tabId, callback }) => {
     return (

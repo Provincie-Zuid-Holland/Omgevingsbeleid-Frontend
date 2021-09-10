@@ -3,7 +3,7 @@ import React from "react"
 /**
  * Displays a Formfield input container.
  *
- * @param {object} children - Parameter that is used to show content within the component.
+ * @param {object} children - Used to display content within the component.
  */
 function FormFieldInputContainer({ children }) {
     return (

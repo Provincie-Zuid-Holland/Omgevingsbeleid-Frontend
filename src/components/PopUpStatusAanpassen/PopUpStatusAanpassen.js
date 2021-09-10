@@ -7,13 +7,11 @@ import PopUpAnimatedContainer from "./../PopUpAnimatedContainer"
 import VOLGENDE_STATUS from "./../../constants/beleidskeuzeStatusAanpassen"
 
 /**
- * Component that renders the PopUpStatusAanpassen component, which displays a popup in which a user can edit the status.
+ * Displays a popup in which a user can edit the status.
  *
- * @component
- *
- * @param {object} dataObject - Parameter containing the data in object form.
+ * @param {object} dataObject - Contains the data in object form.
  * @param {function} patchStatus - Function that is set in the parent state.
- * @param {string} status - Parameter that contains a status.
+ * @param {string} status - Contains a status in text form.
  * @param {function} toggleStatusPopup - Function that is used to toggle the StatusPopup.
  */
 function PopUpStatusAanpassen({

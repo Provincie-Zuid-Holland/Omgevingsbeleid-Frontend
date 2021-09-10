@@ -1,6 +1,13 @@
 import React from "react"
 import { Link } from "react-router-dom"
 
+/**
+ * Displays a tooltip for the NetworkGraph items.
+ *
+ * @param {object} variables - Contains a collection of style items for the toolip in object form.
+ * @param {function} setGraphIsOpen - Function set in the parent state.
+ * @param {string} href - Contains the target URL for the Link component.
+ */
 const NetworkGraphTooltip = ({ variables, setGraphIsOpen, href }) => {
     return (
         <div

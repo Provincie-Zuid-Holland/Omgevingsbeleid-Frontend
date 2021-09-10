@@ -19,7 +19,6 @@ import NetworkGraphResetClickedElement from "./../NetworkGraphResetClickedElemen
 import NetworkGraphClickedElementPopup from "./../NetworkGraphClickedElementPopup"
 
 /**
- * @param {object} props
  * @param {boolean} graphIsOpen - Inidicates if the graph popup is open
  * @param {function} setGraphIsOpen - Function to toggle the graphIsOpen value to a true/false value
  * @param {boolean} showBanner - Indicates if the user is shown a banner above the navigation (needed to calc. the height)
