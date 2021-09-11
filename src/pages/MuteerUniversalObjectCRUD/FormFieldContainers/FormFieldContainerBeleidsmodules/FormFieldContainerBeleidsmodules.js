@@ -1,6 +1,6 @@
-import React from 'react'
-import ContainerFormSection from './../../../../components/ContainerFormSection'
-import { FormFieldTextInput } from './../../../../components/FormFieldsExport'
+import React from "react"
+import ContainerFormSection from "./../../../../components/ContainerFormSection"
+import { FormFieldTextInput } from "./../../../../components/FormFieldsExport"
 
 function FormFieldContainerBeleidsmodules({
     titleSingular,
@@ -15,10 +15,10 @@ function FormFieldContainerBeleidsmodules({
             >
                 <FormFieldTextInput
                     handleChange={handleChange}
-                    fieldValue={crudObject['Titel']}
+                    fieldValue={crudObject["Titel"]}
                     dataObjectProperty="Titel"
                     fieldLabel="Titel"
-                    pValue="Formuleer in enkele woorden de titel van deze ambitie."
+                    pValue="Formuleer in enkele woorden de titel van deze module."
                     titleSingular={titleSingular}
                 />
             </ContainerFormSection>
