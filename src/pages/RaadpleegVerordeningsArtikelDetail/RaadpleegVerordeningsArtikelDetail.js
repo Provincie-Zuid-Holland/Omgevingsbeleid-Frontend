@@ -6,8 +6,8 @@ import queryString from "query-string"
 import {
     faAngleRight,
     faPrint,
-    faCompressArrowsAlt,
-    faExpandArrowsAlt,
+    faExpandAlt,
+    faCompressAlt,
 } from "@fortawesome/pro-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import LoaderContent from "./../../components/LoaderContent"
@@ -478,8 +478,8 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                                             icon={
                                                 this.state
                                                     .fullscreenLeafletViewer
-                                                    ? faCompressArrowsAlt
-                                                    : faExpandArrowsAlt
+                                                    ? faCompressAlt
+                                                    : faExpandAlt
                                             }
                                         />
                                     </span>
