@@ -148,7 +148,7 @@ class PopupNieuweKoppeling extends Component {
 
         if (crudObject[propertyName]) {
             crudObject[propertyName].forEach((item) => {
-                actieveKoppelingen.push(item.UUID)
+                actieveKoppelingen.push(item.Object.UUID)
             })
         }
 
