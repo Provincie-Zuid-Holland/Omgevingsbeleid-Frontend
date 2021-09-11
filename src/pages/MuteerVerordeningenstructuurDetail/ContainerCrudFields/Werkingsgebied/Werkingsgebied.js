@@ -247,7 +247,7 @@ const WerkingsgebiedPopup = ({
                                 ? null
                                 : werkingsgebieden
                                       .filter((e) =>
-                                          e.Werkingsgebied.toLowerCase().includes(
+                                          e?.Werkingsgebied?.toLowerCase()?.includes(
                                               filterQuery.toLowerCase()
                                           )
                                       )
