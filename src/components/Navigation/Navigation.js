@@ -13,6 +13,7 @@ import BannerEnvironment from "./../BannerEnvironment"
 
 import GraphContext from "./../../App/GraphContext"
 
+import logoWhite from "./../../images/PZH_Basislogo_white.png"
 import logoSVG from "./../../images/PZH_Basislogo.svg"
 import useBanner from "../../utils/useBanner"
 import { useWindowSize } from "../../utils/useWindowSize"
@@ -29,6 +30,7 @@ function Navigation({ loggedIn, setLoginState }) {
 
     // State for popup menu
     const [isOpen, setIsOpen] = React.useState(false)
+
     const { graphIsOpen, setGraphIsOpen } = React.useContext(GraphContext)
     const { locationEqualsMutateEnv } = useBanner(graphIsOpen)
 
@@ -53,20 +55,12 @@ function Navigation({ loggedIn, setLoginState }) {
 
     const showBanner = userIsInMuteerEnvironment && !hideBannerLocalStorage()
 
-    /**
-     * # Logo
-     * -> Het logo heeft een minimale hoogte van 70 pixels.
-     * -> Hoogte logo (inclusief bounding box): 96 pixels
-     *
-     * # Grid
-     * -> Het grid heeft zes kollomen
-     * ->
-     */
-
     return (
         <div>
             <nav
-                className={`fixed top-0 z-20 w-full transition-all duration-200 ease-in bg-white border-b`}
+                className={`fixed top-0 z-20 w-full border-b ${
+                    isOpen ? "bg-pzh-blue" : "bg-white"
+                }`}
                 id="navigation-main"
             >
                 {/* Banner that displays the current environment */}
@@ -76,7 +70,7 @@ function Navigation({ loggedIn, setLoginState }) {
                 />
 
                 {/* Main container */}
-                <div className="grid grid-cols-6 gap-12 bg-white pzh-container">
+                <div className={`grid grid-cols-6 gap-12 pzh-container`}>
                     {/* Logo */}
                     <div className="col-start-1 col-end-3 my-auto">
                         <Link
@@ -88,7 +82,7 @@ function Navigation({ loggedIn, setLoginState }) {
                                 setIsOpen(false)
                             }}
                         >
-                            <Logo />
+                            <Logo isOpen={isOpen} />
                         </Link>
                     </div>
 
@@ -113,7 +107,7 @@ function Navigation({ loggedIn, setLoginState }) {
                             />
                         ) : null}
 
-                        {!loggedIn ? (
+                        {!loggedIn && !isOpen ? (
                             <MenuIcon
                                 setIsOpen={setIsOpen}
                                 to="/login"
@@ -171,13 +165,13 @@ const MenuIcon = ({
     )
 }
 
-function Logo() {
+function Logo({ isOpen }) {
     return (
         <img
             className="inline-block"
             title="Provincie Zuid-Holland Logo"
             style={{ height: "96px" }}
-            src={logoSVG}
+            src={isOpen ? logoWhite : logoSVG}
             alt="Provincie Zuid-Holland Logo"
         />
     )

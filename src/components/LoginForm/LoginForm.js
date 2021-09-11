@@ -88,8 +88,9 @@ const LoginForm = ({ setLoginState, setLoginUser }) => {
     const [identifier, setIdentifier] = React.useState("")
     const [password, setPassword] = React.useState("")
     const [loading, setLoading] = React.useState(false)
-    const [wachtwoordResetPopup, setWachtwoordResetPopup] =
-        React.useState(false)
+    const [wachtwoordResetPopup, setWachtwoordResetPopup] = React.useState(
+        false
+    )
 
     const displayErrorMsg = (err) => {
         let errorEl = document.getElementById("error-message")
@@ -157,41 +158,41 @@ const LoginForm = ({ setLoginState, setLoginUser }) => {
             <form className="my-8" onSubmit={handleFormSubmit}>
                 <div>
                     <label
-                        className="block mb-2 text-sm font-bold text-pzh-blue"
+                        className="block mb-2 text-pzh-blue"
                         htmlFor="form-field-login-email"
                     >
                         E-mailadres
                     </label>
                     <input
                         required
-                        className="w-full px-3 py-2 leading-loose bg-white border rounded shadow appearance-none focus:outline-none focus:ring"
+                        className="w-full px-3 py-2 leading-loose placeholder-opacity-50 bg-white border rounded appearance-none bg-pzh-form border-pzh-blue-dark border-opacity-30 focus:outline-none focus:ring ring-pzh-blue-light placeholder-pzh-blue-dark "
                         name="email"
                         id="form-field-login-email"
                         data-testid="form-field-login-email"
                         type="text"
-                        placeholder="bijv. j.doe@pzh.nl"
+                        placeholder="medewerker@pzh.nl"
                         onChange={(e) => setIdentifier(e.target.value)}
                     />
                 </div>
                 <div className="my-6">
                     <label
-                        className="block mb-2 text-sm font-bold text-pzh-blue"
+                        className="block mb-2 text-pzh-blue"
                         htmlFor="form-field-login-password"
                     >
                         Wachtwoord
                     </label>
                     <input
                         required
-                        className="w-full px-3 py-2 leading-loose bg-white border rounded shadow appearance-none focus:outline-none focus:ring"
+                        className="w-full px-3 py-2 leading-loose placeholder-opacity-50 bg-white border rounded appearance-none bg-pzh-form border-pzh-blue-dark border-opacity-30 focus:outline-none focus:ring ring-pzh-blue-light placeholder-pzh-blue-dark "
                         name="password"
                         id="form-field-login-password"
                         data-testid="form-field-login-password"
                         type="password"
-                        placeholder="******************"
+                        placeholder="Vul hier je wachtwoord in"
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </div>
-                <div className="flex items-center">
+                <div className="flex items-center justify-between">
                     <button
                         className="inline-block px-8 pt-2 pb-2 text-white transition-colors duration-200 ease-in rounded bg-pzh-blue hover:bg-pzh-blue-dark focus:outline-none focus:ring"
                         type="submit"
@@ -207,14 +208,14 @@ const LoginForm = ({ setLoginState, setLoginUser }) => {
                         {loading ? "..." : ""}
                     </button>
                     <button
-                        className="ml-4 text-sm underline cursor-pointer"
+                        className="ml-4 text-sm underline cursor-pointer text-pzh-green"
                         onClick={(e) => {
                             e.preventDefault()
                             setWachtwoordResetPopup(!wachtwoordResetPopup)
                         }}
                         tabIndex="0"
                     >
-                        Ik ben mijn wachtwoord vergeten
+                        Wachtwoord vergeten?
                     </button>
                 </div>
             </form>

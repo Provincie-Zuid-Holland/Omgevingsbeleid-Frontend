@@ -1,8 +1,13 @@
 import React from "react"
 import { Helmet } from "react-helmet"
+import { Link } from "react-router-dom"
 
 // Import Components
 import LoginForm from "./../../components/LoginForm"
+import Heading from "./../../components/Heading"
+import Text from "./../../components/Text"
+import Container from "./../../components/Container"
+import Footer from "./../../components/Footer"
 
 /**
  * Component page that imports the component LoginForm, so the user is able to login the application and reset the password when needed.
@@ -13,24 +18,70 @@ import LoginForm from "./../../components/LoginForm"
  */
 const Login = ({ setLoginUser, setLoginState }) => {
     return (
-        <div className="container flex flex-wrap mx-auto mt-4 rounded">
-            <Helmet>
-                <title>Login - Omgevingsbeleid - Provincie Zuid-Holland</title>
-            </Helmet>
-            <div className="w-1/2 pb-8 pl-0 pr-10 sm:pl-5">
-                <h1 className="mt-4 mb-2 text-2xl text-pzh-blue">Inloggen</h1>
-                <p>
-                    Als beleidsmedewerker van provincie Zuid-Holland kun je hier
-                    inloggen om te werken aan het Omgevingsbeleid.
-                </p>
+        <>
+            <Container
+                style={{
+                    minHeight: "576px",
+                }}
+                className="overflow-hidden"
+            >
+                <div className="col-span-3 mb-8">
+                    <Heading level="1" className="mt-16">
+                        Inloggen
+                    </Heading>
+                    <Text type="introduction-paragraph" className="mt-3">
+                        Als beleidsmedewerker van provincie Zuid-Holland kunt u
+                        hier inloggen om te werken aan het Omgevingsbeleid.
+                    </Text>
+                    <LoginForm
+                        setLoginUser={setLoginUser}
+                        setLoginState={setLoginState}
+                    />
+                </div>
+                <div className="relative col-span-3">
+                    <div
+                        className={`absolute bg-cover bg-no-repeat bg-center left-0 top-0 h-full image-login-1 text-white sm:inline-block`}
+                        style={{
+                            height: "480px",
+                            width: "calc(50vw - 1rem)",
+                        }}
+                    />
+                </div>
+            </Container>
 
-                <LoginForm
-                    setLoginUser={setLoginUser}
-                    setLoginState={setLoginState}
-                />
-            </div>
-            <div className="fixed login-afbeelding" />
-        </div>
+            <Container className="border-t border-gray-300">
+                <div className="col-span-3 py-12">
+                    <Heading level="2" className="">
+                        Digitaal Omgevingsbeleid
+                    </Heading>
+                    <Text type="body" className="mt-3">
+                        Provincie Zuid-Holland heeft haar beleid eenvoudiger,
+                        transparanter en toegankelijker gemaakt. Via deze
+                        website kunt u al het Omgevingsbeleid van de provincie
+                        Zuid-Holland inzien.
+                    </Text>
+                    <Link className="underline text-pzh-green">
+                        Ga naar de raadpleegomgeving
+                    </Link>
+                </div>
+                <div className="relative col-span-3 py-12">
+                    <Heading level="2">Hulp bij het inloggen</Heading>
+                    <Text type="body" className="mt-3">
+                        Lukt het niet om in te loggen? Neem contact op met de
+                        afdeling omgevingsbeleid via{" "}
+                        <a
+                            href="mailto:omgevingsbeleid@pzh.nl?subject=Hulp bij het inloggen"
+                            className="underline cursor-pointer text-pzh-green"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            omgevingsbeleid@pzh.nl
+                        </a>
+                    </Text>
+                </div>
+            </Container>
+            <Footer />
+        </>
     )
 }
 

@@ -16,17 +16,8 @@ import Heading from "./../../components/Heading"
 import Text from "./../../components/Text"
 import LeafletViewer from "./../../components/LeafletViewer"
 import SearchBar from "./../../components/SearchBar"
-
-const Container = ({ children, style = {}, className = "" }) => {
-    return (
-        <div
-            className={`pzh-container grid grid-cols-6 gap-10 pr-4 mx-auto ${className}`}
-            style={style}
-        >
-            {children}
-        </div>
-    )
-}
+import Container from "./../../components/Container"
+import Footer from "./../../components/Footer"
 
 /**
  * Landing page component.
@@ -37,12 +28,12 @@ const RaadpleegHome = () => {
     return (
         <>
             <Container
-                className="mb-16"
                 style={{
-                    marginBottom: "3.6rem",
+                    minHeight: "576px",
                 }}
+                className="overflow-hidden"
             >
-                <div className="col-span-3">
+                <div className="col-span-3 mb-16">
                     <Heading
                         level="1"
                         className="mt-16 text-3xl font-bold text-pzh-blue"
@@ -71,7 +62,7 @@ const RaadpleegHome = () => {
                         className={`absolute bg-cover bg-no-repeat bg-center left-0 top-0 h-full image-home-1 text-white bg-gray-100 sm:inline-block`}
                         style={{
                             height: "480px",
-                            width: "calc(50vw - 1.25rem)",
+                            width: "calc(50vw - 1rem)",
                         }}
                     />
                 </div>
@@ -124,14 +115,14 @@ const RaadpleegHome = () => {
                         Opbouw van het beleid
                     </Heading>
                     <Text type="body" color="text-white" className="mt-4">
-                        {/* TODO: LOREM IPSUM */}
-                        Het beleid van de provincie is opgebouwd uit drie
-                        peilers. De visie, programma en verordening. Vestibulum
-                        purus lectus, a dapibus arcu tristique id. Etiam vitae
-                        euismod velit. Mauris ac lectus augue. Donec ac tortor
-                        tempor, bibendum purus et, tempus neque. Integer nec
-                        rutrum sem. Duis suscipit eleifend molestie. Cras
-                        posuere et odio sit amet gravida. Mauris a purus risus.
+                        De Omgevingswet streeft ernaar om al het beleid over de
+                        fysieke leefomgeving te vereenvoudigen zodat het voor
+                        iedereen is te begrijpen. Daarom zet de provincie drie
+                        instrumenten in waar al het Omgevingsbeleid in staat: de
+                        Omgevingsvisie, het Omgevingsprogramma en de
+                        Omgevingsverordening. Zo staat het beleid niet meer in
+                        tientallen documenten, maar in één systeem bij elkaar.
+                        Dit maakt het allemaal een stuk overzichtelijker.
                     </Text>
                 </div>
             </Container>
@@ -213,20 +204,22 @@ const RaadpleegHome = () => {
             </Container>
 
             <Container className="py-12 border-t border-gray-300">
-                <div className="col-span-2">
+                <div className="col-span-6">
                     <Heading
                         level="3"
                         className="mb-4 text-2xl font-bold text-pzh-blue"
                     >
                         Documenten & Links
                     </Heading>
+                </div>
+                <div className="col-span-2">
                     <Text type="body">
                         We zijn hard bezig met het vullen van onze database.
                         Sommige onderdelen bieden we op dit moment nog aan als
                         PDF’s of via een externe bron.
                     </Text>
                 </div>
-                <ul className="col-span-2 mt-6">
+                <ul className="col-span-2">
                     <DocumentLink
                         href="docs/Omgevingsvisie_Zuid-Holland_Deel_1.pdf"
                         iconLeft={faFilePdf}
@@ -234,7 +227,7 @@ const RaadpleegHome = () => {
                         rel="noopener noreferrer"
                     />
                 </ul>
-                <ul className="col-span-2 mt-6">
+                <ul className="col-span-2">
                     <DocumentLink
                         href="https://lta.zuid-holland.nl/"
                         iconLeft={faExternalLinkAlt}
@@ -243,46 +236,73 @@ const RaadpleegHome = () => {
                     />
                 </ul>
             </Container>
-            <div className="container flex flex-col px-6 pt-16 pb-12 mx-auto mb-0 sm:mb-16 sm:flex-row lg:px-8">
-                <div className="w-full pr-8">
-                    <ul className="mt-4"></ul>
-                </div>
-                <div className="w-full mt-8 sm:mt-0">
-                    <h3 className="mb-4 text-2xl font-bold text-pzh-blue">
-                        In ontwikkeling
-                    </h3>
-                    <p className="pb-8">
-                        Omdat de website nog in ontwikkeling is kan het zijn dat
-                        sommige functionaliteiten niet goed werken. Kom je een
-                        fout tegen? Neem dan contact op door te mailen naar{" "}
-                        <a
-                            href="mailto:omgevingsbeleid@pzh.nl?subject=Feedback Omgevingsbeleid&body=Probeer zo duidelijk mogelijk te omschrijven waar je tegenaan liep"
-                            className="underline cursor-pointer"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            omgevingsbeleid@pzh.nl
-                        </a>
-                        .
-                        <br />
-                        <br />
-                        Wil je weten waar wij mee bezig zijn?{" "}
-                        <Link
-                            to="/planning"
-                            className="underline cursor-pointer"
-                        >
-                            Klik dan hier
+
+            <Container className="py-12 bg-pzh-blue-dark">
+                <div className="col-span-2">
+                    <Heading level="2" color="text-white">
+                        Een digitaal systeem, continu in ontwikkeling
+                    </Heading>
+                    <Text type="body" color="text-white" className="mt-4">
+                        We ontwikkelen zelf een systeem voor het opstellen van
+                        digitaal beleid. Deze raadpleegomgeving is daar
+                        onderdeel van.
+                    </Text>
+                    <Text type="body" color="text-white" className="mt-4">
+                        Hiernaast tonen wij een overzicht met recent opgeleverde
+                        functionaliteiten. Benieuwd wat er op onze planning
+                        staat?{" "}
+                        <Link className="underline" to="roadmap">
+                            Bekijk onze roadmap
                         </Link>
                         .
-                    </p>
+                    </Text>
                 </div>
-            </div>
+                <div className="col-span-4">
+                    <div className="grid grid-cols-4 gap-10 text-white">
+                        <span className="flex justify-end col-span-1 pt-6 opacity-50">
+                            Vrijdag 1 maart
+                        </span>
+                        <div className="col-span-3 p-6 bg-white rounded bg-opacity-20">
+                            <Heading level="3" color="text-white">
+                                Release 31
+                            </Heading>
+                            <ul className="pl-4 list-disc list-outside">
+                                <li>
+                                    Mogelijk gemaakt om te zoeken op de kaart
+                                </li>
+                                <li>
+                                    Vanuit een ambitie, beleidsdoel en maatregel
+                                    is het nu mogelijk om gekoppelde onderdelen
+                                    in te zien
+                                </li>
+                                <li>
+                                    Mogelijk gemaakt om te zoeken op de kaart
+                                </li>
+                                <li>
+                                    Mogelijk gemaakt om te zoeken op de kaart
+                                </li>
+                            </ul>
+                        </div>
+                        <div className="col-span-3 col-start-2">
+                            <Text
+                                type="body"
+                                className="underline"
+                                color="text-white"
+                            >
+                                Bekijk alle releases & planning
+                            </Text>
+                        </div>
+                    </div>
+                </div>
+            </Container>
+
+            <Footer />
         </>
     )
 }
 
 const DocumentLink = ({ href, title, iconLeft }) => (
-    <li className="py-2 transition-colors duration-100 ease-in text-pzh-green">
+    <li className="pb-2 transition-colors duration-100 ease-in text-pzh-green">
         <a
             href={href}
             target="_blank"

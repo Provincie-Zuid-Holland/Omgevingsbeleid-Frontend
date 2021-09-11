@@ -34,6 +34,7 @@ module.exports = {
         },
         colors: {
             white: "#FFF",
+            "pzh-form": "#F4F4F7",
             gray: {
                 50: "#f9fafb",
                 100: "#f7fafc",

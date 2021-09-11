@@ -88,7 +88,7 @@ function Text({
                 {children}
             </p>
         )
-    } else if (type === "body") {
+    } else if (type === "body" || typeof type === "undefined") {
         return (
             <p style={styles} className={`inline-block ${color} ${className}`}>
                 {children}

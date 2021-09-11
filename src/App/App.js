@@ -216,9 +216,9 @@ class App extends Component {
 
     render() {
         // If user is in Mutate environment of the application
-        const locationEqualsMutateEnv =
-            this.props.location.pathname.includes("muteer") ||
-            this.props.location.pathname.includes("login")
+        const locationEqualsMutateEnv = this.props.location.pathname.includes(
+            "muteer"
+        )
 
         return (
             <GraphContext.Provider

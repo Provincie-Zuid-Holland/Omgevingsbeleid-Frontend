@@ -43,13 +43,13 @@ const getHeadingStyles = (level, windowSize) => {
     } else if (level === "3") {
         if (currentScreenIsMobile) {
             return {
-                fontSize: "1.2rem",
-                lineHeight: "1.333rem",
+                fontSize: "1.1rem",
+                lineHeight: "1.5rem",
             }
         } else {
             return {
-                fontSize: "1.8rem",
-                lineHeight: "1.222rem",
+                fontSize: "1.2rem",
+                lineHeight: "1.6rem",
             }
         }
     } else {
@@ -62,6 +62,7 @@ const getHeadingStyles = (level, windowSize) => {
  *
  * @param {object} props
  * @param {string} props.className - Contains the classes
+ * @param {string} props.color - Contains the color
  * @param {string} props.id - Contains an optional id
  * @param {string} props.level - Contains the number indicating the header level
  * @param {object} props.children - Contains the children

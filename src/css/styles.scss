@@ -1078,6 +1078,10 @@ mark {
     top: -150px;
 }
 
+// Image urls
+.image-login-1 {
+    background-image: url("../images/login-1.png");
+}
 .image-home-1 {
     background-image: url("../images/landing-1.png");
 }
@@ -1258,12 +1262,12 @@ mark {
     }
 }
 
-@media (min-width: 1440px) {
-    // .pzh-container {
-    //     max-width: 1440px;
-    //     margin-left: auto;
-    //     margin-right: auto;
-    // }
+@media (min-width: 1800px) {
+    .pzh-container {
+        max-width: 1800px;
+        margin-left: auto;
+        margin-right: auto;
+    }
 }
 
 // sm: "40px",
