@@ -274,6 +274,7 @@ const MuteerUniversalObjectDetailWithStatuses = ({ dimensieConstants }) => {
                             {/* Container of the object that has a status of 'vigerend' */}
                             {vigerendeDimensieObject ? (
                                 <ContainerDetail
+                                    setDimensionHistory={setDimensionHistory}
                                     setDataObject={setDataObject}
                                     dimensionHistory={dimensionHistory}
                                     patchStatus={patchStatus}
@@ -288,6 +289,8 @@ const MuteerUniversalObjectDetailWithStatuses = ({ dimensieConstants }) => {
                             {/* Contains the container detail of the checked out object, and the UI of the flow of statusses */}
                             {!isLoading && pageType === "detail" ? (
                                 <StatusHistory
+                                    setDimensionHistory={setDimensionHistory}
+                                    setDataObject={setDataObject}
                                     patchStatus={patchStatus}
                                     pageType={pageType}
                                     overzichtSlug={overzichtSlug}

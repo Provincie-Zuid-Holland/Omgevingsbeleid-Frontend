@@ -1,10 +1,10 @@
-import React from 'react'
+import React from "react"
 
-import cloneDeep from 'lodash.clonedeep'
+import cloneDeep from "lodash.clonedeep"
 
-import ContainerDetail from '../ContainerDetail'
+import ContainerDetail from "../ContainerDetail"
 
-const secondaryColor = '#c6a410'
+const secondaryColor = "#c6a410"
 
 /**
  * Contains the visual flow of the past statusses and the container of the checked out object
@@ -12,6 +12,7 @@ const secondaryColor = '#c6a410'
  */
 function StatusHistory({
     overzichtSlug,
+    setDimensionHistory,
     dimensionHistory,
     patchStatus,
     pageType,
@@ -19,22 +20,24 @@ function StatusHistory({
     isLoading,
     vigerendeDimensieObject,
 }) {
+    const originalDimensionHistory = cloneDeep(dimensionHistory)
+
     // If there is a checked out, or an object with a Status of 'Vigerend' we want to remove it from the history
     const prepareHistorieForUI = () => {
         if (
             dimensionHistory.length >= 1 &&
-            dimensionHistory[0].Status !== 'Vigerend'
+            dimensionHistory[0].Status !== "Vigerend"
         ) {
             dimensionHistory = dimensionHistory.slice(1)
         } else if (
             dimensionHistory.length === 1 &&
-            dimensionHistory[0].Status === 'Vigerend'
+            dimensionHistory[0].Status === "Vigerend"
         ) {
             dimensionHistory = dimensionHistory.slice(1)
         } else if (
             dimensionHistory.length >= 1 &&
-            dimensionHistory[0].Status === 'Vigerend' &&
-            dimensionHistory[1].Status !== 'Vastgesteld'
+            dimensionHistory[0].Status === "Vigerend" &&
+            dimensionHistory[1].Status !== "Vastgesteld"
         ) {
             // The object with a status of "Vigerend" hasn't been through the full status flow.
             // Instead it has been edited with `?modus=wijzig_vigerend`
@@ -51,16 +54,16 @@ function StatusHistory({
 
         if (
             dimensionHistory.length > 1 &&
-            dimensionHistory[0].Status !== 'Vigerend'
+            dimensionHistory[0].Status !== "Vigerend"
         ) {
             isACheckedOutObject = true
             checkedOutObject = dimensionHistory[0]
         } else if (
             dimensionHistory.length > 1 &&
             dimensionHistory[0] &&
-            dimensionHistory[0].Status === 'Vigerend' &&
+            dimensionHistory[0].Status === "Vigerend" &&
             dimensionHistory[1] &&
-            dimensionHistory[1].Status !== 'Vastgesteld'
+            dimensionHistory[1].Status !== "Vastgesteld"
         ) {
             // The object with a status of "Vigerend" hasn't been through the full status flow.
             // Instead it has been edited with `?modus=wijzig_vigerend`
@@ -68,7 +71,7 @@ function StatusHistory({
             checkedOutObject = dimensionHistory[1]
         } else if (
             dimensionHistory.length === 1 &&
-            dimensionHistory[0].Status !== 'Vigerend'
+            dimensionHistory[0].Status !== "Vigerend"
         ) {
             // Newly created object
             isACheckedOutObject = true
@@ -99,8 +102,10 @@ function StatusHistory({
             {/* Detail Container that always displays the latest object that is checked out */}
             {isACheckedOutObject &&
             checkedOutObject &&
-            checkedOutObject.Status !== 'Vigerend' ? (
+            checkedOutObject.Status !== "Vigerend" ? (
                 <ContainerDetail
+                    dimensionHistory={originalDimensionHistory}
+                    setDimensionHistory={setDimensionHistory}
                     patchStatus={patchStatus}
                     dataObject={checkedOutObject}
                     pageType={pageType}
@@ -108,7 +113,6 @@ function StatusHistory({
                     titleSingular={titleSingular}
                     isLoading={isLoading}
                     noMarginBottom={true}
-                    dimensionHistory={dimensionHistory}
                 />
             ) : null}
 
@@ -116,15 +120,15 @@ function StatusHistory({
             <ul
                 className={`relative timeline-margin-left border-l-2 ${
                     vigerendeDimensieObject
-                        ? 'border-pzh-blue'
-                        : 'border-transparent'
+                        ? "border-pzh-blue"
+                        : "border-transparent"
                 }`}
             >
                 {/* Map through historie of dimensies */}
                 {dimensionHistory.map((dimensieObject, index) => {
                     /* If item is vigerend and there is no item before it */
                     if (
-                        dimensieObject.Status === 'Vigerend' &&
+                        dimensieObject.Status === "Vigerend" &&
                         index === dimensionHistory.length - 1
                     ) {
                         return (
@@ -139,10 +143,10 @@ function StatusHistory({
                             </React.Fragment>
                         )
                     } else if (
-                        dimensieObject.Status === 'Vigerend' &&
+                        dimensieObject.Status === "Vigerend" &&
                         index === 0 &&
                         dimensionHistory[1] &&
-                        dimensionHistory[1].Status === 'Vastgesteld' &&
+                        dimensionHistory[1].Status === "Vastgesteld" &&
                         isACheckedOutObject
                     ) {
                         /* If item is vigerend and there is an item before it, but no item after it */
@@ -153,10 +157,10 @@ function StatusHistory({
                             </React.Fragment>
                         )
                     } else if (
-                        dimensieObject.Status === 'Vigerend' &&
+                        dimensieObject.Status === "Vigerend" &&
                         index === 0 &&
                         dimensionHistory[1] &&
-                        dimensionHistory[1].Status === 'Vastgesteld'
+                        dimensionHistory[1].Status === "Vastgesteld"
                     ) {
                         /* If item is vigerend and there is an item before it, but no item after it */
                         return (
@@ -166,21 +170,21 @@ function StatusHistory({
                             />
                         )
                     } else if (
-                        dimensieObject.Status === 'Vigerend' &&
+                        dimensieObject.Status === "Vigerend" &&
                         dimensionHistory[index + 1] &&
-                        dimensionHistory[index + 1].Status !== 'Vastgesteld'
+                        dimensionHistory[index + 1].Status !== "Vastgesteld"
                     ) {
                         /* If item is vigerend and hasn't been through the whole process of the statusses */
                         return (
                             <React.Fragment key={dimensieObject.UUID}>
                                 <li
                                     className={`relative flex items-center ml-8 ${
-                                        index === 0 ? 'pt-12 pb-2' : 'pb-4 pt-5'
+                                        index === 0 ? "pt-12 pb-2" : "pb-4 pt-5"
                                     }`}
                                 >
                                     <div
                                         style={{
-                                            left: '-4px',
+                                            left: "-4px",
                                         }}
                                         className="absolute top-0 inline-block w-full h-full border-l-2 border-pzh-yellow-dark"
                                     ></div>
@@ -197,7 +201,7 @@ function StatusHistory({
                             </React.Fragment>
                         )
                     } else if (
-                        dimensieObject.Status === 'Vigerend' &&
+                        dimensieObject.Status === "Vigerend" &&
                         dimensionHistory[index + 1]
                     ) {
                         /* If item is vigerend and there is an item before it and an item after it */
@@ -221,12 +225,12 @@ function StatusHistory({
                             <React.Fragment key={dimensieObject.UUID}>
                                 <li
                                     className={`flex items-center ml-8 relative ${
-                                        index === 0 ? 'pt-6 pb-2' : 'py-2'
+                                        index === 0 ? "pt-6 pb-2" : "py-2"
                                     }`}
                                 >
                                     <div
                                         style={{
-                                            left: '-4px',
+                                            left: "-4px",
                                         }}
                                         className="absolute top-0 inline-block w-full h-full border-l-2 border-pzh-yellow-dark"
                                     ></div>
@@ -246,10 +250,10 @@ function StatusHistory({
                 {(dimensionHistory &&
                     dimensionHistory.length > 1 &&
                     dimensionHistory[dimensionHistory.length - 1].Status !==
-                        'Vigerend') ||
+                        "Vigerend") ||
                 (dimensionHistory &&
                     dimensionHistory.length === 1 &&
-                    dimensionHistory[0].Status !== 'Vigerend') ? (
+                    dimensionHistory[0].Status !== "Vigerend") ? (
                     <div className="absolute bottom-0 left-0 block w-10 h-4 -ml-1 status-flow-gradient" />
                 ) : null}
             </ul>
@@ -262,8 +266,8 @@ function VertakkingsItemRightOnLine({ noMargin }) {
         <li
             className={`relative text-pzh-yellow-dark ${
                 noMargin
-                    ? 'vertakkings-item-right-on-line-no-margin'
-                    : 'vertakkings-item-right-on-line'
+                    ? "vertakkings-item-right-on-line-no-margin"
+                    : "vertakkings-item-right-on-line"
             }`}
         >
             <svg
