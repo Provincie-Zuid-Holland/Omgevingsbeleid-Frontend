@@ -174,15 +174,16 @@ const RelatiesKoppelingenVisualisatie = ({
 
             // Create Event Handlers for mouse.
             // In here we handle the tooltip
-            function handleMouseOver(d, i) {
+            function handleMouseOver(event, d) {
                 // We don't want to show the popup on the main beleidskeuze
                 if (d.property === "beleidsObjectMain") return
 
                 // Activate display
                 tooltip.style("display", "block")
 
-                const tooltipTitleEl =
-                    document.getElementById("d3-tooltip-title")
+                const tooltipTitleEl = document.getElementById(
+                    "d3-tooltip-title"
+                )
                 tooltipTitleEl.innerHTML = d.name
 
                 const tooltipEl = document.getElementById("d3-tooltip")
@@ -267,7 +268,7 @@ const RelatiesKoppelingenVisualisatie = ({
                 })
             }
 
-            function handleMouseOut(d, i) {
+            function handleMouseOut(event, d) {
                 // Reset display property, user can still see it when hovering over it
                 tooltip.style("display", "")
             }
