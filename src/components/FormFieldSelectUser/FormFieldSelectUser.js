@@ -1,8 +1,8 @@
-import React from 'react'
-import Select from 'react-select'
+import React from "react"
+import Select from "react-select"
 
 // Import Components
-import LoaderSelect from './../LoaderSelect'
+import LoaderSelect from "./../LoaderSelect"
 
 /**
  * Function that checks if the objectenArray contains a value by checking the length,
@@ -21,7 +21,7 @@ function makeSelection(objectenArray, dataObjectProperty) {
                 label: arrayItem.Gebruikersnaam,
                 value: arrayItem.UUID,
                 target: {
-                    type: 'relatie',
+                    type: "relatie",
                     value: arrayItem.UUID,
                     name: dataObjectProperty,
                 },
@@ -51,11 +51,11 @@ class FormFieldSelectUser extends React.Component {
 
     getSelected(fieldValue, selectionArray) {
         let selected = null
-        if (typeof fieldValue === 'string') {
+        if (typeof fieldValue === "string") {
             selected = selectionArray.find(
                 (arrayItem) => arrayItem.value === fieldValue
             )
-        } else if (typeof fieldValue === 'object' && fieldValue !== null) {
+        } else if (typeof fieldValue === "object" && fieldValue !== null) {
             selected = selectionArray.find(
                 (arrayItem) => arrayItem.value === fieldValue.UUID
             )
@@ -93,7 +93,7 @@ class FormFieldSelectUser extends React.Component {
     componentDidMount() {
         let fieldValue = this.props.fieldValue
 
-        if (fieldValue && typeof fieldValue === 'object' && fieldValue.UUID) {
+        if (fieldValue && typeof fieldValue === "object" && fieldValue.UUID) {
             fieldValue = fieldValue.UUID
         }
 
@@ -108,8 +108,8 @@ class FormFieldSelectUser extends React.Component {
 
         if (
             this.props.editStatus === true ||
-            (this.props.titleSingular === 'Beleidskeuze' &&
-                this.props.dataObjectProperty === 'Eigenaar_1' &&
+            (this.props.titleSingular === "Beleidskeuze" &&
+                this.props.dataObjectProperty === "Eigenaar_1" &&
                 selectionArray)
         ) {
             const selected = this.getSelected(fieldValue, selectionArray)
@@ -134,9 +134,9 @@ class FormFieldSelectUser extends React.Component {
         if (filterOtherProperty) {
             return this.state.selectionArray.filter((e) => {
                 const filterTypeIsString =
-                    typeof filterOtherProperty === 'string'
+                    typeof filterOtherProperty === "string"
                 const filterTypeIsObject =
-                    typeof filterOtherProperty === 'object' &&
+                    typeof filterOtherProperty === "object" &&
                     filterOtherProperty !== null
 
                 /**
@@ -163,25 +163,25 @@ class FormFieldSelectUser extends React.Component {
         const customStyles = {
             control: (base, state) => ({
                 ...base,
-                borderColor: 'none',
-                borderWidth: '0px',
-                '&:hover': {
-                    borderColor: 'none',
-                    borderWidth: '0px',
-                    boxShadow: 'none',
+                borderColor: "none",
+                borderWidth: "0px",
+                "&:hover": {
+                    borderColor: "none",
+                    borderWidth: "0px",
+                    boxShadow: "none",
                 },
-                '&.is-focused': {
-                    borderColor: 'none',
-                    borderWidth: '0px',
-                    boxShadow: 'none',
+                "&.is-focused": {
+                    borderColor: "none",
+                    borderWidth: "0px",
+                    boxShadow: "none",
                 },
             }),
         }
 
         return (
             <div
-                className={`mb-6 ${this.props.marginRight ? 'mr-8' : null} ${
-                    this.props.halfWidth ? 'w-full mr-4' : 'w-1/2'
+                className={`mb-6 ${this.props.marginRight ? "mr-8" : null} ${
+                    this.props.halfWidth ? "w-full mr-4" : "w-1/2"
                 }`}
             >
                 <p className="form-field-description">{`${this.props.pValue}`}</p>

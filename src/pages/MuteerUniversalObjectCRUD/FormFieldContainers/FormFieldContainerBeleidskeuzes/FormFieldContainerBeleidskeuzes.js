@@ -1,9 +1,9 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import clonedeep from 'lodash.clonedeep'
+import React from "react"
+import PropTypes from "prop-types"
+import clonedeep from "lodash.clonedeep"
 
-import ContainerFormSection from '../../../../components/ContainerFormSection'
-import FormFieldTitelEnBeschrijving from './../../../../components/FormFieldTitelEnBeschrijving'
+import ContainerFormSection from "../../../../components/ContainerFormSection"
+import FormFieldTitelEnBeschrijving from "./../../../../components/FormFieldTitelEnBeschrijving"
 import {
     FormFieldDate,
     FormFieldInputContainer,
@@ -14,9 +14,9 @@ import {
     FormFieldRichTextEditor,
     FormFieldWerkingsgebied,
     FormFieldRelatieKoppeling,
-} from '../../../../components/FormFieldsExport'
+} from "../../../../components/FormFieldsExport"
 
-import UserContext from '../../../../App/UserContext'
+import UserContext from "../../../../App/UserContext"
 
 function FormFieldContainerBeleidskeuzes({
     titleSingular,
@@ -28,18 +28,18 @@ function FormFieldContainerBeleidskeuzes({
     verwijderKoppelingRelatie,
 }) {
     // If the beleidskeuze is 'vigerend' we need to specify who can edit which fields
-    const isVigerend = crudObject.Status === 'Vigerend'
+    const isVigerend = crudObject.Status === "Vigerend"
 
     const { user } = React.useContext(UserContext)
     const userUUID = user.UUID
     const userRol = user.Rol
 
     const userIsAllowed =
-        userRol === 'Beheerder' ||
-        userRol === 'Superuser' ||
-        userRol === 'Functioneel beheerder' ||
-        userRol === 'Behandelend Ambtenaar' ||
-        userRol === 'Technisch beheerder' ||
+        userRol === "Beheerder" ||
+        userRol === "Superuser" ||
+        userRol === "Functioneel beheerder" ||
+        userRol === "Behandelend Ambtenaar" ||
+        userRol === "Technisch beheerder" ||
         userUUID === crudObject.Eigenaar_1 ||
         userUUID === crudObject.Eigenaar_2
 
@@ -56,7 +56,7 @@ function FormFieldContainerBeleidskeuzes({
                 <FormFieldTextInput
                     disabled={isVigerend}
                     handleChange={handleChange}
-                    fieldValue={crudObject['Titel']}
+                    fieldValue={crudObject["Titel"]}
                     dataObjectProperty="Titel"
                     fieldLabel="Titel"
                     pValue="Formuleer in enkele woorden de titel van de beleidskeuze."
@@ -83,11 +83,11 @@ function FormFieldContainerBeleidskeuzes({
                         pValue="Hier geef je aan welke keuze de provincie heeft genomen. Formuleer in één of enkele zinnen wat de provincie wil bereiken en welke rechtsgevolgen dit eventueel heeft voor derden."
                     />
                     <FormFieldRichTextEditor
-                        editorFormats={['image']}
-                        editorToolbar={['image']}
+                        editorFormats={["image"]}
+                        editorToolbar={["image"]}
                         titleSingular={titleSingular}
                         handleChange={handleChange}
-                        fieldValue={crudObject['Omschrijving_Keuze']}
+                        fieldValue={crudObject["Omschrijving_Keuze"]}
                         dataObjectProperty="Omschrijving_Keuze"
                         disabled={isVigerend}
                     />
@@ -99,11 +99,11 @@ function FormFieldContainerBeleidskeuzes({
                         pValue="De aanleiding geeft de lezer informatie over welke ontwikkelingen gaande zijn in de maatschappij en waarom de provincie hier op inspeelt. Beschrijf hier welk probleem, dreiging of kans ten grondslag ligt aan de beleidskeuze."
                     />
                     <FormFieldRichTextEditor
-                        editorFormats={['image']}
-                        editorToolbar={['image']}
+                        editorFormats={["image"]}
+                        editorToolbar={["image"]}
                         titleSingular={titleSingular}
                         handleChange={handleChange}
-                        fieldValue={crudObject['Aanleiding']}
+                        fieldValue={crudObject["Aanleiding"]}
                         dataObjectProperty="Aanleiding"
                         disabled={isVigerend}
                     />
@@ -117,11 +117,11 @@ function FormFieldContainerBeleidskeuzes({
                         anchorLink="https://zoek.officielebekendmakingen.nl/stb-2016-156.html#d16e418"
                     />
                     <FormFieldRichTextEditor
-                        editorFormats={['image']}
-                        editorToolbar={['image']}
+                        editorFormats={["image"]}
+                        editorToolbar={["image"]}
                         titleSingular={titleSingular}
                         handleChange={handleChange}
-                        fieldValue={crudObject['Provinciaal_Belang']}
+                        fieldValue={crudObject["Provinciaal_Belang"]}
                         dataObjectProperty="Provinciaal_Belang"
                         disabled={isVigerend}
                     />
@@ -133,11 +133,11 @@ function FormFieldContainerBeleidskeuzes({
                         pValue="Op welke thema’s, onderwerpen en gebieden gaat de beleidskeuze iets wijzigen, en waarom is dit gewenst? Beschrijf ook de relatie met andere beleidsterreinen."
                     />
                     <FormFieldRichTextEditor
-                        editorFormats={['image']}
-                        editorToolbar={['image']}
+                        editorFormats={["image"]}
+                        editorToolbar={["image"]}
                         titleSingular={titleSingular}
                         handleChange={handleChange}
-                        fieldValue={crudObject['Omschrijving_Werking']}
+                        fieldValue={crudObject["Omschrijving_Werking"]}
                         dataObjectProperty="Omschrijving_Werking"
                         disabled={isVigerend}
                     />
@@ -152,9 +152,9 @@ function FormFieldContainerBeleidskeuzes({
                     disabled={isVigerend}
                     placeholderTekst="Er is nog geen Nationaal belang of 'Wettelijke taken & bevoegdheden' gekoppeld."
                     buttonTekst="Nieuwe koppeling"
-                    titelMainObject={crudObject['Titel']}
+                    titelMainObject={crudObject["Titel"]}
                     handleChange={handleChange}
-                    fieldValue={crudObject['Belangen']}
+                    fieldValue={crudObject["Belangen"]}
                     fieldLabel="Wettelijke taken & bevoegdheden en nationale belangen"
                     dataObjectProperty="Belangen"
                     pValue="Indien deze beleidskeuze voortkomt uit een wettelijke taak of bevoegdheid of een nationaal belang dient, selecteer je dit hieronder."
@@ -162,7 +162,7 @@ function FormFieldContainerBeleidskeuzes({
                     voegKoppelingRelatieToe={voegKoppelingRelatieToe}
                     wijzigKoppelingRelatie={wijzigKoppelingRelatie}
                     verwijderKoppelingRelatie={verwijderKoppelingRelatie}
-                    connectionProperties={['belangen', 'taken']}
+                    connectionProperties={["belangen", "taken"]}
                     crudObject={clonedeep(crudObject)}
                 />
             </ContainerFormSection>
@@ -174,7 +174,7 @@ function FormFieldContainerBeleidskeuzes({
                 <FormFieldWerkingsgebied
                     disabled={isVigerend}
                     setWerkingsgebiedInParentState={handleChange}
-                    werkingsgebiedInParentState={crudObject['Werkingsgebieden']}
+                    werkingsgebiedInParentState={crudObject["Werkingsgebieden"]}
                     titleSingular={titleSingular}
                     fieldLabel="Selecteer werkingsgebied"
                     dataObjectProperty="Werkingsgebieden"
@@ -190,9 +190,9 @@ function FormFieldContainerBeleidskeuzes({
                     disabled={isVigerend && !userIsAllowed}
                     placeholderTekst="Er zijn nog geen relaties aangebracht voor deze beleidskeuze"
                     buttonTekst="Nieuwe koppeling"
-                    titelMainObject={crudObject['Titel']}
+                    titelMainObject={crudObject["Titel"]}
                     handleChange={handleChange}
-                    fieldValue={crudObject['Belangen']}
+                    fieldValue={crudObject["Belangen"]}
                     fieldLabel="Koppelingen"
                     dataObjectProperty="Koppelingen"
                     pValue="Aan welke ambities, beleidsdoelen, artikelen uit de verordening, maatregelen en beleidsregels heeft deze beleidskeuze een koppeling?"
@@ -201,13 +201,13 @@ function FormFieldContainerBeleidskeuzes({
                     wijzigKoppelingRelatie={wijzigKoppelingRelatie}
                     verwijderKoppelingRelatie={verwijderKoppelingRelatie}
                     connectionProperties={[
-                        'ambities',
-                        'beleidsdoelen',
-                        'themas',
-                        'beleidsregels',
-                        'beleidsprestaties',
-                        'maatregelen',
-                        'verordening',
+                        "ambities",
+                        "beleidsdoelen",
+                        "themas",
+                        "beleidsregels",
+                        "beleidsprestaties",
+                        "maatregelen",
+                        "verordening",
                     ]}
                     crudObject={clonedeep(crudObject)}
                 />
@@ -215,10 +215,10 @@ function FormFieldContainerBeleidskeuzes({
 
             <ContainerFormSection
                 hide={
-                    userRol !== 'Beheerder' &&
-                    userRol !== 'Functioneel beheerder' &&
-                    userRol !== 'Technisch beheerder' &&
-                    userRol !== 'Superuser'
+                    userRol !== "Beheerder" &&
+                    userRol !== "Functioneel beheerder" &&
+                    userRol !== "Technisch beheerder" &&
+                    userRol !== "Superuser"
                 }
                 titel="Aanvullende informatie"
                 beschrijving="In deze sectie vragen we aanvullende informatie die bij de beleidskeuze hoort."
@@ -226,7 +226,7 @@ function FormFieldContainerBeleidskeuzes({
                 <FormFieldWeblink
                     disabled={isVigerend}
                     handleChange={handleChange}
-                    fieldValue={crudObject['Weblink']}
+                    fieldValue={crudObject["Weblink"]}
                     dataObjectProperty="Weblink"
                     fieldLabel="IDMS"
                     pValue="Vul hier de link in naar het besluitdocument op IDMS. (Eigenschappen > Algemeen > Snelkoppeling kopiëren)."
@@ -236,7 +236,7 @@ function FormFieldContainerBeleidskeuzes({
                 <FormFieldTextInput
                     disabled={isVigerend}
                     handleChange={handleChange}
-                    fieldValue={crudObject['Besluitnummer']}
+                    fieldValue={crudObject["Besluitnummer"]}
                     fieldLabel="Besluitnummer"
                     dataObjectProperty="Besluitnummer"
                     notRequired={true}
@@ -248,7 +248,7 @@ function FormFieldContainerBeleidskeuzes({
                     <FormFieldDate
                         disabled={isVigerend}
                         handleChange={handleChange}
-                        fieldValue={crudObject['Begin_Geldigheid']}
+                        fieldValue={crudObject["Begin_Geldigheid"]}
                         fieldLabel="Datum inwerkingtreding"
                         notRequired={true}
                         dataObjectProperty="Begin_Geldigheid"
@@ -259,7 +259,7 @@ function FormFieldContainerBeleidskeuzes({
                         disabled={isVigerend}
                         handleChange={handleChange}
                         notRequired={true}
-                        fieldValue={crudObject['Eind_Geldigheid']}
+                        fieldValue={crudObject["Eind_Geldigheid"]}
                         fieldLabel="Datum uitwerkingtreding"
                         dataObjectProperty="Eind_Geldigheid"
                         pValue="Indien bekend, kan hier de datum van uitwerkingtreding worden ingevuld"

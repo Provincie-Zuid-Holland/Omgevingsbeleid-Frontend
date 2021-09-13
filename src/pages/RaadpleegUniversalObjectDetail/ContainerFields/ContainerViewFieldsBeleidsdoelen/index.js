@@ -1,3 +1,3 @@
-import ContainerViewFieldsBeleidsdoelen from './ContainerViewFieldsBeleidsdoelen.js'
+import ContainerViewFieldsBeleidsdoelen from "./ContainerViewFieldsBeleidsdoelen.js"
 
 export default ContainerViewFieldsBeleidsdoelen

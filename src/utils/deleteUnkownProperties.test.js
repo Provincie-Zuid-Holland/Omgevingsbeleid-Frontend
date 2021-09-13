@@ -1,15 +1,15 @@
-import deleteUnkownProperties from './deleteUnkownProperties'
+import deleteUnkownProperties from "./deleteUnkownProperties"
 
-describe('deleteUnkownProperties', () => {
+describe("deleteUnkownProperties", () => {
     const propertiesToRemove = [
-        'Modified_By',
-        'ID',
-        'Created_Date',
-        'Modified_Date',
-        'Created_By',
-        'UUID',
+        "Modified_By",
+        "ID",
+        "Created_Date",
+        "Modified_Date",
+        "Created_By",
+        "UUID",
     ]
-    it('removes the appropriate properties from an object', () => {
+    it("removes the appropriate properties from an object", () => {
         const originalObj = {
             Modified_By: null,
             ID: null,
@@ -25,7 +25,7 @@ describe('deleteUnkownProperties', () => {
         propertiesToRemove.forEach((property) => {
             expect(newObj.hasOwnProperty(property)).toBeFalsy()
         })
-        expect(newObj.hasOwnProperty('propertyThatShouldStay')).toBeTruthy()
+        expect(newObj.hasOwnProperty("propertyThatShouldStay")).toBeTruthy()
         expect(newObj).toMatchObject({ propertyThatShouldStay: null })
     })
 })

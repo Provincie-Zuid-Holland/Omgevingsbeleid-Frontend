@@ -37,10 +37,8 @@ const MuteerUniversalObjectDetailWithStatuses = ({ dimensieConstants }) => {
     const [isLoading, setIsLoading] = React.useState(true)
 
     const [isAConceptInProgress, setIsAConceptInProgress] = React.useState(null)
-    const [
-        vigerendeDimensieObject,
-        setVigerendeDimensieObject,
-    ] = React.useState(null)
+    const [vigerendeDimensieObject, setVigerendeDimensieObject] =
+        React.useState(null)
 
     /**
      * As each change is saved in the history of the dimension, its possible to have multiple object after another with the same status

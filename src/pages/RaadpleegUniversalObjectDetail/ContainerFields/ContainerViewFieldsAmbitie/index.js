@@ -1,3 +1,3 @@
-import ContainerViewFieldsAmbitie from './ContainerViewFieldsAmbitie.js'
+import ContainerViewFieldsAmbitie from "./ContainerViewFieldsAmbitie.js"
 
 export default ContainerViewFieldsAmbitie

@@ -43,7 +43,7 @@ describe("MuteerBeleidsrelatiesCRUD", () => {
                     `/muteer/beleidsrelaties/${beleidskeuzes[0].UUID}/nieuwe-relatie`,
                 ]}
             >
-                <ToastContainer limit={1} position="bottom-left" />
+                <ToastContainer position="bottom-left" />
                 <Route path={"/muteer/beleidsrelaties/:UUID/nieuwe-relatie"}>
                     <MuteerBeleidsrelatiesCRUD {...props} />
                 </Route>
@@ -70,11 +70,13 @@ describe("MuteerBeleidsrelatiesCRUD", () => {
 
         const submitBtn = screen.getByText("Opslaan")
 
+        /** Check Toast */
         fireEvent.click(submitBtn)
         expect(
             await screen.findByText("Selecteer een beleidskeuze")
-        ).toBeTruthy()
+        ).toBeInTheDocument()
 
+        /** Fill in Select */
         const select = await screen.findByRole("combobox")
         expect(select).toBeInTheDocument()
 
@@ -86,6 +88,7 @@ describe("MuteerBeleidsrelatiesCRUD", () => {
         })
         expect(select.value).toBe(beleidskeuzes[2].UUID)
 
+        /** Fill in Description */
         const description = screen.getByRole("textbox")
         fireEvent.change(description, {
             target: {
@@ -95,10 +98,11 @@ describe("MuteerBeleidsrelatiesCRUD", () => {
         })
         expect(description.value).toBe("Test omschrijving")
 
+        /** Check Toast */
         fireEvent.click(submitBtn)
         expect(
             await screen.findByText("Vul een inwerkingtreding datum in")
-        ).toBeTruthy()
+        ).toBeInTheDocument()
 
         const startingDate = screen.getByTestId(
             "form-field-beleidsrelatie-begin_geldigheid"
@@ -109,7 +113,7 @@ describe("MuteerBeleidsrelatiesCRUD", () => {
         fireEvent.click(submitBtn)
         expect(
             await screen.findByText("Vul een uitwerkingtreding datum in")
-        ).toBeTruthy()
+        ).toBeInTheDocument()
 
         const EndDate = screen.getByTestId(
             "form-field-beleidsrelatie-eind_geldigheid"
@@ -119,6 +123,6 @@ describe("MuteerBeleidsrelatiesCRUD", () => {
 
         fireEvent.click(submitBtn)
 
-        expect(await screen.findByText("Opgeslagen")).toBeTruthy()
+        expect(await screen.findByText("Opgeslagen")).toBeInTheDocument()
     })
 })

@@ -157,7 +157,7 @@ const EigenarenList = ({ eigenaren }) => {
                                 {getAbbrevationFromUsername(eigenaren[item])}
                             </span>
 
-                            <div className="absolute top-0 left-0 z-10 hidden inline-block px-4 py-3 mt-10 whitespace-no-wrap rounded popup-gebruikersinfo">
+                            <div className="absolute top-0 left-0 z-10 hidden inline-block px-4 py-3 mt-10 rounded whitespace-nowrap popup-gebruikersinfo">
                                 <div className="block text-xs">
                                     {getPersonenRol(item)}
                                 </div>

@@ -1,9 +1,9 @@
-import { render } from '@testing-library/react'
-import React from 'react'
-import StatusHistory from './StatusHistory'
+import { render } from "@testing-library/react"
+import React from "react"
+import StatusHistory from "./StatusHistory"
 
-describe('StatusHistory', () => {
+describe("StatusHistory", () => {
     const defaultProps = {}
 
-    it('should render', () => {})
+    it("should render", () => {})
 })

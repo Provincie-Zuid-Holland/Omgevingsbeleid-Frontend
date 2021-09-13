@@ -423,7 +423,8 @@ const TitleEditing = ({
 
                 <SaveButton
                     save={() => {
-                        const werkingsGebiedenHasValue = checkForWerkingsgebied()
+                        const werkingsGebiedenHasValue =
+                            checkForWerkingsgebied()
                         if (
                             item.Type === "Artikel" &&
                             !werkingsGebiedenHasValue

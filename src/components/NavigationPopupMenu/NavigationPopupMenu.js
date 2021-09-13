@@ -46,15 +46,15 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
     React.useEffect(() => {
         Promise.all([
             axios
-                .get(`${allDimensies.AMBITIES.API_ENDPOINT}`)
+                .get(`${allDimensies.AMBITIES.API_ENDPOINT_VIGEREND}`)
                 .then((res) => setAmbities(res.data))
                 .catch((err) => console.log(err)),
             axios
-                .get(`${allDimensies.BELEIDSDOELEN.API_ENDPOINT}`)
+                .get(`${allDimensies.BELEIDSDOELEN.API_ENDPOINT_VIGEREND}`)
                 .then((res) => setBeleidsdoelen(res.data))
                 .catch((err) => console.log(err)),
             axios
-                .get(`${allDimensies.BELEIDSPRESTATIES.API_ENDPOINT}`)
+                .get(`${allDimensies.BELEIDSPRESTATIES.API_ENDPOINT_VIGEREND}`)
                 .then((res) => setBeleidsprestaties(res.data))
                 .catch((err) => console.log(err)),
             axios
@@ -62,7 +62,7 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
                 .then((res) => setBeleidskeuzes(res.data))
                 .catch((err) => console.log(err)),
             axios
-                .get(`${allDimensies.BELEIDSREGELS.API_ENDPOINT}`)
+                .get(`${allDimensies.BELEIDSREGELS.API_ENDPOINT_VIGEREND}`)
                 .then((res) => setBeleidsregels(res.data))
                 .catch((err) => console.log(err)),
             axios

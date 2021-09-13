@@ -21,10 +21,8 @@ const Werkingsgebied = ({
     // werkingsgebiedInParentState only contains the UUID
     // Contains the whole object that we get from the API
     const [werkingsgebied, setWerkingsgebied] = React.useState(null)
-    const [
-        werkingsgebiedTitelIsLoading,
-        setWerkingsgebiedTitelIsLoading,
-    ] = React.useState(true)
+    const [werkingsgebiedTitelIsLoading, setWerkingsgebiedTitelIsLoading] =
+        React.useState(true)
 
     // Function to GET the complete werkingsgebied object from the API
     // We need this in order to display the title
@@ -196,8 +194,8 @@ const WerkingsgebiedPopup = ({
         )
 
         // Get original body overflow
-        const originalStyle = window.getComputedStyle(fixedContainerEl)
-            .overflowY
+        const originalStyle =
+            window.getComputedStyle(fixedContainerEl).overflowY
 
         // Prevent scrolling on mount
         if (show) {

@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react"
 /**
  * A component that renders a fixed place submit button element with the text "Opslaan", in which a user can submit data in a form.
  */
@@ -14,7 +14,7 @@ function ButtonSubmitFixed({ submit }) {
                     type="button"
                     onClick={(e) => submit(e)}
                     onKeyPress={(e) => {
-                        if (e.key === 'Enter') {
+                        if (e.key === "Enter") {
                             submit(e)
                         }
                     }}

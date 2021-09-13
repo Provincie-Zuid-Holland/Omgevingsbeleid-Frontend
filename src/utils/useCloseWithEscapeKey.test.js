@@ -1,8 +1,8 @@
-import { render, screen, fireEvent } from '@testing-library/react'
-import '@testing-library/jest-dom'
-import React from 'react'
+import { render, screen, fireEvent } from "@testing-library/react"
+import "@testing-library/jest-dom"
+import React from "react"
 
-import useCloseWithEscapeKey from './useCloseWithEscapeKey'
+import useCloseWithEscapeKey from "./useCloseWithEscapeKey"
 
 const setup = () => {
     const callbackMock = jest.fn()
@@ -20,18 +20,18 @@ const TestComponent = ({ callbackMock }) => {
     )
 }
 
-describe('useCloseWithEscapeKey', () => {
-    it('Calls the callback when the user presses escape', () => {
+describe("useCloseWithEscapeKey", () => {
+    it("Calls the callback when the user presses escape", () => {
         const { callbackMock } = setup()
-        const el = screen.getByText('Element')
-        fireEvent.keyDown(el, { key: 'Escape', code: 'Escape' })
+        const el = screen.getByText("Element")
+        fireEvent.keyDown(el, { key: "Escape", code: "Escape" })
         expect(callbackMock).toHaveBeenCalledTimes(1)
     })
 
-    it('Does not call the callback when the user presses a different key', () => {
+    it("Does not call the callback when the user presses a different key", () => {
         const { callbackMock } = setup()
-        const el = screen.getByText('Element')
-        fireEvent.keyDown(el, { key: 'Enter', code: 'Enter' })
+        const el = screen.getByText("Element")
+        fireEvent.keyDown(el, { key: "Enter", code: "Enter" })
         expect(callbackMock).toHaveBeenCalledTimes(0)
     })
 })

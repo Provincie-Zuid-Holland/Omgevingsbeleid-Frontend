@@ -31,12 +31,8 @@ const conditionals = {
 }
 
 const AddObjectButton = ({ nestType, item, index }) => {
-    const {
-        addSection,
-        addSectionType,
-        hoofdstukIndex,
-        userIsAddingSections,
-    } = React.useContext(VerordeningContext)
+    const { addSection, addSectionType, hoofdstukIndex, userIsAddingSections } =
+        React.useContext(VerordeningContext)
 
     const [show, setShow] = React.useState(false)
 
@@ -46,9 +42,8 @@ const AddObjectButton = ({ nestType, item, index }) => {
             setShow(false)
         } else if (!item) {
             // AddObjectButton is above the DragAndDrop Component
-            const placeableAtTopOfALevel = conditionals[addSectionType][
-                "addFromTop"
-            ].includes(nestType)
+            const placeableAtTopOfALevel =
+                conditionals[addSectionType]["addFromTop"].includes(nestType)
             if (placeableAtTopOfALevel) {
                 setShow(true)
             }

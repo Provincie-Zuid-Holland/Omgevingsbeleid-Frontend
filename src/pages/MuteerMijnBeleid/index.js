@@ -1,3 +1,3 @@
-import MuteerMijnBeleid from './MuteerMijnBeleid.js'
+import MuteerMijnBeleid from "./MuteerMijnBeleid.js"
 
 export default MuteerMijnBeleid

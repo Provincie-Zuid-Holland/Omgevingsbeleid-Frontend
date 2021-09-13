@@ -93,9 +93,10 @@ const PopUpDetailDropdown = ({
         )
             .then((res) => {
                 res.forEach((response) => {
-                    dataObject.Ref_Beleidsmodules = dataObject.Ref_Beleidsmodules.filter(
-                        (module) => response.ID !== module.ID
-                    )
+                    dataObject.Ref_Beleidsmodules =
+                        dataObject.Ref_Beleidsmodules.filter(
+                            (module) => response.ID !== module.ID
+                        )
                 })
 
                 if (setDataObject) {

@@ -1,3 +1,3 @@
-import AddSectionsSidebar from './AddSectionsSidebar.js'
+import AddSectionsSidebar from "./AddSectionsSidebar.js"
 
 export default AddSectionsSidebar

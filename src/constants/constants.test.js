@@ -1,10 +1,10 @@
-import axios from 'axios'
-import allDimensies from './../constants/dimensies'
+import axios from "axios"
+import allDimensies from "./../constants/dimensies"
 
 const api = axios.create({
-    baseURL: 'https://api-obzh-dev.azurewebsites.net/v0.1/',
+    baseURL: "https://api-obzh-dev.azurewebsites.net/v0.1/",
     headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
     },
 })
 
@@ -18,12 +18,12 @@ const fetchData = (slug) => {
         )
 }
 
-describe('Constants', () => {
+describe("Constants", () => {
     Object.keys(allDimensies)
         .filter((dimensionKey) =>
-            allDimensies[dimensionKey].hasOwnProperty('CRUD_PROPERTIES')
+            allDimensies[dimensionKey].hasOwnProperty("CRUD_PROPERTIES")
         )
-        .filter((dimensionKey) => dimensionKey !== 'VERORDENINGSARTIKEL')
+        .filter((dimensionKey) => dimensionKey !== "VERORDENINGSARTIKEL")
         .forEach((dimensionKey) => {
             it(`The ${dimensionKey} constant properties should also exist on the API object`, async () => {
                 const dimension = allDimensies[dimensionKey]

@@ -1,3 +1,3 @@
-import PopUpBewerkKoppeling from './PopUpBewerkKoppeling.js'
+import PopUpBewerkKoppeling from "./PopUpBewerkKoppeling.js"
 
 export default PopUpBewerkKoppeling

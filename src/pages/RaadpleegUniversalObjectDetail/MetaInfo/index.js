@@ -1,2 +1,2 @@
-export { default } from './MetaInfo';
-export * from './MetaInfo';
+export { default } from "./MetaInfo"
+export * from "./MetaInfo"

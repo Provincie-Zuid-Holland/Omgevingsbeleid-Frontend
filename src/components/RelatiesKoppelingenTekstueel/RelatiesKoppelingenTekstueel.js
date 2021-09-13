@@ -79,9 +79,8 @@ function RelatiesKoppelingenTekstueel({
                         </h3>
                         <ul className="mt-2">
                             {beleidsRelaties.map((beleidsrelatie) => {
-                                const relationObject = getObjectFromRelation(
-                                    beleidsrelatie
-                                )
+                                const relationObject =
+                                    getObjectFromRelation(beleidsrelatie)
 
                                 if (!relationObject) return null
 

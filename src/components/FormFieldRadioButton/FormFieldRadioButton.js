@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react"
 
 /**
  * Component that renders the FormFieldRadioButton component that maps through the options array to create radio buttons with a label.
@@ -28,8 +28,8 @@ function FormFieldRadioButton({
             <div
                 className={`mt-4 ${
                     disabled
-                        ? 'opacity-50 cursor-not-allowed pointer-events-none'
-                        : ''
+                        ? "opacity-50 cursor-not-allowed pointer-events-none"
+                        : ""
                 }`}
                 id={`form-field-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
             >

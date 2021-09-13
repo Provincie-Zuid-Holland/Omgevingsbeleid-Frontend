@@ -188,7 +188,7 @@ class LeafletSearchInput extends Component {
                             return (
                                 <li
                                     tabIndex="0"
-                                    className={`px-5 hover:underline hover:bg-gray-100 focus:underline focus:bg-gray-100 focus:shadow-outline`}
+                                    className={`px-5 hover:underline hover:bg-gray-100 focus:underline focus:bg-gray-100 focus:ring`}
                                     key={index}
                                     data-index={index + 1}
                                     onClick={() =>

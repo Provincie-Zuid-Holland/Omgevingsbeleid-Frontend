@@ -85,9 +85,8 @@ function StatusHistory({
     // We reverse it to make it start at the last version (see the UI)
     dimensionHistory = cloneDeep(dimensionHistory)
 
-    const [isACheckedOutObject, checkedOutObject] = checkForCheckedOutObject(
-        dimensionHistory
-    )
+    const [isACheckedOutObject, checkedOutObject] =
+        checkForCheckedOutObject(dimensionHistory)
 
     // Remove any object that we don't want to display in the 'Status UI Flow'
     dimensionHistory = prepareHistorieForUI(dimensionHistory)

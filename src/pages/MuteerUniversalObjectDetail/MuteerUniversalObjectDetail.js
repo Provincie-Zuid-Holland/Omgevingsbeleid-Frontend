@@ -29,9 +29,8 @@ class MuteerUniversalObjectDetail extends Component {
         }
 
         this.returnPageType = this.returnPageType.bind(this)
-        this.getAndSetDimensieDataFromApi = this.getAndSetDimensieDataFromApi.bind(
-            this
-        )
+        this.getAndSetDimensieDataFromApi =
+            this.getAndSetDimensieDataFromApi.bind(this)
     }
 
     // Set het property pageType naar 'detail' of 'version'

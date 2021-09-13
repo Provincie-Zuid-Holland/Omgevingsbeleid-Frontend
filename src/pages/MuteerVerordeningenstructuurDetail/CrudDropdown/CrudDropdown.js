@@ -84,7 +84,7 @@ const CrudDropdown = ({ item, pathToIndex }) => {
                         ref={dropdownRef}
                         className="absolute right-0 z-50 w-56 mt-2 overflow-y-hidden origin-top-right rounded-md shadow-lg"
                     >
-                        <div className="bg-white rounded-md shadow-xs">
+                        <div className="bg-white rounded-md ring-1 ring-black ring-opacity-5">
                             <div className="py-1 overflow-y-hidden">
                                 <button
                                     onClick={() => {
