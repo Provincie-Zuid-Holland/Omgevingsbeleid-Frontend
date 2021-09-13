@@ -595,7 +595,7 @@ const RevisionWerkingsgebied = ({ originalObject, changesObject }) => {
             return `Beleidskeuze '${originalObject.Titel}' was gekoppeld aan gebied '${changesObject?.Werkingsgebieden?.removed[0]?.Object?.Werkingsgebied}', maar deze koppeling is verwijderd.`
         } else {
             // The leftSelect value and the rightSelect value both didn't have a werkingsgebied
-            return `Beleidskeuze '${originalObject.Titel}' heeft voor beidde geselecteerde objecten geen werkingsgebied`
+            return `Beleidskeuze '${originalObject.Titel}' heeft voor beide geselecteerde objecten geen werkingsgebied`
         }
     }
 

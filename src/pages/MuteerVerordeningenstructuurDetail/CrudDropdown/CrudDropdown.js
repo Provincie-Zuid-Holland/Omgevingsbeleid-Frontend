@@ -76,9 +76,9 @@ const CrudDropdown = ({ item, pathToIndex }) => {
                     enter="transition ease-out duration-100 transform z-50"
                     enterFrom="opacity-0 scale-95 -translate-y-5 transform"
                     enterTo="opacity-100 scale-100 translate-y-0 transform"
-                    leave="transition ease-in duration-75 transform z-50"
-                    leaveFrom="opacity-100 scale-100 translate-y-0 transform"
-                    leaveTo="opacity-0 scale-95 -translate-y-5 transform"
+                    leave="duration-75"
+                    leaveFrom=""
+                    leaveTo=""
                 >
                     <div
                         ref={dropdownRef}
@@ -105,7 +105,9 @@ const CrudDropdown = ({ item, pathToIndex }) => {
                                     onClick={() => {
                                         if (item.Children) {
                                             setIsOpen(false)
-                                            setDeleteIsOpen(true)
+                                            window.setTimeout(() => {
+                                                setDeleteIsOpen(true)
+                                            }, 150)
                                         }
                                     }}
                                     className="block w-full px-4 py-2 text-sm font-bold leading-5 text-left text-red-700 hover:bg-gray-100 hover:text-red-800 focus:bg-gray-100 focus:text-red-900"
@@ -133,13 +135,11 @@ const ConfirmDelete = ({ item, deleteItem, show, setDeleteIsOpen }) => {
                     leave="ease-in duration-300"
                     leaveFrom="transform opacity-100"
                     leaveTo="transform opacity-0"
+                    className="fixed inset-0 transition-opacity"
                 >
-                    <div className="fixed inset-0 transition-opacity">
-                        <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
-                    </div>
+                    <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
                 </Transition>
-                {/* This element is to trick the browser into centering the modal contents. */}
-                <span className="hidden sm:inline-block sm:align-middle sm:h-screen"></span>
+
                 <Transition
                     show={show}
                     enter="ease-out duration-300"
@@ -148,92 +148,87 @@ const ConfirmDelete = ({ item, deleteItem, show, setDeleteIsOpen }) => {
                     leave="ease-in duration-300"
                     leaveFrom="transform opacity-100 translate-y-0 sm:scale-100"
                     leaveTo="transform translate-y-4 sm:translate-y-0 sm:scale-95"
+                    className="absolute top-0 left-0 flex items-center justify-center w-screen h-full"
                 >
-                    <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full enter-done">
-                        <div
-                            className="absolute z-10 inline-block px-4 pt-5 pb-4 overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl pointer-events-auto sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6"
-                            role="dialog"
-                            aria-modal="true"
-                            aria-labelledby="modal-headline"
-                        >
+                    <div
+                        className="absolute z-10 inline-block px-4 pt-5 pb-4 overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl pointer-events-auto sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6"
+                        role="dialog"
+                        aria-modal="true"
+                        aria-labelledby="modal-headline"
+                    >
+                        <div>
                             <div>
-                                <div>
-                                    <div className="flex items-center justify-between">
-                                        <h3
-                                            className="text-lg font-bold leading-6 text-pzh-blue"
-                                            id="modal-headline"
-                                        >
-                                            Verwijderen{" "}
-                                            {item.Type.toLowerCase()}{" "}
-                                            {item.Volgnummer}
-                                        </h3>
-                                        <span
-                                            className="p-2 cursor-pointer"
-                                            onClick={() =>
-                                                setDeleteIsOpen(false)
-                                            }
-                                        >
-                                            <FontAwesomeIcon
-                                                className="text-pzh-blue"
-                                                icon={faTimes}
-                                            />
-                                        </span>
-                                    </div>
-                                    <div className="mt-2">
-                                        <p className="text-sm text-gray-800">
-                                            Je staat op het punt om{" "}
-                                            {item.Type.toLowerCase()}{" "}
-                                            {item.Volgnummer} te verwijderen.
-                                            {item.Children.length > 0 &&
-                                            item.Type !== "Artikel" ? (
-                                                <span>
-                                                    {" "}
-                                                    Op dit moment{" "}
-                                                    {item.Children.length === 1
-                                                        ? `valt er ${item.Children.length} onderdeel `
-                                                        : `vallen er ${item.Children.length} onderdelen `}{" "}
-                                                    onder. Je kunt pas{" "}
-                                                    {item.Type.toLowerCase()}{" "}
-                                                    {item.Volgnummer}{" "}
-                                                    verwijderen zodra de
-                                                    onderliggende onderdelen
-                                                    verwijderd zijn.
-                                                </span>
-                                            ) : null}
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="mt-5 sm:mt-6">
-                                <span className="flex items-center justify-between w-full">
-                                    <button
-                                        className="py-2 pr-4 text-xs text-gray-700 cursor-pointer hover:underline"
+                                <div className="flex items-center justify-between">
+                                    <h3
+                                        className="text-lg font-bold leading-6 text-pzh-blue"
+                                        id="modal-headline"
+                                    >
+                                        Verwijderen {item.Type.toLowerCase()}{" "}
+                                        {item.Volgnummer}
+                                    </h3>
+                                    <span
+                                        className="p-2 cursor-pointer"
                                         onClick={() => setDeleteIsOpen(false)}
                                     >
-                                        Annuleren
-                                    </button>
-                                    <button
-                                        onClick={() => {
-                                            if (
-                                                item.Children.length > 0 &&
-                                                item.Type !== "Artikel"
-                                            )
-                                                return
-                                            setDeleteIsOpen(false)
-                                            deleteItem()
-                                        }}
-                                        type="button"
-                                        className={`inline-flex justify-center px-4 py-2 text-base font-medium leading-6 text-white transition duration-150 ease-in-out ${
+                                        <FontAwesomeIcon
+                                            className="text-pzh-blue"
+                                            icon={faTimes}
+                                        />
+                                    </span>
+                                </div>
+                                <div className="mt-2">
+                                    <p className="text-sm text-gray-800">
+                                        Je staat op het punt om{" "}
+                                        {item.Type.toLowerCase()}{" "}
+                                        {item.Volgnummer} te verwijderen.
+                                        {item.Children.length > 0 &&
+                                        item.Type !== "Artikel" ? (
+                                            <span>
+                                                {" "}
+                                                Op dit moment{" "}
+                                                {item.Children.length === 1
+                                                    ? `valt er ${item.Children.length} onderdeel `
+                                                    : `vallen er ${item.Children.length} onderdelen `}{" "}
+                                                onder. Je kunt pas{" "}
+                                                {item.Type.toLowerCase()}{" "}
+                                                {item.Volgnummer} verwijderen
+                                                zodra de onderliggende
+                                                onderdelen verwijderd zijn.
+                                            </span>
+                                        ) : null}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="mt-5 sm:mt-6">
+                            <span className="flex items-center justify-between w-full">
+                                <button
+                                    className="py-2 pr-4 text-xs text-gray-700 cursor-pointer hover:underline"
+                                    onClick={() => setDeleteIsOpen(false)}
+                                >
+                                    Annuleren
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        if (
                                             item.Children.length > 0 &&
                                             item.Type !== "Artikel"
-                                                ? "bg-gray-400 cursor-not-allowed"
-                                                : "bg-red-600 hover:bg-red-500"
-                                        } border border-transparent rounded-md shadow-sm focus:outline-none focus:border-indigo-700 focus:ring-indigo `}
-                                    >
-                                        Verwijder {item.Type.toLowerCase()}
-                                    </button>
-                                </span>
-                            </div>
+                                        )
+                                            return
+                                        setDeleteIsOpen(false)
+                                        deleteItem()
+                                    }}
+                                    type="button"
+                                    className={`inline-flex justify-center px-4 py-2 text-base font-medium leading-6 text-white transition duration-150 ease-in-out ${
+                                        item.Children.length > 0 &&
+                                        item.Type !== "Artikel"
+                                            ? "bg-gray-400 cursor-not-allowed"
+                                            : "bg-red-600 hover:bg-red-500"
+                                    } border border-transparent rounded-md shadow-sm focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo `}
+                                >
+                                    Verwijder {item.Type.toLowerCase()}
+                                </button>
+                            </span>
                         </div>
                     </div>
                 </Transition>

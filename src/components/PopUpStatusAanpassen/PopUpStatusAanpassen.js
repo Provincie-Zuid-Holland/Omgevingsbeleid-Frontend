@@ -20,7 +20,6 @@ function PopUpStatusAanpassen({
     patchStatus,
     toggleStatusPopup,
 }) {
-    console.log(typeof status)
     const [selectValue, setSelect] = useState("")
 
     return (

@@ -18,6 +18,8 @@ const PopUpDetailDropdown = ({
     toggleModulesPopup,
     raadpleegLink,
     titleSingular,
+    dimensionHistory,
+    setDimensionHistory,
 }) => {
     const innerContainer = React.useRef(null)
 
@@ -97,7 +99,16 @@ const PopUpDetailDropdown = ({
                         )
                 })
 
-                setDataObject({ ...dataObject })
+                if (setDataObject) {
+                    setDataObject({ ...dataObject })
+                }
+
+                const indexOfDataObject = dimensionHistory.findIndex(
+                    (e) => e.UUID === dataObject.UUID
+                )
+                dimensionHistory[indexOfDataObject] = dataObject
+                setDimensionHistory(dimensionHistory)
+
                 toast(`${titleSingular} verwijderd uit module`)
             })
             .catch((err) => handleError(err))

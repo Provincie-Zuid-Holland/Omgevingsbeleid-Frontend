@@ -303,7 +303,7 @@ const MuteerBeleidsrelatiesDetail = ({
                             ) : null}
                         </h1>
                     </div>
-                    <div>
+                    <div className="flex-shrink-0 ">
                         <Link
                             to={`/muteer/beleidsrelaties/${UUID}/nieuwe-relatie`}
                             className="px-2 pt-1 pb-1 text-sm font-bold text-white rounded cursor-pointer bg-pzh-green hover:bg-pzh-green-dark"

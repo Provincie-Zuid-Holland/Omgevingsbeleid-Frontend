@@ -60,7 +60,7 @@ function TabRelations({
                                 className="relative flex items-center px-2 py-2 text-sm text-gray-800 border-b border-gray-200 hover:bg-gray-100"
                             >
                                 <div className="w-5/12 pr-4">{title}</div>
-                                <div className="w-2/12">
+                                <div className="w-2/12 pr-4">
                                     {relatie.Created_Date !== null
                                         ? format(
                                               new Date(relatie.Created_Date),
