@@ -200,7 +200,7 @@ class MuteerUniversalObjectCRUD extends Component {
         const params = new URL(document.location).searchParams
         const modus = params.get("modus")
         const isWijzigVigerend = modus === "wijzig_vigerend"
-        console.log(isWijzigVigerend)
+
         const containsRequiredUnfilledField = checkContainsRequiredUnfilledField(
             crudObject,
             dimensieConstants,
