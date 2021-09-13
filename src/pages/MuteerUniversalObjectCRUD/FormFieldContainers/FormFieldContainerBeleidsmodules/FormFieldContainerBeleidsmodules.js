@@ -18,7 +18,7 @@ function FormFieldContainerBeleidsmodules({
                     fieldValue={crudObject["Titel"]}
                     dataObjectProperty="Titel"
                     fieldLabel="Titel"
-                    pValue="Formuleer in enkele woorden de titel van deze ambitie."
+                    pValue="Formuleer in enkele woorden de titel van deze module."
                     titleSingular={titleSingular}
                 />
             </ContainerFormSection>

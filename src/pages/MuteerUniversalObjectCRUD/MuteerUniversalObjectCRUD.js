@@ -57,10 +57,12 @@ class MuteerUniversalObjectCRUD extends Component {
         this.handleSubmit = this.handleSubmit.bind(this)
         this.voegKoppelingRelatieToe = this.voegKoppelingRelatieToe.bind(this)
         this.wijzigKoppelingRelatie = this.wijzigKoppelingRelatie.bind(this)
-        this.verwijderKoppelingRelatie =
-            this.verwijderKoppelingRelatie.bind(this)
-        this.getAndSetDimensieDataFromApi =
-            this.getAndSetDimensieDataFromApi.bind(this)
+        this.verwijderKoppelingRelatie = this.verwijderKoppelingRelatie.bind(
+            this
+        )
+        this.getAndSetDimensieDataFromApi = this.getAndSetDimensieDataFromApi.bind(
+            this
+        )
     }
 
     // Algemene change handler
@@ -195,12 +197,16 @@ class MuteerUniversalObjectCRUD extends Component {
 
         let crudObject = cloneDeep(this.state.crudObject)
 
-        const containsRequiredUnfilledField =
-            checkContainsRequiredUnfilledField(
-                crudObject,
-                dimensieConstants,
-                titleSingular
-            )
+        const params = new URL(document.location).searchParams
+        const modus = params.get("modus")
+        const isWijzigVigerend = modus === "wijzig_vigerend"
+
+        const containsRequiredUnfilledField = checkContainsRequiredUnfilledField(
+            crudObject,
+            dimensieConstants,
+            titleSingular,
+            isWijzigVigerend
+        )
         if (containsRequiredUnfilledField) return
 
         const isEindDateBeforeBegin = checkDates(crudObject, titleSingular)
