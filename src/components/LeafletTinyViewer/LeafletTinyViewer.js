@@ -192,7 +192,9 @@ export default class LeafletTinyViewer extends Component {
                             function onEachFeature(feature, layer) {
                                 if (feature.properties) {
                                     layer.bindPopup(
-                                        feature.properties.Onderverdeling
+                                        feature.properties.Gebied
+                                            ? feature.properties.Gebied
+                                            : "Deze laag heeft nog geen titel"
                                     )
                                 }
                             }
@@ -243,6 +245,8 @@ export default class LeafletTinyViewer extends Component {
                                 if (feature.properties) {
                                     layer.bindPopup(
                                         feature.properties.Onderverdeling
+                                            ? feature.properties.Onderverdeling
+                                            : "Deze laag heeft nog geen titel"
                                     )
                                 }
                             }
