@@ -155,11 +155,16 @@ class PopupNieuweKoppeling extends Component {
         const filteredObjecten = this.state.objecten
             .filter(
                 (item) =>
-                    item.Type !== "Lid" &&
-                    item.Titel &&
-                    item.Titel.toLowerCase().includes(
-                        this.state.zoekFilter.toLowerCase()
-                    )
+                    (item.Type !== "Lid" &&
+                        item.Titel &&
+                        item.Titel.toLowerCase().includes(
+                            this.state.zoekFilter.toLowerCase()
+                        )) ||
+                    (item.Type !== "Lid" &&
+                        item.Titel &&
+                        item?.Volgnummer?.toLowerCase()?.includes(
+                            this.state.zoekFilter.toLowerCase()
+                        ))
             )
             .filter((item) => !actieveKoppelingen.includes(item.UUID))
 
@@ -202,22 +207,55 @@ class PopupNieuweKoppeling extends Component {
                             <ul className="flex-row overflow-y-auto popup-results-list">
                                 {this.state.objecten &&
                                 filteredObjecten.length > 0 ? (
-                                    filteredObjecten.map((item, index) => (
-                                        <li
-                                            onClick={() => {
-                                                this.selectObject(item)
-                                            }}
-                                            className={`px-4 py-2 text-sm text-gray-700 cursor-pointer ${
-                                                this.state.selected === item
-                                                    ? "bg-gray-100 font-bold"
-                                                    : "hover:bg-gray-100"
-                                            }`}
-                                            key={item.UUID}
-                                            id={`form-field-koppeling-item-${index}`}
-                                        >
-                                            {item.Titel}
-                                        </li>
-                                    ))
+                                    filteredObjecten
+                                        .sort((a, b) => {
+                                            if (a.Volgnummer && b.Volgnummer) {
+                                                return (
+                                                    a.Volgnummer - b.Volgnummer
+                                                )
+                                            } else {
+                                                if (
+                                                    a.Titel.toUpperCase() <
+                                                    b.Titel.toUpperCase()
+                                                ) {
+                                                    return -1
+                                                } else if (
+                                                    a.Titel.toUpperCase() >
+                                                    b.Titel.toUpperCase()
+                                                ) {
+                                                    return 1
+                                                } else {
+                                                    return 0
+                                                }
+                                            }
+                                        })
+                                        .map((item, index) => (
+                                            <li
+                                                onClick={() => {
+                                                    this.selectObject(item)
+                                                }}
+                                                className={`px-4 py-2 text-sm text-gray-700 cursor-pointer ${
+                                                    this.state.selected === item
+                                                        ? "bg-gray-100 font-bold"
+                                                        : "hover:bg-gray-100"
+                                                }`}
+                                                key={item.UUID}
+                                                id={`form-field-koppeling-item-${index}`}
+                                            >
+                                                <span
+                                                    className={`${
+                                                        item.Volgnummer
+                                                            ? "mr-2"
+                                                            : ""
+                                                    }`}
+                                                >
+                                                    {item.Volgnummer
+                                                        ? item.Volgnummer
+                                                        : null}
+                                                </span>
+                                                <span>{item.Titel}</span>
+                                            </li>
+                                        ))
                                 ) : (
                                     <li
                                         className="px-4 py-2 text-sm text-gray-700 cursor-not-allowed"
