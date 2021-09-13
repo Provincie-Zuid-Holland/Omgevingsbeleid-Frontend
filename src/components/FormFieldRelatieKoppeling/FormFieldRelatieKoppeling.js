@@ -147,7 +147,7 @@ const FormFieldRelatieKoppeling = ({
     }, [initializeConnections])
 
     // Lege array waar de properties in worden gepushed na er overheen gemap'd te zijn
-    // 'Belang' en 'Taak' zijn aparte typen, maar zitten wel beidde op dezelfde propertyName op het crudObject
+    // 'Belang' en 'Taak' zijn aparte typen, maar zitten wel beide op dezelfde propertyName op het crudObject
     // Als tijdens het map'en de propertyName al in de propertyNamesMapped array staat, slaat die 'm over
     let propertyNamesMapped = []
 
