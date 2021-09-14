@@ -11,7 +11,7 @@ import ContainerFormSection from "./../../components/ContainerFormSection"
 import FormFieldTextInput from "./../../components/FormFieldTextInput"
 import ButtonBackToPage from "./../../components/ButtonBackToPage"
 import LoaderContent from "./../../components/LoaderContent"
-import FormFieldDate from "./../../components/FormFieldDate"
+import FormFieldGeldigheid from "./../../components/FormFieldGeldigheid"
 
 // Import Axios instance to connect with the API
 import axios from "./../../API/axios"
@@ -40,8 +40,9 @@ class MuteerVerordeningenStructuurCRUD extends Component {
         this.voegKoppelingRelatieToe = this.voegKoppelingRelatieToe.bind(this)
         this.createAndSetCrudObject = this.createAndSetCrudObject.bind(this)
         this.wijzigKoppelingRelatie = this.wijzigKoppelingRelatie.bind(this)
-        this.verwijderKoppelingRelatieToe =
-            this.verwijderKoppelingRelatieToe.bind(this)
+        this.verwijderKoppelingRelatieToe = this.verwijderKoppelingRelatieToe.bind(
+            this
+        )
         this.formatGeldigheidDatesForUI = formatGeldigheidDatesForUI.bind(this)
     }
 
@@ -112,12 +113,11 @@ class MuteerVerordeningenStructuurCRUD extends Component {
             crudObject.Eind_Geldigheid = new Date(crudObject.Eind_Geldigheid)
         }
 
-        const containsRequiredUnfilledField =
-            checkContainsRequiredUnfilledField(
-                crudObject,
-                dimensieConstants,
-                titleSingular
-            )
+        const containsRequiredUnfilledField = checkContainsRequiredUnfilledField(
+            crudObject,
+            dimensieConstants,
+            titleSingular
+        )
         if (containsRequiredUnfilledField) {
             this.setState({
                 crudObject: this.formatGeldigheidDatesForUI(crudObject),
@@ -194,8 +194,9 @@ class MuteerVerordeningenStructuurCRUD extends Component {
         const index = nieuwCrudObject[koppelingObject.propertyName].findIndex(
             (item) => item.UUID === koppelingObject.item.UUID
         )
-        nieuwCrudObject[koppelingObject.propertyName][index].Omschrijving =
-            nieuweOmschrijving
+        nieuwCrudObject[koppelingObject.propertyName][
+            index
+        ].Omschrijving = nieuweOmschrijving
 
         this.setState(
             {
@@ -339,7 +340,7 @@ class MuteerVerordeningenStructuurCRUD extends Component {
                                         {/* Geldigheid */}
                                         <div className="flex flex-wrap -mx-3">
                                             {/* Begin Geldigheid */}
-                                            <FormFieldDate
+                                            <FormFieldGeldigheid
                                                 handleChange={handleChange}
                                                 fieldValue={
                                                     crudObject[
@@ -356,7 +357,7 @@ class MuteerVerordeningenStructuurCRUD extends Component {
 
                                             {/* Eind Geldigheid */}
 
-                                            <FormFieldDate
+                                            <FormFieldGeldigheid
                                                 handleChange={handleChange}
                                                 notRequired={true}
                                                 fieldValue={

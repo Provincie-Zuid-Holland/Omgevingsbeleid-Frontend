@@ -1,78 +1,15 @@
-import { render, screen, fireEvent } from "@testing-library/react"
-import "@testing-library/jest-dom"
-import React from "react"
-import FormFieldDate from "./FormFieldDate"
+import { render } from '@testing-library/react';
+import React from 'react';
+import FormFieldDate from './FormFieldDate';
 
-const ParentWrapper = ({ children, initEmpty }) => {
-    const [fieldValue, setFieldValue] = React.useState(
-        initEmpty ? null : "2020-12-12"
-    )
+describe('FormFieldDate', () => {
+    const defaultProps = {};
 
-    const handleChange = jest.fn((e) => {
-        setFieldValue(e.target.value)
-    })
+    it('should render', () => {
+        const props = {...defaultProps};
+        const { asFragment, queryByText } = render(<FormFieldDate {...props} />);
 
-    return (
-        <div>
-            {React.cloneElement(children, {
-                fieldValue: fieldValue,
-                handleChange: handleChange,
-            })}
-        </div>
-    )
-}
-
-describe("FormFieldDate", () => {
-    const setup = (props = {}) => {
-        const { initEmpty, disabled, fieldLabel, property } = props
-
-        render(
-            <ParentWrapper initEmpty={initEmpty}>
-                <FormFieldDate
-                    disabled={disabled}
-                    hideToggleUitwerkingstrede={false}
-                    dataObjectProperty={property ? property : "Eind_Geldigheid"}
-                    fieldLabel="Label"
-                    titleSingular="Titel"
-                />
-            </ParentWrapper>
-        )
-
-        const testid = !property
-            ? `form-field-titel-eind_geldigheid`
-            : `form-field-titel-${property.toLowerCase()}`
-
-        const input = screen.getByTestId(testid)
-        return { fieldLabel, input }
-    }
-
-    it("should render with Eind_Geldigheid", () => {
-        const { input } = setup({ property: "Eind_Geldigheid" })
-        expect(input).toBeInTheDocument()
-    })
-
-    it("should render with Begin_Geldigheid", () => {
-        const { input } = setup({ property: "Begin_Geldigheid" })
-        expect(input).toBeInTheDocument()
-    })
-
-    it("should have the provided value as value", () => {
-        const { input } = setup()
-        expect(input).toHaveValue("2020-12-12")
-    })
-
-    it("should be editable by the user", () => {
-        const { input } = setup()
-        fireEvent.change(input, { target: { value: "2021-10-10" } })
-        expect(input).toHaveValue("2021-10-10")
-    })
-
-    it("user can toggle uitwerkingtreding date", () => {
-        const { input } = setup()
-        const toggle = screen.getByText("Verberg veld voor uitwerkingtreding")
-        expect(toggle).toBeInTheDocument()
-        expect(input).toBeInTheDocument()
-        fireEvent.click(toggle)
-        expect(input).not.toBeInTheDocument()
-    })
-})
+        expect(asFragment()).toMatchSnapshot();
+        expect(queryByText('FormFieldDate')).toBeTruthy();
+    });
+});

@@ -11,7 +11,7 @@ import ContainerFormSection from "./../../../../components/ContainerFormSection"
 // Import Form Fields
 import {
     FormFieldTextInput,
-    FormFieldDate,
+    FormFieldGeldigheid,
 } from "./../../../../components/FormFieldsExport"
 
 import ButtonSubmitFixed from "./../../../../components/ButtonSubmitFixed"
@@ -56,7 +56,7 @@ function Paragraaf() {
                             {/* Geldigheid */}
                             <div className="flex flex-wrap -mx-3">
                                 {/* Begin Geldigheid */}
-                                <FormFieldDate
+                                <FormFieldGeldigheid
                                     handleChange={context.handleChange}
                                     fieldValue={crudObject["Begin_Geldigheid"]}
                                     fieldLabel="Datum inwerkingtreding"
@@ -68,7 +68,7 @@ function Paragraaf() {
 
                                 {/* Eind Geldigheid */}
 
-                                <FormFieldDate
+                                <FormFieldGeldigheid
                                     handleChange={context.handleChange}
                                     notRequired={true}
                                     fieldValue={crudObject["Eind_Geldigheid"]}
