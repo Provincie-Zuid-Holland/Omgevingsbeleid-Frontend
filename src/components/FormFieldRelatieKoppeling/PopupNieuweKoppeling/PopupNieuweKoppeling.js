@@ -209,24 +209,18 @@ class PopupNieuweKoppeling extends Component {
                                 filteredObjecten.length > 0 ? (
                                     filteredObjecten
                                         .sort((a, b) => {
-                                            if (a.Volgnummer && b.Volgnummer) {
-                                                return (
-                                                    a.Volgnummer - b.Volgnummer
-                                                )
+                                            if (
+                                                a.Titel.toUpperCase() <
+                                                b.Titel.toUpperCase()
+                                            ) {
+                                                return -1
+                                            } else if (
+                                                a.Titel.toUpperCase() >
+                                                b.Titel.toUpperCase()
+                                            ) {
+                                                return 1
                                             } else {
-                                                if (
-                                                    a.Titel.toUpperCase() <
-                                                    b.Titel.toUpperCase()
-                                                ) {
-                                                    return -1
-                                                } else if (
-                                                    a.Titel.toUpperCase() >
-                                                    b.Titel.toUpperCase()
-                                                ) {
-                                                    return 1
-                                                } else {
-                                                    return 0
-                                                }
+                                                return 0
                                             }
                                         })
                                         .map((item, index) => (
@@ -245,7 +239,7 @@ class PopupNieuweKoppeling extends Component {
                                                 <span
                                                     className={`${
                                                         item.Volgnummer
-                                                            ? "mr-2"
+                                                            ? "w-10 inline-block"
                                                             : ""
                                                     }`}
                                                 >
