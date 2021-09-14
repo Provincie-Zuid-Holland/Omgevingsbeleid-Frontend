@@ -1,3 +1,4 @@
+import FormFieldGeldigheid from "../FormFieldGeldigheid"
 import FormFieldDate from "../FormFieldDate"
 import FormFieldSelect from "../FormFieldSelect"
 import FormFieldSelectBeleidskeuze from "../FormFieldSelectBeleidskeuze"
@@ -15,6 +16,7 @@ import FormFieldRichTextEditor from "../FormFieldRichTextEditor"
 import FormFieldInputContainer from "../FormFieldInputContainer"
 
 export {
+    FormFieldGeldigheid,
     FormFieldDate,
     FormFieldSelect,
     FormFieldSelectBeleidskeuze,

@@ -8,7 +8,7 @@ import APIcontext from "./../APIContext"
 import ContainerMain from "./../../../components/ContainerMain"
 import ContainerFormSection from "./../../../components/ContainerFormSection"
 import FormFieldTextInput from "./../../../components/FormFieldTextInput"
-import FormFieldDate from "./../../../components/FormFieldDate"
+import FormFieldGeldigheid from "./../../../components/FormFieldGeldigheid"
 
 // Import Form Fields
 import FormFields from "./../../../components/FormFieldsExport"
@@ -45,7 +45,7 @@ class ContainerCrudFields extends React.Component {
                                 {/* Geldigheid */}
                                 <div className="flex flex-wrap -mx-3">
                                     {/* Begin Geldigheid */}
-                                    <FormFieldDate
+                                    <FormFieldGeldigheid
                                         handleChange={this.context.handleChange}
                                         fieldValue={
                                             crudObject["Begin_Geldigheid"]
@@ -60,7 +60,7 @@ class ContainerCrudFields extends React.Component {
 
                                     {/* Eind Geldigheid */}
 
-                                    <FormFieldDate
+                                    <FormFieldGeldigheid
                                         handleChange={this.context.handleChange}
                                         notRequired={true}
                                         fieldValue={

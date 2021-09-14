@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 
 import ContainerFormSection from "./../../../../components/ContainerFormSection"
 import {
-    FormFieldDate,
+    FormFieldGeldigheid,
     FormFieldTextInput,
     FormFieldTextArea,
     FormFieldWeblink,
@@ -58,7 +58,7 @@ function FormFieldContainerAmbities({
                 />
 
                 <div className="flex flex-wrap -mx-3">
-                    <FormFieldDate
+                    <FormFieldGeldigheid
                         handleChange={handleChange}
                         dataObjectProperty="Begin_Geldigheid"
                         fieldValue={crudObject["Begin_Geldigheid"]}
@@ -67,7 +67,7 @@ function FormFieldContainerAmbities({
                         titleSingular={titleSingular}
                     />
 
-                    <FormFieldDate
+                    <FormFieldGeldigheid
                         openUitwerkingstrede={true}
                         handleChange={handleChange}
                         dataObjectProperty="Eind_Geldigheid"

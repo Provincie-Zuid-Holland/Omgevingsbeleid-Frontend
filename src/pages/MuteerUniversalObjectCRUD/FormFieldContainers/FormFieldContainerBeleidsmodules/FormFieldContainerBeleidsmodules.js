@@ -1,6 +1,9 @@
 import React from "react"
 import ContainerFormSection from "./../../../../components/ContainerFormSection"
-import { FormFieldTextInput } from "./../../../../components/FormFieldsExport"
+import {
+    FormFieldTextInput,
+    FormFieldDate,
+} from "./../../../../components/FormFieldsExport"
 
 function FormFieldContainerBeleidsmodules({
     titleSingular,
@@ -19,6 +22,14 @@ function FormFieldContainerBeleidsmodules({
                     dataObjectProperty="Titel"
                     fieldLabel="Titel"
                     pValue="Formuleer in enkele woorden de titel van deze module."
+                    titleSingular={titleSingular}
+                />
+                <FormFieldDate
+                    handleChange={handleChange}
+                    fieldValue={crudObject["Besluit_Datum"]}
+                    dataObjectProperty="Besluit_Datum"
+                    fieldLabel="Besluit Datum"
+                    pValue="Vul hier de besluit datum in."
                     titleSingular={titleSingular}
                 />
             </ContainerFormSection>

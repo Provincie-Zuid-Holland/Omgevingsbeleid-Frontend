@@ -5,7 +5,7 @@ import clonedeep from "lodash.clonedeep"
 import ContainerFormSection from "../../../../components/ContainerFormSection"
 import FormFieldTitelEnBeschrijving from "./../../../../components/FormFieldTitelEnBeschrijving"
 import {
-    FormFieldDate,
+    FormFieldGeldigheid,
     FormFieldInputContainer,
     FormFieldTextInput,
     FormFieldTextArea,
@@ -245,7 +245,7 @@ function FormFieldContainerBeleidskeuzes({
                 />
 
                 <div className="flex flex-wrap -mx-3">
-                    <FormFieldDate
+                    <FormFieldGeldigheid
                         disabled={isVigerend}
                         handleChange={handleChange}
                         fieldValue={crudObject["Begin_Geldigheid"]}
@@ -255,7 +255,7 @@ function FormFieldContainerBeleidskeuzes({
                         pValue="Indien bekend, kan hier de datum van inwerkingtreding worden ingevuld"
                         titleSingular={titleSingular}
                     />
-                    <FormFieldDate
+                    <FormFieldGeldigheid
                         disabled={isVigerend}
                         handleChange={handleChange}
                         notRequired={true}
