@@ -44,11 +44,11 @@ function TabRelations({
     return (
         <ul>
             <li className="flex p-2 text-sm font-bold text-gray-800 border-b border-gray-200">
-                <div className="w-5/12">Beleidskeuzes</div>
+                <div className="w-4/12">Beleidskeuzes</div>
                 <div className="w-2/12">Aangevraagd op</div>
-                <div className="w-1/12">Status</div>
-                <div className="w-2/12 pl-4">Motivering</div>
-                <div className="flex justify-end w-2/12">Actie</div>
+                <div className="w-2/12">Status</div>
+                <div className="w-2/12">Motivering</div>
+                <div className="w-2/12">Actie</div>
             </li>
             {loaded ? (
                 relations.length > 0 ? (
@@ -59,7 +59,7 @@ function TabRelations({
                                 key={relatie.UUID}
                                 className="relative flex items-center px-2 py-2 text-sm text-gray-800 border-b border-gray-200 hover:bg-gray-100"
                             >
-                                <div className="w-5/12 pr-4">{title}</div>
+                                <div className="w-4/12 pr-4">{title}</div>
                                 <div className="w-2/12 pr-4">
                                     {relatie.Created_Date !== null
                                         ? format(
@@ -68,7 +68,7 @@ function TabRelations({
                                           ) + " uur"
                                         : null}
                                 </div>
-                                <div className="w-1/12">
+                                <div className="w-2/12 pr-2">
                                     {relatie.Status === "Akkoord"
                                         ? "Bevestigd"
                                         : relatie.Status === "Open"
@@ -77,7 +77,7 @@ function TabRelations({
                                         ? "Afgewezen"
                                         : null}
                                 </div>
-                                <div className="w-2/12 pl-4">
+                                <div className="w-2/12">
                                     <span
                                         onClick={() => {
                                             setMotivationPopUp(relatie.UUID)
@@ -93,89 +93,33 @@ function TabRelations({
                                         relatie={relatie}
                                     />
                                 </div>
-                                <div className="flex justify-end w-2/12">
+                                <div className="w-2/12">
                                     <span
                                         onClick={() => {
                                             setDisconnectPopup(relatie.UUID)
                                         }}
-                                        className="text-red-600 underline cursor-pointer"
+                                        className={`text-red-600 underline`}
                                     >
                                         {relatie.Status === "Akkoord"
                                             ? "Relatie verwijderen"
                                             : "Verzoek intrekken"}
                                     </span>
+
                                     {disconnectPopUp === relatie.UUID ? (
-                                        <PopUpAnimatedContainer small={true}>
-                                            <div
-                                                onClick={() =>
-                                                    setDisconnectPopup(null)
-                                                }
-                                                className="absolute top-0 right-0 px-3 py-2 text-gray-600 cursor-pointer"
-                                                id={`sluit-popup-beleidsrelatie-motivering`}
-                                            >
-                                                <FontAwesomeIcon
-                                                    icon={faTimes}
-                                                />
-                                            </div>
-                                            <h3 className="mb-4 text-lg font-bold">
-                                                Beleidsrelatie
-                                                {relatie.Status === "Akkoord"
-                                                    ? " verbreken"
-                                                    : " verzoek intrekken"}
-                                            </h3>
-                                            <div className="relative p-4 mb-4 border-l-4 bg-pzh-blue-super-light border-pzh-blue">
-                                                <p className="mt-2 text-sm text-gray-700">
-                                                    {relatie.Status ===
-                                                    "Akkoord"
-                                                        ? `Je staat op het punt om de beleidsrelatie tussen "${beleidskeuzeTitle}" en "${title}" te verbreken`
-                                                        : `Je staat op het punt om het beleidsrelatie verzoek tussen "${beleidskeuzeTitle}" en "${title}" in te trekken`}
-                                                </p>
-                                            </div>
-                                            <h4 className="mb-2 font-bold">
-                                                {relatie.Status === "Akkoord"
-                                                    ? "Weet je zeker dat je deze beleidsrelatie wilt verbreken?"
-                                                    : "Weet je zeker dat je dit beleidsrelatie verzoek wilt intrekken?"}
-                                            </h4>
-                                            <p>
-                                                Deze actie kan niet ongedaan
-                                                worden gemaakt. Je kan wel een
-                                                nieuwe beleidsrelatie aangaan.
-                                                Deze moet dan opnieuw worden
-                                                gemotiveerd.
-                                            </p>
-                                            <div className="flex justify-between mt-10">
-                                                <span
-                                                    className="text-sm text-gray-600 underline cursor-pointer"
-                                                    onClick={() => {
-                                                        setDisconnectPopup(null)
-                                                    }}
-                                                >
-                                                    Annuleren
-                                                </span>
-                                                <span
-                                                    className="px-4 py-2 text-sm font-bold leading-tight text-white rounded cursor-pointer bg-pzh-blue hover:underline"
-                                                    onClick={() => {
-                                                        relationshipDisconnect(
-                                                            relatie
-                                                        )
-                                                        setDisconnectPopup(null)
-                                                        updateStatus(
-                                                            relatie.UUID,
-                                                            relatie.Status ===
-                                                                "Akkoord"
-                                                                ? "Verbroken"
-                                                                : "NietAkkoord",
-                                                            true
-                                                        )
-                                                    }}
-                                                >
-                                                    {relatie.Status ===
-                                                    "Akkoord"
-                                                        ? "Verbreken"
-                                                        : "Intrekken"}
-                                                </span>
-                                            </div>
-                                        </PopUpAnimatedContainer>
+                                        <PopUpConfirm
+                                            setDisconnectPopup={
+                                                setDisconnectPopup
+                                            }
+                                            relatie={relatie}
+                                            beleidskeuzeTitle={
+                                                beleidskeuzeTitle
+                                            }
+                                            relationshipDisconnect={
+                                                relationshipDisconnect
+                                            }
+                                            updateStatus={updateStatus}
+                                            title={title}
+                                        />
                                     ) : null}
                                 </div>
                             </li>
@@ -194,6 +138,76 @@ function TabRelations({
                 </React.Fragment>
             )}
         </ul>
+    )
+}
+
+const PopUpConfirm = ({
+    setDisconnectPopup,
+    relatie,
+    beleidskeuzeTitle,
+    relationshipDisconnect,
+    updateStatus,
+    title,
+}) => {
+    return (
+        <PopUpAnimatedContainer small={true}>
+            <div
+                onClick={() => setDisconnectPopup(null)}
+                className="absolute top-0 right-0 px-3 py-2 text-gray-600 cursor-pointer"
+                id={`sluit-popup-beleidsrelatie-motivering`}
+            >
+                <FontAwesomeIcon icon={faTimes} />
+            </div>
+            <h3 className="mb-4 text-lg font-bold">
+                Beleidsrelatie
+                {relatie.Status === "Akkoord"
+                    ? " verbreken"
+                    : " verzoek intrekken"}
+            </h3>
+            <div className="relative p-4 mb-4 border-l-4 bg-pzh-blue-super-light border-pzh-blue">
+                <p className="mt-2 text-sm text-gray-700">
+                    {relatie.Status === "Akkoord"
+                        ? `Je staat op het punt om de beleidsrelatie tussen "${beleidskeuzeTitle}" en "${title}" te verbreken`
+                        : `Je staat op het punt om het beleidsrelatie verzoek tussen "${beleidskeuzeTitle}" en "${title}" in te trekken`}
+                </p>
+            </div>
+            <h4 className="mb-2 font-bold">
+                {relatie.Status === "Akkoord"
+                    ? "Weet je zeker dat je deze beleidsrelatie wilt verbreken?"
+                    : "Weet je zeker dat je dit beleidsrelatie verzoek wilt intrekken?"}
+            </h4>
+            <p>
+                Deze actie kan niet ongedaan worden gemaakt. Je kan wel een
+                nieuwe beleidsrelatie aangaan. Deze moet dan opnieuw worden
+                gemotiveerd.
+            </p>
+            <div className="flex justify-between mt-10">
+                <span
+                    className="text-sm text-gray-600 underline cursor-pointer"
+                    onClick={() => {
+                        setDisconnectPopup(null)
+                    }}
+                >
+                    Annuleren
+                </span>
+                <span
+                    className="px-4 py-2 text-sm font-bold leading-tight text-white rounded cursor-pointer bg-pzh-blue hover:underline"
+                    onClick={() => {
+                        relationshipDisconnect(relatie)
+                        setDisconnectPopup(null)
+                        updateStatus(
+                            relatie.UUID,
+                            relatie.Status === "Akkoord"
+                                ? "Verbroken"
+                                : "NietAkkoord",
+                            true
+                        )
+                    }}
+                >
+                    {relatie.Status === "Akkoord" ? "Verbreken" : "Intrekken"}
+                </span>
+            </div>
+        </PopUpAnimatedContainer>
     )
 }
 
