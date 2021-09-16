@@ -11,6 +11,8 @@ module.exports = {
         roundedFull: ["responsive", "focus"],
         margin: ["responsive", "group-hover"],
         textColor: ["responsive", "hover", "focus", "group-hover"],
+        borderWidth: ["hover"],
+        borderOpacity: ["hover"],
     },
     theme: {
         fontSize: {

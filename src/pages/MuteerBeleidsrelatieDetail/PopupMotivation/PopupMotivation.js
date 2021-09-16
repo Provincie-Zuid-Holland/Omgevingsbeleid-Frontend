@@ -30,7 +30,11 @@ function PopupMotivation({ motivationPopUp, setMotivationPopUp, relatie }) {
                 <FontAwesomeIcon icon={faTimes} />
             </div>
             <h3 className="font-bold form-field-label">Motivering</h3>
-            <p className="form-field-description">
+            <p
+                className={`form-field-description ${
+                    relatie.Omschrijving ? "" : "opacity-75"
+                }`}
+            >
                 {relatie.Omschrijving
                     ? relatie.Omschrijving
                     : "Deze relatie heeft geen motivering"}

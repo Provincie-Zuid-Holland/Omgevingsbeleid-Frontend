@@ -21,7 +21,9 @@ function SwitchToTabbladButton({
     return (
         <li
             className={`py-1 px-5 text-lg text-pzh-blue relative inline-block font-bold border-pzh-blue ${
-                isActive ? "border-b-2" : "cursor-pointer hover:border-b-2"
+                isActive
+                    ? "border-b-2"
+                    : "cursor-pointer hover:border-b-2 hover:border-opacity-20"
             }
             ${showNotification ? "pr-8" : ""}`}
             onClick={() => {
