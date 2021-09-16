@@ -28,8 +28,8 @@ function FormFieldContainerBeleidsmodules({
                     handleChange={handleChange}
                     fieldValue={crudObject["Besluit_Datum"]}
                     dataObjectProperty="Besluit_Datum"
-                    fieldLabel="Besluit Datum"
-                    pValue="Vul hier de besluit datum in."
+                    fieldLabel="Besluitdatum"
+                    pValue="Vul hier de besluitdatum in."
                     titleSingular={titleSingular}
                 />
             </ContainerFormSection>
