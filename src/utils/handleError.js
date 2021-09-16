@@ -1,10 +1,17 @@
-import { toast } from 'react-toastify'
+import { toast } from "react-toastify"
 
 const errorMessages = {
-    'Image filesize larger than 1MB in text':
-        'De afbeelding is te groot (Max. 1MB)',
-    'Image width larger than 800px in text':
-        'De afbeelding is te groot (800x600)',
+    "Image filesize larger than 1MB in text":
+        "De afbeelding is te groot (Max. 1MB)",
+    "Image width larger than 800px in text":
+        "De afbeelding is te groot (800x600)",
+}
+
+const standardError = (error) => {
+    if (error) {
+        console.error(error)
+    }
+    toast(process.env.REACT_APP_ERROR_MSG)
 }
 
 /**
@@ -12,27 +19,32 @@ const errorMessages = {
  * @param {Object} error - The error object
  */
 const handleError = (error) => {
-    if (!error.response) return
+    if (!error || !error.response) return
 
     const response = error.response
 
+    // 400 Bad Request
     if (response.status === 400) {
-        const errors = response.data.errors
+        const errors = response?.data?.errors
+
+        if (!errors) {
+            standardError()
+            return
+        }
 
         // handle each error
         Object.keys(errors).forEach((property) => {
-            const notificationText = errorMessages[errors[property]]
+            const errorVal = errors[property]
+            const notificationText = errorMessages[errorVal]
 
             if (notificationText) {
                 toast(notificationText)
             } else {
-                console.error(error)
-                toast(process.env.REACT_APP_ERROR_MSG)
+                standardError(error)
             }
         })
     } else {
-        console.error(error)
-        toast(process.env.REACT_APP_ERROR_MSG)
+        standardError(error)
     }
 }
 

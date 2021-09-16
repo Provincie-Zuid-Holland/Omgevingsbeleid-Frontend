@@ -1,16 +1,17 @@
-import React, { Component } from 'react'
-import { Helmet } from 'react-helmet'
-import { toast } from 'react-toastify'
-import { Link } from 'react-router-dom'
+/* istanbul ignore file */
+import React, { Component } from "react"
+import { Helmet } from "react-helmet"
+import { toast } from "react-toastify"
+import { Link } from "react-router-dom"
 
 // Import Componenents
-import ContainerMain from './../../components/ContainerMain'
-import SidebarMain from './../../components/SidebarMain'
-import CardObjectDetails from './../../components/CardObjectDetails'
-import LoaderCard from './../../components/LoaderCard'
+import ContainerMain from "./../../components/ContainerMain"
+import SidebarMain from "./../../components/SidebarMain"
+import CardObjectDetails from "./../../components/CardObjectDetails"
+import LoaderCard from "./../../components/LoaderCard"
 
 // Import Axios instance to connect with the API
-import axios from './../../API/axios'
+import axios from "./../../API/axios"
 
 /**
  * Component to display all the verordening structures that exist
@@ -59,7 +60,7 @@ class MuteerVerordeningenstructuurOverzicht extends Component {
         return (
             <ContainerMain>
                 <Helmet>
-                    <title>Omgevingsbeleid - {'Beheer ' + titelMeervoud}</title>
+                    <title>Omgevingsbeleid - {"Beheer " + titelMeervoud}</title>
                 </Helmet>
 
                 {/* Sidebar */}
@@ -102,7 +103,6 @@ class MuteerVerordeningenstructuurOverzicht extends Component {
                                                 hoofdOnderdeelSlug={
                                                     overzichtSlug
                                                 }
-                                                hideParagraaf={true}
                                             />
                                         }
                                     </li>

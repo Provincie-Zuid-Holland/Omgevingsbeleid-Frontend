@@ -1,10 +1,8 @@
-import React from 'react'
+import React from "react"
 
 /**
  * Component used to display a FormFieldInputContainer, containing children values within a flex box div within a div.
  * This component is used by the page FormFieldContainerMaatregelen.
- *
- * @component
  *
  * @param {object} children - Parameter that is used to show content within a div tag.
  */

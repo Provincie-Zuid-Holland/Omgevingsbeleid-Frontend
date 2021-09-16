@@ -1,20 +1,12 @@
-import React, { Component } from 'react'
-import ViewFieldTitelEnInhoud from '../../ViewFieldTitelEnInhoud'
+import React from "react"
+import ViewFieldTitelEnInhoud from "../../ViewFieldTitelEnInhoud"
 
-class ContainerViewFieldsBeleidsdoelen extends Component {
-    render() {
-        const crudObject = this.props.crudObject
-        return (
-            <React.Fragment>
-                {crudObject['Omschrijving'] !== undefined ? (
-                    <ViewFieldTitelEnInhoud
-                        fieldTitel="Omschrijving"
-                        fieldValue={crudObject['Omschrijving']}
-                    />
-                ) : null}
-            </React.Fragment>
-        )
-    }
-}
+const ContainerViewFieldsBeleidsdoelen = ({ crudObject }) =>
+    crudObject["Omschrijving"] !== undefined ? (
+        <ViewFieldTitelEnInhoud
+            fieldTitel="Omschrijving"
+            fieldValue={crudObject["Omschrijving"]}
+        />
+    ) : null
 
 export default ContainerViewFieldsBeleidsdoelen

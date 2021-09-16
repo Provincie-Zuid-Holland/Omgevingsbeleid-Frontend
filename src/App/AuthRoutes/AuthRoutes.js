@@ -1,32 +1,31 @@
-import React from 'react'
-import { Route, Switch, useHistory } from 'react-router-dom'
-import { toast } from 'react-toastify'
+import React from "react"
+import { Route, Switch, useHistory } from "react-router-dom"
+import { toast } from "react-toastify"
 
 // Import Pages
-import MuteerDashboard from './../../pages/MuteerDashboard'
-import MuteerMijnBeleid from './../../pages/MuteerMijnBeleid'
-import MuteerMijnAccount from './../../pages/MuteerMijnAccount'
-import MuteerMeldingen from './../../pages/MuteerMeldingen'
-import MuteerVerordeningenstructuurOverzicht from './../../pages/MuteerVerordeningenstructuurOverzicht'
-import MuteerVerordeningenstructuurDetail from './../../pages/MuteerVerordeningenstructuurDetail'
-import MuteerVerordeningenStructuurCRUD from './../../pages/MuteerVerordeningenStructuurCRUD'
-import MuteerBeleidsrelaties from './../../pages/MuteerBeleidsrelaties'
-import MuteerBeleidsrelatiesCRUD from './../../pages/MuteerBeleidsrelatiesCRUD'
-import MuteerUniversalObjectOverzicht from './../../pages/MuteerUniversalObjectOverzicht'
-import MuteerUniversalObjectDetail from './../../pages/MuteerUniversalObjectDetail'
-import MuteerUniversalObjectDetailWithStatuses from './../../pages/MuteerUniversalObjectDetailWithStatuses'
-import MuteerUniversalObjectCRUD from './../../pages/MuteerUniversalObjectCRUD'
+import MuteerDashboard from "./../../pages/MuteerDashboard"
+import MuteerMijnBeleid from "./../../pages/MuteerMijnBeleid"
+import MuteerVerordeningenstructuurOverzicht from "./../../pages/MuteerVerordeningenstructuurOverzicht"
+import MuteerVerordeningenstructuurDetail from "./../../pages/MuteerVerordeningenstructuurDetail"
+import MuteerVerordeningenStructuurCRUD from "./../../pages/MuteerVerordeningenStructuurCRUD"
+import MuteerBeleidsrelaties from "./../../pages/MuteerBeleidsrelaties"
+import MuteerBeleidsrelatiesCRUD from "./../../pages/MuteerBeleidsrelatiesCRUD"
+import MuteerUniversalObjectOverzicht from "./../../pages/MuteerUniversalObjectOverzicht"
+import MuteerUniversalObjectDetail from "./../../pages/MuteerUniversalObjectDetail"
+import MuteerUniversalObjectDetailWithStatuses from "./../../pages/MuteerUniversalObjectDetailWithStatuses"
+import MuteerUniversalObjectCRUD from "./../../pages/MuteerUniversalObjectCRUD"
+import MuteerBeleidsmodulesOverview from "./../../pages/MuteerBeleidsmodulesOverview"
 
 // Import All the dimension constants. These contain the dimensions and there variables, e.g. API_ENDPOINT and TITLE_SINGULAR
-import allDimensies from './../../constants/dimensies'
+import allDimensies from "./../../constants/dimensies"
 
 const AuthRoutes = ({ authUser, loggedIn }) => {
     const history = useHistory()
 
     const redirectToLogin = React.useCallback(() => {
         localStorage.removeItem(process.env.REACT_APP_KEY_API_ACCESS_TOKEN)
-        toast('Voor deze actie moet u ingelogd zijn')
-        history.push('/login')
+        toast("Voor deze actie moet u ingelogd zijn")
+        history.push("/login")
     }, [history])
 
     React.useEffect(() => {
@@ -46,16 +45,6 @@ const AuthRoutes = ({ authUser, loggedIn }) => {
                 exact
                 path="/muteer/mijn-beleid"
                 render={() => <MuteerMijnBeleid authUser={authUser} />}
-            />
-            <Route
-                exact
-                path="/muteer/mijn-account"
-                render={() => <MuteerMijnAccount authUser={authUser} />}
-            />
-            <Route
-                exact
-                path="/muteer/mijn-meldingen"
-                component={MuteerMeldingen}
             />
 
             {/* Verordening */}
@@ -150,6 +139,27 @@ const AuthRoutes = ({ authUser, loggedIn }) => {
                 )}
             />
 
+            {/* Beleidsmodules pages */}
+            <Route
+                exact
+                path={`/muteer/${allDimensies.BELEIDSMODULES.SLUG_OVERVIEW}/${allDimensies.BELEIDSMODULES.SLUG_CREATE_NEW}`}
+                render={() => (
+                    <MuteerUniversalObjectCRUD
+                        authUser={authUser}
+                        dimensieConstants={allDimensies.BELEIDSMODULES}
+                    />
+                )}
+            />
+            <Route
+                exact
+                path={`/muteer/${allDimensies.BELEIDSMODULES.SLUG_OVERVIEW}/:single`}
+                render={() => (
+                    <MuteerBeleidsmodulesOverview
+                        dimensieConstants={allDimensies.BELEIDSKEUZES}
+                    />
+                )}
+            />
+
             {/* Maatregelen pages */}
             <Route
                 exact
@@ -220,6 +230,8 @@ const AuthRoutes = ({ authUser, loggedIn }) => {
                 path="/muteer/beleidsrelaties"
                 render={() => <MuteerBeleidsrelaties />}
             />
+
+            {/* Overview, Detail en Edit pages for the rest of the objects */}
             <BeheerRoutes authUser={authUser} history={history} />
         </Switch>
     )
@@ -230,9 +242,12 @@ const BeheerRoutes = (props) => {
     const BeheerRouteJSX = Object.keys(allDimensies)
         .filter((dimensie) => allDimensies[dimensie].SLUG_CREATE_NEW)
         .map((dimensie) => {
-            // We have custom detail pages for beleidskeuzes (beleidskeuzes) en maatregelen
-            const returnDetailPages =
-                dimensie !== 'BELEIDSKEUZES' && dimensie !== 'MAATREGELEN'
+            // There are custom detail pages for beleidskeuzes, maatregelen and beleidsmodules
+            const returnDetailPage =
+                dimensie !== "BELEIDSKEUZES" &&
+                dimensie !== "MAATREGELEN" &&
+                dimensie !== "BELEIDSMODULES"
+
             const dimensieConstants = allDimensies[dimensie]
             const overzichtSlug = allDimensies[dimensie].SLUG_OVERVIEW
             const createNewSlug = allDimensies[dimensie].SLUG_CREATE_NEW
@@ -270,7 +285,7 @@ const BeheerRoutes = (props) => {
                                 />
                             )}
                         />
-                        {returnDetailPages ? (
+                        {returnDetailPage ? (
                             <Route
                                 exact
                                 path={`/muteer/${overzichtSlug}/:single/:version`}
@@ -281,7 +296,7 @@ const BeheerRoutes = (props) => {
                                 )}
                             />
                         ) : null}
-                        {returnDetailPages ? (
+                        {returnDetailPage ? (
                             <Route
                                 exact
                                 path={`/muteer/${overzichtSlug}/:single`}

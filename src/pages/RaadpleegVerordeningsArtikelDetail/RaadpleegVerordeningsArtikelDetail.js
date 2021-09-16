@@ -1,31 +1,30 @@
-import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
-import { format } from 'date-fns'
-import nlLocale from 'date-fns/locale/nl'
-import queryString from 'query-string'
+import React, { Component } from "react"
+import { withRouter } from "react-router-dom"
+import { format } from "date-fns"
+import nlLocale from "date-fns/locale/nl"
+import queryString from "query-string"
 import {
     faAngleRight,
     faPrint,
-    faCompressArrowsAlt,
-    faExpandArrowsAlt,
-} from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import LoaderContent from './../../components/LoaderContent'
-import { toast } from 'react-toastify'
-import { Transition } from '@headlessui/react'
+    faExpandAlt,
+    faCompressAlt,
+} from "@fortawesome/pro-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import LoaderContent from "./../../components/LoaderContent"
+import { toast } from "react-toastify"
+import { Transition } from "@headlessui/react"
 
 // Import Axios instance to connect with the API
-import axios from '../../API/axios'
+import axios from "../../API/axios"
 
 // Import Components
-import ButtonBackToPage from './../../components/ButtonBackToPage'
-import VerordeningenDetailSidebar from './VerordeningenDetailSidebar'
-import LeafletTinyViewer from './../../components/LeafletTinyViewer'
-import RelatiesKoppelingen from '../../components/RelatiesKoppelingen'
+import ButtonBackToPage from "./../../components/ButtonBackToPage"
+import VerordeningenDetailSidebar from "./VerordeningenDetailSidebar"
+import LeafletTinyViewer from "./../../components/LeafletTinyViewer"
+import RelatiesKoppelingen from "../../components/RelatiesKoppelingen"
 
-// !REFACTOR! -> Wordt nu op meerdere plekken gebruikt, move naar utils
 function parseIntOrSetToNull(item) {
-    if (item === 'null') {
+    if (item === "null") {
         return null
     } else {
         return parseInt(item)
@@ -41,6 +40,8 @@ function getQueryStringValues(urlParams) {
     return [hoofdstukIndex, nest_1, nest_2, nest_3]
 }
 
+// REFACTOR for readability
+
 class RaadpleegVerordeningsArtikelDetail extends Component {
     constructor(props) {
         super(props)
@@ -52,9 +53,8 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
             fullscreenLeafletViewer: false,
         }
 
-        this.toggleFullscreenLeafletViewer = this.toggleFullscreenLeafletViewer.bind(
-            this
-        )
+        this.toggleFullscreenLeafletViewer =
+            this.toggleFullscreenLeafletViewer.bind(this)
     }
 
     toggleFullscreenLeafletViewer() {
@@ -129,9 +129,7 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
 
     getAndSetVerordeningsObject(UUID) {
         return axios.get(`/version/verordeningen/${UUID}`).then((res) => {
-            // Get latest lineage
             const verordeningsObject = res.data
-            // this.populateFieldsAndSetState(lineage)
             this.setState({
                 verordeningsObject: verordeningsObject,
             })
@@ -140,7 +138,6 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
 
     getAndSetLidObject(UUID) {
         return axios.get(`/version/verordeningen/${UUID}`).then((res) => {
-            // Get latest lineage
             const lidObject = res.data
             return lidObject
         })
@@ -192,18 +189,14 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
         const urlParams = this.props.location.search
         return new Promise((resolve, reject) => {
             if (urlParams) {
-                let [
-                    hoofdstukIndex,
-                    nest1,
-                    nest2,
-                    nest3,
-                ] = getQueryStringValues(urlParams)
+                let [hoofdstukIndex, nest1, nest2, nest3] =
+                    getQueryStringValues(urlParams)
 
                 const activeObjectPath = [hoofdstukIndex, nest1, nest2, nest3]
 
                 // Fallback for when an item couldn't be found in the vigerende structure
                 if (activeObjectPath[0] === null) {
-                    this.props.history.push('/')
+                    this.props.history.push("/")
                     toast(
                         `Dit onderdeel van de verordening kon niet gevonden worden in de vigerende structuur`
                     )
@@ -235,7 +228,7 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
             this.getAndSetVerordeningsObject(UUID),
         ])
             .then(() => {
-                if (this.state.verordeningsObject.Type === 'Artikel') {
+                if (this.state.verordeningsObject.Type === "Artikel") {
                     this.ifPresentGetAndSetLeden(UUID)
                         .then(() => {
                             this.setState({ dataLoaded: true }, () =>
@@ -284,7 +277,7 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                     ])
                         .then(() => {
                             if (
-                                this.state.verordeningsObject.Type === 'Artikel'
+                                this.state.verordeningsObject.Type === "Artikel"
                             ) {
                                 this.ifPresentGetAndSetLeden(UUID)
                                     .then(() => {
@@ -323,23 +316,22 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
 
         if (
             dataLoaded &&
-            artikel.Gebied !== '00000000-0000-0000-0000-000000000000' &&
+            artikel.Gebied !== "00000000-0000-0000-0000-000000000000" &&
             artikel.Gebied !== null
         ) {
             werkingsgebiedBoolean = true
-            werkingsGebiedUUID = artikel.Gebied.UUID
+            werkingsGebiedUUID = artikel?.Gebied?.UUID
         }
 
         let breadcrumb = null
 
         if (dataLoaded && activeObjectPath) {
-            hoofdstukNummer = this.state.lineage.Structuur.Children[
-                activeObjectPath[0]
-            ].Volgnummer
+            hoofdstukNummer =
+                this.state.lineage.Structuur.Children[activeObjectPath[0]]
+                    .Volgnummer
 
-            hoofdstukTitel = this.state.lineage.Structuur.Children[
-                activeObjectPath[0]
-            ].Titel
+            hoofdstukTitel =
+                this.state.lineage.Structuur.Children[activeObjectPath[0]].Titel
 
             breadcrumb = this.getBreadcrumb({
                 hoofdstukNummer: hoofdstukNummer,
@@ -359,15 +351,15 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                     <ButtonBackToPage
                         terugNaar={
                             window.location.hash
-                                ? 'zoekresultaten'
-                                : 'startpagina'
+                                ? "zoekresultaten"
+                                : "startpagina"
                         }
                         url={
                             window.location.hash
                                 ? `/zoekresultaten${window.location.hash.substr(
                                       1
                                   )}`
-                                : '/'
+                                : "/"
                         }
                     />
                     <VerordeningenDetailSidebar
@@ -396,7 +388,7 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
 
                             {/* Artikel Headers */}
                             <span className="block mb-1 text-lg font-bold tracking-wide text-pzh-blue-dark">
-                                Artikel {' ' + artikel?.Volgnummer}
+                                Artikel {" " + artikel?.Volgnummer}
                             </span>
                             <h1
                                 id="raadpleeg-detail-header-one"
@@ -411,13 +403,13 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                                 id="raadpleeg-detail-container-meta-info"
                             >
                                 <span className="mr-3 text-sm text-gray-600">
-                                    Vigerend sinds{' '}
+                                    Vigerend sinds{" "}
                                     {artikel?.Begin_Geldigheid
                                         ? format(
                                               new Date(
                                                   artikel?.Begin_Geldigheid
                                               ),
-                                              'dd-MM-yyyy',
+                                              "dd-MM-yyyy",
                                               {
                                                   locale: nlLocale,
                                               }
@@ -442,7 +434,6 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                                 className={`leading-7 break-words w-full whitespace-pre-line `}
                             >
                                 {artikel?.Inhoud}
-
                                 {this.state.ledenObjecten
                                     ? this.state.ledenObjecten.map((lid) => {
                                           return (
@@ -474,15 +465,15 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                                     >
                                         Bekijk in het
                                         {this.state.fullscreenLeafletViewer
-                                            ? ' klein'
-                                            : ' groot'}
+                                            ? " klein"
+                                            : " groot"}
                                         <FontAwesomeIcon
                                             className="ml-2 text-gray-700"
                                             icon={
                                                 this.state
                                                     .fullscreenLeafletViewer
-                                                    ? faCompressArrowsAlt
-                                                    : faExpandArrowsAlt
+                                                    ? faCompressAlt
+                                                    : faExpandAlt
                                             }
                                         />
                                     </span>
@@ -503,8 +494,8 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                         ) : null}
                         <div className="mt-16">
                             <RelatiesKoppelingen
-                                titleSingular={'Artikel'}
-                                titleSingularPrefix={'het'}
+                                titleSingular={"Artikel"}
+                                titleSingularPrefix={"het"}
                                 dataObject={artikel}
                             />
                         </div>

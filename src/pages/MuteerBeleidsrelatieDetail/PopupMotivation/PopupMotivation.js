@@ -1,11 +1,11 @@
-import React from 'react'
-import PopUpAnimatedContainer from '../../../components/PopUpAnimatedContainer'
+import React from "react"
+import PopUpAnimatedContainer from "../../../components/PopUpAnimatedContainer"
 
-import useClickOutsideContainer from './../../../utils/useClickOutsideContainer'
-import useCloseWithEscapeKey from './../../../utils/useCloseWithEscapeKey'
+import useClickOutsideContainer from "./../../../utils/useClickOutsideContainer"
+import useCloseWithEscapeKey from "./../../../utils/useCloseWithEscapeKey"
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimes } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faTimes } from "@fortawesome/pro-solid-svg-icons"
 
 function PopupMotivation({ motivationPopUp, setMotivationPopUp, relatie }) {
     const popupContainer = React.useRef(null)
@@ -30,10 +30,14 @@ function PopupMotivation({ motivationPopUp, setMotivationPopUp, relatie }) {
                 <FontAwesomeIcon icon={faTimes} />
             </div>
             <h3 className="font-bold form-field-label">Motivering</h3>
-            <p className="form-field-description">
+            <p
+                className={`form-field-description ${
+                    relatie.Omschrijving ? "" : "opacity-75"
+                }`}
+            >
                 {relatie.Omschrijving
                     ? relatie.Omschrijving
-                    : 'Deze relatie heeft geen motivering'}
+                    : "Deze relatie heeft geen motivering"}
             </p>
         </PopUpAnimatedContainer>
     )

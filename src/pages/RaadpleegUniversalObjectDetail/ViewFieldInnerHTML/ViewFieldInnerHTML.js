@@ -1,5 +1,5 @@
-import React from 'react'
-import DOMPurify from 'dompurify'
+import React from "react"
+import DOMPurify from "dompurify"
 
 function ViewFieldInnerHTML({ html, fieldTitel }) {
     const cleanHtml = DOMPurify.sanitize(html)

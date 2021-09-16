@@ -1,9 +1,9 @@
-import React from 'react'
-import { format } from 'date-fns'
-import { useParams } from 'react-router-dom'
+import React from "react"
+import { format } from "date-fns"
+import { useParams } from "react-router-dom"
 
-import LoaderBeleidsrelatieRegel from '../../../components/LoaderBeleidsrelatieRegel'
-import PopupMotivation from '../PopupMotivation/PopupMotivation'
+import LoaderBeleidsrelatieRegel from "../../../components/LoaderBeleidsrelatieRegel"
+import PopupMotivation from "../PopupMotivation/PopupMotivation"
 
 /**
  * @prop {boolean} loaded true if the incoming relationships have loaded
@@ -31,41 +31,41 @@ function TabDisconnected({
     return (
         <ul>
             <li className="flex p-2 text-sm font-bold text-gray-800 border-b border-gray-200">
-                <div className="w-5/12">Beleidskeuzes</div>
+                <div className="w-4/12">Beleidskeuzes</div>
                 <div className="w-4/12">Datum</div>
-                <div className="w-1/12">Status</div>
-                <div className="w-3/12 pl-8">Motivering</div>
+                <div className="w-2/12">Status</div>
+                <div className="w-2/12">Motivering</div>
             </li>
             {loaded ? (
                 disconnected.length > 0 ? (
                     disconnected.map((relatie) => {
-                        const title = getPropertyFromRelation(relatie, 'Titel')
+                        const title = getPropertyFromRelation(relatie, "Titel")
                         return (
                             <li
                                 key={relatie.UUID}
                                 className="relative flex items-center px-2 py-2 text-sm text-gray-800 border-b border-gray-200 hover:bg-gray-100"
                             >
-                                <div className="w-5/12 pr-4">{title}</div>
-                                <div className="w-4/12">
+                                <div className="w-4/12 pr-4">{title}</div>
+                                <div className="w-4/12 pr-4">
                                     {relatie.Datum_Akkoord !== null
                                         ? format(
                                               new Date(relatie.Datum_Akkoord),
-                                              'd MMMM yyyy, HH:mm'
-                                          ) + ' uur'
+                                              "d MMMM yyyy, HH:mm"
+                                          ) + " uur"
                                         : null}
                                 </div>
-                                <div className="w-1/12">
-                                    {relatie.Status === 'Akkoord'
-                                        ? 'Bevestigd'
-                                        : relatie.Status === 'Open'
-                                        ? 'In afwachting'
-                                        : relatie.Status === 'NietAkkoord'
-                                        ? 'Afgewezen'
-                                        : relatie.Status === 'Verbroken'
-                                        ? 'Verbroken'
+                                <div className="w-2/12">
+                                    {relatie.Status === "Akkoord"
+                                        ? "Bevestigd"
+                                        : relatie.Status === "Open"
+                                        ? "In afwachting"
+                                        : relatie.Status === "NietAkkoord"
+                                        ? "Afgewezen"
+                                        : relatie.Status === "Verbroken"
+                                        ? "Verbroken"
                                         : null}
                                 </div>
-                                <div className="w-3/12 pl-8">
+                                <div className="w-2/12">
                                     <span
                                         onClick={() => {
                                             setMotivationPopUp(relatie.UUID)

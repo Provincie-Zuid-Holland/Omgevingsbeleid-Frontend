@@ -1,3 +1,3 @@
-import ScrollToTop from './ScrollToTop.js'
+import ScrollToTop from "./ScrollToTop.js"
 
 export default ScrollToTop

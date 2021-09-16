@@ -1,10 +1,10 @@
-import { render, screen, fireEvent } from '@testing-library/react'
-import '@testing-library/jest-dom'
-import React from 'react'
-import FormFieldNumberInput from './FormFieldNumberInput'
+import { render, screen, fireEvent } from "@testing-library/react"
+import "@testing-library/jest-dom"
+import React from "react"
+import FormFieldNumberInput from "./FormFieldNumberInput"
 
 const ParentWrapper = ({ children, initEmpty }) => {
-    const [fieldValue, setFieldValue] = React.useState(initEmpty ? null : '100')
+    const [fieldValue, setFieldValue] = React.useState(initEmpty ? null : "100")
 
     const handleChange = jest.fn((e) => {
         setFieldValue(e.target.value)
@@ -20,15 +20,15 @@ const ParentWrapper = ({ children, initEmpty }) => {
     )
 }
 
-describe('FormFieldNumberInput', () => {
+describe("FormFieldNumberInput", () => {
     const setup = () => {
         render(
             <ParentWrapper>
                 <FormFieldNumberInput
-                    dataObjectProperty={'numberProperty'}
-                    pValue={'Description'}
-                    titleSingular={'Singular'}
-                    fieldLabel={'Label'}
+                    dataObjectProperty={"numberProperty"}
+                    pValue={"Description"}
+                    titleSingular={"Singular"}
+                    fieldLabel={"Label"}
                 />
             </ParentWrapper>
         )
@@ -36,21 +36,21 @@ describe('FormFieldNumberInput', () => {
         const input = screen.getByTestId(`form-field-singular-numberproperty`)
         return { input }
     }
-    it('should render', () => {
+    it("should render", () => {
         setup()
-        const label = screen.getByText('Label')
+        const label = screen.getByText("Label")
         expect(label).toBeTruthy()
 
-        const description = screen.getByText('Description')
+        const description = screen.getByText("Description")
         expect(description).toBeTruthy()
     })
 
-    it('contains the provided value', () => {
+    it("contains the provided value", () => {
         const { input } = setup()
         expect(input).toHaveValue(100)
     })
 
-    it('changes the value when a user types in it', () => {
+    it("changes the value when a user types in it", () => {
         const { input } = setup()
         fireEvent.change(input, { target: { value: 200 } })
         expect(input).toHaveValue(200)
