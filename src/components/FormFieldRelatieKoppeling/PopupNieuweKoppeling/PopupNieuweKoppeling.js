@@ -1,21 +1,42 @@
-import React, { Component } from 'react'
-import axios from './../../../API/axios'
-import { faTimes, faSearch } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { toast } from 'react-toastify'
+import React, { Component } from "react"
+import axios from "./../../../API/axios"
+import { faTimes, faSearch } from "@fortawesome/pro-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { toast } from "react-toastify"
 
-import PopUpAnimatedContainer from './../../PopUpAnimatedContainer'
-import objecten from './../../../constants/koppelingen'
+import PopUpAnimatedContainer from "./../../PopUpAnimatedContainer"
+import objecten from "./../../../constants/koppelingen"
+
+const getTypeText = (type) => {
+    switch (type) {
+        case "belangen":
+            return "het belang"
+        case "taken":
+            return "de taak"
+        case "ambities":
+            return "de ambitie"
+        case "beleidsdoelen":
+            return "het beleidsdoel"
+        case "themas":
+            return "het thema"
+        case "beleidsregels":
+            return "de beleidsregel"
+        case "beleidsprestaties":
+            return "de beleidsprestatie"
+        case "maatregelen":
+            return "de maatregel"
+        case "verordening":
+            return "de verordening"
+        default:
+            return "het object"
+    }
+}
 
 /**
  * Class that renders the PopupNieuweKoppeling component in a imported PopUpAnimatedContainer,
  * in which the user on the first page searches a koppeltekst which they want to connect to the beleidskeuze.
  * On the second page the user describes the relationship between the koppeltekst value and the beleidskeuze.
  *
- * This component is used within the FormFieldRelatieKoppeling component.
- *
- * @class
- * @extends Component
  */
 class PopupNieuweKoppeling extends Component {
     constructor(props) {
@@ -24,8 +45,8 @@ class PopupNieuweKoppeling extends Component {
             type: this.props.type,
             objecten: [],
             selected: null,
-            beschrijving: '',
-            zoekFilter: '',
+            beschrijving: "",
+            zoekFilter: "",
             actievePagina: 1,
             dataLoaded: false,
         }
@@ -36,11 +57,11 @@ class PopupNieuweKoppeling extends Component {
     /**
      * Function that adds the EventListener keypress "Enter".
      *
-     * @function
+     *
      */
     componentDidMount() {
-        window.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
+        window.addEventListener("keypress", (e) => {
+            if (e.key === "Enter") {
                 e.preventDefault()
             }
         })
@@ -77,7 +98,7 @@ class PopupNieuweKoppeling extends Component {
     /**
      * Function to setState of the selected state within the function.
      *
-     * @function
+     *
      *
      * @param {object} object - Parameter used as an value of the selected state within the function.
      */
@@ -96,7 +117,7 @@ class PopupNieuweKoppeling extends Component {
     /**
      * Function to set the state of the actievePagina variable with a new value.
      *
-     * @function
+     *
      */
     volgendeScherm() {
         this.setState({
@@ -107,7 +128,7 @@ class PopupNieuweKoppeling extends Component {
     /**
      * Function to handle change of the user and set the name variable by using the value.
      *
-     * @function
+     *
      *
      * @param {e} e - Parameter that is used to catch any changes given by the user.
      */
@@ -120,31 +141,6 @@ class PopupNieuweKoppeling extends Component {
         })
     }
 
-    getTypeText(type) {
-        switch (type) {
-            case 'belangen':
-                return 'het belang'
-            case 'taken':
-                return 'de taak'
-            case 'ambities':
-                return 'de ambitie'
-            case 'beleidsdoelen':
-                return 'het beleidsdoel'
-            case 'themas':
-                return 'het thema'
-            case 'beleidsregels':
-                return 'de beleidsregel'
-            case 'beleidsprestaties':
-                return 'de beleidsprestatie'
-            case 'maatregelen':
-                return 'de maatregel'
-            case 'verordening':
-                return 'de verordening'
-            default:
-                return 'het object'
-        }
-    }
-
     render() {
         const propertyName = objecten[this.state.type].propertyName
         const crudObject = JSON.parse(JSON.stringify(this.props.crudObject))
@@ -152,22 +148,27 @@ class PopupNieuweKoppeling extends Component {
 
         if (crudObject[propertyName]) {
             crudObject[propertyName].forEach((item) => {
-                actieveKoppelingen.push(item.UUID)
+                actieveKoppelingen.push(item.Object.UUID)
             })
         }
 
         const filteredObjecten = this.state.objecten
             .filter(
                 (item) =>
-                    item.Type !== 'Lid' &&
-                    item.Titel &&
-                    item.Titel.toLowerCase().includes(
-                        this.state.zoekFilter.toLowerCase()
-                    )
+                    (item.Type !== "Lid" &&
+                        item.Titel &&
+                        item.Titel.toLowerCase().includes(
+                            this.state.zoekFilter.toLowerCase()
+                        )) ||
+                    (item.Type !== "Lid" &&
+                        item.Titel &&
+                        item?.Volgnummer?.toLowerCase()?.includes(
+                            this.state.zoekFilter.toLowerCase()
+                        ))
             )
             .filter((item) => !actieveKoppelingen.includes(item.UUID))
 
-        let typeText = this.getTypeText(this.state.type)
+        let typeText = getTypeText(this.state.type)
 
         return (
             <PopUpAnimatedContainer>
@@ -178,7 +179,7 @@ class PopupNieuweKoppeling extends Component {
                 >
                     <FontAwesomeIcon icon={faTimes} />
                 </div>
-                <h3 className="form-field-label font-bold">
+                <h3 className="font-bold form-field-label">
                     {objecten[this.state.type].volledigeTitel} koppelen
                 </h3>
                 {this.state.actievePagina === 1 ? (
@@ -206,35 +207,49 @@ class PopupNieuweKoppeling extends Component {
                             <ul className="flex-row overflow-y-auto popup-results-list">
                                 {this.state.objecten &&
                                 filteredObjecten.length > 0 ? (
-                                    filteredObjecten.map((item, index) => {
-                                        if (this.state.selected === item) {
-                                            return (
-                                                <li
-                                                    onClick={() => {
-                                                        this.selectObject(item)
-                                                    }}
-                                                    className="px-4 py-2 text-sm font-bold text-gray-700 bg-gray-100 cursor-pointer "
-                                                    key={item.UUID}
-                                                    id={`form-field-koppeling-item-${index}`}
+                                    filteredObjecten
+                                        .sort((a, b) => {
+                                            if (
+                                                a.Titel.toUpperCase() <
+                                                b.Titel.toUpperCase()
+                                            ) {
+                                                return -1
+                                            } else if (
+                                                a.Titel.toUpperCase() >
+                                                b.Titel.toUpperCase()
+                                            ) {
+                                                return 1
+                                            } else {
+                                                return 0
+                                            }
+                                        })
+                                        .map((item, index) => (
+                                            <li
+                                                onClick={() => {
+                                                    this.selectObject(item)
+                                                }}
+                                                className={`px-4 py-2 text-sm text-gray-700 cursor-pointer ${
+                                                    this.state.selected === item
+                                                        ? "bg-gray-100 font-bold"
+                                                        : "hover:bg-gray-100"
+                                                }`}
+                                                key={item.UUID}
+                                                id={`form-field-koppeling-item-${index}`}
+                                            >
+                                                <span
+                                                    className={`${
+                                                        item.Volgnummer
+                                                            ? "w-10 inline-block"
+                                                            : ""
+                                                    }`}
                                                 >
-                                                    {item.Titel}
-                                                </li>
-                                            )
-                                        } else {
-                                            return (
-                                                <li
-                                                    onClick={() => {
-                                                        this.selectObject(item)
-                                                    }}
-                                                    className="px-4 py-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-100"
-                                                    key={item.UUID}
-                                                    id={`form-field-koppeling-item-${index}`}
-                                                >
-                                                    {item.Titel}
-                                                </li>
-                                            )
-                                        }
-                                    })
+                                                    {item.Volgnummer
+                                                        ? item.Volgnummer
+                                                        : null}
+                                                </span>
+                                                <span>{item.Titel}</span>
+                                            </li>
+                                        ))
                                 ) : (
                                     <li
                                         className="px-4 py-2 text-sm text-gray-700 cursor-not-allowed"
@@ -257,7 +272,7 @@ class PopupNieuweKoppeling extends Component {
                                                 {
                                                     objecten[this.state.type]
                                                         .volledigeTitelMeervoud
-                                                }{' '}
+                                                }{" "}
                                                 laden...
                                             </span>
                                         )}
@@ -288,6 +303,7 @@ class PopupNieuweKoppeling extends Component {
                             onChange={this.handleChange}
                             id={`form-field-koppeling-beschrijving`}
                             name="beschrijving"
+                            aria-label="beschrijving"
                             className="block w-full h-24 px-4 py-3 leading-tight text-gray-700 border border-gray-400 rounded appearance-none focus:outline-none focus:bg-white hover:border-gray-500 focus:border-gray-500"
                             type="text"
                         />
@@ -319,7 +335,7 @@ class PopupNieuweKoppeling extends Component {
                             }}
                             onKeyPress={(e) => {
                                 if (
-                                    e.key === 'Enter' &&
+                                    e.key === "Enter" &&
                                     this.state.beschrijving.length > 0
                                 ) {
                                     this.props.voegKoppelingRelatieToe(
@@ -356,7 +372,7 @@ class PopupNieuweKoppeling extends Component {
                             }}
                             onKeyPress={(e) => {
                                 if (
-                                    e.key === 'Enter' &&
+                                    e.key === "Enter" &&
                                     this.state.beschrijving.length > 0
                                 ) {
                                     this.props.voegKoppelingRelatieToe(
@@ -379,3 +395,4 @@ class PopupNieuweKoppeling extends Component {
 }
 
 export default PopupNieuweKoppeling
+export { getTypeText }

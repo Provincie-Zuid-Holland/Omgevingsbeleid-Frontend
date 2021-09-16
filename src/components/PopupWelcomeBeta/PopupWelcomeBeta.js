@@ -1,8 +1,8 @@
-import React from 'react'
+import React from "react"
 
-import logoSVG from './../../images/PZH_Basislogo.svg'
+import logoSVG from "./../../images/PZH_Basislogo.svg"
 
-import useLockBodyScroll from './../../utils/useLockBodyScroll'
+import useLockBodyScroll from "./../../utils/useLockBodyScroll"
 
 const PopupWelcomeBeta = ({ closePopup }) => {
     useLockBodyScroll({ modalOpen: true })
@@ -16,7 +16,7 @@ const PopupWelcomeBeta = ({ closePopup }) => {
                         <img
                             className="inline-block"
                             title="Provincie Zuid-Holland Logo"
-                            style={{ height: '136px' }}
+                            style={{ height: "136px" }}
                             src={logoSVG}
                         />
                     </div>
@@ -31,7 +31,7 @@ const PopupWelcomeBeta = ({ closePopup }) => {
                         gebruiksvriendelijkere omgeving en betere weergaven.
                         Omdat de website nog in ontwikkeling is kan het zijn dat
                         sommige functionaliteiten niet goed werken. Kom je een
-                        fout tegen? Neem dan contact op door te mailen naar{' '}
+                        fout tegen? Neem dan contact op door te mailen naar{" "}
                         <a
                             href="mailto:omgevingsbeleid@pzh.nl?subject=Feedback Omgevingsbeleid&body=Probeer zo duidelijk mogelijk te omschrijven waar je tegenaan liep"
                             className="underline cursor-pointer"

@@ -1,3 +1,3 @@
-import ContainerViewFieldsBelang from './ContainerViewFieldsBelang.js'
+import ContainerViewFieldsBelang from "./ContainerViewFieldsBelang.js"
 
 export default ContainerViewFieldsBelang

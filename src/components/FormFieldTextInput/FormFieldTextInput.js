@@ -1,10 +1,8 @@
-import React from 'react'
-import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFieldTitelEnBeschrijving'
+import React from "react"
+import FormFieldTitelEnBeschrijving from "../FormFieldTitelEnBeschrijving/FormFieldTitelEnBeschrijving"
 
 /**
  * Component that renders the FormFieldTextInput component where the input of the user is registered in the formfield while using the imported FormFieldTitelEnBeschrijving component to display the formfield title and description.
- *
- * @component
  *
  * @param {string} dataObjectProperty - Parameter that is used for the FormFieldTitelEnBeschrijving imported component to store a string variable and it's used as a part of the id of name of the input element.
  * @param {string} pValue - Parameter that can display text and is a part of the FormFieldTitelenBeschrijving.
@@ -24,7 +22,7 @@ const FormFieldTextInput = ({
     disabled,
 }) => {
     if (disabled) {
-        pValue = pValue + ' (Kan niet zonder besluitvorming worden gewijzigd)'
+        pValue = pValue + " (Kan niet zonder besluitvorming worden gewijzigd)"
     }
 
     return (
@@ -39,7 +37,7 @@ const FormFieldTextInput = ({
                 disabled={disabled}
                 data-testid={`form-field-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
                 id={`form-field-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
-                value={fieldValue ? fieldValue : ''}
+                value={fieldValue ? fieldValue : ""}
                 onChange={handleChange}
                 name={dataObjectProperty}
                 className="block w-full px-4 py-3 leading-tight text-gray-700 border border-gray-400 rounded appearance-none focus:outline-none hover:border-gray-500 focus:border-gray-500"

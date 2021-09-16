@@ -1,59 +1,59 @@
-Cypress.Commands.add('fillInFormField', ({ type, idOfElement, testValue }) => {
+Cypress.Commands.add("fillInFormField", ({ type, idOfElement, testValue }) => {
     switch (type) {
-        case 'hidden':
+        case "hidden":
             // Value of property is automatically generated
             return
-        case 'react select':
+        case "react select":
             cy.get(idOfElement, { timeout: 10000 })
                 .click()
-                .type(testValue + '{enter}')
+                .type(testValue + "{enter}")
 
             return
-        case 'date input':
+        case "date input":
             cy.get(idOfElement, { timeout: 10000 })
                 .type(testValue)
-                .should('have.value', testValue)
+                .should("have.value", testValue)
             break
-        case 'text input':
+        case "text input":
             cy.get(idOfElement, { timeout: 10000 })
                 .type(testValue)
-                .should('have.value', testValue)
+                .should("have.value", testValue)
             break
-        case 'select':
+        case "select":
             cy.get(idOfElement, { timeout: 10000 })
                 .select(testValue)
-                .should('have.value', testValue)
+                .should("have.value", testValue)
             break
-        case 'werkingsgebied':
+        case "werkingsgebied":
             cy.get(idOfElement, { timeout: 10000 }).click()
 
-            cy.get('#form-field-werkingsgebied-zoekbalk').type(
-                'Provincie Zuid-Holland'
+            cy.get("#form-field-werkingsgebied-zoekbalk").type(
+                "Provincie Zuid-Holland"
             )
 
-            cy.get('.werkingsgebied-container div', {
+            cy.get(".werkingsgebied-container div", {
                 timeout: 10000,
             })
                 .first()
                 .click()
 
-            cy.get('#selected-werkingsgebied').should('exist')
+            cy.get("#selected-werkingsgebied").should("exist")
 
             break
-        case 'radio input':
+        case "radio input":
             cy.get(idOfElement, { timeout: 10000 })
                 .get('[type="radio"]')
                 .check(testValue)
-                .should('be.checked')
+                .should("be.checked")
             break
-        case 'rich text editor':
+        case "rich text editor":
             cy.get(idOfElement, { timeout: 10000 })
-                .type('{selectall}' + testValue)
+                .type("{selectall}" + testValue)
                 .contains(testValue)
-                .should('exist')
+                .should("exist")
             break
         default:
-            cy.log('Default break')
+            cy.log("Default break")
             break
     }
 })

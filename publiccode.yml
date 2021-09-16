@@ -1,0 +1,48 @@
+publiccodeYmlVersion: '0.2'
+
+name: Omgevingsbeleid Frontend
+url: 'https://omgevingsbeleid.zuid-holland.nl/'
+softwareVersion: 'dev'
+releaseDate: '2019-03-25'
+
+platforms:
+    - web
+
+categories:
+    - government
+
+developmentStatus: development
+
+softwareType: 'standalone/web'
+
+description:
+    en:
+        genericName: Omgevingsbeleid
+        shortDescription: >
+            A web application to create, edit and view policies.
+
+        longDescription: >
+        A web application for that enables policy makers to create, edit and view policies and enables citizens to view the policies.
+
+        features:
+            - Enables policy makers to create policies
+            - Enables policy makers to edit policies
+            - Enables policy makers to easily connect policies
+            - Enables citizens to view policies
+            - Enables citizens to get insight into how policies are connected
+            - Enables citizens to get insight into what policies are active on a geographical point
+
+legal:
+    license: UPL-1.2 License
+
+maintenance:
+    type: 'contract'
+
+    contacts:
+        - name: Aiden Buis
+          email: hello@aidenbuis.com
+          
+localisation:
+    localisationReady: no
+    availableLanguages:
+        - nl

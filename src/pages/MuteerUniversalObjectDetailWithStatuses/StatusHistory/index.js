@@ -1,2 +1,2 @@
-export { default } from './StatusHistory';
-export * from './StatusHistory';
+export { default } from "./StatusHistory"
+export * from "./StatusHistory"

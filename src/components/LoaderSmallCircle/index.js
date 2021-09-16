@@ -1,3 +1,3 @@
-import LoaderSmallCircle from './LoaderSmallCircle.js'
+import LoaderSmallCircle from "./LoaderSmallCircle.js"
 
 export default LoaderSmallCircle

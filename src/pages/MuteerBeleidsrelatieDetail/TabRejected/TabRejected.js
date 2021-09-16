@@ -1,12 +1,12 @@
-import React from 'react'
-import { format } from 'date-fns'
-import { useParams } from 'react-router-dom'
+import React from "react"
+import { format } from "date-fns"
+import { useParams } from "react-router-dom"
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimes } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faTimes } from "@fortawesome/pro-solid-svg-icons"
 
-import LoaderBeleidsrelatieRegel from '../../../components/LoaderBeleidsrelatieRegel'
-import PopupMotivation from '../PopupMotivation/PopupMotivation'
+import LoaderBeleidsrelatieRegel from "../../../components/LoaderBeleidsrelatieRegel"
+import PopupMotivation from "../PopupMotivation/PopupMotivation"
 
 /**
  * @prop {boolean} loaded true if the incoming relationships have loaded
@@ -33,39 +33,39 @@ function TabRejected({
     return (
         <ul>
             <li className="flex p-2 text-sm font-bold text-gray-800 border-b border-gray-200">
-                <div className="w-5/12">Beleidskeuzes</div>
+                <div className="w-4/12">Beleidskeuzes</div>
                 <div className="w-4/12">Datum</div>
-                <div className="w-1/12">Status</div>
-                <div className="w-3/12 pl-8">Motivering</div>
+                <div className="w-2/12">Status</div>
+                <div className="w-2/12 pl-8">Motivering</div>
             </li>
             {loaded ? (
-                rejected.length > 0 ? (
+                rejected?.length > 0 ? (
                     rejected.map((relatie) => {
-                        const title = getPropertyFromRelation(relatie, 'Titel')
+                        const title = getPropertyFromRelation(relatie, "Titel")
                         return (
                             <li
                                 key={relatie.UUID}
                                 className="relative flex items-center px-2 py-2 text-sm text-gray-800 border-b border-gray-200 hover:bg-gray-100"
                             >
-                                <div className="w-5/12 pr-4">{title}</div>
-                                <div className="w-4/12">
+                                <div className="w-4/12 pr-4">{title}</div>
+                                <div className="w-4/12 pr-4">
                                     {relatie.Datum_Akkoord !== null
                                         ? format(
                                               new Date(relatie.Modified_Date),
-                                              'd MMMM yyyy, HH:mm'
-                                          ) + ' uur'
-                                        : 'Zojuist afgewezen'}
+                                              "d MMMM yyyy, HH:mm"
+                                          ) + " uur"
+                                        : "Zojuist afgewezen"}
                                 </div>
-                                <div className="w-1/12">
-                                    {relatie.Status === 'Akkoord'
-                                        ? 'Bevestigd'
-                                        : relatie.Status === 'Open'
-                                        ? 'In afwachting'
-                                        : relatie.Status === 'NietAkkoord'
-                                        ? 'Afgewezen'
+                                <div className="w-2/12">
+                                    {relatie.Status === "Akkoord"
+                                        ? "Bevestigd"
+                                        : relatie.Status === "Open"
+                                        ? "In afwachting"
+                                        : relatie.Status === "NietAkkoord"
+                                        ? "Afgewezen"
                                         : null}
                                 </div>
-                                <div className="w-3/12 pl-8">
+                                <div className="w-2/12 pl-8">
                                     <span
                                         onClick={() => {
                                             setMotivationPopUp(relatie.UUID)
@@ -85,9 +85,9 @@ function TabRejected({
                         )
                     })
                 ) : (
-                    <span className="inline-block px-2 py-2 text-sm text-gray-600 font-italic">
+                    <li className="inline-block p-2 text-sm text-gray-600 font-italic">
                         Er zijn nog geen afgewezen beleidsrelaties
-                    </span>
+                    </li>
                 )
             ) : (
                 <React.Fragment>

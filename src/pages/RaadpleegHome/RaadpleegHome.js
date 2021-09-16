@@ -1,34 +1,24 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { faFilePdf } from '@fortawesome/free-regular-svg-icons'
+import React from "react"
+import { Link } from "react-router-dom"
+import { faFilePdf } from "@fortawesome/pro-regular-svg-icons"
 import {
     faExternalLinkAlt,
     faArrowRight,
-} from '@fortawesome/pro-solid-svg-icons'
-import smoothscroll from 'smoothscroll-polyfill'
+} from "@fortawesome/pro-solid-svg-icons"
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { scrollToElementByID } from "./../../utils/scrollToElementByID"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
-import GraphContext from './../../App/GraphContext'
+import GraphContext from "./../../App/GraphContext"
 
 // Import Components
-import LeafletViewer from './../../components/LeafletViewer'
-import SearchBar from './../../components/SearchBar'
-smoothscroll.polyfill()
+import LeafletViewer from "./../../components/LeafletViewer"
+import SearchBar from "./../../components/SearchBar"
 
 /**
  * Landing page component.
  */
 const RaadpleegHome = () => {
-    const scrollToElement = ({ id }) => {
-        const el = document.getElementById(id)
-        const y = el.getBoundingClientRect().top + window.pageYOffset - 100
-        window.scrollTo({
-            top: y,
-            behavior: 'smooth',
-        })
-    }
-
     const { setGraphIsOpen } = React.useContext(GraphContext)
 
     return (
@@ -56,7 +46,7 @@ const RaadpleegHome = () => {
                         <div
                             className="relative flex items-center cursor-pointer group"
                             onClick={() =>
-                                scrollToElement({ id: 'homepage-visie' })
+                                scrollToElementByID("homepage-visie")
                             }
                         >
                             <FontAwesomeIcon
@@ -69,7 +59,7 @@ const RaadpleegHome = () => {
                         </div>
                         <div
                             onClick={() =>
-                                scrollToElement({ id: 'homepage-kaart' })
+                                scrollToElementByID("homepage-kaart")
                             }
                             className="relative flex items-center mt-3 cursor-pointer group"
                         >
@@ -118,9 +108,7 @@ const RaadpleegHome = () => {
                         </div>
                     </div>
                     <span
-                        onClick={() =>
-                            scrollToElement({ id: 'homepage-kaart' })
-                        }
+                        onClick={() => scrollToElementByID("homepage-kaart")}
                         className="mt-5 text-white underline opacity-75 cursor-pointer"
                     >
                         Liever zoeken op de kaart? Dat kan!
@@ -141,11 +129,11 @@ const RaadpleegHome = () => {
                         geeft aan waar de provincie voor staat. Het beschrijft
                         hoe de provincie de toekomst van Zuid-Holland voor zich
                         ziet. De Omgevingsvisie bevat verschillende onderdelen:
-                        in de <mark className="marked-purple">ambities</mark>{' '}
-                        wordt omschreven waar we als provincie heen willen, de{' '}
-                        <mark className="marked-purple">beleidsdoelen</mark>{' '}
-                        geven hier richting aan en de{' '}
-                        <mark className="marked-purple">beleidskeuzes</mark>{' '}
+                        in de <mark className="marked-purple">ambities</mark>{" "}
+                        wordt omschreven waar we als provincie heen willen, de{" "}
+                        <mark className="marked-purple">beleidsdoelen</mark>{" "}
+                        geven hier richting aan en de{" "}
+                        <mark className="marked-purple">beleidskeuzes</mark>{" "}
                         bepalen hoe de ambities bereikt dienen te worden.
                     </Paragraph>
                 </div>
@@ -159,7 +147,7 @@ const RaadpleegHome = () => {
                         Omgevingsprogramma
                     </h2>
                     <Paragraph>
-                        In het <b>Omgevingsprogramma</b> staat beschreven welke{' '}
+                        In het <b>Omgevingsprogramma</b> staat beschreven welke{" "}
                         <mark className="marked-orange">maatregelen</mark> de
                         provincie treft om de visie waar te maken. Het
                         Omgevingsprogramma geeft bijvoorbeeld aan voor welke
@@ -182,17 +170,17 @@ const RaadpleegHome = () => {
                         zijn er regels nodig over wat wel en niet is toegestaan
                         binnen de provinciegrenzen. Denk bijvoorbeeld aan regels
                         in stiltegebieden of ter bescherming van cultureel
-                        erfgoed. Het merendeel van deze regels betreffen{' '}
+                        erfgoed. Het merendeel van deze regels betreffen{" "}
                         <mark className="marked-red">instructieregels</mark> die
                         voorschrijven hoe waterschappen en gemeenten bepaalde
                         onderwerpen op moeten nemen in hun plannen. Daarnaast
-                        zijn er een aantal{' '}
+                        zijn er een aantal{" "}
                         <mark className="marked-red">
                             direct werkende regels
-                        </mark>{' '}
+                        </mark>{" "}
                         waar burgers en bedrijven zich aan moeten houden. Al
                         deze regels van de provincie over de fysieke
-                        leefomgeving zijn ondergebracht in de{' '}
+                        leefomgeving zijn ondergebracht in de{" "}
                         <b>Omgevingsverordening</b>.
                     </Paragraph>
                 </div>
@@ -214,9 +202,7 @@ const RaadpleegHome = () => {
                         <LeafletViewer className="w-full border border-gray-300 rounded" />
                     </div>
                     <span
-                        onClick={() =>
-                            scrollToElement({ id: 'homepage-zoeken' })
-                        }
+                        onClick={() => scrollToElementByID("homepage-zoeken")}
                         className="block w-full py-2 mt-5 text-center underline cursor-pointer"
                     >
                         Liever zoeken op de tekst? Dat kan!
@@ -235,27 +221,9 @@ const RaadpleegHome = () => {
                     </p>
                     <ul className="mt-4">
                         <DocumentLink
-                            href="docs/introductie_omgevingsvisie_Zuid-Holland.pdf"
+                            href="docs/Omgevingsvisie_Zuid-Holland_Deel_1.pdf"
                             iconLeft={faFilePdf}
-                            title="Introductie Omgevingsvisie Zuid-Holland"
-                            rel="noopener noreferrer"
-                        />
-                        <DocumentLink
-                            href="docs/ruimtelijke_kwaliteit.pdf"
-                            iconLeft={faFilePdf}
-                            title="Bijlage Omgevingsvisie: Ruimtelijke kwaliteit"
-                            rel="noopener noreferrer"
-                        />
-                        <DocumentLink
-                            href="docs/programma_ruimte.pdf"
-                            iconLeft={faFilePdf}
-                            title="Programma Ruimte"
-                            rel="noopener noreferrer"
-                        />
-                        <DocumentLink
-                            href="docs/programma_mobiliteit.pdf"
-                            iconLeft={faFilePdf}
-                            title="Programma Mobiliteit"
+                            title="Omgevingsvisie Zuid-Holland Deel 1"
                             rel="noopener noreferrer"
                         />
                         <DocumentLink
@@ -273,7 +241,7 @@ const RaadpleegHome = () => {
                     <p className="pb-8">
                         Omdat de website nog in ontwikkeling is kan het zijn dat
                         sommige functionaliteiten niet goed werken. Kom je een
-                        fout tegen? Neem dan contact op door te mailen naar{' '}
+                        fout tegen? Neem dan contact op door te mailen naar{" "}
                         <a
                             href="mailto:omgevingsbeleid@pzh.nl?subject=Feedback Omgevingsbeleid&body=Probeer zo duidelijk mogelijk te omschrijven waar je tegenaan liep"
                             className="underline cursor-pointer"
@@ -285,7 +253,7 @@ const RaadpleegHome = () => {
                         .
                         <br />
                         <br />
-                        Wil je weten waar wij mee bezig zijn?{' '}
+                        Wil je weten waar wij mee bezig zijn?{" "}
                         <Link
                             to="/planning"
                             className="underline cursor-pointer"
@@ -320,20 +288,20 @@ const DocumentLink = ({ href, title, iconLeft }) => (
 
 const Image = ({ image, position }) => {
     const imageStyles = {
-        height: '400px',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center center',
-        backgroundRepeat: 'no-repeat',
+        height: "400px",
+        backgroundSize: "cover",
+        backgroundPosition: "center center",
+        backgroundRepeat: "no-repeat",
     }
 
     return (
         <div
             className={`hidden w-full h-full ${
-                position === 'left'
-                    ? 'mr-16'
-                    : position === 'right'
-                    ? 'ml-16'
-                    : ''
+                position === "left"
+                    ? "mr-16"
+                    : position === "right"
+                    ? "ml-16"
+                    : ""
             } text-white bg-gray-100 sm:inline-block ${image}`}
             style={imageStyles}
         />
