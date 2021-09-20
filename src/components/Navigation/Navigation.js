@@ -77,7 +77,7 @@ function Navigation({ loggedIn, setLoginState }) {
                             id="href-naar-home"
                             to={loggedIn ? "/muteer/dashboard" : "/"}
                             className="relative z-10"
-                            style={{ "margin-left": "-96px" }}
+                            style={{ marginLeft: "-96px" }}
                             onClick={() => {
                                 setIsOpen(false)
                             }}

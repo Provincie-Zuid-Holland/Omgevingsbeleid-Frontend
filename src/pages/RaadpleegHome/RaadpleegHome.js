@@ -5,8 +5,6 @@ import {
     faExternalLinkAlt,
     faArrowRight,
 } from "@fortawesome/pro-solid-svg-icons"
-
-import { scrollToElementByID } from "./../../utils/scrollToElementByID"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 import GraphContext from "./../../App/GraphContext"

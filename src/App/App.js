@@ -28,6 +28,8 @@ import RaadpleegVerordeningsArtikelDetail from "./../pages/RaadpleegVerordenings
 import RaadpleegZoekResultatenOverzicht from "./../pages/RaadpleegZoekResultatenOverzicht"
 import Login from "./../pages/Login"
 import Planning from "./../pages/Planning"
+import RaadpleegPlanningAndReleases from "./../pages/RaadpleegPlanningAndReleases"
+import RaadpleegInProgress from "./../pages/RaadpleegInProgress"
 
 // Import Components
 import FeedbackComponent from "./../components/FeedbackComponent"
@@ -341,6 +343,16 @@ class App extends Component {
                                                 }
                                             />
                                         )}
+                                    />
+                                    <Route
+                                        path="/planning-en-releases"
+                                        render={() => (
+                                            <RaadpleegPlanningAndReleases />
+                                        )}
+                                    />
+                                    <Route
+                                        path="/in-bewerking"
+                                        render={() => <RaadpleegInProgress />}
                                     />
                                     <Route
                                         path="/netwerkvisualisatie"
