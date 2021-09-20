@@ -22,6 +22,10 @@ const initialize = async () => {
     await screen.findByTestId("0000-0002")
 }
 
+afterEach(() => {
+    jest.clearAllMocks()
+})
+
 describe("NetworkGraph", () => {
     it("should render", async () => {
         await initialize()

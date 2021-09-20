@@ -23,32 +23,19 @@ describe("Constants", () => {
         .filter((dimensionKey) =>
             allDimensies[dimensionKey].hasOwnProperty("CRUD_PROPERTIES")
         )
-        .filter((dimensionKey) => dimensionKey !== "VERORDENINGSARTIKEL")
+        .filter(
+            (dimensionKey) =>
+                dimensionKey !== "VERORDENINGSARTIKEL" &&
+                allDimensies[dimensionKey].hasOwnProperty(
+                    "API_ENDPOINT_VIGEREND"
+                )
+        )
         .forEach((dimensionKey) => {
-            it(`The ${dimensionKey} constant properties should also exist on the API object`, async () => {
+            it(`${dimensionKey} should return a response from the API`, async () => {
                 const dimension = allDimensies[dimensionKey]
-                const apiURL = `${dimension.API_ENDPOINT}`
+                const apiURL = `${dimension.API_ENDPOINT_VIGEREND}`
                 const data = await fetchData(apiURL)
-
                 expect(data).toBeTruthy()
-
-                if (!data || data.length === 0) return
-
-                const firstObject = data[0]
-
-                const crudProperties = Object.keys(dimension.CRUD_PROPERTIES)
-
-                // Check that it has the crud properties
-                crudProperties.forEach((property) => {
-                    const hasProperty = firstObject.hasOwnProperty(property)
-                    if (!hasProperty) {
-                        console.log(
-                            `Property ${property} is on object of type ${dimensionKey}: `,
-                            firstObject
-                        )
-                    }
-                    expect(hasProperty).toBe(true)
-                })
             }, 30000)
         })
 })
