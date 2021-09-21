@@ -85,8 +85,10 @@ const MuteerVerordeningenstructuurDetail = () => {
     const [UUIDBeingEdited, setUUIDBeingEdited] = React.useState(null)
 
     // [indexArrayToUUIDBeingEdited] - This contains an array the path to the specific item in the lineage. The first item is always the chapter followed by subsequent levels from there.
-    const [indexArrayToUUIDBeingEdited, setIndexArrayToUUIDBeingEdited] =
-        React.useState(null)
+    const [
+        indexArrayToUUIDBeingEdited,
+        setIndexArrayToUUIDBeingEdited,
+    ] = React.useState(null)
 
     // This state value is used to see when we need to Patch the lineage
     // See the useEffect below. We use this useEffect to trigger when a new lineage has set
@@ -108,8 +110,9 @@ const MuteerVerordeningenstructuurDetail = () => {
     }, [lineage])
 
     // [volgnummerBeingEdited] - Contains the property 'volgnummer' of the object that is edited. This is displayed in the Meta edit content menu
-    const [volgnummerBeingEdited, setVolgnummerBeingEdited] =
-        React.useState(null)
+    const [volgnummerBeingEdited, setVolgnummerBeingEdited] = React.useState(
+        null
+    )
 
     // [verordeningsObjectFromGET] - Contains the object we get from the GET request on [UUIDBeingEdited]
     const verordeningsObjectFromGETReducer = (state, action) => {
@@ -146,11 +149,15 @@ const MuteerVerordeningenstructuurDetail = () => {
         }
     }
 
-    const [verordeningsObjectFromGET, setVerordeningsObjectFromGET] =
-        React.useReducer(verordeningsObjectFromGETReducer, null)
+    const [
+        verordeningsObjectFromGET,
+        setVerordeningsObjectFromGET,
+    ] = React.useReducer(verordeningsObjectFromGETReducer, null)
 
-    const [verordeningsObjectIsLoading, setVerordeningsObjectIsLoading] =
-        React.useState(false)
+    const [
+        verordeningsObjectIsLoading,
+        setVerordeningsObjectIsLoading,
+    ] = React.useState(false)
 
     // Loading state for [verordeningsLedenFromGET]
     const [
@@ -189,8 +196,10 @@ const MuteerVerordeningenstructuurDetail = () => {
         }
     }
 
-    const [verordeningsLedenFromGET, setVerordeningsLedenFromGET] =
-        React.useReducer(verordeningsLedenFromGETReducer, null)
+    const [
+        verordeningsLedenFromGET,
+        setVerordeningsLedenFromGET,
+    ] = React.useReducer(verordeningsLedenFromGETReducer, null)
 
     // GET request for [UUIDBeingEdited] to get the whole object, then setInState under [verordeningsObjectFromGET] and set [verordeningsObjectIsLoading] to null
     React.useEffect(() => {
@@ -558,8 +567,9 @@ const MuteerVerordeningenstructuurDetail = () => {
             )
 
             // Save new state
-            currentLineage.Structuur.Children[currentActiveChapter].Children =
-                reorderedChildren
+            currentLineage.Structuur.Children[
+                currentActiveChapter
+            ].Children = reorderedChildren
             setLineage(currentLineage)
         }
 
@@ -693,12 +703,14 @@ const MuteerVerordeningenstructuurDetail = () => {
             }
 
             // Get parent element, parent index and childIndex of the source parent
-            const [sourceParentIndex, sourceChildIndex] =
-                findParentElAndIndexes(
-                    currentLineage.Structuur.Children[currentActiveChapter]
-                        .Children,
-                    sourceParentId
-                )
+            const [
+                sourceParentIndex,
+                sourceChildIndex,
+            ] = findParentElAndIndexes(
+                currentLineage.Structuur.Children[currentActiveChapter]
+                    .Children,
+                sourceParentId
+            )
 
             // Get parent element, parent index and childIndex of the destination parent
             const [destParentIndex, destChildIndex] = findParentElAndIndexes(
@@ -762,8 +774,9 @@ const MuteerVerordeningenstructuurDetail = () => {
                 // Assign reordered Children of the destinitation Array in the currentLineage
                 currentLineage.Structuur.Children[
                     currentActiveChapter
-                ].Children[destParentIndex].Children[destChildIndex].Children =
-                    destinationParentElChildrenArray
+                ].Children[destParentIndex].Children[
+                    destChildIndex
+                ].Children = destinationParentElChildrenArray
 
                 // Save new state
                 setLineage(currentLineage)
@@ -942,8 +955,9 @@ const MuteerVerordeningenstructuurDetail = () => {
                     break
                 // Paragraaf || Afdeling || Artikel
                 case 2:
-                    newLineage.Structuur.Children[index[0]].Children[index[1]] =
-                        strippedObject
+                    newLineage.Structuur.Children[index[0]].Children[
+                        index[1]
+                    ] = strippedObject
                     break
                 // Afdeling || Artikel
                 case 3:
@@ -1046,6 +1060,8 @@ const MuteerVerordeningenstructuurDetail = () => {
                 toast("Wijzigingen opgeslagen")
                 setVerordeningsObjectIsLoading(false)
                 setPatchingInProgress(false)
+                setLineage(res.data)
+                setLineageCopy(res.data)
             })
             .catch((err) => {
                 console.log(err)
@@ -1131,8 +1147,7 @@ const MuteerVerordeningenstructuurDetail = () => {
         verordeningsObjectIsLoading || verordeningsObjectLedenIsLoading
 
     const context = {
-        verordeningsObjectIsLoading:
-            verordeningsObjectAndPotentialLedenIsLoading,
+        verordeningsObjectIsLoading: verordeningsObjectAndPotentialLedenIsLoading,
         setIndexArrayToUUIDBeingEdited: setIndexArrayToUUIDBeingEdited,
         setVerordeningsObjectFromGET: setVerordeningsObjectFromGET,
         verordeningsObjectFromGET: verordeningsObjectFromGET,
