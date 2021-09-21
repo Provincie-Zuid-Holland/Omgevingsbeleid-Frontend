@@ -50,8 +50,10 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
     const [dataLoaded, setDataLoaded] = React.useState(false)
 
     // Boolean to toggle the large view
-    const [fullscreenLeafletViewer, setFullscreenLeafletViewer] =
-        React.useState(false)
+    const [
+        fullscreenLeafletViewer,
+        setFullscreenLeafletViewer,
+    ] = React.useState(false)
 
     const apiEndpointBase = dataModel.API_ENDPOINT
     const titleSingular = dataModel.TITLE_SINGULAR
@@ -112,6 +114,9 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
                     // The user navigated to a different lineageID
                     setLineageID(newLineageID)
                 }
+            })
+            .catch((err) => {
+                console.error(err)
             })
     }, [getVersionOfObject, lineageID])
 
