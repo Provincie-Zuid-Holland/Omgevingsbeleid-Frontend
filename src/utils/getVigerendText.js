@@ -45,14 +45,20 @@ const getVigerendText = ({
         new Date(dataObject["Begin_Geldigheid"])
     )
 
-    const indexOfDataObjectInRevisions = revisionObjects.findIndex(
-        (e) => e.UUID === dataObject.UUID
-    )
-    const indexOfFirstValidObjectInRevisions = revisionObjects.findIndex(
-        (e) => e.Status === "Vigerend"
-    )
-    const currentDataObjectIsArchived =
-        indexOfFirstValidObjectInRevisions < indexOfDataObjectInRevisions
+    const checkIfDataObjectIsArchived = () => {
+        if (!revisionObjects) return false
+
+        const indexOfDataObjectInRevisions = revisionObjects.findIndex(
+            (e) => e.UUID === dataObject.UUID
+        )
+        const indexOfFirstValidObjectInRevisions = revisionObjects.findIndex(
+            (e) => e.Status === "Vigerend"
+        )
+
+        return indexOfFirstValidObjectInRevisions < indexOfDataObjectInRevisions
+    }
+
+    const currentDataObjectIsArchived = checkIfDataObjectIsArchived()
 
     const textPrefix =
         objectWillTurnValidInFuture && !currentDataObjectIsArchived
