@@ -43,7 +43,7 @@ const Login = ({ setLoginUser, setLoginState }) => {
                         className={`absolute bg-cover bg-no-repeat bg-center left-0 top-0 h-full image-login-1 text-white sm:inline-block`}
                         style={{
                             height: "480px",
-                            width: "calc(50vw - 1rem)",
+                            width: "calc(50vw)",
                         }}
                     />
                 </div>

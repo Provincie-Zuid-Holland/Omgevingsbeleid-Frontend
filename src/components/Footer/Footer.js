@@ -5,10 +5,39 @@ import Container from "./../../components/Container"
 import Heading from "./../../components/Heading"
 import Text from "./../../components/Text"
 
-function Footer() {
+function Footer({ className = "" }) {
+    /**
+     * We want the footer to always be at the bottom of the page,
+     * even if there is not enough content. To realise this we position
+     * the Footer absolute at the bottom, and give the body a padding-bottom of the current Footer height.
+     */
+    const footerRef = React.useRef(null)
+
+    React.useEffect(() => {
+        const mainContainerEl = document.getElementById("main-container")
+
+        const handleWindowResize = () => {
+            if (!footerRef.current) return
+            const footerHeight = footerRef.current.offsetHeight
+            mainContainerEl.style.paddingBottom = `${footerHeight}px`
+        }
+
+        /** Initial call */
+        handleWindowResize()
+        window.addEventListener("resize", handleWindowResize)
+
+        return () => {
+            mainContainerEl.style.paddingBottom = `0px` // Reset padding bottom
+            window.removeEventListener("resize", handleWindowResize)
+        }
+    }, [])
+
     return (
-        <>
-            <Container className="py-8 bg-pzh-cool-gray-light bg-opacity-30">
+        <div
+            className={`w-full bg-pzh-cool-gray-light bg-opacity-30 absolute bottom-0`}
+            ref={footerRef}
+        >
+            <Container className={`py-8 ${className}`} widthFull={true}>
                 <div className="col-span-2">
                     <Heading level="3" color="text-pzh-blue">
                         Elke dag beter. Zuid-Holland.
@@ -48,7 +77,7 @@ function Footer() {
                     </Text>
                 </div>
             </Container>
-        </>
+        </div>
     )
 }
 

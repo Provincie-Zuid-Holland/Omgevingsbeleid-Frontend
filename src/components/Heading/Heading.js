@@ -72,7 +72,7 @@ function Heading({
     className = "",
     id,
     color = "text-pzh-blue-dark",
-    level,
+    level = "1",
     children,
 }) {
     const windowSize = useWindowSize()

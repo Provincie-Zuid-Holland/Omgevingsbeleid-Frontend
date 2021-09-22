@@ -45,7 +45,7 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
         <React.Fragment>
             <button
                 id="popup-menu-toggle"
-                className={`relative flex items-center justify-center px-2 py-2 -mr-6 transition-colors duration-100 ease-in rounded ${
+                className={`relative flex items-center justify-center px-2 pt-2 pb-1 -mr-6 transition-colors duration-100 ease-in rounded ${
                     isOpen
                         ? "text-white hover:bg-gray-100 hover:text-gray-800"
                         : "text-gray-800 hover:text-gray-900 hover:bg-gray-100"
@@ -108,13 +108,22 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
                         <div className="col-span-2 mt-6">
                             <Heading level="3">Omgevingsvisie</Heading>
                             <ul className="mt-1">
-                                <ListItem to="overzicht/ambities">
+                                <ListItem
+                                    setIsOpen={setIsOpen}
+                                    to="/overzicht/ambities"
+                                >
                                     Ambities
                                 </ListItem>
-                                <ListItem to="overzicht/beleidsdoelen">
+                                <ListItem
+                                    setIsOpen={setIsOpen}
+                                    to="/overzicht/beleidsdoelen"
+                                >
                                     Beleidsdoelen
                                 </ListItem>
-                                <ListItem to="overzicht/beleidskeuzes">
+                                <ListItem
+                                    setIsOpen={setIsOpen}
+                                    to="/overzicht/beleidskeuzes"
+                                >
                                     Beleidskeuzes
                                 </ListItem>
                             </ul>
@@ -122,10 +131,16 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
                         <div className="col-span-2 mt-6">
                             <Heading level="3">Omgevingsprogramma</Heading>
                             <ul className="mt-1">
-                                <ListItem to="overzicht/ambities">
+                                <ListItem
+                                    setIsOpen={setIsOpen}
+                                    to="/overzicht/maatregelen"
+                                >
                                     Maatregelen (Programma's)
                                 </ListItem>
-                                <ListItem to="overzicht/beleidsdoelen">
+                                <ListItem
+                                    setIsOpen={setIsOpen}
+                                    to="/overzicht/beleidsprestaties"
+                                >
                                     Beleidsprestaties
                                 </ListItem>
                             </ul>
@@ -133,10 +148,16 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
                         <div className="col-span-2 mt-6">
                             <Heading level="3">Omgevingsverordening</Heading>
                             <ul className="mt-1">
-                                <ListItem to="overzicht/ambities">
+                                <ListItem
+                                    setIsOpen={setIsOpen}
+                                    to="/overzicht/beleidsregels"
+                                >
                                     Beleidsregels
                                 </ListItem>
-                                <ListItem to="overzicht/beleidsdoelen">
+                                <ListItem
+                                    setIsOpen={setIsOpen}
+                                    to="/overzicht/beleidsdoelen"
+                                >
                                     Verordening
                                 </ListItem>
                             </ul>
@@ -144,17 +165,20 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
                         <div className="col-span-2 mt-6">
                             <Heading level="3">Actueel</Heading>
                             <ul className="mt-1">
-                                <ListItem to="overzicht/ambities">
+                                <ListItem setIsOpen={setIsOpen} to="#">
                                     Terinzageleggeningen
                                 </ListItem>
-                                <ListItem to="overzicht/beleidsdoelen">
+                                <ListItem setIsOpen={setIsOpen} to="#">
                                     Lange Termijn Agenda
                                 </ListItem>
                             </ul>
                         </div>
                         <div className="col-span-2 mt-6">
                             <ul style={{ marginTop: "32px" }}>
-                                <ListItem to="overzicht/ambities">
+                                <ListItem
+                                    setIsOpen={setIsOpen}
+                                    to="/overzicht/ambities"
+                                >
                                     Netwerkvisualisatie
                                 </ListItem>
                             </ul>
@@ -166,10 +190,10 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
     )
 }
 
-const ListItem = ({ children, to = "#" }) => {
+const ListItem = ({ children, to = "#", setIsOpen }) => {
     return (
         <li className="pt-1 text-pzh-green">
-            <Link to={to}>
+            <Link to={to} onClick={() => setIsOpen(false)}>
                 <FontAwesomeIcon className="mr-2" icon={faChevronRight} />
                 <span className="underline">{children}</span>
             </Link>

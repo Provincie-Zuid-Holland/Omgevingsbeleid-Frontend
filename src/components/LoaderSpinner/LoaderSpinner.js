@@ -7,8 +7,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 /**
  * Component that renders the LoaderSpinner component, which displays a rotating spinner icon.
  */
-function LoaderSpinner() {
-    return <FontAwesomeIcon className="rotate-icon" icon={faSpinner} />
+function LoaderSpinner({ className = "" }) {
+    return (
+        <FontAwesomeIcon
+            className={`rotate-icon ${className}`}
+            icon={faSpinner}
+        />
+    )
 }
 
 export default LoaderSpinner

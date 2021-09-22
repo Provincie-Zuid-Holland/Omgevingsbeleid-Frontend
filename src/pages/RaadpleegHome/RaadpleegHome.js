@@ -107,23 +107,26 @@ const RaadpleegHome = () => {
                 </div>
             </Container>
 
-            <Container className="py-12 bg-pzh-blue">
-                <div className="col-span-6">
-                    <Heading level="2" color="text-white">
-                        Opbouw van het beleid
-                    </Heading>
-                    <Text type="body" color="text-white" className="mt-4">
-                        De Omgevingswet streeft ernaar om al het beleid over de
-                        fysieke leefomgeving te vereenvoudigen zodat het voor
-                        iedereen is te begrijpen. Daarom zet de provincie drie
-                        instrumenten in waar al het Omgevingsbeleid in staat: de
-                        Omgevingsvisie, het Omgevingsprogramma en de
-                        Omgevingsverordening. Zo staat het beleid niet meer in
-                        tientallen documenten, maar in één systeem bij elkaar.
-                        Dit maakt het allemaal een stuk overzichtelijker.
-                    </Text>
-                </div>
-            </Container>
+            <div className="w-full bg-pzh-blue">
+                <Container className="py-12">
+                    <div className="col-span-6">
+                        <Heading level="2" color="text-white">
+                            Opbouw van het beleid
+                        </Heading>
+                        <Text type="body" color="text-white" className="mt-4">
+                            De Omgevingswet streeft ernaar om al het beleid over
+                            de fysieke leefomgeving te vereenvoudigen zodat het
+                            voor iedereen is te begrijpen. Daarom zet de
+                            provincie drie instrumenten in waar al het
+                            Omgevingsbeleid in staat: de Omgevingsvisie, het
+                            Omgevingsprogramma en de Omgevingsverordening. Zo
+                            staat het beleid niet meer in tientallen documenten,
+                            maar in één systeem bij elkaar. Dit maakt het
+                            allemaal een stuk overzichtelijker.
+                        </Text>
+                    </div>
+                </Container>
+            </div>
 
             <Container className="pt-16 pb-8">
                 <div className="flex flex-col justify-center col-span-2">
@@ -235,64 +238,69 @@ const RaadpleegHome = () => {
                 </ul>
             </Container>
 
-            <Container className="py-12 bg-pzh-blue-dark">
-                <div className="col-span-2">
-                    <Heading level="2" color="text-white">
-                        Een digitaal systeem, continu in ontwikkeling
-                    </Heading>
-                    <Text type="body" color="text-white" className="mt-4">
-                        We ontwikkelen zelf een systeem voor het opstellen van
-                        digitaal beleid. Deze raadpleegomgeving is daar
-                        onderdeel van.
-                    </Text>
-                    <Text type="body" color="text-white" className="mt-4">
-                        Hiernaast tonen wij een overzicht met recent opgeleverde
-                        functionaliteiten. Benieuwd wat er op onze planning
-                        staat?{" "}
-                        <Link className="underline" to="roadmap">
-                            Bekijk onze roadmap
-                        </Link>
-                        .
-                    </Text>
-                </div>
-                <div className="col-span-4">
-                    <div className="grid grid-cols-4 gap-10 text-white">
-                        <span className="flex justify-end col-span-1 pt-6 opacity-50">
-                            Vrijdag 1 maart
-                        </span>
-                        <div className="col-span-3 p-6 bg-white rounded bg-opacity-20">
-                            <Heading level="3" color="text-white">
-                                Release 31
-                            </Heading>
-                            <ul className="pl-4 list-disc list-outside">
-                                <li>
-                                    Mogelijk gemaakt om te zoeken op de kaart
-                                </li>
-                                <li>
-                                    Vanuit een ambitie, beleidsdoel en maatregel
-                                    is het nu mogelijk om gekoppelde onderdelen
-                                    in te zien
-                                </li>
-                                <li>
-                                    Mogelijk gemaakt om te zoeken op de kaart
-                                </li>
-                                <li>
-                                    Mogelijk gemaakt om te zoeken op de kaart
-                                </li>
-                            </ul>
-                        </div>
-                        <div className="col-span-3 col-start-2">
-                            <Text
-                                type="body"
-                                className="underline"
-                                color="text-white"
-                            >
-                                Bekijk alle releases & planning
-                            </Text>
+            <div className="w-full bg-pzh-blue-dark">
+                <Container className="py-12">
+                    <div className="col-span-2">
+                        <Heading level="2" color="text-white">
+                            Een digitaal systeem, continu in ontwikkeling
+                        </Heading>
+                        <Text type="body" color="text-white" className="mt-4">
+                            We ontwikkelen zelf een systeem voor het opstellen
+                            van digitaal beleid. Deze raadpleegomgeving is daar
+                            onderdeel van.
+                        </Text>
+                        <Text type="body" color="text-white" className="mt-4">
+                            Hiernaast tonen wij een overzicht met recent
+                            opgeleverde functionaliteiten. Benieuwd wat er op
+                            onze planning staat?{" "}
+                            <Link className="underline" to="roadmap">
+                                Bekijk onze roadmap
+                            </Link>
+                            .
+                        </Text>
+                    </div>
+                    <div className="col-span-4">
+                        <div className="grid grid-cols-4 gap-10 text-white">
+                            <span className="flex justify-end col-span-1 pt-6 opacity-50">
+                                Vrijdag 1 maart
+                            </span>
+                            <div className="col-span-3 p-6 bg-white rounded bg-opacity-20">
+                                <Heading level="3" color="text-white">
+                                    Release 31
+                                </Heading>
+                                <ul className="pl-4 list-disc list-outside">
+                                    <li>
+                                        Mogelijk gemaakt om te zoeken op de
+                                        kaart
+                                    </li>
+                                    <li>
+                                        Vanuit een ambitie, beleidsdoel en
+                                        maatregel is het nu mogelijk om
+                                        gekoppelde onderdelen in te zien
+                                    </li>
+                                    <li>
+                                        Mogelijk gemaakt om te zoeken op de
+                                        kaart
+                                    </li>
+                                    <li>
+                                        Mogelijk gemaakt om te zoeken op de
+                                        kaart
+                                    </li>
+                                </ul>
+                            </div>
+                            <div className="col-span-3 col-start-2">
+                                <Text
+                                    type="body"
+                                    className="underline"
+                                    color="text-white"
+                                >
+                                    Bekijk alle releases & planning
+                                </Text>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </Container>
+                </Container>
+            </div>
 
             <Footer />
         </>

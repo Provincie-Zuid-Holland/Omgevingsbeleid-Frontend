@@ -25,6 +25,7 @@ import allDimensies from "./../constants/dimensies"
 import RaadpleegHome from "./../pages/RaadpleegHome"
 import RaadpleegUniversalObjectDetail from "./../pages/RaadpleegUniversalObjectDetail"
 import RaadpleegVerordeningsArtikelDetail from "./../pages/RaadpleegVerordeningsArtikelDetail"
+import RaadpleegUniversalObjectOverview from "./../pages/RaadpleegUniversalObjectOverview"
 import RaadpleegZoekResultatenOverzicht from "./../pages/RaadpleegZoekResultatenOverzicht"
 import Login from "./../pages/Login"
 import Planning from "./../pages/Planning"
@@ -231,7 +232,7 @@ class App extends Component {
             >
                 <UserContext.Provider value={{ user: this.state.user }}>
                     <div
-                        className={`min-h-screen text-pzh-blue-dark ${
+                        className={`min-h-screen text-pzh-blue-dark relative ${
                             locationEqualsMutateEnv ? "bg-gray-100" : ""
                         }`}
                         id="main-container"
@@ -297,14 +298,28 @@ class App extends Component {
                                         )}
                                     />
 
-                                    {/* Raadpleeg - Detail pages for all the dimensions */}
+                                    {/* Raadpleeg - Overview and Detail pages for all the dimensions */}
                                     {detailPaginas.map((item) => {
                                         return (
                                             <Route
-                                                key={item.slug}
                                                 path={`/detail/${item.slug}/:id`}
                                                 render={() => (
                                                     <RaadpleegUniversalObjectDetail
+                                                        dataModel={
+                                                            item.dataModel
+                                                        }
+                                                    />
+                                                )}
+                                            />
+                                        )
+                                    })}
+                                    {/* Raadpleeg - Overview and Detail pages for all the dimensions */}
+                                    {detailPaginas.map((item) => {
+                                        return (
+                                            <Route
+                                                path={`/overzicht/${item.slug}`}
+                                                render={() => (
+                                                    <RaadpleegUniversalObjectOverview
                                                         dataModel={
                                                             item.dataModel
                                                         }
@@ -358,6 +373,7 @@ class App extends Component {
                                         path="/netwerkvisualisatie"
                                         render={() => null}
                                     />
+
                                     <AuthRoutes
                                         authUser={this.state.user}
                                         loggedIn={this.state.loggedIn}
