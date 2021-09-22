@@ -1,18 +1,19 @@
-import React from 'react'
+/* istanbul ignore file */
+import React from "react"
 
 import {
     faGripLines,
     faSave,
     faTimes,
     faTrash,
-} from '@fortawesome/pro-regular-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+} from "@fortawesome/pro-regular-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { Transition } from "@headlessui/react"
 
-import Transition from './../../../components/Transition'
-import CrudDropdown from './../CrudDropdown'
+import CrudDropdown from "./../CrudDropdown"
 
-import VerordeningContext from './../VerordeningContext'
-import { toast } from 'react-toastify'
+import VerordeningContext from "./../VerordeningContext"
+import { toast } from "react-toastify"
 
 function VerordeningObjectContent({ item, index, pathToIndex }) {
     let {
@@ -35,22 +36,22 @@ function VerordeningObjectContent({ item, index, pathToIndex }) {
 
     const getStylesBasedOnType = () => {
         switch (item.Type) {
-            case 'Afdeling':
-                return 'pl-5 bg-primary-super-light text-gray-900'
-            case 'Paragraaf':
-                return 'pl-5 bg-primary-super-light text-gray-900'
+            case "Afdeling":
+                return "pl-5 bg-pzh-blue-super-light text-gray-900"
+            case "Paragraaf":
+                return "pl-5 bg-pzh-blue-super-light text-gray-900"
             default:
-                return ''
+                return ""
         }
     }
 
     const getTitlePrepend = () => {
         switch (item.Type) {
-            case 'Afdeling':
+            case "Afdeling":
                 return `Afdeling ${volgnummer} - `
-            case 'Paragraaf':
+            case "Paragraaf":
                 return `§ ${volgnummer} `
-            case 'Artikel':
+            case "Artikel":
                 return `Artikel ${volgnummer} `
             default:
                 return null
@@ -75,18 +76,18 @@ function VerordeningObjectContent({ item, index, pathToIndex }) {
         itemHasLeden = item && item.Children.length > 0
     }
 
-    const isArtikel = item.Type === 'Artikel'
+    const isArtikel = item.Type === "Artikel"
 
     return (
         <div
             className={`bg-white mb-2
-                ${userIsEditingOrder ? 'cursor-hover hover:bg-gray-50' : ''}
+                ${userIsEditingOrder ? "cursor-hover hover:bg-gray-50" : ""}
             `}
         >
             <div
                 className={`flex items-center relative ${
-                    editingThisItemAndIsLoaded ? '' : 'pr-12'
-                } font-semibold block py-3 ${getStylesBasedOnType()}`}
+                    editingThisItemAndIsLoaded ? "" : "pr-12"
+                } font-bold block py-3 ${getStylesBasedOnType()}`}
             >
                 <ReorderIcon userIsEditingOrder={userIsEditingOrder} />
                 {editingThisItemAndIsLoaded ? (
@@ -108,18 +109,18 @@ function VerordeningObjectContent({ item, index, pathToIndex }) {
                     <span
                         className={`transition ease-in-out duration-100 transform ${
                             userIsEditingOrder
-                                ? 'translate-x-8'
-                                : 'translate-x-0'
+                                ? "translate-x-8"
+                                : "translate-x-0"
                         }
                         ${
                             UUIDBeingEdited && !editingthisItem
-                                ? 'opacity-50'
-                                : 'opacity-100'
+                                ? "opacity-50"
+                                : "opacity-100"
                         }`}
                     >
                         {getTitlePrepend()}
 
-                        {item.Titel ? item.Titel : ''}
+                        {item.Titel ? item.Titel : ""}
                     </span>
                 )}
                 {!userIsEditingOrder && !userIsAddingSections ? (
@@ -145,24 +146,24 @@ function VerordeningObjectContent({ item, index, pathToIndex }) {
                     <TextArea
                         onChange={(e) => {
                             setVerordeningsObjectFromGET({
-                                type: 'changeValue',
+                                type: "changeValue",
                                 value: e.target.value,
-                                name: 'Inhoud',
+                                name: "Inhoud",
                             })
                         }}
                         value={
                             verordeningsObjectFromGET.Inhoud
                                 ? verordeningsObjectFromGET.Inhoud
-                                : ''
+                                : ""
                         }
                     />
                     <span className="mt-2 text-sm text-gray-700">
-                        Dit artikel heeft geen leden.{' '}
+                        Dit artikel heeft geen leden.{" "}
                         <span
                             className="underline cursor-pointer"
                             onClick={() =>
                                 editContentOfArticle({
-                                    type: 'convertToLidInhoud',
+                                    type: "convertToLidInhoud",
                                 })
                             }
                         >
@@ -173,11 +174,11 @@ function VerordeningObjectContent({ item, index, pathToIndex }) {
             ) : !itemHasLeden && isArtikel ? (
                 <p
                     className={`width-full transition-opacity duration-100 ease-in-out block pr-2 whitespace-pre-line 
-                    ${item.Inhoud ? 'pb-4' : ''}
+                    ${item.Inhoud ? "pb-4" : ""}
                     ${
                         UUIDBeingEdited && !editingthisItem
-                            ? 'opacity-50'
-                            : 'opacity-100'
+                            ? "opacity-50"
+                            : "opacity-100"
                     }
                     `}
                 >
@@ -214,11 +215,11 @@ const DeleteIcon = ({
             <button
                 onClick={() => {
                     setVerordeningsLedenFromGET({
-                        type: 'removeSpecificIndex',
+                        type: "removeSpecificIndex",
                         index: index,
                     })
                     setVerordeningsObjectFromGET({
-                        type: 'removeSpecificIndexOfLeden',
+                        type: "removeSpecificIndexOfLeden",
                         index: index,
                     })
                 }}
@@ -247,11 +248,11 @@ const ReorderIcon = ({ userIsEditingOrder }) => {
 }
 
 const LedenView = ({ item, transparent }) => {
-    const listOfLeden = item.Children.filter((e) => e.Type === 'Lid')
+    const listOfLeden = item.Children.filter((e) => e.Type === "Lid")
     if (listOfLeden.length === 0) return null
 
     return (
-        <ol className={`pb-4 ${transparent ? 'opacity-50' : 'opacity-100'}`}>
+        <ol className={`pb-4 ${transparent ? "opacity-50" : "opacity-100"}`}>
             {listOfLeden.map((lid) => (
                 <li className="pb-1 whitespace-pre-line" id={lid.UUID}>
                     {lid.Inhoud}
@@ -276,13 +277,13 @@ const LedenEdit = ({
                     <TextArea
                         onChange={(e) =>
                             setVerordeningsLedenFromGET({
-                                type: 'changeValue',
+                                type: "changeValue",
                                 index: index,
                                 value: e.target.value,
-                                name: 'Inhoud',
+                                name: "Inhoud",
                             })
                         }
-                        value={lid.Inhoud ? lid.Inhoud : ''}
+                        value={lid.Inhoud ? lid.Inhoud : ""}
                     />
                     <DeleteIcon
                         setVerordeningsLedenFromGET={
@@ -301,19 +302,19 @@ const LedenEdit = ({
                         className="mt-2 mr-2 text-sm text-gray-700 underline cursor-pointer"
                         onClick={() =>
                             editContentOfArticle({
-                                type: 'addLidToArticle',
+                                type: "addLidToArticle",
                             })
                         }
                     >
                         + Lid toevoegen
                     </span>
                     <span className="mt-2 text-sm text-gray-700">
-                        Dit artikel bestaat uit leden.{' '}
+                        Dit artikel bestaat uit leden.{" "}
                         <span
                             className="underline cursor-pointer"
                             onClick={() =>
                                 editContentOfArticle({
-                                    type: 'convertToArtikelInhoud',
+                                    type: "convertToArtikelInhoud",
                                 })
                             }
                         >
@@ -326,7 +327,7 @@ const LedenEdit = ({
                     className="mt-2 mr-2 text-sm text-gray-700 underline cursor-pointer"
                     onClick={() =>
                         editContentOfArticle({
-                            type: 'addLidToArticle',
+                            type: "addLidToArticle",
                         })
                     }
                 >
@@ -372,10 +373,10 @@ const TitleEditing = ({
     setUUIDBeingEdited,
 }) => {
     const checkForWerkingsgebied = () => {
-        const artikelHasGebied = verordeningsObjectFromGET.Werkingsgebied
+        const artikelHasGebied = verordeningsObjectFromGET.Gebied
         if (verordeningsLedenFromGET) {
             const allLedenHaveGebied = verordeningsLedenFromGET.every(
-                (e) => e.Werkingsgebied
+                (e) => e.Gebied
             )
             return artikelHasGebied || allLedenHaveGebied
         } else {
@@ -384,10 +385,10 @@ const TitleEditing = ({
     }
 
     return (
-        <div className={`w-full font-semibold rounded`}>
+        <div className={`w-full font-bold rounded`}>
             <div
                 className={`flex items-center ${
-                    item.Type === 'Afdeling' ? 'pr-2' : ''
+                    item.Type === "Afdeling" ? "pr-2" : ""
                 }`}
             >
                 <span>{item.Type}</span>
@@ -396,13 +397,13 @@ const TitleEditing = ({
                     value={verordeningsObjectFromGET.Volgnummer}
                     onChange={(e) => {
                         setVerordeningsObjectFromGET({
-                            type: 'changeValue',
+                            type: "changeValue",
                             value: e.target.value,
-                            name: 'Volgnummer',
+                            name: "Volgnummer",
                         })
                     }}
                     id="form-inline-volgnummer"
-                    className="inline-block w-16 mx-2 font-semibold text-center form-input sm:text-sm sm:leading-5"
+                    className="inline-block w-16 mx-2 font-bold text-center form-input "
                 />
                 <span>-</span>
                 <input
@@ -412,22 +413,23 @@ const TitleEditing = ({
                     value={verordeningsObjectFromGET.Titel}
                     onChange={(e) => {
                         setVerordeningsObjectFromGET({
-                            type: 'changeValue',
+                            type: "changeValue",
                             value: e.target.value,
-                            name: 'Titel',
+                            name: "Titel",
                         })
                     }}
-                    className="inline-block w-full ml-2 font-semibold form-input sm:text-sm sm:leading-5"
+                    className="inline-block w-full ml-2 font-bold form-input "
                 />
 
                 <SaveButton
                     save={() => {
-                        const werkingsGebiedenHasValue = checkForWerkingsgebied()
+                        const werkingsGebiedenHasValue =
+                            checkForWerkingsgebied()
                         if (
-                            item.Type === 'Artikel' &&
+                            item.Type === "Artikel" &&
                             !werkingsGebiedenHasValue
                         ) {
-                            toast('Selecteer een werkingsgebied')
+                            toast("Selecteer een werkingsgebied")
                             return
                         }
                         patchRegulationObject()
@@ -437,10 +439,10 @@ const TitleEditing = ({
                     cancel={() => {
                         setUUIDBeingEdited(null)
                         setVerordeningsObjectFromGET({
-                            type: 'cancel',
+                            type: "cancel",
                         })
                         setVerordeningsLedenFromGET({
-                            type: 'cancel',
+                            type: "cancel",
                         })
                     }}
                 />
@@ -453,7 +455,7 @@ const SaveButton = ({ save }) => {
     return (
         <button
             onClick={save}
-            className="flex items-center self-stretch justify-center px-3 ml-1 text-lg text-white bg-green-500 rounded hover:bg-green-600"
+            className="flex items-center self-stretch justify-center px-3 ml-1 text-lg text-white bg-green-500 rounded hover:bg-pzh-green"
         >
             <FontAwesomeIcon icon={faSave} />
         </button>
@@ -463,7 +465,7 @@ const SaveButton = ({ save }) => {
 const CancelButton = ({ cancel }) => {
     return (
         <button
-            className="flex items-center self-stretch justify-center px-3 ml-1 text-lg text-white rounded bg-primary hover:bg-primary-darker"
+            className="flex items-center self-stretch justify-center px-3 ml-1 text-lg text-white rounded bg-pzh-blue hover:bg-pzh-blue-dark"
             onClick={cancel}
         >
             <FontAwesomeIcon icon={faTimes} />

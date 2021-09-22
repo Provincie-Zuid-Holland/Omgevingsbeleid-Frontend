@@ -1,6 +1,9 @@
-import React from 'react'
-import ContentLoader from 'react-content-loader'
+import React from "react"
+import ContentLoader from "react-content-loader"
 
+/**
+ * Component that renders the LoaderBeleidsrelatieRegel component that renders a grey rectancle before the BeleidsrelatieRegel is displayed.
+ */
 const LoaderBeleidsrelatieRegel = () => (
     <ContentLoader
         className="w-full rounded block my-2 h-5"

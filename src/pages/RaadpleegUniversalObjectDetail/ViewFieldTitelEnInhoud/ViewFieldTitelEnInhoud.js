@@ -1,17 +1,17 @@
-import React from 'react'
+import React from "react"
 
 function ViewFieldTitelEnInhoud({ fieldValue, fieldTitel }) {
     return (
         <div className="mb-8">
-            <h2 className="block mb-1 text-lg font-semibold tracking-wide text-gray-800">
+            <h2 className="block mb-1 text-lg font-bold tracking-wide text-pzh-blue">
                 {fieldTitel}
             </h2>
             <p
-                className={`text-gray-800 leading-7 break-words w-full whitespace-pre-line ${
-                    !fieldValue ? 'italic' : ''
+                className={`leading-7 break-words w-full whitespace-pre-line ${
+                    !fieldValue ? "italic" : ""
                 }`}
             >
-                {!fieldValue ? 'Er is nog geen inhoud' : fieldValue}
+                {!fieldValue ? "Er is nog geen inhoud" : fieldValue}
             </p>
         </div>
     )

@@ -1,14 +1,14 @@
-import React from 'react'
+import React from "react"
 
 // Import Context
-import APIcontext from './../APIContext'
+import APIcontext from "./../APIContext"
 
 // Import Components
-import ContainerMain from './../../../components/ContainerMain'
-import ContainerFormSection from './../../../components/ContainerFormSection'
-import FormFieldTextArea from './../../../components/FormFieldTextArea'
-import FormFieldDate from './../../../components/FormFieldDate'
-import FormFieldSelectBeleidsbeslissing from './../../../components/FormFieldSelectBeleidsbeslissing'
+import ContainerMain from "./../../../components/ContainerMain"
+import ContainerFormSection from "./../../../components/ContainerFormSection"
+import FormFieldTextArea from "./../../../components/FormFieldTextArea"
+import FormFieldGeldigheid from "./../../../components/FormFieldGeldigheid"
+import FormFieldSelectBeleidskeuze from "./../../../components/FormFieldSelectBeleidskeuze"
 
 class ContainerCrudFields extends React.Component {
     render() {
@@ -27,38 +27,37 @@ class ContainerCrudFields extends React.Component {
                                 <React.Fragment>
                                     <ContainerFormSection
                                         titel="Beleidsrelatie"
-                                        beschrijving={`Geef aan met welke beleidskeuze '${this.context.Van_Beleidsbeslissing_Titel}' een relatie moet krijgen en motiveer waarom.`}
+                                        beschrijving={`Geef aan met welke beleidskeuze '${this.context.Van_Beleidskeuze_Titel}' een relatie moet krijgen en motiveer waarom.`}
                                     >
-                                        {crudObject[
-                                            'Naar_Beleidsbeslissing'
-                                        ] !== undefined ? (
-                                            <FormFieldSelectBeleidsbeslissing
+                                        {crudObject["Naar_Beleidskeuze"] !==
+                                        undefined ? (
+                                            <FormFieldSelectBeleidskeuze
                                                 filter={
                                                     this.context
-                                                        .Van_Beleidsbeslissing_UUID
+                                                        .Van_Beleidskeuze_UUID
                                                 }
                                                 handleChange={
                                                     this.context.handleChange
                                                 }
                                                 fieldValue={
                                                     crudObject[
-                                                        'Naar_Beleidsbeslissing'
+                                                        "Naar_Beleidskeuze"
                                                     ]
                                                 }
                                                 fieldLabel="Naar beleidskeuze"
-                                                dataObjectProperty="Naar_Beleidsbeslissing"
+                                                dataObjectProperty="Naar_Beleidskeuze"
                                                 titleSingular={titleSingular}
                                             />
                                         ) : null}
 
-                                        {crudObject['Omschrijving'] !==
+                                        {crudObject["Omschrijving"] !==
                                         undefined ? (
                                             <FormFieldTextArea
                                                 handleChange={
                                                     this.context.handleChange
                                                 }
                                                 fieldValue={
-                                                    crudObject['Omschrijving']
+                                                    crudObject["Omschrijving"]
                                                 }
                                                 fieldLabel="Motivering"
                                                 dataObjectProperty="Omschrijving"
@@ -70,16 +69,16 @@ class ContainerCrudFields extends React.Component {
                                         {/* Geldigheid */}
                                         <div className="flex flex-wrap -mx-3">
                                             {/* Begin Geldigheid */}
-                                            {crudObject['Begin_Geldigheid'] !==
+                                            {crudObject["Begin_Geldigheid"] !==
                                             undefined ? (
-                                                <FormFieldDate
+                                                <FormFieldGeldigheid
                                                     handleChange={
                                                         this.context
                                                             .handleChange
                                                     }
                                                     fieldValue={
                                                         crudObject[
-                                                            'Begin_Geldigheid'
+                                                            "Begin_Geldigheid"
                                                         ]
                                                     }
                                                     fieldLabel="Inwerkingtreding van de relatie"
@@ -92,9 +91,9 @@ class ContainerCrudFields extends React.Component {
                                             ) : null}
 
                                             {/* Eind Geldigheid */}
-                                            {crudObject['Eind_Geldigheid'] !==
+                                            {crudObject["Eind_Geldigheid"] !==
                                             undefined ? (
-                                                <FormFieldDate
+                                                <FormFieldGeldigheid
                                                     openUitwerkingstrede={true}
                                                     hideToggleUitwerkingstrede={
                                                         true
@@ -105,7 +104,7 @@ class ContainerCrudFields extends React.Component {
                                                     }
                                                     fieldValue={
                                                         crudObject[
-                                                            'Eind_Geldigheid'
+                                                            "Eind_Geldigheid"
                                                         ]
                                                     }
                                                     fieldLabel="Uitwerkingtreding van de relatie"
@@ -125,7 +124,7 @@ class ContainerCrudFields extends React.Component {
                                     <div className="inline-block px-4 py-4 bg-white rounded-t shadow">
                                         <input
                                             id="form-submit"
-                                            className="px-4 py-2 text-sm font-bold leading-tight text-white rounded cursor-pointer mbg-color hover:underline"
+                                            className="px-4 py-2 text-sm font-bold leading-tight text-white rounded cursor-pointer bg-pzh-blue hover:underline"
                                             type="submit"
                                             value="Opslaan"
                                         ></input>

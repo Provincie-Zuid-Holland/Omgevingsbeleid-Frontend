@@ -1,8 +1,8 @@
-import React from 'react'
-import { withRouter, useLocation } from 'react-router-dom'
+import React from "react"
+import { withRouter, useLocation } from "react-router-dom"
 
-import ButtonBackToPage from './../../../components/ButtonBackToPage'
-import LoaderMainTitle from '../../../components/LoaderMainTitle'
+import ButtonBackToPage from "./../../../components/ButtonBackToPage"
+import LoaderMainTitle from "../../../components/LoaderMainTitle"
 
 function ContainerCrudHeader({
     editStatus,
@@ -16,25 +16,29 @@ function ContainerCrudHeader({
     const location = useLocation()
 
     const getMainTitle = () => {
-        if (editStatus && dataLoaded) {
+        if (titleSingular === "Beleidsmodule" && !editStatus) {
+            return "Voeg een nieuwe module toe"
+        } else if (titleSingular === "Beleidsmodule" && editStatus) {
+            return "Bewerk module"
+        } else if (editStatus && dataLoaded) {
             // Als de gebruiker een bestaand object bewerkt
             return objectTitle
         } else if (dataLoaded) {
             // Als de gebruiker een nieuw object aanmaakt
             return `Voeg een nieuwe ${titleSingular.toLowerCase()} toe`
         } else {
-            return ''
+            return ""
         }
     }
 
     const getBackUrl = () => {
-        if (!editStatus && location.hash === '#mijn-beleid') {
+        if (!editStatus && location.hash === "#mijn-beleid") {
             // User is creating a new object and came from his/her own beleid
             return `/muteer/mijn-beleid`
-        } else if (!editStatus && location.hash !== '#mijn-beleid') {
+        } else if (!editStatus && location.hash !== "#mijn-beleid") {
             // User is creating a new object and came from an overview page
             return `/muteer/${overzichtSlug}`
-        } else if (editStatus && location.hash === '#mijn-beleid') {
+        } else if (editStatus && location.hash === "#mijn-beleid") {
             // User is editing an existing object and came from a detail page from his/her own beleid
             return `/muteer/${overzichtSlug}/${objectID}#mijn-beleid`
         } else if (editStatus) {
@@ -50,7 +54,7 @@ function ContainerCrudHeader({
     const backUrl = getBackUrl()
 
     return (
-        <div className="relative w-full px-6 py-24 mbg-color edit-header">
+        <div className="relative w-full px-6 py-24 bg-pzh-blue edit-header">
             <div className="container flex items-center justify-center mx-auto lg:px-10">
                 <div className="w-full pr-20">
                     <ButtonBackToPage
@@ -60,7 +64,7 @@ function ContainerCrudHeader({
                     />
 
                     {dataLoaded ? (
-                        <h1 className="text-4xl font-semibold text-white">
+                        <h1 className="text-4xl font-bold text-white">
                             {mainTitle}
                         </h1>
                     ) : (

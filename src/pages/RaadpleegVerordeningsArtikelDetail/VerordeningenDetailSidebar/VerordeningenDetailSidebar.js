@@ -1,18 +1,15 @@
-import React, { useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
-import queryString from 'query-string'
+import React, { useState } from "react"
+import { Link, useLocation } from "react-router-dom"
+import queryString from "query-string"
 
-import {
-    faMinusSquare,
-    faPlusSquare,
-} from '@fortawesome/free-regular-svg-icons'
-import { faAlignLeft } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMinusSquare, faPlusSquare } from "@fortawesome/pro-regular-svg-icons"
+import { faAlignLeft } from "@fortawesome/pro-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 // Function to get Query string parameters from the URL and return them in an array
 function getQueryStringValues(urlParams) {
     function parseIntOrSetToNull(item) {
-        if (item === 'null') {
+        if (item === "null") {
             return null
         } else {
             return parseInt(item)
@@ -31,10 +28,10 @@ function ListItemIcon({ item, itemActive }) {
     return (
         <FontAwesomeIcon
             className={`${
-                item.Type === 'Artikel' ? 'ml-1' : ''
+                item.Type === "Artikel" ? "ml-1" : ""
             } absolute mt-1 left-0 -ml-5 text-gray-700 bg-gray-100 text-sm`}
             icon={
-                item.Type === 'Artikel'
+                item.Type === "Artikel"
                     ? faAlignLeft
                     : itemActive
                     ? faMinusSquare
@@ -48,25 +45,25 @@ function ListItemIcon({ item, itemActive }) {
 function ListItemTitle({ item, itemActive }) {
     let title = null
 
-    if (item.Type === 'Hoofdstuk') {
+    if (item.Type === "Hoofdstuk") {
         // Fallback for all uppercase titles in database...
         let itemTitle = item.Titel
         itemTitle = itemTitle.toLowerCase()
         itemTitle = itemTitle.charAt(0).toUpperCase() + itemTitle.slice(1)
         title = `${item.Volgnummer}. ${itemTitle}`
-    } else if (item.Type === 'Afdeling') {
+    } else if (item.Type === "Afdeling") {
         title = `${item.Volgnummer} ${item.Titel}`
-    } else if (item.Type === 'Paragraaf') {
+    } else if (item.Type === "Paragraaf") {
         title = `§ ${item.Volgnummer} ${item.Titel}`
-    } else if (item.Type === 'Artikel') {
+    } else if (item.Type === "Artikel") {
         title = `Artikel ${item.Volgnummer} - ${item.Titel}`
     }
 
     return (
         <span
-            className={`inline-block text-sm text-gray-800 
-            ${item.Type === 'Artikel' ? 'hover:underline' : ''}
-            ${itemActive && item.Type === 'Artikel' ? 'font-bold' : ''}
+            className={`inline-block text-sm text-pzh-blue-dark 
+            ${item.Type === "Artikel" ? "hover:underline" : ""}
+            ${itemActive && item.Type === "Artikel" ? "font-bold" : ""}
         `}
         >
             {title}
@@ -115,7 +112,7 @@ function ListItem({
     return (
         <li className="relative mt-2">
             <WrapInLinkOrSpan
-                isArtikel={item.Type === 'Artikel'}
+                isArtikel={item.Type === "Artikel"}
                 url={`/detail/verordeningen/1/${item.UUID}?hoofdstuk=${hoofdstukIndex}&nest_1=${nest_1}&nest_2=${nest_2}&nest_3=${nest_3}`}
                 onClick={() => {
                     let newActivePath = [hoofdstukIndex, nest_1, nest_2, nest_3]
@@ -151,7 +148,7 @@ function VerordeningenDetailSidebar({ dataLoaded, lineage }) {
         <div className="flex-grow inline-block w-full">
             {dataLoaded ? (
                 <div className="relative">
-                    <h2 className="block mt-4 font-serif text-gray-800">
+                    <h2 className="block text-lg font-bold tracking-wide text-pzh-blue-dark">
                         Inhoudsopgave verordening
                     </h2>
                     <ul className="relative pl-5 pr-5">
@@ -192,7 +189,7 @@ function VerordeningenDetailSidebar({ dataLoaded, lineage }) {
                                                         {child.Children.length >
                                                             0 &&
                                                         child.Type !==
-                                                            'Artikel' ? (
+                                                            "Artikel" ? (
                                                             <ul className="relative pl-5">
                                                                 {child.Children.map(
                                                                     (
@@ -236,7 +233,7 @@ function VerordeningenDetailSidebar({ dataLoaded, lineage }) {
                                                                                 .length >
                                                                                 0 &&
                                                                             childOfChild.Type !==
-                                                                                'Artikel' ? (
+                                                                                "Artikel" ? (
                                                                                 <ul className="relative pl-5">
                                                                                     {childOfChild.Children.map(
                                                                                         (

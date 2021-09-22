@@ -1,17 +1,22 @@
-import ReactDOM from 'react-dom'
-import { MapControl, withLeaflet } from 'react-leaflet'
-import { Control, DomUtil, DomEvent } from 'leaflet'
-import cloneDeep from 'lodash.clonedeep'
+import ReactDOM from "react-dom"
+import { MapControl, withLeaflet } from "react-leaflet"
+import { Control, DomUtil, DomEvent } from "leaflet"
+import cloneDeep from "lodash.clonedeep"
 
+/**
+ * Object that uses the Control.extend function containing the options variable, _controlDiv (returned by the onAdd function) and the map when the onRemove function is used.
+ *
+ * @object
+ */
 const DumbControl = Control.extend({
     options: {
-        className: '',
-        onOff: '',
+        className: "",
+        onOff: "",
         handleOff: function noop() {},
     },
 
     onAdd(/* map */) {
-        var _controlDiv = DomUtil.create('div', this.options.className)
+        var _controlDiv = DomUtil.create("div", this.options.className)
         DomEvent.disableClickPropagation(_controlDiv)
         return _controlDiv
     },
@@ -26,7 +31,20 @@ const DumbControl = Control.extend({
 })
 
 export default withLeaflet(
+    /**
+     * Class that renders the LeafletControl component that contains the leafletElements.
+     *
+     * @class
+     * @extends MapControl
+     */
     class LeafletControl extends MapControl {
+        /**
+         * Function that returns a new object based on the DumbControl object while using the imported cloneDeep function from lodash.clonedeep with the props value.
+         *
+         *
+         *
+         * @param {object} props - parameter containing a collection of data which is passed down from the parent and used within the cloneDeep function.
+         */
         createLeafletElement(props) {
             return new DumbControl(cloneDeep(props))
         }

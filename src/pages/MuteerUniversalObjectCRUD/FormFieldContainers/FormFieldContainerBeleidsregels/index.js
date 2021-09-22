@@ -1,3 +1,3 @@
-import FormFieldContainerBeleidsregels from './FormFieldContainerBeleidsregels.js'
+import FormFieldContainerBeleidsregels from "./FormFieldContainerBeleidsregels.js"
 
 export default FormFieldContainerBeleidsregels

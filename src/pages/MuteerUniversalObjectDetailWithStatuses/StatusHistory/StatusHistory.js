@@ -1,10 +1,10 @@
-import React from 'react'
+import React from "react"
 
-import cloneDeep from 'lodash.clonedeep'
+import cloneDeep from "lodash.clonedeep"
 
-import ContainerDetail from '../ContainerDetail'
+import ContainerDetail from "../ContainerDetail"
 
-const secondaryColor = '#CC9900'
+const secondaryColor = "#c6a410"
 
 /**
  * Contains the visual flow of the past statusses and the container of the checked out object
@@ -12,6 +12,7 @@ const secondaryColor = '#CC9900'
  */
 function StatusHistory({
     overzichtSlug,
+    setDimensionHistory,
     dimensionHistory,
     patchStatus,
     pageType,
@@ -19,22 +20,24 @@ function StatusHistory({
     isLoading,
     vigerendeDimensieObject,
 }) {
+    const originalDimensionHistory = cloneDeep(dimensionHistory)
+
     // If there is a checked out, or an object with a Status of 'Vigerend' we want to remove it from the history
     const prepareHistorieForUI = () => {
         if (
             dimensionHistory.length >= 1 &&
-            dimensionHistory[0].Status !== 'Vigerend'
+            dimensionHistory[0].Status !== "Vigerend"
         ) {
             dimensionHistory = dimensionHistory.slice(1)
         } else if (
             dimensionHistory.length === 1 &&
-            dimensionHistory[0].Status === 'Vigerend'
+            dimensionHistory[0].Status === "Vigerend"
         ) {
             dimensionHistory = dimensionHistory.slice(1)
         } else if (
             dimensionHistory.length >= 1 &&
-            dimensionHistory[0].Status === 'Vigerend' &&
-            dimensionHistory[1].Status !== 'Vastgesteld'
+            dimensionHistory[0].Status === "Vigerend" &&
+            dimensionHistory[1].Status !== "Vastgesteld"
         ) {
             // The object with a status of "Vigerend" hasn't been through the full status flow.
             // Instead it has been edited with `?modus=wijzig_vigerend`
@@ -51,16 +54,16 @@ function StatusHistory({
 
         if (
             dimensionHistory.length > 1 &&
-            dimensionHistory[0].Status !== 'Vigerend'
+            dimensionHistory[0].Status !== "Vigerend"
         ) {
             isACheckedOutObject = true
             checkedOutObject = dimensionHistory[0]
         } else if (
             dimensionHistory.length > 1 &&
             dimensionHistory[0] &&
-            dimensionHistory[0].Status === 'Vigerend' &&
+            dimensionHistory[0].Status === "Vigerend" &&
             dimensionHistory[1] &&
-            dimensionHistory[1].Status !== 'Vastgesteld'
+            dimensionHistory[1].Status !== "Vastgesteld"
         ) {
             // The object with a status of "Vigerend" hasn't been through the full status flow.
             // Instead it has been edited with `?modus=wijzig_vigerend`
@@ -68,7 +71,7 @@ function StatusHistory({
             checkedOutObject = dimensionHistory[1]
         } else if (
             dimensionHistory.length === 1 &&
-            dimensionHistory[0].Status !== 'Vigerend'
+            dimensionHistory[0].Status !== "Vigerend"
         ) {
             // Newly created object
             isACheckedOutObject = true
@@ -82,9 +85,8 @@ function StatusHistory({
     // We reverse it to make it start at the last version (see the UI)
     dimensionHistory = cloneDeep(dimensionHistory)
 
-    const [isACheckedOutObject, checkedOutObject] = checkForCheckedOutObject(
-        dimensionHistory
-    )
+    const [isACheckedOutObject, checkedOutObject] =
+        checkForCheckedOutObject(dimensionHistory)
 
     // Remove any object that we don't want to display in the 'Status UI Flow'
     dimensionHistory = prepareHistorieForUI(dimensionHistory)
@@ -93,14 +95,16 @@ function StatusHistory({
         <div>
             {/* This is the blue line between the checked out object and the current 'vigerend' object */}
             {vigerendeDimensieObject ? (
-                <div className="flex items-center justify-end w-8 h-6 pt-5 mr-2 border-r-2 border-indigo-900 " />
+                <div className="flex items-center justify-end w-8 h-6 pt-5 mr-2 border-r-2 border-pzh-blue " />
             ) : null}
 
             {/* Detail Container that always displays the latest object that is checked out */}
             {isACheckedOutObject &&
             checkedOutObject &&
-            checkedOutObject.Status !== 'Vigerend' ? (
+            checkedOutObject.Status !== "Vigerend" ? (
                 <ContainerDetail
+                    dimensionHistory={originalDimensionHistory}
+                    setDimensionHistory={setDimensionHistory}
                     patchStatus={patchStatus}
                     dataObject={checkedOutObject}
                     pageType={pageType}
@@ -108,7 +112,6 @@ function StatusHistory({
                     titleSingular={titleSingular}
                     isLoading={isLoading}
                     noMarginBottom={true}
-                    dimensionHistory={dimensionHistory}
                 />
             ) : null}
 
@@ -116,21 +119,21 @@ function StatusHistory({
             <ul
                 className={`relative timeline-margin-left border-l-2 ${
                     vigerendeDimensieObject
-                        ? 'border-indigo-900'
-                        : 'border-transparent'
+                        ? "border-pzh-blue"
+                        : "border-transparent"
                 }`}
             >
                 {/* Map through historie of dimensies */}
                 {dimensionHistory.map((dimensieObject, index) => {
                     /* If item is vigerend and there is no item before it */
                     if (
-                        dimensieObject.Status === 'Vigerend' &&
+                        dimensieObject.Status === "Vigerend" &&
                         index === dimensionHistory.length - 1
                     ) {
                         return (
                             <React.Fragment key={dimensieObject.UUID}>
                                 <VertakkingsItemRightOnLine />
-                                <div className="absolute left-0 z-10 inline-block bg-indigo-900 list-item-bolletje bolletje-left-min-10" />
+                                <div className="absolute left-0 z-10 inline-block bg-pzh-blue list-item-bolletje bolletje-left-min-10" />
                                 <div className="absolute ml-16 -mt-3">
                                     <StatusBadge
                                         status={dimensieObject.Status}
@@ -139,24 +142,24 @@ function StatusHistory({
                             </React.Fragment>
                         )
                     } else if (
-                        dimensieObject.Status === 'Vigerend' &&
+                        dimensieObject.Status === "Vigerend" &&
                         index === 0 &&
                         dimensionHistory[1] &&
-                        dimensionHistory[1].Status === 'Vastgesteld' &&
+                        dimensionHistory[1].Status === "Vastgesteld" &&
                         isACheckedOutObject
                     ) {
                         /* If item is vigerend and there is an item before it, but no item after it */
                         return (
                             <React.Fragment key={dimensieObject.UUID}>
-                                <VertakkingsItemRightOnLine />
+                                <VertakkingsItemRightOnLine noMargin={true} />
                                 <VertakkingsItemLeftOnLine showDot={true} />
                             </React.Fragment>
                         )
                     } else if (
-                        dimensieObject.Status === 'Vigerend' &&
+                        dimensieObject.Status === "Vigerend" &&
                         index === 0 &&
                         dimensionHistory[1] &&
-                        dimensionHistory[1].Status === 'Vastgesteld'
+                        dimensionHistory[1].Status === "Vastgesteld"
                     ) {
                         /* If item is vigerend and there is an item before it, but no item after it */
                         return (
@@ -166,27 +169,27 @@ function StatusHistory({
                             />
                         )
                     } else if (
-                        dimensieObject.Status === 'Vigerend' &&
+                        dimensieObject.Status === "Vigerend" &&
                         dimensionHistory[index + 1] &&
-                        dimensionHistory[index + 1].Status !== 'Vastgesteld'
+                        dimensionHistory[index + 1].Status !== "Vastgesteld"
                     ) {
                         /* If item is vigerend and hasn't been through the whole process of the statusses */
                         return (
                             <React.Fragment key={dimensieObject.UUID}>
                                 <li
                                     className={`relative flex items-center ml-8 ${
-                                        index === 0 ? 'pt-12 pb-2' : 'pb-4 pt-5'
+                                        index === 0 ? "pt-12 pb-2" : "pb-4 pt-5"
                                     }`}
                                 >
                                     <div
                                         style={{
-                                            left: '-4px',
+                                            left: "-4px",
                                         }}
-                                        className="absolute top-0 inline-block w-full h-full border-l-2 border-secondary"
+                                        className="absolute top-0 inline-block w-full h-full border-l-2 border-pzh-yellow-dark"
                                     ></div>
                                 </li>
                                 <li className="absolute flex items-center py-2 -mt-10">
-                                    <div className="absolute left-0 z-10 inline-block bg-indigo-900 list-item-bolletje bolletje-left-min-10" />
+                                    <div className="absolute left-0 z-10 inline-block bg-pzh-blue list-item-bolletje bolletje-left-min-10" />
 
                                     <div className="ml-16">
                                         <StatusBadge
@@ -197,7 +200,7 @@ function StatusHistory({
                             </React.Fragment>
                         )
                     } else if (
-                        dimensieObject.Status === 'Vigerend' &&
+                        dimensieObject.Status === "Vigerend" &&
                         dimensionHistory[index + 1]
                     ) {
                         /* If item is vigerend and there is an item before it and an item after it */
@@ -205,7 +208,7 @@ function StatusHistory({
                             <React.Fragment key={dimensieObject.UUID}>
                                 <VertakkingsItemRightOnLine />
                                 <li className="absolute flex items-center py-2 -mt-5">
-                                    <div className="absolute left-0 z-10 inline-block bg-indigo-900 list-item-bolletje bolletje-left-min-10" />
+                                    <div className="absolute left-0 z-10 inline-block bg-pzh-blue list-item-bolletje bolletje-left-min-10" />
 
                                     <div className="ml-16">
                                         <StatusBadge
@@ -221,16 +224,16 @@ function StatusHistory({
                             <React.Fragment key={dimensieObject.UUID}>
                                 <li
                                     className={`flex items-center ml-8 relative ${
-                                        index === 0 ? 'pt-6 pb-2' : 'py-2'
+                                        index === 0 ? "pt-6 pb-2" : "py-2"
                                     }`}
                                 >
                                     <div
                                         style={{
-                                            left: '-4px',
+                                            left: "-4px",
                                         }}
-                                        className="absolute top-0 inline-block w-full h-full border-l-2 border-secondary"
+                                        className="absolute top-0 inline-block w-full h-full border-l-2 border-pzh-yellow-dark"
                                     ></div>
-                                    <div className="absolute left-0 inline-block bg-secondary list-item-bolletje bolletje-left-min-10" />
+                                    <div className="absolute left-0 inline-block bg-pzh-yellow-dark list-item-bolletje bolletje-left-min-10" />
 
                                     <div className="ml-8">
                                         <StatusBadge
@@ -246,23 +249,29 @@ function StatusHistory({
                 {(dimensionHistory &&
                     dimensionHistory.length > 1 &&
                     dimensionHistory[dimensionHistory.length - 1].Status !==
-                        'Vigerend') ||
+                        "Vigerend") ||
                 (dimensionHistory &&
                     dimensionHistory.length === 1 &&
-                    dimensionHistory[0].Status !== 'Vigerend') ? (
-                    <div className="absolute bottom-0 left-0 block w-12 h-4 -ml-1 status-flow-gradient" />
+                    dimensionHistory[0].Status !== "Vigerend") ? (
+                    <div className="absolute bottom-0 left-0 block w-10 h-4 -ml-1 status-flow-gradient" />
                 ) : null}
             </ul>
         </div>
     )
 }
 
-function VertakkingsItemRightOnLine() {
+function VertakkingsItemRightOnLine({ noMargin }) {
     return (
-        <li className="relative text-secondary vertakkings-item-right-on-line">
+        <li
+            className={`relative text-pzh-yellow-dark ${
+                noMargin
+                    ? "vertakkings-item-right-on-line-no-margin"
+                    : "vertakkings-item-right-on-line"
+            }`}
+        >
             <svg
                 className="absolute svg-branch"
-                width="34"
+                width="46"
                 height="40"
                 viewBox="0 0 39 42"
                 fill="none"
@@ -283,10 +292,10 @@ function VertakkingsItemLeftOnLine({ showDot }) {
     return (
         <li className="relative vertakkings-item-left">
             {showDot ? (
-                <div className="absolute top-0 left-0 z-10 inline-block bg-indigo-900 list-item-bolletje bolletje-left-min-7" />
+                <div className="absolute top-0 left-0 z-10 inline-block bg-pzh-blue list-item-bolletje bolletje-left-min-7" />
             ) : null}
             <svg
-                width="33"
+                width="43"
                 height="40"
                 viewBox="0 0 39 40"
                 fill="none"
@@ -304,7 +313,7 @@ function VertakkingsItemLeftOnLine({ showDot }) {
 
 function StatusBadge({ status }) {
     return (
-        <div className="inline-block px-2 py-1 text-xs text-gray-700 border border-gray-700 rounded">
+        <div className="inline-block px-2 pt-1 text-xs text-gray-700 border border-gray-700 rounded">
             {status}
         </div>
     )

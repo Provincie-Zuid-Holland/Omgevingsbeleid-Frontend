@@ -1,13 +1,13 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from "react"
+import PropTypes from "prop-types"
 
-import ContainerFormSection from './../../../../components/ContainerFormSection'
+import ContainerFormSection from "./../../../../components/ContainerFormSection"
 import {
-    FormFieldDate,
+    FormFieldGeldigheid,
     FormFieldTextInput,
     FormFieldTextArea,
     FormFieldWeblink,
-} from './../../../../components/FormFieldsExport'
+} from "./../../../../components/FormFieldsExport"
 
 function FormFieldContainerAmbities({
     titleSingular,
@@ -22,7 +22,7 @@ function FormFieldContainerAmbities({
             >
                 <FormFieldTextInput
                     handleChange={handleChange}
-                    fieldValue={crudObject['Titel']}
+                    fieldValue={crudObject["Titel"]}
                     dataObjectProperty="Titel"
                     fieldLabel="Titel"
                     pValue="Formuleer in enkele woorden de titel van deze ambitie."
@@ -36,7 +36,7 @@ function FormFieldContainerAmbities({
             >
                 <FormFieldTextArea
                     handleChange={handleChange}
-                    fieldValue={crudObject['Omschrijving']}
+                    fieldValue={crudObject["Omschrijving"]}
                     fieldLabel="Omschrijving"
                     dataObjectProperty="Omschrijving"
                     pValue="Geef een korte omschrijving van deze ambitie"
@@ -50,7 +50,7 @@ function FormFieldContainerAmbities({
             >
                 <FormFieldWeblink
                     handleChange={handleChange}
-                    fieldValue={crudObject['Weblink']}
+                    fieldValue={crudObject["Weblink"]}
                     dataObjectProperty="Weblink"
                     fieldLabel="IDMS"
                     pValue="Vul hier de link in naar het besluitdocument op IDMS. (Eigenschappen > Algemeen > Snelkoppeling kopiëren)."
@@ -58,20 +58,20 @@ function FormFieldContainerAmbities({
                 />
 
                 <div className="flex flex-wrap -mx-3">
-                    <FormFieldDate
+                    <FormFieldGeldigheid
                         handleChange={handleChange}
                         dataObjectProperty="Begin_Geldigheid"
-                        fieldValue={crudObject['Begin_Geldigheid']}
+                        fieldValue={crudObject["Begin_Geldigheid"]}
                         fieldLabel="Inwerkingtreding"
                         pValue="Indien bekend, kan hier de datum van inwerkingtreding worden ingevuld"
                         titleSingular={titleSingular}
                     />
 
-                    <FormFieldDate
+                    <FormFieldGeldigheid
                         openUitwerkingstrede={true}
                         handleChange={handleChange}
                         dataObjectProperty="Eind_Geldigheid"
-                        fieldValue={crudObject['Eind_Geldigheid']}
+                        fieldValue={crudObject["Eind_Geldigheid"]}
                         fieldLabel="Uitwerkingtreding"
                         pValue="Indien bekend, kan hier de datum van uitwerkingtreding worden ingevuld"
                         titleSingular={titleSingular}

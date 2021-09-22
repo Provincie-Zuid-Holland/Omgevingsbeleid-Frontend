@@ -1,12 +1,11 @@
-import React, { Component } from 'react'
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
-import { Link } from 'react-router-dom'
+/* istanbul ignore file */
+import React, { Component } from "react"
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
+import { Link } from "react-router-dom"
 
-import DragAndDropListNested from './../DragAndDropListNested'
-import AddSection from './../AddSection'
-import VerordeningObjectContent from './../VerordeningObjectContent'
-
-// TODO: Remove DndTitle (refactored into VerordeningObjectContent)
+import DragAndDropListNested from "./../DragAndDropListNested"
+import AddSection from "./../AddSection"
+import VerordeningObjectContent from "./../VerordeningObjectContent"
 
 function DragAndDropList({
     onDragEnd,
@@ -26,7 +25,7 @@ function DragAndDropList({
                         nest_1={0}
                         nest_2={null}
                         nest_3={null}
-                        type={'Bovenste'}
+                        type={"Bovenste"}
                     />
                 ) : null}
                 <Droppable droppableId="droppable" type="droppableItem">
@@ -35,8 +34,8 @@ function DragAndDropList({
                             ref={provided.innerRef}
                             className={
                                 snapshot.isDraggingOver
-                                    ? 'bg-gray-200'
-                                    : 'bg-white'
+                                    ? "bg-gray-200"
+                                    : "bg-white"
                             }
                         >
                             {items.map((item, index) => (

@@ -1,13 +1,25 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from "react"
+import { toast } from "react-toastify"
+import { Link } from "react-router-dom"
+
+import axios from "./../../../API/axios"
+
+import handleError from "./../../../utils/handleError"
+
+import { API_ENDPOINT } from "./../../../constants/beleidsmodules"
 
 const PopUpDetailDropdown = ({
+    slug,
     dataObject,
+    setDataObject,
     openState,
     toggleDropdown,
     toggleStatusPopup,
+    toggleModulesPopup,
     raadpleegLink,
     titleSingular,
+    dimensionHistory,
+    setDimensionHistory,
 }) => {
     const innerContainer = React.useRef(null)
 
@@ -24,13 +36,83 @@ const PopUpDetailDropdown = ({
     )
 
     React.useEffect(() => {
-        document.addEventListener('mousedown', handleClick, false)
+        document.addEventListener("mousedown", handleClick, false)
 
         return () =>
-            document.removeEventListener('mousedown', handleClick, false)
+            document.removeEventListener("mousedown", handleClick, false)
     }, [handleClick])
 
-    const status = dataObject.Status
+    const removeFromModules = async () => {
+        const confirm = window.confirm(
+            `Weet u zeker dat u '${dataObject.Titel}' wilt verwijderen uit de module?`
+        )
+        if (!confirm) return
+
+        const allBeleidsmodules = await axios
+            .get(`/${API_ENDPOINT}`)
+            .then((res) => res.data)
+            .catch((err) => {
+                console.error(err)
+                toast(process.env.REACT_APP_ERROR_MSG)
+                return null
+            })
+
+        if (!allBeleidsmodules) return
+
+        const connectionProperty = dataObject.hasOwnProperty("Aanpassing_Op")
+            ? "Beleidskeuzes"
+            : "Maatregelen"
+
+        const modulesWithExistingConnection = allBeleidsmodules.filter(
+            (module) =>
+                module[connectionProperty].filter(
+                    (connection) => connection.Object.ID === dataObject.ID
+                ).length > 0
+        )
+
+        const generatePatchObject = (module) => ({
+            [connectionProperty]: module[connectionProperty]
+                // Filter out the object we want to remove
+                .filter((connection) => connection.Object.ID !== dataObject.ID)
+                // Replace the .Object for a .UUID property for the API
+                .map((connection) => ({
+                    Koppeling_Omschrijving: connection.Koppeling_Omschrijving,
+                    UUID: connection.Object.UUID,
+                })),
+        })
+
+        Promise.all(
+            modulesWithExistingConnection.map((module) =>
+                axios
+                    .patch(
+                        `/${API_ENDPOINT}/${module.ID}`,
+                        generatePatchObject(module)
+                    )
+                    .then((res) => res.data)
+            )
+        )
+            .then((res) => {
+                res.forEach((response) => {
+                    dataObject.Ref_Beleidsmodules =
+                        dataObject.Ref_Beleidsmodules.filter(
+                            (module) => response.ID !== module.ID
+                        )
+                })
+
+                if (setDataObject) {
+                    setDataObject({ ...dataObject })
+                }
+
+                const indexOfDataObject = dimensionHistory.findIndex(
+                    (e) => e.UUID === dataObject.UUID
+                )
+                dimensionHistory[indexOfDataObject] = dataObject
+                setDimensionHistory(dimensionHistory)
+
+                toast(`${titleSingular} verwijderd uit module`)
+            })
+            .catch((err) => handleError(err))
+    }
 
     return (
         <div
@@ -39,9 +121,10 @@ const PopUpDetailDropdown = ({
         >
             <div className="relative h-full">
                 <ul className="text-sm text-gray-800">
-                    {status !== 'Vigerend' && status !== 'Gepubliceerd' ? (
+                    {dataObject.Status !== "Vigerend" &&
+                    dataObject.Status !== "Gepubliceerd" ? (
                         <li
-                            className="px-4 py-2 text-sm cursor-pointer"
+                            className="px-4 py-2 text-sm cursor-pointer hover:bg-gray-100"
                             onClick={() => {
                                 toggleDropdown()
                                 toggleStatusPopup()
@@ -57,37 +140,56 @@ const PopUpDetailDropdown = ({
                             target="_blank"
                             rel="noopener noreferrer"
                             id="navbar-popup-href-raadpleeg-omgeving"
-                            className={`inline-block w-full px-4 py-2 text-sm border-gray-300 ${
-                                status !== 'Vigerend' &&
-                                status !== 'Gepubliceerd'
-                                    ? 'border-t'
-                                    : ''
+                            className={`inline-block w-full px-4 py-2 text-sm hover:bg-gray-100 border-gray-300 ${
+                                dataObject.Status !== "Vigerend" &&
+                                dataObject.Status !== "Gepubliceerd"
+                                    ? "border-t"
+                                    : ""
                             }`}
                         >
                             Raadpleegomgeving
                         </a>
                     </li>
-                    {titleSingular === 'Beleidskeuze' &&
-                    status === 'Vigerend' ? (
+
+                    <li
+                        className="px-4 py-2 text-sm border-t border-gray-300 cursor-pointer hover:bg-gray-100"
+                        onClick={() => {
+                            toggleDropdown()
+                            if (dataObject?.Ref_Beleidsmodules?.length === 0) {
+                                toggleModulesPopup()
+                            } else {
+                                removeFromModules()
+                            }
+                        }}
+                    >
+                        {dataObject?.Ref_Beleidsmodules?.length === 0
+                            ? "Toevoegen aan module"
+                            : "Verwijderen uit module"}
+                    </li>
+
+                    {(titleSingular === "Beleidskeuze" &&
+                        dataObject.Status === "Vigerend") ||
+                    (titleSingular === "Maatregel" &&
+                        dataObject.Status === "Vigerend") ? (
                         <li>
                             <Link
-                                to={`/muteer/beleidskeuzes/edit/${dataObject.ID}?modus=wijzig_vigerend`}
+                                to={`/muteer/${slug}/edit/${dataObject.ID}?modus=wijzig_vigerend`}
                                 id="navbar-popup-wijzig-vigerend"
-                                className="inline-block w-full px-4 py-2 text-sm border-t border-gray-300"
+                                className="inline-block w-full px-4 py-2 text-sm border-t border-gray-300 hover:bg-gray-100"
                             >
                                 Wijzigen zonder besluitvormingsproces
                             </Link>
                         </li>
                     ) : null}
 
-                    {titleSingular === 'Beleidskeuze' ? (
+                    {titleSingular === "Beleidskeuze" ? (
                         <li>
                             <a
                                 href={`/muteer/beleidsrelaties/${dataObject.UUID}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 id="navbar-popup-href-beleidsrelaties"
-                                className="inline-block w-full px-4 py-2 text-sm border-t border-gray-300"
+                                className="inline-block w-full px-4 py-2 text-sm border-t border-gray-300 hover:bg-gray-100"
                             >
                                 Bekijk beleidsrelaties
                             </a>

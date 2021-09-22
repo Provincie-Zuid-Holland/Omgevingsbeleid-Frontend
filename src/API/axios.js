@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from "axios"
 
 const api_version = process.env.REACT_APP_API_VERSION
 const environment = process.env.REACT_APP_API_ENV
@@ -16,12 +16,12 @@ const apiURLS = {
 const instance = axios.create({
     baseURL: apiURLS[environment],
     headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
     },
 })
 
 instance.interceptors.request.use(function (config) {
-    config.headers.Authorization = `Token ${getAccessToken()}`
+    config.headers.Authorization = `Bearer ${getAccessToken()}`
     return config
 })
 
@@ -31,8 +31,8 @@ instance.interceptors.response.use(
     },
     function (error) {
         if (error && error.response && error.response.status === 401) {
-            var event = new CustomEvent('authEvent', {
-                detail: { message: 'Authenticated sessie is afgelopen' },
+            var event = new CustomEvent("authEvent", {
+                detail: { message: "Authenticated sessie is afgelopen" },
             })
             window.dispatchEvent(event)
         } else {
@@ -42,7 +42,6 @@ instance.interceptors.response.use(
 )
 
 const baseURL = instance.defaults.baseURL
-// const baseURL = 'TEST'
 
 export { environment, baseURL }
 export default instance

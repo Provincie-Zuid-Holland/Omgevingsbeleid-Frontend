@@ -1,3 +1,3 @@
-import RaadpleegUniversalObjectDetail from './RaadpleegUniversalObjectDetail.js'
+import RaadpleegUniversalObjectDetail from "./RaadpleegUniversalObjectDetail.js"
 
 export default RaadpleegUniversalObjectDetail

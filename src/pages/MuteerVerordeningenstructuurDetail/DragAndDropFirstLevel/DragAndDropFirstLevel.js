@@ -1,15 +1,16 @@
+/* istanbul ignore file */
 /* eslint-disable */
 // TODO: For now ESLint is disabled, because this file will be refactored in the future, based on a new data structure
 
-import React from 'react'
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import React from "react"
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 
-import DragAndDropSecondLevel from '../DragAndDropSecondLevel'
-import AddSection from './../AddSection'
-import VerordeningObjectContent from './../VerordeningObjectContent'
-import AddObjectButton from './../AddObjectButton'
+import DragAndDropSecondLevel from "../DragAndDropSecondLevel"
+import AddSection from "./../AddSection"
+import VerordeningObjectContent from "./../VerordeningObjectContent"
+import AddObjectButton from "./../AddObjectButton"
 
-import VerordeningContext from './../VerordeningContext'
+import VerordeningContext from "./../VerordeningContext"
 
 function DragAndDropFirstLevel({ itemsInHoofdstuk }) {
     const {
@@ -32,25 +33,25 @@ function DragAndDropFirstLevel({ itemsInHoofdstuk }) {
                         nest_1={0}
                         nest_2={null}
                         nest_3={null}
-                        type={'Bovenste'}
+                        type={"Bovenste"}
                     />
                 ) : null}
-                <Droppable droppableId={`0`} type={'firstLevel'}>
+                <Droppable droppableId={`0`} type={"firstLevel"}>
                     {(provided, snapshot) => (
                         <div
                             ref={provided.innerRef}
                             className={`
                                 ${
                                     snapshot.isDraggingOver
-                                        ? 'bg-gray-200'
-                                        : 'bg-white'
+                                        ? "bg-gray-200"
+                                        : "bg-white"
                                 }
                             `}
                         >
                             <div
-                                className={`flex items-center font-semibold pl-5 py-3 bg-primary-super-light text-gray-900 mb-2`}
+                                className={`flex items-center font-bold pl-5 py-3 bg-pzh-blue-super-light text-gray-900 mb-2`}
                             >
-                                Hoofdstuk {hoofdstukVolgnummer} -{' '}
+                                Hoofdstuk {hoofdstukVolgnummer} -{" "}
                                 {hoofdstukObject.Titel}
                             </div>
 
@@ -62,7 +63,7 @@ function DragAndDropFirstLevel({ itemsInHoofdstuk }) {
                             </div>
 
                             {itemsInHoofdstuk
-                                .filter((e) => e.Type !== 'Lid')
+                                .filter((e) => e.Type !== "Lid")
                                 .map((item, index) => (
                                     <Draggable
                                         isDragDisabled={!userIsEditingOrder}
@@ -80,8 +81,8 @@ function DragAndDropFirstLevel({ itemsInHoofdstuk }) {
                                                 <div
                                                     className={`bg-white pl-5 ${
                                                         snapshot.isDragging
-                                                            ? 'shadow-lg'
-                                                            : ''
+                                                            ? "shadow-lg"
+                                                            : ""
                                                     }`}
                                                 >
                                                     <VerordeningObjectContent

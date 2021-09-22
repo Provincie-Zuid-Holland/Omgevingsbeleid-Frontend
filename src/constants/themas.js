@@ -1,45 +1,47 @@
-import { currentDate, futureDate, currentDateFormatted } from './testValues'
+import { currentDate, futureDate, currentDateFormatted } from "./testValues"
 
-export const TITLE_SINGULAR = 'Thema'
+export const TITLE_SINGULAR = "Thema"
+export const TITLE_SINGULAR_PREFIX = "het"
 export const TITLE_PLURAL = `Thema's`
-export const API_ENDPOINT = 'themas'
-export const SLUG_OVERVIEW = 'themas'
-export const SLUG_CREATE_NEW = 'nieuw-thema'
+export const API_ENDPOINT = "themas"
+export const API_ENDPOINT_VIGEREND = "valid/themas"
+export const SLUG_OVERVIEW = "themas"
+export const SLUG_CREATE_NEW = "nieuw-thema"
 
 export const CRUD_PROPERTIES = {
     Titel: {
         initValue: null,
         required: true,
-        requiredMessage: 'Vul een titel in',
+        requiredMessage: "Vul een titel in",
         testValue: `Test Thema ${currentDateFormatted}`,
-        type: 'text input',
+        type: "text input",
     },
     Omschrijving: {
         initValue: null,
         required: false,
-        requiredMessage: '',
+        requiredMessage: "",
         testValue: `Omschrijving`,
-        type: 'text input',
+        type: "text input",
     },
     Weblink: {
         initValue: null,
         required: false,
-        requiredMessage: '',
+        requiredMessage: "",
         testValue: `Weblink`,
-        type: 'text input',
+        type: "text input",
     },
     Begin_Geldigheid: {
         initValue: null,
         required: true,
-        requiredMessage: 'Vul een datum van inwerkingstreding in',
+        requiredMessage: "Vul een datum van inwerkingstreding in",
         testValue: currentDate,
-        type: 'date input',
+        type: "date input",
     },
     Eind_Geldigheid: {
         initValue: null,
         required: false,
-        requiredMessage: 'Vul een datum van uitwerkingstreding in',
+        requiredMessage: "Vul een datum van uitwerkingstreding in",
         testValue: futureDate,
-        type: 'date input',
+        type: "date input",
     },
 }

@@ -1,15 +1,38 @@
-import { render } from '@testing-library/react';
-import React from 'react';
-import FeedbackComponent from './FeedbackComponent';
+import { render, screen } from "@testing-library/react"
+import "@testing-library/jest-dom"
+import React from "react"
+import FeedbackComponent, { getMailToLink } from "./FeedbackComponent"
+import { MemoryRouter } from "react-router-dom"
 
-describe('FeedbackComponent', () => {
-    const defaultProps = {};
+describe("FeedbackComponent", () => {
+    it("should render", () => {
+        render(
+            <MemoryRouter>
+                <FeedbackComponent />
+            </MemoryRouter>
+        )
+        const feedbackButton = screen.getByText("Feedback")
+        expect(feedbackButton).toBeTruthy()
+    })
 
-    it('should render', () => {
-        const props = {...defaultProps};
-        const { asFragment, queryByText } = render(<FeedbackComponent {...props} />);
+    it('mailTo function should return a "mailto:" link', () => {
+        const mailto = getMailToLink()
+        expect(mailto.length).toBeGreaterThan(10)
+        expect(mailto.includes("mailto:")).toBeTruthy()
+    })
 
-        expect(asFragment()).toMatchSnapshot();
-        expect(queryByText('FeedbackComponent')).toBeTruthy();
-    });
-});
+    it("should contain a link to email", () => {
+        render(
+            <MemoryRouter>
+                <FeedbackComponent />
+            </MemoryRouter>
+        )
+
+        const mailToLink = getMailToLink()
+
+        expect(screen.getByText("Feedback").closest("a")).toHaveAttribute(
+            "href",
+            mailToLink
+        )
+    })
+})

@@ -1,9 +1,14 @@
-import React from 'react'
-import ContentLoader from 'react-content-loader'
+import React from "react"
+import ContentLoader from "react-content-loader"
 
-const LoaderCardHalfWidth = props => (
+/**
+ * Component that renders the LoaderCardHalfWidth component, which loads a rectangle at half width based on the parameters given before a component is displayed.
+ *
+ * @param {props} props - Parameter that is used to set the margin of the component.
+ */
+const LoaderCardHalfWidth = (props) => (
     <ContentLoader
-        className={`w-1/2 mb-6 ${props.mr ? 'mr-6' : ''}`}
+        className={`w-1/2 mb-6 ${props.mr ? "mr-6" : ""}`}
         width="400"
         height="150"
     >

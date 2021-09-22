@@ -1,15 +1,16 @@
-import React from 'react'
-import { toast } from 'react-toastify'
+/* istanbul ignore file */
+import React from "react"
+import { toast } from "react-toastify"
 import {
     faSearch,
     faSpinner,
     faTimes,
     faPlus,
-} from '@fortawesome/pro-regular-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+} from "@fortawesome/pro-regular-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
-import axios from './../../../../API/axios'
-import PopupContainer from './../../../../components/PopupContainer'
+import axios from "./../../../../API/axios"
+import PopupContainer from "./../../../../components/PopupContainer"
 
 const Werkingsgebied = ({
     setWerkingsgebiedInParentState,
@@ -20,38 +21,74 @@ const Werkingsgebied = ({
     // werkingsgebiedInParentState only contains the UUID
     // Contains the whole object that we get from the API
     const [werkingsgebied, setWerkingsgebied] = React.useState(null)
-    const [
-        werkingsgebiedTitelIsLoading,
-        setWerkingsgebiedTitelIsLoading,
-    ] = React.useState(true)
+    const [werkingsgebiedTitelIsLoading, setWerkingsgebiedTitelIsLoading] =
+        React.useState(true)
 
     // Function to GET the complete werkingsgebied object from the API
     // We need this in order to display the title
     React.useEffect(() => {
-        // If there is no werkingsgebied prop
-        if (!werkingsgebiedInParentState) return
-        // If it is the prop is the same as the current one we have in state
-
-        if (
+        const isTheSame =
             werkingsgebiedInParentState &&
             werkingsgebiedInParentState === werkingsgebied
-        )
-            return
 
-        setWerkingsgebiedTitelIsLoading(true)
+        if (!werkingsgebiedInParentState || isTheSame) return
 
-        axios
-            .get(`/werkingsgebieden/${werkingsgebiedInParentState}`)
-            .then((res) => {
-                setWerkingsgebied(res.data)
-                setWerkingsgebiedTitelIsLoading(false)
-            })
-            .catch((err) => {
-                console.log(err)
-                toast(process.env.REACT_APP_ERROR_MSG)
-            })
+        const checkIfObject = (potentialObj) => {
+            if (
+                (typeof potentialObj === "object" ||
+                    typeof potentialObj === "function") &&
+                potentialObj !== null
+            ) {
+                return true
+            } else {
+                return false
+            }
+        }
+
+        /**
+         * If the werkingsgebiedInParentState is an Object we can set it directly in state
+         * This is because when we edit an existing object, it will come as a werkingsgebied object
+         * If we add a new object it comes as a UUID string that we first need to GET from the API.
+         */
+        const parentIsObject = checkIfObject(werkingsgebiedInParentState)
+
+        if (parentIsObject) {
+            setWerkingsgebied(werkingsgebiedInParentState)
+            setWerkingsgebiedTitelIsLoading(false)
+        } else {
+            setWerkingsgebiedTitelIsLoading(true)
+
+            axios
+                .get(`/version/werkingsgebieden/${werkingsgebiedInParentState}`)
+                .then((res) => {
+                    setWerkingsgebied(res.data)
+                    setWerkingsgebiedTitelIsLoading(false)
+                })
+                .catch((err) => {
+                    console.log(err)
+                    toast(process.env.REACT_APP_ERROR_MSG)
+                })
+        }
+
         // eslint-disable-next-line
     }, [werkingsgebiedInParentState])
+
+    const getGeoImage = () => {
+        if (!werkingsgebiedInParentState) return null
+        if (typeof werkingsgebiedInParentState === "string") {
+            return (
+                'url("' +
+                `https://geo-omgevingsbeleid-test.azurewebsites.net/wms/reflect?format=image/png&layers=OMGEVINGSBELEID:Werkingsgebieden_brt&srs=EPSG:28992&width=450&bbox=43662.62,406692,140586.08,483120&cql_filter=UUID IN ('${werkingsgebiedInParentState}')` +
+                '")'
+            )
+        } else {
+            return (
+                'url("' +
+                `https://geo-omgevingsbeleid-test.azurewebsites.net/wms/reflect?format=image/png&layers=OMGEVINGSBELEID:Werkingsgebieden_brt&srs=EPSG:28992&width=450&bbox=43662.62,406692,140586.08,483120&cql_filter=UUID IN ('${werkingsgebiedInParentState.UUID}')` +
+                '")'
+            )
+        }
+    }
 
     return (
         <React.Fragment>
@@ -66,16 +103,13 @@ const Werkingsgebied = ({
                         >
                             <div
                                 style={{
-                                    backgroundImage:
-                                        'url("' +
-                                        `https://geo-omgevingsbeleid-test.azurewebsites.net/wms/reflect?format=image/png&layers=OMGEVINGSBELEID:Werkingsgebieden_brt&srs=EPSG:28992&width=450&bbox=43662.62,406692,140586.08,483120&cql_filter=UUID IN ('${werkingsgebiedInParentState}')` +
-                                        '")',
+                                    backgroundImage: getGeoImage(),
                                 }}
                                 className="block w-full h-full bg-center bg-cover rounded-md"
                             ></div>
                             <span className="absolute bottom-0 block w-full p-4 text-sm text-gray-700 bg-white">
                                 {werkingsgebiedTitelIsLoading || !werkingsgebied
-                                    ? 'Laden...'
+                                    ? "Laden..."
                                     : werkingsgebied.Werkingsgebied}
                             </span>
                         </div>
@@ -108,7 +142,7 @@ const Werkingsgebied = ({
                             className="mr-2 text-gray-400"
                             icon={faPlus}
                         />
-                        <span className="py-4 pr-4 font-semibold text-gray-400">
+                        <span className="py-4 pr-4 font-bold text-gray-400">
                             Werkingsgebied koppelen
                         </span>
                     </div>
@@ -128,7 +162,7 @@ const WerkingsgebiedPopup = ({
     close,
     setWerkingsgebiedInParentState,
 }) => {
-    const [filterQuery, setFilterQuery] = React.useState('')
+    const [filterQuery, setFilterQuery] = React.useState("")
     const [isLoading, setIsLoading] = React.useState(true)
     const [werkingsgebieden, setWerkingsgebieden] = React.useState(null)
 
@@ -156,16 +190,16 @@ const WerkingsgebiedPopup = ({
 
     React.useEffect(() => {
         const fixedContainerEl = document.getElementById(
-            'fixed-container-edit-content-sidebar'
+            "fixed-container-edit-content-sidebar"
         )
 
         // Get original body overflow
-        const originalStyle = window.getComputedStyle(fixedContainerEl)
-            .overflowY
+        const originalStyle =
+            window.getComputedStyle(fixedContainerEl).overflowY
 
         // Prevent scrolling on mount
         if (show) {
-            fixedContainerEl.style.overflowY = 'hidden'
+            fixedContainerEl.style.overflowY = "hidden"
         }
         // Re-enable scrolling when component unmounts
         return () => {
@@ -185,7 +219,7 @@ const WerkingsgebiedPopup = ({
                         <FontAwesomeIcon icon={faTimes} />
                     </div>
                     <div className="h-full px-8 pt-8 pb-12">
-                        <h2 className="form-field-label">
+                        <h2 className="font-bold form-field-label">
                             Werkingsgebied koppelen
                         </h2>
                         <span className="form-field-description">
@@ -211,7 +245,7 @@ const WerkingsgebiedPopup = ({
                                 ? null
                                 : werkingsgebieden
                                       .filter((e) =>
-                                          e.Werkingsgebied.toLowerCase().includes(
+                                          e?.Werkingsgebied?.toLowerCase()?.includes(
                                               filterQuery.toLowerCase()
                                           )
                                       )
@@ -248,10 +282,11 @@ const WerkingsgebiedPopup = ({
                                                       </span>
                                                   </div>
                                                   <span
+                                                      style={{ zIndex: "-1" }}
                                                       className={`absolute top-0 left-0 flex items-center justify-center w-full h-full text-gray-500 -mt-4 ${
                                                           index % 2 === 0
-                                                              ? 'mr-4'
-                                                              : 'ml-4'
+                                                              ? "mr-4"
+                                                              : "ml-4"
                                                       }`}
                                                   >
                                                       <FontAwesomeIcon

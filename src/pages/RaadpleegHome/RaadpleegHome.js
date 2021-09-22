@@ -1,37 +1,31 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { faFilePdf } from '@fortawesome/free-regular-svg-icons'
+import React from "react"
+import { Link } from "react-router-dom"
+import { faFilePdf } from "@fortawesome/pro-regular-svg-icons"
 import {
     faExternalLinkAlt,
     faArrowRight,
-} from '@fortawesome/pro-solid-svg-icons'
+} from "@fortawesome/pro-solid-svg-icons"
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { scrollToElementByID } from "./../../utils/scrollToElementByID"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+
+import GraphContext from "./../../App/GraphContext"
 
 // Import Components
-import LeafletViewer from './../../components/LeafletViewer'
-import SearchBar from './../../components/SearchBar'
-import smoothscroll from 'smoothscroll-polyfill'
-smoothscroll.polyfill()
+import LeafletViewer from "./../../components/LeafletViewer"
+import SearchBar from "./../../components/SearchBar"
 
 /**
  * Landing page component.
  */
 const RaadpleegHome = () => {
-    const scrollToElement = ({ id }) => {
-        const el = document.getElementById(id)
-        const y = el.getBoundingClientRect().top + window.pageYOffset - 100
-        window.scrollTo({
-            top: y,
-            behavior: 'smooth',
-        })
-    }
+    const { setGraphIsOpen } = React.useContext(GraphContext)
 
     return (
         <div>
             <div className="container flex px-6 pt-0 mx-auto mt-6 mb-16 sm:mt-8 sm:py-10 sm:px-6 lg:px-8">
                 <div className="w-full pr-12">
-                    <h1 className="mb-4 text-3xl font-bold sm:text-4xl text-primary">
+                    <h1 className="mb-4 text-3xl font-bold sm:text-4xl text-pzh-blue">
                         Omgevingsbeleid
                     </h1>
                     <Paragraph>
@@ -48,11 +42,11 @@ const RaadpleegHome = () => {
                         Omgevingsbeleid digitaal worden aangepast zodat het
                         altijd up-to-date is.
                     </Paragraph>
-                    <div className="mt-5 font-semibold text-gray-900">
+                    <div className="mt-5 font-bold">
                         <div
                             className="relative flex items-center cursor-pointer group"
                             onClick={() =>
-                                scrollToElement({ id: 'homepage-visie' })
+                                scrollToElementByID("homepage-visie")
                             }
                         >
                             <FontAwesomeIcon
@@ -65,7 +59,7 @@ const RaadpleegHome = () => {
                         </div>
                         <div
                             onClick={() =>
-                                scrollToElement({ id: 'homepage-kaart' })
+                                scrollToElementByID("homepage-kaart")
                             }
                             className="relative flex items-center mt-3 cursor-pointer group"
                         >
@@ -75,14 +69,26 @@ const RaadpleegHome = () => {
                             />
                             <span className="pl-6">Beleid op de kaart</span>
                         </div>
+                        <div
+                            className="relative flex items-center mt-3 cursor-pointer group"
+                            onClick={() => setGraphIsOpen(true)}
+                        >
+                            <FontAwesomeIcon
+                                icon={faArrowRight}
+                                className="absolute transition-all duration-100 ease-in group-hover:ml-1"
+                            />
+                            <span className="pl-6">
+                                Netwerkvisualisatie van het beleid
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <div className="items-center justify-center hidden w-full h-full sm:flex">
                     <ZuidHollandSVG />
                 </div>
             </div>
-            <div className="bg-primary-super-dark">
-                <div className="container flex flex-col items-center justify-center px-6 py-10 pb-8 mx-auto text-white sm:px-6 lg:px-8">
+            <div className="bg-pzh-blue">
+                <div className="container flex flex-col items-center justify-center px-6 py-16 mx-auto text-white sm:px-6 lg:px-8">
                     <h2
                         id="homepage-zoeken"
                         className="mb-3 text-2xl font-bold"
@@ -94,7 +100,7 @@ const RaadpleegHome = () => {
                         provincie Zuid-Holland?
                     </p>
                     <div className="flex justify-center w-full">
-                        <div className="w-full lg:w-1/2">
+                        <div className="w-full lg:w-1/2 text-pzh-blue-dark">
                             <SearchBar
                                 id="search-query-home"
                                 placeholder="Zoek op onderdelen uit de visie, programma of de uitvoering"
@@ -102,9 +108,7 @@ const RaadpleegHome = () => {
                         </div>
                     </div>
                     <span
-                        onClick={() =>
-                            scrollToElement({ id: 'homepage-kaart' })
-                        }
+                        onClick={() => scrollToElementByID("homepage-kaart")}
                         className="mt-5 text-white underline opacity-75 cursor-pointer"
                     >
                         Liever zoeken op de kaart? Dat kan!
@@ -116,7 +120,7 @@ const RaadpleegHome = () => {
                 <div className="flex flex-col justify-center w-full">
                     <h2
                         id="homepage-visie"
-                        className="text-3xl font-bold sm:text-4xl text-primary"
+                        className="text-3xl font-bold sm:text-4xl text-pzh-blue"
                     >
                         Omgevingsvisie
                     </h2>
@@ -125,11 +129,11 @@ const RaadpleegHome = () => {
                         geeft aan waar de provincie voor staat. Het beschrijft
                         hoe de provincie de toekomst van Zuid-Holland voor zich
                         ziet. De Omgevingsvisie bevat verschillende onderdelen:
-                        in de <mark className="marked-purple">ambities</mark>{' '}
-                        wordt omschreven waar we als provincie heen willen, de{' '}
-                        <mark className="marked-purple">beleidsdoelen</mark>{' '}
-                        geven hier richting aan en de{' '}
-                        <mark className="marked-purple">beleidskeuzes</mark>{' '}
+                        in de <mark className="marked-purple">ambities</mark>{" "}
+                        wordt omschreven waar we als provincie heen willen, de{" "}
+                        <mark className="marked-purple">beleidsdoelen</mark>{" "}
+                        geven hier richting aan en de{" "}
+                        <mark className="marked-purple">beleidskeuzes</mark>{" "}
                         bepalen hoe de ambities bereikt dienen te worden.
                     </Paragraph>
                 </div>
@@ -138,12 +142,12 @@ const RaadpleegHome = () => {
                 <div className="flex flex-col justify-center w-full">
                     <h2
                         id="homepage-omgevingsprogramma"
-                        className="text-3xl font-bold sm:text-4xl text-theme-orange"
+                        className="text-3xl font-bold sm:text-4xl text-pzh-yellow-dark"
                     >
                         Omgevingsprogramma
                     </h2>
                     <Paragraph>
-                        In het <b>Omgevingsprogramma</b> staat beschreven welke{' '}
+                        In het <b>Omgevingsprogramma</b> staat beschreven welke{" "}
                         <mark className="marked-orange">maatregelen</mark> de
                         provincie treft om de visie waar te maken. Het
                         Omgevingsprogramma geeft bijvoorbeeld aan voor welke
@@ -158,7 +162,7 @@ const RaadpleegHome = () => {
             <div className="container flex px-6 py-8 pb-8 mx-auto mb-0 sm:mb-16 lg:px-8">
                 <Image image="image-home-3" position="left" />
                 <div className="flex flex-col justify-center w-full">
-                    <h2 className="text-3xl font-bold sm:text-4xl text-theme-red">
+                    <h2 className="text-3xl font-bold sm:text-4xl text-pzh-red">
                         Omgevingsverordening
                     </h2>
                     <Paragraph>
@@ -166,30 +170,30 @@ const RaadpleegHome = () => {
                         zijn er regels nodig over wat wel en niet is toegestaan
                         binnen de provinciegrenzen. Denk bijvoorbeeld aan regels
                         in stiltegebieden of ter bescherming van cultureel
-                        erfgoed. Het merendeel van deze regels betreffen{' '}
+                        erfgoed. Het merendeel van deze regels betreffen{" "}
                         <mark className="marked-red">instructieregels</mark> die
                         voorschrijven hoe waterschappen en gemeenten bepaalde
                         onderwerpen op moeten nemen in hun plannen. Daarnaast
-                        zijn er een aantal{' '}
+                        zijn er een aantal{" "}
                         <mark className="marked-red">
                             direct werkende regels
-                        </mark>{' '}
+                        </mark>{" "}
                         waar burgers en bedrijven zich aan moeten houden. Al
                         deze regels van de provincie over de fysieke
-                        leefomgeving zijn ondergebracht in de{' '}
+                        leefomgeving zijn ondergebracht in de{" "}
                         <b>Omgevingsverordening</b>.
                     </Paragraph>
                 </div>
             </div>
-            <div className="w-full pb-4 bg-primary-light">
+            <div className="w-full pb-4 bg-pzh-blue-super-light">
                 <div className="container w-full max-w-5xl px-6 py-20 pb-8 mx-auto lg:px-8">
                     <h2
                         id="homepage-kaart"
-                        className="text-3xl font-bold sm:text-4xl text-primary"
+                        className="text-3xl font-bold sm:text-4xl text-pzh-blue"
                     >
                         Beleid op de kaart
                     </h2>
-                    <p className="my-5 mt-4 leading-7 text-gray-700">
+                    <p className="my-5 mt-4 leading-7">
                         Wilt u het beleid en de regelgeving van de provincie op
                         een specifieke locatie raadplegen? Zoek hieronder op een
                         locatie of markeer een punt of vorm op de kaart.
@@ -198,10 +202,8 @@ const RaadpleegHome = () => {
                         <LeafletViewer className="w-full border border-gray-300 rounded" />
                     </div>
                     <span
-                        onClick={() =>
-                            scrollToElement({ id: 'homepage-zoeken' })
-                        }
-                        className="block w-full py-2 mt-5 text-center text-gray-800 underline opacity-75 cursor-pointer"
+                        onClick={() => scrollToElementByID("homepage-zoeken")}
+                        className="block w-full py-2 mt-5 text-center underline cursor-pointer"
                     >
                         Liever zoeken op de tekst? Dat kan!
                     </span>
@@ -209,15 +211,15 @@ const RaadpleegHome = () => {
             </div>
             <div className="container flex flex-col px-6 pt-16 pb-12 mx-auto mb-0 sm:mb-16 sm:flex-row lg:px-8">
                 <div className="w-full pr-8">
-                    <h3 className="mb-4 text-2xl font-bold text-primary">
+                    <h3 className="mb-4 text-2xl font-bold text-pzh-blue">
                         Documenten & Links
                     </h3>
-                    <p className="text-gray-800">
+                    <p>
                         We zijn hard bezig met het vullen van onze database.
                         Sommige onderdelen bieden we op dit moment nog aan als
                         PDF’s.
                     </p>
-                    <ul className="mt-4 text-gray-700">
+                    <ul className="mt-4">
                         <DocumentLink
                             href="docs/Omgevingsvisie_Zuid-Holland_Deel_1.pdf"
                             iconLeft={faFilePdf}
@@ -228,19 +230,18 @@ const RaadpleegHome = () => {
                             href="https://lta.zuid-holland.nl/"
                             iconLeft={faExternalLinkAlt}
                             title="De Lange Termijn Agenda Omgevingsbeleid"
-                            className="text-sm"
                             rel="noopener noreferrer"
                         />
                     </ul>
                 </div>
                 <div className="w-full mt-8 sm:mt-0">
-                    <h3 className="mb-4 text-2xl font-bold text-primary">
+                    <h3 className="mb-4 text-2xl font-bold text-pzh-blue">
                         In ontwikkeling
                     </h3>
-                    <p className="pb-8 text-gray-800">
+                    <p className="pb-8">
                         Omdat de website nog in ontwikkeling is kan het zijn dat
                         sommige functionaliteiten niet goed werken. Kom je een
-                        fout tegen? Neem dan contact op door te mailen naar{' '}
+                        fout tegen? Neem dan contact op door te mailen naar{" "}
                         <a
                             href="mailto:omgevingsbeleid@pzh.nl?subject=Feedback Omgevingsbeleid&body=Probeer zo duidelijk mogelijk te omschrijven waar je tegenaan liep"
                             className="underline cursor-pointer"
@@ -252,7 +253,7 @@ const RaadpleegHome = () => {
                         .
                         <br />
                         <br />
-                        Wil je weten waar wij mee bezig zijn?{' '}
+                        Wil je weten waar wij mee bezig zijn?{" "}
                         <Link
                             to="/planning"
                             className="underline cursor-pointer"
@@ -267,8 +268,8 @@ const RaadpleegHome = () => {
     )
 }
 
-const DocumentLink = ({ href, title, iconLeft, className }) => (
-    <li className="py-2 border-b-2 border-gray-200">
+const DocumentLink = ({ href, title, iconLeft }) => (
+    <li className="py-2 transition-colors duration-100 ease-in border-b-2 border-gray-200 hover:bg-gray-50">
         <a
             href={href}
             target="_blank"
@@ -276,11 +277,8 @@ const DocumentLink = ({ href, title, iconLeft, className }) => (
             className="flex items-center justify-between"
         >
             <div className="flex">
-                <span className="flex items-center w-6">
-                    <FontAwesomeIcon
-                        icon={iconLeft}
-                        className={className ? className : ''}
-                    />
+                <span className="flex items-center mx-3">
+                    <FontAwesomeIcon icon={iconLeft} />
                 </span>
                 <span>{title}</span>
             </div>
@@ -290,20 +288,20 @@ const DocumentLink = ({ href, title, iconLeft, className }) => (
 
 const Image = ({ image, position }) => {
     const imageStyles = {
-        height: '400px',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center center',
-        backgroundRepeat: 'no-repeat',
+        height: "400px",
+        backgroundSize: "cover",
+        backgroundPosition: "center center",
+        backgroundRepeat: "no-repeat",
     }
 
     return (
         <div
             className={`hidden w-full h-full ${
-                position === 'left'
-                    ? 'mr-16'
-                    : position === 'right'
-                    ? 'ml-16'
-                    : ''
+                position === "left"
+                    ? "mr-16"
+                    : position === "right"
+                    ? "ml-16"
+                    : ""
             } text-white bg-gray-100 sm:inline-block ${image}`}
             style={imageStyles}
         />
@@ -311,7 +309,7 @@ const Image = ({ image, position }) => {
 }
 
 const Paragraph = ({ children }) => {
-    return <p className="my-5 mt-4 leading-6 text-gray-900">{children}</p>
+    return <p className="my-5 mt-4">{children}</p>
 }
 
 const ZuidHollandSVG = () => {

@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
-import ReactDOMServer from 'react-dom/server'
-import Leaflet from 'leaflet'
+import React, { Component } from "react"
+import ReactDOMServer from "react-dom/server"
+import Leaflet from "leaflet"
 
 import {
     Map,
@@ -8,12 +8,12 @@ import {
     LayersControl,
     FeatureGroup,
     Layer,
-} from 'react-leaflet'
-import Proj from 'proj4leaflet'
-import { toast } from 'react-toastify'
+} from "react-leaflet"
+import Proj from "proj4leaflet"
+import { toast } from "react-toastify"
 
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSearch } from "@fortawesome/pro-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 import {
     RDProj4,
@@ -22,29 +22,37 @@ import {
     tileURL,
     tileURLSattelite,
     leafletCenter,
-} from './../../constants/leaflet'
+} from "./../../constants/leaflet"
 
-import LeafletController from './../../components/LeafletController'
-import LeafletDrawController from './../../components/LeafletDrawController'
-import LeafletSearchInput from './../../components/LeafletSearchInput'
+import LeafletController from "./../../components/LeafletController"
+import LeafletDrawController from "./../../components/LeafletDrawController"
+import LeafletSearchInput from "./../../components/LeafletSearchInput"
 
 delete Leaflet.Icon.Default.prototype._getIconUrl
 Leaflet.Icon.Default.mergeOptions({
     iconRetinaUrl:
-        'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/images/marker-icon.png',
+        "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/images/marker-icon.png",
     iconUrl:
-        'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/images/marker-icon.png',
+        "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/images/marker-icon.png",
     shadowUrl:
-        'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/images/marker-shadow.png',
+        "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/images/marker-shadow.png",
 })
 
+/**
+ * Function to create a custom Popup
+ *
+ * @param {array} weergavenaam - Parameter used to show a string weergavenaam.
+ * @param {Float} lat - Parameter used as a latitude value for the GPS location.
+ * @param {float} lng - Paramter used as a longitude value for the GPS location.
+ * @param {object} point - Parameter that is used in a url to show a certain location based on the parameters lat and lng.
+ */
 function CreateCustomPopup({ weergavenaam, lat, lng, point }) {
     return (
-        <div className="text-base custom-popup">
+        <div className="text-sm custom-popup">
             <span className="block font-bold">Gemarkeerde Locatie</span>
-            <ul className="mb-4">
-                <li>{weergavenaam.split(',')[0]}</li>
-                <li>{weergavenaam.split(',')[1]}</li>
+            <ul className="mt-1 mb-4 text-xs">
+                <li>{weergavenaam.split(",")[0]}</li>
+                <li>{weergavenaam.split(",")[1]}</li>
                 <li>
                     GPS Locatie: {lat.toFixed(7)}, {lng.toFixed(7)}
                 </li>
@@ -55,7 +63,7 @@ function CreateCustomPopup({ weergavenaam, lat, lng, point }) {
                 )}+${point.y.toFixed(2)}&LatLng=${lat.toFixed(7)}-${lng.toFixed(
                     7
                 )}`}
-                className="inline-block px-8 py-2 text-white rounded cursor-pointer mbg-color hover:bg-blue-600 focus:outline-none focus:shadow-outline"
+                className="inline-block p-2 text-white rounded cursor-pointer bg-pzh-blue hover:bg-blue-600 focus:outline-none focus:ring"
             >
                 Bekijk provinciaal beleid van deze locatie
             </a>
@@ -63,12 +71,15 @@ function CreateCustomPopup({ weergavenaam, lat, lng, point }) {
     )
 }
 
-const RDProjection = new Proj.Projection('EPSG:28992', RDProj4, leafletBounds)
+const RDProjection = new Proj.Projection("EPSG:28992", RDProj4, leafletBounds)
 
 const DEFAULT_VIEWPORT = {
     zoom: 4,
 }
 
+/**
+ * Class that sets the state for a certain amount of variables and create a reference for the leafletMap and leafletSearch variable and binds certain variables.
+ */
 export default class LeafletViewer extends Component {
     constructor(props) {
         super(props)
@@ -85,11 +96,20 @@ export default class LeafletViewer extends Component {
         this.leafletSearch = React.createRef()
     }
 
+    /**
+     * Function that creates a custom popup with the parameters lat, lng and layer.
+     *
+     *
+     *
+     * @param {float} lat - Parameter that contains the latitude value that is used in the custom created popup.
+     * @param {float} lng - Parameter that contains the longitude value that is used in the custom created popup.
+     * @param {string} layer - Parameter used to bind text to the popup.
+     */
     _createCustomPopup(lat, lng, layer) {
-        layer.bindPopup('Adres aan het laden...').openPopup()
+        layer.bindPopup("Adres aan het laden...").openPopup()
         // layer._popup.setContent('something else')
 
-        import('./../../API/axiosLocatieserver').then((api) => {
+        import("./../../API/axiosLocatieserver").then((api) => {
             api.getAdresData(lat, lng)
                 .then((data) => {
                     const customPopupHTML = `<div>${ReactDOMServer.renderToString(
@@ -112,7 +132,7 @@ export default class LeafletViewer extends Component {
     _onCreated = (e) => {
         let type = e.layerType
 
-        if (type === 'marker') {
+        if (type === "marker") {
             // Do marker specific actions
 
             this._createCustomPopup(
@@ -173,6 +193,11 @@ export default class LeafletViewer extends Component {
         onChange(geojsonData)
     }
 
+    /**
+     * Function that sets the viewport state to the default value viewport.
+     *
+     *
+     */
     onClickReset = () => {
         this.setState({ viewport: DEFAULT_VIEWPORT })
     }
@@ -183,6 +208,11 @@ export default class LeafletViewer extends Component {
         })
     }
 
+    /**
+     * Function that sets the leafletSearch parameter to a toggled stat of leafletSearch.
+     *
+     *
+     */
     toggleLeafletSearch() {
         this.setState(
             {
@@ -199,25 +229,34 @@ export default class LeafletViewer extends Component {
         )
     }
 
+    /**
+     * Function to set the zoomLevel of each type parameter value based on the value. Also to set the state of activeSearchMarker to the markerID value and create a popup pased on the parameters.
+     *
+     *
+     *
+     * @param {float} lng - Parameter that contains the longitude value that is set for the coordinates object.
+     * @param {float} lat - Parameter that contains the latitude value that is set for the coordinates object.
+     * @param {string} type - Parameter that is used to check which type it is and to set the zoomLevel of each type value.
+     */
     mapPanTo(lng, lat, type) {
         let zoomLevel
         switch (type) {
-            case 'adres':
+            case "adres":
                 zoomLevel = 10
                 break
-            case 'postcode':
+            case "postcode":
                 zoomLevel = 12
                 break
-            case 'weg':
+            case "weg":
                 zoomLevel = 14
                 break
-            case 'woonplaats':
+            case "woonplaats":
                 zoomLevel = 7
                 break
-            case 'gemeente':
+            case "gemeente":
                 zoomLevel = 8
                 break
-            case 'provincie':
+            case "provincie":
                 zoomLevel = 5
                 break
             default:
@@ -258,7 +297,7 @@ export default class LeafletViewer extends Component {
                     crs={RDCrs}
                     ref={this.leafletMap}
                     className={`z-0 ${
-                        this.props.className ? this.props.className : ''
+                        this.props.className ? this.props.className : ""
                     }`}
                 >
                     <LayersControl position="topright">
@@ -288,7 +327,7 @@ export default class LeafletViewer extends Component {
                             <div
                                 className={`w-10 h-10 flex justify-center items-center text-gray-600 hover:text-gray-700 ${
                                     this.state.leafletSearch
-                                        ? 'border-r border-gray-300'
+                                        ? "border-r border-gray-300"
                                         : null
                                 }`}
                                 onClick={this.toggleLeafletSearch}

@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
+import React, { Component } from "react"
 
-import ViewFieldTitelEnInhoud from './../../ViewFieldTitelEnInhoud'
+import ViewFieldTitelEnInhoud from "./../../ViewFieldTitelEnInhoud"
 
 class ContainerViewFieldsVerordeningsobject extends Component {
     render() {
@@ -8,10 +8,10 @@ class ContainerViewFieldsVerordeningsobject extends Component {
 
         return (
             <React.Fragment>
-                {crudObject['Omschrijving'] !== undefined ? (
+                {crudObject["Omschrijving"] !== undefined ? (
                     <ViewFieldTitelEnInhoud
                         fieldTitel="Omschrijving"
-                        fieldValue={crudObject['Omschrijving']}
+                        fieldValue={crudObject["Omschrijving"]}
                     />
                 ) : null}
             </React.Fragment>

@@ -1,22 +1,22 @@
-import React from 'react'
-import { useParams } from 'react-router-dom'
-import { toast } from 'react-toastify'
+import React from "react"
+import { useParams } from "react-router-dom"
+import { toast } from "react-toastify"
 
-import UserContext from './../../App/UserContext'
+import UserContext from "./../../App/UserContext"
 
-import axios from './../../API/axios'
+import axios from "./../../API/axios"
 
-import MuteerBeleidsrelatiesOverzicht from './../MuteerBeleidsrelatiesOverzicht'
-import MuteerBeleidsrelatiesDetail from './../MuteerBeleidsrelatieDetail'
-import ContainerMain from './../../components/ContainerMain'
+import MuteerBeleidsrelatiesOverzicht from "./../MuteerBeleidsrelatiesOverzicht"
+import MuteerBeleidsrelatiesDetail from "./../MuteerBeleidsrelatieDetail"
+import ContainerMain from "./../../components/ContainerMain"
 
 /**
  * @returns Components that renders the overzicht or detail pages of beleidsrelaties, depending on the currentView state
  */
 function MuteerBeleidsrelaties() {
-    const [currentView, setCurrentView] = React.useState('overzicht')
+    const [currentView, setCurrentView] = React.useState("overzicht")
     const [beleidsrelaties, setBeleidsrelaties] = React.useState([])
-    const [beleidsbeslissingen, setBeleidsbeslissingen] = React.useState([])
+    const [beleidskeuzes, setBeleidskeuzes] = React.useState([])
     const [isLoading, setIsLoading] = React.useState(true)
 
     const { user } = React.useContext(UserContext)
@@ -35,7 +35,9 @@ function MuteerBeleidsrelaties() {
 
     React.useLayoutEffect(() => {
         if (UUID) {
-            setCurrentView('detail')
+            setCurrentView("detail")
+        } else {
+            setCurrentView("overzicht")
         }
     }, [UUID])
 
@@ -46,12 +48,12 @@ function MuteerBeleidsrelaties() {
 
         Promise.all([
             axios.get(
-                `/beleidsbeslissingen?Created_By=${UserUUID}&Eigenaar_1=${UserUUID}&Eigenaar_2=${UserUUID}&Opdrachtgever=${UserUUID}`
+                `/beleidskeuzes?any_filters=Created_By:${UserUUID},Eigenaar_1:${UserUUID},Eigenaar_2:${UserUUID},Opdrachtgever:${UserUUID}`
             ),
             axios.get(`/beleidsrelaties`),
         ])
-            .then(([beleidsbeslissingen, beleidsrelaties]) => {
-                setBeleidsbeslissingen(beleidsbeslissingen.data)
+            .then(([beleidskeuzes, beleidsrelaties]) => {
+                setBeleidskeuzes(beleidskeuzes.data)
                 setBeleidsrelaties(beleidsrelaties.data)
                 setIsLoading(false)
             })
@@ -61,11 +63,11 @@ function MuteerBeleidsrelaties() {
             })
     }, [user])
 
-    if (currentView === 'overzicht') {
+    if (currentView === "overzicht") {
         return (
             <ContainerMain>
                 <MuteerBeleidsrelatiesOverzicht
-                    beleidsbeslissingen={beleidsbeslissingen}
+                    beleidskeuzes={beleidskeuzes}
                     beleidsrelaties={beleidsrelaties}
                     parentDataLoaded={!isLoading}
                     currentView={currentView}
@@ -73,17 +75,17 @@ function MuteerBeleidsrelaties() {
                 />
             </ContainerMain>
         )
-    } else if (currentView === 'detail') {
+    } else if (currentView === "detail") {
         return (
             <ContainerMain>
                 <MuteerBeleidsrelatiesDetail
                     updateBeleidsrelaties={updateBeleidsrelaties}
-                    backToOverzicht={() => setCurrentView('overzicht')}
+                    backToOverzicht={() => setCurrentView("overzicht")}
                 />
             </ContainerMain>
         )
     } else {
-        throw new Error('Not a valid currentView')
+        throw new Error("Not a valid currentView")
     }
 }
 

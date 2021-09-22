@@ -1,218 +1,165 @@
-import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
-import { format } from 'date-fns'
-import isBefore from 'date-fns/isBefore'
-import nlLocale from 'date-fns/locale/nl'
-import { faCalendarAlt } from '@fortawesome/free-regular-svg-icons'
-import {
-    faLink,
-    faExternalLinkAlt,
-    faEllipsisV,
-} from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React from "react"
+import { withRouter } from "react-router-dom"
+import { faCalendarAlt } from "@fortawesome/pro-regular-svg-icons"
+import { faLink, faExternalLinkAlt } from "@fortawesome/pro-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 // Import Components
-import PopUpDetailDropdown from '../PopUpDetailDropdown'
-import PopUpStatusAanpassen from '../PopUpStatusAanpassen'
-import HeadingMain from '../HeadingMain'
-import LoaderMainTitle from '../LoaderMainTitle'
-import LoaderSmallSpan from '../LoaderSmallSpan'
+import HeadingMain from "../HeadingMain"
+import LoaderMainTitle from "../LoaderMainTitle"
+import LoaderSmallSpan from "../LoaderSmallSpan"
 
-function StatusLabel(props) {
+// Import Utilities
+import getVigerendText from "./../../utils/getVigerendText"
+
+/**
+ * @returns Displays the details of an Object
+ */
+const ContainerDetailMain = ({
+    dataObject,
+    titleSingular,
+    pageType,
+    dataReceived,
+    overzichtSlug,
+}) => {
+    const validDate = getVigerendText({ dataObject })
+    const validDatePrefix = getVigerendText({
+        dataObject,
+        prefixOnly: true,
+    })
+
     return (
-        <span className="inline px-3 py-3 ml-3 text-sm font-bold bg-blue-100 rounded-full m-color">
-            Vigerend
-        </span>
+        <div
+            className={`relative inline-block w-full px-6 py-5 shadow-md rounded bg-white -mb-2`}
+        >
+            <span className="block mb-1 text-sm text-gray-500">
+                {titleSingular}
+            </span>
+
+            {dataReceived ? (
+                <HeadingMain titel={dataObject.Titel} />
+            ) : (
+                <LoaderMainTitle />
+            )}
+
+            <div className="flex mt-8">
+                <ContainerDetailMainDate
+                    dataReceived={dataReceived}
+                    validDatePrefix={validDatePrefix}
+                    validDate={validDate}
+                />
+                <ContainerDetailMainWeblink weblink={dataObject["Weblink"]} />
+                <ContainerDetailMainRaadpleegLink
+                    titleSingular={titleSingular}
+                    overzichtSlug={overzichtSlug}
+                    dataObject={dataObject}
+                    dataReceived={dataReceived}
+                />
+            </div>
+        </div>
     )
 }
 
-// Main Component - Main Container
-class ContainerDetailMain extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            dropdown: false,
-            statusPopup: false,
-        }
-        this.toggleDropdown = this.toggleDropdown.bind(this)
-        this.toggleStatusPopup = this.toggleStatusPopup.bind(this)
-    }
+const ContainerDetailMainRaadpleegLink = ({
+    titleSingular,
+    dataObject,
+    overzichtSlug,
+    dataReceived,
+}) => {
+    if (!dataObject) return null
 
-    toggleDropdown() {
-        this.setState({
-            dropdown: !this.state.dropdown,
-        })
-    }
+    const raadpleegLink = dataReceived
+        ? `/detail/${overzichtSlug}/${dataObject.UUID}`
+        : "#"
 
-    toggleStatusPopup() {
-        this.setState({
-            statusPopup: !this.state.statusPopup,
-        })
-    }
-
-    render() {
-        const dataObject = this.props.dataObject
-        const titleSingular = this.props.titleSingular
-        const pageType = this.props.pageType
-        const titel = dataObject.Titel
-        const dataReceived = this.props.dataReceived
-
-        return (
-            <div
-                className={`relative inline-block w-full px-6 py-5 shadow-md rounded bg-white -mb-2 ${
-                    pageType === 'version' ? 'mt-6' : ''
-                }`}
-            >
-                {this.props.children}
-                {titleSingular === 'Beleidskeuze' ? (
-                    <div
-                        onClick={this.toggleDropdown}
-                        className="absolute top-0 right-0 p-5 text-gray-600 cursor-pointer hover:text-gray-800"
-                    >
-                        <FontAwesomeIcon className="mr-2" icon={faEllipsisV} />
-                    </div>
-                ) : null}
-
-                {this.state.dropdown ? (
-                    <PopUpDetailDropdown
-                        titleSingular={titleSingular}
-                        dataObject={dataObject}
-                        toggleDropdown={this.toggleDropdown}
-                        openState={this.state.dropdown}
-                        toggleStatusPopup={this.toggleStatusPopup}
-                    />
-                ) : null}
-
-                {this.state.statusPopup ? (
-                    <PopUpStatusAanpassen
-                        // toggleDropdown={this.toggleDropdown}
-                        // openState={this.state.dropdown}
-                        toggleStatusPopup={this.toggleStatusPopup}
-                    />
-                ) : null}
-
-                <span className="block mb-1 text-sm text-gray-500">
-                    {titleSingular}
-                </span>
-
-                {dataReceived ? (
-                    <HeadingMain titel={titel} />
-                ) : (
-                    <LoaderMainTitle />
-                )}
-
-                {pageType === 'detail' && titleSingular === 'beleidskeuze' ? (
-                    <StatusLabel />
-                ) : null}
-
-                <div className="flex mt-8">
-                    <div className="flex items-center justify-between w-full py-2 pr-4 mr-4 border-r border-gray-300">
-                        <div>
-                            <span className="block text-sm font-bold text-gray-700">
-                                {/* isBefore */}
-                                {dataReceived &&
-                                dataObject['Begin_Geldigheid'] !== null &&
-                                isBefore(
-                                    dataObject['Begin_Geldigheid'],
-                                    new Date()
-                                )
-                                    ? 'Vigerend sinds'
-                                    : 'Vigerend vanaf'}
-                            </span>
-                            {dataReceived ? (
-                                <span className="text-sm text-gray-700">
-                                    {dataObject['Begin_Geldigheid'] !== null
-                                        ? format(
-                                              new Date(
-                                                  dataObject['Begin_Geldigheid']
-                                              ),
-                                              'd MMMM yyyy',
-                                              { locale: nlLocale }
-                                          )
-                                        : 'Er is nog geen begin geldigheid'}
-                                </span>
-                            ) : (
-                                <span className="block mt-2">
-                                    <LoaderSmallSpan />
-                                </span>
-                            )}
-                        </div>
-                        <div>
-                            <FontAwesomeIcon
-                                className="text-xl text-gray-600"
-                                icon={faCalendarAlt}
-                            />
-                        </div>
-                    </div>
-                    {dataObject['Weblink'] ? (
-                        <a
-                            href={dataObject['Weblink']}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            id="href-idms-koppeling"
-                            className="flex items-center justify-between w-full py-2 pr-4 mr-4 border-r border-gray-300"
-                        >
-                            <div>
-                                <span className="block text-sm font-bold text-gray-700">
-                                    IDMS-koppeling
-                                </span>
-                                <span className="text-sm text-gray-700">
-                                    Bekijk document
-                                </span>
-                            </div>
-                            <div>
-                                <FontAwesomeIcon
-                                    className="text-xl text-gray-600"
-                                    icon={faLink}
-                                />
-                            </div>
-                        </a>
-                    ) : null}
-                    {titleSingular !== 'Beleidsrelatie' ? (
-                        <a
-                            href={
-                                titleSingular === 'Artikel' ||
-                                titleSingular === 'Paragraaf' ||
-                                titleSingular === 'Afdeling'
-                                    ? `/detail/verordeningen/${
-                                          this.props.lineageID
-                                      }/${this.props.dataObject.UUID}${
-                                          this.props.urlParams
-                                              ? `${this.props.urlParams}`
-                                              : ''
-                                      }`
-                                    : `/detail/${this.props.overzichtSlug}/${dataObject.UUID}`
-                            }
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center justify-between w-full py-2 cursor-pointer"
-                        >
-                            <div>
-                                <div>
-                                    <span className="block text-sm font-bold text-gray-700">
-                                        Link naar raadpleegomgeving
-                                    </span>
-                                    <span className="text-sm text-gray-700">
-                                        {dataReceived ? (
-                                            `Bekijk ${titleSingular.toLowerCase()}`
-                                        ) : (
-                                            <LoaderMainTitle />
-                                        )}
-                                    </span>
-                                </div>
-                            </div>
-                            <div>
-                                <FontAwesomeIcon
-                                    className="text-xl text-gray-600"
-                                    icon={faExternalLinkAlt}
-                                />
-                            </div>
-                        </a>
-                    ) : null}
+    return (
+        <a
+            href={raadpleegLink}
+            onClick={(e) => (!dataReceived ? e.preventDefault() : null)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`flex items-center justify-between w-full py-2 pl-4 hover:bg-gray-50 pzh-transition-colors ${
+                dataReceived ? "cursor-pointer" : ""
+            }`}
+        >
+            <div>
+                <div>
+                    <span className="block text-sm font-bold text-gray-700">
+                        Link naar raadpleegomgeving
+                    </span>
+                    <span className="text-sm text-gray-700">
+                        {dataReceived ? (
+                            `Bekijk ${titleSingular.toLowerCase()}`
+                        ) : (
+                            <LoaderMainTitle />
+                        )}
+                    </span>
                 </div>
             </div>
-        )
-    }
+            <div className="flex items-center justify-center">
+                <FontAwesomeIcon
+                    className="mr-4 text-lg text-gray-600"
+                    icon={faExternalLinkAlt}
+                />
+            </div>
+        </a>
+    )
+}
+
+const ContainerDetailMainDate = ({
+    dataReceived,
+    validDatePrefix,
+    validDate,
+}) => {
+    return (
+        <div className="flex items-center justify-between w-full py-2 pr-4 border-r border-gray-300">
+            <div>
+                <span className="block text-sm font-bold text-gray-700">
+                    {dataReceived && validDatePrefix}
+                </span>
+                {dataReceived ? (
+                    <span className="text-sm text-gray-700">{validDate}</span>
+                ) : (
+                    <span className="block mt-2">
+                        <LoaderSmallSpan />
+                    </span>
+                )}
+            </div>
+            <div className="flex items-center justify-center">
+                <FontAwesomeIcon
+                    className="text-xl text-gray-600"
+                    icon={faCalendarAlt}
+                />
+            </div>
+        </div>
+    )
+}
+
+const ContainerDetailMainWeblink = ({ weblink }) => {
+    if (!weblink) return null
+
+    return (
+        <a
+            href={weblink}
+            target="_blank"
+            rel="noopener noreferrer"
+            id="href-idms-koppeling"
+            className="flex items-center justify-between w-full px-4 py-2 border-r border-gray-300 hover:bg-gray-50 pzh-transition-colors"
+        >
+            <div>
+                <span className="block text-sm font-bold text-gray-700">
+                    IDMS-koppeling
+                </span>
+                <span className="text-sm text-gray-700">Bekijk document</span>
+            </div>
+            <div className="flex items-center justify-center">
+                <FontAwesomeIcon
+                    className="text-lg text-gray-600"
+                    icon={faLink}
+                />
+            </div>
+        </a>
+    )
 }
 
 export default withRouter(ContainerDetailMain)

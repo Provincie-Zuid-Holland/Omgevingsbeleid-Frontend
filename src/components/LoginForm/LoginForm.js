@@ -1,20 +1,26 @@
-import React from 'react'
-import { useHistory } from 'react-router-dom'
+import React from "react"
+import { useHistory } from "react-router-dom"
 
-import { faTimes } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTimes } from "@fortawesome/pro-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 // Import API
-import axios from './../../API/axios'
+import axios from "./../../API/axios"
 
 // Import Components
-import LoaderSpinner from './../LoaderSpinner'
-import PopUpAnimatedContainer from './../PopUpAnimatedContainer'
+import LoaderSpinner from "./../LoaderSpinner"
+import PopUpAnimatedContainer from "./../PopUpAnimatedContainer"
 
+/**
+ * Function that renders the PopupWachtwoordVergeten component, which displays a popup in which the user can reset their password.
+ *
+ * @param {boolean} show - Parameter that is used to display the popup component.
+ * @param {function} togglePopup - Parameter that is used to (hide/show) the popup component.
+ */
 function PopupWachtwoordVergeten({ show, togglePopup }) {
     // Set focus to the cancel button for AY11
     React.useEffect(() => {
-        if (show) document.getElementById('close-password-forget-popup').focus()
+        if (show) document.getElementById("close-password-forget-popup").focus()
     }, [show])
 
     if (!show) return null
@@ -23,19 +29,19 @@ function PopupWachtwoordVergeten({ show, togglePopup }) {
         <PopUpAnimatedContainer small={true}>
             <button
                 onClick={togglePopup}
-                className="absolute top-0 right-0 px-3 py-2 text-gray-600 cursor-pointer"
+                className="absolute top-0 right-0 px-3 py-2 text-gray-600 cursor-pointer hover:text-gray-800 pzh-transition-colors"
                 id={`wachtwoord-reset-sluit-popup`}
                 data-testid={`wachtwoord-reset-sluit-popup`}
                 tabIndex="0"
             >
                 <FontAwesomeIcon icon={faTimes} />
             </button>
-            <h3 className="mb-4 text-xl font-semibold text-gray-800">
+            <h3 className="mb-4 text-xl font-bold text-gray-800">
                 Wachtwoord vergeten
             </h3>
 
-            <div className="relative p-4 mb-4 border-l-4 purple-light-bg-color purple-border-color">
-                <p className="mt-2 text-sm text-gray-700">
+            <div className="relative p-4 mb-4 border-l-4 bg-pzh-blue-super-light border-pzh-blue">
+                <p className="mt-1 text-sm text-gray-700">
                     Binnenkort willen wij het mogelijk maken dat medewerkers van
                     provincie Zuid-Holland automatisch kunnen inloggen. Tot die
                     tijd moet het nog met een e-mailadres en een wachtwoord.
@@ -49,7 +55,7 @@ function PopupWachtwoordVergeten({ show, togglePopup }) {
             </p>
             <div className="flex items-center justify-between mt-5">
                 <button
-                    className="text-sm text-gray-700 underline cursor-pointer"
+                    className="text-sm text-gray-700 underline cursor-pointer hover:text-gray-900 pzh-transition-colors"
                     onClick={togglePopup}
                     id="close-password-forget-popup"
                     data-testid="close-password-forget-popup"
@@ -58,7 +64,7 @@ function PopupWachtwoordVergeten({ show, togglePopup }) {
                 </button>
                 <button
                     href="mailto:omgevingsbeleid@pzh.nl?subject=Wachtwoord vergeten"
-                    className="inline-block px-8 py-2 text-white bg-green-600 rounded hover:bg-green-700 focus:outline-none focus:shadow-outline"
+                    className="inline-block px-8 py-2 text-white rounded pzh-transition-colors bg-pzh-green hover:bg-pzh-green-dark focus:outline-none focus:ring"
                     id="wachtwoord-reset-button-mailto"
                     data-testid="wachtwoord-reset-button-mailto"
                     onClick={togglePopup}
@@ -70,24 +76,29 @@ function PopupWachtwoordVergeten({ show, togglePopup }) {
     )
 }
 
+/**
+ * Component that renders a login form in which the user can log into the application.
+ *
+ * @param {function} setLoginState - Function to edit parent state.
+ * @param {function} setLoginUser - Function to edit parent state.
+ */
 const LoginForm = ({ setLoginState, setLoginUser }) => {
     const history = useHistory()
 
-    const [identifier, setIdentifier] = React.useState('')
-    const [password, setPassword] = React.useState('')
+    const [identifier, setIdentifier] = React.useState("")
+    const [password, setPassword] = React.useState("")
     const [loading, setLoading] = React.useState(false)
-    const [wachtwoordResetPopup, setWachtwoordResetPopup] = React.useState(
-        false
-    )
+    const [wachtwoordResetPopup, setWachtwoordResetPopup] =
+        React.useState(false)
 
     const displayErrorMsg = (err) => {
-        let errorEl = document.getElementById('error-message')
+        let errorEl = document.getElementById("error-message")
         errorEl.classList.innerHTML = err
-        errorEl.classList.remove('hidden')
-        errorEl.classList.add('flex')
-        errorEl.classList.add('shake')
+        errorEl.classList.remove("hidden")
+        errorEl.classList.add("flex")
+        errorEl.classList.add("shake")
         setTimeout(function () {
-            errorEl.classList.remove('shake')
+            errorEl.classList.remove("shake")
         }, 820)
     }
 
@@ -98,15 +109,14 @@ const LoginForm = ({ setLoginState, setLoginUser }) => {
 
         axios
             .post(
-                'login',
+                "login",
                 JSON.stringify({
                     identifier: identifier,
                     password: password,
                 })
             )
             .then((response) => {
-                console.log(`Environment - ${response.data['deployment type']}`)
-
+                console.log(`Environment - ${response.data["deployment type"]}`)
                 if (response.status >= 200 && response.status < 300) {
                     let identifier = response.data.identifier
 
@@ -121,7 +131,7 @@ const LoginForm = ({ setLoginState, setLoginUser }) => {
                     setLoading(false)
                     setLoginState(true)
                     setLoginUser(identifier)
-                    history.push('/muteer/dashboard')
+                    history.push("/muteer/dashboard")
                 }
             })
             .catch((err) => {
@@ -131,9 +141,9 @@ const LoginForm = ({ setLoginState, setLoginUser }) => {
     }
 
     const handleErrorMessage = (e) => {
-        let errorEl = document.getElementById('error-message')
-        errorEl.classList.add('hidden')
-        errorEl.classList.remove('flex')
+        let errorEl = document.getElementById("error-message")
+        errorEl.classList.add("hidden")
+        errorEl.classList.remove("flex")
     }
 
     return (
@@ -145,17 +155,17 @@ const LoginForm = ({ setLoginState, setLoginUser }) => {
                 }
             />
             <form className="my-8" onSubmit={handleFormSubmit}>
-                <div className="mb-4">
+                <div>
                     <label
-                        className="block mb-2 text-sm font-bold text-gray-700"
-                        htmlFor="identifier"
+                        className="block mb-2 text-sm font-bold text-pzh-blue"
+                        htmlFor="form-field-login-email"
                     >
                         E-mailadres
                     </label>
                     <input
                         required
-                        className="w-full px-3 py-3 leading-loose text-gray-700 bg-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                        name="identifier"
+                        className="w-full px-3 py-2 leading-loose bg-white border rounded shadow appearance-none focus:outline-none focus:ring"
+                        name="email"
                         id="form-field-login-email"
                         data-testid="form-field-login-email"
                         type="text"
@@ -163,16 +173,16 @@ const LoginForm = ({ setLoginState, setLoginUser }) => {
                         onChange={(e) => setIdentifier(e.target.value)}
                     />
                 </div>
-                <div className="mt-6 mb-4">
+                <div className="my-6">
                     <label
-                        className="block mb-2 text-sm font-bold text-gray-700"
-                        htmlFor="password"
+                        className="block mb-2 text-sm font-bold text-pzh-blue"
+                        htmlFor="form-field-login-password"
                     >
                         Wachtwoord
                     </label>
                     <input
                         required
-                        className="w-full px-3 py-4 pb-3 mb-3 leading-loose text-gray-700 bg-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                        className="w-full px-3 py-2 leading-loose bg-white border rounded shadow appearance-none focus:outline-none focus:ring"
                         name="password"
                         id="form-field-login-password"
                         data-testid="form-field-login-password"
@@ -183,20 +193,21 @@ const LoginForm = ({ setLoginState, setLoginUser }) => {
                 </div>
                 <div className="flex items-center">
                     <button
-                        className="inline-block px-8 py-2 text-white rounded mbg-color mbg-color-darker-hover focus:outline-none focus:shadow-outline"
+                        className="inline-block px-8 pt-2 pb-2 text-white transition-colors duration-200 ease-in rounded bg-pzh-blue hover:bg-pzh-blue-dark focus:outline-none focus:ring"
                         type="submit"
                         id="form-field-login-submit"
                         data-testid="form-field-login-submit"
                     >
                         {loading ? (
-                            <span className="mr-2">
+                            <span alt="laden..." className="mr-2">
                                 <LoaderSpinner />
                             </span>
                         ) : null}
                         Inloggen
+                        {loading ? "..." : ""}
                     </button>
                     <button
-                        className="ml-4 text-sm text-gray-700 underline cursor-pointer hover:text-gray-800"
+                        className="ml-4 text-sm underline cursor-pointer"
                         onClick={(e) => {
                             e.preventDefault()
                             setWachtwoordResetPopup(!wachtwoordResetPopup)

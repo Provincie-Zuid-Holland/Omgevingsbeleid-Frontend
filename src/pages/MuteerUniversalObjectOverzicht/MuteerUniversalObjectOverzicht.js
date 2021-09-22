@@ -1,20 +1,20 @@
-import React from 'react'
-import { Helmet } from 'react-helmet'
-import { toast } from 'react-toastify'
-import { useHistory } from 'react-router-dom'
+import React from "react"
+import { Helmet } from "react-helmet"
+import { toast } from "react-toastify"
+import { useHistory } from "react-router-dom"
 
 // Import Componenents
-import ContainerMain from './../../components/ContainerMain'
-import SidebarMain from './../../components/SidebarMain'
-import ButtonAddNewObject from './../../components/ButtonAddNewObject'
-import CardObjectDetails from './../../components/CardObjectDetails'
-import LoaderCard from './../../components/LoaderCard'
+import ContainerMain from "./../../components/ContainerMain"
+import SidebarMain from "./../../components/SidebarMain"
+import ButtonAddNewObject from "./../../components/ButtonAddNewObject"
+import CardObjectDetails from "./../../components/CardObjectDetails"
+import LoaderCard from "./../../components/LoaderCard"
 
 // Import Axios instance to connect with the API
-import axios from './../../API/axios'
+import axios from "./../../API/axios"
 
 // Import user context
-import UserContext from './../../App/UserContext'
+import UserContext from "./../../App/UserContext"
 
 /**
  * A component to display all the objects from a specific dimension
@@ -48,15 +48,15 @@ const MuteerUniversalObjectOverzicht = ({ dimensieConstants }) => {
 
         const gebruikersRol = user.Rol
         if (
-            gebruikersRol === 'Beheerder' ||
-            gebruikersRol === 'Functioneel beheerder' ||
-            gebruikersRol === 'Technisch beheerder' ||
-            gebruikersRol === 'Test runner' ||
-            gebruikersRol === 'Tester'
+            gebruikersRol === "Beheerder" ||
+            gebruikersRol === "Functioneel beheerder" ||
+            gebruikersRol === "Technisch beheerder" ||
+            gebruikersRol === "Test runner" ||
+            gebruikersRol === "Tester"
         )
             return
 
-        history.push('/muteer/mijn-beleid')
+        history.push("/muteer/mijn-beleid")
     }, [user, history])
 
     React.useLayoutEffect(() => {
@@ -74,7 +74,7 @@ const MuteerUniversalObjectOverzicht = ({ dimensieConstants }) => {
     return (
         <ContainerMain>
             <Helmet>
-                <title>Omgevingsbeleid - {'Beheer ' + titelMeervoud}</title>
+                <title>Omgevingsbeleid - {"Beheer " + titelMeervoud}</title>
             </Helmet>
 
             {/* Sidebar */}
@@ -82,9 +82,7 @@ const MuteerUniversalObjectOverzicht = ({ dimensieConstants }) => {
 
             {/* Container */}
             <div className="flex-grow inline-block w-3/4 pl-8 rounded">
-                <h2 className="mb-4 text-gray-800 heading-serif">
-                    {titelMeervoud}
-                </h2>
+                <h2 className="mb-4 text-gray-800">{titelMeervoud}</h2>
 
                 {!isLoading ? (
                     <ul className="flex flex-wrap mt-8">
@@ -107,7 +105,6 @@ const MuteerUniversalObjectOverzicht = ({ dimensieConstants }) => {
                                         overzichtSlug={overzichtSlug}
                                         titleSingular={titleSingular}
                                         hoofdOnderdeelSlug={overzichtSlug}
-                                        hideParagraaf={true}
                                     />
                                 </li>
                             ))}

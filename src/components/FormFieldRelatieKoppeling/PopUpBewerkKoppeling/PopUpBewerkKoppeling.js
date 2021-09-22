@@ -1,9 +1,12 @@
-import React, { Component } from 'react'
-import { faTimes } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React, { Component } from "react"
+import { faTimes } from "@fortawesome/pro-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
-import PopUpAnimatedContainer from './../../PopUpAnimatedContainer'
+import PopUpAnimatedContainer from "./../../PopUpAnimatedContainer"
 
+/**
+ * @returns Component where a user can edit an existing connection
+ */
 class PopUpBewerkKoppeling extends Component {
     constructor(props) {
         super(props)
@@ -11,11 +14,18 @@ class PopUpBewerkKoppeling extends Component {
             type: this.props.type,
             objecten: [],
             selected: null,
-            omschrijving: this.props.bewerkItem.item.Omschrijving || '',
+            omschrijving:
+                this.props.bewerkItem.item.Koppeling_Omschrijving || "",
         }
         this.handleChange = this.handleChange.bind(this)
     }
 
+    /**
+     * Function that sets the value variable to the name variable, based on the e.target values.
+     *
+     *
+     * @param {Event & { target: HTMLInputElement }} e
+     */
     handleChange(e) {
         const name = e.target.name
         const value = e.target.value
@@ -30,17 +40,17 @@ class PopUpBewerkKoppeling extends Component {
             <PopUpAnimatedContainer>
                 <div
                     onClick={this.props.togglePopup}
-                    className="absolute top-0 right-0 px-3 py-2 text-gray-600 cursor-pointer"
+                    className="absolute top-0 right-0 px-6 py-4 text-gray-600 cursor-pointer"
                     id={`form-field-koppeling-sluit-popup`}
                 >
                     <FontAwesomeIcon icon={faTimes} />
                 </div>
-                <h3 className="form-field-label">koppelen</h3>
+                <h3 className="font-bold form-field-label">koppelen</h3>
 
                 <p className="form-field-description">
                     Beschrijf de koppeling tussen '
-                    {this.props.bewerkItem.item.Titel}' en de beleidskeuze '
-                    {this.props.titelMainObject}'
+                    {this.props.bewerkItem.item.Object.Titel}' en de
+                    beleidskeuze '{this.props.titelMainObject}'
                 </p>
                 <p className="mt-4 form-field-description">
                     Beschrijf zo concreet mogelijk de relatie
@@ -80,7 +90,7 @@ class PopUpBewerkKoppeling extends Component {
                     </div>
 
                     <div
-                        className={`font-bold py-2 px-4 cursor-pointer leading-tight text-sm rounded bg-green-600 text-white ${
+                        className={`font-bold py-2 px-4 cursor-pointer leading-tight text-sm rounded bg-pzh-green text-white ${
                             this.state.omschrijving.length === 0
                                 ? `cursor-not-allowed opacity-50`
                                 : `hover:underline`
@@ -99,7 +109,7 @@ class PopUpBewerkKoppeling extends Component {
                         }}
                         onKeyPress={(e) => {
                             if (
-                                e.key === 'Enter' &&
+                                e.key === "Enter" &&
                                 this.state.omschrijving.length > 0
                             ) {
                                 this.props.wijzigKoppelingRelatie(

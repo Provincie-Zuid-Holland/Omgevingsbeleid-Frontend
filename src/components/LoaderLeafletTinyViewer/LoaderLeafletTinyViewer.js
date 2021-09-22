@@ -1,6 +1,9 @@
-import React from 'react'
-import ContentLoader from 'react-content-loader'
+import React from "react"
+import ContentLoader from "react-content-loader"
 
+/**
+ * Component that renders the LoaderLeafletTinyViewer component, which loads a rectangle shape before the LeafletTinyViewer component is displayed.
+ */
 const LoaderLeafletTinyViewer = () => (
     <ContentLoader
         speed={2}

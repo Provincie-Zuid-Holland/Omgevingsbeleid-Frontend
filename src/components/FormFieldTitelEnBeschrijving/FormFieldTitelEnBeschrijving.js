@@ -1,17 +1,20 @@
-import React from 'react'
+import React from "react"
 
+/**
+ * @returns A label and description of a FormField component
+ */
 function FormFieldTitelEnBeschrijving(props) {
     let pValue = props.pValue
     if (props.disabled) {
-        pValue = pValue + ' (Kan niet zonder besluitvorming worden gewijzigd)'
+        pValue = pValue + " (Kan niet zonder besluitvorming worden gewijzigd)"
     }
     return (
-        <React.Fragment>
+        <>
             <h3 className="block mb-2 font-bold tracking-wide text-gray-700">
                 {props.fieldLabel ? props.fieldLabel : null}
             </h3>
             <p className="mb-4 text-sm text-gray-700">
-                {pValue ? `${pValue} ` : ''}
+                {pValue ? `${pValue} ` : ""}
                 {props.anchorText ? (
                     <a
                         href={[props.anchorLink]}
@@ -23,7 +26,7 @@ function FormFieldTitelEnBeschrijving(props) {
                     </a>
                 ) : null}
             </p>
-        </React.Fragment>
+        </>
     )
 }
 

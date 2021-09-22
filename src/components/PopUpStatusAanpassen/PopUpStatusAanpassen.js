@@ -1,18 +1,26 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
-import { toast } from 'react-toastify'
+import React, { useState } from "react"
+import PropTypes from "prop-types"
+import { toast } from "react-toastify"
 
-import PopUpAnimatedContainer from './../PopUpAnimatedContainer'
+import PopUpAnimatedContainer from "./../PopUpAnimatedContainer"
 
-import VOLGENDE_STATUS from './../../constants/beleidsbeslissingStatusAanpassen'
+import VOLGENDE_STATUS from "./../../constants/beleidskeuzeStatusAanpassen"
 
+/**
+ *
+ * @param {object} dataObject - Contains the object that is being displayed
+ * @param {function} patchStatus - Function to call the API and patch the new status
+ * @param {string} status - Contains the current status of the dataObject
+ * @param {function} toggleStatusPopup - Function to show or hide the StatusPopup.
+ * @returns A component to change the status of an object
+ */
 function PopUpStatusAanpassen({
     dataObject,
     status,
     patchStatus,
     toggleStatusPopup,
 }) {
-    const [selectValue, setSelect] = useState('')
+    const [selectValue, setSelect] = useState("")
 
     return (
         <PopUpAnimatedContainer small={true}>
@@ -23,12 +31,12 @@ function PopUpStatusAanpassen({
                         required
                         onChange={(event) => setSelect(event.target.value)}
                         value={selectValue}
-                        name={'Status'}
+                        name={"Status"}
                         className="block w-full px-4 py-3 leading-tight text-gray-700 bg-white border border-gray-400 rounded appearance-none focus:outline-none hover:border-gray-500 focus:border-gray-500"
                     >
                         <option disabled value="">
-                            {' '}
-                            - selecteer een optie -{' '}
+                            {" "}
+                            - selecteer een optie -{" "}
                         </option>
                         {VOLGENDE_STATUS[status]
                             ? VOLGENDE_STATUS[status].map(
@@ -54,23 +62,23 @@ function PopUpStatusAanpassen({
                 </div>
                 <div className="flex items-center justify-between mt-5 text-sm">
                     <div
-                        className="text-gray-600 underline cursor-pointer"
+                        className="text-gray-600 underline cursor-pointer hover:text-gray-800 pzh-transition-colors"
                         onClick={toggleStatusPopup}
                     >
                         Annuleren
                     </div>
                     <div
-                        className={`bg-green-500 px-8 py-2 text-white rounded font-semibold ${
-                            selectValue !== ''
-                                ? 'cursor-pointer'
-                                : 'cursor-not-allowed'
+                        className={`bg-pzh-green pzh-transition-colors px-8 py-2 text-white rounded font-bold ${
+                            selectValue !== ""
+                                ? "cursor-pointer hover:bg-pzh-green-dark"
+                                : "cursor-not-allowed"
                         }`}
                         onClick={() => {
-                            if (selectValue !== '') {
+                            if (selectValue !== "") {
                                 patchStatus(dataObject, selectValue)
                                 toggleStatusPopup()
                             } else {
-                                toast('Selecteer eerst een nieuwe status')
+                                toast("Selecteer eerst een nieuwe status")
                             }
                         }}
                     >
@@ -84,20 +92,20 @@ function PopUpStatusAanpassen({
 
 PopUpStatusAanpassen.propTypes = {
     status: PropTypes.oneOf([
-        'Ontwerp GS Concept',
-        'Ontwerp GS',
-        'Ontwerp PS',
-        'Ontwerp in inspraak',
-        'Definitief ontwerp GS concept',
-        'Definitief ontwerp GS',
-        'Definitief ontwerp PS',
-        'Vastgesteld',
-        'Datum vastgesteld - Later toevoegen',
-        'Vigerend',
-        'Vigerend gearchiveerd',
-        'Gepubliceerd',
-        'Niet-Actief',
-        'Uitgecheckt',
+        "Ontwerp GS Concept",
+        "Ontwerp GS",
+        "Ontwerp PS",
+        "Ontwerp in inspraak",
+        "Definitief ontwerp GS concept",
+        "Definitief ontwerp GS",
+        "Definitief ontwerp PS",
+        "Vastgesteld",
+        "Datum vastgesteld - Later toevoegen",
+        "Vigerend",
+        "Vigerend gearchiveerd",
+        "Gepubliceerd",
+        "Niet-Actief",
+        "Uitgecheckt",
     ]),
 }
 

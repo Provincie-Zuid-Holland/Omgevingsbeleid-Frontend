@@ -1,25 +1,29 @@
-import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
-import { toast } from 'react-toastify'
-import 'url-search-params-polyfill'
+import React, { Component } from "react"
+import { Link } from "react-router-dom"
+import { toast } from "react-toastify"
+import "url-search-params-polyfill"
+import DOMPurify from "dompurify"
 
-import { faArrowLeft } from '@fortawesome/pro-regular-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowLeft } from "@fortawesome/pro-regular-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 // Import API
-import axios from './../../API/axios'
+import axios from "./../../API/axios"
 
 // Import Data Model
-import allDimensieConstants from './../../constants/dimensies'
+import allDimensieConstants from "./../../constants/dimensies"
+
+// Import Utils
+import generateVerordeningsPosition from "./../../utils/generateVerordeningsPosition"
 
 // Import Components
-import LoaderContent from './../../components/LoaderContent'
+import LoaderContent from "./../../components/LoaderContent"
 
 function getExcerpt(text) {
     if (!text) {
-        return ''
+        return ""
     } else if (text.length > 250) {
-        return text.substring(0, 250) + '...'
+        return text.substring(0, 250) + "..."
     } else {
         return text
     }
@@ -27,48 +31,48 @@ function getExcerpt(text) {
 
 function getDimensieConstant(type) {
     switch (type) {
-        case 'Ambities':
+        case "ambities":
             return allDimensieConstants.AMBITIES
-        case 'Belangen':
+        case "belangen":
             return allDimensieConstants.BELANGEN
-        case 'Beleidsbeslissingen':
-            return allDimensieConstants.BELEIDSBESLISSINGEN
-        case 'BeleidsRegels':
+        case "beleidskeuzes":
+            return allDimensieConstants.BELEIDSKEUZES
+        case "beleidsregels":
             return allDimensieConstants.BELEIDSREGELS
-        case 'Doelen':
-            return allDimensieConstants.DOELEN
-        case 'Maatregelen':
+        case "beleidsprestaties":
+            return allDimensieConstants.BELEIDSPRESTATIES
+        case "maatregelen":
             return allDimensieConstants.MAATREGELEN
-        case 'Opgaven':
-            return allDimensieConstants.OPGAVEN
-        case 'Themas':
+        case "beleidsdoelen":
+            return allDimensieConstants.BELEIDSDOELEN
+        case "themas":
             return allDimensieConstants.THEMAS
-        case 'Verordeningen':
+        case "verordeningen":
             return allDimensieConstants.VERORDENINGSARTIKEL
-        case 'Artikel':
+        case "artikel":
             return allDimensieConstants.VERORDENINGSARTIKEL
         default:
             throw new Error(
-                `Whoops! Het type '${type}' kan niet binnen de allDimensieConstants gevonden worden.`
+                `Oh no! The type '${type}' could not be found within allDimensieConstants...`
             )
     }
 }
 
-function SearchResultItem({ item, searchQuery }) {
+function SearchResultItem({ item, searchQuery, index }) {
     function getContent() {
         const params = new URLSearchParams(
             document.location.search.substring(1)
         )
 
         // Get everything past the '=' of '?query=artikel'
-        const query = params.get('query')
+        const query = params.get("query")
 
         const omschrijving = item.Omschrijving
             ? getExcerpt(item.Omschrijving)
-            : ''
+            : ""
 
         const markedOmschrijving = omschrijving.replace(
-            new RegExp(query, 'g'),
+            new RegExp(query, "g"),
             `<mark class="marked-red">${query}</mark>`
         )
 
@@ -85,11 +89,7 @@ function SearchResultItem({ item, searchQuery }) {
         Omschrijving: getContent(),
     }
 
-    let type = item.Type
-    if (type === 'Beleidsregels') {
-        type = 'BeleidsRegels'
-    }
-
+    const type = item.Type
     const dimensieContants = getDimensieConstant(type)
     const overzichtURL = dimensieContants.SLUG_OVERVIEW
     const titleSingular = dimensieContants.TITLE_SINGULAR
@@ -107,59 +107,91 @@ function SearchResultItem({ item, searchQuery }) {
     }
 
     return (
-        <li className="py-5 border-b border-gray-300" key={item.UUID}>
+        <li
+            className={`px-4 py-5 transition-colors duration-100 ease-in bg-white border-b border-gray-300 hover:bg-gray-100 ${
+                index === 0 ? "border-t" : ""
+            }`}
+            key={item.UUID}
+        >
             <Link
                 className="group"
                 to={
-                    item.Type === 'Verordeningen'
+                    item.Type === "Verordeningen"
                         ? `/detail/verordeningen/1/${item.UUID}?hoofdstuk=${
                               item.positionInStructure[0] !== undefined
                                   ? item.positionInStructure[0]
-                                  : 'null'
+                                  : "null"
                           }&nest_1=${
                               item.positionInStructure[1] !== undefined
                                   ? item.positionInStructure[1]
-                                  : 'null'
+                                  : "null"
                           }&nest_2=${
                               item.positionInStructure[2] !== undefined
                                   ? item.positionInStructure[2]
-                                  : 'null'
+                                  : "null"
                           }&nest_3=${
                               item.positionInStructure[3] !== undefined
                                   ? item.positionInStructure[3]
-                                  : 'null'
+                                  : "null"
                           }#${searchQuery}`
                         : `/detail/${overzichtURL}/${item.UUID}#${searchQuery}`
                 }
             >
                 <span
-                    className="block text-sm text-gray-600"
+                    className="block text-sm opacity-75 text-pzh-blue"
                     data-test="search-result-type"
                 >
                     {titleSingular}
                 </span>
-                <h2 className="block text-lg font-semibold text-primary group-hover:underline">
+                <h2 className="block mt-1 text-lg font-bold text-pzh-blue group-hover:underline">
                     {content.Titel}
                 </h2>
                 {content.Omschrijving.setInnerHTML ? (
                     <p
-                        className="mt-2 text-gray-700"
+                        className="mt-2"
                         dangerouslySetInnerHTML={content.Omschrijving.content}
                     ></p>
                 ) : content.Omschrijving.content &&
                   content.Omschrijving.content.length > 0 ? (
-                    <p className="mt-2 text-gray-700">
-                        {content.Omschrijving.content}
-                    </p>
+                    <p className="mt-2">{content.Omschrijving.content}</p>
                 ) : (
-                    <p className="mt-2 italic text-gray-700">
+                    <p className="mt-2 italic">
                         Er is nog geen omschrijving voor deze
-                        {' ' + titleSingular.toLowerCase()}
+                        {" " + titleSingular.toLowerCase()}
                     </p>
                 )}
             </Link>
         </li>
     )
+}
+
+const Omschrijving = ({ content, titleSingular }) => {
+    if (content.Omschrijving.setInnerHTML) {
+        const cleanHTML = DOMPurify.sanitize(
+            content.Omschrijving.content.__html
+        )
+
+        return (
+            <p
+                className="mt-2 text-gray-700"
+                dangerouslySetInnerHTML={{ __html: cleanHTML }}
+            ></p>
+        )
+    } else if (
+        content.Omschrijving.content &&
+        content.Omschrijving.content.length > 0
+    ) {
+        return (
+            <p className="mt-2 text-gray-700">{content.Omschrijving.content}</p>
+        )
+    } else {
+        return (
+            <p className="mt-2 italic text-gray-700">
+                Er is nog geen omschrijving voor deze
+                {" " + titleSingular.toLowerCase()}
+            </p>
+        )
+    }
 }
 
 class RaadpleegZoekResultatenOverzicht extends Component {
@@ -172,12 +204,10 @@ class RaadpleegZoekResultatenOverzicht extends Component {
             dataLoaded: false,
             onPageFilters: [],
         }
-        this.getAndSetVigerendeVerordeningenStructuur = this.getAndSetVigerendeVerordeningenStructuur.bind(
-            this
-        )
-        this.generateVerordeningsPosition = this.generateVerordeningsPosition.bind(
-            this
-        )
+        this.getAndSetVigerendeVerordeningenStructuur =
+            this.getAndSetVigerendeVerordeningenStructuur.bind(this)
+        this.generateVerordeningsPosition =
+            generateVerordeningsPosition.bind(this)
         this.handleFilter = this.handleFilter.bind(this)
     }
 
@@ -222,82 +252,14 @@ class RaadpleegZoekResultatenOverzicht extends Component {
         })
     }
 
-    generateVerordeningsPosition(UUIDToFind) {
-        if (!this.state.vigerendeVerordeningsStructuur) return []
-
-        // Curren structure of vigerende verordeningsstructure
-        const vigerendeVerordeningsStructuurChildren = this.state
-            .vigerendeVerordeningsStructuur.Structuur.Children
-
-        // Used to push in the indexes to traverse to the UUIDToFind
-        let indexPathToUUID = []
-
-        // Used to push the current index while traversing into the right index of indexPathToUUID. We increase/decrease on every nested level change.
-        let indexTraversed = 0
-
-        // Becomes true when we've found the UUIDToFind
-        let pathFound = false
-
-        // Func to recursively traverse through the children and find the UUID in the properties
-        function traverseChildren(children) {
-            if (pathFound) return
-
-            // Returns foundIndex() of the UUIDToFind with the objects in the children array
-            const indexOfUUIDInArray = findUUIDInArray(children)
-
-            // For each child in the array we first check if the UUID exists in the childs, else we traverse one level to the children of each child and check recrusively from there
-            if (indexOfUUIDInArray !== -1) {
-                indexPathToUUID[indexTraversed] = indexOfUUIDInArray
-                pathFound = true
-            } else {
-                children.forEach((child, childIndex) => {
-                    // If item has no children OR pathFound equals true -> Return
-                    if (
-                        !child.Children ||
-                        child.Children.length === 0 ||
-                        pathFound
-                    )
-                        return
-
-                    // Else push childIndex into indexPathToUUID,
-                    indexPathToUUID[indexTraversed] = childIndex
-
-                    // Increase indexTraversed because in the traverseChildren() call we traverse on level down
-                    indexTraversed++
-                    traverseChildren(child.Children)
-
-                    // It is possible that we found the Path to the UUID in the traverseChildren() call above. If that is the case we want to return
-                    if (pathFound) return
-
-                    // Else we are done traversing through the children, we replace the item on the current indexPathToUUID index with a null value and then decrease the indexTraversed again
-                    indexPathToUUID.splice(indexTraversed, 1, null)
-                    indexTraversed--
-                })
-            }
-        }
-
-        // Find and return index of 'item.UUID === UUIDToFind', else returns -1
-        function findUUIDInArray(children) {
-            const indexOfUUID = children.findIndex(
-                (item) => item.UUID === UUIDToFind
-            )
-            return indexOfUUID
-        }
-
-        // Initialize function
-        traverseChildren(vigerendeVerordeningsStructuurChildren)
-
-        // Return the found array with the path to the UUID
-        return indexPathToUUID
-    }
-
     addVerordeningsPositionToSearchResults(searchResults) {
         // We map over the searchResults. If the item is of the type 'Verordeningen' we find the position of the UUID in the verordeningenStructure
         // Else we return the original item
         const newSearchResults = searchResults.map((item) => {
-            if (item.Type === 'Verordeningen') {
+            if (item.Type === "Verordeningen") {
                 const positionInStructure = this.generateVerordeningsPosition(
-                    item.UUID
+                    item.UUID,
+                    this.state.vigerendeVerordeningsStructuur
                 )
                 item.positionInStructure = positionInStructure
                 return item
@@ -313,8 +275,8 @@ class RaadpleegZoekResultatenOverzicht extends Component {
             searchQuery: searchQuery,
         })
 
-        if (searchFiltersOnly === 'beleidskeuzes') {
-            searchFiltersOnly = 'beleidsbeslissingen'
+        if (searchFiltersOnly === "beleidskeuzes") {
+            searchFiltersOnly = "beleidskeuzes"
         }
 
         axios
@@ -327,24 +289,23 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                 const searchResults = res.data
                     .filter(
                         (e) =>
-                            e.Type !== 'Doelen' &&
-                            e.Type !== 'Themas' &&
-                            e.Type !== 'Belangen'
+                            e.Type !== "Beleidsprestaties" &&
+                            e.Type !== "Themas" &&
+                            e.Type !== "Belangen"
                     )
                     .filter(
                         (e) =>
-                            (e.Type === 'Maatregelen' &&
-                                e.Status !== 'Vigerend') ||
-                            e.Type !== 'Maatregelen'
+                            (e.Type === "Maatregelen" &&
+                                e.Status !== "Vigerend") ||
+                            e.Type !== "Maatregelen"
                     )
 
                 this.setInitialOnPageFilters(searchResults)
 
                 // The 'Verordenings' objects are placed in a structure, but we need to check what position exactly so we can link towards the correct 'Verordening' including the parameters to set the verordeningsobject as active in the view. e.g.:
                 // /detail/verordeningen/102?hoofdstuk=0&nest_1=0&nest_2=0&nest_3=null
-                const searchResultsWithVerordeningsPositions = this.addVerordeningsPositionToSearchResults(
-                    searchResults
-                )
+                const searchResultsWithVerordeningsPositions =
+                    this.addVerordeningsPositionToSearchResults(searchResults)
 
                 this.setState({
                     searchFiltersOnly: searchFiltersOnly,
@@ -358,7 +319,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                         dataLoaded: true,
                     },
                     () => {
-                        console.log(err)
+                        console.error(err)
                         toast(process.env.REACT_APP_ERROR_MSG)
                     }
                 )
@@ -374,9 +335,8 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                 // Creates the state to display the filter UI
                 this.setInitialOnPageFilters(searchResults)
 
-                const searchResultsWithVerordeningsPositions = this.addVerordeningsPositionToSearchResults(
-                    searchResults
-                )
+                const searchResultsWithVerordeningsPositions =
+                    this.addVerordeningsPositionToSearchResults(searchResults)
 
                 this.setState({
                     searchFiltersOnly: null,
@@ -388,7 +348,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                 this.setState({
                     dataLoaded: true,
                 })
-                console.log(err)
+                console.error(err)
                 toast(process.env.REACT_APP_ERROR_MSG)
             })
     }
@@ -397,12 +357,12 @@ class RaadpleegZoekResultatenOverzicht extends Component {
     // LatLng is set in state so we can display it in the UI above the results
     getSearchGeoQuery(searchGeoQuery, latLng) {
         this.setState({
-            geoSearchQuery: latLng.replace('-', ' '),
+            geoSearchQuery: latLng.replace("-", " "),
         })
 
         // Get werkingsgebieden
-        import('./../../API/axiosGeoJSON').then((api) => {
-            const [pointA, pointB] = searchGeoQuery.split(' ')
+        import("./../../API/axiosGeoJSON").then((api) => {
+            const [pointA, pointB] = searchGeoQuery.split(" ")
             api.getWerkingsGebieden(pointA, pointB)
                 .then((data) => {
                     // Then get for each werkingsgebied the appropriate regulations and policies
@@ -424,7 +384,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                     }
                 })
                 .catch((err) => {
-                    console.log(err)
+                    console.error(err)
                     toast(process.env.REACT_APP_ERROR_MSG)
                 })
         })
@@ -433,17 +393,17 @@ class RaadpleegZoekResultatenOverzicht extends Component {
     async getAndSetVigerendeVerordeningenStructuur() {
         try {
             const data = await axios
-                .get('/verordeningstructuur')
+                .get("/verordeningstructuur")
                 .then((res) => {
                     const vigerendeVerordening = res.data.find(
-                        (item) => item.Status === 'Vigerend'
+                        (item) => item.Status === "Vigerend"
                     )
                     if (vigerendeVerordening) {
                         return vigerendeVerordening
                     } else if (res.data.length > 0) {
                         return res.data[0]
                     } else {
-                        throw new Error('No data from API')
+                        throw new Error("No data from API")
                     }
                 })
             this.setState(
@@ -463,10 +423,10 @@ class RaadpleegZoekResultatenOverzicht extends Component {
         const urlParams = this.props.location.search
 
         const searchParams = new URLSearchParams(urlParams)
-        const searchQuery = searchParams.get('query')
-        const searchFiltersOnly = searchParams.get('only')
-        const searchGeoQuery = searchParams.get('geoQuery')
-        const latLng = searchParams.get('LatLng')
+        const searchQuery = searchParams.get("query")
+        const searchFiltersOnly = searchParams.get("only")
+        const searchGeoQuery = searchParams.get("geoQuery")
+        const latLng = searchParams.get("LatLng")
 
         if (!urlParams || urlParams.length === 0) {
             return
@@ -502,13 +462,6 @@ class RaadpleegZoekResultatenOverzicht extends Component {
     }
 
     render() {
-        // Beleidskeuzes
-        // Ambities
-        // Opgaven
-        // Maatregelen
-        // Verordening
-        // Beleidsregels
-
         const checkForActiveFilter = (onPageFilters) => {
             if (!onPageFilters || !onPageFilters.filterArray) return []
 
@@ -526,17 +479,17 @@ class RaadpleegZoekResultatenOverzicht extends Component {
         }
 
         const onPageFilters = this.state.onPageFilters
-        let [filterIsActive, amountOfFilters] = checkForActiveFilter(
-            onPageFilters
-        )
+        let [filterIsActive, amountOfFilters] =
+            checkForActiveFilter(onPageFilters)
 
         const filters = [
-            'Beleidsbeslissingen',
-            'Ambities',
-            'Opgaven',
-            'Maatregelen',
-            'Verordeningen',
-            'BeleidsRegels',
+            "beleidskeuzes",
+            "ambities",
+            "beleidsprestaties",
+            "beleidsdoelen",
+            "maatregelen",
+            // 'verordeningen',
+            "beleidsregels",
         ].filter((e) => onPageFilters[e])
 
         return (
@@ -548,7 +501,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                                 ? `/?query=${this.state.searchQuery}`
                                 : `/`
                         }
-                        className={`text-gray-600 hover:text-gray-700 text-sm mb-4 inline-block group`}
+                        className={`text-pzh-blue opacity-75 hover:opacity-100 text-sm mb-4 inline-block group transition-opacity ease-in duration-100`}
                         id="button-back-to-previous-page"
                     >
                         <FontAwesomeIcon className="mr-2" icon={faArrowLeft} />
@@ -558,7 +511,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                     {this.state.dataLoaded &&
                     this.state.searchFiltersOnly === null ? (
                         <React.Fragment>
-                            <h2 className="block text-lg font-semibold text-primary group-hover:underline">
+                            <h2 className="block text-lg font-bold text-pzh-blue group-hover:underline">
                                 Filteren
                             </h2>
                             <ul id="filter-search-results" className="mt-4">
@@ -566,6 +519,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                                 onPageFilters.filterArray.length > 0
                                     ? filters.map((filter) => (
                                           <FilterItem
+                                              key={filter}
                                               count={
                                                   onPageFilters[filter].count
                                               }
@@ -583,7 +537,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                 </div>
 
                 <div className="w-2/4">
-                    <span className="block text-xl font-bold opacity-25 text-primary-super-dark">
+                    <span className="block pl-4 text-xl font-bold opacity-25 text-pzh-blue">
                         {this.state.searchQuery
                             ? `Zoekresultaten voor "${this.state.searchQuery}"`
                             : null}
@@ -591,9 +545,8 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                             ? `Zoekresultaten voor coördinaten "${this.state.geoSearchQuery}"`
                             : null}
                     </span>
-                    <ul id="search-results">
+                    <ul id="search-results" className="mt-4 mb-12">
                         {this.state.dataLoaded ? (
-                            // this.state.searchResults.length > 0 ? (
                             this.state.searchResults &&
                             this.state.searchResults.length > 0 ? (
                                 this.state.searchResults.map((item, index) => {
@@ -607,6 +560,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                                     ) {
                                         return (
                                             <SearchResultItem
+                                                index={index}
                                                 searchQuery={
                                                     this.state.urlParams
                                                 }
@@ -635,15 +589,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
 const FilterItem = ({ handleFilter, checked, item, count }) => {
     const dimensieContants = getDimensieConstant(item)
     const titleSingular = dimensieContants.TITLE_SINGULAR
-
-    const itemTitle =
-        item === 'Beleidsbeslissingen'
-            ? 'Beleidskeuzes'
-            : item === 'Verordeningen'
-            ? 'Artikelen'
-            : item === 'Opgaven'
-            ? 'Beleidsdoelen'
-            : item
+    const itemTitle = item === "Verordeningen" ? "Artikelen" : item
 
     return (
         <li key={item} className="mt-1 text-sm text-gray-700">

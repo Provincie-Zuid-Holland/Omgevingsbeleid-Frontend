@@ -1,3 +1,3 @@
-import DragAndDropHoofdstukken from './DragAndDropHoofdstukken.js'
+import DragAndDropHoofdstukken from "./DragAndDropHoofdstukken.js"
 
 export default DragAndDropHoofdstukken

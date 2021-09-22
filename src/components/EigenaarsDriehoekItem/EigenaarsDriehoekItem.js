@@ -1,62 +1,37 @@
-import React, { Component } from 'react'
-import { toast } from 'react-toastify'
+import React from "react"
+/**
+ * Component that renders the EigenaarsDriehoekItem component to display as an item within the EigenaarsDrihoek component.
+ * It receives the variables owner and eigenaarType and uses the owner variable in a conditionary operator to check if it contains value and to set the second part of the Gebruikersnaam in uppercase and in furter to display the Gebruikersnaam fully.
+ * The eigenaarType variable is used to display what kind of owner the owner variable is linked to.
+ * This component is used by the component EigenaarsDriehoek.
+ *
+ * @param {object} owner - Parameter that contains the collection of information of the owner.
+ * @param {string} eigenaarType - Parameter that displays the type of owner in the component.
+ */
+const EigenaarsDriehoekItem = ({ owner, eigenaarType }) => {
+    if (!owner) return null
 
-// Import Axios instance to connect with the API
-import axios from './../../API/axios'
-
-class EigenaarsDriehoekItem extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            dataLoaded: false,
-            gebruikersObject: null,
-        }
-    }
-
-    componentDidMount() {
-        axios
-            .get(`/gebruikers/${this.props.UUID}`)
-            .then((res) => {
-                const dataObject = res.data
-                this.setState({
-                    gebruikersObject: dataObject,
-                    dataLoaded: true,
-                })
-            })
-            .catch((err) => {
-                console.log(err)
-                toast(process.env.REACT_APP_ERROR_MSG)
-            })
-    }
-
-    render() {
-        return (
-            <div className="w-full p-2 mb-2 bg-white rounded shadow-md">
-                <div className="flex items-center">
-                    <div className="flex items-center justify-center w-12 h-12 mr-2 rounded-full bg-secondary">
-                        {this.state.gebruikersObject ? (
-                            <span className="text-xl font-bold text-white">
-                                {this.state.gebruikersObject.Gebruikersnaam.substring(
-                                    0,
-                                    1
-                                ).toUpperCase()}
-                            </span>
-                        ) : null}
-                    </div>
-                    <div>
-                        <span className="block text-sm text-gray-700">
-                            {this.props.eigenaarType}
+    return (
+        <div className="w-full p-2 mb-2 bg-white rounded shadow-md">
+            <div className="flex items-center">
+                <div className="flex items-center justify-center flex-shrink-0 w-12 h-12 mr-2 border-4 border-gray-200 rounded-full bg-pzh-blue">
+                    {owner ? (
+                        <span className="text-xl font-bold text-white">
+                            {owner.Gebruikersnaam.substring(0, 1).toUpperCase()}
                         </span>
-                        <span className="block text-sm font-bold text-gray-800">
-                            {this.state.gebruikersObject
-                                ? this.state.gebruikersObject.Gebruikersnaam
-                                : null}
-                        </span>
-                    </div>
+                    ) : null}
+                </div>
+                <div>
+                    <span className="block text-sm text-gray-700">
+                        {eigenaarType}
+                    </span>
+                    <span className="block text-sm font-bold text-gray-800">
+                        {owner ? owner.Gebruikersnaam : null}
+                    </span>
                 </div>
             </div>
-        )
-    }
+        </div>
+    )
 }
 
 export default EigenaarsDriehoekItem
