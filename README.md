@@ -1,6 +1,6 @@
 <img src="https://www.zuid-holland.nl/publish/pages/26873/pzh_basislogo_rgb_1_0.svg" alt="Provincie Zuid-Holland logo" width="220px">
 
-# Omgevingsbeleid front-end
+# Omgevingsbeleid front-end · ![License](https://img.shields.io/github/license/Provincie-Zuid-Holland/Omgevingsbeleid-Frontend)
 
 An application that digitalizes the environmental policies of the Province of South-Holland. In the application non authorized users can consult the policies, where authorized users can also mutate the policies.
 
