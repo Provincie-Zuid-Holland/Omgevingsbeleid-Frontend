@@ -32,7 +32,7 @@ const dimensions = [
     "BELEIDSKEUZES",
 ]
 
-const currentBaseURL = process.env.CI ? "http://localhost" : baseURL
+const currentBaseURL = baseURL
 
 const getDimensions = dimensions.map((dimension) => {
     const apiSlug = allDimensies[dimension].API_ENDPOINT
