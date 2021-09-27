@@ -64,7 +64,6 @@ class MuteerUniversalObjectDetail extends Component {
      */
     getAndSetDimensieDataFromApi() {
         const apiEndpoint = this.getApiEndpoint()
-
         axios
             .get(apiEndpoint)
             .then((res) => {
@@ -72,11 +71,14 @@ class MuteerUniversalObjectDetail extends Component {
 
                 if (this.state.pageType === "detail") {
                     /** pageType is of 'detail' */
-                    dataObject.sort(function (a, b) {
-                        return (
-                            new Date(b.Modified_Date) -
-                            new Date(a.Modified_Date)
-                        )
+                    this.setState({
+                        dataObject: dataObject.sort(function (a, b) {
+                            return (
+                                new Date(b.Modified_Date) -
+                                new Date(a.Modified_Date)
+                            )
+                        }),
+                        dataReceived: true,
                     })
                 } else {
                     /** pageType is of 'version' */
