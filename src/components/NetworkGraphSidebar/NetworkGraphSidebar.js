@@ -8,9 +8,12 @@ import networkGraphConnectionProperties from "../../constants/networkGraphConnec
 import networkGraphFilterMenu from "../../constants/networkGraphFilterMenu"
 
 /**
+ * Displays a sidebar in the network graph component
  *
- * @param {object} props
- * @param {object} props
+ * @param {function} setFilters - Value is set in the parent state.
+ * @param {object} filters - Contains filter value which is used in the ListItem component.
+ * @param {function} setGraphIsOpen - Contains a boolean value which is set in the parent state to close/open the graph component.
+ *
  * @returns A component that displays a sidebar with functionality to filter node types
  */
 const NetworkGraphSidebar = ({ setGraphIsOpen, filters, setFilters }) => {
@@ -83,6 +86,12 @@ const NetworkGraphSidebar = ({ setGraphIsOpen, filters, setFilters }) => {
     )
 }
 
+/**
+ *
+ * @param {function} setFilters - Value is set in the parent state.
+ * @param {number} filterKey - Contains a key value of the filter.
+ * @param {object} filters - Contains a collection of filters in object form.
+ */
 const ListItem = ({ setFilters, filterKey, filters }) => {
     return (
         <li

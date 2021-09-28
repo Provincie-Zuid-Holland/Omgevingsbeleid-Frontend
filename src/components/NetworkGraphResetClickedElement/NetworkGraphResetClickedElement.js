@@ -4,8 +4,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Transition } from "@headlessui/react"
 
 /**
- *
- * @param {object} props
  * @param {object} clickedNode - The corresponding node that has been clicked
  * @param {function} resetNodes - Function to reset the styles of all nodes, and set clickedNode to null
  * @returns Component that indicates what element has been clicked, with a link to the detail page

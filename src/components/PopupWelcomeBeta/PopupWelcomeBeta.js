@@ -4,6 +4,12 @@ import logoSVG from "./../../images/PZH_Basislogo.svg"
 
 import useLockBodyScroll from "./../../utils/useLockBodyScroll"
 
+/**
+ * Displays a popup with a welcome text and a close button.
+ *
+ * @param {function} closePopup - Function to close the popup.
+ */
+
 const PopupWelcomeBeta = ({ closePopup }) => {
     useLockBodyScroll({ modalOpen: true })
 

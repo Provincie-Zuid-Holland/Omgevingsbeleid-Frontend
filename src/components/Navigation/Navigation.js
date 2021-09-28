@@ -16,6 +16,12 @@ import GraphContext from "./../../App/GraphContext"
 import logoSVG from "./../../images/PZH_Basislogo.svg"
 import useBanner from "../../utils/useBanner"
 
+/**
+ * Displays a navbar on top of the page which the user can use to login, logout and search within the omgevingsbeleid.
+ *
+ * @param {boolean} loggedIn - Parameter that is set true if user is logged in.
+ * @param {function} setLoginState - Function to edit parent state.
+ */
 function Navigation({ loggedIn, setLoginState }) {
     const location = useLocation()
     const pathname = location.pathname
@@ -37,6 +43,11 @@ function Navigation({ loggedIn, setLoginState }) {
         )
     }
 
+    /**
+     * Function to logout the user.
+     *
+     * @function
+     */
     function logout() {
         // Clear user token and profile data from localStorage
         localStorage.removeItem(process.env.REACT_APP_KEY_API_ACCESS_TOKEN)
@@ -159,6 +170,11 @@ const MenuIcon = ({
     )
 }
 
+/**
+ * Function to display the PZH logo.
+ *
+ * @function
+ */
 function Logo() {
     return (
         <img

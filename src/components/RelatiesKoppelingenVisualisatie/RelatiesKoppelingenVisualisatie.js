@@ -7,6 +7,17 @@ import generateVerordeningsPosition from "./../../utils/generateVerordeningsPosi
 // Import Context
 import GraphContext from "./../../App/GraphContext"
 
+/**
+ * Displays a Netwerkvisualisatie map which shows the beleids objecten connections.
+ *
+ * @param {object} beleidsObject -  Contains the information of a beleid
+ * @param {Array} connectionProperties - Contains a collection of connection properties.
+ * @param {object} connectionPropertiesColors - Contains a collection of connection property colors.
+ * @param {Array} beleidsRelaties - Contains a collection of beleidsRelaties.
+ * @param {string} titleSingular - Contains the title in singular form.
+ * @param {string} titleSingularPrefix - Contains the title in singular prefix form.
+ * @param {object} verordeningsStructure - Contains the verorderings structure information.
+ */
 const RelatiesKoppelingenVisualisatie = ({
     beleidsObject,
     connectionProperties,

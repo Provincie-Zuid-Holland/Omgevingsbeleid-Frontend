@@ -9,7 +9,7 @@ import ContainerAnimateContent from "./../ContainerAnimateContent"
  * @param {Object} object - The object we want to display
  * @param {string} titleSingular - Singular title of object type
  * @param {string} hoofdOnderdeelSlug - Slug for the overview of the type
- * @param {undefined|int} index - Can contain an index if the Component is used in a .map()
+ * @param {undefined|number} index - Can contain an index if the Component is used in a .map()
  * @param {boolean} mijnBeleid - If true add hash to the detailPageLink
  * @returns A component that displays the type and title on an object and links to its detail ID page
  */
