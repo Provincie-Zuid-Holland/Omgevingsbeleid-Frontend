@@ -133,7 +133,7 @@ const EigenarenList = ({ eigenaren }) => {
     /**
      * Function that gets the abbrevation from the username.
      *
-     * @param {string} item - Parameter containing a text value.
+     * @param {string} item - Contains the username in text form.
      */
     const getAbbrevationFromUsername = (item) => {
         const username = getUsername(item)
