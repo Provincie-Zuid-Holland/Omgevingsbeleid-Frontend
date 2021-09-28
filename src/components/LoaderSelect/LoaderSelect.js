@@ -2,7 +2,7 @@ import React from "react"
 import ContentLoader from "react-content-loader"
 
 /**
- * Component that renders the LoaderSelect component, which loads a rectangle shape before the Select component is displayed.
+ * Displays a rectangle shape before the Select component is displayed.
  */
 const LoaderSelect = () => (
     <ContentLoader className="relative w-full h-16" width={`300`} height="30">

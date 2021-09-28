@@ -9,6 +9,14 @@ const getObjectFromRelation = (relation) => {
         : relation
 }
 
+/**
+ * Displays the connections between beleids objecten.
+ *
+ * @param {object} beleidsObject - Contains the information of a beleid in object form.
+ * @param {Array} beleidsRelaties - Contains a collection of beleidsRelaties.
+ * @param {Array} connectionProperties - Contains a collection of connection properties.
+ * @param {object} connectionPropertiesColors - Contains a collection of connection property colors in object form.
+ */
 function RelatiesKoppelingenTekstueel({
     beleidsObject,
     beleidsRelaties,
@@ -103,6 +111,15 @@ function RelatiesKoppelingenTekstueel({
     }
 }
 
+/**
+ * Displays a list of Verordening items which each item contains a title and description.
+ *
+ * @param {string} property - Contains the property value.
+ * @param {string} UUID - Contains the UUID value.
+ * @param {object} connectionPropertiesColors - Contains a collection of connection property colors.
+ * @param {string} titel - Contains the titel of each list item
+ * @param {string} omschrijving - Contains the omschrijving of each list item.
+ */
 const ListItem = ({
     property,
     UUID,

@@ -13,7 +13,12 @@ import LoaderSmallSpan from "../LoaderSmallSpan"
 import getVigerendText from "./../../utils/getVigerendText"
 
 /**
- * @returns Displays the details of an Object
+ * Displays main details in a container.
+ *
+ * @param {object} dataObject - Contains data in object form.
+ * @param {string} titleSingular - Title of the object in a singular form
+ * @param {boolean} dataReceived - Parameter that is set to true if it contains data.
+ * @param {string} overzichtSlug - Portion of the url referring to the overzicht.
  */
 const ContainerDetailMain = ({
     dataObject,
@@ -60,6 +65,14 @@ const ContainerDetailMain = ({
     )
 }
 
+/**
+ * Displays a container containing the main raadpleeglink.
+ *
+ * @param {string} titleSingular - Title of the object in a singular form
+ * @param {object} dataObject - Parameter that is set to true if it contains data.
+ * @param {string} overzichtSlug - Portion of the url referring to the overzicht.
+ * @param {boolean} dataReceived - Parameter that is set to true if it contains data.
+ */
 const ContainerDetailMainRaadpleegLink = ({
     titleSingular,
     dataObject,
@@ -106,6 +119,13 @@ const ContainerDetailMainRaadpleegLink = ({
     )
 }
 
+/**
+ * Displays a container containing a main date
+ *
+ * @param {boolean} dataReceived - Contains a boolean state if data has been received.
+ * @param {string} validDatePrefix - Contains a prefix for valid date.
+ * @param {date} validDate - Contains a valid date.
+ */
 const ContainerDetailMainDate = ({
     dataReceived,
     validDatePrefix,
@@ -135,6 +155,11 @@ const ContainerDetailMainDate = ({
     )
 }
 
+/**
+ * Displays a link in which the user can click on to see a certain document.
+ *
+ * @param {string} weblink - Contains the URL destination.
+ */
 const ContainerDetailMainWeblink = ({ weblink }) => {
     if (!weblink) return null
 
