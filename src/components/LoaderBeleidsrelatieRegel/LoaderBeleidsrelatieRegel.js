@@ -6,7 +6,7 @@ import ContentLoader from "react-content-loader"
  */
 const LoaderBeleidsrelatieRegel = () => (
     <ContentLoader
-        className="block w-full h-5 my-2 rounded"
+        className="w-full rounded block my-2 h-5"
         width="50"
         height="10"
     >

@@ -12,8 +12,6 @@ const getObjectFromRelation = (relation) => {
 /**
  * Displays the connections between beleids objecten.
  *
- * @component
- *
  * @param {object} beleidsObject - Contains the information of a beleid in object form.
  * @param {Array} beleidsRelaties - Contains a collection of beleidsRelaties.
  * @param {Array} connectionProperties - Contains a collection of connection properties.
@@ -115,8 +113,6 @@ function RelatiesKoppelingenTekstueel({
 
 /**
  * Displays a list of Verordening items which each item contains a title and description.
- *
- * @component
  *
  * @param {string} property - Contains the property value.
  * @param {string} UUID - Contains the UUID value.

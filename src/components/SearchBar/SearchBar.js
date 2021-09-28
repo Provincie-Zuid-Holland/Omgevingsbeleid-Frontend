@@ -12,8 +12,6 @@ import SearchBarPopupItem from "./../SearchBarPopupItem"
 /**
  * Displays a search bar which can be used within a component/page.
  *
- * @component
- *
  * @param {string} width - Contains the width of the SearchBar component.
  * @param {string} exactWidth - Contains the exact width of the SearchBar component.
  * @param {boolean} compInNavigation - Used to check if the component is in the navbar.

@@ -120,8 +120,6 @@ const ViewFieldIngelogdExtraInfo = ({ crudObject, hideEdit, className }) => {
 /**
  * Displays a list of owners.
  *
- * @component
- *
  * @param {object} eigenaren - Contains a collection of owners.
  */
 const EigenarenList = ({ eigenaren }) => {
