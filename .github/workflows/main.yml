@@ -13,7 +13,11 @@ jobs:
     strategy:
       matrix:
         node-version: [12.x]
-
+          
+    env:
+        REACT_APP_API_VERSION: v0.1
+        REACT_APP_API_ENV: dev
+        
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
