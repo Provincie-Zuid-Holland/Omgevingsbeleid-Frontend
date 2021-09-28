@@ -8,7 +8,6 @@ import {
     FormFieldGeldigheid,
     FormFieldInputContainer,
     FormFieldTextInput,
-    FormFieldTextArea,
     FormFieldWeblink,
     FormFieldSelectUserGroup,
     FormFieldRichTextEditor,
