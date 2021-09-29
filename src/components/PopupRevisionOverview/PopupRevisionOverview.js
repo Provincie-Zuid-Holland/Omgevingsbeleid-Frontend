@@ -1018,36 +1018,30 @@ const ConnectionListItem = ({ property, connection }) => {
             : {} // Default
 
     return (
-        <li className="relative block mt-1 text-sm text-gray-800">
+        <li className="relative block mt-2 text-sm text-gray-800">
             <div className="inline-flex items-center group">
-                <span>
+                <div className="flex">
                     <span
-                        className={`inline-block w-3 h-3 mr-2 rounded-full`}
+                        className={`inline-block w-3 h-3 flex-shrink-0 mr-2 rounded-full`}
                         style={{
                             backgroundColor:
                                 connectionPropertiesColors[property].hex,
                         }}
                     />
-                    <span className="px-1" style={textStyle}>
-                        {connection.Object?.Titel}
-                    </span>
-                </span>
-                {connection.Koppeling_Omschrijving &&
-                connection.Koppeling_Omschrijving !== "" ? (
-                    <div
-                        className="absolute top-0 z-20 hidden px-4 pt-3 pb-6 mt-5 cursor-default group-hover:block tooltip-content"
-                        style={{
-                            left: "5px",
-                        }}
-                    >
-                        <div
-                            id={connection.Object?.UUID}
-                            className="px-5 py-3 leading-7 text-white break-words whitespace-pre-line bg-gray-900 rounded shadow"
-                        >
-                            {connection.Koppeling_Omschrijving}
-                        </div>
+                    <div>
+                        <span className="block px-1" style={textStyle}>
+                            {connection.Object?.Titel}
+                        </span>
+                        {connection.Koppeling_Omschrijving ? (
+                            <span
+                                className="block px-1 mt-1 text-xs"
+                                style={textStyle}
+                            >
+                                {connection.Koppeling_Omschrijving}
+                            </span>
+                        ) : null}
                     </div>
-                ) : null}
+                </div>
             </div>
         </li>
     )
