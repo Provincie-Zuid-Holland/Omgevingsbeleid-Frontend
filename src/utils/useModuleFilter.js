@@ -26,8 +26,8 @@ const useModuleFilter = () => {
     const [filters, setFilters] = React.useReducer(filterReducer, {
         statusFilters: ["Status"],
         selectedStatus: "Status",
-        typeFilters: ["Beleidstuk", "Beleidskeuze", "Maatregel"],
-        selectedType: "Beleidstuk",
+        typeFilters: ["Filter op beleid", "Beleidskeuze", "Maatregel"],
+        selectedType: "Filter op beleid",
     })
 
     const getObjectType = (obj) =>
@@ -35,7 +35,7 @@ const useModuleFilter = () => {
 
     const filterPolicies = (policy, filters) => {
         const activeStatusFilter = filters.selectedStatus !== "Status"
-        const activeTypeFilter = filters.selectedType !== "Beleidstuk"
+        const activeTypeFilter = filters.selectedType !== "Filter op beleid"
 
         const getFilteredOutByStatus = () => {
             if (!activeStatusFilter) return false

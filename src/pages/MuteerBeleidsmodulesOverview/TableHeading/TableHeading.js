@@ -11,8 +11,8 @@ const TableHeading = ({
     return (
         <th
             scope="col"
-            className={`px-3 py-3 text-sm font-medium tracking-wider text-left text-gray-800 select-none ${
-                noIcon ? "" : "cursor-pointer hover:text-gray-900"
+            className={`px-3 py-3 text-sm font-medium tracking-wider text-left text-gray-700 select-none ${
+                noIcon ? "" : "cursor-pointer hover:text-gray-800"
             }`}
             onClick={() => {
                 if (noIcon) return
