@@ -43,19 +43,6 @@ function Navigation({ loggedIn, setLoginState }) {
         )
     }
 
-    /**
-     * Function to logout the user.
-     *
-     * @function
-     */
-    function logout() {
-        // Clear user token and profile data from localStorage
-        localStorage.removeItem(process.env.REACT_APP_KEY_API_ACCESS_TOKEN)
-        localStorage.removeItem(process.env.REACT_APP_KEY_IDENTIFIER)
-
-        setLoginState(false)
-    }
-
     const showBanner = userIsInMuteerEnvironment && !hideBannerLocalStorage()
 
     return (

@@ -294,7 +294,7 @@ const RelatiesKoppelingenVisualisatie = ({
                 node.attr("cx", (d) => d.x + 100).attr("cy", (d) => d.y + 100)
             })
         }
-    }, [data, location.pathname])
+    }, [data, location.pathname, verordeningsStructure])
 
     return (
         <div className="flex">

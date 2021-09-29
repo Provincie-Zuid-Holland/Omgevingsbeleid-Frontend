@@ -2,13 +2,7 @@ import React, { Component } from "react"
 import ReactDOMServer from "react-dom/server"
 import Leaflet from "leaflet"
 
-import {
-    Map,
-    TileLayer,
-    LayersControl,
-    FeatureGroup,
-    Layer,
-} from "react-leaflet"
+import { Map, TileLayer, LayersControl, FeatureGroup } from "react-leaflet"
 import Proj from "proj4leaflet"
 import { toast } from "react-toastify"
 

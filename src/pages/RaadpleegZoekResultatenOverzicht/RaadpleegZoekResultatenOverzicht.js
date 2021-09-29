@@ -2,7 +2,6 @@ import React, { Component } from "react"
 import { Link } from "react-router-dom"
 import { toast } from "react-toastify"
 import "url-search-params-polyfill"
-import DOMPurify from "dompurify"
 
 import { faArrowLeft } from "@fortawesome/pro-regular-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -165,35 +164,6 @@ function SearchResultItem({ item, searchQuery, index }) {
     )
 }
 
-const Omschrijving = ({ content, titleSingular }) => {
-    if (content.Omschrijving.setInnerHTML) {
-        const cleanHTML = DOMPurify.sanitize(
-            content.Omschrijving.content.__html
-        )
-
-        return (
-            <p
-                className="mt-2 text-gray-700"
-                dangerouslySetInnerHTML={{ __html: cleanHTML }}
-            ></p>
-        )
-    } else if (
-        content.Omschrijving.content &&
-        content.Omschrijving.content.length > 0
-    ) {
-        return (
-            <p className="mt-2 text-gray-700">{content.Omschrijving.content}</p>
-        )
-    } else {
-        return (
-            <p className="mt-2 italic text-gray-700">
-                Er is nog geen omschrijving voor deze
-                {" " + titleSingular.toLowerCase()}
-            </p>
-        )
-    }
-}
-
 class RaadpleegZoekResultatenOverzicht extends Component {
     constructor(props) {
         super(props)
@@ -204,10 +174,12 @@ class RaadpleegZoekResultatenOverzicht extends Component {
             dataLoaded: false,
             onPageFilters: [],
         }
-        this.getAndSetVigerendeVerordeningenStructuur =
-            this.getAndSetVigerendeVerordeningenStructuur.bind(this)
-        this.generateVerordeningsPosition =
-            generateVerordeningsPosition.bind(this)
+        this.getAndSetVigerendeVerordeningenStructuur = this.getAndSetVigerendeVerordeningenStructuur.bind(
+            this
+        )
+        this.generateVerordeningsPosition = generateVerordeningsPosition.bind(
+            this
+        )
         this.handleFilter = this.handleFilter.bind(this)
     }
 
@@ -304,8 +276,9 @@ class RaadpleegZoekResultatenOverzicht extends Component {
 
                 // The 'Verordenings' objects are placed in a structure, but we need to check what position exactly so we can link towards the correct 'Verordening' including the parameters to set the verordeningsobject as active in the view. e.g.:
                 // /detail/verordeningen/102?hoofdstuk=0&nest_1=0&nest_2=0&nest_3=null
-                const searchResultsWithVerordeningsPositions =
-                    this.addVerordeningsPositionToSearchResults(searchResults)
+                const searchResultsWithVerordeningsPositions = this.addVerordeningsPositionToSearchResults(
+                    searchResults
+                )
 
                 this.setState({
                     searchFiltersOnly: searchFiltersOnly,
@@ -335,8 +308,9 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                 // Creates the state to display the filter UI
                 this.setInitialOnPageFilters(searchResults)
 
-                const searchResultsWithVerordeningsPositions =
-                    this.addVerordeningsPositionToSearchResults(searchResults)
+                const searchResultsWithVerordeningsPositions = this.addVerordeningsPositionToSearchResults(
+                    searchResults
+                )
 
                 this.setState({
                     searchFiltersOnly: null,
@@ -479,8 +453,9 @@ class RaadpleegZoekResultatenOverzicht extends Component {
         }
 
         const onPageFilters = this.state.onPageFilters
-        let [filterIsActive, amountOfFilters] =
-            checkForActiveFilter(onPageFilters)
+        let [filterIsActive, amountOfFilters] = checkForActiveFilter(
+            onPageFilters
+        )
 
         const filters = [
             "beleidskeuzes",
