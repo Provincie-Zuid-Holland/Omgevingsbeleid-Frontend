@@ -1,3 +1,5 @@
+import { isBefore } from "date-fns"
+
 /**
  * This function filters out revisions that we do not want to diplay in the revision timeline.
  * It also gives every object a correct status that we can display in the UI.
@@ -50,6 +52,13 @@ const prepareRevisions = (revisions) => {
                 if (editedWithLaterVersion) return false
 
                 return true
+            })
+            // Filter out revisions that have a Begin_Geldigheid in the future
+            .filter((revision) => {
+                const beginGeldigheid = new Date(revision.Begin_Geldigheid)
+                const currentDate = new Date()
+
+                return isBefore(beginGeldigheid, currentDate)
             })
             .map((revision, index) => {
                 if (index === 0) {
