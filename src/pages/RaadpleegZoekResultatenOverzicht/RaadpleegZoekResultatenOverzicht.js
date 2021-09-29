@@ -2,7 +2,6 @@ import React, { Component } from "react"
 import { Link } from "react-router-dom"
 import { toast } from "react-toastify"
 import "url-search-params-polyfill"
-import DOMPurify from "dompurify"
 
 import { faArrowLeft } from "@fortawesome/pro-regular-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -163,35 +162,6 @@ function SearchResultItem({ item, searchQuery, index }) {
             </Link>
         </li>
     )
-}
-
-const Omschrijving = ({ content, titleSingular }) => {
-    if (content.Omschrijving.setInnerHTML) {
-        const cleanHTML = DOMPurify.sanitize(
-            content.Omschrijving.content.__html
-        )
-
-        return (
-            <p
-                className="mt-2 text-gray-700"
-                dangerouslySetInnerHTML={{ __html: cleanHTML }}
-            ></p>
-        )
-    } else if (
-        content.Omschrijving.content &&
-        content.Omschrijving.content.length > 0
-    ) {
-        return (
-            <p className="mt-2 text-gray-700">{content.Omschrijving.content}</p>
-        )
-    } else {
-        return (
-            <p className="mt-2 italic text-gray-700">
-                Er is nog geen omschrijving voor deze
-                {" " + titleSingular.toLowerCase()}
-            </p>
-        )
-    }
 }
 
 class RaadpleegZoekResultatenOverzicht extends Component {
