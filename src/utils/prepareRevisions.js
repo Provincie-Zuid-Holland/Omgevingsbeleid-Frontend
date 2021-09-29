@@ -1,75 +1,136 @@
-// REFACTOR into a custom hook
-// Because the history is intact, every past revision object that has been 'vigerend'
-// still has that status. In this function we calculate a status to display in the UI,
-// based on the revision history. We also filter out object that have been edited while 'vigerend',
-// To display only the latest object. We do this based on the property 'Aanpassing_Op'
+/**
+ * This function filters out revisions that we do not want to diplay in the revision timeline.
+ * It also gives every object a correct status that we can display in the UI.
+ * We need to do this because we never edit the history, only push upon the stack for new changes.
+ * This makes it possible that there are multiple objects with a status of 'Vigerend'.
+ * All the previous objects with a status of 'Vigerend' need to be assigned a UI Status of 'Archived'
+ *
+ * @param {array} revisions - Contains all of the revisions of the object
+ * @returns {array} - Returns an array containing the revision objects
+ */
 const prepareRevisions = (revisions) => {
-    const sortedFilteredRevisions = revisions
+    const sortedAndFilteredRevisions = revisions
         .sort((a, b) => new Date(b.Modified_Date) - new Date(a.Modified_Date))
         .filter((revision) => revision.Status === "Vigerend")
 
-    // Give each object a uiStatus
-    // We need this because the first object with a status of Vigerend is the current one, which is still 'Vigerend'
-    // But the older objects with a status 'Vigerend', are actually archived
-    // They keep their 'Vigerend' status, because we don't change the history in our dataModel
-    // So after the first object with a status of 'Vigerend', we want to display a status of 'Archived' in the UI
-    const preppedRevisions = sortedFilteredRevisions
-        .filter((revision, index) => {
-            const objectHasLaterVersion = sortedFilteredRevisions.findIndex(
-                (e) => e.Aanpassing_Op === revision.UUID
+    /**
+     * Filters the revisions based on the "Vigerend" status
+     * @param {array} revisions - Contains the original revisions
+     */
+    const prepareVigerendeRevisions = (revisions) =>
+        revisions
+            .filter((revision, index) => {
+                /**
+                 * If an object with a status of vigerend is edited
+                 * the UUID value is assigned to the property 'Aanpassing_Op' of the newer object.
+                 */
+                const indexOfPotentialNewerVersion = sortedAndFilteredRevisions.findIndex(
+                    (e) => e.Aanpassing_Op === revision.UUID
+                )
+
+                const objectHasLaterVersion =
+                    indexOfPotentialNewerVersion !== -1
+
+                /** This revision contains a newer version, so we filter it out */
+                if (objectHasLaterVersion) return false
+
+                /** If there is a later edited version we want  */
+                // Check if this revision has an 'Aanpassing_Op' value
+                // and if there is another object in revisions that has the same 'Aanpassing_Op' value, but earlier in the array
+                // indicating that there is a later version of this 'vigerend' object
+                const indexOfLastEdited = sortedAndFilteredRevisions.findIndex(
+                    (e) => e.Aanpassing_Op === revision.Aanpassing_Op
+                )
+
+                const editedWithLaterVersion =
+                    revision.Aanpassing_Op &&
+                    index !== indexOfLastEdited &&
+                    indexOfLastEdited !== -1
+
+                if (editedWithLaterVersion) return false
+
+                return true
+            })
+            .map((revision, index) => {
+                if (index === 0) {
+                    // If it is the first item with a Status of 'Vigerend'
+                    revision.uiStatus = "Vigerend"
+                } else {
+                    revision.uiStatus = "Gearchiveerd"
+                }
+
+                return revision
+            })
+
+    /**
+     * Checks if there is an revision object with 'Ontwerp in inspraak' which satisfies:
+     * - Is the last version of the checked out status
+     * - Comes after the last revision object with a status of 'Vigerend' and a 'Aanpassing_Op' value of null
+     * @param {array} preppedRevisions - Contains the result of prepareVigerendeRevisions()
+     * @param {array} revisions - Contains the original revisions
+     */
+    const prepareOntwerpInInspraakRevisions = (preppedRevisions, revisions) => {
+        const firstInspraakIndex = revisions.findIndex(
+            (revision) => revision.Status === "Ontwerp in inspraak"
+        )
+
+        const firstVigerendIndex = revisions.findIndex(
+            (revision) =>
+                revision.Status === "Vigerend" &&
+                revision.Aanpassing_Op === null
+        )
+
+        // If one of the items doesn't exist, return
+        if (firstInspraakIndex === -1 || firstVigerendIndex === -1)
+            return preppedRevisions
+
+        const inspraakComesAfterVigerend =
+            firstInspraakIndex < firstVigerendIndex
+
+        const checkIfInspraakInOntwerpIsLastCheckedOutItem = (revisions) => {
+            if (firstInspraakIndex === 0) return true
+
+            // If the firstInspraakIndex is greater then 0 we need to check if the items that come before it have a status of 'Vigerend'
+
+            // Generate an array containing the index from 0 to the index before the firstInspraakIndex
+            const indexesToCheck = Array.from(
+                { length: firstInspraakIndex - 1 },
+                (v, k) => k + 1
             )
-            if (objectHasLaterVersion !== -1) return false
-            // if (revision.Aanpassing_Op === null) return true
+            indexesToCheck.unshift(0)
 
-            // Check if this revision has an 'Aanpassing_Op' value
-            // and if there is another object in revisions that has the same 'Aanpassing_Op' value, but earlier in the array
-            // indicating that there is a later version of this 'vigerend' object
-            const indexOfLastEdited = sortedFilteredRevisions.findIndex(
-                (e) => e.Aanpassing_Op === revision.Aanpassing_Op
+            const inspraakInOntwerpIsLastCheckedOutItem = indexesToCheck.every(
+                (index) => revisions[index].Status === "Vigerend"
             )
 
-            const editedWithLaterVersion =
-                revision.Aanpassing_Op &&
-                index !== indexOfLastEdited &&
-                indexOfLastEdited !== -1
+            return inspraakInOntwerpIsLastCheckedOutItem
+        }
 
-            if (editedWithLaterVersion) return false
+        const inspraakIsLastItem = checkIfInspraakInOntwerpIsLastCheckedOutItem(
+            revisions,
+            firstInspraakIndex
+        )
 
-            return true
-        })
-        .map((revision, index) => {
-            if (index === 0) {
-                // If it is the first item with a Status of 'Vigerend'
-                revision.uiStatus = "Vigerend"
-            } else {
-                revision.uiStatus = "Gearchiveerd"
-            }
+        // Check if the item with a Status 'Ontwerp in inspraak' is newer,
+        // then the last item with a Status of 'Vigerend'
+        // If so, place this item on index 0
+        if (inspraakComesAfterVigerend && inspraakIsLastItem) {
+            const firstInspraakItem = revisions[firstInspraakIndex]
+            firstInspraakItem.uiStatus = "In inspraak"
+            preppedRevisions.splice(0, 0, firstInspraakItem)
+        }
 
-            return revision
-        })
-
-    const firstInspraakIndex = sortedFilteredRevisions.findIndex(
-        (revision) => revision.Status === "Ontwerp in inspraak"
-    )
-
-    const firstVigerendIndex = sortedFilteredRevisions.findIndex(
-        (revision) => revision.Status === "Vigerend"
-    )
-
-    // If one of the items doesn't exist, return
-    if (firstInspraakIndex === -1 || firstVigerendIndex === -1)
         return preppedRevisions
-
-    const inspraakComesBeforeVigerend = firstInspraakIndex < firstVigerendIndex
-
-    // Check if the item with a Status 'Ontwerp in inspraak' is newer,
-    // then the last item with a Status of 'Vigerend'
-    // If so, place this item on index 0
-    if (inspraakComesBeforeVigerend) {
-        const firstInspraakItem = sortedFilteredRevisions[firstInspraakIndex]
-        firstInspraakItem.uiStatus = "In inspraak"
-        preppedRevisions.splice(0, 0, firstInspraakItem)
     }
+
+    const preppedVigerendeRevisions = prepareVigerendeRevisions(
+        sortedAndFilteredRevisions
+    )
+
+    const preppedRevisions = prepareOntwerpInInspraakRevisions(
+        preppedVigerendeRevisions,
+        revisions
+    )
 
     return preppedRevisions
 }
