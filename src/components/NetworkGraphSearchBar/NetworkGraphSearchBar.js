@@ -1,6 +1,7 @@
 import React from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faSearch } from "@fortawesome/pro-regular-svg-icons"
+import { Transition } from "@headlessui/react"
 
 import useClickOutsideContainer from "./../../utils/useClickOutsideContainer"
 import { getFilteredData } from "./../../utils/networkGraph"
@@ -62,7 +63,7 @@ const NetworkGraphSearchBar = ({
 
     return (
         <div ref={innerContainer}>
-            <div className="relative">
+            <div className="relative z-20">
                 <input
                     autoComplete="off"
                     onKeyDown={handleKeyDown}
@@ -104,15 +105,14 @@ const NetworkGraphSearchBar = ({
                 </div>
             </div>
             <div className="relative">
-                {searchQuery !== "" && searchResultsOpen ? (
-                    <NetworkGraphSearchBarResults
-                        handleNodeClick={handleNodeClick}
-                        searchQuery={searchQuery}
-                        filteredData={filteredData}
-                        links={links}
-                        svgElement={svgElement}
-                    />
-                ) : null}
+                <NetworkGraphSearchBarResults
+                    show={searchQuery !== "" && searchResultsOpen}
+                    handleNodeClick={handleNodeClick}
+                    searchQuery={searchQuery}
+                    filteredData={filteredData}
+                    links={links}
+                    svgElement={svgElement}
+                />
             </div>
         </div>
     )
@@ -121,6 +121,7 @@ const NetworkGraphSearchBar = ({
 /**
  * A list of search results for the current search query
  * @param {object} props
+ * @param {boolean} props.show - Indicates if we show the results
  * @param {object} props.filteredData - The data, filtered by the current search query
  * @param {object} props.searchQuery - Current search query
  * @param {array} props.links - Links between the nodes
@@ -128,6 +129,7 @@ const NetworkGraphSearchBar = ({
  * @param {object} props.svgElement - Contains the current D3 Container
  */
 const NetworkGraphSearchBarResults = ({
+    show,
     filteredData,
     searchQuery,
     links,
@@ -140,31 +142,42 @@ const NetworkGraphSearchBarResults = ({
         e.Titel.toLowerCase().includes(searchQuery.toLowerCase())
 
     return (
-        <ul
-            className="absolute top-0 left-0 z-10 w-full overflow-hidden overflow-y-auto bg-white border border-t-0 border-gray-200 rounded-b-md"
-            style={{ maxHeight: "400px" }}
+        <Transition
+            show={show}
+            enter="transition ease-out duration-150 transform"
+            enterFrom="opacity-0 -translate-y-3"
+            enterTo="opacity-100 translate-y-0"
+            leave="transition ease-in duration-0 transform"
+            leaveFrom="opacity-100 translate-y-0"
+            leaveTo="opacity-0 -translate-y-3"
         >
-            {filteredData
-                .filter(filterBasedOnSearchQuery)
-                .map((searchResultItem, index) => (
-                    <NetworkGraphSearchBarResultItem
-                        key={searchResultItem.UUID}
-                        handleClick={() =>
-                            handleNodeClick(
-                                searchResultItem,
-                                svgElement,
-                                links,
-                                true
-                            )
-                        }
-                        searchResultItem={searchResultItem}
-                        amountOfFilterItems={
-                            filteredData.filter(filterBasedOnSearchQuery).length
-                        }
-                        searchResultItemIndex={index}
-                    />
-                ))}
-        </ul>
+            <ul
+                className="absolute top-0 left-0 z-10 w-full overflow-hidden overflow-y-auto bg-white border border-t-0 border-gray-200 rounded-b-md"
+                style={{ maxHeight: "400px" }}
+            >
+                {filteredData
+                    .filter(filterBasedOnSearchQuery)
+                    .map((searchResultItem, index) => (
+                        <NetworkGraphSearchBarResultItem
+                            key={searchResultItem.UUID}
+                            handleClick={() =>
+                                handleNodeClick(
+                                    searchResultItem,
+                                    svgElement,
+                                    links,
+                                    true
+                                )
+                            }
+                            searchResultItem={searchResultItem}
+                            amountOfFilterItems={
+                                filteredData.filter(filterBasedOnSearchQuery)
+                                    .length
+                            }
+                            searchResultItemIndex={index}
+                        />
+                    ))}
+            </ul>
+        </Transition>
     )
 }
 
