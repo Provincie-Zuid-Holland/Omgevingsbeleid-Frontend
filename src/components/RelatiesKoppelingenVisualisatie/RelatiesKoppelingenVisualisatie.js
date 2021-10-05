@@ -4,7 +4,6 @@ import { Link, useLocation } from "react-router-dom"
 
 import generateVerordeningsPosition from "./../../utils/generateVerordeningsPosition"
 
-// Import Context
 import GraphContext from "./../../App/GraphContext"
 
 const RelatiesKoppelingenVisualisatie = ({
@@ -25,30 +24,33 @@ const RelatiesKoppelingenVisualisatie = ({
     const [href, setHref] = React.useState("#")
     const [connectedProperties, setConnectedProperties] = React.useState([]) // Properties that contain connections
 
-    const getObjectColor = (titleSingular) => {
-        switch (titleSingular) {
-            case "Ambitie":
-                return connectionPropertiesColors.Ambities.hex
-            case "Belang":
-                return connectionPropertiesColors.Belangen.hex
-            case "Beleidsdoel":
-                return connectionPropertiesColors.Beleidsdoelen.hex
-            case "Beleidskeuze":
-                return connectionPropertiesColors.Beleidskeuzes.hex
-            case "Beleidsprestatie":
-                return connectionPropertiesColors.Beleidsprestaties.hex
-            case "Beleidsregel":
-                return connectionPropertiesColors.Beleidsregels.hex
-            case "Maatregel":
-                return connectionPropertiesColors.Maatregelen.hex
-            case "Thema":
-                return connectionPropertiesColors.Themas.hex
-            case "Verordening":
-                return connectionPropertiesColors.Verordeningen.hex
-            default:
-                return connectionPropertiesColors.MainObject.hex
-        }
-    }
+    const getObjectColor = React.useCallback(
+        (titleSingular) => {
+            switch (titleSingular) {
+                case "Ambitie":
+                    return connectionPropertiesColors.Ambities.hex
+                case "Belang":
+                    return connectionPropertiesColors.Belangen.hex
+                case "Beleidsdoel":
+                    return connectionPropertiesColors.Beleidsdoelen.hex
+                case "Beleidskeuze":
+                    return connectionPropertiesColors.Beleidskeuzes.hex
+                case "Beleidsprestatie":
+                    return connectionPropertiesColors.Beleidsprestaties.hex
+                case "Beleidsregel":
+                    return connectionPropertiesColors.Beleidsregels.hex
+                case "Maatregel":
+                    return connectionPropertiesColors.Maatregelen.hex
+                case "Thema":
+                    return connectionPropertiesColors.Themas.hex
+                case "Verordening":
+                    return connectionPropertiesColors.Verordeningen.hex
+                default:
+                    return connectionPropertiesColors.MainObject.hex
+            }
+        },
+        [connectionPropertiesColors]
+    )
 
     // Prepare and set data for the D3 Visualisation
     React.useEffect(() => {
@@ -126,6 +128,8 @@ const RelatiesKoppelingenVisualisatie = ({
         beleidsRelaties,
         connectionProperties,
         connectionPropertiesColors,
+        getObjectColor,
+        titleSingular,
     ])
 
     /* The useRef Hook creates a variable that "holds on" to a value across rendering
