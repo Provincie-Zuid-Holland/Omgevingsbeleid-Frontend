@@ -39,14 +39,14 @@ describe("TableHeading", () => {
         const rowHeader = screen.getByRole("columnheader")
         expect(rowHeader).toBeTruthy()
         expect(rowHeader).toHaveClass("cursor-pointer")
-        expect(rowHeader).toHaveClass("hover:text-gray-900")
+        expect(rowHeader).toHaveClass("hover:text-gray-800")
     })
 
     it("should not show hover styles when there is no icon", () => {
         setup({ noIcon: true })
         const rowHeader = screen.getByRole("columnheader")
         expect(rowHeader).not.toHaveClass("cursor-pointer")
-        expect(rowHeader).not.toHaveClass("hover:text-gray-900")
+        expect(rowHeader).not.toHaveClass("hover:text-gray-800")
     })
 
     it("should not fire a onClick if there is no icon", () => {
