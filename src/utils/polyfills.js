@@ -1,12 +1,10 @@
 import smoothscroll from "smoothscroll-polyfill"
 
 const polyfills = () => {
-    // window.scrollTo({
-    //     behavior: "smooth", <-- Polyfill the smooth scroll behaviour
-    // })
+    // Polyfill for window.scrollTo({ behavior: "smooth" })
     smoothscroll.polyfill()
 
-    // Object Assign polyfill
+    // Polyfill for Object Assign
     if (typeof Object.assign != "function") {
         // eslint-disable-next-line no-extend-native
         Object.assign = function (target, varArgs) {
@@ -41,7 +39,7 @@ const polyfills = () => {
         }
     }
 
-    // String .includes polyfill
+    // Polyfill for .includes method on string
     if (!String.prototype.includes) {
         // eslint-disable-next-line no-extend-native
         String.prototype.includes = function (search, start) {
@@ -55,7 +53,7 @@ const polyfills = () => {
         }
     }
 
-    // Array .fill polyfill
+    // Polyfill for the array .fill method
     if (!Array.prototype.fill) {
         // eslint-disable-next-line no-extend-native
         Object.defineProperty(Array.prototype, "fill", {
@@ -100,6 +98,15 @@ const polyfills = () => {
                 return O
             },
         })
+    }
+
+    if (!String.prototype.includes) {
+        /* eslint-disable-next-line */
+        String.prototype.includes = function () {
+            /* eslint-disable-next-line */
+            "use strict"
+            return String.prototype.indexOf.apply(this, arguments) !== -1
+        }
     }
 }
 
