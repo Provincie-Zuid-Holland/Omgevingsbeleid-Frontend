@@ -24,7 +24,7 @@ const NetworkGraphResetClickedElement = ({ clickedNode, resetNodes }) => {
     return (
         <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
             <div className="container relative flex h-full mx-auto">
-                <div className="absolute top-0 right-0 mt-2 mr-2">
+                <div className="absolute top-0 right-0 mr-2 mt-14">
                     <Transition
                         show={localOpenState}
                         enter="transition ease-out duration-150 transform"
