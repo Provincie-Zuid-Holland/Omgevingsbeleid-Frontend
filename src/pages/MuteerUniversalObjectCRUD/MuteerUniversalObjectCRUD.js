@@ -1,5 +1,4 @@
 import React, { Component } from "react"
-import { toast } from "react-toastify"
 import { withRouter } from "react-router-dom"
 import { Helmet } from "react-helmet"
 import cloneDeep from "lodash.clonedeep"
@@ -26,13 +25,18 @@ import FormFieldContainerBeleidsmodules from "./FormFieldContainers/FormFieldCon
 import axios from "./../../API/axios"
 
 // Import Utilities
-import eindDateIsBeforeBeginDate from "./../../utils/eindDateIsBeforeBeginDate"
+import scrollToElement from "./../../utils/scrollToElement"
+import isEndDateBeforeStartDate from "./../../utils/isEndDateBeforeStartDate"
 import makeCrudProperties from "./../../utils/makeCrudProperties"
 import makeCrudObject from "./../../utils/makeCrudObject"
 import checkContainsRequiredUnfilledField from "./../../utils/checkContainsRequiredUnfilledField"
 import formatGeldigheidDatesForUI from "./../../utils/formatGeldigheidDatesForUI"
 import formatGeldigheidDatesForAPI from "./../../utils/formatGeldigheidDatesForAPI"
 import handleError from "./../../utils/handleError"
+import { checkIfUserIsAllowedOnPage } from "../../utils/checkIfUserIsAllowedOnPage"
+import { toastNotification } from "../../utils/toastNotification"
+import { removeEmptyCRUDProperties } from "../../utils/removeEmptyCRUDProperties"
+import { isDateInAValidRange } from "../../utils/isDateInAValidRange"
 
 /**
  * @param {object} authUser - contains the logged in user object
@@ -109,14 +113,10 @@ class MuteerUniversalObjectCRUD extends Component {
                             : ""
                     }`
                 )
-                toast("Opgeslagen")
+                toastNotification({ type: "saved" })
             })
             .catch((err) => {
                 handleError(err)
-                // crudObject = formatGeldigheidDatesForUI(crudObject)
-                // this.setState({
-                //     crudObject: crudObject,
-                // })
             })
     }
 
@@ -138,90 +138,81 @@ class MuteerUniversalObjectCRUD extends Component {
                             : ""
                     }`
                 )
-                toast("Opgeslagen")
+                toastNotification({ type: "saved" })
             })
             .catch((err) => {
                 handleError(err)
-                // crudObject = formatGeldigheidDatesForUI(crudObject)
-                // this.setState({
-                //     crudObject: this.,
-                // })
             })
     }
 
     handleSubmit(event) {
         event.preventDefault()
 
-        const checkDates = (crudObject, titleSingular) => {
-            if (
-                crudObject.Begin_Geldigheid !== null &&
-                crudObject.Begin_Geldigheid !== "" &&
-                crudObject.Eind_Geldigheid !== null &&
-                crudObject.Eind_Geldigheid !== ""
-            ) {
-                const isEindDateBeforeBegin = eindDateIsBeforeBeginDate(
-                    titleSingular,
-                    {
-                        Begin_Geldigheid: new Date(crudObject.Begin_Geldigheid),
-                        Eind_Geldigheid: new Date(crudObject.Eind_Geldigheid),
-                    }
-                )
-
-                return isEindDateBeforeBegin
-            }
-        }
-
-        const removeEmptyFields = (obj) => {
-            const skipProperties = [
-                "Gebied",
-                "Begin_Geldigheid",
-                "Eind_Geldigheid",
-                "Eigenaar_1",
-                "Eigenaar_2",
-                "Portefeuillehouder_1",
-                "Portefeuillehouder_2",
-                "Opdrachtgever",
-            ]
-            Object.keys(obj).forEach((property) => {
-                if (skipProperties.includes(property)) return
-                if (obj[property] === null || obj[property] === undefined) {
-                    delete obj[property]
-                }
-            })
-            return obj
-        }
+        let crudObject = cloneDeep(this.state.crudObject)
 
         const dimensieConstants = this.props.dimensieConstants
         const apiEndpoint = dimensieConstants.API_ENDPOINT
         const titleSingular = dimensieConstants.TITLE_SINGULAR
-
-        let crudObject = cloneDeep(this.state.crudObject)
-
         const params = new URL(document.location).searchParams
         const modus = params.get("modus")
         const isWijzigVigerend = modus === "wijzig_vigerend"
 
-        const containsRequiredUnfilledField = checkContainsRequiredUnfilledField(
-            crudObject,
-            dimensieConstants,
-            titleSingular,
-            isWijzigVigerend
-        )
-        if (containsRequiredUnfilledField) return
+        /** Check if all the required fields are filled in */
+        if (
+            checkContainsRequiredUnfilledField(
+                crudObject,
+                dimensieConstants,
+                titleSingular,
+                isWijzigVigerend
+            )
+        ) {
+            return
+        }
 
-        const isEindDateBeforeBegin = checkDates(crudObject, titleSingular)
-        if (isEindDateBeforeBegin) return
+        /** Check if the ending validity date is before the starting validity date */
+        if (isEndDateBeforeStartDate(crudObject)) {
+            scrollToElement(
+                `form-field-${titleSingular.toLowerCase()}-eind_geldigheid`
+            )
+            toastNotification({ type: "end date before start date" })
 
-        // Create date objects out of string values ('yyyy-MM-DD')
+            return
+        }
+
+        /** Check if the start date is in a valid range */
+        const [
+            startDateIsInValidRange,
+            endDateIsInValidRange,
+        ] = isDateInAValidRange(crudObject)
+
+        if (!startDateIsInValidRange) {
+            scrollToElement(
+                `form-field-${titleSingular.toLowerCase()}-begin_geldigheid`
+            )
+            toastNotification({ type: "start date valid range" })
+
+            return
+        } else if (!endDateIsInValidRange) {
+            scrollToElement(
+                `form-field-${titleSingular.toLowerCase()}-eind_geldigheid`
+            )
+            toastNotification({ type: "end date valid range" })
+
+            return
+        }
+
+        /** Prepare CRUD Object for the API */
         crudObject = formatGeldigheidDatesForAPI(crudObject)
-        crudObject = removeEmptyFields(crudObject)
+        crudObject = removeEmptyCRUDProperties(crudObject)
 
-        // PATCH or POST based on the edit state
-        if (this.state.edit) {
+        /** If the user is editing an existing object we PATCH it, else we POST it to create a new object */
+        const typeOfRequest = this.state.edit ? "PATCH" : "POST"
+
+        if (typeOfRequest === "PATCH") {
             crudObject = this.prepareForRequest(crudObject, "patch")
             this.patchDimensieObject(crudObject)
-        } else {
-            // If we POST an object to the 'beleidsrelaties' endpoint we need to add these properties
+        } else if (typeOfRequest === "POST") {
+            /** If we POST an object to the 'beleidsrelaties' endpoint we need to add these properties */
             if (apiEndpoint === "beleidsrelaties") {
                 crudObject.Status = "Open"
                 crudObject.Aanvraag_Datum = new Date()
@@ -309,7 +300,7 @@ class MuteerUniversalObjectCRUD extends Component {
                 crudObject: nieuwCrudObject,
             },
             () => {
-                toast("Koppeling toegevoegd")
+                toastNotification({ type: "connection added" })
                 callback(nieuwCrudObject)
             }
         )
@@ -331,7 +322,7 @@ class MuteerUniversalObjectCRUD extends Component {
                 crudObject: nieuwCrudObject,
             },
             () => {
-                toast("Koppeling gewijzigd")
+                toastNotification({ type: "connection modified" })
                 callback(nieuwCrudObject)
             }
         )
@@ -348,7 +339,7 @@ class MuteerUniversalObjectCRUD extends Component {
             {
                 crudObject: nieuwCrudObject,
             },
-            () => toast("Koppeling verwijderd")
+            () => toastNotification({ type: "connection deleted" })
         )
     }
 
@@ -399,6 +390,18 @@ class MuteerUniversalObjectCRUD extends Component {
                 const responseObject = res.data
                 let crudObject = null
 
+                /** Check if user is allowed */
+                const isUserAllowed = checkIfUserIsAllowedOnPage({
+                    object: responseObject,
+                    authUser: this.props.authUser,
+                })
+                if (!isUserAllowed) {
+                    toastNotification({
+                        type: "user is not authenticated for this page",
+                    })
+                    this.props.history.push("/muteer/dashboard")
+                }
+
                 if (
                     isMaatregelOrBeleidskeuze &&
                     isWijzigVigerendOrOntwerpMaken
@@ -423,7 +426,7 @@ class MuteerUniversalObjectCRUD extends Component {
             })
             .catch((err) => {
                 console.warn(err)
-                toast(process.env.REACT_APP_ERROR_MSG)
+                toastNotification("standard error")
             })
     }
 
@@ -455,14 +458,11 @@ class MuteerUniversalObjectCRUD extends Component {
         const titleSingular = dimensieConstants.TITLE_SINGULAR
         const titelMeervoud = dimensieConstants.TITLE_PLURAL
         const overzichtSlug = dimensieConstants.SLUG_OVERVIEW
-
         const objectID = this.props.match.params.single
-
         const editStatus = this.state.edit
         const crudObject = this.state.crudObject
         const dataLoaded = this.state.dataLoaded
         const objectTitle = this.state.crudObject.Titel
-
         const handleChange = this.handleChange
 
         return (
