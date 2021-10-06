@@ -34,6 +34,7 @@ const MijnBeleid = ({ hideAddNew }) => {
                 "BELEIDSRELATIES",
                 "VERORDENINGSTRUCTUUR",
                 "VERORDENINGSARTIKEL",
+                "BELEIDSMODULES",
             ]
 
             const policyEndpointsAndTypes = Object.keys(allDimensies)
@@ -48,7 +49,8 @@ const MijnBeleid = ({ hideAddNew }) => {
             const axiosRequests = policyEndpointsAndTypes.map((dimensie) =>
                 axios
                     .get(
-                        dimensie.endpoint === "beleidskeuzes"
+                        dimensie.endpoint === "beleidskeuzes" ||
+                            dimensie.endpoint === "maatregelen"
                             ? `/${dimensie.endpoint}?any_filters=Created_By:${user.UUID},Eigenaar_1:${user.UUID},Eigenaar_2:${user.UUID},Opdrachtgever:${user.UUID}`
                             : `/${dimensie.endpoint}?any_filters=Created_By:${user.UUID}`
                     )
