@@ -41,15 +41,11 @@ const polyfills = () => {
 
     // Polyfill for .includes method on string
     if (!String.prototype.includes) {
-        // eslint-disable-next-line no-extend-native
-        String.prototype.includes = function (search, start) {
-            if (search instanceof RegExp) {
-                throw TypeError("first argument must not be a RegExp")
-            }
-            if (start === undefined) {
-                start = 0
-            }
-            return this.indexOf(search, start) !== -1
+        /* eslint-disable-next-line */
+        String.prototype.includes = function () {
+            /* eslint-disable-next-line */
+            "use strict"
+            return String.prototype.indexOf.apply(this, arguments) !== -1
         }
     }
 
@@ -98,15 +94,6 @@ const polyfills = () => {
                 return O
             },
         })
-    }
-
-    if (!String.prototype.includes) {
-        /* eslint-disable-next-line */
-        String.prototype.includes = function () {
-            /* eslint-disable-next-line */
-            "use strict"
-            return String.prototype.indexOf.apply(this, arguments) !== -1
-        }
     }
 }
 
