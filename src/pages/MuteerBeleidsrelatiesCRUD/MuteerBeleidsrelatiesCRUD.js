@@ -7,7 +7,7 @@ import { Helmet } from "react-helmet"
 import ContainerCrudFields from "./ContainerCrudFields"
 import ButtonBackToPage from "./../../components/ButtonBackToPage"
 
-import eindDateIsBeforeBeginDate from "./../../utils/eindDateIsBeforeBeginDate"
+import isEndDateBeforeStartDate from "./../../utils/isEndDateBeforeStartDate"
 
 // Import Axios instance to connect with the API
 import axios from "./../../API/axios"
@@ -110,7 +110,7 @@ class MuteerBeleidsrelatiesCRUD extends Component {
         }
 
         if (
-            eindDateIsBeforeBeginDate(this.props.dataModel.TITLE_SINGULAR, {
+            isEndDateBeforeStartDate(this.props.dataModel.TITLE_SINGULAR, {
                 Begin_Geldigheid: new Date(crudObject.Begin_Geldigheid),
                 Eind_Geldigheid: new Date(crudObject.Eind_Geldigheid),
             })
