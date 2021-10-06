@@ -2,7 +2,7 @@ import React from "react"
 import * as d3 from "d3"
 import { Link, useLocation } from "react-router-dom"
 
-import generateVerordeningsPosition from "./../../utils/generateVerordeningsPosition"
+import { generateHrefVerordeningsartikel } from "./../../utils/generateHrefVerordeningsartikel"
 
 import GraphContext from "./../../App/GraphContext"
 
@@ -217,36 +217,6 @@ const RelatiesKoppelingenVisualisatie = ({
 
                 const tooltipEl = document.getElementById("d3-tooltip")
 
-                const generateHrefVerordeningsartikel = (uuid) => {
-                    const positionInVerordening = generateVerordeningsPosition(
-                        uuid,
-                        verordeningsStructure
-                    )
-
-                    if (positionInVerordening.length === 0) return null
-
-                    const path = `/detail/verordeningen/${
-                        verordeningsStructure.ID
-                    }/${uuid}?hoofdstuk=${
-                        positionInVerordening[0] !== undefined
-                            ? positionInVerordening[0]
-                            : "null"
-                    }&nest_1=${
-                        positionInVerordening[1] !== undefined
-                            ? positionInVerordening[1]
-                            : "null"
-                    }&nest_2=${
-                        positionInVerordening[2] !== undefined
-                            ? positionInVerordening[2]
-                            : "null"
-                    }&nest_3=${
-                        positionInVerordening[3] !== undefined
-                            ? positionInVerordening[3]
-                            : "null"
-                    }`
-                    return path
-                }
-
                 const generateHref = ({ property, UUID }) => {
                     const slugs = {
                         Beleidskeuzes: "beleidskeuzes",
@@ -271,7 +241,10 @@ const RelatiesKoppelingenVisualisatie = ({
 
                 const hrefURL =
                     d.property === "Verordeningen"
-                        ? generateHrefVerordeningsartikel(d.id)
+                        ? generateHrefVerordeningsartikel(
+                              d.id,
+                              verordeningsStructure
+                          )
                         : generateHref({
                               property: d.property,
                               UUID: d.id,
