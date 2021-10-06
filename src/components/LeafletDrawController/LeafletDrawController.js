@@ -116,6 +116,11 @@ class LeafletDrawController extends MapControl {
             }
         }
 
+        map.on(leaflet.Draw.Event.DELETESTART, () => {
+            const { layerContainer } = this.props.leaflet
+            layerContainer.clearLayers()
+        })
+
         map.on(leaflet.Draw.Event.CREATED, this.onDrawCreate)
 
         onMounted && onMounted(this.leafletElement)
@@ -258,7 +263,8 @@ function createDrawElement(props) {
                     },
                 },
                 polyline: {
-                    error: "<strong>Error:</strong> Vorm grenzen mogen elkaar niet kruizen",
+                    error:
+                        "<strong>Error:</strong> Vorm grenzen mogen elkaar niet kruizen",
                     tooltip: {
                         start: "Klik om te beginnen met uw lijn",
                         cont: "Klik om uw lijn voort te zetten",
@@ -303,7 +309,8 @@ function createDrawElement(props) {
             handlers: {
                 edit: {
                     tooltip: {
-                        text: "Sleep een marker om hiervan de positie te wijzigen",
+                        text:
+                            "Sleep een marker om hiervan de positie te wijzigen",
                         subtext:
                             "Klik op annuleren om de wijzigingen ongedaan te maken",
                     },
