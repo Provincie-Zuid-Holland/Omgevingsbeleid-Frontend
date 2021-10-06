@@ -15,6 +15,8 @@ import ContainerDetailMain from "../../components/ContainerDetailMain"
 // Import Axios instance to connect with the API
 import axios from "../../API/axios"
 
+import { checkIfUserIsAllowedOnPage } from "../../utils/checkIfUserIsAllowedOnPage"
+
 /**
  * @param {object} dimensieConstants - Contains all the variables of the dimension (e.g. Maatregelen). The dimensieContants come from the constant files export src/constants/dimensies.js.
  * @returns a detail page where a dimension object can be displayed
@@ -29,8 +31,9 @@ class MuteerUniversalObjectDetail extends Component {
         }
 
         this.returnPageType = this.returnPageType.bind(this)
-        this.getAndSetDimensieDataFromApi =
-            this.getAndSetDimensieDataFromApi.bind(this)
+        this.getAndSetDimensieDataFromApi = this.getAndSetDimensieDataFromApi.bind(
+            this
+        )
     }
 
     // Set het property pageType naar 'detail' of 'version'
@@ -66,9 +69,22 @@ class MuteerUniversalObjectDetail extends Component {
             .get(apiEndpoint)
             .then((res) => {
                 const dataObject = res.data
+                const authUser = this.props.authUser
 
-                // Detail pages krijgen een array met objecten die we sorten
-                // Version pages krijgen enkel een object terug
+                /** Check if user is authenticated to visit current page */
+                const isUserAllowed = checkIfUserIsAllowedOnPage({
+                    object: dataObject,
+                    authUser: authUser,
+                })
+
+                if (!isUserAllowed) {
+                    toast(
+                        "Je bent niet geauthenticeerd om deze pagina te bekijken"
+                    )
+                    this.props.history.push("/muteer/dashboard")
+                }
+
+                /** Sort the objects if the pageType is 'detail' (which contains whole history of an object) */
                 if (this.state.pageType === "detail") {
                     dataObject.sort(function (a, b) {
                         return (
