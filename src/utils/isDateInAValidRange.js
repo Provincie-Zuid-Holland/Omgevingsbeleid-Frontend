@@ -9,7 +9,7 @@ const isDateInAValidRange = (crudObject) => {
     const startDate = new Date(crudObject.Begin_Geldigheid)
     const endDate = new Date(crudObject.Eind_Geldigheid)
 
-    const minimumDate = new Date("1899")
+    const minimumDate = new Date("1990")
     const maximumDate = new Date("2100")
 
     const startDateIsInValidRange =

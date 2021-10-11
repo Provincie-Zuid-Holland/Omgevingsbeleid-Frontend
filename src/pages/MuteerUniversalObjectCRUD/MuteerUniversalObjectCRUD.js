@@ -185,14 +185,20 @@ class MuteerUniversalObjectCRUD extends Component {
             endDateIsInValidRange,
         ] = isDateInAValidRange(crudObject)
 
-        if (!startDateIsInValidRange) {
+        /** API sets the start and end date to these values if they are empty */
+        const beginGeldigheidIsNotEmpty =
+            crudObject.Begin_Geldigheid !== "1753-01-01"
+        const eindGeldigheidIsNotEmpty =
+            crudObject.Eind_Geldigheid !== "10000-01-01"
+
+        if (!startDateIsInValidRange && beginGeldigheidIsNotEmpty) {
             scrollToElement(
                 `form-field-${titleSingular.toLowerCase()}-begin_geldigheid`
             )
             toastNotification({ type: "start date valid range" })
 
             return
-        } else if (!endDateIsInValidRange) {
+        } else if (!endDateIsInValidRange && eindGeldigheidIsNotEmpty) {
             scrollToElement(
                 `form-field-${titleSingular.toLowerCase()}-eind_geldigheid`
             )
