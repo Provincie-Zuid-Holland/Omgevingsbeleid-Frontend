@@ -16,6 +16,8 @@ import useClickOutsideContainer from "./../../utils/useClickOutsideContainer"
 import useCloseWithEscapeKey from "./../../utils/useCloseWithEscapeKey"
 import useLockBodyScroll from "./../../utils/useLockBodyScroll"
 
+import networkGraphConnectionProperties from "./../../constants/networkGraphConnectionProperties"
+
 import UserContext from "./../../App/UserContext"
 
 /**
@@ -1025,7 +1027,9 @@ const ConnectionListItem = ({ property, connection }) => {
                         className={`inline-block w-3 h-3 flex-shrink-0 mr-2 rounded-full`}
                         style={{
                             backgroundColor:
-                                connectionPropertiesColors[property].hex,
+                                networkGraphConnectionProperties[
+                                    property.toLowerCase()
+                                ].hex,
                         }}
                     />
                     <div>
@@ -1056,41 +1060,5 @@ const connectionProperties = [
     "Themas",
     "Verordeningen",
 ]
-
-// https://tailwindcss.com/docs/customizing-colors#default-color-palette
-const connectionPropertiesColors = {
-    Ambities: {
-        hex: "#ED8936",
-        class: "orange-500",
-    },
-    Beleidsregels: {
-        hex: "#718096",
-        class: "gray-600",
-    },
-    Beleidsprestaties: {
-        hex: "#ECC94B",
-        class: "yellow-500",
-    },
-    Maatregelen: {
-        hex: "#48BB78",
-        class: "green-500",
-    },
-    Beleidsdoelen: {
-        hex: "#3182CE",
-        class: "blue-600",
-    },
-    Themas: {
-        hex: "#38B2AC",
-        class: "teal-500",
-    },
-    Verordeningen: {
-        hex: "#E53E3E",
-        class: "red-600",
-    },
-    Beleidskeuzes: {
-        hex: "#805AD5",
-        class: "purple-600",
-    },
-}
 
 export default PopupRevisionOverview
