@@ -89,7 +89,7 @@ const MijnBeleid = ({ hideAddNew }) => {
             {dataReceived ? (
                 <React.Fragment>
                     {!hideAddNew ? <AddNewSection /> : null}
-                    <ul className="flex flex-wrap mt-5">
+                    <ul className="grid grid-cols-2 gap-4">
                         {policies.map((dimensie) => {
                             if (!dimensie) return null
 
@@ -102,11 +102,12 @@ const MijnBeleid = ({ hideAddNew }) => {
                                 return (
                                     <li
                                         key={policy.object.UUID}
-                                        className={`mb-6 w-1/2 display-inline odd-pr-3 even-pl-3`}
+                                        className={`w-full h-28 display-inline`}
                                     >
                                         {
                                             <CardObjectDetails
                                                 index={index}
+                                                showTippy={true}
                                                 mijnBeleid={true}
                                                 object={policy.object}
                                                 titleSingular={titleSingular}

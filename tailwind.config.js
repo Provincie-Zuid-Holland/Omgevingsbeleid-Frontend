@@ -14,6 +14,7 @@ module.exports = {
         borderWidth: ["hover"],
         borderOpacity: ["hover"],
     },
+    plugins: [require("@tailwindcss/line-clamp")],
     theme: {
         fontSize: {
             xs: "0.75rem",

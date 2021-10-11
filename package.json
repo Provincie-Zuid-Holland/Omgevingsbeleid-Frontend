@@ -13,6 +13,8 @@
         "@fortawesome/react-fontawesome": "^0.1.15",
         "@headlessui/react": "^1.4.0",
         "@sentry/browser": "^6.11.0",
+        "@tailwindcss/line-clamp": "^0.2.2",
+        "@tippyjs/react": "^4.2.5",
         "axios": "^0.21.1",
         "d3": "^7.0.1",
         "date-fns": "^2.23.0",
@@ -51,7 +53,7 @@
         "build": "craco build",
         "prod:build-osx": "NODE_ENV=production GENERATE_SOURCEMAP=false npm run build",
         "prod:build-win": "SET NODE_ENV=production&& SET GENERATE_SOURCEMAP=false&& npm run build",
-        "test": "craco test --coverage --verbose --watchAll --runInBand --transformIgnorePatterns \"node_modules/(?!your-module-name)/\"",
+        "test": "craco test --verbose --watchAll --runInBand --transformIgnorePatterns \"node_modules/(?!your-module-name)/\"",
         "eject": "react-scripts eject",
         "cy:run": "cypress run",
         "docs": "jsdoc -c jsdoc.json"
