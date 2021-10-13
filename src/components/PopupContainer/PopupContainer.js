@@ -3,11 +3,11 @@ import { Transition } from "@headlessui/react"
 import useLockBodyScroll from "./../../utils/useLockBodyScroll.js"
 
 /**
- * Component that renders the PopupContainer component.
+ * Displays a popup container containing children components.
  *
- * @param {object} children - Parameter containing information that is displayed within the transition.
- * @param {boolean} show - Parameter that is used to show or hide the transitions.
- * @param {boolean} close - Parameter that is used to close the PopupContainer component when, the user clicks on the Escape key or if the user clicks outside the PopupContainer.
+ * @param {object} children - Can contain child component(s).
+ * @param {boolean} show - Used to display the transitions of the popup.
+ * @param {function} close - Function that is used to close the popup.
  */
 function PopupContainer({ children, show, close }) {
     const node = React.useRef()

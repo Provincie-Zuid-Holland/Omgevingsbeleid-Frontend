@@ -60,8 +60,7 @@ const getMailToLink = () => {
 }
 
 /**
- * Component that renders the FeedbackComponent component, in which the user can click on the link to send a feedbackmessage of the page they are on, including which browser they are using and the date/timestamp.
- * This component is used by the components feedback and App.
+ * Displays a link which the user can click on to send a feedback message of the page they are on, including which browser they are using and the date/timestamp.
  */
 const FeedbackComponent = () => {
     const location = useLocation()
@@ -78,7 +77,7 @@ const FeedbackComponent = () => {
     const mailTo = getMailToLink()
 
     return (
-        <div className="fixed bottom-0 left-0 w-full pointer-events-none">
+        <div className="fixed bottom-0 left-0 z-10 w-full pointer-events-none">
             <div className="container relative flex px-6 pt-0 mx-auto sm:mt-8 sm:py-10 sm:px-6 lg:px-8">
                 <a
                     href={mailTo}

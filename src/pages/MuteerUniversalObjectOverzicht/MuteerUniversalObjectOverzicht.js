@@ -2,6 +2,7 @@ import React from "react"
 import { Helmet } from "react-helmet"
 import { toast } from "react-toastify"
 import { useHistory } from "react-router-dom"
+import { isBefore, isValid } from "date-fns"
 
 // Import Componenents
 import ContainerMain from "./../../components/ContainerMain"
@@ -29,10 +30,19 @@ const MuteerUniversalObjectOverzicht = ({ dimensieConstants }) => {
     let history = useHistory()
 
     const getAndSetDataFromAPI = (ApiEndpoint) => {
+        const filterOutArchivedObjects = (objects) =>
+            objects.filter((obj) => {
+                if (isValid(new Date(obj.Eind_Geldigheid))) {
+                    return isBefore(new Date(), new Date(obj.Eind_Geldigheid))
+                } else {
+                    return false
+                }
+            })
+
         axios
             .get(ApiEndpoint)
             .then((res) => {
-                let objecten = res.data
+                let objecten = filterOutArchivedObjects(res.data)
                 setObjecten(objecten)
                 setIsLoading(false)
             })

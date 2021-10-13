@@ -3,6 +3,7 @@ import axios from "./../../../API/axios"
 import { faTimes, faSearch } from "@fortawesome/pro-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { toast } from "react-toastify"
+import cloneDeep from "lodash.clonedeep"
 
 import PopUpAnimatedContainer from "./../../PopUpAnimatedContainer"
 import objecten from "./../../../constants/koppelingen"
@@ -33,10 +34,7 @@ const getTypeText = (type) => {
 }
 
 /**
- * Class that renders the PopupNieuweKoppeling component in a imported PopUpAnimatedContainer,
- * in which the user on the first page searches a koppeltekst which they want to connect to the beleidskeuze.
- * On the second page the user describes the relationship between the koppeltekst value and the beleidskeuze.
- *
+ * Displays a popup in which users can create Beleidsrelaties
  */
 class PopupNieuweKoppeling extends Component {
     constructor(props) {
@@ -56,8 +54,6 @@ class PopupNieuweKoppeling extends Component {
 
     /**
      * Function that adds the EventListener keypress "Enter".
-     *
-     *
      */
     componentDidMount() {
         window.addEventListener("keypress", (e) => {
@@ -66,23 +62,29 @@ class PopupNieuweKoppeling extends Component {
             }
         })
 
+        /**
+         * Right now the 'Belangen' and 'Taken' are both the same object, but differentiated with a type
+         * The object contains the property 'filterAPI' from the 'ObjectenInformatie.js' file.
+         * This means we need to filter this based on the active type in state.
+         * @param {object} res - Contains the response from the API
+         * @returns {array} containing the (filtered) data from the API
+         */
+        const getResponseData = (res) => {
+            if (objecten[this.state.type].filterAPI === true) {
+                return res.data.filter(
+                    (item) => item.Type === objecten[this.state.type].filterType
+                )
+            } else {
+                return res.data
+            }
+        }
+
         axios
             .get(objecten[this.state.type].api)
             .then((res) => {
-                // Belang en Taak moeten gefilterd worden
-                // Anders const de objecten array zonder het eerste array item
-                let responseObjecten
-                if (objecten[this.state.type].filterAPI === true) {
-                    responseObjecten = res.data.filter(
-                        (item) =>
-                            item.Type === objecten[this.state.type].filterType
-                    )
-                } else {
-                    responseObjecten = res.data
-                }
-
+                const data = getResponseData(res)
                 this.setState({
-                    objecten: responseObjecten,
+                    objecten: data,
                     dataLoaded: true,
                 })
             })
@@ -97,8 +99,6 @@ class PopupNieuweKoppeling extends Component {
 
     /**
      * Function to setState of the selected state within the function.
-     *
-     *
      *
      * @param {object} object - Parameter used as an value of the selected state within the function.
      */
@@ -116,8 +116,6 @@ class PopupNieuweKoppeling extends Component {
 
     /**
      * Function to set the state of the actievePagina variable with a new value.
-     *
-     *
      */
     volgendeScherm() {
         this.setState({
@@ -127,8 +125,6 @@ class PopupNieuweKoppeling extends Component {
 
     /**
      * Function to handle change of the user and set the name variable by using the value.
-     *
-     *
      *
      * @param {e} e - Parameter that is used to catch any changes given by the user.
      */
@@ -141,9 +137,44 @@ class PopupNieuweKoppeling extends Component {
         })
     }
 
-    render() {
+    /**
+     *
+     * @param {string} type - Contains the current active type of object
+     * @returns {string} Containing the type and the correct article
+     */
+    getTypeText(type) {
+        switch (type) {
+            case "belangen":
+                return "het belang"
+            case "taken":
+                return "de taak"
+            case "ambities":
+                return "de ambitie"
+            case "beleidsdoelen":
+                return "het beleidsdoel"
+            case "themas":
+                return "het thema"
+            case "beleidsregels":
+                return "de beleidsregel"
+            case "beleidsprestaties":
+                return "de beleidsprestatie"
+            case "maatregelen":
+                return "de maatregel"
+            case "verordening":
+                return "de verordening"
+            default:
+                return "het object"
+        }
+    }
+
+    /**
+     * Filter objects based on searchQuery and already connected objects
+     * @returns {array} containing the filtered objects
+     */
+    getFilteredObjects = () => {
         const propertyName = objecten[this.state.type].propertyName
-        const crudObject = JSON.parse(JSON.stringify(this.props.crudObject))
+        const crudObject = cloneDeep(this.props.crudObject)
+
         let actieveKoppelingen = []
 
         if (crudObject[propertyName]) {
@@ -152,7 +183,7 @@ class PopupNieuweKoppeling extends Component {
             })
         }
 
-        const filteredObjecten = this.state.objecten
+        return this.state.objecten
             .filter(
                 (item) =>
                     (item.Type !== "Lid" &&
@@ -167,8 +198,10 @@ class PopupNieuweKoppeling extends Component {
                         ))
             )
             .filter((item) => !actieveKoppelingen.includes(item.UUID))
+    }
 
-        let typeText = getTypeText(this.state.type)
+    render() {
+        const filteredObjecten = this.getFilteredObjects()
 
         return (
             <PopUpAnimatedContainer>
@@ -185,8 +218,10 @@ class PopupNieuweKoppeling extends Component {
                 {this.state.actievePagina === 1 ? (
                     <React.Fragment>
                         <p className="form-field-description">
-                            Zoek en selecteer {typeText} welke je wilt koppelen
-                            met de beleidskeuze '{this.props.titelMainObject}'
+                            Zoek en selecteer{" "}
+                            {this.getTypeText(this.state.type)} welke je wilt
+                            koppelen met de beleidskeuze '
+                            {this.props.titelMainObject}'
                         </p>
                         <div className="relative block w-full mt-4 mb-6">
                             <input

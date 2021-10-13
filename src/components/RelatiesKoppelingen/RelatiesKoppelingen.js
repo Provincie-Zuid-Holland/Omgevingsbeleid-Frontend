@@ -51,12 +51,11 @@ const connectionPropertiesColors = {
 }
 
 /**
+ * Displays the connections to this policy object in a visual and textual form
  *
- * @param {object} props
  * @param {object} dataObject - Contains the object of which we want to display the relations
  * @param {string} titleSingular - Contains the title of this object in a singular form
- * @param {string} titleSingularPrefix - Contains the prefix of the title (de/het)
- * @returns A component containing two tabs containing a visual and a textual child component that displays the connections to the dataObject
+ * @param {string} titleSingularPrefix - Contains the prefix of the title in singular form
  */
 const RelatiesKoppelingen = ({
     dataObject,
@@ -72,10 +71,9 @@ const RelatiesKoppelingen = ({
     )
 
     // As the height of the containers will vary by the content, we make sure the user can immediately see the whole container by scrolling down
-    React.useEffect(
-        () => window.scrollTo(0, document.body.scrollHeight),
-        [activeTab]
-    )
+    React.useEffect(() => window.scrollTo(0, document.body.scrollHeight), [
+        activeTab,
+    ])
 
     React.useEffect(() => {
         setIsLoading(true)
@@ -95,6 +93,9 @@ const RelatiesKoppelingen = ({
          * A function to filter out relations. Filter out relations that
          * - Have a different status then 'Vigerend'
          * - Have the same UUID as the UUID on the dataObject
+         *
+         * @function
+         *
          * @param {object[]} relations - Contains the relation objects we want to filter out
          */
         const filterOutUnvalidRelations = (relations) => {
@@ -118,8 +119,11 @@ const RelatiesKoppelingen = ({
         }
 
         /**
-         * Function to get and the relations from an object
-         * @returns {Promise} Promise object contains the data from the API
+         * Function to get and return the beleidsrelaties specified on the Van_Beleidskeuze from an API request using the uuidFrom parameter.
+         *
+         * @function
+         *
+         * @param {string} uuidFrom - Parameter containing a UUID.
          */
         const getBeleidsrelatiesFrom = (uuidFrom) =>
             axios
@@ -137,6 +141,9 @@ const RelatiesKoppelingen = ({
         /**
          * Function to get and the relations to an object
          * @returns {Promise} Promise object contains the data from the API
+         *
+         * @param {string} uuidTo - Parameter containing a UUID
+         *
          */
         const getBeleidsrelatiesTo = (uuidTo) =>
             axios
@@ -178,9 +185,7 @@ const RelatiesKoppelingen = ({
         }
 
         /**
-         * Function to inialize the needed data for objects that are NOT of type 'Beleidskeuze'
-         * Sets the relations to beleidskeuzes in state, and gets the active verordeningsStructure
-         * When data is set in State we set the loading state to False
+         * Function to set the intitialized data for a Beleidsobject.
          */
         const initBeleidsobject = () => {
             setBeleidsRelaties(dataObject.Ref_Beleidskeuzes)
@@ -264,12 +269,11 @@ const RelatiesKoppelingen = ({
 }
 
 /**
+ * Displays a tab button which the user can click to switch tabs.
  *
- * @param {object} props
- * @param {string} activeTab - Contains the currently active tab
+ * @param {string} activeTab - Contains the title of the active tab
  * @param {function} onClick - Function to switch the active tab
  * @param {string} title - The title of the tab
- * @returns A component that renders a tab button
  */
 const TabButton = ({ activeTab, onClick, title }) => {
     return (

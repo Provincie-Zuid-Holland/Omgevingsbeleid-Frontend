@@ -13,13 +13,15 @@ import networkGraphGenerateHref from "../../utils/networkGraphGenerateHref"
 import networkGraphConnectionProperties from "../../constants/networkGraphConnectionProperties"
 import networkGraphFilterMenu from "../../constants/networkGraphFilterMenu"
 
+import { getFilteredData } from "./../../utils/networkGraph"
+
+import NetworkGraphSearchBar from "./../NetworkGraphSearchBar"
 import NetworkGraphSidebar from "./../NetworkGraphSidebar"
 import NetworkGraphTooltip from "./../NetworkGraphTooltip"
 import NetworkGraphResetClickedElement from "./../NetworkGraphResetClickedElement"
 import NetworkGraphClickedElementPopup from "./../NetworkGraphClickedElementPopup"
 
 /**
- * @param {object} props
  * @param {boolean} graphIsOpen - Inidicates if the graph popup is open
  * @param {function} setGraphIsOpen - Function to toggle the graphIsOpen value to a true/false value
  * @param {boolean} showBanner - Indicates if the user is shown a banner above the navigation (needed to calc. the height)
@@ -35,6 +37,11 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
      * Contains the graph data we receive from the API, containing the nodes & links
      */
     const [data, setData] = React.useState([])
+
+    /**
+     * Search query to filter the nodes based on the title
+     */
+    const [searchQuery, setSearchQuery] = React.useState("")
 
     /**
      * Contain the 'left' and 'top' position variables to pass to the tooltip
@@ -91,8 +98,9 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
     /**
      * Used to generate the position of verordening articles for the Href
      */
-    const [verordeningsStructure, setVerordeningStructure] =
-        React.useState(null)
+    const [verordeningsStructure, setVerordeningStructure] = React.useState(
+        null
+    )
 
     /**
      * Get and set verordeningstructuur in state on Mount
@@ -199,7 +207,7 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
      * Function to reset state in D3 Graph
      * @returns
      */
-    const resetNodes = () => {
+    const resetNodes = React.useCallback(() => {
         const svgElement = d3.select(d3Container.current)
         svgElement
             .selectAll("circle")
@@ -208,7 +216,21 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
 
         svgElement.selectAll("line").attr("stroke-opacity", 0.6)
         setClickedNode(null)
-    }
+    }, [])
+
+    /** Reset nodes when the user presses the escape key */
+    React.useEffect(() => {
+        const handleKeyEvent = (e) => {
+            if (clickedNode && e.code === "Escape") resetNodes()
+        }
+
+        // Bind the event listener
+        document.addEventListener("keydown", handleKeyEvent)
+        return () => {
+            // Unbind the event listener on clean up
+            document.removeEventListener("keydown", handleKeyEvent)
+        }
+    }, [clickedNode, resetNodes])
 
     /**
      * Function to handle click on a node
@@ -285,7 +307,7 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
                 setClickedNode(clickedEl)
             }
         },
-        []
+        [resetNodes]
     )
 
     React.useEffect(() => {
@@ -298,43 +320,6 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
             })
             .catch((err) => console.error("error: ", err?.message))
     }, [])
-
-    /**
-     * Function to filter out the inactive types from the links and the nodes
-     * @param {object} data - Contains two properties, links and nodes
-     * @param {object} filters - Contains keys with boolean values indicating which types are active
-     * @returns {object[]} - Returns the filtered [links, nodes]
-     */
-    const getFilteredData = (data, filters) => {
-        const links = data.links
-        const nodes = data.nodes
-
-        if (!links || !nodes) return [null, null]
-
-        const activeTypes = Object.keys(filters).filter((key) => filters[key])
-
-        /**
-         * Contains the UUIDs of nodes that are not active.
-         * Used to filter out Links to/from inactive nodes
-         */
-        const inactiveNodes = []
-
-        // const filteredLinks = links.filter(link => )
-        const filteredNodes = nodes.filter((node) => {
-            const nodeIsActive = activeTypes.includes(node.Type)
-            if (!nodeIsActive) inactiveNodes.push(node.UUID)
-            return nodeIsActive
-        })
-
-        const filteredLinks = links.filter((link) => {
-            const linkIsActive =
-                !inactiveNodes.includes(link.source) &&
-                !inactiveNodes.includes(link.target)
-            return linkIsActive
-        })
-
-        return [filteredLinks, filteredNodes]
-    }
 
     /**
      * Close popup when the location path changes
@@ -398,6 +383,7 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
 
                     const singularType =
                         networkGraphConnectionProperties[d.Type]?.singular
+
                     tooltipTypeEl.innerHTML = singularType
                         ? singularType
                         : d.Type
@@ -729,6 +715,19 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
                                     height: "80%",
                                 }}
                             >
+                                <div className="absolute w-full p-2">
+                                    <NetworkGraphSearchBar
+                                        clickedNode={clickedNode}
+                                        data={data}
+                                        filters={filters}
+                                        searchQuery={searchQuery}
+                                        setSearchQuery={setSearchQuery}
+                                        handleNodeClick={handleNodeClick}
+                                        svgElement={d3.select(
+                                            d3Container.current
+                                        )}
+                                    />
+                                </div>
                                 <svg
                                     role="img"
                                     className="w-full h-full d3-component"

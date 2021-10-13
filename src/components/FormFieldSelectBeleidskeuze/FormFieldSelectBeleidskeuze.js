@@ -9,10 +9,12 @@ import axios from "./../../API/axios"
 import LoaderSelect from "./../LoaderSelect"
 
 /**
- * @param {array} objectenArray - Array containing a collection of Beleidsbeslissingen.
+ * Displays a box in which a user can make a selection.
+ *
+ * @param {array} objectenArray - Contains a collection of Beleidsbeslissingen.
  * @param {string} dataObjectProperty - Contains the property on the CrudObject we want to set the value to
  * @param {undefined|string} filterUUID - Optional to filter out objects based on a UUID value
- * @returns {array} An array containing the options for the Select form field
+ * @returns {array} Contains a list of options for the Select form field
  */
 function makeSelection(objectenArray, dataObjectProperty, filterUUID) {
     let options = []

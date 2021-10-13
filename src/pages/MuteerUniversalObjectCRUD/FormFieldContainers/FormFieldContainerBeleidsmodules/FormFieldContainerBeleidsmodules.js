@@ -5,6 +5,14 @@ import {
     FormFieldDate,
 } from "./../../../../components/FormFieldsExport"
 
+/**
+ *
+ * @param {object} props
+ * @param {string} props.titleSingular - Contains the singular form of the policy object type (e.g. 'maatregel')
+ * @param {object} props.crudObject - Contains the policy object that is being edited / created
+ * @param {function} props.handleChange - Contains the change handler function
+ * @returns The form fields for policy objects of the type Beleidsmodules
+ */
 function FormFieldContainerBeleidsmodules({
     titleSingular,
     crudObject,
@@ -28,8 +36,8 @@ function FormFieldContainerBeleidsmodules({
                     handleChange={handleChange}
                     fieldValue={crudObject["Besluit_Datum"]}
                     dataObjectProperty="Besluit_Datum"
-                    fieldLabel="Besluit Datum"
-                    pValue="Vul hier de besluit datum in."
+                    fieldLabel="Besluitdatum"
+                    pValue="Vul hier de besluitdatum in."
                     titleSingular={titleSingular}
                 />
             </ContainerFormSection>

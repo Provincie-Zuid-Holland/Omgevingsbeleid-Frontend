@@ -10,7 +10,6 @@ import networkGraphConnectionProperties from "../../constants/networkGraphConnec
 
 /**
  *
- * @param {object} props
  * @param {object} clickedNode - The corresponding node that has been clicked
  * @param {object} setGraphIsOpen - Function to open and close the graph popup menu
  * @param {function} resetNodes - Function to reset the styles of all nodes, and set clickedNode to null

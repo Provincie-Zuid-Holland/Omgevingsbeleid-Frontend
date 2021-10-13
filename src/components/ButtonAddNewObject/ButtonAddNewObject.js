@@ -3,11 +3,11 @@ import PropTypes from "prop-types"
 import { Link } from "react-router-dom"
 
 /**
- * Component that renders a Link and button elements that lets the user add a certain new object based on the parameters given.
+ * Displays a button link, which the user can add a new object.
  *
- * @param {string} createNewSlug - Parameter that is part of the link element where the user navigates to.
- * @param {string} hoofdOnderdeelSlug - Parameter that is the main part (categorie) of the link element where the user navigates to.
- * @param {string} titleSingular - Parameter that is part of the text of the button element that is being rendered.
+ * @param {string} createNewSlug - Portion of the url referring to the newly created object .
+ * @param {string} hoofdOnderdeelSlug - Portion of the url and id referring to the hoofdOnderdeel.
+ * @param {string} titleSingular - Contains the title in singular form, which is used for the button.
  */
 function ButtonAddNewObject({
     createNewSlug,

@@ -1,12 +1,12 @@
 import React from "react"
 /**
- * Component that renders the EigenaarsDriehoekItem component to display as an item within the EigenaarsDrihoek component.
+ * Displays an item within the EigenaarsDriehoek component.
  * It receives the variables owner and eigenaarType and uses the owner variable in a conditionary operator to check if it contains value and to set the second part of the Gebruikersnaam in uppercase and in furter to display the Gebruikersnaam fully.
  * The eigenaarType variable is used to display what kind of owner the owner variable is linked to.
  * This component is used by the component EigenaarsDriehoek.
  *
- * @param {object} owner - Parameter that contains the collection of information of the owner.
- * @param {string} eigenaarType - Parameter that displays the type of owner in the component.
+ * @param {object} owner - Contains the collection of information of the owner.
+ * @param {string} eigenaarType - Displays the type of owner in the component.
  */
 const EigenaarsDriehoekItem = ({ owner, eigenaarType }) => {
     if (!owner) return null
