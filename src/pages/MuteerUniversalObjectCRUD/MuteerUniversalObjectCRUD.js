@@ -40,16 +40,18 @@ import { isDateInAValidRange } from "../../utils/isDateInAValidRange"
 
 /**
  * @param {object} authUser - contains the logged in user object
- * @param {object} dimensieConstants - Contains all the variables of the dimension (e.g. Maatregelen). The dimensieContants come from the constant files export src/constants/dimensies.js.
- * @returns a page where the user can create new or edit existing dimension objects (e.g. Maatregelen)
+ * @param {object} dimensieConstants - Contains all the properties of the policy object (see the src/constants folder)
+ * @returns a page where the user can create new or edit existing policy objects
  */
 class MuteerUniversalObjectCRUD extends Component {
     constructor(props) {
         super(props)
 
-        // 'edit' bevat een boolean. Deze is true wanneer de gebruiker een bestaand object bewerkt en false wanneer de gebruiker een nieuw object toevoegd.
-        // 'crudObject' bevat de properties die de gebruiker kan bewerken, zoals de Titel
-        // 'dataLoaded' bevat een boolean die aangeeft of alle initiele data is geladen
+        /**
+         * @param {boolean} edit - Indicates if the user is editing an existing policy object
+         * @param {object} crudObject - Contains an object that holds all the properties we can edit on the policy object
+         * @param {boolean} dataLoaded - Indicates if all the data from the API has been loaded
+         */
         this.state = {
             edit: false,
             crudObject: {},
@@ -69,15 +71,18 @@ class MuteerUniversalObjectCRUD extends Component {
         )
     }
 
-    // Algemene change handler
-    // metaInfo en dataProp parameter bevatten informatie van het react-select <Select /> component
-    // Deze moeten anders afgehandeld worden dan een normaal event
+    /**
+     *
+     * @param {object} event - Contains the event object
+     * @param {undefined|object} metaInfo - Optional parameter that contains an object with meta info about the executed action from a react-select <Select> element
+     * @param {undefined|string} dataProp - Optional parameter containing a property name to reset the value of from a react-select <Select> element
+     */
     handleChange(event, metaInfo, dataProp) {
         let value
         let name
 
         if (metaInfo && metaInfo.action === "clear") {
-            // Als de waarde van metaInfo.action 'clear' is moet de value van deze property naar null gezet worden. Dit event wordt getriggerd zodra een gebruiker op het 'X' icoon klikt in het react-select component
+            /** This is the case when the user clicks the 'x' icon in a react-select <Select> component */
             value = null
             name = dataProp
         } else {
@@ -98,6 +103,10 @@ class MuteerUniversalObjectCRUD extends Component {
         }))
     }
 
+    /**
+     * Function to POST a policy object to the API
+     * @param {object} crudObject - Contains the policy object with updated values
+     */
     postDimensieObject(crudObject) {
         const dimensieConstants = this.props.dimensieConstants
         const apiEndpoint = dimensieConstants.API_ENDPOINT
@@ -120,6 +129,10 @@ class MuteerUniversalObjectCRUD extends Component {
             })
     }
 
+    /**
+     * Function to PATCH a policy object to the API
+     * @param {object} crudObject - Contains the policy object with updated values
+     */
     patchDimensieObject(crudObject) {
         const dimensieConstants = this.props.dimensieConstants
         const apiEndpoint = dimensieConstants.API_ENDPOINT
@@ -145,6 +158,10 @@ class MuteerUniversalObjectCRUD extends Component {
             })
     }
 
+    /**
+     * Submit handler
+     * @param {object} event - Event object
+     */
     handleSubmit(event) {
         event.preventDefault()
 
@@ -229,7 +246,12 @@ class MuteerUniversalObjectCRUD extends Component {
         }
     }
 
-    // Remove .Title properties from Connection objects
+    /**
+     * Function to prepare the crudObject for the API
+     * @param {object} crudObject - Contains the policy object that holds the updated values
+     * @param {string} type - String indicating if it is a 'post' or a 'patch' request
+     * @returns {object} - Prepared object for the request
+     */
     prepareForRequest(crudObject, type) {
         // Get the connections
         const getConnectionProperties = () => {
@@ -283,6 +305,13 @@ class MuteerUniversalObjectCRUD extends Component {
         return crudObject
     }
 
+    /**
+     *
+     * @param {string} propertyName - Property name of the connection
+     * @param {object} object - Policy object for the connection
+     * @param {string} omschrijving - Description of the connection
+     * @param {function} callback - Callback that is passed the updated object
+     */
     voegKoppelingRelatieToe(propertyName, object, omschrijving, callback) {
         const nieuwObject = {
             Koppeling_Omschrijving: omschrijving,
@@ -312,6 +341,12 @@ class MuteerUniversalObjectCRUD extends Component {
         )
     }
 
+    /**
+     * Function to update a connection
+     * @param {object} koppelingObject - Connection object
+     * @param {string} nieuweOmschrijving - New description of the connection
+     * @param {function} callback - Callback that is passed the updated object
+     */
     wijzigKoppelingRelatie(koppelingObject, nieuweOmschrijving, callback) {
         let nieuwCrudObject = this.state.crudObject
 
@@ -334,6 +369,10 @@ class MuteerUniversalObjectCRUD extends Component {
         )
     }
 
+    /**
+     * Function to remove a connection
+     * @param {object} koppelingObject - Connection object
+     */
     verwijderKoppelingRelatie(koppelingObject) {
         let nieuwCrudObject = this.state.crudObject
         const index = nieuwCrudObject[koppelingObject.propertyName].findIndex(
@@ -349,7 +388,10 @@ class MuteerUniversalObjectCRUD extends Component {
         )
     }
 
-    // responseObjectFromAPI wordt meegegeven als parameter wanneer de pagina een 'version' pagina is
+    /**
+     * Function to initialize an empty crudObject when the user is POST'ing a new policy object
+     * @param {undefined|object} responseObjectFromAPI - Undefined when the user is creating a new policy object, an object when the user is editing an existing object
+     */
     createAndSetCrudObject(responseObjectFromAPI) {
         const dimensieConstants = this.props.dimensieConstants
         const crudProperties = makeCrudProperties(dimensieConstants)
@@ -370,6 +412,9 @@ class MuteerUniversalObjectCRUD extends Component {
         })
     }
 
+    /**
+     * Gets the policy object from the API and set it in state as the crudObject
+     */
     getAndSetDimensieDataFromApi() {
         const objectID = this.props.match.params.single
         const dimensieConstants = this.props.dimensieConstants
@@ -378,12 +423,11 @@ class MuteerUniversalObjectCRUD extends Component {
 
         let params = new URL(document.location).searchParams
 
-        // If modus equals 'wijzig_vigerend', the user is editing a vigerend object
-        let modus = params.get("modus")
-
         const isMaatregelOrBeleidskeuze =
             titleSingular === "Maatregel" || titleSingular === "Beleidskeuze"
 
+        /** If modus equals 'wijzig_vigerend', the user is editing a policy object that has a status of 'vigerend' */
+        let modus = params.get("modus")
         const isWijzigVigerendOrOntwerpMaken =
             (modus && modus === "wijzig_vigerend") ||
             (modus && modus === "ontwerp_maken")
@@ -440,7 +484,7 @@ class MuteerUniversalObjectCRUD extends Component {
         this.axiosCancelSource = axiosPackage.CancelToken.source()
 
         if (this.props.match.params.single) {
-            // Als er een waarde in de single parameter zit bewerkt de gebruiker een bestaand object
+            /** URL Contains a single parameter, indicating that the user is editing an existing policy object */
             this.setState(
                 {
                     edit: true,
@@ -450,7 +494,7 @@ class MuteerUniversalObjectCRUD extends Component {
                 }
             )
         } else {
-            // Anders maakt de gebruiker een nieuw object aan
+            /** User is creating a new object */
             this.createAndSetCrudObject()
         }
     }

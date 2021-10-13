@@ -115,6 +115,9 @@ const RaadpleegUniversalObjectDetail = ({ dataModel }) => {
                     setLineageID(newLineageID)
                 }
             })
+            .catch((err) => {
+                console.error(err)
+            })
     }, [getVersionOfObject, lineageID])
 
     const getAndSetRevisionObjects = React.useCallback(() => {
