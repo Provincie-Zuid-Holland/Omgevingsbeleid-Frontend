@@ -2,7 +2,7 @@ import React from "react"
 import ContentLoader from "react-content-loader"
 
 /**
- * Component that renders the LoaderLeafletLargeViewer component, which loads a rectangle shape before the LeafletLargeViewer component is displayed.
+ * Displays a rectangle shape before the LeafletLargeViewer component is displayed.
  */
 const LoaderLeafletLargeViewer = () => (
     <ContentLoader

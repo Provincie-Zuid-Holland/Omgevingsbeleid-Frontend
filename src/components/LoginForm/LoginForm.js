@@ -12,7 +12,7 @@ import LoaderSpinner from "./../LoaderSpinner"
 import PopUpAnimatedContainer from "./../PopUpAnimatedContainer"
 
 /**
- * Function that renders the PopupWachtwoordVergeten component, which displays a popup in which the user can reset their password.
+ * Displays a popup in which the user can reset their password.
  *
  * @param {boolean} show - Parameter that is used to display the popup component.
  * @param {function} togglePopup - Parameter that is used to (hide/show) the popup component.
@@ -77,7 +77,7 @@ function PopupWachtwoordVergeten({ show, togglePopup }) {
 }
 
 /**
- * Component that renders a login form in which the user can log into the application.
+ * Displays a login form in which the user can log into the application.
  *
  * @param {function} setLoginState - Function to edit parent state.
  * @param {function} setLoginUser - Function to edit parent state.

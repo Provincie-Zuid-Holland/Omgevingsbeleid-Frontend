@@ -21,9 +21,11 @@ import networkGraphConnectionProperties from "./../../constants/networkGraphConn
 import UserContext from "./../../App/UserContext"
 
 /**
+ * Function to get the text indicating its validity.
  *
- * @param {object} object - Object we want the validity text of
- * @returns {string} - Text indicating the validity of the object
+ * @function
+ *
+ * @param {object} object - The text within this object parameter is checked within this function.
  */
 const getValidText = (object) => {
     if (!object["Begin_Geldigheid"]) return "Er is nog geen begin geldigheid"
@@ -42,18 +44,22 @@ const getValidText = (object) => {
 }
 
 /**
+ * Function that returns the left and right revision options.
  *
- * @param {array} revisionObjects - Array containing the revisions
+ * @function
+ *
+ * @param {array} revisionObjects - Contains the revision objects
  * @param {null|string} leftSelect - Contains null if none is selected, else it contains the UUID that is selected
  * @param {null|string} rightSelect - Contains null if none is selected, else it contains the UUID that is selected
- * @returns
  */
 function getSelectOptions(revisionObjects, leftSelect, rightSelect) {
     /**
      * Checks if an options is disabled.
      * When we select an option, we disable the previous or following options, based on the optionsType
+     * @function
+     *
      * @param {number} index - Index in of the item in the revisionObjects array
-     * @param {string} optionsType - Indicicating if
+     * @param {string} optionsType - Containing the options type value.
      * @returns {boolean} indicating if the option is disabled or not
      */
     const checkIsDisabled = (index, optionsType) => {
@@ -77,10 +83,10 @@ function getSelectOptions(revisionObjects, leftSelect, rightSelect) {
     }
 
     /**
+     * Function to map over the revision objects and return the value of the label, value and isDisabled parameters.
      *
      * @param {array} revisionObjects - Contains the revision objects
-     * @param {string} type - Indicator if this is the 'left' or 'right' element
-     * @returns {array} Returns the options that we pass to the Select element
+     * @param {string} type - Parameter containing the 'left' or 'right' value.
      */
     const getOptions = (revisionObjects, type) =>
         revisionObjects.map((obj, index) => {
@@ -98,13 +104,14 @@ function getSelectOptions(revisionObjects, leftSelect, rightSelect) {
 }
 
 /**
+ * Displays an popup containing the Revisieoverzicht with a list of beleidskeuzes, which the user can compare two beleidskeuzes.
  *
- * @param {object} props
+ * @Component
+ *
  * @param {boolean} revisionOverviewOpen - Indicating if the revision overview is open
- * @param {function} setRevisionOverviewOpen -
- * @param {object} dataObject - Contains the object of the detail page we are viewing
- * @param {array} revisionObjects - Array containing revisions of the object
- * @returns
+ * @param {function} setRevisionOverviewOpen - Function to open/close the RevisionOverviewOpen popup.
+ * @param {object} dataObject - Contains the data of the object the user is viewing on the detail page.
+ * @param {object[]} revisionObjects - Containing a collection of revisions in object form.
  */
 const PopupRevisionOverview = ({
     revisionOverviewOpen,
@@ -360,31 +367,30 @@ const PopupRevisionOverview = ({
 }
 
 /**
+ * Displays a container aligned to the left with children components in it.
  *
  * @param {object} children - Children component(s)
- * @returns Wrapper element
  */
 const ContainerLeft = ({ children }) => (
     <div className={`w-1/2 pr-5`}>{children}</div>
 )
 
 /**
+ * Displays a container aligned to the right with children components in it.
  *
  * @param {object} children - Children component(s)
- * @returns Wrapper element
  */
 const ContainerRight = ({ children }) => (
     <div className={`w-1/2 pl-5`}>{children}</div>
 )
 
 /**
+ * Displays a beleidskeuze on the left and a beleidskeuze on the right, which the user can compare the changes.
  *
- * @param {object} props
- * @param {object} oldObject
- * @param {object} changesObject
- * @param {object} originalObject
- * @param {object} revisionObjects
- * @returns
+ * @param {object} oldObject - Contains the old object data.
+ * @param {object} changesObject - Contains the object with changes.
+ * @param {object} originalObject - Contains the object in its original form
+ * @param {array} revisionObjects - Contains a list of revisions from the parent state.
  */
 const ChangeContainer = ({
     oldObject,
@@ -572,10 +578,10 @@ const ChangeContainer = ({
 }
 
 /**
- * @param {Object} props
- * @param {Object} props.originalObject - Contains the object in its original form
- * @param {Object} props.changesObject - Contains the object with changes on the properties (e.g. Propertie: {"new": [...], "removed": [...], "same": [...]})
- * @returns Component that displays the changes of the GEO property on a Leaflet map
+ * Displays the revisie werkingsgebied on a map.
+ *
+ * @param {Object} originalObject - Contains the object in its original form
+ * @param {Object} changesObject - Contains the object with changes on the properties (e.g. Propertie: {"new": [...], "removed": [...], "same": [...]})
  */
 const RevisionWerkingsgebied = ({ originalObject, changesObject }) => {
     /**
@@ -665,7 +671,6 @@ const RevisionWerkingsgebied = ({ originalObject, changesObject }) => {
 }
 
 /**
- *
  * @param {object} props
  * @param {string} props.color - Background color
  * @param {object} props.label - Legenda label
@@ -684,11 +689,10 @@ const LegendaItem = ({ color, label }) => {
 }
 
 /**
+ * Displays a title component with a divider.
  *
- * @param {object} props
- * @param {string} props.title - Title that is displayed with the horizontal rule
- * @param {boolean} props.singleTitle - boolean indicating if the component only needs to render one title
- * @returns A component that displays a divider block containing one or two titles
+ * @param {string} title - Title displayed within a top and bottom divider.
+ * @param {boolean} singleTitle - Used to check if there is only one title.
  */
 const DividerWithTitle = ({ title, singleTitle }) => {
     if (singleTitle) {
@@ -718,10 +722,9 @@ const DividerWithTitle = ({ title, singleTitle }) => {
 }
 
 /**
+ * Displays a title containing html markup.
  *
- * @param {object} props
- * @param {string} props.title - Title of the object containing HTML in order to display the changes.
- * @returns An Header 2 Title with inner HTML
+ * @param {string} title - Parameter containing a title with html markup.
  */
 const Title = ({ title }) => {
     return (
@@ -733,11 +736,10 @@ const Title = ({ title }) => {
 }
 
 /**
+ * Displays a label and text containing html markup.
  *
- * @param {object} props
- * @param {object} props.textContent - Contains the text that is set with innerHTML. The HTML contains the changes.
- * @param {object} props.label - Contains the label
- * @returns A paragraph with an optional label above it
+ * @param {string} textContent - Contains the text content in HTML markup form.
+ * @param {string} label - Contains the text label.
  */
 const Text = ({ textContent, label }) => {
     return (
@@ -758,11 +760,10 @@ const Text = ({ textContent, label }) => {
 }
 
 /**
+ * The text indicating the period of validity of the object.
  *
- * @param {object} props
- * @param {object} props.object - Contains the object we want the valid text from
- * @param {array} props.revisionObjects - Contains the previous valid objects. We need this because these objects contain the uiStatus property. This property indicates if an object is archived or not.
- * @returns The text indicating the period of validity of the object
+ * @param {object} object - Contains the Begin_Geldigheid date.
+ * @param {array} revisionObjects - Contains a collection of revisions in object form.
  */
 const ValidText = ({ object, revisionObjects }) => {
     if (!revisionObjects) return null
@@ -807,22 +808,21 @@ const ValidText = ({ object, revisionObjects }) => {
 }
 
 /**
+ * Displays the label, titel and omschrijving of a belang.
  *
- * @param {object} props
- * @param {string} props.label - Label to display above the section
- * @param {object} props.object - The object to display belangen of
- * @param {string} props.type - String indicating the type of Belang
- * @param {boolean} props.containsChanges - Inidicating if the object contains changes
- * @param {string} props.placeholder - Placeholder when there are no connections
- * @returns A section to display the 'Belangen' of an object
+ * @param {string} label - Label of a belang
+ * @param {object} object - Contains the Belang information in object form.
+ * @param {string} type - String indicating the type of Belang
+ * @param {boolean} containsChanges - Used to check if a belang contains changes.
+ * @param {string} placeholder - Contains the placeholder used within the component.
  */
 const Belangen = ({ label, object, type, containsChanges, placeholder }) => {
     /**
+     * Function to get and filter through the belangen.
      *
-     * @param {boolean} containsChanges
-     * @param {object} object
-     * @param {string} type
-     * @returns
+     * @param {boolean} containsChanges - Used to check if the belangen contain changes.
+     * @param {object} object - Contains the belangen in object form.
+     * @param {string} type - Contains the type value.
      */
     const getBelangen = (containsChanges, object, type) => {
         if (!containsChanges) {
@@ -841,9 +841,9 @@ const Belangen = ({ label, object, type, containsChanges, placeholder }) => {
     }
 
     /**
+     * Function that changes the style of the container based on the object parameter.
      *
-     * @param {object} object - Contains the object we want get the style for
-     * @returns
+     * @param {object} object - Contains the type of container.
      */
     const getContainerStyle = (object) =>
         object.changeType === "removed"
@@ -886,10 +886,10 @@ const Belangen = ({ label, object, type, containsChanges, placeholder }) => {
 }
 
 /**
+ * Displays two containers containing the connected relations between objects.
  *
- * @param {object} props
- * @param {object} props.originalObject - Contains the original object
- * @param {object} props.objectChanges - Contains the object that has changes
+ * @param {object} originalObject - Contains the original object
+ * @param {object} objectChanges - Contains the object that has changes
  * @returns A section that indicates the changes in connections
  */
 function RelationsConnectionsText({ originalObject, objectChanges }) {
@@ -989,6 +989,7 @@ function RelationsConnectionsText({ originalObject, objectChanges }) {
 }
 
 /**
+ * Displays the main container of the PopUpRevisionOverview component.
  *
  * @param {object} children - contains the child components
  * @returns A wrapper container element
@@ -1002,10 +1003,10 @@ const ContainerMain = ({ children }) => {
 }
 
 /**
+ * Displays list of connected list items.
  *
- * @param {object} props
- * @param {string} props.property - Name of the property
- * @param {object} props.connection - Object containing the connection
+ * @param {string} property - Name of the property used to define the color
+ * @param {object} connection - Contains the connection information of a revision
  * @returns A list item that displays the connecting (and potentially the changes to it)
  */
 const ConnectionListItem = ({ property, connection }) => {

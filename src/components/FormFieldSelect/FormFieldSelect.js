@@ -2,14 +2,16 @@ import React from "react"
 import FormFieldTitelEnBeschrijving from "../FormFieldTitelEnBeschrijving/FormFieldTitelEnBeschrijving"
 
 /**
+ * Displays a FormFieldTitelEnBeschrijving component and a dropdown select formfield component.
+ *
  * @param {string} dataObjectProperty - Contains the property of the value
  * @param {string} fieldLabel - Label for the form field
  * @param {undefined|string} pValue - Paragraph value underneath the form field
  * @param {string} titleSingular - Title of the object type in singular form
- * @param {string} fieldValue - Current value
- * @param {function} handleChange - Change handler
- * @param {array} selectArray - Array containing the options
- * @returns A select field
+ * @param {string} fieldValue - Contains the current value of the field.
+ * @param {function} handleChange - Used to set the state changes made by the component.
+ * @param {array} selectArray - Array containing a list of options the user can select.
+ * @returns A dropdown field
  */
 const FormFieldSelect = ({
     dataObjectProperty,

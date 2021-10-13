@@ -16,9 +16,9 @@ import allDimensies from "./../../constants/dimensies"
 import UserContext from "./../../App/UserContext"
 
 /**
- * Component that renders the MijnBeleid component.
+ * Displays a list of beleidskeuzes.
  *
- * @param {boolean} hideAddNew - Parameter used to add the AddNewSection based if the parameter is true or false.
+ * @param {boolean} hideAddNew - Used to display/hide the AddNewSection based on value.
  */
 const MijnBeleid = ({ hideAddNew }) => {
     const { user } = React.useContext(UserContext)
@@ -144,7 +144,7 @@ const MijnBeleid = ({ hideAddNew }) => {
 }
 
 /**
- * Function to render a AddNewSection component that is part of the MijnBeleid component, only if the parameter hideAddNew of MijnBeleid is set true.
+ * Displays two buttons, one to add a Beleidskeuze and one to add a Maatregel
  */
 const AddNewSection = () => {
     return (

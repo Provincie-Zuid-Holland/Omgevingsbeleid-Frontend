@@ -1,14 +1,14 @@
 import React from "react"
 
 /**
- * Component that renders the FormFieldRadioButton component that maps through the options array to create radio buttons with a label.
+ * Displays list of options with radio buttons and labels.
  *
- * @param {array} options - Parameter that contains a list of values that are used to map through and create radio buttons with labels.
- * @param {boolean} handleChange - Parameter that is used within this function to set the onChange variable to true if the input element has been changed.
- * @param {string} dataObjectProperty - Parameter that contains the "Gebied_Duiding" value, given through the page FormFieldContainerMaatregelen.js, is part of the id used within this component and is set to the name of the radiobutton input.
- * @param {string} titleSingular - Parameter used as part of the div id and id set in the options array within this component.
- * @param {string} label - Paramater that is only displayed if it contains a value.
- * @param {string} fieldValue - Parameter that will receive the option value, when checked by the user.
+ * @param {array} options - Contains list of options that the user can select from.
+ * @param {function} handleChange - Function to set the changes from the radio buttons.
+ * @param {string} dataObjectProperty - Contains the data object property name.
+ * @param {string} titleSingular - Contains the title in singular form.
+ * @param {string} label - Contains a label of the component.
+ * @param {string} fieldValue - Contains the value of the field.
  */
 function FormFieldRadioButton({
     options = [],

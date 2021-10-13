@@ -23,10 +23,10 @@ const getEnvironmentText = (environment) => {
 }
 
 /**
- * Function to render the BannerEnvironment component.
+ * Displays a banner that displays the current environment.
  *
- * @param {boolean} userIsInMuteerEnvironment - Parameter used within the function to show the banner within the rendered component.
- * @param {boolean} hideBannerLocalStorage - Parameter used within the function to hide the banner within the rendered component.
+ * @param {boolean} userIsInMuteerEnvironment - Used to determine if the user is in the muteer environment.
+ * @param {boolean} hideBannerLocalStorage - Contains the hide banner state in the local storage.
  */
 function BannerEnvironment({
     userIsInMuteerEnvironment,

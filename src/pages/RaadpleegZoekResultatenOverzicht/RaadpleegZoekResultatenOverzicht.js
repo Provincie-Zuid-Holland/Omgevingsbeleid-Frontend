@@ -174,7 +174,6 @@ class RaadpleegZoekResultatenOverzicht extends Component {
             dataLoaded: false,
             onPageFilters: [],
         }
-
         this.getAndSetVigerendeVerordeningenStructuur = this.getAndSetVigerendeVerordeningenStructuur.bind(
             this
         )
