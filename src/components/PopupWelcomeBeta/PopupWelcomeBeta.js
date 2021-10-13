@@ -4,6 +4,12 @@ import logoSVG from "./../../images/PZH_Basislogo.svg"
 
 import useLockBodyScroll from "./../../utils/useLockBodyScroll"
 
+/**
+ * Displays a popup with a welcome text and a close button.
+ *
+ * @param {function} closePopup - Function to close the popup.
+ */
+
 const PopupWelcomeBeta = ({ closePopup }) => {
     useLockBodyScroll({ modalOpen: true })
 
@@ -14,6 +20,7 @@ const PopupWelcomeBeta = ({ closePopup }) => {
                 <div className="max-w-xl p-10 pt-5 text-gray-700 bg-white rounded">
                     <div className="block w-full mb-4 text-center">
                         <img
+                            alt="Provincie Zuid-Holland Logo"
                             className="inline-block"
                             alt="Provincie Zuid-Holland Logo"
                             style={{ height: "136px" }}

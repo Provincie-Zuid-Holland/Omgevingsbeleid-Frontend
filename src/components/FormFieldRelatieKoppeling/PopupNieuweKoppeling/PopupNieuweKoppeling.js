@@ -34,10 +34,7 @@ const getTypeText = (type) => {
 }
 
 /**
- * Class that renders the PopupNieuweKoppeling component in a imported PopUpAnimatedContainer,
- * in which the user on the first page searches a koppeltekst which they want to connect to the beleidskeuze.
- * On the second page the user describes the relationship between the koppeltekst value and the beleidskeuze.
- *
+ * Displays a popup in which users can create Beleidsrelaties
  */
 class PopupNieuweKoppeling extends Component {
     constructor(props) {
@@ -57,8 +54,6 @@ class PopupNieuweKoppeling extends Component {
 
     /**
      * Function that adds the EventListener keypress "Enter".
-     *
-     *
      */
     componentDidMount() {
         window.addEventListener("keypress", (e) => {
@@ -105,8 +100,6 @@ class PopupNieuweKoppeling extends Component {
     /**
      * Function to setState of the selected state within the function.
      *
-     *
-     *
      * @param {object} object - Parameter used as an value of the selected state within the function.
      */
     selectObject(object) {
@@ -123,8 +116,6 @@ class PopupNieuweKoppeling extends Component {
 
     /**
      * Function to set the state of the actievePagina variable with a new value.
-     *
-     *
      */
     volgendeScherm() {
         this.setState({
@@ -134,8 +125,6 @@ class PopupNieuweKoppeling extends Component {
 
     /**
      * Function to handle change of the user and set the name variable by using the value.
-     *
-     *
      *
      * @param {e} e - Parameter that is used to catch any changes given by the user.
      */

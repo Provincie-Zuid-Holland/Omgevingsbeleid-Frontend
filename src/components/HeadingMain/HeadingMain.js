@@ -3,11 +3,11 @@ import { faCubes } from "@fortawesome/pro-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 /**
- * Component that renders the HeadingMain component displaying a titel and status.
+ * Displays a titel, status and modules.
  *
- * @param {string} titel - Parameter containing a titel displayed in h1 tag.
- * @param {string} status - Parameter containing the status Vigerend or Gepubliceerd.
- * @param {array|undefined} modules - Parameter containing the reference of modules the object is connected to
+ * @param {string} titel - Containing a titel in string form.
+ * @param {string} status - May contain the status "Vigerend" or "Gepubliceerd".
+ * @param {array|undefined} modules - Contains the reference of modules the object is connected to
  */
 const HeadingMain = ({ titel, status, modules }) => {
     return (

@@ -10,6 +10,9 @@ import FormFieldTextArea from "./../../../components/FormFieldTextArea"
 import FormFieldGeldigheid from "./../../../components/FormFieldGeldigheid"
 import FormFieldSelectBeleidskeuze from "./../../../components/FormFieldSelectBeleidskeuze"
 
+/**
+ * @returns A container containing the form fields to edit a policy relation
+ */
 class ContainerCrudFields extends React.Component {
     render() {
         const crudObject = this.context.crudObject

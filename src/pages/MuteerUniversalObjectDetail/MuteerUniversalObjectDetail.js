@@ -36,9 +36,7 @@ class MuteerUniversalObjectDetail extends Component {
         )
     }
 
-    // Set het property pageType naar 'detail' of 'version'
-    // 'detail' is een algemene pagina van het object, gebaseerd op het ID
-    // 'version' is een specifieke pagina van het object, gebaseerd op het UUID
+    /** pageType 'detail' is based on a UUID, 'version' is based on the the ID of a policy object*/
     returnPageType() {
         let pageType = "detail"
         if (this.props.match.params.version) {
@@ -47,7 +45,9 @@ class MuteerUniversalObjectDetail extends Component {
         return pageType
     }
 
-    // returned het api endpoint op basis van het pagina type
+    /**
+     * @returns {string} - Returns the API endpoint to get the lineage or the version based on the pageType
+     */
     getApiEndpoint() {
         const dimensieConstants = this.props.dimensieConstants
         const apiEndpoint = dimensieConstants.API_ENDPOINT
@@ -61,10 +61,11 @@ class MuteerUniversalObjectDetail extends Component {
         }
     }
 
+    /**
+     * Iniate policy object(s) from the API
+     */
     getAndSetDimensieDataFromApi() {
         const apiEndpoint = this.getApiEndpoint()
-
-        // Connect With the API
         axios
             .get(apiEndpoint)
             .then((res) => {
@@ -86,15 +87,23 @@ class MuteerUniversalObjectDetail extends Component {
 
                 /** Sort the objects if the pageType is 'detail' (which contains whole history of an object) */
                 if (this.state.pageType === "detail") {
-                    dataObject.sort(function (a, b) {
-                        return (
-                            new Date(b.Modified_Date) -
-                            new Date(a.Modified_Date)
-                        )
+                    /** pageType is of 'detail' */
+                    this.setState({
+                        dataObject: dataObject.sort(function (a, b) {
+                            return (
+                                new Date(b.Modified_Date) -
+                                new Date(a.Modified_Date)
+                            )
+                        }),
+                        dataReceived: true,
+                    })
+                } else {
+                    /** pageType is of 'version' */
+                    this.setState({
+                        dataObject: dataObject,
+                        dataReceived: true,
                     })
                 }
-
-                this.setState({ dataObject: dataObject, dataReceived: true })
             })
             .catch((err) => {
                 if (err.response !== undefined) {
@@ -132,7 +141,7 @@ class MuteerUniversalObjectDetail extends Component {
         this.getAndSetDimensieDataFromApi()
     }
 
-    // Handle switch van 'detail' naar 'version' pagina
+    /** Update state when the user switches from pageType */
     componentDidUpdate(prevProps) {
         if (this.returnPageType() !== this.state.pageType) {
             this.setState(
@@ -149,7 +158,6 @@ class MuteerUniversalObjectDetail extends Component {
     }
 
     render() {
-        // Variables to give as props
         const dimensieConstants = this.props.dimensieConstants
         const titleSingular = dimensieConstants.TITLE_SINGULAR
         const overzichtSlug = dimensieConstants.SLUG_OVERVIEW
@@ -157,16 +165,25 @@ class MuteerUniversalObjectDetail extends Component {
         const pageType = this.state.pageType
         const dataReceived = this.state.dataReceived
 
-        // Als de huidige pagina een 'detail' pagina is zal het dataObject een array zijn
-        // Hiervan willen we altijd de laatste versie, die bevindt zich op index [0]
-        // Als de pagina een 'version' pagina is, is het dataObject een object
-        // Else the dataObject will be a single Object
+        /**
+         * dataObject is currently a array when the pageType is of version,
+         * and a object when the pageType is detail. TODO: Refactor this into better state.
+         */
         let dataObject = {}
         if (dataReceived && pageType === "detail") {
             dataObject = this.state.dataObject[0]
         } else if (dataReceived && pageType === "version") {
             dataObject = this.state.dataObject
         }
+
+        const displayEigenaarsDriehoek =
+            dataReceived &&
+            dataObject &&
+            (dataObject.Opdrachtgever !== undefined ||
+                dataObject.Eigenaar_1 !== undefined ||
+                dataObject.Eigenaar_2 !== undefined ||
+                dataObject.Portefeuillehouder_1 !== undefined ||
+                dataObject.Portefeuillehouder_2 !== undefined)
 
         return (
             <ContainerMain>
@@ -230,7 +247,7 @@ class MuteerUniversalObjectDetail extends Component {
                                 dataReceived={dataReceived}
                             />
 
-                            {/* Revisie List */}
+                            {/* List of Revisions */}
                             {dataReceived && pageType === "detail" ? (
                                 <RevisieList
                                     dataObject={this.state.dataObject}
@@ -240,13 +257,7 @@ class MuteerUniversalObjectDetail extends Component {
                             ) : null}
                         </div>
 
-                        {dataReceived &&
-                        dataObject &&
-                        (dataObject.Opdrachtgever !== undefined ||
-                            dataObject.Eigenaar_1 !== undefined ||
-                            dataObject.Eigenaar_2 !== undefined ||
-                            dataObject.Portefeuillehouder_1 !== undefined ||
-                            dataObject.Portefeuillehouder_2 !== undefined) ? (
+                        {displayEigenaarsDriehoek ? (
                             <EigenaarsDriehoek dataObject={dataObject} />
                         ) : null}
                     </div>

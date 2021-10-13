@@ -10,10 +10,12 @@ import { searchBarFilters } from "./../../constants/searchBarFilters"
 import SearchBarPopupItem from "./../SearchBarPopupItem"
 
 /**
- * @param {undefined|string} width - Parameter that is used to set the width of an element within the rendered component.
- * @param {boolean} componentInNavbar - Parameter that is used in a if statement to set values to certain variables.
- * @param {string} placeholder - Parameter that shows a placeholder in the SearchBar.
- * @returns SearchBar Component
+ * Displays a search bar which can be used within a component/page.
+ *
+ * @param {string} width - Contains the width of the SearchBar component.
+ * @param {string} exactWidth - Contains the exact width of the SearchBar component.
+ * @param {boolean} compInNavigation - Used to check if the component is in the navbar.
+ * @param {string} placeholder - Contains the placeholder value.
  */
 const SearchBar = ({ width, componentInNavbar, placeholder, id }) => {
     const location = useLocation()
