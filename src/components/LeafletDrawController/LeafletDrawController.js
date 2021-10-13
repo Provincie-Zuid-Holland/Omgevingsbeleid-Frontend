@@ -116,11 +116,6 @@ class LeafletDrawController extends MapControl {
             }
         }
 
-        map.on(leaflet.Draw.Event.DELETESTART, () => {
-            const { layerContainer } = this.props.leaflet
-            layerContainer.clearLayers()
-        })
-
         map.on(leaflet.Draw.Event.CREATED, this.onDrawCreate)
 
         onMounted && onMounted(this.leafletElement)
