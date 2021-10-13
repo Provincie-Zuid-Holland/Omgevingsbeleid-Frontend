@@ -34,6 +34,7 @@ const MijnBeleid = ({ hideAddNew }) => {
                 "BELEIDSRELATIES",
                 "VERORDENINGSTRUCTUUR",
                 "VERORDENINGSARTIKEL",
+                "BELEIDSMODULES",
             ]
 
             const policyEndpointsAndTypes = Object.keys(allDimensies)
@@ -48,7 +49,8 @@ const MijnBeleid = ({ hideAddNew }) => {
             const axiosRequests = policyEndpointsAndTypes.map((dimensie) =>
                 axios
                     .get(
-                        dimensie.endpoint === "beleidskeuzes"
+                        dimensie.endpoint === "beleidskeuzes" ||
+                            dimensie.endpoint === "maatregelen"
                             ? `/${dimensie.endpoint}?any_filters=Created_By:${user.UUID},Eigenaar_1:${user.UUID},Eigenaar_2:${user.UUID},Opdrachtgever:${user.UUID}`
                             : `/${dimensie.endpoint}?any_filters=Created_By:${user.UUID}`
                     )
@@ -87,7 +89,7 @@ const MijnBeleid = ({ hideAddNew }) => {
             {dataReceived ? (
                 <React.Fragment>
                     {!hideAddNew ? <AddNewSection /> : null}
-                    <ul className="flex flex-wrap mt-5">
+                    <ul className="grid grid-cols-2 gap-4">
                         {policies.map((dimensie) => {
                             if (!dimensie) return null
 
@@ -100,11 +102,12 @@ const MijnBeleid = ({ hideAddNew }) => {
                                 return (
                                     <li
                                         key={policy.object.UUID}
-                                        className={`mb-6 w-1/2 display-inline odd-pr-3 even-pl-3`}
+                                        className={`w-full h-28 display-inline`}
                                     >
                                         {
                                             <CardObjectDetails
                                                 index={index}
+                                                showTippy={true}
                                                 mijnBeleid={true}
                                                 object={policy.object}
                                                 titleSingular={titleSingular}

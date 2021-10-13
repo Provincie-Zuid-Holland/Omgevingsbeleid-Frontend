@@ -1,6 +1,6 @@
 import React from "react"
 import { Transition } from "@headlessui/react"
-import { format, isDate } from "date-fns"
+import { format } from "date-fns"
 import nlLocale from "date-fns/locale/nl"
 import { faTimes } from "@fortawesome/pro-regular-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -15,6 +15,8 @@ import ViewFieldIngelogdExtraInfo from "./../ViewFieldIngelogdExtraInfo"
 import useClickOutsideContainer from "./../../utils/useClickOutsideContainer"
 import useCloseWithEscapeKey from "./../../utils/useCloseWithEscapeKey"
 import useLockBodyScroll from "./../../utils/useLockBodyScroll"
+
+import networkGraphConnectionProperties from "./../../constants/networkGraphConnectionProperties"
 
 import UserContext from "./../../App/UserContext"
 
@@ -193,13 +195,15 @@ const PopupRevisionOverview = ({
     }
 
     React.useEffect(() => {
-        revisionObjects = revisionObjects.sort(
+        const sortedRevisionObjects = revisionObjects.sort(
             (a, b) =>
                 new Date(b.Begin_Geldigheid) - new Date(a.Begin_Geldigheid)
         )
 
-        const [optionsFromRevisionsLeft, optionsFromRevisionsRight] =
-            getSelectOptions(revisionObjects, leftSelect, rightSelect)
+        const [
+            optionsFromRevisionsLeft,
+            optionsFromRevisionsRight,
+        ] = getSelectOptions(sortedRevisionObjects, leftSelect, rightSelect)
 
         setOptionsLeft(optionsFromRevisionsLeft)
         setOptionsRight(optionsFromRevisionsRight)
@@ -215,7 +219,7 @@ const PopupRevisionOverview = ({
                 setChangesFromApi(res.data)
                 setIsLoading(false)
             })
-    }, [leftSelect, rightSelect])
+    }, [leftSelect, rightSelect, revisionObjects])
 
     // Disables body vertical scroll when revisieOverzicht is open
     useLockBodyScroll({ modalOpen: bodyLock })
@@ -767,9 +771,8 @@ const ValidText = ({ object, revisionObjects }) => {
         (a, b) => new Date(b.Begin_Geldigheid) - new Date(a.Begin_Geldigheid)
     )
 
-    const uiStatus = revisionObjects.find(
-        (e) => e.UUID === object.UUID
-    ).uiStatus
+    const uiStatus = revisionObjects.find((e) => e.UUID === object.UUID)
+        .uiStatus
 
     const getTextValidFromSince = (object) => {
         // Toevoegen van de datum in de revisie: "Vigerend van <datum inwerkingtreding> tot <datum uitwerkingtreding>" voor gearchiveerde beleidskeuzes.
@@ -1017,36 +1020,32 @@ const ConnectionListItem = ({ property, connection }) => {
             : {} // Default
 
     return (
-        <li className="relative block mt-1 text-sm text-gray-800">
+        <li className="relative block mt-2 text-sm text-gray-800">
             <div className="inline-flex items-center group">
-                <span>
+                <div className="flex">
                     <span
-                        className={`inline-block w-3 h-3 mr-2 rounded-full`}
+                        className={`inline-block w-3 h-3 flex-shrink-0 mr-2 rounded-full`}
                         style={{
                             backgroundColor:
-                                connectionPropertiesColors[property].hex,
+                                networkGraphConnectionProperties[
+                                    property.toLowerCase()
+                                ].hex,
                         }}
                     />
-                    <span className="px-1" style={textStyle}>
-                        {connection.Object?.Titel}
-                    </span>
-                </span>
-                {connection.Koppeling_Omschrijving &&
-                connection.Koppeling_Omschrijving !== "" ? (
-                    <div
-                        className="absolute top-0 z-20 hidden px-4 pt-3 pb-6 mt-5 cursor-default group-hover:block tooltip-content"
-                        style={{
-                            left: "5px",
-                        }}
-                    >
-                        <div
-                            id={connection.Object?.UUID}
-                            className="px-5 py-3 leading-7 text-white break-words whitespace-pre-line bg-gray-900 rounded shadow"
-                        >
-                            {connection.Koppeling_Omschrijving}
-                        </div>
+                    <div>
+                        <span className="block px-1" style={textStyle}>
+                            {connection.Object?.Titel}
+                        </span>
+                        {connection.Koppeling_Omschrijving ? (
+                            <span
+                                className="block px-1 mt-1 text-xs"
+                                style={textStyle}
+                            >
+                                {connection.Koppeling_Omschrijving}
+                            </span>
+                        ) : null}
                     </div>
-                ) : null}
+                </div>
             </div>
         </li>
     )
@@ -1061,41 +1060,5 @@ const connectionProperties = [
     "Themas",
     "Verordeningen",
 ]
-
-// https://tailwindcss.com/docs/customizing-colors#default-color-palette
-const connectionPropertiesColors = {
-    Ambities: {
-        hex: "#ED8936",
-        class: "orange-500",
-    },
-    Beleidsregels: {
-        hex: "#718096",
-        class: "gray-600",
-    },
-    Beleidsprestaties: {
-        hex: "#ECC94B",
-        class: "yellow-500",
-    },
-    Maatregelen: {
-        hex: "#48BB78",
-        class: "green-500",
-    },
-    Beleidsdoelen: {
-        hex: "#3182CE",
-        class: "blue-600",
-    },
-    Themas: {
-        hex: "#38B2AC",
-        class: "teal-500",
-    },
-    Verordeningen: {
-        hex: "#E53E3E",
-        class: "red-600",
-    },
-    Beleidskeuzes: {
-        hex: "#805AD5",
-        class: "purple-600",
-    },
-}
 
 export default PopupRevisionOverview

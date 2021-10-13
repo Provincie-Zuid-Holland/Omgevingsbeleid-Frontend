@@ -21,15 +21,22 @@ const hasInvalidValue = (date) => {
  * @param {boolean} props.prefixOnly - The object that contains the date properties
  * @returns Returns the text that indicates when an object has become valid
  */
-const getVigerendText = ({ dataObject, prefix, prefixOnly }) => {
+const getVigerendText = ({
+    dataObject,
+    revisionObjects,
+    prefix,
+    prefixOnly,
+}) => {
     if (!dataObject) return null
 
-    const begin = dataObject["Begin_Geldigheid"]
+    const dateStartValidity = dataObject["Begin_Geldigheid"]
 
-    if (hasInvalidValue(begin) && prefixOnly) return "Vigerend vanaf"
-    if (hasInvalidValue(begin)) return "Er is nog geen begin geldigheid"
+    if (hasInvalidValue(dateStartValidity) && prefixOnly)
+        return "Vigerend vanaf"
+    if (hasInvalidValue(dateStartValidity))
+        return "Er is nog geen begin geldigheid"
 
-    const textDate = format(new Date(begin), "d MMMM yyyy", {
+    const textDate = format(new Date(dateStartValidity), "d MMMM yyyy", {
         locale: nlLocale,
     })
 
@@ -38,9 +45,29 @@ const getVigerendText = ({ dataObject, prefix, prefixOnly }) => {
         new Date(dataObject["Begin_Geldigheid"])
     )
 
-    const textPrefix = objectWillTurnValidInFuture
-        ? "Vigerend vanaf"
-        : "Vigerend sinds"
+    const checkIfDataObjectIsArchived = () => {
+        if (!revisionObjects) return false
+
+        const indexOfDataObjectInRevisions = revisionObjects.findIndex(
+            (e) => e.UUID === dataObject.UUID
+        )
+        const indexOfFirstValidObjectInRevisions = revisionObjects.findIndex(
+            (e) => e.Status === "Vigerend"
+        )
+
+        return indexOfFirstValidObjectInRevisions < indexOfDataObjectInRevisions
+    }
+
+    const currentDataObjectIsArchived = checkIfDataObjectIsArchived()
+
+    const textPrefix =
+        objectWillTurnValidInFuture && !currentDataObjectIsArchived
+            ? "Vigerend vanaf"
+            : !objectWillTurnValidInFuture && !currentDataObjectIsArchived
+            ? "Vigerend sinds"
+            : currentDataObjectIsArchived
+            ? "In werking getreden op"
+            : ""
 
     if (prefixOnly) {
         return textPrefix

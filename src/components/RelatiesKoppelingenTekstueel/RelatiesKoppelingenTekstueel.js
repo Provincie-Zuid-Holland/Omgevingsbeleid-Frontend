@@ -1,6 +1,8 @@
 import React from "react"
 import { Link, useLocation } from "react-router-dom"
 
+import { generateHrefVerordeningsartikel } from "./../../utils/generateHrefVerordeningsartikel"
+
 const getObjectFromRelation = (relation) => {
     return relation.hasOwnProperty("Van_Beleidskeuze")
         ? relation.Van_Beleidskeuze
@@ -14,7 +16,9 @@ function RelatiesKoppelingenTekstueel({
     beleidsRelaties,
     connectionProperties,
     connectionPropertiesColors,
+    verordeningsStructure,
 }) {
+    console.log(verordeningsStructure)
     if (!beleidsObject) return null
 
     const hasKoppelingen = connectionProperties.some((prop) => {
@@ -57,6 +61,9 @@ function RelatiesKoppelingenTekstueel({
                             <ul className="mt-2">
                                 {beleidsObject[property].map((koppeling) => (
                                     <ListItem
+                                        verordeningsStructure={
+                                            verordeningsStructure
+                                        }
                                         titel={koppeling.Object.Titel}
                                         omschrijving={
                                             koppeling.Koppeling_Omschrijving
@@ -79,13 +86,17 @@ function RelatiesKoppelingenTekstueel({
                         </h3>
                         <ul className="mt-2">
                             {beleidsRelaties.map((beleidsrelatie) => {
-                                const relationObject =
-                                    getObjectFromRelation(beleidsrelatie)
+                                const relationObject = getObjectFromRelation(
+                                    beleidsrelatie
+                                )
 
                                 if (!relationObject) return null
 
                                 return (
                                     <ListItem
+                                        verordeningsStructure={
+                                            verordeningsStructure
+                                        }
                                         titel={relationObject.Titel}
                                         property="Beleidskeuzes"
                                         UUID={relationObject.UUID}
@@ -108,6 +119,7 @@ const ListItem = ({
     UUID,
     connectionPropertiesColors,
     titel,
+    verordeningsStructure,
     omschrijving,
 }) => {
     const location = useLocation()
@@ -129,18 +141,15 @@ const ListItem = ({
         return path
     }
 
-    const href = generateHref({ property: property, UUID: UUID })
-    const isVerordeningItem = href && href.includes("verordening")
+    const href =
+        property === "Verordeningen"
+            ? generateHrefVerordeningsartikel(UUID, verordeningsStructure)
+            : generateHref({ property: property, UUID: UUID })
 
     return (
         <li className="relative block mt-1 text-sm text-gray-800">
             <div className="inline-flex items-center group">
-                <Link
-                    to={isVerordeningItem ? "#" : href}
-                    className={
-                        isVerordeningItem ? "cursor-default" : "hover:underline"
-                    }
-                >
+                <Link to={href} className={"hover:underline"}>
                     <span
                         className={`inline-block w-3 h-3 mr-2 rounded-full`}
                         style={{

@@ -15,7 +15,7 @@ const PopupWelcomeBeta = ({ closePopup }) => {
                     <div className="block w-full mb-4 text-center">
                         <img
                             className="inline-block"
-                            title="Provincie Zuid-Holland Logo"
+                            alt="Provincie Zuid-Holland Logo"
                             style={{ height: "136px" }}
                             src={logoSVG}
                         />

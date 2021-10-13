@@ -27,6 +27,8 @@ import LoaderContent from "./../../components/LoaderContent"
 // Utils
 import formatGeldigheidDatesForUI from "./../../utils/formatGeldigheidDatesForUI"
 import formatGeldigheidDatesForAPI from "./../../utils/formatGeldigheidDatesForAPI"
+import { isDateInAValidRange } from "../../utils/isDateInAValidRange"
+import { toastNotification } from "../../utils/toastNotification"
 
 // Verordening Components
 import DragAndDropFirstLevel from "./DragAndDropFirstLevel"
@@ -813,8 +815,6 @@ const MuteerVerordeningenstructuurDetail = () => {
     const patchRegulationObject = () => {
         const IDToPatch = verordeningsObjectFromGET.ID
 
-        const getUUIDFrom = () => {}
-
         // Func to strip away the extra properties in order to patch it
         const cleanUpProperties = (object) => {
             // Remove values that are not accepted by the API
@@ -978,6 +978,20 @@ const MuteerVerordeningenstructuurDetail = () => {
             // Save new lineage
             setSaveNewLineage(true)
             setLineage(newLineage)
+        }
+
+        /** Check if the start date is in a valid range */
+        const [
+            startDateIsInValidRange,
+            endDateIsInValidRange,
+        ] = isDateInAValidRange(verordeningsObjectFromGET)
+
+        if (!startDateIsInValidRange) {
+            toastNotification({ type: "start date valid range" })
+            return
+        } else if (!endDateIsInValidRange) {
+            toastNotification({ type: "end date valid range" })
+            return
         }
 
         const newRegulationObject = cleanUpProperties(

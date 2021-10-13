@@ -2,7 +2,6 @@ import React, { Component } from "react"
 import { Link } from "react-router-dom"
 import { toast } from "react-toastify"
 import "url-search-params-polyfill"
-import DOMPurify from "dompurify"
 
 import { faArrowLeft } from "@fortawesome/pro-regular-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -165,35 +164,6 @@ function SearchResultItem({ item, searchQuery, index }) {
     )
 }
 
-const Omschrijving = ({ content, titleSingular }) => {
-    if (content.Omschrijving.setInnerHTML) {
-        const cleanHTML = DOMPurify.sanitize(
-            content.Omschrijving.content.__html
-        )
-
-        return (
-            <p
-                className="mt-2 text-gray-700"
-                dangerouslySetInnerHTML={{ __html: cleanHTML }}
-            ></p>
-        )
-    } else if (
-        content.Omschrijving.content &&
-        content.Omschrijving.content.length > 0
-    ) {
-        return (
-            <p className="mt-2 text-gray-700">{content.Omschrijving.content}</p>
-        )
-    } else {
-        return (
-            <p className="mt-2 italic text-gray-700">
-                Er is nog geen omschrijving voor deze
-                {" " + titleSingular.toLowerCase()}
-            </p>
-        )
-    }
-}
-
 class RaadpleegZoekResultatenOverzicht extends Component {
     constructor(props) {
         super(props)
@@ -204,10 +174,13 @@ class RaadpleegZoekResultatenOverzicht extends Component {
             dataLoaded: false,
             onPageFilters: [],
         }
-        this.getAndSetVigerendeVerordeningenStructuur =
-            this.getAndSetVigerendeVerordeningenStructuur.bind(this)
-        this.generateVerordeningsPosition =
-            generateVerordeningsPosition.bind(this)
+
+        this.getAndSetVigerendeVerordeningenStructuur = this.getAndSetVigerendeVerordeningenStructuur.bind(
+            this
+        )
+        this.generateVerordeningsPosition = generateVerordeningsPosition.bind(
+            this
+        )
         this.handleFilter = this.handleFilter.bind(this)
     }
 
@@ -304,8 +277,9 @@ class RaadpleegZoekResultatenOverzicht extends Component {
 
                 // The 'Verordenings' objects are placed in a structure, but we need to check what position exactly so we can link towards the correct 'Verordening' including the parameters to set the verordeningsobject as active in the view. e.g.:
                 // /detail/verordeningen/102?hoofdstuk=0&nest_1=0&nest_2=0&nest_3=null
-                const searchResultsWithVerordeningsPositions =
-                    this.addVerordeningsPositionToSearchResults(searchResults)
+                const searchResultsWithVerordeningsPositions = this.addVerordeningsPositionToSearchResults(
+                    searchResults
+                )
 
                 this.setState({
                     searchFiltersOnly: searchFiltersOnly,
@@ -335,8 +309,9 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                 // Creates the state to display the filter UI
                 this.setInitialOnPageFilters(searchResults)
 
-                const searchResultsWithVerordeningsPositions =
-                    this.addVerordeningsPositionToSearchResults(searchResults)
+                const searchResultsWithVerordeningsPositions = this.addVerordeningsPositionToSearchResults(
+                    searchResults
+                )
 
                 this.setState({
                     searchFiltersOnly: null,
@@ -479,8 +454,9 @@ class RaadpleegZoekResultatenOverzicht extends Component {
         }
 
         const onPageFilters = this.state.onPageFilters
-        let [filterIsActive, amountOfFilters] =
-            checkForActiveFilter(onPageFilters)
+        let [filterIsActive, amountOfFilters] = checkForActiveFilter(
+            onPageFilters
+        )
 
         const filters = [
             "beleidskeuzes",
@@ -494,7 +470,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
 
         return (
             <div className="container flex px-6 pb-8 mx-auto mt-12">
-                <div className="w-1/4">
+                <SidebarContainer>
                     <Link
                         to={
                             this.state.searchQuery
@@ -534,7 +510,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                             </ul>
                         </React.Fragment>
                     ) : null}
-                </div>
+                </SidebarContainer>
 
                 <div className="w-2/4">
                     <span className="block pl-4 text-xl font-bold opacity-25 text-pzh-blue">
@@ -584,6 +560,52 @@ class RaadpleegZoekResultatenOverzicht extends Component {
             </div>
         )
     }
+}
+
+const SidebarContainer = ({ children }) => {
+    const sidebarRef = React.useRef(null)
+    const [isFixed, setIsFixed] = React.useState(false)
+
+    React.useEffect(() => {
+        const sidebarEl = sidebarRef.current
+        const offsetTop = sidebarEl.offsetTop
+        const doc = document.documentElement
+        const curScroll = window.scrollY || doc.scrollTop
+
+        const checkScroll = () => {
+            const navigationHeight = 96
+            if (curScroll + navigationHeight > offsetTop) {
+                setIsFixed(true)
+            } else {
+                setIsFixed(false)
+            }
+        }
+
+        window.addEventListener("scroll", checkScroll)
+
+        return () => {
+            window.removeEventListener("scroll", checkScroll)
+        }
+    }, [])
+
+    return (
+        <>
+            <div
+                ref={sidebarRef}
+                className={`w-1/4 ${isFixed ? "fixed" : ""}`}
+                style={
+                    isFixed
+                        ? {
+                              top: "96px",
+                          }
+                        : null
+                }
+            >
+                {children}
+            </div>
+            {isFixed ? <div ref={sidebarRef} className="w-1/4"></div> : null}
+        </>
+    )
 }
 
 const FilterItem = ({ handleFilter, checked, item, count }) => {

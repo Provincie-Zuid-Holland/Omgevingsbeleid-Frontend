@@ -73,6 +73,7 @@ const notifyUser = (dimensieConstants, property, scrolledToElement) => {
 }
 
 /**
+ * Function that checks if all the required fields are filled in. If not it scrolls to that element and displays a toast notification informing the user.
  * @param {object} crudObject Contains the object that is being edited
  * @param {object} dimensieConstants Contains the variables of this object type
  * @param {string} titleSingular Contains the title of the object type

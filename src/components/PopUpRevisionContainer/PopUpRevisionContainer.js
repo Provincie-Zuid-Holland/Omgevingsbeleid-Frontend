@@ -26,9 +26,10 @@ const PopUpRevisionContainer = ({
     children,
 }) => {
     const [open, setOpen] = React.useState(false)
-    const [revisionOverviewOpen, setRevisionOverviewOpen] =
-        React.useState(false)
-    const amountOfRevisions = revisionObjects ? revisionObjects.length - 1 : 0
+    const [revisionOverviewOpen, setRevisionOverviewOpen] = React.useState(
+        false
+    )
+    const amountOfRevisions = revisionObjects ? revisionObjects.length : 0
 
     const innerContainer = React.useRef(null)
 

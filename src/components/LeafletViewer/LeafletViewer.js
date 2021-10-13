@@ -2,13 +2,7 @@ import React, { Component } from "react"
 import ReactDOMServer from "react-dom/server"
 import Leaflet from "leaflet"
 
-import {
-    Map,
-    TileLayer,
-    LayersControl,
-    FeatureGroup,
-    Layer,
-} from "react-leaflet"
+import { Map, TileLayer, LayersControl, FeatureGroup } from "react-leaflet"
 import Proj from "proj4leaflet"
 import { toast } from "react-toastify"
 
@@ -85,12 +79,10 @@ export default class LeafletViewer extends Component {
         super(props)
         this.state = {
             viewport: DEFAULT_VIEWPORT,
-            pinpointMarker: false,
             leafletSearch: false,
             activeSearchMarker: null,
         }
         this.leafletMap = React.createRef()
-        this.togglePinMarker = this.togglePinMarker.bind(this)
         this.toggleLeafletSearch = this.toggleLeafletSearch.bind(this)
         this.mapPanTo = this.mapPanTo.bind(this)
         this.leafletSearch = React.createRef()
@@ -107,7 +99,6 @@ export default class LeafletViewer extends Component {
      */
     _createCustomPopup(lat, lng, layer) {
         layer.bindPopup("Adres aan het laden...").openPopup()
-        // layer._popup.setContent('something else')
 
         import("./../../API/axiosLocatieserver").then((api) => {
             api.getAdresData(lat, lng)
@@ -166,9 +157,7 @@ export default class LeafletViewer extends Component {
         // console.log('_onEditStop', e)
     }
 
-    _onDeleteStart = (e) => {
-        // console.log('_onDeleteStart', e)
-    }
+    _onDeleteStart = (e) => {}
 
     _onDeleteStop = (e) => {
         // console.log('_onDeleteStop', e)
@@ -193,26 +182,7 @@ export default class LeafletViewer extends Component {
         onChange(geojsonData)
     }
 
-    /**
-     * Function that sets the viewport state to the default value viewport.
-     *
-     *
-     */
-    onClickReset = () => {
-        this.setState({ viewport: DEFAULT_VIEWPORT })
-    }
-
-    togglePinMarker() {
-        this.setState({
-            pinpointMarker: !this.state.pinpointMarker,
-        })
-    }
-
-    /**
-     * Function that sets the leafletSearch parameter to a toggled stat of leafletSearch.
-     *
-     *
-     */
+    /** Toggle search bar to search for an adress */
     toggleLeafletSearch() {
         this.setState(
             {
