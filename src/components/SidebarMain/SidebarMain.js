@@ -43,7 +43,10 @@ function SidebarMain() {
                 <h2 className="pr-2 mt-8 mb-2 text-xl text-gray-800">
                     Omgevingsbeleid
                 </h2>
-                <MenuItemsList menuItems={menuItemsOmgevingsbeleid} />
+                <MenuItemsList
+                    displayChangePassword={true}
+                    menuItems={menuItemsOmgevingsbeleid}
+                />
                 {isAuthenticated ? (
                     <React.Fragment>
                         <h2 className="pr-2 mt-8 mb-2 text-xl text-gray-800">

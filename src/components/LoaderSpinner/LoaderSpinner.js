@@ -5,7 +5,7 @@ import { faSpinner } from "@fortawesome/pro-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 /**
- * Displays a rotating spinner icon.
+ * A rotating spinner icon
  */
 function LoaderSpinner() {
     return <FontAwesomeIcon className="rotate-icon" icon={faSpinner} />
