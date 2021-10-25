@@ -46,9 +46,8 @@ const PopUpRevisionContainer = ({
     })
 
     const getAmountText = (amountOfRevisions) => {
-        if (amountOfRevisions === 0) return "Geen revisies"
-        if (amountOfRevisions === 1) return "1 Revisie"
-        return amountOfRevisions + " Revisies"
+        if (amountOfRevisions === 1) return "Geen revisies"
+        return amountOfRevisions + " revisies"
     }
 
     return (
@@ -56,7 +55,7 @@ const PopUpRevisionContainer = ({
             <div className="z-10 inline-block mr-3 text-sm text-gray-600">
                 <span
                     onClick={() => {
-                        if (amountOfRevisions > 0) {
+                        if (amountOfRevisions > 1) {
                             setOpen(!open)
                         }
                     }}
