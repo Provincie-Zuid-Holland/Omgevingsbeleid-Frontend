@@ -442,7 +442,7 @@ class MuteerUniversalObjectCRUD extends Component {
 
                 /** Check if user is allowed */
                 const isUserAllowed = checkIfUserIsAllowedOnPage({
-                    object: responseObject,
+                    object: responseObject[0],
                     authUser: this.props.authUser,
                 })
                 if (!isUserAllowed) {
