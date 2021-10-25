@@ -139,7 +139,7 @@ const NetworkGraphSearchBarResults = ({
     if (!filteredData) return null
 
     const filterBasedOnSearchQuery = (e) =>
-        e.Titel.toLowerCase().includes(searchQuery.toLowerCase())
+        e.Titel?.toLowerCase()?.includes(searchQuery.toLowerCase())
 
     return (
         <Transition
