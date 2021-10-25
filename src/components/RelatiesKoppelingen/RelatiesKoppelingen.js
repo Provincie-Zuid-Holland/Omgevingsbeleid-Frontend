@@ -95,24 +95,29 @@ const RelatiesKoppelingen = ({
          * - Have a different status then 'Vigerend'
          * - Have the same UUID as the UUID on the dataObject
          * @param {object[]} relations - Contains the relation objects we want to filter out
+         * @param {string} type - Contains "To" or "From" indicating if the direction of the relationship
          */
-        const filterOutUnvalidRelations = (relations) => {
+        const filterOutUnvalidRelations = (relations, type) => {
+            const getObject = (relation, type) =>
+                type === "From"
+                    ? relation.Naar_Beleidskeuze
+                    : type === "To"
+                    ? relation.Van_Beleidskeuze
+                    : null
+
             if (relations.length === 0) {
-                return relations
-            } else if (relations[0].hasOwnProperty("Van_Beleidskeuze")) {
-                return relations.filter(
-                    (relation) =>
-                        relation.Van_Beleidskeuze.Status === "Vigerend" &&
-                        relation.Van_Beleidskeuze.UUID !== dataObject.UUID
-                )
-            } else if (relations[0].hasOwnProperty("Naar_Beleidskeuze")) {
-                return relations.filter(
-                    (relation) =>
-                        relation.Naar_Beleidskeuze.Status === "Vigerend" &&
-                        relation.Naar_Beleidskeuze.UUID !== dataObject.UUID
-                )
-            } else {
                 return []
+            } else {
+                const newRelations = relations
+                    .filter((relation) => {
+                        const relationalObj = getObject(relation, type)
+                        return (
+                            relationalObj.Status === "Vigerend" &&
+                            relationalObj.UUID !== dataObject.UUID
+                        )
+                    })
+                    .map((relation) => getObject(relation, type))
+                return newRelations
             }
         }
 
@@ -127,7 +132,8 @@ const RelatiesKoppelingen = ({
                 )
                 .then((res) => {
                     const filteredRelations = filterOutUnvalidRelations(
-                        res.data
+                        res.data,
+                        "From"
                     )
 
                     return filteredRelations
@@ -144,7 +150,8 @@ const RelatiesKoppelingen = ({
                 )
                 .then((res) => {
                     const filteredRelations = filterOutUnvalidRelations(
-                        res.data
+                        res.data,
+                        "To"
                     )
 
                     return filteredRelations
