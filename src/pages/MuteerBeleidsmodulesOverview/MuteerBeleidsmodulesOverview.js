@@ -120,7 +120,7 @@ function MuteerBeleidsmodulesOverview() {
                                 policies={policies}
                             />
                         ) : null}
-                        <div className="px-4">
+                        <div className="px-4 pb-4 overflow-x-auto">
                             {dataLoaded ? (
                                 <table className="min-w-full divide-y divide-gray-200">
                                     <thead>
@@ -141,13 +141,18 @@ function MuteerBeleidsmodulesOverview() {
                                                 property={"type"}
                                                 sorting={sorting}
                                                 setSorting={setSorting}
-                                                label="Beleidsstuk"
+                                                label="Type beleid"
                                             >
                                                 <SortIcon
                                                     sorting={sorting}
                                                     property="type"
                                                 />
                                             </TableHeading>
+
+                                            <TableHeading
+                                                label="Status"
+                                                noIcon={true}
+                                            />
 
                                             <TableHeading
                                                 label="UUID"
