@@ -71,8 +71,8 @@ function SearchResultItem({ item, searchQuery, index }) {
             : ""
 
         const markedOmschrijving = omschrijving.replace(
-            new RegExp(query, "g"),
-            `<mark class="marked-red">${query}</mark>`
+            new RegExp(query, "ig"),
+            (e) => `<mark class="marked-red">${e}</mark>`
         )
 
         return {
@@ -565,15 +565,14 @@ const SidebarContainer = ({ children }) => {
     const sidebarRef = React.useRef(null)
     const [isFixed, setIsFixed] = React.useState(false)
 
+    /** Make the sidebar fixed when it vertically scrolls past it */
     React.useEffect(() => {
         const sidebarEl = sidebarRef.current
         const offsetTop = sidebarEl.offsetTop
-        const doc = document.documentElement
-        const curScroll = window.scrollY || doc.scrollTop
 
         const checkScroll = () => {
             const navigationHeight = 96
-            if (curScroll + navigationHeight > offsetTop) {
+            if (window.scrollY + navigationHeight > offsetTop) {
                 setIsFixed(true)
             } else {
                 setIsFixed(false)

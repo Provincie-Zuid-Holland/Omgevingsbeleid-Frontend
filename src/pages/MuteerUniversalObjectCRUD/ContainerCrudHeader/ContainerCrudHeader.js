@@ -25,16 +25,6 @@ function ContainerCrudHeader({
     objectID,
     titelMeervoud,
 }) {
-    console.log(
-        typeof editStatus,
-        typeof dataLoaded,
-        typeof objectTitle,
-        typeof titleSingular,
-        typeof overzichtSlug,
-        typeof objectID,
-        typeof titelMeervoud
-    )
-
     const location = useLocation()
 
     const getMainTitle = () => {

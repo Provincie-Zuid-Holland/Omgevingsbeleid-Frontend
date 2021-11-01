@@ -2,7 +2,6 @@ import React from "react"
 import { Helmet } from "react-helmet"
 import { toast } from "react-toastify"
 import { useHistory } from "react-router-dom"
-import { isBefore, isValid } from "date-fns"
 
 // Import Componenents
 import ContainerMain from "./../../components/ContainerMain"
@@ -10,6 +9,8 @@ import SidebarMain from "./../../components/SidebarMain"
 import ButtonAddNewObject from "./../../components/ButtonAddNewObject"
 import CardObjectDetails from "./../../components/CardObjectDetails"
 import LoaderCard from "./../../components/LoaderCard"
+
+import filterOutArchivedObjects from "./../../utils/filterOutArchivedObjects"
 
 // Import Axios instance to connect with the API
 import axios from "./../../API/axios"
@@ -30,15 +31,6 @@ const MuteerUniversalObjectOverzicht = ({ dimensieConstants }) => {
     let history = useHistory()
 
     const getAndSetDataFromAPI = (ApiEndpoint) => {
-        const filterOutArchivedObjects = (objects) =>
-            objects.filter((obj) => {
-                if (isValid(new Date(obj.Eind_Geldigheid))) {
-                    return isBefore(new Date(), new Date(obj.Eind_Geldigheid))
-                } else {
-                    return false
-                }
-            })
-
         axios
             .get(ApiEndpoint)
             .then((res) => {

@@ -21,10 +21,10 @@ const checkIfUserIsAllowedOnPage = ({ object, authUser }) => {
         return true
     } else if (
         /** Check if the user has created the object, or is assigned to it */
-        object.Created_By === userUUID ||
-        object.Eigenaar_1 === userUUID ||
-        object.Eigenaar_2 === userUUID ||
-        object.Opdrachtgever === userUUID
+        object.Created_By?.UUID === userUUID ||
+        object.Eigenaar_1?.UUID === userUUID ||
+        object.Eigenaar_2?.UUID === userUUID ||
+        object.Opdrachtgever?.UUID === userUUID
     ) {
         return true
     } else {

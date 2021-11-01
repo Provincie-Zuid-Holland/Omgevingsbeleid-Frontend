@@ -47,20 +47,29 @@ const PopUpRevisionContainer = ({
     })
 
     const getAmountText = (amountOfRevisions) => {
-        const singleOrPlural = amountOfRevisions === 1 ? "revisie" : "revisies"
-        const text = amountOfRevisions + " " + singleOrPlural
-        return text
+        if (amountOfRevisions === 1) return "Geen revisies"
+        return amountOfRevisions + " revisies"
     }
 
     return (
         <div className="relative inline-block" ref={innerContainer}>
             <div className="z-10 inline-block mr-3 text-sm text-gray-600">
                 <span
-                    onClick={() => setOpen(!open)}
-                    className="cursor-pointer select-none"
+                    onClick={() => {
+                        if (amountOfRevisions > 1) {
+                            setOpen(!open)
+                        }
+                    }}
+                    className={`${
+                        amountOfRevisions > 1 ? "cursor-pointer" : ""
+                    } select-none`}
                 >
                     <FontAwesomeIcon className="mr-2" icon={faClock} />
-                    <span className="hover:underline">
+                    <span
+                        className={
+                            amountOfRevisions > 1 ? "hover:underline" : ""
+                        }
+                    >
                         {getAmountText(amountOfRevisions)}
                     </span>
                 </span>

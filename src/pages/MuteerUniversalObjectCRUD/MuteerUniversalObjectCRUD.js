@@ -202,11 +202,15 @@ class MuteerUniversalObjectCRUD extends Component {
             endDateIsInValidRange,
         ] = isDateInAValidRange(crudObject)
 
-        /** API sets the start and end date to these values if they are empty */
         const beginGeldigheidIsNotEmpty =
-            crudObject.Begin_Geldigheid !== "1753-01-01"
+            crudObject.Begin_Geldigheid !== "1753-01-01" &&
+            crudObject.Begin_Geldigheid !== null &&
+            crudObject.Begin_Geldigheid !== ""
+
         const eindGeldigheidIsNotEmpty =
-            crudObject.Eind_Geldigheid !== "10000-01-01"
+            crudObject.Eind_Geldigheid !== "10000-01-01" &&
+            crudObject.Eind_Geldigheid !== null &&
+            crudObject.Eind_Geldigheid !== ""
 
         if (!startDateIsInValidRange && beginGeldigheidIsNotEmpty) {
             scrollToElement(
@@ -442,7 +446,7 @@ class MuteerUniversalObjectCRUD extends Component {
 
                 /** Check if user is allowed */
                 const isUserAllowed = checkIfUserIsAllowedOnPage({
-                    object: responseObject,
+                    object: responseObject[0],
                     authUser: this.props.authUser,
                 })
                 if (!isUserAllowed) {
