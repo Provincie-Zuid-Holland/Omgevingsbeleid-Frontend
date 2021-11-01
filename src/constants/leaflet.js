@@ -22,7 +22,7 @@ export const RDCrs = new Proj.CRS("EPSG:28992", RDProj4, {
 export const leafletCenter = [52.176997, 5.2]
 
 export const tileURL =
-    "https://geodata.nationaalgeoregister.nl/tiles/service/wmts/brtachtergrondkaartgrijs/EPSG:28992/{z}/{x}/{y}.png"
+    "https://service.pdok.nl/brt/achtergrondkaart/wmts/v2_0?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=grijs&STYLE=default&FORMAT=image/png&TILEMATRIXSET=EPSG:28992&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}"
 
 export const tileURLSattelite =
     "https://geodata.nationaalgeoregister.nl/luchtfoto/rgb/wmts/1.0.0/2020_ortho25/EPSG:28992/{z}/{x}/{y}.png"
