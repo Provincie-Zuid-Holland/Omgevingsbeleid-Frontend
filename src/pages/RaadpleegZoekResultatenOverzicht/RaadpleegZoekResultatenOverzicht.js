@@ -71,8 +71,8 @@ function SearchResultItem({ item, searchQuery, index }) {
             : ""
 
         const markedOmschrijving = omschrijving.replace(
-            new RegExp(query, "g"),
-            `<mark class="marked-red">${query}</mark>`
+            new RegExp(query, "ig"),
+            (e) => `<mark class="marked-red">${e}</mark>`
         )
 
         return {

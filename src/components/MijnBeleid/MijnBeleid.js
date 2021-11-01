@@ -13,6 +13,8 @@ import ButtonAddNewObject from "./../../components/ButtonAddNewObject"
 // Import All the dimension constants. These contain the dimensions and there variables, e.g. API_ENDPOINT and TITLE_SINGULAR
 import allDimensies from "./../../constants/dimensies"
 
+import filterOutArchivedObjects from "./../../utils/filterOutArchivedObjects"
+
 import UserContext from "./../../App/UserContext"
 
 /**
@@ -57,13 +59,19 @@ const MijnBeleid = ({ hideAddNew }) => {
                     .then((res) => {
                         if (res.data.length === 0) return
 
+                        const filteredResponse = filterOutArchivedObjects(
+                            res.data
+                        )
+
                         // Assign type of dimensie to the object
-                        const newArray = res.data.map((array, index) => {
-                            return {
-                                type: dimensie.type,
-                                object: array,
+                        const newArray = filteredResponse.map(
+                            (array, index) => {
+                                return {
+                                    type: dimensie.type,
+                                    object: array,
+                                }
                             }
-                        })
+                        )
                         return newArray
                     })
             )

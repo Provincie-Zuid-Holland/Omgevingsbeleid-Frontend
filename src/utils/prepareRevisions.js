@@ -125,7 +125,7 @@ const prepareRevisions = (revisions) => {
         // If so, place this item on index 0
         if (inspraakComesAfterVigerend && inspraakIsLastItem) {
             const firstInspraakItem = revisions[firstInspraakIndex]
-            firstInspraakItem.uiStatus = "In inspraak"
+            firstInspraakItem.uiStatus = "Ter inzage"
             preppedRevisions.splice(0, 0, firstInspraakItem)
         }
 

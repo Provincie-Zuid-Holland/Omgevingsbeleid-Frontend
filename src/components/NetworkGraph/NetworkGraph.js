@@ -247,38 +247,52 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
 
             if (!uuidSource) return
 
-            const connectedLinks = links.filter(
-                (link) =>
-                    link.target.UUID === uuidSource ||
-                    link.source.UUID === uuidSource
-            )
+            const connectedLinks = links.filter((link) => {
+                if (typeof link.target === "string") {
+                    return (
+                        link.target === uuidSource || link.source === uuidSource
+                    )
+                } else {
+                    return (
+                        link.target.UUID === uuidSource ||
+                        link.source.UUID === uuidSource
+                    )
+                }
+            })
+
+            svgElement.selectAll("circle").attr("fill", (d) => d.color)
+            svgElement.selectAll("line").attr("stroke-opacity", 0)
 
             const selectCircles = () => {
                 svgElement
                     .selectAll("circle")
                     .attr("fill", (d) => d.color)
-                    // .attr('opacity', 1)
                     .attr("r", 7.5)
                     .filter((circle) =>
-                        connectedLinks.every(
-                            (e) =>
-                                e.source.UUID !== circle.UUID &&
-                                e.target.UUID !== circle.UUID
-                        )
+                        connectedLinks.every((e) => {
+                            if (typeof e.target === "string") {
+                                return (
+                                    e.source !== circle.UUID &&
+                                    e.target !== circle.UUID
+                                )
+                            } else {
+                                return (
+                                    e.source.UUID !== circle.UUID &&
+                                    e.target.UUID !== circle.UUID
+                                )
+                            }
+                        })
                     )
-                    // .attr('opacity', 0.25)
                     .attr("fill", (d) => d.colorLight)
 
                 svgElement
                     .selectAll("circle")
                     .filter((circle) => circle.UUID === uuidSource)
-                    // .attr('opacity', 1)
                     .attr("fill", (d) => d.color)
                     .attr("r", 10)
             }
 
             const selectLinks = () => {
-                // 'stroke-opacity'
                 svgElement
                     .selectAll("line")
                     .attr("stroke-opacity", 0.2)
@@ -294,14 +308,12 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
                 /**
                  * If the currently clicked node is the same as the previous still active node we reset the state
                  */
-
                 resetNodes()
             } else {
                 /**
                  * The user clicked on a new node, so we set this node in the clickedNode state
                  * and update the styles of this and all the connecting nodes
                  */
-
                 selectCircles()
                 selectLinks()
                 setClickedNode(clickedEl)
@@ -678,6 +690,31 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
             setGraphStyles({ height: "calc(100vh - 73px)", top: "73px" })
         }
     }, [showBanner])
+
+    /**
+     * Update nodes based on search query
+     */
+    React.useEffect(() => {
+        const svgElement = d3.select(d3Container.current)
+        if (searchQuery === "") {
+            svgElement.selectAll("circle").attr("fill", (d) => d.color)
+        } else {
+            svgElement
+                .selectAll("circle")
+                .attr("fill", (d) => d.color)
+                .attr("r", 7.5)
+                .filter(
+                    (e) =>
+                        !e.Titel?.toLowerCase()?.includes(
+                            searchQuery.toLowerCase()
+                        )
+                )
+                .attr("fill", (d) => d.colorLight)
+        }
+
+        svgElement.selectAll("line").attr("stroke-opacity", 0.6)
+        setClickedNode(null)
+    }, [searchQuery])
 
     return (
         <React.Fragment>
