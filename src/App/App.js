@@ -31,6 +31,7 @@ import Login from "./../pages/Login"
 import Planning from "./../pages/Planning"
 import RaadpleegPlanningAndReleases from "./../pages/RaadpleegPlanningAndReleases"
 import RaadpleegInProgress from "./../pages/RaadpleegInProgress"
+import RaadpleegTerinzageleggingen from "../pages/RaadpleegTerinzageleggingen"
 
 // Import Components
 import FeedbackComponent from "./../components/FeedbackComponent"
@@ -111,9 +112,8 @@ class App extends Component {
             showEnvironmentBanner: false,
             graphIsOpen: false,
         }
-        this.checkIfUserIsAuthenticated = this.checkIfUserIsAuthenticated.bind(
-            this
-        )
+        this.checkIfUserIsAuthenticated =
+            this.checkIfUserIsAuthenticated.bind(this)
         this.setGraphIsOpen = this.setGraphIsOpen.bind(this)
         this.setLoginState = this.setLoginState.bind(this)
         this.setLoginUser = this.setLoginUser.bind(this)
@@ -219,9 +219,8 @@ class App extends Component {
 
     render() {
         // If user is in Mutate environment of the application
-        const locationEqualsMutateEnv = this.props.location.pathname.includes(
-            "muteer"
-        )
+        const locationEqualsMutateEnv =
+            this.props.location.pathname.includes("muteer")
 
         return (
             <GraphContext.Provider
@@ -363,6 +362,12 @@ class App extends Component {
                                         path="/planning-en-releases"
                                         render={() => (
                                             <RaadpleegPlanningAndReleases />
+                                        )}
+                                    />
+                                    <Route
+                                        path="/terinzageleggingen"
+                                        render={() => (
+                                            <RaadpleegTerinzageleggingen />
                                         )}
                                     />
                                     <Route

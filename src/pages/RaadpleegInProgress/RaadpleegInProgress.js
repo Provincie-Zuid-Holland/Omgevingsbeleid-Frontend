@@ -70,21 +70,18 @@ function RaadpleegInProgress() {
                     Besluitvormingsproces
                 </Heading>
                 <Text className="col-span-6 mt-4" type="body">
-                    Beleid wordt niet van de ene op de andere dag gevormd, dit
-                    gaat volgens een heel proces. Zeker als het gaat om de
-                    besluitvorming. Hieronder tonen wij een overzicht van de
-                    statussen die doorlopen worden. Tussen deze statussen zitten
-                    een bepaald aantal weken. Sommige stappen zijn voor de
-                    procedure, sommige voor{" "}
-                    <span className="font-bold">participatie</span> en sommige{" "}
-                    <span className="font-bold">ter inzage</span>.
+                    Beleid wordt niet van de ene op de andere dag gevormd.
+                    Iedere wijziging in het Omgevingsbeleid gaat het politiek
+                    besluitvormingsproces door. Hieronder tonen wij een
+                    overzicht van de stappen die doorlopen worden.
                 </Text>
                 <div className="col-span-2 mt-8">
                     <Heading level="3">Bevoegdheid GS & PS</Heading>
                     <Text className="mt-4">
-                        In het geval van de visie moeten zowel de Gedeputeerde
-                        Staten als de Provinciale Staten een besluit nemen over
-                        de stukken. Het proces ziet er dan alsvolgt uit.
+                        Wanneer de Omgevingsvisie of Omgevingsverordening wordt
+                        gewijzigd moeten zowel Gedeputeerde Staten als de
+                        Provinciale Staten een besluit nemen over de stukken.
+                        Het proces ziet er dan als volgt uit.
                     </Text>
                 </div>
                 <div className="col-span-4 mt-8">
@@ -98,42 +95,45 @@ function RaadpleegInProgress() {
                     <div className="mt-4">
                         <Dropdown
                             buttonText="Concept ontwerp"
-                            panelText="Felis lectus vehicula dictumst aenean torquent pharetra"
+                            panelText="Een beleidsmedewerker van de provincie maakt een concept van het nieuwe beleid of de wijziging van het beleid. Dit concept wordt met verschillende collega’s besproken, waaronder met de desbetreffende portefeuillehouder."
                         />
                         <Dropdown
                             buttonText="Ontwerp Gedeputeerde Staten (GS)"
-                            panelText="Felis lectus vehicula dictumst aenean torquent pharetra"
+                            panelText="Als de portefeuillehouder het eens is met het concept wordt het verzonden naar de GS-vergadering. Zij besluiten vervolgens of het concept akkoord is of dat er nog iets moet worden aangepast."
                         />
                         <Dropdown
                             buttonText="Ontwerp Provinciale Staten (PS)"
-                            panelText="Felis lectus vehicula dictumst aenean torquent pharetra"
+                            panelText="Vervolgens wordt het ontwerp in een vergadering van de Provinciale Staten besproken. Zij kunnen vervolgens besluiten om het open te stellen voor inspraak."
                         />
                         <Dropdown
                             buttonText="Inspraak"
-                            panelText="Felis lectus vehicula dictumst aenean torquent pharetra"
+                            panelText="De provincie legt haar beleid vervolgens ter inzage voor een periode van zes weken. Tijdens deze periode kan iedereen officieel een reactie geven op de wijzigingen in het provinciaal beleid. Die reactie noemen we een zienswijze. Zienswijzen worden meestal ingediend door andere gemeenten, waterschappen, bedrijven en belangenorganisaties, maar ook inwoners kunnen hun mening geven."
                         />
                         <InspraakNotification />
                         <Dropdown
                             buttonText="Definitief ontwerp Gedeputeerde Staten (GS)"
-                            panelText="Felis lectus vehicula dictumst aenean torquent pharetra"
+                            panelText="Na de terinzagelegging wordt antwoord gegeven op alle binnengekomen zienswijzen. De zienswijzen kunnen daarnaast aanleiding zijn om de wijzigingen in het provinciaal beleid nogmaals tegen het licht te houden of eventuele fouten te corrigeren. De definitieve versie wordt vervolgens besproken in de vergadering van de Gedeputeerde Staten."
                         />
                         <Dropdown
                             buttonText="Definitief ontwerp Provinciale Staten (PS)"
-                            panelText="Na de inspraak worden de opmerkingen verwerkt en mag ook Gedeputeerde Staten een besluit nemen over de aangepaste stukken. Als laatste stap in het proces, heeft Provinciale staten nog een laatste stem. In deze fase kan x of y nog gebeuren, maar meestal gebeurt z. Dit besluit wordt genomen tijdens een PS-vergadering."
+                            panelText="Wanneer de Gedeputeerde Staten de definitieve wijzigingen goedkeuren wordt het voor de laatste keer voorgelegd aan de Provinciale Staten. Zij kunnen de definitieve versie vervolgens vaststellen of besluiten om niet akkoord te gaan met de wijzigingen."
                         />
                         <Dropdown
                             buttonText="Vastgesteld"
-                            panelText="Felis lectus vehicula dictumst aenean torquent pharetra"
+                            panelText="Het beleid is vastgesteld; de wijzigingen worden doorgevoerd in het Omgevingsbeleid van de provincie. De wijzigingen worden gepubliceerd in het provinciaal blad en treden daarna officieel in werking."
                         />
                     </div>
                 </div>
                 <div className="col-span-2 mt-8">
                     <Heading level="3">Bevoegdheid GS</Heading>
                     <Text className="mt-4">
-                        Gedeputeerde Staten is bevoegd om besluiten te nemen
-                        m.b.t. het omgevingsprogramma. Hiervoor hoeft en kan
-                        Provinciale Staten niet mee beslissen. Het proces bij
-                        alleen GS ziet er zo uit...
+                        Gedeputeerde Staten zijn bevoegd om zelf het
+                        omgevingsprogramma te wijzigen zonder besluit van de
+                        Provinciale Staten. In de praktijk worden die
+                        wijzigingen wel aan PS voorgelegd zodat zij op de hoogte
+                        blijven van alle wijzigingen. Het besluitvormingsproces
+                        is vergelijkbaar met de Omgevingsvisie en
+                        Omgevingsverordening, maar niet helemaal hetzelfde.
                     </Text>
                 </div>
                 <div className="col-span-4 mt-8">
@@ -147,24 +147,24 @@ function RaadpleegInProgress() {
                     <div className="mt-4">
                         <Dropdown
                             buttonText="Concept ontwerp"
-                            panelText="Felis lectus vehicula dictumst aenean torquent pharetra"
+                            panelText="Een beleidsmedewerker van de provincie maakt een concept van het nieuwe beleid of de wijziging van het beleid. Dit concept wordt met verschillende collega’s besproken, waaronder met de desbetreffende portefeuillehouder."
                         />
                         <Dropdown
                             buttonText="Ontwerp Gedeputeerde Staten (GS)"
-                            panelText="Felis lectus vehicula dictumst aenean torquent pharetra"
+                            panelText="Als de portefeuillehouder het eens is met het concept wordt het verzonden naar de GS-vergadering. Zij besluiten vervolgens of het concept akkoord is of dat er nog iets moet worden aangepast."
                         />
                         <Dropdown
                             buttonText="Inspraak"
-                            panelText="Felis lectus vehicula dictumst aenean torquent pharetra"
+                            panelText="De provincie legt haar beleid vervolgens ter inzage voor een periode van zes weken. Tijdens deze periode kan iedereen officieel een reactie geven over de wijzigingen in het provinciaal beleid. Die reactie noemen we een zienswijze. Zienswijzen worden meestal ingediend door andere gemeenten, waterschappen, bedrijven en belangenorganisaties, maar ook inwoners kunnen hun mening geven."
                         />
                         <InspraakNotification />
                         <Dropdown
                             buttonText="Definitief ontwerp Provinciale Staten (PS)"
-                            panelText="Na de inspraak worden de opmerkingen verwerkt en mag ook Gedeputeerde Staten een besluit nemen over de aangepaste stukken. Als laatste stap in het proces, heeft Provinciale staten nog een laatste stem. In deze fase kan x of y nog gebeuren, maar meestal gebeurt z. Dit besluit wordt genomen tijdens een PS-vergadering."
+                            panelText="Na de terinzagelegging wordt antwoord gegeven op eventuele vragen die in de zienswijzen zijn gesteld. De zienswijzen kunnen daarnaast aanleiding zijn om de wijzigingen in het provinciaal beleid nogmaals tegen het licht te houden of eventuele fouten te corrigeren. De definitieve versie wordt vervolgens besproken in de vergadering van de Gedeputeerde Staten."
                         />
                         <Dropdown
                             buttonText="Vastgesteld"
-                            panelText="Felis lectus vehicula dictumst aenean torquent pharetra"
+                            panelText="Het beleid is vastgesteld; de wijzigingen worden doorgevoerd in het Omgevingsbeleid van de provincie. De wijzigingen worden gepubliceerd in het provinciaal blad en treden daarna officieel in werking."
                         />
                     </div>
                 </div>
@@ -213,16 +213,14 @@ const Dropdown = ({ buttonText, panelText }) => {
 function TableLatestEdits() {
     const latestEdits = [
         {
-            title:
-                "De provincie Zuid-Holland draagt bij aan het behoud van de wereldpositie die de Rotterdamse haven bezit",
+            title: "De provincie Zuid-Holland draagt bij aan het behoud van de wereldpositie die de Rotterdamse haven bezit",
             type: "Beleidskeuze",
             link: "#",
             status: "In Ontwerp",
             bewerkt: "Dinsdag 1 juni 2021",
         },
         {
-            title:
-                "De provincie stimuleert een ‘waterrobuuste’ ruimtelijke inrichting. Het doel daarvan is om de gevolgschade en hersteltijd bij een eventuel...",
+            title: "De provincie stimuleert een ‘waterrobuuste’ ruimtelijke inrichting. Het doel daarvan is om de gevolgschade en hersteltijd bij een eventuel...",
             type: "Beleidskeuze",
             status: "Vastgesteld",
             bewerkt: "Dinsdag 1 juni 2021",

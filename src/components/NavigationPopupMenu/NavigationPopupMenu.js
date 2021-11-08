@@ -60,132 +60,141 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
                 />
                 <span className="ml-1 font-bold">Menu</span>
             </button>
-            <Transition
-                show={isOpen}
-                enter=""
-                enterFrom=""
-                enterTo=""
-                leave=""
-                leaveFrom=""
-                leaveTo=""
-            >
-                <div
-                    id="popup-menu"
-                    className="fixed top-0 left-0 w-full bg-white"
-                    style={
-                        showBanner
-                            ? {
-                                  height: "calc(100vh - 97px)",
-                                  top: "121px",
-                              }
-                            : {
-                                  height: "calc(100vh - 97px)",
-                                  top: "97px",
-                              }
-                    }
-                >
-                    <Container>
-                        <div className="flex items-center col-span-6 mt-6">
-                            <input
-                                className={`block w-5/6 pr-10 placeholder-gray-500 rounded appearance-none px-3 py-1 border hover:border-opacity-50 border-pzh-blue border-opacity-30 transition-colors ease-in duration-100`}
-                                name="searchInput"
-                                onChange={(e) => {
-                                    setSearchQuery(e.target.value)
-                                }}
-                                autoComplete="off"
-                                id="navigation-popup-menu-search"
-                                type="text"
-                                value={searchQuery}
-                                placeholder="Zoek binnen het beleid van de provincie Zuid-Holland"
-                            />
-                            <div className="flex w-1/6 pl-2">
-                                <span>of</span>
-                                <span className="ml-2 underline text-pzh-green">
-                                    Zoek op de kaart
-                                </span>
+            {isOpen ? (
+                <React.Fragment>
+                    <div
+                        style={
+                            showBanner
+                                ? {
+                                      top: "121px",
+                                  }
+                                : {
+                                      top: "97px",
+                                  }
+                        }
+                        className="fixed top-0 left-0 z-0 block w-screen h-screen bg-gray-900 opacity-40"
+                    ></div>
+                    <div
+                        id="popup-menu"
+                        className="fixed top-0 left-0 z-10 w-full pb-8 bg-white"
+                        style={
+                            showBanner
+                                ? {
+                                      top: "121px",
+                                  }
+                                : {
+                                      top: "97px",
+                                  }
+                        }
+                    >
+                        <Container>
+                            <div className="flex items-center col-span-6 mt-6">
+                                <input
+                                    className={`block w-5/6 pr-10 placeholder-gray-500 rounded appearance-none px-3 py-1 border hover:border-opacity-50 border-pzh-blue border-opacity-30 transition-colors ease-in duration-100`}
+                                    name="searchInput"
+                                    onChange={(e) => {
+                                        setSearchQuery(e.target.value)
+                                    }}
+                                    autoComplete="off"
+                                    id="navigation-popup-menu-search"
+                                    type="text"
+                                    value={searchQuery}
+                                    placeholder="Zoek binnen het beleid van de provincie Zuid-Holland"
+                                />
+                                <div className="flex w-1/6 pl-2">
+                                    <span>of</span>
+                                    <span className="ml-2 underline text-pzh-green">
+                                        Zoek op de kaart
+                                    </span>
+                                </div>
                             </div>
-                        </div>
-                        <div className="col-span-2 mt-6">
-                            <Heading level="3">Omgevingsvisie</Heading>
-                            <ul className="mt-1">
-                                <ListItem
-                                    setIsOpen={setIsOpen}
-                                    to="/overzicht/ambities"
-                                >
-                                    Ambities
-                                </ListItem>
-                                <ListItem
-                                    setIsOpen={setIsOpen}
-                                    to="/overzicht/beleidsdoelen"
-                                >
-                                    Beleidsdoelen
-                                </ListItem>
-                                <ListItem
-                                    setIsOpen={setIsOpen}
-                                    to="/overzicht/beleidskeuzes"
-                                >
-                                    Beleidskeuzes
-                                </ListItem>
-                            </ul>
-                        </div>
-                        <div className="col-span-2 mt-6">
-                            <Heading level="3">Omgevingsprogramma</Heading>
-                            <ul className="mt-1">
-                                <ListItem
-                                    setIsOpen={setIsOpen}
-                                    to="/overzicht/maatregelen"
-                                >
-                                    Maatregelen (Programma's)
-                                </ListItem>
-                                <ListItem
-                                    setIsOpen={setIsOpen}
-                                    to="/overzicht/beleidsprestaties"
-                                >
-                                    Beleidsprestaties
-                                </ListItem>
-                            </ul>
-                        </div>
-                        <div className="col-span-2 mt-6">
-                            <Heading level="3">Omgevingsverordening</Heading>
-                            <ul className="mt-1">
-                                <ListItem
-                                    setIsOpen={setIsOpen}
-                                    to="/overzicht/beleidsregels"
-                                >
-                                    Beleidsregels
-                                </ListItem>
-                                <ListItem
-                                    setIsOpen={setIsOpen}
-                                    to="/overzicht/beleidsdoelen"
-                                >
-                                    Verordening
-                                </ListItem>
-                            </ul>
-                        </div>
-                        <div className="col-span-2 mt-6">
-                            <Heading level="3">Actueel</Heading>
-                            <ul className="mt-1">
-                                <ListItem setIsOpen={setIsOpen} to="#">
-                                    Terinzageleggeningen
-                                </ListItem>
-                                <ListItem setIsOpen={setIsOpen} to="#">
-                                    Lange Termijn Agenda
-                                </ListItem>
-                            </ul>
-                        </div>
-                        <div className="col-span-2 mt-6">
-                            <ul style={{ marginTop: "32px" }}>
-                                <ListItem
-                                    setIsOpen={setIsOpen}
-                                    to="/overzicht/ambities"
-                                >
-                                    Netwerkvisualisatie
-                                </ListItem>
-                            </ul>
-                        </div>
-                    </Container>
-                </div>
-            </Transition>
+                            <div className="col-span-2 mt-6">
+                                <Heading level="3">Omgevingsvisie</Heading>
+                                <ul className="mt-1">
+                                    <ListItem
+                                        setIsOpen={setIsOpen}
+                                        to="/overzicht/ambities"
+                                    >
+                                        Ambities
+                                    </ListItem>
+                                    <ListItem
+                                        setIsOpen={setIsOpen}
+                                        to="/overzicht/beleidsdoelen"
+                                    >
+                                        Beleidsdoelen
+                                    </ListItem>
+                                    <ListItem
+                                        setIsOpen={setIsOpen}
+                                        to="/overzicht/beleidskeuzes"
+                                    >
+                                        Beleidskeuzes
+                                    </ListItem>
+                                </ul>
+                            </div>
+                            <div className="col-span-2 mt-6">
+                                <Heading level="3">Omgevingsprogramma</Heading>
+                                <ul className="mt-1">
+                                    <ListItem
+                                        setIsOpen={setIsOpen}
+                                        to="/overzicht/maatregelen"
+                                    >
+                                        Maatregelen (Programma's)
+                                    </ListItem>
+                                    <ListItem
+                                        setIsOpen={setIsOpen}
+                                        to="/overzicht/beleidsprestaties"
+                                    >
+                                        Beleidsprestaties
+                                    </ListItem>
+                                </ul>
+                            </div>
+                            <div className="col-span-2 mt-6">
+                                <Heading level="3">
+                                    Omgevingsverordening
+                                </Heading>
+                                <ul className="mt-1">
+                                    <ListItem
+                                        setIsOpen={setIsOpen}
+                                        to="/overzicht/beleidsregels"
+                                    >
+                                        Beleidsregels
+                                    </ListItem>
+                                    <ListItem
+                                        setIsOpen={setIsOpen}
+                                        to="/overzicht/beleidsdoelen"
+                                    >
+                                        Verordening
+                                    </ListItem>
+                                </ul>
+                            </div>
+                            <div className="col-span-2 mt-6">
+                                <Heading level="3">Actueel</Heading>
+                                <ul className="mt-1">
+                                    <ListItem
+                                        setIsOpen={setIsOpen}
+                                        to="/terinzageleggingen"
+                                    >
+                                        Terinzageleggeningen
+                                    </ListItem>
+                                    <ListItem setIsOpen={setIsOpen} to="#">
+                                        Lange Termijn Agenda
+                                    </ListItem>
+                                </ul>
+                            </div>
+                            <div className="col-span-2 mt-6">
+                                <ul style={{ marginTop: "32px" }}>
+                                    <ListItem
+                                        setIsOpen={setIsOpen}
+                                        to="/overzicht/ambities"
+                                    >
+                                        Netwerkvisualisatie
+                                    </ListItem>
+                                </ul>
+                            </div>
+                        </Container>
+                    </div>
+                </React.Fragment>
+            ) : null}
         </React.Fragment>
     )
 }

@@ -294,7 +294,9 @@ const RaadpleegHome = () => {
                                     className="underline"
                                     color="text-white"
                                 >
-                                    Bekijk alle releases & planning
+                                    <Link to="/planning-en-releases">
+                                        Bekijk alle releases & planning
+                                    </Link>
                                 </Text>
                             </div>
                         </div>
