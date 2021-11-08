@@ -4,6 +4,18 @@ import { withRouter, useLocation } from "react-router-dom"
 import ButtonBackToPage from "./../../../components/ButtonBackToPage"
 import LoaderMainTitle from "../../../components/LoaderMainTitle"
 
+/**
+ *
+ * @param {object} props
+ * @param {boolean} props.editStatus - Indicating if the user is editing an existing policy object or creating a new one
+ * @param {boolean} props.dataLoaded - Indicating if all the data from the API is loaded
+ * @param {string} props.objectTitle - Contains the title of the policy object
+ * @param {string} props.titleSingular - Contains the singular form of the policy object type (e.g. 'maatregel')
+ * @param {string} props.overzichtSlug - Contains the url slug of this policy object type
+ * @param {string} props.objectID - ID of the policy object
+ * @param {string} props.titelMeervoud - Contains the plural form of the policy object type (e.g. 'maatregelen')
+ * @returns A header displaying information about the policy objec that is being created / edited
+ */
 function ContainerCrudHeader({
     editStatus,
     dataLoaded,

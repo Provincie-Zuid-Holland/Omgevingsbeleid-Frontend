@@ -2,15 +2,15 @@ import React from "react"
 import FormFieldTitelEnBeschrijving from "../FormFieldTitelEnBeschrijving/FormFieldTitelEnBeschrijving"
 
 /**
- * Component that renders the FormFieldTextInput component where the input of the user is registered in the formfield while using the imported FormFieldTitelEnBeschrijving component to display the formfield title and description.
+ * Displays a input text formfield under the FormFieldTitelEnBeschrijving component.
  *
- * @param {string} dataObjectProperty - Parameter that is used for the FormFieldTitelEnBeschrijving imported component to store a string variable and it's used as a part of the id of name of the input element.
- * @param {string} pValue - Parameter that can display text and is a part of the FormFieldTitelenBeschrijving.
- * @param {string} titelEnkelvoud - Paramter that is part of the id of the FormFieldTitelenBeshrijving.
- * @param {string} fieldValue - Parameter that is part of the placeholder for the FormFieldTitelenBeschrijving.
- * @param {boolean} handleChange - Parameter that is set true if the input can be changed.
- * @param {string} fieldLabel - Label of the FormFieldTitelenBeschrijving.
- * @param {boolean} disabled - Parameter that can be set true to disable input of the FormFieldTextInput.
+ * @param {string} dataObjectProperty - Contains a value passed down from the parent state.
+ * @param {string} pValue - Contains a value passed down from the parent state.
+ * @param {string} titleSingular - Contains a title in singular form.
+ * @param {string} fieldValue - May contain a set value used in the input field.
+ * @param {boolean} handleChange - Used to handle changes made in the input field.
+ * @param {string} fieldLabel - Contains text used as a placeholder for the input field and is passed down to the FormFieldTitelEnBeschrijving component.
+ * @param {boolean} disabled - Used to disable the input field.
  */
 const FormFieldTextInput = ({
     dataObjectProperty,

@@ -1,7 +1,9 @@
 import React, { Component } from "react"
 import { Link } from "react-router-dom"
 
-/** Component that renders the PopUpDetailDropdown component. */
+/**
+ * Displays a popup with a dropdown.
+ */
 class PopUpDetailDropdown extends Component {
     constructor(props) {
         super(props)

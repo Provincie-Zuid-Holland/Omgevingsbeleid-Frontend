@@ -98,7 +98,7 @@ function TabRelations({
                                         onClick={() => {
                                             setDisconnectPopup(relatie.UUID)
                                         }}
-                                        className={`text-red-600 underline`}
+                                        className={`text-red-600 underline cursor-pointer`}
                                     >
                                         {relatie.Status === "Akkoord"
                                             ? "Relatie verwijderen"

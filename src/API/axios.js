@@ -30,11 +30,16 @@ instance.interceptors.response.use(
         return response
     },
     function (error) {
-        if (error && error.response && error.response.status === 401) {
-            var event = new CustomEvent("authEvent", {
-                detail: { message: "Authenticated sessie is afgelopen" },
-            })
-            window.dispatchEvent(event)
+        const allowedUrls = ["password-reset"]
+        if (
+            error?.response?.status === 401 &&
+            !allowedUrls.includes(error?.response?.config?.url)
+        ) {
+            window.dispatchEvent(
+                new CustomEvent("authEvent", {
+                    detail: { message: "Authenticated sessie is afgelopen" },
+                })
+            )
         } else {
             return Promise.reject(error)
         }

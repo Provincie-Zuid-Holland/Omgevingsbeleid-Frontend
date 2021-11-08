@@ -10,6 +10,8 @@ import ButtonAddNewObject from "./../../components/ButtonAddNewObject"
 import CardObjectDetails from "./../../components/CardObjectDetails"
 import LoaderCard from "./../../components/LoaderCard"
 
+import filterOutArchivedObjects from "./../../utils/filterOutArchivedObjects"
+
 // Import Axios instance to connect with the API
 import axios from "./../../API/axios"
 
@@ -32,7 +34,7 @@ const MuteerUniversalObjectOverzicht = ({ dimensieConstants }) => {
         axios
             .get(ApiEndpoint)
             .then((res) => {
-                let objecten = res.data
+                let objecten = filterOutArchivedObjects(res.data)
                 setObjecten(objecten)
                 setIsLoading(false)
             })

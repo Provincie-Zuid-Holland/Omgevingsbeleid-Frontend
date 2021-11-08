@@ -17,6 +17,13 @@ const eigenarenProperties = [
     "Opdrachtgever",
 ]
 
+/**
+ * Displays a owner list and a button to open the list in the admin area.
+ *
+ * @param {object} crudObject - Contains a collection of data from the parent state.
+ * @param {boolean} hideEdit - Used to hide the edit field.
+ * @param {string} className - Used to set the style of the div.
+ */
 const ViewFieldIngelogdExtraInfo = ({ crudObject, hideEdit, className }) => {
     const [canUserEdit, setCanUserEdit] = React.useState(false)
     const [eigenaren, setEigenaren] = React.useState({})
@@ -110,12 +117,22 @@ const ViewFieldIngelogdExtraInfo = ({ crudObject, hideEdit, className }) => {
     )
 }
 
+/**
+ * Displays a list of owners.
+ *
+ * @param {object} eigenaren - Contains a collection of owners.
+ */
 const EigenarenList = ({ eigenaren }) => {
     const getUsername = (item) => {
         if (!item) return null
         return item.Gebruikersnaam
     }
 
+    /**
+     * Function that gets the abbrevation from the username.
+     *
+     * @param {string} item - Contains the username in text form.
+     */
     const getAbbrevationFromUsername = (item) => {
         const username = getUsername(item)
         if (!username) return null
@@ -127,6 +144,11 @@ const EigenarenList = ({ eigenaren }) => {
         return voornaam[0] + achternaam[0]
     }
 
+    /**
+     * Returns the Role name of a user based on the value of the item parameter.
+     *
+     * @param {string} item - Contains the role type in text form.
+     */
     const getPersonenRol = (item) => {
         if (item === "Eigenaar_1") {
             return "Eerste eigenaar"

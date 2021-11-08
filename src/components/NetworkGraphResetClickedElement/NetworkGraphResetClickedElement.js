@@ -4,8 +4,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Transition } from "@headlessui/react"
 
 /**
- *
- * @param {object} props
  * @param {object} clickedNode - The corresponding node that has been clicked
  * @param {function} resetNodes - Function to reset the styles of all nodes, and set clickedNode to null
  * @returns Component that indicates what element has been clicked, with a link to the detail page
@@ -24,7 +22,7 @@ const NetworkGraphResetClickedElement = ({ clickedNode, resetNodes }) => {
     return (
         <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
             <div className="container relative flex h-full mx-auto">
-                <div className="absolute top-0 right-0 mt-2 mr-2">
+                <div className="absolute top-0 right-0 mr-2 mt-14">
                     <Transition
                         show={localOpenState}
                         enter="transition ease-out duration-150 transform"

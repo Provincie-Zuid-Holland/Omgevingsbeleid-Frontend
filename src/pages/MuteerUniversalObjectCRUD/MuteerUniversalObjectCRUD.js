@@ -1,5 +1,4 @@
 import React, { Component } from "react"
-import { toast } from "react-toastify"
 import { withRouter } from "react-router-dom"
 import { Helmet } from "react-helmet"
 import cloneDeep from "lodash.clonedeep"
@@ -26,26 +25,33 @@ import FormFieldContainerBeleidsmodules from "./FormFieldContainers/FormFieldCon
 import axios from "./../../API/axios"
 
 // Import Utilities
-import eindDateIsBeforeBeginDate from "./../../utils/eindDateIsBeforeBeginDate"
+import scrollToElement from "./../../utils/scrollToElement"
+import isEndDateBeforeStartDate from "./../../utils/isEndDateBeforeStartDate"
 import makeCrudProperties from "./../../utils/makeCrudProperties"
 import makeCrudObject from "./../../utils/makeCrudObject"
 import checkContainsRequiredUnfilledField from "./../../utils/checkContainsRequiredUnfilledField"
 import formatGeldigheidDatesForUI from "./../../utils/formatGeldigheidDatesForUI"
 import formatGeldigheidDatesForAPI from "./../../utils/formatGeldigheidDatesForAPI"
 import handleError from "./../../utils/handleError"
+import { checkIfUserIsAllowedOnPage } from "../../utils/checkIfUserIsAllowedOnPage"
+import { toastNotification } from "../../utils/toastNotification"
+import { removeEmptyCRUDProperties } from "../../utils/removeEmptyCRUDProperties"
+import { isDateInAValidRange } from "../../utils/isDateInAValidRange"
 
 /**
  * @param {object} authUser - contains the logged in user object
- * @param {object} dimensieConstants - Contains all the variables of the dimension (e.g. Maatregelen). The dimensieContants come from the constant files export src/constants/dimensies.js.
- * @returns a page where the user can create new or edit existing dimension objects (e.g. Maatregelen)
+ * @param {object} dimensieConstants - Contains all the properties of the policy object (see the src/constants folder)
+ * @returns a page where the user can create new or edit existing policy objects
  */
 class MuteerUniversalObjectCRUD extends Component {
     constructor(props) {
         super(props)
 
-        // 'edit' bevat een boolean. Deze is true wanneer de gebruiker een bestaand object bewerkt en false wanneer de gebruiker een nieuw object toevoegd.
-        // 'crudObject' bevat de properties die de gebruiker kan bewerken, zoals de Titel
-        // 'dataLoaded' bevat een boolean die aangeeft of alle initiele data is geladen
+        /**
+         * @param {boolean} edit - Indicates if the user is editing an existing policy object
+         * @param {object} crudObject - Contains an object that holds all the properties we can edit on the policy object
+         * @param {boolean} dataLoaded - Indicates if all the data from the API has been loaded
+         */
         this.state = {
             edit: false,
             crudObject: {},
@@ -65,15 +71,18 @@ class MuteerUniversalObjectCRUD extends Component {
         )
     }
 
-    // Algemene change handler
-    // metaInfo en dataProp parameter bevatten informatie van het react-select <Select /> component
-    // Deze moeten anders afgehandeld worden dan een normaal event
+    /**
+     *
+     * @param {object} event - Contains the event object
+     * @param {undefined|object} metaInfo - Optional parameter that contains an object with meta info about the executed action from a react-select <Select> element
+     * @param {undefined|string} dataProp - Optional parameter containing a property name to reset the value of from a react-select <Select> element
+     */
     handleChange(event, metaInfo, dataProp) {
         let value
         let name
 
         if (metaInfo && metaInfo.action === "clear") {
-            // Als de waarde van metaInfo.action 'clear' is moet de value van deze property naar null gezet worden. Dit event wordt getriggerd zodra een gebruiker op het 'X' icoon klikt in het react-select component
+            /** This is the case when the user clicks the 'x' icon in a react-select <Select> component */
             value = null
             name = dataProp
         } else {
@@ -94,6 +103,10 @@ class MuteerUniversalObjectCRUD extends Component {
         }))
     }
 
+    /**
+     * Function to POST a policy object to the API
+     * @param {object} crudObject - Contains the policy object with updated values
+     */
     postDimensieObject(crudObject) {
         const dimensieConstants = this.props.dimensieConstants
         const apiEndpoint = dimensieConstants.API_ENDPOINT
@@ -109,17 +122,17 @@ class MuteerUniversalObjectCRUD extends Component {
                             : ""
                     }`
                 )
-                toast("Opgeslagen")
+                toastNotification({ type: "saved" })
             })
             .catch((err) => {
                 handleError(err)
-                // crudObject = formatGeldigheidDatesForUI(crudObject)
-                // this.setState({
-                //     crudObject: crudObject,
-                // })
             })
     }
 
+    /**
+     * Function to PATCH a policy object to the API
+     * @param {object} crudObject - Contains the policy object with updated values
+     */
     patchDimensieObject(crudObject) {
         const dimensieConstants = this.props.dimensieConstants
         const apiEndpoint = dimensieConstants.API_ENDPOINT
@@ -138,90 +151,95 @@ class MuteerUniversalObjectCRUD extends Component {
                             : ""
                     }`
                 )
-                toast("Opgeslagen")
+                toastNotification({ type: "saved" })
             })
             .catch((err) => {
                 handleError(err)
-                // crudObject = formatGeldigheidDatesForUI(crudObject)
-                // this.setState({
-                //     crudObject: this.,
-                // })
             })
     }
 
+    /**
+     * Submit handler
+     * @param {object} event - Event object
+     */
     handleSubmit(event) {
         event.preventDefault()
 
-        const checkDates = (crudObject, titleSingular) => {
-            if (
-                crudObject.Begin_Geldigheid !== null &&
-                crudObject.Begin_Geldigheid !== "" &&
-                crudObject.Eind_Geldigheid !== null &&
-                crudObject.Eind_Geldigheid !== ""
-            ) {
-                const isEindDateBeforeBegin = eindDateIsBeforeBeginDate(
-                    titleSingular,
-                    {
-                        Begin_Geldigheid: new Date(crudObject.Begin_Geldigheid),
-                        Eind_Geldigheid: new Date(crudObject.Eind_Geldigheid),
-                    }
-                )
-
-                return isEindDateBeforeBegin
-            }
-        }
-
-        const removeEmptyFields = (obj) => {
-            const skipProperties = [
-                "Gebied",
-                "Begin_Geldigheid",
-                "Eind_Geldigheid",
-                "Eigenaar_1",
-                "Eigenaar_2",
-                "Portefeuillehouder_1",
-                "Portefeuillehouder_2",
-                "Opdrachtgever",
-            ]
-            Object.keys(obj).forEach((property) => {
-                if (skipProperties.includes(property)) return
-                if (obj[property] === null || obj[property] === undefined) {
-                    delete obj[property]
-                }
-            })
-            return obj
-        }
+        let crudObject = cloneDeep(this.state.crudObject)
 
         const dimensieConstants = this.props.dimensieConstants
         const apiEndpoint = dimensieConstants.API_ENDPOINT
         const titleSingular = dimensieConstants.TITLE_SINGULAR
-
-        let crudObject = cloneDeep(this.state.crudObject)
-
         const params = new URL(document.location).searchParams
         const modus = params.get("modus")
         const isWijzigVigerend = modus === "wijzig_vigerend"
 
-        const containsRequiredUnfilledField = checkContainsRequiredUnfilledField(
-            crudObject,
-            dimensieConstants,
-            titleSingular,
-            isWijzigVigerend
-        )
-        if (containsRequiredUnfilledField) return
+        /** Check if all the required fields are filled in */
+        if (
+            checkContainsRequiredUnfilledField(
+                crudObject,
+                dimensieConstants,
+                titleSingular,
+                isWijzigVigerend
+            )
+        ) {
+            return
+        }
 
-        const isEindDateBeforeBegin = checkDates(crudObject, titleSingular)
-        if (isEindDateBeforeBegin) return
+        /** Check if the ending validity date is before the starting validity date */
+        if (isEndDateBeforeStartDate(crudObject)) {
+            scrollToElement(
+                `form-field-${titleSingular.toLowerCase()}-eind_geldigheid`
+            )
+            toastNotification({ type: "end date before start date" })
 
-        // Create date objects out of string values ('yyyy-MM-DD')
+            return
+        }
+
+        /** Check if the start date is in a valid range */
+        const [
+            startDateIsInValidRange,
+            endDateIsInValidRange,
+        ] = isDateInAValidRange(crudObject)
+
+        const beginGeldigheidIsNotEmpty =
+            crudObject.Begin_Geldigheid !== "1753-01-01" &&
+            crudObject.Begin_Geldigheid !== null &&
+            crudObject.Begin_Geldigheid !== ""
+
+        const eindGeldigheidIsNotEmpty =
+            crudObject.Eind_Geldigheid !== "10000-01-01" &&
+            crudObject.Eind_Geldigheid !== null &&
+            crudObject.Eind_Geldigheid !== ""
+
+        if (!startDateIsInValidRange && beginGeldigheidIsNotEmpty) {
+            scrollToElement(
+                `form-field-${titleSingular.toLowerCase()}-begin_geldigheid`
+            )
+            toastNotification({ type: "start date valid range" })
+
+            return
+        } else if (!endDateIsInValidRange && eindGeldigheidIsNotEmpty) {
+            scrollToElement(
+                `form-field-${titleSingular.toLowerCase()}-eind_geldigheid`
+            )
+            toastNotification({ type: "end date valid range" })
+
+            return
+        }
+
+        /** Prepare CRUD Object for the API */
         crudObject = formatGeldigheidDatesForAPI(crudObject)
-        crudObject = removeEmptyFields(crudObject)
+        crudObject = removeEmptyCRUDProperties(crudObject)
 
-        // PATCH or POST based on the edit state
-        if (this.state.edit) {
+        /** If the user is editing an existing object we PATCH it, else we POST it to create a new object */
+        const typeOfRequest = this.state.edit ? "PATCH" : "POST"
+
+        if (typeOfRequest === "PATCH") {
             crudObject = this.prepareForRequest(crudObject, "patch")
             this.patchDimensieObject(crudObject)
-        } else {
-            // If we POST an object to the 'beleidsrelaties' endpoint we need to add these properties
+        } else if (typeOfRequest === "POST") {
+            /** If we POST an object to the 'beleidsrelaties' endpoint we need to add these properties */
             if (apiEndpoint === "beleidsrelaties") {
                 crudObject.Status = "Open"
                 crudObject.Aanvraag_Datum = new Date()
@@ -232,7 +250,12 @@ class MuteerUniversalObjectCRUD extends Component {
         }
     }
 
-    // Remove .Title properties from Connection objects
+    /**
+     * Function to prepare the crudObject for the API
+     * @param {object} crudObject - Contains the policy object that holds the updated values
+     * @param {string} type - String indicating if it is a 'post' or a 'patch' request
+     * @returns {object} - Prepared object for the request
+     */
     prepareForRequest(crudObject, type) {
         // Get the connections
         const getConnectionProperties = () => {
@@ -286,6 +309,13 @@ class MuteerUniversalObjectCRUD extends Component {
         return crudObject
     }
 
+    /**
+     *
+     * @param {string} propertyName - Property name of the connection
+     * @param {object} object - Policy object for the connection
+     * @param {string} omschrijving - Description of the connection
+     * @param {function} callback - Callback that is passed the updated object
+     */
     voegKoppelingRelatieToe(propertyName, object, omschrijving, callback) {
         const nieuwObject = {
             Koppeling_Omschrijving: omschrijving,
@@ -309,12 +339,18 @@ class MuteerUniversalObjectCRUD extends Component {
                 crudObject: nieuwCrudObject,
             },
             () => {
-                toast("Koppeling toegevoegd")
+                toastNotification({ type: "connection added" })
                 callback(nieuwCrudObject)
             }
         )
     }
 
+    /**
+     * Function to update a connection
+     * @param {object} koppelingObject - Connection object
+     * @param {string} nieuweOmschrijving - New description of the connection
+     * @param {function} callback - Callback that is passed the updated object
+     */
     wijzigKoppelingRelatie(koppelingObject, nieuweOmschrijving, callback) {
         let nieuwCrudObject = this.state.crudObject
 
@@ -331,12 +367,16 @@ class MuteerUniversalObjectCRUD extends Component {
                 crudObject: nieuwCrudObject,
             },
             () => {
-                toast("Koppeling gewijzigd")
+                toastNotification({ type: "connection modified" })
                 callback(nieuwCrudObject)
             }
         )
     }
 
+    /**
+     * Function to remove a connection
+     * @param {object} koppelingObject - Connection object
+     */
     verwijderKoppelingRelatie(koppelingObject) {
         let nieuwCrudObject = this.state.crudObject
         const index = nieuwCrudObject[koppelingObject.propertyName].findIndex(
@@ -348,11 +388,14 @@ class MuteerUniversalObjectCRUD extends Component {
             {
                 crudObject: nieuwCrudObject,
             },
-            () => toast("Koppeling verwijderd")
+            () => toastNotification({ type: "connection deleted" })
         )
     }
 
-    // responseObjectFromAPI wordt meegegeven als parameter wanneer de pagina een 'version' pagina is
+    /**
+     * Function to initialize an empty crudObject when the user is POST'ing a new policy object
+     * @param {undefined|object} responseObjectFromAPI - Undefined when the user is creating a new policy object, an object when the user is editing an existing object
+     */
     createAndSetCrudObject(responseObjectFromAPI) {
         const dimensieConstants = this.props.dimensieConstants
         const crudProperties = makeCrudProperties(dimensieConstants)
@@ -373,6 +416,9 @@ class MuteerUniversalObjectCRUD extends Component {
         })
     }
 
+    /**
+     * Gets the policy object from the API and set it in state as the crudObject
+     */
     getAndSetDimensieDataFromApi() {
         const objectID = this.props.match.params.single
         const dimensieConstants = this.props.dimensieConstants
@@ -381,12 +427,11 @@ class MuteerUniversalObjectCRUD extends Component {
 
         let params = new URL(document.location).searchParams
 
-        // If modus equals 'wijzig_vigerend', the user is editing a vigerend object
-        let modus = params.get("modus")
-
         const isMaatregelOrBeleidskeuze =
             titleSingular === "Maatregel" || titleSingular === "Beleidskeuze"
 
+        /** If modus equals 'wijzig_vigerend', the user is editing a policy object that has a status of 'vigerend' */
+        let modus = params.get("modus")
         const isWijzigVigerendOrOntwerpMaken =
             (modus && modus === "wijzig_vigerend") ||
             (modus && modus === "ontwerp_maken")
@@ -398,6 +443,18 @@ class MuteerUniversalObjectCRUD extends Component {
             .then((res) => {
                 const responseObject = res.data
                 let crudObject = null
+
+                /** Check if user is allowed */
+                const isUserAllowed = checkIfUserIsAllowedOnPage({
+                    object: responseObject[0],
+                    authUser: this.props.authUser,
+                })
+                if (!isUserAllowed) {
+                    toastNotification({
+                        type: "user is not authenticated for this page",
+                    })
+                    this.props.history.push("/muteer/dashboard")
+                }
 
                 if (
                     isMaatregelOrBeleidskeuze &&
@@ -423,7 +480,7 @@ class MuteerUniversalObjectCRUD extends Component {
             })
             .catch((err) => {
                 console.warn(err)
-                toast(process.env.REACT_APP_ERROR_MSG)
+                toastNotification("standard error")
             })
     }
 
@@ -431,7 +488,7 @@ class MuteerUniversalObjectCRUD extends Component {
         this.axiosCancelSource = axiosPackage.CancelToken.source()
 
         if (this.props.match.params.single) {
-            // Als er een waarde in de single parameter zit bewerkt de gebruiker een bestaand object
+            /** URL Contains a single parameter, indicating that the user is editing an existing policy object */
             this.setState(
                 {
                     edit: true,
@@ -441,7 +498,7 @@ class MuteerUniversalObjectCRUD extends Component {
                 }
             )
         } else {
-            // Anders maakt de gebruiker een nieuw object aan
+            /** User is creating a new object */
             this.createAndSetCrudObject()
         }
     }
@@ -455,14 +512,11 @@ class MuteerUniversalObjectCRUD extends Component {
         const titleSingular = dimensieConstants.TITLE_SINGULAR
         const titelMeervoud = dimensieConstants.TITLE_PLURAL
         const overzichtSlug = dimensieConstants.SLUG_OVERVIEW
-
         const objectID = this.props.match.params.single
-
         const editStatus = this.state.edit
         const crudObject = this.state.crudObject
         const dataLoaded = this.state.dataLoaded
         const objectTitle = this.state.crudObject.Titel
-
         const handleChange = this.handleChange
 
         return (

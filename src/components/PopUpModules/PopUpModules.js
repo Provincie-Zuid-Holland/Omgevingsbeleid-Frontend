@@ -199,7 +199,7 @@ function PopUpModules({
                                 toggleModulesPopup()
                                 patchModule()
                             } else if (selectValue !== initialModule?.UUID) {
-                                toast("Selecteer eerst een nieuwe status")
+                                toast("Selecteer eerst een nieuwe module")
                             } else {
                                 toggleModulesPopup()
                             }

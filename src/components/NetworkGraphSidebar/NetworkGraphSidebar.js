@@ -8,9 +8,12 @@ import networkGraphConnectionProperties from "../../constants/networkGraphConnec
 import networkGraphFilterMenu from "../../constants/networkGraphFilterMenu"
 
 /**
+ * Displays a sidebar in the network graph component
  *
- * @param {object} props
- * @param {object} props
+ * @param {function} setFilters - Value is set in the parent state.
+ * @param {object} filters - Contains filter value which is used in the ListItem component.
+ * @param {function} setGraphIsOpen - Contains a boolean value which is set in the parent state to close/open the graph component.
+ *
  * @returns A component that displays a sidebar with functionality to filter node types
  */
 const NetworkGraphSidebar = ({ setGraphIsOpen, filters, setFilters }) => {
@@ -83,33 +86,45 @@ const NetworkGraphSidebar = ({ setGraphIsOpen, filters, setFilters }) => {
     )
 }
 
+/**
+ *
+ * @param {function} setFilters - Value is set in the parent state.
+ * @param {number} filterKey - Contains a key value of the filter.
+ * @param {object} filters - Contains a collection of filters in object form.
+ */
 const ListItem = ({ setFilters, filterKey, filters }) => {
     return (
         <li
-            onClick={() =>
-                setFilters({
-                    type: "toggleFilter",
-                    filterType: filterKey,
-                    newState: !filters[filterKey],
-                })
-            }
             className={`cursor-pointer transition duration-100 ease-in hover:text-gray-900`}
             key={filterKey}
         >
             <input
+                onChange={() =>
+                    setFilters({
+                        type: "toggleFilter",
+                        filterType: filterKey,
+                        newState: !filters[filterKey],
+                    })
+                }
                 className="mr-2 leading-tight"
                 type="checkbox"
-                checked={filters[filterKey]}
+                defaultChecked={filters[filterKey]}
                 name={filterKey}
+                id={`filter-item-${networkGraphConnectionProperties[filterKey]?.plural}`}
             />
-            <span>{networkGraphConnectionProperties[filterKey]?.plural}</span>
-            <span
-                className="inline-block w-2 h-2 ml-2 rounded-full"
-                style={{
-                    backgroundColor:
-                        networkGraphConnectionProperties[filterKey]?.hex,
-                }}
-            />
+            <label
+                className="cursor-pointer"
+                htmlFor={`filter-item-${networkGraphConnectionProperties[filterKey]?.plural}`}
+            >
+                {networkGraphConnectionProperties[filterKey]?.plural}
+                <span
+                    className="inline-block w-2 h-2 ml-2 rounded-full"
+                    style={{
+                        backgroundColor:
+                            networkGraphConnectionProperties[filterKey]?.hex,
+                    }}
+                />
+            </label>
         </li>
     )
 }
