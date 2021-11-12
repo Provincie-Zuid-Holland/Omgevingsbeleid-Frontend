@@ -28,6 +28,7 @@ import RaadpleegVerordeningsArtikelDetail from "./../pages/RaadpleegVerordenings
 import RaadpleegZoekResultatenOverzicht from "./../pages/RaadpleegZoekResultatenOverzicht"
 import Login from "./../pages/Login"
 import Planning from "./../pages/Planning"
+import Foutpagina from "../pages/Foutpagina"
 
 // Import Components
 import FeedbackComponent from "./../components/FeedbackComponent"
@@ -35,6 +36,7 @@ import Navigation from "./../components/Navigation"
 import LoaderContent from "./../components/LoaderContent"
 import PopupWelcomeBeta from "./../components/PopupWelcomeBeta"
 import PopUpAnimatedContainer from "./../components/PopUpAnimatedContainer"
+import { ErrorBoundary } from "react-error-boundary"
 
 // Import Context
 import UserContext from "./UserContext"
@@ -107,6 +109,7 @@ class App extends Component {
             showWelcomePopup: false,
             showEnvironmentBanner: false,
             graphIsOpen: false,
+            explode: false,
         }
         this.checkIfUserIsAuthenticated =
             this.checkIfUserIsAuthenticated.bind(this)
@@ -114,11 +117,18 @@ class App extends Component {
         this.setLoginState = this.setLoginState.bind(this)
         this.setLoginUser = this.setLoginUser.bind(this)
         this.listenForExpiredSession = this.listenForExpiredSession.bind(this)
+        this.setExplode = this.setExplode.bind(this)
     }
 
     setGraphIsOpen(newState) {
         this.setState({
             graphIsOpen: newState,
+        })
+    }
+
+    setExplode(newState) {
+        this.setState({
+            setExplode: newState,
         })
     }
 
@@ -317,6 +327,11 @@ class App extends Component {
                                         exact
                                         component={Planning}
                                     />
+                                    <Route
+                                        path="/Foutpagina"
+                                        exact
+                                        component={Foutpagina}
+                                    />
 
                                     {/*  */}
                                     <Route
@@ -358,11 +373,41 @@ class App extends Component {
 
                         <ToastContainer limit={1} position="bottom-left" />
                         <FeedbackComponent />
+                        <div>
+                            <button
+                                onClick={() => this.setState({ explode: true })}
+                            >
+                                toggle explode
+                            </button>
+                            <ErrorBoundary
+                                FallbackComponent={ErrorFallback}
+                                onReset={() =>
+                                    this.setState({ explode: false })
+                                }
+                                resetKeys={[this.state.explode]}
+                            >
+                                {this.state.explode ? <Bomb /> : null}
+                            </ErrorBoundary>
+                        </div>
                     </div>
                 </UserContext.Provider>
             </GraphContext.Provider>
         )
     }
+}
+
+function ErrorFallback({ error, resetErrorBoundary }) {
+    return (
+        <div role="alert">
+            <p>Something went wrong:</p>
+            <pre>{error.message}</pre>
+            <button onClick={resetErrorBoundary}>Try again</button>
+        </div>
+    )
+}
+
+function Bomb() {
+    throw new Error("💥 CABOOM 💥")
 }
 
 const Logout = ({ setLoginState }) => {
