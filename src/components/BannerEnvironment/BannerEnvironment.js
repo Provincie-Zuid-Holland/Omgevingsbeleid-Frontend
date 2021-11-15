@@ -69,7 +69,8 @@ function BannerEnvironment({
     const addMarginTop = () => {
         const mainContainer = document.getElementById("main-container")
         if (!mainContainer) return
-        mainContainer.style.marginTop = "118px"
+        mainContainer.style.marginTop = "148px"
+        mainContainer.style.paddingTop = "30px"
     }
 
     const getEnvironmentCSSClass = () => {
