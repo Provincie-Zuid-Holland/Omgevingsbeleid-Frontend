@@ -4,6 +4,7 @@ import { withRouter, useHistory } from "react-router-dom"
 
 const Foutpagina = () => {
     const history = useHistory()
+
     return (
         <React.Fragment>
             <Helmet>
@@ -19,12 +20,12 @@ const Foutpagina = () => {
                     content="Foutpagina waarop staat beschreven dat er iets technisch fout is gegaan en dat deze melding geregistreerd wordt."
                 />
             </Helmet>
-            <div className="container items-center justify-between mx-auto">
-                <div className="max-w-4xl mx-auto sm:px-6 lg:px-8">
-                    <h1 className="mt-8 text-4xl font-bold text-pzh-blue">
+            <div className="fixed w-full top-1/3">
+                <div className="max-w-4xl mx-auto sm:px-24 lg:px-8 xs:px-5">
+                    <h1 className="mt-8 text-4xl font-bold text-pzh-blue xs:text-2xl">
                         Er is iets fout gegaan
                     </h1>
-                    <div className="mt-4 text-pzh-blue-dark">
+                    <div className="mt-4 text-pzh-blue-dark xs:text-xl">
                         Helaas is er technisch iets fout gegaan. Deze melding is
                         geregistreerd en we gaan er voor zorgen dat dit in de
                         toekomst niet meer kan gebeuren.
