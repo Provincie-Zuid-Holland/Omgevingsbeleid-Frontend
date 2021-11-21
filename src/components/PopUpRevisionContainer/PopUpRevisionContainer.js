@@ -25,10 +25,9 @@ const PopUpRevisionContainer = ({
     children,
 }) => {
     const [open, setOpen] = React.useState(false)
-    const [revisionOverviewOpen, setRevisionOverviewOpen] = React.useState(
-        false
-    )
-    const amountOfRevisions = revisionObjects ? revisionObjects.length : 0
+    const [revisionOverviewOpen, setRevisionOverviewOpen] =
+        React.useState(false)
+    const amountOfRevisions = revisionObjects ? revisionObjects.length - 1 : 0
 
     const innerContainer = React.useRef(null)
 
@@ -47,8 +46,9 @@ const PopUpRevisionContainer = ({
     })
 
     const getAmountText = (amountOfRevisions) => {
-        if (amountOfRevisions === 1) return "Geen revisies"
-        return amountOfRevisions + " revisies"
+        if (amountOfRevisions === 0) return "Geen revisies"
+        if (amountOfRevisions === 1) return "1 Revisie"
+        return amountOfRevisions + " Revisies"
     }
 
     return (
@@ -56,7 +56,7 @@ const PopUpRevisionContainer = ({
             <div className="z-10 inline-block mr-3 text-sm text-gray-600">
                 <span
                     onClick={() => {
-                        if (amountOfRevisions > 1) {
+                        if (amountOfRevisions > 0) {
                             setOpen(!open)
                         }
                     }}
