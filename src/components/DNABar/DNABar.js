@@ -11,7 +11,7 @@ function DNABar() {
             <img
                 className="inline-block"
                 title="Provincie Zuid-Holland Logo"
-                style={{ width: windowSize.width <= 768 ? 40 : 96 + "px" }}
+                style={{ width: windowSize.width < 768 ? 40 : 96 + "px" }}
                 src={logoSVG}
                 alt="Provincie Zuid-Holland Logo"
             />

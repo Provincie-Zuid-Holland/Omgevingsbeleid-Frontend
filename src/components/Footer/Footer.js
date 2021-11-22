@@ -37,44 +37,49 @@ function Footer({ className = "" }) {
             className={`w-full bg-pzh-cool-gray-light bg-opacity-30 absolute bottom-0`}
             ref={footerRef}
         >
-            <Container className={`py-8 ${className}`} widthFull={true}>
-                <div className="col-span-2">
+            <Container
+                className={`pt-8 pb-12 md:py-8 ${className}`}
+                widthFull={true}
+            >
+                <div className="col-span-6 md:col-span-3 lg:col-span-2">
                     <Heading level="3" color="text-pzh-blue">
                         Elke dag beter. Zuid-Holland.
                     </Heading>
                 </div>
-                <div className="col-span-2">
-                    <ul className="underline text-pzh-green">
-                        <li className="pb-5">
+                <div className="grid grid-cols-4 col-span-6 md:col-span-3 lg:col-span-4">
+                    <div className="col-span-6 lg:col-span-2">
+                        <ul className="mt-6 underline text-pzh-green md:mt-0">
+                            <li className="pb-3 md:pb-5">
+                                <a
+                                    href="https://www.zuid-holland.nl"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    Provincie Zuid-Holland
+                                </a>
+                            </li>
+                            <li className="pb-3 md:pb-5">
+                                <Link to="#">Cookies & Privacy</Link>
+                            </li>
+                            <li className="pb-3 md:pb-5">
+                                <Link to="#">Toegankelijkheidsverklaring</Link>
+                            </li>
+                        </ul>
+                    </div>
+                    <div className="col-span-6 lg:col-span-2">
+                        <Text type="body">
+                            Mocht u aan- of opmerkingen hebben, dan horen wij
+                            dat graag via{" "}
                             <a
-                                href="https://www.zuid-holland.nl"
+                                href="mailto:omgevingsbeleid@pzh.nl?subject=Aan- of opmerking"
+                                className="underline cursor-pointer text-pzh-green"
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
-                                Provincie Zuid-Holland
+                                omgevingsbeleid@pzh.nl
                             </a>
-                        </li>
-                        <li className="pb-5">
-                            <Link to="#">Cookies & Privacy</Link>
-                        </li>
-                        <li className="pb-5">
-                            <Link to="#">Toegankelijkheidsverklaring</Link>
-                        </li>
-                    </ul>
-                </div>
-                <div className="col-span-2">
-                    <Text type="body">
-                        Mocht u aan- of opmerkingen hebben, dan horen wij dat
-                        graag via{" "}
-                        <a
-                            href="mailto:omgevingsbeleid@pzh.nl?subject=Aan- of opmerking"
-                            className="underline cursor-pointer text-pzh-green"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            omgevingsbeleid@pzh.nl
-                        </a>
-                    </Text>
+                        </Text>
+                    </div>
                 </div>
             </Container>
         </div>

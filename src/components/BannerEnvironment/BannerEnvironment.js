@@ -2,10 +2,9 @@ import React from "react"
 
 import { environment } from "./../../API/axios"
 /**
- * Function to render the BannerEnvironment component.
- *
- * @param {boolean} userIsInMuteerEnvironment - Parameter used within the function to show the banner within the rendered component.
- * @param {boolean} hideBannerLocalStorage - Parameter used within the function to hide the banner within the rendered component.
+ * Banner indicating the type of environment (development/test/acception/production)
+ * @param {boolean} userIsInMuteerEnvironment - Indicating if the user is logged into the mutate environment
+ * @param {boolean} hideBannerLocalStorage - User has hidden the banner (retrieved from its local storage)
  */
 function BannerEnvironment({
     userIsInMuteerEnvironment,
@@ -29,13 +28,6 @@ function BannerEnvironment({
     const [showBanner, setShowBanner] = React.useState(
         userIsInMuteerEnvironment && !hideBannerLocalStorage()
     )
-
-    React.useEffect(() => {
-        // Check
-        if (!hideBannerLocalStorage()) {
-            addMarginTop()
-        }
-    }, [hideBannerLocalStorage])
 
     const removeBanner = React.useCallback(() => {
         const mainContainer = document.getElementById("main-container")

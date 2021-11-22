@@ -72,7 +72,7 @@ function Navigation({ loggedIn, setLoginState }) {
                 {/* Main container */}
                 <div className={`grid grid-cols-6 gap-12 pzh-container`}>
                     {/* Logo */}
-                    <div className="col-start-1 col-end-3 my-auto">
+                    <div className="col-start-1 col-end-4 my-auto lg:col-end-3">
                         <Link
                             id="href-naar-home"
                             to={loggedIn ? "/muteer/dashboard" : "/"}

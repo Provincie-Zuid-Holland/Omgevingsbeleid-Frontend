@@ -23,6 +23,30 @@ import Footer from "./../../components/Footer"
 const RaadpleegHome = () => {
     const { setGraphIsOpen } = React.useContext(GraphContext)
 
+    const getResponsiveImageHeight = () => {
+        const screenWidth = window.screen.width
+        const isLarge = screenWidth > 1024
+        const isMedium = screenWidth < 1024 && screenWidth > 640
+        const responsiveHeight = isLarge ? 522 : isMedium ? 300 : 250
+
+        return {
+            height: responsiveHeight + "px",
+        }
+    }
+
+    const getResponsiveImageOffset = () => {
+        const screenWidth = window.screen.width
+        const isLarge = screenWidth > 1024
+        const isMedium = screenWidth < 1024 && screenWidth > 640
+
+        return {
+            marginTop: !isLarge && !isMedium ? "250px" : "0px",
+        }
+    }
+
+    const responsiveImageHeight = getResponsiveImageHeight()
+    const responsiveImageOffset = getResponsiveImageOffset()
+
     return (
         <>
             <Container
@@ -31,10 +55,10 @@ const RaadpleegHome = () => {
                 }}
                 className="overflow-hidden"
             >
-                <div className="col-span-3 mb-16">
+                <div className="col-span-6 mb-8 lg:mb-16 lg:col-span-3">
                     <Heading
                         level="1"
-                        className="mt-16 text-3xl font-bold text-pzh-blue"
+                        className="mt-4 text-3xl font-bold md:mt-12 lg:mt-16 text-pzh-blue"
                     >
                         Omgevingsbeleid
                     </Heading>
@@ -55,19 +79,21 @@ const RaadpleegHome = () => {
                         worden aangepast zodat het altijd up-to-date is.
                     </Text>
                 </div>
-                <div className="relative col-span-3">
+                <div className="relative hidden col-span-3 lg:block">
                     <div
-                        className={`absolute bg-cover bg-no-repeat bg-center left-0 top-0 h-full image-home-1 text-white bg-gray-100 sm:inline-block`}
+                        className={`inline-block absolute bg-cover bg-no-repeat bg-center left-0 top-0 h-full image-home-1 text-white bg-gray-100`}
                         style={{
                             height: "480px",
-                            width: "calc(50vw - 1rem)",
+                            width: "50vw",
                         }}
                     />
                 </div>
             </Container>
 
-            <Container className="py-16 border-t border-gray-300">
-                <div className="col-span-2">
+            <div className="block w-full h-64 bg-center bg-no-repeat bg-cover bg-pzh-blue lg:hidden image-home-1"></div>
+
+            <Container className="py-6 border-t border-gray-300 md:py-8 lg:py-16">
+                <div className="col-span-6 lg:col-span-2">
                     <Heading
                         level="2"
                         id="homepage-zoeken"
@@ -85,7 +111,7 @@ const RaadpleegHome = () => {
                 {/* TODO: Turn into component */}
                 {/* TODO: Add Leaflet search option */}
                 {/* <LeafletViewer className="w-full border border-gray-300 rounded" /> */}
-                <div className="col-span-4 px-6 pt-3 pb-6 bg-pzh-cool-gray-light bg-opacity-30">
+                <div className="col-span-6 px-6 pt-3 pb-6 mt-4 lg:mt-0 lg:col-span-4 bg-pzh-cool-gray-light bg-opacity-30">
                     <div className="w-full border-b border-gray-400">
                         <div className="inline-block px-2 pl-0 font-bold">
                             <span className="inline-block py-1 border-b-4 border-pzh-green text-pzh-green">
@@ -128,8 +154,15 @@ const RaadpleegHome = () => {
                 </Container>
             </div>
 
-            <Container className="pt-16 pb-8">
-                <div className="flex flex-col justify-center col-span-2">
+            <Container className="pt-0 pb-3 md:pt-12 md:pb-6 lg:pt-16 lg:pb-8 lg:flex-col">
+                <div
+                    className={`inline-block mb-8 lg:hidden bg-cover col-span-6 lg:col-span-4 bg-no-repeat bg-center image-home-2 text-white bg-gray-100 md:relative absolute left-0 w-screen md:w-auto`}
+                    style={responsiveImageHeight}
+                />
+                <div
+                    className="flex flex-col justify-center col-span-6 pt-6 lg:col-span-2 md:pt-0"
+                    style={responsiveImageOffset}
+                >
                     <Heading level="2">Omgevingsvisie</Heading>
                     <Text type="body" className="mt-4">
                         {/* TODO: Add Links */}
@@ -144,21 +177,17 @@ const RaadpleegHome = () => {
                     </Text>
                 </div>
                 <div
-                    className={`bg-cover col-span-4 bg-no-repeat bg-center image-home-2 text-white bg-gray-100 sm:inline-block`}
-                    style={{
-                        height: "522px",
-                    }}
+                    className={`hidden lg:inline-block bg-cover col-span-6 lg:col-span-4 bg-no-repeat bg-center image-home-2 text-white bg-gray-100`}
+                    style={responsiveImageHeight}
                 />
             </Container>
 
-            <Container className="py-8">
+            <Container className="md:py-6 lg:py-8">
                 <div
-                    className={`bg-cover col-span-4 bg-no-repeat bg-center image-home-3 text-white bg-gray-100 sm:inline-block`}
-                    style={{
-                        height: "522px",
-                    }}
+                    className={`lg:mb-0 mb-8 inline-block bg-cover col-span-6 lg:col-span-4 bg-no-repeat bg-center image-home-3 text-white bg-gray-100`}
+                    style={responsiveImageHeight}
                 />
-                <div className="flex flex-col justify-center col-span-2">
+                <div className="flex flex-col justify-center col-span-6 lg:col-span-2 ">
                     <Heading level="2" color="text-pzh-yellow-dark">
                         Omgevingsprogramma
                     </Heading>
@@ -175,8 +204,12 @@ const RaadpleegHome = () => {
                 </div>
             </Container>
 
-            <Container className="pt-16 pb-8">
-                <div className="flex flex-col justify-center col-span-2">
+            <Container className="pb-8 lg:pt-16">
+                <div
+                    className={`inline-block mb-8 lg:hidden bg-cover col-span-6 lg:col-span-4 bg-no-repeat bg-center image-home-4 text-white bg-gray-100`}
+                    style={responsiveImageHeight}
+                />
+                <div className="flex flex-col justify-center col-span-6 lg:col-span-2">
                     <Heading level="2" color="text-pzh-red-dark">
                         Omgevingsverordening
                     </Heading>
@@ -197,10 +230,8 @@ const RaadpleegHome = () => {
                     </Text>
                 </div>
                 <div
-                    className={`bg-cover col-span-4 bg-no-repeat bg-center image-home-4 text-white bg-gray-100 sm:inline-block`}
-                    style={{
-                        height: "522px",
-                    }}
+                    className={`hidden lg:inline-block bg-cover col-span-6 lg:col-span-4 bg-no-repeat bg-center image-home-4 text-white bg-gray-100`}
+                    style={responsiveImageHeight}
                 />
             </Container>
 
@@ -213,34 +244,34 @@ const RaadpleegHome = () => {
                         Documenten & Links
                     </Heading>
                 </div>
-                <div className="col-span-2">
+                <div className="col-span-6 lg:col-span-2">
                     <Text type="body">
                         We zijn hard bezig met het vullen van onze database.
                         Sommige onderdelen bieden we op dit moment nog aan als
                         PDF’s of via een externe bron.
                     </Text>
                 </div>
-                <ul className="col-span-2">
+                <ul className="grid grid-cols-6 col-span-6 lg:col-span-2">
                     <DocumentLink
                         href="docs/Omgevingsvisie_Zuid-Holland_Deel_1.pdf"
                         iconLeft={faFilePdf}
                         title="Omgevingsvisie Zuid-Holland Deel 1"
                         rel="noopener noreferrer"
+                        className="col-span-6 mt-2 lg:col-span-3 lg:mt-0"
                     />
-                </ul>
-                <ul className="col-span-2">
                     <DocumentLink
                         href="https://lta.zuid-holland.nl/"
                         iconLeft={faExternalLinkAlt}
                         title="De Lange Termijn Agenda Omgevingsbeleid"
                         rel="noopener noreferrer"
+                        className="col-span-6 mt-2 lg:col-span-3 lg:mt-0"
                     />
                 </ul>
             </Container>
 
             <div className="w-full bg-pzh-blue-dark">
                 <Container className="py-12">
-                    <div className="col-span-2">
+                    <div className="col-span-6 lg:col-span-2">
                         <Heading level="2" color="text-white">
                             Een digitaal systeem, continu in ontwikkeling
                         </Heading>
@@ -259,36 +290,25 @@ const RaadpleegHome = () => {
                             .
                         </Text>
                     </div>
-                    <div className="col-span-4">
-                        <div className="grid grid-cols-4 gap-10 text-white">
-                            <span className="flex justify-end col-span-1 pt-6 opacity-50">
-                                Vrijdag 1 maart
-                            </span>
-                            <div className="col-span-3 p-6 bg-white rounded bg-opacity-20">
-                                <Heading level="3" color="text-white">
-                                    Release 31
-                                </Heading>
-                                <ul className="pl-4 list-disc list-outside">
-                                    <li>
-                                        Mogelijk gemaakt om te zoeken op de
-                                        kaart
-                                    </li>
-                                    <li>
-                                        Vanuit een ambitie, beleidsdoel en
-                                        maatregel is het nu mogelijk om
-                                        gekoppelde onderdelen in te zien
-                                    </li>
-                                    <li>
-                                        Mogelijk gemaakt om te zoeken op de
-                                        kaart
-                                    </li>
-                                    <li>
-                                        Mogelijk gemaakt om te zoeken op de
-                                        kaart
-                                    </li>
-                                </ul>
-                            </div>
-                            <div className="col-span-3 col-start-2">
+                    <div className="col-span-6 mt-6 lg:mt-0 lg:col-span-4">
+                        <div className="grid grid-cols-4 gap-3 text-white md:gap-10">
+                            <ReleaseItem
+                                date="Vrijdag 1 maart"
+                                releaseNumber="31"
+                                releaseNotes={[
+                                    "Mogelijk gemaakt om te zoeken op de kaart",
+                                    "Vanuit een ambitie, beleidsdoel en maatregel is het nu mogelijk om gekoppelde onderdelen in te zien",
+                                ]}
+                            />
+                            <ReleaseItem
+                                date="Vrijdag 1 maart"
+                                releaseNumber="31"
+                                releaseNotes={[
+                                    "Mogelijk gemaakt om te zoeken op de kaart",
+                                    "Vanuit een ambitie, beleidsdoel en maatregel is het nu mogelijk om gekoppelde onderdelen in te zien",
+                                ]}
+                            />
+                            <div className="col-span-4 mt-8 md:col-span-3 md:col-start-2 md:mt-0">
                                 <Text
                                     type="body"
                                     className="underline"
@@ -309,8 +329,30 @@ const RaadpleegHome = () => {
     )
 }
 
-const DocumentLink = ({ href, title, iconLeft }) => (
-    <li className="pb-2 transition-colors duration-100 ease-in text-pzh-green">
+const ReleaseItem = ({ date, releaseNumber, releaseNotes = [] }) => {
+    return (
+        <>
+            <span className="flex justify-start col-span-4 pt-0 mt-8 opacity-50 md:pt-6 md:justify-end md:col-span-1 md:mt-0">
+                {date}
+            </span>
+            <div className="col-span-4 p-6 bg-white rounded md:col-span-3 bg-opacity-20">
+                <Heading level="3" color="text-white">
+                    Release {releaseNumber}
+                </Heading>
+                <ul className="pl-4 list-disc list-outside">
+                    {releaseNotes.map((note) => (
+                        <li>{note}</li>
+                    ))}
+                </ul>
+            </div>
+        </>
+    )
+}
+
+const DocumentLink = ({ href, title, iconLeft, className = "" }) => (
+    <li
+        className={`pb-2 transition-colors duration-100 ease-in text-pzh-green ${className}`}
+    >
         <a
             href={href}
             target="_blank"
@@ -319,7 +361,7 @@ const DocumentLink = ({ href, title, iconLeft }) => (
         >
             <div className="flex">
                 <span className="flex items-center">
-                    <FontAwesomeIcon className="text-lg" icon={iconLeft} />
+                    <FontAwesomeIcon icon={iconLeft} />
                 </span>
                 <Text
                     color="text-pzh-green"
