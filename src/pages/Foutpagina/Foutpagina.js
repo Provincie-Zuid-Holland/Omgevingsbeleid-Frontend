@@ -1,10 +1,7 @@
 import React from "react"
 import { Helmet } from "react-helmet"
-import { withRouter, useHistory } from "react-router-dom"
 
 const Foutpagina = () => {
-    const history = useHistory()
-
     return (
         <React.Fragment>
             <Helmet>
@@ -21,25 +18,24 @@ const Foutpagina = () => {
                 />
             </Helmet>
             <div className="fixed w-full top-1/3">
-                <div className="max-w-4xl mx-auto sm:px-24 lg:px-8 xs:px-5">
-                    <h1 className="mt-8 text-4xl font-bold text-pzh-blue xs:text-2xl">
+                <div className="max-w-4xl px-5 mx-auto sm:px-24 lg:px-8">
+                    <h1 className="mt-8 text-2xl font-bold text-pzh-blue md:text-4xl">
                         Er is iets fout gegaan
                     </h1>
-                    <div className="mt-4 text-pzh-blue-dark xs:text-xl">
+                    <div className="mt-4 text-pzh-blue-dark md:mt-5">
                         Helaas is er technisch iets fout gegaan. Deze melding is
                         geregistreerd en we gaan er voor zorgen dat dit in de
                         toekomst niet meer kan gebeuren.
                     </div>
-                    <button
-                        className="w-56 h-12 px-5 py-2 mt-10 font-bold text-center text-white rounded bg-pzh-blue hover:bg-pzh-green"
-                        onClick={() => history.push("/")}
-                    >
-                        Terug naar de startpagina
-                    </button>
+                    <a href="/">
+                        <div className="w-56 h-12 py-3 mt-10 font-bold text-center text-white rounded bg-pzh-blue hover:bg-pzh-green">
+                            Terug naar de startpagina
+                        </div>
+                    </a>
                 </div>
             </div>
         </React.Fragment>
     )
 }
 
-export default withRouter(Foutpagina)
+export default Foutpagina
