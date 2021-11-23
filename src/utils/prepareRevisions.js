@@ -17,6 +17,8 @@ const prepareRevisions = (revisions) => {
 
     /**
      * Filters the revisions based on the "Vigerend" status
+     * This function checks for each revision:
+     * - If there is a later version of it (based on the Aanpassing_Op property)
      * @param {array} revisions - Contains the original revisions
      */
     const prepareVigerendeRevisions = (revisions) =>
@@ -26,9 +28,10 @@ const prepareRevisions = (revisions) => {
                  * If an object with a status of vigerend is edited
                  * the UUID value is assigned to the property 'Aanpassing_Op' of the newer object.
                  */
-                const indexOfPotentialNewerVersion = sortedAndFilteredRevisions.findIndex(
-                    (e) => e.Aanpassing_Op === revision.UUID
-                )
+                const indexOfPotentialNewerVersion =
+                    sortedAndFilteredRevisions.findIndex(
+                        (e) => e.Aanpassing_Op === revision.UUID
+                    )
 
                 const objectHasLaterVersion =
                     indexOfPotentialNewerVersion !== -1
@@ -36,10 +39,15 @@ const prepareRevisions = (revisions) => {
                 /** This revision contains a newer version, so we filter it out */
                 if (objectHasLaterVersion) return false
 
-                /** If there is a later edited version we want  */
-                // Check if this revision has an 'Aanpassing_Op' value
-                // and if there is another object in revisions that has the same 'Aanpassing_Op' value, but earlier in the array
-                // indicating that there is a later version of this 'vigerend' object
+                /**
+                 * If we made it this far that means this revision itself doesn't has a later version.
+                 * However, it is possible that this revision itself is an object that has been edited while having a status of 'Vigerend'.
+                 * If this is the case the property 'Aanpassing_Op' is populated.
+                 * So down here we check if this revision is 'edited while it was valid ('Vigerend')'.
+                 * We also check if there is a later revision that has the same UUID value in the Aanpassing_Op property,
+                 * indicating that there is a later version of this 'edited while it was valid ('Vigerend')' revision.
+                 * If that is the case we filter it out
+                 */
                 const indexOfLastEdited = sortedAndFilteredRevisions.findIndex(
                     (e) => e.Aanpassing_Op === revision.Aanpassing_Op
                 )
@@ -49,20 +57,21 @@ const prepareRevisions = (revisions) => {
                     index !== indexOfLastEdited &&
                     indexOfLastEdited !== -1
 
+                /** If there is a later version of this 'edited while it was valid ('Vigerend')' revision */
                 if (editedWithLaterVersion) return false
 
+                /** Valid revision */
                 return true
             })
-            // Filter out revisions that have a Begin_Geldigheid in the future
+            /** Filter out revisions that have a Begin_Geldigheid in the future */
             .filter((revision) => {
                 const beginGeldigheid = new Date(revision.Begin_Geldigheid)
                 const currentDate = new Date()
-
                 return isBefore(beginGeldigheid, currentDate)
             })
+            /** Add a status property to display in the UI */
             .map((revision, index) => {
                 if (index === 0) {
-                    // If it is the first item with a Status of 'Vigerend'
                     revision.uiStatus = "Vigerend"
                 } else {
                     revision.uiStatus = "Gearchiveerd"
@@ -135,6 +144,8 @@ const prepareRevisions = (revisions) => {
     const preppedVigerendeRevisions = prepareVigerendeRevisions(
         sortedAndFilteredRevisions
     )
+
+    console.log("preppedVigerendeRevisions", preppedVigerendeRevisions)
 
     const preppedRevisions = prepareOntwerpInInspraakRevisions(
         preppedVigerendeRevisions,

@@ -47,7 +47,9 @@ function RevisieListItem({ item, currentUUID }) {
                 />
                 <span
                     className={`pl-6 text-sm ${isActive ? "font-bold" : ""}`}
-                >{`${status} (${date})`}</span>
+                >{`${status} ${
+                    status === "Ter inzage" ? "" : `(${date})`
+                }`}</span>
             </Link>
         </li>
     )
