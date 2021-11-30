@@ -1,5 +1,6 @@
 import React from "react"
 import { Helmet } from "react-helmet"
+import { withRouter, Link } from "react-router-dom"
 
 const Foutpagina = () => {
     return (
@@ -17,7 +18,7 @@ const Foutpagina = () => {
                     content="Foutpagina waarop staat beschreven dat er iets technisch fout is gegaan en dat deze melding geregistreerd wordt."
                 />
             </Helmet>
-            <div className="fixed w-full top-1/3">
+            <div className="fixed w-full top-1/3" data-testid="errorboundary">
                 <div className="max-w-4xl px-5 mx-auto sm:px-24 lg:px-8">
                     <h1 className="mt-8 text-2xl font-bold text-pzh-blue md:text-4xl">
                         Er is iets fout gegaan
@@ -27,15 +28,15 @@ const Foutpagina = () => {
                         geregistreerd en we gaan er voor zorgen dat dit in de
                         toekomst niet meer kan gebeuren.
                     </div>
-                    <a href="/">
+                    <Link to="/">
                         <div className="w-56 h-12 py-3 mt-10 font-bold text-center text-white rounded bg-pzh-blue hover:bg-pzh-green">
                             Terug naar de startpagina
                         </div>
-                    </a>
+                    </Link>
                 </div>
             </div>
         </React.Fragment>
     )
 }
 
-export default Foutpagina
+export default withRouter(Foutpagina)
