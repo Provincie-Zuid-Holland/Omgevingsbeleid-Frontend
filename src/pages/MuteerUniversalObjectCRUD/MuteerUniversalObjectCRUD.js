@@ -197,6 +197,7 @@ class MuteerUniversalObjectCRUD extends Component {
         }
 
         /** Check if the start date is in a valid range */
+        if (!crudObject.Besluit_Datum) {        
         const [
             startDateIsInValidRange,
             endDateIsInValidRange,
@@ -226,6 +227,7 @@ class MuteerUniversalObjectCRUD extends Component {
             toastNotification({ type: "end date valid range" })
 
             return
+            }
         }
 
         /** Prepare CRUD Object for the API */
