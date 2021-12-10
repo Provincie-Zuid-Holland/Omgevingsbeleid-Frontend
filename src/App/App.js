@@ -24,7 +24,8 @@ import allDimensies from "./../constants/dimensies"
 // Import non authenticated pages
 import RaadpleegHome from "./../pages/RaadpleegHome"
 import RaadpleegUniversalObjectDetail from "./../pages/RaadpleegUniversalObjectDetail"
-import RaadpleegVerordeningsArtikelDetail from "./../pages/RaadpleegVerordeningsArtikelDetail"
+// import RaadpleegVerordeningsArtikelDetail from "./../pages/RaadpleegVerordeningsArtikelDetail"
+import RaadpleegVerordening from "./../pages/RaadpleegVerordening"
 import RaadpleegUniversalObjectOverview from "./../pages/RaadpleegUniversalObjectOverview"
 import RaadpleegZoekResultatenOverzicht from "./../pages/RaadpleegZoekResultatenOverzicht"
 import Login from "./../pages/Login"
@@ -287,14 +288,11 @@ class App extends Component {
                                     {/* Raadpleeg - Detail page for Article objects of the regulations */}
                                     <Route
                                         path={`/detail/verordeningen/:lineageID/:objectUUID`}
-                                        render={() => (
-                                            <RaadpleegVerordeningsArtikelDetail
-                                                dataModel={
-                                                    allDimensies.VERORDENINGSARTIKEL
-                                                }
-                                                history={this.props.history}
-                                            />
-                                        )}
+                                        render={() => <RaadpleegVerordening />}
+                                    />
+                                    <Route
+                                        path={`/detail/verordening`}
+                                        render={() => <RaadpleegVerordening />}
                                     />
 
                                     {/* Raadpleeg - Overview and Detail pages for all the dimensions */}

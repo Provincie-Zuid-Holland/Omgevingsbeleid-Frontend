@@ -66,6 +66,7 @@ const getHeadingStyles = (level, windowSize) => {
  * @param {string} props.id - Contains an optional id
  * @param {string} props.level - Contains the number indicating the header level
  * @param {object} props.children - Contains the children
+ * @param {object} props.customStyles - Used to override the default styles
  * @returns A heading element
  */
 function Heading({
@@ -74,43 +75,68 @@ function Heading({
     color = "text-pzh-blue-dark",
     level = "1",
     children,
+    customStyles,
 }) {
     const windowSize = useWindowSize()
     const styles = getHeadingStyles(level, windowSize)
 
     if (level === "1") {
         return (
-            <h1 style={styles} id={id} className={`${color} ${className}`}>
+            <h1
+                style={customStyles ? customStyles : styles}
+                id={id}
+                className={`${color} ${className}`}
+            >
                 {children}
             </h1>
         )
     } else if (level === "2") {
         return (
-            <h2 style={styles} id={id} className={`${color} ${className}`}>
+            <h2
+                style={customStyles ? customStyles : styles}
+                id={id}
+                className={`${color} ${className}`}
+            >
                 {children}
             </h2>
         )
     } else if (level === "3") {
         return (
-            <h3 style={styles} id={id} className={`${color} ${className}`}>
+            <h3
+                style={customStyles ? customStyles : styles}
+                id={id}
+                className={`${color} ${className}`}
+            >
                 {children}
             </h3>
         )
     } else if (level === "4") {
         return (
-            <h4 style={styles} id={id} className={`${color} ${className}`}>
+            <h4
+                style={customStyles ? customStyles : styles}
+                id={id}
+                className={`${color} ${className}`}
+            >
                 {children}
             </h4>
         )
     } else if (level === "5") {
         return (
-            <h5 style={styles} id={id} className={`${color} ${className}`}>
+            <h5
+                style={customStyles ? customStyles : styles}
+                id={id}
+                className={`${color} ${className}`}
+            >
                 {children}
             </h5>
         )
     } else if (level === "6") {
         return (
-            <h6 style={styles} id={id} className={`${color} ${className}`}>
+            <h6
+                style={customStyles ? customStyles : styles}
+                id={id}
+                className={`${color} ${className}`}
+            >
                 {children}
             </h6>
         )

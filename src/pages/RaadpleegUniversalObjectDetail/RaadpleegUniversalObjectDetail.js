@@ -23,7 +23,7 @@ import ContainerViewFieldsThema from "./ContainerFields/ContainerViewFieldsThema
 
 import ViewFieldGebiedDuiding from "./ViewFieldGebiedDuiding"
 import Werkingsgebied from "./Werkingsgebied"
-import BackButton from "./BackButton"
+import BackButton from "../../components/BackButton"
 import MetaInfo from "./MetaInfo"
 import RevisieListItem from "./RevisieListItem"
 

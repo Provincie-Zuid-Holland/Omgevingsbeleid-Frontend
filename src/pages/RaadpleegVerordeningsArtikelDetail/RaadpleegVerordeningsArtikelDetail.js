@@ -377,10 +377,7 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                     leaveTo="opacity-0"
                     className="w-3/4 pr-0 md:pl-8 lg:pl-16"
                 >
-                    <div
-                        id="raadpleeg-detail-container-content text-gray-800"
-                        // className={`w-3/4 pr-0 md:pl-8 lg:pl-16`}
-                    >
+                    <div id="raadpleeg-detail-container-content text-gray-800">
                         <div>
                             <div className="block inline-block w-full mb-8 text-gray-600">
                                 {breadcrumb}
