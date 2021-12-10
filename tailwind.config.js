@@ -3,6 +3,7 @@ module.exports = {
         fontWeight: false,
         lineHeight: false,
     },
+    plugins: [require("@tailwindcss/forms")],
     purge: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
     variants: {
         pointerEvents: ["responsive", "hover"],

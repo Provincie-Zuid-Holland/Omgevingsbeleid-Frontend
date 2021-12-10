@@ -7,6 +7,8 @@ export const API_ENDPOINT = "beleidsregels"
 export const API_ENDPOINT_VIGEREND = "valid/beleidsregels"
 export const SLUG_OVERVIEW = "beleidsregels"
 export const SLUG_CREATE_NEW = "nieuwe-beleidsregel"
+export const DESCRIPTION =
+    "De beleidsregels geven aan waar de provincie zich minimaal voor moet inspannen. De beleidsregels zijn individuele regels die de provincie zelf vaststelt. "
 
 export const CRUD_PROPERTIES = {
     Titel: {

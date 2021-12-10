@@ -3,9 +3,15 @@ import { Link, useLocation } from "react-router-dom"
 import isToday from "date-fns/isToday"
 import parseISO from "date-fns/parseISO"
 
-import { faEye, faSignInAlt } from "@fortawesome/pro-solid-svg-icons"
+import {
+    faEye,
+    faBars,
+    faTimes,
+    faSignInAlt,
+} from "@fortawesome/pro-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
+import Container from "./../Container"
 import NavigationPopupMenu from "./../NavigationPopupMenu"
 import NetworkGraph from "./../NetworkGraph"
 import DNABar from "./../DNABar"
@@ -54,11 +60,12 @@ function Navigation({ loggedIn, setLoginState }) {
     }
 
     const showBanner = userIsInMuteerEnvironment && !hideBannerLocalStorage()
+    const isMobile = windowSize.width <= 640
 
     return (
         <div>
             <nav
-                className={`fixed top-0 z-20 w-full border-b ${
+                className={`fixed top-0 z-20 w-full sm:border-b ${
                     isOpen ? "bg-pzh-blue" : "bg-white"
                 }`}
                 id="navigation-main"
@@ -70,14 +77,19 @@ function Navigation({ loggedIn, setLoginState }) {
                 />
 
                 {/* Main container */}
-                <div className={`grid grid-cols-6 gap-12 pzh-container`}>
+                <Container>
+                    {/* <div className={`grid grid-cols-6 gap-12 pzh-container`}> */}
                     {/* Logo */}
-                    <div className="col-start-1 col-end-4 my-auto lg:col-end-3">
+                    <div className="col-span-4 my-auto sm:col-span-3">
                         <Link
                             id="href-naar-home"
                             to={loggedIn ? "/muteer/dashboard" : "/"}
                             className="relative z-10"
-                            style={{ marginLeft: "-96px" }}
+                            style={
+                                isMobile
+                                    ? { marginLeft: "-2rem" }
+                                    : { marginLeft: "-96px" }
+                            }
                             onClick={() => {
                                 setIsOpen(false)
                             }}
@@ -87,7 +99,7 @@ function Navigation({ loggedIn, setLoginState }) {
                     </div>
 
                     {/* Buttons to toggle popup menu */}
-                    <div className="flex items-center justify-end col-span-3 col-end-7 my-auto">
+                    <div className="flex items-center justify-end col-span-2 my-auto sm:col-span-3">
                         {loggedIn && userIsInMuteerEnvironment ? (
                             <MenuIcon
                                 setIsOpen={setIsOpen}
@@ -113,7 +125,7 @@ function Navigation({ loggedIn, setLoginState }) {
                                 to="/login"
                                 icon={faSignInAlt}
                                 className="mx-1"
-                                Label="Inloggen"
+                                Label={isMobile ? null : "Inloggen"}
                             />
                         ) : null}
 
@@ -129,7 +141,8 @@ function Navigation({ loggedIn, setLoginState }) {
                             setIsOpen={setIsOpen}
                         />
                     </div>
-                </div>
+                    {/* </div> */}
+                </Container>
             </nav>
             <DNABar />
         </div>
@@ -168,7 +181,7 @@ const MenuIcon = ({
 function Logo({ isOpen }) {
     return (
         <img
-            className="inline-block"
+            className="inline-block object-contain"
             title="Provincie Zuid-Holland Logo"
             style={{ height: "96px" }}
             src={isOpen ? logoWhite : logoSVG}

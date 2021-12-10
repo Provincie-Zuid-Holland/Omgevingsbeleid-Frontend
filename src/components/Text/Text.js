@@ -37,7 +37,7 @@ const getStylesForElement = (type, windowSize) => {
         } else {
             return { fontSize: "1.2rem", lineHeight: "1.6rem" }
         }
-    } else if (type === "body") {
+    } else if (type === "body" || type === "span") {
         if (currentScreenIsMobile) {
             return {
                 fontSize: "1rem",
@@ -68,6 +68,12 @@ function Text({
     const styles = getStylesForElement(type, windowSize)
 
     if (type === "quote") {
+        return (
+            <span style={styles} className={`${color} ${className}`}>
+                {children}
+            </span>
+        )
+    } else if (type === "span") {
         return (
             <span style={styles} className={`${color} ${className}`}>
                 {children}

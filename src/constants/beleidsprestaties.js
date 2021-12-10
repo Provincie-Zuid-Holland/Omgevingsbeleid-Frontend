@@ -7,6 +7,8 @@ export const API_ENDPOINT = "beleidsprestaties"
 export const API_ENDPOINT_VIGEREND = "valid/beleidsprestaties"
 export const SLUG_OVERVIEW = "beleidsprestaties"
 export const SLUG_CREATE_NEW = "nieuw-beleidsprestatie"
+export const DESCRIPTION =
+    "De beleidsprestaties geven aan wat de provincie gaat doen om haar doelen te behalen. De beleidsprestaties zijn een uitwerking van de beleidsdoelen en komen voort uit de begroting."
 
 export const CRUD_PROPERTIES = {
     Titel: {

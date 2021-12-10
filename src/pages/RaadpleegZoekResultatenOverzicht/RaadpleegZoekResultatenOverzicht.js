@@ -4,9 +4,6 @@ import { toast } from "react-toastify"
 import "url-search-params-polyfill"
 import DOMPurify from "dompurify"
 
-import { faArrowLeft } from "@fortawesome/pro-regular-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-
 // Import API
 import axios from "./../../API/axios"
 
@@ -17,7 +14,13 @@ import allDimensieConstants from "./../../constants/dimensies"
 import generateVerordeningsPosition from "./../../utils/generateVerordeningsPosition"
 
 // Import Components
-import LoaderContent from "./../../components/LoaderContent"
+// import LoaderContent from "./../../components/LoaderContent"
+import LoaderCard from "./../../components/LoaderCard"
+import Container from "./../../components/Container"
+import Heading from "./../../components/Heading"
+import Text from "./../../components/Text"
+import SearchBar from "./../../components/SearchBar"
+import Footer from "./../../components/Footer"
 
 function getExcerpt(text) {
     if (!text) {
@@ -108,9 +111,7 @@ function SearchResultItem({ item, searchQuery, index }) {
 
     return (
         <li
-            className={`px-4 py-5 transition-colors duration-100 ease-in bg-white border-b border-gray-300 hover:bg-gray-100 ${
-                index === 0 ? "border-t" : ""
-            }`}
+            className={`py-4 md:pr-8 transition-colors duration-100 ease-in bg-white border-gray-300 group`}
             key={item.UUID}
         >
             <Link
@@ -143,7 +144,7 @@ function SearchResultItem({ item, searchQuery, index }) {
                 >
                     {titleSingular}
                 </span>
-                <h2 className="block mt-1 text-lg font-bold text-pzh-blue group-hover:underline">
+                <h2 className="block mt-1 text-lg font-bold group-hover:text-pzh-green text-pzh-blue group-hover:underline">
                     {content.Titel}
                 </h2>
                 {content.Omschrijving.setInnerHTML ? (
@@ -429,6 +430,8 @@ class RaadpleegZoekResultatenOverzicht extends Component {
         const latLng = searchParams.get("LatLng")
 
         if (!urlParams || urlParams.length === 0) {
+            console.log("NO SEARCH QUERY")
+            this.setState({ dataLoaded: true })
             return
         }
 
@@ -451,7 +454,10 @@ class RaadpleegZoekResultatenOverzicht extends Component {
 
     componentDidUpdate(prevProps) {
         // If new search query in URL we get the new results
-        if (this.props.location.search !== prevProps.location.search) {
+        if (
+            this.props.location.search !== prevProps.location.search &&
+            this.props.location.search
+        ) {
             this.setState(
                 {
                     dataLoaded: false,
@@ -488,125 +494,179 @@ class RaadpleegZoekResultatenOverzicht extends Component {
             "beleidsprestaties",
             "beleidsdoelen",
             "maatregelen",
-            // 'verordeningen',
             "beleidsregels",
         ].filter((e) => onPageFilters[e])
 
         return (
-            <div className="container flex px-6 pb-8 mx-auto mt-12">
-                <div className="w-1/4">
-                    <Link
-                        to={
-                            this.state.searchQuery
-                                ? `/?query=${this.state.searchQuery}`
-                                : `/`
-                        }
-                        className={`text-pzh-blue opacity-75 hover:opacity-100 text-sm mb-4 inline-block group transition-opacity ease-in duration-100`}
-                        id="button-back-to-previous-page"
-                    >
-                        <FontAwesomeIcon className="mr-2" icon={faArrowLeft} />
-                        <span>Startpagina</span>
-                    </Link>
+            <>
+                <Container
+                    className="bg-pzh-blue-light"
+                    style={{ height: 96 + "px" }}
+                >
+                    <div className="flex items-center col-span-2">
+                        <Heading
+                            level="1"
+                            className="relative mt-2 font-bold text-white"
+                            color="text-white"
+                        >
+                            Zoeken
+                        </Heading>
+                    </div>
+                    <div className="flex items-center col-span-4">
+                        <SearchBar className="rounded-sm" />
+                    </div>
+                </Container>
+                <Container className="mt-4">
+                    <SearchFilterSection
+                        loaded={this.state.dataLoaded}
+                        searchFiltersOnly={this.state.searchFiltersOnly}
+                        onPageFilters={onPageFilters}
+                        filters={filters}
+                        handleFilter={this.handleFilter}
+                    />
 
-                    {this.state.dataLoaded &&
-                    this.state.searchFiltersOnly === null ? (
-                        <React.Fragment>
-                            <h2 className="block text-lg font-bold text-pzh-blue group-hover:underline">
-                                Filteren
-                            </h2>
-                            <ul id="filter-search-results" className="mt-4">
-                                {onPageFilters.filterArray &&
-                                onPageFilters.filterArray.length > 0
-                                    ? filters.map((filter) => (
+                    <div className="col-span-6 md:col-span-4">
+                        <ul id="search-results" className="mb-12 ">
+                            {this.state.dataLoaded ? (
+                                this.state.searchResults &&
+                                this.state.searchResults.length > 0 ? (
+                                    this.state.searchResults.map(
+                                        (item, index) => {
+                                            if (
+                                                (filterIsActive &&
+                                                    amountOfFilters > 0 &&
+                                                    !onPageFilters[item.Type]
+                                                        .checked) ||
+                                                (!filterIsActive &&
+                                                    amountOfFilters === 0)
+                                            ) {
+                                                return (
+                                                    <SearchResultItem
+                                                        index={index}
+                                                        searchQuery={
+                                                            this.state.urlParams
+                                                        }
+                                                        item={item}
+                                                        key={item.UUID}
+                                                    />
+                                                )
+                                            }
+                                            return null
+                                        }
+                                    )
+                                ) : (
+                                    <span className="block mt-8 text-sm italic text-gray-600">
+                                        Geen resultaten
+                                    </span>
+                                )
+                            ) : (
+                                <div className="mt-4">
+                                    <LoaderCard height="150" />
+                                    <LoaderCard height="150" />
+                                    <LoaderCard height="150" />
+                                </div>
+                            )}
+                        </ul>
+                    </div>
+                </Container>
+                <Footer />
+            </>
+        )
+    }
+}
+
+const SearchFilterSection = ({
+    loaded,
+    searchFiltersOnly,
+    onPageFilters,
+    filters,
+    handleFilter,
+}) => {
+    const searchFilterCategories = {
+        Omgevingsvisie: ["ambities", "beleidsdoelen", "beleidskeuzes"],
+        Omgevingsprogramma: ["maatregelen"],
+        Uitvoering: ["Beleidsregels"],
+    }
+
+    if (!loaded) {
+        return (
+            <div className="col-span-6 pr-24 mt-0 md:col-span-2 md:mt-4">
+                <LoaderCard height="100" />
+            </div>
+        )
+    }
+
+    return (
+        <div className="col-span-6 mt-0 md:col-span-2 md:mt-4">
+            {searchFiltersOnly === null &&
+            onPageFilters?.filterArray?.length > 0
+                ? Object.keys(searchFilterCategories)
+                      .filter((category) =>
+                          filters.some((filter) =>
+                              searchFilterCategories[category].includes(filter)
+                          )
+                      )
+                      .map((category) => (
+                          <div>
+                              <span className="mt-2 font-bold text-pzh-blue">
+                                  {category}
+                              </span>
+                              <ul id="filter-search-results" className="mb-4">
+                                  {filters
+                                      .filter((filterCategory) =>
+                                          searchFilterCategories[
+                                              category
+                                          ].includes(filterCategory)
+                                      )
+                                      .map((filter) => (
                                           <FilterItem
                                               key={filter}
                                               count={
                                                   onPageFilters[filter].count
                                               }
-                                              handleFilter={this.handleFilter}
+                                              handleFilter={handleFilter}
                                               checked={
                                                   !onPageFilters[filter].checked
                                               }
                                               item={filter}
                                           />
-                                      ))
-                                    : null}
-                            </ul>
-                        </React.Fragment>
-                    ) : null}
-                </div>
-
-                <div className="w-2/4">
-                    <span className="block pl-4 text-xl font-bold opacity-25 text-pzh-blue">
-                        {this.state.searchQuery
-                            ? `Zoekresultaten voor "${this.state.searchQuery}"`
-                            : null}
-                        {this.state.geoSearchQuery
-                            ? `Zoekresultaten voor coördinaten "${this.state.geoSearchQuery}"`
-                            : null}
-                    </span>
-                    <ul id="search-results" className="mt-4 mb-12">
-                        {this.state.dataLoaded ? (
-                            this.state.searchResults &&
-                            this.state.searchResults.length > 0 ? (
-                                this.state.searchResults.map((item, index) => {
-                                    if (
-                                        (filterIsActive &&
-                                            amountOfFilters > 0 &&
-                                            !onPageFilters[item.Type]
-                                                .checked) ||
-                                        (!filterIsActive &&
-                                            amountOfFilters === 0)
-                                    ) {
-                                        return (
-                                            <SearchResultItem
-                                                index={index}
-                                                searchQuery={
-                                                    this.state.urlParams
-                                                }
-                                                item={item}
-                                                key={item.UUID}
-                                            />
-                                        )
-                                    }
-                                    return null
-                                })
-                            ) : (
-                                <span className="block mt-8 text-sm italic text-gray-600">
-                                    Geen resultaten
-                                </span>
-                            )
-                        ) : (
-                            <LoaderContent />
-                        )}
-                    </ul>
-                </div>
-            </div>
-        )
-    }
+                                      ))}
+                              </ul>
+                          </div>
+                      ))
+                : null}
+        </div>
+    )
 }
 
 const FilterItem = ({ handleFilter, checked, item, count }) => {
     const dimensieContants = getDimensieConstant(item)
     const titleSingular = dimensieContants.TITLE_SINGULAR
-    const itemTitle = item === "Verordeningen" ? "Artikelen" : item
+    const capitilizeFirstCharacter = (string) =>
+        titleSingular.charAt(0).toUpperCase() + titleSingular.slice(1)
+    const getItemTitle = (item) => {
+        return item === "Verordeningen"
+            ? "Artikelen"
+            : capitilizeFirstCharacter(item)
+    }
+    const itemTitle = getItemTitle(item)
 
     return (
-        <li key={item} className="mt-1 text-sm text-gray-700">
+        <li key={item} className="mt-1 text-pzh-blue-dark">
             <label
-                className="cursor-pointer select-none"
+                className="flex items-center cursor-pointer select-none"
                 id={`filter-for-${titleSingular}`}
             >
                 <input
-                    className="mr-2 leading-tight"
+                    className="mr-2 leading-tight w-3a h-3a text-pzh-green form-checkbox"
                     type="checkbox"
                     checked={checked}
                     onChange={(e) => handleFilter(e)}
                     name={item}
                 />
-                <span>
+                <Text type="span" className="pt-1">
                     {itemTitle} ({count})
-                </span>
+                </Text>
             </label>
         </li>
     )

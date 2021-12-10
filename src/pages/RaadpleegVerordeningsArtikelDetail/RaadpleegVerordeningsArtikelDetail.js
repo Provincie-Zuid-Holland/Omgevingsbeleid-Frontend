@@ -454,7 +454,10 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                                 id="raadpleeg-detail-werkingsgebied"
                             >
                                 <div className="flex items-center justify-between pb-3 text-gray-800">
-                                    <h2 className="block mb-1 text-lg font-bold tracking-wide text-pzh-blue">
+                                    <h2
+                                        className="block mb-1 text-lg font-bold tracking-wide text-pzh-blue"
+                                        id={`raadpleeg-section-werkingsgebied`}
+                                    >
                                         Werkingsgebied
                                     </h2>
                                     <span

@@ -9,6 +9,12 @@ import Text from "./../../components/Text"
 import Container from "./../../components/Container"
 import Footer from "./../../components/Footer"
 
+import {
+    getResponsiveImageHeight,
+    getResponsiveImageOffset,
+} from "./../../utils/responsiveImage"
+import { useWindowSize } from "../../utils/useWindowSize"
+
 /**
  * Component page that imports the component LoginForm, so the user is able to login the application and reset the password when needed.
  * This component renders the title of the page (using the imported Helmet libary, to get the plain HTML tag and output the plain HTML tag), other tags with given text information and the imported LoginForm component with set information.
@@ -17,16 +23,24 @@ import Footer from "./../../components/Footer"
  * @param {function} setLoginState Callback to set login state in App component state
  */
 const Login = ({ setLoginUser, setLoginState }) => {
+    const windowSize = useWindowSize()
+    const responsiveImageHeight = getResponsiveImageHeight()
+    const responsiveImageOffset = getResponsiveImageOffset()
+
     return (
         <>
             <Container
-                style={{
-                    minHeight: "576px",
-                }}
+                style={
+                    windowSize.width > 640
+                        ? {
+                              minHeight: "576px",
+                          }
+                        : null
+                }
                 className="overflow-hidden"
             >
-                <div className="col-span-3 mb-8">
-                    <Heading level="1" className="mt-16">
+                <div className="col-span-6 mt-0 lg:mb-8 lg:col-span-3">
+                    <Heading level="1" className="mt-4 sm:mt-12 lg:mt-16">
                         Inloggen
                     </Heading>
                     <Text type="introduction-paragraph" className="mt-3">
@@ -38,7 +52,7 @@ const Login = ({ setLoginUser, setLoginState }) => {
                         setLoginState={setLoginState}
                     />
                 </div>
-                <div className="relative col-span-3">
+                <div className="relative hidden col-span-3 lg:inline-block">
                     <div
                         className={`absolute bg-cover bg-no-repeat bg-center left-0 top-0 h-full image-login-1 text-white sm:inline-block`}
                         style={{
@@ -48,12 +62,11 @@ const Login = ({ setLoginUser, setLoginState }) => {
                     />
                 </div>
             </Container>
+            <div className="block w-full h-64 bg-center bg-no-repeat bg-cover bg-pzh-blue lg:hidden image-login-1"></div>
 
             <Container className="border-t border-gray-300">
-                <div className="col-span-3 py-12">
-                    <Heading level="2" className="">
-                        Digitaal Omgevingsbeleid
-                    </Heading>
+                <div className="col-span-6 py-4 mt-4 lg:mt-0 lg:py-12 lg:col-span-3">
+                    <Heading level="3">Digitaal Omgevingsbeleid</Heading>
                     <Text type="body" className="mt-3">
                         Provincie Zuid-Holland heeft haar beleid eenvoudiger,
                         transparanter en toegankelijker gemaakt. Via deze
@@ -64,8 +77,8 @@ const Login = ({ setLoginUser, setLoginState }) => {
                         Ga naar de raadpleegomgeving
                     </Link>
                 </div>
-                <div className="relative col-span-3 py-12">
-                    <Heading level="2">Hulp bij het inloggen</Heading>
+                <div className="col-span-6 py-4 mt-4 mb-4 lg:mt-0 lg:py-12 lg:col-span-3">
+                    <Heading level="3">Hulp bij het inloggen</Heading>
                     <Text type="body" className="mt-3">
                         Lukt het niet om in te loggen? Neem contact op met de
                         afdeling omgevingsbeleid via{" "}
