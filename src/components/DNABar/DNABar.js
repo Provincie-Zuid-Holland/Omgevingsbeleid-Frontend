@@ -7,7 +7,11 @@ function DNABar() {
     const windowSize = useWindowSize()
 
     return (
-        <div className="absolute top-0 right-0 z-10">
+        <div
+            className={`absolute top-0 right-0 z-10 ${
+                windowSize.width > 640 ? "" : "hidden"
+            }`}
+        >
             <img
                 className="inline-block"
                 title="Provincie Zuid-Holland Logo"

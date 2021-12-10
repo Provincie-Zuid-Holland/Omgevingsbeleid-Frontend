@@ -12,37 +12,21 @@ import GraphContext from "./../../App/GraphContext"
 // Import Components
 import Heading from "./../../components/Heading"
 import Text from "./../../components/Text"
-import LeafletViewer from "./../../components/LeafletViewer"
-import SearchBar from "./../../components/SearchBar"
 import Container from "./../../components/Container"
 import Footer from "./../../components/Footer"
+
+import SearchSection from "./SearchSection"
+
+import {
+    getResponsiveImageHeight,
+    getResponsiveImageOffset,
+} from "./../../utils/responsiveImage"
 
 /**
  * Landing page component.
  */
 const RaadpleegHome = () => {
     const { setGraphIsOpen } = React.useContext(GraphContext)
-
-    const getResponsiveImageHeight = () => {
-        const screenWidth = window.screen.width
-        const isLarge = screenWidth > 1024
-        const isMedium = screenWidth < 1024 && screenWidth > 640
-        const responsiveHeight = isLarge ? 522 : isMedium ? 300 : 250
-
-        return {
-            height: responsiveHeight + "px",
-        }
-    }
-
-    const getResponsiveImageOffset = () => {
-        const screenWidth = window.screen.width
-        const isLarge = screenWidth > 1024
-        const isMedium = screenWidth < 1024 && screenWidth > 640
-
-        return {
-            marginTop: !isLarge && !isMedium ? "250px" : "0px",
-        }
-    }
 
     const responsiveImageHeight = getResponsiveImageHeight()
     const responsiveImageOffset = getResponsiveImageOffset()
@@ -108,29 +92,8 @@ const RaadpleegHome = () => {
                         zoeken.
                     </Text>
                 </div>
-                {/* TODO: Turn into component */}
-                {/* TODO: Add Leaflet search option */}
-                {/* <LeafletViewer className="w-full border border-gray-300 rounded" /> */}
-                <div className="col-span-6 px-6 pt-3 pb-6 mt-4 lg:mt-0 lg:col-span-4 bg-pzh-cool-gray-light bg-opacity-30">
-                    <div className="w-full border-b border-gray-400">
-                        <div className="inline-block px-2 pl-0 font-bold">
-                            <span className="inline-block py-1 border-b-4 border-pzh-green text-pzh-green">
-                                Zoeken op tekst
-                            </span>
-                        </div>
-                        <div className="inline-block px-2">
-                            <span className="inline-block py-1">
-                                Zoeken op de kaart
-                            </span>
-                        </div>
-                    </div>
-                    <Text type="body" className="mt-4">
-                        Waar bent u naar op zoek binnen het beleid van de
-                        provincie Zuid-Holland?
-                    </Text>
-                    {/* TODO: Edit styling */}
-                    <SearchBar className="mt-2" />
-                </div>
+
+                <SearchSection />
             </Container>
 
             <div className="w-full bg-pzh-blue">
@@ -140,6 +103,7 @@ const RaadpleegHome = () => {
                             Opbouw van het beleid
                         </Heading>
                         <Text type="body" color="text-white" className="mt-4">
+                            {/* {TODO: ADD LINKJES DIE SCROLLEN} */}
                             De Omgevingswet streeft ernaar om al het beleid over
                             de fysieke leefomgeving te vereenvoudigen zodat het
                             voor iedereen is te begrijpen. Daarom zet de
@@ -165,15 +129,31 @@ const RaadpleegHome = () => {
                 >
                     <Heading level="2">Omgevingsvisie</Heading>
                     <Text type="body" className="mt-4">
-                        {/* TODO: Add Links */}
                         De visie van de provincie Zuid-Holland geeft aan waar de
                         provincie voor staat. Het beschrijft hoe de provincie de
                         toekomst van Zuid-Holland voor zich ziet. De
-                        Omgevingsvisie bevat verschillende onderdelen: in de
-                        ambities wordt omschreven waar we als provincie heen
-                        willen, de beleidsdoelen geven hier richting aan en de
-                        beleidskeuzes bepalen hoe de ambities bereikt dienen te
-                        worden.
+                        Omgevingsvisie bevat verschillende onderdelen: in de{" "}
+                        <Link
+                            className="underline text-pzh-green"
+                            to="/overzicht/ambities"
+                        >
+                            ambities
+                        </Link>{" "}
+                        wordt omschreven waar we als provincie heen willen, de{" "}
+                        <Link
+                            className="underline text-pzh-green"
+                            to="/overzicht/beleidsdoelen"
+                        >
+                            beleidsdoelen
+                        </Link>{" "}
+                        geven hier richting aan en de{" "}
+                        <Link
+                            className="underline text-pzh-green"
+                            to="/overzicht/beleidskeuzes"
+                        >
+                            beleidskeuzes
+                        </Link>{" "}
+                        bepalen hoe de ambities bereikt dienen te worden.
                     </Text>
                 </div>
                 <div
@@ -198,7 +178,13 @@ const RaadpleegHome = () => {
                         maken. Het Omgevingsprogramma geeft bijvoorbeeld aan
                         voor welke initiatieven subsidies worden verleend en aan
                         welke provinciale wegen wordt gewerkt. Het
-                        Omgevingsprogramma is een overzicht van alle maatregelen
+                        Omgevingsprogramma is een overzicht van alle{" "}
+                        <Link
+                            className="underline text-pzh-green"
+                            to="/overzicht/maatregelen"
+                        >
+                            maatregelen
+                        </Link>{" "}
                         inclusief de onderliggende activiteiten.
                     </Text>
                 </div>
@@ -284,7 +270,10 @@ const RaadpleegHome = () => {
                             Hiernaast tonen wij een overzicht met recent
                             opgeleverde functionaliteiten. Benieuwd wat er op
                             onze planning staat?{" "}
-                            <Link className="underline" to="roadmap">
+                            <Link
+                                className="underline"
+                                to="/planning-en-releases"
+                            >
                                 Bekijk onze roadmap
                             </Link>
                             .

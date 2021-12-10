@@ -67,9 +67,8 @@ const RelatiesKoppelingen = ({
     const [isLoading, setIsLoading] = React.useState(true)
     const [activeTab, setActiveTab] = React.useState("Visueel")
 
-    const [verordeningsStructure, setVerordeningStructure] = React.useState(
-        null
-    )
+    const [verordeningsStructure, setVerordeningStructure] =
+        React.useState(null)
 
     // As the height of the containers will vary by the content, we make sure the user can immediately see the whole container by scrolling down
     React.useEffect(
@@ -204,7 +203,10 @@ const RelatiesKoppelingen = ({
         <div className="w-full pb-24 bg-orange-100">
             <div className="container max-w-4xl pt-16 mx-auto">
                 <div className="px-6">
-                    <h2 className="block mb-1 text-lg font-bold tracking-wide text-yellow-700">
+                    <h2
+                        className="block mb-1 text-lg font-bold tracking-wide text-yellow-700"
+                        id="raadpleeg-section-relaties-koppelingen"
+                    >
                         Koppelingen & Relaties
                     </h2>
                     <p>

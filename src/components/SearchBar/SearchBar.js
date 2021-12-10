@@ -20,7 +20,7 @@ const SearchBar = ({ placeholder, id = "search-query", className = "" }) => {
     const history = useHistory()
 
     const [searchQuery, setSearchQuery] = React.useState("")
-    const [searchBarPopupOpen, setSearchBarPopupOpen] = React.useState(true)
+    const [searchBarPopupOpen, setSearchBarPopupOpen] = React.useState(false)
 
     const searchBarRef = React.useRef()
     useClickOutsideContainer(searchBarRef, () => {
@@ -30,6 +30,7 @@ const SearchBar = ({ placeholder, id = "search-query", className = "" }) => {
     const handleKeyDown = (e) => {
         if (e.keyCode === 13) {
             // Enter key
+            if (searchQuery.length === 0) return
             setSearchBarPopupOpen(false)
             history.push(`/zoekresultaten?query=${searchQuery}`)
         } else if (e.key === "Escape") {
@@ -63,7 +64,7 @@ const SearchBar = ({ placeholder, id = "search-query", className = "" }) => {
             className={`relative block w-full ${className}`}
         >
             <input
-                className={`block w-full pr-10 bg-gray-50 rounded-full appearance-none px-3 py-1 border hover:border-gray-300 border-gray-200 transition-colors ease-in duration-100`}
+                className={`block pl-10 w-full bg-gray-50 rounded appearance-none px-3 border hover:border-opacity-40 border-pzh-blue-dark border-opacity-30 transition-colors ease-in duration-100`}
                 name="searchInput"
                 onChange={(e) => {
                     setSearchQuery(e.target.value)
@@ -81,9 +82,10 @@ const SearchBar = ({ placeholder, id = "search-query", className = "" }) => {
                 }
                 onKeyDown={handleKeyDown}
             />
-            <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                 <FontAwesomeIcon
-                    className="ml-2 text-gray-500"
+                    style={{ height: "18px", width: "18px" }}
+                    className="text-pzh-blue-dark"
                     icon={faSearch}
                 />
             </div>

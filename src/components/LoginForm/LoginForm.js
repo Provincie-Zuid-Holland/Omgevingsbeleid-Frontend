@@ -88,9 +88,8 @@ const LoginForm = ({ setLoginState, setLoginUser }) => {
     const [identifier, setIdentifier] = React.useState("")
     const [password, setPassword] = React.useState("")
     const [loading, setLoading] = React.useState(false)
-    const [wachtwoordResetPopup, setWachtwoordResetPopup] = React.useState(
-        false
-    )
+    const [wachtwoordResetPopup, setWachtwoordResetPopup] =
+        React.useState(false)
 
     const displayErrorMsg = (err) => {
         let errorEl = document.getElementById("error-message")
@@ -155,7 +154,7 @@ const LoginForm = ({ setLoginState, setLoginUser }) => {
                     setWachtwoordResetPopup(!wachtwoordResetPopup)
                 }
             />
-            <form className="my-8" onSubmit={handleFormSubmit}>
+            <form className="my-4 sm:my-8" onSubmit={handleFormSubmit}>
                 <div>
                     <label
                         className="block mb-2 text-pzh-blue"
@@ -174,7 +173,7 @@ const LoginForm = ({ setLoginState, setLoginUser }) => {
                         onChange={(e) => setIdentifier(e.target.value)}
                     />
                 </div>
-                <div className="my-6">
+                <div className="my-4 sm:my-6">
                     <label
                         className="block mb-2 text-pzh-blue"
                         htmlFor="form-field-login-password"
@@ -192,7 +191,7 @@ const LoginForm = ({ setLoginState, setLoginUser }) => {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </div>
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col items-start md:items-center md:justify-between md:flex-row">
                     <button
                         className="inline-block px-8 pt-2 pb-2 text-white transition-colors duration-200 ease-in rounded bg-pzh-blue hover:bg-pzh-blue-dark focus:outline-none focus:ring"
                         type="submit"
@@ -208,7 +207,7 @@ const LoginForm = ({ setLoginState, setLoginUser }) => {
                         {loading ? "..." : ""}
                     </button>
                     <button
-                        className="ml-4 text-sm underline cursor-pointer text-pzh-green"
+                        className="mt-4 text-sm underline cursor-pointer sm:mt-0 sm:ml-4 text-pzh-green"
                         onClick={(e) => {
                             e.preventDefault()
                             setWachtwoordResetPopup(!wachtwoordResetPopup)

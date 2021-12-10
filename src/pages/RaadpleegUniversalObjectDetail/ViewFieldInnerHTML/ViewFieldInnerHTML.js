@@ -6,7 +6,12 @@ function ViewFieldInnerHTML({ html, fieldTitel }) {
     return (
         <div className="mb-8">
             {fieldTitel ? (
-                <h2 className="block mb-1 text-lg font-bold tracking-wide text-pzh-blue">
+                <h2
+                    className="block mb-1 text-lg font-bold tracking-wide text-pzh-blue"
+                    id={`raadpleeg-section-${fieldTitel
+                        .toLowerCase()
+                        .replace(/ /g, "-")}`}
+                >
                     {fieldTitel}
                 </h2>
             ) : null}

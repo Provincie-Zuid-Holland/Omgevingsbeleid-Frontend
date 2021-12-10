@@ -82,9 +82,7 @@ const FeedbackComponent = () => {
             <div className="container relative flex px-6 pt-0 mx-auto sm:mt-8 sm:py-10 sm:px-6 lg:px-8">
                 <a
                     href={mailTo}
-                    className={`absolute pointer-events-auto bottom-0 px-3 pt-2 pb-3 font-bold text-white transition duration-200 ease-out transform translate-y-2 cursor-pointer rounded-t-md bg-pzh-red hover:translate-y-0 ${
-                        userIsOnEditPage ? "left-0 ml-8" : "right-0 mr-8"
-                    }`}
+                    className={`absolute pointer-events-auto bottom-0 px-3 pt-2 pb-3 font-bold text-white transition duration-200 ease-out transform translate-y-2 cursor-pointer rounded-t-md bg-pzh-red hover:translate-y-0 left-0 ml-4`}
                 >
                     <FontAwesomeIcon
                         className="mr-2 text-white"

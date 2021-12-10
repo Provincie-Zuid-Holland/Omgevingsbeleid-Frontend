@@ -1,6 +1,14 @@
 import React from "react"
 
 /**
+ * Responsive breakpoints are as follows:
+ * sm	640px	@media min-width: 640px
+ * md	768px	@media min-width: 768px
+ * lg	1024px	@media min-width: 1024px
+ * xl	1280px	@media min-width: 1280px
+ * 2xl	1536px	@media min-width: 1536px
+ * See the tailwind documentation:
+ * https://tailwindcss.com/docs/responsive-design
  * @returns {object} - Returns the window size in the format {width: x, height: y}
  */
 function useWindowSize() {

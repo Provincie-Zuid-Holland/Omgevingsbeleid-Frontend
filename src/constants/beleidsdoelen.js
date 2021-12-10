@@ -7,6 +7,8 @@ export const API_ENDPOINT = "beleidsdoelen"
 export const API_ENDPOINT_VIGEREND = "valid/beleidsdoelen"
 export const SLUG_OVERVIEW = "beleidsdoelen"
 export const SLUG_CREATE_NEW = "nieuw-beleidsdoel"
+export const DESCRIPTION =
+    "De beleidsdoelen geven aan wat de provincie wil bereiken. De beleidsdoelen zijn een uitwerking van de ambities en komen voort uit de begroting."
 
 export const CRUD_PROPERTIES = {
     Titel: {

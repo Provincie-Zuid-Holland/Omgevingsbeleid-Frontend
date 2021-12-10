@@ -14,8 +14,11 @@ function RaadpleegPlanningAndReleases() {
     return (
         <div>
             <Container className="overflow-hidden">
-                <div className="col-span-3">
-                    <Heading level="1" className="mt-16">
+                <div className="col-span-6 mb-0 lg:col-span-3 sm:mb-16 lg:mb-0">
+                    <Heading
+                        level="1"
+                        className="mt-1 sm:mt-8 md:mt-12 lg:mt-16"
+                    >
                         Planning & Releases
                     </Heading>
                     <Text type="introduction-paragraph" className="mt-3">
@@ -24,7 +27,7 @@ function RaadpleegPlanningAndReleases() {
                         recent opgeleverde functionaliteiten en een planning
                         voor de langere termijn.
                     </Text>
-                    <Text type="body" className="mt-8">
+                    <Text type="body" className="mt-4 sm:mt-8">
                         Uiteraard vinden wij het fijn om feedback en input te
                         ontvangen van onze gebruikers. Heeft u vragen, ideeën of
                         suggesties? Neem gerust contact op met ons via
@@ -32,7 +35,7 @@ function RaadpleegPlanningAndReleases() {
                     </Text>
                 </div>
                 <div
-                    className="relative col-span-3"
+                    className="relative hidden col-span-3 lg:block"
                     style={{ minHeight: "480px" }} // To mimick the height of the 480px div with the absolute position
                 >
                     <div
@@ -50,8 +53,13 @@ function RaadpleegPlanningAndReleases() {
                     </div>
                 </div>
             </Container>
-            <Container className="pb-12">
-                <Heading className="col-span-6 mt-8" level="2">
+            <img
+                src={imagePlanningAndReleases}
+                alt="Afbeelding van twee maquettes"
+                className="block w-full h-64 mt-6 bg-center bg-no-repeat bg-cover bg-pzh-blue lg:hidden image-home-1"
+            />
+            <Container className="pb-8 lg:pb-12">
+                <Heading className="col-span-6 mt-6 sm:mt-8" level="2">
                     Belangrijke ontwikkelingen
                 </Heading>
                 <Text type="body" className="col-span-6 mt-4">
@@ -98,7 +106,7 @@ function RaadpleegPlanningAndReleases() {
                 </OntwikkelingenList>
             </Container>
             <HorizontalDivider />
-            <Container className="pt-12">
+            <Container className="pt-8 lg:pt-12">
                 <Heading className="col-span-6" level="2">
                     Releases
                 </Heading>
@@ -149,9 +157,9 @@ function RaadpleegPlanningAndReleases() {
 
 const ReleaseList = ({ children }) => {
     return (
-        <ul className="grid grid-cols-6 col-span-6 mt-8 gap-x-10 gap-y-0">
+        <ul className="grid grid-cols-6 col-span-6 gap-x-10 gap-y-0">
             {children}
-            <li className="col-span-5 col-start-2 py-4 underline text-pzh-green">
+            <li className="col-span-6 py-4 underline lg:col-span-5 lg:col-start-2 text-pzh-green">
                 Toon meer releases
             </li>
         </ul>
@@ -160,13 +168,16 @@ const ReleaseList = ({ children }) => {
 
 const ReleaseListItem = ({ title, description, date, items }) => {
     return (
-        <li className="relative col-span-6 pb-8 mt-8 border-b border-gray-300">
+        <li className="relative col-span-6 pb-8 mt-4 border-b border-gray-300 sm:mt-8">
             <div className="grid grid-cols-6 col-span-6 gap-x-10 gap-y-0">
-                <div className="col-span-1 opacity-50 text-pzh-blue-dark">
+                <div className="col-span-6 opacity-50 lg:col-span-1 text-pzh-blue-dark">
                     {date}
                 </div>
-                <div className="col-span-5">
-                    <Heading className="text-pzh-pink-dark" level="3">
+                <div className="col-span-6 lg:col-span-5">
+                    <Heading
+                        className="mt-4 text-pzh-pink-dark lg:mt-0"
+                        level="3"
+                    >
                         {title}
                     </Heading>
                     <Text className="mt-3" type="body">
@@ -177,9 +188,9 @@ const ReleaseListItem = ({ title, description, date, items }) => {
                             <span className="inline-block font-bold">
                                 {key}
                             </span>
-                            <ul className="">
+                            <ul className="pl-6">
                                 {items[key].map((item) => (
-                                    <li className="list-disc list-inside ">
+                                    <li className="pl-1 list-disc list-outside">
                                         {item}
                                     </li>
                                 ))}
@@ -194,7 +205,7 @@ const ReleaseListItem = ({ title, description, date, items }) => {
 
 const OntwikkelingenList = ({ children }) => {
     return (
-        <ul className="grid grid-cols-6 col-span-6 mt-8 gap-x-10 gap-y-0">
+        <ul className="grid grid-cols-6 col-span-6 gap-x-10 gap-y-0">
             {children}
         </ul>
     )
@@ -202,7 +213,7 @@ const OntwikkelingenList = ({ children }) => {
 
 const OntwikkelingenListItem = ({ children, title, icon }) => {
     return (
-        <li className="relative col-span-3 pl-8 mt-8">
+        <li className="relative col-span-6 pl-8 mt-6 lg:col-span-3 sm:mt-8">
             <span className="absolute top-0 left-0 w-4 h-4">
                 <FontAwesomeIcon
                     className="text-lg text-pzh-pink-dark"

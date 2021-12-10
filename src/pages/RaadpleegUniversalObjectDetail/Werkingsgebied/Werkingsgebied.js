@@ -12,7 +12,10 @@ const Werkingsgebied = ({
     return (
         <div className="w-full mt-8" id="raadpleeg-detail-werkingsgebied">
             <div className="flex items-center justify-between pb-3">
-                <h2 className="block mb-1 text-lg font-bold tracking-wide text-pzh-blue">
+                <h2
+                    className="block mb-1 text-lg font-bold tracking-wide text-pzh-blue"
+                    id="raadpleeg-section-werkingsgebied"
+                >
                     Werkingsgebied
                 </h2>
                 <span
