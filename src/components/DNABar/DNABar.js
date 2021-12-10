@@ -8,7 +8,7 @@ function DNABar() {
 
     return (
         <div
-            className={`absolute top-0 right-0 z-10 ${
+            className={`absolute top-0 pointer-events-none right-0 z-10 ${
                 windowSize.width > 640 ? "" : "hidden"
             }`}
         >

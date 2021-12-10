@@ -17,6 +17,7 @@ import NetworkGraphSidebar from "./../NetworkGraphSidebar"
 import NetworkGraphTooltip from "./../NetworkGraphTooltip"
 import NetworkGraphResetClickedElement from "./../NetworkGraphResetClickedElement"
 import NetworkGraphClickedElementPopup from "./../NetworkGraphClickedElementPopup"
+import LoaderSpinner from "../LoaderSpinner"
 
 /**
  * @param {object} props
@@ -35,6 +36,9 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
      * Contains the graph data we receive from the API, containing the nodes & links
      */
     const [data, setData] = React.useState([])
+
+    /** Loading state */
+    const [isLoading, setIsLoading] = React.useState(true)
 
     /**
      * Contain the 'left' and 'top' position variables to pass to the tooltip
@@ -294,6 +298,7 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
             .then((res) => {
                 const data = addColorAndUUIDToNodes(res.data)
                 setData(data)
+                setIsLoading(false)
                 setFilters({ type: "init", data: data })
             })
             .catch((err) => console.error("error: ", err?.message))
@@ -687,9 +692,9 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
      */
     React.useEffect(() => {
         if (showBanner) {
-            setGraphStyles({ height: "calc(100vh - 73px)", top: "121px" })
+            setGraphStyles({ height: "calc(100vh - 96px)", top: "121px" })
         } else {
-            setGraphStyles({ height: "calc(100vh - 73px)", top: "73px" })
+            setGraphStyles({ height: "calc(100vh - 96px)", top: "96px" })
         }
     }, [showBanner])
 
@@ -709,13 +714,14 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
                     className="fixed top-0 left-0 w-full bg-white"
                     style={graphStyles}
                 >
-                    <div className="container flex h-full mx-auto">
+                    <div className="container flex flex-col h-full mx-auto lg:flex-row">
                         <NetworkGraphSidebar
+                            isLoading={isLoading}
                             setGraphIsOpen={setGraphIsOpen}
                             filters={filters}
                             setFilters={setFilters}
                         />
-                        <div className="w-3/4 mt-10">
+                        <div className="w-full px-4 pb-4 mt-6 lg:mt-10 lg:w-3/4">
                             <h2 className="text-xl text-pzh-blue opacity-30">
                                 Omgevingsbeleid Provincie Zuid-Holland
                             </h2>
@@ -729,6 +735,11 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
                                     height: "80%",
                                 }}
                             >
+                                {isLoading ? (
+                                    <div className="flex items-center justify-center w-full h-full">
+                                        <LoaderSpinner />
+                                    </div>
+                                ) : null}
                                 <svg
                                     role="img"
                                     className="w-full h-full d3-component"

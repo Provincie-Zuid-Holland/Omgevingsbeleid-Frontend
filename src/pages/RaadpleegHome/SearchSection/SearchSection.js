@@ -43,7 +43,7 @@ function SearchSection({}) {
                         een specifieke locatie raadplegen? Zoek hieronder op een
                         locatie of markeer een punt of vorm op de kaart.
                     </Text>
-                    <div className="w-full mx-auto" id="leaflet-homepage">
+                    <div className="w-full mx-auto mt-4" id="leaflet-homepage">
                         <LeafletViewer className="w-full border border-gray-300 rounded" />
                     </div>
                 </div>
@@ -61,7 +61,7 @@ const SearchSectionLabel = ({ active, text }) => {
         )
     } else {
         return (
-            <span className="inline-block py-1 cursor-pointer hover:text-pzh-green">
+            <span className="inline-block py-1 transition-colors duration-150 ease-in cursor-pointer hover:text-pzh-green">
                 {text}
             </span>
         )

@@ -1,5 +1,9 @@
 import React from "react"
-import { faArrowLeft } from "@fortawesome/pro-regular-svg-icons"
+import {
+    faArrowLeft,
+    faChevronDown,
+    faChevronUp,
+} from "@fortawesome/pro-regular-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useHistory, useLocation } from "react-router-dom"
 import { useLastLocation } from "react-router-last-location"
@@ -7,19 +11,43 @@ import { useLastLocation } from "react-router-last-location"
 import networkGraphConnectionProperties from "../../constants/networkGraphConnectionProperties"
 import networkGraphFilterMenu from "../../constants/networkGraphFilterMenu"
 
+import { useWindowSize } from "../../utils/useWindowSize"
+
+import LoaderCard from "./../../components/LoaderCard"
+
 /**
  *
  * @param {object} props
- * @param {object} props
- * @returns A component that displays a sidebar with functionality to filter node types
+ * @param {function} props.setGraphIsOpen
+ * @param {object} props.filters
+ * @param {function} props.setFilters
+ * @param {boolean} props.isLoading
+ * @returns The sidebar where the user can filter the graph
  */
-const NetworkGraphSidebar = ({ setGraphIsOpen, filters, setFilters }) => {
+const NetworkGraphSidebar = ({
+    setGraphIsOpen,
+    filters,
+    setFilters,
+    isLoading,
+}) => {
     /**
      * History is set to push a custom url when the graph is Open
      */
     const history = useHistory()
     const location = useLocation()
     const lastLocation = useLastLocation()
+    const windowSize = useWindowSize()
+
+    const [isOpen, setIsOpen] = React.useState(true)
+    const [isTablet, setisTablet] = React.useState(false)
+
+    React.useEffect(() => {
+        if (windowSize.width < 1024) {
+            setisTablet(true)
+        } else {
+            setisTablet(false)
+        }
+    }, [windowSize])
 
     /** Set initial lastLocation, as the networkGraph can update the URL */
     const lastLocationRef = React.useRef(lastLocation)
@@ -39,7 +67,7 @@ const NetworkGraphSidebar = ({ setGraphIsOpen, filters, setFilters }) => {
     }
 
     return (
-        <div className="w-1/4 pl-6 my-10">
+        <div className="w-full px-4 pr-4 mt-10 mb-4 lg:pl-6 lg:ml-10 lg:w-1/4">
             <div
                 className="mb-6 text-sm text-gray-600 transition-colors duration-100 ease-in cursor-pointer hover:text-gray-800 "
                 onClick={() => {
@@ -50,35 +78,58 @@ const NetworkGraphSidebar = ({ setGraphIsOpen, filters, setFilters }) => {
                 <FontAwesomeIcon className="mr-2" icon={faArrowLeft} />
                 <span>Vorige pagina</span>
             </div>
-            <h2 className="text-lg text-bold text-pzh-blue">Filter</h2>
-            {Object.keys(networkGraphFilterMenu).map((filterSection) => {
-                return (
-                    <div key={filterSection} className="mt-4">
-                        <span className="font-bold text-pzh-blue-dark">
-                            {filterSection}
-                        </span>
-                        <ul>
-                            {Object.keys(filters)
-                                .filter((e) =>
-                                    networkGraphFilterMenu[
-                                        filterSection
-                                    ].includes(e)
-                                )
-                                .sort()
-                                .map((filterKey) => {
-                                    return (
-                                        <ListItem
-                                            key={filterKey}
-                                            setFilters={setFilters}
-                                            filterKey={filterKey}
-                                            filters={filters}
-                                        />
-                                    )
-                                })}
-                        </ul>
-                    </div>
-                )
-            })}
+            <h2
+                className="relative text-lg text-bold text-pzh-blue"
+                onClick={() => {
+                    if (isTablet) {
+                        setIsOpen(!isOpen)
+                    }
+                }}
+            >
+                {isTablet ? `${isOpen ? "Sluit" : "Open"} filters` : "Filters"}
+                {isTablet ? (
+                    <FontAwesomeIcon
+                        className={`ml-4`}
+                        icon={isOpen ? faChevronUp : faChevronDown}
+                    />
+                ) : null}
+            </h2>
+            {isOpen
+                ? Object.keys(networkGraphFilterMenu).map((filterSection) => {
+                      return (
+                          <div key={filterSection} className="mt-4">
+                              <span className="font-bold text-pzh-blue-dark">
+                                  {filterSection}
+                              </span>
+                              <ul>
+                                  {isLoading ? (
+                                      <li>
+                                          <LoaderCard height="10" />
+                                      </li>
+                                  ) : (
+                                      Object.keys(filters)
+                                          .filter((e) =>
+                                              networkGraphFilterMenu[
+                                                  filterSection
+                                              ].includes(e)
+                                          )
+                                          .sort()
+                                          .map((filterKey) => {
+                                              return (
+                                                  <ListItem
+                                                      key={filterKey}
+                                                      setFilters={setFilters}
+                                                      filterKey={filterKey}
+                                                      filters={filters}
+                                                  />
+                                              )
+                                          })
+                                  )}
+                              </ul>
+                          </div>
+                      )
+                  })
+                : null}
         </div>
     )
 }

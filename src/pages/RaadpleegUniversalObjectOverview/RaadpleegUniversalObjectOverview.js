@@ -63,7 +63,7 @@ function RaadpleegUniversalObjectOverview({ dataModel }) {
                             </Heading>
                             <Link
                                 className="block mt-2 mb-1 sm:mb-0 sm:mt-0"
-                                to="/zoeken"
+                                to="/zoekresultaten"
                             >
                                 <Text
                                     className="underline"

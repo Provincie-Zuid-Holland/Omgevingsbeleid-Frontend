@@ -153,7 +153,7 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
                             style={isMobile ? containerHeightStyle : null}
                         >
                             <div className="flex flex-col items-center col-span-6 mt-6 sm:flex-row">
-                                <div className="relative flex items-center w-full sm:w-5/6">
+                                <div className="relative flex items-center w-full">
                                     <FontAwesomeIcon
                                         className="absolute left-0 ml-2 text-lg text-pzh-blue-dark"
                                         icon={faSearch}
@@ -186,51 +186,43 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
                                         }
                                     />
                                 </div>
-                                <div className="hidden w-full pl-2 mt-2 sm:flex sm:w-1/6">
-                                    <span>of</span>
-                                    <span className="ml-2 underline text-pzh-green">
-                                        Zoek op de kaart
-                                    </span>
-                                </div>
                             </div>
                             <div className="col-span-6 mt-6 md:col-span-2">
                                 <Heading level="3">Omgevingsvisie</Heading>
                                 <ul className="mt-1">
                                     <ListItem
+                                        text="Ambities"
                                         setIsOpen={setIsOpen}
                                         to="/overzicht/ambities"
-                                    >
-                                        Ambities
-                                    </ListItem>
+                                    />
+
                                     <ListItem
+                                        text="Beleidsdoelen"
                                         setIsOpen={setIsOpen}
                                         to="/overzicht/beleidsdoelen"
-                                    >
-                                        Beleidsdoelen
-                                    </ListItem>
+                                    />
+
                                     <ListItem
+                                        text="Beleidskeuzes"
                                         setIsOpen={setIsOpen}
                                         to="/overzicht/beleidskeuzes"
-                                    >
-                                        Beleidskeuzes
-                                    </ListItem>
+                                    />
                                 </ul>
                             </div>
                             <div className="col-span-6 mt-6 md:col-span-2">
                                 <Heading level="3">Omgevingsprogramma</Heading>
                                 <ul className="mt-1">
                                     <ListItem
+                                        text="Maatregelen (Programma's)"
                                         setIsOpen={setIsOpen}
                                         to="/overzicht/maatregelen"
-                                    >
-                                        Maatregelen (Programma's)
-                                    </ListItem>
+                                    />
+
                                     <ListItem
+                                        text="Beleidsprestaties"
                                         setIsOpen={setIsOpen}
                                         to="/overzicht/beleidsprestaties"
-                                    >
-                                        Beleidsprestaties
-                                    </ListItem>
+                                    />
                                 </ul>
                             </div>
                             <div className="col-span-6 mt-6 md:col-span-2">
@@ -239,32 +231,33 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
                                 </Heading>
                                 <ul className="mt-1">
                                     <ListItem
+                                        text="Beleidsregels"
                                         setIsOpen={setIsOpen}
                                         to="/overzicht/beleidsregels"
-                                    >
-                                        Beleidsregels
-                                    </ListItem>
+                                    />
+
                                     <ListItem
+                                        text="Verordening"
                                         setIsOpen={setIsOpen}
                                         to={URLVerordeningFirstItem}
                                         isLoading={verordeningIsLoading}
-                                    >
-                                        Verordening
-                                    </ListItem>
+                                    />
                                 </ul>
                             </div>
                             <div className="col-span-6 mt-6 md:col-span-2">
                                 <Heading level="3">Actueel</Heading>
                                 <ul className="mt-1">
                                     <ListItem
+                                        text="Terinzageleggeningen"
                                         setIsOpen={setIsOpen}
                                         to="/terinzageleggingen"
-                                    >
-                                        Terinzageleggeningen
-                                    </ListItem>
-                                    <ListItem setIsOpen={setIsOpen} to="#">
-                                        Lange Termijn Agenda
-                                    </ListItem>
+                                    />
+
+                                    <ListItem
+                                        text="Lange Termijn Agenda"
+                                        setIsOpen={setIsOpen}
+                                        to="#"
+                                    />
                                 </ul>
                             </div>
                             <div className="col-span-6 mb-10 md:mb-0 md:mt-6 md:col-span-2">
@@ -274,11 +267,23 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
                                     }
                                 >
                                     <ListItem
+                                        text="Netwerkvisualisatie"
                                         setIsOpen={setIsOpen}
                                         to="/overzicht/ambities"
-                                    >
-                                        Netwerkvisualisatie
-                                    </ListItem>
+                                        onKeyDown={(e) => {
+                                            if (
+                                                e.key === "Tab" &&
+                                                !e.shiftKey
+                                            ) {
+                                                e.preventDefault()
+                                                document
+                                                    .getElementById(
+                                                        "popup-menu-toggle"
+                                                    )
+                                                    ?.focus()
+                                            }
+                                        }}
+                                    />
                                 </ul>
                             </div>
                         </Container>
@@ -292,6 +297,15 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
 const ToggleMenuButton = ({ isOpen, setIsOpen, isMobile }) => {
     return (
         <button
+            onKeyDown={(e) => {
+                if (e.key === "Tab" && e.shiftKey) {
+                    console.log("EXEC")
+                    e.preventDefault()
+                    document
+                        .getElementById("menu-item-netwerkvisualisatie")
+                        ?.focus()
+                }
+            }}
             id="popup-menu-toggle"
             className={`relative flex items-center justify-center px-2 pt-2 pb-1 -mr-6 transition-colors duration-100 ease-in rounded ${
                 isOpen
@@ -313,21 +327,35 @@ const ToggleMenuButton = ({ isOpen, setIsOpen, isMobile }) => {
     )
 }
 
-const ListItem = ({ children, to = "#", setIsOpen, isLoading = false }) => {
+const ListItem = ({
+    text = "",
+    to = "#",
+    setIsOpen,
+    isLoading = false,
+    onKeyDown = null,
+}) => {
     return (
         <li className="pt-1 text-pzh-green">
             {isLoading ? (
-                <div>
+                <div
+                    onKeyDown={onKeyDown}
+                    id={`menu-item-${text.replace(/\s+/g, "-").toLowerCase()}`}
+                >
                     <FontAwesomeIcon className="mr-2" icon={faChevronRight} />
                     <span>
-                        {children}
+                        {text}
                         <LoaderSpinner className="ml-2" />
                     </span>
                 </div>
             ) : (
-                <Link to={to} onClick={() => setIsOpen(false)}>
+                <Link
+                    onKeyDown={onKeyDown}
+                    to={to}
+                    onClick={() => setIsOpen(false)}
+                    id={`menu-item-${text.replace(/\s+/g, "-").toLowerCase()}`}
+                >
                     <FontAwesomeIcon className="mr-2" icon={faChevronRight} />
-                    <span className="underline">{children}</span>
+                    <span className="underline">{text}</span>
                 </Link>
             )}
         </li>

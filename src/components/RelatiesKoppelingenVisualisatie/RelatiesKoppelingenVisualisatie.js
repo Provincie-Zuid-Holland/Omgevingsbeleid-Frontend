@@ -285,7 +285,7 @@ const RelatiesKoppelingenVisualisatie = ({
     }, [data, location.pathname])
 
     return (
-        <div className="flex">
+        <div className="flex flex-col md:flex-row">
             <div className="flex flex-col justify-between w-full">
                 <div>
                     <h3 className="font-bold text-gray-800">

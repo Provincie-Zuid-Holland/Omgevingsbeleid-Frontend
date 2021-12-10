@@ -1,9 +1,9 @@
 import smoothscroll from "smoothscroll-polyfill"
 
 const polyfills = () => {
-    // window.scrollTo({
-    //     behavior: "smooth", <-- Polyfill the smooth scroll behaviour
-    // })
+    /**
+     * Polyfill for the 'smooth' option in window.scrollTo({ top: 0, behavior: 'smooth' })
+     */
     smoothscroll.polyfill()
 
     // Object Assign polyfill

@@ -239,7 +239,11 @@ const RaadpleegObjectDetailFixedTableOfContents = () => {
                             <li
                                 key={el.id}
                                 onClick={() => {
-                                    window.scrollTo(0, el.y)
+                                    window.scrollTo({
+                                        left: 0,
+                                        top: el.y,
+                                        behavior: "smooth",
+                                    })
                                 }}
                                 className="pt-1 cursor-pointer text-pzh-blue hover:text-pzh-blue-dark"
                             >
