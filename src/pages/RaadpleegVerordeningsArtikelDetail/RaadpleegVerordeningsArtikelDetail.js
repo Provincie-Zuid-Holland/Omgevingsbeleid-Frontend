@@ -6,8 +6,8 @@ import queryString from "query-string"
 import {
     faAngleRight,
     faPrint,
-    faCompressArrowsAlt,
-    faExpandArrowsAlt,
+    faExpandAlt,
+    faCompressAlt,
 } from "@fortawesome/pro-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import LoaderContent from "./../../components/LoaderContent"
@@ -53,8 +53,9 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
             fullscreenLeafletViewer: false,
         }
 
-        this.toggleFullscreenLeafletViewer =
-            this.toggleFullscreenLeafletViewer.bind(this)
+        this.toggleFullscreenLeafletViewer = this.toggleFullscreenLeafletViewer.bind(
+            this
+        )
     }
 
     toggleFullscreenLeafletViewer() {
@@ -189,8 +190,12 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
         const urlParams = this.props.location.search
         return new Promise((resolve, reject) => {
             if (urlParams) {
-                let [hoofdstukIndex, nest1, nest2, nest3] =
-                    getQueryStringValues(urlParams)
+                let [
+                    hoofdstukIndex,
+                    nest1,
+                    nest2,
+                    nest3,
+                ] = getQueryStringValues(urlParams)
 
                 const activeObjectPath = [hoofdstukIndex, nest1, nest2, nest3]
 
@@ -326,12 +331,13 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
         let breadcrumb = null
 
         if (dataLoaded && activeObjectPath) {
-            hoofdstukNummer =
-                this.state.lineage.Structuur.Children[activeObjectPath[0]]
-                    .Volgnummer
+            hoofdstukNummer = this.state.lineage.Structuur.Children[
+                activeObjectPath[0]
+            ].Volgnummer
 
-            hoofdstukTitel =
-                this.state.lineage.Structuur.Children[activeObjectPath[0]].Titel
+            hoofdstukTitel = this.state.lineage.Structuur.Children[
+                activeObjectPath[0]
+            ].Titel
 
             breadcrumb = this.getBreadcrumb({
                 hoofdstukNummer: hoofdstukNummer,
@@ -472,8 +478,8 @@ class RaadpleegVerordeningsArtikelDetail extends Component {
                                             icon={
                                                 this.state
                                                     .fullscreenLeafletViewer
-                                                    ? faCompressArrowsAlt
-                                                    : faExpandArrowsAlt
+                                                    ? faCompressAlt
+                                                    : faExpandAlt
                                             }
                                         />
                                     </span>

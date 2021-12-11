@@ -58,7 +58,7 @@ const FeedbackComponent = () => {
     const mailTo = getMailToLink()
 
     return (
-        <div className="fixed bottom-0 left-0 w-full pointer-events-none">
+        <div className="fixed bottom-0 left-0 z-10 w-full pointer-events-none">
             <div className="container relative flex px-6 pt-0 mx-auto sm:mt-8 sm:py-10 sm:px-6 lg:px-8">
                 <a
                     href={mailTo}

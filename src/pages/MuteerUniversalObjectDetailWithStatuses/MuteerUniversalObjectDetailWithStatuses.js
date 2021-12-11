@@ -1,5 +1,5 @@
 import React from "react"
-import { Link, useParams, useLocation } from "react-router-dom"
+import { Link, useParams, useLocation, useHistory } from "react-router-dom"
 import { faPlus } from "@fortawesome/pro-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Helmet } from "react-helmet"
@@ -17,6 +17,10 @@ import StatusHistory from "./StatusHistory"
 // Import Axios instance to connect with the API
 import axios from "../../API/axios"
 
+import UserContext from "./../../App/UserContext"
+
+import { checkIfUserIsAllowedOnPage } from "../../utils/checkIfUserIsAllowedOnPage"
+
 /**
  * A detail page of a dimension object with a status
  * This differs from the normal MuteerUniversalObjectDetail page,
@@ -27,7 +31,9 @@ import axios from "../../API/axios"
  */
 const MuteerUniversalObjectDetailWithStatuses = ({ dimensieConstants }) => {
     const location = useLocation()
+    const history = useHistory()
     const { single, version } = useParams()
+    const { user } = React.useContext(UserContext)
 
     const [pageType, setPageType] = React.useState(
         version ? "version" : "detail"
@@ -37,8 +43,23 @@ const MuteerUniversalObjectDetailWithStatuses = ({ dimensieConstants }) => {
     const [isLoading, setIsLoading] = React.useState(true)
 
     const [isAConceptInProgress, setIsAConceptInProgress] = React.useState(null)
-    const [vigerendeDimensieObject, setVigerendeDimensieObject] =
-        React.useState(null)
+    const [
+        vigerendeDimensieObject,
+        setVigerendeDimensieObject,
+    ] = React.useState(null)
+
+    React.useEffect(() => {
+        if (!user || !dataObject) return
+        const isUserAllowed = checkIfUserIsAllowedOnPage({
+            object: dataObject,
+            authUser: user,
+        })
+
+        if (!isUserAllowed) {
+            toast("Je bent niet geauthenticeerd om deze pagina te bekijken")
+            history.push("/muteer/dashboard")
+        }
+    }, [user, dataObject, history])
 
     /**
      * As each change is saved in the history of the dimension, its possible to have multiple object after another with the same status
@@ -272,6 +293,7 @@ const MuteerUniversalObjectDetailWithStatuses = ({ dimensieConstants }) => {
                             {/* Container of the object that has a status of 'vigerend' */}
                             {vigerendeDimensieObject ? (
                                 <ContainerDetail
+                                    setDimensionHistory={setDimensionHistory}
                                     setDataObject={setDataObject}
                                     dimensionHistory={dimensionHistory}
                                     patchStatus={patchStatus}
@@ -286,6 +308,8 @@ const MuteerUniversalObjectDetailWithStatuses = ({ dimensieConstants }) => {
                             {/* Contains the container detail of the checked out object, and the UI of the flow of statusses */}
                             {!isLoading && pageType === "detail" ? (
                                 <StatusHistory
+                                    setDimensionHistory={setDimensionHistory}
+                                    setDataObject={setDataObject}
                                     patchStatus={patchStatus}
                                     pageType={pageType}
                                     overzichtSlug={overzichtSlug}

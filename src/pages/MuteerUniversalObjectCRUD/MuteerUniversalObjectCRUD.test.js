@@ -37,6 +37,10 @@ const setup = (dimension, type) => {
             <Route path={path}>
                 <UserContext.Provider value={{ user: authUser }}>
                     <MuteerUniversalObjectCRUD
+                        authUser={{
+                            Rol: "Beheerder",
+                            UUID: "0001",
+                        }}
                         dimensieConstants={allDimensies[dimension]}
                     />
                 </UserContext.Provider>

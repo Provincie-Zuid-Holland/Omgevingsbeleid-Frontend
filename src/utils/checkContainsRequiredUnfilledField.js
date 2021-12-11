@@ -73,17 +73,30 @@ const notifyUser = (dimensieConstants, property, scrolledToElement) => {
 }
 
 /**
+ * Function that checks if all the required fields are filled in. If not it scrolls to that element and displays a toast notification informing the user.
  * @param {object} crudObject Contains the object that is being edited
  * @param {object} dimensieConstants Contains the variables of this object type
  * @param {string} titleSingular Contains the title of the object type
+ * @param {boolean} wijzigVigerend True if the user is editing an object that is vigerend while skipping the decision making process. In that case the user can only edit the persons connected to the object.
  * @returns a boolean indicating if all the required fields have been filled in
  */
 function checkContainsRequiredUnfilledField(
     crudObject,
     dimensieConstants,
-    titleSingular
+    titleSingular,
+    wijzigVigerend
 ) {
-    const crudObjectProperties = Object.keys(crudObject)
+    const wijzigVigerendFields = [
+        "Eigenaar_1",
+        "Eigenaar_2",
+        "Portefeuillehouder_1",
+        "Portefeuillehouder_2",
+        "Opdrachtgever",
+    ]
+
+    const crudObjectProperties = wijzigVigerend
+        ? wijzigVigerendFields
+        : Object.keys(crudObject)
 
     // Indicator to only trigger a page scroll once in notifyUser()
     let scrolledToElement = false

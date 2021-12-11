@@ -35,9 +35,9 @@ function TabRequests({
     return (
         <ul>
             <li className="flex p-2 text-sm font-bold text-gray-800 border-b border-gray-200">
-                <div className="w-5/12">Beleidskeuzes</div>
+                <div className="w-4/12">Beleidskeuzes</div>
                 <div className="w-2/12">Aangevraagd op</div>
-                <div className="w-1/12">Status</div>
+                <div className="w-2/12">Status</div>
                 <div className="w-2/12">Motivering</div>
                 <div className="w-2/12">Actie</div>
             </li>
@@ -48,10 +48,10 @@ function TabRequests({
                         return (
                             <li
                                 key={verzoek.UUID}
-                                className="relative flex items-center px-2 text-sm text-gray-800 border-b border-gray-200 hover:bg-gray-100"
+                                className="relative flex items-center px-2 py-2 text-sm text-gray-800 border-b border-gray-200 hover:bg-gray-100"
                             >
-                                <div className="w-5/12 py-2">{titel}</div>
-                                <div className="w-2/12">
+                                <div className="w-4/12 pr-4">{titel}</div>
+                                <div className="w-2/12 pr-4">
                                     {verzoek.Created_Date !== null
                                         ? format(
                                               new Date(verzoek.Created_Date),
@@ -60,7 +60,7 @@ function TabRequests({
                                           ) + " uur"
                                         : null}
                                 </div>
-                                <div className="w-1/12">Open</div>
+                                <div className="w-2/12">Open</div>
                                 <div className="w-2/12">
                                     <span
                                         onClick={() => {
@@ -76,12 +76,12 @@ function TabRequests({
                                         relatie={verzoek}
                                     />
                                 </div>
-                                <div className="w-2/12 text-xs">
+                                <div className="relative w-2/12 -mt-1 text-xs">
                                     <span
                                         onClick={() =>
                                             relationshipAccept(verzoek)
                                         }
-                                        className="inline-block px-2 py-1 mr-2 font-bold text-white rounded shadow cursor-pointer bg-pzh-green hover:bg-pzh-green-dark"
+                                        className="inline-block px-2 pt-2 pb-1 mt-1 mr-2 font-bold text-white rounded shadow cursor-pointer bg-pzh-green hover:bg-pzh-green-dark"
                                     >
                                         Accepteren
                                     </span>
@@ -89,7 +89,7 @@ function TabRequests({
                                         onClick={() =>
                                             relationshipReject(verzoek)
                                         }
-                                        className="inline-block px-2 py-1 font-bold text-white bg-red-600 rounded shadow cursor-pointer hover:bg-red-700"
+                                        className="inline-block px-2 pt-2 pb-1 mt-1 font-bold text-white bg-red-600 rounded shadow cursor-pointer hover:bg-red-700"
                                     >
                                         Afwijzen
                                     </span>

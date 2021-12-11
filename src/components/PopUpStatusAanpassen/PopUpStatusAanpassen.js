@@ -7,12 +7,12 @@ import PopUpAnimatedContainer from "./../PopUpAnimatedContainer"
 import VOLGENDE_STATUS from "./../../constants/beleidskeuzeStatusAanpassen"
 
 /**
+ * Displays a popup in which a user can edit the status.
  *
- * @param {object} dataObject - Contains the object that is being displayed
- * @param {function} patchStatus - Function to call the API and patch the new status
- * @param {string} status - Contains the current status of the dataObject
- * @param {function} toggleStatusPopup - Function to show or hide the StatusPopup.
- * @returns A component to change the status of an object
+ * @param {object} dataObject - Contains the data in object form.
+ * @param {function} patchStatus - Function that is set in the parent state.
+ * @param {string} status - Contains a status in text form.
+ * @param {function} toggleStatusPopup - Function that is used to toggle the StatusPopup.
  */
 function PopUpStatusAanpassen({
     dataObject,
@@ -20,7 +20,6 @@ function PopUpStatusAanpassen({
     patchStatus,
     toggleStatusPopup,
 }) {
-    console.log(typeof status)
     const [selectValue, setSelect] = useState("")
 
     return (

@@ -219,7 +219,7 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
                                     <ListItem
                                         text="Netwerkvisualisatie"
                                         setIsOpen={setIsOpen}
-                                        to="/overzicht/ambities"
+                                        to="/netwerkvisualisatie"
                                         onKeyDown={(e) => {
                                             if (
                                                 e.key === "Tab" &&

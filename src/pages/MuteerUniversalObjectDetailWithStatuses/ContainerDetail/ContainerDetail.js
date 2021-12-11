@@ -19,6 +19,9 @@ import PopUpDetailDropdown from "./../PopUpDetailDropdown"
 // Import Utilities
 import getVigerendText from "./../../../utils/getVigerendText"
 
+/**
+ * Returns a Container component for a policy object detail page
+ */
 class ContainerDetail extends Component {
     constructor(props) {
         super(props)
@@ -114,6 +117,8 @@ class ContainerDetail extends Component {
 
                     {this.state.dropdown ? (
                         <PopUpDetailDropdown
+                            dimensionHistory={dimensionHistory}
+                            setDimensionHistory={this.props.setDimensionHistory}
                             slug={this.props.overzichtSlug}
                             titleSingular={titleSingular}
                             raadpleegLink={`/detail/${this.props.overzichtSlug}/${dataObject.UUID}`}
@@ -136,6 +141,8 @@ class ContainerDetail extends Component {
                     ) : null}
                     {this.state.modulesPopup ? (
                         <PopUpModules
+                            dimensionHistory={this.props.dimensionHistory}
+                            setDimensionHistory={this.props.setDimensionHistory}
                             setDataObject={this.props.setDataObject}
                             titleSingular={titleSingular}
                             dataObject={dataObject}

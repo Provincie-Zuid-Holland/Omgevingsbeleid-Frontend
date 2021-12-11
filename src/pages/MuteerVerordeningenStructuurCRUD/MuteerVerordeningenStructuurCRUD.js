@@ -1,5 +1,6 @@
 /* istanbul ignore file */
 import React, { Component } from "react"
+import cloneDeep from "lodash.clonedeep"
 import { toast } from "react-toastify"
 import { format } from "date-fns"
 import { withRouter } from "react-router-dom"
@@ -11,7 +12,7 @@ import ContainerFormSection from "./../../components/ContainerFormSection"
 import FormFieldTextInput from "./../../components/FormFieldTextInput"
 import ButtonBackToPage from "./../../components/ButtonBackToPage"
 import LoaderContent from "./../../components/LoaderContent"
-import FormFieldDate from "./../../components/FormFieldDate"
+import FormFieldGeldigheid from "./../../components/FormFieldGeldigheid"
 
 // Import Axios instance to connect with the API
 import axios from "./../../API/axios"
@@ -21,6 +22,9 @@ import makeCrudProperties from "./../../utils/makeCrudProperties"
 import makeCrudObject from "./../../utils/makeCrudObject"
 import checkContainsRequiredUnfilledField from "./../../utils/checkContainsRequiredUnfilledField"
 import formatGeldigheidDatesForUI from "./../../utils/formatGeldigheidDatesForUI"
+import formatGeldigheidDatesForAPI from "./../../utils/formatGeldigheidDatesForAPI"
+import { isDateInAValidRange } from "../../utils/isDateInAValidRange"
+import { toastNotification } from "../../utils/toastNotification"
 
 /**
  * The page where the user can create new and edit existing verordeningstructures
@@ -40,8 +44,9 @@ class MuteerVerordeningenStructuurCRUD extends Component {
         this.voegKoppelingRelatieToe = this.voegKoppelingRelatieToe.bind(this)
         this.createAndSetCrudObject = this.createAndSetCrudObject.bind(this)
         this.wijzigKoppelingRelatie = this.wijzigKoppelingRelatie.bind(this)
-        this.verwijderKoppelingRelatieToe =
-            this.verwijderKoppelingRelatieToe.bind(this)
+        this.verwijderKoppelingRelatieToe = this.verwijderKoppelingRelatieToe.bind(
+            this
+        )
         this.formatGeldigheidDatesForUI = formatGeldigheidDatesForUI.bind(this)
     }
 
@@ -94,38 +99,39 @@ class MuteerVerordeningenStructuurCRUD extends Component {
         const dimensieConstants = this.props.dimensieConstants
         const titleSingular = dimensieConstants.TITLE_SINGULAR
 
-        let crudObject = this.state.crudObject
+        let crudObject = cloneDeep(this.state.crudObject)
 
-        // Converteer de 'yyyy-MM-DD' waarden naar Date objecten
-        // Of verwijder de property als de waarde null || '' is
+        crudObject = formatGeldigheidDatesForAPI(crudObject)
+
+        /** Check if all the required fields are filled in */
         if (
-            crudObject.Begin_Geldigheid !== null &&
-            crudObject.Begin_Geldigheid !== ""
-        ) {
-            crudObject.Begin_Geldigheid = new Date(crudObject.Begin_Geldigheid)
-        }
-
-        if (
-            crudObject.Eind_Geldigheid !== null &&
-            crudObject.Eind_Geldigheid !== ""
-        ) {
-            crudObject.Eind_Geldigheid = new Date(crudObject.Eind_Geldigheid)
-        }
-
-        const containsRequiredUnfilledField =
             checkContainsRequiredUnfilledField(
                 crudObject,
                 dimensieConstants,
                 titleSingular
             )
-        if (containsRequiredUnfilledField) {
-            this.setState({
-                crudObject: this.formatGeldigheidDatesForUI(crudObject),
-            })
+        ) {
             return
         }
 
-        if (this.state.edit) {
+        /** Check if the start date is in a valid range */
+        const [
+            startDateIsInValidRange,
+            endDateIsInValidRange,
+        ] = isDateInAValidRange(crudObject)
+
+        if (!startDateIsInValidRange) {
+            toastNotification({ type: "start date valid range" })
+            return
+        } else if (!endDateIsInValidRange) {
+            toastNotification({ type: "end date valid range" })
+            return
+        }
+
+        /** If the user is editing an existing object we PATCH it, else we POST it to create a new object */
+        const typeOfRequest = this.state.edit ? "PATCH" : "POST"
+
+        if (typeOfRequest === "PATCH") {
             crudObject.Status = "Concept"
             axios
                 .patch(
@@ -137,14 +143,9 @@ class MuteerVerordeningenStructuurCRUD extends Component {
                     toast("Gewijzigd")
                 })
                 .catch((error) => {
-                    // crudObject = this.setInitialValuesCrudObject(crudObject)
-                    // Wijzig de data terug naar het format om in het input veld te tonen
-                    crudObject = this.formatGeldigheidDatesForUI(crudObject)
-                    this.setState({
-                        crudObject: crudObject,
-                    })
+                    console.error(error)
                 })
-        } else {
+        } else if (typeOfRequest === "POST") {
             crudObject.Status = "Concept"
             crudObject.Structuur = {
                 Children: [],
@@ -157,12 +158,7 @@ class MuteerVerordeningenStructuurCRUD extends Component {
                     toast("Opgeslagen")
                 })
                 .catch((error) => {
-                    // crudObject = this.setInitialValuesCrudObject(crudObject)
-                    // Wijzig de data terug naar het format om in het input veld te tonen
-                    crudObject = this.formatGeldigheidDatesForUI(crudObject)
-                    this.setState({
-                        crudObject: crudObject,
-                    })
+                    console.error(error)
                 })
         }
     }
@@ -194,8 +190,9 @@ class MuteerVerordeningenStructuurCRUD extends Component {
         const index = nieuwCrudObject[koppelingObject.propertyName].findIndex(
             (item) => item.UUID === koppelingObject.item.UUID
         )
-        nieuwCrudObject[koppelingObject.propertyName][index].Omschrijving =
-            nieuweOmschrijving
+        nieuwCrudObject[koppelingObject.propertyName][
+            index
+        ].Omschrijving = nieuweOmschrijving
 
         this.setState(
             {
@@ -339,7 +336,7 @@ class MuteerVerordeningenStructuurCRUD extends Component {
                                         {/* Geldigheid */}
                                         <div className="flex flex-wrap -mx-3">
                                             {/* Begin Geldigheid */}
-                                            <FormFieldDate
+                                            <FormFieldGeldigheid
                                                 handleChange={handleChange}
                                                 fieldValue={
                                                     crudObject[
@@ -356,7 +353,7 @@ class MuteerVerordeningenStructuurCRUD extends Component {
 
                                             {/* Eind Geldigheid */}
 
-                                            <FormFieldDate
+                                            <FormFieldGeldigheid
                                                 handleChange={handleChange}
                                                 notRequired={true}
                                                 fieldValue={

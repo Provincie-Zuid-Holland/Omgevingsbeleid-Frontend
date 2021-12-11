@@ -1,4 +1,4 @@
-import { currentDateFormatted } from "./testValues"
+import { currentDateFormatted, currentDate } from "./testValues"
 
 export const TITLE_SINGULAR = "Beleidsmodule"
 export const TITLE_SINGULAR_PREFIX = "de"
@@ -14,5 +14,12 @@ export const CRUD_PROPERTIES = {
         requiredMessage: "Vul een titel in",
         testValue: `Test beleidsdoel ${currentDateFormatted}`,
         type: "text input",
+    },
+    Besluit_Datum: {
+        initValue: null,
+        required: false,
+        requiredMessage: "",
+        testValue: currentDate,
+        type: "date input",
     },
 }

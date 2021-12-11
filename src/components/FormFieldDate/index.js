@@ -1,3 +1,2 @@
-import FormFieldDate from "./FormFieldDate.js"
-
-export default FormFieldDate
+export { default } from './FormFieldDate';
+export * from './FormFieldDate';

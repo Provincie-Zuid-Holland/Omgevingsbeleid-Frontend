@@ -1101,7 +1101,7 @@ mark {
         border-top-left-radius: 0.25rem;
         border-top-right-radius: 0.25rem;
         background: white;
-        border-color: rgba(203, 213, 224, var(--border-opacity));
+        border-color: rgba(203, 213, 224, 1);
         button {
             height: 32px;
             width: 36px;
@@ -1121,8 +1121,7 @@ mark {
             .ql-header,
             .ql-bold,
             .ql-list {
-                border-right: 1px solid
-                    rgba(203, 213, 224, var(--border-opacity));
+                border-right: 1px solid rgba(203, 213, 224, 1);
             }
         }
     }
@@ -1131,7 +1130,7 @@ mark {
         border-bottom-left-radius: 0.25rem;
         border-bottom-right-radius: 0.25rem;
         background: white;
-        border-color: rgba(203, 213, 224, var(--border-opacity));
+        border-color: rgba(203, 213, 224, 1);
         font-family: inherit;
         .ql-editor {
             color: #4a5568;

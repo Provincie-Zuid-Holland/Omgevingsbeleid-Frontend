@@ -18,6 +18,8 @@ const PopUpDetailDropdown = ({
     toggleModulesPopup,
     raadpleegLink,
     titleSingular,
+    dimensionHistory,
+    setDimensionHistory,
 }) => {
     const innerContainer = React.useRef(null)
 
@@ -57,9 +59,8 @@ const PopUpDetailDropdown = ({
 
         if (!allBeleidsmodules) return
 
-        const connectionProperty = dataObject.hasOwnProperty("Aanpassing_Op")
-            ? "Beleidskeuzes"
-            : "Maatregelen"
+        const connectionProperty =
+            titleSingular === "Maatregel" ? "Maatregelen" : "Beleidskeuzes"
 
         const modulesWithExistingConnection = allBeleidsmodules.filter(
             (module) =>
@@ -91,13 +92,21 @@ const PopUpDetailDropdown = ({
         )
             .then((res) => {
                 res.forEach((response) => {
-                    dataObject.Ref_Beleidsmodules =
-                        dataObject.Ref_Beleidsmodules.filter(
-                            (module) => response.ID !== module.ID
-                        )
+                    dataObject.Ref_Beleidsmodules = dataObject.Ref_Beleidsmodules.filter(
+                        (module) => response.ID !== module.ID
+                    )
                 })
 
-                setDataObject({ ...dataObject })
+                if (setDataObject) {
+                    setDataObject({ ...dataObject })
+                }
+
+                const indexOfDataObject = dimensionHistory.findIndex(
+                    (e) => e.UUID === dataObject.UUID
+                )
+                dimensionHistory[indexOfDataObject] = dataObject
+                setDimensionHistory(dimensionHistory)
+
                 toast(`${titleSingular} verwijderd uit module`)
             })
             .catch((err) => handleError(err))

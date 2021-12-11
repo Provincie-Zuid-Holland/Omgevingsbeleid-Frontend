@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 
 import ContainerFormSection from "./../../../../components/ContainerFormSection"
 import {
-    FormFieldDate,
+    FormFieldGeldigheid,
     FormFieldTextInput,
     FormFieldTextArea,
     FormFieldWeblink,
@@ -16,6 +16,14 @@ const BelangTypeValues = [
     ["Wettelijke Taak & Bevoegdheid", "Wettelijke Taak & Bevoegdheid"],
 ]
 
+/**
+ *
+ * @param {object} props
+ * @param {string} props.titleSingular - Contains the singular form of the policy object type (e.g. 'maatregel')
+ * @param {object} props.crudObject - Contains the policy object that is being edited / created
+ * @param {function} props.handleChange - Contains the change handler function
+ * @returns The form fields for policy objects of the type Belangen
+ */
 function FormFieldContainerBelangen({
     titleSingular,
     crudObject,
@@ -74,7 +82,7 @@ function FormFieldContainerBelangen({
                 />
 
                 <div className="flex flex-wrap -mx-3">
-                    <FormFieldDate
+                    <FormFieldGeldigheid
                         handleChange={handleChange}
                         fieldValue={crudObject["Begin_Geldigheid"]}
                         fieldLabel="Inwerkingtreding"
@@ -83,7 +91,7 @@ function FormFieldContainerBelangen({
                         titleSingular={titleSingular}
                     />
 
-                    <FormFieldDate
+                    <FormFieldGeldigheid
                         openUitwerkingstrede={true}
                         handleChange={handleChange}
                         Begin_Geldigheid={crudObject["Begin_Geldigheid"]}

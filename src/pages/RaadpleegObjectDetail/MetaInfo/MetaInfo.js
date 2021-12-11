@@ -13,7 +13,11 @@ const MetaInfo = ({
     currentUUID,
     titleSingular,
 }) => {
-    const vigerendText = getVigerendText({ dataObject, prefix: true })
+    const vigerendText = getVigerendText({
+        dataObject,
+        revisionObjects,
+        prefix: true,
+    })
     const displayRevisionSection = revisionObjects && revisionObjects.length > 0
 
     return (

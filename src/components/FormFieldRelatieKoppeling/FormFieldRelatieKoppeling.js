@@ -11,10 +11,10 @@ import FormFieldTitelEnBeschrijving from "../FormFieldTitelEnBeschrijving/FormFi
 import objecten from "./../../constants/koppelingen"
 
 /**
- * Function to get and return the propertiesWithExistingConnections, which are used within the FormFieldRelatieKoppeling component.
+ * Function to get and return the connection properties from the CrudObject.
  *
- * @param {array} connectionProperties - Parameter containing the collection of object properties that is looped through in the getPropertiesWithConnectionsFromCrudObject function.
- * @param {object} crudObject - Parameter that contains the object information from the API and is used to check if it is not undefined, null or has a string length of more than 1 charater
+ * @param {array} connectionProperties - Contains a collection of object properties.
+ * @param {object} crudObject - Contains the object information from the API.
  */
 function getPropertiesWithConnectionsFromCrudObject(
     connectionProperties,
@@ -148,7 +148,7 @@ const FormFieldRelatieKoppeling = ({
     }, [initializeConnections])
 
     // Lege array waar de properties in worden gepushed na er overheen gemap'd te zijn
-    // 'Belang' en 'Taak' zijn aparte typen, maar zitten wel beidde op dezelfde propertyName op het crudObject
+    // 'Belang' en 'Taak' zijn aparte typen, maar zitten wel beide op dezelfde propertyName op het crudObject
     // Als tijdens het map'en de propertyName al in de propertyNamesMapped array staat, slaat die 'm over
     let propertyNamesMapped = []
 

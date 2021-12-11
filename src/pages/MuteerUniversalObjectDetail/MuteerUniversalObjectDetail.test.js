@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, findByText } from "@testing-library/react"
+import { render, screen } from "@testing-library/react"
 import { MemoryRouter, Route } from "react-router-dom"
 import "@testing-library/jest-dom"
 import React from "react"
@@ -82,6 +82,10 @@ describe("MuteerUniversalObjectDetail", () => {
             url: "/muteer/beleidsregels/1453",
             isExact: true,
             params: { single: "1453" },
+        },
+        authUser: {
+            Rol: "Beheerder",
+            UUID: "0001",
         },
     }
 

@@ -22,6 +22,8 @@ function PopUpModules({
     setDataObject,
     toggleModulesPopup,
     titleSingular,
+    setDimensionHistory,
+    dimensionHistory,
 }) {
     const [beleidsmodules, setBeleidsmodules] = React.useState([])
     const [dataLoaded, setDataLoaded] = React.useState(false)
@@ -29,7 +31,7 @@ function PopUpModules({
     const [selectValue, setSelectValue] = useState("")
 
     /**
-     * Function to add to or remove from a module
+     * Function to add to a module
      */
     const patchModule = () => {
         const type =
@@ -66,7 +68,18 @@ function PopUpModules({
                     UUID: res.data.UUID,
                     Titel: res.data.Titel,
                 })
-                setDataObject({ ...dataObject })
+
+                if (setDataObject) {
+                    // We only set the dataObject if we add a module to objects that are vigerend
+                    setDataObject({ ...dataObject })
+                }
+
+                const indexOfDataObject = dimensionHistory.findIndex(
+                    (e) => e.UUID === dataObject.UUID
+                )
+                dimensionHistory[indexOfDataObject] = dataObject
+                setDimensionHistory(dimensionHistory)
+
                 toast(
                     `${titleSingular} toegevoegd aan module '${beleidsmodule.Titel}'`
                 )
@@ -186,7 +199,7 @@ function PopUpModules({
                                 toggleModulesPopup()
                                 patchModule()
                             } else if (selectValue !== initialModule?.UUID) {
-                                toast("Selecteer eerst een nieuwe status")
+                                toast("Selecteer eerst een nieuwe module")
                             } else {
                                 toggleModulesPopup()
                             }

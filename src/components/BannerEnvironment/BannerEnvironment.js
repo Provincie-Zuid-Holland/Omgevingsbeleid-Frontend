@@ -1,30 +1,37 @@
 import React from "react"
 
 import { environment } from "./../../API/axios"
+
 /**
- * Banner indicating the type of environment (development/test/acception/production)
- * @param {boolean} userIsInMuteerEnvironment - Indicating if the user is logged into the mutate environment
- * @param {boolean} hideBannerLocalStorage - User has hidden the banner (retrieved from its local storage)
+ *
+ * @param {string} environment - type of environment
+ * @returns {string} - Text for the banner indicating the environment
+ */
+const getEnvironmentText = (environment) => {
+    switch (environment) {
+        case "dev":
+            return "Ontwikkelomgeving"
+        case "test":
+            return "Testomgeving"
+        case "acc":
+            return "Acceptatieomgeving"
+        case "prod":
+            return "Live-omgeving"
+        default:
+            return "No environment set"
+    }
+}
+
+/**
+ * Displays a banner that displays the current environment.
+ *
+ * @param {boolean} userIsInMuteerEnvironment - Used to determine if the user is in the muteer environment.
+ * @param {boolean} hideBannerLocalStorage - Contains the hide banner state in the local storage.
  */
 function BannerEnvironment({
     userIsInMuteerEnvironment,
     hideBannerLocalStorage,
 }) {
-    const getEnvironmentText = () => {
-        switch (environment) {
-            case "dev":
-                return "Ontwikkelomgeving"
-            case "test":
-                return "Testomgeving"
-            case "acc":
-                return "Acceptatieomgeving"
-            case "prod":
-                return "Live-omgeving"
-            default:
-                return "No environment set"
-        }
-    }
-
     const [showBanner, setShowBanner] = React.useState(
         userIsInMuteerEnvironment && !hideBannerLocalStorage()
     )
@@ -88,7 +95,7 @@ function BannerEnvironment({
                 <div className="pr-16 sm:text-center sm:px-16">
                     <p className="font-medium">
                         <span className="text-sm font-bold leading-4 tracking-wider uppercase rounded hide-banner">
-                            {getEnvironmentText()}
+                            {getEnvironmentText(environment)}
                         </span>
                     </p>
                 </div>
@@ -123,3 +130,4 @@ function BannerEnvironment({
 }
 
 export default BannerEnvironment
+export { getEnvironmentText }

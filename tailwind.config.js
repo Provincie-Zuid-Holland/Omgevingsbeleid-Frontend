@@ -12,7 +12,10 @@ module.exports = {
         roundedFull: ["responsive", "focus"],
         margin: ["responsive", "group-hover"],
         textColor: ["responsive", "hover", "focus", "group-hover"],
+        borderWidth: ["hover"],
+        borderOpacity: ["hover"],
     },
+    plugins: [require("@tailwindcss/line-clamp")],
     theme: {
         screens: {
             sm: "640px",

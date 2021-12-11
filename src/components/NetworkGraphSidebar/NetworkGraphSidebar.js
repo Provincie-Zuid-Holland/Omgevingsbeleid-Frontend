@@ -16,7 +16,6 @@ import { useWindowSize } from "../../utils/useWindowSize"
 import LoaderCard from "./../../components/LoaderCard"
 
 /**
- *
  * @param {object} props
  * @param {function} props.setGraphIsOpen
  * @param {object} props.filters
@@ -134,33 +133,45 @@ const NetworkGraphSidebar = ({
     )
 }
 
+/**
+ *
+ * @param {function} setFilters - Value is set in the parent state.
+ * @param {number} filterKey - Contains a key value of the filter.
+ * @param {object} filters - Contains a collection of filters in object form.
+ */
 const ListItem = ({ setFilters, filterKey, filters }) => {
     return (
         <li
-            onClick={() =>
-                setFilters({
-                    type: "toggleFilter",
-                    filterType: filterKey,
-                    newState: !filters[filterKey],
-                })
-            }
             className={`cursor-pointer transition duration-100 ease-in hover:text-gray-900`}
             key={filterKey}
         >
             <input
+                onChange={() =>
+                    setFilters({
+                        type: "toggleFilter",
+                        filterType: filterKey,
+                        newState: !filters[filterKey],
+                    })
+                }
                 className="mr-2 leading-tight"
                 type="checkbox"
-                checked={filters[filterKey]}
+                defaultChecked={filters[filterKey]}
                 name={filterKey}
+                id={`filter-item-${networkGraphConnectionProperties[filterKey]?.plural}`}
             />
-            <span>{networkGraphConnectionProperties[filterKey]?.plural}</span>
-            <span
-                className="inline-block w-2 h-2 ml-2 rounded-full"
-                style={{
-                    backgroundColor:
-                        networkGraphConnectionProperties[filterKey]?.hex,
-                }}
-            />
+            <label
+                className="cursor-pointer"
+                htmlFor={`filter-item-${networkGraphConnectionProperties[filterKey]?.plural}`}
+            >
+                {networkGraphConnectionProperties[filterKey]?.plural}
+                <span
+                    className="inline-block w-2 h-2 ml-2 rounded-full"
+                    style={{
+                        backgroundColor:
+                            networkGraphConnectionProperties[filterKey]?.hex,
+                    }}
+                />
+            </label>
         </li>
     )
 }

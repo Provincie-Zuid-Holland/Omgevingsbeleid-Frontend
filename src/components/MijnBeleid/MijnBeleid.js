@@ -13,12 +13,14 @@ import ButtonAddNewObject from "./../../components/ButtonAddNewObject"
 // Import All the dimension constants. These contain the dimensions and there variables, e.g. API_ENDPOINT and TITLE_SINGULAR
 import allDimensies from "./../../constants/dimensies"
 
+import filterOutArchivedObjects from "./../../utils/filterOutArchivedObjects"
+
 import UserContext from "./../../App/UserContext"
 
 /**
- * Component that renders the MijnBeleid component.
+ * Displays a list of beleidskeuzes.
  *
- * @param {boolean} hideAddNew - Parameter used to add the AddNewSection based if the parameter is true or false.
+ * @param {boolean} hideAddNew - Used to display/hide the AddNewSection based on value.
  */
 const MijnBeleid = ({ hideAddNew }) => {
     const { user } = React.useContext(UserContext)
@@ -34,6 +36,7 @@ const MijnBeleid = ({ hideAddNew }) => {
                 "BELEIDSRELATIES",
                 "VERORDENINGSTRUCTUUR",
                 "VERORDENINGSARTIKEL",
+                "BELEIDSMODULES",
             ]
 
             const policyEndpointsAndTypes = Object.keys(allDimensies)
@@ -48,20 +51,27 @@ const MijnBeleid = ({ hideAddNew }) => {
             const axiosRequests = policyEndpointsAndTypes.map((dimensie) =>
                 axios
                     .get(
-                        dimensie.endpoint === "beleidskeuzes"
+                        dimensie.endpoint === "beleidskeuzes" ||
+                            dimensie.endpoint === "maatregelen"
                             ? `/${dimensie.endpoint}?any_filters=Created_By:${user.UUID},Eigenaar_1:${user.UUID},Eigenaar_2:${user.UUID},Opdrachtgever:${user.UUID}`
                             : `/${dimensie.endpoint}?any_filters=Created_By:${user.UUID}`
                     )
                     .then((res) => {
                         if (res.data.length === 0) return
 
+                        const filteredResponse = filterOutArchivedObjects(
+                            res.data
+                        )
+
                         // Assign type of dimensie to the object
-                        const newArray = res.data.map((array, index) => {
-                            return {
-                                type: dimensie.type,
-                                object: array,
+                        const newArray = filteredResponse.map(
+                            (array, index) => {
+                                return {
+                                    type: dimensie.type,
+                                    object: array,
+                                }
                             }
-                        })
+                        )
                         return newArray
                     })
             )
@@ -87,7 +97,7 @@ const MijnBeleid = ({ hideAddNew }) => {
             {dataReceived ? (
                 <React.Fragment>
                     {!hideAddNew ? <AddNewSection /> : null}
-                    <ul className="flex flex-wrap mt-5">
+                    <ul className="grid grid-cols-2 gap-4">
                         {policies.map((dimensie) => {
                             if (!dimensie) return null
 
@@ -100,11 +110,12 @@ const MijnBeleid = ({ hideAddNew }) => {
                                 return (
                                     <li
                                         key={policy.object.UUID}
-                                        className={`mb-6 w-1/2 display-inline odd-pr-3 even-pl-3`}
+                                        className={`w-full h-28 display-inline`}
                                     >
                                         {
                                             <CardObjectDetails
                                                 index={index}
+                                                showTippy={true}
                                                 mijnBeleid={true}
                                                 object={policy.object}
                                                 titleSingular={titleSingular}
@@ -141,7 +152,7 @@ const MijnBeleid = ({ hideAddNew }) => {
 }
 
 /**
- * Function to render a AddNewSection component that is part of the MijnBeleid component, only if the parameter hideAddNew of MijnBeleid is set true.
+ * Displays two buttons, one to add a Beleidskeuze and one to add a Maatregel
  */
 const AddNewSection = () => {
     return (

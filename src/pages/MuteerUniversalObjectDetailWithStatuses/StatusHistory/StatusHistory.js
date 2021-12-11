@@ -12,6 +12,7 @@ const secondaryColor = "#c6a410"
  */
 function StatusHistory({
     overzichtSlug,
+    setDimensionHistory,
     dimensionHistory,
     patchStatus,
     pageType,
@@ -19,6 +20,8 @@ function StatusHistory({
     isLoading,
     vigerendeDimensieObject,
 }) {
+    const originalDimensionHistory = cloneDeep(dimensionHistory)
+
     // If there is a checked out, or an object with a Status of 'Vigerend' we want to remove it from the history
     const prepareHistorieForUI = () => {
         if (
@@ -100,6 +103,8 @@ function StatusHistory({
             checkedOutObject &&
             checkedOutObject.Status !== "Vigerend" ? (
                 <ContainerDetail
+                    dimensionHistory={originalDimensionHistory}
+                    setDimensionHistory={setDimensionHistory}
                     patchStatus={patchStatus}
                     dataObject={checkedOutObject}
                     pageType={pageType}
@@ -107,7 +112,6 @@ function StatusHistory({
                     titleSingular={titleSingular}
                     isLoading={isLoading}
                     noMarginBottom={true}
-                    dimensionHistory={dimensionHistory}
                 />
             ) : null}
 

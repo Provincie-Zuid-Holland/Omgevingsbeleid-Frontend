@@ -2,10 +2,7 @@ import React from "react"
 import FormFieldTitelEnBeschrijving from "../FormFieldTitelEnBeschrijving/FormFieldTitelEnBeschrijving"
 
 /**
- * Class that renders the FormFieldWeblink component, that accepts the link input of the user and uses the imported FormFieldTitelEnBeschrijving component to display the title and description of the FormFieldWeblink component.
- *
- * @class
- * @extends React.Component
+ * Displays a web link input component under the FormFieldTitelEnBeschrijving component.
  */
 class FormFieldWeblink extends React.Component {
     render() {

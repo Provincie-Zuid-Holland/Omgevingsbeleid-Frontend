@@ -7,9 +7,12 @@ import APIcontext from "./../APIContext"
 import ContainerMain from "./../../../components/ContainerMain"
 import ContainerFormSection from "./../../../components/ContainerFormSection"
 import FormFieldTextArea from "./../../../components/FormFieldTextArea"
-import FormFieldDate from "./../../../components/FormFieldDate"
+import FormFieldGeldigheid from "./../../../components/FormFieldGeldigheid"
 import FormFieldSelectBeleidskeuze from "./../../../components/FormFieldSelectBeleidskeuze"
 
+/**
+ * @returns A container containing the form fields to edit a policy relation
+ */
 class ContainerCrudFields extends React.Component {
     render() {
         const crudObject = this.context.crudObject
@@ -71,7 +74,7 @@ class ContainerCrudFields extends React.Component {
                                             {/* Begin Geldigheid */}
                                             {crudObject["Begin_Geldigheid"] !==
                                             undefined ? (
-                                                <FormFieldDate
+                                                <FormFieldGeldigheid
                                                     handleChange={
                                                         this.context
                                                             .handleChange
@@ -93,7 +96,7 @@ class ContainerCrudFields extends React.Component {
                                             {/* Eind Geldigheid */}
                                             {crudObject["Eind_Geldigheid"] !==
                                             undefined ? (
-                                                <FormFieldDate
+                                                <FormFieldGeldigheid
                                                     openUitwerkingstrede={true}
                                                     hideToggleUitwerkingstrede={
                                                         true

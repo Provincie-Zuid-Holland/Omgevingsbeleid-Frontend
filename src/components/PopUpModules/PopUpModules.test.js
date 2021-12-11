@@ -12,11 +12,15 @@ import { beleidsmodules } from "./../../mocks/data/beleidsmodules"
 
 describe("PopUpModules", () => {
     const setDataObjectMock = jest.fn()
+    const setDimensionHistoryMock = jest.fn()
     const toggleModulesPopupMock = jest.fn()
     const defaultProps = {
         dataObject: {
+            UUID: "0001",
             Ref_Beleidsmodules: [],
         },
+        setDimensionHistory: setDimensionHistoryMock,
+        dimensionHistory: [{ UUID: "0001" }],
         setDataObject: setDataObjectMock,
         toggleModulesPopup: toggleModulesPopupMock,
         titleSingular: "Beleidskeuze",

@@ -5,7 +5,7 @@ import clonedeep from "lodash.clonedeep"
 import ContainerFormSection from "../../../../components/ContainerFormSection"
 import FormFieldTitelEnBeschrijving from "./../../../../components/FormFieldTitelEnBeschrijving"
 import {
-    FormFieldDate,
+    FormFieldGeldigheid,
     FormFieldInputContainer,
     FormFieldTextInput,
     FormFieldWeblink,
@@ -17,6 +17,18 @@ import {
 
 import UserContext from "../../../../App/UserContext"
 
+/**
+ *
+ * @param {object} props
+ * @param {string} props.titleSingular - Contains the singular form of the policy object type (e.g. 'maatregel')
+ * @param {object} props.crudObject - Contains the policy object that is being edited / created
+ * @param {function} props.handleChange - Contains the change handler function
+ * @param {boolean} props.editStatus - Boolean indicating if the user is editing a policy object or creating a new one
+ * @param {function} props.voegKoppelingRelatieToe - Add a new relation
+ * @param {function} props.wijzigKoppelingRelatie - Edit an existing relation
+ * @param {function} props.verwijderKoppelingRelatie - Delete an existing relation
+ * @returns The form fields for policy objects of the type Beleidskeuzes
+ */
 function FormFieldContainerBeleidskeuzes({
     titleSingular,
     crudObject,
@@ -244,7 +256,7 @@ function FormFieldContainerBeleidskeuzes({
                 />
 
                 <div className="flex flex-wrap -mx-3">
-                    <FormFieldDate
+                    <FormFieldGeldigheid
                         disabled={isVigerend}
                         handleChange={handleChange}
                         fieldValue={crudObject["Begin_Geldigheid"]}
@@ -254,7 +266,7 @@ function FormFieldContainerBeleidskeuzes({
                         pValue="Indien bekend, kan hier de datum van inwerkingtreding worden ingevuld"
                         titleSingular={titleSingular}
                     />
-                    <FormFieldDate
+                    <FormFieldGeldigheid
                         disabled={isVigerend}
                         handleChange={handleChange}
                         notRequired={true}

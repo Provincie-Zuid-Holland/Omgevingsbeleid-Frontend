@@ -3,6 +3,7 @@ import "@testing-library/jest-dom"
 import React from "react"
 
 import BannerEnvironment from "./BannerEnvironment"
+import { getEnvironmentText } from "./BannerEnvironment"
 
 describe("BannerEnvironment", () => {
     const hideBannerLocalStorageMock = jest.fn()
@@ -16,9 +17,12 @@ describe("BannerEnvironment", () => {
         render(<BannerEnvironment {...props} />)
     }
 
+    const environment = process.env.REACT_APP_API_ENV
+    const environmentText = getEnvironmentText(environment)
+
     it("Component renders", () => {
         setup()
-        const element = screen.getByText("Ontwikkelomgeving")
+        const element = screen.getByText(environmentText)
         expect(element).toBeTruthy()
     })
 })

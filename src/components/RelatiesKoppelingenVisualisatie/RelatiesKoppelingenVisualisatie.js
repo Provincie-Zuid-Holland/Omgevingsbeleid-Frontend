@@ -2,11 +2,21 @@ import React from "react"
 import * as d3 from "d3"
 import { Link, useLocation } from "react-router-dom"
 
-import generateVerordeningsPosition from "./../../utils/generateVerordeningsPosition"
+import { generateHrefVerordeningsartikel } from "./../../utils/generateHrefVerordeningsartikel"
 
-// Import Context
 import GraphContext from "./../../App/GraphContext"
 
+/**
+ * Displays a Netwerkvisualisatie map which shows the beleids objecten connections.
+ *
+ * @param {object} beleidsObject -  Contains the information of a beleid
+ * @param {Array} connectionProperties - Contains a collection of connection properties.
+ * @param {object} connectionPropertiesColors - Contains a collection of connection property colors.
+ * @param {Array} beleidsRelaties - Contains a collection of beleidsRelaties.
+ * @param {string} titleSingular - Contains the title in singular form.
+ * @param {string} titleSingularPrefix - Contains the title in singular prefix form.
+ * @param {object} verordeningsStructure - Contains the verorderings structure information.
+ */
 const RelatiesKoppelingenVisualisatie = ({
     beleidsObject,
     connectionProperties,
@@ -24,6 +34,34 @@ const RelatiesKoppelingenVisualisatie = ({
     const [data, setData] = React.useState(null)
     const [href, setHref] = React.useState("#")
     const [connectedProperties, setConnectedProperties] = React.useState([]) // Properties that contain connections
+
+    const getObjectColor = React.useCallback(
+        (titleSingular) => {
+            switch (titleSingular) {
+                case "Ambitie":
+                    return connectionPropertiesColors.Ambities.hex
+                case "Belang":
+                    return connectionPropertiesColors.Belangen.hex
+                case "Beleidsdoel":
+                    return connectionPropertiesColors.Beleidsdoelen.hex
+                case "Beleidskeuze":
+                    return connectionPropertiesColors.Beleidskeuzes.hex
+                case "Beleidsprestatie":
+                    return connectionPropertiesColors.Beleidsprestaties.hex
+                case "Beleidsregel":
+                    return connectionPropertiesColors.Beleidsregels.hex
+                case "Maatregel":
+                    return connectionPropertiesColors.Maatregelen.hex
+                case "Thema":
+                    return connectionPropertiesColors.Themas.hex
+                case "Verordening":
+                    return connectionPropertiesColors.Verordeningen.hex
+                default:
+                    return connectionPropertiesColors.MainObject.hex
+            }
+        },
+        [connectionPropertiesColors]
+    )
 
     // Prepare and set data for the D3 Visualisation
     React.useEffect(() => {
@@ -45,7 +83,7 @@ const RelatiesKoppelingenVisualisatie = ({
             id: beleidsObject.UUID,
             name: beleidsObject.Titel,
             property: "beleidsObjectMain",
-            color: connectionPropertiesColors.MainObject.hex,
+            color: getObjectColor(titleSingular),
         })
 
         // Holds the properties that have connections
@@ -101,6 +139,8 @@ const RelatiesKoppelingenVisualisatie = ({
         beleidsRelaties,
         connectionProperties,
         connectionPropertiesColors,
+        getObjectColor,
+        titleSingular,
     ])
 
     /* The useRef Hook creates a variable that "holds on" to a value across rendering
@@ -174,48 +214,19 @@ const RelatiesKoppelingenVisualisatie = ({
 
             // Create Event Handlers for mouse.
             // In here we handle the tooltip
-            function handleMouseOver(d, i) {
+            function handleMouseOver(event, d) {
                 // We don't want to show the popup on the main beleidskeuze
                 if (d.property === "beleidsObjectMain") return
 
                 // Activate display
                 tooltip.style("display", "block")
 
-                const tooltipTitleEl =
-                    document.getElementById("d3-tooltip-title")
+                const tooltipTitleEl = document.getElementById(
+                    "d3-tooltip-title"
+                )
                 tooltipTitleEl.innerHTML = d.name
 
                 const tooltipEl = document.getElementById("d3-tooltip")
-
-                const generateHrefVerordeningsartikel = (uuid) => {
-                    const positionInVerordening = generateVerordeningsPosition(
-                        uuid,
-                        verordeningsStructure
-                    )
-
-                    if (positionInVerordening.length === 0) return null
-
-                    const path = `/detail/verordeningen/${
-                        verordeningsStructure.ID
-                    }/${uuid}?hoofdstuk=${
-                        positionInVerordening[0] !== undefined
-                            ? positionInVerordening[0]
-                            : "null"
-                    }&nest_1=${
-                        positionInVerordening[1] !== undefined
-                            ? positionInVerordening[1]
-                            : "null"
-                    }&nest_2=${
-                        positionInVerordening[2] !== undefined
-                            ? positionInVerordening[2]
-                            : "null"
-                    }&nest_3=${
-                        positionInVerordening[3] !== undefined
-                            ? positionInVerordening[3]
-                            : "null"
-                    }`
-                    return path
-                }
 
                 const generateHref = ({ property, UUID }) => {
                     const slugs = {
@@ -241,7 +252,10 @@ const RelatiesKoppelingenVisualisatie = ({
 
                 const hrefURL =
                     d.property === "Verordeningen"
-                        ? generateHrefVerordeningsartikel(d.id)
+                        ? generateHrefVerordeningsartikel(
+                              d.id,
+                              verordeningsStructure
+                          )
                         : generateHref({
                               property: d.property,
                               UUID: d.id,
@@ -267,7 +281,7 @@ const RelatiesKoppelingenVisualisatie = ({
                 })
             }
 
-            function handleMouseOut(d, i) {
+            function handleMouseOut(event, d) {
                 // Reset display property, user can still see it when hovering over it
                 tooltip.style("display", "")
             }
@@ -302,7 +316,12 @@ const RelatiesKoppelingenVisualisatie = ({
                 {/* Legenda */}
                 <ul className="mt-10">
                     <li className="flex items-center mt-1 text-sm text-gray-800">
-                        <span className="flex-shrink-0 inline-block w-3 h-3 mr-2 bg-purple-800 rounded-full" />
+                        <span
+                            className="flex-shrink-0 inline-block w-3 h-3 mr-2 rounded-full"
+                            style={{
+                                backgroundColor: getObjectColor(titleSingular),
+                            }}
+                        />
                         <span>{beleidsObject.Titel}</span>
                     </li>
                     {connectedProperties.map((property) => (

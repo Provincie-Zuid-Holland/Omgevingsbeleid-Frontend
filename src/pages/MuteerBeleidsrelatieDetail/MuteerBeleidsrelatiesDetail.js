@@ -28,33 +28,48 @@ const MuteerBeleidsrelatiesDetail = ({
     updateBeleidsrelaties,
     backToOverzicht,
 }) => {
-    const [activeTab, setActiveTab] = React.useState("relaties")
     const [isLoading, setIsLoading] = React.useState(true)
     const [savingInProgress, setSavingInProgress] = React.useState(false)
+
+    const [activeTab, setActiveTab] = React.useState("relaties")
+
+    /** Incoming and outgoing relations */
     const [incoming_Beleidskeuzes, setIncoming_Beleidskeuzes] = React.useState(
         []
     )
     const [outgoing_Beleidskeuzes, setOutgoing_Beleidskeuzes] = React.useState(
         []
     )
-    const [motivationPopUp, setMotivationPopUp] = React.useState(null)
-    const [disconnectPopup, setDisconnectPopup] = React.useState(null)
+
+    /** State for the beleidsObject that the user is viewing the detail page of */
     const [beleidsObject, setBeleidsObject] = React.useState({})
 
-    // Arrays containing the relations
+    /** Popup State */
+    const [motivationPopUp, setMotivationPopUp] = React.useState(null)
+    const [disconnectPopup, setDisconnectPopup] = React.useState(null)
+
+    /** State containing the filtered relations */
     const [relations, setRelations] = React.useState([])
     const [rejected, setRejected] = React.useState([])
     const [disconnected, setDisconnected] = React.useState([])
     const [requests, setRequests] = React.useState([])
 
+    /** Contains the UUID from the URL */
     const { UUID } = useParams()
 
+    /**
+     * Retrieve specific version of the beleidskeuze
+     * @param {string} UUID - UUID of the beleidskeuze we want to retrieve
+     */
     const getAndSetBeleidskeuze = (UUID) =>
         axios.get(`version/beleidskeuzes/${UUID}`).then((res) => {
             setBeleidsObject(res.data)
         })
 
-    // Get alle beleidsrelaties die een Van_Beleidskeuze relatie hebben met de beleidskeuze die bekeken wordt
+    /**
+     * Function that gets all relations from a specific beleidskeuze
+     * @param {string} UUID - UUID of the beleidskeuze
+     */
     const getBeleidsrelatiesVanBeleidskeuze = (UUID) =>
         axios
             .get(`/beleidsrelaties?all_filters=Van_Beleidskeuze:${UUID}`)
@@ -64,7 +79,10 @@ const MuteerBeleidsrelatiesDetail = ({
                 setOutgoing_Beleidskeuzes(outgoing)
             })
 
-    // Get alle beleidsrelaties die een Naar_Beleidskeuze relatie hebben met de beleidskeuze die bekeken wordt
+    /**
+     * Function that gets all outgoing relations to a specific beleidskeuze
+     * @param {string} UUID - UUID of the beleidskeuze
+     */
     const getBeleidsrelatiesNaarBeleidskeuze = (UUID) =>
         axios
             .get(`/beleidsrelaties?all_filters=Naar_Beleidskeuze:${UUID}`)
@@ -74,6 +92,10 @@ const MuteerBeleidsrelatiesDetail = ({
                 setIncoming_Beleidskeuzes(incoming)
             })
 
+    /**
+     * Function to accept an incoming relation
+     * @param {object} beleidsrelatieObject - Contains the relation object
+     */
     const relationshipAccept = (beleidsrelatieObject) => {
         const patchedBeleidsrelatieObject = {
             Status: "Akkoord",
@@ -126,6 +148,10 @@ const MuteerBeleidsrelatiesDetail = ({
             })
     }
 
+    /**
+     * Function to refuse an incoming relation
+     * @param {object} beleidsrelatieObject - Contains the relation object
+     */
     const relationshipReject = (beleidsrelatieObject) => {
         const patchedBeleidsrelatieObject = {
             Begin_Geldigheid: beleidsrelatieObject.Begin_Geldigheid,
@@ -154,6 +180,10 @@ const MuteerBeleidsrelatiesDetail = ({
             })
     }
 
+    /**
+     * Function to disconnect a relation
+     * @param {object} beleidsrelatieObject - Contains the relation object
+     */
     const relationshipDisconnect = (beleidsrelatieObject) => {
         const patchedBeleidsrelatieObject = {
             Begin_Geldigheid: beleidsrelatieObject.Begin_Geldigheid,
@@ -181,7 +211,10 @@ const MuteerBeleidsrelatiesDetail = ({
             })
     }
 
-    // Wordt gebruikt om de lokale state te updaten bij bijvoorbeeld het intrekken van een relatie verzoek
+    /**
+     * This function is used to update the local component state.
+     * E.g. is when the user declines an incoming relation request.
+     */
     const updateStatus = (uuid, nieuweStatus, updateDatumAkkoord) => {
         const vanIndex = outgoing_Beleidskeuzes.findIndex(
             (x) => x.UUID === uuid
@@ -291,7 +324,7 @@ const MuteerBeleidsrelatiesDetail = ({
 
                             {!isLoading ? (
                                 <span
-                                    className={`absolute inline-block px-1 ml-4 -mt-1 text-xs font-bold border rounded  ${
+                                    className={`absolute inline-block px-1 ml-4 pt-1 text-xs font-bold border rounded  ${
                                         beleidsObject.Status === "Vigerend"
                                             ? "text-pzh-blue border-pzh-blue"
                                             : "text-pzh-yellow-dark border-pzh-yellow-dark"
@@ -303,10 +336,10 @@ const MuteerBeleidsrelatiesDetail = ({
                             ) : null}
                         </h1>
                     </div>
-                    <div>
+                    <div className="flex-shrink-0">
                         <Link
                             to={`/muteer/beleidsrelaties/${UUID}/nieuwe-relatie`}
-                            className="px-2 pt-1 pb-1 text-sm font-bold text-white rounded cursor-pointer bg-pzh-green hover:bg-pzh-green-dark"
+                            className="px-2 pt-2 pb-1 text-sm font-bold text-white transition-colors duration-100 ease-in rounded cursor-pointer bg-pzh-green hover:bg-pzh-green-dark"
                         >
                             <FontAwesomeIcon
                                 className="mr-2 text-white"

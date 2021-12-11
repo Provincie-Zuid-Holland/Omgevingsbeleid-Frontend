@@ -32,9 +32,11 @@ const dimensions = [
     "BELEIDSKEUZES",
 ]
 
+const currentBaseURL = baseURL
+
 const getDimensions = dimensions.map((dimension) => {
     const apiSlug = allDimensies[dimension].API_ENDPOINT
-    const url = `${baseURL}/${apiSlug}/1`
+    const url = `${currentBaseURL}/${apiSlug}/1`
     const testResponse = {}
 
     Object.keys(allDimensies[dimension].CRUD_PROPERTIES).forEach((key) => {
@@ -49,7 +51,7 @@ const getDimensions = dimensions.map((dimension) => {
 
 const patchDimensions = dimensions.map((dimension) => {
     const apiSlug = allDimensies[dimension].API_ENDPOINT
-    const url = `${baseURL}/${apiSlug}/1`
+    const url = `${currentBaseURL}/${apiSlug}/1`
     const testResponse = {}
 
     Object.keys(allDimensies[dimension].CRUD_PROPERTIES).forEach((key) => {
@@ -63,7 +65,7 @@ const patchDimensions = dimensions.map((dimension) => {
 })
 
 export const handlers = [
-    rest.post(`${baseURL}/login`, (req, res, ctx) => {
+    rest.post(`${currentBaseURL}/login`, (req, res, ctx) => {
         return res(
             ctx.json({
                 access_token:
@@ -80,58 +82,58 @@ export const handlers = [
         )
     }),
 
-    rest.get(`${baseURL}/beleidsregels`, (req, res, ctx) => {
+    rest.get(`${currentBaseURL}/beleidsregels`, (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(beleidsregels))
     }),
 
-    rest.get(`${baseURL}/valid/beleidsregels`, (req, res, ctx) => {
+    rest.get(`${currentBaseURL}/valid/beleidsregels`, (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(beleidsregels))
     }),
 
     rest.get(
-        `${baseURL}/beleidsregels/${beleidsregels[0].ID}`,
+        `${currentBaseURL}/beleidsregels/${beleidsregels[0].ID}`,
         (req, res, ctx) => {
             return res(ctx.status(200), ctx.json(beleidsregels))
         }
     ),
 
-    rest.get(`${baseURL}/maatregelen`, (req, res, ctx) => {
+    rest.get(`${currentBaseURL}/maatregelen`, (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(maatregelen))
     }),
 
-    rest.get(`${baseURL}/valid/maatregelen`, (req, res, ctx) => {
+    rest.get(`${currentBaseURL}/valid/maatregelen`, (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(maatregelen))
     }),
 
-    rest.get(`${baseURL}/themas`, (req, res, ctx) => {
+    rest.get(`${currentBaseURL}/themas`, (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(themas))
     }),
 
-    rest.get(`${baseURL}/valid/themas`, (req, res, ctx) => {
+    rest.get(`${currentBaseURL}/valid/themas`, (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(themas))
     }),
 
-    rest.get(`${baseURL}/werkingsgebieden`, (req, res, ctx) => {
+    rest.get(`${currentBaseURL}/werkingsgebieden`, (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(werkingsgebieden))
     }),
 
-    rest.get(`${baseURL}/valid/werkingsgebieden`, (req, res, ctx) => {
+    rest.get(`${currentBaseURL}/valid/werkingsgebieden`, (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(werkingsgebieden))
     }),
 
-    rest.get(`${baseURL}/graph`, (req, res, ctx) => {
+    rest.get(`${currentBaseURL}/graph`, (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(graph))
     }),
 
-    rest.get(`${baseURL}/gebruikers`, (req, res, ctx) => {
+    rest.get(`${currentBaseURL}/gebruikers`, (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(users))
     }),
 
-    rest.get(`${baseURL}/ambities`, (req, res, ctx) => {
+    rest.get(`${currentBaseURL}/ambities`, (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(ambities))
     }),
 
-    rest.get(`${baseURL}/valid/ambities`, (req, res, ctx) => {
+    rest.get(`${currentBaseURL}/valid/ambities`, (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(ambities))
     }),
 
@@ -142,96 +144,102 @@ export const handlers = [
         }
     ),
 
-    rest.get(`${baseURL}/beleidskeuzes`, (req, res, ctx) => {
+    rest.get(`${currentBaseURL}/beleidskeuzes`, (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(beleidskeuzes))
     }),
 
-    rest.get(`${baseURL}/valid/beleidskeuzes`, (req, res, ctx) => {
+    rest.get(`${currentBaseURL}/valid/beleidskeuzes`, (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(beleidskeuzes))
     }),
 
     rest.get(
-        `${baseURL}/beleidskeuzes/${beleidskeuzes[0].ID}`,
+        `${currentBaseURL}/beleidskeuzes/${beleidskeuzes[0].ID}`,
         (req, res, ctx) => {
             return res(ctx.status(200), ctx.json([beleidskeuzes[0]]))
         }
     ),
 
     rest.get(
-        `${baseURL}/version/beleidskeuzes/${beleidskeuzes[0].UUID}`,
+        `${currentBaseURL}/version/beleidskeuzes/${beleidskeuzes[0].UUID}`,
         (req, res, ctx) => {
             return res(ctx.status(200), ctx.json(beleidskeuzes[0]))
         }
     ),
 
-    rest.get(`${baseURL}/beleidsmodules`, (req, res, ctx) => {
+    rest.get(`${currentBaseURL}/beleidsmodules`, (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(beleidsmodules))
     }),
 
-    rest.get(`${baseURL}/valid/beleidsmodules`, (req, res, ctx) => {
+    rest.get(`${currentBaseURL}/valid/beleidsmodules`, (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(beleidsmodules))
     }),
 
     rest.patch(
-        `${baseURL}/beleidsmodules/${beleidsmodules[1].ID}`,
+        `${currentBaseURL}/beleidsmodules/${beleidsmodules[1].ID}`,
         (req, res, ctx) => {
             return res(ctx.status(200), ctx.json(beleidsmodules[1]))
         }
     ),
 
-    rest.get(`${baseURL}/belangen`, (req, res, ctx) => {
+    rest.get(`${currentBaseURL}/belangen`, (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(belangen))
     }),
 
-    rest.get(`${baseURL}/valid/belangen`, (req, res, ctx) => {
+    rest.get(`${currentBaseURL}/valid/belangen`, (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(belangen))
     }),
 
-    rest.get(`${baseURL}/beleidsrelaties`, (req, res, ctx) => {
+    rest.get(`${currentBaseURL}/beleidsrelaties`, (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(beleidsrelaties))
     }),
 
-    rest.get(`${baseURL}/valid/beleidsrelaties`, (req, res, ctx) => {
+    rest.get(`${currentBaseURL}/valid/beleidsrelaties`, (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(beleidsrelaties))
     }),
 
-    rest.post(`${baseURL}/beleidsrelaties`, (req, res, ctx) => {
+    rest.post(`${currentBaseURL}/beleidsrelaties`, (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(beleidsrelaties[0]))
     }),
 
-    rest.get(`${baseURL}/beleidsdoelen`, (req, res, ctx) => {
+    rest.get(`${currentBaseURL}/beleidsdoelen`, (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(beleidsdoelen))
     }),
 
-    rest.get(`${baseURL}/valid/beleidsdoelen`, (req, res, ctx) => {
+    rest.get(`${currentBaseURL}/valid/beleidsdoelen`, (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(beleidsdoelen))
     }),
 
-    rest.get(`${baseURL}/beleidsprestaties`, (req, res, ctx) => {
+    rest.get(`${currentBaseURL}/beleidsprestaties`, (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(beleidsprestaties))
     }),
 
-    rest.get(`${baseURL}/valid/beleidsprestaties`, (req, res, ctx) => {
+    rest.get(`${currentBaseURL}/valid/beleidsprestaties`, (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(beleidsprestaties))
     }),
 
-    rest.get(`${baseURL}/verordeningstructuur`, (req, res, ctx) => {
+    rest.get(`${currentBaseURL}/verordeningstructuur`, (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(verordeningstructuur))
     }),
 
-    rest.get(`${baseURL}/valid/verordeningstructuur`, (req, res, ctx) => {
+    rest.get(
+        `${currentBaseURL}/valid/verordeningstructuur`,
+        (req, res, ctx) => {
+            return res(ctx.status(200), ctx.json(verordeningstructuur))
+        }
+    ),
+
+    rest.get(`${currentBaseURL}/verordeningstructuur/:id`, (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(verordeningstructuur))
     }),
 
-    rest.get(`${baseURL}/verordeningstructuur/:id`, (req, res, ctx) => {
-        return res(ctx.status(200), ctx.json(verordeningstructuur))
-    }),
+    rest.get(
+        `${currentBaseURL}/version/verordeningen/:uuid`,
+        (req, res, ctx) => {
+            return res(ctx.status(200), ctx.json(artikel))
+        }
+    ),
 
-    rest.get(`${baseURL}/version/verordeningen/:uuid`, (req, res, ctx) => {
-        return res(ctx.status(200), ctx.json(artikel))
-    }),
-
-    rest.get(`${baseURL}/search`, (req, res, ctx) => {
+    rest.get(`${currentBaseURL}/search`, (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(search))
     }),
 

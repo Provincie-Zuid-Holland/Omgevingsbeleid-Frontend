@@ -1,6 +1,6 @@
 import React from "react"
 /**
- * A component that renders a fixed place submit button element with the text "Opslaan", in which a user can submit data in a form.
+ * Displays a fixed placed submit button.
  */
 function ButtonSubmitFixed({ submit }) {
     if (!submit) return null

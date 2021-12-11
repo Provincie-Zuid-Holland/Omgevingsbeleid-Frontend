@@ -7,15 +7,7 @@ import { faCaretDown } from "@fortawesome/pro-solid-svg-icons"
  * @param {object} filters - Contains the current filter state
  * @param {function} setFilters - Contains the current filter state
  */
-const ModuleFilters = ({ filters, setFilters }) => {
-    return (
-        <>
-            <ModuleFilterType filters={filters} setFilters={setFilters} />
-        </>
-    )
-}
-
-const ModuleFilterType = ({ filters, setFilters }) => (
+const ModuleFilters = ({ filters, setFilters }) => (
     <div className="relative flex items-center group">
         <select
             value={filters.selectedType}

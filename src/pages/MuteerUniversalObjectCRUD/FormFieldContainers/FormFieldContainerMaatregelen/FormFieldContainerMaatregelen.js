@@ -4,7 +4,7 @@ import PropTypes from "prop-types"
 import ContainerFormSection from "./../../../../components/ContainerFormSection"
 import FormFieldTitelEnBeschrijving from "./../../../../components/FormFieldTitelEnBeschrijving"
 import {
-    FormFieldDate,
+    FormFieldGeldigheid,
     FormFieldTextInput,
     FormFieldWeblink,
     FormFieldWerkingsgebied,
@@ -18,6 +18,15 @@ import UserContext from "./../../../../App/UserContext"
 
 const initialValueToelichting = `<p><b>Rolkeuze</b></p><p><br><br></p><p><b>Beleidskeuzes</b></p><p><br><br></p><p><b>Is de maatregel gebiedsspecifiek?</b></p><p><br><br></p><p><b>Toelichting</b></p><p><br><br></p>`
 
+/**
+ *
+ * @param {object} props
+ * @param {string} props.titleSingular - Contains the singular form of the policy object type (e.g. 'maatregel')
+ * @param {object} props.crudObject - Contains the policy object that is being edited / created
+ * @param {function} props.handleChange - Contains the change handler function
+ * @param {boolean} props.editStatus - Boolean indicating if the user is editing a policy object or creating a new one
+ * @returns The form fields for policy objects of the type Maatregelen
+ */
 function FormFieldContainerMaatregelen({
     titleSingular,
     crudObject,
@@ -152,7 +161,7 @@ function FormFieldContainerMaatregelen({
                     />
 
                     <div className="flex flex-wrap -mx-3">
-                        <FormFieldDate
+                        <FormFieldGeldigheid
                             disabled={isVigerend}
                             handleChange={handleChange}
                             fieldValue={crudObject["Begin_Geldigheid"]}
@@ -162,7 +171,7 @@ function FormFieldContainerMaatregelen({
                             titleSingular={titleSingular}
                         />
 
-                        <FormFieldDate
+                        <FormFieldGeldigheid
                             disabled={isVigerend}
                             openUitwerkingstrede={true}
                             handleChange={handleChange}

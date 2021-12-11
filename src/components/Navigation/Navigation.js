@@ -18,6 +18,12 @@ import logoWhite from "./../../images/PZH_Basislogo_white.png"
 import logoSVG from "./../../images/PZH_Basislogo.svg"
 import { useWindowSize } from "../../utils/useWindowSize"
 
+/**
+ * Displays a navbar on top of the page which the user can use to login, logout and search within the omgevingsbeleid.
+ *
+ * @param {boolean} loggedIn - Parameter that is set true if user is logged in.
+ * @param {function} setLoginState - Function to edit parent state.
+ */
 function Navigation({ loggedIn, setLoginState }) {
     const location = useLocation()
     const pathname = location.pathname
