@@ -1,15 +1,8 @@
 import React, { Component, Suspense, lazy } from "react"
-
-// For the routing we use React Router (https://reacttraining.com/react-router/)
 import { Route, Switch, withRouter, useHistory } from "react-router-dom"
-
-// Helmet is the Document Head manager that we use, mostly for building dynamic page titles
+import { QueryClient, QueryClientProvider } from "react-query"
 import { Helmet } from "react-helmet"
-
-// Import axios instance
 import axios from "./../API/axios"
-
-// Import Notification Library
 import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
@@ -23,15 +16,14 @@ import allDimensies from "./../constants/dimensies"
 
 // Import non authenticated pages
 import RaadpleegHome from "./../pages/RaadpleegHome"
-import RaadpleegUniversalObjectDetail from "./../pages/RaadpleegUniversalObjectDetail"
-// import RaadpleegVerordeningsArtikelDetail from "./../pages/RaadpleegVerordeningsArtikelDetail"
+import RaadpleegObjectDetail from "./../pages/RaadpleegObjectDetail"
 import RaadpleegVerordening from "./../pages/RaadpleegVerordening"
 import RaadpleegUniversalObjectOverview from "./../pages/RaadpleegUniversalObjectOverview"
 import RaadpleegZoekResultatenOverzicht from "./../pages/RaadpleegZoekResultatenOverzicht"
-import Login from "./../pages/Login"
-import Planning from "./../pages/Planning"
 import RaadpleegPlanningAndReleases from "./../pages/RaadpleegPlanningAndReleases"
 import RaadpleegInProgress from "./../pages/RaadpleegInProgress"
+import Login from "./../pages/Login"
+import Planning from "./../pages/Planning"
 import RaadpleegTerinzageleggingen from "../pages/RaadpleegTerinzageleggingen"
 
 // Import Components
@@ -100,6 +92,8 @@ const detailPaginas = [
         dataModel: allDimensies.VERORDENINGSARTIKEL,
     },
 ]
+
+const queryClient = new QueryClient()
 
 class App extends Component {
     constructor(props) {
@@ -231,89 +225,93 @@ class App extends Component {
                 }}
             >
                 <UserContext.Provider value={{ user: this.state.user }}>
-                    <div
-                        className={`min-h-screen text-pzh-blue-dark relative ${
-                            locationEqualsMutateEnv ? "bg-gray-100" : ""
-                        }`}
-                        id="main-container"
-                    >
-                        <Helmet>
-                            <meta charSet="utf-8" />
-                            <title>
-                                Omgevingsbeleid - Provincie Zuid-Holland
-                            </title>
-                        </Helmet>
+                    <QueryClientProvider client={queryClient}>
+                        <div
+                            className={`min-h-screen text-pzh-blue-dark relative ${
+                                locationEqualsMutateEnv ? "bg-gray-100" : ""
+                            }`}
+                            id="main-container"
+                        >
+                            <Helmet>
+                                <meta charSet="utf-8" />
+                                <title>
+                                    Omgevingsbeleid - Provincie Zuid-Holland
+                                </title>
+                            </Helmet>
 
-                        {this.state.showWelcomePopup &&
-                        this.state.dataLoaded ? (
-                            <PopupWelcomeBeta
-                                closePopup={() =>
-                                    this.setState({
-                                        showWelcomePopup: false,
-                                    })
-                                }
-                            />
-                        ) : null}
+                            {this.state.showWelcomePopup &&
+                            this.state.dataLoaded ? (
+                                <PopupWelcomeBeta
+                                    closePopup={() =>
+                                        this.setState({
+                                            showWelcomePopup: false,
+                                        })
+                                    }
+                                />
+                            ) : null}
 
-                        {this.state.showReAuthenticatePopup ? (
-                            <PopUpAnimatedContainer
+                            {this.state.showReAuthenticatePopup ? (
+                                <PopUpAnimatedContainer
+                                    setLoginState={this.setLoginState}
+                                />
+                            ) : null}
+
+                            <Navigation
                                 setLoginState={this.setLoginState}
+                                loggedIn={this.state.loggedIn}
                             />
-                        ) : null}
 
-                        <Navigation
-                            setLoginState={this.setLoginState}
-                            loggedIn={this.state.loggedIn}
-                        />
+                            {this.state.dataLoaded ? (
+                                <Suspense fallback={<LoaderContent />}>
+                                    <Switch>
+                                        {/* Raadpleeg - The homepage where users can search for policies and regulations */}
+                                        <Route
+                                            path="/"
+                                            exact
+                                            component={RaadpleegHome}
+                                        />
 
-                        {this.state.dataLoaded ? (
-                            <Suspense fallback={<LoaderContent />}>
-                                <Switch>
-                                    {/* Raadpleeg - The homepage where users can search for policies and regulations */}
-                                    <Route
-                                        path="/"
-                                        exact
-                                        component={RaadpleegHome}
-                                    />
+                                        {/* Raadpleeg - Result page for search */}
+                                        <Route
+                                            exact
+                                            path="/zoekresultaten"
+                                            component={
+                                                RaadpleegZoekResultatenOverzicht
+                                            }
+                                        />
 
-                                    {/* Raadpleeg - Result page for search */}
-                                    <Route
-                                        exact
-                                        path="/zoekresultaten"
-                                        component={
-                                            RaadpleegZoekResultatenOverzicht
-                                        }
-                                    />
+                                        {/* Raadpleeg - Detail page for Article objects of the regulations */}
+                                        <Route
+                                            path={`/detail/verordeningen/:lineageID/:objectUUID`}
+                                            render={() => (
+                                                <RaadpleegVerordening />
+                                            )}
+                                        />
+                                        <Route
+                                            path={`/detail/verordening`}
+                                            render={() => (
+                                                <RaadpleegVerordening />
+                                            )}
+                                        />
 
-                                    {/* Raadpleeg - Detail page for Article objects of the regulations */}
-                                    <Route
-                                        path={`/detail/verordeningen/:lineageID/:objectUUID`}
-                                        render={() => <RaadpleegVerordening />}
-                                    />
-                                    <Route
-                                        path={`/detail/verordening`}
-                                        render={() => <RaadpleegVerordening />}
-                                    />
-
-                                    {/* Raadpleeg - Overview and Detail pages for all the dimensions */}
-                                    {detailPaginas.map((item) => {
-                                        return (
+                                        {/* Raadpleeg - Overview and Detail pages for all the dimensions */}
+                                        {detailPaginas.map((item) => (
                                             <Route
+                                                key={item.slug}
                                                 path={`/detail/${item.slug}/:id`}
                                                 render={() => (
-                                                    <RaadpleegUniversalObjectDetail
+                                                    <RaadpleegObjectDetail
                                                         dataModel={
                                                             item.dataModel
                                                         }
                                                     />
                                                 )}
                                             />
-                                        )
-                                    })}
-                                    {/* Raadpleeg - Overview and Detail pages for all the dimensions */}
-                                    {detailPaginas.map((item) => {
-                                        return (
+                                        ))}
+                                        {/* Raadpleeg - Overview and Detail pages for all the dimensions */}
+                                        {detailPaginas.map((item) => (
                                             <Route
+                                                key={item.slug}
                                                 path={`/overzicht/${item.slug}`}
                                                 render={() => (
                                                     <RaadpleegUniversalObjectOverview
@@ -323,74 +321,78 @@ class App extends Component {
                                                     />
                                                 )}
                                             />
-                                        )
-                                    })}
+                                        ))}
 
-                                    {/* Planning page contains the development roadmap */}
-                                    <Route
-                                        path="/planning"
-                                        exact
-                                        component={Planning}
-                                    />
+                                        {/* Planning page contains the development roadmap */}
+                                        <Route
+                                            path="/planning"
+                                            exact
+                                            component={Planning}
+                                        />
 
-                                    {/*  */}
-                                    <Route
-                                        path="/login"
-                                        render={() => (
-                                            <Login
-                                                setLoginUser={this.setLoginUser}
-                                                setLoginState={
-                                                    this.setLoginState
-                                                }
-                                                history={this.props.history}
-                                            />
-                                        )}
-                                    />
-                                    <Route
-                                        path="/logout"
-                                        render={() => (
-                                            <Logout
-                                                setLoginState={
-                                                    this.setLoginState
-                                                }
-                                            />
-                                        )}
-                                    />
-                                    <Route
-                                        path="/planning-en-releases"
-                                        render={() => (
-                                            <RaadpleegPlanningAndReleases />
-                                        )}
-                                    />
-                                    <Route
-                                        path="/terinzageleggingen"
-                                        render={() => (
-                                            <RaadpleegTerinzageleggingen />
-                                        )}
-                                    />
-                                    <Route
-                                        path="/in-bewerking"
-                                        render={() => <RaadpleegInProgress />}
-                                    />
-                                    <Route
-                                        path="/netwerkvisualisatie"
-                                        render={() => null}
-                                    />
+                                        {/*  */}
+                                        <Route
+                                            path="/login"
+                                            render={() => (
+                                                <Login
+                                                    setLoginUser={
+                                                        this.setLoginUser
+                                                    }
+                                                    setLoginState={
+                                                        this.setLoginState
+                                                    }
+                                                    history={this.props.history}
+                                                />
+                                            )}
+                                        />
+                                        <Route
+                                            path="/logout"
+                                            render={() => (
+                                                <Logout
+                                                    setLoginState={
+                                                        this.setLoginState
+                                                    }
+                                                />
+                                            )}
+                                        />
+                                        <Route
+                                            path="/planning-en-releases"
+                                            render={() => (
+                                                <RaadpleegPlanningAndReleases />
+                                            )}
+                                        />
+                                        <Route
+                                            path="/terinzageleggingen"
+                                            render={() => (
+                                                <RaadpleegTerinzageleggingen />
+                                            )}
+                                        />
+                                        <Route
+                                            path="/in-bewerking"
+                                            render={() => (
+                                                <RaadpleegInProgress />
+                                            )}
+                                        />
+                                        <Route
+                                            path="/netwerkvisualisatie"
+                                            render={() => null}
+                                        />
 
-                                    <AuthRoutes
-                                        authUser={this.state.user}
-                                        loggedIn={this.state.loggedIn}
-                                        setLoginState={this.setLoginState}
-                                    />
-                                </Switch>
-                            </Suspense>
-                        ) : (
-                            <LoaderContent />
-                        )}
+                                        <AuthRoutes
+                                            authUser={this.state.user}
+                                            loggedIn={this.state.loggedIn}
+                                            setLoginState={this.setLoginState}
+                                        />
+                                    </Switch>
+                                </Suspense>
+                            ) : (
+                                <LoaderContent />
+                            )}
 
-                        <ToastContainer limit={1} position="bottom-left" />
-                        <FeedbackComponent />
-                    </div>
+                            <ToastContainer limit={1} position="bottom-left" />
+                            <FeedbackComponent />
+                        </div>
+                    </QueryClientProvider>
                 </UserContext.Provider>
             </GraphContext.Provider>
         )

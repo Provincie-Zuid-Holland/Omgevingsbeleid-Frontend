@@ -1,5 +1,4 @@
 import React from "react"
-import { Helmet } from "react-helmet"
 import { Link } from "react-router-dom"
 
 // Import Components
@@ -9,10 +8,6 @@ import Text from "./../../components/Text"
 import Container from "./../../components/Container"
 import Footer from "./../../components/Footer"
 
-import {
-    getResponsiveImageHeight,
-    getResponsiveImageOffset,
-} from "./../../utils/responsiveImage"
 import { useWindowSize } from "../../utils/useWindowSize"
 
 /**
@@ -24,8 +19,6 @@ import { useWindowSize } from "../../utils/useWindowSize"
  */
 const Login = ({ setLoginUser, setLoginState }) => {
     const windowSize = useWindowSize()
-    const responsiveImageHeight = getResponsiveImageHeight()
-    const responsiveImageOffset = getResponsiveImageOffset()
 
     return (
         <>

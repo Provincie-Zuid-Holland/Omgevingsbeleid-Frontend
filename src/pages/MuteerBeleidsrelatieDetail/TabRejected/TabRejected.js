@@ -2,9 +2,6 @@ import React from "react"
 import { format } from "date-fns"
 import { useParams } from "react-router-dom"
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faTimes } from "@fortawesome/pro-solid-svg-icons"
-
 import LoaderBeleidsrelatieRegel from "../../../components/LoaderBeleidsrelatieRegel"
 import PopupMotivation from "../PopupMotivation/PopupMotivation"
 

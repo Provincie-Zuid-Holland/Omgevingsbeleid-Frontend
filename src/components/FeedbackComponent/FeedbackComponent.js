@@ -1,25 +1,17 @@
 import React from "react"
-
-// For the routing we use React Router (https://reacttraining.com/react-router/)
-import { useLocation } from "react-router-dom"
-
-// Import icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCommentAltLines } from "@fortawesome/pro-regular-svg-icons"
-
-// Import date formatting library
 import { format } from "date-fns"
 import nlLocale from "date-fns/locale/nl"
 
 /**
- * Function to get the browser info from the user and set it for the variable sBrowser.
+ * @returns The clients browser name
  */
 const getBrowserName = () => {
-    var sBrowser,
+    let sBrowser,
         sUsrAg = navigator.userAgent
 
     // The order matters here, and this may report false positives for unlisted browsers.
-
     if (sUsrAg.indexOf("Firefox") > -1) {
         sBrowser = "Mozilla Firefox"
         // "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:61.0) Gecko/20100101 Firefox/61.0"
@@ -49,7 +41,7 @@ const getBrowserName = () => {
 }
 
 /**
- * Function that sets/gets the date and browser variables and returns them as a mailto link with the date as a part of the subject and the browser as part of the body of the feedback email.
+ * Create a mailto link with subject and body
  */
 const getMailToLink = () => {
     const date =
@@ -60,21 +52,9 @@ const getMailToLink = () => {
 }
 
 /**
- * Component that renders the FeedbackComponent component, in which the user can click on the link to send a feedbackmessage of the page they are on, including which browser they are using and the date/timestamp.
- * This component is used by the components feedback and App.
+ * Feedback component with mailto anchor
  */
 const FeedbackComponent = () => {
-    const location = useLocation()
-    const [userIsOnEditPage, setUserIsOnEditPage] = React.useState(false)
-
-    const checkIfUserIsOnMutatePage = React.useCallback(() => {
-        return location.pathname.includes("/muteer/")
-    }, [location])
-
-    React.useEffect(() => {
-        setUserIsOnEditPage(checkIfUserIsOnMutatePage())
-    }, [checkIfUserIsOnMutatePage])
-
     const mailTo = getMailToLink()
 
     return (

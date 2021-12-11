@@ -51,12 +51,12 @@ function RaadpleegVerordeningSidebar({ verordening }) {
 
             setSidebarStyle({
                 top: containerOffsetTop + offsetYAxis,
-                height: screenHeight - containerOffsetTop - offsetYAxis * 2,
+                height: screenHeight - containerOffsetTop - offsetYAxis * 1.5,
                 width: containerWidth,
                 left: containerOffsetLeft,
             })
         }
-    }, [windowSize])
+    }, [windowSize, isOpen])
 
     return (
         <div
@@ -68,7 +68,7 @@ function RaadpleegVerordeningSidebar({ verordening }) {
                 style={buttonStyle}
                 id="small-screen-verordening-nav"
                 onClick={() => setIsOpen(!isOpen)}
-                className="fixed left-0 z-50 flex items-center justify-center w-full py-2 text-lg transition-colors duration-150 ease-in bg-white border-b cursor-pointer lg:hidden hover:bg-gray-50"
+                className="fixed left-0 z-50 flex items-center justify-center w-full py-2 text-lg transition-colors duration-150 ease-in border-b cursor-pointer lg:hidden hover:bg-gray-50"
             >
                 <FontAwesomeIcon icon={faBars} className="mr-2 text-pzh-blue" />
                 <span className="mt-1 font-bold text-pzh-blue">Inhoud</span>
@@ -77,7 +77,7 @@ function RaadpleegVerordeningSidebar({ verordening }) {
                 style={sidebarStyle}
                 className={`${
                     isOpen ? "fixed" : "hidden"
-                } z-10 p-4 overflow-y-auto pb-16 bg-white border border-gray-300`}
+                } z-10 p-4 overflow-y-auto pb-16 bg-white text-pzh-blue-dark`}
             >
                 <Text type="span" className="hidden font-bold lg:block">
                     Inhoud
@@ -120,7 +120,7 @@ const RaadpleegVerordeningSidebarItem = ({ item, setNavMenuOpen }) => {
     ) {
         const hasChildren = item?.Children.length > 0
         return (
-            <li className="mt-2">
+            <li className="my-2">
                 <div className="">
                     <button
                         onClick={() => hasChildren && setIsOpen(!isOpen)}
@@ -151,7 +151,7 @@ const RaadpleegVerordeningSidebarItem = ({ item, setNavMenuOpen }) => {
                     </span>
                 </div>
                 {hasChildren > 0 ? (
-                    <ul className={`pl-4 mt-2 ${isOpen ? "block" : "hidden"}`}>
+                    <ul className={`pl-4 my-1 ${isOpen ? "block" : "hidden"}`}>
                         {item.Children.map((child) => (
                             <RaadpleegVerordeningSidebarItem
                                 setNavMenuOpen={setNavMenuOpen}
@@ -167,7 +167,7 @@ const RaadpleegVerordeningSidebarItem = ({ item, setNavMenuOpen }) => {
         return (
             <li>
                 <button
-                    className="pl-5 mt-2 text-left cursor-pointer"
+                    className="pl-5 my-1 text-left cursor-pointer"
                     onClick={() => {
                         history.push(`${location.pathname}?active=${item.UUID}`)
                         if (windowSize.width < 1028) {

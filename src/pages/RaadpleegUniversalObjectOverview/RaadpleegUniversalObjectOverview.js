@@ -1,4 +1,5 @@
 import React from "react"
+import { useQuery } from "react-query"
 import { Link } from "react-router-dom"
 import { faArrowLeft } from "@fortawesome/pro-solid-svg-icons"
 import { faAngleRight } from "@fortawesome/pro-light-svg-icons"
@@ -13,23 +14,11 @@ import Text from "./../../components/Text"
 import Footer from "./../../components/Footer"
 import LoaderCard from "./../../components/LoaderCard"
 
-import handleError from "../../utils/handleError"
-
 function RaadpleegUniversalObjectOverview({ dataModel }) {
-    const [isLoading, setIsLoading] = React.useState(true)
-    const [allObjects, setAllObjects] = React.useState([])
-
-    React.useEffect(() => {
-        setIsLoading(true)
-
-        axios
-            .get(dataModel.API_ENDPOINT_VIGEREND)
-            .then((res) => {
-                setAllObjects(res.data)
-                setIsLoading(false)
-            })
-            .catch((err) => handleError(err))
-    }, [dataModel])
+    const { isLoading, data: allObjects } = useQuery(
+        dataModel.API_ENDPOINT_VIGEREND,
+        () => axios.get(dataModel.API_ENDPOINT_VIGEREND).then((res) => res.data)
+    )
 
     return (
         <div>
@@ -49,7 +38,6 @@ function RaadpleegUniversalObjectOverview({ dataModel }) {
                     </Heading>
                     <Text className="mt-3 md:mt-4">
                         {dataModel.DESCRIPTION}
-                        {console.log(dataModel)}
                     </Text>
                     <div className="mt-8">
                         <div className="flex flex-col justify-between sm:flex-row">

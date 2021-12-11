@@ -3,12 +3,7 @@ import { Link, useLocation } from "react-router-dom"
 import isToday from "date-fns/isToday"
 import parseISO from "date-fns/parseISO"
 
-import {
-    faEye,
-    faBars,
-    faTimes,
-    faSignInAlt,
-} from "@fortawesome/pro-solid-svg-icons"
+import { faEye, faSignInAlt } from "@fortawesome/pro-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 import Container from "./../Container"
@@ -21,7 +16,6 @@ import GraphContext from "./../../App/GraphContext"
 
 import logoWhite from "./../../images/PZH_Basislogo_white.png"
 import logoSVG from "./../../images/PZH_Basislogo.svg"
-import useBanner from "../../utils/useBanner"
 import { useWindowSize } from "../../utils/useWindowSize"
 
 function Navigation({ loggedIn, setLoginState }) {
@@ -30,15 +24,10 @@ function Navigation({ loggedIn, setLoginState }) {
     const userIsInMuteerEnvironment = pathname.includes("/muteer/")
     const windowSize = useWindowSize()
 
-    const [DNABarWidth, setDNABarWidth] = React.useState(
-        windowSize.width <= 768 ? 40 : 96
-    )
-
     // State for popup menu
     const [isOpen, setIsOpen] = React.useState(false)
 
     const { graphIsOpen, setGraphIsOpen } = React.useContext(GraphContext)
-    const { locationEqualsMutateEnv } = useBanner(graphIsOpen)
 
     // If the user removes the banner a variable gets set in Local Storage.
     // This variable is valid for 24 hours and makes sure the banner will not show up again.
@@ -49,14 +38,6 @@ function Navigation({ loggedIn, setLoginState }) {
                 ? parseISO(dateHideBanner)
                 : dateHideBanner
         )
-    }
-
-    function logout() {
-        // Clear user token and profile data from localStorage
-        localStorage.removeItem(process.env.REACT_APP_KEY_API_ACCESS_TOKEN)
-        localStorage.removeItem(process.env.REACT_APP_KEY_IDENTIFIER)
-
-        setLoginState(false)
     }
 
     const showBanner = userIsInMuteerEnvironment && !hideBannerLocalStorage()

@@ -1,6 +1,6 @@
 import React from "react"
 import { Transition } from "@headlessui/react"
-import { format, isDate } from "date-fns"
+import { format } from "date-fns"
 import nlLocale from "date-fns/locale/nl"
 import { faTimes } from "@fortawesome/pro-regular-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -193,13 +193,16 @@ const PopupRevisionOverview = ({
     }
 
     React.useEffect(() => {
-        revisionObjects = revisionObjects.sort(
-            (a, b) =>
-                new Date(b.Begin_Geldigheid) - new Date(a.Begin_Geldigheid)
-        )
-
         const [optionsFromRevisionsLeft, optionsFromRevisionsRight] =
-            getSelectOptions(revisionObjects, leftSelect, rightSelect)
+            getSelectOptions(
+                revisionObjects.sort(
+                    (a, b) =>
+                        new Date(b.Begin_Geldigheid) -
+                        new Date(a.Begin_Geldigheid)
+                ),
+                leftSelect,
+                rightSelect
+            )
 
         setOptionsLeft(optionsFromRevisionsLeft)
         setOptionsRight(optionsFromRevisionsRight)
@@ -215,7 +218,7 @@ const PopupRevisionOverview = ({
                 setChangesFromApi(res.data)
                 setIsLoading(false)
             })
-    }, [leftSelect, rightSelect])
+    }, [leftSelect, rightSelect, revisionObjects])
 
     // Disables body vertical scroll when revisieOverzicht is open
     useLockBodyScroll({ modalOpen: bodyLock })

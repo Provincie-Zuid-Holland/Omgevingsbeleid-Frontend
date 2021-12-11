@@ -1,13 +1,7 @@
 import React from "react"
 import { Link } from "react-router-dom"
 import { faFilePdf } from "@fortawesome/pro-regular-svg-icons"
-import {
-    faExternalLinkAlt,
-    faArrowRight,
-} from "@fortawesome/pro-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-
-import GraphContext from "./../../App/GraphContext"
+import { faExternalLinkAlt } from "@fortawesome/pro-solid-svg-icons"
 
 // Import Components
 import Heading from "./../../components/Heading"
@@ -16,6 +10,8 @@ import Container from "./../../components/Container"
 import Footer from "./../../components/Footer"
 
 import SearchSection from "./SearchSection"
+import ReleaseItem from "./ReleaseItem"
+import DocumentLink from "./DocumentLink"
 
 import {
     getResponsiveImageHeight,
@@ -26,8 +22,6 @@ import {
  * Landing page component.
  */
 const RaadpleegHome = () => {
-    const { setGraphIsOpen } = React.useContext(GraphContext)
-
     const responsiveImageHeight = getResponsiveImageHeight()
     const responsiveImageOffset = getResponsiveImageOffset()
 
@@ -362,51 +356,5 @@ const RaadpleegHome = () => {
         </>
     )
 }
-
-const ReleaseItem = ({ date, releaseNumber, releaseNotes = [] }) => {
-    return (
-        <>
-            <span className="flex justify-start col-span-4 pt-0 mt-8 opacity-50 md:pt-6 md:justify-end md:col-span-1 md:mt-0">
-                {date}
-            </span>
-            <div className="col-span-4 p-6 bg-white rounded md:col-span-3 bg-opacity-20">
-                <Heading level="3" color="text-white">
-                    Release {releaseNumber}
-                </Heading>
-                <ul className="pl-4 list-disc list-outside">
-                    {releaseNotes.map((note) => (
-                        <li>{note}</li>
-                    ))}
-                </ul>
-            </div>
-        </>
-    )
-}
-
-const DocumentLink = ({ href, title, iconLeft, className = "" }) => (
-    <li
-        className={`pb-2 transition-colors duration-100 ease-in text-pzh-green ${className}`}
-    >
-        <a
-            href={href}
-            target="_blank"
-            rel="noreferrer"
-            className="flex items-center justify-between"
-        >
-            <div className="flex">
-                <span className="flex items-center">
-                    <FontAwesomeIcon icon={iconLeft} />
-                </span>
-                <Text
-                    color="text-pzh-green"
-                    className="ml-2 underline"
-                    type="body"
-                >
-                    {title}
-                </Text>
-            </div>
-        </a>
-    </li>
-)
 
 export default RaadpleegHome

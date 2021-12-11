@@ -4,7 +4,7 @@ import Text from "./../../../components/Text"
 import LeafletViewer from "./../../../components/LeafletViewer"
 import SearchBar from "./../../../components/SearchBar"
 
-function SearchSection({}) {
+function SearchSection() {
     const [currentView, setCurrentView] = React.useState("text")
 
     return (

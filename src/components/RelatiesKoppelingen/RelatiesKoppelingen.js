@@ -197,7 +197,7 @@ const RelatiesKoppelingen = ({
         } else {
             initBeleidsobject()
         }
-    }, [dataObject.UUID, titleSingular, dataObject.Ref_Beleidskeuzes])
+    }, [dataObject, titleSingular])
 
     return (
         <div className="w-full pb-24 bg-orange-100">

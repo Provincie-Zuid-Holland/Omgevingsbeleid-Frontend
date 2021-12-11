@@ -9,16 +9,11 @@ import {
 import { faSearch } from "@fortawesome/pro-light-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
-import axios from "./../../API/axios"
-
 import useLockBodyScroll from "./../../utils/useLockBodyScroll"
 import { useWindowSize } from "../../utils/useWindowSize"
 
-import allDimensies from "./../../constants/dimensies"
-
 import Container from "./../Container"
 import Heading from "./../Heading"
-import LoaderSpinner from "./../LoaderSpinner"
 
 /**
  * A popup menu that can be used to navigate the application.
@@ -32,52 +27,24 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
     const history = useHistory()
     useLockBodyScroll({ modalOpen: isOpen })
 
-    const [verordeningIsLoading, setVerordeningIsLoading] = React.useState(true)
-    const [URLVerordeningFirstItem, setURLVerordeningFirstItem] =
-        React.useState("#")
-
     const [searchQuery, setSearchQuery] = React.useState("")
+    const [bannerAdjustedOffsetTop, setBannerAdjustedOffsetTop] =
+        React.useState({})
     const [isMobile, setIsMobile] = React.useState(false)
     const [containerHeightStyle, setContainerHeightStyle] =
         React.useState(false)
 
-    /** Initialize */
     React.useEffect(() => {
-        /**
-         * Generate the URL for the first item of the lineage
-         * @param {object} res - Contains the response from the API.
-         * @returns {string} - The URL for the first item of the lineage.
-         */
-        const generateURLForFirstLineageItem = (res) => {
-            const firstLineage = res.data[0]
-            let position = []
-            const traverseItems = (children) => {
-                if (children[0] && children[0].Type !== "Artikel") {
-                    position.push(0)
-                    return traverseItems(children[0].Children)
-                } else {
-                    return children[0]
-                }
-            }
-            let firstArtikel = traverseItems(firstLineage.Structuur.Children)
-
-            if (position.length === 1) {
-                return `/detail/verordeningen/${firstLineage.ID}/${firstArtikel.UUID}?hoofdstuk=0&nest_1=0&nest_2=null&nest_3=null`
-            } else if (position.length === 2) {
-                return `/detail/verordeningen/${firstLineage.ID}/${firstArtikel.UUID}?hoofdstuk=0&nest_1=0&nest_2=0&nest_3=null`
-            } else if (position.length === 3) {
-                return `/detail/verordeningen/${firstLineage.ID}/${firstArtikel.UUID}?hoofdstuk=0&nest_1=0&nest_2=0&nest_3=0`
-            }
-        }
-
-        axios
-            .get(`${allDimensies.VERORDENINGSTRUCTUUR.API_ENDPOINT}`)
-            .then((res) => {
-                setURLVerordeningFirstItem(generateURLForFirstLineageItem(res))
-                setVerordeningIsLoading(false)
+        if (showBanner) {
+            setBannerAdjustedOffsetTop({
+                top: "121px",
             })
-            .catch((err) => console.log(err))
-    }, [])
+        } else {
+            setBannerAdjustedOffsetTop({
+                top: "97px",
+            })
+        }
+    }, [showBanner])
 
     /** State for responsiveness */
     React.useEffect(() => {
@@ -124,29 +91,13 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
             {isOpen ? (
                 <React.Fragment>
                     <div
-                        style={
-                            showBanner
-                                ? {
-                                      top: "121px",
-                                  }
-                                : {
-                                      top: "97px",
-                                  }
-                        }
+                        style={bannerAdjustedOffsetTop}
                         className="fixed top-0 left-0 z-0 block w-screen h-screen bg-gray-900 opacity-40"
                     ></div>
                     <div
                         id="popup-menu"
                         className="fixed top-0 left-0 z-10 w-full pb-8 bg-white"
-                        style={
-                            showBanner
-                                ? {
-                                      top: "121px",
-                                  }
-                                : {
-                                      top: "97px",
-                                  }
-                        }
+                        style={bannerAdjustedOffsetTop}
                     >
                         <Container
                             className="h-full overflow-y-auto"
@@ -239,8 +190,7 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
                                     <ListItem
                                         text="Verordening"
                                         setIsOpen={setIsOpen}
-                                        to={URLVerordeningFirstItem}
-                                        isLoading={verordeningIsLoading}
+                                        to={"/detail/verordening"}
                                     />
                                 </ul>
                             </div>
@@ -327,37 +277,18 @@ const ToggleMenuButton = ({ isOpen, setIsOpen, isMobile }) => {
     )
 }
 
-const ListItem = ({
-    text = "",
-    to = "#",
-    setIsOpen,
-    isLoading = false,
-    onKeyDown = null,
-}) => {
+const ListItem = ({ text = "", to = "#", setIsOpen, onKeyDown = null }) => {
     return (
         <li className="pt-1 text-pzh-green">
-            {isLoading ? (
-                <div
-                    onKeyDown={onKeyDown}
-                    id={`menu-item-${text.replace(/\s+/g, "-").toLowerCase()}`}
-                >
-                    <FontAwesomeIcon className="mr-2" icon={faChevronRight} />
-                    <span>
-                        {text}
-                        <LoaderSpinner className="ml-2" />
-                    </span>
-                </div>
-            ) : (
-                <Link
-                    onKeyDown={onKeyDown}
-                    to={to}
-                    onClick={() => setIsOpen(false)}
-                    id={`menu-item-${text.replace(/\s+/g, "-").toLowerCase()}`}
-                >
-                    <FontAwesomeIcon className="mr-2" icon={faChevronRight} />
-                    <span className="underline">{text}</span>
-                </Link>
-            )}
+            <Link
+                onKeyDown={onKeyDown}
+                to={to}
+                onClick={() => setIsOpen(false)}
+                id={`menu-item-${text.replace(/\s+/g, "-").toLowerCase()}`}
+            >
+                <FontAwesomeIcon className="mr-2" icon={faChevronRight} />
+                <span className="underline">{text}</span>
+            </Link>
         </li>
     )
 }

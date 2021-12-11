@@ -1,4 +1,5 @@
 import React from "react"
+import { useQuery } from "react-query"
 
 import Heading from "./../../components/Heading"
 import Text from "./../../components/Text"
@@ -9,53 +10,47 @@ import axios from "./../../API/axios"
 
 import VERORDENING from "./../../constants/verordeningen"
 
-import handleError from "../../utils/handleError"
-
-import LoaderCard from "../../components/LoaderCard"
-import RaadpleegVerordeningSidebar from "./RaadpleegVerordeningSidebar"
-import useQuery from "../../utils/useQuery"
+import useURLQuery from "../../utils/useURLQuery"
 import { useWindowSize } from "../../utils/useWindowSize"
 
-function RaadpleegVerordening({}) {
-    const [verordening, setVerordening] = React.useState(null)
-    const query = useQuery()
+import RaadpleegVerordeningSidebar from "./RaadpleegVerordeningSidebar"
+import RaadpleegVerordeningPopupDetail from "./RaadpleegVerordeningPopupDetail"
+
+import LoaderCard from "../../components/LoaderCard"
+
+function RaadpleegVerordening() {
     const windowSize = useWindowSize()
+    const query = useURLQuery()
+    const UUIDFromUrl = query.get("active")
 
-    const activeUUID = query.get("active")
+    // const [verordening, setVerordening] = React.useState(null)
+    const [activeArticle, setActiveArticle] = React.useState(null)
 
-    const scrollIntoView = (activeUUID) => {
-        const element = document.getElementById(activeUUID)
-        if (!element) return
-
-        const offset = windowSize.width < 1028 ? 60 : 15
-        window.scrollTo({
-            left: 0,
-            top: element.offsetTop - offset,
-            behavior: "smooth",
-        })
-    }
-
-    React.useEffect(() => {
-        scrollIntoView(activeUUID)
-    }, [activeUUID])
+    const { data: verordening } = useQuery("verordening", () =>
+        axios
+            .get("/verordeningstructuur")
+            .then((res) =>
+                res.data.find(
+                    (verordening) => verordening.Status === "Vigerend"
+                )
+            )
+    )
 
     React.useEffect(() => {
-        const initializeState = () => {
-            axios
-                .get("/verordeningstructuur")
-                .then((res) => {
-                    const validVerordening = res.data.find(
-                        (verordening) => verordening.Status === "Vigerend"
-                    )
-                    setVerordening(validVerordening)
-                })
-                .catch((err) => {
-                    handleError(err)
-                })
+        const scrollIntoView = (UUIDFromUrl) => {
+            const element = document.getElementById(UUIDFromUrl)
+            if (!element) return
+
+            const offset = windowSize.width < 1028 ? 60 : 15
+            window.scrollTo({
+                left: 0,
+                top: element.offsetTop - offset,
+                behavior: "smooth",
+            })
         }
 
-        initializeState()
-    }, [])
+        scrollIntoView(UUIDFromUrl)
+    }, [UUIDFromUrl, windowSize])
 
     return (
         <>
@@ -69,6 +64,7 @@ function RaadpleegVerordening({}) {
                     >
                         {VERORDENING.TITLE_SINGULAR}
                     </Heading>
+
                     {verordening ? (
                         <Heading
                             level="1"
@@ -80,12 +76,21 @@ function RaadpleegVerordening({}) {
                     ) : (
                         <LoaderCard className="mt-6" />
                     )}
+
                     {verordening?.Structuur?.Children.map((chapter) => (
                         <VerordeningsSection
+                            setActiveArticle={setActiveArticle}
                             key={chapter.UUID}
                             section={chapter}
                         />
                     ))}
+
+                    {activeArticle ? (
+                        <RaadpleegVerordeningPopupDetail
+                            setActiveArticle={setActiveArticle}
+                            activeArticle={activeArticle}
+                        />
+                    ) : null}
                 </div>
             </Container>
             <Footer />
@@ -93,7 +98,7 @@ function RaadpleegVerordening({}) {
     )
 }
 
-const VerordeningsSection = ({ section }) => {
+const VerordeningsSection = ({ section, setActiveArticle }) => {
     if (section.Type === "Hoofdstuk") {
         return (
             <div className="mt-6 mb-2">
@@ -117,6 +122,7 @@ const VerordeningsSection = ({ section }) => {
                 {section?.Children.length > 0
                     ? section.Children.map((child) => (
                           <VerordeningsSection
+                              setActiveArticle={setActiveArticle}
                               key={child.UUID}
                               section={child}
                           />
@@ -149,6 +155,7 @@ const VerordeningsSection = ({ section }) => {
                 {section?.Children.length > 0
                     ? section.Children.map((child) => (
                           <VerordeningsSection
+                              setActiveArticle={setActiveArticle}
                               key={child.UUID}
                               section={child}
                           />
@@ -158,29 +165,36 @@ const VerordeningsSection = ({ section }) => {
         )
     } else if (section.Type === "Artikel") {
         return (
-            <div className="mt-6" id={section.UUID}>
-                <Heading
-                    customStyles={{
-                        fontSize: "1rem",
-                        lineHeight: "1.5rem",
-                    }}
-                    level="2"
-                    color="text-pzh-blue-dark"
-                    className="font-bold"
+            <div className="mt-6 mb-4" id={section.UUID}>
+                <div
+                    onClick={() => setActiveArticle(section)}
+                    style={{ width: "calc(100% + 1rem)" }}
+                    className="p-2 -mt-2 -ml-2 transition-colors duration-150 ease-in rounded-md cursor-pointer hover:bg-gray-200 hover:bg-opacity-70"
                 >
-                    {`Artikel ${section.Volgnummer} ${section.Titel}`}
-                </Heading>
-                <div className="mt-2">
-                    {section?.Children.length > 0 ? (
-                        section.Children.map((child) => (
-                            <VerordeningsSection
-                                key={child.UUID}
-                                section={child}
-                            />
-                        ))
-                    ) : (
-                        <Text type="body">{section.Inhoud}</Text>
-                    )}
+                    <Heading
+                        customStyles={{
+                            fontSize: "1rem",
+                            lineHeight: "1.5rem",
+                        }}
+                        level="2"
+                        color="text-pzh-blue-dark"
+                        className="font-bold"
+                    >
+                        {`Artikel ${section.Volgnummer} ${section.Titel}`}
+                    </Heading>
+                    <div className="mt-2">
+                        {section?.Children.length > 0 ? (
+                            section.Children.map((child) => (
+                                <VerordeningsSection
+                                    setActiveArticle={setActiveArticle}
+                                    key={child.UUID}
+                                    section={child}
+                                />
+                            ))
+                        ) : (
+                            <Text type="body">{section.Inhoud}</Text>
+                        )}
+                    </div>
                 </div>
             </div>
         )
