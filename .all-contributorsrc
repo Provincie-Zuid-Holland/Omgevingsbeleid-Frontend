@@ -1,0 +1,27 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "Aidenbuis",
+      "name": "Aiden Buis",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9105359?v=4",
+      "profile": "https://github.com/Aidenbuis",
+      "contributions": [
+        "code",
+        "a11y",
+        "test",
+        "doc"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "Omgevingsbeleid-Frontend",
+  "projectOwner": "Provincie-Zuid-Holland",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
