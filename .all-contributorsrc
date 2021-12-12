@@ -1,0 +1,24 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "Kingmar1",
+      "name": "Kingmar1",
+      "avatar_url": "https://avatars.githubusercontent.com/u/19493141?v=4",
+      "profile": "https://github.com/Kingmar1",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "Omgevingsbeleid-Frontend",
+  "projectOwner": "Provincie-Zuid-Holland",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
