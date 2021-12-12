@@ -1,15 +1,25 @@
-import { render } from '@testing-library/react';
-import React from 'react';
-import RaadpleegPlanningAndReleases from './RaadpleegPlanningAndReleases';
+import { render, screen } from "@testing-library/react"
+import "@testing-library/jest-dom"
+import React from "react"
+import { MemoryRouter } from "react-router-dom"
 
-describe('RaadpleegPlanningAndReleases', () => {
-    const defaultProps = {};
+import RaadpleegPlanningAndReleases from "./RaadpleegPlanningAndReleases"
 
-    it('should render', () => {
-        const props = {...defaultProps};
-        const { asFragment, queryByText } = render(<RaadpleegPlanningAndReleases {...props} />);
+describe("RaadpleegPlanningAndReleases", () => {
+    const defaultProps = {}
 
-        expect(asFragment()).toMatchSnapshot();
-        expect(queryByText('RaadpleegPlanningAndReleases')).toBeTruthy();
-    });
-});
+    const setup = (customProps) => {
+        const props = { ...defaultProps, ...customProps }
+        render(
+            <MemoryRouter>
+                <RaadpleegPlanningAndReleases {...props} />
+            </MemoryRouter>
+        )
+    }
+
+    it("Component renders", () => {
+        setup()
+        const element = screen.getByText("Planning & Releases")
+        expect(element).toBeTruthy()
+    })
+})

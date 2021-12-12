@@ -1,15 +1,34 @@
-import { render } from '@testing-library/react';
-import React from 'react';
-import RaadpleegVerordening from './RaadpleegVerordening';
+import { render, screen, fireEvent } from "@testing-library/react"
+import { MemoryRouter, Route } from "react-router-dom"
+import "@testing-library/jest-dom"
+import React from "react"
+import { QueryClient, QueryClientProvider } from "react-query"
 
-describe('RaadpleegVerordening', () => {
-    const defaultProps = {};
+import RaadpleegVerordening from "./RaadpleegVerordening"
 
-    it('should render', () => {
-        const props = {...defaultProps};
-        const { asFragment, queryByText } = render(<RaadpleegVerordening {...props} />);
+const queryClient = new QueryClient()
 
-        expect(asFragment()).toMatchSnapshot();
-        expect(queryByText('RaadpleegVerordening')).toBeTruthy();
-    });
-});
+describe("RaadpleegVerordening", () => {
+    const defaultProps = {}
+
+    const setup = (customProps) => {
+        const path = `/detail/verordening`
+        const props = { ...defaultProps, ...customProps }
+        render(
+            <MemoryRouter initialEntries={[path]}>
+                <QueryClientProvider client={queryClient}>
+                    <Route path={path}>
+                        <div id="navigation-main" />
+                        <RaadpleegVerordening {...props} />
+                    </Route>
+                </QueryClientProvider>
+            </MemoryRouter>
+        )
+    }
+
+    it("Component renders", () => {
+        setup()
+        const element = screen.getByText("Verordening")
+        expect(element).toBeTruthy()
+    })
+})

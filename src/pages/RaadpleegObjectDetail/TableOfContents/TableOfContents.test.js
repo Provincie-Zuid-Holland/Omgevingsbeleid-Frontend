@@ -1,15 +1,20 @@
-import { render } from '@testing-library/react';
-import React from 'react';
-import TableOfContents from './TableOfContents';
+import { render, screen } from "@testing-library/react"
+import "@testing-library/jest-dom"
+import React from "react"
 
-describe('TableOfContents', () => {
-    const defaultProps = {};
+import TableOfContents from "./TableOfContents"
 
-    it('should render', () => {
-        const props = {...defaultProps};
-        const { asFragment, queryByText } = render(<TableOfContents {...props} />);
+describe("TableOfContents", () => {
+    const defaultProps = {}
 
-        expect(asFragment()).toMatchSnapshot();
-        expect(queryByText('TableOfContents')).toBeTruthy();
-    });
-});
+    const setup = (customProps) => {
+        const props = { ...defaultProps, ...customProps }
+        render(<TableOfContents {...props} />)
+    }
+
+    it("Component renders", () => {
+        setup()
+        const element = screen.getByText("Op deze pagina")
+        expect(element).toBeTruthy()
+    })
+})

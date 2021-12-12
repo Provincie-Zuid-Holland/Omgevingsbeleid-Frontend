@@ -3,7 +3,6 @@ module.exports = {
         fontWeight: false,
         lineHeight: false,
     },
-    plugins: [require("@tailwindcss/forms")],
     purge: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
     variants: {
         pointerEvents: ["responsive", "hover"],
@@ -15,7 +14,11 @@ module.exports = {
         borderWidth: ["hover"],
         borderOpacity: ["hover"],
     },
-    plugins: [require("@tailwindcss/line-clamp")],
+    plugins: [
+        require("@tailwindcss/line-clamp"),
+        require("@tailwindcss/forms"),
+        require("@tailwindcss/custom-forms"),
+    ],
     theme: {
         screens: {
             sm: "640px",

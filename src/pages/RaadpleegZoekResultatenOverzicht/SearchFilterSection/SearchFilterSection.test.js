@@ -1,15 +1,43 @@
-import { render } from '@testing-library/react';
-import React from 'react';
-import SearchFilterSection from './SearchFilterSection';
+import { render, screen } from "@testing-library/react"
+import "@testing-library/jest-dom"
+import React from "react"
 
-describe('SearchFilterSection', () => {
-    const defaultProps = {};
+import SearchFilterSection from "./SearchFilterSection"
 
-    it('should render', () => {
-        const props = {...defaultProps};
-        const { asFragment, queryByText } = render(<SearchFilterSection {...props} />);
+describe("SearchFilterSection", () => {
+    const defaultProps = {
+        loaded: true,
+        searchFiltersOnly: null,
+        onPageFilters: {
+            beleidskeuzes: { name: "beleidskeuzes", checked: true, count: 3 },
+            maatregelen: { name: "maatregelen", checked: false, count: 4 },
+            beleidsregels: { name: "beleidsregels", checked: true, count: 1 },
+            beleidsdoelen: { name: "beleidsdoelen", checked: true, count: 1 },
+            belangen: { name: "belangen", checked: true, count: 1 },
+            filterArray: [
+                "beleidskeuzes",
+                "maatregelen",
+                "beleidsregels",
+                "beleidsdoelen",
+                "belangen",
+            ],
+        },
+        filters: [
+            "beleidskeuzes",
+            "beleidsdoelen",
+            "maatregelen",
+            "beleidsregels",
+        ],
+    }
 
-        expect(asFragment()).toMatchSnapshot();
-        expect(queryByText('SearchFilterSection')).toBeTruthy();
-    });
-});
+    const setup = (customProps) => {
+        const props = { ...defaultProps, ...customProps }
+        render(<SearchFilterSection {...props} />)
+    }
+
+    it("Component renders", () => {
+        setup()
+        const element = screen.getByText("Omgevingsvisie")
+        expect(element).toBeTruthy()
+    })
+})

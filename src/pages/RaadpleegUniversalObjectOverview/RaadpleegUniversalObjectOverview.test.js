@@ -1,14 +1,33 @@
-import { render } from "@testing-library/react"
+import { render, screen } from "@testing-library/react"
+import "@testing-library/jest-dom"
 import React from "react"
+import allDimensies from "./../../constants/dimensies"
+import { QueryClient, QueryClientProvider } from "react-query"
+
 import RaadpleegUniversalObjectOverview from "./RaadpleegUniversalObjectOverview"
+import { MemoryRouter } from "react-router-dom"
+
+const queryClient = new QueryClient()
 
 describe("RaadpleegUniversalObjectOverview", () => {
-    const defaultProps = {}
+    const defaultProps = {
+        dataModel: allDimensies.BELEIDSKEUZES,
+    }
 
-    it("should render", () => {
-        const props = { ...defaultProps }
-        const { asFragment, queryByText } = render(
-            <RaadpleegUniversalObjectOverview {...props} />
+    const setup = (customProps) => {
+        const props = { ...defaultProps, ...customProps }
+        render(
+            <MemoryRouter>
+                <QueryClientProvider client={queryClient}>
+                    <RaadpleegUniversalObjectOverview {...props} />
+                </QueryClientProvider>
+            </MemoryRouter>
         )
+    }
+
+    it("Component renders", () => {
+        setup()
+        const element = screen.getByText("Beleidskeuzes")
+        expect(element).toBeTruthy()
     })
 })

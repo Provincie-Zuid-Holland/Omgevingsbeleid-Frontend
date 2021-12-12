@@ -28,7 +28,10 @@ const TableOfContents = () => {
     /** Get all H2 elements on the page and set in state */
     React.useEffect(() => {
         const navHeight =
-            document.getElementById("navigation-main").offsetHeight
+            document.getElementById("navigation-main")?.offsetHeight
+
+        if (!navHeight) return
+
         setH2Elements(
             Array.from(document.querySelectorAll("h2")).map((el) => ({
                 title: el.textContent,

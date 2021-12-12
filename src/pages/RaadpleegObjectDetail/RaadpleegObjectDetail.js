@@ -35,6 +35,7 @@ import Footer from "../../components/Footer"
 
 import { prepareRevisions } from "../../utils/prepareRevisions"
 import getVigerendText from "../../utils/getVigerendText"
+import handleError from "../../utils/handleError"
 
 /**
  * A detail page for a dimensie object.
@@ -43,7 +44,6 @@ import getVigerendText from "../../utils/getVigerendText"
  */
 const RaadpleegObjectDetail = ({ dataModel }) => {
     let { id } = useParams()
-    let history = useHistory()
 
     const [dataObject, setDataObject] = React.useState(null) // The object we want to display
     const [lineageID, setLineageID] = React.useState(null) // Used to get the whole history of the object
@@ -57,48 +57,25 @@ const RaadpleegObjectDetail = ({ dataModel }) => {
     const apiEndpointBase = dataModel.API_ENDPOINT
     const titleSingular = dataModel.TITLE_SINGULAR
     const titleSingularPrefix = dataModel.TITLE_SINGULAR_PREFIX
-    const apiEndpoint = `version/${apiEndpointBase}/${id}`
 
+    /** Scroll to top */
     React.useEffect(() => {
         if (!dataLoaded) return
         window.scrollTo(0, 0)
     }, [dataLoaded])
 
-    const handleError = React.useCallback(
-        (err) => {
-            if (err.response === undefined) {
-                console.error(err)
-                toast(process.env.REACT_APP_ERROR_MSG)
-                return
-            } else if (err.response.status === 404) {
-                history.push(`/`)
-                toast(`${titleSingular} kon niet gevonden worden`)
-            } else if (err.response.status === 422) {
-                history.push(`/login`)
-                toast(
-                    `U moet voor nu nog inloggen om deze pagina te kunnen bekijken`
-                )
-            } else {
-                console.error(err)
-                toast(process.env.REACT_APP_ERROR_MSG)
-            }
-        },
-        [titleSingular, history]
-    )
+    /** Initialize data */
+    React.useEffect(() => {
+        if (id === dataObject?.UUID) return
 
-    const getVersionOfObject = React.useCallback(
-        () =>
+        const getVersionOfObject = () =>
             axios
-                .get(apiEndpoint)
+                .get(`version/${apiEndpointBase}/${id}`)
                 .then((res) => res.data)
                 .catch((err) => {
                     handleError(err)
-                }),
-        [apiEndpoint, handleError]
-    )
+                })
 
-    // Initialize useEffect
-    React.useEffect(() => {
         setDataLoaded(false)
         getVersionOfObject()
             .then((data) => {
@@ -114,7 +91,7 @@ const RaadpleegObjectDetail = ({ dataModel }) => {
                     setLineageID(newLineageID)
                 }
             })
-    }, [getVersionOfObject, lineageID])
+    }, [apiEndpointBase, id, lineageID, dataObject])
 
     const getAndSetRevisionObjects = React.useCallback(() => {
         axios

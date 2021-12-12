@@ -1,5 +1,5 @@
 import React from "react"
-import { withRouter, useLocation, useHistory } from "react-router-dom"
+import { useLocation, useHistory } from "react-router-dom"
 import { faSearch } from "@fortawesome/pro-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import "url-search-params-polyfill"
@@ -121,4 +121,4 @@ const SearchBar = ({ placeholder, id = "search-query", className = "" }) => {
         </div>
     )
 }
-export default withRouter(SearchBar)
+export default SearchBar

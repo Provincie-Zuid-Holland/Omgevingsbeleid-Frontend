@@ -34,9 +34,7 @@ describe("Navigation", () => {
 
     it("Component renders", () => {
         setup()
-        const search = screen.getByPlaceholderText(
-            "Zoek in het omgevingsbeleid"
-        )
+        const search = screen.getByText("Inloggen")
         expect(search).toBeTruthy()
     })
 

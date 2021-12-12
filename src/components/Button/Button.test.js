@@ -1,15 +1,22 @@
-import { render } from '@testing-library/react';
-import React from 'react';
-import Button from './Button';
+import { render, screen, fireEvent } from "@testing-library/react"
+import "@testing-library/jest-dom"
+import React from "react"
 
-describe('Button', () => {
-    const defaultProps = {};
+import Button from "./Button"
 
-    it('should render', () => {
-        const props = {...defaultProps};
-        const { asFragment, queryByText } = render(<Button {...props} />);
+describe("Button", () => {
+    const defaultProps = {
+        text: "Button text",
+    }
 
-        expect(asFragment()).toMatchSnapshot();
-        expect(queryByText('Button')).toBeTruthy();
-    });
-});
+    const setup = (customProps) => {
+        const props = { ...defaultProps, ...customProps }
+        render(<Button {...props} />)
+    }
+
+    it("Component renders", () => {
+        setup()
+        const element = screen.getByText("Button text")
+        expect(element).toBeTruthy()
+    })
+})

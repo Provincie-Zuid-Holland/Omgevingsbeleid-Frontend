@@ -1,15 +1,34 @@
-import { render } from '@testing-library/react';
-import React from 'react';
-import Modal from './Modal';
+import { render, screen, fireEvent } from "@testing-library/react"
+import "@testing-library/jest-dom"
+import React from "react"
 
-describe('Modal', () => {
-    const defaultProps = {};
+import Modal from "./Modal"
 
-    it('should render', () => {
-        const props = {...defaultProps};
-        const { asFragment, queryByText } = render(<Modal {...props} />);
+describe("Modal", () => {
+    const closeMock = jest.fn()
+    const defaultProps = {
+        open: true,
+        close: closeMock,
+    }
 
-        expect(asFragment()).toMatchSnapshot();
-        expect(queryByText('Modal')).toBeTruthy();
-    });
-});
+    const setup = (customProps) => {
+        const props = { ...defaultProps, ...customProps }
+        render(
+            <Modal {...props}>
+                <span>Test Modal Text</span>
+            </Modal>
+        )
+    }
+
+    it("Component renders content and can be closed", () => {
+        setup()
+
+        const children = screen.getByText("Test Modal Text")
+        expect(children).toBeTruthy()
+
+        const closeBtn = screen.getByRole("button")
+        expect(closeBtn).toBeTruthy()
+        fireEvent.click(closeBtn)
+        expect(closeMock).toHaveBeenCalledTimes(1)
+    })
+})

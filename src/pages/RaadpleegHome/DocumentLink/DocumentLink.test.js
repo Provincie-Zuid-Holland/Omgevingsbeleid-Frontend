@@ -1,15 +1,23 @@
-import { render } from '@testing-library/react';
-import React from 'react';
-import DocumentLink from './DocumentLink';
+import { render, screen } from "@testing-library/react"
+import "@testing-library/jest-dom"
+import React from "react"
 
-describe('DocumentLink', () => {
-    const defaultProps = {};
+import DocumentLink from "./DocumentLink"
 
-    it('should render', () => {
-        const props = {...defaultProps};
-        const { asFragment, queryByText } = render(<DocumentLink {...props} />);
+describe("DocumentLink", () => {
+    const defaultProps = {
+        href: "/href",
+        title: "Document title",
+    }
 
-        expect(asFragment()).toMatchSnapshot();
-        expect(queryByText('DocumentLink')).toBeTruthy();
-    });
-});
+    const setup = (customProps) => {
+        const props = { ...defaultProps, ...customProps }
+        render(<DocumentLink {...props} />)
+    }
+
+    it("Component renders", () => {
+        setup()
+        const element = screen.getByText("Document title")
+        expect(element).toBeTruthy()
+    })
+})

@@ -1,15 +1,36 @@
-import { render } from '@testing-library/react';
-import React from 'react';
-import RaadpleegVerordeningPopupDetail from './RaadpleegVerordeningPopupDetail';
+import { render, screen } from "@testing-library/react"
+import "@testing-library/jest-dom"
+import React from "react"
 
-describe('RaadpleegVerordeningPopupDetail', () => {
-    const defaultProps = {};
+import RaadpleegVerordeningPopupDetail from "./RaadpleegVerordeningPopupDetail"
 
-    it('should render', () => {
-        const props = {...defaultProps};
-        const { asFragment, queryByText } = render(<RaadpleegVerordeningPopupDetail {...props} />);
+describe("RaadpleegVerordeningPopupDetail", () => {
+    const setActiveArticleMock = jest.fn()
+    const defaultProps = {
+        setActiveArticle: setActiveArticleMock,
+        activeArticle: {
+            Children: [],
+            Volgnummer: "001",
+            Titel: "Test Title",
+            Inhoud: "Test Content",
+        },
+    }
 
-        expect(asFragment()).toMatchSnapshot();
-        expect(queryByText('RaadpleegVerordeningPopupDetail')).toBeTruthy();
-    });
-});
+    const setup = (customProps) => {
+        const props = { ...defaultProps, ...customProps }
+        render(<RaadpleegVerordeningPopupDetail {...props} />)
+    }
+
+    it("Component renders", () => {
+        setup()
+
+        const title = screen.getByText("Test Title")
+        expect(title).toBeTruthy()
+
+        const subTitle = screen.getByText("Artikel 001")
+        expect(subTitle).toBeTruthy()
+
+        const Content = screen.getByText("Test Content")
+        expect(Content).toBeTruthy()
+    })
+})

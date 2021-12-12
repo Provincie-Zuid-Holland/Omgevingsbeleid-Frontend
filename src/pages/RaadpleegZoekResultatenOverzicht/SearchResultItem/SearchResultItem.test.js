@@ -1,15 +1,32 @@
-import { render } from '@testing-library/react';
-import React from 'react';
-import SearchResultItem from './SearchResultItem';
+import { render, screen } from "@testing-library/react"
+import "@testing-library/jest-dom"
+import React from "react"
 
-describe('SearchResultItem', () => {
-    const defaultProps = {};
+import SearchResultItem from "./SearchResultItem"
+import { MemoryRouter } from "react-router-dom"
 
-    it('should render', () => {
-        const props = {...defaultProps};
-        const { asFragment, queryByText } = render(<SearchResultItem {...props} />);
+describe("SearchResultItem", () => {
+    const defaultProps = {
+        item: {
+            Omschrijving: "Description",
+            Titel: "Test Title",
+            Type: "beleidskeuzes",
+        },
+        searchQuery: "search query",
+    }
 
-        expect(asFragment()).toMatchSnapshot();
-        expect(queryByText('SearchResultItem')).toBeTruthy();
-    });
-});
+    const setup = (customProps) => {
+        const props = { ...defaultProps, ...customProps }
+        render(
+            <MemoryRouter>
+                <SearchResultItem {...props} />
+            </MemoryRouter>
+        )
+    }
+
+    it("Component renders", () => {
+        setup()
+        const element = screen.getByText("Test Title")
+        expect(element).toBeTruthy()
+    })
+})

@@ -35,16 +35,15 @@ describe("RaadpleegObjectDetail", () => {
 
     it("Component renders", async () => {
         setup()
-        await waitForElementToBeRemoved(() => screen.queryByRole("img"))
-        const element = screen.getByText("Beleidskeuze")
-        expect(element).toBeTruthy()
-    })
 
-    it("Component displays correct properties", async () => {
-        setup()
         await waitForElementToBeRemoved(() => screen.queryByRole("img"))
 
-        const title = screen.getByText(mockBeleidskeuze.Titel)
+        const subTitle = screen.getByRole("heading", { name: /Beleidskeuze/i })
+        expect(subTitle).toBeTruthy()
+
+        const title = screen.getByRole("heading", {
+            name: mockBeleidskeuze.Titel,
+        })
         expect(title).toBeTruthy()
     })
 })

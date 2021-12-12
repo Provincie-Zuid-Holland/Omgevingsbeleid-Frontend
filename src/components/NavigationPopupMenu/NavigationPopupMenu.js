@@ -41,7 +41,7 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
             })
         } else {
             setBannerAdjustedOffsetTop({
-                top: "97px",
+                top: "96px",
             })
         }
     }, [showBanner])

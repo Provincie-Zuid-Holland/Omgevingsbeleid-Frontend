@@ -1,15 +1,25 @@
-import { render } from '@testing-library/react';
-import React from 'react';
-import RaadpleegInProgress from './RaadpleegInProgress';
+import { render, screen } from "@testing-library/react"
+import "@testing-library/jest-dom"
+import { MemoryRouter } from "react-router-dom"
+import React from "react"
 
-describe('RaadpleegInProgress', () => {
-    const defaultProps = {};
+import RaadpleegInProgress from "./RaadpleegInProgress"
 
-    it('should render', () => {
-        const props = {...defaultProps};
-        const { asFragment, queryByText } = render(<RaadpleegInProgress {...props} />);
+describe("RaadpleegInProgress", () => {
+    const defaultProps = {}
 
-        expect(asFragment()).toMatchSnapshot();
-        expect(queryByText('RaadpleegInProgress')).toBeTruthy();
-    });
-});
+    const setup = (customProps) => {
+        const props = { ...defaultProps, ...customProps }
+        render(
+            <MemoryRouter>
+                <RaadpleegInProgress {...props} />
+            </MemoryRouter>
+        )
+    }
+
+    it("Component renders", () => {
+        setup()
+        const element = screen.getByText("In bewerking")
+        expect(element).toBeTruthy()
+    })
+})

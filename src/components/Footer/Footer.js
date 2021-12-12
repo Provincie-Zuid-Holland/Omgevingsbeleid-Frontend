@@ -17,7 +17,7 @@ function Footer({ className = "" }) {
         const mainContainerEl = document.getElementById("main-container")
 
         const handleWindowResize = () => {
-            if (!footerRef.current) return
+            if (!footerRef.current || !mainContainerEl) return
             const footerHeight = footerRef.current.offsetHeight
             mainContainerEl.style.paddingBottom = `${footerHeight}px`
         }
@@ -27,7 +27,9 @@ function Footer({ className = "" }) {
         window.addEventListener("resize", handleWindowResize)
 
         return () => {
-            mainContainerEl.style.paddingBottom = `0px` // Reset padding bottom
+            if (mainContainerEl) {
+                mainContainerEl.style.paddingBottom = `0px` // Reset padding bottom
+            }
             window.removeEventListener("resize", handleWindowResize)
         }
     }, [])

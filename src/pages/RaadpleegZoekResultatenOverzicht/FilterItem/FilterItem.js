@@ -7,12 +7,14 @@ import getDimensionsConstants from "./../../../utils/getDimensionsConstants"
 const FilterItem = ({ handleFilter, checked, item, count }) => {
     const dimensieContants = getDimensionsConstants(item)
     const titleSingular = dimensieContants.TITLE_SINGULAR
-    const capitilizeFirstCharacter = (string) =>
+
+    const capitilizeFirstCharacter = () =>
         titleSingular.charAt(0).toUpperCase() + titleSingular.slice(1)
+
     const getItemTitle = (item) => {
         return item === "Verordeningen"
             ? "Artikelen"
-            : capitilizeFirstCharacter(item)
+            : capitilizeFirstCharacter()
     }
     const itemTitle = getItemTitle(item)
 
@@ -23,7 +25,7 @@ const FilterItem = ({ handleFilter, checked, item, count }) => {
                 id={`filter-for-${titleSingular}`}
             >
                 <input
-                    className="mr-2 leading-tight w-3a h-3a text-pzh-green form-checkbox"
+                    className="mr-2 leading-tight text-indigo-600 text-pzh-green form-checkbox"
                     type="checkbox"
                     checked={checked}
                     onChange={(e) => handleFilter(e)}

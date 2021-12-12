@@ -1,15 +1,25 @@
-import { render } from '@testing-library/react';
-import React from 'react';
-import RaadpleegTerinzageleggingen from './RaadpleegTerinzageleggingen';
+import { render, screen } from "@testing-library/react"
+import "@testing-library/jest-dom"
+import React from "react"
 
-describe('RaadpleegTerinzageleggingen', () => {
-    const defaultProps = {};
+import RaadpleegTerinzageleggingen from "./RaadpleegTerinzageleggingen"
+import { MemoryRouter } from "react-router-dom"
 
-    it('should render', () => {
-        const props = {...defaultProps};
-        const { asFragment, queryByText } = render(<RaadpleegTerinzageleggingen {...props} />);
+describe("RaadpleegTerinzageleggingen", () => {
+    const defaultProps = {}
 
-        expect(asFragment()).toMatchSnapshot();
-        expect(queryByText('RaadpleegTerinzageleggingen')).toBeTruthy();
-    });
-});
+    const setup = (customProps) => {
+        const props = { ...defaultProps, ...customProps }
+        render(
+            <MemoryRouter>
+                <RaadpleegTerinzageleggingen {...props} />
+            </MemoryRouter>
+        )
+    }
+
+    it("Component renders", () => {
+        setup()
+        const element = screen.getByText("Terinzageleggingen")
+        expect(element).toBeTruthy()
+    })
+})

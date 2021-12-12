@@ -184,13 +184,16 @@ const ReleaseListItem = ({ title, description, date, items }) => {
                         {description}
                     </Text>
                     {Object.keys(items).map((key) => (
-                        <div className="mt-6">
+                        <div key={key} className="mt-6">
                             <span className="inline-block font-bold">
                                 {key}
                             </span>
                             <ul className="pl-6">
                                 {items[key].map((item) => (
-                                    <li className="pl-1 list-disc list-outside">
+                                    <li
+                                        key={item}
+                                        className="pl-1 list-disc list-outside"
+                                    >
                                         {item}
                                     </li>
                                 ))}

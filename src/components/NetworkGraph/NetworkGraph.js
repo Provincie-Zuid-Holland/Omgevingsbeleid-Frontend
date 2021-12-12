@@ -20,7 +20,6 @@ import NetworkGraphSidebar from "./../NetworkGraphSidebar"
 import NetworkGraphTooltip from "./../NetworkGraphTooltip"
 import NetworkGraphResetClickedElement from "./../NetworkGraphResetClickedElement"
 import NetworkGraphClickedElementPopup from "./../NetworkGraphClickedElementPopup"
-import LoaderSpinner from "../LoaderSpinner"
 
 /**
  * @param {boolean} graphIsOpen - Inidicates if the graph popup is open
@@ -102,9 +101,8 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
     /**
      * Used to generate the position of verordening articles for the Href
      */
-    const [verordeningsStructure, setVerordeningStructure] = React.useState(
-        null
-    )
+    const [verordeningsStructure, setVerordeningStructure] =
+        React.useState(null)
 
     /**
      * Get and set verordeningstructuur in state on Mount

@@ -1,19 +1,25 @@
-import { render, fireEvent, screen } from "@testing-library/react"
+import { render, screen } from "@testing-library/react"
 import "@testing-library/jest-dom"
 import React from "react"
 import Login from "./Login"
+import { MemoryRouter } from "react-router-dom"
 
 const mockSetLoginUser = () => jest.fn()
 const mockSetLoginState = () => jest.fn()
 
 describe("Login", () => {
     it("should render", () => {
-        const { getByTestId } = render(
-            <Login
-                setLoginUser={mockSetLoginUser}
-                setLoginState={mockSetLoginState}
-            />
+        render(
+            <MemoryRouter>
+                <Login
+                    setLoginUser={mockSetLoginUser}
+                    setLoginState={mockSetLoginState}
+                />
+            </MemoryRouter>
         )
-        expect(getByTestId("form-field-login-submit")).toBeInTheDocument()
+        const header = screen.getByRole("heading", {
+            name: "Inloggen",
+        })
+        expect(header).toBeInTheDocument()
     })
 })

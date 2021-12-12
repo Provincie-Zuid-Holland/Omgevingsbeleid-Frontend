@@ -1,15 +1,22 @@
-import { render } from '@testing-library/react';
-import React from 'react';
-import SearchSection from './SearchSection';
+import { render, screen } from "@testing-library/react"
+import "@testing-library/jest-dom"
+import React from "react"
+import { MemoryRouter } from "react-router-dom"
 
-describe('SearchSection', () => {
-    const defaultProps = {};
+import SearchSection from "./SearchSection"
 
-    it('should render', () => {
-        const props = {...defaultProps};
-        const { asFragment, queryByText } = render(<SearchSection {...props} />);
+describe("SearchSection", () => {
+    const setup = () => {
+        render(
+            <MemoryRouter>
+                <SearchSection />
+            </MemoryRouter>
+        )
+    }
 
-        expect(asFragment()).toMatchSnapshot();
-        expect(queryByText('SearchSection')).toBeTruthy();
-    });
-});
+    it("Component renders", () => {
+        setup()
+        const element = screen.getByText("Naar welk onderwerp bent u opzoek?")
+        expect(element).toBeTruthy()
+    })
+})

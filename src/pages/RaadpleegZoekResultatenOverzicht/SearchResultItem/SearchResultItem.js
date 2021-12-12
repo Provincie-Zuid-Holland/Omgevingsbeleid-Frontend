@@ -13,7 +13,7 @@ function getExcerpt(text) {
     }
 }
 
-function SearchResultItem({ item, searchQuery, index }) {
+function SearchResultItem({ item, searchQuery }) {
     function getContent() {
         const params = new URLSearchParams(
             document.location.search.substring(1)

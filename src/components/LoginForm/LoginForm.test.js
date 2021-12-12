@@ -86,9 +86,7 @@ describe("LoginForm", () => {
     it("user can reset their password", async () => {
         setup()
 
-        const forgetPassword = screen.getByText(
-            "Ik ben mijn wachtwoord vergeten"
-        )
+        const forgetPassword = screen.getByText("Wachtwoord vergeten?")
 
         fireEvent.click(forgetPassword)
 

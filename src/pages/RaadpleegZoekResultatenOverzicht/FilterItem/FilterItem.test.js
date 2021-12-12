@@ -1,15 +1,27 @@
-import { render } from '@testing-library/react';
-import React from 'react';
-import FilterItem from './FilterItem';
+import { render, screen, fireEvent } from "@testing-library/react"
+import "@testing-library/jest-dom"
+import React from "react"
 
-describe('FilterItem', () => {
-    const defaultProps = {};
+import FilterItem from "./FilterItem"
 
-    it('should render', () => {
-        const props = {...defaultProps};
-        const { asFragment, queryByText } = render(<FilterItem {...props} />);
+describe("FilterItem", () => {
+    const handleFilterMock = jest.fn()
+    const defaultProps = {
+        handleFilter: handleFilterMock,
+        checked: true,
+        item: "beleidskeuzes",
+        count: 10,
+    }
 
-        expect(asFragment()).toMatchSnapshot();
-        expect(queryByText('FilterItem')).toBeTruthy();
-    });
-});
+    const setup = (customProps) => {
+        const props = { ...defaultProps, ...customProps }
+        render(<FilterItem {...props} />)
+    }
+
+    it("Component renders", () => {
+        setup()
+
+        const element = screen.getByText("Beleidskeuze (10)")
+        expect(element).toBeTruthy()
+    })
+})

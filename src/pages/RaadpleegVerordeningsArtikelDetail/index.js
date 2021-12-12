@@ -1,3 +1,0 @@
-import RaadpleegVerordeningsArtikelDetail from "./RaadpleegVerordeningsArtikelDetail.js"
-
-export default RaadpleegVerordeningsArtikelDetail

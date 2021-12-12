@@ -1,15 +1,25 @@
-import { render } from '@testing-library/react';
-import React from 'react';
-import Footer from './Footer';
+import { render, screen, fireEvent } from "@testing-library/react"
+import { MemoryRouter } from "react-router-dom"
+import "@testing-library/jest-dom"
+import React from "react"
 
-describe('Footer', () => {
-    const defaultProps = {};
+import Footer from "./Footer"
 
-    it('should render', () => {
-        const props = {...defaultProps};
-        const { asFragment, queryByText } = render(<Footer {...props} />);
+describe("Footer", () => {
+    const defaultProps = {}
 
-        expect(asFragment()).toMatchSnapshot();
-        expect(queryByText('Footer')).toBeTruthy();
-    });
-});
+    const setup = (customProps) => {
+        const props = { ...defaultProps, ...customProps }
+        render(
+            <MemoryRouter>
+                <Footer {...props} />
+            </MemoryRouter>
+        )
+    }
+
+    it("Component renders", () => {
+        setup()
+        const element = screen.getByText("Zuid-Holland.")
+        expect(element).toBeTruthy()
+    })
+})

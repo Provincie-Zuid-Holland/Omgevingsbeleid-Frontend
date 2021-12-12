@@ -1,15 +1,31 @@
-import { render } from '@testing-library/react';
-import React from 'react';
-import ReleaseItem from './ReleaseItem';
+import { render, screen } from "@testing-library/react"
+import "@testing-library/jest-dom"
+import React from "react"
 
-describe('ReleaseItem', () => {
-    const defaultProps = {};
+import ReleaseItem from "./ReleaseItem"
 
-    it('should render', () => {
-        const props = {...defaultProps};
-        const { asFragment, queryByText } = render(<ReleaseItem {...props} />);
+describe("ReleaseItem", () => {
+    const defaultProps = {
+        date: "01-01-2030",
+        releaseNumber: "01",
+        releaseNotes: ["Note 1"],
+    }
 
-        expect(asFragment()).toMatchSnapshot();
-        expect(queryByText('ReleaseItem')).toBeTruthy();
-    });
-});
+    const setup = (customProps) => {
+        const props = { ...defaultProps, ...customProps }
+        render(<ReleaseItem {...props} />)
+    }
+
+    it("Component renders and displays information", () => {
+        setup()
+
+        const date = screen.getByText("01-01-2030")
+        expect(date).toBeTruthy()
+
+        const releaseNumber = screen.getByText("Release 01")
+        expect(releaseNumber).toBeTruthy()
+
+        const releaseNote = screen.getByText("Note 1")
+        expect(releaseNote).toBeTruthy()
+    })
+})
