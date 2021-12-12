@@ -1,0 +1,27 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "JasonKAEC",
+      "name": "JasonKAEC",
+      "avatar_url": "https://avatars.githubusercontent.com/u/74307248?v=4",
+      "profile": "https://github.com/JasonKAEC",
+      "contributions": [
+        "code",
+        "a11y",
+        "test",
+        "doc"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "Omgevingsbeleid-Frontend",
+  "projectOwner": "Provincie-Zuid-Holland",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
