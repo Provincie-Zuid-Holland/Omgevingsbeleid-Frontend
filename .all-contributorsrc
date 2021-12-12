@@ -1,0 +1,27 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "copebo",
+      "name": "Coen",
+      "avatar_url": "https://avatars.githubusercontent.com/u/54364210?v=4",
+      "profile": "https://www.copebo.nl",
+      "contributions": [
+        "design",
+        "content",
+        "userTesting",
+        "a11y"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "Omgevingsbeleid-Frontend",
+  "projectOwner": "Provincie-Zuid-Holland",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
