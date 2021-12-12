@@ -1,0 +1,24 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "Swendude",
+      "name": "Swen Mulderij",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2640691?v=4",
+      "profile": "https://github.com/Swendude",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "Omgevingsbeleid-Frontend",
+  "projectOwner": "Provincie-Zuid-Holland",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
