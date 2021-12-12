@@ -30,82 +30,91 @@
       ]
     },
     {
-        "login": "Paulien-Wan",
-        "name": "Paulien-Wan",
-        "avatar_url": "https://avatars.githubusercontent.com/u/62105106?v=4",
-        "profile": "https://github.com/Paulien-Wan",
-        "contributions": [
-          "test"
-        ]
-      },
-      {
-        "login": "JasonKAEC",
-        "name": "JasonKAEC",
-        "avatar_url": "https://avatars.githubusercontent.com/u/74307248?v=4",
-        "profile": "https://github.com/JasonKAEC",
-        "contributions": [
-          "code",
-          "a11y",
-          "test",
-          "doc"
-        ]
-      },
-      {
-        "login": "HagenaarC",
-        "name": "HagenaarC",
-        "avatar_url": "https://avatars.githubusercontent.com/u/60137925?v=4",
-        "profile": "https://github.com/HagenaarC",
-        "contributions": [
-          "business"
-        ]
-      },
-      {
-        "login": "ericherman",
-        "name": "Eric Herman",
-        "avatar_url": "https://avatars.githubusercontent.com/u/1174254?v=4",
-        "profile": "http://freesa.org",
-        "contributions": [
-          "mentoring"
-        ]
-      },
-      {
-        "login": "BernardVuijk",
-        "name": "Bernard Vuijk",
-        "avatar_url": "https://avatars.githubusercontent.com/u/60785505?v=4",
-        "profile": "http://www.linkedin.com/in/bernardvuijk",
-        "contributions": [
-          "projectManagement"
-        ]
-      },
-      {
-        "login": "EVerhaar",
-        "name": "Erik",
-        "avatar_url": "https://avatars.githubusercontent.com/u/57626563?v=4",
-        "profile": "https://github.com/EVerhaar",
-        "contributions": [
-          "maintenance",
-          "content",
-          "userTesting"
-        ]
-      },
-      {
-        "login": "Swendude",
-        "name": "Swen Mulderij",
-        "avatar_url": "https://avatars.githubusercontent.com/u/2640691?v=4",
-        "profile": "https://github.com/Swendude",
-        "contributions": [
-          "code"
-        ]
-      },
-      {
-        "login": "Kingmar1",
-        "name": "Kingmar1",
-        "avatar_url": "https://avatars.githubusercontent.com/u/19493141?v=4",
-        "profile": "https://github.com/Kingmar1",
-        "contributions": [
-          "code"
-        ]
-      }            
+      "login": "Paulien-Wan",
+      "name": "Paulien-Wan",
+      "avatar_url": "https://avatars.githubusercontent.com/u/62105106?v=4",
+      "profile": "https://github.com/Paulien-Wan",
+      "contributions": [
+        "test"
+      ]
+    },
+    {
+      "login": "JasonKAEC",
+      "name": "JasonKAEC",
+      "avatar_url": "https://avatars.githubusercontent.com/u/74307248?v=4",
+      "profile": "https://github.com/JasonKAEC",
+      "contributions": [
+        "code",
+        "a11y",
+        "test",
+        "doc"
+      ]
+    },
+    {
+      "login": "HagenaarC",
+      "name": "HagenaarC",
+      "avatar_url": "https://avatars.githubusercontent.com/u/60137925?v=4",
+      "profile": "https://github.com/HagenaarC",
+      "contributions": [
+        "business"
+      ]
+    },
+    {
+      "login": "ericherman",
+      "name": "Eric Herman",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1174254?v=4",
+      "profile": "http://freesa.org",
+      "contributions": [
+        "mentoring"
+      ]
+    },
+    {
+      "login": "BernardVuijk",
+      "name": "Bernard Vuijk",
+      "avatar_url": "https://avatars.githubusercontent.com/u/60785505?v=4",
+      "profile": "http://www.linkedin.com/in/bernardvuijk",
+      "contributions": [
+        "projectManagement"
+      ]
+    },
+    {
+      "login": "EVerhaar",
+      "name": "Erik",
+      "avatar_url": "https://avatars.githubusercontent.com/u/57626563?v=4",
+      "profile": "https://github.com/EVerhaar",
+      "contributions": [
+        "maintenance",
+        "content",
+        "userTesting"
+      ]
+    },
+    {
+      "login": "Swendude",
+      "name": "Swen Mulderij",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2640691?v=4",
+      "profile": "https://github.com/Swendude",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "Kingmar1",
+      "name": "Kingmar1",
+      "avatar_url": "https://avatars.githubusercontent.com/u/19493141?v=4",
+      "profile": "https://github.com/Kingmar1",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "ReadMarten",
+      "name": "ReadMarten",
+      "avatar_url": "https://avatars.githubusercontent.com/u/8004997?v=4",
+      "profile": "https://github.com/ReadMarten",
+      "contributions": [
+        "business"
+      ]
+    }
   ],
   "contributorsPerLine": 5,
   "projectName": "Omgevingsbeleid-Frontend",
