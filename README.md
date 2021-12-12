@@ -1,4 +1,7 @@
 <img src="https://www.zuid-holland.nl/publish/pages/26873/pzh_basislogo_rgb_1_0.svg" alt="Provincie Zuid-Holland logo" width="220px">
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 # Omgevingsbeleid front-end
 
@@ -210,3 +213,23 @@ jsdoc -c jsdoc.json
 A docs folder will be created (if you didn't have on yet), in that folder you can open the index.html to view the documentation in your browser.
 
 See the following link for tags that can be used in the comments of code/examples: [JSDoc](https://jsdoc.app/index.html)
+
+## Contributors ✨
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://www.copebo.nl"><img src="https://avatars.githubusercontent.com/u/54364210?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Coen</b></sub></a><br /><a href="#design-copebo" title="Design">🎨</a> <a href="#content-copebo" title="Content">🖋</a> <a href="#userTesting-copebo" title="User Testing">📓</a> <a href="#a11y-copebo" title="Accessibility">️️️️♿️</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
