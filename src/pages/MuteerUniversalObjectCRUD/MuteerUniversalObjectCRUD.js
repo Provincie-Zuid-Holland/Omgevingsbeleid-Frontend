@@ -63,12 +63,10 @@ class MuteerUniversalObjectCRUD extends Component {
         this.handleSubmit = this.handleSubmit.bind(this)
         this.voegKoppelingRelatieToe = this.voegKoppelingRelatieToe.bind(this)
         this.wijzigKoppelingRelatie = this.wijzigKoppelingRelatie.bind(this)
-        this.verwijderKoppelingRelatie = this.verwijderKoppelingRelatie.bind(
-            this
-        )
-        this.getAndSetDimensieDataFromApi = this.getAndSetDimensieDataFromApi.bind(
-            this
-        )
+        this.verwijderKoppelingRelatie =
+            this.verwijderKoppelingRelatie.bind(this)
+        this.getAndSetDimensieDataFromApi =
+            this.getAndSetDimensieDataFromApi.bind(this)
     }
 
     /**
@@ -197,10 +195,8 @@ class MuteerUniversalObjectCRUD extends Component {
         }
 
         /** Check if the start date is in a valid range */
-        const [
-            startDateIsInValidRange,
-            endDateIsInValidRange,
-        ] = isDateInAValidRange(crudObject)
+        const [startDateIsInValidRange, endDateIsInValidRange] =
+            isDateInAValidRange(crudObject)
 
         const beginGeldigheidIsNotEmpty =
             crudObject.Begin_Geldigheid !== "1753-01-01" &&

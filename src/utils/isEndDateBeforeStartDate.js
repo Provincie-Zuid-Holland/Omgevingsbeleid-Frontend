@@ -7,8 +7,7 @@ import { isBefore } from "date-fns"
  */
 const isEndDateBeforeStartDate = (crudObject) => {
     const startDate = new Date(crudObject.Begin_Geldigheid)
-    const endDate = new Date(crudObject.Begin_Geldigheid)
-
+    const endDate = new Date(crudObject.Eind_Geldigheid)
     if (isBefore(startDate, endDate)) {
         return true
     } else {
