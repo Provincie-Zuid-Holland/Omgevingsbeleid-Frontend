@@ -1,7 +1,7 @@
 import React from "react"
 import { Helmet } from "react-helmet"
 import { toast } from "react-toastify"
-import { useParams, useHistory } from "react-router-dom"
+import { useParams } from "react-router-dom"
 
 // Import Axios instance to connect with the API
 import axios from "../../API/axios"
