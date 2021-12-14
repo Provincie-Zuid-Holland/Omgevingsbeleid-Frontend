@@ -39,3 +39,8 @@ jobs:
 
       - name: Build
         run: npm run build
+        
+      - name: Checkout repository
+        uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
