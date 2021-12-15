@@ -257,7 +257,7 @@ const ToggleMenuButton = ({ isOpen, setIsOpen, isMobile }) => {
                 }
             }}
             id="popup-menu-toggle"
-            className={`relative flex items-center justify-center px-2 pt-2 pb-1 -mr-6 transition-colors duration-100 ease-in rounded ${
+            className={`relative flex items-center justify-center p-2 -mr-6 transition-colors duration-100 ease-in rounded ${
                 isOpen
                     ? "text-white hover:bg-gray-100 hover:text-gray-800"
                     : "text-gray-800 hover:text-gray-900 hover:bg-gray-100"

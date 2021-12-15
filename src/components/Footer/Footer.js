@@ -65,7 +65,9 @@ function Footer({ className = "" }) {
                                 <Link to="#">Cookies & Privacy</Link>
                             </li>
                             <li className="pb-3 md:pb-5">
-                                <Link to="#">Toegankelijkheidsverklaring</Link>
+                                <Link to="/digi-toegankelijkheid">
+                                    Toegankelijkheidsverklaring
+                                </Link>
                             </li>
                         </ul>
                     </div>

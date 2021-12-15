@@ -9,7 +9,7 @@ import { useWindowSize } from "../../utils/useWindowSize"
  */
 const getHeadingStyles = (level, windowSize) => {
     if (!windowSize) {
-        console.error("No windowSize supplied!")
+        console.error("🙈 No windowSize supplied")
         return {}
     }
 
@@ -19,11 +19,13 @@ const getHeadingStyles = (level, windowSize) => {
     if (level === "1") {
         if (currentScreenIsMobile) {
             return {
+                hyphens: "manual",
                 fontSize: "1.6rem",
                 lineHeight: "1.75rem",
             }
         } else {
             return {
+                hyphens: "manual",
                 fontSize: "2.4rem",
                 lineHeight: "2.8rem",
             }
@@ -31,11 +33,13 @@ const getHeadingStyles = (level, windowSize) => {
     } else if (level === "2") {
         if (currentScreenIsMobile) {
             return {
+                hyphens: "manual",
                 fontSize: "1.2rem",
                 lineHeight: "1.6rem",
             }
         } else {
             return {
+                hyphens: "manual",
                 fontSize: "1.8rem",
                 lineHeight: "2.2rem",
             }
@@ -43,11 +47,13 @@ const getHeadingStyles = (level, windowSize) => {
     } else if (level === "3") {
         if (currentScreenIsMobile) {
             return {
+                hyphens: "manual",
                 fontSize: "1.1rem",
                 lineHeight: "1.5rem",
             }
         } else {
             return {
+                hyphens: "manual",
                 fontSize: "1.2rem",
                 lineHeight: "1.6rem",
             }
@@ -72,7 +78,7 @@ const getHeadingStyles = (level, windowSize) => {
 function Heading({
     className = "",
     id,
-    color = "text-pzh-blue-dark",
+    color = "text-pzh-blue",
     level = "1",
     children,
     customStyles,
@@ -85,7 +91,7 @@ function Heading({
             <h1
                 style={customStyles ? customStyles : styles}
                 id={id}
-                className={`${color} ${className}`}
+                className={`break-words ${color} ${className}`}
             >
                 {children}
             </h1>
@@ -95,7 +101,7 @@ function Heading({
             <h2
                 style={customStyles ? customStyles : styles}
                 id={id}
-                className={`${color} ${className}`}
+                className={`break-words ${color} ${className}`}
             >
                 {children}
             </h2>
@@ -105,7 +111,7 @@ function Heading({
             <h3
                 style={customStyles ? customStyles : styles}
                 id={id}
-                className={`${color} ${className}`}
+                className={`break-words ${color} ${className}`}
             >
                 {children}
             </h3>
@@ -115,7 +121,7 @@ function Heading({
             <h4
                 style={customStyles ? customStyles : styles}
                 id={id}
-                className={`${color} ${className}`}
+                className={`break-words ${color} ${className}`}
             >
                 {children}
             </h4>
@@ -125,7 +131,7 @@ function Heading({
             <h5
                 style={customStyles ? customStyles : styles}
                 id={id}
-                className={`${color} ${className}`}
+                className={`break-words ${color} ${className}`}
             >
                 {children}
             </h5>
@@ -135,7 +141,7 @@ function Heading({
             <h6
                 style={customStyles ? customStyles : styles}
                 id={id}
-                className={`${color} ${className}`}
+                className={`break-words ${color} ${className}`}
             >
                 {children}
             </h6>

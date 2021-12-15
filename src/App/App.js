@@ -21,6 +21,7 @@ import RaadpleegVerordening from "./../pages/RaadpleegVerordening"
 import RaadpleegUniversalObjectOverview from "./../pages/RaadpleegUniversalObjectOverview"
 import RaadpleegZoekResultatenOverzicht from "./../pages/RaadpleegZoekResultatenOverzicht"
 import RaadpleegPlanningAndReleases from "./../pages/RaadpleegPlanningAndReleases"
+import RaadpleegDigiToegankelijkheid from "./../pages/RaadpleegDigiToegankelijkheid"
 import RaadpleegInProgress from "./../pages/RaadpleegInProgress"
 import Login from "./../pages/Login"
 import Planning from "./../pages/Planning"
@@ -359,6 +360,12 @@ class App extends Component {
                                             path="/planning-en-releases"
                                             render={() => (
                                                 <RaadpleegPlanningAndReleases />
+                                            )}
+                                        />
+                                        <Route
+                                            path="/digi-toegankelijkheid"
+                                            render={() => (
+                                                <RaadpleegDigiToegankelijkheid />
                                             )}
                                         />
                                         <Route
