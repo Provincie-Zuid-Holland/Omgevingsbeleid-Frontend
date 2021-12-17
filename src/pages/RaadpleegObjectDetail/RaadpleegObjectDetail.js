@@ -217,16 +217,6 @@ const RaadpleegObjectDetailMain = ({
                     {dataObject ? dataObject.Titel : null}
                 </Heading>
             </div>
-
-            {/* Meta Content */}
-            <MetaInfo
-                titleSingular={titleSingular}
-                dataLoaded={dataLoaded}
-                revisionObjects={revisionObjects}
-                dataObject={dataObject}
-                currentUUID={id}
-            />
-
             {/* These contain the fields that need to be displayed for the different objects */}
             <div
                 className={`mt-8 ${
@@ -254,7 +244,6 @@ const RaadpleegObjectDetailMain = ({
                     <ContainerViewFieldsThema crudObject={dataObject} />
                 ) : null}
             </div>
-
             {hasWerkingsGebied && dataLoaded ? (
                 <Werkingsgebied
                     fullscreenLeafletViewer={fullscreenLeafletViewer}
