@@ -9,7 +9,7 @@ describe("Button", () => {
         text: "Button text",
     }
 
-    const setup = (customProps) => {
+    const setup = (customProps?: {}) => {
         const props = { ...defaultProps, ...customProps }
         render(<Button {...props} />)
     }
