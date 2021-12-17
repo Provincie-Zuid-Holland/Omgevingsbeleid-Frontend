@@ -3,6 +3,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faAngleRight } from "@fortawesome/pro-solid-svg-icons"
 import { Link } from "react-router-dom"
 
+type BreadcrumbsProps = {
+    className: string
+    paths: { name: string; path: string }[]
+}
+
 /**
  *
  * @param {object} props
@@ -10,7 +15,7 @@ import { Link } from "react-router-dom"
  * @param {array} props.paths - breadcrumb items
  * @returns A component that display a breadrumb to the current page
  */
-const Breadcrumbs = ({ className, paths = [] }) => {
+function Breadcrumbs({ className, paths = [] }: BreadcrumbsProps) {
     return (
         <nav aria-label="Breadcrumb" className={className + " text-pzh-blue"}>
             <ol className="flex">
