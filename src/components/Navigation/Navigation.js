@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom"
 import isToday from "date-fns/isToday"
 import parseISO from "date-fns/parseISO"
 
-import { faEye, faSignInAlt } from "@fortawesome/pro-solid-svg-icons"
+import { faEye, faSignIn } from "@fortawesome/pro-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 import Container from "./../Container"
@@ -87,21 +87,21 @@ function Navigation({ loggedIn, setLoginState }) {
 
                     {/* Buttons to toggle popup menu */}
                     <div className="flex items-center justify-end col-span-2 my-auto sm:col-span-3">
-                        {loggedIn && userIsInMuteerEnvironment ? (
+                        {loggedIn && !isOpen && userIsInMuteerEnvironment ? (
                             <MenuIcon
                                 setIsOpen={setIsOpen}
                                 to="/"
                                 icon={faEye}
-                                className="mr-3"
+                                className="mr-2"
                                 children="Raadplegen"
                             />
                         ) : null}
-                        {loggedIn && !userIsInMuteerEnvironment ? (
+                        {loggedIn && !isOpen && !userIsInMuteerEnvironment ? (
                             <MenuIcon
                                 setIsOpen={setIsOpen}
                                 to="/muteer/dashboard"
                                 icon={faEye}
-                                className="mr-3"
+                                className="mr-2"
                                 children="Bewerken"
                             />
                         ) : null}
@@ -110,8 +110,8 @@ function Navigation({ loggedIn, setLoginState }) {
                             <MenuIcon
                                 setIsOpen={setIsOpen}
                                 to="/login"
-                                icon={faSignInAlt}
-                                className="mx-1"
+                                icon={faSignIn}
+                                className="mr-2"
                                 Label={isMobile ? null : "Inloggen"}
                             />
                         ) : null}
@@ -147,7 +147,7 @@ const MenuIcon = ({
     return (
         <Link
             to={to}
-            className="flex items-center justify-center px-2 py-2 text-gray-800 transition duration-300 ease-in rounded hover:text-gray-800"
+            className="flex items-center justify-center px-2 py-2 font-bold transition duration-300 ease-in rounded text-pzh-blue hover:text-pzh-blue-dark"
             onClick={() => {
                 setIsOpen(false)
             }}
@@ -158,9 +158,9 @@ const MenuIcon = ({
                     style={{ fontSize: "0.9rem", marginTop: "-0.2rem" }}
                     icon={icon}
                 />
-                <span className="ml-1 font-bold">{Label}</span>
+                <span className="font-bold">{Label}</span>
             </span>
-            <div className="text-sm">{children}</div>
+            <div>{children}</div>
         </Link>
     )
 }

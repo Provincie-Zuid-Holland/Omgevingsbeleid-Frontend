@@ -272,7 +272,7 @@ function TableLatestEdits() {
                                                 {policyObject.link ? (
                                                     <Link
                                                         to={policyObject.link}
-                                                        className="underline text-pzh-green-dark"
+                                                        className="underline text-pzh-green hover:text-pzh-green-dark"
                                                     >
                                                         {policyObject.title}
                                                     </Link>

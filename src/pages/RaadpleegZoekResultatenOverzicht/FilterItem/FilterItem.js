@@ -25,7 +25,7 @@ const FilterItem = ({ handleFilter, checked, item, count }) => {
                 id={`filter-for-${titleSingular}`}
             >
                 <input
-                    className="mr-2 leading-tight text-indigo-600 text-pzh-green form-checkbox"
+                    className="mr-2 leading-tight text-indigo-600 cursor-pointer text-pzh-green hover:text-pzh-green-dark form-checkbox"
                     type="checkbox"
                     checked={checked}
                     onChange={(e) => handleFilter(e)}

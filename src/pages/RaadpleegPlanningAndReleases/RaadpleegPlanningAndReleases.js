@@ -10,6 +10,8 @@ import HorizontalDivider from "./../../components/HorizontalDivider"
 import Heading from "./../../components/Heading"
 import Text from "./../../components/Text"
 
+import { releases } from "./../../constants/releases"
+
 function RaadpleegPlanningAndReleases() {
     return (
         <div>
@@ -29,9 +31,15 @@ function RaadpleegPlanningAndReleases() {
                     </Text>
                     <Text type="body" className="mt-4 sm:mt-8">
                         Uiteraard vinden wij het fijn om feedback en input te
-                        ontvangen van onze gebruikers. Heeft u vragen, ideeën of
-                        suggesties? Neem gerust contact op met ons via
-                        omgevingsbeleid@pzh.nl.
+                        ontvangen. Heeft u vragen, ideeën of suggesties? Neem
+                        gerust contact op met ons via{" "}
+                        <a
+                            href="mailto:omgevingsbeleid@pzh.nl"
+                            className="text-pzh-green hover:text-pzh-green-dark"
+                        >
+                            omgevingsbeleid@pzh.nl
+                        </a>
+                        .
                     </Text>
                 </div>
                 <div
@@ -70,38 +78,39 @@ function RaadpleegPlanningAndReleases() {
                     roadmap staan.
                 </Text>
                 <OntwikkelingenList>
-                    <OntwikkelingenListItem title="Export automatisch kunnen laten verlopen">
-                        Dit is eigenlijk het hoofddoel van Digitaal
-                        Omgevingsbeleid. De behandelend ambtenaar stelt beleid
-                        op binnen dit systeem, waarna een export kan worden
-                        gemaakt naar de landelijke voorzieningen.
+                    <OntwikkelingenListItem title="Exports automatiseren">
+                        Als provincie willen we het publiceren van ons beleid
+                        automatiseren. Daardoor wordt het eenvoudiger en sneller
+                        om ons beleid te exporteren naar het landelijk
+                        Omgevingsloket.
                     </OntwikkelingenListItem>
                     <OntwikkelingenListItem title="Digitoegankelijk">
-                        Zorgen dat alle gebruikers met het systeem kunnen
-                        werken, duidelijk contrast tussen tekst en achtergrond
-                        en bijvoorbeeld geen afleidende, knipperende onderdelen.
+                        Als overheid zijn we ervan overtuigd dat iedereen ons
+                        beleid moet kunnen vinden. Daarom maken we het systeem
+                        digitoegankelijk zodat iedereen er gebruik van kan
+                        maken.
                     </OntwikkelingenListItem>
                     <OntwikkelingenListItem title="Open Source">
-                        De code die wordt geschreven door ons team, stellen we
-                        ook beschikbaar aan andere overheden. Het zou zonde zijn
-                        als iedereen het wiel opnieuw gaat uitvinden.
+                        De code die wordt geschreven door ons team stellen we
+                        ook beschikbaar aan andere overheden. Op die manier
+                        kunnen andere overheden meedenken en makkelijker een
+                        eigen systeem maken.
                     </OntwikkelingenListItem>
                     <OntwikkelingenListItem title="Zoeken op de kaart">
-                        Het is wel zo handig om de verordening en visie op een
-                        kaart te kunnen zien, zeker op een specifiek punt of
-                        gebied. Daarom gaan we aan de slag met het zoeken op de
-                        kaart. Hiermee kun je een gebied tekenen of een punt op
-                        de kaart zetten om te zoeken, en daarna de resultaten
-                        visueel gepresenteerd krijgen.
+                        Het zoeken op de kaart willen we verbeteren. Door onder
+                        andere gebieden te kunnen tekenen krijg je meer
+                        informatie en betere zoekresultaten te zien.
                     </OntwikkelingenListItem>
                     <OntwikkelingenListItem title="Inhoudelijke verrijking">
                         Het complete omgevingsbeleid moet straks terug te vinden
                         zijn in deze omgeving. Daarom zullen we de komende tijd
                         aan de slag gaan om de database uit te breiden.
                     </OntwikkelingenListItem>
-                    <OntwikkelingenListItem title="Integraal werken">
-                        Modulair werken noemen wij dat, het kunnen aanbieden van
-                        verschillende beleidsobjecten, als een groep documenten.
+                    <OntwikkelingenListItem title="Modulair Werken">
+                        Vaak worden meerdere wijzigingen tegelijkertijd in ons
+                        beleid doorgevoerd. Met modulair werken willen we dit
+                        beter ondersteunen zodat direct helder wordt wat er
+                        wordt aangepast.
                     </OntwikkelingenListItem>
                 </OntwikkelingenList>
             </Container>
@@ -116,52 +125,48 @@ function RaadpleegPlanningAndReleases() {
                     Hieronder ziet u een overzicht van de releases inclusief de
                     onmschrijving wat er wanneer online is gekomen.
                 </Text>
-                <ReleaseList>
-                    <ReleaseListItem
-                        title="Release 41"
-                        date="Donderdag 14 juni 2021"
-                        description="Deze periode stond in het teken van het ontwikkelen van een netwerkvisualisatie en het kunnen vergelijk van versies van beleid (revisie-overzicht)."
-                        items={{
-                            Ontwikkelingen: [
-                                "Netwerkvisualisatie voor het complete omgevingsbeleid",
-                                "Netwerkvisualisatie vanuit beleidsobjecten",
-                                "Revisie-overzicht en het kunnen vergelijken van meerdere versies van één beleidsobject",
-                            ],
-                            Bugfixes: [
-                                "Zoeken werkt nu ook op geformateerde inhoud",
-                                "Het binnenhalen van het adres gebeurt nu veel sneller",
-                            ],
-                        }}
-                    />
-                    <ReleaseListItem
-                        title="Release 40"
-                        date="Dinsdag 1 maart 2021"
-                        description="Deze periode stond in het teken van het opschonen van de code."
-                        items={{
-                            Ontwikkelingen: [
-                                "Vernieuwde API endpoints, de logica en structuur zijn behoorlijk verbeterd",
-                                "Front-end code is enorm opgeschoond",
-                            ],
-                            Bugfixes: [
-                                "Zoeken werkt nu ook op geformateerde inhoud",
-                                "Het binnenhalen van het adres gebeurt nu veel sneller",
-                            ],
-                        }}
-                    />
-                </ReleaseList>
+                <ReleaseList releases={releases} />
             </Container>
             <Footer />
         </div>
     )
 }
 
-const ReleaseList = ({ children }) => {
+const ReleaseList = ({ releases = [] }) => {
+    const amountToIncrease = 4
+    const defaultViewAmount = 2
+
+    const [currentViewAmount, setCurrentViewAmount] =
+        React.useState(defaultViewAmount)
+
+    const increaseViewAmount = () => {
+        if (releases.length < currentViewAmount + amountToIncrease) {
+            setCurrentViewAmount(releases.length)
+        } else {
+            setCurrentViewAmount(currentViewAmount + amountToIncrease)
+        }
+    }
+
     return (
         <ul className="grid grid-cols-6 col-span-6 gap-x-10 gap-y-0">
-            {children}
-            <li className="col-span-6 py-4 underline lg:col-span-5 lg:col-start-2 text-pzh-green">
-                Toon meer releases
-            </li>
+            {releases
+                .filter((release, idx) => idx < currentViewAmount)
+                .map((release) => (
+                    <ReleaseListItem
+                        title={release.title}
+                        date={release.date}
+                        description={release.description}
+                        items={release.items}
+                    />
+                ))}
+            {currentViewAmount !== releases.length ? (
+                <li
+                    onClick={increaseViewAmount}
+                    className="col-span-6 py-4 underline cursor-pointer lg:col-span-5 lg:col-start-2 text-pzh-green hover:text-pzh-green-dark"
+                >
+                    Toon meer releases
+                </li>
+            ) : null}
         </ul>
     )
 }

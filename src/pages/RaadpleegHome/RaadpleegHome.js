@@ -80,10 +80,9 @@ const RaadpleegHome = () => {
                         Zoeken in het beleid
                     </Heading>
                     <Text type="body" className="mt-4">
-                        Het beleid van de provincie Zuid-Holland bestaat uit x
-                        aantal stukken. Wij bieden u de mogelijkheid om
-                        eenvoudig te zoeken op tekst, of om op locatie te
-                        zoeken.
+                        Hier kunt u zoeken in het Omgevingsbeleid van
+                        Zuid-Holland. U kunt zowel zoeken op tekst als op
+                        locatie.
                     </Text>
                 </div>
 
@@ -167,21 +166,21 @@ const RaadpleegHome = () => {
                         toekomst van Zuid-Holland voor zich ziet. De
                         Omgevingsvisie bevat verschillende onderdelen: in de{" "}
                         <Link
-                            className="underline text-pzh-green"
+                            className="underline text-pzh-green hover:text-pzh-green-dark"
                             to="/overzicht/ambities"
                         >
                             ambities
                         </Link>{" "}
                         wordt omschreven waar we als provincie heen willen, de{" "}
                         <Link
-                            className="underline text-pzh-green"
+                            className="underline text-pzh-green hover:text-pzh-green-dark"
                             to="/overzicht/beleidsdoelen"
                         >
                             beleidsdoelen
                         </Link>{" "}
                         geven hier richting aan en de{" "}
                         <Link
-                            className="underline text-pzh-green"
+                            className="underline text-pzh-green hover:text-pzh-green-dark"
                             to="/overzicht/beleidskeuzes"
                         >
                             beleidskeuzes
@@ -208,10 +207,9 @@ const RaadpleegHome = () => {
                         Omgevingsprogramma
                     </Heading>
                     <Text type="body" className="mt-4">
-                        {/* TODO: Add Links */}
                         In het Omgevingsprogramma staat beschreven welke{" "}
                         <Link
-                            className="underline text-pzh-green"
+                            className="underline text-pzh-green hover:text-pzh-green-dark"
                             to="/overzicht/maatregelen"
                         >
                             maatregelen
@@ -239,7 +237,6 @@ const RaadpleegHome = () => {
                         Omgevingsverordening
                     </Heading>
                     <Text type="body" className="mt-4">
-                        {/* TODO: Add Links */}
                         Voor het in stand houden van goede omgevingskwaliteit
                         zijn er regels nodig over wat wel en niet is toegestaan
                         binnen de provinciegrenzen. Denk bijvoorbeeld aan regels
@@ -250,8 +247,14 @@ const RaadpleegHome = () => {
                         plannen. Daarnaast zijn er een aantal direct werkende
                         regels waar burgers en bedrijven zich aan moeten houden.
                         Al deze regels van de provincie over de fysieke
-                        leefomgeving zijn ondergebracht in de
-                        Omgevingsverordening.
+                        leefomgeving zijn ondergebracht in de{" "}
+                        <Link
+                            className="underline text-pzh-green hover:text-pzh-green-dark"
+                            to="/detail/verordening"
+                        >
+                            Omgevingsverordening
+                        </Link>
+                        .
                     </Text>
                 </div>
                 <div
@@ -307,15 +310,7 @@ const RaadpleegHome = () => {
                         </Text>
                         <Text type="body" color="text-white" className="mt-4">
                             Hiernaast tonen wij een overzicht met recent
-                            opgeleverde functionaliteiten. Benieuwd wat er op
-                            onze planning staat?{" "}
-                            <Link
-                                className="underline"
-                                to="/planning-en-releases"
-                            >
-                                Bekijk onze roadmap
-                            </Link>
-                            .
+                            opgeleverde functionaliteiten.
                         </Text>
                     </div>
                     <div className="col-span-6 mt-6 lg:mt-0 lg:col-span-4">

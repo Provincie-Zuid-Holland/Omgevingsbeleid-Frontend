@@ -66,7 +66,10 @@ const Login = ({ setLoginUser, setLoginState }) => {
                         website kunt u al het Omgevingsbeleid van de provincie
                         Zuid-Holland inzien.
                     </Text>
-                    <Link className="underline text-pzh-green">
+                    <Link
+                        className="underline hover:text-pzh-green-dark text-pzh-green"
+                        to="/"
+                    >
                         Ga naar de raadpleegomgeving
                     </Link>
                 </div>
@@ -77,7 +80,7 @@ const Login = ({ setLoginUser, setLoginState }) => {
                         afdeling omgevingsbeleid via{" "}
                         <a
                             href="mailto:omgevingsbeleid@pzh.nl?subject=Hulp bij het inloggen"
-                            className="underline cursor-pointer text-pzh-green"
+                            className="underline cursor-pointer hover:text-pzh-green-dark text-pzh-green"
                             target="_blank"
                             rel="noopener noreferrer"
                         >

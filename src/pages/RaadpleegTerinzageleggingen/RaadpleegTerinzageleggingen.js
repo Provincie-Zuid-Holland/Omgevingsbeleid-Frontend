@@ -24,10 +24,11 @@ function RaadpleegTerinzageleggingen() {
                             Terinzageleggingen
                         </Heading>
                         <Text type="introduction-paragraph" className="mt-3">
-                            “Wat speelt er op dit moment?” is een veel gehoorde
-                            vraag. Graag laten wij u zien welke onderdelen in
-                            bewerking zijn, dit houdt in dat wij alle onderdelen
-                            laten zien die in ontwerp zijn.
+                            Het Omgevingsbeleid van de provincie verandert
+                            geregeld. Op deze pagina kun je zien welke
+                            beleidswijzigingen momenteel ter inzage liggen. Op
+                            die manier wordt voor iedereen duidelijk wat er
+                            verandert.
                         </Text>
                         <Button text="Bekijk overzicht" className="mt-4" />
                     </div>
@@ -58,14 +59,15 @@ function RaadpleegTerinzageleggingen() {
                             Hoe werkt de terinzagelegging?
                         </Heading>
                         <Text type="body" color="text-white" className="mt-4">
-                            Wanneer de Provinciale Staten (PS) de ontwerpversie
-                            van de beleidswijzigingen heeft geakkoordeerd worden
-                            de stukken zowel digitaal als fysiek ter inzage
-                            gelegd. Op dit moment is het niet mogelijk om de
-                            fysieke stukken te bekijken in verband met de
-                            coronapandemie. De stukken liggen minimaal 6 weken
-                            ter inzage, in deze periode kan iedereen een
-                            zienswijzen tegen het ontwerpbesluit indienen.
+                            Wanneer de Provinciale Staten akkoord zijn met de
+                            voorgestelde beleidswijzigingen besluiten zij om het
+                            nieuwe beleid ter inzage te leggen. Vanaf dat moment
+                            hebben andere overheden, bedrijven en burgers de
+                            gelegenheid om hierop te reageren. Zo'n reactie
+                            noemen wordt een zienswijze genoemd. Die zienswijzen
+                            kunnen aanleiding zijn om eventuele correcties of
+                            andere wijzigingen door te voeren. De
+                            terinzagelegging duurt 6 weken.
                         </Text>
                     </div>
                 </Container>
@@ -296,7 +298,7 @@ function TableLatestEdits() {
                                                 {policyObject.link ? (
                                                     <Link
                                                         to={policyObject.link}
-                                                        className="underline text-pzh-green-dark"
+                                                        className="underline text-pzh-green hover:text-pzh-green-dark"
                                                     >
                                                         {policyObject.title}
                                                     </Link>

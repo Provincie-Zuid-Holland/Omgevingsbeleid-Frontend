@@ -59,7 +59,7 @@ function RaadpleegDigiToegankelijkheid() {
                         dan contact op met ons Contact Centrum via{" "}
                         <a
                             href="mailto:zuidholland@pzh.nl"
-                            className="text-pzh-green"
+                            className="text-pzh-green hover:text-pzh-green-dark"
                         >
                             zuidholland@pzh.nl
                         </a>{" "}
@@ -67,7 +67,7 @@ function RaadpleegDigiToegankelijkheid() {
                         <a
                             href="www.zuid-holland.nl/contact"
                             target="_blank"
-                            className="text-pzh-green"
+                            className="text-pzh-green hover:text-pzh-green-dark"
                             rel="noopener noreferrer"
                         >
                             www.zuid-holland.nl/contact
@@ -82,7 +82,6 @@ function RaadpleegDigiToegankelijkheid() {
                         rel="noopener noreferrer"
                     >
                         <img
-                            // style={{ height: "324px" }}
                             src="https://www.toegankelijkheidsverklaring.nl/files/verklaring/label/af8d16e4762bcdbe16d268c44056bcfe.6339.svg"
                             alt="Digi-toegankelijkheids score"
                         />

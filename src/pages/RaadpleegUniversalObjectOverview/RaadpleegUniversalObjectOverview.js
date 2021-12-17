@@ -17,7 +17,12 @@ import LoaderCard from "./../../components/LoaderCard"
 function RaadpleegUniversalObjectOverview({ dataModel }) {
     const { isLoading, data: allObjects } = useQuery(
         dataModel.API_ENDPOINT_VIGEREND,
-        () => axios.get(dataModel.API_ENDPOINT_VIGEREND).then((res) => res.data)
+        () =>
+            axios
+                .get(dataModel.API_ENDPOINT_VIGEREND)
+                .then((res) =>
+                    res.data.sort((a, b) => a.Titel.localeCompare(b.Titel))
+                )
     )
 
     return (
@@ -55,7 +60,7 @@ function RaadpleegUniversalObjectOverview({ dataModel }) {
                             >
                                 <Text
                                     className="underline"
-                                    color="text-pzh-green"
+                                    color="text-pzh-green hover:text-pzh-green-dark"
                                 >
                                     uitgebreid zoeken
                                 </Text>

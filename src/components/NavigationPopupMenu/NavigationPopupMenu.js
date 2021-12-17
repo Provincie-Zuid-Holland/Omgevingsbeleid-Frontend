@@ -37,7 +37,7 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
     React.useEffect(() => {
         if (showBanner) {
             setBannerAdjustedOffsetTop({
-                top: "121px",
+                top: "146px",
             })
         } else {
             setBannerAdjustedOffsetTop({
@@ -164,7 +164,7 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
                                 <Heading level="3">Omgevingsprogramma</Heading>
                                 <ul className="mt-1">
                                     <ListItem
-                                        text="Maatregelen (Programma's)"
+                                        text="Maatregelen"
                                         setIsOpen={setIsOpen}
                                         to="/overzicht/maatregelen"
                                     />
@@ -259,8 +259,8 @@ const ToggleMenuButton = ({ isOpen, setIsOpen, isMobile }) => {
             id="popup-menu-toggle"
             className={`relative flex items-center justify-center p-2 -mr-6 transition-colors duration-100 ease-in rounded ${
                 isOpen
-                    ? "text-white hover:bg-gray-100 hover:text-gray-800"
-                    : "text-gray-800 hover:text-gray-900 hover:bg-gray-100"
+                    ? "text-white hover:bg-gray-100 hover:text-pzh-blue"
+                    : "text-pzh-blue hover:text-pzh-blue-dark hover:bg-gray-100"
             } ${isMobile ? "hidden" : ""}`}
             aria-expanded={isOpen}
             onClick={() => setIsOpen(!isOpen)}
@@ -279,7 +279,7 @@ const ToggleMenuButton = ({ isOpen, setIsOpen, isMobile }) => {
 
 const ListItem = ({ text = "", to = "#", setIsOpen, onKeyDown = null }) => {
     return (
-        <li className="pt-1 text-pzh-green">
+        <li className="pt-1 text-pzh-green hover:text-pzh-green-dark">
             <Link
                 onKeyDown={onKeyDown}
                 to={to}

@@ -24,12 +24,10 @@ class RaadpleegZoekResultatenOverzicht extends Component {
             dataLoaded: false,
             onPageFilters: [],
         }
-        this.getAndSetVigerendeVerordeningenStructuur = this.getAndSetVigerendeVerordeningenStructuur.bind(
-            this
-        )
-        this.generateVerordeningsPosition = generateVerordeningsPosition.bind(
-            this
-        )
+        this.getAndSetVigerendeVerordeningenStructuur =
+            this.getAndSetVigerendeVerordeningenStructuur.bind(this)
+        this.generateVerordeningsPosition =
+            generateVerordeningsPosition.bind(this)
         this.handleFilter = this.handleFilter.bind(this)
     }
 
@@ -103,7 +101,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
 
         axios
             .get(
-                `/search?query=${searchQuery}&limit=10${
+                `/search?query=${searchQuery}${
                     searchFiltersOnly ? `&only=${searchFiltersOnly}` : ``
                 }`
             )
@@ -126,9 +124,8 @@ class RaadpleegZoekResultatenOverzicht extends Component {
 
                 // The 'Verordenings' objects are placed in a structure, but we need to check what position exactly so we can link towards the correct 'Verordening' including the parameters to set the verordeningsobject as active in the view. e.g.:
                 // /detail/verordeningen/102?hoofdstuk=0&nest_1=0&nest_2=0&nest_3=null
-                const searchResultsWithVerordeningsPositions = this.addVerordeningsPositionToSearchResults(
-                    searchResults
-                )
+                const searchResultsWithVerordeningsPositions =
+                    this.addVerordeningsPositionToSearchResults(searchResults)
 
                 this.setState({
                     searchFiltersOnly: searchFiltersOnly,
@@ -158,9 +155,8 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                 // Creates the state to display the filter UI
                 this.setInitialOnPageFilters(searchResults)
 
-                const searchResultsWithVerordeningsPositions = this.addVerordeningsPositionToSearchResults(
-                    searchResults
-                )
+                const searchResultsWithVerordeningsPositions =
+                    this.addVerordeningsPositionToSearchResults(searchResults)
 
                 this.setState({
                     searchFiltersOnly: null,
@@ -308,9 +304,8 @@ class RaadpleegZoekResultatenOverzicht extends Component {
         }
 
         const onPageFilters = this.state.onPageFilters
-        let [filterIsActive, amountOfFilters] = checkForActiveFilter(
-            onPageFilters
-        )
+        let [filterIsActive, amountOfFilters] =
+            checkForActiveFilter(onPageFilters)
 
         const filters = [
             "beleidskeuzes",

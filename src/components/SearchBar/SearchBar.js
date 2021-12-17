@@ -1,6 +1,6 @@
 import React from "react"
 import { useLocation, useHistory } from "react-router-dom"
-import { faSearch } from "@fortawesome/pro-solid-svg-icons"
+import { faSearch } from "@fortawesome/pro-light-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import "url-search-params-polyfill"
 

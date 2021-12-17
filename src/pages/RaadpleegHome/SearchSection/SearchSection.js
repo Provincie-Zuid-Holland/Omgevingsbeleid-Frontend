@@ -32,7 +32,7 @@ function SearchSection() {
             {currentView === "text" ? (
                 <div>
                     <Text type="body" className="mt-4">
-                        Naar welk onderwerp bent u opzoek?
+                        Naar welk onderwerp bent u op zoek?
                     </Text>
                     <SearchBar className="mt-2" />
                 </div>

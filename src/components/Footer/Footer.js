@@ -52,7 +52,7 @@ function Footer({ className = "" }) {
                 <div className="grid grid-cols-4 col-span-6 md:col-span-3 lg:col-span-4">
                     <div className="col-span-6 lg:col-span-2">
                         <ul className="mt-6 underline text-pzh-green md:mt-0">
-                            <li className="pb-3 md:pb-5">
+                            <li className="pb-3 hover:text-pzh-green-dark md:pb-5">
                                 <a
                                     href="https://www.zuid-holland.nl"
                                     target="_blank"
@@ -61,10 +61,16 @@ function Footer({ className = "" }) {
                                     Provincie Zuid-Holland
                                 </a>
                             </li>
-                            <li className="pb-3 md:pb-5">
-                                <Link to="#">Cookies & Privacy</Link>
+                            <li className="pb-3 hover:text-pzh-green-dark md:pb-5">
+                                <a
+                                    rel="noopener noreferrer"
+                                    href="https://www.zuid-holland.nl/algemeen/privacyverklaring/"
+                                    target="_blank"
+                                >
+                                    Cookies & Privacy
+                                </a>
                             </li>
-                            <li className="pb-3 md:pb-5">
+                            <li className="pb-3 hover:text-pzh-green-dark md:pb-5">
                                 <Link to="/digi-toegankelijkheid">
                                     Toegankelijkheidsverklaring
                                 </Link>
@@ -77,7 +83,7 @@ function Footer({ className = "" }) {
                             dat graag via{" "}
                             <a
                                 href="mailto:omgevingsbeleid@pzh.nl?subject=Aan- of opmerking"
-                                className="underline cursor-pointer text-pzh-green"
+                                className="underline cursor-pointer hover:text-pzh-green-dark text-pzh-green"
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >

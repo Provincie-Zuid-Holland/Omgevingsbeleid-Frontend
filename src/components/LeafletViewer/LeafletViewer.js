@@ -6,7 +6,7 @@ import { Map, TileLayer, LayersControl, FeatureGroup } from "react-leaflet"
 import Proj from "proj4leaflet"
 import { toast } from "react-toastify"
 
-import { faSearch } from "@fortawesome/pro-solid-svg-icons"
+import { faSearch } from "@fortawesome/pro-light-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 import {

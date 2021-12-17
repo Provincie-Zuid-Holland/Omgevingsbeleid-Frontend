@@ -160,7 +160,7 @@ class LeafletSearchInput extends Component {
         return (
             <React.Fragment>
                 <input
-                    className="w-64 h-10 px-5 py-3 ml-3 text-sm leading-tight text-gray-700 rounded appearance-none focus:outline-none"
+                    className="w-64 h-10 px-5 py-3 ml-3 text-sm leading-tight text-gray-700 border-none rounded appearance-none focus:outline-none"
                     type="text"
                     ref={this.props.reference}
                     placeholder="Zoeken op de kaart"

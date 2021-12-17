@@ -18,7 +18,7 @@ const DocumentLink = ({ href, title, iconLeft, className = "" }) => (
                     <FontAwesomeIcon icon={iconLeft} />
                 </span>
                 <Text
-                    color="text-pzh-green"
+                    color="text-pzh-green hover:text-pzh-green-dark"
                     className="ml-2 underline"
                     type="body"
                 >

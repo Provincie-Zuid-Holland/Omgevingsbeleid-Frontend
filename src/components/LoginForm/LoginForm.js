@@ -207,7 +207,7 @@ const LoginForm = ({ setLoginState, setLoginUser }) => {
                         {loading ? "..." : ""}
                     </button>
                     <button
-                        className="mt-4 text-sm underline cursor-pointer sm:mt-0 sm:ml-4 text-pzh-green"
+                        className="mt-4 text-sm underline cursor-pointer sm:mt-0 sm:ml-4 text-pzh-green hover:text-pzh-green-dark"
                         onClick={(e) => {
                             e.preventDefault()
                             setWachtwoordResetPopup(!wachtwoordResetPopup)
