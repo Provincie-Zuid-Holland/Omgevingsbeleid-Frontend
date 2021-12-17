@@ -4,6 +4,7 @@ import cloneDeep from "lodash.clonedeep"
 import { Transition } from "@headlessui/react"
 import { useLocation, useHistory, matchPath } from "react-router-dom"
 import { useLastLocation } from "react-router-last-location"
+import { useQuery } from "react-query"
 
 import axios from "../../API/axios"
 
@@ -36,10 +37,10 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
     /**
      * Contains the graph data we receive from the API, containing the nodes & links
      */
-    const [data, setData] = React.useState([])
+    // const [data, setData] = React.useState([])
 
     /** Loading state */
-    const [isLoading, setIsLoading] = React.useState(true)
+    // const [isLoading, setIsLoading] = React.useState(true)
 
     /**
      * Search query to filter the nodes based on the title
@@ -115,6 +116,14 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
             setVerordeningStructure(vigerendeVerordeningResponse)
         })
     }, [])
+
+    const { isLoading, data } = useQuery("/graph", () =>
+        axios.get("/graph").then((res) => {
+            const data = addColorAndUUIDToNodes(res.data)
+            setFilters({ type: "init", data: data })
+            return data
+        })
+    )
 
     /**
      * The useRef Hook creates a variable that "holds on" to a value across rendering
@@ -323,18 +332,6 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
         },
         [resetNodes]
     )
-
-    React.useEffect(() => {
-        axios
-            .get("/graph")
-            .then((res) => {
-                const data = addColorAndUUIDToNodes(res.data)
-                setData(data)
-                setIsLoading(false)
-                setFilters({ type: "init", data: data })
-            })
-            .catch((err) => console.error("error: ", err?.message))
-    }, [])
 
     /**
      * Close popup when the location path changes
