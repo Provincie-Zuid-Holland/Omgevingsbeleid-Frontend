@@ -2,7 +2,7 @@
  *
  * @param {string} elSelector - ID of element we need to scroll to
  */
-function scrollToElement(elSelector) {
+function scrollToElement(elSelector: string) {
     const el = document.getElementById(elSelector)
     if (!el) return
 
