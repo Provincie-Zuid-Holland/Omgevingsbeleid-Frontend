@@ -22,7 +22,6 @@ import ContainerViewFieldsThema from "./ContainerFields/ContainerViewFieldsThema
 import ViewFieldGebiedDuiding from "./ViewFieldGebiedDuiding"
 import Werkingsgebied from "./Werkingsgebied"
 import BackButton from "../../components/BackButton"
-import MetaInfo from "./MetaInfo"
 import RevisieListItem from "./RevisieListItem"
 import TableOfContents from "./TableOfContents"
 
@@ -160,8 +159,6 @@ const RaadpleegObjectDetailMain = ({
     titleSingular,
     revisionObjects,
 }) => {
-    let { id } = useParams()
-
     // Boolean to toggle the large view
     const [fullscreenLeafletViewer, setFullscreenLeafletViewer] =
         React.useState(false)
