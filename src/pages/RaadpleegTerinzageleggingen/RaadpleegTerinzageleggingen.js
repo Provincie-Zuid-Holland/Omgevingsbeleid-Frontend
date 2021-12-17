@@ -3,8 +3,11 @@ import { Disclosure } from "@headlessui/react"
 import { faPlus } from "@fortawesome/pro-solid-svg-icons"
 import { faClock } from "@fortawesome/pro-regular-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { Link } from "react-router-dom"
 
 import terinzageleggingenImage from "./../../images/terinzageleggingen.png"
+
+import scrollToElement from "./../../utils/scrollToElement"
 
 import Footer from "./../../components/Footer"
 import Container from "./../../components/Container"
@@ -12,7 +15,6 @@ import HorizontalDivider from "./../../components/HorizontalDivider"
 import Button from "./../../components/Button"
 import Heading from "./../../components/Heading"
 import Text from "./../../components/Text"
-import { Link } from "react-router-dom"
 
 function RaadpleegTerinzageleggingen() {
     return (
@@ -30,7 +32,13 @@ function RaadpleegTerinzageleggingen() {
                             die manier wordt voor iedereen duidelijk wat er
                             verandert.
                         </Text>
-                        <Button text="Bekijk overzicht" className="mt-4" />
+                        <Button
+                            text="Bekijk overzicht"
+                            className="mt-4"
+                            onClick={() =>
+                                scrollToElement("op-dit-moment-ter-inzage")
+                            }
+                        />
                     </div>
                     <div
                         className="relative col-span-3"
@@ -74,7 +82,11 @@ function RaadpleegTerinzageleggingen() {
             </div>
             <div>
                 <Container className="pt-16">
-                    <Heading className="col-span-6" level="2">
+                    <Heading
+                        className="col-span-6"
+                        level="2"
+                        id="op-dit-moment-ter-inzage"
+                    >
                         Op dit moment ter inzage
                     </Heading>
                     <Text className="col-span-6 mt-4" type="body">
@@ -133,7 +145,6 @@ function RaadpleegTerinzageleggingen() {
                                 buttonText="Inspraak"
                                 panelText="De provincie legt haar beleid vervolgens ter inzage voor een periode van zes weken. Tijdens deze periode kan iedereen officieel een reactie geven op de wijzigingen in het provinciaal beleid. Die reactie noemen we een zienswijze. Zienswijzen worden meestal ingediend door andere gemeenten, waterschappen, bedrijven en belangenorganisaties, maar ook inwoners kunnen hun mening geven."
                             />
-                            <InspraakNotification />
                             <Dropdown
                                 buttonText="Definitief ontwerp Gedeputeerde Staten (GS)"
                                 panelText="Na de terinzagelegging wordt antwoord gegeven op alle binnengekomen zienswijzen. De zienswijzen kunnen daarnaast aanleiding zijn om de wijzigingen in het provinciaal beleid nogmaals tegen het licht te houden of eventuele fouten te corrigeren. De definitieve versie wordt vervolgens besproken in de vergadering van de Gedeputeerde Staten."
@@ -182,9 +193,9 @@ function RaadpleegTerinzageleggingen() {
                                 buttonText="Inspraak"
                                 panelText="De provincie legt haar beleid vervolgens ter inzage voor een periode van zes weken. Tijdens deze periode kan iedereen officieel een reactie geven over de wijzigingen in het provinciaal beleid. Die reactie noemen we een zienswijze. Zienswijzen worden meestal ingediend door andere gemeenten, waterschappen, bedrijven en belangenorganisaties, maar ook inwoners kunnen hun mening geven."
                             />
-                            <InspraakNotification />
+
                             <Dropdown
-                                buttonText="Definitief ontwerp Provinciale Staten (PS)"
+                                buttonText="Definitief ontwerp Gedeputeerde Staten (GS)"
                                 panelText="Na de terinzagelegging wordt antwoord gegeven op eventuele vragen die in de zienswijzen zijn gesteld. De zienswijzen kunnen daarnaast aanleiding zijn om de wijzigingen in het provinciaal beleid nogmaals tegen het licht te houden of eventuele fouten te corrigeren. De definitieve versie wordt vervolgens besproken in de vergadering van de Gedeputeerde Staten."
                             />
                             <Dropdown
@@ -196,15 +207,6 @@ function RaadpleegTerinzageleggingen() {
                 </Container>
                 <Footer />
             </div>
-        </div>
-    )
-}
-
-const InspraakNotification = () => {
-    return (
-        <div className="px-5 py-2 mt-2 text-sm">
-            <FontAwesomeIcon className={`mr-2`} icon={faClock} />
-            <span>Een ontwerp ligt minimaal 6 weken ter inspraak</span>
         </div>
     )
 }
