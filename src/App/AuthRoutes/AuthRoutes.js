@@ -24,7 +24,7 @@ const AuthRoutes = ({ authUser, loggedIn }) => {
 
     const redirectToLogin = React.useCallback(() => {
         localStorage.removeItem(process.env.REACT_APP_KEY_API_ACCESS_TOKEN)
-        toast("Voor deze actie moet u ingelogd zijn")
+        toast("Voor deze actie moet je ingelogd zijn")
         history.push("/login")
     }, [history])
 

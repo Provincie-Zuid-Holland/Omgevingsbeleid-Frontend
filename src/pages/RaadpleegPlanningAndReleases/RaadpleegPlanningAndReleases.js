@@ -25,13 +25,13 @@ function RaadpleegPlanningAndReleases() {
                     </Heading>
                     <Text type="introduction-paragraph" className="mt-3">
                         Digitaal Omgevingsbeleid is altijd in ontwikkeling,
-                        benieuwd waar we aan werken? Op deze pagina vindt u de
+                        benieuwd waar we aan werken? Op deze pagina vind je de
                         recent opgeleverde functionaliteiten en een planning
                         voor de langere termijn.
                     </Text>
                     <Text type="body" className="mt-4 sm:mt-8">
                         Uiteraard vinden wij het fijn om feedback en input te
-                        ontvangen. Heeft u vragen, ideeën of suggesties? Neem
+                        ontvangen. Heb je vragen, ideeën of suggesties? Neem
                         gerust contact op met ons via{" "}
                         <a
                             href="mailto:omgevingsbeleid@pzh.nl"
@@ -122,7 +122,7 @@ function RaadpleegPlanningAndReleases() {
                 <Text type="body" className="col-span-6 mt-4">
                     Wanneer er onderdelen ontwikkeld en getest zijn door ons
                     team, dan zetten wij deze nieuwe onderdelen online.
-                    Hieronder ziet u een overzicht van de releases inclusief de
+                    Hieronder zie je een overzicht van de releases inclusief de
                     onmschrijving wat er wanneer online is gekomen.
                 </Text>
                 <ReleaseList releases={releases} />

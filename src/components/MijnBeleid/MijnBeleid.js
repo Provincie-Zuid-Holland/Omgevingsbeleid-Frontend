@@ -130,7 +130,7 @@ const MijnBeleid = ({ hideAddNew }) => {
                         })}
                         {policies.length === 0 ? (
                             <span className="mb-4 text-gray-600 font-italic">
-                                U heeft nog geen beleid
+                                Je hebt nog geen beleid
                             </span>
                         ) : null}
                     </ul>

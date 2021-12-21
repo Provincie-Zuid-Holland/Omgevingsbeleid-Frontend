@@ -16,7 +16,7 @@ describe("SearchSection", () => {
 
     it("Component renders", () => {
         setup()
-        const element = screen.getByText("Naar welk onderwerp bent u opzoek?")
+        const element = screen.getByText("Naar welk onderwerp ben je op zoek?")
         expect(element).toBeTruthy()
     })
 })

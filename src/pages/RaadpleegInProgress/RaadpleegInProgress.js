@@ -24,7 +24,7 @@ function RaadpleegInProgress() {
                     </Heading>
                     <Text type="introduction-paragraph" className="mt-3">
                         “Wat speelt er op dit moment?” is een veel gehoorde
-                        vraag. Graag laten wij u zien welke onderdelen in
+                        vraag. Graag laten wij je zien welke onderdelen in
                         bewerking zijn, dit houdt in dat wij alle onderdelen
                         laten zien die in ontwerp zijn.
                     </Text>

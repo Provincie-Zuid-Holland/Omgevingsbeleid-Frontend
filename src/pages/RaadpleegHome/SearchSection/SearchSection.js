@@ -32,14 +32,14 @@ function SearchSection() {
             {currentView === "text" ? (
                 <div>
                     <Text type="body" className="mt-4">
-                        Naar welk onderwerp bent u op zoek?
+                        Naar welk onderwerp ben je op zoek?
                     </Text>
                     <SearchBar className="mt-2" />
                 </div>
             ) : currentView === "map" ? (
                 <div>
                     <Text type="body" className="mt-4">
-                        Wilt u het beleid en de regelgeving van de provincie op
+                        Wil je het beleid en de regelgeving van de provincie op
                         een specifieke locatie raadplegen? Zoek hieronder op een
                         locatie of markeer een punt of vorm op de kaart.
                     </Text>

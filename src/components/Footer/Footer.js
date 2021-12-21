@@ -79,7 +79,7 @@ function Footer({ className = "" }) {
                     </div>
                     <div className="col-span-6 lg:col-span-2">
                         <Text type="body">
-                            Mocht u aan- of opmerkingen hebben, dan horen wij
+                            Mocht je aan- of opmerkingen hebben, dan horen wij
                             dat graag via{" "}
                             <a
                                 href="mailto:omgevingsbeleid@pzh.nl?subject=Aan- of opmerking"

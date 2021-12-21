@@ -63,7 +63,7 @@ const Login = ({ setLoginUser, setLoginState }) => {
                     <Text type="body" className="mt-3">
                         Provincie Zuid-Holland heeft haar beleid eenvoudiger,
                         transparanter en toegankelijker gemaakt. Via deze
-                        website kunt u al het Omgevingsbeleid van de provincie
+                        website kan je al het Omgevingsbeleid van de provincie
                         Zuid-Holland inzien.
                     </Text>
                     <Link

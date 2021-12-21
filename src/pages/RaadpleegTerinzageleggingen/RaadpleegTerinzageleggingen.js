@@ -93,7 +93,7 @@ function RaadpleegTerinzageleggingen() {
                         waar een nieuwere versie van is dan het vigerende stuk.
                         In sommige gevallen is het mogelijk om door te klikken
                         naar de ontwerp-versie van een stuk beleid, deze stukken
-                        herkent u aan de groene kleur en de lijn onder de tekst.
+                        herken je aan de groene kleur en de lijn onder de tekst.
                         Het overzicht kan eenvoudig worden gesorteerd door op
                         het kopje van de kolom te drukken.
                     </Text>

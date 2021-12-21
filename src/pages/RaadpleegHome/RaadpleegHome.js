@@ -43,7 +43,7 @@ const RaadpleegHome = () => {
                     <Text type="introduction-paragraph" className="mt-3">
                         Provincie Zuid-Holland heeft haar beleid eenvoudiger,
                         transparanter en toegankelijker gemaakt. Via deze
-                        website kunt u al het Omgevingsbeleid van de provincie
+                        website kan je al het Omgevingsbeleid van de provincie
                         Zuid-Holland inzien. Denk bijvoorbeeld aan de
                         provinciale ambities voor een duurzame economie, de
                         regelgeving rondom gevaarlijke gassen of aan de
@@ -80,8 +80,8 @@ const RaadpleegHome = () => {
                         Zoeken in het beleid
                     </Heading>
                     <Text type="body" className="mt-4">
-                        Hier kunt u zoeken in het Omgevingsbeleid van
-                        Zuid-Holland. U kunt zowel zoeken op tekst als op
+                        Hier kan je zoeken in het Omgevingsbeleid van
+                        Zuid-Holland. Je kan zowel zoeken op tekst als op
                         locatie.
                     </Text>
                 </div>
