@@ -28,7 +28,7 @@ import RaadpleegVerordeningsArtikelDetail from "./../pages/RaadpleegVerordenings
 import RaadpleegZoekResultatenOverzicht from "./../pages/RaadpleegZoekResultatenOverzicht"
 import Login from "./../pages/Login"
 import Planning from "./../pages/Planning"
-import Foutpagina from "../pages/Foutpagina"
+import ErrorPage from "../pages/ErrorPage"
 
 // Import Components
 import FeedbackComponent from "./../components/FeedbackComponent"
@@ -263,7 +263,7 @@ class App extends Component {
                             setLoginState={this.setLoginState}
                             loggedIn={this.state.loggedIn}
                         />
-                        <ErrorBoundary FallbackComponent={Foutpagina}>
+                        <ErrorBoundary FallbackComponent={ErrorPage}>
                             {this.state.dataLoaded ? (
                                 <Suspense fallback={<LoaderContent />}>
                                     <Switch>
