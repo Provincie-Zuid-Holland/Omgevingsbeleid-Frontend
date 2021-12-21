@@ -3,7 +3,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faInfoCircle } from "@fortawesome/pro-light-svg-icons"
 import { Link } from "react-router-dom"
 
-function RaadpleegObjectDetailNewVersionNotification({ dataObject }) {
+function RaadpleegObjectDetailNewVersionNotification({
+    dataObject,
+    titleSingular,
+}) {
+    if (titleSingular !== "Maatregel" && titleSingular !== "Beleidskeuze")
+        return null
+
     const { Status, UUID, Latest_Version, Latest_Status, Effective_Version } =
         dataObject
 
@@ -40,6 +46,13 @@ function RaadpleegObjectDetailNewVersionNotification({ dataObject }) {
         UUID === Effective_Version &&
         Latest_Status !== "Vigerend" &&
         unpublicStatusses.includes(Latest_Status)
+
+    const isValidWithNoNewerVersionsAvailable =
+        UUID === Effective_Version &&
+        Effective_Version === Latest_Version &&
+        Latest_Status === "Vigerend"
+
+    if (isValidWithNoNewerVersionsAvailable) return null
 
     return (
         <div className="flex w-full px-3 pt-5 pb-4 mt-4 bg-pzh-blue-light bg-opacity-20 text-pzh-blue-dark">

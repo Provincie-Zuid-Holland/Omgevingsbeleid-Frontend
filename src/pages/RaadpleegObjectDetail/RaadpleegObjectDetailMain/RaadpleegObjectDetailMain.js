@@ -72,6 +72,7 @@ const RaadpleegObjectDetailMain = ({
                     {titleSingular}
                 </Heading>
                 <RaadpleegObjectDetailNewVersionNotification
+                    titleSingular={titleSingular}
                     dataObject={dataObject}
                 />
                 <Heading level="1" color="text-pzh-blue" className="mt-4">
