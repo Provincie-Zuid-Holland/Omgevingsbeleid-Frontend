@@ -142,7 +142,7 @@ const RaadpleegVerordeningSidebarItem = ({ item, setNavMenuOpen }) => {
                     <span
                         onClick={() => {
                             history.push(
-                                `${location.pathname}?active=${item.UUID}`
+                                `${location.pathname}?actief=${item.UUID}`
                             )
                             if (windowSize.width < 1028) {
                                 setNavMenuOpen(false)
@@ -172,7 +172,7 @@ const RaadpleegVerordeningSidebarItem = ({ item, setNavMenuOpen }) => {
                 <button
                     className="pl-5 my-1 text-left cursor-pointer"
                     onClick={() => {
-                        history.push(`${location.pathname}?active=${item.UUID}`)
+                        history.push(`${location.pathname}?actief=${item.UUID}`)
                         if (windowSize.width < 1028) {
                             setNavMenuOpen(false)
                         }

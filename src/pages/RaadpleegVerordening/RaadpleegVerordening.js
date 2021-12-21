@@ -12,7 +12,6 @@ import VERORDENING from "./../../constants/verordeningen"
 
 import useURLQuery from "../../utils/useURLQuery"
 import { useWindowSize } from "../../utils/useWindowSize"
-
 import RaadpleegVerordeningSidebar from "./RaadpleegVerordeningSidebar"
 import RaadpleegVerordeningPopupDetail from "./RaadpleegVerordeningPopupDetail"
 
@@ -21,12 +20,10 @@ import LoaderCard from "../../components/LoaderCard"
 function RaadpleegVerordening() {
     const windowSize = useWindowSize()
     const query = useURLQuery()
-    const UUIDFromUrl = query.get("active")
-
-    // const [verordening, setVerordening] = React.useState(null)
+    const UUIDFromUrl = query.get("actief")
     const [activeArticle, setActiveArticle] = React.useState(null)
 
-    const { data: verordening } = useQuery("verordening", () =>
+    const { isLoading, data: verordening } = useQuery("verordening", () =>
         axios
             .get("/verordeningstructuur")
             .then((res) =>
@@ -50,7 +47,7 @@ function RaadpleegVerordening() {
         }
 
         scrollIntoView(UUIDFromUrl)
-    }, [UUIDFromUrl, windowSize])
+    }, [UUIDFromUrl, windowSize, isLoading])
 
     return (
         <>
@@ -65,7 +62,7 @@ function RaadpleegVerordening() {
                         {VERORDENING.TITLE_SINGULAR}
                     </Heading>
 
-                    {verordening ? (
+                    {!isLoading ? (
                         <Heading
                             level="1"
                             color="text-pzh-blue"

@@ -397,7 +397,6 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
                     const hrefURL = networkGraphGenerateHref({
                         property: d.Type,
                         UUID: d.id,
-                        verordeningsStructure: verordeningsStructure,
                     })
 
                     setHref(hrefURL)
