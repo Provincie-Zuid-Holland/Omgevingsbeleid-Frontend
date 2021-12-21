@@ -204,9 +204,10 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
                                     />
 
                                     <ListItem
+                                        targetBlank={true}
                                         text="Lange Termijn Agenda"
                                         setIsOpen={setIsOpen}
-                                        to="#"
+                                        to="https://lta.zuid-holland.nl/"
                                     />
                                 </ul>
                             </div>
@@ -277,20 +278,44 @@ const ToggleMenuButton = ({ isOpen, setIsOpen, isMobile }) => {
     )
 }
 
-const ListItem = ({ text = "", to = "#", setIsOpen, onKeyDown = null }) => {
-    return (
-        <li className="pt-1 text-pzh-green hover:text-pzh-green-dark">
-            <Link
-                onKeyDown={onKeyDown}
-                to={to}
-                onClick={() => setIsOpen(false)}
-                id={`menu-item-${text.replace(/\s+/g, "-").toLowerCase()}`}
-            >
-                <FontAwesomeIcon className="mr-2" icon={faChevronRight} />
-                <span className="underline">{text}</span>
-            </Link>
-        </li>
-    )
+const ListItem = ({
+    text = "",
+    to = "#",
+    setIsOpen,
+    onKeyDown = null,
+    targetBlank = false,
+}) => {
+    if (targetBlank) {
+        return (
+            <li className="pt-1 text-pzh-green hover:text-pzh-green-dark">
+                <a
+                    onKeyDown={onKeyDown}
+                    href={to}
+                    target={targetBlank ? "_blank" : ""}
+                    rel="noopener noreferrer"
+                    onClick={() => setIsOpen(false)}
+                    id={`menu-item-${text.replace(/\s+/g, "-").toLowerCase()}`}
+                >
+                    <FontAwesomeIcon className="mr-2" icon={faChevronRight} />
+                    <span className="underline">{text}</span>
+                </a>
+            </li>
+        )
+    } else {
+        return (
+            <li className="pt-1 text-pzh-green hover:text-pzh-green-dark">
+                <Link
+                    onKeyDown={onKeyDown}
+                    to={to}
+                    onClick={() => setIsOpen(false)}
+                    id={`menu-item-${text.replace(/\s+/g, "-").toLowerCase()}`}
+                >
+                    <FontAwesomeIcon className="mr-2" icon={faChevronRight} />
+                    <span className="underline">{text}</span>
+                </Link>
+            </li>
+        )
+    }
 }
 
 export default NavigationPopupMenu
