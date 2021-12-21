@@ -52,7 +52,10 @@ const RaadpleegVerordeningPopupDetail = ({
                         <ul className="mt-4">
                             {activeArticle.Children.map((child) => (
                                 <li
-                                    onClick={() => setActiveChild(child)}
+                                    onClick={() => {
+                                        setActiveChild(null)
+                                        setActiveChild(child)
+                                    }}
                                     key={child.Volgnummer}
                                     style={{ width: "calc(100% + 1rem)" }}
                                     className="p-2 mb-4 -mt-2 -ml-2 transition-colors duration-150 ease-in rounded-md cursor-pointer hover:bg-gray-200 hover:bg-opacity-70"
@@ -82,8 +85,7 @@ const RaadpleegVerordeningPopupDetail = ({
                                 {activeChild ? (
                                     <LeafletTinyViewer
                                         gebiedType="Werkingsgebieden"
-                                        gebiedUUID="BE7AD96D-1730-4875-91CB-62B7DD225FF3"
-                                        // TODO: @Swendude - Replace for API response
+                                        gebiedUUID={activeArticle.Gebied}
                                     />
                                 ) : (
                                     <Text
@@ -99,8 +101,7 @@ const RaadpleegVerordeningPopupDetail = ({
                             <div className="mt-4" style={{ height: "400px" }}>
                                 <LeafletTinyViewer
                                     gebiedType="Werkingsgebieden"
-                                    gebiedUUID="BE7AD96D-1730-4875-91CB-62B7DD225FF3"
-                                    // TODO: @Swendude - Replace for API response
+                                    gebiedUUID={activeArticle.Gebied}
                                 />
                             </div>
                         )}
