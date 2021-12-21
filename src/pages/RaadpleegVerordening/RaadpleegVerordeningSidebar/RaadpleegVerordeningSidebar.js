@@ -49,9 +49,12 @@ function RaadpleegVerordeningSidebar({ verordening }) {
             const screenHeight = windowSize.height
             const offsetYAxis = 155
 
+            const sidebarHeight =
+                screenHeight - containerOffsetTop - offsetYAxis * 1.5
+
             setSidebarStyle({
                 top: containerOffsetTop + offsetYAxis,
-                height: screenHeight - containerOffsetTop - offsetYAxis * 1.5,
+                height: sidebarHeight ? sidebarHeight : "50vh",
                 width: containerWidth,
                 left: containerOffsetLeft,
             })
