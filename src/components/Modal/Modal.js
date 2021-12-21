@@ -3,7 +3,7 @@ import { Dialog, Transition } from "@headlessui/react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTimes } from "@fortawesome/pro-solid-svg-icons"
 
-const Modal = ({ children, open, close }) => (
+const Modal = ({ children, open, close, maxWidth = "max-w-6xl" }) => (
     <Transition.Root show={open} as={React.Fragment}>
         <Dialog
             as="div"
@@ -39,17 +39,19 @@ const Modal = ({ children, open, close }) => (
                     leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                     leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                 >
-                    <div className="inline-block overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl sm:my-8 sm:align-middle md:max-w-6xl sm:w-full">
+                    <div
+                        className={`inline-block overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl sm:my-8 sm:align-middle sm:w-full ${maxWidth}`}
+                    >
                         <div
                             className="p-8 overflow-y-auto"
                             style={{
                                 maxHeight: "calc(100vh - 25vh)",
                             }}
                         >
-                            <div className="absolute top-0 right-0 hidden pt-8 pr-8 sm:block">
+                            <div className="absolute top-0 right-0 hidden pt-8 pr-8 -mt-2 -mr-2 sm:block">
                                 <button
                                     type="button"
-                                    className="p-2 text-gray-400 bg-white rounded-md hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                    className="p-2 pb-0 text-gray-400 bg-white rounded-md hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                     onClick={close}
                                 >
                                     <FontAwesomeIcon
