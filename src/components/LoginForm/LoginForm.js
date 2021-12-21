@@ -10,6 +10,7 @@ import axios from "./../../API/axios"
 // Import Components
 import LoaderSpinner from "./../LoaderSpinner"
 import PopUpAnimatedContainer from "./../PopUpAnimatedContainer"
+import Modal from "./../Modal"
 
 /**
  * Displays a popup in which the user can reset their password.
@@ -18,44 +19,28 @@ import PopUpAnimatedContainer from "./../PopUpAnimatedContainer"
  * @param {function} togglePopup - Parameter that is used to (hide/show) the popup component.
  */
 function PopupWachtwoordVergeten({ show, togglePopup }) {
-    // Set focus to the cancel button for AY11
-    React.useEffect(() => {
-        if (show) document.getElementById("close-password-forget-popup").focus()
-    }, [show])
-
-    if (!show) return null
-
     return (
-        <PopUpAnimatedContainer small={true}>
-            <button
-                onClick={togglePopup}
-                className="absolute top-0 right-0 px-3 py-2 text-gray-600 cursor-pointer hover:text-gray-800 pzh-transition-colors"
-                id={`wachtwoord-reset-sluit-popup`}
-                data-testid={`wachtwoord-reset-sluit-popup`}
-                tabIndex="0"
-            >
-                <FontAwesomeIcon icon={faTimes} />
-            </button>
-            <h3 className="mb-4 text-xl font-bold text-gray-800">
+        <Modal maxWidth="max-w-sm" open={show} close={togglePopup}>
+            <h3 className="mb-4 text-xl font-bold text-pzh-blue">
                 Wachtwoord vergeten
             </h3>
 
             <div className="relative p-4 mb-4 border-l-4 bg-pzh-blue-super-light border-pzh-blue">
-                <p className="mt-1 text-sm text-gray-700">
+                <p className="mt-1 text-sm text-pzh-blue-dark">
                     Binnenkort willen wij het mogelijk maken dat medewerkers van
                     provincie Zuid-Holland automatisch kunnen inloggen. Tot die
                     tijd moet het nog met een e-mailadres en een wachtwoord.
                 </p>
             </div>
 
-            <p className="py-1 text-gray-700">
+            <p className="py-1 text-pzh-blue-dark">
                 Wachtwoord vergeten? Stuur dan een e-mail naar het team
                 Omgevingsbeleid door op de link te klikken. Je ontvangt dan
                 binnen één werkdag een nieuw wachtwoord.
             </p>
-            <div className="flex items-center justify-between mt-5">
+            <div className="flex items-end justify-between mt-5">
                 <button
-                    className="text-sm text-gray-700 underline cursor-pointer hover:text-gray-900 pzh-transition-colors"
+                    className="text-sm underline transition-colors cursor-pointer text-pzh-blue hover:text-pzh-blue-dark"
                     onClick={togglePopup}
                     id="close-password-forget-popup"
                     data-testid="close-password-forget-popup"
@@ -63,16 +48,19 @@ function PopupWachtwoordVergeten({ show, togglePopup }) {
                     Annuleren
                 </button>
                 <button
-                    href="mailto:omgevingsbeleid@pzh.nl?subject=Wachtwoord vergeten"
                     className="inline-block px-8 py-2 text-white rounded pzh-transition-colors bg-pzh-green hover:bg-pzh-green-dark focus:outline-none focus:ring"
                     id="wachtwoord-reset-button-mailto"
                     data-testid="wachtwoord-reset-button-mailto"
-                    onClick={togglePopup}
+                    onClick={() => {
+                        window.location =
+                            "mailto:omgevingsbeleid@pzh.nl?subject=Wachtwoord vergeten"
+                        togglePopup()
+                    }}
                 >
                     Mail versturen
                 </button>
             </div>
-        </PopUpAnimatedContainer>
+        </Modal>
     )
 }
 
