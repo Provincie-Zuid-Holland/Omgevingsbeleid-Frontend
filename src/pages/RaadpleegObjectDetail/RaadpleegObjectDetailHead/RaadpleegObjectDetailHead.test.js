@@ -1,15 +1,26 @@
-import { render } from '@testing-library/react';
-import React from 'react';
-import RaadpleegObjectDetailHead from './RaadpleegObjectDetailHead';
+import { render } from "@testing-library/react"
+import "@testing-library/jest-dom"
+import React from "react"
 
-describe('RaadpleegObjectDetailHead', () => {
-    const defaultProps = {};
+import RaadpleegObjectDetailHead from "./RaadpleegObjectDetailHead"
 
-    it('should render', () => {
-        const props = {...defaultProps};
-        const { asFragment, queryByText } = render(<RaadpleegObjectDetailHead {...props} />);
+describe("RaadpleegObjectDetailHead", () => {
+    const defaultProps = {
+        dataObject: {
+            Titel: "Test Titel",
+        },
+        titleSingular: "Singular",
+    }
 
-        expect(asFragment()).toMatchSnapshot();
-        expect(queryByText('RaadpleegObjectDetailHead')).toBeTruthy();
-    });
-});
+    const setup = (customProps) => {
+        const props = { ...defaultProps, ...customProps }
+        render(<RaadpleegObjectDetailHead {...props} />)
+    }
+
+    it("Component renders", () => {
+        setup()
+        expect(document.title).toEqual(
+            `${defaultProps.dataObject.Titel} (${defaultProps.titleSingular}) - Omgevingsbeleid Provincie Zuid-Holland`
+        )
+    })
+})
