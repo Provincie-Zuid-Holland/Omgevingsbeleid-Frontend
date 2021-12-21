@@ -99,23 +99,15 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
         }
     }, [lastLocation])
 
-    /**
-     * Used to generate the position of verordening articles for the Href
-     */
-    const [verordeningsStructure, setVerordeningStructure] =
-        React.useState(null)
-
-    /**
-     * Get and set verordeningstructuur in state on Mount
-     */
-    React.useLayoutEffect(() => {
-        axios.get("/verordeningstructuur").then((res) => {
-            const vigerendeVerordeningResponse = res.data.find(
-                (item) => item.Status === "Vigerend"
-            )
-            setVerordeningStructure(vigerendeVerordeningResponse)
-        })
-    }, [])
+    const { data: verordeningsStructure } = useQuery(
+        "/verordeningstructuur",
+        () =>
+            axios
+                .get("/verordeningstructuur")
+                .then((res) =>
+                    res.data.find((item) => item.Status === "Vigerend")
+                )
+    )
 
     const { isLoading, data } = useQuery("/graph", () =>
         axios.get("/graph").then((res) => {
