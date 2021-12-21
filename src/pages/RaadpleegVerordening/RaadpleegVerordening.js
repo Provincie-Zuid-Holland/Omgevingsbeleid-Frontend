@@ -56,7 +56,7 @@ function RaadpleegVerordening() {
         <>
             <Container className="pt-16 lg:pt-8">
                 <RaadpleegVerordeningSidebar verordening={verordening} />
-                <div className="col-span-6 lg:col-span-4">
+                <div className="min-h-screen col-span-6 lg:col-span-4">
                     <Heading
                         level="3"
                         className="font-bold"
