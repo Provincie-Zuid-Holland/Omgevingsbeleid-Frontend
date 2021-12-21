@@ -7,10 +7,10 @@ const Modal = ({ children, open, close, maxWidth = "max-w-6xl" }) => (
     <Transition.Root show={open} as={React.Fragment}>
         <Dialog
             as="div"
-            className="fixed inset-0 z-10 overflow-y-auto"
+            className="fixed inset-0 z-50 overflow-y-auto"
             onClose={close}
         >
-            <div className="flex items-end justify-center min-h-screen px-4 pt-4 pb-20 overflow-hidden text-center rounded-lg sm:block sm:p-0">
+            <div className="flex items-end justify-center min-h-screen px-4 pt-4 pb-20 mx-0 overflow-hidden text-center rounded-lg sm:block sm:p-0 md:mx-4">
                 <Transition.Child
                     as={React.Fragment}
                     enter="ease-out duration-300"
