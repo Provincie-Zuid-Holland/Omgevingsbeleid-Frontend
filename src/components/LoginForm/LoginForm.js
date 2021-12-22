@@ -1,15 +1,11 @@
 import React from "react"
 import { useHistory } from "react-router-dom"
 
-import { faTimes } from "@fortawesome/pro-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-
 // Import API
 import axios from "./../../API/axios"
 
 // Import Components
 import LoaderSpinner from "./../LoaderSpinner"
-import PopUpAnimatedContainer from "./../PopUpAnimatedContainer"
 import Modal from "./../Modal"
 
 /**
