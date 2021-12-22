@@ -4,7 +4,7 @@ import { useLastLocation } from "react-router-last-location"
 import { faArrowLeft } from "@fortawesome/pro-regular-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
-const BackButton = () => {
+const BackButton = ({ className = "" }) => {
     const history = useHistory()
     const location = useLocation()
     const lastLocation = useLastLocation()
@@ -23,7 +23,7 @@ const BackButton = () => {
     return (
         <div
             onClick={() => goBack()}
-            className={`text-pzh-blue cursor-pointer opacity-75 hover:opacity-100 transition-opacity ease-in duration-100 mb-4 inline-block`}
+            className={`${className} text-pzh-blue cursor-pointer opacity-75 hover:opacity-100 transition-opacity ease-in duration-100 mb-4 inline-block`}
             id="button-back-to-previous-page"
         >
             <FontAwesomeIcon className="mr-2" icon={faArrowLeft} />
