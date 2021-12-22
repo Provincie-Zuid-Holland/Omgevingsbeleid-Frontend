@@ -92,7 +92,7 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
                 <React.Fragment>
                     <div
                         style={bannerAdjustedOffsetTop}
-                        className="fixed top-0 left-0 z-0 block w-screen h-screen bg-gray-900 opacity-40"
+                        className="fixed top-0 left-0 z-0 block w-screen h-screen bg-gray-900 pointer-events-none opacity-40"
                     ></div>
                     <div
                         id="popup-menu"
@@ -198,9 +198,9 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
                                 <Heading level="3">Actueel</Heading>
                                 <ul className="mt-1">
                                     <ListItem
-                                        text="Terinzageleggeningen"
+                                        text="Beleidswijzigingen"
                                         setIsOpen={setIsOpen}
-                                        to="/terinzageleggingen"
+                                        to="/in-bewerking"
                                     />
 
                                     <ListItem
