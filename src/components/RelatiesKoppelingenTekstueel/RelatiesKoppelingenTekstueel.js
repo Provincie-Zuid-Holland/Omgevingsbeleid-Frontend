@@ -26,7 +26,6 @@ function RelatiesKoppelingenTekstueel({
     connectionPropertiesColors,
     verordeningsStructure,
 }) {
-    console.log(verordeningsStructure)
     if (!beleidsObject) return null
 
     const hasKoppelingen = connectionProperties.some((prop) => {
@@ -94,9 +93,8 @@ function RelatiesKoppelingenTekstueel({
                         </h3>
                         <ul className="mt-2">
                             {beleidsRelaties.map((beleidsrelatie) => {
-                                const relationObject = getObjectFromRelation(
-                                    beleidsrelatie
-                                )
+                                const relationObject =
+                                    getObjectFromRelation(beleidsrelatie)
 
                                 if (!relationObject) return null
 

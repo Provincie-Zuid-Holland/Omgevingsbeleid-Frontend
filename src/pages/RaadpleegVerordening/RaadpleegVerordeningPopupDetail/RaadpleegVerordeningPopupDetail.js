@@ -40,7 +40,7 @@ const RaadpleegVerordeningPopupDetail = ({
                 Artikel {activeArticle.Volgnummer}
             </Heading>
             <div className="grid grid-cols-2 gap-x-10">
-                <div className="col-span-1">
+                <div className="col-span-2 sm:col-span-1">
                     <Heading
                         level="3"
                         className="font-bold"
@@ -68,18 +68,18 @@ const RaadpleegVerordeningPopupDetail = ({
                         <Text className="mt-4">{activeArticle.Inhoud}</Text>
                     )}
                 </div>
-                <div className="col-span-1">
+                <div className="col-span-2 sm:col-span-1">
                     <div>
                         <Heading
                             level="3"
-                            className="font-bold"
+                            className="mt-6 font-bold sm:mt-0"
                             color="text-pzh-green"
                         >
                             Werkingsgebied
                         </Heading>
                         {articleHasChildren ? (
                             <div
-                                className="flex items-center justify-center mt-4 rounded-md bg-pzh-cool-gray-light bg-opacity-20"
+                                className="flex items-center justify-center mt-4 text-center rounded-md bg-pzh-cool-gray-light bg-opacity-20"
                                 style={{ height: "400px" }}
                             >
                                 {activeChild ? (
@@ -88,13 +88,15 @@ const RaadpleegVerordeningPopupDetail = ({
                                         gebiedUUID={activeArticle.Gebied}
                                     />
                                 ) : (
-                                    <Text
-                                        type="body"
-                                        color="text-pzh-cool-gray-dark"
-                                    >
-                                        Klik op een lid om te zien waar dit lid
-                                        van toepassing is
-                                    </Text>
+                                    <div className="p-4">
+                                        <Text
+                                            type="body"
+                                            color="text-pzh-cool-gray-dark"
+                                        >
+                                            Klik op een lid om te zien waar dit
+                                            lid van toepassing is
+                                        </Text>
+                                    </div>
                                 )}
                             </div>
                         ) : (
@@ -114,11 +116,16 @@ const RaadpleegVerordeningPopupDetail = ({
                         >
                             Koppelingen
                         </Heading>
+                        <ArticleConnections activeArticle={activeArticle} />
                     </div>
                 </div>
             </div>
         </Modal>
     )
+}
+
+const ArticleConnections = ({ activeArticle }) => {
+    return <div></div>
 }
 
 export default RaadpleegVerordeningPopupDetail

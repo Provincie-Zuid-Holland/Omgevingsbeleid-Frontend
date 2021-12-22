@@ -19,6 +19,7 @@ const RaadpleegObjectDetailMain = ({
     dataLoaded,
     dataObject,
     titleSingular,
+    children,
 }) => {
     // Boolean to toggle the large view
     const [fullscreenLeafletViewer, setFullscreenLeafletViewer] =
@@ -62,8 +63,8 @@ const RaadpleegObjectDetailMain = ({
     const werkingsGebiedUUID = getWerkingsgbiedUUID(hasWerkingsGebied)
 
     return (
-        <main className="col-span-6 lg:mt-8 lg:col-span-4">
-            <div>
+        <main className="col-span-6 mt-6 xl:mt-8 xl:col-span-4 xl:mt-0">
+            <div className="hidden xl:block">
                 <Heading
                     level="3"
                     className="font-bold"
@@ -79,6 +80,7 @@ const RaadpleegObjectDetailMain = ({
                     {dataObject ? dataObject.Titel : null}
                 </Heading>
             </div>
+            <div className="hidden xl:block">{children}</div>
             {/* These contain the fields that need to be displayed for the different objects */}
             <div
                 className={`mt-4 ${

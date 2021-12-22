@@ -12,6 +12,7 @@ import VERORDENING from "./../../constants/verordeningen"
 
 import useURLQuery from "../../utils/useURLQuery"
 import { useWindowSize } from "../../utils/useWindowSize"
+
 import RaadpleegVerordeningSidebar from "./RaadpleegVerordeningSidebar"
 import RaadpleegVerordeningPopupDetail from "./RaadpleegVerordeningPopupDetail"
 

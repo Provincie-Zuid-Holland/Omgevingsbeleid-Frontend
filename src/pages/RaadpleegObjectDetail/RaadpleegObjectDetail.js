@@ -9,14 +9,17 @@ import LoaderContent from "../../components/LoaderContent"
 import RelatiesKoppelingen from "../../components/RelatiesKoppelingen"
 import Container from "../../components/Container"
 import Footer from "../../components/Footer"
+import Heading from "../../components/Heading"
 
 import RaadpleegObjectDetailHead from "./RaadpleegObjectDetailHead"
 import RaadpleegObjectDetailSidebar from "./RaadpleegObjectDetailSidebar"
 import RaadpleegObjectDetailMain from "./RaadpleegObjectDetailMain"
 import TableOfContents from "./TableOfContents"
+import RaadpleegObjectDetailNewVersionNotification from "./RaadpleegObjectDetailNewVersionNotification"
 
 import { prepareRevisions } from "../../utils/prepareRevisions"
 import handleError from "../../utils/handleError"
+import BackButton from "../../components/BackButton"
 
 /**
  * A detail page for policy objects.
@@ -110,17 +113,36 @@ const RaadpleegObjectDetail = ({ dataModel }) => {
                 dataObject={dataObject}
             />
             <Container id="raadpleeg-detail-container-main" className="mb-32">
+                <div className="block col-span-6 xl:hidden">
+                    <BackButton className="block xl:hidden" />
+                    <Heading
+                        level="3"
+                        className="font-bold"
+                        color="text-pzh-blue-dark"
+                    >
+                        {titleSingular}
+                    </Heading>
+                    <RaadpleegObjectDetailNewVersionNotification
+                        titleSingular={titleSingular}
+                        dataObject={dataObject}
+                    />
+                    <Heading level="1" color="text-pzh-blue" className="mt-4">
+                        {dataObject ? dataObject.Titel : null}
+                    </Heading>
+                </div>
                 <RaadpleegObjectDetailSidebar
                     titleSingular={titleSingular}
                     revisionObjects={revisionObjects}
                     dataObject={dataObject}
                 />
+                <TableOfContents display="block" />
                 <RaadpleegObjectDetailMain
                     dataLoaded={dataLoaded}
                     dataObject={dataObject}
                     titleSingular={titleSingular}
                 />
-                <TableOfContents />
+                <TableOfContents display="fixed" />
+                {/* <TableOfContents /> */}
             </Container>
             {dataLoaded ? (
                 <RelatiesKoppelingen

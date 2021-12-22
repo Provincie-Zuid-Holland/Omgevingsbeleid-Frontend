@@ -19,7 +19,7 @@ const Werkingsgebied = ({
                     Werkingsgebied
                 </h2>
                 <span
-                    className="px-2 text-xs cursor-pointer"
+                    className="hidden px-2 text-xs cursor-pointer md:block"
                     onClick={() =>
                         setFullscreenLeafletViewer(!fullscreenLeafletViewer)
                     }

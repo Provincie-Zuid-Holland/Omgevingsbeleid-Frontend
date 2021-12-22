@@ -14,8 +14,7 @@ function RaadpleegVerordeningSidebar({ verordening }) {
     const windowSize = useWindowSize()
 
     const sidebarContainer = React.useRef(null)
-
-    const [isOpen, setIsOpen] = React.useState(windowSize.width > 1028)
+    const [isOpen, setIsOpen] = React.useState(() => windowSize.width > 1028)
     useLockBodyScroll({ modalOpen: isOpen && windowSize.width < 1028 })
 
     const [sidebarStyle, setSidebarStyle] = React.useState({})
@@ -32,15 +31,17 @@ function RaadpleegVerordeningSidebar({ verordening }) {
 
     /** Effect for sidebarStyle */
     React.useEffect(() => {
-        if (windowSize.width < 1028) {
+        if (windowSize.width && windowSize.width < 1028) {
             setSidebarStyle({
                 left: 0,
                 top: 150,
                 width: "100vw",
                 height: "calc(100vh - 150px)",
             })
-        } else {
-            if (!isOpen) setIsOpen(true)
+        } else if (windowSize.width) {
+            if (!isOpen) {
+                setIsOpen(true)
+            }
 
             const container = sidebarContainer.current
             const containerOffsetTop = container.offsetTop
@@ -71,7 +72,7 @@ function RaadpleegVerordeningSidebar({ verordening }) {
                 style={buttonStyle}
                 id="small-screen-verordening-nav"
                 onClick={() => setIsOpen(!isOpen)}
-                className="fixed left-0 z-50 flex items-center justify-center w-full py-2 text-lg transition-colors duration-150 ease-in border-b cursor-pointer lg:hidden hover:bg-gray-50"
+                className="fixed left-0 z-50 flex items-center justify-center w-full py-2 text-lg transition-colors duration-150 ease-in bg-white border-t border-b cursor-pointer lg:hidden hover:bg-gray-50"
             >
                 <FontAwesomeIcon icon={faBars} className="mr-2 text-pzh-blue" />
                 <span className="mt-1 font-bold text-pzh-blue">Inhoud</span>

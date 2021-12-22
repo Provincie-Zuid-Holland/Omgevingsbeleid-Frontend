@@ -17,57 +17,67 @@ const RaadpleegObjectDetailSidebar = ({
     return (
         <aside
             id="raadpleeg-detail-container-content"
-            className="col-span-6 pt-4 lg:col-span-1 lg:pt-8"
+            className="col-span-6 pt-4 xl:col-span-1 xl:pt-8"
         >
-            <BackButton />
-            <div>
-                <Text
-                    type="span"
-                    className="block font-bold"
-                    color="text-pzh-blue-dark"
-                >
-                    Type
-                </Text>
-                <Text type="span" color="text-pzh-blue-dark" className="block">
-                    {titleSingular}
-                </Text>
-            </div>
-            <div className="mt-4">
-                <Text
-                    type="span"
-                    className="block font-bold"
-                    color="text-pzh-blue-dark"
-                >
-                    Status
-                </Text>
-                <Text type="span" color="text-pzh-blue-dark" className="block">
-                    {vigerendText}
-                </Text>
-            </div>
-            {revisionObjects?.length > 0 ? (
-                <div className="mt-4">
+            <BackButton className="hidden xl:block" />
+            <div className="flex justify-between xl:block">
+                <div className="hidden xl:block">
                     <Text
                         type="span"
                         className="block font-bold"
                         color="text-pzh-blue-dark"
                     >
-                        Revisies
+                        Type
                     </Text>
-                    <PopUpRevisionContainer
-                        dataObject={dataObject}
-                        titleSingular={titleSingular}
-                        revisionObjects={revisionObjects}
+                    <Text
+                        type="span"
+                        color="text-pzh-blue-dark"
+                        className="block"
                     >
-                        {revisionObjects.map((item, index) => (
-                            <RevisieListItem
-                                currentUUID={id}
-                                item={item}
-                                key={item.UUID}
-                            />
-                        ))}
-                    </PopUpRevisionContainer>
+                        {titleSingular}
+                    </Text>
                 </div>
-            ) : null}
+                <div className="mt-4 sm:mt-0 xl:mt-4">
+                    <Text
+                        type="span"
+                        className="hidden block font-bold xl:block"
+                        color="text-pzh-blue-dark"
+                    >
+                        Status
+                    </Text>
+                    <Text
+                        type="span"
+                        color="text-pzh-blue-dark"
+                        className="block"
+                    >
+                        {vigerendText}
+                    </Text>
+                </div>
+                {revisionObjects?.length > 0 ? (
+                    <div className="text-right xl:mt-4 xl:text-left">
+                        <Text
+                            type="span"
+                            className="hidden block font-bold xl:block"
+                            color="text-pzh-blue-dark"
+                        >
+                            Revisies
+                        </Text>
+                        <PopUpRevisionContainer
+                            dataObject={dataObject}
+                            titleSingular={titleSingular}
+                            revisionObjects={revisionObjects}
+                        >
+                            {revisionObjects.map((item, index) => (
+                                <RevisieListItem
+                                    currentUUID={id}
+                                    item={item}
+                                    key={item.UUID}
+                                />
+                            ))}
+                        </PopUpRevisionContainer>
+                    </div>
+                ) : null}
+            </div>
         </aside>
     )
 }

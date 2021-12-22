@@ -3,8 +3,12 @@ import { Disclosure } from "@headlessui/react"
 import { faPlus } from "@fortawesome/pro-solid-svg-icons"
 import { faClock } from "@fortawesome/pro-regular-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { Link } from "react-router-dom"
+import { useQuery } from "react-query"
 
 import imageInBewerking from "./../../images/in-bewerking.png"
+
+import axios from "./../../API/axios"
 
 import Footer from "./../../components/Footer"
 import Container from "./../../components/Container"
@@ -12,9 +16,13 @@ import HorizontalDivider from "./../../components/HorizontalDivider"
 import Button from "./../../components/Button"
 import Heading from "./../../components/Heading"
 import Text from "./../../components/Text"
-import { Link } from "react-router-dom"
+import LoaderCard from "../../components/LoaderCard"
 
 function RaadpleegInProgress() {
+    const { isLoading, data: edits } = useQuery("/edits", () =>
+        axios.get("/edits").then((res) => res.data)
+    )
+
     return (
         <div>
             <Container className="overflow-hidden">
@@ -62,7 +70,7 @@ function RaadpleegInProgress() {
                     kan eenvoudig worden gesorteerd door op het kopje van de
                     kolom te drukken.
                 </Text>
-                <TableLatestEdits />
+                <TableLatestEdits edits={edits} isLoading={isLoading} />
             </Container>
             <HorizontalDivider />
             <Container className="py-12">
@@ -210,95 +218,100 @@ const Dropdown = ({ buttonText, panelText }) => {
     )
 }
 
-function TableLatestEdits() {
-    const latestEdits = [
-        {
-            title: "De provincie Zuid-Holland draagt bij aan het behoud van de wereldpositie die de Rotterdamse haven bezit",
-            type: "Beleidskeuze",
-            link: "#",
-            status: "In Ontwerp",
-            bewerkt: "Dinsdag 1 juni 2021",
-        },
-        {
-            title: "De provincie stimuleert een ‘waterrobuuste’ ruimtelijke inrichting. Het doel daarvan is om de gevolgschade en hersteltijd bij een eventuel...",
-            type: "Beleidskeuze",
-            status: "Vastgesteld",
-            bewerkt: "Dinsdag 1 juni 2021",
-        },
-    ]
-
-    return (
-        <div className="flex flex-col col-span-6 pb-12 mt-4">
-            <div className="overflow-x-auto">
-                <div className="inline-block min-w-full py-2 align-middle">
-                    <div className="overflow-hidden">
-                        <table className="table-fixed">
-                            <thead className="border-b border-gray-300">
-                                <tr>
-                                    <th
-                                        scope="col"
-                                        className="w-2/5 py-3 pr-6 font-bold text-left text-pzh-blue-dark"
-                                    >
-                                        Titel
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        className="w-1/5 px-6 py-3 font-bold text-left text-pzh-blue-dark"
-                                    >
-                                        Type
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        className="w-1/5 px-6 py-3 font-bold text-left text-pzh-blue-dark"
-                                    >
-                                        Laatste Status
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        className="w-1/5 px-6 py-3 font-bold text-left text-pzh-blue-dark"
-                                    >
-                                        Laatst bewerkt
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {latestEdits.map(
-                                    (policyObject, policyObjectIdx) => (
+function TableLatestEdits({ edits = [], isLoading }) {
+    if (isLoading) {
+        return (
+            <div className="col-span-6 my-8">
+                <LoaderCard mb="mb-2" height="30" />
+                <LoaderCard mb="mb-2" height="60" />
+                <LoaderCard mb="mb-2" height="60" />
+                <LoaderCard mb="mb-2" height="60" />
+            </div>
+        )
+    } else {
+        return (
+            <div className="flex flex-col col-span-6 pb-12 mt-4">
+                <div className="overflow-x-auto">
+                    <div className="inline-block min-w-full py-2 align-middle">
+                        <div className="overflow-hidden">
+                            <table className="table-fixed">
+                                <thead className="border-b border-gray-300">
+                                    <tr>
+                                        <th
+                                            scope="col"
+                                            className="w-2/5 py-3 pr-6 font-bold text-left text-pzh-blue-dark"
+                                        >
+                                            Titel
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            className="w-1/5 px-6 py-3 font-bold text-left text-pzh-blue-dark"
+                                        >
+                                            Type
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            className="w-1/5 px-6 py-3 font-bold text-left text-pzh-blue-dark"
+                                        >
+                                            Laatste Status
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            className="w-1/5 px-6 py-3 font-bold text-left text-pzh-blue-dark"
+                                        >
+                                            Laatst bewerkt
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {edits.map((policyObject, index) => (
                                         <tr
-                                            key={policyObject.title}
+                                            key={policyObject.UUID}
                                             className="border-b border-gray-300"
                                         >
                                             <td className="py-4 pr-6 text-gray-800">
-                                                {policyObject.link ? (
+                                                {policyObject.UUID ? (
                                                     <Link
-                                                        to={policyObject.link}
+                                                        to={policyObject.UUID}
                                                         className="underline text-pzh-green hover:text-pzh-green-dark"
                                                     >
-                                                        {policyObject.title}
+                                                        {policyObject.Titel}
                                                     </Link>
                                                 ) : (
-                                                    policyObject.title
+                                                    policyObject.Titel
                                                 )}
                                             </td>
                                             <td className="px-6 py-4 text-gray-800">
-                                                {policyObject.type}
+                                                {policyObject.Type}
                                             </td>
                                             <td className="px-6 py-4 text-gray-800">
-                                                {policyObject.status}
+                                                {policyObject.Status}
                                             </td>
                                             <td className="px-6 py-4 text-gray-800">
-                                                {policyObject.bewerkt}
+                                                {new Intl.DateTimeFormat(
+                                                    "nl-NL",
+                                                    {
+                                                        weekday: "long",
+                                                        year: "numeric",
+                                                        month: "long",
+                                                        day: "numeric",
+                                                    }
+                                                ).format(
+                                                    new Date(
+                                                        policyObject.Modified_Date
+                                                    )
+                                                )}
                                             </td>
                                         </tr>
-                                    )
-                                )}
-                            </tbody>
-                        </table>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    )
+        )
+    }
 }
 
 export default RaadpleegInProgress

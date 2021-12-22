@@ -21,7 +21,11 @@ function RevisieListItem({ item, currentUUID }) {
     const isActive = item.UUID === currentUUID
 
     return (
-        <li className={`bg-white ${isActive ? "" : "hover:bg-gray-100"}`}>
+        <li
+            className={`bg-white ${
+                isActive ? "" : "hover:bg-pzh-blue hover:bg-opacity-5"
+            }`}
+        >
             <Link
                 className={`inline-block py-3 ${
                     isActive ? "cursor-default" : ""
