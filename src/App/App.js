@@ -25,7 +25,6 @@ import RaadpleegDigiToegankelijkheid from "./../pages/RaadpleegDigiToegankelijkh
 import RaadpleegInProgress from "./../pages/RaadpleegInProgress"
 import Login from "./../pages/Login"
 import Planning from "./../pages/Planning"
-import RaadpleegTerinzageleggingen from "../pages/RaadpleegTerinzageleggingen"
 
 // Import Components
 import FeedbackComponent from "./../components/FeedbackComponent"
@@ -368,12 +367,12 @@ class App extends Component {
                                                 <RaadpleegDigiToegankelijkheid />
                                             )}
                                         />
-                                        <Route
+                                        {/* <Route
                                             path="/terinzageleggingen"
                                             render={() => (
                                                 <RaadpleegTerinzageleggingen />
                                             )}
-                                        />
+                                        /> */}
                                         <Route
                                             path="/in-bewerking"
                                             render={() => (
