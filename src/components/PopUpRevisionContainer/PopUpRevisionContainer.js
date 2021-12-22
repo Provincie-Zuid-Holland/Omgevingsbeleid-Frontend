@@ -1,14 +1,13 @@
 import React from "react"
 import { useParams } from "react-router-dom"
-import { faClock } from "@fortawesome/pro-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Transition } from "@headlessui/react"
 import { faChevronRight } from "@fortawesome/pro-regular-svg-icons"
+import { faHistory } from "@fortawesome/pro-light-svg-icons"
 
 import PopupRevisionOverview from "./../PopupRevisionOverview"
 
-import useClickOutsideContainer from "./../../utils/useClickOutsideContainer"
-import useCloseWithEscapeKey from "./../../utils/useCloseWithEscapeKey"
+import Modal from "../Modal"
+import Heading from "../Heading"
 
 /**
  * Displays revisions in a timeline form and a overview of revisions.
@@ -25,12 +24,9 @@ const PopUpRevisionContainer = ({
     children,
 }) => {
     const [open, setOpen] = React.useState(false)
-    const [revisionOverviewOpen, setRevisionOverviewOpen] = React.useState(
-        false
-    )
+    const [revisionOverviewOpen, setRevisionOverviewOpen] =
+        React.useState(false)
     const amountOfRevisions = revisionObjects ? revisionObjects.length : 0
-
-    const innerContainer = React.useRef(null)
 
     let { id } = useParams()
 
@@ -38,22 +34,14 @@ const PopUpRevisionContainer = ({
         setOpen(false)
     }, [id])
 
-    useClickOutsideContainer(innerContainer, () => {
-        setOpen(false)
-    })
-
-    useCloseWithEscapeKey(innerContainer, () => {
-        setOpen(false)
-    })
-
     const getAmountText = (amountOfRevisions) => {
         if (amountOfRevisions === 1) return "Geen revisies"
         return amountOfRevisions + " revisies"
     }
 
     return (
-        <div className="relative inline-block" ref={innerContainer}>
-            <div className="z-10 inline-block mr-3 text-sm text-gray-600">
+        <div className="relative inline-block">
+            <div className="z-10 inline-block text-pzh-blue-dark">
                 <span
                     onClick={() => {
                         if (amountOfRevisions > 1) {
@@ -62,12 +50,17 @@ const PopUpRevisionContainer = ({
                     }}
                     className={`${
                         amountOfRevisions > 1 ? "cursor-pointer" : ""
-                    } select-none`}
+                    } select-none flex items-center group`}
                 >
-                    <FontAwesomeIcon className="mr-2" icon={faClock} />
+                    <FontAwesomeIcon
+                        className="mr-2 -mt-1 text-base "
+                        icon={faHistory}
+                    />
                     <span
                         className={
-                            amountOfRevisions > 1 ? "hover:underline" : ""
+                            amountOfRevisions > 1
+                                ? "underline group-hover:text-pzh-green-dark transition-colors duration-300 ease-in text-pzh-green"
+                                : ""
                         }
                     >
                         {getAmountText(amountOfRevisions)}
@@ -115,21 +108,26 @@ const PopupRevisionTimeline = ({
     revisionObjects,
 }) => {
     return (
-        <Transition
-            show={open}
-            enter="transition ease-out duration-150 transform"
-            enterFrom="-translate-y-1 scale-95"
-            enterTo="translate-y-0 scale-100"
-            leave="transition ease-in duration-100 transform"
-            leaveFrom="translate-y-0 scale-100"
-            leaveTo="-translate-y-1 scale-95"
+        <Modal
+            open={open}
+            close={() => setOpen(false)}
+            maxWidth="max-w-sm"
+            containerPadding="p-0"
         >
-            <div className="absolute left-0 z-20 w-64 mt-3 -ml-24 text-gray-700 bg-white rounded main-tooltip-container">
+            <div>
+                <div className="p-6 pb-0">
+                    <Heading level="3" color="text-pzh-blue-dark">
+                        Versies van dit beleid
+                    </Heading>
+                </div>
                 <div
-                    className="relative h-full overflow-y-auto"
+                    className="relative h-full pl-6 mt-3 overflow-y-auto"
                     style={{ maxHeight: "50vh" }}
                 >
-                    <div className="absolute top-0 z-0 w-1 h-full ml-5 border-l border-gray-300" />
+                    <div
+                        className="absolute top-0 z-0 w-1 h-full ml-5 border-l border-gray-300"
+                        style={{ height: "calc(100% - 25px)", top: "25px" }}
+                    />
                     <ul className="pl-5">{revisionListItems}</ul>
                 </div>
 
@@ -141,14 +139,14 @@ const PopupRevisionTimeline = ({
                             setOpen(false)
                             setRevisionOverviewOpen(true)
                         }}
-                        className="flex items-center justify-between px-5 py-3 transition-colors duration-100 ease-in border-t border-gray-300 cursor-pointer hover:bg-gray-100"
+                        className="flex items-center justify-between px-6 py-3 transition-colors duration-100 ease-in border-t border-gray-300 cursor-pointer text-pzh-green hover:text-pzh-green-dark hover:bg-pzh-blue hover:bg-opacity-5"
                     >
-                        <span>Vergelijken</span>
+                        <span className="underline">Vergelijk versies</span>
                         <FontAwesomeIcon icon={faChevronRight} />
                     </div>
                 ) : null}
             </div>
-        </Transition>
+        </Modal>
     )
 }
 
