@@ -5,6 +5,8 @@
  * @returns {object[]} - Returns the filtered [links, nodes]
  */
 const getFilteredData = (data, filters) => {
+    if (!data || !data.links || !data.nodes) return [null, null]
+
     const links = data.links
     const nodes = data.nodes
 
