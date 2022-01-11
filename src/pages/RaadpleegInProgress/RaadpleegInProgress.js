@@ -1,10 +1,16 @@
 import React from "react"
 import { Disclosure } from "@headlessui/react"
-import { faPlus } from "@fortawesome/pro-solid-svg-icons"
-import { faClock } from "@fortawesome/pro-regular-svg-icons"
+import { faPlus, faInfoCircle } from "@fortawesome/pro-solid-svg-icons"
+import {
+    faClock,
+    faSortAmountDownAlt,
+    faSortAmountUpAlt,
+} from "@fortawesome/pro-regular-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Link } from "react-router-dom"
 import { useQuery } from "react-query"
+import Tippy from "@tippyjs/react"
+import "tippy.js/dist/tippy.css"
 
 import imageInBewerking from "./../../images/in-bewerking.png"
 
@@ -20,7 +26,11 @@ import LoaderCard from "../../components/LoaderCard"
 
 function RaadpleegInProgress() {
     const { isLoading, data: edits } = useQuery("/edits", () =>
-        axios.get("/edits").then((res) => res.data)
+        axios
+            .get("/edits")
+            .then((res) =>
+                res.data.length > 10 ? res.data.slice(0, 10) : res.data
+            )
     )
 
     return (
@@ -73,7 +83,7 @@ function RaadpleegInProgress() {
                 <TableLatestEdits edits={edits} isLoading={isLoading} />
             </Container>
             <HorizontalDivider />
-            <Container className="py-12">
+            <Container id="besluitvormingsproces" className="py-12">
                 <Heading className="col-span-6" level="2">
                     Besluitvormingsproces
                 </Heading>
@@ -219,6 +229,20 @@ const Dropdown = ({ buttonText, panelText }) => {
 }
 
 function TableLatestEdits({ edits = [], isLoading }) {
+    // ascending descending state
+    const [ascending, setAscending] = React.useState(true)
+
+    const sortedEdits = ascending
+        ? edits.sort(
+              (a, b) => new Date(b.Modified_Date) - new Date(a.Modified_Date)
+          )
+        : edits
+              .sort(
+                  (a, b) =>
+                      new Date(b.Modified_Date) - new Date(a.Modified_Date)
+              )
+              .reverse()
+
     if (isLoading) {
         return (
             <div className="col-span-6 my-8">
@@ -257,14 +281,28 @@ function TableLatestEdits({ edits = [], isLoading }) {
                                         </th>
                                         <th
                                             scope="col"
-                                            className="w-1/5 px-6 py-3 font-bold text-left text-pzh-blue-dark"
+                                            className="w-1/5 px-6 py-3 font-bold text-left cursor-pointer text-pzh-blue-dark"
                                         >
-                                            Laatst bewerkt
+                                            <button
+                                                onClick={() =>
+                                                    setAscending(!ascending)
+                                                }
+                                            >
+                                                Laatst bewerkt{" "}
+                                                <FontAwesomeIcon
+                                                    className={`ml-2 text-base relative -mt-2`}
+                                                    icon={
+                                                        ascending
+                                                            ? faSortAmountDownAlt
+                                                            : faSortAmountUpAlt
+                                                    }
+                                                />
+                                            </button>
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {edits.map((policyObject, index) => (
+                                    {sortedEdits.map((policyObject, index) => (
                                         <tr
                                             key={policyObject.UUID}
                                             className="border-b border-gray-300"
@@ -284,8 +322,11 @@ function TableLatestEdits({ edits = [], isLoading }) {
                                             <td className="px-6 py-4 text-gray-800">
                                                 {policyObject.Type}
                                             </td>
+
                                             <td className="px-6 py-4 text-gray-800">
-                                                {policyObject.Status}
+                                                <StatusComponent
+                                                    policyObject={policyObject}
+                                                />
                                             </td>
                                             <td className="px-6 py-4 text-gray-800">
                                                 {new Intl.DateTimeFormat(
@@ -312,6 +353,38 @@ function TableLatestEdits({ edits = [], isLoading }) {
             </div>
         )
     }
+}
+
+const StatusComponent = ({ policyObject }) => {
+    const [tippyOpen, setTippyOpen] = React.useState(false)
+
+    return (
+        <span onClick={() => setTippyOpen(!tippyOpen)}>
+            {policyObject.Status}{" "}
+            <Tippy
+                visible={tippyOpen}
+                content={
+                    <a
+                        onClick={() => setTippyOpen(false)}
+                        className="text-sm pointer-events-auto"
+                        href="#besluitvormingsproces"
+                    >
+                        <span className="block font-bold">
+                            {policyObject.Status}
+                        </span>
+                        <span className="block">
+                            Bekijk de uitleg en betekenis van statussen{" "}
+                            <span className="underline">hier</span>
+                        </span>
+                    </a>
+                }
+            >
+                <div className="inline-block ml-1 transition-colors duration-500 ease-in cursor-pointer text-pzh-dark-blue opacity-40 hover:opacity-80">
+                    <FontAwesomeIcon icon={faInfoCircle} />
+                </div>
+            </Tippy>
+        </span>
+    )
 }
 
 export default RaadpleegInProgress
