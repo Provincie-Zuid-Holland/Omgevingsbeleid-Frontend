@@ -14,8 +14,19 @@ module.exports = {
         borderWidth: ["hover"],
         borderOpacity: ["hover"],
     },
-    plugins: [require("@tailwindcss/line-clamp")],
+    plugins: [
+        require("@tailwindcss/line-clamp"),
+        require("@tailwindcss/forms"),
+        require("@tailwindcss/custom-forms"),
+    ],
     theme: {
+        screens: {
+            sm: "640px",
+            md: "768px",
+            lg: "1024px",
+            xl: "1280px",
+            "2xl": "1440px",
+        },
         fontSize: {
             xs: "0.75rem",
             sm: "0.875rem",
@@ -28,14 +39,9 @@ module.exports = {
             "5xl": "3rem",
             "6xl": "4rem",
         },
-        screens: {
-            sm: "640px",
-            md: "768px",
-            lg: "1024px",
-            xl: "1280px",
-        },
         colors: {
             white: "#FFF",
+            "pzh-form": "#F4F4F7",
             gray: {
                 50: "#f9fafb",
                 100: "#f7fafc",

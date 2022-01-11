@@ -44,7 +44,7 @@ const PopUpDetailDropdown = ({
 
     const removeFromModules = async () => {
         const confirm = window.confirm(
-            `Weet u zeker dat u '${dataObject.Titel}' wilt verwijderen uit de module?`
+            `Weet je zeker dat je '${dataObject.Titel}' wil verwijderen uit de module?`
         )
         if (!confirm) return
 
@@ -92,9 +92,10 @@ const PopUpDetailDropdown = ({
         )
             .then((res) => {
                 res.forEach((response) => {
-                    dataObject.Ref_Beleidsmodules = dataObject.Ref_Beleidsmodules.filter(
-                        (module) => response.ID !== module.ID
-                    )
+                    dataObject.Ref_Beleidsmodules =
+                        dataObject.Ref_Beleidsmodules.filter(
+                            (module) => response.ID !== module.ID
+                        )
                 })
 
                 if (setDataObject) {

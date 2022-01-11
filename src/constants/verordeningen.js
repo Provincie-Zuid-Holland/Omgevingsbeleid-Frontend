@@ -9,7 +9,7 @@ const TITLE_PLURAL = "Verordeningen"
 const API_ENDPOINT = "verordeningen"
 const SLUG_OVERVIEW = "verordeningen"
 
-export default {
+const VERORDENING = {
     SLUG_OVERVIEW,
     TITLE_SINGULAR,
     TITLE_PLURAL,
@@ -20,3 +20,5 @@ export default {
     AFDELING,
     HOOFDSTUK,
 }
+
+export default VERORDENING

@@ -1,6 +1,6 @@
 import React from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faSearch } from "@fortawesome/pro-regular-svg-icons"
+import { faSearch } from "@fortawesome/pro-light-svg-icons"
 import { Transition } from "@headlessui/react"
 
 import useClickOutsideContainer from "./../../utils/useClickOutsideContainer"

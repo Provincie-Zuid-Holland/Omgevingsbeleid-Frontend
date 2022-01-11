@@ -39,7 +39,6 @@ const ViewFieldIngelogdExtraInfo = ({ crudObject, hideEdit, className }) => {
                 newEigenaren[property] = crudObject[property]
                 return { [property]: crudObject[property] }
             })
-
         setEigenaren(newEigenaren)
     }, [crudObject])
 
@@ -123,6 +122,8 @@ const ViewFieldIngelogdExtraInfo = ({ crudObject, hideEdit, className }) => {
  * @param {object} eigenaren - Contains a collection of owners.
  */
 const EigenarenList = ({ eigenaren }) => {
+    if (Object.keys(eigenaren).length === 0) return null
+
     const getUsername = (item) => {
         if (!item) return null
         return item.Gebruikersnaam

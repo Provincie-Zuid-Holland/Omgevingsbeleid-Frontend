@@ -175,7 +175,7 @@ function MuteerBeleidsmodulesOverview() {
                                     <tbody>
                                         {policies.length === 0 ? (
                                             <span className="block px-3 py-4 text-sm font-medium text-gray-700">
-                                                U heeft nog geen beleid in de
+                                                Je hebt nog geen beleid in de
                                                 module.
                                             </span>
                                         ) : (

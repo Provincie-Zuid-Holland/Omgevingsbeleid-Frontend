@@ -221,9 +221,8 @@ const RelatiesKoppelingenVisualisatie = ({
                 // Activate display
                 tooltip.style("display", "block")
 
-                const tooltipTitleEl = document.getElementById(
-                    "d3-tooltip-title"
-                )
+                const tooltipTitleEl =
+                    document.getElementById("d3-tooltip-title")
                 tooltipTitleEl.innerHTML = d.name
 
                 const tooltipEl = document.getElementById("d3-tooltip")
@@ -273,7 +272,9 @@ const RelatiesKoppelingenVisualisatie = ({
                 const circleWidth = 24
                 const { x, y } = this.getBoundingClientRect()
                 const xPos = x - tooltipWidth / 2 + circleWidth / 2 //Center tooltip in the middle
-                const yPos = y + 35 + window.pageYOffset
+                const navigationOffset = 90
+                const yPos =
+                    y + window.pageYOffset - navigationOffset + circleWidth
 
                 setVariables({
                     left: xPos,
@@ -299,7 +300,7 @@ const RelatiesKoppelingenVisualisatie = ({
     }, [data, location.pathname, verordeningsStructure])
 
     return (
-        <div className="flex">
+        <div className="flex flex-col md:flex-row">
             <div className="flex flex-col justify-between w-full">
                 <div>
                     <h3 className="font-bold text-gray-800">

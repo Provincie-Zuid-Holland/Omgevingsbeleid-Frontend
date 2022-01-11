@@ -1,8 +1,4 @@
-import {
-    render,
-    screen,
-    waitForElementToBeRemoved,
-} from "@testing-library/react"
+import { render, screen } from "@testing-library/react"
 import "@testing-library/jest-dom"
 import React from "react"
 import { MemoryRouter } from "react-router-dom"
@@ -29,14 +25,6 @@ describe("NavigationPopupMenu", () => {
     it("Component renders", () => {
         setup()
         const element = screen.getByText("Omgevingsvisie")
-        expect(element).toBeTruthy()
-    })
-
-    it("Component displays objects after API response", async () => {
-        setup()
-        const element = await screen.findByText(
-            "1. Samen werken aan Zuid-Holland Bewerkt"
-        )
         expect(element).toBeTruthy()
     })
 })

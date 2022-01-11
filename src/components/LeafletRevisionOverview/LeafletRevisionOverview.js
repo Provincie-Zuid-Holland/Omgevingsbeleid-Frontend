@@ -1,19 +1,9 @@
 import React, { Component } from "react"
+import { Map, TileLayer, LayersControl } from "react-leaflet"
 import axios from "axios"
 import Leaflet from "leaflet"
-import { Map, TileLayer, LayersControl } from "react-leaflet"
 import { toast } from "react-toastify"
-import LoaderLeafletTinyViewer from "./../LoaderLeafletTinyViewer"
-import LeafletController from "./../LeafletController"
 import { Transition } from "@headlessui/react"
-
-import {
-    RDCrs,
-    tileURL,
-    tileURLSattelite,
-    leafletCenter,
-} from "./../../constants/leaflet"
-
 import {
     faLayerGroup,
     faAngleRight,
@@ -23,6 +13,16 @@ import {
     faEyeSlash,
 } from "@fortawesome/pro-regular-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+
+import LoaderLeafletTinyViewer from "./../LoaderLeafletTinyViewer"
+import LeafletController from "./../LeafletController"
+
+import {
+    RDCrs,
+    tileURL,
+    tileURLSattelite,
+    leafletCenter,
+} from "./../../constants/leaflet"
 
 const colors = [
     "#f56565", // .bg-red-500

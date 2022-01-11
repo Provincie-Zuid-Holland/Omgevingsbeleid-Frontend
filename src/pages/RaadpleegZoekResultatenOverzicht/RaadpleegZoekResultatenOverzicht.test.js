@@ -48,12 +48,7 @@ describe("RaadpleegZoekResultatenOverzicht", () => {
     it("Component renders", async () => {
         setup()
 
-        await waitForElementToBeRemoved(() => screen.queryByRole("img"))
-
-        await waitFor(() => {
-            expect(
-                screen.getByText(`Zoekresultaten voor "Water"`)
-            ).toBeInTheDocument()
-        })
+        await waitForElementToBeRemoved(() => screen.queryAllByRole("img"))
+        screen.getByText(`Waterveiligheid en wateroverlast`)
     })
 })

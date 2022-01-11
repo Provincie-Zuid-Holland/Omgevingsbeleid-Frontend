@@ -18,7 +18,7 @@ const hasInvalidValue = (date) => {
  * @param {Object} props
  * @param {Object} props.dataObject - The object that contains the date properties
  * @param {boolean} props.prefix - Boolean if the date text should be returned with a prefix
- * @param {boolean} props.prefixOnly - The object that contains the date properties
+ * @param {boolean} props.prefixOnly - Returns only the prefix
  * @returns Returns the text that indicates when an object has become valid
  */
 const getVigerendText = ({

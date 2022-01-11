@@ -89,23 +89,31 @@ function FormFieldContainerMaatregelen({
                     />
                     <FormFieldRichTextEditor
                         disabled={isVigerend}
-                        editorFormats={["bold", "header", "list", "image"]}
-                        titleSingular={titleSingular}
-                        initialValue={initialValueToelichting}
-                        handleChange={handleChange}
-                        fieldValue={crudObject["Toelichting"]}
-                        dataObjectProperty="Toelichting"
-                        placeholder="Schrijf hier uw omschrijving..."
+                        editorFormats={[
+                            "bold",
+                            "italic",
+                            "header",
+                            "list",
+                            "image",
+                        ]}
                         editorToolbar={
                             isVigerend
                                 ? []
                                 : [
                                       { header: 2 },
                                       "bold",
+                                      "italic",
                                       { list: "bullet" },
+                                      { list: "ordered" },
                                       "image",
                                   ]
                         }
+                        titleSingular={titleSingular}
+                        initialValue={initialValueToelichting}
+                        handleChange={handleChange}
+                        fieldValue={crudObject["Toelichting"]}
+                        dataObjectProperty="Toelichting"
+                        placeholder="Schrijf hier uw omschrijving..."
                     />
                 </FormFieldInputContainer>
             </ContainerFormSection>

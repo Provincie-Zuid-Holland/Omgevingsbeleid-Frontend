@@ -1,8 +1,14 @@
 import React from "react"
-import { Helmet } from "react-helmet"
+import { Link } from "react-router-dom"
 
 // Import Components
 import LoginForm from "./../../components/LoginForm"
+import Heading from "./../../components/Heading"
+import Text from "./../../components/Text"
+import Container from "./../../components/Container"
+import Footer from "./../../components/Footer"
+
+import { useWindowSize } from "../../utils/useWindowSize"
 
 /**
  * Component page that imports the component LoginForm, so the user is able to login the application and reset the password when needed.
@@ -12,25 +18,79 @@ import LoginForm from "./../../components/LoginForm"
  * @param {function} setLoginState Callback to set login state in App component state
  */
 const Login = ({ setLoginUser, setLoginState }) => {
-    return (
-        <div className="container flex flex-wrap mx-auto mt-4 rounded">
-            <Helmet>
-                <title>Login - Omgevingsbeleid - Provincie Zuid-Holland</title>
-            </Helmet>
-            <div className="w-1/2 pb-8 pl-0 pr-10 sm:pl-5">
-                <h1 className="mt-4 mb-2 text-2xl text-pzh-blue">Inloggen</h1>
-                <p>
-                    Als beleidsmedewerker van provincie Zuid-Holland kun je hier
-                    inloggen om te werken aan het Omgevingsbeleid.
-                </p>
+    const windowSize = useWindowSize()
 
-                <LoginForm
-                    setLoginUser={setLoginUser}
-                    setLoginState={setLoginState}
-                />
-            </div>
-            <div className="fixed login-afbeelding" />
-        </div>
+    return (
+        <>
+            <Container
+                style={
+                    windowSize.width > 640
+                        ? {
+                              minHeight: "576px",
+                          }
+                        : null
+                }
+                className="overflow-hidden"
+            >
+                <div className="col-span-6 mt-0 lg:mb-8 lg:col-span-3">
+                    <Heading level="1" className="mt-4 sm:mt-12 lg:mt-16">
+                        Inloggen
+                    </Heading>
+                    <Text type="introduction-paragraph" className="mt-3">
+                        Als beleidsmedewerker van provincie Zuid-Holland kunt u
+                        hier inloggen om te werken aan het Omgevingsbeleid.
+                    </Text>
+                    <LoginForm
+                        setLoginUser={setLoginUser}
+                        setLoginState={setLoginState}
+                    />
+                </div>
+                <div className="relative hidden col-span-3 lg:inline-block">
+                    <div
+                        className={`absolute bg-cover bg-no-repeat bg-center left-0 top-0 h-full image-login-1 text-white sm:inline-block`}
+                        style={{
+                            height: "480px",
+                            width: "calc(50vw)",
+                        }}
+                    />
+                </div>
+            </Container>
+            <div className="block w-full h-64 bg-center bg-no-repeat bg-cover bg-pzh-blue lg:hidden image-login-1"></div>
+
+            <Container className="border-t border-gray-300">
+                <div className="col-span-6 py-4 mt-4 lg:mt-0 lg:py-12 lg:col-span-3">
+                    <Heading level="3">Digitaal Omgevingsbeleid</Heading>
+                    <Text type="body" className="mt-3">
+                        Provincie Zuid-Holland heeft haar beleid eenvoudiger,
+                        transparanter en toegankelijker gemaakt. Via deze
+                        website kan je al het Omgevingsbeleid van de provincie
+                        Zuid-Holland inzien.
+                    </Text>
+                    <Link
+                        className="underline hover:text-pzh-green-dark text-pzh-green"
+                        to="/"
+                    >
+                        Ga naar de raadpleegomgeving
+                    </Link>
+                </div>
+                <div className="col-span-6 py-4 mt-4 mb-4 lg:mt-0 lg:py-12 lg:col-span-3">
+                    <Heading level="3">Hulp bij het inloggen</Heading>
+                    <Text type="body" className="mt-3">
+                        Lukt het niet om in te loggen? Neem contact op met de
+                        afdeling omgevingsbeleid via{" "}
+                        <a
+                            href="mailto:omgevingsbeleid@pzh.nl?subject=Hulp bij het inloggen"
+                            className="underline cursor-pointer hover:text-pzh-green-dark text-pzh-green"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            omgevingsbeleid@pzh.nl
+                        </a>
+                    </Text>
+                </div>
+            </Container>
+            <Footer />
+        </>
     )
 }
 

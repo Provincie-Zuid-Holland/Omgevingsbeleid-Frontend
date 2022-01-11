@@ -1,6 +1,6 @@
 import React from "react"
-import { withRouter, useLocation, useHistory } from "react-router-dom"
-import { faSearch } from "@fortawesome/pro-solid-svg-icons"
+import { useLocation, useHistory } from "react-router-dom"
+import { faSearch } from "@fortawesome/pro-light-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import "url-search-params-polyfill"
 
@@ -10,19 +10,17 @@ import { searchBarFilters } from "./../../constants/searchBarFilters"
 import SearchBarPopupItem from "./../SearchBarPopupItem"
 
 /**
- * Displays a search bar which can be used within a component/page.
- *
- * @param {string} width - Contains the width of the SearchBar component.
- * @param {string} exactWidth - Contains the exact width of the SearchBar component.
- * @param {boolean} compInNavigation - Used to check if the component is in the navbar.
- * @param {string} placeholder - Contains the placeholder value.
+ * @param {string} placeholder - Placeholder text
+ * @param {string} id - Custom ID, defaults to search-query
+ * @param {string} className - custom classNames
+ * @returns SearchBar component that a user can use to search through policies
  */
-const SearchBar = ({ width, componentInNavbar, placeholder, id }) => {
+const SearchBar = ({ placeholder, id = "search-query", className = "" }) => {
     const location = useLocation()
     const history = useHistory()
 
     const [searchQuery, setSearchQuery] = React.useState("")
-    const [searchBarPopupOpen, setSearchBarPopupOpen] = React.useState(true)
+    const [searchBarPopupOpen, setSearchBarPopupOpen] = React.useState(false)
 
     const searchBarRef = React.useRef()
     useClickOutsideContainer(searchBarRef, () => {
@@ -32,6 +30,7 @@ const SearchBar = ({ width, componentInNavbar, placeholder, id }) => {
     const handleKeyDown = (e) => {
         if (e.keyCode === 13) {
             // Enter key
+            if (searchQuery.length === 0) return
             setSearchBarPopupOpen(false)
             history.push(`/zoekresultaten?query=${searchQuery}`)
         } else if (e.key === "Escape") {
@@ -51,24 +50,21 @@ const SearchBar = ({ width, componentInNavbar, placeholder, id }) => {
     }
 
     React.useEffect(() => {
-        // If the component is on the Raadpleeg homepage (not in the navbar)
-        if (!componentInNavbar) {
-            const urlParams = location.search
-            const searchParams = new URLSearchParams(urlParams)
-            const searchQuery = searchParams.get("query")
-            if (searchQuery) {
-                setSearchQuery(searchQuery)
-            }
+        const urlParams = location.search
+        const searchParams = new URLSearchParams(urlParams)
+        const searchQuery = searchParams.get("query")
+        if (searchQuery) {
+            setSearchQuery(searchQuery)
         }
-    }, [componentInNavbar, location])
+    }, [location])
 
     return (
         <div
             ref={searchBarRef}
-            className={`relative block ${width ? width : "w-full"}`}
+            className={`relative block w-full ${className}`}
         >
             <input
-                className={`block w-full pr-10 bg-gray-50 rounded-full appearance-none px-3 py-1 border hover:border-gray-300 border-gray-200 transition-colors ease-in duration-100`}
+                className={`block pl-10 w-full bg-gray-50 rounded appearance-none px-3 border hover:border-opacity-40 border-pzh-blue-dark border-opacity-30 transition-colors ease-in duration-100`}
                 name="searchInput"
                 onChange={(e) => {
                     setSearchQuery(e.target.value)
@@ -78,7 +74,7 @@ const SearchBar = ({ width, componentInNavbar, placeholder, id }) => {
                 }}
                 onClick={() => setSearchBarPopupOpen(true)}
                 autoComplete="off"
-                id={id ? id : "search-query"}
+                id={id}
                 type="text"
                 value={searchQuery}
                 placeholder={
@@ -86,9 +82,10 @@ const SearchBar = ({ width, componentInNavbar, placeholder, id }) => {
                 }
                 onKeyDown={handleKeyDown}
             />
-            <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                 <FontAwesomeIcon
-                    className="ml-2 text-gray-500"
+                    style={{ height: "18px", width: "18px" }}
+                    className="text-pzh-blue-dark"
                     icon={faSearch}
                 />
             </div>
@@ -124,4 +121,4 @@ const SearchBar = ({ width, componentInNavbar, placeholder, id }) => {
         </div>
     )
 }
-export default withRouter(SearchBar)
+export default SearchBar

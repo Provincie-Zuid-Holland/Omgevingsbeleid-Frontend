@@ -8,6 +8,10 @@
 
 @tailwind utilities;
 
+.underline-thin {
+    text-decoration-thickness: 1px;
+}
+
 .form-input {
     -webkit-appearance: none;
     -moz-appearance: none;

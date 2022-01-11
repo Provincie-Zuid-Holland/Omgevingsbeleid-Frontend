@@ -20,10 +20,10 @@ const PopupWelcomeBeta = ({ closePopup }) => {
                 <div className="max-w-xl p-10 pt-5 text-gray-700 bg-white rounded">
                     <div className="block w-full mb-4 text-center">
                         <img
-                            alt="Provincie Zuid-Holland Logo"
                             className="inline-block"
                             style={{ height: "136px" }}
                             src={logoSVG}
+                            alt="Provincie Zuid-Holland Logo"
                         />
                     </div>
                     <h2 className="mt-4 mb-2 text-lg font-bold">

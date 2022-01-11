@@ -1,169 +1,19 @@
 import React, { Component } from "react"
-import { Link } from "react-router-dom"
 import { toast } from "react-toastify"
 import "url-search-params-polyfill"
 
-import { faArrowLeft } from "@fortawesome/pro-regular-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-
-// Import API
 import axios from "./../../API/axios"
 
-// Import Data Model
-import allDimensieConstants from "./../../constants/dimensies"
-
-// Import Utils
 import generateVerordeningsPosition from "./../../utils/generateVerordeningsPosition"
 
-// Import Components
-import LoaderContent from "./../../components/LoaderContent"
+import LoaderCard from "./../../components/LoaderCard"
+import Container from "./../../components/Container"
+import Heading from "./../../components/Heading"
+import SearchBar from "./../../components/SearchBar"
+import Footer from "./../../components/Footer"
 
-function getExcerpt(text) {
-    if (!text) {
-        return ""
-    } else if (text.length > 250) {
-        return text.substring(0, 250) + "..."
-    } else {
-        return text
-    }
-}
-
-function getDimensieConstant(type) {
-    switch (type) {
-        case "ambities":
-            return allDimensieConstants.AMBITIES
-        case "belangen":
-            return allDimensieConstants.BELANGEN
-        case "beleidskeuzes":
-            return allDimensieConstants.BELEIDSKEUZES
-        case "beleidsregels":
-            return allDimensieConstants.BELEIDSREGELS
-        case "beleidsprestaties":
-            return allDimensieConstants.BELEIDSPRESTATIES
-        case "maatregelen":
-            return allDimensieConstants.MAATREGELEN
-        case "beleidsdoelen":
-            return allDimensieConstants.BELEIDSDOELEN
-        case "themas":
-            return allDimensieConstants.THEMAS
-        case "verordeningen":
-            return allDimensieConstants.VERORDENINGSARTIKEL
-        case "artikel":
-            return allDimensieConstants.VERORDENINGSARTIKEL
-        default:
-            throw new Error(
-                `Oh no! The type '${type}' could not be found within allDimensieConstants...`
-            )
-    }
-}
-
-function SearchResultItem({ item, searchQuery, index }) {
-    function getContent() {
-        const params = new URLSearchParams(
-            document.location.search.substring(1)
-        )
-
-        // Get everything past the '=' of '?query=artikel'
-        const query = params.get("query")
-
-        const omschrijving = item.Omschrijving
-            ? getExcerpt(item.Omschrijving)
-            : ""
-
-        const markedOmschrijving = omschrijving.replace(
-            new RegExp(query, "ig"),
-            (e) => `<mark class="marked-red">${e}</mark>`
-        )
-
-        return {
-            setInnerHTML: true,
-            content: {
-                __html: markedOmschrijving,
-            },
-        }
-    }
-
-    const content = {
-        Titel: item.Titel,
-        Omschrijving: getContent(),
-    }
-
-    const type = item.Type
-    const dimensieContants = getDimensieConstant(type)
-    const overzichtURL = dimensieContants.SLUG_OVERVIEW
-    const titleSingular = dimensieContants.TITLE_SINGULAR
-
-    // Fallback for verordeningsitems that have not been found in the vigerende structure
-    if (
-        (item &&
-            item.positionInStructure &&
-            item.positionInStructure[0] === null) ||
-        (item &&
-            item.positionInStructure &&
-            item.positionInStructure.length === 0)
-    ) {
-        return null
-    }
-
-    return (
-        <li
-            className={`px-4 py-5 transition-colors duration-100 ease-in bg-white border-b border-gray-300 hover:bg-gray-100 ${
-                index === 0 ? "border-t" : ""
-            }`}
-            key={item.UUID}
-        >
-            <Link
-                className="group"
-                to={
-                    item.Type === "Verordeningen"
-                        ? `/detail/verordeningen/1/${item.UUID}?hoofdstuk=${
-                              item.positionInStructure[0] !== undefined
-                                  ? item.positionInStructure[0]
-                                  : "null"
-                          }&nest_1=${
-                              item.positionInStructure[1] !== undefined
-                                  ? item.positionInStructure[1]
-                                  : "null"
-                          }&nest_2=${
-                              item.positionInStructure[2] !== undefined
-                                  ? item.positionInStructure[2]
-                                  : "null"
-                          }&nest_3=${
-                              item.positionInStructure[3] !== undefined
-                                  ? item.positionInStructure[3]
-                                  : "null"
-                          }#${searchQuery}`
-                        : `/detail/${overzichtURL}/${item.UUID}#${searchQuery}`
-                }
-            >
-                <span
-                    className="block text-sm opacity-75 text-pzh-blue"
-                    data-test="search-result-type"
-                >
-                    {titleSingular}
-                </span>
-                <h2 className="block mt-1 text-lg font-bold text-pzh-blue group-hover:underline">
-                    {content.Titel}
-                </h2>
-                {content.Omschrijving.setInnerHTML ? (
-                    <p
-                        className="mt-2"
-                        dangerouslySetInnerHTML={content.Omschrijving.content}
-                    ></p>
-                ) : content.Omschrijving.content &&
-                  content.Omschrijving.content.length > 0 ? (
-                    <p className="mt-2">{content.Omschrijving.content}</p>
-                ) : (
-                    <p className="mt-2 italic">
-                        Er is nog geen omschrijving voor deze
-                        {" " + titleSingular.toLowerCase()}
-                    </p>
-                )}
-            </Link>
-        </li>
-    )
-}
-
+import SearchResultItem from "./SearchResultItem"
+import SearchFilterSection from "./SearchFilterSection"
 class RaadpleegZoekResultatenOverzicht extends Component {
     constructor(props) {
         super(props)
@@ -174,12 +24,10 @@ class RaadpleegZoekResultatenOverzicht extends Component {
             dataLoaded: false,
             onPageFilters: [],
         }
-        this.getAndSetVigerendeVerordeningenStructuur = this.getAndSetVigerendeVerordeningenStructuur.bind(
-            this
-        )
-        this.generateVerordeningsPosition = generateVerordeningsPosition.bind(
-            this
-        )
+        this.getAndSetVigerendeVerordeningenStructuur =
+            this.getAndSetVigerendeVerordeningenStructuur.bind(this)
+        this.generateVerordeningsPosition =
+            generateVerordeningsPosition.bind(this)
         this.handleFilter = this.handleFilter.bind(this)
     }
 
@@ -253,7 +101,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
 
         axios
             .get(
-                `/search?query=${searchQuery}&limit=10${
+                `/search?query=${searchQuery}${
                     searchFiltersOnly ? `&only=${searchFiltersOnly}` : ``
                 }`
             )
@@ -276,9 +124,8 @@ class RaadpleegZoekResultatenOverzicht extends Component {
 
                 // The 'Verordenings' objects are placed in a structure, but we need to check what position exactly so we can link towards the correct 'Verordening' including the parameters to set the verordeningsobject as active in the view. e.g.:
                 // /detail/verordeningen/102?hoofdstuk=0&nest_1=0&nest_2=0&nest_3=null
-                const searchResultsWithVerordeningsPositions = this.addVerordeningsPositionToSearchResults(
-                    searchResults
-                )
+                const searchResultsWithVerordeningsPositions =
+                    this.addVerordeningsPositionToSearchResults(searchResults)
 
                 this.setState({
                     searchFiltersOnly: searchFiltersOnly,
@@ -308,9 +155,8 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                 // Creates the state to display the filter UI
                 this.setInitialOnPageFilters(searchResults)
 
-                const searchResultsWithVerordeningsPositions = this.addVerordeningsPositionToSearchResults(
-                    searchResults
-                )
+                const searchResultsWithVerordeningsPositions =
+                    this.addVerordeningsPositionToSearchResults(searchResults)
 
                 this.setState({
                     searchFiltersOnly: null,
@@ -403,6 +249,8 @@ class RaadpleegZoekResultatenOverzicht extends Component {
         const latLng = searchParams.get("LatLng")
 
         if (!urlParams || urlParams.length === 0) {
+            console.log("NO SEARCH QUERY")
+            this.setState({ dataLoaded: true })
             return
         }
 
@@ -425,7 +273,10 @@ class RaadpleegZoekResultatenOverzicht extends Component {
 
     componentDidUpdate(prevProps) {
         // If new search query in URL we get the new results
-        if (this.props.location.search !== prevProps.location.search) {
+        if (
+            this.props.location.search !== prevProps.location.search &&
+            this.props.location.search
+        ) {
             this.setState(
                 {
                     dataLoaded: false,
@@ -453,9 +304,8 @@ class RaadpleegZoekResultatenOverzicht extends Component {
         }
 
         const onPageFilters = this.state.onPageFilters
-        let [filterIsActive, amountOfFilters] = checkForActiveFilter(
-            onPageFilters
-        )
+        let [filterIsActive, amountOfFilters] =
+            checkForActiveFilter(onPageFilters)
 
         const filters = [
             "beleidskeuzes",
@@ -463,173 +313,85 @@ class RaadpleegZoekResultatenOverzicht extends Component {
             "beleidsprestaties",
             "beleidsdoelen",
             "maatregelen",
-            // 'verordeningen',
             "beleidsregels",
         ].filter((e) => onPageFilters[e])
 
         return (
-            <div className="container flex px-6 pb-8 mx-auto mt-12">
-                <SidebarContainer>
-                    <Link
-                        to={
-                            this.state.searchQuery
-                                ? `/?query=${this.state.searchQuery}`
-                                : `/`
-                        }
-                        className={`text-pzh-blue opacity-75 hover:opacity-100 text-sm mb-4 inline-block group transition-opacity ease-in duration-100`}
-                        id="button-back-to-previous-page"
-                    >
-                        <FontAwesomeIcon className="mr-2" icon={faArrowLeft} />
-                        <span>Startpagina</span>
-                    </Link>
+            <>
+                <Container
+                    className="bg-pzh-blue-light"
+                    style={{ height: 96 + "px" }}
+                >
+                    <div className="flex items-center col-span-2">
+                        <Heading
+                            level="1"
+                            className="relative mt-2 font-bold text-white"
+                            color="text-white"
+                        >
+                            Zoeken
+                        </Heading>
+                    </div>
+                    <div className="flex items-center col-span-4">
+                        <SearchBar className="rounded-sm" />
+                    </div>
+                </Container>
+                <Container className="mt-4">
+                    <SearchFilterSection
+                        loaded={this.state.dataLoaded}
+                        searchFiltersOnly={this.state.searchFiltersOnly}
+                        onPageFilters={onPageFilters}
+                        filters={filters}
+                        handleFilter={this.handleFilter}
+                    />
 
-                    {this.state.dataLoaded &&
-                    this.state.searchFiltersOnly === null ? (
-                        <React.Fragment>
-                            <h2 className="block text-lg font-bold text-pzh-blue group-hover:underline">
-                                Filteren
-                            </h2>
-                            <ul id="filter-search-results" className="mt-4">
-                                {onPageFilters.filterArray &&
-                                onPageFilters.filterArray.length > 0
-                                    ? filters.map((filter) => (
-                                          <FilterItem
-                                              key={filter}
-                                              count={
-                                                  onPageFilters[filter].count
-                                              }
-                                              handleFilter={this.handleFilter}
-                                              checked={
-                                                  !onPageFilters[filter].checked
-                                              }
-                                              item={filter}
-                                          />
-                                      ))
-                                    : null}
-                            </ul>
-                        </React.Fragment>
-                    ) : null}
-                </SidebarContainer>
-
-                <div className="w-2/4">
-                    <span className="block pl-4 text-xl font-bold opacity-25 text-pzh-blue">
-                        {this.state.searchQuery
-                            ? `Zoekresultaten voor "${this.state.searchQuery}"`
-                            : null}
-                        {this.state.geoSearchQuery
-                            ? `Zoekresultaten voor coördinaten "${this.state.geoSearchQuery}"`
-                            : null}
-                    </span>
-                    <ul id="search-results" className="mt-4 mb-12">
-                        {this.state.dataLoaded ? (
-                            this.state.searchResults &&
-                            this.state.searchResults.length > 0 ? (
-                                this.state.searchResults.map((item, index) => {
-                                    if (
-                                        (filterIsActive &&
-                                            amountOfFilters > 0 &&
-                                            !onPageFilters[item.Type]
-                                                .checked) ||
-                                        (!filterIsActive &&
-                                            amountOfFilters === 0)
-                                    ) {
-                                        return (
-                                            <SearchResultItem
-                                                index={index}
-                                                searchQuery={
-                                                    this.state.urlParams
-                                                }
-                                                item={item}
-                                                key={item.UUID}
-                                            />
-                                        )
-                                    }
-                                    return null
-                                })
+                    <div className="col-span-6 md:col-span-4">
+                        <ul id="search-results" className="mb-12 ">
+                            {this.state.dataLoaded ? (
+                                this.state.searchResults &&
+                                this.state.searchResults.length > 0 ? (
+                                    this.state.searchResults.map(
+                                        (item, index) => {
+                                            if (
+                                                (filterIsActive &&
+                                                    amountOfFilters > 0 &&
+                                                    !onPageFilters[item.Type]
+                                                        .checked) ||
+                                                (!filterIsActive &&
+                                                    amountOfFilters === 0)
+                                            ) {
+                                                return (
+                                                    <SearchResultItem
+                                                        index={index}
+                                                        searchQuery={
+                                                            this.state.urlParams
+                                                        }
+                                                        item={item}
+                                                        key={item.UUID}
+                                                    />
+                                                )
+                                            }
+                                            return null
+                                        }
+                                    )
+                                ) : (
+                                    <span className="block mt-8 text-sm italic text-gray-600">
+                                        Geen resultaten
+                                    </span>
+                                )
                             ) : (
-                                <span className="block mt-8 text-sm italic text-gray-600">
-                                    Geen resultaten
-                                </span>
-                            )
-                        ) : (
-                            <LoaderContent />
-                        )}
-                    </ul>
-                </div>
-            </div>
+                                <div className="mt-4">
+                                    <LoaderCard height="150" />
+                                    <LoaderCard height="150" />
+                                    <LoaderCard height="150" />
+                                </div>
+                            )}
+                        </ul>
+                    </div>
+                </Container>
+                <Footer />
+            </>
         )
     }
-}
-
-const SidebarContainer = ({ children }) => {
-    const sidebarRef = React.useRef(null)
-    const [isFixed, setIsFixed] = React.useState(false)
-
-    /** Make the sidebar fixed when it vertically scrolls past it */
-    React.useEffect(() => {
-        const sidebarEl = sidebarRef.current
-        const offsetTop = sidebarEl.offsetTop
-
-        const checkScroll = () => {
-            const navigationHeight = 96
-            if (window.scrollY + navigationHeight > offsetTop) {
-                setIsFixed(true)
-            } else {
-                setIsFixed(false)
-            }
-        }
-
-        window.addEventListener("scroll", checkScroll)
-
-        return () => {
-            window.removeEventListener("scroll", checkScroll)
-        }
-    }, [])
-
-    return (
-        <>
-            <div
-                ref={sidebarRef}
-                className={`w-1/4 ${isFixed ? "fixed" : ""}`}
-                style={
-                    isFixed
-                        ? {
-                              top: "96px",
-                          }
-                        : null
-                }
-            >
-                {children}
-            </div>
-            {isFixed ? <div ref={sidebarRef} className="w-1/4"></div> : null}
-        </>
-    )
-}
-
-const FilterItem = ({ handleFilter, checked, item, count }) => {
-    const dimensieContants = getDimensieConstant(item)
-    const titleSingular = dimensieContants.TITLE_SINGULAR
-    const itemTitle = item === "Verordeningen" ? "Artikelen" : item
-
-    return (
-        <li key={item} className="mt-1 text-sm text-gray-700">
-            <label
-                className="cursor-pointer select-none"
-                id={`filter-for-${titleSingular}`}
-            >
-                <input
-                    className="mr-2 leading-tight"
-                    type="checkbox"
-                    checked={checked}
-                    onChange={(e) => handleFilter(e)}
-                    name={item}
-                />
-                <span>
-                    {itemTitle} ({count})
-                </span>
-            </label>
-        </li>
-    )
 }
 
 export default RaadpleegZoekResultatenOverzicht
