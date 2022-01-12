@@ -52,7 +52,15 @@ function RaadpleegObjectDetailNewVersionNotification({
         Effective_Version === Latest_Version &&
         Latest_Status === "Vigerend"
 
-    if (isValidWithNoNewerVersionsAvailable) return null
+    if (
+        isValidWithNoNewerVersionsAvailable ||
+        (!isNewWithNoEffectiveVersionPresent &&
+            !isNewWithEffectiveVersionPresent &&
+            !isValidAndArchived &&
+            !isValidButNewPublicDraftAvailable &&
+            !isValidButNewNonPublicDraftAvailable)
+    )
+        return null
 
     return (
         <div className="flex w-full px-3 pt-5 pb-4 mt-4 bg-pzh-blue-light bg-opacity-20 text-pzh-blue-dark">
