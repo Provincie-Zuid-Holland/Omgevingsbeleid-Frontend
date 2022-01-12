@@ -1,5 +1,5 @@
+import { PopUpRevisionContainer } from '../../../components/Popup'
 import getVigerendText from '../../../utils/getVigerendText'
-import PopUpRevisionContainer from '../../../components/PopUpRevisionContainer'
 import RevisieListItem from '../RevisieListItem'
 
 /**
@@ -30,9 +30,8 @@ const MetaInfo = ({
                     <PopUpRevisionContainer
                         dataObject={dataObject}
                         titleSingular={titleSingular}
-                        revisionObjects={revisionObjects}
-                    >
-                        {revisionObjects.map((item, index) => (
+                        revisionObjects={revisionObjects}>
+                        {revisionObjects.map(item => (
                             <RevisieListItem
                                 currentUUID={currentUUID}
                                 item={item}

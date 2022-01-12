@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
+import { useWindowSize } from 'react-use'
 
-import LoaderCard from '../../components/LoaderCard'
-import useURLQuery from '../../utils/useURLQuery'
-import { useWindowSize } from '../../utils/useWindowSize'
+import { Container } from '../../components/Container'
+import { LoaderCard } from '../../components/Loader'
+import useURLQuery from '../../hooks/useURLQuery'
 import axios from './../../API/axios'
-import Container from './../../components/Container'
 import Footer from './../../components/Footer'
 import Heading from './../../components/Heading'
 import Text from './../../components/Text'
@@ -51,8 +51,7 @@ function RaadpleegVerordening() {
                     <Heading
                         level="3"
                         className="font-bold"
-                        color="text-pzh-blue-dark"
-                    >
+                        color="text-pzh-blue-dark">
                         {VERORDENING.TITLE_SINGULAR}
                     </Heading>
 
@@ -60,8 +59,7 @@ function RaadpleegVerordening() {
                         <Heading
                             level="1"
                             color="text-pzh-blue"
-                            className="mt-4"
-                        >
+                            className="mt-4">
                             {verordening.Titel}
                         </Heading>
                     ) : (
@@ -96,8 +94,7 @@ const VerordeningsSection = ({ section, setActiveArticle }) => {
                 <div
                     className="relative px-2 pt-2 pb-1 bg-pzh-green-light bg-opacity-10"
                     style={{ width: 'calc(100% + 1rem', left: '-0.5rem' }}
-                    id={section.UUID}
-                >
+                    id={section.UUID}>
                     <Heading
                         customStyles={{
                             fontSize: '1rem',
@@ -105,8 +102,7 @@ const VerordeningsSection = ({ section, setActiveArticle }) => {
                         }}
                         level="2"
                         color="text-pzh-green"
-                        className="font-bold"
-                    >
+                        className="font-bold">
                         {`${section.Type} ${section.Volgnummer}. ${section.Titel}`}
                     </Heading>
                 </div>
@@ -127,8 +123,7 @@ const VerordeningsSection = ({ section, setActiveArticle }) => {
                 <div
                     className="relative px-2 pt-2 pb-1 bg-pzh-cool-gray bg-opacity-10"
                     style={{ width: 'calc(100% + 1rem', left: '-0.5rem' }}
-                    id={section.UUID}
-                >
+                    id={section.UUID}>
                     <Heading
                         customStyles={{
                             fontSize: '1rem',
@@ -136,8 +131,7 @@ const VerordeningsSection = ({ section, setActiveArticle }) => {
                         }}
                         level="2"
                         color="text-pzh-blue-dark"
-                        className="font-bold"
-                    >
+                        className="font-bold">
                         {section.Type === 'Paragraaf'
                             ? `§${section.Volgnummer} ${section.Titel}`
                             : `Afdeling ${section.Volgnummer} ${section.Titel}`}
@@ -160,8 +154,7 @@ const VerordeningsSection = ({ section, setActiveArticle }) => {
                 <div
                     onClick={() => setActiveArticle(section)}
                     style={{ width: 'calc(100% + 1rem)' }}
-                    className="p-2 -mt-2 -ml-2 transition-colors duration-150 ease-in rounded-md cursor-pointer hover:bg-gray-200 hover:bg-opacity-70"
-                >
+                    className="p-2 -mt-2 -ml-2 transition-colors duration-150 ease-in rounded-md cursor-pointer hover:bg-gray-200 hover:bg-opacity-70">
                     <Heading
                         customStyles={{
                             fontSize: '1rem',
@@ -169,8 +162,7 @@ const VerordeningsSection = ({ section, setActiveArticle }) => {
                         }}
                         level="2"
                         color="text-pzh-blue-dark"
-                        className="font-bold"
-                    >
+                        className="font-bold">
                         {`Artikel ${section.Volgnummer} ${section.Titel}`}
                     </Heading>
                     <div className="mt-2">

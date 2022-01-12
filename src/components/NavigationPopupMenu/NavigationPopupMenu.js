@@ -7,10 +7,9 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useEffect, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
+import { useLockBodyScroll, useWindowSize } from 'react-use'
 
-import { useWindowSize } from '../../utils/useWindowSize'
-import useLockBodyScroll from './../../utils/useLockBodyScroll'
-import Container from './../Container'
+import { Container } from '../Container'
 import Heading from './../Heading'
 
 /**
@@ -23,7 +22,7 @@ import Heading from './../Heading'
 const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
     const windowSize = useWindowSize()
     const history = useHistory()
-    useLockBodyScroll({ modalOpen: isOpen })
+    useLockBodyScroll(isOpen)
 
     const [searchQuery, setSearchQuery] = useState('')
     const [bannerAdjustedOffsetTop, setBannerAdjustedOffsetTop] = useState({})
@@ -74,8 +73,7 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
                 <div className="fixed bottom-0 right-0 z-50">
                     <div
                         className="flex items-center justify-center p-8 text-white cursor-pointer bg-pzh-blue-dark"
-                        onClick={() => setIsOpen(!isOpen)}
-                    >
+                        onClick={() => setIsOpen(!isOpen)}>
                         <FontAwesomeIcon
                             className="absolute text-lg"
                             style={{ marginTop: '-0.2rem' }}
@@ -88,17 +86,14 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
                 <>
                     <div
                         style={bannerAdjustedOffsetTop}
-                        className="fixed top-0 left-0 z-0 block w-screen h-screen bg-gray-900 pointer-events-none opacity-40"
-                    ></div>
+                        className="fixed top-0 left-0 z-0 block w-screen h-screen bg-gray-900 pointer-events-none opacity-40"></div>
                     <div
                         id="popup-menu"
                         className="fixed top-0 left-0 z-10 w-full pb-8 bg-white"
-                        style={bannerAdjustedOffsetTop}
-                    >
+                        style={bannerAdjustedOffsetTop}>
                         <Container
                             className="h-full overflow-y-auto"
-                            style={isMobile ? containerHeightStyle : null}
-                        >
+                            style={isMobile ? containerHeightStyle : null}>
                             <div className="flex flex-col items-center col-span-6 mt-6 sm:flex-row">
                                 <div className="relative flex items-center w-full">
                                     <FontAwesomeIcon
@@ -211,8 +206,7 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
                                 <ul
                                     style={
                                         isMobile ? null : { marginTop: '32px' }
-                                    }
-                                >
+                                    }>
                                     <ListItem
                                         text="Netwerkvisualisatie"
                                         setIsOpen={setIsOpen}
@@ -260,8 +254,7 @@ const ToggleMenuButton = ({ isOpen, setIsOpen, isMobile }) => {
                     : 'text-pzh-blue hover:text-pzh-blue-dark hover:bg-gray-100'
             } ${isMobile ? 'hidden' : ''}`}
             aria-expanded={isOpen}
-            onClick={() => setIsOpen(!isOpen)}
-        >
+            onClick={() => setIsOpen(!isOpen)}>
             <FontAwesomeIcon
                 className="mx-1"
                 style={{ fontSize: '0.9rem', marginTop: '-0.2rem' }}
@@ -290,8 +283,7 @@ const ListItem = ({
                     target={targetBlank ? '_blank' : ''}
                     rel="noopener noreferrer"
                     onClick={() => setIsOpen(false)}
-                    id={`menu-item-${text.replace(/\s+/g, '-').toLowerCase()}`}
-                >
+                    id={`menu-item-${text.replace(/\s+/g, '-').toLowerCase()}`}>
                     <FontAwesomeIcon className="mr-2" icon={faChevronRight} />
                     <span className="underline">{text}</span>
                 </a>
@@ -304,8 +296,7 @@ const ListItem = ({
                     onKeyDown={onKeyDown}
                     to={to}
                     onClick={() => setIsOpen(false)}
-                    id={`menu-item-${text.replace(/\s+/g, '-').toLowerCase()}`}
-                >
+                    id={`menu-item-${text.replace(/\s+/g, '-').toLowerCase()}`}>
                     <FontAwesomeIcon className="mr-2" icon={faChevronRight} />
                     <span className="underline">{text}</span>
                 </Link>

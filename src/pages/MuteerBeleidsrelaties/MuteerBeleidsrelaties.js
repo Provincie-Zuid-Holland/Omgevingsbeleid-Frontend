@@ -4,7 +4,7 @@ import { toast } from 'react-toastify'
 
 import axios from './../../API/axios'
 import UserContext from './../../App/UserContext'
-import ContainerMain from './../../components/ContainerMain'
+import { ContainerMain } from './../../components/Container'
 import MuteerBeleidsrelatiesDetail from './../MuteerBeleidsrelatieDetail'
 import MuteerBeleidsrelatiesOverzicht from './../MuteerBeleidsrelatiesOverzicht'
 

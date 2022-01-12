@@ -2,10 +2,14 @@
 
 import { Component } from 'react'
 
-import ContainerFormSection from './../../../components/ContainerFormSection'
-import ContainerMain from './../../../components/ContainerMain'
-import FormFieldGeldigheid from './../../../components/FormFieldGeldigheid'
-import FormFieldTextInput from './../../../components/FormFieldTextInput'
+import {
+    ContainerFormSection,
+    ContainerMain,
+} from './../../../components/Container'
+import {
+    FormFieldGeldigheid,
+    FormFieldTextInput,
+} from './../../../components/Form'
 import APIcontext from './../APIContext'
 
 class ContainerCrudFields extends Component {
@@ -18,13 +22,11 @@ class ContainerCrudFields extends Component {
                 <div className="flex-grow inline-block w-full">
                     <form
                         className="mt-12"
-                        onSubmit={this.context.handleSubmit}
-                    >
+                        onSubmit={this.context.handleSubmit}>
                         <>
                             <ContainerFormSection
                                 titel="Verordening"
-                                beschrijving={`Geef de verordening een passende titel.`}
-                            >
+                                beschrijving={`Geef de verordening een passende titel.`}>
                                 <FormFieldTextInput
                                     handleChange={this.context.handleChange}
                                     fieldValue={
@@ -78,8 +80,7 @@ class ContainerCrudFields extends Component {
                                     id="form-submit"
                                     className="px-4 py-2 text-sm font-bold leading-tight text-white rounded bg-pzh-blue hover:underline"
                                     type="submit"
-                                    value="Opslaan"
-                                ></input>
+                                    value="Opslaan"></input>
                             </div>
                         </div>
                     </form>

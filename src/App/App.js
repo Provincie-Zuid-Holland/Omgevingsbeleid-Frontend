@@ -15,10 +15,9 @@ import './../css/styles.scss'
 import './../../node_modules/leaflet/dist/leaflet.css'
 // Import Components
 import FeedbackComponent from '../components/FeedbackComponent'
-import LoaderContent from '../components/LoaderContent'
+import { LoaderContent } from '../components/Loader'
 import Navigation from '../components/Navigation'
-import PopUpAnimatedContainer from '../components/PopUpAnimatedContainer'
-import PopupWelcomeBeta from '../components/PopupWelcomeBeta'
+import { PopUpAnimatedContainer, PopupWelcomeBeta } from '../components/Popup'
 // Import All the dimension constants. These contain the dimensions and there variables, e.g. API_ENDPOINT and TITLE_SINGULAR
 import allDimensies from '../constants/dimensies'
 // Import non authenticated pages

@@ -1,6 +1,6 @@
 import { withRouter, useLocation } from 'react-router-dom'
 
-import LoaderMainTitle from '../../../components/LoaderMainTitle'
+import { LoaderMainTitle } from '../../../components/Loader'
 import ButtonBackToPage from './../../../components/ButtonBackToPage'
 
 /**

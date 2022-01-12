@@ -1,6 +1,6 @@
-import * as MAATREGELEN from './maatregelen'
 import * as BELEIDSKEUZES from './beleidskeuzes'
 import beleidskeuzeStatusAanpassen from './beleidskeuzeStatusAanpassen'
+import * as MAATREGELEN from './maatregelen'
 
 /**
  * Extracts all the valid possible statuses from the nextStatusObject

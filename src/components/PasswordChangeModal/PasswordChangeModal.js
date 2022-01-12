@@ -3,12 +3,11 @@ import { faTimes } from '@fortawesome/pro-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Transition } from '@headlessui/react'
 import { useEffect, useRef, useState } from 'react'
+import { useKey, useLockBodyScroll } from 'react-use'
 
 import axios from '../../API/axios'
-import useCloseWithEscapeKey from '../../utils/useCloseWithEscapeKey'
-import useLockBodyScroll from '../../utils/useLockBodyScroll'
-import LoaderSpinner from '../LoaderSpinner'
-import PopUpAnimatedContainer from '../PopUpAnimatedContainer'
+import { LoaderSpinner } from '../Loader'
+import { PopUpAnimatedContainer } from '../Popup'
 
 /**
  * A modal to change the users password
@@ -29,11 +28,9 @@ export default function PasswordChangeModal({ setOpen }) {
     const closeBtn = useRef(null)
     const container = useRef(null)
 
-    useCloseWithEscapeKey(container, () => {
-        setOpen(false)
-    })
+    useKey('Escape', () => setOpen(false))
 
-    useLockBodyScroll({ modalOpen: true })
+    useLockBodyScroll(true)
 
     const handleSubmit = e => {
         e.preventDefault()
@@ -106,8 +103,7 @@ export default function PasswordChangeModal({ setOpen }) {
                     onClick={() => setOpen(false)}
                     className="py-1 pl-3 pr-1 text-gray-600 cursor-pointer hover:text-gray-800 pzh-transition-colors"
                     id={`password-reset-close`}
-                    tabIndex="0"
-                >
+                    tabIndex="0">
                     <FontAwesomeIcon icon={faTimes} />
                 </button>
             </div>
@@ -138,8 +134,7 @@ export default function PasswordChangeModal({ setOpen }) {
                         enterTo="opacity-100 translate-y-0 scale-100"
                         leave="transition ease-in duration-200"
                         leaveFrom="opacity-100 translate-y-0 scale-100"
-                        leaveTo="opacity-0 -translate-y-5 scale-90"
-                    >
+                        leaveTo="opacity-0 -translate-y-5 scale-90">
                         <ul className="px-4 pt-1 pb-3 text-sm rounded-b text-pzh-blue-dark bg-pzh-yellow">
                             <li className="pt-2">
                                 Het ingevoerde huidige wachtwoord is onjuist,
@@ -187,8 +182,7 @@ export default function PasswordChangeModal({ setOpen }) {
                         enterTo="opacity-100 translate-y-0 scale-100"
                         leave="transition ease-in duration-200"
                         leaveFrom="opacity-100 translate-y-0 scale-100"
-                        leaveTo="opacity-0 -translate-y-5 scale-90"
-                    >
+                        leaveTo="opacity-0 -translate-y-5 scale-90">
                         <ul className="px-4 pt-1 pb-3 text-sm rounded-b text-pzh-blue-dark bg-pzh-yellow">
                             <li className="pt-2">Het wachtwoord moet...</li>
                             {errors.map((error, index) => (
@@ -225,8 +219,7 @@ export default function PasswordChangeModal({ setOpen }) {
                         enterTo="opacity-100 translate-y-0 scale-100"
                         leave="transition ease-in duration-200"
                         leaveFrom="opacity-100 translate-y-0 scale-100"
-                        leaveTo="opacity-0 -translate-y-5 scale-90"
-                    >
+                        leaveTo="opacity-0 -translate-y-5 scale-90">
                         <ul className="px-4 pt-1 pb-3 text-sm rounded-b text-pzh-blue-dark bg-pzh-yellow">
                             <li className="pt-2">
                                 Het herhaalde wachtwoord komt niet overeen
@@ -240,15 +233,13 @@ export default function PasswordChangeModal({ setOpen }) {
                         className="text-sm text-gray-700 underline cursor-pointer hover:text-gray-900 pzh-transition-colors"
                         onClick={() => setOpen(false)}
                         id="close-password-forget-popup"
-                        data-testid="close-password-forget-popup"
-                    >
+                        data-testid="close-password-forget-popup">
                         Annuleren
                     </button>
                     <button
                         className={`inline-block w-24 py-1 text-white rounded pzh-transition-colors bg-pzh-green hover:bg-pzh-green-dark focus:outline-none focus:ring`}
                         id="wachtwoord-reset-submit"
-                        type="submit"
-                    >
+                        type="submit">
                         {loading ? <LoaderSpinner /> : 'Wijzig'}
                     </button>
                 </div>
@@ -265,8 +256,7 @@ export default function PasswordChangeModal({ setOpen }) {
                         ref={mailToAnchor}
                         href="mailto:omgevingsbeleid@pzh.nl?subject=Wachtwoord vergeten"
                         className="ml-1 underline"
-                        id="wachtwoord-reset-mail"
-                    >
+                        id="wachtwoord-reset-mail">
                         omgevingsbeleid@pzh.nl
                     </a>
                 </p>

@@ -11,11 +11,15 @@ import { isDateInAValidRange } from '../../utils/isDateInAValidRange'
 import { toastNotification } from '../../utils/toastNotification'
 import axios from './../../API/axios'
 import ButtonBackToPage from './../../components/ButtonBackToPage'
-import ContainerFormSection from './../../components/ContainerFormSection'
-import ContainerMain from './../../components/ContainerMain'
-import FormFieldGeldigheid from './../../components/FormFieldGeldigheid'
-import FormFieldTextInput from './../../components/FormFieldTextInput'
-import LoaderContent from './../../components/LoaderContent'
+import {
+    ContainerFormSection,
+    ContainerMain,
+} from './../../components/Container'
+import {
+    FormFieldGeldigheid,
+    FormFieldTextInput,
+} from './../../components/Form'
+import { LoaderContent } from './../../components/Loader'
 // Import Utilities
 import checkContainsRequiredUnfilledField from './../../utils/checkContainsRequiredUnfilledField'
 import formatGeldigheidDatesForAPI from './../../utils/formatGeldigheidDatesForAPI'

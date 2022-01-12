@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import LeafletViewer from './../../../components/LeafletViewer'
+import { LeafletViewer } from './../../../components/Leaflet'
 import SearchBar from './../../../components/SearchBar'
 import Text from './../../../components/Text'
 
@@ -12,8 +12,7 @@ function SearchSection() {
             <div className="w-full text-sm border-b border-gray-400 sm:text-base">
                 <div
                     className="inline-block px-2 pl-0"
-                    onClick={() => setCurrentView('text')}
-                >
+                    onClick={() => setCurrentView('text')}>
                     <SearchSectionLabel
                         text="Zoeken op tekst"
                         active={currentView === 'text'}
@@ -21,8 +20,7 @@ function SearchSection() {
                 </div>
                 <div
                     className="inline-block px-2"
-                    onClick={() => setCurrentView('map')}
-                >
+                    onClick={() => setCurrentView('map')}>
                     <SearchSectionLabel
                         text="Zoeken op de kaart"
                         active={currentView === 'map'}

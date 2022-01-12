@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
+import { useWindowSize } from 'react-use'
 
-import LoaderCard from './../../../components/LoaderCard'
-import { useWindowSize } from './../../../utils/useWindowSize'
+import { LoaderCard } from './../../../components/Loader'
 import FilterItem from './../FilterItem'
 
 const SearchFilterSection = ({

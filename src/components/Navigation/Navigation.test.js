@@ -5,7 +5,7 @@ import { MemoryRouter } from 'react-router-dom'
 import GraphContext from './../../App/GraphContext'
 import Navigation from './Navigation'
 
-jest.mock('./../NetworkGraph', () => () => null)
+jest.mock('./../Network/NetworkGraph', () => () => null)
 
 describe('Navigation', () => {
     const setLoginStateMock = jest.fn()
@@ -23,8 +23,7 @@ describe('Navigation', () => {
                     value={{
                         graphIsOpen: false,
                         setGraphIsOpen: setGraphIsOpenMock,
-                    }}
-                >
+                    }}>
                     <Navigation {...props} />
                 </GraphContext.Provider>
             </MemoryRouter>

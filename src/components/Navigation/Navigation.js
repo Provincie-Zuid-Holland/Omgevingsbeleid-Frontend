@@ -4,16 +4,16 @@ import isToday from 'date-fns/isToday'
 import parseISO from 'date-fns/parseISO'
 import { useContext, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { useWindowSize } from 'react-use'
 
-import { useWindowSize } from '../../utils/useWindowSize'
+import { Container } from '../Container'
+import { NetworkGraph } from '../Network'
 import GraphContext from './../../App/GraphContext'
 import logoSVG from './../../images/PZH_Basislogo.svg'
 import logoWhite from './../../images/PZH_Basislogo_white.png'
 import BannerEnvironment from './../BannerEnvironment'
-import Container from './../Container'
 import DNABar from './../DNABar'
 import NavigationPopupMenu from './../NavigationPopupMenu'
-import NetworkGraph from './../NetworkGraph'
 
 /**
  * Displays a navbar on top of the page which the user can use to login, logout and search within the omgevingsbeleid.
@@ -52,8 +52,7 @@ function Navigation({ loggedIn }) {
                 className={`fixed top-0 z-20 w-full sm:border-b ${
                     isOpen ? 'bg-pzh-blue' : 'bg-white'
                 }`}
-                id="navigation-main"
-            >
+                id="navigation-main">
                 {/* Banner that displays the current environment */}
                 <BannerEnvironment
                     hideBannerLocalStorage={hideBannerLocalStorage}
@@ -76,8 +75,7 @@ function Navigation({ loggedIn }) {
                             }
                             onClick={() => {
                                 setIsOpen(false)
-                            }}
-                        >
+                            }}>
                             <Logo isOpen={isOpen} />
                         </Link>
                     </div>
@@ -89,8 +87,7 @@ function Navigation({ loggedIn }) {
                                 setIsOpen={setIsOpen}
                                 to="/"
                                 icon={faEye}
-                                className="mr-2"
-                            >
+                                className="mr-2">
                                 Raadplegen
                             </MenuIcon>
                         ) : null}
@@ -99,8 +96,7 @@ function Navigation({ loggedIn }) {
                                 setIsOpen={setIsOpen}
                                 to="/muteer/dashboard"
                                 icon={faEye}
-                                className="mr-2"
-                            >
+                                className="mr-2">
                                 Bewerken
                             </MenuIcon>
                         ) : null}
@@ -149,8 +145,7 @@ const MenuIcon = ({
             className="flex items-center justify-center px-2 py-2 font-bold transition duration-300 ease-in rounded text-pzh-blue hover:text-pzh-blue-dark"
             onClick={() => {
                 setIsOpen(false)
-            }}
-        >
+            }}>
             <span>
                 <FontAwesomeIcon
                     className={`${className} text-sm`}

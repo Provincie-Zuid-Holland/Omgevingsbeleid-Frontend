@@ -8,7 +8,7 @@ import axios from './../../API/axios'
 import UserContext from './../../App/UserContext'
 import ButtonAddNewObject from './../../components/ButtonAddNewObject'
 import CardObjectDetails from './../../components/CardObjectDetails'
-import LoaderCardHalfWidth from './../../components/LoaderCardHalfWidth'
+import { LoaderCardHalfWidth } from './../../components/Loader'
 // Import All the dimension constants. These contain the dimensions and there variables, e.g. API_ENDPOINT and TITLE_SINGULAR
 import allDimensies from './../../constants/dimensies'
 import filterOutArchivedObjects from './../../utils/filterOutArchivedObjects'

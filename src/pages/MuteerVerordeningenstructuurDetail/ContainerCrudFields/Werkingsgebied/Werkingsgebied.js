@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
 import axios from './../../../../API/axios'
-import PopupContainer from './../../../../components/PopupContainer'
+import { PopupContainer } from './../../../../components/Popup'
 
 const Werkingsgebied = ({
     setWerkingsgebiedInParentState,

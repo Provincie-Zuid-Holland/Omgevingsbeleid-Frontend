@@ -8,11 +8,11 @@ import { toast } from 'react-toastify'
 // Import Components
 import axios from '../../API/axios'
 import ButtonBackToPage from '../../components/ButtonBackToPage'
-import ContainerMain from '../../components/ContainerMain'
+import { ContainerMain } from '../../components/Container'
 import EigenaarsDriehoek from '../../components/EigenaarsDriehoek'
 import { checkIfUserIsAllowedOnPage } from '../../utils/checkIfUserIsAllowedOnPage'
 import UserContext from './../../App/UserContext'
-import LoaderContent from './../../components/LoaderContent'
+import { LoaderContent } from './../../components/Loader'
 import ContainerDetail from './ContainerDetail'
 import StatusHistory from './StatusHistory'
 

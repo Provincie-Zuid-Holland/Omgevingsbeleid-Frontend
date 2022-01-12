@@ -1,6 +1,6 @@
+import { Container } from '../../components/Container'
 import { useDnaBarWidth } from '../../components/DNABar'
 import Breadcrumbs from './../../components/Breadcrumbs'
-import Container from './../../components/Container'
 import Footer from './../../components/Footer'
 import Heading from './../../components/Heading'
 import Text from './../../components/Text'
@@ -56,8 +56,7 @@ function RaadpleegDigiToegankelijkheid() {
                         dan contact op met ons Contact Centrum via{' '}
                         <a
                             href="mailto:zuidholland@pzh.nl"
-                            className="text-pzh-green hover:text-pzh-green-dark"
-                        >
+                            className="text-pzh-green hover:text-pzh-green-dark">
                             zuidholland@pzh.nl
                         </a>{' '}
                         of kijk op{' '}
@@ -65,8 +64,7 @@ function RaadpleegDigiToegankelijkheid() {
                             href="www.zuid-holland.nl/contact"
                             target="_blank"
                             className="text-pzh-green hover:text-pzh-green-dark"
-                            rel="noopener noreferrer"
-                        >
+                            rel="noopener noreferrer">
                             www.zuid-holland.nl/contact
                         </a>
                         .
@@ -76,8 +74,7 @@ function RaadpleegDigiToegankelijkheid() {
                     <a
                         href="https://www.toegankelijkheidsverklaring.nl/register/6339"
                         target="_blank"
-                        rel="noopener noreferrer"
-                    >
+                        rel="noopener noreferrer">
                         <img
                             src="https://www.toegankelijkheidsverklaring.nl/files/verklaring/label/af8d16e4762bcdbe16d268c44056bcfe.6339.svg"
                             alt="Digi-toegankelijkheids score"

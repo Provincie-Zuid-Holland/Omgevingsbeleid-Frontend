@@ -32,8 +32,7 @@ const MenuItemsList = ({ menuItems, displayChangePassword }) => {
                             to={menuItems[value].url}
                             activeStyle={{
                                 cursor: 'default !important',
-                            }}
-                        >
+                            }}>
                             {value}
                             <FontAwesomeIcon
                                 className="absolute right-0 h-8 mr-3 text-lg main-sidebar-arrow"
@@ -52,8 +51,7 @@ const MenuItemsList = ({ menuItems, displayChangePassword }) => {
                             if (e.code === 'Enter' || e.code === 'Space')
                                 setPasswordChangeOpen(true)
                         }}
-                        tabIndex="0"
-                    >
+                        tabIndex="0">
                         Wachtwoord Wijzigen
                         <FontAwesomeIcon
                             className="absolute right-0 h-8 mr-3 text-xs"

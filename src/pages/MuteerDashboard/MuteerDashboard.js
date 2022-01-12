@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet'
 
 // Import Components
-import ContainerMain from './../../components/ContainerMain'
+import { ContainerMain } from './../../components/Container'
 import MijnBeleid from './../../components/MijnBeleid'
 import SidebarMain from './../../components/SidebarMain'
 

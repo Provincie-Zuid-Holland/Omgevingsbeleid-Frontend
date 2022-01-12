@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 
-import Container from './../../components/Container'
+import { Container } from '../Container'
 import Heading from './../../components/Heading'
 import Text from './../../components/Text'
 
@@ -37,12 +37,10 @@ function Footer({ className = '' }) {
     return (
         <div
             className={`w-full bg-pzh-cool-gray-light bg-opacity-30 absolute bottom-0`}
-            ref={footerRef}
-        >
+            ref={footerRef}>
             <Container
                 className={`pt-8 pb-16 md:pb-12 md:py-8 ${className}`}
-                widthFull={true}
-            >
+                widthFull={true}>
                 <div className="col-span-6 md:col-span-3 lg:col-span-2">
                     <Heading level="3" color="text-pzh-blue">
                         Elke dag beter.{' '}
@@ -56,8 +54,7 @@ function Footer({ className = '' }) {
                                 <a
                                     href="https://www.zuid-holland.nl"
                                     target="_blank"
-                                    rel="noopener noreferrer"
-                                >
+                                    rel="noopener noreferrer">
                                     Provincie Zuid-Holland
                                 </a>
                             </li>
@@ -65,8 +62,7 @@ function Footer({ className = '' }) {
                                 <a
                                     rel="noopener noreferrer"
                                     href="https://www.zuid-holland.nl/algemeen/privacyverklaring/"
-                                    target="_blank"
-                                >
+                                    target="_blank">
                                     Cookies & Privacy
                                 </a>
                             </li>
@@ -85,8 +81,7 @@ function Footer({ className = '' }) {
                                 href="mailto:omgevingsbeleid@pzh.nl?subject=Aan- of opmerking"
                                 className="underline cursor-pointer hover:text-pzh-green-dark text-pzh-green"
                                 target="_blank"
-                                rel="noopener noreferrer"
-                            >
+                                rel="noopener noreferrer">
                                 omgevingsbeleid@pzh.nl
                             </a>
                         </Text>

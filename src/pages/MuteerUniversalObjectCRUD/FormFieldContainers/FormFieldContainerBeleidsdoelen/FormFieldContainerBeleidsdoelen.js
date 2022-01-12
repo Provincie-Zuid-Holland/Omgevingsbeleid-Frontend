@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types'
 
-import ContainerFormSection from '../../../../components/ContainerFormSection'
+import { ContainerFormSection } from '../../../../components/Container'
 import {
     FormFieldGeldigheid,
     FormFieldTextInput,
     FormFieldTextArea,
     FormFieldWeblink,
-} from '../../../../components/FormFieldsExport'
+} from '../../../../components/Form'
 
 /**
  *
@@ -25,8 +25,7 @@ function FormFieldContainerBeleidsdoelen({
         <>
             <ContainerFormSection
                 titel="Algemene informatie"
-                beschrijving="De algemene informatie bevat een duidelijke titel."
-            >
+                beschrijving="De algemene informatie bevat een duidelijke titel.">
                 <FormFieldTextInput
                     handleChange={handleChange}
                     fieldValue={crudObject['Titel']}
@@ -39,8 +38,7 @@ function FormFieldContainerBeleidsdoelen({
 
             <ContainerFormSection
                 titel="Omschrijving beleidsdoel"
-                beschrijving="Een beleidsdoel bevindt zich op tactisch niveau, tussen het niveau van de ambities en de beleidskeuzes."
-            >
+                beschrijving="Een beleidsdoel bevindt zich op tactisch niveau, tussen het niveau van de ambities en de beleidskeuzes.">
                 <FormFieldTextArea
                     handleChange={handleChange}
                     fieldValue={crudObject['Omschrijving']}
@@ -53,8 +51,7 @@ function FormFieldContainerBeleidsdoelen({
 
             <ContainerFormSection
                 titel="Aanvullende informatie"
-                beschrijving="In deze sectie vragen we aanvullende informatie zoals de link naar het IDMS besluitdocument en indien bekend, de datum van inwerkingtreding."
-            >
+                beschrijving="In deze sectie vragen we aanvullende informatie zoals de link naar het IDMS besluitdocument en indien bekend, de datum van inwerkingtreding.">
                 <FormFieldWeblink
                     handleChange={handleChange}
                     fieldValue={crudObject['Weblink']}

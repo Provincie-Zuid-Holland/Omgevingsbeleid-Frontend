@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types'
 
-import ContainerFormSection from './../../../../components/ContainerFormSection'
+import { ContainerFormSection } from './../../../../components/Container'
 import {
     FormFieldGeldigheid,
     FormFieldTextInput,
     FormFieldTextArea,
     FormFieldWeblink,
     FormFieldSelect,
-} from './../../../../components/FormFieldsExport'
+} from './../../../../components/Form'
 
 // Waarden voor het react-select component
 const BelangTypeValues = [
@@ -32,8 +32,7 @@ function FormFieldContainerBelangen({
         <>
             <ContainerFormSection
                 titel="Algemene informatie"
-                beschrijving="De algemene informatie bevat een duidelijke titel en de mogelijkheid om aan te geven of het om een nationaal belang gaat, of een wettelijke taak of bevoegdheid."
-            >
+                beschrijving="De algemene informatie bevat een duidelijke titel en de mogelijkheid om aan te geven of het om een nationaal belang gaat, of een wettelijke taak of bevoegdheid.">
                 <FormFieldTextInput
                     handleChange={handleChange}
                     fieldValue={crudObject['Titel']}
@@ -55,8 +54,7 @@ function FormFieldContainerBelangen({
 
             <ContainerFormSection
                 titel="Omschrijving nationaal belang of wettelijke taak"
-                beschrijving="De nationale belangen zijn afkomstig uit de nationale omgevingsvisie, danwel aanvullende afspraken tussen rijk en provincies. De wettelijke taken refereren aan het betreffende wetsartikel waarin de provincie een medebewindstaak opgedragen krijgt."
-            >
+                beschrijving="De nationale belangen zijn afkomstig uit de nationale omgevingsvisie, danwel aanvullende afspraken tussen rijk en provincies. De wettelijke taken refereren aan het betreffende wetsartikel waarin de provincie een medebewindstaak opgedragen krijgt.">
                 <FormFieldTextArea
                     handleChange={handleChange}
                     fieldValue={crudObject['Omschrijving']}
@@ -69,8 +67,7 @@ function FormFieldContainerBelangen({
 
             <ContainerFormSection
                 titel="Aanvullende informatie"
-                beschrijving="In deze sectie vragen we aanvullende informatie zoals de link naar het IDMS besluitdocument en indien bekend, de datum van inwerkingtreding."
-            >
+                beschrijving="In deze sectie vragen we aanvullende informatie zoals de link naar het IDMS besluitdocument en indien bekend, de datum van inwerkingtreding.">
                 <FormFieldWeblink
                     handleChange={handleChange}
                     fieldValue={crudObject['Weblink']}

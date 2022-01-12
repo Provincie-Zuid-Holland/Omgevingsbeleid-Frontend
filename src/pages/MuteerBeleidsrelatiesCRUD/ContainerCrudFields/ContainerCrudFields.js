@@ -1,12 +1,16 @@
 // Import Context
 import { Component } from 'react'
 
-import ContainerFormSection from './../../../components/ContainerFormSection'
-import ContainerMain from './../../../components/ContainerMain'
+import {
+    ContainerFormSection,
+    ContainerMain,
+} from './../../../components/Container'
 // Import Components
-import FormFieldGeldigheid from './../../../components/FormFieldGeldigheid'
-import FormFieldSelectBeleidskeuze from './../../../components/FormFieldSelectBeleidskeuze'
-import FormFieldTextArea from './../../../components/FormFieldTextArea'
+import {
+    FormFieldGeldigheid,
+    FormFieldSelectBeleidskeuze,
+    FormFieldTextArea,
+} from './../../../components/Form'
 import APIcontext from './../APIContext'
 
 /**

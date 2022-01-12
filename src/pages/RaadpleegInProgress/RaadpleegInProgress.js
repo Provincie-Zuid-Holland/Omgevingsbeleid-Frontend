@@ -12,10 +12,10 @@ import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
 import 'tippy.js/dist/tippy.css'
 
-import LoaderCard from '../../components/LoaderCard'
+import { Container } from '../../components/Container'
+import { LoaderCard } from '../../components/Loader'
 import axios from './../../API/axios'
 import Button from './../../components/Button'
-import Container from './../../components/Container'
 import Footer from './../../components/Footer'
 import Heading from './../../components/Heading'
 import HorizontalDivider from './../../components/HorizontalDivider'
@@ -84,8 +84,7 @@ function RaadpleegInProgress() {
                 <Heading
                     id="besluitvormingsproces"
                     className="col-span-6"
-                    level="2"
-                >
+                    level="2">
                     Besluitvormingsproces
                 </Heading>
                 <Text className="col-span-6 mt-4" type="body">

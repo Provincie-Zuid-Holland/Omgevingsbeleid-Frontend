@@ -10,7 +10,7 @@ import { Component } from 'react'
 import { Helmet } from 'react-helmet'
 import { Link, withRouter } from 'react-router-dom'
 
-import LoaderBeleidsrelatieRegel from './../../components/LoaderBeleidsrelatieRegel'
+import { LoaderBeleidsrelatieRegel } from '../../components/Loader'
 import SidebarMain from './../../components/SidebarMain'
 
 /**
@@ -256,8 +256,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                                         return (
                                             <li
                                                 key={item.UUID}
-                                                className="beleids-item"
-                                            >
+                                                className="beleids-item">
                                                 <Link
                                                     className="relative flex items-center py-1 text-sm text-gray-800 border-b border-gray-200 hover:bg-gray-100"
                                                     to={`/muteer/beleidsrelaties/${item.UUID}`}
@@ -269,13 +268,11 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                                                             currentBeleidskeuze:
                                                                 item,
                                                         })
-                                                    }}
-                                                >
+                                                    }}>
                                                     <span className="absolute inline-block w-3 h-3 ml-3 rounded-full bg-pzh-blue"></span>
                                                     <div
                                                         className="w-6/12 pl-10"
-                                                        data-testid="title"
-                                                    >
+                                                        data-testid="title">
                                                         {item.Titel}
                                                     </div>
                                                     <div className="w-2/12">
@@ -286,8 +283,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                                                                     ? 'text-pzh-blue'
                                                                     : 'text-pzh-yellow-dark'
                                                             } 
-                                                                    `}
-                                                        >
+                                                                    `}>
                                                             {item.Status}
                                                         </span>
                                                     </div>
@@ -303,8 +299,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                                                     </div>
                                                     <div
                                                         className="w-1/12 text-center"
-                                                        data-testid="incoming"
-                                                    >
+                                                        data-testid="incoming">
                                                         {item.Verzoeken !== 0
                                                             ? item.Verzoeken
                                                             : '-'}

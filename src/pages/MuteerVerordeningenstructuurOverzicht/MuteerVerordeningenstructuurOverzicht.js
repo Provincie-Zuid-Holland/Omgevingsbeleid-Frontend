@@ -7,11 +7,9 @@ import { toast } from 'react-toastify'
 // Import Componenents
 import axios from './../../API/axios'
 import CardObjectDetails from './../../components/CardObjectDetails'
-import ContainerMain from './../../components/ContainerMain'
-import LoaderCard from './../../components/LoaderCard'
+import { ContainerMain } from './../../components/Container'
+import { LoaderCard } from './../../components/Loader'
 import SidebarMain from './../../components/SidebarMain'
-
-// Import Axios instance to connect with the API
 
 /**
  * Component to display all the verordening structures that exist
@@ -73,13 +71,11 @@ class MuteerVerordeningenstructuurOverzicht extends Component {
                     <ul className="flex flex-wrap mt-8">
                         {this.state.dataReceived ? (
                             <div
-                                className={`mb-6 display-inline mb-6 display-inline w-full`}
-                            >
+                                className={`mb-6 display-inline mb-6 display-inline w-full`}>
                                 <Link
                                     id={`object-add-new-${hoofdOnderdeelSlug.toLowerCase()}`}
                                     className="flex items-center justify-center h-full px-4 py-4 overflow-hidden text-gray-600 no-underline border border-gray-300 border-dashed rounded hover:border-gray-400 transition-regular hover:text-gray-800"
-                                    to={`/muteer/nieuwe-verordening`}
-                                >
+                                    to={`/muteer/nieuwe-verordening`}>
                                     <span className="px-4 py-2 font-bold text-center">
                                         + Voeg {titleSingular} Toe
                                     </span>
@@ -92,8 +88,7 @@ class MuteerVerordeningenstructuurOverzicht extends Component {
                                 .map((object, index) => (
                                     <li
                                         key={object.ID}
-                                        className="w-full mb-6 display-inline"
-                                    >
+                                        className="w-full mb-6 display-inline">
                                         {
                                             <CardObjectDetails
                                                 index={index}
