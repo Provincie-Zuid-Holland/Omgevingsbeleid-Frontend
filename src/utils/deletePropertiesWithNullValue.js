@@ -4,7 +4,7 @@
  * @returns {object} - Returns the same object where the properties with a null value are removed
  */
 function deletePropertiesWithNullValue(crudObject) {
-    Object.keys(crudObject).forEach((property) => {
+    Object.keys(crudObject).forEach(property => {
         if (crudObject[property] === null) delete crudObject[property]
     })
     return crudObject

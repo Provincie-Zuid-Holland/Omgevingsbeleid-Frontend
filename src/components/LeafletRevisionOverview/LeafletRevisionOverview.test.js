@@ -1,9 +1,9 @@
-import { render } from "@testing-library/react"
-import React from "react"
-import LeafletRevisionOverview from "./LeafletRevisionOverview"
+import { render } from '@testing-library/react'
 
-describe("LeafletRevisionOverview", () => {
+import LeafletRevisionOverview from './LeafletRevisionOverview'
+
+describe('LeafletRevisionOverview', () => {
     const defaultProps = {}
 
-    it("should render", () => {})
+    it('should render', () => {})
 })

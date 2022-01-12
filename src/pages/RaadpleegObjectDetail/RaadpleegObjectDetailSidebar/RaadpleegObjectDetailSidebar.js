@@ -1,19 +1,16 @@
-import React from "react"
-import { useParams } from "react-router-dom"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import Tippy from "@tippyjs/react"
-import "tippy.js/dist/tippy.css"
-import { faInfoCircle } from "@fortawesome/pro-solid-svg-icons"
-import { Link } from "react-router-dom"
+import { faInfoCircle } from '@fortawesome/pro-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import Tippy from '@tippyjs/react'
+import { useRef, useState } from 'react'
+import { useParams, Link } from 'react-router-dom'
+import 'tippy.js/dist/tippy.css'
 
-import RevisieListItem from "./../RevisieListItem"
-
-import BackButton from "../../../components/BackButton"
-import Text from "../../../components/Text"
-import PopUpRevisionContainer from "../../../components/PopUpRevisionContainer"
-
-import getVigerendText from "../../../utils/getVigerendText"
-import useClickOutsideContainer from "../../../utils/useClickOutsideContainer"
+import BackButton from '../../../components/BackButton'
+import PopUpRevisionContainer from '../../../components/PopUpRevisionContainer'
+import Text from '../../../components/Text'
+import getVigerendText from '../../../utils/getVigerendText'
+import useClickOutsideContainer from '../../../utils/useClickOutsideContainer'
+import RevisieListItem from './../RevisieListItem'
 
 const RaadpleegObjectDetailSidebar = ({
     titleSingular,
@@ -26,23 +23,20 @@ const RaadpleegObjectDetailSidebar = ({
     return (
         <aside
             id="raadpleeg-detail-container-content"
-            className="col-span-6 pt-4 xl:col-span-1 xl:pt-8"
-        >
+            className="col-span-6 pt-4 xl:col-span-1 xl:pt-8">
             <BackButton className="hidden xl:block" />
             <div className="flex justify-between xl:block">
                 <div className="hidden xl:block">
                     <Text
                         type="span"
                         className="block font-bold"
-                        color="text-pzh-blue-dark"
-                    >
+                        color="text-pzh-blue-dark">
                         Type
                     </Text>
                     <Text
                         type="span"
                         color="text-pzh-blue-dark"
-                        className="block"
-                    >
+                        className="block">
                         {titleSingular}
                     </Text>
                 </div>
@@ -51,8 +45,7 @@ const RaadpleegObjectDetailSidebar = ({
                     <Text
                         type="span"
                         color="text-pzh-blue-dark"
-                        className="block"
-                    >
+                        className="block">
                         {vigerendText}
                     </Text>
                 </div>
@@ -61,16 +54,14 @@ const RaadpleegObjectDetailSidebar = ({
                         <Text
                             type="span"
                             className="hidden block font-bold xl:block"
-                            color="text-pzh-blue-dark"
-                        >
+                            color="text-pzh-blue-dark">
                             Revisies
                         </Text>
                         <PopUpRevisionContainer
                             dataObject={dataObject}
                             titleSingular={titleSingular}
-                            revisionObjects={revisionObjects}
-                        >
-                            {revisionObjects.map((item, index) => (
+                            revisionObjects={revisionObjects}>
+                            {revisionObjects.map(item => (
                                 <RevisieListItem
                                     currentUUID={id}
                                     item={item}
@@ -85,9 +76,9 @@ const RaadpleegObjectDetailSidebar = ({
     )
 }
 
-const Status = ({ status = "" }) => {
-    const [tippyOpen, setTippyOpen] = React.useState(false)
-    const innerContainer = React.useRef(null)
+const Status = ({ status = '' }) => {
+    const [tippyOpen, setTippyOpen] = useState(false)
+    const innerContainer = useRef(null)
 
     useClickOutsideContainer(innerContainer, () => {
         setTippyOpen(false)
@@ -103,24 +94,21 @@ const Status = ({ status = "" }) => {
                     <Link
                         onClick={() => setTippyOpen(false)}
                         className="text-sm pointer-events-auto"
-                        to="/in-bewerking#besluitvormingsproces"
-                    >
+                        to="/in-bewerking#besluitvormingsproces">
                         <span className="block font-bold">
                             Huidige status: {status}
                         </span>
                         <span className="block">
-                            Bekijk de uitleg en betekenis van statussen{" "}
+                            Bekijk de uitleg en betekenis van statussen{' '}
                             <span className="underline">hier</span>
                         </span>
                     </Link>
-                }
-            >
+                }>
                 <div className="hidden xl:inline group">
                     <Text
                         type="span"
                         className="font-bold"
-                        color="text-pzh-blue-dark"
-                    >
+                        color="text-pzh-blue-dark">
                         Status
                     </Text>
                     <div className="inline-block ml-1 transition-colors duration-500 ease-in cursor-pointer text-pzh-dark-blue opacity-40 group-hover:opacity-80">

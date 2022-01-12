@@ -1,3 +1,3 @@
-import MuteerVerordeningenStructuurCRUD from "./MuteerVerordeningenStructuurCRUD.js"
+import MuteerVerordeningenStructuurCRUD from './MuteerVerordeningenStructuurCRUD.js'
 
 export default MuteerVerordeningenStructuurCRUD

@@ -1,3 +1,3 @@
-import PopUpDetailDropdown from "./PopUpDetailDropdown.js"
+import PopUpDetailDropdown from './PopUpDetailDropdown.js'
 
 export default PopUpDetailDropdown

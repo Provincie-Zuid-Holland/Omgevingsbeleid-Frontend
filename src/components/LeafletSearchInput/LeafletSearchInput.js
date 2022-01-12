@@ -1,7 +1,8 @@
-import React, { Component } from "react"
-import axios from "axios"
-import { toast } from "react-toastify"
-import debounce from "./../../utils/debounce"
+import axios from 'axios'
+import { Component, createRef } from 'react'
+import { toast } from 'react-toastify'
+
+import debounce from './../../utils/debounce'
 
 /**
  * Class that renders the LeafletSearchInput component that shows a input field in which a user can search werkgebieden on a map.
@@ -10,7 +11,7 @@ class LeafletSearchInput extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            searchQuery: "",
+            searchQuery: '',
             dataLoading: false,
             focusedEl: null,
             queryData: [],
@@ -21,7 +22,7 @@ class LeafletSearchInput extends Component {
             this.locatieServerSuggestQuery.bind(this),
             300
         )
-        this.suggestList = React.createRef()
+        this.suggestList = createRef()
     }
 
     /**
@@ -49,7 +50,7 @@ class LeafletSearchInput extends Component {
      *
      */
     locatieServerSuggestCancel() {
-        import("./../../API/axiosLocatieserver").then((api) => {
+        import('./../../API/axiosLocatieserver').then(api => {
             api.cancelRequest()
         })
     }
@@ -63,22 +64,22 @@ class LeafletSearchInput extends Component {
      * @param {string} naam - Parameter used as a value in searchQuery.
      */
     locatieServerLookupQuery(id, naam) {
-        import("./../../API/axiosLocatieserver").then((api) => {
+        import('./../../API/axiosLocatieserver').then(api => {
             api.getLookupData(id)
-                .then((data) => {
+                .then(data => {
                     this.setState({
                         queryData: [],
                         searchQuery: naam,
                     })
                     const latLng = data.centroide_ll
-                        .split("(")[1]
-                        .split(")")[0]
-                        .split(" ")
+                        .split('(')[1]
+                        .split(')')[0]
+                        .split(' ')
                     const lat = parseFloat(latLng[0]).toFixed(20)
                     const lng = parseFloat(latLng[1]).toFixed(20)
                     this.props.mapPanTo(lng, lat, data.type)
                 })
-                .catch((err) => {
+                .catch(() => {
                     toast(process.env.REACT_APP_ERROR_MSG)
                 })
         })
@@ -92,31 +93,31 @@ class LeafletSearchInput extends Component {
      * @param {string} value - User input, used to get suggested data through and API.
      */
     locatieServerSuggestQuery(value) {
-        if (value === "") {
+        if (value === '') {
             this.setState({
                 queryData: [],
             })
             return
         }
 
-        import("./../../API/axiosLocatieserver").then((api) => {
+        import('./../../API/axiosLocatieserver').then(api => {
             this.setState({
                 dataLoading: true,
             })
             const that = this
             api.getSuggestData(value)
-                .then((data) => {
+                .then(data => {
                     that.setState({
                         queryData: data.response.docs,
                         dataLoading: false,
                     })
                 })
-                .catch((err) => {
+                .catch(err => {
                     that.setState({
                         dataLoading: false,
                     })
                     if (axios.isCancel(err)) {
-                        console.log("Request canceled -", err.message)
+                        console.log('Request canceled -', err.message)
                     } else {
                         console.log(err)
                         toast(process.env.REACT_APP_ERROR_MSG)
@@ -133,17 +134,17 @@ class LeafletSearchInput extends Component {
      * @param {string} nextOrPrevious - Parameter used to check if the user has clicked on 'next' or 'previous'.
      */
     selectQueryDataItem(nextOrPrevious) {
-        const currentIndex = document.activeElement.getAttribute("data-index")
+        const currentIndex = document.activeElement.getAttribute('data-index')
 
         let newIndex
         switch (nextOrPrevious) {
-            case "next":
+            case 'next':
                 if (parseInt(currentIndex) === this.state.queryData.length) {
                     return
                 }
                 newIndex = parseInt(currentIndex) + 1
                 break
-            case "previous":
+            case 'previous':
                 if (parseInt(currentIndex) === 1) {
                     this.props.reference.current.select()
                     return
@@ -158,7 +159,7 @@ class LeafletSearchInput extends Component {
 
     render() {
         return (
-            <React.Fragment>
+            <>
                 <input
                     className="w-64 h-10 px-5 py-3 ml-3 text-sm leading-tight text-gray-700 border-none rounded appearance-none focus:outline-none"
                     type="text"
@@ -166,7 +167,7 @@ class LeafletSearchInput extends Component {
                     placeholder="Zoeken op de kaart"
                     onChange={this.handleChange}
                     value={this.state.searchQuery}
-                    onKeyDown={(e) => {
+                    onKeyDown={e => {
                         if (
                             e.keyCode === 40 &&
                             this.state.queryData.length > 0
@@ -197,7 +198,7 @@ class LeafletSearchInput extends Component {
                                             item.weergavenaam
                                         )
                                     }
-                                    onKeyDown={(e) => {
+                                    onKeyDown={e => {
                                         if (e.keyCode === 13) {
                                             // Enter keyCode
                                             this.locatieServerLookupQuery(
@@ -206,10 +207,10 @@ class LeafletSearchInput extends Component {
                                             )
                                         } else if (e.keyCode === 40) {
                                             // Arrow down
-                                            this.selectQueryDataItem("next")
+                                            this.selectQueryDataItem('next')
                                         } else if (e.keyCode === 38) {
                                             // Arrow up
-                                            this.selectQueryDataItem("previous")
+                                            this.selectQueryDataItem('previous')
                                         }
                                     }}
                                 >
@@ -217,8 +218,8 @@ class LeafletSearchInput extends Component {
                                         className={`w-full block text-sm text-gray-700 ${
                                             index ===
                                             this.state.queryData.length - 1
-                                                ? "pt-2 pb-4"
-                                                : "border-b border-gray-300 py-2"
+                                                ? 'pt-2 pb-4'
+                                                : 'border-b border-gray-300 py-2'
                                         }`}
                                     >
                                         {item.weergavenaam}
@@ -228,7 +229,7 @@ class LeafletSearchInput extends Component {
                         })}
                     </ul>
                 ) : null}
-            </React.Fragment>
+            </>
         )
     }
 }

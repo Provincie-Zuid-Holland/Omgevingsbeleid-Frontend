@@ -1,3 +1,3 @@
-import FormFieldContainerBelangen from "./FormFieldContainerBelangen.js"
+import FormFieldContainerBelangen from './FormFieldContainerBelangen.js'
 
 export default FormFieldContainerBelangen

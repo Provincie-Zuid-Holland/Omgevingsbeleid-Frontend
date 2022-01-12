@@ -1,5 +1,4 @@
-import React from "react"
-import { Link } from "react-router-dom"
+import { Link } from 'react-router-dom'
 
 /**
  * @param {string} searchQuery - The value from the search input
@@ -21,36 +20,36 @@ function SearchBarPopupItem({
      *
      * @param {string} type - Contains the type 'previous' or 'next'
      */
-    const focusItem = (type) => {
+    const focusItem = type => {
         const currentIndex = parseInt(
-            document.activeElement.getAttribute("data-index")
+            document.activeElement.getAttribute('data-index')
         )
         const isLastItem = currentIndex === amountOfFilterItems
         const isFirstItem = currentIndex === 0
 
-        const focusNewItem = (index) =>
+        const focusNewItem = index =>
             document.querySelector(`[data-index='${index}']`)?.focus()
 
-        if (type === "next" && isLastItem) {
+        if (type === 'next' && isLastItem) {
             return
-        } else if (type === "next" && !isLastItem) {
+        } else if (type === 'next' && !isLastItem) {
             focusNewItem(currentIndex + 1)
-        } else if (type === "previous" && isFirstItem) {
+        } else if (type === 'previous' && isFirstItem) {
             selectSearchQueryInput()
-        } else if (type === "previous" && !isFirstItem) {
+        } else if (type === 'previous' && !isFirstItem) {
             focusNewItem(currentIndex - 1)
         }
     }
 
-    const handleKeyDown = (e) => {
+    const handleKeyDown = e => {
         if (e.keyCode === 40) {
             // Arrow down
             e.preventDefault()
-            focusItem("next")
+            focusItem('next')
         } else if (e.keyCode === 38) {
             // Arrow up
             e.preventDefault()
-            focusItem("previous")
+            focusItem('previous')
         }
     }
 
@@ -73,7 +72,7 @@ function SearchBarPopupItem({
                     <span className="pl-4 text-sm">
                         In
                         <span className="text-pzh-yellow-dark">
-                            {" " + filterItem.name}
+                            {' ' + filterItem.name}
                         </span>
                     </span>
                 ) : (

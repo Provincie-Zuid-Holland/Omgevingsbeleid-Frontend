@@ -1,20 +1,20 @@
-import React from "react"
-import { Link } from "react-router-dom"
+import { useEffect, useRef } from 'react'
+import { Link } from 'react-router-dom'
 
-import Container from "./../../components/Container"
-import Heading from "./../../components/Heading"
-import Text from "./../../components/Text"
+import Container from './../../components/Container'
+import Heading from './../../components/Heading'
+import Text from './../../components/Text'
 
-function Footer({ className = "" }) {
+function Footer({ className = '' }) {
     /**
      * We want the footer to always be at the bottom of the page,
      * even if there is not enough content. To realise this we position
      * the Footer absolute at the bottom, and give the body a padding-bottom of the current Footer height.
      */
-    const footerRef = React.useRef(null)
+    const footerRef = useRef(null)
 
-    React.useEffect(() => {
-        const mainContainerEl = document.getElementById("main-container")
+    useEffect(() => {
+        const mainContainerEl = document.getElementById('main-container')
 
         const handleWindowResize = () => {
             if (!footerRef.current || !mainContainerEl) return
@@ -24,13 +24,13 @@ function Footer({ className = "" }) {
 
         /** Initial call */
         handleWindowResize()
-        window.addEventListener("resize", handleWindowResize)
+        window.addEventListener('resize', handleWindowResize)
 
         return () => {
             if (mainContainerEl) {
                 mainContainerEl.style.paddingBottom = `0px` // Reset padding bottom
             }
-            window.removeEventListener("resize", handleWindowResize)
+            window.removeEventListener('resize', handleWindowResize)
         }
     }, [])
 
@@ -45,7 +45,7 @@ function Footer({ className = "" }) {
             >
                 <div className="col-span-6 md:col-span-3 lg:col-span-2">
                     <Heading level="3" color="text-pzh-blue">
-                        Elke dag beter.{" "}
+                        Elke dag beter.{' '}
                         <span className="inline-block">Zuid-Holland.</span>
                     </Heading>
                 </div>
@@ -80,7 +80,7 @@ function Footer({ className = "" }) {
                     <div className="col-span-6 lg:col-span-2">
                         <Text type="body">
                             Mocht je aan- of opmerkingen hebben, dan horen wij
-                            dat graag via{" "}
+                            dat graag via{' '}
                             <a
                                 href="mailto:omgevingsbeleid@pzh.nl?subject=Aan- of opmerking"
                                 className="underline cursor-pointer hover:text-pzh-green-dark text-pzh-green"

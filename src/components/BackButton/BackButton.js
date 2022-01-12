@@ -1,10 +1,9 @@
-import React from "react"
-import { useHistory, useLocation } from "react-router-dom"
-import { useLastLocation } from "react-router-last-location"
-import { faArrowLeft } from "@fortawesome/pro-regular-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faArrowLeft } from '@fortawesome/pro-regular-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useHistory, useLocation } from 'react-router-dom'
+import { useLastLocation } from 'react-router-last-location'
 
-const BackButton = ({ className = "" }) => {
+const BackButton = ({ className = '' }) => {
     const history = useHistory()
     const location = useLocation()
     const lastLocation = useLastLocation()
@@ -16,7 +15,7 @@ const BackButton = ({ className = "" }) => {
         ) {
             history.goBack()
         } else {
-            history.push("/")
+            history.push('/')
         }
     }
 

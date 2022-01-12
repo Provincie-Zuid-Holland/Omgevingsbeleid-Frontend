@@ -1,14 +1,13 @@
-import { render, screen } from "@testing-library/react"
-import "@testing-library/jest-dom"
-import React from "react"
-import { MemoryRouter } from "react-router-dom"
+import { render, screen } from '@testing-library/react'
+import '@testing-library/jest-dom'
+import { MemoryRouter } from 'react-router-dom'
 
-import RaadpleegPlanningAndReleases from "./RaadpleegPlanningAndReleases"
+import RaadpleegPlanningAndReleases from './RaadpleegPlanningAndReleases'
 
-describe("RaadpleegPlanningAndReleases", () => {
+describe('RaadpleegPlanningAndReleases', () => {
     const defaultProps = {}
 
-    const setup = (customProps) => {
+    const setup = customProps => {
         const props = { ...defaultProps, ...customProps }
         render(
             <MemoryRouter>
@@ -17,9 +16,9 @@ describe("RaadpleegPlanningAndReleases", () => {
         )
     }
 
-    it("Component renders", () => {
+    it('Component renders', () => {
         setup()
-        const element = screen.getByText("Planning & Releases")
+        const element = screen.getByText('Planning & Releases')
         expect(element).toBeTruthy()
     })
 })

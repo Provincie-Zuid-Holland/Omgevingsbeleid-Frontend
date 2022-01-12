@@ -1,5 +1,4 @@
-import React from "react"
-import DOMPurify from "dompurify"
+import DOMPurify from 'dompurify'
 
 function ViewFieldInnerHTML({ html, fieldTitel }) {
     const cleanHtml = DOMPurify.sanitize(html)
@@ -10,7 +9,7 @@ function ViewFieldInnerHTML({ html, fieldTitel }) {
                     className="block mb-1 text-lg font-bold tracking-wide text-pzh-blue"
                     id={`raadpleeg-section-${fieldTitel
                         .toLowerCase()
-                        .replace(/ /g, "-")}`}
+                        .replace(/ /g, '-')}`}
                 >
                     {fieldTitel}
                 </h2>

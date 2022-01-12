@@ -1,13 +1,12 @@
-import React from "react"
-import PropTypes from "prop-types"
+import PropTypes from 'prop-types'
 
-import ContainerFormSection from "./../../../../components/ContainerFormSection"
+import ContainerFormSection from './../../../../components/ContainerFormSection'
 import {
     FormFieldGeldigheid,
     FormFieldTextInput,
     FormFieldTextArea,
     FormFieldWeblink,
-} from "./../../../../components/FormFieldsExport"
+} from './../../../../components/FormFieldsExport'
 
 /**
  *
@@ -23,14 +22,14 @@ function FormFieldContainerBeleidsregels({
     handleChange,
 }) {
     return (
-        <React.Fragment>
+        <>
             <ContainerFormSection
                 titel="Algemene informatie"
                 beschrijving="De algemene informatie bevat een duidelijke titel."
             >
                 <FormFieldTextInput
                     handleChange={handleChange}
-                    fieldValue={crudObject["Titel"]}
+                    fieldValue={crudObject['Titel']}
                     dataObjectProperty="Titel"
                     fieldLabel="Titel"
                     pValue="Formuleer in enkele woorden de titel van deze beleidsregel."
@@ -44,7 +43,7 @@ function FormFieldContainerBeleidsregels({
             >
                 <FormFieldTextArea
                     handleChange={handleChange}
-                    fieldValue={crudObject["Omschrijving"]}
+                    fieldValue={crudObject['Omschrijving']}
                     fieldLabel="Omschrijving"
                     dataObjectProperty="Omschrijving"
                     pValue="Geef een korte omschrijving van deze beleidsregel."
@@ -58,7 +57,7 @@ function FormFieldContainerBeleidsregels({
             >
                 <FormFieldWeblink
                     handleChange={handleChange}
-                    fieldValue={crudObject["Weblink"]}
+                    fieldValue={crudObject['Weblink']}
                     dataObjectProperty="Weblink"
                     fieldLabel="IDMS"
                     pValue="Vul hier de link in naar het besluitdocument op IDMS. (Eigenschappen > Algemeen > Snelkoppeling kopiëren)."
@@ -67,7 +66,7 @@ function FormFieldContainerBeleidsregels({
 
                 <FormFieldTextInput
                     handleChange={handleChange}
-                    fieldValue={crudObject["Externe_URL"]}
+                    fieldValue={crudObject['Externe_URL']}
                     dataObjectProperty="Externe_URL"
                     fieldLabel="Externe URL"
                     pValue={null}
@@ -77,7 +76,7 @@ function FormFieldContainerBeleidsregels({
                 <div className="flex flex-wrap -mx-3">
                     <FormFieldGeldigheid
                         handleChange={handleChange}
-                        fieldValue={crudObject["Begin_Geldigheid"]}
+                        fieldValue={crudObject['Begin_Geldigheid']}
                         fieldLabel="Inwerkingtreding"
                         dataObjectProperty="Begin_Geldigheid"
                         pValue="Indien bekend, kan hier de datum treding worden ingevuld"
@@ -87,7 +86,7 @@ function FormFieldContainerBeleidsregels({
                     <FormFieldGeldigheid
                         openUitwerkingstrede={true}
                         handleChange={handleChange}
-                        fieldValue={crudObject["Eind_Geldigheid"]}
+                        fieldValue={crudObject['Eind_Geldigheid']}
                         fieldLabel="Uitwerkingtreding"
                         dataObjectProperty="Eind_Geldigheid"
                         pValue="Indien bekend, kan hier de datum gtreding worden ingevuld"
@@ -95,7 +94,7 @@ function FormFieldContainerBeleidsregels({
                     />
                 </div>
             </ContainerFormSection>
-        </React.Fragment>
+        </>
     )
 }
 

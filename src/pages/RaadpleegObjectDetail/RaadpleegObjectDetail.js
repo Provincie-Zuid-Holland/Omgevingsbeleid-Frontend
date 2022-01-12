@@ -1,25 +1,22 @@
-import React from "react"
-import { toast } from "react-toastify"
-import { useParams } from "react-router-dom"
+import { useCallback, useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 // Import Axios instance to connect with the API
-import axios from "../../API/axios"
-
-import LoaderContent from "../../components/LoaderContent"
-import RelatiesKoppelingen from "../../components/RelatiesKoppelingen"
-import Container from "../../components/Container"
-import Footer from "../../components/Footer"
-import Heading from "../../components/Heading"
-
-import RaadpleegObjectDetailHead from "./RaadpleegObjectDetailHead"
-import RaadpleegObjectDetailSidebar from "./RaadpleegObjectDetailSidebar"
-import RaadpleegObjectDetailMain from "./RaadpleegObjectDetailMain"
-import TableOfContents from "./TableOfContents"
-import RaadpleegObjectDetailNewVersionNotification from "./RaadpleegObjectDetailNewVersionNotification"
-
-import { prepareRevisions } from "../../utils/prepareRevisions"
-import handleError from "../../utils/handleError"
-import BackButton from "../../components/BackButton"
+import axios from '../../API/axios'
+import BackButton from '../../components/BackButton'
+import Container from '../../components/Container'
+import Footer from '../../components/Footer'
+import Heading from '../../components/Heading'
+import LoaderContent from '../../components/LoaderContent'
+import RelatiesKoppelingen from '../../components/RelatiesKoppelingen'
+import handleError from '../../utils/handleError'
+import { prepareRevisions } from '../../utils/prepareRevisions'
+import RaadpleegObjectDetailHead from './RaadpleegObjectDetailHead'
+import RaadpleegObjectDetailMain from './RaadpleegObjectDetailMain'
+import RaadpleegObjectDetailNewVersionNotification from './RaadpleegObjectDetailNewVersionNotification'
+import RaadpleegObjectDetailSidebar from './RaadpleegObjectDetailSidebar'
+import TableOfContents from './TableOfContents'
 
 /**
  * A detail page for policy objects.
@@ -29,44 +26,44 @@ import BackButton from "../../components/BackButton"
 const RaadpleegObjectDetail = ({ dataModel }) => {
     let { id } = useParams()
 
-    const [dataObject, setDataObject] = React.useState(null) // The object we want to display
-    const [lineageID, setLineageID] = React.useState(null) // Used to get the whole history of the object
+    const [dataObject, setDataObject] = useState(null) // The object we want to display
+    const [lineageID, setLineageID] = useState(null) // Used to get the whole history of the object
 
     // Contains the history of an object (all the edits)
-    const [revisionObjects, setRevisionObjects] = React.useState(null)
+    const [revisionObjects, setRevisionObjects] = useState(null)
 
     // Boolean if data is loaded
-    const [dataLoaded, setDataLoaded] = React.useState(false)
+    const [dataLoaded, setDataLoaded] = useState(false)
 
     const apiEndpointBase = dataModel.API_ENDPOINT
     const titleSingular = dataModel.TITLE_SINGULAR
     const titleSingularPrefix = dataModel.TITLE_SINGULAR_PREFIX
 
     /** Scroll to top */
-    React.useEffect(() => {
+    useEffect(() => {
         if (!dataLoaded) return
         window.scrollTo(0, 0)
     }, [dataLoaded])
 
     /** Initialize data */
-    React.useEffect(() => {
+    useEffect(() => {
         if (id === dataObject?.UUID) return
 
         const getVersionOfObject = () =>
             axios
                 .get(`version/${apiEndpointBase}/${id}`)
-                .then((res) => res.data)
-                .catch((err) => {
+                .then(res => res.data)
+                .catch(err => {
                     handleError(err)
                 })
 
         setDataLoaded(false)
         getVersionOfObject()
-            .then((data) => {
+            .then(data => {
                 setDataObject(data)
                 return data.ID
             })
-            .then((newLineageID) => {
+            .then(newLineageID => {
                 if (newLineageID === lineageID) {
                     // User is on the same lineageID
                     setDataLoaded(true)
@@ -77,26 +74,26 @@ const RaadpleegObjectDetail = ({ dataModel }) => {
             })
     }, [apiEndpointBase, id, lineageID, dataObject])
 
-    const getAndSetRevisionObjects = React.useCallback(() => {
+    const getAndSetRevisionObjects = useCallback(() => {
         axios
             .get(`${apiEndpointBase}/${lineageID}`)
-            .then((res) => {
+            .then(res => {
                 const preppedRevisions = prepareRevisions(res.data)
                 setRevisionObjects(preppedRevisions)
                 setDataLoaded(true)
             })
-            .catch((err) => {
+            .catch(err => {
                 console.log(err)
                 toast(process.env.REACT_APP_ERROR_MSG)
             })
     }, [lineageID, apiEndpointBase])
 
     // useEffect triggered when there is a new lineageID set
-    React.useEffect(() => {
+    useEffect(() => {
         if (!lineageID && lineageID !== 0) return
 
         // We only want to show the revisions on the type of Beleidskeuze
-        if (titleSingular !== "Beleidskeuze") {
+        if (titleSingular !== 'Beleidskeuze') {
             setDataLoaded(true)
             return
         }
@@ -107,7 +104,7 @@ const RaadpleegObjectDetail = ({ dataModel }) => {
     if (!dataLoaded) return <LoaderContent />
 
     return (
-        <React.Fragment>
+        <>
             <RaadpleegObjectDetailHead
                 titleSingular={titleSingular}
                 dataObject={dataObject}
@@ -118,8 +115,7 @@ const RaadpleegObjectDetail = ({ dataModel }) => {
                     <Heading
                         level="3"
                         className="font-bold"
-                        color="text-pzh-blue-dark"
-                    >
+                        color="text-pzh-blue-dark">
                         {titleSingular}
                     </Heading>
                     <RaadpleegObjectDetailNewVersionNotification
@@ -152,7 +148,7 @@ const RaadpleegObjectDetail = ({ dataModel }) => {
                 />
             ) : null}
             <Footer />
-        </React.Fragment>
+        </>
     )
 }
 

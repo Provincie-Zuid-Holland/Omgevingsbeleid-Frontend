@@ -1,14 +1,15 @@
-import React, { Component } from "react"
-import ReactDOMServer from "react-dom/server"
-import Leaflet from "leaflet"
+import { faSearch } from '@fortawesome/pro-light-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import Leaflet from 'leaflet'
+import Proj from 'proj4leaflet'
+import { Component, createRef } from 'react'
+import ReactDOMServer from 'react-dom/server'
+import { Map, TileLayer, LayersControl, FeatureGroup } from 'react-leaflet'
+import { toast } from 'react-toastify'
 
-import { Map, TileLayer, LayersControl, FeatureGroup } from "react-leaflet"
-import Proj from "proj4leaflet"
-import { toast } from "react-toastify"
-
-import { faSearch } from "@fortawesome/pro-light-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-
+import LeafletController from './../../components/LeafletController'
+import LeafletDrawController from './../../components/LeafletDrawController'
+import LeafletSearchInput from './../../components/LeafletSearchInput'
 import {
     RDProj4,
     RDCrs,
@@ -16,20 +17,16 @@ import {
     tileURL,
     tileURLSattelite,
     leafletCenter,
-} from "./../../constants/leaflet"
-
-import LeafletController from "./../../components/LeafletController"
-import LeafletDrawController from "./../../components/LeafletDrawController"
-import LeafletSearchInput from "./../../components/LeafletSearchInput"
+} from './../../constants/leaflet'
 
 delete Leaflet.Icon.Default.prototype._getIconUrl
 Leaflet.Icon.Default.mergeOptions({
     iconRetinaUrl:
-        "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/images/marker-icon.png",
+        'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/images/marker-icon.png',
     iconUrl:
-        "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/images/marker-icon.png",
+        'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/images/marker-icon.png',
     shadowUrl:
-        "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/images/marker-shadow.png",
+        'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/images/marker-shadow.png',
 })
 
 /**
@@ -45,8 +42,8 @@ function CreateCustomPopup({ weergavenaam, lat, lng, point }) {
         <div className="text-sm custom-popup">
             <span className="block font-bold">Gemarkeerde Locatie</span>
             <ul className="mt-1 mb-4 text-xs">
-                <li>{weergavenaam.split(",")[0]}</li>
-                <li>{weergavenaam.split(",")[1]}</li>
+                <li>{weergavenaam.split(',')[0]}</li>
+                <li>{weergavenaam.split(',')[1]}</li>
                 <li>
                     GPS Locatie: {lat.toFixed(7)}, {lng.toFixed(7)}
                 </li>
@@ -57,15 +54,14 @@ function CreateCustomPopup({ weergavenaam, lat, lng, point }) {
                 )}+${point.y.toFixed(2)}&LatLng=${lat.toFixed(7)}-${lng.toFixed(
                     7
                 )}`}
-                className="inline-block p-2 text-white rounded cursor-pointer bg-pzh-blue hover:bg-blue-600 focus:outline-none focus:ring"
-            >
+                className="inline-block p-2 text-white rounded cursor-pointer bg-pzh-blue hover:bg-blue-600 focus:outline-none focus:ring">
                 Bekijk provinciaal beleid van deze locatie
             </a>
         </div>
     )
 }
 
-const RDProjection = new Proj.Projection("EPSG:28992", RDProj4, leafletBounds)
+const RDProjection = new Proj.Projection('EPSG:28992', RDProj4, leafletBounds)
 
 const DEFAULT_VIEWPORT = {
     zoom: 4,
@@ -83,11 +79,11 @@ export default class LeafletViewer extends Component {
             leafletSearch: false,
             activeSearchMarker: null,
         }
-        this.leafletMap = React.createRef()
+        this.leafletMap = createRef()
         this.togglePinMarker = this.togglePinMarker.bind(this)
         this.toggleLeafletSearch = this.toggleLeafletSearch.bind(this)
         this.mapPanTo = this.mapPanTo.bind(this)
-        this.leafletSearch = React.createRef()
+        this.leafletSearch = createRef()
     }
 
     /**
@@ -100,12 +96,12 @@ export default class LeafletViewer extends Component {
      * @param {string} layer - Parameter used to bind text to the popup.
      */
     _createCustomPopup(lat, lng, layer) {
-        layer.bindPopup("Adres aan het laden...").openPopup()
+        layer.bindPopup('Adres aan het laden...').openPopup()
         // layer._popup.setContent('something else')
 
-        import("./../../API/axiosLocatieserver").then((api) => {
+        import('./../../API/axiosLocatieserver').then(api => {
             api.getAdresData(lat, lng)
-                .then((data) => {
+                .then(data => {
                     const customPopupHTML = `<div>${ReactDOMServer.renderToString(
                         <CreateCustomPopup
                             weergavenaam={data.weergavenaam}
@@ -123,10 +119,10 @@ export default class LeafletViewer extends Component {
         })
     }
 
-    _onCreated = (e) => {
+    _onCreated = e => {
         let type = e.layerType
 
-        if (type === "marker") {
+        if (type === 'marker') {
             // Do marker specific actions
 
             this._createCustomPopup(
@@ -144,33 +140,33 @@ export default class LeafletViewer extends Component {
         this._onChange()
     }
 
-    _onDeleted = (e) => {
+    _onDeleted = () => {
         this._onChange()
     }
 
-    _onMounted = (drawControl) => {
+    _onMounted = () => {
         // console.log('_onMounted', drawControl)
     }
 
-    _onEditStart = (e) => {
+    _onEditStart = () => {
         // console.log('_onEditStart', e)
     }
 
-    _onEditStop = (e) => {
+    _onEditStop = () => {
         // console.log('_onEditStop', e)
     }
 
-    _onDeleteStart = (e) => {
+    _onDeleteStart = () => {
         // console.log('_onDeleteStart', e)
     }
 
-    _onDeleteStop = (e) => {
+    _onDeleteStop = () => {
         // console.log('_onDeleteStop', e)
     }
 
     _editableFG = null
 
-    _onFeatureGroupReady = (reactFGref) => {
+    _onFeatureGroupReady = reactFGref => {
         // store the ref for future access to content
         this._editableFG = reactFGref
     }
@@ -235,22 +231,22 @@ export default class LeafletViewer extends Component {
     mapPanTo(lng, lat, type) {
         let zoomLevel
         switch (type) {
-            case "adres":
+            case 'adres':
                 zoomLevel = 10
                 break
-            case "postcode":
+            case 'postcode':
                 zoomLevel = 12
                 break
-            case "weg":
+            case 'weg':
                 zoomLevel = 14
                 break
-            case "woonplaats":
+            case 'woonplaats':
                 zoomLevel = 7
                 break
-            case "gemeente":
+            case 'gemeente':
                 zoomLevel = 8
                 break
-            case "provincie":
+            case 'provincie':
                 zoomLevel = 5
                 break
             default:
@@ -280,7 +276,7 @@ export default class LeafletViewer extends Component {
 
     render() {
         return (
-            <React.Fragment>
+            <>
                 <Map
                     center={leafletCenter}
                     continuousWorld={true}
@@ -291,9 +287,8 @@ export default class LeafletViewer extends Component {
                     crs={RDCrs}
                     ref={this.leafletMap}
                     className={`z-0 ${
-                        this.props.className ? this.props.className : ""
-                    }`}
-                >
+                        this.props.className ? this.props.className : ''
+                    }`}>
                     <LayersControl position="topright">
                         <LayersControl.BaseLayer checked={true} name="Map">
                             <TileLayer
@@ -316,16 +311,14 @@ export default class LeafletViewer extends Component {
                     <LeafletController position="topleft">
                         <div
                             id="leaflet-search"
-                            className="relative z-10 flex items-center justify-between h-10 bg-white rounded shadow cursor-pointer"
-                        >
+                            className="relative z-10 flex items-center justify-between h-10 bg-white rounded shadow cursor-pointer">
                             <div
                                 className={`w-10 h-10 flex justify-center items-center text-gray-600 hover:text-gray-700 ${
                                     this.state.leafletSearch
-                                        ? "border-r border-gray-300"
+                                        ? 'border-r border-gray-300'
                                         : null
                                 }`}
-                                onClick={this.toggleLeafletSearch}
-                            >
+                                onClick={this.toggleLeafletSearch}>
                                 <FontAwesomeIcon
                                     className="inline-block w-10 text-lg cursor-pointer"
                                     icon={faSearch}
@@ -341,10 +334,9 @@ export default class LeafletViewer extends Component {
                         </div>
                     </LeafletController>
                     <FeatureGroup
-                        ref={(reactFGref) => {
+                        ref={reactFGref => {
                             this._onFeatureGroupReady(reactFGref)
-                        }}
-                    >
+                        }}>
                         <LeafletDrawController
                             position="topleft"
                             onCreated={this._onCreated}
@@ -365,7 +357,7 @@ export default class LeafletViewer extends Component {
                         />
                     </FeatureGroup>
                 </Map>
-            </React.Fragment>
+            </>
         )
     }
 }

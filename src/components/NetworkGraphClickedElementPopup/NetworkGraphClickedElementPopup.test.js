@@ -3,14 +3,14 @@ import {
     screen,
     fireEvent,
     waitForElementToBeRemoved,
-} from "@testing-library/react"
-import React from "react"
-import "@testing-library/jest-dom"
-import { MemoryRouter } from "react-router-dom"
+} from '@testing-library/react'
 
-import NetworkGraphClickedElementPopup from "./NetworkGraphClickedElementPopup"
+import '@testing-library/jest-dom'
+import { MemoryRouter } from 'react-router-dom'
 
-const setup = (clickedNode) => {
+import NetworkGraphClickedElementPopup from './NetworkGraphClickedElementPopup'
+
+const setup = clickedNode => {
     const setGraphIsOpenMock = jest.fn()
     const resetNodesMock = jest.fn()
     const defaultProps = {
@@ -18,9 +18,9 @@ const setup = (clickedNode) => {
             clickedNode !== undefined
                 ? clickedNode
                 : {
-                      Titel: "Test title",
-                      Type: "beleidskeuzes",
-                      UUID: "0000-0000",
+                      Titel: 'Test title',
+                      Type: 'beleidskeuzes',
+                      UUID: '0000-0000',
                   },
         setGraphIsOpen: setGraphIsOpenMock,
         resetNodes: resetNodesMock,
@@ -35,81 +35,81 @@ const setup = (clickedNode) => {
     return { setGraphIsOpenMock, resetNodesMock }
 }
 
-describe("NetworkGraphClickedElementPopup", () => {
-    it("should render", () => {
+describe('NetworkGraphClickedElementPopup', () => {
+    it('should render', () => {
         setup()
-        const tooltip = screen.queryByRole("tooltip")
+        const tooltip = screen.queryByRole('tooltip')
         expect(tooltip).toBeTruthy()
     })
 
-    it("should not display the tooltip when there is no clickedNode", () => {
+    it('should not display the tooltip when there is no clickedNode', () => {
         const defaultClickedNode = null
         setup(defaultClickedNode)
-        const tooltip = screen.queryByRole("tooltip")
+        const tooltip = screen.queryByRole('tooltip')
         expect(tooltip).toBeFalsy()
     })
 
-    it("should display the CTA text in the popup", () => {
+    it('should display the CTA text in the popup', () => {
         setup()
-        expect(screen.getByText("Bekijk de Beleidskeuze")).toBeTruthy()
+        expect(screen.getByText('Bekijk de Beleidskeuze')).toBeTruthy()
     })
 
-    it("should display the title of the clickedNode in the popup", () => {
+    it('should display the title of the clickedNode in the popup', () => {
         setup()
-        expect(screen.getByText("Test title")).toBeTruthy()
+        expect(screen.getByText('Test title')).toBeTruthy()
     })
 
-    it("should display the type of the clickedNode in the popup", () => {
+    it('should display the type of the clickedNode in the popup', () => {
         setup()
-        expect(screen.getByText("Beleidskeuze")).toBeTruthy()
+        expect(screen.getByText('Beleidskeuze')).toBeTruthy()
     })
 
-    it("should contain a link to go to the detail page of the object", () => {
+    it('should contain a link to go to the detail page of the object', () => {
         setup()
-        expect(screen.queryByRole("link")).toHaveAttribute(
-            "href",
-            "/detail/beleidskeuzes/0000-0000"
+        expect(screen.queryByRole('link')).toHaveAttribute(
+            'href',
+            '/detail/beleidskeuzes/0000-0000'
         )
     })
 
-    it("should close the graph when the user clicks on the link", () => {
+    it('should close the graph when the user clicks on the link', () => {
         const { setGraphIsOpenMock } = setup()
-        const link = screen.queryByRole("link")
+        const link = screen.queryByRole('link')
         fireEvent.click(link)
         expect(setGraphIsOpenMock).toBeCalledTimes(1)
     })
 
-    it("should close the popup when user clicks on the close button", async () => {
+    it('should close the popup when user clicks on the close button', async () => {
         const { resetNodesMock } = setup()
-        const closeBtn = screen.queryByRole("button")
+        const closeBtn = screen.queryByRole('button')
         fireEvent.click(closeBtn)
         expect(resetNodesMock).toBeCalledTimes(1)
-        await waitForElementToBeRemoved(() => screen.getByText("Beleidskeuze"))
-        expect(screen.queryByText("Beleidskeuze")).not.toBeTruthy()
+        await waitForElementToBeRemoved(() => screen.getByText('Beleidskeuze'))
+        expect(screen.queryByText('Beleidskeuze')).not.toBeTruthy()
     })
 
-    it("should close the popup when user focusses the close button and presses the enter key", async () => {
+    it('should close the popup when user focusses the close button and presses the enter key', async () => {
         const { resetNodesMock } = setup()
-        const closeBtn = screen.queryByRole("button")
+        const closeBtn = screen.queryByRole('button')
         fireEvent.keyPress(closeBtn, {
-            key: "Enter",
-            code: "Enter",
+            key: 'Enter',
+            code: 'Enter',
             charCode: 13,
         })
         expect(resetNodesMock).toBeCalledTimes(1)
-        await waitForElementToBeRemoved(() => screen.getByText("Beleidskeuze"))
-        expect(screen.queryByText("Beleidskeuze")).not.toBeTruthy()
+        await waitForElementToBeRemoved(() => screen.getByText('Beleidskeuze'))
+        expect(screen.queryByText('Beleidskeuze')).not.toBeTruthy()
     })
 
-    it("should not close the popup when user focusses the close button and presses a different key", async () => {
+    it('should not close the popup when user focusses the close button and presses a different key', async () => {
         const { resetNodesMock } = setup()
-        const closeBtn = screen.queryByRole("button")
+        const closeBtn = screen.queryByRole('button')
         fireEvent.keyPress(closeBtn, {
-            key: "Backspace",
-            code: "Backspace",
+            key: 'Backspace',
+            code: 'Backspace',
             charCode: 8,
         })
         expect(resetNodesMock).toBeCalledTimes(0)
-        expect(screen.queryByText("Beleidskeuze")).toBeTruthy()
+        expect(screen.queryByText('Beleidskeuze')).toBeTruthy()
     })
 })

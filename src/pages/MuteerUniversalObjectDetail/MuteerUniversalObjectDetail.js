@@ -1,21 +1,19 @@
-import React, { Component } from "react"
-import { format } from "date-fns"
-import { Link, withRouter } from "react-router-dom"
-import { faPlus } from "@fortawesome/pro-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Helmet } from "react-helmet"
-import { toast } from "react-toastify"
-
-// Import Components
-import ButtonBackToPage from "./../../components/ButtonBackToPage"
-import EigenaarsDriehoek from "../../components/EigenaarsDriehoek"
-import ContainerMain from "./../../components/ContainerMain"
-import ContainerDetailMain from "../../components/ContainerDetailMain"
+import { faPlus } from '@fortawesome/pro-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { format } from 'date-fns'
+import { Component } from 'react'
+import { Helmet } from 'react-helmet'
+import { Link, withRouter } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 // Import Axios instance to connect with the API
-import axios from "../../API/axios"
-
-import { checkIfUserIsAllowedOnPage } from "../../utils/checkIfUserIsAllowedOnPage"
+import axios from '../../API/axios'
+// Import Components
+import ContainerDetailMain from '../../components/ContainerDetailMain'
+import EigenaarsDriehoek from '../../components/EigenaarsDriehoek'
+import { checkIfUserIsAllowedOnPage } from '../../utils/checkIfUserIsAllowedOnPage'
+import ButtonBackToPage from './../../components/ButtonBackToPage'
+import ContainerMain from './../../components/ContainerMain'
 
 /**
  * @param {object} dimensieConstants - Contains all the variables of the dimension (e.g. Maatregelen). The dimensieContants come from the constant files export src/constants/dimensies.js.
@@ -31,16 +29,15 @@ class MuteerUniversalObjectDetail extends Component {
         }
 
         this.returnPageType = this.returnPageType.bind(this)
-        this.getAndSetDimensieDataFromApi = this.getAndSetDimensieDataFromApi.bind(
-            this
-        )
+        this.getAndSetDimensieDataFromApi =
+            this.getAndSetDimensieDataFromApi.bind(this)
     }
 
     /** pageType 'detail' is based on a UUID, 'version' is based on the the ID of a policy object*/
     returnPageType() {
-        let pageType = "detail"
+        let pageType = 'detail'
         if (this.props.match.params.version) {
-            pageType = "version"
+            pageType = 'version'
         }
         return pageType
     }
@@ -52,10 +49,10 @@ class MuteerUniversalObjectDetail extends Component {
         const dimensieConstants = this.props.dimensieConstants
         const apiEndpoint = dimensieConstants.API_ENDPOINT
 
-        if (this.state.pageType === "detail") {
+        if (this.state.pageType === 'detail') {
             const objectID = this.props.match.params.single
             return `${apiEndpoint}/${objectID}`
-        } else if (this.state.pageType === "version") {
+        } else if (this.state.pageType === 'version') {
             const objectUUID = this.props.match.params.version
             return `/version/${apiEndpoint}/${objectUUID}`
         }
@@ -68,7 +65,7 @@ class MuteerUniversalObjectDetail extends Component {
         const apiEndpoint = this.getApiEndpoint()
         axios
             .get(apiEndpoint)
-            .then((res) => {
+            .then(res => {
                 const dataObject = res.data
                 const authUser = this.props.authUser
 
@@ -80,13 +77,13 @@ class MuteerUniversalObjectDetail extends Component {
 
                 if (!isUserAllowed) {
                     toast(
-                        "Je bent niet geauthenticeerd om deze pagina te bekijken"
+                        'Je bent niet geauthenticeerd om deze pagina te bekijken'
                     )
-                    this.props.history.push("/muteer/dashboard")
+                    this.props.history.push('/muteer/dashboard')
                 }
 
                 /** Sort the objects if the pageType is 'detail' (which contains whole history of an object) */
-                if (this.state.pageType === "detail") {
+                if (this.state.pageType === 'detail') {
                     /** pageType is of 'detail' */
                     this.setState({
                         dataObject: dataObject.sort(function (a, b) {
@@ -105,7 +102,7 @@ class MuteerUniversalObjectDetail extends Component {
                     })
                 }
             })
-            .catch((err) => {
+            .catch(err => {
                 if (err.response !== undefined) {
                     this.setState(
                         {
@@ -142,7 +139,7 @@ class MuteerUniversalObjectDetail extends Component {
     }
 
     /** Update state when the user switches from pageType */
-    componentDidUpdate(prevProps) {
+    componentDidUpdate() {
         if (this.returnPageType() !== this.state.pageType) {
             this.setState(
                 {
@@ -170,9 +167,9 @@ class MuteerUniversalObjectDetail extends Component {
          * and a object when the pageType is detail. TODO: Refactor this into better state.
          */
         let dataObject = {}
-        if (dataReceived && pageType === "detail") {
+        if (dataReceived && pageType === 'detail') {
             dataObject = this.state.dataObject[0]
-        } else if (dataReceived && pageType === "version") {
+        } else if (dataReceived && pageType === 'version') {
             dataObject = this.state.dataObject
         }
 
@@ -189,8 +186,8 @@ class MuteerUniversalObjectDetail extends Component {
             <ContainerMain>
                 <Helmet>
                     <title>
-                        Omgevingsbeleid{" "}
-                        {dataObject.Titel ? " - " + dataObject.Titel : ""}
+                        Omgevingsbeleid{' '}
+                        {dataObject.Titel ? ' - ' + dataObject.Titel : ''}
                     </title>
                 </Helmet>
 
@@ -206,23 +203,21 @@ class MuteerUniversalObjectDetail extends Component {
                     <div className="flex">
                         <div
                             className={`${
-                                overzichtSlug !== "beleidskeuzes"
-                                    ? "w-full"
-                                    : "w-9/12"
-                            } pr-8`}
-                        >
-                            {pageType === "detail" ? (
+                                overzichtSlug !== 'beleidskeuzes'
+                                    ? 'w-full'
+                                    : 'w-9/12'
+                            } pr-8`}>
+                            {pageType === 'detail' ? (
                                 <div className="h-10 mt-5 ">
                                     <Link
                                         className="flex items-center w-1/2 mt-5"
                                         to={
                                             this.props.location.hash ===
-                                            "#mijn-beleid"
+                                            '#mijn-beleid'
                                                 ? `/muteer/${overzichtSlug}/edit/${this.props.match.params.single}#mijn-beleid`
                                                 : `/muteer/${overzichtSlug}/edit/${this.props.match.params.single}`
                                         }
-                                        id={`href-ontwerp-maken`}
-                                    >
+                                        id={`href-ontwerp-maken`}>
                                         <span className="relative flex items-center justify-end w-24 h-10 pb-5 mr-2 border-r-2 border-gray-300">
                                             <div className="absolute flex items-center justify-center w-8 h-8 text-center bg-gray-300 rounded-full -right-4">
                                                 <FontAwesomeIcon
@@ -248,7 +243,7 @@ class MuteerUniversalObjectDetail extends Component {
                             />
 
                             {/* List of Revisions */}
-                            {dataReceived && pageType === "detail" ? (
+                            {dataReceived && pageType === 'detail' ? (
                                 <RevisieList
                                     dataObject={this.state.dataObject}
                                     overzichtSlug={overzichtSlug}
@@ -269,8 +264,8 @@ class MuteerUniversalObjectDetail extends Component {
 
 // Generate Back Button for Detail or Version page
 function GenerateBackToButton({ overzichtSlug, pageType, hash, dataObject }) {
-    if (pageType === "detail") {
-        if (hash === "#mijn-beleid") {
+    if (pageType === 'detail') {
+        if (hash === '#mijn-beleid') {
             return (
                 <ButtonBackToPage
                     terugNaar={` mijn beleid`}
@@ -285,7 +280,7 @@ function GenerateBackToButton({ overzichtSlug, pageType, hash, dataObject }) {
                 />
             )
         }
-    } else if (pageType === "version") {
+    } else if (pageType === 'version') {
         const dataObjectID = dataObject.ID
         return (
             <ButtonBackToPage
@@ -316,15 +311,13 @@ function RevisieList({ dataObject, overzichtSlug, hash }) {
                                         item.UUID,
                                         hash
                                     )}
-                                    className="relative flex items-end h-6 mr-2 hover:underline"
-                                >
+                                    className="relative flex items-end h-6 mr-2 hover:underline">
                                     <span
                                         className="w-24 pr-4 pr-5 text-xs text-right text-gray-600"
-                                        title="Laatst gewijzigd op"
-                                    >
+                                        title="Laatst gewijzigd op">
                                         {format(
                                             new Date(item.Modified_Date),
-                                            "d MMM yyyy"
+                                            'd MMM yyyy'
                                         )}
                                     </span>
                                     <div className="relative w-3 h-3 text-center bg-gray-300 rounded-full revisie-list-bolletje" />
@@ -343,7 +336,7 @@ function RevisieList({ dataObject, overzichtSlug, hash }) {
 
 // Link naar detail pagina's van de revisies
 function makeURLForRevisieObject(overzichtSlug, objectID, objectUUID, hash) {
-    if (hash === "#mijn-beleid") {
+    if (hash === '#mijn-beleid') {
         return `/muteer/${overzichtSlug}/${objectID}/${objectUUID}#mijn-beleid`
     } else {
         return `/muteer/${overzichtSlug}/${objectID}/${objectUUID}`

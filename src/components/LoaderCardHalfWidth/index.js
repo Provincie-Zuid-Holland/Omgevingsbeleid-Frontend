@@ -1,3 +1,3 @@
-import LoaderCardHalfWidth from "./LoaderCardHalfWidth.js"
+import LoaderCardHalfWidth from './LoaderCardHalfWidth.js'
 
 export default LoaderCardHalfWidth

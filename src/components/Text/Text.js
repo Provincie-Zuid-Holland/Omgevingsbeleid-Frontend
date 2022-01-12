@@ -1,5 +1,4 @@
-import React from "react"
-import { useWindowSize } from "../../utils/useWindowSize"
+import { useWindowSize } from '../../utils/useWindowSize'
 
 /**
  *
@@ -9,42 +8,42 @@ import { useWindowSize } from "../../utils/useWindowSize"
  */
 const getStylesForElement = (type, windowSize) => {
     if (!windowSize) {
-        console.error("No windowSize supplied!")
+        console.error('No windowSize supplied!')
         return {}
     }
 
     const smallScreen = 640
     const currentScreenIsMobile = windowSize.width <= smallScreen
 
-    if (type === "quote") {
+    if (type === 'quote') {
         if (currentScreenIsMobile) {
             return {
-                fontSize: "1.6rem",
-                lineHeight: "1.094rem",
+                fontSize: '1.6rem',
+                lineHeight: '1.094rem',
             }
         } else {
             return {
-                fontSize: "1.667rem",
-                lineHeight: "1.2rem",
+                fontSize: '1.667rem',
+                lineHeight: '1.2rem',
             }
         }
-    } else if (type === "introduction-paragraph") {
+    } else if (type === 'introduction-paragraph') {
         if (currentScreenIsMobile) {
             return {
-                fontSize: "1.1rem",
-                lineHeight: "1.25rem",
+                fontSize: '1.1rem',
+                lineHeight: '1.25rem',
             }
         } else {
-            return { fontSize: "1.2rem", lineHeight: "1.6rem" }
+            return { fontSize: '1.2rem', lineHeight: '1.6rem' }
         }
-    } else if (type === "body" || type === "span") {
+    } else if (type === 'body' || type === 'span') {
         if (currentScreenIsMobile) {
             return {
-                fontSize: "1rem",
-                lineHeight: "1.5rem",
+                fontSize: '1rem',
+                lineHeight: '1.5rem',
             }
         } else {
-            return { fontSize: "1rem", lineHeight: "1.5rem" }
+            return { fontSize: '1rem', lineHeight: '1.5rem' }
         }
     }
 }
@@ -61,25 +60,25 @@ const getStylesForElement = (type, windowSize) => {
 function Text({
     type,
     children,
-    color = "text-pzh-blue-dark",
-    className = "",
+    color = 'text-pzh-blue-dark',
+    className = '',
 }) {
     const windowSize = useWindowSize()
     const styles = getStylesForElement(type, windowSize)
 
-    if (type === "quote") {
+    if (type === 'quote') {
         return (
             <span style={styles} className={`${color} ${className}`}>
                 {children}
             </span>
         )
-    } else if (type === "span") {
+    } else if (type === 'span') {
         return (
             <span style={styles} className={`${color} ${className}`}>
                 {children}
             </span>
         )
-    } else if (type === "subtitle") {
+    } else if (type === 'subtitle') {
         return (
             <p
                 style={styles}
@@ -88,13 +87,13 @@ function Text({
                 {children}
             </p>
         )
-    } else if (type === "introduction-paragraph") {
+    } else if (type === 'introduction-paragraph') {
         return (
             <p style={styles} className={`inline-block ${color} ${className}`}>
                 {children}
             </p>
         )
-    } else if (type === "body" || typeof type === "undefined") {
+    } else if (type === 'body' || typeof type === 'undefined') {
         return (
             <p style={styles} className={`inline-block ${color} ${className}`}>
                 {children}

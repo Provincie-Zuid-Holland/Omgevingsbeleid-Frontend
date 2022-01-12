@@ -1,3 +1,3 @@
-import LoaderLeafletTinyViewer from "./LoaderLeafletTinyViewer.js"
+import LoaderLeafletTinyViewer from './LoaderLeafletTinyViewer.js'
 
 export default LoaderLeafletTinyViewer

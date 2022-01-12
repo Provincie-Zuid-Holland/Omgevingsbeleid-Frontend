@@ -1,10 +1,10 @@
-import { render, screen } from "@testing-library/react"
-import React from "react"
-import "@testing-library/jest-dom"
+import { render, screen } from '@testing-library/react'
 
-import TableDataCell from "./TableDataCell"
+import '@testing-library/jest-dom'
 
-describe("TableDataCell", () => {
+import TableDataCell from './TableDataCell'
+
+describe('TableDataCell', () => {
     const setup = (className = null) =>
         render(
             <table>
@@ -18,18 +18,18 @@ describe("TableDataCell", () => {
             </table>
         )
 
-    it("should render", () => {
+    it('should render', () => {
         setup()
-        expect(screen.getByText("Test")).toBeTruthy()
+        expect(screen.getByText('Test')).toBeTruthy()
     })
 
-    it("should display prop classes when passed", () => {
-        setup("test-class")
-        expect(screen.getByRole("cell")).toHaveClass("test-class")
+    it('should display prop classes when passed', () => {
+        setup('test-class')
+        expect(screen.getByRole('cell')).toHaveClass('test-class')
     })
 
-    it("should not display prop classes if none are passed", () => {
+    it('should not display prop classes if none are passed', () => {
         setup()
-        expect(screen.getByRole("cell")).not.toHaveClass("test-class")
+        expect(screen.getByRole('cell')).not.toHaveClass('test-class')
     })
 })

@@ -1,8 +1,6 @@
-import React from "react"
-
-import getVigerendText from "../../../utils/getVigerendText"
-import PopUpRevisionContainer from "../../../components/PopUpRevisionContainer"
-import RevisieListItem from "../RevisieListItem"
+import getVigerendText from '../../../utils/getVigerendText'
+import PopUpRevisionContainer from '../../../components/PopUpRevisionContainer'
+import RevisieListItem from '../RevisieListItem'
 
 /**
  * @returns Component containg a text about the validity of the object and optionally a child component that displays the revisions of the object.
@@ -27,7 +25,7 @@ const MetaInfo = ({
             </span>
 
             {displayRevisionSection ? (
-                <React.Fragment>
+                <>
                     <span className="mr-3 text-sm text-gray-600">&bull;</span>
                     <PopUpRevisionContainer
                         dataObject={dataObject}
@@ -42,7 +40,7 @@ const MetaInfo = ({
                             />
                         ))}
                     </PopUpRevisionContainer>
-                </React.Fragment>
+                </>
             ) : null}
         </div>
     )

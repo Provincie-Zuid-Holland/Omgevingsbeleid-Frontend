@@ -1,19 +1,16 @@
-import React from "react"
-
-import imgDigiToegankelijkheid from "./../../images/digi-toegankelijkheid.png"
-
-import Footer from "./../../components/Footer"
-import Container from "./../../components/Container"
-import Heading from "./../../components/Heading"
-import Text from "./../../components/Text"
-import Breadcrumbs from "./../../components/Breadcrumbs"
-import { useDnaBarWidth } from "../../components/DNABar"
+import { useDnaBarWidth } from '../../components/DNABar'
+import Breadcrumbs from './../../components/Breadcrumbs'
+import Container from './../../components/Container'
+import Footer from './../../components/Footer'
+import Heading from './../../components/Heading'
+import Text from './../../components/Text'
+import imgDigiToegankelijkheid from './../../images/digi-toegankelijkheid.png'
 
 function RaadpleegDigiToegankelijkheid() {
     const dnaBarWidth = useDnaBarWidth()
     const breadcrumbPaths = [
-        { name: "Home", path: "/" },
-        { name: "Digitale toegankelijkheid", path: "/digi-toegankelijkheid" },
+        { name: 'Home', path: '/' },
+        { name: 'Digitale toegankelijkheid', path: '/digi-toegankelijkheid' },
     ]
 
     return (
@@ -21,7 +18,7 @@ function RaadpleegDigiToegankelijkheid() {
             <div
                 className="hidden w-full bg-center bg-no-repeat bg-cover bg-pzh-blue md:block"
                 style={{
-                    height: dnaBarWidth * 3 + "px", // DNA Bar Width
+                    height: dnaBarWidth * 3 + 'px', // DNA Bar Width
                     backgroundImage: `url(${imgDigiToegankelijkheid})`,
                 }}
             />
@@ -56,14 +53,14 @@ function RaadpleegDigiToegankelijkheid() {
                     <Text type="body" className="mt-3">
                         Loop je tegen een toegankelijkheidsprobleem aan? Of heb
                         je een vraag of opmerking over toegankelijkheid? Neem
-                        dan contact op met ons Contact Centrum via{" "}
+                        dan contact op met ons Contact Centrum via{' '}
                         <a
                             href="mailto:zuidholland@pzh.nl"
                             className="text-pzh-green hover:text-pzh-green-dark"
                         >
                             zuidholland@pzh.nl
-                        </a>{" "}
-                        of kijk op{" "}
+                        </a>{' '}
+                        of kijk op{' '}
                         <a
                             href="www.zuid-holland.nl/contact"
                             target="_blank"

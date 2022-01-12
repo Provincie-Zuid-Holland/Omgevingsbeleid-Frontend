@@ -1,16 +1,14 @@
-import React from "react"
-import { withRouter } from "react-router-dom"
-import { faCalendarAlt } from "@fortawesome/pro-regular-svg-icons"
-import { faLink, faExternalLinkAlt } from "@fortawesome/pro-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faCalendarAlt } from '@fortawesome/pro-regular-svg-icons'
+import { faLink, faExternalLinkAlt } from '@fortawesome/pro-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { withRouter } from 'react-router-dom'
 
 // Import Components
-import HeadingMain from "../HeadingMain"
-import LoaderMainTitle from "../LoaderMainTitle"
-import LoaderSmallSpan from "../LoaderSmallSpan"
-
+import HeadingMain from '../HeadingMain'
+import LoaderMainTitle from '../LoaderMainTitle'
+import LoaderSmallSpan from '../LoaderSmallSpan'
 // Import Utilities
-import getVigerendText from "./../../utils/getVigerendText"
+import getVigerendText from './../../utils/getVigerendText'
 
 /**
  * Displays main details in a container.
@@ -23,7 +21,6 @@ import getVigerendText from "./../../utils/getVigerendText"
 const ContainerDetailMain = ({
     dataObject,
     titleSingular,
-    pageType,
     dataReceived,
     overzichtSlug,
 }) => {
@@ -35,8 +32,7 @@ const ContainerDetailMain = ({
 
     return (
         <div
-            className={`relative inline-block w-full px-6 py-5 shadow-md rounded bg-white -mb-2`}
-        >
+            className={`relative inline-block w-full px-6 py-5 shadow-md rounded bg-white -mb-2`}>
             <span className="block mb-1 text-sm text-gray-500">
                 {titleSingular}
             </span>
@@ -53,7 +49,7 @@ const ContainerDetailMain = ({
                     validDatePrefix={validDatePrefix}
                     validDate={validDate}
                 />
-                <ContainerDetailMainWeblink weblink={dataObject["Weblink"]} />
+                <ContainerDetailMainWeblink weblink={dataObject['Weblink']} />
                 <ContainerDetailMainRaadpleegLink
                     titleSingular={titleSingular}
                     overzichtSlug={overzichtSlug}
@@ -83,18 +79,17 @@ const ContainerDetailMainRaadpleegLink = ({
 
     const raadpleegLink = dataReceived
         ? `/detail/${overzichtSlug}/${dataObject.UUID}`
-        : "#"
+        : '#'
 
     return (
         <a
             href={raadpleegLink}
-            onClick={(e) => (!dataReceived ? e.preventDefault() : null)}
+            onClick={e => (!dataReceived ? e.preventDefault() : null)}
             target="_blank"
             rel="noopener noreferrer"
             className={`flex items-center justify-between w-full py-2 pl-4 hover:bg-gray-50 pzh-transition-colors ${
-                dataReceived ? "cursor-pointer" : ""
-            }`}
-        >
+                dataReceived ? 'cursor-pointer' : ''
+            }`}>
             <div>
                 <div>
                     <span className="block text-sm font-bold text-gray-700">
@@ -169,8 +164,7 @@ const ContainerDetailMainWeblink = ({ weblink }) => {
             target="_blank"
             rel="noopener noreferrer"
             id="href-idms-koppeling"
-            className="flex items-center justify-between w-full px-4 py-2 border-r border-gray-300 hover:bg-gray-50 pzh-transition-colors"
-        >
+            className="flex items-center justify-between w-full px-4 py-2 border-r border-gray-300 hover:bg-gray-50 pzh-transition-colors">
             <div>
                 <span className="block text-sm font-bold text-gray-700">
                     IDMS-koppeling

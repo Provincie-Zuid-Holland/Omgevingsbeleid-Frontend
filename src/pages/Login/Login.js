@@ -1,14 +1,12 @@
-import React from "react"
-import { Link } from "react-router-dom"
+import { Link } from 'react-router-dom'
 
 // Import Components
-import LoginForm from "./../../components/LoginForm"
-import Heading from "./../../components/Heading"
-import Text from "./../../components/Text"
-import Container from "./../../components/Container"
-import Footer from "./../../components/Footer"
-
-import { useWindowSize } from "../../utils/useWindowSize"
+import { useWindowSize } from '../../utils/useWindowSize'
+import Container from './../../components/Container'
+import Footer from './../../components/Footer'
+import Heading from './../../components/Heading'
+import LoginForm from './../../components/LoginForm'
+import Text from './../../components/Text'
 
 /**
  * Component page that imports the component LoginForm, so the user is able to login the application and reset the password when needed.
@@ -26,7 +24,7 @@ const Login = ({ setLoginUser, setLoginState }) => {
                 style={
                     windowSize.width > 640
                         ? {
-                              minHeight: "576px",
+                              minHeight: '576px',
                           }
                         : null
                 }
@@ -49,8 +47,8 @@ const Login = ({ setLoginUser, setLoginState }) => {
                     <div
                         className={`absolute bg-cover bg-no-repeat bg-center left-0 top-0 h-full image-login-1 text-white sm:inline-block`}
                         style={{
-                            height: "480px",
-                            width: "calc(50vw)",
+                            height: '480px',
+                            width: 'calc(50vw)',
                         }}
                     />
                 </div>
@@ -77,7 +75,7 @@ const Login = ({ setLoginUser, setLoginState }) => {
                     <Heading level="3">Hulp bij het inloggen</Heading>
                     <Text type="body" className="mt-3">
                         Lukt het niet om in te loggen? Neem contact op met de
-                        afdeling omgevingsbeleid via{" "}
+                        afdeling omgevingsbeleid via{' '}
                         <a
                             href="mailto:omgevingsbeleid@pzh.nl?subject=Hulp bij het inloggen"
                             className="underline cursor-pointer hover:text-pzh-green-dark text-pzh-green"

@@ -1,14 +1,14 @@
-import { render, screen, fireEvent } from "@testing-library/react"
-import "@testing-library/jest-dom"
-import React from "react"
-import { MemoryRouter } from "react-router-dom"
+import { render, screen, fireEvent } from '@testing-library/react'
+import '@testing-library/jest-dom'
 
-import Planning from "./Planning"
+import { MemoryRouter } from 'react-router-dom'
 
-describe("Planning", () => {
+import Planning from './Planning'
+
+describe('Planning', () => {
     const defaultProps = {}
 
-    const setup = (customProps) => {
+    const setup = customProps => {
         const props = { ...defaultProps, ...customProps }
         render(
             <MemoryRouter>
@@ -17,9 +17,9 @@ describe("Planning", () => {
         )
     }
 
-    it("Component renders", () => {
+    it('Component renders', () => {
         setup()
-        const element = screen.getByText("Wat staat er op onze planning?")
+        const element = screen.getByText('Wat staat er op onze planning?')
         expect(element).toBeTruthy()
     })
 })

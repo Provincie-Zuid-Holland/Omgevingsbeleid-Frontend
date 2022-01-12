@@ -1,3 +1,3 @@
-import LoaderSaving from "./LoaderSaving.js"
+import LoaderSaving from './LoaderSaving.js'
 
 export default LoaderSaving

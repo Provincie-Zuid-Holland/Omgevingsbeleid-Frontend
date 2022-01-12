@@ -1,28 +1,27 @@
-import { render, screen, fireEvent } from "@testing-library/react"
-import "@testing-library/jest-dom"
-import React from "react"
+import { render, screen } from '@testing-library/react'
+import '@testing-library/jest-dom'
 
-import FormFieldDate from "./FormFieldDate"
+import FormFieldDate from './FormFieldDate'
 
-describe("FormFieldDate", () => {
+describe('FormFieldDate', () => {
     const defaultProps = {
-        fieldValue: "1753-01-01",
+        fieldValue: '1753-01-01',
         disabled: false,
-        dataObjectProperty: "begin_geldigheid",
-        fieldLabel: "Test Datum",
-        pValue: "Test Omschrijving",
-        titleSingular: "Begin Geldigheid",
+        dataObjectProperty: 'begin_geldigheid',
+        fieldLabel: 'Test Datum',
+        pValue: 'Test Omschrijving',
+        titleSingular: 'Begin Geldigheid',
         handleChange: jest.fn(),
     }
 
-    const setup = (customProps) => {
+    const setup = customProps => {
         const props = { ...defaultProps, ...customProps }
         render(<FormFieldDate {...props} />)
     }
 
-    it("Component renders", () => {
+    it('Component renders', () => {
         setup()
-        const element = screen.getByText("Test Datum")
+        const element = screen.getByText('Test Datum')
         expect(element).toBeTruthy()
     })
 })

@@ -1,2 +1,1 @@
-export { default } from "./Werkingsgebied"
-export * from "./Werkingsgebied"
+export { default } from './Werkingsgebied'

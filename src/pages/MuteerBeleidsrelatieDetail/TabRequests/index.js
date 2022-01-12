@@ -1,3 +1,3 @@
-import TabRequests from "./TabRequests.js"
+import TabRequests from './TabRequests.js'
 
 export default TabRequests

@@ -1,2 +1,1 @@
-export { default } from './TableOfContents';
-export * from './TableOfContents';
+export { default } from './TableOfContents'

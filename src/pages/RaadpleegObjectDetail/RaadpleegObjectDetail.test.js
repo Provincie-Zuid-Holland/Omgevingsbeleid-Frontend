@@ -2,17 +2,16 @@ import {
     render,
     screen,
     waitForElementToBeRemoved,
-} from "@testing-library/react"
-import "@testing-library/jest-dom"
-import React from "react"
-import { MemoryRouter, Route } from "react-router-dom"
+} from '@testing-library/react'
+import '@testing-library/jest-dom'
 
-import RaadpleegObjectDetail from "./RaadpleegObjectDetail"
+import { MemoryRouter, Route } from 'react-router-dom'
 
-import allDimensies from "../../constants/dimensies"
-import { beleidskeuzes } from "../../mocks/data/beleidskeuzes"
+import allDimensies from '../../constants/dimensies'
+import { beleidskeuzes } from '../../mocks/data/beleidskeuzes'
+import RaadpleegObjectDetail from './RaadpleegObjectDetail'
 
-describe("RaadpleegObjectDetail", () => {
+describe('RaadpleegObjectDetail', () => {
     const mockBeleidskeuze = beleidskeuzes[0]
     const defaultProps = {
         dataModel: allDimensies.BELEIDSKEUZES,
@@ -20,7 +19,7 @@ describe("RaadpleegObjectDetail", () => {
 
     window.scrollTo = jest.fn()
 
-    const setup = (customProps) => {
+    const setup = customProps => {
         const props = { ...defaultProps, ...customProps }
         const path = `/detail/beleidskeuzes/:id`
         const initialEntries = `/detail/beleidskeuzes/${mockBeleidskeuze.UUID}`
@@ -33,18 +32,18 @@ describe("RaadpleegObjectDetail", () => {
         )
     }
 
-    it("Component renders", async () => {
+    it('Component renders', async () => {
         setup()
 
-        await waitForElementToBeRemoved(() => screen.queryByRole("img"))
+        await waitForElementToBeRemoved(() => screen.queryByRole('img'))
 
-        const subTitle = screen.getAllByRole("heading", {
+        const subTitle = screen.getAllByRole('heading', {
             name: /Beleidskeuze/i,
             level: 3,
         })
         expect(subTitle).toBeTruthy()
 
-        const title = screen.getAllByRole("heading", {
+        const title = screen.getAllByRole('heading', {
             name: mockBeleidskeuze.Titel,
             level: 1,
         })

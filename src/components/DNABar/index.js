@@ -1,2 +1,2 @@
-export { default } from './DNABar';
-export * from './DNABar';
+export { default } from './DNABar'
+export * from './DNABar'

@@ -1,11 +1,11 @@
-import { render, screen } from "@testing-library/react"
-import "@testing-library/jest-dom"
-import React from "react"
-import { MemoryRouter } from "react-router-dom"
+import { render, screen } from '@testing-library/react'
+import '@testing-library/jest-dom'
 
-import SearchSection from "./SearchSection"
+import { MemoryRouter } from 'react-router-dom'
 
-describe("SearchSection", () => {
+import SearchSection from './SearchSection'
+
+describe('SearchSection', () => {
     const setup = () => {
         render(
             <MemoryRouter>
@@ -14,9 +14,9 @@ describe("SearchSection", () => {
         )
     }
 
-    it("Component renders", () => {
+    it('Component renders', () => {
         setup()
-        const element = screen.getByText("Naar welk onderwerp ben je op zoek?")
+        const element = screen.getByText('Naar welk onderwerp ben je op zoek?')
         expect(element).toBeTruthy()
     })
 })

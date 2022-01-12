@@ -1,3 +1,3 @@
-import MuteerDashboard from "./MuteerDashboard.js"
+import MuteerDashboard from './MuteerDashboard.js'
 
 export default MuteerDashboard

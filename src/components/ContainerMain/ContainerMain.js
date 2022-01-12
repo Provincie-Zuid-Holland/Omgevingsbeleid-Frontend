@@ -1,5 +1,3 @@
-import React from "react"
-
 // Pages met aparte container:
 // /pages/Login
 // /pages/MuteerUniversalObjectCRUD/ContainerMain

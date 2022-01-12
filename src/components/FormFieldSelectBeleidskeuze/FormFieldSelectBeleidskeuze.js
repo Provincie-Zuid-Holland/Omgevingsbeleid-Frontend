@@ -1,12 +1,10 @@
-import React from "react"
-import Select from "react-select"
-import { toast } from "react-toastify"
+import { Component } from 'react'
+import Select from 'react-select'
+import { toast } from 'react-toastify'
 
-import * as BELEIDSKEUZES from "./../../constants/beleidskeuzes"
-
-import axios from "./../../API/axios"
-
-import LoaderSelect from "./../LoaderSelect"
+import axios from './../../API/axios'
+import * as BELEIDSKEUZES from './../../constants/beleidskeuzes'
+import LoaderSelect from './../LoaderSelect'
 
 /**
  * Displays a box in which a user can make a selection.
@@ -21,15 +19,15 @@ function makeSelection(objectenArray, dataObjectProperty, filterUUID) {
 
     // FilterUUID is used to filter out the item that initiates the new relation, so an object can't make a relation with itself
     if (filterUUID) {
-        objectenArray = objectenArray.filter((item) => item.UUID !== filterUUID)
+        objectenArray = objectenArray.filter(item => item.UUID !== filterUUID)
     }
 
-    objectenArray.forEach((arrayItem) => {
+    objectenArray.forEach(arrayItem => {
         options.push({
             label: arrayItem.Titel,
             value: arrayItem.UUID,
             target: {
-                type: "relatie",
+                type: 'relatie',
                 value: arrayItem.UUID,
                 name: dataObjectProperty,
             },
@@ -41,7 +39,7 @@ function makeSelection(objectenArray, dataObjectProperty, filterUUID) {
 /**
  * @returns A select field to select a beleidskeuze
  */
-class FormFieldSelectBeleidskeuze extends React.Component {
+class FormFieldSelectBeleidskeuze extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -58,7 +56,7 @@ class FormFieldSelectBeleidskeuze extends React.Component {
     componentDidUpdate(prevProps) {
         if (this.props.fieldValue !== prevProps.fieldValue) {
             const selected = this.state.selectionArray.find(
-                (arrayItem) => arrayItem.value === this.props.fieldValue
+                arrayItem => arrayItem.value === this.props.fieldValue
             )
 
             this.setState({
@@ -73,7 +71,7 @@ class FormFieldSelectBeleidskeuze extends React.Component {
     componentDidMount() {
         axios
             .get(BELEIDSKEUZES.API_ENDPOINT)
-            .then((res) => {
+            .then(res => {
                 const objecten = res.data.sort((a, b) =>
                     a.Titel > b.Titel ? 1 : -1
                 )
@@ -87,7 +85,7 @@ class FormFieldSelectBeleidskeuze extends React.Component {
                     dataLoaded: true,
                 })
             })
-            .catch((err) => {
+            .catch(err => {
                 console.log(err)
                 toast(process.env.REACT_APP_ERROR_MSG)
             })

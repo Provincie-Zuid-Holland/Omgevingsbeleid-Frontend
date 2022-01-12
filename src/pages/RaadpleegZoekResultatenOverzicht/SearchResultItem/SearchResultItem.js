@@ -1,13 +1,12 @@
-import React from "react"
-import { Link } from "react-router-dom"
+import { Link } from 'react-router-dom'
 
-import getDimensionsConstants from "./../../../utils/getDimensionsConstants"
+import getDimensionsConstants from './../../../utils/getDimensionsConstants'
 
 function getExcerpt(text) {
     if (!text) {
-        return ""
+        return ''
     } else if (text.length > 250) {
-        return text.substring(0, 250) + "..."
+        return text.substring(0, 250) + '...'
     } else {
         return text
     }
@@ -20,14 +19,14 @@ function SearchResultItem({ item, searchQuery }) {
         )
 
         // Get everything past the '=' of '?query=artikel'
-        const query = params.get("query")
+        const query = params.get('query')
 
         const omschrijving = item.Omschrijving
             ? getExcerpt(item.Omschrijving)
-            : ""
+            : ''
 
         const markedOmschrijving = omschrijving.replace(
-            new RegExp(query, "g"),
+            new RegExp(query, 'g'),
             `<mark class="marked-red">${query}</mark>`
         )
 
@@ -69,23 +68,23 @@ function SearchResultItem({ item, searchQuery }) {
             <Link
                 className="group"
                 to={
-                    item.Type === "Verordeningen"
+                    item.Type === 'Verordeningen'
                         ? `/detail/verordeningen/1/${item.UUID}?hoofdstuk=${
                               item.positionInStructure[0] !== undefined
                                   ? item.positionInStructure[0]
-                                  : "null"
+                                  : 'null'
                           }&nest_1=${
                               item.positionInStructure[1] !== undefined
                                   ? item.positionInStructure[1]
-                                  : "null"
+                                  : 'null'
                           }&nest_2=${
                               item.positionInStructure[2] !== undefined
                                   ? item.positionInStructure[2]
-                                  : "null"
+                                  : 'null'
                           }&nest_3=${
                               item.positionInStructure[3] !== undefined
                                   ? item.positionInStructure[3]
-                                  : "null"
+                                  : 'null'
                           }#${searchQuery}`
                         : `/detail/${overzichtURL}/${item.UUID}#${searchQuery}`
                 }
@@ -110,7 +109,7 @@ function SearchResultItem({ item, searchQuery }) {
                 ) : (
                     <p className="mt-2 italic">
                         Er is nog geen omschrijving voor deze
-                        {" " + titleSingular.toLowerCase()}
+                        {' ' + titleSingular.toLowerCase()}
                     </p>
                 )}
             </Link>

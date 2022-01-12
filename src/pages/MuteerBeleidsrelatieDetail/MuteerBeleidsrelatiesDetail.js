@@ -1,21 +1,17 @@
-import React from "react"
-import { Link } from "react-router-dom"
-import { withRouter, useParams } from "react-router-dom"
-import { toast } from "react-toastify"
+import { faAngleLeft, faPlus } from '@fortawesome/pro-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useEffect, useState } from 'react'
+import { Link, withRouter, useParams } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faAngleLeft, faPlus } from "@fortawesome/pro-solid-svg-icons"
-
-import axios from "../../API/axios"
-
-import LoaderMainTitle from "../../components/LoaderMainTitle"
-import LoaderSaving from "../../components/LoaderSaving"
-
-import TabRelations from "./TabRelations"
-import TabRequests from "./TabRequests"
-import TabRejected from "./TabRejected"
-import TabDisconnected from "./TabDisconnected"
-import SwitchToTabbladButton from "./SwitchToTabbladButton"
+import axios from '../../API/axios'
+import LoaderMainTitle from '../../components/LoaderMainTitle'
+import LoaderSaving from '../../components/LoaderSaving'
+import SwitchToTabbladButton from './SwitchToTabbladButton'
+import TabDisconnected from './TabDisconnected'
+import TabRejected from './TabRejected'
+import TabRelations from './TabRelations'
+import TabRequests from './TabRequests'
 
 /**
  *
@@ -28,31 +24,27 @@ const MuteerBeleidsrelatiesDetail = ({
     updateBeleidsrelaties,
     backToOverzicht,
 }) => {
-    const [isLoading, setIsLoading] = React.useState(true)
-    const [savingInProgress, setSavingInProgress] = React.useState(false)
+    const [isLoading, setIsLoading] = useState(true)
+    const [savingInProgress, setSavingInProgress] = useState(false)
 
-    const [activeTab, setActiveTab] = React.useState("relaties")
+    const [activeTab, setActiveTab] = useState('relaties')
 
     /** Incoming and outgoing relations */
-    const [incoming_Beleidskeuzes, setIncoming_Beleidskeuzes] = React.useState(
-        []
-    )
-    const [outgoing_Beleidskeuzes, setOutgoing_Beleidskeuzes] = React.useState(
-        []
-    )
+    const [incoming_Beleidskeuzes, setIncoming_Beleidskeuzes] = useState([])
+    const [outgoing_Beleidskeuzes, setOutgoing_Beleidskeuzes] = useState([])
 
     /** State for the beleidsObject that the user is viewing the detail page of */
-    const [beleidsObject, setBeleidsObject] = React.useState({})
+    const [beleidsObject, setBeleidsObject] = useState({})
 
     /** Popup State */
-    const [motivationPopUp, setMotivationPopUp] = React.useState(null)
-    const [disconnectPopup, setDisconnectPopup] = React.useState(null)
+    const [motivationPopUp, setMotivationPopUp] = useState(null)
+    const [disconnectPopup, setDisconnectPopup] = useState(null)
 
     /** State containing the filtered relations */
-    const [relations, setRelations] = React.useState([])
-    const [rejected, setRejected] = React.useState([])
-    const [disconnected, setDisconnected] = React.useState([])
-    const [requests, setRequests] = React.useState([])
+    const [relations, setRelations] = useState([])
+    const [rejected, setRejected] = useState([])
+    const [disconnected, setDisconnected] = useState([])
+    const [requests, setRequests] = useState([])
 
     /** Contains the UUID from the URL */
     const { UUID } = useParams()
@@ -61,8 +53,8 @@ const MuteerBeleidsrelatiesDetail = ({
      * Retrieve specific version of the beleidskeuze
      * @param {string} UUID - UUID of the beleidskeuze we want to retrieve
      */
-    const getAndSetBeleidskeuze = (UUID) =>
-        axios.get(`version/beleidskeuzes/${UUID}`).then((res) => {
+    const getAndSetBeleidskeuze = UUID =>
+        axios.get(`version/beleidskeuzes/${UUID}`).then(res => {
             setBeleidsObject(res.data)
         })
 
@@ -70,10 +62,10 @@ const MuteerBeleidsrelatiesDetail = ({
      * Function that gets all relations from a specific beleidskeuze
      * @param {string} UUID - UUID of the beleidskeuze
      */
-    const getBeleidsrelatiesVanBeleidskeuze = (UUID) =>
+    const getBeleidsrelatiesVanBeleidskeuze = UUID =>
         axios
             .get(`/beleidsrelaties?all_filters=Van_Beleidskeuze:${UUID}`)
-            .then((res) => {
+            .then(res => {
                 const outgoing = res.data
                 if (outgoing.length === 0) return
                 setOutgoing_Beleidskeuzes(outgoing)
@@ -83,10 +75,10 @@ const MuteerBeleidsrelatiesDetail = ({
      * Function that gets all outgoing relations to a specific beleidskeuze
      * @param {string} UUID - UUID of the beleidskeuze
      */
-    const getBeleidsrelatiesNaarBeleidskeuze = (UUID) =>
+    const getBeleidsrelatiesNaarBeleidskeuze = UUID =>
         axios
             .get(`/beleidsrelaties?all_filters=Naar_Beleidskeuze:${UUID}`)
-            .then((res) => {
+            .then(res => {
                 const incoming = res.data
                 if (incoming.length === 0) return
                 setIncoming_Beleidskeuzes(incoming)
@@ -96,9 +88,9 @@ const MuteerBeleidsrelatiesDetail = ({
      * Function to accept an incoming relation
      * @param {object} beleidsrelatieObject - Contains the relation object
      */
-    const relationshipAccept = (beleidsrelatieObject) => {
+    const relationshipAccept = beleidsrelatieObject => {
         const patchedBeleidsrelatieObject = {
-            Status: "Akkoord",
+            Status: 'Akkoord',
             Begin_Geldigheid: beleidsrelatieObject.Begin_Geldigheid,
             Eind_Geldigheid: beleidsrelatieObject.Eind_Geldigheid,
             Datum_Akkoord: new Date(),
@@ -112,36 +104,36 @@ const MuteerBeleidsrelatiesDetail = ({
                 patchedBeleidsrelatieObject
             )
             .then(() => {
-                toast("Beleidsrelatie geaccepteerd")
+                toast('Beleidsrelatie geaccepteerd')
                 if (
                     outgoing_Beleidskeuzes.find(
-                        (x) => x.UUID === beleidsrelatieObject.UUID
+                        x => x.UUID === beleidsrelatieObject.UUID
                     )
                 ) {
                     const itemIndex = outgoing_Beleidskeuzes.findIndex(
-                        (x) => x.UUID === beleidsrelatieObject.UUID
+                        x => x.UUID === beleidsrelatieObject.UUID
                     )
                     let newStateObject = outgoing_Beleidskeuzes
-                    newStateObject[itemIndex].Status = "Akkoord"
+                    newStateObject[itemIndex].Status = 'Akkoord'
                     newStateObject[itemIndex].Datum_Akkoord = new Date()
                     setOutgoing_Beleidskeuzes([...newStateObject])
                     setSavingInProgress(false)
                 } else if (
                     incoming_Beleidskeuzes.find(
-                        (x) => x.UUID === beleidsrelatieObject.UUID
+                        x => x.UUID === beleidsrelatieObject.UUID
                     )
                 ) {
                     const itemIndex = incoming_Beleidskeuzes.findIndex(
-                        (x) => x.UUID === beleidsrelatieObject.UUID
+                        x => x.UUID === beleidsrelatieObject.UUID
                     )
                     let newStateObject = incoming_Beleidskeuzes
-                    newStateObject[itemIndex].Status = "Akkoord"
+                    newStateObject[itemIndex].Status = 'Akkoord'
                     newStateObject[itemIndex].Datum_Akkoord = new Date()
                     setIncoming_Beleidskeuzes([...newStateObject])
                     setSavingInProgress(false)
                 }
             })
-            .catch((err) => {
+            .catch(err => {
                 console.log(err)
                 toast(process.env.REACT_APP_ERROR_MSG)
                 setSavingInProgress(false)
@@ -152,12 +144,12 @@ const MuteerBeleidsrelatiesDetail = ({
      * Function to refuse an incoming relation
      * @param {object} beleidsrelatieObject - Contains the relation object
      */
-    const relationshipReject = (beleidsrelatieObject) => {
+    const relationshipReject = beleidsrelatieObject => {
         const patchedBeleidsrelatieObject = {
             Begin_Geldigheid: beleidsrelatieObject.Begin_Geldigheid,
             Eind_Geldigheid: beleidsrelatieObject.Eind_Geldigheid,
             Datum_Akkoord: new Date(),
-            Status: "NietAkkoord",
+            Status: 'NietAkkoord',
         }
 
         setSavingInProgress(true)
@@ -167,13 +159,13 @@ const MuteerBeleidsrelatiesDetail = ({
                 `/beleidsrelaties/${beleidsrelatieObject.ID}`,
                 patchedBeleidsrelatieObject
             )
-            .then((res) => {
-                toast("Beleidsrelatie afgewezen")
+            .then(() => {
+                toast('Beleidsrelatie afgewezen')
                 setSavingInProgress(false)
-                updateBeleidsrelaties(beleidsrelatieObject.UUID, "NietAkkoord")
-                updateStatus(beleidsrelatieObject.UUID, "NietAkkoord")
+                updateBeleidsrelaties(beleidsrelatieObject.UUID, 'NietAkkoord')
+                updateStatus(beleidsrelatieObject.UUID, 'NietAkkoord')
             })
-            .catch((err) => {
+            .catch(err => {
                 console.log(err)
                 toast(process.env.REACT_APP_ERROR_MSG)
                 setSavingInProgress(false)
@@ -184,12 +176,12 @@ const MuteerBeleidsrelatiesDetail = ({
      * Function to disconnect a relation
      * @param {object} beleidsrelatieObject - Contains the relation object
      */
-    const relationshipDisconnect = (beleidsrelatieObject) => {
+    const relationshipDisconnect = beleidsrelatieObject => {
         const patchedBeleidsrelatieObject = {
             Begin_Geldigheid: beleidsrelatieObject.Begin_Geldigheid,
             Eind_Geldigheid: beleidsrelatieObject.Eind_Geldigheid,
             Datum_Akkoord: new Date(),
-            Status: "Verbroken",
+            Status: 'Verbroken',
         }
 
         setSavingInProgress(true)
@@ -199,12 +191,12 @@ const MuteerBeleidsrelatiesDetail = ({
                 `/beleidsrelaties/${beleidsrelatieObject.ID}`,
                 patchedBeleidsrelatieObject
             )
-            .then((res) => {
-                toast("Beleidsrelatie verbroken")
+            .then(() => {
+                toast('Beleidsrelatie verbroken')
                 setSavingInProgress(false)
-                updateBeleidsrelaties(beleidsrelatieObject.UUID, "Verbroken")
+                updateBeleidsrelaties(beleidsrelatieObject.UUID, 'Verbroken')
             })
-            .catch((err) => {
+            .catch(err => {
                 console.log(err)
                 toast(process.env.REACT_APP_ERROR_MSG)
                 setSavingInProgress(false)
@@ -216,9 +208,7 @@ const MuteerBeleidsrelatiesDetail = ({
      * E.g. is when the user declines an incoming relation request.
      */
     const updateStatus = (uuid, nieuweStatus, updateDatumAkkoord) => {
-        const vanIndex = outgoing_Beleidskeuzes.findIndex(
-            (x) => x.UUID === uuid
-        )
+        const vanIndex = outgoing_Beleidskeuzes.findIndex(x => x.UUID === uuid)
 
         if (vanIndex !== -1) {
             outgoing_Beleidskeuzes[vanIndex].Status = nieuweStatus
@@ -226,9 +216,7 @@ const MuteerBeleidsrelatiesDetail = ({
                 outgoing_Beleidskeuzes[vanIndex].Datum_Akkoord = new Date()
         }
 
-        const naarIndex = incoming_Beleidskeuzes.findIndex(
-            (x) => x.UUID === uuid
-        )
+        const naarIndex = incoming_Beleidskeuzes.findIndex(x => x.UUID === uuid)
         if (naarIndex !== -1) {
             incoming_Beleidskeuzes[naarIndex].Status = nieuweStatus
             if (updateDatumAkkoord)
@@ -240,7 +228,7 @@ const MuteerBeleidsrelatiesDetail = ({
     }
 
     /** Initialize detail page */
-    React.useEffect(() => {
+    useEffect(() => {
         if (!UUID) return () => null
 
         Promise.all([
@@ -253,40 +241,40 @@ const MuteerBeleidsrelatiesDetail = ({
     }, [UUID])
 
     /** Generate all necessary data for the different tabs */
-    React.useEffect(() => {
+    useEffect(() => {
         const alleBeleidsrelaties = outgoing_Beleidskeuzes.concat(
             incoming_Beleidskeuzes
         )
 
         const newRelatieArray = alleBeleidsrelaties.filter(
-            (beleidsrelatie) =>
+            beleidsrelatie =>
                 ((beleidsrelatie.Van_Beleidskeuze.UUID === UUID ||
                     beleidsrelatie.Naar_Beleidskeuze.UUID === UUID) &&
-                    beleidsrelatie.Status === "Akkoord") ||
+                    beleidsrelatie.Status === 'Akkoord') ||
                 (beleidsrelatie.Van_Beleidskeuze.UUID === UUID &&
-                    beleidsrelatie.Status === "Open")
+                    beleidsrelatie.Status === 'Open')
         )
 
         const newAfgewezenArray = alleBeleidsrelaties.filter(
-            (beleidsrelatie) =>
+            beleidsrelatie =>
                 (beleidsrelatie.Van_Beleidskeuze.UUID === UUID &&
-                    beleidsrelatie.Status === "NietAkkoord") ||
+                    beleidsrelatie.Status === 'NietAkkoord') ||
                 (beleidsrelatie.Naar_Beleidskeuze.UUID === UUID &&
-                    beleidsrelatie.Status === "NietAkkoord")
+                    beleidsrelatie.Status === 'NietAkkoord')
         )
 
         const newVerbrokenArray = alleBeleidsrelaties.filter(
-            (beleidsrelatie) =>
+            beleidsrelatie =>
                 (beleidsrelatie.Van_Beleidskeuze.UUID === UUID &&
-                    beleidsrelatie.Status === "Verbroken") ||
+                    beleidsrelatie.Status === 'Verbroken') ||
                 (beleidsrelatie.Naar_Beleidskeuze.UUID === UUID &&
-                    beleidsrelatie.Status === "Verbroken")
+                    beleidsrelatie.Status === 'Verbroken')
         )
 
         const newVerzoekArray = alleBeleidsrelaties.filter(
-            (beleidsrelatie) =>
+            beleidsrelatie =>
                 beleidsrelatie.Naar_Beleidskeuze.UUID === UUID &&
-                beleidsrelatie.Status === "Open"
+                beleidsrelatie.Status === 'Open'
         )
 
         setRelations(newRelatieArray)
@@ -302,8 +290,7 @@ const MuteerBeleidsrelatiesDetail = ({
                     onClick={backToOverzicht}
                     className="inline-block mb-2 text-gray-600 cursor-pointer text-l"
                     id="button-back-to-previous-page"
-                    to={`/muteer/beleidsrelaties`}
-                >
+                    to={`/muteer/beleidsrelaties`}>
                     <FontAwesomeIcon className="mr-2" icon={faAngleLeft} />
                     <span>Terug naar overzicht</span>
                 </Link>
@@ -325,12 +312,11 @@ const MuteerBeleidsrelatiesDetail = ({
                             {!isLoading ? (
                                 <span
                                     className={`absolute inline-block px-1 ml-4 pt-1 text-xs font-bold border rounded  ${
-                                        beleidsObject.Status === "Vigerend"
-                                            ? "text-pzh-blue border-pzh-blue"
-                                            : "text-pzh-yellow-dark border-pzh-yellow-dark"
+                                        beleidsObject.Status === 'Vigerend'
+                                            ? 'text-pzh-blue border-pzh-blue'
+                                            : 'text-pzh-yellow-dark border-pzh-yellow-dark'
                                     } 
-                                                                    `}
-                                >
+                                                                    `}>
                                     {beleidsObject.Status}
                                 </span>
                             ) : null}
@@ -339,8 +325,7 @@ const MuteerBeleidsrelatiesDetail = ({
                     <div className="flex-shrink-0">
                         <Link
                             to={`/muteer/beleidsrelaties/${UUID}/nieuwe-relatie`}
-                            className="px-2 pt-2 pb-1 text-sm font-bold text-white transition-colors duration-100 ease-in rounded cursor-pointer bg-pzh-green hover:bg-pzh-green-dark"
-                        >
+                            className="px-2 pt-2 pb-1 text-sm font-bold text-white transition-colors duration-100 ease-in rounded cursor-pointer bg-pzh-green hover:bg-pzh-green-dark">
                             <FontAwesomeIcon
                                 className="mr-2 text-white"
                                 icon={faPlus}
@@ -377,7 +362,7 @@ const MuteerBeleidsrelatiesDetail = ({
                     </ul>
                 </div>
 
-                {activeTab === "relaties" ? (
+                {activeTab === 'relaties' ? (
                     <TabRelations
                         updateStatus={updateStatus}
                         relationshipDisconnect={relationshipDisconnect}
@@ -392,7 +377,7 @@ const MuteerBeleidsrelatiesDetail = ({
                     />
                 ) : null}
 
-                {activeTab === "verzoeken" ? (
+                {activeTab === 'verzoeken' ? (
                     <TabRequests
                         updateStatus={updateStatus}
                         relationshipReject={relationshipReject}
@@ -404,7 +389,7 @@ const MuteerBeleidsrelatiesDetail = ({
                     />
                 ) : null}
 
-                {activeTab === "afgewezen" ? (
+                {activeTab === 'afgewezen' ? (
                     <TabRejected
                         updateStatus={updateStatus}
                         relationshipReject={relationshipReject}
@@ -416,7 +401,7 @@ const MuteerBeleidsrelatiesDetail = ({
                     />
                 ) : null}
 
-                {activeTab === "verbroken" ? (
+                {activeTab === 'verbroken' ? (
                     <TabDisconnected
                         updateStatus={updateStatus}
                         relationshipReject={relationshipReject}

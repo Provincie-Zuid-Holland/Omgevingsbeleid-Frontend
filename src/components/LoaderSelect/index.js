@@ -1,3 +1,3 @@
-import LoaderSelect from "./LoaderSelect.js"
+import LoaderSelect from './LoaderSelect.js'
 
 export default LoaderSelect

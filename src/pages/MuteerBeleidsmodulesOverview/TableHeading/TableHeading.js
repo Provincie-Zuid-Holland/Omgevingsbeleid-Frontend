@@ -1,5 +1,3 @@
-import React from "react"
-
 /**
  *
  * @param {object} props
@@ -23,19 +21,19 @@ const TableHeading = ({
         <th
             scope="col"
             className={`px-3 py-3 text-sm font-medium whitespace-nowrap tracking-wider text-left text-gray-700 select-none ${
-                noIcon ? "" : "cursor-pointer hover:text-gray-800"
+                noIcon ? '' : 'cursor-pointer hover:text-gray-800'
             }`}
             onClick={() => {
                 if (noIcon) return
 
                 if (sorting.activeSorting === property) {
                     setSorting({
-                        type: "toggle",
+                        type: 'toggle',
                         property: property,
                     })
                 } else {
                     setSorting({
-                        type: "reactivate",
+                        type: 'reactivate',
                         property: property,
                     })
                 }

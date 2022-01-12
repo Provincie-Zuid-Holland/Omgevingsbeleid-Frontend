@@ -1,23 +1,22 @@
-import React, { Component } from "react"
-import { withRouter, Link } from "react-router-dom"
-import { faCalendarAlt } from "@fortawesome/pro-regular-svg-icons"
+import { faCalendarAlt } from '@fortawesome/pro-regular-svg-icons'
 import {
     faLink,
     faExternalLinkAlt,
     faEllipsisV,
-} from "@fortawesome/pro-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+} from '@fortawesome/pro-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Component } from 'react'
+import { withRouter, Link } from 'react-router-dom'
 
 // Import Components
-import PopUpModules from "./../../../components/PopUpModules"
-import PopUpStatusAanpassen from "./../../../components/PopUpStatusAanpassen"
-import HeadingMain from "./../../../components/HeadingMain"
-import LoaderMainTitle from "./../../../components/LoaderMainTitle"
-import LoaderSmallSpan from "./../../../components/LoaderSmallSpan"
-import PopUpDetailDropdown from "./../PopUpDetailDropdown"
-
+import HeadingMain from './../../../components/HeadingMain'
+import LoaderMainTitle from './../../../components/LoaderMainTitle'
+import LoaderSmallSpan from './../../../components/LoaderSmallSpan'
+import PopUpModules from './../../../components/PopUpModules'
+import PopUpStatusAanpassen from './../../../components/PopUpStatusAanpassen'
 // Import Utilities
-import getVigerendText from "./../../../utils/getVigerendText"
+import getVigerendText from './../../../utils/getVigerendText'
+import PopUpDetailDropdown from './../PopUpDetailDropdown'
 
 /**
  * Returns a Container component for a policy object detail page
@@ -69,19 +68,18 @@ class ContainerDetail extends Component {
         return (
             <div
                 className={`relative flex w-full py-5 shadow-md rounded bg-white 
-                ${pageType === "version" ? "mt-6" : ""}
+                ${pageType === 'version' ? 'mt-6' : ''}
                 ${
-                    dataObject.Status === "Vigerend" ||
-                    dataObject.Status === "Gepubliceerd"
-                        ? "px-5"
-                        : "pl-16 pr-5"
+                    dataObject.Status === 'Vigerend' ||
+                    dataObject.Status === 'Gepubliceerd'
+                        ? 'px-5'
+                        : 'pl-16 pr-5'
                 }
-                `}
-            >
+                `}>
                 {/* Verticale lijn + bolletje */}
                 {!isLoading && dataObject ? (
-                    dataObject.Status === "Vigerend" ||
-                    dataObject.Status === "Gepubliceerd" ? (
+                    dataObject.Status === 'Vigerend' ||
+                    dataObject.Status === 'Gepubliceerd' ? (
                         dimensionHistory[0] && dataObject ? (
                             <div className="absolute bottom-0 left-0 h-full pt-5 text-center">
                                 <div className="absolute top-0 right-0 inline-block mt-5 bg-pzh-blue status-bolletje" />
@@ -110,8 +108,7 @@ class ContainerDetail extends Component {
                     <div
                         onClick={this.toggleDropdown}
                         className="absolute top-0 right-0 p-5 text-gray-600 cursor-pointer hover:text-gray-800"
-                        id="container-detail-dropdown-dots"
-                    >
+                        id="container-detail-dropdown-dots">
                         <FontAwesomeIcon className="mr-2" icon={faEllipsisV} />
                     </div>
 
@@ -164,26 +161,25 @@ class ContainerDetail extends Component {
                         <LoaderMainTitle />
                     )}
 
-                    {dataObject.Status !== "Vigerend" &&
-                    dataObject.Status !== "Gepubliceerd" &&
-                    dataObject.Status !== "Ontwerp in inspraak" &&
-                    dataObject.Status !== "Vastgesteld" ? (
+                    {dataObject.Status !== 'Vigerend' &&
+                    dataObject.Status !== 'Gepubliceerd' &&
+                    dataObject.Status !== 'Ontwerp in inspraak' &&
+                    dataObject.Status !== 'Vastgesteld' ? (
                         <Link
                             to={`/muteer/${this.props.overzichtSlug}/edit/${
                                 this.props.match.params.single
                             }${
-                                this.props.location.hash === "#mijn-beleid"
-                                    ? "#mijn-beleid"
-                                    : ""
+                                this.props.location.hash === '#mijn-beleid'
+                                    ? '#mijn-beleid'
+                                    : ''
                             }`}
-                            className="inline-block mt-2 underline text-pzh-blue hover:text-pzh-blue-dark pzh-transition-colors"
-                        >
+                            className="inline-block mt-2 underline text-pzh-blue hover:text-pzh-blue-dark pzh-transition-colors">
                             Bewerk {this.props.titleSingular}
                         </Link>
                     ) : null}
 
-                    {dataObject.Status === "Vigerend" ||
-                    dataObject.Status === "Gepubliceerd" ? (
+                    {dataObject.Status === 'Vigerend' ||
+                    dataObject.Status === 'Gepubliceerd' ? (
                         <div className="flex mt-8">
                             <div className="flex items-center justify-between w-full py-2 pr-4 border-r border-gray-300">
                                 <div>
@@ -207,14 +203,13 @@ class ContainerDetail extends Component {
                                     />
                                 </div>
                             </div>
-                            {dataObject["Weblink"] ? (
+                            {dataObject['Weblink'] ? (
                                 <a
-                                    href={dataObject["Weblink"]}
+                                    href={dataObject['Weblink']}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     id="href-idms-koppeling"
-                                    className="flex items-center justify-between w-full px-4 py-2 border-r border-gray-300 hover:bg-gray-50 pzh-transition-colors"
-                                >
+                                    className="flex items-center justify-between w-full px-4 py-2 border-r border-gray-300 hover:bg-gray-50 pzh-transition-colors">
                                     <div>
                                         <span className="block text-sm font-bold text-gray-700">
                                             IDMS-koppeling
@@ -231,13 +226,12 @@ class ContainerDetail extends Component {
                                     </div>
                                 </a>
                             ) : null}
-                            {titleSingular !== "Beleidsrelatie" ? (
+                            {titleSingular !== 'Beleidsrelatie' ? (
                                 <a
                                     href={`/detail/${this.props.overzichtSlug}/${dataObject.UUID}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="flex items-center justify-between w-full py-2 pl-4 rounded-r cursor-pointer hover:bg-gray-50 pzh-transition-colors"
-                                >
+                                    className="flex items-center justify-between w-full py-2 pl-4 rounded-r cursor-pointer hover:bg-gray-50 pzh-transition-colors">
                                     <div>
                                         <div>
                                             <span className="block text-sm font-bold text-gray-700">

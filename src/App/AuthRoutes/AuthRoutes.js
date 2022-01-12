@@ -1,34 +1,34 @@
-import React from "react"
-import { Route, Switch, useHistory } from "react-router-dom"
-import { toast } from "react-toastify"
+import { Fragment, useCallback, useEffect } from 'react'
+import { Route, Switch, useHistory } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
+import allDimensies from './../../constants/dimensies'
 // Import Pages
-import MuteerDashboard from "./../../pages/MuteerDashboard"
-import MuteerMijnBeleid from "./../../pages/MuteerMijnBeleid"
-import MuteerVerordeningenstructuurOverzicht from "./../../pages/MuteerVerordeningenstructuurOverzicht"
-import MuteerVerordeningenstructuurDetail from "./../../pages/MuteerVerordeningenstructuurDetail"
-import MuteerVerordeningenStructuurCRUD from "./../../pages/MuteerVerordeningenStructuurCRUD"
-import MuteerBeleidsrelaties from "./../../pages/MuteerBeleidsrelaties"
-import MuteerBeleidsrelatiesCRUD from "./../../pages/MuteerBeleidsrelatiesCRUD"
-import MuteerUniversalObjectOverzicht from "./../../pages/MuteerUniversalObjectOverzicht"
-import MuteerUniversalObjectDetail from "./../../pages/MuteerUniversalObjectDetail"
-import MuteerUniversalObjectDetailWithStatuses from "./../../pages/MuteerUniversalObjectDetailWithStatuses"
-import MuteerUniversalObjectCRUD from "./../../pages/MuteerUniversalObjectCRUD"
-import MuteerBeleidsmodulesOverview from "./../../pages/MuteerBeleidsmodulesOverview"
+import MuteerBeleidsmodulesOverview from './../../pages/MuteerBeleidsmodulesOverview'
+import MuteerBeleidsrelaties from './../../pages/MuteerBeleidsrelaties'
+import MuteerBeleidsrelatiesCRUD from './../../pages/MuteerBeleidsrelatiesCRUD'
+import MuteerDashboard from './../../pages/MuteerDashboard'
+import MuteerMijnBeleid from './../../pages/MuteerMijnBeleid'
+import MuteerUniversalObjectCRUD from './../../pages/MuteerUniversalObjectCRUD'
+import MuteerUniversalObjectDetail from './../../pages/MuteerUniversalObjectDetail'
+import MuteerUniversalObjectDetailWithStatuses from './../../pages/MuteerUniversalObjectDetailWithStatuses'
+import MuteerUniversalObjectOverzicht from './../../pages/MuteerUniversalObjectOverzicht'
+import MuteerVerordeningenStructuurCRUD from './../../pages/MuteerVerordeningenStructuurCRUD'
+import MuteerVerordeningenstructuurDetail from './../../pages/MuteerVerordeningenstructuurDetail'
+import MuteerVerordeningenstructuurOverzicht from './../../pages/MuteerVerordeningenstructuurOverzicht'
 
 // Import All the dimension constants. These contain the dimensions and there variables, e.g. API_ENDPOINT and TITLE_SINGULAR
-import allDimensies from "./../../constants/dimensies"
 
 const AuthRoutes = ({ authUser, loggedIn }) => {
     const history = useHistory()
 
-    const redirectToLogin = React.useCallback(() => {
+    const redirectToLogin = useCallback(() => {
         localStorage.removeItem(process.env.REACT_APP_KEY_API_ACCESS_TOKEN)
-        toast("Voor deze actie moet je ingelogd zijn")
-        history.push("/login")
+        toast('Voor deze actie moet je ingelogd zijn')
+        history.push('/login')
     }, [history])
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (!loggedIn) {
             redirectToLogin()
         }
@@ -238,22 +238,22 @@ const AuthRoutes = ({ authUser, loggedIn }) => {
 }
 
 // Component to generate a general overview View, a detail view and a CRUD view to edit and create
-const BeheerRoutes = (props) => {
+const BeheerRoutes = props => {
     const BeheerRouteJSX = Object.keys(allDimensies)
-        .filter((dimensie) => allDimensies[dimensie].SLUG_CREATE_NEW)
-        .map((dimensie) => {
+        .filter(dimensie => allDimensies[dimensie].SLUG_CREATE_NEW)
+        .map(dimensie => {
             // There are custom detail pages for beleidskeuzes, maatregelen and beleidsmodules
             const returnDetailPage =
-                dimensie !== "BELEIDSKEUZES" &&
-                dimensie !== "MAATREGELEN" &&
-                dimensie !== "BELEIDSMODULES"
+                dimensie !== 'BELEIDSKEUZES' &&
+                dimensie !== 'MAATREGELEN' &&
+                dimensie !== 'BELEIDSMODULES'
 
             const dimensieConstants = allDimensies[dimensie]
             const overzichtSlug = allDimensies[dimensie].SLUG_OVERVIEW
             const createNewSlug = allDimensies[dimensie].SLUG_CREATE_NEW
 
             return (
-                <React.Fragment key={createNewSlug}>
+                <Fragment key={createNewSlug}>
                     <Switch>
                         <Route
                             exact
@@ -319,7 +319,7 @@ const BeheerRoutes = (props) => {
                             )}
                         />
                     </Switch>
-                </React.Fragment>
+                </Fragment>
             )
         })
 

@@ -1,7 +1,6 @@
-import React from "react"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faAngleRight } from "@fortawesome/pro-solid-svg-icons"
-import { Link } from "react-router-dom"
+import { faAngleRight } from '@fortawesome/pro-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Link } from 'react-router-dom'
 
 type BreadcrumbsProps = {
     className: string
@@ -17,7 +16,7 @@ type BreadcrumbsProps = {
  */
 function Breadcrumbs({ className, paths = [] }: BreadcrumbsProps) {
     return (
-        <nav aria-label="Breadcrumb" className={className + " text-pzh-blue"}>
+        <nav aria-label="Breadcrumb" className={className + ' text-pzh-blue'}>
             <ol className="flex">
                 {paths.map((item, index) => {
                     return index === paths.length - 1 ? (

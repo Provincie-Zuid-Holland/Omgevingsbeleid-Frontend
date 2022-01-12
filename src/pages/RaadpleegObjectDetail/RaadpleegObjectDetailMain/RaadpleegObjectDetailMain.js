@@ -1,19 +1,17 @@
-import React from "react"
+import { useState } from 'react'
 
-import ContainerViewFieldsBeleidsprestatie from "./../ContainerFields/ContainerViewFieldsBeleidsprestatie"
-import ContainerViewFieldsBeleidsdoelen from "./../ContainerFields/ContainerViewFieldsBeleidsdoelen"
-import ContainerViewFieldsBeleidskeuze from "./../ContainerFields/ContainerViewFieldsBeleidskeuze"
-import ContainerViewFieldsBeleidsregel from "./../ContainerFields/ContainerViewFieldsBeleidsregel"
-import ContainerViewFieldsMaatregel from "./../ContainerFields/ContainerViewFieldsMaatregel"
-import ContainerViewFieldsAmbitie from "./../ContainerFields/ContainerViewFieldsAmbitie"
-import ContainerViewFieldsBelang from "./../ContainerFields/ContainerViewFieldsBelang"
-import ContainerViewFieldsThema from "./../ContainerFields/ContainerViewFieldsThema"
-
-import Heading from "../../../components/Heading"
-
-import RaadpleegObjectDetailNewVersionNotification from "./../RaadpleegObjectDetailNewVersionNotification"
-import ViewFieldGebiedDuiding from "./../ViewFieldGebiedDuiding"
-import Werkingsgebied from "./../Werkingsgebied"
+import Heading from '../../../components/Heading'
+import ContainerViewFieldsAmbitie from './../ContainerFields/ContainerViewFieldsAmbitie'
+import ContainerViewFieldsBelang from './../ContainerFields/ContainerViewFieldsBelang'
+import ContainerViewFieldsBeleidsdoelen from './../ContainerFields/ContainerViewFieldsBeleidsdoelen'
+import ContainerViewFieldsBeleidskeuze from './../ContainerFields/ContainerViewFieldsBeleidskeuze'
+import ContainerViewFieldsBeleidsprestatie from './../ContainerFields/ContainerViewFieldsBeleidsprestatie'
+import ContainerViewFieldsBeleidsregel from './../ContainerFields/ContainerViewFieldsBeleidsregel'
+import ContainerViewFieldsMaatregel from './../ContainerFields/ContainerViewFieldsMaatregel'
+import ContainerViewFieldsThema from './../ContainerFields/ContainerViewFieldsThema'
+import RaadpleegObjectDetailNewVersionNotification from './../RaadpleegObjectDetailNewVersionNotification'
+import ViewFieldGebiedDuiding from './../ViewFieldGebiedDuiding'
+import Werkingsgebied from './../Werkingsgebied'
 
 const RaadpleegObjectDetailMain = ({
     dataLoaded,
@@ -23,7 +21,7 @@ const RaadpleegObjectDetailMain = ({
 }) => {
     // Boolean to toggle the large view
     const [fullscreenLeafletViewer, setFullscreenLeafletViewer] =
-        React.useState(false)
+        useState(false)
 
     // Returns boolean
     // There are two objects with werkingsgebieden:
@@ -43,7 +41,7 @@ const RaadpleegObjectDetailMain = ({
         }
     }
 
-    const getWerkingsgbiedUUID = (hasWerkingsGebied) => {
+    const getWerkingsgbiedUUID = hasWerkingsGebied => {
         if (!hasWerkingsGebied) return null
 
         if (dataObject.Gebied) {
@@ -68,8 +66,7 @@ const RaadpleegObjectDetailMain = ({
                 <Heading
                     level="3"
                     className="font-bold"
-                    color="text-pzh-blue-dark"
-                >
+                    color="text-pzh-blue-dark">
                     {titleSingular}
                 </Heading>
                 <RaadpleegObjectDetailNewVersionNotification
@@ -84,27 +81,26 @@ const RaadpleegObjectDetailMain = ({
             {/* These contain the fields that need to be displayed for the different objects */}
             <div
                 className={`mt-4 ${
-                    titleSingular === "Beleidskeuze" ? "" : "pb-20"
+                    titleSingular === 'Beleidskeuze' ? '' : 'pb-20'
                 }`}
-                id="raadpleeg-detail-container-main"
-            >
-                {titleSingular === "Beleidskeuze" ? (
+                id="raadpleeg-detail-container-main">
+                {titleSingular === 'Beleidskeuze' ? (
                     <ContainerViewFieldsBeleidskeuze crudObject={dataObject} />
-                ) : titleSingular === "Beleidsregel" ? (
+                ) : titleSingular === 'Beleidsregel' ? (
                     <ContainerViewFieldsBeleidsregel crudObject={dataObject} />
-                ) : titleSingular === "Beleidsprestatie" ? (
+                ) : titleSingular === 'Beleidsprestatie' ? (
                     <ContainerViewFieldsBeleidsprestatie
                         crudObject={dataObject}
                     />
-                ) : titleSingular === "Maatregel" ? (
+                ) : titleSingular === 'Maatregel' ? (
                     <ContainerViewFieldsMaatregel crudObject={dataObject} />
-                ) : titleSingular === "Beleidsdoel" ? (
+                ) : titleSingular === 'Beleidsdoel' ? (
                     <ContainerViewFieldsBeleidsdoelen crudObject={dataObject} />
-                ) : titleSingular === "Ambitie" ? (
+                ) : titleSingular === 'Ambitie' ? (
                     <ContainerViewFieldsAmbitie crudObject={dataObject} />
-                ) : titleSingular === "Belang" ? (
+                ) : titleSingular === 'Belang' ? (
                     <ContainerViewFieldsBelang crudObject={dataObject} />
-                ) : titleSingular === "Thema" ? (
+                ) : titleSingular === 'Thema' ? (
                     <ContainerViewFieldsThema crudObject={dataObject} />
                 ) : null}
             </div>
@@ -115,12 +111,12 @@ const RaadpleegObjectDetailMain = ({
                     werkingsGebiedUUID={werkingsGebiedUUID}
                 />
             ) : null}
-            {titleSingular === "Maatregel" &&
+            {titleSingular === 'Maatregel' &&
             dataLoaded &&
-            dataObject["Gebied_Duiding"] &&
-            dataObject["Gebied"] ? (
+            dataObject['Gebied_Duiding'] &&
+            dataObject['Gebied'] ? (
                 <ViewFieldGebiedDuiding
-                    gebiedDuiding={dataObject["Gebied_Duiding"]}
+                    gebiedDuiding={dataObject['Gebied_Duiding']}
                 />
             ) : null}
         </main>

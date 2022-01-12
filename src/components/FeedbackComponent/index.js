@@ -1,2 +1,2 @@
-export { default } from "./FeedbackComponent"
-export * from "./FeedbackComponent"
+export { default } from './FeedbackComponent'
+export * from './FeedbackComponent'

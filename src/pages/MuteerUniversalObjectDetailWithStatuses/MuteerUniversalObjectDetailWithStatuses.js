@@ -1,25 +1,22 @@
-import React from "react"
-import { Link, useParams, useLocation, useHistory } from "react-router-dom"
-import { faPlus } from "@fortawesome/pro-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Helmet } from "react-helmet"
-import { toast } from "react-toastify"
+import { faPlus } from '@fortawesome/pro-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useCallback, useContext, useEffect, useState } from 'react'
+import { Helmet } from 'react-helmet'
+import { Link, useParams, useLocation, useHistory } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 // Import Components
-import LoaderContent from "./../../components/LoaderContent"
-import ButtonBackToPage from "../../components/ButtonBackToPage"
-import EigenaarsDriehoek from "../../components/EigenaarsDriehoek"
-import ContainerMain from "../../components/ContainerMain"
-
-import ContainerDetail from "./ContainerDetail"
-import StatusHistory from "./StatusHistory"
+import axios from '../../API/axios'
+import ButtonBackToPage from '../../components/ButtonBackToPage'
+import ContainerMain from '../../components/ContainerMain'
+import EigenaarsDriehoek from '../../components/EigenaarsDriehoek'
+import { checkIfUserIsAllowedOnPage } from '../../utils/checkIfUserIsAllowedOnPage'
+import UserContext from './../../App/UserContext'
+import LoaderContent from './../../components/LoaderContent'
+import ContainerDetail from './ContainerDetail'
+import StatusHistory from './StatusHistory'
 
 // Import Axios instance to connect with the API
-import axios from "../../API/axios"
-
-import UserContext from "./../../App/UserContext"
-
-import { checkIfUserIsAllowedOnPage } from "../../utils/checkIfUserIsAllowedOnPage"
 
 /**
  * A detail page of a dimension object with a status
@@ -33,22 +30,17 @@ const MuteerUniversalObjectDetailWithStatuses = ({ dimensieConstants }) => {
     const location = useLocation()
     const history = useHistory()
     const { single, version } = useParams()
-    const { user } = React.useContext(UserContext)
+    const { user } = useContext(UserContext)
 
-    const [pageType, setPageType] = React.useState(
-        version ? "version" : "detail"
-    )
-    const [dataObject, setDataObject] = React.useState(null)
-    const [dimensionHistory, setDimensionHistory] = React.useState(null)
-    const [isLoading, setIsLoading] = React.useState(true)
+    const [pageType, setPageType] = useState(version ? 'version' : 'detail')
+    const [dataObject, setDataObject] = useState(null)
+    const [dimensionHistory, setDimensionHistory] = useState(null)
+    const [isLoading, setIsLoading] = useState(true)
 
-    const [isAConceptInProgress, setIsAConceptInProgress] = React.useState(null)
-    const [
-        vigerendeDimensieObject,
-        setVigerendeDimensieObject,
-    ] = React.useState(null)
+    const [isAConceptInProgress, setIsAConceptInProgress] = useState(null)
+    const [vigerendeDimensieObject, setVigerendeDimensieObject] = useState(null)
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (!user || !dataObject) return
         const isUserAllowed = checkIfUserIsAllowedOnPage({
             object: dataObject,
@@ -56,8 +48,8 @@ const MuteerUniversalObjectDetailWithStatuses = ({ dimensieConstants }) => {
         })
 
         if (!isUserAllowed) {
-            toast("Je bent niet geauthenticeerd om deze pagina te bekijken")
-            history.push("/muteer/dashboard")
+            toast('Je bent niet geauthenticeerd om deze pagina te bekijken')
+            history.push('/muteer/dashboard')
         }
     }, [user, dataObject, history])
 
@@ -69,7 +61,7 @@ const MuteerUniversalObjectDetailWithStatuses = ({ dimensieConstants }) => {
      * @param {array} dimensionHistory - Contains the original history
      * @returns {array} the dimension history with duplicate statusses filtered out
      * */
-    const generateDimensionHistory = (dimensionHistory) => {
+    const generateDimensionHistory = dimensionHistory => {
         // We reverse the array so that we have the objects in ascending order of creation
         // We need to reverse it in order to filter based on the object statusses as explained above
         const filteredDimensionHistory = dimensionHistory
@@ -101,12 +93,12 @@ const MuteerUniversalObjectDetailWithStatuses = ({ dimensieConstants }) => {
     /**
      * Gets the data from the API
      */
-    const getAndSetDimensieDataFromApi = React.useCallback(() => {
+    const getAndSetDimensieDataFromApi = useCallback(() => {
         const getApiEndpoint = () => {
             const apiEndpoint = dimensieConstants.API_ENDPOINT
-            if (pageType === "detail") {
+            if (pageType === 'detail') {
                 return `${apiEndpoint}/${single}`
-            } else if (pageType === "version") {
+            } else if (pageType === 'version') {
                 return `/version/${apiEndpoint}/${version}`
             }
         }
@@ -115,12 +107,12 @@ const MuteerUniversalObjectDetailWithStatuses = ({ dimensieConstants }) => {
 
         axios
             .get(apiEndpoint)
-            .then((res) => {
+            .then(res => {
                 let dataObjectFromAPI = null
 
-                if (pageType === "detail") {
+                if (pageType === 'detail') {
                     dataObjectFromAPI = res.data[0]
-                } else if (pageType === "version") {
+                } else if (pageType === 'version') {
                     dataObjectFromAPI = res.data
                 }
                 setDataObject(dataObjectFromAPI)
@@ -131,7 +123,7 @@ const MuteerUniversalObjectDetailWithStatuses = ({ dimensieConstants }) => {
                 setDimensionHistory(generatedDimensionHistory)
                 setIsLoading(false)
             })
-            .catch((err) => {
+            .catch(err => {
                 toast(process.env.REACT_APP_ERROR_MSG)
                 console.log(err)
             })
@@ -151,11 +143,11 @@ const MuteerUniversalObjectDetailWithStatuses = ({ dimensieConstants }) => {
                     Status: newStatus,
                 })
             )
-            .then((res) => {
+            .then(res => {
                 setDimensionHistory([res.data, ...dimensionHistory])
                 toast(`Status succesvol gewijzigd naar ${newStatus}`)
             })
-            .catch((err) => {
+            .catch(err => {
                 console.log(err)
                 toast(process.env.REACT_APP_ERROR_MSG)
             })
@@ -164,14 +156,13 @@ const MuteerUniversalObjectDetailWithStatuses = ({ dimensieConstants }) => {
     /**
      * @returns {boolean} If there is a checked out object in the lineage, return true
      */
-    const checkForConceptInProgress = React.useCallback(
-        (vigerendeDimensieObjectIndex) => {
+    const checkForConceptInProgress = useCallback(
+        vigerendeDimensieObjectIndex => {
             let isAConceptInProgress = false
             if (!dimensionHistory) return isAConceptInProgress
 
             const isVigerendObject =
-                dimensionHistory.findIndex((e) => e.Status === "Vigerend") !==
-                -1
+                dimensionHistory.findIndex(e => e.Status === 'Vigerend') !== -1
 
             const isConceptAfterVigerendObject =
                 isVigerendObject && vigerendeDimensieObjectIndex !== 0
@@ -196,11 +187,11 @@ const MuteerUniversalObjectDetailWithStatuses = ({ dimensieConstants }) => {
     /**
      * @returns {array} Containing the object and the index
      */
-    const getVigerendDimensionObjectAndIndex = React.useCallback(() => {
+    const getVigerendDimensionObjectAndIndex = useCallback(() => {
         if (!dimensionHistory) return [null, null]
 
-        const object = dimensionHistory.find((e) => e.Status === "Vigerend")
-        const index = dimensionHistory.findIndex((e) => e.Status === "Vigerend")
+        const object = dimensionHistory.find(e => e.Status === 'Vigerend')
+        const index = dimensionHistory.findIndex(e => e.Status === 'Vigerend')
 
         if (index === -1) {
             return [null, null]
@@ -210,16 +201,16 @@ const MuteerUniversalObjectDetailWithStatuses = ({ dimensieConstants }) => {
     }, [dimensionHistory])
 
     /** Effect when user switch from a version to a detail page and vice versa. Resets and initializes state. Will also fire on mount */
-    React.useEffect(() => {
+    useEffect(() => {
         if (pageType === version) return
-        setPageType(version ? "version" : "detail")
+        setPageType(version ? 'version' : 'detail')
         setDataObject(null)
         setIsLoading(true)
         getAndSetDimensieDataFromApi()
     }, [version, getAndSetDimensieDataFromApi, pageType])
 
     /** Update variables after dimensionHistory changes */
-    React.useEffect(() => {
+    useEffect(() => {
         const [object, index] = getVigerendDimensionObjectAndIndex()
         const conceptInProgress = checkForConceptInProgress(index)
 
@@ -238,10 +229,10 @@ const MuteerUniversalObjectDetailWithStatuses = ({ dimensieConstants }) => {
         <ContainerMain>
             <Helmet>
                 <title>
-                    Omgevingsbeleid{" "}
+                    Omgevingsbeleid{' '}
                     {dataObject && dataObject.Titel
-                        ? " - " + dataObject.Titel
-                        : ""}
+                        ? ' - ' + dataObject.Titel
+                        : ''}
                 </title>
             </Helmet>
 
@@ -258,24 +249,22 @@ const MuteerUniversalObjectDetailWithStatuses = ({ dimensieConstants }) => {
                     <div className="flex pb-24">
                         <div
                             className={`${
-                                overzichtSlug !== "beleidskeuzes" ||
-                                overzichtSlug !== "maatregelen"
-                                    ? "w-full"
-                                    : "w-9/12"
-                            } pr-8`}
-                        >
+                                overzichtSlug !== 'beleidskeuzes' ||
+                                overzichtSlug !== 'maatregelen'
+                                    ? 'w-full'
+                                    : 'w-9/12'
+                            } pr-8`}>
                             {/* Button to make a new design */}
-                            {pageType === "detail" && !isAConceptInProgress ? (
+                            {pageType === 'detail' && !isAConceptInProgress ? (
                                 <div className="h-10 mt-5 ">
                                     <Link
                                         className="flex items-center w-1/2 mt-5"
                                         to={`/muteer/${overzichtSlug}/edit/${single}?modus=ontwerp_maken${
-                                            location.hash === "#mijn-beleid"
-                                                ? "#mijn-beleid"
-                                                : ""
+                                            location.hash === '#mijn-beleid'
+                                                ? '#mijn-beleid'
+                                                : ''
                                         }`}
-                                        id={`href-ontwerp-maken`}
-                                    >
+                                        id={`href-ontwerp-maken`}>
                                         <span className="relative flex items-center justify-end w-8 h-10 pb-5 mr-2 border-r-2 border-gray-300">
                                             <div className="absolute flex items-center justify-center w-8 h-8 text-center bg-gray-300 rounded-full -right-4">
                                                 <FontAwesomeIcon
@@ -306,7 +295,7 @@ const MuteerUniversalObjectDetailWithStatuses = ({ dimensieConstants }) => {
                             ) : null}
 
                             {/* Contains the container detail of the checked out object, and the UI of the flow of statusses */}
-                            {!isLoading && pageType === "detail" ? (
+                            {!isLoading && pageType === 'detail' ? (
                                 <StatusHistory
                                     setDimensionHistory={setDimensionHistory}
                                     setDataObject={setDataObject}
@@ -344,8 +333,8 @@ const MuteerUniversalObjectDetailWithStatuses = ({ dimensieConstants }) => {
 
 // Generate Back Button for Detail or Version page
 function GenerateBackToButton({ overzichtSlug, pageType, hash, dataObject }) {
-    if (pageType === "detail") {
-        if (hash === "#mijn-beleid") {
+    if (pageType === 'detail') {
+        if (hash === '#mijn-beleid') {
             return (
                 <ButtonBackToPage
                     terugNaar={` mijn beleid`}
@@ -360,7 +349,7 @@ function GenerateBackToButton({ overzichtSlug, pageType, hash, dataObject }) {
                 />
             )
         }
-    } else if (pageType === "version") {
+    } else if (pageType === 'version') {
         const dataObjectID = dataObject.ID
         return (
             <ButtonBackToPage

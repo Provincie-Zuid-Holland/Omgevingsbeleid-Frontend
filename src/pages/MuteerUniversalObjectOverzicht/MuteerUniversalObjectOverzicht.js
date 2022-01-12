@@ -1,67 +1,66 @@
-import React from "react"
-import { Helmet } from "react-helmet"
-import { toast } from "react-toastify"
-import { useHistory } from "react-router-dom"
+import { useCallback, useContext, useLayoutEffect, useState } from 'react'
+import { Helmet } from 'react-helmet'
+import { useHistory } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 // Import Componenents
-import ContainerMain from "./../../components/ContainerMain"
-import SidebarMain from "./../../components/SidebarMain"
-import ButtonAddNewObject from "./../../components/ButtonAddNewObject"
-import CardObjectDetails from "./../../components/CardObjectDetails"
-import LoaderCard from "./../../components/LoaderCard"
-
-import filterOutArchivedObjects from "./../../utils/filterOutArchivedObjects"
+import axios from './../../API/axios'
+import UserContext from './../../App/UserContext'
+import ButtonAddNewObject from './../../components/ButtonAddNewObject'
+import CardObjectDetails from './../../components/CardObjectDetails'
+import ContainerMain from './../../components/ContainerMain'
+import LoaderCard from './../../components/LoaderCard'
+import SidebarMain from './../../components/SidebarMain'
+import filterOutArchivedObjects from './../../utils/filterOutArchivedObjects'
 
 // Import Axios instance to connect with the API
-import axios from "./../../API/axios"
 
 // Import user context
-import UserContext from "./../../App/UserContext"
 
 /**
  * A component to display all the objects from a specific dimension
  * @param {Object} dimensieConstants - Contains the variables of the dimension
  */
 const MuteerUniversalObjectOverzicht = ({ dimensieConstants }) => {
-    const { user } = React.useContext(UserContext)
+    const { user } = useContext(UserContext)
 
-    const [objecten, setObjecten] = React.useState([])
-    const [isLoading, setIsLoading] = React.useState(true)
+    const [objecten, setObjecten] = useState([])
+    const [isLoading, setIsLoading] = useState(true)
 
     let history = useHistory()
 
-    const getAndSetDataFromAPI = (ApiEndpoint) => {
+    const getAndSetDataFromAPI = ApiEndpoint => {
         axios
             .get(ApiEndpoint)
-            .then((res) => {
+            .then(res => {
                 let objecten = filterOutArchivedObjects(res.data)
                 setObjecten(objecten)
                 setIsLoading(false)
             })
-            .catch((err) => {
+            .catch(err => {
                 setIsLoading(false)
                 console.log(err)
                 toast(process.env.REACT_APP_ERROR_MSG)
             })
     }
 
-    const checkAuth = React.useCallback(() => {
+    const checkAuth = useCallback(() => {
         if (!user) return
 
         const gebruikersRol = user.Rol
         if (
-            gebruikersRol === "Beheerder" ||
-            gebruikersRol === "Functioneel beheerder" ||
-            gebruikersRol === "Technisch beheerder" ||
-            gebruikersRol === "Test runner" ||
-            gebruikersRol === "Tester"
+            gebruikersRol === 'Beheerder' ||
+            gebruikersRol === 'Functioneel beheerder' ||
+            gebruikersRol === 'Technisch beheerder' ||
+            gebruikersRol === 'Test runner' ||
+            gebruikersRol === 'Tester'
         )
             return
 
-        history.push("/muteer/mijn-beleid")
+        history.push('/muteer/mijn-beleid')
     }, [user, history])
 
-    React.useLayoutEffect(() => {
+    useLayoutEffect(() => {
         const apiEndpoint = dimensieConstants.API_ENDPOINT
         getAndSetDataFromAPI(apiEndpoint)
         checkAuth()
@@ -76,7 +75,7 @@ const MuteerUniversalObjectOverzicht = ({ dimensieConstants }) => {
     return (
         <ContainerMain>
             <Helmet>
-                <title>Omgevingsbeleid - {"Beheer " + titelMeervoud}</title>
+                <title>Omgevingsbeleid - {'Beheer ' + titelMeervoud}</title>
             </Helmet>
 
             {/* Sidebar */}
@@ -99,8 +98,7 @@ const MuteerUniversalObjectOverzicht = ({ dimensieConstants }) => {
                             .map((object, index) => (
                                 <li
                                     key={object.ID}
-                                    className="w-full mb-6 display-inline"
-                                >
+                                    className="w-full mb-6 display-inline">
                                     <CardObjectDetails
                                         index={index}
                                         object={object}
@@ -112,11 +110,11 @@ const MuteerUniversalObjectOverzicht = ({ dimensieConstants }) => {
                             ))}
                     </ul>
                 ) : (
-                    <React.Fragment>
+                    <>
                         <LoaderCard />
                         <LoaderCard />
                         <LoaderCard />
-                    </React.Fragment>
+                    </>
                 )}
             </div>
         </ContainerMain>

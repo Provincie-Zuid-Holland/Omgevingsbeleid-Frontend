@@ -1,16 +1,16 @@
-import { render, screen } from "@testing-library/react"
-import React from "react"
-import FormFieldContainerBeleidsmodules from "./FormFieldContainerBeleidsmodules"
+import { render, screen } from '@testing-library/react'
 
-describe("FormFieldContainerBeleidsmodules", () => {
+import FormFieldContainerBeleidsmodules from './FormFieldContainerBeleidsmodules'
+
+describe('FormFieldContainerBeleidsmodules', () => {
     const defaultProps = {
-        titleSingular: "Title Singular",
+        titleSingular: 'Title Singular',
         crudObject: {},
         handleChange: jest.fn(),
     }
 
-    it("should render", () => {
+    it('should render', () => {
         render(<FormFieldContainerBeleidsmodules {...defaultProps} />)
-        expect(screen.getByText("Algemene informatie")).toBeTruthy()
+        expect(screen.getByText('Algemene informatie')).toBeTruthy()
     })
 })

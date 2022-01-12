@@ -1,8 +1,7 @@
 /* istanbul ignore file */
-import React from "react"
 
-import SelectField from "../SelectField"
-import Werkingsgebied from "../Werkingsgebied"
+import SelectField from '../SelectField'
+import Werkingsgebied from '../Werkingsgebied'
 
 function Hoofdstuk({
     users,
@@ -15,9 +14,9 @@ function Hoofdstuk({
                 <div>
                     <SelectField
                         users={users}
-                        label={"Opdrachtgever"}
-                        property={"Opdrachtgever"}
-                        filter={"Ambtelijk opdrachtgever"}
+                        label={'Opdrachtgever'}
+                        property={'Opdrachtgever'}
+                        filter={'Ambtelijk opdrachtgever'}
                         setVerordeningsObjectFromGET={
                             setVerordeningsObjectFromGET
                         }
@@ -25,9 +24,9 @@ function Hoofdstuk({
                     />
                     <SelectField
                         users={users}
-                        label={"Eerste eigenaar"}
-                        property={"Eigenaar_1"}
-                        filter={"Beleidseigenaar"}
+                        label={'Eerste eigenaar'}
+                        property={'Eigenaar_1'}
+                        filter={'Beleidseigenaar'}
                         setVerordeningsObjectFromGET={
                             setVerordeningsObjectFromGET
                         }
@@ -35,9 +34,9 @@ function Hoofdstuk({
                     />
                     <SelectField
                         users={users}
-                        label={"Tweede eigenaar"}
-                        property={"Eigenaar_2"}
-                        filter={"Beleidseigenaar"}
+                        label={'Tweede eigenaar'}
+                        property={'Eigenaar_2'}
+                        filter={'Beleidseigenaar'}
                         setVerordeningsObjectFromGET={
                             setVerordeningsObjectFromGET
                         }
@@ -45,9 +44,9 @@ function Hoofdstuk({
                     />
                     <SelectField
                         users={users}
-                        label={"Eerste portefeuillehouder"}
-                        property={"Portefeuillehouder_1"}
-                        filter={"Portefeuillehouder"}
+                        label={'Eerste portefeuillehouder'}
+                        property={'Portefeuillehouder_1'}
+                        filter={'Portefeuillehouder'}
                         setVerordeningsObjectFromGET={
                             setVerordeningsObjectFromGET
                         }
@@ -55,9 +54,9 @@ function Hoofdstuk({
                     />
                     <SelectField
                         users={users}
-                        label={"Tweede portefeuillehouder"}
-                        property={"Portefeuillehouder_2"}
-                        filter={"Portefeuillehouder"}
+                        label={'Tweede portefeuillehouder'}
+                        property={'Portefeuillehouder_2'}
+                        filter={'Portefeuillehouder'}
                         setVerordeningsObjectFromGET={
                             setVerordeningsObjectFromGET
                         }
@@ -76,13 +75,13 @@ function Hoofdstuk({
                             placeholder="dd-mm-jjjj"
                             type="date"
                             value={
-                                verordeningsObjectFromGET["Begin_Geldigheid"]
+                                verordeningsObjectFromGET['Begin_Geldigheid']
                             }
-                            onChange={(e) => {
+                            onChange={e => {
                                 setVerordeningsObjectFromGET({
-                                    type: "changeValue",
+                                    type: 'changeValue',
                                     value: e.target.value,
-                                    name: "Begin_Geldigheid",
+                                    name: 'Begin_Geldigheid',
                                 })
                             }}
                             id="Begin_Geldigheid"
@@ -102,11 +101,11 @@ function Hoofdstuk({
                             placeholder="dd-mm-jjjj"
                             type="date"
                             value={verordeningsObjectFromGET.Eind_Geldigheid}
-                            onChange={(e) => {
+                            onChange={e => {
                                 setVerordeningsObjectFromGET({
-                                    type: "changeValue",
+                                    type: 'changeValue',
                                     value: e.target.value,
-                                    name: "Eind_Geldigheid",
+                                    name: 'Eind_Geldigheid',
                                 })
                             }}
                             id="Eind_Geldigheid"

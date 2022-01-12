@@ -1,3 +1,3 @@
-import FormFieldContainerMaatregelen from "./FormFieldContainerMaatregelen.js"
+import FormFieldContainerMaatregelen from './FormFieldContainerMaatregelen.js'
 
 export default FormFieldContainerMaatregelen

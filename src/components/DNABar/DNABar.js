@@ -1,13 +1,13 @@
-import React from "react"
+import { useEffect, useState } from 'react'
 
-import logoSVG from "./../../images/DNA_Balk.png"
-import { useWindowSize } from "../../utils/useWindowSize"
+import { useWindowSize } from '../../utils/useWindowSize'
+import logoSVG from './../../images/DNA_Balk.png'
 
 const useDnaBarWidth = () => {
     const windowSize = useWindowSize()
-    const [dnaBarWidth, setDnaBarWidth] = React.useState(96)
+    const [dnaBarWidth, setDnaBarWidth] = useState(96)
 
-    React.useEffect(() => {
+    useEffect(() => {
         setDnaBarWidth(windowSize.width < 768 ? 40 : 96)
     }, [windowSize])
 
@@ -21,13 +21,13 @@ function DNABar() {
     return (
         <div
             className={`absolute top-0 pointer-events-none right-0 z-10 ${
-                windowSize.width > 640 ? "" : "hidden"
+                windowSize.width > 640 ? '' : 'hidden'
             }`}
         >
             <img
                 className="inline-block"
                 title="Provincie Zuid-Holland Logo"
-                style={{ width: dnaBarWidth + "px" }}
+                style={{ width: dnaBarWidth + 'px' }}
                 src={logoSVG}
                 alt="Provincie Zuid-Holland Logo"
             />

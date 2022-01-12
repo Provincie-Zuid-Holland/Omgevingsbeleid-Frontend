@@ -1,10 +1,9 @@
-import { render, screen, waitFor, fireEvent } from "@testing-library/react"
-import "@testing-library/jest-dom"
-import React from "react"
-import { MemoryRouter } from "react-router-dom"
-import { QueryClient, QueryClientProvider } from "react-query"
+import { render, screen } from '@testing-library/react'
+import '@testing-library/jest-dom'
+import { QueryClient, QueryClientProvider } from 'react-query'
+import { MemoryRouter } from 'react-router-dom'
 
-import NetworkGraph from "./NetworkGraph"
+import NetworkGraph from './NetworkGraph'
 
 const queryClient = new QueryClient()
 
@@ -23,23 +22,23 @@ const initialize = async () => {
     )
 
     /** Wait for the nodes and links to render (fixes 'act()' warning) */
-    await screen.findByTestId("0000-0001")
-    await screen.findByTestId("0000-0002")
+    await screen.findByTestId('0000-0001')
+    await screen.findByTestId('0000-0002')
 }
 
 afterEach(() => {
     jest.clearAllMocks()
 })
 
-describe("NetworkGraph", () => {
-    it("should render", async () => {
+describe('NetworkGraph', () => {
+    it('should render', async () => {
         await initialize()
 
-        const title = screen.getByText("Netwerkvisualisatie")
+        const title = screen.getByText('Netwerkvisualisatie')
         expect(title).toBeInTheDocument()
     })
 
-    it("should not display if the graphIsOpen state is false", async () => {
+    it('should not display if the graphIsOpen state is false', async () => {
         const setGraphIsOpenMock = () => jest.fn()
         render(
             <QueryClientProvider client={queryClient}>
@@ -53,15 +52,15 @@ describe("NetworkGraph", () => {
             </QueryClientProvider>
         )
 
-        const title = screen.queryByText("Netwerkvisualisatie")
+        const title = screen.queryByText('Netwerkvisualisatie')
         expect(title).not.toBeInTheDocument()
     })
 
-    it("should display if the graphIsOpen state is true", async () => {
+    it('should display if the graphIsOpen state is true', async () => {
         const graphIsOpen = true
         initialize(graphIsOpen)
 
-        const title = screen.queryByText("Netwerkvisualisatie")
+        const title = screen.queryByText('Netwerkvisualisatie')
         expect(title).toBeInTheDocument()
     })
 

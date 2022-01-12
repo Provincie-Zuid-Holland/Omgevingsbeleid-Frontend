@@ -1,23 +1,22 @@
-import { render, waitFor } from "@testing-library/react"
-import "@testing-library/jest-dom"
-import React from "react"
+import { render, waitFor } from '@testing-library/react'
+import '@testing-library/jest-dom'
 
-import RaadpleegObjectDetailHead from "./RaadpleegObjectDetailHead"
+import RaadpleegObjectDetailHead from './RaadpleegObjectDetailHead'
 
-describe("RaadpleegObjectDetailHead", () => {
+describe('RaadpleegObjectDetailHead', () => {
     const defaultProps = {
         dataObject: {
-            Titel: "Test Titel",
+            Titel: 'Test Titel',
         },
-        titleSingular: "Singular",
+        titleSingular: 'Singular',
     }
 
-    const setup = (customProps) => {
+    const setup = customProps => {
         const props = { ...defaultProps, ...customProps }
         render(<RaadpleegObjectDetailHead {...props} />)
     }
 
-    it("Component renders", async () => {
+    it('Component renders', async () => {
         setup()
         await waitFor(() =>
             expect(document.title).toEqual(

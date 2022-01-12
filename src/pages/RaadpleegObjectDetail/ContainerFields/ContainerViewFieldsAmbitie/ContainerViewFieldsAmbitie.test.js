@@ -1,22 +1,21 @@
-import { render, screen } from "@testing-library/react"
-import "@testing-library/jest-dom"
-import React from "react"
+import { render, screen } from '@testing-library/react'
+import '@testing-library/jest-dom'
 
-import ContainerViewFieldsAmbitie from "./ContainerViewFieldsAmbitie"
+import ContainerViewFieldsAmbitie from './ContainerViewFieldsAmbitie'
 
-describe("ContainerViewFieldsAmbitie", () => {
+describe('ContainerViewFieldsAmbitie', () => {
     const defaultProps = {
-        crudObject: { Omschrijving: "Test omschrijving" },
+        crudObject: { Omschrijving: 'Test omschrijving' },
     }
 
-    const setup = (customProps) => {
+    const setup = customProps => {
         const props = { ...defaultProps, ...customProps }
         render(<ContainerViewFieldsAmbitie {...props} />)
     }
 
-    it("Component renders", () => {
+    it('Component renders', () => {
         setup()
-        const element = screen.getByText("Test omschrijving")
+        const element = screen.getByText('Test omschrijving')
         expect(element).toBeTruthy()
     })
 })

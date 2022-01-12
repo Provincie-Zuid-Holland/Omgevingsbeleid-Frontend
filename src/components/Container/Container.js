@@ -1,11 +1,8 @@
-import React from "react"
-
 const Container = ({
     children,
     style = {},
     id = null,
-    className = "",
-    widthFull,
+    className = '',
     reference,
 }) => {
     return (

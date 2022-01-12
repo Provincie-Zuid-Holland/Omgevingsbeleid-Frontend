@@ -1,13 +1,13 @@
-import * as LID from "./verordeningslid"
-import * as ARTIKEL from "./verordeningsartikel"
-import * as PARAGRAAF from "./verordeningsparagraaf"
-import * as AFDELING from "./verordeningsafdeling"
-import * as HOOFDSTUK from "./verordeningshoofdstuk"
+import * as AFDELING from './verordeningsafdeling'
+import * as ARTIKEL from './verordeningsartikel'
+import * as HOOFDSTUK from './verordeningshoofdstuk'
+import * as LID from './verordeningslid'
+import * as PARAGRAAF from './verordeningsparagraaf'
 
-const TITLE_SINGULAR = "Verordening"
-const TITLE_PLURAL = "Verordeningen"
-const API_ENDPOINT = "verordeningen"
-const SLUG_OVERVIEW = "verordeningen"
+const TITLE_SINGULAR = 'Verordening'
+const TITLE_PLURAL = 'Verordeningen'
+const API_ENDPOINT = 'verordeningen'
+const SLUG_OVERVIEW = 'verordeningen'
 
 const VERORDENING = {
     SLUG_OVERVIEW,

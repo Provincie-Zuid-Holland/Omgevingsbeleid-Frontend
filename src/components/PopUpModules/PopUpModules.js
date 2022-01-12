@@ -1,14 +1,11 @@
-import React, { useState } from "react"
-import { toast } from "react-toastify"
-import ContentLoader from "react-content-loader"
+import { useEffect, useState } from 'react'
+import ContentLoader from 'react-content-loader'
+import { toast } from 'react-toastify'
 
-import axios from "../../API/axios"
-
-import handleError from "./../../utils/handleError"
-
-import PopUpAnimatedContainer from "./../PopUpAnimatedContainer"
-
-import { API_ENDPOINT } from "./../../constants/beleidsmodules"
+import axios from '../../API/axios'
+import { API_ENDPOINT } from './../../constants/beleidsmodules'
+import handleError from './../../utils/handleError'
+import PopUpAnimatedContainer from './../PopUpAnimatedContainer'
 
 /**
  * @param {object} dataObject - Contains the object that is being displayed
@@ -25,29 +22,29 @@ function PopUpModules({
     setDimensionHistory,
     dimensionHistory,
 }) {
-    const [beleidsmodules, setBeleidsmodules] = React.useState([])
-    const [dataLoaded, setDataLoaded] = React.useState(false)
+    const [beleidsmodules, setBeleidsmodules] = useState([])
+    const [dataLoaded, setDataLoaded] = useState(false)
     const [initialModule, setInitialModule] = useState(null)
-    const [selectValue, setSelectValue] = useState("")
+    const [selectValue, setSelectValue] = useState('')
 
     /**
      * Function to add to a module
      */
     const patchModule = () => {
         const type =
-            titleSingular === "Beleidskeuze" ? "Beleidskeuzes" : "Maatregelen"
+            titleSingular === 'Beleidskeuze' ? 'Beleidskeuzes' : 'Maatregelen'
 
-        const beleidsmodule = beleidsmodules.find((e) => e.UUID === selectValue)
+        const beleidsmodule = beleidsmodules.find(e => e.UUID === selectValue)
 
         // We only need to add it to the new module
         const newConnection = {
-            Koppeling_Omschrijving: "",
+            Koppeling_Omschrijving: '',
             UUID: dataObject.UUID,
         }
 
         const currentConnections = beleidsmodule[type]
-            .map((connection) => {
-                if (connection.hasOwnProperty("Object")) {
+            .map(connection => {
+                if (connection.hasOwnProperty('Object')) {
                     connection.UUID = connection.Object.UUID
                     delete connection.Object
                     return connection
@@ -55,13 +52,13 @@ function PopUpModules({
                     return connection
                 }
             })
-            .filter((connection) => connection.UUID !== dataObject.UUID) // Filter out existing connections
+            .filter(connection => connection.UUID !== dataObject.UUID) // Filter out existing connections
 
         axios
             .patch(`/${API_ENDPOINT}/${beleidsmodule.ID}`, {
                 [type]: [...currentConnections, newConnection],
             })
-            .then((res) => {
+            .then(res => {
                 // On add, push to Ref_Beleidsmodules: [{ID: 1, UUID: "6B569424-254F-411B-A219-F2BFF19895A5", Titel: "Beleidsmodule van Aiden"}]
                 dataObject.Ref_Beleidsmodules.push({
                     ID: res.data.ID,
@@ -75,7 +72,7 @@ function PopUpModules({
                 }
 
                 const indexOfDataObject = dimensionHistory.findIndex(
-                    (e) => e.UUID === dataObject.UUID
+                    e => e.UUID === dataObject.UUID
                 )
                 dimensionHistory[indexOfDataObject] = dataObject
                 setDimensionHistory(dimensionHistory)
@@ -84,27 +81,27 @@ function PopUpModules({
                     `${titleSingular} toegevoegd aan module '${beleidsmodule.Titel}'`
                 )
             })
-            .catch((err) => handleError(err))
+            .catch(err => handleError(err))
     }
 
     /**
      * Function that gets and sets the beleidsmodulen
      */
     const getAndSetBeleidsmodules = () => {
-        axios.get("/beleidsmodules").then((res) => {
+        axios.get('/beleidsmodules').then(res => {
             setBeleidsmodules(res.data)
             setDataLoaded(true)
         })
     }
 
-    React.useEffect(() => {
+    useEffect(() => {
         const type =
-            titleSingular === "Beleidskeuze" ? "Beleidskeuzes" : "Maatregelen"
+            titleSingular === 'Beleidskeuze' ? 'Beleidskeuzes' : 'Maatregelen'
 
         // Check if the dataObject.UUID exists in one of the policies of the beleidsmodules
-        const activeModule = beleidsmodules?.find((module) =>
+        const activeModule = beleidsmodules?.find(module =>
             module[type].find(
-                (connection) =>
+                connection =>
                     connection?.Object?.UUID === dataObject.UUID ||
                     connection?.UUID === dataObject.UUID
             )
@@ -116,7 +113,7 @@ function PopUpModules({
         }
     }, [dataObject, beleidsmodules, titleSingular])
 
-    React.useEffect(() => {
+    useEffect(() => {
         getAndSetBeleidsmodules()
     }, [])
 
@@ -128,11 +125,11 @@ function PopUpModules({
                     <div className="relative inline-block w-64">
                         <select
                             required
-                            onChange={(event) =>
+                            onChange={event =>
                                 setSelectValue(event.target.value)
                             }
                             value={selectValue}
-                            name={"Status"}
+                            name={'Status'}
                             className="block w-full px-4 py-3 leading-tight text-gray-700 bg-white border border-gray-400 rounded appearance-none focus:outline-none hover:border-gray-500 focus:border-gray-500"
                         >
                             <option disabled value="">
@@ -187,19 +184,19 @@ function PopUpModules({
                     </div>
                     <div
                         className={`bg-pzh-green pzh-transition-colors px-8 py-2 text-white rounded font-bold ${
-                            selectValue !== ""
-                                ? "cursor-pointer hover:bg-pzh-green-dark"
-                                : "cursor-not-allowed"
+                            selectValue !== ''
+                                ? 'cursor-pointer hover:bg-pzh-green-dark'
+                                : 'cursor-not-allowed'
                         }`}
                         onClick={() => {
                             if (
-                                selectValue !== "" &&
+                                selectValue !== '' &&
                                 selectValue !== initialModule?.UUID
                             ) {
                                 toggleModulesPopup()
                                 patchModule()
                             } else if (selectValue !== initialModule?.UUID) {
-                                toast("Selecteer eerst een nieuwe module")
+                                toast('Selecteer eerst een nieuwe module')
                             } else {
                                 toggleModulesPopup()
                             }

@@ -1,5 +1,4 @@
-import React from "react"
-import FormFieldTitelEnBeschrijving from "../FormFieldTitelEnBeschrijving/FormFieldTitelEnBeschrijving"
+import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFieldTitelEnBeschrijving'
 
 /**
  * Displays a FormFieldTitelEnBeschrijving component and a dropdown select formfield component.
@@ -33,13 +32,13 @@ const FormFieldSelect = ({
 
             <div className="relative inline-block w-full">
                 <select
-                    value={fieldValue === null ? "" : fieldValue}
+                    value={fieldValue === null ? '' : fieldValue}
                     onChange={handleChange}
                     id={`form-field-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
                     name={dataObjectProperty}
                     className="block w-full px-4 py-3 leading-tight text-gray-700 bg-white border border-gray-400 rounded appearance-none focus:outline-none hover:border-gray-500 focus:border-gray-500"
                 >
-                    <option disabled value={""}>
+                    <option disabled value={''}>
                         - selecteer een optie -
                     </option>
                     {selectArray.map((arrayItem, index) => {

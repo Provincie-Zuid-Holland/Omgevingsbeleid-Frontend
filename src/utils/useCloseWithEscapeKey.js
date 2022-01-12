@@ -1,18 +1,18 @@
-import React from "react"
+import { useEffect } from 'react'
 
 function useCloseWithEscapeKey(ref, callback) {
-    React.useEffect(() => {
-        const handleKeyEvent = (e) => {
-            if (ref.current && e.code === "Escape") {
+    useEffect(() => {
+        const handleKeyEvent = e => {
+            if (ref.current && e.code === 'Escape') {
                 callback()
             }
         }
 
         // Bind the event listener
-        document.addEventListener("keydown", handleKeyEvent)
+        document.addEventListener('keydown', handleKeyEvent)
         return () => {
             // Unbind the event listener on clean up
-            document.removeEventListener("keydown", handleKeyEvent)
+            document.removeEventListener('keydown', handleKeyEvent)
         }
     }, [ref, callback])
 }

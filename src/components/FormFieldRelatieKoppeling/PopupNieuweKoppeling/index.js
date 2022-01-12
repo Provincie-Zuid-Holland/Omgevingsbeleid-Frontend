@@ -1,3 +1,3 @@
-import PopupNieuweKoppeling from "./PopupNieuweKoppeling.js"
+import PopupNieuweKoppeling from './PopupNieuweKoppeling.js'
 
 export default PopupNieuweKoppeling

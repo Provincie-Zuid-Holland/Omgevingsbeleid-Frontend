@@ -1,3 +1,3 @@
-import ViewFieldIngelogdExtraInfo from "./ViewFieldIngelogdExtraInfo.js"
+import ViewFieldIngelogdExtraInfo from './ViewFieldIngelogdExtraInfo.js'
 
 export default ViewFieldIngelogdExtraInfo

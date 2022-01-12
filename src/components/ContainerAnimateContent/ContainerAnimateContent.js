@@ -1,5 +1,4 @@
-import React from "react"
-import { useSpring, animated } from "react-spring"
+import { useSpring, animated } from 'react-spring'
 
 /**
  * Displays a animated div containing content.
@@ -13,8 +12,8 @@ function ContainerAnimateContent(props) {
             style={useSpring({
                 config: { tension: 250 },
                 opacity: 1,
-                transform: "scale(1)",
-                from: { opacity: 0, transform: "scale(0.95)" },
+                transform: 'scale(1)',
+                from: { opacity: 0, transform: 'scale(0.95)' },
             })}
         >
             {props.children}

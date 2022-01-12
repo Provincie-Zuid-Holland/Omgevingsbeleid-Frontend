@@ -1,21 +1,20 @@
-import { render, screen } from "@testing-library/react"
-import "@testing-library/jest-dom"
-import React from "react"
+import { render, screen } from '@testing-library/react'
+import '@testing-library/jest-dom'
 
-import SearchResultItem from "./SearchResultItem"
-import { MemoryRouter } from "react-router-dom"
+import SearchResultItem from './SearchResultItem'
+import { MemoryRouter } from 'react-router-dom'
 
-describe("SearchResultItem", () => {
+describe('SearchResultItem', () => {
     const defaultProps = {
         item: {
-            Omschrijving: "Description",
-            Titel: "Test Title",
-            Type: "beleidskeuzes",
+            Omschrijving: 'Description',
+            Titel: 'Test Title',
+            Type: 'beleidskeuzes',
         },
-        searchQuery: "search query",
+        searchQuery: 'search query',
     }
 
-    const setup = (customProps) => {
+    const setup = customProps => {
         const props = { ...defaultProps, ...customProps }
         render(
             <MemoryRouter>
@@ -24,9 +23,9 @@ describe("SearchResultItem", () => {
         )
     }
 
-    it("Component renders", () => {
+    it('Component renders', () => {
         setup()
-        const element = screen.getByText("Test Title")
+        const element = screen.getByText('Test Title')
         expect(element).toBeTruthy()
     })
 })

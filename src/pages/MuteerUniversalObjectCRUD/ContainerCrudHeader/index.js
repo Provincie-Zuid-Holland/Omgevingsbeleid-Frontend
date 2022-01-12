@@ -1,3 +1,3 @@
-import ContainerCrudHeader from "./ContainerCrudHeader.js"
+import ContainerCrudHeader from './ContainerCrudHeader.js'
 
 export default ContainerCrudHeader

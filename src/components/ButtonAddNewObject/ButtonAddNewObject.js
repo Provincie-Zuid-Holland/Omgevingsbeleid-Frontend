@@ -1,6 +1,5 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { Link } from "react-router-dom"
+import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 
 /**
  * Displays a button link, which the user can add a new object.

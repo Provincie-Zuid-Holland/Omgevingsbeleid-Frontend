@@ -1,20 +1,19 @@
-import { render, screen } from "@testing-library/react"
-import "@testing-library/jest-dom"
-import React from "react"
+import { render, screen } from '@testing-library/react'
+import '@testing-library/jest-dom'
 
-import LoaderLeafletTinyViewer from "./LoaderLeafletTinyViewer"
+import LoaderLeafletTinyViewer from './LoaderLeafletTinyViewer'
 
-describe("LoaderLeafletTinyViewer", () => {
+describe('LoaderLeafletTinyViewer', () => {
     const defaultProps = {}
 
-    const setup = (customProps) => {
+    const setup = customProps => {
         const props = { ...defaultProps, ...customProps }
         render(<LoaderLeafletTinyViewer {...props} />)
     }
 
-    it("Component renders", () => {
+    it('Component renders', () => {
         setup()
-        const element = screen.getByRole("img")
+        const element = screen.getByRole('img')
         expect(element).toBeTruthy()
     })
 })

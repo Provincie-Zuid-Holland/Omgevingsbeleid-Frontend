@@ -1,4 +1,4 @@
-import generateVerordeningsPosition from "./generateVerordeningsPosition"
+import generateVerordeningsPosition from './generateVerordeningsPosition'
 
 const generateHrefVerordeningsartikel = (uuid, verordeningsStructure) => {
     const positionInVerordening = generateVerordeningsPosition(
@@ -13,19 +13,19 @@ const generateHrefVerordeningsartikel = (uuid, verordeningsStructure) => {
     }/${uuid}?hoofdstuk=${
         positionInVerordening[0] !== undefined
             ? positionInVerordening[0]
-            : "null"
+            : 'null'
     }&nest_1=${
         positionInVerordening[1] !== undefined
             ? positionInVerordening[1]
-            : "null"
+            : 'null'
     }&nest_2=${
         positionInVerordening[2] !== undefined
             ? positionInVerordening[2]
-            : "null"
+            : 'null'
     }&nest_3=${
         positionInVerordening[3] !== undefined
             ? positionInVerordening[3]
-            : "null"
+            : 'null'
     }`
 
     return path

@@ -1,3 +1,3 @@
-import ContainerViewFieldsBeleidsregel from "./ContainerViewFieldsBeleidsregel.js"
+import ContainerViewFieldsBeleidsregel from './ContainerViewFieldsBeleidsregel.js'
 
 export default ContainerViewFieldsBeleidsregel

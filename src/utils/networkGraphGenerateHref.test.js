@@ -1,19 +1,20 @@
-import networkGraphGenerateHref from "./networkGraphGenerateHref"
-import { matchPath } from "react-router-dom"
+import { matchPath } from 'react-router-dom'
+
+import networkGraphGenerateHref from './networkGraphGenerateHref'
 
 const properties = [
-    "beleidskeuzes",
-    "ambities",
-    "beleidsregels",
-    "beleidsprestaties",
-    "belangen",
-    "maatregelen",
-    "themas",
-    "beleidsdoelen",
+    'beleidskeuzes',
+    'ambities',
+    'beleidsregels',
+    'beleidsprestaties',
+    'belangen',
+    'maatregelen',
+    'themas',
+    'beleidsdoelen',
 ]
 
-describe("NetworkGraphGenerateHref", () => {
-    const UUID = "0000-0000-0000-0000"
+describe('NetworkGraphGenerateHref', () => {
+    const UUID = '0000-0000-0000-0000'
 
     const setup = (property, verordeningsStructure = null) => {
         const href = networkGraphGenerateHref({
@@ -33,10 +34,10 @@ describe("NetworkGraphGenerateHref", () => {
         return { uuidFromURL, slugFromURL, match, href }
     }
 
-    properties.forEach((property) => {
+    properties.forEach(property => {
         it(`Returns a href for property ${property}`, () => {
             const { uuidFromURL, slugFromURL } = setup(property)
-            expect(uuidFromURL).toEqual("0000-0000-0000-0000")
+            expect(uuidFromURL).toEqual('0000-0000-0000-0000')
             expect(uuidFromURL).not.toEqual(undefined)
             expect(slugFromURL).toEqual(property)
             expect(slugFromURL).not.toEqual(undefined)
@@ -44,7 +45,7 @@ describe("NetworkGraphGenerateHref", () => {
     })
 
     it(`Returns a undefined for property 'verordeningen' if no 'verordeningsStructure' is provided`, () => {
-        const { uuidFromURL, slugFromURL } = setup("verordeningen")
+        const { uuidFromURL, slugFromURL } = setup('verordeningen')
         expect(uuidFromURL).toEqual(undefined)
         expect(slugFromURL).toEqual(undefined)
     })
@@ -61,8 +62,8 @@ describe("NetworkGraphGenerateHref", () => {
             },
         }
 
-        const { href } = setup("verordeningen", verordeningsStructure)
+        const { href } = setup('verordeningen', verordeningsStructure)
 
-        expect(href).toEqual("/detail/verordening?actief=0000-0000-0000-0000")
+        expect(href).toEqual('/detail/verordening?actief=0000-0000-0000-0000')
     })
 })

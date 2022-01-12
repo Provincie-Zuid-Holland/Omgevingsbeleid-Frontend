@@ -1,11 +1,10 @@
-import React from "react"
-import ViewFieldTitelEnInhoud from "../../ViewFieldTitelEnInhoud"
+import ViewFieldTitelEnInhoud from '../../ViewFieldTitelEnInhoud'
 
 const ContainerViewFieldsBeleidsdoelen = ({ crudObject }) =>
-    crudObject["Omschrijving"] !== undefined ? (
+    crudObject['Omschrijving'] !== undefined ? (
         <ViewFieldTitelEnInhoud
             fieldTitel="Omschrijving"
-            fieldValue={crudObject["Omschrijving"]}
+            fieldValue={crudObject['Omschrijving']}
         />
     ) : null
 

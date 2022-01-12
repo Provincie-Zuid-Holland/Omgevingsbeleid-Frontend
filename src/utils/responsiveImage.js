@@ -5,7 +5,7 @@ const getResponsiveImageHeight = () => {
     const responsiveHeight = isLarge ? 522 : isMedium ? 300 : 250
 
     return {
-        height: responsiveHeight + "px",
+        height: responsiveHeight + 'px',
     }
 }
 
@@ -15,7 +15,7 @@ const getResponsiveImageOffset = () => {
     const isMedium = screenWidth < 1024 && screenWidth > 640
 
     return {
-        marginTop: !isLarge && !isMedium ? "250px" : "0px",
+        marginTop: !isLarge && !isMedium ? '250px' : '0px',
     }
 }
 

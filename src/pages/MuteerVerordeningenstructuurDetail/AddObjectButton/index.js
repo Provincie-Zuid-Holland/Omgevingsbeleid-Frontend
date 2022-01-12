@@ -1,3 +1,3 @@
-import AddObjectButton from "./AddObjectButton.js"
+import AddObjectButton from './AddObjectButton.js'
 
 export default AddObjectButton

@@ -1,3 +1,3 @@
-import FormFieldTitelEnBeschrijving from "./FormFieldTitelEnBeschrijving.js"
+import FormFieldTitelEnBeschrijving from './FormFieldTitelEnBeschrijving.js'
 
 export default FormFieldTitelEnBeschrijving

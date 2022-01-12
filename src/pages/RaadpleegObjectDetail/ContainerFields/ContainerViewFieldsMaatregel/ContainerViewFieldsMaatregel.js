@@ -1,30 +1,28 @@
-import React, { Component } from "react"
+import { Component } from 'react'
 
-import ViewFieldInnerHTML from "../../ViewFieldInnerHTML"
-
-import ViewFieldIngelogdExtraInfo from "../../../../components/ViewFieldIngelogdExtraInfo"
-
-import UserContext from "../../../../App/UserContext"
+import UserContext from '../../../../App/UserContext'
+import ViewFieldIngelogdExtraInfo from '../../../../components/ViewFieldIngelogdExtraInfo'
+import ViewFieldInnerHTML from '../../ViewFieldInnerHTML'
 
 class ContainerViewFieldsMaatregel extends Component {
     render() {
         const crudObject = this.props.crudObject
         return (
             <UserContext.Consumer>
-                {(context) => (
-                    <React.Fragment>
+                {context => (
+                    <>
                         {context && context.user ? (
                             <ViewFieldIngelogdExtraInfo
                                 className="mb-5"
                                 crudObject={crudObject}
                             />
                         ) : null}
-                        {crudObject["Toelichting"] !== undefined ? (
+                        {crudObject['Toelichting'] !== undefined ? (
                             <ViewFieldInnerHTML
-                                html={crudObject["Toelichting"]}
+                                html={crudObject['Toelichting']}
                             />
                         ) : null}
-                    </React.Fragment>
+                    </>
                 )}
             </UserContext.Consumer>
         )

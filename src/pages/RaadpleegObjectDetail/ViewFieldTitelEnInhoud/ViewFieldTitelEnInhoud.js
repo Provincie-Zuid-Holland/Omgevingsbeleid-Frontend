@@ -1,5 +1,3 @@
-import React from "react"
-
 function ViewFieldTitelEnInhoud({ fieldValue, fieldTitel }) {
     return (
         <div className="mb-8">
@@ -8,10 +6,10 @@ function ViewFieldTitelEnInhoud({ fieldValue, fieldTitel }) {
             </h2>
             <p
                 className={`leading-7 break-words w-full whitespace-pre-line ${
-                    !fieldValue ? "italic" : ""
+                    !fieldValue ? 'italic' : ''
                 }`}
             >
-                {!fieldValue ? "Er is nog geen inhoud" : fieldValue}
+                {!fieldValue ? 'Er is nog geen inhoud' : fieldValue}
             </p>
         </div>
     )

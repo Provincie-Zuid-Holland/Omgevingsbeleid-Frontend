@@ -1,3 +1,3 @@
-import PopUpAnimatedContainer from "./PopUpAnimatedContainer.js"
+import PopUpAnimatedContainer from './PopUpAnimatedContainer.js'
 
 export default PopUpAnimatedContainer

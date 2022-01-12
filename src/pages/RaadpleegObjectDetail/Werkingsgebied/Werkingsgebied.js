@@ -1,8 +1,7 @@
-import React from "react"
-import { faExpandAlt, faCompressAlt } from "@fortawesome/pro-regular-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faExpandAlt, faCompressAlt } from '@fortawesome/pro-regular-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import LeafletTinyViewer from "./../../../components/LeafletTinyViewer"
+import LeafletTinyViewer from './../../../components/LeafletTinyViewer'
 
 const Werkingsgebied = ({
     fullscreenLeafletViewer,
@@ -24,7 +23,7 @@ const Werkingsgebied = ({
                         setFullscreenLeafletViewer(!fullscreenLeafletViewer)
                     }
                 >
-                    Bekijk in het {fullscreenLeafletViewer ? "klein" : "groot"}
+                    Bekijk in het {fullscreenLeafletViewer ? 'klein' : 'groot'}
                     <FontAwesomeIcon
                         className="ml-2 text-gray-700"
                         icon={

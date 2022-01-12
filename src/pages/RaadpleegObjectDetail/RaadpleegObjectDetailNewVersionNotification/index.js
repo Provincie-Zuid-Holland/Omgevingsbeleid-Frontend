@@ -1,2 +1,1 @@
-export { default } from './RaadpleegObjectDetailNewVersionNotification';
-export * from './RaadpleegObjectDetailNewVersionNotification';
+export { default } from './RaadpleegObjectDetailNewVersionNotification'

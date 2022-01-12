@@ -1,15 +1,12 @@
-import { render, screen, fireEvent } from "@testing-library/react"
-import { MemoryRouter, Route } from "react-router-dom"
-import "@testing-library/jest-dom"
-import React from "react"
+import { render, screen, fireEvent } from '@testing-library/react'
+import { MemoryRouter, Route } from 'react-router-dom'
+import '@testing-library/jest-dom'
 
-import { beleidskeuzes } from "./../../mocks/data/beleidskeuzes"
+import UserContext from './../../App/UserContext'
+import { beleidskeuzes } from './../../mocks/data/beleidskeuzes'
+import MuteerBeleidsrelaties from './MuteerBeleidsrelaties'
 
-import UserContext from "./../../App/UserContext"
-
-import MuteerBeleidsrelaties from "./MuteerBeleidsrelaties"
-
-describe("MuteerBeleidsrelaties", () => {
+describe('MuteerBeleidsrelaties', () => {
     const defaultProps = {}
 
     const setup = (customProps, customPath, customInitialEntries) => {
@@ -21,7 +18,7 @@ describe("MuteerBeleidsrelaties", () => {
 
         render(
             <MemoryRouter initialEntries={[initialEntries]}>
-                <UserContext.Provider value={{ user: { UUID: "0001" } }}>
+                <UserContext.Provider value={{ user: { UUID: '0001' } }}>
                     <Route path={path}>
                         <MuteerBeleidsrelaties {...props} />
                     </Route>
@@ -30,13 +27,13 @@ describe("MuteerBeleidsrelaties", () => {
         )
     }
 
-    it("Component renders the overview page", () => {
+    it('Component renders the overview page', () => {
         setup()
-        const element = screen.getByText("Beleidskeuzes")
+        const element = screen.getByText('Beleidskeuzes')
         expect(element).toBeTruthy()
     })
 
-    it("Component renders the detail page", async () => {
+    it('Component renders the detail page', async () => {
         setup(
             {},
             `/muteer/beleidsrelaties/:UUID`,
@@ -46,7 +43,7 @@ describe("MuteerBeleidsrelaties", () => {
         expect(title).toBeTruthy()
     })
 
-    it("User can navigate back to the overview page", async () => {
+    it('User can navigate back to the overview page', async () => {
         setup(
             {},
             `/muteer/beleidsrelaties/:UUID`,
@@ -55,7 +52,7 @@ describe("MuteerBeleidsrelaties", () => {
         const title = await screen.findByText(beleidskeuzes[0].Titel)
         expect(title).toBeTruthy()
 
-        const backBtn = screen.getByText("Terug naar overzicht")
+        const backBtn = screen.getByText('Terug naar overzicht')
         fireEvent.click(backBtn)
 
         expect(screen.queryByText(beleidskeuzes[0].Titel)).toBeFalsy()

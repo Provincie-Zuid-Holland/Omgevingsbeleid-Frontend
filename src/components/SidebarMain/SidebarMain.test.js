@@ -1,14 +1,13 @@
-import { render, screen } from "@testing-library/react"
-import "@testing-library/jest-dom"
-import { MemoryRouter } from "react-router-dom"
-import React from "react"
+import { render, screen } from '@testing-library/react'
+import '@testing-library/jest-dom'
+import { MemoryRouter } from 'react-router-dom'
 
-import SidebarMain from "./SidebarMain"
+import SidebarMain from './SidebarMain'
 
-describe("SidebarMain", () => {
+describe('SidebarMain', () => {
     const defaultProps = {}
 
-    const setup = (customProps) => {
+    const setup = customProps => {
         const props = { ...defaultProps, ...customProps }
         render(
             <MemoryRouter>
@@ -17,10 +16,10 @@ describe("SidebarMain", () => {
         )
     }
 
-    it("Component renders", () => {
+    it('Component renders', () => {
         setup()
         const element = screen.getByText(
-            "In deze omgeving heb je de mogelijkheid om te werken aan Omgevingsbeleid."
+            'In deze omgeving heb je de mogelijkheid om te werken aan Omgevingsbeleid.'
         )
         expect(element).toBeTruthy()
     })

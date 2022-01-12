@@ -1,26 +1,29 @@
-import React from "react"
-import * as d3 from "d3"
-import cloneDeep from "lodash.clonedeep"
-import { Transition } from "@headlessui/react"
-import { useLocation, useHistory, matchPath } from "react-router-dom"
-import { useLastLocation } from "react-router-last-location"
-import { useQuery } from "react-query"
+import { Transition } from '@headlessui/react'
+import * as d3 from 'd3'
+import cloneDeep from 'lodash.clonedeep'
+import {
+    useCallback,
+    useEffect,
+    useLayoutEffect,
+    useReducer,
+    useRef,
+    useState,
+} from 'react'
+import { useQuery } from 'react-query'
+import { useLocation, useHistory, matchPath } from 'react-router-dom'
+import { useLastLocation } from 'react-router-last-location'
 
-import axios from "../../API/axios"
-
-import useLockBodyScroll from "../../utils/useLockBodyScroll"
-import networkGraphGenerateHref from "../../utils/networkGraphGenerateHref"
-
-import networkGraphConnectionProperties from "../../constants/networkGraphConnectionProperties"
-import networkGraphFilterMenu from "../../constants/networkGraphFilterMenu"
-
-import { getFilteredData } from "./../../utils/networkGraph"
-
-import NetworkGraphSearchBar from "./../NetworkGraphSearchBar"
-import NetworkGraphSidebar from "./../NetworkGraphSidebar"
-import NetworkGraphTooltip from "./../NetworkGraphTooltip"
-import NetworkGraphResetClickedElement from "./../NetworkGraphResetClickedElement"
-import NetworkGraphClickedElementPopup from "./../NetworkGraphClickedElementPopup"
+import axios from '../../API/axios'
+import networkGraphConnectionProperties from '../../constants/networkGraphConnectionProperties'
+import networkGraphFilterMenu from '../../constants/networkGraphFilterMenu'
+import networkGraphGenerateHref from '../../utils/networkGraphGenerateHref'
+import useLockBodyScroll from '../../utils/useLockBodyScroll'
+import { getFilteredData } from './../../utils/networkGraph'
+import NetworkGraphClickedElementPopup from './../NetworkGraphClickedElementPopup'
+import NetworkGraphResetClickedElement from './../NetworkGraphResetClickedElement'
+import NetworkGraphSearchBar from './../NetworkGraphSearchBar'
+import NetworkGraphSidebar from './../NetworkGraphSidebar'
+import NetworkGraphTooltip from './../NetworkGraphTooltip'
 
 /**
  * @param {boolean} graphIsOpen - Inidicates if the graph popup is open
@@ -37,43 +40,43 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
     /**
      * Contains the graph data we receive from the API, containing the nodes & links
      */
-    // const [data, setData] = React.useState([])
+    // const [data, setData] = useState([])
 
     /** Loading state */
-    // const [isLoading, setIsLoading] = React.useState(true)
+    // const [isLoading, setIsLoading] = useState(true)
 
     /**
      * Search query to filter the nodes based on the title
      */
-    const [searchQuery, setSearchQuery] = React.useState("")
+    const [searchQuery, setSearchQuery] = useState('')
 
     /**
      * Contain the 'left' and 'top' position variables to pass to the tooltip
      */
-    const [variables, setVariables] = React.useState({}) // X and Y positions for the Tooltip
+    const [variables, setVariables] = useState({}) // X and Y positions for the Tooltip
 
     /**
      * Contains the href link to go to a detail page of a node
      */
-    const [href, setHref] = React.useState("#")
+    const [href, setHref] = useState('#')
 
     /**
      * Contains the href link to go to a detail page of a node
      */
-    const [graphStyles, setGraphStyles] = React.useState({})
+    const [graphStyles, setGraphStyles] = useState({})
 
     /**
      * The last clicked node
      */
-    const [clickedNode, setClickedNode] = React.useState(null)
+    const [clickedNode, setClickedNode] = useState(null)
 
     /**
      * Set to true when the first init is done
      */
-    const [firstInitDone, setFirstInitDone] = React.useState(false)
-    const firstInitDoneRef = React.useRef(null)
+    const [firstInitDone, setFirstInitDone] = useState(false)
+    const firstInitDoneRef = useRef(null)
 
-    React.useEffect(() => {
+    useEffect(() => {
         firstInitDoneRef.current = firstInitDone
     }, [firstInitDone])
 
@@ -91,28 +94,26 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
      * Used to get the UUID paramater for detail pages
      */
     const lastLocation = useLastLocation()
-    const lastLocationRef = React.useRef(null)
+    const lastLocationRef = useRef(null)
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (lastLocation && !lastLocationRef.current) {
             lastLocationRef.current = lastLocation.pathname
         }
     }, [lastLocation])
 
     const { data: verordeningsStructure } = useQuery(
-        "/verordeningstructuur",
+        '/verordeningstructuur',
         () =>
             axios
-                .get("/verordeningstructuur")
-                .then((res) =>
-                    res.data.find((item) => item.Status === "Vigerend")
-                )
+                .get('/verordeningstructuur')
+                .then(res => res.data.find(item => item.Status === 'Vigerend'))
     )
 
-    const { isLoading, data } = useQuery("/graph", () =>
-        axios.get("/graph").then((res) => {
+    const { isLoading, data } = useQuery('/graph', () =>
+        axios.get('/graph').then(res => {
             const data = addColorAndUUIDToNodes(res.data)
-            setFilters({ type: "init", data: data })
+            setFilters({ type: 'init', data: data })
             return data
         })
     )
@@ -122,7 +123,7 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
        passes. In this case it will hold our component's SVG DOM element. It's
        initialized null and React will assign it later (see the return statement)
      */
-    const d3Container = React.useRef(null)
+    const d3Container = useRef(null)
 
     /**
      * Reducer for the filters
@@ -134,19 +135,19 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
          * @param {array} nodes - Array containing the d3 node objects
          * @returns An object containing all the type on keys and a boolean as value, indicating if the filter is on or off
          */
-        const getFiltersFromData = (nodes) => {
+        const getFiltersFromData = nodes => {
             const filterTypes = [] // Contains the types that are present in the nodes
             const filterState = {} // The state we will return in the format {'Beleidskeuze': true}
 
-            const getInitialFilterState = (type) =>
+            const getInitialFilterState = type =>
                 networkGraphFilterMenu.Visie.includes(type)
 
-            const addNodeType = (type) => {
+            const addNodeType = type => {
                 filterTypes.push(type)
                 filterState[type] = getInitialFilterState(type)
             }
 
-            nodes.forEach((node) =>
+            nodes.forEach(node =>
                 filterTypes.includes(node.Type) ? null : addNodeType(node.Type)
             )
 
@@ -154,33 +155,33 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
         }
 
         switch (action.type) {
-            case "init":
+            case 'init':
                 return getFiltersFromData(action.data.nodes)
 
-            case "toggleFilter":
+            case 'toggleFilter':
                 const filterType = action.filterType
                 const newState = action.newState
                 state[filterType] = newState
                 return { ...state }
 
             default:
-                throw new Error("No type declared")
+                throw new Error('No type declared')
         }
     }
 
-    const [filters, setFilters] = React.useReducer(setFiltersReducer, [])
+    const [filters, setFilters] = useReducer(setFiltersReducer, [])
 
     /**
      * We use a Ref for the last clicked node in order to preserve it
      * in order to be able to compare it to newly clicked nodes
      */
-    const clickedNodeRef = React.useRef(null)
+    const clickedNodeRef = useRef(null)
 
-    React.useEffect(() => {
+    useEffect(() => {
         clickedNodeRef.current = clickedNode
     }, [clickedNode])
 
-    React.useEffect(() => {
+    useEffect(() => {
         clickedNodeRef.current = null
     }, [graphIsOpen])
 
@@ -188,10 +189,10 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
      * Function to add a Hex value and a UUID to each node
      * @param {object} data - Contains the graph data we receive from the API
      */
-    const addColorAndUUIDToNodes = (data) => {
+    const addColorAndUUIDToNodes = data => {
         if (!data) return null
 
-        data.nodes.forEach((node) => {
+        data.nodes.forEach(node => {
             if (!networkGraphConnectionProperties[node.Type]) {
                 console.error(
                     `Node with type ${node.Type} doesn't exist on connection properties`
@@ -210,28 +211,28 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
      * Function to reset state in D3 Graph
      * @returns
      */
-    const resetNodes = React.useCallback(() => {
+    const resetNodes = useCallback(() => {
         const svgElement = d3.select(d3Container.current)
         svgElement
-            .selectAll("circle")
-            .attr("fill", (d) => d.color)
-            .attr("r", 7.5)
+            .selectAll('circle')
+            .attr('fill', d => d.color)
+            .attr('r', 7.5)
 
-        svgElement.selectAll("line").attr("stroke-opacity", 0.6)
+        svgElement.selectAll('line').attr('stroke-opacity', 0.6)
         setClickedNode(null)
     }, [])
 
     /** Reset nodes when the user presses the escape key */
-    React.useEffect(() => {
-        const handleKeyEvent = (e) => {
-            if (clickedNode && e.code === "Escape") resetNodes()
+    useEffect(() => {
+        const handleKeyEvent = e => {
+            if (clickedNode && e.code === 'Escape') resetNodes()
         }
 
         // Bind the event listener
-        document.addEventListener("keydown", handleKeyEvent)
+        document.addEventListener('keydown', handleKeyEvent)
         return () => {
             // Unbind the event listener on clean up
-            document.removeEventListener("keydown", handleKeyEvent)
+            document.removeEventListener('keydown', handleKeyEvent)
         }
     }, [clickedNode, resetNodes])
 
@@ -244,14 +245,14 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
      * @param {boolean} isNotClicked - Contains a boolean if the function is called without a click from the user. This is used to prevent resetting the clicked node state. Normally when a node is clicked a second time we want to reset the clicked node state. We use this value in the function persistOrInitActiveNode().
      * @returns
      */
-    const handleNodeClick = React.useCallback(
+    const handleNodeClick = useCallback(
         (clickedEl, svgElement, links, refresh) => {
             const uuidSource = clickedEl.UUID
 
             if (!uuidSource) return
 
-            const connectedLinks = links.filter((link) => {
-                if (typeof link.target === "string") {
+            const connectedLinks = links.filter(link => {
+                if (typeof link.target === 'string') {
                     return (
                         link.target === uuidSource || link.source === uuidSource
                     )
@@ -263,17 +264,17 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
                 }
             })
 
-            svgElement.selectAll("circle").attr("fill", (d) => d.color)
-            svgElement.selectAll("line").attr("stroke-opacity", 0)
+            svgElement.selectAll('circle').attr('fill', d => d.color)
+            svgElement.selectAll('line').attr('stroke-opacity', 0)
 
             const selectCircles = () => {
                 svgElement
-                    .selectAll("circle")
-                    .attr("fill", (d) => d.color)
-                    .attr("r", 7.5)
-                    .filter((circle) =>
-                        connectedLinks.every((e) => {
-                            if (typeof e.target === "string") {
+                    .selectAll('circle')
+                    .attr('fill', d => d.color)
+                    .attr('r', 7.5)
+                    .filter(circle =>
+                        connectedLinks.every(e => {
+                            if (typeof e.target === 'string') {
                                 return (
                                     e.source !== circle.UUID &&
                                     e.target !== circle.UUID
@@ -286,25 +287,25 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
                             }
                         })
                     )
-                    .attr("fill", (d) => d.colorLight)
+                    .attr('fill', d => d.colorLight)
 
                 svgElement
-                    .selectAll("circle")
-                    .filter((circle) => circle.UUID === uuidSource)
-                    .attr("fill", (d) => d.color)
-                    .attr("r", 10)
+                    .selectAll('circle')
+                    .filter(circle => circle.UUID === uuidSource)
+                    .attr('fill', d => d.color)
+                    .attr('r', 10)
             }
 
             const selectLinks = () => {
                 svgElement
-                    .selectAll("line")
-                    .attr("stroke-opacity", 0.2)
+                    .selectAll('line')
+                    .attr('stroke-opacity', 0.2)
                     .filter(
-                        (link) =>
+                        link =>
                             link.source.UUID === uuidSource ||
                             link.target.UUID === uuidSource
                     )
-                    .attr("stroke-opacity", 0.6)
+                    .attr('stroke-opacity', 0.6)
             }
 
             if (uuidSource === clickedNodeRef.current?.UUID && !refresh) {
@@ -328,30 +329,30 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
     /**
      * Close popup when the location path changes
      */
-    React.useLayoutEffect(() => {
-        if (location.pathname !== "/netwerkvisualisatie" && graphIsOpen) {
+    useLayoutEffect(() => {
+        if (location.pathname !== '/netwerkvisualisatie' && graphIsOpen) {
             setGraphIsOpen(false)
             setFirstInitDone(false)
             lastLocationRef.current = null
             clickedNodeRef.current = null
         }
-        if (location.pathname === "/netwerkvisualisatie" && !graphIsOpen)
+        if (location.pathname === '/netwerkvisualisatie' && !graphIsOpen)
             setGraphIsOpen(true)
     }, [location.pathname, setGraphIsOpen, graphIsOpen])
 
     /**
      * When the graph is open we want it to have custom URL
      */
-    React.useLayoutEffect(() => {
+    useLayoutEffect(() => {
         if (graphIsOpen) {
-            history.push("/netwerkvisualisatie")
+            history.push('/netwerkvisualisatie')
         }
     }, [graphIsOpen, history])
 
     /**
      * Hook to initialize the D3 Graph
      */
-    React.useEffect(() => {
+    useEffect(() => {
         /**
          * Function to initialize the D3 Graph
          * @param {object} data - Contains two properties, links and nodes
@@ -366,23 +367,23 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
              */
             const handleMouseOver = (event, d) => {
                 const index = d.index
-                const nodeElement = d3.selectAll("circle").nodes()[index]
+                const nodeElement = d3.selectAll('circle').nodes()[index]
 
                 /**
                  * Updates the tooltips Title, Subtitle and Href
                  */
                 const updateTooltipContent = () => {
-                    const tooltip = d3.select("#d3-tooltip-network-graph")
+                    const tooltip = d3.select('#d3-tooltip-network-graph')
 
                     // Activate display on the tooltip
-                    tooltip.style("display", "block")
+                    tooltip.style('display', 'block')
 
                     // Set title and type in the element
                     const tooltipTitleEl = document.getElementById(
-                        "d3-tooltip-network-graph-title"
+                        'd3-tooltip-network-graph-title'
                     )
                     const tooltipTypeEl = document.getElementById(
-                        "d3-tooltip-network-graph-type"
+                        'd3-tooltip-network-graph-type'
                     )
 
                     const singularType =
@@ -412,7 +413,7 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
                     })
 
                     const tooltipEl = document.getElementById(
-                        "d3-tooltip-network-graph"
+                        'd3-tooltip-network-graph'
                     )
                     const { x, bottom } = nodeElement.getBoundingClientRect()
                     const tooltipWidth = tooltipEl.offsetWidth
@@ -432,7 +433,7 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
                  */
                 const updateNodeStyles = () => {
                     const currentRadius = parseInt(
-                        nodeElement.getAttribute("r")
+                        nodeElement.getAttribute('r')
                     )
 
                     /**
@@ -440,7 +441,7 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
                      * We want to reset the radius of all the non-clicked nodes.
                      */
                     if (currentRadius !== 10) {
-                        nodeElement.setAttribute("r", 8.5)
+                        nodeElement.setAttribute('r', 8.5)
                     }
                 }
 
@@ -454,16 +455,16 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
              * @param {object} d - Contains the node from the mouseOut event
              * @param {number} i - Contains the index of the node
              */
-            const handleMouseOut = (event, d) => {
+            const handleMouseOut = (_, d) => {
                 const index = d.index
-                const nodeElement = d3.selectAll("circle").nodes()[index]
-                const tooltip = d3.select("#d3-tooltip-network-graph")
+                const nodeElement = d3.selectAll('circle').nodes()[index]
+                const tooltip = d3.select('#d3-tooltip-network-graph')
                 // Reset display property, user can still see it when hovering over it
-                tooltip.style("display", "")
-                const currentRadius = parseInt(nodeElement.getAttribute("r"))
+                tooltip.style('display', '')
+                const currentRadius = parseInt(nodeElement.getAttribute('r'))
                 // Radius is 10 when the node is clicked
                 if (currentRadius !== 10) {
-                    nodeElement.setAttribute("r", 7.5)
+                    nodeElement.setAttribute('r', 7.5)
                 }
             }
 
@@ -473,7 +474,7 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
              * The more nodes we have, the stronger our strength need to be in order to create the space for the nodes
              * https://www.d3indepth.com/force-layout/#forcemanybody
              */
-            const generateStrength = (nodes) => {
+            const generateStrength = nodes => {
                 if (nodes.length > 20) return -150
                 if (nodes.length > 10) return -100
                 return -30 // Default
@@ -496,7 +497,7 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
                     if (!lastLocationRef.current) return null
 
                     const getMatch = () => {
-                        if (lastLocationRef.current.includes("verordeningen")) {
+                        if (lastLocationRef.current.includes('verordeningen')) {
                             return matchPath(lastLocationRef.current, {
                                 path: `/detail/:slug/:id/:uuid`,
                                 exact: true,
@@ -537,7 +538,7 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
                         true
                     )
                 } else if (uuidFromURL) {
-                    const clickedEl = nodes.find((e) => e.UUID === uuidFromURL)
+                    const clickedEl = nodes.find(e => e.UUID === uuidFromURL)
                     if (!clickedEl) return
                     handleNodeClick(clickedEl, svgElement, links, true)
                 }
@@ -561,7 +562,7 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
              * Get current SVG element
              */
             const svgElement = d3.select(d3Container.current)
-            svgElement.selectAll("*").remove() // Remove all D3 Nodes
+            svgElement.selectAll('*').remove() // Remove all D3 Nodes
 
             /**
              * Reset clicked node in State
@@ -572,7 +573,7 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
              * Set viewBox attribute
              */
             const bounding = d3Container.current.getBoundingClientRect()
-            svgElement.attr("viewBox", [
+            svgElement.attr('viewBox', [
                 -bounding.width / 2, // Center horizontally
                 -bounding.height / 2, // Center vertically
                 bounding.width * 1.25,
@@ -584,20 +585,20 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
              */
             const maxZoom = 0.5
             const minZoom = 15
-            const zoomed = (event) => {
+            const zoomed = event => {
                 const transformEvent = event.transform
                 const newZoom = transformEvent.k
                 if (newZoom < maxZoom) return
 
                 const transform = transformEvent.toString()
-                svgElement.selectAll("g").attr("transform", transform)
+                svgElement.selectAll('g').attr('transform', transform)
             }
             var zoom = d3
                 .zoom()
                 .scaleExtent([maxZoom, minZoom])
-                .on("zoom", zoomed)
+                .on('zoom', zoomed)
 
-            svgElement.call(zoom).on("dblclick.zoom", null)
+            svgElement.call(zoom).on('dblclick.zoom', null)
 
             /**
              * Setup the Force Simulation
@@ -607,57 +608,57 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
             const simulation = d3
                 .forceSimulation(nodes)
                 .force(
-                    "link",
-                    d3.forceLink(links).id((d) => d.id)
+                    'link',
+                    d3.forceLink(links).id(d => d.id)
                 )
-                .force("charge", d3.forceManyBody().strength(strength))
-                .force("x", d3.forceX())
-                .force("y", d3.forceY())
+                .force('charge', d3.forceManyBody().strength(strength))
+                .force('x', d3.forceX())
+                .force('y', d3.forceY())
 
             // Generate Links
             const link = svgElement
-                .append("g")
-                .attr("data-testid", "test-g-links")
-                .attr("stroke", "#999")
-                .attr("stroke-opacity", 0.6)
-                .selectAll("line")
+                .append('g')
+                .attr('data-testid', 'test-g-links')
+                .attr('stroke', '#999')
+                .attr('stroke-opacity', 0.6)
+                .selectAll('line')
                 .data(links)
-                .join("line")
-                .attr("stroke-width", (d) => Math.sqrt(d.value))
+                .join('line')
+                .attr('stroke-width', d => Math.sqrt(d.value))
 
             // Generate Nodes
             const node = svgElement
-                .append("g")
-                .attr("data-testid", "test-g-nodes")
-                .attr("stroke", "#fff")
-                .attr("stroke-width", 1.5)
-                .selectAll("circle")
+                .append('g')
+                .attr('data-testid', 'test-g-nodes')
+                .attr('stroke', '#fff')
+                .attr('stroke-width', 1.5)
+                .selectAll('circle')
                 .data(nodes)
-                .join("circle")
-                .attr("data-testid", (d) => d.id)
+                .join('circle')
+                .attr('data-testid', d => d.id)
                 .attr(
-                    "class",
-                    "cursor-pointer transition transform ease-in duration-200 scale-100"
+                    'class',
+                    'cursor-pointer transition transform ease-in duration-200 scale-100'
                 )
-                .attr("r", 7.5) // r equals the radius of the circle (node)
-                .attr("fill", (d) => d.color)
-                .on("mouseover", handleMouseOver)
-                .on("mouseout", handleMouseOut)
+                .attr('r', 7.5) // r equals the radius of the circle (node)
+                .attr('fill', d => d.color)
+                .on('mouseover', handleMouseOver)
+                .on('mouseout', handleMouseOut)
 
-                .on("click", (event, clickedEl) =>
+                .on('click', (_, clickedEl) =>
                     handleNodeClick(clickedEl, svgElement, links)
                 )
 
             persistOrInitActiveNode(links, nodes)
 
             // Handle updates
-            simulation.on("tick", () => {
-                link.attr("x1", (d) => d.source.x + 100)
-                    .attr("y1", (d) => d.source.y + 100)
-                    .attr("x2", (d) => d.target.x + 100)
-                    .attr("y2", (d) => d.target.y + 100)
+            simulation.on('tick', () => {
+                link.attr('x1', d => d.source.x + 100)
+                    .attr('y1', d => d.source.y + 100)
+                    .attr('x2', d => d.target.x + 100)
+                    .attr('y2', d => d.target.y + 100)
 
-                node.attr("cx", (d) => d.x + 100).attr("cy", (d) => d.y + 100)
+                node.attr('cx', d => d.x + 100).attr('cy', d => d.y + 100)
             })
         }
 
@@ -674,41 +675,41 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
      * Update the graph styles to give it the correct height.
      * This changes when the banner that displays the environment the user is in
      */
-    React.useEffect(() => {
+    useEffect(() => {
         if (showBanner) {
-            setGraphStyles({ height: "calc(100vh - 96px)", top: "121px" })
+            setGraphStyles({ height: 'calc(100vh - 96px)', top: '121px' })
         } else {
-            setGraphStyles({ height: "calc(100vh - 96px)", top: "96px" })
+            setGraphStyles({ height: 'calc(100vh - 96px)', top: '96px' })
         }
     }, [showBanner])
 
     /**
      * Update nodes based on search query
      */
-    React.useEffect(() => {
+    useEffect(() => {
         const svgElement = d3.select(d3Container.current)
-        if (searchQuery === "") {
-            svgElement.selectAll("circle").attr("fill", (d) => d.color)
+        if (searchQuery === '') {
+            svgElement.selectAll('circle').attr('fill', d => d.color)
         } else {
             svgElement
-                .selectAll("circle")
-                .attr("fill", (d) => d.color)
-                .attr("r", 7.5)
+                .selectAll('circle')
+                .attr('fill', d => d.color)
+                .attr('r', 7.5)
                 .filter(
-                    (e) =>
+                    e =>
                         !e.Titel?.toLowerCase()?.includes(
                             searchQuery.toLowerCase()
                         )
                 )
-                .attr("fill", (d) => d.colorLight)
+                .attr('fill', d => d.colorLight)
         }
 
-        svgElement.selectAll("line").attr("stroke-opacity", 0.6)
+        svgElement.selectAll('line').attr('stroke-opacity', 0.6)
         setClickedNode(null)
     }, [searchQuery])
 
     return (
-        <React.Fragment>
+        <>
             <Transition
                 show={graphIsOpen}
                 enter="transition ease-out duration-50"
@@ -741,7 +742,7 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
                                 className="relative mt-2 mb-10 overflow-hidden border rounded-md"
                                 id="d3-graph-container"
                                 style={{
-                                    height: "80%",
+                                    height: '80%',
                                 }}
                             >
                                 <div className="absolute w-full p-2">
@@ -784,7 +785,7 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen, showBanner }) => {
                     </div>
                 </div>
             </Transition>
-        </React.Fragment>
+        </>
     )
 }
 

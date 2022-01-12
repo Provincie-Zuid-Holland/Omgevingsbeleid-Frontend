@@ -1,3 +1,3 @@
-import FormFieldContainerBeleidsdoelen from "./FormFieldContainerBeleidsdoelen.js"
+import FormFieldContainerBeleidsdoelen from './FormFieldContainerBeleidsdoelen.js'
 
 export default FormFieldContainerBeleidsdoelen

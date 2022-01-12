@@ -1,5 +1,4 @@
-import React from "react"
-import { Link } from "react-router-dom"
+import { Link } from 'react-router-dom'
 
 /**
  * Displays a tooltip for the NetworkGraph items.
@@ -19,7 +18,7 @@ const NetworkGraphTooltip = ({ variables, setGraphIsOpen, href }) => {
             className="absolute z-50 hidden px-4 py-2 bg-white rounded shadow-md hover:block"
         >
             <Link
-                onClick={(e) => {
+                onClick={e => {
                     if (!e.shiftKey && !e.ctrlKey && !e.metaKey) {
                         setGraphIsOpen(false)
                     }
@@ -35,7 +34,7 @@ const NetworkGraphTooltip = ({ variables, setGraphIsOpen, href }) => {
                 <div
                     id="d3-tooltip-network-graph-title"
                     className={`text-pzh-blue-dark group-hover:underline truncate text-base`}
-                    style={{ maxWidth: "400px" }}
+                    style={{ maxWidth: '400px' }}
                 />
             </Link>
         </div>

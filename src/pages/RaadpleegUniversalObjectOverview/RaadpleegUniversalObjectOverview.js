@@ -1,18 +1,16 @@
-import React from "react"
-import { useQuery } from "react-query"
-import { Link } from "react-router-dom"
-import { faArrowLeft } from "@fortawesome/pro-solid-svg-icons"
-import { faAngleRight } from "@fortawesome/pro-light-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faAngleRight } from '@fortawesome/pro-light-svg-icons'
+import { faArrowLeft } from '@fortawesome/pro-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useQuery } from 'react-query'
+import { Link } from 'react-router-dom'
 
-import axios from "./../../API/axios"
-
-import LoaderSpinner from "./../../components/LoaderSpinner"
-import Heading from "./../../components/Heading"
-import Container from "./../../components/Container"
-import Text from "./../../components/Text"
-import Footer from "./../../components/Footer"
-import LoaderCard from "./../../components/LoaderCard"
+import axios from './../../API/axios'
+import Container from './../../components/Container'
+import Footer from './../../components/Footer'
+import Heading from './../../components/Heading'
+import LoaderCard from './../../components/LoaderCard'
+import LoaderSpinner from './../../components/LoaderSpinner'
+import Text from './../../components/Text'
 
 function RaadpleegUniversalObjectOverview({ dataModel }) {
     const { isLoading, data: allObjects } = useQuery(
@@ -20,7 +18,7 @@ function RaadpleegUniversalObjectOverview({ dataModel }) {
         () =>
             axios
                 .get(dataModel.API_ENDPOINT_VIGEREND)
-                .then((res) =>
+                .then(res =>
                     res.data.sort((a, b) => a.Titel.localeCompare(b.Titel))
                 )
     )
@@ -74,12 +72,15 @@ function RaadpleegUniversalObjectOverview({ dataModel }) {
                                     <LoaderCard height="25" />
                                 </div>
                             ) : (
-                                allObjects.map((obj) => (
-                                    <li className="flex items-start py-1 transition-colors duration-100 ease-in text-pzh-blue hover:text-pzh-blue-dark">
+                                allObjects.map((obj, index) => (
+                                    <li
+                                        key={index}
+                                        className="flex items-start py-1 transition-colors duration-100 ease-in text-pzh-blue hover:text-pzh-blue-dark"
+                                    >
                                         <FontAwesomeIcon
                                             icon={faAngleRight}
                                             className="relative mr-2 text-lg"
-                                            style={{ marginTop: "0.1rem" }}
+                                            style={{ marginTop: '0.1rem' }}
                                         />
                                         <Link
                                             to={`/detail/${dataModel.SLUG_OVERVIEW}/${obj.UUID}`}

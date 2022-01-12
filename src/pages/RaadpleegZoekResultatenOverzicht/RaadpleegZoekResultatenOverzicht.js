@@ -1,19 +1,17 @@
-import React, { Component } from "react"
-import { toast } from "react-toastify"
-import "url-search-params-polyfill"
+import { Component } from 'react'
+import { toast } from 'react-toastify'
+import 'url-search-params-polyfill'
 
-import axios from "./../../API/axios"
+import axios from './../../API/axios'
+import Container from './../../components/Container'
+import Footer from './../../components/Footer'
+import Heading from './../../components/Heading'
+import LoaderCard from './../../components/LoaderCard'
+import SearchBar from './../../components/SearchBar'
+import generateVerordeningsPosition from './../../utils/generateVerordeningsPosition'
+import SearchFilterSection from './SearchFilterSection'
+import SearchResultItem from './SearchResultItem'
 
-import generateVerordeningsPosition from "./../../utils/generateVerordeningsPosition"
-
-import LoaderCard from "./../../components/LoaderCard"
-import Container from "./../../components/Container"
-import Heading from "./../../components/Heading"
-import SearchBar from "./../../components/SearchBar"
-import Footer from "./../../components/Footer"
-
-import SearchResultItem from "./SearchResultItem"
-import SearchFilterSection from "./SearchFilterSection"
 class RaadpleegZoekResultatenOverzicht extends Component {
     constructor(props) {
         super(props)
@@ -47,7 +45,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
         // In the mainFilterObject we place the types as properties. On those properties we place the metaData about the object type, e.g. the amount of items we have received in the response. The mainFilterObject will be set in state to display in the UI.
         let mainFilterObject = {}
 
-        searchResults.forEach((item) => {
+        searchResults.forEach(item => {
             // Create filter object with meta info about the filter type
             const filterObject = {
                 name: item.Type,
@@ -75,8 +73,8 @@ class RaadpleegZoekResultatenOverzicht extends Component {
     addVerordeningsPositionToSearchResults(searchResults) {
         // We map over the searchResults. If the item is of the type 'Verordeningen' we find the position of the UUID in the verordeningenStructure
         // Else we return the original item
-        const newSearchResults = searchResults.map((item) => {
-            if (item.Type === "Verordeningen") {
+        const newSearchResults = searchResults.map(item => {
+            if (item.Type === 'Verordeningen') {
                 const positionInStructure = this.generateVerordeningsPosition(
                     item.UUID,
                     this.state.vigerendeVerordeningsStructuur
@@ -95,8 +93,8 @@ class RaadpleegZoekResultatenOverzicht extends Component {
             searchQuery: searchQuery,
         })
 
-        if (searchFiltersOnly === "beleidskeuzes") {
-            searchFiltersOnly = "beleidskeuzes"
+        if (searchFiltersOnly === 'beleidskeuzes') {
+            searchFiltersOnly = 'beleidskeuzes'
         }
 
         axios
@@ -105,19 +103,19 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                     searchFiltersOnly ? `&only=${searchFiltersOnly}` : ``
                 }`
             )
-            .then((res) => {
+            .then(res => {
                 const searchResults = res.data
                     .filter(
-                        (e) =>
-                            e.Type !== "Beleidsprestaties" &&
-                            e.Type !== "Themas" &&
-                            e.Type !== "Belangen"
+                        e =>
+                            e.Type !== 'Beleidsprestaties' &&
+                            e.Type !== 'Themas' &&
+                            e.Type !== 'Belangen'
                     )
                     .filter(
-                        (e) =>
-                            (e.Type === "Maatregelen" &&
-                                e.Status !== "Vigerend") ||
-                            e.Type !== "Maatregelen"
+                        e =>
+                            (e.Type === 'Maatregelen' &&
+                                e.Status !== 'Vigerend') ||
+                            e.Type !== 'Maatregelen'
                     )
 
                 this.setInitialOnPageFilters(searchResults)
@@ -133,7 +131,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                     dataLoaded: true,
                 })
             })
-            .catch((err) => {
+            .catch(err => {
                 this.setState(
                     {
                         dataLoaded: true,
@@ -149,7 +147,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
     getBeleidOpBasisVanWerkingsgebieden(werkingsgebiedenArray) {
         axios
             .get(`/search/geo?query=${werkingsgebiedenArray}`)
-            .then((res) => {
+            .then(res => {
                 const searchResults = res.data
 
                 // Creates the state to display the filter UI
@@ -164,7 +162,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                     dataLoaded: true,
                 })
             })
-            .catch((err) => {
+            .catch(err => {
                 this.setState({
                     dataLoaded: true,
                 })
@@ -177,19 +175,19 @@ class RaadpleegZoekResultatenOverzicht extends Component {
     // LatLng is set in state so we can display it in the UI above the results
     getSearchGeoQuery(searchGeoQuery, latLng) {
         this.setState({
-            geoSearchQuery: latLng.replace("-", " "),
+            geoSearchQuery: latLng.replace('-', ' '),
         })
 
         // Get werkingsgebieden
-        import("./../../API/axiosGeoJSON").then((api) => {
-            const [pointA, pointB] = searchGeoQuery.split(" ")
+        import('./../../API/axiosGeoJSON').then(api => {
+            const [pointA, pointB] = searchGeoQuery.split(' ')
             api.getWerkingsGebieden(pointA, pointB)
-                .then((data) => {
+                .then(data => {
                     // Then get for each werkingsgebied the appropriate regulations and policies
 
                     // Create array containing all the UUIDs we received from the .getWerkingsGebieden Query
                     const WerkingsgebiedenUUIDS = data.map(
-                        (item) => item.properties.UUID
+                        item => item.properties.UUID
                     )
                     if (WerkingsgebiedenUUIDS.length === 0) {
                         this.setState({
@@ -203,7 +201,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
                         )
                     }
                 })
-                .catch((err) => {
+                .catch(err => {
                     console.error(err)
                     toast(process.env.REACT_APP_ERROR_MSG)
                 })
@@ -212,20 +210,18 @@ class RaadpleegZoekResultatenOverzicht extends Component {
 
     async getAndSetVigerendeVerordeningenStructuur() {
         try {
-            const data = await axios
-                .get("/verordeningstructuur")
-                .then((res) => {
-                    const vigerendeVerordening = res.data.find(
-                        (item) => item.Status === "Vigerend"
-                    )
-                    if (vigerendeVerordening) {
-                        return vigerendeVerordening
-                    } else if (res.data.length > 0) {
-                        return res.data[0]
-                    } else {
-                        throw new Error("No data from API")
-                    }
-                })
+            const data = await axios.get('/verordeningstructuur').then(res => {
+                const vigerendeVerordening = res.data.find(
+                    item => item.Status === 'Vigerend'
+                )
+                if (vigerendeVerordening) {
+                    return vigerendeVerordening
+                } else if (res.data.length > 0) {
+                    return res.data[0]
+                } else {
+                    throw new Error('No data from API')
+                }
+            })
             this.setState(
                 {
                     vigerendeVerordeningsStructuur: data,
@@ -243,13 +239,13 @@ class RaadpleegZoekResultatenOverzicht extends Component {
         const urlParams = this.props.location.search
 
         const searchParams = new URLSearchParams(urlParams)
-        const searchQuery = searchParams.get("query")
-        const searchFiltersOnly = searchParams.get("only")
-        const searchGeoQuery = searchParams.get("geoQuery")
-        const latLng = searchParams.get("LatLng")
+        const searchQuery = searchParams.get('query')
+        const searchFiltersOnly = searchParams.get('only')
+        const searchGeoQuery = searchParams.get('geoQuery')
+        const latLng = searchParams.get('LatLng')
 
         if (!urlParams || urlParams.length === 0) {
-            console.log("NO SEARCH QUERY")
+            console.log('NO SEARCH QUERY')
             this.setState({ dataLoaded: true })
             return
         }
@@ -287,13 +283,13 @@ class RaadpleegZoekResultatenOverzicht extends Component {
     }
 
     render() {
-        const checkForActiveFilter = (onPageFilters) => {
+        const checkForActiveFilter = onPageFilters => {
             if (!onPageFilters || !onPageFilters.filterArray) return []
 
             let activeFilter = false
             let amountOfFilters = 0
 
-            onPageFilters.filterArray.forEach((filterType) => {
+            onPageFilters.filterArray.forEach(filterType => {
                 if (!onPageFilters[filterType].checked) {
                     activeFilter = true
                     amountOfFilters++
@@ -308,26 +304,24 @@ class RaadpleegZoekResultatenOverzicht extends Component {
             checkForActiveFilter(onPageFilters)
 
         const filters = [
-            "beleidskeuzes",
-            "ambities",
-            "beleidsprestaties",
-            "beleidsdoelen",
-            "maatregelen",
-            "beleidsregels",
-        ].filter((e) => onPageFilters[e])
+            'beleidskeuzes',
+            'ambities',
+            'beleidsprestaties',
+            'beleidsdoelen',
+            'maatregelen',
+            'beleidsregels',
+        ].filter(e => onPageFilters[e])
 
         return (
             <>
                 <Container
                     className="bg-pzh-blue-light"
-                    style={{ height: 96 + "px" }}
-                >
+                    style={{ height: 96 + 'px' }}>
                     <div className="flex items-center col-span-2">
                         <Heading
                             level="1"
                             className="relative mt-2 font-bold text-white"
-                            color="text-white"
-                        >
+                            color="text-white">
                             Zoeken
                         </Heading>
                     </div>

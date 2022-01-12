@@ -1,13 +1,11 @@
-import React from "react"
-
 // Import Icons
-import { faSpinner } from "@fortawesome/pro-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faSpinner } from '@fortawesome/pro-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 /**
  * A rotating spinner icon
  */
-function LoaderSpinner({ className = "" }) {
+function LoaderSpinner({ className = '' }) {
     return (
         <FontAwesomeIcon
             className={`rotate-icon ${className}`}

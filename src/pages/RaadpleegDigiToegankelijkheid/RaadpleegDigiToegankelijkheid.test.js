@@ -1,14 +1,14 @@
-import { render, screen } from "@testing-library/react"
-import "@testing-library/jest-dom"
-import React from "react"
+import { render, screen } from '@testing-library/react'
+import '@testing-library/jest-dom'
 
-import RaadpleegDigiToegankelijkheid from "./RaadpleegDigiToegankelijkheid"
-import { MemoryRouter } from "react-router-dom"
+import { MemoryRouter } from 'react-router-dom'
 
-describe("RaadpleegDigiToegankelijkheid", () => {
+import RaadpleegDigiToegankelijkheid from './RaadpleegDigiToegankelijkheid'
+
+describe('RaadpleegDigiToegankelijkheid', () => {
     const defaultProps = {}
 
-    const setup = (customProps) => {
+    const setup = customProps => {
         const props = { ...defaultProps, ...customProps }
         render(
             <MemoryRouter>
@@ -17,9 +17,9 @@ describe("RaadpleegDigiToegankelijkheid", () => {
         )
     }
 
-    it("Component renders", () => {
+    it('Component renders', () => {
         setup()
-        const element = screen.getByText("Toegankelijkheidsverklaring")
+        const element = screen.getByText('Toegankelijkheidsverklaring')
         expect(element).toBeTruthy()
     })
 })

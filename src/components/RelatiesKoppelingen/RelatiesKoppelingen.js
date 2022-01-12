@@ -1,52 +1,51 @@
-import React from "react"
+import { useEffect, useState } from 'react'
 
-import LoaderSpinner from "../LoaderSpinner"
-
-import RelatiesKoppelingenVisualisatie from "../RelatiesKoppelingenVisualisatie"
-import RelatiesKoppelingenTekstueel from "../RelatiesKoppelingenTekstueel"
-import axios from "./../../API/axios"
+import LoaderSpinner from '../LoaderSpinner'
+import RelatiesKoppelingenTekstueel from '../RelatiesKoppelingenTekstueel'
+import RelatiesKoppelingenVisualisatie from '../RelatiesKoppelingenVisualisatie'
+import axios from './../../API/axios'
 
 const connectionProperties = [
-    "Ambities",
-    "Belangen",
-    "Beleidsregels",
-    "Beleidsprestaties",
-    "Maatregelen",
-    "Beleidsdoelen",
-    "Themas",
-    "Verordeningen",
+    'Ambities',
+    'Belangen',
+    'Beleidsregels',
+    'Beleidsprestaties',
+    'Maatregelen',
+    'Beleidsdoelen',
+    'Themas',
+    'Verordeningen',
 ]
 
 const connectionPropertiesColors = {
     MainObject: {
-        hex: "#553c9a",
+        hex: '#553c9a',
     },
     Ambities: {
-        hex: "#AA0067",
+        hex: '#AA0067',
     },
     Belangen: {
-        hex: "#D11F3D",
+        hex: '#D11F3D',
     },
     Beleidsregels: {
-        hex: "#7BADDE",
+        hex: '#7BADDE',
     },
     Beleidsprestaties: {
-        hex: "#76BC21",
+        hex: '#76BC21',
     },
     Maatregelen: {
-        hex: "#00804D",
+        hex: '#00804D',
     },
     Beleidsdoelen: {
-        hex: "#FF6B02",
+        hex: '#FF6B02',
     },
     Themas: {
-        hex: "#847062",
+        hex: '#847062',
     },
     Verordeningen: {
-        hex: "#281F6B",
+        hex: '#281F6B',
     },
     Beleidskeuzes: {
-        hex: "#EFCC36",
+        hex: '#EFCC36',
     },
 }
 
@@ -62,20 +61,16 @@ const RelatiesKoppelingen = ({
     titleSingular,
     titleSingularPrefix,
 }) => {
-    const [beleidsRelaties, setBeleidsRelaties] = React.useState([])
-    const [isLoading, setIsLoading] = React.useState(true)
-    const [activeTab, setActiveTab] = React.useState("Visueel")
+    const [beleidsRelaties, setBeleidsRelaties] = useState([])
+    const [isLoading, setIsLoading] = useState(true)
+    const [activeTab, setActiveTab] = useState('Visueel')
 
-    const [verordeningsStructure, setVerordeningStructure] =
-        React.useState(null)
+    const [verordeningsStructure, setVerordeningStructure] = useState(null)
 
     // As the height of the containers will vary by the content, we make sure the user can immediately see the whole container by scrolling down
-    React.useEffect(
-        () => window.scrollTo(0, document.body.scrollHeight),
-        [activeTab]
-    )
+    useEffect(() => window.scrollTo(0, document.body.scrollHeight), [activeTab])
 
-    React.useEffect(() => {
+    useEffect(() => {
         setIsLoading(true)
 
         /**
@@ -84,10 +79,8 @@ const RelatiesKoppelingen = ({
          */
         const getVigerendeVerordening = () =>
             axios
-                .get("/verordeningstructuur")
-                .then((res) =>
-                    res.data.find((item) => item.Status === "Vigerend")
-                )
+                .get('/verordeningstructuur')
+                .then(res => res.data.find(item => item.Status === 'Vigerend'))
 
         /**
          * A function to filter out relations. Filter out relations that
@@ -101,9 +94,9 @@ const RelatiesKoppelingen = ({
          */
         const filterOutUnvalidRelations = (relations, type) => {
             const getObject = (relation, type) =>
-                type === "From"
+                type === 'From'
                     ? relation.Naar_Beleidskeuze
-                    : type === "To"
+                    : type === 'To'
                     ? relation.Van_Beleidskeuze
                     : null
 
@@ -111,14 +104,14 @@ const RelatiesKoppelingen = ({
                 return []
             } else {
                 const newRelations = relations
-                    .filter((relation) => {
+                    .filter(relation => {
                         const relationalObj = getObject(relation, type)
                         return (
-                            relationalObj.Status === "Vigerend" &&
+                            relationalObj.Status === 'Vigerend' &&
                             relationalObj.UUID !== dataObject.UUID
                         )
                     })
-                    .map((relation) => getObject(relation, type))
+                    .map(relation => getObject(relation, type))
                 return newRelations
             }
         }
@@ -130,15 +123,15 @@ const RelatiesKoppelingen = ({
          *
          * @param {string} uuidFrom - Parameter containing a UUID.
          */
-        const getBeleidsrelatiesFrom = (uuidFrom) =>
+        const getBeleidsrelatiesFrom = uuidFrom =>
             axios
                 .get(
                     `/valid/beleidsrelaties?all_filters=Status:Akkoord,Van_Beleidskeuze:${uuidFrom}`
                 )
-                .then((res) => {
+                .then(res => {
                     const filteredRelations = filterOutUnvalidRelations(
                         res.data,
-                        "From"
+                        'From'
                     )
 
                     return filteredRelations
@@ -151,15 +144,15 @@ const RelatiesKoppelingen = ({
          * @param {string} uuidTo - Parameter containing a UUID
          *
          */
-        const getBeleidsrelatiesTo = (uuidTo) =>
+        const getBeleidsrelatiesTo = uuidTo =>
             axios
                 .get(
                     `/valid/beleidsrelaties?all_filters=Status:Akkoord,Naar_Beleidskeuze:${uuidTo}`
                 )
-                .then((res) => {
+                .then(res => {
                     const filteredRelations = filterOutUnvalidRelations(
                         res.data,
-                        "To"
+                        'To'
                     )
 
                     return filteredRelations
@@ -179,7 +172,7 @@ const RelatiesKoppelingen = ({
                 beleidsrelatiesVan,
                 beleidsrelatiesNaar,
                 getVerordeningsStructure,
-            ]).then((responses) => {
+            ]).then(responses => {
                 const relatiesVan = responses[0]
                 const relatiesNaar = responses[1]
                 const vigerendeVerordening = responses[2]
@@ -196,7 +189,7 @@ const RelatiesKoppelingen = ({
          */
         const initBeleidsobject = () => {
             setBeleidsRelaties(dataObject.Ref_Beleidskeuzes)
-            getVigerendeVerordening().then((vigerendeVerordening) => {
+            getVigerendeVerordening().then(vigerendeVerordening => {
                 setVerordeningStructure(vigerendeVerordening)
                 setIsLoading(false)
             })
@@ -205,7 +198,7 @@ const RelatiesKoppelingen = ({
         /**
          * Initialize the data
          */
-        if (titleSingular === "Beleidskeuze") {
+        if (titleSingular === 'Beleidskeuze') {
             initBeleidskeuze()
         } else {
             initBeleidsobject()
@@ -234,17 +227,17 @@ const RelatiesKoppelingen = ({
                     <div className="w-full border-b">
                         <TabButton
                             activeTab={activeTab}
-                            onClick={() => setActiveTab("Visueel")}
+                            onClick={() => setActiveTab('Visueel')}
                             title="Visueel"
                         />
                         <TabButton
                             activeTab={activeTab}
-                            onClick={() => setActiveTab("Tekstueel")}
+                            onClick={() => setActiveTab('Tekstueel')}
                             title="Tekstueel"
                         />
                     </div>
                     <div className="mt-6">
-                        {!isLoading && activeTab === "Visueel" ? (
+                        {!isLoading && activeTab === 'Visueel' ? (
                             <RelatiesKoppelingenVisualisatie
                                 verordeningsStructure={verordeningsStructure}
                                 titleSingular={titleSingular}
@@ -256,7 +249,7 @@ const RelatiesKoppelingen = ({
                                     connectionPropertiesColors
                                 }
                             />
-                        ) : !isLoading && activeTab === "Tekstueel" ? (
+                        ) : !isLoading && activeTab === 'Tekstueel' ? (
                             <RelatiesKoppelingenTekstueel
                                 verordeningsStructure={verordeningsStructure}
                                 beleidsObject={dataObject}
@@ -290,8 +283,8 @@ const TabButton = ({ activeTab, onClick, title }) => {
         <button
             className={`border-opacity-0 transition duration-100 ease-in border-b-2 border-pzh-blue px-5 py-2 font-bold text-pzh-blue ${
                 activeTab === title
-                    ? "border-opacity-100"
-                    : "hover:border-opacity-25 focus:border-opacity-50"
+                    ? 'border-opacity-100'
+                    : 'hover:border-opacity-25 focus:border-opacity-50'
             }`}
             onClick={onClick}
         >

@@ -1,19 +1,15 @@
-import React, { Component } from "react"
-import { toast } from "react-toastify"
-import { withRouter } from "react-router-dom"
-import { Helmet } from "react-helmet"
+import { Component } from 'react'
+import { Helmet } from 'react-helmet'
+import { withRouter } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
+import axios from './../../API/axios'
 // Import Components
-import ContainerCrudFields from "./ContainerCrudFields"
-import ButtonBackToPage from "./../../components/ButtonBackToPage"
-
-import isEndDateBeforeStartDate from "./../../utils/isEndDateBeforeStartDate"
-
-// Import Axios instance to connect with the API
-import axios from "./../../API/axios"
-
+import ButtonBackToPage from './../../components/ButtonBackToPage'
+import isEndDateBeforeStartDate from './../../utils/isEndDateBeforeStartDate'
 // Create Context
-import APIcontext from "./APIContext"
+import APIcontext from './APIContext'
+import ContainerCrudFields from './ContainerCrudFields'
 
 /**
  * @returns The CRUD page for beleidsrelaties
@@ -24,16 +20,16 @@ class MuteerBeleidsrelatiesCRUD extends Component {
         // CrudObject contains the editable fields
         this.state = {
             crudObject: {
-                Begin_Geldigheid: "",
-                Eind_Geldigheid: "",
-                Naar_Beleidskeuze: "",
-                Omschrijving: "",
-                Titel: "",
+                Begin_Geldigheid: '',
+                Eind_Geldigheid: '',
+                Naar_Beleidskeuze: '',
+                Omschrijving: '',
+                Titel: '',
                 Van_Beleidskeuze: this.props.match.params.UUID,
-                Status: "Open",
+                Status: 'Open',
                 Aanvraag_Datum: new Date(),
             },
-            Van_Beleidskeuze_Titel: "...",
+            Van_Beleidskeuze_Titel: '...',
         }
 
         this.handleChange = this.handleChange.bind(this)
@@ -44,12 +40,12 @@ class MuteerBeleidsrelatiesCRUD extends Component {
         const UUID = this.props.match.params.UUID
         axios
             .get(`version/beleidskeuzes/${UUID}`)
-            .then((res) =>
+            .then(res =>
                 this.setState({
                     Van_Beleidskeuze_Titel: res.data.Titel,
                 })
             )
-            .catch((err) => {
+            .catch(err => {
                 console.log(err)
                 toast(process.env.REACT_APP_ERROR_MSG)
             })
@@ -60,11 +56,11 @@ class MuteerBeleidsrelatiesCRUD extends Component {
         const type = event.target.type
 
         let value = event.target.value
-        if (type === "date") {
+        if (type === 'date') {
             value = event.target.value
         }
 
-        this.setState((prevState) => ({
+        this.setState(prevState => ({
             crudObject: {
                 ...prevState.crudObject,
                 [name]: value,
@@ -73,7 +69,7 @@ class MuteerBeleidsrelatiesCRUD extends Component {
     }
 
     validateDate(dateObject) {
-        if (Object.prototype.toString.call(dateObject) === "[object Date]") {
+        if (Object.prototype.toString.call(dateObject) === '[object Date]') {
             // it is a date
             if (isNaN(dateObject.getTime())) {
                 // date is not valid
@@ -93,19 +89,19 @@ class MuteerBeleidsrelatiesCRUD extends Component {
 
         let crudObject = this.state.crudObject
         if (
-            crudObject.Naar_Beleidskeuze === "" ||
+            crudObject.Naar_Beleidskeuze === '' ||
             !crudObject.Naar_Beleidskeuze
         ) {
-            toast("Selecteer een beleidskeuze")
+            toast('Selecteer een beleidskeuze')
             return
         }
         if (!this.validateDate(new Date(crudObject.Begin_Geldigheid))) {
-            toast("Vul een inwerkingtreding datum in")
+            toast('Vul een inwerkingtreding datum in')
             return
         }
 
         if (!this.validateDate(new Date(crudObject.Eind_Geldigheid))) {
-            toast("Vul een uitwerkingtreding datum in")
+            toast('Vul een uitwerkingtreding datum in')
             return
         }
 
@@ -127,9 +123,9 @@ class MuteerBeleidsrelatiesCRUD extends Component {
                 this.props.history.push(
                     `/muteer/beleidsrelaties/${this.props.match.params.UUID}`
                 )
-                toast("Opgeslagen")
+                toast('Opgeslagen')
             })
-            .catch((err) => {
+            .catch(err => {
                 console.log(err)
                 toast(process.env.REACT_APP_ERROR_MSG)
             })
@@ -157,10 +153,10 @@ class MuteerBeleidsrelatiesCRUD extends Component {
                         {contextObject.editStatus
                             ? `Omgevingsbeleid - Wijzig ${
                                   contextObject.titleSingular
-                              }${" "}
+                              }${' '}
                             ${contextObject.objectID}`
-                            : `Omgevingsbeleid - Voeg een nieuwe${" "}
-                            ${contextObject.titleSingular}${" "}
+                            : `Omgevingsbeleid - Voeg een nieuwe${' '}
+                            ${contextObject.titleSingular}${' '}
                               toe`}
                     </title>
                 </Helmet>

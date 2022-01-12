@@ -1,2 +1,1 @@
-export { default } from "./ModuleFilters"
-export * from "./ModuleFilters"
+export { default } from './ModuleFilters'

@@ -1,2 +1,1 @@
-export { default } from "./NetworkGraphResetClickedElement"
-export * from "./NetworkGraphResetClickedElement"
+export { default } from './NetworkGraphResetClickedElement'

@@ -1,6 +1,6 @@
-const scrollToElementByID = (id) => {
-    if (!id || id === "") {
-        console.error("No id argument supplied")
+const scrollToElementByID = id => {
+    if (!id || id === '') {
+        console.error('No id argument supplied')
         return
     }
 
@@ -8,7 +8,7 @@ const scrollToElementByID = (id) => {
     const y = el.getBoundingClientRect().top + window.pageYOffset - 100
     window.scrollTo({
         top: y,
-        behavior: "smooth",
+        behavior: 'smooth',
     })
 }
 

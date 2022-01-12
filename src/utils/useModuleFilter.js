@@ -1,4 +1,4 @@
-import React from "react"
+import { useReducer } from 'react'
 
 /**
  * Custom useHook that implements the logic to filter based on:
@@ -8,14 +8,14 @@ import React from "react"
 const useModuleFilter = () => {
     const filterReducer = (state, action) => {
         switch (action.type) {
-            case "init":
+            case 'init':
                 const policies = action.policies
                 const availableTypes = policies.map(
-                    (policy) => policy.Object.Status
+                    policy => policy.Object.Status
                 )
-                state.statusFilters = ["Status", ...new Set(availableTypes)]
+                state.statusFilters = ['Status', ...new Set(availableTypes)]
                 return { ...state }
-            case "changeValue":
+            case 'changeValue':
                 state[action.property] = action.newValue
                 return { ...state }
             default:
@@ -23,19 +23,19 @@ const useModuleFilter = () => {
         }
     }
 
-    const [filters, setFilters] = React.useReducer(filterReducer, {
-        statusFilters: ["Status"],
-        selectedStatus: "Status",
-        typeFilters: ["Filter op beleid", "Beleidskeuze", "Maatregel"],
-        selectedType: "Filter op beleid",
+    const [filters, setFilters] = useReducer(filterReducer, {
+        statusFilters: ['Status'],
+        selectedStatus: 'Status',
+        typeFilters: ['Filter op beleid', 'Beleidskeuze', 'Maatregel'],
+        selectedType: 'Filter op beleid',
     })
 
-    const getObjectType = (obj) =>
-        obj.Object.hasOwnProperty("Aanleiding") ? "Beleidskeuze" : "Maatregel"
+    const getObjectType = obj =>
+        obj.Object.hasOwnProperty('Aanleiding') ? 'Beleidskeuze' : 'Maatregel'
 
     const filterPolicies = (policy, filters) => {
-        const activeStatusFilter = filters.selectedStatus !== "Status"
-        const activeTypeFilter = filters.selectedType !== "Filter op beleid"
+        const activeStatusFilter = filters.selectedStatus !== 'Status'
+        const activeTypeFilter = filters.selectedType !== 'Filter op beleid'
 
         const getFilteredOutByStatus = () => {
             if (!activeStatusFilter) return false

@@ -1,6 +1,5 @@
-import React from "react"
-import { faCubes } from "@fortawesome/pro-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faCubes } from '@fortawesome/pro-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 /**
  * Displays a titel, status and modules.
@@ -27,14 +26,14 @@ const HeadingMain = ({ titel, status, modules }) => {
  * @returns A component displaying the current status
  */
 const BadgeStatus = ({ status }) => {
-    const isVigerend = status === "Vigerend"
+    const isVigerend = status === 'Vigerend'
     return (
         <span
             id="object-status"
             className={`inline-block font-bold mr-2 my-1 px-2 pt-1 text-xs border rounded ${
                 isVigerend
-                    ? "text-pzh-blue border-pzh-blue"
-                    : "text-pzh-yellow-dark border-pzh-yellow-dark"
+                    ? 'text-pzh-blue border-pzh-blue'
+                    : 'text-pzh-yellow-dark border-pzh-yellow-dark'
             }`}
         >
             {status}
@@ -48,7 +47,7 @@ const BadgeStatus = ({ status }) => {
  * @returns A badge containing the modules Title for all the modules it is connected to
  */
 const BadgesModules = ({ modules }) =>
-    modules.map((module) => (
+    modules.map(module => (
         <a
             key={module.Titel}
             href={`/muteer/beleidsmodules/${module.ID}`}

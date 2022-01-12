@@ -1,8 +1,6 @@
-import React from "react"
-import { withRouter } from "react-router-dom"
-import { Link } from "react-router-dom"
-import { faAngleLeft } from "@fortawesome/pro-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faAngleLeft } from '@fortawesome/pro-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { withRouter, Link } from 'react-router-dom'
 
 /**
  * Displays a button link which brings the user to a previous page.
@@ -14,7 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 const ButtonBackToPage = ({ terugNaar, color, url }) => {
     if (!color) {
         color =
-            "text-pzh-blue opacity-75 hover:opacity-100 transition-opacity ease-in duration-100"
+            'text-pzh-blue opacity-75 hover:opacity-100 transition-opacity ease-in duration-100'
     }
     return (
         <Link

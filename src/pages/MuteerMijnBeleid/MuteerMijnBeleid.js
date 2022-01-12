@@ -1,10 +1,9 @@
-import React from "react"
-import { Helmet } from "react-helmet"
+import { Helmet } from 'react-helmet'
 
 // Import Components
-import ContainerMain from "./../../components/ContainerMain"
-import MijnBeleid from "./../../components/MijnBeleid"
-import SidebarMain from "./../../components/SidebarMain"
+import ContainerMain from './../../components/ContainerMain'
+import MijnBeleid from './../../components/MijnBeleid'
+import SidebarMain from './../../components/SidebarMain'
 
 /**
  *

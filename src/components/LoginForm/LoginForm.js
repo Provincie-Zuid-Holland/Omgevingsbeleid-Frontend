@@ -1,12 +1,11 @@
-import React from "react"
-import { useHistory } from "react-router-dom"
+import { useState } from 'react'
+import { useHistory } from 'react-router-dom'
 
 // Import API
-import axios from "./../../API/axios"
-
+import axios from './../../API/axios'
 // Import Components
-import LoaderSpinner from "./../LoaderSpinner"
-import Modal from "./../Modal"
+import LoaderSpinner from './../LoaderSpinner'
+import Modal from './../Modal'
 
 /**
  * Displays a popup in which the user can reset their password.
@@ -39,8 +38,7 @@ function PopupWachtwoordVergeten({ show, togglePopup }) {
                     className="text-sm underline transition-colors cursor-pointer text-pzh-blue hover:text-pzh-blue-dark"
                     onClick={togglePopup}
                     id="close-password-forget-popup"
-                    data-testid="close-password-forget-popup"
-                >
+                    data-testid="close-password-forget-popup">
                     Annuleren
                 </button>
                 <button
@@ -49,10 +47,9 @@ function PopupWachtwoordVergeten({ show, togglePopup }) {
                     data-testid="wachtwoord-reset-button-mailto"
                     onClick={() => {
                         window.location =
-                            "mailto:omgevingsbeleid@pzh.nl?subject=Wachtwoord vergeten"
+                            'mailto:omgevingsbeleid@pzh.nl?subject=Wachtwoord vergeten'
                         togglePopup()
-                    }}
-                >
+                    }}>
                     Mail versturen
                 </button>
             </div>
@@ -69,38 +66,37 @@ function PopupWachtwoordVergeten({ show, togglePopup }) {
 const LoginForm = ({ setLoginState, setLoginUser }) => {
     const history = useHistory()
 
-    const [identifier, setIdentifier] = React.useState("")
-    const [password, setPassword] = React.useState("")
-    const [loading, setLoading] = React.useState(false)
-    const [wachtwoordResetPopup, setWachtwoordResetPopup] =
-        React.useState(false)
+    const [identifier, setIdentifier] = useState('')
+    const [password, setPassword] = useState('')
+    const [loading, setLoading] = useState(false)
+    const [wachtwoordResetPopup, setWachtwoordResetPopup] = useState(false)
 
-    const displayErrorMsg = (err) => {
-        let errorEl = document.getElementById("error-message")
+    const displayErrorMsg = err => {
+        let errorEl = document.getElementById('error-message')
         errorEl.classList.innerHTML = err
-        errorEl.classList.remove("hidden")
-        errorEl.classList.add("flex")
-        errorEl.classList.add("shake")
+        errorEl.classList.remove('hidden')
+        errorEl.classList.add('flex')
+        errorEl.classList.add('shake')
         setTimeout(function () {
-            errorEl.classList.remove("shake")
+            errorEl.classList.remove('shake')
         }, 820)
     }
 
-    const handleFormSubmit = (e) => {
+    const handleFormSubmit = e => {
         e.preventDefault()
 
         setLoading(true)
 
         axios
             .post(
-                "login",
+                'login',
                 JSON.stringify({
                     identifier: identifier,
                     password: password,
                 })
             )
-            .then((response) => {
-                console.log(`Environment - ${response.data["deployment type"]}`)
+            .then(response => {
+                console.log(`Environment - ${response.data['deployment type']}`)
                 if (response.status >= 200 && response.status < 300) {
                     let identifier = response.data.identifier
 
@@ -115,23 +111,23 @@ const LoginForm = ({ setLoginState, setLoginUser }) => {
                     setLoading(false)
                     setLoginState(true)
                     setLoginUser(identifier)
-                    history.push("/muteer/dashboard")
+                    history.push('/muteer/dashboard')
                 }
             })
-            .catch((err) => {
+            .catch(err => {
                 displayErrorMsg(err)
                 setLoading(false)
             })
     }
 
-    const handleErrorMessage = (e) => {
-        let errorEl = document.getElementById("error-message")
-        errorEl.classList.add("hidden")
-        errorEl.classList.remove("flex")
+    const handleErrorMessage = () => {
+        let errorEl = document.getElementById('error-message')
+        errorEl.classList.add('hidden')
+        errorEl.classList.remove('flex')
     }
 
     return (
-        <React.Fragment>
+        <>
             <PopupWachtwoordVergeten
                 show={wachtwoordResetPopup}
                 togglePopup={() =>
@@ -142,8 +138,7 @@ const LoginForm = ({ setLoginState, setLoginUser }) => {
                 <div>
                     <label
                         className="block mb-2 text-pzh-blue"
-                        htmlFor="form-field-login-email"
-                    >
+                        htmlFor="form-field-login-email">
                         E-mailadres
                     </label>
                     <input
@@ -154,14 +149,13 @@ const LoginForm = ({ setLoginState, setLoginUser }) => {
                         data-testid="form-field-login-email"
                         type="text"
                         placeholder="medewerker@pzh.nl"
-                        onChange={(e) => setIdentifier(e.target.value)}
+                        onChange={e => setIdentifier(e.target.value)}
                     />
                 </div>
                 <div className="my-4 sm:my-6">
                     <label
                         className="block mb-2 text-pzh-blue"
-                        htmlFor="form-field-login-password"
-                    >
+                        htmlFor="form-field-login-password">
                         Wachtwoord
                     </label>
                     <input
@@ -172,7 +166,7 @@ const LoginForm = ({ setLoginState, setLoginUser }) => {
                         data-testid="form-field-login-password"
                         type="password"
                         placeholder="Vul hier je wachtwoord in"
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={e => setPassword(e.target.value)}
                     />
                 </div>
                 <div className="flex flex-col items-start md:items-center md:justify-between md:flex-row">
@@ -180,24 +174,22 @@ const LoginForm = ({ setLoginState, setLoginUser }) => {
                         className="inline-block px-8 pt-2 pb-2 text-white transition-colors duration-200 ease-in rounded bg-pzh-blue hover:bg-pzh-blue-dark focus:outline-none focus:ring"
                         type="submit"
                         id="form-field-login-submit"
-                        data-testid="form-field-login-submit"
-                    >
+                        data-testid="form-field-login-submit">
                         {loading ? (
                             <span alt="laden..." className="mr-2">
                                 <LoaderSpinner />
                             </span>
                         ) : null}
                         Inloggen
-                        {loading ? "..." : ""}
+                        {loading ? '...' : ''}
                     </button>
                     <button
                         className="mt-4 text-sm underline cursor-pointer sm:mt-0 sm:ml-4 text-pzh-green hover:text-pzh-green-dark"
-                        onClick={(e) => {
+                        onClick={e => {
                             e.preventDefault()
                             setWachtwoordResetPopup(!wachtwoordResetPopup)
                         }}
-                        tabIndex="0"
-                    >
+                        tabIndex="0">
                         Wachtwoord vergeten?
                     </button>
                 </div>
@@ -205,32 +197,28 @@ const LoginForm = ({ setLoginState, setLoginUser }) => {
             <div
                 id="error-message"
                 data-testid="error-message"
-                className="container items-center justify-center hidden"
-            >
+                className="container items-center justify-center hidden">
                 <div
                     className="relative inline-block w-full px-4 py-3 pr-10 text-red-600 border rounded bg-red-lightest border-red-light"
-                    role="alert"
-                >
+                    role="alert">
                     <span className="block sm:inline">
                         Verkeerde e-mailadres of wachtwoord
                     </span>
                     <span
                         className="absolute top-0 bottom-0 right-0 px-4 py-3"
-                        onClick={handleErrorMessage}
-                    >
+                        onClick={handleErrorMessage}>
                         <svg
                             className="w-6 h-6 fill-current text-red"
                             role="button"
                             xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20"
-                        >
+                            viewBox="0 0 20 20">
                             <title>Sluiten</title>
                             <path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
                         </svg>
                     </span>
                 </div>
             </div>
-        </React.Fragment>
+        </>
     )
 }
 

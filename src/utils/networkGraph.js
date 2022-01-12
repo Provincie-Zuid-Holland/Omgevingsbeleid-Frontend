@@ -12,7 +12,7 @@ const getFilteredData = (data, filters) => {
 
     if (!links || !nodes) return [null, null]
 
-    const activeTypes = Object.keys(filters).filter((key) => filters[key])
+    const activeTypes = Object.keys(filters).filter(key => filters[key])
 
     /**
      * Contains the UUIDs of nodes that are not active.
@@ -21,13 +21,13 @@ const getFilteredData = (data, filters) => {
     const inactiveNodes = []
 
     // const filteredLinks = links.filter(link => )
-    const filteredNodes = nodes.filter((node) => {
+    const filteredNodes = nodes.filter(node => {
         const nodeIsActive = activeTypes.includes(node.Type)
         if (!nodeIsActive) inactiveNodes.push(node.UUID)
         return nodeIsActive
     })
 
-    const filteredLinks = links.filter((link) => {
+    const filteredLinks = links.filter(link => {
         const linkIsActive =
             !inactiveNodes.includes(link.source) &&
             !inactiveNodes.includes(link.target)

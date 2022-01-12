@@ -1,13 +1,12 @@
-import React from "react"
-import { faExternalLinkAlt } from "@fortawesome/pro-regular-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faExternalLinkAlt } from '@fortawesome/pro-regular-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const ViewFieldExternalURL = ({ externalURL }) => {
     if (!externalURL) return null
 
     // https://stackoverflow.com/questions/43803778/href-without-https-prefix
-    const getClickableLink = (link) => {
-        return link.startsWith("http://") || link.startsWith("https://")
+    const getClickableLink = link => {
+        return link.startsWith('http://') || link.startsWith('https://')
             ? link
             : `//${link}`
     }

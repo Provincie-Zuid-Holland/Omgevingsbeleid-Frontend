@@ -1,11 +1,11 @@
 const geoWerkingsgebied = {
-    type: "FeatureCollection",
+    type: 'FeatureCollection',
     features: [
         {
-            type: "Feature",
-            id: "Werkingsgebieden.fid--61c80d52_179d0c617ed_3a2",
+            type: 'Feature',
+            id: 'Werkingsgebieden.fid--61c80d52_179d0c617ed_3a2',
             geometry: {
-                type: "MultiPolygon",
+                type: 'MultiPolygon',
                 coordinates: [
                     [
                         [
@@ -25327,19 +25327,19 @@ const geoWerkingsgebied = {
                     ],
                 ],
             },
-            geometry_name: "Shape",
+            geometry_name: 'Shape',
             properties: {
-                UUID: "86689750-475c-4067-9170-4fd906b83bed",
-                Gebied: "Bestaand stads en dorpsgebied 2018",
-                symbol: "ES201",
+                UUID: '86689750-475c-4067-9170-4fd906b83bed',
+                Gebied: 'Bestaand stads en dorpsgebied 2018',
+                symbol: 'ES201',
             },
         },
     ],
     totalFeatures: 1,
     numberMatched: 1,
     numberReturned: 1,
-    timeStamp: "2021-07-21T13:34:31.453Z",
-    crs: { type: "name", properties: { name: "urn:ogc:def:crs:EPSG::28992" } },
+    timeStamp: '2021-07-21T13:34:31.453Z',
+    crs: { type: 'name', properties: { name: 'urn:ogc:def:crs:EPSG::28992' } },
 }
 
 export { geoWerkingsgebied }

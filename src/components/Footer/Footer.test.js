@@ -1,14 +1,13 @@
-import { render, screen, fireEvent } from "@testing-library/react"
-import { MemoryRouter } from "react-router-dom"
-import "@testing-library/jest-dom"
-import React from "react"
+import { render, screen } from '@testing-library/react'
+import { MemoryRouter } from 'react-router-dom'
+import '@testing-library/jest-dom'
 
-import Footer from "./Footer"
+import Footer from './Footer'
 
-describe("Footer", () => {
+describe('Footer', () => {
     const defaultProps = {}
 
-    const setup = (customProps) => {
+    const setup = customProps => {
         const props = { ...defaultProps, ...customProps }
         render(
             <MemoryRouter>
@@ -17,9 +16,9 @@ describe("Footer", () => {
         )
     }
 
-    it("Component renders", () => {
+    it('Component renders', () => {
         setup()
-        const element = screen.getByText("Zuid-Holland.")
+        const element = screen.getByText('Zuid-Holland.')
         expect(element).toBeTruthy()
     })
 })

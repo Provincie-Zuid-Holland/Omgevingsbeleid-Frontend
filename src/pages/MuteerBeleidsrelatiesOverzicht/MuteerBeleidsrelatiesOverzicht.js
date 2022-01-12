@@ -1,18 +1,17 @@
-import React, { Component } from "react"
-import { Helmet } from "react-helmet"
-import { Link, withRouter } from "react-router-dom"
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
     faAngleRight,
     faHourglass,
     faCheck,
     faEnvelope,
     faTimes,
-} from "@fortawesome/pro-solid-svg-icons"
+} from '@fortawesome/pro-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Component } from 'react'
+import { Helmet } from 'react-helmet'
+import { Link, withRouter } from 'react-router-dom'
 
-import SidebarMain from "./../../components/SidebarMain"
-import LoaderBeleidsrelatieRegel from "./../../components/LoaderBeleidsrelatieRegel"
+import LoaderBeleidsrelatieRegel from './../../components/LoaderBeleidsrelatieRegel'
+import SidebarMain from './../../components/SidebarMain'
 
 /**
  * Returns the overzicht page of beleidsrelaties
@@ -60,7 +59,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
     updateBeleidsrelaties(beleidsrelatieUUID, status) {
         let beleidsrelaties = this.props.beleidsrelaties
         let index = beleidsrelaties.findIndex(
-            (x) => x.UUID === beleidsrelatieUUID
+            x => x.UUID === beleidsrelatieUUID
         )
         if (index) {
             beleidsrelaties[index].Status = status
@@ -78,10 +77,10 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
     // Kijkt hoeveel bevestigde relaties er in het beleidsrelatie object zitten met de geleverde UUID
     countBevestigdeRelaties(UUID) {
         const beleidsrelaties = this.props.beleidsrelaties.filter(
-            (beleidsrelatie) =>
+            beleidsrelatie =>
                 (beleidsrelatie.Van_Beleidskeuze.UUID === UUID ||
                     beleidsrelatie.Naar_Beleidskeuze.UUID === UUID) &&
-                beleidsrelatie.Status === "Akkoord"
+                beleidsrelatie.Status === 'Akkoord'
         )
         return beleidsrelaties.length
     }
@@ -89,9 +88,9 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
     // Kijkt hoeveel onbevestigde relaties er in het beleidsrelatie object zitten met de geleverde UUID
     countOnbevestigdeRelaties(UUID) {
         const beleidsrelaties = this.props.beleidsrelaties.filter(
-            (beleidsrelatie) =>
+            beleidsrelatie =>
                 beleidsrelatie.Van_Beleidskeuze.UUID === UUID &&
-                beleidsrelatie.Status === "Open"
+                beleidsrelatie.Status === 'Open'
         )
         return beleidsrelaties.length
     }
@@ -99,9 +98,9 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
     // Kijkt hoeveel onbevestigde relaties er in het beleidsrelatie object zitten met de geleverde UUID
     countVerzoekRelaties(UUID) {
         const beleidsrelaties = this.props.beleidsrelaties.filter(
-            (beleidsrelatie) =>
+            beleidsrelatie =>
                 beleidsrelatie.Naar_Beleidskeuze.UUID === UUID &&
-                beleidsrelatie.Status === "Open"
+                beleidsrelatie.Status === 'Open'
         )
         return beleidsrelaties.length
     }
@@ -109,18 +108,18 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
     // Kijkt hoeveel afgewezen relaties er in het beleidsrelatie object zitten met de geleverde UUID
     countAfgewezenRelaties(UUID) {
         const beleidsrelaties = this.props.beleidsrelaties.filter(
-            (beleidsrelatie) =>
+            beleidsrelatie =>
                 (beleidsrelatie.Naar_Beleidskeuze.UUID === UUID &&
-                    beleidsrelatie.Status === "NietAkkoord") ||
+                    beleidsrelatie.Status === 'NietAkkoord') ||
                 (beleidsrelatie.Van_Beleidskeuze.UUID === UUID &&
-                    beleidsrelatie.Status === "NietAkkoord")
+                    beleidsrelatie.Status === 'NietAkkoord')
         )
         return beleidsrelaties.length
     }
 
     // For each beleidskeuze we create an object containing meta info
     initializeBeleidskeuzes(beleidskeuzes) {
-        return beleidskeuzes.map((item) => {
+        return beleidskeuzes.map(item => {
             return {
                 Titel: item.Titel,
                 Status: item.Status,
@@ -146,11 +145,11 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                 ),
             },
             () => {
-                if (this.props.currentView !== "detail") {
+                if (this.props.currentView !== 'detail') {
                     this.setState({
                         currentBeleidskeuze:
                             this.state.beleidskeuzesObject.find(
-                                (e) => e.UUID === this.props.match.params.UUID
+                                e => e.UUID === this.props.match.params.UUID
                             ),
                         dataLoaded: true,
                     })
@@ -170,10 +169,10 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
         // We spreken van een beleidsrelatie als de UUID overeenkomt met Van_Beleidskeuze of Naar_Beleidskeuze
         // EN als de beleidsrelatie een Status heeft van 'Akkoord' of 'Open'
         let beleidsrelaties = this.props.beleidsrelaties.filter(
-            (beleidsrelatie) =>
+            beleidsrelatie =>
                 (beleidsrelatie.Van_Beleidskeuze.UUID === UUID ||
                     beleidsrelatie.Naar_Beleidskeuze.UUID === UUID) &&
-                beleidsrelatie.Status === "Akkoord"
+                beleidsrelatie.Status === 'Akkoord'
         )
 
         this.setState({
@@ -190,11 +189,11 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
         // We spreken van een verzoek als de UUID overeenkomt met Naar_Beleidskeuze
         // EN als de beleidsrelatie een Status heeft van 'Open'
         return this.props.beleidsrelaties.filter(
-            (beleidsrelatie) =>
+            beleidsrelatie =>
                 (beleidsrelatie.Naar_Beleidskeuze.UUID === UUID &&
-                    beleidsrelatie.Status === "Open") ||
+                    beleidsrelatie.Status === 'Open') ||
                 (beleidsrelatie.Van_Beleidskeuze.UUID === UUID &&
-                    beleidsrelatie.Status === "Open")
+                    beleidsrelatie.Status === 'Open')
         )
     }
 
@@ -207,7 +206,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
             : []
 
         return (
-            <React.Fragment>
+            <>
                 <Helmet>
                     <title>Omgevingsbeleid - Beleidsrelaties</title>
                 </Helmet>
@@ -253,7 +252,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                             {this.state.dataLoaded &&
                             beleidskeuzesObject !== null ? (
                                 beleidskeuzesObject.length !== 0 ? (
-                                    beleidskeuzesObject.map((item) => {
+                                    beleidskeuzesObject.map(item => {
                                         return (
                                             <li
                                                 key={item.UUID}
@@ -264,7 +263,7 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                                                     to={`/muteer/beleidsrelaties/${item.UUID}`}
                                                     onClick={() => {
                                                         this.props.setCurrentView(
-                                                            "detail"
+                                                            'detail'
                                                         )
                                                         this.setState({
                                                             currentBeleidskeuze:
@@ -283,9 +282,9 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                                                         <span
                                                             className={`inline-block px-1 py-1 text-xs leading-8 ${
                                                                 item.Status ===
-                                                                "Vigerend"
-                                                                    ? "text-pzh-blue"
-                                                                    : "text-pzh-yellow-dark"
+                                                                'Vigerend'
+                                                                    ? 'text-pzh-blue'
+                                                                    : 'text-pzh-yellow-dark'
                                                             } 
                                                                     `}
                                                         >
@@ -295,12 +294,12 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                                                     <div className="w-1/12 text-center">
                                                         {item.Bevestigd !== 0
                                                             ? item.Bevestigd
-                                                            : "-"}
+                                                            : '-'}
                                                     </div>
                                                     <div className="w-1/12 text-center">
                                                         {item.Onbevestigd !== 0
                                                             ? item.Onbevestigd
-                                                            : "-"}
+                                                            : '-'}
                                                     </div>
                                                     <div
                                                         className="w-1/12 text-center"
@@ -308,12 +307,12 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                                                     >
                                                         {item.Verzoeken !== 0
                                                             ? item.Verzoeken
-                                                            : "-"}
+                                                            : '-'}
                                                     </div>
                                                     <div className="w-1/12 mr-6 text-center ">
                                                         {item.Afgewezen !== 0
                                                             ? item.Afgewezen
-                                                            : "-"}
+                                                            : '-'}
                                                     </div>
                                                     <FontAwesomeIcon
                                                         className="absolute right-0 h-8 mr-3 text-gray-700"
@@ -329,16 +328,16 @@ class MuteerBeleidsrelatiesOverzicht extends Component {
                                     </span>
                                 )
                             ) : (
-                                <React.Fragment>
+                                <>
                                     <LoaderBeleidsrelatieRegel />
                                     <LoaderBeleidsrelatieRegel />
                                     <LoaderBeleidsrelatieRegel />
-                                </React.Fragment>
+                                </>
                             )}
                         </ul>
                     </div>
                 </div>
-            </React.Fragment>
+            </>
         )
     }
 }

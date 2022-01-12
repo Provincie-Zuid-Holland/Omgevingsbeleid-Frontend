@@ -1,11 +1,10 @@
-import React from "react"
-import PopUpAnimatedContainer from "../../../components/PopUpAnimatedContainer"
+import { faTimes } from '@fortawesome/pro-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useRef } from 'react'
 
-import useClickOutsideContainer from "./../../../utils/useClickOutsideContainer"
-import useCloseWithEscapeKey from "./../../../utils/useCloseWithEscapeKey"
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faTimes } from "@fortawesome/pro-solid-svg-icons"
+import PopUpAnimatedContainer from '../../../components/PopUpAnimatedContainer'
+import useClickOutsideContainer from './../../../utils/useClickOutsideContainer'
+import useCloseWithEscapeKey from './../../../utils/useCloseWithEscapeKey'
 
 /**
  *
@@ -16,7 +15,7 @@ import { faTimes } from "@fortawesome/pro-solid-svg-icons"
  * @returns Component that displays a animated popup containing the motivation for a relation
  */
 function PopupMotivation({ motivationPopUp, setMotivationPopUp, relatie }) {
-    const popupContainer = React.useRef(null)
+    const popupContainer = useRef(null)
 
     useClickOutsideContainer(popupContainer, () => {
         setMotivationPopUp(null)
@@ -33,19 +32,17 @@ function PopupMotivation({ motivationPopUp, setMotivationPopUp, relatie }) {
             <div
                 onClick={() => setMotivationPopUp(null)}
                 className="absolute top-0 right-0 px-3 py-2 text-gray-600 cursor-pointer"
-                id={`sluit-popup-beleidsrelatie-motivering`}
-            >
+                id={`sluit-popup-beleidsrelatie-motivering`}>
                 <FontAwesomeIcon icon={faTimes} />
             </div>
             <h3 className="font-bold form-field-label">Motivering</h3>
             <p
                 className={`form-field-description ${
-                    relatie.Omschrijving ? "" : "opacity-75"
-                }`}
-            >
+                    relatie.Omschrijving ? '' : 'opacity-75'
+                }`}>
                 {relatie.Omschrijving
                     ? relatie.Omschrijving
-                    : "Deze relatie heeft geen motivering"}
+                    : 'Deze relatie heeft geen motivering'}
             </p>
         </PopUpAnimatedContainer>
     )

@@ -1,5 +1,3 @@
-import React from "react"
-
 /**
  * @prop {string} activeTab contains the name of the current active tab
  * @prop {string} tabName contains the name of this tab
@@ -22,10 +20,10 @@ function SwitchToTabbladButton({
         <li
             className={`py-1 px-5 text-lg text-pzh-blue relative inline-block font-bold border-pzh-blue ${
                 isActive
-                    ? "border-b-2"
-                    : "cursor-pointer hover:border-b-2 hover:border-opacity-20"
+                    ? 'border-b-2'
+                    : 'cursor-pointer hover:border-b-2 hover:border-opacity-20'
             }
-            ${showNotification ? "pr-8" : ""}`}
+            ${showNotification ? 'pr-8' : ''}`}
             onClick={() => {
                 if (isActive) return
                 setActiveTab(tabName)

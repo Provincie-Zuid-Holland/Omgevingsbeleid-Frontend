@@ -1,2 +1,1 @@
-export { default } from './ReleaseItem';
-export * from './ReleaseItem';
+export { default } from './ReleaseItem'

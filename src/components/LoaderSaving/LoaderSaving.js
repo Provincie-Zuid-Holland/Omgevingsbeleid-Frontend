@@ -1,8 +1,6 @@
-import React from "react"
-
 // Import Icons
-import { faSpinner } from "@fortawesome/pro-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faSpinner } from '@fortawesome/pro-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 /**
  * Displays a rotating spinner icon with the text "Opslaan..." underneath it when saving process is active.

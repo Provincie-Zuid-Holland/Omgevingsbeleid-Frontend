@@ -1,34 +1,32 @@
-import React from "react"
-import { Disclosure } from "@headlessui/react"
-import { faPlus, faInfoCircle } from "@fortawesome/pro-solid-svg-icons"
 import {
     faClock,
     faSortAmountDownAlt,
     faSortAmountUpAlt,
-} from "@fortawesome/pro-regular-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Link } from "react-router-dom"
-import { useQuery } from "react-query"
-import Tippy from "@tippyjs/react"
-import "tippy.js/dist/tippy.css"
+} from '@fortawesome/pro-regular-svg-icons'
+import { faPlus, faInfoCircle } from '@fortawesome/pro-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Disclosure } from '@headlessui/react'
+import Tippy from '@tippyjs/react'
+import { useState } from 'react'
+import { useQuery } from 'react-query'
+import { Link } from 'react-router-dom'
+import 'tippy.js/dist/tippy.css'
 
-import imageInBewerking from "./../../images/in-bewerking.png"
-
-import axios from "./../../API/axios"
-
-import Footer from "./../../components/Footer"
-import Container from "./../../components/Container"
-import HorizontalDivider from "./../../components/HorizontalDivider"
-import Button from "./../../components/Button"
-import Heading from "./../../components/Heading"
-import Text from "./../../components/Text"
-import LoaderCard from "../../components/LoaderCard"
+import LoaderCard from '../../components/LoaderCard'
+import axios from './../../API/axios'
+import Button from './../../components/Button'
+import Container from './../../components/Container'
+import Footer from './../../components/Footer'
+import Heading from './../../components/Heading'
+import HorizontalDivider from './../../components/HorizontalDivider'
+import Text from './../../components/Text'
+import imageInBewerking from './../../images/in-bewerking.png'
 
 function RaadpleegInProgress() {
-    const { isLoading, data: edits } = useQuery("/edits", () =>
+    const { isLoading, data: edits } = useQuery('/edits', () =>
         axios
-            .get("/edits")
-            .then((res) =>
+            .get('/edits')
+            .then(res =>
                 res.data.length > 10 ? res.data.slice(0, 10) : res.data
             )
     )
@@ -50,15 +48,14 @@ function RaadpleegInProgress() {
                 </div>
                 <div
                     className="relative col-span-3"
-                    style={{ minHeight: "480px" }} // To mimick the height of the 480px div with the absolute position
+                    style={{ minHeight: '480px' }} // To mimick the height of the 480px div with the absolute position
                 >
                     <div
                         style={{
-                            height: "480px",
-                            width: "calc(50vw - 1rem)",
+                            height: '480px',
+                            width: 'calc(50vw - 1rem)',
                         }}
-                        className={`absolute text-center left-0 top-0 h-full bg-gray-100 sm:inline-block`}
-                    >
+                        className={`absolute text-center left-0 top-0 h-full bg-gray-100 sm:inline-block`}>
                         <img
                             alt="Afbeelding van een typemachine"
                             className={`object-cover w-full h-full`}
@@ -110,8 +107,7 @@ function RaadpleegInProgress() {
                     {/* Hidden heading to keep the whitespace consistent */}
                     <Heading
                         level="3"
-                        className="opacity-0 pointer-events-none"
-                    >
+                        className="opacity-0 pointer-events-none">
                         -
                     </Heading>
                     <div className="mt-4">
@@ -162,8 +158,7 @@ function RaadpleegInProgress() {
                     {/* Hidden heading to keep the whitespace consistent */}
                     <Heading
                         level="3"
-                        className="opacity-0 pointer-events-none"
-                    >
+                        className="opacity-0 pointer-events-none">
                         -
                     </Heading>
                     <div className="mt-4">
@@ -212,13 +207,12 @@ const Dropdown = ({ buttonText, panelText }) => {
                 <>
                     <Disclosure.Button
                         className={`flex bg-opacity-10 group items-center justify-between w-full px-5 py-3 font-bold transition-colors duration-200 ease-in text-pzh-pink-dark bg-pzh-pink-dark mt-2 ${
-                            open ? "rounded-t-md" : "rounded-md"
-                        }`}
-                    >
+                            open ? 'rounded-t-md' : 'rounded-md'
+                        }`}>
                         <span>{buttonText}</span>
                         <FontAwesomeIcon
                             className={`text-base transition-transform ease-in duration-100 ${
-                                open ? "transform rotate-45" : ""
+                                open ? 'transform rotate-45' : ''
                             }`}
                             icon={faPlus}
                         />
@@ -234,7 +228,7 @@ const Dropdown = ({ buttonText, panelText }) => {
 
 function TableLatestEdits({ edits = [], isLoading }) {
     // ascending descending state
-    const [ascending, setAscending] = React.useState(true)
+    const [ascending, setAscending] = useState(true)
 
     const sortedEdits = ascending
         ? edits.sort(
@@ -267,32 +261,27 @@ function TableLatestEdits({ edits = [], isLoading }) {
                                     <tr>
                                         <th
                                             scope="col"
-                                            className="w-2/5 py-3 pr-6 font-bold text-left text-pzh-blue-dark"
-                                        >
+                                            className="w-2/5 py-3 pr-6 font-bold text-left text-pzh-blue-dark">
                                             Titel
                                         </th>
                                         <th
                                             scope="col"
-                                            className="w-1/5 px-6 py-3 font-bold text-left text-pzh-blue-dark"
-                                        >
+                                            className="w-1/5 px-6 py-3 font-bold text-left text-pzh-blue-dark">
                                             Type
                                         </th>
                                         <th
                                             scope="col"
-                                            className="w-1/5 px-6 py-3 font-bold text-left text-pzh-blue-dark"
-                                        >
+                                            className="w-1/5 px-6 py-3 font-bold text-left text-pzh-blue-dark">
                                             Laatste Status
                                         </th>
                                         <th
                                             scope="col"
-                                            className="w-1/5 px-6 py-3 font-bold text-left cursor-pointer text-pzh-blue-dark"
-                                        >
+                                            className="w-1/5 px-6 py-3 font-bold text-left cursor-pointer text-pzh-blue-dark">
                                             <button
                                                 onClick={() =>
                                                     setAscending(!ascending)
-                                                }
-                                            >
-                                                Laatst bewerkt{" "}
+                                                }>
+                                                Laatst bewerkt{' '}
                                                 <FontAwesomeIcon
                                                     className={`ml-2 text-base relative -mt-2`}
                                                     icon={
@@ -306,17 +295,15 @@ function TableLatestEdits({ edits = [], isLoading }) {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {sortedEdits.map((policyObject, index) => (
+                                    {sortedEdits.map(policyObject => (
                                         <tr
                                             key={policyObject.UUID}
-                                            className="border-b border-gray-300"
-                                        >
+                                            className="border-b border-gray-300">
                                             <td className="py-4 pr-6 text-gray-800">
                                                 {policyObject.UUID ? (
                                                     <Link
                                                         to={policyObject.UUID}
-                                                        className="underline text-pzh-green hover:text-pzh-green-dark"
-                                                    >
+                                                        className="underline text-pzh-green hover:text-pzh-green-dark">
                                                         {policyObject.Titel}
                                                     </Link>
                                                 ) : (
@@ -334,12 +321,12 @@ function TableLatestEdits({ edits = [], isLoading }) {
                                             </td>
                                             <td className="px-6 py-4 text-gray-800">
                                                 {new Intl.DateTimeFormat(
-                                                    "nl-NL",
+                                                    'nl-NL',
                                                     {
-                                                        weekday: "long",
-                                                        year: "numeric",
-                                                        month: "long",
-                                                        day: "numeric",
+                                                        weekday: 'long',
+                                                        year: 'numeric',
+                                                        month: 'long',
+                                                        day: 'numeric',
                                                     }
                                                 ).format(
                                                     new Date(
@@ -360,29 +347,27 @@ function TableLatestEdits({ edits = [], isLoading }) {
 }
 
 const StatusComponent = ({ policyObject }) => {
-    const [tippyOpen, setTippyOpen] = React.useState(false)
+    const [tippyOpen, setTippyOpen] = useState(false)
 
     return (
         <span onClick={() => setTippyOpen(!tippyOpen)}>
-            {policyObject.Status}{" "}
+            {policyObject.Status}{' '}
             <Tippy
                 visible={tippyOpen}
                 content={
                     <a
                         onClick={() => setTippyOpen(false)}
                         className="text-sm pointer-events-auto"
-                        href="#besluitvormingsproces"
-                    >
+                        href="#besluitvormingsproces">
                         <span className="block font-bold">
                             {policyObject.Status}
                         </span>
                         <span className="block">
-                            Bekijk de uitleg en betekenis van statussen{" "}
+                            Bekijk de uitleg en betekenis van statussen{' '}
                             <span className="underline">hier</span>
                         </span>
                     </a>
-                }
-            >
+                }>
                 <div className="inline-block ml-1 transition-colors duration-500 ease-in cursor-pointer text-pzh-dark-blue opacity-40 hover:opacity-80">
                     <FontAwesomeIcon icon={faInfoCircle} />
                 </div>

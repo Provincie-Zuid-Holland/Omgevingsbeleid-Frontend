@@ -1,17 +1,15 @@
-import React from "react"
-import { Helmet } from "react-helmet"
+import { faCheck } from '@fortawesome/pro-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Helmet } from 'react-helmet'
 
-import { faCheck } from "@fortawesome/pro-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-
-import ButtonBackToPage from "./../../components/ButtonBackToPage"
+import ButtonBackToPage from './../../components/ButtonBackToPage'
 
 /**
  * Component to display the planning
  */
 const Planning = () => {
     return (
-        <React.Fragment>
+        <>
             <Helmet>
                 <title>Planning - Omgevingsbeleid Provincie Zuid-Holland</title>
                 <meta
@@ -94,7 +92,7 @@ const Planning = () => {
                     </ul>
                 </div>
             </div>
-        </React.Fragment>
+        </>
     )
 }
 
