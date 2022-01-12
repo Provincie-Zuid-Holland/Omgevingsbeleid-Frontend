@@ -59,7 +59,7 @@ describe("RaadpleegObjectDetailNewVersionNotification", () => {
                 Effective_Version: "7C9E979C-BB57-492C-A34D-CA69021DA913",
             },
         })
-        const element = screen.getByText("bekijk hier de ontwerpversie")
+        const element = screen.getByText("bekijk hier de vigerende versie")
         expect(element).toBeTruthy()
     })
 

@@ -3,6 +3,7 @@ import "@testing-library/jest-dom"
 import React from "react"
 
 import Breadcrumbs from "./Breadcrumbs"
+import { MemoryRouter } from "react-router-dom"
 
 describe("Breadcrumbs", () => {
     const defaultProps = {
@@ -18,7 +19,11 @@ describe("Breadcrumbs", () => {
 
     const setup = (customProps) => {
         const props = { ...defaultProps, ...customProps }
-        render(<Breadcrumbs {...props} />)
+        render(
+            <MemoryRouter>
+                <Breadcrumbs {...props} />
+            </MemoryRouter>
+        )
     }
 
     it("Component renders", () => {

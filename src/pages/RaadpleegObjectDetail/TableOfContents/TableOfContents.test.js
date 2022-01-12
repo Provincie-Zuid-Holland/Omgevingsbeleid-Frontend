@@ -5,7 +5,7 @@ import React from "react"
 import TableOfContents from "./TableOfContents"
 
 describe("TableOfContents", () => {
-    const defaultProps = {}
+    const defaultProps = { display: "block" }
 
     const setup = (customProps) => {
         const props = { ...defaultProps, ...customProps }

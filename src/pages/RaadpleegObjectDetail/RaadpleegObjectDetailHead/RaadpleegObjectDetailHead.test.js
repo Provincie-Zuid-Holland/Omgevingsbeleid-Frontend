@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react"
+import { render, waitFor } from "@testing-library/react"
 import "@testing-library/jest-dom"
 import React from "react"
 
@@ -17,10 +17,12 @@ describe("RaadpleegObjectDetailHead", () => {
         render(<RaadpleegObjectDetailHead {...props} />)
     }
 
-    it("Component renders", () => {
+    it("Component renders", async () => {
         setup()
-        expect(document.title).toEqual(
-            `${defaultProps.dataObject.Titel} (${defaultProps.titleSingular}) - Omgevingsbeleid Provincie Zuid-Holland`
+        await waitFor(() =>
+            expect(document.title).toEqual(
+                `${defaultProps.dataObject.Titel} (${defaultProps.titleSingular}) - Omgevingsbeleid Provincie Zuid-Holland`
+            )
         )
     })
 })

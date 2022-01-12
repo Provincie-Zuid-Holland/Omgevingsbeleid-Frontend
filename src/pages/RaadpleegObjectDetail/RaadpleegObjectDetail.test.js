@@ -38,11 +38,15 @@ describe("RaadpleegObjectDetail", () => {
 
         await waitForElementToBeRemoved(() => screen.queryByRole("img"))
 
-        const subTitle = screen.getByRole("heading", { name: /Beleidskeuze/i })
+        const subTitle = screen.getAllByRole("heading", {
+            name: /Beleidskeuze/i,
+            level: 3,
+        })
         expect(subTitle).toBeTruthy()
 
-        const title = screen.getByRole("heading", {
+        const title = screen.getAllByRole("heading", {
             name: mockBeleidskeuze.Titel,
+            level: 1,
         })
         expect(title).toBeTruthy()
     })
