@@ -1,13 +1,12 @@
-import React from "react"
-import { useParams } from "react-router-dom"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faChevronRight } from "@fortawesome/pro-regular-svg-icons"
-import { faHistory } from "@fortawesome/pro-light-svg-icons"
+import { faHistory } from '@fortawesome/pro-light-svg-icons'
+import { faChevronRight } from '@fortawesome/pro-regular-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 
-import PopupRevisionOverview from "./../PopupRevisionOverview"
-
-import Modal from "../Modal"
-import Heading from "../Heading"
+import Heading from '../Heading'
+import Modal from '../Modal'
+import PopupRevisionOverview from './../PopupRevisionOverview'
 
 /**
  * Displays revisions in a timeline form and a overview of revisions.
@@ -23,20 +22,19 @@ const PopUpRevisionContainer = ({
     revisionObjects,
     children,
 }) => {
-    const [open, setOpen] = React.useState(false)
-    const [revisionOverviewOpen, setRevisionOverviewOpen] =
-        React.useState(false)
+    const [open, setOpen] = useState(false)
+    const [revisionOverviewOpen, setRevisionOverviewOpen] = useState(false)
     const amountOfRevisions = revisionObjects ? revisionObjects.length : 0
 
     let { id } = useParams()
 
-    React.useEffect(() => {
+    useEffect(() => {
         setOpen(false)
     }, [id])
 
-    const getAmountText = (amountOfRevisions) => {
-        if (amountOfRevisions === 1) return "Geen revisies"
-        return amountOfRevisions + " revisies"
+    const getAmountText = amountOfRevisions => {
+        if (amountOfRevisions === 1) return 'Geen revisies'
+        return amountOfRevisions + ' revisies'
     }
 
     return (
@@ -49,7 +47,7 @@ const PopUpRevisionContainer = ({
                         }
                     }}
                     className={`${
-                        amountOfRevisions > 1 ? "cursor-pointer" : ""
+                        amountOfRevisions > 1 ? 'cursor-pointer' : ''
                     } select-none flex items-center group`}
                 >
                     <FontAwesomeIcon
@@ -59,8 +57,8 @@ const PopUpRevisionContainer = ({
                     <span
                         className={
                             amountOfRevisions > 1
-                                ? "underline group-hover:text-pzh-green-dark transition-colors duration-300 ease-in text-pzh-green"
-                                : ""
+                                ? 'underline group-hover:text-pzh-green-dark transition-colors duration-300 ease-in text-pzh-green'
+                                : ''
                         }
                     >
                         {getAmountText(amountOfRevisions)}
@@ -122,16 +120,16 @@ const PopupRevisionTimeline = ({
                 </div>
                 <div
                     className="relative h-full pl-6 mt-3 overflow-y-auto"
-                    style={{ maxHeight: "50vh" }}
+                    style={{ maxHeight: '50vh' }}
                 >
                     <div
                         className="absolute top-0 z-0 w-1 h-full ml-5 border-l border-gray-300"
-                        style={{ height: "calc(100% - 25px)", top: "25px" }}
+                        style={{ height: 'calc(100% - 25px)', top: '25px' }}
                     />
                     <ul className="pl-5">{revisionListItems}</ul>
                 </div>
 
-                {titleSingular === "Beleidskeuze" &&
+                {titleSingular === 'Beleidskeuze' &&
                 revisionObjects &&
                 revisionObjects.length > 1 ? (
                     <div

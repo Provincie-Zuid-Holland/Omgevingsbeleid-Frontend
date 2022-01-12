@@ -1,31 +1,30 @@
-import { render, screen, fireEvent } from "@testing-library/react"
-import "@testing-library/jest-dom"
-import React from "react"
+import { render, screen, fireEvent } from '@testing-library/react'
+import '@testing-library/jest-dom'
 
-import ViewFieldTags from "./ViewFieldTags"
+import ViewFieldTags from './ViewFieldTags'
 
-describe("ViewFieldTags", () => {
+describe('ViewFieldTags', () => {
     const defaultProps = {
-        fieldValue: [{ value: "Test one" }, { value: "Test two" }],
+        fieldValue: [{ value: 'Test one' }, { value: 'Test two' }],
     }
 
-    const setup = (customProps) => {
+    const setup = customProps => {
         const props = { ...defaultProps, ...customProps }
         render(<ViewFieldTags {...props} />)
     }
 
-    it("Component renders", () => {
+    it('Component renders', () => {
         setup()
-        const itemOne = screen.getByText("Test one")
+        const itemOne = screen.getByText('Test one')
         expect(itemOne).toBeTruthy()
 
-        const itemTwo = screen.getByText("Test two")
+        const itemTwo = screen.getByText('Test two')
         expect(itemTwo).toBeTruthy()
     })
 
-    it("Component renders null when fieldValue is falsy", () => {
+    it('Component renders null when fieldValue is falsy', () => {
         setup({ fieldValue: null })
-        const itemOne = screen.queryByText("Test one")
+        const itemOne = screen.queryByText('Test one')
         expect(itemOne).toBeFalsy()
     })
 })

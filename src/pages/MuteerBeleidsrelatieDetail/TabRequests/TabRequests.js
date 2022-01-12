@@ -1,10 +1,9 @@
-import React from "react"
-import { useParams } from "react-router-dom"
-import { format } from "date-fns"
-import nlLocale from "date-fns/locale/nl"
+import { format } from 'date-fns'
+import nlLocale from 'date-fns/locale/nl'
+import { useParams } from 'react-router-dom'
 
-import LoaderBeleidsrelatieRegel from "../../../components/LoaderBeleidsrelatieRegel"
-import PopupMotivation from "../PopupMotivation/PopupMotivation"
+import LoaderBeleidsrelatieRegel from '../../../components/LoaderBeleidsrelatieRegel'
+import PopupMotivation from '../PopupMotivation/PopupMotivation'
 
 /**
  * @prop {boolean} loaded true if all the data from parent component is loaded
@@ -43,8 +42,8 @@ function TabRequests({
             </li>
             {loaded ? (
                 requests.length > 0 ? (
-                    requests.map((verzoek) => {
-                        const titel = getPropertyFromRelation(verzoek, "Titel")
+                    requests.map(verzoek => {
+                        const titel = getPropertyFromRelation(verzoek, 'Titel')
                         return (
                             <li
                                 key={verzoek.UUID}
@@ -55,9 +54,9 @@ function TabRequests({
                                     {verzoek.Created_Date !== null
                                         ? format(
                                               new Date(verzoek.Created_Date),
-                                              "d MMMM yyyy, HH:mm",
+                                              'd MMMM yyyy, HH:mm',
                                               { locale: nlLocale }
-                                          ) + " uur"
+                                          ) + ' uur'
                                         : null}
                                 </div>
                                 <div className="w-2/12">Open</div>
@@ -103,11 +102,11 @@ function TabRequests({
                     </span>
                 )
             ) : (
-                <React.Fragment>
+                <>
                     <LoaderBeleidsrelatieRegel />
                     <LoaderBeleidsrelatieRegel />
                     <LoaderBeleidsrelatieRegel />
-                </React.Fragment>
+                </>
             )}
         </ul>
     )

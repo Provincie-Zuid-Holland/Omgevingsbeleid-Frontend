@@ -1,26 +1,26 @@
-import allDimensieConstants from "./../constants/dimensies"
+import allDimensieConstants from './../constants/dimensies'
 
 function getDimensionsConstants(type) {
     switch (type) {
-        case "ambities":
+        case 'ambities':
             return allDimensieConstants.AMBITIES
-        case "belangen":
+        case 'belangen':
             return allDimensieConstants.BELANGEN
-        case "beleidskeuzes":
+        case 'beleidskeuzes':
             return allDimensieConstants.BELEIDSKEUZES
-        case "beleidsregels":
+        case 'beleidsregels':
             return allDimensieConstants.BELEIDSREGELS
-        case "beleidsprestaties":
+        case 'beleidsprestaties':
             return allDimensieConstants.BELEIDSPRESTATIES
-        case "maatregelen":
+        case 'maatregelen':
             return allDimensieConstants.MAATREGELEN
-        case "beleidsdoelen":
+        case 'beleidsdoelen':
             return allDimensieConstants.BELEIDSDOELEN
-        case "themas":
+        case 'themas':
             return allDimensieConstants.THEMAS
-        case "verordeningen":
+        case 'verordeningen':
             return allDimensieConstants.VERORDENINGSARTIKEL
-        case "artikel":
+        case 'artikel':
             return allDimensieConstants.VERORDENINGSARTIKEL
         default:
             throw new Error(

@@ -1,16 +1,15 @@
-import React from "react"
-import ViewFieldTitelEnInhoud from "../../ViewFieldTitelEnInhoud"
+import ViewFieldTitelEnInhoud from '../../ViewFieldTitelEnInhoud'
 
 const ContainerViewFieldsBelang = ({ crudObject }) => {
     return (
-        <React.Fragment>
-            {crudObject["Omschrijving"] !== undefined ? (
+        <>
+            {crudObject['Omschrijving'] !== undefined ? (
                 <ViewFieldTitelEnInhoud
                     fieldTitel="Omschrijving"
-                    fieldValue={crudObject["Omschrijving"]}
+                    fieldValue={crudObject['Omschrijving']}
                 />
             ) : null}
-        </React.Fragment>
+        </>
     )
 }
 

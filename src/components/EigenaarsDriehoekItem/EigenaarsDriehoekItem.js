@@ -1,4 +1,3 @@
-import React from "react"
 /**
  * Displays an item within the EigenaarsDriehoek component.
  * It receives the variables owner and eigenaarType and uses the owner variable in a conditionary operator to check if it contains value and to set the second part of the Gebruikersnaam in uppercase and in furter to display the Gebruikersnaam fully.

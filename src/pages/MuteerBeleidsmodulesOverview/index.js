@@ -1,2 +1,1 @@
-export { default } from "./MuteerBeleidsmodulesOverview"
-export * from "./MuteerBeleidsmodulesOverview"
+export { default } from './MuteerBeleidsmodulesOverview'

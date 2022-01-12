@@ -1,22 +1,22 @@
-import { render, screen, waitFor, fireEvent, act } from "@testing-library/react"
-import React from "react"
-import MuteerUniversalObjectCRUD from "./MuteerUniversalObjectCRUD"
-import { MemoryRouter, Route } from "react-router-dom"
-import UserContext from "./../../App/UserContext"
-import allDimensies from "./../../constants/dimensies"
+import { render, screen, waitFor, fireEvent, act } from '@testing-library/react'
+import { MemoryRouter, Route } from 'react-router-dom'
+
+import UserContext from './../../App/UserContext'
+import allDimensies from './../../constants/dimensies'
+import MuteerUniversalObjectCRUD from './MuteerUniversalObjectCRUD'
 
 const dimensions = [
-    "AMBITIES",
-    "BELANGEN",
-    "BELEIDSREGELS",
-    "MAATREGELEN",
-    "BELEIDSDOELEN",
-    "THEMAS",
-    "BELEIDSKEUZES",
+    'AMBITIES',
+    'BELANGEN',
+    'BELEIDSREGELS',
+    'MAATREGELEN',
+    'BELEIDSDOELEN',
+    'THEMAS',
+    'BELEIDSKEUZES',
 ]
 
 const authUser = {
-    UUID: "0000-0000-0000-0000",
+    UUID: '0000-0000-0000-0000',
 }
 
 const setup = (dimension, type) => {
@@ -29,8 +29,8 @@ const setup = (dimension, type) => {
     const pathPATCH = `/muteer/${slugOverview}/edit/:single`
     const pathPOST = `/muteer/${slugOverview}/${slugCreateNew}`
 
-    const path = type === "POST" ? pathPOST : pathPATCH
-    const initialEntries = type === "POST" ? urlPOST : urlPATCH
+    const path = type === 'POST' ? pathPOST : pathPATCH
+    const initialEntries = type === 'POST' ? urlPOST : urlPATCH
 
     render(
         <MemoryRouter initialEntries={[initialEntries]}>
@@ -38,8 +38,8 @@ const setup = (dimension, type) => {
                 <UserContext.Provider value={{ user: authUser }}>
                     <MuteerUniversalObjectCRUD
                         authUser={{
-                            Rol: "Beheerder",
-                            UUID: "0001",
+                            Rol: 'Beheerder',
+                            UUID: '0001',
                         }}
                         dimensieConstants={allDimensies[dimension]}
                     />
@@ -49,10 +49,10 @@ const setup = (dimension, type) => {
     )
 }
 
-describe("MuteerUniversalObjectCRUD", () => {
+describe('MuteerUniversalObjectCRUD', () => {
     dimensions
         .filter((e, i) => i === 0)
-        .forEach((dimension) => {
+        .forEach(dimension => {
             it(`Should render for dimension ${dimension}`, async () => {
                 act(() => {
                     setup(dimension)
@@ -62,7 +62,7 @@ describe("MuteerUniversalObjectCRUD", () => {
 
             it(`User should be able to PATCH an existing ${dimension}`, async () => {
                 act(() => {
-                    setup(dimension, "PATCH")
+                    setup(dimension, 'PATCH')
                 })
                 await waitFor(() => screen.getByText(`Opslaan`))
                 fireEvent.click(screen.getByText(`Opslaan`))
@@ -72,14 +72,14 @@ describe("MuteerUniversalObjectCRUD", () => {
                 window.scroll = jest.fn()
 
                 await act(async () => {
-                    setup(dimension, "POST")
+                    setup(dimension, 'POST')
                 })
 
                 await waitFor(() => screen.getByText(`Opslaan`))
-                const titelInput = screen.getByPlaceholderText("Titel")
+                const titelInput = screen.getByPlaceholderText('Titel')
 
                 fireEvent.change(titelInput, {
-                    target: { value: "Test Titel" },
+                    target: { value: 'Test Titel' },
                 })
 
                 fireEvent.click(screen.getByText(`Opslaan`))

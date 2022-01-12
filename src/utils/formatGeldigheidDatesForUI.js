@@ -1,4 +1,4 @@
-import { format, isValid } from "date-fns"
+import { format, isValid } from 'date-fns'
 
 /**
  * Format Begin_Geldigheid and Eind_Geldigheid in order to display them in the UI
@@ -17,9 +17,9 @@ function formatGeldigheidDatesForUI(crudObject) {
     if (beginGeldigheidIsValid) {
         crudObject.Begin_Geldigheid = format(
             new Date(crudObject.Begin_Geldigheid),
-            "yyyy-MM-dd"
+            'yyyy-MM-dd'
         )
-    } else if (crudObject.Begin_Geldigheid === "Invalid Date") {
+    } else if (crudObject.Begin_Geldigheid === 'Invalid Date') {
         crudObject.Begin_Geldigheid = null
     }
 
@@ -32,9 +32,9 @@ function formatGeldigheidDatesForUI(crudObject) {
     if (eindGeldigheidIsValid) {
         crudObject.Eind_Geldigheid = format(
             new Date(crudObject.Eind_Geldigheid),
-            "yyyy-MM-dd"
+            'yyyy-MM-dd'
         )
-    } else if (crudObject.Eind_Geldigheid === "Invalid Date") {
+    } else if (crudObject.Eind_Geldigheid === 'Invalid Date') {
         crudObject.Eind_Geldigheid = null
     }
 
@@ -47,9 +47,9 @@ function formatGeldigheidDatesForUI(crudObject) {
     if (besluitDatumIsValid) {
         crudObject.Besluit_Datum = format(
             new Date(crudObject.Besluit_Datum),
-            "yyyy-MM-dd"
+            'yyyy-MM-dd'
         )
-    } else if (crudObject.Besluit_Datum === "Invalid Date") {
+    } else if (crudObject.Besluit_Datum === 'Invalid Date') {
         crudObject.Besluit_Datum = null
     }
 

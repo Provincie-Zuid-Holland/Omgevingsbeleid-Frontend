@@ -1,3 +1,3 @@
-import LoaderSmallSpan from "./LoaderSmallSpan.js"
+import LoaderSmallSpan from './LoaderSmallSpan.js'
 
 export default LoaderSmallSpan

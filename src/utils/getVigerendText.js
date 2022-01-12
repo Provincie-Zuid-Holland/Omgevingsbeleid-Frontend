@@ -1,14 +1,14 @@
-import { format, isBefore } from "date-fns"
-import nlLocale from "date-fns/locale/nl"
+import { format, isBefore } from 'date-fns'
+import nlLocale from 'date-fns/locale/nl'
 
 /**
  * @param {string|null|undefined} date
  */
-const hasInvalidValue = (date) => {
+const hasInvalidValue = date => {
     if (!date) return true
 
     // This date is automatically assigned to a beginning date with no value
-    const dateNoBegin = "1753-01-01T00:00:00Z"
+    const dateNoBegin = '1753-01-01T00:00:00Z'
     if (date === dateNoBegin) return true
 
     return false
@@ -29,30 +29,30 @@ const getVigerendText = ({
 }) => {
     if (!dataObject) return null
 
-    const dateStartValidity = dataObject["Begin_Geldigheid"]
+    const dateStartValidity = dataObject['Begin_Geldigheid']
 
     if (hasInvalidValue(dateStartValidity) && prefixOnly)
-        return "Vigerend vanaf"
+        return 'Vigerend vanaf'
     if (hasInvalidValue(dateStartValidity))
-        return "Er is nog geen begin geldigheid"
+        return 'Er is nog geen begin geldigheid'
 
-    const textDate = format(new Date(dateStartValidity), "d MMMM yyyy", {
+    const textDate = format(new Date(dateStartValidity), 'd MMMM yyyy', {
         locale: nlLocale,
     })
 
     const objectWillTurnValidInFuture = isBefore(
         new Date(),
-        new Date(dataObject["Begin_Geldigheid"])
+        new Date(dataObject['Begin_Geldigheid'])
     )
 
     const checkIfDataObjectIsArchived = () => {
         if (!revisionObjects) return false
 
         const indexOfDataObjectInRevisions = revisionObjects.findIndex(
-            (e) => e.UUID === dataObject.UUID
+            e => e.UUID === dataObject.UUID
         )
         const indexOfFirstValidObjectInRevisions = revisionObjects.findIndex(
-            (e) => e.Status === "Vigerend"
+            e => e.Status === 'Vigerend'
         )
 
         return indexOfFirstValidObjectInRevisions < indexOfDataObjectInRevisions
@@ -62,17 +62,17 @@ const getVigerendText = ({
 
     const textPrefix =
         objectWillTurnValidInFuture && !currentDataObjectIsArchived
-            ? "Vigerend vanaf"
+            ? 'Vigerend vanaf'
             : !objectWillTurnValidInFuture && !currentDataObjectIsArchived
-            ? "Vigerend sinds"
+            ? 'Vigerend sinds'
             : currentDataObjectIsArchived
-            ? "In werking getreden op"
-            : ""
+            ? 'In werking getreden op'
+            : ''
 
     if (prefixOnly) {
         return textPrefix
     } else if (prefix) {
-        return textPrefix + " " + textDate
+        return textPrefix + ' ' + textDate
     } else {
         return textDate
     }

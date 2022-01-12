@@ -1,8 +1,8 @@
 /* istanbul ignore file */
-import React from "react"
-import { Transition } from "@headlessui/react"
 
-import FixedSidebarContainer from "../FixedSidebarContainer"
+import { Transition } from '@headlessui/react'
+
+import FixedSidebarContainer from '../FixedSidebarContainer'
 
 const EditOrderSidebar = ({
     isActiveChapter,
@@ -35,8 +35,8 @@ const EditOrderSidebar = ({
                         </span>
                         <p className="text-gray-800">
                             {userIsEditingOrderOfHoofdstukken
-                                ? "Je bent op dit moment de volgorde van de hoofdstukken aan het wijzigen"
-                                : "Je bent op dit moment de volgorde binnen dit hoofdstuk aan het wijzigen"}
+                                ? 'Je bent op dit moment de volgorde van de hoofdstukken aan het wijzigen'
+                                : 'Je bent op dit moment de volgorde binnen dit hoofdstuk aan het wijzigen'}
                         </p>
                         <div className="flex items-center mt-5">
                             <button

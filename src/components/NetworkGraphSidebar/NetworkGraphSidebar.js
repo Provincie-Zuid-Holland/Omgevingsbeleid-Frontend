@@ -1,19 +1,17 @@
-import React from "react"
 import {
     faArrowLeft,
     faChevronDown,
     faChevronUp,
-} from "@fortawesome/pro-regular-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { useHistory, useLocation } from "react-router-dom"
-import { useLastLocation } from "react-router-last-location"
+} from '@fortawesome/pro-regular-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useEffect, useRef, useState } from 'react'
+import { useHistory, useLocation } from 'react-router-dom'
+import { useLastLocation } from 'react-router-last-location'
 
-import networkGraphConnectionProperties from "../../constants/networkGraphConnectionProperties"
-import networkGraphFilterMenu from "../../constants/networkGraphFilterMenu"
-
-import { useWindowSize } from "../../utils/useWindowSize"
-
-import LoaderCard from "./../../components/LoaderCard"
+import networkGraphConnectionProperties from '../../constants/networkGraphConnectionProperties'
+import networkGraphFilterMenu from '../../constants/networkGraphFilterMenu'
+import { useWindowSize } from '../../utils/useWindowSize'
+import LoaderCard from './../../components/LoaderCard'
 
 /**
  * @param {object} props
@@ -37,10 +35,10 @@ const NetworkGraphSidebar = ({
     const lastLocation = useLastLocation()
     const windowSize = useWindowSize()
 
-    const [isOpen, setIsOpen] = React.useState(true)
-    const [isTablet, setisTablet] = React.useState(false)
+    const [isOpen, setIsOpen] = useState(true)
+    const [isTablet, setisTablet] = useState(false)
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (windowSize.width < 1024) {
             setisTablet(true)
         } else {
@@ -49,7 +47,7 @@ const NetworkGraphSidebar = ({
     }, [windowSize])
 
     /** Set initial lastLocation, as the networkGraph can update the URL */
-    const lastLocationRef = React.useRef(lastLocation)
+    const lastLocationRef = useRef(lastLocation)
 
     const goBack = () => {
         if (
@@ -61,7 +59,7 @@ const NetworkGraphSidebar = ({
                 lastLocationRef?.current?.search
             history.push(lastLocationUrl)
         } else {
-            history.push("/")
+            history.push('/')
         }
     }
 
@@ -85,7 +83,7 @@ const NetworkGraphSidebar = ({
                     }
                 }}
             >
-                {isTablet ? `${isOpen ? "Sluit" : "Open"} filters` : "Filters"}
+                {isTablet ? `${isOpen ? 'Sluit' : 'Open'} filters` : 'Filters'}
                 {isTablet ? (
                     <FontAwesomeIcon
                         className={`ml-4`}
@@ -94,7 +92,7 @@ const NetworkGraphSidebar = ({
                 ) : null}
             </h2>
             {isOpen
-                ? Object.keys(networkGraphFilterMenu).map((filterSection) => {
+                ? Object.keys(networkGraphFilterMenu).map(filterSection => {
                       return (
                           <div key={filterSection} className="mt-4">
                               <span className="font-bold text-pzh-blue-dark">
@@ -107,13 +105,13 @@ const NetworkGraphSidebar = ({
                                       </li>
                                   ) : (
                                       Object.keys(filters)
-                                          .filter((e) =>
+                                          .filter(e =>
                                               networkGraphFilterMenu[
                                                   filterSection
                                               ].includes(e)
                                           )
                                           .sort()
-                                          .map((filterKey) => {
+                                          .map(filterKey => {
                                               return (
                                                   <ListItem
                                                       key={filterKey}
@@ -148,7 +146,7 @@ const ListItem = ({ setFilters, filterKey, filters }) => {
             <input
                 onChange={() =>
                     setFilters({
-                        type: "toggleFilter",
+                        type: 'toggleFilter',
                         filterType: filterKey,
                         newState: !filters[filterKey],
                     })

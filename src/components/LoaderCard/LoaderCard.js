@@ -1,10 +1,9 @@
-import React from "react"
-import ContentLoader from "react-content-loader"
+import ContentLoader from 'react-content-loader'
 
 /**
  * Displays a rectangle shape before the component is displayed.
  */
-const LoaderCard = ({ height = "50", mb = "mb-6", className = "" }) => (
+const LoaderCard = ({ height = '50', mb = 'mb-6', className = '' }) => (
     <ContentLoader
         className={`w-full ${mb} ${className}`}
         width="400"

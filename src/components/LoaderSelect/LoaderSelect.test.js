@@ -1,20 +1,19 @@
-import { render, screen } from "@testing-library/react"
-import "@testing-library/jest-dom"
-import React from "react"
+import { render, screen } from '@testing-library/react'
+import '@testing-library/jest-dom'
 
-import LoaderSelect from "./LoaderSelect"
+import LoaderSelect from './LoaderSelect'
 
-describe("LoaderSelect", () => {
+describe('LoaderSelect', () => {
     const defaultProps = {}
 
-    const setup = (customProps) => {
+    const setup = customProps => {
         const props = { ...defaultProps, ...customProps }
         render(<LoaderSelect {...props} />)
     }
 
-    it("Component renders", () => {
+    it('Component renders', () => {
         setup()
-        const element = screen.getByRole("img")
+        const element = screen.getByRole('img')
         expect(element).toBeTruthy()
     })
 })

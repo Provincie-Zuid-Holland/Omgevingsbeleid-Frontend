@@ -1,23 +1,23 @@
 const searchBarFilters = [
     {
-        filterQuery: "beleidskeuzes",
-        name: "beleidskeuzes",
+        filterQuery: 'beleidskeuzes',
+        name: 'beleidskeuzes',
     },
     {
-        filterQuery: "ambities",
-        name: "ambities",
+        filterQuery: 'ambities',
+        name: 'ambities',
     },
     {
-        filterQuery: "beleidsdoelen",
-        name: "beleidsdoelen",
+        filterQuery: 'beleidsdoelen',
+        name: 'beleidsdoelen',
     },
     {
-        filterQuery: "maatregelen",
-        name: "maatregelen",
+        filterQuery: 'maatregelen',
+        name: 'maatregelen',
     },
     {
-        filterQuery: "beleidsregels",
-        name: "beleidsregels",
+        filterQuery: 'beleidsregels',
+        name: 'beleidsregels',
     },
 ]
 

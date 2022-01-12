@@ -1,2 +1,1 @@
-export { default } from './NetworkGraphSearchBar';
-export * from './NetworkGraphSearchBar';
+export { default } from './NetworkGraphSearchBar'

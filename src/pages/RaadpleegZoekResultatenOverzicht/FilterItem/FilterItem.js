@@ -1,8 +1,6 @@
-import React from "react"
+import Text from './../../../components/Text'
 
-import Text from "./../../../components/Text"
-
-import getDimensionsConstants from "./../../../utils/getDimensionsConstants"
+import getDimensionsConstants from './../../../utils/getDimensionsConstants'
 
 const FilterItem = ({ handleFilter, checked, item, count }) => {
     const dimensieContants = getDimensionsConstants(item)
@@ -11,9 +9,9 @@ const FilterItem = ({ handleFilter, checked, item, count }) => {
     const capitilizeFirstCharacter = () =>
         titleSingular.charAt(0).toUpperCase() + titleSingular.slice(1)
 
-    const getItemTitle = (item) => {
-        return item === "Verordeningen"
-            ? "Artikelen"
+    const getItemTitle = item => {
+        return item === 'Verordeningen'
+            ? 'Artikelen'
             : capitilizeFirstCharacter()
     }
     const itemTitle = getItemTitle(item)
@@ -28,7 +26,7 @@ const FilterItem = ({ handleFilter, checked, item, count }) => {
                     className="mr-2 leading-tight text-indigo-600 cursor-pointer text-pzh-green hover:text-pzh-green-dark form-checkbox"
                     type="checkbox"
                     checked={checked}
-                    onChange={(e) => handleFilter(e)}
+                    onChange={e => handleFilter(e)}
                     name={item}
                 />
                 <Text type="span" className="pt-1">

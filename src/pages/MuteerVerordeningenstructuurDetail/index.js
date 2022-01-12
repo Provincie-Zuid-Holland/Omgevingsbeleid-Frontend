@@ -1,3 +1,3 @@
-import MuteerVerordeningenstructuurDetail from "./MuteerVerordeningenstructuurDetail.js"
+import MuteerVerordeningenstructuurDetail from './MuteerVerordeningenstructuurDetail.js'
 
 export default MuteerVerordeningenstructuurDetail

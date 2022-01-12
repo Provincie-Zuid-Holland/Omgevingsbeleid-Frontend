@@ -1,56 +1,55 @@
-import React from "react"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faInfoCircle } from "@fortawesome/pro-light-svg-icons"
-import { Link } from "react-router-dom"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faInfoCircle } from '@fortawesome/pro-light-svg-icons'
+import { Link } from 'react-router-dom'
 
 function RaadpleegObjectDetailNewVersionNotification({
     dataObject,
     titleSingular,
 }) {
-    if (titleSingular !== "Maatregel" && titleSingular !== "Beleidskeuze")
+    if (titleSingular !== 'Maatregel' && titleSingular !== 'Beleidskeuze')
         return null
 
     const { Status, UUID, Latest_Version, Latest_Status, Effective_Version } =
         dataObject
 
     const unpublicStatusses = [
-        "Ontwerp GS Concept",
-        "Definitief ontwerp GS concept",
+        'Ontwerp GS Concept',
+        'Definitief ontwerp GS concept',
     ]
 
     // Current policy is from a lineage without a valid version
     const isNewWithNoEffectiveVersionPresent =
-        Status !== "Vigerend" && Effective_Version === null
+        Status !== 'Vigerend' && Effective_Version === null
 
     // Current policy is from a lineage with a valid version, but is not valid itself
     const isNewWithEffectiveVersionPresent =
-        Status !== "Vigerend" && Effective_Version !== null
+        Status !== 'Vigerend' && Effective_Version !== null
 
     // Current policy is valid and has a newer valid version which has no checked out concept versions
     const isValidAndArchived =
-        Status === "Vigerend" &&
+        Status === 'Vigerend' &&
         UUID !== Effective_Version &&
-        Latest_Status === "Vigerend" &&
+        Latest_Status === 'Vigerend' &&
         Latest_Version === Effective_Version
 
     // Current policy is valid and has a newer valid version which has a new concept version that is public
     const isValidButNewPublicDraftAvailable =
-        Status === "Vigerend" &&
+        Status === 'Vigerend' &&
         UUID === Effective_Version &&
-        Latest_Status !== "Vigerend" &&
+        Latest_Status !== 'Vigerend' &&
         !unpublicStatusses.includes(Latest_Status)
 
     // Current policy is valid and has a newer valid version which has one or more checked out concept versions that is not public
     const isValidButNewNonPublicDraftAvailable =
-        Status === "Vigerend" &&
+        Status === 'Vigerend' &&
         UUID === Effective_Version &&
-        Latest_Status !== "Vigerend" &&
+        Latest_Status !== 'Vigerend' &&
         unpublicStatusses.includes(Latest_Status)
 
     const isValidWithNoNewerVersionsAvailable =
         UUID === Effective_Version &&
         Effective_Version === Latest_Version &&
-        Latest_Status === "Vigerend"
+        Latest_Status === 'Vigerend'
 
     if (isValidWithNoNewerVersionsAvailable) return null
 
@@ -66,7 +65,7 @@ function RaadpleegObjectDetailNewVersionNotification({
                 </span>
             ) : isNewWithEffectiveVersionPresent ? (
                 <span>
-                    Let op! Deze versie is nog niet vigerend,{" "}
+                    Let op! Deze versie is nog niet vigerend,{' '}
                     <Link
                         className="underline"
                         to={`/detail/beleidskeuzes/${Effective_Version}`}
@@ -88,7 +87,7 @@ function RaadpleegObjectDetailNewVersionNotification({
             ) : isValidButNewPublicDraftAvailable ? (
                 <span>
                     Op dit moment is er een nieuwere versie van deze
-                    beleidskeuze met de status {Latest_Status},{" "}
+                    beleidskeuze met de status {Latest_Status},{' '}
                     <Link
                         className="underline"
                         to={`/detail/beleidskeuzes/${Latest_Version}`}

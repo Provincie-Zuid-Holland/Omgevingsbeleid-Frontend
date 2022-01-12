@@ -1,5 +1,4 @@
-import React from "react"
-import { useWindowSize } from "../../utils/useWindowSize"
+import { useWindowSize } from '../../utils/useWindowSize'
 
 /**
  *
@@ -9,53 +8,53 @@ import { useWindowSize } from "../../utils/useWindowSize"
  */
 const getHeadingStyles = (level, windowSize) => {
     if (!windowSize) {
-        console.error("🙈 No windowSize supplied")
+        console.error('🙈 No windowSize supplied')
         return {}
     }
 
     const smallScreen = 640
     const currentScreenIsMobile = windowSize.width <= smallScreen
 
-    if (level === "1") {
+    if (level === '1') {
         if (currentScreenIsMobile) {
             return {
-                hyphens: "manual",
-                fontSize: "1.6rem",
-                lineHeight: "1.75rem",
+                hyphens: 'manual',
+                fontSize: '1.6rem',
+                lineHeight: '1.75rem',
             }
         } else {
             return {
-                hyphens: "manual",
-                fontSize: "2.4rem",
-                lineHeight: "2.8rem",
+                hyphens: 'manual',
+                fontSize: '2.4rem',
+                lineHeight: '2.8rem',
             }
         }
-    } else if (level === "2") {
+    } else if (level === '2') {
         if (currentScreenIsMobile) {
             return {
-                hyphens: "manual",
-                fontSize: "1.2rem",
-                lineHeight: "1.6rem",
+                hyphens: 'manual',
+                fontSize: '1.2rem',
+                lineHeight: '1.6rem',
             }
         } else {
             return {
-                hyphens: "manual",
-                fontSize: "1.8rem",
-                lineHeight: "2.2rem",
+                hyphens: 'manual',
+                fontSize: '1.8rem',
+                lineHeight: '2.2rem',
             }
         }
-    } else if (level === "3") {
+    } else if (level === '3') {
         if (currentScreenIsMobile) {
             return {
-                hyphens: "manual",
-                fontSize: "1.1rem",
-                lineHeight: "1.5rem",
+                hyphens: 'manual',
+                fontSize: '1.1rem',
+                lineHeight: '1.5rem',
             }
         } else {
             return {
-                hyphens: "manual",
-                fontSize: "1.2rem",
-                lineHeight: "1.6rem",
+                hyphens: 'manual',
+                fontSize: '1.2rem',
+                lineHeight: '1.6rem',
             }
         }
     } else {
@@ -76,17 +75,17 @@ const getHeadingStyles = (level, windowSize) => {
  * @returns A heading element
  */
 function Heading({
-    className = "",
+    className = '',
     id,
-    color = "text-pzh-blue",
-    level = "1",
+    color = 'text-pzh-blue',
+    level = '1',
     children,
     customStyles,
 }) {
     const windowSize = useWindowSize()
     const styles = getHeadingStyles(level, windowSize)
 
-    if (level === "1") {
+    if (level === '1') {
         return (
             <h1
                 style={customStyles ? customStyles : styles}
@@ -96,7 +95,7 @@ function Heading({
                 {children}
             </h1>
         )
-    } else if (level === "2") {
+    } else if (level === '2') {
         return (
             <h2
                 style={customStyles ? customStyles : styles}
@@ -106,7 +105,7 @@ function Heading({
                 {children}
             </h2>
         )
-    } else if (level === "3") {
+    } else if (level === '3') {
         return (
             <h3
                 style={customStyles ? customStyles : styles}
@@ -116,7 +115,7 @@ function Heading({
                 {children}
             </h3>
         )
-    } else if (level === "4") {
+    } else if (level === '4') {
         return (
             <h4
                 style={customStyles ? customStyles : styles}
@@ -126,7 +125,7 @@ function Heading({
                 {children}
             </h4>
         )
-    } else if (level === "5") {
+    } else if (level === '5') {
         return (
             <h5
                 style={customStyles ? customStyles : styles}
@@ -136,7 +135,7 @@ function Heading({
                 {children}
             </h5>
         )
-    } else if (level === "6") {
+    } else if (level === '6') {
         return (
             <h6
                 style={customStyles ? customStyles : styles}

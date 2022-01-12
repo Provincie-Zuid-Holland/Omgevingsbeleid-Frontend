@@ -9,11 +9,11 @@ const checkIfUserIsAllowedOnPage = ({ object, authUser }) => {
     const userRole = authUser.Rol
     const userUUID = authUser.UUID
     const userRolesWithAuth = [
-        "Beheerder",
-        "Functioneel beheerder",
-        "Technisch beheerder",
-        "Test runner",
-        "Tester",
+        'Beheerder',
+        'Functioneel beheerder',
+        'Technisch beheerder',
+        'Test runner',
+        'Tester',
     ]
 
     if (userRolesWithAuth.includes(userRole)) {

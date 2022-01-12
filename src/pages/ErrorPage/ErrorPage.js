@@ -1,9 +1,8 @@
-import React from "react"
-import { Helmet } from "react-helmet"
-import { Link } from "react-router-dom"
+import { Helmet } from 'react-helmet'
+import { Link } from 'react-router-dom'
 
 const ErrorPage = () => (
-    <React.Fragment>
+    <>
         <Helmet>
             <title>ErrorPage - Omgevingsbeleid Provincie Zuid-Holland</title>
             <meta
@@ -32,7 +31,7 @@ const ErrorPage = () => (
                 </Link>
             </div>
         </div>
-    </React.Fragment>
+    </>
 )
 
 export default ErrorPage

@@ -1,3 +1,3 @@
-import LoaderContent from "./LoaderContent.js"
+import LoaderContent from './LoaderContent.js'
 
 export default LoaderContent

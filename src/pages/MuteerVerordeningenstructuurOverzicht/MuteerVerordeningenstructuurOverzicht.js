@@ -1,17 +1,17 @@
 /* istanbul ignore file */
-import React, { Component } from "react"
-import { Helmet } from "react-helmet"
-import { toast } from "react-toastify"
-import { Link } from "react-router-dom"
+import { Component } from 'react'
+import { Helmet } from 'react-helmet'
+import { Link } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 // Import Componenents
-import ContainerMain from "./../../components/ContainerMain"
-import SidebarMain from "./../../components/SidebarMain"
-import CardObjectDetails from "./../../components/CardObjectDetails"
-import LoaderCard from "./../../components/LoaderCard"
+import axios from './../../API/axios'
+import CardObjectDetails from './../../components/CardObjectDetails'
+import ContainerMain from './../../components/ContainerMain'
+import LoaderCard from './../../components/LoaderCard'
+import SidebarMain from './../../components/SidebarMain'
 
 // Import Axios instance to connect with the API
-import axios from "./../../API/axios"
 
 /**
  * Component to display all the verordening structures that exist
@@ -29,7 +29,7 @@ class MuteerVerordeningenstructuurOverzicht extends Component {
         // Connect With the API
         axios
             .get(ApiEndpoint)
-            .then((res) => {
+            .then(res => {
                 let objecten = res.data
 
                 this.setState({
@@ -37,7 +37,7 @@ class MuteerVerordeningenstructuurOverzicht extends Component {
                     dataReceived: true,
                 })
             })
-            .catch((err) => {
+            .catch(err => {
                 console.log(err)
                 toast(process.env.REACT_APP_ERROR_MSG)
                 this.setState({
@@ -60,7 +60,7 @@ class MuteerVerordeningenstructuurOverzicht extends Component {
         return (
             <ContainerMain>
                 <Helmet>
-                    <title>Omgevingsbeleid - {"Beheer " + titelMeervoud}</title>
+                    <title>Omgevingsbeleid - {'Beheer ' + titelMeervoud}</title>
                 </Helmet>
 
                 {/* Sidebar */}
@@ -108,11 +108,11 @@ class MuteerVerordeningenstructuurOverzicht extends Component {
                                     </li>
                                 ))
                         ) : (
-                            <React.Fragment>
+                            <>
                                 <LoaderCard />
                                 <LoaderCard />
                                 <LoaderCard />
-                            </React.Fragment>
+                            </>
                         )}
                     </ul>
                 </div>

@@ -1,3 +1,3 @@
-import Lid from "./Lid.js"
+import Lid from './Lid.js'
 
 export default Lid

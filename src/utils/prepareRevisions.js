@@ -1,4 +1,4 @@
-import { isBefore } from "date-fns"
+import { isBefore } from 'date-fns'
 
 /**
  * This function filters out revisions that we do not want to diplay in the revision timeline.
@@ -10,25 +10,26 @@ import { isBefore } from "date-fns"
  * @param {array} revisions - Contains all of the revisions of the object
  * @returns {array} - Returns an array containing the revision objects
  */
-const prepareRevisions = (revisions) => {
+const prepareRevisions = revisions => {
     const sortedAndFilteredRevisions = revisions
         .sort((a, b) => new Date(b.Modified_Date) - new Date(a.Modified_Date))
-        .filter((revision) => revision.Status === "Vigerend")
+        .filter(revision => revision.Status === 'Vigerend')
 
     /**
      * Filters the revisions based on the "Vigerend" status
      * @param {array} revisions - Contains the original revisions
      */
-    const prepareVigerendeRevisions = (revisions) =>
+    const prepareVigerendeRevisions = revisions =>
         revisions
             .filter((revision, index) => {
                 /**
                  * If an object with a status of vigerend is edited
                  * the UUID value is assigned to the property 'Aanpassing_Op' of the newer object.
                  */
-                const indexOfPotentialNewerVersion = sortedAndFilteredRevisions.findIndex(
-                    (e) => e.Aanpassing_Op === revision.UUID
-                )
+                const indexOfPotentialNewerVersion =
+                    sortedAndFilteredRevisions.findIndex(
+                        e => e.Aanpassing_Op === revision.UUID
+                    )
 
                 const objectHasLaterVersion =
                     indexOfPotentialNewerVersion !== -1
@@ -41,7 +42,7 @@ const prepareRevisions = (revisions) => {
                 // and if there is another object in revisions that has the same 'Aanpassing_Op' value, but earlier in the array
                 // indicating that there is a later version of this 'vigerend' object
                 const indexOfLastEdited = sortedAndFilteredRevisions.findIndex(
-                    (e) => e.Aanpassing_Op === revision.Aanpassing_Op
+                    e => e.Aanpassing_Op === revision.Aanpassing_Op
                 )
 
                 const editedWithLaterVersion =
@@ -54,7 +55,7 @@ const prepareRevisions = (revisions) => {
                 return true
             })
             // Filter out revisions that have a Begin_Geldigheid in the future
-            .filter((revision) => {
+            .filter(revision => {
                 const beginGeldigheid = new Date(revision.Begin_Geldigheid)
                 const currentDate = new Date()
 
@@ -63,9 +64,9 @@ const prepareRevisions = (revisions) => {
             .map((revision, index) => {
                 if (index === 0) {
                     // If it is the first item with a Status of 'Vigerend'
-                    revision.uiStatus = "Vigerend"
+                    revision.uiStatus = 'Vigerend'
                 } else {
-                    revision.uiStatus = "Gearchiveerd"
+                    revision.uiStatus = 'Gearchiveerd'
                 }
 
                 return revision
@@ -80,12 +81,12 @@ const prepareRevisions = (revisions) => {
      */
     const prepareOntwerpInInspraakRevisions = (preppedRevisions, revisions) => {
         const firstInspraakIndex = revisions.findIndex(
-            (revision) => revision.Status === "Ontwerp in inspraak"
+            revision => revision.Status === 'Ontwerp in inspraak'
         )
 
         const firstVigerendIndex = revisions.findIndex(
-            (revision) =>
-                revision.Status === "Vigerend" &&
+            revision =>
+                revision.Status === 'Vigerend' &&
                 revision.Aanpassing_Op === null
         )
 
@@ -96,7 +97,7 @@ const prepareRevisions = (revisions) => {
         const inspraakComesAfterVigerend =
             firstInspraakIndex < firstVigerendIndex
 
-        const checkIfInspraakInOntwerpIsLastCheckedOutItem = (revisions) => {
+        const checkIfInspraakInOntwerpIsLastCheckedOutItem = revisions => {
             if (firstInspraakIndex === 0) return true
 
             // If the firstInspraakIndex is greater then 0 we need to check if the items that come before it have a status of 'Vigerend'
@@ -109,7 +110,7 @@ const prepareRevisions = (revisions) => {
             indexesToCheck.unshift(0)
 
             const inspraakInOntwerpIsLastCheckedOutItem = indexesToCheck.every(
-                (index) => revisions[index].Status === "Vigerend"
+                index => revisions[index].Status === 'Vigerend'
             )
 
             return inspraakInOntwerpIsLastCheckedOutItem
@@ -125,7 +126,7 @@ const prepareRevisions = (revisions) => {
         // If so, place this item on index 0
         if (inspraakComesAfterVigerend && inspraakIsLastItem) {
             const firstInspraakItem = revisions[firstInspraakIndex]
-            firstInspraakItem.uiStatus = "Ter inzage"
+            firstInspraakItem.uiStatus = 'Ter inzage'
             preppedRevisions.splice(0, 0, firstInspraakItem)
         }
 

@@ -1,16 +1,15 @@
-import { render, screen, fireEvent } from "@testing-library/react"
-import "@testing-library/jest-dom"
-import React from "react"
-import { MemoryRouter } from "react-router-dom"
-import GraphContext from "./../../App/GraphContext"
+import { render, screen } from '@testing-library/react'
+import '@testing-library/jest-dom'
+import { MemoryRouter } from 'react-router-dom'
 
-import RaadpleegHome from "./RaadpleegHome"
+import GraphContext from './../../App/GraphContext'
+import RaadpleegHome from './RaadpleegHome'
 
-describe("RaadpleegHome", () => {
+describe('RaadpleegHome', () => {
     const defaultProps = {}
     const setGraphIsOpenMock = jest.fn()
 
-    const setup = (customProps) => {
+    const setup = customProps => {
         const props = { ...defaultProps, ...customProps }
         render(
             <MemoryRouter>
@@ -26,9 +25,9 @@ describe("RaadpleegHome", () => {
         )
     }
 
-    it("Component renders", () => {
+    it('Component renders', () => {
         setup()
-        const element = screen.getByText("Omgevingsbeleid")
+        const element = screen.getByText('Omgevingsbeleid')
         expect(element).toBeTruthy()
     })
 })

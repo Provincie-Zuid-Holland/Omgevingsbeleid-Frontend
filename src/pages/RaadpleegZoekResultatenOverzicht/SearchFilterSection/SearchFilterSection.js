@@ -1,9 +1,8 @@
-import React from "react"
+import { useEffect, useRef, useState } from 'react'
 
-import { useWindowSize } from "./../../../utils/useWindowSize"
-import LoaderCard from "./../../../components/LoaderCard"
-
-import FilterItem from "./../FilterItem"
+import LoaderCard from './../../../components/LoaderCard'
+import { useWindowSize } from './../../../utils/useWindowSize'
+import FilterItem from './../FilterItem'
 
 const SearchFilterSection = ({
     loaded,
@@ -12,11 +11,11 @@ const SearchFilterSection = ({
     filters,
     handleFilter,
 }) => {
-    const container = React.useRef(null)
+    const container = useRef(null)
     const windowSize = useWindowSize()
-    const [containerStyle, setContainerStyle] = React.useState({})
+    const [containerStyle, setContainerStyle] = useState({})
 
-    React.useEffect(() => {
+    useEffect(() => {
         const handleScroll = () => {
             const windowScrollTop =
                 window.pageYOffset || document.documentElement.scrollTop
@@ -30,7 +29,7 @@ const SearchFilterSection = ({
                     height: offsetHeight,
                     top: offsetTop,
                     left: offsetLeft,
-                    position: "fixed",
+                    position: 'fixed',
                 }
 
                 setContainerStyle(fixedStyle)
@@ -39,21 +38,21 @@ const SearchFilterSection = ({
                 windowScrollTop < container.current.offsetTop
             ) {
                 const relativeStyle = {
-                    position: "relative",
+                    position: 'relative',
                 }
 
                 setContainerStyle(relativeStyle)
             }
         }
 
-        window.addEventListener("scroll", handleScroll)
-        return () => window.removeEventListener("scroll", handleScroll)
+        window.addEventListener('scroll', handleScroll)
+        return () => window.removeEventListener('scroll', handleScroll)
     }, [windowSize])
 
     const searchFilterCategories = {
-        Omgevingsvisie: ["ambities", "beleidsdoelen", "beleidskeuzes"],
-        Omgevingsprogramma: ["maatregelen"],
-        Uitvoering: ["Beleidsregels"],
+        Omgevingsvisie: ['ambities', 'beleidsdoelen', 'beleidskeuzes'],
+        Omgevingsprogramma: ['maatregelen'],
+        Uitvoering: ['Beleidsregels'],
     }
 
     if (!loaded) {
@@ -70,29 +69,28 @@ const SearchFilterSection = ({
                 {searchFiltersOnly === null &&
                 onPageFilters?.filterArray?.length > 0
                     ? Object.keys(searchFilterCategories)
-                          .filter((category) =>
-                              filters.some((filter) =>
+                          .filter(category =>
+                              filters.some(filter =>
                                   searchFilterCategories[category].includes(
                                       filter
                                   )
                               )
                           )
-                          .map((category) => (
-                              <div>
+                          .map((category, index) => (
+                              <div key={`category-${index}`}>
                                   <span className="mt-2 font-bold text-pzh-blue">
                                       {category}
                                   </span>
                                   <ul
                                       id="filter-search-results"
-                                      className="mb-4"
-                                  >
+                                      className="mb-4">
                                       {filters
-                                          .filter((filterCategory) =>
+                                          .filter(filterCategory =>
                                               searchFilterCategories[
                                                   category
                                               ].includes(filterCategory)
                                           )
-                                          .map((filter) => (
+                                          .map(filter => (
                                               <FilterItem
                                                   key={filter}
                                                   count={

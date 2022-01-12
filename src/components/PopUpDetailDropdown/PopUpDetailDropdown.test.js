@@ -1,20 +1,19 @@
-import { render, screen, fireEvent } from "@testing-library/react"
-import { MemoryRouter } from "react-router-dom"
-import "@testing-library/jest-dom"
-import React from "react"
+import { render, screen, fireEvent } from '@testing-library/react'
+import { MemoryRouter } from 'react-router-dom'
+import '@testing-library/jest-dom'
 
-import PopUpDetailDropdown from "./PopUpDetailDropdown"
-import { beleidskeuzes } from "./../../mocks/data/beleidskeuzes"
+import { beleidskeuzes } from './../../mocks/data/beleidskeuzes'
+import PopUpDetailDropdown from './PopUpDetailDropdown'
 
-describe("PopUpDetailDropdown", () => {
+describe('PopUpDetailDropdown', () => {
     const setDataObjectMock = jest.fn()
     const toggleDropdownMock = jest.fn()
     const toggleStatusPopupMock = jest.fn()
     const toggleModulesPopupMock = jest.fn()
 
     const defaultProps = {
-        slug: "slug",
-        titleSingular: "titleSingular",
+        slug: 'slug',
+        titleSingular: 'titleSingular',
         raadpleegLink: `/detail/slug/01`,
         dataObject: beleidskeuzes[0],
         setDataObject: setDataObjectMock,
@@ -24,7 +23,7 @@ describe("PopUpDetailDropdown", () => {
         toggleModulesPopup: toggleModulesPopupMock,
     }
 
-    const setup = (customProps) => {
+    const setup = customProps => {
         const props = { ...defaultProps, ...customProps }
         render(
             <MemoryRouter>
@@ -36,28 +35,28 @@ describe("PopUpDetailDropdown", () => {
         )
     }
 
-    it("Component renders", () => {
+    it('Component renders', () => {
         setup()
-        const element = screen.getByText("Status aanpassen")
+        const element = screen.getByText('Status aanpassen')
         expect(element).toBeTruthy()
     })
 
-    it("User can change the status", () => {
+    it('User can change the status', () => {
         setup()
-        const status = screen.getByText("Status aanpassen")
+        const status = screen.getByText('Status aanpassen')
         fireEvent.click(status)
         expect(toggleDropdownMock).toHaveBeenCalledTimes(1)
         expect(toggleStatusPopupMock).toHaveBeenCalledTimes(1)
     })
 
-    it("User can close the dropdown by clicking outside", () => {
+    it('User can close the dropdown by clicking outside', () => {
         document.addEventListener = jest
             .fn()
             .mockImplementationOnce((event, callback) => {
                 callback(event)
             })
         setup()
-        const elementOutside = screen.getByText("Element outside")
+        const elementOutside = screen.getByText('Element outside')
         fireEvent.click(elementOutside)
         expect(document.addEventListener).toHaveBeenCalledTimes(1)
         expect(toggleDropdownMock).toHaveBeenCalledTimes(1)

@@ -1,14 +1,13 @@
-import { render, screen } from "@testing-library/react"
-import "@testing-library/jest-dom"
-import { MemoryRouter } from "react-router-dom"
-import React from "react"
+import { render, screen } from '@testing-library/react'
+import '@testing-library/jest-dom'
+import { MemoryRouter } from 'react-router-dom'
 
-import RaadpleegInProgress from "./RaadpleegInProgress"
+import RaadpleegInProgress from './RaadpleegInProgress'
 
-describe("RaadpleegInProgress", () => {
+describe('RaadpleegInProgress', () => {
     const defaultProps = {}
 
-    const setup = (customProps) => {
+    const setup = customProps => {
         const props = { ...defaultProps, ...customProps }
         render(
             <MemoryRouter>
@@ -17,9 +16,9 @@ describe("RaadpleegInProgress", () => {
         )
     }
 
-    it("Component renders", () => {
+    it('Component renders', () => {
         setup()
-        const element = screen.getByText("In bewerking")
+        const element = screen.getByText('In bewerking')
         expect(element).toBeTruthy()
     })
 })

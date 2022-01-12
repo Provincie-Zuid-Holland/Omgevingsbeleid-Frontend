@@ -1,19 +1,16 @@
-import React from "react"
-import { Disclosure } from "@headlessui/react"
-import { faPlus } from "@fortawesome/pro-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Link } from "react-router-dom"
+import { faPlus } from '@fortawesome/pro-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Disclosure } from '@headlessui/react'
+import { Link } from 'react-router-dom'
 
-import terinzageleggingenImage from "./../../images/terinzageleggingen.png"
-
-import scrollToElement from "./../../utils/scrollToElement"
-
-import Footer from "./../../components/Footer"
-import Container from "./../../components/Container"
-import HorizontalDivider from "./../../components/HorizontalDivider"
-import Button from "./../../components/Button"
-import Heading from "./../../components/Heading"
-import Text from "./../../components/Text"
+import Button from './../../components/Button'
+import Container from './../../components/Container'
+import Footer from './../../components/Footer'
+import Heading from './../../components/Heading'
+import HorizontalDivider from './../../components/HorizontalDivider'
+import Text from './../../components/Text'
+import terinzageleggingenImage from './../../images/terinzageleggingen.png'
+import scrollToElement from './../../utils/scrollToElement'
 
 function RaadpleegTerinzageleggingen() {
     return (
@@ -35,18 +32,18 @@ function RaadpleegTerinzageleggingen() {
                             text="Bekijk overzicht"
                             className="mt-4"
                             onClick={() =>
-                                scrollToElement("op-dit-moment-ter-inzage")
+                                scrollToElement('op-dit-moment-ter-inzage')
                             }
                         />
                     </div>
                     <div
                         className="relative col-span-3"
-                        style={{ minHeight: "480px" }} // To mimick the height of the 480px div with the absolute position
+                        style={{ minHeight: '480px' }} // To mimick the height of the 480px div with the absolute position
                     >
                         <div
                             style={{
-                                height: "480px",
-                                width: "calc(50vw - 1rem)",
+                                height: '480px',
+                                width: 'calc(50vw - 1rem)',
                             }}
                             className={`absolute text-center left-0 top-0 h-full bg-gray-100 sm:inline-block`}
                         >
@@ -70,7 +67,7 @@ function RaadpleegTerinzageleggingen() {
                             voorgestelde beleidswijzigingen besluiten zij om het
                             nieuwe beleid ter inzage te leggen. Vanaf dat moment
                             hebben andere overheden, bedrijven en burgers de
-                            gelegenheid om hierop te reageren. Zo'n reactie
+                            gelegenheid om hierop te reageren. Zo&apos;n reactie
                             noemen wordt een zienswijze genoemd. Die zienswijzen
                             kunnen aanleiding zijn om eventuele correcties of
                             andere wijzigingen door te voeren. De
@@ -217,13 +214,13 @@ const Dropdown = ({ buttonText, panelText }) => {
                 <>
                     <Disclosure.Button
                         className={`flex bg-opacity-10 group items-center justify-between w-full px-5 py-3 font-bold transition-colors duration-200 ease-in text-pzh-pink-dark bg-pzh-pink-dark mt-2 ${
-                            open ? "rounded-t-md" : "rounded-md"
+                            open ? 'rounded-t-md' : 'rounded-md'
                         }`}
                     >
                         <span>{buttonText}</span>
                         <FontAwesomeIcon
                             className={`text-base transition-transform ease-in duration-100 ${
-                                open ? "transform rotate-45" : ""
+                                open ? 'transform rotate-45' : ''
                             }`}
                             icon={faPlus}
                         />
@@ -240,17 +237,17 @@ const Dropdown = ({ buttonText, panelText }) => {
 function TableLatestEdits() {
     const latestEdits = [
         {
-            title: "De provincie Zuid-Holland draagt bij aan het behoud van de wereldpositie die de Rotterdamse haven bezit",
-            type: "Beleidskeuze",
-            link: "#",
-            status: "In Ontwerp",
-            bewerkt: "Dinsdag 1 juni 2021",
+            title: 'De provincie Zuid-Holland draagt bij aan het behoud van de wereldpositie die de Rotterdamse haven bezit',
+            type: 'Beleidskeuze',
+            link: '#',
+            status: 'In Ontwerp',
+            bewerkt: 'Dinsdag 1 juni 2021',
         },
         {
-            title: "De provincie stimuleert een ‘waterrobuuste’ ruimtelijke inrichting. Het doel daarvan is om de gevolgschade en hersteltijd bij een eventuel...",
-            type: "Beleidskeuze",
-            status: "Vastgesteld",
-            bewerkt: "Dinsdag 1 juni 2021",
+            title: 'De provincie stimuleert een ‘waterrobuuste’ ruimtelijke inrichting. Het doel daarvan is om de gevolgschade en hersteltijd bij een eventuel...',
+            type: 'Beleidskeuze',
+            status: 'Vastgesteld',
+            bewerkt: 'Dinsdag 1 juni 2021',
         },
     ]
 
@@ -289,36 +286,34 @@ function TableLatestEdits() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {latestEdits.map(
-                                    (policyObject, policyObjectIdx) => (
-                                        <tr
-                                            key={policyObject.title}
-                                            className="border-b border-gray-300"
-                                        >
-                                            <td className="py-4 pr-6 text-gray-800">
-                                                {policyObject.link ? (
-                                                    <Link
-                                                        to={policyObject.link}
-                                                        className="underline text-pzh-green hover:text-pzh-green-dark"
-                                                    >
-                                                        {policyObject.title}
-                                                    </Link>
-                                                ) : (
-                                                    policyObject.title
-                                                )}
-                                            </td>
-                                            <td className="px-6 py-4 text-gray-800">
-                                                {policyObject.type}
-                                            </td>
-                                            <td className="px-6 py-4 text-gray-800">
-                                                {policyObject.status}
-                                            </td>
-                                            <td className="px-6 py-4 text-gray-800">
-                                                {policyObject.bewerkt}
-                                            </td>
-                                        </tr>
-                                    )
-                                )}
+                                {latestEdits.map(policyObject => (
+                                    <tr
+                                        key={policyObject.title}
+                                        className="border-b border-gray-300"
+                                    >
+                                        <td className="py-4 pr-6 text-gray-800">
+                                            {policyObject.link ? (
+                                                <Link
+                                                    to={policyObject.link}
+                                                    className="underline text-pzh-green hover:text-pzh-green-dark"
+                                                >
+                                                    {policyObject.title}
+                                                </Link>
+                                            ) : (
+                                                policyObject.title
+                                            )}
+                                        </td>
+                                        <td className="px-6 py-4 text-gray-800">
+                                            {policyObject.type}
+                                        </td>
+                                        <td className="px-6 py-4 text-gray-800">
+                                            {policyObject.status}
+                                        </td>
+                                        <td className="px-6 py-4 text-gray-800">
+                                            {policyObject.bewerkt}
+                                        </td>
+                                    </tr>
+                                ))}
                             </tbody>
                         </table>
                     </div>

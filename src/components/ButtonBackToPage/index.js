@@ -1,3 +1,3 @@
-import ButtonBackToPage from "./ButtonBackToPage.js"
+import ButtonBackToPage from './ButtonBackToPage.js'
 
 export default ButtonBackToPage

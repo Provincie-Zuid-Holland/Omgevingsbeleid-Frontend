@@ -1,31 +1,27 @@
-import React from "react"
-import { useParams, useHistory } from "react-router-dom"
-import { toast } from "react-toastify"
+import { useEffect, useState } from 'react'
+import { useParams, useHistory } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
-import allDimensies from "./../../constants/dimensies"
-
-import axios from "../../API/axios"
-
-import TableRow from "./TableRow"
-import TableHeading from "./TableHeading"
-import ModuleFilters from "./ModuleFilters"
-import SortIcon from "./SortIcon"
-import ModuleAmount from "./ModuleAmount"
-
-import ButtonBackToPage from "./../../components/ButtonBackToPage"
-import LoaderSpinner from "./../../components/LoaderSpinner"
-
-import useModuleSort from "./../../utils/useModuleSort"
-import useModuleFilter from "./../../utils/useModuleFilter"
-import handleError from "./../../utils/handleError"
+import axios from '../../API/axios'
+import ButtonBackToPage from './../../components/ButtonBackToPage'
+import LoaderSpinner from './../../components/LoaderSpinner'
+import allDimensies from './../../constants/dimensies'
+import handleError from './../../utils/handleError'
+import useModuleFilter from './../../utils/useModuleFilter'
+import useModuleSort from './../../utils/useModuleSort'
+import ModuleAmount from './ModuleAmount'
+import ModuleFilters from './ModuleFilters'
+import SortIcon from './SortIcon'
+import TableHeading from './TableHeading'
+import TableRow from './TableRow'
 
 /**
  * @returns A component that renders an overview of a specific Beleidsmodule
  */
 function MuteerBeleidsmodulesOverview() {
-    const [currentBeleidsmodule, setCurrentBeleidsmodule] = React.useState([])
-    const [policies, setPolicies] = React.useState([])
-    const [dataLoaded, setDataLoaded] = React.useState(false)
+    const [currentBeleidsmodule, setCurrentBeleidsmodule] = useState([])
+    const [policies, setPolicies] = useState([])
+    const [dataLoaded, setDataLoaded] = useState(false)
 
     const [sorting, setSorting, sortPolicies] = useModuleSort()
     const [filters, setFilters, filterPolicies] = useModuleFilter()
@@ -38,22 +34,22 @@ function MuteerBeleidsmodulesOverview() {
      * 1. Get and set all the beleidsmodules in state
      * 2. Get and set the currently active beleidsmodule in state
      */
-    React.useEffect(() => {
+    useEffect(() => {
         /**
          * Function to find the corresponding active beleidsmodule based on the single parameter from the URL and set it in state
          * @param {array} beleidsmodules - Contains the API response
          * @returns {null|object} currentBeleidsmodule or null if there is none found
          */
-        const findAndSetCurrentBeleidsmodule = (beleidsmodules) => {
+        const findAndSetCurrentBeleidsmodule = beleidsmodules => {
             const currentBeleidsmodule = beleidsmodules.find(
-                (module) => module.ID === parseInt(params.single)
+                module => module.ID === parseInt(params.single)
             )
 
             if (currentBeleidsmodule) {
                 setCurrentBeleidsmodule(currentBeleidsmodule)
                 return currentBeleidsmodule
             } else {
-                toast("Deze beleidsmodule kon niet gevonden worden")
+                toast('Deze beleidsmodule kon niet gevonden worden')
                 history.push(
                     `/muteer/${allDimensies.BELEIDSMODULES.SLUG_OVERVIEW}`
                 )
@@ -66,22 +62,22 @@ function MuteerBeleidsmodulesOverview() {
         const getAndSetBeleidsmodules = () => {
             axios
                 .get(`/${allDimensies.BELEIDSMODULES.API_ENDPOINT}`)
-                .then((res) => {
+                .then(res => {
                     const currentBeleidsmodule = findAndSetCurrentBeleidsmodule(
                         res.data
                     )
                     return currentBeleidsmodule
                 })
-                .then((currentBeleidsmodule) => {
+                .then(currentBeleidsmodule => {
                     const policies = [
                         ...currentBeleidsmodule.Maatregelen,
                         ...currentBeleidsmodule.Beleidskeuzes,
                     ]
                     setPolicies(policies)
-                    setFilters({ type: "init", policies: policies })
+                    setFilters({ type: 'init', policies: policies })
                     setDataLoaded(true)
                 })
-                .catch((err) => {
+                .catch(err => {
                     handleError(err)
                 })
         }
@@ -94,7 +90,7 @@ function MuteerBeleidsmodulesOverview() {
             <div className="mt-5">
                 <div className="inline-block w-full align-middle">
                     <ButtonBackToPage
-                        terugNaar={"overzicht"}
+                        terugNaar={'overzicht'}
                         url={`/muteer/${allDimensies.BELEIDSMODULES.SLUG_OVERVIEW}`}
                     />
                     <div className="pb-16 bg-white rounded-md shadow-md">
@@ -126,11 +122,10 @@ function MuteerBeleidsmodulesOverview() {
                                     <thead>
                                         <tr>
                                             <TableHeading
-                                                property={"title"}
+                                                property={'title'}
                                                 sorting={sorting}
                                                 setSorting={setSorting}
-                                                label="Titel"
-                                            >
+                                                label="Titel">
                                                 <SortIcon
                                                     sorting={sorting}
                                                     property="title"
@@ -138,11 +133,10 @@ function MuteerBeleidsmodulesOverview() {
                                             </TableHeading>
 
                                             <TableHeading
-                                                property={"type"}
+                                                property={'type'}
                                                 sorting={sorting}
                                                 setSorting={setSorting}
-                                                label="Type beleid"
-                                            >
+                                                label="Type beleid">
                                                 <SortIcon
                                                     sorting={sorting}
                                                     property="type"
@@ -160,11 +154,10 @@ function MuteerBeleidsmodulesOverview() {
                                             />
 
                                             <TableHeading
-                                                property={"date"}
+                                                property={'date'}
                                                 sorting={sorting}
                                                 setSorting={setSorting}
-                                                label="Bewerkingsdatum"
-                                            >
+                                                label="Bewerkingsdatum">
                                                 <SortIcon
                                                     sorting={sorting}
                                                     property="date"
@@ -187,14 +180,17 @@ function MuteerBeleidsmodulesOverview() {
                                                         sorting
                                                     )
                                                 })
-                                                .filter((policy) => {
+                                                .filter(policy => {
                                                     return filterPolicies(
                                                         policy,
                                                         filters
                                                     )
                                                 })
-                                                .map((policy) => (
-                                                    <TableRow policy={policy} />
+                                                .map((policy, index) => (
+                                                    <TableRow
+                                                        key={`policy-${index}`}
+                                                        policy={policy}
+                                                    />
                                                 ))
                                         )}
                                     </tbody>

@@ -1,2 +1,1 @@
-export { default } from './DocumentLink';
-export * from './DocumentLink';
+export { default } from './DocumentLink'

@@ -1,2 +1,1 @@
-export { default } from './RaadpleegPlanningAndReleases';
-export * from './RaadpleegPlanningAndReleases';
+export { default } from './RaadpleegPlanningAndReleases'

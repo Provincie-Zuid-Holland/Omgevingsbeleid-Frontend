@@ -1,2 +1,1 @@
-export { default } from "./NetworkGraphClickedElementPopup"
-export * from "./NetworkGraphClickedElementPopup"
+export { default } from './NetworkGraphClickedElementPopup'

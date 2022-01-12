@@ -1,24 +1,24 @@
-import React from "react"
+import { useCallback, useEffect, useState } from 'react'
 
-import { environment } from "./../../API/axios"
+import { environment } from './../../API/axios'
 
 /**
  *
  * @param {string} environment - type of environment
  * @returns {string} - Text for the banner indicating the environment
  */
-const getEnvironmentText = (environment) => {
+const getEnvironmentText = environment => {
     switch (environment) {
-        case "dev":
-            return "Ontwikkelomgeving"
-        case "test":
-            return "Testomgeving"
-        case "acc":
-            return "Acceptatieomgeving"
-        case "prod":
-            return "Live-omgeving"
+        case 'dev':
+            return 'Ontwikkelomgeving'
+        case 'test':
+            return 'Testomgeving'
+        case 'acc':
+            return 'Acceptatieomgeving'
+        case 'prod':
+            return 'Live-omgeving'
         default:
-            return "No environment set"
+            return 'No environment set'
     }
 }
 
@@ -32,23 +32,23 @@ function BannerEnvironment({
     userIsInMuteerEnvironment,
     hideBannerLocalStorage,
 }) {
-    const [showBanner, setShowBanner] = React.useState(
+    const [showBanner, setShowBanner] = useState(
         userIsInMuteerEnvironment && !hideBannerLocalStorage()
     )
 
-    const removeBanner = React.useCallback(() => {
-        const mainContainer = document.getElementById("main-container")
+    const removeBanner = useCallback(() => {
+        const mainContainer = document.getElementById('main-container')
         if (!mainContainer) return
-        mainContainer.style.removeProperty("margin-top")
+        mainContainer.style.removeProperty('margin-top')
         setShowBanner(false)
     }, [])
 
-    const addBanner = React.useCallback(() => {
+    const addBanner = useCallback(() => {
         addMarginTop()
         setShowBanner(true)
     }, [])
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (userIsInMuteerEnvironment && !hideBannerLocalStorage()) {
             addBanner()
         } else {
@@ -62,28 +62,28 @@ function BannerEnvironment({
     ])
 
     const setHideBannerLocalStorage = () => {
-        localStorage.setItem("__OB_hide_banner__", new Date())
+        localStorage.setItem('__OB_hide_banner__', new Date())
     }
 
     const addMarginTop = () => {
-        const mainContainer = document.getElementById("main-container")
+        const mainContainer = document.getElementById('main-container')
         if (!mainContainer) return
-        mainContainer.style.marginTop = "148px"
-        mainContainer.style.paddingTop = "30px"
+        mainContainer.style.marginTop = '148px'
+        mainContainer.style.paddingTop = '30px'
     }
 
     const getEnvironmentCSSClass = () => {
         switch (environment) {
-            case "dev":
-                return "banner-dev"
-            case "test":
-                return "banner-test"
-            case "acc":
-                return "banner-acc"
-            case "prod":
-                return "banner-prod"
+            case 'dev':
+                return 'banner-dev'
+            case 'test':
+                return 'banner-test'
+            case 'acc':
+                return 'banner-acc'
+            case 'prod':
+                return 'banner-prod'
             default:
-                return "banner-dev"
+                return 'banner-dev'
         }
     }
 

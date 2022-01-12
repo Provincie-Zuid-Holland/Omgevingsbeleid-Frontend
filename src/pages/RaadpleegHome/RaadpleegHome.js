@@ -1,22 +1,19 @@
-import React from "react"
-import { Link } from "react-router-dom"
-import { faFilePdf } from "@fortawesome/pro-regular-svg-icons"
-import { faExternalLinkAlt } from "@fortawesome/pro-solid-svg-icons"
+import { faFilePdf } from '@fortawesome/pro-regular-svg-icons'
+import { faExternalLinkAlt } from '@fortawesome/pro-solid-svg-icons'
+import { Link } from 'react-router-dom'
 
 // Import Components
-import Heading from "./../../components/Heading"
-import Text from "./../../components/Text"
-import Container from "./../../components/Container"
-import Footer from "./../../components/Footer"
-
-import SearchSection from "./SearchSection"
-import ReleaseItem from "./ReleaseItem"
-import DocumentLink from "./DocumentLink"
-
+import Container from './../../components/Container'
+import Footer from './../../components/Footer'
+import Heading from './../../components/Heading'
+import Text from './../../components/Text'
 import {
     getResponsiveImageHeight,
     getResponsiveImageOffset,
-} from "./../../utils/responsiveImage"
+} from './../../utils/responsiveImage'
+import DocumentLink from './DocumentLink'
+import ReleaseItem from './ReleaseItem'
+import SearchSection from './SearchSection'
 
 /**
  * Landing page component.
@@ -29,7 +26,7 @@ const RaadpleegHome = () => {
         <>
             <Container
                 style={{
-                    minHeight: "576px",
+                    minHeight: '576px',
                 }}
                 className="overflow-hidden"
             >
@@ -61,8 +58,8 @@ const RaadpleegHome = () => {
                     <div
                         className={`inline-block absolute bg-cover bg-no-repeat bg-center left-0 top-0 h-full image-home-1 text-white bg-gray-100`}
                         style={{
-                            height: "480px",
-                            width: "50vw",
+                            height: '480px',
+                            width: '50vw',
                         }}
                     />
                 </div>
@@ -100,41 +97,41 @@ const RaadpleegHome = () => {
                             de fysieke leefomgeving te vereenvoudigen zodat het
                             voor iedereen is te begrijpen. Daarom zet de
                             provincie drie instrumenten in waar al het
-                            Omgevingsbeleid in staat: de{" "}
+                            Omgevingsbeleid in staat: de{' '}
                             <span
                                 className="underline cursor-pointer"
                                 onClick={() =>
                                     document
                                         .querySelector(
-                                            "#omgevingsvisie-section"
+                                            '#omgevingsvisie-section'
                                         )
-                                        .scrollIntoView({ behavior: "smooth" })
+                                        .scrollIntoView({ behavior: 'smooth' })
                                 }
                             >
                                 Omgevingsvisie
                             </span>
-                            , het{" "}
+                            , het{' '}
                             <span
                                 className="underline cursor-pointer"
                                 onClick={() =>
                                     document
                                         .querySelector(
-                                            "#omgevingsprogramma-section"
+                                            '#omgevingsprogramma-section'
                                         )
-                                        .scrollIntoView({ behavior: "smooth" })
+                                        .scrollIntoView({ behavior: 'smooth' })
                                 }
                             >
                                 Omgevingsprogramma
-                            </span>{" "}
-                            en de{" "}
+                            </span>{' '}
+                            en de{' '}
                             <span
                                 className="underline cursor-pointer"
                                 onClick={() =>
                                     document
                                         .querySelector(
-                                            "#omgevingsverordening-section"
+                                            '#omgevingsverordening-section'
                                         )
-                                        .scrollIntoView({ behavior: "smooth" })
+                                        .scrollIntoView({ behavior: 'smooth' })
                                 }
                             >
                                 Omgevingsverordening
@@ -164,27 +161,27 @@ const RaadpleegHome = () => {
                         De visie van de provincie Zuid-Holland geeft aan waar de
                         provincie voor staat. Het beschrijft hoe de provincie de
                         toekomst van Zuid-Holland voor zich ziet. De
-                        Omgevingsvisie bevat verschillende onderdelen: in de{" "}
+                        Omgevingsvisie bevat verschillende onderdelen: in de{' '}
                         <Link
                             className="underline text-pzh-green hover:text-pzh-green-dark"
                             to="/overzicht/ambities"
                         >
                             ambities
-                        </Link>{" "}
-                        wordt omschreven waar we als provincie heen willen, de{" "}
+                        </Link>{' '}
+                        wordt omschreven waar we als provincie heen willen, de{' '}
                         <Link
                             className="underline text-pzh-green hover:text-pzh-green-dark"
                             to="/overzicht/beleidsdoelen"
                         >
                             beleidsdoelen
-                        </Link>{" "}
-                        geven hier richting aan en de{" "}
+                        </Link>{' '}
+                        geven hier richting aan en de{' '}
                         <Link
                             className="underline text-pzh-green hover:text-pzh-green-dark"
                             to="/overzicht/beleidskeuzes"
                         >
                             beleidskeuzes
-                        </Link>{" "}
+                        </Link>{' '}
                         bepalen hoe de ambities bereikt dienen te worden.
                     </Text>
                 </div>
@@ -207,13 +204,13 @@ const RaadpleegHome = () => {
                         Omgevingsprogramma
                     </Heading>
                     <Text type="body" className="mt-4">
-                        In het Omgevingsprogramma staat beschreven welke{" "}
+                        In het Omgevingsprogramma staat beschreven welke{' '}
                         <Link
                             className="underline text-pzh-green hover:text-pzh-green-dark"
                             to="/overzicht/maatregelen"
                         >
                             maatregelen
-                        </Link>{" "}
+                        </Link>{' '}
                         de provincie treft om de visie waar te maken. Het
                         Omgevingsprogramma geeft bijvoorbeeld aan voor welke
                         initiatieven subsidies worden verleend en aan welke
@@ -247,7 +244,7 @@ const RaadpleegHome = () => {
                         plannen. Daarnaast zijn er een aantal direct werkende
                         regels waar burgers en bedrijven zich aan moeten houden.
                         Al deze regels van de provincie over de fysieke
-                        leefomgeving zijn ondergebracht in de{" "}
+                        leefomgeving zijn ondergebracht in de{' '}
                         <Link
                             className="underline text-pzh-green hover:text-pzh-green-dark"
                             to="/detail/verordening"
@@ -319,16 +316,16 @@ const RaadpleegHome = () => {
                                 date="Vrijdag 1 maart"
                                 releaseNumber="31"
                                 releaseNotes={[
-                                    "Mogelijk gemaakt om te zoeken op de kaart",
-                                    "Vanuit een ambitie, beleidsdoel en maatregel is het nu mogelijk om gekoppelde onderdelen in te zien",
+                                    'Mogelijk gemaakt om te zoeken op de kaart',
+                                    'Vanuit een ambitie, beleidsdoel en maatregel is het nu mogelijk om gekoppelde onderdelen in te zien',
                                 ]}
                             />
                             <ReleaseItem
                                 date="Vrijdag 1 maart"
                                 releaseNumber="31"
                                 releaseNotes={[
-                                    "Mogelijk gemaakt om te zoeken op de kaart",
-                                    "Vanuit een ambitie, beleidsdoel en maatregel is het nu mogelijk om gekoppelde onderdelen in te zien",
+                                    'Mogelijk gemaakt om te zoeken op de kaart',
+                                    'Vanuit een ambitie, beleidsdoel en maatregel is het nu mogelijk om gekoppelde onderdelen in te zien',
                                 ]}
                             />
                             <div className="col-span-4 mt-8 md:col-span-3 md:col-start-2 md:mt-0">

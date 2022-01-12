@@ -1,26 +1,24 @@
-import { render, screen } from "@testing-library/react"
-import React from "react"
-import { MemoryRouter } from "react-router-dom"
+import { render, screen } from '@testing-library/react'
+import { MemoryRouter } from 'react-router-dom'
 
-import * as MAATREGELEN from "./../../../constants/maatregelen"
-import * as BELEIDSKEUZES from "./../../../constants/beleidskeuzes"
+import * as BELEIDSKEUZES from './../../../constants/beleidskeuzes'
+import * as MAATREGELEN from './../../../constants/maatregelen'
+import TableRow from './TableRow'
 
-import TableRow from "./TableRow"
-
-describe("TableRow", () => {
+describe('TableRow', () => {
     const defaultProps = {
         policy: {
             Object: {
-                Titel: "Policy Title",
-                Aanleiding: "Aanleiding",
+                Titel: 'Policy Title',
+                Aanleiding: 'Aanleiding',
                 ID: 1,
-                UUID: "0000-0001",
+                UUID: '0000-0001',
                 Modified_Date: new Date(),
             },
         },
     }
 
-    const setup = (customProps) => {
+    const setup = customProps => {
         const props = customProps ? customProps : defaultProps
         render(
             <MemoryRouter>
@@ -33,20 +31,20 @@ describe("TableRow", () => {
         )
     }
 
-    it("should render", () => {
+    it('should render', () => {
         setup()
-        expect(screen.queryByText("Policy Title")).toBeTruthy()
+        expect(screen.queryByText('Policy Title')).toBeTruthy()
     })
 
-    it("should display the correct type", () => {
+    it('should display the correct type', () => {
         setup()
-        expect(screen.queryByText("Beleidskeuze")).toBeTruthy()
-        expect(screen.queryByText("Maatregel")).toBeFalsy()
+        expect(screen.queryByText('Beleidskeuze')).toBeTruthy()
+        expect(screen.queryByText('Maatregel')).toBeFalsy()
     })
 
-    it("should display a link", () => {
+    it('should display a link', () => {
         setup()
-        const link = screen.queryByText("0000-0001")
+        const link = screen.queryByText('0000-0001')
         expect(link).toBeTruthy()
         expect(link.href).toBe(
             `http://localhost/muteer/${BELEIDSKEUZES.SLUG_OVERVIEW}/1`

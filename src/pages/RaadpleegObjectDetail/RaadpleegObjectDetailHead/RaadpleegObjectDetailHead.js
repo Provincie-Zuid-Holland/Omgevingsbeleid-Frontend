@@ -1,9 +1,8 @@
-import React from "react"
-import { Helmet } from "react-helmet"
+import { Helmet } from 'react-helmet'
 
 const RaadpleegObjectDetailHead = ({ dataObject, titleSingular }) => {
     const getTitle = () => {
-        if (!dataObject) return ""
+        if (!dataObject) return ''
         return `${dataObject.Titel} (${titleSingular}) - Omgevingsbeleid Provincie Zuid-Holland`
     }
 

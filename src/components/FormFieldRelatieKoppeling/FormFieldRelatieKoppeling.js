@@ -1,14 +1,12 @@
-import React from "react"
-import PropTypes from "prop-types"
+import { faAngleDown, faEye } from '@fortawesome/pro-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import PropTypes from 'prop-types'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
-import { faAngleDown, faEye } from "@fortawesome/pro-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-
-import PopupNieuweKoppeling from "./PopupNieuweKoppeling"
-import PopupBewerkKoppeling from "./PopUpBewerkKoppeling"
-import FormFieldTitelEnBeschrijving from "../FormFieldTitelEnBeschrijving/FormFieldTitelEnBeschrijving"
-
-import objecten from "./../../constants/koppelingen"
+import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFieldTitelEnBeschrijving'
+import objecten from './../../constants/koppelingen'
+import PopupBewerkKoppeling from './PopUpBewerkKoppeling'
+import PopupNieuweKoppeling from './PopupNieuweKoppeling'
 
 /**
  * Function to get and return the connection properties from the CrudObject.
@@ -21,7 +19,7 @@ function getPropertiesWithConnectionsFromCrudObject(
     crudObject
 ) {
     const propertiesWithExistingConnections = []
-    connectionProperties.forEach((property) => {
+    connectionProperties.forEach(property => {
         const propertyName = objecten[property].propertyName
         if (
             crudObject[propertyName] !== undefined &&
@@ -67,27 +65,27 @@ const FormFieldRelatieKoppeling = ({
     verwijderKoppelingRelatie,
 }) => {
     // Contains a boolean
-    const [dropdownOpen, setDropdownOpen] = React.useState(false)
+    const [dropdownOpen, setDropdownOpen] = useState(false)
 
     // Contains a boolean if the popup to add a new connection is open
-    const [popupOpenNieuw, setPopupOpenNieuw] = React.useState(false)
+    const [popupOpenNieuw, setPopupOpenNieuw] = useState(false)
 
     // Contains a boolean if the popup to edit a connection is open
-    const [popupOpenBewerk, setPopupOpenBewerk] = React.useState(false)
+    const [popupOpenBewerk, setPopupOpenBewerk] = useState(false)
 
     // Contains the object that we are editing in the Edit Popup
-    const [popupOpenBewerkItem, setPopupOpenBewerkItem] = React.useState({})
+    const [popupOpenBewerkItem, setPopupOpenBewerkItem] = useState({})
 
     // Contains the connections
-    const [koppelingenRelaties, setKoppelingenRelaties] = React.useState(null)
+    const [koppelingenRelaties, setKoppelingenRelaties] = useState(null)
 
     // Boolean if all the data is loaded
-    const [dataLoaded, setDataLoaded] = React.useState(false)
+    const [dataLoaded, setDataLoaded] = useState(false)
 
     // Object containing the connection that is being edited
-    const [popupType, setPopupType] = React.useState(null)
+    const [popupType, setPopupType] = useState(null)
 
-    const togglePopupNieuw = (type) => {
+    const togglePopupNieuw = type => {
         setPopupOpenNieuw(!popupOpenNieuw)
         if (!popupOpenNieuw) {
             setPopupType(type)
@@ -108,7 +106,7 @@ const FormFieldRelatieKoppeling = ({
      * Checks for existing connections
      * If they exist, we add the type and set them in state
      */
-    const initializeConnections = React.useCallback(() => {
+    const initializeConnections = useCallback(() => {
         const propertiesWithExistingConnections =
             getPropertiesWithConnectionsFromCrudObject(
                 connectionProperties,
@@ -122,7 +120,7 @@ const FormFieldRelatieKoppeling = ({
         // This object will contain the properties with existing connections
         const newStateKoppelingenRelatiesObject = {}
 
-        propertiesWithExistingConnections.forEach((propertyName) => {
+        propertiesWithExistingConnections.forEach(propertyName => {
             // Return if we already mapped over this property
             if (propertyNamesMapped.includes(propertyName)) {
                 return
@@ -133,7 +131,7 @@ const FormFieldRelatieKoppeling = ({
             // Create the property on which we will put the objects
             newStateKoppelingenRelatiesObject[propertyName] = []
 
-            crudObject[propertyName].forEach((item) => {
+            crudObject[propertyName].forEach(item => {
                 newStateKoppelingenRelatiesObject[propertyName].push(item)
             })
         })
@@ -143,7 +141,7 @@ const FormFieldRelatieKoppeling = ({
         setDataLoaded(true)
     }, [connectionProperties, crudObject])
 
-    React.useEffect(() => {
+    useEffect(() => {
         initializeConnections()
     }, [initializeConnections])
 
@@ -153,9 +151,9 @@ const FormFieldRelatieKoppeling = ({
     let propertyNamesMapped = []
 
     return (
-        <React.Fragment>
-            {fieldLabel === "Koppelingen" ? (
-                <React.Fragment>
+        <>
+            {fieldLabel === 'Koppelingen' ? (
+                <>
                     <h3 className="block mb-2 font-bold tracking-wide text-gray-700">
                         Relaties
                     </h3>
@@ -163,9 +161,9 @@ const FormFieldRelatieKoppeling = ({
                         Een relatie ga je, met wederzijds goedkeuren, aan met
                         andere beleidskeuzes. Deze beleidsrelaties kun je op een
                         later moment aangaan vanuit de beheeromgeving onder het
-                        kopje 'Beleidsrelaties'.
+                        kopje &apos;Beleidsrelaties&apos;.
                     </p>
-                </React.Fragment>
+                </>
             ) : null}
             <FormFieldTitelEnBeschrijving
                 fieldLabel={fieldLabel}
@@ -175,8 +173,8 @@ const FormFieldRelatieKoppeling = ({
             <div
                 className={`p-5 bg-white rounded shadow ${
                     disabled
-                        ? "opacity-75 cursor-not-allowed pointer-events-none"
-                        : ""
+                        ? 'opacity-75 cursor-not-allowed pointer-events-none'
+                        : ''
                 }`}
                 id={`form-field-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
             >
@@ -188,7 +186,7 @@ const FormFieldRelatieKoppeling = ({
                     {dataLoaded ? (
                         connectionProperties
                             .sort((a, b) => a.localeCompare(b))
-                            .map((koppelingRelatieNaam, index) => {
+                            .map(koppelingRelatieNaam => {
                                 const propertyName =
                                     objecten[koppelingRelatieNaam].propertyName
                                 if (
@@ -213,7 +211,7 @@ const FormFieldRelatieKoppeling = ({
                                     (item, index) => {
                                         let type =
                                             objecten[koppelingRelatieNaam].type
-                                        if (type === "Nationaal Belang") {
+                                        if (type === 'Nationaal Belang') {
                                             type = item.Object.Type
                                         }
 
@@ -303,7 +301,7 @@ const FormFieldRelatieKoppeling = ({
                     objecten={objecten}
                 />
             ) : null}
-        </React.Fragment>
+        </>
     )
 }
 
@@ -316,21 +314,21 @@ const Dropdown = ({
     togglePopupNieuw,
     buttonTekst,
 }) => {
-    const buttonRef = React.useRef()
-    const dropdownRef = React.useRef()
+    const buttonRef = useRef()
+    const dropdownRef = useRef()
 
-    React.useEffect(() => {
-        const handleClickOutside = (e) => {
+    useEffect(() => {
+        const handleClickOutside = e => {
             if (dropdownRef.current && buttonRef.current.contains(e.target)) {
                 return
             } else if (dropdownRef.current && e.target !== buttonRef.current) {
                 setDropdownOpen(false)
             }
         }
-        document.addEventListener("mousedown", handleClickOutside, false)
+        document.addEventListener('mousedown', handleClickOutside, false)
 
         return () =>
-            document.removeEventListener("mousedown", handleClickOutside, false)
+            document.removeEventListener('mousedown', handleClickOutside, false)
     }, [setDropdownOpen])
 
     return (

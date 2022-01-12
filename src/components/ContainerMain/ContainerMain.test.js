@@ -1,16 +1,16 @@
-import { render, screen } from "@testing-library/react"
-import React from "react"
-import ContainerMain from "./ContainerMain"
+import { render, screen } from '@testing-library/react'
 
-describe("ContainerMain", () => {
-    it("should render", () => {
+import ContainerMain from './ContainerMain'
+
+describe('ContainerMain', () => {
+    it('should render', () => {
         render(
             <ContainerMain>
                 <div>Child Element</div>
             </ContainerMain>
         )
 
-        const child = screen.getByText("Child Element")
+        const child = screen.getByText('Child Element')
         expect(child).toBeTruthy()
     })
 })

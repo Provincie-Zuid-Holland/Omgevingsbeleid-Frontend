@@ -1,8 +1,7 @@
-import React from "react"
-import { withRouter, useLocation } from "react-router-dom"
+import { withRouter, useLocation } from 'react-router-dom'
 
-import ButtonBackToPage from "./../../../components/ButtonBackToPage"
-import LoaderMainTitle from "../../../components/LoaderMainTitle"
+import LoaderMainTitle from '../../../components/LoaderMainTitle'
+import ButtonBackToPage from './../../../components/ButtonBackToPage'
 
 /**
  *
@@ -28,10 +27,10 @@ function ContainerCrudHeader({
     const location = useLocation()
 
     const getMainTitle = () => {
-        if (titleSingular === "Beleidsmodule" && !editStatus) {
-            return "Voeg een nieuwe module toe"
-        } else if (titleSingular === "Beleidsmodule" && editStatus) {
-            return "Bewerk module"
+        if (titleSingular === 'Beleidsmodule' && !editStatus) {
+            return 'Voeg een nieuwe module toe'
+        } else if (titleSingular === 'Beleidsmodule' && editStatus) {
+            return 'Bewerk module'
         } else if (editStatus && dataLoaded) {
             // Als de gebruiker een bestaand object bewerkt
             return objectTitle
@@ -39,18 +38,18 @@ function ContainerCrudHeader({
             // Als de gebruiker een nieuw object aanmaakt
             return `Voeg een nieuwe ${titleSingular.toLowerCase()} toe`
         } else {
-            return ""
+            return ''
         }
     }
 
     const getBackUrl = () => {
-        if (!editStatus && location.hash === "#mijn-beleid") {
+        if (!editStatus && location.hash === '#mijn-beleid') {
             // User is creating a new object and came from his/her own beleid
             return `/muteer/mijn-beleid`
-        } else if (!editStatus && location.hash !== "#mijn-beleid") {
+        } else if (!editStatus && location.hash !== '#mijn-beleid') {
             // User is creating a new object and came from an overview page
             return `/muteer/${overzichtSlug}`
-        } else if (editStatus && location.hash === "#mijn-beleid") {
+        } else if (editStatus && location.hash === '#mijn-beleid') {
             // User is editing an existing object and came from a detail page from his/her own beleid
             return `/muteer/${overzichtSlug}/${objectID}#mijn-beleid`
         } else if (editStatus) {

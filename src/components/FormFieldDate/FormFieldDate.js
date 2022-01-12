@@ -1,6 +1,4 @@
-import React from "react"
-
-import FormFieldTitelEnBeschrijving from "../FormFieldTitelEnBeschrijving"
+import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving'
 
 function FormFieldDate({
     fieldValue,
@@ -15,9 +13,9 @@ function FormFieldDate({
      * The standard dates are created in the back-end
      * To keep the UI clean we return an empty string
      */
-    const parseFieldValue = (value) => {
-        const standardDates = ["1753-01-01", "10000-01-01"]
-        if (!value || standardDates.includes(value)) return ""
+    const parseFieldValue = value => {
+        const standardDates = ['1753-01-01', '10000-01-01']
+        if (!value || standardDates.includes(value)) return ''
         return value
     }
 
@@ -34,7 +32,7 @@ function FormFieldDate({
             />
             <input
                 disabled={disabled}
-                placeholder={isSafari ? "jjjj-mm-dd" : "dd-mm-jjjj"}
+                placeholder={isSafari ? 'jjjj-mm-dd' : 'dd-mm-jjjj'}
                 value={parseFieldValue(fieldValue)}
                 onChange={handleChange}
                 name={dataObjectProperty}

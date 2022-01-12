@@ -1,20 +1,19 @@
-import { render, screen } from "@testing-library/react"
-import "@testing-library/jest-dom"
-import React from "react"
+import { render, screen } from '@testing-library/react'
+import '@testing-library/jest-dom'
 
-import TableOfContents from "./TableOfContents"
+import TableOfContents from './TableOfContents'
 
-describe("TableOfContents", () => {
+describe('TableOfContents', () => {
     const defaultProps = {}
 
-    const setup = (customProps) => {
+    const setup = customProps => {
         const props = { ...defaultProps, ...customProps }
         render(<TableOfContents {...props} />)
     }
 
-    it("Component renders", () => {
+    it('Component renders', () => {
         setup()
-        const element = screen.getByText("Op deze pagina")
+        const element = screen.getByText('Op deze pagina')
         expect(element).toBeTruthy()
     })
 })

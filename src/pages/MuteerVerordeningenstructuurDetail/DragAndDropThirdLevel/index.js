@@ -1,3 +1,3 @@
-import DragAndDropThirdLevel from "./DragAndDropThirdLevel.js"
+import DragAndDropThirdLevel from './DragAndDropThirdLevel.js'
 
 export default DragAndDropThirdLevel

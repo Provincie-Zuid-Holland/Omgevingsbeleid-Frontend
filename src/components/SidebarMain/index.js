@@ -1,3 +1,3 @@
-import SidebarMain from "./SidebarMain.js"
+import SidebarMain from './SidebarMain.js'
 
 export default SidebarMain

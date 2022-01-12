@@ -16,9 +16,7 @@ const generateVerordeningsPosition = (UUIDToFind, verordeningsStructure) => {
 
     // Find and return index of 'item.UUID === UUIDToFind', else returns -1
     function findUUIDInArray(children) {
-        const indexOfUUID = children.findIndex(
-            (item) => item.UUID === UUIDToFind
-        )
+        const indexOfUUID = children.findIndex(item => item.UUID === UUIDToFind)
         return indexOfUUID
     }
 

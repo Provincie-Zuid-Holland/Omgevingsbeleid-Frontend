@@ -1,14 +1,13 @@
-import { render, screen, fireEvent } from "@testing-library/react"
-import { MemoryRouter, Route } from "react-router-dom"
-import "@testing-library/jest-dom"
-import React from "react"
+import { render, screen } from '@testing-library/react'
+import { MemoryRouter } from 'react-router-dom'
+import '@testing-library/jest-dom'
 
-import BackButton from "./BackButton"
+import BackButton from './BackButton'
 
-describe("BackButton", () => {
+describe('BackButton', () => {
     const defaultProps = {}
 
-    const setup = (customProps) => {
+    const setup = customProps => {
         const props = { ...defaultProps, ...customProps }
         render(
             <MemoryRouter>
@@ -19,9 +18,9 @@ describe("BackButton", () => {
         )
     }
 
-    it("Component renders", () => {
+    it('Component renders', () => {
         setup()
-        const element = screen.getByText("Terug")
+        const element = screen.getByText('Terug')
         expect(element).toBeTruthy()
     })
 })

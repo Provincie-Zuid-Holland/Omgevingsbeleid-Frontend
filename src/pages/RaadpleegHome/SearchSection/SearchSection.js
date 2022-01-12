@@ -1,42 +1,42 @@
-import React from "react"
+import { useState } from 'react'
 
-import Text from "./../../../components/Text"
-import LeafletViewer from "./../../../components/LeafletViewer"
-import SearchBar from "./../../../components/SearchBar"
+import LeafletViewer from './../../../components/LeafletViewer'
+import SearchBar from './../../../components/SearchBar'
+import Text from './../../../components/Text'
 
 function SearchSection() {
-    const [currentView, setCurrentView] = React.useState("text")
+    const [currentView, setCurrentView] = useState('text')
 
     return (
         <div className="col-span-6 px-3 pt-3 pb-6 mt-4 sm:px-6 lg:mt-0 lg:col-span-4 bg-pzh-cool-gray-light bg-opacity-30">
             <div className="w-full text-sm border-b border-gray-400 sm:text-base">
                 <div
                     className="inline-block px-2 pl-0"
-                    onClick={() => setCurrentView("text")}
+                    onClick={() => setCurrentView('text')}
                 >
                     <SearchSectionLabel
                         text="Zoeken op tekst"
-                        active={currentView === "text"}
+                        active={currentView === 'text'}
                     />
                 </div>
                 <div
                     className="inline-block px-2"
-                    onClick={() => setCurrentView("map")}
+                    onClick={() => setCurrentView('map')}
                 >
                     <SearchSectionLabel
                         text="Zoeken op de kaart"
-                        active={currentView === "map"}
+                        active={currentView === 'map'}
                     />
                 </div>
             </div>
-            {currentView === "text" ? (
+            {currentView === 'text' ? (
                 <div>
                     <Text type="body" className="mt-4">
                         Naar welk onderwerp ben je op zoek?
                     </Text>
                     <SearchBar className="mt-2" />
                 </div>
-            ) : currentView === "map" ? (
+            ) : currentView === 'map' ? (
                 <div>
                     <Text type="body" className="mt-4">
                         Wil je het beleid en de regelgeving van de provincie op

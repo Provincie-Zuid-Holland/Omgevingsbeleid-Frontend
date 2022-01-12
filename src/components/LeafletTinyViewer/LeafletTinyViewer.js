@@ -1,12 +1,3 @@
-import React, { Component } from "react"
-import axios from "axios"
-import Leaflet from "leaflet"
-import { Map, TileLayer, LayersControl } from "react-leaflet"
-import { toast } from "react-toastify"
-import LoaderLeafletTinyViewer from "./../LoaderLeafletTinyViewer"
-import LeafletController from "./../LeafletController"
-import { Transition } from "@headlessui/react"
-
 import {
     faLayerGroup,
     faAngleRight,
@@ -14,89 +5,97 @@ import {
     faChevronDown,
     faEye,
     faEyeSlash,
-} from "@fortawesome/pro-regular-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+} from '@fortawesome/pro-regular-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Transition } from '@headlessui/react'
+import axios from 'axios'
+import Leaflet from 'leaflet'
+import { Component, createRef, useState } from 'react'
+import { Map, TileLayer, LayersControl } from 'react-leaflet'
+import { toast } from 'react-toastify'
 
 import {
     RDCrs,
     tileURL,
     tileURLSattelite,
     leafletCenter,
-} from "./../../constants/leaflet"
+} from './../../constants/leaflet'
+import LeafletController from './../LeafletController'
+import LoaderLeafletTinyViewer from './../LoaderLeafletTinyViewer'
 
 const colors = [
-    "#f56565", // .bg-red-500
-    "#ed8936", // .bg-orange-500
-    "#ecc94b", // .bg-yellow-500
-    "#48bb78", // .bg-green-500
-    "#38b2ac", // .bg-teal-500
-    "#4299e1", // .bg-blue-500
-    "#667eea", // .bg-indigo-500
-    "#9f7aea", // .bg-purple-500
-    "#ed64a6", // .bg-pink-500
-    "#9b2c2c", // .bg-red-800
-    "#9c4221", // .bg-orange-800
-    "#975a16", // .bg-yellow-800
-    "#276749", // .bg-green-800
-    "#285e61", // .bg-teal-800
-    "#2c5282", // .bg-blue-800
-    "#434190", // .bg-indigo-800
-    "#553c9a", // .bg-purple-800
-    "#97266", // .bg-pink-800
-    "#fc8181", // .bg-red-400
-    "#f6ad55", // .bg-orange-400
-    "#f6e05e", // .bg-yellow-400
-    "#68d391", // .bg-green-400
-    "#4fd1c5", // .bg-teal-400
-    "#63b3ed", // .bg-blue-400
-    "#7f9cf5", // .bg-indigo-400
-    "#b794f4", // .bg-purple-400
-    "#f687b3", // .bg-pink-400
-    "#feb2b2", // .bg-red-300
-    "#fbd38d", // .bg-orange-300
-    "#faf089", // .bg-yellow-300
-    "#9ae6b4", // .bg-green-300
-    "#81e6d9", // .bg-teal-300
-    "#90cdf4", // .bg-blue-300
-    "#a3bffa", // .bg-indigo-300
-    "#d6bcfa", // .bg-purple-300
-    "#fbb6c", // .bg-pink-300
-    "#e53e3e", // .bg-red-600
-    "#dd6b20", // .bg-orange-600
-    "#d69e2e", // .bg-yellow-600
-    "#38a169", // .bg-pzh-green
-    "#319795", // .bg-teal-600
-    "#3182ce", // .bg-blue-600
-    "#5a67d8", // .bg-indigo-600
-    "#805ad5", // .bg-purple-600
-    "#d53f8c", // .bg-pink-600
-    "#c53030", // .bg-red-700
-    "#c05621", // .bg-orange-700
-    "#b7791f", // .bg-yellow-700
-    "#2f855a", // .bg-green-700
-    "#2c7a7b", // .bg-teal-700
-    "#2b6cb0", // .bg-blue-700
-    "#4c51bf", // .bg-indigo-700
-    "#6b46c1", // .bg-purple-700
-    "#b83280", // .bg-pink-700
-    "#fed7d7", // .bg-red-200
-    "#feebc8", // .bg-orange-200
-    "#fefcbf", // .bg-yellow-200
-    "#c6f6d5", // .bg-green-200
-    "#b2f5ea", // .bg-teal-200
-    "#bee3f8", // .bg-blue-200
-    "#c3dafe", // .bg-indigo-200
-    "#e9d8fd", // .bg-purple-200
-    "#fed7e", // .bg-pink-200
-    "#fff5f5", // .bg-red-100
-    "#fffaf0", // .bg-orange-100
-    "#fffff0", // .bg-yellow-100
-    "#f0fff4", // .bg-green-100
-    "#e6fffa", // .bg-teal-100
-    "#ebf8ff", // .bg-blue-100
-    "#ebf4ff", // .bg-indigo-100
-    "#faf5ff", // .bg-purple-100
-    "#fff5f", // .bg-pink-100
+    '#f56565', // .bg-red-500
+    '#ed8936', // .bg-orange-500
+    '#ecc94b', // .bg-yellow-500
+    '#48bb78', // .bg-green-500
+    '#38b2ac', // .bg-teal-500
+    '#4299e1', // .bg-blue-500
+    '#667eea', // .bg-indigo-500
+    '#9f7aea', // .bg-purple-500
+    '#ed64a6', // .bg-pink-500
+    '#9b2c2c', // .bg-red-800
+    '#9c4221', // .bg-orange-800
+    '#975a16', // .bg-yellow-800
+    '#276749', // .bg-green-800
+    '#285e61', // .bg-teal-800
+    '#2c5282', // .bg-blue-800
+    '#434190', // .bg-indigo-800
+    '#553c9a', // .bg-purple-800
+    '#97266', // .bg-pink-800
+    '#fc8181', // .bg-red-400
+    '#f6ad55', // .bg-orange-400
+    '#f6e05e', // .bg-yellow-400
+    '#68d391', // .bg-green-400
+    '#4fd1c5', // .bg-teal-400
+    '#63b3ed', // .bg-blue-400
+    '#7f9cf5', // .bg-indigo-400
+    '#b794f4', // .bg-purple-400
+    '#f687b3', // .bg-pink-400
+    '#feb2b2', // .bg-red-300
+    '#fbd38d', // .bg-orange-300
+    '#faf089', // .bg-yellow-300
+    '#9ae6b4', // .bg-green-300
+    '#81e6d9', // .bg-teal-300
+    '#90cdf4', // .bg-blue-300
+    '#a3bffa', // .bg-indigo-300
+    '#d6bcfa', // .bg-purple-300
+    '#fbb6c', // .bg-pink-300
+    '#e53e3e', // .bg-red-600
+    '#dd6b20', // .bg-orange-600
+    '#d69e2e', // .bg-yellow-600
+    '#38a169', // .bg-pzh-green
+    '#319795', // .bg-teal-600
+    '#3182ce', // .bg-blue-600
+    '#5a67d8', // .bg-indigo-600
+    '#805ad5', // .bg-purple-600
+    '#d53f8c', // .bg-pink-600
+    '#c53030', // .bg-red-700
+    '#c05621', // .bg-orange-700
+    '#b7791f', // .bg-yellow-700
+    '#2f855a', // .bg-green-700
+    '#2c7a7b', // .bg-teal-700
+    '#2b6cb0', // .bg-blue-700
+    '#4c51bf', // .bg-indigo-700
+    '#6b46c1', // .bg-purple-700
+    '#b83280', // .bg-pink-700
+    '#fed7d7', // .bg-red-200
+    '#feebc8', // .bg-orange-200
+    '#fefcbf', // .bg-yellow-200
+    '#c6f6d5', // .bg-green-200
+    '#b2f5ea', // .bg-teal-200
+    '#bee3f8', // .bg-blue-200
+    '#c3dafe', // .bg-indigo-200
+    '#e9d8fd', // .bg-purple-200
+    '#fed7e', // .bg-pink-200
+    '#fff5f5', // .bg-red-100
+    '#fffaf0', // .bg-orange-100
+    '#fffff0', // .bg-yellow-100
+    '#f0fff4', // .bg-green-100
+    '#e6fffa', // .bg-teal-100
+    '#ebf8ff', // .bg-blue-100
+    '#ebf4ff', // .bg-indigo-100
+    '#faf5ff', // .bg-purple-100
+    '#fff5f', // .bg-pink-100
 ]
 
 const DEFAULT_VIEWPORT = {
@@ -116,9 +115,9 @@ export default class LeafletTinyViewer extends Component {
             onderverdelingen: [],
             werkingsgebied: [],
             layerControlOpen: false,
-            activeMapTiles: "Map",
+            activeMapTiles: 'Map',
         }
-        this.leafletMap = React.createRef()
+        this.leafletMap = createRef()
         this.initializeComponent = this.initializeComponent.bind(this)
     }
 
@@ -138,7 +137,7 @@ export default class LeafletTinyViewer extends Component {
      *
      * @param {object} viewport - The value of this parameter is used to set the new viewport state.
      */
-    onViewportChanged = (viewport) => {
+    onViewportChanged = viewport => {
         this.setState({ viewport: viewport, bounds: null })
     }
 
@@ -179,9 +178,9 @@ export default class LeafletTinyViewer extends Component {
             )
         }
 
-        import("./../../API/axiosGeoJSON").then((api) => {
+        import('./../../API/axiosGeoJSON').then(api => {
             api.getGeoJsonData(this.props.gebiedType, this.props.gebiedUUID)
-                .then((data) => {
+                .then(data => {
                     this.setState(
                         {
                             dataReceived: true,
@@ -194,18 +193,18 @@ export default class LeafletTinyViewer extends Component {
                                     layer.bindPopup(
                                         feature.properties.Gebied
                                             ? feature.properties.Gebied
-                                            : "Deze laag heeft nog geen titel"
+                                            : 'Deze laag heeft nog geen titel'
                                     )
                                 }
                             }
 
                             const jsonLayer = Leaflet.Proj.geoJson(data, {
                                 onEachFeature: onEachFeature,
-                                style: (feature) => {
+                                style: () => {
                                     return {
                                         stroke: true,
-                                        color: "#3388ff", // custom blue color for the first werkingsgebied,
-                                        fillColor: "#3388ff", // custom blue color for the first werkingsgebied,
+                                        color: '#3388ff', // custom blue color for the first werkingsgebied,
+                                        fillColor: '#3388ff', // custom blue color for the first werkingsgebied,
                                         fillOpacity: 0.2,
                                     }
                                 },
@@ -221,9 +220,9 @@ export default class LeafletTinyViewer extends Component {
                         }
                     )
                 })
-                .catch((err) => {
+                .catch(err => {
                     if (axios.isCancel(err)) {
-                        console.log("Request canceled -", err.message)
+                        console.log('Request canceled -', err.message)
                     } else {
                         console.log(err)
                         toast(process.env.REACT_APP_ERROR_MSG)
@@ -231,9 +230,9 @@ export default class LeafletTinyViewer extends Component {
                 })
         })
 
-        import("./../../API/axiosGeoJSON").then((api) => {
+        import('./../../API/axiosGeoJSON').then(api => {
             api.getOnderverdeling(this.props.gebiedType, this.props.gebiedUUID)
-                .then((data) => {
+                .then(data => {
                     this.setState(
                         {
                             dataReceived: true,
@@ -246,14 +245,14 @@ export default class LeafletTinyViewer extends Component {
                                     layer.bindPopup(
                                         feature.properties.Onderverdeling
                                             ? feature.properties.Onderverdeling
-                                            : "Deze laag heeft nog geen titel"
+                                            : 'Deze laag heeft nog geen titel'
                                     )
                                 }
                             }
 
                             const jsonLayer = Leaflet.Proj.geoJson(data, {
                                 onEachFeature: onEachFeature,
-                                style: (feature) => {
+                                style: feature => {
                                     colorsIndex++
                                     return {
                                         stroke: true,
@@ -274,9 +273,9 @@ export default class LeafletTinyViewer extends Component {
                         }
                     )
                 })
-                .catch((err) => {
+                .catch(err => {
                     if (axios.isCancel(err)) {
-                        console.log("Request canceled -", err.message)
+                        console.log('Request canceled -', err.message)
                     } else {
                         console.log(err)
                         toast(process.env.REACT_APP_ERROR_MSG)
@@ -296,7 +295,7 @@ export default class LeafletTinyViewer extends Component {
 
     render() {
         return (
-            <React.Fragment>
+            <>
                 {this.state.dataReceived === true ? (
                     <Map
                         center={leafletCenter}
@@ -318,17 +317,17 @@ export default class LeafletTinyViewer extends Component {
                                     <div
                                         className={`absolute top-0 right-0 p-2 w-8 h-8 flex justify-center items-center shadow-xl bg-white rounded ${
                                             this.state.layerControlOpen
-                                                ? "hidden"
-                                                : ""
+                                                ? 'hidden'
+                                                : ''
                                         }`}
                                         style={
                                             this.state.layerControlOpen
                                                 ? null
                                                 : {
-                                                      marginTop: "10px",
-                                                      marginRight: "10px",
+                                                      marginTop: '10px',
+                                                      marginRight: '10px',
                                                       boxShadow:
-                                                          "0 1px 5px rgba(0,0,0,0.65)",
+                                                          '0 1px 5px rgba(0,0,0,0.65)',
                                                   }
                                         }
                                         onClick={() =>
@@ -376,12 +375,12 @@ export default class LeafletTinyViewer extends Component {
                                             <div
                                                 className={`relative z-10 bg-white rounded cursor-pointer overflow-y-auto`}
                                                 style={{
-                                                    width: "375px",
-                                                    maxWidth: "100%",
+                                                    width: '375px',
+                                                    maxWidth: '100%',
                                                     height: this.props
                                                         .fullscreen
-                                                        ? "1000px"
-                                                        : "500px",
+                                                        ? '1000px'
+                                                        : '500px',
                                                 }}
                                             >
                                                 <div className="w-full">
@@ -420,15 +419,15 @@ export default class LeafletTinyViewer extends Component {
                                                                                       this.leafletMap.current.leafletElement.hasLayer(
                                                                                           layer
                                                                                       )
-                                                                                          ? "opacity-100"
-                                                                                          : "opacity-50"
+                                                                                          ? 'opacity-100'
+                                                                                          : 'opacity-50'
                                                                                   }`}
                                                                               >
                                                                                   <div
                                                                                       className="flex-none inline-block w-4 h-4 mr-2"
                                                                                       style={{
                                                                                           backgroundColor:
-                                                                                              "#3388ff",
+                                                                                              '#3388ff',
                                                                                       }}
                                                                                   />
 
@@ -449,7 +448,7 @@ export default class LeafletTinyViewer extends Component {
                                                                                                 .feature
                                                                                                 .properties
                                                                                                 .Gebied
-                                                                                          : ""}
+                                                                                          : ''}
                                                                                   </span>
                                                                               </div>
                                                                               <div className="flex-none w-5 ml-2">
@@ -500,8 +499,8 @@ export default class LeafletTinyViewer extends Component {
                                                                                       this.leafletMap.current.leafletElement.hasLayer(
                                                                                           layer
                                                                                       )
-                                                                                          ? "opacity-100"
-                                                                                          : "opacity-50"
+                                                                                          ? 'opacity-100'
+                                                                                          : 'opacity-50'
                                                                                   }`}
                                                                               >
                                                                                   <div
@@ -531,7 +530,7 @@ export default class LeafletTinyViewer extends Component {
                                                                                                 .feature
                                                                                                 .properties
                                                                                                 .Gebied
-                                                                                          : ""}
+                                                                                          : ''}
                                                                                   </span>
                                                                               </div>
                                                                               <div className="flex-none w-5 ml-2">
@@ -559,7 +558,7 @@ export default class LeafletTinyViewer extends Component {
                                                                     this.setState(
                                                                         {
                                                                             activeMapTiles:
-                                                                                "Satelliet",
+                                                                                'Satelliet',
                                                                         }
                                                                     )
                                                                 }}
@@ -575,10 +574,10 @@ export default class LeafletTinyViewer extends Component {
                                                                             this
                                                                                 .state
                                                                                 .activeMapTiles ===
-                                                                            "Satelliet"
+                                                                            'Satelliet'
                                                                         }
                                                                     />
-                                                                    <label for="Satelliet">
+                                                                    <label htmlFor="Satelliet">
                                                                         Satelliet
                                                                     </label>
                                                                 </div>
@@ -589,7 +588,7 @@ export default class LeafletTinyViewer extends Component {
                                                                     this.setState(
                                                                         {
                                                                             activeMapTiles:
-                                                                                "Map",
+                                                                                'Map',
                                                                         }
                                                                     )
                                                                 }}
@@ -605,10 +604,10 @@ export default class LeafletTinyViewer extends Component {
                                                                             this
                                                                                 .state
                                                                                 .activeMapTiles ===
-                                                                            "Map"
+                                                                            'Map'
                                                                         }
                                                                     />
-                                                                    <label for="Map">
+                                                                    <label htmlFor="Map">
                                                                         Map
                                                                     </label>
                                                                 </div>
@@ -624,7 +623,7 @@ export default class LeafletTinyViewer extends Component {
                         </LeafletController>
                         <LayersControl position="topright">
                             <LayersControl.BaseLayer
-                                checked={this.state.activeMapTiles === "Map"}
+                                checked={this.state.activeMapTiles === 'Map'}
                                 name="Map"
                             >
                                 <TileLayer
@@ -636,7 +635,7 @@ export default class LeafletTinyViewer extends Component {
                             </LayersControl.BaseLayer>
                             <LayersControl.BaseLayer
                                 checked={
-                                    this.state.activeMapTiles === "Satelliet"
+                                    this.state.activeMapTiles === 'Satelliet'
                                 }
                                 name="Satelliet"
                             >
@@ -652,7 +651,7 @@ export default class LeafletTinyViewer extends Component {
                 ) : (
                     <LoaderLeafletTinyViewer />
                 )}
-            </React.Fragment>
+            </>
         )
     }
 }
@@ -664,7 +663,8 @@ export default class LeafletTinyViewer extends Component {
  * @param {string} title - Parameter used to display value in a span.
  */
 const ToggleableSection = ({ children, title }) => {
-    const [open, setOpen] = React.useState(true)
+    const [open, setOpen] = useState(true)
+
     return (
         <div>
             <button

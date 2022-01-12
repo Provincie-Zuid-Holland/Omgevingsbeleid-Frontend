@@ -1,2 +1,1 @@
-export { default } from './RaadpleegObjectDetailMain';
-export * from './RaadpleegObjectDetailMain';
+export { default } from './RaadpleegObjectDetailMain'

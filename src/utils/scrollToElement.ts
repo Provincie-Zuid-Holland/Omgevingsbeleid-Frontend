@@ -9,14 +9,14 @@ function scrollToElement(elSelector: string) {
     const yPosition = el.getBoundingClientRect().top + window.scrollY
     window.scroll({
         top: yPosition - 170,
-        behavior: "smooth",
+        behavior: 'smooth',
     })
 
     el.focus()
-    el.classList.add("transition-regular", "border-red-500")
+    el.classList.add('transition-regular', 'border-red-500')
 
     setTimeout(
-        () => el.classList.remove("transition-regular", "border-red-500"),
+        () => el.classList.remove('transition-regular', 'border-red-500'),
         2000
     )
 }

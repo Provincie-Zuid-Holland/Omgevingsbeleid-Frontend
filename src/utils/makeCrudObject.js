@@ -1,6 +1,6 @@
-import clonedeep from "lodash.clonedeep"
+import clonedeep from 'lodash.clonedeep'
 
-import formatGeldigheidDatesForUI from "./formatGeldigheidDatesForUI"
+import formatGeldigheidDatesForUI from './formatGeldigheidDatesForUI'
 
 /**
  * Function to initialize an object with the appropriate properties and values
@@ -20,10 +20,10 @@ function makeCrudObject({
     const crudObject = {}
 
     if (existingObj) {
-        const wijzigVigerend = modus === "wijzig_vigerend"
+        const wijzigVigerend = modus === 'wijzig_vigerend'
         const isMaatregelOrBeleidskeuze =
-            dimensieConstants.TITLE_SINGULAR === "Beleidskeuze" ||
-            dimensieConstants.TITLE_SINGULAR === "Maatregel"
+            dimensieConstants.TITLE_SINGULAR === 'Beleidskeuze' ||
+            dimensieConstants.TITLE_SINGULAR === 'Maatregel'
 
         /**
          * If the user is editing an object that has a Status 'Vigerend' and
@@ -34,22 +34,22 @@ function makeCrudObject({
         }
 
         /** Initialize the crudObject with the values from the existing Object */
-        crudProperties.forEach((crudProperty) => {
+        crudProperties.forEach(crudProperty => {
             const resetStatus =
-                crudProperty === "Status" &&
-                existingObj.Status === "Vigerend" &&
+                crudProperty === 'Status' &&
+                existingObj.Status === 'Vigerend' &&
                 isMaatregelOrBeleidskeuze &&
                 !wijzigVigerend
 
             if (resetStatus) {
-                crudObject[crudProperty] = "Ontwerp GS Concept"
+                crudObject[crudProperty] = 'Ontwerp GS Concept'
             } else {
                 crudObject[crudProperty] = existingObj[crudProperty]
             }
         })
     } else {
         /** Initialize values from the crud properties constant */
-        crudProperties.forEach((crudProperty) => {
+        crudProperties.forEach(crudProperty => {
             crudObject[crudProperty] = clonedeep(
                 dimensieConstants.CRUD_PROPERTIES[crudProperty].initValue
             )

@@ -1,37 +1,37 @@
-import React from "react"
-import { NavLink } from "react-router-dom"
 import {
     faAngleRight,
     faExternalLinkSquare,
-} from "@fortawesome/pro-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+} from '@fortawesome/pro-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useState } from 'react'
+import { NavLink } from 'react-router-dom'
 
-import PasswordChangeModal from "../PasswordChangeModal"
+import PasswordChangeModal from '../PasswordChangeModal'
 
 /**
  * @param {object} menuItems - Contains the menu items
  * @returns An unorganized list containing the mapped menuItems with their corresponding links
  */
 const MenuItemsList = ({ menuItems, displayChangePassword }) => {
-    const [passwordChangeOpen, setPasswordChangeOpen] = React.useState(false)
+    const [passwordChangeOpen, setPasswordChangeOpen] = useState(false)
 
     return (
-        <React.Fragment>
+        <>
             <ul>
                 {Object.keys(menuItems).map((value, index) => {
                     const id = `sidebar-href-${value
                         .toLowerCase()
-                        .replace(" ", "-")}`
+                        .replace(' ', '-')}`
                     return (
                         <NavLink
-                            exact={value === "Dashboard"}
+                            exact={value === 'Dashboard'}
                             id={id}
                             activeClassName="font-bold bg-gray-300 text-gray-800 hover:bg-gray-300"
                             className="relative flex items-center px-2 py-1 mt-1 text-sm leading-loose text-gray-600 rounded cursor-pointer hover:bg-gray-200 hover:text-gray-900"
                             key={index}
                             to={menuItems[value].url}
                             activeStyle={{
-                                cursor: "default !important",
+                                cursor: 'default !important',
                             }}
                         >
                             {value}
@@ -47,9 +47,9 @@ const MenuItemsList = ({ menuItems, displayChangePassword }) => {
                         id={`sidebar-change-password`}
                         className="relative flex items-center px-2 py-1 mt-1 text-sm leading-loose text-gray-600 rounded cursor-pointer hover:bg-gray-200 hover:text-gray-900"
                         onClick={() => setPasswordChangeOpen(true)}
-                        onKeyDown={(e) => {
+                        onKeyDown={e => {
                             console.log(e.code)
-                            if (e.code === "Enter" || e.code === "Space")
+                            if (e.code === 'Enter' || e.code === 'Space')
                                 setPasswordChangeOpen(true)
                         }}
                         tabIndex="0"
@@ -65,7 +65,7 @@ const MenuItemsList = ({ menuItems, displayChangePassword }) => {
             {passwordChangeOpen ? (
                 <PasswordChangeModal setOpen={setPasswordChangeOpen} />
             ) : null}
-        </React.Fragment>
+        </>
     )
 }
 

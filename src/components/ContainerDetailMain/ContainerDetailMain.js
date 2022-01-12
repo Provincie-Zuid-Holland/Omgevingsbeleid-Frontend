@@ -1,16 +1,15 @@
-import React from "react"
-import { withRouter } from "react-router-dom"
-import { faCalendarAlt } from "@fortawesome/pro-regular-svg-icons"
-import { faLink, faExternalLinkAlt } from "@fortawesome/pro-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faCalendarAlt } from '@fortawesome/pro-regular-svg-icons'
+import { faLink, faExternalLinkAlt } from '@fortawesome/pro-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { withRouter } from 'react-router-dom'
 
 // Import Components
-import HeadingMain from "../HeadingMain"
-import LoaderMainTitle from "../LoaderMainTitle"
-import LoaderSmallSpan from "../LoaderSmallSpan"
+import HeadingMain from '../HeadingMain'
+import LoaderMainTitle from '../LoaderMainTitle'
+import LoaderSmallSpan from '../LoaderSmallSpan'
 
 // Import Utilities
-import getVigerendText from "./../../utils/getVigerendText"
+import getVigerendText from './../../utils/getVigerendText'
 
 /**
  * Displays main details in a container.
@@ -23,7 +22,6 @@ import getVigerendText from "./../../utils/getVigerendText"
 const ContainerDetailMain = ({
     dataObject,
     titleSingular,
-    pageType,
     dataReceived,
     overzichtSlug,
 }) => {
@@ -53,7 +51,7 @@ const ContainerDetailMain = ({
                     validDatePrefix={validDatePrefix}
                     validDate={validDate}
                 />
-                <ContainerDetailMainWeblink weblink={dataObject["Weblink"]} />
+                <ContainerDetailMainWeblink weblink={dataObject['Weblink']} />
                 <ContainerDetailMainRaadpleegLink
                     titleSingular={titleSingular}
                     overzichtSlug={overzichtSlug}
@@ -83,16 +81,16 @@ const ContainerDetailMainRaadpleegLink = ({
 
     const raadpleegLink = dataReceived
         ? `/detail/${overzichtSlug}/${dataObject.UUID}`
-        : "#"
+        : '#'
 
     return (
         <a
             href={raadpleegLink}
-            onClick={(e) => (!dataReceived ? e.preventDefault() : null)}
+            onClick={e => (!dataReceived ? e.preventDefault() : null)}
             target="_blank"
             rel="noopener noreferrer"
             className={`flex items-center justify-between w-full py-2 pl-4 hover:bg-gray-50 pzh-transition-colors ${
-                dataReceived ? "cursor-pointer" : ""
+                dataReceived ? 'cursor-pointer' : ''
             }`}
         >
             <div>

@@ -1,3 +1,3 @@
-import ErrorPage from "./ErrorPage.js"
+import ErrorPage from './ErrorPage.js'
 
 export default ErrorPage

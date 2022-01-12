@@ -1,2 +1,1 @@
-export { default } from "./ContainerViewFieldsBeleidsprestatie"
-export * from "./ContainerViewFieldsBeleidsprestatie"
+export { default } from './ContainerViewFieldsBeleidsprestatie'

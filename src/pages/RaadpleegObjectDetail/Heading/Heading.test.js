@@ -1,27 +1,26 @@
-import { render, screen, fireEvent } from "@testing-library/react"
-import "@testing-library/jest-dom"
-import React from "react"
+import { render, screen, fireEvent } from '@testing-library/react'
+import '@testing-library/jest-dom'
 
-import Heading from "./Heading"
+import Heading from './Heading'
 
-describe("Heading", () => {
+describe('Heading', () => {
     const defaultProps = {
-        type: "Test Type",
-        titel: "Test Title",
+        type: 'Test Type',
+        titel: 'Test Title',
     }
 
-    const setup = (customProps) => {
+    const setup = customProps => {
         const props = { ...defaultProps, ...customProps }
         render(<Heading {...props} />)
     }
 
-    it("Component renders and displays Type", () => {
+    it('Component renders and displays Type', () => {
         setup()
         const element = screen.getByText(defaultProps.type)
         expect(element).toBeTruthy()
     })
 
-    it("Component renders and displays Title", () => {
+    it('Component renders and displays Title', () => {
         setup()
         const element = screen.getByText(defaultProps.titel)
         expect(element).toBeTruthy()

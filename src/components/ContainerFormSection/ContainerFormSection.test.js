@@ -1,20 +1,20 @@
-import { render, screen } from "@testing-library/react"
-import React from "react"
-import ContainerFormSection from "./ContainerFormSection"
+import { render, screen } from '@testing-library/react'
 
-describe("ContainerFormSection", () => {
-    it("should render", () => {
+import ContainerFormSection from './ContainerFormSection'
+
+describe('ContainerFormSection', () => {
+    it('should render', () => {
         render(
             <ContainerFormSection
-                beschrijving={"description"}
-                titel={"title"}
+                beschrijving={'description'}
+                titel={'title'}
             />
         )
 
-        const title = screen.getByText("title")
+        const title = screen.getByText('title')
         expect(title).toBeTruthy()
 
-        const description = screen.getByText("description")
+        const description = screen.getByText('description')
         expect(description).toBeTruthy()
     })
 })

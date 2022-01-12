@@ -1,36 +1,35 @@
-import { render, screen } from "@testing-library/react"
-import "@testing-library/jest-dom"
-import React from "react"
+import { render, screen } from '@testing-library/react'
+import '@testing-library/jest-dom'
 
-import RaadpleegVerordeningPopupDetail from "./RaadpleegVerordeningPopupDetail"
+import RaadpleegVerordeningPopupDetail from './RaadpleegVerordeningPopupDetail'
 
-describe("RaadpleegVerordeningPopupDetail", () => {
+describe('RaadpleegVerordeningPopupDetail', () => {
     const setActiveArticleMock = jest.fn()
     const defaultProps = {
         setActiveArticle: setActiveArticleMock,
         activeArticle: {
             Children: [],
-            Volgnummer: "001",
-            Titel: "Test Title",
-            Inhoud: "Test Content",
+            Volgnummer: '001',
+            Titel: 'Test Title',
+            Inhoud: 'Test Content',
         },
     }
 
-    const setup = (customProps) => {
+    const setup = customProps => {
         const props = { ...defaultProps, ...customProps }
         render(<RaadpleegVerordeningPopupDetail {...props} />)
     }
 
-    it("Component renders", () => {
+    it('Component renders', () => {
         setup()
 
-        const title = screen.getByText("Test Title")
+        const title = screen.getByText('Test Title')
         expect(title).toBeTruthy()
 
-        const subTitle = screen.getByText("Artikel 001")
+        const subTitle = screen.getByText('Artikel 001')
         expect(subTitle).toBeTruthy()
 
-        const Content = screen.getByText("Test Content")
+        const Content = screen.getByText('Test Content')
         expect(Content).toBeTruthy()
     })
 })

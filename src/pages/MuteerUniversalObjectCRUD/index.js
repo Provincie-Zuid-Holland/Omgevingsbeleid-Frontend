@@ -1,3 +1,3 @@
-import MuteerUniversalObjectCRUD from "./MuteerUniversalObjectCRUD.js"
+import MuteerUniversalObjectCRUD from './MuteerUniversalObjectCRUD.js'
 
 export default MuteerUniversalObjectCRUD

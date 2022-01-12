@@ -3,27 +3,26 @@ import {
     screen,
     waitForElementToBeRemoved,
     fireEvent,
-} from "@testing-library/react"
-import { ToastContainer } from "react-toastify"
-import React from "react"
-import PopUpModules from "./PopUpModules"
+} from '@testing-library/react'
+import { ToastContainer } from 'react-toastify'
 
-import { beleidsmodules } from "./../../mocks/data/beleidsmodules"
+import { beleidsmodules } from './../../mocks/data/beleidsmodules'
+import PopUpModules from './PopUpModules'
 
-describe("PopUpModules", () => {
+describe('PopUpModules', () => {
     const setDataObjectMock = jest.fn()
     const setDimensionHistoryMock = jest.fn()
     const toggleModulesPopupMock = jest.fn()
     const defaultProps = {
         dataObject: {
-            UUID: "0001",
+            UUID: '0001',
             Ref_Beleidsmodules: [],
         },
         setDimensionHistory: setDimensionHistoryMock,
-        dimensionHistory: [{ UUID: "0001" }],
+        dimensionHistory: [{ UUID: '0001' }],
         setDataObject: setDataObjectMock,
         toggleModulesPopup: toggleModulesPopupMock,
-        titleSingular: "Beleidskeuze",
+        titleSingular: 'Beleidskeuze',
     }
 
     const setup = async () => {
@@ -35,25 +34,25 @@ describe("PopUpModules", () => {
         )
     }
 
-    it("should render", async () => {
+    it('should render', async () => {
         setup()
-        const text = screen.queryByText("Module aanpassen")
+        const text = screen.queryByText('Module aanpassen')
         expect(text).toBeTruthy()
     })
 
-    it("User can add or change the module", async () => {
+    it('User can add or change the module', async () => {
         setup()
         await waitForElementToBeRemoved(() =>
-            screen.queryByTestId("select-loader")
+            screen.queryByTestId('select-loader')
         )
 
-        const select = await screen.findByRole("combobox")
+        const select = await screen.findByRole('combobox')
         fireEvent.change(select, {
             target: { value: beleidsmodules[1].UUID },
         })
         expect(select.value).toBe(beleidsmodules[1].UUID)
 
-        const changeModuleBtn = screen.queryByText("Aanpassen")
+        const changeModuleBtn = screen.queryByText('Aanpassen')
         expect(changeModuleBtn).toBeTruthy()
         fireEvent.click(changeModuleBtn)
         expect(toggleModulesPopupMock).toHaveBeenCalledTimes(1)

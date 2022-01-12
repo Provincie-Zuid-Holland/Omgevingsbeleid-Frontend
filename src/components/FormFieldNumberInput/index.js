@@ -1,3 +1,3 @@
-import FormFieldNumberInput from "./FormFieldNumberInput.js"
+import FormFieldNumberInput from './FormFieldNumberInput.js'
 
 export default FormFieldNumberInput

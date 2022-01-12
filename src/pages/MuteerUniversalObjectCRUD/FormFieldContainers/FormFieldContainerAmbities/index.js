@@ -1,3 +1,3 @@
-import FormFieldContainerAmbities from "./FormFieldContainerAmbities.js"
+import FormFieldContainerAmbities from './FormFieldContainerAmbities.js'
 
 export default FormFieldContainerAmbities

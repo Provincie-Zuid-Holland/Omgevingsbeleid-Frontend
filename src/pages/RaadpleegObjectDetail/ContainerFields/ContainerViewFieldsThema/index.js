@@ -1,3 +1,3 @@
-import ContainerViewFieldsThema from "./ContainerViewFieldsThema.js"
+import ContainerViewFieldsThema from './ContainerViewFieldsThema.js'
 
 export default ContainerViewFieldsThema

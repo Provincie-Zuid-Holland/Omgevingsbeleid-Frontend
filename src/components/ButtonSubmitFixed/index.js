@@ -1,3 +1,3 @@
-import ButtonSubmitFixed from "./ButtonSubmitFixed.js"
+import ButtonSubmitFixed from './ButtonSubmitFixed.js'
 
 export default ButtonSubmitFixed

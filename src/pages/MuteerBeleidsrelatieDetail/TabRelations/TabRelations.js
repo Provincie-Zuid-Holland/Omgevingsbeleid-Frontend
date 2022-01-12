@@ -1,13 +1,11 @@
-import React from "react"
-import { format } from "date-fns"
-import { useParams } from "react-router-dom"
+import { faTimes } from '@fortawesome/pro-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { format } from 'date-fns'
+import { useParams } from 'react-router-dom'
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faTimes } from "@fortawesome/pro-solid-svg-icons"
-
-import LoaderBeleidsrelatieRegel from "./../../../components/LoaderBeleidsrelatieRegel"
-import PopUpAnimatedContainer from "./../../../components/PopUpAnimatedContainer"
-import PopupMotivation from "../PopupMotivation/PopupMotivation"
+import PopupMotivation from '../PopupMotivation/PopupMotivation'
+import LoaderBeleidsrelatieRegel from './../../../components/LoaderBeleidsrelatieRegel'
+import PopUpAnimatedContainer from './../../../components/PopUpAnimatedContainer'
 
 /**
  * @prop {boolean} loaded true if all the data from parent component is loaded
@@ -52,8 +50,8 @@ function TabRelations({
             </li>
             {loaded ? (
                 relations.length > 0 ? (
-                    relations.map((relatie) => {
-                        const title = getPropertyFromRelation(relatie, "Titel")
+                    relations.map(relatie => {
+                        const title = getPropertyFromRelation(relatie, 'Titel')
                         return (
                             <li
                                 key={relatie.UUID}
@@ -64,17 +62,17 @@ function TabRelations({
                                     {relatie.Created_Date !== null
                                         ? format(
                                               new Date(relatie.Created_Date),
-                                              "d MMMM yyyy, HH:mm"
-                                          ) + " uur"
+                                              'd MMMM yyyy, HH:mm'
+                                          ) + ' uur'
                                         : null}
                                 </div>
                                 <div className="w-2/12 pr-2">
-                                    {relatie.Status === "Akkoord"
-                                        ? "Bevestigd"
-                                        : relatie.Status === "Open"
-                                        ? "In afwachting"
-                                        : relatie.Status === "NietAkkoord"
-                                        ? "Afgewezen"
+                                    {relatie.Status === 'Akkoord'
+                                        ? 'Bevestigd'
+                                        : relatie.Status === 'Open'
+                                        ? 'In afwachting'
+                                        : relatie.Status === 'NietAkkoord'
+                                        ? 'Afgewezen'
                                         : null}
                                 </div>
                                 <div className="w-2/12">
@@ -100,9 +98,9 @@ function TabRelations({
                                         }}
                                         className={`text-red-600 underline cursor-pointer`}
                                     >
-                                        {relatie.Status === "Akkoord"
-                                            ? "Relatie verwijderen"
-                                            : "Verzoek intrekken"}
+                                        {relatie.Status === 'Akkoord'
+                                            ? 'Relatie verwijderen'
+                                            : 'Verzoek intrekken'}
                                     </span>
 
                                     {disconnectPopUp === relatie.UUID ? (
@@ -131,11 +129,11 @@ function TabRelations({
                     </span>
                 )
             ) : (
-                <React.Fragment>
+                <>
                     <LoaderBeleidsrelatieRegel />
                     <LoaderBeleidsrelatieRegel />
                     <LoaderBeleidsrelatieRegel />
-                </React.Fragment>
+                </>
             )}
         </ul>
     )
@@ -160,21 +158,21 @@ const PopUpConfirm = ({
             </div>
             <h3 className="mb-4 text-lg font-bold">
                 Beleidsrelatie
-                {relatie.Status === "Akkoord"
-                    ? " verbreken"
-                    : " verzoek intrekken"}
+                {relatie.Status === 'Akkoord'
+                    ? ' verbreken'
+                    : ' verzoek intrekken'}
             </h3>
             <div className="relative p-4 mb-4 border-l-4 bg-pzh-blue-super-light border-pzh-blue">
                 <p className="mt-2 text-sm text-gray-700">
-                    {relatie.Status === "Akkoord"
+                    {relatie.Status === 'Akkoord'
                         ? `Je staat op het punt om de beleidsrelatie tussen "${beleidskeuzeTitle}" en "${title}" te verbreken`
                         : `Je staat op het punt om het beleidsrelatie verzoek tussen "${beleidskeuzeTitle}" en "${title}" in te trekken`}
                 </p>
             </div>
             <h4 className="mb-2 font-bold">
-                {relatie.Status === "Akkoord"
-                    ? "Weet je zeker dat je deze beleidsrelatie wilt verbreken?"
-                    : "Weet je zeker dat je dit beleidsrelatie verzoek wilt intrekken?"}
+                {relatie.Status === 'Akkoord'
+                    ? 'Weet je zeker dat je deze beleidsrelatie wilt verbreken?'
+                    : 'Weet je zeker dat je dit beleidsrelatie verzoek wilt intrekken?'}
             </h4>
             <p>
                 Deze actie kan niet ongedaan worden gemaakt. Je kan wel een
@@ -197,14 +195,14 @@ const PopUpConfirm = ({
                         setDisconnectPopup(null)
                         updateStatus(
                             relatie.UUID,
-                            relatie.Status === "Akkoord"
-                                ? "Verbroken"
-                                : "NietAkkoord",
+                            relatie.Status === 'Akkoord'
+                                ? 'Verbroken'
+                                : 'NietAkkoord',
                             true
                         )
                     }}
                 >
-                    {relatie.Status === "Akkoord" ? "Verbreken" : "Intrekken"}
+                    {relatie.Status === 'Akkoord' ? 'Verbreken' : 'Intrekken'}
                 </span>
             </div>
         </PopUpAnimatedContainer>

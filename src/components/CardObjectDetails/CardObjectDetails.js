@@ -1,10 +1,9 @@
-import React from "react"
-import { Link } from "react-router-dom"
-import { faAngleRight } from "@fortawesome/pro-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Transition } from "@headlessui/react"
-import Tippy from "@tippyjs/react"
-import "tippy.js/dist/tippy.css"
+import { faAngleRight } from '@fortawesome/pro-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Transition } from '@headlessui/react'
+import Tippy from '@tippyjs/react'
+import { Link } from 'react-router-dom'
+import 'tippy.js/dist/tippy.css'
 
 /**
  * @param {Object} object - The object we want to display
@@ -28,7 +27,7 @@ function CardObjectDetails({
             : `object-card-${titleSingular.toLowerCase()}`
 
     const detailPageLink = `/muteer/${hoofdOnderdeelSlug}/${object.ID}${
-        mijnBeleid ? "#mijn-beleid" : ""
+        mijnBeleid ? '#mijn-beleid' : ''
     }`
 
     const charactersInTitle = object.Titel?.length

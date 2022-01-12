@@ -1,27 +1,26 @@
-import React from "react"
+import { useContext } from 'react'
 
-import MenuItemsList from "./../MenuItemsList"
-
-import UserContext from "./../../App/UserContext"
-
+import UserContext from './../../App/UserContext'
 import {
     menuItemsOmgevingsbeleid,
     menuItemsBeheer,
-} from "./../../constants/menuItems"
+} from './../../constants/menuItems'
+import MenuItemsList from './../MenuItemsList'
 
 /**
  * @returns The main sidebar component for the mutate environment
  */
 function SidebarMain() {
-    const { user } = React.useContext(UserContext)
+    const { user } = useContext(UserContext)
+
     const gebruikersNaam = user ? user.Gebruikersnaam : null
     const gebruikersRol = user ? user.Rol : null
     const isAuthenticated =
-        gebruikersRol === "Beheerder" ||
-        gebruikersRol === "Functioneel beheerder" ||
-        gebruikersRol === "Technisch beheerder" ||
-        gebruikersRol === "Test runner" ||
-        gebruikersRol === "Tester"
+        gebruikersRol === 'Beheerder' ||
+        gebruikersRol === 'Functioneel beheerder' ||
+        gebruikersRol === 'Technisch beheerder' ||
+        gebruikersRol === 'Test runner' ||
+        gebruikersRol === 'Tester'
 
     return (
         <div className="inline-block w-1/4 rounded">
@@ -32,7 +31,7 @@ function SidebarMain() {
                 <h2 className="block text-2xl">
                     {gebruikersNaam !== null
                         ? `Welkom ${gebruikersNaam},`
-                        : "Welkom,"}
+                        : 'Welkom,'}
                 </h2>
                 <p className="text-gray-700">
                     In deze omgeving heb je de mogelijkheid om te werken aan
@@ -48,12 +47,12 @@ function SidebarMain() {
                     menuItems={menuItemsOmgevingsbeleid}
                 />
                 {isAuthenticated ? (
-                    <React.Fragment>
+                    <>
                         <h2 className="pr-2 mt-8 mb-2 text-xl text-gray-800">
                             Beheer
                         </h2>
                         <MenuItemsList menuItems={menuItemsBeheer} />
-                    </React.Fragment>
+                    </>
                 ) : null}
             </nav>
         </div>

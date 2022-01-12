@@ -1,30 +1,28 @@
-import React from "react"
-import { useParams } from "react-router-dom"
-import { toast } from "react-toastify"
+import { useContext, useEffect, useLayoutEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
-import UserContext from "./../../App/UserContext"
-
-import axios from "./../../API/axios"
-
-import MuteerBeleidsrelatiesOverzicht from "./../MuteerBeleidsrelatiesOverzicht"
-import MuteerBeleidsrelatiesDetail from "./../MuteerBeleidsrelatieDetail"
-import ContainerMain from "./../../components/ContainerMain"
+import axios from './../../API/axios'
+import UserContext from './../../App/UserContext'
+import ContainerMain from './../../components/ContainerMain'
+import MuteerBeleidsrelatiesDetail from './../MuteerBeleidsrelatieDetail'
+import MuteerBeleidsrelatiesOverzicht from './../MuteerBeleidsrelatiesOverzicht'
 
 /**
  * @returns Components that renders the overzicht or detail pages of beleidsrelaties, depending on the currentView state
  */
 function MuteerBeleidsrelaties() {
-    const [currentView, setCurrentView] = React.useState("overzicht")
-    const [beleidsrelaties, setBeleidsrelaties] = React.useState([])
-    const [beleidskeuzes, setBeleidskeuzes] = React.useState([])
-    const [isLoading, setIsLoading] = React.useState(true)
+    const [currentView, setCurrentView] = useState('overzicht')
+    const [beleidsrelaties, setBeleidsrelaties] = useState([])
+    const [beleidskeuzes, setBeleidskeuzes] = useState([])
+    const [isLoading, setIsLoading] = useState(true)
 
-    const { user } = React.useContext(UserContext)
+    const { user } = useContext(UserContext)
     const { UUID } = useParams()
 
     const updateBeleidsrelaties = (beleidsrelatieUUID, status) => {
         const index = beleidsrelaties.findIndex(
-            (x) => x.UUID === beleidsrelatieUUID
+            x => x.UUID === beleidsrelatieUUID
         )
 
         if (index !== -1) {
@@ -33,15 +31,15 @@ function MuteerBeleidsrelaties() {
         }
     }
 
-    React.useLayoutEffect(() => {
+    useLayoutEffect(() => {
         if (UUID) {
-            setCurrentView("detail")
+            setCurrentView('detail')
         } else {
-            setCurrentView("overzicht")
+            setCurrentView('overzicht')
         }
     }, [UUID])
 
-    React.useEffect(() => {
+    useEffect(() => {
         const UserUUID = user ? user.UUID : null
 
         if (!UserUUID) return
@@ -57,13 +55,13 @@ function MuteerBeleidsrelaties() {
                 setBeleidsrelaties(beleidsrelaties.data)
                 setIsLoading(false)
             })
-            .catch((err) => {
+            .catch(err => {
                 console.log(err)
                 toast(process.env.REACT_APP_ERROR_MSG)
             })
     }, [user])
 
-    if (currentView === "overzicht") {
+    if (currentView === 'overzicht') {
         return (
             <ContainerMain>
                 <MuteerBeleidsrelatiesOverzicht
@@ -75,17 +73,17 @@ function MuteerBeleidsrelaties() {
                 />
             </ContainerMain>
         )
-    } else if (currentView === "detail") {
+    } else if (currentView === 'detail') {
         return (
             <ContainerMain>
                 <MuteerBeleidsrelatiesDetail
                     updateBeleidsrelaties={updateBeleidsrelaties}
-                    backToOverzicht={() => setCurrentView("overzicht")}
+                    backToOverzicht={() => setCurrentView('overzicht')}
                 />
             </ContainerMain>
         )
     } else {
-        throw new Error("Not a valid currentView")
+        throw new Error('Not a valid currentView')
     }
 }
 

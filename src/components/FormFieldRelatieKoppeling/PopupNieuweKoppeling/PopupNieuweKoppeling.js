@@ -1,35 +1,35 @@
-import React, { Component } from "react"
-import axios from "./../../../API/axios"
-import { faTimes, faSearch } from "@fortawesome/pro-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { toast } from "react-toastify"
-import cloneDeep from "lodash.clonedeep"
+import { faTimes, faSearch } from '@fortawesome/pro-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import cloneDeep from 'lodash.clonedeep'
+import { Component } from 'react'
+import { toast } from 'react-toastify'
 
-import PopUpAnimatedContainer from "./../../PopUpAnimatedContainer"
-import objecten from "./../../../constants/koppelingen"
+import axios from './../../../API/axios'
+import objecten from './../../../constants/koppelingen'
+import PopUpAnimatedContainer from './../../PopUpAnimatedContainer'
 
-const getTypeText = (type) => {
+const getTypeText = type => {
     switch (type) {
-        case "belangen":
-            return "het belang"
-        case "taken":
-            return "de taak"
-        case "ambities":
-            return "de ambitie"
-        case "beleidsdoelen":
-            return "het beleidsdoel"
-        case "themas":
-            return "het thema"
-        case "beleidsregels":
-            return "de beleidsregel"
-        case "beleidsprestaties":
-            return "de beleidsprestatie"
-        case "maatregelen":
-            return "de maatregel"
-        case "verordening":
-            return "de verordening"
+        case 'belangen':
+            return 'het belang'
+        case 'taken':
+            return 'de taak'
+        case 'ambities':
+            return 'de ambitie'
+        case 'beleidsdoelen':
+            return 'het beleidsdoel'
+        case 'themas':
+            return 'het thema'
+        case 'beleidsregels':
+            return 'de beleidsregel'
+        case 'beleidsprestaties':
+            return 'de beleidsprestatie'
+        case 'maatregelen':
+            return 'de maatregel'
+        case 'verordening':
+            return 'de verordening'
         default:
-            return "het object"
+            return 'het object'
     }
 }
 
@@ -43,8 +43,8 @@ class PopupNieuweKoppeling extends Component {
             type: this.props.type,
             objecten: [],
             selected: null,
-            beschrijving: "",
-            zoekFilter: "",
+            beschrijving: '',
+            zoekFilter: '',
             actievePagina: 1,
             dataLoaded: false,
         }
@@ -56,8 +56,8 @@ class PopupNieuweKoppeling extends Component {
      * Function that adds the EventListener keypress "Enter".
      */
     componentDidMount() {
-        window.addEventListener("keypress", (e) => {
-            if (e.key === "Enter") {
+        window.addEventListener('keypress', e => {
+            if (e.key === 'Enter') {
                 e.preventDefault()
             }
         })
@@ -69,10 +69,10 @@ class PopupNieuweKoppeling extends Component {
          * @param {object} res - Contains the response from the API
          * @returns {array} containing the (filtered) data from the API
          */
-        const getResponseData = (res) => {
+        const getResponseData = res => {
             if (objecten[this.state.type].filterAPI === true) {
                 return res.data.filter(
-                    (item) => item.Type === objecten[this.state.type].filterType
+                    item => item.Type === objecten[this.state.type].filterType
                 )
             } else {
                 return res.data
@@ -81,14 +81,14 @@ class PopupNieuweKoppeling extends Component {
 
         axios
             .get(objecten[this.state.type].api)
-            .then((res) => {
+            .then(res => {
                 const data = getResponseData(res)
                 this.setState({
                     objecten: data,
                     dataLoaded: true,
                 })
             })
-            .catch((err) => {
+            .catch(err => {
                 console.log(err)
                 toast(process.env.REACT_APP_ERROR_MSG)
                 this.setState({
@@ -144,26 +144,26 @@ class PopupNieuweKoppeling extends Component {
      */
     getTypeText(type) {
         switch (type) {
-            case "belangen":
-                return "het belang"
-            case "taken":
-                return "de taak"
-            case "ambities":
-                return "de ambitie"
-            case "beleidsdoelen":
-                return "het beleidsdoel"
-            case "themas":
-                return "het thema"
-            case "beleidsregels":
-                return "de beleidsregel"
-            case "beleidsprestaties":
-                return "de beleidsprestatie"
-            case "maatregelen":
-                return "de maatregel"
-            case "verordening":
-                return "de verordening"
+            case 'belangen':
+                return 'het belang'
+            case 'taken':
+                return 'de taak'
+            case 'ambities':
+                return 'de ambitie'
+            case 'beleidsdoelen':
+                return 'het beleidsdoel'
+            case 'themas':
+                return 'het thema'
+            case 'beleidsregels':
+                return 'de beleidsregel'
+            case 'beleidsprestaties':
+                return 'de beleidsprestatie'
+            case 'maatregelen':
+                return 'de maatregel'
+            case 'verordening':
+                return 'de verordening'
             default:
-                return "het object"
+                return 'het object'
         }
     }
 
@@ -178,26 +178,26 @@ class PopupNieuweKoppeling extends Component {
         let actieveKoppelingen = []
 
         if (crudObject[propertyName]) {
-            crudObject[propertyName].forEach((item) => {
+            crudObject[propertyName].forEach(item => {
                 actieveKoppelingen.push(item.Object.UUID)
             })
         }
 
         return this.state.objecten
             .filter(
-                (item) =>
-                    (item.Type !== "Lid" &&
+                item =>
+                    (item.Type !== 'Lid' &&
                         item.Titel &&
                         item.Titel.toLowerCase().includes(
                             this.state.zoekFilter.toLowerCase()
                         )) ||
-                    (item.Type !== "Lid" &&
+                    (item.Type !== 'Lid' &&
                         item.Titel &&
                         item?.Volgnummer?.toLowerCase()?.includes(
                             this.state.zoekFilter.toLowerCase()
                         ))
             )
-            .filter((item) => !actieveKoppelingen.includes(item.UUID))
+            .filter(item => !actieveKoppelingen.includes(item.UUID))
     }
 
     render() {
@@ -216,12 +216,12 @@ class PopupNieuweKoppeling extends Component {
                     {objecten[this.state.type].volledigeTitel} koppelen
                 </h3>
                 {this.state.actievePagina === 1 ? (
-                    <React.Fragment>
+                    <>
                         <p className="form-field-description">
-                            Zoek en selecteer{" "}
+                            Zoek en selecteer{' '}
                             {this.getTypeText(this.state.type)} welke je wilt
-                            koppelen met de beleidskeuze '
-                            {this.props.titelMainObject}'
+                            koppelen met de beleidskeuze &apos;
+                            {this.props.titelMainObject}&apos;
                         </p>
                         <div className="relative block w-full mt-4 mb-6">
                             <input
@@ -265,8 +265,8 @@ class PopupNieuweKoppeling extends Component {
                                                 }}
                                                 className={`px-4 py-2 text-sm text-gray-700 cursor-pointer ${
                                                     this.state.selected === item
-                                                        ? "bg-gray-100 font-bold"
-                                                        : "hover:bg-gray-100"
+                                                        ? 'bg-gray-100 font-bold'
+                                                        : 'hover:bg-gray-100'
                                                 }`}
                                                 key={item.UUID}
                                                 id={`form-field-koppeling-item-${index}`}
@@ -274,8 +274,8 @@ class PopupNieuweKoppeling extends Component {
                                                 <span
                                                     className={`${
                                                         item.Volgnummer
-                                                            ? "w-10 inline-block"
-                                                            : ""
+                                                            ? 'w-10 inline-block'
+                                                            : ''
                                                     }`}
                                                 >
                                                     {item.Volgnummer
@@ -298,8 +298,9 @@ class PopupNieuweKoppeling extends Component {
                                                 </span>
                                             ) : (
                                                 <span className="italic text-gray-600">
-                                                    Geen resultaten voor '
-                                                    {this.state.zoekFilter}'
+                                                    Geen resultaten voor &apos;
+                                                    {this.state.zoekFilter}
+                                                    &apos;
                                                 </span>
                                             )
                                         ) : (
@@ -307,7 +308,7 @@ class PopupNieuweKoppeling extends Component {
                                                 {
                                                     objecten[this.state.type]
                                                         .volledigeTitelMeervoud
-                                                }{" "}
+                                                }{' '}
                                                 laden...
                                             </span>
                                         )}
@@ -315,14 +316,14 @@ class PopupNieuweKoppeling extends Component {
                                 )}
                             </ul>
                         </div>
-                    </React.Fragment>
+                    </>
                 ) : null}
                 {this.state.actievePagina === 2 ? (
-                    <React.Fragment>
+                    <>
                         <p className="form-field-description">
-                            Beschrijf de koppeling tussen '
-                            {this.state.selected.Titel}' en '
-                            {this.props.titelMainObject}'
+                            Beschrijf de koppeling tussen &apos;
+                            {this.state.selected.Titel}&apos; en &apos;
+                            {this.props.titelMainObject}&apos;
                         </p>
                         <div className="px-4 py-4 my-4 text-sm text-gray-700 border-l-4 bg-pzh-blue-super-light border-pzh-blue">
                             Om er voor te zorgen dat de aangebrachte koppeling
@@ -342,7 +343,7 @@ class PopupNieuweKoppeling extends Component {
                             className="block w-full h-24 px-4 py-3 leading-tight text-gray-700 border border-gray-400 rounded appearance-none focus:outline-none focus:bg-white hover:border-gray-500 focus:border-gray-500"
                             type="text"
                         />
-                    </React.Fragment>
+                    </>
                 ) : null}
                 <div className="flex items-center justify-between mt-6">
                     <span
@@ -361,16 +362,16 @@ class PopupNieuweKoppeling extends Component {
                                     : `hover:underline`
                             }`}
                             tabIndex="0"
-                            onClick={(e) => {
+                            onClick={e => {
                                 if (this.state.selected !== null) {
                                     this.volgendeScherm()
                                 } else {
                                     return
                                 }
                             }}
-                            onKeyPress={(e) => {
+                            onKeyPress={e => {
                                 if (
-                                    e.key === "Enter" &&
+                                    e.key === 'Enter' &&
                                     this.state.beschrijving.length > 0
                                 ) {
                                     this.props.voegKoppelingRelatieToe(
@@ -393,7 +394,7 @@ class PopupNieuweKoppeling extends Component {
                                     : `hover:underline`
                             }`}
                             tabIndex="0"
-                            onClick={(e) => {
+                            onClick={() => {
                                 if (this.state.beschrijving.length > 0) {
                                     this.props.voegKoppelingRelatieToe(
                                         objecten[this.state.type].propertyName,
@@ -405,9 +406,9 @@ class PopupNieuweKoppeling extends Component {
                                     return
                                 }
                             }}
-                            onKeyPress={(e) => {
+                            onKeyPress={e => {
                                 if (
-                                    e.key === "Enter" &&
+                                    e.key === 'Enter' &&
                                     this.state.beschrijving.length > 0
                                 ) {
                                     this.props.voegKoppelingRelatieToe(

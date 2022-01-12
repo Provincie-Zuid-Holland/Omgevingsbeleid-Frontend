@@ -1,3 +1,3 @@
-import EditAddOrderSection from "./EditAddOrderSection.js"
+import EditAddOrderSection from './EditAddOrderSection.js'
 
 export default EditAddOrderSection

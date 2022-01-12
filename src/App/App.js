@@ -1,52 +1,54 @@
-import React, { Component, Suspense, lazy } from "react"
-import { Route, Switch, withRouter, useHistory } from "react-router-dom"
-import { QueryClient, QueryClientProvider } from "react-query"
-import { Helmet } from "react-helmet"
-import axios from "./../API/axios"
-import { ToastContainer } from "react-toastify"
-import "react-toastify/dist/ReactToastify.css"
+import { Component, Suspense, lazy, useCallback, useLayoutEffect } from 'react'
+import { Helmet } from 'react-helmet'
+import { QueryClient, QueryClientProvider } from 'react-query'
+import { Route, Switch, withRouter, useHistory } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
+
+import axios from '../API/axios'
+import 'react-toastify/dist/ReactToastify.css'
 
 // Import Styling
-import "./../css/tailwind.css"
-import "./../css/styles.scss"
-import "./../../node_modules/leaflet/dist/leaflet.css"
+import './../css/tailwind.css'
+import './../css/styles.scss'
+import './../../node_modules/leaflet/dist/leaflet.css'
 
 // Import All the dimension constants. These contain the dimensions and there variables, e.g. API_ENDPOINT and TITLE_SINGULAR
-import allDimensies from "./../constants/dimensies"
+import FeedbackComponent from '../components/FeedbackComponent'
+import LoaderContent from '../components/LoaderContent'
+import Navigation from '../components/Navigation'
+import PopUpAnimatedContainer from '../components/PopUpAnimatedContainer'
+import PopupWelcomeBeta from '../components/PopupWelcomeBeta'
+import allDimensies from '../constants/dimensies'
 
 // Import non authenticated pages
-import RaadpleegHome from "./../pages/RaadpleegHome"
-import RaadpleegObjectDetail from "./../pages/RaadpleegObjectDetail"
-import RaadpleegVerordening from "./../pages/RaadpleegVerordening"
-import RaadpleegUniversalObjectOverview from "./../pages/RaadpleegUniversalObjectOverview"
-import RaadpleegZoekResultatenOverzicht from "./../pages/RaadpleegZoekResultatenOverzicht"
-import RaadpleegPlanningAndReleases from "./../pages/RaadpleegPlanningAndReleases"
-import RaadpleegDigiToegankelijkheid from "./../pages/RaadpleegDigiToegankelijkheid"
-import RaadpleegInProgress from "./../pages/RaadpleegInProgress"
-import Login from "./../pages/Login"
-import Planning from "./../pages/Planning"
-import ErrorPage from "../pages/ErrorPage"
+import ErrorPage from '../pages/ErrorPage'
+import Login from '../pages/Login'
+import Planning from '../pages/Planning'
+import RaadpleegDigiToegankelijkheid from '../pages/RaadpleegDigiToegankelijkheid'
+import RaadpleegHome from '../pages/RaadpleegHome'
+import RaadpleegInProgress from '../pages/RaadpleegInProgress'
+import RaadpleegObjectDetail from '../pages/RaadpleegObjectDetail'
+import RaadpleegPlanningAndReleases from '../pages/RaadpleegPlanningAndReleases'
+import RaadpleegUniversalObjectOverview from '../pages/RaadpleegUniversalObjectOverview'
+import RaadpleegVerordening from '../pages/RaadpleegVerordening'
+import RaadpleegZoekResultatenOverzicht from '../pages/RaadpleegZoekResultatenOverzicht'
 
 // Import Components
-import FeedbackComponent from "./../components/FeedbackComponent"
-import Navigation from "./../components/Navigation"
-import LoaderContent from "./../components/LoaderContent"
-import PopupWelcomeBeta from "./../components/PopupWelcomeBeta"
-import PopUpAnimatedContainer from "./../components/PopUpAnimatedContainer"
-import { ErrorBoundary } from "react-error-boundary"
+
+import { ErrorBoundary } from 'react-error-boundary'
 
 // Import Context
-import UserContext from "./UserContext"
-import GraphContext from "./GraphContext"
+import GraphContext from './GraphContext'
+import UserContext from './UserContext'
 
 // Import and initialize Sentry for tracking bugs
-import * as Sentry from "@sentry/browser"
+import * as Sentry from '@sentry/browser'
 
-const AuthRoutes = lazy(() => import("./AuthRoutes"))
+const AuthRoutes = lazy(() => import('./AuthRoutes'))
 
 if (
     process.env.REACT_APP_SENTRY_DSN &&
-    process.env.NODE_ENV !== "development"
+    process.env.NODE_ENV !== 'development'
 ) {
     Sentry.init({
         environment: process.env.NODE_ENV,
@@ -58,39 +60,39 @@ if (
 // Create array with detail pages to map through to create the routes
 const detailPaginas = [
     {
-        slug: "ambities",
+        slug: 'ambities',
         dataModel: allDimensies.AMBITIES,
     },
     {
-        slug: "beleidsregels",
+        slug: 'beleidsregels',
         dataModel: allDimensies.BELEIDSREGELS,
     },
     {
-        slug: "belangen",
+        slug: 'belangen',
         dataModel: allDimensies.BELANGEN,
     },
     {
-        slug: "maatregelen",
+        slug: 'maatregelen',
         dataModel: allDimensies.MAATREGELEN,
     },
     {
-        slug: "beleidskeuzes",
+        slug: 'beleidskeuzes',
         dataModel: allDimensies.BELEIDSKEUZES,
     },
     {
-        slug: "beleidsprestaties",
+        slug: 'beleidsprestaties',
         dataModel: allDimensies.BELEIDSPRESTATIES,
     },
     {
-        slug: "themas",
+        slug: 'themas',
         dataModel: allDimensies.THEMAS,
     },
     {
-        slug: "beleidsdoelen",
+        slug: 'beleidsdoelen',
         dataModel: allDimensies.BELEIDSDOELEN,
     },
     {
-        slug: "verordeningen",
+        slug: 'verordeningen',
         dataModel: allDimensies.VERORDENINGSARTIKEL,
     },
 ]
@@ -139,8 +141,8 @@ class App extends Component {
     // Makes a request on mount to the API to see if we get a 200 response, which means the user is logged in.
     checkIfUserIsAuthenticated() {
         axios
-            .get("/tokeninfo")
-            .then((res) => {
+            .get('/tokeninfo')
+            .then(res => {
                 this.setState({
                     loggedIn: true,
                     user: res.data.identifier,
@@ -159,11 +161,11 @@ class App extends Component {
     // Used to check for Internet Explorer on mount and display an alert that we only support modern browsers. We do polyfill functionalities where needed for Internet Explorer.
     checkForInternetExplorer() {
         var ua = window.navigator.userAgent
-        var msie = ua.indexOf("MSIE ")
+        var msie = ua.indexOf('MSIE ')
         if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv:11\./)) {
             // If Internet Explorer, return version number
             window.alert(
-                "Deze website werkt met moderne browsers als Chrome, Firefox, Safari, etc"
+                'Deze website werkt met moderne browsers als Chrome, Firefox, Safari, etc'
             )
         }
     }
@@ -178,7 +180,7 @@ class App extends Component {
     // Function to show popup when the API gets an 401 unauthorized request, which indicates the token has expired.
     listenForExpiredSession(e) {
         // In API/axios.js we make a new CustomEvent with the message below to indicate the token session has ended. In the mount we add an eventlistener and listen for this event to prompt the popup so the user can login again.
-        if (e.detail.message === "Authenticated sessie is afgelopen") {
+        if (e.detail.message === 'Authenticated sessie is afgelopen') {
             this.setLoginState(false)
             // TODO: Add opnieuw inlog popup
             // this.showReAuthenticatePopup(e)
@@ -199,7 +201,7 @@ class App extends Component {
     }
 
     componentDidMount() {
-        window.addEventListener("authEvent", (e) =>
+        window.addEventListener('authEvent', e =>
             this.listenForExpiredSession(e)
         )
 
@@ -209,7 +211,7 @@ class App extends Component {
     }
 
     componentWillUnmount() {
-        window.removeEventListener("authEvent", (e) =>
+        window.removeEventListener('authEvent', e =>
             this.listenForExpiredSession(e)
         )
     }
@@ -217,23 +219,21 @@ class App extends Component {
     render() {
         // If user is in Mutate environment of the application
         const locationEqualsMutateEnv =
-            this.props.location.pathname.includes("muteer")
+            this.props.location.pathname.includes('muteer')
 
         return (
             <GraphContext.Provider
                 value={{
                     graphIsOpen: this.state.graphIsOpen,
                     setGraphIsOpen: this.setGraphIsOpen,
-                }}
-            >
+                }}>
                 <UserContext.Provider value={{ user: this.state.user }}>
                     <QueryClientProvider client={queryClient}>
                         <div
                             className={`min-h-screen text-pzh-blue-dark relative ${
-                                locationEqualsMutateEnv ? "bg-gray-100" : ""
+                                locationEqualsMutateEnv ? 'bg-gray-100' : ''
                             }`}
-                            id="main-container"
-                        >
+                            id="main-container">
                             <Helmet>
                                 <meta charSet="utf-8" />
                                 <title>
@@ -295,7 +295,7 @@ class App extends Component {
                                             />
 
                                             {/* Raadpleeg - Overview and Detail pages for all the dimensions */}
-                                            {detailPaginas.map((item) => (
+                                            {detailPaginas.map(item => (
                                                 <Route
                                                     key={item.slug}
                                                     path={`/detail/${item.slug}/:id`}
@@ -309,7 +309,7 @@ class App extends Component {
                                                 />
                                             ))}
                                             {/* Raadpleeg - Overview and Detail pages for all the dimensions */}
-                                            {detailPaginas.map((item) => (
+                                            {detailPaginas.map(item => (
                                                 <Route
                                                     key={item.slug}
                                                     path={`/overzicht/${item.slug}`}
@@ -405,16 +405,16 @@ class App extends Component {
 const Logout = ({ setLoginState }) => {
     const history = useHistory()
 
-    const cleanup = React.useCallback(() => {
+    const cleanup = useCallback(() => {
         // Clear user token and profile data from localStorage
         localStorage.removeItem(process.env.REACT_APP_KEY_API_ACCESS_TOKEN)
         localStorage.removeItem(process.env.REACT_APP_KEY_IDENTIFIER)
 
         setLoginState(false)
-        history.push("/")
+        history.push('/')
     }, [setLoginState, history])
 
-    React.useLayoutEffect(() => {
+    useLayoutEffect(() => {
         cleanup()
     }, [cleanup])
 

@@ -1,45 +1,45 @@
-import { rest } from "msw"
-import { baseURL } from "./../API/axios"
-import allDimensies from "./../constants/dimensies"
+import { rest } from 'msw'
 
-import { graph } from "./data/graph"
-import { werkingsgebieden } from "./data/werkingsgebieden"
-import { users } from "./data/users"
-import { verordeningstructuur } from "./data/verordeningstructuur"
-import { ambities } from "./data/ambities"
-import { beleidskeuzes } from "./data/beleidskeuzes"
-import { belangen } from "./data/belangen"
-import { beleidsmodules } from "./data/beleidsmodules"
-import { beleidsdoelen } from "./data/beleidsdoelen"
-import { beleidsprestaties } from "./data/beleidsprestaties"
-import { beleidsrelaties } from "./data/beleidsrelaties"
-import { beleidsregels } from "./data/beleidsregels"
-import { maatregelen } from "./data/maatregelen"
-import { themas } from "./data/themas"
-import { geoWerkingsgebied } from "./data/geoWerkingsgebied"
-import { artikel } from "./data/artikel"
-import { search } from "./data/search"
-import { geoSuggest } from "./data/geoSuggest"
-import { geoLookup } from "./data/geoLookup"
+import { baseURL } from './../API/axios'
+import allDimensies from './../constants/dimensies'
+import { ambities } from './data/ambities'
+import { artikel } from './data/artikel'
+import { belangen } from './data/belangen'
+import { beleidsdoelen } from './data/beleidsdoelen'
+import { beleidskeuzes } from './data/beleidskeuzes'
+import { beleidsmodules } from './data/beleidsmodules'
+import { beleidsprestaties } from './data/beleidsprestaties'
+import { beleidsregels } from './data/beleidsregels'
+import { beleidsrelaties } from './data/beleidsrelaties'
+import { geoLookup } from './data/geoLookup'
+import { geoSuggest } from './data/geoSuggest'
+import { geoWerkingsgebied } from './data/geoWerkingsgebied'
+import { graph } from './data/graph'
+import { maatregelen } from './data/maatregelen'
+import { search } from './data/search'
+import { themas } from './data/themas'
+import { users } from './data/users'
+import { verordeningstructuur } from './data/verordeningstructuur'
+import { werkingsgebieden } from './data/werkingsgebieden'
 
 const dimensions = [
-    "AMBITIES",
-    "BELANGEN",
-    "BELEIDSREGELS",
-    "MAATREGELEN",
-    "BELEIDSDOELEN",
-    "THEMAS",
-    "BELEIDSKEUZES",
+    'AMBITIES',
+    'BELANGEN',
+    'BELEIDSREGELS',
+    'MAATREGELEN',
+    'BELEIDSDOELEN',
+    'THEMAS',
+    'BELEIDSKEUZES',
 ]
 
 const currentBaseURL = baseURL
 
-const getDimensions = dimensions.map((dimension) => {
+const getDimensions = dimensions.map(dimension => {
     const apiSlug = allDimensies[dimension].API_ENDPOINT
     const url = `${currentBaseURL}/${apiSlug}/1`
     const testResponse = {}
 
-    Object.keys(allDimensies[dimension].CRUD_PROPERTIES).forEach((key) => {
+    Object.keys(allDimensies[dimension].CRUD_PROPERTIES).forEach(key => {
         testResponse[key] =
             allDimensies[dimension].CRUD_PROPERTIES[key].testValue
     })
@@ -49,12 +49,12 @@ const getDimensions = dimensions.map((dimension) => {
     })
 })
 
-const patchDimensions = dimensions.map((dimension) => {
+const patchDimensions = dimensions.map(dimension => {
     const apiSlug = allDimensies[dimension].API_ENDPOINT
     const url = `${currentBaseURL}/${apiSlug}/1`
     const testResponse = {}
 
-    Object.keys(allDimensies[dimension].CRUD_PROPERTIES).forEach((key) => {
+    Object.keys(allDimensies[dimension].CRUD_PROPERTIES).forEach(key => {
         testResponse[key] =
             allDimensies[dimension].CRUD_PROPERTIES[key].testValue
     })
@@ -69,14 +69,14 @@ export const handlers = [
         return res(
             ctx.json({
                 access_token:
-                    "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MjIwMTc4MDQsIm5iZiI6MTYyMjAxNzgwNCwianRpIjoiODlkYjUxOWYtM2U5My00OWJiLTk5Y2ItYjcwZmQyZDg3YTRmIiwiZXhwIjoxNjIyMDMyMjA0LCJpZGVudGl0eSI6eyJVVUlEIjoiMzU5QTkyNTQtNTk4RS00QkZFLUJDRUMtQUE1MjFFOTU4ODFBIiwiR2VicnVpa2Vyc25hYW0iOiJBaWRlbiBCdWlzIiwiRW1haWwiOiJoZWxsb0BhaWRlbmJ1aXMuY29tIiwiUm9sIjoiQmVoZWVyZGVyIn0sImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.2oOLjv_s7fgxQb7SlhUDrMuEP7krQaEl6bx2vzPfayc",
-                "deployment type": "Development",
-                expires: "2021-05-26T12:30:04Z",
+                    'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MjIwMTc4MDQsIm5iZiI6MTYyMjAxNzgwNCwianRpIjoiODlkYjUxOWYtM2U5My00OWJiLTk5Y2ItYjcwZmQyZDg3YTRmIiwiZXhwIjoxNjIyMDMyMjA0LCJpZGVudGl0eSI6eyJVVUlEIjoiMzU5QTkyNTQtNTk4RS00QkZFLUJDRUMtQUE1MjFFOTU4ODFBIiwiR2VicnVpa2Vyc25hYW0iOiJBaWRlbiBCdWlzIiwiRW1haWwiOiJoZWxsb0BhaWRlbmJ1aXMuY29tIiwiUm9sIjoiQmVoZWVyZGVyIn0sImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.2oOLjv_s7fgxQb7SlhUDrMuEP7krQaEl6bx2vzPfayc',
+                'deployment type': 'Development',
+                expires: '2021-05-26T12:30:04Z',
                 identifier: {
-                    Email: "hello@aidenbuis.com",
-                    Gebruikersnaam: "Aiden Buis",
-                    Rol: "Beheerder",
-                    UUID: "359A9254-598E-4BFE-BCEC-AA521E95881A",
+                    Email: 'hello@aidenbuis.com',
+                    Gebruikersnaam: 'Aiden Buis',
+                    Rol: 'Beheerder',
+                    UUID: '359A9254-598E-4BFE-BCEC-AA521E95881A',
                 },
             })
         )

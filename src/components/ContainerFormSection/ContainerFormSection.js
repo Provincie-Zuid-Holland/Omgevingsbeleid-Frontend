@@ -1,9 +1,9 @@
-import React from "react"
+import { Component } from 'react'
 
 /**
  * Displays the props.titel, props.beschrijving and props.children values within it.
  */
-class ContainerFormSection extends React.Component {
+class ContainerFormSection extends Component {
     render() {
         if (this.props.hide) return null
         return (

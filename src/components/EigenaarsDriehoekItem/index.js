@@ -1,3 +1,3 @@
-import EigenaarsDriehoekItem from "./EigenaarsDriehoekItem.js"
+import EigenaarsDriehoekItem from './EigenaarsDriehoekItem.js'
 
 export default EigenaarsDriehoekItem

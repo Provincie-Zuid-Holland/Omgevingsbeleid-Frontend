@@ -1,3 +1,3 @@
-import Paragraaf from "./Paragraaf.js"
+import Paragraaf from './Paragraaf.js'
 
 export default Paragraaf

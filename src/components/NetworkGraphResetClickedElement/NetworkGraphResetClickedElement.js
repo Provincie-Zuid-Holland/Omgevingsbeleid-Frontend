@@ -1,7 +1,7 @@
-import React from "react"
-import { faUndo } from "@fortawesome/pro-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Transition } from "@headlessui/react"
+import { faUndo } from '@fortawesome/pro-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Transition } from '@headlessui/react'
+import { useEffect, useState } from 'react'
 
 /**
  * @param {object} clickedNode - The corresponding node that has been clicked
@@ -9,9 +9,9 @@ import { Transition } from "@headlessui/react"
  * @returns Component that indicates what element has been clicked, with a link to the detail page
  */
 const NetworkGraphResetClickedElement = ({ clickedNode, resetNodes }) => {
-    const [localOpenState, setLocalOpenState] = React.useState(false)
+    const [localOpenState, setLocalOpenState] = useState(false)
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (!clickedNode) {
             setLocalOpenState(false)
         } else {

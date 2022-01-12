@@ -1,10 +1,10 @@
-import axios from "axios"
+import axios from 'axios'
 
 const api_version = process.env.REACT_APP_API_VERSION
 const environment = process.env.REACT_APP_API_ENV
 
-let getAccessToken = () =>
-    localStorage.getItem(process.env.REACT_APP_KEY_API_ACCESS_TOKEN)
+const getAccessToken = () =>
+    localStorage.getItem(process.env.REACT_APP_KEY_API_ACCESS_TOKEN || '')
 
 const apiURLS = {
     dev: `https://api-obzh-dev.azurewebsites.net/${api_version}`,
@@ -16,7 +16,7 @@ const apiURLS = {
 const instance = axios.create({
     baseURL: apiURLS[environment],
     headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
     },
 })
 
@@ -30,14 +30,14 @@ instance.interceptors.response.use(
         return response
     },
     function (error) {
-        const allowedUrls = ["password-reset"]
+        const allowedUrls = ['password-reset']
         if (
             error?.response?.status === 401 &&
             !allowedUrls.includes(error?.response?.config?.url)
         ) {
             window.dispatchEvent(
-                new CustomEvent("authEvent", {
-                    detail: { message: "Authenticated sessie is afgelopen" },
+                new CustomEvent('authEvent', {
+                    detail: { message: 'Authenticated sessie is afgelopen' },
                 })
             )
         } else {
@@ -45,6 +45,19 @@ instance.interceptors.response.use(
         }
     }
 )
+
+export const customInstance = config => {
+    const source = axios.CancelToken.source()
+    const promise = instance({ ...config, cancelToken: source.token }).then(
+        ({ data }) => data
+    )
+
+    promise.cancel = () => {
+        source.cancel('Query was cancelled')
+    }
+
+    return promise
+}
 
 const baseURL = instance.defaults.baseURL
 

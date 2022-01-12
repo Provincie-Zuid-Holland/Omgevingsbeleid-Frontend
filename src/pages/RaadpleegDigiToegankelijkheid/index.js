@@ -1,2 +1,1 @@
-export { default } from './RaadpleegDigiToegankelijkheid';
-export * from './RaadpleegDigiToegankelijkheid';
+export { default } from './RaadpleegDigiToegankelijkheid'

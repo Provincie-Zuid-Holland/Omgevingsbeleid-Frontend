@@ -1,16 +1,14 @@
-import React from "react"
-import { faExternalLinkAlt } from "@fortawesome/pro-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faExternalLinkAlt } from '@fortawesome/pro-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useState } from 'react'
 
-import imagePlanningAndReleases from "./../../images/planning-and-releases.png"
-
-import Footer from "./../../components/Footer"
-import Container from "./../../components/Container"
-import HorizontalDivider from "./../../components/HorizontalDivider"
-import Heading from "./../../components/Heading"
-import Text from "./../../components/Text"
-
-import { releases } from "./../../constants/releases"
+import Container from './../../components/Container'
+import Footer from './../../components/Footer'
+import Heading from './../../components/Heading'
+import HorizontalDivider from './../../components/HorizontalDivider'
+import Text from './../../components/Text'
+import { releases } from './../../constants/releases'
+import imagePlanningAndReleases from './../../images/planning-and-releases.png'
 
 function RaadpleegPlanningAndReleases() {
     return (
@@ -19,8 +17,7 @@ function RaadpleegPlanningAndReleases() {
                 <div className="col-span-6 mb-0 lg:col-span-3 sm:mb-16 lg:mb-0">
                     <Heading
                         level="1"
-                        className="mt-1 sm:mt-8 md:mt-12 lg:mt-16"
-                    >
+                        className="mt-1 sm:mt-8 md:mt-12 lg:mt-16">
                         Planning & Releases
                     </Heading>
                     <Text type="introduction-paragraph" className="mt-3">
@@ -32,11 +29,10 @@ function RaadpleegPlanningAndReleases() {
                     <Text type="body" className="mt-4 sm:mt-8">
                         Uiteraard vinden wij het fijn om feedback en input te
                         ontvangen. Heb je vragen, ideeën of suggesties? Neem
-                        gerust contact op met ons via{" "}
+                        gerust contact op met ons via{' '}
                         <a
                             href="mailto:omgevingsbeleid@pzh.nl"
-                            className="text-pzh-green hover:text-pzh-green-dark"
-                        >
+                            className="text-pzh-green hover:text-pzh-green-dark">
                             omgevingsbeleid@pzh.nl
                         </a>
                         .
@@ -44,15 +40,14 @@ function RaadpleegPlanningAndReleases() {
                 </div>
                 <div
                     className="relative hidden col-span-3 lg:block"
-                    style={{ minHeight: "480px" }} // To mimick the height of the 480px div with the absolute position
+                    style={{ minHeight: '480px' }} // To mimick the height of the 480px div with the absolute position
                 >
                     <div
                         style={{
-                            height: "480px",
-                            width: "calc(50vw)",
+                            height: '480px',
+                            width: 'calc(50vw)',
                         }}
-                        className={`absolute text-center left-0 top-0 h-full bg-gray-100 sm:inline-block`}
-                    >
+                        className={`absolute text-center left-0 top-0 h-full bg-gray-100 sm:inline-block`}>
                         <img
                             alt="Afbeelding van twee maquettes"
                             className={`object-cover w-full h-full`}
@@ -137,7 +132,7 @@ const ReleaseList = ({ releases = [] }) => {
     const defaultViewAmount = 2
 
     const [currentViewAmount, setCurrentViewAmount] =
-        React.useState(defaultViewAmount)
+        useState(defaultViewAmount)
 
     const increaseViewAmount = () => {
         if (releases.length < currentViewAmount + amountToIncrease) {
@@ -150,9 +145,10 @@ const ReleaseList = ({ releases = [] }) => {
     return (
         <ul className="grid grid-cols-6 col-span-6 gap-x-10 gap-y-0">
             {releases
-                .filter((release, idx) => idx < currentViewAmount)
-                .map((release) => (
+                .filter((_, idx) => idx < currentViewAmount)
+                .map(release => (
                     <ReleaseListItem
+                        key={release.title}
                         title={release.title}
                         date={release.date}
                         description={release.description}
@@ -161,9 +157,9 @@ const ReleaseList = ({ releases = [] }) => {
                 ))}
             {currentViewAmount !== releases.length ? (
                 <li
+                    key={`increase-${release.title}`}
                     onClick={increaseViewAmount}
-                    className="col-span-6 py-4 underline cursor-pointer lg:col-span-5 lg:col-start-2 text-pzh-green hover:text-pzh-green-dark"
-                >
+                    className="col-span-6 py-4 underline cursor-pointer lg:col-span-5 lg:col-start-2 text-pzh-green hover:text-pzh-green-dark">
                     Toon meer releases
                 </li>
             ) : null}
@@ -181,24 +177,22 @@ const ReleaseListItem = ({ title, description, date, items }) => {
                 <div className="col-span-6 lg:col-span-5">
                     <Heading
                         className="mt-4 text-pzh-pink-dark lg:mt-0"
-                        level="3"
-                    >
+                        level="3">
                         {title}
                     </Heading>
                     <Text className="mt-3" type="body">
                         {description}
                     </Text>
-                    {Object.keys(items).map((key) => (
+                    {Object.keys(items).map(key => (
                         <div key={key} className="mt-6">
                             <span className="inline-block font-bold">
                                 {key}
                             </span>
                             <ul className="pl-6">
-                                {items[key].map((item) => (
+                                {items[key].map(item => (
                                     <li
                                         key={item}
-                                        className="pl-1 list-disc list-outside"
-                                    >
+                                        className="pl-1 list-disc list-outside">
                                         {item}
                                     </li>
                                 ))}

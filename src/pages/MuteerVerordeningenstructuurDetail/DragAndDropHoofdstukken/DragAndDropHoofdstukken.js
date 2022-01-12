@@ -1,15 +1,14 @@
 /* istanbul ignore file */
-import React from "react"
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 
-import { faSave, faTimes } from "@fortawesome/pro-regular-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faSave, faTimes } from '@fortawesome/pro-regular-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useContext } from 'react'
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
-import AddSection from "./../AddSection"
-import CrudDropdown from "./../CrudDropdown"
-import AddObjectButton from "./../AddObjectButton"
-
-import VerordeningContext from "./../VerordeningContext"
+import AddObjectButton from './../AddObjectButton'
+import AddSection from './../AddSection'
+import CrudDropdown from './../CrudDropdown'
+import VerordeningContext from './../VerordeningContext'
 
 function DragAndDropHoofdstukken({ hoofdstukItems, changeActiveChapter }) {
     const {
@@ -23,7 +22,7 @@ function DragAndDropHoofdstukken({ hoofdstukItems, changeActiveChapter }) {
         userIsEditingOrder,
         userIsEditingSections,
         onDragEnd,
-    } = React.useContext(VerordeningContext)
+    } = useContext(VerordeningContext)
 
     return (
         <DragDropContext onDragEnd={onDragEnd}>
@@ -33,7 +32,7 @@ function DragAndDropHoofdstukken({ hoofdstukItems, changeActiveChapter }) {
                     nest_1={null}
                     nest_2={null}
                     nest_3={null}
-                    type={"Hoofdstuk"}
+                    type={'Hoofdstuk'}
                 />
             ) : null}
             <Droppable type="hoofdstukItem" droppableId="droppable">
@@ -43,11 +42,10 @@ function DragAndDropHoofdstukken({ hoofdstukItems, changeActiveChapter }) {
                         className={`py-1 
                             ${
                                 snapshot.isDraggingOver
-                                    ? "bg-gray-200"
-                                    : "bg-white"
+                                    ? 'bg-gray-200'
+                                    : 'bg-white'
                             }
-                        `}
-                    >
+                        `}>
                         <div className="px-2 py-1">
                             <AddObjectButton nestType="Hoofdstuk" index={[0]} />
                         </div>
@@ -56,8 +54,7 @@ function DragAndDropHoofdstukken({ hoofdstukItems, changeActiveChapter }) {
                                 isDragDisabled={!userIsEditingOrder}
                                 key={item.UUID}
                                 draggableId={item.UUID}
-                                index={index}
-                            >
+                                index={index}>
                                 {(provided, snapshot) => (
                                     <div id="dnd-container">
                                         <div
@@ -66,10 +63,9 @@ function DragAndDropHoofdstukken({ hoofdstukItems, changeActiveChapter }) {
                                             {...provided.dragHandleProps}
                                             className={`w-full bg-white relative px-2 py-1 ${
                                                 snapshot.isDragging
-                                                    ? "shadow-lg"
-                                                    : ""
-                                            }`}
-                                        >
+                                                    ? 'shadow-lg'
+                                                    : ''
+                                            }`}>
                                             <div className="relative">
                                                 {verordeningsObjectFromGET &&
                                                 verordeningsObjectFromGET.UUID ===
@@ -152,18 +148,17 @@ const HoofdstukTitleEditing = ({
     return (
         <div
             className={`py-1 pl-5 font-bold rounded hover:bg-pzh-blue-super-light pr-1 bg-pzh-blue-super-light 
-            ${snapshot.isDragging ? "" : "hover:bg-gray-100 cursor-pointer"}`}
-        >
+            ${snapshot.isDragging ? '' : 'hover:bg-gray-100 cursor-pointer'}`}>
             <div className="flex items-center">
                 <span>Hoofdstuk</span>
                 <input
                     type="text"
                     value={verordeningsObjectFromGET.Volgnummer}
-                    onChange={(e) => {
+                    onChange={e => {
                         setVerordeningsObjectFromGET({
-                            type: "changeValue",
+                            type: 'changeValue',
                             value: e.target.value,
-                            name: "Volgnummer",
+                            name: 'Volgnummer',
                         })
                     }}
                     id="form-inline-volgnummer"
@@ -175,19 +170,18 @@ const HoofdstukTitleEditing = ({
                     type="text"
                     id="form-inline-title"
                     value={verordeningsObjectFromGET.Titel}
-                    onChange={(e) => {
+                    onChange={e => {
                         setVerordeningsObjectFromGET({
-                            type: "changeValue",
+                            type: 'changeValue',
                             value: e.target.value,
-                            name: "Titel",
+                            name: 'Titel',
                         })
                     }}
                     className="inline-block w-full ml-2 font-bold form-input "
                 />
                 <button
                     onClick={() => patchRegulationObject()}
-                    className="flex items-center self-stretch justify-center inline-block px-3 ml-1 text-lg text-white bg-green-500 rounded hover:bg-pzh-green"
-                >
+                    className="flex items-center self-stretch justify-center inline-block px-3 ml-1 text-lg text-white bg-green-500 rounded hover:bg-pzh-green">
                     <FontAwesomeIcon icon={faSave} />
                 </button>
                 <button
@@ -195,10 +189,9 @@ const HoofdstukTitleEditing = ({
                     onClick={() => {
                         setUUIDBeingEdited(null)
                         setVerordeningsObjectFromGET({
-                            type: "cancel",
+                            type: 'cancel',
                         })
-                    }}
-                >
+                    }}>
                     <FontAwesomeIcon icon={faTimes} />
                 </button>
             </div>
@@ -210,16 +203,15 @@ const HoofdstukTitle = ({ snapshot, item, itemIndex, changeActiveChapter }) => {
     return (
         <div
             className={`py-3 pl-5 font-bold hover:bg-pzh-blue-super-light pr-12 bg-pzh-blue-super-light rounded 
-            ${snapshot.isDragging ? "" : "hover:bg-gray-100 cursor-pointer"} 
+            ${snapshot.isDragging ? '' : 'hover:bg-gray-100 cursor-pointer'} 
             `}
             onClick={() => {
                 if (snapshot.isDragging) return
                 changeActiveChapter(itemIndex)
                 window.scrollTo(0, 0)
-            }}
-        >
-            {`Hoofdstuk ${item.Volgnummer ? item.Volgnummer : ""} - ${
-                item.Titel ? item.Titel : ""
+            }}>
+            {`Hoofdstuk ${item.Volgnummer ? item.Volgnummer : ''} - ${
+                item.Titel ? item.Titel : ''
             }`}
         </div>
     )

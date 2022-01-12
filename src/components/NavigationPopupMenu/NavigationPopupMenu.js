@@ -1,19 +1,17 @@
-import React from "react"
-import { Link, useHistory } from "react-router-dom"
-
+import { faSearch } from '@fortawesome/pro-light-svg-icons'
 import {
     faChevronRight,
     faBars,
     faTimes,
-} from "@fortawesome/pro-solid-svg-icons"
-import { faSearch } from "@fortawesome/pro-light-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+} from '@fortawesome/pro-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useEffect, useState } from 'react'
+import { Link, useHistory } from 'react-router-dom'
 
-import useLockBodyScroll from "./../../utils/useLockBodyScroll"
-import { useWindowSize } from "../../utils/useWindowSize"
-
-import Container from "./../Container"
-import Heading from "./../Heading"
+import { useWindowSize } from '../../utils/useWindowSize'
+import useLockBodyScroll from './../../utils/useLockBodyScroll'
+import Container from './../Container'
+import Heading from './../Heading'
 
 /**
  * A popup menu that can be used to navigate the application.
@@ -27,48 +25,46 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
     const history = useHistory()
     useLockBodyScroll({ modalOpen: isOpen })
 
-    const [searchQuery, setSearchQuery] = React.useState("")
-    const [bannerAdjustedOffsetTop, setBannerAdjustedOffsetTop] =
-        React.useState({})
-    const [isMobile, setIsMobile] = React.useState(false)
-    const [containerHeightStyle, setContainerHeightStyle] =
-        React.useState(false)
+    const [searchQuery, setSearchQuery] = useState('')
+    const [bannerAdjustedOffsetTop, setBannerAdjustedOffsetTop] = useState({})
+    const [isMobile, setIsMobile] = useState(false)
+    const [containerHeightStyle, setContainerHeightStyle] = useState(false)
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (showBanner) {
             setBannerAdjustedOffsetTop({
-                top: "146px",
+                top: '146px',
             })
         } else {
             setBannerAdjustedOffsetTop({
-                top: "96px",
+                top: '96px',
             })
         }
     }, [showBanner])
 
     /** State for responsiveness */
-    React.useEffect(() => {
+    useEffect(() => {
         setIsMobile(windowSize.width <= 640)
         setContainerHeightStyle({
             maxHeight: `calc(100vh - ${
-                document.getElementById("navigation-main")?.offsetHeight + "px"
+                document.getElementById('navigation-main')?.offsetHeight + 'px'
             })`,
         })
     }, [windowSize])
 
     /** Handle close on Escape key event */
-    React.useEffect(() => {
+    useEffect(() => {
         function closeOnEscape(e) {
-            if (e.key === "Escape") {
+            if (e.key === 'Escape') {
                 setIsOpen(false)
             }
         }
-        window.addEventListener("keydown", closeOnEscape)
-        return () => window.removeEventListener("keydown", closeOnEscape)
+        window.addEventListener('keydown', closeOnEscape)
+        return () => window.removeEventListener('keydown', closeOnEscape)
     }, [setIsOpen])
 
     return (
-        <React.Fragment>
+        <>
             <ToggleMenuButton
                 isOpen={isOpen}
                 setIsOpen={setIsOpen}
@@ -82,14 +78,14 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
                     >
                         <FontAwesomeIcon
                             className="absolute text-lg"
-                            style={{ marginTop: "-0.2rem" }}
+                            style={{ marginTop: '-0.2rem' }}
                             icon={isOpen ? faTimes : faBars}
                         />
                     </div>
                 </div>
             ) : null}
             {isOpen ? (
-                <React.Fragment>
+                <>
                     <div
                         style={bannerAdjustedOffsetTop}
                         className="fixed top-0 left-0 z-0 block w-screen h-screen bg-gray-900 pointer-events-none opacity-40"
@@ -112,15 +108,15 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
                                     <input
                                         className={`pl-10 placeholder-gray-500 pr-6 rounded w-full appearance-none px-3 pb-1 border hover:border-opacity-50 border-pzh-blue border-opacity-30 transition-colors ease-in duration-100`}
                                         name="searchInput"
-                                        onChange={(e) => {
+                                        onChange={e => {
                                             setSearchQuery(e.target.value)
                                         }}
                                         autoComplete="off"
                                         id="navigation-popup-menu-search"
                                         type="text"
                                         value={searchQuery}
-                                        onKeyDown={(e) => {
-                                            if (e.key === "Enter") {
+                                        onKeyDown={e => {
+                                            if (e.key === 'Enter') {
                                                 // Enter key
                                                 if (searchQuery.length === 0)
                                                     return
@@ -132,8 +128,8 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
                                         }}
                                         placeholder={
                                             isMobile
-                                                ? "Zoeken"
-                                                : "Zoek binnen het beleid van de provincie Zuid-Holland"
+                                                ? 'Zoeken'
+                                                : 'Zoek binnen het beleid van de provincie Zuid-Holland'
                                         }
                                     />
                                 </div>
@@ -190,7 +186,7 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
                                     <ListItem
                                         text="Verordening"
                                         setIsOpen={setIsOpen}
-                                        to={"/detail/verordening"}
+                                        to={'/detail/verordening'}
                                     />
                                 </ul>
                             </div>
@@ -214,22 +210,22 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
                             <div className="col-span-6 mb-10 md:mb-0 md:mt-6 md:col-span-2">
                                 <ul
                                     style={
-                                        isMobile ? null : { marginTop: "32px" }
+                                        isMobile ? null : { marginTop: '32px' }
                                     }
                                 >
                                     <ListItem
                                         text="Netwerkvisualisatie"
                                         setIsOpen={setIsOpen}
                                         to="/netwerkvisualisatie"
-                                        onKeyDown={(e) => {
+                                        onKeyDown={e => {
                                             if (
-                                                e.key === "Tab" &&
+                                                e.key === 'Tab' &&
                                                 !e.shiftKey
                                             ) {
                                                 e.preventDefault()
                                                 document
                                                     .getElementById(
-                                                        "popup-menu-toggle"
+                                                        'popup-menu-toggle'
                                                     )
                                                     ?.focus()
                                             }
@@ -239,48 +235,48 @@ const NavigationPopupMenu = ({ showBanner, isOpen, setIsOpen }) => {
                             </div>
                         </Container>
                     </div>
-                </React.Fragment>
+                </>
             ) : null}
-        </React.Fragment>
+        </>
     )
 }
 
 const ToggleMenuButton = ({ isOpen, setIsOpen, isMobile }) => {
     return (
         <button
-            onKeyDown={(e) => {
-                if (e.key === "Tab" && e.shiftKey) {
-                    console.log("EXEC")
+            onKeyDown={e => {
+                if (e.key === 'Tab' && e.shiftKey) {
+                    console.log('EXEC')
                     e.preventDefault()
                     document
-                        .getElementById("menu-item-netwerkvisualisatie")
+                        .getElementById('menu-item-netwerkvisualisatie')
                         ?.focus()
                 }
             }}
             id="popup-menu-toggle"
             className={`relative flex items-center justify-center px-2 pb-1 mb-1 pt-2 -mr-6 transition-colors duration-100 ease-in rounded ${
                 isOpen
-                    ? "text-white hover:bg-gray-100 hover:text-pzh-blue"
-                    : "text-pzh-blue hover:text-pzh-blue-dark hover:bg-gray-100"
-            } ${isMobile ? "hidden" : ""}`}
+                    ? 'text-white hover:bg-gray-100 hover:text-pzh-blue'
+                    : 'text-pzh-blue hover:text-pzh-blue-dark hover:bg-gray-100'
+            } ${isMobile ? 'hidden' : ''}`}
             aria-expanded={isOpen}
             onClick={() => setIsOpen(!isOpen)}
         >
             <FontAwesomeIcon
                 className="mx-1"
-                style={{ fontSize: "0.9rem", marginTop: "-0.2rem" }}
+                style={{ fontSize: '0.9rem', marginTop: '-0.2rem' }}
                 icon={isOpen ? faTimes : faBars}
             />
             <span className="ml-1 font-bold">
-                {isOpen ? "Sluit menu" : "Menu"}
+                {isOpen ? 'Sluit menu' : 'Menu'}
             </span>
         </button>
     )
 }
 
 const ListItem = ({
-    text = "",
-    to = "#",
+    text = '',
+    to = '#',
     setIsOpen,
     onKeyDown = null,
     targetBlank = false,
@@ -291,10 +287,10 @@ const ListItem = ({
                 <a
                     onKeyDown={onKeyDown}
                     href={to}
-                    target={targetBlank ? "_blank" : ""}
+                    target={targetBlank ? '_blank' : ''}
                     rel="noopener noreferrer"
                     onClick={() => setIsOpen(false)}
-                    id={`menu-item-${text.replace(/\s+/g, "-").toLowerCase()}`}
+                    id={`menu-item-${text.replace(/\s+/g, '-').toLowerCase()}`}
                 >
                     <FontAwesomeIcon className="mr-2" icon={faChevronRight} />
                     <span className="underline">{text}</span>
@@ -308,7 +304,7 @@ const ListItem = ({
                     onKeyDown={onKeyDown}
                     to={to}
                     onClick={() => setIsOpen(false)}
-                    id={`menu-item-${text.replace(/\s+/g, "-").toLowerCase()}`}
+                    id={`menu-item-${text.replace(/\s+/g, '-').toLowerCase()}`}
                 >
                     <FontAwesomeIcon className="mr-2" icon={faChevronRight} />
                     <span className="underline">{text}</span>

@@ -1,6 +1,7 @@
 /* istanbul ignore file */
-import React from "react"
 
-const APIContext = React.createContext()
+import { createContext } from 'react'
+
+const APIContext = createContext()
 
 export default APIContext

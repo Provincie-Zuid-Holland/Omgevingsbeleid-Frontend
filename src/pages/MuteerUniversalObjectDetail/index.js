@@ -1,3 +1,3 @@
-import MuteerUniversalObjectDetail from "./MuteerUniversalObjectDetail.js"
+import MuteerUniversalObjectDetail from './MuteerUniversalObjectDetail.js'
 
 export default MuteerUniversalObjectDetail

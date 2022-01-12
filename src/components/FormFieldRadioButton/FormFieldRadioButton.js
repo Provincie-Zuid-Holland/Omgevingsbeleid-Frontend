@@ -1,5 +1,3 @@
-import React from "react"
-
 /**
  * Displays list of options with radio buttons and labels.
  *
@@ -28,12 +26,12 @@ function FormFieldRadioButton({
             <div
                 className={`mt-4 ${
                     disabled
-                        ? "opacity-50 cursor-not-allowed pointer-events-none"
-                        : ""
+                        ? 'opacity-50 cursor-not-allowed pointer-events-none'
+                        : ''
                 }`}
                 id={`form-field-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
             >
-                {options.map((option) => {
+                {options.map(option => {
                     const id = `form-field-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}-${option}`
                     return (
                         <div key={option} className="flex items-center mb-4">

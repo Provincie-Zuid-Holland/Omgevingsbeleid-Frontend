@@ -1,8 +1,5 @@
-import React from "react"
-
-import logoSVG from "./../../images/PZH_Basislogo.svg"
-
-import useLockBodyScroll from "./../../utils/useLockBodyScroll"
+import logoSVG from './../../images/PZH_Basislogo.svg'
+import useLockBodyScroll from './../../utils/useLockBodyScroll'
 
 /**
  * Displays a popup with a welcome text and a close button.
@@ -14,14 +11,14 @@ const PopupWelcomeBeta = ({ closePopup }) => {
     useLockBodyScroll({ modalOpen: true })
 
     return (
-        <React.Fragment>
+        <>
             <div className="absolute top-0 left-0 z-40 w-screen h-screen bg-gray-900 opacity-50"></div>
             <div className="absolute top-0 left-0 z-40 flex items-center justify-center w-screen h-screen">
                 <div className="max-w-xl p-10 pt-5 text-gray-700 bg-white rounded">
                     <div className="block w-full mb-4 text-center">
                         <img
                             className="inline-block"
-                            style={{ height: "136px" }}
+                            style={{ height: '136px' }}
                             src={logoSVG}
                             alt="Provincie Zuid-Holland Logo"
                         />
@@ -37,7 +34,7 @@ const PopupWelcomeBeta = ({ closePopup }) => {
                         gebruiksvriendelijkere omgeving en betere weergaven.
                         Omdat de website nog in ontwikkeling is kan het zijn dat
                         sommige functionaliteiten niet goed werken. Kom je een
-                        fout tegen? Neem dan contact op door te mailen naar{" "}
+                        fout tegen? Neem dan contact op door te mailen naar{' '}
                         <a
                             href="mailto:omgevingsbeleid@pzh.nl?subject=Feedback Omgevingsbeleid&body=Probeer zo duidelijk mogelijk te omschrijven waar je tegenaan liep"
                             className="underline cursor-pointer"
@@ -56,7 +53,7 @@ const PopupWelcomeBeta = ({ closePopup }) => {
                     </span>
                 </div>
             </div>
-        </React.Fragment>
+        </>
     )
 }
 

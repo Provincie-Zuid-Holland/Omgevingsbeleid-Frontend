@@ -1,3 +1,3 @@
-import EditOrderSidebar from "./EditOrderSidebar.js"
+import EditOrderSidebar from './EditOrderSidebar.js'
 
 export default EditOrderSidebar

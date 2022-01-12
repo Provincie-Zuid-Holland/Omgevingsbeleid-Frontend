@@ -1,20 +1,20 @@
-import React from "react"
-import { Link, useLocation } from "react-router-dom"
-import { faAngleRight } from "@fortawesome/pro-light-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faAngleRight } from '@fortawesome/pro-light-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useEffect, useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 
 const ViewFieldBelangen = ({ fieldValue }) => {
-    const [nationaleBelangen, setNationaleBelangen] = React.useState([])
-    const [wettelijkeTaken, setWettelijkeTaken] = React.useState([])
-    const [dataLoaded, setDataLoaded] = React.useState(false)
+    const [nationaleBelangen, setNationaleBelangen] = useState([])
+    const [wettelijkeTaken, setWettelijkeTaken] = useState([])
+    const [dataLoaded, setDataLoaded] = useState(false)
 
-    React.useEffect(() => {
+    useEffect(() => {
         setNationaleBelangen(
-            fieldValue.filter((item) => item.Object.Type === "Nationaal Belang")
+            fieldValue.filter(item => item.Object.Type === 'Nationaal Belang')
         )
         setWettelijkeTaken(
             fieldValue.filter(
-                (item) => item.Object.Type === "Wettelijke Taak & Bevoegdheid"
+                item => item.Object.Type === 'Wettelijke Taak & Bevoegdheid'
             )
         )
         setDataLoaded(true)
@@ -28,7 +28,7 @@ const ViewFieldBelangen = ({ fieldValue }) => {
                         Nationaal belang
                     </h2>
                     <ul className="mt-1">
-                        {nationaleBelangen.map((item) => (
+                        {nationaleBelangen.map(item => (
                             <BelangenListItem
                                 key={item?.Object?.UUID}
                                 item={item.Object}
@@ -43,7 +43,7 @@ const ViewFieldBelangen = ({ fieldValue }) => {
                         Wettelijke taak en bevoegdheid
                     </h2>
                     <ul className="mt-1">
-                        {wettelijkeTaken.map((item) => (
+                        {wettelijkeTaken.map(item => (
                             <BelangenListItem
                                 key={item?.Object?.UUID}
                                 item={item.Object}
@@ -62,12 +62,10 @@ const BelangenListItem = ({ item }) => {
     return (
         <li
             className="w-full leading-7 text-gray-800 break-words whitespace-pre-line group"
-            key={item.UUID}
-        >
+            key={item.UUID}>
             <Link
                 className="relative cursor-pointer"
-                to={`/detail/belangen/${item.UUID}?fromPage=${location.pathname}`}
-            >
+                to={`/detail/belangen/${item.UUID}?fromPage=${location.pathname}`}>
                 <FontAwesomeIcon
                     className="relative ml-0 text-base"
                     icon={faAngleRight}

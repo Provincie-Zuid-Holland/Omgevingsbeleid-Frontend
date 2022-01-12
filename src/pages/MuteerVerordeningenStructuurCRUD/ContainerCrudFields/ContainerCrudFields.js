@@ -1,19 +1,14 @@
 /* istanbul ignore file */
-import React from "react"
 
-// Import Context
-import APIcontext from "./../APIContext"
+import { Component } from 'react'
 
-// Import Components
-import ContainerMain from "./../../../components/ContainerMain"
-import ContainerFormSection from "./../../../components/ContainerFormSection"
-import FormFieldTextInput from "./../../../components/FormFieldTextInput"
-import FormFieldGeldigheid from "./../../../components/FormFieldGeldigheid"
+import ContainerFormSection from './../../../components/ContainerFormSection'
+import ContainerMain from './../../../components/ContainerMain'
+import FormFieldGeldigheid from './../../../components/FormFieldGeldigheid'
+import FormFieldTextInput from './../../../components/FormFieldTextInput'
+import APIcontext from './../APIContext'
 
-// Import Form Fields
-import FormFields from "./../../../components/FormFieldsExport"
-
-class ContainerCrudFields extends React.Component {
+class ContainerCrudFields extends Component {
     render() {
         const crudObject = this.context.crudObject
         const titleSingular = this.context.titleSingular
@@ -25,7 +20,7 @@ class ContainerCrudFields extends React.Component {
                         className="mt-12"
                         onSubmit={this.context.handleSubmit}
                     >
-                        <React.Fragment>
+                        <>
                             <ContainerFormSection
                                 titel="Verordening"
                                 beschrijving={`Geef de verordening een passende titel.`}
@@ -33,7 +28,7 @@ class ContainerCrudFields extends React.Component {
                                 <FormFieldTextInput
                                     handleChange={this.context.handleChange}
                                     fieldValue={
-                                        this.context.crudObject["Titel"]
+                                        this.context.crudObject['Titel']
                                     }
                                     fieldLabel="Titel"
                                     dataObjectProperty="Titel"
@@ -48,7 +43,7 @@ class ContainerCrudFields extends React.Component {
                                     <FormFieldGeldigheid
                                         handleChange={this.context.handleChange}
                                         fieldValue={
-                                            crudObject["Begin_Geldigheid"]
+                                            crudObject['Begin_Geldigheid']
                                         }
                                         fieldLabel="Datum inwerkingtreding"
                                         notRequired={true}
@@ -64,7 +59,7 @@ class ContainerCrudFields extends React.Component {
                                         handleChange={this.context.handleChange}
                                         notRequired={true}
                                         fieldValue={
-                                            crudObject["Eind_Geldigheid"]
+                                            crudObject['Eind_Geldigheid']
                                         }
                                         openUitwerkingstrede={true}
                                         fieldLabel="Datum uitwerkingtreding"
@@ -74,7 +69,7 @@ class ContainerCrudFields extends React.Component {
                                     />
                                 </div>
                             </ContainerFormSection>
-                        </React.Fragment>
+                        </>
 
                         {/* Submit */}
                         <div className="fixed bottom-0 right-0 px-6">

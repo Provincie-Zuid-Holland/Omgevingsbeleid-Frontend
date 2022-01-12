@@ -1,5 +1,4 @@
-import React from "react"
-import ContentLoader from "react-content-loader"
+import ContentLoader from 'react-content-loader'
 
 /**
  * Displays a rectangle shape before the LeafletLargeViewer component is displayed.

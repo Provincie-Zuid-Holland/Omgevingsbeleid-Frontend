@@ -1,12 +1,11 @@
-import React from "react"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faSearch } from "@fortawesome/pro-light-svg-icons"
-import { Transition } from "@headlessui/react"
+import { faSearch } from '@fortawesome/pro-light-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Transition } from '@headlessui/react'
+import { useEffect, useRef, useState } from 'react'
 
-import useClickOutsideContainer from "./../../utils/useClickOutsideContainer"
-import { getFilteredData } from "./../../utils/networkGraph"
-
-import networkGraphConnectionProperties from "../../constants/networkGraphConnectionProperties"
+import networkGraphConnectionProperties from '../../constants/networkGraphConnectionProperties'
+import { getFilteredData } from './../../utils/networkGraph'
+import useClickOutsideContainer from './../../utils/useClickOutsideContainer'
 
 /**
  * A search bar where the user can search through and select the graph nodes
@@ -28,16 +27,16 @@ const NetworkGraphSearchBar = ({
     handleNodeClick,
     svgElement,
 }) => {
-    const [filteredData, setFilteredData] = React.useState(null)
-    const [links, setLinks] = React.useState(null)
-    const [searchResultsOpen, setSearchResultsOpen] = React.useState(true)
-    const innerContainer = React.useRef(null)
+    const [filteredData, setFilteredData] = useState(null)
+    const [links, setLinks] = useState(null)
+    const [searchResultsOpen, setSearchResultsOpen] = useState(true)
+    const innerContainer = useRef(null)
 
     useClickOutsideContainer(innerContainer, () => {
         setSearchResultsOpen(false)
     })
 
-    const handleKeyDown = (e) => {
+    const handleKeyDown = e => {
         if (e.keyCode === 40 && searchQuery.length > 0) {
             // Arrow Down key
             e.preventDefault()
@@ -49,7 +48,7 @@ const NetworkGraphSearchBar = ({
     }
 
     /** Iniate filtered data and links in local state */
-    React.useEffect(() => {
+    useEffect(() => {
         if (!filters || !data) return null
         const [links, nodes] = getFilteredData(data, filters)
         setFilteredData(nodes)
@@ -57,7 +56,7 @@ const NetworkGraphSearchBar = ({
     }, [filters, data])
 
     /** Close the search results when there is a clicked node */
-    React.useEffect(() => {
+    useEffect(() => {
         if (clickedNode) setSearchResultsOpen(false)
     }, [clickedNode])
 
@@ -69,15 +68,15 @@ const NetworkGraphSearchBar = ({
                     onKeyDown={handleKeyDown}
                     disabled={clickedNode}
                     className={`block w-full pl-10 px-4 pt-2 pb-1 leading-tight text-gray-700 border border-gray-200 rounded appearance-none focus:outline-none hover:border-gray-300 focus:border-gray-400 ${
-                        searchQuery !== "" && searchResultsOpen
-                            ? "rounded-b-none"
-                            : ""
+                        searchQuery !== '' && searchResultsOpen
+                            ? 'rounded-b-none'
+                            : ''
                     }`}
                     id="network-graph-search-query"
                     placeholder="Zoek op beleid"
                     type="text"
                     value={searchQuery}
-                    onChange={(event) => setSearchQuery(event.target.value)}
+                    onChange={event => setSearchQuery(event.target.value)}
                     onFocus={() => setSearchResultsOpen(true)}
                     onClick={() => setSearchResultsOpen(true)}
                 />
@@ -91,8 +90,8 @@ const NetworkGraphSearchBar = ({
                     <div
                         className={`pt-1 text-sm text-gray-700 underline select-none ${
                             clickedNode
-                                ? ""
-                                : "cursor-pointer pointer-events-auto"
+                                ? ''
+                                : 'cursor-pointer pointer-events-auto'
                         }`}
                         onClick={() => setSearchResultsOpen(!searchResultsOpen)}
                     >
@@ -106,7 +105,7 @@ const NetworkGraphSearchBar = ({
             </div>
             <div className="relative">
                 <NetworkGraphSearchBarResults
-                    show={searchQuery !== "" && searchResultsOpen}
+                    show={searchQuery !== '' && searchResultsOpen}
                     handleNodeClick={handleNodeClick}
                     searchQuery={searchQuery}
                     filteredData={filteredData}
@@ -138,7 +137,7 @@ const NetworkGraphSearchBarResults = ({
 }) => {
     if (!filteredData) return null
 
-    const filterBasedOnSearchQuery = (e) =>
+    const filterBasedOnSearchQuery = e =>
         e.Titel?.toLowerCase()?.includes(searchQuery.toLowerCase())
 
     return (
@@ -153,7 +152,7 @@ const NetworkGraphSearchBarResults = ({
         >
             <ul
                 className="absolute top-0 left-0 z-10 w-full overflow-hidden overflow-y-auto bg-white border border-t-0 border-gray-200 rounded-b-md"
-                style={{ maxHeight: "400px" }}
+                style={{ maxHeight: '400px' }}
             >
                 {filteredData
                     .filter(filterBasedOnSearchQuery)
@@ -197,7 +196,7 @@ const NetworkGraphSearchBarResultItem = ({
 }) => {
     const selectSearchQueryInput = () => {
         const searchQueryInput = document.getElementById(
-            "network-graph-search-query"
+            'network-graph-search-query'
         )
         if (!searchQueryInput) return
         searchQueryInput.select()
@@ -207,23 +206,23 @@ const NetworkGraphSearchBarResultItem = ({
      * Function to handle the up and down key navigation
      * @param {string} type - Contains the type 'previous' or 'next'
      */
-    const focusItem = (type) => {
+    const focusItem = type => {
         const currentIndex = parseInt(
-            document.activeElement.getAttribute("data-index")
+            document.activeElement.getAttribute('data-index')
         )
         const isLastItem = currentIndex === amountOfFilterItems
         const isFirstItem = currentIndex === 1
 
-        const focusNewItem = (index) =>
+        const focusNewItem = index =>
             document.querySelector(`[data-index='${index}']`)?.focus()
 
-        if (type === "next" && isLastItem) {
+        if (type === 'next' && isLastItem) {
             return
-        } else if (type === "next" && !isLastItem) {
+        } else if (type === 'next' && !isLastItem) {
             focusNewItem(currentIndex + 1)
-        } else if (type === "previous" && isFirstItem) {
+        } else if (type === 'previous' && isFirstItem) {
             selectSearchQueryInput()
-        } else if (type === "previous" && !isFirstItem) {
+        } else if (type === 'previous' && !isFirstItem) {
             focusNewItem(currentIndex - 1)
         }
     }
@@ -233,15 +232,15 @@ const NetworkGraphSearchBarResultItem = ({
      * Handlers for key up, key down and the enter key
      * @param {object} e - Event
      */
-    const handleKeyDown = (e) => {
+    const handleKeyDown = e => {
         if (e.keyCode === 40) {
             // Arrow down
             e.preventDefault()
-            focusItem("next")
+            focusItem('next')
         } else if (e.keyCode === 38) {
             // Arrow up
             e.preventDefault()
-            focusItem("previous")
+            focusItem('previous')
         } else if (e.keyCode === 13) {
             // Enter key
             handleClick()

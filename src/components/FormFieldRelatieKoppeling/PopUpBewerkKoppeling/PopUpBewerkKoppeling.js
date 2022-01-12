@@ -1,8 +1,8 @@
-import React, { Component } from "react"
-import { faTimes } from "@fortawesome/pro-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faTimes } from '@fortawesome/pro-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Component } from 'react'
 
-import PopUpAnimatedContainer from "./../../PopUpAnimatedContainer"
+import PopUpAnimatedContainer from './../../PopUpAnimatedContainer'
 
 /**
  * @returns Component where a user can edit an existing connection
@@ -15,7 +15,7 @@ class PopUpBewerkKoppeling extends Component {
             objecten: [],
             selected: null,
             omschrijving:
-                this.props.bewerkItem.item.Koppeling_Omschrijving || "",
+                this.props.bewerkItem.item.Koppeling_Omschrijving || '',
         }
         this.handleChange = this.handleChange.bind(this)
     }
@@ -47,9 +47,9 @@ class PopUpBewerkKoppeling extends Component {
                 <h3 className="font-bold form-field-label">koppelen</h3>
 
                 <p className="form-field-description">
-                    Beschrijf de koppeling tussen '
-                    {this.props.bewerkItem.item.Object.Titel}' en de
-                    beleidskeuze '{this.props.titelMainObject}'
+                    Beschrijf de koppeling tussen &apos;
+                    {this.props.bewerkItem.item.Object.Titel}&apos; en de
+                    beleidskeuze &apos;{this.props.titelMainObject}&apos;
                 </p>
                 <p className="mt-4 form-field-description">
                     Beschrijf zo concreet mogelijk de relatie
@@ -95,7 +95,7 @@ class PopUpBewerkKoppeling extends Component {
                                 : `hover:underline`
                         }`}
                         tabIndex="0"
-                        onClick={(e) => {
+                        onClick={() => {
                             if (this.state.omschrijving.length > 0) {
                                 this.props.wijzigKoppelingRelatie(
                                     this.props.bewerkItem,
@@ -106,9 +106,9 @@ class PopUpBewerkKoppeling extends Component {
                                 return
                             }
                         }}
-                        onKeyPress={(e) => {
+                        onKeyPress={e => {
                             if (
-                                e.key === "Enter" &&
+                                e.key === 'Enter' &&
                                 this.state.omschrijving.length > 0
                             ) {
                                 this.props.wijzigKoppelingRelatie(

@@ -1,5 +1,4 @@
-import React from "react"
-import ContentLoader from "react-content-loader"
+import ContentLoader from 'react-content-loader'
 
 /**
  * Displays a grey rectancle loading block before the actual component is displayed.

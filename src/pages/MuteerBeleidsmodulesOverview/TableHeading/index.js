@@ -1,2 +1,1 @@
-export { default } from "./TableHeading"
-export * from "./TableHeading"
+export { default } from './TableHeading'

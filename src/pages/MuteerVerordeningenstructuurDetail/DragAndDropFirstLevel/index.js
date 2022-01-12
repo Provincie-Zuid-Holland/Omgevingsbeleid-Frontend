@@ -1,3 +1,3 @@
-import DragAndDropFirstLevel from "./DragAndDropFirstLevel.js"
+import DragAndDropFirstLevel from './DragAndDropFirstLevel.js'
 
 export default DragAndDropFirstLevel

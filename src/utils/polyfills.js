@@ -1,4 +1,4 @@
-import smoothscroll from "smoothscroll-polyfill"
+import smoothscroll from 'smoothscroll-polyfill'
 
 const polyfills = () => {
     /**
@@ -7,13 +7,13 @@ const polyfills = () => {
     smoothscroll.polyfill()
 
     // Polyfill for Object Assign
-    if (typeof Object.assign != "function") {
+    if (typeof Object.assign != 'function') {
         // eslint-disable-next-line no-extend-native
-        Object.assign = function (target, varArgs) {
+        Object.assign = function (target) {
             if (target == null) {
                 // TypeError if undefined or null
                 throw new TypeError(
-                    "Cannot convert undefined or null to object"
+                    'Cannot convert undefined or null to object'
                 )
             }
 
@@ -46,7 +46,7 @@ const polyfills = () => {
         /* eslint-disable-next-line */
         String.prototype.includes = function () {
             /* eslint-disable-next-line */
-            "use strict"
+            'use strict'
             return String.prototype.indexOf.apply(this, arguments) !== -1
         }
     }
@@ -54,11 +54,11 @@ const polyfills = () => {
     // Polyfill for the array .fill method
     if (!Array.prototype.fill) {
         // eslint-disable-next-line no-extend-native
-        Object.defineProperty(Array.prototype, "fill", {
+        Object.defineProperty(Array.prototype, 'fill', {
             value: function (value) {
                 // Steps 1-2.
                 if (this == null) {
-                    throw new TypeError("this is null or not defined")
+                    throw new TypeError('this is null or not defined')
                 }
 
                 var O = Object(this)

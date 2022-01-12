@@ -1,2 +1,1 @@
-export { default } from "./NetworkGraphTooltip"
-export * from "./NetworkGraphTooltip"
+export { default } from './NetworkGraphTooltip'

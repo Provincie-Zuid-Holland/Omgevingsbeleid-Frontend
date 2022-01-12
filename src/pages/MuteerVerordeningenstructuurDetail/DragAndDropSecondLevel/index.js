@@ -1,3 +1,3 @@
-import DragAndDropSecondLevel from "./DragAndDropSecondLevel.js"
+import DragAndDropSecondLevel from './DragAndDropSecondLevel.js'
 
 export default DragAndDropSecondLevel

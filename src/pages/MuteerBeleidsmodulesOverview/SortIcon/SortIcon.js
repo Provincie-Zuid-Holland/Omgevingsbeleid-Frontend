@@ -1,10 +1,8 @@
-import React from "react"
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
     faSortAmountUp,
     faSortAmountDown,
-} from "@fortawesome/pro-solid-svg-icons"
+} from '@fortawesome/pro-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 /**
  *
@@ -20,8 +18,8 @@ const SortIcon = ({ sorting, property }) => {
         <FontAwesomeIcon
             className={`ml-2 ${
                 sorting.activeSorting === property
-                    ? "text-gray-700"
-                    : "text-gray-400"
+                    ? 'text-gray-700'
+                    : 'text-gray-400'
             }`}
             icon={sorting[property] ? faSortAmountUp : faSortAmountDown}
         />

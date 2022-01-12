@@ -1,14 +1,15 @@
-import { render, screen } from "@testing-library/react"
-import "@testing-library/jest-dom"
-import React from "react"
-import Login from "./Login"
-import { MemoryRouter } from "react-router-dom"
+import { render, screen } from '@testing-library/react'
+import '@testing-library/jest-dom'
+
+import { MemoryRouter } from 'react-router-dom'
+
+import Login from './Login'
 
 const mockSetLoginUser = () => jest.fn()
 const mockSetLoginState = () => jest.fn()
 
-describe("Login", () => {
-    it("should render", () => {
+describe('Login', () => {
+    it('should render', () => {
         render(
             <MemoryRouter>
                 <Login
@@ -17,8 +18,8 @@ describe("Login", () => {
                 />
             </MemoryRouter>
         )
-        const header = screen.getByRole("heading", {
-            name: "Inloggen",
+        const header = screen.getByRole('heading', {
+            name: 'Inloggen',
         })
         expect(header).toBeInTheDocument()
     })

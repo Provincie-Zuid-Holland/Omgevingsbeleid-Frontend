@@ -1,22 +1,17 @@
-import {
-    render,
-    waitForElementToBeRemoved,
-    screen,
-} from "@testing-library/react"
-import { MemoryRouter } from "react-router-dom"
-import "@testing-library/jest-dom"
-import React from "react"
+import { render, screen } from '@testing-library/react'
+import { MemoryRouter } from 'react-router-dom'
+import '@testing-library/jest-dom'
 
-import MuteerMijnBeleid from "./MuteerMijnBeleid"
+import MuteerMijnBeleid from './MuteerMijnBeleid'
 
-describe("MuteerMijnBeleid", () => {
+describe('MuteerMijnBeleid', () => {
     const defaultProps = {
         authUser: {
-            UUID: "0000-0000-0000-0000",
+            UUID: '0000-0000-0000-0000',
         },
     }
 
-    const setup = (customProps) => {
+    const setup = customProps => {
         const props = { ...defaultProps, ...customProps }
         render(
             <MemoryRouter>
@@ -25,9 +20,9 @@ describe("MuteerMijnBeleid", () => {
         )
     }
 
-    it("Component renders", () => {
+    it('Component renders', () => {
         setup()
-        const element = screen.getAllByText("Mijn beleid")
+        const element = screen.getAllByText('Mijn beleid')
         expect(element).toBeTruthy()
     })
 })

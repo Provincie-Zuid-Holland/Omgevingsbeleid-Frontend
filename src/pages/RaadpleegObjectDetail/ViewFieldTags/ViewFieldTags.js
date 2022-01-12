@@ -1,5 +1,3 @@
-import React from "react"
-
 const ViewFieldTags = ({ fieldValue = [] }) => {
     if (!fieldValue) return null
 
@@ -9,7 +7,7 @@ const ViewFieldTags = ({ fieldValue = [] }) => {
                 Tags
             </h2>
             <div className="flex mt-3">
-                {fieldValue.map((item) => (
+                {fieldValue.map(item => (
                     <div
                         key={item.value}
                         className="px-4 py-2 mr-4 text-sm text-gray-700 bg-gray-300 rounded"

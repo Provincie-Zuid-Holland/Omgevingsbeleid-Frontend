@@ -1,2 +1,1 @@
-export { default } from './SearchFilterSection';
-export * from './SearchFilterSection';
+export { default } from './SearchFilterSection'

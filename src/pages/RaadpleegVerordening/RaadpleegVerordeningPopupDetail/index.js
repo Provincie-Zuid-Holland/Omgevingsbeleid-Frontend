@@ -1,2 +1,1 @@
-export { default } from './RaadpleegVerordeningPopupDetail';
-export * from './RaadpleegVerordeningPopupDetail';
+export { default } from './RaadpleegVerordeningPopupDetail'

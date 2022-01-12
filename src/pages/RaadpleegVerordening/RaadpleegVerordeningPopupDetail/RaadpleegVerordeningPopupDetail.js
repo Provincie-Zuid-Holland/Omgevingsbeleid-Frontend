@@ -1,19 +1,19 @@
-import React from "react"
+import { useEffect, useState } from 'react'
 
-import Heading from "../../../components/Heading"
-import Text from "../../../components/Text"
-import Modal from "../../../components/Modal"
-import LeafletTinyViewer from "../../../components/LeafletTinyViewer"
+import Heading from '../../../components/Heading'
+import LeafletTinyViewer from '../../../components/LeafletTinyViewer'
+import Modal from '../../../components/Modal'
+import Text from '../../../components/Text'
 
 const RaadpleegVerordeningPopupDetail = ({
     setActiveArticle,
     activeArticle,
 }) => {
-    const [open, setOpen] = React.useState(false)
-    const [articleHasChildren, setArticleHasChildren] = React.useState(null)
-    const [activeChild, setActiveChild] = React.useState(null)
+    const [open, setOpen] = useState(false)
+    const [articleHasChildren, setArticleHasChildren] = useState(null)
+    const [activeChild, setActiveChild] = useState(null)
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (activeArticle?.Children.length > 0) {
             setArticleHasChildren(true)
         } else {
@@ -21,7 +21,7 @@ const RaadpleegVerordeningPopupDetail = ({
         }
     }, [activeArticle])
 
-    React.useEffect(() => {
+    useEffect(() => {
         setOpen(true)
     }, [])
 
@@ -44,22 +44,20 @@ const RaadpleegVerordeningPopupDetail = ({
                     <Heading
                         level="3"
                         className="font-bold"
-                        color="text-pzh-blue-dark"
-                    >
+                        color="text-pzh-blue-dark">
                         {activeArticle.Titel}
                     </Heading>
                     {articleHasChildren ? (
                         <ul className="mt-4">
-                            {activeArticle.Children.map((child) => (
+                            {activeArticle.Children.map(child => (
                                 <li
                                     onClick={() => {
                                         setActiveChild(null)
                                         setActiveChild(child)
                                     }}
                                     key={child.Volgnummer}
-                                    style={{ width: "calc(100% + 1rem)" }}
-                                    className="p-2 mb-4 -mt-2 -ml-2 transition-colors duration-150 ease-in rounded-md cursor-pointer hover:bg-gray-200 hover:bg-opacity-70"
-                                >
+                                    style={{ width: 'calc(100% + 1rem)' }}
+                                    className="p-2 mb-4 -mt-2 -ml-2 transition-colors duration-150 ease-in rounded-md cursor-pointer hover:bg-gray-200 hover:bg-opacity-70">
                                     <Text>{child.Inhoud}</Text>
                                 </li>
                             ))}
@@ -73,15 +71,13 @@ const RaadpleegVerordeningPopupDetail = ({
                         <Heading
                             level="3"
                             className="mt-6 font-bold sm:mt-0"
-                            color="text-pzh-green"
-                        >
+                            color="text-pzh-green">
                             Werkingsgebied
                         </Heading>
                         {articleHasChildren ? (
                             <div
                                 className="flex items-center justify-center mt-4 text-center rounded-md bg-pzh-cool-gray-light bg-opacity-20"
-                                style={{ height: "400px" }}
-                            >
+                                style={{ height: '400px' }}>
                                 {activeChild ? (
                                     <LeafletTinyViewer
                                         gebiedType="Werkingsgebieden"
@@ -91,8 +87,7 @@ const RaadpleegVerordeningPopupDetail = ({
                                     <div className="p-4">
                                         <Text
                                             type="body"
-                                            color="text-pzh-cool-gray-dark"
-                                        >
+                                            color="text-pzh-cool-gray-dark">
                                             Klik op een lid om te zien waar dit
                                             lid van toepassing is
                                         </Text>
@@ -100,7 +95,7 @@ const RaadpleegVerordeningPopupDetail = ({
                                 )}
                             </div>
                         ) : (
-                            <div className="mt-4" style={{ height: "400px" }}>
+                            <div className="mt-4" style={{ height: '400px' }}>
                                 <LeafletTinyViewer
                                     gebiedType="Werkingsgebieden"
                                     gebiedUUID={activeArticle.Gebied}
@@ -112,8 +107,7 @@ const RaadpleegVerordeningPopupDetail = ({
                         <Heading
                             level="3"
                             className="font-bold"
-                            color="text-pzh-green"
-                        >
+                            color="text-pzh-green">
                             Koppelingen
                         </Heading>
                         <ArticleConnections activeArticle={activeArticle} />

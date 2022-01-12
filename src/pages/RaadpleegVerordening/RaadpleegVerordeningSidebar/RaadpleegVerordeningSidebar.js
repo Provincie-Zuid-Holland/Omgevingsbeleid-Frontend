@@ -1,28 +1,31 @@
-import React from "react"
-import { useHistory, useLocation } from "react-router-dom"
-import { faPlusSquare, faMinusSquare } from "@fortawesome/pro-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import {
+    faPlusSquare,
+    faMinusSquare,
+    faBars,
+} from '@fortawesome/pro-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useEffect, useRef, useState } from 'react'
+import { useHistory, useLocation } from 'react-router-dom'
 
-import BackButton from "../../../components/BackButton"
-import LoaderCard from "../../../components/LoaderCard"
-import Text from "../../../components/Text"
-import { useWindowSize } from "../../../utils/useWindowSize"
-import useLockBodyScroll from "./../../../utils/useLockBodyScroll"
-import { faBars } from "@fortawesome/pro-solid-svg-icons"
+import BackButton from '../../../components/BackButton'
+import LoaderCard from '../../../components/LoaderCard'
+import Text from '../../../components/Text'
+import { useWindowSize } from '../../../utils/useWindowSize'
+import useLockBodyScroll from './../../../utils/useLockBodyScroll'
 
 function RaadpleegVerordeningSidebar({ verordening }) {
     const windowSize = useWindowSize()
 
-    const sidebarContainer = React.useRef(null)
-    const [isOpen, setIsOpen] = React.useState(() => windowSize.width > 1028)
+    const sidebarContainer = useRef(null)
+    const [isOpen, setIsOpen] = useState(() => windowSize.width > 1028)
     useLockBodyScroll({ modalOpen: isOpen && windowSize.width < 1028 })
 
-    const [sidebarStyle, setSidebarStyle] = React.useState({})
-    const [buttonStyle, setButtonStyle] = React.useState({})
+    const [sidebarStyle, setSidebarStyle] = useState({})
+    const [buttonStyle, setButtonStyle] = useState({})
 
     /** Effect for sidebarStyle */
-    React.useEffect(() => {
-        const nav = document.getElementById("navigation-main")
+    useEffect(() => {
+        const nav = document.getElementById('navigation-main')
         const navBottom = nav.getBoundingClientRect().bottom
         setButtonStyle({
             top: navBottom,
@@ -30,13 +33,13 @@ function RaadpleegVerordeningSidebar({ verordening }) {
     }, [windowSize])
 
     /** Effect for sidebarStyle */
-    React.useEffect(() => {
+    useEffect(() => {
         if (windowSize.width && windowSize.width < 1028) {
             setSidebarStyle({
                 left: 0,
                 top: 150,
-                width: "100vw",
-                height: "calc(100vh - 150px)",
+                width: '100vw',
+                height: 'calc(100vh - 150px)',
             })
         } else if (windowSize.width) {
             if (!isOpen) {
@@ -55,7 +58,7 @@ function RaadpleegVerordeningSidebar({ verordening }) {
 
             setSidebarStyle({
                 top: containerOffsetTop + offsetYAxis,
-                height: sidebarHeight ? sidebarHeight : "50vh",
+                height: sidebarHeight ? sidebarHeight : '50vh',
                 width: containerWidth,
                 left: containerOffsetLeft,
             })
@@ -65,24 +68,21 @@ function RaadpleegVerordeningSidebar({ verordening }) {
     return (
         <div
             className="relative col-span-6 lg:col-span-2"
-            ref={sidebarContainer}
-        >
+            ref={sidebarContainer}>
             <BackButton />
             <div
                 style={buttonStyle}
                 id="small-screen-verordening-nav"
                 onClick={() => setIsOpen(!isOpen)}
-                className="fixed left-0 z-50 flex items-center justify-center w-full py-2 text-lg transition-colors duration-150 ease-in bg-white border-t border-b cursor-pointer lg:hidden hover:bg-gray-50"
-            >
+                className="fixed left-0 z-50 flex items-center justify-center w-full py-2 text-lg transition-colors duration-150 ease-in bg-white border-t border-b cursor-pointer lg:hidden hover:bg-gray-50">
                 <FontAwesomeIcon icon={faBars} className="mr-2 text-pzh-blue" />
                 <span className="mt-1 font-bold text-pzh-blue">Inhoud</span>
             </div>
             <div
                 style={sidebarStyle}
                 className={`${
-                    isOpen ? "fixed" : "hidden"
-                } z-10 p-4 overflow-y-auto pb-16 bg-white text-pzh-blue-dark`}
-            >
+                    isOpen ? 'fixed' : 'hidden'
+                } z-10 p-4 overflow-y-auto pb-16 bg-white text-pzh-blue-dark`}>
                 <Text type="span" className="hidden font-bold lg:block">
                     Inhoud
                 </Text>
@@ -91,7 +91,7 @@ function RaadpleegVerordeningSidebar({ verordening }) {
                 </Text>
                 {verordening ? (
                     <ul className="pl-2 mt-4">
-                        {verordening?.Structuur?.Children.map((chapter) => (
+                        {verordening?.Structuur?.Children.map(chapter => (
                             <RaadpleegVerordeningSidebarItem
                                 setNavMenuOpen={setIsOpen}
                                 key={chapter.UUID}
@@ -112,15 +112,15 @@ function RaadpleegVerordeningSidebar({ verordening }) {
 }
 
 const RaadpleegVerordeningSidebarItem = ({ item, setNavMenuOpen }) => {
-    const [isOpen, setIsOpen] = React.useState(false)
+    const [isOpen, setIsOpen] = useState(false)
     const history = useHistory()
     const location = useLocation()
     const windowSize = useWindowSize()
 
     if (
-        item.Type === "Hoofdstuk" ||
-        item.Type === "Paragraaf" ||
-        item.Type === "Afdeling"
+        item.Type === 'Hoofdstuk' ||
+        item.Type === 'Paragraaf' ||
+        item.Type === 'Afdeling'
     ) {
         const hasChildren = item?.Children.length > 0
         return (
@@ -128,11 +128,10 @@ const RaadpleegVerordeningSidebarItem = ({ item, setNavMenuOpen }) => {
                 <div className="">
                     <button
                         onClick={() => hasChildren && setIsOpen(!isOpen)}
-                        className="cursor-pointer"
-                    >
+                        className="cursor-pointer">
                         <FontAwesomeIcon
                             className={`mr-2 ${
-                                hasChildren ? "inline-block" : "opacity-0"
+                                hasChildren ? 'inline-block' : 'opacity-0'
                             }`}
                             icon={isOpen ? faMinusSquare : faPlusSquare}
                         />
@@ -149,14 +148,13 @@ const RaadpleegVerordeningSidebarItem = ({ item, setNavMenuOpen }) => {
                                 setNavMenuOpen(false)
                             }
                         }}
-                        className="block pl-5 cursor-pointer"
-                    >
+                        className="block pl-5 cursor-pointer">
                         {item.Titel}
                     </span>
                 </div>
                 {hasChildren > 0 ? (
-                    <ul className={`pl-4 my-1 ${isOpen ? "block" : "hidden"}`}>
-                        {item.Children.map((child) => (
+                    <ul className={`pl-4 my-1 ${isOpen ? 'block' : 'hidden'}`}>
+                        {item.Children.map(child => (
                             <RaadpleegVerordeningSidebarItem
                                 setNavMenuOpen={setNavMenuOpen}
                                 key={child.UUID}
@@ -167,7 +165,7 @@ const RaadpleegVerordeningSidebarItem = ({ item, setNavMenuOpen }) => {
                 ) : null}
             </li>
         )
-    } else if (item.Type === "Lid" || item.Type === "Artikel") {
+    } else if (item.Type === 'Lid' || item.Type === 'Artikel') {
         return (
             <li>
                 <button
@@ -177,8 +175,7 @@ const RaadpleegVerordeningSidebarItem = ({ item, setNavMenuOpen }) => {
                         if (windowSize.width < 1028) {
                             setNavMenuOpen(false)
                         }
-                    }}
-                >
+                    }}>
                     <span className="font-bold">
                         {item.Type} {item.Volgnummer}
                     </span>

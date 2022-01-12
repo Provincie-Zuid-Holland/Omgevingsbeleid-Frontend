@@ -1,14 +1,13 @@
-import { render, screen, fireEvent } from "@testing-library/react"
-import { MemoryRouter } from "react-router-dom"
-import "@testing-library/jest-dom"
-import React from "react"
+import { render, screen } from '@testing-library/react'
+import { MemoryRouter } from 'react-router-dom'
+import '@testing-library/jest-dom'
 
-import MuteerDashboard from "./MuteerDashboard"
+import MuteerDashboard from './MuteerDashboard'
 
-describe("MuteerDashboard", () => {
+describe('MuteerDashboard', () => {
     const defaultProps = {}
 
-    const setup = (customProps) => {
+    const setup = customProps => {
         const props = { ...defaultProps, ...customProps }
         render(
             <MemoryRouter>
@@ -17,9 +16,9 @@ describe("MuteerDashboard", () => {
         )
     }
 
-    it("Component renders", () => {
+    it('Component renders', () => {
         setup()
-        const element = screen.getAllByText("Mijn beleid")
+        const element = screen.getAllByText('Mijn beleid')
         expect(element).toBeTruthy()
     })
 })

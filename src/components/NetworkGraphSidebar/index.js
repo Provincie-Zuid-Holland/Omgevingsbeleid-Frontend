@@ -1,2 +1,1 @@
-export { default } from "./NetworkGraphSidebar"
-export * from "./NetworkGraphSidebar"
+export { default } from './NetworkGraphSidebar'

@@ -1,3 +1,3 @@
-import MijnBeleid from "./MijnBeleid.js"
+import MijnBeleid from './MijnBeleid.js'
 
 export default MijnBeleid

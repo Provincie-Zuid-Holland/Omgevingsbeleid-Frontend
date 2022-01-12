@@ -1,16 +1,14 @@
-import React from "react"
-import { Transition } from "@headlessui/react"
-import { faTimes } from "@fortawesome/pro-solid-svg-icons"
-import { faInfoCircle } from "@fortawesome/pro-regular-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faInfoCircle } from '@fortawesome/pro-regular-svg-icons'
+import { faTimes } from '@fortawesome/pro-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Transition } from '@headlessui/react'
+import { useEffect, useRef, useState } from 'react'
 
-import axios from "../../API/axios"
-
-import PopUpAnimatedContainer from "../PopUpAnimatedContainer"
-import LoaderSpinner from "../LoaderSpinner"
-
-import useCloseWithEscapeKey from "../../utils/useCloseWithEscapeKey"
-import useLockBodyScroll from "../../utils/useLockBodyScroll"
+import axios from '../../API/axios'
+import useCloseWithEscapeKey from '../../utils/useCloseWithEscapeKey'
+import useLockBodyScroll from '../../utils/useLockBodyScroll'
+import LoaderSpinner from '../LoaderSpinner'
+import PopUpAnimatedContainer from '../PopUpAnimatedContainer'
 
 /**
  * A modal to change the users password
@@ -18,20 +16,18 @@ import useLockBodyScroll from "../../utils/useLockBodyScroll"
  * @param {function} props.setOpen - Function to set the open state of the modal
  */
 export default function PasswordChangeModal({ setOpen }) {
-    const [currentPassword, setCurrentPassword] = React.useState("")
-    const [newPassword, setNewPassword] = React.useState("")
-    const [copyOfNewPassword, setCopyOfNewPassword] = React.useState("")
-    const [loading, setLoading] = React.useState(false)
-    const [errors, setErrors] = React.useState([])
-    const [copyError, setCopyError] = React.useState(false)
-    const [currentPasswordError, setCurrentPasswordError] = React.useState(
-        false
-    )
+    const [currentPassword, setCurrentPassword] = useState('')
+    const [newPassword, setNewPassword] = useState('')
+    const [copyOfNewPassword, setCopyOfNewPassword] = useState('')
+    const [loading, setLoading] = useState(false)
+    const [errors, setErrors] = useState([])
+    const [copyError, setCopyError] = useState(false)
+    const [currentPasswordError, setCurrentPasswordError] = useState(false)
 
-    const currentPasswordInput = React.useRef(null)
-    const mailToAnchor = React.useRef(null)
-    const closeBtn = React.useRef(null)
-    const container = React.useRef(null)
+    const currentPasswordInput = useRef(null)
+    const mailToAnchor = useRef(null)
+    const closeBtn = useRef(null)
+    const container = useRef(null)
 
     useCloseWithEscapeKey(container, () => {
         setOpen(false)
@@ -39,7 +35,7 @@ export default function PasswordChangeModal({ setOpen }) {
 
     useLockBodyScroll({ modalOpen: true })
 
-    const handleSubmit = (e) => {
+    const handleSubmit = e => {
         e.preventDefault()
         setCopyError(false)
         setCurrentPasswordError(false)
@@ -52,7 +48,7 @@ export default function PasswordChangeModal({ setOpen }) {
         }
 
         axios
-            .post("password-reset", {
+            .post('password-reset', {
                 password: currentPassword,
                 new_password: newPassword,
             })
@@ -60,7 +56,7 @@ export default function PasswordChangeModal({ setOpen }) {
                 setLoading(false)
                 setOpen(false)
             })
-            .catch((error) => {
+            .catch(error => {
                 if (error?.response?.status === 401) {
                     setLoading(false)
                     setCurrentPasswordError(true)
@@ -71,28 +67,28 @@ export default function PasswordChangeModal({ setOpen }) {
             })
     }
 
-    React.useEffect(() => {
+    useEffect(() => {
         const mailToAnchorEl = mailToAnchor?.current
         const closeBtnEl = closeBtn?.current
         const currentPasswordInput = document.getElementById(
-            "password-reset-current-password"
+            'password-reset-current-password'
         )
         currentPasswordInput.focus()
 
-        const handleKeyEvent = (e) => {
-            if (e.shiftKey && e.code === "Tab") {
+        const handleKeyEvent = e => {
+            if (e.shiftKey && e.code === 'Tab') {
                 mailToAnchorEl.focus()
-            } else if (e.code === "Tab") {
+            } else if (e.code === 'Tab') {
                 closeBtnEl.focus()
             }
         }
 
-        mailToAnchorEl.addEventListener("keydown", handleKeyEvent)
-        closeBtnEl.addEventListener("keydown", handleKeyEvent)
+        mailToAnchorEl.addEventListener('keydown', handleKeyEvent)
+        closeBtnEl.addEventListener('keydown', handleKeyEvent)
 
         return () => {
-            closeBtnEl.removeEventListener("keydown", handleKeyEvent)
-            mailToAnchorEl.removeEventListener("keydown", handleKeyEvent)
+            closeBtnEl.removeEventListener('keydown', handleKeyEvent)
+            mailToAnchorEl.removeEventListener('keydown', handleKeyEvent)
         }
     }, [])
 
@@ -104,8 +100,8 @@ export default function PasswordChangeModal({ setOpen }) {
                 </h3>
                 <button
                     ref={closeBtn}
-                    onKeyDown={(e) => {
-                        if (e.code === "Enter") setOpen(false)
+                    onKeyDown={e => {
+                        if (e.code === 'Enter') setOpen(false)
                     }}
                     onClick={() => setOpen(false)}
                     className="py-1 pl-3 pr-1 text-gray-600 cursor-pointer hover:text-gray-800 pzh-transition-colors"
@@ -126,11 +122,11 @@ export default function PasswordChangeModal({ setOpen }) {
                         required={true}
                         id={`password-reset-current-password`}
                         value={currentPassword}
-                        onChange={(e) => setCurrentPassword(e.target.value)}
+                        onChange={e => setCurrentPassword(e.target.value)}
                         className={`block w-full px-4 pt-2 pb-1 mt-1 leading-tight text-gray-700 border appearance-none focus:outline-none ${
                             currentPasswordError
-                                ? "border-pzh-yellow rounded-t hover:border-pzh-yellow focus:border-pzh-yellow"
-                                : "border-gray-400 rounded hover:border-gray-500 focus:border-gray-500"
+                                ? 'border-pzh-yellow rounded-t hover:border-pzh-yellow focus:border-pzh-yellow'
+                                : 'border-gray-400 rounded hover:border-gray-500 focus:border-gray-500'
                         }`}
                         type="password"
                         placeholder="Voer hier je huidige wachtwoord in"
@@ -175,11 +171,11 @@ export default function PasswordChangeModal({ setOpen }) {
                         id={`password-reset-new-password`}
                         required={true}
                         value={newPassword}
-                        onChange={(e) => setNewPassword(e.target.value)}
+                        onChange={e => setNewPassword(e.target.value)}
                         className={`block w-full px-4 pt-2 pb-1 mt-1 leading-tight text-gray-700 border appearance-none focus:outline-none ${
                             errors.length > 0
-                                ? "border-pzh-yellow rounded-t hover:border-pzh-yellow focus:border-pzh-yellow"
-                                : "border-gray-400 rounded hover:border-gray-500 focus:border-gray-500"
+                                ? 'border-pzh-yellow rounded-t hover:border-pzh-yellow focus:border-pzh-yellow'
+                                : 'border-gray-400 rounded hover:border-gray-500 focus:border-gray-500'
                         }`}
                         type="password"
                         placeholder="Geef hier het nieuwe wachtwoord op"
@@ -195,8 +191,10 @@ export default function PasswordChangeModal({ setOpen }) {
                     >
                         <ul className="px-4 pt-1 pb-3 text-sm rounded-b text-pzh-blue-dark bg-pzh-yellow">
                             <li className="pt-2">Het wachtwoord moet...</li>
-                            {errors.map((error) => (
-                                <li className="pt-2">...{error}</li>
+                            {errors.map((error, index) => (
+                                <li key={`error-${index}`} className="pt-2">
+                                    ...{error}
+                                </li>
                             ))}
                         </ul>
                     </Transition>
@@ -211,11 +209,11 @@ export default function PasswordChangeModal({ setOpen }) {
                         required={true}
                         id={`password-reset-copy-new-password`}
                         value={copyOfNewPassword}
-                        onChange={(e) => setCopyOfNewPassword(e.target.value)}
+                        onChange={e => setCopyOfNewPassword(e.target.value)}
                         className={`block w-full px-4 pt-2 pb-1 mt-1 leading-tight text-gray-700 border appearance-none focus:outline-none ${
                             copyError
-                                ? "border-pzh-yellow rounded-t hover:border-pzh-yellow focus:border-pzh-yellow"
-                                : "border-gray-400 rounded hover:border-gray-500 focus:border-gray-500"
+                                ? 'border-pzh-yellow rounded-t hover:border-pzh-yellow focus:border-pzh-yellow'
+                                : 'border-gray-400 rounded hover:border-gray-500 focus:border-gray-500'
                         }`}
                         type="password"
                         placeholder="Herhaal het nieuwe wachtwoord"
@@ -251,7 +249,7 @@ export default function PasswordChangeModal({ setOpen }) {
                         id="wachtwoord-reset-submit"
                         type="submit"
                     >
-                        {loading ? <LoaderSpinner /> : "Wijzig"}
+                        {loading ? <LoaderSpinner /> : 'Wijzig'}
                     </button>
                 </div>
             </form>

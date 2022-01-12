@@ -1,13 +1,13 @@
 @font-face {
-    font-family: "Karbon Regular";
-    src: url("./../fonts/Karbon-Regular.woff2") format("woff2");
+    font-family: 'Karbon Regular';
+    src: url('./../fonts/Karbon-Regular.woff2') format('woff2');
     font-weight: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: "Karbon Medium";
-    src: url("./../fonts/Karbon-Medium.woff2") format("woff2");
+    font-family: 'Karbon Medium';
+    src: url('./../fonts/Karbon-Medium.woff2') format('woff2');
     font-weight: bold;
     font-display: swap;
 }
@@ -22,7 +22,7 @@ html {
 body {
     margin: 0;
     padding: 0;
-    font-family: "Karbon Regular", sans-serif;
+    font-family: 'Karbon Regular', sans-serif;
     font-weight: 400;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -94,7 +94,7 @@ h4,
 h5,
 h6,
 .font-bold {
-    font-family: "Karbon Medium", sans-serif;
+    font-family: 'Karbon Medium', sans-serif;
     font-weight: 700;
 }
 
@@ -119,7 +119,7 @@ h6,
 }
 
 .logo-main {
-    background-image: url("../images/logo.png");
+    background-image: url('../images/logo.png');
     background-size: contain;
     background-position: left center;
     background-repeat: no-repeat;
@@ -127,7 +127,7 @@ h6,
 }
 
 .logo-beeldmerk {
-    background-image: url("../images/logo_beeldmerk.jpg");
+    background-image: url('../images/logo_beeldmerk.jpg');
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
@@ -139,7 +139,7 @@ h6,
 }
 
 .logo-tekst {
-    background-image: url("../images/logo_tekst.jpg");
+    background-image: url('../images/logo_tekst.jpg');
     background-size: contain;
     background-position: left center;
     background-repeat: no-repeat;
@@ -187,7 +187,7 @@ h6,
 /* Login */
 
 .login-afbeelding {
-    background-image: url("../images/login.png");
+    background-image: url('../images/login.png');
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
@@ -288,7 +288,7 @@ h6,
 
 .verordening-list-item {
     &:before {
-        content: "";
+        content: '';
         height: 1px;
         width: 100%;
         background-color: #e2e8f0;
@@ -326,7 +326,7 @@ h6,
         margin-top: 62px;
     }
     &:before {
-        content: "";
+        content: '';
         display: block;
         position: absolute;
         width: 0;
@@ -351,7 +351,7 @@ h6,
 }
 
 .Toastify__toast {
-    font-family: "Karbon Regular";
+    font-family: 'Karbon Regular';
     border-radius: 0.25rem !important;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06) !important;
 }
@@ -410,7 +410,7 @@ h6,
     box-shadow: 0 0px 9px 2px rgba(0, 0, 0, 0.1),
         0 4px 6px -2px rgba(0, 0, 0, 0.05);
     &:before {
-        content: "";
+        content: '';
         display: block;
         position: absolute;
         width: 0;
@@ -529,7 +529,7 @@ h6,
 }
 
 .pulsate::before {
-    content: "";
+    content: '';
     height: 0.5rem;
     width: 0.5rem;
     display: block;
@@ -731,7 +731,7 @@ h6,
     position: relative;
     z-index: 10;
     &:before {
-        content: "";
+        content: '';
         position: absolute;
         display: inline-block;
         z-index: -1;
@@ -766,7 +766,7 @@ h6,
     .popup-gebruikersinfo {
         background-color: rgba(51, 51, 51, 0.9);
         &:before {
-            content: "";
+            content: '';
             position: absolute;
             top: -8px;
             left: 8px;
@@ -804,7 +804,7 @@ h6,
     box-shadow: 0 0px 16px 0px rgba(0, 0, 0, 0.11),
         0 4px 6px -2px rgba(0, 0, 0, 0.05);
     &:before {
-        content: "";
+        content: '';
         display: block;
         position: absolute;
         width: 0;
@@ -821,7 +821,7 @@ h6,
 .sidebar-line-left-full {
     position: relative;
     &::before {
-        content: "";
+        content: '';
         height: calc(100% + 56px);
         width: 1px;
         background: rgba(51, 51, 51, 0.5);
@@ -834,7 +834,7 @@ h6,
 .sidebar-line-left-span {
     position: relative;
     &::before {
-        content: "";
+        content: '';
         height: calc(100% - 1.25rem);
         width: 1px;
         background: rgba(51, 51, 51, 0.5);
@@ -847,7 +847,7 @@ h6,
 .sidebar-line-left > li {
     position: relative;
     &::before {
-        content: "";
+        content: '';
         height: calc(100% + 0.5rem);
         width: 1px;
         background: rgba(51, 51, 51, 0.5);
@@ -862,7 +862,7 @@ h6,
 
 .sidebar-line-horizontal {
     &::after {
-        content: "";
+        content: '';
         height: 1px;
         width: 12px;
         background: rgba(51, 51, 51, 0.5);
@@ -988,7 +988,7 @@ h6,
 .tooltip-content {
     max-width: 50vw;
     &:before {
-        content: "";
+        content: '';
         display: block;
         position: absolute;
         width: 0;
@@ -1001,7 +1001,7 @@ h6,
         left: calc(50% - 10px);
     }
     &:after {
-        content: "";
+        content: '';
         display: block;
         position: absolute;
         width: 25px;
@@ -1080,19 +1080,19 @@ mark {
 
 // Image urls
 .image-login-1 {
-    background-image: url("../images/login-1.png");
+    background-image: url('../images/login-1.png');
 }
 .image-home-1 {
-    background-image: url("../images/landing-1.jpg");
+    background-image: url('../images/landing-1.jpg');
 }
 .image-home-2 {
-    background-image: url("../images/landing-2.png");
+    background-image: url('../images/landing-2.png');
 }
 .image-home-3 {
-    background-image: url("../images/landing-3.png");
+    background-image: url('../images/landing-3.png');
 }
 .image-home-4 {
-    background-image: url("../images/landing-4.png");
+    background-image: url('../images/landing-4.png');
 }
 
 .quill-container {

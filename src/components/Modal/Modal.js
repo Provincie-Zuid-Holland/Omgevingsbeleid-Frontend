@@ -1,21 +1,21 @@
-import React from "react"
-import { Dialog, Transition } from "@headlessui/react"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faTimes } from "@fortawesome/pro-solid-svg-icons"
+import { faTimes } from '@fortawesome/pro-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Dialog, Transition } from '@headlessui/react'
+import { Fragment } from 'react'
 
-import { useWindowSize } from "../../utils/useWindowSize"
+import { useWindowSize } from '../../utils/useWindowSize'
 
 const Modal = ({
     children,
     open,
     close,
-    maxWidth = "max-w-6xl",
-    containerPadding = "sm:p-8 p-6",
+    maxWidth = 'max-w-6xl',
+    containerPadding = 'sm:p-8 p-6',
 }) => {
     const { width: screenWidth } = useWindowSize()
 
     return (
-        <Transition.Root show={open} as={React.Fragment}>
+        <Transition.Root show={open} as={Fragment}>
             <Dialog
                 as="div"
                 className="fixed inset-0 z-50 overflow-hidden"
@@ -25,7 +25,7 @@ const Modal = ({
                     className={`flex items-end justify-center min-h-screen overflow-hidden text-center rounded-lg sm:block px-4 pt-4 pb-4 sm:p-2`}
                 >
                     <Transition.Child
-                        as={React.Fragment}
+                        as={Fragment}
                         enter="ease-out duration-300"
                         enterFrom="opacity-0"
                         enterTo="opacity-100"
@@ -44,7 +44,7 @@ const Modal = ({
                         &#8203;
                     </span>
                     <Transition.Child
-                        as={React.Fragment}
+                        as={Fragment}
                         enter="ease-out duration-300"
                         enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         enterTo="opacity-100 translate-y-0 sm:scale-100"
@@ -60,8 +60,8 @@ const Modal = ({
                                 style={{
                                     maxHeight:
                                         screenWidth < 640
-                                            ? "calc(100vh - 2rem)" // 2rem equals the top and bottom padding
-                                            : "75vh",
+                                            ? 'calc(100vh - 2rem)' // 2rem equals the top and bottom padding
+                                            : '75vh',
                                 }}
                             >
                                 <div className="absolute top-0 right-0 z-10 block pt-8 pr-8 -mt-8 -mr-8 sm:-mt-2 sm:-mr-2">

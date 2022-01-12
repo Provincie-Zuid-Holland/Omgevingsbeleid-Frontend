@@ -1,2 +1,1 @@
-export { default } from './RaadpleegVerordeningSidebar';
-export * from './RaadpleegVerordeningSidebar';
+export { default } from './RaadpleegVerordeningSidebar'

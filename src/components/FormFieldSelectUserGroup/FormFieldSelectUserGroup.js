@@ -1,9 +1,9 @@
-import React from "react"
-import { toast } from "react-toastify"
+import { useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 
-import FormFieldSelectUser from "./../FormFieldSelectUser"
-import axios from "./../../API/axios"
-import LoaderSelect from "./../LoaderSelect"
+import axios from './../../API/axios'
+import FormFieldSelectUser from './../FormFieldSelectUser'
+import LoaderSelect from './../LoaderSelect'
 
 /**
  * Displays the user group component, by first getting the users through axios and adding it to the gebruikersLijst variable.
@@ -22,19 +22,19 @@ const FormFieldSelectUserGroup = ({
     titleSingular,
     disabled,
 }) => {
-    const [gebruikersLijst, setGebruikersLijst] = React.useState([])
-    const [dataLoaded, setDataLoaded] = React.useState(false)
-    const [error, setError] = React.useState(false)
+    const [gebruikersLijst, setGebruikersLijst] = useState([])
+    const [dataLoaded, setDataLoaded] = useState(false)
+    const [error, setError] = useState(false)
 
-    React.useEffect(() => {
+    useEffect(() => {
         axios
-            .get("gebruikers")
-            .then((res) => {
+            .get('gebruikers')
+            .then(res => {
                 const objecten = res.data
                 setGebruikersLijst(objecten)
                 setDataLoaded(true)
             })
-            .catch((err) => {
+            .catch(err => {
                 setDataLoaded(true)
                 setError(true)
                 console.log(err)
@@ -54,10 +54,10 @@ const FormFieldSelectUserGroup = ({
                         editStatus={editStatus}
                         halfWidth={true}
                         handleChange={handleChange}
-                        fieldValue={crudObject["Opdrachtgever"]}
+                        fieldValue={crudObject['Opdrachtgever']}
                         dataObjectProperty="Opdrachtgever"
                         gebruikersLijst={gebruikersLijst}
-                        filter={"Ambtelijk opdrachtgever"}
+                        filter={'Ambtelijk opdrachtgever'}
                         pValue="Ambtelijk opdrachtgever"
                         titleSingular={titleSingular}
                     />
@@ -73,11 +73,11 @@ const FormFieldSelectUserGroup = ({
                         editStatus={editStatus}
                         handleChange={handleChange}
                         gebruikersLijst={gebruikersLijst}
-                        fieldValue={crudObject["Eigenaar_1"]}
+                        fieldValue={crudObject['Eigenaar_1']}
                         dataObjectProperty="Eigenaar_1"
                         marginRight={true}
-                        filter={"Behandelend Ambtenaar"}
-                        filterOtherProperty={crudObject["Eigenaar_2"]}
+                        filter={'Behandelend Ambtenaar'}
+                        filterOtherProperty={crudObject['Eigenaar_2']}
                         pValue="Eerste eigenaar"
                         titleSingular={titleSingular}
                     />
@@ -91,10 +91,10 @@ const FormFieldSelectUserGroup = ({
                         editStatus={editStatus}
                         handleChange={handleChange}
                         gebruikersLijst={gebruikersLijst}
-                        fieldValue={crudObject["Eigenaar_2"]}
+                        fieldValue={crudObject['Eigenaar_2']}
                         dataObjectProperty="Eigenaar_2"
-                        filter={"Behandelend Ambtenaar"}
-                        filterOtherProperty={crudObject["Eigenaar_1"]}
+                        filter={'Behandelend Ambtenaar'}
+                        filterOtherProperty={crudObject['Eigenaar_1']}
                         pValue="Tweede eigenaar"
                         titleSingular={titleSingular}
                     />
@@ -109,10 +109,10 @@ const FormFieldSelectUserGroup = ({
                         disabled={disabled}
                         editStatus={editStatus}
                         handleChange={handleChange}
-                        filter={"Portefeuillehouder"}
-                        filterOtherProperty={crudObject["Portefeuillehouder_2"]}
+                        filter={'Portefeuillehouder'}
+                        filterOtherProperty={crudObject['Portefeuillehouder_2']}
                         gebruikersLijst={gebruikersLijst}
-                        fieldValue={crudObject["Portefeuillehouder_1"]}
+                        fieldValue={crudObject['Portefeuillehouder_1']}
                         dataObjectProperty="Portefeuillehouder_1"
                         marginRight={true}
                         pValue="Eerste portefeuillehouder"
@@ -127,10 +127,10 @@ const FormFieldSelectUserGroup = ({
                         disabled={disabled}
                         editStatus={editStatus}
                         gebruikersLijst={gebruikersLijst}
-                        filter={"Portefeuillehouder"}
-                        filterOtherProperty={crudObject["Portefeuillehouder_1"]}
+                        filter={'Portefeuillehouder'}
+                        filterOtherProperty={crudObject['Portefeuillehouder_1']}
                         handleChange={handleChange}
-                        fieldValue={crudObject["Portefeuillehouder_2"]}
+                        fieldValue={crudObject['Portefeuillehouder_2']}
                         dataObjectProperty="Portefeuillehouder_2"
                         pValue="Tweede portefeuillehouder"
                         titleSingular={titleSingular}

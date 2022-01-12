@@ -1,2 +1,1 @@
-export { default } from './RaadpleegTerinzageleggingen';
-export * from './RaadpleegTerinzageleggingen';
+export { default } from './RaadpleegTerinzageleggingen'

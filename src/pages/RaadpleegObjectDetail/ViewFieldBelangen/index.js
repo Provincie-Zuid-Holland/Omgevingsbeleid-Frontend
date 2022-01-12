@@ -1,3 +1,3 @@
-import ViewFieldBelangen from "./ViewFieldBelangen.js"
+import ViewFieldBelangen from './ViewFieldBelangen.js'
 
 export default ViewFieldBelangen

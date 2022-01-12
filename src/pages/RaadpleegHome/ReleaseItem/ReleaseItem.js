@@ -1,6 +1,4 @@
-import React from "react"
-
-import Heading from "./../../../components/Heading"
+import Heading from './../../../components/Heading'
 
 const ReleaseItem = ({ date, releaseNumber, releaseNotes = [] }) => (
     <>
@@ -12,7 +10,7 @@ const ReleaseItem = ({ date, releaseNumber, releaseNotes = [] }) => (
                 Release {releaseNumber}
             </Heading>
             <ul className="pl-4 list-disc list-outside">
-                {releaseNotes.map((note) => (
+                {releaseNotes.map(note => (
                     <li key={note}>{note}</li>
                 ))}
             </ul>

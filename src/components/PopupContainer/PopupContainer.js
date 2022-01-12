@@ -1,6 +1,7 @@
-import React from "react"
-import { Transition } from "@headlessui/react"
-import useLockBodyScroll from "./../../utils/useLockBodyScroll.js"
+import { Transition } from '@headlessui/react'
+import { useEffect, useRef } from 'react'
+
+import useLockBodyScroll from './../../utils/useLockBodyScroll.js'
 
 /**
  * Displays a popup container containing children components.
@@ -10,16 +11,16 @@ import useLockBodyScroll from "./../../utils/useLockBodyScroll.js"
  * @param {function} close - Function that is used to close the popup.
  */
 function PopupContainer({ children, show, close }) {
-    const node = React.useRef()
+    const node = useRef()
 
-    React.useEffect(() => {
-        const closeOnEscape = (e) => {
-            if (e.key === "Escape" && close) {
+    useEffect(() => {
+        const closeOnEscape = e => {
+            if (e.key === 'Escape' && close) {
                 close()
             }
         }
 
-        const handleClick = (e) => {
+        const handleClick = e => {
             if (node.current && node.current.contains(e.target)) {
                 // inside click
                 return
@@ -29,11 +30,11 @@ function PopupContainer({ children, show, close }) {
             }
         }
 
-        document.addEventListener("mousedown", handleClick)
-        window.addEventListener("keydown", closeOnEscape)
+        document.addEventListener('mousedown', handleClick)
+        window.addEventListener('keydown', closeOnEscape)
         return () => {
-            document.removeEventListener("mousedown", handleClick)
-            window.removeEventListener("keydown", closeOnEscape)
+            document.removeEventListener('mousedown', handleClick)
+            window.removeEventListener('keydown', closeOnEscape)
         }
     }, [close])
 
@@ -43,7 +44,7 @@ function PopupContainer({ children, show, close }) {
     return (
         <div
             className={`fixed bottom-0 inset-x-0 px-4 pb-4 z-50 sm:inset-0 sm:items-center sm:justify-center sm:flex ${
-                show ? "" : "pointer-events-none"
+                show ? '' : 'pointer-events-none'
             }`}
         >
             <Transition

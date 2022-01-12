@@ -1,15 +1,15 @@
 /* istanbul ignore file */
-import React from "react"
-import Select from "react-select"
+
+import Select from 'react-select'
 
 const getUsername = (users, selectedUserUUID) => {
     const selectedUserObj = users
-        .filter((e) => e.Rol !== "Geen")
-        .find((e) => e.UUID === selectedUserUUID)
+        .filter(e => e.Rol !== 'Geen')
+        .find(e => e.UUID === selectedUserUUID)
 
     const selectedUserUsername = selectedUserObj
         ? selectedUserObj.Gebruikersnaam
-        : ""
+        : ''
 
     return selectedUserUsername
 }
@@ -25,9 +25,9 @@ const SelectField = ({
     excludeValue,
 }) => {
     const getUUIDFromValue = (value, property) => {
-        if (typeof value === "string") {
+        if (typeof value === 'string') {
             return value
-        } else if (typeof value === "object" && value !== null) {
+        } else if (typeof value === 'object' && value !== null) {
             return value.UUID
         } else {
             return null
@@ -43,8 +43,8 @@ const SelectField = ({
     }
 
     const filteredUsers = users
-        .filter((user) => filter.includes(user.Rol))
-        .filter((user) => user.UUID !== verordeningsObjectFromGET[excludeValue])
+        .filter(user => filter.includes(user.Rol))
+        .filter(user => user.UUID !== verordeningsObjectFromGET[excludeValue])
 
     const selectedUserUsername = getUsername(users, selectedUserUUID)
 
@@ -76,7 +76,7 @@ const SelectField = ({
                     selected={selectedUserUUID}
                     onChange={(e, actionMeta) =>
                         setVerordeningsObjectFromGET({
-                            type: "changeSelectValue",
+                            type: 'changeSelectValue',
                             e: e,
                             actionMeta: actionMeta,
                             property: property,
@@ -84,7 +84,7 @@ const SelectField = ({
                     }
                     styles={customStyles}
                     isClearable={true}
-                    options={filteredUsers.map((user) => {
+                    options={filteredUsers.map(user => {
                         return {
                             label: user.Gebruikersnaam,
                             value: user.UUID,
@@ -104,17 +104,17 @@ const SelectField = ({
 const customStyles = {
     control: (base, state) => ({
         ...base,
-        borderColor: "none",
-        borderWidth: "0px",
-        "&:hover": {
-            borderColor: "none",
-            borderWidth: "0px",
-            boxShadow: "none",
+        borderColor: 'none',
+        borderWidth: '0px',
+        '&:hover': {
+            borderColor: 'none',
+            borderWidth: '0px',
+            boxShadow: 'none',
         },
-        "&.is-focused": {
-            borderColor: "none",
-            borderWidth: "0px",
-            boxShadow: "none",
+        '&.is-focused': {
+            borderColor: 'none',
+            borderWidth: '0px',
+            boxShadow: 'none',
         },
     }),
     menu: (base, state) => ({

@@ -1,3 +1,3 @@
-import ContainerViewFieldsMaatregel from "./ContainerViewFieldsMaatregel.js"
+import ContainerViewFieldsMaatregel from './ContainerViewFieldsMaatregel.js'
 
 export default ContainerViewFieldsMaatregel

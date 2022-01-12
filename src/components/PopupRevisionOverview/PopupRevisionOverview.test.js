@@ -1,13 +1,11 @@
-import { render, screen, fireEvent } from "@testing-library/react"
-import "@testing-library/jest-dom"
-import React from "react"
+import { render, screen } from '@testing-library/react'
+import '@testing-library/jest-dom'
 
-import { revisionDataObject } from "./../../mocks/data/revisionDataObject"
-import { revisionObjects } from "./../../mocks/data/revisionObjects"
+import { revisionDataObject } from './../../mocks/data/revisionDataObject'
+import { revisionObjects } from './../../mocks/data/revisionObjects'
+import PopupRevisionOverview from './PopupRevisionOverview'
 
-import PopupRevisionOverview from "./PopupRevisionOverview"
-
-describe("PopupRevisionOverview", () => {
+describe('PopupRevisionOverview', () => {
     const setRevisionOverviewOpenMock = jest.fn()
     const defaultProps = {
         revisionOverviewOpen: true,
@@ -16,14 +14,14 @@ describe("PopupRevisionOverview", () => {
         revisionObjects: revisionObjects,
     }
 
-    const setup = (customProps) => {
+    const setup = customProps => {
         const props = { ...defaultProps, ...customProps }
         render(<PopupRevisionOverview {...props} />)
     }
 
-    it("Component renders", () => {
+    it('Component renders', () => {
         setup()
-        const element = screen.getByText("Revisieoverzicht")
+        const element = screen.getByText('Revisieoverzicht')
         expect(element).toBeTruthy()
     })
 })

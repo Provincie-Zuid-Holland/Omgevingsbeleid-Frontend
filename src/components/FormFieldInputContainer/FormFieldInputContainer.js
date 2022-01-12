@@ -1,5 +1,3 @@
-import React from "react"
-
 /**
  * Displays a Formfield input container.
  *

@@ -1,10 +1,9 @@
-import React from "react"
-import BackButton from "../../../components/BackButton"
-import RevisieListItem from "./../RevisieListItem"
-import Text from "../../../components/Text"
-import PopUpRevisionContainer from "../../../components/PopUpRevisionContainer"
-import getVigerendText from "../../../utils/getVigerendText"
-import { useParams } from "react-router-dom"
+import BackButton from '../../../components/BackButton'
+import RevisieListItem from './../RevisieListItem'
+import Text from '../../../components/Text'
+import PopUpRevisionContainer from '../../../components/PopUpRevisionContainer'
+import getVigerendText from '../../../utils/getVigerendText'
+import { useParams } from 'react-router-dom'
 
 const RaadpleegObjectDetailSidebar = ({
     titleSingular,

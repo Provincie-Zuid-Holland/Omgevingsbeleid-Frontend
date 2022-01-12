@@ -1,2 +1,1 @@
-export { default } from "./ViewFieldExternalURL"
-export * from "./ViewFieldExternalURL"
+export { default } from './ViewFieldExternalURL'

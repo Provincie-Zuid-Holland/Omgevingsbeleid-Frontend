@@ -9,18 +9,18 @@ const networkGraphGenerateHref = ({ property, UUID }) => {
     if (!property) return null
 
     const slugs = {
-        beleidskeuzes: "beleidskeuzes",
-        ambities: "ambities",
-        beleidsregels: "beleidsregels",
-        beleidsprestaties: "beleidsprestaties",
-        belangen: "belangen",
-        maatregelen: "maatregelen",
-        themas: "themas",
-        beleidsdoelen: "beleidsdoelen",
-        verordeningen: "verordeningen",
+        beleidskeuzes: 'beleidskeuzes',
+        ambities: 'ambities',
+        beleidsregels: 'beleidsregels',
+        beleidsprestaties: 'beleidsprestaties',
+        belangen: 'belangen',
+        maatregelen: 'maatregelen',
+        themas: 'themas',
+        beleidsdoelen: 'beleidsdoelen',
+        verordeningen: 'verordeningen',
     }
 
-    if (property === "verordeningen") {
+    if (property === 'verordeningen') {
         return `/detail/verordening?actief=${UUID}`
     } else {
         return `/detail/${slugs[property]}/${UUID}`

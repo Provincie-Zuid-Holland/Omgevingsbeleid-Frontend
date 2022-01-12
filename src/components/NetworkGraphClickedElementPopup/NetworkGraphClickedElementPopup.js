@@ -1,12 +1,11 @@
-import React from "react"
-import { faTimes } from "@fortawesome/pro-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Link } from "react-router-dom"
-import { Transition } from "@headlessui/react"
+import { faTimes } from '@fortawesome/pro-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Transition } from '@headlessui/react'
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 
-import networkGraphGenerateHref from "../../utils/networkGraphGenerateHref"
-
-import networkGraphConnectionProperties from "../../constants/networkGraphConnectionProperties"
+import networkGraphConnectionProperties from '../../constants/networkGraphConnectionProperties'
+import networkGraphGenerateHref from '../../utils/networkGraphGenerateHref'
 
 /**
  *
@@ -21,9 +20,9 @@ const NetworkGraphClickedElementPopup = ({
     resetNodes,
     verordeningsStructure,
 }) => {
-    const [localOpenState, setLocalOpenState] = React.useState(false)
+    const [localOpenState, setLocalOpenState] = useState(false)
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (!clickedNode) {
             setLocalOpenState(false)
         } else {
@@ -61,8 +60,8 @@ const NetworkGraphClickedElementPopup = ({
                             <Link
                                 role="link"
                                 className="block p-3 pt-0 group"
-                                to={href ? href : "#"}
-                                onClick={(e) => {
+                                to={href ? href : '#'}
+                                onClick={e => {
                                     if (
                                         !e.shiftKey &&
                                         !e.ctrlKey &&
@@ -91,8 +90,8 @@ const NetworkGraphClickedElementPopup = ({
                                     setLocalOpenState(false)
                                     resetNodes()
                                 }}
-                                onKeyPress={(e) => {
-                                    if (e.key === "Enter") {
+                                onKeyPress={e => {
+                                    if (e.key === 'Enter') {
                                         setLocalOpenState(false)
                                         resetNodes()
                                     }

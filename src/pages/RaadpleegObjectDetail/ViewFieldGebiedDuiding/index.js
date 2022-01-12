@@ -1,2 +1,1 @@
-export { default } from "./ViewFieldGebiedDuiding"
-export * from "./ViewFieldGebiedDuiding"
+export { default } from './ViewFieldGebiedDuiding'

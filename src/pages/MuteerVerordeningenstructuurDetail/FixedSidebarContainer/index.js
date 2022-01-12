@@ -1,3 +1,3 @@
-import FixedSidebarContainer from "./FixedSidebarContainer"
+import FixedSidebarContainer from './FixedSidebarContainer'
 
 export default FixedSidebarContainer

@@ -1,2 +1,1 @@
-export { default } from "./MuteerUniversalObjectDetailWithStatuses"
-export * from "./MuteerUniversalObjectDetailWithStatuses"
+export { default } from './MuteerUniversalObjectDetailWithStatuses'

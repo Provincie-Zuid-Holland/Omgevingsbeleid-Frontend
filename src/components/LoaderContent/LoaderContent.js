@@ -1,5 +1,3 @@
-import React from "react"
-
 /**
  * Displays an animated loader spinner.
  */
@@ -21,7 +19,7 @@ function LoaderContent() {
                     width="24px"
                     height="30px"
                     viewBox="0 0 24 30"
-                    style={{ enableBackground: "new 0 0 50 50" }}
+                    style={{ enableBackground: 'new 0 0 50 50' }}
                     xmlSpace="preserve"
                 >
                     <rect

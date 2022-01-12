@@ -1,3 +1,3 @@
-import TabRejected from "./TabRejected.js"
+import TabRejected from './TabRejected.js'
 
 export default TabRejected

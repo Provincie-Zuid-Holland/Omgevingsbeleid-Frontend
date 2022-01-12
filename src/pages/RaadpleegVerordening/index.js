@@ -1,2 +1,1 @@
-export { default } from './RaadpleegVerordening';
-export * from './RaadpleegVerordening';
+export { default } from './RaadpleegVerordening'

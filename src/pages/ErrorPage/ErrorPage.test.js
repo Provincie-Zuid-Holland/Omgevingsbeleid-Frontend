@@ -1,13 +1,12 @@
-import React from "react"
-import "@testing-library/jest-dom"
-import { render, screen } from "@testing-library/react"
-import { ErrorBoundary } from "react-error-boundary"
+import '@testing-library/jest-dom'
+import { render, screen } from '@testing-library/react'
+import { ErrorBoundary } from 'react-error-boundary'
+import { MemoryRouter } from 'react-router-dom'
 
-import ErrorPage from "./ErrorPage"
-import { MemoryRouter } from "react-router-dom"
+import ErrorPage from './ErrorPage'
 
 const ThrowErrorComponent = () => {
-    throw new Error("Error to test the ErrorBoundary and Error Page")
+    throw new Error('Error to test the ErrorBoundary and Error Page')
 }
 
 const TestComponent = () => {
@@ -20,13 +19,13 @@ const TestComponent = () => {
     )
 }
 
-describe("ErrorPage", () => {
+describe('ErrorPage', () => {
     beforeEach(() => {
         render(<TestComponent />)
     })
 
-    it("Should show the error page when an error is thrown", () => {
-        const errorPageTitle = screen.getByText("Er is iets fout gegaan")
+    it('Should show the error page when an error is thrown', () => {
+        const errorPageTitle = screen.getByText('Er is iets fout gegaan')
         expect(errorPageTitle).toBeTruthy()
     })
 })

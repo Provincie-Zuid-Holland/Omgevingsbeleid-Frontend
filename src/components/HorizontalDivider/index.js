@@ -1,2 +1,1 @@
-export { default } from './HorizontalDivider';
-export * from './HorizontalDivider';
+export { default } from './HorizontalDivider'

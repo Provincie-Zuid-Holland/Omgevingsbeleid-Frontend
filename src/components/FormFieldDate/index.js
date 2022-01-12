@@ -1,2 +1,1 @@
-export { default } from './FormFieldDate';
-export * from './FormFieldDate';
+export { default } from './FormFieldDate'

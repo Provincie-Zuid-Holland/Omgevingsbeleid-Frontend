@@ -1,6 +1,4 @@
-import React from "react"
-
-import EigenaarsDriehoekItem from "./../EigenaarsDriehoekItem"
+import EigenaarsDriehoekItem from './../EigenaarsDriehoekItem'
 
 /**
  * Displays a EigenaarsDriehoekItem component with the parameters based on the owner value inside the dataObject variable.

@@ -1,4 +1,3 @@
-import React from "react"
 /**
  * Displays a fixed placed submit button.
  */
@@ -12,9 +11,9 @@ function ButtonSubmitFixed({ submit }) {
                     id="form-submit"
                     className="px-4 py-2 text-sm font-bold leading-tight text-white rounded cursor-pointer bg-pzh-blue hover:underline"
                     type="button"
-                    onClick={(e) => submit(e)}
-                    onKeyPress={(e) => {
-                        if (e.key === "Enter") {
+                    onClick={e => submit(e)}
+                    onKeyPress={e => {
+                        if (e.key === 'Enter') {
                             submit(e)
                         }
                     }}
