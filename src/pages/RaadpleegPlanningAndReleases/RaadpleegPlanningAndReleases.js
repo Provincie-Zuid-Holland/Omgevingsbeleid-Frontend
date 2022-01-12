@@ -157,7 +157,6 @@ const ReleaseList = ({ releases = [] }) => {
                 ))}
             {currentViewAmount !== releases.length ? (
                 <li
-                    key={`increase-${release.title}`}
                     onClick={increaseViewAmount}
                     className="col-span-6 py-4 underline cursor-pointer lg:col-span-5 lg:col-start-2 text-pzh-green hover:text-pzh-green-dark">
                     Toon meer releases

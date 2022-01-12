@@ -1,4 +1,7 @@
+// Import and initialize Sentry for tracking bugs
+import * as Sentry from '@sentry/browser'
 import { Component, Suspense, lazy, useCallback, useLayoutEffect } from 'react'
+import { ErrorBoundary } from 'react-error-boundary'
 import { Helmet } from 'react-helmet'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { Route, Switch, withRouter, useHistory } from 'react-router-dom'
@@ -12,12 +15,14 @@ import './../css/tailwind.css'
 import './../css/styles.scss'
 import './../../node_modules/leaflet/dist/leaflet.css'
 
-// Import All the dimension constants. These contain the dimensions and there variables, e.g. API_ENDPOINT and TITLE_SINGULAR
+// Import Components
 import FeedbackComponent from '../components/FeedbackComponent'
 import LoaderContent from '../components/LoaderContent'
 import Navigation from '../components/Navigation'
 import PopUpAnimatedContainer from '../components/PopUpAnimatedContainer'
 import PopupWelcomeBeta from '../components/PopupWelcomeBeta'
+
+// Import All the dimension constants. These contain the dimensions and there variables, e.g. API_ENDPOINT and TITLE_SINGULAR
 import allDimensies from '../constants/dimensies'
 
 // Import non authenticated pages
@@ -33,16 +38,9 @@ import RaadpleegUniversalObjectOverview from '../pages/RaadpleegUniversalObjectO
 import RaadpleegVerordening from '../pages/RaadpleegVerordening'
 import RaadpleegZoekResultatenOverzicht from '../pages/RaadpleegZoekResultatenOverzicht'
 
-// Import Components
-
-import { ErrorBoundary } from 'react-error-boundary'
-
 // Import Context
 import GraphContext from './GraphContext'
 import UserContext from './UserContext'
-
-// Import and initialize Sentry for tracking bugs
-import * as Sentry from '@sentry/browser'
 
 const AuthRoutes = lazy(() => import('./AuthRoutes'))
 

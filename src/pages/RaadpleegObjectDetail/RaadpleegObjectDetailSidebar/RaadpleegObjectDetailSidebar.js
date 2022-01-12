@@ -1,9 +1,10 @@
-import BackButton from '../../../components/BackButton'
-import RevisieListItem from './../RevisieListItem'
-import Text from '../../../components/Text'
-import PopUpRevisionContainer from '../../../components/PopUpRevisionContainer'
-import getVigerendText from '../../../utils/getVigerendText'
 import { useParams } from 'react-router-dom'
+
+import BackButton from '../../../components/BackButton'
+import PopUpRevisionContainer from '../../../components/PopUpRevisionContainer'
+import Text from '../../../components/Text'
+import getVigerendText from '../../../utils/getVigerendText'
+import RevisieListItem from './../RevisieListItem'
 
 const RaadpleegObjectDetailSidebar = ({
     titleSingular,
@@ -16,23 +17,20 @@ const RaadpleegObjectDetailSidebar = ({
     return (
         <aside
             id="raadpleeg-detail-container-content"
-            className="col-span-6 pt-4 xl:col-span-1 xl:pt-8"
-        >
+            className="col-span-6 pt-4 xl:col-span-1 xl:pt-8">
             <BackButton className="hidden xl:block" />
             <div className="flex justify-between xl:block">
                 <div className="hidden xl:block">
                     <Text
                         type="span"
                         className="block font-bold"
-                        color="text-pzh-blue-dark"
-                    >
+                        color="text-pzh-blue-dark">
                         Type
                     </Text>
                     <Text
                         type="span"
                         color="text-pzh-blue-dark"
-                        className="block"
-                    >
+                        className="block">
                         {titleSingular}
                     </Text>
                 </div>
@@ -40,15 +38,13 @@ const RaadpleegObjectDetailSidebar = ({
                     <Text
                         type="span"
                         className="hidden block font-bold xl:block"
-                        color="text-pzh-blue-dark"
-                    >
+                        color="text-pzh-blue-dark">
                         Status
                     </Text>
                     <Text
                         type="span"
                         color="text-pzh-blue-dark"
-                        className="block"
-                    >
+                        className="block">
                         {vigerendText}
                     </Text>
                 </div>
@@ -57,16 +53,14 @@ const RaadpleegObjectDetailSidebar = ({
                         <Text
                             type="span"
                             className="hidden block font-bold xl:block"
-                            color="text-pzh-blue-dark"
-                        >
+                            color="text-pzh-blue-dark">
                             Revisies
                         </Text>
                         <PopUpRevisionContainer
                             dataObject={dataObject}
                             titleSingular={titleSingular}
-                            revisionObjects={revisionObjects}
-                        >
-                            {revisionObjects.map((item, index) => (
+                            revisionObjects={revisionObjects}>
+                            {revisionObjects.map(item => (
                                 <RevisieListItem
                                     currentUUID={id}
                                     item={item}

@@ -4,7 +4,9 @@ import '@testing-library/jest-dom'
 import TableOfContents from './TableOfContents'
 
 describe('TableOfContents', () => {
-    const defaultProps = {}
+    const defaultProps = {
+        display: 'block',
+    }
 
     const setup = customProps => {
         const props = { ...defaultProps, ...customProps }

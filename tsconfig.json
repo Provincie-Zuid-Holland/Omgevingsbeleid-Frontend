@@ -16,12 +16,7 @@
         "noEmit": true,
         "jsx": "react-jsx",
         "typeRoots": ["./node_modules/@types", "api"],
-        "baseUrl": ".",
-        "paths": {
-            "@public/*": ["./public/*"],
-            "@api/*": ["./api/*"],
-            "@/*": ["./src/*"]
-        }
+        "baseUrl": "."
     },
     "exclude": ["node_modules", "dist"],
     "include": ["src"]
