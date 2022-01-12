@@ -3,7 +3,6 @@ import { Component } from 'react'
 
 import ContainerFormSection from './../../../components/ContainerFormSection'
 import ContainerMain from './../../../components/ContainerMain'
-
 // Import Components
 import FormFieldGeldigheid from './../../../components/FormFieldGeldigheid'
 import FormFieldSelectBeleidskeuze from './../../../components/FormFieldSelectBeleidskeuze'
@@ -25,13 +24,11 @@ class ContainerCrudFields extends Component {
                         <div>
                             <form
                                 className="mt-12"
-                                onSubmit={this.context.handleSubmit}
-                            >
+                                onSubmit={this.context.handleSubmit}>
                                 <>
                                     <ContainerFormSection
                                         titel="Beleidsrelatie"
-                                        beschrijving={`Geef aan met welke beleidskeuze '${this.context.Van_Beleidskeuze_Titel}' een relatie moet krijgen en motiveer waarom.`}
-                                    >
+                                        beschrijving={`Geef aan met welke beleidskeuze '${this.context.Van_Beleidskeuze_Titel}' een relatie moet krijgen en motiveer waarom.`}>
                                         {crudObject['Naar_Beleidskeuze'] !==
                                         undefined ? (
                                             <FormFieldSelectBeleidskeuze
@@ -129,8 +126,7 @@ class ContainerCrudFields extends Component {
                                             id="form-submit"
                                             className="px-4 py-2 text-sm font-bold leading-tight text-white rounded cursor-pointer bg-pzh-blue hover:underline"
                                             type="submit"
-                                            value="Opslaan"
-                                        ></input>
+                                            value="Opslaan"></input>
                                     </div>
                                 </div>
                             </form>

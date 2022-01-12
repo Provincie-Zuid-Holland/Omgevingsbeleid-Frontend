@@ -1,7 +1,7 @@
 import { Component } from 'react'
 
-import ViewFieldTitelEnInhoud from '../../ViewFieldTitelEnInhoud'
 import ViewFieldExternalURL from '../../ViewFieldExternalURL'
+import ViewFieldTitelEnInhoud from '../../ViewFieldTitelEnInhoud'
 
 class ContainerViewFieldsBeleidsregel extends Component {
     render() {

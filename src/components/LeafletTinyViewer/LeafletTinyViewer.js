@@ -252,7 +252,7 @@ export default class LeafletTinyViewer extends Component {
 
                             const jsonLayer = Leaflet.Proj.geoJson(data, {
                                 onEachFeature: onEachFeature,
-                                style: feature => {
+                                style: () => {
                                     colorsIndex++
                                     return {
                                         stroke: true,
@@ -309,8 +309,7 @@ export default class LeafletTinyViewer extends Component {
                         crs={RDCrs}
                         ref={this.leafletMap}
                         className="z-0"
-                        id="leaflet-tiny-viewer"
-                    >
+                        id="leaflet-tiny-viewer">
                         <LeafletController position="topright">
                             <div id="leaflet-layers-control" className="">
                                 <div className="flex">
@@ -336,8 +335,7 @@ export default class LeafletTinyViewer extends Component {
                                                     !this.state
                                                         .layerControlOpen,
                                             })
-                                        }
-                                    >
+                                        }>
                                         <FontAwesomeIcon
                                             className="text-lg text-gray-700"
                                             icon={
@@ -354,8 +352,7 @@ export default class LeafletTinyViewer extends Component {
                                         enterTo="transform translate-x-0 opacity-100"
                                         leave="ease-in duration-300"
                                         leaveFrom="transform translate-x-0 opacity-100"
-                                        leaveTo="transform translate-x-64 opacity-0"
-                                    >
+                                        leaveTo="transform translate-x-64 opacity-0">
                                         <div>
                                             <button
                                                 className="absolute top-0 left-0 flex items-center justify-center w-8 h-8 p-2 mr-8 text-gray-700 transform -translate-x-8 bg-orange-100 rounded-l opacity-100 hover:text-gray-800"
@@ -365,8 +362,7 @@ export default class LeafletTinyViewer extends Component {
                                                             !this.state
                                                                 .layerControlOpen,
                                                     })
-                                                }
-                                            >
+                                                }>
                                                 <FontAwesomeIcon
                                                     className="text-lg"
                                                     icon={faAngleRight}
@@ -381,18 +377,14 @@ export default class LeafletTinyViewer extends Component {
                                                         .fullscreen
                                                         ? '1000px'
                                                         : '500px',
-                                                }}
-                                            >
+                                                }}>
                                                 <div className="w-full">
                                                     <ToggleableSection title="Legenda">
                                                         <ul className="p-2">
                                                             {this.state
                                                                 .werkingsgebied
                                                                 ? this.state.werkingsgebied.map(
-                                                                      (
-                                                                          layer,
-                                                                          index
-                                                                      ) => (
+                                                                      layer => (
                                                                           <li
                                                                               key={
                                                                                   layer
@@ -412,8 +404,7 @@ export default class LeafletTinyViewer extends Component {
                                                                                                 .current
                                                                                                 .leafletElement
                                                                                         )
-                                                                              }}
-                                                                          >
+                                                                              }}>
                                                                               <div
                                                                                   className={`flex transition-opacity duration-100 ease-in ${
                                                                                       this.leafletMap.current.leafletElement.hasLayer(
@@ -421,8 +412,7 @@ export default class LeafletTinyViewer extends Component {
                                                                                       )
                                                                                           ? 'opacity-100'
                                                                                           : 'opacity-50'
-                                                                                  }`}
-                                                                              >
+                                                                                  }`}>
                                                                                   <div
                                                                                       className="flex-none inline-block w-4 h-4 mr-2"
                                                                                       style={{
@@ -492,8 +482,7 @@ export default class LeafletTinyViewer extends Component {
                                                                                                 .current
                                                                                                 .leafletElement
                                                                                         )
-                                                                              }}
-                                                                          >
+                                                                              }}>
                                                                               <div
                                                                                   className={`flex transition-opacity duration-100 ease-in ${
                                                                                       this.leafletMap.current.leafletElement.hasLayer(
@@ -501,8 +490,7 @@ export default class LeafletTinyViewer extends Component {
                                                                                       )
                                                                                           ? 'opacity-100'
                                                                                           : 'opacity-50'
-                                                                                  }`}
-                                                                              >
+                                                                                  }`}>
                                                                                   <div
                                                                                       className="flex-none inline-block w-4 h-4 mr-2"
                                                                                       style={{
@@ -561,8 +549,7 @@ export default class LeafletTinyViewer extends Component {
                                                                                 'Satelliet',
                                                                         }
                                                                     )
-                                                                }}
-                                                            >
+                                                                }}>
                                                                 <div>
                                                                     <input
                                                                         className="mr-2"
@@ -591,8 +578,7 @@ export default class LeafletTinyViewer extends Component {
                                                                                 'Map',
                                                                         }
                                                                     )
-                                                                }}
-                                                            >
+                                                                }}>
                                                                 <div>
                                                                     <input
                                                                         className="mr-2"
@@ -624,8 +610,7 @@ export default class LeafletTinyViewer extends Component {
                         <LayersControl position="topright">
                             <LayersControl.BaseLayer
                                 checked={this.state.activeMapTiles === 'Map'}
-                                name="Map"
-                            >
+                                name="Map">
                                 <TileLayer
                                     url={tileURL}
                                     minZoom="3"
@@ -637,8 +622,7 @@ export default class LeafletTinyViewer extends Component {
                                 checked={
                                     this.state.activeMapTiles === 'Satelliet'
                                 }
-                                name="Satelliet"
-                            >
+                                name="Satelliet">
                                 <TileLayer
                                     url={tileURLSattelite}
                                     minZoom="3"
@@ -669,8 +653,7 @@ const ToggleableSection = ({ children, title }) => {
         <div>
             <button
                 onClick={() => setOpen(!open)}
-                className="flex items-center justify-between w-full p-5 text-left bg-orange-100"
-            >
+                className="flex items-center justify-between w-full p-5 text-left bg-orange-100">
                 <span className="font-bold">{title}</span>
                 <FontAwesomeIcon icon={open ? faChevronUp : faChevronDown} />
             </button>

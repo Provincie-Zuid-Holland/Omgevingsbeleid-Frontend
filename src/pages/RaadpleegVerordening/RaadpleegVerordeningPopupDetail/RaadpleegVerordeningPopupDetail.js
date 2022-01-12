@@ -118,7 +118,7 @@ const RaadpleegVerordeningPopupDetail = ({
     )
 }
 
-const ArticleConnections = ({ activeArticle }) => {
+const ArticleConnections = () => {
     return <div></div>
 }
 

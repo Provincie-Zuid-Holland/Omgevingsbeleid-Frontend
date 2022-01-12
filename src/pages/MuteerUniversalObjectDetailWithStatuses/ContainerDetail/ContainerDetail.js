@@ -14,7 +14,6 @@ import LoaderMainTitle from './../../../components/LoaderMainTitle'
 import LoaderSmallSpan from './../../../components/LoaderSmallSpan'
 import PopUpModules from './../../../components/PopUpModules'
 import PopUpStatusAanpassen from './../../../components/PopUpStatusAanpassen'
-
 // Import Utilities
 import getVigerendText from './../../../utils/getVigerendText'
 import PopUpDetailDropdown from './../PopUpDetailDropdown'
@@ -76,8 +75,7 @@ class ContainerDetail extends Component {
                         ? 'px-5'
                         : 'pl-16 pr-5'
                 }
-                `}
-            >
+                `}>
                 {/* Verticale lijn + bolletje */}
                 {!isLoading && dataObject ? (
                     dataObject.Status === 'Vigerend' ||
@@ -110,8 +108,7 @@ class ContainerDetail extends Component {
                     <div
                         onClick={this.toggleDropdown}
                         className="absolute top-0 right-0 p-5 text-gray-600 cursor-pointer hover:text-gray-800"
-                        id="container-detail-dropdown-dots"
-                    >
+                        id="container-detail-dropdown-dots">
                         <FontAwesomeIcon className="mr-2" icon={faEllipsisV} />
                     </div>
 
@@ -176,8 +173,7 @@ class ContainerDetail extends Component {
                                     ? '#mijn-beleid'
                                     : ''
                             }`}
-                            className="inline-block mt-2 underline text-pzh-blue hover:text-pzh-blue-dark pzh-transition-colors"
-                        >
+                            className="inline-block mt-2 underline text-pzh-blue hover:text-pzh-blue-dark pzh-transition-colors">
                             Bewerk {this.props.titleSingular}
                         </Link>
                     ) : null}
@@ -213,8 +209,7 @@ class ContainerDetail extends Component {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     id="href-idms-koppeling"
-                                    className="flex items-center justify-between w-full px-4 py-2 border-r border-gray-300 hover:bg-gray-50 pzh-transition-colors"
-                                >
+                                    className="flex items-center justify-between w-full px-4 py-2 border-r border-gray-300 hover:bg-gray-50 pzh-transition-colors">
                                     <div>
                                         <span className="block text-sm font-bold text-gray-700">
                                             IDMS-koppeling
@@ -236,8 +231,7 @@ class ContainerDetail extends Component {
                                     href={`/detail/${this.props.overzichtSlug}/${dataObject.UUID}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="flex items-center justify-between w-full py-2 pl-4 rounded-r cursor-pointer hover:bg-gray-50 pzh-transition-colors"
-                                >
+                                    className="flex items-center justify-between w-full py-2 pl-4 rounded-r cursor-pointer hover:bg-gray-50 pzh-transition-colors">
                                     <div>
                                         <div>
                                             <span className="block text-sm font-bold text-gray-700">

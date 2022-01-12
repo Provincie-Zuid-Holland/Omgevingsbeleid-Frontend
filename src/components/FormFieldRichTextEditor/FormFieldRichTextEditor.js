@@ -1,5 +1,4 @@
 import Quill from 'quill'
-
 // Quill Theme, we also override certain parts in styles.scss
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
@@ -87,7 +86,7 @@ function FormFieldRichTextEditor({
         editorRef.current = editor
 
         // Paste text without styles (https://github.com/quilljs/quill/issues/1184)
-        editor.clipboard.addMatcher(Node.ELEMENT_NODE, (node, delta) => {
+        editor.clipboard.addMatcher(Node.ELEMENT_NODE, (_, delta) => {
             delta.ops = delta.ops.map(op => {
                 return {
                     insert: op.insert,
@@ -107,7 +106,7 @@ function FormFieldRichTextEditor({
         }
 
         // Disable pasting of images
-        editor.clipboard.addMatcher(Node.ELEMENT_NODE, function (node, delta) {
+        editor.clipboard.addMatcher(Node.ELEMENT_NODE, function (node) {
             const plaintext = node.innerText
             const Delta = Quill.import('delta')
             return new Delta().insert(plaintext)
@@ -122,7 +121,7 @@ function FormFieldRichTextEditor({
             return '' + tempEditor.root.innerHTML
         }
 
-        editor.on('editor-change', function (eventName, ...args) {
+        editor.on('editor-change', function (eventName) {
             if (eventName === 'text-change') {
                 // const justHtml = editor.root.innerHTML
                 const justHtml = getQuillHtml(editor)
@@ -156,8 +155,7 @@ function FormFieldRichTextEditor({
     return (
         <div
             id={`form-field-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
-            className={`quill-container ${disabled ? 'opacity-50' : ''}`}
-        >
+            className={`quill-container ${disabled ? 'opacity-50' : ''}`}>
             <div
                 className="editor"
                 id={`quill-container-${dataObjectProperty}`}

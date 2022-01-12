@@ -16,9 +16,6 @@ import ContainerMain from './../../components/ContainerMain'
 import FormFieldGeldigheid from './../../components/FormFieldGeldigheid'
 import FormFieldTextInput from './../../components/FormFieldTextInput'
 import LoaderContent from './../../components/LoaderContent'
-
-// Import Axios instance to connect with the API
-
 // Import Utilities
 import checkContainsRequiredUnfilledField from './../../utils/checkContainsRequiredUnfilledField'
 import formatGeldigheidDatesForAPI from './../../utils/formatGeldigheidDatesForAPI'
@@ -316,13 +313,11 @@ class MuteerVerordeningenStructuurCRUD extends Component {
                         <div className="flex-grow inline-block w-full">
                             <form
                                 className="mt-12"
-                                onSubmit={this.handleSubmit}
-                            >
+                                onSubmit={this.handleSubmit}>
                                 <>
                                     <ContainerFormSection
                                         titel="Verordening"
-                                        beschrijving={`Geef de verordening een passende titel.`}
-                                    >
+                                        beschrijving={`Geef de verordening een passende titel.`}>
                                         <FormFieldTextInput
                                             handleChange={handleChange}
                                             fieldValue={crudObject['Titel']}
@@ -378,8 +373,7 @@ class MuteerVerordeningenStructuurCRUD extends Component {
                                             id="form-submit"
                                             className="px-4 py-2 text-sm font-bold leading-tight text-white rounded bg-pzh-blue hover:underline"
                                             type="submit"
-                                            value="Opslaan"
-                                        ></input>
+                                            value="Opslaan"></input>
                                     </div>
                                 </div>
                             </form>

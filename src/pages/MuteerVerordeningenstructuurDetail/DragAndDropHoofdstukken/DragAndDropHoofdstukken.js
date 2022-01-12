@@ -140,7 +140,6 @@ function DragAndDropHoofdstukken({ hoofdstukItems, changeActiveChapter }) {
 const HoofdstukTitleEditing = ({
     snapshot,
     patchRegulationObject,
-    item,
     verordeningsObjectFromGET,
     setVerordeningsObjectFromGET,
     setUUIDBeingEdited,

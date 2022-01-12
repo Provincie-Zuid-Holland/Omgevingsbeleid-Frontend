@@ -2,14 +2,12 @@ import 'react-app-polyfill/ie11'
 import 'promise-polyfill/src/polyfill'
 
 import ReactDOM from 'react-dom'
+import { BrowserRouter } from 'react-router-dom'
 import { LastLocationProvider } from 'react-router-last-location'
 
 import App from './App'
 import ScrollToTop from './components/ScrollToTop'
 import * as serviceWorker from './serviceWorker'
-
-import { BrowserRouter } from 'react-router-dom'
-
 import { polyfills } from './utils/polyfills.js'
 
 polyfills()

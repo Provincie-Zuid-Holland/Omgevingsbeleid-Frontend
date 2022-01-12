@@ -1,9 +1,8 @@
+import UserContext from '../../../../App/UserContext'
+import ViewFieldIngelogdExtraInfo from '../../../../components/ViewFieldIngelogdExtraInfo'
+import ViewFieldBelangen from '../../ViewFieldBelangen'
 import ViewFieldInnerHTML from '../../ViewFieldInnerHTML'
 import ViewFieldTags from '../../ViewFieldTags'
-import ViewFieldBelangen from '../../ViewFieldBelangen'
-import ViewFieldIngelogdExtraInfo from '../../../../components/ViewFieldIngelogdExtraInfo'
-
-import UserContext from '../../../../App/UserContext'
 
 const ContainerViewFieldsBeleidskeuze = ({ crudObject }) => {
     return (

@@ -7,7 +7,6 @@ import { withRouter } from 'react-router-dom'
 import HeadingMain from '../HeadingMain'
 import LoaderMainTitle from '../LoaderMainTitle'
 import LoaderSmallSpan from '../LoaderSmallSpan'
-
 // Import Utilities
 import getVigerendText from './../../utils/getVigerendText'
 
@@ -33,8 +32,7 @@ const ContainerDetailMain = ({
 
     return (
         <div
-            className={`relative inline-block w-full px-6 py-5 shadow-md rounded bg-white -mb-2`}
-        >
+            className={`relative inline-block w-full px-6 py-5 shadow-md rounded bg-white -mb-2`}>
             <span className="block mb-1 text-sm text-gray-500">
                 {titleSingular}
             </span>
@@ -91,8 +89,7 @@ const ContainerDetailMainRaadpleegLink = ({
             rel="noopener noreferrer"
             className={`flex items-center justify-between w-full py-2 pl-4 hover:bg-gray-50 pzh-transition-colors ${
                 dataReceived ? 'cursor-pointer' : ''
-            }`}
-        >
+            }`}>
             <div>
                 <div>
                     <span className="block text-sm font-bold text-gray-700">
@@ -167,8 +164,7 @@ const ContainerDetailMainWeblink = ({ weblink }) => {
             target="_blank"
             rel="noopener noreferrer"
             id="href-idms-koppeling"
-            className="flex items-center justify-between w-full px-4 py-2 border-r border-gray-300 hover:bg-gray-50 pzh-transition-colors"
-        >
+            className="flex items-center justify-between w-full px-4 py-2 border-r border-gray-300 hover:bg-gray-50 pzh-transition-colors">
             <div>
                 <span className="block text-sm font-bold text-gray-700">
                     IDMS-koppeling

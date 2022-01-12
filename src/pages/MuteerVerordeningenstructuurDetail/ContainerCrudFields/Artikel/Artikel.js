@@ -8,7 +8,6 @@ function Artikel({
     verordeningsObjectFromGET,
     setVerordeningsObjectFromGET,
     setVerordeningsLedenFromGET,
-    verordeningsLedenFromGET,
     inheritWerkingsgebiedenFromArtikel,
     setInheritWerkingsgebiedenFromArtikel,
     hasLeden,
@@ -110,8 +109,7 @@ function Artikel({
                 <div className="mb-4">
                     <label
                         htmlFor="Begin_Geldigheid"
-                        className="block text-sm font-medium leading-5 text-gray-700"
-                    >
+                        className="block text-sm font-medium leading-5 text-gray-700">
                         Datum inwerkingtreding
                     </label>
                     <div className="relative mt-1 rounded-md shadow-sm">
@@ -136,8 +134,7 @@ function Artikel({
                 <div className="mb-4">
                     <label
                         htmlFor="Eind_Geldigheid"
-                        className="block text-sm font-medium leading-5 text-gray-700"
-                    >
+                        className="block text-sm font-medium leading-5 text-gray-700">
                         Datum uitwerkingtreding
                     </label>
                     <div className="relative mt-1 rounded-md shadow-sm">
@@ -164,8 +161,7 @@ function Artikel({
                         <>
                             <label
                                 htmlFor="Eind_Geldigheid"
-                                className="block text-sm font-medium leading-5 text-gray-700"
-                            >
+                                className="block text-sm font-medium leading-5 text-gray-700">
                                 Werkingsgebied
                             </label>
                             <Werkingsgebied
@@ -213,8 +209,7 @@ function Artikel({
                             />
                             <label
                                 className="ml-2 text-sm text-gray-700 cursor-pointer"
-                                htmlFor="inherit-werkingsgebieden-from-artikel"
-                            >
+                                htmlFor="inherit-werkingsgebieden-from-artikel">
                                 Alle leden van dit artikel gaan over hetzelfde
                                 werkingsgebied
                             </label>

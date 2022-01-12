@@ -1,9 +1,9 @@
+import { faInfoCircle } from '@fortawesome/pro-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Tippy from '@tippyjs/react'
 import { useRef, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import 'tippy.js/dist/tippy.css'
-import { faInfoCircle } from '@fortawesome/pro-solid-svg-icons'
 
 import BackButton from '../../../components/BackButton'
 import PopUpRevisionContainer from '../../../components/PopUpRevisionContainer'

@@ -161,7 +161,7 @@ class FormFieldSelectUser extends Component {
 
     render() {
         const customStyles = {
-            control: (base, state) => ({
+            control: base => ({
                 ...base,
                 borderColor: 'none',
                 borderWidth: '0px',
@@ -182,8 +182,7 @@ class FormFieldSelectUser extends Component {
             <div
                 className={`mb-6 ${this.props.marginRight ? 'mr-8' : null} ${
                     this.props.halfWidth ? 'w-full mr-4' : 'w-1/2'
-                }`}
-            >
+                }`}>
                 <p className="form-field-description">{`${this.props.pValue}`}</p>
                 {this.state.dataLoaded ? (
                     <Select
@@ -202,8 +201,7 @@ class FormFieldSelectUser extends Component {
                         styles={customStyles}
                         isClearable={true}
                         options={this.getOptions()}
-                        placeholder={`Selecteer...`}
-                    ></Select>
+                        placeholder={`Selecteer...`}></Select>
                 ) : (
                     <LoaderSelect />
                 )}

@@ -9,22 +9,18 @@ import { ToastContainer } from 'react-toastify'
 
 import axios from '../API/axios'
 import 'react-toastify/dist/ReactToastify.css'
-
 // Import Styling
 import './../css/tailwind.css'
 import './../css/styles.scss'
 import './../../node_modules/leaflet/dist/leaflet.css'
-
 // Import Components
 import FeedbackComponent from '../components/FeedbackComponent'
 import LoaderContent from '../components/LoaderContent'
 import Navigation from '../components/Navigation'
 import PopUpAnimatedContainer from '../components/PopUpAnimatedContainer'
 import PopupWelcomeBeta from '../components/PopupWelcomeBeta'
-
 // Import All the dimension constants. These contain the dimensions and there variables, e.g. API_ENDPOINT and TITLE_SINGULAR
 import allDimensies from '../constants/dimensies'
-
 // Import non authenticated pages
 import ErrorPage from '../pages/ErrorPage'
 import Login from '../pages/Login'
@@ -37,7 +33,6 @@ import RaadpleegPlanningAndReleases from '../pages/RaadpleegPlanningAndReleases'
 import RaadpleegUniversalObjectOverview from '../pages/RaadpleegUniversalObjectOverview'
 import RaadpleegVerordening from '../pages/RaadpleegVerordening'
 import RaadpleegZoekResultatenOverzicht from '../pages/RaadpleegZoekResultatenOverzicht'
-
 // Import Context
 import GraphContext from './GraphContext'
 import UserContext from './UserContext'
@@ -169,7 +164,7 @@ class App extends Component {
     }
 
     // Used if users token session expires and needs to login again
-    showReAuthenticatePopup(e) {
+    showReAuthenticatePopup() {
         this.setState({
             showReAuthenticatePopup: true,
         })

@@ -1,13 +1,12 @@
 import { faSearch } from '@fortawesome/pro-light-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useEffect, useRef, useState } from 'react'
 import { useLocation, useHistory } from 'react-router-dom'
 import 'url-search-params-polyfill'
 
 import { searchBarFilters } from './../../constants/searchBarFilters'
 import useClickOutsideContainer from './../../utils/useClickOutsideContainer'
 import SearchBarPopupItem from './../SearchBarPopupItem'
-
-import { useEffect, useRef, useState } from 'react'
 
 /**
  * @param {string} placeholder - Placeholder text
@@ -61,8 +60,7 @@ const SearchBar = ({ placeholder, id = 'search-query', className = '' }) => {
     return (
         <div
             ref={searchBarRef}
-            className={`relative block w-full ${className}`}
-        >
+            className={`relative block w-full ${className}`}>
             <input
                 className={`block pl-10 w-full bg-gray-50 rounded appearance-none px-3 border hover:border-opacity-40 border-pzh-blue-dark border-opacity-30 transition-colors ease-in duration-100`}
                 name="searchInput"
@@ -92,8 +90,7 @@ const SearchBar = ({ placeholder, id = 'search-query', className = '' }) => {
             {searchQuery.length > 0 && searchBarPopupOpen ? (
                 <div
                     className="absolute top-0 z-10 w-full px-5"
-                    id="main-search-result-container"
-                >
+                    id="main-search-result-container">
                     <ul className="text-base bg-white border border-gray-300 rounded-b shadow">
                         {/* Displays the searchQuery*/}
                         <SearchBarPopupItem

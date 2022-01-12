@@ -1,5 +1,5 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faInfoCircle } from '@fortawesome/pro-light-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Link } from 'react-router-dom'
 
 function RaadpleegObjectDetailNewVersionNotification({
@@ -76,8 +76,7 @@ function RaadpleegObjectDetailNewVersionNotification({
                     Let op! Deze versie is nog niet vigerend,{' '}
                     <Link
                         className="underline"
-                        to={`/detail/beleidskeuzes/${Effective_Version}`}
-                    >
+                        to={`/detail/beleidskeuzes/${Effective_Version}`}>
                         bekijk hier de vigerende versie
                     </Link>
                 </span>
@@ -87,8 +86,7 @@ function RaadpleegObjectDetailNewVersionNotification({
                     vastgesteld
                     <Link
                         className="underline"
-                        to={`/detail/beleidskeuzes/${Effective_Version}`}
-                    >
+                        to={`/detail/beleidskeuzes/${Effective_Version}`}>
                         bekijk hier de ontwerpversie
                     </Link>
                 </span>
@@ -98,8 +96,7 @@ function RaadpleegObjectDetailNewVersionNotification({
                     beleidskeuze met de status {Latest_Status},{' '}
                     <Link
                         className="underline"
-                        to={`/detail/beleidskeuzes/${Latest_Version}`}
-                    >
+                        to={`/detail/beleidskeuzes/${Latest_Version}`}>
                         bekijk deze versie hier
                     </Link>
                 </span>

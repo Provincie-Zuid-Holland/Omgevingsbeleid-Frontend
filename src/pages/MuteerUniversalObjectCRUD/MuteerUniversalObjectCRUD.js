@@ -22,7 +22,6 @@ import makeCrudObject from './../../utils/makeCrudObject'
 import makeCrudProperties from './../../utils/makeCrudProperties'
 import scrollToElement from './../../utils/scrollToElement'
 import ContainerCrudHeader from './ContainerCrudHeader'
-
 // Import FormFieldContainers
 import FormFieldContainerAmbities from './FormFieldContainers/FormFieldContainerAmbities'
 import FormFieldContainerBelangen from './FormFieldContainers/FormFieldContainerBelangen'

@@ -1,5 +1,4 @@
 import Text from './../../../components/Text'
-
 import getDimensionsConstants from './../../../utils/getDimensionsConstants'
 
 const FilterItem = ({ handleFilter, checked, item, count }) => {
@@ -20,8 +19,7 @@ const FilterItem = ({ handleFilter, checked, item, count }) => {
         <li key={item} className="mt-1 text-pzh-blue-dark">
             <label
                 className="flex items-center cursor-pointer select-none"
-                id={`filter-for-${titleSingular}`}
-            >
+                id={`filter-for-${titleSingular}`}>
                 <input
                     className="mr-2 leading-tight text-indigo-600 cursor-pointer text-pzh-green hover:text-pzh-green-dark form-checkbox"
                     type="checkbox"

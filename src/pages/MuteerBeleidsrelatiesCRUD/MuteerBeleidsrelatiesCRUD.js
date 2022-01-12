@@ -3,13 +3,10 @@ import { Helmet } from 'react-helmet'
 import { withRouter } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
-// Import Components
 import axios from './../../API/axios'
+// Import Components
 import ButtonBackToPage from './../../components/ButtonBackToPage'
 import isEndDateBeforeStartDate from './../../utils/isEndDateBeforeStartDate'
-
-// Import Axios instance to connect with the API
-
 // Create Context
 import APIcontext from './APIContext'
 import ContainerCrudFields from './ContainerCrudFields'

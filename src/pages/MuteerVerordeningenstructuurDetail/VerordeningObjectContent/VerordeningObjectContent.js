@@ -258,7 +258,6 @@ const LedenView = ({ item, transparent }) => {
 }
 
 const LedenEdit = ({
-    item,
     verordeningsLedenFromGET,
     setVerordeningsLedenFromGET,
     setVerordeningsObjectFromGET,

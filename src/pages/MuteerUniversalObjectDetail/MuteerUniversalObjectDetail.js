@@ -6,11 +6,10 @@ import { Helmet } from 'react-helmet'
 import { Link, withRouter } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
-// Import Components
-import axios from '../../API/axios'
-import ContainerDetailMain from '../../components/ContainerDetailMain'
-
 // Import Axios instance to connect with the API
+import axios from '../../API/axios'
+// Import Components
+import ContainerDetailMain from '../../components/ContainerDetailMain'
 import EigenaarsDriehoek from '../../components/EigenaarsDriehoek'
 import { checkIfUserIsAllowedOnPage } from '../../utils/checkIfUserIsAllowedOnPage'
 import ButtonBackToPage from './../../components/ButtonBackToPage'
@@ -140,7 +139,7 @@ class MuteerUniversalObjectDetail extends Component {
     }
 
     /** Update state when the user switches from pageType */
-    componentDidUpdate(prevProps) {
+    componentDidUpdate() {
         if (this.returnPageType() !== this.state.pageType) {
             this.setState(
                 {

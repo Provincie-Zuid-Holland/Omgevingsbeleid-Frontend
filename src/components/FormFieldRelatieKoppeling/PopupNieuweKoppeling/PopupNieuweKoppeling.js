@@ -208,8 +208,7 @@ class PopupNieuweKoppeling extends Component {
                 <div
                     onClick={this.props.togglePopup}
                     className="absolute top-0 right-0 px-6 py-4 text-gray-600 cursor-pointer"
-                    id={`form-field-koppeling-sluit-popup`}
-                >
+                    id={`form-field-koppeling-sluit-popup`}>
                     <FontAwesomeIcon icon={faTimes} />
                 </div>
                 <h3 className="font-bold form-field-label">
@@ -269,15 +268,13 @@ class PopupNieuweKoppeling extends Component {
                                                         : 'hover:bg-gray-100'
                                                 }`}
                                                 key={item.UUID}
-                                                id={`form-field-koppeling-item-${index}`}
-                                            >
+                                                id={`form-field-koppeling-item-${index}`}>
                                                 <span
                                                     className={`${
                                                         item.Volgnummer
                                                             ? 'w-10 inline-block'
                                                             : ''
-                                                    }`}
-                                                >
+                                                    }`}>
                                                     {item.Volgnummer
                                                         ? item.Volgnummer
                                                         : null}
@@ -288,8 +285,7 @@ class PopupNieuweKoppeling extends Component {
                                 ) : (
                                     <li
                                         className="px-4 py-2 text-sm text-gray-700 cursor-not-allowed"
-                                        key="0"
-                                    >
+                                        key="0">
                                         {this.state.dataLoaded ? (
                                             this.state.zoekFilter.length ===
                                             0 ? (
@@ -350,8 +346,7 @@ class PopupNieuweKoppeling extends Component {
                         tabIndex="0"
                         className="text-sm text-gray-600 underline cursor-pointer"
                         onClick={this.props.togglePopup}
-                        id={`form-field-koppeling-annuleren`}
-                    >
+                        id={`form-field-koppeling-annuleren`}>
                         Annuleren
                     </span>
                     {this.state.actievePagina === 1 ? (
@@ -362,7 +357,7 @@ class PopupNieuweKoppeling extends Component {
                                     : `hover:underline`
                             }`}
                             tabIndex="0"
-                            onClick={e => {
+                            onClick={() => {
                                 if (this.state.selected !== null) {
                                     this.volgendeScherm()
                                 } else {
@@ -382,8 +377,7 @@ class PopupNieuweKoppeling extends Component {
                                     this.props.togglePopup()
                                 }
                             }}
-                            id={`form-field-koppeling-volgende`}
-                        >
+                            id={`form-field-koppeling-volgende`}>
                             Volgende
                         </div>
                     ) : (
@@ -419,8 +413,7 @@ class PopupNieuweKoppeling extends Component {
                                     this.props.togglePopup()
                                 }
                             }}
-                            id={`form-field-koppeling-koppelen`}
-                        >
+                            id={`form-field-koppeling-koppelen`}>
                             Koppelen
                         </div>
                     )}

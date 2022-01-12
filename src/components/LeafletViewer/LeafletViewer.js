@@ -54,8 +54,7 @@ function CreateCustomPopup({ weergavenaam, lat, lng, point }) {
                 )}+${point.y.toFixed(2)}&LatLng=${lat.toFixed(7)}-${lng.toFixed(
                     7
                 )}`}
-                className="inline-block p-2 text-white rounded cursor-pointer bg-pzh-blue hover:bg-blue-600 focus:outline-none focus:ring"
-            >
+                className="inline-block p-2 text-white rounded cursor-pointer bg-pzh-blue hover:bg-blue-600 focus:outline-none focus:ring">
                 Bekijk provinciaal beleid van deze locatie
             </a>
         </div>
@@ -141,27 +140,27 @@ export default class LeafletViewer extends Component {
         this._onChange()
     }
 
-    _onDeleted = e => {
+    _onDeleted = () => {
         this._onChange()
     }
 
-    _onMounted = drawControl => {
+    _onMounted = () => {
         // console.log('_onMounted', drawControl)
     }
 
-    _onEditStart = e => {
+    _onEditStart = () => {
         // console.log('_onEditStart', e)
     }
 
-    _onEditStop = e => {
+    _onEditStop = () => {
         // console.log('_onEditStop', e)
     }
 
-    _onDeleteStart = e => {
+    _onDeleteStart = () => {
         // console.log('_onDeleteStart', e)
     }
 
-    _onDeleteStop = e => {
+    _onDeleteStop = () => {
         // console.log('_onDeleteStop', e)
     }
 
@@ -289,8 +288,7 @@ export default class LeafletViewer extends Component {
                     ref={this.leafletMap}
                     className={`z-0 ${
                         this.props.className ? this.props.className : ''
-                    }`}
-                >
+                    }`}>
                     <LayersControl position="topright">
                         <LayersControl.BaseLayer checked={true} name="Map">
                             <TileLayer
@@ -313,16 +311,14 @@ export default class LeafletViewer extends Component {
                     <LeafletController position="topleft">
                         <div
                             id="leaflet-search"
-                            className="relative z-10 flex items-center justify-between h-10 bg-white rounded shadow cursor-pointer"
-                        >
+                            className="relative z-10 flex items-center justify-between h-10 bg-white rounded shadow cursor-pointer">
                             <div
                                 className={`w-10 h-10 flex justify-center items-center text-gray-600 hover:text-gray-700 ${
                                     this.state.leafletSearch
                                         ? 'border-r border-gray-300'
                                         : null
                                 }`}
-                                onClick={this.toggleLeafletSearch}
-                            >
+                                onClick={this.toggleLeafletSearch}>
                                 <FontAwesomeIcon
                                     className="inline-block w-10 text-lg cursor-pointer"
                                     icon={faSearch}
@@ -340,8 +336,7 @@ export default class LeafletViewer extends Component {
                     <FeatureGroup
                         ref={reactFGref => {
                             this._onFeatureGroupReady(reactFGref)
-                        }}
-                    >
+                        }}>
                         <LeafletDrawController
                             position="topleft"
                             onCreated={this._onCreated}

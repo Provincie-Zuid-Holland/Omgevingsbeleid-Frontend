@@ -1,4 +1,5 @@
 import { Component } from 'react'
+
 import ViewFieldTitelEnInhoud from '../../ViewFieldTitelEnInhoud'
 
 class ContainerViewFieldsThema extends Component {

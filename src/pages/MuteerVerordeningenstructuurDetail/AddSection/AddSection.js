@@ -1,16 +1,15 @@
 /* istanbul ignore file */
-import { Component, createRef } from 'react'
-import { useSpring, animated } from 'react-spring'
-import { Link, withRouter } from 'react-router-dom'
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus } from '@fortawesome/pro-solid-svg-icons'
 import {
     faTag,
     faParagraph,
     faAlignLeft,
     faHeading,
 } from '@fortawesome/pro-regular-svg-icons'
+import { faPlus } from '@fortawesome/pro-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Component, createRef } from 'react'
+import { Link, withRouter } from 'react-router-dom'
+import { useSpring, animated } from 'react-spring'
 
 function AnimatedContainer({ classes, children, reference, onClick }) {
     return (
@@ -22,8 +21,7 @@ function AnimatedContainer({ classes, children, reference, onClick }) {
             })}
             className={classes}
             ref={reference}
-            onClick={onClick}
-        >
+            onClick={onClick}>
             {children}
         </animated.div>
     )
@@ -41,15 +39,13 @@ function VoegSectieToePopup({
     return (
         <AnimatedContainer
             classes="absolute z-30 bg-white shadow-lg p-4 rounded verordening-sectie-popup"
-            reference={reference}
-        >
+            reference={reference}>
             <ul className="flex">
                 {type === 'Hoofdstuk' ? (
                     <li>
                         <Link
                             className="inline-block w-24 p-4 font-bold text-center rounded cursor-pointer hover:bg-gray-100"
-                            to={`/muteer/verordeningen/${lineageID}/nieuw/Hoofdstuk?hoofdstuk=${hoofdstukIndex}&nest_1=${nest_1}&nest_2=${nest_2}&nest_3=${nest_3}`}
-                        >
+                            to={`/muteer/verordeningen/${lineageID}/nieuw/Hoofdstuk?hoofdstuk=${hoofdstukIndex}&nest_1=${nest_1}&nest_2=${nest_2}&nest_3=${nest_3}`}>
                             <FontAwesomeIcon
                                 className="relative inline-block mb-2 text-lg"
                                 icon={faHeading}
@@ -62,8 +58,7 @@ function VoegSectieToePopup({
                     <li>
                         <Link
                             className="inline-block w-24 p-4 font-bold text-center rounded cursor-pointer hover:bg-gray-100"
-                            to={`/muteer/verordeningen/${lineageID}/nieuw/Afdeling?hoofdstuk=${hoofdstukIndex}&nest_1=${nest_1}&nest_2=${nest_2}&nest_3=${nest_3}`}
-                        >
+                            to={`/muteer/verordeningen/${lineageID}/nieuw/Afdeling?hoofdstuk=${hoofdstukIndex}&nest_1=${nest_1}&nest_2=${nest_2}&nest_3=${nest_3}`}>
                             <FontAwesomeIcon
                                 className="relative inline-block mb-2 text-lg"
                                 icon={faTag}
@@ -78,8 +73,7 @@ function VoegSectieToePopup({
                     <li>
                         <Link
                             className="inline-block w-24 p-4 font-bold text-center rounded cursor-pointer hover:bg-gray-100"
-                            to={`/muteer/verordeningen/${lineageID}/nieuw/Paragraaf?hoofdstuk=${hoofdstukIndex}&nest_1=${nest_1}&nest_2=${nest_2}&nest_3=${nest_3}`}
-                        >
+                            to={`/muteer/verordeningen/${lineageID}/nieuw/Paragraaf?hoofdstuk=${hoofdstukIndex}&nest_1=${nest_1}&nest_2=${nest_2}&nest_3=${nest_3}`}>
                             <FontAwesomeIcon
                                 className="relative inline-block mb-2 text-lg"
                                 icon={faParagraph}
@@ -92,8 +86,7 @@ function VoegSectieToePopup({
                     <li>
                         <Link
                             className="inline-block w-24 p-4 font-bold text-center rounded cursor-pointer hover:bg-gray-100"
-                            to={`/muteer/verordeningen/${lineageID}/nieuw/Artikel?hoofdstuk=${hoofdstukIndex}&nest_1=${nest_1}&nest_2=${nest_2}&nest_3=${nest_3}`}
-                        >
+                            to={`/muteer/verordeningen/${lineageID}/nieuw/Artikel?hoofdstuk=${hoofdstukIndex}&nest_1=${nest_1}&nest_2=${nest_2}&nest_3=${nest_3}`}>
                             <FontAwesomeIcon
                                 className="relative inline-block mb-2 text-lg"
                                 icon={faAlignLeft}
@@ -158,8 +151,7 @@ class AddSection extends Component {
                 classes={`w-full text-gray-700 text-sm py-2 inline-block flex justify-center items-center relative cursor-pointer verordening-sectie-popup-container ${
                     this.state.showPopup ? 'z-30' : ''
                 }`}
-                onClick={this.togglePopup}
-            >
+                onClick={this.togglePopup}>
                 <div className="absolute w-full h-0 border-b border-gray-300 opacity-0 cursor-pointer popup-divider transition-regular" />
                 <span className="z-10 p-2 bg-white rounded-full cursor-pointer popup-plus-icon transition-regular">
                     <span className="flex items-center justify-center w-5 h-5 font-bold bg-white border-2 rounded-full border-pzh-green text-pzh-green">

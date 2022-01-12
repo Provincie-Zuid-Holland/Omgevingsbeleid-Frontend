@@ -21,10 +21,9 @@ const SelectField = ({
     filter,
     setVerordeningsObjectFromGET,
     verordeningsObjectFromGET,
-    selected,
     excludeValue,
 }) => {
-    const getUUIDFromValue = (value, property) => {
+    const getUUIDFromValue = value => {
         if (typeof value === 'string') {
             return value
         } else if (typeof value === 'object' && value !== null) {
@@ -52,8 +51,7 @@ const SelectField = ({
         <div className="mb-4">
             <label
                 htmlFor="Opdrachtgever"
-                className="block text-sm font-medium leading-5 text-gray-700"
-            >
+                className="block text-sm font-medium leading-5 text-gray-700">
                 {label}
             </label>
             <div className="relative mt-1 rounded-md shadow-sm">
@@ -102,7 +100,7 @@ const SelectField = ({
 }
 
 const customStyles = {
-    control: (base, state) => ({
+    control: base => ({
         ...base,
         borderColor: 'none',
         borderWidth: '0px',
@@ -117,7 +115,7 @@ const customStyles = {
             boxShadow: 'none',
         },
     }),
-    menu: (base, state) => ({
+    menu: base => ({
         ...base,
         zIndex: 20,
     }),

@@ -4,13 +4,11 @@ import { toast } from 'react-toastify'
 
 // Import API
 import axios from './../../API/axios'
-
 // Import Componenten
 import UserContext from './../../App/UserContext'
 import ButtonAddNewObject from './../../components/ButtonAddNewObject'
 import CardObjectDetails from './../../components/CardObjectDetails'
 import LoaderCardHalfWidth from './../../components/LoaderCardHalfWidth'
-
 // Import All the dimension constants. These contain the dimensions and there variables, e.g. API_ENDPOINT and TITLE_SINGULAR
 import allDimensies from './../../constants/dimensies'
 import filterOutArchivedObjects from './../../utils/filterOutArchivedObjects'
@@ -62,14 +60,12 @@ const MijnBeleid = ({ hideAddNew }) => {
                         )
 
                         // Assign type of dimensie to the object
-                        const newArray = filteredResponse.map(
-                            (array, index) => {
-                                return {
-                                    type: dimensie.type,
-                                    object: array,
-                                }
+                        const newArray = filteredResponse.map(array => {
+                            return {
+                                type: dimensie.type,
+                                object: array,
                             }
-                        )
+                        })
                         return newArray
                     })
             )
@@ -108,8 +104,7 @@ const MijnBeleid = ({ hideAddNew }) => {
                                 return (
                                     <li
                                         key={policy.object.UUID}
-                                        className={`w-full h-28 display-inline`}
-                                    >
+                                        className={`w-full h-28 display-inline`}>
                                         {
                                             <CardObjectDetails
                                                 index={index}

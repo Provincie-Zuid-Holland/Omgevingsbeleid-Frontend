@@ -1,10 +1,8 @@
 import { Component } from 'react'
 
-import ViewFieldInnerHTML from '../../ViewFieldInnerHTML'
-
-import ViewFieldIngelogdExtraInfo from '../../../../components/ViewFieldIngelogdExtraInfo'
-
 import UserContext from '../../../../App/UserContext'
+import ViewFieldIngelogdExtraInfo from '../../../../components/ViewFieldIngelogdExtraInfo'
+import ViewFieldInnerHTML from '../../ViewFieldInnerHTML'
 
 class ContainerViewFieldsMaatregel extends Component {
     render() {

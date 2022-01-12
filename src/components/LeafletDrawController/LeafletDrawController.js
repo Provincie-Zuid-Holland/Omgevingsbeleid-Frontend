@@ -1,13 +1,12 @@
+import leaflet, { Map, Control } from 'leaflet'
 import isEqual from 'lodash.isequal'
 import { PropTypes } from 'prop-types'
-
 // We need this import to make the draw function work
 // eslint-disable-next-line
 import Draw from 'leaflet-draw'
 
 import './../../../node_modules/leaflet-draw/dist/leaflet.draw-src.css'
 import { MapControl, withLeaflet } from 'react-leaflet'
-import leaflet, { Map, Control } from 'leaflet'
 
 const eventHandlers = {
     onEdited: 'draw:edited',

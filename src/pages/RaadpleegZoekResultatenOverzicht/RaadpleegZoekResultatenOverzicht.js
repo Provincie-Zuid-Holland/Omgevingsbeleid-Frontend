@@ -3,17 +3,15 @@ import { toast } from 'react-toastify'
 import 'url-search-params-polyfill'
 
 import axios from './../../API/axios'
-
-import generateVerordeningsPosition from './../../utils/generateVerordeningsPosition'
-
-import LoaderCard from './../../components/LoaderCard'
 import Container from './../../components/Container'
-import Heading from './../../components/Heading'
-import SearchBar from './../../components/SearchBar'
 import Footer from './../../components/Footer'
-
-import SearchResultItem from './SearchResultItem'
+import Heading from './../../components/Heading'
+import LoaderCard from './../../components/LoaderCard'
+import SearchBar from './../../components/SearchBar'
+import generateVerordeningsPosition from './../../utils/generateVerordeningsPosition'
 import SearchFilterSection from './SearchFilterSection'
+import SearchResultItem from './SearchResultItem'
+
 class RaadpleegZoekResultatenOverzicht extends Component {
     constructor(props) {
         super(props)
@@ -318,14 +316,12 @@ class RaadpleegZoekResultatenOverzicht extends Component {
             <>
                 <Container
                     className="bg-pzh-blue-light"
-                    style={{ height: 96 + 'px' }}
-                >
+                    style={{ height: 96 + 'px' }}>
                     <div className="flex items-center col-span-2">
                         <Heading
                             level="1"
                             className="relative mt-2 font-bold text-white"
-                            color="text-white"
-                        >
+                            color="text-white">
                             Zoeken
                         </Heading>
                     </div>
