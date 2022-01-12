@@ -1,9 +1,15 @@
-import { useParams } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import Tippy from '@tippyjs/react'
+import { useRef, useState } from 'react'
+import { useParams, Link } from 'react-router-dom'
+import 'tippy.js/dist/tippy.css'
+import { faInfoCircle } from '@fortawesome/pro-solid-svg-icons'
 
 import BackButton from '../../../components/BackButton'
 import PopUpRevisionContainer from '../../../components/PopUpRevisionContainer'
 import Text from '../../../components/Text'
 import getVigerendText from '../../../utils/getVigerendText'
+import useClickOutsideContainer from '../../../utils/useClickOutsideContainer'
 import RevisieListItem from './../RevisieListItem'
 
 const RaadpleegObjectDetailSidebar = ({
@@ -35,12 +41,7 @@ const RaadpleegObjectDetailSidebar = ({
                     </Text>
                 </div>
                 <div className="mt-4 sm:mt-0 xl:mt-4">
-                    <Text
-                        type="span"
-                        className="hidden block font-bold xl:block"
-                        color="text-pzh-blue-dark">
-                        Status
-                    </Text>
+                    <Status status={dataObject.Status} />
                     <Text
                         type="span"
                         color="text-pzh-blue-dark"
@@ -72,6 +73,50 @@ const RaadpleegObjectDetailSidebar = ({
                 ) : null}
             </div>
         </aside>
+    )
+}
+
+const Status = ({ status = '' }) => {
+    const [tippyOpen, setTippyOpen] = useState(false)
+    const innerContainer = useRef(null)
+
+    useClickOutsideContainer(innerContainer, () => {
+        setTippyOpen(false)
+    })
+
+    return (
+        <span onClick={() => setTippyOpen(!tippyOpen)}>
+            <Tippy
+                ref={innerContainer}
+                placement="left"
+                visible={tippyOpen}
+                content={
+                    <Link
+                        onClick={() => setTippyOpen(false)}
+                        className="text-sm pointer-events-auto"
+                        to="/in-bewerking#besluitvormingsproces">
+                        <span className="block font-bold">
+                            Huidige status: {status}
+                        </span>
+                        <span className="block">
+                            Bekijk de uitleg en betekenis van statussen{' '}
+                            <span className="underline">hier</span>
+                        </span>
+                    </Link>
+                }>
+                <div className="hidden xl:inline group">
+                    <Text
+                        type="span"
+                        className="font-bold"
+                        color="text-pzh-blue-dark">
+                        Status
+                    </Text>
+                    <div className="inline-block ml-1 transition-colors duration-500 ease-in cursor-pointer text-pzh-dark-blue opacity-40 group-hover:opacity-80">
+                        <FontAwesomeIcon icon={faInfoCircle} />
+                    </div>
+                </div>
+            </Tippy>
+        </span>
     )
 }
 

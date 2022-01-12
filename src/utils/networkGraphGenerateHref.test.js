@@ -64,8 +64,6 @@ describe('NetworkGraphGenerateHref', () => {
 
         const { href } = setup('verordeningen', verordeningsStructure)
 
-        expect(href).toEqual(
-            '/detail/verordeningen/1/0000-0000-0000-0000?hoofdstuk=0&nest_1=null&nest_2=null&nest_3=null'
-        )
+        expect(href).toEqual('/detail/verordening?actief=0000-0000-0000-0000')
     })
 })

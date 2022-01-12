@@ -80,8 +80,12 @@ function RaadpleegInProgress() {
                 <TableLatestEdits edits={edits} isLoading={isLoading} />
             </Container>
             <HorizontalDivider />
-            <Container id="besluitvormingsproces" className="py-12">
-                <Heading className="col-span-6" level="2">
+            <Container className="py-12">
+                <Heading
+                    id="besluitvormingsproces"
+                    className="col-span-6"
+                    level="2"
+                >
                     Besluitvormingsproces
                 </Heading>
                 <Text className="col-span-6 mt-4" type="body">

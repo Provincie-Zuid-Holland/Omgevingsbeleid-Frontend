@@ -1,9 +1,4 @@
-import {
-    render,
-    screen,
-    waitForElementToBeRemoved,
-    fireEvent,
-} from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
 import { MemoryRouter, Route } from 'react-router-dom'
 import '@testing-library/jest-dom'
 
@@ -45,9 +40,7 @@ describe('PopUpRevisionContainer', () => {
         setup()
         const element = screen.getByText(`4 revisies`)
         fireEvent.click(element)
-        const title = await screen.findByText('Vergelijken')
+        const title = await screen.findByText('Vergelijk versies')
         expect(title).toBeTruthy()
-        fireEvent.click(title)
-        await waitForElementToBeRemoved(() => screen.queryByText('Vergelijken'))
     })
 })

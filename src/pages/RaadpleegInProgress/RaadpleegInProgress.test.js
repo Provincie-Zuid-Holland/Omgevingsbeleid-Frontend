@@ -1,8 +1,11 @@
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
+import { QueryClient, QueryClientProvider } from 'react-query'
 import { MemoryRouter } from 'react-router-dom'
 
 import RaadpleegInProgress from './RaadpleegInProgress'
+
+const queryClient = new QueryClient()
 
 describe('RaadpleegInProgress', () => {
     const defaultProps = {}
@@ -10,9 +13,11 @@ describe('RaadpleegInProgress', () => {
     const setup = customProps => {
         const props = { ...defaultProps, ...customProps }
         render(
-            <MemoryRouter>
-                <RaadpleegInProgress {...props} />
-            </MemoryRouter>
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <RaadpleegInProgress {...props} />
+                </MemoryRouter>
+            </QueryClientProvider>
         )
     }
 

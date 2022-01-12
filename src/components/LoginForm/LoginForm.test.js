@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
-import '@testing-library/jest-dom'
 
+import '@testing-library/jest-dom'
 import { MemoryRouter } from 'react-router-dom'
 
 import LoginForm from './LoginForm'
@@ -86,16 +86,12 @@ describe('LoginForm', () => {
 
     it('user can reset their password', async () => {
         setup()
-
         const forgetPassword = screen.getByText('Wachtwoord vergeten?')
 
         fireEvent.click(forgetPassword)
 
         await waitFor(() => screen.findByText('Wachtwoord vergeten'))
 
-        expect(screen.getByText('Mail versturen')).toHaveAttribute(
-            'href',
-            'mailto:omgevingsbeleid@pzh.nl?subject=Wachtwoord vergeten'
-        )
+        expect(screen.getByText('Mail versturen')).toBeInTheDocument()
     })
 })
