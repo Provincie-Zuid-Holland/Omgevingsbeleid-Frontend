@@ -1,7 +1,7 @@
 import { rest } from 'msw'
 
-import { baseURL } from './../api/instance'
-import allDimensies from './../constants/dimensies'
+import { baseURL } from '../api/instance'
+import allDimensies from '../constants/dimensies'
 import { ambities } from './data/ambities'
 import { artikel } from './data/artikel'
 import { belangen } from './data/belangen'
@@ -22,7 +22,16 @@ import { users } from './data/users'
 import { verordeningstructuur } from './data/verordeningstructuur'
 import { werkingsgebieden } from './data/werkingsgebieden'
 
-const dimensions = [
+type Dimensions =
+    | 'AMBITIES'
+    | 'BELANGEN'
+    | 'BELEIDSREGELS'
+    | 'MAATREGELEN'
+    | 'BELEIDSDOELEN'
+    | 'THEMAS'
+    | 'BELEIDSKEUZES'
+
+const dimensions: Dimensions[] = [
     'AMBITIES',
     'BELANGEN',
     'BELEIDSREGELS',
@@ -37,11 +46,12 @@ const currentBaseURL = baseURL
 const getDimensions = dimensions.map(dimension => {
     const apiSlug = allDimensies[dimension].API_ENDPOINT
     const url = `${currentBaseURL}/${apiSlug}/1`
-    const testResponse = {}
+    const testResponse: { [key: string]: string } = {}
 
     Object.keys(allDimensies[dimension].CRUD_PROPERTIES).forEach(key => {
-        testResponse[key] =
-            allDimensies[dimension].CRUD_PROPERTIES[key].testValue
+        testResponse[key] = (allDimensies[dimension].CRUD_PROPERTIES as any)[
+            key
+        ].testValue
     })
 
     return rest.get(url, (req, res, ctx) => {
@@ -52,11 +62,12 @@ const getDimensions = dimensions.map(dimension => {
 const patchDimensions = dimensions.map(dimension => {
     const apiSlug = allDimensies[dimension].API_ENDPOINT
     const url = `${currentBaseURL}/${apiSlug}/1`
-    const testResponse = {}
+    const testResponse: any = {}
 
     Object.keys(allDimensies[dimension].CRUD_PROPERTIES).forEach(key => {
-        testResponse[key] =
-            allDimensies[dimension].CRUD_PROPERTIES[key].testValue
+        testResponse[key] = (allDimensies[dimension].CRUD_PROPERTIES as any)[
+            key
+        ].testValue
     })
 
     return rest.patch(url, (req, res, ctx) => {
