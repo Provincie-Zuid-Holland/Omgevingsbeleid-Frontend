@@ -1,0 +1,3 @@
+import MuteerBeleidsrelatiesOverzicht from './MuteerBeleidsrelatiesOverzicht'
+
+export default MuteerBeleidsrelatiesOverzicht

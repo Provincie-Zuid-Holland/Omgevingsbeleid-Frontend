@@ -6,7 +6,7 @@ import { Link, useParams, useLocation, useHistory } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 // Import Components
-import axios from '../../API/axios'
+import axios from '../../api/axios'
 import ButtonBackToPage from '../../components/ButtonBackToPage'
 import { ContainerMain } from '../../components/Container'
 import EigenaarsDriehoek from '../../components/EigenaarsDriehoek'

@@ -1,0 +1,3 @@
+import MuteerVerordeningenstructuurDetail from './MuteerVerordeningenstructuurDetail'
+
+export default MuteerVerordeningenstructuurDetail

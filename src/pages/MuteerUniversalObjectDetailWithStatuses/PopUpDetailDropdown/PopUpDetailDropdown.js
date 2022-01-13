@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
-import axios from './../../../API/axios'
+import axios from '../../../api/axios'
 import { API_ENDPOINT } from './../../../constants/beleidsmodules'
 import handleError from './../../../utils/handleError'
 

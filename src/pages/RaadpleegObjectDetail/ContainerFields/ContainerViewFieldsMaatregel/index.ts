@@ -1,0 +1,3 @@
+import ContainerViewFieldsMaatregel from './ContainerViewFieldsMaatregel'
+
+export default ContainerViewFieldsMaatregel

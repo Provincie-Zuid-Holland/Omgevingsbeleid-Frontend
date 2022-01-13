@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import ContentLoader from 'react-content-loader'
 import { toast } from 'react-toastify'
 
-import axios from '../../../API/axios'
+import axios from '../../../api/axios'
 import { API_ENDPOINT } from './../../../constants/beleidsmodules'
 import handleError from './../../../utils/handleError'
 import PopUpAnimatedContainer from './../PopUpAnimatedContainer'

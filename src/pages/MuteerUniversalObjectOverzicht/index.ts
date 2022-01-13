@@ -1,0 +1,3 @@
+import MuteerUniversalObjectOverzicht from './MuteerUniversalObjectOverzicht'
+
+export default MuteerUniversalObjectOverzicht

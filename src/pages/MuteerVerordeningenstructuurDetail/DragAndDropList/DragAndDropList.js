@@ -1,10 +1,8 @@
 /* istanbul ignore file */
-import { Component } from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
-import { Link } from 'react-router-dom'
 
-import DragAndDropListNested from './../DragAndDropListNested'
 import AddSection from './../AddSection'
+// import DragAndDropListNested from './../DragAndDropListNested'
 import VerordeningObjectContent from './../VerordeningObjectContent'
 
 function DragAndDropList({
@@ -13,8 +11,8 @@ function DragAndDropList({
     userIsEditingOrder,
     userIsEditingSections,
     hoofdstukIndex,
-    verordeningID,
-    hoofdstukVolgnummer,
+    // verordeningID,
+    // hoofdstukVolgnummer,
 }) {
     return (
         <div className="p-3">
@@ -36,22 +34,19 @@ function DragAndDropList({
                                 snapshot.isDraggingOver
                                     ? 'bg-gray-200'
                                     : 'bg-white'
-                            }
-                        >
+                            }>
                             {items.map((item, index) => (
                                 <Draggable
                                     isDragDisabled={!userIsEditingOrder}
                                     key={item.UUID}
                                     draggableId={item.UUID}
-                                    index={index}
-                                >
+                                    index={index}>
                                     {(provided, snapshot) => (
                                         <div
                                             id="dnd-container"
                                             ref={provided.innerRef}
                                             {...provided.draggableProps}
-                                            {...provided.dragHandleProps}
-                                        >
+                                            {...provided.dragHandleProps}>
                                             <VerordeningObjectContent
                                                 userIsDragging={
                                                     snapshot.isDragging
@@ -62,6 +57,7 @@ function DragAndDropList({
                                                 }
                                                 item={item}
                                             />
+                                            {/*
                                             <DragAndDropListNested
                                                 hoofdstukVolgnummer={
                                                     hoofdstukVolgnummer
@@ -80,6 +76,7 @@ function DragAndDropList({
                                                 hoofdstukIndex={hoofdstukIndex}
                                                 nest_1={index}
                                             />
+                                            */}
                                             {userIsEditingSections ? (
                                                 <AddSection
                                                     hoofdstukIndex={

@@ -38,7 +38,7 @@ import EditContentSidebar from './EditContentSidebar'
 import EditOrderSidebar from './EditOrderSidebar'
 
 // Import Axios instance to connect with the API
-import axios from './../../API/axios'
+import axios from '../../api/axios'
 import { useEffect, useReducer, useState } from 'react'
 
 // Reorder items in array

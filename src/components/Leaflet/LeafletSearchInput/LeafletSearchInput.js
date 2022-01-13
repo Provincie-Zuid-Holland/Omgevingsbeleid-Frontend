@@ -50,7 +50,7 @@ class LeafletSearchInput extends Component {
      *
      */
     locatieServerSuggestCancel() {
-        import('./../../../API/axiosLocatieserver').then(api => {
+        import('../../../api/axiosLocatieserver').then(api => {
             api.cancelRequest()
         })
     }
@@ -64,7 +64,7 @@ class LeafletSearchInput extends Component {
      * @param {string} naam - Parameter used as a value in searchQuery.
      */
     locatieServerLookupQuery(id, naam) {
-        import('./../../../API/axiosLocatieserver').then(api => {
+        import('../../../api/axiosLocatieserver').then(api => {
             api.getLookupData(id)
                 .then(data => {
                     this.setState({
@@ -100,7 +100,7 @@ class LeafletSearchInput extends Component {
             return
         }
 
-        import('./../../../API/axiosLocatieserver').then(api => {
+        import('../../../api/axiosLocatieserver').then(api => {
             this.setState({
                 dataLoading: true,
             })

@@ -5,12 +5,12 @@ import { Helmet } from 'react-helmet'
 import { withRouter } from 'react-router-dom'
 
 // Import Components
+import axios from '../../api/axios'
 import { checkIfUserIsAllowedOnPage } from '../../utils/checkIfUserIsAllowedOnPage'
 import { isDateInAValidRange } from '../../utils/isDateInAValidRange'
 import { removeEmptyCRUDProperties } from '../../utils/removeEmptyCRUDProperties'
 import scrollToElement from '../../utils/scrollToElement'
 import { toastNotification } from '../../utils/toastNotification'
-import axios from './../../API/axios'
 import ButtonSubmitFixed from './../../components/ButtonSubmitFixed'
 import { ContainerMain } from './../../components/Container'
 import { LoaderContent } from './../../components/Loader'

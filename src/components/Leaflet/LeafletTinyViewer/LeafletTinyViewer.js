@@ -178,7 +178,7 @@ export default class LeafletTinyViewer extends Component {
             )
         }
 
-        import('./../../../API/axiosGeoJSON').then(api => {
+        import('../../../api/axiosGeoJSON').then(api => {
             api.getGeoJsonData(this.props.gebiedType, this.props.gebiedUUID)
                 .then(data => {
                     this.setState(
@@ -230,7 +230,7 @@ export default class LeafletTinyViewer extends Component {
                 })
         })
 
-        import('./../../../API/axiosGeoJSON').then(api => {
+        import('../../../api/axiosGeoJSON').then(api => {
             api.getOnderverdeling(this.props.gebiedType, this.props.gebiedUUID)
                 .then(data => {
                     this.setState(

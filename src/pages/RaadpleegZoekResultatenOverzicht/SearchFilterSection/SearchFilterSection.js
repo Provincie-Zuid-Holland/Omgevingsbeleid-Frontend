@@ -20,7 +20,7 @@ const SearchFilterSection = ({
             const windowScrollTop =
                 window.pageYOffset || document.documentElement.scrollTop
 
-            if (windowScrollTop > container.current.offsetTop) {
+            if (windowScrollTop > container?.current.offsetTop) {
                 const { offsetWidth, offsetHeight, offsetTop, offsetLeft } =
                     container.current
 

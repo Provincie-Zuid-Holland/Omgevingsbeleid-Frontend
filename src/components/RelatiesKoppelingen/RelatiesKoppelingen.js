@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 
+import axios from '../../api/axios'
 import { LoaderSpinner } from '../Loader'
 import RelatiesKoppelingenTekstueel from '../RelatiesKoppelingenTekstueel'
 import RelatiesKoppelingenVisualisatie from '../RelatiesKoppelingenVisualisatie'
-import axios from './../../API/axios'
 
 const connectionProperties = [
     'Ambities',

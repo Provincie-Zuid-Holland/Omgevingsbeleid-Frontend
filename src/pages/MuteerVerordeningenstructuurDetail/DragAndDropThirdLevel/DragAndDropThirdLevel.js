@@ -2,8 +2,7 @@
 /* eslint-disable */
 // TODO: For now ESLint is disabled, because this file will be refactored in the future, based on a new data structure
 
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
-import { Link } from 'react-router-dom'
+import { Droppable, Draggable } from 'react-beautiful-dnd'
 
 import AddSection from '../AddSection'
 import VerordeningObjectContent from './../VerordeningObjectContent'
@@ -12,20 +11,9 @@ import AddObjectButton from './../AddObjectButton'
 import VerordeningContext from './../VerordeningContext'
 import { useContext } from 'react'
 
-function DragAndDropThirdLevel({
-    subVolgnummer,
-    subItems,
-    UUID,
-    type,
-    nest_1,
-    nest_2,
-}) {
-    const {
-        userIsEditingOrder,
-        userIsEditingSections,
-        hoofdstukIndex,
-        addSectionType,
-    } = useContext(VerordeningContext)
+function DragAndDropThirdLevel({ subItems, UUID, nest_1, nest_2 }) {
+    const { userIsEditingOrder, userIsEditingSections, hoofdstukIndex } =
+        useContext(VerordeningContext)
 
     return (
         <Droppable className="h-10" droppableId={UUID} type="thirdLevel">
