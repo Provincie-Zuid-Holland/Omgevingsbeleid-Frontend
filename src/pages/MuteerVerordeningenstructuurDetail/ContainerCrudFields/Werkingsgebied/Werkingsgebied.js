@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
-import axios from '../../../../apiNew/axios'
+import axios from '../../../../api/axios'
 import { PopupContainer } from './../../../../components/Popup'
 
 const Werkingsgebied = ({

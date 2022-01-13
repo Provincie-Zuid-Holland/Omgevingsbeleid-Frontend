@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 
-import { environment, Environment } from '@/apiNew/instance'
+import { environment, Environment } from '@/api/instance'
 
 /**
  *

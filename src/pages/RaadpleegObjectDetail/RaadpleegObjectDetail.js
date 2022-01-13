@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 // Import Axios instance to connect with the API
-import axios from '../../apiNew/axios'
+import axios from '../../api/axios'
 import BackButton from '../../components/BackButton'
 import { Container } from '../../components/Container'
 import Footer from '../../components/Footer'

@@ -1,6 +1,6 @@
 import { rest } from 'msw'
 
-import { baseURL } from '@/apiNew/instance'
+import { baseURL } from '@/api/instance'
 import allDimensies from '@/constants/dimensies'
 
 import { ambities } from './data/ambities'

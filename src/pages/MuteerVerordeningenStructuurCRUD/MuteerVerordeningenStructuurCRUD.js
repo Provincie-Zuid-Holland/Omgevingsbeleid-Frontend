@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 // Import Components
-import axios from '../../apiNew/axios'
+import axios from '../../api/axios'
 import { isDateInAValidRange } from '../../utils/isDateInAValidRange'
 import { toastNotification } from '../../utils/toastNotification'
 import ButtonBackToPage from './../../components/ButtonBackToPage'

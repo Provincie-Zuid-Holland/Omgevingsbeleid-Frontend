@@ -7,7 +7,7 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import { Route, Switch, withRouter, useHistory } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 
-import axios from '../apiNew/axios'
+import axios from '../api/axios'
 import 'react-toastify/dist/ReactToastify.css'
 // Import Styling
 import './../css/tailwind.css'

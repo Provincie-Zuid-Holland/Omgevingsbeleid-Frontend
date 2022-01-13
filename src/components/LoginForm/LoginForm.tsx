@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 
 // Import API
-import axios from '../../apiNew/axios'
+import axios from '../../api/axios'
 // Import Components
 import { LoaderSpinner } from '../Loader'
 import Modal from '../Modal'

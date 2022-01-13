@@ -7,7 +7,7 @@ import { Link, withRouter } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 // Import Axios instance to connect with the API
-import axios from '../../apiNew/axios'
+import axios from '../../api/axios'
 // Import Components
 import { ContainerDetailMain, ContainerMain } from '../../components/Container'
 import EigenaarsDriehoek from '../../components/EigenaarsDriehoek'
