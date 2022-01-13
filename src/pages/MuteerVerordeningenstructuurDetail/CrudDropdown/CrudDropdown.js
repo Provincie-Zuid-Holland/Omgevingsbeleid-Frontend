@@ -8,9 +8,8 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Transition } from '@headlessui/react'
 import { useContext, useRef, useState } from 'react'
+import { useClickAway, useKey } from 'react-use'
 
-import useClickOutsideContainer from './../../../utils/useClickOutsideContainer'
-import useCloseWithEscapeKey from './../../../utils/useCloseWithEscapeKey'
 import VerordeningContext from './../VerordeningContext'
 
 const CrudDropdown = ({ item, pathToIndex }) => {
@@ -28,12 +27,10 @@ const CrudDropdown = ({ item, pathToIndex }) => {
     const [deleteIsOpen, setDeleteIsOpen] = useState(false)
     const dropdownRef = useRef(null)
 
-    useClickOutsideContainer(dropdownRef, () => {
+    useClickAway(dropdownRef, () => {
         setIsOpen(false)
     })
-    useCloseWithEscapeKey(dropdownRef, () => {
-        setIsOpen(false)
-    })
+    useKey('Escape', () => setIsOpen(false))
 
     if (verordeningsObjectIsLoading && UUIDBeingEdited !== item.UUID) {
         return null

@@ -3,8 +3,9 @@ import PropTypes from 'prop-types'
 import { useContext } from 'react'
 
 import UserContext from '../../../../App/UserContext'
-import ContainerFormSection from '../../../../components/ContainerFormSection'
+import { ContainerFormSection } from '../../../../components/Container'
 import {
+    FormFieldTitelEnBeschrijving,
     FormFieldGeldigheid,
     FormFieldInputContainer,
     FormFieldTextInput,
@@ -13,8 +14,7 @@ import {
     FormFieldRichTextEditor,
     FormFieldWerkingsgebied,
     FormFieldRelatieKoppeling,
-} from '../../../../components/FormFieldsExport'
-import FormFieldTitelEnBeschrijving from './../../../../components/FormFieldTitelEnBeschrijving'
+} from '../../../../components/Form'
 
 /**
  *

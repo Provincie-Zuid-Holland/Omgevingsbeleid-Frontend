@@ -2,7 +2,7 @@ import { format } from 'date-fns'
 import nlLocale from 'date-fns/locale/nl'
 import { useParams } from 'react-router-dom'
 
-import LoaderBeleidsrelatieRegel from '../../../components/LoaderBeleidsrelatieRegel'
+import { LoaderBeleidsrelatieRegel } from '../../../components/Loader'
 import PopupMotivation from '../PopupMotivation/PopupMotivation'
 
 /**
@@ -47,8 +47,7 @@ function TabRequests({
                         return (
                             <li
                                 key={verzoek.UUID}
-                                className="relative flex items-center px-2 py-2 text-sm text-gray-800 border-b border-gray-200 hover:bg-gray-100"
-                            >
+                                className="relative flex items-center px-2 py-2 text-sm text-gray-800 border-b border-gray-200 hover:bg-gray-100">
                                 <div className="w-4/12 pr-4">{titel}</div>
                                 <div className="w-2/12 pr-4">
                                     {verzoek.Created_Date !== null
@@ -65,8 +64,7 @@ function TabRequests({
                                         onClick={() => {
                                             setMotivationPopUp(verzoek.UUID)
                                         }}
-                                        className="underline cursor-pointer"
-                                    >
+                                        className="underline cursor-pointer">
                                         Bekijk motivering
                                     </span>
                                     <PopupMotivation
@@ -80,16 +78,14 @@ function TabRequests({
                                         onClick={() =>
                                             relationshipAccept(verzoek)
                                         }
-                                        className="inline-block px-2 pt-2 pb-1 mt-1 mr-2 font-bold text-white rounded shadow cursor-pointer bg-pzh-green hover:bg-pzh-green-dark"
-                                    >
+                                        className="inline-block px-2 pt-2 pb-1 mt-1 mr-2 font-bold text-white rounded shadow cursor-pointer bg-pzh-green hover:bg-pzh-green-dark">
                                         Accepteren
                                     </span>
                                     <span
                                         onClick={() =>
                                             relationshipReject(verzoek)
                                         }
-                                        className="inline-block px-2 pt-2 pb-1 mt-1 font-bold text-white bg-red-600 rounded shadow cursor-pointer hover:bg-red-700"
-                                    >
+                                        className="inline-block px-2 pt-2 pb-1 mt-1 font-bold text-white bg-red-600 rounded shadow cursor-pointer hover:bg-red-700">
                                         Afwijzen
                                     </span>
                                 </div>

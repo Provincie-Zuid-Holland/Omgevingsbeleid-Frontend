@@ -1,10 +1,9 @@
 import { faTimes } from '@fortawesome/pro-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useRef } from 'react'
+import { useClickAway, useKey } from 'react-use'
 
-import PopUpAnimatedContainer from '../../../components/PopUpAnimatedContainer'
-import useClickOutsideContainer from './../../../utils/useClickOutsideContainer'
-import useCloseWithEscapeKey from './../../../utils/useCloseWithEscapeKey'
+import { PopUpAnimatedContainer } from '../../../components/Popup'
 
 /**
  *
@@ -17,13 +16,11 @@ import useCloseWithEscapeKey from './../../../utils/useCloseWithEscapeKey'
 function PopupMotivation({ motivationPopUp, setMotivationPopUp, relatie }) {
     const popupContainer = useRef(null)
 
-    useClickOutsideContainer(popupContainer, () => {
+    useClickAway(popupContainer, () => {
         setMotivationPopUp(null)
     })
 
-    useCloseWithEscapeKey(popupContainer, () => {
-        setMotivationPopUp(null)
-    })
+    useKey('Escape', () => setMotivationPopUp(null))
 
     if (relatie.UUID !== motivationPopUp) return null
 

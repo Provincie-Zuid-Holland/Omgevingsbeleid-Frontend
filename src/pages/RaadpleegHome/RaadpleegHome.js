@@ -3,7 +3,7 @@ import { faExternalLinkAlt } from '@fortawesome/pro-solid-svg-icons'
 import { Link } from 'react-router-dom'
 
 // Import Components
-import Container from './../../components/Container'
+import { Container } from '../../components/Container'
 import Footer from './../../components/Footer'
 import Heading from './../../components/Heading'
 import Text from './../../components/Text'
@@ -28,13 +28,11 @@ const RaadpleegHome = () => {
                 style={{
                     minHeight: '576px',
                 }}
-                className="overflow-hidden"
-            >
+                className="overflow-hidden">
                 <div className="col-span-6 mb-8 lg:mb-16 lg:col-span-3">
                     <Heading
                         level="1"
-                        className="mt-4 text-3xl font-bold md:mt-12 lg:mt-16 text-pzh-blue"
-                    >
+                        className="mt-4 text-3xl font-bold md:mt-12 lg:mt-16 text-pzh-blue">
                         Omgevingsbeleid
                     </Heading>
                     <Text type="introduction-paragraph" className="mt-3">
@@ -72,8 +70,7 @@ const RaadpleegHome = () => {
                     <Heading
                         level="2"
                         id="homepage-zoeken"
-                        className="font-bold"
-                    >
+                        className="font-bold">
                         Zoeken in het beleid
                     </Heading>
                     <Text type="body" className="mt-4">
@@ -106,8 +103,7 @@ const RaadpleegHome = () => {
                                             '#omgevingsvisie-section'
                                         )
                                         .scrollIntoView({ behavior: 'smooth' })
-                                }
-                            >
+                                }>
                                 Omgevingsvisie
                             </span>
                             , het{' '}
@@ -119,8 +115,7 @@ const RaadpleegHome = () => {
                                             '#omgevingsprogramma-section'
                                         )
                                         .scrollIntoView({ behavior: 'smooth' })
-                                }
-                            >
+                                }>
                                 Omgevingsprogramma
                             </span>{' '}
                             en de{' '}
@@ -132,8 +127,7 @@ const RaadpleegHome = () => {
                                             '#omgevingsverordening-section'
                                         )
                                         .scrollIntoView({ behavior: 'smooth' })
-                                }
-                            >
+                                }>
                                 Omgevingsverordening
                             </span>
                             . Zo staat het beleid niet meer in tientallen
@@ -146,16 +140,14 @@ const RaadpleegHome = () => {
 
             <Container
                 className="pt-0 pb-3 md:pt-12 md:pb-6 lg:pt-16 lg:pb-8 lg:flex-col"
-                id="omgevingsvisie-section"
-            >
+                id="omgevingsvisie-section">
                 <div
                     className={`inline-block mb-8 lg:hidden bg-cover col-span-6 lg:col-span-4 bg-no-repeat bg-center image-home-2 text-white bg-gray-100 md:relative absolute left-0 w-screen md:w-auto`}
                     style={responsiveImageHeight}
                 />
                 <div
                     className="flex flex-col justify-center col-span-6 pt-6 lg:col-span-2 md:pt-0"
-                    style={responsiveImageOffset}
-                >
+                    style={responsiveImageOffset}>
                     <Heading level="2">Omgevingsvisie</Heading>
                     <Text type="body" className="mt-4">
                         De visie van de provincie Zuid-Holland geeft aan waar de
@@ -164,22 +156,19 @@ const RaadpleegHome = () => {
                         Omgevingsvisie bevat verschillende onderdelen: in de{' '}
                         <Link
                             className="underline text-pzh-green hover:text-pzh-green-dark"
-                            to="/overzicht/ambities"
-                        >
+                            to="/overzicht/ambities">
                             ambities
                         </Link>{' '}
                         wordt omschreven waar we als provincie heen willen, de{' '}
                         <Link
                             className="underline text-pzh-green hover:text-pzh-green-dark"
-                            to="/overzicht/beleidsdoelen"
-                        >
+                            to="/overzicht/beleidsdoelen">
                             beleidsdoelen
                         </Link>{' '}
                         geven hier richting aan en de{' '}
                         <Link
                             className="underline text-pzh-green hover:text-pzh-green-dark"
-                            to="/overzicht/beleidskeuzes"
-                        >
+                            to="/overzicht/beleidskeuzes">
                             beleidskeuzes
                         </Link>{' '}
                         bepalen hoe de ambities bereikt dienen te worden.
@@ -193,8 +182,7 @@ const RaadpleegHome = () => {
 
             <Container
                 className="md:py-6 lg:py-8"
-                id="omgevingsprogramma-section"
-            >
+                id="omgevingsprogramma-section">
                 <div
                     className={`lg:mb-0 mb-8 inline-block bg-cover col-span-6 lg:col-span-4 bg-no-repeat bg-center image-home-3 text-white bg-gray-100`}
                     style={responsiveImageHeight}
@@ -207,8 +195,7 @@ const RaadpleegHome = () => {
                         In het Omgevingsprogramma staat beschreven welke{' '}
                         <Link
                             className="underline text-pzh-green hover:text-pzh-green-dark"
-                            to="/overzicht/maatregelen"
-                        >
+                            to="/overzicht/maatregelen">
                             maatregelen
                         </Link>{' '}
                         de provincie treft om de visie waar te maken. Het
@@ -223,8 +210,7 @@ const RaadpleegHome = () => {
 
             <Container
                 className="pb-8 lg:pt-16"
-                id="omgevingsverordening-section"
-            >
+                id="omgevingsverordening-section">
                 <div
                     className={`inline-block mb-8 lg:hidden bg-cover col-span-6 lg:col-span-4 bg-no-repeat bg-center image-home-4 text-white bg-gray-100`}
                     style={responsiveImageHeight}
@@ -247,8 +233,7 @@ const RaadpleegHome = () => {
                         leefomgeving zijn ondergebracht in de{' '}
                         <Link
                             className="underline text-pzh-green hover:text-pzh-green-dark"
-                            to="/detail/verordening"
-                        >
+                            to="/detail/verordening">
                             Omgevingsverordening
                         </Link>
                         .
@@ -264,8 +249,7 @@ const RaadpleegHome = () => {
                 <div className="col-span-6">
                     <Heading
                         level="3"
-                        className="mb-4 text-2xl font-bold text-pzh-blue"
-                    >
+                        className="mb-4 text-2xl font-bold text-pzh-blue">
                         Documenten & Links
                     </Heading>
                 </div>
@@ -332,8 +316,7 @@ const RaadpleegHome = () => {
                                 <Text
                                     type="body"
                                     className="underline"
-                                    color="text-white"
-                                >
+                                    color="text-white">
                                     <Link to="/planning-en-releases">
                                         Bekijk alle releases & planning
                                     </Link>

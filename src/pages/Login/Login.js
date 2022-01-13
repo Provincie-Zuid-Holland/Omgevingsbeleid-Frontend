@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom'
+import { useWindowSize } from 'react-use'
 
 // Import Components
-import { useWindowSize } from '../../utils/useWindowSize'
-import Container from './../../components/Container'
+import { Container } from '../../components/Container'
 import Footer from './../../components/Footer'
 import Heading from './../../components/Heading'
 import LoginForm from './../../components/LoginForm'
@@ -28,8 +28,7 @@ const Login = ({ setLoginUser, setLoginState }) => {
                           }
                         : null
                 }
-                className="overflow-hidden"
-            >
+                className="overflow-hidden">
                 <div className="col-span-6 mt-0 lg:mb-8 lg:col-span-3">
                     <Heading level="1" className="mt-4 sm:mt-12 lg:mt-16">
                         Inloggen
@@ -66,8 +65,7 @@ const Login = ({ setLoginUser, setLoginState }) => {
                     </Text>
                     <Link
                         className="underline hover:text-pzh-green-dark text-pzh-green"
-                        to="/"
-                    >
+                        to="/">
                         Ga naar de raadpleegomgeving
                     </Link>
                 </div>
@@ -80,8 +78,7 @@ const Login = ({ setLoginUser, setLoginState }) => {
                             href="mailto:omgevingsbeleid@pzh.nl?subject=Hulp bij het inloggen"
                             className="underline cursor-pointer hover:text-pzh-green-dark text-pzh-green"
                             target="_blank"
-                            rel="noopener noreferrer"
-                        >
+                            rel="noopener noreferrer">
                             omgevingsbeleid@pzh.nl
                         </a>
                     </Text>

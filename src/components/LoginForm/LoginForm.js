@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom'
 // Import API
 import axios from './../../API/axios'
 // Import Components
-import LoaderSpinner from './../LoaderSpinner'
+import { LoaderSpinner } from './../Loader'
 import Modal from './../Modal'
 
 /**

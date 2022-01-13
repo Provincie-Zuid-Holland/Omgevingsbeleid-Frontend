@@ -4,12 +4,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
 
+import { Container } from '../../components/Container'
 import axios from './../../API/axios'
-import Container from './../../components/Container'
 import Footer from './../../components/Footer'
 import Heading from './../../components/Heading'
-import LoaderCard from './../../components/LoaderCard'
-import LoaderSpinner from './../../components/LoaderSpinner'
+import { LoaderCard, LoaderSpinner } from './../../components/Loader'
 import Text from './../../components/Text'
 
 function RaadpleegUniversalObjectOverview({ dataModel }) {
@@ -29,8 +28,7 @@ function RaadpleegUniversalObjectOverview({ dataModel }) {
                 <div className="col-span-6 sm:col-span-1">
                     <Link
                         to="/"
-                        className="inline-block mt-4 duration-100 ease-in opacity-50 cursor-pointer focus-within:transition sm:mt-8 text-pzh-blue-dark hover:opacity-75"
-                    >
+                        className="inline-block mt-4 duration-100 ease-in opacity-50 cursor-pointer focus-within:transition sm:mt-8 text-pzh-blue-dark hover:opacity-75">
                         <FontAwesomeIcon icon={faArrowLeft} className="mr-2" />
                         <span>Start</span>
                     </Link>
@@ -54,12 +52,10 @@ function RaadpleegUniversalObjectOverview({ dataModel }) {
                             </Heading>
                             <Link
                                 className="block mt-2 mb-1 sm:mb-0 sm:mt-0"
-                                to="/zoekresultaten"
-                            >
+                                to="/zoekresultaten">
                                 <Text
                                     className="underline"
-                                    color="text-pzh-green hover:text-pzh-green-dark"
-                                >
+                                    color="text-pzh-green hover:text-pzh-green-dark">
                                     uitgebreid zoeken
                                 </Text>
                             </Link>
@@ -75,8 +71,7 @@ function RaadpleegUniversalObjectOverview({ dataModel }) {
                                 allObjects.map((obj, index) => (
                                     <li
                                         key={index}
-                                        className="flex items-start py-1 transition-colors duration-100 ease-in text-pzh-blue hover:text-pzh-blue-dark"
-                                    >
+                                        className="flex items-start py-1 transition-colors duration-100 ease-in text-pzh-blue hover:text-pzh-blue-dark">
                                         <FontAwesomeIcon
                                             icon={faAngleRight}
                                             className="relative mr-2 text-lg"
@@ -84,8 +79,7 @@ function RaadpleegUniversalObjectOverview({ dataModel }) {
                                         />
                                         <Link
                                             to={`/detail/${dataModel.SLUG_OVERVIEW}/${obj.UUID}`}
-                                            className="underline underline-thin"
-                                        >
+                                            className="underline underline-thin">
                                             {obj.Titel}
                                         </Link>
                                     </li>

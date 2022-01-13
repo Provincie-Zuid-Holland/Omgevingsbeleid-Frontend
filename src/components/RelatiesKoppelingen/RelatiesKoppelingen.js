@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import LoaderSpinner from '../LoaderSpinner'
+import { LoaderSpinner } from '../Loader'
 import RelatiesKoppelingenTekstueel from '../RelatiesKoppelingenTekstueel'
 import RelatiesKoppelingenVisualisatie from '../RelatiesKoppelingenVisualisatie'
 import axios from './../../API/axios'
@@ -211,8 +211,7 @@ const RelatiesKoppelingen = ({
                 <div className="px-6">
                     <h2
                         className="block mb-1 text-lg font-bold tracking-wide text-yellow-700"
-                        id="raadpleeg-section-relaties-koppelingen"
-                    >
+                        id="raadpleeg-section-relaties-koppelingen">
                         Koppelingen & Relaties
                     </h2>
                     <p>
@@ -286,8 +285,7 @@ const TabButton = ({ activeTab, onClick, title }) => {
                     ? 'border-opacity-100'
                     : 'hover:border-opacity-25 focus:border-opacity-50'
             }`}
-            onClick={onClick}
-        >
+            onClick={onClick}>
             {title}
         </button>
     )

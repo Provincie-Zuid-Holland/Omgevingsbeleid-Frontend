@@ -3,13 +3,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Tippy from '@tippyjs/react'
 import { useRef, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
+import { useClickAway } from 'react-use'
 import 'tippy.js/dist/tippy.css'
 
 import BackButton from '../../../components/BackButton'
-import PopUpRevisionContainer from '../../../components/PopUpRevisionContainer'
+import { PopUpRevisionContainer } from '../../../components/Popup'
 import Text from '../../../components/Text'
 import getVigerendText from '../../../utils/getVigerendText'
-import useClickOutsideContainer from '../../../utils/useClickOutsideContainer'
 import RevisieListItem from './../RevisieListItem'
 
 const RaadpleegObjectDetailSidebar = ({
@@ -80,7 +80,7 @@ const Status = ({ status = '' }) => {
     const [tippyOpen, setTippyOpen] = useState(false)
     const innerContainer = useRef(null)
 
-    useClickOutsideContainer(innerContainer, () => {
+    useClickAway(innerContainer, () => {
         setTippyOpen(false)
     })
 

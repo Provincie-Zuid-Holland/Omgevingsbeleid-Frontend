@@ -1,5 +1,5 @@
 export default function debounce(func, wait, immediate) {
-    var timeout
+    let timeout
 
     return function () {
         var context = this,

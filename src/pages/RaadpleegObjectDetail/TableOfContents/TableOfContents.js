@@ -1,9 +1,9 @@
 import { faAngleRight } from '@fortawesome/pro-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useEffect, useRef, useState } from 'react'
+import { useWindowSize } from 'react-use'
 
 import Text from '../../../components/Text'
-import { useWindowSize } from '../../../utils/useWindowSize'
 
 const TableOfContents = ({ display }) => {
     const windowSize = useWindowSize()

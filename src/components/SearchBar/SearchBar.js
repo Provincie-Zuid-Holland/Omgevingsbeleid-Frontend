@@ -2,10 +2,10 @@ import { faSearch } from '@fortawesome/pro-light-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useEffect, useRef, useState } from 'react'
 import { useLocation, useHistory } from 'react-router-dom'
+import { useClickAway } from 'react-use'
 import 'url-search-params-polyfill'
 
 import { searchBarFilters } from './../../constants/searchBarFilters'
-import useClickOutsideContainer from './../../utils/useClickOutsideContainer'
 import SearchBarPopupItem from './../SearchBarPopupItem'
 
 /**
@@ -22,7 +22,7 @@ const SearchBar = ({ placeholder, id = 'search-query', className = '' }) => {
     const [searchBarPopupOpen, setSearchBarPopupOpen] = useState(false)
 
     const searchBarRef = useRef()
-    useClickOutsideContainer(searchBarRef, () => {
+    useClickAway(searchBarRef, () => {
         setSearchBarPopupOpen(false)
     })
 

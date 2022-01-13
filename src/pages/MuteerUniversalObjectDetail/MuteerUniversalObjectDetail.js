@@ -9,11 +9,10 @@ import { toast } from 'react-toastify'
 // Import Axios instance to connect with the API
 import axios from '../../API/axios'
 // Import Components
-import ContainerDetailMain from '../../components/ContainerDetailMain'
+import { ContainerDetailMain, ContainerMain } from '../../components/Container'
 import EigenaarsDriehoek from '../../components/EigenaarsDriehoek'
 import { checkIfUserIsAllowedOnPage } from '../../utils/checkIfUserIsAllowedOnPage'
 import ButtonBackToPage from './../../components/ButtonBackToPage'
-import ContainerMain from './../../components/ContainerMain'
 
 /**
  * @param {object} dimensieConstants - Contains all the variables of the dimension (e.g. Maatregelen). The dimensieContants come from the constant files export src/constants/dimensies.js.

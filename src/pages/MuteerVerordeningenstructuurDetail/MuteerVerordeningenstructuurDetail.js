@@ -20,8 +20,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import VerordeningContext from './VerordeningContext'
 
 // Import global Componenents
-import ContainerMain from './../../components/ContainerMain'
-import LoaderContent from './../../components/LoaderContent'
+import { ContainerMain } from './../../components/Container'
+import { LoaderContent } from './../../components/Loader'
 
 // Utils
 import formatGeldigheidDatesForUI from './../../utils/formatGeldigheidDatesForUI'
@@ -1188,8 +1188,7 @@ const MuteerVerordeningenstructuurDetail = () => {
                             if (isActiveChapter) {
                                 setActiveChapter(null)
                             }
-                        }}
-                    >
+                        }}>
                         <FontAwesomeIcon className="mr-2" icon={faAngleLeft} />
                         <span>Terug naar {backToText}</span>
                     </Link>
@@ -1199,8 +1198,7 @@ const MuteerVerordeningenstructuurDetail = () => {
                     <Transition
                         show={dataLoaded}
                         className="flex w-full"
-                        id="regulation-container"
-                    >
+                        id="regulation-container">
                         <div className={`inline-block w-2/3 mb-20`}>
                             <div className="text-gray-800 bg-white rounded shadow-lg">
                                 <EditAddOrderSection

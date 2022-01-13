@@ -1,4 +1,4 @@
-import { useWindowSize } from '../../utils/useWindowSize'
+import { useWindowSize } from 'react-use'
 
 /**
  *
@@ -90,8 +90,7 @@ function Heading({
             <h1
                 style={customStyles ? customStyles : styles}
                 id={id}
-                className={`break-words ${color} ${className}`}
-            >
+                className={`break-words ${color} ${className}`}>
                 {children}
             </h1>
         )
@@ -100,8 +99,7 @@ function Heading({
             <h2
                 style={customStyles ? customStyles : styles}
                 id={id}
-                className={`break-words ${color} ${className}`}
-            >
+                className={`break-words ${color} ${className}`}>
                 {children}
             </h2>
         )
@@ -110,8 +108,7 @@ function Heading({
             <h3
                 style={customStyles ? customStyles : styles}
                 id={id}
-                className={`break-words ${color} ${className}`}
-            >
+                className={`break-words ${color} ${className}`}>
                 {children}
             </h3>
         )
@@ -120,8 +117,7 @@ function Heading({
             <h4
                 style={customStyles ? customStyles : styles}
                 id={id}
-                className={`break-words ${color} ${className}`}
-            >
+                className={`break-words ${color} ${className}`}>
                 {children}
             </h4>
         )
@@ -130,8 +126,7 @@ function Heading({
             <h5
                 style={customStyles ? customStyles : styles}
                 id={id}
-                className={`break-words ${color} ${className}`}
-            >
+                className={`break-words ${color} ${className}`}>
                 {children}
             </h5>
         )
@@ -140,8 +135,7 @@ function Heading({
             <h6
                 style={customStyles ? customStyles : styles}
                 id={id}
-                className={`break-words ${color} ${className}`}
-            >
+                className={`break-words ${color} ${className}`}>
                 {children}
             </h6>
         )

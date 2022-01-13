@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import { useContext } from 'react'
 
 import UserContext from './../../../../App/UserContext'
-import ContainerFormSection from './../../../../components/ContainerFormSection'
+import { ContainerFormSection } from './../../../../components/Container'
 import {
     FormFieldGeldigheid,
     FormFieldTextInput,
@@ -12,8 +12,8 @@ import {
     FormFieldRichTextEditor,
     FormFieldInputContainer,
     FormFieldSelectUserGroup,
-} from './../../../../components/FormFieldsExport'
-import FormFieldTitelEnBeschrijving from './../../../../components/FormFieldTitelEnBeschrijving'
+    FormFieldTitelEnBeschrijving,
+} from './../../../../components/Form'
 
 const initialValueToelichting = `<p><b>Rolkeuze</b></p><p><br><br></p><p><b>Beleidskeuzes</b></p><p><br><br></p><p><b>Is de maatregel gebiedsspecifiek?</b></p><p><br><br></p><p><b>Toelichting</b></p><p><br><br></p>`
 

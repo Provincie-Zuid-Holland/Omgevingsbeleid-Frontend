@@ -2,7 +2,7 @@ import { faExternalLinkAlt } from '@fortawesome/pro-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useState } from 'react'
 
-import Container from './../../components/Container'
+import { Container } from '../../components/Container'
 import Footer from './../../components/Footer'
 import Heading from './../../components/Heading'
 import HorizontalDivider from './../../components/HorizontalDivider'

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
+import { useWindowSize } from 'react-use'
 
-import { useWindowSize } from '../../utils/useWindowSize'
 import logoSVG from './../../images/DNA_Balk.png'
 
 const useDnaBarWidth = () => {
@@ -22,8 +22,7 @@ function DNABar() {
         <div
             className={`absolute top-0 pointer-events-none right-0 z-10 ${
                 windowSize.width > 640 ? '' : 'hidden'
-            }`}
-        >
+            }`}>
             <img
                 className="inline-block"
                 title="Provincie Zuid-Holland Logo"

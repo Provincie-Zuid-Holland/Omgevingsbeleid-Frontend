@@ -3,14 +3,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Disclosure } from '@headlessui/react'
 import { Link } from 'react-router-dom'
 
+import { Container } from '../../components/Container'
+import scrollToElement from '../../utils/scrollToElement'
 import Button from './../../components/Button'
-import Container from './../../components/Container'
 import Footer from './../../components/Footer'
 import Heading from './../../components/Heading'
 import HorizontalDivider from './../../components/HorizontalDivider'
 import Text from './../../components/Text'
 import terinzageleggingenImage from './../../images/terinzageleggingen.png'
-import scrollToElement from './../../utils/scrollToElement'
 
 function RaadpleegTerinzageleggingen() {
     return (
@@ -45,8 +45,7 @@ function RaadpleegTerinzageleggingen() {
                                 height: '480px',
                                 width: 'calc(50vw - 1rem)',
                             }}
-                            className={`absolute text-center left-0 top-0 h-full bg-gray-100 sm:inline-block`}
-                        >
+                            className={`absolute text-center left-0 top-0 h-full bg-gray-100 sm:inline-block`}>
                             <img
                                 alt="Afbeelding van een typemachine"
                                 className={`object-cover w-full h-full`}
@@ -81,8 +80,7 @@ function RaadpleegTerinzageleggingen() {
                     <Heading
                         className="col-span-6"
                         level="2"
-                        id="op-dit-moment-ter-inzage"
-                    >
+                        id="op-dit-moment-ter-inzage">
                         Op dit moment ter inzage
                     </Heading>
                     <Text className="col-span-6 mt-4" type="body">
@@ -120,8 +118,7 @@ function RaadpleegTerinzageleggingen() {
                         {/* Hidden heading to keep the whitespace consistent */}
                         <Heading
                             level="3"
-                            className="opacity-0 pointer-events-none"
-                        >
+                            className="opacity-0 pointer-events-none">
                             -
                         </Heading>
                         <div className="mt-4">
@@ -172,8 +169,7 @@ function RaadpleegTerinzageleggingen() {
                         {/* Hidden heading to keep the whitespace consistent */}
                         <Heading
                             level="3"
-                            className="opacity-0 pointer-events-none"
-                        >
+                            className="opacity-0 pointer-events-none">
                             -
                         </Heading>
                         <div className="mt-4">
@@ -215,8 +211,7 @@ const Dropdown = ({ buttonText, panelText }) => {
                     <Disclosure.Button
                         className={`flex bg-opacity-10 group items-center justify-between w-full px-5 py-3 font-bold transition-colors duration-200 ease-in text-pzh-pink-dark bg-pzh-pink-dark mt-2 ${
                             open ? 'rounded-t-md' : 'rounded-md'
-                        }`}
-                    >
+                        }`}>
                         <span>{buttonText}</span>
                         <FontAwesomeIcon
                             className={`text-base transition-transform ease-in duration-100 ${
@@ -261,26 +256,22 @@ function TableLatestEdits() {
                                 <tr>
                                     <th
                                         scope="col"
-                                        className="w-2/5 py-3 pr-6 font-bold text-left text-pzh-blue-dark"
-                                    >
+                                        className="w-2/5 py-3 pr-6 font-bold text-left text-pzh-blue-dark">
                                         Titel
                                     </th>
                                     <th
                                         scope="col"
-                                        className="w-1/5 px-6 py-3 font-bold text-left text-pzh-blue-dark"
-                                    >
+                                        className="w-1/5 px-6 py-3 font-bold text-left text-pzh-blue-dark">
                                         Type
                                     </th>
                                     <th
                                         scope="col"
-                                        className="w-1/5 px-6 py-3 font-bold text-left text-pzh-blue-dark"
-                                    >
+                                        className="w-1/5 px-6 py-3 font-bold text-left text-pzh-blue-dark">
                                         Laatste Status
                                     </th>
                                     <th
                                         scope="col"
-                                        className="w-1/5 px-6 py-3 font-bold text-left text-pzh-blue-dark"
-                                    >
+                                        className="w-1/5 px-6 py-3 font-bold text-left text-pzh-blue-dark">
                                         Laatst bewerkt
                                     </th>
                                 </tr>
@@ -289,14 +280,12 @@ function TableLatestEdits() {
                                 {latestEdits.map(policyObject => (
                                     <tr
                                         key={policyObject.title}
-                                        className="border-b border-gray-300"
-                                    >
+                                        className="border-b border-gray-300">
                                         <td className="py-4 pr-6 text-gray-800">
                                             {policyObject.link ? (
                                                 <Link
                                                     to={policyObject.link}
-                                                    className="underline text-pzh-green hover:text-pzh-green-dark"
-                                                >
+                                                    className="underline text-pzh-green hover:text-pzh-green-dark">
                                                     {policyObject.title}
                                                 </Link>
                                             ) : (

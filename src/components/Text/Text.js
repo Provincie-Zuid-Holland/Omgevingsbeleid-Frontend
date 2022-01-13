@@ -1,4 +1,4 @@
-import { useWindowSize } from '../../utils/useWindowSize'
+import { useWindowSize } from 'react-use'
 
 /**
  *
@@ -82,8 +82,7 @@ function Text({
         return (
             <p
                 style={styles}
-                className={`inline-block text-base leading-normal ${color} ${className}`}
-            >
+                className={`inline-block text-base leading-normal ${color} ${className}`}>
                 {children}
             </p>
         )

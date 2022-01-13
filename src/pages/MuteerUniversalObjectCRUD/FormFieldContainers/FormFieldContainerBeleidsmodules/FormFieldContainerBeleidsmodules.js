@@ -1,8 +1,8 @@
-import ContainerFormSection from './../../../../components/ContainerFormSection'
+import { ContainerFormSection } from './../../../../components/Container'
 import {
     FormFieldTextInput,
     FormFieldDate,
-} from './../../../../components/FormFieldsExport'
+} from './../../../../components/Form'
 
 /**
  *
@@ -21,8 +21,7 @@ function FormFieldContainerBeleidsmodules({
         <>
             <ContainerFormSection
                 titel="Algemene informatie"
-                beschrijving="De algemene informatie bevat een duidelijke titel."
-            >
+                beschrijving="De algemene informatie bevat een duidelijke titel.">
                 <FormFieldTextInput
                     handleChange={handleChange}
                     fieldValue={crudObject['Titel']}

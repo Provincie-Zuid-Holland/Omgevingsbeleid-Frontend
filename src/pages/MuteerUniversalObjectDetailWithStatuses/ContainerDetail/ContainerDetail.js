@@ -10,10 +10,8 @@ import { withRouter, Link } from 'react-router-dom'
 
 // Import Components
 import HeadingMain from './../../../components/HeadingMain'
-import LoaderMainTitle from './../../../components/LoaderMainTitle'
-import LoaderSmallSpan from './../../../components/LoaderSmallSpan'
-import PopUpModules from './../../../components/PopUpModules'
-import PopUpStatusAanpassen from './../../../components/PopUpStatusAanpassen'
+import { LoaderMainTitle, LoaderSmallSpan } from './../../../components/Loader'
+import { PopUpModules, PopUpStatusAanpassen } from './../../../components/Popup'
 // Import Utilities
 import getVigerendText from './../../../utils/getVigerendText'
 import PopUpDetailDropdown from './../PopUpDetailDropdown'

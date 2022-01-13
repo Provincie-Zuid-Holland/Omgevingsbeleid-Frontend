@@ -6,19 +6,18 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useEffect, useRef, useState } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
+import { useLockBodyScroll, useWindowSize } from 'react-use'
 
 import BackButton from '../../../components/BackButton'
-import LoaderCard from '../../../components/LoaderCard'
+import { LoaderCard } from '../../../components/Loader'
 import Text from '../../../components/Text'
-import { useWindowSize } from '../../../utils/useWindowSize'
-import useLockBodyScroll from './../../../utils/useLockBodyScroll'
 
 function RaadpleegVerordeningSidebar({ verordening }) {
     const windowSize = useWindowSize()
 
     const sidebarContainer = useRef(null)
     const [isOpen, setIsOpen] = useState(() => windowSize.width > 1028)
-    useLockBodyScroll({ modalOpen: isOpen && windowSize.width < 1028 })
+    useLockBodyScroll(isOpen && windowSize.width < 1028)
 
     const [sidebarStyle, setSidebarStyle] = useState({})
     const [buttonStyle, setButtonStyle] = useState({})

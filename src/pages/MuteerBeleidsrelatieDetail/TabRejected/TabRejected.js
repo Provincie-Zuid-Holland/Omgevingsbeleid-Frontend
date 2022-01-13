@@ -1,7 +1,7 @@
 import { format } from 'date-fns'
 import { useParams } from 'react-router-dom'
 
-import LoaderBeleidsrelatieRegel from '../../../components/LoaderBeleidsrelatieRegel'
+import { LoaderBeleidsrelatieRegel } from '../../../components/Loader'
 import PopupMotivation from '../PopupMotivation/PopupMotivation'
 
 /**
@@ -41,8 +41,7 @@ function TabRejected({
                         return (
                             <li
                                 key={relatie.UUID}
-                                className="relative flex items-center px-2 py-2 text-sm text-gray-800 border-b border-gray-200 hover:bg-gray-100"
-                            >
+                                className="relative flex items-center px-2 py-2 text-sm text-gray-800 border-b border-gray-200 hover:bg-gray-100">
                                 <div className="w-4/12 pr-4">{title}</div>
                                 <div className="w-4/12 pr-4">
                                     {relatie.Datum_Akkoord !== null
@@ -66,8 +65,7 @@ function TabRejected({
                                         onClick={() => {
                                             setMotivationPopUp(relatie.UUID)
                                         }}
-                                        className="underline cursor-pointer"
-                                    >
+                                        className="underline cursor-pointer">
                                         Bekijk motivering
                                     </span>
 

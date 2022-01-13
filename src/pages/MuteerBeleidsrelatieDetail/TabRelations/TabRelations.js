@@ -3,9 +3,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { format } from 'date-fns'
 import { useParams } from 'react-router-dom'
 
+import { LoaderBeleidsrelatieRegel } from '../../../components/Loader'
+import { PopUpAnimatedContainer } from '../../../components/Popup'
 import PopupMotivation from '../PopupMotivation/PopupMotivation'
-import LoaderBeleidsrelatieRegel from './../../../components/LoaderBeleidsrelatieRegel'
-import PopUpAnimatedContainer from './../../../components/PopUpAnimatedContainer'
 
 /**
  * @prop {boolean} loaded true if all the data from parent component is loaded
@@ -55,8 +55,7 @@ function TabRelations({
                         return (
                             <li
                                 key={relatie.UUID}
-                                className="relative flex items-center px-2 py-2 text-sm text-gray-800 border-b border-gray-200 hover:bg-gray-100"
-                            >
+                                className="relative flex items-center px-2 py-2 text-sm text-gray-800 border-b border-gray-200 hover:bg-gray-100">
                                 <div className="w-4/12 pr-4">{title}</div>
                                 <div className="w-2/12 pr-4">
                                     {relatie.Created_Date !== null
@@ -80,8 +79,7 @@ function TabRelations({
                                         onClick={() => {
                                             setMotivationPopUp(relatie.UUID)
                                         }}
-                                        className="underline cursor-pointer"
-                                    >
+                                        className="underline cursor-pointer">
                                         Bekijk motivering
                                     </span>
 
@@ -96,8 +94,7 @@ function TabRelations({
                                         onClick={() => {
                                             setDisconnectPopup(relatie.UUID)
                                         }}
-                                        className={`text-red-600 underline cursor-pointer`}
-                                    >
+                                        className={`text-red-600 underline cursor-pointer`}>
                                         {relatie.Status === 'Akkoord'
                                             ? 'Relatie verwijderen'
                                             : 'Verzoek intrekken'}
@@ -152,8 +149,7 @@ const PopUpConfirm = ({
             <div
                 onClick={() => setDisconnectPopup(null)}
                 className="absolute top-0 right-0 px-3 py-2 text-gray-600 cursor-pointer"
-                id={`sluit-popup-beleidsrelatie-motivering`}
-            >
+                id={`sluit-popup-beleidsrelatie-motivering`}>
                 <FontAwesomeIcon icon={faTimes} />
             </div>
             <h3 className="mb-4 text-lg font-bold">
@@ -184,8 +180,7 @@ const PopUpConfirm = ({
                     className="text-sm text-gray-600 underline cursor-pointer"
                     onClick={() => {
                         setDisconnectPopup(null)
-                    }}
-                >
+                    }}>
                     Annuleren
                 </span>
                 <span
@@ -200,8 +195,7 @@ const PopUpConfirm = ({
                                 : 'NietAkkoord',
                             true
                         )
-                    }}
-                >
+                    }}>
                     {relatie.Status === 'Akkoord' ? 'Verbreken' : 'Intrekken'}
                 </span>
             </div>

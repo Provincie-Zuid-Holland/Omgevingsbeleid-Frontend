@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types'
 
-import ContainerFormSection from './../../../../components/ContainerFormSection'
+import { ContainerFormSection } from './../../../../components/Container'
 import {
     FormFieldGeldigheid,
     FormFieldTextInput,
     FormFieldTextArea,
     FormFieldWeblink,
-} from './../../../../components/FormFieldsExport'
+} from './../../../../components/Form'
 
 /**
  *
@@ -21,8 +21,7 @@ function FormFieldContainerThemas({ titleSingular, crudObject, handleChange }) {
         <>
             <ContainerFormSection
                 titel="Algemene informatie"
-                beschrijving="De algemene informatie bevat een duidelijke titel."
-            >
+                beschrijving="De algemene informatie bevat een duidelijke titel.">
                 <FormFieldTextInput
                     handleChange={handleChange}
                     fieldValue={crudObject['Titel']}
@@ -35,8 +34,7 @@ function FormFieldContainerThemas({ titleSingular, crudObject, handleChange }) {
 
             <ContainerFormSection
                 titel="Omschrijving thema"
-                beschrijving="Een thema wordt gebruikt om het beleid te categoriseren."
-            >
+                beschrijving="Een thema wordt gebruikt om het beleid te categoriseren.">
                 <FormFieldTextArea
                     handleChange={handleChange}
                     fieldValue={crudObject['Omschrijving']}
@@ -49,8 +47,7 @@ function FormFieldContainerThemas({ titleSingular, crudObject, handleChange }) {
 
             <ContainerFormSection
                 titel="Aanvullende informatie"
-                beschrijving="In deze sectie vragen we aanvullende informatie zoals (indien bekend) de datum van inwerkingtreding."
-            >
+                beschrijving="In deze sectie vragen we aanvullende informatie zoals (indien bekend) de datum van inwerkingtreding.">
                 <FormFieldWeblink
                     handleChange={handleChange}
                     fieldValue={crudObject['Weblink']}

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import Heading from '../../../components/Heading'
-import LeafletTinyViewer from '../../../components/LeafletTinyViewer'
+import { LeafletTinyViewer } from '../../../components/Leaflet'
 import Modal from '../../../components/Modal'
 import Text from '../../../components/Text'
 
