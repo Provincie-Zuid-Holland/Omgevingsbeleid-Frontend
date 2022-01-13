@@ -1,7 +1,8 @@
 import { rest } from 'msw'
 
-import { baseURL } from '../api/instance'
-import allDimensies from '../constants/dimensies'
+import { baseURL } from '@/api/instance'
+import allDimensies from '@/constants/dimensies'
+
 import { ambities } from './data/ambities'
 import { artikel } from './data/artikel'
 import { belangen } from './data/belangen'
