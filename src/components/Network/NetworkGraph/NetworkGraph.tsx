@@ -70,7 +70,7 @@ const NetworkGraph = ({
     /**
      * Contains the href link to go to a detail page of a node
      */
-    const [href, setHref] = useState('#')
+    const [href, setHref] = useState<string | null>('#')
 
     /**
      * Contains the href link to go to a detail page of a node
@@ -813,14 +813,11 @@ const NetworkGraph = ({
                                     clickedNode={clickedNode}
                                     setGraphIsOpen={setGraphIsOpen}
                                     resetNodes={resetNodes}
-                                    verordeningsStructure={
-                                        verordeningsStructure
-                                    }
                                 />
                             </div>
                         </div>
                         <NetworkGraphTooltip
-                            href={href}
+                            href={href || ''}
                             variables={variables}
                             setGraphIsOpen={setGraphIsOpen}
                         />

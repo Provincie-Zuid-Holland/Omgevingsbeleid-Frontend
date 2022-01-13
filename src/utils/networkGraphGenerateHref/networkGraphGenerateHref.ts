@@ -6,7 +6,7 @@
  * @returns {string} containing the url slug
  */
 
-const slugs = {
+export const networkSlugs = {
     beleidskeuzes: 'beleidskeuzes',
     ambities: 'ambities',
     beleidsregels: 'beleidsregels',
@@ -22,7 +22,7 @@ const networkGraphGenerateHref = ({
     property,
     UUID,
 }: {
-    property: keyof typeof slugs
+    property: keyof typeof networkSlugs
     UUID: string
 }) => {
     if (!property) return null
@@ -30,7 +30,7 @@ const networkGraphGenerateHref = ({
     if (property === 'verordeningen') {
         return `/detail/verordening?actief=${UUID}`
     } else {
-        return `/detail/${slugs[property]}/${UUID}`
+        return `/detail/${networkSlugs[property]}/${UUID}`
     }
 }
 

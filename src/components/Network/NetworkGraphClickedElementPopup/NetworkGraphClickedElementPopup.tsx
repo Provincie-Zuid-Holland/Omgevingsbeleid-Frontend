@@ -19,14 +19,12 @@ interface Props {
     clickedNode: any
     setGraphIsOpen: (e: boolean) => void
     resetNodes: () => void
-    verordeningsStructure: any
 }
 
 const NetworkGraphClickedElementPopup = ({
     clickedNode,
     setGraphIsOpen,
     resetNodes,
-    verordeningsStructure,
 }: Props) => {
     const [localOpenState, setLocalOpenState] = useState(false)
 
@@ -46,7 +44,6 @@ const NetworkGraphClickedElementPopup = ({
     const href = networkGraphGenerateHref({
         property: type,
         UUID: clickedNode?.UUID,
-        verordeningsStructure: verordeningsStructure,
     })
 
     return (

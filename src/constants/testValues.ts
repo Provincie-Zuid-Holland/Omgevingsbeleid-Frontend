@@ -1,10 +1,11 @@
 // Used for test values in above files
-const options = {
+const options: Intl.DateTimeFormatOptions = {
     weekday: 'long',
     year: 'numeric',
     month: 'long',
     day: 'numeric',
 }
+
 const currentDate = new Date().toISOString().slice(0, 10)
 const futureDate = new Date(new Date().setMonth(new Date().getMonth() + 6))
     .toISOString()

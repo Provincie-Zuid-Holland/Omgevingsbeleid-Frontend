@@ -5,1329 +5,4950 @@
  * This API serves all the object that make up the policies of a provincial government
  * OpenAPI spec version: 0.0.2
  */
+import {
+    useQuery,
+    useMutation,
+    UseQueryOptions,
+    UseMutationOptions,
+    QueryFunction,
+    MutationFunction,
+    UseQueryResult,
+    QueryKey,
+} from 'react-query'
+
 import type {
     AmbitiesRead,
+    GetAmbities400,
     GetAmbitiesParams,
+    PostAmbities400,
+    PostAmbities403,
+    PostAmbities500,
     AmbitiesWrite,
+    GetAmbitiesLineageid404,
     GetAmbitiesLineageidParams,
+    PatchAmbitiesLineageid400,
+    PatchAmbitiesLineageid403,
+    PatchAmbitiesLineageid500,
     BelangenRead,
+    GetBelangen400,
     GetBelangenParams,
+    PostBelangen400,
+    PostBelangen403,
+    PostBelangen500,
     BelangenWrite,
+    GetBelangenLineageid404,
     GetBelangenLineageidParams,
+    PatchBelangenLineageid400,
+    PatchBelangenLineageid403,
+    PatchBelangenLineageid500,
     BeleidsdoelenRead,
+    GetBeleidsdoelen400,
     GetBeleidsdoelenParams,
+    PostBeleidsdoelen400,
+    PostBeleidsdoelen403,
+    PostBeleidsdoelen500,
     BeleidsdoelenWrite,
+    GetBeleidsdoelenLineageid404,
     GetBeleidsdoelenLineageidParams,
+    PatchBeleidsdoelenLineageid400,
+    PatchBeleidsdoelenLineageid403,
+    PatchBeleidsdoelenLineageid500,
     BeleidskeuzesRead,
+    GetBeleidskeuzes400,
     GetBeleidskeuzesParams,
+    PostBeleidskeuzes400,
+    PostBeleidskeuzes403,
+    PostBeleidskeuzes500,
     BeleidskeuzesWrite,
+    GetBeleidskeuzesLineageid404,
     GetBeleidskeuzesLineageidParams,
+    PatchBeleidskeuzesLineageid400,
+    PatchBeleidskeuzesLineageid403,
+    PatchBeleidskeuzesLineageid500,
     BeleidsmodulesRead,
+    GetBeleidsmodules400,
     GetBeleidsmodulesParams,
+    PostBeleidsmodules400,
+    PostBeleidsmodules403,
+    PostBeleidsmodules500,
     BeleidsmodulesWrite,
+    GetBeleidsmodulesLineageid404,
     GetBeleidsmodulesLineageidParams,
+    PatchBeleidsmodulesLineageid400,
+    PatchBeleidsmodulesLineageid403,
+    PatchBeleidsmodulesLineageid500,
     BeleidsprestatiesRead,
+    GetBeleidsprestaties400,
     GetBeleidsprestatiesParams,
+    PostBeleidsprestaties400,
+    PostBeleidsprestaties403,
+    PostBeleidsprestaties500,
     BeleidsprestatiesWrite,
+    GetBeleidsprestatiesLineageid404,
     GetBeleidsprestatiesLineageidParams,
+    PatchBeleidsprestatiesLineageid400,
+    PatchBeleidsprestatiesLineageid403,
+    PatchBeleidsprestatiesLineageid500,
     BeleidsregelsRead,
+    GetBeleidsregels400,
     GetBeleidsregelsParams,
+    PostBeleidsregels400,
+    PostBeleidsregels403,
+    PostBeleidsregels500,
     BeleidsregelsWrite,
+    GetBeleidsregelsLineageid404,
     GetBeleidsregelsLineageidParams,
+    PatchBeleidsregelsLineageid400,
+    PatchBeleidsregelsLineageid403,
+    PatchBeleidsregelsLineageid500,
     BeleidsrelatiesRead,
+    GetBeleidsrelaties400,
     GetBeleidsrelatiesParams,
+    GetBeleidsrelatiesLineageid404,
     GetBeleidsrelatiesLineageidParams,
     GetChangesAmbitiesOlduuidNewuuid200,
+    GetChangesAmbitiesOlduuidNewuuid404,
+    GetChangesAmbitiesOlduuidNewuuid500,
     GetChangesBelangenOlduuidNewuuid200,
+    GetChangesBelangenOlduuidNewuuid404,
+    GetChangesBelangenOlduuidNewuuid500,
     GetChangesBeleidsdoelenOlduuidNewuuid200,
+    GetChangesBeleidsdoelenOlduuidNewuuid404,
+    GetChangesBeleidsdoelenOlduuidNewuuid500,
     GetChangesBeleidskeuzesOlduuidNewuuid200,
+    GetChangesBeleidskeuzesOlduuidNewuuid404,
+    GetChangesBeleidskeuzesOlduuidNewuuid500,
     GetChangesBeleidsmodulesOlduuidNewuuid200,
+    GetChangesBeleidsmodulesOlduuidNewuuid404,
+    GetChangesBeleidsmodulesOlduuidNewuuid500,
     GetChangesBeleidsprestatiesOlduuidNewuuid200,
+    GetChangesBeleidsprestatiesOlduuidNewuuid404,
+    GetChangesBeleidsprestatiesOlduuidNewuuid500,
     GetChangesBeleidsregelsOlduuidNewuuid200,
+    GetChangesBeleidsregelsOlduuidNewuuid404,
+    GetChangesBeleidsregelsOlduuidNewuuid500,
     GetChangesBeleidsrelatiesOlduuidNewuuid200,
+    GetChangesBeleidsrelatiesOlduuidNewuuid404,
+    GetChangesBeleidsrelatiesOlduuidNewuuid500,
     GetChangesMaatregelenOlduuidNewuuid200,
+    GetChangesMaatregelenOlduuidNewuuid404,
+    GetChangesMaatregelenOlduuidNewuuid500,
     GetChangesThemasOlduuidNewuuid200,
+    GetChangesThemasOlduuidNewuuid404,
+    GetChangesThemasOlduuidNewuuid500,
     GetChangesVerordeningenOlduuidNewuuid200,
+    GetChangesVerordeningenOlduuidNewuuid404,
+    GetChangesVerordeningenOlduuidNewuuid500,
     GetChangesWerkingsgebiedenOlduuidNewuuid200,
+    GetChangesWerkingsgebiedenOlduuidNewuuid404,
+    GetChangesWerkingsgebiedenOlduuidNewuuid500,
     MaatregelenRead,
+    GetMaatregelen400,
     GetMaatregelenParams,
+    PostMaatregelen400,
+    PostMaatregelen403,
+    PostMaatregelen500,
     MaatregelenWrite,
+    GetMaatregelenLineageid404,
     GetMaatregelenLineageidParams,
+    PatchMaatregelenLineageid400,
+    PatchMaatregelenLineageid403,
+    PatchMaatregelenLineageid500,
     GetSearch200,
+    GetSearch400,
+    GetSearch403,
     GetSearchParams,
     ThemasRead,
+    GetThemas400,
     GetThemasParams,
+    PostThemas400,
+    PostThemas403,
+    PostThemas500,
     ThemasWrite,
+    GetThemasLineageid404,
     GetThemasLineageidParams,
+    PatchThemasLineageid400,
+    PatchThemasLineageid403,
+    PatchThemasLineageid500,
+    GetValidAmbities404,
     GetValidAmbitiesParams,
+    GetValidAmbitiesLineageid404,
     GetValidAmbitiesLineageidParams,
+    GetValidBelangen404,
     GetValidBelangenParams,
+    GetValidBelangenLineageid404,
     GetValidBelangenLineageidParams,
+    GetValidBeleidsdoelen404,
     GetValidBeleidsdoelenParams,
+    GetValidBeleidsdoelenLineageid404,
     GetValidBeleidsdoelenLineageidParams,
+    GetValidBeleidskeuzes404,
     GetValidBeleidskeuzesParams,
+    GetValidBeleidskeuzesLineageid404,
     GetValidBeleidskeuzesLineageidParams,
+    GetValidBeleidsmodules404,
     GetValidBeleidsmodulesParams,
+    GetValidBeleidsmodulesLineageid404,
     GetValidBeleidsmodulesLineageidParams,
+    GetValidBeleidsprestaties404,
     GetValidBeleidsprestatiesParams,
+    GetValidBeleidsprestatiesLineageid404,
     GetValidBeleidsprestatiesLineageidParams,
+    GetValidBeleidsregels404,
     GetValidBeleidsregelsParams,
+    GetValidBeleidsregelsLineageid404,
     GetValidBeleidsregelsLineageidParams,
+    GetValidBeleidsrelaties404,
     GetValidBeleidsrelatiesParams,
+    GetValidBeleidsrelatiesLineageid404,
     GetValidBeleidsrelatiesLineageidParams,
+    GetValidMaatregelen404,
     GetValidMaatregelenParams,
+    GetValidMaatregelenLineageid404,
     GetValidMaatregelenLineageidParams,
+    GetValidThemas404,
     GetValidThemasParams,
+    GetValidThemasLineageid404,
     GetValidThemasLineageidParams,
     VerordeningenRead,
+    GetValidVerordeningen404,
     GetValidVerordeningenParams,
+    GetValidVerordeningenLineageid404,
     GetValidVerordeningenLineageidParams,
     WerkingsgebiedenRead,
+    GetValidWerkingsgebieden404,
     GetValidWerkingsgebiedenParams,
+    GetValidWerkingsgebiedenLineageid404,
     GetValidWerkingsgebiedenLineageidParams,
+    GetVerordeningen400,
     GetVerordeningenParams,
+    PostVerordeningen400,
+    PostVerordeningen403,
+    PostVerordeningen500,
     VerordeningenWrite,
+    GetVerordeningenLineageid404,
     GetVerordeningenLineageidParams,
+    PatchVerordeningenLineageid400,
+    PatchVerordeningenLineageid403,
+    PatchVerordeningenLineageid500,
+    GetVersionAmbitiesObjectuuid404,
+    GetVersionBelangenObjectuuid404,
+    GetVersionBeleidsdoelenObjectuuid404,
+    GetVersionBeleidskeuzesObjectuuid404,
+    GetVersionBeleidsmodulesObjectuuid404,
+    GetVersionBeleidsprestatiesObjectuuid404,
+    GetVersionBeleidsregelsObjectuuid404,
+    GetVersionBeleidsrelatiesObjectuuid404,
+    GetVersionMaatregelenObjectuuid404,
+    GetVersionThemasObjectuuid404,
+    GetVersionVerordeningenObjectuuid404,
+    GetVersionWerkingsgebiedenObjectuuid404,
+    GetWerkingsgebieden400,
     GetWerkingsgebiedenParams,
+    GetWerkingsgebiedenLineageid404,
     GetWerkingsgebiedenLineageidParams,
 } from './fetchers.schemas'
 import { customInstance } from './instance'
 
+type AsyncReturnType<T extends (...args: any) => Promise<any>> = T extends (
+    ...args: any
+) => Promise<infer R>
+    ? R
+    : any
+
 /**
  * @summary Gets all the ambities lineages and shows the latests object for each
  */
-export const getAmbities = <TData = AmbitiesRead[]>(
-    params?: GetAmbitiesParams
-) => {
-    return customInstance<TData>({ url: `/ambities`, method: 'get', params })
+export const getAmbities = (params?: GetAmbitiesParams) => {
+    return customInstance<AmbitiesRead[]>({
+        url: `/ambities`,
+        method: 'get',
+        params,
+    })
+}
+
+export const getGetAmbitiesQueryKey = (params?: GetAmbitiesParams) => [
+    `/ambities`,
+    ...(params ? [params] : []),
+]
+
+export const useGetAmbities = <
+    TData = AsyncReturnType<typeof getAmbities>,
+    TError = GetAmbities400
+>(
+    params?: GetAmbitiesParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getAmbities>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey = queryOptions?.queryKey ?? getGetAmbitiesQueryKey(params)
+
+    const queryFn: QueryFunction<AsyncReturnType<typeof getAmbities>> = () =>
+        getAmbities(params)
+
+    const query = useQuery<AsyncReturnType<typeof getAmbities>, TError, TData>(
+        queryKey,
+        queryFn,
+        queryOptions
+    )
+
+    return {
+        queryKey,
+        ...query,
+    }
 }
 
 /**
  * @summary Creates a new ambities lineage
  */
-export const postAmbities = <TData = AmbitiesRead>(
-    ambitiesWrite: AmbitiesWrite
-) => {
-    return customInstance<TData>({
+export const postAmbities = (ambitiesWrite: AmbitiesWrite) => {
+    return customInstance<AmbitiesRead>({
         url: `/ambities`,
         method: 'post',
         data: ambitiesWrite,
     })
 }
 
+export const usePostAmbities = <
+    TError = PostAmbities400 | PostAmbities403 | PostAmbities500,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        AsyncReturnType<typeof postAmbities>,
+        TError,
+        { data: AmbitiesWrite },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options || {}
+
+    const mutationFn: MutationFunction<
+        AsyncReturnType<typeof postAmbities>,
+        { data: AmbitiesWrite }
+    > = props => {
+        const { data } = props || {}
+
+        return postAmbities(data)
+    }
+
+    return useMutation<
+        AsyncReturnType<typeof postAmbities>,
+        TError,
+        { data: AmbitiesWrite },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
 /**
  * @summary Gets all the ambities lineages and shows the latests object for each
  */
-export const getAmbitiesLineageid = <TData = AmbitiesRead[]>(
+export const getAmbitiesLineageid = (
     lineageid: number,
     params?: GetAmbitiesLineageidParams
 ) => {
-    return customInstance<TData>({
+    return customInstance<AmbitiesRead[]>({
         url: `/ambities/${lineageid}`,
         method: 'get',
         params,
     })
 }
 
+export const getGetAmbitiesLineageidQueryKey = (
+    lineageid: number,
+    params?: GetAmbitiesLineageidParams
+) => [`/ambities/${lineageid}`, ...(params ? [params] : [])]
+
+export const useGetAmbitiesLineageid = <
+    TData = AsyncReturnType<typeof getAmbitiesLineageid>,
+    TError = GetAmbitiesLineageid404
+>(
+    lineageid: number,
+    params?: GetAmbitiesLineageidParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getAmbitiesLineageid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetAmbitiesLineageidQueryKey(lineageid, params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getAmbitiesLineageid>
+    > = () => getAmbitiesLineageid(lineageid, params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getAmbitiesLineageid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!lineageid, ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Adds a new ambities to a lineage
  */
-export const patchAmbitiesLineageid = <TData = AmbitiesRead>(
+export const patchAmbitiesLineageid = (
     lineageid: number,
     ambitiesWrite: AmbitiesWrite
 ) => {
-    return customInstance<TData>({
+    return customInstance<AmbitiesRead>({
         url: `/ambities/${lineageid}`,
         method: 'patch',
         data: ambitiesWrite,
     })
 }
 
+export const usePatchAmbitiesLineageid = <
+    TError =
+        | PatchAmbitiesLineageid400
+        | PatchAmbitiesLineageid403
+        | PatchAmbitiesLineageid500,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        AsyncReturnType<typeof patchAmbitiesLineageid>,
+        TError,
+        { lineageid: number; data: AmbitiesWrite },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options || {}
+
+    const mutationFn: MutationFunction<
+        AsyncReturnType<typeof patchAmbitiesLineageid>,
+        { lineageid: number; data: AmbitiesWrite }
+    > = props => {
+        const { lineageid, data } = props || {}
+
+        return patchAmbitiesLineageid(lineageid, data)
+    }
+
+    return useMutation<
+        AsyncReturnType<typeof patchAmbitiesLineageid>,
+        TError,
+        { lineageid: number; data: AmbitiesWrite },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
 /**
  * @summary Gets all the belangen lineages and shows the latests object for each
  */
-export const getBelangen = <TData = BelangenRead[]>(
-    params?: GetBelangenParams
-) => {
-    return customInstance<TData>({ url: `/belangen`, method: 'get', params })
+export const getBelangen = (params?: GetBelangenParams) => {
+    return customInstance<BelangenRead[]>({
+        url: `/belangen`,
+        method: 'get',
+        params,
+    })
+}
+
+export const getGetBelangenQueryKey = (params?: GetBelangenParams) => [
+    `/belangen`,
+    ...(params ? [params] : []),
+]
+
+export const useGetBelangen = <
+    TData = AsyncReturnType<typeof getBelangen>,
+    TError = GetBelangen400
+>(
+    params?: GetBelangenParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getBelangen>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey = queryOptions?.queryKey ?? getGetBelangenQueryKey(params)
+
+    const queryFn: QueryFunction<AsyncReturnType<typeof getBelangen>> = () =>
+        getBelangen(params)
+
+    const query = useQuery<AsyncReturnType<typeof getBelangen>, TError, TData>(
+        queryKey,
+        queryFn,
+        queryOptions
+    )
+
+    return {
+        queryKey,
+        ...query,
+    }
 }
 
 /**
  * @summary Creates a new belangen lineage
  */
-export const postBelangen = <TData = BelangenRead>(
-    belangenWrite: BelangenWrite
-) => {
-    return customInstance<TData>({
+export const postBelangen = (belangenWrite: BelangenWrite) => {
+    return customInstance<BelangenRead>({
         url: `/belangen`,
         method: 'post',
         data: belangenWrite,
     })
 }
 
+export const usePostBelangen = <
+    TError = PostBelangen400 | PostBelangen403 | PostBelangen500,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        AsyncReturnType<typeof postBelangen>,
+        TError,
+        { data: BelangenWrite },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options || {}
+
+    const mutationFn: MutationFunction<
+        AsyncReturnType<typeof postBelangen>,
+        { data: BelangenWrite }
+    > = props => {
+        const { data } = props || {}
+
+        return postBelangen(data)
+    }
+
+    return useMutation<
+        AsyncReturnType<typeof postBelangen>,
+        TError,
+        { data: BelangenWrite },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
 /**
  * @summary Gets all the belangen lineages and shows the latests object for each
  */
-export const getBelangenLineageid = <TData = BelangenRead[]>(
+export const getBelangenLineageid = (
     lineageid: number,
     params?: GetBelangenLineageidParams
 ) => {
-    return customInstance<TData>({
+    return customInstance<BelangenRead[]>({
         url: `/belangen/${lineageid}`,
         method: 'get',
         params,
     })
 }
 
+export const getGetBelangenLineageidQueryKey = (
+    lineageid: number,
+    params?: GetBelangenLineageidParams
+) => [`/belangen/${lineageid}`, ...(params ? [params] : [])]
+
+export const useGetBelangenLineageid = <
+    TData = AsyncReturnType<typeof getBelangenLineageid>,
+    TError = GetBelangenLineageid404
+>(
+    lineageid: number,
+    params?: GetBelangenLineageidParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getBelangenLineageid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetBelangenLineageidQueryKey(lineageid, params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getBelangenLineageid>
+    > = () => getBelangenLineageid(lineageid, params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getBelangenLineageid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!lineageid, ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Adds a new belangen to a lineage
  */
-export const patchBelangenLineageid = <TData = BelangenRead>(
+export const patchBelangenLineageid = (
     lineageid: number,
     belangenWrite: BelangenWrite
 ) => {
-    return customInstance<TData>({
+    return customInstance<BelangenRead>({
         url: `/belangen/${lineageid}`,
         method: 'patch',
         data: belangenWrite,
     })
 }
 
+export const usePatchBelangenLineageid = <
+    TError =
+        | PatchBelangenLineageid400
+        | PatchBelangenLineageid403
+        | PatchBelangenLineageid500,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        AsyncReturnType<typeof patchBelangenLineageid>,
+        TError,
+        { lineageid: number; data: BelangenWrite },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options || {}
+
+    const mutationFn: MutationFunction<
+        AsyncReturnType<typeof patchBelangenLineageid>,
+        { lineageid: number; data: BelangenWrite }
+    > = props => {
+        const { lineageid, data } = props || {}
+
+        return patchBelangenLineageid(lineageid, data)
+    }
+
+    return useMutation<
+        AsyncReturnType<typeof patchBelangenLineageid>,
+        TError,
+        { lineageid: number; data: BelangenWrite },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
 /**
  * @summary Gets all the beleidsdoelen lineages and shows the latests object for each
  */
-export const getBeleidsdoelen = <TData = BeleidsdoelenRead[]>(
-    params?: GetBeleidsdoelenParams
-) => {
-    return customInstance<TData>({
+export const getBeleidsdoelen = (params?: GetBeleidsdoelenParams) => {
+    return customInstance<BeleidsdoelenRead[]>({
         url: `/beleidsdoelen`,
         method: 'get',
         params,
     })
+}
+
+export const getGetBeleidsdoelenQueryKey = (
+    params?: GetBeleidsdoelenParams
+) => [`/beleidsdoelen`, ...(params ? [params] : [])]
+
+export const useGetBeleidsdoelen = <
+    TData = AsyncReturnType<typeof getBeleidsdoelen>,
+    TError = GetBeleidsdoelen400
+>(
+    params?: GetBeleidsdoelenParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getBeleidsdoelen>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getGetBeleidsdoelenQueryKey(params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getBeleidsdoelen>
+    > = () => getBeleidsdoelen(params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getBeleidsdoelen>,
+        TError,
+        TData
+    >(queryKey, queryFn, queryOptions)
+
+    return {
+        queryKey,
+        ...query,
+    }
 }
 
 /**
  * @summary Creates a new beleidsdoelen lineage
  */
-export const postBeleidsdoelen = <TData = BeleidsdoelenRead>(
-    beleidsdoelenWrite: BeleidsdoelenWrite
-) => {
-    return customInstance<TData>({
+export const postBeleidsdoelen = (beleidsdoelenWrite: BeleidsdoelenWrite) => {
+    return customInstance<BeleidsdoelenRead>({
         url: `/beleidsdoelen`,
         method: 'post',
         data: beleidsdoelenWrite,
     })
 }
 
+export const usePostBeleidsdoelen = <
+    TError = PostBeleidsdoelen400 | PostBeleidsdoelen403 | PostBeleidsdoelen500,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        AsyncReturnType<typeof postBeleidsdoelen>,
+        TError,
+        { data: BeleidsdoelenWrite },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options || {}
+
+    const mutationFn: MutationFunction<
+        AsyncReturnType<typeof postBeleidsdoelen>,
+        { data: BeleidsdoelenWrite }
+    > = props => {
+        const { data } = props || {}
+
+        return postBeleidsdoelen(data)
+    }
+
+    return useMutation<
+        AsyncReturnType<typeof postBeleidsdoelen>,
+        TError,
+        { data: BeleidsdoelenWrite },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
 /**
  * @summary Gets all the beleidsdoelen lineages and shows the latests object for each
  */
-export const getBeleidsdoelenLineageid = <TData = BeleidsdoelenRead[]>(
+export const getBeleidsdoelenLineageid = (
     lineageid: number,
     params?: GetBeleidsdoelenLineageidParams
 ) => {
-    return customInstance<TData>({
+    return customInstance<BeleidsdoelenRead[]>({
         url: `/beleidsdoelen/${lineageid}`,
         method: 'get',
         params,
     })
 }
 
+export const getGetBeleidsdoelenLineageidQueryKey = (
+    lineageid: number,
+    params?: GetBeleidsdoelenLineageidParams
+) => [`/beleidsdoelen/${lineageid}`, ...(params ? [params] : [])]
+
+export const useGetBeleidsdoelenLineageid = <
+    TData = AsyncReturnType<typeof getBeleidsdoelenLineageid>,
+    TError = GetBeleidsdoelenLineageid404
+>(
+    lineageid: number,
+    params?: GetBeleidsdoelenLineageidParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getBeleidsdoelenLineageid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetBeleidsdoelenLineageidQueryKey(lineageid, params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getBeleidsdoelenLineageid>
+    > = () => getBeleidsdoelenLineageid(lineageid, params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getBeleidsdoelenLineageid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!lineageid, ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Adds a new beleidsdoelen to a lineage
  */
-export const patchBeleidsdoelenLineageid = <TData = BeleidsdoelenRead>(
+export const patchBeleidsdoelenLineageid = (
     lineageid: number,
     beleidsdoelenWrite: BeleidsdoelenWrite
 ) => {
-    return customInstance<TData>({
+    return customInstance<BeleidsdoelenRead>({
         url: `/beleidsdoelen/${lineageid}`,
         method: 'patch',
         data: beleidsdoelenWrite,
     })
 }
 
+export const usePatchBeleidsdoelenLineageid = <
+    TError =
+        | PatchBeleidsdoelenLineageid400
+        | PatchBeleidsdoelenLineageid403
+        | PatchBeleidsdoelenLineageid500,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        AsyncReturnType<typeof patchBeleidsdoelenLineageid>,
+        TError,
+        { lineageid: number; data: BeleidsdoelenWrite },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options || {}
+
+    const mutationFn: MutationFunction<
+        AsyncReturnType<typeof patchBeleidsdoelenLineageid>,
+        { lineageid: number; data: BeleidsdoelenWrite }
+    > = props => {
+        const { lineageid, data } = props || {}
+
+        return patchBeleidsdoelenLineageid(lineageid, data)
+    }
+
+    return useMutation<
+        AsyncReturnType<typeof patchBeleidsdoelenLineageid>,
+        TError,
+        { lineageid: number; data: BeleidsdoelenWrite },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
 /**
  * @summary Gets all the beleidskeuzes lineages and shows the latests object for each
  */
-export const getBeleidskeuzes = <TData = BeleidskeuzesRead[]>(
-    params?: GetBeleidskeuzesParams
-) => {
-    return customInstance<TData>({
+export const getBeleidskeuzes = (params?: GetBeleidskeuzesParams) => {
+    return customInstance<BeleidskeuzesRead[]>({
         url: `/beleidskeuzes`,
         method: 'get',
         params,
     })
+}
+
+export const getGetBeleidskeuzesQueryKey = (
+    params?: GetBeleidskeuzesParams
+) => [`/beleidskeuzes`, ...(params ? [params] : [])]
+
+export const useGetBeleidskeuzes = <
+    TData = AsyncReturnType<typeof getBeleidskeuzes>,
+    TError = GetBeleidskeuzes400
+>(
+    params?: GetBeleidskeuzesParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getBeleidskeuzes>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getGetBeleidskeuzesQueryKey(params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getBeleidskeuzes>
+    > = () => getBeleidskeuzes(params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getBeleidskeuzes>,
+        TError,
+        TData
+    >(queryKey, queryFn, queryOptions)
+
+    return {
+        queryKey,
+        ...query,
+    }
 }
 
 /**
  * @summary Creates a new beleidskeuzes lineage
  */
-export const postBeleidskeuzes = <TData = BeleidskeuzesRead>(
-    beleidskeuzesWrite: BeleidskeuzesWrite
-) => {
-    return customInstance<TData>({
+export const postBeleidskeuzes = (beleidskeuzesWrite: BeleidskeuzesWrite) => {
+    return customInstance<BeleidskeuzesRead>({
         url: `/beleidskeuzes`,
         method: 'post',
         data: beleidskeuzesWrite,
     })
 }
 
+export const usePostBeleidskeuzes = <
+    TError = PostBeleidskeuzes400 | PostBeleidskeuzes403 | PostBeleidskeuzes500,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        AsyncReturnType<typeof postBeleidskeuzes>,
+        TError,
+        { data: BeleidskeuzesWrite },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options || {}
+
+    const mutationFn: MutationFunction<
+        AsyncReturnType<typeof postBeleidskeuzes>,
+        { data: BeleidskeuzesWrite }
+    > = props => {
+        const { data } = props || {}
+
+        return postBeleidskeuzes(data)
+    }
+
+    return useMutation<
+        AsyncReturnType<typeof postBeleidskeuzes>,
+        TError,
+        { data: BeleidskeuzesWrite },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
 /**
  * @summary Gets all the beleidskeuzes lineages and shows the latests object for each
  */
-export const getBeleidskeuzesLineageid = <TData = BeleidskeuzesRead[]>(
+export const getBeleidskeuzesLineageid = (
     lineageid: number,
     params?: GetBeleidskeuzesLineageidParams
 ) => {
-    return customInstance<TData>({
+    return customInstance<BeleidskeuzesRead[]>({
         url: `/beleidskeuzes/${lineageid}`,
         method: 'get',
         params,
     })
 }
 
+export const getGetBeleidskeuzesLineageidQueryKey = (
+    lineageid: number,
+    params?: GetBeleidskeuzesLineageidParams
+) => [`/beleidskeuzes/${lineageid}`, ...(params ? [params] : [])]
+
+export const useGetBeleidskeuzesLineageid = <
+    TData = AsyncReturnType<typeof getBeleidskeuzesLineageid>,
+    TError = GetBeleidskeuzesLineageid404
+>(
+    lineageid: number,
+    params?: GetBeleidskeuzesLineageidParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getBeleidskeuzesLineageid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetBeleidskeuzesLineageidQueryKey(lineageid, params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getBeleidskeuzesLineageid>
+    > = () => getBeleidskeuzesLineageid(lineageid, params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getBeleidskeuzesLineageid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!lineageid, ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Adds a new beleidskeuzes to a lineage
  */
-export const patchBeleidskeuzesLineageid = <TData = BeleidskeuzesRead>(
+export const patchBeleidskeuzesLineageid = (
     lineageid: number,
     beleidskeuzesWrite: BeleidskeuzesWrite
 ) => {
-    return customInstance<TData>({
+    return customInstance<BeleidskeuzesRead>({
         url: `/beleidskeuzes/${lineageid}`,
         method: 'patch',
         data: beleidskeuzesWrite,
     })
 }
 
+export const usePatchBeleidskeuzesLineageid = <
+    TError =
+        | PatchBeleidskeuzesLineageid400
+        | PatchBeleidskeuzesLineageid403
+        | PatchBeleidskeuzesLineageid500,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        AsyncReturnType<typeof patchBeleidskeuzesLineageid>,
+        TError,
+        { lineageid: number; data: BeleidskeuzesWrite },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options || {}
+
+    const mutationFn: MutationFunction<
+        AsyncReturnType<typeof patchBeleidskeuzesLineageid>,
+        { lineageid: number; data: BeleidskeuzesWrite }
+    > = props => {
+        const { lineageid, data } = props || {}
+
+        return patchBeleidskeuzesLineageid(lineageid, data)
+    }
+
+    return useMutation<
+        AsyncReturnType<typeof patchBeleidskeuzesLineageid>,
+        TError,
+        { lineageid: number; data: BeleidskeuzesWrite },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
 /**
  * @summary Gets all the beleidsmodules lineages and shows the latests object for each
  */
-export const getBeleidsmodules = <TData = BeleidsmodulesRead[]>(
-    params?: GetBeleidsmodulesParams
-) => {
-    return customInstance<TData>({
+export const getBeleidsmodules = (params?: GetBeleidsmodulesParams) => {
+    return customInstance<BeleidsmodulesRead[]>({
         url: `/beleidsmodules`,
         method: 'get',
         params,
     })
+}
+
+export const getGetBeleidsmodulesQueryKey = (
+    params?: GetBeleidsmodulesParams
+) => [`/beleidsmodules`, ...(params ? [params] : [])]
+
+export const useGetBeleidsmodules = <
+    TData = AsyncReturnType<typeof getBeleidsmodules>,
+    TError = GetBeleidsmodules400
+>(
+    params?: GetBeleidsmodulesParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getBeleidsmodules>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getGetBeleidsmodulesQueryKey(params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getBeleidsmodules>
+    > = () => getBeleidsmodules(params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getBeleidsmodules>,
+        TError,
+        TData
+    >(queryKey, queryFn, queryOptions)
+
+    return {
+        queryKey,
+        ...query,
+    }
 }
 
 /**
  * @summary Creates a new beleidsmodules lineage
  */
-export const postBeleidsmodules = <TData = BeleidsmodulesRead>(
+export const postBeleidsmodules = (
     beleidsmodulesWrite: BeleidsmodulesWrite
 ) => {
-    return customInstance<TData>({
+    return customInstance<BeleidsmodulesRead>({
         url: `/beleidsmodules`,
         method: 'post',
         data: beleidsmodulesWrite,
     })
 }
 
+export const usePostBeleidsmodules = <
+    TError =
+        | PostBeleidsmodules400
+        | PostBeleidsmodules403
+        | PostBeleidsmodules500,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        AsyncReturnType<typeof postBeleidsmodules>,
+        TError,
+        { data: BeleidsmodulesWrite },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options || {}
+
+    const mutationFn: MutationFunction<
+        AsyncReturnType<typeof postBeleidsmodules>,
+        { data: BeleidsmodulesWrite }
+    > = props => {
+        const { data } = props || {}
+
+        return postBeleidsmodules(data)
+    }
+
+    return useMutation<
+        AsyncReturnType<typeof postBeleidsmodules>,
+        TError,
+        { data: BeleidsmodulesWrite },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
 /**
  * @summary Gets all the beleidsmodules lineages and shows the latests object for each
  */
-export const getBeleidsmodulesLineageid = <TData = BeleidsmodulesRead[]>(
+export const getBeleidsmodulesLineageid = (
     lineageid: number,
     params?: GetBeleidsmodulesLineageidParams
 ) => {
-    return customInstance<TData>({
+    return customInstance<BeleidsmodulesRead[]>({
         url: `/beleidsmodules/${lineageid}`,
         method: 'get',
         params,
     })
 }
 
+export const getGetBeleidsmodulesLineageidQueryKey = (
+    lineageid: number,
+    params?: GetBeleidsmodulesLineageidParams
+) => [`/beleidsmodules/${lineageid}`, ...(params ? [params] : [])]
+
+export const useGetBeleidsmodulesLineageid = <
+    TData = AsyncReturnType<typeof getBeleidsmodulesLineageid>,
+    TError = GetBeleidsmodulesLineageid404
+>(
+    lineageid: number,
+    params?: GetBeleidsmodulesLineageidParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getBeleidsmodulesLineageid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetBeleidsmodulesLineageidQueryKey(lineageid, params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getBeleidsmodulesLineageid>
+    > = () => getBeleidsmodulesLineageid(lineageid, params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getBeleidsmodulesLineageid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!lineageid, ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Adds a new beleidsmodules to a lineage
  */
-export const patchBeleidsmodulesLineageid = <TData = BeleidsmodulesRead>(
+export const patchBeleidsmodulesLineageid = (
     lineageid: number,
     beleidsmodulesWrite: BeleidsmodulesWrite
 ) => {
-    return customInstance<TData>({
+    return customInstance<BeleidsmodulesRead>({
         url: `/beleidsmodules/${lineageid}`,
         method: 'patch',
         data: beleidsmodulesWrite,
     })
 }
 
+export const usePatchBeleidsmodulesLineageid = <
+    TError =
+        | PatchBeleidsmodulesLineageid400
+        | PatchBeleidsmodulesLineageid403
+        | PatchBeleidsmodulesLineageid500,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        AsyncReturnType<typeof patchBeleidsmodulesLineageid>,
+        TError,
+        { lineageid: number; data: BeleidsmodulesWrite },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options || {}
+
+    const mutationFn: MutationFunction<
+        AsyncReturnType<typeof patchBeleidsmodulesLineageid>,
+        { lineageid: number; data: BeleidsmodulesWrite }
+    > = props => {
+        const { lineageid, data } = props || {}
+
+        return patchBeleidsmodulesLineageid(lineageid, data)
+    }
+
+    return useMutation<
+        AsyncReturnType<typeof patchBeleidsmodulesLineageid>,
+        TError,
+        { lineageid: number; data: BeleidsmodulesWrite },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
 /**
  * @summary Gets all the beleidsprestaties lineages and shows the latests object for each
  */
-export const getBeleidsprestaties = <TData = BeleidsprestatiesRead[]>(
-    params?: GetBeleidsprestatiesParams
-) => {
-    return customInstance<TData>({
+export const getBeleidsprestaties = (params?: GetBeleidsprestatiesParams) => {
+    return customInstance<BeleidsprestatiesRead[]>({
         url: `/beleidsprestaties`,
         method: 'get',
         params,
     })
+}
+
+export const getGetBeleidsprestatiesQueryKey = (
+    params?: GetBeleidsprestatiesParams
+) => [`/beleidsprestaties`, ...(params ? [params] : [])]
+
+export const useGetBeleidsprestaties = <
+    TData = AsyncReturnType<typeof getBeleidsprestaties>,
+    TError = GetBeleidsprestaties400
+>(
+    params?: GetBeleidsprestatiesParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getBeleidsprestaties>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getGetBeleidsprestatiesQueryKey(params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getBeleidsprestaties>
+    > = () => getBeleidsprestaties(params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getBeleidsprestaties>,
+        TError,
+        TData
+    >(queryKey, queryFn, queryOptions)
+
+    return {
+        queryKey,
+        ...query,
+    }
 }
 
 /**
  * @summary Creates a new beleidsprestaties lineage
  */
-export const postBeleidsprestaties = <TData = BeleidsprestatiesRead>(
+export const postBeleidsprestaties = (
     beleidsprestatiesWrite: BeleidsprestatiesWrite
 ) => {
-    return customInstance<TData>({
+    return customInstance<BeleidsprestatiesRead>({
         url: `/beleidsprestaties`,
         method: 'post',
         data: beleidsprestatiesWrite,
     })
 }
 
+export const usePostBeleidsprestaties = <
+    TError =
+        | PostBeleidsprestaties400
+        | PostBeleidsprestaties403
+        | PostBeleidsprestaties500,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        AsyncReturnType<typeof postBeleidsprestaties>,
+        TError,
+        { data: BeleidsprestatiesWrite },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options || {}
+
+    const mutationFn: MutationFunction<
+        AsyncReturnType<typeof postBeleidsprestaties>,
+        { data: BeleidsprestatiesWrite }
+    > = props => {
+        const { data } = props || {}
+
+        return postBeleidsprestaties(data)
+    }
+
+    return useMutation<
+        AsyncReturnType<typeof postBeleidsprestaties>,
+        TError,
+        { data: BeleidsprestatiesWrite },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
 /**
  * @summary Gets all the beleidsprestaties lineages and shows the latests object for each
  */
-export const getBeleidsprestatiesLineageid = <TData = BeleidsprestatiesRead[]>(
+export const getBeleidsprestatiesLineageid = (
     lineageid: number,
     params?: GetBeleidsprestatiesLineageidParams
 ) => {
-    return customInstance<TData>({
+    return customInstance<BeleidsprestatiesRead[]>({
         url: `/beleidsprestaties/${lineageid}`,
         method: 'get',
         params,
     })
 }
 
+export const getGetBeleidsprestatiesLineageidQueryKey = (
+    lineageid: number,
+    params?: GetBeleidsprestatiesLineageidParams
+) => [`/beleidsprestaties/${lineageid}`, ...(params ? [params] : [])]
+
+export const useGetBeleidsprestatiesLineageid = <
+    TData = AsyncReturnType<typeof getBeleidsprestatiesLineageid>,
+    TError = GetBeleidsprestatiesLineageid404
+>(
+    lineageid: number,
+    params?: GetBeleidsprestatiesLineageidParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getBeleidsprestatiesLineageid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetBeleidsprestatiesLineageidQueryKey(lineageid, params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getBeleidsprestatiesLineageid>
+    > = () => getBeleidsprestatiesLineageid(lineageid, params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getBeleidsprestatiesLineageid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!lineageid, ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Adds a new beleidsprestaties to a lineage
  */
-export const patchBeleidsprestatiesLineageid = <TData = BeleidsprestatiesRead>(
+export const patchBeleidsprestatiesLineageid = (
     lineageid: number,
     beleidsprestatiesWrite: BeleidsprestatiesWrite
 ) => {
-    return customInstance<TData>({
+    return customInstance<BeleidsprestatiesRead>({
         url: `/beleidsprestaties/${lineageid}`,
         method: 'patch',
         data: beleidsprestatiesWrite,
     })
 }
 
+export const usePatchBeleidsprestatiesLineageid = <
+    TError =
+        | PatchBeleidsprestatiesLineageid400
+        | PatchBeleidsprestatiesLineageid403
+        | PatchBeleidsprestatiesLineageid500,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        AsyncReturnType<typeof patchBeleidsprestatiesLineageid>,
+        TError,
+        { lineageid: number; data: BeleidsprestatiesWrite },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options || {}
+
+    const mutationFn: MutationFunction<
+        AsyncReturnType<typeof patchBeleidsprestatiesLineageid>,
+        { lineageid: number; data: BeleidsprestatiesWrite }
+    > = props => {
+        const { lineageid, data } = props || {}
+
+        return patchBeleidsprestatiesLineageid(lineageid, data)
+    }
+
+    return useMutation<
+        AsyncReturnType<typeof patchBeleidsprestatiesLineageid>,
+        TError,
+        { lineageid: number; data: BeleidsprestatiesWrite },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
 /**
  * @summary Gets all the beleidsregels lineages and shows the latests object for each
  */
-export const getBeleidsregels = <TData = BeleidsregelsRead[]>(
-    params?: GetBeleidsregelsParams
-) => {
-    return customInstance<TData>({
+export const getBeleidsregels = (params?: GetBeleidsregelsParams) => {
+    return customInstance<BeleidsregelsRead[]>({
         url: `/beleidsregels`,
         method: 'get',
         params,
     })
 }
 
+export const getGetBeleidsregelsQueryKey = (
+    params?: GetBeleidsregelsParams
+) => [`/beleidsregels`, ...(params ? [params] : [])]
+
+export const useGetBeleidsregels = <
+    TData = AsyncReturnType<typeof getBeleidsregels>,
+    TError = GetBeleidsregels400
+>(
+    params?: GetBeleidsregelsParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getBeleidsregels>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getGetBeleidsregelsQueryKey(params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getBeleidsregels>
+    > = () => getBeleidsregels(params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getBeleidsregels>,
+        TError,
+        TData
+    >(queryKey, queryFn, queryOptions)
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Creates a new beleidsregels lineage
  */
-export const postBeleidsregels = <TData = BeleidsregelsRead>(
-    beleidsregelsWrite: BeleidsregelsWrite
-) => {
-    return customInstance<TData>({
+export const postBeleidsregels = (beleidsregelsWrite: BeleidsregelsWrite) => {
+    return customInstance<BeleidsregelsRead>({
         url: `/beleidsregels`,
         method: 'post',
         data: beleidsregelsWrite,
     })
 }
 
+export const usePostBeleidsregels = <
+    TError = PostBeleidsregels400 | PostBeleidsregels403 | PostBeleidsregels500,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        AsyncReturnType<typeof postBeleidsregels>,
+        TError,
+        { data: BeleidsregelsWrite },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options || {}
+
+    const mutationFn: MutationFunction<
+        AsyncReturnType<typeof postBeleidsregels>,
+        { data: BeleidsregelsWrite }
+    > = props => {
+        const { data } = props || {}
+
+        return postBeleidsregels(data)
+    }
+
+    return useMutation<
+        AsyncReturnType<typeof postBeleidsregels>,
+        TError,
+        { data: BeleidsregelsWrite },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
 /**
  * @summary Gets all the beleidsregels lineages and shows the latests object for each
  */
-export const getBeleidsregelsLineageid = <TData = BeleidsregelsRead[]>(
+export const getBeleidsregelsLineageid = (
     lineageid: number,
     params?: GetBeleidsregelsLineageidParams
 ) => {
-    return customInstance<TData>({
+    return customInstance<BeleidsregelsRead[]>({
         url: `/beleidsregels/${lineageid}`,
         method: 'get',
         params,
     })
 }
 
+export const getGetBeleidsregelsLineageidQueryKey = (
+    lineageid: number,
+    params?: GetBeleidsregelsLineageidParams
+) => [`/beleidsregels/${lineageid}`, ...(params ? [params] : [])]
+
+export const useGetBeleidsregelsLineageid = <
+    TData = AsyncReturnType<typeof getBeleidsregelsLineageid>,
+    TError = GetBeleidsregelsLineageid404
+>(
+    lineageid: number,
+    params?: GetBeleidsregelsLineageidParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getBeleidsregelsLineageid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetBeleidsregelsLineageidQueryKey(lineageid, params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getBeleidsregelsLineageid>
+    > = () => getBeleidsregelsLineageid(lineageid, params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getBeleidsregelsLineageid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!lineageid, ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Adds a new beleidsregels to a lineage
  */
-export const patchBeleidsregelsLineageid = <TData = BeleidsregelsRead>(
+export const patchBeleidsregelsLineageid = (
     lineageid: number,
     beleidsregelsWrite: BeleidsregelsWrite
 ) => {
-    return customInstance<TData>({
+    return customInstance<BeleidsregelsRead>({
         url: `/beleidsregels/${lineageid}`,
         method: 'patch',
         data: beleidsregelsWrite,
     })
 }
 
+export const usePatchBeleidsregelsLineageid = <
+    TError =
+        | PatchBeleidsregelsLineageid400
+        | PatchBeleidsregelsLineageid403
+        | PatchBeleidsregelsLineageid500,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        AsyncReturnType<typeof patchBeleidsregelsLineageid>,
+        TError,
+        { lineageid: number; data: BeleidsregelsWrite },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options || {}
+
+    const mutationFn: MutationFunction<
+        AsyncReturnType<typeof patchBeleidsregelsLineageid>,
+        { lineageid: number; data: BeleidsregelsWrite }
+    > = props => {
+        const { lineageid, data } = props || {}
+
+        return patchBeleidsregelsLineageid(lineageid, data)
+    }
+
+    return useMutation<
+        AsyncReturnType<typeof patchBeleidsregelsLineageid>,
+        TError,
+        { lineageid: number; data: BeleidsregelsWrite },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
 /**
  * @summary Gets all the beleidsrelaties lineages and shows the latests object for each
  */
-export const getBeleidsrelaties = <TData = BeleidsrelatiesRead[]>(
-    params?: GetBeleidsrelatiesParams
-) => {
-    return customInstance<TData>({
+export const getBeleidsrelaties = (params?: GetBeleidsrelatiesParams) => {
+    return customInstance<BeleidsrelatiesRead[]>({
         url: `/beleidsrelaties`,
         method: 'get',
         params,
     })
 }
 
+export const getGetBeleidsrelatiesQueryKey = (
+    params?: GetBeleidsrelatiesParams
+) => [`/beleidsrelaties`, ...(params ? [params] : [])]
+
+export const useGetBeleidsrelaties = <
+    TData = AsyncReturnType<typeof getBeleidsrelaties>,
+    TError = GetBeleidsrelaties400
+>(
+    params?: GetBeleidsrelatiesParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getBeleidsrelaties>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getGetBeleidsrelatiesQueryKey(params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getBeleidsrelaties>
+    > = () => getBeleidsrelaties(params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getBeleidsrelaties>,
+        TError,
+        TData
+    >(queryKey, queryFn, queryOptions)
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Gets all the beleidsrelaties lineages and shows the latests object for each
  */
-export const getBeleidsrelatiesLineageid = <TData = BeleidsrelatiesRead[]>(
+export const getBeleidsrelatiesLineageid = (
     lineageid: number,
     params?: GetBeleidsrelatiesLineageidParams
 ) => {
-    return customInstance<TData>({
+    return customInstance<BeleidsrelatiesRead[]>({
         url: `/beleidsrelaties/${lineageid}`,
         method: 'get',
         params,
     })
 }
 
+export const getGetBeleidsrelatiesLineageidQueryKey = (
+    lineageid: number,
+    params?: GetBeleidsrelatiesLineageidParams
+) => [`/beleidsrelaties/${lineageid}`, ...(params ? [params] : [])]
+
+export const useGetBeleidsrelatiesLineageid = <
+    TData = AsyncReturnType<typeof getBeleidsrelatiesLineageid>,
+    TError = GetBeleidsrelatiesLineageid404
+>(
+    lineageid: number,
+    params?: GetBeleidsrelatiesLineageidParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getBeleidsrelatiesLineageid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetBeleidsrelatiesLineageidQueryKey(lineageid, params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getBeleidsrelatiesLineageid>
+    > = () => getBeleidsrelatiesLineageid(lineageid, params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getBeleidsrelatiesLineageid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!lineageid, ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Shows the changes between two versions of objects
  */
-export const getChangesAmbitiesOlduuidNewuuid = <
-    TData = GetChangesAmbitiesOlduuidNewuuid200
->(
+export const getChangesAmbitiesOlduuidNewuuid = (
     olduuid: string,
     newuuid: string
 ) => {
-    return customInstance<TData>({
+    return customInstance<GetChangesAmbitiesOlduuidNewuuid200>({
         url: `/changes/ambities/${olduuid}/${newuuid}`,
         method: 'get',
     })
 }
 
+export const getGetChangesAmbitiesOlduuidNewuuidQueryKey = (
+    olduuid: string,
+    newuuid: string
+) => [`/changes/ambities/${olduuid}/${newuuid}`]
+
+export const useGetChangesAmbitiesOlduuidNewuuid = <
+    TData = AsyncReturnType<typeof getChangesAmbitiesOlduuidNewuuid>,
+    TError =
+        | GetChangesAmbitiesOlduuidNewuuid404
+        | GetChangesAmbitiesOlduuidNewuuid500
+>(
+    olduuid: string,
+    newuuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getChangesAmbitiesOlduuidNewuuid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetChangesAmbitiesOlduuidNewuuidQueryKey(olduuid, newuuid)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getChangesAmbitiesOlduuidNewuuid>
+    > = () => getChangesAmbitiesOlduuidNewuuid(olduuid, newuuid)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getChangesAmbitiesOlduuidNewuuid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!(olduuid && newuuid), ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Shows the changes between two versions of objects
  */
-export const getChangesBelangenOlduuidNewuuid = <
-    TData = GetChangesBelangenOlduuidNewuuid200
->(
+export const getChangesBelangenOlduuidNewuuid = (
     olduuid: string,
     newuuid: string
 ) => {
-    return customInstance<TData>({
+    return customInstance<GetChangesBelangenOlduuidNewuuid200>({
         url: `/changes/belangen/${olduuid}/${newuuid}`,
         method: 'get',
     })
 }
 
+export const getGetChangesBelangenOlduuidNewuuidQueryKey = (
+    olduuid: string,
+    newuuid: string
+) => [`/changes/belangen/${olduuid}/${newuuid}`]
+
+export const useGetChangesBelangenOlduuidNewuuid = <
+    TData = AsyncReturnType<typeof getChangesBelangenOlduuidNewuuid>,
+    TError =
+        | GetChangesBelangenOlduuidNewuuid404
+        | GetChangesBelangenOlduuidNewuuid500
+>(
+    olduuid: string,
+    newuuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getChangesBelangenOlduuidNewuuid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetChangesBelangenOlduuidNewuuidQueryKey(olduuid, newuuid)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getChangesBelangenOlduuidNewuuid>
+    > = () => getChangesBelangenOlduuidNewuuid(olduuid, newuuid)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getChangesBelangenOlduuidNewuuid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!(olduuid && newuuid), ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Shows the changes between two versions of objects
  */
-export const getChangesBeleidsdoelenOlduuidNewuuid = <
-    TData = GetChangesBeleidsdoelenOlduuidNewuuid200
->(
+export const getChangesBeleidsdoelenOlduuidNewuuid = (
     olduuid: string,
     newuuid: string
 ) => {
-    return customInstance<TData>({
+    return customInstance<GetChangesBeleidsdoelenOlduuidNewuuid200>({
         url: `/changes/beleidsdoelen/${olduuid}/${newuuid}`,
         method: 'get',
     })
 }
 
+export const getGetChangesBeleidsdoelenOlduuidNewuuidQueryKey = (
+    olduuid: string,
+    newuuid: string
+) => [`/changes/beleidsdoelen/${olduuid}/${newuuid}`]
+
+export const useGetChangesBeleidsdoelenOlduuidNewuuid = <
+    TData = AsyncReturnType<typeof getChangesBeleidsdoelenOlduuidNewuuid>,
+    TError =
+        | GetChangesBeleidsdoelenOlduuidNewuuid404
+        | GetChangesBeleidsdoelenOlduuidNewuuid500
+>(
+    olduuid: string,
+    newuuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getChangesBeleidsdoelenOlduuidNewuuid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetChangesBeleidsdoelenOlduuidNewuuidQueryKey(olduuid, newuuid)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getChangesBeleidsdoelenOlduuidNewuuid>
+    > = () => getChangesBeleidsdoelenOlduuidNewuuid(olduuid, newuuid)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getChangesBeleidsdoelenOlduuidNewuuid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!(olduuid && newuuid), ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Shows the changes between two versions of objects
  */
-export const getChangesBeleidskeuzesOlduuidNewuuid = <
-    TData = GetChangesBeleidskeuzesOlduuidNewuuid200
->(
+export const getChangesBeleidskeuzesOlduuidNewuuid = (
     olduuid: string,
     newuuid: string
 ) => {
-    return customInstance<TData>({
+    return customInstance<GetChangesBeleidskeuzesOlduuidNewuuid200>({
         url: `/changes/beleidskeuzes/${olduuid}/${newuuid}`,
         method: 'get',
     })
 }
 
+export const getGetChangesBeleidskeuzesOlduuidNewuuidQueryKey = (
+    olduuid: string,
+    newuuid: string
+) => [`/changes/beleidskeuzes/${olduuid}/${newuuid}`]
+
+export const useGetChangesBeleidskeuzesOlduuidNewuuid = <
+    TData = AsyncReturnType<typeof getChangesBeleidskeuzesOlduuidNewuuid>,
+    TError =
+        | GetChangesBeleidskeuzesOlduuidNewuuid404
+        | GetChangesBeleidskeuzesOlduuidNewuuid500
+>(
+    olduuid: string,
+    newuuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getChangesBeleidskeuzesOlduuidNewuuid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetChangesBeleidskeuzesOlduuidNewuuidQueryKey(olduuid, newuuid)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getChangesBeleidskeuzesOlduuidNewuuid>
+    > = () => getChangesBeleidskeuzesOlduuidNewuuid(olduuid, newuuid)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getChangesBeleidskeuzesOlduuidNewuuid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!(olduuid && newuuid), ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Shows the changes between two versions of objects
  */
-export const getChangesBeleidsmodulesOlduuidNewuuid = <
-    TData = GetChangesBeleidsmodulesOlduuidNewuuid200
->(
+export const getChangesBeleidsmodulesOlduuidNewuuid = (
     olduuid: string,
     newuuid: string
 ) => {
-    return customInstance<TData>({
+    return customInstance<GetChangesBeleidsmodulesOlduuidNewuuid200>({
         url: `/changes/beleidsmodules/${olduuid}/${newuuid}`,
         method: 'get',
     })
 }
 
+export const getGetChangesBeleidsmodulesOlduuidNewuuidQueryKey = (
+    olduuid: string,
+    newuuid: string
+) => [`/changes/beleidsmodules/${olduuid}/${newuuid}`]
+
+export const useGetChangesBeleidsmodulesOlduuidNewuuid = <
+    TData = AsyncReturnType<typeof getChangesBeleidsmodulesOlduuidNewuuid>,
+    TError =
+        | GetChangesBeleidsmodulesOlduuidNewuuid404
+        | GetChangesBeleidsmodulesOlduuidNewuuid500
+>(
+    olduuid: string,
+    newuuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getChangesBeleidsmodulesOlduuidNewuuid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetChangesBeleidsmodulesOlduuidNewuuidQueryKey(olduuid, newuuid)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getChangesBeleidsmodulesOlduuidNewuuid>
+    > = () => getChangesBeleidsmodulesOlduuidNewuuid(olduuid, newuuid)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getChangesBeleidsmodulesOlduuidNewuuid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!(olduuid && newuuid), ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Shows the changes between two versions of objects
  */
-export const getChangesBeleidsprestatiesOlduuidNewuuid = <
-    TData = GetChangesBeleidsprestatiesOlduuidNewuuid200
->(
+export const getChangesBeleidsprestatiesOlduuidNewuuid = (
     olduuid: string,
     newuuid: string
 ) => {
-    return customInstance<TData>({
+    return customInstance<GetChangesBeleidsprestatiesOlduuidNewuuid200>({
         url: `/changes/beleidsprestaties/${olduuid}/${newuuid}`,
         method: 'get',
     })
 }
 
+export const getGetChangesBeleidsprestatiesOlduuidNewuuidQueryKey = (
+    olduuid: string,
+    newuuid: string
+) => [`/changes/beleidsprestaties/${olduuid}/${newuuid}`]
+
+export const useGetChangesBeleidsprestatiesOlduuidNewuuid = <
+    TData = AsyncReturnType<typeof getChangesBeleidsprestatiesOlduuidNewuuid>,
+    TError =
+        | GetChangesBeleidsprestatiesOlduuidNewuuid404
+        | GetChangesBeleidsprestatiesOlduuidNewuuid500
+>(
+    olduuid: string,
+    newuuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getChangesBeleidsprestatiesOlduuidNewuuid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetChangesBeleidsprestatiesOlduuidNewuuidQueryKey(olduuid, newuuid)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getChangesBeleidsprestatiesOlduuidNewuuid>
+    > = () => getChangesBeleidsprestatiesOlduuidNewuuid(olduuid, newuuid)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getChangesBeleidsprestatiesOlduuidNewuuid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!(olduuid && newuuid), ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Shows the changes between two versions of objects
  */
-export const getChangesBeleidsregelsOlduuidNewuuid = <
-    TData = GetChangesBeleidsregelsOlduuidNewuuid200
->(
+export const getChangesBeleidsregelsOlduuidNewuuid = (
     olduuid: string,
     newuuid: string
 ) => {
-    return customInstance<TData>({
+    return customInstance<GetChangesBeleidsregelsOlduuidNewuuid200>({
         url: `/changes/beleidsregels/${olduuid}/${newuuid}`,
         method: 'get',
     })
 }
 
+export const getGetChangesBeleidsregelsOlduuidNewuuidQueryKey = (
+    olduuid: string,
+    newuuid: string
+) => [`/changes/beleidsregels/${olduuid}/${newuuid}`]
+
+export const useGetChangesBeleidsregelsOlduuidNewuuid = <
+    TData = AsyncReturnType<typeof getChangesBeleidsregelsOlduuidNewuuid>,
+    TError =
+        | GetChangesBeleidsregelsOlduuidNewuuid404
+        | GetChangesBeleidsregelsOlduuidNewuuid500
+>(
+    olduuid: string,
+    newuuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getChangesBeleidsregelsOlduuidNewuuid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetChangesBeleidsregelsOlduuidNewuuidQueryKey(olduuid, newuuid)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getChangesBeleidsregelsOlduuidNewuuid>
+    > = () => getChangesBeleidsregelsOlduuidNewuuid(olduuid, newuuid)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getChangesBeleidsregelsOlduuidNewuuid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!(olduuid && newuuid), ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Shows the changes between two versions of objects
  */
-export const getChangesBeleidsrelatiesOlduuidNewuuid = <
-    TData = GetChangesBeleidsrelatiesOlduuidNewuuid200
->(
+export const getChangesBeleidsrelatiesOlduuidNewuuid = (
     olduuid: string,
     newuuid: string
 ) => {
-    return customInstance<TData>({
+    return customInstance<GetChangesBeleidsrelatiesOlduuidNewuuid200>({
         url: `/changes/beleidsrelaties/${olduuid}/${newuuid}`,
         method: 'get',
     })
 }
 
+export const getGetChangesBeleidsrelatiesOlduuidNewuuidQueryKey = (
+    olduuid: string,
+    newuuid: string
+) => [`/changes/beleidsrelaties/${olduuid}/${newuuid}`]
+
+export const useGetChangesBeleidsrelatiesOlduuidNewuuid = <
+    TData = AsyncReturnType<typeof getChangesBeleidsrelatiesOlduuidNewuuid>,
+    TError =
+        | GetChangesBeleidsrelatiesOlduuidNewuuid404
+        | GetChangesBeleidsrelatiesOlduuidNewuuid500
+>(
+    olduuid: string,
+    newuuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getChangesBeleidsrelatiesOlduuidNewuuid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetChangesBeleidsrelatiesOlduuidNewuuidQueryKey(olduuid, newuuid)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getChangesBeleidsrelatiesOlduuidNewuuid>
+    > = () => getChangesBeleidsrelatiesOlduuidNewuuid(olduuid, newuuid)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getChangesBeleidsrelatiesOlduuidNewuuid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!(olduuid && newuuid), ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Shows the changes between two versions of objects
  */
-export const getChangesMaatregelenOlduuidNewuuid = <
-    TData = GetChangesMaatregelenOlduuidNewuuid200
->(
+export const getChangesMaatregelenOlduuidNewuuid = (
     olduuid: string,
     newuuid: string
 ) => {
-    return customInstance<TData>({
+    return customInstance<GetChangesMaatregelenOlduuidNewuuid200>({
         url: `/changes/maatregelen/${olduuid}/${newuuid}`,
         method: 'get',
     })
 }
 
+export const getGetChangesMaatregelenOlduuidNewuuidQueryKey = (
+    olduuid: string,
+    newuuid: string
+) => [`/changes/maatregelen/${olduuid}/${newuuid}`]
+
+export const useGetChangesMaatregelenOlduuidNewuuid = <
+    TData = AsyncReturnType<typeof getChangesMaatregelenOlduuidNewuuid>,
+    TError =
+        | GetChangesMaatregelenOlduuidNewuuid404
+        | GetChangesMaatregelenOlduuidNewuuid500
+>(
+    olduuid: string,
+    newuuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getChangesMaatregelenOlduuidNewuuid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetChangesMaatregelenOlduuidNewuuidQueryKey(olduuid, newuuid)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getChangesMaatregelenOlduuidNewuuid>
+    > = () => getChangesMaatregelenOlduuidNewuuid(olduuid, newuuid)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getChangesMaatregelenOlduuidNewuuid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!(olduuid && newuuid), ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Shows the changes between two versions of objects
  */
-export const getChangesThemasOlduuidNewuuid = <
-    TData = GetChangesThemasOlduuidNewuuid200
->(
+export const getChangesThemasOlduuidNewuuid = (
     olduuid: string,
     newuuid: string
 ) => {
-    return customInstance<TData>({
+    return customInstance<GetChangesThemasOlduuidNewuuid200>({
         url: `/changes/themas/${olduuid}/${newuuid}`,
         method: 'get',
     })
 }
 
+export const getGetChangesThemasOlduuidNewuuidQueryKey = (
+    olduuid: string,
+    newuuid: string
+) => [`/changes/themas/${olduuid}/${newuuid}`]
+
+export const useGetChangesThemasOlduuidNewuuid = <
+    TData = AsyncReturnType<typeof getChangesThemasOlduuidNewuuid>,
+    TError =
+        | GetChangesThemasOlduuidNewuuid404
+        | GetChangesThemasOlduuidNewuuid500
+>(
+    olduuid: string,
+    newuuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getChangesThemasOlduuidNewuuid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetChangesThemasOlduuidNewuuidQueryKey(olduuid, newuuid)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getChangesThemasOlduuidNewuuid>
+    > = () => getChangesThemasOlduuidNewuuid(olduuid, newuuid)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getChangesThemasOlduuidNewuuid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!(olduuid && newuuid), ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Shows the changes between two versions of objects
  */
-export const getChangesVerordeningenOlduuidNewuuid = <
-    TData = GetChangesVerordeningenOlduuidNewuuid200
->(
+export const getChangesVerordeningenOlduuidNewuuid = (
     olduuid: string,
     newuuid: string
 ) => {
-    return customInstance<TData>({
+    return customInstance<GetChangesVerordeningenOlduuidNewuuid200>({
         url: `/changes/verordeningen/${olduuid}/${newuuid}`,
         method: 'get',
     })
 }
 
+export const getGetChangesVerordeningenOlduuidNewuuidQueryKey = (
+    olduuid: string,
+    newuuid: string
+) => [`/changes/verordeningen/${olduuid}/${newuuid}`]
+
+export const useGetChangesVerordeningenOlduuidNewuuid = <
+    TData = AsyncReturnType<typeof getChangesVerordeningenOlduuidNewuuid>,
+    TError =
+        | GetChangesVerordeningenOlduuidNewuuid404
+        | GetChangesVerordeningenOlduuidNewuuid500
+>(
+    olduuid: string,
+    newuuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getChangesVerordeningenOlduuidNewuuid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetChangesVerordeningenOlduuidNewuuidQueryKey(olduuid, newuuid)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getChangesVerordeningenOlduuidNewuuid>
+    > = () => getChangesVerordeningenOlduuidNewuuid(olduuid, newuuid)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getChangesVerordeningenOlduuidNewuuid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!(olduuid && newuuid), ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Shows the changes between two versions of objects
  */
-export const getChangesWerkingsgebiedenOlduuidNewuuid = <
-    TData = GetChangesWerkingsgebiedenOlduuidNewuuid200
->(
+export const getChangesWerkingsgebiedenOlduuidNewuuid = (
     olduuid: string,
     newuuid: string
 ) => {
-    return customInstance<TData>({
+    return customInstance<GetChangesWerkingsgebiedenOlduuidNewuuid200>({
         url: `/changes/werkingsgebieden/${olduuid}/${newuuid}`,
         method: 'get',
     })
 }
 
+export const getGetChangesWerkingsgebiedenOlduuidNewuuidQueryKey = (
+    olduuid: string,
+    newuuid: string
+) => [`/changes/werkingsgebieden/${olduuid}/${newuuid}`]
+
+export const useGetChangesWerkingsgebiedenOlduuidNewuuid = <
+    TData = AsyncReturnType<typeof getChangesWerkingsgebiedenOlduuidNewuuid>,
+    TError =
+        | GetChangesWerkingsgebiedenOlduuidNewuuid404
+        | GetChangesWerkingsgebiedenOlduuidNewuuid500
+>(
+    olduuid: string,
+    newuuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getChangesWerkingsgebiedenOlduuidNewuuid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetChangesWerkingsgebiedenOlduuidNewuuidQueryKey(olduuid, newuuid)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getChangesWerkingsgebiedenOlduuidNewuuid>
+    > = () => getChangesWerkingsgebiedenOlduuidNewuuid(olduuid, newuuid)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getChangesWerkingsgebiedenOlduuidNewuuid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!(olduuid && newuuid), ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Gets all the maatregelen lineages and shows the latests object for each
  */
-export const getMaatregelen = <TData = MaatregelenRead[]>(
-    params?: GetMaatregelenParams
-) => {
-    return customInstance<TData>({ url: `/maatregelen`, method: 'get', params })
+export const getMaatregelen = (params?: GetMaatregelenParams) => {
+    return customInstance<MaatregelenRead[]>({
+        url: `/maatregelen`,
+        method: 'get',
+        params,
+    })
+}
+
+export const getGetMaatregelenQueryKey = (params?: GetMaatregelenParams) => [
+    `/maatregelen`,
+    ...(params ? [params] : []),
+]
+
+export const useGetMaatregelen = <
+    TData = AsyncReturnType<typeof getMaatregelen>,
+    TError = GetMaatregelen400
+>(
+    params?: GetMaatregelenParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getMaatregelen>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey = queryOptions?.queryKey ?? getGetMaatregelenQueryKey(params)
+
+    const queryFn: QueryFunction<AsyncReturnType<typeof getMaatregelen>> = () =>
+        getMaatregelen(params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getMaatregelen>,
+        TError,
+        TData
+    >(queryKey, queryFn, queryOptions)
+
+    return {
+        queryKey,
+        ...query,
+    }
 }
 
 /**
  * @summary Creates a new maatregelen lineage
  */
-export const postMaatregelen = <TData = MaatregelenRead>(
-    maatregelenWrite: MaatregelenWrite
-) => {
-    return customInstance<TData>({
+export const postMaatregelen = (maatregelenWrite: MaatregelenWrite) => {
+    return customInstance<MaatregelenRead>({
         url: `/maatregelen`,
         method: 'post',
         data: maatregelenWrite,
     })
 }
 
+export const usePostMaatregelen = <
+    TError = PostMaatregelen400 | PostMaatregelen403 | PostMaatregelen500,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        AsyncReturnType<typeof postMaatregelen>,
+        TError,
+        { data: MaatregelenWrite },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options || {}
+
+    const mutationFn: MutationFunction<
+        AsyncReturnType<typeof postMaatregelen>,
+        { data: MaatregelenWrite }
+    > = props => {
+        const { data } = props || {}
+
+        return postMaatregelen(data)
+    }
+
+    return useMutation<
+        AsyncReturnType<typeof postMaatregelen>,
+        TError,
+        { data: MaatregelenWrite },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
 /**
  * @summary Gets all the maatregelen lineages and shows the latests object for each
  */
-export const getMaatregelenLineageid = <TData = MaatregelenRead[]>(
+export const getMaatregelenLineageid = (
     lineageid: number,
     params?: GetMaatregelenLineageidParams
 ) => {
-    return customInstance<TData>({
+    return customInstance<MaatregelenRead[]>({
         url: `/maatregelen/${lineageid}`,
         method: 'get',
         params,
     })
 }
 
+export const getGetMaatregelenLineageidQueryKey = (
+    lineageid: number,
+    params?: GetMaatregelenLineageidParams
+) => [`/maatregelen/${lineageid}`, ...(params ? [params] : [])]
+
+export const useGetMaatregelenLineageid = <
+    TData = AsyncReturnType<typeof getMaatregelenLineageid>,
+    TError = GetMaatregelenLineageid404
+>(
+    lineageid: number,
+    params?: GetMaatregelenLineageidParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getMaatregelenLineageid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetMaatregelenLineageidQueryKey(lineageid, params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getMaatregelenLineageid>
+    > = () => getMaatregelenLineageid(lineageid, params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getMaatregelenLineageid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!lineageid, ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Adds a new maatregelen to a lineage
  */
-export const patchMaatregelenLineageid = <TData = MaatregelenRead>(
+export const patchMaatregelenLineageid = (
     lineageid: number,
     maatregelenWrite: MaatregelenWrite
 ) => {
-    return customInstance<TData>({
+    return customInstance<MaatregelenRead>({
         url: `/maatregelen/${lineageid}`,
         method: 'patch',
         data: maatregelenWrite,
     })
 }
 
+export const usePatchMaatregelenLineageid = <
+    TError =
+        | PatchMaatregelenLineageid400
+        | PatchMaatregelenLineageid403
+        | PatchMaatregelenLineageid500,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        AsyncReturnType<typeof patchMaatregelenLineageid>,
+        TError,
+        { lineageid: number; data: MaatregelenWrite },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options || {}
+
+    const mutationFn: MutationFunction<
+        AsyncReturnType<typeof patchMaatregelenLineageid>,
+        { lineageid: number; data: MaatregelenWrite }
+    > = props => {
+        const { lineageid, data } = props || {}
+
+        return patchMaatregelenLineageid(lineageid, data)
+    }
+
+    return useMutation<
+        AsyncReturnType<typeof patchMaatregelenLineageid>,
+        TError,
+        { lineageid: number; data: MaatregelenWrite },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
 /**
  * @summary Search for objects with a textual query
  */
-export const getSearch = <TData = GetSearch200>(params?: GetSearchParams) => {
-    return customInstance<TData>({ url: `/search`, method: 'get', params })
+export const getSearch = (params?: GetSearchParams) => {
+    return customInstance<GetSearch200>({
+        url: `/search`,
+        method: 'get',
+        params,
+    })
+}
+
+export const getGetSearchQueryKey = (params?: GetSearchParams) => [
+    `/search`,
+    ...(params ? [params] : []),
+]
+
+export const useGetSearch = <
+    TData = AsyncReturnType<typeof getSearch>,
+    TError = GetSearch400 | GetSearch403
+>(
+    params?: GetSearchParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getSearch>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey = queryOptions?.queryKey ?? getGetSearchQueryKey(params)
+
+    const queryFn: QueryFunction<AsyncReturnType<typeof getSearch>> = () =>
+        getSearch(params)
+
+    const query = useQuery<AsyncReturnType<typeof getSearch>, TError, TData>(
+        queryKey,
+        queryFn,
+        queryOptions
+    )
+
+    return {
+        queryKey,
+        ...query,
+    }
 }
 
 /**
  * @summary Gets all the themas lineages and shows the latests object for each
  */
-export const getThemas = <TData = ThemasRead[]>(params?: GetThemasParams) => {
-    return customInstance<TData>({ url: `/themas`, method: 'get', params })
+export const getThemas = (params?: GetThemasParams) => {
+    return customInstance<ThemasRead[]>({
+        url: `/themas`,
+        method: 'get',
+        params,
+    })
+}
+
+export const getGetThemasQueryKey = (params?: GetThemasParams) => [
+    `/themas`,
+    ...(params ? [params] : []),
+]
+
+export const useGetThemas = <
+    TData = AsyncReturnType<typeof getThemas>,
+    TError = GetThemas400
+>(
+    params?: GetThemasParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getThemas>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey = queryOptions?.queryKey ?? getGetThemasQueryKey(params)
+
+    const queryFn: QueryFunction<AsyncReturnType<typeof getThemas>> = () =>
+        getThemas(params)
+
+    const query = useQuery<AsyncReturnType<typeof getThemas>, TError, TData>(
+        queryKey,
+        queryFn,
+        queryOptions
+    )
+
+    return {
+        queryKey,
+        ...query,
+    }
 }
 
 /**
  * @summary Creates a new themas lineage
  */
-export const postThemas = <TData = ThemasRead>(themasWrite: ThemasWrite) => {
-    return customInstance<TData>({
+export const postThemas = (themasWrite: ThemasWrite) => {
+    return customInstance<ThemasRead>({
         url: `/themas`,
         method: 'post',
         data: themasWrite,
     })
 }
 
+export const usePostThemas = <
+    TError = PostThemas400 | PostThemas403 | PostThemas500,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        AsyncReturnType<typeof postThemas>,
+        TError,
+        { data: ThemasWrite },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options || {}
+
+    const mutationFn: MutationFunction<
+        AsyncReturnType<typeof postThemas>,
+        { data: ThemasWrite }
+    > = props => {
+        const { data } = props || {}
+
+        return postThemas(data)
+    }
+
+    return useMutation<
+        AsyncReturnType<typeof postThemas>,
+        TError,
+        { data: ThemasWrite },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
 /**
  * @summary Gets all the themas lineages and shows the latests object for each
  */
-export const getThemasLineageid = <TData = ThemasRead[]>(
+export const getThemasLineageid = (
     lineageid: number,
     params?: GetThemasLineageidParams
 ) => {
-    return customInstance<TData>({
+    return customInstance<ThemasRead[]>({
         url: `/themas/${lineageid}`,
         method: 'get',
         params,
     })
 }
 
+export const getGetThemasLineageidQueryKey = (
+    lineageid: number,
+    params?: GetThemasLineageidParams
+) => [`/themas/${lineageid}`, ...(params ? [params] : [])]
+
+export const useGetThemasLineageid = <
+    TData = AsyncReturnType<typeof getThemasLineageid>,
+    TError = GetThemasLineageid404
+>(
+    lineageid: number,
+    params?: GetThemasLineageidParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getThemasLineageid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetThemasLineageidQueryKey(lineageid, params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getThemasLineageid>
+    > = () => getThemasLineageid(lineageid, params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getThemasLineageid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!lineageid, ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Adds a new themas to a lineage
  */
-export const patchThemasLineageid = <TData = ThemasRead>(
+export const patchThemasLineageid = (
     lineageid: number,
     themasWrite: ThemasWrite
 ) => {
-    return customInstance<TData>({
+    return customInstance<ThemasRead>({
         url: `/themas/${lineageid}`,
         method: 'patch',
         data: themasWrite,
     })
 }
 
+export const usePatchThemasLineageid = <
+    TError =
+        | PatchThemasLineageid400
+        | PatchThemasLineageid403
+        | PatchThemasLineageid500,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        AsyncReturnType<typeof patchThemasLineageid>,
+        TError,
+        { lineageid: number; data: ThemasWrite },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options || {}
+
+    const mutationFn: MutationFunction<
+        AsyncReturnType<typeof patchThemasLineageid>,
+        { lineageid: number; data: ThemasWrite }
+    > = props => {
+        const { lineageid, data } = props || {}
+
+        return patchThemasLineageid(lineageid, data)
+    }
+
+    return useMutation<
+        AsyncReturnType<typeof patchThemasLineageid>,
+        TError,
+        { lineageid: number; data: ThemasWrite },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
 /**
  * @summary Gets all the ambities lineages and shows the latests valid object for each
  */
-export const getValidAmbities = <TData = AmbitiesRead[]>(
-    params?: GetValidAmbitiesParams
-) => {
-    return customInstance<TData>({
+export const getValidAmbities = (params?: GetValidAmbitiesParams) => {
+    return customInstance<AmbitiesRead[]>({
         url: `/valid/ambities`,
         method: 'get',
         params,
     })
 }
 
+export const getGetValidAmbitiesQueryKey = (
+    params?: GetValidAmbitiesParams
+) => [`/valid/ambities`, ...(params ? [params] : [])]
+
+export const useGetValidAmbities = <
+    TData = AsyncReturnType<typeof getValidAmbities>,
+    TError = GetValidAmbities404
+>(
+    params?: GetValidAmbitiesParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getValidAmbities>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getGetValidAmbitiesQueryKey(params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getValidAmbities>
+    > = () => getValidAmbities(params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getValidAmbities>,
+        TError,
+        TData
+    >(queryKey, queryFn, queryOptions)
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Gets all the ambities in this lineage that are valid
  */
-export const getValidAmbitiesLineageid = <TData = AmbitiesRead[]>(
+export const getValidAmbitiesLineageid = (
     lineageid: number,
     params?: GetValidAmbitiesLineageidParams
 ) => {
-    return customInstance<TData>({
+    return customInstance<AmbitiesRead[]>({
         url: `/valid/ambities/${lineageid}`,
         method: 'get',
         params,
     })
 }
 
+export const getGetValidAmbitiesLineageidQueryKey = (
+    lineageid: number,
+    params?: GetValidAmbitiesLineageidParams
+) => [`/valid/ambities/${lineageid}`, ...(params ? [params] : [])]
+
+export const useGetValidAmbitiesLineageid = <
+    TData = AsyncReturnType<typeof getValidAmbitiesLineageid>,
+    TError = GetValidAmbitiesLineageid404
+>(
+    lineageid: number,
+    params?: GetValidAmbitiesLineageidParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getValidAmbitiesLineageid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetValidAmbitiesLineageidQueryKey(lineageid, params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getValidAmbitiesLineageid>
+    > = () => getValidAmbitiesLineageid(lineageid, params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getValidAmbitiesLineageid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!lineageid, ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Gets all the belangen lineages and shows the latests valid object for each
  */
-export const getValidBelangen = <TData = BelangenRead[]>(
-    params?: GetValidBelangenParams
-) => {
-    return customInstance<TData>({
+export const getValidBelangen = (params?: GetValidBelangenParams) => {
+    return customInstance<BelangenRead[]>({
         url: `/valid/belangen`,
         method: 'get',
         params,
     })
 }
 
+export const getGetValidBelangenQueryKey = (
+    params?: GetValidBelangenParams
+) => [`/valid/belangen`, ...(params ? [params] : [])]
+
+export const useGetValidBelangen = <
+    TData = AsyncReturnType<typeof getValidBelangen>,
+    TError = GetValidBelangen404
+>(
+    params?: GetValidBelangenParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getValidBelangen>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getGetValidBelangenQueryKey(params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getValidBelangen>
+    > = () => getValidBelangen(params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getValidBelangen>,
+        TError,
+        TData
+    >(queryKey, queryFn, queryOptions)
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Gets all the belangen in this lineage that are valid
  */
-export const getValidBelangenLineageid = <TData = BelangenRead[]>(
+export const getValidBelangenLineageid = (
     lineageid: number,
     params?: GetValidBelangenLineageidParams
 ) => {
-    return customInstance<TData>({
+    return customInstance<BelangenRead[]>({
         url: `/valid/belangen/${lineageid}`,
         method: 'get',
         params,
     })
 }
 
+export const getGetValidBelangenLineageidQueryKey = (
+    lineageid: number,
+    params?: GetValidBelangenLineageidParams
+) => [`/valid/belangen/${lineageid}`, ...(params ? [params] : [])]
+
+export const useGetValidBelangenLineageid = <
+    TData = AsyncReturnType<typeof getValidBelangenLineageid>,
+    TError = GetValidBelangenLineageid404
+>(
+    lineageid: number,
+    params?: GetValidBelangenLineageidParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getValidBelangenLineageid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetValidBelangenLineageidQueryKey(lineageid, params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getValidBelangenLineageid>
+    > = () => getValidBelangenLineageid(lineageid, params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getValidBelangenLineageid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!lineageid, ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Gets all the beleidsdoelen lineages and shows the latests valid object for each
  */
-export const getValidBeleidsdoelen = <TData = BeleidsdoelenRead[]>(
-    params?: GetValidBeleidsdoelenParams
-) => {
-    return customInstance<TData>({
+export const getValidBeleidsdoelen = (params?: GetValidBeleidsdoelenParams) => {
+    return customInstance<BeleidsdoelenRead[]>({
         url: `/valid/beleidsdoelen`,
         method: 'get',
         params,
     })
 }
 
+export const getGetValidBeleidsdoelenQueryKey = (
+    params?: GetValidBeleidsdoelenParams
+) => [`/valid/beleidsdoelen`, ...(params ? [params] : [])]
+
+export const useGetValidBeleidsdoelen = <
+    TData = AsyncReturnType<typeof getValidBeleidsdoelen>,
+    TError = GetValidBeleidsdoelen404
+>(
+    params?: GetValidBeleidsdoelenParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getValidBeleidsdoelen>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getGetValidBeleidsdoelenQueryKey(params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getValidBeleidsdoelen>
+    > = () => getValidBeleidsdoelen(params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getValidBeleidsdoelen>,
+        TError,
+        TData
+    >(queryKey, queryFn, queryOptions)
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Gets all the beleidsdoelen in this lineage that are valid
  */
-export const getValidBeleidsdoelenLineageid = <TData = BeleidsdoelenRead[]>(
+export const getValidBeleidsdoelenLineageid = (
     lineageid: number,
     params?: GetValidBeleidsdoelenLineageidParams
 ) => {
-    return customInstance<TData>({
+    return customInstance<BeleidsdoelenRead[]>({
         url: `/valid/beleidsdoelen/${lineageid}`,
         method: 'get',
         params,
     })
 }
 
+export const getGetValidBeleidsdoelenLineageidQueryKey = (
+    lineageid: number,
+    params?: GetValidBeleidsdoelenLineageidParams
+) => [`/valid/beleidsdoelen/${lineageid}`, ...(params ? [params] : [])]
+
+export const useGetValidBeleidsdoelenLineageid = <
+    TData = AsyncReturnType<typeof getValidBeleidsdoelenLineageid>,
+    TError = GetValidBeleidsdoelenLineageid404
+>(
+    lineageid: number,
+    params?: GetValidBeleidsdoelenLineageidParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getValidBeleidsdoelenLineageid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetValidBeleidsdoelenLineageidQueryKey(lineageid, params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getValidBeleidsdoelenLineageid>
+    > = () => getValidBeleidsdoelenLineageid(lineageid, params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getValidBeleidsdoelenLineageid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!lineageid, ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Gets all the beleidskeuzes lineages and shows the latests valid object for each
  */
-export const getValidBeleidskeuzes = <TData = BeleidskeuzesRead[]>(
-    params?: GetValidBeleidskeuzesParams
-) => {
-    return customInstance<TData>({
+export const getValidBeleidskeuzes = (params?: GetValidBeleidskeuzesParams) => {
+    return customInstance<BeleidskeuzesRead[]>({
         url: `/valid/beleidskeuzes`,
         method: 'get',
         params,
     })
 }
 
+export const getGetValidBeleidskeuzesQueryKey = (
+    params?: GetValidBeleidskeuzesParams
+) => [`/valid/beleidskeuzes`, ...(params ? [params] : [])]
+
+export const useGetValidBeleidskeuzes = <
+    TData = AsyncReturnType<typeof getValidBeleidskeuzes>,
+    TError = GetValidBeleidskeuzes404
+>(
+    params?: GetValidBeleidskeuzesParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getValidBeleidskeuzes>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getGetValidBeleidskeuzesQueryKey(params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getValidBeleidskeuzes>
+    > = () => getValidBeleidskeuzes(params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getValidBeleidskeuzes>,
+        TError,
+        TData
+    >(queryKey, queryFn, queryOptions)
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Gets all the beleidskeuzes in this lineage that are valid
  */
-export const getValidBeleidskeuzesLineageid = <TData = BeleidskeuzesRead[]>(
+export const getValidBeleidskeuzesLineageid = (
     lineageid: number,
     params?: GetValidBeleidskeuzesLineageidParams
 ) => {
-    return customInstance<TData>({
+    return customInstance<BeleidskeuzesRead[]>({
         url: `/valid/beleidskeuzes/${lineageid}`,
         method: 'get',
         params,
     })
 }
 
+export const getGetValidBeleidskeuzesLineageidQueryKey = (
+    lineageid: number,
+    params?: GetValidBeleidskeuzesLineageidParams
+) => [`/valid/beleidskeuzes/${lineageid}`, ...(params ? [params] : [])]
+
+export const useGetValidBeleidskeuzesLineageid = <
+    TData = AsyncReturnType<typeof getValidBeleidskeuzesLineageid>,
+    TError = GetValidBeleidskeuzesLineageid404
+>(
+    lineageid: number,
+    params?: GetValidBeleidskeuzesLineageidParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getValidBeleidskeuzesLineageid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetValidBeleidskeuzesLineageidQueryKey(lineageid, params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getValidBeleidskeuzesLineageid>
+    > = () => getValidBeleidskeuzesLineageid(lineageid, params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getValidBeleidskeuzesLineageid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!lineageid, ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Gets all the beleidsmodules lineages and shows the latests valid object for each
  */
-export const getValidBeleidsmodules = <TData = BeleidsmodulesRead[]>(
+export const getValidBeleidsmodules = (
     params?: GetValidBeleidsmodulesParams
 ) => {
-    return customInstance<TData>({
+    return customInstance<BeleidsmodulesRead[]>({
         url: `/valid/beleidsmodules`,
         method: 'get',
         params,
     })
 }
 
+export const getGetValidBeleidsmodulesQueryKey = (
+    params?: GetValidBeleidsmodulesParams
+) => [`/valid/beleidsmodules`, ...(params ? [params] : [])]
+
+export const useGetValidBeleidsmodules = <
+    TData = AsyncReturnType<typeof getValidBeleidsmodules>,
+    TError = GetValidBeleidsmodules404
+>(
+    params?: GetValidBeleidsmodulesParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getValidBeleidsmodules>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getGetValidBeleidsmodulesQueryKey(params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getValidBeleidsmodules>
+    > = () => getValidBeleidsmodules(params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getValidBeleidsmodules>,
+        TError,
+        TData
+    >(queryKey, queryFn, queryOptions)
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Gets all the beleidsmodules in this lineage that are valid
  */
-export const getValidBeleidsmodulesLineageid = <TData = BeleidsmodulesRead[]>(
+export const getValidBeleidsmodulesLineageid = (
     lineageid: number,
     params?: GetValidBeleidsmodulesLineageidParams
 ) => {
-    return customInstance<TData>({
+    return customInstance<BeleidsmodulesRead[]>({
         url: `/valid/beleidsmodules/${lineageid}`,
         method: 'get',
         params,
     })
 }
 
+export const getGetValidBeleidsmodulesLineageidQueryKey = (
+    lineageid: number,
+    params?: GetValidBeleidsmodulesLineageidParams
+) => [`/valid/beleidsmodules/${lineageid}`, ...(params ? [params] : [])]
+
+export const useGetValidBeleidsmodulesLineageid = <
+    TData = AsyncReturnType<typeof getValidBeleidsmodulesLineageid>,
+    TError = GetValidBeleidsmodulesLineageid404
+>(
+    lineageid: number,
+    params?: GetValidBeleidsmodulesLineageidParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getValidBeleidsmodulesLineageid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetValidBeleidsmodulesLineageidQueryKey(lineageid, params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getValidBeleidsmodulesLineageid>
+    > = () => getValidBeleidsmodulesLineageid(lineageid, params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getValidBeleidsmodulesLineageid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!lineageid, ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Gets all the beleidsprestaties lineages and shows the latests valid object for each
  */
-export const getValidBeleidsprestaties = <TData = BeleidsprestatiesRead[]>(
+export const getValidBeleidsprestaties = (
     params?: GetValidBeleidsprestatiesParams
 ) => {
-    return customInstance<TData>({
+    return customInstance<BeleidsprestatiesRead[]>({
         url: `/valid/beleidsprestaties`,
         method: 'get',
         params,
     })
 }
 
+export const getGetValidBeleidsprestatiesQueryKey = (
+    params?: GetValidBeleidsprestatiesParams
+) => [`/valid/beleidsprestaties`, ...(params ? [params] : [])]
+
+export const useGetValidBeleidsprestaties = <
+    TData = AsyncReturnType<typeof getValidBeleidsprestaties>,
+    TError = GetValidBeleidsprestaties404
+>(
+    params?: GetValidBeleidsprestatiesParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getValidBeleidsprestaties>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getGetValidBeleidsprestatiesQueryKey(params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getValidBeleidsprestaties>
+    > = () => getValidBeleidsprestaties(params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getValidBeleidsprestaties>,
+        TError,
+        TData
+    >(queryKey, queryFn, queryOptions)
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Gets all the beleidsprestaties in this lineage that are valid
  */
-export const getValidBeleidsprestatiesLineageid = <
-    TData = BeleidsprestatiesRead[]
->(
+export const getValidBeleidsprestatiesLineageid = (
     lineageid: number,
     params?: GetValidBeleidsprestatiesLineageidParams
 ) => {
-    return customInstance<TData>({
+    return customInstance<BeleidsprestatiesRead[]>({
         url: `/valid/beleidsprestaties/${lineageid}`,
         method: 'get',
         params,
     })
 }
 
+export const getGetValidBeleidsprestatiesLineageidQueryKey = (
+    lineageid: number,
+    params?: GetValidBeleidsprestatiesLineageidParams
+) => [`/valid/beleidsprestaties/${lineageid}`, ...(params ? [params] : [])]
+
+export const useGetValidBeleidsprestatiesLineageid = <
+    TData = AsyncReturnType<typeof getValidBeleidsprestatiesLineageid>,
+    TError = GetValidBeleidsprestatiesLineageid404
+>(
+    lineageid: number,
+    params?: GetValidBeleidsprestatiesLineageidParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getValidBeleidsprestatiesLineageid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetValidBeleidsprestatiesLineageidQueryKey(lineageid, params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getValidBeleidsprestatiesLineageid>
+    > = () => getValidBeleidsprestatiesLineageid(lineageid, params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getValidBeleidsprestatiesLineageid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!lineageid, ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Gets all the beleidsregels lineages and shows the latests valid object for each
  */
-export const getValidBeleidsregels = <TData = BeleidsregelsRead[]>(
-    params?: GetValidBeleidsregelsParams
-) => {
-    return customInstance<TData>({
+export const getValidBeleidsregels = (params?: GetValidBeleidsregelsParams) => {
+    return customInstance<BeleidsregelsRead[]>({
         url: `/valid/beleidsregels`,
         method: 'get',
         params,
     })
 }
 
+export const getGetValidBeleidsregelsQueryKey = (
+    params?: GetValidBeleidsregelsParams
+) => [`/valid/beleidsregels`, ...(params ? [params] : [])]
+
+export const useGetValidBeleidsregels = <
+    TData = AsyncReturnType<typeof getValidBeleidsregels>,
+    TError = GetValidBeleidsregels404
+>(
+    params?: GetValidBeleidsregelsParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getValidBeleidsregels>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getGetValidBeleidsregelsQueryKey(params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getValidBeleidsregels>
+    > = () => getValidBeleidsregels(params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getValidBeleidsregels>,
+        TError,
+        TData
+    >(queryKey, queryFn, queryOptions)
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Gets all the beleidsregels in this lineage that are valid
  */
-export const getValidBeleidsregelsLineageid = <TData = BeleidsregelsRead[]>(
+export const getValidBeleidsregelsLineageid = (
     lineageid: number,
     params?: GetValidBeleidsregelsLineageidParams
 ) => {
-    return customInstance<TData>({
+    return customInstance<BeleidsregelsRead[]>({
         url: `/valid/beleidsregels/${lineageid}`,
         method: 'get',
         params,
     })
 }
 
+export const getGetValidBeleidsregelsLineageidQueryKey = (
+    lineageid: number,
+    params?: GetValidBeleidsregelsLineageidParams
+) => [`/valid/beleidsregels/${lineageid}`, ...(params ? [params] : [])]
+
+export const useGetValidBeleidsregelsLineageid = <
+    TData = AsyncReturnType<typeof getValidBeleidsregelsLineageid>,
+    TError = GetValidBeleidsregelsLineageid404
+>(
+    lineageid: number,
+    params?: GetValidBeleidsregelsLineageidParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getValidBeleidsregelsLineageid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetValidBeleidsregelsLineageidQueryKey(lineageid, params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getValidBeleidsregelsLineageid>
+    > = () => getValidBeleidsregelsLineageid(lineageid, params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getValidBeleidsregelsLineageid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!lineageid, ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Gets all the beleidsrelaties lineages and shows the latests valid object for each
  */
-export const getValidBeleidsrelaties = <TData = BeleidsrelatiesRead[]>(
+export const getValidBeleidsrelaties = (
     params?: GetValidBeleidsrelatiesParams
 ) => {
-    return customInstance<TData>({
+    return customInstance<BeleidsrelatiesRead[]>({
         url: `/valid/beleidsrelaties`,
         method: 'get',
         params,
     })
 }
 
+export const getGetValidBeleidsrelatiesQueryKey = (
+    params?: GetValidBeleidsrelatiesParams
+) => [`/valid/beleidsrelaties`, ...(params ? [params] : [])]
+
+export const useGetValidBeleidsrelaties = <
+    TData = AsyncReturnType<typeof getValidBeleidsrelaties>,
+    TError = GetValidBeleidsrelaties404
+>(
+    params?: GetValidBeleidsrelatiesParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getValidBeleidsrelaties>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getGetValidBeleidsrelatiesQueryKey(params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getValidBeleidsrelaties>
+    > = () => getValidBeleidsrelaties(params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getValidBeleidsrelaties>,
+        TError,
+        TData
+    >(queryKey, queryFn, queryOptions)
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Gets all the beleidsrelaties in this lineage that are valid
  */
-export const getValidBeleidsrelatiesLineageid = <TData = BeleidsrelatiesRead[]>(
+export const getValidBeleidsrelatiesLineageid = (
     lineageid: number,
     params?: GetValidBeleidsrelatiesLineageidParams
 ) => {
-    return customInstance<TData>({
+    return customInstance<BeleidsrelatiesRead[]>({
         url: `/valid/beleidsrelaties/${lineageid}`,
         method: 'get',
         params,
     })
 }
 
+export const getGetValidBeleidsrelatiesLineageidQueryKey = (
+    lineageid: number,
+    params?: GetValidBeleidsrelatiesLineageidParams
+) => [`/valid/beleidsrelaties/${lineageid}`, ...(params ? [params] : [])]
+
+export const useGetValidBeleidsrelatiesLineageid = <
+    TData = AsyncReturnType<typeof getValidBeleidsrelatiesLineageid>,
+    TError = GetValidBeleidsrelatiesLineageid404
+>(
+    lineageid: number,
+    params?: GetValidBeleidsrelatiesLineageidParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getValidBeleidsrelatiesLineageid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetValidBeleidsrelatiesLineageidQueryKey(lineageid, params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getValidBeleidsrelatiesLineageid>
+    > = () => getValidBeleidsrelatiesLineageid(lineageid, params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getValidBeleidsrelatiesLineageid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!lineageid, ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Gets all the maatregelen lineages and shows the latests valid object for each
  */
-export const getValidMaatregelen = <TData = MaatregelenRead[]>(
-    params?: GetValidMaatregelenParams
-) => {
-    return customInstance<TData>({
+export const getValidMaatregelen = (params?: GetValidMaatregelenParams) => {
+    return customInstance<MaatregelenRead[]>({
         url: `/valid/maatregelen`,
         method: 'get',
         params,
     })
 }
 
+export const getGetValidMaatregelenQueryKey = (
+    params?: GetValidMaatregelenParams
+) => [`/valid/maatregelen`, ...(params ? [params] : [])]
+
+export const useGetValidMaatregelen = <
+    TData = AsyncReturnType<typeof getValidMaatregelen>,
+    TError = GetValidMaatregelen404
+>(
+    params?: GetValidMaatregelenParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getValidMaatregelen>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getGetValidMaatregelenQueryKey(params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getValidMaatregelen>
+    > = () => getValidMaatregelen(params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getValidMaatregelen>,
+        TError,
+        TData
+    >(queryKey, queryFn, queryOptions)
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Gets all the maatregelen in this lineage that are valid
  */
-export const getValidMaatregelenLineageid = <TData = MaatregelenRead[]>(
+export const getValidMaatregelenLineageid = (
     lineageid: number,
     params?: GetValidMaatregelenLineageidParams
 ) => {
-    return customInstance<TData>({
+    return customInstance<MaatregelenRead[]>({
         url: `/valid/maatregelen/${lineageid}`,
         method: 'get',
         params,
     })
 }
 
+export const getGetValidMaatregelenLineageidQueryKey = (
+    lineageid: number,
+    params?: GetValidMaatregelenLineageidParams
+) => [`/valid/maatregelen/${lineageid}`, ...(params ? [params] : [])]
+
+export const useGetValidMaatregelenLineageid = <
+    TData = AsyncReturnType<typeof getValidMaatregelenLineageid>,
+    TError = GetValidMaatregelenLineageid404
+>(
+    lineageid: number,
+    params?: GetValidMaatregelenLineageidParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getValidMaatregelenLineageid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetValidMaatregelenLineageidQueryKey(lineageid, params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getValidMaatregelenLineageid>
+    > = () => getValidMaatregelenLineageid(lineageid, params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getValidMaatregelenLineageid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!lineageid, ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Gets all the themas lineages and shows the latests valid object for each
  */
-export const getValidThemas = <TData = ThemasRead[]>(
-    params?: GetValidThemasParams
-) => {
-    return customInstance<TData>({
+export const getValidThemas = (params?: GetValidThemasParams) => {
+    return customInstance<ThemasRead[]>({
         url: `/valid/themas`,
         method: 'get',
         params,
     })
 }
 
+export const getGetValidThemasQueryKey = (params?: GetValidThemasParams) => [
+    `/valid/themas`,
+    ...(params ? [params] : []),
+]
+
+export const useGetValidThemas = <
+    TData = AsyncReturnType<typeof getValidThemas>,
+    TError = GetValidThemas404
+>(
+    params?: GetValidThemasParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getValidThemas>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey = queryOptions?.queryKey ?? getGetValidThemasQueryKey(params)
+
+    const queryFn: QueryFunction<AsyncReturnType<typeof getValidThemas>> = () =>
+        getValidThemas(params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getValidThemas>,
+        TError,
+        TData
+    >(queryKey, queryFn, queryOptions)
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Gets all the themas in this lineage that are valid
  */
-export const getValidThemasLineageid = <TData = ThemasRead[]>(
+export const getValidThemasLineageid = (
     lineageid: number,
     params?: GetValidThemasLineageidParams
 ) => {
-    return customInstance<TData>({
+    return customInstance<ThemasRead[]>({
         url: `/valid/themas/${lineageid}`,
         method: 'get',
         params,
     })
 }
 
+export const getGetValidThemasLineageidQueryKey = (
+    lineageid: number,
+    params?: GetValidThemasLineageidParams
+) => [`/valid/themas/${lineageid}`, ...(params ? [params] : [])]
+
+export const useGetValidThemasLineageid = <
+    TData = AsyncReturnType<typeof getValidThemasLineageid>,
+    TError = GetValidThemasLineageid404
+>(
+    lineageid: number,
+    params?: GetValidThemasLineageidParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getValidThemasLineageid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetValidThemasLineageidQueryKey(lineageid, params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getValidThemasLineageid>
+    > = () => getValidThemasLineageid(lineageid, params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getValidThemasLineageid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!lineageid, ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Gets all the verordeningen lineages and shows the latests valid object for each
  */
-export const getValidVerordeningen = <TData = VerordeningenRead[]>(
-    params?: GetValidVerordeningenParams
-) => {
-    return customInstance<TData>({
+export const getValidVerordeningen = (params?: GetValidVerordeningenParams) => {
+    return customInstance<VerordeningenRead[]>({
         url: `/valid/verordeningen`,
         method: 'get',
         params,
     })
 }
 
+export const getGetValidVerordeningenQueryKey = (
+    params?: GetValidVerordeningenParams
+) => [`/valid/verordeningen`, ...(params ? [params] : [])]
+
+export const useGetValidVerordeningen = <
+    TData = AsyncReturnType<typeof getValidVerordeningen>,
+    TError = GetValidVerordeningen404
+>(
+    params?: GetValidVerordeningenParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getValidVerordeningen>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getGetValidVerordeningenQueryKey(params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getValidVerordeningen>
+    > = () => getValidVerordeningen(params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getValidVerordeningen>,
+        TError,
+        TData
+    >(queryKey, queryFn, queryOptions)
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Gets all the verordeningen in this lineage that are valid
  */
-export const getValidVerordeningenLineageid = <TData = VerordeningenRead[]>(
+export const getValidVerordeningenLineageid = (
     lineageid: number,
     params?: GetValidVerordeningenLineageidParams
 ) => {
-    return customInstance<TData>({
+    return customInstance<VerordeningenRead[]>({
         url: `/valid/verordeningen/${lineageid}`,
         method: 'get',
         params,
     })
 }
 
+export const getGetValidVerordeningenLineageidQueryKey = (
+    lineageid: number,
+    params?: GetValidVerordeningenLineageidParams
+) => [`/valid/verordeningen/${lineageid}`, ...(params ? [params] : [])]
+
+export const useGetValidVerordeningenLineageid = <
+    TData = AsyncReturnType<typeof getValidVerordeningenLineageid>,
+    TError = GetValidVerordeningenLineageid404
+>(
+    lineageid: number,
+    params?: GetValidVerordeningenLineageidParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getValidVerordeningenLineageid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetValidVerordeningenLineageidQueryKey(lineageid, params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getValidVerordeningenLineageid>
+    > = () => getValidVerordeningenLineageid(lineageid, params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getValidVerordeningenLineageid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!lineageid, ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Gets all the werkingsgebieden lineages and shows the latests valid object for each
  */
-export const getValidWerkingsgebieden = <TData = WerkingsgebiedenRead[]>(
+export const getValidWerkingsgebieden = (
     params?: GetValidWerkingsgebiedenParams
 ) => {
-    return customInstance<TData>({
+    return customInstance<WerkingsgebiedenRead[]>({
         url: `/valid/werkingsgebieden`,
         method: 'get',
         params,
     })
 }
 
+export const getGetValidWerkingsgebiedenQueryKey = (
+    params?: GetValidWerkingsgebiedenParams
+) => [`/valid/werkingsgebieden`, ...(params ? [params] : [])]
+
+export const useGetValidWerkingsgebieden = <
+    TData = AsyncReturnType<typeof getValidWerkingsgebieden>,
+    TError = GetValidWerkingsgebieden404
+>(
+    params?: GetValidWerkingsgebiedenParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getValidWerkingsgebieden>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getGetValidWerkingsgebiedenQueryKey(params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getValidWerkingsgebieden>
+    > = () => getValidWerkingsgebieden(params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getValidWerkingsgebieden>,
+        TError,
+        TData
+    >(queryKey, queryFn, queryOptions)
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Gets all the werkingsgebieden in this lineage that are valid
  */
-export const getValidWerkingsgebiedenLineageid = <
-    TData = WerkingsgebiedenRead[]
->(
+export const getValidWerkingsgebiedenLineageid = (
     lineageid: number,
     params?: GetValidWerkingsgebiedenLineageidParams
 ) => {
-    return customInstance<TData>({
+    return customInstance<WerkingsgebiedenRead[]>({
         url: `/valid/werkingsgebieden/${lineageid}`,
         method: 'get',
         params,
     })
 }
 
+export const getGetValidWerkingsgebiedenLineageidQueryKey = (
+    lineageid: number,
+    params?: GetValidWerkingsgebiedenLineageidParams
+) => [`/valid/werkingsgebieden/${lineageid}`, ...(params ? [params] : [])]
+
+export const useGetValidWerkingsgebiedenLineageid = <
+    TData = AsyncReturnType<typeof getValidWerkingsgebiedenLineageid>,
+    TError = GetValidWerkingsgebiedenLineageid404
+>(
+    lineageid: number,
+    params?: GetValidWerkingsgebiedenLineageidParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getValidWerkingsgebiedenLineageid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetValidWerkingsgebiedenLineageidQueryKey(lineageid, params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getValidWerkingsgebiedenLineageid>
+    > = () => getValidWerkingsgebiedenLineageid(lineageid, params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getValidWerkingsgebiedenLineageid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!lineageid, ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Gets all the verordeningen lineages and shows the latests object for each
  */
-export const getVerordeningen = <TData = VerordeningenRead[]>(
-    params?: GetVerordeningenParams
-) => {
-    return customInstance<TData>({
+export const getVerordeningen = (params?: GetVerordeningenParams) => {
+    return customInstance<VerordeningenRead[]>({
         url: `/verordeningen`,
         method: 'get',
         params,
     })
 }
 
+export const getGetVerordeningenQueryKey = (
+    params?: GetVerordeningenParams
+) => [`/verordeningen`, ...(params ? [params] : [])]
+
+export const useGetVerordeningen = <
+    TData = AsyncReturnType<typeof getVerordeningen>,
+    TError = GetVerordeningen400
+>(
+    params?: GetVerordeningenParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getVerordeningen>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getGetVerordeningenQueryKey(params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getVerordeningen>
+    > = () => getVerordeningen(params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getVerordeningen>,
+        TError,
+        TData
+    >(queryKey, queryFn, queryOptions)
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Creates a new verordeningen lineage
  */
-export const postVerordeningen = <TData = VerordeningenRead>(
-    verordeningenWrite: VerordeningenWrite
-) => {
-    return customInstance<TData>({
+export const postVerordeningen = (verordeningenWrite: VerordeningenWrite) => {
+    return customInstance<VerordeningenRead>({
         url: `/verordeningen`,
         method: 'post',
         data: verordeningenWrite,
     })
 }
 
+export const usePostVerordeningen = <
+    TError = PostVerordeningen400 | PostVerordeningen403 | PostVerordeningen500,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        AsyncReturnType<typeof postVerordeningen>,
+        TError,
+        { data: VerordeningenWrite },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options || {}
+
+    const mutationFn: MutationFunction<
+        AsyncReturnType<typeof postVerordeningen>,
+        { data: VerordeningenWrite }
+    > = props => {
+        const { data } = props || {}
+
+        return postVerordeningen(data)
+    }
+
+    return useMutation<
+        AsyncReturnType<typeof postVerordeningen>,
+        TError,
+        { data: VerordeningenWrite },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
 /**
  * @summary Gets all the verordeningen lineages and shows the latests object for each
  */
-export const getVerordeningenLineageid = <TData = VerordeningenRead[]>(
+export const getVerordeningenLineageid = (
     lineageid: number,
     params?: GetVerordeningenLineageidParams
 ) => {
-    return customInstance<TData>({
+    return customInstance<VerordeningenRead[]>({
         url: `/verordeningen/${lineageid}`,
         method: 'get',
         params,
     })
 }
 
+export const getGetVerordeningenLineageidQueryKey = (
+    lineageid: number,
+    params?: GetVerordeningenLineageidParams
+) => [`/verordeningen/${lineageid}`, ...(params ? [params] : [])]
+
+export const useGetVerordeningenLineageid = <
+    TData = AsyncReturnType<typeof getVerordeningenLineageid>,
+    TError = GetVerordeningenLineageid404
+>(
+    lineageid: number,
+    params?: GetVerordeningenLineageidParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getVerordeningenLineageid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetVerordeningenLineageidQueryKey(lineageid, params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getVerordeningenLineageid>
+    > = () => getVerordeningenLineageid(lineageid, params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getVerordeningenLineageid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!lineageid, ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Adds a new verordeningen to a lineage
  */
-export const patchVerordeningenLineageid = <TData = VerordeningenRead>(
+export const patchVerordeningenLineageid = (
     lineageid: number,
     verordeningenWrite: VerordeningenWrite
 ) => {
-    return customInstance<TData>({
+    return customInstance<VerordeningenRead>({
         url: `/verordeningen/${lineageid}`,
         method: 'patch',
         data: verordeningenWrite,
     })
 }
 
+export const usePatchVerordeningenLineageid = <
+    TError =
+        | PatchVerordeningenLineageid400
+        | PatchVerordeningenLineageid403
+        | PatchVerordeningenLineageid500,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        AsyncReturnType<typeof patchVerordeningenLineageid>,
+        TError,
+        { lineageid: number; data: VerordeningenWrite },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options || {}
+
+    const mutationFn: MutationFunction<
+        AsyncReturnType<typeof patchVerordeningenLineageid>,
+        { lineageid: number; data: VerordeningenWrite }
+    > = props => {
+        const { lineageid, data } = props || {}
+
+        return patchVerordeningenLineageid(lineageid, data)
+    }
+
+    return useMutation<
+        AsyncReturnType<typeof patchVerordeningenLineageid>,
+        TError,
+        { lineageid: number; data: VerordeningenWrite },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
 /**
  * @summary Gets all the ambities lineages and shows the latests object for each
  */
-export const getVersionAmbitiesObjectuuid = <TData = AmbitiesRead>(
-    objectuuid: string
-) => {
-    return customInstance<TData>({
+export const getVersionAmbitiesObjectuuid = (objectuuid: string) => {
+    return customInstance<AmbitiesRead>({
         url: `/version/ambities/${objectuuid}`,
         method: 'get',
     })
 }
 
+export const getGetVersionAmbitiesObjectuuidQueryKey = (objectuuid: string) => [
+    `/version/ambities/${objectuuid}`,
+]
+
+export const useGetVersionAmbitiesObjectuuid = <
+    TData = AsyncReturnType<typeof getVersionAmbitiesObjectuuid>,
+    TError = GetVersionAmbitiesObjectuuid404
+>(
+    objectuuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getVersionAmbitiesObjectuuid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetVersionAmbitiesObjectuuidQueryKey(objectuuid)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getVersionAmbitiesObjectuuid>
+    > = () => getVersionAmbitiesObjectuuid(objectuuid)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getVersionAmbitiesObjectuuid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!objectuuid, ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Gets all the belangen lineages and shows the latests object for each
  */
-export const getVersionBelangenObjectuuid = <TData = BelangenRead>(
-    objectuuid: string
-) => {
-    return customInstance<TData>({
+export const getVersionBelangenObjectuuid = (objectuuid: string) => {
+    return customInstance<BelangenRead>({
         url: `/version/belangen/${objectuuid}`,
         method: 'get',
     })
 }
 
+export const getGetVersionBelangenObjectuuidQueryKey = (objectuuid: string) => [
+    `/version/belangen/${objectuuid}`,
+]
+
+export const useGetVersionBelangenObjectuuid = <
+    TData = AsyncReturnType<typeof getVersionBelangenObjectuuid>,
+    TError = GetVersionBelangenObjectuuid404
+>(
+    objectuuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getVersionBelangenObjectuuid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetVersionBelangenObjectuuidQueryKey(objectuuid)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getVersionBelangenObjectuuid>
+    > = () => getVersionBelangenObjectuuid(objectuuid)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getVersionBelangenObjectuuid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!objectuuid, ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Gets all the beleidsdoelen lineages and shows the latests object for each
  */
-export const getVersionBeleidsdoelenObjectuuid = <TData = BeleidsdoelenRead>(
-    objectuuid: string
-) => {
-    return customInstance<TData>({
+export const getVersionBeleidsdoelenObjectuuid = (objectuuid: string) => {
+    return customInstance<BeleidsdoelenRead>({
         url: `/version/beleidsdoelen/${objectuuid}`,
         method: 'get',
     })
 }
 
+export const getGetVersionBeleidsdoelenObjectuuidQueryKey = (
+    objectuuid: string
+) => [`/version/beleidsdoelen/${objectuuid}`]
+
+export const useGetVersionBeleidsdoelenObjectuuid = <
+    TData = AsyncReturnType<typeof getVersionBeleidsdoelenObjectuuid>,
+    TError = GetVersionBeleidsdoelenObjectuuid404
+>(
+    objectuuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getVersionBeleidsdoelenObjectuuid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetVersionBeleidsdoelenObjectuuidQueryKey(objectuuid)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getVersionBeleidsdoelenObjectuuid>
+    > = () => getVersionBeleidsdoelenObjectuuid(objectuuid)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getVersionBeleidsdoelenObjectuuid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!objectuuid, ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Gets all the beleidskeuzes lineages and shows the latests object for each
  */
-export const getVersionBeleidskeuzesObjectuuid = <TData = BeleidskeuzesRead>(
-    objectuuid: string
-) => {
-    return customInstance<TData>({
+export const getVersionBeleidskeuzesObjectuuid = (objectuuid: string) => {
+    return customInstance<BeleidskeuzesRead>({
         url: `/version/beleidskeuzes/${objectuuid}`,
         method: 'get',
     })
 }
 
+export const getGetVersionBeleidskeuzesObjectuuidQueryKey = (
+    objectuuid: string
+) => [`/version/beleidskeuzes/${objectuuid}`]
+
+export const useGetVersionBeleidskeuzesObjectuuid = <
+    TData = AsyncReturnType<typeof getVersionBeleidskeuzesObjectuuid>,
+    TError = GetVersionBeleidskeuzesObjectuuid404
+>(
+    objectuuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getVersionBeleidskeuzesObjectuuid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetVersionBeleidskeuzesObjectuuidQueryKey(objectuuid)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getVersionBeleidskeuzesObjectuuid>
+    > = () => getVersionBeleidskeuzesObjectuuid(objectuuid)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getVersionBeleidskeuzesObjectuuid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!objectuuid, ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Gets all the beleidsmodules lineages and shows the latests object for each
  */
-export const getVersionBeleidsmodulesObjectuuid = <TData = BeleidsmodulesRead>(
-    objectuuid: string
-) => {
-    return customInstance<TData>({
+export const getVersionBeleidsmodulesObjectuuid = (objectuuid: string) => {
+    return customInstance<BeleidsmodulesRead>({
         url: `/version/beleidsmodules/${objectuuid}`,
         method: 'get',
     })
 }
 
+export const getGetVersionBeleidsmodulesObjectuuidQueryKey = (
+    objectuuid: string
+) => [`/version/beleidsmodules/${objectuuid}`]
+
+export const useGetVersionBeleidsmodulesObjectuuid = <
+    TData = AsyncReturnType<typeof getVersionBeleidsmodulesObjectuuid>,
+    TError = GetVersionBeleidsmodulesObjectuuid404
+>(
+    objectuuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getVersionBeleidsmodulesObjectuuid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetVersionBeleidsmodulesObjectuuidQueryKey(objectuuid)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getVersionBeleidsmodulesObjectuuid>
+    > = () => getVersionBeleidsmodulesObjectuuid(objectuuid)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getVersionBeleidsmodulesObjectuuid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!objectuuid, ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Gets all the beleidsprestaties lineages and shows the latests object for each
  */
-export const getVersionBeleidsprestatiesObjectuuid = <
-    TData = BeleidsprestatiesRead
->(
-    objectuuid: string
-) => {
-    return customInstance<TData>({
+export const getVersionBeleidsprestatiesObjectuuid = (objectuuid: string) => {
+    return customInstance<BeleidsprestatiesRead>({
         url: `/version/beleidsprestaties/${objectuuid}`,
         method: 'get',
     })
 }
 
+export const getGetVersionBeleidsprestatiesObjectuuidQueryKey = (
+    objectuuid: string
+) => [`/version/beleidsprestaties/${objectuuid}`]
+
+export const useGetVersionBeleidsprestatiesObjectuuid = <
+    TData = AsyncReturnType<typeof getVersionBeleidsprestatiesObjectuuid>,
+    TError = GetVersionBeleidsprestatiesObjectuuid404
+>(
+    objectuuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getVersionBeleidsprestatiesObjectuuid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetVersionBeleidsprestatiesObjectuuidQueryKey(objectuuid)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getVersionBeleidsprestatiesObjectuuid>
+    > = () => getVersionBeleidsprestatiesObjectuuid(objectuuid)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getVersionBeleidsprestatiesObjectuuid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!objectuuid, ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Gets all the beleidsregels lineages and shows the latests object for each
  */
-export const getVersionBeleidsregelsObjectuuid = <TData = BeleidsregelsRead>(
-    objectuuid: string
-) => {
-    return customInstance<TData>({
+export const getVersionBeleidsregelsObjectuuid = (objectuuid: string) => {
+    return customInstance<BeleidsregelsRead>({
         url: `/version/beleidsregels/${objectuuid}`,
         method: 'get',
     })
 }
 
+export const getGetVersionBeleidsregelsObjectuuidQueryKey = (
+    objectuuid: string
+) => [`/version/beleidsregels/${objectuuid}`]
+
+export const useGetVersionBeleidsregelsObjectuuid = <
+    TData = AsyncReturnType<typeof getVersionBeleidsregelsObjectuuid>,
+    TError = GetVersionBeleidsregelsObjectuuid404
+>(
+    objectuuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getVersionBeleidsregelsObjectuuid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetVersionBeleidsregelsObjectuuidQueryKey(objectuuid)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getVersionBeleidsregelsObjectuuid>
+    > = () => getVersionBeleidsregelsObjectuuid(objectuuid)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getVersionBeleidsregelsObjectuuid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!objectuuid, ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Gets all the beleidsrelaties lineages and shows the latests object for each
  */
-export const getVersionBeleidsrelatiesObjectuuid = <
-    TData = BeleidsrelatiesRead
->(
-    objectuuid: string
-) => {
-    return customInstance<TData>({
+export const getVersionBeleidsrelatiesObjectuuid = (objectuuid: string) => {
+    return customInstance<BeleidsrelatiesRead>({
         url: `/version/beleidsrelaties/${objectuuid}`,
         method: 'get',
     })
 }
 
+export const getGetVersionBeleidsrelatiesObjectuuidQueryKey = (
+    objectuuid: string
+) => [`/version/beleidsrelaties/${objectuuid}`]
+
+export const useGetVersionBeleidsrelatiesObjectuuid = <
+    TData = AsyncReturnType<typeof getVersionBeleidsrelatiesObjectuuid>,
+    TError = GetVersionBeleidsrelatiesObjectuuid404
+>(
+    objectuuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getVersionBeleidsrelatiesObjectuuid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetVersionBeleidsrelatiesObjectuuidQueryKey(objectuuid)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getVersionBeleidsrelatiesObjectuuid>
+    > = () => getVersionBeleidsrelatiesObjectuuid(objectuuid)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getVersionBeleidsrelatiesObjectuuid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!objectuuid, ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Gets all the maatregelen lineages and shows the latests object for each
  */
-export const getVersionMaatregelenObjectuuid = <TData = MaatregelenRead>(
-    objectuuid: string
-) => {
-    return customInstance<TData>({
+export const getVersionMaatregelenObjectuuid = (objectuuid: string) => {
+    return customInstance<MaatregelenRead>({
         url: `/version/maatregelen/${objectuuid}`,
         method: 'get',
     })
 }
 
+export const getGetVersionMaatregelenObjectuuidQueryKey = (
+    objectuuid: string
+) => [`/version/maatregelen/${objectuuid}`]
+
+export const useGetVersionMaatregelenObjectuuid = <
+    TData = AsyncReturnType<typeof getVersionMaatregelenObjectuuid>,
+    TError = GetVersionMaatregelenObjectuuid404
+>(
+    objectuuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getVersionMaatregelenObjectuuid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetVersionMaatregelenObjectuuidQueryKey(objectuuid)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getVersionMaatregelenObjectuuid>
+    > = () => getVersionMaatregelenObjectuuid(objectuuid)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getVersionMaatregelenObjectuuid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!objectuuid, ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Gets all the themas lineages and shows the latests object for each
  */
-export const getVersionThemasObjectuuid = <TData = ThemasRead>(
-    objectuuid: string
-) => {
-    return customInstance<TData>({
+export const getVersionThemasObjectuuid = (objectuuid: string) => {
+    return customInstance<ThemasRead>({
         url: `/version/themas/${objectuuid}`,
         method: 'get',
     })
 }
 
+export const getGetVersionThemasObjectuuidQueryKey = (objectuuid: string) => [
+    `/version/themas/${objectuuid}`,
+]
+
+export const useGetVersionThemasObjectuuid = <
+    TData = AsyncReturnType<typeof getVersionThemasObjectuuid>,
+    TError = GetVersionThemasObjectuuid404
+>(
+    objectuuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getVersionThemasObjectuuid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetVersionThemasObjectuuidQueryKey(objectuuid)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getVersionThemasObjectuuid>
+    > = () => getVersionThemasObjectuuid(objectuuid)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getVersionThemasObjectuuid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!objectuuid, ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Gets all the verordeningen lineages and shows the latests object for each
  */
-export const getVersionVerordeningenObjectuuid = <TData = VerordeningenRead>(
-    objectuuid: string
-) => {
-    return customInstance<TData>({
+export const getVersionVerordeningenObjectuuid = (objectuuid: string) => {
+    return customInstance<VerordeningenRead>({
         url: `/version/verordeningen/${objectuuid}`,
         method: 'get',
     })
 }
 
-/**
- * @summary Gets all the werkingsgebieden lineages and shows the latests object for each
- */
-export const getVersionWerkingsgebiedenObjectuuid = <
-    TData = WerkingsgebiedenRead
->(
+export const getGetVersionVerordeningenObjectuuidQueryKey = (
     objectuuid: string
-) => {
-    return customInstance<TData>({
-        url: `/version/werkingsgebieden/${objectuuid}`,
-        method: 'get',
-    })
+) => [`/version/verordeningen/${objectuuid}`]
+
+export const useGetVersionVerordeningenObjectuuid = <
+    TData = AsyncReturnType<typeof getVersionVerordeningenObjectuuid>,
+    TError = GetVersionVerordeningenObjectuuid404
+>(
+    objectuuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getVersionVerordeningenObjectuuid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetVersionVerordeningenObjectuuidQueryKey(objectuuid)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getVersionVerordeningenObjectuuid>
+    > = () => getVersionVerordeningenObjectuuid(objectuuid)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getVersionVerordeningenObjectuuid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!objectuuid, ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
 }
 
 /**
  * @summary Gets all the werkingsgebieden lineages and shows the latests object for each
  */
-export const getWerkingsgebieden = <TData = WerkingsgebiedenRead[]>(
-    params?: GetWerkingsgebiedenParams
-) => {
-    return customInstance<TData>({
+export const getVersionWerkingsgebiedenObjectuuid = (objectuuid: string) => {
+    return customInstance<WerkingsgebiedenRead>({
+        url: `/version/werkingsgebieden/${objectuuid}`,
+        method: 'get',
+    })
+}
+
+export const getGetVersionWerkingsgebiedenObjectuuidQueryKey = (
+    objectuuid: string
+) => [`/version/werkingsgebieden/${objectuuid}`]
+
+export const useGetVersionWerkingsgebiedenObjectuuid = <
+    TData = AsyncReturnType<typeof getVersionWerkingsgebiedenObjectuuid>,
+    TError = GetVersionWerkingsgebiedenObjectuuid404
+>(
+    objectuuid: string,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getVersionWerkingsgebiedenObjectuuid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetVersionWerkingsgebiedenObjectuuidQueryKey(objectuuid)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getVersionWerkingsgebiedenObjectuuid>
+    > = () => getVersionWerkingsgebiedenObjectuuid(objectuuid)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getVersionWerkingsgebiedenObjectuuid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!objectuuid, ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
+/**
+ * @summary Gets all the werkingsgebieden lineages and shows the latests object for each
+ */
+export const getWerkingsgebieden = (params?: GetWerkingsgebiedenParams) => {
+    return customInstance<WerkingsgebiedenRead[]>({
         url: `/werkingsgebieden`,
         method: 'get',
         params,
     })
 }
 
+export const getGetWerkingsgebiedenQueryKey = (
+    params?: GetWerkingsgebiedenParams
+) => [`/werkingsgebieden`, ...(params ? [params] : [])]
+
+export const useGetWerkingsgebieden = <
+    TData = AsyncReturnType<typeof getWerkingsgebieden>,
+    TError = GetWerkingsgebieden400
+>(
+    params?: GetWerkingsgebiedenParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getWerkingsgebieden>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getGetWerkingsgebiedenQueryKey(params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getWerkingsgebieden>
+    > = () => getWerkingsgebieden(params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getWerkingsgebieden>,
+        TError,
+        TData
+    >(queryKey, queryFn, queryOptions)
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
 /**
  * @summary Gets all the werkingsgebieden lineages and shows the latests object for each
  */
-export const getWerkingsgebiedenLineageid = <TData = WerkingsgebiedenRead[]>(
+export const getWerkingsgebiedenLineageid = (
     lineageid: number,
     params?: GetWerkingsgebiedenLineageidParams
 ) => {
-    return customInstance<TData>({
+    return customInstance<WerkingsgebiedenRead[]>({
         url: `/werkingsgebieden/${lineageid}`,
         method: 'get',
         params,
     })
+}
+
+export const getGetWerkingsgebiedenLineageidQueryKey = (
+    lineageid: number,
+    params?: GetWerkingsgebiedenLineageidParams
+) => [`/werkingsgebieden/${lineageid}`, ...(params ? [params] : [])]
+
+export const useGetWerkingsgebiedenLineageid = <
+    TData = AsyncReturnType<typeof getWerkingsgebiedenLineageid>,
+    TError = GetWerkingsgebiedenLineageid404
+>(
+    lineageid: number,
+    params?: GetWerkingsgebiedenLineageidParams,
+    options?: {
+        query?: UseQueryOptions<
+            AsyncReturnType<typeof getWerkingsgebiedenLineageid>,
+            TError,
+            TData
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetWerkingsgebiedenLineageidQueryKey(lineageid, params)
+
+    const queryFn: QueryFunction<
+        AsyncReturnType<typeof getWerkingsgebiedenLineageid>
+    > = () => getWerkingsgebiedenLineageid(lineageid, params)
+
+    const query = useQuery<
+        AsyncReturnType<typeof getWerkingsgebiedenLineageid>,
+        TError,
+        TData
+    >(queryKey, queryFn, { enabled: !!lineageid, ...queryOptions })
+
+    return {
+        queryKey,
+        ...query,
+    }
 }

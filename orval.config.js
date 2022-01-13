@@ -5,10 +5,11 @@ module.exports = {
         },
         output: {
             mode: 'split',
-            target: './api/fetchers.ts',
+            target: './src/api/fetchers.ts',
+            client: 'react-query',
             override: {
                 mutator: {
-                    path: './api/instance.ts',
+                    path: './src/api/instance.ts',
                     name: 'customInstance',
                 },
             },

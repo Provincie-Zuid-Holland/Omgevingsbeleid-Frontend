@@ -9,7 +9,7 @@ export const leafletBounds = Leaflet.bounds(
     [595401.92, 22598.08]
 )
 
-export const RDCrs = new Proj.CRS('EPSG:28992', RDProj4, {
+export const RDCrs = new (Proj as any).CRS('EPSG:28992', RDProj4, {
     origin: [-285401.92, 903401.92],
     resolutions: [
         3440.64, 1720.32, 860.16, 430.08, 215.04, 107.52, 53.76, 26.88, 13.44,
