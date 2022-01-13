@@ -1,6 +1,6 @@
 import { rest } from 'msw'
 
-import { baseURL } from './../api/axios'
+import { baseURL } from './../api/instance'
 import allDimensies from './../constants/dimensies'
 import { ambities } from './data/ambities'
 import { artikel } from './data/artikel'

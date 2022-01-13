@@ -46,19 +46,6 @@ instance.interceptors.response.use(
     }
 )
 
-export const customInstance = config => {
-    const source = axios.CancelToken.source()
-    const promise = instance({ ...config, cancelToken: source.token }).then(
-        ({ data }) => data
-    )
-
-    promise.cancel = () => {
-        source.cancel('Query was cancelled')
-    }
-
-    return promise
-}
-
 const baseURL = instance.defaults.baseURL
 
 export { environment, baseURL }
