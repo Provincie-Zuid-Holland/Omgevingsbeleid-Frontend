@@ -4,7 +4,7 @@ import cloneDeep from 'lodash.clonedeep'
 import { Component } from 'react'
 import { toast } from 'react-toastify'
 
-import axios from '../../../../api/axios'
+import axios from '../../../../apiNew/axios'
 import { PopUpAnimatedContainer } from '../../../Popup'
 import objecten from './../../../../constants/koppelingen'
 

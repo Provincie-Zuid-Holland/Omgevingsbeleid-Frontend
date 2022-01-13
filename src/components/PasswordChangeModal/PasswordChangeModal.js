@@ -5,7 +5,7 @@ import { Transition } from '@headlessui/react'
 import { useEffect, useRef, useState } from 'react'
 import { useKey, useLockBodyScroll } from 'react-use'
 
-import axios from '../../api/axios'
+import axios from '../../apiNew/axios'
 import { LoaderSpinner } from '../Loader'
 import { PopUpAnimatedContainer } from '../Popup'
 

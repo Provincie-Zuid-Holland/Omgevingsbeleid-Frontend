@@ -14,7 +14,7 @@ import { useLocation, useHistory, matchPath } from 'react-router-dom'
 import { useLastLocation } from 'react-router-last-location'
 import { useLockBodyScroll } from 'react-use'
 
-import axios from '@/api/axios'
+import axios from '@/apiNew/axios'
 import networkGraphConnectionProperties from '@/constants/networkGraphConnectionProperties'
 import networkGraphFilterMenu from '@/constants/networkGraphFilterMenu'
 import { getFilteredData } from '@/utils/networkGraph'

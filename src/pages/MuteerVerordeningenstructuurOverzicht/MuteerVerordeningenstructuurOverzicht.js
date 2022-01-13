@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 // Import Componenents
-import axios from '../../api/axios'
+import axios from '../../apiNew/axios'
 import CardObjectDetails from './../../components/CardObjectDetails'
 import { ContainerMain } from './../../components/Container'
 import { LoaderCard } from './../../components/Loader'

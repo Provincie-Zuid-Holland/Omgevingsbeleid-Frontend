@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
-import axios from '../../api/axios'
+import axios from '../../apiNew/axios'
 import ButtonBackToPage from './../../components/ButtonBackToPage'
 import { LoaderSpinner } from './../../components/Loader'
 import allDimensies from './../../constants/dimensies'

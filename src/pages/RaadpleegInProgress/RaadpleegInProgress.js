@@ -12,7 +12,7 @@ import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
 import 'tippy.js/dist/tippy.css'
 
-import axios from '../../api/axios'
+import axios from '../../apiNew/axios'
 import { Container } from '../../components/Container'
 import { LoaderCard } from '../../components/Loader'
 import Button from './../../components/Button'

@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 // Import Componenents
-import axios from '../../api/axios'
+import axios from '../../apiNew/axios'
 import UserContext from './../../App/UserContext'
 import ButtonAddNewObject from './../../components/ButtonAddNewObject'
 import CardObjectDetails from './../../components/CardObjectDetails'

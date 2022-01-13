@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 import { useWindowSize } from 'react-use'
 
-import axios from '../../api/axios'
+import axios from '../../apiNew/axios'
 import { Container } from '../../components/Container'
 import { LoaderCard } from '../../components/Loader'
 import useURLQuery from '../../hooks/useURLQuery'

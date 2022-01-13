@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet'
 import { withRouter } from 'react-router-dom'
 
 // Import Components
-import axios from '../../api/axios'
+import axios from '../../apiNew/axios'
 import { checkIfUserIsAllowedOnPage } from '../../utils/checkIfUserIsAllowedOnPage'
 import { isDateInAValidRange } from '../../utils/isDateInAValidRange'
 import { removeEmptyCRUDProperties } from '../../utils/removeEmptyCRUDProperties'

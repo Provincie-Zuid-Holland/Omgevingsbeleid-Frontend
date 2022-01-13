@@ -7,7 +7,7 @@ import { useContext, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import Select from 'react-select'
 import { useClickAway, useKey, useLockBodyScroll } from 'react-use'
 
-import axios from '../../../api/axios'
+import axios from '../../../apiNew/axios'
 import { LoaderSpinner } from '../../Loader'
 import UserContext from './../../../App/UserContext'
 import networkGraphConnectionProperties from './../../../constants/networkGraphConnectionProperties'

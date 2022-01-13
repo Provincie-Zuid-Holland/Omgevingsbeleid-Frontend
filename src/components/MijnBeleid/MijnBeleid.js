@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
 // Import API
-import axios from '../../api/axios'
+import axios from '../../apiNew/axios'
 // Import Componenten
 import UserContext from './../../App/UserContext'
 import ButtonAddNewObject from './../../components/ButtonAddNewObject'

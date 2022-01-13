@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
 
-import axios from '../../api/axios'
+import axios from '../../apiNew/axios'
 import { Container } from '../../components/Container'
 import Footer from './../../components/Footer'
 import Heading from './../../components/Heading'

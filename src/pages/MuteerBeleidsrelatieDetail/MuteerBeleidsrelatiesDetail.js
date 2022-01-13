@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { Link, withRouter, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
-import axios from '../../api/axios'
+import axios from '../../apiNew/axios'
 import { LoaderMainTitle, LoaderSaving } from '../../components/Loader'
 import SwitchToTabbladButton from './SwitchToTabbladButton'
 import TabDisconnected from './TabDisconnected'

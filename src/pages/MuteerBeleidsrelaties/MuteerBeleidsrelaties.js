@@ -2,7 +2,7 @@ import { useContext, useEffect, useLayoutEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
-import axios from '../../api/axios'
+import axios from '../../apiNew/axios'
 import UserContext from './../../App/UserContext'
 import { ContainerMain } from './../../components/Container'
 import MuteerBeleidsrelatiesDetail from './../MuteerBeleidsrelatieDetail'

@@ -101,7 +101,7 @@ export default class LeafletViewer extends Component {
         layer.bindPopup('Adres aan het laden...').openPopup()
         // layer._popup.setContent('something else')
 
-        import('../../../api/axiosLocatieserver').then(api => {
+        import('../../../apiNew/axiosLocatieserver').then(api => {
             api.getAdresData(lat, lng)
                 .then(data => {
                     const customPopupHTML = `<div>${ReactDOMServer.renderToString(

@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet'
 import { withRouter } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
-import axios from '../../api/axios'
+import axios from '../../apiNew/axios'
 // Import Components
 import ButtonBackToPage from './../../components/ButtonBackToPage'
 import isEndDateBeforeStartDate from './../../utils/isEndDateBeforeStartDate'

@@ -205,7 +205,7 @@ export default class LeafletRevisionOverview extends Component {
         }
 
         this.props.gebiedenUUIDS.forEach(uuid => {
-            import('../../../api/axiosGeoJSON').then(api => {
+            import('../../../apiNew/axiosGeoJSON').then(api => {
                 api.getGeoJsonData('Werkingsgebieden', uuid)
                     .then(data => {
                         this.setState(
@@ -252,7 +252,7 @@ export default class LeafletRevisionOverview extends Component {
                     })
             })
 
-            import('../../../api/axiosGeoJSON').then(api => {
+            import('../../../apiNew/axiosGeoJSON').then(api => {
                 api.getOnderverdeling('Werkingsgebieden', uuid)
                     .then(data => {
                         this.setState(
