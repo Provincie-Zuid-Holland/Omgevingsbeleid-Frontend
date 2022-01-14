@@ -2,11 +2,11 @@ import { Link } from 'react-router-dom'
 import { useWindowSize } from 'react-use'
 
 // Import Components
-import { Container } from '../../components/Container'
-import Footer from '../../components/Footer'
-import Heading from '../../components/Heading'
-import LoginForm from '../../components/LoginForm'
-import Text from '../../components/Text'
+import { Container } from '@/components/Container'
+import Footer from '@/components/Footer'
+import Heading from '@/components/Heading'
+import LoginForm from '@/components/LoginForm'
+import Text from '@/components/Text'
 
 /**
  * Component page that imports the component LoginForm, so the user is able to login the application and reset the password when needed.
