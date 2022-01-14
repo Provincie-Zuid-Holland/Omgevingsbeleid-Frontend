@@ -1,3 +1,1 @@
-import LoaderWerkingsgebiedCard from './LoaderWerkingsgebiedCard'
-
-export default LoaderWerkingsgebiedCard
+export { default } from './LoaderWerkingsgebiedCard'

@@ -1,3 +1,1 @@
-import PopUpBewerkKoppeling from './PopUpBewerkKoppeling'
-
-export default PopUpBewerkKoppeling
+export { default } from './PopUpBewerkKoppeling'

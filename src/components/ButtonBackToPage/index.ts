@@ -1,3 +1,1 @@
-import ButtonBackToPage from './ButtonBackToPage'
-
-export default ButtonBackToPage
+export { default } from './ButtonBackToPage'

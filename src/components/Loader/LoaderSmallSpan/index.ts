@@ -1,3 +1,1 @@
-import LoaderSmallSpan from './LoaderSmallSpan'
-
-export default LoaderSmallSpan
+export { default } from './LoaderSmallSpan'

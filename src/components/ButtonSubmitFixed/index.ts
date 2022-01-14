@@ -1,3 +1,1 @@
-import ButtonSubmitFixed from './ButtonSubmitFixed'
-
-export default ButtonSubmitFixed
+export { default } from './ButtonSubmitFixed'

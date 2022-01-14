@@ -1,3 +1,1 @@
-import ViewFieldIngelogdExtraInfo from './ViewFieldIngelogdExtraInfo'
-
-export default ViewFieldIngelogdExtraInfo
+export { default } from './ViewFieldIngelogdExtraInfo'

@@ -1,3 +1,1 @@
-import CardObjectDetails from './CardObjectDetails'
-
-export default CardObjectDetails
+export { default } from './CardObjectDetails'

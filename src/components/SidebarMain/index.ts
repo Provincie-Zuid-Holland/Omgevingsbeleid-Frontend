@@ -1,3 +1,1 @@
-import SidebarMain from './SidebarMain'
-
-export default SidebarMain
+export { default } from './SidebarMain'

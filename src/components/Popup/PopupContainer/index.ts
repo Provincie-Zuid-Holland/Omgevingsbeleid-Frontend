@@ -1,3 +1,1 @@
-import PopupContainer from './PopupContainer'
-
-export default PopupContainer
+export { default } from './PopupContainer'

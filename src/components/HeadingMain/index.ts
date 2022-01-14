@@ -1,3 +1,1 @@
-import HeadingMain from './HeadingMain'
-
-export default HeadingMain
+export { default } from './HeadingMain'

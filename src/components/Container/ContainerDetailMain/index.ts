@@ -1,3 +1,1 @@
-import ContainerDetailMain from './ContainerDetailMain'
-
-export default ContainerDetailMain
+export { default } from './ContainerDetailMain'

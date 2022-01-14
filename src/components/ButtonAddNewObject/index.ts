@@ -1,3 +1,1 @@
-import ButtonAddNewObject from './ButtonAddNewObject'
-
-export default ButtonAddNewObject
+export { default } from './ButtonAddNewObject'

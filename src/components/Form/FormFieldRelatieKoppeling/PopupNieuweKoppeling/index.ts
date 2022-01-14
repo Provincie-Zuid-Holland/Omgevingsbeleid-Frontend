@@ -1,3 +1,1 @@
-import PopupNieuweKoppeling from './PopupNieuweKoppeling'
-
-export default PopupNieuweKoppeling
+export { default } from './PopupNieuweKoppeling'

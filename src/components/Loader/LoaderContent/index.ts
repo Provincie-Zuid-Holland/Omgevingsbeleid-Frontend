@@ -1,3 +1,1 @@
-import LoaderContent from './LoaderContent'
-
-export default LoaderContent
+export { default } from './LoaderContent'

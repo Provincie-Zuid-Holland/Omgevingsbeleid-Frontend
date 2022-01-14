@@ -1,3 +1,1 @@
-import MijnBeleid from './MijnBeleid'
-
-export default MijnBeleid
+export { default } from './MijnBeleid'

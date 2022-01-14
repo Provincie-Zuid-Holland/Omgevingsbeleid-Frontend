@@ -1,3 +1,1 @@
-import FormFieldNumberInput from './FormFieldNumberInput'
-
-export default FormFieldNumberInput
+export { default } from './FormFieldNumberInput'

@@ -1,3 +1,1 @@
-import PopUpStatusAanpassen from './PopUpStatusAanpassen'
-
-export default PopUpStatusAanpassen
+export { default } from './PopUpStatusAanpassen'

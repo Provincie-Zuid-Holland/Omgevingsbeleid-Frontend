@@ -1,3 +1,1 @@
-import LoaderSaving from './LoaderSaving'
-
-export default LoaderSaving
+export { default } from './LoaderSaving'

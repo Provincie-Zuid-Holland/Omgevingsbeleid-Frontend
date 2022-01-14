@@ -1,3 +1,1 @@
-import EigenaarsDriehoek from './EigenaarsDriehoek'
-
-export default EigenaarsDriehoek
+export { default } from './EigenaarsDriehoek'

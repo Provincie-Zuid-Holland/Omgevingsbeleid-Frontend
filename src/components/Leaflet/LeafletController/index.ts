@@ -1,3 +1,1 @@
-import LeafletController from './LeafletController'
-
-export default LeafletController
+export { default } from './LeafletController'

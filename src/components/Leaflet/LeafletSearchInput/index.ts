@@ -1,3 +1,1 @@
-import LeafletSearchInput from './LeafletSearchInput'
-
-export default LeafletSearchInput
+export { default } from './LeafletSearchInput'

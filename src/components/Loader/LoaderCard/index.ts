@@ -1,3 +1,1 @@
-import LoaderCard from './LoaderCard'
-
-export default LoaderCard
+export { default } from './LoaderCard'
