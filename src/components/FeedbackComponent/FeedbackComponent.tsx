@@ -1,9 +1,7 @@
 import { faCommentAltLines } from '@fortawesome/pro-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// eslint-disable-next-line
-import { format } from 'date-fns'
-// eslint-disable-next-line
-import nlLocale from 'date-fns/locale/nl'
+
+import formatDate from '@/utils/formatDate'
 
 /**
  * @returns The clients browser name
@@ -45,8 +43,7 @@ const getBrowserName = () => {
  * Create a mailto link with subject and body
  */
 const getMailToLink = () => {
-    const date =
-        format(new Date(), 'd MMMM yyyy, HH:mm', { locale: nlLocale }) + ' uur'
+    const date = formatDate(new Date(), 'd MMMM yyyy, HH:mm') + ' uur'
 
     const browser = getBrowserName()
     return `mailto:omgevingsbeleid@pzh.nl?subject=Feedback%20obzh.nl%20(${date})&body=Ik%20heb%20feedback%20op%20de%20website.%20Ik%20heb%20de%20website%20bekeken%20met%20${browser}%20en%20heb%20de%20volgende%20feedback%3A%0D%0A`

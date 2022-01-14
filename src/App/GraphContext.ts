@@ -2,7 +2,7 @@ import { createContext } from 'react'
 
 type GraphContextProps = {
     graphIsOpen: boolean
-    setGraphIsOpen: (e: boolean) => void
+    setGraphIsOpen: (state: boolean) => void
 }
 
 const GraphContext = createContext<Partial<GraphContextProps>>({})
