@@ -41,7 +41,6 @@ function MuteerBeleidsmodulesOverview() {
 
     const [sorting, setSorting, sortPolicies] = useModuleSort()
     const [filters, setFilters, filterPolicies] = useModuleFilter()
-    console.log('filters', filters)
 
     const params = useParams<ModuleParams>()
     const history = useHistory()
@@ -124,7 +123,7 @@ function MuteerBeleidsmodulesOverview() {
                                 setFilters={setFilters}
                             />
                         </div>
-                        {dataLoaded ? (
+                        {dataLoaded && currentBeleidsmodule ? (
                             <ModuleAmount
                                 currentBeleidsmodule={currentBeleidsmodule}
                                 policies={policies}

@@ -1,3 +1,14 @@
+interface TableHeadingProps {
+    property?: string
+    sorting?: {
+        activeSorting: string
+    }
+    setSorting?: (arg0: { type: string; property: string }) => void
+    label: string
+    children?: React.ReactNode
+    noIcon?: boolean
+}
+
 /**
  *
  * @param {object} props
@@ -16,7 +27,7 @@ const TableHeading = ({
     label,
     children,
     noIcon,
-}) => {
+}: TableHeadingProps) => {
     return (
         <th
             scope="col"
@@ -24,7 +35,7 @@ const TableHeading = ({
                 noIcon ? '' : 'cursor-pointer hover:text-gray-800'
             }`}
             onClick={() => {
-                if (noIcon) return
+                if (noIcon || !sorting || !setSorting || !property) return
 
                 if (sorting.activeSorting === property) {
                     setSorting({
@@ -37,8 +48,7 @@ const TableHeading = ({
                         property: property,
                     })
                 }
-            }}
-        >
+            }}>
             {label}
             {children}
         </th>

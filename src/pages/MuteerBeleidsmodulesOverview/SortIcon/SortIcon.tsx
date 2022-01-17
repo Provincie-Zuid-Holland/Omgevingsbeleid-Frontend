@@ -4,6 +4,19 @@ import {
 } from '@fortawesome/pro-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
+type Properties = 'date' | 'title' | 'type'
+
+interface SortIconProps {
+    sorting: {
+        title: boolean
+        type: boolean
+        status: boolean
+        date: boolean
+        activeSorting: Properties
+    }
+    property: Properties
+}
+
 /**
  *
  * @param {object} props
@@ -11,7 +24,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
  * @param {object} props.property - Contains the property name of a sorting, so we can check if it is active or not
  * @returns An active/inactive sorting icon
  */
-const SortIcon = ({ sorting, property }) => {
+const SortIcon = ({ sorting, property }: SortIconProps) => {
     if (!sorting) return null
 
     return (

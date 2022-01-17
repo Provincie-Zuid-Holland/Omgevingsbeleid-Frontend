@@ -1,3 +1,8 @@
+interface TableDataCell {
+    className?: string
+    children?: React.ReactNode
+}
+
 /**
  *
  * @param {object} props
@@ -5,10 +10,9 @@
  * @param {object} props.children - Contains child components
  * @returns A <td> element
  */
-const TableDataCell = ({ className = '', children }) => (
+const TableDataCell = ({ className = '', children }: TableDataCell) => (
     <td
-        className={`px-3 py-3 text-sm text-gray-800 whitespace-nowrap ${className}`}
-    >
+        className={`px-3 py-3 text-sm text-gray-800 whitespace-nowrap ${className}`}>
         {children}
     </td>
 )

@@ -1,9 +1,23 @@
+interface ModuleFiltersProps {
+    setFilters: (arg0: {
+        type: string
+        newValue: string
+        property: string
+    }) => void
+    filters: {
+        statusFilters: string[]
+        selectedStatus: string
+        typeFilters: string[]
+        selectedType: string
+    }
+}
+
 /**
  *
  * @param {object} filters - Contains the current filter state
  * @param {function} setFilters - Contains the current filter state
  */
-const ModuleFilters = ({ filters, setFilters }) => (
+const ModuleFilters = ({ filters, setFilters }: ModuleFiltersProps) => (
     <div className="relative flex items-center">
         <select
             value={filters.selectedType}
