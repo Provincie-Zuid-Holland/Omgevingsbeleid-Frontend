@@ -2,15 +2,19 @@ import { useEffect, useState } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
-import axios from '../../api/axios'
-import { getBeleidsmodules } from '../../api/fetchers'
-import { BeleidsmodulesRead } from '../../api/fetchers.schemas'
-import ButtonBackToPage from '../../components/ButtonBackToPage'
-import { LoaderSpinner } from '../../components/Loader'
-import allDimensies from '../../constants/dimensies'
-import useModuleFilter from '../../hooks/useModuleFilter'
-import useModuleSort from '../../hooks/useModuleSort'
-import handleError from '../../utils/handleError'
+import { getBeleidsmodules } from '@/api/fetchers'
+import {
+    BeleidsmodulesRead,
+    BeleidsmodulesReadBeleidskeuzesItem,
+    BeleidsmodulesReadMaatregelenItem,
+} from '@/api/fetchers.schemas'
+import ButtonBackToPage from '@/components/ButtonBackToPage'
+import { LoaderSpinner } from '@/components/Loader'
+import allDimensies from '@/constants/dimensies'
+import useModuleFilter from '@/hooks/useModuleFilter'
+import useModuleSort from '@/hooks/useModuleSort'
+import handleError from '@/utils/handleError'
+
 import ModuleAmount from './ModuleAmount'
 import ModuleFilters from './ModuleFilters'
 import SortIcon from './SortIcon'
@@ -25,10 +29,14 @@ type ModuleParams = {
  * @returns A component that renders an overview of a specific Beleidsmodule
  */
 function MuteerBeleidsmodulesOverview() {
-    const [currentBeleidsmodule, setCurrentBeleidsmodule] = useState<
-        BeleidsmodulesRead | []
+    const [currentBeleidsmodule, setCurrentBeleidsmodule] =
+        useState<BeleidsmodulesRead>()
+    const [policies, setPolicies] = useState<
+        (
+            | BeleidsmodulesReadBeleidskeuzesItem
+            | BeleidsmodulesReadMaatregelenItem
+        )[]
     >([])
-    const [policies, setPolicies] = useState([])
     const [dataLoaded, setDataLoaded] = useState(false)
 
     const [sorting, setSorting, sortPolicies] = useModuleSort()
@@ -79,8 +87,8 @@ function MuteerBeleidsmodulesOverview() {
                     throw 'no current beleidsmodule'
                 }
                 const policies = [
-                    ...currentBeleidsmodule.Maatregelen,
-                    ...currentBeleidsmodule.Beleidskeuzes,
+                    ...(currentBeleidsmodule.Maatregelen || []),
+                    ...(currentBeleidsmodule.Beleidskeuzes || []),
                 ]
                 setPolicies(policies)
                 setFilters({ type: 'init', policies: policies })
@@ -108,7 +116,7 @@ function MuteerBeleidsmodulesOverview() {
                                     Module
                                 </span>
                                 <h1 className="mt-1 text-2xl text-pzh-blue-dark">
-                                    {currentBeleidsmodule.Titel}
+                                    {currentBeleidsmodule?.Titel}
                                 </h1>
                             </div>
                             <ModuleFilters
