@@ -63,12 +63,10 @@ class MuteerUniversalObjectCRUD extends Component {
         this.handleSubmit = this.handleSubmit.bind(this)
         this.voegKoppelingRelatieToe = this.voegKoppelingRelatieToe.bind(this)
         this.wijzigKoppelingRelatie = this.wijzigKoppelingRelatie.bind(this)
-        this.verwijderKoppelingRelatie = this.verwijderKoppelingRelatie.bind(
-            this
-        )
-        this.getAndSetDimensieDataFromApi = this.getAndSetDimensieDataFromApi.bind(
-            this
-        )
+        this.verwijderKoppelingRelatie =
+            this.verwijderKoppelingRelatie.bind(this)
+        this.getAndSetDimensieDataFromApi =
+            this.getAndSetDimensieDataFromApi.bind(this)
     }
 
     /**
@@ -196,36 +194,61 @@ class MuteerUniversalObjectCRUD extends Component {
             return
         }
 
-        /** Check if the start date is in a valid range */
-        const [
-            startDateIsInValidRange,
-            endDateIsInValidRange,
-        ] = isDateInAValidRange(crudObject)
-
-        const beginGeldigheidIsNotEmpty =
-            crudObject.Begin_Geldigheid !== "1753-01-01" &&
-            crudObject.Begin_Geldigheid !== null &&
-            crudObject.Begin_Geldigheid !== ""
-
-        const eindGeldigheidIsNotEmpty =
-            crudObject.Eind_Geldigheid !== "10000-01-01" &&
-            crudObject.Eind_Geldigheid !== null &&
-            crudObject.Eind_Geldigheid !== ""
-
-        if (!startDateIsInValidRange && beginGeldigheidIsNotEmpty) {
-            scrollToElement(
-                `form-field-${titleSingular.toLowerCase()}-begin_geldigheid`
+        /** Check if the date properties are in a valid range */
+        if (
+            crudObject.hasOwnProperty("Begin_Geldigheid") &&
+            crudObject.hasOwnProperty("Eind_Geldigheid")
+        ) {
+            const startDateIsInValidRange = isDateInAValidRange(
+                new Date(crudObject.Begin_Geldigheid)
             )
-            toastNotification({ type: "start date valid range" })
-
-            return
-        } else if (!endDateIsInValidRange && eindGeldigheidIsNotEmpty) {
-            scrollToElement(
-                `form-field-${titleSingular.toLowerCase()}-eind_geldigheid`
+            const endDateIsInValidRange = isDateInAValidRange(
+                new Date(crudObject.Eind_Geldigheid)
             )
-            toastNotification({ type: "end date valid range" })
 
-            return
+            const beginGeldigheidIsNotEmpty =
+                crudObject.Begin_Geldigheid !== "1753-01-01" &&
+                crudObject.Begin_Geldigheid !== null &&
+                crudObject.Begin_Geldigheid !== ""
+
+            const eindGeldigheidIsNotEmpty =
+                crudObject.Eind_Geldigheid !== "10000-01-01" &&
+                crudObject.Eind_Geldigheid !== null &&
+                crudObject.Eind_Geldigheid !== ""
+
+            if (!startDateIsInValidRange && beginGeldigheidIsNotEmpty) {
+                scrollToElement(
+                    `form-field-${titleSingular.toLowerCase()}-begin_geldigheid`
+                )
+                toastNotification({ type: "start date valid range" })
+
+                return
+            } else if (!endDateIsInValidRange && eindGeldigheidIsNotEmpty) {
+                scrollToElement(
+                    `form-field-${titleSingular.toLowerCase()}-eind_geldigheid`
+                )
+                toastNotification({ type: "end date valid range" })
+
+                return
+            }
+        } else if (crudObject.hasOwnProperty("Besluit_Datum")) {
+            const besluitDatumIsInValidRange = isDateInAValidRange(
+                new Date(crudObject.Besluit_Datum)
+            )
+
+            const besluitDatumIsNotEmpty =
+                crudObject.besluitDatumIsNotEmpty !== "1753-01-01" &&
+                crudObject.besluitDatumIsNotEmpty !== null &&
+                crudObject.besluitDatumIsNotEmpty !== ""
+
+            if (!besluitDatumIsInValidRange && besluitDatumIsNotEmpty) {
+                scrollToElement(
+                    `form-field-${titleSingular.toLowerCase()}-begin_geldigheid`
+                )
+                toastNotification({ type: "start date valid range" })
+
+                return
+            }
         }
 
         /** Prepare CRUD Object for the API */
