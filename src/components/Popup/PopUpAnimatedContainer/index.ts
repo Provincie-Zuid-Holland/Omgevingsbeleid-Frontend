@@ -1,3 +1,1 @@
-import PopUpAnimatedContainer from './PopUpAnimatedContainer'
-
-export default PopUpAnimatedContainer
+export { default } from './PopUpAnimatedContainer'

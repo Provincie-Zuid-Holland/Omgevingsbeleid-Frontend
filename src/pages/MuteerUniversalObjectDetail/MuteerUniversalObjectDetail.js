@@ -1,17 +1,17 @@
 import { faPlus } from '@fortawesome/pro-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { format } from 'date-fns'
 import { Component } from 'react'
 import { Helmet } from 'react-helmet'
 import { Link, withRouter } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 // Import Axios instance to connect with the API
-import axios from '../../API/axios'
+import axios from '../../api/axios'
 // Import Components
 import { ContainerDetailMain, ContainerMain } from '../../components/Container'
 import EigenaarsDriehoek from '../../components/EigenaarsDriehoek'
 import { checkIfUserIsAllowedOnPage } from '../../utils/checkIfUserIsAllowedOnPage'
+import formatDate from '../../utils/formatDate'
 import ButtonBackToPage from './../../components/ButtonBackToPage'
 
 /**
@@ -314,7 +314,7 @@ function RevisieList({ dataObject, overzichtSlug, hash }) {
                                     <span
                                         className="w-24 pr-4 pr-5 text-xs text-right text-gray-600"
                                         title="Laatst gewijzigd op">
-                                        {format(
+                                        {formatDate(
                                             new Date(item.Modified_Date),
                                             'd MMM yyyy'
                                         )}

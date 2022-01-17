@@ -1,3 +1,1 @@
-import ContainerAnimateContent from './ContainerAnimateContent'
-
-export default ContainerAnimateContent
+export { default } from './ContainerAnimateContent'

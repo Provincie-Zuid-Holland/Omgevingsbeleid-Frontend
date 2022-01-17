@@ -11,8 +11,8 @@ import nlLocale from 'date-fns/locale/nl'
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
+import axios from '../../../api/axios'
 import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving'
-import axios from './../../../API/axios'
 import { PopupContainer } from './../../Popup'
 
 /**

@@ -1,3 +1,1 @@
-import ContainerFormSection from './ContainerFormSection'
-
-export default ContainerFormSection
+export { default } from './ContainerFormSection'

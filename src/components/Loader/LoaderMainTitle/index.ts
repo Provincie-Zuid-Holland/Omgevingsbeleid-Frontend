@@ -1,3 +1,1 @@
-import LoaderMainTitle from './LoaderMainTitle'
-
-export default LoaderMainTitle
+export { default } from './LoaderMainTitle'

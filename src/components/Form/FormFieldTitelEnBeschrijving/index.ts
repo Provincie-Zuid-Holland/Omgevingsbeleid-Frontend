@@ -1,3 +1,1 @@
-import FormFieldTitelEnBeschrijving from './FormFieldTitelEnBeschrijving'
-
-export default FormFieldTitelEnBeschrijving
+export { default } from './FormFieldTitelEnBeschrijving'

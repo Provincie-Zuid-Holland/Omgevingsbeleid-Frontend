@@ -1,3 +1,1 @@
-import LeafletTinyViewer from './LeafletTinyViewer'
-
-export default LeafletTinyViewer
+export { default } from './LeafletTinyViewer'

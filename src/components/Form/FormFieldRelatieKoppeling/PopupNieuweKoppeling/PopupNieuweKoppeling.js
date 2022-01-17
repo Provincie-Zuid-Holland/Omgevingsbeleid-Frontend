@@ -4,8 +4,8 @@ import cloneDeep from 'lodash.clonedeep'
 import { Component } from 'react'
 import { toast } from 'react-toastify'
 
+import axios from '../../../../api/axios'
 import { PopUpAnimatedContainer } from '../../../Popup'
-import axios from './../../../../API/axios'
 import objecten from './../../../../constants/koppelingen'
 
 const getTypeText = type => {

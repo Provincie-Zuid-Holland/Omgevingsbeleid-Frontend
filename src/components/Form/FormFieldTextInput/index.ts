@@ -1,3 +1,1 @@
-import FormFieldTextInput from './FormFieldTextInput'
-
-export default FormFieldTextInput
+export { default } from './FormFieldTextInput'

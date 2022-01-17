@@ -1,3 +1,1 @@
-import FormFieldSelectUserGroup from './FormFieldSelectUserGroup'
-
-export default FormFieldSelectUserGroup
+export { default } from './FormFieldSelectUserGroup'

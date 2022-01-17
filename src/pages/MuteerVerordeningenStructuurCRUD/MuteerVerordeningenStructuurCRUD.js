@@ -1,5 +1,4 @@
 /* istanbul ignore file */
-import { format } from 'date-fns'
 import cloneDeep from 'lodash.clonedeep'
 import { Component } from 'react'
 import { Helmet } from 'react-helmet'
@@ -7,9 +6,10 @@ import { withRouter } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 // Import Components
+import axios from '../../api/axios'
+import formatDate from '../../utils/formatDate'
 import { isDateInAValidRange } from '../../utils/isDateInAValidRange'
 import { toastNotification } from '../../utils/toastNotification'
-import axios from './../../API/axios'
 import ButtonBackToPage from './../../components/ButtonBackToPage'
 import {
     ContainerFormSection,
@@ -250,11 +250,11 @@ class MuteerVerordeningenStructuurCRUD extends Component {
                     delete crudObject.Created_By
                     delete crudObject.Created_Date
 
-                    crudObject.Begin_Geldigheid = format(
+                    crudObject.Begin_Geldigheid = formatDate(
                         new Date(crudObject.Begin_Geldigheid),
                         'yyyy-MM-dd'
                     )
-                    crudObject.Eind_Geldigheid = format(
+                    crudObject.Eind_Geldigheid = formatDate(
                         new Date(crudObject.Eind_Geldigheid),
                         'yyyy-MM-dd'
                     )

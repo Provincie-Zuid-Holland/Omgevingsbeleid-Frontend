@@ -1,3 +1,1 @@
-import FormFieldGeldigheid from './FormFieldGeldigheid'
-
-export default FormFieldGeldigheid
+export { default } from './FormFieldGeldigheid'

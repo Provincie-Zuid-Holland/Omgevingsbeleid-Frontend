@@ -1,7 +1,7 @@
-import { format } from 'date-fns'
 import { useParams } from 'react-router-dom'
 
 import { LoaderBeleidsrelatieRegel } from '../../../components/Loader'
+import formatDate from '../../../utils/formatDate'
 import PopupMotivation from '../PopupMotivation/PopupMotivation'
 
 /**
@@ -45,7 +45,7 @@ function TabRejected({
                                 <div className="w-4/12 pr-4">{title}</div>
                                 <div className="w-4/12 pr-4">
                                     {relatie.Datum_Akkoord !== null
-                                        ? format(
+                                        ? formatDate(
                                               new Date(relatie.Modified_Date),
                                               'd MMMM yyyy, HH:mm'
                                           ) + ' uur'

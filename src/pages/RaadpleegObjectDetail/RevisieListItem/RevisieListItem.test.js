@@ -1,10 +1,8 @@
 import { render, screen } from '@testing-library/react'
-import nlLocale from 'date-fns/locale/nl'
-import { format } from 'date-fns'
 import '@testing-library/jest-dom'
-
 import { MemoryRouter } from 'react-router-dom'
 
+import formatDate from '../../../utils/formatDate'
 import { beleidskeuzes } from './../../../mocks/data/beleidskeuzes'
 import RevisieListItem from './RevisieListItem'
 
@@ -41,9 +39,7 @@ describe('RevisieListItem', () => {
         }
 
         setup(customProps)
-        const dateText = format(startDate, 'd MMM yyyy', {
-            locale: nlLocale,
-        })
+        const dateText = formatDate(startDate, 'd MMM yyyy')
         const element = screen.getByText(`Test status (${dateText})`)
         expect(element).toBeTruthy()
     })

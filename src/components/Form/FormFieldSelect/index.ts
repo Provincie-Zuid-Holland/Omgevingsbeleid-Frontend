@@ -1,3 +1,1 @@
-import FormFieldSelect from './FormFieldSelect'
-
-export default FormFieldSelect
+export { default } from './FormFieldSelect'

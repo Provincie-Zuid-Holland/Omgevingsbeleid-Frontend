@@ -2,9 +2,9 @@ import { render, screen } from '@testing-library/react'
 import { MemoryRouter, Route } from 'react-router-dom'
 import '@testing-library/jest-dom'
 
-import MetaInfo from './MetaInfo'
-import getVigerendText from './../../../utils/getVigerendText'
 import { beleidskeuzes } from './../../../mocks/data/beleidskeuzes'
+import getVigerendText from './../../../utils/getVigerendText'
+import MetaInfo from './MetaInfo'
 
 describe('MetaInfo', () => {
     const dataObject = beleidskeuzes[0]

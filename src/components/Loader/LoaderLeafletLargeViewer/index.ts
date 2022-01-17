@@ -1,3 +1,1 @@
-import LoaderLeafletLargeViewer from './LoaderLeafletLargeViewer'
-
-export default LoaderLeafletLargeViewer
+export { default } from './LoaderLeafletLargeViewer'

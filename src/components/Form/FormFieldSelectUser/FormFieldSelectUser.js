@@ -49,7 +49,7 @@ class FormFieldSelectUser extends Component {
     /**
      * Function to find the selected value in the selectionArray.
      *
-     * @param {string || object} fieldValue - Value used to find arrayItem within selectionArray.
+     * @param {string | object} fieldValue - Value used to find arrayItem within selectionArray.
      * @param {array} selectionArray - Contains a list of users.
      */
     getSelected(fieldValue, selectionArray) {

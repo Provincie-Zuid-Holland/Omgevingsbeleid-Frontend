@@ -1,6 +1,6 @@
-import { format } from 'date-fns'
-import nlLocale from 'date-fns/locale/nl'
 import { Link } from 'react-router-dom'
+
+import formatDate from '../../../utils/formatDate'
 
 function RevisieListItem({ item, currentUUID }) {
     if (!item) return null
@@ -10,9 +10,7 @@ function RevisieListItem({ item, currentUUID }) {
         const startDate = item['Begin_Geldigheid']
         return !startDate || standardDates.includes(startDate)
             ? 'Er is nog geen begin geldigheid'
-            : format(new Date(item['Begin_Geldigheid']), 'd MMM yyyy', {
-                  locale: nlLocale,
-              })
+            : formatDate(new Date(item['Begin_Geldigheid']), 'd MMM yyyy')
     }
 
     const date = getDate(item)
@@ -23,8 +21,7 @@ function RevisieListItem({ item, currentUUID }) {
         <li
             className={`bg-white ${
                 isActive ? '' : 'hover:bg-pzh-blue hover:bg-opacity-5'
-            }`}
-        >
+            }`}>
             <Link
                 className={`inline-block py-3 ${
                     isActive ? 'cursor-default' : ''
@@ -35,8 +32,7 @@ function RevisieListItem({ item, currentUUID }) {
                         e.preventDefault()
                         return
                     }
-                }}
-            >
+                }}>
                 <span
                     className={`inline-block w-2 h-2 rounded-full mt-2 -ml-1 absolute ${
                         status === 'Ter inzage'
@@ -49,8 +45,9 @@ function RevisieListItem({ item, currentUUID }) {
                     }`}
                 />
                 <span
-                    className={`pl-6 text-sm ${isActive ? 'font-bold' : ''}`}
-                >{`${status} (${date})`}</span>
+                    className={`pl-6 text-sm ${
+                        isActive ? 'font-bold' : ''
+                    }`}>{`${status} (${date})`}</span>
             </Link>
         </li>
     )

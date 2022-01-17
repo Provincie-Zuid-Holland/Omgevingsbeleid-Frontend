@@ -1,10 +1,10 @@
 import { faTimes } from '@fortawesome/pro-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { format } from 'date-fns'
 import { useParams } from 'react-router-dom'
 
 import { LoaderBeleidsrelatieRegel } from '../../../components/Loader'
 import { PopUpAnimatedContainer } from '../../../components/Popup'
+import formatDate from '../../../utils/formatDate'
 import PopupMotivation from '../PopupMotivation/PopupMotivation'
 
 /**
@@ -59,7 +59,7 @@ function TabRelations({
                                 <div className="w-4/12 pr-4">{title}</div>
                                 <div className="w-2/12 pr-4">
                                     {relatie.Created_Date !== null
-                                        ? format(
+                                        ? formatDate(
                                               new Date(relatie.Created_Date),
                                               'd MMMM yyyy, HH:mm'
                                           ) + ' uur'

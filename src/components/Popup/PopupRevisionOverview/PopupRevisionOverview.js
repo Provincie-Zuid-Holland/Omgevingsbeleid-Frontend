@@ -1,13 +1,12 @@
 import { faTimes } from '@fortawesome/pro-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Transition } from '@headlessui/react'
-import { format } from 'date-fns'
-import nlLocale from 'date-fns/locale/nl'
 import { useContext, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import Select from 'react-select'
 import { useClickAway, useKey, useLockBodyScroll } from 'react-use'
 
-import axios from '../../../API/axios'
+import axios from '../../../api/axios'
+import formatDate from '../../../utils/formatDate'
 import { LoaderSpinner } from '../../Loader'
 import UserContext from './../../../App/UserContext'
 import networkGraphConnectionProperties from './../../../constants/networkGraphConnectionProperties'
@@ -24,12 +23,9 @@ import ViewFieldIngelogdExtraInfo from './../../ViewFieldIngelogdExtraInfo'
 const getValidText = object => {
     if (!object['Begin_Geldigheid']) return 'Er is nog geen begin geldigheid'
 
-    const textDate = format(
+    const textDate = formatDate(
         new Date(object['Begin_Geldigheid']),
-        'd MMMM yyyy',
-        {
-            locale: nlLocale,
-        }
+        'd MMMM yyyy'
     )
     const isActive =
         object.Status && object.Status === 'Vigerend' ? 'Sinds' : 'Vanaf'
@@ -758,12 +754,10 @@ const ValidText = ({ object, revisionObjects }) => {
         if (!object['Begin_Geldigheid'])
             return 'Er is nog geen begin geldigheid'
 
-        const formatDate = date =>
-            format(new Date(date), 'd MMMM yyyy', {
-                locale: nlLocale,
-            })
-
-        const dateStart = formatDate(object['Begin_Geldigheid'])
+        const dateStart = formatDate(
+            new Date(object['Begin_Geldigheid']),
+            'd MMMM yyyy'
+        )
         const isCurrentlyVigerend = uiStatus && uiStatus === 'Vigerend'
 
         if (isCurrentlyVigerend) {

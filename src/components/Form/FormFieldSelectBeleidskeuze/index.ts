@@ -1,3 +1,1 @@
-import FormFieldSelectBeleidskeuze from './FormFieldSelectBeleidskeuze'
-
-export default FormFieldSelectBeleidskeuze
+export { default } from './FormFieldSelectBeleidskeuze'

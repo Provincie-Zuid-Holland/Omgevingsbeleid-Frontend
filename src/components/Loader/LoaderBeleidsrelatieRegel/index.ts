@@ -1,3 +1,1 @@
-import LoaderBeleidsrelatieRegel from './LoaderBeleidsrelatieRegel'
-
-export default LoaderBeleidsrelatieRegel
+export { default } from './LoaderBeleidsrelatieRegel'

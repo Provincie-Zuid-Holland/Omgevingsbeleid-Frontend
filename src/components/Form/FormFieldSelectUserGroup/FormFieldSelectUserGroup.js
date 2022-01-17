@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
-import axios from './../../../API/axios'
+import axios from '../../../api/axios'
 import { LoaderSelect } from './../../Loader'
 import FormFieldSelectUser from './../FormFieldSelectUser'
 

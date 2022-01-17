@@ -1,3 +1,1 @@
-import FormFieldSelectUser from './FormFieldSelectUser'
-
-export default FormFieldSelectUser
+export { default } from './FormFieldSelectUser'

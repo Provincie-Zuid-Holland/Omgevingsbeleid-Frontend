@@ -1,3 +1,1 @@
-import LoaderSmallCircle from './LoaderSmallCircle'
-
-export default LoaderSmallCircle
+export { default } from './LoaderSmallCircle'

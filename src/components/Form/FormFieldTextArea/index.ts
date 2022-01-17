@@ -1,3 +1,1 @@
-import FormFieldTextArea from './FormFieldTextArea'
-
-export default FormFieldTextArea
+export { default } from './FormFieldTextArea'

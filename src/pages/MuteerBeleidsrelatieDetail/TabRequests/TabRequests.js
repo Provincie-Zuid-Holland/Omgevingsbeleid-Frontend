@@ -1,8 +1,7 @@
-import { format } from 'date-fns'
-import nlLocale from 'date-fns/locale/nl'
 import { useParams } from 'react-router-dom'
 
 import { LoaderBeleidsrelatieRegel } from '../../../components/Loader'
+import formatDate from '../../../utils/formatDate'
 import PopupMotivation from '../PopupMotivation/PopupMotivation'
 
 /**
@@ -51,10 +50,9 @@ function TabRequests({
                                 <div className="w-4/12 pr-4">{titel}</div>
                                 <div className="w-2/12 pr-4">
                                     {verzoek.Created_Date !== null
-                                        ? format(
+                                        ? formatDate(
                                               new Date(verzoek.Created_Date),
-                                              'd MMMM yyyy, HH:mm',
-                                              { locale: nlLocale }
+                                              'd MMMM yyyy, HH:mm'
                                           ) + ' uur'
                                         : null}
                                 </div>

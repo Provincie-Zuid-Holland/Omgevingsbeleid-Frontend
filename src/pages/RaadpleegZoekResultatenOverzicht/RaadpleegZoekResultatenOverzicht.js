@@ -2,8 +2,8 @@ import { Component } from 'react'
 import { toast } from 'react-toastify'
 import 'url-search-params-polyfill'
 
+import axios from '../../api/axios'
 import Container from '../../components/Container/Container'
-import axios from './../../API/axios'
 import Footer from './../../components/Footer'
 import Heading from './../../components/Heading'
 import { LoaderCard } from './../../components/Loader'
@@ -179,7 +179,7 @@ class RaadpleegZoekResultatenOverzicht extends Component {
         })
 
         // Get werkingsgebieden
-        import('./../../API/axiosGeoJSON').then(api => {
+        import('../../api/axiosGeoJSON').then(api => {
             const [pointA, pointB] = searchGeoQuery.split(' ')
             api.getWerkingsGebieden(pointA, pointB)
                 .then(data => {

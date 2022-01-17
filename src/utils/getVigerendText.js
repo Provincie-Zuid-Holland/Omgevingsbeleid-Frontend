@@ -1,5 +1,6 @@
-import { format, isBefore } from 'date-fns'
-import nlLocale from 'date-fns/locale/nl'
+import { isBefore } from 'date-fns'
+
+import formatDate from './formatDate'
 
 /**
  * @param {string|null|undefined} date
@@ -36,9 +37,7 @@ const getVigerendText = ({
     if (hasInvalidValue(dateStartValidity))
         return 'Er is nog geen begin geldigheid'
 
-    const textDate = format(new Date(dateStartValidity), 'd MMMM yyyy', {
-        locale: nlLocale,
-    })
+    const textDate = formatDate(new Date(dateStartValidity), 'd MMMM yyyy')
 
     const objectWillTurnValidInFuture = isBefore(
         new Date(),

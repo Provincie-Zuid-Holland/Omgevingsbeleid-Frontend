@@ -1,3 +1,1 @@
-import LoaderLeafletTinyViewer from './LoaderLeafletTinyViewer'
-
-export default LoaderLeafletTinyViewer
+export { default } from './LoaderLeafletTinyViewer'

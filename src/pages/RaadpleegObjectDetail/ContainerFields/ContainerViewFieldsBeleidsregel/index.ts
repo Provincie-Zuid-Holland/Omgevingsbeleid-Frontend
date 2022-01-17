@@ -1,0 +1,3 @@
+import ContainerViewFieldsBeleidsregel from './ContainerViewFieldsBeleidsregel'
+
+export default ContainerViewFieldsBeleidsregel
