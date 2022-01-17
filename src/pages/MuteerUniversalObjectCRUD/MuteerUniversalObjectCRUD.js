@@ -190,7 +190,6 @@ class MuteerUniversalObjectCRUD extends Component {
                 `form-field-${titleSingular.toLowerCase()}-eind_geldigheid`
             )
             toastNotification({ type: "end date before start date" })
-
             return
         }
 
@@ -257,6 +256,9 @@ class MuteerUniversalObjectCRUD extends Component {
 
         /** If the user is editing an existing object we PATCH it, else we POST it to create a new object */
         const typeOfRequest = this.state.edit ? "PATCH" : "POST"
+
+        // console.log("POST PATCH")
+        // return
 
         if (typeOfRequest === "PATCH") {
             crudObject = this.prepareForRequest(crudObject, "patch")
