@@ -1,5 +1,10 @@
 import { useReducer } from 'react'
 
+type Action =
+    | { type: 'init', policies: {}[] }
+    | { type: 'toggle_todo', id: number }
+    | { type: 'set_visibility', visibility: Visibility }
+
 /**
  * Custom useHook that implements the logic to filter based on:
  * - Status of policies

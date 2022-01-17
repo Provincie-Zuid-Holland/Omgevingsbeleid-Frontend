@@ -3,30 +3,39 @@ import { useParams, useHistory } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 import axios from '../../api/axios'
-import ButtonBackToPage from './../../components/ButtonBackToPage'
-import { LoaderSpinner } from './../../components/Loader'
-import allDimensies from './../../constants/dimensies'
-import useModuleFilter from './../../hooks/useModuleFilter'
-import useModuleSort from './../../hooks/useModuleSort'
-import handleError from './../../utils/handleError'
+import { getBeleidsmodules } from '../../api/fetchers'
+import { BeleidsmodulesRead } from '../../api/fetchers.schemas'
+import ButtonBackToPage from '../../components/ButtonBackToPage'
+import { LoaderSpinner } from '../../components/Loader'
+import allDimensies from '../../constants/dimensies'
+import useModuleFilter from '../../hooks/useModuleFilter'
+import useModuleSort from '../../hooks/useModuleSort'
+import handleError from '../../utils/handleError'
 import ModuleAmount from './ModuleAmount'
 import ModuleFilters from './ModuleFilters'
 import SortIcon from './SortIcon'
 import TableHeading from './TableHeading'
 import TableRow from './TableRow'
 
+type ModuleParams = {
+    single: string
+}
+
 /**
  * @returns A component that renders an overview of a specific Beleidsmodule
  */
 function MuteerBeleidsmodulesOverview() {
-    const [currentBeleidsmodule, setCurrentBeleidsmodule] = useState([])
+    const [currentBeleidsmodule, setCurrentBeleidsmodule] = useState<
+        BeleidsmodulesRead | []
+    >([])
     const [policies, setPolicies] = useState([])
     const [dataLoaded, setDataLoaded] = useState(false)
 
     const [sorting, setSorting, sortPolicies] = useModuleSort()
     const [filters, setFilters, filterPolicies] = useModuleFilter()
+    console.log('filters', filters)
 
-    const params = useParams()
+    const params = useParams<ModuleParams>()
     const history = useHistory()
 
     /**
@@ -40,7 +49,9 @@ function MuteerBeleidsmodulesOverview() {
          * @param {array} beleidsmodules - Contains the API response
          * @returns {null|object} currentBeleidsmodule or null if there is none found
          */
-        const findAndSetCurrentBeleidsmodule = beleidsmodules => {
+        const findAndSetCurrentBeleidsmodule = (
+            beleidsmodules: BeleidsmodulesRead[]
+        ) => {
             const currentBeleidsmodule = beleidsmodules.find(
                 module => module.ID === parseInt(params.single)
             )
@@ -59,27 +70,24 @@ function MuteerBeleidsmodulesOverview() {
         /**
          * Function that gets and sets the beleidsmodules
          */
-        const getAndSetBeleidsmodules = () => {
-            axios
-                .get(`/${allDimensies.BELEIDSMODULES.API_ENDPOINT}`)
-                .then(res => {
-                    const currentBeleidsmodule = findAndSetCurrentBeleidsmodule(
-                        res.data
-                    )
-                    return currentBeleidsmodule
-                })
-                .then(currentBeleidsmodule => {
-                    const policies = [
-                        ...currentBeleidsmodule.Maatregelen,
-                        ...currentBeleidsmodule.Beleidskeuzes,
-                    ]
-                    setPolicies(policies)
-                    setFilters({ type: 'init', policies: policies })
-                    setDataLoaded(true)
-                })
-                .catch(err => {
-                    handleError(err)
-                })
+        const getAndSetBeleidsmodules = async () => {
+            try {
+                const beleidsmodules = await getBeleidsmodules()
+                const currentBeleidsmodule =
+                    findAndSetCurrentBeleidsmodule(beleidsmodules)
+                if (!currentBeleidsmodule) {
+                    throw 'no current beleidsmodule'
+                }
+                const policies = [
+                    ...currentBeleidsmodule.Maatregelen,
+                    ...currentBeleidsmodule.Beleidskeuzes,
+                ]
+                setPolicies(policies)
+                setFilters({ type: 'init', policies: policies })
+                setDataLoaded(true)
+            } catch (err: any) {
+                handleError(err)
+            }
         }
 
         getAndSetBeleidsmodules()
@@ -103,12 +111,10 @@ function MuteerBeleidsmodulesOverview() {
                                     {currentBeleidsmodule.Titel}
                                 </h1>
                             </div>
-                            <div className="flex">
-                                <ModuleFilters
-                                    filters={filters}
-                                    setFilters={setFilters}
-                                />
-                            </div>
+                            <ModuleFilters
+                                filters={filters}
+                                setFilters={setFilters}
+                            />
                         </div>
                         {dataLoaded ? (
                             <ModuleAmount
