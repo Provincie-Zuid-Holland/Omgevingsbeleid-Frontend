@@ -1226,6 +1226,9 @@ mark {
         opacity: 1;
         text-decoration: none !important;
     }
+    p {
+        display: inline;
+    }
 }
 
 #revision-overview-leaflet {
