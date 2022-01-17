@@ -1,8 +1,10 @@
 import { useParams } from 'react-router-dom'
 
-import { LoaderBeleidsrelatieRegel } from '../../../components/Loader'
-import formatDate from '../../../utils/formatDate'
-import PopupMotivation from '../PopupMotivation/PopupMotivation'
+import { BeleidsrelatiesRead } from '@/api/fetchers.schemas'
+import { LoaderBeleidsrelatieRegel } from '@/components/Loader'
+import formatDate from '@/utils/formatDate'
+
+import PopupMotivation from '../PopupMotivation'
 
 /**
  * @prop {boolean} loaded true if the incoming relationships have loaded
@@ -10,19 +12,30 @@ import PopupMotivation from '../PopupMotivation/PopupMotivation'
  * @prop {string} motivationPopUp contains the UUID of a beleidsrelatie
  * @prop {function} setMotivationPopUp takes a UUID and set it in parent state in motivationPopUp
  */
+
+interface TabRejectedProps {
+    loaded?: boolean
+    rejected: BeleidsrelatiesRead[]
+    motivationPopUp?: string | null
+    setMotivationPopUp: (UUID?: string | null) => void
+}
+
 function TabRejected({
     loaded,
     rejected,
     motivationPopUp,
     setMotivationPopUp,
-}) {
-    const { UUID } = useParams()
+}: TabRejectedProps) {
+    const { UUID } = useParams<{ UUID: string }>()
 
-    const getPropertyFromRelation = (relation, property) => {
-        if (relation.Van_Beleidskeuze.UUID === UUID) {
-            return relation.Naar_Beleidskeuze[property]
-        } else if (relation.Naar_Beleidskeuze.UUID === UUID) {
-            return relation.Van_Beleidskeuze[property]
+    const getPropertyFromRelation = (
+        relation: BeleidsrelatiesRead,
+        property
+    ) => {
+        if (relation.Van_Beleidskeuze?.UUID === UUID) {
+            return relation.Naar_Beleidskeuze?.[property]
+        } else if (relation.Naar_Beleidskeuze?.UUID === UUID) {
+            return relation.Van_Beleidskeuze?.[property]
         }
     }
 
@@ -46,7 +59,9 @@ function TabRejected({
                                 <div className="w-4/12 pr-4">
                                     {relatie.Datum_Akkoord !== null
                                         ? formatDate(
-                                              new Date(relatie.Modified_Date),
+                                              new Date(
+                                                  relatie.Modified_Date || ''
+                                              ),
                                               'd MMMM yyyy, HH:mm'
                                           ) + ' uur'
                                         : 'Zojuist afgewezen'}

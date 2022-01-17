@@ -2,10 +2,12 @@ import { faTimes } from '@fortawesome/pro-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useParams } from 'react-router-dom'
 
-import { LoaderBeleidsrelatieRegel } from '../../../components/Loader'
-import { PopUpAnimatedContainer } from '../../../components/Popup'
-import formatDate from '../../../utils/formatDate'
-import PopupMotivation from '../PopupMotivation/PopupMotivation'
+import { BeleidsrelatiesRead } from '@/api/fetchers.schemas'
+import { LoaderBeleidsrelatieRegel } from '@/components/Loader'
+import { PopUpAnimatedContainer } from '@/components/Popup'
+import formatDate from '@/utils/formatDate'
+
+import PopupMotivation from '../PopupMotivation'
 
 /**
  * @prop {boolean} loaded true if all the data from parent component is loaded
@@ -18,6 +20,23 @@ import PopupMotivation from '../PopupMotivation/PopupMotivation'
  * @prop {function} relationshipDisconnect function to disconnect a relationship
  * @prop {function} updateStatus function to update a status in parent state
  */
+
+interface TabRelationsProps {
+    loaded?: boolean
+    relations: BeleidsrelatiesRead[]
+    motivationPopUp?: string | null
+    setMotivationPopUp: (UUID?: string | null) => void
+    setDisconnectPopup: (UUID?: string | null) => void
+    disconnectPopUp?: string | null
+    beleidskeuzeTitle?: string
+    relationshipDisconnect: (relation: BeleidsrelatiesRead) => void
+    updateStatus: (
+        uuid?: string,
+        nieuweStatus?: string,
+        updateDatumAkkoord?: boolean
+    ) => void
+}
+
 function TabRelations({
     loaded,
     relations,
@@ -28,14 +47,17 @@ function TabRelations({
     relationshipDisconnect,
     updateStatus,
     beleidskeuzeTitle,
-}) {
-    const { UUID } = useParams()
+}: TabRelationsProps) {
+    const { UUID } = useParams<{ UUID: string }>()
 
-    const getPropertyFromRelation = (relation, property) => {
-        if (relation.Van_Beleidskeuze.UUID === UUID) {
-            return relation.Naar_Beleidskeuze[property]
-        } else if (relation.Naar_Beleidskeuze.UUID === UUID) {
-            return relation.Van_Beleidskeuze[property]
+    const getPropertyFromRelation = (
+        relation: BeleidsrelatiesRead,
+        property
+    ) => {
+        if (relation.Van_Beleidskeuze?.UUID === UUID) {
+            return relation.Naar_Beleidskeuze?.[property]
+        } else if (relation.Naar_Beleidskeuze?.UUID === UUID) {
+            return relation.Van_Beleidskeuze?.[property]
         }
     }
 
@@ -52,6 +74,7 @@ function TabRelations({
                 relations.length > 0 ? (
                     relations.map(relatie => {
                         const title = getPropertyFromRelation(relatie, 'Titel')
+
                         return (
                             <li
                                 key={relatie.UUID}
@@ -60,7 +83,9 @@ function TabRelations({
                                 <div className="w-2/12 pr-4">
                                     {relatie.Created_Date !== null
                                         ? formatDate(
-                                              new Date(relatie.Created_Date),
+                                              new Date(
+                                                  relatie.Created_Date || ''
+                                              ),
                                               'd MMMM yyyy, HH:mm'
                                           ) + ' uur'
                                         : null}
@@ -105,7 +130,7 @@ function TabRelations({
                                             setDisconnectPopup={
                                                 setDisconnectPopup
                                             }
-                                            relatie={relatie}
+                                            relation={relatie}
                                             beleidskeuzeTitle={
                                                 beleidskeuzeTitle
                                             }
@@ -136,14 +161,26 @@ function TabRelations({
     )
 }
 
+interface PopUpConfirmProps
+    extends Pick<
+        TabRelationsProps,
+        | 'setDisconnectPopup'
+        | 'beleidskeuzeTitle'
+        | 'relationshipDisconnect'
+        | 'updateStatus'
+    > {
+    relation: BeleidsrelatiesRead
+    title?: string
+}
+
 const PopUpConfirm = ({
     setDisconnectPopup,
-    relatie,
+    relation,
     beleidskeuzeTitle,
     relationshipDisconnect,
     updateStatus,
     title,
-}) => {
+}: PopUpConfirmProps) => {
     return (
         <PopUpAnimatedContainer small={true}>
             <div
@@ -154,19 +191,19 @@ const PopUpConfirm = ({
             </div>
             <h3 className="mb-4 text-lg font-bold">
                 Beleidsrelatie
-                {relatie.Status === 'Akkoord'
+                {relation.Status === 'Akkoord'
                     ? ' verbreken'
                     : ' verzoek intrekken'}
             </h3>
             <div className="relative p-4 mb-4 border-l-4 bg-pzh-blue-super-light border-pzh-blue">
                 <p className="mt-2 text-sm text-gray-700">
-                    {relatie.Status === 'Akkoord'
+                    {relation.Status === 'Akkoord'
                         ? `Je staat op het punt om de beleidsrelatie tussen "${beleidskeuzeTitle}" en "${title}" te verbreken`
                         : `Je staat op het punt om het beleidsrelatie verzoek tussen "${beleidskeuzeTitle}" en "${title}" in te trekken`}
                 </p>
             </div>
             <h4 className="mb-2 font-bold">
-                {relatie.Status === 'Akkoord'
+                {relation.Status === 'Akkoord'
                     ? 'Weet je zeker dat je deze beleidsrelatie wilt verbreken?'
                     : 'Weet je zeker dat je dit beleidsrelatie verzoek wilt intrekken?'}
             </h4>
@@ -186,17 +223,17 @@ const PopUpConfirm = ({
                 <span
                     className="px-4 py-2 text-sm font-bold leading-tight text-white rounded cursor-pointer bg-pzh-blue hover:underline"
                     onClick={() => {
-                        relationshipDisconnect(relatie)
+                        relationshipDisconnect(relation)
                         setDisconnectPopup(null)
                         updateStatus(
-                            relatie.UUID,
-                            relatie.Status === 'Akkoord'
+                            relation.UUID,
+                            relation.Status === 'Akkoord'
                                 ? 'Verbroken'
                                 : 'NietAkkoord',
                             true
                         )
                     }}>
-                    {relatie.Status === 'Akkoord' ? 'Verbreken' : 'Intrekken'}
+                    {relation.Status === 'Akkoord' ? 'Verbreken' : 'Intrekken'}
                 </span>
             </div>
         </PopUpAnimatedContainer>

@@ -2,10 +2,11 @@ import { useEffect, useState } from 'react'
 import ContentLoader from 'react-content-loader'
 import { toast } from 'react-toastify'
 
-import axios from '../../../api/axios'
-import { API_ENDPOINT } from './../../../constants/beleidsmodules'
-import handleError from './../../../utils/handleError'
-import PopUpAnimatedContainer from './../PopUpAnimatedContainer'
+import { getBeleidsmodules, patchBeleidsmodulesLineageid } from '@/api/fetchers'
+import { BeleidskeuzesRead, BeleidsmodulesRead } from '@/api/fetchers.schemas'
+import handleError from '@/utils/handleError'
+
+import PopUpAnimatedContainer from '../PopUpAnimatedContainer'
 
 /**
  * @param {object} dataObject - Contains the object that is being displayed
@@ -14,6 +15,16 @@ import PopUpAnimatedContainer from './../PopUpAnimatedContainer'
  * @param {function} toggleModulesPopup - Function to show or hide the modulesPopup.
  * @returns A component to change the status of an object
  */
+
+interface PopUpModules {
+    dataObject: BeleidskeuzesRead
+    setDataObject: (dataObject: BeleidsmodulesRead) => void
+    toggleModulesPopup: () => void
+    titleSingular: string
+    setDimensionHistory: (dataObjects: BeleidsmodulesRead[]) => void
+    dimensionHistory: BeleidsmodulesRead[]
+}
+
 function PopUpModules({
     dataObject,
     setDataObject,
@@ -21,10 +32,13 @@ function PopUpModules({
     titleSingular,
     setDimensionHistory,
     dimensionHistory,
-}) {
-    const [beleidsmodules, setBeleidsmodules] = useState([])
+}: PopUpModules) {
+    const [beleidsmodules, setBeleidsmodules] = useState<BeleidsmodulesRead[]>(
+        []
+    )
     const [dataLoaded, setDataLoaded] = useState(false)
-    const [initialModule, setInitialModule] = useState(null)
+    const [initialModule, setInitialModule] =
+        useState<BeleidsmodulesRead | null>(null)
     const [selectValue, setSelectValue] = useState('')
 
     /**
@@ -36,6 +50,8 @@ function PopUpModules({
 
         const beleidsmodule = beleidsmodules.find(e => e.UUID === selectValue)
 
+        if (!beleidsmodule?.ID) return
+
         // We only need to add it to the new module
         const newConnection = {
             Koppeling_Omschrijving: '',
@@ -43,9 +59,9 @@ function PopUpModules({
         }
 
         const currentConnections = beleidsmodule[type]
-            .map(connection => {
+            ?.map(connection => {
                 if (connection.hasOwnProperty('Object')) {
-                    connection.UUID = connection.Object.UUID
+                    connection.UUID = connection.Object?.UUID
                     delete connection.Object
                     return connection
                 } else {
@@ -54,16 +70,15 @@ function PopUpModules({
             })
             .filter(connection => connection.UUID !== dataObject.UUID) // Filter out existing connections
 
-        axios
-            .patch(`/${API_ENDPOINT}/${beleidsmodule.ID}`, {
-                [type]: [...currentConnections, newConnection],
-            })
-            .then(res => {
+        patchBeleidsmodulesLineageid(beleidsmodule.ID, {
+            [type]: [...(currentConnections || []), newConnection],
+        })
+            .then(data => {
                 // On add, push to Ref_Beleidsmodules: [{ID: 1, UUID: "6B569424-254F-411B-A219-F2BFF19895A5", Titel: "Beleidsmodule van Aiden"}]
-                dataObject.Ref_Beleidsmodules.push({
-                    ID: res.data.ID,
-                    UUID: res.data.UUID,
-                    Titel: res.data.Titel,
+                dataObject.Ref_Beleidsmodules?.push({
+                    ID: data.ID,
+                    UUID: data.UUID,
+                    Titel: data.Titel,
                 })
 
                 if (setDataObject) {
@@ -88,8 +103,8 @@ function PopUpModules({
      * Function that gets and sets the beleidsmodulen
      */
     const getAndSetBeleidsmodules = () => {
-        axios.get('/beleidsmodules').then(res => {
-            setBeleidsmodules(res.data)
+        getBeleidsmodules().then(data => {
+            setBeleidsmodules(data)
             setDataLoaded(true)
         })
     }
@@ -100,16 +115,16 @@ function PopUpModules({
 
         // Check if the dataObject.UUID exists in one of the policies of the beleidsmodules
         const activeModule = beleidsmodules?.find(module =>
-            module[type].find(
+            module[type]?.find(
                 connection =>
                     connection?.Object?.UUID === dataObject.UUID ||
                     connection?.UUID === dataObject.UUID
             )
         )
 
-        if (activeModule !== undefined) {
+        if (activeModule) {
             setInitialModule(activeModule)
-            setSelectValue(activeModule.UUID)
+            setSelectValue(activeModule.UUID || '')
         }
     }, [dataObject, beleidsmodules, titleSingular])
 
@@ -118,7 +133,7 @@ function PopUpModules({
     }, [])
 
     return (
-        <PopUpAnimatedContainer small={true}>
+        <PopUpAnimatedContainer small>
             <div id="popup-edit-status" className="text-gray-800">
                 <h2 className="mb-4 font-bold">Module aanpassen</h2>
                 {dataLoaded ? (
@@ -135,15 +150,13 @@ function PopUpModules({
                                 - selecteer een optie -
                             </option>
                             {beleidsmodules
-                                ? beleidsmodules.map((arrayItem, index) => {
-                                      return (
-                                          <option
-                                              key={index}
-                                              value={arrayItem.UUID}>
-                                              {arrayItem.Titel}
-                                          </option>
-                                      )
-                                  })
+                                ? beleidsmodules.map((arrayItem, index) => (
+                                      <option
+                                          key={index}
+                                          value={arrayItem.UUID}>
+                                          {arrayItem.Titel}
+                                      </option>
+                                  ))
                                 : null}
                         </select>
                         <div className="absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 pointer-events-none">
