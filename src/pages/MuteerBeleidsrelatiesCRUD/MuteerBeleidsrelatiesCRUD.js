@@ -7,6 +7,8 @@ import { Helmet } from "react-helmet"
 import ContainerCrudFields from "./ContainerCrudFields"
 import ButtonBackToPage from "./../../components/ButtonBackToPage"
 
+import scrollToElement from "./../../utils/scrollToElement"
+import { toastNotification } from "./../../utils/toastNotification"
 import isEndDateBeforeStartDate from "./../../utils/isEndDateBeforeStartDate"
 
 // Import Axios instance to connect with the API
@@ -109,12 +111,9 @@ class MuteerBeleidsrelatiesCRUD extends Component {
             return
         }
 
-        if (
-            isEndDateBeforeStartDate(this.props.dataModel.TITLE_SINGULAR, {
-                Begin_Geldigheid: new Date(crudObject.Begin_Geldigheid),
-                Eind_Geldigheid: new Date(crudObject.Eind_Geldigheid),
-            })
-        ) {
+        if (isEndDateBeforeStartDate(crudObject)) {
+            scrollToElement(`form-field-beleidsrelatie-eind_geldigheid`)
+            toastNotification({ type: "end date before start date" })
             return
         }
 

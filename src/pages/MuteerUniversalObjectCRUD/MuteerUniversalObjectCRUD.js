@@ -193,6 +193,7 @@ class MuteerUniversalObjectCRUD extends Component {
             return
         }
 
+
         /** Check if the date properties are in a valid range */
         if (
             crudObject.hasOwnProperty("Begin_Geldigheid") &&
