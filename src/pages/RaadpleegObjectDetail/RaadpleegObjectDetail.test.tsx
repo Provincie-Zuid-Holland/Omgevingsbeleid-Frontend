@@ -6,26 +6,37 @@ import {
 import '@testing-library/jest-dom'
 import { MemoryRouter, Route } from 'react-router-dom'
 
+import { AmbitiesRead } from '@/api/fetchers.schemas'
+import { ambities } from '@/mocks/data/ambities'
+
 import allDimensies from '../../constants/dimensies'
-import { beleidskeuzes } from '../../mocks/data/beleidskeuzes'
 import RaadpleegObjectDetail from './RaadpleegObjectDetail'
 
 describe('RaadpleegObjectDetail', () => {
-    const mockBeleidskeuze = beleidskeuzes[0]
+    const mockAmbitieskeuze = ambities[0]
     const defaultProps = {
-        dataModel: allDimensies.BELEIDSKEUZES,
+        dataModel: allDimensies.AMBITIES,
     }
 
     window.scrollTo = jest.fn()
 
-    const setup = customProps => {
+    const setup = (customProps?: { [key: string]: any }) => {
         const props = { ...defaultProps, ...customProps }
         const path = `/detail/beleidskeuzes/:id`
-        const initialEntries = `/detail/beleidskeuzes/${mockBeleidskeuze.UUID}`
+        const initialEntries = `/detail/beleidskeuzes/${mockAmbitieskeuze.UUID}`
+
         render(
             <MemoryRouter initialEntries={[initialEntries]}>
                 <Route path={path}>
-                    <RaadpleegObjectDetail {...props} />
+                    <RaadpleegObjectDetail
+                        dataEndpoint={jest.fn(() =>
+                            Promise.resolve(ambities as AmbitiesRead[])
+                        )}
+                        dataVersionEndpoint={jest.fn(() =>
+                            Promise.resolve(ambities[0] as AmbitiesRead)
+                        )}
+                        {...props}
+                    />
                 </Route>
             </MemoryRouter>
         )
@@ -37,13 +48,13 @@ describe('RaadpleegObjectDetail', () => {
         await waitForElementToBeRemoved(() => screen.queryByRole('img'))
 
         const subTitle = screen.getAllByRole('heading', {
-            name: /Beleidskeuze/i,
+            name: /Ambitie/i,
             level: 3,
         })
         expect(subTitle).toBeTruthy()
 
         const title = screen.getAllByRole('heading', {
-            name: mockBeleidskeuze.Titel,
+            name: mockAmbitieskeuze.Titel,
             level: 1,
         })
         expect(title).toBeTruthy()

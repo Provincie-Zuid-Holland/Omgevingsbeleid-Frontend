@@ -1,6 +1,9 @@
 import { useParams } from 'react-router-dom'
 
-import { BeleidsrelatiesRead } from '@/api/fetchers.schemas'
+import {
+    BeleidskeuzesInline,
+    BeleidsrelatiesRead,
+} from '@/api/fetchers.schemas'
 import { LoaderBeleidsrelatieRegel } from '@/components/Loader'
 import formatDate from '@/utils/formatDate'
 
@@ -31,7 +34,7 @@ function TabDisconnected({
 
     const getPropertyFromRelation = (
         relation: BeleidsrelatiesRead,
-        property
+        property: keyof BeleidskeuzesInline
     ) => {
         if (relation.Van_Beleidskeuze?.UUID === UUID) {
             return relation.Naar_Beleidskeuze?.[property]

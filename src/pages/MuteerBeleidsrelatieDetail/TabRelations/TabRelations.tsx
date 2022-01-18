@@ -2,7 +2,10 @@ import { faTimes } from '@fortawesome/pro-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useParams } from 'react-router-dom'
 
-import { BeleidsrelatiesRead } from '@/api/fetchers.schemas'
+import {
+    BeleidskeuzesInline,
+    BeleidsrelatiesRead,
+} from '@/api/fetchers.schemas'
 import { LoaderBeleidsrelatieRegel } from '@/components/Loader'
 import { PopUpAnimatedContainer } from '@/components/Popup'
 import formatDate from '@/utils/formatDate'
@@ -52,7 +55,7 @@ function TabRelations({
 
     const getPropertyFromRelation = (
         relation: BeleidsrelatiesRead,
-        property
+        property: keyof BeleidskeuzesInline
     ) => {
         if (relation.Van_Beleidskeuze?.UUID === UUID) {
             return relation.Naar_Beleidskeuze?.[property]
@@ -170,7 +173,7 @@ interface PopUpConfirmProps
         | 'updateStatus'
     > {
     relation: BeleidsrelatiesRead
-    title?: string
+    title?: string | number
 }
 
 const PopUpConfirm = ({

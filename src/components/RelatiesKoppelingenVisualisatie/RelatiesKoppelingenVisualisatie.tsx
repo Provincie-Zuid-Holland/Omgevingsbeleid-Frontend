@@ -58,7 +58,10 @@ const RelatiesKoppelingenVisualisatie = ({
         left?: number | string
         top?: number | string
     }>({}) // X and Y positions for the Tooltip
-    const [data, setData] = useState<DataProps | null>(null)
+    const [data, setData] = useState<DataProps>({
+        nodes: [],
+        links: [],
+    })
     const [href, setHref] = useState('#')
     const [connectedProperties, setConnectedProperties] = useState<
         ConnectionProperties[]
@@ -102,13 +105,13 @@ const RelatiesKoppelingenVisualisatie = ({
         // The 'source' and 'target' properties on the links objects both reference the 'id' property of a node
 
         // D3 data object to return
-        const data: DataProps = {
+        const d3Data: DataProps = {
             nodes: [],
             links: [],
         }
 
         // First we push in the beleidsObject node object into the data object
-        data.nodes.push({
+        d3Data.nodes.push({
             id: beleidsObject.UUID,
             name: beleidsObject.Titel,
             property: 'beleidsObjectMain',
@@ -131,13 +134,13 @@ const RelatiesKoppelingenVisualisatie = ({
             activeConnectionProperties.push(property)
 
             beleidsObject[property]?.forEach(connection => {
-                data.nodes.push({
+                d3Data.nodes.push({
                     id: connection?.Object?.UUID,
                     name: connection?.Object?.Titel,
                     property: property,
                     color: connectionPropertiesColors[property].hex,
                 })
-                data.links.push({
+                d3Data.links.push({
                     source: connection?.Object?.UUID,
                     target: beleidsObject.UUID,
                 })
@@ -148,13 +151,13 @@ const RelatiesKoppelingenVisualisatie = ({
         if (beleidsRelaties.length > 0) {
             activeConnectionProperties.push('Beleidskeuzes')
             beleidsRelaties.forEach(beleidsrelatie => {
-                data.nodes.push({
+                d3Data.nodes.push({
                     id: beleidsrelatie.UUID,
                     name: beleidsrelatie.Titel,
                     property: 'Beleidskeuzes',
                     color: connectionPropertiesColors.Beleidskeuzes.hex,
                 })
-                data.links.push({
+                d3Data.links.push({
                     source: beleidsrelatie.UUID,
                     target: beleidsObject.UUID,
                 })
@@ -162,7 +165,7 @@ const RelatiesKoppelingenVisualisatie = ({
         }
 
         setConnectedProperties(activeConnectionProperties)
-        setData(data)
+        setData(d3Data)
     }, [
         beleidsObject,
         beleidsRelaties,
@@ -180,15 +183,15 @@ const RelatiesKoppelingenVisualisatie = ({
     /* The useEffect Hook is for running side effects outside of React,
        for instance inserting elements into the DOM using D3 */
     useEffect(() => {
-        if (!data && !d3Container.current) return
+        if (!d3Container.current) return
 
         const svg = d3.select(d3Container.current)
         svg.selectAll('*').remove()
 
         svg.attr('viewBox', [50, -25, 100, 250])
 
-        const links = data?.links
-        const nodes = data?.nodes
+        const links = data.links
+        const nodes = data.nodes
 
         /**
          * When we simulate the nodes, we need to define their strength of attracting or repelling each other.
@@ -197,8 +200,8 @@ const RelatiesKoppelingenVisualisatie = ({
          * https://www.d3indepth.com/force-layout/#forcemanybody
          */
         const generateStrength = (nodes: DataProps['nodes']) => {
-            if (nodes.length > 20) return -150
-            if (nodes.length > 10) return -100
+            if (nodes?.length > 20) return -150
+            if (nodes?.length > 10) return -100
             return -30 // Default
         }
 
@@ -221,7 +224,7 @@ const RelatiesKoppelingenVisualisatie = ({
 
         // Create Event Handlers for mouse.
         // In here we handle the tooltip
-        function handleMouseOver(_: any, d: any) {
+        function handleMouseOver(this: d3.BaseType, _: any, d: any) {
             // We don't want to show the popup on the main beleidskeuze
             if (d.property === 'beleidsObjectMain') return
 
@@ -282,7 +285,7 @@ const RelatiesKoppelingenVisualisatie = ({
 
             const tooltipWidth = tooltipEl?.offsetWidth || 0
             const circleWidth = 24
-            const { x, y } = this.getBoundingClientRect()
+            const { x, y } = (this as Element)?.getBoundingClientRect()
             const xPos = x - tooltipWidth / 2 + circleWidth / 2 //Center tooltip in the middle
             const navigationOffset = 90
             const yPos = y + window.pageYOffset - navigationOffset + circleWidth

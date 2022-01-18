@@ -3,7 +3,12 @@ import ContentLoader from 'react-content-loader'
 import { toast } from 'react-toastify'
 
 import { getBeleidsmodules, patchBeleidsmodulesLineageid } from '@/api/fetchers'
-import { BeleidskeuzesRead, BeleidsmodulesRead } from '@/api/fetchers.schemas'
+import {
+    BeleidskeuzesRead,
+    BeleidsmodulesRead,
+    BeleidsmodulesReadBeleidskeuzesItem,
+    BeleidsmodulesReadMaatregelenItem,
+} from '@/api/fetchers.schemas'
 import handleError from '@/utils/handleError'
 
 import PopUpAnimatedContainer from '../PopUpAnimatedContainer'
@@ -59,15 +64,22 @@ function PopUpModules({
         }
 
         const currentConnections = beleidsmodule[type]
-            ?.map(connection => {
-                if (connection.hasOwnProperty('Object')) {
-                    connection.UUID = connection.Object?.UUID
-                    delete connection.Object
-                    return connection
-                } else {
-                    return connection
+            ?.map(
+                (
+                    connection: (
+                        | BeleidsmodulesReadBeleidskeuzesItem
+                        | BeleidsmodulesReadMaatregelenItem
+                    ) & { UUID?: string }
+                ) => {
+                    if (connection.hasOwnProperty('Object')) {
+                        connection.UUID = connection.Object?.UUID
+                        delete connection.Object
+                        return connection
+                    } else {
+                        return connection
+                    }
                 }
-            })
+            )
             .filter(connection => connection.UUID !== dataObject.UUID) // Filter out existing connections
 
         patchBeleidsmodulesLineageid(beleidsmodule.ID, {
@@ -115,7 +127,14 @@ function PopUpModules({
 
         // Check if the dataObject.UUID exists in one of the policies of the beleidsmodules
         const activeModule = beleidsmodules?.find(module =>
-            module[type]?.find(
+            (
+                module[type] as (
+                    | (
+                          | BeleidsmodulesReadBeleidskeuzesItem
+                          | BeleidsmodulesReadMaatregelenItem
+                      ) & { UUID?: string }
+                )[]
+            )?.find(
                 connection =>
                     connection?.Object?.UUID === dataObject.UUID ||
                     connection?.UUID === dataObject.UUID

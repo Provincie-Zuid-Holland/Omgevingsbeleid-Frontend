@@ -34,7 +34,6 @@ import TableOfContents from './TableOfContents'
 
 interface RaadpleegObjectDetailProps {
     dataModel: {
-        API_ENDPOINT: string
         TITLE_SINGULAR: string
         TITLE_SINGULAR_PREFIX: string
     }

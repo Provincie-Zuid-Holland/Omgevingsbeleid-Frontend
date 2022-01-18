@@ -10,7 +10,7 @@ import { generateHrefVerordeningsartikel } from '@/utils/generateHrefVerordening
 import {
     ConnectionProperties,
     connectionPropertiesColors,
-} from '../RelatiesKoppelingen/RelatiesKoppelingen'
+} from '../RelatiesKoppelingen'
 
 const getObjectFromRelation = (relation: BeleidsrelatiesRead) => {
     return relation.hasOwnProperty('Van_Beleidskeuze')
@@ -141,9 +141,13 @@ function RelatiesKoppelingenTekstueel({
                                         verordeningsStructure={
                                             verordeningsStructure
                                         }
-                                        titel={relationObject.Titel}
+                                        titel={
+                                            ('Titel' in relationObject &&
+                                                relationObject.Titel) ||
+                                            ''
+                                        }
                                         property="Beleidskeuzes"
-                                        UUID={relationObject.UUID}
+                                        UUID={relationObject.UUID || ''}
                                         connectionPropertiesColors={
                                             connectionPropertiesColors
                                         }
@@ -216,7 +220,7 @@ const ListItem = ({
                     />
                     <span>{titel}</span>
                 </Link>
-                {omschrijving && omschrijving ? (
+                {omschrijving ? (
                     <div className="absolute top-0 z-20 hidden mt-8 cursor-default group-hover:block d3-tooltip-text">
                         <div
                             id={UUID}
