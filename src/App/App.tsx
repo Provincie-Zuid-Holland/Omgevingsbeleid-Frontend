@@ -29,7 +29,6 @@ import Navigation from '@/components/Navigation'
 import { PopupWelcomeBeta } from '@/components/Popup'
 import ErrorPage from '@/pages/ErrorPage'
 import Login from '@/pages/Login'
-import Planning from '@/pages/Planning'
 import RaadpleegDigiToegankelijkheid from '@/pages/RaadpleegDigiToegankelijkheid'
 import RaadpleegHome from '@/pages/RaadpleegHome'
 import RaadpleegInProgress from '@/pages/RaadpleegInProgress'
@@ -205,13 +204,6 @@ const App: FC<RouteComponentProps> = () => {
                                                 )}
                                             />
                                         ))}
-
-                                        {/* Planning page contains the development roadmap */}
-                                        <Route
-                                            path="/planning"
-                                            exact
-                                            component={Planning}
-                                        />
 
                                         <Route
                                             path="/login"
