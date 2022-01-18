@@ -145,8 +145,6 @@ const prepareRevisions = (revisions) => {
         sortedAndFilteredRevisions
     )
 
-    console.log("preppedVigerendeRevisions", preppedVigerendeRevisions)
-
     const preppedRevisions = prepareOntwerpInInspraakRevisions(
         preppedVigerendeRevisions,
         revisions
