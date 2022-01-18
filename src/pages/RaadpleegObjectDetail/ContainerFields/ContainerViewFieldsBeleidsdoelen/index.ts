@@ -1,3 +1,1 @@
-import ContainerViewFieldsBeleidsdoelen from './ContainerViewFieldsBeleidsdoelen'
-
-export default ContainerViewFieldsBeleidsdoelen
+export { default } from './ContainerViewFieldsBeleidsdoelen'

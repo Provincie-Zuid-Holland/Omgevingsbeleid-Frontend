@@ -1,3 +1,1 @@
-import TabDisconnected from './TabDisconnected'
-
-export default TabDisconnected
+export { default } from './TabDisconnected'

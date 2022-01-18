@@ -1,6 +1,6 @@
 import { createContext } from 'react'
 
-interface UserProps {
+export interface UserProps {
     UUID: string
     Gebruikersnaam: string
     Rol: string

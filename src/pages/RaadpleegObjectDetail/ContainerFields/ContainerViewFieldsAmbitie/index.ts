@@ -1,3 +1,1 @@
-import ContainerViewFieldsAmbitie from './ContainerViewFieldsAmbitie'
-
-export default ContainerViewFieldsAmbitie
+export { default } from './ContainerViewFieldsAmbitie'

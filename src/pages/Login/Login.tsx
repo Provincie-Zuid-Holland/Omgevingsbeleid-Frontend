@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { useWindowSize } from 'react-use'
 
 // Import Components
+import { UserProps } from '@/App/UserContext'
 import { Container } from '@/components/Container'
 import Footer from '@/components/Footer'
 import Heading from '@/components/Heading'
@@ -17,8 +18,8 @@ import Text from '@/components/Text'
  */
 
 interface LoginProps {
-    setLoginUser: (e: string) => void
-    setLoginState: (e: boolean) => void
+    setLoginUser: (identifier?: UserProps) => void
+    setLoginState: (state: boolean) => void
 }
 
 const Login = ({ setLoginUser, setLoginState }: LoginProps) => {

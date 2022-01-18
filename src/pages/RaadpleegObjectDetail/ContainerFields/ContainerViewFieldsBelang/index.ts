@@ -1,3 +1,1 @@
-import ContainerViewFieldsBelang from './ContainerViewFieldsBelang'
-
-export default ContainerViewFieldsBelang
+export { default } from './ContainerViewFieldsBelang'

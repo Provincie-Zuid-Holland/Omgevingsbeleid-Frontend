@@ -1,3 +1,1 @@
-import Planning from './Planning'
-
-export default Planning
+export { default } from './Planning'

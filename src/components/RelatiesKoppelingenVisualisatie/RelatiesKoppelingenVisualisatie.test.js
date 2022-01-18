@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
-
 import { MemoryRouter, Route } from 'react-router-dom'
 
 import RelatiesKoppelingenVisualisatie from './RelatiesKoppelingenVisualisatie'

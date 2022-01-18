@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 
+import { UserProps } from '@/App/UserContext'
+
 // Import API
 import axios from '../../api/axios'
 // Import Components
@@ -18,7 +20,7 @@ interface PopupPasswordForgotProps {
 
 interface LoginFormProps {
     setLoginState: (e: boolean) => void
-    setLoginUser: (identifier: string) => void
+    setLoginUser: (identifier: UserProps) => void
 }
 
 const LoginForm = ({ setLoginState, setLoginUser }: LoginFormProps) => {

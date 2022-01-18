@@ -2,7 +2,7 @@ import { faCheck } from '@fortawesome/pro-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Helmet } from 'react-helmet'
 
-import ButtonBackToPage from '../../components/ButtonBackToPage'
+import ButtonBackToPage from '@/components/ButtonBackToPage'
 
 /**
  * Component to display the planning
@@ -32,61 +32,61 @@ const Planning = () => (
                     <ListItem
                         title="Beta versie online zetten"
                         content="We hebben de “oude” omgeving vervangen met de nieuwe lay-out, maar ook technisch is het een stuk verbeterd."
-                        completed={true}
+                        completed
                     />
 
                     <ListItem
                         title="Maatregelen toevoegen"
                         content="Per 7 augustus 2021 heeft de provincie één Omgevingsprogramma om te voldoen aan de Omgevingswet. Het Omgevingsprogramma bestaat uit maatregelen die aangeven hoe de beleidskeuzes uit de Omgevingsvisie uitgevoerd gaan worden. De maatregelen zijn allemaal toegevoegd aan het systeem."
-                        completed={true}
+                        completed
                     />
 
                     <ListItem
                         title="Huisstijl provincie"
                         content="In samenwerking met de afdeling communicatie zorgen we dat het systeem blijft aansluiten op de huisstijl van de provincie. Zo blijft het herkenbaar voor iedereen!"
-                        completed={true}
+                        completed
                     />
 
                     <ListItem
                         title="Revisieoverzicht"
                         content="Met het revisieoverzicht kunnen oude versies van beleid vergeleken worden met de huidige versies. Zo wordt duidelijk wat in de loop der tijd gewijzigd is."
-                        completed={true}
+                        completed
                     />
 
                     <ListItem
                         title="Netwerkvisualisatie (Beta)"
                         content="Een visuele presentatie van de koppelingen en relaties van het beleid en de regelgeving. Zo is al het provinciale Omgevingsbeleid in één oogopslag zichtbaar en wordt inzichtelijk welke onderwerpen met elkaar te maken hebben."
-                        completed={true}
+                        completed
                     />
 
                     <ListItem
                         title="Open Source"
                         content="De code en logica van het 'Digitaal Omgevingsbeleid' zijn openbaar, het project is dus open source. We zorgen voor de juiste basis, een passende licentie en andere belangrijke stappen zodat de code 'open source' kan worden. Op die manier kunnen derden de code ook benutten. Benieuwd naar de mogelijkheden voor jouw gemeente of provincie? Neem contact op via omgevingsbeleid@pzh.nl"
-                        completed={true}
+                        completed
                     />
 
                     <ListItem
                         title="Vindbaarheid verbeteren"
                         content="Als gebruiker wil je (tekstueel) kunnen zoeken binnen het Omgevingsbeleid van de provincie Zuid-Holland. Dit onderdeel gaat over het beter vindbaar maken van de informatie in de database, dus ook al komt een zoekterm maar 1x voor in een stuk tekst, moet hij worden getoond. Daarnaast wordt er bij dit onderdeel nagedacht over de volgorde van het presenteren van de zoekresultaten."
-                        completed={false}
+                        completed
                     />
 
                     <ListItem
                         title="Annoteren van de Omgevingsverordening"
                         content="Het landelijk Omgevingsloket biedt de mogelijkheid om extra informatie te binden aan beleidsteksten en regels. Dit willen we mogelijk maken voor de Omgevingsverordening zodat duidelijk wordt wat een bepaald woord betekent, welke normen eraan verbonden zijn of met welk thema het verbonden is."
-                        completed={false}
+                        completed
                     />
 
                     <ListItem
                         title="Digitoegankelijkheid"
                         content="We lopen alles regelmatig na om uit te zoeken of het systeem voor alle gebruikers goed te gebruiken is. Natuurlijk kijken we daarbij naar de landelijke standaard die daarvoor beschikbaar is."
-                        completed={false}
+                        completed
                     />
 
                     <ListItem
                         title="Zoeken op de kaart"
                         content="Het is handig om het Omgevingsbeleid op een kaart te kunnen zien op een specifiek punt of gebied. Daarom gaan we aan de slag met het zoeken op de kaart. Hiermee kun je een gebied tekenen of een punt op de kaart zetten om te zoeken, en daarna de resultaten visueel gepresenteerd krijgen."
-                        completed={false}
+                        completed
                     />
                 </ul>
             </div>
