@@ -1,8 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useWindowSize } from 'react-use'
 
-// Import Components
-import { UserProps } from '@/App/UserContext'
+import { GetTokeninfo200Identifier } from '@/api/fetchers.schemas'
 import { Container } from '@/components/Container'
 import Footer from '@/components/Footer'
 import Heading from '@/components/Heading'
@@ -18,7 +17,7 @@ import Text from '@/components/Text'
  */
 
 interface LoginProps {
-    setLoginUser: (identifier?: UserProps) => void
+    setLoginUser: (identifier?: GetTokeninfo200Identifier) => void
     setLoginState: (state: boolean) => void
 }
 

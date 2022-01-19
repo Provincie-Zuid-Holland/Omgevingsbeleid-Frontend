@@ -431,6 +431,23 @@ export type GetValidAmbitiesParams = {
     offset?: number
 }
 
+export type GetTokeninfo200Identifier = {
+    /** Email for the user that generated this token */
+    Email?: string
+    /** Username for the user that generated this token */
+    Gebruikersnaam?: string
+    /** Role for the user that generated this token */
+    Rol?: string
+    /** UUID for the user that generated this token */
+    UUID?: string
+}
+
+export type GetTokeninfo200 = {
+    /** Moment of expiration for this token */
+    expires?: string
+    identifier?: GetTokeninfo200Identifier
+}
+
 export type PatchThemasLineageid500 = {
     /** A description of the error */
     message?: string
@@ -495,7 +512,7 @@ export type GetSearch400 = {
     message?: string
 }
 
-export type GetSearch200 = {
+export type GetSearch200Item = {
     /** A description of this object */
     Omschrijving?: string
     /** A representation of the search rank, only usefull for comparing between two results */
@@ -567,6 +584,48 @@ export type GetMaatregelenParams = {
     any_filters?: string
     limit?: number
     offset?: number
+}
+
+export type GetGraph200NodesItem = {
+    /** The title of the object this node represents */
+    Titel?: string
+    /** The type slug of the object this node represents */
+    Type?: string
+    /** The UUID of the object this node represents */
+    UUID?: string
+}
+
+export type GetGraph200LinksItem = {
+    /** The UUID of the object this link originates from */
+    source?: string
+    /** The UUID of the object this link targets to */
+    target?: string
+    /** The type slug of the object this link represents */
+    type?: string
+}
+
+export type GetGraph200 = {
+    links?: GetGraph200LinksItem[]
+    nodes?: GetGraph200NodesItem[]
+}
+
+export type GetEdits200ItemIdentifier = {
+    /** ID for this object */
+    ID?: number
+    /** Status for this object */
+    Status?: string
+    /** Title for this object */
+    Titel?: string
+    /** Type slug for this object */
+    Type?: string
+    /** UUID for this object */
+    UUID?: string
+}
+
+export type GetEdits200Item = {
+    /** Moment of expiration for this token */
+    expires?: string
+    identifier?: GetEdits200ItemIdentifier
 }
 
 export type GetChangesWerkingsgebiedenOlduuidNewuuid500 = {

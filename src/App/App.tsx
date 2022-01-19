@@ -22,7 +22,8 @@ import {
 } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 
-import axios from '@/api/axios'
+import { getTokeninfo } from '@/api/fetchers'
+import { GetTokeninfo200Identifier } from '@/api/fetchers.schemas'
 import FeedbackComponent from '@/components/FeedbackComponent'
 import { LoaderContent } from '@/components/Loader'
 import Navigation from '@/components/Navigation'
@@ -41,7 +42,7 @@ import detailPages from '@/utils/detailPages'
 
 // Import Context
 import GraphContext from './GraphContext'
-import UserContext, { UserProps } from './UserContext'
+import UserContext from './UserContext'
 
 const AuthRoutes = lazy(() => import('./AuthRoutes'))
 
@@ -51,7 +52,9 @@ const App: FC<RouteComponentProps> = () => {
     const location = useLocation()
     const locationEqualsMutateEnv = location.pathname.includes('muteer')
 
-    const [user, setUser] = useState<UserProps | undefined>(undefined)
+    const [user, setUser] = useState<GetTokeninfo200Identifier | undefined>(
+        undefined
+    )
     const [loggedIn, setLoggedIn] = useState(false)
     const [dataLoaded, setDataLoaded] = useState(false)
     const [graphIsOpen, setGraphIsOpen] = useState(false)
@@ -83,11 +86,12 @@ const App: FC<RouteComponentProps> = () => {
 
     // Makes a request on mount to the API to see if we get a 200 response, which means the user is logged in.
     const checkIfUserIsAuthenticated = () => {
-        axios
-            .get('/tokeninfo')
-            .then(res => {
+        getTokeninfo()
+            .then(data => {
+                if (!data.identifier) return
+
                 setLoggedIn(true)
-                setUser(res.data.identifier)
+                setUser(data.identifier)
                 setDataLoaded(true)
             })
             .catch(() => {

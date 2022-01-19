@@ -142,6 +142,8 @@ import type {
     GetChangesWerkingsgebiedenOlduuidNewuuid200,
     GetChangesWerkingsgebiedenOlduuidNewuuid404,
     GetChangesWerkingsgebiedenOlduuidNewuuid500,
+    GetEdits200Item,
+    GetGraph200,
     MaatregelenRead,
     GetMaatregelen400,
     GetMaatregelenParams,
@@ -154,7 +156,7 @@ import type {
     PatchMaatregelenLineageid400,
     PatchMaatregelenLineageid403,
     PatchMaatregelenLineageid500,
-    GetSearch200,
+    GetSearch200Item,
     GetSearch400,
     GetSearch403,
     GetSearchParams,
@@ -170,6 +172,7 @@ import type {
     PatchThemasLineageid400,
     PatchThemasLineageid403,
     PatchThemasLineageid500,
+    GetTokeninfo200,
     GetValidAmbities404,
     GetValidAmbitiesParams,
     GetValidAmbitiesLineageid404,
@@ -2385,6 +2388,74 @@ export const useGetChangesWerkingsgebiedenOlduuidNewuuid = <
 }
 
 /**
+ * @summary Get the latest edits for every lineage, active for 'Beleidskeuzes' & 'Maatregelen'
+ */
+export const getEdits = () => {
+    return customInstance<GetEdits200Item[]>({ url: `/edits`, method: 'get' })
+}
+
+export const getGetEditsQueryKey = () => [`/edits`]
+
+export const useGetEdits = <
+    TData = AsyncReturnType<typeof getEdits>,
+    TError = unknown
+>(options?: {
+    query?: UseQueryOptions<AsyncReturnType<typeof getEdits>, TError, TData>
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey = queryOptions?.queryKey ?? getGetEditsQueryKey()
+
+    const queryFn: QueryFunction<AsyncReturnType<typeof getEdits>> = () =>
+        getEdits()
+
+    const query = useQuery<AsyncReturnType<typeof getEdits>, TError, TData>(
+        queryKey,
+        queryFn,
+        queryOptions
+    )
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
+/**
+ * @summary Get a graph representation of the effective objects
+ */
+export const getGraph = () => {
+    return customInstance<GetGraph200>({ url: `/graph`, method: 'get' })
+}
+
+export const getGetGraphQueryKey = () => [`/graph`]
+
+export const useGetGraph = <
+    TData = AsyncReturnType<typeof getGraph>,
+    TError = unknown
+>(options?: {
+    query?: UseQueryOptions<AsyncReturnType<typeof getGraph>, TError, TData>
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey = queryOptions?.queryKey ?? getGetGraphQueryKey()
+
+    const queryFn: QueryFunction<AsyncReturnType<typeof getGraph>> = () =>
+        getGraph()
+
+    const query = useQuery<AsyncReturnType<typeof getGraph>, TError, TData>(
+        queryKey,
+        queryFn,
+        queryOptions
+    )
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
+/**
  * @summary Gets all the maatregelen lineages and shows the latests object for each
  */
 export const getMaatregelen = (params?: GetMaatregelenParams) => {
@@ -2579,7 +2650,7 @@ export const usePatchMaatregelenLineageid = <
  * @summary Search for objects with a textual query
  */
 export const getSearch = (params?: GetSearchParams) => {
-    return customInstance<GetSearch200>({
+    return customInstance<GetSearch200Item[]>({
         url: `/search`,
         method: 'get',
         params,
@@ -2812,6 +2883,40 @@ export const usePatchThemasLineageid = <
         { lineageid: number; data: ThemasWrite },
         TContext
     >(mutationFn, mutationOptions)
+}
+
+/**
+ * @summary Get information about the current JWT token
+ */
+export const getTokeninfo = () => {
+    return customInstance<GetTokeninfo200>({ url: `/tokeninfo`, method: 'get' })
+}
+
+export const getGetTokeninfoQueryKey = () => [`/tokeninfo`]
+
+export const useGetTokeninfo = <
+    TData = AsyncReturnType<typeof getTokeninfo>,
+    TError = unknown
+>(options?: {
+    query?: UseQueryOptions<AsyncReturnType<typeof getTokeninfo>, TError, TData>
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey = queryOptions?.queryKey ?? getGetTokeninfoQueryKey()
+
+    const queryFn: QueryFunction<AsyncReturnType<typeof getTokeninfo>> = () =>
+        getTokeninfo()
+
+    const query = useQuery<AsyncReturnType<typeof getTokeninfo>, TError, TData>(
+        queryKey,
+        queryFn,
+        queryOptions
+    )
+
+    return {
+        queryKey,
+        ...query,
+    }
 }
 
 /**

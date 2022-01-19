@@ -1,13 +1,9 @@
 import { createContext } from 'react'
 
-export interface UserProps {
-    UUID: string
-    Gebruikersnaam: string
-    Rol: string
-}
+import { GetTokeninfo200Identifier } from './../api/fetchers.schemas'
 
 type UserContextProps = {
-    user: UserProps
+    user: GetTokeninfo200Identifier
 }
 
 const UserContext = createContext<Partial<UserContextProps>>({})
