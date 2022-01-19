@@ -39,13 +39,13 @@ describe("PopUpRevisionContainer", () => {
 
     it("Component renders", () => {
         setup()
-        const element = screen.getByText(`4 revisies`)
+        const element = screen.getByText(`3 Revisies`)
         expect(element).toBeTruthy()
     })
 
     it("User can toggle the popup", async () => {
         setup()
-        const element = screen.getByText(`4 revisies`)
+        const element = screen.getByText(`3 Revisies`)
         fireEvent.click(element)
         const title = await screen.findByText("Vergelijken")
         expect(title).toBeTruthy()
