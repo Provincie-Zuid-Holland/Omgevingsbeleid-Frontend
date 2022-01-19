@@ -4,10 +4,10 @@ import { withRouter } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 import axios from '../../api/axios'
-// Import Components
+import isEndDateBeforeStartDate from '../../utils/isEndDateBeforeStartDate'
 import ButtonBackToPage from './../../components/ButtonBackToPage'
-import isEndDateBeforeStartDate from './../../utils/isEndDateBeforeStartDate'
-// Create Context
+import scrollToElement from './../../utils/scrollToElement'
+import { toastNotification } from './../../utils/toastNotification'
 import APIcontext from './APIContext'
 import ContainerCrudFields from './ContainerCrudFields'
 
@@ -105,12 +105,9 @@ class MuteerBeleidsrelatiesCRUD extends Component {
             return
         }
 
-        if (
-            isEndDateBeforeStartDate(this.props.dataModel.TITLE_SINGULAR, {
-                Begin_Geldigheid: new Date(crudObject.Begin_Geldigheid),
-                Eind_Geldigheid: new Date(crudObject.Eind_Geldigheid),
-            })
-        ) {
+        if (isEndDateBeforeStartDate(crudObject)) {
+            scrollToElement(`form-field-beleidsrelatie-eind_geldigheid`)
+            toastNotification({ type: 'end date before start date' })
             return
         }
 
