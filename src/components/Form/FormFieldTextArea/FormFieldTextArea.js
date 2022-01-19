@@ -52,6 +52,7 @@ class FormFieldTextArea extends Component {
                     <textarea
                         disabled={this.props.disabled}
                         ref={this.textArea}
+                        data-testid={`form-field-${this.props.titleSingular.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
                         id={`form-field-${this.props.titleSingular.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
                         value={
                             this.props.fieldValue ? this.props.fieldValue : ''
