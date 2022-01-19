@@ -1,13 +1,11 @@
 import { faCalendarAlt } from '@fortawesome/pro-regular-svg-icons'
 import { faLink, faExternalLinkAlt } from '@fortawesome/pro-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { withRouter } from 'react-router-dom'
+import { RouteComponentProps, withRouter } from 'react-router-dom'
 
-// Import Components
-import HeadingMain from '../../HeadingMain'
-import { LoaderMainTitle, LoaderSmallSpan } from '../../Loader'
-// Import Utilities
-import getVigerendText from './../../../utils/getVigerendText'
+import HeadingMain from '@/components/HeadingMain'
+import { LoaderMainTitle, LoaderSmallSpan } from '@/components/Loader'
+import getVigerendText from '@/utils/getVigerendText'
 
 /**
  * Displays main details in a container.
@@ -17,12 +15,22 @@ import getVigerendText from './../../../utils/getVigerendText'
  * @param {boolean} dataReceived - Parameter that is set to true if it contains data.
  * @param {string} overzichtSlug - Portion of the url referring to the overzicht.
  */
+
+interface ContainerDetailMainProps extends RouteComponentProps {
+    dataObject?: any
+    titleSingular?: string
+    dataReceived?: boolean
+    overzichtSlug?: string
+    validDatePrefix?: string | null
+    validDate?: string | null
+}
+
 const ContainerDetailMain = ({
     dataObject,
     titleSingular,
     dataReceived,
     overzichtSlug,
-}) => {
+}: ContainerDetailMainProps) => {
     const validDate = getVigerendText({ dataObject })
     const validDatePrefix = getVigerendText({
         dataObject,
@@ -68,12 +76,13 @@ const ContainerDetailMain = ({
  * @param {string} overzichtSlug - Portion of the url referring to the overzicht.
  * @param {boolean} dataReceived - Parameter that is set to true if it contains data.
  */
+
 const ContainerDetailMainRaadpleegLink = ({
     titleSingular,
     dataObject,
     overzichtSlug,
     dataReceived,
-}) => {
+}: Partial<ContainerDetailMainProps>) => {
     if (!dataObject) return null
 
     const raadpleegLink = dataReceived
@@ -96,7 +105,7 @@ const ContainerDetailMainRaadpleegLink = ({
                     </span>
                     <span className="text-sm text-gray-700">
                         {dataReceived ? (
-                            `Bekijk ${titleSingular.toLowerCase()}`
+                            `Bekijk ${titleSingular?.toLowerCase()}`
                         ) : (
                             <LoaderMainTitle />
                         )}
@@ -124,7 +133,7 @@ const ContainerDetailMainDate = ({
     dataReceived,
     validDatePrefix,
     validDate,
-}) => {
+}: Partial<ContainerDetailMainProps>) => {
     return (
         <div className="flex items-center justify-between w-full py-2 pr-4 border-r border-gray-300">
             <div>
@@ -154,7 +163,7 @@ const ContainerDetailMainDate = ({
  *
  * @param {string} weblink - Contains the URL destination.
  */
-const ContainerDetailMainWeblink = ({ weblink }) => {
+const ContainerDetailMainWeblink = ({ weblink }: { weblink?: string }) => {
     if (!weblink) return null
 
     return (

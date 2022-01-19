@@ -1,8 +1,9 @@
 import { render, fireEvent, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 
-import objecten from './../../../../constants/koppelingen'
-import { beleidskeuzeMock } from './../../../../mocks/data/crudObjects'
+import objecten from '@/constants/koppelingen'
+import { beleidskeuzeMock } from '@/mocks/data/crudObjects'
+
 import PopUpBewerkKoppeling from './PopUpBewerkKoppeling'
 
 describe('PopUpBewerkKoppeling', () => {
@@ -43,7 +44,7 @@ describe('PopUpBewerkKoppeling', () => {
         objecten: objecten,
     }
 
-    const setup = customProps => {
+    const setup = (customProps?: any) => {
         const props = customProps ? customProps : defaultProps
 
         render(<PopUpBewerkKoppeling {...props} />)

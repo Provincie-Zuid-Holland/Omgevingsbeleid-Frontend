@@ -7,7 +7,7 @@ import Footer from './Footer'
 describe('Footer', () => {
     const defaultProps = {}
 
-    const setup = customProps => {
+    const setup = (customProps?: { [key: string]: any }) => {
         const props = { ...defaultProps, ...customProps }
         render(
             <MemoryRouter>

@@ -1,7 +1,13 @@
+import { KeyboardEvent, MouseEvent } from 'react'
+
 /**
  * Displays a fixed placed submit button.
  */
-function ButtonSubmitFixed({ submit }) {
+interface ButtonSubmitFixedProps {
+    submit?: ((e: MouseEvent | KeyboardEvent) => void) | null
+}
+
+function ButtonSubmitFixed({ submit }: ButtonSubmitFixedProps) {
     if (!submit) return null
 
     return (
@@ -16,8 +22,7 @@ function ButtonSubmitFixed({ submit }) {
                         if (e.key === 'Enter') {
                             submit(e)
                         }
-                    }}
-                >
+                    }}>
                     Opslaan
                 </button>
             </div>

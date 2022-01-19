@@ -5,7 +5,7 @@ import formatDate from './formatDate'
 /**
  * @param {string|null|undefined} date
  */
-const hasInvalidValue = date => {
+const hasInvalidValue = (date: string) => {
     if (!date) return true
 
     // This date is automatically assigned to a beginning date with no value
@@ -22,12 +22,20 @@ const hasInvalidValue = date => {
  * @param {boolean} props.prefixOnly - Returns only the prefix
  * @returns Returns the text that indicates when an object has become valid
  */
+
+interface GetVigerendTextProps {
+    dataObject: any
+    revisionObjects?: [any]
+    prefix?: boolean
+    prefixOnly?: boolean
+}
+
 const getVigerendText = ({
     dataObject,
     revisionObjects,
     prefix,
     prefixOnly,
-}) => {
+}: GetVigerendTextProps) => {
     if (!dataObject) return null
 
     const dateStartValidity = dataObject['Begin_Geldigheid']

@@ -1,10 +1,10 @@
 import { faAngleDown, faEye } from '@fortawesome/pro-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import PropTypes from 'prop-types'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving/FormFieldTitelEnBeschrijving'
-import objecten from './../../../constants/koppelingen'
+import objecten from '@/constants/koppelingen'
+
+import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving'
 import PopupBewerkKoppeling from './PopUpBewerkKoppeling'
 import PopupNieuweKoppeling from './PopupNieuweKoppeling'
 
@@ -15,21 +15,25 @@ import PopupNieuweKoppeling from './PopupNieuweKoppeling'
  * @param {object} crudObject - Contains the object information from the API.
  */
 function getPropertiesWithConnectionsFromCrudObject(
-    connectionProperties,
-    crudObject
+    connectionProperties: (keyof typeof objecten)[],
+    crudObject: any
 ) {
-    const propertiesWithExistingConnections = []
+    const propertiesWithExistingConnections: string[] = []
+
     connectionProperties.forEach(property => {
-        const propertyName = objecten[property].propertyName
+        const propertyName = objecten[property].propertyName as any
+
         if (
             crudObject[propertyName] !== undefined &&
             crudObject[propertyName] !== null &&
-            crudObject[propertyName].length > 0 &&
+            Array.isArray(crudObject[propertyName]) &&
+            crudObject[propertyName]?.length > 0 &&
             !propertiesWithExistingConnections.includes(propertyName)
         ) {
             propertiesWithExistingConnections.push(propertyName)
         }
     })
+
     return propertiesWithExistingConnections
 }
 
@@ -49,6 +53,32 @@ function getPropertiesWithConnectionsFromCrudObject(
  * @param {function} wijzigKoppelingRelatie - Function to edit parent state
  * @param {function} verwijderKoppelingRelatie - Function to edit parent state
  */
+
+interface FormFieldRelatieKoppelingProps {
+    crudObject: any
+    connectionProperties: (keyof typeof objecten)[]
+    disabled?: boolean
+    fieldLabel: string
+    pValue: string
+    dataObjectProperty: string
+    titleSingular: string
+    placeholderTekst: string
+    buttonTekst: string
+    titelMainObject: string
+    voegKoppelingRelatieToe: (
+        propertyName: string,
+        object: any,
+        omschrijving: string,
+        callback: () => void
+    ) => void
+    wijzigKoppelingRelatie: (
+        koppelingObject: any,
+        nieuweOmschrijving: string,
+        callback: () => void
+    ) => void
+    verwijderKoppelingRelatie: (koppelingObject: any) => void
+}
+
 const FormFieldRelatieKoppeling = ({
     crudObject,
     connectionProperties,
@@ -63,7 +93,7 @@ const FormFieldRelatieKoppeling = ({
     voegKoppelingRelatieToe,
     wijzigKoppelingRelatie,
     verwijderKoppelingRelatie,
-}) => {
+}: FormFieldRelatieKoppelingProps) => {
     // Contains a boolean
     const [dropdownOpen, setDropdownOpen] = useState(false)
 
@@ -77,28 +107,32 @@ const FormFieldRelatieKoppeling = ({
     const [popupOpenBewerkItem, setPopupOpenBewerkItem] = useState({})
 
     // Contains the connections
-    const [koppelingenRelaties, setKoppelingenRelaties] = useState(null)
+    const [koppelingenRelaties, setKoppelingenRelaties] = useState<{
+        [key: string]: any
+    } | null>(null)
 
     // Boolean if all the data is loaded
     const [dataLoaded, setDataLoaded] = useState(false)
 
     // Object containing the connection that is being edited
-    const [popupType, setPopupType] = useState(null)
+    const [popupType, setPopupType] = useState<keyof typeof objecten | null>(
+        null
+    )
 
-    const togglePopupNieuw = type => {
+    const togglePopupNieuw = (type?: keyof typeof objecten) => {
         setPopupOpenNieuw(!popupOpenNieuw)
-        if (!popupOpenNieuw) {
+        if (!popupOpenNieuw && type) {
             setPopupType(type)
         } else {
             setPopupType(null)
         }
     }
 
-    const togglePopupBewerk = (item, propertyName) => {
+    const togglePopupBewerk = (item?: any, propertyName?: string) => {
         setPopupOpenBewerk(!popupOpenBewerk)
         setPopupOpenBewerkItem({
-            item: item,
-            propertyName: propertyName,
+            item,
+            propertyName,
         })
     }
 
@@ -115,10 +149,12 @@ const FormFieldRelatieKoppeling = ({
 
         // Contains the properties we have already mapped
         // We need this because 'Belang' en 'Taak' are both different types, but they do have the same propertyName on the crudObject
-        const propertyNamesMapped = []
+        const propertyNamesMapped: string[] = []
 
         // This object will contain the properties with existing connections
-        const newStateKoppelingenRelatiesObject = {}
+        const newStateKoppelingenRelatiesObject: {
+            [key: string]: any
+        } = {}
 
         propertiesWithExistingConnections.forEach(propertyName => {
             // Return if we already mapped over this property
@@ -131,7 +167,7 @@ const FormFieldRelatieKoppeling = ({
             // Create the property on which we will put the objects
             newStateKoppelingenRelatiesObject[propertyName] = []
 
-            crudObject[propertyName].forEach(item => {
+            crudObject[propertyName].forEach((item: any) => {
                 newStateKoppelingenRelatiesObject[propertyName].push(item)
             })
         })
@@ -148,7 +184,7 @@ const FormFieldRelatieKoppeling = ({
     // Lege array waar de properties in worden gepushed na er overheen gemap'd te zijn
     // 'Belang' en 'Taak' zijn aparte typen, maar zitten wel beide op dezelfde propertyName op het crudObject
     // Als tijdens het map'en de propertyName al in de propertyNamesMapped array staat, slaat die 'm over
-    let propertyNamesMapped = []
+    const propertyNamesMapped: string[] = []
 
     return (
         <>
@@ -207,7 +243,7 @@ const FormFieldRelatieKoppeling = ({
 
                                 // Anders returnen we de list items door te loopen over koppelingenRelaties[propertyName]
                                 return koppelingenRelaties[propertyName].map(
-                                    (item, index) => {
+                                    (item: any, index: number) => {
                                         let type =
                                             objecten[koppelingRelatieNaam].type
                                         if (type === 'Nationaal Belang') {
@@ -256,7 +292,7 @@ const FormFieldRelatieKoppeling = ({
                     togglePopupNieuw={togglePopupNieuw}
                 />
             </div>
-            {popupOpenNieuw ? (
+            {popupOpenNieuw && popupType ? (
                 <PopupNieuweKoppeling
                     titelMainObject={titelMainObject}
                     type={popupType}
@@ -274,16 +310,13 @@ const FormFieldRelatieKoppeling = ({
                         )
                     }}
                     crudObject={crudObject}
-                    objecten={objecten}
                 />
             ) : null}
             {popupOpenBewerk ? (
                 <PopupBewerkKoppeling
                     titelMainObject={titelMainObject}
-                    type={popupType}
                     togglePopup={togglePopupBewerk}
                     bewerkItem={popupOpenBewerkItem}
-                    voegKoppelingRelatieToe={voegKoppelingRelatieToe}
                     wijzigKoppelingRelatie={(
                         koppelingObject,
                         nieuweOmschrijving
@@ -295,12 +328,20 @@ const FormFieldRelatieKoppeling = ({
                         )
                     }}
                     verwijderKoppelingRelatie={verwijderKoppelingRelatie}
-                    crudObject={crudObject}
-                    objecten={objecten}
                 />
             ) : null}
         </>
     )
+}
+
+interface DropdownProps {
+    dropdownOpen?: boolean
+    setDropdownOpen: (state: boolean) => void
+    titleSingular: string
+    dataObjectProperty: string
+    connectionProperties: (keyof typeof objecten)[]
+    togglePopupNieuw: (type: keyof typeof objecten) => void
+    buttonTekst: string
 }
 
 const Dropdown = ({
@@ -311,13 +352,16 @@ const Dropdown = ({
     connectionProperties,
     togglePopupNieuw,
     buttonTekst,
-}) => {
-    const buttonRef = useRef()
-    const dropdownRef = useRef()
+}: DropdownProps) => {
+    const buttonRef = useRef<HTMLDivElement>(null)
+    const dropdownRef = useRef(null)
 
     useEffect(() => {
-        const handleClickOutside = e => {
-            if (dropdownRef.current && buttonRef.current.contains(e.target)) {
+        const handleClickOutside = (e: MouseEvent) => {
+            if (
+                dropdownRef.current &&
+                buttonRef.current?.contains(e.target as Node | null)
+            ) {
                 return
             } else if (dropdownRef.current && e.target !== buttonRef.current) {
                 setDropdownOpen(false)
@@ -371,11 +415,6 @@ const Dropdown = ({
             </div>
         </div>
     )
-}
-
-FormFieldRelatieKoppeling.propTypes = {
-    buttonTekst: PropTypes.string,
-    placeholderTekst: PropTypes.string,
 }
 
 export default FormFieldRelatieKoppeling

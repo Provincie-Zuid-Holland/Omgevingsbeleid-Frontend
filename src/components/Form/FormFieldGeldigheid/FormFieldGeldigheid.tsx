@@ -1,71 +1,80 @@
-import { Component } from 'react'
+import { ChangeEventHandler, MouseEventHandler, useState } from 'react'
+
+import isSafari from '@/utils/isSafari'
 
 import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving'
 
-var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
+interface FormFieldGeldigheidProps {
+    fieldValue?: string
+    disabled?: boolean
+    dataObjectProperty: string
+    fieldLabel: string
+    pValue?: string
+    titleSingular: string
+    hideToggleUitwerkingstrede?: boolean
+    openUitwerkingstrede?: boolean
+    handleChange?: ChangeEventHandler
+}
 
-/**
- * Class that renders the FormFieldGeldigheid component. In the class it will either render the EindGeldigheid component or the BeginGeldigheid component, based on if the dataObjectProperty is equal to 'Eind-Geldigheid'.
- * @class
- * @extends Component
- */
-
-class FormFieldGeldigheid extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            toonUitwerkingTreding:
-                this.props.fieldValue !== '' || this.props.openUitwerkingstrede,
-        }
-        this.toggleUitwerkingTreding = this.toggleUitwerkingTreding.bind(this)
-    }
-
-    toggleUitwerkingTreding() {
-        this.setState({
-            toonUitwerkingTreding: !this.state.toonUitwerkingTreding,
-        })
-    }
+const FormFieldGeldigheid = ({
+    dataObjectProperty,
+    hideToggleUitwerkingstrede,
+    openUitwerkingstrede,
+    fieldValue,
+    disabled,
+    titleSingular,
+    pValue,
+    fieldLabel,
+    handleChange,
+}: FormFieldGeldigheidProps) => {
+    const [toonUitwerkingTreding, setToonUitwerkingTreding] = useState(
+        fieldValue !== '' || openUitwerkingstrede
+    )
 
     /**
      * The standard dates are created in the back-end
      * To keep the UI clean we return an empty string
      */
-    getFieldValue(value) {
+    const getFieldValue = (value: string) => {
         const standardDates = ['1753-01-01', '10000-01-01']
         if (standardDates.includes(value)) return ''
         return value
     }
 
-    render() {
-        const fieldValue = this.getFieldValue(this.props.fieldValue)
+    const toggleUitwerkingTreding = () => {
+        setToonUitwerkingTreding(!toonUitwerkingTreding)
+    }
 
-        return this.props.dataObjectProperty === 'Eind_Geldigheid' ? (
+    const tranformedFieldValue = getFieldValue(fieldValue || '')
+
+    if (dataObjectProperty === 'Eind_Geldigheid') {
+        return (
             <EindGeldigheid
-                hideToggleUitwerkingstrede={
-                    this.props.hideToggleUitwerkingstrede
-                }
-                toggleUitwerkingTreding={this.toggleUitwerkingTreding}
-                toonUitwerkingTreding={this.state.toonUitwerkingTreding}
-                dataObjectProperty={this.props.dataObjectProperty}
-                fieldLabel={this.props.fieldLabel}
-                pValue={this.props.pValue}
-                titleSingular={this.props.titleSingular}
-                fieldValue={fieldValue}
-                handleChange={this.props.handleChange}
-                disabled={this.props.disabled}
-            />
-        ) : (
-            <BeginGeldigheid
-                dataObjectProperty={this.props.dataObjectProperty}
-                fieldLabel={this.props.fieldLabel}
-                pValue={this.props.pValue}
-                titleSingular={this.props.titleSingular}
-                fieldValue={fieldValue}
-                handleChange={this.props.handleChange}
-                disabled={this.props.disabled}
+                hideToggleUitwerkingstrede={hideToggleUitwerkingstrede}
+                toggleUitwerkingTreding={toggleUitwerkingTreding}
+                toonUitwerkingTreding={toonUitwerkingTreding}
+                dataObjectProperty={dataObjectProperty}
+                fieldLabel={fieldLabel}
+                pValue={pValue}
+                titleSingular={titleSingular}
+                fieldValue={tranformedFieldValue}
+                handleChange={handleChange}
+                disabled={disabled}
             />
         )
     }
+
+    return (
+        <BeginGeldigheid
+            dataObjectProperty={dataObjectProperty}
+            fieldLabel={fieldLabel}
+            pValue={pValue}
+            titleSingular={titleSingular}
+            fieldValue={tranformedFieldValue}
+            handleChange={handleChange}
+            disabled={disabled}
+        />
+    )
 }
 
 function BeginGeldigheid({
@@ -76,15 +85,13 @@ function BeginGeldigheid({
     fieldValue,
     handleChange,
     disabled,
-}) {
+}: FormFieldGeldigheidProps) {
     return (
         <div className="w-full px-3 mb-6">
             <FormFieldTitelEnBeschrijving
                 disabled={disabled}
-                dataObjectProperty={dataObjectProperty}
                 fieldLabel={fieldLabel}
                 pValue={pValue}
-                titleSingular={titleSingular}
             />
             <input
                 disabled={disabled}
@@ -126,6 +133,9 @@ function EindGeldigheid({
     fieldValue,
     handleChange,
     disabled,
+}: FormFieldGeldigheidProps & {
+    toggleUitwerkingTreding: MouseEventHandler
+    toonUitwerkingTreding?: boolean
 }) {
     return (
         <div className="w-full px-3 mb-6">
@@ -142,10 +152,8 @@ function EindGeldigheid({
             {toonUitwerkingTreding ? (
                 <div className="mb-6">
                     <FormFieldTitelEnBeschrijving
-                        dataObjectProperty={dataObjectProperty}
                         fieldLabel={fieldLabel}
                         pValue={pValue}
-                        titleSingular={titleSingular}
                         disabled={disabled}
                     />
                     <input

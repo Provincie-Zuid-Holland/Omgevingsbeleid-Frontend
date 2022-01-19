@@ -1,12 +1,17 @@
 import { render, screen } from '@testing-library/react'
 
+import objecten from '@/constants/koppelingen'
+
 import FormFieldRelatieKoppeling from './FormFieldRelatieKoppeling'
 
 describe('FormFieldRelatieKoppeling', () => {
     const defaultProps = {
         titleSingular: 'Singular',
         crudObject: { Titel: 'Titel' },
-        connectionProperties: ['belangen', 'taken'],
+        connectionProperties: [
+            'belangen',
+            'taken',
+        ] as (keyof typeof objecten)[],
         disabled: false,
         fieldLabel: 'Label',
         pValue: 'Description',

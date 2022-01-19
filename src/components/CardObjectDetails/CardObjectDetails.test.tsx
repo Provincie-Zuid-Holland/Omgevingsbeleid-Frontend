@@ -30,7 +30,7 @@ describe('CardObjectDetails', () => {
             </MemoryRouter>
         )
 
-        const link = screen.getByRole('link')
+        const link = screen.getByRole('link') as HTMLLinkElement
         const href = link.href
         expect(href).toBe(`http://localhost/muteer/ambities/1`)
     })
@@ -47,7 +47,7 @@ describe('CardObjectDetails', () => {
             </MemoryRouter>
         )
 
-        const link = screen.getByRole('link')
+        const link = screen.getByRole('link') as HTMLLinkElement
         const href = link.href
         expect(href).toBe(`http://localhost/muteer/ambities/1#mijn-beleid`)
     })

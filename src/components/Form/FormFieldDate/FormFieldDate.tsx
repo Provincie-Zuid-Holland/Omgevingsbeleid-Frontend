@@ -1,4 +1,18 @@
+import { ChangeEventHandler } from 'react'
+
+import isSafari from '@/utils/isSafari'
+
 import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving'
+
+interface FormFieldDateProps {
+    fieldValue: string
+    disabled?: boolean
+    dataObjectProperty: string
+    fieldLabel: string
+    pValue: string
+    titleSingular: string
+    handleChange: ChangeEventHandler
+}
 
 function FormFieldDate({
     fieldValue,
@@ -8,27 +22,23 @@ function FormFieldDate({
     pValue,
     titleSingular,
     handleChange,
-}) {
+}: FormFieldDateProps) {
     /**
      * The standard dates are created in the back-end
      * To keep the UI clean we return an empty string
      */
-    const parseFieldValue = value => {
+    const parseFieldValue = (value: string) => {
         const standardDates = ['1753-01-01', '10000-01-01']
         if (!value || standardDates.includes(value)) return ''
         return value
     }
 
-    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
-
     return (
         <div className="w-full mb-6">
             <FormFieldTitelEnBeschrijving
                 disabled={disabled}
-                dataObjectProperty={dataObjectProperty}
                 fieldLabel={fieldLabel}
                 pValue={pValue}
-                titleSingular={titleSingular}
             />
             <input
                 disabled={disabled}

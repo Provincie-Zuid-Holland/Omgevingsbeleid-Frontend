@@ -7,7 +7,18 @@
  * @param {object} owner - Contains the collection of information of the owner.
  * @param {string} eigenaarType - Displays the type of owner in the component.
  */
-const EigenaarsDriehoekItem = ({ owner, eigenaarType }) => {
+
+import { GebruikersInline } from '@/api/fetchers.schemas'
+
+interface EigenaarsDriehoekItem {
+    owner: GebruikersInline
+    eigenaarType?: string
+}
+
+const EigenaarsDriehoekItem = ({
+    owner,
+    eigenaarType,
+}: EigenaarsDriehoekItem) => {
     if (!owner) return null
 
     return (
@@ -16,7 +27,10 @@ const EigenaarsDriehoekItem = ({ owner, eigenaarType }) => {
                 <div className="flex items-center justify-center flex-shrink-0 w-12 h-12 mr-2 border-4 border-gray-200 rounded-full bg-pzh-blue">
                     {owner ? (
                         <span className="text-xl font-bold text-white">
-                            {owner.Gebruikersnaam.substring(0, 1).toUpperCase()}
+                            {owner.Gebruikersnaam?.substring(
+                                0,
+                                1
+                            ).toUpperCase()}
                         </span>
                     ) : null}
                 </div>

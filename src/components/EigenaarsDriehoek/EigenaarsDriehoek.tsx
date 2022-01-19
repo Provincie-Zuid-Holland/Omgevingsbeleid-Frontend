@@ -1,11 +1,24 @@
-import EigenaarsDriehoekItem from './../EigenaarsDriehoekItem'
+import { GebruikersInline } from '@/api/fetchers.schemas'
+
+import EigenaarsDriehoekItem from '../EigenaarsDriehoekItem'
 
 /**
  * Displays a EigenaarsDriehoekItem component with the parameters based on the owner value inside the dataObject variable.
  *
  * @param {object} dataObject - Contains a collection of owners in object form.
  */
-const EigenaarsDriehoek = ({ dataObject }) => {
+
+interface EigenaarsDriehoekProps {
+    dataObject: {
+        Opdrachtgever?: GebruikersInline
+        Eigenaar_1?: GebruikersInline
+        Eigenaar_2?: GebruikersInline
+        Portefeuillehouder_1?: GebruikersInline
+        Portefeuillehouder_2?: GebruikersInline
+    }
+}
+
+const EigenaarsDriehoek = ({ dataObject }: EigenaarsDriehoekProps) => {
     if (
         !dataObject.Opdrachtgever &&
         !dataObject.Eigenaar_1 &&

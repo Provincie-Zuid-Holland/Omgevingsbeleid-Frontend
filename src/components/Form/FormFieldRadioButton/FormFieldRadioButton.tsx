@@ -1,3 +1,5 @@
+import { ChangeEventHandler } from 'react'
+
 /**
  * Displays list of options with radio buttons and labels.
  *
@@ -8,6 +10,17 @@
  * @param {string} label - Contains a label of the component.
  * @param {string} fieldValue - Contains the value of the field.
  */
+
+interface FormFieldRadioButtonProps {
+    options: string[]
+    disabled?: boolean
+    handleChange: ChangeEventHandler
+    dataObjectProperty: string
+    titleSingular: string
+    label?: string
+    fieldValue: string
+}
+
 function FormFieldRadioButton({
     options = [],
     disabled,
@@ -16,7 +29,7 @@ function FormFieldRadioButton({
     titleSingular,
     label,
     fieldValue,
-}) {
+}: FormFieldRadioButtonProps) {
     return (
         <div className="max-w-lg">
             {label ? (
@@ -29,10 +42,10 @@ function FormFieldRadioButton({
                         ? 'opacity-50 cursor-not-allowed pointer-events-none'
                         : ''
                 }`}
-                id={`form-field-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
-            >
+                id={`form-field-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}>
                 {options.map(option => {
                     const id = `form-field-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}-${option}`
+
                     return (
                         <div key={option} className="flex items-center mb-4">
                             <input

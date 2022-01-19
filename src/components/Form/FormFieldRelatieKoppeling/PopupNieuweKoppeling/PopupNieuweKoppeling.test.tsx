@@ -6,8 +6,9 @@ import {
 } from '@testing-library/react'
 import '@testing-library/jest-dom'
 
-import objecten from './../../../../constants/koppelingen'
-import { beleidskeuzeMock } from './../../../../mocks/data/crudObjects'
+import objecten from '@/constants/koppelingen'
+import { beleidskeuzeMock } from '@/mocks/data/crudObjects'
+
 import PopupNieuweKoppeling, { getTypeText } from './PopupNieuweKoppeling'
 
 describe('PopupNieuweKoppeling', () => {
@@ -21,17 +22,16 @@ describe('PopupNieuweKoppeling', () => {
         'beleidsprestaties',
         'maatregelen',
         'verordening',
-    ]
+    ] as (keyof typeof objecten)[]
     const togglePopupMock = jest.fn()
     const voegKoppelingRelatieToeMock = jest.fn()
 
     const defaultProps = {
         togglePopup: togglePopupMock,
         titelMainObject: 'Titel Main Object',
-        type: 'ambities',
+        type: 'belangen' as keyof typeof objecten,
         voegKoppelingRelatieToe: voegKoppelingRelatieToeMock,
         crudObject: beleidskeuzeMock,
-        objecten: objecten,
     }
 
     const setup = (customProps = {}) => {
@@ -41,7 +41,7 @@ describe('PopupNieuweKoppeling', () => {
 
     it('Component renders', () => {
         setup()
-        const title = screen.getByText('Ambities koppelen')
+        const title = screen.getByText('Nationaal Belang koppelen')
         expect(title).toBeTruthy()
     })
 
@@ -55,16 +55,16 @@ describe('PopupNieuweKoppeling', () => {
     it('User can filter the results', async () => {
         setup()
         await waitForElementToBeRemoved(() =>
-            screen.queryByText('Ambities laden...')
+            screen.queryByText('Nationale Belangen laden...')
         )
 
-        /** The API Mock of /ambities return 3 results */
-        expect(screen.getAllByRole('listitem').length).toBe(3)
+        /** The API Mock of /belang return 3 results */
+        expect(screen.getAllByRole('listitem').length).toBe(1)
 
         /** Filter */
         const searchInput = screen.getByRole('textbox')
         fireEvent.change(searchInput, {
-            target: { value: '1. Samen werken aan Zuid-Holland Bewerkt' },
+            target: { value: 'Test ambitie woensdag 3 februari 2021' },
         })
         expect(screen.getAllByRole('listitem').length).toBe(1)
     })
@@ -79,11 +79,11 @@ describe('PopupNieuweKoppeling', () => {
     it('The next step button should not be disabled when an object is selected', async () => {
         setup()
         await waitForElementToBeRemoved(() =>
-            screen.queryByText('Ambities laden...')
+            screen.queryByText('Nationale Belangen laden...')
         )
 
         const listItem = screen.getByText(
-            '1. Samen werken aan Zuid-Holland Bewerkt'
+            'Test ambitie woensdag 3 februari 2021'
         )
 
         fireEvent.click(listItem)
@@ -109,12 +109,12 @@ describe('PopupNieuweKoppeling', () => {
         setup()
 
         await waitForElementToBeRemoved(() =>
-            screen.queryByText('Ambities laden...')
+            screen.queryByText('Nationale Belangen laden...')
         )
 
         // Select item
         const listItem = screen.getByText(
-            '1. Samen werken aan Zuid-Holland Bewerkt'
+            'Test ambitie woensdag 3 februari 2021'
         )
         fireEvent.click(listItem)
 

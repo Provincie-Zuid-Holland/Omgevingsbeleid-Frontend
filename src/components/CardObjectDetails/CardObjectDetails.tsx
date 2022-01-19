@@ -13,6 +13,19 @@ import 'tippy.js/dist/tippy.css'
  * @param {boolean} mijnBeleid - If true add hash to the detailPageLink
  * @returns A component that displays the type and title on an object and links to its detail ID page
  */
+
+interface CardObjectDetailsProps {
+    object: {
+        ID?: string | number
+        Titel?: string
+    }
+    titleSingular: string
+    hoofdOnderdeelSlug: string
+    index?: number
+    mijnBeleid?: boolean
+    showTippy?: boolean
+}
+
 function CardObjectDetails({
     object,
     titleSingular,
@@ -20,7 +33,7 @@ function CardObjectDetails({
     index,
     mijnBeleid,
     showTippy,
-}) {
+}: CardObjectDetailsProps) {
     const elementID =
         index === 0 || index
             ? `object-card-${titleSingular.toLowerCase()}-${index}`
@@ -30,7 +43,7 @@ function CardObjectDetails({
         mijnBeleid ? '#mijn-beleid' : ''
     }`
 
-    const charactersInTitle = object.Titel?.length
+    const charactersInTitle = object.Titel?.length || 0
     const disableTippy = !showTippy || charactersInTitle < 61
 
     return (
@@ -42,14 +55,12 @@ function CardObjectDetails({
             leave="transition ease-in duration-0 transform"
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-90"
-            className="w-full h-full"
-        >
+            className="w-full h-full">
             <Tippy disabled={disableTippy} content={object.Titel}>
                 <Link
                     className={`relative h-full w-full inline-block h-full px-4 pt-4 pb-6 overflow-hidden bg-white rounded shadow-md`}
                     to={detailPageLink}
-                    id={elementID}
-                >
+                    id={elementID}>
                     <h5 className="py-1 text-sm font-light text-gray-600">
                         {titleSingular}
                     </h5>
