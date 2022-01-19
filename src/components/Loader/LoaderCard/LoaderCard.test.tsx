@@ -6,7 +6,7 @@ import LoaderCard from './LoaderCard'
 describe('LoaderCard', () => {
     const defaultProps = {}
 
-    const setup = customProps => {
+    const setup = (customProps?: { [key: string]: any }) => {
         const props = { ...defaultProps, ...customProps }
         render(<LoaderCard {...props} />)
     }

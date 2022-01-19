@@ -6,7 +6,7 @@ import LoaderWerkingsgebiedCard from './LoaderWerkingsgebiedCard'
 describe('LoaderWerkingsgebiedCard', () => {
     const defaultProps = {}
 
-    const setup = customProps => {
+    const setup = (customProps?: { [key: string]: any }) => {
         const props = { ...defaultProps, ...customProps }
         render(<LoaderWerkingsgebiedCard {...props} />)
     }

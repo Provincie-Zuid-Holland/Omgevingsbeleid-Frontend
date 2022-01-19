@@ -2,25 +2,32 @@ import { useContext, useEffect, useLayoutEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
-import axios from '../../api/axios'
-import UserContext from './../../App/UserContext'
-import { ContainerMain } from './../../components/Container'
-import MuteerBeleidsrelatiesDetail from './../MuteerBeleidsrelatieDetail'
-import MuteerBeleidsrelatiesOverzicht from './../MuteerBeleidsrelatiesOverzicht'
+import { getBeleidskeuzes, getBeleidsrelaties } from '@/api/fetchers'
+import { BeleidskeuzesRead, BeleidsrelatiesRead } from '@/api/fetchers.schemas'
+import UserContext from '@/App/UserContext'
+import { ContainerMain } from '@/components/Container'
+
+import MuteerBeleidsrelatiesDetail from '../MuteerBeleidsrelatieDetail'
+import MuteerBeleidsrelatiesOverzicht from '../MuteerBeleidsrelatiesOverzicht'
 
 /**
  * @returns Components that renders the overzicht or detail pages of beleidsrelaties, depending on the currentView state
  */
 function MuteerBeleidsrelaties() {
     const [currentView, setCurrentView] = useState('overzicht')
-    const [beleidsrelaties, setBeleidsrelaties] = useState([])
-    const [beleidskeuzes, setBeleidskeuzes] = useState([])
+    const [beleidsrelaties, setBeleidsrelaties] = useState<
+        BeleidsrelatiesRead[]
+    >([])
+    const [beleidskeuzes, setBeleidskeuzes] = useState<BeleidskeuzesRead[]>([])
     const [isLoading, setIsLoading] = useState(true)
 
     const { user } = useContext(UserContext)
-    const { UUID } = useParams()
+    const { UUID } = useParams<{ UUID: string }>()
 
-    const updateBeleidsrelaties = (beleidsrelatieUUID, status) => {
+    const updateBeleidsrelaties = (
+        beleidsrelatieUUID?: string,
+        status?: string
+    ) => {
         const index = beleidsrelaties.findIndex(
             x => x.UUID === beleidsrelatieUUID
         )
@@ -45,14 +52,14 @@ function MuteerBeleidsrelaties() {
         if (!UserUUID) return
 
         Promise.all([
-            axios.get(
-                `/beleidskeuzes?any_filters=Created_By:${UserUUID},Eigenaar_1:${UserUUID},Eigenaar_2:${UserUUID},Opdrachtgever:${UserUUID}`
-            ),
-            axios.get(`/beleidsrelaties`),
+            getBeleidskeuzes({
+                any_filters: `Created_By:${UserUUID},Eigenaar_1:${UserUUID},Eigenaar_2:${UserUUID},Opdrachtgever:${UserUUID}`,
+            }),
+            getBeleidsrelaties(),
         ])
             .then(([beleidskeuzes, beleidsrelaties]) => {
-                setBeleidskeuzes(beleidskeuzes.data)
-                setBeleidsrelaties(beleidsrelaties.data)
+                setBeleidskeuzes(beleidskeuzes)
+                setBeleidsrelaties(beleidsrelaties)
                 setIsLoading(false)
             })
             .catch(err => {

@@ -2,16 +2,24 @@ import { useCallback, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
-// Import Axios instance to connect with the API
-import axios from '../../api/axios'
-import BackButton from '../../components/BackButton'
-import { Container } from '../../components/Container'
-import Footer from '../../components/Footer'
-import Heading from '../../components/Heading'
-import { LoaderContent } from '../../components/Loader'
-import RelatiesKoppelingen from '../../components/RelatiesKoppelingen'
-import handleError from '../../utils/handleError'
-import { prepareRevisions } from '../../utils/prepareRevisions'
+import {
+    AmbitiesRead,
+    BeleidskeuzesRead,
+    VerordeningenRead,
+} from '@/api/fetchers.schemas'
+import BackButton from '@/components/BackButton'
+import { Container } from '@/components/Container'
+import Footer from '@/components/Footer'
+import Heading from '@/components/Heading'
+import { LoaderContent } from '@/components/Loader'
+import RelatiesKoppelingen from '@/components/RelatiesKoppelingen'
+import {
+    DetailPageEndpoint,
+    DetailPageVersionEndpoint,
+} from '@/utils/detailPages'
+import handleError from '@/utils/handleError'
+import { prepareRevisions } from '@/utils/prepareRevisions'
+
 import RaadpleegObjectDetailHead from './RaadpleegObjectDetailHead'
 import RaadpleegObjectDetailMain from './RaadpleegObjectDetailMain'
 import RaadpleegObjectDetailNewVersionNotification from './RaadpleegObjectDetailNewVersionNotification'
@@ -23,11 +31,27 @@ import TableOfContents from './TableOfContents'
  * Every object has its own fields. For example the dimension Maatregelen has <ContainerViewFieldsMaatregel />)
  * @param {object} dataModel - Contains the dimensieConstants of the object (e.g. titleSingular)
  */
-const RaadpleegObjectDetail = ({ dataModel }) => {
-    let { id } = useParams()
 
-    const [dataObject, setDataObject] = useState(null) // The object we want to display
-    const [lineageID, setLineageID] = useState(null) // Used to get the whole history of the object
+interface RaadpleegObjectDetailProps {
+    dataModel: {
+        TITLE_SINGULAR: string
+        TITLE_SINGULAR_PREFIX: string
+    }
+    dataEndpoint: DetailPageEndpoint
+    dataVersionEndpoint: DetailPageVersionEndpoint
+}
+
+const RaadpleegObjectDetail = ({
+    dataModel,
+    dataEndpoint,
+    dataVersionEndpoint,
+}: RaadpleegObjectDetailProps) => {
+    const { id } = useParams<{ id: string }>()
+
+    const [dataObject, setDataObject] = useState<
+        AmbitiesRead | BeleidskeuzesRead | VerordeningenRead | null
+    >(null) // The object we want to display
+    const [lineageID, setLineageID] = useState<number | null>(null) // Used to get the whole history of the object
 
     // Contains the history of an object (all the edits)
     const [revisionObjects, setRevisionObjects] = useState(null)
@@ -35,7 +59,6 @@ const RaadpleegObjectDetail = ({ dataModel }) => {
     // Boolean if data is loaded
     const [dataLoaded, setDataLoaded] = useState(false)
 
-    const apiEndpointBase = dataModel.API_ENDPOINT
     const titleSingular = dataModel.TITLE_SINGULAR
     const titleSingularPrefix = dataModel.TITLE_SINGULAR_PREFIX
 
@@ -50,20 +73,19 @@ const RaadpleegObjectDetail = ({ dataModel }) => {
         if (id === dataObject?.UUID) return
 
         const getVersionOfObject = () =>
-            axios
-                .get(`version/${apiEndpointBase}/${id}`)
-                .then(res => res.data)
-                .catch(err => {
-                    handleError(err)
-                })
+            dataVersionEndpoint(id).catch(err => handleError(err))
 
         setDataLoaded(false)
         getVersionOfObject()
             .then(data => {
+                if (!data) return
+
                 setDataObject(data)
                 return data.ID
             })
             .then(newLineageID => {
+                if (!newLineageID) return
+
                 if (newLineageID === lineageID) {
                     // User is on the same lineageID
                     setDataLoaded(true)
@@ -72,13 +94,14 @@ const RaadpleegObjectDetail = ({ dataModel }) => {
                     setLineageID(newLineageID)
                 }
             })
-    }, [apiEndpointBase, id, lineageID, dataObject])
+    }, [dataVersionEndpoint, id, lineageID, dataObject])
 
     const getAndSetRevisionObjects = useCallback(() => {
-        axios
-            .get(`${apiEndpointBase}/${lineageID}`)
-            .then(res => {
-                const preppedRevisions = prepareRevisions(res.data)
+        if (!lineageID) return
+
+        dataEndpoint(lineageID)
+            .then(data => {
+                const preppedRevisions = prepareRevisions(data)
                 setRevisionObjects(preppedRevisions)
                 setDataLoaded(true)
             })
@@ -86,7 +109,7 @@ const RaadpleegObjectDetail = ({ dataModel }) => {
                 console.log(err)
                 toast(process.env.REACT_APP_ERROR_MSG)
             })
-    }, [lineageID, apiEndpointBase])
+    }, [lineageID, dataEndpoint])
 
     // useEffect triggered when there is a new lineageID set
     useEffect(() => {
@@ -94,8 +117,7 @@ const RaadpleegObjectDetail = ({ dataModel }) => {
 
         // We only want to show the revisions on the type of Beleidskeuze
         if (titleSingular !== 'Beleidskeuze') {
-            setDataLoaded(true)
-            return
+            return setDataLoaded(true)
         }
 
         getAndSetRevisionObjects()

@@ -6,7 +6,7 @@ import LoaderMainTitle from './LoaderMainTitle'
 describe('LoaderMainTitle', () => {
     const defaultProps = {}
 
-    const setup = customProps => {
+    const setup = (customProps?: { [key: string]: any }) => {
         const props = { ...defaultProps, ...customProps }
         render(<LoaderMainTitle {...props} />)
     }

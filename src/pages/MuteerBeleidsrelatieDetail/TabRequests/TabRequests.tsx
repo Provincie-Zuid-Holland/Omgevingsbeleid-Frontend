@@ -1,8 +1,13 @@
 import { useParams } from 'react-router-dom'
 
-import { LoaderBeleidsrelatieRegel } from '../../../components/Loader'
-import formatDate from '../../../utils/formatDate'
-import PopupMotivation from '../PopupMotivation/PopupMotivation'
+import {
+    BeleidskeuzesInline,
+    BeleidsrelatiesRead,
+} from '@/api/fetchers.schemas'
+import { LoaderBeleidsrelatieRegel } from '@/components/Loader'
+import formatDate from '@/utils/formatDate'
+
+import PopupMotivation from '../PopupMotivation'
 
 /**
  * @prop {boolean} loaded true if all the data from parent component is loaded
@@ -12,6 +17,16 @@ import PopupMotivation from '../PopupMotivation/PopupMotivation'
  * @prop {function} relationshipAccept accept an incoming relationship
  * @prop {function} relationshipReject reject an incoming relationship
  */
+
+interface TabRequestsProps {
+    loaded?: boolean
+    requests: BeleidsrelatiesRead[]
+    motivationPopUp?: string | null
+    setMotivationPopUp: (UUID?: string | null) => void
+    relationshipAccept: (relation: BeleidsrelatiesRead) => void
+    relationshipReject: (relation: BeleidsrelatiesRead) => void
+}
+
 function TabRequests({
     loaded,
     requests,
@@ -19,14 +34,17 @@ function TabRequests({
     setMotivationPopUp,
     relationshipAccept,
     relationshipReject,
-}) {
-    const { UUID } = useParams()
+}: TabRequestsProps) {
+    const { UUID } = useParams<{ UUID: string }>()
 
-    const getPropertyFromRelation = (relation, property) => {
-        if (relation.Van_Beleidskeuze.UUID === UUID) {
-            return relation.Naar_Beleidskeuze[property]
-        } else if (relation.Naar_Beleidskeuze.UUID === UUID) {
-            return relation.Van_Beleidskeuze[property]
+    const getPropertyFromRelation = (
+        relation: BeleidsrelatiesRead,
+        property: keyof BeleidskeuzesInline
+    ) => {
+        if (relation.Van_Beleidskeuze?.UUID === UUID) {
+            return relation.Naar_Beleidskeuze?.[property]
+        } else if (relation.Naar_Beleidskeuze?.UUID === UUID) {
+            return relation.Van_Beleidskeuze?.[property]
         }
     }
 
@@ -51,7 +69,9 @@ function TabRequests({
                                 <div className="w-2/12 pr-4">
                                     {verzoek.Created_Date !== null
                                         ? formatDate(
-                                              new Date(verzoek.Created_Date),
+                                              new Date(
+                                                  verzoek.Created_Date || ''
+                                              ),
                                               'd MMMM yyyy, HH:mm'
                                           ) + ' uur'
                                         : null}
