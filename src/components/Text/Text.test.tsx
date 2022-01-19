@@ -15,7 +15,7 @@ describe('Text', () => {
     }
 
     it('Component renders', () => {
-        setup({ type: 'span', color: 'text-pzh-blue-dark', className: '' })
+        setup()
         const element = screen.getByTestId('quote-span')
         expect(element).toBeTruthy()
     })
