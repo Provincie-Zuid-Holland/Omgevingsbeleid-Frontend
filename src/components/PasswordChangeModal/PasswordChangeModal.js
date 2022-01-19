@@ -98,9 +98,12 @@ export default function PasswordChangeModal({ setOpen }) {
                 <button
                     ref={closeBtn}
                     onKeyDown={e => {
-                        if (e.code === 'Enter') setOpen(false)
+                        if (e.code === 'Enter') {
+                            setOpen(false)
+                        }
                     }}
                     onClick={() => setOpen(false)}
+                    type="button"
                     className="py-1 pl-3 pr-1 text-gray-600 cursor-pointer hover:text-gray-800 pzh-transition-colors"
                     id={`password-reset-close`}
                     tabIndex="0">
@@ -111,7 +114,7 @@ export default function PasswordChangeModal({ setOpen }) {
             <form onSubmit={handleSubmit}>
                 <label className="block mt-4">
                     <span className="font-bold text-gray-700">
-                        Huidige wachtwoord<sup className="text-pzh-red">*</sup>
+                        Huidig wachtwoord<sup className="text-pzh-red">*</sup>
                     </span>
                     <input
                         ref={currentPasswordInput}
@@ -125,7 +128,7 @@ export default function PasswordChangeModal({ setOpen }) {
                                 : 'border-gray-400 rounded hover:border-gray-500 focus:border-gray-500'
                         }`}
                         type="password"
-                        placeholder="Voer hier je huidige wachtwoord in"
+                        placeholder="Voer hier je huidig wachtwoord in"
                     />
                     <Transition
                         show={currentPasswordError}
@@ -137,7 +140,7 @@ export default function PasswordChangeModal({ setOpen }) {
                         leaveTo="opacity-0 -translate-y-5 scale-90">
                         <ul className="px-4 pt-1 pb-3 text-sm rounded-b text-pzh-blue-dark bg-pzh-yellow">
                             <li className="pt-2">
-                                Het ingevoerde huidige wachtwoord is onjuist,
+                                Het ingevoerde huidig wachtwoord is onjuist,
                                 probeer het opnieuw
                             </li>
                         </ul>
@@ -232,6 +235,7 @@ export default function PasswordChangeModal({ setOpen }) {
                     <button
                         className="text-sm text-gray-700 underline cursor-pointer hover:text-gray-900 pzh-transition-colors"
                         onClick={() => setOpen(false)}
+                        type="button"
                         id="close-password-forget-popup"
                         data-testid="close-password-forget-popup">
                         Annuleren
@@ -250,7 +254,7 @@ export default function PasswordChangeModal({ setOpen }) {
                     <FontAwesomeIcon className="text-md" icon={faInfoCircle} />
                 </div>
                 <p className="text-sm">
-                    Ben je je huidige wachtwoord vergeten? Neem dan contact op
+                    Ben je je huidig wachtwoord vergeten? Neem dan contact op
                     met
                     <a
                         ref={mailToAnchor}
