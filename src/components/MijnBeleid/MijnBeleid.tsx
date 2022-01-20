@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import { useContext, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
@@ -176,14 +175,6 @@ const AddNewSection = () => {
             />
         </div>
     )
-}
-
-MijnBeleid.propTypes = {
-    hideAddNew: PropTypes.bool,
-}
-
-MijnBeleid.defaultProps = {
-    hideAddNew: false,
 }
 
 export default MijnBeleid
