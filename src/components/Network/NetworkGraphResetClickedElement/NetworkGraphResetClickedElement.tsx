@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react'
 
 interface Props {
     clickedNode: any
-    resetNodes: () => void
+    resetNodes?: () => void
 }
 
 const NetworkGraphResetClickedElement = ({
@@ -43,7 +43,7 @@ const NetworkGraphResetClickedElement = ({
                         <div
                             role="button"
                             tabIndex={0}
-                            onClick={() => resetNodes()}
+                            onClick={() => resetNodes && resetNodes()}
                             className="relative flex items-center justify-center px-2 py-2 mt-0 text-lg transition-shadow duration-100 ease-in bg-white rounded shadow-md cursor-pointer pointer-events-auto hover:shadow-lg"
                             data-testid="button-reset-nodes">
                             <FontAwesomeIcon icon={faUndo} />

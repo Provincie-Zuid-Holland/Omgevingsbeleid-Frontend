@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useWindowSize } from 'react-use'
 
-import logoSVG from './../../images/DNA_Balk.png'
+import logoSVG from '@/images/DNA_Balk.png'
 
 const useDnaBarWidth = () => {
     const windowSize = useWindowSize()

@@ -2,10 +2,10 @@
  * @returns A label and description of a FormField component
  */
 
-interface FormFieldTitelEnBeschrijvingProps {
+export interface FormFieldTitelEnBeschrijvingProps {
     pValue?: string
     disabled?: boolean
-    fieldLabel: string
+    fieldLabel?: string
     anchorText?: string
     anchorLink?: string
 }

@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom'
  */
 
 interface Props {
-    variables: { left?: string; top?: string }
+    variables: { left?: string | number; top?: string | number }
     setGraphIsOpen: (e: boolean) => void
     href: string
 }
