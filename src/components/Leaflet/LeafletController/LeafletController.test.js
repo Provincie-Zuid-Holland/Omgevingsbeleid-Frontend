@@ -1,16 +1,16 @@
 import { render } from '@testing-library/react'
 
-import LeafletRevisionOverview from './LeafletRevisionOverview'
+import LeafletController from './LeafletController'
 
-describe('LeafletRevisionOverview', () => {
+describe('LeafletController', () => {
     const defaultProps = {}
 
     const setup = customProps => {
         const props = { ...defaultProps, ...customProps }
-        render(<LeafletRevisionOverview {...props} />)
+        render(<LeafletController {...props} />)
     }
 
     it('Component renders', () => {
-        //TODO still need to finish writing tests
+        //TODO still need to finish test
     })
 })
