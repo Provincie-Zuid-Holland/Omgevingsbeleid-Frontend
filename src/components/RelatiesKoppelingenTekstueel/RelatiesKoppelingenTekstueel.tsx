@@ -1,13 +1,35 @@
 import { Link, useLocation } from 'react-router-dom'
 
-import { generateHrefVerordeningsartikel } from './../../utils/generateHrefVerordeningsartikel'
+import {
+    BeleidskeuzeShortRead,
+    BeleidskeuzesRead,
+    BeleidsrelatiesRead,
+} from '@/api/fetchers.schemas'
+import { generateHrefVerordeningsartikel } from '@/utils/generateHrefVerordeningsartikel'
 
-const getObjectFromRelation = relation => {
+import {
+    ConnectionProperties,
+    connectionPropertiesColors,
+} from '../RelatiesKoppelingen'
+
+const getObjectFromRelation = (relation: BeleidsrelatiesRead) => {
     return relation.hasOwnProperty('Van_Beleidskeuze')
         ? relation.Van_Beleidskeuze
         : relation.hasOwnProperty('Naar_Beleidskeuze')
         ? relation.Naar_Beleidskeuze
         : relation
+}
+
+const slugs = {
+    Beleidskeuzes: 'beleidskeuzes',
+    Ambities: 'ambities',
+    Beleidsregels: 'beleidsregels',
+    Beleidsprestaties: 'beleidsprestaties',
+    Belangen: 'belangen',
+    Maatregelen: 'maatregelen',
+    Themas: 'themas',
+    Beleidsdoelen: 'Beleidsdoelen',
+    Verordeningen: 'verordeningen',
 }
 
 /**
@@ -18,17 +40,26 @@ const getObjectFromRelation = relation => {
  * @param {Array} connectionProperties - Contains a collection of connection properties.
  * @param {object} connectionPropertiesColors - Contains a collection of connection property colors in object form.
  */
+
+interface RelatiesKoppelingenTekstueelProps {
+    beleidsObject: BeleidskeuzesRead
+    connectionProperties: ConnectionProperties[]
+    connectionPropertiesColors: typeof connectionPropertiesColors
+    beleidsRelaties: BeleidskeuzeShortRead[]
+    verordeningsStructure: any
+}
+
 function RelatiesKoppelingenTekstueel({
     beleidsObject,
     beleidsRelaties,
     connectionProperties,
     connectionPropertiesColors,
     verordeningsStructure,
-}) {
+}: RelatiesKoppelingenTekstueelProps) {
     if (!beleidsObject) return null
 
     const hasKoppelingen = connectionProperties.some(prop => {
-        return beleidsObject[prop] && beleidsObject[prop].length > 0
+        return beleidsObject[prop] && beleidsObject[prop]!.length > 0
     })
 
     if (!beleidsRelaties && !hasKoppelingen) return null
@@ -55,32 +86,33 @@ function RelatiesKoppelingenTekstueel({
                 {connectionProperties.map((property, index) => {
                     if (
                         !beleidsObject[property] ||
-                        beleidsObject[property].length === 0
+                        beleidsObject[property]!.length === 0
                     )
                         return null
 
                     return (
                         <div
                             key={`connection-property-${index}`}
-                            className="mt-4"
-                        >
+                            className="mt-4">
                             <h3 className="text-sm font-bold text-gray-800">
                                 {property}
                             </h3>
                             <ul className="mt-2">
-                                {beleidsObject[property].map(
+                                {beleidsObject[property]?.map(
                                     (koppeling, index) => (
                                         <ListItem
                                             key={`koppeling-${index}`}
                                             verordeningsStructure={
                                                 verordeningsStructure
                                             }
-                                            titel={koppeling.Object.Titel}
+                                            titel={
+                                                koppeling?.Object?.Titel || ''
+                                            }
                                             omschrijving={
                                                 koppeling.Koppeling_Omschrijving
                                             }
                                             property={property}
-                                            UUID={koppeling.Object.UUID}
+                                            UUID={koppeling?.Object?.UUID || ''}
                                             connectionPropertiesColors={
                                                 connectionPropertiesColors
                                             }
@@ -109,9 +141,13 @@ function RelatiesKoppelingenTekstueel({
                                         verordeningsStructure={
                                             verordeningsStructure
                                         }
-                                        titel={relationObject.Titel}
+                                        titel={
+                                            ('Titel' in relationObject &&
+                                                relationObject.Titel) ||
+                                            ''
+                                        }
                                         property="Beleidskeuzes"
-                                        UUID={relationObject.UUID}
+                                        UUID={relationObject.UUID || ''}
                                         connectionPropertiesColors={
                                             connectionPropertiesColors
                                         }
@@ -135,6 +171,16 @@ function RelatiesKoppelingenTekstueel({
  * @param {string} titel - Contains the titel of each list item
  * @param {string} omschrijving - Contains the omschrijving of each list item.
  */
+
+interface ListItemProps {
+    property: keyof typeof slugs
+    UUID: string
+    connectionPropertiesColors: typeof connectionPropertiesColors
+    titel: string
+    verordeningsStructure: any
+    omschrijving?: string
+}
+
 const ListItem = ({
     property,
     UUID,
@@ -142,22 +188,16 @@ const ListItem = ({
     titel,
     verordeningsStructure,
     omschrijving,
-}) => {
+}: ListItemProps) => {
     const location = useLocation()
 
-    const generateHref = ({ property, UUID }) => {
-        const slugs = {
-            Beleidskeuzes: 'beleidskeuzes',
-            Ambities: 'ambities',
-            Beleidsregels: 'beleidsregels',
-            Beleidsprestaties: 'beleidsprestaties',
-            Belangen: 'belangen',
-            Maatregelen: 'maatregelen',
-            Themas: 'themas',
-            Beleidsdoelen: 'Beleidsdoelen',
-            Verordeningen: 'verordeningen',
-        }
-
+    const generateHref = ({
+        property,
+        UUID,
+    }: {
+        property: keyof typeof slugs
+        UUID: string
+    }) => {
         const path = `/detail/${slugs[property]}/${UUID}?fromPage=${location.pathname}`
         return path
     }
@@ -170,7 +210,7 @@ const ListItem = ({
     return (
         <li className="relative block mt-1 text-sm text-gray-800">
             <div className="inline-flex items-center group">
-                <Link to={href} className={'hover:underline'}>
+                <Link to={href || ''} className={'hover:underline'}>
                     <span
                         className={`inline-block w-3 h-3 mr-2 rounded-full`}
                         style={{
@@ -180,13 +220,12 @@ const ListItem = ({
                     />
                     <span>{titel}</span>
                 </Link>
-                {omschrijving && omschrijving !== '' ? (
+                {omschrijving ? (
                     <div className="absolute top-0 z-20 hidden mt-8 cursor-default group-hover:block d3-tooltip-text">
                         <div
                             id={UUID}
                             style={{ maxWidth: '50vw' }}
-                            className="px-4 py-2 text-white bg-gray-900 rounded shadow"
-                        >
+                            className="px-4 py-2 text-white bg-gray-900 rounded shadow">
                             {omschrijving}
                         </div>
                     </div>

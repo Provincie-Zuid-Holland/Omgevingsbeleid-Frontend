@@ -2,7 +2,9 @@ import { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 
 // Import API
-import axios from '../../api/axios'
+import axios from '@/api/axios'
+import { GetTokeninfo200Identifier } from '@/api/fetchers.schemas'
+
 // Import Components
 import { LoaderSpinner } from '../Loader'
 import Modal from '../Modal'
@@ -18,7 +20,7 @@ interface PopupPasswordForgotProps {
 
 interface LoginFormProps {
     setLoginState: (e: boolean) => void
-    setLoginUser: (identifier: string) => void
+    setLoginUser: (identifier: GetTokeninfo200Identifier) => void
 }
 
 const LoginForm = ({ setLoginState, setLoginUser }: LoginFormProps) => {

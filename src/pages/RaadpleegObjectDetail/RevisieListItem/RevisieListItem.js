@@ -45,7 +45,7 @@ function RevisieListItem({ item, currentUUID }) {
                     }`}
                 />
                 <span
-                    className={`pl-6 text-sm ${
+                    className={`pl-6 inline-block text-sm ${
                         isActive ? 'font-bold' : ''
                     }`}>{`${status} (${date})`}</span>
             </Link>

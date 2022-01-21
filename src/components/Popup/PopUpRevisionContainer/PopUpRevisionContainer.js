@@ -24,7 +24,7 @@ const PopUpRevisionContainer = ({
 }) => {
     const [open, setOpen] = useState(false)
     const [revisionOverviewOpen, setRevisionOverviewOpen] = useState(false)
-    const amountOfRevisions = revisionObjects ? revisionObjects.length : 0
+    const amountOfRevisions = revisionObjects ? revisionObjects.length - 1 : 0
 
     let { id } = useParams()
 
@@ -33,8 +33,9 @@ const PopUpRevisionContainer = ({
     }, [id])
 
     const getAmountText = amountOfRevisions => {
-        if (amountOfRevisions === 1) return 'Geen revisies'
-        return amountOfRevisions + ' revisies'
+        if (amountOfRevisions === 0) return 'Geen revisies'
+        if (amountOfRevisions === 1) return '1 Revisie'
+        return amountOfRevisions + ' Revisies'
     }
 
     return (
@@ -42,7 +43,7 @@ const PopUpRevisionContainer = ({
             <div className="z-10 inline-block text-pzh-blue-dark">
                 <span
                     onClick={() => {
-                        if (amountOfRevisions > 1) {
+                        if (amountOfRevisions >= 1) {
                             setOpen(!open)
                         }
                     }}
@@ -55,7 +56,7 @@ const PopUpRevisionContainer = ({
                     />
                     <span
                         className={
-                            amountOfRevisions > 1
+                            amountOfRevisions >= 1
                                 ? 'underline group-hover:text-pzh-green-dark transition-colors duration-300 ease-in text-pzh-green'
                                 : ''
                         }>

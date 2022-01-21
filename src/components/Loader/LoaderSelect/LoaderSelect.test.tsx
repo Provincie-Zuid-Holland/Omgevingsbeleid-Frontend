@@ -6,7 +6,7 @@ import LoaderSelect from './LoaderSelect'
 describe('LoaderSelect', () => {
     const defaultProps = {}
 
-    const setup = customProps => {
+    const setup = (customProps?: { [key: string]: any }) => {
         const props = { ...defaultProps, ...customProps }
         render(<LoaderSelect {...props} />)
     }

@@ -431,6 +431,23 @@ export type GetValidAmbitiesParams = {
     offset?: number
 }
 
+export type GetTokeninfo200Identifier = {
+    /** Email for the user that generated this token */
+    Email?: string
+    /** Username for the user that generated this token */
+    Gebruikersnaam?: string
+    /** Role for the user that generated this token */
+    Rol?: string
+    /** UUID for the user that generated this token */
+    UUID?: string
+}
+
+export type GetTokeninfo200 = {
+    /** Moment of expiration for this token */
+    expires?: string
+    identifier?: GetTokeninfo200Identifier
+}
+
 export type PatchThemasLineageid500 = {
     /** A description of the error */
     message?: string
@@ -495,7 +512,7 @@ export type GetSearch400 = {
     message?: string
 }
 
-export type GetSearch200 = {
+export type GetSearch200Item = {
     /** A description of this object */
     Omschrijving?: string
     /** A representation of the search rank, only usefull for comparing between two results */
@@ -567,6 +584,48 @@ export type GetMaatregelenParams = {
     any_filters?: string
     limit?: number
     offset?: number
+}
+
+export type GetGraph200NodesItem = {
+    /** The title of the object this node represents */
+    Titel?: string
+    /** The type slug of the object this node represents */
+    Type?: string
+    /** The UUID of the object this node represents */
+    UUID?: string
+}
+
+export type GetGraph200LinksItem = {
+    /** The UUID of the object this link originates from */
+    source?: string
+    /** The UUID of the object this link targets to */
+    target?: string
+    /** The type slug of the object this link represents */
+    type?: string
+}
+
+export type GetGraph200 = {
+    links?: GetGraph200LinksItem[]
+    nodes?: GetGraph200NodesItem[]
+}
+
+export type GetEdits200ItemIdentifier = {
+    /** ID for this object */
+    ID?: number
+    /** Status for this object */
+    Status?: string
+    /** Title for this object */
+    Titel?: string
+    /** Type slug for this object */
+    Type?: string
+    /** UUID for this object */
+    UUID?: string
+}
+
+export type GetEdits200Item = {
+    /** Moment of expiration for this token */
+    expires?: string
+    identifier?: GetEdits200ItemIdentifier
 }
 
 export type GetChangesWerkingsgebiedenOlduuidNewuuid500 = {
@@ -1157,8 +1216,12 @@ export type GetAmbitiesParams = {
 export interface WerkingsgebiedenWrite {
     /** None */
     Begin_Geldigheid?: string
+    /** A UUID reference to a gebruikers object */
+    Created_By?: string
     /** None */
     Eind_Geldigheid?: string
+    /** A UUID reference to a gebruikers object */
+    Modified_By?: string
     /** None */
     Werkingsgebied?: string
     /** None */
@@ -1171,7 +1234,33 @@ export interface WerkingsgebiedenWrite {
 export interface WerkingsgebiedenRead {
     /** None */
     Begin_Geldigheid?: string
+    /** An inlined gebruikers object */
+    Created_By?: GebruikersInline
     /** None */
+    Created_Date?: string
+    /** None */
+    Eind_Geldigheid?: string
+    /** None */
+    ID?: number
+    /** An inlined gebruikers object */
+    Modified_By?: GebruikersInline
+    /** None */
+    Modified_Date?: string
+    /** None */
+    UUID?: string
+    /** None */
+    Werkingsgebied?: string
+    /** None */
+    symbol?: string
+}
+
+/**
+ * Schema that defines the structure of werkingsgebieden when inlining
+ */
+export interface WerkingsgebiedenInline {
+    /** None */
+    Begin_Geldigheid?: string
+    /** A UUID reference to a gebruikers object */
     Created_By?: string
     /** None */
     Created_Date?: string
@@ -1179,7 +1268,7 @@ export interface WerkingsgebiedenRead {
     Eind_Geldigheid?: string
     /** None */
     ID?: number
-    /** None */
+    /** A UUID reference to a gebruikers object */
     Modified_By?: string
     /** None */
     Modified_Date?: string
@@ -1198,15 +1287,11 @@ export interface WerkingsgebiedenChange {
     /** None */
     Begin_Geldigheid?: string
     /** None */
-    Created_By?: string
-    /** None */
     Created_Date?: string
     /** None */
     Eind_Geldigheid?: string
     /** None */
     ID?: number
-    /** None */
-    Modified_By?: string
     /** None */
     Modified_Date?: string
     /** None */
@@ -1223,21 +1308,25 @@ export interface WerkingsgebiedenChange {
 export interface VerordeningenWrite {
     /** None */
     Begin_Geldigheid?: string
-    /** None */
+    /** A UUID reference to a gebruikers object */
+    Created_By?: string
+    /** A UUID reference to a gebruikers object */
     Eigenaar_1?: string
-    /** None */
+    /** A UUID reference to a gebruikers object */
     Eigenaar_2?: string
     /** None */
     Eind_Geldigheid?: string
-    /** None */
+    /** A UUID reference to a werkingsgebieden object */
     Gebied?: string
     /** None */
     Inhoud?: string
-    /** None */
+    /** A UUID reference to a gebruikers object */
+    Modified_By?: string
+    /** A UUID reference to a gebruikers object */
     Opdrachtgever?: string
-    /** None */
+    /** A UUID reference to a gebruikers object */
     Portefeuillehouder_1?: string
-    /** None */
+    /** A UUID reference to a gebruikers object */
     Portefeuillehouder_2?: string
     /** None */
     Status?: string
@@ -1257,34 +1346,80 @@ export interface VerordeningenWrite {
 export interface VerordeningenRead {
     /** None */
     Begin_Geldigheid?: string
+    /** An inlined gebruikers object */
+    Created_By?: GebruikersInline
     /** None */
+    Created_Date?: string
+    /** An inlined gebruikers object */
+    Eigenaar_1?: GebruikersInline
+    /** An inlined gebruikers object */
+    Eigenaar_2?: GebruikersInline
+    /** None */
+    Eind_Geldigheid?: string
+    /** An inlined werkingsgebieden object */
+    Gebied?: WerkingsgebiedenInline
+    /** None */
+    ID?: number
+    /** None */
+    Inhoud?: string
+    /** An inlined gebruikers object */
+    Modified_By?: GebruikersInline
+    /** None */
+    Modified_Date?: string
+    /** An inlined gebruikers object */
+    Opdrachtgever?: GebruikersInline
+    /** An inlined gebruikers object */
+    Portefeuillehouder_1?: GebruikersInline
+    /** An inlined gebruikers object */
+    Portefeuillehouder_2?: GebruikersInline
+    /** An list of beleidskeuze-short objects that refer to this object (reverse lookup) */
+    Ref_Beleidskeuzes?: BeleidskeuzeShortInline[]
+    /** None */
+    Status?: string
+    /** None */
+    Titel?: string
+    /** None */
+    Type?: string
+    /** None */
+    UUID?: string
+    /** None */
+    Volgnummer?: string
+    /** None */
+    Weblink?: string
+}
+
+/**
+ * Schema that defines the structure of verordeningen when inlining
+ */
+export interface VerordeningenInline {
+    /** None */
+    Begin_Geldigheid?: string
+    /** A UUID reference to a gebruikers object */
     Created_By?: string
     /** None */
     Created_Date?: string
-    /** None */
+    /** A UUID reference to a gebruikers object */
     Eigenaar_1?: string
-    /** None */
+    /** A UUID reference to a gebruikers object */
     Eigenaar_2?: string
     /** None */
     Eind_Geldigheid?: string
-    /** None */
+    /** A UUID reference to a werkingsgebieden object */
     Gebied?: string
     /** None */
     ID?: number
     /** None */
     Inhoud?: string
-    /** None */
+    /** A UUID reference to a gebruikers object */
     Modified_By?: string
     /** None */
     Modified_Date?: string
-    /** None */
+    /** A UUID reference to a gebruikers object */
     Opdrachtgever?: string
-    /** None */
+    /** A UUID reference to a gebruikers object */
     Portefeuillehouder_1?: string
-    /** None */
+    /** A UUID reference to a gebruikers object */
     Portefeuillehouder_2?: string
-    /** An list of beleidskeuze-short objects that refer to this object (reverse lookup) */
-    Ref_Beleidskeuzes?: BeleidskeuzeShortRead[]
     /** None */
     Status?: string
     /** None */
@@ -1303,9 +1438,9 @@ export interface VerordeningenRead {
  * An object that shows the changes in the list
  */
 export type VerordeningenChangeRefBeleidskeuzes = {
-    new?: BeleidskeuzeShortRead[]
-    removed?: BeleidskeuzeShortRead[]
-    same?: BeleidskeuzeShortRead[]
+    new?: BeleidskeuzeShortInline[]
+    removed?: BeleidskeuzeShortInline[]
+    same?: BeleidskeuzeShortInline[]
 }
 
 /**
@@ -1315,31 +1450,15 @@ export interface VerordeningenChange {
     /** None */
     Begin_Geldigheid?: string
     /** None */
-    Created_By?: string
-    /** None */
     Created_Date?: string
     /** None */
-    Eigenaar_1?: string
-    /** None */
-    Eigenaar_2?: string
-    /** None */
     Eind_Geldigheid?: string
-    /** None */
-    Gebied?: string
     /** None */
     ID?: number
     /** None */
     Inhoud?: string
     /** None */
-    Modified_By?: string
-    /** None */
     Modified_Date?: string
-    /** None */
-    Opdrachtgever?: string
-    /** None */
-    Portefeuillehouder_1?: string
-    /** None */
-    Portefeuillehouder_2?: string
     /** An object that shows the changes in the list */
     Ref_Beleidskeuzes?: VerordeningenChangeRefBeleidskeuzes
     /** None */
@@ -1362,8 +1481,12 @@ export interface VerordeningenChange {
 export interface ThemasWrite {
     /** None */
     Begin_Geldigheid?: string
+    /** A UUID reference to a gebruikers object */
+    Created_By?: string
     /** None */
     Eind_Geldigheid?: string
+    /** A UUID reference to a gebruikers object */
+    Modified_By?: string
     /** None */
     Omschrijving?: string
     /** None */
@@ -1378,7 +1501,37 @@ export interface ThemasWrite {
 export interface ThemasRead {
     /** None */
     Begin_Geldigheid?: string
+    /** An inlined gebruikers object */
+    Created_By?: GebruikersInline
     /** None */
+    Created_Date?: string
+    /** None */
+    Eind_Geldigheid?: string
+    /** None */
+    ID?: number
+    /** An inlined gebruikers object */
+    Modified_By?: GebruikersInline
+    /** None */
+    Modified_Date?: string
+    /** None */
+    Omschrijving?: string
+    /** An list of beleidskeuze-short objects that refer to this object (reverse lookup) */
+    Ref_Beleidskeuzes?: BeleidskeuzeShortInline[]
+    /** None */
+    Titel?: string
+    /** None */
+    UUID?: string
+    /** None */
+    Weblink?: string
+}
+
+/**
+ * Schema that defines the structure of themas when inlining
+ */
+export interface ThemasInline {
+    /** None */
+    Begin_Geldigheid?: string
+    /** A UUID reference to a gebruikers object */
     Created_By?: string
     /** None */
     Created_Date?: string
@@ -1386,14 +1539,12 @@ export interface ThemasRead {
     Eind_Geldigheid?: string
     /** None */
     ID?: number
-    /** None */
+    /** A UUID reference to a gebruikers object */
     Modified_By?: string
     /** None */
     Modified_Date?: string
     /** None */
     Omschrijving?: string
-    /** An list of beleidskeuze-short objects that refer to this object (reverse lookup) */
-    Ref_Beleidskeuzes?: BeleidskeuzeShortRead[]
     /** None */
     Titel?: string
     /** None */
@@ -1406,9 +1557,9 @@ export interface ThemasRead {
  * An object that shows the changes in the list
  */
 export type ThemasChangeRefBeleidskeuzes = {
-    new?: BeleidskeuzeShortRead[]
-    removed?: BeleidskeuzeShortRead[]
-    same?: BeleidskeuzeShortRead[]
+    new?: BeleidskeuzeShortInline[]
+    removed?: BeleidskeuzeShortInline[]
+    same?: BeleidskeuzeShortInline[]
 }
 
 /**
@@ -1418,15 +1569,11 @@ export interface ThemasChange {
     /** None */
     Begin_Geldigheid?: string
     /** None */
-    Created_By?: string
-    /** None */
     Created_Date?: string
     /** None */
     Eind_Geldigheid?: string
     /** None */
     ID?: number
-    /** None */
-    Modified_By?: string
     /** None */
     Modified_Date?: string
     /** None */
@@ -1449,23 +1596,27 @@ export interface MaatregelenWrite {
     Aanpassing_Op?: string
     /** None */
     Begin_Geldigheid?: string
-    /** None */
+    /** A UUID reference to a gebruikers object */
+    Created_By?: string
+    /** A UUID reference to a gebruikers object */
     Eigenaar_1?: string
-    /** None */
+    /** A UUID reference to a gebruikers object */
     Eigenaar_2?: string
     /** None */
     Eind_Geldigheid?: string
-    /** None */
+    /** A UUID reference to a werkingsgebieden object */
     Gebied?: string
     /** None */
     Gebied_Duiding?: string
+    /** A UUID reference to a gebruikers object */
+    Modified_By?: string
     /** None */
     Omschrijving?: string
-    /** None */
+    /** A UUID reference to a gebruikers object */
     Opdrachtgever?: string
-    /** None */
+    /** A UUID reference to a gebruikers object */
     Portefeuillehouder_1?: string
-    /** None */
+    /** A UUID reference to a gebruikers object */
     Portefeuillehouder_2?: string
     /** None */
     Status?: string
@@ -1489,20 +1640,20 @@ export interface MaatregelenRead {
     Aanpassing_Op?: string
     /** None */
     Begin_Geldigheid?: string
-    /** None */
-    Created_By?: string
+    /** An inlined gebruikers object */
+    Created_By?: GebruikersInline
     /** None */
     Created_Date?: string
     /** None */
     Effective_Version?: string
-    /** None */
-    Eigenaar_1?: string
-    /** None */
-    Eigenaar_2?: string
+    /** An inlined gebruikers object */
+    Eigenaar_1?: GebruikersInline
+    /** An inlined gebruikers object */
+    Eigenaar_2?: GebruikersInline
     /** None */
     Eind_Geldigheid?: string
-    /** None */
-    Gebied?: string
+    /** An inlined werkingsgebieden object */
+    Gebied?: WerkingsgebiedenInline
     /** None */
     Gebied_Duiding?: string
     /** None */
@@ -1511,22 +1662,74 @@ export interface MaatregelenRead {
     Latest_Status?: string
     /** None */
     Latest_Version?: string
+    /** An inlined gebruikers object */
+    Modified_By?: GebruikersInline
     /** None */
+    Modified_Date?: string
+    /** None */
+    Omschrijving?: string
+    /** An inlined gebruikers object */
+    Opdrachtgever?: GebruikersInline
+    /** An inlined gebruikers object */
+    Portefeuillehouder_1?: GebruikersInline
+    /** An inlined gebruikers object */
+    Portefeuillehouder_2?: GebruikersInline
+    /** An list of beleidskeuze-short objects that refer to this object (reverse lookup) */
+    Ref_Beleidskeuzes?: BeleidskeuzeShortInline[]
+    /** An list of beleidsmodule-short objects that refer to this object (reverse lookup) */
+    Ref_Beleidsmodules?: BeleidsmoduleShortInline[]
+    /** None */
+    Status?: string
+    /** None */
+    Tags?: string
+    /** None */
+    Titel?: string
+    /** None */
+    Toelichting?: string
+    /** None */
+    Toelichting_Raw?: string
+    /** None */
+    UUID?: string
+    /** None */
+    Weblink?: string
+}
+
+/**
+ * Schema that defines the structure of maatregelen when inlining
+ */
+export interface MaatregelenInline {
+    /** None */
+    Aanpassing_Op?: string
+    /** None */
+    Begin_Geldigheid?: string
+    /** A UUID reference to a gebruikers object */
+    Created_By?: string
+    /** None */
+    Created_Date?: string
+    /** A UUID reference to a gebruikers object */
+    Eigenaar_1?: string
+    /** A UUID reference to a gebruikers object */
+    Eigenaar_2?: string
+    /** None */
+    Eind_Geldigheid?: string
+    /** A UUID reference to a werkingsgebieden object */
+    Gebied?: string
+    /** None */
+    Gebied_Duiding?: string
+    /** None */
+    ID?: number
+    /** A UUID reference to a gebruikers object */
     Modified_By?: string
     /** None */
     Modified_Date?: string
     /** None */
     Omschrijving?: string
-    /** None */
+    /** A UUID reference to a gebruikers object */
     Opdrachtgever?: string
-    /** None */
+    /** A UUID reference to a gebruikers object */
     Portefeuillehouder_1?: string
-    /** None */
+    /** A UUID reference to a gebruikers object */
     Portefeuillehouder_2?: string
-    /** An list of beleidskeuze-short objects that refer to this object (reverse lookup) */
-    Ref_Beleidskeuzes?: BeleidskeuzeShortRead[]
-    /** An list of beleidsmodule-short objects that refer to this object (reverse lookup) */
-    Ref_Beleidsmodules?: BeleidsmoduleShortRead[]
     /** None */
     Status?: string
     /** None */
@@ -1547,18 +1750,18 @@ export interface MaatregelenRead {
  * An object that shows the changes in the list
  */
 export type MaatregelenChangeRefBeleidsmodules = {
-    new?: BeleidsmoduleShortRead[]
-    removed?: BeleidsmoduleShortRead[]
-    same?: BeleidsmoduleShortRead[]
+    new?: BeleidsmoduleShortInline[]
+    removed?: BeleidsmoduleShortInline[]
+    same?: BeleidsmoduleShortInline[]
 }
 
 /**
  * An object that shows the changes in the list
  */
 export type MaatregelenChangeRefBeleidskeuzes = {
-    new?: BeleidskeuzeShortRead[]
-    removed?: BeleidskeuzeShortRead[]
-    same?: BeleidskeuzeShortRead[]
+    new?: BeleidskeuzeShortInline[]
+    removed?: BeleidskeuzeShortInline[]
+    same?: BeleidskeuzeShortInline[]
 }
 
 /**
@@ -1570,19 +1773,11 @@ export interface MaatregelenChange {
     /** None */
     Begin_Geldigheid?: string
     /** None */
-    Created_By?: string
-    /** None */
     Created_Date?: string
     /** None */
     Effective_Version?: string
     /** None */
-    Eigenaar_1?: string
-    /** None */
-    Eigenaar_2?: string
-    /** None */
     Eind_Geldigheid?: string
-    /** None */
-    Gebied?: string
     /** None */
     Gebied_Duiding?: string
     /** None */
@@ -1592,17 +1787,9 @@ export interface MaatregelenChange {
     /** None */
     Latest_Version?: string
     /** None */
-    Modified_By?: string
-    /** None */
     Modified_Date?: string
     /** None */
     Omschrijving?: string
-    /** None */
-    Opdrachtgever?: string
-    /** None */
-    Portefeuillehouder_1?: string
-    /** None */
-    Portefeuillehouder_2?: string
     /** An object that shows the changes in the list */
     Ref_Beleidskeuzes?: MaatregelenChangeRefBeleidskeuzes
     /** An object that shows the changes in the list */
@@ -1629,6 +1816,28 @@ export interface ListReference {
 }
 
 /**
+ * Schema that defines the structure of Gebruikers when reading
+ */
+export interface GebruikersRead {
+    Gebruikersnaam?: string
+    Rol?: string
+    Status?: string
+    /** The UUID of this gebruiker */
+    UUID?: string
+}
+
+/**
+ * Schema that defines the structure of Gebruikers when reading
+ */
+export interface GebruikersInline {
+    Gebruikersnaam?: string
+    Rol?: string
+    Status?: string
+    /** The UUID of this gebruiker */
+    UUID?: string
+}
+
+/**
  * Schema that defines how to write beleidsrelaties
  */
 export interface BeleidsrelatiesWrite {
@@ -1636,17 +1845,21 @@ export interface BeleidsrelatiesWrite {
     Aanvraag_Datum?: string
     /** None */
     Begin_Geldigheid?: string
+    /** A UUID reference to a gebruikers object */
+    Created_By?: string
     /** None */
     Datum_Akkoord?: string
     /** None */
     Eind_Geldigheid?: string
-    /** None */
+    /** A UUID reference to a gebruikers object */
+    Modified_By?: string
+    /** A UUID reference to a beleidskeuzes object */
     Naar_Beleidskeuze?: string
     /** None */
     Omschrijving?: string
     /** None */
     Status?: string
-    /** None */
+    /** A UUID reference to a beleidskeuzes object */
     Van_Beleidskeuze?: string
 }
 
@@ -1658,7 +1871,41 @@ export interface BeleidsrelatiesRead {
     Aanvraag_Datum?: string
     /** None */
     Begin_Geldigheid?: string
+    /** An inlined gebruikers object */
+    Created_By?: GebruikersInline
     /** None */
+    Created_Date?: string
+    /** None */
+    Datum_Akkoord?: string
+    /** None */
+    Eind_Geldigheid?: string
+    /** None */
+    ID?: number
+    /** An inlined gebruikers object */
+    Modified_By?: GebruikersInline
+    /** None */
+    Modified_Date?: string
+    /** An inlined beleidskeuzes object */
+    Naar_Beleidskeuze?: BeleidskeuzesInline
+    /** None */
+    Omschrijving?: string
+    /** None */
+    Status?: string
+    /** None */
+    UUID?: string
+    /** An inlined beleidskeuzes object */
+    Van_Beleidskeuze?: BeleidskeuzesInline
+}
+
+/**
+ * Schema that defines the structure of beleidsrelaties when inlining
+ */
+export interface BeleidsrelatiesInline {
+    /** None */
+    Aanvraag_Datum?: string
+    /** None */
+    Begin_Geldigheid?: string
+    /** A UUID reference to a gebruikers object */
     Created_By?: string
     /** None */
     Created_Date?: string
@@ -1668,11 +1915,11 @@ export interface BeleidsrelatiesRead {
     Eind_Geldigheid?: string
     /** None */
     ID?: number
-    /** None */
+    /** A UUID reference to a gebruikers object */
     Modified_By?: string
     /** None */
     Modified_Date?: string
-    /** None */
+    /** A UUID reference to a beleidskeuzes object */
     Naar_Beleidskeuze?: string
     /** None */
     Omschrijving?: string
@@ -1680,7 +1927,7 @@ export interface BeleidsrelatiesRead {
     Status?: string
     /** None */
     UUID?: string
-    /** None */
+    /** A UUID reference to a beleidskeuzes object */
     Van_Beleidskeuze?: string
 }
 
@@ -1693,8 +1940,6 @@ export interface BeleidsrelatiesChange {
     /** None */
     Begin_Geldigheid?: string
     /** None */
-    Created_By?: string
-    /** None */
     Created_Date?: string
     /** None */
     Datum_Akkoord?: string
@@ -1703,19 +1948,13 @@ export interface BeleidsrelatiesChange {
     /** None */
     ID?: number
     /** None */
-    Modified_By?: string
-    /** None */
     Modified_Date?: string
-    /** None */
-    Naar_Beleidskeuze?: string
     /** None */
     Omschrijving?: string
     /** None */
     Status?: string
     /** None */
     UUID?: string
-    /** None */
-    Van_Beleidskeuze?: string
 }
 
 /**
@@ -1724,10 +1963,14 @@ export interface BeleidsrelatiesChange {
 export interface BeleidsregelsWrite {
     /** None */
     Begin_Geldigheid?: string
+    /** A UUID reference to a gebruikers object */
+    Created_By?: string
     /** None */
     Eind_Geldigheid?: string
     /** None */
     Externe_URL?: string
+    /** A UUID reference to a gebruikers object */
+    Modified_By?: string
     /** None */
     Omschrijving?: string
     /** None */
@@ -1742,7 +1985,39 @@ export interface BeleidsregelsWrite {
 export interface BeleidsregelsRead {
     /** None */
     Begin_Geldigheid?: string
+    /** An inlined gebruikers object */
+    Created_By?: GebruikersInline
     /** None */
+    Created_Date?: string
+    /** None */
+    Eind_Geldigheid?: string
+    /** None */
+    Externe_URL?: string
+    /** None */
+    ID?: number
+    /** An inlined gebruikers object */
+    Modified_By?: GebruikersInline
+    /** None */
+    Modified_Date?: string
+    /** None */
+    Omschrijving?: string
+    /** An list of beleidskeuze-short objects that refer to this object (reverse lookup) */
+    Ref_Beleidskeuzes?: BeleidskeuzeShortInline[]
+    /** None */
+    Titel?: string
+    /** None */
+    UUID?: string
+    /** None */
+    Weblink?: string
+}
+
+/**
+ * Schema that defines the structure of beleidsregels when inlining
+ */
+export interface BeleidsregelsInline {
+    /** None */
+    Begin_Geldigheid?: string
+    /** A UUID reference to a gebruikers object */
     Created_By?: string
     /** None */
     Created_Date?: string
@@ -1752,14 +2027,12 @@ export interface BeleidsregelsRead {
     Externe_URL?: string
     /** None */
     ID?: number
-    /** None */
+    /** A UUID reference to a gebruikers object */
     Modified_By?: string
     /** None */
     Modified_Date?: string
     /** None */
     Omschrijving?: string
-    /** An list of beleidskeuze-short objects that refer to this object (reverse lookup) */
-    Ref_Beleidskeuzes?: BeleidskeuzeShortRead[]
     /** None */
     Titel?: string
     /** None */
@@ -1772,9 +2045,9 @@ export interface BeleidsregelsRead {
  * An object that shows the changes in the list
  */
 export type BeleidsregelsChangeRefBeleidskeuzes = {
-    new?: BeleidskeuzeShortRead[]
-    removed?: BeleidskeuzeShortRead[]
-    same?: BeleidskeuzeShortRead[]
+    new?: BeleidskeuzeShortInline[]
+    removed?: BeleidskeuzeShortInline[]
+    same?: BeleidskeuzeShortInline[]
 }
 
 /**
@@ -1784,8 +2057,6 @@ export interface BeleidsregelsChange {
     /** None */
     Begin_Geldigheid?: string
     /** None */
-    Created_By?: string
-    /** None */
     Created_Date?: string
     /** None */
     Eind_Geldigheid?: string
@@ -1793,8 +2064,6 @@ export interface BeleidsregelsChange {
     Externe_URL?: string
     /** None */
     ID?: number
-    /** None */
-    Modified_By?: string
     /** None */
     Modified_Date?: string
     /** None */
@@ -1815,8 +2084,12 @@ export interface BeleidsregelsChange {
 export interface BeleidsprestatiesWrite {
     /** None */
     Begin_Geldigheid?: string
+    /** A UUID reference to a gebruikers object */
+    Created_By?: string
     /** None */
     Eind_Geldigheid?: string
+    /** A UUID reference to a gebruikers object */
+    Modified_By?: string
     /** None */
     Omschrijving?: string
     /** None */
@@ -1831,7 +2104,37 @@ export interface BeleidsprestatiesWrite {
 export interface BeleidsprestatiesRead {
     /** None */
     Begin_Geldigheid?: string
+    /** An inlined gebruikers object */
+    Created_By?: GebruikersInline
     /** None */
+    Created_Date?: string
+    /** None */
+    Eind_Geldigheid?: string
+    /** None */
+    ID?: number
+    /** An inlined gebruikers object */
+    Modified_By?: GebruikersInline
+    /** None */
+    Modified_Date?: string
+    /** None */
+    Omschrijving?: string
+    /** An list of beleidskeuze-short objects that refer to this object (reverse lookup) */
+    Ref_Beleidskeuzes?: BeleidskeuzeShortInline[]
+    /** None */
+    Titel?: string
+    /** None */
+    UUID?: string
+    /** None */
+    Weblink?: string
+}
+
+/**
+ * Schema that defines the structure of beleidsprestaties when inlining
+ */
+export interface BeleidsprestatiesInline {
+    /** None */
+    Begin_Geldigheid?: string
+    /** A UUID reference to a gebruikers object */
     Created_By?: string
     /** None */
     Created_Date?: string
@@ -1839,14 +2142,12 @@ export interface BeleidsprestatiesRead {
     Eind_Geldigheid?: string
     /** None */
     ID?: number
-    /** None */
+    /** A UUID reference to a gebruikers object */
     Modified_By?: string
     /** None */
     Modified_Date?: string
     /** None */
     Omschrijving?: string
-    /** An list of beleidskeuze-short objects that refer to this object (reverse lookup) */
-    Ref_Beleidskeuzes?: BeleidskeuzeShortRead[]
     /** None */
     Titel?: string
     /** None */
@@ -1859,9 +2160,9 @@ export interface BeleidsprestatiesRead {
  * An object that shows the changes in the list
  */
 export type BeleidsprestatiesChangeRefBeleidskeuzes = {
-    new?: BeleidskeuzeShortRead[]
-    removed?: BeleidskeuzeShortRead[]
-    same?: BeleidskeuzeShortRead[]
+    new?: BeleidskeuzeShortInline[]
+    removed?: BeleidskeuzeShortInline[]
+    same?: BeleidskeuzeShortInline[]
 }
 
 /**
@@ -1871,15 +2172,11 @@ export interface BeleidsprestatiesChange {
     /** None */
     Begin_Geldigheid?: string
     /** None */
-    Created_By?: string
-    /** None */
     Created_Date?: string
     /** None */
     Eind_Geldigheid?: string
     /** None */
     ID?: number
-    /** None */
-    Modified_By?: string
     /** None */
     Modified_Date?: string
     /** None */
@@ -1904,22 +2201,26 @@ export interface BeleidsmodulesWrite {
     Beleidskeuzes?: ListReference[]
     /** None */
     Besluit_Datum?: string
+    /** A UUID reference to a gebruikers object */
+    Created_By?: string
     /** None */
     Eind_Geldigheid?: string
     /** An list of references to maatregelen objects */
     Maatregelen?: ListReference[]
+    /** A UUID reference to a gebruikers object */
+    Modified_By?: string
     /** None */
     Titel?: string
 }
 
 export type BeleidsmodulesReadMaatregelenItem = {
     Koppeling_Omschrijving?: string
-    Object?: MaatregelenRead
+    Object?: MaatregelenInline
 }
 
 export type BeleidsmodulesReadBeleidskeuzesItem = {
     Koppeling_Omschrijving?: string
-    Object?: BeleidskeuzesRead
+    Object?: BeleidskeuzesInline
 }
 
 /**
@@ -1932,8 +2233,8 @@ export interface BeleidsmodulesRead {
     Beleidskeuzes?: BeleidsmodulesReadBeleidskeuzesItem[]
     /** None */
     Besluit_Datum?: string
-    /** None */
-    Created_By?: string
+    /** An inlined gebruikers object */
+    Created_By?: GebruikersInline
     /** None */
     Created_Date?: string
     /** None */
@@ -1942,7 +2243,33 @@ export interface BeleidsmodulesRead {
     ID?: number
     /** An list of maatregelen objects */
     Maatregelen?: BeleidsmodulesReadMaatregelenItem[]
+    /** An inlined gebruikers object */
+    Modified_By?: GebruikersInline
     /** None */
+    Modified_Date?: string
+    /** None */
+    Titel?: string
+    /** None */
+    UUID?: string
+}
+
+/**
+ * Schema that defines the structure of beleidsmodules when inlining
+ */
+export interface BeleidsmodulesInline {
+    /** None */
+    Begin_Geldigheid?: string
+    /** None */
+    Besluit_Datum?: string
+    /** A UUID reference to a gebruikers object */
+    Created_By?: string
+    /** None */
+    Created_Date?: string
+    /** None */
+    Eind_Geldigheid?: string
+    /** None */
+    ID?: number
+    /** A UUID reference to a gebruikers object */
     Modified_By?: string
     /** None */
     Modified_Date?: string
@@ -1956,18 +2283,18 @@ export interface BeleidsmodulesRead {
  * An object that shows the changes in the list
  */
 export type BeleidsmodulesChangeMaatregelen = {
-    new?: MaatregelenRead[]
-    removed?: MaatregelenRead[]
-    same?: MaatregelenRead[]
+    new?: MaatregelenInline[]
+    removed?: MaatregelenInline[]
+    same?: MaatregelenInline[]
 }
 
 /**
  * An object that shows the changes in the list
  */
 export type BeleidsmodulesChangeBeleidskeuzes = {
-    new?: BeleidskeuzesRead[]
-    removed?: BeleidskeuzesRead[]
-    same?: BeleidskeuzesRead[]
+    new?: BeleidskeuzesInline[]
+    removed?: BeleidskeuzesInline[]
+    same?: BeleidskeuzesInline[]
 }
 
 /**
@@ -1981,8 +2308,6 @@ export interface BeleidsmodulesChange {
     /** None */
     Besluit_Datum?: string
     /** None */
-    Created_By?: string
-    /** None */
     Created_Date?: string
     /** None */
     Eind_Geldigheid?: string
@@ -1990,8 +2315,6 @@ export interface BeleidsmodulesChange {
     ID?: number
     /** An object that shows the changes in the list */
     Maatregelen?: BeleidsmodulesChangeMaatregelen
-    /** None */
-    Modified_By?: string
     /** None */
     Modified_Date?: string
     /** None */
@@ -2012,6 +2335,18 @@ export interface BeleidsmoduleShortWrite {
  * Schema that defines the structure of beleidsmodule-short when reading
  */
 export interface BeleidsmoduleShortRead {
+    /** None */
+    ID?: number
+    /** None */
+    Titel?: string
+    /** None */
+    UUID?: string
+}
+
+/**
+ * Schema that defines the structure of beleidsmodule-short when inlining
+ */
+export interface BeleidsmoduleShortInline {
     /** None */
     ID?: number
     /** None */
@@ -2058,23 +2393,27 @@ export interface BeleidskeuzesWrite {
     Beleidsregels?: ListReference[]
     /** None */
     Besluitnummer?: string
-    /** None */
+    /** A UUID reference to a gebruikers object */
+    Created_By?: string
+    /** A UUID reference to a gebruikers object */
     Eigenaar_1?: string
-    /** None */
+    /** A UUID reference to a gebruikers object */
     Eigenaar_2?: string
     /** None */
     Eind_Geldigheid?: string
     /** An list of references to maatregelen objects */
     Maatregelen?: ListReference[]
+    /** A UUID reference to a gebruikers object */
+    Modified_By?: string
     /** None */
     Omschrijving_Keuze?: string
     /** None */
     Omschrijving_Werking?: string
-    /** None */
+    /** A UUID reference to a gebruikers object */
     Opdrachtgever?: string
-    /** None */
+    /** A UUID reference to a gebruikers object */
     Portefeuillehouder_1?: string
-    /** None */
+    /** A UUID reference to a gebruikers object */
     Portefeuillehouder_2?: string
     /** None */
     Provinciaal_Belang?: string
@@ -2096,47 +2435,47 @@ export interface BeleidskeuzesWrite {
 
 export type BeleidskeuzesReadWerkingsgebiedenItem = {
     Koppeling_Omschrijving?: string
-    Object?: WerkingsgebiedenRead
+    Object?: WerkingsgebiedenInline
 }
 
 export type BeleidskeuzesReadVerordeningenItem = {
     Koppeling_Omschrijving?: string
-    Object?: VerordeningenRead
+    Object?: VerordeningenInline
 }
 
 export type BeleidskeuzesReadThemasItem = {
     Koppeling_Omschrijving?: string
-    Object?: ThemasRead
+    Object?: ThemasInline
 }
 
 export type BeleidskeuzesReadMaatregelenItem = {
     Koppeling_Omschrijving?: string
-    Object?: MaatregelenRead
+    Object?: MaatregelenInline
 }
 
 export type BeleidskeuzesReadBeleidsregelsItem = {
     Koppeling_Omschrijving?: string
-    Object?: BeleidsregelsRead
+    Object?: BeleidsregelsInline
 }
 
 export type BeleidskeuzesReadBeleidsprestatiesItem = {
     Koppeling_Omschrijving?: string
-    Object?: BeleidsprestatiesRead
+    Object?: BeleidsprestatiesInline
 }
 
 export type BeleidskeuzesReadBeleidsdoelenItem = {
     Koppeling_Omschrijving?: string
-    Object?: BeleidsdoelenRead
+    Object?: BeleidsdoelenInline
 }
 
 export type BeleidskeuzesReadBelangenItem = {
     Koppeling_Omschrijving?: string
-    Object?: BelangenRead
+    Object?: BelangenInline
 }
 
 export type BeleidskeuzesReadAmbitiesItem = {
     Koppeling_Omschrijving?: string
-    Object?: AmbitiesRead
+    Object?: AmbitiesInline
 }
 
 /**
@@ -2165,16 +2504,16 @@ export interface BeleidskeuzesRead {
     Beleidsregels?: BeleidskeuzesReadBeleidsregelsItem[]
     /** None */
     Besluitnummer?: string
-    /** None */
-    Created_By?: string
+    /** An inlined gebruikers object */
+    Created_By?: GebruikersInline
     /** None */
     Created_Date?: string
     /** None */
     Effective_Version?: string
-    /** None */
-    Eigenaar_1?: string
-    /** None */
-    Eigenaar_2?: string
+    /** An inlined gebruikers object */
+    Eigenaar_1?: GebruikersInline
+    /** An inlined gebruikers object */
+    Eigenaar_2?: GebruikersInline
     /** None */
     Eind_Geldigheid?: string
     /** None */
@@ -2185,24 +2524,24 @@ export interface BeleidskeuzesRead {
     Latest_Version?: string
     /** An list of maatregelen objects */
     Maatregelen?: BeleidskeuzesReadMaatregelenItem[]
-    /** None */
-    Modified_By?: string
+    /** An inlined gebruikers object */
+    Modified_By?: GebruikersInline
     /** None */
     Modified_Date?: string
     /** None */
     Omschrijving_Keuze?: string
     /** None */
     Omschrijving_Werking?: string
-    /** None */
-    Opdrachtgever?: string
-    /** None */
-    Portefeuillehouder_1?: string
-    /** None */
-    Portefeuillehouder_2?: string
+    /** An inlined gebruikers object */
+    Opdrachtgever?: GebruikersInline
+    /** An inlined gebruikers object */
+    Portefeuillehouder_1?: GebruikersInline
+    /** An inlined gebruikers object */
+    Portefeuillehouder_2?: GebruikersInline
     /** None */
     Provinciaal_Belang?: string
     /** An list of beleidsmodule-short objects that refer to this object (reverse lookup) */
-    Ref_Beleidsmodules?: BeleidsmoduleShortRead[]
+    Ref_Beleidsmodules?: BeleidsmoduleShortInline[]
     /** None */
     Status?: string
     /** None */
@@ -2222,93 +2561,147 @@ export interface BeleidskeuzesRead {
 }
 
 /**
+ * Schema that defines the structure of beleidskeuzes when inlining
+ */
+export interface BeleidskeuzesInline {
+    /** None */
+    Aanleiding?: string
+    /** None */
+    Aanpassing_Op?: string
+    /** None */
+    Afweging?: string
+    /** None */
+    Begin_Geldigheid?: string
+    /** None */
+    Besluitnummer?: string
+    /** A UUID reference to a gebruikers object */
+    Created_By?: string
+    /** None */
+    Created_Date?: string
+    /** A UUID reference to a gebruikers object */
+    Eigenaar_1?: string
+    /** A UUID reference to a gebruikers object */
+    Eigenaar_2?: string
+    /** None */
+    Eind_Geldigheid?: string
+    /** None */
+    ID?: number
+    /** A UUID reference to a gebruikers object */
+    Modified_By?: string
+    /** None */
+    Modified_Date?: string
+    /** None */
+    Omschrijving_Keuze?: string
+    /** None */
+    Omschrijving_Werking?: string
+    /** A UUID reference to a gebruikers object */
+    Opdrachtgever?: string
+    /** A UUID reference to a gebruikers object */
+    Portefeuillehouder_1?: string
+    /** A UUID reference to a gebruikers object */
+    Portefeuillehouder_2?: string
+    /** None */
+    Provinciaal_Belang?: string
+    /** None */
+    Status?: string
+    /** None */
+    Tags?: string
+    /** None */
+    Titel?: string
+    /** None */
+    UUID?: string
+    /** None */
+    Weblink?: string
+}
+
+/**
  * An object that shows the changes in the list
  */
 export type BeleidskeuzesChangeWerkingsgebieden = {
-    new?: WerkingsgebiedenRead[]
-    removed?: WerkingsgebiedenRead[]
-    same?: WerkingsgebiedenRead[]
+    new?: WerkingsgebiedenInline[]
+    removed?: WerkingsgebiedenInline[]
+    same?: WerkingsgebiedenInline[]
 }
 
 /**
  * An object that shows the changes in the list
  */
 export type BeleidskeuzesChangeVerordeningen = {
-    new?: VerordeningenRead[]
-    removed?: VerordeningenRead[]
-    same?: VerordeningenRead[]
+    new?: VerordeningenInline[]
+    removed?: VerordeningenInline[]
+    same?: VerordeningenInline[]
 }
 
 /**
  * An object that shows the changes in the list
  */
 export type BeleidskeuzesChangeThemas = {
-    new?: ThemasRead[]
-    removed?: ThemasRead[]
-    same?: ThemasRead[]
+    new?: ThemasInline[]
+    removed?: ThemasInline[]
+    same?: ThemasInline[]
 }
 
 /**
  * An object that shows the changes in the list
  */
 export type BeleidskeuzesChangeRefBeleidsmodules = {
-    new?: BeleidsmoduleShortRead[]
-    removed?: BeleidsmoduleShortRead[]
-    same?: BeleidsmoduleShortRead[]
+    new?: BeleidsmoduleShortInline[]
+    removed?: BeleidsmoduleShortInline[]
+    same?: BeleidsmoduleShortInline[]
 }
 
 /**
  * An object that shows the changes in the list
  */
 export type BeleidskeuzesChangeMaatregelen = {
-    new?: MaatregelenRead[]
-    removed?: MaatregelenRead[]
-    same?: MaatregelenRead[]
+    new?: MaatregelenInline[]
+    removed?: MaatregelenInline[]
+    same?: MaatregelenInline[]
 }
 
 /**
  * An object that shows the changes in the list
  */
 export type BeleidskeuzesChangeBeleidsregels = {
-    new?: BeleidsregelsRead[]
-    removed?: BeleidsregelsRead[]
-    same?: BeleidsregelsRead[]
+    new?: BeleidsregelsInline[]
+    removed?: BeleidsregelsInline[]
+    same?: BeleidsregelsInline[]
 }
 
 /**
  * An object that shows the changes in the list
  */
 export type BeleidskeuzesChangeBeleidsprestaties = {
-    new?: BeleidsprestatiesRead[]
-    removed?: BeleidsprestatiesRead[]
-    same?: BeleidsprestatiesRead[]
+    new?: BeleidsprestatiesInline[]
+    removed?: BeleidsprestatiesInline[]
+    same?: BeleidsprestatiesInline[]
 }
 
 /**
  * An object that shows the changes in the list
  */
 export type BeleidskeuzesChangeBeleidsdoelen = {
-    new?: BeleidsdoelenRead[]
-    removed?: BeleidsdoelenRead[]
-    same?: BeleidsdoelenRead[]
+    new?: BeleidsdoelenInline[]
+    removed?: BeleidsdoelenInline[]
+    same?: BeleidsdoelenInline[]
 }
 
 /**
  * An object that shows the changes in the list
  */
 export type BeleidskeuzesChangeBelangen = {
-    new?: BelangenRead[]
-    removed?: BelangenRead[]
-    same?: BelangenRead[]
+    new?: BelangenInline[]
+    removed?: BelangenInline[]
+    same?: BelangenInline[]
 }
 
 /**
  * An object that shows the changes in the list
  */
 export type BeleidskeuzesChangeAmbities = {
-    new?: AmbitiesRead[]
-    removed?: AmbitiesRead[]
-    same?: AmbitiesRead[]
+    new?: AmbitiesInline[]
+    removed?: AmbitiesInline[]
+    same?: AmbitiesInline[]
 }
 
 /**
@@ -2338,15 +2731,9 @@ export interface BeleidskeuzesChange {
     /** None */
     Besluitnummer?: string
     /** None */
-    Created_By?: string
-    /** None */
     Created_Date?: string
     /** None */
     Effective_Version?: string
-    /** None */
-    Eigenaar_1?: string
-    /** None */
-    Eigenaar_2?: string
     /** None */
     Eind_Geldigheid?: string
     /** None */
@@ -2358,19 +2745,11 @@ export interface BeleidskeuzesChange {
     /** An object that shows the changes in the list */
     Maatregelen?: BeleidskeuzesChangeMaatregelen
     /** None */
-    Modified_By?: string
-    /** None */
     Modified_Date?: string
     /** None */
     Omschrijving_Keuze?: string
     /** None */
     Omschrijving_Werking?: string
-    /** None */
-    Opdrachtgever?: string
-    /** None */
-    Portefeuillehouder_1?: string
-    /** None */
-    Portefeuillehouder_2?: string
     /** None */
     Provinciaal_Belang?: string
     /** An object that shows the changes in the list */
@@ -2417,18 +2796,30 @@ export interface BeleidskeuzeShortRead {
     UUID?: string
 }
 
+/**
+ * Schema that defines the structure of beleidskeuze-short when inlining
+ */
+export interface BeleidskeuzeShortInline {
+    /** None */
+    ID?: number
+    /** None */
+    Titel?: string
+    /** None */
+    UUID?: string
+}
+
 export type BeleidskeuzesReadBeleidskeuzesItem = {
     Koppeling_Omschrijving?: string
-    Object?: BeleidskeuzeShortRead
+    Object?: BeleidskeuzeShortInline
 }
 
 /**
  * An object that shows the changes in the list
  */
 export type BeleidskeuzesChangeBeleidskeuzes = {
-    new?: BeleidskeuzeShortRead[]
-    removed?: BeleidskeuzeShortRead[]
-    same?: BeleidskeuzeShortRead[]
+    new?: BeleidskeuzeShortInline[]
+    removed?: BeleidskeuzeShortInline[]
+    same?: BeleidskeuzeShortInline[]
 }
 
 /**
@@ -2449,8 +2840,12 @@ export interface BeleidskeuzeShortChange {
 export interface BeleidsdoelenWrite {
     /** None */
     Begin_Geldigheid?: string
+    /** A UUID reference to a gebruikers object */
+    Created_By?: string
     /** None */
     Eind_Geldigheid?: string
+    /** A UUID reference to a gebruikers object */
+    Modified_By?: string
     /** None */
     Omschrijving?: string
     /** None */
@@ -2465,7 +2860,37 @@ export interface BeleidsdoelenWrite {
 export interface BeleidsdoelenRead {
     /** None */
     Begin_Geldigheid?: string
+    /** An inlined gebruikers object */
+    Created_By?: GebruikersInline
     /** None */
+    Created_Date?: string
+    /** None */
+    Eind_Geldigheid?: string
+    /** None */
+    ID?: number
+    /** An inlined gebruikers object */
+    Modified_By?: GebruikersInline
+    /** None */
+    Modified_Date?: string
+    /** None */
+    Omschrijving?: string
+    /** An list of beleidskeuze-short objects that refer to this object (reverse lookup) */
+    Ref_Beleidskeuzes?: BeleidskeuzeShortInline[]
+    /** None */
+    Titel?: string
+    /** None */
+    UUID?: string
+    /** None */
+    Weblink?: string
+}
+
+/**
+ * Schema that defines the structure of beleidsdoelen when inlining
+ */
+export interface BeleidsdoelenInline {
+    /** None */
+    Begin_Geldigheid?: string
+    /** A UUID reference to a gebruikers object */
     Created_By?: string
     /** None */
     Created_Date?: string
@@ -2473,14 +2898,12 @@ export interface BeleidsdoelenRead {
     Eind_Geldigheid?: string
     /** None */
     ID?: number
-    /** None */
+    /** A UUID reference to a gebruikers object */
     Modified_By?: string
     /** None */
     Modified_Date?: string
     /** None */
     Omschrijving?: string
-    /** An list of beleidskeuze-short objects that refer to this object (reverse lookup) */
-    Ref_Beleidskeuzes?: BeleidskeuzeShortRead[]
     /** None */
     Titel?: string
     /** None */
@@ -2493,9 +2916,9 @@ export interface BeleidsdoelenRead {
  * An object that shows the changes in the list
  */
 export type BeleidsdoelenChangeRefBeleidskeuzes = {
-    new?: BeleidskeuzeShortRead[]
-    removed?: BeleidskeuzeShortRead[]
-    same?: BeleidskeuzeShortRead[]
+    new?: BeleidskeuzeShortInline[]
+    removed?: BeleidskeuzeShortInline[]
+    same?: BeleidskeuzeShortInline[]
 }
 
 /**
@@ -2505,15 +2928,11 @@ export interface BeleidsdoelenChange {
     /** None */
     Begin_Geldigheid?: string
     /** None */
-    Created_By?: string
-    /** None */
     Created_Date?: string
     /** None */
     Eind_Geldigheid?: string
     /** None */
     ID?: number
-    /** None */
-    Modified_By?: string
     /** None */
     Modified_Date?: string
     /** None */
@@ -2534,8 +2953,12 @@ export interface BeleidsdoelenChange {
 export interface BelangenWrite {
     /** None */
     Begin_Geldigheid?: string
+    /** A UUID reference to a gebruikers object */
+    Created_By?: string
     /** None */
     Eind_Geldigheid?: string
+    /** A UUID reference to a gebruikers object */
+    Modified_By?: string
     /** None */
     Omschrijving?: string
     /** None */
@@ -2552,7 +2975,39 @@ export interface BelangenWrite {
 export interface BelangenRead {
     /** None */
     Begin_Geldigheid?: string
+    /** An inlined gebruikers object */
+    Created_By?: GebruikersInline
     /** None */
+    Created_Date?: string
+    /** None */
+    Eind_Geldigheid?: string
+    /** None */
+    ID?: number
+    /** An inlined gebruikers object */
+    Modified_By?: GebruikersInline
+    /** None */
+    Modified_Date?: string
+    /** None */
+    Omschrijving?: string
+    /** An list of beleidskeuze-short objects that refer to this object (reverse lookup) */
+    Ref_Beleidskeuzes?: BeleidskeuzeShortInline[]
+    /** None */
+    Titel?: string
+    /** None */
+    Type?: string
+    /** None */
+    UUID?: string
+    /** None */
+    Weblink?: string
+}
+
+/**
+ * Schema that defines the structure of belangen when inlining
+ */
+export interface BelangenInline {
+    /** None */
+    Begin_Geldigheid?: string
+    /** A UUID reference to a gebruikers object */
     Created_By?: string
     /** None */
     Created_Date?: string
@@ -2560,14 +3015,12 @@ export interface BelangenRead {
     Eind_Geldigheid?: string
     /** None */
     ID?: number
-    /** None */
+    /** A UUID reference to a gebruikers object */
     Modified_By?: string
     /** None */
     Modified_Date?: string
     /** None */
     Omschrijving?: string
-    /** An list of beleidskeuze-short objects that refer to this object (reverse lookup) */
-    Ref_Beleidskeuzes?: BeleidskeuzeShortRead[]
     /** None */
     Titel?: string
     /** None */
@@ -2582,9 +3035,9 @@ export interface BelangenRead {
  * An object that shows the changes in the list
  */
 export type BelangenChangeRefBeleidskeuzes = {
-    new?: BeleidskeuzeShortRead[]
-    removed?: BeleidskeuzeShortRead[]
-    same?: BeleidskeuzeShortRead[]
+    new?: BeleidskeuzeShortInline[]
+    removed?: BeleidskeuzeShortInline[]
+    same?: BeleidskeuzeShortInline[]
 }
 
 /**
@@ -2594,15 +3047,11 @@ export interface BelangenChange {
     /** None */
     Begin_Geldigheid?: string
     /** None */
-    Created_By?: string
-    /** None */
     Created_Date?: string
     /** None */
     Eind_Geldigheid?: string
     /** None */
     ID?: number
-    /** None */
-    Modified_By?: string
     /** None */
     Modified_Date?: string
     /** None */
@@ -2625,8 +3074,12 @@ export interface BelangenChange {
 export interface AmbitiesWrite {
     /** None */
     Begin_Geldigheid?: string
+    /** A UUID reference to a gebruikers object */
+    Created_By?: string
     /** None */
     Eind_Geldigheid?: string
+    /** A UUID reference to a gebruikers object */
+    Modified_By?: string
     /** None */
     Omschrijving?: string
     /** None */
@@ -2641,7 +3094,37 @@ export interface AmbitiesWrite {
 export interface AmbitiesRead {
     /** None */
     Begin_Geldigheid?: string
+    /** An inlined gebruikers object */
+    Created_By?: GebruikersInline
     /** None */
+    Created_Date?: string
+    /** None */
+    Eind_Geldigheid?: string
+    /** None */
+    ID?: number
+    /** An inlined gebruikers object */
+    Modified_By?: GebruikersInline
+    /** None */
+    Modified_Date?: string
+    /** None */
+    Omschrijving?: string
+    /** An list of beleidskeuze-short objects that refer to this object (reverse lookup) */
+    Ref_Beleidskeuzes?: BeleidskeuzeShortInline[]
+    /** None */
+    Titel?: string
+    /** None */
+    UUID?: string
+    /** None */
+    Weblink?: string
+}
+
+/**
+ * Schema that defines the structure of ambities when inlining
+ */
+export interface AmbitiesInline {
+    /** None */
+    Begin_Geldigheid?: string
+    /** A UUID reference to a gebruikers object */
     Created_By?: string
     /** None */
     Created_Date?: string
@@ -2649,14 +3132,12 @@ export interface AmbitiesRead {
     Eind_Geldigheid?: string
     /** None */
     ID?: number
-    /** None */
+    /** A UUID reference to a gebruikers object */
     Modified_By?: string
     /** None */
     Modified_Date?: string
     /** None */
     Omschrijving?: string
-    /** An list of beleidskeuze-short objects that refer to this object (reverse lookup) */
-    Ref_Beleidskeuzes?: BeleidskeuzeShortRead[]
     /** None */
     Titel?: string
     /** None */
@@ -2669,9 +3150,9 @@ export interface AmbitiesRead {
  * An object that shows the changes in the list
  */
 export type AmbitiesChangeRefBeleidskeuzes = {
-    new?: BeleidskeuzeShortRead[]
-    removed?: BeleidskeuzeShortRead[]
-    same?: BeleidskeuzeShortRead[]
+    new?: BeleidskeuzeShortInline[]
+    removed?: BeleidskeuzeShortInline[]
+    same?: BeleidskeuzeShortInline[]
 }
 
 /**
@@ -2681,15 +3162,11 @@ export interface AmbitiesChange {
     /** None */
     Begin_Geldigheid?: string
     /** None */
-    Created_By?: string
-    /** None */
     Created_Date?: string
     /** None */
     Eind_Geldigheid?: string
     /** None */
     ID?: number
-    /** None */
-    Modified_By?: string
     /** None */
     Modified_Date?: string
     /** None */

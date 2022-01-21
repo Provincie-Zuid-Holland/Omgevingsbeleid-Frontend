@@ -6,7 +6,7 @@ import LoaderSmallCircle from './LoaderSmallCircle'
 describe('LoaderSmallCircle', () => {
     const defaultProps = {}
 
-    const setup = customProps => {
+    const setup = (customProps?: { [key: string]: any }) => {
         const props = { ...defaultProps, ...customProps }
         render(<LoaderSmallCircle {...props} />)
     }

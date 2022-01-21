@@ -1,11 +1,22 @@
 import { faAngleLeft, faPlus } from '@fortawesome/pro-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useEffect, useState } from 'react'
-import { Link, withRouter, useParams } from 'react-router-dom'
+import {
+    Link,
+    withRouter,
+    useParams,
+    RouteComponentProps,
+} from 'react-router-dom'
 import { toast } from 'react-toastify'
 
-import axios from '../../api/axios'
-import { LoaderMainTitle, LoaderSaving } from '../../components/Loader'
+import axios from '@/api/axios'
+import {
+    getBeleidsrelaties,
+    getVersionBeleidskeuzesObjectuuid,
+} from '@/api/fetchers'
+import { BeleidskeuzesRead, BeleidsrelatiesRead } from '@/api/fetchers.schemas'
+import { LoaderMainTitle, LoaderSaving } from '@/components/Loader'
+
 import SwitchToTabbladButton from './SwitchToTabbladButton'
 import TabDisconnected from './TabDisconnected'
 import TabRejected from './TabRejected'
@@ -19,75 +30,85 @@ import TabRequests from './TabRequests'
  * @returns The detail page for the relations of beleidskeuzes.
  * Here the user can accept, reject, delete existing, and create new relations between beleidskeuzes.
  */
+
+interface MuteerBeleidsrelatiesDetailProps extends RouteComponentProps {
+    updateBeleidsrelaties: (UUID?: string, status?: string) => void
+    backToOverzicht: () => void
+}
+
 const MuteerBeleidsrelatiesDetail = ({
     updateBeleidsrelaties,
     backToOverzicht,
-}) => {
+}: MuteerBeleidsrelatiesDetailProps) => {
     const [isLoading, setIsLoading] = useState(true)
     const [savingInProgress, setSavingInProgress] = useState(false)
 
     const [activeTab, setActiveTab] = useState('relaties')
 
     /** Incoming and outgoing relations */
-    const [incoming_Beleidskeuzes, setIncoming_Beleidskeuzes] = useState([])
-    const [outgoing_Beleidskeuzes, setOutgoing_Beleidskeuzes] = useState([])
+    const [incoming_Beleidskeuzes, setIncoming_Beleidskeuzes] = useState<
+        BeleidsrelatiesRead[]
+    >([])
+    const [outgoing_Beleidskeuzes, setOutgoing_Beleidskeuzes] = useState<
+        BeleidsrelatiesRead[]
+    >([])
 
     /** State for the beleidsObject that the user is viewing the detail page of */
-    const [beleidsObject, setBeleidsObject] = useState({})
+    const [beleidsObject, setBeleidsObject] = useState<BeleidskeuzesRead>({})
 
     /** Popup State */
-    const [motivationPopUp, setMotivationPopUp] = useState(null)
-    const [disconnectPopup, setDisconnectPopup] = useState(null)
+    const [motivationPopUp, setMotivationPopUp] = useState<
+        string | null | undefined
+    >(null)
+    const [disconnectPopup, setDisconnectPopup] = useState<
+        string | null | undefined
+    >(null)
 
     /** State containing the filtered relations */
-    const [relations, setRelations] = useState([])
-    const [rejected, setRejected] = useState([])
-    const [disconnected, setDisconnected] = useState([])
-    const [requests, setRequests] = useState([])
+    const [relations, setRelations] = useState<BeleidsrelatiesRead[]>([])
+    const [rejected, setRejected] = useState<BeleidsrelatiesRead[]>([])
+    const [disconnected, setDisconnected] = useState<BeleidsrelatiesRead[]>([])
+    const [requests, setRequests] = useState<BeleidsrelatiesRead[]>([])
 
     /** Contains the UUID from the URL */
-    const { UUID } = useParams()
+    const { UUID } = useParams<{ UUID: string }>()
 
     /**
      * Retrieve specific version of the beleidskeuze
      * @param {string} UUID - UUID of the beleidskeuze we want to retrieve
      */
-    const getAndSetBeleidskeuze = UUID =>
-        axios.get(`version/beleidskeuzes/${UUID}`).then(res => {
-            setBeleidsObject(res.data)
-        })
+    const getAndSetBeleidskeuze = (UUID: string) =>
+        getVersionBeleidskeuzesObjectuuid(UUID).then(data =>
+            setBeleidsObject(data)
+        )
 
     /**
      * Function that gets all relations from a specific beleidskeuze
      * @param {string} UUID - UUID of the beleidskeuze
      */
-    const getBeleidsrelatiesVanBeleidskeuze = UUID =>
-        axios
-            .get(`/beleidsrelaties?all_filters=Van_Beleidskeuze:${UUID}`)
-            .then(res => {
-                const outgoing = res.data
-                if (outgoing.length === 0) return
-                setOutgoing_Beleidskeuzes(outgoing)
-            })
+    const getBeleidsrelatiesVanBeleidskeuze = (UUID: string) =>
+        getBeleidsrelaties({ all_filters: `Van_Beleidskeuze:${UUID}` }).then(
+            data => {
+                if (data.length !== 0) setOutgoing_Beleidskeuzes(data)
+            }
+        )
 
     /**
      * Function that gets all outgoing relations to a specific beleidskeuze
      * @param {string} UUID - UUID of the beleidskeuze
      */
-    const getBeleidsrelatiesNaarBeleidskeuze = UUID =>
-        axios
-            .get(`/beleidsrelaties?all_filters=Naar_Beleidskeuze:${UUID}`)
-            .then(res => {
-                const incoming = res.data
-                if (incoming.length === 0) return
-                setIncoming_Beleidskeuzes(incoming)
-            })
+    const getBeleidsrelatiesNaarBeleidskeuze = (UUID: string) =>
+        getBeleidsrelaties({ all_filters: `Naar_Beleidskeuze:${UUID}` }).then(
+            data => {
+                if (data.length !== 0) setIncoming_Beleidskeuzes(data)
+            }
+        )
 
     /**
      * Function to accept an incoming relation
      * @param {object} beleidsrelatieObject - Contains the relation object
      */
-    const relationshipAccept = beleidsrelatieObject => {
+    const relationshipAccept = (beleidsrelatieObject: BeleidsrelatiesRead) => {
         const patchedBeleidsrelatieObject = {
             Status: 'Akkoord',
             Begin_Geldigheid: beleidsrelatieObject.Begin_Geldigheid,
@@ -112,9 +133,10 @@ const MuteerBeleidsrelatiesDetail = ({
                     const itemIndex = outgoing_Beleidskeuzes.findIndex(
                         x => x.UUID === beleidsrelatieObject.UUID
                     )
-                    let newStateObject = outgoing_Beleidskeuzes
+                    const newStateObject = outgoing_Beleidskeuzes
                     newStateObject[itemIndex].Status = 'Akkoord'
-                    newStateObject[itemIndex].Datum_Akkoord = new Date()
+                    newStateObject[itemIndex].Datum_Akkoord =
+                        new Date().toString()
                     setOutgoing_Beleidskeuzes([...newStateObject])
                     setSavingInProgress(false)
                 } else if (
@@ -125,9 +147,10 @@ const MuteerBeleidsrelatiesDetail = ({
                     const itemIndex = incoming_Beleidskeuzes.findIndex(
                         x => x.UUID === beleidsrelatieObject.UUID
                     )
-                    let newStateObject = incoming_Beleidskeuzes
+                    const newStateObject = incoming_Beleidskeuzes
                     newStateObject[itemIndex].Status = 'Akkoord'
-                    newStateObject[itemIndex].Datum_Akkoord = new Date()
+                    newStateObject[itemIndex].Datum_Akkoord =
+                        new Date().toString()
                     setIncoming_Beleidskeuzes([...newStateObject])
                     setSavingInProgress(false)
                 }
@@ -143,7 +166,7 @@ const MuteerBeleidsrelatiesDetail = ({
      * Function to refuse an incoming relation
      * @param {object} beleidsrelatieObject - Contains the relation object
      */
-    const relationshipReject = beleidsrelatieObject => {
+    const relationshipReject = (beleidsrelatieObject: BeleidsrelatiesRead) => {
         const patchedBeleidsrelatieObject = {
             Begin_Geldigheid: beleidsrelatieObject.Begin_Geldigheid,
             Eind_Geldigheid: beleidsrelatieObject.Eind_Geldigheid,
@@ -175,7 +198,9 @@ const MuteerBeleidsrelatiesDetail = ({
      * Function to disconnect a relation
      * @param {object} beleidsrelatieObject - Contains the relation object
      */
-    const relationshipDisconnect = beleidsrelatieObject => {
+    const relationshipDisconnect = (
+        beleidsrelatieObject: BeleidsrelatiesRead
+    ) => {
         const patchedBeleidsrelatieObject = {
             Begin_Geldigheid: beleidsrelatieObject.Begin_Geldigheid,
             Eind_Geldigheid: beleidsrelatieObject.Eind_Geldigheid,
@@ -206,20 +231,27 @@ const MuteerBeleidsrelatiesDetail = ({
      * This function is used to update the local component state.
      * E.g. is when the user declines an incoming relation request.
      */
-    const updateStatus = (uuid, nieuweStatus, updateDatumAkkoord) => {
-        const vanIndex = outgoing_Beleidskeuzes.findIndex(x => x.UUID === uuid)
+    const updateStatus = (
+        uuid?: string,
+        nieuweStatus?: string,
+        updateDatumAkkoord?: boolean
+    ) => {
+        const fromIndex = outgoing_Beleidskeuzes.findIndex(x => x.UUID === uuid)
 
-        if (vanIndex !== -1) {
-            outgoing_Beleidskeuzes[vanIndex].Status = nieuweStatus
+        if (fromIndex !== -1) {
+            outgoing_Beleidskeuzes[fromIndex].Status = nieuweStatus
             if (updateDatumAkkoord)
-                outgoing_Beleidskeuzes[vanIndex].Datum_Akkoord = new Date()
+                outgoing_Beleidskeuzes[fromIndex].Datum_Akkoord =
+                    new Date().toString()
         }
 
-        const naarIndex = incoming_Beleidskeuzes.findIndex(x => x.UUID === uuid)
-        if (naarIndex !== -1) {
-            incoming_Beleidskeuzes[naarIndex].Status = nieuweStatus
+        const toIndex = incoming_Beleidskeuzes.findIndex(x => x.UUID === uuid)
+
+        if (toIndex !== -1) {
+            incoming_Beleidskeuzes[toIndex].Status = nieuweStatus
             if (updateDatumAkkoord)
-                incoming_Beleidskeuzes[naarIndex].Datum_Akkoord = new Date()
+                incoming_Beleidskeuzes[toIndex].Datum_Akkoord =
+                    new Date().toString()
         }
 
         setIncoming_Beleidskeuzes([...incoming_Beleidskeuzes])
@@ -228,7 +260,7 @@ const MuteerBeleidsrelatiesDetail = ({
 
     /** Initialize detail page */
     useEffect(() => {
-        if (!UUID) return () => null
+        if (!UUID) return
 
         Promise.all([
             getAndSetBeleidskeuze(UUID),
@@ -247,32 +279,32 @@ const MuteerBeleidsrelatiesDetail = ({
 
         const newRelatieArray = alleBeleidsrelaties.filter(
             beleidsrelatie =>
-                ((beleidsrelatie.Van_Beleidskeuze.UUID === UUID ||
-                    beleidsrelatie.Naar_Beleidskeuze.UUID === UUID) &&
+                ((beleidsrelatie.Van_Beleidskeuze?.UUID === UUID ||
+                    beleidsrelatie.Naar_Beleidskeuze?.UUID === UUID) &&
                     beleidsrelatie.Status === 'Akkoord') ||
-                (beleidsrelatie.Van_Beleidskeuze.UUID === UUID &&
+                (beleidsrelatie.Van_Beleidskeuze?.UUID === UUID &&
                     beleidsrelatie.Status === 'Open')
         )
 
         const newAfgewezenArray = alleBeleidsrelaties.filter(
             beleidsrelatie =>
-                (beleidsrelatie.Van_Beleidskeuze.UUID === UUID &&
+                (beleidsrelatie.Van_Beleidskeuze?.UUID === UUID &&
                     beleidsrelatie.Status === 'NietAkkoord') ||
-                (beleidsrelatie.Naar_Beleidskeuze.UUID === UUID &&
+                (beleidsrelatie.Naar_Beleidskeuze?.UUID === UUID &&
                     beleidsrelatie.Status === 'NietAkkoord')
         )
 
         const newVerbrokenArray = alleBeleidsrelaties.filter(
             beleidsrelatie =>
-                (beleidsrelatie.Van_Beleidskeuze.UUID === UUID &&
+                (beleidsrelatie.Van_Beleidskeuze?.UUID === UUID &&
                     beleidsrelatie.Status === 'Verbroken') ||
-                (beleidsrelatie.Naar_Beleidskeuze.UUID === UUID &&
+                (beleidsrelatie.Naar_Beleidskeuze?.UUID === UUID &&
                     beleidsrelatie.Status === 'Verbroken')
         )
 
         const newVerzoekArray = alleBeleidsrelaties.filter(
             beleidsrelatie =>
-                beleidsrelatie.Naar_Beleidskeuze.UUID === UUID &&
+                beleidsrelatie.Naar_Beleidskeuze?.UUID === UUID &&
                 beleidsrelatie.Status === 'Open'
         )
 
@@ -310,12 +342,11 @@ const MuteerBeleidsrelatiesDetail = ({
 
                             {!isLoading ? (
                                 <span
-                                    className={`absolute inline-block px-1 ml-4 pt-1 text-xs font-bold border rounded  ${
+                                    className={`absolute inline-block px-1 ml-4 pt-1 text-xs font-bold border rounded ${
                                         beleidsObject.Status === 'Vigerend'
                                             ? 'text-pzh-blue border-pzh-blue'
                                             : 'text-pzh-yellow-dark border-pzh-yellow-dark'
-                                    } 
-                                                                    `}>
+                                    }`}>
                                     {beleidsObject.Status}
                                 </span>
                             ) : null}
@@ -345,7 +376,7 @@ const MuteerBeleidsrelatiesDetail = ({
                             setActiveTab={setActiveTab}
                             activeTab={activeTab}
                             tabName="verzoeken"
-                            showLength={true}
+                            showLength
                             arrayLength={requests.length}
                         />
                         <SwitchToTabbladButton
@@ -366,7 +397,6 @@ const MuteerBeleidsrelatiesDetail = ({
                         updateStatus={updateStatus}
                         relationshipDisconnect={relationshipDisconnect}
                         relations={relations}
-                        relationshipReject={relationshipReject}
                         loaded={!isLoading}
                         setMotivationPopUp={setMotivationPopUp}
                         motivationPopUp={motivationPopUp}
@@ -378,7 +408,6 @@ const MuteerBeleidsrelatiesDetail = ({
 
                 {activeTab === 'verzoeken' ? (
                     <TabRequests
-                        updateStatus={updateStatus}
                         relationshipReject={relationshipReject}
                         relationshipAccept={relationshipAccept}
                         loaded={!isLoading}
@@ -390,9 +419,6 @@ const MuteerBeleidsrelatiesDetail = ({
 
                 {activeTab === 'afgewezen' ? (
                     <TabRejected
-                        updateStatus={updateStatus}
-                        relationshipReject={relationshipReject}
-                        relationshipAccept={relationshipAccept}
                         loaded={!isLoading}
                         setMotivationPopUp={setMotivationPopUp}
                         motivationPopUp={motivationPopUp}
@@ -402,9 +428,6 @@ const MuteerBeleidsrelatiesDetail = ({
 
                 {activeTab === 'verbroken' ? (
                     <TabDisconnected
-                        updateStatus={updateStatus}
-                        relationshipReject={relationshipReject}
-                        relationshipAccept={relationshipAccept}
                         loaded={!isLoading}
                         setMotivationPopUp={setMotivationPopUp}
                         motivationPopUp={motivationPopUp}

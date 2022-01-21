@@ -1,11 +1,31 @@
-import { useEffect, useState } from 'react'
+import { MouseEventHandler, useEffect, useState } from 'react'
 
-import axios from '../../api/axios'
+import axios from '@/api/axios'
+import { getValidBeleidsrelaties } from '@/api/fetchers'
+import {
+    BeleidskeuzeShortRead,
+    BeleidskeuzesRead,
+    BeleidsrelatiesRead,
+    MaatregelenRead,
+    VerordeningenRead,
+} from '@/api/fetchers.schemas'
+
 import { LoaderSpinner } from '../Loader'
 import RelatiesKoppelingenTekstueel from '../RelatiesKoppelingenTekstueel'
 import RelatiesKoppelingenVisualisatie from '../RelatiesKoppelingenVisualisatie'
 
-const connectionProperties = [
+export type ConnectionProperties =
+    | 'Ambities'
+    | 'Belangen'
+    | 'Beleidskeuzes'
+    | 'Beleidsregels'
+    | 'Beleidsprestaties'
+    | 'Maatregelen'
+    | 'Beleidsdoelen'
+    | 'Themas'
+    | 'Verordeningen'
+
+const connectionProperties: ConnectionProperties[] = [
     'Ambities',
     'Belangen',
     'Beleidsregels',
@@ -16,7 +36,7 @@ const connectionProperties = [
     'Verordeningen',
 ]
 
-const connectionPropertiesColors = {
+export const connectionPropertiesColors = {
     MainObject: {
         hex: '#553c9a',
     },
@@ -56,12 +76,21 @@ const connectionPropertiesColors = {
  * @param {string} titleSingular - Contains the title of this object in a singular form
  * @param {string} titleSingularPrefix - Contains the prefix of the title in singular form
  */
+
+interface RelatiesKoppelingenProps {
+    dataObject: (MaatregelenRead & BeleidskeuzesRead & VerordeningenRead) | null
+    titleSingular: string
+    titleSingularPrefix: string
+}
+
 const RelatiesKoppelingen = ({
     dataObject,
     titleSingular,
     titleSingularPrefix,
-}) => {
-    const [beleidsRelaties, setBeleidsRelaties] = useState([])
+}: RelatiesKoppelingenProps) => {
+    const [beleidsRelaties, setBeleidsRelaties] = useState<
+        BeleidskeuzeShortRead[]
+    >([])
     const [isLoading, setIsLoading] = useState(true)
     const [activeTab, setActiveTab] = useState('Visueel')
 
@@ -80,7 +109,9 @@ const RelatiesKoppelingen = ({
         const getVigerendeVerordening = () =>
             axios
                 .get('/verordeningstructuur')
-                .then(res => res.data.find(item => item.Status === 'Vigerend'))
+                .then(res =>
+                    res.data.find((item: any) => item.Status === 'Vigerend')
+                )
 
         /**
          * A function to filter out relations. Filter out relations that
@@ -92,8 +123,14 @@ const RelatiesKoppelingen = ({
          * @param {object[]} relations - Contains the relation objects we want to filter out
          * @param {string} type - Contains "To" or "From" indicating if the direction of the relationship
          */
-        const filterOutUnvalidRelations = (relations, type) => {
-            const getObject = (relation, type) =>
+        const filterOutUnvalidRelations = (
+            relations: BeleidsrelatiesRead[],
+            type: 'From' | 'To'
+        ) => {
+            const getObject = (
+                relation: BeleidsrelatiesRead,
+                type: 'From' | 'To'
+            ) =>
                 type === 'From'
                     ? relation.Naar_Beleidskeuze
                     : type === 'To'
@@ -106,9 +143,10 @@ const RelatiesKoppelingen = ({
                 const newRelations = relations
                     .filter(relation => {
                         const relationalObj = getObject(relation, type)
+
                         return (
-                            relationalObj.Status === 'Vigerend' &&
-                            relationalObj.UUID !== dataObject.UUID
+                            relationalObj?.Status === 'Vigerend' &&
+                            relationalObj?.UUID !== dataObject?.UUID
                         )
                     })
                     .map(relation => getObject(relation, type))
@@ -123,19 +161,17 @@ const RelatiesKoppelingen = ({
          *
          * @param {string} uuidFrom - Parameter containing a UUID.
          */
-        const getBeleidsrelatiesFrom = uuidFrom =>
-            axios
-                .get(
-                    `/valid/beleidsrelaties?all_filters=Status:Akkoord,Van_Beleidskeuze:${uuidFrom}`
-                )
-                .then(res => {
-                    const filteredRelations = filterOutUnvalidRelations(
-                        res.data,
-                        'From'
-                    )
+        const getBeleidsrelatiesFrom = (uuidFrom: string) =>
+            getValidBeleidsrelaties({
+                all_filters: `Status:Akkoord,Van_Beleidskeuze:${uuidFrom}`,
+            }).then(data => {
+                const filteredRelations = filterOutUnvalidRelations(
+                    data,
+                    'From'
+                ) as BeleidskeuzeShortRead[]
 
-                    return filteredRelations
-                })
+                return filteredRelations
+            })
 
         /**
          * Function to get and the relations to an object
@@ -144,19 +180,17 @@ const RelatiesKoppelingen = ({
          * @param {string} uuidTo - Parameter containing a UUID
          *
          */
-        const getBeleidsrelatiesTo = uuidTo =>
-            axios
-                .get(
-                    `/valid/beleidsrelaties?all_filters=Status:Akkoord,Naar_Beleidskeuze:${uuidTo}`
-                )
-                .then(res => {
-                    const filteredRelations = filterOutUnvalidRelations(
-                        res.data,
-                        'To'
-                    )
+        const getBeleidsrelatiesTo = (uuidTo: string) =>
+            getValidBeleidsrelaties({
+                all_filters: `Status:Akkoord,Naar_Beleidskeuze:${uuidTo}`,
+            }).then(data => {
+                const filteredRelations = filterOutUnvalidRelations(
+                    data,
+                    'To'
+                ) as BeleidskeuzeShortRead[]
 
-                    return filteredRelations
-                })
+                return filteredRelations
+            })
 
         /**
          * Function to inialize the needed data for the object of type 'Beleidskeuze'
@@ -164,8 +198,12 @@ const RelatiesKoppelingen = ({
          * When data is set in State we set the loading state to False
          */
         const initBeleidskeuze = () => {
-            const beleidsrelatiesVan = getBeleidsrelatiesFrom(dataObject.UUID)
-            const beleidsrelatiesNaar = getBeleidsrelatiesTo(dataObject.UUID)
+            const beleidsrelatiesVan = getBeleidsrelatiesFrom(
+                dataObject?.UUID || ''
+            )
+            const beleidsrelatiesNaar = getBeleidsrelatiesTo(
+                dataObject?.UUID || ''
+            )
             const getVerordeningsStructure = getVigerendeVerordening()
 
             Promise.all([
@@ -188,7 +226,7 @@ const RelatiesKoppelingen = ({
          * Function to set the intitialized data for a Beleidsobject.
          */
         const initBeleidsobject = () => {
-            setBeleidsRelaties(dataObject.Ref_Beleidskeuzes)
+            setBeleidsRelaties(dataObject?.Ref_Beleidskeuzes || [])
             getVigerendeVerordening().then(vigerendeVerordening => {
                 setVerordeningStructure(vigerendeVerordening)
                 setIsLoading(false)
@@ -236,7 +274,7 @@ const RelatiesKoppelingen = ({
                         />
                     </div>
                     <div className="mt-6">
-                        {!isLoading && activeTab === 'Visueel' ? (
+                        {!isLoading && activeTab === 'Visueel' && dataObject ? (
                             <RelatiesKoppelingenVisualisatie
                                 verordeningsStructure={verordeningsStructure}
                                 titleSingular={titleSingular}
@@ -248,7 +286,9 @@ const RelatiesKoppelingen = ({
                                     connectionPropertiesColors
                                 }
                             />
-                        ) : !isLoading && activeTab === 'Tekstueel' ? (
+                        ) : !isLoading &&
+                          activeTab === 'Tekstueel' &&
+                          dataObject ? (
                             <RelatiesKoppelingenTekstueel
                                 verordeningsStructure={verordeningsStructure}
                                 beleidsObject={dataObject}
@@ -277,18 +317,23 @@ const RelatiesKoppelingen = ({
  * @param {function} onClick - Function to switch the active tab
  * @param {string} title - The title of the tab
  */
-const TabButton = ({ activeTab, onClick, title }) => {
-    return (
-        <button
-            className={`border-opacity-0 transition duration-100 ease-in border-b-2 border-pzh-blue px-5 py-2 font-bold text-pzh-blue ${
-                activeTab === title
-                    ? 'border-opacity-100'
-                    : 'hover:border-opacity-25 focus:border-opacity-50'
-            }`}
-            onClick={onClick}>
-            {title}
-        </button>
-    )
+
+interface TabButtonProps {
+    activeTab: string
+    onClick: MouseEventHandler<HTMLButtonElement>
+    title: string
 }
+
+const TabButton = ({ activeTab, onClick, title }: TabButtonProps) => (
+    <button
+        className={`border-opacity-0 transition duration-100 ease-in border-b-2 border-pzh-blue px-5 py-2 font-bold text-pzh-blue ${
+            activeTab === title
+                ? 'border-opacity-100'
+                : 'hover:border-opacity-25 focus:border-opacity-50'
+        }`}
+        onClick={onClick}>
+        {title}
+    </button>
+)
 
 export default RelatiesKoppelingen

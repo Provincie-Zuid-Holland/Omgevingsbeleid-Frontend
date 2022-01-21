@@ -1,28 +1,45 @@
 import { useParams } from 'react-router-dom'
 
-import { LoaderBeleidsrelatieRegel } from '../../../components/Loader'
-import formatDate from '../../../utils/formatDate'
-import PopupMotivation from '../PopupMotivation/PopupMotivation'
+import {
+    BeleidskeuzesInline,
+    BeleidsrelatiesRead,
+} from '@/api/fetchers.schemas'
+import { LoaderBeleidsrelatieRegel } from '@/components/Loader'
+import formatDate from '@/utils/formatDate'
+
+import PopupMotivation from '../PopupMotivation'
 
 /**
  * @prop {boolean} loaded true if the incoming relationships have loaded
- * @prop {array} rejected contains the relations
+ * @prop {boolean} loaded true if the outgoing relationships have loaded
+ * @prop {array} disconnected contains the beleidsrelaties with a status of 'Verbroken'
  * @prop {string} motivationPopUp contains the UUID of a beleidsrelatie
  * @prop {function} setMotivationPopUp takes a UUID and set it in parent state in motivationPopUp
  */
-function TabRejected({
+
+interface TabDisconnectedProps {
+    loaded?: boolean
+    disconnected: BeleidsrelatiesRead[]
+    motivationPopUp?: string | null
+    setMotivationPopUp: (UUID?: string | null) => void
+}
+
+function TabDisconnected({
     loaded,
-    rejected,
+    disconnected,
     motivationPopUp,
     setMotivationPopUp,
-}) {
-    const { UUID } = useParams()
+}: TabDisconnectedProps) {
+    const { UUID } = useParams<{ UUID: string }>()
 
-    const getPropertyFromRelation = (relation, property) => {
-        if (relation.Van_Beleidskeuze.UUID === UUID) {
-            return relation.Naar_Beleidskeuze[property]
-        } else if (relation.Naar_Beleidskeuze.UUID === UUID) {
-            return relation.Van_Beleidskeuze[property]
+    const getPropertyFromRelation = (
+        relation: BeleidsrelatiesRead,
+        property: keyof BeleidskeuzesInline
+    ) => {
+        if (relation.Van_Beleidskeuze?.UUID === UUID) {
+            return relation.Naar_Beleidskeuze?.[property]
+        } else if (relation.Naar_Beleidskeuze?.UUID === UUID) {
+            return relation.Van_Beleidskeuze?.[property]
         }
     }
 
@@ -32,11 +49,11 @@ function TabRejected({
                 <div className="w-4/12">Beleidskeuzes</div>
                 <div className="w-4/12">Datum</div>
                 <div className="w-2/12">Status</div>
-                <div className="w-2/12 pl-8">Motivering</div>
+                <div className="w-2/12">Motivering</div>
             </li>
             {loaded ? (
-                rejected?.length > 0 ? (
-                    rejected.map(relatie => {
+                disconnected.length > 0 ? (
+                    disconnected.map(relatie => {
                         const title = getPropertyFromRelation(relatie, 'Titel')
                         return (
                             <li
@@ -46,10 +63,12 @@ function TabRejected({
                                 <div className="w-4/12 pr-4">
                                     {relatie.Datum_Akkoord !== null
                                         ? formatDate(
-                                              new Date(relatie.Modified_Date),
+                                              new Date(
+                                                  relatie.Datum_Akkoord || ''
+                                              ),
                                               'd MMMM yyyy, HH:mm'
                                           ) + ' uur'
-                                        : 'Zojuist afgewezen'}
+                                        : null}
                                 </div>
                                 <div className="w-2/12">
                                     {relatie.Status === 'Akkoord'
@@ -58,9 +77,11 @@ function TabRejected({
                                         ? 'In afwachting'
                                         : relatie.Status === 'NietAkkoord'
                                         ? 'Afgewezen'
+                                        : relatie.Status === 'Verbroken'
+                                        ? 'Verbroken'
                                         : null}
                                 </div>
-                                <div className="w-2/12 pl-8">
+                                <div className="w-2/12">
                                     <span
                                         onClick={() => {
                                             setMotivationPopUp(relatie.UUID)
@@ -79,9 +100,9 @@ function TabRejected({
                         )
                     })
                 ) : (
-                    <li className="inline-block p-2 text-sm text-gray-600 font-italic">
-                        Er zijn nog geen afgewezen beleidsrelaties
-                    </li>
+                    <span className="inline-block px-2 py-2 text-sm text-gray-600 font-italic">
+                        Er zijn nog geen verbroken beleidsrelaties
+                    </span>
                 )
             ) : (
                 <>
@@ -94,4 +115,4 @@ function TabRejected({
     )
 }
 
-export default TabRejected
+export default TabDisconnected

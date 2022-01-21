@@ -15,6 +15,8 @@ import { useLastLocation } from 'react-router-last-location'
 import { useLockBodyScroll } from 'react-use'
 
 import axios from '@/api/axios'
+import { getGraph } from '@/api/fetchers'
+import { GetGraph200, GetGraph200NodesItem } from '@/api/fetchers.schemas'
 import networkGraphConnectionProperties from '@/constants/networkGraphConnectionProperties'
 import networkGraphFilterMenu from '@/constants/networkGraphFilterMenu'
 import { getFilteredData } from '@/utils/networkGraph'
@@ -127,10 +129,10 @@ const NetworkGraph = ({
     )
 
     const { isLoading, data } = useQuery('/graph', () =>
-        axios.get('/graph').then(res => {
-            const data = addColorAndUUIDToNodes(res.data)
-            setFilters({ type: 'init', data: data })
-            return data
+        getGraph().then(data => {
+            const transformedData = addColorAndUUIDToNodes(data)
+            setFilters({ type: 'init', data: transformedData })
+            return transformedData
         })
     )
 
@@ -205,25 +207,23 @@ const NetworkGraph = ({
      * Function to add a Hex value and a UUID to each node
      * @param {object} data - Contains the graph data we receive from the API
      */
-    const addColorAndUUIDToNodes = (data: any) => {
+    const addColorAndUUIDToNodes = (data: GetGraph200) => {
         if (!data) return null
 
-        data.nodes.forEach(
-            (node: {
-                Type: keyof typeof networkGraphConnectionProperties
-                color: string
-                colorLight: string
-                id: string
-                UUID: string
-            }) => {
-                if (!networkGraphConnectionProperties[node.Type]) {
+        data.nodes?.forEach(
+            (node: GetGraph200NodesItem & { [key: string]: any }) => {
+                const nodeType =
+                    node.Type as keyof typeof networkGraphConnectionProperties
+
+                if (!networkGraphConnectionProperties[nodeType]) {
                     console.error(
                         `Node with type ${node.Type} doesn't exist on connection properties`
                     )
                 }
-                node.color = networkGraphConnectionProperties[node.Type].hex
+
+                node.color = networkGraphConnectionProperties[nodeType].hex
                 node.colorLight =
-                    networkGraphConnectionProperties[node.Type].hexLight
+                    networkGraphConnectionProperties[nodeType].hexLight
                 node.id = node.UUID
             }
         )

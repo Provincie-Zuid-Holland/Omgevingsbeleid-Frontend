@@ -1,19 +1,31 @@
-import { useState } from 'react'
+import { FC, useState } from 'react'
 
-import Heading from '../../../components/Heading'
-import ContainerViewFieldsAmbitie from './../ContainerFields/ContainerViewFieldsAmbitie'
-import ContainerViewFieldsBelang from './../ContainerFields/ContainerViewFieldsBelang'
-import ContainerViewFieldsBeleidsdoelen from './../ContainerFields/ContainerViewFieldsBeleidsdoelen'
-import ContainerViewFieldsBeleidskeuze from './../ContainerFields/ContainerViewFieldsBeleidskeuze'
-import ContainerViewFieldsBeleidsprestatie from './../ContainerFields/ContainerViewFieldsBeleidsprestatie'
-import ContainerViewFieldsBeleidsregel from './../ContainerFields/ContainerViewFieldsBeleidsregel'
-import ContainerViewFieldsMaatregel from './../ContainerFields/ContainerViewFieldsMaatregel'
-import ContainerViewFieldsThema from './../ContainerFields/ContainerViewFieldsThema'
-import RaadpleegObjectDetailNewVersionNotification from './../RaadpleegObjectDetailNewVersionNotification'
-import ViewFieldGebiedDuiding from './../ViewFieldGebiedDuiding'
-import Werkingsgebied from './../Werkingsgebied'
+import {
+    BeleidskeuzesRead,
+    MaatregelenRead,
+    VerordeningenRead,
+} from '@/api/fetchers.schemas'
+import Heading from '@/components/Heading'
 
-const RaadpleegObjectDetailMain = ({
+import ContainerViewFieldsAmbitie from '../ContainerFields/ContainerViewFieldsAmbitie'
+import ContainerViewFieldsBelang from '../ContainerFields/ContainerViewFieldsBelang'
+import ContainerViewFieldsBeleidsdoelen from '../ContainerFields/ContainerViewFieldsBeleidsdoelen'
+import ContainerViewFieldsBeleidskeuze from '../ContainerFields/ContainerViewFieldsBeleidskeuze'
+import ContainerViewFieldsBeleidsprestatie from '../ContainerFields/ContainerViewFieldsBeleidsprestatie'
+import ContainerViewFieldsBeleidsregel from '../ContainerFields/ContainerViewFieldsBeleidsregel'
+import ContainerViewFieldsMaatregel from '../ContainerFields/ContainerViewFieldsMaatregel'
+import ContainerViewFieldsThema from '../ContainerFields/ContainerViewFieldsThema'
+import RaadpleegObjectDetailNewVersionNotification from '../RaadpleegObjectDetailNewVersionNotification'
+import ViewFieldGebiedDuiding from '../ViewFieldGebiedDuiding'
+import Werkingsgebied from '../Werkingsgebied'
+
+interface RaadpleegObjectDetailMainProps {
+    dataLoaded: boolean
+    dataObject: (MaatregelenRead & BeleidskeuzesRead & VerordeningenRead) | null
+    titleSingular: string
+}
+
+const RaadpleegObjectDetailMain: FC<RaadpleegObjectDetailMainProps> = ({
     dataLoaded,
     dataObject,
     titleSingular,
@@ -31,29 +43,23 @@ const RaadpleegObjectDetailMain = ({
         if (!dataLoaded || !dataObject) return false
 
         // Check if there is a werkingsgebied
-        if (
-            dataObject.Gebied ||
-            (dataObject.Werkingsgebieden && dataObject.Werkingsgebieden[0])
-        ) {
+        if (dataObject.Gebied || dataObject.Werkingsgebieden?.[0]) {
             return true
         } else {
             return false
         }
     }
 
-    const getWerkingsgbiedUUID = hasWerkingsGebied => {
-        if (!hasWerkingsGebied) return null
+    const getWerkingsgbiedUUID = (hasWerkingsGebied: boolean) => {
+        if (!hasWerkingsGebied || !dataObject) return null
 
         if (dataObject.Gebied) {
             // Object is a maatregel, which contains the UUID in a string value
             return dataObject.Gebied.UUID
-        } else if (
-            dataObject.Werkingsgebieden &&
-            dataObject.Werkingsgebieden[0]
-        ) {
+        } else if (dataObject.Werkingsgebieden?.[0]) {
             // Object is a beleidskeuze/beleidskeuze, which holds the werkingsgebieden in an array.
             // We always need the first value in the array
-            return dataObject.Werkingsgebieden[0].Object.UUID
+            return dataObject.Werkingsgebieden[0].Object?.UUID
         }
     }
 
@@ -113,7 +119,7 @@ const RaadpleegObjectDetailMain = ({
             ) : null}
             {titleSingular === 'Maatregel' &&
             dataLoaded &&
-            dataObject['Gebied_Duiding'] &&
+            dataObject?.['Gebied_Duiding'] &&
             dataObject['Gebied'] ? (
                 <ViewFieldGebiedDuiding
                     gebiedDuiding={dataObject['Gebied_Duiding']}

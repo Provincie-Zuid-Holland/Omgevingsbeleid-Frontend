@@ -1,3 +1,1 @@
-import TabRelations from './TabRelations'
-
-export default TabRelations
+export { default } from './TabRelations'
