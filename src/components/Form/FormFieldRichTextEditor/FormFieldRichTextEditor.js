@@ -4,6 +4,11 @@ import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import { useCallback, useLayoutEffect, useRef } from 'react'
 
+import {
+    quillDecodeIndent,
+    quillEncodeIndent,
+} from './../../../utils/quillFixIndent'
+
 /**
  * Checks if the formats we have received are accepted
  * @param {array} allowedFormats contains the types we want to accept in the editor
@@ -95,14 +100,12 @@ function FormFieldRichTextEditor({
             return delta
         })
 
-        // Disable tab (https://github.com/quilljs/quill/issues/110)
-        delete editor.getModule('keyboard').bindings['9']
-
         // If there is no fieldValue we load in the initialValue (Template)
         if (initialValue && !fieldValue) {
             editor.root.innerHTML = initialValue
         } else if (fieldValue) {
-            editor.root.innerHTML = fieldValue
+            const fixIndentation = quillEncodeIndent(fieldValue)
+            editor.root.innerHTML = fixIndentation
         }
 
         // Disable pasting of images
@@ -123,12 +126,13 @@ function FormFieldRichTextEditor({
 
         editor.on('editor-change', function (eventName) {
             if (eventName === 'text-change') {
-                // const justHtml = editor.root.innerHTML
                 const justHtml = getQuillHtml(editor)
+                // Fixes indentation
+                const fixedHtml = quillDecodeIndent(justHtml)
                 handleChange({
                     target: {
                         name: dataObjectProperty,
-                        value: justHtml,
+                        value: fixedHtml,
                     },
                 })
             }

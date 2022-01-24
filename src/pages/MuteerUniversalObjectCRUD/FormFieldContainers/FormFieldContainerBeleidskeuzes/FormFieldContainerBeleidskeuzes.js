@@ -53,10 +53,11 @@ function FormFieldContainerBeleidskeuzes({
         userUUID === crudObject.Eigenaar_1 ||
         userUUID === crudObject.Eigenaar_2
 
-    // The following fields should be editable when userIsAllowed true
-    // - FormFieldSelectUserGroup (specific rules for each field, see FormFieldSelectUserGroup component)
-    // - FormFieldRelatieKoppeling
-    // The rest of the fields should be disabled if (isVigerend === true && !userIsAllowed)
+    const beleidskeuzeEditorFormats = ['bold', 'italic', 'list', 'indent']
+    const beleidskeuzeEditorToolbar = isVigerend
+        ? []
+        : ['bold', 'italic', { list: 'bullet' }, { list: 'ordered' }]
+
     return (
         <>
             <ContainerFormSection
@@ -91,8 +92,8 @@ function FormFieldContainerBeleidskeuzes({
                         pValue="Hier geef je aan welke keuze de provincie heeft genomen. Formuleer in één of enkele zinnen wat de provincie wil bereiken en welke rechtsgevolgen dit eventueel heeft voor derden."
                     />
                     <FormFieldRichTextEditor
-                        editorFormats={['image']}
-                        editorToolbar={['image']}
+                        editorFormats={beleidskeuzeEditorFormats}
+                        editorToolbar={beleidskeuzeEditorToolbar}
                         titleSingular={titleSingular}
                         handleChange={handleChange}
                         fieldValue={crudObject['Omschrijving_Keuze']}
@@ -107,8 +108,8 @@ function FormFieldContainerBeleidskeuzes({
                         pValue="De aanleiding geeft de lezer informatie over welke ontwikkelingen gaande zijn in de maatschappij en waarom de provincie hier op inspeelt. Beschrijf hier welk probleem, dreiging of kans ten grondslag ligt aan de beleidskeuze."
                     />
                     <FormFieldRichTextEditor
-                        editorFormats={['image']}
-                        editorToolbar={['image']}
+                        editorFormats={beleidskeuzeEditorFormats}
+                        editorToolbar={beleidskeuzeEditorToolbar}
                         titleSingular={titleSingular}
                         handleChange={handleChange}
                         fieldValue={crudObject['Aanleiding']}
@@ -125,8 +126,8 @@ function FormFieldContainerBeleidskeuzes({
                         anchorLink="https://zoek.officielebekendmakingen.nl/stb-2016-156.html#d16e418"
                     />
                     <FormFieldRichTextEditor
-                        editorFormats={['image']}
-                        editorToolbar={['image']}
+                        editorFormats={beleidskeuzeEditorFormats}
+                        editorToolbar={beleidskeuzeEditorToolbar}
                         titleSingular={titleSingular}
                         handleChange={handleChange}
                         fieldValue={crudObject['Provinciaal_Belang']}
@@ -141,8 +142,8 @@ function FormFieldContainerBeleidskeuzes({
                         pValue="Op welke thema’s, onderwerpen en gebieden gaat de beleidskeuze iets wijzigen, en waarom is dit gewenst? Beschrijf ook de relatie met andere beleidsterreinen."
                     />
                     <FormFieldRichTextEditor
-                        editorFormats={['image']}
-                        editorToolbar={['image']}
+                        editorFormats={beleidskeuzeEditorFormats}
+                        editorToolbar={beleidskeuzeEditorToolbar}
                         titleSingular={titleSingular}
                         handleChange={handleChange}
                         fieldValue={crudObject['Omschrijving_Werking']}
