@@ -140,9 +140,9 @@ class MuteerUniversalObjectCRUD extends Component {
             .patch(`${apiEndpoint}/${objectID}`, JSON.stringify(crudObject), {
                 cancelToken: this.axiosCancelSource.token,
             })
-            .then(res => {
+            .then(() => {
                 this.props.history.push(
-                    `/muteer/${overzichtSlug}/${res.data.ID}${
+                    `/muteer/${overzichtSlug}/${objectID}${
                         this.props.location.hash === '#mijn-beleid'
                             ? '#mijn-beleid'
                             : ''
@@ -151,7 +151,23 @@ class MuteerUniversalObjectCRUD extends Component {
                 toastNotification({ type: 'saved' })
             })
             .catch(err => {
-                handleError(err)
+                // If error status is 400
+                if (
+                    err?.response?.status === 400 &&
+                    err?.response?.data?.message ===
+                        'Patching does not result in any changes.'
+                ) {
+                    this.props.history.push(
+                        `/muteer/${overzichtSlug}/${objectID}${
+                            this.props.location.hash === '#mijn-beleid'
+                                ? '#mijn-beleid'
+                                : ''
+                        }`
+                    )
+                    toastNotification({ type: 'saved' })
+                } else {
+                    handleError(err)
+                }
             })
     }
 
