@@ -31,10 +31,8 @@ const LoginForm = ({ setLoginState, setLoginUser }: LoginFormProps) => {
     const [loading, setLoading] = useState(false)
     const [wachtwoordResetPopup, setWachtwoordResetPopup] = useState(false)
 
-    const displayErrorMsg = (err: any) => {
+    const displayErrorMsg = () => {
         const errorEl = document.getElementById('error-message')
-
-        errorEl?.innerHTML && (errorEl.innerHTML = err)
         errorEl?.classList.remove('hidden')
         errorEl?.classList.add('flex')
         errorEl?.classList.add('shake')
@@ -58,7 +56,6 @@ const LoginForm = ({ setLoginState, setLoginUser }: LoginFormProps) => {
                 })
             )
             .then(response => {
-                console.log(`Environment - ${response.data['deployment type']}`)
                 if (response.status >= 200 && response.status < 300) {
                     const identifier = response.data.identifier
 
@@ -77,7 +74,7 @@ const LoginForm = ({ setLoginState, setLoginUser }: LoginFormProps) => {
                 }
             })
             .catch(err => {
-                displayErrorMsg(err)
+                displayErrorMsg()
                 setLoading(false)
             })
     }

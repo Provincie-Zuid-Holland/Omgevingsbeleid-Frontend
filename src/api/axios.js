@@ -30,7 +30,7 @@ instance.interceptors.response.use(
         return response
     },
     function (error) {
-        const allowedUrls = ['password-reset']
+        const allowedUrls = ['password-reset', 'login']
         if (
             error?.response?.status === 401 &&
             !allowedUrls.includes(error?.response?.config?.url)
