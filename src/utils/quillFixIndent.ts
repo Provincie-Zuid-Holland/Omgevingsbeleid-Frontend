@@ -28,7 +28,7 @@ export function quillDecodeIndent(text: string) {
 
             parentElementsStack.push(root)
 
-            listChildren.forEach((e, i) => {
+            listChildren.forEach(e => {
                 const currentLiLevel = getQuillListLevel(e)
                 e.className = e.className.replace(
                     getIndentClass(currentLiLevel),
