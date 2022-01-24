@@ -21,7 +21,10 @@ import filterOutArchivedObjects from './../../utils/filterOutArchivedObjects'
  * A component to display all the objects from a specific dimension
  * @param {Object} dimensieConstants - Contains the variables of the dimension
  */
-const MuteerUniversalObjectOverzicht = ({ dimensieConstants }) => {
+const MuteerUniversalObjectOverzicht = ({
+    dimensieConstants,
+    hideAddObject,
+}) => {
     const { user } = useContext(UserContext)
 
     const [objecten, setObjecten] = useState([])
@@ -63,7 +66,14 @@ const MuteerUniversalObjectOverzicht = ({ dimensieConstants }) => {
     useLayoutEffect(() => {
         const apiEndpoint = dimensieConstants.API_ENDPOINT
         getAndSetDataFromAPI(apiEndpoint)
-        checkAuth()
+
+        // The only page that is allowed for nonAuth users is the Beleidsmodules page
+        const isBeleidsmodulePage =
+            dimensieConstants.TITLE_SINGULAR === 'Beleidsmodule'
+
+        if (!isBeleidsmodulePage) {
+            checkAuth()
+        }
     }, [user, checkAuth, dimensieConstants])
 
     const titleSingular = dimensieConstants.TITLE_SINGULAR
@@ -87,11 +97,13 @@ const MuteerUniversalObjectOverzicht = ({ dimensieConstants }) => {
 
                 {!isLoading ? (
                     <ul className="flex flex-wrap mt-8">
-                        <ButtonAddNewObject
-                            titleSingular={titleSingular}
-                            createNewSlug={createNewSlug}
-                            hoofdOnderdeelSlug={hoofdOnderdeelSlug}
-                        />
+                        {hideAddObject ? null : (
+                            <ButtonAddNewObject
+                                titleSingular={titleSingular}
+                                createNewSlug={createNewSlug}
+                                hoofdOnderdeelSlug={hoofdOnderdeelSlug}
+                            />
+                        )}
 
                         {objecten
                             .sort((a, b) => (a.Titel > b.Titel ? 1 : -1))

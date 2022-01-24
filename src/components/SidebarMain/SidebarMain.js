@@ -13,14 +13,15 @@ import MenuItemsList from './../MenuItemsList'
 function SidebarMain() {
     const { user } = useContext(UserContext)
 
-    const gebruikersNaam = user ? user.Gebruikersnaam : null
-    const gebruikersRol = user ? user.Rol : null
-    const isAuthenticated =
-        gebruikersRol === 'Beheerder' ||
-        gebruikersRol === 'Functioneel beheerder' ||
-        gebruikersRol === 'Technisch beheerder' ||
-        gebruikersRol === 'Test runner' ||
-        gebruikersRol === 'Tester'
+    const username = user ? user.Gebruikersnaam : null
+    const userRole = user ? user.Rol : null
+
+    const isAuthedForManaging =
+        userRole === 'Beheerder' ||
+        userRole === 'Functioneel beheerder' ||
+        userRole === 'Technisch beheerder' ||
+        userRole === 'Test runner' ||
+        userRole === 'Tester'
 
     return (
         <div className="inline-block w-1/4 rounded">
@@ -29,9 +30,7 @@ function SidebarMain() {
                     Omgevingsbeleid
                 </span>
                 <h2 className="block text-2xl">
-                    {gebruikersNaam !== null
-                        ? `Welkom ${gebruikersNaam},`
-                        : 'Welkom,'}
+                    {username !== null ? `Welkom ${username},` : 'Welkom,'}
                 </h2>
                 <p className="text-gray-700">
                     In deze omgeving heb je de mogelijkheid om te werken aan
@@ -46,7 +45,7 @@ function SidebarMain() {
                     displayChangePassword={true}
                     menuItems={menuItemsOmgevingsbeleid}
                 />
-                {isAuthenticated ? (
+                {isAuthedForManaging ? (
                     <>
                         <h2 className="pr-2 mt-8 mb-2 text-xl text-gray-800">
                             Beheer
