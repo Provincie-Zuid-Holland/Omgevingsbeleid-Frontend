@@ -1,4 +1,8 @@
+import { getBelangen } from '@/api/fetchers'
+
 import { currentDate, futureDate, currentDateFormatted } from './testValues'
+
+export const apiCall = getBelangen
 
 export const TITLE_SINGULAR = 'Belang'
 export const TITLE_SINGULAR_PREFIX = 'het'
