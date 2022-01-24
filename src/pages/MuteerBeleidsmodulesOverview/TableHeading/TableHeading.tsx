@@ -1,3 +1,5 @@
+import { FC } from 'react'
+
 interface TableHeadingProps {
     property?: string
     sorting?: {
@@ -5,7 +7,6 @@ interface TableHeadingProps {
     }
     setSorting?: (arg0: { type: string; property: string }) => void
     label: string
-    children?: React.ReactNode
     noIcon?: boolean
 }
 
@@ -20,14 +21,14 @@ interface TableHeadingProps {
  * @param {boolean} props.noIcon - Boolean indicating if the <th> element will contain no icon
  * @returns A <th> element
  */
-const TableHeading = ({
+const TableHeading: FC<TableHeadingProps> = ({
     property,
     sorting,
     setSorting,
     label,
     children,
     noIcon,
-}: TableHeadingProps) => {
+}) => {
     return (
         <th
             scope="col"

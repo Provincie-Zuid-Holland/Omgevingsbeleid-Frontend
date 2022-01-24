@@ -1,6 +1,7 @@
+import { FC } from 'react'
+
 interface TableDataCell {
     className?: string
-    children?: React.ReactNode
 }
 
 /**
@@ -10,7 +11,7 @@ interface TableDataCell {
  * @param {object} props.children - Contains child components
  * @returns A <td> element
  */
-const TableDataCell = ({ className = '', children }: TableDataCell) => (
+const TableDataCell: FC<TableDataCell> = ({ className = '', children }) => (
     <td
         className={`px-3 py-3 text-sm text-gray-800 whitespace-nowrap ${className}`}>
         {children}

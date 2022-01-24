@@ -4,9 +4,9 @@ import {
     BeleidsmodulesReadMaatregelenItem,
     BeleidsmodulesReadBeleidskeuzesItem,
 } from '@/api/fetchers.schemas'
+import * as BELEIDSKEUZES from '@/constants/beleidskeuzes'
+import * as MAATREGELEN from '@/constants/maatregelen'
 
-import * as BELEIDSKEUZES from '../../../constants/beleidskeuzes'
-import * as MAATREGELEN from '../../../constants/maatregelen'
 import TableDataCell from '../TableDataCell'
 
 interface TableRowProps {
