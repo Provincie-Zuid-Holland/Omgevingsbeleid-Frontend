@@ -4,10 +4,7 @@ import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import { useCallback, useLayoutEffect, useRef } from 'react'
 
-import {
-    quillDecodeIndent,
-    quillEncodeIndent,
-} from './../../../utils/quillFixIndent'
+import { quillDecodeIndent, quillEncodeIndent } from '@/utils/quillFixIndent'
 
 /**
  * Checks if the formats we have received are accepted
