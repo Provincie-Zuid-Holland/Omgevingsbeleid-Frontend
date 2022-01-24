@@ -1,4 +1,8 @@
+import { getThemas } from '@/api/fetchers'
+
 import { currentDate, futureDate, currentDateFormatted } from './testValues'
+
+export const apiCall = getThemas
 
 export const TITLE_SINGULAR = 'Thema'
 export const TITLE_SINGULAR_PREFIX = 'het'

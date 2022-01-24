@@ -1,3 +1,5 @@
+import { customInstance } from '@/api/instance'
+
 export const TITLE_SINGULAR = 'Verordening'
 export const TITLE_SINGULAR_PREFIX = 'de'
 export const TITLE_PLURAL = 'Verordeningen'
@@ -6,6 +8,14 @@ export const API_ENDPOINT = 'verordeningstructuur'
 
 export const SLUG_OVERVIEW = 'verordeningen'
 export const SLUG_CREATE_NEW = 'nieuwe-verordening'
+
+export const apiCall = (params?: any) => {
+    return customInstance<any[]>({
+        url: `/verordeningstructuur`,
+        method: 'get',
+        params,
+    })
+}
 
 export const CRUD_PROPERTIES = {
     Titel: {

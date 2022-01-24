@@ -1,4 +1,8 @@
+import { getBeleidsregels } from '@/api/fetchers'
+
 import { currentDate, futureDate, currentDateFormatted } from './testValues'
+
+export const apiCall = getBeleidsregels
 
 export const TITLE_SINGULAR = 'Beleidsregel'
 export const TITLE_SINGULAR_PREFIX = 'de'

@@ -26,10 +26,8 @@ const FormFieldNumberInput: FC<FormFieldProps> = ({
     <div className="flex flex-wrap -mx-3">
         <div className="w-full px-3 mb-6">
             <FormFieldTitelEnBeschrijving
-                dataObjectProperty={dataObjectProperty}
                 fieldLabel={fieldLabel}
                 pValue={pValue}
-                titleSingular={titleSingular}
             />
 
             <input

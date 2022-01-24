@@ -1,4 +1,8 @@
+import { getBeleidskeuzes } from '@/api/fetchers'
+
 import { currentDate, futureDate, currentDateFormatted } from './testValues'
+
+export const apiCall = getBeleidskeuzes
 
 export const TITLE_SINGULAR = 'Beleidskeuze'
 export const TITLE_SINGULAR_PREFIX = 'de'

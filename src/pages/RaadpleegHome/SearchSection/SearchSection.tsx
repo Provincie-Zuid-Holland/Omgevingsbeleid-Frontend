@@ -1,8 +1,8 @@
 import { useState } from 'react'
 
-import { LeafletViewer } from '../../../components/Leaflet'
-import SearchBar from '../../../components/SearchBar'
-import Text from '../../../components/Text'
+import { LeafletViewer } from '@/components/Leaflet'
+import SearchBar from '@/components/SearchBar'
+import Text from '@/components/Text'
 
 function SearchSection() {
     const [currentView, setCurrentView] = useState('text')
