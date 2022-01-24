@@ -31,10 +31,8 @@ const LoginForm = ({ setLoginState, setLoginUser }: LoginFormProps) => {
     const [loading, setLoading] = useState(false)
     const [wachtwoordResetPopup, setWachtwoordResetPopup] = useState(false)
 
-    const displayErrorMsg = (err: any) => {
+    const displayErrorMsg = () => {
         const errorEl = document.getElementById('error-message')
-
-        errorEl?.innerHTML && (errorEl.innerHTML = err)
         errorEl?.classList.remove('hidden')
         errorEl?.classList.add('flex')
         errorEl?.classList.add('shake')
@@ -51,8 +49,6 @@ const LoginForm = ({ setLoginState, setLoginUser }: LoginFormProps) => {
 
         postLogin({ identifier, password })
             .then(data => {
-                console.log(`Environment - ${data['deployment type']}`)
-
                 const identifier = data.identifier
 
                 localStorage.setItem(
@@ -63,13 +59,14 @@ const LoginForm = ({ setLoginState, setLoginUser }: LoginFormProps) => {
                     process.env.REACT_APP_KEY_API_ACCESS_TOKEN || '',
                     data.access_token || ''
                 )
+
                 setLoading(false)
                 setLoginState(true)
                 setLoginUser(identifier)
                 history.push('/muteer/dashboard')
             })
-            .catch(err => {
-                displayErrorMsg(err)
+            .catch(() => {
+                displayErrorMsg()
                 setLoading(false)
             })
     }
