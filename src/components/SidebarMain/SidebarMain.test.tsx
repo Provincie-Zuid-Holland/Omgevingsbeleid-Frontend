@@ -7,7 +7,7 @@ import SidebarMain from './SidebarMain'
 describe('SidebarMain', () => {
     const defaultProps = {}
 
-    const setup = customProps => {
+    const setup = (customProps?: any) => {
         const props = { ...defaultProps, ...customProps }
         render(
             <MemoryRouter>

@@ -1,8 +1,9 @@
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 
-import { revisionDataObject } from './../../../mocks/data/revisionDataObject'
-import { revisionObjects } from './../../../mocks/data/revisionObjects'
+import { revisionDataObject } from '@/mocks/data/revisionDataObject'
+import { revisionObjects } from '@/mocks/data/revisionObjects'
+
 import PopupRevisionOverview from './PopupRevisionOverview'
 
 describe('PopupRevisionOverview', () => {
@@ -14,7 +15,7 @@ describe('PopupRevisionOverview', () => {
         revisionObjects: revisionObjects,
     }
 
-    const setup = customProps => {
+    const setup = (customProps?: any) => {
         const props = { ...defaultProps, ...customProps }
         render(<PopupRevisionOverview {...props} />)
     }

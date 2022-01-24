@@ -2,8 +2,8 @@ import { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 
 // Import API
-import axios from '@/api/axios'
-import { GetTokeninfo200Identifier } from '@/api/fetchers.schemas'
+import { postLogin } from '@/api/fetchers'
+import { GebruikersRead } from '@/api/fetchers.schemas'
 
 // Import Components
 import { LoaderSpinner } from '../Loader'
@@ -20,7 +20,7 @@ interface PopupPasswordForgotProps {
 
 interface LoginFormProps {
     setLoginState: (e: boolean) => void
-    setLoginUser: (identifier: GetTokeninfo200Identifier) => void
+    setLoginUser: (identifier?: GebruikersRead) => void
 }
 
 const LoginForm = ({ setLoginState, setLoginUser }: LoginFormProps) => {
@@ -49,32 +49,24 @@ const LoginForm = ({ setLoginState, setLoginUser }: LoginFormProps) => {
 
         setLoading(true)
 
-        axios
-            .post(
-                'login',
-                JSON.stringify({
-                    identifier: identifier,
-                    password: password,
-                })
-            )
-            .then(response => {
-                console.log(`Environment - ${response.data['deployment type']}`)
-                if (response.status >= 200 && response.status < 300) {
-                    const identifier = response.data.identifier
+        postLogin({ identifier, password })
+            .then(data => {
+                console.log(`Environment - ${data['deployment type']}`)
 
-                    localStorage.setItem(
-                        process.env.REACT_APP_KEY_IDENTIFIER || '',
-                        JSON.stringify(identifier)
-                    )
-                    localStorage.setItem(
-                        process.env.REACT_APP_KEY_API_ACCESS_TOKEN || '',
-                        response.data.access_token
-                    )
-                    setLoading(false)
-                    setLoginState(true)
-                    setLoginUser(identifier)
-                    history.push('/muteer/dashboard')
-                }
+                const identifier = data.identifier
+
+                localStorage.setItem(
+                    process.env.REACT_APP_KEY_IDENTIFIER || '',
+                    JSON.stringify(identifier)
+                )
+                localStorage.setItem(
+                    process.env.REACT_APP_KEY_API_ACCESS_TOKEN || '',
+                    data.access_token || ''
+                )
+                setLoading(false)
+                setLoginState(true)
+                setLoginUser(identifier)
+                history.push('/muteer/dashboard')
             })
             .catch(err => {
                 displayErrorMsg(err)
