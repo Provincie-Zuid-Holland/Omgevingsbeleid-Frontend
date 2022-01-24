@@ -52,7 +52,6 @@ const RaadpleegVerordeningPopupDetail = ({
                             {activeArticle.Children.map(child => (
                                 <li
                                     onClick={() => {
-                                        setActiveChild(null)
                                         setActiveChild(child)
                                     }}
                                     key={child.Volgnummer}

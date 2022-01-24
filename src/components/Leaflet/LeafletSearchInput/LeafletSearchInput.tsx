@@ -11,7 +11,7 @@ import debounce from '@/utils/debounce'
 
 interface LeafletSearchInputProps {
     reference: RefObject<any>
-    mapPanTo: (lng: string, lat: string, type: string) => void
+    mapPanTo: (lng: number, lat: number, type: string) => void
 }
 
 const LeafletSearchInput = ({
@@ -49,7 +49,7 @@ const LeafletSearchInput = ({
                 const lat = parseFloat(latLng[0]).toFixed(20)
                 const lng = parseFloat(latLng[1]).toFixed(20)
 
-                mapPanTo(lng, lat, data.type)
+                mapPanTo(parseFloat(lng), parseFloat(lat), data.type)
             })
             .catch(() => {
                 toast(process.env.REACT_APP_ERROR_MSG)

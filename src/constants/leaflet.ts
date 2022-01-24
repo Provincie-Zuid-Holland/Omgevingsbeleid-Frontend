@@ -101,8 +101,3 @@ export const colors = [
     '#faf5ff', // .bg-purple-100
     '#fff5f', // .bg-pink-100
 ]
-
-export const DEFAULT_VIEWPORT = {
-    center: [52.086531, 4.416168],
-    zoom: 4,
-}

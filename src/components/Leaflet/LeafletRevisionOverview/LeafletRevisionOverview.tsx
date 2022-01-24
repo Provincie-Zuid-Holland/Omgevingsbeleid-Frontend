@@ -22,11 +22,15 @@ import {
     tileURL,
     tileURLSattelite,
     leafletCenter,
-    DEFAULT_VIEWPORT,
 } from '@/constants/leaflet'
 import useStateCallback from '@/hooks/useStateCallback'
 
 import LeafletController from '../LeafletController'
+
+const DEFAULT_VIEWPORT = {
+    center: [52.086531, 4.416168],
+    zoom: 4,
+}
 
 /**
  * Function that renders the LeafletRevisionOverwiew component based on if the dataReceived state is set to true, it will display the following components imported from react-leaflet:
@@ -101,63 +105,62 @@ const LeafletRevisionOverview = ({
 
     const initializeComponent = () => {
         gebiedenUUIDS.forEach(async (uuid: string) => {
-            await getGeoJsonData('Werkingsgebieden', uuid)
-                .then(data => {
-                    setDataReceived(true, () => {
-                        const jsonLayer = Leaflet.Proj.geoJson(data, {
-                            style: () => getColorOfGebied(uuid) as PathOptions,
-                        })
+            Promise.all([
+                getGeoJsonData('Werkingsgebieden', uuid),
+                getOnderverdeling('Werkingsgebieden', uuid),
+            ])
+                .then(responses => {
+                    const geoJsonData = responses[0]
+                    const onderverdelingData = responses[1]
 
-                        jsonLayer.addTo(leafletMap.current!.leafletElement)
-
-                        const layerArray: Layer[] = []
-
-                        jsonLayer.eachLayer(layer => layerArray.push(layer))
-
-                        setWerkingsgebied([...werkingsgebied, ...layerArray])
-                    })
-                })
-                .catch(err => {
-                    if (axios.isCancel(err)) {
-                        console.log('Request canceled -', err.message)
-                    } else {
-                        console.log(err)
-                        toast(process.env.REACT_APP_ERROR_MSG)
-                    }
-                })
-
-            await getOnderverdeling('Werkingsgebieden', uuid)
-                .then(data => {
                     setDataReceived(true, () => {
                         let colorsIndex = -1
 
-                        const jsonLayer = Leaflet.Proj.geoJson(data, {
-                            onEachFeature: (feature, layer) => {
-                                if (feature.properties) {
-                                    layer.bindPopup(
-                                        feature.properties.Onderverdeling
-                                    )
-                                }
-                            },
-                            style: () => {
-                                colorsIndex++
-
-                                return {
-                                    stroke: true,
-                                    color: colors[colorsIndex],
-                                    fillColor: colors[colorsIndex],
-                                    fillOpacity: 0.2,
-                                }
-                            },
+                        const geoJsonLayer = Leaflet.Proj.geoJson(geoJsonData, {
+                            style: () => getColorOfGebied(uuid) as PathOptions,
                         })
 
-                        const layerArray: Layer[] = []
+                        const onderverdelingJsonLayer = Leaflet.Proj.geoJson(
+                            onderverdelingData,
+                            {
+                                onEachFeature: (feature, layer) => {
+                                    if (feature.properties) {
+                                        layer.bindPopup(
+                                            feature.properties.Onderverdeling
+                                        )
+                                    }
+                                },
+                                style: () => {
+                                    colorsIndex++
 
-                        jsonLayer.eachLayer(layer => layerArray.push(layer))
+                                    return {
+                                        stroke: true,
+                                        color: colors[colorsIndex],
+                                        fillColor: colors[colorsIndex],
+                                        fillOpacity: 0.2,
+                                    }
+                                },
+                            }
+                        )
 
+                        const geoJsonLayerArray: Layer[] = []
+                        const onderverdelingLayerArray: Layer[] = []
+
+                        geoJsonLayer.addTo(leafletMap.current!.leafletElement)
+                        onderverdelingJsonLayer.eachLayer(layer =>
+                            onderverdelingLayerArray.push(layer)
+                        )
+                        geoJsonLayer.eachLayer(layer =>
+                            geoJsonLayerArray.push(layer)
+                        )
+
+                        setWerkingsgebied([
+                            ...werkingsgebied,
+                            ...geoJsonLayerArray,
+                        ])
                         setOnderverdelingen([
                             ...onderverdelingen,
-                            ...layerArray,
+                            ...onderverdelingLayerArray,
                         ])
                     })
                 })
