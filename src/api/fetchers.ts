@@ -143,7 +143,12 @@ import type {
     GetChangesWerkingsgebiedenOlduuidNewuuid404,
     GetChangesWerkingsgebiedenOlduuidNewuuid500,
     GetEdits200Item,
+    GebruikersRead,
     GetGraph200,
+    PostLogin200,
+    PostLogin400,
+    PostLogin401,
+    PostLoginBody,
     MaatregelenRead,
     GetMaatregelen400,
     GetMaatregelenParams,
@@ -156,6 +161,10 @@ import type {
     PatchMaatregelenLineageid400,
     PatchMaatregelenLineageid403,
     PatchMaatregelenLineageid500,
+    PostPasswordreset200,
+    PostPasswordreset400,
+    PostPasswordreset401,
+    PostPasswordresetBody,
     GetSearch200Item,
     GetSearch400,
     GetSearch403,
@@ -2422,6 +2431,47 @@ export const useGetEdits = <
 }
 
 /**
+ * @summary Get a list of users
+ */
+export const getGebruikers = () => {
+    return customInstance<GebruikersRead[]>({
+        url: `/gebruikers`,
+        method: 'get',
+    })
+}
+
+export const getGetGebruikersQueryKey = () => [`/gebruikers`]
+
+export const useGetGebruikers = <
+    TData = AsyncReturnType<typeof getGebruikers>,
+    TError = unknown
+>(options?: {
+    query?: UseQueryOptions<
+        AsyncReturnType<typeof getGebruikers>,
+        TError,
+        TData
+    >
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {}
+
+    const queryKey = queryOptions?.queryKey ?? getGetGebruikersQueryKey()
+
+    const queryFn: QueryFunction<AsyncReturnType<typeof getGebruikers>> = () =>
+        getGebruikers()
+
+    const query = useQuery<
+        AsyncReturnType<typeof getGebruikers>,
+        TError,
+        TData
+    >(queryKey, queryFn, queryOptions)
+
+    return {
+        queryKey,
+        ...query,
+    }
+}
+
+/**
  * @summary Get a graph representation of the effective objects
  */
 export const getGraph = () => {
@@ -2453,6 +2503,47 @@ export const useGetGraph = <
         queryKey,
         ...query,
     }
+}
+
+/**
+ * @summary Login an user and receive a JWT token
+ */
+export const postLogin = (postLoginBody: PostLoginBody) => {
+    return customInstance<PostLogin200>({
+        url: `/login`,
+        method: 'post',
+        data: postLoginBody,
+    })
+}
+
+export const usePostLogin = <
+    TError = PostLogin400 | PostLogin401,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        AsyncReturnType<typeof postLogin>,
+        TError,
+        { data: PostLoginBody },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options || {}
+
+    const mutationFn: MutationFunction<
+        AsyncReturnType<typeof postLogin>,
+        { data: PostLoginBody }
+    > = props => {
+        const { data } = props || {}
+
+        return postLogin(data)
+    }
+
+    return useMutation<
+        AsyncReturnType<typeof postLogin>,
+        TError,
+        { data: PostLoginBody },
+        TContext
+    >(mutationFn, mutationOptions)
 }
 
 /**
@@ -2642,6 +2733,49 @@ export const usePatchMaatregelenLineageid = <
         AsyncReturnType<typeof patchMaatregelenLineageid>,
         TError,
         { lineageid: number; data: MaatregelenWrite },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
+/**
+ * @summary Changes password for a user
+ */
+export const postPasswordreset = (
+    postPasswordresetBody: PostPasswordresetBody
+) => {
+    return customInstance<PostPasswordreset200>({
+        url: `/password-reset`,
+        method: 'post',
+        data: postPasswordresetBody,
+    })
+}
+
+export const usePostPasswordreset = <
+    TError = PostPasswordreset400 | PostPasswordreset401,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        AsyncReturnType<typeof postPasswordreset>,
+        TError,
+        { data: PostPasswordresetBody },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options || {}
+
+    const mutationFn: MutationFunction<
+        AsyncReturnType<typeof postPasswordreset>,
+        { data: PostPasswordresetBody }
+    > = props => {
+        const { data } = props || {}
+
+        return postPasswordreset(data)
+    }
+
+    return useMutation<
+        AsyncReturnType<typeof postPasswordreset>,
+        TError,
+        { data: PostPasswordresetBody },
         TContext
     >(mutationFn, mutationOptions)
 }

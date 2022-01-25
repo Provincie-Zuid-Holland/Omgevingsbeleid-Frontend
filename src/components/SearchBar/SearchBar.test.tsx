@@ -1,6 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
-
 import { createMemoryHistory } from 'history'
 import { Router } from 'react-router-dom'
 
@@ -15,7 +14,7 @@ describe('SearchBar', () => {
         compInNavigation: true,
     }
 
-    const setup = customProps => {
+    const setup = (customProps?: any) => {
         const props = { ...defaultProps, ...customProps }
         render(
             <Router history={history}>
@@ -24,7 +23,7 @@ describe('SearchBar', () => {
         )
         const searchBar = screen.getByPlaceholderText(
             'Zoek in het omgevingsbeleid'
-        )
+        ) as HTMLInputElement
         return { searchBar }
     }
 

@@ -2,8 +2,9 @@ import PropTypes from 'prop-types'
 import { useState } from 'react'
 import { toast } from 'react-toastify'
 
-import VOLGENDE_STATUS from './../../../constants/beleidskeuzeStatusAanpassen'
-import PopUpAnimatedContainer from './../PopUpAnimatedContainer'
+import VOLGENDE_STATUS from '@/constants/beleidskeuzeStatusAanpassen'
+
+import PopUpAnimatedContainer from '../PopUpAnimatedContainer'
 
 /**
  * Displays a popup in which a user can edit the status.
@@ -13,12 +14,20 @@ import PopUpAnimatedContainer from './../PopUpAnimatedContainer'
  * @param {string} status - Contains a status in text form.
  * @param {function} toggleStatusPopup - Function that is used to toggle the StatusPopup.
  */
+
+interface PopUpStatusAanpassenProps {
+    dataObject: any
+    status: keyof typeof VOLGENDE_STATUS
+    patchStatus: (dataObject: any, value: string) => void
+    toggleStatusPopup: () => void
+}
+
 function PopUpStatusAanpassen({
     dataObject,
     status,
     patchStatus,
     toggleStatusPopup,
-}) {
+}: PopUpStatusAanpassenProps) {
     const [selectValue, setSelect] = useState('')
 
     return (

@@ -532,6 +532,29 @@ export type GetSearchParams = {
     limit?: number
 }
 
+export type PostPasswordreset401 = {
+    /** An error message */
+    message?: string
+}
+
+export type PostPasswordreset400 = {
+    errors?: string[]
+    /** An error message */
+    message?: string
+}
+
+export type PostPasswordreset200 = {
+    /** A success message */
+    message?: string
+}
+
+export type PostPasswordresetBody = {
+    /** The new password for this user */
+    new_password?: string
+    /** The current password for this user */
+    password?: string
+}
+
 export type PatchMaatregelenLineageid500 = {
     /** A description of the error */
     message?: string
@@ -584,6 +607,34 @@ export type GetMaatregelenParams = {
     any_filters?: string
     limit?: number
     offset?: number
+}
+
+export type PostLogin401 = {
+    /** An error message */
+    message?: string
+}
+
+export type PostLogin400 = {
+    /** An error message specifying what is missing */
+    message?: string
+}
+
+export type PostLogin200 = {
+    /** A JWT token that can be used to make authorized request */
+    access_token?: string
+    /** The api deployment (DEV, TEST or ACC) */
+    'deployment type'?: string
+    /** Datetime of the expiration for this token */
+    expires?: string
+    /** The logged in user */
+    identifier?: GebruikersRead
+}
+
+export type PostLoginBody = {
+    /** Email adress for an user */
+    identifier?: string
+    /** password for an user */
+    password?: string
 }
 
 export type GetGraph200NodesItem = {

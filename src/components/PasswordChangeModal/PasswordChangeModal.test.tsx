@@ -5,7 +5,6 @@ import {
     fireEvent,
 } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import React from 'react'
 
 import PasswordChangeModal from './PasswordChangeModal'
 
@@ -14,7 +13,7 @@ describe('PasswordChangeModal', () => {
         setOpen: jest.fn(),
     }
 
-    const setup = customProps => {
+    const setup = (customProps?: any) => {
         const props = { ...defaultProps, ...customProps }
         render(<PasswordChangeModal {...props} />)
     }
