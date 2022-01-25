@@ -14,7 +14,7 @@ interface FormFieldTextAreaProps {
     anchorLink?: string
     titleSingular: string
     dataObjectProperty: string
-    fieldValue: string
+    fieldValue?: string
     placeholderTekst: string
     handleChange: (event: ChangeEvent) => void
 }
@@ -66,6 +66,7 @@ const FormFieldTextArea = ({
                     disabled={disabled}
                     ref={textArea}
                     id={`form-field-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
+                    data-testid={`form-field-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
                     value={fieldValue || ''}
                     // required
                     onChange={e => {
