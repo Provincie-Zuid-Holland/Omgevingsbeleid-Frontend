@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useWindowSize } from 'react-use'
 
-import { GetTokeninfo200Identifier } from '@/api/fetchers.schemas'
+import { GebruikersRead } from '@/api/fetchers.schemas'
 import { Container } from '@/components/Container'
 import Footer from '@/components/Footer'
 import Heading from '@/components/Heading'
@@ -17,7 +17,7 @@ import Text from '@/components/Text'
  */
 
 interface LoginProps {
-    setLoginUser: (identifier?: GetTokeninfo200Identifier) => void
+    setLoginUser: (identifier?: GebruikersRead) => void
     setLoginState: (state: boolean) => void
 }
 

@@ -5,7 +5,7 @@ import { Transition } from '@headlessui/react'
 import { SyntheticEvent, useEffect, useRef, useState } from 'react'
 import { useKey, useLockBodyScroll } from 'react-use'
 
-import axios from '@/api/axios'
+import { postPasswordreset } from '@/api/fetchers'
 
 import { LoaderSpinner } from '../Loader'
 import { PopUpAnimatedContainer } from '../Popup'
@@ -52,11 +52,10 @@ export default function PasswordChangeModal({
             return
         }
 
-        axios
-            .post('password-reset', {
-                password: currentPassword,
-                new_password: newPassword,
-            })
+        postPasswordreset({
+            password: currentPassword,
+            new_password: newPassword,
+        })
             .then(() => {
                 setLoading(false)
                 setOpen(false)

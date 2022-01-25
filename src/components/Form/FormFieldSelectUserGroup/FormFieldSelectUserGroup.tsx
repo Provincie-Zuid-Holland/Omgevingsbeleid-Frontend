@@ -1,9 +1,11 @@
-import { useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
-import axios from '../../../api/axios'
-import { LoaderSelect } from './../../Loader'
-import FormFieldSelectUser from './../FormFieldSelectUser'
+import { getGebruikers } from '@/api/fetchers'
+import { GebruikersRead } from '@/api/fetchers.schemas'
+import { LoaderSelect } from '@/components/Loader'
+
+import FormFieldSelectUser from '../FormFieldSelectUser'
 
 /**
  * Displays the user group component, by first getting the users through axios and adding it to the gebruikersLijst variable.
@@ -15,23 +17,34 @@ import FormFieldSelectUser from './../FormFieldSelectUser'
  * @param {string} titleSingular - Title of the object in a singular form.
  * @param {boolean} disabled - Disables the component.
  */
+
+interface FormFieldSelectUserGroupProps {
+    crudObject: any
+    editStatus?: boolean
+    handleChange: (
+        event: ChangeEvent,
+        metaInfo?: any,
+        dataProp?: string
+    ) => void
+    titleSingular: string
+    disabled?: boolean
+}
+
 const FormFieldSelectUserGroup = ({
     crudObject,
     editStatus,
     handleChange,
     titleSingular,
     disabled,
-}) => {
-    const [gebruikersLijst, setGebruikersLijst] = useState([])
+}: FormFieldSelectUserGroupProps) => {
+    const [gebruikersLijst, setGebruikersLijst] = useState<GebruikersRead[]>([])
     const [dataLoaded, setDataLoaded] = useState(false)
     const [error, setError] = useState(false)
 
     useEffect(() => {
-        axios
-            .get('gebruikers')
-            .then(res => {
-                const objecten = res.data
-                setGebruikersLijst(objecten)
+        getGebruikers()
+            .then(data => {
+                setGebruikersLijst(data)
                 setDataLoaded(true)
             })
             .catch(err => {
@@ -52,7 +65,7 @@ const FormFieldSelectUserGroup = ({
                     <FormFieldSelectUser
                         disabled={disabled}
                         editStatus={editStatus}
-                        halfWidth={true}
+                        halfWidth
                         handleChange={handleChange}
                         fieldValue={crudObject['Opdrachtgever']}
                         dataObjectProperty="Opdrachtgever"
@@ -75,7 +88,7 @@ const FormFieldSelectUserGroup = ({
                         gebruikersLijst={gebruikersLijst}
                         fieldValue={crudObject['Eigenaar_1']}
                         dataObjectProperty="Eigenaar_1"
-                        marginRight={true}
+                        marginRight
                         filter={'Behandelend Ambtenaar'}
                         filterOtherProperty={crudObject['Eigenaar_2']}
                         pValue="Eerste eigenaar"
@@ -114,7 +127,7 @@ const FormFieldSelectUserGroup = ({
                         gebruikersLijst={gebruikersLijst}
                         fieldValue={crudObject['Portefeuillehouder_1']}
                         dataObjectProperty="Portefeuillehouder_1"
-                        marginRight={true}
+                        marginRight
                         pValue="Eerste portefeuillehouder"
                         titleSingular={titleSingular}
                     />
