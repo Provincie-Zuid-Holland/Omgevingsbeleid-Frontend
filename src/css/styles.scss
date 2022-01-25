@@ -1120,7 +1120,8 @@ mark {
             display: flex;
             .ql-header,
             .ql-bold,
-            .ql-list {
+            .ql-list,
+            .ql-italic {
                 border-right: 1px solid rgba(203, 213, 224, 1);
             }
         }
