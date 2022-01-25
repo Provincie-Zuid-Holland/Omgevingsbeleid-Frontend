@@ -39,8 +39,12 @@ describe('LoginForm', () => {
     }
 
     const fillLoginForm = () => {
-        const inputUsername = screen.getByLabelText('E-mailadres')
-        const inputPassword = screen.getByLabelText('Wachtwoord')
+        const inputUsername = screen.getByLabelText(
+            'E-mailadres'
+        ) as HTMLInputElement
+        const inputPassword = screen.getByLabelText(
+            'Wachtwoord'
+        ) as HTMLInputElement
         fireEvent.change(inputUsername, { target: { value: 'E-mail' } })
         fireEvent.change(inputPassword, { target: { value: 'Password' } })
 

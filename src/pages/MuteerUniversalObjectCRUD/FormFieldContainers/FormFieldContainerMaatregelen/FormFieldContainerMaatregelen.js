@@ -48,6 +48,11 @@ function FormFieldContainerMaatregelen({
         userUUID === crudObject.Eigenaar_1 ||
         userUUID === crudObject.Eigenaar_2
 
+    const maatregelEditorFormats = ['bold', 'italic', 'list', 'image', 'indent']
+    const maatregelEditorToolbar = isVigerend
+        ? []
+        : ['bold', 'italic', { list: 'bullet' }, { list: 'ordered' }, 'image']
+
     return (
         <>
             <ContainerFormSection
@@ -86,25 +91,8 @@ function FormFieldContainerMaatregelen({
                     />
                     <FormFieldRichTextEditor
                         disabled={isVigerend}
-                        editorFormats={[
-                            'bold',
-                            'italic',
-                            'header',
-                            'list',
-                            'image',
-                        ]}
-                        editorToolbar={
-                            isVigerend
-                                ? []
-                                : [
-                                      { header: 2 },
-                                      'bold',
-                                      'italic',
-                                      { list: 'bullet' },
-                                      { list: 'ordered' },
-                                      'image',
-                                  ]
-                        }
+                        editorFormats={maatregelEditorFormats}
+                        editorToolbar={maatregelEditorToolbar}
                         titleSingular={titleSingular}
                         initialValue={initialValueToelichting}
                         handleChange={handleChange}

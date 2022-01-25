@@ -1,11 +1,12 @@
 import { useContext } from 'react'
 
-import UserContext from './../../App/UserContext'
+import UserContext from '@/App/UserContext'
 import {
     menuItemsOmgevingsbeleid,
     menuItemsBeheer,
-} from './../../constants/menuItems'
-import MenuItemsList from './../MenuItemsList'
+} from '@/constants/menuItems'
+
+import MenuItemsList from '../MenuItemsList'
 
 /**
  * @returns The main sidebar component for the mutate environment
@@ -42,7 +43,7 @@ function SidebarMain() {
                     Omgevingsbeleid
                 </h2>
                 <MenuItemsList
-                    displayChangePassword={true}
+                    displayChangePassword
                     menuItems={menuItemsOmgevingsbeleid}
                 />
                 {isAuthedForManaging ? (

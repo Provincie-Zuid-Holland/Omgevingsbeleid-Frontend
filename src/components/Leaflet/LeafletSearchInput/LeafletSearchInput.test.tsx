@@ -15,7 +15,10 @@ describe('LeafletSearchInput', () => {
         },
     }
 
-    const arrowEvent = (type, element) => {
+    const arrowEvent = (
+        type: string,
+        element: HTMLLIElement | HTMLInputElement
+    ) => {
         if (type === 'down') {
             fireEvent.keyDown(element, {
                 key: 'ArrowDown',
@@ -37,7 +40,7 @@ describe('LeafletSearchInput', () => {
         }
     }
 
-    const setup = customProps => {
+    const setup = (customProps?: any) => {
         const props = { ...defaultProps, ...customProps }
         render(<LeafletSearchInput {...props} />)
     }
@@ -50,7 +53,9 @@ describe('LeafletSearchInput', () => {
 
     it('User can type a search query', async () => {
         setup()
-        const searchInput = screen.getByPlaceholderText('Zoeken op de kaart')
+        const searchInput = screen.getByPlaceholderText(
+            'Zoeken op de kaart'
+        ) as HTMLInputElement
 
         fireEvent.change(searchInput, { target: { value: 'Den Haag' } })
         expect(searchInput.value).toBe('Den Haag')
@@ -59,12 +64,12 @@ describe('LeafletSearchInput', () => {
         await waitFor(() => screen.findByText("Gemeente 's-Gravenhage"))
 
         // User can navigate through the suggestions with the up & down arrow keys
-        const firstSuggestion = await screen
+        const firstSuggestion = (await screen
             .queryByText("Gemeente 's-Gravenhage")
-            .closest('li')
-        const secondSuggestion = await screen
+            ?.closest('li')) as HTMLLIElement
+        const secondSuggestion = (await screen
             .queryByText('Haag, Deurne')
-            .closest('li')
+            ?.closest('li')) as HTMLLIElement
 
         searchInput.focus()
         arrowEvent('down', searchInput)
