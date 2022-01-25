@@ -274,7 +274,7 @@ const WerkingsgebiedPopup = ({
                                                       </span>
                                                   </div>
                                                   <span
-                                                      style={{ zIndex: '-1' }}
+                                                      style={{ zIndex: -1 }}
                                                       className={`absolute top-0 left-0 flex items-center justify-center w-full h-full text-gray-500 -mt-4 ${
                                                           index % 2 === 0
                                                               ? 'mr-4'

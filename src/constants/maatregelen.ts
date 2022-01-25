@@ -1,4 +1,8 @@
+import { getMaatregelen } from '@/api/fetchers'
+
 import { currentDate, futureDate, currentDateFormatted } from './testValues'
+
+export const apiCall = getMaatregelen
 
 export const TITLE_SINGULAR = 'Maatregel'
 export const TITLE_SINGULAR_PREFIX = 'de'

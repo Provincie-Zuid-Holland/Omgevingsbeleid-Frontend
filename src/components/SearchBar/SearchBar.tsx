@@ -5,7 +5,8 @@ import { useLocation, useHistory } from 'react-router-dom'
 import { useClickAway } from 'react-use'
 import 'url-search-params-polyfill'
 
-import { searchBarFilters } from '../../constants/searchBarFilters'
+import { searchBarFilters } from '@/constants/searchBarFilters'
+
 import SearchBarPopupItem from '../SearchBarPopupItem'
 
 interface SearchBarProps {
