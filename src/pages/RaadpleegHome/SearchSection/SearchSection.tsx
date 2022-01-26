@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { LeafletViewer } from '@/components/Leaflet'
+import { LeafletMap } from '@/components/Leaflet'
 import SearchBar from '@/components/SearchBar'
 import Text from '@/components/Text'
 
@@ -42,7 +42,10 @@ function SearchSection() {
                         locatie of markeer een punt of vorm op de kaart.
                     </Text>
                     <div className="w-full mx-auto mt-4" id="leaflet-homepage">
-                        <LeafletViewer className="w-full border border-gray-300 rounded" />
+                        <LeafletMap
+                            controllers={{ showSearch: true, showDraw: true }}
+                            className="w-full border border-gray-300 rounded"
+                        />
                     </div>
                 </div>
             ) : null}
