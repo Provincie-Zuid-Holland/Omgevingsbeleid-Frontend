@@ -15,7 +15,7 @@ interface LeafletLayerProps {
     children?: ReactNode
 }
 
-const LeafletLayer = ({ fullscreen, children }: LeafletLayerProps) => {
+const LeafletControlLayer = ({ fullscreen, children }: LeafletLayerProps) => {
     const map = useMap()
 
     const [layerControlOpen, setLayerControlOpen] = useState(false)
@@ -171,4 +171,4 @@ const LeafletLayer = ({ fullscreen, children }: LeafletLayerProps) => {
     )
 }
 
-export default LeafletLayer
+export default LeafletControlLayer

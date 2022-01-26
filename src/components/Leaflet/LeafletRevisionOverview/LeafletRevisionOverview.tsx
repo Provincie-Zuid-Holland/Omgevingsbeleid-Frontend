@@ -10,7 +10,7 @@ import ToggleableSection from '@/components/ToggleableSection'
 import { colors } from '@/constants/leaflet'
 
 import { LeafletMap } from '..'
-import { LeafletAreaLayer, LeafletLayer } from '../LeafletLayers'
+import { LeafletAreaLayer, LeafletControlLayer } from '../LeafletLayers'
 
 /**
  * Function that renders the LeafletRevisionOverwiew component based on if the dataReceived state is set to true, it will display the following components imported from react-leaflet:
@@ -175,7 +175,7 @@ const LeafletRevisionOverviewInner = ({
     useEffect(() => initializeComponent(), [])
 
     return (
-        <LeafletLayer>
+        <LeafletControlLayer>
             <ToggleableSection positionTop title="Legenda">
                 <ul className="p-2">
                     {werkingsgebied?.map(layer => (
@@ -203,7 +203,7 @@ const LeafletRevisionOverviewInner = ({
                     ))}
                 </ul>
             </ToggleableSection>
-        </LeafletLayer>
+        </LeafletControlLayer>
     )
 }
 

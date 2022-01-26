@@ -1,6 +1,6 @@
 import LeafletAreaLayer from './LeafletAreaLayer'
+import LeafletControlLayer from './LeafletControlLayer'
 import LeafletDraw from './LeafletDraw'
-import LeafletLayer from './LeafletLayer'
 import LeafletSearch from './LeafletSearch'
 
-export { LeafletDraw, LeafletLayer, LeafletSearch, LeafletAreaLayer }
+export { LeafletDraw, LeafletControlLayer, LeafletSearch, LeafletAreaLayer }

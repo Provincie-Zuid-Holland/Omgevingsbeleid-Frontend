@@ -4,7 +4,11 @@ import { MapContainer, MapContainerProps } from 'react-leaflet'
 
 import { RDCrs, leafletCenter } from '@/constants/leaflet'
 
-import { LeafletDraw, LeafletLayer, LeafletSearch } from '../LeafletLayers'
+import {
+    LeafletDraw,
+    LeafletControlLayer,
+    LeafletSearch,
+} from '../LeafletLayers'
 
 // @ts-ignore
 delete Leaflet.Icon.Default.prototype._getIconUrl
@@ -59,7 +63,7 @@ const LeafletMap = ({
             {...mapOptions}
             className={`z-0 leaflet-map ${className || ''}`}
             id={id}>
-            {mapControllers.showLayers && <LeafletLayer />}
+            {mapControllers.showLayers && <LeafletControlLayer />}
 
             {mapControllers.showSearch && <LeafletSearch />}
 

@@ -8,7 +8,7 @@ import { getGeoJsonData, getOnderverdeling } from '@/api/axiosGeoJSON'
 import ToggleableSection from '@/components/ToggleableSection'
 import { colors } from '@/constants/leaflet'
 
-import { LeafletAreaLayer, LeafletLayer } from '../LeafletLayers'
+import { LeafletAreaLayer, LeafletControlLayer } from '../LeafletLayers'
 import LeafletMap from '../LeafletMap'
 
 /**
@@ -152,7 +152,7 @@ const LeafletTinyViewerInner = ({
     }, [fullscreen, map])
 
     return (
-        <LeafletLayer fullscreen={fullscreen}>
+        <LeafletControlLayer fullscreen={fullscreen}>
             <ToggleableSection title="Legenda" positionTop>
                 <ul className="p-2">
                     {werkingsgebied?.map(layer => (
@@ -170,7 +170,7 @@ const LeafletTinyViewerInner = ({
                     ))}
                 </ul>
             </ToggleableSection>
-        </LeafletLayer>
+        </LeafletControlLayer>
     )
 }
 
