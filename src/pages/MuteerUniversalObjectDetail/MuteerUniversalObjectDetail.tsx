@@ -10,7 +10,6 @@ import {
     withRouter,
 } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { useEffectOnce } from 'react-use'
 
 import axios from '@/api/axios'
 import { GetTokeninfo200Identifier } from '@/api/fetchers.schemas'
@@ -47,7 +46,8 @@ const MuteerUniversalObjectDetail = ({
 }: MuteerUniversalObjectDetailProps) => {
     const history = useHistory()
     const { version, single } = useParams<{ version: string; single: string }>()
-    const [dataObject, setDataObject] = useState<any>(null)
+    const [dataObject, setDataObject] = useState<any>({})
+    const [revisions, setRevisions] = useState<any[]>([])
     const [pageType, setPageType] = useState(returnPageType(version))
     const [dataReceived, setDataReceived] = useState(false)
 
@@ -95,14 +95,16 @@ const MuteerUniversalObjectDetail = ({
                 /** Sort the objects if the pageType is 'detail' (which contains whole history of an object) */
                 if (pageType === 'detail') {
                     /** pageType is of 'detail' */
-                    setDataObject(
-                        data.sort(function (a: any, b: any) {
-                            return (
-                                (new Date(b.Modified_Date) as any) -
-                                (new Date(a.Modified_Date) as any)
-                            )
-                        })
-                    )
+
+                    const sortedData = data.sort(function (a: any, b: any) {
+                        return (
+                            (new Date(b.Modified_Date) as any) -
+                            (new Date(a.Modified_Date) as any)
+                        )
+                    })
+
+                    setDataObject(sortedData[0])
+                    setRevisions(sortedData.slice(1))
                     setDataReceived(true)
                 } else {
                     /** pageType is of 'version' */
@@ -121,50 +123,40 @@ const MuteerUniversalObjectDetail = ({
             })
     }
 
-    useEffectOnce(() => {
-        getAndSetDimensieDataFromApi()
-    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => getAndSetDimensieDataFromApi(), [pageType])
 
     /** Update state when the user switches from pageType */
     useEffect(() => {
         if (returnPageType(version) !== pageType) {
-            setDataObject(null)
+            setDataObject(
+                revisions.find(revision => revision.UUID === version) ||
+                    revisions[0]
+            )
             setPageType(returnPageType(version))
             setDataReceived(false)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [pageType])
+    }, [pageType, version])
 
     const titleSingular = dimensieConstants.TITLE_SINGULAR
     const overzichtSlug = dimensieConstants.SLUG_OVERVIEW
 
-    /**
-     * dataObject is currently a array when the pageType is of version,
-     * and a object when the pageType is detail. TODO: Refactor this into better state.
-     */
-    let newDataObject: any = {}
-
-    if (dataReceived && pageType === 'detail') {
-        newDataObject = dataObject[0]
-    } else if (dataReceived && pageType === 'version') {
-        newDataObject = dataObject
-    }
-
     const displayEigenaarsDriehoek =
         dataReceived &&
-        newDataObject &&
-        (newDataObject.Opdrachtgever !== undefined ||
-            newDataObject.Eigenaar_1 !== undefined ||
-            newDataObject.Eigenaar_2 !== undefined ||
-            newDataObject.Portefeuillehouder_1 !== undefined ||
-            newDataObject.Portefeuillehouder_2 !== undefined)
+        dataObject &&
+        (dataObject.Opdrachtgever !== undefined ||
+            dataObject.Eigenaar_1 !== undefined ||
+            dataObject.Eigenaar_2 !== undefined ||
+            dataObject.Portefeuillehouder_1 !== undefined ||
+            dataObject.Portefeuillehouder_2 !== undefined)
 
     return (
         <ContainerMain>
             <Helmet>
                 <title>
                     Omgevingsbeleid{' '}
-                    {newDataObject.Titel ? ' - ' + newDataObject.Titel : ''}
+                    {dataObject.Titel ? ' - ' + dataObject.Titel : ''}
                 </title>
             </Helmet>
 
@@ -172,7 +164,7 @@ const MuteerUniversalObjectDetail = ({
             <div className="inline-block w-full">
                 <GenerateBackToButton
                     hash={location.hash}
-                    dataObject={newDataObject}
+                    dataObject={dataObject}
                     overzichtSlug={overzichtSlug || ''}
                     pageType={pageType}
                 />
@@ -210,16 +202,18 @@ const MuteerUniversalObjectDetail = ({
                         ) : null}
 
                         <ContainerDetailMain
-                            dataObject={newDataObject}
+                            dataObject={dataObject}
                             overzichtSlug={overzichtSlug || ''}
                             titleSingular={titleSingular}
                             dataReceived={dataReceived}
                         />
 
                         {/* List of Revisions */}
-                        {dataReceived && pageType === 'detail' ? (
+                        {dataReceived &&
+                        pageType === 'detail' &&
+                        revisions.length ? (
                             <RevisieList
-                                dataObject={dataObject}
+                                revisions={revisions}
                                 overzichtSlug={overzichtSlug || ''}
                                 hash={location.hash}
                             />
@@ -227,7 +221,7 @@ const MuteerUniversalObjectDetail = ({
                     </div>
 
                     {displayEigenaarsDriehoek ? (
-                        <EigenaarsDriehoek dataObject={newDataObject} />
+                        <EigenaarsDriehoek dataObject={dataObject} />
                     ) : null}
                 </div>
             </div>
@@ -282,50 +276,46 @@ function GenerateBackToButton({
 // Generate list for revisies
 
 interface RevisieListProps {
-    dataObject: any[]
+    revisions: any[]
     overzichtSlug: string
     hash: string
 }
 
-function RevisieList({ dataObject, overzichtSlug, hash }: RevisieListProps) {
-    dataObject.shift() // remove First object, as we already got that in the parent element view
-
-    return (
-        <div>
-            <div className="flex items-center justify-end w-24 h-6 pt-5 mr-2 border-r-2 border-gray-300 " />
-            <ul className="relative revisie-list">
-                {dataObject.map((item: any, index: number) => (
-                    <li key={item.UUID}>
-                        <div className="flex items-center justify-between">
-                            <Link
-                                id={`revisie-item-${index}`}
-                                to={makeURLForRevisieObject(
-                                    overzichtSlug,
-                                    item.ID,
-                                    item.UUID,
-                                    hash
+const RevisieList = ({ revisions, overzichtSlug, hash }: RevisieListProps) => (
+    <>
+        <div className="flex items-center justify-end w-24 h-6 pt-5 mr-2 border-r-2 border-gray-300 " />
+        <ul className="relative revisie-list">
+            {revisions.map((item: any, index: number) => (
+                <li key={item.UUID}>
+                    <div className="flex items-center justify-between">
+                        <Link
+                            id={`revisie-item-${index}`}
+                            to={makeURLForRevisieObject(
+                                overzichtSlug,
+                                item.ID,
+                                item.UUID,
+                                hash
+                            )}
+                            className="relative flex items-end h-6 mr-2 hover:underline">
+                            <span
+                                className="w-24 pr-4 pr-5 text-xs text-right text-gray-600"
+                                title="Laatst gewijzigd op">
+                                {formatDate(
+                                    new Date(item.Modified_Date),
+                                    'd MMM yyyy'
                                 )}
-                                className="relative flex items-end h-6 mr-2 hover:underline">
-                                <span
-                                    className="w-24 pr-4 pr-5 text-xs text-right text-gray-600"
-                                    title="Laatst gewijzigd op">
-                                    {formatDate(
-                                        new Date(item.Modified_Date),
-                                        'd MMM yyyy'
-                                    )}
-                                </span>
-                                <div className="relative w-3 h-3 text-center bg-gray-300 rounded-full revisie-list-bolletje" />
-                                <span className="w-24 pl-4 pr-5 text-xs text-gray-600">
-                                    Revisie
-                                </span>
-                            </Link>
-                        </div>
-                    </li>
-                ))}
-            </ul>
-        </div>
-    )
-}
+                            </span>
+                            <div className="relative w-3 h-3 text-center bg-gray-300 rounded-full revisie-list-bolletje" />
+                            <span className="w-24 pl-4 pr-5 text-xs text-gray-600">
+                                Revisie
+                            </span>
+                        </Link>
+                    </div>
+                </li>
+            ))}
+        </ul>
+    </>
+)
 
 // Link naar detail pagina's van de revisies
 function makeURLForRevisieObject(
