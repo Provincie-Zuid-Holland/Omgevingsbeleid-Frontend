@@ -522,7 +522,7 @@ export type GetSearch200Item = {
     /** The UUID of this object */
     UUID?: string
     /** The type of this object */
-    type?: string
+    Type?: string
 }
 
 export type GetSearchParams = {
