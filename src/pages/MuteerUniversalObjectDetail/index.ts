@@ -1,3 +1,1 @@
-import MuteerUniversalObjectDetail from './MuteerUniversalObjectDetail'
-
-export default MuteerUniversalObjectDetail
+export { default } from './MuteerUniversalObjectDetail'

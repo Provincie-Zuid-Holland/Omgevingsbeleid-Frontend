@@ -1,3 +1,1 @@
-import FormFieldContainerThemas from './FormFieldContainerThemas'
-
-export default FormFieldContainerThemas
+export { default } from './FormFieldContainerThemas'

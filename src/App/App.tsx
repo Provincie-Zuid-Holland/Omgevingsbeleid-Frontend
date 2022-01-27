@@ -249,10 +249,12 @@ const App: FC<RouteComponentProps> = () => {
                                             render={() => null}
                                         />
 
-                                        <AuthRoutes
-                                            authUser={user}
-                                            loggedIn={loggedIn}
-                                        />
+                                        {user && (
+                                            <AuthRoutes
+                                                authUser={user}
+                                                loggedIn={loggedIn}
+                                            />
+                                        )}
                                     </Switch>
                                 </Suspense>
                             ) : (

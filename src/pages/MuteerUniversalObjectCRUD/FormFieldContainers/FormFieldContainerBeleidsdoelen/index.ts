@@ -1,3 +1,1 @@
-import FormFieldContainerBeleidsdoelen from './FormFieldContainerBeleidsdoelen'
-
-export default FormFieldContainerBeleidsdoelen
+export { default } from './FormFieldContainerBeleidsdoelen'

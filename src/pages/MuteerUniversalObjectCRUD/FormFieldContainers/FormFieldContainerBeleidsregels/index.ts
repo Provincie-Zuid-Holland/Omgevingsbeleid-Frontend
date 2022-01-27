@@ -1,3 +1,1 @@
-import FormFieldContainerBeleidsregels from './FormFieldContainerBeleidsregels'
-
-export default FormFieldContainerBeleidsregels
+export { default } from './FormFieldContainerBeleidsregels'
