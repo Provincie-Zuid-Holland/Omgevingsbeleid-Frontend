@@ -145,11 +145,11 @@ const MuteerUniversalObjectDetail = ({
     const displayEigenaarsDriehoek =
         dataReceived &&
         dataObject &&
-        (dataObject.Opdrachtgever !== undefined ||
-            dataObject.Eigenaar_1 !== undefined ||
-            dataObject.Eigenaar_2 !== undefined ||
-            dataObject.Portefeuillehouder_1 !== undefined ||
-            dataObject.Portefeuillehouder_2 !== undefined)
+        (dataObject.Opdrachtgever ||
+            dataObject.Eigenaar_1 ||
+            dataObject.Eigenaar_2 ||
+            dataObject.Portefeuillehouder_1 ||
+            dataObject.Portefeuillehouder_2)
 
     return (
         <ContainerMain>
