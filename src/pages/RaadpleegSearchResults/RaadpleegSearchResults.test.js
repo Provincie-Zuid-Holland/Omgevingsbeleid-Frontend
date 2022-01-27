@@ -6,10 +6,11 @@ import {
 } from '@testing-library/react'
 import '@testing-library/jest-dom'
 
-import RaadpleegZoekResultatenOverzicht from './RaadpleegZoekResultatenOverzicht'
 import { MemoryRouter } from 'react-router-dom'
 
-describe('RaadpleegZoekResultatenOverzicht', () => {
+import RaadpleegSearchResults from './RaadpleegSearchResults'
+
+describe('RaadpleegSearchResults', () => {
     const defaultProps = {
         history: {
             length: 2,
@@ -39,7 +40,7 @@ describe('RaadpleegZoekResultatenOverzicht', () => {
         const props = { ...defaultProps, ...customProps }
         render(
             <MemoryRouter>
-                <RaadpleegZoekResultatenOverzicht {...props} />
+                <RaadpleegSearchResults {...props} />
             </MemoryRouter>
         )
     }
