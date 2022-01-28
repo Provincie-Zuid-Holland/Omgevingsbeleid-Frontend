@@ -153,11 +153,7 @@ const AuthRoutes = ({ authUser, loggedIn }) => {
             <Route
                 exact
                 path={`/muteer/${allDimensies.BELEIDSMODULES.SLUG_OVERVIEW}/:single`}
-                render={() => (
-                    <MuteerBeleidsmodulesOverview
-                        dimensieConstants={allDimensies.BELEIDSKEUZES}
-                    />
-                )}
+                render={() => <MuteerBeleidsmodulesOverview />}
             />
 
             {/* Maatregelen pages */}
@@ -252,6 +248,14 @@ const BeheerRoutes = props => {
             const overzichtSlug = allDimensies[dimensie].SLUG_OVERVIEW
             const createNewSlug = allDimensies[dimensie].SLUG_CREATE_NEW
 
+            const isBeleidsModulePageAndUserIsNotAdmin =
+                dimensie === 'BELEIDSMODULES' &&
+                props.authUser.Rol !== 'Beheerder' &&
+                props.authUser.Rol !== 'Functioneel beheerder' &&
+                props.authUser.Rol !== 'Technisch beheerder' &&
+                props.authUser.Rol !== 'Test runner' &&
+                props.authUser.Rol !== 'Tester'
+
             return (
                 <Fragment key={createNewSlug}>
                     <Switch>
@@ -314,6 +318,9 @@ const BeheerRoutes = props => {
                             exact
                             render={() => (
                                 <MuteerUniversalObjectOverzicht
+                                    hideAddObject={
+                                        isBeleidsModulePageAndUserIsNotAdmin
+                                    }
                                     dimensieConstants={dimensieConstants}
                                 />
                             )}
