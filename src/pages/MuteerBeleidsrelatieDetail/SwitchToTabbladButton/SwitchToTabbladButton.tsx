@@ -36,7 +36,8 @@ function SwitchToTabbladButton({
             onClick={() => {
                 if (isActive) return
                 setActiveTab(tabName)
-            }}>
+            }}
+            data-testid="SwitchToTabbladButton test li">
             {tabbladTitle}
             {showNotification ? (
                 <div className="absolute top-0 right-0 flex items-center justify-center w-5 h-5 py-1 ml-2 text-sm text-white rounded-full bg-pzh-green text-bold">

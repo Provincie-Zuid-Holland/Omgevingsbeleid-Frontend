@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
 
 import { cloneElement, useState } from 'react'
@@ -31,32 +31,28 @@ const ParentWrapper = ({
 }
 
 describe('FormFieldTextArea', () => {
-    const setup = (
-        initEmpty?: boolean,
-        disabled?: boolean,
-        emptyPlaceholder?: boolean
-    ) => {
-        const fieldLabel = 'Label'
-        const placeholderTekst = !emptyPlaceholder ? 'Test placeholder' : ''
+    const defaultProps = {
+        fieldLabel: 'Label',
+        pValue: 'Test pValue',
+        disabled: false,
+        anchorText: 'Test anchorText',
+        anchorLink: 'Test anchorLink',
+        titleSingular: 'Title Singular',
+        dataObjectProperty: 'property',
+        placeholderTekst: 'Test placeholder',
+    }
 
+    const setup = (initEmpty?: boolean, customProps?: any) => {
+        const props = { ...defaultProps, ...customProps }
         render(
             <ParentWrapper initEmpty={initEmpty}>
-                <FormFieldTextArea
-                    fieldLabel={fieldLabel}
-                    pValue="Test pValue"
-                    disabled={disabled}
-                    anchorText="Test anchorText"
-                    anchorLink="Test anchorLink"
-                    titleSingular="Title Singular"
-                    dataObjectProperty="property"
-                    placeholderTekst={placeholderTekst}
-                />
+                <FormFieldTextArea {...props} />
             </ParentWrapper>
         )
         const testid = `form-field-title singular-property`
         const textarea = screen.getByTestId(testid) as HTMLTextAreaElement
 
-        return { fieldLabel, placeholderTekst, textarea }
+        return { textarea }
     }
 
     it('should render', () => {
@@ -70,8 +66,8 @@ describe('FormFieldTextArea', () => {
     })
 
     it('should show a placeholder when there is no value', () => {
-        const { placeholderTekst, textarea } = setup(true)
-        expect(textarea.placeholder).toBe(placeholderTekst)
+        const { textarea } = setup(true)
+        expect(textarea.placeholder).toBe('Test placeholder')
     })
 
     it('should change when a user types', () => {
@@ -84,20 +80,18 @@ describe('FormFieldTextArea', () => {
     })
 
     it('element should be disabled when the disabled prop is true', () => {
-        const { textarea } = setup(true, true)
+        const { textarea } = setup(true, { disabled: true })
         expect(textarea).toBeDisabled()
     })
 
     it('should display a normal paragraph if the textarea is not disabled', () => {
-        setup(true, false)
+        setup(true)
         const disabledParagraph = screen.getByText('Test pValue')
         expect(disabledParagraph).toBeTruthy()
     })
 
     it('should display a default placeholder, when placeholderTekst is empty', () => {
-        const { fieldLabel, textarea } = setup(true, false, true)
-        expect(textarea.placeholder).toBe(
-            `Typ hier uw ${fieldLabel.toLowerCase()}`
-        )
+        const { textarea } = setup(true, { placeholderTekst: '' })
+        expect(textarea.placeholder).toBe(`Typ hier uw label`)
     })
 })

@@ -41,7 +41,8 @@ function PopupMotivation({
             <div
                 onClick={() => setMotivationPopUp(null)}
                 className="absolute top-0 right-0 px-3 py-2 text-gray-600 cursor-pointer"
-                id={`sluit-popup-beleidsrelatie-motivering`}>
+                id={`sluit-popup-beleidsrelatie-motivering`}
+                data-testid={`sluit-popup-beleidsrelatie-motivering`}>
                 <FontAwesomeIcon icon={faTimes} />
             </div>
             <h3 className="font-bold form-field-label">Motivering</h3>
