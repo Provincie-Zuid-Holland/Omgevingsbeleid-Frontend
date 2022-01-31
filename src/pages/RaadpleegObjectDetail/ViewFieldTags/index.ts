@@ -1,3 +1,1 @@
-import ViewFieldTags from './ViewFieldTags'
-
-export default ViewFieldTags
+export { default } from './ViewFieldTags'

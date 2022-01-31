@@ -38,7 +38,7 @@ import RaadpleegPlanningAndReleases from '@/pages/RaadpleegPlanningAndReleases'
 import RaadpleegUniversalObjectOverview from '@/pages/RaadpleegUniversalObjectOverview'
 import RaadpleegVerordening from '@/pages/RaadpleegVerordening'
 import RaadpleegZoekResultatenOverzicht from '@/pages/RaadpleegZoekResultatenOverzicht'
-import detailPages from '@/utils/detailPages'
+import detailPages, { DetailPageValidEndpoint } from '@/utils/detailPages'
 
 // Import Context
 import GraphContext from './GraphContext'
@@ -201,8 +201,9 @@ const App: FC<RouteComponentProps> = () => {
                                                 path={`/overzicht/${item.slug}`}
                                                 render={() => (
                                                     <RaadpleegUniversalObjectOverview
-                                                        dataModel={
-                                                            item.dataModel
+                                                        {...item}
+                                                        dataEndpoint={
+                                                            item.dataEndpoint as DetailPageValidEndpoint
                                                         }
                                                     />
                                                 )}

@@ -512,6 +512,31 @@ export type GetSearch400 = {
     message?: string
 }
 
+/**
+ * The type of this object
+ */
+export type GetSearch200ItemType =
+    | 'beleidskeuzes'
+    | 'ambities'
+    | 'belangen'
+    | 'beleidsdoelen'
+    | 'beleidsprestaties'
+    | 'beleidsregels'
+    | 'maatregelen'
+    | 'themas'
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetSearch200ItemType = {
+    beleidskeuzes: 'beleidskeuzes' as GetSearch200ItemType,
+    ambities: 'ambities' as GetSearch200ItemType,
+    belangen: 'belangen' as GetSearch200ItemType,
+    beleidsdoelen: 'beleidsdoelen' as GetSearch200ItemType,
+    beleidsprestaties: 'beleidsprestaties' as GetSearch200ItemType,
+    beleidsregels: 'beleidsregels' as GetSearch200ItemType,
+    maatregelen: 'maatregelen' as GetSearch200ItemType,
+    themas: 'themas' as GetSearch200ItemType,
+}
+
 export type GetSearch200Item = {
     /** A description of this object */
     Omschrijving?: string
@@ -519,10 +544,10 @@ export type GetSearch200Item = {
     RANK?: number
     /** The title of this object */
     Titel?: string
+    /** The type of this object */
+    Type?: GetSearch200ItemType
     /** The UUID of this object */
     UUID?: string
-    /** The type of this object */
-    type?: string
 }
 
 export type GetSearchParams = {
@@ -530,6 +555,7 @@ export type GetSearchParams = {
     only?: string
     exclude?: string
     limit?: number
+    offset?: number
 }
 
 export type PostPasswordreset401 = {
@@ -660,23 +686,52 @@ export type GetGraph200 = {
     nodes?: GetGraph200NodesItem[]
 }
 
-export type GetEdits200ItemIdentifier = {
+/**
+ * Type slug for this object
+ */
+export type GetEdits200ItemType =
+    | 'beleidsrelaties'
+    | 'beleidsmodules'
+    | 'beleidskeuzes'
+    | 'ambities'
+    | 'belangen'
+    | 'beleidsdoelen'
+    | 'beleidsprestaties'
+    | 'beleidsregels'
+    | 'maatregelen'
+    | 'themas'
+    | 'werkingsgebieden'
+    | 'verordeningen'
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetEdits200ItemType = {
+    beleidsrelaties: 'beleidsrelaties' as GetEdits200ItemType,
+    beleidsmodules: 'beleidsmodules' as GetEdits200ItemType,
+    beleidskeuzes: 'beleidskeuzes' as GetEdits200ItemType,
+    ambities: 'ambities' as GetEdits200ItemType,
+    belangen: 'belangen' as GetEdits200ItemType,
+    beleidsdoelen: 'beleidsdoelen' as GetEdits200ItemType,
+    beleidsprestaties: 'beleidsprestaties' as GetEdits200ItemType,
+    beleidsregels: 'beleidsregels' as GetEdits200ItemType,
+    maatregelen: 'maatregelen' as GetEdits200ItemType,
+    themas: 'themas' as GetEdits200ItemType,
+    werkingsgebieden: 'werkingsgebieden' as GetEdits200ItemType,
+    verordeningen: 'verordeningen' as GetEdits200ItemType,
+}
+
+export type GetEdits200Item = {
     /** ID for this object */
     ID?: number
+    /** The date when this edit was performed */
+    Modified_Date?: string
     /** Status for this object */
     Status?: string
     /** Title for this object */
     Titel?: string
     /** Type slug for this object */
-    Type?: string
+    Type?: GetEdits200ItemType
     /** UUID for this object */
     UUID?: string
-}
-
-export type GetEdits200Item = {
-    /** Moment of expiration for this token */
-    expires?: string
-    identifier?: GetEdits200ItemIdentifier
 }
 
 export type GetChangesWerkingsgebiedenOlduuidNewuuid500 = {

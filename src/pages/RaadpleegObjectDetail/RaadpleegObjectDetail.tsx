@@ -18,7 +18,7 @@ import {
     DetailPageVersionEndpoint,
 } from '@/utils/detailPages'
 import handleError from '@/utils/handleError'
-import { prepareRevisions } from '@/utils/prepareRevisions'
+import { prepareRevisions, Revisions } from '@/utils/prepareRevisions'
 
 import RaadpleegObjectDetailHead from './RaadpleegObjectDetailHead'
 import RaadpleegObjectDetailMain from './RaadpleegObjectDetailMain'
@@ -54,7 +54,9 @@ const RaadpleegObjectDetail = ({
     const [lineageID, setLineageID] = useState<number | null>(null) // Used to get the whole history of the object
 
     // Contains the history of an object (all the edits)
-    const [revisionObjects, setRevisionObjects] = useState(null)
+    const [revisionObjects, setRevisionObjects] = useState<Revisions | null>(
+        null
+    )
 
     // Boolean if data is loaded
     const [dataLoaded, setDataLoaded] = useState(false)

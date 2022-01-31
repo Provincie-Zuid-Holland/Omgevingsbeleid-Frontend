@@ -1,3 +1,1 @@
-import RaadpleegHome from './RaadpleegHome'
-
-export default RaadpleegHome
+export { default } from './RaadpleegHome'

@@ -1,3 +1,1 @@
-import ContentTekst from './ContentTekst'
-
-export default ContentTekst
+export { default } from './ContentTekst'
