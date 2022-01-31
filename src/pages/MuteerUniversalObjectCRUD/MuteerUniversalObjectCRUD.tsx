@@ -44,7 +44,7 @@ import FormFieldContainerThemas from './FormFieldContainers/FormFieldContainerTh
  */
 
 interface MuteerUniversalObjectCRUDProps extends RouteComponentProps {
-    authUser: GetTokeninfo200Identifier
+    authUser?: GetTokeninfo200Identifier
     dimensieConstants: typeof allDimensies[keyof typeof allDimensies]
 }
 

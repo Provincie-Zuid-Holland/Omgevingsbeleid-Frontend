@@ -5,9 +5,20 @@
  * @param {null|object} props.authUser
  * @returns {boolean} - Indicating if the user is authenticated
  */
-const checkIfUserIsAllowedOnPage = ({ object, authUser }) => {
-    const userRole = authUser.Rol
-    const userUUID = authUser.UUID
+
+import { GetTokeninfo200Identifier } from '@/api/fetchers.schemas'
+
+interface checkIfUserIsAllowedOnPageProps {
+    object: any
+    authUser?: GetTokeninfo200Identifier
+}
+
+const checkIfUserIsAllowedOnPage = ({
+    object,
+    authUser,
+}: checkIfUserIsAllowedOnPageProps) => {
+    const userRole = authUser?.Rol || ''
+    const userUUID = authUser?.UUID
     const userRolesWithAuth = [
         'Beheerder',
         'Functioneel beheerder',

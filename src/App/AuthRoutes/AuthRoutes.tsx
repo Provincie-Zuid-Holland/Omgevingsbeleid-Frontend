@@ -20,7 +20,7 @@ import MuteerVerordeningenstructuurOverzicht from '@/pages/MuteerVerordeningenst
 // Import All the dimension constants. These contain the dimensions and there variables, e.g. API_ENDPOINT and TITLE_SINGULAR
 
 interface AuthRoutesProps {
-    authUser: GetTokeninfo200Identifier
+    authUser?: GetTokeninfo200Identifier
     loggedIn?: boolean
 }
 
@@ -260,11 +260,11 @@ const BeheerRoutes = ({ authUser }: Pick<AuthRoutesProps, 'authUser'>) => {
 
             const isBeleidsModulePageAndUserIsNotAdmin =
                 dimensie === 'BELEIDSMODULES' &&
-                authUser.Rol !== 'Beheerder' &&
-                authUser.Rol !== 'Functioneel beheerder' &&
-                authUser.Rol !== 'Technisch beheerder' &&
-                authUser.Rol !== 'Test runner' &&
-                authUser.Rol !== 'Tester'
+                authUser?.Rol !== 'Beheerder' &&
+                authUser?.Rol !== 'Functioneel beheerder' &&
+                authUser?.Rol !== 'Technisch beheerder' &&
+                authUser?.Rol !== 'Test runner' &&
+                authUser?.Rol !== 'Tester'
 
             return (
                 <Fragment key={createNewSlug}>

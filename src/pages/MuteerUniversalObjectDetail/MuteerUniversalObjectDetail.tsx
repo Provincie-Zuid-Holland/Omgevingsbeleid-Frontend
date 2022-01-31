@@ -36,7 +36,7 @@ const returnPageType = (version: string) => {
  */
 
 interface MuteerUniversalObjectDetailProps extends RouteComponentProps {
-    authUser: GetTokeninfo200Identifier
+    authUser?: GetTokeninfo200Identifier
     dimensieConstants: typeof allDimensies[keyof typeof allDimensies]
 }
 
