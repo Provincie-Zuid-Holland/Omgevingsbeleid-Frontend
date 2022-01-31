@@ -38,7 +38,7 @@ import RaadpleegPlanningAndReleases from '@/pages/RaadpleegPlanningAndReleases'
 import RaadpleegUniversalObjectOverview from '@/pages/RaadpleegUniversalObjectOverview'
 import RaadpleegVerordening from '@/pages/RaadpleegVerordening'
 import RaadpleegZoekResultatenOverzicht from '@/pages/RaadpleegZoekResultatenOverzicht'
-import detailPages, { DetailPageValidEndpoint } from '@/utils/detailPages'
+import detailPages from '@/utils/detailPages'
 
 // Import Context
 import GraphContext from './GraphContext'
@@ -203,7 +203,7 @@ const App: FC<RouteComponentProps> = () => {
                                                     <RaadpleegUniversalObjectOverview
                                                         {...item}
                                                         dataEndpoint={
-                                                            item.dataEndpoint as DetailPageValidEndpoint
+                                                            item.dataValidEndpoint
                                                         }
                                                     />
                                                 )}
