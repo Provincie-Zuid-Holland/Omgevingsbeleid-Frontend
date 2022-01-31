@@ -1,3 +1,1 @@
-import PopUpDetailDropdown from './PopUpDetailDropdown'
-
-export default PopUpDetailDropdown
+export { default } from './PopUpDetailDropdown'

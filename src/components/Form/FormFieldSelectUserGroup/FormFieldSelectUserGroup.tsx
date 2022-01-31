@@ -27,6 +27,7 @@ interface FormFieldSelectUserGroupProps {
         dataProp?: string
     ) => void
     titleSingular: string
+    fieldLabel?: string
     disabled?: boolean
 }
 
@@ -35,6 +36,7 @@ const FormFieldSelectUserGroup = ({
     editStatus,
     handleChange,
     titleSingular,
+    fieldLabel,
     disabled,
 }: FormFieldSelectUserGroupProps) => {
     const [gebruikersLijst, setGebruikersLijst] = useState<GebruikersRead[]>([])
@@ -58,7 +60,7 @@ const FormFieldSelectUserGroup = ({
     return (
         <>
             <span className="block mb-2 text-sm font-bold tracking-wide text-gray-700">
-                Personen
+                {fieldLabel}
             </span>
             <div className="flex w-1/2">
                 {dataLoaded && !error ? (

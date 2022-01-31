@@ -1,3 +1,1 @@
-import MuteerMijnBeleid from './MuteerMijnBeleid'
-
-export default MuteerMijnBeleid
+export { default } from './MuteerMijnBeleid'

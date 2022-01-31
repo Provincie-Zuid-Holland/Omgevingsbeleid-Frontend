@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useRef } from 'react'
+import { ChangeEventHandler, useEffect, useRef } from 'react'
 
 import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving'
 
@@ -15,8 +15,8 @@ interface FormFieldTextAreaProps {
     titleSingular: string
     dataObjectProperty: string
     fieldValue: string
-    placeholderTekst: string
-    handleChange: (event: ChangeEvent) => void
+    placeholderTekst?: string
+    handleChange?: ChangeEventHandler
 }
 
 const FormFieldTextArea = ({
@@ -70,7 +70,7 @@ const FormFieldTextArea = ({
                     // required
                     onChange={e => {
                         updateElHeight()
-                        handleChange(e)
+                        handleChange?.(e)
                     }}
                     name={dataObjectProperty}
                     className="block w-full h-24 px-4 py-3 leading-tight text-gray-700 border border-gray-400 rounded appearance-none resize-none focus:outline-none focus:bg-white hover:border-gray-500 focus:border-gray-500"
