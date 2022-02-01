@@ -2,7 +2,7 @@
  * This function formats the dates from the UI format (yyyy/mm/dd) to a valid datetime for the API
  * @param {object} crudObject - Contains the object we want to POST/PATCH to the API
  */
-function formatGeldigheidDatesForAPI(crudObject) {
+function formatGeldigheidDatesForAPI(crudObject: any) {
     /** Format Begin_Geldigheid */
     if (crudObject.hasOwnProperty('Begin_Geldigheid')) {
         if (

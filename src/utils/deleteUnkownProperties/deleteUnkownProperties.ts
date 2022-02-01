@@ -1,4 +1,4 @@
-function deleteUnkownProperties(crudObject) {
+function deleteUnkownProperties(crudObject: any) {
     delete crudObject.Modified_By
     delete crudObject.ID
     delete crudObject.Created_Date

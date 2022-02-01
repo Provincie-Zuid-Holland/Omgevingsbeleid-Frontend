@@ -5,7 +5,7 @@ import { isBefore } from 'date-fns'
  * @param {object} crudObject - Contains the object with the validity date properties
  * @returns {boolean} indicating if the end date is before the start date
  */
-const isEndDateBeforeStartDate = crudObject => {
+const isEndDateBeforeStartDate = (crudObject: any) => {
     const startDate = new Date(crudObject.Begin_Geldigheid)
     const endDate = new Date(crudObject.Eind_Geldigheid)
 

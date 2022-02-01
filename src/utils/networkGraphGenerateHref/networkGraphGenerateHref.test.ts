@@ -1,8 +1,10 @@
 import { matchPath } from 'react-router-dom'
 
-import networkGraphGenerateHref from './networkGraphGenerateHref'
+import networkGraphGenerateHref, {
+    networkSlugs,
+} from './networkGraphGenerateHref'
 
-const properties = [
+const properties: (keyof typeof networkSlugs)[] = [
     'beleidskeuzes',
     'ambities',
     'beleidsregels',
@@ -16,18 +18,18 @@ const properties = [
 describe('NetworkGraphGenerateHref', () => {
     const UUID = '0000-0000-0000-0000'
 
-    const setup = (property, verordeningsStructure = null) => {
+    const setup = (property: keyof typeof networkSlugs) => {
         const href = networkGraphGenerateHref({
             property,
             UUID,
-            verordeningsStructure,
         })
         expect(href).toBeTruthy()
 
-        const match = matchPath(href, {
-            path: `/detail/:slug/:uuid`,
-            exact: true,
-        })
+        const match: { params: { uuid: string; slug: string } } | null =
+            matchPath(href || '', {
+                path: `/detail/:slug/:uuid`,
+                exact: true,
+            })
         const uuidFromURL = match?.params?.uuid
         const slugFromURL = match?.params?.slug
 
@@ -51,18 +53,7 @@ describe('NetworkGraphGenerateHref', () => {
     })
 
     it(`Returns a correct URL for property 'verordeningen' if a 'verordeningsStructure' is provided`, () => {
-        const verordeningsStructure = {
-            ID: 1,
-            Structuur: {
-                Children: [
-                    {
-                        UUID: UUID,
-                    },
-                ],
-            },
-        }
-
-        const { href } = setup('verordeningen', verordeningsStructure)
+        const { href } = setup('verordeningen')
 
         expect(href).toEqual('/detail/verordening?actief=0000-0000-0000-0000')
     })

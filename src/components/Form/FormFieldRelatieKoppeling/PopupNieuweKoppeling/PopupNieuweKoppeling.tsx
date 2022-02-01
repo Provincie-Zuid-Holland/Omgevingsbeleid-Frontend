@@ -130,8 +130,6 @@ const PopupNieuweKoppeling = ({
             })
         }
 
-        console.log(objects)
-
         return objects
             .filter(
                 item =>

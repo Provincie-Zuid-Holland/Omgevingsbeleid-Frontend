@@ -7,7 +7,7 @@ import formatDate from '../formatDate'
  * @param {object} crudObject - Object containing the dates
  * @returns {object} Returns the crudObject with formatted dates
  */
-function formatGeldigheidDatesForUI(crudObject) {
+function formatGeldigheidDatesForUI(crudObject: any) {
     if (!crudObject) return
 
     /** Format Begin_Geldigheid */

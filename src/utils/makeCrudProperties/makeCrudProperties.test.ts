@@ -2,7 +2,7 @@ import makeCrudProperties from './makeCrudProperties'
 
 describe('makeCrudProperties', () => {
     it('returns the keys of an object', () => {
-        const dimensieConstants = {
+        const dimensieConstants: any = {
             CRUD_PROPERTIES: {
                 propOne: null,
                 propTwo: null,

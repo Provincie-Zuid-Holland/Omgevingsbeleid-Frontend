@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react'
+
 import handleError from './handleError'
 
 describe('handleError', () => {
@@ -6,7 +7,7 @@ describe('handleError', () => {
         render(<div>Test</div>)
     }
 
-    const getErrorObj = (errors = []) => {
+    const getErrorObj = (errors: any[] = []) => {
         return {
             response: {
                 status: 400,

@@ -11,13 +11,21 @@ import formatGeldigheidDatesForUI from '../formatGeldigheidDatesForUI'
  * @param {undefined|string} modus - Contains a string of value 'wijzig_vigerend' when the user is editing an object with a Status of 'Vigerend'
  * @returns {object} - Returns the prepared CRUD Object
  */
+
+interface Props {
+    crudProperties: string[]
+    dimensieConstants: any
+    existingObj?: any
+    modus?: string | null
+}
+
 function makeCrudObject({
     crudProperties,
     dimensieConstants,
     existingObj,
     modus,
-}) {
-    const crudObject = {}
+}: Props) {
+    const crudObject: any = {}
 
     if (existingObj) {
         const wijzigVigerend = modus === 'wijzig_vigerend'

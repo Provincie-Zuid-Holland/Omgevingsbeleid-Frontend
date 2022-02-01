@@ -14,7 +14,7 @@ describe('scrollToElement', () => {
     window.scroll = windowScrollMock
 
     it('returns undefined if we can not find an element', () => {
-        expect(scrollToElement(null)).toBeUndefined()
+        expect(scrollToElement('')).toBeUndefined()
         expect(scrollToElement('id-does-not-exist')).toBeUndefined()
     })
 

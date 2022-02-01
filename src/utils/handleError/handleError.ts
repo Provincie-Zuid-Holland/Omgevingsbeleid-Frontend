@@ -7,7 +7,7 @@ const errorMessages = {
         'De afbeelding is te groot (800x600)',
 }
 
-const standardError = error => {
+const standardError = (error?: any) => {
     if (error) {
         console.error(error)
     }
@@ -18,7 +18,7 @@ const standardError = error => {
  * Function to handle error object we receive back from the API
  * @param {Object} error - The error object
  */
-const handleError = error => {
+const handleError = (error: any) => {
     if (!error || !error.response) return
 
     const response = error.response
@@ -34,7 +34,7 @@ const handleError = error => {
 
         // handle each error
         Object.keys(errors).forEach(property => {
-            const errorVal = errors[property]
+            const errorVal = errors[property] as keyof typeof errorMessages
             const notificationText = errorMessages[errorVal]
 
             if (notificationText) {
