@@ -4,12 +4,12 @@ import '@testing-library/jest-dom'
 import FilterItem from './FilterItem'
 
 describe('FilterItem', () => {
-    const handleFilterMock = jest.fn()
+    const setOnPageFiltersMock = jest.fn()
     const defaultProps = {
-        handleFilter: handleFilterMock,
         checked: true,
         item: 'beleidskeuzes',
         count: 10,
+        setOnPageFilters: setOnPageFiltersMock,
     }
 
     const setup = customProps => {
@@ -17,10 +17,9 @@ describe('FilterItem', () => {
         render(<FilterItem {...props} />)
     }
 
-    it('Component renders', () => {
+    it('Component renders and displays count', () => {
         setup()
-
-        const element = screen.getByText('Beleidskeuze (10)')
+        const element = screen.getByText(`Beleidskeuzes (10)`)
         expect(element).toBeTruthy()
     })
 })

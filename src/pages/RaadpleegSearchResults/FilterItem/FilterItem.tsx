@@ -35,7 +35,7 @@ const FilterItem = ({
                     name={item}
                 />
                 <Text type="span" className="pt-1">
-                    {count === 1 ? titleSingular : titlePlural} ({count})
+                    {`${count === 1 ? titleSingular : titlePlural} (${count})`}
                 </Text>
             </label>
         </li>

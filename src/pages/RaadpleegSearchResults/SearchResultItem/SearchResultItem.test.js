@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
+import { MemoryRouter, Route } from 'react-router-dom'
 
 import SearchResultItem from './SearchResultItem'
-import { MemoryRouter } from 'react-router-dom'
 
 describe('SearchResultItem', () => {
     const defaultProps = {
@@ -12,14 +12,18 @@ describe('SearchResultItem', () => {
             Type: 'beleidskeuzes',
         },
         searchQuery: 'search query',
+        Type: 'beleidskeuzes',
     }
 
     const setup = customProps => {
         const props = { ...defaultProps, ...customProps }
+        const path = `/zoekresultaten?query=Water`
         render(
-            <MemoryRouter>
-                <SearchResultItem {...props} />
-            </MemoryRouter>
+            <Route path={path}>
+                <MemoryRouter initialEntries={[path]}>
+                    <SearchResultItem {...props} />
+                </MemoryRouter>
+            </Route>
         )
     }
 

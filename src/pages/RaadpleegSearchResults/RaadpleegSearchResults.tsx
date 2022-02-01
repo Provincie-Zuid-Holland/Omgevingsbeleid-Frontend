@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import 'url-search-params-polyfill'
 import { useSearchParam } from 'react-use'
-// import { toast } from 'react-toastify'
 
 import axios from '@/api/axios'
 import { getWerkingsGebieden } from '@/api/axiosGeoJSON'
@@ -15,6 +14,7 @@ import SearchBar from '@/components/SearchBar'
 import useSearchResultFilters from '@/hooks/useSearchResultFilters'
 import handleError from '@/utils/handleError'
 
+import Pagination from './Pagination'
 import SearchFilterSection from './SearchFilterSection'
 import SearchResultItem from './SearchResultItem'
 
@@ -37,6 +37,7 @@ const RaadpleegSearchResults = () => {
             try {
                 const searchResults = await getSearch({
                     query: paramTextQuery,
+                    limit: 20,
                 })
                 setSearchResults(searchResults)
                 setOnPageFilters({
@@ -135,45 +136,53 @@ const RaadpleegSearchResults = () => {
 
                 <div className={`col-span-6 md:col-span-4`}>
                     {dataLoaded && searchResults.length > 0 ? (
-                        <ul id="search-results" className="mb-12 ">
-                            {searchResults
-                                /**
-                                 * By default none of the filters are active, if so return all
-                                 * If there is one or more filter checked return the checked
-                                 */
-                                .filter(item => {
-                                    const filterIsActive = Object.keys(
-                                        onPageFilters.filterState
-                                    ).some(
-                                        filter =>
-                                            !onPageFilters.filterState[filter]
-                                                .checked
-                                    )
+                        <>
+                            <ul id="search-results" className="mb-4">
+                                {searchResults
+                                    /**
+                                     * By default none of the filters are active, if so return all
+                                     * If there is one or more filter checked return the checked
+                                     */
+                                    .filter(item => {
+                                        const filterIsActive = Object.keys(
+                                            onPageFilters.filterState
+                                        ).some(
+                                            filter =>
+                                                !onPageFilters.filterState[
+                                                    filter
+                                                ].checked
+                                        )
 
-                                    if (!item.Type) {
-                                        return false
-                                    } else if (
-                                        filterIsActive &&
-                                        !onPageFilters.filterState[item.Type]
-                                            .checked
-                                    ) {
-                                        return true
-                                    } else if (!filterIsActive) {
-                                        return true
-                                    } else {
-                                        console.log(filterIsActive)
-                                        console.log('RETURN  FALSE')
-                                        return false
-                                    }
-                                })
-                                .map(item => (
-                                    <SearchResultItem
-                                        searchQuery={null}
-                                        item={item}
-                                        key={item.UUID}
-                                    />
-                                ))}
-                        </ul>
+                                        if (!item.Type) {
+                                            return false
+                                        } else if (
+                                            filterIsActive &&
+                                            !onPageFilters.filterState[
+                                                item.Type
+                                            ].checked
+                                        ) {
+                                            return true
+                                        } else if (!filterIsActive) {
+                                            return true
+                                        } else {
+                                            return false
+                                        }
+                                    })
+                                    .map(item => (
+                                        <SearchResultItem
+                                            searchQuery={null}
+                                            item={item}
+                                            key={item.UUID}
+                                        />
+                                    ))}
+                            </ul>
+                            {paramTextQuery ? (
+                                <Pagination
+                                    setSearchResults={setSearchResults}
+                                    searchResults={searchResults}
+                                />
+                            ) : null}
+                        </>
                     ) : dataLoaded && searchResults.length === 0 ? (
                         <span className="block mt-8 text-sm italic text-gray-600">
                             Geen resultaten

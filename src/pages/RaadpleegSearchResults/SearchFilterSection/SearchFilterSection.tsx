@@ -75,7 +75,7 @@ const SearchFilterSection = ({
     } else if (paramOnly) {
         // If the user only searched for a specific type we don't need to show the filter section
         return null
-    } else if (onPageFilters.availableFilters.length <= 1) {
+    } else if (onPageFilters?.availableFilters?.length <= 1) {
         // Filters are not yet initialized or none are available
         return <div className="hidden md:col-span-2 md:block" />
     }

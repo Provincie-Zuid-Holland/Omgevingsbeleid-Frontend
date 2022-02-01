@@ -7,20 +7,6 @@ import { DimensionType } from '@/types/dimensions'
 
 import getDimensionsConstants from '../../../utils/getDimensionsConstants'
 
-// type GetSearch200ItemCustom = Omit<GetSearch200Item, 'type'> & {
-//     type: DimensionType
-// }
-
-function getExcerpt(text: string) {
-    if (!text) {
-        return ''
-    } else if (text.length > 250) {
-        return text.substring(0, 250) + '...'
-    } else {
-        return text
-    }
-}
-
 interface SearchResultItem {
     item: GetSearch200Item
     searchQuery: any
@@ -29,36 +15,26 @@ interface SearchResultItem {
 const SearchResultItem: FC<SearchResultItem> = ({ item, searchQuery }) => {
     const paramTextQuery = useSearchParam('query')
 
-    function getContent() {
-        const omschrijving = item.Omschrijving
-            ? getExcerpt(item.Omschrijving)
-            : ''
-
-        if (!paramTextQuery) {
-            return {
-                setInnerHTML: true,
-                content: {
-                    __html: item.Omschrijving ? item.Omschrijving : '',
-                },
-            }
+    const highlightString = (
+        text: string | undefined,
+        query: string | null
+    ) => {
+        if (!text || !query) {
+            return null
         }
 
-        const markedOmschrijving = omschrijving.replace(
-            new RegExp(paramTextQuery, 'g'),
-            `<mark class="marked-red">${paramTextQuery}</mark>`
-        )
-
+        const regex = new RegExp(query, 'gi')
         return {
-            setInnerHTML: true,
-            content: {
-                __html: markedOmschrijving,
-            },
+            __html: text.replaceAll(
+                regex,
+                `<mark class="marked-red">$&</mark>`
+            ),
         }
     }
 
     const content = {
-        Titel: item.Titel,
-        Omschrijving: getContent(),
+        Titel: highlightString(item.Titel, paramTextQuery),
+        Omschrijving: highlightString(item.Omschrijving, paramTextQuery),
     }
 
     const type = item.Type
@@ -80,13 +56,16 @@ const SearchResultItem: FC<SearchResultItem> = ({ item, searchQuery }) => {
                     data-test="search-result-type">
                     {titleSingular}
                 </span>
-                <h2 className="block mt-1 text-lg font-bold group-hover:text-pzh-green text-pzh-blue group-hover:underline">
-                    {content.Titel}
-                </h2>
-                {content.Omschrijving.setInnerHTML ? (
+                {content.Titel ? (
+                    <h2
+                        className="block mt-1 text-lg font-bold group-hover:text-pzh-green text-pzh-blue group-hover:underline"
+                        dangerouslySetInnerHTML={content.Titel}
+                    />
+                ) : null}
+                {content.Omschrijving ? (
                     <p
                         className="mt-2 line-clamp-4"
-                        dangerouslySetInnerHTML={content.Omschrijving.content}
+                        dangerouslySetInnerHTML={content.Omschrijving}
                     />
                 ) : (
                     <p className="mt-2 italic">
