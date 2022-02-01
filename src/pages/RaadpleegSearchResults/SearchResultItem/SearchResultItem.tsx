@@ -4,8 +4,7 @@ import { useSearchParam } from 'react-use'
 
 import { GetSearch200Item } from '@/api/fetchers.schemas'
 import { DimensionType } from '@/types/dimensions'
-
-import getDimensionsConstants from '../../../utils/getDimensionsConstants'
+import getDimensionsConstants from '@/utils/getDimensionsConstants'
 
 interface SearchResultItem {
     item: GetSearch200Item
@@ -25,9 +24,9 @@ const SearchResultItem: FC<SearchResultItem> = ({ item, searchQuery }) => {
 
         const regex = new RegExp(query, 'gi')
         return {
-            __html: text.replaceAll(
+            __html: text.replace(
                 regex,
-                `<mark class="marked-red">$&</mark>`
+                `<mark class="marked-red" data-testid="marker">$&</mark>`
             ),
         }
     }
