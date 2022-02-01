@@ -23,7 +23,7 @@ import PopUpAnimatedContainer from '../PopUpAnimatedContainer'
 
 interface PopUpModules {
     dataObject: BeleidskeuzesRead
-    setDataObject: (dataObject: BeleidsmodulesRead) => void
+    setDataObject?: (dataObject: BeleidsmodulesRead) => void
     toggleModulesPopup: () => void
     titleSingular: string
     setDimensionHistory: (dataObjects: BeleidsmodulesRead[]) => void
@@ -93,10 +93,8 @@ function PopUpModules({
                     Titel: data.Titel,
                 })
 
-                if (setDataObject) {
-                    // We only set the dataObject if we add a module to objects that are vigerend
-                    setDataObject({ ...dataObject })
-                }
+                // We only set the dataObject if we add a module to objects that are vigerend
+                setDataObject?.({ ...dataObject })
 
                 const indexOfDataObject = dimensionHistory.findIndex(
                     e => e.UUID === dataObject.UUID

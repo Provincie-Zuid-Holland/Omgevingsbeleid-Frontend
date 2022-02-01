@@ -29,12 +29,7 @@ import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving'
  */
 
 interface FormFieldWerkingsgebiedProps {
-    setWerkingsgebiedInParentState: (object: {
-        target: {
-            name: string
-            value: any
-        }
-    }) => void
+    setWerkingsgebiedInParentState: (object: any) => void
     werkingsgebiedInParentState: any
     dataObjectProperty: string
     titleSingular: string

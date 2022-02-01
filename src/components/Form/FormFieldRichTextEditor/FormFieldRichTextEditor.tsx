@@ -57,19 +57,19 @@ const getFormats = (editorFormats: string[]) => {
 
 interface FormFieldRichTextEditorProps {
     dataObjectProperty: string
-    placeholder: string
-    handleChange: (object: {
-        target: {
-            name: string
-            value: string
-        }
-    }) => void
-    initialValue: string
+    placeholder?: string
+    handleChange: (object: any) => void
+    initialValue?: string
     fieldValue: string
     titleSingular: string
     editorFormats: string[]
     disabled?: boolean
-    editorToolbar: string[]
+    editorToolbar: (
+        | string
+        | {
+              list: string
+          }
+    )[]
 }
 
 function FormFieldRichTextEditor({
