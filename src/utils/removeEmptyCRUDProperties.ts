@@ -1,4 +1,4 @@
-const removeEmptyCRUDProperties = obj => {
+const removeEmptyCRUDProperties = (obj: any) => {
     const skipProperties = [
         'Gebied',
         'Begin_Geldigheid',
@@ -9,12 +9,14 @@ const removeEmptyCRUDProperties = obj => {
         'Portefeuillehouder_2',
         'Opdrachtgever',
     ]
+
     Object.keys(obj).forEach(property => {
         if (skipProperties.includes(property)) return
         if (obj[property] === null || obj[property] === undefined) {
             delete obj[property]
         }
     })
+
     return obj
 }
 

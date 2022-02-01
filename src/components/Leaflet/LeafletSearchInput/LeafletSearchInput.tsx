@@ -1,9 +1,9 @@
 import axios from 'axios'
 import { ChangeEvent, forwardRef, useRef, useState } from 'react'
 import { toast } from 'react-toastify'
+import { useDebounce } from 'react-use'
 
 import { getLookupData, getSuggestData } from '@/api/axiosLocatieserver'
-import debounce from '@/utils/debounce'
 
 /**
  * Class that renders the LeafletSearchInput component that shows a input field in which a user can search werkgebieden on a map.
@@ -29,8 +29,14 @@ const LeafletSearchInput = forwardRef<
         const value = e.target.value
 
         setSearchQuery(value)
-        locatieServerSuggestQuery(value)
     }
+
+    /**
+     * Debounce location lookup
+     */
+    useDebounce(() => locatieServerSuggestQuery(searchQuery), 300, [
+        searchQuery,
+    ])
 
     /**
      * Function to import the API axiosLocatieServer and then get the lookupData through an API get request. Then the lookupData is used further in the function.
@@ -58,7 +64,7 @@ const LeafletSearchInput = forwardRef<
     /**
      * Function to get the suggested query value input from user, import the axiosLocatieserver API and then use the get API to set queryData.
      */
-    const locatieServerSuggestQuery = debounce((value: string) => {
+    const locatieServerSuggestQuery = (value: string) => {
         if (value === '') {
             return setQueryData([])
         }
@@ -75,7 +81,7 @@ const LeafletSearchInput = forwardRef<
                     toast(process.env.REACT_APP_ERROR_MSG)
                 }
             })
-    }, 300)
+    }
 
     /**
      * Function that selects the next/previous queryData.

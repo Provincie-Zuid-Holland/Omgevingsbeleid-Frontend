@@ -4,7 +4,10 @@
  * @param {object} filters - Contains keys with boolean values indicating which types are active
  * @returns {object[]} - Returns the filtered [links, nodes]
  */
-const getFilteredData = (data, filters) => {
+const getFilteredData = (
+    data: { links: any[]; nodes: any[] },
+    filters: any
+) => {
     if (!data || !data.links || !data.nodes) return [null, null]
 
     const links = data.links
@@ -18,7 +21,7 @@ const getFilteredData = (data, filters) => {
      * Contains the UUIDs of nodes that are not active.
      * Used to filter out Links to/from inactive nodes
      */
-    const inactiveNodes = []
+    const inactiveNodes: string[] = []
 
     // const filteredLinks = links.filter(link => )
     const filteredNodes = nodes.filter(node => {

@@ -19,7 +19,7 @@ export const RDCrs = new (Proj as any).CRS('EPSG:28992', RDProj4, {
     bounds: leafletBounds,
 })
 
-export const leafletCenter = [52.176997, 5.2]
+export const leafletCenter: [number, number] = [52.176997, 5.2]
 
 export const tileURL =
     'https://service.pdok.nl/brt/achtergrondkaart/wmts/v2_0?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=grijs&STYLE=default&FORMAT=image/png&TILEMATRIXSET=EPSG:28992&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}'

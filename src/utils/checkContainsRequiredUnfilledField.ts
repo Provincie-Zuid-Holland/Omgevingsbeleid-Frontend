@@ -7,7 +7,7 @@ import scrollToElement from './scrollToElement'
  * @param {object} crudObject Contains the object that is being edited
  * @returns {boolean} indicating if object has a value on the property
  */
-const checkIfPropertyHasValue = (property, crudObject) => {
+const checkIfPropertyHasValue = (property: string, crudObject: any) => {
     const isEmptyArray =
         Array.isArray(crudObject[property]) && crudObject[property].length === 0
 
@@ -29,7 +29,7 @@ const checkIfPropertyHasValue = (property, crudObject) => {
  * @param {object} crudObject
  * @returns {boolean} indicating if this object has a status field
  */
-const checkIfObjectHasStatusField = crudObject =>
+const checkIfObjectHasStatusField = (crudObject: any) =>
     crudObject.hasOwnProperty('Status')
 
 /**
@@ -38,7 +38,11 @@ const checkIfObjectHasStatusField = crudObject =>
  * @param {object} dimensieConstants Contains the variables of this object type
  * @returns a Boolean indicating if the property is required
  */
-const checkIfPropertyIsRequired = (property, crudObject, dimensieConstants) => {
+const checkIfPropertyIsRequired = (
+    property: string,
+    crudObject: any,
+    dimensieConstants: any
+) => {
     const objectHasStatusField = checkIfObjectHasStatusField(crudObject)
     if (dimensieConstants.TITLE_SINGULAR === 'Verordening') {
         return false
@@ -58,7 +62,11 @@ const checkIfPropertyIsRequired = (property, crudObject, dimensieConstants) => {
  * @param {string} property Contains the property that we want to check
  * @param {boolean} scrolledToElement Indicates if the browser is already scrolled to an element
  */
-const notifyUser = (dimensieConstants, property, scrolledToElement) => {
+const notifyUser = (
+    dimensieConstants: any,
+    property: string,
+    scrolledToElement?: boolean
+) => {
     const titleSingular = dimensieConstants.TITLE_SINGULAR
 
     toast(dimensieConstants.CRUD_PROPERTIES[property].requiredMessage)
@@ -82,10 +90,9 @@ const notifyUser = (dimensieConstants, property, scrolledToElement) => {
  * @returns a boolean indicating if all the required fields have been filled in
  */
 function checkContainsRequiredUnfilledField(
-    crudObject,
-    dimensieConstants,
-    titleSingular,
-    wijzigVigerend
+    crudObject: any,
+    dimensieConstants: any,
+    wijzigVigerend?: boolean
 ) {
     const wijzigVigerendFields = [
         'Eigenaar_1',

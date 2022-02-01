@@ -1,4 +1,7 @@
-const generateVerordeningsPosition = (UUIDToFind, verordeningsStructure) => {
+const generateVerordeningsPosition = (
+    UUIDToFind: string,
+    verordeningsStructure: any
+) => {
     if (!verordeningsStructure) return []
 
     // Curren structure of vigerende verordeningsstructure
@@ -6,7 +9,7 @@ const generateVerordeningsPosition = (UUIDToFind, verordeningsStructure) => {
         verordeningsStructure.Structuur.Children
 
     // Used to push in the indexes to traverse to the UUIDToFind
-    let indexPathToUUID = []
+    const indexPathToUUID: (number | null)[] = []
 
     // Used to push the current index while traversing into the right index of indexPathToUUID. We increase/decrease on every nested level change.
     let indexTraversed = 0
@@ -15,13 +18,13 @@ const generateVerordeningsPosition = (UUIDToFind, verordeningsStructure) => {
     let pathFound = false
 
     // Find and return index of 'item.UUID === UUIDToFind', else returns -1
-    function findUUIDInArray(children) {
+    function findUUIDInArray(children: any[]) {
         const indexOfUUID = children.findIndex(item => item.UUID === UUIDToFind)
         return indexOfUUID
     }
 
     // Func to recursively traverse through the children and find the UUID in the properties
-    function traverseChildren(children) {
+    function traverseChildren(children: any) {
         if (pathFound) return
 
         // Returns foundIndex() of the UUIDToFind with the objects in the children array
@@ -32,7 +35,7 @@ const generateVerordeningsPosition = (UUIDToFind, verordeningsStructure) => {
             indexPathToUUID[indexTraversed] = indexOfUUIDInArray
             pathFound = true
         } else {
-            children.forEach((child, childIndex) => {
+            children.forEach((child: any, childIndex: number) => {
                 // If item has no children OR pathFound equals true -> Return
                 if (!child.Children || child.Children.length === 0 || pathFound)
                     return
