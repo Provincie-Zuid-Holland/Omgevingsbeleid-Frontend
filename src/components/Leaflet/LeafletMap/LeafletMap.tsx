@@ -1,4 +1,4 @@
-import Leaflet, { LatLngExpression, MapOptions } from 'leaflet'
+import Leaflet, { MapOptions } from 'leaflet'
 import { ReactNode } from 'react'
 import { MapContainer, MapContainerProps } from 'react-leaflet'
 
@@ -43,7 +43,7 @@ const LeafletMap = ({
 }: LeafletMapProps) => {
     const mapOptions = {
         crs: RDCrs,
-        center: leafletCenter as LatLngExpression,
+        center: leafletCenter,
         zoom: 4,
         maxZoom: 12,
         zoomControl: true,

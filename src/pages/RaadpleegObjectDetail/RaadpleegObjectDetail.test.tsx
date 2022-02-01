@@ -7,9 +7,9 @@ import '@testing-library/jest-dom'
 import { MemoryRouter, Route } from 'react-router-dom'
 
 import { AmbitiesRead } from '@/api/fetchers.schemas'
+import allDimensies from '@/constants/dimensies'
 import { ambities } from '@/mocks/data/ambities'
 
-import allDimensies from '../../constants/dimensies'
 import RaadpleegObjectDetail from './RaadpleegObjectDetail'
 
 describe('RaadpleegObjectDetail', () => {

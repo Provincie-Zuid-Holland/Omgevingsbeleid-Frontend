@@ -1,3 +1,1 @@
-import ViewFieldBelangen from './ViewFieldBelangen'
-
-export default ViewFieldBelangen
+export { default } from './ViewFieldBelangen'

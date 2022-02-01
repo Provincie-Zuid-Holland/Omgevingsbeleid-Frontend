@@ -1,8 +1,9 @@
-import { getMaatregelen } from '@/api/fetchers'
+import { getMaatregelen, getValidMaatregelen } from '@/api/fetchers'
 
 import { currentDate, futureDate, currentDateFormatted } from './testValues'
 
 export const apiCall = getMaatregelen
+export const validApiCall = getValidMaatregelen
 
 export const TITLE_SINGULAR = 'Maatregel'
 export const TITLE_SINGULAR_PREFIX = 'de'
