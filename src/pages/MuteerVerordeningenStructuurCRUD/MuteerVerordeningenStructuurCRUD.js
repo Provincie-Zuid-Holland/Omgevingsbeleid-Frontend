@@ -97,20 +97,13 @@ class MuteerVerordeningenStructuurCRUD extends Component {
         event.preventDefault()
 
         const dimensieConstants = this.props.dimensieConstants
-        const titleSingular = dimensieConstants.TITLE_SINGULAR
 
         let crudObject = cloneDeep(this.state.crudObject)
 
         crudObject = formatGeldigheidDatesForAPI(crudObject)
 
         /** Check if all the required fields are filled in */
-        if (
-            checkContainsRequiredUnfilledField(
-                crudObject,
-                dimensieConstants,
-                titleSingular
-            )
-        ) {
+        if (checkContainsRequiredUnfilledField(crudObject, dimensieConstants)) {
             return
         }
 

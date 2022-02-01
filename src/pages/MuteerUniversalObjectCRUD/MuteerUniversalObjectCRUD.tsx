@@ -172,7 +172,6 @@ const MuteerUniversalObjectCRUD = ({
             checkContainsRequiredUnfilledField(
                 crudObject,
                 dimensieConstants,
-                titleSingular,
                 isWijzigVigerend
             )
         ) {

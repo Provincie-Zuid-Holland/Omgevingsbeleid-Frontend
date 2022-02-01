@@ -1,3 +1,1 @@
-import ViewFieldTitelEnInhoud from './ViewFieldTitelEnInhoud'
-
-export default ViewFieldTitelEnInhoud
+export { default } from './ViewFieldTitelEnInhoud'

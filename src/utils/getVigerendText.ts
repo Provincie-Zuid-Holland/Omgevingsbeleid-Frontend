@@ -25,7 +25,7 @@ const hasInvalidValue = (date: string) => {
 
 interface GetVigerendTextProps {
     dataObject: any
-    revisionObjects?: [any]
+    revisionObjects?: any[]
     prefix?: boolean
     prefixOnly?: boolean
 }
