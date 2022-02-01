@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     api: {
         input: {
             target: 'https://api-obzh-dev.azurewebsites.net/v0.1/spec',
