@@ -3,12 +3,14 @@ import { useContext } from 'react'
 
 // Import Context
 import ButtonSubmitFixed from './../../../../components/ButtonSubmitFixed'
-import ContainerFormSection from './../../../../components/ContainerFormSection'
-import ContainerMain from './../../../../components/ContainerMain'
+import {
+    ContainerFormSection,
+    ContainerMain,
+} from './../../../../components/Container'
 import {
     FormFieldTextInput,
     FormFieldGeldigheid,
-} from './../../../../components/FormFieldsExport'
+} from './../../../../components/Form'
 import APIcontext from './../../../MuteerBeleidsrelatiesCRUD/APIContext'
 
 // Import Components
@@ -28,8 +30,7 @@ function Afdeling() {
                     <form className="mt-12" onSubmit={context.handleSubmit}>
                         <ContainerFormSection
                             titel="Algemene informatie"
-                            beschrijving="De algemene informatie bevat een afdelingnummer en een duidelijke titel"
-                        >
+                            beschrijving="De algemene informatie bevat een afdelingnummer en een duidelijke titel">
                             <FormFieldTextInput
                                 handleChange={context.handleChange}
                                 fieldValue={crudObject['Volgnummer']}
@@ -50,8 +51,7 @@ function Afdeling() {
 
                         <ContainerFormSection
                             titel="Aanvullende informatie"
-                            beschrijving="Aanvullende informatie."
-                        >
+                            beschrijving="Aanvullende informatie.">
                             {/* Geldigheid */}
                             <div className="flex flex-wrap -mx-3">
                                 {/* Begin Geldigheid */}

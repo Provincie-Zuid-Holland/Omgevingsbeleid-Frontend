@@ -1,5 +1,4 @@
 /* istanbul ignore file */
-import { format } from 'date-fns'
 import cloneDeep from 'lodash.clonedeep'
 import { Component } from 'react'
 import { Helmet } from 'react-helmet'
@@ -7,15 +6,20 @@ import { withRouter } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 // Import Components
+import axios from '../../api/instance'
+import formatDate from '../../utils/formatDate'
 import { isDateInAValidRange } from '../../utils/isDateInAValidRange'
 import { toastNotification } from '../../utils/toastNotification'
-import axios from './../../API/axios'
 import ButtonBackToPage from './../../components/ButtonBackToPage'
-import ContainerFormSection from './../../components/ContainerFormSection'
-import ContainerMain from './../../components/ContainerMain'
-import FormFieldGeldigheid from './../../components/FormFieldGeldigheid'
-import FormFieldTextInput from './../../components/FormFieldTextInput'
-import LoaderContent from './../../components/LoaderContent'
+import {
+    ContainerFormSection,
+    ContainerMain,
+} from './../../components/Container'
+import {
+    FormFieldGeldigheid,
+    FormFieldTextInput,
+} from './../../components/Form'
+import { LoaderContent } from './../../components/Loader'
 // Import Utilities
 import checkContainsRequiredUnfilledField from './../../utils/checkContainsRequiredUnfilledField'
 import formatGeldigheidDatesForAPI from './../../utils/formatGeldigheidDatesForAPI'
@@ -93,20 +97,13 @@ class MuteerVerordeningenStructuurCRUD extends Component {
         event.preventDefault()
 
         const dimensieConstants = this.props.dimensieConstants
-        const titleSingular = dimensieConstants.TITLE_SINGULAR
 
         let crudObject = cloneDeep(this.state.crudObject)
 
         crudObject = formatGeldigheidDatesForAPI(crudObject)
 
         /** Check if all the required fields are filled in */
-        if (
-            checkContainsRequiredUnfilledField(
-                crudObject,
-                dimensieConstants,
-                titleSingular
-            )
-        ) {
+        if (checkContainsRequiredUnfilledField(crudObject, dimensieConstants)) {
             return
         }
 
@@ -246,11 +243,11 @@ class MuteerVerordeningenStructuurCRUD extends Component {
                     delete crudObject.Created_By
                     delete crudObject.Created_Date
 
-                    crudObject.Begin_Geldigheid = format(
+                    crudObject.Begin_Geldigheid = formatDate(
                         new Date(crudObject.Begin_Geldigheid),
                         'yyyy-MM-dd'
                     )
-                    crudObject.Eind_Geldigheid = format(
+                    crudObject.Eind_Geldigheid = formatDate(
                         new Date(crudObject.Eind_Geldigheid),
                         'yyyy-MM-dd'
                     )

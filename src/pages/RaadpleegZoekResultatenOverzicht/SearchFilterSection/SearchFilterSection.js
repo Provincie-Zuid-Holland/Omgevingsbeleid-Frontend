@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
+import { useWindowSize } from 'react-use'
 
-import LoaderCard from './../../../components/LoaderCard'
-import { useWindowSize } from './../../../utils/useWindowSize'
+import { LoaderCard } from './../../../components/Loader'
 import FilterItem from './../FilterItem'
 
 const SearchFilterSection = ({
@@ -20,7 +20,7 @@ const SearchFilterSection = ({
             const windowScrollTop =
                 window.pageYOffset || document.documentElement.scrollTop
 
-            if (windowScrollTop > container.current.offsetTop) {
+            if (windowScrollTop > container?.current.offsetTop) {
                 const { offsetWidth, offsetHeight, offsetTop, offsetLeft } =
                     container.current
 

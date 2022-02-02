@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Link } from 'react-router-dom'
 
 type BreadcrumbsProps = {
-    className: string
+    className?: string
     paths: { name: string; path: string }[]
 }
 

@@ -12,14 +12,9 @@ import AddObjectButton from './../AddObjectButton'
 import VerordeningContext from './../VerordeningContext'
 import { useContext } from 'react'
 
-function DragAndDropSecondLevel({ subItems, UUID, nest_1, parentType }) {
-    const {
-        userIsEditingOrder,
-        userIsEditingSections,
-        hoofdstukIndex,
-        addSectionMode,
-        addSectionType,
-    } = useContext(VerordeningContext)
+function DragAndDropSecondLevel({ subItems, UUID, nest_1 }) {
+    const { userIsEditingOrder, userIsEditingSections, hoofdstukIndex } =
+        useContext(VerordeningContext)
 
     const hasSubItems = subItems && subItems.length > 0
     if (!hasSubItems) return null
