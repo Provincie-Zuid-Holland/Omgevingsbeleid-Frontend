@@ -22,7 +22,7 @@ const SearchBar = ({ width, componentInNavbar, placeholder, id }) => {
     const history = useHistory()
 
     const [searchQuery, setSearchQuery] = React.useState("")
-    const [searchBarPopupOpen, setSearchBarPopupOpen] = React.useState(true)
+    const [searchBarPopupOpen, setSearchBarPopupOpen] = React.useState(false)
 
     const searchBarRef = React.useRef()
     useClickOutsideContainer(searchBarRef, () => {

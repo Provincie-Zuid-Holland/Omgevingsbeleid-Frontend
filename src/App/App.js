@@ -25,7 +25,7 @@ import allDimensies from "./../constants/dimensies"
 import RaadpleegHome from "./../pages/RaadpleegHome"
 import RaadpleegUniversalObjectDetail from "./../pages/RaadpleegUniversalObjectDetail"
 import RaadpleegVerordeningsArtikelDetail from "./../pages/RaadpleegVerordeningsArtikelDetail"
-import RaadpleegZoekResultatenOverzicht from "./../pages/RaadpleegZoekResultatenOverzicht"
+import RaadpleegSearchResults from "./../pages/RaadpleegSearchResults"
 import Login from "./../pages/Login"
 import Planning from "./../pages/Planning"
 
@@ -276,9 +276,7 @@ class App extends Component {
                                     <Route
                                         exact
                                         path="/zoekresultaten"
-                                        component={
-                                            RaadpleegZoekResultatenOverzicht
-                                        }
+                                        component={RaadpleegSearchResults}
                                     />
 
                                     {/* Raadpleeg - Detail page for Article objects of the regulations */}

@@ -714,6 +714,12 @@ h6,
     max-height: 217px;
 }
 
+.pzh-container {
+    padding-left: 96px;
+    padding-right: calc(96px + 1rem);
+    max-width: 100%;
+}
+
 #main-search-result-container {
     margin-top: 41px;
     li:first-child:hover,

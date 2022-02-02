@@ -1,3 +1,0 @@
-import RaadpleegZoekResultatenOverzicht from "./RaadpleegZoekResultatenOverzicht.js"
-
-export default RaadpleegZoekResultatenOverzicht
