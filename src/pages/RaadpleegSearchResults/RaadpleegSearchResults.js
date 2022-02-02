@@ -65,7 +65,10 @@ const RaadpleegSearchResults = () => {
             try {
                 // Get point A and Point B from the URL Parameter
                 const [pointA, pointB] = paramGeoQuery.split(" ")
-                const werkingsgebieden = getWerkingsGebieden(pointA, pointB)
+                const werkingsgebieden = await getWerkingsGebieden(
+                    pointA,
+                    pointB
+                )
 
                 const werkingsgebiedenUUIDS = werkingsgebieden.map(
                     (item) => item.properties.UUID
@@ -133,7 +136,7 @@ const RaadpleegSearchResults = () => {
                 </div>
             </div>
             <div
-                className={`pzh-container grid grid-cols-6 gap-x-10 gap-y-0 pr-4 mx-auto mt-4`}
+                className={`pzh-container grid grid-cols-6 gap-x-10 gap-y-0 pr-4 mx-auto mt-4 pb-16`}
             >
                 <SearchFilterSection
                     loaded={dataLoaded}
