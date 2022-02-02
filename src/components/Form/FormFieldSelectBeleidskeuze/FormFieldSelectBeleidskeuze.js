@@ -2,7 +2,7 @@ import { Component } from 'react'
 import Select from 'react-select'
 import { toast } from 'react-toastify'
 
-import axios from '../../../api/axios'
+import axios from '../../../api/instance'
 import * as BELEIDSKEUZES from './../../../constants/beleidskeuzes'
 import { LoaderSelect } from './../../Loader'
 

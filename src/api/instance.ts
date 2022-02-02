@@ -2,21 +2,14 @@ import axios, { AxiosRequestConfig } from 'axios'
 
 export type Environment = 'dev' | 'test' | 'acc' | 'prod'
 
-const api_version = process.env.REACT_APP_API_VERSION
+const apiUrl = process.env.REACT_APP_API_URL
 const environment = process.env.REACT_APP_API_ENV as Environment
 
 const getAccessToken = () =>
     localStorage.getItem(process.env.REACT_APP_KEY_API_ACCESS_TOKEN || '')
 
-const apiURLS = {
-    dev: `https://api-obzh-dev.azurewebsites.net/${api_version}`,
-    test: `https://api-obzh-test.azurewebsites.net/${api_version}`,
-    acc: `https://api-obzh-acc.azurewebsites.net/${api_version}`,
-    prod: `https://api-obzh.azurewebsites.net/${api_version}`,
-}
-
 const instance = axios.create({
-    baseURL: apiURLS[environment],
+    baseURL: apiUrl,
     headers: {
         'Content-Type': 'application/json',
     },
@@ -58,3 +51,4 @@ export const customInstance = <T>(config: AxiosRequestConfig): Promise<T> => {
 }
 
 export { environment, baseURL }
+export default instance

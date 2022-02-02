@@ -11,8 +11,8 @@ import {
 } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
-import axios from '@/api/axios'
 import { GetTokeninfo200Identifier } from '@/api/fetchers.schemas'
+import axios from '@/api/instance'
 import ButtonBackToPage from '@/components/ButtonBackToPage'
 import { ContainerDetailMain, ContainerMain } from '@/components/Container'
 import EigenaarsDriehoek from '@/components/EigenaarsDriehoek'
