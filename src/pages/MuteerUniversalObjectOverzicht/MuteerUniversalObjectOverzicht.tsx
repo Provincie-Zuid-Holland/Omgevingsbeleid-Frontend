@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet'
 import { useHistory } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
-import axios from '@/api/axios'
+import axios from '@/api/instance'
 import UserContext from '@/App/UserContext'
 import ButtonAddNewObject from '@/components/ButtonAddNewObject'
 import CardObjectDetails from '@/components/CardObjectDetails'

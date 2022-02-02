@@ -1,7 +1,9 @@
+require('dotenv').config()
+
 export default {
     api: {
         input: {
-            target: 'https://api-obzh-dev.azurewebsites.net/v0.1/spec',
+            target: `${process.env.REACT_APP_API_URL}/spec`,
         },
         output: {
             mode: 'split',
