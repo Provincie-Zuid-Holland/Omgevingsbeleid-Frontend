@@ -116,7 +116,7 @@ const RaadpleegSearchResults = () => {
                 className={`pzh-container grid grid-cols-6 gap-x-10 gap-y-0 pr-4 mx-auto bg-pzh-blue-light`}
                 style={{ height: 96 + "px", marginTop: "-60px" }}
             >
-                <div className="flex items-center col-span-2">
+                <div className="flex items-center col-span-4 col-start-3 ">
                     <h1
                         style={{
                             hyphens: "manual",
@@ -127,12 +127,6 @@ const RaadpleegSearchResults = () => {
                     >
                         Zoeken
                     </h1>
-                </div>
-                <div className="flex items-center col-span-4">
-                    <SearchBar
-                        componentInNavbar={false}
-                        className="rounded-sm"
-                    />
                 </div>
             </div>
             <div
