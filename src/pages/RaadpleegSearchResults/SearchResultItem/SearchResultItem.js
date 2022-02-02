@@ -6,8 +6,12 @@ const SearchResultItem = ({ item, searchQuery }) => {
     const paramTextQuery = useSearchParam("query")
 
     const highlightString = (text, query) => {
-        if (!text || !query) {
+        if (!text) {
             return null
+        } else if (!query) {
+            return {
+                __html: text,
+            }
         }
 
         const regex = new RegExp(query, "gi")
