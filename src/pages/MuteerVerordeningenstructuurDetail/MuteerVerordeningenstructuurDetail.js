@@ -967,22 +967,6 @@ const MuteerVerordeningenstructuurDetail = () => {
             setLineage(newLineage)
         }
 
-        /** Check if the start date is in a valid range */
-        const startDateIsInValidRange = isDateInAValidRange(
-            new Date(verordeningsObjectFromGET.Begin_Geldigheid)
-        )
-        const endDateIsInValidRange = isDateInAValidRange(
-            new Date(verordeningsObjectFromGET.Eind_Geldigheid)
-        )
-
-        if (!startDateIsInValidRange) {
-            toastNotification({ type: "start date valid range" })
-            return
-        } else if (!endDateIsInValidRange) {
-            toastNotification({ type: "end date valid range" })
-            return
-        }
-
         const newRegulationObject = cleanUpProperties(
             formatGeldigheidDatesForAPI(verordeningsObjectFromGET)
         )
