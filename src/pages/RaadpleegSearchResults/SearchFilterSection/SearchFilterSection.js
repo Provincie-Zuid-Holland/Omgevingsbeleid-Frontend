@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react"
-import { useWindowSize, useSearchParam } from "react-use"
+import { useRef } from "react"
+import { useSearchParam } from "react-use"
 
 import LoaderCard from "../../../components/LoaderCard"
 import FilterItem from "../FilterItem"
@@ -20,10 +20,7 @@ const SearchFilterSection = ({ loaded, onPageFilters, setOnPageFilters }) => {
                 <LoaderCard height="100" />
             </div>
         )
-    } else if (paramOnly) {
-        // If the user only searched for a specific type we don't need to show the filter section
-        return null
-    } else if (onPageFilters?.availableFilters?.length <= 1) {
+    } else if (onPageFilters?.availableFilters?.length <= 1 || paramOnly) {
         // Filters are not yet initialized or none are available
         return <div className="hidden md:col-span-2 md:block" />
     }
