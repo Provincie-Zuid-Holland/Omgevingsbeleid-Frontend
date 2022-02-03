@@ -1,18 +1,8 @@
+import { GetEdits200ItemType } from '@/api/fetchers.schemas'
+
 import allDimensieConstants from '../constants/dimensies'
 
-type Type =
-    | 'ambities'
-    | 'belangen'
-    | 'beleidskeuzes'
-    | 'beleidsregels'
-    | 'beleidsprestaties'
-    | 'maatregelen'
-    | 'beleidsdoelen'
-    | 'themas'
-    | 'verordeningen'
-    | 'artikel'
-
-function getDimensionsConstants(type: Type) {
+function getDimensionsConstants(type: GetEdits200ItemType | 'artikel') {
     switch (type) {
         case 'ambities':
             return allDimensieConstants.AMBITIES
