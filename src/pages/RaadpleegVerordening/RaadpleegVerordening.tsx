@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 import { useWindowSize } from 'react-use'
 
-import axios from '@/api/axios'
+import axios from '@/api/instance'
 import { Container } from '@/components/Container'
 import Footer from '@/components/Footer'
 import Heading from '@/components/Heading'

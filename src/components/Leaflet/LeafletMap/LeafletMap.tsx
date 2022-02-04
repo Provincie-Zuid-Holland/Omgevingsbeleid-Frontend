@@ -1,4 +1,4 @@
-import Leaflet, { MapOptions } from 'leaflet'
+import { MapOptions } from 'leaflet'
 import { ReactNode } from 'react'
 import { MapContainer, MapContainerProps } from 'react-leaflet'
 
@@ -10,19 +10,7 @@ import {
     LeafletSearch,
 } from '../LeafletLayers'
 
-// @ts-ignore
-delete Leaflet.Icon.Default.prototype._getIconUrl
-
-Leaflet.Icon.Default.mergeOptions({
-    iconRetinaUrl:
-        'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/images/marker-icon.png',
-    iconUrl:
-        'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/images/marker-icon.png',
-    shadowUrl:
-        'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/images/marker-shadow.png',
-})
-
-interface LeafletMapProps {
+export interface LeafletMapProps {
     options?: MapOptions | MapContainerProps
     controllers?: {
         showSearch?: boolean

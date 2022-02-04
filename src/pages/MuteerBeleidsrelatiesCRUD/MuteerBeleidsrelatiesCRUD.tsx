@@ -9,8 +9,8 @@ import {
 } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
-import axios from '@/api/axios'
 import { getVersionBeleidskeuzesObjectuuid } from '@/api/fetchers'
+import axios from '@/api/instance'
 import ButtonBackToPage from '@/components/ButtonBackToPage'
 import allDimensies from '@/constants/dimensies'
 import isEndDateBeforeStartDate from '@/utils/isEndDateBeforeStartDate'

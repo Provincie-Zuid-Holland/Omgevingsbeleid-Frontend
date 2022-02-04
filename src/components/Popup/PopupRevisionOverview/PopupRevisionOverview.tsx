@@ -12,7 +12,7 @@ import {
 import Select from 'react-select'
 import { useClickAway, useKey, useLockBodyScroll } from 'react-use'
 
-import axios from '@/api/axios'
+import axios from '@/api/instance'
 import UserContext from '@/App/UserContext'
 import { LeafletRevisionOverview } from '@/components/Leaflet'
 import { LoaderSpinner } from '@/components/Loader'

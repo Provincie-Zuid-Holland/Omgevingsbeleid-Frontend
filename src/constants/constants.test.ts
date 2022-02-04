@@ -2,8 +2,10 @@ import axios from 'axios'
 
 import allDimensies from './dimensies'
 
+const apiUrl = process.env.REACT_APP_API_URL
+
 const api = axios.create({
-    baseURL: 'https://api-obzh-dev.azurewebsites.net/v0.1/',
+    baseURL: apiUrl,
     headers: {
         'Content-Type': 'application/json',
     },

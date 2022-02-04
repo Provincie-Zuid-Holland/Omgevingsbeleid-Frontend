@@ -9,8 +9,8 @@ import {
     withRouter,
 } from 'react-router-dom'
 
-import axios from '@/api/axios'
 import { GetTokeninfo200Identifier } from '@/api/fetchers.schemas'
+import axios from '@/api/instance'
 import ButtonSubmitFixed from '@/components/ButtonSubmitFixed'
 import { ContainerMain } from '@/components/Container'
 import { LoaderContent } from '@/components/Loader'
