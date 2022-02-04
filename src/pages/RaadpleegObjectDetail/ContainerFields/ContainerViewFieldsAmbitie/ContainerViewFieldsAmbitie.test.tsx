@@ -15,7 +15,13 @@ describe('ContainerViewFieldsAmbitie', () => {
 
     it('Component renders', () => {
         setup()
-        const element = screen.getByText('Test omschrijving')
+        const element = screen.getByText(defaultProps.crudObject.Omschrijving)
         expect(element).toBeTruthy()
+    })
+
+    it('Component renders nothing when omschrijving is empty', () => {
+        setup({ crudObject: { Omschrijving: '' } })
+        const element = screen.queryByText(defaultProps.crudObject.Omschrijving)
+        expect(element).toBeFalsy()
     })
 })
