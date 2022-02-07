@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react"
 import "url-search-params-polyfill"
-import { useSearchParam } from "react-use"
 
 import axios from "./../../API/axios"
 import { getWerkingsGebieden } from "./../../API/axiosGeoJSON"
 
 import LoaderCard from "./../../components/LoaderCard"
-import SearchBar from "./../../components/SearchBar"
 
 import useSearchResultFilters from "./useSearchResultFilters"
 import SearchFilterSection from "./SearchFilterSection"
@@ -17,9 +15,10 @@ const RaadpleegSearchResults = () => {
     const [searchResults, setSearchResults] = useState([])
     const [dataLoaded, setDataLoaded] = useState(false)
 
-    const paramTextQuery = useSearchParam("query")
-    const paramOnly = useSearchParam("only")
-    const paramGeoQuery = useSearchParam("geoQuery")
+    const searchParams = new URL(document.location).searchParams
+    const paramTextQuery = searchParams.get("query")
+    const paramOnly = searchParams.get("only")
+    const paramGeoQuery = searchParams.get("geoQuery")
 
     const { onPageFilters, setOnPageFilters } = useSearchResultFilters()
 
