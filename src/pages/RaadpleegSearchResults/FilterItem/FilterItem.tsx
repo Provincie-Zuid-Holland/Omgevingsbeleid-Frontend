@@ -1,4 +1,3 @@
-import Text from '@/components/Text'
 import { ACTIONTYPE } from '@/hooks/useSearchResultFilters'
 import { DimensionType } from '@/types/dimensions'
 import getDimensionsConstants from '@/utils/getDimensionsConstants'
@@ -22,22 +21,29 @@ const FilterItem = ({
 
     return (
         <li key={item} className="mt-1 text-pzh-blue-dark">
-            <label
-                className="flex items-center cursor-pointer select-none"
-                id={`filter-for-${titleSingular}`}>
+            <div className="flex items-center">
                 <input
+                    onChange={() => {
+                        setOnPageFilters({
+                            type: 'toggleFilter',
+                            name: item,
+                            newState: !checked,
+                        })
+                    }}
                     className="mr-2 leading-tight text-indigo-600 cursor-pointer text-pzh-green hover:text-pzh-green-dark form-checkbox"
                     type="checkbox"
-                    checked={!checked}
-                    onChange={() => {
-                        setOnPageFilters({ type: 'toggleFilter', name: item })
-                    }}
-                    name={item}
+                    checked={checked}
+                    name={`filter-item-${item}`}
+                    id={`filter-item-${item}`}
                 />
-                <Text type="span" className="pt-1">
+                <label
+                    style={{ fontSize: '1rem', lineHeight: '1.5rem' }}
+                    className={`pt-1 cursor-pointer`}
+                    id={`filter-for-${titleSingular}`}
+                    htmlFor={`filter-item-${item}`}>
                     {`${count === 1 ? titleSingular : titlePlural} (${count})`}
-                </Text>
-            </label>
+                </label>
+            </div>
         </li>
     )
 }

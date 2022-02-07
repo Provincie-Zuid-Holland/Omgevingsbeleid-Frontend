@@ -22,6 +22,9 @@ const SearchFilterSection = ({
     const [containerStyle, setContainerStyle] = useState({})
     const paramOnly = useSearchParam('only')
 
+    /**
+     * Make the filter section fixed when the user scrolls down (min width Tablet)
+     */
     useEffect(() => {
         const handleScroll = () => {
             const windowScrollTop =
@@ -72,10 +75,7 @@ const SearchFilterSection = ({
                 <LoaderCard height="100" />
             </div>
         )
-    } else if (paramOnly) {
-        // If the user only searched for a specific type we don't need to show the filter section
-        return null
-    } else if (onPageFilters?.availableFilters?.length <= 1) {
+    } else if (onPageFilters?.availableFilters?.length <= 1 || paramOnly) {
         // Filters are not yet initialized or none are available
         return <div className="hidden md:col-span-2 md:block" />
     }

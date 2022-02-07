@@ -24,6 +24,7 @@ const RaadpleegSearchResults = () => {
 
     const paramTextQuery = useSearchParam('query')
     const paramGeoQuery = useSearchParam('geoQuery')
+    const paramOnly = useSearchParam('only')
 
     const { onPageFilters, setOnPageFilters } = useSearchResultFilters()
 
@@ -38,6 +39,7 @@ const RaadpleegSearchResults = () => {
                 const searchResults = await getSearch({
                     query: paramTextQuery,
                     limit: 20,
+                    ...(paramOnly && { only: paramOnly }),
                 })
                 setSearchResults(searchResults)
                 setOnPageFilters({
@@ -108,7 +110,7 @@ const RaadpleegSearchResults = () => {
         }
 
         initialize()
-    }, [paramGeoQuery, paramTextQuery, setOnPageFilters])
+    }, [paramGeoQuery, paramTextQuery, setOnPageFilters, paramOnly])
 
     return (
         <>
@@ -127,7 +129,7 @@ const RaadpleegSearchResults = () => {
                     <SearchBar className="rounded-sm" />
                 </div>
             </Container>
-            <Container className="mt-4">
+            <Container className="pb-16 mt-4">
                 <SearchFilterSection
                     loaded={dataLoaded}
                     onPageFilters={onPageFilters}
@@ -148,7 +150,7 @@ const RaadpleegSearchResults = () => {
                                             onPageFilters.filterState
                                         ).some(
                                             filter =>
-                                                !onPageFilters.filterState[
+                                                onPageFilters.filterState[
                                                     filter
                                                 ].checked
                                         )
@@ -157,9 +159,8 @@ const RaadpleegSearchResults = () => {
                                             return false
                                         } else if (
                                             filterIsActive &&
-                                            !onPageFilters.filterState[
-                                                item.Type
-                                            ].checked
+                                            onPageFilters.filterState[item.Type]
+                                                ?.checked
                                         ) {
                                             return true
                                         } else if (!filterIsActive) {
@@ -178,6 +179,7 @@ const RaadpleegSearchResults = () => {
                             </ul>
                             {paramTextQuery ? (
                                 <Pagination
+                                    setOnPageFilters={setOnPageFilters}
                                     setSearchResults={setSearchResults}
                                     searchResults={searchResults}
                                 />
