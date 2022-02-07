@@ -1,23 +1,22 @@
 import axios from 'axios'
-import { ChangeEvent, RefObject, useRef, useState } from 'react'
+import { ChangeEvent, forwardRef, useRef, useState } from 'react'
 import { toast } from 'react-toastify'
+import { useDebounce } from 'react-use'
 
 import { getLookupData, getSuggestData } from '@/api/axiosLocatieserver'
-import debounce from '@/utils/debounce'
 
 /**
  * Class that renders the LeafletSearchInput component that shows a input field in which a user can search werkgebieden on a map.
  */
 
 interface LeafletSearchInputProps {
-    reference: RefObject<any>
     mapPanTo: (lng: number, lat: number, type: string) => void
 }
 
-const LeafletSearchInput = ({
-    reference,
-    mapPanTo,
-}: LeafletSearchInputProps) => {
+const LeafletSearchInput = forwardRef<
+    HTMLInputElement,
+    LeafletSearchInputProps
+>(({ mapPanTo }, ref) => {
     const [searchQuery, setSearchQuery] = useState('')
     const [queryData, setQueryData] = useState([])
 
@@ -30,8 +29,14 @@ const LeafletSearchInput = ({
         const value = e.target.value
 
         setSearchQuery(value)
-        locatieServerSuggestQuery(value)
     }
+
+    /**
+     * Debounce location lookup
+     */
+    useDebounce(() => locatieServerSuggestQuery(searchQuery), 300, [
+        searchQuery,
+    ])
 
     /**
      * Function to import the API axiosLocatieServer and then get the lookupData through an API get request. Then the lookupData is used further in the function.
@@ -59,7 +64,7 @@ const LeafletSearchInput = ({
     /**
      * Function to get the suggested query value input from user, import the axiosLocatieserver API and then use the get API to set queryData.
      */
-    const locatieServerSuggestQuery = debounce((value: string) => {
+    const locatieServerSuggestQuery = (value: string) => {
         if (value === '') {
             return setQueryData([])
         }
@@ -76,7 +81,7 @@ const LeafletSearchInput = ({
                     toast(process.env.REACT_APP_ERROR_MSG)
                 }
             })
-    }, 300)
+    }
 
     /**
      * Function that selects the next/previous queryData.
@@ -96,7 +101,7 @@ const LeafletSearchInput = ({
                 break
             case 'previous':
                 if (parseInt(currentIndex) === 1) {
-                    reference.current.select()
+                    typeof ref !== 'function' && ref?.current?.select()
                     return
                 }
                 newIndex = parseInt(currentIndex) - 1
@@ -116,7 +121,7 @@ const LeafletSearchInput = ({
             <input
                 className="w-64 h-10 px-5 py-3 ml-3 text-sm leading-tight text-gray-700 border-none rounded appearance-none focus:outline-none"
                 type="text"
-                ref={reference}
+                ref={ref}
                 placeholder="Zoeken op de kaart"
                 onChange={handleChange}
                 value={searchQuery}
@@ -172,6 +177,6 @@ const LeafletSearchInput = ({
             ) : null}
         </>
     )
-}
+})
 
 export default LeafletSearchInput

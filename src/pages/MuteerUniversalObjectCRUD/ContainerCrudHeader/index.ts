@@ -1,3 +1,1 @@
-import ContainerCrudHeader from './ContainerCrudHeader'
-
-export default ContainerCrudHeader
+export { default } from './ContainerCrudHeader'

@@ -11,7 +11,7 @@ jobs:
         runs-on: ubuntu-latest
 
         env:
-            REACT_APP_API_VERSION: v0.1
+            REACT_APP_API_URL: https://api-obzh-dev.azurewebsites.net/v1.0
             REACT_APP_API_ENV: dev
 
         steps:

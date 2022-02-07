@@ -1,3 +1,1 @@
-import APIContext from './APIContext'
-
-export default APIContext
+export { default } from './APIContext'

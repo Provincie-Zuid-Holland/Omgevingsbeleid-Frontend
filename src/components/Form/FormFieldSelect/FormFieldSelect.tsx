@@ -18,7 +18,7 @@ import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving'
 interface FormFieldSelectProps {
     dataObjectProperty: string
     fieldLabel: string
-    pValue: string
+    pValue?: string
     titleSingular: string
     fieldValue: string
     handleChange: ChangeEventHandler<HTMLSelectElement>

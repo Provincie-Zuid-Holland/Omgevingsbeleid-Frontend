@@ -22,15 +22,18 @@ export const CRUD_PROPERTIES = {
         initValue: '',
         required: true,
         requiredMessage: 'Vul een titel in',
+        type: null,
     },
     Begin_Geldigheid: {
         initValue: null,
         required: true,
         requiredMessage: 'Vul een datum van inwerkingstreding in',
+        type: null,
     },
     Eind_Geldigheid: {
         initValue: null,
         required: true,
         requiredMessage: 'Vul een datum van uitwerkingstreding in',
+        type: null,
     },
 }

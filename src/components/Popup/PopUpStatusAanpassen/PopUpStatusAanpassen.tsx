@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import { useState } from 'react'
 import { toast } from 'react-toastify'
 
@@ -17,7 +16,7 @@ import PopUpAnimatedContainer from '../PopUpAnimatedContainer'
 
 interface PopUpStatusAanpassenProps {
     dataObject: any
-    status: keyof typeof VOLGENDE_STATUS
+    status: string
     patchStatus: (dataObject: any, value: string) => void
     toggleStatusPopup: () => void
 }
@@ -45,16 +44,14 @@ function PopUpStatusAanpassen({
                             {' '}
                             - selecteer een optie -{' '}
                         </option>
-                        {VOLGENDE_STATUS[status]
-                            ? VOLGENDE_STATUS[status].map(
-                                  (arrayItem, index) => {
-                                      return (
-                                          <option key={index} value={arrayItem}>
-                                              {arrayItem}
-                                          </option>
-                                      )
-                                  }
-                              )
+                        {VOLGENDE_STATUS[status as keyof typeof VOLGENDE_STATUS]
+                            ? VOLGENDE_STATUS[
+                                  status as keyof typeof VOLGENDE_STATUS
+                              ].map((arrayItem, index) => (
+                                  <option key={index} value={arrayItem}>
+                                      {arrayItem}
+                                  </option>
+                              ))
                             : null}
                     </select>
                     <div className="absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 pointer-events-none">
@@ -92,25 +89,6 @@ function PopUpStatusAanpassen({
             </div>
         </PopUpAnimatedContainer>
     )
-}
-
-PopUpStatusAanpassen.propTypes = {
-    status: PropTypes.oneOf([
-        'Ontwerp GS Concept',
-        'Ontwerp GS',
-        'Ontwerp PS',
-        'Ontwerp in inspraak',
-        'Definitief ontwerp GS concept',
-        'Definitief ontwerp GS',
-        'Definitief ontwerp PS',
-        'Vastgesteld',
-        'Datum vastgesteld - Later toevoegen',
-        'Vigerend',
-        'Vigerend gearchiveerd',
-        'Gepubliceerd',
-        'Niet-Actief',
-        'Uitgecheckt',
-    ]),
 }
 
 export default PopUpStatusAanpassen

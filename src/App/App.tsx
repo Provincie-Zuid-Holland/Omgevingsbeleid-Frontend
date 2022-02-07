@@ -199,8 +199,9 @@ const App: FC<RouteComponentProps> = () => {
                                                 path={`/overzicht/${item.slug}`}
                                                 render={() => (
                                                     <RaadpleegUniversalObjectOverview
-                                                        dataModel={
-                                                            item.dataModel
+                                                        {...item}
+                                                        dataEndpoint={
+                                                            item.dataValidEndpoint
                                                         }
                                                     />
                                                 )}

@@ -1,3 +1,1 @@
-import RaadpleegObjectDetail from './RaadpleegObjectDetail'
-
-export default RaadpleegObjectDetail
+export { default } from './RaadpleegObjectDetail'

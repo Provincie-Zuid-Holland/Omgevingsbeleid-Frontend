@@ -91,7 +91,9 @@ const RaadpleegObjectDetailMain: FC<RaadpleegObjectDetailMainProps> = ({
                 }`}
                 id="raadpleeg-detail-container-main">
                 {titleSingular === 'Beleidskeuze' ? (
-                    <ContainerViewFieldsBeleidskeuze crudObject={dataObject} />
+                    <ContainerViewFieldsBeleidskeuze
+                        crudObject={dataObject as BeleidskeuzesRead}
+                    />
                 ) : titleSingular === 'Beleidsregel' ? (
                     <ContainerViewFieldsBeleidsregel crudObject={dataObject} />
                 ) : titleSingular === 'Beleidsprestatie' ? (

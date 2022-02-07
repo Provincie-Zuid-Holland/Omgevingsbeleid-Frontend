@@ -1,6 +1,5 @@
 import { MouseEventHandler, useEffect, useState } from 'react'
 
-import axios from '@/api/axios'
 import { getValidBeleidsrelaties } from '@/api/fetchers'
 import {
     BeleidskeuzeShortRead,
@@ -9,6 +8,7 @@ import {
     MaatregelenRead,
     VerordeningenRead,
 } from '@/api/fetchers.schemas'
+import axios from '@/api/instance'
 
 import { LoaderSpinner } from '../Loader'
 import RelatiesKoppelingenTekstueel from '../RelatiesKoppelingenTekstueel'

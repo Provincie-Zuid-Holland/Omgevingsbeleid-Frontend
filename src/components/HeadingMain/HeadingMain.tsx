@@ -11,8 +11,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 interface HeadingMainProps {
     titel: string
-    status?: 'Vigerend' | 'Gepubliceerd'
-    modules?: { Titel: string; ID: string | number }[]
+    status?: string
+    modules?: { Titel?: string; ID?: string | number }[]
 }
 
 const HeadingMain = ({ titel, status, modules }: HeadingMainProps) => (

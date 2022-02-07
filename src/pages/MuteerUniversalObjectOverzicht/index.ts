@@ -1,3 +1,1 @@
-import MuteerUniversalObjectOverzicht from './MuteerUniversalObjectOverzicht'
-
-export default MuteerUniversalObjectOverzicht
+export { default } from './MuteerUniversalObjectOverzicht'

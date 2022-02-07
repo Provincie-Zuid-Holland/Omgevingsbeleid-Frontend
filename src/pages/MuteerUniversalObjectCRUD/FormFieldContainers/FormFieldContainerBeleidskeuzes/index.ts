@@ -1,3 +1,1 @@
-import FormFieldContainerBeleidskeuzes from './FormFieldContainerBeleidskeuzes'
-
-export default FormFieldContainerBeleidskeuzes
+export { default } from './FormFieldContainerBeleidskeuzes'

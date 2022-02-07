@@ -1,3 +1,1 @@
-import MuteerBeleidsrelatiesCRUD from './MuteerBeleidsrelatiesCRUD'
-
-export default MuteerBeleidsrelatiesCRUD
+export { default } from './MuteerBeleidsrelatiesCRUD'

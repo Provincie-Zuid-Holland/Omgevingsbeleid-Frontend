@@ -16,7 +16,7 @@ import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving'
 
 interface FormFieldTextInputProps {
     dataObjectProperty: string
-    pValue: string
+    pValue?: string
     titleSingular: string
     fieldValue?: string
     handleChange?: (event: ChangeEvent) => void

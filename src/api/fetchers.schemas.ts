@@ -720,6 +720,8 @@ export const GetEdits200ItemType = {
 }
 
 export type GetEdits200Item = {
+    /** UUID for the current effective version of this lineage */
+    Effective_Version?: string
     /** ID for this object */
     ID?: number
     /** The date when this edit was performed */

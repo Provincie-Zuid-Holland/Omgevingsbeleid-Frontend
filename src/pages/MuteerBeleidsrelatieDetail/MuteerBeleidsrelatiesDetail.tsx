@@ -9,12 +9,12 @@ import {
 } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
-import axios from '@/api/axios'
 import {
     getBeleidsrelaties,
     getVersionBeleidskeuzesObjectuuid,
 } from '@/api/fetchers'
 import { BeleidskeuzesRead, BeleidsrelatiesRead } from '@/api/fetchers.schemas'
+import axios from '@/api/instance'
 import { LoaderMainTitle, LoaderSaving } from '@/components/Loader'
 
 import SwitchToTabbladButton from './SwitchToTabbladButton'
