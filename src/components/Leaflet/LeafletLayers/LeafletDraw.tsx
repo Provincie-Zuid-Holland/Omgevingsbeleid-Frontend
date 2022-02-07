@@ -1,18 +1,32 @@
 import 'leaflet-draw/dist/leaflet.draw-src.css'
+import 'leaflet-draw'
 
-import leaflet, { ControlPosition } from 'leaflet'
+import leaflet, { Control, ControlPosition } from 'leaflet'
 import Proj from 'proj4leaflet'
 import { useEffect, useState } from 'react'
 import ReactDOMServer from 'react-dom/server'
 import { FeatureGroup } from 'react-leaflet'
-import { EditControl } from 'react-leaflet-draw'
 import { toast } from 'react-toastify'
 
 import { getAddressData } from '@/api/axiosLocatieserver'
 import { RDProj4, leafletBounds, icons } from '@/constants/leaflet'
 
+import { createControlComponent } from '../LeafletController'
+
 // @ts-ignore
 const RDProjection = new Proj.Projection('EPSG:28992', RDProj4, leafletBounds)
+
+// @ts-ignore
+delete leaflet.Icon.Default.prototype._getIconUrl
+
+leaflet.Icon.Default.mergeOptions({
+    iconRetinaUrl:
+        'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/images/marker-icon.png',
+    iconUrl:
+        'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/images/marker-icon.png',
+    shadowUrl:
+        'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/images/marker-shadow.png',
+})
 
 const LEAFLET_MARKER_CLASS = 'leaflet-draw-draw-marker'
 const LEAFLET_EDIT_CLASS = 'leaflet-draw-edit-edit'
@@ -82,21 +96,24 @@ const LeafletDraw = ({ position = 'topleft' }: LeafletDrawProps) => {
 
     return (
         <FeatureGroup>
-            <EditControl
-                position={position}
-                onCreated={onCreated}
-                draw={{
-                    marker: true,
-                    polygon: false,
-                    circle: false,
-                    rectangle: false,
-                    polyline: false,
-                    circlemarker: false,
-                }}
-            />
+            <EditControl position={position} onCreated={onCreated} />
         </FeatureGroup>
     )
 }
+
+const EditControl = createControlComponent(
+    (options: Control.DrawConstructorOptions) =>
+        new Control.Draw({
+            ...options,
+            draw: {
+                polygon: false,
+                circle: false,
+                rectangle: false,
+                polyline: false,
+                circlemarker: false,
+            },
+        })
+)
 
 /**
  * Function to create a custom Popup

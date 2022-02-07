@@ -32,7 +32,7 @@ const LeafletControlLayer = ({ fullscreen, children }: LeafletLayerProps) => {
     return (
         <>
             <LeafletController position="topright">
-                <div id="leaflet-layers-control">
+                <div className="leaflet-layers-control">
                     <div className="flex">
                         <div
                             className={`absolute top-0 right-0 p-2 w-8 h-8 flex justify-center items-center shadow-xl bg-white rounded ${
@@ -50,7 +50,8 @@ const LeafletControlLayer = ({ fullscreen, children }: LeafletLayerProps) => {
                             }
                             onClick={() =>
                                 setLayerControlOpen(!layerControlOpen)
-                            }>
+                            }
+                            data-testid="leaflet-layers-control-toggle">
                             <FontAwesomeIcon
                                 className="text-lg text-gray-700"
                                 icon={
@@ -80,12 +81,13 @@ const LeafletControlLayer = ({ fullscreen, children }: LeafletLayerProps) => {
                                     />
                                 </button>
                                 <div
-                                    className={`relative z-10 bg-white rounded cursor-pointer overflow-y-auto`}
+                                    className="relative z-10 bg-white rounded cursor-pointer overflow-y-auto"
                                     style={{
                                         width: '375px',
                                         maxWidth: '100%',
                                         height: fullscreen ? '1000px' : '500px',
-                                    }}>
+                                    }}
+                                    data-testid="leaflet-layers-control-pane">
                                     <div className="w-full">
                                         {children}
                                         <ToggleableSection
