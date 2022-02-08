@@ -33,6 +33,7 @@ import Login from '@/pages/Login'
 import RaadpleegDigiToegankelijkheid from '@/pages/RaadpleegDigiToegankelijkheid'
 import RaadpleegHome from '@/pages/RaadpleegHome'
 import RaadpleegInProgress from '@/pages/RaadpleegInProgress'
+import RaadpleegMapSearch from '@/pages/RaadpleegMapSearch'
 import RaadpleegObjectDetail from '@/pages/RaadpleegObjectDetail'
 import RaadpleegPlanningAndReleases from '@/pages/RaadpleegPlanningAndReleases'
 import RaadpleegUniversalObjectOverview from '@/pages/RaadpleegUniversalObjectOverview'
@@ -173,6 +174,13 @@ const App: FC<RouteComponentProps> = () => {
                                             component={
                                                 RaadpleegZoekResultatenOverzicht
                                             }
+                                        />
+
+                                        {/* Raadpleeg - Search on map page */}
+                                        <Route
+                                            exact
+                                            path="/zoeken-op-kaart"
+                                            component={RaadpleegMapSearch}
                                         />
 
                                         <Route
