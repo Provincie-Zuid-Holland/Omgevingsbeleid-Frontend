@@ -1,8 +1,7 @@
-import { GetEdits200ItemType } from '@/api/fetchers.schemas'
+import allDimensieConstants from '@/constants/dimensies'
+import { DimensionType } from '@/types/dimensions'
 
-import allDimensieConstants from '../constants/dimensies'
-
-function getDimensionsConstants(type: GetEdits200ItemType | 'artikel') {
+function getDimensionsConstants(type: DimensionType) {
     switch (type) {
         case 'ambities':
             return allDimensieConstants.AMBITIES

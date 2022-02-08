@@ -66,6 +66,7 @@ const FormFieldTextArea = ({
                     disabled={disabled}
                     ref={textArea}
                     id={`form-field-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
+                    data-testid={`form-field-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}
                     value={fieldValue || ''}
                     // required
                     onChange={e => {

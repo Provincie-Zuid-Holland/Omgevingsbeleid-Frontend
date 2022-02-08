@@ -8,7 +8,7 @@ describe('ContainerViewFieldsBelang', () => {
         crudObject: { Omschrijving: 'Test omschrijving' },
     }
 
-    const setup = customProps => {
+    const setup = (customProps?: any) => {
         const props = { ...defaultProps, ...customProps }
         render(<ContainerViewFieldsBelang {...props} />)
     }
@@ -17,5 +17,11 @@ describe('ContainerViewFieldsBelang', () => {
         setup()
         const element = screen.getByText('Test omschrijving')
         expect(element).toBeTruthy()
+    })
+
+    it('Component renders nothing when omschrijving is empty', () => {
+        setup({ crudObject: { Omschrijving: '' } })
+        const element = screen.queryByText(defaultProps.crudObject.Omschrijving)
+        expect(element).toBeFalsy()
     })
 })

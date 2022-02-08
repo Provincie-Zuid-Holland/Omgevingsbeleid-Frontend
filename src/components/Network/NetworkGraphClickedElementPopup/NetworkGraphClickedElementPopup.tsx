@@ -10,20 +10,17 @@ import networkGraphGenerateHref from '@/utils/networkGraphGenerateHref'
 /**
  *
  * @param {object} clickedNode - The corresponding node that has been clicked
- * @param {object} setGraphIsOpen - Function to open and close the graph popup menu
  * @param {function} resetNodes - Function to reset the styles of all nodes, and set clickedNode to null
  * @returns Component that indicates what element has been clicked, with a link to the detail page
  */
 
 interface Props {
     clickedNode: any
-    setGraphIsOpen: (e: boolean) => void
     resetNodes: () => void
 }
 
 const NetworkGraphClickedElementPopup = ({
     clickedNode,
-    setGraphIsOpen,
     resetNodes,
 }: Props) => {
     const [localOpenState, setLocalOpenState] = useState(false)
@@ -64,16 +61,7 @@ const NetworkGraphClickedElementPopup = ({
                             <Link
                                 role="link"
                                 className="block p-3 pt-0 group"
-                                to={href ? href : '#'}
-                                onClick={e => {
-                                    if (
-                                        !e.shiftKey &&
-                                        !e.ctrlKey &&
-                                        !e.metaKey
-                                    ) {
-                                        setGraphIsOpen(false)
-                                    }
-                                }}>
+                                to={href || '#'}>
                                 <span className="block text-sm text-gray-600">
                                     {singularTitle}
                                 </span>

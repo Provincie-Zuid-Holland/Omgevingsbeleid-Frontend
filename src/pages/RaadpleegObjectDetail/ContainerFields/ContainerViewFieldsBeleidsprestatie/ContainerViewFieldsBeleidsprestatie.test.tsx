@@ -1,9 +1,27 @@
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
+import '@testing-library/jest-dom'
 
 import ContainerViewFieldsBeleidsprestatie from './ContainerViewFieldsBeleidsprestatie'
 
 describe('ContainerViewFieldsBeleidsprestatie', () => {
-    const defaultProps = {}
+    const defaultProps = {
+        crudObject: { Omschrijving: 'Test omschrijving' },
+    }
 
-    it('should render', () => {})
+    const setup = (customProps?: any) => {
+        const props = { ...defaultProps, ...customProps }
+        render(<ContainerViewFieldsBeleidsprestatie {...props} />)
+    }
+
+    it('Component renders', () => {
+        setup()
+        const element = screen.getByText(defaultProps.crudObject.Omschrijving)
+        expect(element).toBeTruthy()
+    })
+
+    it('Component renders nothing when omschrijving is empty', () => {
+        setup({ crudObject: { Omschrijving: '' } })
+        const element = screen.queryByText(defaultProps.crudObject.Omschrijving)
+        expect(element).toBeFalsy()
+    })
 })

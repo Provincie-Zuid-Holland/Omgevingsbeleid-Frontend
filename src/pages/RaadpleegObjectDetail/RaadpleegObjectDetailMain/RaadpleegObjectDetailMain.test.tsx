@@ -52,7 +52,7 @@ describe('RaadpleegObjectDetailMain', () => {
 
     it('Component renders', () => {
         setup()
-        const element = screen.getByText('1. Samen werken aan Zuid-Holland')
+        const element = screen.getByText(defaultProps.dataObject.Titel)
         expect(element).toBeTruthy()
     })
 })

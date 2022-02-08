@@ -18,7 +18,10 @@ const Text: FC<TextProps> = ({
 
     if (type === 'quote') {
         return (
-            <span style={styles} className={`${color} ${className}`}>
+            <span
+                data-testid="quote-span"
+                style={styles}
+                className={`${color} ${className}`}>
                 {children}
             </span>
         )

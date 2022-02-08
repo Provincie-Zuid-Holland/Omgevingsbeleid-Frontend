@@ -1,9 +1,15 @@
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 
 import Container from './Container'
 
 describe('Container', () => {
-    const defaultProps = {}
-
-    it('should render', () => {})
+    it('should render', () => {
+        render(
+            <Container>
+                <div>Test div</div>
+            </Container>
+        )
+        const element = screen.getByText('Test div')
+        expect(element).toBeTruthy()
+    })
 })

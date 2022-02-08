@@ -4,20 +4,19 @@ import {
     IconDefinition,
 } from '@fortawesome/pro-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { isToday, parseISO } from 'date-fns'
-import { FC, useContext, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { FC, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useWindowSize } from 'react-use'
 
-import GraphContext from '@/App/GraphContext'
+import useMuteerEnvironment from '@/hooks/useMuteerEnvironment'
 import logoSVG from '@/images/PZH_Basislogo.svg'
 import logoWhite from '@/images/PZH_Basislogo_white.png'
+import hideBannerLocalStorage from '@/utils/hideBannerLocalStorage'
 
 import BannerEnvironment from '../BannerEnvironment'
 import { Container } from '../Container'
 import DNABar from '../DNABar'
 import NavigationPopupMenu from '../NavigationPopupMenu'
-import { NetworkGraph } from '../Network'
 
 /**
  * Displays a navbar on top of the page which the user can use to login, logout and search within the omgevingsbeleid.
@@ -30,22 +29,11 @@ interface NavigationProps {
 }
 
 const Navigation = ({ loggedIn }: NavigationProps) => {
-    const location = useLocation()
-    const pathname = location.pathname
-    const userIsInMuteerEnvironment = pathname.includes('/muteer/')
+    const userIsInMuteerEnvironment = useMuteerEnvironment()
     const windowSize = useWindowSize()
 
     // State for popup menu
     const [isOpen, setIsOpen] = useState(false)
-
-    const { graphIsOpen, setGraphIsOpen } = useContext(GraphContext)
-
-    // If the user removes the banner a variable gets set in Local Storage.
-    // This variable is valid for 24 hours and makes sure the banner will not show up again.
-    const hideBannerLocalStorage = () => {
-        const dateHideBanner = localStorage.getItem('__OB_hide_banner__')
-        return isToday(parseISO(dateHideBanner || ''))
-    }
 
     const showBanner = userIsInMuteerEnvironment && !hideBannerLocalStorage()
     const isMobile = windowSize.width <= 640
@@ -114,12 +102,6 @@ const Navigation = ({ loggedIn }: NavigationProps) => {
                                 Label={isMobile ? null : 'Inloggen'}
                             />
                         ) : null}
-
-                        <NetworkGraph
-                            graphIsOpen={graphIsOpen}
-                            setGraphIsOpen={setGraphIsOpen!}
-                            showBanner={showBanner}
-                        />
 
                         <NavigationPopupMenu
                             showBanner={showBanner}
