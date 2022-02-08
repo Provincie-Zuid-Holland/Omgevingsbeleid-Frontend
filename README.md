@@ -1,6 +1,6 @@
 <img src="https://www.zuid-holland.nl/publish/pages/26873/pzh_basislogo_rgb_1_0.svg" alt="Provincie Zuid-Holland logo" width="220px">
 
-# Omgevingsbeleid front-end
+# Omgevingsbeleid front-end · ![License](https://img.shields.io/github/license/Provincie-Zuid-Holland/Omgevingsbeleid-Frontend)
 
 ## Objectives
 The Province of South-Holland believes that everyone should be able to easily view its policies. By digitalizing them, the province aims to make its policies more transparant, accesible, current, and informative. This way new initiatives can be carried out faster and better and in turn will result in more coherent policies.

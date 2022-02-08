@@ -3,9 +3,9 @@ import React from "react"
 import EigenaarsDriehoekItem from "./../EigenaarsDriehoekItem"
 
 /**
- * Component that renders a EigenaarsDriehoekItem component depending on if the dataObject contains the certain owner.
+ * Displays a EigenaarsDriehoekItem component with the parameters based on the owner value inside the dataObject variable.
  *
- * @param {object} dataObject - Parameter that contains a collection of owners and each owner is used for conditional statements within the component to show/hide the EigenaarsDriehoekItem component based on value.
+ * @param {object} dataObject - Contains a collection of owners in object form.
  */
 const EigenaarsDriehoek = ({ dataObject }) => {
     if (

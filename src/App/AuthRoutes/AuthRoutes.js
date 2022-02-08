@@ -291,6 +291,7 @@ const BeheerRoutes = (props) => {
                                 path={`/muteer/${overzichtSlug}/:single/:version`}
                                 render={() => (
                                     <MuteerUniversalObjectDetail
+                                        authUser={props.authUser}
                                         dimensieConstants={dimensieConstants}
                                     />
                                 )}
@@ -302,6 +303,7 @@ const BeheerRoutes = (props) => {
                                 path={`/muteer/${overzichtSlug}/:single`}
                                 render={() => (
                                     <MuteerUniversalObjectDetail
+                                        authUser={props.authUser}
                                         dimensieConstants={dimensieConstants}
                                     />
                                 )}

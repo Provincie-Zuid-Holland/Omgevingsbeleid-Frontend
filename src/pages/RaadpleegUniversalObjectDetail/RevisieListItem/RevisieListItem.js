@@ -36,7 +36,7 @@ function RevisieListItem({ item, currentUUID }) {
             >
                 <span
                     className={`inline-block w-2 h-2 rounded-full mt-2 -ml-1 absolute ${
-                        status === "In inspraak"
+                        status === "Ter inzage"
                             ? "bg-red-700"
                             : status === "Vigerend"
                             ? "bg-yellow-500 pulsate"
@@ -46,8 +46,12 @@ function RevisieListItem({ item, currentUUID }) {
                     }`}
                 />
                 <span
-                    className={`pl-6 text-sm ${isActive ? "font-bold" : ""}`}
-                >{`${status} (${date})`}</span>
+                    className={`pl-6 inline-block text-sm ${
+                        isActive ? "font-bold" : ""
+                    }`}
+                >{`${status} ${
+                    status === "Ter inzage" ? "" : `(${date})`
+                }`}</span>
             </Link>
         </li>
     )

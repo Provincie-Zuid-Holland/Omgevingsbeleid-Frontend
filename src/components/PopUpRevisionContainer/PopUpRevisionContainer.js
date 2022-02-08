@@ -11,13 +11,12 @@ import useClickOutsideContainer from "./../../utils/useClickOutsideContainer"
 import useCloseWithEscapeKey from "./../../utils/useCloseWithEscapeKey"
 
 /**
+ * Displays revisions in a timeline form and a overview of revisions.
  *
- * @param {object} props
- * @param {string} titleSingular - Type of object (e.g. Beleidskeuze)
- * @param {object} dataObject - Object we are viewing on the detail page
- * @param {array} revisionObjects - Revisions of the dataObject
- * @param {object} children - Children revision list item component(s)
- * @returns Component to toggle the revision popup and the
+ * @param {string} titleSingular - Title of the object in a singular form
+ * @param {object} dataObject - Parameter containing the object data.
+ * @param {array} revisionObjects - Parameter containing a list of revisionObjects.
+ * @param {object} children - Can contain child component(s).
  */
 const PopUpRevisionContainer = ({
     titleSingular,
@@ -28,6 +27,7 @@ const PopUpRevisionContainer = ({
     const [open, setOpen] = React.useState(false)
     const [revisionOverviewOpen, setRevisionOverviewOpen] =
         React.useState(false)
+
     const amountOfRevisions = revisionObjects ? revisionObjects.length - 1 : 0
 
     const innerContainer = React.useRef(null)
@@ -47,20 +47,30 @@ const PopUpRevisionContainer = ({
     })
 
     const getAmountText = (amountOfRevisions) => {
-        const singleOrPlural = amountOfRevisions === 1 ? "revisie" : "revisies"
-        const text = amountOfRevisions + " " + singleOrPlural
-        return text
+        if (amountOfRevisions === 0) return "Geen revisies"
+        if (amountOfRevisions === 1) return "1 Revisie"
+        return amountOfRevisions + " Revisies"
     }
 
     return (
         <div className="relative inline-block" ref={innerContainer}>
             <div className="z-10 inline-block mr-3 text-sm text-gray-600">
                 <span
-                    onClick={() => setOpen(!open)}
-                    className="cursor-pointer select-none"
+                    onClick={() => {
+                        if (amountOfRevisions > 0) {
+                            setOpen(!open)
+                        }
+                    }}
+                    className={`${
+                        amountOfRevisions > 1 ? "cursor-pointer" : ""
+                    } select-none`}
                 >
                     <FontAwesomeIcon className="mr-2" icon={faClock} />
-                    <span className="hover:underline">
+                    <span
+                        className={
+                            amountOfRevisions > 1 ? "hover:underline" : ""
+                        }
+                    >
                         {getAmountText(amountOfRevisions)}
                     </span>
                 </span>
@@ -86,15 +96,16 @@ const PopUpRevisionContainer = ({
 }
 
 /**
+ * Component which renders the PopupRevisionTimeline component, which displays a popup containing the revisions in a timeline form, which the user can filter on.
  *
- * @param {object} props
- * @param {boolean} open - Indicating if the timeline popup is open
- * @param {object} revisionListItems - List item children components
- * @param {object} setOpen - Function to toggle the timeline popup
- * @param {object} setRevisionOverviewOpen - Function to toggle the revision overview popup
- * @param {object} titleSingular - Singular type title of the object we are viewing
- * @param {object} revisionObjects - Array of revisions
- * @returns Component that renders a toggleable popup with a timeline of revisions
+ * @component
+ *
+ * @param {boolean} open - Parameter used to display the Transition component.
+ * @param {array} revisionListItems - Parameter containing a list of revision list items.
+ * @param {function} setOpen - Function to close the revision timeline popup.
+ * @param {function} setRevisionOverviewOpen - Function to edit parent state
+ * @param {string} titleSingular - Title of the object in a singular form
+ * @param {array} revisionObjects - Parameter containing a list of revision in object form.
  */
 const PopupRevisionTimeline = ({
     open,

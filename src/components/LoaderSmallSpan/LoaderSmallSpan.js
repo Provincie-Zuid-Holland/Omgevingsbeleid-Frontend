@@ -2,7 +2,7 @@ import React from "react"
 import ContentLoader from "react-content-loader"
 
 /**
- * Component that renders the LoaderSmallSpan component, which loads a rectangle shape before the smallSpan component is displayed.
+ * Displays a rectangle shape before the smallSpan component is displayed.
  */
 const LoaderSmallSpan = () => (
     <ContentLoader className="w-20 inline-block mb-6" width="50" height="8">

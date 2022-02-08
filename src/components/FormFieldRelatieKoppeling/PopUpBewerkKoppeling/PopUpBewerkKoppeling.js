@@ -23,7 +23,6 @@ class PopUpBewerkKoppeling extends Component {
     /**
      * Function that sets the value variable to the name variable, based on the e.target values.
      *
-     *
      * @param {Event & { target: HTMLInputElement }} e
      */
     handleChange(e) {
