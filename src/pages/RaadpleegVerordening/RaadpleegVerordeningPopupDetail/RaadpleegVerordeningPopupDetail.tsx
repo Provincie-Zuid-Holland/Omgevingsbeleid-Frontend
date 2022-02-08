@@ -109,14 +109,27 @@ const RaadpleegVerordeningPopupDetail = ({
                             </div>
                         )}
                     </div>
-                    <div className="mt-6">
-                        <Heading
-                            level="3"
-                            className="font-bold"
-                            color="text-pzh-green">
-                            Koppelingen
-                        </Heading>
-                    </div>
+                    {activeArticle.Ref_Beleidskeuzes?.length > 0 ? (
+                        <div className="mt-6">
+                            <Heading
+                                level="3"
+                                className="font-bold"
+                                color="text-pzh-green">
+                                Koppelingen
+                            </Heading>
+                            <ul className="mt-4">
+                                {activeArticle.Ref_Beleidskeuzes.map(
+                                    (beleidskeuze: any) => (
+                                        <li
+                                            key={beleidskeuze.UUID}
+                                            className="p-2 mb-4 -mt-2 -ml-2 transition-colors duration-150 ease-in rounded-md cursor-pointer hover:bg-gray-200 hover:bg-opacity-70">
+                                            <Text>{beleidskeuze.Titel}</Text>
+                                        </li>
+                                    )
+                                )}
+                            </ul>
+                        </div>
+                    ) : null}
                 </div>
             </div>
         </Modal>
