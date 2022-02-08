@@ -1,16 +1,18 @@
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 
-import ContainerViewFieldsBeleidsdoelen from './ContainerViewFieldsBeleidsdoelen'
+import ContainerViewFieldsVerordeningsobject from './ContainerViewFieldsVerordeningsobject'
 
-describe('ContainerViewFieldsBeleidsdoelen', () => {
+describe('ContainerViewFieldsVerordeningsobject', () => {
     const defaultProps = {
-        crudObject: { Omschrijving: 'Test omschrijving' },
+        crudObject: {
+            Omschrijving: 'Test omschrijving',
+        },
     }
 
     const setup = (customProps?: any) => {
         const props = { ...defaultProps, ...customProps }
-        render(<ContainerViewFieldsBeleidsdoelen {...props} />)
+        render(<ContainerViewFieldsVerordeningsobject {...props} />)
     }
 
     it('Component renders', () => {
