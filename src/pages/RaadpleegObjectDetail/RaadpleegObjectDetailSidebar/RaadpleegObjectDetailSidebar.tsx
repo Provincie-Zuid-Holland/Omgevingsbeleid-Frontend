@@ -26,7 +26,6 @@ const RaadpleegObjectDetailSidebar = ({
     revisionObjects,
 }: RaadpleegObjectDetailSidebarProps) => {
     const { id } = useParams<{ id: string }>()
-    const vigerendText = getVigerendText({ dataObject, prefix: true })
 
     return (
         <aside
@@ -54,7 +53,9 @@ const RaadpleegObjectDetailSidebar = ({
                         type="span"
                         color="text-pzh-blue-dark"
                         className="block">
-                        {vigerendText}
+                        {dataObject.Status !== 'Vigerend'
+                            ? dataObject.Status
+                            : getVigerendText({ dataObject, prefix: true })}
                     </Text>
                 </div>
                 {revisionObjects && revisionObjects.length > 0 ? (
