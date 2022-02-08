@@ -2,11 +2,11 @@ const menuItemsOmgevingsbeleid = {
     Dashboard: { url: '/muteer/dashboard' },
     'Mijn beleid': { url: '/muteer/mijn-beleid' },
     Beleidsrelaties: { url: '/muteer/beleidsrelaties' },
+    Beleidsmodules: { url: '/muteer/beleidsmodules' },
     Uitloggen: { url: '/logout' },
 }
 
 const menuItemsBeheer = {
-    Beleidsmodules: { url: '/muteer/beleidsmodules' },
     Beleidskeuzes: { url: '/muteer/beleidskeuzes' },
     Beleidsregels: { url: '/muteer/beleidsregels' },
     Maatregelen: { url: '/muteer/maatregelen' },

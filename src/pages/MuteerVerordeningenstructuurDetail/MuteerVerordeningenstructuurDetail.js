@@ -38,7 +38,7 @@ import EditContentSidebar from './EditContentSidebar'
 import EditOrderSidebar from './EditOrderSidebar'
 
 // Import Axios instance to connect with the API
-import axios from '../../api/axios'
+import axios from '../../api/instance'
 import { useEffect, useReducer, useState } from 'react'
 
 // Reorder items in array
@@ -962,22 +962,6 @@ const MuteerVerordeningenstructuurDetail = () => {
             // Save new lineage
             setSaveNewLineage(true)
             setLineage(newLineage)
-        }
-
-        /** Check if the start date is in a valid range */
-        const startDateIsInValidRange = isDateInAValidRange(
-            new Date(verordeningsObjectFromGET.Begin_Geldigheid)
-        )
-        const endDateIsInValidRange = isDateInAValidRange(
-            new Date(verordeningsObjectFromGET.Eind_Geldigheid)
-        )
-
-        if (!startDateIsInValidRange) {
-            toastNotification({ type: 'start date valid range' })
-            return
-        } else if (!endDateIsInValidRange) {
-            toastNotification({ type: 'end date valid range' })
-            return
         }
 
         const newRegulationObject = cleanUpProperties(

@@ -1,3 +1,1 @@
-import TabRejected from './TabRejected'
-
-export default TabRejected
+export { default } from './TabRejected'

@@ -1,4 +1,9 @@
+import { getBelangen, getValidBelangen } from '@/api/fetchers'
+
 import { currentDate, futureDate, currentDateFormatted } from './testValues'
+
+export const apiCall = getBelangen
+export const validApiCall = getValidBelangen
 
 export const TITLE_SINGULAR = 'Belang'
 export const TITLE_SINGULAR_PREFIX = 'het'
@@ -7,6 +12,7 @@ export const API_ENDPOINT = 'belangen'
 export const API_ENDPOINT_VIGEREND = 'valid/belangen'
 export const SLUG_OVERVIEW = 'belangen'
 export const SLUG_CREATE_NEW = 'nieuw-belang'
+export const DESCRIPTION = null
 
 export const CRUD_PROPERTIES = {
     Titel: {

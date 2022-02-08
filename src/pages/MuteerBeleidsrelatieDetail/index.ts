@@ -1,3 +1,1 @@
-import MuteerBeleidsrelatiesDetail from './MuteerBeleidsrelatiesDetail'
-
-export default MuteerBeleidsrelatiesDetail
+export { default } from './MuteerBeleidsrelatiesDetail'

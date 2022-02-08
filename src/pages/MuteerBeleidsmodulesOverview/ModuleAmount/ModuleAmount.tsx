@@ -5,8 +5,8 @@ import {
 } from '@/api/fetchers.schemas'
 
 interface ModuleAmountProps {
-    currentBeleidsmodule: BeleidsmodulesRead
-    policies: (
+    currentBeleidsmodule?: BeleidsmodulesRead
+    policies?: (
         | BeleidsmodulesReadBeleidskeuzesItem
         | BeleidsmodulesReadMaatregelenItem
     )[]

@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 // Import Components
-import axios from '../../api/axios'
+import axios from '../../api/instance'
 import formatDate from '../../utils/formatDate'
 import { isDateInAValidRange } from '../../utils/isDateInAValidRange'
 import { toastNotification } from '../../utils/toastNotification'
@@ -97,20 +97,13 @@ class MuteerVerordeningenStructuurCRUD extends Component {
         event.preventDefault()
 
         const dimensieConstants = this.props.dimensieConstants
-        const titleSingular = dimensieConstants.TITLE_SINGULAR
 
         let crudObject = cloneDeep(this.state.crudObject)
 
         crudObject = formatGeldigheidDatesForAPI(crudObject)
 
         /** Check if all the required fields are filled in */
-        if (
-            checkContainsRequiredUnfilledField(
-                crudObject,
-                dimensieConstants,
-                titleSingular
-            )
-        ) {
+        if (checkContainsRequiredUnfilledField(crudObject, dimensieConstants)) {
             return
         }
 

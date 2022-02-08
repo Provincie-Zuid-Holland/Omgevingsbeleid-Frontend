@@ -34,7 +34,11 @@ const SortIcon = ({ sorting, property }: SortIconProps) => {
                     ? 'text-gray-700'
                     : 'text-gray-400'
             }`}
-            icon={sorting[property] ? faSortAmountUp : faSortAmountDown}
+            icon={
+                sorting[property as keyof typeof sorting]
+                    ? faSortAmountUp
+                    : faSortAmountDown
+            }
         />
     )
 }

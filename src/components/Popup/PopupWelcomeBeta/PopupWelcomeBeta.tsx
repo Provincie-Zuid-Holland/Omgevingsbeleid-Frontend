@@ -1,6 +1,6 @@
 import { useLockBodyScroll } from 'react-use'
 
-import logoSVG from './../../../images/PZH_Basislogo.svg'
+import logoSVG from '@/images/PZH_Basislogo.svg'
 
 /**
  * Displays a popup with a welcome text and a close button.

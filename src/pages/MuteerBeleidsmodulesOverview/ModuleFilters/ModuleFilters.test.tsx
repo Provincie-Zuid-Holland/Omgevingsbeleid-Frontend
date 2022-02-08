@@ -21,7 +21,7 @@ describe('ModuleFilters', () => {
         render(<ModuleFilters {...defaultProps} />)
 
         const select = screen.getByRole('combobox')
-        const options = screen.getAllByRole('option')
+        const options = screen.getAllByRole('option') as HTMLOptionElement[]
 
         expect(options[0].selected).toBeTruthy()
         expect(options[1].selected).toBeFalsy()

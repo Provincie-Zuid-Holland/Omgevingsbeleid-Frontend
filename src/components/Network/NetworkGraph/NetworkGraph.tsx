@@ -1,22 +1,17 @@
-import { Transition } from '@headlessui/react'
 import * as d3 from 'd3'
 import cloneDeep from 'lodash.clonedeep'
-import {
-    useCallback,
-    useEffect,
-    useLayoutEffect,
-    useReducer,
-    useRef,
-    useState,
-} from 'react'
+import { useCallback, useEffect, useReducer, useRef, useState } from 'react'
 import { useQuery } from 'react-query'
-import { useLocation, useHistory, matchPath } from 'react-router-dom'
+import { matchPath } from 'react-router-dom'
 import { useLastLocation } from 'react-router-last-location'
-import { useLockBodyScroll } from 'react-use'
 
-import axios from '@/api/axios'
+import { getGraph } from '@/api/fetchers'
+import { GetGraph200, GetGraph200NodesItem } from '@/api/fetchers.schemas'
+import axios from '@/api/instance'
 import networkGraphConnectionProperties from '@/constants/networkGraphConnectionProperties'
 import networkGraphFilterMenu from '@/constants/networkGraphFilterMenu'
+import useMuteerEnvironment from '@/hooks/useMuteerEnvironment'
+import hideBannerLocalStorage from '@/utils/hideBannerLocalStorage'
 import { getFilteredData } from '@/utils/networkGraph'
 import networkGraphGenerateHref from '@/utils/networkGraphGenerateHref'
 
@@ -26,37 +21,7 @@ import NetworkGraphSearchBar from '../NetworkGraphSearchBar'
 import NetworkGraphSidebar from '../NetworkGraphSidebar'
 import NetworkGraphTooltip from '../NetworkGraphTooltip'
 
-/**
- * @param {boolean} graphIsOpen - Inidicates if the graph popup is open
- * @param {function} setGraphIsOpen - Function to toggle the graphIsOpen value to a true/false value
- * @param {boolean} showBanner - Indicates if the user is shown a banner above the navigation (needed to calc. the height)
- * @returns {JSX.Element} A component that displays a d3 force graph that shows the relations and connections of all the policies
- */
-
-interface NetworkGraphProps {
-    graphIsOpen?: boolean
-    setGraphIsOpen: (e: boolean) => void
-    showBanner: boolean
-}
-
-const NetworkGraph = ({
-    graphIsOpen,
-    setGraphIsOpen,
-    showBanner,
-}: NetworkGraphProps) => {
-    /**
-     * Locks the vertical scroll when the graph popup is open
-     */
-    useLockBodyScroll(graphIsOpen)
-
-    /**
-     * Contains the graph data we receive from the API, containing the nodes & links
-     */
-    // const [data, setData] = useState([])
-
-    /** Loading state */
-    // const [isLoading, setIsLoading] = useState(true)
-
+const NetworkGraph = () => {
     /**
      * Search query to filter the nodes based on the title
      */
@@ -93,20 +58,13 @@ const NetworkGraph = ({
     }, [firstInitDone])
 
     /**
-     * The location is used in order to get the UUID parameter
-     */
-    const location = useLocation()
-
-    /**
-     * History is set to push a custom url when the graph is Open
-     */
-    const history = useHistory()
-
-    /**
      * Used to get the UUID paramater for detail pages
      */
     const lastLocation = useLastLocation()
     const lastLocationRef = useRef<string | null>(null)
+
+    const userIsInMuteerEnvironment = useMuteerEnvironment()
+    const showBanner = userIsInMuteerEnvironment && !hideBannerLocalStorage()
 
     useEffect(() => {
         if (lastLocation && !lastLocationRef.current) {
@@ -126,11 +84,11 @@ const NetworkGraph = ({
                 )
     )
 
-    const { isLoading, data } = useQuery('/graph', () =>
-        axios.get('/graph').then(res => {
-            const data = addColorAndUUIDToNodes(res.data)
-            setFilters({ type: 'init', data: data })
-            return data
+    const { isLoading, data, isFetching } = useQuery('/graph', () =>
+        getGraph().then(data => {
+            const transformedData = addColorAndUUIDToNodes(data)
+            setFilters({ type: 'init', data: transformedData })
+            return transformedData
         })
     )
 
@@ -197,33 +155,27 @@ const NetworkGraph = ({
         clickedNodeRef.current = clickedNode
     }, [clickedNode])
 
-    useEffect(() => {
-        clickedNodeRef.current = null
-    }, [graphIsOpen])
-
     /**
      * Function to add a Hex value and a UUID to each node
      * @param {object} data - Contains the graph data we receive from the API
      */
-    const addColorAndUUIDToNodes = (data: any) => {
+    const addColorAndUUIDToNodes = (data: GetGraph200) => {
         if (!data) return null
 
-        data.nodes.forEach(
-            (node: {
-                Type: keyof typeof networkGraphConnectionProperties
-                color: string
-                colorLight: string
-                id: string
-                UUID: string
-            }) => {
-                if (!networkGraphConnectionProperties[node.Type]) {
+        data.nodes?.forEach(
+            (node: GetGraph200NodesItem & { [key: string]: any }) => {
+                const nodeType =
+                    node.Type as keyof typeof networkGraphConnectionProperties
+
+                if (!networkGraphConnectionProperties[nodeType]) {
                     console.error(
                         `Node with type ${node.Type} doesn't exist on connection properties`
                     )
                 }
-                node.color = networkGraphConnectionProperties[node.Type].hex
+
+                node.color = networkGraphConnectionProperties[nodeType].hex
                 node.colorLight =
-                    networkGraphConnectionProperties[node.Type].hexLight
+                    networkGraphConnectionProperties[nodeType].hexLight
                 node.id = node.UUID
             }
         )
@@ -349,29 +301,6 @@ const NetworkGraph = ({
         },
         [resetNodes]
     )
-
-    /**
-     * Close popup when the location path changes
-     */
-    useLayoutEffect(() => {
-        if (location.pathname !== '/netwerkvisualisatie' && graphIsOpen) {
-            setGraphIsOpen(false)
-            setFirstInitDone(false)
-            lastLocationRef.current = null
-            clickedNodeRef.current = null
-        }
-        if (location.pathname === '/netwerkvisualisatie' && !graphIsOpen)
-            setGraphIsOpen(true)
-    }, [location.pathname, setGraphIsOpen, graphIsOpen])
-
-    /**
-     * When the graph is open we want it to have custom URL
-     */
-    useLayoutEffect(() => {
-        if (graphIsOpen) {
-            history.push('/netwerkvisualisatie')
-        }
-    }, [graphIsOpen, history])
 
     /**
      * Hook to initialize the D3 Graph
@@ -711,10 +640,9 @@ const NetworkGraph = ({
          * Timeout to wait for the transition of the popup to make sure all elements are mounted
          */
         setTimeout(() => {
-            if (!graphIsOpen) return
             initializeD3(data, filters)
         }, 250)
-    }, [data, graphIsOpen, filters, handleNodeClick, verordeningsStructure])
+    }, [data, filters, handleNodeClick, verordeningsStructure])
 
     /**
      * Update the graph styles to give it the correct height.
@@ -754,77 +682,58 @@ const NetworkGraph = ({
     }, [searchQuery])
 
     return (
-        <>
-            <Transition
-                show={graphIsOpen}
-                enter="transition ease-out duration-50"
-                enterFrom="opacity-0 -translate-y-5"
-                enterTo="opacity-100 translate-y-0"
-                leave="transition ease-in duration-50"
-                leaveFrom="opacity-100 translate-y-0"
-                leaveTo="opacity-0 -translate-y-5">
-                <div
-                    id="popup-menu-graph"
-                    className="fixed top-0 left-0 w-full bg-white"
-                    style={graphStyles}>
-                    <div className="container flex flex-col h-full mx-auto lg:flex-row">
-                        <NetworkGraphSidebar
-                            isLoading={isLoading}
-                            setGraphIsOpen={setGraphIsOpen}
-                            filters={filters}
-                            setFilters={setFilters}
-                        />
-                        <div className="w-full px-4 pb-4 mt-6 lg:mt-10 lg:w-3/4">
-                            <h2 className="text-xl text-pzh-blue opacity-30">
-                                Omgevingsbeleid Provincie Zuid-Holland
-                            </h2>
-                            <h3 className="py-2 text-3xl text-pzh-blue">
-                                Netwerkvisualisatie
-                            </h3>
-                            <div
-                                className="relative mt-2 mb-10 overflow-hidden border rounded-md"
-                                id="d3-graph-container"
-                                style={{
-                                    height: '80%',
-                                }}>
-                                <div className="absolute w-full p-2">
-                                    <NetworkGraphSearchBar
-                                        clickedNode={clickedNode}
-                                        data={data}
-                                        filters={filters}
-                                        searchQuery={searchQuery}
-                                        setSearchQuery={setSearchQuery}
-                                        handleNodeClick={handleNodeClick}
-                                        svgElement={d3.select(
-                                            d3Container.current
-                                        )}
-                                    />
-                                </div>
-                                <svg
-                                    role="img"
-                                    className="w-full h-full d3-component"
-                                    ref={d3Container as any}
-                                />
-                                <NetworkGraphResetClickedElement
-                                    resetNodes={resetNodes}
-                                    clickedNode={clickedNode}
-                                />
-                                <NetworkGraphClickedElementPopup
-                                    clickedNode={clickedNode}
-                                    setGraphIsOpen={setGraphIsOpen}
-                                    resetNodes={resetNodes}
-                                />
-                            </div>
+        <div
+            id="popup-menu-graph"
+            className="fixed top-0 left-0 w-full bg-white"
+            style={graphStyles}>
+            <div className="container flex flex-col h-full mx-auto lg:flex-row">
+                <NetworkGraphSidebar
+                    isLoading={isLoading || isFetching}
+                    filters={filters}
+                    setFilters={setFilters}
+                />
+                <div className="w-full px-4 pb-4 mt-6 lg:mt-10 lg:w-3/4">
+                    <h2 className="text-xl text-pzh-blue opacity-30">
+                        Omgevingsbeleid Provincie Zuid-Holland
+                    </h2>
+                    <h3 className="py-2 text-3xl text-pzh-blue">
+                        Netwerkvisualisatie
+                    </h3>
+                    <div
+                        className="relative mt-2 mb-10 overflow-hidden border rounded-md"
+                        id="d3-graph-container"
+                        style={{
+                            height: '80%',
+                        }}>
+                        <div className="absolute w-full p-2">
+                            <NetworkGraphSearchBar
+                                clickedNode={clickedNode}
+                                data={data}
+                                filters={filters}
+                                searchQuery={searchQuery}
+                                setSearchQuery={setSearchQuery}
+                                handleNodeClick={handleNodeClick}
+                                svgElement={d3.select(d3Container.current)}
+                            />
                         </div>
-                        <NetworkGraphTooltip
-                            href={href || ''}
-                            variables={variables}
-                            setGraphIsOpen={setGraphIsOpen}
+                        <svg
+                            role="img"
+                            className="w-full h-full d3-component"
+                            ref={d3Container as any}
+                        />
+                        <NetworkGraphResetClickedElement
+                            resetNodes={resetNodes}
+                            clickedNode={clickedNode}
+                        />
+                        <NetworkGraphClickedElementPopup
+                            clickedNode={clickedNode}
+                            resetNodes={resetNodes}
                         />
                     </div>
                 </div>
-            </Transition>
-        </>
+                <NetworkGraphTooltip href={href || ''} variables={variables} />
+            </div>
+        </div>
     )
 }
 

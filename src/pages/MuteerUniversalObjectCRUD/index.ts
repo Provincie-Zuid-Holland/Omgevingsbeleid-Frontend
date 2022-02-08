@@ -1,3 +1,1 @@
-import MuteerUniversalObjectCRUD from './MuteerUniversalObjectCRUD'
-
-export default MuteerUniversalObjectCRUD
+export { default } from './MuteerUniversalObjectCRUD'

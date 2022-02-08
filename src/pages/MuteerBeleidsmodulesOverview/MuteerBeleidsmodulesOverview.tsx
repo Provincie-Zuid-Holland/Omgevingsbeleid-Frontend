@@ -53,8 +53,6 @@ function MuteerBeleidsmodulesOverview() {
     useEffect(() => {
         /**
          * Function to find the corresponding active beleidsmodule based on the single parameter from the URL and set it in state
-         * @param {array} beleidsmodules - Contains the API response
-         * @returns {null|object} currentBeleidsmodule or null if there is none found
          */
         const findAndSetCurrentBeleidsmodule = (
             beleidsmodules: BeleidsmodulesRead[]
@@ -158,13 +156,10 @@ function MuteerBeleidsmodulesOverview() {
 
                                             <TableHeading
                                                 label="Status"
-                                                noIcon={true}
+                                                noIcon
                                             />
 
-                                            <TableHeading
-                                                label="UUID"
-                                                noIcon={true}
-                                            />
+                                            <TableHeading label="UUID" noIcon />
 
                                             <TableHeading
                                                 property={'date'}

@@ -1,3 +1,1 @@
-import ContainerViewFieldsVerordeningsobject from './ContainerViewFieldsVerordeningsobject'
-
-export default ContainerViewFieldsVerordeningsobject
+export { default } from './ContainerViewFieldsVerordeningsobject'

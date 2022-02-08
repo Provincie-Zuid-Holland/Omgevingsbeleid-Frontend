@@ -6,7 +6,7 @@ import LoaderLeafletLargeViewer from './LoaderLeafletLargeViewer'
 describe('LoaderLeafletLargeViewer', () => {
     const defaultProps = {}
 
-    const setup = customProps => {
+    const setup = (customProps?: { [key: string]: any }) => {
         const props = { ...defaultProps, ...customProps }
         render(<LoaderLeafletLargeViewer {...props} />)
     }

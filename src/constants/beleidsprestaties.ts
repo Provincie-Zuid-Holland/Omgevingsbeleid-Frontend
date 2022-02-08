@@ -1,4 +1,9 @@
+import { getBeleidsprestaties, getValidBeleidsprestaties } from '@/api/fetchers'
+
 import { currentDate, futureDate, currentDateFormatted } from './testValues'
+
+export const apiCall = getBeleidsprestaties
+export const validApiCall = getValidBeleidsprestaties
 
 export const TITLE_SINGULAR = 'Beleidsprestatie'
 export const TITLE_SINGULAR_PREFIX = 'de'

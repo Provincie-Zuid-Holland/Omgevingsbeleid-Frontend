@@ -1,3 +1,1 @@
-import ContainerViewFieldsThema from './ContainerViewFieldsThema'
-
-export default ContainerViewFieldsThema
+export { default } from './ContainerViewFieldsThema'

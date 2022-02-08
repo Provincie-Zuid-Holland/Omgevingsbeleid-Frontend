@@ -94,6 +94,10 @@ export const handlers = [
         )
     }),
 
+    rest.post(`${currentBaseURL}/password-reset`, (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json({}))
+    }),
+
     rest.get(`${currentBaseURL}/beleidsregels`, (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(beleidsregels))
     }),

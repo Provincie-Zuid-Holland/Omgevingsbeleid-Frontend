@@ -1,3 +1,1 @@
-import FormFieldContainerAmbities from './FormFieldContainerAmbities'
-
-export default FormFieldContainerAmbities
+export { default } from './FormFieldContainerAmbities'

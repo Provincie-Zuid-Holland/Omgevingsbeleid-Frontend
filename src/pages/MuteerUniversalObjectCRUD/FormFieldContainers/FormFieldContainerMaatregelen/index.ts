@@ -1,3 +1,1 @@
-import FormFieldContainerMaatregelen from './FormFieldContainerMaatregelen'
-
-export default FormFieldContainerMaatregelen
+export { default } from './FormFieldContainerMaatregelen'

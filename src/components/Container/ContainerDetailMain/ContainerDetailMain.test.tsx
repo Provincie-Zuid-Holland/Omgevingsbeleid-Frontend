@@ -10,8 +10,7 @@ describe('ContainerDetailMain', () => {
                 <ContainerDetailMain
                     dataObject={{ Titel: 'Title of object' }}
                     titleSingular={'titel'}
-                    pageType={'detail'}
-                    dataReceived={true}
+                    dataReceived
                 />
             </MemoryRouter>
         )

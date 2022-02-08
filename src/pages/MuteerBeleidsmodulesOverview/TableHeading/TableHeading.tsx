@@ -41,12 +41,12 @@ const TableHeading: FC<TableHeadingProps> = ({
                 if (sorting.activeSorting === property) {
                     setSorting({
                         type: 'toggle',
-                        property: property,
+                        property,
                     })
                 } else {
                     setSorting({
                         type: 'reactivate',
-                        property: property,
+                        property,
                     })
                 }
             }}>

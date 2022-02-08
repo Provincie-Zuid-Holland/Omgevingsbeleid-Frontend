@@ -1,3 +1,1 @@
-import FormFieldContainerBelangen from './FormFieldContainerBelangen'
-
-export default FormFieldContainerBelangen
+export { default } from './FormFieldContainerBelangen'

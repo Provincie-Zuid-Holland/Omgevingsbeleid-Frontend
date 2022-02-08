@@ -1,3 +1,1 @@
-import ContainerCrudFields from './ContainerCrudFields'
-
-export default ContainerCrudFields
+export { default } from './ContainerCrudFields'
