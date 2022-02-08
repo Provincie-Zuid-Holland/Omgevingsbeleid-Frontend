@@ -10,7 +10,7 @@ import {
     useState,
 } from 'react'
 import { useQuery } from 'react-query'
-import { useLocation, useHistory, matchPath } from 'react-router-dom'
+import { useLocation, matchPath } from 'react-router-dom'
 import { useLastLocation } from 'react-router-last-location'
 import { useLockBodyScroll } from 'react-use'
 
@@ -47,14 +47,6 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen }: NetworkGraphProps) => {
      * Locks the vertical scroll when the graph popup is open
      */
     useLockBodyScroll(graphIsOpen)
-
-    /**
-     * Contains the graph data we receive from the API, containing the nodes & links
-     */
-    // const [data, setData] = useState([])
-
-    /** Loading state */
-    // const [isLoading, setIsLoading] = useState(true)
 
     /**
      * Search query to filter the nodes based on the title
@@ -97,11 +89,6 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen }: NetworkGraphProps) => {
     const location = useLocation()
 
     /**
-     * History is set to push a custom url when the graph is Open
-     */
-    const history = useHistory()
-
-    /**
      * Used to get the UUID paramater for detail pages
      */
     const lastLocation = useLastLocation()
@@ -128,7 +115,7 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen }: NetworkGraphProps) => {
                 )
     )
 
-    const { isLoading, data } = useQuery('/graph', () =>
+    const { isLoading, data, isFetching } = useQuery('/graph', () =>
         getGraph().then(data => {
             const transformedData = addColorAndUUIDToNodes(data)
             setFilters({ type: 'init', data: transformedData })
@@ -363,15 +350,6 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen }: NetworkGraphProps) => {
         if (location.pathname === '/netwerkvisualisatie' && !graphIsOpen)
             setGraphIsOpen(true)
     }, [location.pathname, setGraphIsOpen, graphIsOpen])
-
-    /**
-     * When the graph is open we want it to have custom URL
-     */
-    useLayoutEffect(() => {
-        if (graphIsOpen) {
-            history.push('/netwerkvisualisatie')
-        }
-    }, [graphIsOpen, history])
 
     /**
      * Hook to initialize the D3 Graph
@@ -769,7 +747,7 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen }: NetworkGraphProps) => {
                     style={graphStyles}>
                     <div className="container flex flex-col h-full mx-auto lg:flex-row">
                         <NetworkGraphSidebar
-                            isLoading={isLoading}
+                            isLoading={isLoading || isFetching}
                             setGraphIsOpen={setGraphIsOpen}
                             filters={filters}
                             setFilters={setFilters}
