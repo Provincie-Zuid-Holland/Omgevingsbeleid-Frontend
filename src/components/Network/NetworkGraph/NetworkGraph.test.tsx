@@ -8,16 +8,10 @@ import NetworkGraph from './NetworkGraph'
 const queryClient = new QueryClient()
 
 const initialize = async () => {
-    const setGraphIsOpenMock = () => jest.fn()
-
     render(
         <QueryClientProvider client={queryClient}>
             <MemoryRouter>
-                <NetworkGraph
-                    graphIsOpen={true}
-                    showBanner={true}
-                    setGraphIsOpen={setGraphIsOpenMock}
-                />
+                <NetworkGraph />
             </MemoryRouter>
         </QueryClientProvider>
     )
@@ -40,15 +34,10 @@ describe('NetworkGraph', () => {
     })
 
     it('should not display if the graphIsOpen state is false', async () => {
-        const setGraphIsOpenMock = () => jest.fn()
         render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
-                    <NetworkGraph
-                        graphIsOpen={false}
-                        showBanner={true}
-                        setGraphIsOpen={setGraphIsOpenMock}
-                    />
+                    <NetworkGraph />
                 </MemoryRouter>
             </QueryClientProvider>
         )
