@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import { useSearchParam } from 'react-use'
 
 import { getSearch } from '@/api/fetchers'
 import { GetSearch200Item } from '@/api/fetchers.schemas'
 import Button from '@/components/Button'
 import LoaderSpinner from '@/components/Loader/LoaderSpinner'
 import { ACTIONTYPE } from '@/hooks/useSearchResultFilters'
+import useSearchParam from '@/utils/useSearchParam'
 
 export interface PaginationProps {
     searchResults: GetSearch200Item[]
