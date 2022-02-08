@@ -341,14 +341,7 @@ const NetworkGraph = ({ graphIsOpen, setGraphIsOpen }: NetworkGraphProps) => {
      * Close popup when the location path changes
      */
     useLayoutEffect(() => {
-        if (location.pathname !== '/netwerkvisualisatie' && graphIsOpen) {
-            setGraphIsOpen(false)
-            setFirstInitDone(false)
-            lastLocationRef.current = null
-            clickedNodeRef.current = null
-        }
-        if (location.pathname === '/netwerkvisualisatie' && !graphIsOpen)
-            setGraphIsOpen(true)
+        setGraphIsOpen(true)
     }, [location.pathname, setGraphIsOpen, graphIsOpen])
 
     /**
