@@ -5,7 +5,6 @@ import NetworkGraphSidebar from './NetworkGraphSidebar'
 
 describe('NetworkGraphSidebar', () => {
     const setup = () => {
-        const setGraphIsOpenMock = jest.fn(() => null)
         const setFiltersMock = jest.fn(() => null)
 
         const defaultProps = {
@@ -19,7 +18,6 @@ describe('NetworkGraphSidebar', () => {
                 themas: false,
                 verordeningen: false,
             },
-            setGraphIsOpen: setGraphIsOpenMock,
             setFilters: setFiltersMock,
         }
 
@@ -28,7 +26,7 @@ describe('NetworkGraphSidebar', () => {
                 <NetworkGraphSidebar {...defaultProps} />
             </MemoryRouter>
         )
-        return { setFiltersMock, setGraphIsOpenMock }
+        return { setFiltersMock }
     }
 
     it('should render', () => {
@@ -42,13 +40,5 @@ describe('NetworkGraphSidebar', () => {
 
         fireEvent.click(filterItem)
         expect(setFiltersMock).toBeCalledTimes(1)
-    })
-
-    it('closes the graph when clicked on previous page text', () => {
-        const { setGraphIsOpenMock } = setup()
-        const backToPage = screen.queryByText('Vorige pagina') as Element
-
-        fireEvent.click(backToPage)
-        expect(setGraphIsOpenMock).toBeCalledTimes(1)
     })
 })

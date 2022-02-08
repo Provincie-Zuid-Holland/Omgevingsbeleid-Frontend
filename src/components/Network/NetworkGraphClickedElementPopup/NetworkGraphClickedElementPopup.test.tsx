@@ -10,7 +10,6 @@ import { MemoryRouter } from 'react-router-dom'
 import NetworkGraphClickedElementPopup from './NetworkGraphClickedElementPopup'
 
 const setup = (clickedNode?: any) => {
-    const setGraphIsOpenMock = jest.fn()
     const resetNodesMock = jest.fn()
     const defaultProps = {
         clickedNode:
@@ -21,7 +20,6 @@ const setup = (clickedNode?: any) => {
                       Type: 'beleidskeuzes',
                       UUID: '0000-0000',
                   },
-        setGraphIsOpen: setGraphIsOpenMock,
         resetNodes: resetNodesMock,
     }
 
@@ -31,7 +29,7 @@ const setup = (clickedNode?: any) => {
         </MemoryRouter>
     )
 
-    return { setGraphIsOpenMock, resetNodesMock }
+    return { resetNodesMock }
 }
 
 describe('NetworkGraphClickedElementPopup', () => {
@@ -69,15 +67,6 @@ describe('NetworkGraphClickedElementPopup', () => {
             'href',
             '/detail/beleidskeuzes/0000-0000'
         )
-    })
-
-    it('should close the graph when the user clicks on the link', () => {
-        const { setGraphIsOpenMock } = setup()
-        const link = screen.queryByRole('link') as HTMLLinkElement
-
-        fireEvent.click(link)
-
-        expect(setGraphIsOpenMock).toBeCalledTimes(1)
     })
 
     it('should close the popup when user clicks on the close button', async () => {

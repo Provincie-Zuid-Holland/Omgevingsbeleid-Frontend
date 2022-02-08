@@ -33,26 +33,6 @@ describe('NetworkGraph', () => {
         expect(title).toBeInTheDocument()
     })
 
-    it('should not display if the graphIsOpen state is false', async () => {
-        render(
-            <QueryClientProvider client={queryClient}>
-                <MemoryRouter>
-                    <NetworkGraph />
-                </MemoryRouter>
-            </QueryClientProvider>
-        )
-
-        const title = screen.queryByText('Netwerkvisualisatie')
-        expect(title).not.toBeInTheDocument()
-    })
-
-    it('should display if the graphIsOpen state is true', async () => {
-        initialize()
-
-        const title = screen.queryByText('Netwerkvisualisatie')
-        expect(title).toBeInTheDocument()
-    })
-
     // it("should render nodes", async () => {
     //     const graphIsOpen = true
     //     initialize(graphIsOpen)
