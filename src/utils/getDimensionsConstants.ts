@@ -1,18 +1,7 @@
-import allDimensieConstants from '../constants/dimensies'
+import allDimensieConstants from '@/constants/dimensies'
+import { DimensionType } from '@/types/dimensions'
 
-type Type =
-    | 'ambities'
-    | 'belangen'
-    | 'beleidskeuzes'
-    | 'beleidsregels'
-    | 'beleidsprestaties'
-    | 'maatregelen'
-    | 'beleidsdoelen'
-    | 'themas'
-    | 'verordeningen'
-    | 'artikel'
-
-function getDimensionsConstants(type: Type) {
+function getDimensionsConstants(type: DimensionType) {
     switch (type) {
         case 'ambities':
             return allDimensieConstants.AMBITIES

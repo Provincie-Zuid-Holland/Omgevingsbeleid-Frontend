@@ -1,0 +1,11 @@
+export type DimensionType =
+    | 'ambities'
+    | 'belangen'
+    | 'beleidskeuzes'
+    | 'beleidsregels'
+    | 'beleidsprestaties'
+    | 'maatregelen'
+    | 'beleidsdoelen'
+    | 'themas'
+    | 'verordeningen'
+    | 'artikel'

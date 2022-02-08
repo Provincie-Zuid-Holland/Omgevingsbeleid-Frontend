@@ -36,9 +36,9 @@ import RaadpleegHome from '@/pages/RaadpleegHome'
 import RaadpleegInProgress from '@/pages/RaadpleegInProgress'
 import RaadpleegObjectDetail from '@/pages/RaadpleegObjectDetail'
 import RaadpleegPlanningAndReleases from '@/pages/RaadpleegPlanningAndReleases'
+import RaadpleegSearchResults from '@/pages/RaadpleegSearchResults'
 import RaadpleegUniversalObjectOverview from '@/pages/RaadpleegUniversalObjectOverview'
 import RaadpleegVerordening from '@/pages/RaadpleegVerordening'
-import RaadpleegZoekResultatenOverzicht from '@/pages/RaadpleegZoekResultatenOverzicht'
 import detailPages from '@/utils/detailPages'
 
 // Import Context
@@ -161,9 +161,7 @@ const App: FC<RouteComponentProps> = () => {
                                     <Route
                                         exact
                                         path="/zoekresultaten"
-                                        component={
-                                            RaadpleegZoekResultatenOverzicht
-                                        }
+                                        component={RaadpleegSearchResults}
                                     />
 
                                     <Route

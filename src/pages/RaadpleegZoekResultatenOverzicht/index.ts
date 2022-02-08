@@ -1,3 +1,0 @@
-import RaadpleegZoekResultatenOverzicht from './RaadpleegZoekResultatenOverzicht'
-
-export default RaadpleegZoekResultatenOverzicht

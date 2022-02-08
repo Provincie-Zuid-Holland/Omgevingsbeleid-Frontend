@@ -6,14 +6,27 @@ import SearchFilterSection from './SearchFilterSection'
 describe('SearchFilterSection', () => {
     const defaultProps = {
         loaded: true,
-        searchFiltersOnly: null,
         onPageFilters: {
-            beleidskeuzes: { name: 'beleidskeuzes', checked: true, count: 3 },
-            maatregelen: { name: 'maatregelen', checked: false, count: 4 },
-            beleidsregels: { name: 'beleidsregels', checked: true, count: 1 },
-            beleidsdoelen: { name: 'beleidsdoelen', checked: true, count: 1 },
-            belangen: { name: 'belangen', checked: true, count: 1 },
-            filterArray: [
+            filterState: {
+                beleidskeuzes: {
+                    name: 'beleidskeuzes',
+                    checked: true,
+                    count: 3,
+                },
+                maatregelen: { name: 'maatregelen', checked: true, count: 4 },
+                beleidsregels: {
+                    name: 'beleidsregels',
+                    checked: true,
+                    count: 1,
+                },
+                beleidsdoelen: {
+                    name: 'beleidsdoelen',
+                    checked: true,
+                    count: 1,
+                },
+                belangen: { name: 'belangen', checked: true, count: 1 },
+            },
+            availableFilters: [
                 'beleidskeuzes',
                 'maatregelen',
                 'beleidsregels',
@@ -21,12 +34,7 @@ describe('SearchFilterSection', () => {
                 'belangen',
             ],
         },
-        filters: [
-            'beleidskeuzes',
-            'beleidsdoelen',
-            'maatregelen',
-            'beleidsregels',
-        ],
+        setOnPageFilters: jest.fn(),
     }
 
     const setup = customProps => {
