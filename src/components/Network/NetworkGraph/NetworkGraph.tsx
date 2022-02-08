@@ -19,6 +19,8 @@ import { GetGraph200, GetGraph200NodesItem } from '@/api/fetchers.schemas'
 import axios from '@/api/instance'
 import networkGraphConnectionProperties from '@/constants/networkGraphConnectionProperties'
 import networkGraphFilterMenu from '@/constants/networkGraphFilterMenu'
+import useMuteerEnvironment from '@/hooks/useMuteerEnvironment'
+import hideBannerLocalStorage from '@/utils/hideBannerLocalStorage'
 import { getFilteredData } from '@/utils/networkGraph'
 import networkGraphGenerateHref from '@/utils/networkGraphGenerateHref'
 
@@ -38,14 +40,9 @@ import NetworkGraphTooltip from '../NetworkGraphTooltip'
 interface NetworkGraphProps {
     graphIsOpen?: boolean
     setGraphIsOpen: (e: boolean) => void
-    showBanner: boolean
 }
 
-const NetworkGraph = ({
-    graphIsOpen,
-    setGraphIsOpen,
-    showBanner,
-}: NetworkGraphProps) => {
+const NetworkGraph = ({ graphIsOpen, setGraphIsOpen }: NetworkGraphProps) => {
     /**
      * Locks the vertical scroll when the graph popup is open
      */
@@ -109,6 +106,9 @@ const NetworkGraph = ({
      */
     const lastLocation = useLastLocation()
     const lastLocationRef = useRef<string | null>(null)
+
+    const userIsInMuteerEnvironment = useMuteerEnvironment()
+    const showBanner = userIsInMuteerEnvironment && !hideBannerLocalStorage()
 
     useEffect(() => {
         if (lastLocation && !lastLocationRef.current) {

@@ -18,7 +18,6 @@ import {
     withRouter,
     useHistory,
     RouteComponentProps,
-    useLocation,
 } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 
@@ -27,7 +26,9 @@ import { GetTokeninfo200Identifier } from '@/api/fetchers.schemas'
 import FeedbackComponent from '@/components/FeedbackComponent'
 import { LoaderContent } from '@/components/Loader'
 import Navigation from '@/components/Navigation'
+import { NetworkGraph } from '@/components/Network'
 import { PopupWelcomeBeta } from '@/components/Popup'
+import useMuteerEnvironment from '@/hooks/useMuteerEnvironment'
 import ErrorPage from '@/pages/ErrorPage'
 import Login from '@/pages/Login'
 import RaadpleegDigiToegankelijkheid from '@/pages/RaadpleegDigiToegankelijkheid'
@@ -49,8 +50,7 @@ const AuthRoutes = lazy(() => import('./AuthRoutes'))
 const queryClient = new QueryClient()
 
 const App: FC<RouteComponentProps> = () => {
-    const location = useLocation()
-    const locationEqualsMutateEnv = location.pathname.includes('muteer')
+    const userIsInMuteerEnvironment = useMuteerEnvironment()
 
     const [user, setUser] = useState<GetTokeninfo200Identifier | undefined>(
         undefined
@@ -137,7 +137,7 @@ const App: FC<RouteComponentProps> = () => {
                 <QueryClientProvider client={queryClient}>
                     <div
                         className={`min-h-screen text-pzh-blue-dark relative ${
-                            locationEqualsMutateEnv ? 'bg-gray-100' : ''
+                            userIsInMuteerEnvironment ? 'bg-gray-100' : ''
                         }`}
                         id="main-container">
                         <Helmet>
@@ -247,7 +247,14 @@ const App: FC<RouteComponentProps> = () => {
                                         />
                                         <Route
                                             path="/netwerkvisualisatie"
-                                            render={() => null}
+                                            render={() => (
+                                                <NetworkGraph
+                                                    graphIsOpen={graphIsOpen}
+                                                    setGraphIsOpen={
+                                                        setGraphIsOpen
+                                                    }
+                                                />
+                                            )}
                                         />
 
                                         <AuthRoutes
