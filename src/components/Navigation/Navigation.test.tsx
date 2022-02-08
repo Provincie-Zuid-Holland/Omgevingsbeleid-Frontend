@@ -2,15 +2,12 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { MemoryRouter } from 'react-router-dom'
 
-import GraphContext from '@/App/GraphContext'
-
 import Navigation from './Navigation'
 
 jest.mock('./../Network/NetworkGraph', () => () => null)
 
 describe('Navigation', () => {
     const setLoginStateMock = jest.fn()
-    const setGraphIsOpenMock = jest.fn()
     const defaultProps = {
         setLoginState: setLoginStateMock,
         loggedIn: false,
@@ -20,13 +17,7 @@ describe('Navigation', () => {
         const props = { ...defaultProps, ...customProps }
         render(
             <MemoryRouter>
-                <GraphContext.Provider
-                    value={{
-                        graphIsOpen: false,
-                        setGraphIsOpen: setGraphIsOpenMock,
-                    }}>
-                    <Navigation {...props} />
-                </GraphContext.Provider>
+                <Navigation {...props} />
             </MemoryRouter>
         )
     }
@@ -37,12 +28,12 @@ describe('Navigation', () => {
         expect(search).toBeTruthy()
     })
 
-    it('Toggles the menu', async () => {
+    it('Toggles the menu', () => {
         setup()
         const button = screen.getByRole('button')
         expect(button).toBeTruthy()
         fireEvent.click(button)
-        const popupTitle = await screen.queryByText('Omgevingsvisie')
+        const popupTitle = screen.queryByText('Omgevingsvisie')
         expect(popupTitle).toBeTruthy()
     })
 })

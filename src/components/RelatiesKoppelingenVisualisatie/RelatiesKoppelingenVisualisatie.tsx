@@ -1,12 +1,11 @@
 import * as d3 from 'd3'
-import { useCallback, useContext, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
 import {
     BeleidskeuzeShortRead,
     BeleidskeuzesRead,
 } from '@/api/fetchers.schemas'
-import GraphContext from '@/App/GraphContext'
 import { generateHrefVerordeningsartikel } from '@/utils/generateHrefVerordeningsartikel'
 
 import {
@@ -51,8 +50,6 @@ const RelatiesKoppelingenVisualisatie = ({
     verordeningsStructure,
 }: RelatiesKoppelingenVisualisatieProps) => {
     const location = useLocation()
-
-    const { setGraphIsOpen } = useContext(GraphContext)
 
     const [variables, setVariables] = useState<{
         left?: number | string
@@ -392,16 +389,14 @@ const RelatiesKoppelingenVisualisatie = ({
                         ref={d3Container}
                     />
                 </div>
-                <div
-                    className="absolute bottom-0 right-0 px-3 py-1 font-bold transition-colors duration-100 ease-in border rounded-md cursor-pointer hover:text-white text-pzh-blue border-pzh-blue hover:bg-pzh-blue"
-                    onClick={() => {
-                        setGraphIsOpen && setGraphIsOpen(true)
-                    }}>
+                <Link
+                    to="/netwerkvisualisatie"
+                    className="absolute bottom-0 right-0 px-3 py-1 font-bold transition-colors duration-100 ease-in border rounded-md cursor-pointer hover:text-white text-pzh-blue border-pzh-blue hover:bg-pzh-blue">
                     Bekijk grote netwerkvisualisatie
-                </div>
+                </Link>
             </div>
             <Link
-                to={href ? href : '#'}
+                to={href || '#'}
                 id="d3-tooltip"
                 style={{
                     left: variables.left,
