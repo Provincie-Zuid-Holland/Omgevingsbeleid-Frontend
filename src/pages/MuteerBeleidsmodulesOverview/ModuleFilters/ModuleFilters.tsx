@@ -30,6 +30,7 @@ const ModuleFilters = ({ filters, setFilters }: ModuleFiltersProps) => (
             }
             id={`modules-select-type`}
             name={'modules-select-type'}
+            data-testid="modules-select-type"
             className="relative block w-40 px-3 pt-2 pb-1 pr-5 ml-2 leading-tight text-gray-700 bg-white border border-gray-400 rounded appearance-none overflow-ellipsis focus:outline-none hover:border-gray-500 focus:border-gray-500">
             {filters.typeFilters.map(filter => (
                 <option key={filter} value={filter}>
@@ -46,6 +47,7 @@ const ModuleFilters = ({ filters, setFilters }: ModuleFiltersProps) => (
                     property: 'selectedStatus',
                 })
             }
+            data-testid="modules-select-status"
             id={`modules-select-status`}
             name={'modules-select-status'}
             className="relative block w-40 px-3 pt-2 pb-1 pr-5 ml-2 leading-tight text-gray-700 bg-white border border-gray-400 rounded appearance-none overflow-ellipsis focus:outline-none hover:border-gray-500 focus:border-gray-500">
