@@ -73,7 +73,7 @@ const SearchBar = ({
             ref={searchBarRef}
             className={`relative block w-full ${className}`}>
             <input
-                className={`block pl-10 w-full bg-gray-50 rounded appearance-none px-3 border hover:border-opacity-40 border-pzh-blue-dark border-opacity-30 transition-colors ease-in duration-100`}
+                className={`block pl-10 w-full bg-gray-50 rounded appearance-none px-3 border hover:border-opacity-40 border-pzh-blue-dark border-opacity-30 transition-colors ease-in duration-100 pb-1`}
                 name="searchInput"
                 onChange={e => {
                     setSearchQuery(e.target.value)

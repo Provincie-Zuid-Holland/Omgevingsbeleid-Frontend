@@ -26,7 +26,7 @@ const getGeoJsonData = async (type: string, UUID: string) => {
     return data
 }
 
-const getOnderverdeling = async (_: string, UUID: string) => {
+const getOnderverdeling = async (UUID: string) => {
     const res = await instance.get(
         `ows?service=wfs&version=1.0.0&request=GetFeature&typeName=OMGEVINGSBELEID%3AWerkingsgebieden_Onderverdeling&maxFeatures=50&outputFormat=application%2Fjson&cql_filter=UUID%20IN%20(%27${UUID}%27)`,
         { cancelToken: source.token }

@@ -74,7 +74,7 @@ const LeafletRevisionOverview = ({
         gebiedenUUIDS.forEach(async (uuid: string) => {
             Promise.all([
                 getGeoJsonData('Werkingsgebieden', uuid),
-                getOnderverdeling('Werkingsgebieden', uuid),
+                getOnderverdeling(uuid),
             ])
                 .then(responses => {
                     const geoJsonData = responses[0]

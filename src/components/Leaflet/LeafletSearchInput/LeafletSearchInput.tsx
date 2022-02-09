@@ -19,6 +19,7 @@ const LeafletSearchInput = forwardRef<
 >(({ mapPanTo }, ref) => {
     const [searchQuery, setSearchQuery] = useState('')
     const [queryData, setQueryData] = useState([])
+    const [showSuggestions, setShowSuggestions] = useState(false)
 
     const suggestList = useRef(null)
 
@@ -55,6 +56,7 @@ const LeafletSearchInput = forwardRef<
                 const lng = parseFloat(latLng[1]).toFixed(20)
 
                 mapPanTo(parseFloat(lng), parseFloat(lat), data.type)
+                setShowSuggestions(false)
             })
             .catch(() => {
                 toast(process.env.REACT_APP_ERROR_MSG)
@@ -119,11 +121,12 @@ const LeafletSearchInput = forwardRef<
     return (
         <>
             <input
-                className="w-64 h-10 px-5 py-3 ml-3 text-sm leading-tight text-gray-700 border-none rounded appearance-none focus:outline-none"
+                className="w-64 h-8 px-5 py-3 text-sm leading-tight text-gray-700 border-none rounded-sm appearance-none focus:outline-none"
                 type="text"
                 ref={ref}
                 placeholder="Zoeken op de kaart"
                 onChange={handleChange}
+                onFocus={() => setShowSuggestions(true)}
                 value={searchQuery}
                 onKeyDown={e => {
                     if (e.key === 'ArrowDown' && queryData.length > 0) {
@@ -134,10 +137,10 @@ const LeafletSearchInput = forwardRef<
                     }
                 }}
             />
-            {queryData.length > 0 ? (
+            {showSuggestions && queryData.length > 0 ? (
                 <ul
                     id="searchQueryResults"
-                    className="absolute top-0 w-56 mt-10 bg-white border-t border-gray-300 rounded-b shadow ml-15"
+                    className="absolute top-0 w-56 mt-8 bg-white border-t border-gray-300 rounded-b-sm shadow"
                     ref={suggestList}>
                     {queryData.map((item: any, index) => (
                         <li

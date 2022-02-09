@@ -5,7 +5,7 @@ import leaflet, { Control, ControlPosition } from 'leaflet'
 import Proj from 'proj4leaflet'
 import { useEffect, useState } from 'react'
 import ReactDOMServer from 'react-dom/server'
-import { FeatureGroup } from 'react-leaflet'
+import { FeatureGroup, useMap } from 'react-leaflet'
 import { toast } from 'react-toastify'
 
 import { getAddressData } from '@/api/axiosLocatieserver'
@@ -31,6 +31,7 @@ leaflet.Icon.Default.mergeOptions({
 const LEAFLET_MARKER_CLASS = 'leaflet-draw-draw-marker'
 const LEAFLET_EDIT_CLASS = 'leaflet-draw-edit-edit'
 const LEAFLET_REMOVE_CLASS = 'leaflet-draw-edit-remove'
+const LEAFLET_POLYGON_CLASS = 'leaflet-draw-draw-polygon'
 const LEAFLET_HIDE_CLASS = 'hide-leaflet-edit'
 
 interface LeafletDrawProps {
@@ -38,6 +39,7 @@ interface LeafletDrawProps {
 }
 
 const LeafletDraw = ({ position = 'topleft' }: LeafletDrawProps) => {
+    const map = useMap()
     const [currentLayerType, setCurrentLayerType] = useState<string | null>(
         null
     )
@@ -46,7 +48,11 @@ const LeafletDraw = ({ position = 'topleft' }: LeafletDrawProps) => {
      * Function that creates a custom popup with the parameters lat, lng and layer.
      */
     const createCustomPopup = async (lat: number, lng: number, layer: any) => {
-        layer.bindPopup('Adres aan het laden...').openPopup()
+        layer
+            .bindPopup('Adres aan het laden...', {
+                minWidth: 300,
+            })
+            .openPopup()
 
         await getAddressData(lat.toString(), lng.toString())
             .then(data => {
@@ -64,6 +70,14 @@ const LeafletDraw = ({ position = 'topleft' }: LeafletDrawProps) => {
                 console.log(err)
                 toast(process.env.REACT_APP_ERROR_MSG)
             })
+
+        const popupContainer = layer.getPopup().getElement()
+
+        popupContainer
+            .querySelector('.leaflet-close-popup')
+            ?.addEventListener('click', () => {
+                map.removeLayer(layer)
+            })
     }
 
     const onCreated = (e: any) => {
@@ -71,9 +85,14 @@ const LeafletDraw = ({ position = 'topleft' }: LeafletDrawProps) => {
 
         setCurrentLayerType(type)
 
+        console.log(type)
+
         if (type === 'marker') {
             // Do marker specific actions
             createCustomPopup(e.layer._latlng.lat, e.layer._latlng.lng, e.layer)
+        } else if (type === 'polygon') {
+            // Do marker specific actions
+            console.log(e)
         }
     }
 
@@ -86,6 +105,9 @@ const LeafletDraw = ({ position = 'topleft' }: LeafletDrawProps) => {
 
         const thrashEl = document.getElementsByClassName(LEAFLET_REMOVE_CLASS)
         thrashEl[0].innerHTML = icons.remove
+
+        const polygonEl = document.getElementsByClassName(LEAFLET_POLYGON_CLASS)
+        polygonEl[0].innerHTML = icons.polygon
 
         if (currentLayerType === 'marker') {
             editEl[0].classList.add(LEAFLET_HIDE_CLASS)
@@ -106,7 +128,7 @@ const EditControl = createControlComponent(
         new Control.Draw({
             ...options,
             draw: {
-                polygon: false,
+                // polygon: false,
                 circle: false,
                 rectangle: false,
                 polyline: false,
@@ -141,7 +163,7 @@ const CreateCustomPopup = ({
     point,
 }: CreateCustomPopupProps) => (
     <div className="text-sm custom-popup">
-        <span className="block font-bold">Gemarkeerde Locatie</span>
+        <span className="block font-bold">Locatie</span>
         <ul className="mt-1 mb-4 text-xs">
             <li>{weergavenaam.split(',')[0]}</li>
             <li>{weergavenaam.split(',')[1]}</li>
@@ -149,15 +171,20 @@ const CreateCustomPopup = ({
                 GPS Locatie: {lat.toFixed(7)}, {lng.toFixed(7)}
             </li>
         </ul>
-        <a
-            href={`/zoekresultaten?geoQuery=${point.x.toFixed(
-                2
-            )}+${point.y.toFixed(2)}&LatLng=${lat.toFixed(7)}-${lng.toFixed(
-                7
-            )}`}
-            className="inline-block p-2 text-white rounded cursor-pointer bg-pzh-blue hover:bg-blue-600 focus:outline-none focus:ring">
-            Bekijk provinciaal beleid van deze locatie
-        </a>
+        <div className="flex justify-between">
+            <a
+                href={`/zoekresultaten?geoQuery=${point.x.toFixed(
+                    2
+                )}+${point.y.toFixed(2)}&LatLng=${lat.toFixed(7)}-${lng.toFixed(
+                    7
+                )}`}
+                className="inline-block py-2 px-4 text-white rounded cursor-pointer bg-pzh-blue hover:bg-blue-600 focus:outline-none focus:ring">
+                Bekijk beleid
+            </a>
+            <button className="leaflet-close-popup underline text-pzh-red text-sm">
+                Pin verwijderen
+            </button>
+        </div>
     </div>
 )
 
@@ -169,11 +196,11 @@ leaflet.drawLocal = {
             // ex: actions.undo  or actions.cancel
             actions: {
                 title: 'Annuleren',
-                text: 'Klik op de kaart om de marker te plaatsen',
+                text: 'Annuleren',
             },
             finish: {
-                title: 'Klik op de kaart om de marker te plaatsen',
-                text: 'Klik op de kaart om de marker te plaatsen',
+                title: 'Gereed',
+                text: 'Gereed',
             },
             undo: {
                 title: 'Ongedaan maken',
@@ -181,7 +208,7 @@ leaflet.drawLocal = {
             },
             buttons: {
                 polyline: '',
-                polygon: '',
+                polygon: 'Klik op de kaart om een gebied te tekenen',
                 rectangle: '',
                 circle: '',
                 marker: 'Klik op de kaart om de marker te plaatsen',
@@ -263,7 +290,7 @@ leaflet.drawLocal = {
             },
             remove: {
                 tooltip: {
-                    text: 'Click op een marker om deze te verwijderen',
+                    text: 'Klik op een marker om deze te verwijderen',
                 },
             },
         },

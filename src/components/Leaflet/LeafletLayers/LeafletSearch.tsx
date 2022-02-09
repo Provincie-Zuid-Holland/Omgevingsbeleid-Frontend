@@ -76,16 +76,14 @@ const LeafletSearch = ({ position = 'topleft' }: LeafletSearchProps) => {
 
     return (
         <LeafletController position={position}>
-            <div
-                id="leaflet-search"
-                className="relative z-10 flex items-center justify-between h-10 bg-white rounded shadow cursor-pointer">
+            <div className="leaflet-search relative z-10 flex items-center justify-between h-8 bg-white cursor-pointer">
                 <div
-                    className={`w-10 h-10 flex justify-center items-center text-gray-600 hover:text-gray-700 ${
+                    className={`w-8 h-8 flex justify-center items-center ${
                         showLeafletSearch ? 'border-r border-gray-300' : null
                     }`}
                     onClick={toggleLeafletSearch}>
                     <FontAwesomeIcon
-                        className="inline-block w-10 text-lg cursor-pointer"
+                        className="inline-block text-sm cursor-pointer"
                         icon={faSearch}
                         onClick={toggleLeafletSearch}
                     />

@@ -1,4 +1,4 @@
-import { faLayerGroup, faAngleRight } from '@fortawesome/pro-regular-svg-icons'
+import { faLayerGroup, faAngleRight } from '@fortawesome/pro-light-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Transition } from '@headlessui/react'
 import { ReactNode, useState } from 'react'
@@ -35,25 +35,15 @@ const LeafletControlLayer = ({ fullscreen, children }: LeafletLayerProps) => {
                 <div className="leaflet-layers-control">
                     <div className="flex">
                         <div
-                            className={`absolute top-0 right-0 p-2 w-8 h-8 flex justify-center items-center shadow-xl bg-white rounded ${
+                            className={`leaflet-layers absolute top-0 right-0 p-2 w-8 h-8 flex justify-center items-center ${
                                 layerControlOpen ? 'hidden' : ''
                             }`}
-                            style={
-                                layerControlOpen
-                                    ? undefined
-                                    : {
-                                          marginTop: '10px',
-                                          marginRight: '10px',
-                                          boxShadow:
-                                              '0 1px 5px rgba(0,0,0,0.65)',
-                                      }
-                            }
                             onClick={() =>
                                 setLayerControlOpen(!layerControlOpen)
                             }
                             data-testid="leaflet-layers-control-toggle">
                             <FontAwesomeIcon
-                                className="text-lg text-gray-700"
+                                className="text-base text-gray-700"
                                 icon={
                                     layerControlOpen
                                         ? faAngleRight
