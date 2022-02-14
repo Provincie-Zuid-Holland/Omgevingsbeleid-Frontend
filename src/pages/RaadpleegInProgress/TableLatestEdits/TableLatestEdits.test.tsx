@@ -1,15 +1,20 @@
-import { render } from '@testing-library/react';
-import React from 'react';
-import TableLatestEdits, { TableLatestEditsProps } from './TableLatestEdits';
+import { render, screen, fireEvent } from '@testing-library/react'
+import '@testing-library/jest-dom'
+import React from 'react'
+
+import TableLatestEdits from './TableLatestEdits'
 
 describe('TableLatestEdits', () => {
-    const defaultProps: TableLatestEditsProps = {};
+    const defaultProps = {}
 
-    it('should render', () => {
-        const props = { ...defaultProps };
-        const { asFragment, queryByText } = render(<TableLatestEdits {...props} />);
+    const setup = (customProps?: { [key: string]: any }) => {
+        const props = { ...defaultProps, ...customProps }
+        render(<TableLatestEdits {...props} />)
+    }
 
-        expect(asFragment()).toMatchSnapshot();
-        expect(queryByText('TableLatestEdits')).toBeTruthy();
-    });
-});
+    it('Component renders', () => {
+        setup()
+        const element = screen.getByText('Titel')
+        expect(element).toBeTruthy()
+    })
+})
