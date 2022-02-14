@@ -68,7 +68,8 @@ const NetworkGraph = () => {
 
     useEffect(() => {
         if (lastLocation && !lastLocationRef.current) {
-            lastLocationRef.current = lastLocation.pathname
+            lastLocationRef.current =
+                lastLocation.pathname + lastLocation.search
         }
     }, [lastLocation])
 
@@ -124,6 +125,10 @@ const NetworkGraph = () => {
             nodes.forEach(node =>
                 filterTypes.includes(node.Type) ? null : addNodeType(node.Type)
             )
+
+            if (lastLocationRef.current?.includes('verordening')) {
+                filterState.verordeningen = true
+            }
 
             return filterState
         }
@@ -464,13 +469,13 @@ const NetworkGraph = () => {
                     if (!lastLocationRef.current) return null
 
                     const getMatch = () => {
-                        if (
-                            lastLocationRef?.current?.includes('verordeningen')
-                        ) {
-                            return matchPath(lastLocationRef.current, {
-                                path: `/detail/:slug/:id/:uuid`,
-                                exact: true,
-                            })
+                        if (lastLocationRef?.current?.includes('verordening')) {
+                            const activeUUID =
+                                lastLocationRef.current.split('actief=')[1]
+
+                            return {
+                                params: { uuid: activeUUID },
+                            }
                         } else {
                             return matchPath(lastLocationRef.current!, {
                                 path: `/detail/:slug/:uuid`,

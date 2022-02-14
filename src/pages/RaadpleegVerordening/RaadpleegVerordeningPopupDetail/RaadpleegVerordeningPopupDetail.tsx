@@ -1,4 +1,7 @@
+import { faTimesCircle } from '@fortawesome/pro-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 import { getVersionVerordeningenObjectuuid } from '@/api/fetchers'
 import { BeleidskeuzeShortInline } from '@/api/fetchers.schemas'
@@ -8,9 +11,19 @@ import Modal from '@/components/Modal'
 import Text from '@/components/Text'
 import handleError from '@/utils/handleError'
 
+interface ActiveArticleInterface {
+    Children: ActiveArticleInterface[]
+    Gebied: string
+    Inhoud: string
+    Titel: string
+    Type: string
+    UUID: string
+    Volgnummer: string
+}
+
 interface RaadpleegVerordeningPopupDetailProps {
     setActiveArticle: (state: any) => void
-    activeArticle: any
+    activeArticle: ActiveArticleInterface
 }
 
 const RaadpleegVerordeningPopupDetail = ({
@@ -24,7 +37,8 @@ const RaadpleegVerordeningPopupDetail = ({
     const [articleHasChildren, setArticleHasChildren] = useState<
         boolean | null
     >(null)
-    const [activeChild, setActiveChild] = useState(null)
+    const [activeChild, setActiveChild] =
+        useState<ActiveArticleInterface | null>(null)
 
     useEffect(() => {
         setConnections([])
@@ -39,7 +53,6 @@ const RaadpleegVerordeningPopupDetail = ({
 
         getVersionVerordeningenObjectuuid(activeArticle.UUID)
             .then(res => {
-                console.log(res.Ref_Beleidskeuzes)
                 setConnections(res.Ref_Beleidskeuzes || [])
             })
             .catch(err => handleError(err))
@@ -51,6 +64,7 @@ const RaadpleegVerordeningPopupDetail = ({
 
     const close = () => {
         setOpen(false)
+        setActiveChild(null)
 
         /** Timeout for the animation */
         window.setTimeout(() => {
@@ -73,15 +87,34 @@ const RaadpleegVerordeningPopupDetail = ({
                     </Heading>
                     {articleHasChildren ? (
                         <ul className="mt-4">
-                            {activeArticle.Children.map((child: any) => (
-                                <li
-                                    onClick={() => {
-                                        setActiveChild(child)
-                                    }}
-                                    key={child.Volgnummer}
-                                    style={{ width: 'calc(100% + 1rem)' }}
-                                    className="p-2 mb-4 -mt-2 -ml-2 transition-colors duration-150 ease-in rounded-md cursor-pointer hover:bg-gray-200 hover:bg-opacity-70">
-                                    <Text>{child.Inhoud}</Text>
+                            {activeArticle.Children.map(child => (
+                                <li key={child.Volgnummer} className="relative">
+                                    {activeChild?.UUID === child.UUID ? (
+                                        <div
+                                            className="absolute top-0 right-0 z-10 flex items-center justify-center w-6 h-6 -mt-3 -mr-5 cursor-pointer"
+                                            onClick={() => {
+                                                setActiveChild(null)
+                                                console.log('JOE')
+                                            }}>
+                                            <FontAwesomeIcon
+                                                className="inline-block text-lg text-pzh-blue-dark"
+                                                icon={faTimesCircle}
+                                            />
+                                        </div>
+                                    ) : null}
+                                    <div
+                                        onClick={() => {
+                                            setActiveChild(null)
+                                            setActiveChild(child)
+                                        }}
+                                        style={{ width: 'calc(100% + 1rem)' }}
+                                        className={`px-2 py-3 mb-1 -ml-2 transition-colors duration-150 ease-in cursor-pointer ${
+                                            activeChild?.UUID === child.UUID
+                                                ? 'bg-pzh-blue-light bg-opacity-20'
+                                                : 'hover:bg-pzh-blue-light hover:bg-opacity-20'
+                                        }`}>
+                                        <Text>{child.Inhoud}</Text>
+                                    </div>
                                 </li>
                             ))}
                         </ul>
@@ -104,7 +137,7 @@ const RaadpleegVerordeningPopupDetail = ({
                                 {activeChild ? (
                                     <LeafletTinyViewer
                                         gebiedType="Werkingsgebieden"
-                                        gebiedUUID={activeArticle.Gebied}
+                                        gebiedUUID={activeChild.Gebied}
                                     />
                                 ) : (
                                     <div className="p-4">
@@ -117,23 +150,30 @@ const RaadpleegVerordeningPopupDetail = ({
                                     </div>
                                 )}
                             </div>
-                        ) : (
+                        ) : activeArticle.Gebied ? (
                             <div className="mt-4" style={{ height: '400px' }}>
                                 <LeafletTinyViewer
                                     gebiedType="Werkingsgebieden"
                                     gebiedUUID={activeArticle.Gebied}
                                 />
                             </div>
-                        )}
+                        ) : null}
                     </div>
                     {connections.length > 0 ? (
                         <div className="mt-6">
-                            <Heading
-                                level="4"
-                                className="font-bold"
-                                color="text-pzh-green">
-                                Koppelingen
-                            </Heading>
+                            <div className="flex justify-between w-full">
+                                <Heading
+                                    level="4"
+                                    className="font-bold"
+                                    color="text-pzh-green">
+                                    Koppelingen
+                                </Heading>
+                                <Link
+                                    to="/netwerkvisualisatie"
+                                    className="text-sm underline text-pzh-green hover:text-pzh-green-dark">
+                                    Bekijk grote netwerkvisualisatie
+                                </Link>
+                            </div>
                             <div>
                                 <Text
                                     type="body-small"
@@ -149,9 +189,12 @@ const RaadpleegVerordeningPopupDetail = ({
                                                 key={beleidskeuze.UUID}
                                                 className="px-2">
                                                 <span className="inline-block w-2 h-2 mr-2 rounded-full bg-pzh-yellow" />
-                                                <Text type="body-small">
-                                                    {beleidskeuze.Titel}
-                                                </Text>
+                                                <Link
+                                                    to={`/detail/beleidskeuzes/${beleidskeuze.UUID}`}>
+                                                    <Text type="body-small">
+                                                        {beleidskeuze.Titel}
+                                                    </Text>
+                                                </Link>
                                             </li>
                                         )
                                     )}
