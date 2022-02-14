@@ -1,4 +1,5 @@
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 import ModuleFilters from './ModuleFilters'
 
@@ -6,31 +7,55 @@ describe('ModuleFilters', () => {
     const setFiltersMock = jest.fn()
     const defaultProps = {
         filters: {
-            typeFilters: ['Beleidstuk', 'Type one', 'Type two'],
+            selectedStatus: 'Status',
+            selectedType: 'Filter op beleid',
+            statusFilters: ['Status', 'Ontwerp GS Concept', 'Ontwerp GS'],
+            typeFilters: ['Filter op beleid', 'Beleidskeuze', 'Maatregel'],
         },
         setFilters: setFiltersMock,
     }
 
     it('should render', () => {
         render(<ModuleFilters {...defaultProps} />)
-        const option = screen.getByText('Beleidstuk')
+        const option = screen.getByText('Status')
         expect(option).toBeTruthy()
     })
 
-    it('user can select a different type', () => {
+    it('user can select a different type and status', () => {
         render(<ModuleFilters {...defaultProps} />)
 
-        const select = screen.getByRole('combobox')
-        const options = screen.getAllByRole('option') as HTMLOptionElement[]
+        const selectType: HTMLSelectElement = screen.getByTestId(
+            'modules-select-type'
+        )
+        const optionType: HTMLOptionElement = screen.getByRole('option', {
+            name: 'Beleidskeuze',
+        })
 
-        expect(options[0].selected).toBeTruthy()
-        expect(options[1].selected).toBeFalsy()
-        expect(options[2].selected).toBeFalsy()
+        userEvent.selectOptions(selectType, optionType)
 
-        fireEvent.change(select, { target: { value: 'Type one' } })
+        expect(setFiltersMock).toBeCalledTimes(1)
+        expect(setFiltersMock).toHaveBeenCalledWith({
+            newValue: 'Beleidskeuze',
+            property: 'selectedType',
+            type: 'changeValue',
+        })
 
-        expect(options[0].selected).toBeFalsy()
-        expect(options[1].selected).toBeTruthy()
-        expect(options[2].selected).toBeFalsy()
+        const selectStatus: HTMLSelectElement = screen.getByTestId(
+            'modules-select-status'
+        )
+        const optionStatus: HTMLOptionElement = screen.getByRole('option', {
+            name: 'Ontwerp GS Concept',
+        })
+
+        userEvent.selectOptions(selectStatus, optionStatus)
+
+        expect(setFiltersMock).toBeCalledTimes(2)
+        expect(setFiltersMock).toHaveBeenCalledWith({
+            newValue: 'Ontwerp GS Concept',
+            property: 'selectedStatus',
+            type: 'changeValue',
+        })
+
+        // const options = screen.getAllByRole('option', {label: }) as HTMLOptionElement[]
     })
 })

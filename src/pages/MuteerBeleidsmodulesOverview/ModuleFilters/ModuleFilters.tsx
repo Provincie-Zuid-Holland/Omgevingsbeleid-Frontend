@@ -1,13 +1,24 @@
-import { faCaretDown } from '@fortawesome/pro-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
 interface ModuleFiltersProps {
-    filters: any
-    setFilters: any
+    setFilters: (arg0: {
+        type: string
+        newValue: string
+        property: string
+    }) => void
+    filters: {
+        statusFilters: string[]
+        selectedStatus: string
+        typeFilters: string[]
+        selectedType: string
+    }
 }
 
+/**
+ *
+ * @param {object} filters - Contains the current filter state
+ * @param {function} setFilters - Contains the current filter state
+ */
 const ModuleFilters = ({ filters, setFilters }: ModuleFiltersProps) => (
-    <div className="relative flex items-center group">
+    <div className="relative flex items-center">
         <select
             value={filters.selectedType}
             onChange={event =>
@@ -19,17 +30,33 @@ const ModuleFilters = ({ filters, setFilters }: ModuleFiltersProps) => (
             }
             id={`modules-select-type`}
             name={'modules-select-type'}
-            className="relative block w-32 px-3 pt-2 pb-1 pr-5 ml-2 leading-tight text-gray-700 bg-white border border-gray-400 rounded appearance-none overflow-ellipsis focus:outline-none hover:border-gray-500 focus:border-gray-500">
-            {filters.typeFilters.map((filter: string) => (
+            data-testid="modules-select-type"
+            className="relative block w-40 px-3 pt-2 pb-1 pr-5 ml-2 leading-tight text-gray-700 bg-white border border-gray-400 rounded appearance-none overflow-ellipsis focus:outline-none hover:border-gray-500 focus:border-gray-500">
+            {filters.typeFilters.map(filter => (
                 <option key={filter} value={filter}>
                     {filter}
                 </option>
             ))}
         </select>
-        <FontAwesomeIcon
-            className={`absolute right-0 mr-3 text-gray-500 group-hover:text-gray-800 ease-in duration-100 transition`}
-            icon={faCaretDown}
-        />
+        <select
+            value={filters.selectedStatus}
+            onChange={event =>
+                setFilters({
+                    type: 'changeValue',
+                    newValue: event.target.value,
+                    property: 'selectedStatus',
+                })
+            }
+            data-testid="modules-select-status"
+            id={`modules-select-status`}
+            name={'modules-select-status'}
+            className="relative block w-40 px-3 pt-2 pb-1 pr-5 ml-2 leading-tight text-gray-700 bg-white border border-gray-400 rounded appearance-none overflow-ellipsis focus:outline-none hover:border-gray-500 focus:border-gray-500">
+            {filters.statusFilters.map(filter => (
+                <option key={filter} value={filter}>
+                    {filter}
+                </option>
+            ))}
+        </select>
     </div>
 )
 
