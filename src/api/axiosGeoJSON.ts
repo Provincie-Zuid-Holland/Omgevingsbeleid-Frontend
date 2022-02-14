@@ -17,19 +17,27 @@ const instance = axios.create({
 const CancelToken = axios.CancelToken
 const source = CancelToken.source()
 
-const getGeoJsonData = async (type: string, UUID: string) => {
+const getGeoJsonData = async (
+    type: string,
+    UUID: string,
+    signal?: AbortSignal
+) => {
     const res = await instance.get(
         `ows?service=wfs&version=${api_version}&request=GetFeature&typeNames=OMGEVINGSBELEID:${type}&cql_filter=UUID=%27${UUID}%27&outputFormat=application/json`,
-        { cancelToken: source.token }
+        { cancelToken: source.token, ...(signal && { signal }) }
     )
     const data = res.data
     return data
 }
 
-const getOnderverdeling = async (_: string, UUID: string) => {
+const getOnderverdeling = async (
+    _: string,
+    UUID: string,
+    signal?: AbortSignal
+) => {
     const res = await instance.get(
         `ows?service=wfs&version=1.0.0&request=GetFeature&typeName=OMGEVINGSBELEID%3AWerkingsgebieden_Onderverdeling&maxFeatures=50&outputFormat=application%2Fjson&cql_filter=UUID%20IN%20(%27${UUID}%27)`,
-        { cancelToken: source.token }
+        { cancelToken: source.token, ...(signal && { signal }) }
     )
     const data = res.data
     return data
