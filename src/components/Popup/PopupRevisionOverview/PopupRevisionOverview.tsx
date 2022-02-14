@@ -273,7 +273,7 @@ const PopupRevisionOverview = ({
                         ref={innerContainer}>
                         <div className="relative z-50 w-full text-gray-700 bg-white rounded-md shadow-md">
                             <div
-                                className="block w-full p-10 pb-0 transition-shadow duration-200 ease-in bg-gray-100 rounded-t-md"
+                                className="block w-full p-10 pb-0 text-left transition-shadow duration-200 ease-in bg-gray-100 rounded-t-md"
                                 id="revisionOverview-header">
                                 <div
                                     onClick={() => {
@@ -551,15 +551,6 @@ const ChangeContainer = ({
                 </ContainerMain>
             </div>
 
-            {/* Section - Koppelingen */}
-            <div>
-                <DividerWithTitle title={`Koppelingen & Relaties`} />
-                <RelationsConnectionsText
-                    originalObject={oldObject}
-                    objectChanges={changesObject}
-                />
-            </div>
-
             {/* Section - GEO */}
             <div className="mt-10">
                 <DividerWithTitle title={`Werkingsgebied`} singleTitle />
@@ -569,6 +560,15 @@ const ChangeContainer = ({
                         changesObject={changesObject}
                     />
                 </ContainerMain>
+            </div>
+
+            {/* Section - Koppelingen */}
+            <div className="mt-10">
+                <DividerWithTitle title={`Koppelingen & Relaties`} />
+                <RelationsConnectionsText
+                    originalObject={oldObject}
+                    objectChanges={changesObject}
+                />
             </div>
         </div>
     )
@@ -590,6 +590,7 @@ const RevisionWerkingsgebied = ({
     originalObject,
     changesObject,
 }: RevisionWerkingsgebiedProps) => {
+    const [containsGeo, setContainsGeo] = useState<boolean>(true)
     /**
      * We get this werkingsgebied from the changesObject.
      * This means the 'Werkingsgebieden' value will contain an object with the 'new', 'removed' and 'same' properties
@@ -614,6 +615,16 @@ const RevisionWerkingsgebied = ({
             return `Beleidskeuze '${originalObject.Titel}' heeft voor beide geselecteerde objecten geen werkingsgebied`
         }
     }
+
+    useEffect(() => {
+        if (
+            changesObject?.Werkingsgebieden?.new?.length === 0 &&
+            changesObject?.Werkingsgebieden?.same?.length === 0 &&
+            changesObject?.Werkingsgebieden?.removed?.length === 0
+        ) {
+            setContainsGeo(false)
+        }
+    }, [changesObject])
 
     /**
      * @returns {array} containing an Array and an Object. The array contains the GEO UUIDS. The Object contains the changes of the object.
@@ -647,31 +658,37 @@ const RevisionWerkingsgebied = ({
     return (
         <div className="w-full">
             <p
-                className={`text-gray-800 mt-4 leading-7 break-words w-full whitespace-pre-line`}>
+                className={`mt-4 leading-7 break-words w-full whitespace-pre-line ${
+                    containsGeo ? 'text-gray-800' : 'italic text-gray-600'
+                }`}>
                 {sentenceIndicatingChange}
             </p>
-            <div
-                className="mt-4 overflow-hidden border border-gray-300 rounded-lg"
-                id={`revision-overview-leaflet`}>
-                <LeafletRevisionOverview
-                    gebiedenUUIDS={gebiedenUUIDS}
-                    gebiedenChanges={gebiedenChanges}
-                />
-            </div>
-            <ul className="mt-4">
-                <LegendaItem
-                    color="#E74C3C"
-                    label="Verwijderd werkingsgebied"
-                />
-                <LegendaItem
-                    color="#2ECC71"
-                    label="Toegevoegd werkingsgebied"
-                />
-                <LegendaItem
-                    color="#2980B9"
-                    label="Ongewijzigd werkingsgebied"
-                />
-            </ul>
+            {containsGeo ? (
+                <>
+                    <div
+                        className="mt-4 overflow-hidden border border-gray-300 rounded-lg"
+                        id={`revision-overview-leaflet`}>
+                        <LeafletRevisionOverview
+                            gebiedenUUIDS={gebiedenUUIDS}
+                            gebiedenChanges={gebiedenChanges}
+                        />
+                    </div>
+                    <ul className="mt-4">
+                        <LegendaItem
+                            color="#E74C3C"
+                            label="Verwijderd werkingsgebied"
+                        />
+                        <LegendaItem
+                            color="#2ECC71"
+                            label="Toegevoegd werkingsgebied"
+                        />
+                        <LegendaItem
+                            color="#2980B9"
+                            label="Ongewijzigd werkingsgebied"
+                        />
+                    </ul>
+                </>
+            ) : null}
         </div>
     )
 }
