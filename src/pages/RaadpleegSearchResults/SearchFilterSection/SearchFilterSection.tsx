@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
-import { useWindowSize, useSearchParam } from 'react-use'
+import { useWindowSize } from 'react-use'
 
+import useSearchParam from '@/hooks/useSearchParam'
 import { FilterCollection, ACTIONTYPE } from '@/hooks/useSearchResultFilters'
 
 import { LoaderCard } from '../../../components/Loader'

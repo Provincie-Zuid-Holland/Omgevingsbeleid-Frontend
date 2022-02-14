@@ -1,8 +1,8 @@
 import { FC } from 'react'
 import { Link } from 'react-router-dom'
-import { useSearchParam } from 'react-use'
 
 import { GetSearch200Item } from '@/api/fetchers.schemas'
+import useSearchParam from '@/hooks/useSearchParam'
 import { DimensionType } from '@/types/dimensions'
 import getDimensionsConstants from '@/utils/getDimensionsConstants'
 

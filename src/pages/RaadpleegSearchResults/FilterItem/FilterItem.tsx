@@ -20,7 +20,7 @@ const FilterItem = ({
     const titlePlural = dimensieContants.TITLE_PLURAL
 
     return (
-        <li key={item} className="mt-1 text-pzh-blue-dark">
+        <li className="mt-1 text-pzh-blue-dark">
             <div className="flex items-center">
                 <input
                     onChange={() => {
