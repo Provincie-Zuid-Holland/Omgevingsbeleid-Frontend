@@ -1174,22 +1174,16 @@ mark {
 }
 
 .raadpleeg-innerhtml {
-    color: #2d3748 !important;
-    h2,
-    p,
-    ul,
-    li,
-    strong,
-    span {
-        color: #2d3748 !important;
-    }
-    strong {
-        font-weight: 700;
-    }
     h2 {
         font-size: 1.125rem;
         letter-spacing: 0.025em;
         margin-bottom: 0.25rem;
+    }
+}
+.revision-innerhtml,
+.raadpleeg-innerhtml {
+    strong {
+        font-weight: 700;
     }
     ul {
         list-style: disc;
@@ -1209,13 +1203,18 @@ mark {
 }
 
 .revision-insert {
-    display: inline;
+    display: inline-block;
     background-color: #e5f0ef;
     padding: 4px 0.25rem;
 }
 
+ul li .revision-insert,
+ol li .revision-insert {
+    display: block;
+}
+
 .revision-removal {
-    display: inline;
+    display: inline-block;
     background-color: #f4c9c6;
     text-decoration: line-through;
     padding: 4px 0.25rem;
@@ -1232,6 +1231,11 @@ mark {
     }
 }
 
+ul li .revision-removal,
+ol li .revision-removal {
+    display: block;
+}
+
 #revision-overview-leaflet {
     height: 500px;
     width: 100%;
@@ -1241,10 +1245,6 @@ mark {
         height: 100%;
         width: 100%;
     }
-}
-
-.revision-insert p {
-    background-color: #e5f0ef;
 }
 
 .opacity-30 {

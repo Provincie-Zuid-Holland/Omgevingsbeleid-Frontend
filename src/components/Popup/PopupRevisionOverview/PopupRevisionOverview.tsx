@@ -367,14 +367,14 @@ const PopupRevisionOverview = ({
  * Displays a container aligned to the left with children components in it.
  */
 const ContainerLeft: FC = ({ children }) => (
-    <div className={`w-1/2 pr-5`}>{children}</div>
+    <div className={`w-1/2 pr-5 revision-innerhtml`}>{children}</div>
 )
 
 /**
  * Displays a container aligned to the right with children components in it.
  */
 const ContainerRight: FC = ({ children }) => (
-    <div className={`w-1/2 pl-5`}>{children}</div>
+    <div className={`w-1/2 pl-5 revision-innerhtml`}>{children}</div>
 )
 
 /**
