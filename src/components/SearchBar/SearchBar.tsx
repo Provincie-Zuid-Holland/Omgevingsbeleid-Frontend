@@ -2,7 +2,7 @@ import { faSearch } from '@fortawesome/pro-light-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useEffect, useRef, useState } from 'react'
 import { useLocation, useHistory } from 'react-router-dom'
-import { useClickAway } from 'react-use'
+import { useClickAway, useWindowSize } from 'react-use'
 import 'url-search-params-polyfill'
 
 import { searchBarFilters } from '@/constants/searchBarFilters'
@@ -10,18 +10,15 @@ import { searchBarFilters } from '@/constants/searchBarFilters'
 import SearchBarPopupItem from '../SearchBarPopupItem'
 
 interface SearchBarProps {
-    placeholder?: string
     id?: string
     className?: string
 }
 
-const SearchBar = ({
-    placeholder,
-    id = 'search-query',
-    className = '',
-}: SearchBarProps) => {
+const SearchBar = ({ id = 'search-query', className = '' }: SearchBarProps) => {
     const location = useLocation()
     const history = useHistory()
+    const windowSize = useWindowSize()
+    const isMobile = windowSize.width <= 640
 
     const [searchQuery, setSearchQuery] = useState('')
     const [searchBarPopupOpen, setSearchBarPopupOpen] = useState(false)
@@ -73,7 +70,7 @@ const SearchBar = ({
             ref={searchBarRef}
             className={`relative block w-full ${className}`}>
             <input
-                className={`block pl-10 w-full bg-gray-50 rounded appearance-none px-3 border hover:border-opacity-40 border-pzh-blue-dark border-opacity-30 transition-colors ease-in duration-100 pb-1`}
+                className={`pl-10 placeholder-gray-500 pr-6 rounded w-full appearance-none px-3 pb-1 border hover:border-opacity-50 border-pzh-blue border-opacity-30 transition-colors ease-in duration-100`}
                 name="searchInput"
                 onChange={e => {
                     setSearchQuery(e.target.value)
@@ -87,7 +84,9 @@ const SearchBar = ({
                 type="text"
                 value={searchQuery}
                 placeholder={
-                    placeholder ? placeholder : 'Zoeken op artikelnummer, etc.'
+                    isMobile
+                        ? 'Zoeken'
+                        : 'Zoek binnen het beleid van de provincie Zuid-Holland'
                 }
                 onKeyDown={handleKeyDown}
             />
