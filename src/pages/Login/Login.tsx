@@ -40,7 +40,7 @@ const Login = ({ setLoginUser, setLoginState }: LoginProps) => {
                         Inloggen
                     </Heading>
                     <Text type="introduction-paragraph" className="mt-3">
-                        Als beleidsmedewerker van provincie Zuid-Holland kunt u
+                        Als beleidsmedewerker van provincie Zuid-Holland kun je
                         hier inloggen om te werken aan het Omgevingsbeleid.
                     </Text>
                     <LoginForm
@@ -70,7 +70,7 @@ const Login = ({ setLoginUser, setLoginState }: LoginProps) => {
                         Zuid-Holland inzien.
                     </Text>
                     <Link
-                        className="underline hover:text-pzh-green-dark text-pzh-green"
+                        className="block mt-4 underline hover:text-pzh-green-dark text-pzh-green"
                         to="/">
                         Ga naar de raadpleegomgeving
                     </Link>
