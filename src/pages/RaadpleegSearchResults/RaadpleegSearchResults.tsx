@@ -10,12 +10,12 @@ import Footer from '@/components/Footer'
 import Heading from '@/components/Heading'
 import { LoaderCard } from '@/components/Loader'
 import SearchBar from '@/components/SearchBar'
+import SearchResultItem from '@/components/SearchResultItem'
 import useSearchResultFilters from '@/hooks/useSearchResultFilters'
 import handleError from '@/utils/handleError'
 
 import Pagination from './Pagination'
 import SearchFilterSection from './SearchFilterSection'
-import SearchResultItem from './SearchResultItem'
 
 const RaadpleegSearchResults = () => {
     const [searchResults, setSearchResults] = useState<GetSearch200Item[]>([])

@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom'
 import {
     BeleidskeuzesInline,
     BeleidsrelatiesRead,
+    BeleidsrelatiesReadStatus,
 } from '@/api/fetchers.schemas'
 import { LoaderBeleidsrelatieRegel } from '@/components/Loader'
 import { PopUpAnimatedContainer } from '@/components/Popup'
@@ -35,7 +36,7 @@ interface TabRelationsProps {
     relationshipDisconnect: (relation: BeleidsrelatiesRead) => void
     updateStatus: (
         uuid?: string,
-        nieuweStatus?: string,
+        nieuweStatus?: BeleidsrelatiesReadStatus,
         updateDatumAkkoord?: boolean
     ) => void
 }

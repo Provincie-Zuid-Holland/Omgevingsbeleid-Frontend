@@ -358,8 +358,12 @@
 }
 
 #searchQueryResults {
+    z-index: 1;
+    overflow: scroll;
     margin-left: 1.7rem;
     width: 15rem;
+    max-height: 15rem;
+    margin-top: 2.4rem;
 }
 
 .popup-small {

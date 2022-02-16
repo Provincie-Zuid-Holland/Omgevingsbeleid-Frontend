@@ -67,17 +67,11 @@ const ContainerDetail: FC<ContainerDetailProps> = ({
         <div
             className={`relative flex w-full py-5 shadow-md rounded bg-white 
                 ${pageType === 'version' ? 'mt-6' : ''}
-                ${
-                    dataObject.Status === 'Vigerend' ||
-                    dataObject.Status === 'Gepubliceerd'
-                        ? 'px-5'
-                        : 'pl-16 pr-5'
-                }
+                ${dataObject.Status === 'Vigerend' ? 'px-5' : 'pl-16 pr-5'}
                 `}>
             {/* Verticale lijn + bolletje */}
             {!isLoading && dataObject ? (
-                dataObject.Status === 'Vigerend' ||
-                dataObject.Status === 'Gepubliceerd' ? (
+                dataObject.Status === 'Vigerend' ? (
                     dimensionHistory[0] && dataObject ? (
                         <div className="absolute bottom-0 left-0 h-full pt-5 text-center">
                             <div className="absolute top-0 right-0 inline-block mt-5 bg-pzh-blue status-bolletje" />
@@ -164,7 +158,6 @@ const ContainerDetail: FC<ContainerDetailProps> = ({
                 )}
 
                 {dataObject.Status !== 'Vigerend' &&
-                dataObject.Status !== 'Gepubliceerd' &&
                 dataObject.Status !== 'Ontwerp in inspraak' &&
                 dataObject.Status !== 'Vastgesteld' ? (
                     <Link
@@ -178,8 +171,7 @@ const ContainerDetail: FC<ContainerDetailProps> = ({
                     </Link>
                 ) : null}
 
-                {dataObject.Status === 'Vigerend' ||
-                dataObject.Status === 'Gepubliceerd' ? (
+                {dataObject.Status === 'Vigerend' ? (
                     <div className="flex mt-8">
                         <div className="flex items-center justify-between w-full py-2 pr-4 border-r border-gray-300">
                             <div>

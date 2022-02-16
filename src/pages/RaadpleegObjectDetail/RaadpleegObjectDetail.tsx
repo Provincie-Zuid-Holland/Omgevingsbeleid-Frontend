@@ -103,7 +103,9 @@ const RaadpleegObjectDetail = ({
 
         dataEndpoint(lineageID)
             .then(data => {
-                const preppedRevisions = prepareRevisions(data)
+                const preppedRevisions = prepareRevisions(
+                    data as BeleidskeuzesRead[]
+                )
                 setRevisionObjects(preppedRevisions)
                 setDataLoaded(true)
             })
@@ -158,7 +160,7 @@ const RaadpleegObjectDetail = ({
                 <TableOfContents display="block" />
                 <RaadpleegObjectDetailMain
                     dataLoaded={dataLoaded}
-                    dataObject={dataObject}
+                    dataObject={dataObject as any}
                     titleSingular={titleSingular}
                 />
                 <TableOfContents display="fixed" />
@@ -168,7 +170,7 @@ const RaadpleegObjectDetail = ({
                 <RelatiesKoppelingen
                     titleSingular={titleSingular}
                     titleSingularPrefix={titleSingularPrefix}
-                    dataObject={dataObject}
+                    dataObject={dataObject as any}
                 />
             ) : null}
             <Footer />

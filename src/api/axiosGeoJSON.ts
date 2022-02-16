@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { Point } from 'leaflet'
 
 const access_token = localStorage.getItem('access_token')
 const api_version = '1.1.0'
@@ -43,6 +44,19 @@ const getWerkingsGebieden = async (pointA: string, pointB: string) => {
     return data
 }
 
+const getWerkingsGebiedenByArea = async (points: Point[]) => {
+    const polygon = points
+        .map((part: Point) => [part.x.toFixed(2), part.y.toFixed(2)].join(' '))
+        .join(', ')
+
+    const res = await instance.get(
+        `ows?service=wfs&version=1.1.0&request=GetFeature&outputFormat=application/json&typeName=OMGEVINGSBELEID:Werkingsgebieden&cql_filter=WITHIN(Shape, POLYGON ((${polygon})))&propertyName=UUID,Gebied`,
+        { cancelToken: source.token }
+    )
+    const data = res.data
+    return data
+}
+
 const getGemeenteGrenzen = async () => {
     const res = await instance.get(
         `https://geoservices.zuid-holland.nl/arcgis/rest/services/Utilities/Geometry/GeometryServer/project?f=json&outSR=102100&inSR=28992&geometries=%7B%22geometryType%22%3A%22esriGeometryEnvelope%22%2C%22geometries%22%3A%5B%7B%22xmin%22%3A43583.6799999998%2C%22ymin%22%3A414464.31999999995%2C%22xmax%22%3A138416.3199999998%2C%22ymax%22%3A497899.83999999997%2C%22spatialReference%22%3A%7B%22wkid%22%3A28992%7D%7D%5D%7D`
@@ -66,6 +80,7 @@ export {
     getGeoJsonData,
     getOnderverdeling,
     getWerkingsGebieden,
+    getWerkingsGebiedenByArea,
     getGemeenteGrenzen,
     cancelRequest,
     api_version,

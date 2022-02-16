@@ -231,6 +231,10 @@
 }
 
 .leaflet-container {
+    width: 100%;
+    height: 100%;
+    background-color: theme('colors.white');
+
     .leaflet-popup {
         .leaflet-popup-content-wrapper {
             border-radius: 0.25rem;
@@ -250,18 +254,23 @@
             color: theme('colors.pzh-blue.dark');
         }
     }
+
+    .leaflet-interactive {
+        fill: #d32939;
+        fill-opacity: 0.1;
+        stroke: #d32939;
+        stroke-opacity: 1;
+    }
+
+    .leaflet-draw-guide-dash {
+        background-color: #d32939 !important;
+    }
 }
 
 .leaflet-map {
     .leaflet-control-layers {
         display: none;
     }
-}
-
-.leaflet-container {
-    width: 100%;
-    height: 100%;
-    background-color: theme('colors.white');
 }
 
 .leaflet-bar a:last-child {

@@ -85,7 +85,6 @@
         ]
     },
     "devDependencies": {
-        "react-error-overlay": "6.0.9",
         "@axe-core/react": "^4.3.2",
         "@babel/core": "^7.15.0",
         "@babel/preset-env": "^7.15.0",
@@ -122,9 +121,10 @@
         "eslint-plugin-react": "^7.22.0",
         "eslint-plugin-react-hooks": "^4.2.0",
         "msw": "^0.35.0",
-        "orval": "^6.5.1",
+        "orval": "6.5.3",
         "postcss": "^7.0.36",
         "prettier": "^2.3.1",
+        "react-error-overlay": "6.0.9",
         "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.7"
     },
     "msw": {

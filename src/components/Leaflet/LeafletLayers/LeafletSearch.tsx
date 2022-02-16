@@ -1,6 +1,6 @@
 import { faSearch } from '@fortawesome/pro-light-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { ControlPosition, latLng, Marker, marker } from 'leaflet'
+import { ControlPosition, Marker } from 'leaflet'
 import { useEffect, useRef, useState } from 'react'
 import { useMap } from 'react-leaflet'
 
@@ -20,45 +20,12 @@ const LeafletSearch = ({ position = 'topleft' }: LeafletSearchProps) => {
         null
     )
 
-    /**
-     * Function to set the zoomLevel of each type parameter value based on the value. Also to set the state of activeSearchMarker to the markerID value and create a popup pased on the parameters.
-     */
-    const mapPanTo = (lng: number, lat: number, type: string) => {
-        let zoomLevel
-        switch (type) {
-            case 'adres':
-                zoomLevel = 10
-                break
-            case 'postcode':
-                zoomLevel = 12
-                break
-            case 'weg':
-                zoomLevel = 14
-                break
-            case 'woonplaats':
-                zoomLevel = 7
-                break
-            case 'gemeente':
-                zoomLevel = 8
-                break
-            case 'provincie':
-                zoomLevel = 5
-                break
-            default:
-                zoomLevel = 5
-        }
-
-        const markerID = marker(latLng(lng, lat)).addTo(map)
-
+    const searchCallback = (marker: Marker) => {
         if (activeSearchMarker) {
             map.removeLayer(activeSearchMarker)
         }
 
-        setActiveSearchMarker(markerID)
-
-        const coordinates = latLng(lng, lat)
-
-        map.setView(coordinates, zoomLevel)
+        setActiveSearchMarker(marker)
     }
 
     /**
@@ -89,7 +56,11 @@ const LeafletSearch = ({ position = 'topleft' }: LeafletSearchProps) => {
                     />
                 </div>
                 {showLeafletSearch && (
-                    <LeafletSearchInput mapPanTo={mapPanTo} ref={searchInput} />
+                    <LeafletSearchInput
+                        mapInstance={map}
+                        searchCallback={marker => searchCallback(marker)}
+                        ref={searchInput}
+                    />
                 )}
             </div>
         </LeafletController>

@@ -24,6 +24,9 @@ export interface LeafletMapProps {
         showDraw?: boolean
         showLayers?: boolean
     }
+    callbacks?: {
+        onDraw?: (callback: any) => void
+    }
     className?: string
     id?: string
     children?: ReactNode
@@ -32,6 +35,7 @@ export interface LeafletMapProps {
 const LeafletMap = ({
     options,
     controllers,
+    callbacks,
     className,
     id,
     children,
@@ -61,7 +65,9 @@ const LeafletMap = ({
             id={id}>
             {mapControllers.showLayers && <LeafletControlLayer />}
 
-            {mapControllers.showDraw && <LeafletDraw />}
+            {mapControllers.showDraw && (
+                <LeafletDraw onDraw={callbacks?.onDraw} />
+            )}
 
             {mapControllers.showSearch && <LeafletSearch />}
 

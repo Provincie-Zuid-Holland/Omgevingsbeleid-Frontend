@@ -2,19 +2,14 @@ import 'leaflet-draw/dist/leaflet.draw-src.css'
 import 'leaflet-draw'
 
 import leaflet, { Control, ControlPosition } from 'leaflet'
-import Proj from 'proj4leaflet'
 import { useEffect, useState } from 'react'
-import ReactDOMServer from 'react-dom/server'
 import { FeatureGroup, useMap } from 'react-leaflet'
-import { toast } from 'react-toastify'
+import { useHistory } from 'react-router-dom'
 
-import { getAddressData } from '@/api/axiosLocatieserver'
-import { RDProj4, leafletBounds, icons } from '@/constants/leaflet'
+import { icons } from '@/constants/leaflet'
 
 import { createControlComponent } from '../LeafletController'
-
-// @ts-ignore
-const RDProjection = new Proj.Projection('EPSG:28992', RDProj4, leafletBounds)
+import { createCustomPopup } from '../utils'
 
 // @ts-ignore
 delete leaflet.Icon.Default.prototype._getIconUrl
@@ -36,63 +31,44 @@ const LEAFLET_HIDE_CLASS = 'hide-leaflet-edit'
 
 interface LeafletDrawProps {
     position?: ControlPosition
+    onDraw?: (callback: any) => void
 }
 
-const LeafletDraw = ({ position = 'topleft' }: LeafletDrawProps) => {
+const LeafletDraw = ({ position = 'topleft', onDraw }: LeafletDrawProps) => {
     const map = useMap()
+    const history = useHistory()
     const [currentLayerType, setCurrentLayerType] = useState<string | null>(
         null
     )
-
-    /**
-     * Function that creates a custom popup with the parameters lat, lng and layer.
-     */
-    const createCustomPopup = async (lat: number, lng: number, layer: any) => {
-        layer
-            .bindPopup('Adres aan het laden...', {
-                minWidth: 300,
-            })
-            .openPopup()
-
-        await getAddressData(lat.toString(), lng.toString())
-            .then(data => {
-                const customPopupHTML = `<div>${ReactDOMServer.renderToString(
-                    <CreateCustomPopup
-                        weergavenaam={data.weergavenaam}
-                        lat={lat}
-                        lng={lng}
-                        point={RDProjection.project({ lat: lat, lng: lng })}
-                    />
-                )}</div>`
-                layer._popup.setContent(customPopupHTML)
-            })
-            .catch(function (err) {
-                console.log(err)
-                toast(process.env.REACT_APP_ERROR_MSG)
-            })
-
-        const popupContainer = layer.getPopup().getElement()
-
-        popupContainer
-            .querySelector('.leaflet-close-popup')
-            ?.addEventListener('click', () => {
-                map.removeLayer(layer)
-            })
-    }
 
     const onCreated = (e: any) => {
         const type = e.layerType
 
         setCurrentLayerType(type)
 
-        console.log(type)
-
         if (type === 'marker') {
             // Do marker specific actions
-            createCustomPopup(e.layer._latlng.lat, e.layer._latlng.lng, e.layer)
+            createCustomPopup(
+                map,
+                history,
+                e.layer._latlng.lat,
+                e.layer._latlng.lng,
+                e.layer,
+                'marker',
+                onDraw
+            )
         } else if (type === 'polygon') {
-            // Do marker specific actions
-            console.log(e)
+            // Do polygon specific actions
+            const { lat, lng } = e.layer._map.getBounds().getCenter()
+            createCustomPopup(
+                map,
+                history,
+                lat,
+                lng,
+                e.layer,
+                'polygon',
+                onDraw
+            )
         }
     }
 
@@ -128,64 +104,12 @@ const EditControl = createControlComponent(
         new Control.Draw({
             ...options,
             draw: {
-                // polygon: false,
                 circle: false,
                 rectangle: false,
                 polyline: false,
                 circlemarker: false,
             },
         })
-)
-
-/**
- * Function to create a custom Popup
- *
- * @param {array} weergavenaam - Parameter used to show a string weergavenaam.
- * @param {Float} lat - Parameter used as a latitude value for the GPS location.
- * @param {float} lng - Paramter used as a longitude value for the GPS location.
- * @param {object} point - Parameter that is used in a url to show a certain location based on the parameters lat and lng.
- */
-
-interface CreateCustomPopupProps {
-    weergavenaam: string
-    lat: number
-    lng: number
-    point: {
-        x: number
-        y: number
-    }
-}
-
-const CreateCustomPopup = ({
-    weergavenaam,
-    lat,
-    lng,
-    point,
-}: CreateCustomPopupProps) => (
-    <div className="text-sm custom-popup">
-        <span className="block font-bold">Locatie</span>
-        <ul className="mt-1 mb-4 text-xs">
-            <li>{weergavenaam.split(',')[0]}</li>
-            <li>{weergavenaam.split(',')[1]}</li>
-            <li>
-                GPS Locatie: {lat.toFixed(7)}, {lng.toFixed(7)}
-            </li>
-        </ul>
-        <div className="flex justify-between">
-            <a
-                href={`/zoekresultaten?geoQuery=${point.x.toFixed(
-                    2
-                )}+${point.y.toFixed(2)}&LatLng=${lat.toFixed(7)}-${lng.toFixed(
-                    7
-                )}`}
-                className="inline-block py-2 px-4 text-white rounded cursor-pointer bg-pzh-blue hover:bg-blue-600 focus:outline-none focus:ring">
-                Bekijk beleid
-            </a>
-            <button className="leaflet-close-popup underline text-pzh-red text-sm">
-                Pin verwijderen
-            </button>
-        </div>
-    </div>
 )
 
 // @ts-ignore

@@ -32,8 +32,12 @@ const SearchResultItem: FC<SearchResultItem> = ({ item, searchQuery }) => {
     }
 
     const content = {
-        Titel: highlightString(item.Titel, paramTextQuery),
-        Omschrijving: highlightString(item.Omschrijving, paramTextQuery),
+        Titel: paramTextQuery
+            ? highlightString(item.Titel, paramTextQuery)
+            : { __html: item.Titel || '' },
+        Omschrijving: paramTextQuery
+            ? highlightString(item.Omschrijving, paramTextQuery)
+            : { __html: item.Omschrijving || '' },
     }
 
     const type = item.Type

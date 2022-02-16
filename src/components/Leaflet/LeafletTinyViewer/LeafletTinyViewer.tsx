@@ -32,6 +32,7 @@ const LeafletTinyViewer = ({
             zoom: 5,
             boundsOptions: { padding: [100, 100] },
         }}
+        controllers={{ showLayers: false }}
         id="leaflet-tiny-viewer">
         <LeafletTinyViewerInner
             fullscreen={fullscreen}
