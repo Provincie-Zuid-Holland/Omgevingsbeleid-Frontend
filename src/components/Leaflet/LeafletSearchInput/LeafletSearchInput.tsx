@@ -1,3 +1,5 @@
+import { faSearch } from '@fortawesome/pro-light-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import axios from 'axios'
 import { Map, Marker } from 'leaflet'
 import { ChangeEvent, forwardRef, useRef, useState } from 'react'
@@ -18,6 +20,7 @@ interface LeafletSearchInputProps {
     searchCallback?: (marker: Marker) => void
     drawCallback?: (callback: any) => void
     placeholder?: string
+    withSearchIcon?: boolean
     classes?: string
 }
 
@@ -26,7 +29,14 @@ const LeafletSearchInput = forwardRef<
     LeafletSearchInputProps
 >(
     (
-        { mapInstance, searchCallback, drawCallback, placeholder, classes },
+        {
+            mapInstance,
+            searchCallback,
+            drawCallback,
+            placeholder,
+            withSearchIcon,
+            classes,
+        },
         ref
     ) => {
         const history = useHistory()
@@ -143,26 +153,34 @@ const LeafletSearchInput = forwardRef<
 
         return (
             <>
-                <input
-                    className={
-                        classes ||
-                        'w-64 h-8 px-5 py-3 text-sm leading-tight text-gray-700 border-none rounded-sm appearance-none focus:outline-none'
-                    }
-                    type="text"
-                    ref={ref}
-                    placeholder={placeholder || 'Zoeken op de kaart'}
-                    onChange={handleChange}
-                    onFocus={() => setShowSuggestions(true)}
-                    value={searchQuery}
-                    onKeyDown={e => {
-                        if (e.key === 'ArrowDown' && queryData.length > 0) {
-                            const result = document.querySelectorAll(
-                                `[data-index='1']`
-                            )[0] as HTMLLIElement
-                            result.focus()
+                <div className="relative">
+                    <input
+                        className={
+                            classes ||
+                            'w-64 h-8 px-5 py-3 text-sm leading-tight text-gray-700 border-none rounded-sm appearance-none focus:outline-none'
                         }
-                    }}
-                />
+                        type="text"
+                        ref={ref}
+                        placeholder={placeholder || 'Zoeken op de kaart'}
+                        onChange={handleChange}
+                        onFocus={() => setShowSuggestions(true)}
+                        value={searchQuery}
+                        onKeyDown={e => {
+                            if (e.key === 'ArrowDown' && queryData.length > 0) {
+                                const result = document.querySelectorAll(
+                                    `[data-index='1']`
+                                )[0] as HTMLLIElement
+                                result.focus()
+                            }
+                        }}
+                    />
+                    {withSearchIcon && (
+                        <FontAwesomeIcon
+                            className="inline-block text-sm absolute top-3 right-3"
+                            icon={faSearch}
+                        />
+                    )}
+                </div>
                 {showSuggestions && queryData.length > 0 ? (
                     <ul
                         id="searchQueryResults"

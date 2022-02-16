@@ -17,7 +17,7 @@ const ContainerMapSearch: FC<ContainerMapSearchProps> = ({
     <div
         id={id}
         ref={reference}
-        className={`min-h-944 flex mx-auto ${className}`}
+        className={`md:min-h-944 flex flex-col md:flex-row mx-auto ${className}`}
         style={style}>
         {children}
     </div>

@@ -5,12 +5,10 @@ import { toast } from 'react-toastify'
 
 import { getWerkingsGebiedenByArea } from '@/api/axiosGeoJSON'
 import { getAddressData } from '@/api/axiosLocatieserver'
-import { RDProj4, leafletBounds } from '@/constants/leaflet'
+import { RDProj4, leafletBounds, MAP_SEARCH_PAGE } from '@/constants/leaflet'
 
 // @ts-ignore
 const RDProjection = new Proj.Projection('EPSG:28992', RDProj4, leafletBounds)
-
-const MAP_SEARCH_PAGE = '/zoeken-op-kaart'
 
 /**
  * Function that creates a custom popup with the parameters lat, lng and layer.
@@ -24,17 +22,23 @@ const createCustomPopup = async (
     type: 'marker' | 'polygon',
     callback?: (callback: any) => void
 ) => {
-    layer
-        .bindPopup(
-            `${type === 'marker' ? 'Adres' : 'Gebied'} aan het laden...`,
-            {
-                minWidth: 350,
-            }
-        )
-        .openPopup()
+    const isAdvancedSearch = window.location.pathname === MAP_SEARCH_PAGE
+    const path = isAdvancedSearch ? MAP_SEARCH_PAGE : '/zoekresultaten'
 
     const point = RDProjection.project({ lat, lng })
     const searchParams = new URLSearchParams(window.location.search)
+    const searchOpen = searchParams.get('searchOpen')
+
+    const popup = layer.bindPopup(
+        `${type === 'marker' ? 'Adres' : 'Gebied'} aan het laden...`,
+        {
+            minWidth: 320,
+        }
+    )
+
+    if (searchOpen !== 'true') {
+        popup.openPopup()
+    }
 
     if (type === 'marker') {
         await getAddressData(lat.toString(), lng.toString())
@@ -45,16 +49,18 @@ const createCustomPopup = async (
                         weergavenaam={data.weergavenaam}
                         lat={lat}
                         lng={lng}
-                        point={point}
+                        geoQuery={`${point.x.toFixed(2)}+${point.y.toFixed(2)}`}
                     />
                 )}</div>`
                 layer._popup.setContent(customPopupHTML)
 
-                searchParams.set(
-                    'geoQuery',
-                    `${point.x.toFixed(2)}+${point.y.toFixed(2)}`
-                )
-                history.push(`${MAP_SEARCH_PAGE}?${searchParams}`)
+                if (isAdvancedSearch) {
+                    searchParams.set(
+                        'geoQuery',
+                        `${point.x.toFixed(2)}+${point.y.toFixed(2)}`
+                    )
+                    history.push(`${MAP_SEARCH_PAGE}?${searchParams}`)
+                }
 
                 callback?.({
                     ...data,
@@ -68,7 +74,7 @@ const createCustomPopup = async (
             })
     } else if (type === 'polygon') {
         const points = layer._latlngs
-            .flat()
+            .flat(2)
             .map(({ lat, lng }: LatLng) => RDProjection.project({ lat, lng }))
         const pointsArray = [...points, points[0]]
 
@@ -85,13 +91,15 @@ const createCustomPopup = async (
                         type="polygon"
                         lat={lat}
                         lng={lng}
-                        point={point}
+                        geoQuery={geoQuery}
                     />
                 )}</div>`
                 layer._popup.setContent(customPopupHTML)
 
-                searchParams.set('geoQuery', geoQuery)
-                history.push(`${MAP_SEARCH_PAGE}?${searchParams}`)
+                if (isAdvancedSearch) {
+                    searchParams.set('geoQuery', geoQuery)
+                    history.push(`${MAP_SEARCH_PAGE}?${searchParams}`)
+                }
 
                 callback?.(data)
             })
@@ -102,46 +110,46 @@ const createCustomPopup = async (
             })
     }
 
-    const popupContainer = layer.getPopup().getElement()
+    if (searchOpen !== 'true') {
+        const popupContainer = layer.getPopup().getElement()
 
-    popupContainer
-        .querySelector('.leaflet-close-popup')
-        ?.addEventListener('click', () => {
-            map.removeLayer(layer)
-            history.push(MAP_SEARCH_PAGE)
-        })
+        popupContainer
+            .querySelector('.leaflet-close-popup')
+            ?.addEventListener('click', () => {
+                map.removeLayer(layer)
+                history.push(path)
+            })
 
-    popupContainer
-        .querySelector('.advanced-search-button')
-        ?.addEventListener('click', () => {
-            searchParams.append('searchOpen', 'true')
-            history.push(`${MAP_SEARCH_PAGE}?${searchParams}`)
-        })
+        popupContainer
+            .querySelector('.advanced-search-button')
+            ?.addEventListener('click', () => {
+                searchParams.append('searchOpen', 'true')
+                history.push(`${path}?${searchParams}`)
+            })
+    }
 }
 
 interface CreateCustomPopupProps {
     type: 'marker' | 'polygon'
     weergavenaam?: string
-    lat: number
-    lng: number
-    point: {
-        x: number
-        y: number
-    }
+    areaName?: string
+    lat?: number
+    lng?: number
+    geoQuery?: string
 }
 
-const CreateCustomPopup = ({
+export const CreateCustomPopup = ({
     type,
     weergavenaam,
+    areaName,
     lat,
     lng,
-    point,
+    geoQuery = '',
 }: CreateCustomPopupProps) => {
     const isAdvancedSearch = window.location.pathname === MAP_SEARCH_PAGE
 
     const searchParams = new URLSearchParams({
-        geoQuery: `${point.x.toFixed(2)}+${point.y.toFixed(2)}`,
-        LatLng: `${lat.toFixed(7)}-${lng.toFixed(7)}`,
+        geoQuery,
     })
 
     return (
@@ -154,12 +162,14 @@ const CreateCustomPopup = ({
                         <li>{weergavenaam.split(',')[1]}</li>
                     </>
                 )}
-                {type === 'marker' && (
+                {type === 'marker' && lat && lng && (
                     <li>
                         GPS Locatie: {lat.toFixed(7)}, {lng.toFixed(7)}
                     </li>
                 )}
-                {type === 'polygon' && <li>Getekend gebied.</li>}
+                {type === 'polygon' && (
+                    <li>{areaName || 'Getekend gebied.'}</li>
+                )}
             </ul>
             <div className="flex justify-between">
                 {isAdvancedSearch ? (

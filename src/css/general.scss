@@ -55,3 +55,22 @@ mark {
     padding-bottom: 0.3rem;
     padding-left: 0.6rem;
 }
+
+.popover-arrow {
+    position: relative;
+
+    &:after {
+        content: '';
+        position: absolute;
+        top: -8px;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        width: 13px;
+        height: 13px;
+        background-color: theme('colors.white');
+        border-left: 1px solid theme('colors.gray.400');
+        border-top: 1px solid theme('colors.gray.400');
+        transform: rotate(45deg);
+    }
+}

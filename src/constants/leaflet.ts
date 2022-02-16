@@ -27,6 +27,8 @@ export const tileURL =
 export const tileURLSattelite =
     'https://service.pdok.nl/hwh/luchtfotorgb/wmts/v1_0/2020_ortho25/EPSG:28992/{z}/{x}/{y}.png'
 
+export const MAP_SEARCH_PAGE = '/zoeken-op-kaart'
+
 export const colors = [
     '#f56565', // .bg-red-500
     '#ed8936', // .bg-orange-500

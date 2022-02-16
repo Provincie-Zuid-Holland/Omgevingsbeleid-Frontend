@@ -1,8 +1,10 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 import { LeafletMap } from '@/components/Leaflet'
 import SearchBar from '@/components/SearchBar'
 import Text from '@/components/Text'
+import { MAP_SEARCH_PAGE } from '@/constants/leaflet'
 
 function SearchSection() {
     const [currentView, setCurrentView] = useState('text')
@@ -43,9 +45,16 @@ function SearchSection() {
                     </Text>
                     <div className="w-full mx-auto mt-4" id="leaflet-homepage">
                         <LeafletMap
-                            controllers={{ showSearch: true, showDraw: true }}
+                            controllers={{ showSearch: false, showDraw: true }}
                             className="w-full border border-gray-300 rounded"
                         />
+                    </div>
+                    <div className="mt-4">
+                        <Link
+                            to={MAP_SEARCH_PAGE}
+                            className="underline text-pzh-green hover:text-pzh-green-dark">
+                            Wilt u uitgebreider zoeken op de kaart?
+                        </Link>
                     </div>
                 </div>
             ) : null}

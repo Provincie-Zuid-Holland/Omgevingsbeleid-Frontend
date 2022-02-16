@@ -12,7 +12,7 @@ interface SearchResultItem {
 }
 
 const SearchResultItem: FC<SearchResultItem> = ({ item, searchQuery }) => {
-    const paramTextQuery = useSearchParam('query')
+    const [paramTextQuery] = useSearchParam('query')
 
     const highlightString = (
         text: string | undefined,

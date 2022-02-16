@@ -1,6 +1,6 @@
 // Leaflet Styles
 #leaflet-homepage {
-    height: 500px;
+    height: 35rem;
     width: 100%;
     max-width: 64rem;
     border-radius: 0.25rem;
@@ -254,16 +254,20 @@
             color: theme('colors.pzh-blue.dark');
         }
     }
+}
 
-    .leaflet-interactive {
-        fill: #d32939;
-        fill-opacity: 0.1;
-        stroke: #d32939;
-        stroke-opacity: 1;
-    }
+.leaflet-advanced-search {
+    .leaflet-container {
+        .leaflet-interactive {
+            fill: #d32939;
+            fill-opacity: 0.1;
+            stroke: #d32939;
+            stroke-opacity: 1;
+        }
 
-    .leaflet-draw-guide-dash {
-        background-color: #d32939 !important;
+        .leaflet-draw-guide-dash {
+            background-color: #d32939 !important;
+        }
     }
 }
 

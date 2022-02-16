@@ -2,7 +2,7 @@ import { Map, point } from 'leaflet'
 import Proj from 'proj4leaflet'
 import { useEffect, useMemo, useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import { useEffectOnce } from 'react-use'
+import { useEffectOnce, useMedia } from 'react-use'
 
 import { getWerkingsGebieden } from '@/api/axiosGeoJSON'
 import { GetSearch200Item } from '@/api/fetchers.schemas'
@@ -15,6 +15,8 @@ import { mapPanTo } from '@/components/Leaflet/utils'
 import SearchBar from '@/components/SearchBar'
 import Text from '@/components/Text'
 import { RDProj4, leafletBounds } from '@/constants/leaflet'
+import useSearchParam from '@/hooks/useSearchParam'
+import useSearchResultFilters from '@/hooks/useSearchResultFilters'
 
 import SidebarInformation from './SidebarInformation'
 import SidebarResults from './SidebarResults'
@@ -29,10 +31,9 @@ export const MAP_OPTIONS = {
 
 const RaadpleegMapSearch = () => {
     const history = useHistory()
-    const location = document.location.toString()
-    const searchParams = new URL(location).searchParams
-    const paramGeoQuery = searchParams.get('geoQuery')
-    const paramSearchOpen = searchParams.get('searchOpen')
+    const [paramGeoQuery, paramSearchOpen, paramWerkingsgebied] =
+        useSearchParam(['geoQuery', 'searchOpen', 'werkingsgebied'])
+    const isSmall = useMedia('(max-width: 640px)')
 
     const [initialized, setInitialized] = useState(false)
     const [mapInstance, setMapInstance] = useState<Map | null>(null)
@@ -41,11 +42,18 @@ const RaadpleegMapSearch = () => {
     const [searchResults, setSearchResults] = useState<GetSearch200Item[]>([])
     const [searchResultsLoading, setSearchResultsLoading] = useState(true)
     const [searchOpen, setSearchOpen] = useState(paramSearchOpen === 'true')
+    const [drawType, setDrawType] = useState('')
+
+    const { onPageFilters, setOnPageFilters } = useSearchResultFilters()
 
     /**
      * Set UUIDs of current location or area
      */
     const onDraw = async (callback: any) => {
+        setSearchResults([])
+        setUUIDs([])
+        setSearchResultsLoading(true)
+
         if (
             callback.type === 'FeatureCollection' &&
             callback.features?.length
@@ -55,6 +63,7 @@ const RaadpleegMapSearch = () => {
             )
 
             setUUIDs(werkingsgebiedenUUIDS)
+            setDrawType(callback.type)
         } else if (callback.type === 'adres') {
             const werkingsgebieden = await getWerkingsGebieden(
                 callback.point.x,
@@ -66,6 +75,7 @@ const RaadpleegMapSearch = () => {
             )
 
             setUUIDs(werkingsgebiedenUUIDS)
+            setDrawType(callback.type)
         }
     }
 
@@ -82,6 +92,11 @@ const RaadpleegMapSearch = () => {
                 return res.data
             })
 
+        setOnPageFilters({
+            type: 'initFilters',
+            searchResultItems: searchResults,
+        })
+
         setSearchResults(searchResults)
     }
 
@@ -92,14 +107,25 @@ const RaadpleegMapSearch = () => {
         if (paramSearchOpen === 'true') {
             setSearchOpen(true)
             mapInstance?.closePopup()
+
+            if (!paramWerkingsgebied && !UUIDs.length) {
+                setSearchResultsLoading(false)
+            }
         } else {
+            setSearchResultsLoading(true)
             setSearchOpen(false)
         }
 
         if (paramSearchOpen === 'true' && UUIDs.length) {
             getSearchResults(UUIDs)
         }
-    }, [paramSearchOpen, UUIDs, mapInstance])
+
+        if (paramSearchOpen === 'true' && paramWerkingsgebied) {
+            getSearchResults([paramWerkingsgebied])
+            setDrawType('werkingsgebied')
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [paramSearchOpen, paramWerkingsgebied, UUIDs, mapInstance])
 
     /**
      * If URL contains geoQuery, create marker or polygon.
@@ -165,6 +191,13 @@ const RaadpleegMapSearch = () => {
         if (!geoQuery) return setInitialized(true)
     })
 
+    useEffect(() => {
+        if (searchOpen && isSmall) {
+            mapInstance?.invalidateSize()
+            window.scrollTo(0, 0)
+        }
+    }, [searchOpen, isSmall, mapInstance])
+
     /**
      * Memoize LeafletMap component so it won't rerender on changes
      */
@@ -173,7 +206,8 @@ const RaadpleegMapSearch = () => {
             <LeafletMap
                 controllers={{
                     showLayers: false,
-                    showDraw: true,
+                    showDraw: isSmall ? !searchOpen : true,
+                    showZoom: isSmall ? !searchOpen : true,
                     showSearch: false,
                 }}
                 callbacks={{
@@ -185,7 +219,8 @@ const RaadpleegMapSearch = () => {
                 }}
             />
         ),
-        []
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [searchOpen && isSmall]
     )
 
     return (
@@ -197,12 +232,20 @@ const RaadpleegMapSearch = () => {
                     onDraw={onDraw}
                 />
 
-                <div className="w-full">{map}</div>
+                <div
+                    className={`leaflet-advanced-search w-full md:h-auto ${
+                        searchOpen ? 'h-44' : 'h-80'
+                    }`}>
+                    {map}
+                </div>
 
                 <SidebarResults
                     searchOpen={searchOpen}
                     searchResults={searchResults}
                     isLoading={searchResultsLoading}
+                    drawType={drawType}
+                    onPageFilters={onPageFilters}
+                    setOnPageFilters={setOnPageFilters}
                 />
             </ContainerMapSearch>
 

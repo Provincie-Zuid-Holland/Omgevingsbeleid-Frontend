@@ -5,21 +5,21 @@ import {
 } from '@fortawesome/pro-light-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Transition } from '@headlessui/react'
-import axios from 'axios'
 import Leaflet, { latLng, Map } from 'leaflet'
-import { ReactNode, useRef, useState } from 'react'
+import { ReactNode, useEffect, useMemo, useRef, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import Select from 'react-select'
-import { toast } from 'react-toastify'
 import { useWindowScroll } from 'react-use'
 
-import { getGeoJsonData } from '@/api/axiosGeoJSON'
 import { useGetValidWerkingsgebieden } from '@/api/fetchers'
 import Heading from '@/components/Heading'
 import { LeafletSearchInput } from '@/components/Leaflet'
 import Text from '@/components/Text'
+import { MAP_SEARCH_PAGE } from '@/constants/leaflet'
+import useSearchParam from '@/hooks/useSearchParam'
 
 import { MAP_OPTIONS } from '../RaadpleegMapSearch'
+import { handleWerkingsgebiedSelect } from '../utils'
 
 type SelectedOption = { label: string; value: string }
 
@@ -34,24 +34,26 @@ const SidebarInformation = ({
     searchOpen,
     onDraw,
 }: SidebarInformationProps) => {
+    const [paramWerkingsgebied] = useSearchParam(['werkingsgebied'])
     const history = useHistory()
-    const location = document.location.toString()
-    const searchParams = new URL(location).searchParams
 
+    const [selected, setSelected] = useState<SelectedOption | null>(null)
     const [werkingsgebied, setWerkingsgebied] =
         useState<Leaflet.Proj.GeoJSON | null>(null)
 
     const searchInput = useRef<HTMLInputElement>(null)
 
     const { data, isLoading } = useGetValidWerkingsgebieden()
+    const selectedVal = useMemo(
+        () => data?.find(item => item.UUID === paramWerkingsgebied),
+        [data, paramWerkingsgebied]
+    )
 
     useWindowScroll()
 
     const goBack = () => {
-        searchParams.delete('searchOpen')
-        history.replace({
-            search: searchParams.toString(),
-        })
+        history.push(MAP_SEARCH_PAGE)
+        setSelected(null)
 
         /**
          * Remove all markers and polygons from map
@@ -64,59 +66,28 @@ const SidebarInformation = ({
 
         const coordinates = latLng(MAP_OPTIONS.center[0], MAP_OPTIONS.center[1])
         mapInstance?.setView(coordinates, MAP_OPTIONS.zoom)
-        mapInstance?.invalidateSize()
+
+        setTimeout(() => mapInstance?.invalidateSize(true), 350)
     }
 
-    const onScopeSelect = async (selected?: SelectedOption | null) => {
-        if (!selected || !mapInstance) return
-
-        if (werkingsgebied && mapInstance.hasLayer(werkingsgebied)) {
-            mapInstance.removeLayer(werkingsgebied)
-        }
-
-        return await getGeoJsonData('Werkingsgebieden', selected.value)
-            .then(res => {
-                const geoJsonLayer = Leaflet.Proj.geoJson(res, {
-                    onEachFeature: (feature, layer) => {
-                        if (feature.properties) {
-                            console.log(feature, layer)
-                            /*
-                            const { lat, lng } = layer._map.getBounds().getCenter()
-                            createCustomPopup(
-                                map,
-                                history,
-                                lat,
-                                lng,
-                                e.layer,
-                                'polygon',
-                                onDraw
-                            )
-                            */
-                            layer.bindPopup(
-                                feature.properties.Gebied
-                                    ? feature.properties.Gebied
-                                    : 'Deze laag heeft nog geen titel'
-                            )
-                        }
-                    },
-                })
-
-                setWerkingsgebied(geoJsonLayer)
-
-                geoJsonLayer.addTo(mapInstance)
-            })
-            .catch(err => {
-                if (axios.isCancel(err)) {
-                    console.log('Request canceled -', err.message)
-                } else {
-                    console.log(err)
-                    toast(process.env.REACT_APP_ERROR_MSG)
-                }
-            })
-    }
+    useEffect(() => {
+        if (selected || selectedVal)
+            handleWerkingsgebiedSelect(
+                mapInstance,
+                history,
+                werkingsgebied,
+                setWerkingsgebied,
+                selected ||
+                    (selectedVal && {
+                        label: selectedVal.Werkingsgebied || '',
+                        value: selectedVal.UUID || '',
+                    })
+            )
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selected, selectedVal])
 
     return (
-        <div className="flex shadow-pane relative z-1">
+        <div className="flex md:shadow-pane relative z-1 md:px-0 px-4">
             <Transition
                 show={!searchOpen}
                 enter="transition-all ease-out duration-300 transform"
@@ -125,7 +96,7 @@ const SidebarInformation = ({
                 leave="transition-all ease-in duration-300 transform"
                 leaveFrom="ml-0"
                 leaveTo="-ml-570"
-                className="pb-8 lg:pb-16 pt-4 md:pt-12 lg:pt-16 lg:px-20 max-w-570 min-w-570">
+                className="pb-8 lg:pb-16 pt-4 md:pt-12 lg:pt-16 lg:px-20 md:px-10 md:max-w-570 md:min-w-570">
                 <Heading level="1">Zoeken op de kaart</Heading>
                 <Text type="introduction-paragraph" className="mt-3">
                     Een stukje pakkende tekst wat vertelt dat dit eigenlijk meer
@@ -167,7 +138,8 @@ const SidebarInformation = ({
                                 drawCallback={onDraw}
                                 ref={searchInput}
                                 placeholder="Geef een adres op"
-                                classes="block w-full h-2.4 px-4 py-3 text-pzh-blue-dark text-opacity-50 text-sm border border-gray-400 rounded appearance-none focus:outline-none hover:border-gray-500 focus:border-gray-500"
+                                withSearchIcon
+                                classes="block w-full h-2.4 pl-4 pr-8 pb-3 pt-3.5 placeholder-pzh-blue-dark placeholder-opacity-50 text-sm border border-gray-400 rounded appearance-none focus:outline-none hover:border-gray-500 focus:border-gray-500"
                             />
                         </div>
                     </>
@@ -177,21 +149,35 @@ const SidebarInformation = ({
                     title="Werkingsgebied"
                     description="Selecteer een werkingsgebied om het gekoppelde beleid in te zien."
                 />
-                <Select
-                    className="mt-2"
-                    id="select-werkingsgebied"
-                    name="werkingsgebied"
-                    options={
-                        data?.map(item => ({
-                            label: item.Werkingsgebied || '',
-                            value: item.UUID || '',
-                        })) || []
-                    }
-                    placeholder="Selecteer een werkingsgebied"
-                    isLoading={isLoading}
-                    menuPosition="fixed"
-                    onChange={onScopeSelect}
-                />
+                {data && (
+                    <div className="form-select-container">
+                        <Select
+                            className="mt-2"
+                            id="select-werkingsgebied"
+                            name="werkingsgebied"
+                            options={
+                                data.map(item => ({
+                                    label: item.Werkingsgebied || '',
+                                    value: item.UUID || '',
+                                })) || []
+                            }
+                            defaultValue={
+                                selectedVal && {
+                                    label: selectedVal.Werkingsgebied || '',
+                                    value: selectedVal.UUID || '',
+                                }
+                            }
+                            components={{
+                                IndicatorSeparator: () => null,
+                            }}
+                            classNamePrefix="form-select"
+                            placeholder="Selecteer een werkingsgebied"
+                            isLoading={isLoading}
+                            menuPosition="fixed"
+                            onChange={setSelected}
+                        />
+                    </div>
+                )}
             </Transition>
 
             <Transition
@@ -203,15 +189,17 @@ const SidebarInformation = ({
                 leaveFrom="opacity-100 ml-0"
                 leaveTo="opacity-0 -ml-12"
                 className="w-12 h-full">
-                <button onClick={() => goBack()} className="h-full w-full">
-                    <div className="pt-4">
+                <button
+                    onClick={() => goBack()}
+                    className="h-full w-full md:block flex items-center md:py-0 py-4">
+                    <div className="md:pt-4">
                         <FontAwesomeIcon
                             icon={faArrowLeft}
-                            className="text-base"
+                            className="md:text-base text-sm"
                         />
                     </div>
-                    <div className="flex flex-col h-full justify-center">
-                        <p className="-mt-8 transform -rotate-90 whitespace-nowrap">
+                    <div className="flex flex-col h-full justify-center md:ml-0 ml-2">
+                        <p className="md:-mt-8 md:transform md:-rotate-90 whitespace-nowrap">
                             Terug naar zoeken
                         </p>
                     </div>
