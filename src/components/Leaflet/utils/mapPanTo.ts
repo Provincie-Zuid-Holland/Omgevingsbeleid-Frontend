@@ -30,6 +30,7 @@ const mapPanTo = ({
     callback,
 }: PanToProps) => {
     let zoomLevel
+
     switch (type) {
         case 'adres':
             zoomLevel = 10

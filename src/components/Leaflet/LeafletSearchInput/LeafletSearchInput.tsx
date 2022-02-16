@@ -76,8 +76,8 @@ const LeafletSearchInput = forwardRef<
                         .split('(')[1]
                         .split(')')[0]
                         .split(' ')
-                    const lat = parseFloat(latLng[0]).toFixed(20)
-                    const lng = parseFloat(latLng[1]).toFixed(20)
+                    const lng = parseFloat(latLng[0]).toFixed(20)
+                    const lat = parseFloat(latLng[1]).toFixed(20)
 
                     const marker = mapPanTo({
                         map: mapInstance,
@@ -88,6 +88,7 @@ const LeafletSearchInput = forwardRef<
                         layerType: 'marker',
                         callback: drawCallback,
                     })
+
                     searchCallback?.(marker)
                     setShowSuggestions(false)
                 })

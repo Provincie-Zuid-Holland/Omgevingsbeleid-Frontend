@@ -74,6 +74,11 @@ const RaadpleegMapSearch = () => {
                 (item: any) => item.properties.UUID
             )
 
+            if (!werkingsgebieden.length) {
+                setSearchResultsLoading(false)
+            } else {
+            }
+
             setUUIDs(werkingsgebiedenUUIDS)
             setDrawType(callback.type)
         }
@@ -107,10 +112,6 @@ const RaadpleegMapSearch = () => {
         if (paramSearchOpen === 'true') {
             setSearchOpen(true)
             mapInstance?.closePopup()
-
-            if (!paramWerkingsgebied && !UUIDs.length) {
-                setSearchResultsLoading(false)
-            }
         } else {
             setSearchResultsLoading(true)
             setSearchOpen(false)
@@ -179,8 +180,6 @@ const RaadpleegMapSearch = () => {
                     setInitialized(true)
                 }
             }
-
-            mapInstance.invalidateSize()
         })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [paramGeoQuery, mapInstance])
