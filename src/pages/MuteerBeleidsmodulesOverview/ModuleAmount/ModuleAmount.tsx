@@ -12,6 +12,12 @@ interface ModuleAmountProps {
     )[]
 }
 
+/**
+ *
+ * @param {object} currentBeleidsmodule - Contains the beleidsmodule the user is viewing
+ * @param {array} policies - Array containing all the policies that are in the currentBeleidsmodule
+ * @returns Component that displays the amount of policies in the beleidsmodule
+ */
 function ModuleAmount({ currentBeleidsmodule, policies }: ModuleAmountProps) {
     if (!currentBeleidsmodule || !policies) return null
 

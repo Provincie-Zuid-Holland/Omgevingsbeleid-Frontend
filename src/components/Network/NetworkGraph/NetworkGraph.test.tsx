@@ -8,16 +8,10 @@ import NetworkGraph from './NetworkGraph'
 const queryClient = new QueryClient()
 
 const initialize = async () => {
-    const setGraphIsOpenMock = () => jest.fn()
-
     render(
         <QueryClientProvider client={queryClient}>
             <MemoryRouter>
-                <NetworkGraph
-                    graphIsOpen={true}
-                    showBanner={true}
-                    setGraphIsOpen={setGraphIsOpenMock}
-                />
+                <NetworkGraph />
             </MemoryRouter>
         </QueryClientProvider>
     )
@@ -36,31 +30,6 @@ describe('NetworkGraph', () => {
         await initialize()
 
         const title = screen.getByText('Netwerkvisualisatie')
-        expect(title).toBeInTheDocument()
-    })
-
-    it('should not display if the graphIsOpen state is false', async () => {
-        const setGraphIsOpenMock = () => jest.fn()
-        render(
-            <QueryClientProvider client={queryClient}>
-                <MemoryRouter>
-                    <NetworkGraph
-                        graphIsOpen={false}
-                        showBanner={true}
-                        setGraphIsOpen={setGraphIsOpenMock}
-                    />
-                </MemoryRouter>
-            </QueryClientProvider>
-        )
-
-        const title = screen.queryByText('Netwerkvisualisatie')
-        expect(title).not.toBeInTheDocument()
-    })
-
-    it('should display if the graphIsOpen state is true', async () => {
-        initialize()
-
-        const title = screen.queryByText('Netwerkvisualisatie')
         expect(title).toBeInTheDocument()
     })
 

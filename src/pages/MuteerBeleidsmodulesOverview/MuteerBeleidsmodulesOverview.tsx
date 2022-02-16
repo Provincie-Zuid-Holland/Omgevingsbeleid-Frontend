@@ -21,13 +21,16 @@ import SortIcon from './SortIcon'
 import TableHeading from './TableHeading'
 import TableRow from './TableRow'
 
+type ModuleParams = {
+    single: string
+}
+
 /**
  * @returns A component that renders an overview of a specific Beleidsmodule
  */
 function MuteerBeleidsmodulesOverview() {
-    const [currentBeleidsmodule, setCurrentBeleidsmodule] = useState<
-        BeleidsmodulesRead | undefined
-    >(undefined)
+    const [currentBeleidsmodule, setCurrentBeleidsmodule] =
+        useState<BeleidsmodulesRead>()
     const [policies, setPolicies] = useState<
         (
             | BeleidsmodulesReadBeleidskeuzesItem
@@ -39,7 +42,7 @@ function MuteerBeleidsmodulesOverview() {
     const [sorting, setSorting, sortPolicies] = useModuleSort()
     const [filters, setFilters, filterPolicies] = useModuleFilter()
 
-    const params = useParams<{ single: string }>()
+    const params = useParams<ModuleParams>()
     const history = useHistory()
 
     /**
@@ -72,27 +75,24 @@ function MuteerBeleidsmodulesOverview() {
         /**
          * Function that gets and sets the beleidsmodules
          */
-        const getAndSetBeleidsmodules = () => {
-            getBeleidsmodules()
-                .then(data => {
-                    const currentBeleidsmodule =
-                        findAndSetCurrentBeleidsmodule(data)
-                    return currentBeleidsmodule
-                })
-                .then(currentBeleidsmodule => {
-                    if (!currentBeleidsmodule) return
-
-                    const policies = [
-                        ...(currentBeleidsmodule.Maatregelen || []),
-                        ...(currentBeleidsmodule.Beleidskeuzes || []),
-                    ]
-                    setPolicies(policies)
-                    setFilters({ type: 'init', policies: policies })
-                    setDataLoaded(true)
-                })
-                .catch(err => {
-                    handleError(err)
-                })
+        const getAndSetBeleidsmodules = async () => {
+            try {
+                const beleidsmodules = await getBeleidsmodules()
+                const currentBeleidsmodule =
+                    findAndSetCurrentBeleidsmodule(beleidsmodules)
+                if (!currentBeleidsmodule) {
+                    throw 'no current beleidsmodule'
+                }
+                const policies = [
+                    ...(currentBeleidsmodule.Maatregelen || []),
+                    ...(currentBeleidsmodule.Beleidskeuzes || []),
+                ]
+                setPolicies(policies)
+                setFilters({ type: 'init', policies: policies })
+                setDataLoaded(true)
+            } catch (err: any) {
+                handleError(err)
+            }
         }
 
         getAndSetBeleidsmodules()
@@ -116,14 +116,12 @@ function MuteerBeleidsmodulesOverview() {
                                     {currentBeleidsmodule?.Titel}
                                 </h1>
                             </div>
-                            <div className="flex">
-                                <ModuleFilters
-                                    filters={filters}
-                                    setFilters={setFilters}
-                                />
-                            </div>
+                            <ModuleFilters
+                                filters={filters}
+                                setFilters={setFilters}
+                            />
                         </div>
-                        {dataLoaded ? (
+                        {dataLoaded && currentBeleidsmodule ? (
                             <ModuleAmount
                                 currentBeleidsmodule={currentBeleidsmodule}
                                 policies={policies}
