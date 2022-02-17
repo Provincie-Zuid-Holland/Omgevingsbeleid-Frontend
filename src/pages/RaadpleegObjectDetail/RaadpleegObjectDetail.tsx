@@ -103,7 +103,9 @@ const RaadpleegObjectDetail = ({
 
         dataEndpoint(lineageID)
             .then(data => {
-                const preppedRevisions = prepareRevisions(data)
+                const preppedRevisions = prepareRevisions(
+                    data as BeleidskeuzesRead[]
+                )
                 setRevisionObjects(preppedRevisions)
                 setDataLoaded(true)
             })
@@ -133,7 +135,9 @@ const RaadpleegObjectDetail = ({
                 titleSingular={titleSingular}
                 dataObject={dataObject}
             />
-            <Container id="raadpleeg-detail-container-main" className="mb-32">
+            <Container
+                id="raadpleeg-detail-container-main"
+                className="mb-6 md:mb-32">
                 <div className="block col-span-6 xl:hidden">
                     <BackButton className="block xl:hidden" />
                     <Heading
@@ -158,7 +162,7 @@ const RaadpleegObjectDetail = ({
                 <TableOfContents display="block" />
                 <RaadpleegObjectDetailMain
                     dataLoaded={dataLoaded}
-                    dataObject={dataObject}
+                    dataObject={dataObject as any}
                     titleSingular={titleSingular}
                 />
                 <TableOfContents display="fixed" />
@@ -168,7 +172,7 @@ const RaadpleegObjectDetail = ({
                 <RelatiesKoppelingen
                     titleSingular={titleSingular}
                     titleSingularPrefix={titleSingularPrefix}
-                    dataObject={dataObject}
+                    dataObject={dataObject as any}
                 />
             ) : null}
             <Footer />
