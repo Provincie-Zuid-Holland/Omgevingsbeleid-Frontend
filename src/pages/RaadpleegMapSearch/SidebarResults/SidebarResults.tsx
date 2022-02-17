@@ -155,7 +155,7 @@ const Filter = ({
                     top: y ?? '',
                     left: x ?? '',
                 }}>
-                <div className="flex flex-col py-2 px-4 bg-white border border-gray-400 rounded shadow-md popover-arrow w-40">
+                <div className="flex flex-col pt-2 pb-4 px-4 bg-white border border-gray-400 rounded shadow-md popover-arrow w-48">
                     <Text className="font-bold">Filteren</Text>
 
                     <SearchFilterSection

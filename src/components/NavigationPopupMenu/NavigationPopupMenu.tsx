@@ -11,6 +11,7 @@ import { useLockBodyScroll, useWindowSize } from 'react-use'
 
 import { Container } from '../Container'
 import Heading from '../Heading'
+import Text from '../Text'
 
 /**
  * A popup menu that can be used to navigate the application.
@@ -107,8 +108,8 @@ const NavigationPopupMenu = ({
                         <Container
                             className="h-full overflow-y-auto"
                             style={isMobile ? containerHeightStyle : undefined}>
-                            <div className="flex flex-col items-center col-span-6 mt-6 sm:flex-row">
-                                <div className="relative flex items-center w-full">
+                            <div className="flex flex-col md:items-center col-span-6 mt-6 sm:flex-row">
+                                <div className="relative flex flex-1 items-center w-full">
                                     <FontAwesomeIcon
                                         className="absolute left-0 ml-2 text-lg text-pzh-blue-dark"
                                         icon={faSearch}
@@ -140,6 +141,17 @@ const NavigationPopupMenu = ({
                                                 : 'Zoek binnen het beleid van de provincie Zuid-Holland'
                                         }
                                     />
+                                </div>
+                                <div className="sm:ml-2 md:mt-0 mt-2">
+                                    <Text>
+                                        of{' '}
+                                        <Link
+                                            to="/zoeken-op-kaart"
+                                            onClick={() => setIsOpen(false)}
+                                            className="underline text-pzh-green hover:text-pzh-green-dark">
+                                            Zoek op de kaart
+                                        </Link>
+                                    </Text>
                                 </div>
                             </div>
                             <div className="col-span-6 mt-6 md:col-span-2">

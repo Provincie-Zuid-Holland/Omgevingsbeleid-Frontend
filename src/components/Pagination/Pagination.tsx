@@ -22,7 +22,8 @@ function Pagination({
     const [offset, setOffset] = useState(20)
     const [show, setShow] = useState(true)
 
-    const [paramTextQuery, paramOnly] = useSearchParam(['query', 'only'])
+    const { get } = useSearchParam()
+    const [paramTextQuery, paramOnly] = get(['query', 'only'])
 
     const getNewSearchResults: () => void = async () => {
         if (!paramTextQuery) return

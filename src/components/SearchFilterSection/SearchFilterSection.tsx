@@ -19,7 +19,8 @@ const SearchFilterSection = ({
     hideLabels,
 }: SearchFilterSection) => {
     const container = useRef<HTMLDivElement>(null)
-    const [paramOnly] = useSearchParam('only')
+    const { get } = useSearchParam()
+    const [paramOnly] = get('only')
 
     const searchFilterCategories: { [key: string]: string[] } = {
         Omgevingsvisie: ['ambities', 'beleidsdoelen', 'beleidskeuzes'],

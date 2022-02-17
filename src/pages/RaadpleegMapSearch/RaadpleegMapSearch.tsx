@@ -31,8 +31,12 @@ export const MAP_OPTIONS = {
 
 const RaadpleegMapSearch = () => {
     const history = useHistory()
-    const [paramGeoQuery, paramSearchOpen, paramWerkingsgebied] =
-        useSearchParam(['geoQuery', 'searchOpen', 'werkingsgebied'])
+    const { get } = useSearchParam()
+    const [paramGeoQuery, paramSearchOpen, paramWerkingsgebied] = get([
+        'geoQuery',
+        'searchOpen',
+        'werkingsgebied',
+    ])
     const isSmall = useMedia('(max-width: 640px)')
 
     const [initialized, setInitialized] = useState(false)

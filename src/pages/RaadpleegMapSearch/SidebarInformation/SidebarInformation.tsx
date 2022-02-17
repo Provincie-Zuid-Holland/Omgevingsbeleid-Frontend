@@ -34,7 +34,8 @@ const SidebarInformation = ({
     searchOpen,
     onDraw,
 }: SidebarInformationProps) => {
-    const [paramWerkingsgebied] = useSearchParam(['werkingsgebied'])
+    const { get } = useSearchParam()
+    const [paramWerkingsgebied] = get('werkingsgebied')
     const history = useHistory()
 
     const [selected, setSelected] = useState<SelectedOption | null>(null)

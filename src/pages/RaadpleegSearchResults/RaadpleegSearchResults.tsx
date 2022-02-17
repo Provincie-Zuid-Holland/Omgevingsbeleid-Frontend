@@ -24,7 +24,8 @@ const RaadpleegSearchResults = () => {
     const [searchResults, setSearchResults] = useState<GetSearch200Item[]>([])
     const [dataLoaded, setDataLoaded] = useState(false)
 
-    const [paramTextQuery, paramOnly, paramGeoQuery] = useSearchParam([
+    const { get } = useSearchParam()
+    const [paramTextQuery, paramOnly, paramGeoQuery] = get([
         'query',
         'only',
         'geoQuery',
