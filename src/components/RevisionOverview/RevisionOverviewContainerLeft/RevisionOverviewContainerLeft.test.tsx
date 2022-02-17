@@ -1,15 +1,20 @@
-import { render } from '@testing-library/react';
-import React from 'react';
-import RevisionOverviewContainerLeft, { RevisionOverviewContainerLeftProps } from './RevisionOverviewContainerLeft';
+import { render, screen } from '@testing-library/react'
+import '@testing-library/jest-dom'
+
+import RevisionOverviewContainerLeft from './RevisionOverviewContainerLeft'
 
 describe('RevisionOverviewContainerLeft', () => {
-    const defaultProps: RevisionOverviewContainerLeftProps = {};
+    const setup = () => {
+        render(
+            <RevisionOverviewContainerLeft>
+                <span>Test</span>
+            </RevisionOverviewContainerLeft>
+        )
+    }
 
-    it('should render', () => {
-        const props = { ...defaultProps };
-        const { asFragment, queryByText } = render(<RevisionOverviewContainerLeft {...props} />);
-
-        expect(asFragment()).toMatchSnapshot();
-        expect(queryByText('RevisionOverviewContainerLeft')).toBeTruthy();
-    });
-});
+    it('Component renders', () => {
+        setup()
+        const element = screen.getByText('Test')
+        expect(element).toBeTruthy()
+    })
+})

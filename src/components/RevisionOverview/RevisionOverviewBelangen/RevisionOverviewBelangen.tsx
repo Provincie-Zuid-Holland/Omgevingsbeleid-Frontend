@@ -9,7 +9,7 @@ export interface RevisionOverviewBelangenProps {
 }
 
 /**
- * Displays the label, titel and omschrijving of a belang.
+ * Objects can have connections
  */
 const RevisionOverviewBelangen = ({
     label,
@@ -45,7 +45,7 @@ const RevisionOverviewBelangen = ({
             ? { backgroundColor: '#e5f0ef' } // New     - Green
             : { backgroundColor: '#f2f2f7' } // Default - Purple
 
-    const objects = getBelangen(containsChanges, object, type)
+    const belangenFromChangeObject = getBelangen(containsChanges, object, type)
 
     return (
         <div className="mb-8">
@@ -54,19 +54,19 @@ const RevisionOverviewBelangen = ({
                     {label}
                 </h3>
             ) : null}
-            {objects && objects.length > 0 ? (
-                objects.map((object: any, index: number) => {
-                    const containerStyle = getContainerStyle(object)
+            {belangenFromChangeObject && belangenFromChangeObject.length > 0 ? (
+                belangenFromChangeObject.map((belang: any, index: number) => {
+                    const containerStyle = getContainerStyle(belang)
                     return (
                         <div
                             key={`belang-${index}`}
                             className={`p-5 mb-4 rounded-md`}
                             style={containerStyle}>
                             <span className="block mb-1 font-bold m-color-puple">
-                                {object.Titel}
+                                {belang.Titel}
                             </span>
                             <p className="w-full leading-7 text-gray-800 break-words whitespace-pre-line">
-                                {object.Omschrijving}
+                                {belang.Omschrijving}
                             </p>
                         </div>
                     )

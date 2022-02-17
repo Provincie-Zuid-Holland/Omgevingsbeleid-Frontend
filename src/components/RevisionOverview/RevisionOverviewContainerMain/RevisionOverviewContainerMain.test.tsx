@@ -1,15 +1,20 @@
-import { render } from '@testing-library/react';
-import React from 'react';
-import RevisionOverviewContainerMain, { RevisionOverviewContainerMainProps } from './RevisionOverviewContainerMain';
+import { render, screen } from '@testing-library/react'
+import '@testing-library/jest-dom'
+
+import RevisionOverviewContainerMain from './RevisionOverviewContainerMain'
 
 describe('RevisionOverviewContainerMain', () => {
-    const defaultProps: RevisionOverviewContainerMainProps = {};
+    const setup = () => {
+        render(
+            <RevisionOverviewContainerMain>
+                <span>Test</span>
+            </RevisionOverviewContainerMain>
+        )
+    }
 
-    it('should render', () => {
-        const props = { ...defaultProps };
-        const { asFragment, queryByText } = render(<RevisionOverviewContainerMain {...props} />);
-
-        expect(asFragment()).toMatchSnapshot();
-        expect(queryByText('RevisionOverviewContainerMain')).toBeTruthy();
-    });
-});
+    it('Component renders', () => {
+        setup()
+        const element = screen.getByText('Test')
+        expect(element).toBeTruthy()
+    })
+})

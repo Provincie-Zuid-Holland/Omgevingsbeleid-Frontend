@@ -1,15 +1,31 @@
-import { render } from '@testing-library/react';
-import React from 'react';
-import RevisionOverviewChangeContainer, { RevisionOverviewChangeContainerProps } from './RevisionOverviewChangeContainer';
+import { render, screen } from '@testing-library/react'
+import '@testing-library/jest-dom'
+
+import beleidskeuzeChangesNew from '@/mocks/data/beleidskeuzeChangesNew'
+import beleidskeuzeChangesOld from '@/mocks/data/beleidskeuzeChangesOld'
+import beleidskeuzeChangesOriginal from '@/mocks/data/beleidskeuzeChangesOriginal'
+import beleidskeuzeChangesRevisions from '@/mocks/data/beleidskeuzeChangesRevisions'
+
+import RevisionOverviewChangeContainer from './RevisionOverviewChangeContainer'
 
 describe('RevisionOverviewChangeContainer', () => {
-    const defaultProps: RevisionOverviewChangeContainerProps = {};
+    const defaultProps = {
+        oldObject: beleidskeuzeChangesOld,
+        changesObject: beleidskeuzeChangesNew,
+        originalObject: beleidskeuzeChangesOriginal,
+        revisionObjects: beleidskeuzeChangesRevisions,
+    }
 
-    it('should render', () => {
-        const props = { ...defaultProps };
-        const { asFragment, queryByText } = render(<RevisionOverviewChangeContainer {...props} />);
+    const setup = (customProps?: any) => {
+        const props = { ...defaultProps, ...customProps }
+        render(<RevisionOverviewChangeContainer {...props} />)
+    }
 
-        expect(asFragment()).toMatchSnapshot();
-        expect(queryByText('RevisionOverviewChangeContainer')).toBeTruthy();
-    });
-});
+    it('Component renders', () => {
+        setup()
+        const element = screen.getByText(
+            'Adequaat aanbod openbaar vervoer (In Inspraak Test)'
+        )
+        expect(element).toBeTruthy()
+    })
+})

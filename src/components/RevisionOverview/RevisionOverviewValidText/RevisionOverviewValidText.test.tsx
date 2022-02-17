@@ -1,15 +1,27 @@
-import { render } from '@testing-library/react';
-import React from 'react';
-import RevisionOverviewValidText, { RevisionOverviewValidTextProps } from './RevisionOverviewValidText';
+import { render, screen, fireEvent } from '@testing-library/react'
+
+import '@testing-library/jest-dom'
+import beleidskeuzeChangesOld from '@/mocks/data/beleidskeuzeChangesOld'
+import beleidskeuzeChangesRevisions from '@/mocks/data/beleidskeuzeChangesRevisions'
+
+import RevisionOverviewValidText from './RevisionOverviewValidText'
 
 describe('RevisionOverviewValidText', () => {
-    const defaultProps: RevisionOverviewValidTextProps = {};
+    const defaultProps = {
+        object: beleidskeuzeChangesOld,
+        revisionObjects: beleidskeuzeChangesRevisions,
+    }
 
-    it('should render', () => {
-        const props = { ...defaultProps };
-        const { asFragment, queryByText } = render(<RevisionOverviewValidText {...props} />);
+    const setup = (customProps?: any) => {
+        const props = { ...defaultProps, ...customProps }
+        render(<RevisionOverviewValidText {...props} />)
+    }
 
-        expect(asFragment()).toMatchSnapshot();
-        expect(queryByText('RevisionOverviewValidText')).toBeTruthy();
-    });
-});
+    it('Component renders', () => {
+        setup()
+        const element = screen.getByText(
+            'Vigerend vanaf 7 augustus 2020 tot heden'
+        )
+        expect(element).toBeTruthy()
+    })
+})

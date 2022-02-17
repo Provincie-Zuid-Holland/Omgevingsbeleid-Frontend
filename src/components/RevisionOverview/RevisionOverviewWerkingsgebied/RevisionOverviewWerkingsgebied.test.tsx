@@ -1,15 +1,27 @@
-import { render } from '@testing-library/react';
-import React from 'react';
-import RevisionOverviewWerkingsgebied, { RevisionOverviewWerkingsgebiedProps } from './RevisionOverviewWerkingsgebied';
+import { render, screen } from '@testing-library/react'
+import '@testing-library/jest-dom'
+
+import beleidskeuzeChangesNew from '@/mocks/data/beleidskeuzeChangesNew'
+import beleidskeuzeChangesOriginal from '@/mocks/data/beleidskeuzeChangesOriginal'
+
+import RevisionOverviewWerkingsgebied from './RevisionOverviewWerkingsgebied'
 
 describe('RevisionOverviewWerkingsgebied', () => {
-    const defaultProps: RevisionOverviewWerkingsgebiedProps = {};
+    const defaultProps = {
+        originalObject: beleidskeuzeChangesOriginal,
+        changesObject: beleidskeuzeChangesNew,
+    }
 
-    it('should render', () => {
-        const props = { ...defaultProps };
-        const { asFragment, queryByText } = render(<RevisionOverviewWerkingsgebied {...props} />);
+    const setup = (customProps?: any) => {
+        const props = { ...defaultProps, ...customProps }
+        render(<RevisionOverviewWerkingsgebied {...props} />)
+    }
 
-        expect(asFragment()).toMatchSnapshot();
-        expect(queryByText('RevisionOverviewWerkingsgebied')).toBeTruthy();
-    });
-});
+    it('Component renders', () => {
+        setup()
+        const element = screen.getByText(
+            `Beleidskeuze 'Adequaat aanbod openbaar vervoer (In Inspraak Test)' is gewijzigd van gebied 'Concessie- en contractgebied openbaar vervoer' naar gebied 'Concessie- en contractgebied openbaar vervoer'.`
+        )
+        expect(element).toBeTruthy()
+    })
+})

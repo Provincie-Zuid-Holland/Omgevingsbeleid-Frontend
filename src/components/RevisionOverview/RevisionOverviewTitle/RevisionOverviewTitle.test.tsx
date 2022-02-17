@@ -1,15 +1,22 @@
-import { render } from '@testing-library/react';
-import React from 'react';
-import RevisionOverviewTitle, { RevisionOverviewTitleProps } from './RevisionOverviewTitle';
+import { render, screen, fireEvent } from '@testing-library/react'
+import '@testing-library/jest-dom'
+import React from 'react'
+
+import RevisionOverviewTitle from './RevisionOverviewTitle'
 
 describe('RevisionOverviewTitle', () => {
-    const defaultProps: RevisionOverviewTitleProps = {};
+    const defaultProps = {
+        title: 'Test text',
+    }
 
-    it('should render', () => {
-        const props = { ...defaultProps };
-        const { asFragment, queryByText } = render(<RevisionOverviewTitle {...props} />);
+    const setup = (customProps?: any) => {
+        const props = { ...defaultProps, ...customProps }
+        render(<RevisionOverviewTitle {...props} />)
+    }
 
-        expect(asFragment()).toMatchSnapshot();
-        expect(queryByText('RevisionOverviewTitle')).toBeTruthy();
-    });
-});
+    it('Component renders', () => {
+        setup()
+        const element = screen.getByText('Test text')
+        expect(element).toBeTruthy()
+    })
+})
