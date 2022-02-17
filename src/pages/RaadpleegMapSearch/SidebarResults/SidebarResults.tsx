@@ -69,7 +69,7 @@ const SidebarResults = ({
             {!isLoading ? (
                 <>
                     {searchResults.length ? (
-                        <div className="md:overflow-scroll md:max-h-830 md:pb-8 md:lg:pb-16">
+                        <div className="md:overflow-scroll md:max-h-838 md:pb-8 md:lg:pb-16">
                             <ul className="mb-4">
                                 {searchResults
                                     /**

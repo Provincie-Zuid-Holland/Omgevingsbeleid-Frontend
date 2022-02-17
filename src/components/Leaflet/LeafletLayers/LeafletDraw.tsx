@@ -1,12 +1,13 @@
 import 'leaflet-draw/dist/leaflet.draw-src.css'
 import 'leaflet-draw'
 
-import leaflet, { Control, ControlPosition } from 'leaflet'
+import leaflet, { Control, ControlPosition, Point } from 'leaflet'
 import { useEffect, useState } from 'react'
 import { FeatureGroup, useMap } from 'react-leaflet'
 import { useHistory } from 'react-router-dom'
 
 import { icons } from '@/constants/leaflet'
+import markerIcon from '@/images/marker.svg'
 
 import { createControlComponent } from '../LeafletController'
 import { createCustomPopup } from '../utils'
@@ -15,12 +16,9 @@ import { createCustomPopup } from '../utils'
 delete leaflet.Icon.Default.prototype._getIconUrl
 
 leaflet.Icon.Default.mergeOptions({
-    iconRetinaUrl:
-        'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/images/marker-icon.png',
-    iconUrl:
-        'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/images/marker-icon.png',
-    shadowUrl:
-        'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/images/marker-shadow.png',
+    iconRetinaUrl: markerIcon,
+    iconUrl: markerIcon,
+    shadowUrl: null,
 })
 
 const LEAFLET_MARKER_CLASS = 'leaflet-draw-draw-marker'
@@ -99,6 +97,15 @@ const LeafletDraw = ({ position = 'topleft', onDraw }: LeafletDrawProps) => {
     )
 }
 
+const customMarker = leaflet.Icon.extend({
+    options: {
+        shadowUrl: null,
+        iconAnchor: new Point(15, 15),
+        iconSize: new Point(30, 30),
+        iconUrl: markerIcon,
+    },
+})
+
 const EditControl = createControlComponent(
     (options: Control.DrawConstructorOptions) =>
         new Control.Draw({
@@ -108,6 +115,9 @@ const EditControl = createControlComponent(
                 rectangle: false,
                 polyline: false,
                 circlemarker: false,
+                marker: {
+                    icon: new customMarker(),
+                },
             },
         })
 )

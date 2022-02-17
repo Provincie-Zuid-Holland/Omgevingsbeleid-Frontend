@@ -222,8 +222,7 @@ module.exports = {
                 570: '28.5rem',
             },
             maxHeight: {
-                830: '41.5rem',
-                844: '42.2rem',
+                838: '41.9rem',
             },
             minHeight: {
                 944: '47.2rem',
