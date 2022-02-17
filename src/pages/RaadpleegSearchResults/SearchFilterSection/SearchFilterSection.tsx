@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { useWindowSize, useMedia } from 'react-use'
+import { useMedia } from 'react-use'
 
 import useSearchParam from '@/hooks/useSearchParam'
 import { FilterCollection, ACTIONTYPE } from '@/hooks/useSearchResultFilters'

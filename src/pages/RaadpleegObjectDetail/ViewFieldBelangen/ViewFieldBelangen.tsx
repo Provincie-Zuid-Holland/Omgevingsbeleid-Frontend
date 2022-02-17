@@ -1,7 +1,7 @@
 import { faAngleRight } from '@fortawesome/pro-light-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useEffect, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const ViewFieldBelangen = ({ fieldValue }: { fieldValue: any[] }) => {
     const [nationaleBelangen, setNationaleBelangen] = useState<any[]>([])
