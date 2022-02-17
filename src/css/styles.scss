@@ -9,85 +9,9 @@
 @import './toastify.scss';
 @import './select.scss';
 
-.logo-main {
-    background-image: url('../images/logo.png');
-    background-size: contain;
-    background-position: left center;
-    background-repeat: no-repeat;
-    display: block;
-}
-
-.logo-beeldmerk {
-    background-image: url('../images/logo_beeldmerk.jpg');
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    display: block;
-    height: 69px;
-    width: 69px;
-    position: absolute;
-    margin-top: -34px;
-}
-
-.logo-tekst {
-    background-image: url('../images/logo_tekst.jpg');
-    background-size: contain;
-    background-position: left center;
-    background-repeat: no-repeat;
-    display: block;
-    height: 24px;
-    width: 121px;
-    position: absolute;
-    margin-top: -12px;
-    margin-left: 85px;
-}
-
-.beta-badge {
-    margin-left: 10.3rem;
-    margin-top: -0.9rem;
-}
-
 #main-container {
     margin-top: 96px;
     min-height: calc(100vh - 96px);
-}
-
-#ambitie-list li {
-    top: 0px;
-    position: relative;
-    transition: 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-#ambitie-list li:hover {
-    top: -2px;
-}
-
-#API-list li:nth-child(even),
-#API-Item-list li:nth-child(even) {
-    padding-left: 0.75rem;
-}
-
-#API-list li:nth-child(odd),
-#API-Item-list li:nth-child(odd) {
-    padding-right: 0.75rem;
-}
-#ambitie-list li.w-full:nth-child(odd) {
-    padding-right: 0px;
-}
-
-/* Login */
-
-.login-afbeelding {
-    background-image: url('../images/login.png');
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    height: 100vh;
-    padding-top: 70px;
-    position: fixed;
-    top: 0px;
-    right: 0px;
-    width: 50vw;
 }
 
 .shake {
@@ -211,34 +135,6 @@
     }
 }
 
-#raadpleeg-home {
-    height: calc(100vh - 70px - 3rem);
-}
-
-.h-screen-min-navbar {
-    height: calc(100vh - 73px);
-    top: 73px;
-}
-
-#navigation-tooltip-container {
-    left: 5px;
-    box-shadow: 0 0px 9px 2px rgba(0, 0, 0, 0.1),
-        0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    &:before {
-        content: '';
-        display: block;
-        position: absolute;
-        width: 0;
-        height: 0;
-        border-style: solid;
-        border-width: 0 10px 10px 10px;
-        border-color: transparent transparent #fff transparent;
-        top: -10px;
-        z-index: 10;
-        right: 8px;
-    }
-}
-
 .timeline-margin-left {
     margin-left: calc(2rem - 2px);
 }
@@ -260,10 +156,6 @@
 
 .bolletje-left-min-7 {
     left: -7px;
-}
-
-.bolletje-right-min-7 {
-    right: -7px;
 }
 
 .list-item-bolletje-bottom {
@@ -382,14 +274,6 @@
     overflow-y: auto;
 }
 
-.popup-long {
-    min-height: 75%;
-    max-height: 100%;
-    width: 80vw;
-    max-width: 100%;
-    overflow-y: auto;
-}
-
 .popup-results-list {
     max-height: 217px;
 }
@@ -404,24 +288,6 @@
     }
     .search-preview {
         max-width: calc(110% - 130px);
-    }
-}
-
-.search-highlight {
-    position: relative;
-    z-index: 10;
-    &:before {
-        content: '';
-        position: absolute;
-        display: inline-block;
-        z-index: -1;
-        width: 100%;
-        height: 100%;
-        background-color: #f6e05e85;
-        transform: skew(-10deg);
-        top: 0px;
-        padding: 0px 14px;
-        left: -1px;
     }
 }
 
@@ -566,10 +432,6 @@
     }
 }
 
-.beta-logo {
-    background-color: #f7edd1;
-}
-
 .screen-minus-nav {
     top: 85px;
     height: calc(100vh - 250px);
@@ -577,19 +439,6 @@
 
 .werkingsgebied-container {
     height: calc(100% - 125px);
-}
-
-.shadow-navigation {
-    box-shadow: 0 15px 20px -12px rgba(218, 218, 232, 0.4);
-}
-
-.soft-shadow-navigation {
-    box-shadow: 0 4px 6px -1px rgba(218, 218, 232, 0.4),
-        0 2px 4px -1px rgba(218, 218, 232, 0.4);
-}
-
-.hide-nav {
-    top: -150px;
 }
 
 // Image urls
