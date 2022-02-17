@@ -5,9 +5,8 @@ import {
     getWerkingsGebieden,
     getWerkingsGebiedenByArea,
 } from '@/api/axiosGeoJSON'
-import { getSearch } from '@/api/fetchers'
+import { getSearch, getSearchGeo } from '@/api/fetchers'
 import { GetSearch200Item } from '@/api/fetchers.schemas'
-import axios from '@/api/instance'
 import Container from '@/components/Container/Container'
 import Footer from '@/components/Footer'
 import Heading from '@/components/Heading'
@@ -95,9 +94,9 @@ const RaadpleegSearchResults = () => {
 
                 if (werkingsgebiedenUUIDS.length === 0) return
 
-                const searchResults: GetSearch200Item[] = await axios
-                    .get(`/search/geo?query=${werkingsgebiedenUUIDS}`)
-                    .then(res => res.data)
+                const searchResults: GetSearch200Item[] = await getSearchGeo({
+                    query: werkingsgebiedenUUIDS,
+                })
 
                 setOnPageFilters({
                     type: 'initFilters',
