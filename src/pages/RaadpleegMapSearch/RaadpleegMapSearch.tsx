@@ -90,19 +90,18 @@ const RaadpleegMapSearch = () => {
     const getSearchResults = async (UUIDs: string[]) => {
         setSearchResultsLoading(true)
 
-        const searchResults: GetSearch200Item[] = await axios
+        return await axios
             .get(`/search/geo?query=${UUIDs.join(',')}`)
             .then(res => {
+                setSearchResults(res.data)
+                setOnPageFilters({
+                    type: 'initFilters',
+                    searchResultItems: res.data,
+                })
                 setSearchResultsLoading(false)
+
                 return res.data
             })
-
-        setOnPageFilters({
-            type: 'initFilters',
-            searchResultItems: searchResults,
-        })
-
-        setSearchResults(searchResults)
     }
 
     /**

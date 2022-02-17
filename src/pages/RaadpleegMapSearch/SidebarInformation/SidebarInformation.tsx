@@ -71,20 +71,28 @@ const SidebarInformation = ({
     }
 
     useEffect(() => {
-        if (selected || selectedVal)
+        if ((selected || selectedVal) && mapInstance) {
+            let selectOption
+
+            if (selected) {
+                selectOption = selected
+            } else if (selectedVal) {
+                selectOption = {
+                    label: selectedVal.Werkingsgebied || '',
+                    value: selectedVal.UUID || '',
+                }
+            }
+
             handleWerkingsgebiedSelect(
                 mapInstance,
                 history,
                 werkingsgebied,
                 setWerkingsgebied,
-                selected ||
-                    (selectedVal && {
-                        label: selectedVal.Werkingsgebied || '',
-                        value: selectedVal.UUID || '',
-                    })
+                selectOption
             )
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [selected, selectedVal])
+    }, [selected, selectedVal, mapInstance])
 
     return (
         <div className="flex md:shadow-pane relative z-1 md:px-0 px-4">

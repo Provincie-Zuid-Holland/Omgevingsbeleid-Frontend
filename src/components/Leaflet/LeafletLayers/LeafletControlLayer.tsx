@@ -58,83 +58,82 @@ const LeafletControlLayer = ({ fullscreen, children }: LeafletLayerProps) => {
                             enterTo="transform translate-x-0 opacity-100"
                             leave="ease-in duration-300"
                             leaveFrom="transform translate-x-0 opacity-100"
-                            leaveTo="transform translate-x-64 opacity-0">
-                            <>
-                                <button
-                                    className="absolute top-0 left-0 flex items-center justify-center w-8 h-8 p-2 mr-8 text-gray-700 transform -translate-x-8 bg-gray-100 rounded-l opacity-100 hover:text-gray-800"
-                                    onClick={() =>
-                                        setLayerControlOpen(!layerControlOpen)
-                                    }>
-                                    <FontAwesomeIcon
-                                        className="text-lg"
-                                        icon={faAngleRight}
-                                    />
-                                </button>
-                                <div
-                                    className="relative z-10 bg-white rounded cursor-pointer overflow-y-auto"
-                                    style={{
-                                        width: '375px',
-                                        maxWidth: '100%',
-                                        height: fullscreen ? '1000px' : '500px',
-                                    }}
-                                    data-testid="leaflet-layers-control-pane">
-                                    <div className="w-full">
-                                        {children}
-                                        <ToggleableSection
-                                            title="Achtergrondlaag"
-                                            positionTop>
-                                            <ul className="p-2">
-                                                <li className="px-2 py-1 text-gray-700 cursor-pointer hover:text-gray-800 focus:text-gray-900 hover:bg-gray-50">
-                                                    <div>
-                                                        <input
-                                                            className="mr-2"
-                                                            type="radio"
-                                                            id="Satelliet"
-                                                            name="drone"
-                                                            value="Satelliet"
-                                                            onChange={() =>
-                                                                setActiveMapTiles(
-                                                                    'Satelliet'
-                                                                )
-                                                            }
-                                                            checked={
-                                                                activeMapTiles ===
+                            leaveTo="transform translate-x-64 opacity-0"
+                            className="relative leaflet-control-layer-container">
+                            <button
+                                className="absolute top-0 left-0 flex items-center justify-center w-8 h-8 p-2 mr-8 text-gray-700 transform -translate-x-8 bg-gray-100 rounded-l opacity-100 hover:text-gray-800"
+                                onClick={() =>
+                                    setLayerControlOpen(!layerControlOpen)
+                                }>
+                                <FontAwesomeIcon
+                                    className="text-lg"
+                                    icon={faAngleRight}
+                                />
+                            </button>
+                            <div
+                                className="relative z-10 bg-white rounded cursor-pointer overflow-y-auto"
+                                style={{
+                                    width: '375px',
+                                    maxWidth: '100%',
+                                    height: fullscreen ? '1000px' : '500px',
+                                }}
+                                data-testid="leaflet-layers-control-pane">
+                                <div className="w-full">
+                                    {children}
+                                    <ToggleableSection
+                                        title="Achtergrondlaag"
+                                        positionTop>
+                                        <ul className="p-2">
+                                            <li className="px-2 py-1 text-gray-700 cursor-pointer hover:text-gray-800 focus:text-gray-900 hover:bg-gray-50">
+                                                <div>
+                                                    <input
+                                                        className="mr-2"
+                                                        type="radio"
+                                                        id="Satelliet"
+                                                        name="drone"
+                                                        value="Satelliet"
+                                                        onChange={() =>
+                                                            setActiveMapTiles(
                                                                 'Satelliet'
-                                                            }
-                                                        />
-                                                        <label htmlFor="Satelliet">
-                                                            Satelliet
-                                                        </label>
-                                                    </div>
-                                                </li>
-                                                <li className="px-2 py-1 text-gray-700 cursor-pointer hover:text-gray-800 focus:text-gray-900 hover:bg-gray-50">
-                                                    <div>
-                                                        <input
-                                                            className="mr-2"
-                                                            type="radio"
-                                                            id="Map"
-                                                            name="drone"
-                                                            value="Map"
-                                                            onChange={() =>
-                                                                setActiveMapTiles(
-                                                                    'Map'
-                                                                )
-                                                            }
-                                                            checked={
-                                                                activeMapTiles ===
+                                                            )
+                                                        }
+                                                        checked={
+                                                            activeMapTiles ===
+                                                            'Satelliet'
+                                                        }
+                                                    />
+                                                    <label htmlFor="Satelliet">
+                                                        Satelliet
+                                                    </label>
+                                                </div>
+                                            </li>
+                                            <li className="px-2 py-1 text-gray-700 cursor-pointer hover:text-gray-800 focus:text-gray-900 hover:bg-gray-50">
+                                                <div>
+                                                    <input
+                                                        className="mr-2"
+                                                        type="radio"
+                                                        id="Map"
+                                                        name="drone"
+                                                        value="Map"
+                                                        onChange={() =>
+                                                            setActiveMapTiles(
                                                                 'Map'
-                                                            }
-                                                        />
-                                                        <label htmlFor="Map">
-                                                            Map
-                                                        </label>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </ToggleableSection>
-                                    </div>
+                                                            )
+                                                        }
+                                                        checked={
+                                                            activeMapTiles ===
+                                                            'Map'
+                                                        }
+                                                    />
+                                                    <label htmlFor="Map">
+                                                        Map
+                                                    </label>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </ToggleableSection>
                                 </div>
-                            </>
+                            </div>
                         </Transition>
                     </div>
                 </div>
