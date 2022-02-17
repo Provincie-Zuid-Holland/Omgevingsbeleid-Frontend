@@ -6,6 +6,7 @@ import { Popover, Transition } from '@headlessui/react'
 import { GetSearch200Item } from '@/api/fetchers.schemas'
 import Heading from '@/components/Heading'
 import { LoaderCard } from '@/components/Loader'
+import Pagination from '@/components/Pagination'
 import SearchFilterSection from '@/components/SearchFilterSection'
 import SearchResultItem from '@/components/SearchResultItem'
 import Text from '@/components/Text'
@@ -14,19 +15,23 @@ import { FilterCollection } from '@/hooks/useSearchResultFilters'
 interface SidebarResultsProps {
     searchOpen: boolean
     searchResults: GetSearch200Item[]
+    setSearchResults: (results: GetSearch200Item[]) => void
     isLoading: boolean
     drawType?: string
     onPageFilters: FilterCollection
     setOnPageFilters: any
+    UUIDs: string[]
 }
 
 const SidebarResults = ({
     searchOpen,
     searchResults,
+    setSearchResults,
     isLoading,
     drawType,
     onPageFilters,
     setOnPageFilters,
+    UUIDs,
 }: SidebarResultsProps) => (
     <Transition
         show={searchOpen}
@@ -64,43 +69,53 @@ const SidebarResults = ({
             {!isLoading ? (
                 <>
                     {searchResults.length ? (
-                        <ul className="md:overflow-scroll md:max-h-830 md:pb-8 md:lg:pb-16">
-                            {searchResults
-                                /**
-                                 * By default none of the filters are active, if so return all
-                                 * If there is one or more filter checked return the checked
-                                 */
-                                .filter(item => {
-                                    const filterIsActive = Object.keys(
-                                        onPageFilters.filterState
-                                    ).some(
-                                        filter =>
-                                            onPageFilters.filterState[filter]
-                                                .checked
-                                    )
+                        <div className="md:overflow-scroll md:max-h-830 md:pb-8 md:lg:pb-16">
+                            <ul className="mb-4">
+                                {searchResults
+                                    /**
+                                     * By default none of the filters are active, if so return all
+                                     * If there is one or more filter checked return the checked
+                                     */
+                                    .filter(item => {
+                                        const filterIsActive = Object.keys(
+                                            onPageFilters.filterState
+                                        ).some(
+                                            filter =>
+                                                onPageFilters.filterState[
+                                                    filter
+                                                ].checked
+                                        )
 
-                                    if (!item.Type) {
-                                        return false
-                                    } else if (
-                                        filterIsActive &&
-                                        onPageFilters.filterState[item.Type]
-                                            ?.checked
-                                    ) {
-                                        return true
-                                    } else if (!filterIsActive) {
-                                        return true
-                                    } else {
-                                        return false
-                                    }
-                                })
-                                .map(item => (
-                                    <SearchResultItem
-                                        searchQuery={null}
-                                        item={item}
-                                        key={item.UUID}
-                                    />
-                                ))}
-                        </ul>
+                                        if (!item.Type) {
+                                            return false
+                                        } else if (
+                                            filterIsActive &&
+                                            onPageFilters.filterState[item.Type]
+                                                ?.checked
+                                        ) {
+                                            return true
+                                        } else if (!filterIsActive) {
+                                            return true
+                                        } else {
+                                            return false
+                                        }
+                                    })
+                                    .map(item => (
+                                        <SearchResultItem
+                                            searchQuery={null}
+                                            item={item}
+                                            key={item.UUID}
+                                        />
+                                    ))}
+                            </ul>
+                            <Pagination
+                                setOnPageFilters={setOnPageFilters}
+                                setSearchResults={setSearchResults}
+                                searchResults={searchResults}
+                                UUIDs={UUIDs}
+                                limit={10}
+                            />
+                        </div>
                     ) : (
                         <Text className="mt-2">
                             Er zijn geen resultaten voor{' '}

@@ -5,8 +5,8 @@ import { useHistory } from 'react-router-dom'
 import { useEffectOnce, useMedia } from 'react-use'
 
 import { getWerkingsGebieden } from '@/api/axiosGeoJSON'
+import { getSearchGeo } from '@/api/fetchers'
 import { GetSearch200Item } from '@/api/fetchers.schemas'
-import axios from '@/api/instance'
 import { Container, ContainerMapSearch } from '@/components/Container'
 import Footer from '@/components/Footer'
 import Heading from '@/components/Heading'
@@ -94,18 +94,16 @@ const RaadpleegMapSearch = () => {
     const getSearchResults = async (UUIDs: string[]) => {
         setSearchResultsLoading(true)
 
-        return await axios
-            .get(`/search/geo?query=${UUIDs.join(',')}`)
-            .then(res => {
-                setSearchResults(res.data)
-                setOnPageFilters({
-                    type: 'initFilters',
-                    searchResultItems: res.data,
-                })
-                setSearchResultsLoading(false)
-
-                return res.data
+        return getSearchGeo({ query: UUIDs.join(',') }).then(data => {
+            setSearchResults(data)
+            setOnPageFilters({
+                type: 'initFilters',
+                searchResultItems: data,
             })
+            setSearchResultsLoading(false)
+
+            return data
+        })
     }
 
     /**
@@ -244,10 +242,12 @@ const RaadpleegMapSearch = () => {
                 <SidebarResults
                     searchOpen={searchOpen}
                     searchResults={searchResults}
+                    setSearchResults={setSearchResults}
                     isLoading={searchResultsLoading}
                     drawType={drawType}
                     onPageFilters={onPageFilters}
                     setOnPageFilters={setOnPageFilters}
+                    UUIDs={UUIDs}
                 />
             </ContainerMapSearch>
 

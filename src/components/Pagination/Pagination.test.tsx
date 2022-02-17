@@ -19,9 +19,11 @@ describe('Pagination', () => {
     const setOnPageFiltersMock = jest.fn()
 
     const defaultProps = {
-        searchResults: [],
+        type: 'text',
+        searchResults: [{}, {}],
         setSearchResults: setSearchResultsMock,
         setOnPageFilters: setOnPageFiltersMock,
+        limit: 1,
     }
 
     const setup = (customProps?: setupProps) => {

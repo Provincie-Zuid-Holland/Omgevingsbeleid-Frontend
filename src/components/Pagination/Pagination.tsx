@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { getSearch } from '@/api/fetchers'
+import { getSearch, getSearchGeo } from '@/api/fetchers'
 import { GetSearch200Item } from '@/api/fetchers.schemas'
 import Button from '@/components/Button'
 import LoaderSpinner from '@/components/Loader/LoaderSpinner'
@@ -11,40 +11,70 @@ export interface PaginationProps {
     searchResults: GetSearch200Item[]
     setSearchResults: (searchResults: GetSearch200Item[]) => void
     setOnPageFilters: (action: ACTIONTYPE) => void
+    UUIDs?: string[]
+    limit?: number
 }
 
 function Pagination({
     searchResults,
     setSearchResults,
     setOnPageFilters,
+    UUIDs,
+    limit = 20,
 }: PaginationProps) {
     const [isLoading, setIsLoading] = useState(false)
-    const [offset, setOffset] = useState(20)
+    const [offset, setOffset] = useState(limit)
     const [show, setShow] = useState(true)
 
     const { get } = useSearchParam()
-    const [paramTextQuery, paramOnly] = get(['query', 'only'])
+    const [paramTextQuery, paramOnly, paramGeo, paramWerkingsgebied] = get([
+        'query',
+        'only',
+        'geoQuery',
+        'werkingsgebied',
+    ])
+
+    const getResults = async () => {
+        if ((paramGeo || paramWerkingsgebied) && UUIDs?.length) {
+            return await getSearchGeo({
+                query: paramWerkingsgebied || UUIDs.join(','),
+                offset,
+                limit,
+                ...(paramOnly && { only: paramOnly }),
+            })
+        }
+
+        if (paramTextQuery) {
+            return await getSearch({
+                query: paramTextQuery,
+                offset,
+                limit,
+                ...(paramOnly && { only: paramOnly }),
+            })
+        }
+
+        return []
+    }
 
     const getNewSearchResults: () => void = async () => {
-        if (!paramTextQuery) return
+        if (!paramTextQuery && !paramGeo && !paramWerkingsgebied) return
+
         setIsLoading(true)
-        const newSearchResults = await getSearch({
-            query: paramTextQuery,
-            offset: offset,
-            limit: 20,
-            ...(paramOnly && { only: paramOnly }),
-        })
-        setOffset(offset + 20)
+
+        const newSearchResults = await getResults()
+
+        setOffset(offset + limit)
         setSearchResults([...searchResults, ...newSearchResults])
         setOnPageFilters({
             type: 'updateFilters',
             searchResultItems: [...searchResults, ...newSearchResults],
         })
         setIsLoading(false)
-        if (newSearchResults.length < 20) setShow(false)
+
+        if (newSearchResults.length < limit) setShow(false)
     }
 
-    if (!show) return null
+    if (!show || searchResults.length < limit) return null
 
     return (
         <div className="flex items-center justify-center mb-16">
