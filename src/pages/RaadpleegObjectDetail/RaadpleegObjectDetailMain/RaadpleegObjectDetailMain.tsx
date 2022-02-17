@@ -87,7 +87,7 @@ const RaadpleegObjectDetailMain: FC<RaadpleegObjectDetailMainProps> = ({
             {/* These contain the fields that need to be displayed for the different objects */}
             <div
                 className={`mt-4 ${
-                    titleSingular === 'Beleidskeuze' ? '' : 'pb-20'
+                    titleSingular === 'Beleidskeuze' ? '' : 'md:pb-20'
                 }`}
                 id="raadpleeg-detail-container-main">
                 {titleSingular === 'Beleidskeuze' ? (

@@ -689,7 +689,7 @@ const NetworkGraph = () => {
     return (
         <div
             id="popup-menu-graph"
-            className="fixed top-0 left-0 w-full bg-white"
+            className="fixed top-0 left-0 w-full pb-10 overflow-y-auto bg-white"
             style={graphStyles}>
             <div className="container flex flex-col h-full mx-auto lg:flex-row">
                 <NetworkGraphSidebar
@@ -697,7 +697,7 @@ const NetworkGraph = () => {
                     filters={filters}
                     setFilters={setFilters}
                 />
-                <div className="w-full px-4 pb-4 mt-6 lg:mt-10 lg:w-3/4">
+                <div className="w-full px-4 pb-20 mt-6 lg:pb-4 lg:mt-10 lg:w-3/4">
                     <h2 className="text-xl text-pzh-blue opacity-30">
                         Omgevingsbeleid Provincie Zuid-Holland
                     </h2>
