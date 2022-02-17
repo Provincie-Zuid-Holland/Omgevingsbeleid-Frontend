@@ -21,8 +21,6 @@ import useSearchParam from '@/hooks/useSearchParam'
 import { MAP_OPTIONS } from '../RaadpleegMapSearch'
 import { handleWerkingsgebiedSelect } from '../utils'
 
-type SelectedOption = { label: string; value: string }
-
 interface SidebarInformationProps {
     mapInstance: Map | null
     searchOpen: boolean
@@ -34,11 +32,10 @@ const SidebarInformation = ({
     searchOpen,
     onDraw,
 }: SidebarInformationProps) => {
-    const { get } = useSearchParam()
+    const { get, set } = useSearchParam()
     const [paramWerkingsgebied] = get('werkingsgebied')
     const history = useHistory()
 
-    const [selected, setSelected] = useState<SelectedOption | null>(null)
     const [werkingsgebied, setWerkingsgebied] =
         useState<Leaflet.Proj.GeoJSON | null>(null)
 
@@ -54,7 +51,6 @@ const SidebarInformation = ({
 
     const goBack = () => {
         history.push(MAP_SEARCH_PAGE)
-        setSelected(null)
 
         /**
          * Remove all markers and polygons from map
@@ -72,28 +68,20 @@ const SidebarInformation = ({
     }
 
     useEffect(() => {
-        if ((selected || selectedVal) && mapInstance) {
-            let selectOption
-
-            if (selected) {
-                selectOption = selected
-            } else if (selectedVal) {
-                selectOption = {
-                    label: selectedVal.Werkingsgebied || '',
-                    value: selectedVal.UUID || '',
-                }
-            }
-
+        if (paramWerkingsgebied && mapInstance) {
             handleWerkingsgebiedSelect(
                 mapInstance,
                 history,
                 werkingsgebied,
                 setWerkingsgebied,
-                selectOption
+                {
+                    label: '',
+                    value: paramWerkingsgebied || '',
+                }
             )
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [selected, selectedVal, mapInstance])
+    }, [paramWerkingsgebied, mapInstance])
 
     return (
         <div className="flex md:shadow-pane relative z-1 md:px-0 px-4">
@@ -170,11 +158,12 @@ const SidebarInformation = ({
                                     value: item.UUID || '',
                                 })) || []
                             }
-                            defaultValue={
-                                selectedVal && {
+                            value={
+                                (selectedVal && {
                                     label: selectedVal.Werkingsgebied || '',
                                     value: selectedVal.UUID || '',
-                                }
+                                }) ||
+                                null
                             }
                             components={{
                                 IndicatorSeparator: () => null,
@@ -183,7 +172,9 @@ const SidebarInformation = ({
                             placeholder="Selecteer een werkingsgebied"
                             isLoading={isLoading}
                             menuPosition="fixed"
-                            onChange={setSelected}
+                            onChange={val => {
+                                set('werkingsgebied', val?.value || '')
+                            }}
                         />
                     </div>
                 )}

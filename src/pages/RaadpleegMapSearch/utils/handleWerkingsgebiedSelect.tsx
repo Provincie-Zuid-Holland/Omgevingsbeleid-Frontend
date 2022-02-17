@@ -1,11 +1,13 @@
 import axios from 'axios'
-import Leaflet, { Map } from 'leaflet'
+import Leaflet, { latLng, Map } from 'leaflet'
 import ReactDOMServer from 'react-dom/server'
 import { toast } from 'react-toastify'
 
 import { getGeoJsonData } from '@/api/axiosGeoJSON'
 import { CreateCustomPopup } from '@/components/Leaflet/utils/createCustomPopup'
 import { MAP_SEARCH_PAGE } from '@/constants/leaflet'
+
+import { MAP_OPTIONS } from '../RaadpleegMapSearch'
 
 type SelectedOption = { label: string; value: string }
 
@@ -71,6 +73,13 @@ const handleWerkingsgebiedSelect = async (
                     .querySelector('.leaflet-close-popup')
                     ?.addEventListener('click', () => {
                         mapInstance.removeLayer(geoJsonLayer)
+
+                        const coordinates = latLng(
+                            MAP_OPTIONS.center[0],
+                            MAP_OPTIONS.center[1]
+                        )
+                        mapInstance?.setView(coordinates, MAP_OPTIONS.zoom)
+
                         history.push(MAP_SEARCH_PAGE)
                     })
 
