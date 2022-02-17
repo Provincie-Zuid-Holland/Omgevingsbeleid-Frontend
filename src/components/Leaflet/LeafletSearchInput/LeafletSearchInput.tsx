@@ -5,7 +5,7 @@ import { Map, Marker } from 'leaflet'
 import { ChangeEvent, forwardRef, useRef, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { useDebounce } from 'react-use'
+import { useClickAway, useDebounce } from 'react-use'
 
 import { getLookupData, getSuggestData } from '@/api/axiosLocatieserver'
 
@@ -45,7 +45,12 @@ const LeafletSearchInput = forwardRef<
         const [queryData, setQueryData] = useState([])
         const [showSuggestions, setShowSuggestions] = useState(false)
 
+        const searchContainer = useRef(null)
         const suggestList = useRef(null)
+
+        useClickAway(searchContainer, () => {
+            setShowSuggestions(false)
+        })
 
         /**
          * Function to set the state of the searchQuery and use the value parameter in the locatieServerSuggestQuery function.
@@ -153,7 +158,7 @@ const LeafletSearchInput = forwardRef<
         }
 
         return (
-            <>
+            <div ref={searchContainer}>
                 <div className="relative">
                     <input
                         className={
@@ -165,7 +170,6 @@ const LeafletSearchInput = forwardRef<
                         placeholder={placeholder || 'Zoeken op de kaart'}
                         onChange={handleChange}
                         onFocus={() => setShowSuggestions(true)}
-                        onBlur={() => setShowSuggestions(false)}
                         value={searchQuery}
                         onKeyDown={e => {
                             if (e.key === 'ArrowDown' && queryData.length > 0) {
@@ -224,7 +228,7 @@ const LeafletSearchInput = forwardRef<
                         ))}
                     </ul>
                 ) : null}
-            </>
+            </div>
         )
     }
 )
