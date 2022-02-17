@@ -71,7 +71,7 @@ const LeafletControlLayer = ({ fullscreen, children }: LeafletLayerProps) => {
                                 />
                             </button>
                             <div
-                                className="relative z-10 bg-white rounded cursor-pointer overflow-y-auto"
+                                className="relative z-10 bg-white cursor-pointer overflow-y-auto"
                                 style={{
                                     width: '375px',
                                     maxWidth: '100%',

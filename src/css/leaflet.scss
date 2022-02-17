@@ -161,10 +161,6 @@
             .leaflet-control {
                 margin-top: 1rem;
                 margin-right: 1rem;
-
-                &:not(:first-child) {
-                    margin-top: 0.5rem;
-                }
             }
         }
     }
@@ -349,6 +345,6 @@
 }
 
 .leaflet-control-layer-container {
-    margin-top: -0.5rem;
+    margin-top: -1rem;
     margin-right: -1rem;
 }
