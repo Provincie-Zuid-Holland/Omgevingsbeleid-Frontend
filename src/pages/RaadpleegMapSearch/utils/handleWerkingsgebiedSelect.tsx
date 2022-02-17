@@ -65,30 +65,25 @@ const handleWerkingsgebiedSelect = async (
             if (searchOpen !== 'true') {
                 werkingsgebiedPopup?.openPopup()
 
-                const popupContainer = werkingsgebiedLayer
-                    .getPopup()
-                    .getElement()
+                handlePopupEvents(
+                    mapInstance,
+                    werkingsgebiedLayer,
+                    geoJsonLayer,
+                    history,
+                    searchParams,
+                    MAP_SEARCH_PAGE
+                )
 
-                popupContainer
-                    .querySelector('.leaflet-close-popup')
-                    ?.addEventListener('click', () => {
-                        mapInstance.removeLayer(geoJsonLayer)
-
-                        const coordinates = latLng(
-                            MAP_OPTIONS.center[0],
-                            MAP_OPTIONS.center[1]
-                        )
-                        mapInstance?.setView(coordinates, MAP_OPTIONS.zoom)
-
-                        history.push(MAP_SEARCH_PAGE)
-                    })
-
-                popupContainer
-                    .querySelector('.advanced-search-button')
-                    ?.addEventListener('click', () => {
-                        searchParams.append('searchOpen', 'true')
-                        history.push(`${MAP_SEARCH_PAGE}?${searchParams}`)
-                    })
+                mapInstance.on('popupopen', () =>
+                    handlePopupEvents(
+                        mapInstance,
+                        werkingsgebiedLayer,
+                        geoJsonLayer,
+                        history,
+                        searchParams,
+                        MAP_SEARCH_PAGE
+                    )
+                )
             }
 
             searchParams.set('werkingsgebied', selected.value)
@@ -101,6 +96,38 @@ const handleWerkingsgebiedSelect = async (
                 console.log(err)
                 toast(process.env.REACT_APP_ERROR_MSG)
             }
+        })
+}
+
+const handlePopupEvents = (
+    map: Map,
+    werkingsgebiedLayer: any,
+    layer: any,
+    history: any,
+    searchParams: URLSearchParams,
+    path: string
+) => {
+    const popupContainer = werkingsgebiedLayer.getPopup().getElement()
+
+    popupContainer
+        .querySelector('.leaflet-close-popup')
+        ?.addEventListener('click', () => {
+            map.removeLayer(layer)
+
+            const coordinates = latLng(
+                MAP_OPTIONS.center[0],
+                MAP_OPTIONS.center[1]
+            )
+            map?.setView(coordinates, MAP_OPTIONS.zoom)
+
+            history.push(MAP_SEARCH_PAGE)
+        })
+
+    popupContainer
+        .querySelector('.advanced-search-button')
+        ?.addEventListener('click', () => {
+            searchParams.append('searchOpen', 'true')
+            history.push(`${path}?${searchParams}`)
         })
 }
 

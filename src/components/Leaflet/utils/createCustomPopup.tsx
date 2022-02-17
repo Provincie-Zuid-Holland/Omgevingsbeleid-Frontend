@@ -111,22 +111,36 @@ const createCustomPopup = async (
     }
 
     if (searchOpen !== 'true') {
-        const popupContainer = layer.getPopup().getElement()
+        handlePopupEvents(map, layer, history, searchParams, path)
 
-        popupContainer
-            .querySelector('.leaflet-close-popup')
-            ?.addEventListener('click', () => {
-                map.removeLayer(layer)
-                history.push(path)
-            })
-
-        popupContainer
-            .querySelector('.advanced-search-button')
-            ?.addEventListener('click', () => {
-                searchParams.append('searchOpen', 'true')
-                history.push(`${path}?${searchParams}`)
-            })
+        map.on('popupopen', () =>
+            handlePopupEvents(map, layer, history, searchParams, path)
+        )
     }
+}
+
+const handlePopupEvents = (
+    map: Map,
+    layer: any,
+    history: any,
+    searchParams: URLSearchParams,
+    path: string
+) => {
+    const popupContainer = layer.getPopup().getElement()
+
+    popupContainer
+        .querySelector('.leaflet-close-popup')
+        ?.addEventListener('click', () => {
+            map.removeLayer(layer)
+            history.push(path)
+        })
+
+    popupContainer
+        .querySelector('.advanced-search-button')
+        ?.addEventListener('click', () => {
+            searchParams.append('searchOpen', 'true')
+            history.push(`${path}?${searchParams}`)
+        })
 }
 
 interface CreateCustomPopupProps {
