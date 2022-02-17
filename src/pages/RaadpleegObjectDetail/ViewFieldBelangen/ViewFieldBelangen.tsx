@@ -56,26 +56,22 @@ const ViewFieldBelangen = ({ fieldValue }: { fieldValue: any[] }) => {
     ) : null
 }
 
-const BelangenListItem = ({ item }: { item: any }) => {
-    const location = useLocation()
-
-    return (
-        <li
-            className="w-full leading-7 text-gray-800 break-words whitespace-pre-line group"
-            key={item.UUID}>
-            <Link
-                className="relative cursor-pointer"
-                to={`/detail/belangen/${item.UUID}?fromPage=${location.pathname}`}>
-                <FontAwesomeIcon
-                    className="relative ml-0 text-base"
-                    icon={faAngleRight}
-                />
-                <span className="inline-block pl-2 ml-0 group-hover:underline">
-                    {item.Titel}
-                </span>
-            </Link>
-        </li>
-    )
-}
+const BelangenListItem = ({ item }: { item: any }) => (
+    <li
+        className="w-full leading-7 text-gray-800 break-words whitespace-pre-line group"
+        key={item.UUID}>
+        <Link
+            className="relative cursor-pointer"
+            to={`/detail/belangen/${item.UUID}`}>
+            <FontAwesomeIcon
+                className="relative ml-0 text-base"
+                icon={faAngleRight}
+            />
+            <span className="inline-block pl-2 ml-0 group-hover:underline">
+                {item.Titel}
+            </span>
+        </Link>
+    </li>
+)
 
 export default ViewFieldBelangen
