@@ -3,6 +3,13 @@ import '@testing-library/jest-dom'
 
 import SearchFilterSection from './SearchFilterSection'
 
+jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom'),
+    useLocation: () => ({
+        pathname: 'localhost:3000/example/path',
+    }),
+}))
+
 describe('SearchFilterSection', () => {
     const defaultProps = {
         loaded: true,

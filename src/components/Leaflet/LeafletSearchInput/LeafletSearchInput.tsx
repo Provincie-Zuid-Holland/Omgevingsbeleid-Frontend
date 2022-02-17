@@ -165,6 +165,7 @@ const LeafletSearchInput = forwardRef<
                         placeholder={placeholder || 'Zoeken op de kaart'}
                         onChange={handleChange}
                         onFocus={() => setShowSuggestions(true)}
+                        onBlur={() => setShowSuggestions(false)}
                         value={searchQuery}
                         onKeyDown={e => {
                             if (e.key === 'ArrowDown' && queryData.length > 0) {
