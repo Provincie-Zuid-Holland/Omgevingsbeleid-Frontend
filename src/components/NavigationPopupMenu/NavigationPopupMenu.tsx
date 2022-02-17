@@ -111,7 +111,12 @@ const NavigationPopupMenu = ({
                                         className="absolute left-0 ml-2 text-lg text-pzh-blue-dark"
                                         icon={faSearch}
                                     />
-                                    <SearchBar className="mt-2" />
+                                    <SearchBar
+                                        className="mt-2"
+                                        callBack={() => {
+                                            setIsOpen(false)
+                                        }}
+                                    />
                                 </div>
                             </div>
                             <div className="col-span-6 mt-6 md:col-span-2">

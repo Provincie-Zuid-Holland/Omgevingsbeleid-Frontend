@@ -12,9 +12,14 @@ import SearchBarPopupItem from '../SearchBarPopupItem'
 interface SearchBarProps {
     id?: string
     className?: string
+    callBack?: () => void
 }
 
-const SearchBar = ({ id = 'search-query', className = '' }: SearchBarProps) => {
+const SearchBar = ({
+    id = 'search-query',
+    className = '',
+    callBack,
+}: SearchBarProps) => {
     const location = useLocation()
     const history = useHistory()
     const windowSize = useWindowSize()
@@ -33,6 +38,9 @@ const SearchBar = ({ id = 'search-query', className = '' }: SearchBarProps) => {
             // Enter key
             if (searchQuery.length === 0) return
             setSearchBarPopupOpen(false)
+            if (callBack) {
+                callBack()
+            }
             history.push(`/zoekresultaten?query=${searchQuery}`)
         } else if (e.key === 'Escape') {
             // Escape key
@@ -107,12 +115,14 @@ const SearchBar = ({ id = 'search-query', className = '' }: SearchBarProps) => {
                             selectSearchQueryInput={selectSearchQueryInput}
                             setSearchBarPopupOpen={setSearchBarPopupOpen}
                             dataIndex={0}
+                            callback={callBack}
                             key={0}
                             searchQuery={searchQuery}
                         />
                         {/* Display the 'Search in ${type}'*/}
                         {searchBarFilters.map((filterItem, index) => (
                             <SearchBarPopupItem
+                                callback={callBack}
                                 selectSearchQueryInput={selectSearchQueryInput}
                                 searchQuery={searchQuery}
                                 key={filterItem.name}
