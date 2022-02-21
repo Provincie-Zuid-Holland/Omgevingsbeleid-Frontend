@@ -14,9 +14,6 @@ const instance = axios.create({
     },
 })
 
-const CancelToken = axios.CancelToken
-const source = CancelToken.source()
-
 const getGeoJsonData = async (
     type: string,
     UUID: string,
