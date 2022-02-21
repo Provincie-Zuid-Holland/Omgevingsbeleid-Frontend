@@ -113,7 +113,6 @@ const NavigationPopupMenu = ({
                                         icon={faSearch}
                                     />
                                     <SearchBar
-                                        className="mt-2"
                                         callBack={() => {
                                             setIsOpen(false)
                                         }}
