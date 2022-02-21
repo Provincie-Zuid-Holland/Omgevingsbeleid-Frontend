@@ -122,45 +122,43 @@ const PopupRevisionTimeline = ({
     setRevisionOverviewOpen,
     titleSingular,
     revisionObjects,
-}: PopupRevisionTimelineProps) => {
-    return (
-        <Modal
-            open={open}
-            close={() => setOpen(false)}
-            maxWidth="max-w-sm"
-            containerPadding="p-0">
-            <div>
-                <div className="p-6 pb-0">
-                    <Heading level="3" color="text-pzh-blue-dark">
-                        Versies van dit beleid
-                    </Heading>
-                </div>
-                <div
-                    className="relative h-full pl-6 mt-3 overflow-y-auto"
-                    style={{ maxHeight: '50vh' }}>
-                    <div
-                        className="absolute top-0 z-0 w-1 h-full ml-5 border-l border-gray-300"
-                        style={{ height: 'calc(100% - 25px)', top: '25px' }}
-                    />
-                    <ul className="pl-5">{revisionListItems}</ul>
-                </div>
-
-                {titleSingular === 'Beleidskeuze' &&
-                revisionObjects &&
-                revisionObjects.length > 1 ? (
-                    <div
-                        onClick={() => {
-                            setOpen(false)
-                            setRevisionOverviewOpen(true)
-                        }}
-                        className="flex items-center justify-between px-6 py-3 transition-colors duration-100 ease-in border-t border-gray-300 cursor-pointer text-pzh-green hover:text-pzh-green-dark hover:bg-pzh-blue hover:bg-opacity-5">
-                        <span className="underline">Vergelijk versies</span>
-                        <FontAwesomeIcon icon={faChevronRight} />
-                    </div>
-                ) : null}
+}: PopupRevisionTimelineProps) => (
+    <Modal
+        open={open}
+        close={() => setOpen(false)}
+        maxWidth="max-w-sm"
+        containerPadding="p-0">
+        <div>
+            <div className="p-6 pb-0">
+                <Heading level="3" color="text-pzh-blue-dark">
+                    Versies van dit beleid
+                </Heading>
             </div>
-        </Modal>
-    )
-}
+            <div
+                className="relative h-full pl-6 mt-3 overflow-y-auto"
+                style={{ maxHeight: '50vh' }}>
+                <div
+                    className="absolute top-0 z-0 w-1 h-full ml-5 border-l border-gray-300"
+                    style={{ height: 'calc(100% - 25px)', top: '25px' }}
+                />
+                <ul className="pl-5">{revisionListItems}</ul>
+            </div>
+
+            {titleSingular === 'Beleidskeuze' &&
+            revisionObjects &&
+            revisionObjects.length > 1 ? (
+                <div
+                    onClick={() => {
+                        setOpen(false)
+                        setRevisionOverviewOpen(true)
+                    }}
+                    className="flex items-center justify-between px-6 py-3 transition-colors duration-100 ease-in border-t border-gray-300 cursor-pointer text-pzh-green hover:text-pzh-green-dark hover:bg-pzh-blue hover:bg-opacity-5">
+                    <span className="underline">Vergelijk versies</span>
+                    <FontAwesomeIcon icon={faChevronRight} />
+                </div>
+            ) : null}
+        </div>
+    </Modal>
+)
 
 export default PopUpRevisionContainer

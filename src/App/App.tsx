@@ -27,7 +27,6 @@ import FeedbackComponent from '@/components/FeedbackComponent'
 import { LoaderContent } from '@/components/Loader'
 import Navigation from '@/components/Navigation'
 import { NetworkGraph } from '@/components/Network'
-import { PopupWelcomeBeta } from '@/components/Popup'
 import useMuteerEnvironment from '@/hooks/useMuteerEnvironment'
 import ErrorPage from '@/pages/ErrorPage'
 import Login from '@/pages/Login'
@@ -56,14 +55,12 @@ const App: FC<RouteComponentProps> = () => {
     )
     const [loggedIn, setLoggedIn] = useState(false)
     const [dataLoaded, setDataLoaded] = useState(false)
-    const [showWelcomePopup, setShowWelcomePopup] = useState(false)
 
     useEffect(() => {
         window.addEventListener('authEvent', e => listenForExpiredSession(e))
 
         checkIfUserIsAuthenticated()
         checkForInternetExplorer()
-        checkForWelcomePopupInLocalStorage()
 
         return () => {
             window.removeEventListener('authEvent', e =>
@@ -111,20 +108,6 @@ const App: FC<RouteComponentProps> = () => {
         }
     }
 
-    // User gets shown a popup to communicate the application is still in BETA. This popup is only shown on the first visit. A localstorage item is set after it is shown.
-    const checkForWelcomePopupInLocalStorage = () => {
-        const isInStorage = localStorage.getItem(
-            process.env.REACT_APP_KEY_WELCOME_POPUP || ''
-        )
-        if (!isInStorage) {
-            setShowWelcomePopup(true)
-            localStorage.setItem(
-                process.env.REACT_APP_KEY_WELCOME_POPUP || '',
-                'true'
-            )
-        }
-    }
-
     return (
         <UserContext.Provider value={{ user }}>
             <QueryClientProvider client={queryClient}>
@@ -137,12 +120,6 @@ const App: FC<RouteComponentProps> = () => {
                         <meta charSet="utf-8" />
                         <title>Omgevingsbeleid - Provincie Zuid-Holland</title>
                     </Helmet>
-
-                    {showWelcomePopup && dataLoaded ? (
-                        <PopupWelcomeBeta
-                            closePopup={() => setShowWelcomePopup(false)}
-                        />
-                    ) : null}
 
                     <Navigation loggedIn={loggedIn} />
 

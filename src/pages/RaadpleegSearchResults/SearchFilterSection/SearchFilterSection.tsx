@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { useWindowSize } from 'react-use'
+import { useMedia } from 'react-use'
 
 import useSearchParam from '@/hooks/useSearchParam'
 import { FilterCollection, ACTIONTYPE } from '@/hooks/useSearchResultFilters'
@@ -19,9 +19,9 @@ const SearchFilterSection = ({
     setOnPageFilters,
 }: SearchFilterSection) => {
     const container = useRef<HTMLDivElement>(null)
-    const windowSize = useWindowSize()
     const [containerStyle, setContainerStyle] = useState({})
     const paramOnly = useSearchParam('only')
+    const isMobile = useMedia('(max-width: 768px)')
 
     /**
      * Make the filter section fixed when the user scrolls down (min width Tablet)
@@ -33,7 +33,8 @@ const SearchFilterSection = ({
 
             if (
                 container.current &&
-                windowScrollTop > container?.current?.offsetTop
+                windowScrollTop > container?.current?.offsetTop &&
+                !isMobile
             ) {
                 const { offsetWidth, offsetHeight, offsetTop, offsetLeft } =
                     container.current
@@ -48,9 +49,9 @@ const SearchFilterSection = ({
 
                 setContainerStyle(fixedStyle)
             } else if (
-                windowSize.width < 768 ||
                 (container.current &&
-                    windowScrollTop < container.current.offsetTop)
+                    windowScrollTop < container.current.offsetTop) ||
+                isMobile
             ) {
                 const relativeStyle = {
                     position: 'relative',
@@ -62,7 +63,7 @@ const SearchFilterSection = ({
 
         window.addEventListener('scroll', handleScroll)
         return () => window.removeEventListener('scroll', handleScroll)
-    }, [windowSize])
+    }, [isMobile])
 
     const searchFilterCategories: { [key: string]: string[] } = {
         Omgevingsvisie: ['ambities', 'beleidsdoelen', 'beleidskeuzes'],

@@ -3,6 +3,7 @@ import { faTimes } from '@fortawesome/pro-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Transition } from '@headlessui/react'
 import { SyntheticEvent, useEffect, useRef, useState } from 'react'
+import { toast } from 'react-toastify'
 import { useKey, useLockBodyScroll } from 'react-use'
 
 import { postPasswordreset } from '@/api/fetchers'
@@ -59,6 +60,7 @@ export default function PasswordChangeModal({
             .then(() => {
                 setLoading(false)
                 setOpen(false)
+                toast('Wachtwoord gewijzigd')
             })
             .catch(error => {
                 if (error?.response?.status === 401) {

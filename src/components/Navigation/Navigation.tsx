@@ -45,15 +45,12 @@ const Navigation = ({ loggedIn }: NavigationProps) => {
                     isOpen ? 'bg-pzh-blue' : 'bg-white'
                 }`}
                 id="navigation-main">
-                {/* Banner that displays the current environment */}
                 <BannerEnvironment
                     hideBannerLocalStorage={hideBannerLocalStorage}
                     userIsInMuteerEnvironment={userIsInMuteerEnvironment}
                 />
 
-                {/* Main container */}
                 <Container>
-                    {/* <div className={`grid grid-cols-6 gap-12 pzh-container`}> */}
                     {/* Logo */}
                     <div className="col-span-4 my-auto sm:col-span-3">
                         <Link
@@ -109,7 +106,6 @@ const Navigation = ({ loggedIn }: NavigationProps) => {
                             setIsOpen={setIsOpen}
                         />
                     </div>
-                    {/* </div> */}
                 </Container>
             </nav>
             <DNABar />

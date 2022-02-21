@@ -3,7 +3,11 @@ import { useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 import { getBeleidskeuzes, getBeleidsrelaties } from '@/api/fetchers'
-import { BeleidskeuzesRead, BeleidsrelatiesRead } from '@/api/fetchers.schemas'
+import {
+    BeleidskeuzesRead,
+    BeleidsrelatiesRead,
+    BeleidsrelatiesReadStatus,
+} from '@/api/fetchers.schemas'
 import UserContext from '@/App/UserContext'
 import { ContainerMain } from '@/components/Container'
 
@@ -26,7 +30,7 @@ function MuteerBeleidsrelaties() {
 
     const updateBeleidsrelaties = (
         beleidsrelatieUUID?: string,
-        status?: string
+        status?: BeleidsrelatiesReadStatus
     ) => {
         const index = beleidsrelaties.findIndex(
             x => x.UUID === beleidsrelatieUUID

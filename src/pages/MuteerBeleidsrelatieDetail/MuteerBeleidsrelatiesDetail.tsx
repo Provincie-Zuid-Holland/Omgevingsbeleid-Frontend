@@ -13,7 +13,11 @@ import {
     getBeleidsrelaties,
     getVersionBeleidskeuzesObjectuuid,
 } from '@/api/fetchers'
-import { BeleidskeuzesRead, BeleidsrelatiesRead } from '@/api/fetchers.schemas'
+import {
+    BeleidskeuzesRead,
+    BeleidsrelatiesRead,
+    BeleidsrelatiesReadStatus,
+} from '@/api/fetchers.schemas'
 import axios from '@/api/instance'
 import { LoaderMainTitle, LoaderSaving } from '@/components/Loader'
 
@@ -32,7 +36,10 @@ import TabRequests from './TabRequests'
  */
 
 interface MuteerBeleidsrelatiesDetailProps extends RouteComponentProps {
-    updateBeleidsrelaties: (UUID?: string, status?: string) => void
+    updateBeleidsrelaties: (
+        UUID?: string,
+        status?: BeleidsrelatiesReadStatus
+    ) => void
     backToOverzicht: () => void
 }
 
@@ -233,7 +240,7 @@ const MuteerBeleidsrelatiesDetail = ({
      */
     const updateStatus = (
         uuid?: string,
-        nieuweStatus?: string,
+        nieuweStatus?: BeleidsrelatiesReadStatus,
         updateDatumAkkoord?: boolean
     ) => {
         const fromIndex = outgoing_Beleidskeuzes.findIndex(x => x.UUID === uuid)

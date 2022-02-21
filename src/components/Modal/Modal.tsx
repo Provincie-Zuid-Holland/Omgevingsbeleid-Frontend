@@ -27,7 +27,7 @@ const Modal: FC<ModalProps> = ({
                 className="fixed inset-0 z-50 overflow-hidden"
                 onClose={close}>
                 <div
-                    className={`flex items-end justify-center min-h-screen overflow-hidden text-center rounded-lg sm:block px-4 pt-4 pb-4 sm:p-2`}>
+                    className={`flex items-center justify-center min-h-screen overflow-hidden text-center rounded-lg sm:block px-4 pt-4 pb-4 sm:p-2`}>
                     <Transition.Child
                         as={Fragment}
                         enter="ease-out duration-300"
@@ -56,7 +56,7 @@ const Modal: FC<ModalProps> = ({
                         <div
                             className={`inline-block overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl sm:my-8 sm:align-middle sm:w-full ${maxWidth}`}>
                             <div
-                                className={`overflow-y-auto pointer-events-none ${containerPadding}`}
+                                className={`overflow-y-auto ${containerPadding}`}
                                 style={{
                                     maxHeight:
                                         screenWidth < 640
@@ -66,7 +66,7 @@ const Modal: FC<ModalProps> = ({
                                 <div className="absolute top-0 right-0 z-10 block pt-8 pr-8 -mt-8 -mr-8 sm:-mt-2 sm:-mr-2">
                                     <button
                                         type="button"
-                                        className="p-2 pb-0 text-gray-400 bg-white rounded-md pointer-events-auto hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                        className="p-2 pb-0 text-gray-400 rounded-md pointer-events-auto hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                         onClick={close}>
                                         <FontAwesomeIcon
                                             icon={faTimes}

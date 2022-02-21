@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { MemoryRouter, Route } from 'react-router-dom'
 
+import './../../mocks/matchMedia'
 import RaadpleegSearchResults from './RaadpleegSearchResults'
 
 describe('RaadpleegSearchResults', () => {
@@ -18,6 +19,7 @@ describe('RaadpleegSearchResults', () => {
 
     it('Component renders', () => {
         setup()
-        screen.getByText(`Geen resultaten`)
+        const headerElement = screen.getByText(`Zoeken`)
+        expect(headerElement).toBeTruthy()
     })
 })

@@ -121,8 +121,7 @@ const PopUpDetailDropdown = ({
             ref={innerContainer}>
             <div className="relative h-full">
                 <ul className="text-sm text-gray-800">
-                    {dataObject.Status !== 'Vigerend' &&
-                    dataObject.Status !== 'Gepubliceerd' ? (
+                    {dataObject.Status !== 'Vigerend' ? (
                         <li
                             className="px-4 py-2 text-sm cursor-pointer hover:bg-gray-100"
                             onClick={() => {
@@ -140,8 +139,7 @@ const PopUpDetailDropdown = ({
                             rel="noopener noreferrer"
                             id="navbar-popup-href-raadpleeg-omgeving"
                             className={`inline-block w-full px-4 py-2 text-sm hover:bg-gray-100 border-gray-300 ${
-                                dataObject.Status !== 'Vigerend' &&
-                                dataObject.Status !== 'Gepubliceerd'
+                                dataObject.Status !== 'Vigerend'
                                     ? 'border-t'
                                     : ''
                             }`}>

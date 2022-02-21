@@ -45,7 +45,11 @@ const Text: FC<TextProps> = ({
                 {children}
             </p>
         )
-    } else if (type === 'body' || typeof type === 'undefined') {
+    } else if (
+        type === 'body' ||
+        typeof type === 'undefined' ||
+        type === 'body-small'
+    ) {
         return (
             <p style={styles} className={`inline-block ${color} ${className}`}>
                 {children}
@@ -90,13 +94,14 @@ const getStylesForElement = (
             return { fontSize: '1.2rem', lineHeight: '1.6rem' }
         }
     } else if (type === 'body' || type === 'span') {
-        if (currentScreenIsMobile) {
-            return {
-                fontSize: '1rem',
-                lineHeight: '1.5rem',
-            }
-        } else {
-            return { fontSize: '1rem', lineHeight: '1.5rem' }
+        return {
+            fontSize: '1rem',
+            lineHeight: '1.5rem',
+        }
+    } else if (type === 'body-small') {
+        return {
+            fontSize: '0.8rem',
+            lineHeight: '1rem',
         }
     }
 }

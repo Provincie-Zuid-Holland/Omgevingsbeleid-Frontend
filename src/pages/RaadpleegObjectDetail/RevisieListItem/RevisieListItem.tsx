@@ -24,7 +24,7 @@ function RevisieListItem({ item, currentUUID }: RevisieListItemProps) {
 
     return (
         <li
-            className={`bg-white ${
+            className={`bg-white pr-6 ${
                 isActive ? '' : 'hover:bg-pzh-blue hover:bg-opacity-5'
             }`}>
             <Link
