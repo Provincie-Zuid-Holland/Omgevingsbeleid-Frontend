@@ -43,5 +43,5 @@
 }
 
 .pzh-btn {
-    @apply inline-block pb-2 pt-3 px-4 transition duration-200 ease-in rounded cursor-pointer bg-pzh-blue hover:bg-pzh-blue-dark focus:outline-none focus:ring;
+    @apply inline-block pb-2 pt-3 px-4 transition duration-200 ease-in rounded text-white cursor-pointer bg-pzh-blue hover:bg-pzh-blue-dark focus:outline-none focus:ring;
 }
