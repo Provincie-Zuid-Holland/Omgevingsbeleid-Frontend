@@ -6,11 +6,12 @@ import {
 } from '@fortawesome/pro-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useEffect, useState } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useLockBodyScroll, useWindowSize } from 'react-use'
 
 import { Container } from '../Container'
 import Heading from '../Heading'
+import SearchBar from '../SearchBar'
 import Text from '../Text'
 
 /**
@@ -33,10 +34,7 @@ const NavigationPopupMenu = ({
     setIsOpen,
 }: NavigationPopupMenuProps) => {
     const windowSize = useWindowSize()
-    const history = useHistory()
     useLockBodyScroll(isOpen)
-
-    const [searchQuery, setSearchQuery] = useState('')
     const [bannerAdjustedOffsetTop, setBannerAdjustedOffsetTop] = useState({})
     const [isMobile, setIsMobile] = useState(false)
     const [containerHeightStyle, setContainerHeightStyle] = useState<
@@ -114,32 +112,11 @@ const NavigationPopupMenu = ({
                                         className="absolute left-0 ml-2 text-lg text-pzh-blue-dark"
                                         icon={faSearch}
                                     />
-                                    <input
-                                        className={`pl-10 placeholder-gray-500 pr-6 rounded w-full appearance-none px-3 pb-1 border hover:border-opacity-50 border-pzh-blue border-opacity-30 transition-colors ease-in duration-100`}
-                                        name="searchInput"
-                                        onChange={e => {
-                                            setSearchQuery(e.target.value)
+                                    <SearchBar
+                                        className="mt-2"
+                                        callBack={() => {
+                                            setIsOpen(false)
                                         }}
-                                        autoComplete="off"
-                                        id="navigation-popup-menu-search"
-                                        type="text"
-                                        value={searchQuery}
-                                        onKeyDown={e => {
-                                            if (e.key === 'Enter') {
-                                                // Enter key
-                                                if (searchQuery.length === 0)
-                                                    return
-                                                history.push(
-                                                    `/zoekresultaten?query=${searchQuery}`
-                                                )
-                                                setIsOpen(false)
-                                            }
-                                        }}
-                                        placeholder={
-                                            isMobile
-                                                ? 'Zoeken'
-                                                : 'Zoek binnen het beleid van de provincie Zuid-Holland'
-                                        }
                                     />
                                 </div>
                                 <div className="sm:ml-2 md:mt-0 mt-2">
@@ -230,9 +207,7 @@ const NavigationPopupMenu = ({
                             <div className="col-span-6 mb-10 md:mb-0 md:mt-6 md:col-span-2">
                                 <ul
                                     style={
-                                        isMobile
-                                            ? undefined
-                                            : { marginTop: '32px' }
+                                        isMobile ? {} : { marginTop: '32px' }
                                     }>
                                     <ListItem
                                         text="Netwerkvisualisatie"

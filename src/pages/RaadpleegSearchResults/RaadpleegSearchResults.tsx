@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import 'url-search-params-polyfill'
+import { useMedia } from 'react-use'
 
 import {
     getWerkingsGebieden,
@@ -31,6 +32,8 @@ const RaadpleegSearchResults = () => {
     ])
 
     const { onPageFilters, setOnPageFilters } = useSearchResultFilters()
+
+    const isMobile = useMedia('(max-width: 768px)')
 
     useEffect(() => {
         const textualSearchQuery = async () => {
@@ -132,16 +135,16 @@ const RaadpleegSearchResults = () => {
         <>
             <Container
                 className="bg-pzh-blue-light"
-                style={{ height: 96 + 'px' }}>
-                <div className="flex items-center col-span-2">
+                style={isMobile ? {} : { height: 96 + 'px' }}>
+                <div className="flex items-center col-span-6 md:col-span-2">
                     <Heading
                         level="1"
-                        className="relative mt-2 font-bold text-white"
+                        className="relative mt-4 font-bold text-white md:mt-2"
                         color="text-white">
                         Zoeken
                     </Heading>
                 </div>
-                <div className="flex items-center col-span-4">
+                <div className="flex items-center w-full col-span-6 mt-2 mb-4 md:mt-0 md:mb-0 md:w-auto md:col-span-4">
                     <SearchBar className="rounded-sm" />
                 </div>
             </Container>

@@ -8,6 +8,7 @@ describe('RaadpleegObjectDetailSidebar', () => {
     const defaultProps = {
         dataObject: {
             Status: 'In bewerking',
+            Begin_Geldigheid: '2020-08-07T00:00:00Z',
         },
     }
 
@@ -28,6 +29,39 @@ describe('RaadpleegObjectDetailSidebar', () => {
     it('Component renders', () => {
         setup()
         const element = screen.getByText('Type')
+        expect(element).toBeTruthy()
+    })
+
+    it('Displays the status if the object is not valid', () => {
+        setup({
+            dataObject: {
+                Status: 'In bewerking',
+                Begin_Geldigheid: '2020-08-07T00:00:00Z',
+            },
+        })
+        const element = screen.getByText('In bewerking')
+        expect(element).toBeTruthy()
+    })
+
+    it('Displays the validity if the object is currently valid', () => {
+        setup({
+            dataObject: {
+                Status: 'Vigerend',
+                Begin_Geldigheid: '2020-08-07T00:00:00Z',
+            },
+        })
+        const element = screen.getByText('Vigerend sinds 7 augustus 2020')
+        expect(element).toBeTruthy()
+    })
+
+    it('Displays the validity if the object will turn valid in the future', () => {
+        setup({
+            dataObject: {
+                Status: 'Vigerend',
+                Begin_Geldigheid: '2025-08-07T00:00:00Z',
+            },
+        })
+        const element = screen.getByText('Vigerend vanaf 7 augustus 2025')
         expect(element).toBeTruthy()
     })
 })

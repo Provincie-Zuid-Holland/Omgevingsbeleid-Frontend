@@ -1,6 +1,6 @@
 import axios from 'axios'
 import Leaflet, { Layer } from 'leaflet'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { useMap } from 'react-leaflet'
 import { toast } from 'react-toastify'
 
@@ -53,6 +53,9 @@ const LeafletTinyViewerInner = ({
     gebiedType,
     gebiedUUID,
 }: LeafletTinyViewerInnerProps) => {
+    const controller = useMemo(() => new AbortController(), [])
+    const signal = controller.signal
+
     const map = useMap()
 
     const [onderverdelingen, setOnderverdelingen] = useState<any[]>([])
@@ -64,7 +67,7 @@ const LeafletTinyViewerInner = ({
      */
     const initializeComponent = () => {
         Promise.all([
-            getGeoJsonData(gebiedType, gebiedUUID),
+            getGeoJsonData(gebiedType, gebiedUUID, { signal }),
             getOnderverdeling(gebiedUUID),
         ])
             .then(responses => {
@@ -135,15 +138,23 @@ const LeafletTinyViewerInner = ({
             })
             .catch(err => {
                 if (axios.isCancel(err)) {
-                    console.log('Request canceled -', err.message)
+                    console.error('Request canceled')
                 } else {
-                    console.log(err)
+                    console.error(err)
                     toast(process.env.REACT_APP_ERROR_MSG)
                 }
             })
     }
 
     useEffect(() => {
+        werkingsgebied.map(layer => {
+            map.removeLayer(layer)
+        })
+        setWerkingsgebied([])
+        setOnderverdelingen([])
+
+        if (!gebiedUUID) return
+
         initializeComponent()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [map, gebiedType, gebiedUUID])
@@ -151,6 +162,12 @@ const LeafletTinyViewerInner = ({
     useEffect(() => {
         map.invalidateSize()
     }, [fullscreen, map])
+
+    useEffect(() => {
+        return () => {
+            controller.abort()
+        }
+    }, [controller])
 
     return (
         <LeafletControlLayer fullscreen={fullscreen}>

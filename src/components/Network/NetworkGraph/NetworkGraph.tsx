@@ -68,7 +68,8 @@ const NetworkGraph = () => {
 
     useEffect(() => {
         if (lastLocation && !lastLocationRef.current) {
-            lastLocationRef.current = lastLocation.pathname
+            lastLocationRef.current =
+                lastLocation.pathname + lastLocation.search
         }
     }, [lastLocation])
 
@@ -124,6 +125,10 @@ const NetworkGraph = () => {
             nodes.forEach(node =>
                 filterTypes.includes(node.Type) ? null : addNodeType(node.Type)
             )
+
+            if (lastLocationRef.current?.includes('verordening')) {
+                filterState.verordeningen = true
+            }
 
             return filterState
         }
@@ -464,13 +469,13 @@ const NetworkGraph = () => {
                     if (!lastLocationRef.current) return null
 
                     const getMatch = () => {
-                        if (
-                            lastLocationRef?.current?.includes('verordeningen')
-                        ) {
-                            return matchPath(lastLocationRef.current, {
-                                path: `/detail/:slug/:id/:uuid`,
-                                exact: true,
-                            })
+                        if (lastLocationRef?.current?.includes('verordening')) {
+                            const activeUUID =
+                                lastLocationRef.current.split('actief=')[1]
+
+                            return {
+                                params: { uuid: activeUUID },
+                            }
                         } else {
                             return matchPath(lastLocationRef.current!, {
                                 path: `/detail/:slug/:uuid`,
@@ -684,7 +689,7 @@ const NetworkGraph = () => {
     return (
         <div
             id="popup-menu-graph"
-            className="fixed top-0 left-0 w-full bg-white"
+            className="fixed top-0 left-0 w-full pb-10 overflow-y-auto bg-white"
             style={graphStyles}>
             <div className="container flex flex-col h-full mx-auto lg:flex-row">
                 <NetworkGraphSidebar
@@ -692,7 +697,7 @@ const NetworkGraph = () => {
                     filters={filters}
                     setFilters={setFilters}
                 />
-                <div className="w-full px-4 pb-4 mt-6 lg:mt-10 lg:w-3/4">
+                <div className="w-full px-4 pb-20 mt-6 lg:pb-4 lg:mt-10 lg:w-3/4">
                     <h2 className="text-xl text-pzh-blue opacity-30">
                         Omgevingsbeleid Provincie Zuid-Holland
                     </h2>

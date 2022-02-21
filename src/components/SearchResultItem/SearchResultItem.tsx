@@ -19,16 +19,25 @@ const SearchResultItem: FC<SearchResultItem> = ({ item, searchQuery }) => {
         text: string | undefined,
         query: string | null
     ) => {
-        if (!text || !query) {
+        if (!text) {
             return null
+        } else if (!query) {
+            return {
+                __html: text,
+            }
         }
 
-        const regex = new RegExp(query, 'gi')
-        return {
-            __html: text.replace(
+        const wordsInQuery = query.split(' ').filter(word => word.length >= 4)
+        const markedText = wordsInQuery.reduce((acc, word) => {
+            const regex = new RegExp(word, 'gi')
+            return acc.replace(
                 regex,
                 `<mark class="marked-red" data-testid="marker">$&</mark>`
-            ),
+            )
+        }, text)
+
+        return {
+            __html: markedText,
         }
     }
 

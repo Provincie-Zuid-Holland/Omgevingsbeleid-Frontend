@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import {
     BeleidskeuzeShortRead,
@@ -189,8 +189,6 @@ const ListItem = ({
     verordeningsStructure,
     omschrijving,
 }: ListItemProps) => {
-    const location = useLocation()
-
     const generateHref = ({
         property,
         UUID,
@@ -198,7 +196,7 @@ const ListItem = ({
         property: keyof typeof slugs
         UUID: string
     }) => {
-        const path = `/detail/${slugs[property]}/${UUID}?fromPage=${location.pathname}`
+        const path = `/detail/${slugs[property]}/${UUID}`
         return path
     }
 

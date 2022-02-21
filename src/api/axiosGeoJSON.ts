@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { AxiosRequestConfig } from 'axios'
 import { Point } from 'leaflet'
 
 const access_token = localStorage.getItem('access_token')
@@ -15,22 +15,23 @@ const instance = axios.create({
     },
 })
 
-const CancelToken = axios.CancelToken
-const source = CancelToken.source()
-
-const getGeoJsonData = async (type: string, UUID: string) => {
+const getGeoJsonData = async (
+    type: string,
+    UUID: string,
+    config?: AxiosRequestConfig
+) => {
     const res = await instance.get(
         `ows?service=wfs&version=${api_version}&request=GetFeature&typeNames=OMGEVINGSBELEID:${type}&cql_filter=UUID=%27${UUID}%27&outputFormat=application/json`,
-        { cancelToken: source.token }
+        config && { ...config }
     )
     const data = res.data
     return data
 }
 
-const getOnderverdeling = async (UUID: string) => {
+const getOnderverdeling = async (UUID: string, config?: AxiosRequestConfig) => {
     const res = await instance.get(
         `ows?service=wfs&version=1.0.0&request=GetFeature&typeName=OMGEVINGSBELEID%3AWerkingsgebieden_Onderverdeling&maxFeatures=50&outputFormat=application%2Fjson&cql_filter=UUID%20IN%20(%27${UUID}%27)`,
-        { cancelToken: source.token }
+        config && { ...config }
     )
     const data = res.data
     return data
@@ -44,14 +45,17 @@ const getWerkingsGebieden = async (pointA: string, pointB: string) => {
     return data
 }
 
-const getWerkingsGebiedenByArea = async (points: Point[]) => {
+const getWerkingsGebiedenByArea = async (
+    points: Point[],
+    config?: AxiosRequestConfig
+) => {
     const polygon = points
         .map((part: Point) => [part.x.toFixed(2), part.y.toFixed(2)].join(' '))
         .join(', ')
 
     const res = await instance.get(
         `ows?service=wfs&version=1.1.0&request=GetFeature&outputFormat=application/json&typeName=OMGEVINGSBELEID:Werkingsgebieden&cql_filter=WITHIN(Shape, POLYGON ((${polygon})))&propertyName=UUID,Gebied`,
-        { cancelToken: source.token }
+        config && { ...config }
     )
     const data = res.data
     return data
@@ -63,10 +67,6 @@ const getGemeenteGrenzen = async () => {
     )
     const data = res.data.features
     return data
-}
-
-const cancelRequest = () => {
-    source.cancel('Operation canceled by the user.')
 }
 
 instance.interceptors.request.use(function (config) {
@@ -82,6 +82,5 @@ export {
     getWerkingsGebieden,
     getWerkingsGebiedenByArea,
     getGemeenteGrenzen,
-    cancelRequest,
     api_version,
 }

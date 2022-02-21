@@ -1,3 +1,5 @@
+import { useRef } from 'react'
+
 import Breadcrumbs from '@/components/Breadcrumbs'
 import { Container } from '@/components/Container'
 import { useDnaBarWidth } from '@/components/DNABar'
@@ -12,6 +14,7 @@ function RaadpleegDigiToegankelijkheid() {
         { name: 'Home', path: '/' },
         { name: 'Digitale toegankelijkheid', path: '/digi-toegankelijkheid' },
     ]
+    const svgContainer = useRef<HTMLDivElement>(null)
 
     return (
         <div>
@@ -70,14 +73,17 @@ function RaadpleegDigiToegankelijkheid() {
                         .
                     </Text>
                 </div>
-                <div className="col-span-6 mt-12">
+                <div
+                    className="col-span-6 mt-12 overflow-x-auto"
+                    ref={svgContainer}>
                     <a
                         href="https://www.toegankelijkheidsverklaring.nl/register/6339"
                         target="_blank"
                         rel="noopener noreferrer">
-                        <img
+                        <embed
+                            width={700}
                             src="https://www.toegankelijkheidsverklaring.nl/files/verklaring/label/af8d16e4762bcdbe16d268c44056bcfe.6339.svg"
-                            alt="Digi-toegankelijkheids score"
+                            title="Status Toegankelijkheid"
                         />
                     </a>
                 </div>

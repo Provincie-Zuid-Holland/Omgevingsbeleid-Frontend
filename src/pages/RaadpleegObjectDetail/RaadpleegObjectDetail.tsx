@@ -135,7 +135,9 @@ const RaadpleegObjectDetail = ({
                 titleSingular={titleSingular}
                 dataObject={dataObject}
             />
-            <Container id="raadpleeg-detail-container-main" className="mb-32">
+            <Container
+                id="raadpleeg-detail-container-main"
+                className="mb-6 md:mb-32">
                 <div className="block col-span-6 xl:hidden">
                     <BackButton className="block xl:hidden" />
                     <Heading

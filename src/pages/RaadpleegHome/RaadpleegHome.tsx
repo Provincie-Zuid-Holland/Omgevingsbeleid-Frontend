@@ -148,7 +148,10 @@ const RaadpleegHome = () => {
                 <div
                     className="flex flex-col justify-center col-span-6 pt-6 lg:col-span-2 md:pt-0"
                     style={responsiveImageOffset}>
-                    <Heading level="2">Omgevingsvisie</Heading>
+                    <Heading level="2">
+                        {/* 👇🏻 Contains a soft hyphen */}
+                        Omgevings­visie
+                    </Heading>
                     <Text type="body" className="mt-4">
                         De visie van de provincie Zuid-Holland geeft aan waar de
                         provincie voor staat. Het beschrijft hoe de provincie de
@@ -189,7 +192,8 @@ const RaadpleegHome = () => {
                 />
                 <div className="flex flex-col justify-center col-span-6 lg:col-span-2 ">
                     <Heading level="2" color="text-pzh-yellow-dark">
-                        Omgevingsprogramma
+                        {/* 👇🏻 Contains a soft hyphen */}
+                        Omgevings­programma
                     </Heading>
                     <Text type="body" className="mt-4">
                         In het Omgevingsprogramma staat beschreven welke{' '}
@@ -217,7 +221,8 @@ const RaadpleegHome = () => {
                 />
                 <div className="flex flex-col justify-center col-span-6 lg:col-span-2">
                     <Heading level="2" color="text-pzh-red-dark">
-                        Omgevingsverordening
+                        {/* 👇🏻 Contains a soft hyphen */}
+                        Omgevings­verordening
                     </Heading>
                     <Text type="body" className="mt-4">
                         Voor het in stand houden van goede omgevingskwaliteit
