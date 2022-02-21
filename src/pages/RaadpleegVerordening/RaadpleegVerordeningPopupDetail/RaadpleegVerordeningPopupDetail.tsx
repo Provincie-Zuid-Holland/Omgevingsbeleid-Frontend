@@ -94,7 +94,6 @@ const RaadpleegVerordeningPopupDetail = ({
                                             className="absolute top-0 right-0 z-10 flex items-center justify-center w-6 h-6 -mt-3 -mr-5 cursor-pointer"
                                             onClick={() => {
                                                 setActiveChild(null)
-                                                console.log('JOE')
                                             }}>
                                             <FontAwesomeIcon
                                                 className="inline-block text-lg text-pzh-blue-dark"
