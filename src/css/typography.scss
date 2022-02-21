@@ -1,0 +1,66 @@
+@font-face {
+    font-family: 'Karbon Regular';
+    src: url('./../fonts/Karbon-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Karbon Medium';
+    src: url('./../fonts/Karbon-Medium.woff2') format('woff2');
+    font-weight: bold;
+    font-display: swap;
+}
+
+// Set Custom line-height for text sizes
+.text-xs {
+    /* font-size: 0.75rem; */
+    line-height: calc(0.75rem + 0.25rem);
+}
+.text-sm {
+    /* font-size: 0.875rem; */
+    line-height: calc(0.875rem + 0.25rem);
+}
+.text-base {
+    /* font-size: 1rem; */
+    line-height: calc(1rem + 0.25rem);
+}
+.text-lg {
+    /* font-size: 1.125rem; */
+    line-height: calc(1.125rem + 0.25rem);
+}
+.text-xl {
+    /* font-size: 1.25rem; */
+    line-height: calc(1.25rem + 0.25rem);
+}
+.text-2xl {
+    /* font-size: 1.5rem; */
+    line-height: calc(1.5rem + 0.25rem);
+}
+.text-3xl {
+    /* font-size: 1.875rem; */
+    line-height: calc(1.875rem + 0.25rem);
+}
+.text-4xl {
+    /* font-size: 2.25rem; */
+    line-height: calc(2.25rem + 0.25rem);
+}
+.text-5xl {
+    /* font-size: 3rem; */
+    line-height: calc(3rem + 0.25rem);
+}
+.text-6xl {
+    /* font-size: 4rem; */
+    line-height: calc(4rem + 0.25rem);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.font-bold {
+    font-family: 'Karbon Medium', sans-serif;
+    font-weight: 700;
+}

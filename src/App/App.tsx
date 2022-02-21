@@ -33,6 +33,7 @@ import Login from '@/pages/Login'
 import RaadpleegDigiToegankelijkheid from '@/pages/RaadpleegDigiToegankelijkheid'
 import RaadpleegHome from '@/pages/RaadpleegHome'
 import RaadpleegInProgress from '@/pages/RaadpleegInProgress'
+import RaadpleegMapSearch from '@/pages/RaadpleegMapSearch'
 import RaadpleegObjectDetail from '@/pages/RaadpleegObjectDetail'
 import RaadpleegPlanningAndReleases from '@/pages/RaadpleegPlanningAndReleases'
 import RaadpleegSearchResults from '@/pages/RaadpleegSearchResults'
@@ -45,7 +46,13 @@ import UserContext from './UserContext'
 
 const AuthRoutes = lazy(() => import('./AuthRoutes'))
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            refetchOnWindowFocus: false,
+        },
+    },
+})
 
 const App: FC<RouteComponentProps> = () => {
     const userIsInMuteerEnvironment = useMuteerEnvironment()
@@ -139,6 +146,13 @@ const App: FC<RouteComponentProps> = () => {
                                         exact
                                         path="/zoekresultaten"
                                         component={RaadpleegSearchResults}
+                                    />
+
+                                    {/* Raadpleeg - Search on map page */}
+                                    <Route
+                                        exact
+                                        path="/zoeken-op-kaart"
+                                        component={RaadpleegMapSearch}
                                     />
 
                                     <Route

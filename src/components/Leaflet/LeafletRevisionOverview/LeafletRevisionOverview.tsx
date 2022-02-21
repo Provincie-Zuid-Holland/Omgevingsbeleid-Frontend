@@ -75,7 +75,7 @@ const LeafletRevisionOverview = ({
         gebiedenUUIDS.forEach(async (uuid: string) => {
             Promise.all([
                 getGeoJsonData('Werkingsgebieden', uuid),
-                getOnderverdeling('Werkingsgebieden', uuid),
+                getOnderverdeling(uuid),
             ])
                 .then(responses => {
                     const geoJsonData = responses[0]
@@ -138,6 +138,7 @@ const LeafletRevisionOverview = ({
             options={{
                 boundsOptions: { padding: [100, 100] },
             }}
+            controllers={{ showLayers: false }}
             id="leaflet-tiny-viewer">
             <LeafletRevisionOverviewInner
                 gebiedenUUIDS={gebiedenUUIDS}

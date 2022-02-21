@@ -12,7 +12,8 @@ interface SearchResultItem {
 }
 
 const SearchResultItem: FC<SearchResultItem> = ({ item, searchQuery }) => {
-    const paramTextQuery = useSearchParam('query')
+    const { get } = useSearchParam()
+    const [paramTextQuery] = get('query')
 
     const highlightString = (
         text: string | undefined,
@@ -41,8 +42,12 @@ const SearchResultItem: FC<SearchResultItem> = ({ item, searchQuery }) => {
     }
 
     const content = {
-        Titel: highlightString(item.Titel, paramTextQuery),
-        Omschrijving: highlightString(item.Omschrijving, paramTextQuery),
+        Titel: paramTextQuery
+            ? highlightString(item.Titel, paramTextQuery.toString())
+            : { __html: item.Titel || '' },
+        Omschrijving: paramTextQuery
+            ? highlightString(item.Omschrijving, paramTextQuery.toString())
+            : { __html: item.Omschrijving || '' },
     }
 
     const type = item.Type

@@ -5,7 +5,7 @@ import {
 } from '@fortawesome/pro-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { FC, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useWindowSize } from 'react-use'
 
 import useMuteerEnvironment from '@/hooks/useMuteerEnvironment'
@@ -29,6 +29,9 @@ interface NavigationProps {
 }
 
 const Navigation = ({ loggedIn }: NavigationProps) => {
+    const location = useLocation()
+    const pathname = location.pathname
+
     const userIsInMuteerEnvironment = useMuteerEnvironment()
     const windowSize = useWindowSize()
 
@@ -36,6 +39,7 @@ const Navigation = ({ loggedIn }: NavigationProps) => {
     const [isOpen, setIsOpen] = useState(false)
 
     const showBanner = userIsInMuteerEnvironment && !hideBannerLocalStorage()
+    const showDNABar = !pathname.includes('/zoeken-op-kaart')
     const isMobile = windowSize.width <= 640
 
     return (
@@ -108,7 +112,7 @@ const Navigation = ({ loggedIn }: NavigationProps) => {
                     </div>
                 </Container>
             </nav>
-            <DNABar />
+            {showDNABar && <DNABar />}
         </div>
     )
 }

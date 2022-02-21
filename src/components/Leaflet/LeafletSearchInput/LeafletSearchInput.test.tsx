@@ -61,6 +61,7 @@ describe('LeafletSearchInput', () => {
         expect(searchInput.value).toBe('Den Haag')
 
         // Displays a suggestion
+        searchInput.focus()
         await waitFor(() => screen.findByText("Gemeente 's-Gravenhage"))
 
         // User can navigate through the suggestions with the up & down arrow keys
