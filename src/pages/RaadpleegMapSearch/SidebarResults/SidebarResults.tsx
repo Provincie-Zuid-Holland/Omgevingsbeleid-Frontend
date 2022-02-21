@@ -149,12 +149,13 @@ const Filter = ({
     onPageFilters,
     setOnPageFilters,
 }: Partial<SidebarResultsProps>) => {
-    const [visible, setVisible] = useState(true)
+    const [visible, setVisible] = useState(false)
 
     return (
         <Tippy
             visible={visible}
             onClickOutside={() => setVisible(false)}
+            placement="bottom"
             className="pzh-tippy"
             content={
                 <div className="flex flex-col pt-2 pb-4 px-4 bg-white border border-gray-400 rounded w-48 shadow-md">

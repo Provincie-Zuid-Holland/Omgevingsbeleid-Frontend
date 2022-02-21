@@ -10,8 +10,10 @@
 @import './select.scss';
 
 #main-container {
-    margin-top: 96px;
-    min-height: calc(100vh - 96px);
+    &:not(.advanced-search-page) {
+        margin-top: 96px;
+        min-height: calc(100vh - 96px);
+    }
 }
 
 .shake {

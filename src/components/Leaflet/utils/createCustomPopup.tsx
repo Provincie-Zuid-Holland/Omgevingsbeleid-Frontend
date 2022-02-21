@@ -4,7 +4,7 @@ import ReactDOMServer from 'react-dom/server'
 import { toast } from 'react-toastify'
 
 import { getWerkingsGebiedenByArea } from '@/api/axiosGeoJSON'
-import { getAddressData } from '@/api/axiosLocatieserver'
+import { LoaderSpinner } from '@/components/Loader'
 import { RDProj4, leafletBounds, MAP_SEARCH_PAGE } from '@/constants/leaflet'
 
 // @ts-ignore
@@ -29,49 +29,46 @@ const createCustomPopup = async (
     const searchParams = new URLSearchParams(window.location.search)
     const searchOpen = searchParams.get('searchOpen')
 
-    const popup = layer.bindPopup(
-        `${type === 'marker' ? 'Adres' : 'Gebied'} aan het laden...`,
-        {
-            minWidth: 320,
-        }
-    )
+    const popupLoading = `
+        <div class="flex">
+            ${ReactDOMServer.renderToString(<LoaderSpinner />)}
+            <span class="ml-2">${
+                type === 'marker' ? 'Adres' : 'Gebied'
+            } aan het laden...</span>
+        </div>
+    `
+
+    const popup = layer.bindPopup(popupLoading, {
+        minWidth: 320,
+    })
 
     if (searchOpen !== 'true') {
         popup.openPopup()
     }
 
     if (type === 'marker') {
-        await getAddressData(lat.toString(), lng.toString())
-            .then(data => {
-                const customPopupHTML = `<div>${ReactDOMServer.renderToString(
-                    <CreateCustomPopup
-                        type="marker"
-                        weergavenaam={data.weergavenaam}
-                        lat={lat}
-                        lng={lng}
-                        geoQuery={`${point.x.toFixed(2)}+${point.y.toFixed(2)}`}
-                    />
-                )}</div>`
-                layer._popup.setContent(customPopupHTML)
+        const customPopupHTML = `<div>${ReactDOMServer.renderToString(
+            <CreateCustomPopup
+                type="marker"
+                lat={lat}
+                lng={lng}
+                geoQuery={`${point.x.toFixed(2)}+${point.y.toFixed(2)}`}
+            />
+        )}</div>`
+        layer._popup.setContent(customPopupHTML)
 
-                if (isAdvancedSearch) {
-                    searchParams.set(
-                        'geoQuery',
-                        `${point.x.toFixed(2)}+${point.y.toFixed(2)}`
-                    )
-                    history.push(`${MAP_SEARCH_PAGE}?${searchParams}`)
-                }
+        if (isAdvancedSearch) {
+            searchParams.set(
+                'geoQuery',
+                `${point.x.toFixed(2)}+${point.y.toFixed(2)}`
+            )
+            history.push(`${MAP_SEARCH_PAGE}?${searchParams}`)
+        }
 
-                callback?.({
-                    ...data,
-                    point: { x: point.x.toFixed(2), y: point.y.toFixed(2) },
-                })
-            })
-            .catch(function (err) {
-                console.log(err)
-                toast(process.env.REACT_APP_ERROR_MSG)
-                callback?.(err)
-            })
+        callback?.({
+            type: 'marker',
+            point: { x: point.x.toFixed(2), y: point.y.toFixed(2) },
+        })
     } else if (type === 'polygon') {
         const points = layer._latlngs
             .flat(2)
@@ -101,7 +98,10 @@ const createCustomPopup = async (
                     history.push(`${MAP_SEARCH_PAGE}?${searchParams}`)
                 }
 
-                callback?.(data)
+                callback?.({
+                    type: 'polygon',
+                    ...data,
+                })
             })
             .catch(function (err) {
                 console.log(err)
@@ -187,17 +187,17 @@ export const CreateCustomPopup = ({
             </ul>
             <div className="flex justify-between">
                 {isAdvancedSearch ? (
-                    <button className="advanced-search-button inline-block py-2 px-4 text-white rounded cursor-pointer bg-pzh-blue hover:bg-blue-600 focus:outline-none focus:ring">
+                    <button className="advanced-search-button pzh-btn">
                         Bekijk beleid
                     </button>
                 ) : (
                     <a
                         href={`/zoekresultaten?${searchParams}`}
-                        className="inline-block py-2 px-4 text-white rounded cursor-pointer bg-pzh-blue hover:bg-blue-600 focus:outline-none focus:ring">
+                        className="pzh-btn">
                         Bekijk beleid
                     </a>
                 )}
-                <button className="leaflet-close-popup underline text-pzh-red text-sm">
+                <button className="leaflet-close-popup underline text-pzh-red text-xs">
                     {type === 'marker' ? 'Pin' : 'Gebied'} verwijderen
                 </button>
             </div>

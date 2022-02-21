@@ -37,10 +37,19 @@ const createControlHook = (useElement: any) => {
 
         const onDrawCreate = useCallback(
             e => {
+                /**
+                 * Remove all markers and polygons from map
+                 */
+                context.map.eachLayer((layer: any) => {
+                    if (!!layer._latlng || !!layer._svgSize) {
+                        context.map.removeLayer(layer)
+                    }
+                })
+
                 context.layerContainer?.addLayer(e.layer)
                 onCreated(e)
             },
-            [context.layerContainer, onCreated]
+            [context.layerContainer, context.map, onCreated]
         )
 
         useEffect(
