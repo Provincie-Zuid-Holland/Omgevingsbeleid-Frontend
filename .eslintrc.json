@@ -1,6 +1,0 @@
-{
-    "extends": ["react-app", "plugin:cypress/recommended"],
-    "rules": {
-        "no-control-regex": 0
-    }
-}

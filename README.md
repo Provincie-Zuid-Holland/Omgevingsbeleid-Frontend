@@ -1,12 +1,14 @@
-<img src="https://www.zuid-holland.nl/publish/pages/26873/pzh_basislogo_rgb_1_0.svg" alt="Provincie Zuid-Holland logo" width="220px">
+<img src="https://www.zuid-holland.nl/publish/pages/28722/pzh-basislogo-rgb_export-figma.svg" alt="Provincie Zuid-Holland logo" width="220px">
 
 # Omgevingsbeleid front-end · ![License](https://img.shields.io/github/license/Provincie-Zuid-Holland/Omgevingsbeleid-Frontend)
 
 ## Objectives
+
 The Province of South-Holland believes that everyone should be able to easily view its policies. By digitalizing them, the province aims to make its policies more transparant, accesible, current, and informative. This way new initiatives can be carried out faster and better and in turn will result in more coherent policies.
 By storing policies in a database instead of in a document, the province also aims to make the proces of creating new or adjusting policies more efficient and in line with the new Dutch standards ([STOP](https://www.koopoverheid.nl/standaarden/stop-standaard)) for publishing governmental plans.
 
 ## Application
+
 The application digitalizes the 'physical living environment' policies of the Province of South-Holland. Non authorized users can search policies by text or using a map, see in what area they apply and and view connections between policies. Authorized users can adjust and manage the policies. You can view the roadmap [here](https://www.figma.com/proto/hg7QFPhoCg0juUu3jEdG6w/Omgevingsbeleid-Roadmap?page-id=0%3A1&node-id=1%3A4&viewport=430%2C426%2C0.17213496565818787&scaling=min-zoom&starting-point-node-id=1%3A4).
 
 ## Pre-Requisites
@@ -34,8 +36,8 @@ $ npm install
 Create a .env file in the root of the project.
 
 ```jsx
-REACT_APP_API_VERSION = 'v0.1' // Used in the API url (in axios.js)
-REACT_APP_API_ENV = 'dev' // Used in the API url (in axios.js)
+REACT_APP_API_URL = 'https://api-obzh-dev.azurewebsites.net/v0.1' // Used in the API url (in instance.ts)
+REACT_APP_API_ENV = 'dev' // Used in the API url (in instance.ts)
 REACT_APP_KEY_API_ACCESS_TOKEN = 'OB_access_token' // Used to set login token
 REACT_APP_KEY_IDENTIFIER = 'OB_identifier' // Used to set login identifier
 REACT_APP_ERROR_MSG = 'Er is iets misgegaan, probeer het later nog eens' // Error message
@@ -89,22 +91,30 @@ npm run prod:build
 The project uses the following structure:
 
 -   src
-    -   API
+    -   api
     -   App
     -   pages
     -   components
     -   constants
     -   css
-    -   utils
+    -   fonts
+    -   hooks
     -   images
+    -   mocks
+    -   utils
 
-### src/API
+### src/api
 
 The API folder holds our API Functionality. We use [Axios](https://github.com/axios/axios) as the HTTP client. In the /API folder there are three files for the different API's. It contains:
 
--   `axios.js` - Which is our general API
--   `axiosGeoJSON.js` - Which is our API to connect to the GEO Server
--   `axiosLocatieserver.js` - Which is our API to connect to PDOK Location server
+-   `instance.ts` - Which is our general API
+-   `axiosGeoJSON.ts` - Which is our API to connect to the GEO Server
+-   `axiosLocatieserver.ts` - Which is our API to connect to PDOK Location server
+
+There are also two generated files which holds all of the endpoints and models. These files are generated using [Orval](https://orval.dev/):
+
+-   `fetchers.ts` - Contains all API endpoints
+-   `fetchers.schemas.ts` - Contains all Typescript models
 
 ### src/App
 
@@ -116,10 +126,10 @@ The folder /src contains two main folders for our components. It contains /pages
 
 Every component sits in its own folder with the name of the component. In the folder there are at least two files:
 
--   index.js - importing the ComponentName.js and exporting it
--   ComponentName.js - Containing the component code
+-   index.ts - importing the ComponentName.tsx and exporting it
+-   ComponentName.tsx - Containing the component code
 
-The reason for this approach is so that we can organize our code (and if needed it’s tests) in folders, import from the folder name and not end up with multiple index.js filenames in our code editor.
+The reason for this approach is so that we can organize our code (and if needed it’s tests) in folders, import from the folder name and not end up with multiple index.ts filenames in our code editor.
 
 ### src/constants
 
@@ -136,6 +146,10 @@ For when we need to apply specific styling to an element (e.g. calculating a sp
 ### src/utils
 
 Contains functions that are used in different components.
+
+### src/hooks
+
+Contains hooks that are used in different components.
 
 ### src/images
 
@@ -164,7 +178,7 @@ To set the environmental variable for Cypress you need a `cypress.json` file in 
         "ACCESS_TOKEN": "local-storage-key",
         "USERNAME": "username@domain.com",
         "PASSWORD": "password"
-            }
+    }
 }
 ```
 

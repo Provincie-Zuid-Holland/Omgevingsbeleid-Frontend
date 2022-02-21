@@ -1,14 +1,13 @@
 /* istanbul ignore file */
-import React from "react"
-import SelectField from "./../SelectField"
-import Werkingsgebied from "./../Werkingsgebied"
+
+import SelectField from './../SelectField'
+import Werkingsgebied from './../Werkingsgebied'
 
 function Artikel({
     users,
     verordeningsObjectFromGET,
     setVerordeningsObjectFromGET,
     setVerordeningsLedenFromGET,
-    verordeningsLedenFromGET,
     inheritWerkingsgebiedenFromArtikel,
     setInheritWerkingsgebiedenFromArtikel,
     hasLeden,
@@ -19,32 +18,32 @@ function Artikel({
 
     const setWerkingsgebied =
         hasLeden && inheritWerkingsgebiedenFromArtikel
-            ? (UUID) => {
+            ? UUID => {
                   setVerordeningsObjectFromGET({
-                      type: "changeValue",
+                      type: 'changeValue',
                       value: UUID,
-                      name: "Gebied",
+                      name: 'Gebied',
                   })
                   setVerordeningsLedenFromGET({
-                      type: "changeValueForAllLeden",
+                      type: 'changeValueForAllLeden',
                       value: UUID,
-                      name: "Gebied",
+                      name: 'Gebied',
                   })
               }
-            : (UUID) =>
+            : UUID =>
                   setVerordeningsObjectFromGET({
-                      type: "changeValue",
+                      type: 'changeValue',
                       value: UUID,
-                      name: "Gebied",
+                      name: 'Gebied',
                   })
 
     /**
      * The standard dates are created in the back-end
      * To keep the UI clean we return an empty string
      */
-    const getDateValue = (value) => {
-        const standardDates = ["1753-01-01", "10000-01-01"]
-        if (standardDates.includes(value)) return ""
+    const getDateValue = value => {
+        const standardDates = ['1753-01-01', '10000-01-01']
+        if (standardDates.includes(value)) return ''
         return value
     }
 
@@ -54,10 +53,10 @@ function Artikel({
                 <div>
                     <SelectField
                         users={users}
-                        label={"Eerste eigenaar"}
-                        property={"Eigenaar_1"}
-                        filter={["Beleidseigenaar", "Behandelend Ambtenaar"]}
-                        excludeValue={"Eigenaar_2"}
+                        label={'Eerste eigenaar'}
+                        property={'Eigenaar_1'}
+                        filter={['Beleidseigenaar', 'Behandelend Ambtenaar']}
+                        excludeValue={'Eigenaar_2'}
                         setVerordeningsObjectFromGET={
                             setVerordeningsObjectFromGET
                         }
@@ -65,10 +64,10 @@ function Artikel({
                     />
                     <SelectField
                         users={users}
-                        label={"Tweede eigenaar"}
-                        property={"Eigenaar_2"}
-                        excludeValue={"Eigenaar_1"}
-                        filter={["Beleidseigenaar", "Behandelend Ambtenaar"]}
+                        label={'Tweede eigenaar'}
+                        property={'Eigenaar_2'}
+                        excludeValue={'Eigenaar_1'}
+                        filter={['Beleidseigenaar', 'Behandelend Ambtenaar']}
                         setVerordeningsObjectFromGET={
                             setVerordeningsObjectFromGET
                         }
@@ -76,9 +75,9 @@ function Artikel({
                     />
                     <SelectField
                         users={users}
-                        label={"Opdrachtgever"}
-                        property={"Opdrachtgever"}
-                        filter={"Ambtelijk opdrachtgever"}
+                        label={'Opdrachtgever'}
+                        property={'Opdrachtgever'}
+                        filter={'Ambtelijk opdrachtgever'}
                         setVerordeningsObjectFromGET={
                             setVerordeningsObjectFromGET
                         }
@@ -86,10 +85,10 @@ function Artikel({
                     />
                     <SelectField
                         users={users}
-                        label={"Eerste portefeuillehouder"}
-                        property={"Portefeuillehouder_1"}
-                        excludeValue={"Portefeuillehouder_2"}
-                        filter={"Portefeuillehouder"}
+                        label={'Eerste portefeuillehouder'}
+                        property={'Portefeuillehouder_1'}
+                        excludeValue={'Portefeuillehouder_2'}
+                        filter={'Portefeuillehouder'}
                         setVerordeningsObjectFromGET={
                             setVerordeningsObjectFromGET
                         }
@@ -97,10 +96,10 @@ function Artikel({
                     />
                     <SelectField
                         users={users}
-                        label={"Tweede portefeuillehouder"}
-                        property={"Portefeuillehouder_2"}
-                        excludeValue={"Portefeuillehouder_1"}
-                        filter={"Portefeuillehouder"}
+                        label={'Tweede portefeuillehouder'}
+                        property={'Portefeuillehouder_2'}
+                        excludeValue={'Portefeuillehouder_1'}
+                        filter={'Portefeuillehouder'}
                         setVerordeningsObjectFromGET={
                             setVerordeningsObjectFromGET
                         }
@@ -110,8 +109,7 @@ function Artikel({
                 <div className="mb-4">
                     <label
                         htmlFor="Begin_Geldigheid"
-                        className="block text-sm font-medium leading-5 text-gray-700"
-                    >
+                        className="block text-sm font-medium leading-5 text-gray-700">
                         Datum inwerkingtreding
                     </label>
                     <div className="relative mt-1 rounded-md shadow-sm">
@@ -119,13 +117,13 @@ function Artikel({
                             placeholder="dd-mm-jjjj"
                             type="date"
                             value={getDateValue(
-                                verordeningsObjectFromGET["Begin_Geldigheid"]
+                                verordeningsObjectFromGET['Begin_Geldigheid']
                             )}
-                            onChange={(e) => {
+                            onChange={e => {
                                 setVerordeningsObjectFromGET({
-                                    type: "changeValue",
+                                    type: 'changeValue',
                                     value: e.target.value,
-                                    name: "Begin_Geldigheid",
+                                    name: 'Begin_Geldigheid',
                                 })
                             }}
                             id="Begin_Geldigheid"
@@ -136,8 +134,7 @@ function Artikel({
                 <div className="mb-4">
                     <label
                         htmlFor="Eind_Geldigheid"
-                        className="block text-sm font-medium leading-5 text-gray-700"
-                    >
+                        className="block text-sm font-medium leading-5 text-gray-700">
                         Datum uitwerkingtreding
                     </label>
                     <div className="relative mt-1 rounded-md shadow-sm">
@@ -147,11 +144,11 @@ function Artikel({
                             value={getDateValue(
                                 verordeningsObjectFromGET.Eind_Geldigheid
                             )}
-                            onChange={(e) => {
+                            onChange={e => {
                                 setVerordeningsObjectFromGET({
-                                    type: "changeValue",
+                                    type: 'changeValue',
                                     value: e.target.value,
-                                    name: "Eind_Geldigheid",
+                                    name: 'Eind_Geldigheid',
                                 })
                             }}
                             id="Eind_Geldigheid"
@@ -161,11 +158,10 @@ function Artikel({
                 </div>
                 <div className="mb-4">
                     {hasLeden && !inheritWerkingsgebiedenFromArtikel ? null : (
-                        <React.Fragment>
+                        <>
                             <label
                                 htmlFor="Eind_Geldigheid"
-                                className="block text-sm font-medium leading-5 text-gray-700"
-                            >
+                                className="block text-sm font-medium leading-5 text-gray-700">
                                 Werkingsgebied
                             </label>
                             <Werkingsgebied
@@ -178,7 +174,7 @@ function Artikel({
                                     setWerkingsgebied
                                 }
                             />
-                        </React.Fragment>
+                        </>
                     )}
                     {hasLeden ? (
                         <div className="mt-2">
@@ -192,17 +188,17 @@ function Artikel({
                                         // User ticks the checkbox
                                         // Remove werkingsgebieden from each lid
                                         setVerordeningsLedenFromGET({
-                                            type: "resetAllWerkingsgebieden",
+                                            type: 'resetAllWerkingsgebieden',
                                         })
                                     } else {
                                         // User unticks the checkbox
                                         setVerordeningsLedenFromGET({
-                                            type: "setValueForAll",
+                                            type: 'setValueForAll',
                                             value: verordeningsObjectFromGET.Gebied,
                                         })
                                         setVerordeningsObjectFromGET({
-                                            type: "changeValue",
-                                            name: "Gebied",
+                                            type: 'changeValue',
+                                            name: 'Gebied',
                                             value: null,
                                         })
                                     }
@@ -213,8 +209,7 @@ function Artikel({
                             />
                             <label
                                 className="ml-2 text-sm text-gray-700 cursor-pointer"
-                                for="inherit-werkingsgebieden-from-artikel"
-                            >
+                                htmlFor="inherit-werkingsgebieden-from-artikel">
                                 Alle leden van dit artikel gaan over hetzelfde
                                 werkingsgebied
                             </label>

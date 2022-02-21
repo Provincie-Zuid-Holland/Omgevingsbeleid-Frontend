@@ -1,17 +1,17 @@
 /* istanbul ignore file */
-import React from "react"
 
 import {
     faSpinner,
     faChevronDown,
     faChevronUp,
-} from "@fortawesome/pro-regular-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Transition } from "@headlessui/react"
+} from '@fortawesome/pro-regular-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Transition } from '@headlessui/react'
+import { useEffect, useState } from 'react'
 
-import FixedSidebarContainer from "./../FixedSidebarContainer"
-import Werkingsgebied from "../ContainerCrudFields/Werkingsgebied"
-import Artikel from "../ContainerCrudFields/Artikel"
+import Artikel from '../ContainerCrudFields/Artikel'
+import Werkingsgebied from '../ContainerCrudFields/Werkingsgebied'
+import FixedSidebarContainer from './../FixedSidebarContainer'
 
 const EditContentSidebar = ({
     verordeningsLedenFromGET,
@@ -26,7 +26,7 @@ const EditContentSidebar = ({
     const [
         inheritWerkingsgebiedenFromArtikel,
         setInheritWerkingsgebiedenFromArtikel,
-    ] = React.useState(false)
+    ] = useState(false)
 
     const hasLeden =
         verordeningsLedenFromGET && verordeningsLedenFromGET.length > 0
@@ -35,19 +35,19 @@ const EditContentSidebar = ({
         UUIDBeingEdited &&
         !verordeningsObjectIsLoading &&
         verordeningsObjectFromGET !== null &&
-        verordeningsObjectFromGET.Type === "Artikel"
+        verordeningsObjectFromGET.Type === 'Artikel'
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (!verordeningsObjectIsLoaded) return
 
         // If leden all have a werkingsgebied and they are the same
         if (
             verordeningsLedenFromGET &&
-            verordeningsLedenFromGET.every((e) => e.Gebied)
+            verordeningsLedenFromGET.every(e => e.Gebied)
         ) {
             const werkingsgebiedLid = verordeningsLedenFromGET[0].Gebied
             const allLedenHaveSameGebied = verordeningsLedenFromGET.every(
-                (e) => e.Gebied === werkingsgebiedLid
+                e => e.Gebied === werkingsgebiedLid
             )
 
             if (
@@ -77,9 +77,8 @@ const EditContentSidebar = ({
 
     return (
         <FixedSidebarContainer
-            elementID={"fixed-container-edit-content-sidebar"}
-            show={verordeningsObjectIsLoaded}
-        >
+            elementID={'fixed-container-edit-content-sidebar'}
+            show={verordeningsObjectIsLoaded}>
             <div className="relative">
                 {verordeningsObjectIsLoading && verordeningsObjectFromGET ? (
                     <div className="absolute flex items-center justify-center w-full h-64">
@@ -96,14 +95,12 @@ const EditContentSidebar = ({
                     enterTo="opacity-100 transform translate-x-0"
                     leave="transition ease-in duration-75"
                     leaveFrom="opacity-100 transform translate-x-0"
-                    leaveTo="opacity-0 transform translate-x-2"
-                >
-                    <React.Fragment>
+                    leaveTo="opacity-0 transform translate-x-2">
+                    <>
                         {/* Return Artikel Edit Container */}
                         <ContentSidebarContainer
                             currentType={currentType}
-                            volgnummerBeingEdited={volgnummerBeingEdited}
-                        >
+                            volgnummerBeingEdited={volgnummerBeingEdited}>
                             <Artikel
                                 users={users}
                                 setVerordeningsObjectFromGET={
@@ -129,10 +126,10 @@ const EditContentSidebar = ({
                         {hasLeden && !inheritWerkingsgebiedenFromArtikel
                             ? verordeningsLedenFromGET.map((lid, index) => (
                                   <ContentSidebarContainer
+                                      key={`verordeningsLeden-${index}`}
                                       marginTop={true}
-                                      currentType={"lid"}
-                                      volgnummerBeingEdited={index + 1}
-                                  >
+                                      currentType={'lid'}
+                                      volgnummerBeingEdited={index + 1}>
                                       <div className="flex-grow inline-block w-full">
                                           <Werkingsgebied
                                               werkingsgebiedInParentState={
@@ -140,13 +137,11 @@ const EditContentSidebar = ({
                                                       index
                                                   ].Gebied
                                               }
-                                              setWerkingsgebiedInParentState={(
-                                                  UUID
-                                              ) =>
+                                              setWerkingsgebiedInParentState={UUID =>
                                                   setVerordeningsLedenFromGET({
-                                                      type: "changeValue",
+                                                      type: 'changeValue',
                                                       value: UUID,
-                                                      name: "Gebied",
+                                                      name: 'Gebied',
                                                       index: index,
                                                   })
                                               }
@@ -155,7 +150,7 @@ const EditContentSidebar = ({
                                   </ContentSidebarContainer>
                               ))
                             : null}
-                    </React.Fragment>
+                    </>
                 </Transition>
             </div>
         </FixedSidebarContainer>
@@ -168,19 +163,18 @@ const ContentSidebarContainer = ({
     children,
     marginTop,
 }) => {
-    const [open, setOpen] = React.useState(true)
+    const [open, setOpen] = useState(true)
 
     return (
-        <div className={`mb-5 rounded-b shadow-md ${marginTop ? "mt-5" : ""}`}>
+        <div className={`mb-5 rounded-b shadow-md ${marginTop ? 'mt-5' : ''}`}>
             <div
                 className={`flex items-center justify-between w-full p-4 font-bold text-white cursor-pointer bg-pzh-blue ${
-                    open ? "rounded-t" : "rounded"
+                    open ? 'rounded-t' : 'rounded'
                 }`}
-                onClick={() => setOpen(!open)}
-            >
+                onClick={() => setOpen(!open)}>
                 <span>
                     Eigenschappen
-                    {" " + currentType + " " + volgnummerBeingEdited}
+                    {' ' + currentType + ' ' + volgnummerBeingEdited}
                 </span>
                 <FontAwesomeIcon
                     className="text-white"
@@ -189,9 +183,8 @@ const ContentSidebarContainer = ({
             </div>
             <div
                 className={`p-4 bg-white rounded-b ${
-                    open ? "block" : "hidden"
-                }`}
-            >
+                    open ? 'block' : 'hidden'
+                }`}>
                 {children}
             </div>
         </div>
