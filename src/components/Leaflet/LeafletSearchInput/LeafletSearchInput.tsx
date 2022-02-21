@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { ChangeEvent, forwardRef, useRef, useState } from 'react'
 import { toast } from 'react-toastify'
 import { useDebounce } from 'react-use'
@@ -74,12 +73,7 @@ const LeafletSearchInput = forwardRef<
                 setQueryData(data.response.docs)
             })
             .catch(err => {
-                if (axios.isCancel(err)) {
-                    console.log('Request canceled -', err.message)
-                } else {
-                    console.log(err)
-                    toast(process.env.REACT_APP_ERROR_MSG)
-                }
+                toast(process.env.REACT_APP_ERROR_MSG)
             })
     }
 

@@ -24,7 +24,7 @@ const getGeoJsonData = async (
 ) => {
     const res = await instance.get(
         `ows?service=wfs&version=${api_version}&request=GetFeature&typeNames=OMGEVINGSBELEID:${type}&cql_filter=UUID=%27${UUID}%27&outputFormat=application/json`,
-        { cancelToken: source.token, ...(signal && { signal }) }
+        { ...(signal && { signal }) }
     )
     const data = res.data
     return data
@@ -37,7 +37,7 @@ const getOnderverdeling = async (
 ) => {
     const res = await instance.get(
         `ows?service=wfs&version=1.0.0&request=GetFeature&typeName=OMGEVINGSBELEID%3AWerkingsgebieden_Onderverdeling&maxFeatures=50&outputFormat=application%2Fjson&cql_filter=UUID%20IN%20(%27${UUID}%27)`,
-        { cancelToken: source.token, ...(signal && { signal }) }
+        { ...(signal && { signal }) }
     )
     const data = res.data
     return data
@@ -59,10 +59,6 @@ const getGemeenteGrenzen = async () => {
     return data
 }
 
-const cancelRequest = () => {
-    source.cancel('Operation canceled by the user.')
-}
-
 instance.interceptors.request.use(function (config) {
     const access_token = localStorage.getItem('access_token')
     config.headers && (config.headers.Authorization = `Token ${access_token}`)
@@ -75,6 +71,5 @@ export {
     getOnderverdeling,
     getWerkingsGebieden,
     getGemeenteGrenzen,
-    cancelRequest,
     api_version,
 }

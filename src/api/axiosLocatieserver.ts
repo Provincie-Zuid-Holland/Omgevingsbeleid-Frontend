@@ -1,27 +1,13 @@
-import axios, { Canceler } from 'axios'
+import axios from 'axios'
 
 const api_version = 'v3'
 const instance = axios.create({
     baseURL: `https://geodata.nationaalgeoregister.nl/locatieserver/${api_version}/`,
 })
 
-// const CancelToken = axios.CancelToken
-// const source = CancelToken.source()
-
-const CancelToken = axios.CancelToken
-let cancel: Canceler
-
-const cancelRequest = () => {
-    // source.cancel('Operation canceled by new input.')
-    cancel('Request(s) cancelled by new input.')
-}
-
-const getSuggestData = async (value: string) => {
+const getSuggestData = async (value: string, signal?: AbortSignal) => {
     const res = await instance.get(`/suggest?q=${value}`, {
-        cancelToken: new CancelToken(function executor(c) {
-            // An executor function receives a cancel function as a parameter
-            cancel = c
-        }),
+        ...(signal && { signal }),
     })
     const data = res.data
     return data
@@ -42,4 +28,4 @@ const getLookupData = async (id: string) => {
 }
 
 export default instance
-export { cancelRequest, getSuggestData, getAddressData, getLookupData }
+export { getSuggestData, getAddressData, getLookupData }
