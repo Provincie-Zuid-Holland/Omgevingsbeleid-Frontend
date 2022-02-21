@@ -66,7 +66,7 @@ const LeafletTinyViewerInner = ({
      */
     const initializeComponent = () => {
         Promise.all([
-            getGeoJsonData(gebiedType, gebiedUUID, signal),
+            getGeoJsonData(gebiedType, gebiedUUID, { signal }),
             getOnderverdeling(gebiedType, gebiedUUID),
         ])
             .then(responses => {

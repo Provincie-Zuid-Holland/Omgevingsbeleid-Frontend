@@ -1,13 +1,13 @@
-import axios from 'axios'
+import axios, { AxiosRequestConfig } from 'axios'
 
 const api_version = 'v3'
 const instance = axios.create({
     baseURL: `https://geodata.nationaalgeoregister.nl/locatieserver/${api_version}/`,
 })
 
-const getSuggestData = async (value: string, signal?: AbortSignal) => {
+const getSuggestData = async (value: string, config?: AxiosRequestConfig) => {
     const res = await instance.get(`/suggest?q=${value}`, {
-        ...(signal && { signal }),
+        ...(config && { ...config }),
     })
     const data = res.data
     return data

@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { AxiosRequestConfig } from 'axios'
 
 const access_token = localStorage.getItem('access_token')
 const api_version = '1.1.0'
@@ -17,11 +17,11 @@ const instance = axios.create({
 const getGeoJsonData = async (
     type: string,
     UUID: string,
-    signal?: AbortSignal
+    config?: AxiosRequestConfig
 ) => {
     const res = await instance.get(
         `ows?service=wfs&version=${api_version}&request=GetFeature&typeNames=OMGEVINGSBELEID:${type}&cql_filter=UUID=%27${UUID}%27&outputFormat=application/json`,
-        { ...(signal && { signal }) }
+        { ...(config && { ...config }) }
     )
     const data = res.data
     return data
@@ -30,11 +30,11 @@ const getGeoJsonData = async (
 const getOnderverdeling = async (
     _: string,
     UUID: string,
-    signal?: AbortSignal
+    config?: AxiosRequestConfig
 ) => {
     const res = await instance.get(
         `ows?service=wfs&version=1.0.0&request=GetFeature&typeName=OMGEVINGSBELEID%3AWerkingsgebieden_Onderverdeling&maxFeatures=50&outputFormat=application%2Fjson&cql_filter=UUID%20IN%20(%27${UUID}%27)`,
-        { ...(signal && { signal }) }
+        { ...(config && { ...config }) }
     )
     const data = res.data
     return data
