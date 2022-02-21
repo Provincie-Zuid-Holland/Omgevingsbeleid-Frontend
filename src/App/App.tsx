@@ -1,5 +1,6 @@
 import './appConfig'
 
+import classNames from 'classnames'
 import {
     Suspense,
     lazy,
@@ -27,6 +28,7 @@ import FeedbackComponent from '@/components/FeedbackComponent'
 import { LoaderContent } from '@/components/Loader'
 import Navigation from '@/components/Navigation'
 import { NetworkGraph } from '@/components/Network'
+import useAdvancedSearchPage from '@/hooks/useAdvancedSearchPage'
 import useMuteerEnvironment from '@/hooks/useMuteerEnvironment'
 import ErrorPage from '@/pages/ErrorPage'
 import Login from '@/pages/Login'
@@ -56,6 +58,7 @@ const queryClient = new QueryClient({
 
 const App: FC<RouteComponentProps> = () => {
     const userIsInMuteerEnvironment = useMuteerEnvironment()
+    const isAdvancedSearchPage = useAdvancedSearchPage()
 
     const [user, setUser] = useState<GetTokeninfo200Identifier | undefined>(
         undefined
@@ -119,9 +122,11 @@ const App: FC<RouteComponentProps> = () => {
         <UserContext.Provider value={{ user }}>
             <QueryClientProvider client={queryClient}>
                 <div
-                    className={`min-h-screen text-pzh-blue-dark relative ${
-                        userIsInMuteerEnvironment ? 'bg-gray-100' : ''
-                    }`}
+                    className={classNames({
+                        'min-h-screen text-pzh-blue-dark relative': true,
+                        'bg-gray-100': userIsInMuteerEnvironment,
+                        'advanced-search-page': isAdvancedSearchPage,
+                    })}
                     id="main-container">
                     <Helmet>
                         <meta charSet="utf-8" />

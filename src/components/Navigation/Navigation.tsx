@@ -4,10 +4,12 @@ import {
     IconDefinition,
 } from '@fortawesome/pro-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import classNames from 'classnames'
 import { FC, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useWindowSize } from 'react-use'
 
+import useAdvancedSearchPage from '@/hooks/useAdvancedSearchPage'
 import useMuteerEnvironment from '@/hooks/useMuteerEnvironment'
 import logoSVG from '@/images/PZH_Basislogo.svg'
 import logoWhite from '@/images/PZH_Basislogo_white.png'
@@ -29,9 +31,6 @@ interface NavigationProps {
 }
 
 const Navigation = ({ loggedIn }: NavigationProps) => {
-    const location = useLocation()
-    const pathname = location.pathname
-
     const userIsInMuteerEnvironment = useMuteerEnvironment()
     const windowSize = useWindowSize()
 
@@ -39,15 +38,19 @@ const Navigation = ({ loggedIn }: NavigationProps) => {
     const [isOpen, setIsOpen] = useState(false)
 
     const showBanner = userIsInMuteerEnvironment && !hideBannerLocalStorage()
-    const showDNABar = !pathname.includes('/zoeken-op-kaart')
+    const isAdvancedSearchPage = useAdvancedSearchPage()
     const isMobile = windowSize.width <= 640
 
     return (
         <div>
             <nav
-                className={`fixed top-0 z-20 w-full sm:border-b ${
-                    isOpen ? 'bg-pzh-blue' : 'bg-white'
-                }`}
+                className={classNames({
+                    'top-0 z-20 w-full sm:border-b': true,
+                    fixed: !isAdvancedSearchPage,
+                    relative: isAdvancedSearchPage,
+                    'bg-pzh-blue': isOpen,
+                    'bg-white': !isOpen,
+                })}
                 id="navigation-main">
                 <BannerEnvironment
                     hideBannerLocalStorage={hideBannerLocalStorage}
@@ -112,7 +115,7 @@ const Navigation = ({ loggedIn }: NavigationProps) => {
                     </div>
                 </Container>
             </nav>
-            {showDNABar && <DNABar />}
+            {!isAdvancedSearchPage && <DNABar />}
         </div>
     )
 }

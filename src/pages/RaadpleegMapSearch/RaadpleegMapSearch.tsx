@@ -58,17 +58,14 @@ const RaadpleegMapSearch = () => {
         setUUIDs([])
         setSearchResultsLoading(true)
 
-        if (
-            callback.type === 'FeatureCollection' &&
-            callback.features?.length
-        ) {
+        if (callback.type === 'polygon' && callback.features?.length) {
             const werkingsgebiedenUUIDS = callback.features.map(
                 (item: any) => item.properties.UUID
             )
 
             setUUIDs(werkingsgebiedenUUIDS)
             setDrawType(callback.type)
-        } else if (callback.type === 'adres') {
+        } else if (callback.type === 'marker') {
             const werkingsgebieden = await getWerkingsGebieden(
                 callback.point.x,
                 callback.point.y
@@ -250,6 +247,8 @@ const RaadpleegMapSearch = () => {
                     UUIDs={UUIDs}
                 />
             </ContainerMapSearch>
+
+            <div id="select-werkingsgebied-portal" />
 
             <Container>
                 <div className="col-span-6 lg:col-span-4 lg:col-start-2 py-10">

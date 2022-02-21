@@ -9,7 +9,6 @@ import Leaflet, { latLng, Map } from 'leaflet'
 import { ReactNode, useEffect, useMemo, useRef, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import Select from 'react-select'
-import { useWindowScroll } from 'react-use'
 
 import { useGetValidWerkingsgebieden } from '@/api/fetchers'
 import Heading from '@/components/Heading'
@@ -46,8 +45,6 @@ const SidebarInformation = ({
         () => data?.find(item => item.UUID === paramWerkingsgebied),
         [data, paramWerkingsgebied]
     )
-
-    useWindowScroll()
 
     const goBack = () => {
         history.push(MAP_SEARCH_PAGE)
@@ -170,8 +167,12 @@ const SidebarInformation = ({
                             }}
                             classNamePrefix="form-select"
                             placeholder="Selecteer een werkingsgebied"
+                            menuPortalTarget={
+                                document.getElementById(
+                                    'select-werkingsgebied-portal'
+                                ) as HTMLElement
+                            }
                             isLoading={isLoading}
-                            menuPosition="fixed"
                             onChange={val => {
                                 set('werkingsgebied', val?.value || '')
                             }}
