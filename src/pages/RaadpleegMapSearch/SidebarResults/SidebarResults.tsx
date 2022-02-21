@@ -1,7 +1,8 @@
-import { useFloating, shift, offset } from '@floating-ui/react-dom'
 import { faFilter } from '@fortawesome/pro-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Popover, Transition } from '@headlessui/react'
+import { Transition } from '@headlessui/react'
+import Tippy from '@tippyjs/react'
+import { useState } from 'react'
 
 import { GetSearch200Item } from '@/api/fetchers.schemas'
 import Heading from '@/components/Heading'
@@ -148,29 +149,15 @@ const Filter = ({
     onPageFilters,
     setOnPageFilters,
 }: Partial<SidebarResultsProps>) => {
-    const { x, y, reference, floating, strategy } = useFloating({
-        placement: 'bottom',
-        middleware: [shift({ padding: 5 }), offset(15)],
-    })
+    const [visible, setVisible] = useState(true)
 
     return (
-        <Popover className="relative">
-            <Popover.Button
-                ref={reference}
-                className="flex items-center border border-gray-400 rounded py-2 px-2">
-                <FontAwesomeIcon icon={faFilter} className="text-sm mr-2" />
-                <span className="text-sm -mb-1">Filter</span>
-            </Popover.Button>
-
-            <Popover.Panel
-                ref={floating}
-                className="z-10"
-                style={{
-                    position: strategy,
-                    top: y ?? '',
-                    left: x ?? '',
-                }}>
-                <div className="flex flex-col pt-2 pb-4 px-4 bg-white border border-gray-400 rounded shadow-md popover-arrow w-48">
+        <Tippy
+            visible={visible}
+            onClickOutside={() => setVisible(false)}
+            className="pzh-tippy"
+            content={
+                <div className="flex flex-col pt-2 pb-4 px-4 bg-white border border-gray-400 rounded w-48 shadow-md">
                     <Text className="font-bold">Filteren</Text>
 
                     <SearchFilterSection
@@ -180,8 +167,14 @@ const Filter = ({
                         hideLabels
                     />
                 </div>
-            </Popover.Panel>
-        </Popover>
+            }>
+            <button
+                onClick={() => setVisible(!visible)}
+                className="flex items-center border border-gray-400 rounded py-2 px-2">
+                <FontAwesomeIcon icon={faFilter} className="text-sm mr-2" />
+                <span className="text-sm -mb-1">Filter</span>
+            </button>
+        </Tippy>
     )
 }
 
