@@ -54,6 +54,8 @@ const RaadpleegMapSearch = () => {
         setUUIDs([])
         setSearchResultsLoading(true)
 
+        console.log(callback)
+
         if (callback.type === 'polygon') {
             setDrawType(callback.type)
 
@@ -222,7 +224,7 @@ const RaadpleegMapSearch = () => {
 
     return (
         <>
-            <ContainerMapSearch className="border-b border-t overflow-hidden">
+            <ContainerMapSearch className="border-t overflow-hidden">
                 <SidebarInformation
                     mapInstance={mapInstance}
                     searchOpen={searchOpen}

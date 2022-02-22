@@ -16,13 +16,14 @@ const ContainerMapSearch: FC<ContainerMapSearchProps> = ({
     const isMobile = useMedia('(max-width: 640px)')
 
     const containerHeightStyle = useMemo(
-        () =>
-            isMobile
+        () => ({
+            height: isMobile
                 ? 'inherit'
                 : `calc(100vh - ${
                       document.getElementById('navigation-main')?.offsetHeight +
                       'px'
                   })`,
+        }),
         [isMobile]
     )
 
@@ -31,7 +32,7 @@ const ContainerMapSearch: FC<ContainerMapSearchProps> = ({
             id={id}
             ref={reference}
             className={`flex flex-col md:flex-row mx-auto ${className}`}
-            style={{ height: containerHeightStyle }}>
+            style={containerHeightStyle}>
             {children}
         </div>
     )
