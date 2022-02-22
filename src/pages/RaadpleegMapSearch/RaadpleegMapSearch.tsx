@@ -54,8 +54,6 @@ const RaadpleegMapSearch = () => {
         setUUIDs([])
         setSearchResultsLoading(true)
 
-        console.log(callback)
-
         if (callback.type === 'polygon') {
             setDrawType(callback.type)
 
@@ -251,23 +249,6 @@ const RaadpleegMapSearch = () => {
             </ContainerMapSearch>
 
             <div id="select-werkingsgebied-portal" />
-
-            {/*
-            <Container>
-                <div className="col-span-6 lg:col-span-4 lg:col-start-2 py-10">
-                    <Heading level="3">Liever zoeken op tekst?</Heading>
-                    <div>
-                        <Text type="body" className="mt-4">
-                            Waar bent u naar op zoek binnen het beleid van de
-                            provincie Zuid-Holland?
-                        </Text>
-                        <SearchBar className="mt-2" />
-                    </div>
-                </div>
-            </Container>
-
-            <Footer />
-            */}
         </>
     )
 }
