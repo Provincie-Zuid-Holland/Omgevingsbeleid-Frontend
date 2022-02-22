@@ -82,6 +82,8 @@ const RaadpleegMapSearch = () => {
 
             setUUIDs(werkingsgebiedenUUIDS)
             setDrawType(callback.type)
+        } else {
+            setSearchResultsLoading(false)
         }
     }
 
