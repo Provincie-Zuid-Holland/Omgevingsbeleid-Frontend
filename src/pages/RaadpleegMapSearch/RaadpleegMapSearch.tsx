@@ -77,7 +77,6 @@ const RaadpleegMapSearch = () => {
 
             if (!werkingsgebieden.length) {
                 setSearchResultsLoading(false)
-            } else {
             }
 
             setUUIDs(werkingsgebiedenUUIDS)
