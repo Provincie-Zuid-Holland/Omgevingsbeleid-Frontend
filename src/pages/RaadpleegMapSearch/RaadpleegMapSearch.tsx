@@ -7,13 +7,9 @@ import { useEffectOnce, useMedia } from 'react-use'
 import { getWerkingsGebieden } from '@/api/axiosGeoJSON'
 import { getSearchGeo } from '@/api/fetchers'
 import { GetSearch200Item } from '@/api/fetchers.schemas'
-import { Container, ContainerMapSearch } from '@/components/Container'
-import Footer from '@/components/Footer'
-import Heading from '@/components/Heading'
+import { ContainerMapSearch } from '@/components/Container'
 import { LeafletMap } from '@/components/Leaflet'
 import { mapPanTo } from '@/components/Leaflet/utils'
-import SearchBar from '@/components/SearchBar'
-import Text from '@/components/Text'
 import { RDProj4, leafletBounds } from '@/constants/leaflet'
 import useSearchParam from '@/hooks/useSearchParam'
 import useSearchResultFilters from '@/hooks/useSearchResultFilters'
@@ -58,13 +54,18 @@ const RaadpleegMapSearch = () => {
         setUUIDs([])
         setSearchResultsLoading(true)
 
-        if (callback.type === 'polygon' && callback.features?.length) {
-            const werkingsgebiedenUUIDS = callback.features.map(
-                (item: any) => item.properties.UUID
-            )
-
-            setUUIDs(werkingsgebiedenUUIDS)
+        if (callback.type === 'polygon') {
             setDrawType(callback.type)
+
+            if (callback.features?.length) {
+                const werkingsgebiedenUUIDS = callback.features.map(
+                    (item: any) => item.properties.UUID
+                )
+
+                setUUIDs(werkingsgebiedenUUIDS)
+            } else {
+                setSearchResultsLoading(false)
+            }
         } else if (callback.type === 'marker') {
             const werkingsgebieden = await getWerkingsGebieden(
                 callback.point.x,
@@ -81,8 +82,6 @@ const RaadpleegMapSearch = () => {
 
             setUUIDs(werkingsgebiedenUUIDS)
             setDrawType(callback.type)
-        } else {
-            setSearchResultsLoading(false)
         }
     }
 
@@ -251,6 +250,7 @@ const RaadpleegMapSearch = () => {
 
             <div id="select-werkingsgebied-portal" />
 
+            {/*
             <Container>
                 <div className="col-span-6 lg:col-span-4 lg:col-start-2 py-10">
                     <Heading level="3">Liever zoeken op tekst?</Heading>
@@ -265,6 +265,7 @@ const RaadpleegMapSearch = () => {
             </Container>
 
             <Footer />
+            */}
         </>
     )
 }
