@@ -58,6 +58,8 @@ const SidebarInformation = ({
             }
         })
 
+        mapInstance?.fireEvent('draw:deleted')
+
         const coordinates = latLng(MAP_OPTIONS.center[0], MAP_OPTIONS.center[1])
         mapInstance?.setView(coordinates, MAP_OPTIONS.zoom)
 
