@@ -95,7 +95,8 @@ const MuteerUniversalObjectCRUD = ({
             }
         }
 
-        setCrudObject({ ...crudObject, [name]: value })
+        crudObject[name] = value
+        setCrudObject({ ...crudObject })
     }
 
     /**
