@@ -120,9 +120,9 @@ const SidebarResults = ({
                     ) : (
                         <Text className="mt-2">
                             Er zijn geen resultaten voor{' '}
-                            {drawType === 'FeatureCollection'
+                            {drawType === 'polygon'
                                 ? 'het getekende gebied'
-                                : drawType === 'adres'
+                                : drawType === 'marker'
                                 ? 'het ingevoerde adres'
                                 : drawType === 'werkingsgebied'
                                 ? 'dit werkingsgebied'

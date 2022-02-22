@@ -66,8 +66,8 @@ const createCustomPopup = async (
         }
 
         callback?.({
-            type: 'marker',
             point: { x: point.x.toFixed(2), y: point.y.toFixed(2) },
+            type: 'marker',
         })
     } else if (type === 'polygon') {
         const points = layer._latlngs
@@ -99,8 +99,8 @@ const createCustomPopup = async (
                 }
 
                 callback?.({
-                    type: 'polygon',
                     ...data,
+                    type: 'polygon',
                 })
             })
             .catch(function (err) {

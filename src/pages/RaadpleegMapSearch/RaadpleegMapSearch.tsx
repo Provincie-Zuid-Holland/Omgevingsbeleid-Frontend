@@ -77,11 +77,12 @@ const RaadpleegMapSearch = () => {
 
             if (!werkingsgebieden.length) {
                 setSearchResultsLoading(false)
-            } else {
             }
 
             setUUIDs(werkingsgebiedenUUIDS)
             setDrawType(callback.type)
+        } else {
+            setSearchResultsLoading(false)
         }
     }
 
