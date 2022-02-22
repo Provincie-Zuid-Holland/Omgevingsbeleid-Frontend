@@ -131,6 +131,7 @@ const handlePopupEvents = (
     popupContainer
         .querySelector('.leaflet-close-popup')
         ?.addEventListener('click', () => {
+            map.fireEvent('draw:deleted')
             map.removeLayer(layer)
             history.push(path)
         })
@@ -167,9 +168,9 @@ export const CreateCustomPopup = ({
     })
 
     return (
-        <div className="text-sm custom-popup">
-            <span className="block font-bold">Locatie</span>
-            <ul className="mt-1 mb-4 text-xs">
+        <div className="text-base custom-popup">
+            <span className="block bold">Locatie</span>
+            <ul className="mt-2 mb-4">
                 {weergavenaam && (
                     <>
                         <li>{weergavenaam.split(',')[0]}</li>
@@ -178,7 +179,9 @@ export const CreateCustomPopup = ({
                 )}
                 {type === 'marker' && lat && lng && (
                     <li>
-                        GPS Locatie: {lat.toFixed(7)}, {lng.toFixed(7)}
+                        GPS Locatie:
+                        <br />
+                        {lat.toFixed(7)}, {lng.toFixed(7)}
                     </li>
                 )}
                 {type === 'polygon' && (

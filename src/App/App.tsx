@@ -242,7 +242,7 @@ const App: FC<RouteComponentProps> = () => {
                         )}
                     </ErrorBoundary>
                     <ToastContainer limit={1} position="bottom-left" />
-                    <FeedbackComponent />
+                    {!isAdvancedSearchPage && <FeedbackComponent />}
                 </div>
             </QueryClientProvider>
         </UserContext.Provider>

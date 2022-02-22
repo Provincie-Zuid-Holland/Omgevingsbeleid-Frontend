@@ -90,7 +90,7 @@ const SidebarInformation = ({
                 leave="transition-all ease-in duration-300 transform"
                 leaveFrom="ml-0"
                 leaveTo="-ml-570"
-                className="pb-8 lg:pb-16 pt-4 md:pt-12 lg:pt-16 lg:px-20 md:px-10 md:max-w-570 md:min-w-570">
+                className="pb-8 lg:pb-16 pt-4 md:pt-12 lg:pt-16 lg:px-20 md:px-10 md:max-w-570 md:min-w-570 overflow-auto">
                 <Heading level="1">Zoeken op de kaart</Heading>
                 <Text type="introduction-paragraph" className="mt-3">
                     Een stukje pakkende tekst wat vertelt dat dit eigenlijk meer
@@ -172,6 +172,7 @@ const SidebarInformation = ({
                                     'select-werkingsgebied-portal'
                                 ) as HTMLElement
                             }
+                            menuPlacement="auto"
                             isLoading={isLoading}
                             onChange={val => {
                                 set('werkingsgebied', val?.value || '')
