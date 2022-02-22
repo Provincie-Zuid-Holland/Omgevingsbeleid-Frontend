@@ -1,21 +1,31 @@
 import { MapOptions } from 'leaflet'
 import { ReactNode } from 'react'
-import { MapContainer, MapContainerProps } from 'react-leaflet'
+import {
+    LayersControl,
+    MapContainer,
+    MapContainerProps,
+    TileLayer,
+} from 'react-leaflet'
 
-import { RDCrs, leafletCenter } from '@/constants/leaflet'
+import { RDCrs, leafletCenter, tileURL } from '@/constants/leaflet'
 
 import {
-    LeafletDraw,
     LeafletControlLayer,
     LeafletSearch,
+    LeafletDraw,
+    LeafletZoom,
 } from '../LeafletLayers'
 
 export interface LeafletMapProps {
     options?: MapOptions | MapContainerProps
     controllers?: {
+        showZoom?: boolean
         showSearch?: boolean
         showDraw?: boolean
         showLayers?: boolean
+    }
+    callbacks?: {
+        onDraw?: (callback: any) => void
     }
     className?: string
     id?: string
@@ -25,6 +35,7 @@ export interface LeafletMapProps {
 const LeafletMap = ({
     options,
     controllers,
+    callbacks,
     className,
     id,
     children,
@@ -34,12 +45,13 @@ const LeafletMap = ({
         center: leafletCenter,
         zoom: 4,
         maxZoom: 12,
-        zoomControl: true,
+        zoomControl: false,
         scrollWheelZoom: true,
         ...options,
     }
 
     const mapControllers = {
+        showZoom: true,
         showSearch: false,
         showDraw: false,
         showLayers: true,
@@ -53,9 +65,25 @@ const LeafletMap = ({
             id={id}>
             {mapControllers.showLayers && <LeafletControlLayer />}
 
+            {mapControllers.showDraw && (
+                <LeafletDraw onDraw={callbacks?.onDraw} />
+            )}
+
             {mapControllers.showSearch && <LeafletSearch />}
 
-            {mapControllers.showDraw && <LeafletDraw />}
+            {mapControllers.showZoom && <LeafletZoom />}
+
+            {!mapControllers.showLayers && (
+                <LayersControl position="topright">
+                    <LayersControl.BaseLayer checked name="Map">
+                        <TileLayer
+                            url={tileURL}
+                            minZoom={3}
+                            attribution='Map data: <a href="http://www.kadaster.nl">Kadaster</a>'
+                        />
+                    </LayersControl.BaseLayer>
+                </LayersControl>
+            )}
 
             {children}
         </MapContainer>

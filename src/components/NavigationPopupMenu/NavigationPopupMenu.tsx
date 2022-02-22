@@ -6,11 +6,13 @@ import {
 } from '@fortawesome/pro-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useEffect, useState } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useLockBodyScroll, useWindowSize } from 'react-use'
 
 import { Container } from '../Container'
 import Heading from '../Heading'
+import SearchBar from '../SearchBar'
+import Text from '../Text'
 
 /**
  * A popup menu that can be used to navigate the application.
@@ -32,10 +34,7 @@ const NavigationPopupMenu = ({
     setIsOpen,
 }: NavigationPopupMenuProps) => {
     const windowSize = useWindowSize()
-    const history = useHistory()
     useLockBodyScroll(isOpen)
-
-    const [searchQuery, setSearchQuery] = useState('')
     const [bannerAdjustedOffsetTop, setBannerAdjustedOffsetTop] = useState({})
     const [isMobile, setIsMobile] = useState(false)
     const [containerHeightStyle, setContainerHeightStyle] = useState<
@@ -107,39 +106,28 @@ const NavigationPopupMenu = ({
                         <Container
                             className="h-full overflow-y-auto"
                             style={isMobile ? containerHeightStyle : undefined}>
-                            <div className="flex flex-col items-center col-span-6 mt-6 sm:flex-row">
-                                <div className="relative flex items-center w-full">
+                            <div className="flex flex-col md:items-center col-span-6 mt-6 sm:flex-row">
+                                <div className="relative flex flex-1 items-center w-full">
                                     <FontAwesomeIcon
                                         className="absolute left-0 ml-2 text-lg text-pzh-blue-dark"
                                         icon={faSearch}
                                     />
-                                    <input
-                                        className={`pl-10 placeholder-gray-500 pr-6 rounded w-full appearance-none px-3 pb-1 border hover:border-opacity-50 border-pzh-blue border-opacity-30 transition-colors ease-in duration-100`}
-                                        name="searchInput"
-                                        onChange={e => {
-                                            setSearchQuery(e.target.value)
+                                    <SearchBar
+                                        callBack={() => {
+                                            setIsOpen(false)
                                         }}
-                                        autoComplete="off"
-                                        id="navigation-popup-menu-search"
-                                        type="text"
-                                        value={searchQuery}
-                                        onKeyDown={e => {
-                                            if (e.key === 'Enter') {
-                                                // Enter key
-                                                if (searchQuery.length === 0)
-                                                    return
-                                                history.push(
-                                                    `/zoekresultaten?query=${searchQuery}`
-                                                )
-                                                setIsOpen(false)
-                                            }
-                                        }}
-                                        placeholder={
-                                            isMobile
-                                                ? 'Zoeken'
-                                                : 'Zoek binnen het beleid van de provincie Zuid-Holland'
-                                        }
                                     />
+                                </div>
+                                <div className="sm:ml-2 md:mt-0 mt-2">
+                                    <Text>
+                                        of{' '}
+                                        <Link
+                                            to="/zoeken-op-kaart"
+                                            onClick={() => setIsOpen(false)}
+                                            className="underline text-pzh-green hover:text-pzh-green-dark">
+                                            Zoek op de kaart
+                                        </Link>
+                                    </Text>
                                 </div>
                             </div>
                             <div className="col-span-6 mt-6 md:col-span-2">
@@ -218,9 +206,7 @@ const NavigationPopupMenu = ({
                             <div className="col-span-6 mb-10 md:mb-0 md:mt-6 md:col-span-2">
                                 <ul
                                     style={
-                                        isMobile
-                                            ? undefined
-                                            : { marginTop: '32px' }
+                                        isMobile ? {} : { marginTop: '32px' }
                                     }>
                                     <ListItem
                                         text="Netwerkvisualisatie"

@@ -31,6 +31,7 @@ const LeafletRevisionOverview = ({
     gebiedenUUIDS,
 }: LeafletRevisionOverviewProps) => {
     const [layers, setLayers] = useState<any>(null)
+    const [isLoading, setIsLoading] = useState<boolean>(true)
 
     const getColorOfGebied = useCallback(
         (uuid: string) => {
@@ -74,7 +75,7 @@ const LeafletRevisionOverview = ({
         gebiedenUUIDS.forEach(async (uuid: string) => {
             Promise.all([
                 getGeoJsonData('Werkingsgebieden', uuid),
-                getOnderverdeling('Werkingsgebieden', uuid),
+                getOnderverdeling(uuid),
             ])
                 .then(responses => {
                     const geoJsonData = responses[0]
@@ -110,6 +111,7 @@ const LeafletRevisionOverview = ({
                     )
 
                     setLayers({ geoJsonLayer, onderverdelingJsonLayer })
+                    setIsLoading(false)
                 })
                 .catch(err => {
                     if (axios.isCancel(err)) {
@@ -123,17 +125,20 @@ const LeafletRevisionOverview = ({
     }
 
     useEffect(() => {
+        setIsLoading(true)
         initializeComponent()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [gebiedenUUIDS])
 
-    if (!layers) return <LoaderLeafletTinyViewer />
+    if (isLoading) return <LoaderLeafletTinyViewer />
+    if (!layers && !isLoading) return null
 
     return (
         <LeafletMap
             options={{
                 boundsOptions: { padding: [100, 100] },
             }}
+            controllers={{ showLayers: false }}
             id="leaflet-tiny-viewer">
             <LeafletRevisionOverviewInner
                 gebiedenUUIDS={gebiedenUUIDS}

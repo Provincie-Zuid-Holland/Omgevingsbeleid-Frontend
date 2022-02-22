@@ -2,6 +2,8 @@ import { useReducer } from 'react'
 
 import { GetSearch200Item } from '@/api/fetchers.schemas'
 
+import useSearchParam from './useSearchParam'
+
 interface FilterObjectInterface {
     checked: boolean
     count: number
@@ -19,11 +21,16 @@ export type ACTIONTYPE =
     | { type: 'updateFilters'; searchResultItems: GetSearch200Item[] }
 
 const useSearchResultFilters = () => {
+    const { get, set, remove } = useSearchParam()
+    const [paramFilter] = get('filter')
+
     const initFilters = (
         searchResultItems: GetSearch200Item[],
         update?: boolean,
         currentState?: FilterCollection
     ) => {
+        const activeFilter = paramFilter
+
         // In the filterArray we place all the types of objects we received from the API
         const availableFilters: string[] = []
 
@@ -36,9 +43,12 @@ const useSearchResultFilters = () => {
                 name: item.Type || '',
                 count: 1,
                 checked:
-                    update && item.Type
+                    (update && item.Type
                         ? currentState?.filterState[item.Type]?.checked || false
-                        : false,
+                        : false) ||
+                    (activeFilter?.length && item.Type
+                        ? activeFilter?.includes(item.Type)
+                        : false),
             }
 
             if (!item.Type) return null
@@ -69,6 +79,17 @@ const useSearchResultFilters = () => {
             case 'toggleFilter':
                 const name = action.name
                 state.filterState[name].checked = action.newState
+
+                const checkedFilters = Object.keys(state.filterState).filter(
+                    key => state.filterState[key].checked
+                )
+
+                if (checkedFilters.length) {
+                    set('filter', checkedFilters)
+                } else {
+                    remove('filter')
+                }
+
                 return { ...state }
             default:
                 throw new Error()

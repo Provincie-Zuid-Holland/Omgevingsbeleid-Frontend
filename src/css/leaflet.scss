@@ -1,0 +1,350 @@
+// Leaflet Styles
+#leaflet-homepage {
+    height: 35rem;
+    width: 100%;
+    max-width: 64rem;
+    border-radius: 0.25rem;
+}
+
+#revision-overview-leaflet {
+    height: 500px;
+    width: 100%;
+
+    .leaflet-container {
+        position: relative;
+        height: 100%;
+        width: 100%;
+    }
+}
+
+.leaflet-draw-section .leaflet-bar {
+    box-shadow: none;
+    border-radius: 0;
+}
+
+.leaflet-left {
+    .leaflet-control {
+        box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.3);
+        border-radius: 0.2rem;
+        background-color: theme('colors.white');
+    }
+}
+
+.leaflet-right {
+    .leaflet-layers {
+        box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.3);
+        border-radius: 0.2rem;
+        background-color: theme('colors.white');
+    }
+}
+
+.leaflet-touch .leaflet-draw-section .leaflet-control-layers,
+.leaflet-touch .leaflet-draw-section .leaflet-bar {
+    margin-top: 0;
+    border: none;
+}
+
+.leaflet-touch .leaflet-draw-actions {
+    z-index: 10;
+
+    a {
+        background-color: theme('colors.white');
+        color: theme('colors.blue.800');
+        box-shadow: rgba(0, 0, 0, 0.1) 0 1px 3px 0,
+            rgba(0, 0, 0, 0.06) 0 1px 2px 0;
+        &:hover {
+            background-color: theme('colors.white');
+            text-decoration: underline;
+            color: theme('colors.blue.800');
+            box-shadow: rgba(0, 0, 0, 0.1) 0 1px 3px 0,
+                rgba(0, 0, 0, 0.06) 0 1px 2px 0;
+        }
+    }
+}
+
+.leaflet-control-container,
+.leaflet-retina {
+    .leaflet-control .leaflet-draw-toolbar a,
+    .leaflet-draw-toolbar a,
+    .leaflet-touch .leaflet-bar a,
+    .leaflet-draw-toolbar a:hover,
+    .leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-marker,
+    .leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-polygon,
+    .leaflet-touch .leaflet-draw-toolbar .leaflet-draw-edit-edit,
+    .leaflet-touch .leaflet-draw-toolbar .leaflet-draw-edit-remove,
+    .leaflet-layers-control .leaflet-layers {
+        align-items: center;
+        background-color: theme('colors.white');
+        color: theme('colors.pzh-blue.dark');
+        cursor: pointer;
+        display: flex;
+        position: relative;
+        height: 2rem;
+        justify-content: center;
+        width: 2rem;
+        background-image: none !important;
+        border: 0;
+
+        &.hidden {
+            display: none;
+        }
+
+        &:hover {
+            color: theme('colors.gray.700');
+        }
+
+        &:last-child {
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+            border-bottom-left-radius: 0.2rem;
+            border-bottom-right-radius: 0.2rem;
+        }
+
+        &:first-child {
+            border-top-left-radius: 0.2rem;
+            border-top-right-radius: 0.2rem;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+
+            &:last-child {
+                border-bottom-left-radius: 0.2rem;
+                border-bottom-right-radius: 0.2rem;
+            }
+        }
+
+        &:not(:first-child) {
+            &:after {
+                content: '';
+                position: absolute;
+                top: 0;
+                height: 1px;
+                width: 1.6rem;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            }
+        }
+
+        &.leaflet-draw-toolbar-button-enabled {
+            color: theme('colors.white');
+            background-color: theme('colors.pzh-blue.DEFAULT');
+        }
+    }
+
+    .leaflet-control {
+        .leaflet-draw-section {
+            &:not(:first-child) {
+                &:after {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0.2rem;
+                    height: 1px;
+                    width: 1.6rem;
+                    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+                }
+            }
+        }
+    }
+
+    .leaflet-top {
+        &.leaflet-left {
+            .leaflet-control {
+                margin-top: 1rem;
+                margin-left: 1rem;
+
+                &:not(:first-child) {
+                    margin-top: 0.5rem;
+                }
+            }
+        }
+
+        &.leaflet-right {
+            .leaflet-control {
+                margin-top: 1rem;
+                margin-right: 1rem;
+            }
+        }
+    }
+
+    .leaflet-bottom {
+        &.leaflet-left {
+            .leaflet-control {
+                margin-bottom: 1rem;
+                margin-left: 1rem;
+            }
+        }
+    }
+
+    .leaflet-touch
+        .leaflet-draw-toolbar.leaflet-bar
+        .leaflet-draw-edit-edit
+        svg,
+    .leaflet-touch
+        .leaflet-draw-toolbar.leaflet-bar
+        .leaflet-draw-edit-remove
+        svg {
+        height: 1.1rem;
+    }
+
+    .leaflet-bar a.leaflet-disabled,
+    .leaflet-touch
+        .leaflet-draw-toolbar.leaflet-bar
+        .leaflet-draw-edit-remove.leaflet-disabled {
+        display: none;
+    }
+
+    .leaflet-draw-actions {
+        // overwrite inline styling set by Leaflet :-(
+        left: 51px !important;
+    }
+
+    .leaflet-search {
+        align-items: center;
+        background-color: theme('colors.white');
+        color: theme('colors.pzh-blue.dark');
+        cursor: pointer;
+        display: flex;
+        position: relative;
+        height: 2rem;
+        justify-content: center;
+        min-width: 2rem;
+        background-image: none !important;
+        border: 0;
+        border-radius: 0.2rem;
+
+        &:hover {
+            color: theme('colors.gray.700');
+        }
+    }
+
+    .leaflet-zoom {
+        color: theme('colors.pzh-blue.dark');
+        border-radius: 0.2rem;
+
+        &:first-child {
+            &:after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                height: 1px;
+                width: 1.6rem;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            }
+        }
+
+        &:hover {
+            color: theme('colors.gray.700');
+        }
+    }
+}
+
+.leaflet-container {
+    width: 100%;
+    height: 100%;
+    background-color: theme('colors.white');
+
+    .leaflet-popup {
+        .leaflet-popup-content-wrapper {
+            border-radius: 0.25rem;
+            box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.3);
+
+            .leaflet-popup-content {
+                margin: 1rem 1.5rem;
+            }
+
+            a {
+                color: theme('colors.white');
+            }
+        }
+
+        .leaflet-popup-close-button {
+            padding: 1rem 1.5rem 0;
+            color: theme('colors.pzh-blue.dark');
+        }
+    }
+}
+
+.leaflet-advanced-search,
+#leaflet-homepage {
+    .leaflet-container {
+        .leaflet-interactive {
+            fill: #d32939;
+            fill-opacity: 0.1;
+            stroke: #d32939;
+            stroke-opacity: 1;
+        }
+
+        .leaflet-draw-guide-dash {
+            background-color: #d32939 !important;
+        }
+    }
+}
+
+.leaflet-map {
+    .leaflet-control-layers {
+        display: none;
+    }
+}
+
+.leaflet-bar a:last-child {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+#half-screen-leaflet-container {
+    padding-top: 70px;
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    width: 50vw;
+}
+
+#half-screen-leaflet {
+    position: absolute;
+    top: 70px;
+    height: calc(100vh - 70px);
+    right: 0px;
+}
+#full-screen-leaflet-container-false {
+    height: 500px;
+}
+#full-screen-leaflet-container-true {
+    height: 1000px;
+    max-height: 80vh;
+}
+#full-screen-leaflet {
+    height: 100%;
+}
+
+#leaflet-homepage .leaflet-control-container .leaflet-control-zoom {
+    position: absolute;
+    left: 0px;
+    bottom: 10px;
+}
+
+#leaflet-homepage .leaflet-control-container .leaflet-top.leaflet-left {
+    height: 100%;
+}
+
+#leaflet-preview-card {
+    .leaflet-interactive {
+        cursor: default;
+    }
+}
+
+.hide-leaflet-edit {
+    display: none !important;
+}
+
+.leaflet-control-layers-toggle {
+    width: auto;
+    background-position: 3px 50%;
+    padding: 3px;
+    padding-left: 36px;
+    text-decoration: none;
+    line-height: 36px;
+}
+
+.leaflet-control-layer-container {
+    margin-top: -1rem;
+    margin-right: -1rem;
+}

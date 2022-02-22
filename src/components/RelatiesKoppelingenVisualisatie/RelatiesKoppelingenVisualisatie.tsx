@@ -252,11 +252,7 @@ const RelatiesKoppelingenVisualisatie = ({
                     Verordeningen: 'verordeningen',
                 }
 
-                const path = `/detail/${slugs[property]}/${UUID}${
-                    location.pathname.includes('verordeningen')
-                        ? ''
-                        : '?fromPage=' + location.pathname
-                }`
+                const path = `/detail/${slugs[property]}/${UUID}`
 
                 return path
             }

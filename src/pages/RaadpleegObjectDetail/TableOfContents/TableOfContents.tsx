@@ -71,7 +71,7 @@ const TableOfContents = ({ display }: { display: 'block' | 'fixed' }) => {
                     <ul
                         className={
                             display === 'block'
-                                ? 'grid grid-cols-2 gap-x-10 gap-y-0 mt-2'
+                                ? 'grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-0 mt-2'
                                 : ''
                         }>
                         {h2Elements.map(el => (

@@ -7,10 +7,8 @@ import SearchBar from './SearchBar'
 
 describe('SearchBar', () => {
     const history = createMemoryHistory()
-    const placeholder = 'Zoek in het omgevingsbeleid'
     const defaultProps = {
         width: 'w-64',
-        placeholder: placeholder,
         compInNavigation: true,
     }
 
@@ -22,7 +20,7 @@ describe('SearchBar', () => {
             </Router>
         )
         const searchBar = screen.getByPlaceholderText(
-            'Zoek in het omgevingsbeleid'
+            'Zoek binnen het beleid van de provincie Zuid-Holland'
         ) as HTMLInputElement
         return { searchBar }
     }

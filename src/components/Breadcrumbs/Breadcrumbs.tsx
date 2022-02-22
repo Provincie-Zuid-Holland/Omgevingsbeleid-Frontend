@@ -20,13 +20,15 @@ function Breadcrumbs({ className, paths = [] }: BreadcrumbsProps) {
             <ol className="flex">
                 {paths.map((item, index) => {
                     return index === paths.length - 1 ? (
-                        <li className="inline-block">
+                        <li key={item.name} className="inline-block">
                             <Link aria-current="page" to={item.path}>
                                 {item.name}
                             </Link>
                         </li>
                     ) : (
-                        <li className="inline-block mr-2 font-bold">
+                        <li
+                            key={item.name}
+                            className="inline-block mr-2 font-bold">
                             <Link to={item.path}>{item.name}</Link>
                             <FontAwesomeIcon
                                 aria-hidden={true}

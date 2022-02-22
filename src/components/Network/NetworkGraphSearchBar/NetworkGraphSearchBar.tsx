@@ -89,7 +89,7 @@ const NetworkGraphSearchBar = ({
                     autoComplete="off"
                     onKeyDown={handleKeyDown}
                     disabled={clickedNode}
-                    className={`block w-full pl-10 px-4 pt-2 pb-1 leading-tight text-gray-700 border border-gray-200 rounded appearance-none focus:outline-none hover:border-gray-300 focus:border-gray-400 ${
+                    className={`block w-full pl-10 pr-24 md:pr-4 pt-2 pb-1 leading-tight text-gray-700 border border-gray-200 rounded appearance-none focus:outline-none hover:border-gray-300 focus:border-gray-400 ${
                         searchQuery !== '' && searchResultsOpen
                             ? 'rounded-b-none'
                             : ''

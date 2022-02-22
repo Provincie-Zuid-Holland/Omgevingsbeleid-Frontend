@@ -7,6 +7,7 @@ interface SearchBarPopupItemProps {
     dataIndex: number
     setSearchBarPopupOpen: (e: boolean) => void
     selectSearchQueryInput: () => void
+    callback?: () => void
 }
 
 function SearchBarPopupItem({
@@ -16,6 +17,7 @@ function SearchBarPopupItem({
     dataIndex,
     setSearchBarPopupOpen,
     selectSearchQueryInput,
+    callback,
 }: SearchBarPopupItemProps) {
     const focusItem = (type: 'previous' | 'next') => {
         const currentIndex = parseInt(
@@ -65,6 +67,9 @@ function SearchBarPopupItem({
                 to={href}
                 onClick={() => {
                     setSearchBarPopupOpen(false)
+                    if (callback) {
+                        callback()
+                    }
                 }}
                 onKeyDown={handleKeyDown}
                 data-index={filterItem ? dataIndex + 1 : dataIndex}>

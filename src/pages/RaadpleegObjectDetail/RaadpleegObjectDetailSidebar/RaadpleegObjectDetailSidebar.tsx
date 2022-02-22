@@ -26,14 +26,13 @@ const RaadpleegObjectDetailSidebar = ({
     revisionObjects,
 }: RaadpleegObjectDetailSidebarProps) => {
     const { id } = useParams<{ id: string }>()
-    const vigerendText = getVigerendText({ dataObject, prefix: true })
 
     return (
         <aside
             id="raadpleeg-detail-container-content"
             className="col-span-6 pt-4 xl:col-span-1 xl:pt-8">
             <BackButton className="hidden xl:block" />
-            <div className="flex justify-between xl:block">
+            <div className="flex flex-col justify-between md:items-center md:flex-row xl:block">
                 <div className="hidden xl:block">
                     <Text
                         type="span"
@@ -48,17 +47,16 @@ const RaadpleegObjectDetailSidebar = ({
                         {titleSingular}
                     </Text>
                 </div>
-                <div className="mt-4 sm:mt-0 xl:mt-4">
+                <div className="mt-0 xl:mt-4">
                     <Status status={dataObject.Status} />
-                    <Text
-                        type="span"
-                        color="text-pzh-blue-dark"
-                        className="block">
-                        {vigerendText}
-                    </Text>
+                    <span className="block text-pzh-blue-dark">
+                        {dataObject.Status && dataObject.Status !== 'Vigerend'
+                            ? dataObject.Status
+                            : getVigerendText({ dataObject, prefix: true })}
+                    </span>
                 </div>
                 {revisionObjects && revisionObjects.length > 0 ? (
-                    <div className="text-right xl:mt-4 xl:text-left">
+                    <div className="mt-4 text-left md:mt-0 xl:mt-4 md:text-right xl:text-left">
                         <Text
                             type="span"
                             className="hidden block font-bold xl:block"
@@ -84,7 +82,7 @@ const RaadpleegObjectDetailSidebar = ({
     )
 }
 
-const Status = ({ status = '' }) => {
+const Status = ({ status }: { status: undefined | string }) => {
     const [tippyOpen, setTippyOpen] = useState(false)
     const innerContainer = useRef(null)
 
@@ -97,7 +95,7 @@ const Status = ({ status = '' }) => {
             <Tippy
                 ref={innerContainer}
                 placement="left"
-                visible={tippyOpen}
+                visible={tippyOpen && typeof status === 'string'}
                 content={
                     <Link
                         onClick={() => setTippyOpen(false)}
@@ -119,9 +117,11 @@ const Status = ({ status = '' }) => {
                         color="text-pzh-blue-dark">
                         Status
                     </Text>
-                    <div className="inline-block ml-1 transition-colors duration-500 ease-in cursor-pointer text-pzh-dark-blue opacity-40 group-hover:opacity-80">
-                        <FontAwesomeIcon icon={faInfoCircle} />
-                    </div>
+                    {status ? (
+                        <div className="inline-block ml-1 transition-colors duration-500 ease-in cursor-pointer text-pzh-dark-blue opacity-40 group-hover:opacity-80">
+                            <FontAwesomeIcon icon={faInfoCircle} />
+                        </div>
+                    ) : null}
                 </div>
             </Tippy>
         </span>

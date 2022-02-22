@@ -1,0 +1,93 @@
+html {
+    height: 100%;
+    overflow: auto;
+    font-size: 20px; // Used for elements font-size
+    line-height: 1.5em; // A normal paragraphs line-height is 30px in the current design
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Karbon Regular', sans-serif;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+::-webkit-input-placeholder {
+    /* Chrome/Opera/Safari */
+    font-size: 18px;
+}
+::-moz-placeholder {
+    /* Firefox 19+ */
+    font-size: 18px;
+}
+:-ms-input-placeholder {
+    /* IE 10+ */
+    font-size: 18px;
+}
+:-moz-placeholder {
+    /* Firefox 18- */
+    font-size: 18px;
+}
+
+mark {
+    &.marked-purple,
+    &.marked-orange,
+    &.marked-red {
+        padding: 0px 2px;
+    }
+
+    &.marked-purple {
+        background-color: #dadae8;
+    }
+    &.marked-orange {
+        background-color: #f8f1da;
+    }
+    &.marked-red {
+        background-color: #f1dad9;
+    }
+}
+
+.form-input {
+    padding-top: 0.3rem;
+    padding-right: 0.6rem;
+    padding-bottom: 0.3rem;
+    padding-left: 0.6rem;
+}
+
+[data-tippy-root] {
+    .pzh-tippy {
+        background: none;
+        box-shadow: none;
+
+        .tippy-arrow {
+            z-index: 10;
+
+            &:before {
+                display: none;
+            }
+
+            &:after {
+                content: '';
+                position: absolute;
+                top: -2px;
+                left: 0;
+                right: 0;
+                margin: 0 auto;
+                width: 13px;
+                height: 13px;
+                background-color: theme('colors.white');
+                border-left: 1px solid theme('colors.gray.400');
+                border-top: 1px solid theme('colors.gray.400');
+                transform: rotate(45deg);
+            }
+        }
+    }
+}
+
+.pzh-btn {
+    font-size: 1rem;
+    font-family: 'Karbon Medium', sans-serif;
+    font-weight: 700;
+}

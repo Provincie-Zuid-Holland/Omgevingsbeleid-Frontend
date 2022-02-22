@@ -8,7 +8,7 @@ describe('LeafletMap', () => {
         const { container } = render(<LeafletMap {...props} />)
 
         const searchController = container.querySelector(
-            '#leaflet-search > div'
+            '.leaflet-search > div'
         ) as HTMLDivElement
 
         const drawController = container.querySelector(
@@ -19,7 +19,12 @@ describe('LeafletMap', () => {
             '.leaflet-layers-control'
         ) as HTMLDivElement
 
-        return { container, searchController, drawController, layerController }
+        return {
+            container,
+            searchController,
+            drawController,
+            layerController,
+        }
     }
 
     it('Component renders', () => {
@@ -52,7 +57,9 @@ describe('LeafletMap', () => {
     })
 
     it('Component renders with Draw controller', () => {
-        const { drawController } = setup({ controllers: { showDraw: true } })
+        const { drawController } = setup({
+            controllers: { showDraw: true },
+        })
 
         expect(drawController).toBeTruthy()
     })

@@ -24,7 +24,7 @@ function RevisieListItem({ item, currentUUID }: RevisieListItemProps) {
 
     return (
         <li
-            className={`bg-white ${
+            className={`bg-white pr-6 ${
                 isActive ? '' : 'hover:bg-pzh-blue hover:bg-opacity-5'
             }`}>
             <Link
@@ -52,7 +52,9 @@ function RevisieListItem({ item, currentUUID }: RevisieListItemProps) {
                 <span
                     className={`pl-6 inline-block text-sm ${
                         isActive ? 'font-bold' : ''
-                    }`}>{`${status} (${date})`}</span>
+                    }`}>{`${status} ${
+                    status === 'Ter inzage' ? '' : `(${date})`
+                }`}</span>
             </Link>
         </li>
     )
