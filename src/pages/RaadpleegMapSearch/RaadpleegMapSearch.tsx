@@ -53,7 +53,6 @@ const RaadpleegMapSearch = () => {
      * Set UUIDs of current location or area
      */
     const onDraw = async (callback: any) => {
-        console.log(callback)
         setSearchResults([])
         setUUIDs([])
         setSearchResultsLoading(true)
