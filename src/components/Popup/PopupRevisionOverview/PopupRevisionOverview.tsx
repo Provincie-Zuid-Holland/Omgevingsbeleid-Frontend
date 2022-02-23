@@ -213,9 +213,9 @@ const PopupRevisionOverview = ({
                     <div
                         className="container h-full p-6 mx-auto pointer-events-auto"
                         ref={innerContainer}>
-                        <div className="relative z-50 w-full h-full text-gray-700 bg-white rounded-md shadow-md">
+                        <div className="relative z-50 w-full h-full text-left text-gray-700 bg-white rounded-md shadow-md">
                             <div
-                                className="block w-full p-4 pb-0 text-left transition-shadow duration-200 ease-in bg-gray-100 md:p-6 lg:p-10 rounded-t-md"
+                                className="block w-full p-4 pb-0 text-left transition-shadow duration-200 ease-in bg-gray-100 md:p-6 md:pb-0 lg:p-6 lg:pb-0 rounded-t-md"
                                 id="revisionOverview-header">
                                 <div
                                     onClick={() => {
@@ -235,26 +235,29 @@ const PopupRevisionOverview = ({
                                     Vergelijk de versies van de Beleidskeuze “
                                     {dataObject.Titel}”.
                                 </p>
+                                <p className="mt-4 font-bold text-pzh-blue-dark">
+                                    Welke versies wil je vergelijken?
+                                </p>
                             </div>
                             <div
                                 id="revisionOverview-select-container"
-                                className="block w-full px-10 pt-5 pb-6 bg-gray-100 border-b border-gray-300">
+                                className="block w-full px-6 pt-2 pb-6 bg-gray-100 border-b border-gray-300">
                                 <div className="flex flex-col items-center justify-between lg:flex-row">
                                     <Select
-                                        className="w-full shadow lg:w-1/2 lg:mr-5"
+                                        className="w-full shadow lg:w-1/2 lg:mr-2"
                                         id={`revisie-from`}
                                         name="revisie-form-from"
                                         onChange={e => setLeftSelect(e?.value)}
                                         options={optionsLeft}
-                                        placeholder={`Selecteer een beleidskeuze...`}
+                                        placeholder={`Selecteer de oudere versie van de beleidskeuze`}
                                     />
                                     <Select
-                                        className="w-full mt-4 shadow lg:w-1/2 lg:mr-5 lg:mt-0"
-                                        id={`revisie-from`}
-                                        name="revisie-form-from"
+                                        className="w-full mt-4 shadow lg:w-1/2 lg:ml-2 lg:mt-0"
+                                        id={`revisie-to`}
+                                        name="revisie-form-to"
                                         onChange={e => setRightSelect(e?.value)}
                                         options={optionsRight}
-                                        placeholder={`Selecteer een beleidskeuze...`}
+                                        placeholder={`Selecteer de nieuwere versie van de beleidskeuze`}
                                     />
                                 </div>
                             </div>
