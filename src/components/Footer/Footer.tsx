@@ -39,7 +39,7 @@ function Footer({ className = '' }: FooterProps) {
     }, [])
 
     return (
-        <div
+        <footer
             className={`w-full bg-pzh-cool-gray-light bg-opacity-30 absolute bottom-0`}
             ref={footerRef}>
             <Container className={`pt-8 pb-16 md:pb-12 md:py-8 ${className}`}>
@@ -90,7 +90,7 @@ function Footer({ className = '' }: FooterProps) {
                     </div>
                 </div>
             </Container>
-        </div>
+        </footer>
     )
 }
 

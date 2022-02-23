@@ -3,7 +3,6 @@ import { faExternalLinkAlt } from '@fortawesome/pro-solid-svg-icons'
 import { Link } from 'react-router-dom'
 
 import { Container } from '@/components/Container'
-import Footer from '@/components/Footer'
 import Heading from '@/components/Heading'
 import Text from '@/components/Text'
 import {
@@ -329,8 +328,6 @@ const RaadpleegHome = () => {
                     </div>
                 </Container>
             </div>
-
-            <Footer />
         </>
     )
 }

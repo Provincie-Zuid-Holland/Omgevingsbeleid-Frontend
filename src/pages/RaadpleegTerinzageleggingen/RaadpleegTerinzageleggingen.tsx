@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom'
 
 import Button from '@/components/Button'
 import { Container } from '@/components/Container'
-import Footer from '@/components/Footer'
 import Heading from '@/components/Heading'
 import HorizontalDivider from '@/components/HorizontalDivider'
 import Text from '@/components/Text'
@@ -194,7 +193,6 @@ const RaadpleegTerinzageleggingen = () => (
                     </div>
                 </div>
             </Container>
-            <Footer />
         </div>
     </div>
 )

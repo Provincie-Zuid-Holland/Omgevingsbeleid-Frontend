@@ -24,10 +24,11 @@ import { ToastContainer } from 'react-toastify'
 
 import { getTokeninfo } from '@/api/fetchers'
 import { GetTokeninfo200Identifier } from '@/api/fetchers.schemas'
+import DNABar from '@/components/DNABar'
 import FeedbackComponent from '@/components/FeedbackComponent'
 import { LoaderContent } from '@/components/Loader'
-import Navigation from '@/components/Navigation'
 import { NetworkGraph } from '@/components/Network'
+import { BaseLayout } from '@/components/templates/BaseLayout'
 import useAdvancedSearchPage from '@/hooks/useAdvancedSearchPage'
 import useMuteerEnvironment from '@/hooks/useMuteerEnvironment'
 import ErrorPage from '@/pages/ErrorPage'
@@ -133,116 +134,125 @@ const App: FC<RouteComponentProps> = () => {
                         <title>Omgevingsbeleid - Provincie Zuid-Holland</title>
                     </Helmet>
 
-                    <Navigation loggedIn={loggedIn} />
-
-                    <ErrorBoundary FallbackComponent={ErrorPage}>
-                        {dataLoaded ? (
-                            <Suspense fallback={<LoaderContent />}>
-                                <Switch>
-                                    {/* Raadpleeg - The homepage where users can search for policies and regulations */}
-                                    <Route
-                                        path="/"
-                                        exact
-                                        component={RaadpleegHome}
-                                    />
-
-                                    {/* Raadpleeg - Result page for search */}
-                                    <Route
-                                        exact
-                                        path="/zoekresultaten"
-                                        component={RaadpleegSearchResults}
-                                    />
-
-                                    {/* Raadpleeg - Search on map page */}
-                                    <Route
-                                        exact
-                                        path="/zoeken-op-kaart"
-                                        component={RaadpleegMapSearch}
-                                    />
-
-                                    <Route
-                                        path={`/detail/verordening`}
-                                        render={() => <RaadpleegVerordening />}
-                                    />
-
-                                    {/* Raadpleeg - Overview and Detail pages for all the dimensions */}
-                                    {detailPages.map(item => (
+                    <BaseLayout loggedIn={loggedIn}>
+                        <ErrorBoundary FallbackComponent={ErrorPage}>
+                            {dataLoaded ? (
+                                <Suspense fallback={<LoaderContent />}>
+                                    <Switch>
+                                        {/* Raadpleeg - The homepage where users can search for policies and regulations */}
                                         <Route
-                                            key={item.slug}
-                                            path={`/detail/${item.slug}/:id`}
+                                            path="/"
+                                            exact
+                                            component={RaadpleegHome}
+                                        />
+
+                                        {/* Raadpleeg - Result page for search */}
+                                        <Route
+                                            exact
+                                            path="/zoekresultaten"
+                                            component={RaadpleegSearchResults}
+                                        />
+
+                                        {/* Raadpleeg - Search on map page */}
+                                        <Route
+                                            exact
+                                            path="/zoeken-op-kaart"
+                                            component={RaadpleegMapSearch}
+                                        />
+
+                                        <Route
+                                            path={`/detail/verordening`}
                                             render={() => (
-                                                <RaadpleegObjectDetail
-                                                    {...item}
+                                                <RaadpleegVerordening />
+                                            )}
+                                        />
+
+                                        {/* Raadpleeg - Overview and Detail pages for all the dimensions */}
+                                        {detailPages.map(item => (
+                                            <Route
+                                                key={item.slug}
+                                                path={`/detail/${item.slug}/:id`}
+                                                render={() => (
+                                                    <RaadpleegObjectDetail
+                                                        {...item}
+                                                    />
+                                                )}
+                                            />
+                                        ))}
+                                        {/* Raadpleeg - Overview and Detail pages for all the dimensions */}
+                                        {detailPages.map(item => (
+                                            <Route
+                                                key={item.slug}
+                                                path={`/overzicht/${item.slug}`}
+                                                render={() => (
+                                                    <RaadpleegUniversalObjectOverview
+                                                        {...item}
+                                                        dataEndpoint={
+                                                            item.dataValidEndpoint
+                                                        }
+                                                    />
+                                                )}
+                                            />
+                                        ))}
+
+                                        <Route
+                                            path="/login"
+                                            render={() => (
+                                                <Login
+                                                    setLoginUser={setUser}
+                                                    setLoginState={setLoggedIn}
                                                 />
                                             )}
                                         />
-                                    ))}
-                                    {/* Raadpleeg - Overview and Detail pages for all the dimensions */}
-                                    {detailPages.map(item => (
                                         <Route
-                                            key={item.slug}
-                                            path={`/overzicht/${item.slug}`}
+                                            path="/logout"
                                             render={() => (
-                                                <RaadpleegUniversalObjectOverview
-                                                    {...item}
-                                                    dataEndpoint={
-                                                        item.dataValidEndpoint
-                                                    }
+                                                <Logout
+                                                    setLoginState={setLoggedIn}
                                                 />
                                             )}
                                         />
-                                    ))}
+                                        <Route
+                                            path="/planning-en-releases"
+                                            render={() => (
+                                                <RaadpleegPlanningAndReleases />
+                                            )}
+                                        />
+                                        <Route
+                                            path="/digi-toegankelijkheid"
+                                            render={() => (
+                                                <RaadpleegDigiToegankelijkheid />
+                                            )}
+                                        />
+                                        <Route
+                                            path="/in-bewerking"
+                                            render={() => (
+                                                <RaadpleegInProgress />
+                                            )}
+                                        />
+                                        <Route
+                                            path="/netwerkvisualisatie"
+                                            component={NetworkGraph}
+                                        />
 
-                                    <Route
-                                        path="/login"
-                                        render={() => (
-                                            <Login
-                                                setLoginUser={setUser}
-                                                setLoginState={setLoggedIn}
-                                            />
-                                        )}
-                                    />
-                                    <Route
-                                        path="/logout"
-                                        render={() => (
-                                            <Logout
-                                                setLoginState={setLoggedIn}
-                                            />
-                                        )}
-                                    />
-                                    <Route
-                                        path="/planning-en-releases"
-                                        render={() => (
-                                            <RaadpleegPlanningAndReleases />
-                                        )}
-                                    />
-                                    <Route
-                                        path="/digi-toegankelijkheid"
-                                        render={() => (
-                                            <RaadpleegDigiToegankelijkheid />
-                                        )}
-                                    />
-                                    <Route
-                                        path="/in-bewerking"
-                                        render={() => <RaadpleegInProgress />}
-                                    />
-                                    <Route
-                                        path="/netwerkvisualisatie"
-                                        component={NetworkGraph}
-                                    />
-
-                                    <AuthRoutes
-                                        authUser={user}
-                                        loggedIn={loggedIn}
-                                    />
-                                </Switch>
-                            </Suspense>
-                        ) : (
-                            <LoaderContent />
+                                        <AuthRoutes
+                                            authUser={user}
+                                            loggedIn={loggedIn}
+                                        />
+                                    </Switch>
+                                </Suspense>
+                            ) : (
+                                <LoaderContent />
+                            )}
+                        </ErrorBoundary>
+                        <ToastContainer limit={1} position="bottom-left" />
+                        {!isAdvancedSearchPage && (
+                            <>
+                                <DNABar />
+                                <FeedbackComponent />
+                            </>
                         )}
-                    </ErrorBoundary>
-                    <ToastContainer limit={1} position="bottom-left" />
-                    {!isAdvancedSearchPage && <FeedbackComponent />}
+                    </BaseLayout>
                 </div>
             </QueryClientProvider>
         </UserContext.Provider>

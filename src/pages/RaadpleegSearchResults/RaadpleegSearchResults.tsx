@@ -9,7 +9,6 @@ import {
 import { getSearch, getSearchGeo } from '@/api/fetchers'
 import { GetSearch200Item } from '@/api/fetchers.schemas'
 import Container from '@/components/Container/Container'
-import Footer from '@/components/Footer'
 import Heading from '@/components/Heading'
 import { LoaderCard } from '@/components/Loader'
 import Pagination from '@/components/Pagination'
@@ -217,7 +216,6 @@ const RaadpleegSearchResults = () => {
                     ) : null}
                 </div>
             </Container>
-            <Footer />
         </>
     )
 }

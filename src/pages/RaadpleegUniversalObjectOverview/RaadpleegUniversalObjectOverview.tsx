@@ -5,7 +5,6 @@ import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
 
 import { Container } from '@/components/Container'
-import Footer from '@/components/Footer'
 import Heading from '@/components/Heading'
 import { LoaderCard, LoaderSpinner } from '@/components/Loader'
 import Text from '@/components/Text'
@@ -35,7 +34,7 @@ function RaadpleegUniversalObjectOverview({
 
     return (
         <div>
-            <Container className="pb-16">
+            <Container className="pb-16 mb-8">
                 <div className="col-span-6 sm:col-span-1">
                     <Link
                         to="/"
@@ -100,7 +99,6 @@ function RaadpleegUniversalObjectOverview({
                     </div>
                 </div>
             </Container>
-            <Footer className="mt-8" />
         </div>
     )
 }

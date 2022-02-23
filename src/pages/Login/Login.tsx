@@ -3,7 +3,6 @@ import { useWindowSize } from 'react-use'
 
 import { GebruikersRead } from '@/api/fetchers.schemas'
 import { Container } from '@/components/Container'
-import Footer from '@/components/Footer'
 import Heading from '@/components/Heading'
 import LoginForm from '@/components/LoginForm'
 import Text from '@/components/Text'
@@ -90,7 +89,6 @@ const Login = ({ setLoginUser, setLoginState }: LoginProps) => {
                     </Text>
                 </div>
             </Container>
-            <Footer />
         </>
     )
 }

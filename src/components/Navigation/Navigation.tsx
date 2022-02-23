@@ -17,7 +17,6 @@ import hideBannerLocalStorage from '@/utils/hideBannerLocalStorage'
 
 import BannerEnvironment from '../BannerEnvironment'
 import { Container } from '../Container'
-import DNABar from '../DNABar'
 import NavigationPopupMenu from '../NavigationPopupMenu'
 
 /**
@@ -42,81 +41,78 @@ const Navigation = ({ loggedIn }: NavigationProps) => {
     const isMobile = windowSize.width <= 640
 
     return (
-        <div>
-            <nav
-                className={classNames({
-                    'top-0 z-20 w-full sm:border-b': true,
-                    fixed: !isAdvancedSearchPage,
-                    relative: isAdvancedSearchPage,
-                    'bg-pzh-blue': isOpen,
-                    'bg-white': !isOpen,
-                })}
-                id="navigation-main">
-                <BannerEnvironment
-                    hideBannerLocalStorage={hideBannerLocalStorage}
-                    userIsInMuteerEnvironment={userIsInMuteerEnvironment}
-                />
+        <nav
+            className={classNames({
+                'top-0 z-20 w-full sm:border-b': true,
+                fixed: !isAdvancedSearchPage,
+                relative: isAdvancedSearchPage,
+                'bg-pzh-blue': isOpen,
+                'bg-white': !isOpen,
+            })}
+            id="navigation-main">
+            <BannerEnvironment
+                hideBannerLocalStorage={hideBannerLocalStorage}
+                userIsInMuteerEnvironment={userIsInMuteerEnvironment}
+            />
 
-                <Container>
-                    {/* Logo */}
-                    <div className="col-span-4 my-auto sm:col-span-3">
-                        <Link
-                            id="href-naar-home"
-                            to={loggedIn ? '/muteer/dashboard' : '/'}
-                            className="relative z-10"
-                            style={
-                                isMobile
-                                    ? { marginLeft: '-2rem' }
-                                    : { marginLeft: '-96px' }
-                            }
-                            onClick={() => {
-                                setIsOpen(false)
-                            }}>
-                            <Logo isOpen={isOpen} />
-                        </Link>
-                    </div>
+            <Container>
+                {/* Logo */}
+                <div className="col-span-4 my-auto sm:col-span-3">
+                    <Link
+                        id="href-naar-home"
+                        to={loggedIn ? '/muteer/dashboard' : '/'}
+                        className="relative z-10"
+                        style={
+                            isMobile
+                                ? { marginLeft: '-2rem' }
+                                : { marginLeft: '-96px' }
+                        }
+                        onClick={() => {
+                            setIsOpen(false)
+                        }}>
+                        <Logo isOpen={isOpen} />
+                    </Link>
+                </div>
 
-                    {/* Buttons to toggle popup menu */}
-                    <div className="flex items-center justify-end col-span-2 my-auto sm:col-span-3">
-                        {loggedIn && !isOpen && userIsInMuteerEnvironment ? (
-                            <MenuIcon
-                                setIsOpen={setIsOpen}
-                                to="/"
-                                icon={faEye}
-                                className="mr-2">
-                                Raadplegen
-                            </MenuIcon>
-                        ) : null}
-                        {loggedIn && !isOpen && !userIsInMuteerEnvironment ? (
-                            <MenuIcon
-                                setIsOpen={setIsOpen}
-                                to="/muteer/dashboard"
-                                icon={faEye}
-                                className="mr-2">
-                                Bewerken
-                            </MenuIcon>
-                        ) : null}
-
-                        {!loggedIn && !isOpen ? (
-                            <MenuIcon
-                                setIsOpen={setIsOpen}
-                                to="/login"
-                                icon={faSignIn}
-                                className="mr-2"
-                                Label={isMobile ? null : 'Inloggen'}
-                            />
-                        ) : null}
-
-                        <NavigationPopupMenu
-                            showBanner={showBanner}
-                            isOpen={isOpen}
+                {/* Buttons to toggle popup menu */}
+                <div className="flex items-center justify-end col-span-2 my-auto sm:col-span-3">
+                    {loggedIn && !isOpen && userIsInMuteerEnvironment ? (
+                        <MenuIcon
                             setIsOpen={setIsOpen}
+                            to="/"
+                            icon={faEye}
+                            className="mr-2">
+                            Raadplegen
+                        </MenuIcon>
+                    ) : null}
+                    {loggedIn && !isOpen && !userIsInMuteerEnvironment ? (
+                        <MenuIcon
+                            setIsOpen={setIsOpen}
+                            to="/muteer/dashboard"
+                            icon={faEye}
+                            className="mr-2">
+                            Bewerken
+                        </MenuIcon>
+                    ) : null}
+
+                    {!loggedIn && !isOpen ? (
+                        <MenuIcon
+                            setIsOpen={setIsOpen}
+                            to="/login"
+                            icon={faSignIn}
+                            className="mr-2"
+                            Label={isMobile ? null : 'Inloggen'}
                         />
-                    </div>
-                </Container>
-            </nav>
-            {!isAdvancedSearchPage && <DNABar />}
-        </div>
+                    ) : null}
+
+                    <NavigationPopupMenu
+                        showBanner={showBanner}
+                        isOpen={isOpen}
+                        setIsOpen={setIsOpen}
+                    />
+                </div>
+            </Container>
+        </nav>
     )
 }
 

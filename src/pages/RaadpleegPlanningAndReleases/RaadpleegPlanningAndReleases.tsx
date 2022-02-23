@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { FC, useState } from 'react'
 
 import { Container } from '@/components/Container'
-import Footer from '@/components/Footer'
 import Heading from '@/components/Heading'
 import HorizontalDivider from '@/components/HorizontalDivider'
 import Text from '@/components/Text'
@@ -119,7 +118,6 @@ const RaadpleegPlanningAndReleases = () => (
             </Text>
             <ReleaseList releases={releases} />
         </Container>
-        <Footer />
     </div>
 )
 
