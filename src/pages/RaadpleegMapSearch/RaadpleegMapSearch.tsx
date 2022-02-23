@@ -2,7 +2,7 @@ import { Map, point } from 'leaflet'
 import Proj from 'proj4leaflet'
 import { useEffect, useMemo, useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import { useEffectOnce, useMedia } from 'react-use'
+import { useEffectOnce, useMedia, useUpdateEffect } from 'react-use'
 
 import { getWerkingsGebieden } from '@/api/axiosGeoJSON'
 import { getSearchGeo } from '@/api/fetchers'
@@ -53,6 +53,7 @@ const RaadpleegMapSearch = () => {
      * Set UUIDs of current location or area
      */
     const onDraw = async (callback: any) => {
+        console.log(callback)
         setSearchResults([])
         setUUIDs([])
         setSearchResultsLoading(true)
@@ -110,7 +111,7 @@ const RaadpleegMapSearch = () => {
     /**
      * If URL contains searchOpen=true open the results sidebar.
      */
-    useEffect(() => {
+    useUpdateEffect(() => {
         if (paramSearchOpen === 'true') {
             setSearchOpen(true)
             mapInstance?.closePopup()
@@ -119,7 +120,11 @@ const RaadpleegMapSearch = () => {
             setSearchOpen(false)
         }
 
-        if (paramSearchOpen === 'true' && UUIDs.length) {
+        if (
+            paramSearchOpen === 'true' &&
+            UUIDs.length &&
+            !paramWerkingsgebied
+        ) {
             getSearchResults(UUIDs)
         }
 
