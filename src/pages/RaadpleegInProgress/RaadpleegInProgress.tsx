@@ -124,7 +124,6 @@ function RaadpleegInProgress() {
                             buttonText="Inspraak"
                             panelText="De provincie legt haar beleid vervolgens ter inzage voor een periode van zes weken. Tijdens deze periode kan iedereen officieel een reactie geven op de wijzigingen in het provinciaal beleid. Die reactie noemen we een zienswijze. Zienswijzen worden meestal ingediend door andere gemeenten, waterschappen, bedrijven en belangenorganisaties, maar ook inwoners kunnen hun mening geven."
                         />
-                        <InspraakNotification />
                         <Dropdown
                             buttonText="Definitief ontwerp Gedeputeerde Staten (GS)"
                             panelText="Na de terinzagelegging wordt antwoord gegeven op alle binnengekomen zienswijzen. De zienswijzen kunnen daarnaast aanleiding zijn om de wijzigingen in het provinciaal beleid nogmaals tegen het licht te houden of eventuele fouten te corrigeren. De definitieve versie wordt vervolgens besproken in de vergadering van de Gedeputeerde Staten."
@@ -171,9 +170,8 @@ function RaadpleegInProgress() {
                             buttonText="Inspraak"
                             panelText="De provincie legt haar beleid vervolgens ter inzage voor een periode van zes weken. Tijdens deze periode kan iedereen officieel een reactie geven over de wijzigingen in het provinciaal beleid. Die reactie noemen we een zienswijze. Zienswijzen worden meestal ingediend door andere gemeenten, waterschappen, bedrijven en belangenorganisaties, maar ook inwoners kunnen hun mening geven."
                         />
-                        <InspraakNotification />
                         <Dropdown
-                            buttonText="Definitief ontwerp Provinciale Staten (PS)"
+                            buttonText="Definitief ontwerp Gedeputeerde Staten (GS)"
                             panelText="Na de terinzagelegging wordt antwoord gegeven op eventuele vragen die in de zienswijzen zijn gesteld. De zienswijzen kunnen daarnaast aanleiding zijn om de wijzigingen in het provinciaal beleid nogmaals tegen het licht te houden of eventuele fouten te corrigeren. De definitieve versie wordt vervolgens besproken in de vergadering van de Gedeputeerde Staten."
                         />
                         <Dropdown
@@ -187,13 +185,6 @@ function RaadpleegInProgress() {
         </div>
     )
 }
-
-const InspraakNotification = () => (
-    <div className="px-5 py-2 mt-2 text-sm">
-        <FontAwesomeIcon className={`mr-2`} icon={faClock} />
-        <span>Een ontwerp ligt minimaal 6 weken ter inspraak</span>
-    </div>
-)
 
 const Dropdown = ({
     buttonText,
