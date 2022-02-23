@@ -88,11 +88,11 @@ function RaadpleegObjectDetailNewVersionNotification({
             ) : isValidAndArchived ? (
                 <span>
                     Let op, er is een nieuwe versie van deze beleidskeuze
-                    vastgesteld
+                    vastgesteld{' '}
                     <Link
                         className="underline"
                         to={`/detail/beleidskeuzes/${Effective_Version}`}>
-                        bekijk hier de ontwerpversie
+                        bekijk hier de vigerende versie
                     </Link>
                 </span>
             ) : isValidButNewPublicDraftAvailable ? (
