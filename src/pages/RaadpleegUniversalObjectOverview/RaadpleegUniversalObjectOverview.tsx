@@ -1,6 +1,7 @@
 import { faAngleRight } from '@fortawesome/pro-light-svg-icons'
 import { faArrowLeft } from '@fortawesome/pro-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
 
@@ -25,6 +26,7 @@ function RaadpleegUniversalObjectOverview({
     dataModel,
     dataEndpoint,
 }: RaadpleegUniversalObjectOverviewProps) {
+    const [filterQuery, setFilterQuery] = useState('')
     const { isLoading, data: allObjects } = useQuery(
         dataModel.API_ENDPOINT_VIGEREND || '',
         () =>
@@ -32,6 +34,24 @@ function RaadpleegUniversalObjectOverview({
                 data.sort((a, b) => a.Titel!.localeCompare(b.Titel!))
             )
     )
+
+    const getFilteredLength = (items: typeof allObjects) => {
+        if (!items) {
+            return 0
+        } else if (filterQuery === '') {
+            return items.length
+        } else {
+            return items
+                .map(e => {
+                    return { Titel: e.Titel }
+                })
+                .filter((item: any) =>
+                    item.Titel.toLowerCase().includes(filterQuery.toLowerCase())
+                ).length
+        }
+    }
+
+    const filteredLength = getFilteredLength(allObjects)
 
     return (
         <div>
@@ -52,11 +72,23 @@ function RaadpleegUniversalObjectOverview({
                         {dataModel.DESCRIPTION}
                     </Text>
                     <div className="mt-8">
-                        <div className="flex flex-col justify-between sm:flex-row">
+                        {!isLoading && allObjects && allObjects?.length > 25 ? (
+                            <div>
+                                <input
+                                    className="w-full px-4 py-1 placeholder-gray-500 transition-colors duration-100 ease-in border rounded appearance-none hover:border-opacity-50 border-pzh-blue border-opacity-30"
+                                    value={filterQuery}
+                                    onChange={e =>
+                                        setFilterQuery(e.target.value)
+                                    }
+                                    placeholder={`Filter de ${dataModel.TITLE_PLURAL.toLowerCase()}`}
+                                />
+                            </div>
+                        ) : null}
+                        <div className="flex flex-col justify-between mt-4 sm:flex-row">
                             <Heading level="3">
                                 {isLoading
                                     ? `De ${dataModel.TITLE_PLURAL.toLowerCase()} worden geladen`
-                                    : `De ${allObjects?.length} ${dataModel.TITLE_PLURAL}`}
+                                    : `De ${filteredLength} ${dataModel.TITLE_PLURAL}`}
                                 {isLoading ? (
                                     <LoaderSpinner className="ml-2" />
                                 ) : null}
@@ -79,22 +111,32 @@ function RaadpleegUniversalObjectOverview({
                                     <LoaderCard height="25" />
                                 </div>
                             ) : (
-                                allObjects?.map((obj, index) => (
-                                    <li
-                                        key={index}
-                                        className="flex items-start py-1 transition-colors duration-100 ease-in text-pzh-blue hover:text-pzh-blue-dark">
-                                        <FontAwesomeIcon
-                                            icon={faAngleRight}
-                                            className="relative mr-2 text-lg"
-                                            style={{ marginTop: '0.1rem' }}
-                                        />
-                                        <Link
-                                            to={`/detail/${dataModel.SLUG_OVERVIEW}/${obj.UUID}`}
-                                            className="underline underline-thin">
-                                            {obj.Titel}
-                                        </Link>
-                                    </li>
-                                ))
+                                allObjects
+                                    ?.map(obj => ({
+                                        Titel: obj.Titel,
+                                        UUID: obj.UUID,
+                                    }))
+                                    ?.filter((item: any) =>
+                                        item.Titel.toLowerCase().includes(
+                                            filterQuery.toLowerCase()
+                                        )
+                                    )
+                                    ?.map((obj, index) => (
+                                        <li
+                                            key={index}
+                                            className="flex items-start py-1 transition-colors duration-100 ease-in text-pzh-blue hover:text-pzh-blue-dark">
+                                            <FontAwesomeIcon
+                                                icon={faAngleRight}
+                                                className="relative mr-2 text-lg"
+                                                style={{ marginTop: '0.1rem' }}
+                                            />
+                                            <Link
+                                                to={`/detail/${dataModel.SLUG_OVERVIEW}/${obj.UUID}`}
+                                                className="underline underline-thin">
+                                                {obj.Titel}
+                                            </Link>
+                                        </li>
+                                    ))
                             )}
                         </ul>
                     </div>
