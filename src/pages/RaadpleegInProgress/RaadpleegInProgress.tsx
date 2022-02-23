@@ -1,4 +1,3 @@
-import { faClock } from '@fortawesome/pro-regular-svg-icons'
 import { faPlus } from '@fortawesome/pro-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Disclosure } from '@headlessui/react'
