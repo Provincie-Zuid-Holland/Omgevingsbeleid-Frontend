@@ -31,7 +31,9 @@ function RaadpleegUniversalObjectOverview({
         dataModel.API_ENDPOINT_VIGEREND || '',
         () =>
             dataEndpoint().then(data =>
-                data.sort((a, b) => a.Titel!.localeCompare(b.Titel!))
+                data
+                    .map(({ Titel, UUID }) => ({ Titel, UUID }))
+                    .sort((a, b) => a.Titel!.localeCompare(b.Titel!))
             )
     )
 
@@ -41,13 +43,11 @@ function RaadpleegUniversalObjectOverview({
         } else if (filterQuery === '') {
             return items.length
         } else {
-            return items
-                .map(e => {
-                    return { Titel: e.Titel }
-                })
-                .filter((item: any) =>
+            return items.filter(
+                item =>
+                    item.Titel &&
                     item.Titel.toLowerCase().includes(filterQuery.toLowerCase())
-                ).length
+            ).length
         }
     }
 
@@ -112,10 +112,6 @@ function RaadpleegUniversalObjectOverview({
                                 </div>
                             ) : (
                                 allObjects
-                                    ?.map(obj => ({
-                                        Titel: obj.Titel,
-                                        UUID: obj.UUID,
-                                    }))
                                     ?.filter((item: any) =>
                                         item.Titel.toLowerCase().includes(
                                             filterQuery.toLowerCase()
