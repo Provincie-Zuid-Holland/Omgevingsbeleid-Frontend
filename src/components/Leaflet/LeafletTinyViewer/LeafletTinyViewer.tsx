@@ -32,6 +32,7 @@ const LeafletTinyViewer = ({
             zoom: 5,
             boundsOptions: { padding: [100, 100] },
         }}
+        controllers={{ showLayers: false }}
         id="leaflet-tiny-viewer">
         <LeafletTinyViewerInner
             fullscreen={fullscreen}
@@ -67,7 +68,7 @@ const LeafletTinyViewerInner = ({
     const initializeComponent = () => {
         Promise.all([
             getGeoJsonData(gebiedType, gebiedUUID, { signal }),
-            getOnderverdeling(gebiedType, gebiedUUID),
+            getOnderverdeling(gebiedUUID),
         ])
             .then(responses => {
                 const geoJsonData = responses[0]

@@ -1,70 +1,43 @@
 import 'leaflet-draw/dist/leaflet.draw-src.css'
 import 'leaflet-draw'
 
-import leaflet, { Control, ControlPosition } from 'leaflet'
-import Proj from 'proj4leaflet'
+import leaflet, { Control, ControlPosition, Point } from 'leaflet'
 import { useEffect, useState } from 'react'
-import ReactDOMServer from 'react-dom/server'
-import { FeatureGroup } from 'react-leaflet'
-import { toast } from 'react-toastify'
+import { FeatureGroup, useMap } from 'react-leaflet'
+import { useHistory } from 'react-router-dom'
 
-import { getAddressData } from '@/api/axiosLocatieserver'
-import { RDProj4, leafletBounds, icons } from '@/constants/leaflet'
+import { icons } from '@/constants/leaflet'
+import markerIcon from '@/images/marker.svg'
 
 import { createControlComponent } from '../LeafletController'
-
-// @ts-ignore
-const RDProjection = new Proj.Projection('EPSG:28992', RDProj4, leafletBounds)
+import { createCustomPopup } from '../utils'
 
 // @ts-ignore
 delete leaflet.Icon.Default.prototype._getIconUrl
 
 leaflet.Icon.Default.mergeOptions({
-    iconRetinaUrl:
-        'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/images/marker-icon.png',
-    iconUrl:
-        'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/images/marker-icon.png',
-    shadowUrl:
-        'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/images/marker-shadow.png',
+    iconRetinaUrl: markerIcon,
+    iconUrl: markerIcon,
+    shadowUrl: null,
 })
 
 const LEAFLET_MARKER_CLASS = 'leaflet-draw-draw-marker'
 const LEAFLET_EDIT_CLASS = 'leaflet-draw-edit-edit'
 const LEAFLET_REMOVE_CLASS = 'leaflet-draw-edit-remove'
+const LEAFLET_POLYGON_CLASS = 'leaflet-draw-draw-polygon'
 const LEAFLET_HIDE_CLASS = 'hide-leaflet-edit'
 
 interface LeafletDrawProps {
     position?: ControlPosition
+    onDraw?: (callback: any) => void
 }
 
-const LeafletDraw = ({ position = 'topleft' }: LeafletDrawProps) => {
+const LeafletDraw = ({ position = 'topleft', onDraw }: LeafletDrawProps) => {
+    const map = useMap()
+    const history = useHistory()
     const [currentLayerType, setCurrentLayerType] = useState<string | null>(
         null
     )
-
-    /**
-     * Function that creates a custom popup with the parameters lat, lng and layer.
-     */
-    const createCustomPopup = async (lat: number, lng: number, layer: any) => {
-        layer.bindPopup('Adres aan het laden...').openPopup()
-
-        await getAddressData(lat.toString(), lng.toString())
-            .then(data => {
-                const customPopupHTML = `<div>${ReactDOMServer.renderToString(
-                    <CreateCustomPopup
-                        weergavenaam={data.weergavenaam}
-                        lat={lat}
-                        lng={lng}
-                        point={RDProjection.project({ lat: lat, lng: lng })}
-                    />
-                )}</div>`
-                layer._popup.setContent(customPopupHTML)
-            })
-            .catch(function (err) {
-                console.log(err)
-                toast(process.env.REACT_APP_ERROR_MSG)
-            })
-    }
 
     const onCreated = (e: any) => {
         const type = e.layerType
@@ -73,7 +46,27 @@ const LeafletDraw = ({ position = 'topleft' }: LeafletDrawProps) => {
 
         if (type === 'marker') {
             // Do marker specific actions
-            createCustomPopup(e.layer._latlng.lat, e.layer._latlng.lng, e.layer)
+            createCustomPopup(
+                map,
+                history,
+                e.layer._latlng.lat,
+                e.layer._latlng.lng,
+                e.layer,
+                'marker',
+                onDraw
+            )
+        } else if (type === 'polygon') {
+            // Do polygon specific actions
+            const { lat, lng } = e.layer._map.getBounds().getCenter()
+            createCustomPopup(
+                map,
+                history,
+                lat,
+                lng,
+                e.layer,
+                'polygon',
+                onDraw
+            )
         }
     }
 
@@ -87,6 +80,9 @@ const LeafletDraw = ({ position = 'topleft' }: LeafletDrawProps) => {
         const thrashEl = document.getElementsByClassName(LEAFLET_REMOVE_CLASS)
         thrashEl[0].innerHTML = icons.remove
 
+        const polygonEl = document.getElementsByClassName(LEAFLET_POLYGON_CLASS)
+        polygonEl[0].innerHTML = icons.polygon
+
         if (currentLayerType === 'marker') {
             editEl[0].classList.add(LEAFLET_HIDE_CLASS)
         } else {
@@ -96,69 +92,38 @@ const LeafletDraw = ({ position = 'topleft' }: LeafletDrawProps) => {
 
     return (
         <FeatureGroup>
-            <EditControl position={position} onCreated={onCreated} />
+            <EditControl
+                position={position}
+                onCreated={onCreated}
+                onDeleted={(e: any) => console.log(e)}
+            />
         </FeatureGroup>
     )
 }
+
+const customMarker = leaflet.Icon.extend({
+    options: {
+        shadowUrl: null,
+        iconAnchor: new Point(15, 15),
+        iconSize: new Point(30, 30),
+        iconUrl: markerIcon,
+    },
+})
 
 const EditControl = createControlComponent(
     (options: Control.DrawConstructorOptions) =>
         new Control.Draw({
             ...options,
             draw: {
-                polygon: false,
                 circle: false,
                 rectangle: false,
                 polyline: false,
                 circlemarker: false,
+                marker: {
+                    icon: new customMarker(),
+                },
             },
         })
-)
-
-/**
- * Function to create a custom Popup
- *
- * @param {array} weergavenaam - Parameter used to show a string weergavenaam.
- * @param {Float} lat - Parameter used as a latitude value for the GPS location.
- * @param {float} lng - Paramter used as a longitude value for the GPS location.
- * @param {object} point - Parameter that is used in a url to show a certain location based on the parameters lat and lng.
- */
-
-interface CreateCustomPopupProps {
-    weergavenaam: string
-    lat: number
-    lng: number
-    point: {
-        x: number
-        y: number
-    }
-}
-
-const CreateCustomPopup = ({
-    weergavenaam,
-    lat,
-    lng,
-    point,
-}: CreateCustomPopupProps) => (
-    <div className="text-sm custom-popup">
-        <span className="block font-bold">Gemarkeerde Locatie</span>
-        <ul className="mt-1 mb-4 text-xs">
-            <li>{weergavenaam.split(',')[0]}</li>
-            <li>{weergavenaam.split(',')[1]}</li>
-            <li>
-                GPS Locatie: {lat.toFixed(7)}, {lng.toFixed(7)}
-            </li>
-        </ul>
-        <a
-            href={`/zoekresultaten?geoQuery=${point.x.toFixed(
-                2
-            )}+${point.y.toFixed(2)}&LatLng=${lat.toFixed(7)}-${lng.toFixed(
-                7
-            )}`}
-            className="inline-block p-2 text-white rounded cursor-pointer bg-pzh-blue hover:bg-blue-600 focus:outline-none focus:ring">
-            Bekijk provinciaal beleid van deze locatie
-        </a>
-    </div>
 )
 
 // @ts-ignore
@@ -169,11 +134,11 @@ leaflet.drawLocal = {
             // ex: actions.undo  or actions.cancel
             actions: {
                 title: 'Annuleren',
-                text: 'Klik op de kaart om de marker te plaatsen',
+                text: 'Annuleren',
             },
             finish: {
-                title: 'Klik op de kaart om de marker te plaatsen',
-                text: 'Klik op de kaart om de marker te plaatsen',
+                title: 'Gereed',
+                text: 'Gereed',
             },
             undo: {
                 title: 'Ongedaan maken',
@@ -181,7 +146,7 @@ leaflet.drawLocal = {
             },
             buttons: {
                 polyline: '',
-                polygon: '',
+                polygon: 'Klik op de kaart om een gebied te tekenen',
                 rectangle: '',
                 circle: '',
                 marker: 'Klik op de kaart om de marker te plaatsen',
@@ -263,7 +228,7 @@ leaflet.drawLocal = {
             },
             remove: {
                 tooltip: {
-                    text: 'Click op een marker om deze te verwijderen',
+                    text: 'Klik op een marker om deze te verwijderen',
                 },
             },
         },

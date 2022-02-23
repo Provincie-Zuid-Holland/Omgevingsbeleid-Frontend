@@ -1,5 +1,6 @@
 import './appConfig'
 
+import classNames from 'classnames'
 import {
     Suspense,
     lazy,
@@ -27,12 +28,14 @@ import FeedbackComponent from '@/components/FeedbackComponent'
 import { LoaderContent } from '@/components/Loader'
 import Navigation from '@/components/Navigation'
 import { NetworkGraph } from '@/components/Network'
+import useAdvancedSearchPage from '@/hooks/useAdvancedSearchPage'
 import useMuteerEnvironment from '@/hooks/useMuteerEnvironment'
 import ErrorPage from '@/pages/ErrorPage'
 import Login from '@/pages/Login'
 import RaadpleegDigiToegankelijkheid from '@/pages/RaadpleegDigiToegankelijkheid'
 import RaadpleegHome from '@/pages/RaadpleegHome'
 import RaadpleegInProgress from '@/pages/RaadpleegInProgress'
+import RaadpleegMapSearch from '@/pages/RaadpleegMapSearch'
 import RaadpleegObjectDetail from '@/pages/RaadpleegObjectDetail'
 import RaadpleegPlanningAndReleases from '@/pages/RaadpleegPlanningAndReleases'
 import RaadpleegSearchResults from '@/pages/RaadpleegSearchResults'
@@ -45,10 +48,17 @@ import UserContext from './UserContext'
 
 const AuthRoutes = lazy(() => import('./AuthRoutes'))
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            refetchOnWindowFocus: false,
+        },
+    },
+})
 
 const App: FC<RouteComponentProps> = () => {
     const userIsInMuteerEnvironment = useMuteerEnvironment()
+    const isAdvancedSearchPage = useAdvancedSearchPage()
 
     const [user, setUser] = useState<GetTokeninfo200Identifier | undefined>(
         undefined
@@ -112,9 +122,11 @@ const App: FC<RouteComponentProps> = () => {
         <UserContext.Provider value={{ user }}>
             <QueryClientProvider client={queryClient}>
                 <div
-                    className={`min-h-screen text-pzh-blue-dark relative ${
-                        userIsInMuteerEnvironment ? 'bg-gray-100' : ''
-                    }`}
+                    className={classNames({
+                        'min-h-screen text-pzh-blue-dark relative': true,
+                        'bg-gray-100': userIsInMuteerEnvironment,
+                        'advanced-search-page': isAdvancedSearchPage,
+                    })}
                     id="main-container">
                     <Helmet>
                         <meta charSet="utf-8" />
@@ -139,6 +151,13 @@ const App: FC<RouteComponentProps> = () => {
                                         exact
                                         path="/zoekresultaten"
                                         component={RaadpleegSearchResults}
+                                    />
+
+                                    {/* Raadpleeg - Search on map page */}
+                                    <Route
+                                        exact
+                                        path="/zoeken-op-kaart"
+                                        component={RaadpleegMapSearch}
                                     />
 
                                     <Route
@@ -223,7 +242,7 @@ const App: FC<RouteComponentProps> = () => {
                         )}
                     </ErrorBoundary>
                     <ToastContainer limit={1} position="bottom-left" />
-                    <FeedbackComponent />
+                    {!isAdvancedSearchPage && <FeedbackComponent />}
                 </div>
             </QueryClientProvider>
         </UserContext.Provider>

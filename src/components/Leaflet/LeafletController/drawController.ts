@@ -33,24 +33,44 @@ const createControlHook = (useElement: any) => {
         const elementRef = useElement(props, context)
         const { instance } = elementRef.current
         const positionRef = useRef(props.position)
-        const { position, onCreated, onEdit, onDeleted } = props
+        const { position, onCreated, onEdit } = props
 
         const onDrawCreate = useCallback(
             e => {
+                instance._toolbars.edit._toolbarContainer.classList.remove(
+                    'hidden'
+                )
+
+                /**
+                 * Remove all markers and polygons from map
+                 */
+                context.map.eachLayer((layer: any) => {
+                    if (!!layer._latlng || !!layer._svgSize) {
+                        context.map.removeLayer(layer)
+                    }
+                })
+
                 context.layerContainer?.addLayer(e.layer)
                 onCreated(e)
             },
-            [context.layerContainer, onCreated]
+            [
+                context.layerContainer,
+                context.map,
+                onCreated,
+                instance._toolbars.edit,
+            ]
         )
+
+        const onDrawDelete = useCallback(() => {
+            instance._toolbars.edit._toolbarContainer.classList.add('hidden')
+        }, [instance._toolbars.edit])
 
         useEffect(
             function addControl() {
                 instance.addTo(context.map)
-                context.map.on(leaflet.Draw.Event.CREATED, onDrawCreate)
 
-                if (onDeleted) {
-                    context.map.on(leaflet.Draw.Event.DELETED, onDeleted)
-                }
+                context.map.on(leaflet.Draw.Event.CREATED, onDrawCreate)
+                context.map.on(leaflet.Draw.Event.DELETED, onDrawDelete)
 
                 if (onEdit) {
                     context.map.on(leaflet.Draw.Event.EDITRESIZE, onEdit)
@@ -59,10 +79,7 @@ const createControlHook = (useElement: any) => {
 
                 return function removeControl() {
                     context.map.off(leaflet.Draw.Event.CREATED, onDrawCreate)
-
-                    if (onDeleted) {
-                        context.map.off(leaflet.Draw.Event.DELETED, onDeleted)
-                    }
+                    context.map.off(leaflet.Draw.Event.DELETED, onDrawDelete)
 
                     if (onEdit) {
                         context.map.off(leaflet.Draw.Event.EDITRESIZE, onEdit)
@@ -72,7 +89,7 @@ const createControlHook = (useElement: any) => {
                     instance.remove()
                 }
             },
-            [context.map, instance, onDrawCreate, onDeleted, onEdit]
+            [context.map, instance, onDrawCreate, onDrawDelete, onEdit]
         )
 
         useEffect(

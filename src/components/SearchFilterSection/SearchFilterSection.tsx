@@ -1,69 +1,26 @@
-import { useEffect, useRef, useState } from 'react'
-import { useMedia } from 'react-use'
+import { useRef } from 'react'
 
+import FilterItem from '@/components/FilterItem'
+import { LoaderCard } from '@/components/Loader'
 import useSearchParam from '@/hooks/useSearchParam'
 import { FilterCollection, ACTIONTYPE } from '@/hooks/useSearchResultFilters'
-
-import { LoaderCard } from '../../../components/Loader'
-import FilterItem from '../FilterItem'
 
 interface SearchFilterSection {
     loaded: boolean
     onPageFilters: FilterCollection
     setOnPageFilters: (action: ACTIONTYPE) => void
+    hideLabels?: boolean
 }
 
 const SearchFilterSection = ({
     loaded,
     onPageFilters,
     setOnPageFilters,
+    hideLabels,
 }: SearchFilterSection) => {
     const container = useRef<HTMLDivElement>(null)
-    const [containerStyle, setContainerStyle] = useState({})
-    const paramOnly = useSearchParam('only')
-    const isMobile = useMedia('(max-width: 768px)')
-
-    /**
-     * Make the filter section fixed when the user scrolls down (min width Tablet)
-     */
-    useEffect(() => {
-        const handleScroll = () => {
-            const windowScrollTop =
-                window.pageYOffset || document.documentElement.scrollTop
-
-            if (
-                container.current &&
-                windowScrollTop > container?.current?.offsetTop &&
-                !isMobile
-            ) {
-                const { offsetWidth, offsetHeight, offsetTop, offsetLeft } =
-                    container.current
-
-                const fixedStyle = {
-                    width: offsetWidth,
-                    height: offsetHeight,
-                    top: offsetTop,
-                    left: offsetLeft,
-                    position: 'fixed',
-                }
-
-                setContainerStyle(fixedStyle)
-            } else if (
-                (container.current &&
-                    windowScrollTop < container.current.offsetTop) ||
-                isMobile
-            ) {
-                const relativeStyle = {
-                    position: 'relative',
-                }
-
-                setContainerStyle(relativeStyle)
-            }
-        }
-
-        window.addEventListener('scroll', handleScroll)
-        return () => window.removeEventListener('scroll', handleScroll)
-    }, [isMobile])
+    const { get } = useSearchParam()
+    const [paramOnly] = get('only')
 
     const searchFilterCategories: { [key: string]: string[] } = {
         Omgevingsvisie: ['ambities', 'beleidsdoelen', 'beleidskeuzes'],
@@ -83,8 +40,12 @@ const SearchFilterSection = ({
     }
 
     return (
-        <div ref={container} className="col-span-6 pt-0 md:col-span-2 md:pt-4">
-            <div style={containerStyle}>
+        <div
+            ref={container}
+            className={`col-span-6 pt-0 md:col-span-2 ${
+                !hideLabels ? 'md:pt-4' : ''
+            }`}>
+            <div className="sticky top-20">
                 {Object.keys(searchFilterCategories)
                     .filter(category =>
                         onPageFilters.availableFilters.some(filter =>
@@ -93,10 +54,14 @@ const SearchFilterSection = ({
                     )
                     .map((category, index) => (
                         <div key={`category-${index}`}>
-                            <span className="mt-2 font-bold text-pzh-blue">
-                                {category}
-                            </span>
-                            <ul id="filter-search-results" className="mb-4">
+                            {!hideLabels && (
+                                <span className="mt-2 font-bold text-pzh-blue">
+                                    {category}
+                                </span>
+                            )}
+                            <ul
+                                id="filter-search-results"
+                                className={!hideLabels ? 'mb-4' : ''}>
                                 {onPageFilters.availableFilters
                                     .filter(filterCategory =>
                                         searchFilterCategories[

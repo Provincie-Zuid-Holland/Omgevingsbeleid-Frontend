@@ -1,9 +1,16 @@
-import './../../../mocks/matchMedia'
+import './../../mocks/matchMedia'
 
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 
 import SearchFilterSection from './SearchFilterSection'
+
+jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom'),
+    useLocation: () => ({
+        pathname: 'localhost:3000/example/path',
+    }),
+}))
 
 describe('SearchFilterSection', () => {
     const defaultProps = {

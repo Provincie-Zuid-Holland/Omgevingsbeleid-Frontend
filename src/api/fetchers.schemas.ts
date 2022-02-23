@@ -515,7 +515,7 @@ export type GetSearchGeo400 = {
 /**
  * The type of this object
  */
-export type GetSearchGeo200ItemType =
+export type GetSearchGeo200ResultsItemType =
     | 'beleidskeuzes'
     | 'ambities'
     | 'belangen'
@@ -526,18 +526,18 @@ export type GetSearchGeo200ItemType =
     | 'themas'
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetSearchGeo200ItemType = {
-    beleidskeuzes: 'beleidskeuzes' as GetSearchGeo200ItemType,
-    ambities: 'ambities' as GetSearchGeo200ItemType,
-    belangen: 'belangen' as GetSearchGeo200ItemType,
-    beleidsdoelen: 'beleidsdoelen' as GetSearchGeo200ItemType,
-    beleidsprestaties: 'beleidsprestaties' as GetSearchGeo200ItemType,
-    beleidsregels: 'beleidsregels' as GetSearchGeo200ItemType,
-    maatregelen: 'maatregelen' as GetSearchGeo200ItemType,
-    themas: 'themas' as GetSearchGeo200ItemType,
+export const GetSearchGeo200ResultsItemType = {
+    beleidskeuzes: 'beleidskeuzes' as GetSearchGeo200ResultsItemType,
+    ambities: 'ambities' as GetSearchGeo200ResultsItemType,
+    belangen: 'belangen' as GetSearchGeo200ResultsItemType,
+    beleidsdoelen: 'beleidsdoelen' as GetSearchGeo200ResultsItemType,
+    beleidsprestaties: 'beleidsprestaties' as GetSearchGeo200ResultsItemType,
+    beleidsregels: 'beleidsregels' as GetSearchGeo200ResultsItemType,
+    maatregelen: 'maatregelen' as GetSearchGeo200ResultsItemType,
+    themas: 'themas' as GetSearchGeo200ResultsItemType,
 }
 
-export type GetSearchGeo200Item = {
+export type GetSearchGeo200ResultsItem = {
     /** A description of this object */
     Omschrijving?: string
     /** A representation of the search rank, only usefull for comparing between two results */
@@ -545,9 +545,15 @@ export type GetSearchGeo200Item = {
     /** The title of this object */
     Titel?: string
     /** The type of this object */
-    Type?: GetSearchGeo200ItemType
+    Type?: GetSearchGeo200ResultsItemType
     /** The UUID of this object */
     UUID?: string
+}
+
+export type GetSearchGeo200 = {
+    results?: GetSearchGeo200ResultsItem[]
+    /** The total amount of objects found */
+    total?: number
 }
 
 export type GetSearchGeoParams = {
@@ -571,7 +577,7 @@ export type GetSearch400 = {
 /**
  * The type of this object
  */
-export type GetSearch200ItemType =
+export type GetSearch200ResultsItemType =
     | 'beleidskeuzes'
     | 'ambities'
     | 'belangen'
@@ -582,18 +588,18 @@ export type GetSearch200ItemType =
     | 'themas'
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetSearch200ItemType = {
-    beleidskeuzes: 'beleidskeuzes' as GetSearch200ItemType,
-    ambities: 'ambities' as GetSearch200ItemType,
-    belangen: 'belangen' as GetSearch200ItemType,
-    beleidsdoelen: 'beleidsdoelen' as GetSearch200ItemType,
-    beleidsprestaties: 'beleidsprestaties' as GetSearch200ItemType,
-    beleidsregels: 'beleidsregels' as GetSearch200ItemType,
-    maatregelen: 'maatregelen' as GetSearch200ItemType,
-    themas: 'themas' as GetSearch200ItemType,
+export const GetSearch200ResultsItemType = {
+    beleidskeuzes: 'beleidskeuzes' as GetSearch200ResultsItemType,
+    ambities: 'ambities' as GetSearch200ResultsItemType,
+    belangen: 'belangen' as GetSearch200ResultsItemType,
+    beleidsdoelen: 'beleidsdoelen' as GetSearch200ResultsItemType,
+    beleidsprestaties: 'beleidsprestaties' as GetSearch200ResultsItemType,
+    beleidsregels: 'beleidsregels' as GetSearch200ResultsItemType,
+    maatregelen: 'maatregelen' as GetSearch200ResultsItemType,
+    themas: 'themas' as GetSearch200ResultsItemType,
 }
 
-export type GetSearch200Item = {
+export type GetSearch200ResultsItem = {
     /** A description of this object */
     Omschrijving?: string
     /** A representation of the search rank, only usefull for comparing between two results */
@@ -601,9 +607,15 @@ export type GetSearch200Item = {
     /** The title of this object */
     Titel?: string
     /** The type of this object */
-    Type?: GetSearch200ItemType
+    Type?: GetSearch200ResultsItemType
     /** The UUID of this object */
     UUID?: string
+}
+
+export type GetSearch200 = {
+    results?: GetSearch200ResultsItem[]
+    /** The total amount of objects found */
+    total?: number
 }
 
 export type GetSearchParams = {

@@ -1,0 +1,15 @@
+// React Select Styles
+.form-select-container {
+    .form-select__control {
+        height: 2.4rem;
+    }
+
+    .form-select__value-container {
+        padding-left: 0.75rem;
+    }
+
+    .form-select__placeholder {
+        color: theme('colors.pzh-blue.dark');
+        opacity: 0.5;
+    }
+}

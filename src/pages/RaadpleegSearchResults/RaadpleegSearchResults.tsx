@@ -2,31 +2,36 @@ import { useEffect, useState } from 'react'
 import 'url-search-params-polyfill'
 import { useMedia } from 'react-use'
 
-import { getWerkingsGebieden } from '@/api/axiosGeoJSON'
-import { getSearch } from '@/api/fetchers'
-import { GetSearch200Item } from '@/api/fetchers.schemas'
-import axios from '@/api/instance'
+import {
+    getWerkingsGebieden,
+    getWerkingsGebiedenByArea,
+} from '@/api/axiosGeoJSON'
+import { getSearch, getSearchGeo } from '@/api/fetchers'
+import { GetSearch200ResultsItem } from '@/api/fetchers.schemas'
 import Container from '@/components/Container/Container'
 import Footer from '@/components/Footer'
 import Heading from '@/components/Heading'
 import { LoaderCard } from '@/components/Loader'
+import Pagination from '@/components/Pagination'
 import SearchBar from '@/components/SearchBar'
+import SearchFilterSection from '@/components/SearchFilterSection'
+import SearchResultItem from '@/components/SearchResultItem'
+import useSearchParam from '@/hooks/useSearchParam'
 import useSearchResultFilters from '@/hooks/useSearchResultFilters'
 import handleError from '@/utils/handleError'
 
-import Pagination from './Pagination'
-import SearchFilterSection from './SearchFilterSection'
-import SearchResultItem from './SearchResultItem'
-
 const RaadpleegSearchResults = () => {
-    const [searchResults, setSearchResults] = useState<GetSearch200Item[]>([])
+    const [searchResults, setSearchResults] = useState<
+        GetSearch200ResultsItem[]
+    >([])
     const [dataLoaded, setDataLoaded] = useState(false)
 
-    const location = document.location.toString()
-    const searchParams = new URL(location).searchParams
-    const paramTextQuery = searchParams.get('query')
-    const paramOnly = searchParams.get('only')
-    const paramGeoQuery = searchParams.get('geoQuery')
+    const { get } = useSearchParam()
+    const [paramTextQuery, paramOnly, paramGeoQuery] = get([
+        'query',
+        'only',
+        'geoQuery',
+    ])
 
     const { onPageFilters, setOnPageFilters } = useSearchResultFilters()
 
@@ -40,15 +45,15 @@ const RaadpleegSearchResults = () => {
             }
 
             try {
-                const searchResults = await getSearch({
+                const { results } = await getSearch({
                     query: paramTextQuery,
                     limit: 20,
                     ...(paramOnly && { only: paramOnly }),
                 })
-                setSearchResults(searchResults)
+                setSearchResults(results || [])
                 setOnPageFilters({
                     type: 'initFilters',
-                    searchResultItems: searchResults,
+                    searchResultItems: results || [],
                 })
                 setDataLoaded(true)
             } catch (error) {
@@ -70,28 +75,41 @@ const RaadpleegSearchResults = () => {
             }
 
             try {
-                // Get point A and Point B from the URL Parameter
-                const [pointA, pointB] = paramGeoQuery.split(' ')
-                const werkingsgebieden = await getWerkingsGebieden(
-                    pointA,
-                    pointB
-                )
+                const geoQuery = paramGeoQuery.split(',')
+
+                let werkingsgebieden: any
+
+                if (geoQuery.length === 1) {
+                    // Get point A and Point B from the URL Parameter
+                    const [pointA, pointB] = paramGeoQuery.split('+')
+                    werkingsgebieden = await getWerkingsGebieden(pointA, pointB)
+                } else if (geoQuery.length > 1) {
+                    werkingsgebieden = await getWerkingsGebiedenByArea(
+                        geoQuery.map(item => {
+                            const [x, y] = item.split('+')
+
+                            return { x: parseFloat(x), y: parseFloat(y) }
+                        }) as any
+                    ).then(res => res.features)
+                }
+
                 const werkingsgebiedenUUIDS = werkingsgebieden.map(
                     (item: any) => item.properties.UUID
                 )
 
                 if (werkingsgebiedenUUIDS.length === 0) return
 
-                const searchResults: GetSearch200Item[] = await axios
-                    .get(`/search/geo?query=${werkingsgebiedenUUIDS}`)
-                    .then(res => res.data)
+                const searchResults: GetSearch200ResultsItem[] | undefined =
+                    await getSearchGeo({
+                        query: werkingsgebiedenUUIDS,
+                    }).then(data => data.results)
 
                 setOnPageFilters({
                     type: 'initFilters',
-                    searchResultItems: searchResults,
+                    searchResultItems: searchResults || [],
                 })
                 setDataLoaded(true)
-                setSearchResults(searchResults)
+                setSearchResults(searchResults || [])
             } catch (error) {
                 let message = 'Unknown Error'
                 if (error instanceof Error) message = error.message

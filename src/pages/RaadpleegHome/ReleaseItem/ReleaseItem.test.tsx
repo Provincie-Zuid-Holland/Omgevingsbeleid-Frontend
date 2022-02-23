@@ -7,7 +7,7 @@ describe('ReleaseItem', () => {
     const defaultProps = {
         date: '01-01-2030',
         releaseNumber: '01',
-        releaseNotes: ['Note 1'],
+        releaseNote: 'Note 1',
     }
 
     const setup = (customProps?: any) => {

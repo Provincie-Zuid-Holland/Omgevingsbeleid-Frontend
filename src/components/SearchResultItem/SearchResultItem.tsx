@@ -1,18 +1,22 @@
 import { FC } from 'react'
 import { Link } from 'react-router-dom'
 
-import { GetSearch200Item } from '@/api/fetchers.schemas'
+import {
+    GetSearch200ResultsItem,
+    GetSearchGeo200ResultsItem,
+} from '@/api/fetchers.schemas'
 import useSearchParam from '@/hooks/useSearchParam'
 import { DimensionType } from '@/types/dimensions'
 import getDimensionsConstants from '@/utils/getDimensionsConstants'
 
 interface SearchResultItem {
-    item: GetSearch200Item
+    item: GetSearch200ResultsItem | GetSearchGeo200ResultsItem
     searchQuery: any
 }
 
 const SearchResultItem: FC<SearchResultItem> = ({ item, searchQuery }) => {
-    const paramTextQuery = useSearchParam('query')
+    const { get } = useSearchParam()
+    const [paramTextQuery] = get('query')
 
     const highlightString = (
         text: string | undefined,
@@ -41,8 +45,12 @@ const SearchResultItem: FC<SearchResultItem> = ({ item, searchQuery }) => {
     }
 
     const content = {
-        Titel: highlightString(item.Titel, paramTextQuery),
-        Omschrijving: highlightString(item.Omschrijving, paramTextQuery),
+        Titel: paramTextQuery
+            ? highlightString(item.Titel, paramTextQuery.toString())
+            : { __html: item.Titel || '' },
+        Omschrijving: paramTextQuery
+            ? highlightString(item.Omschrijving, paramTextQuery.toString())
+            : { __html: item.Omschrijving || '' },
     }
 
     const type = item.Type

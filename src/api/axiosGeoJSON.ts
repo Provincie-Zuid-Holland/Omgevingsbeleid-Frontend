@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios'
+import { Point } from 'leaflet'
 
 const access_token = localStorage.getItem('access_token')
 const api_version = '1.1.0'
@@ -21,20 +22,16 @@ const getGeoJsonData = async (
 ) => {
     const res = await instance.get(
         `ows?service=wfs&version=${api_version}&request=GetFeature&typeNames=OMGEVINGSBELEID:${type}&cql_filter=UUID=%27${UUID}%27&outputFormat=application/json`,
-        { ...(config && { ...config }) }
+        config && { ...config }
     )
     const data = res.data
     return data
 }
 
-const getOnderverdeling = async (
-    _: string,
-    UUID: string,
-    config?: AxiosRequestConfig
-) => {
+const getOnderverdeling = async (UUID: string, config?: AxiosRequestConfig) => {
     const res = await instance.get(
         `ows?service=wfs&version=1.0.0&request=GetFeature&typeName=OMGEVINGSBELEID%3AWerkingsgebieden_Onderverdeling&maxFeatures=50&outputFormat=application%2Fjson&cql_filter=UUID%20IN%20(%27${UUID}%27)`,
-        { ...(config && { ...config }) }
+        config && { ...config }
     )
     const data = res.data
     return data
@@ -45,6 +42,22 @@ const getWerkingsGebieden = async (pointA: string, pointB: string) => {
         `ows?service=wfs&version=1.1.0&request=GetFeature&outputFormat=application/json&typeName=OMGEVINGSBELEID:Werkingsgebieden&cql_filter=INTERSECTS(Shape, POINT (${pointA} ${pointB}))&propertyName=UUID,Gebied`
     )
     const data = res.data.features
+    return data
+}
+
+const getWerkingsGebiedenByArea = async (
+    points: Point[],
+    config?: AxiosRequestConfig
+) => {
+    const polygon = points
+        .map((part: Point) => [part.x.toFixed(2), part.y.toFixed(2)].join(' '))
+        .join(', ')
+
+    const res = await instance.get(
+        `ows?service=wfs&version=1.1.0&request=GetFeature&outputFormat=application/json&typeName=OMGEVINGSBELEID:Werkingsgebieden&cql_filter=WITHIN(Shape, POLYGON ((${polygon})))&propertyName=UUID,Gebied`,
+        config && { ...config }
+    )
+    const data = res.data
     return data
 }
 
@@ -67,6 +80,7 @@ export {
     getGeoJsonData,
     getOnderverdeling,
     getWerkingsGebieden,
+    getWerkingsGebiedenByArea,
     getGemeenteGrenzen,
     api_version,
 }

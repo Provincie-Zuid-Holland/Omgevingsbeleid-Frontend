@@ -54,14 +54,14 @@ const RevisionOverviewChangeContainer = ({
                     {/* Section - Display extra information if user is logged in */}
                     {user ? (
                         <div className="flex justify-between w-full mt-4">
-                            <RevisionOverviewContainerLeft>
+                            <RevisionOverviewContainerLeft innerHtml={false}>
                                 <ViewFieldIngelogdExtraInfo
                                     hideEdit
                                     crudObject={oldObject}
                                 />
                             </RevisionOverviewContainerLeft>
 
-                            <RevisionOverviewContainerRight>
+                            <RevisionOverviewContainerRight innerHtml={false}>
                                 <ViewFieldIngelogdExtraInfo
                                     hideEdit
                                     crudObject={changesObject}
