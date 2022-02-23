@@ -4,7 +4,7 @@ import { Transition } from '@headlessui/react'
 import Tippy from '@tippyjs/react'
 import { useState } from 'react'
 
-import { GetSearch200Item } from '@/api/fetchers.schemas'
+import { GetSearchGeo200ResultsItem } from '@/api/fetchers.schemas'
 import Heading from '@/components/Heading'
 import { LoaderCard } from '@/components/Loader'
 import Pagination from '@/components/Pagination'
@@ -15,8 +15,9 @@ import { FilterCollection } from '@/hooks/useSearchResultFilters'
 
 interface SidebarResultsProps {
     searchOpen: boolean
-    searchResults: GetSearch200Item[]
-    setSearchResults: (results: GetSearch200Item[]) => void
+    searchResultsTotal: number
+    searchResults: GetSearchGeo200ResultsItem[]
+    setSearchResults: (results: GetSearchGeo200ResultsItem[]) => void
     isLoading: boolean
     drawType?: string
     onPageFilters: FilterCollection
@@ -26,6 +27,7 @@ interface SidebarResultsProps {
 
 const SidebarResults = ({
     searchOpen,
+    searchResultsTotal,
     searchResults,
     setSearchResults,
     isLoading,
@@ -49,11 +51,11 @@ const SidebarResults = ({
                     <Heading level="3">Resultaten</Heading>
                     {!isLoading ? (
                         <span className="block text-pzh-blue-dark text-sm text-opacity-50">
-                            {!searchResults.length
+                            {!searchResultsTotal
                                 ? 'Er zijn geen resultaten'
-                                : searchResults.length === 1
+                                : searchResultsTotal === 1
                                 ? `Er is 1 resultaat`
-                                : `Er zijn ${searchResults.length} resultaten`}
+                                : `Er zijn ${searchResultsTotal} resultaten`}
                         </span>
                     ) : (
                         <LoaderCard
