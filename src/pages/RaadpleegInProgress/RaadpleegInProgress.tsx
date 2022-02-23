@@ -12,6 +12,7 @@ import Heading from '@/components/Heading'
 import HorizontalDivider from '@/components/HorizontalDivider'
 import Text from '@/components/Text'
 import imageInBewerking from '@/images/in-bewerking.png'
+import { scrollToElementByID } from '@/utils/scrollToElementByID'
 
 import TableLatestEdits from './TableLatestEdits'
 
@@ -42,7 +43,13 @@ function RaadpleegInProgress() {
                         bewerking zijn, dit houdt in dat wij alle onderdelen
                         laten zien die in ontwerp zijn.
                     </Text>
-                    <Button text="Bekijk overzicht" className="mt-4" />
+                    <Button
+                        text="Bekijk overzicht"
+                        onClick={() =>
+                            scrollToElementByID('laatste-bewerkingen')
+                        }
+                        className="mt-4"
+                    />
                 </div>
                 <div
                     className="relative col-span-3"
@@ -63,7 +70,10 @@ function RaadpleegInProgress() {
                 </div>
             </Container>
             <Container className="pt-8">
-                <Heading className="col-span-6" level="2">
+                <Heading
+                    id="laatste-bewerkingen"
+                    className="col-span-6"
+                    level="2">
                     Laatste bewerkingen
                 </Heading>
                 <Text className="col-span-6 mt-4" type="body">
