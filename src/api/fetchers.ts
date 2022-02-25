@@ -165,11 +165,11 @@ import type {
     PostPasswordreset400,
     PostPasswordreset401,
     PostPasswordresetBody,
-    GetSearch200Item,
+    GetSearch200,
     GetSearch400,
     GetSearch403,
     GetSearchParams,
-    GetSearchGeo200Item,
+    GetSearchGeo200,
     GetSearchGeo400,
     GetSearchGeo403,
     GetSearchGeoParams,
@@ -2789,7 +2789,7 @@ export const usePostPasswordreset = <
  * @summary Search for objects with a textual query
  */
 export const getSearch = (params?: GetSearchParams) => {
-    return customInstance<GetSearch200Item[]>({
+    return customInstance<GetSearch200>({
         url: `/search`,
         method: 'get',
         params,
@@ -2837,7 +2837,7 @@ export const useGetSearch = <
  * @summary Search for objects that are linked to a specific geo area
  */
 export const getSearchGeo = (params?: GetSearchGeoParams) => {
-    return customInstance<GetSearchGeo200Item[]>({
+    return customInstance<GetSearchGeo200>({
         url: `/search/geo`,
         method: 'get',
         params,

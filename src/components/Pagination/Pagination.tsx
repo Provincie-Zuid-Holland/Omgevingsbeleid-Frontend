@@ -1,15 +1,20 @@
 import { useState } from 'react'
 
 import { getSearch, getSearchGeo } from '@/api/fetchers'
-import { GetSearch200Item } from '@/api/fetchers.schemas'
+import {
+    GetSearch200ResultsItem,
+    GetSearchGeo200ResultsItem,
+} from '@/api/fetchers.schemas'
 import Button from '@/components/Button'
 import LoaderSpinner from '@/components/Loader/LoaderSpinner'
 import useSearchParam from '@/hooks/useSearchParam'
 import { ACTIONTYPE } from '@/hooks/useSearchResultFilters'
 
 export interface PaginationProps {
-    searchResults: GetSearch200Item[]
-    setSearchResults: (searchResults: GetSearch200Item[]) => void
+    searchResults: GetSearch200ResultsItem[] | GetSearchGeo200ResultsItem[]
+    setSearchResults: (
+        searchResults: GetSearch200ResultsItem[] | GetSearchGeo200ResultsItem[]
+    ) => void
     setOnPageFilters: (action: ACTIONTYPE) => void
     UUIDs?: string[]
     limit?: number
@@ -52,8 +57,6 @@ function Pagination({
                 ...(paramOnly && { only: paramOnly }),
             })
         }
-
-        return []
     }
 
     const getNewSearchResults: () => void = async () => {
@@ -61,7 +64,8 @@ function Pagination({
 
         setIsLoading(true)
 
-        const newSearchResults = await getResults()
+        const { results: newSearchResults = [], total = 0 } =
+            (await getResults()) || {}
 
         setOffset(offset + limit)
         setSearchResults([...searchResults, ...newSearchResults])
@@ -71,7 +75,8 @@ function Pagination({
         })
         setIsLoading(false)
 
-        if (newSearchResults.length < limit) setShow(false)
+        if (searchResults.length + newSearchResults.length >= total)
+            setShow(false)
     }
 
     if (!show || searchResults.length < limit) return null

@@ -2,11 +2,11 @@ import { Map, point } from 'leaflet'
 import Proj from 'proj4leaflet'
 import { useEffect, useMemo, useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import { useEffectOnce, useMedia } from 'react-use'
+import { useEffectOnce, useMedia, useUpdateEffect } from 'react-use'
 
 import { getWerkingsGebieden } from '@/api/axiosGeoJSON'
 import { getSearchGeo } from '@/api/fetchers'
-import { GetSearch200Item } from '@/api/fetchers.schemas'
+import { GetSearchGeo200ResultsItem } from '@/api/fetchers.schemas'
 import { ContainerMapSearch } from '@/components/Container'
 import { LeafletMap } from '@/components/Leaflet'
 import { mapPanTo } from '@/components/Leaflet/utils'
@@ -39,7 +39,10 @@ const RaadpleegMapSearch = () => {
     const [mapInstance, setMapInstance] = useState<Map | null>(null)
     const [layer, setLayer] = useState<any>(null)
     const [UUIDs, setUUIDs] = useState<string[]>([])
-    const [searchResults, setSearchResults] = useState<GetSearch200Item[]>([])
+    const [searchResultsTotal, setSearchResultsTotal] = useState(0)
+    const [searchResults, setSearchResults] = useState<
+        GetSearchGeo200ResultsItem[]
+    >([])
     const [searchResultsLoading, setSearchResultsLoading] = useState(true)
     const [searchOpen, setSearchOpen] = useState(paramSearchOpen === 'true')
     const [drawType, setDrawType] = useState('')
@@ -92,10 +95,11 @@ const RaadpleegMapSearch = () => {
         setSearchResultsLoading(true)
 
         return getSearchGeo({ query: UUIDs.join(',') }).then(data => {
-            setSearchResults(data)
+            setSearchResults(data.results || [])
+            setSearchResultsTotal(data.total || 0)
             setOnPageFilters({
                 type: 'initFilters',
-                searchResultItems: data,
+                searchResultItems: data.results || [],
             })
             setSearchResultsLoading(false)
 
@@ -106,7 +110,7 @@ const RaadpleegMapSearch = () => {
     /**
      * If URL contains searchOpen=true open the results sidebar.
      */
-    useEffect(() => {
+    useUpdateEffect(() => {
         if (paramSearchOpen === 'true') {
             setSearchOpen(true)
             mapInstance?.closePopup()
@@ -115,7 +119,11 @@ const RaadpleegMapSearch = () => {
             setSearchOpen(false)
         }
 
-        if (paramSearchOpen === 'true' && UUIDs.length) {
+        if (
+            paramSearchOpen === 'true' &&
+            UUIDs.length &&
+            !paramWerkingsgebied
+        ) {
             getSearchResults(UUIDs)
         }
 
@@ -238,6 +246,7 @@ const RaadpleegMapSearch = () => {
 
                 <SidebarResults
                     searchOpen={searchOpen}
+                    searchResultsTotal={searchResultsTotal}
                     searchResults={searchResults}
                     setSearchResults={setSearchResults}
                     isLoading={searchResultsLoading}
