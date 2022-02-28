@@ -1,5 +1,6 @@
 import * as axiosPackage from 'axios'
-import { KeyboardEvent, MouseEvent, useEffect, useState } from 'react'
+import cloneDeep from 'lodash.clonedeep'
+import { KeyboardEvent, MouseEvent, useEffect, useState, useRef } from 'react'
 import { Helmet } from 'react-helmet'
 import {
     RouteComponentProps,
@@ -59,6 +60,9 @@ const MuteerUniversalObjectCRUD = ({
     const [dataLoaded, setDataLoaded] = useState(false)
     const [editStatus, setEditStatus] = useState(false)
     const [crudObject, setCrudObject] = useState<any>({})
+
+    const crudObjectRef = useRef<any>(crudObject)
+
     const [axiosCancelSource, setAxiosCancelSource] =
         useState<axiosPackage.CancelTokenSource>()
 
@@ -66,6 +70,10 @@ const MuteerUniversalObjectCRUD = ({
     const overzichtSlug = dimensieConstants.SLUG_OVERVIEW
     const titleSingular = dimensieConstants.TITLE_SINGULAR
     const titelMeervoud = dimensieConstants.TITLE_PLURAL
+
+    useEffect(() => {
+        crudObjectRef.current = crudObject
+    }, [crudObject])
 
     /**
      *
@@ -95,7 +103,9 @@ const MuteerUniversalObjectCRUD = ({
             }
         }
 
-        setCrudObject({ ...crudObject, [name]: value })
+        const newCrudObject = cloneDeep(crudObjectRef.current)
+        newCrudObject[name] = value
+        setCrudObject(newCrudObject)
     }
 
     /**
@@ -250,9 +260,6 @@ const MuteerUniversalObjectCRUD = ({
 
         /** If the user is editing an existing object we PATCH it, else we POST it to create a new object */
         const typeOfRequest = editStatus ? 'PATCH' : 'POST'
-
-        // console.log("POST PATCH")
-        // return
 
         if (typeOfRequest === 'PATCH') {
             setCrudObject(prepareForRequest(crudObject, 'patch'))
