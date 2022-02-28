@@ -22,15 +22,14 @@ import {
 } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 
+import axe from '@/a11y'
 import { getTokeninfo } from '@/api/fetchers'
 import { GetTokeninfo200Identifier } from '@/api/fetchers.schemas'
 import DNABar from '@/components/DNABar'
 import FeedbackComponent from '@/components/FeedbackComponent'
 import { LoaderContent } from '@/components/Loader'
 import { NetworkGraph } from '@/components/Network'
-import { BaseLayout } from '@/components/templates/BaseLayout'
-import useAdvancedSearchPage from '@/hooks/useAdvancedSearchPage'
-import useMuteerEnvironment from '@/hooks/useMuteerEnvironment'
+import usePage from '@/hooks/usePage'
 import ErrorPage from '@/pages/ErrorPage'
 import Login from '@/pages/Login'
 import RaadpleegDigiToegankelijkheid from '@/pages/RaadpleegDigiToegankelijkheid'
@@ -42,6 +41,7 @@ import RaadpleegPlanningAndReleases from '@/pages/RaadpleegPlanningAndReleases'
 import RaadpleegSearchResults from '@/pages/RaadpleegSearchResults'
 import RaadpleegUniversalObjectOverview from '@/pages/RaadpleegUniversalObjectOverview'
 import RaadpleegVerordening from '@/pages/RaadpleegVerordening'
+import { BaseLayout } from '@/templates/BaseLayout'
 import detailPages from '@/utils/detailPages'
 
 // Import Context
@@ -58,14 +58,17 @@ const queryClient = new QueryClient({
 })
 
 const App: FC<RouteComponentProps> = () => {
-    const userIsInMuteerEnvironment = useMuteerEnvironment()
-    const isAdvancedSearchPage = useAdvancedSearchPage()
+    const userIsInMuteerEnvironment = usePage('/muteer/')
+    const isAdvancedSearchPage = usePage('/zoeken-op-kaart')
+    const isNetworkVisualization = usePage('/netwerkvisualisatie')
 
     const [user, setUser] = useState<GetTokeninfo200Identifier | undefined>(
         undefined
     )
     const [loggedIn, setLoggedIn] = useState(false)
     const [dataLoaded, setDataLoaded] = useState(false)
+
+    if (process.env.NODE_ENV !== 'production') axe()
 
     useEffect(() => {
         window.addEventListener('authEvent', e => listenForExpiredSession(e))
@@ -128,13 +131,21 @@ const App: FC<RouteComponentProps> = () => {
                         'bg-gray-100': userIsInMuteerEnvironment,
                         'advanced-search-page': isAdvancedSearchPage,
                     })}
-                    id="main-container">
+                    id="main-container"
+                    aria-live="polite"
+                    aria-busy={!dataLoaded}>
                     <Helmet>
                         <meta charSet="utf-8" />
                         <title>Omgevingsbeleid - Provincie Zuid-Holland</title>
                     </Helmet>
 
-                    <BaseLayout loggedIn={loggedIn}>
+                    <BaseLayout
+                        loggedIn={loggedIn}
+                        hideFooter={
+                            isAdvancedSearchPage ||
+                            userIsInMuteerEnvironment ||
+                            isNetworkVisualization
+                        }>
                         <ErrorBoundary FallbackComponent={ErrorPage}>
                             {dataLoaded ? (
                                 <Suspense fallback={<LoaderContent />}>

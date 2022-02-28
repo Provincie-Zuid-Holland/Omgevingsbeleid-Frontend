@@ -1,5 +1,5 @@
-import { FC } from 'react'
-import { useWindowSize } from 'react-use'
+import { CSSProperties, FC } from 'react'
+import { useMedia } from 'react-use'
 
 interface HeadingProps {
     className?: string
@@ -17,8 +17,8 @@ const Heading: FC<HeadingProps> = ({
     children,
     customStyles,
 }) => {
-    const windowSize = useWindowSize()
-    const styles = getHeadingStyles(level, windowSize)
+    const isMobile = useMedia('(max-width: 640px)')
+    const styles = getHeadingStyles(level, isMobile)
 
     if (level === '1') {
         return (
@@ -79,20 +79,12 @@ const Heading: FC<HeadingProps> = ({
     }
 }
 
-const getHeadingStyles = (
+export const getHeadingStyles = (
     level?: string,
-    windowSize?: { width: number; height: number }
-) => {
-    if (!windowSize) {
-        console.error('🙈 No windowSize supplied')
-        return {}
-    }
-
-    const smallScreen = 640
-    const currentScreenIsMobile = windowSize.width <= smallScreen
-
+    isMobile?: boolean
+): CSSProperties => {
     if (level === '1') {
-        if (currentScreenIsMobile) {
+        if (isMobile) {
             return {
                 hyphens: 'manual',
                 fontSize: '1.6rem',
@@ -106,7 +98,7 @@ const getHeadingStyles = (
             }
         }
     } else if (level === '2') {
-        if (currentScreenIsMobile) {
+        if (isMobile) {
             return {
                 hyphens: 'manual',
                 fontSize: '1.2rem',
@@ -120,7 +112,7 @@ const getHeadingStyles = (
             }
         }
     } else if (level === '3') {
-        if (currentScreenIsMobile) {
+        if (isMobile) {
             return {
                 hyphens: 'manual',
                 fontSize: '1.1rem',

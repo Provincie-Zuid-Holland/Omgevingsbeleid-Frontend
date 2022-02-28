@@ -20,7 +20,7 @@ const ContainerMapSearch: FC<ContainerMapSearchProps> = ({
             height: isMobile
                 ? 'inherit'
                 : `calc(100vh - ${
-                      document.getElementById('navigation-main')?.offsetHeight +
+                      document.getElementById('top-navigation')?.offsetHeight +
                       'px'
                   })`,
         }),

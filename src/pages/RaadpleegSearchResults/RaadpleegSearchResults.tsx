@@ -144,7 +144,10 @@ const RaadpleegSearchResults = () => {
                     </Heading>
                 </div>
                 <div className="flex items-center w-full col-span-6 mt-2 mb-4 md:mt-0 md:mb-0 md:w-auto md:col-span-4">
-                    <SearchBar className="rounded-sm" />
+                    <SearchBar
+                        className="rounded-sm"
+                        id="search-query-results"
+                    />
                 </div>
             </Container>
             <Container className="pb-16 mt-4">
@@ -204,9 +207,9 @@ const RaadpleegSearchResults = () => {
                             ) : null}
                         </>
                     ) : dataLoaded && searchResults.length === 0 ? (
-                        <span className="block mt-8 text-sm italic text-gray-600">
+                        <h2 className="block mt-8 text-sm italic text-gray-600 no-style">
                             Geen resultaten
-                        </span>
+                        </h2>
                     ) : !dataLoaded ? (
                         <div className="mt-4">
                             <LoaderCard height="150" />

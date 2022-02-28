@@ -22,8 +22,7 @@ const BackButton = ({ className = '' }) => {
     return (
         <div
             onClick={() => goBack()}
-            className={`${className} text-pzh-blue cursor-pointer opacity-75 hover:opacity-100 transition-opacity ease-in duration-100 mb-4 inline-block`}
-            id="button-back-to-previous-page">
+            className={`${className} text-pzh-blue cursor-pointer opacity-75 hover:opacity-100 transition-opacity ease-in duration-100 mb-4 inline-block`}>
             <FontAwesomeIcon className="mr-2" icon={faArrowLeft} />
             <span>Terug</span>
         </div>

@@ -504,7 +504,7 @@ const MuteerUniversalObjectCRUD = ({
     }, [])
 
     return (
-        <div>
+        <div aria-live="polite" aria-busy={!dataLoaded}>
             <Helmet>
                 <title>
                     {editStatus

@@ -9,8 +9,7 @@ import { FC, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useWindowSize } from 'react-use'
 
-import useAdvancedSearchPage from '@/hooks/useAdvancedSearchPage'
-import useMuteerEnvironment from '@/hooks/useMuteerEnvironment'
+import usePage from '@/hooks/usePage'
 import logoSVG from '@/images/PZH_Basislogo.svg'
 import logoWhite from '@/images/PZH_Basislogo_white.png'
 import hideBannerLocalStorage from '@/utils/hideBannerLocalStorage'
@@ -30,18 +29,18 @@ interface NavigationProps {
 }
 
 const Navigation = ({ loggedIn }: NavigationProps) => {
-    const userIsInMuteerEnvironment = useMuteerEnvironment()
+    const userIsInMuteerEnvironment = usePage('/muteer/')
+    const isAdvancedSearchPage = usePage('/zoeken-op-kaart')
     const windowSize = useWindowSize()
 
     // State for popup menu
     const [isOpen, setIsOpen] = useState(false)
 
     const showBanner = userIsInMuteerEnvironment && !hideBannerLocalStorage()
-    const isAdvancedSearchPage = useAdvancedSearchPage()
     const isMobile = windowSize.width <= 640
 
     return (
-        <nav
+        <header
             className={classNames({
                 'top-0 z-20 w-full sm:border-b': true,
                 fixed: !isAdvancedSearchPage,
@@ -49,7 +48,7 @@ const Navigation = ({ loggedIn }: NavigationProps) => {
                 'bg-pzh-blue': isOpen,
                 'bg-white': !isOpen,
             })}
-            id="navigation-main">
+            id="top-navigation">
             <BannerEnvironment
                 hideBannerLocalStorage={hideBannerLocalStorage}
                 userIsInMuteerEnvironment={userIsInMuteerEnvironment}
@@ -112,7 +111,7 @@ const Navigation = ({ loggedIn }: NavigationProps) => {
                     />
                 </div>
             </Container>
-        </nav>
+        </header>
     )
 }
 

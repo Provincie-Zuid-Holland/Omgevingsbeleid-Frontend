@@ -67,7 +67,7 @@ const RaadpleegObjectDetailMain: FC<RaadpleegObjectDetailMainProps> = ({
     const werkingsGebiedUUID = getWerkingsgbiedUUID(hasWerkingsGebied)
 
     return (
-        <main className="col-span-6 mt-6 xl:mt-8 xl:col-span-4 xl:mt-0">
+        <div className="col-span-6 mt-6 xl:mt-8 xl:col-span-4 xl:mt-0">
             <div className="hidden xl:block">
                 <Heading
                     level="3"
@@ -88,8 +88,7 @@ const RaadpleegObjectDetailMain: FC<RaadpleegObjectDetailMainProps> = ({
             <div
                 className={`mt-4 ${
                     titleSingular === 'Beleidskeuze' ? '' : 'md:pb-20'
-                }`}
-                id="raadpleeg-detail-container-main">
+                }`}>
                 {titleSingular === 'Beleidskeuze' ? (
                     <ContainerViewFieldsBeleidskeuze
                         crudObject={dataObject as BeleidskeuzesRead}
@@ -127,7 +126,7 @@ const RaadpleegObjectDetailMain: FC<RaadpleegObjectDetailMainProps> = ({
                     gebiedDuiding={dataObject['Gebied_Duiding']}
                 />
             ) : null}
-        </main>
+        </div>
     )
 }
 

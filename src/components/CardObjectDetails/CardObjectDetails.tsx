@@ -61,9 +61,9 @@ function CardObjectDetails({
                     className={`relative h-full w-full inline-block h-full px-4 pt-4 pb-6 overflow-hidden bg-white rounded shadow-md`}
                     to={detailPageLink}
                     id={elementID}>
-                    <h5 className="py-1 text-sm font-light text-gray-600">
+                    <span className="block py-1 text-sm font-light text-gray-600 font-bold">
                         {titleSingular}
-                    </h5>
+                    </span>
                     <h2 className="pr-8 text-xl font-bold text-gray-800 line-clamp-2">
                         {object.Titel}
                     </h2>

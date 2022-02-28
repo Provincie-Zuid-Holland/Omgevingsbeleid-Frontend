@@ -1167,7 +1167,6 @@ const MuteerVerordeningenstructuurDetail = () => {
                     <Link
                         to={backToLink}
                         className={`text-gray-600 text-l mb-4 inline-block`}
-                        id="button-back-to-previous-page"
                         onClick={() => {
                             if (isActiveChapter) {
                                 setActiveChapter(null)

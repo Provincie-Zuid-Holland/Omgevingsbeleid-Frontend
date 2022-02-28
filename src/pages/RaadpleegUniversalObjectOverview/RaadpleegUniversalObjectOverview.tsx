@@ -3,9 +3,11 @@ import { faArrowLeft } from '@fortawesome/pro-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
+import { useMedia } from 'react-use'
 
 import { Container } from '@/components/Container'
 import Heading from '@/components/Heading'
+import { getHeadingStyles } from '@/components/Heading/Heading'
 import { LoaderCard, LoaderSpinner } from '@/components/Loader'
 import Text from '@/components/Text'
 import { DetailPageValidEndpoint } from '@/utils/detailPages'
@@ -24,6 +26,8 @@ function RaadpleegUniversalObjectOverview({
     dataModel,
     dataEndpoint,
 }: RaadpleegUniversalObjectOverviewProps) {
+    const isMobile = useMedia('(max-width: 640px)')
+
     const { isLoading, data: allObjects } = useQuery(
         dataModel.API_ENDPOINT_VIGEREND || '',
         () =>
@@ -38,7 +42,7 @@ function RaadpleegUniversalObjectOverview({
                 <div className="col-span-6 sm:col-span-1">
                     <Link
                         to="/"
-                        className="inline-block mt-4 duration-100 ease-in opacity-50 cursor-pointer focus-within:transition sm:mt-8 text-pzh-blue-dark hover:opacity-75">
+                        className="inline-block mt-4 duration-100 ease-in opacity-75 cursor-pointer focus-within:transition sm:mt-8 text-pzh-blue hover:opacity-100">
                         <FontAwesomeIcon icon={faArrowLeft} className="mr-2" />
                         <span>Start</span>
                     </Link>
@@ -52,14 +56,16 @@ function RaadpleegUniversalObjectOverview({
                     </Text>
                     <div className="mt-8">
                         <div className="flex flex-col justify-between sm:flex-row">
-                            <Heading level="3">
+                            <h2
+                                style={getHeadingStyles('3', isMobile)}
+                                className="break-words text-pzh-blue">
                                 {isLoading
                                     ? `De ${dataModel.TITLE_PLURAL.toLowerCase()} worden geladen`
                                     : `De ${allObjects?.length} ${dataModel.TITLE_PLURAL}`}
                                 {isLoading ? (
                                     <LoaderSpinner className="ml-2" />
                                 ) : null}
-                            </Heading>
+                            </h2>
                             <Link
                                 className="block mt-2 mb-1 sm:mb-0 sm:mt-0"
                                 to="/zoekresultaten">
@@ -72,11 +78,11 @@ function RaadpleegUniversalObjectOverview({
                         </div>
                         <ul className="mt-2">
                             {isLoading ? (
-                                <div className="mt-6">
+                                <li className="mt-6">
                                     <LoaderCard height="25" />
                                     <LoaderCard height="25" />
                                     <LoaderCard height="25" />
-                                </div>
+                                </li>
                             ) : (
                                 allObjects?.map((obj, index) => (
                                     <li
