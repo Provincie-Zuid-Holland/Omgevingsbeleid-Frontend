@@ -2,18 +2,14 @@ import { Map, point } from 'leaflet'
 import Proj from 'proj4leaflet'
 import { useEffect, useMemo, useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import { useEffectOnce, useMedia } from 'react-use'
+import { useEffectOnce, useMedia, useUpdateEffect } from 'react-use'
 
 import { getWerkingsGebieden } from '@/api/axiosGeoJSON'
 import { getSearchGeo } from '@/api/fetchers'
-import { GetSearch200Item } from '@/api/fetchers.schemas'
-import { Container, ContainerMapSearch } from '@/components/Container'
-import Footer from '@/components/Footer'
-import Heading from '@/components/Heading'
+import { GetSearchGeo200ResultsItem } from '@/api/fetchers.schemas'
+import { ContainerMapSearch } from '@/components/Container'
 import { LeafletMap } from '@/components/Leaflet'
 import { mapPanTo } from '@/components/Leaflet/utils'
-import SearchBar from '@/components/SearchBar'
-import Text from '@/components/Text'
 import { RDProj4, leafletBounds } from '@/constants/leaflet'
 import useSearchParam from '@/hooks/useSearchParam'
 import useSearchResultFilters from '@/hooks/useSearchResultFilters'
@@ -43,7 +39,10 @@ const RaadpleegMapSearch = () => {
     const [mapInstance, setMapInstance] = useState<Map | null>(null)
     const [layer, setLayer] = useState<any>(null)
     const [UUIDs, setUUIDs] = useState<string[]>([])
-    const [searchResults, setSearchResults] = useState<GetSearch200Item[]>([])
+    const [searchResultsTotal, setSearchResultsTotal] = useState(0)
+    const [searchResults, setSearchResults] = useState<
+        GetSearchGeo200ResultsItem[]
+    >([])
     const [searchResultsLoading, setSearchResultsLoading] = useState(true)
     const [searchOpen, setSearchOpen] = useState(paramSearchOpen === 'true')
     const [drawType, setDrawType] = useState('')
@@ -58,13 +57,18 @@ const RaadpleegMapSearch = () => {
         setUUIDs([])
         setSearchResultsLoading(true)
 
-        if (callback.type === 'polygon' && callback.features?.length) {
-            const werkingsgebiedenUUIDS = callback.features.map(
-                (item: any) => item.properties.UUID
-            )
-
-            setUUIDs(werkingsgebiedenUUIDS)
+        if (callback.type === 'polygon') {
             setDrawType(callback.type)
+
+            if (callback.features?.length) {
+                const werkingsgebiedenUUIDS = callback.features.map(
+                    (item: any) => item.properties.UUID
+                )
+
+                setUUIDs(werkingsgebiedenUUIDS)
+            } else {
+                setSearchResultsLoading(false)
+            }
         } else if (callback.type === 'marker') {
             const werkingsgebieden = await getWerkingsGebieden(
                 callback.point.x,
@@ -81,8 +85,6 @@ const RaadpleegMapSearch = () => {
 
             setUUIDs(werkingsgebiedenUUIDS)
             setDrawType(callback.type)
-        } else {
-            setSearchResultsLoading(false)
         }
     }
 
@@ -93,10 +95,11 @@ const RaadpleegMapSearch = () => {
         setSearchResultsLoading(true)
 
         return getSearchGeo({ query: UUIDs.join(',') }).then(data => {
-            setSearchResults(data)
+            setSearchResults(data.results || [])
+            setSearchResultsTotal(data.total || 0)
             setOnPageFilters({
                 type: 'initFilters',
-                searchResultItems: data,
+                searchResultItems: data.results || [],
             })
             setSearchResultsLoading(false)
 
@@ -107,7 +110,7 @@ const RaadpleegMapSearch = () => {
     /**
      * If URL contains searchOpen=true open the results sidebar.
      */
-    useEffect(() => {
+    useUpdateEffect(() => {
         if (paramSearchOpen === 'true') {
             setSearchOpen(true)
             mapInstance?.closePopup()
@@ -116,7 +119,11 @@ const RaadpleegMapSearch = () => {
             setSearchOpen(false)
         }
 
-        if (paramSearchOpen === 'true' && UUIDs.length) {
+        if (
+            paramSearchOpen === 'true' &&
+            UUIDs.length &&
+            !paramWerkingsgebied
+        ) {
             getSearchResults(UUIDs)
         }
 
@@ -223,7 +230,7 @@ const RaadpleegMapSearch = () => {
 
     return (
         <>
-            <ContainerMapSearch className="border-b border-t overflow-hidden">
+            <ContainerMapSearch className="border-t overflow-hidden">
                 <SidebarInformation
                     mapInstance={mapInstance}
                     searchOpen={searchOpen}
@@ -239,6 +246,7 @@ const RaadpleegMapSearch = () => {
 
                 <SidebarResults
                     searchOpen={searchOpen}
+                    searchResultsTotal={searchResultsTotal}
                     searchResults={searchResults}
                     setSearchResults={setSearchResults}
                     isLoading={searchResultsLoading}
@@ -250,21 +258,6 @@ const RaadpleegMapSearch = () => {
             </ContainerMapSearch>
 
             <div id="select-werkingsgebied-portal" />
-
-            <Container>
-                <div className="col-span-6 lg:col-span-4 lg:col-start-2 py-10">
-                    <Heading level="3">Liever zoeken op tekst?</Heading>
-                    <div>
-                        <Text type="body" className="mt-4">
-                            Waar bent u naar op zoek binnen het beleid van de
-                            provincie Zuid-Holland?
-                        </Text>
-                        <SearchBar className="mt-2" />
-                    </div>
-                </div>
-            </Container>
-
-            <Footer />
         </>
     )
 }

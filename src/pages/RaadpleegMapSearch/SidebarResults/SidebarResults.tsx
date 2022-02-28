@@ -4,7 +4,7 @@ import { Transition } from '@headlessui/react'
 import Tippy from '@tippyjs/react'
 import { useState } from 'react'
 
-import { GetSearch200Item } from '@/api/fetchers.schemas'
+import { GetSearchGeo200ResultsItem } from '@/api/fetchers.schemas'
 import Heading from '@/components/Heading'
 import { LoaderCard } from '@/components/Loader'
 import Pagination from '@/components/Pagination'
@@ -15,8 +15,9 @@ import { FilterCollection } from '@/hooks/useSearchResultFilters'
 
 interface SidebarResultsProps {
     searchOpen: boolean
-    searchResults: GetSearch200Item[]
-    setSearchResults: (results: GetSearch200Item[]) => void
+    searchResultsTotal: number
+    searchResults: GetSearchGeo200ResultsItem[]
+    setSearchResults: (results: GetSearchGeo200ResultsItem[]) => void
     isLoading: boolean
     drawType?: string
     onPageFilters: FilterCollection
@@ -26,6 +27,7 @@ interface SidebarResultsProps {
 
 const SidebarResults = ({
     searchOpen,
+    searchResultsTotal,
     searchResults,
     setSearchResults,
     isLoading,
@@ -44,8 +46,26 @@ const SidebarResults = ({
         leaveTo="-mr-840"
         className="pt-4 lg:px-20 md:px-10 px-4 md:pb-0 pb-4 md:shadow-pane relative max-w-2xl w-full z-1 overflow-hidden">
         <div className="border-b pb-2">
-            <div className="flex justify-between">
-                <Heading level="3">Resultaten</Heading>
+            <div className="flex justify-between items-start">
+                <div>
+                    <Heading level="3">Resultaten</Heading>
+                    {!isLoading ? (
+                        <span className="block text-pzh-blue-dark text-sm text-opacity-50">
+                            {!searchResultsTotal
+                                ? 'Er zijn geen resultaten'
+                                : searchResultsTotal === 1
+                                ? `Er is 1 resultaat`
+                                : `Er zijn ${searchResultsTotal} resultaten`}
+                        </span>
+                    ) : (
+                        <LoaderCard
+                            height="18"
+                            width="130"
+                            className="w-auto"
+                        />
+                    )}
+                </div>
+
                 {onPageFilters?.availableFilters?.length > 1 && (
                     <Filter
                         isLoading={isLoading}
@@ -54,23 +74,12 @@ const SidebarResults = ({
                     />
                 )}
             </div>
-            {!isLoading ? (
-                <span className="text-pzh-blue-dark text-sm text-opacity-50">
-                    {!searchResults.length
-                        ? 'Er zijn geen resultaten'
-                        : searchResults.length === 1
-                        ? `Er is 1 resultaat`
-                        : `Er zijn ${searchResults.length} resultaten`}
-                </span>
-            ) : (
-                <LoaderCard height="18" width="130" className="w-auto" />
-            )}
         </div>
-        <div className="mt-2">
+        <div className="mt-2 h-full">
             {!isLoading ? (
                 <>
                     {searchResults.length ? (
-                        <div className="md:overflow-scroll md:max-h-838 md:pb-8 md:lg:pb-16">
+                        <div className="md:overflow-auto h-full md:pb-20 pb-8">
                             <ul className="mb-4">
                                 {searchResults
                                     /**
@@ -153,6 +162,7 @@ const Filter = ({
 
     return (
         <Tippy
+            interactive
             visible={visible}
             onClickOutside={() => setVisible(false)}
             placement="bottom"

@@ -65,7 +65,7 @@ const MenuItemsList = ({
                                 setPasswordChangeOpen(true)
                         }}
                         tabIndex={0}>
-                        Wachtwoord Wijzigen
+                        Wachtwoord wijzigen
                         <FontAwesomeIcon
                             className="absolute right-0 h-8 mr-3 text-xs"
                             icon={faExternalLinkSquare}
