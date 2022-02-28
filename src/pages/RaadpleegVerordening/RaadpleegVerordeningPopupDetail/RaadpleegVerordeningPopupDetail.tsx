@@ -74,11 +74,16 @@ const RaadpleegVerordeningPopupDetail = ({
 
     return (
         <Modal open={open} close={close}>
-            <Heading level="2" className="font-bold" color="text-pzh-blue-dark">
+            <Heading
+                level="2"
+                className="pl-3 font-bold"
+                color="text-pzh-blue-dark">
                 Artikel {activeArticle.Volgnummer}
             </Heading>
-            <div className="grid grid-cols-2 gap-x-10">
-                <div className="col-span-2 sm:col-span-1">
+            <div className="grid grid-cols-2">
+                <div
+                    className="col-span-2 px-5 overflow-y-auto sm:col-span-1 pb-30"
+                    style={{ maxHeight: '60vh' }}>
                     <Heading
                         level="4"
                         className="font-bold"
@@ -121,7 +126,7 @@ const RaadpleegVerordeningPopupDetail = ({
                         <Text className="mt-4">{activeArticle.Inhoud}</Text>
                     )}
                 </div>
-                <div className="col-span-2 sm:col-span-1">
+                <div className="col-span-2 pl-5 sm:col-span-1">
                     <div>
                         <Heading
                             level="4"
