@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { Container } from '@/components/Container'
 import Heading from '@/components/Heading'
 import Text from '@/components/Text'
+import { releases } from '@/constants/releases'
 import {
     getResponsiveImageHeight,
     getResponsiveImageOffset,
@@ -298,22 +299,14 @@ const RaadpleegHome = () => {
                     </div>
                     <div className="col-span-6 mt-6 lg:mt-0 lg:col-span-4">
                         <div className="grid grid-cols-4 gap-3 text-white md:gap-10">
-                            <ReleaseItem
-                                date="Vrijdag 1 maart"
-                                releaseNumber="31"
-                                releaseNotes={[
-                                    'Mogelijk gemaakt om te zoeken op de kaart',
-                                    'Vanuit een ambitie, beleidsdoel en maatregel is het nu mogelijk om gekoppelde onderdelen in te zien',
-                                ]}
-                            />
-                            <ReleaseItem
-                                date="Vrijdag 1 maart"
-                                releaseNumber="31"
-                                releaseNotes={[
-                                    'Mogelijk gemaakt om te zoeken op de kaart',
-                                    'Vanuit een ambitie, beleidsdoel en maatregel is het nu mogelijk om gekoppelde onderdelen in te zien',
-                                ]}
-                            />
+                            {releases.slice(0, 2).map(release => (
+                                <ReleaseItem
+                                    date={release.date}
+                                    releaseNumber={release.title}
+                                    releaseNote={release.description}
+                                    key={release.title}
+                                />
+                            ))}
                             <div className="col-span-4 mt-8 md:col-span-3 md:col-start-2 md:mt-0">
                                 <Text
                                     type="body"

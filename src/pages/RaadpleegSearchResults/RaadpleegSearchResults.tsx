@@ -7,7 +7,7 @@ import {
     getWerkingsGebiedenByArea,
 } from '@/api/axiosGeoJSON'
 import { getSearch, getSearchGeo } from '@/api/fetchers'
-import { GetSearch200Item } from '@/api/fetchers.schemas'
+import { GetSearch200ResultsItem } from '@/api/fetchers.schemas'
 import Container from '@/components/Container/Container'
 import Heading from '@/components/Heading'
 import { LoaderCard } from '@/components/Loader'
@@ -20,7 +20,9 @@ import useSearchResultFilters from '@/hooks/useSearchResultFilters'
 import handleError from '@/utils/handleError'
 
 const RaadpleegSearchResults = () => {
-    const [searchResults, setSearchResults] = useState<GetSearch200Item[]>([])
+    const [searchResults, setSearchResults] = useState<
+        GetSearch200ResultsItem[]
+    >([])
     const [dataLoaded, setDataLoaded] = useState(false)
 
     const { get } = useSearchParam()
@@ -42,15 +44,15 @@ const RaadpleegSearchResults = () => {
             }
 
             try {
-                const searchResults = await getSearch({
+                const { results } = await getSearch({
                     query: paramTextQuery,
                     limit: 20,
                     ...(paramOnly && { only: paramOnly }),
                 })
-                setSearchResults(searchResults)
+                setSearchResults(results || [])
                 setOnPageFilters({
                     type: 'initFilters',
-                    searchResultItems: searchResults,
+                    searchResultItems: results || [],
                 })
                 setDataLoaded(true)
             } catch (error) {
@@ -96,16 +98,17 @@ const RaadpleegSearchResults = () => {
 
                 if (werkingsgebiedenUUIDS.length === 0) return
 
-                const searchResults: GetSearch200Item[] = await getSearchGeo({
-                    query: werkingsgebiedenUUIDS,
-                })
+                const searchResults: GetSearch200ResultsItem[] | undefined =
+                    await getSearchGeo({
+                        query: werkingsgebiedenUUIDS,
+                    }).then(data => data.results)
 
                 setOnPageFilters({
                     type: 'initFilters',
-                    searchResultItems: searchResults,
+                    searchResultItems: searchResults || [],
                 })
                 setDataLoaded(true)
-                setSearchResults(searchResults)
+                setSearchResults(searchResults || [])
             } catch (error) {
                 let message = 'Unknown Error'
                 if (error instanceof Error) message = error.message

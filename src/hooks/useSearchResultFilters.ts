@@ -1,6 +1,9 @@
 import { useReducer } from 'react'
 
-import { GetSearch200Item } from '@/api/fetchers.schemas'
+import {
+    GetSearch200ResultsItem,
+    GetSearchGeo200ResultsItem,
+} from '@/api/fetchers.schemas'
 
 import useSearchParam from './useSearchParam'
 
@@ -16,16 +19,28 @@ export interface FilterCollection {
 }
 
 export type ACTIONTYPE =
-    | { type: 'initFilters'; searchResultItems: GetSearch200Item[] }
+    | {
+          type: 'initFilters'
+          searchResultItems:
+              | GetSearch200ResultsItem[]
+              | GetSearchGeo200ResultsItem[]
+      }
     | { type: 'toggleFilter'; name: string; newState: boolean }
-    | { type: 'updateFilters'; searchResultItems: GetSearch200Item[] }
+    | {
+          type: 'updateFilters'
+          searchResultItems:
+              | GetSearch200ResultsItem[]
+              | GetSearchGeo200ResultsItem[]
+      }
 
 const useSearchResultFilters = () => {
     const { get, set, remove } = useSearchParam()
     const [paramFilter] = get('filter')
 
     const initFilters = (
-        searchResultItems: GetSearch200Item[],
+        searchResultItems:
+            | GetSearch200ResultsItem[]
+            | GetSearchGeo200ResultsItem[],
         update?: boolean,
         currentState?: FilterCollection
     ) => {

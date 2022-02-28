@@ -3,13 +3,13 @@ import Heading from '@/components/Heading'
 interface ReleaseItemProps {
     date: string
     releaseNumber: string
-    releaseNotes: string[]
+    releaseNote: string
 }
 
 const ReleaseItem = ({
     date,
     releaseNumber,
-    releaseNotes = [],
+    releaseNote,
 }: ReleaseItemProps) => (
     <>
         <span className="flex justify-start col-span-4 pt-0 mt-8 opacity-50 md:pt-6 md:justify-end md:col-span-1 md:mt-0">
@@ -19,11 +19,7 @@ const ReleaseItem = ({
             <Heading level="3" color="text-white">
                 Release {releaseNumber}
             </Heading>
-            <ul className="pl-4 list-disc list-outside">
-                {releaseNotes.map(note => (
-                    <li key={note}>{note}</li>
-                ))}
-            </ul>
+            <span>{releaseNote}</span>
         </div>
     </>
 )

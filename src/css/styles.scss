@@ -524,3 +524,8 @@ ul li .revision-removal,
 ol li .revision-removal {
     display: block;
 }
+
+#revisie-from input,
+#revisie-to input {
+    box-shadow: none;
+}
