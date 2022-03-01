@@ -106,8 +106,8 @@ const NavigationPopupMenu = ({
                         <Container
                             className="h-full overflow-y-auto"
                             style={isMobile ? containerHeightStyle : undefined}>
-                            <div className="flex flex-col md:items-center col-span-6 mt-6 sm:flex-row">
-                                <div className="relative flex flex-1 items-center w-full">
+                            <div className="flex flex-col col-span-6 mt-6 md:items-center sm:flex-row">
+                                <div className="relative flex items-center flex-1 w-full">
                                     <FontAwesomeIcon
                                         className="absolute left-0 ml-2 text-lg text-pzh-blue-dark"
                                         icon={faSearch}
@@ -118,7 +118,7 @@ const NavigationPopupMenu = ({
                                         }}
                                     />
                                 </div>
-                                <div className="sm:ml-2 md:mt-0 mt-2">
+                                <div className="mt-2 sm:ml-2 md:mt-0">
                                     <Text>
                                         of{' '}
                                         <Link
@@ -250,7 +250,6 @@ const ToggleMenuButton = ({
     <button
         onKeyDown={e => {
             if (e.key === 'Tab' && e.shiftKey) {
-                console.log('EXEC')
                 e.preventDefault()
                 document
                     .getElementById('menu-item-netwerkvisualisatie')

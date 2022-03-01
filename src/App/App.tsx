@@ -68,7 +68,6 @@ const App: FC<RouteComponentProps> = () => {
 
     useEffect(() => {
         window.addEventListener('authEvent', e => listenForExpiredSession(e))
-
         checkIfUserIsAuthenticated()
         checkForInternetExplorer()
 
@@ -84,8 +83,6 @@ const App: FC<RouteComponentProps> = () => {
         // In api/instance.ts we make a new CustomEvent with the message below to indicate the token session has ended. In the mount we add an eventlistener and listen for this event to prompt the popup so the user can login again.
         if (e.detail.message === 'Authenticated sessie is afgelopen') {
             setLoggedIn(false)
-            // TODO: Add opnieuw inlog popup
-            // showReAuthenticatePopup(e)
         }
     }
 
