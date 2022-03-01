@@ -65,8 +65,8 @@
         "format": "prettier --write './src/**/*'",
         "prod:build-osx": "NODE_ENV=production GENERATE_SOURCEMAP=false npm run build",
         "prod:build-win": "SET NODE_ENV=production && SET GENERATE_SOURCEMAP=false&& npm run build",
-        "local-test": "craco test --watchAll --maxWorkers=25% --coverage",
-        "test": "craco test --watchAll=false --coverage --runInBand --verbose --transformIgnorePatterns \"node_modules/(?!your-module-name)/\"",
+        "test:local": "craco test --watchAll --maxWorkers=25% --coverage",
+        "test:ci": "craco test --watchAll=false --maxWorkers=2 --runInBand --verbose --coverage --ci --forceExit",
         "eject": "react-scripts eject",
         "docs": "jsdoc -c jsdoc.json",
         "generate-types": "orval && eslint --fix './src/api/fetchers.ts'"
