@@ -11,7 +11,6 @@ import PopupMotivation from '../PopupMotivation'
 
 /**
  * @prop {boolean} loaded true if the incoming relationships have loaded
- * @prop {boolean} loaded true if the outgoing relationships have loaded
  * @prop {array} disconnected contains the beleidsrelaties with a status of 'Verbroken'
  * @prop {string} motivationPopUp contains the UUID of a beleidsrelatie
  * @prop {function} setMotivationPopUp takes a UUID and set it in parent state in motivationPopUp
