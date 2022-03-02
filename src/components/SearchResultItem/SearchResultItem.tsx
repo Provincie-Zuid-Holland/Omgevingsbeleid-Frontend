@@ -82,6 +82,7 @@ const SearchResultItem: FC<SearchResultItem> = ({ item, searchQuery }) => {
                     <p
                         className="mt-2 line-clamp-4"
                         dangerouslySetInnerHTML={content.Omschrijving}
+                        style={{ maxHeight: 120 }}
                     />
                 ) : (
                     <p className="mt-2 italic">
