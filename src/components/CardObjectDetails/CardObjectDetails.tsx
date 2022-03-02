@@ -48,7 +48,7 @@ function CardObjectDetails({
 
     return (
         <Transition
-            show={true}
+            show
             enter="transition ease-out duration-150 transform"
             enterFrom="opacity-0 scale-90"
             enterTo="opacity-100 scale-100"
@@ -61,7 +61,9 @@ function CardObjectDetails({
                     className={`relative h-full w-full inline-block h-full px-4 pt-4 pb-6 overflow-hidden bg-white rounded shadow-md`}
                     to={detailPageLink}
                     id={elementID}>
-                    <span className="block py-1 text-sm font-light text-gray-600 font-bold">
+                    <span
+                        className="block py-1 text-sm font-light text-gray-600 font-bold"
+                        data-testid="card-object-title">
                         {titleSingular}
                     </span>
                     <h2 className="pr-8 text-xl font-bold text-gray-800 line-clamp-2">

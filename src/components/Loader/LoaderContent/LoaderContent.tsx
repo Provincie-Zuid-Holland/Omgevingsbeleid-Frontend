@@ -18,7 +18,8 @@ function LoaderContent() {
                     width="24px"
                     height="30px"
                     viewBox="0 0 24 30"
-                    xmlSpace="preserve">
+                    xmlSpace="preserve"
+                    data-testid="loader-content">
                     <title>Laad indicator</title>
                     <rect
                         x="0"
