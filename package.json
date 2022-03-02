@@ -65,10 +65,9 @@
         "format": "prettier --write './src/**/*'",
         "prod:build-osx": "NODE_ENV=production GENERATE_SOURCEMAP=false npm run build",
         "prod:build-win": "SET NODE_ENV=production && SET GENERATE_SOURCEMAP=false&& npm run build",
-        "local-test": "craco test --watchAll --runInBand --verbose --transformIgnorePatterns \"node_modules/(?!your-module-name)/\"",
-        "test": "craco test --watchAll=false --coverage --runInBand --verbose --transformIgnorePatterns \"node_modules/(?!your-module-name)/\"",
+        "test:local": "craco test --watchAll --maxWorkers=25% --coverage",
+        "test:ci": "craco test --watchAll=false --maxWorkers=2 --coverage --ci --forceExit",
         "eject": "react-scripts eject",
-        "cy:run": "cypress run",
         "docs": "jsdoc -c jsdoc.json",
         "generate-types": "orval && eslint --fix './src/api/fetchers.ts'"
     },
@@ -112,12 +111,10 @@
         "babel-eslint": "^10.1.0",
         "better-docs": "^2.3.2",
         "craco-alias": "^3.0.1",
-        "cypress": "^8.3.0",
         "eslint": "^7.28.0",
         "eslint-config-next": "^11.0.0",
         "eslint-config-prettier": "^8.3.0",
         "eslint-import-resolver-typescript": "^2.4.0",
-        "eslint-plugin-cypress": "^2.11.3",
         "eslint-plugin-import": "^2.23.4",
         "eslint-plugin-jsx-a11y": "^6.4.1",
         "eslint-plugin-prettier": "^3.4.0",
@@ -135,7 +132,18 @@
     },
     "jest": {
         "resetMocks": true,
-        "restoreMocks": true
+        "restoreMocks": true,
+        "coveragePathIgnorePatterns": [
+            "src/api/fetchers.ts",
+            "src/api/fetchers.schemas.ts"
+        ],
+        "transformIgnorePatterns": [
+            "node_modules/(?!d3)/"
+        ],
+        "moduleNameMapper": {
+            "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/src/mocks/fileMock.js",
+            "\\.(css|less)$": "<rootDir>/src/mocks/styleMock.js"
+        }
     },
     "resolutions": {
         "//": "See https://github.com/facebook/create-react-app/issues/11773",

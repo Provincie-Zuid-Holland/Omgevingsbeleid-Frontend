@@ -24,7 +24,8 @@ const FixedSidebarContainer = ({
 
         const offsetTop = alignWithContainer
             ? regulationContainer.offsetTop - 20
-            : navigation.offsetTop + navigation.offsetHeight
+            : navigation?.offsetTop + navigation?.offsetHeight
+
         const offsetLeft =
             containerWidth * 0.666 + regulationContainer.offsetLeft
 

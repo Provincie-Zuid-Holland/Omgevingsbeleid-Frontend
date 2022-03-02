@@ -17,8 +17,8 @@ interface HeadingMainProps {
 
 const HeadingMain = ({ titel, status, modules }: HeadingMainProps) => (
     <div className="relative">
-        <h1 className="inline-block text-xl font-bold text-gray-800">
-            <span className="mr-4">{titel}</span>
+        <h1 className="inline-block mr-4 text-xl font-bold text-gray-800">
+            {titel}
         </h1>
         {status && <BadgeStatus status={status} />}
         {modules && <BadgesModules modules={modules} />}
