@@ -66,7 +66,7 @@
         "prod:build-osx": "NODE_ENV=production GENERATE_SOURCEMAP=false npm run build",
         "prod:build-win": "SET NODE_ENV=production && SET GENERATE_SOURCEMAP=false&& npm run build",
         "test:local": "craco test --watchAll --maxWorkers=25% --coverage",
-        "test:ci": "craco test --watchAll=false --maxWorkers=2 --runInBand --verbose --coverage --ci --forceExit",
+        "test:ci": "craco test --watchAll=false --runInBand --verbose --coverage --ci --forceExit",
         "eject": "react-scripts eject",
         "docs": "jsdoc -c jsdoc.json",
         "generate-types": "orval && eslint --fix './src/api/fetchers.ts'"
