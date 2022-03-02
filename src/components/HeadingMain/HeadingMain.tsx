@@ -26,8 +26,8 @@ const HeadingMain = ({
 
     return (
         <div className="relative">
-            <Heading className="inline-block text-xl font-bold text-gray-800">
-                <span className="mr-4">{titel}</span>
+            <Heading className="inline-block mr-4 text-xl font-bold text-gray-800">
+                {titel}
             </Heading>
             {status && <BadgeStatus status={status} />}
             {modules && <BadgesModules modules={modules} />}

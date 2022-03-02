@@ -5,6 +5,7 @@ function LoaderContent() {
     return (
         <div
             id="loader-spinner"
+            data-testid="loader-spinner"
             className="fixed top-0 left-0 z-50 flex items-center justify-center w-screen h-screen pointer-events-none">
             <div className="loader loader--style8" title="7">
                 <svg
@@ -18,6 +19,7 @@ function LoaderContent() {
                     height="30px"
                     viewBox="0 0 24 30"
                     xmlSpace="preserve">
+                    <title>Laad indicator</title>
                     <rect
                         x="0"
                         y="10"

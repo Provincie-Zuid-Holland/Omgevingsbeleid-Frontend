@@ -62,7 +62,6 @@ const MenuItemsList = ({
                         className="relative flex items-center px-2 py-1 mt-1 text-sm leading-loose text-gray-600 rounded cursor-pointer hover:bg-gray-200 hover:text-gray-900"
                         onClick={() => setPasswordChangeOpen(true)}
                         onKeyDown={e => {
-                            console.log(e.code)
                             if (e.code === 'Enter' || e.code === 'Space')
                                 setPasswordChangeOpen(true)
                         }}

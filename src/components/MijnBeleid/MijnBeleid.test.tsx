@@ -2,11 +2,17 @@ import {
     render,
     screen,
     waitForElementToBeRemoved,
+    waitFor,
+    fireEvent,
+    prettyDOM,
 } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { MemoryRouter } from 'react-router-dom'
 
-import UserContext from '../../App/UserContext'
+import UserContext from '@/App/UserContext'
+import { beleidskeuzes } from '@/mocks/data/beleidskeuzes'
+import { maatregelen } from '@/mocks/data/maatregelen'
+
 import MijnBeleid from './MijnBeleid'
 
 describe('MijnBeleid', () => {
@@ -23,11 +29,9 @@ describe('MijnBeleid', () => {
         )
     }
 
-    it('Displays data after loading', async () => {
+    it('User can navigate their policies', async () => {
         setup()
-        await waitForElementToBeRemoved(() => screen.getAllByRole('img'), {
-            timeout: 5000,
-        })
+        await waitForElementToBeRemoved(() => screen.getAllByRole('img'))
 
         const addNewBeleidskeuze = await screen.findByText(
             '+ Voeg Beleidskeuze Toe'
@@ -36,5 +40,15 @@ describe('MijnBeleid', () => {
 
         expect(addNewBeleidskeuze).toBeTruthy()
         expect(addNewMaatregel).toBeTruthy()
+
+        await waitFor(() => {
+            beleidskeuzes.forEach(beleidskeuze => {
+                expect(screen.getByText(beleidskeuze.Titel)).toBeInTheDocument()
+            })
+
+            maatregelen.forEach(maatregel => {
+                expect(screen.getByText(maatregel.Titel)).toBeInTheDocument()
+            })
+        })
     })
 })

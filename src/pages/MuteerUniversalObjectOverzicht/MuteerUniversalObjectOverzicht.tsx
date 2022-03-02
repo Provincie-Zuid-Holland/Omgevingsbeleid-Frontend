@@ -62,8 +62,9 @@ const MuteerUniversalObjectOverzicht = ({
             gebruikersRol === 'Technisch beheerder' ||
             gebruikersRol === 'Test runner' ||
             gebruikersRol === 'Tester'
-        )
+        ) {
             return
+        }
 
         history.push('/muteer/mijn-beleid')
     }, [user, history])

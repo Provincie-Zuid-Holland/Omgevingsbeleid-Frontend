@@ -4,7 +4,6 @@ import { LastLocationProvider } from 'react-router-last-location'
 
 import App from './App'
 import ScrollToTop from './components/ScrollToTop'
-import * as serviceWorker from './serviceWorker'
 import { polyfills } from './utils/polyfills.js'
 
 polyfills()
@@ -18,5 +17,3 @@ ReactDOM.render(
     </BrowserRouter>,
     document.getElementById('root')
 )
-
-serviceWorker.unregister()

@@ -173,6 +173,7 @@ const Button = ({ toggleFunction, icon, UUIDBeingEdited, href }) => {
                 }`}>
                 <span className="flex items-center justify-center px-2">
                     <FontAwesomeIcon className="absolute text-sm" icon={icon} />
+                    <span className="sr-only">Bewerken</span>
                 </span>
             </Link>
         )

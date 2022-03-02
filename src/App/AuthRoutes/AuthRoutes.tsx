@@ -104,29 +104,10 @@ const AuthRoutes = ({ authUser, loggedIn }: AuthRoutesProps) => {
             />
             <Route
                 exact
-                path={`/muteer/beleidskeuzes/edit/:single/:version`}
-                render={() => (
-                    <MuteerUniversalObjectCRUD
-                        authUser={authUser}
-                        dimensieConstants={allDimensies.BELEIDSKEUZES}
-                    />
-                )}
-            />
-            <Route
-                exact
                 path={`/muteer/beleidskeuzes/edit/:single`}
                 render={() => (
                     <MuteerUniversalObjectCRUD
                         authUser={authUser}
-                        dimensieConstants={allDimensies.BELEIDSKEUZES}
-                    />
-                )}
-            />
-            <Route
-                exact
-                path={`/muteer/beleidskeuzes/:single/:version`}
-                render={() => (
-                    <MuteerUniversalObjectDetailWithStatuses
                         dimensieConstants={allDimensies.BELEIDSKEUZES}
                     />
                 )}
@@ -171,29 +152,10 @@ const AuthRoutes = ({ authUser, loggedIn }: AuthRoutesProps) => {
             />
             <Route
                 exact
-                path={`/muteer/maatregelen/edit/:single/:version`}
-                render={() => (
-                    <MuteerUniversalObjectCRUD
-                        authUser={authUser}
-                        dimensieConstants={allDimensies.MAATREGELEN}
-                    />
-                )}
-            />
-            <Route
-                exact
                 path={`/muteer/maatregelen/edit/:single`}
                 render={() => (
                     <MuteerUniversalObjectCRUD
                         authUser={authUser}
-                        dimensieConstants={allDimensies.MAATREGELEN}
-                    />
-                )}
-            />
-            <Route
-                exact
-                path={`/muteer/maatregelen/:single/:version`}
-                render={() => (
-                    <MuteerUniversalObjectDetailWithStatuses
                         dimensieConstants={allDimensies.MAATREGELEN}
                     />
                 )}
@@ -272,16 +234,6 @@ const BeheerRoutes = ({ authUser }: Pick<AuthRoutesProps, 'authUser'>) => {
                         <Route
                             exact
                             path={`/muteer/${overzichtSlug}/${createNewSlug}`}
-                            render={() => (
-                                <MuteerUniversalObjectCRUD
-                                    authUser={authUser}
-                                    dimensieConstants={dimensieConstants}
-                                />
-                            )}
-                        />
-                        <Route
-                            exact
-                            path={`/muteer/${overzichtSlug}/edit/:single/:version`}
                             render={() => (
                                 <MuteerUniversalObjectCRUD
                                     authUser={authUser}
