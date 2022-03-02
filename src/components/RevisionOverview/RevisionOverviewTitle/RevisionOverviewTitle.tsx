@@ -7,7 +7,7 @@ export interface RevisionOverviewTitleProps {
  */
 const RevisionOverviewTitle = ({ title }: RevisionOverviewTitleProps) => (
     <h2
-        className="mt-2 text-2xl font-semibold text-primary-super-dark"
+        className="mt-2 text-2xl font-semibold text-pzh-blue"
         dangerouslySetInnerHTML={{ __html: title }}
     />
 )

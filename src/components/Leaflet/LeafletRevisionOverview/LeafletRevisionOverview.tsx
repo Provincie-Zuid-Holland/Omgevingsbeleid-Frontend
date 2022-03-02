@@ -24,11 +24,13 @@ import { LeafletAreaLayer, LeafletControlLayer } from '../LeafletLayers'
 interface LeafletRevisionOverviewProps {
     gebiedenChanges: any
     gebiedenUUIDS: any
+    id?: string
 }
 
 const LeafletRevisionOverview = ({
     gebiedenChanges,
     gebiedenUUIDS,
+    id,
 }: LeafletRevisionOverviewProps) => {
     const [layers, setLayers] = useState<any>(null)
     const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -139,7 +141,7 @@ const LeafletRevisionOverview = ({
                 boundsOptions: { padding: [100, 100] },
             }}
             controllers={{ showLayers: false }}
-            id="leaflet-tiny-viewer">
+            id={id || 'leaflet-tiny-viewer'}>
             <LeafletRevisionOverviewInner
                 gebiedenUUIDS={gebiedenUUIDS}
                 {...layers}

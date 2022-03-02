@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom'
-import { useWindowSize } from 'react-use'
+import { useMedia } from 'react-use'
 
 import { GebruikersRead } from '@/api/fetchers.schemas'
 import { Container } from '@/components/Container'
 import Heading from '@/components/Heading'
+import { getHeadingStyles } from '@/components/Heading/Heading'
 import LoginForm from '@/components/LoginForm'
 import Text from '@/components/Text'
 
@@ -21,13 +22,13 @@ interface LoginProps {
 }
 
 const Login = ({ setLoginUser, setLoginState }: LoginProps) => {
-    const windowSize = useWindowSize()
+    const isMobile = useMedia('(max-width: 640px)')
 
     return (
         <>
             <Container
                 style={
-                    windowSize.width > 640
+                    !isMobile
                         ? {
                               minHeight: '576px',
                           }
@@ -61,7 +62,11 @@ const Login = ({ setLoginUser, setLoginState }: LoginProps) => {
 
             <Container className="border-t border-gray-300">
                 <div className="col-span-6 py-4 mt-4 lg:mt-0 lg:py-12 lg:col-span-3">
-                    <Heading level="3">Digitaal Omgevingsbeleid</Heading>
+                    <h2
+                        style={getHeadingStyles('3', isMobile)}
+                        className="break-words text-pzh-blue">
+                        Digitaal Omgevingsbeleid
+                    </h2>
                     <Text type="body" className="mt-3">
                         Provincie Zuid-Holland heeft haar beleid eenvoudiger,
                         transparanter en toegankelijker gemaakt. Via deze
@@ -75,7 +80,11 @@ const Login = ({ setLoginUser, setLoginState }: LoginProps) => {
                     </Link>
                 </div>
                 <div className="col-span-6 py-4 mt-4 mb-4 lg:mt-0 lg:py-12 lg:col-span-3">
-                    <Heading level="3">Hulp bij het inloggen</Heading>
+                    <h2
+                        style={getHeadingStyles('3', isMobile)}
+                        className="break-words text-pzh-blue">
+                        Hulp bij het inloggen
+                    </h2>
                     <Text type="body" className="mt-3">
                         Lukt het niet om in te loggen? Neem contact op met de
                         afdeling omgevingsbeleid via{' '}

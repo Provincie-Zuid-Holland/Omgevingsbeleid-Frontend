@@ -76,7 +76,7 @@ function RaadpleegUniversalObjectOverview({
                     </Text>
                     <div className="mt-8">
                         {!isLoading && allObjects && allObjects?.length > 25 ? (
-                            <div>
+                            <div className="mb-4">
                                 <input
                                     className="w-full px-4 py-1 placeholder-gray-500 transition-colors duration-100 ease-in border rounded appearance-none hover:border-opacity-50 border-pzh-blue border-opacity-30"
                                     value={filterQuery}

@@ -43,7 +43,7 @@ const RevisionOverviewValidText = ({
     const validText = getTextValidFromSince(object)
 
     return (
-        <span className="inline-block my-3 text-base text-gray-600 ">
+        <span className="inline-block my-3 text-base text-gray-700">
             {validText}
         </span>
     )
