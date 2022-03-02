@@ -127,7 +127,8 @@ const PopupRevisionTimeline = ({
         open={open}
         close={() => setOpen(false)}
         maxWidth="max-w-sm"
-        containerPadding="p-0">
+        containerPadding="p-0"
+        ariaLabel="Versies van dit beleid">
         <div>
             <div className="p-6 pb-0">
                 <Heading level="3" color="text-pzh-blue-dark">

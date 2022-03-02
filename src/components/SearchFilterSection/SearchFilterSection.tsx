@@ -59,9 +59,7 @@ const SearchFilterSection = ({
                                     {category}
                                 </span>
                             )}
-                            <ul
-                                id="filter-search-results"
-                                className={!hideLabels ? 'mb-4' : ''}>
+                            <ul className={!hideLabels ? 'mb-4' : ''}>
                                 {onPageFilters.availableFilters
                                     .filter(filterCategory =>
                                         searchFilterCategories[

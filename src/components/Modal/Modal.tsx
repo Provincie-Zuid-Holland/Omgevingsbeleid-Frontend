@@ -9,6 +9,7 @@ interface ModalProps {
     close: () => void
     maxWidth?: string
     containerPadding?: string
+    ariaLabel: string
 }
 
 const Modal: FC<ModalProps> = ({
@@ -17,6 +18,7 @@ const Modal: FC<ModalProps> = ({
     close,
     maxWidth = 'max-w-6xl',
     containerPadding = 'sm:p-8 p-6',
+    ariaLabel,
 }) => {
     const { width: screenWidth } = useWindowSize()
 
@@ -25,7 +27,8 @@ const Modal: FC<ModalProps> = ({
             <Dialog
                 as="div"
                 className="fixed inset-0 z-50 overflow-hidden"
-                onClose={close}>
+                onClose={close}
+                aria-label={ariaLabel}>
                 <div
                     className={`flex items-center justify-center min-h-screen overflow-hidden text-center rounded-lg sm:block px-4 pt-4 pb-4 sm:p-2`}>
                     <Transition.Child

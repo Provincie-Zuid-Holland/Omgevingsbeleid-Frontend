@@ -34,7 +34,7 @@ function SearchSection() {
                     <Text type="body" className="mt-4">
                         Naar welk onderwerp ben je op zoek?
                     </Text>
-                    <SearchBar className="mt-2" />
+                    <SearchBar className="mt-2" id="search-query-home" />
                 </div>
             ) : currentView === 'map' ? (
                 <div>

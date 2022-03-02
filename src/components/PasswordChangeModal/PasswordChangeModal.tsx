@@ -116,6 +116,7 @@ export default function PasswordChangeModal({
                     type="button"
                     className="py-1 pl-3 pr-1 text-gray-600 cursor-pointer hover:text-gray-800 pzh-transition-colors"
                     id={`password-reset-close`}
+                    aria-label="Sluiten"
                     tabIndex={0}>
                     <FontAwesomeIcon icon={faTimes} />
                 </button>

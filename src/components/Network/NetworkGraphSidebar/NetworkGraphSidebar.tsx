@@ -63,7 +63,7 @@ const NetworkGraphSidebar = ({
     return (
         <div className="w-full px-4 pr-4 mt-10 mb-4 lg:pl-6 lg:ml-10 lg:w-1/4">
             <div
-                className="mb-6 text-sm text-gray-600 transition-colors duration-100 ease-in cursor-pointer hover:text-gray-800 "
+                className="mb-6 text-sm text-pzh-blue cursor-pointer opacity-75 hover:opacity-100 transition-opacity ease-in duration-100 inline-block"
                 onClick={() => goBack()}>
                 <FontAwesomeIcon className="mr-2" icon={faArrowLeft} />
                 <span>Vorige pagina</span>

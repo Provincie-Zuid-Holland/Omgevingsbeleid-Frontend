@@ -72,7 +72,7 @@ const RevisionOverviewBelangen = ({
                     )
                 })
             ) : (
-                <span className="italic text-gray-600">{placeholder}</span>
+                <span className="italic text-gray-700">{placeholder}</span>
             )}
         </div>
     )

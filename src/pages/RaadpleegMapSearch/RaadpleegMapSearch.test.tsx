@@ -7,21 +7,7 @@ import RaadpleegMapSearch from './RaadpleegMapSearch'
 
 const queryClient = new QueryClient()
 
-const createMockMediaMatcher =
-    (matches: Record<string, boolean>) => (qs: string) => ({
-        matches: matches[qs] ?? false,
-        addListener: () => {},
-        removeListener: () => {},
-    })
-
 describe('RaadpleegMapSearch', () => {
-    beforeEach(() => {
-        window.matchMedia = createMockMediaMatcher({
-            '(min-width: 500px)': true,
-            '(min-width: 1000px)': false,
-        }) as any
-    })
-
     const defaultProps = {}
 
     const setup = (customProps?: any) => {

@@ -257,16 +257,16 @@ const MuteerBeleidsrelatiesOverzicht = ({
                                     </li>
                                 ))
                             ) : (
-                                <span className="inline-block mt-2 text-gray-600 font-italic">
+                                <li className="inline-block mt-2 text-gray-600 font-italic">
                                     Je hebt nog geen beleidskeuzes
-                                </span>
+                                </li>
                             )
                         ) : (
-                            <>
+                            <li>
                                 <LoaderBeleidsrelatieRegel />
                                 <LoaderBeleidsrelatieRegel />
                                 <LoaderBeleidsrelatieRegel />
-                            </>
+                            </li>
                         )}
                     </ul>
                 </div>

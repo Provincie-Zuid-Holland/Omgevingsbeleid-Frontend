@@ -38,14 +38,14 @@ const RevisionOverviewChangeContainer = ({
                 <RevisionOverviewContainerMain>
                     {/* Section - Title */}
                     <RevisionOverviewContainerLeft>
-                        <span className="block text-lg font-bold opacity-25 text-primary-super-dark">
+                        <span className="block text-lg font-bold text-pzh-blue-dark">
                             Beleidskeuze
                         </span>
                         <RevisionOverviewTitle title={oldObject.Titel} />
                     </RevisionOverviewContainerLeft>
 
                     <RevisionOverviewContainerRight>
-                        <span className="block text-lg font-bold opacity-25 text-primary-super-dark">
+                        <span className="block text-lg font-bold text-pzh-blue-dark">
                             Beleidskeuze
                         </span>
                         <RevisionOverviewTitle title={changesObject.Titel} />

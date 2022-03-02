@@ -251,7 +251,10 @@ const MuteerUniversalObjectDetailWithStatuses = ({
             </Helmet>
 
             {/* Dimensie Container */}
-            <div className="inline-block w-full">
+            <div
+                className="inline-block w-full"
+                aria-live="polite"
+                aria-busy={!isLoading}>
                 <GenerateBackToButton
                     hash={location.hash}
                     dataObject={dataObject}

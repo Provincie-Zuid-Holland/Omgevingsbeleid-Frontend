@@ -10,7 +10,7 @@ import { GetGraph200, GetGraph200NodesItem } from '@/api/fetchers.schemas'
 import axios from '@/api/instance'
 import networkGraphConnectionProperties from '@/constants/networkGraphConnectionProperties'
 import networkGraphFilterMenu from '@/constants/networkGraphFilterMenu'
-import useMuteerEnvironment from '@/hooks/useMuteerEnvironment'
+import usePage from '@/hooks/usePage'
 import hideBannerLocalStorage from '@/utils/hideBannerLocalStorage'
 import { getFilteredData } from '@/utils/networkGraph'
 import networkGraphGenerateHref from '@/utils/networkGraphGenerateHref'
@@ -63,7 +63,7 @@ const NetworkGraph = () => {
     const lastLocation = useLastLocation()
     const lastLocationRef = useRef<string | null>(null)
 
-    const userIsInMuteerEnvironment = useMuteerEnvironment()
+    const userIsInMuteerEnvironment = usePage('/muteer/')
     const showBanner = userIsInMuteerEnvironment && !hideBannerLocalStorage()
 
     useEffect(() => {
@@ -698,12 +698,14 @@ const NetworkGraph = () => {
                     setFilters={setFilters}
                 />
                 <div className="w-full px-4 pb-20 mt-6 lg:pb-4 lg:mt-10 lg:w-3/4">
-                    <h2 className="text-xl text-pzh-blue opacity-30">
+                    <h2 className="text-xl text-pzh-blue opacity-50">
                         Omgevingsbeleid Provincie Zuid-Holland
                     </h2>
-                    <h3 className="py-2 text-3xl text-pzh-blue">
+                    <h1
+                        className="py-2 text-3xl text-pzh-blue"
+                        id="networkvisualization-title">
                         Netwerkvisualisatie
-                    </h3>
+                    </h1>
                     <div
                         className="relative mt-2 mb-10 overflow-hidden border rounded-md"
                         id="d3-graph-container"
@@ -725,6 +727,7 @@ const NetworkGraph = () => {
                             role="img"
                             className="w-full h-full d3-component"
                             ref={d3Container as any}
+                            aria-labelledby="networkvisualization-title"
                         />
                         <NetworkGraphResetClickedElement
                             resetNodes={resetNodes}

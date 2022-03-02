@@ -327,7 +327,6 @@ const MuteerBeleidsrelatiesDetail = ({
                 <Link
                     onClick={backToOverzicht}
                     className="inline-block mb-2 text-gray-600 cursor-pointer text-l"
-                    id="button-back-to-previous-page"
                     to={`/muteer/beleidsrelaties`}>
                     <FontAwesomeIcon className="mr-2" icon={faAngleLeft} />
                     <span>Terug naar overzicht</span>

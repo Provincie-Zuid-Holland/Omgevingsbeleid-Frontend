@@ -73,7 +73,10 @@ const RaadpleegVerordeningPopupDetail = ({
     }
 
     return (
-        <Modal open={open} close={close}>
+        <Modal
+            open={open}
+            close={close}
+            ariaLabel={`Artikel ${activeArticle.Volgnummer}`}>
             <Heading
                 level="2"
                 className="pl-3 font-bold"

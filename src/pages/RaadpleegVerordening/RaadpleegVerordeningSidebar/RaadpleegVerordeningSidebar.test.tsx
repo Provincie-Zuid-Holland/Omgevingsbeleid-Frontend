@@ -13,7 +13,7 @@ describe('RaadpleegVerordeningSidebar', () => {
         render(
             <MemoryRouter initialEntries={[path]}>
                 <Route path={path}>
-                    <div id="navigation-main" />
+                    <div id="top-navigation" />
                     <RaadpleegVerordeningSidebar {...props} />
                 </Route>
             </MemoryRouter>

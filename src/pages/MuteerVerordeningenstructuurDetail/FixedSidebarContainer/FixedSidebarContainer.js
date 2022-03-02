@@ -18,7 +18,7 @@ const FixedSidebarContainer = ({
         const regulationContainer = document.getElementById(
             'regulation-container'
         )
-        const navigation = document.getElementById('navigation-main')
+        const navigation = document.getElementById('top-navigation')
         const containerWidth = regulationContainer.offsetWidth
         const oneThirdContainerWidth = containerWidth * 0.333
 

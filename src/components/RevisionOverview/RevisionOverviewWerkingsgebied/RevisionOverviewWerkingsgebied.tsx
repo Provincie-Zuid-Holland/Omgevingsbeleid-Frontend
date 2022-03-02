@@ -95,6 +95,7 @@ const RevisionOverviewWerkingsgebied = ({
                         <LeafletRevisionOverview
                             gebiedenUUIDS={gebiedenUUIDS}
                             gebiedenChanges={gebiedenChanges}
+                            id="revision-overview-leaflet-map"
                         />
                     </div>
                     <ul className="mt-4">

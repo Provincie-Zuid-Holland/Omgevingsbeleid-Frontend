@@ -39,14 +39,16 @@ describe('MuteerUniversalObjectOverzicht', () => {
 
     it('Component renders', async () => {
         setup({}, { user: { UUID: '0001' } })
+
         await waitForElementToBeRemoved(() => screen.getAllByRole('img'))
+
         beleidskeuzes.forEach(beleidskeuze => {
             const beleidskeuzeTitle = screen.getByText(beleidskeuze.Titel)
             expect(beleidskeuzeTitle).toBeTruthy()
         })
-        const singularTitleHeadings = screen.getAllByRole('heading', {
-            level: 5,
-        })
+
+        const singularTitleHeadings = screen.getAllByTestId('card-object-title')
+
         expect(singularTitleHeadings.length).toBe(3)
     })
 

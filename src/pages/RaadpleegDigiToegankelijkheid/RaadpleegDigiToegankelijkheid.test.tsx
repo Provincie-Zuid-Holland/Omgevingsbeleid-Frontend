@@ -18,7 +18,7 @@ describe('RaadpleegDigiToegankelijkheid', () => {
 
     it('Component renders', () => {
         setup()
-        const element = screen.getByText('Toegankelijkheidsverklaring')
+        const element = screen.getByText('Toegankelijkheids­verklaring')
         expect(element).toBeTruthy()
     })
 })

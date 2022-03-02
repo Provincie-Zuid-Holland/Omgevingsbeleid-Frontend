@@ -15,9 +15,20 @@ global.document.createElementNS = function (namespaceURI, qualifiedName) {
     return createElementNSOrig.apply(this, arguments)
 }
 
+const createMockMediaMatcher = matches => qs => ({
+    matches: matches[qs] ?? false,
+    addListener: () => {},
+    removeListener: () => {},
+})
+
 // Establish API mocking before all tests.
 beforeAll(() => {
     server.listen()
+
+    window.matchMedia = createMockMediaMatcher({
+        '(min-width: 500px)': true,
+        '(min-width: 1000px)': false,
+    })
 })
 
 // Reset any request handlers that we may add during the tests,
