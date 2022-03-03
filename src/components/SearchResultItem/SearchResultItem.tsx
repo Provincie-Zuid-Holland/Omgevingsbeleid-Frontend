@@ -5,6 +5,7 @@ import {
     GetSearch200ResultsItem,
     GetSearchGeo200ResultsItem,
 } from '@/api/fetchers.schemas'
+import Truncate from '@/components/Truncate'
 import useSearchParam from '@/hooks/useSearchParam'
 import { DimensionType } from '@/types/dimensions'
 import getDimensionsConstants from '@/utils/getDimensionsConstants'
@@ -79,11 +80,12 @@ const SearchResultItem: FC<SearchResultItem> = ({ item, searchQuery }) => {
                     />
                 ) : null}
                 {content.Omschrijving ? (
-                    <p
-                        className="mt-2 line-clamp-4"
-                        dangerouslySetInnerHTML={content.Omschrijving}
-                        style={{ maxHeight: 120 }}
-                    />
+                    <div className="mt-2">
+                        <Truncate
+                            lines={4}
+                            dangerouslySetInnerHTML={content.Omschrijving}
+                        />
+                    </div>
                 ) : (
                     <p className="mt-2 italic">
                         Er is nog geen omschrijving voor deze
