@@ -1,11 +1,11 @@
 import { FC } from 'react'
 import { Link } from 'react-router-dom'
-import Truncate from 'react-truncate-html'
 
 import {
     GetSearch200ResultsItem,
     GetSearchGeo200ResultsItem,
 } from '@/api/fetchers.schemas'
+import Truncate from '@/components/Truncate'
 import useSearchParam from '@/hooks/useSearchParam'
 import { DimensionType } from '@/types/dimensions'
 import getDimensionsConstants from '@/utils/getDimensionsConstants'
