@@ -100,7 +100,7 @@ const RaadpleegSearchResults = () => {
 
                 const searchResults: GetSearch200ResultsItem[] | undefined =
                     await getSearchGeo({
-                        query: werkingsgebiedenUUIDS,
+                        query: werkingsgebiedenUUIDS.join(','),
                     }).then(data => data.results)
 
                 setOnPageFilters({
