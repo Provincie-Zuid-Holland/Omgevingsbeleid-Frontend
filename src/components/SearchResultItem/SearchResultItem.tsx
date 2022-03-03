@@ -1,4 +1,5 @@
 import { FC } from 'react'
+import HTMLEllipsis from 'react-lines-ellipsis/lib/html'
 import { Link } from 'react-router-dom'
 
 import {
@@ -25,9 +26,7 @@ const SearchResultItem: FC<SearchResultItem> = ({ item, searchQuery }) => {
         if (!text) {
             return null
         } else if (!query) {
-            return {
-                __html: text,
-            }
+            return text
         }
 
         const wordsInQuery = query.split(' ').filter(word => word.length >= 4)
@@ -39,18 +38,16 @@ const SearchResultItem: FC<SearchResultItem> = ({ item, searchQuery }) => {
             )
         }, text)
 
-        return {
-            __html: markedText,
-        }
+        return markedText
     }
 
     const content = {
         Titel: paramTextQuery
             ? highlightString(item.Titel, paramTextQuery.toString())
-            : { __html: item.Titel || '' },
+            : item.Titel || '',
         Omschrijving: paramTextQuery
             ? highlightString(item.Omschrijving, paramTextQuery.toString())
-            : { __html: item.Omschrijving || '' },
+            : item.Omschrijving || '',
     }
 
     const type = item.Type
@@ -75,14 +72,18 @@ const SearchResultItem: FC<SearchResultItem> = ({ item, searchQuery }) => {
                 {content.Titel ? (
                     <h2
                         className="block mt-1 text-lg font-bold group-hover:text-pzh-green text-pzh-blue group-hover:underline"
-                        dangerouslySetInnerHTML={content.Titel}
+                        dangerouslySetInnerHTML={{ __html: content.Titel }}
                     />
                 ) : null}
                 {content.Omschrijving ? (
-                    <p
-                        className="mt-2 line-clamp-4"
-                        dangerouslySetInnerHTML={content.Omschrijving}
-                    />
+                    <div className="mt-2">
+                        <HTMLEllipsis
+                            unsafeHTML={content.Omschrijving}
+                            maxLine="4"
+                            ellipsis="..."
+                            basedOn="words"
+                        />
+                    </div>
                 ) : (
                     <p className="mt-2 italic">
                         Er is nog geen omschrijving voor deze
