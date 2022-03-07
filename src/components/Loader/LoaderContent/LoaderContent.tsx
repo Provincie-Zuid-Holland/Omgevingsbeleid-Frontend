@@ -13,13 +13,13 @@ function LoaderContent() {
                     id="Layer_1"
                     xmlns="http://www.w3.org/2000/svg"
                     xmlnsXlink="http://www.w3.org/1999/xlink"
-                    role="img"
                     x="0px"
                     y="0px"
                     width="24px"
                     height="30px"
                     viewBox="0 0 24 30"
-                    xmlSpace="preserve">
+                    xmlSpace="preserve"
+                    data-testid="loader-content">
                     <title>Laad indicator</title>
                     <rect
                         x="0"

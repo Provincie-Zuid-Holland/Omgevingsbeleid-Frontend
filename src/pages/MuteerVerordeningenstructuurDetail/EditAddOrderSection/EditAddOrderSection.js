@@ -21,7 +21,7 @@ function EditAddOrderSection({
     addSectionMode,
 }) {
     // If offset of the top is scrolled by by the user set the component as fixed
-    // const navigation = document.getElementById('navigation-main')
+    // const navigation = document.getElementById('top-navigation')
 
     const [fixedStyle, setFixedStyle] = useState({})
     const [regularStyle, setRegularStyle] = useState({})

@@ -13,7 +13,8 @@ describe('LoaderContent', () => {
 
     it('Component renders', () => {
         setup()
-        const element = screen.getByRole('img')
+        const element = screen.getByTestId('loader-content')
+
         expect(element).toBeTruthy()
     })
 })

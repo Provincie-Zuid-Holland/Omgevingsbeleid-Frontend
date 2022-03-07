@@ -8,6 +8,7 @@ describe('Modal', () => {
     const defaultProps = {
         open: true,
         close: closeMock,
+        ariaLabel: 'test',
     }
 
     const setup = (customProps?: any) => {

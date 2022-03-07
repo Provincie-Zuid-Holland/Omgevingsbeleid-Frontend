@@ -9,7 +9,6 @@ import {
 } from '@/api/fetchers.schemas'
 import BackButton from '@/components/BackButton'
 import { Container } from '@/components/Container'
-import Footer from '@/components/Footer'
 import Heading from '@/components/Heading'
 import { LoaderContent } from '@/components/Loader'
 import RelatiesKoppelingen from '@/components/RelatiesKoppelingen'
@@ -175,7 +174,6 @@ const RaadpleegObjectDetail = ({
                     dataObject={dataObject as any}
                 />
             ) : null}
-            <Footer />
         </>
     )
 }

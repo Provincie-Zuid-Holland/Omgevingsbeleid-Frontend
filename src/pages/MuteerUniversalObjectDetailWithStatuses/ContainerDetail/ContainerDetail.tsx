@@ -36,6 +36,7 @@ interface ContainerDetailProps extends RouteComponentProps {
     isLoading?: boolean
     dimensionHistory: BeleidskeuzesRead[]
     setDimensionHistory: (dimensionHistory: BeleidskeuzesRead[]) => void
+    isHistory?: boolean
 }
 
 const ContainerDetail: FC<ContainerDetailProps> = ({
@@ -49,6 +50,7 @@ const ContainerDetail: FC<ContainerDetailProps> = ({
     isLoading,
     dimensionHistory,
     setDimensionHistory,
+    isHistory,
 }) => {
     const location = useLocation()
     const { single } = useParams<{ single: string }>()
@@ -152,6 +154,7 @@ const ContainerDetail: FC<ContainerDetailProps> = ({
                         titel={dataObject.Titel || ''}
                         status={dataObject.Status}
                         modules={dataObject.Ref_Beleidsmodules}
+                        isHistory={isHistory}
                     />
                 ) : (
                     <LoaderMainTitle />

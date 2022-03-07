@@ -111,10 +111,22 @@ const createCustomPopup = async (
     }
 
     if (searchOpen !== 'true') {
-        handlePopupEvents(map, layer, history, searchParams, path)
+        handlePopupEvents(
+            map,
+            layer,
+            history,
+            searchParams,
+            isAdvancedSearch ? path : undefined
+        )
 
         map.on('popupopen', () =>
-            handlePopupEvents(map, layer, history, searchParams, path)
+            handlePopupEvents(
+                map,
+                layer,
+                history,
+                searchParams,
+                isAdvancedSearch ? path : undefined
+            )
         )
     }
 }
@@ -124,7 +136,7 @@ const handlePopupEvents = (
     layer: any,
     history: any,
     searchParams: URLSearchParams,
-    path: string
+    path?: string
 ) => {
     const popupContainer = layer.getPopup().getElement()
 
@@ -133,7 +145,7 @@ const handlePopupEvents = (
         ?.addEventListener('click', () => {
             map.fireEvent('draw:deleted')
             map.removeLayer(layer)
-            history.push(path)
+            path && history.push(path)
         })
 
     popupContainer

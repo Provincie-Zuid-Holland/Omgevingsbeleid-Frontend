@@ -39,7 +39,7 @@ const TableOfContents = ({ display }: { display: 'block' | 'fixed' }) => {
     /** Get all H2 elements on the page and set in state */
     useEffect(() => {
         const navHeight =
-            document.getElementById('navigation-main')?.offsetHeight
+            document.getElementById('top-navigation')?.offsetHeight
 
         if (!navHeight) return
 
@@ -67,7 +67,7 @@ const TableOfContents = ({ display }: { display: 'block' | 'fixed' }) => {
                     color="text-pzh-blue-dark">
                     Op deze pagina
                 </Text>
-                <nav>
+                <nav id={`table-of-contents-${display}`}>
                     <ul
                         className={
                             display === 'block'

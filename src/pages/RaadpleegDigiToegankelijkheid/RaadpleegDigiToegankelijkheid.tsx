@@ -3,7 +3,6 @@ import { useRef } from 'react'
 import Breadcrumbs from '@/components/Breadcrumbs'
 import { Container } from '@/components/Container'
 import { useDnaBarWidth } from '@/components/DNABar'
-import Footer from '@/components/Footer'
 import Heading from '@/components/Heading'
 import Text from '@/components/Text'
 import imgDigiToegankelijkheid from '@/images/digi-toegankelijkheid.png'
@@ -88,7 +87,6 @@ function RaadpleegDigiToegankelijkheid() {
                     </a>
                 </div>
             </Container>
-            <Footer />
         </div>
     )
 }

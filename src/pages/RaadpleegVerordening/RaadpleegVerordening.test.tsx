@@ -17,7 +17,7 @@ describe('RaadpleegVerordening', () => {
             <MemoryRouter initialEntries={[path]}>
                 <QueryClientProvider client={queryClient}>
                     <Route path={path}>
-                        <div id="navigation-main" />
+                        <div id="top-navigation" />
                         <RaadpleegVerordening {...props} />
                     </Route>
                 </QueryClientProvider>

@@ -113,7 +113,8 @@ const BannerEnvironment = ({
                             setShowBanner(!showBanner)
                             removeBanner()
                             setHideBannerLocalStorage()
-                        }}>
+                        }}
+                        aria-label="sluiten">
                         <svg
                             className="w-6 h-6"
                             stroke="currentColor"

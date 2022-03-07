@@ -76,50 +76,43 @@ const ViewFieldIngelogdExtraInfo = ({
     }, [crudObject, getCanUserEdit, user])
 
     return (
-        <UserContext.Consumer>
-            {context => (
-                <div
-                    className={`px-3 py-3 bg-gray-100 border border-gray-200 rounded-md ${
-                        className ? className : ''
-                    }`}>
-                    <span className="text-sm text-gray-600">
-                        Deze informatie zien alleen gebruikers die zijn
-                        ingelogd.
-                    </span>
-                    <div className="flex items-center justify-between mt-2">
-                        <div className="flex items-center">
-                            <EigenarenList eigenaren={eigenaren} />
-                            {crudObject['Weblink'] ? (
-                                <a
-                                    href={crudObject['Weblink']}
-                                    target="_blank"
-                                    className="mr-4 text-sm font-bold text-gray-600 hover:underline"
-                                    rel="noopener noreferrer">
-                                    <FontAwesomeIcon
-                                        className="mr-2 text-gray-600"
-                                        icon={faLink}
-                                    />
-                                    IDMS-koppeling
-                                </a>
-                            ) : null}
-                        </div>
-                        {canUserEdit && !hideEdit ? (
-                            <Link
-                                to={`/muteer/${
-                                    crudObject.hasOwnProperty(
-                                        'Ref_Beleidskeuzes'
-                                    )
-                                        ? MAATREGELEN.SLUG_OVERVIEW
-                                        : BELEIDSKEUZES.SLUG_OVERVIEW
-                                }/${crudObject.ID}`}
-                                className="px-3 py-2 text-xs font-bold tracking-wide border rounded cursor-pointer text-pzh-blue border-pzh-blue">
-                                Openen in beheeromgeving
-                            </Link>
-                        ) : null}
-                    </div>
+        <div
+            className={`px-3 py-3 bg-gray-100 border border-gray-200 rounded-md ${
+                className ? className : ''
+            }`}>
+            <span className="text-sm text-gray-700">
+                Deze informatie zien alleen gebruikers die zijn ingelogd.
+            </span>
+            <div className="flex items-center justify-between mt-2">
+                <div className="flex items-center">
+                    <EigenarenList eigenaren={eigenaren} />
+                    {crudObject['Weblink'] ? (
+                        <a
+                            href={crudObject['Weblink']}
+                            target="_blank"
+                            className="mr-4 text-sm font-bold text-gray-600 hover:underline"
+                            rel="noopener noreferrer">
+                            <FontAwesomeIcon
+                                className="mr-2 text-gray-600"
+                                icon={faLink}
+                            />
+                            IDMS-koppeling
+                        </a>
+                    ) : null}
                 </div>
-            )}
-        </UserContext.Consumer>
+                {canUserEdit && !hideEdit ? (
+                    <Link
+                        to={`/muteer/${
+                            crudObject.hasOwnProperty('Ref_Beleidskeuzes')
+                                ? MAATREGELEN.SLUG_OVERVIEW
+                                : BELEIDSKEUZES.SLUG_OVERVIEW
+                        }/${crudObject.ID}`}
+                        className="px-3 py-2 text-xs font-bold tracking-wide border rounded cursor-pointer text-pzh-blue border-pzh-blue">
+                        Openen in beheeromgeving
+                    </Link>
+                ) : null}
+            </div>
+        </div>
     )
 }
 

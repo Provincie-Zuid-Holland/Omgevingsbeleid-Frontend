@@ -249,7 +249,8 @@ const PopupRevisionOverview = ({
                                         name="revisie-form-from"
                                         onChange={e => setLeftSelect(e?.value)}
                                         options={optionsLeft}
-                                        placeholder={`Selecteer de oudere versie van de beleidskeuze`}
+                                        placeholder="Selecteer de oudere versie van de beleidskeuze"
+                                        aria-label="Selecteer de oudere versie van de beleidskeuze"
                                     />
                                     <Select
                                         className="w-full mt-4 shadow lg:w-1/2 lg:ml-2 lg:mt-0"
@@ -257,7 +258,8 @@ const PopupRevisionOverview = ({
                                         name="revisie-form-to"
                                         onChange={e => setRightSelect(e?.value)}
                                         options={optionsRight}
-                                        placeholder={`Selecteer de nieuwere versie van de beleidskeuze`}
+                                        placeholder="Selecteer de nieuwere versie van de beleidskeuze"
+                                        aria-label="Selecteer de nieuwere versie van de beleidskeuze"
                                     />
                                 </div>
                             </div>
@@ -292,8 +294,8 @@ const PopupRevisionOverview = ({
                                         </div>
                                     </>
                                 ) : (
-                                    <div className="flex items-center justify-center w-full h-64 text-gray-600">
-                                        <span className="p-4 text-base italic text-center text-gray-500 md:text-xl">
+                                    <div className="flex items-center justify-center w-full h-64">
+                                        <span className="p-4 text-base italic text-center text-gray-600 md:text-xl">
                                             Selecteer twee beleidskeuzes om te
                                             vergelijken
                                         </span>

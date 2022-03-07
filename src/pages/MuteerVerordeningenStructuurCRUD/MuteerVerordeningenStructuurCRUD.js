@@ -275,7 +275,7 @@ class MuteerVerordeningenStructuurCRUD extends Component {
         const handleChange = this.handleChange
 
         return (
-            <div>
+            <div aria-live="polite" aria-busy={!dataLoaded}>
                 <Helmet>
                     <title>
                         {editStatus

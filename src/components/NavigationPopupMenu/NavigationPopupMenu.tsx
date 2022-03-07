@@ -58,7 +58,7 @@ const NavigationPopupMenu = ({
         setIsMobile(windowSize.width <= 640)
         setContainerHeightStyle({
             maxHeight: `calc(100vh - ${
-                document.getElementById('navigation-main')?.offsetHeight + 'px'
+                document.getElementById('top-navigation')?.offsetHeight + 'px'
             })`,
         })
     }, [windowSize])
@@ -99,10 +99,11 @@ const NavigationPopupMenu = ({
                     <div
                         style={bannerAdjustedOffsetTop}
                         className="fixed top-0 left-0 z-0 block w-screen h-screen bg-gray-900 pointer-events-none opacity-40"></div>
-                    <div
+                    <nav
                         id="popup-menu"
                         className="fixed top-0 left-0 z-10 w-full pb-8 bg-white"
-                        style={bannerAdjustedOffsetTop}>
+                        style={bannerAdjustedOffsetTop}
+                        aria-label="primary">
                         <Container
                             className="h-full overflow-y-auto"
                             style={isMobile ? containerHeightStyle : undefined}>
@@ -229,7 +230,7 @@ const NavigationPopupMenu = ({
                                 </ul>
                             </div>
                         </Container>
-                    </div>
+                    </nav>
                 </>
             ) : null}
         </>

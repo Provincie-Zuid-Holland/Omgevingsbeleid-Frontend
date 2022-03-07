@@ -187,7 +187,11 @@ const PopupPasswordForgot = ({
     show,
     togglePopup,
 }: PopupPasswordForgotProps) => (
-    <Modal maxWidth="max-w-sm" open={show} close={togglePopup}>
+    <Modal
+        maxWidth="max-w-sm"
+        open={show}
+        close={togglePopup}
+        ariaLabel="Wachtwoord vergeten">
         <h3 className="mb-4 text-xl font-bold text-pzh-blue">
             Wachtwoord vergeten
         </h3>
