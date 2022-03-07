@@ -58,7 +58,7 @@ const NavigationPopupMenu = ({
         setIsMobile(windowSize.width <= 640)
         setContainerHeightStyle({
             maxHeight: `calc(100vh - ${
-                document.getElementById('navigation-main')?.offsetHeight + 'px'
+                document.getElementById('top-navigation')?.offsetHeight + 'px'
             })`,
         })
     }, [windowSize])
@@ -99,15 +99,16 @@ const NavigationPopupMenu = ({
                     <div
                         style={bannerAdjustedOffsetTop}
                         className="fixed top-0 left-0 z-0 block w-screen h-screen bg-gray-900 pointer-events-none opacity-40"></div>
-                    <div
+                    <nav
                         id="popup-menu"
                         className="fixed top-0 left-0 z-10 w-full pb-8 bg-white"
-                        style={bannerAdjustedOffsetTop}>
+                        style={bannerAdjustedOffsetTop}
+                        aria-label="primary">
                         <Container
                             className="h-full overflow-y-auto"
                             style={isMobile ? containerHeightStyle : undefined}>
-                            <div className="flex flex-col md:items-center col-span-6 mt-6 sm:flex-row">
-                                <div className="relative flex flex-1 items-center w-full">
+                            <div className="flex flex-col col-span-6 mt-6 md:items-center sm:flex-row">
+                                <div className="relative flex items-center flex-1 w-full">
                                     <FontAwesomeIcon
                                         className="absolute left-0 ml-2 text-lg text-pzh-blue-dark"
                                         icon={faSearch}
@@ -118,7 +119,7 @@ const NavigationPopupMenu = ({
                                         }}
                                     />
                                 </div>
-                                <div className="sm:ml-2 md:mt-0 mt-2">
+                                <div className="mt-2 sm:ml-2 md:mt-0">
                                     <Text>
                                         of{' '}
                                         <Link
@@ -229,7 +230,7 @@ const NavigationPopupMenu = ({
                                 </ul>
                             </div>
                         </Container>
-                    </div>
+                    </nav>
                 </>
             ) : null}
         </>
@@ -250,7 +251,6 @@ const ToggleMenuButton = ({
     <button
         onKeyDown={e => {
             if (e.key === 'Tab' && e.shiftKey) {
-                console.log('EXEC')
                 e.preventDefault()
                 document
                     .getElementById('menu-item-netwerkvisualisatie')

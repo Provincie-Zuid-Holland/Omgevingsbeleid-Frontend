@@ -1,5 +1,6 @@
 import * as axiosPackage from 'axios'
-import { KeyboardEvent, MouseEvent, useEffect, useState } from 'react'
+import cloneDeep from 'lodash.clonedeep'
+import { KeyboardEvent, MouseEvent, useEffect, useState, useRef } from 'react'
 import { Helmet } from 'react-helmet'
 import {
     RouteComponentProps,
@@ -59,6 +60,9 @@ const MuteerUniversalObjectCRUD = ({
     const [dataLoaded, setDataLoaded] = useState(false)
     const [editStatus, setEditStatus] = useState(false)
     const [crudObject, setCrudObject] = useState<any>({})
+
+    const crudObjectRef = useRef<any>(crudObject)
+
     const [axiosCancelSource, setAxiosCancelSource] =
         useState<axiosPackage.CancelTokenSource>()
 
@@ -66,6 +70,10 @@ const MuteerUniversalObjectCRUD = ({
     const overzichtSlug = dimensieConstants.SLUG_OVERVIEW
     const titleSingular = dimensieConstants.TITLE_SINGULAR
     const titelMeervoud = dimensieConstants.TITLE_PLURAL
+
+    useEffect(() => {
+        crudObjectRef.current = crudObject
+    }, [crudObject])
 
     /**
      *
@@ -95,8 +103,9 @@ const MuteerUniversalObjectCRUD = ({
             }
         }
 
-        crudObject[name] = value
-        setCrudObject({ ...crudObject })
+        const newCrudObject = cloneDeep(crudObjectRef.current)
+        newCrudObject[name] = value
+        setCrudObject(newCrudObject)
     }
 
     /**
@@ -252,9 +261,6 @@ const MuteerUniversalObjectCRUD = ({
         /** If the user is editing an existing object we PATCH it, else we POST it to create a new object */
         const typeOfRequest = editStatus ? 'PATCH' : 'POST'
 
-        // console.log("POST PATCH")
-        // return
-
         if (typeOfRequest === 'PATCH') {
             setCrudObject(prepareForRequest(crudObject, 'patch'))
             patchDimensieObject(crudObject)
@@ -347,7 +353,7 @@ const MuteerUniversalObjectCRUD = ({
             },
         }
 
-        const nieuwCrudObject = crudObject
+        const nieuwCrudObject = cloneDeep(crudObject)
 
         if (typeof nieuwCrudObject[propertyName] === 'string') {
             nieuwCrudObject[propertyName] = []
@@ -371,7 +377,7 @@ const MuteerUniversalObjectCRUD = ({
         nieuweOmschrijving: string,
         callback: any
     ) => {
-        const newCrudObject = crudObject
+        const newCrudObject = cloneDeep(crudObject)
 
         const index = newCrudObject[koppelingObject.propertyName].findIndex(
             (item: any) => item.Object.UUID === koppelingObject.item.Object.UUID
@@ -391,13 +397,13 @@ const MuteerUniversalObjectCRUD = ({
      * @param {object} koppelingObject - Connection object
      */
     const verwijderKoppelingRelatie = (koppelingObject: any) => {
-        const nieuwCrudObject = crudObject
+        const nieuwCrudObject = cloneDeep(crudObject)
         const index = nieuwCrudObject[koppelingObject.propertyName].findIndex(
             (item: any) => item.Object.UUID === koppelingObject.item.Object.UUID
         )
         nieuwCrudObject[koppelingObject.propertyName].splice(index, 1)
 
-        setCrudObject(crudObject)
+        setCrudObject(nieuwCrudObject)
         toastNotification({ type: 'connection deleted' })
     }
 
@@ -504,7 +510,7 @@ const MuteerUniversalObjectCRUD = ({
     }, [])
 
     return (
-        <div>
+        <div aria-live="polite" aria-busy={!dataLoaded}>
             <Helmet>
                 <title>
                     {editStatus

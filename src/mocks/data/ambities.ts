@@ -33,7 +33,7 @@ const ambities = [
     {
         ID: 516,
         UUID: '0000-0002',
-        Begin_Geldigheid: '2021-05-11T00:00:00Z',
+        Begin_Geldigheid: '2021-05-10T00:00:00Z',
         Eind_Geldigheid: '2021-11-11T00:00:00Z',
         Created_By: {
             UUID: '0000-0001',
@@ -48,7 +48,7 @@ const ambities = [
             Rol: 'Beheerder',
             Status: 'Actief',
         },
-        Modified_Date: '2021-05-11T10:02:59.930000Z',
+        Modified_Date: '2021-05-10T10:02:59.930000Z',
         Titel: 'Test ambitie dinsdag 11 mei 2021',
         Omschrijving: 'Omschrijving',
         Weblink: 'Weblink',
@@ -57,7 +57,7 @@ const ambities = [
     {
         ID: 515,
         UUID: '0000-0003',
-        Begin_Geldigheid: '2021-05-11T00:00:00Z',
+        Begin_Geldigheid: '2021-05-09T00:00:00Z',
         Eind_Geldigheid: '2021-11-11T00:00:00Z',
         Created_By: {
             UUID: '0000-0001',
@@ -72,7 +72,7 @@ const ambities = [
             Rol: 'Beheerder',
             Status: 'Actief',
         },
-        Modified_Date: '2021-05-11T09:24:17.427000Z',
+        Modified_Date: '2021-05-09T09:24:17.427000Z',
         Titel: 'Test ambitie dinsdag 11 mei 2021',
         Omschrijving: 'Omschrijving',
         Weblink: 'Weblink',

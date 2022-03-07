@@ -30,7 +30,7 @@ function RaadpleegVerordeningSidebar({
 
     /** Effect for sidebarStyle */
     useEffect(() => {
-        const nav = document.getElementById('navigation-main')
+        const nav = document.getElementById('top-navigation')
         const navBottom = nav?.getBoundingClientRect().bottom
 
         setButtonStyle({

@@ -5,7 +5,6 @@ import { useWindowSize } from 'react-use'
 
 import axios from '@/api/instance'
 import { Container } from '@/components/Container'
-import Footer from '@/components/Footer'
 import Heading from '@/components/Heading'
 import { LoaderCard } from '@/components/Loader'
 import Text from '@/components/Text'
@@ -48,46 +47,40 @@ function RaadpleegVerordening() {
     }, [UUIDFromUrl, windowSize, isLoading])
 
     return (
-        <>
-            <Container className="pt-16 lg:pt-8">
-                <RaadpleegVerordeningSidebar verordening={verordening} />
-                <div className="min-h-screen col-span-6 lg:col-span-4">
-                    <Heading
-                        level="3"
-                        className="font-bold"
-                        color="text-pzh-blue-dark">
-                        {VERORDENING.TITLE_SINGULAR}
+        <Container className="pt-16 lg:pt-8">
+            <RaadpleegVerordeningSidebar verordening={verordening} />
+            <div className="min-h-screen col-span-6 lg:col-span-4">
+                <Heading
+                    level="3"
+                    className="font-bold"
+                    color="text-pzh-blue-dark">
+                    {VERORDENING.TITLE_SINGULAR}
+                </Heading>
+
+                {!isLoading ? (
+                    <Heading level="1" color="text-pzh-blue" className="mt-4">
+                        {verordening.Titel}
                     </Heading>
+                ) : (
+                    <LoaderCard className="mt-6" />
+                )}
 
-                    {!isLoading ? (
-                        <Heading
-                            level="1"
-                            color="text-pzh-blue"
-                            className="mt-4">
-                            {verordening.Titel}
-                        </Heading>
-                    ) : (
-                        <LoaderCard className="mt-6" />
-                    )}
+                {verordening?.Structuur?.Children.map((chapter: any) => (
+                    <VerordeningsSection
+                        setActiveArticle={setActiveArticle}
+                        key={chapter.UUID}
+                        section={chapter}
+                    />
+                ))}
 
-                    {verordening?.Structuur?.Children.map((chapter: any) => (
-                        <VerordeningsSection
-                            setActiveArticle={setActiveArticle}
-                            key={chapter.UUID}
-                            section={chapter}
-                        />
-                    ))}
-
-                    {activeArticle ? (
-                        <RaadpleegVerordeningPopupDetail
-                            setActiveArticle={setActiveArticle}
-                            activeArticle={activeArticle}
-                        />
-                    ) : null}
-                </div>
-            </Container>
-            <Footer />
-        </>
+                {activeArticle ? (
+                    <RaadpleegVerordeningPopupDetail
+                        setActiveArticle={setActiveArticle}
+                        activeArticle={activeArticle}
+                    />
+                ) : null}
+            </div>
+        </Container>
     )
 }
 

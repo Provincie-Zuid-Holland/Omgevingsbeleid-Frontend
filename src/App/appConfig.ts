@@ -1,5 +1,4 @@
 // Import Helpers
-import '../a11y'
 import '../sentry'
 
 // Import Styling

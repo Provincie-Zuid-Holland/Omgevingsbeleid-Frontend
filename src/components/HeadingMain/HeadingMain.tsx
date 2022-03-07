@@ -13,17 +13,27 @@ interface HeadingMainProps {
     titel: string
     status?: string
     modules?: { Titel?: string; ID?: string | number }[]
+    isHistory?: boolean
 }
 
-const HeadingMain = ({ titel, status, modules }: HeadingMainProps) => (
-    <div className="relative">
-        <h1 className="inline-block text-xl font-bold text-gray-800">
-            <span className="mr-4">{titel}</span>
-        </h1>
-        {status && <BadgeStatus status={status} />}
-        {modules && <BadgesModules modules={modules} />}
-    </div>
-)
+const HeadingMain = ({
+    titel,
+    status,
+    modules,
+    isHistory,
+}: HeadingMainProps) => {
+    const Heading = isHistory ? 'h2' : 'h1'
+
+    return (
+        <div className="relative">
+            <Heading className="inline-block mr-4 text-xl font-bold text-gray-800">
+                {titel}
+            </Heading>
+            {status && <BadgeStatus status={status} />}
+            {modules && <BadgesModules modules={modules} />}
+        </div>
+    )
+}
 
 /**
  *
@@ -35,7 +45,6 @@ const BadgeStatus = ({ status }: Pick<HeadingMainProps, 'status'>) => {
 
     return (
         <span
-            id="object-status"
             className={`inline-block font-bold mr-2 my-1 px-2 pt-1 text-xs border rounded ${
                 isVigerend
                     ? 'text-pzh-blue border-pzh-blue'
@@ -59,7 +68,6 @@ const BadgesModules = ({ modules }: Pick<HeadingMainProps, 'modules'>) => (
                 href={`/muteer/beleidsmodules/${module.ID}`}
                 target="_blank"
                 rel="noreferrer"
-                id="object-status"
                 className={`inline-block font-bold mr-2 my-1 px-2 pt-1  text-xs border rounded text-gray-800 border-gray-800 hover:bg-gray-800 hover:text-white transition duration-100 ease-in`}>
                 <FontAwesomeIcon className="mr-2" icon={faCubes} />
                 {module.Titel}

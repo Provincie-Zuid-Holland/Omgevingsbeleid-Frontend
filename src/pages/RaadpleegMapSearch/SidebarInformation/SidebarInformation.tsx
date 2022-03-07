@@ -167,6 +167,7 @@ const SidebarInformation = ({
                             components={{
                                 IndicatorSeparator: () => null,
                             }}
+                            aria-label="Selecteer een werkingsgebied"
                             classNamePrefix="form-select"
                             placeholder="Selecteer een werkingsgebied"
                             menuPortalTarget={

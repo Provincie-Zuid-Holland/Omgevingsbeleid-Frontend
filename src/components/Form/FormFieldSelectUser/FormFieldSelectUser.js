@@ -178,16 +178,20 @@ class FormFieldSelectUser extends Component {
             }),
         }
 
+        const id = `form-field-${this.props.titleSingular.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`
+
         return (
             <div
                 className={`mb-6 ${this.props.marginRight ? 'mr-8' : null} ${
                     this.props.halfWidth ? 'w-full mr-4' : 'w-1/2'
                 }`}>
-                <p className="form-field-description">{`${this.props.pValue}`}</p>
+                <p
+                    id={`${id}-label`}
+                    className="form-field-description">{`${this.props.pValue}`}</p>
                 {this.state.dataLoaded ? (
                     <Select
                         isDisabled={this.props.disabled}
-                        id={`form-field-${this.props.titleSingular.toLowerCase()}-${this.props.dataObjectProperty.toLowerCase()}`}
+                        id={id}
                         className="border border-gray-400 rounded hover:border-gray-500 focus:border-gray-500"
                         name={this.props.dataObjectProperty}
                         value={this.state.selected}
@@ -201,6 +205,7 @@ class FormFieldSelectUser extends Component {
                         styles={customStyles}
                         isClearable={true}
                         options={this.getOptions()}
+                        aria-labelledby={`${id}-label`}
                         placeholder={`Selecteer...`}></Select>
                 ) : (
                     <LoaderSelect />

@@ -19,6 +19,9 @@ interface ModuleFiltersProps {
  */
 const ModuleFilters = ({ filters, setFilters }: ModuleFiltersProps) => (
     <div className="relative flex items-center">
+        <label htmlFor="modules-select-type" className="sr-only">
+            Filter op beleid
+        </label>
         <select
             value={filters.selectedType}
             onChange={event =>
@@ -38,6 +41,9 @@ const ModuleFilters = ({ filters, setFilters }: ModuleFiltersProps) => (
                 </option>
             ))}
         </select>
+        <label htmlFor="modules-select-status" className="sr-only">
+            Filter op status
+        </label>
         <select
             value={filters.selectedStatus}
             onChange={event =>

@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import { rest } from 'msw'
 
 import { baseURL } from '@/api/instance'
@@ -149,6 +150,21 @@ export const handlers = [
         return res(ctx.status(200), ctx.json(ambities))
     }),
 
+    rest.get(`${currentBaseURL}/ambities/370`, (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(ambities))
+    }),
+
+    rest.get(
+        `${currentBaseURL}/ambities/version/0000-0002`,
+        (req, res, ctx) => {
+            return res(ctx.status(200), ctx.json(ambities[0]))
+        }
+    ),
+
+    rest.get(`${currentBaseURL}/ambities/516`, (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(ambities))
+    }),
+
     rest.get(`${currentBaseURL}/valid/ambities`, (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(ambities))
     }),
@@ -249,11 +265,32 @@ export const handlers = [
     }),
 
     rest.get(
+        `${currentBaseURL}/verordeningstructuur/version/:uuid`,
+        (req, res, ctx) => {
+            return res(ctx.status(200), ctx.json(verordeningstructuur[0]))
+        }
+    ),
+
+    rest.get(
         `${currentBaseURL}/version/verordeningen/:uuid`,
         (req, res, ctx) => {
             return res(ctx.status(200), ctx.json(artikel))
         }
     ),
+
+    rest.get(`${currentBaseURL}/tokeninfo`, (req, res, ctx) => {
+        return res(
+            ctx.status(200),
+            ctx.json({
+                identifier: {
+                    Email: 'janedoe@mail.com',
+                    Gebruikersnaam: 'Jane Doe',
+                    Rol: 'Beheerder',
+                    UUID: '12345678-1234-1234-1234-1234567890ab',
+                },
+            })
+        )
+    }),
 
     rest.get(`${currentBaseURL}/search`, (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(search))

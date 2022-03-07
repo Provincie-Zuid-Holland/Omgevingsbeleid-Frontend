@@ -30,15 +30,15 @@ function SidebarMain() {
                 <span className="inline-block mt-1 mb-2 text-gray-800">
                     Omgevingsbeleid
                 </span>
-                <h2 className="block text-2xl">
+                <h1 className="block text-2xl">
                     {username !== null ? `Welkom ${username},` : 'Welkom,'}
-                </h2>
+                </h1>
                 <p className="text-gray-700">
                     In deze omgeving heb je de mogelijkheid om te werken aan
                     Omgevingsbeleid.
                 </p>
             </div>
-            <nav className="pt-2">
+            <nav className="pt-2" id="side-navigation">
                 <h2 className="pr-2 mt-8 mb-2 text-xl text-gray-800">
                     Omgevingsbeleid
                 </h2>

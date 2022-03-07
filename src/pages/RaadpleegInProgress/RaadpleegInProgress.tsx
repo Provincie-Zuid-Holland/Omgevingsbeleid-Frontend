@@ -6,7 +6,6 @@ import { useQuery } from 'react-query'
 import { getEdits } from '@/api/fetchers'
 import Button from '@/components/Button'
 import { Container } from '@/components/Container'
-import Footer from '@/components/Footer'
 import Heading from '@/components/Heading'
 import HorizontalDivider from '@/components/HorizontalDivider'
 import Text from '@/components/Text'
@@ -190,7 +189,6 @@ function RaadpleegInProgress() {
                     </div>
                 </div>
             </Container>
-            <Footer />
         </div>
     )
 }

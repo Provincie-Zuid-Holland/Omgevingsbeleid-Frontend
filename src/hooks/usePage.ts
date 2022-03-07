@@ -1,10 +1,10 @@
 import { useLocation } from 'react-router-dom'
 
-const useAdvancedSearchPage = () => {
+const usePage = (path: string) => {
     const location = useLocation()
     const pathname = location.pathname
 
-    return pathname.includes('/zoeken-op-kaart')
+    return pathname.includes(path)
 }
 
-export default useAdvancedSearchPage
+export default usePage

@@ -255,18 +255,18 @@ const PopupNieuweKoppeling = ({
                                     key="0">
                                     {dataLoaded ? (
                                         searchFilter.length === 0 ? (
-                                            <span className="italic text-gray-600">
+                                            <span className="italic text-gray-700">
                                                 Geen resultaten
                                             </span>
                                         ) : (
-                                            <span className="italic text-gray-600">
+                                            <span className="italic text-gray-700">
                                                 Geen resultaten voor &apos;
                                                 {searchFilter}
                                                 &apos;
                                             </span>
                                         )
                                     ) : (
-                                        <span className="italic text-gray-600 loading">
+                                        <span className="italic text-gray-700 loading">
                                             {
                                                 objecten[type]
                                                     .volledigeTitelMeervoud

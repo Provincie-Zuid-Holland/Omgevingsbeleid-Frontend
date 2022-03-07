@@ -22,10 +22,7 @@ const ButtonBackToPage = ({ terugNaar, color, url }: ButtonBackToPageProps) => {
             'text-pzh-blue opacity-75 hover:opacity-100 transition-opacity ease-in duration-100'
     }
     return (
-        <Link
-            to={url}
-            className={`${color} text-l mb-4 inline-block`}
-            id="button-back-to-previous-page">
+        <Link to={url} className={`${color} text-l mb-4 inline-block`}>
             <FontAwesomeIcon className="mr-2" icon={faAngleLeft} />
             <span>Terug naar {terugNaar}</span>
         </Link>

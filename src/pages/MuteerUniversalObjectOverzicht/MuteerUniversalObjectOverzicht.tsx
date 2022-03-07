@@ -62,8 +62,9 @@ const MuteerUniversalObjectOverzicht = ({
             gebruikersRol === 'Technisch beheerder' ||
             gebruikersRol === 'Test runner' ||
             gebruikersRol === 'Tester'
-        )
+        ) {
             return
+        }
 
         history.push('/muteer/mijn-beleid')
     }, [user, history])
@@ -104,11 +105,15 @@ const MuteerUniversalObjectOverzicht = ({
                 {!isLoading ? (
                     <ul className="flex flex-wrap mt-8">
                         {hideAddObject ? null : (
-                            <ButtonAddNewObject
-                                titleSingular={titleSingular}
-                                createNewSlug={createNewSlug || ''}
-                                hoofdOnderdeelSlug={hoofdOnderdeelSlug || ''}
-                            />
+                            <li className="w-full">
+                                <ButtonAddNewObject
+                                    titleSingular={titleSingular}
+                                    createNewSlug={createNewSlug || ''}
+                                    hoofdOnderdeelSlug={
+                                        hoofdOnderdeelSlug || ''
+                                    }
+                                />
+                            </li>
                         )}
 
                         {objecten

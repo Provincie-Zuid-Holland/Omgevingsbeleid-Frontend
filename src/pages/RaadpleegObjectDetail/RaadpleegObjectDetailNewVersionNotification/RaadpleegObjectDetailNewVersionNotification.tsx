@@ -2,6 +2,8 @@ import { faInfoCircle } from '@fortawesome/pro-light-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Link } from 'react-router-dom'
 
+import getDimensionsConstants from '@/utils/getDimensionsConstants'
+
 interface RaadpleegObjectDetailNewVersionNotificationProps {
     dataObject?: any
     titleSingular: string
@@ -13,6 +15,14 @@ function RaadpleegObjectDetailNewVersionNotification({
 }: RaadpleegObjectDetailNewVersionNotificationProps) {
     if (titleSingular !== 'Maatregel' && titleSingular !== 'Beleidskeuze')
         return null
+
+    const beleidskeuzeConstants = getDimensionsConstants('beleidskeuzes')
+    const maatregelConstants = getDimensionsConstants('maatregelen')
+
+    const objectSlug =
+        titleSingular === beleidskeuzeConstants.TITLE_SINGULAR
+            ? beleidskeuzeConstants.SLUG_OVERVIEW
+            : maatregelConstants.SLUG_OVERVIEW
 
     const { Status, UUID, Latest_Version, Latest_Status, Effective_Version } =
         dataObject
@@ -44,6 +54,18 @@ function RaadpleegObjectDetailNewVersionNotification({
         Latest_Status !== 'Vigerend' &&
         !unpublicStatusses.includes(Latest_Status)
 
+    // Current policy is valid and has a newer valid version which has a new concept version that is public
+    const isValidButNewPublicDraftWithStatusInInspraakAvailable =
+        Status === 'Vigerend' &&
+        UUID === Effective_Version &&
+        Latest_Status === 'Ontwerp in inspraak'
+
+    // Current policy is valid and has a newer valid version which has a new concept version that is public
+    const isValidButNewPublicDraftWithStatusVastgesteldAvailable =
+        Status === 'Vigerend' &&
+        UUID === Effective_Version &&
+        Latest_Status === 'Vastgesteld'
+
     // Current policy is valid and has a newer valid version which has one or more checked out concept versions that is not public
     const isValidButNewNonPublicDraftAvailable =
         Status === 'Vigerend' &&
@@ -62,7 +84,9 @@ function RaadpleegObjectDetailNewVersionNotification({
             !isNewWithEffectiveVersionPresent &&
             !isValidAndArchived &&
             !isValidButNewPublicDraftAvailable &&
-            !isValidButNewNonPublicDraftAvailable)
+            !isValidButNewNonPublicDraftAvailable &&
+            !isValidButNewPublicDraftWithStatusInInspraakAvailable &&
+            !isValidButNewPublicDraftWithStatusVastgesteldAvailable)
     )
         return null
 
@@ -76,33 +100,53 @@ function RaadpleegObjectDetailNewVersionNotification({
                     Op dit moment is dit beleid nog niet vigerend en nog in
                     ontwerp
                 </span>
+            ) : isValidButNewPublicDraftWithStatusInInspraakAvailable ? (
+                <span>
+                    Op dit moment ligt er een nieuwe versie van deze{' '}
+                    {titleSingular.toLowerCase()} ter inzage,{' '}
+                    <Link
+                        className="underline"
+                        to={`/detail/${objectSlug}/${Latest_Version}`}>
+                        bekijk deze versie hier
+                    </Link>
+                </span>
+            ) : isValidButNewPublicDraftWithStatusVastgesteldAvailable ? (
+                <span>
+                    Er is een nieuwe versie van deze{' '}
+                    {titleSingular.toLowerCase()} vastgesteld,{' '}
+                    <Link
+                        className="underline"
+                        to={`/detail/${objectSlug}/${Latest_Version}`}>
+                        bekijk deze versie hier
+                    </Link>
+                </span>
             ) : isNewWithEffectiveVersionPresent ? (
                 <span>
                     Let op! Deze versie is nog niet vigerend,{' '}
                     <Link
                         className="underline"
-                        to={`/detail/beleidskeuzes/${Effective_Version}`}>
+                        to={`/detail/${objectSlug}/${Effective_Version}`}>
                         bekijk hier de vigerende versie
                     </Link>
                 </span>
             ) : isValidAndArchived ? (
                 <span>
-                    Let op, er is een nieuwe versie van deze beleidskeuze
-                    vastgesteld{' '}
+                    Let op, dit is een verouderde versie van deze{' '}
+                    {titleSingular.toLowerCase()},{' '}
                     <Link
                         className="underline"
-                        to={`/detail/beleidskeuzes/${Effective_Version}`}>
+                        to={`/detail/${objectSlug}/${Effective_Version}`}>
                         bekijk hier de vigerende versie
                     </Link>
                 </span>
             ) : isValidButNewPublicDraftAvailable ? (
                 <span>
-                    Op dit moment is er een nieuwere versie van deze
-                    beleidskeuze met de status {Latest_Status},{' '}
+                    Op dit moment wordt er gewerkt aan een nieuwe versie van
+                    deze {titleSingular.toLowerCase()},{' '}
                     <Link
                         className="underline"
-                        to={`/detail/beleidskeuzes/${Latest_Version}`}>
-                        bekijk deze versie hier
+                        to={`/detail/${objectSlug}/${Latest_Version}`}>
+                        bekijk hier de meest actuele versie.
                     </Link>
                 </span>
             ) : isValidButNewNonPublicDraftAvailable ? (

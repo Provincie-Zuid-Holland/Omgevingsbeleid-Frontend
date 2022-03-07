@@ -45,7 +45,7 @@ function RevisionOverviewRelationsConnectionsText({
     return (
         <div>
             {connectionProperties.map((property, index) => {
-                const valuesOld = originalObject[property]
+                const valuesOld: any[] = originalObject[property]
                     ? originalObject[property]
                     : []
                 const valuesChanges = getValuesOfChangeObject(
@@ -60,27 +60,22 @@ function RevisionOverviewRelationsConnectionsText({
                                 <h3 className="text-sm font-bold text-gray-800">
                                     {property}
                                 </h3>
-                                <ul className="mt-2">
-                                    {valuesOld && valuesOld.length > 0 ? (
-                                        valuesOld.map(
-                                            (
-                                                connection: any,
-                                                index: number
-                                            ) => (
-                                                <ConnectionListItem
-                                                    key={`connection-${index}`}
-                                                    connection={connection}
-                                                    property={property}
-                                                />
-                                            )
-                                        )
-                                    ) : (
-                                        <span className="mt-2 italic text-gray-600">
-                                            Er zijn geen{' '}
-                                            {property.toLowerCase()} gekoppeld
-                                        </span>
-                                    )}
-                                </ul>
+                                {valuesOld?.length ? (
+                                    <ul className="mt-2">
+                                        {valuesOld.map((connection, index) => (
+                                            <ConnectionListItem
+                                                key={`connection-${index}`}
+                                                connection={connection}
+                                                property={property}
+                                            />
+                                        ))}
+                                    </ul>
+                                ) : (
+                                    <span className="mt-2 italic text-gray-700">
+                                        Er zijn geen {property.toLowerCase()}{' '}
+                                        gekoppeld
+                                    </span>
+                                )}
                             </div>
                         </RevisionOverviewContainerLeft>
                         <RevisionOverviewContainerRight>
@@ -88,10 +83,9 @@ function RevisionOverviewRelationsConnectionsText({
                                 <h3 className="text-sm font-bold text-gray-800">
                                     {property}
                                 </h3>
-                                <ul className="mt-2">
-                                    {valuesChanges &&
-                                    valuesChanges.length > 0 ? (
-                                        valuesChanges.map(
+                                {valuesChanges?.length ? (
+                                    <ul className="mt-2">
+                                        {valuesChanges.map(
                                             (connection, index) => (
                                                 <ConnectionListItem
                                                     key={`connection-item-${index}`}
@@ -99,14 +93,14 @@ function RevisionOverviewRelationsConnectionsText({
                                                     property={property}
                                                 />
                                             )
-                                        )
-                                    ) : (
-                                        <span className="mt-2 italic text-gray-600">
-                                            Er zijn geen{' '}
-                                            {property.toLowerCase()} gekoppeld
-                                        </span>
-                                    )}
-                                </ul>
+                                        )}
+                                    </ul>
+                                ) : (
+                                    <span className="mt-2 italic text-gray-700">
+                                        Er zijn geen {property.toLowerCase()}{' '}
+                                        gekoppeld
+                                    </span>
+                                )}
                             </div>
                         </RevisionOverviewContainerRight>
                     </RevisionOverviewContainerMain>

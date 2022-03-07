@@ -45,7 +45,9 @@ describe('RaadpleegObjectDetail', () => {
     it('Component renders', async () => {
         setup()
 
-        await waitForElementToBeRemoved(() => screen.queryByRole('img'))
+        await waitForElementToBeRemoved(() =>
+            screen.queryByTestId('loader-content')
+        )
 
         const subTitle = screen.getAllByRole('heading', {
             name: /Ambitie/i,

@@ -122,6 +122,7 @@ function StatusHistory({
                     overzichtSlug={overzichtSlug}
                     titleSingular={titleSingular}
                     isLoading={isLoading}
+                    isHistory
                 />
             ) : null}
 
@@ -258,7 +259,7 @@ function StatusHistory({
                 (dimensionHistory &&
                     dimensionHistory.length === 1 &&
                     dimensionHistory[0].Status !== 'Vigerend') ? (
-                    <div className="absolute bottom-0 left-0 block w-10 h-4 -ml-1 status-flow-gradient" />
+                    <li className="absolute bottom-0 left-0 block w-10 h-4 -ml-1 status-flow-gradient" />
                 ) : null}
             </ul>
         </div>

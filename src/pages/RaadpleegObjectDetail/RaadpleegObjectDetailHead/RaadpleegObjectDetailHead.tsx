@@ -21,7 +21,7 @@ const RaadpleegObjectDetailHead = ({
             @media print {
                 #raadpleeg-detail-sidebar,
                 #raadpleeg-detail-werkingsgebied,
-                #navigation-main,
+                #top-navigation,
                 #raadpleeg-detail-container-meta-info {
                     display: none;
                 }

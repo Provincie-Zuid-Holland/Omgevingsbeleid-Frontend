@@ -6,7 +6,8 @@ import {
 import '@testing-library/jest-dom'
 import { MemoryRouter, Route } from 'react-router-dom'
 
-import allDimensies from './../../constants/dimensies'
+import allDimensies from '@/constants/dimensies'
+
 import MuteerUniversalObjectDetailWithStatuses from './MuteerUniversalObjectDetailWithStatuses'
 
 describe('MuteerUniversalObjectDetailWithStatuses', () => {
@@ -14,7 +15,7 @@ describe('MuteerUniversalObjectDetailWithStatuses', () => {
         dimensieConstants: allDimensies.BELEIDSKEUZES,
     }
 
-    const setup = customProps => {
+    const setup = (customProps?: any) => {
         const path = `/muteer/beleidskeuzes/:single`
         const initialEntries = `/muteer/beleidskeuzes/728`
         const props = { ...defaultProps, ...customProps }
@@ -29,7 +30,10 @@ describe('MuteerUniversalObjectDetailWithStatuses', () => {
 
     it('Component renders', async () => {
         setup()
-        await waitForElementToBeRemoved(() => screen.queryByRole('img'))
+        await waitForElementToBeRemoved(() =>
+            screen.queryByTestId('loader-content')
+        )
+
         const header = screen.getByText('Bovenregionaal warmtenetwerk')
         expect(header).toBeTruthy()
     })
