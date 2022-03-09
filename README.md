@@ -97,7 +97,6 @@ The project uses the following structure:
     -   components
     -   constants
     -   css
-    -   fonts
     -   hooks
     -   images
     -   mocks
