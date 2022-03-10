@@ -14,6 +14,7 @@ export interface PanToProps {
     type: string
     layerType: 'marker' | 'polygon'
     callback?: (callback: any) => void
+    locationName?: string
 }
 
 /**
@@ -28,6 +29,7 @@ const mapPanTo = ({
     type,
     layerType = 'marker',
     callback,
+    locationName,
 }: PanToProps) => {
     let zoomLevel
 
@@ -73,7 +75,8 @@ const mapPanTo = ({
         coordinates.lng,
         layerID,
         layerType,
-        callback
+        callback,
+        locationName
     )
 
     map.setView(coordinates, zoomLevel)
