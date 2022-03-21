@@ -41,8 +41,7 @@ const Navigation = ({ loggedIn }: NavigationProps) => {
 
     return (
         <header
-            className={classNames({
-                'top-0 z-20 w-full sm:border-b': true,
+            className={classNames('top-0 z-20 w-full', {
                 fixed: !isAdvancedSearchPage,
                 relative: isAdvancedSearchPage,
                 'bg-pzh-blue': isOpen,

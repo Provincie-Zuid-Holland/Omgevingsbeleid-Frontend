@@ -26,7 +26,7 @@
     .leaflet-control {
         box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.3);
         border-radius: 0.2rem;
-        background-color: theme('colors.white');
+        background-color: #ffffff;
     }
 }
 
@@ -34,7 +34,7 @@
     .leaflet-layers {
         box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.3);
         border-radius: 0.2rem;
-        background-color: theme('colors.white');
+        background-color: #ffffff;
     }
 }
 
@@ -48,14 +48,14 @@
     z-index: 10;
 
     a {
-        background-color: theme('colors.white');
-        color: theme('colors.blue.800');
+        background-color: #ffffff;
+        color: #2c5282;
         box-shadow: rgba(0, 0, 0, 0.1) 0 1px 3px 0,
             rgba(0, 0, 0, 0.06) 0 1px 2px 0;
         &:hover {
-            background-color: theme('colors.white');
+            background-color: #ffffff;
             text-decoration: underline;
-            color: theme('colors.blue.800');
+            color: #2c5282;
             box-shadow: rgba(0, 0, 0, 0.1) 0 1px 3px 0,
                 rgba(0, 0, 0, 0.06) 0 1px 2px 0;
         }
@@ -74,8 +74,8 @@
     .leaflet-touch .leaflet-draw-toolbar .leaflet-draw-edit-remove,
     .leaflet-layers-control .leaflet-layers {
         align-items: center;
-        background-color: theme('colors.white');
-        color: theme('colors.pzh-blue.dark');
+        background-color: #ffffff;
+        color: #16113b;
         cursor: pointer;
         display: flex;
         position: relative;
@@ -90,7 +90,7 @@
         }
 
         &:hover {
-            color: theme('colors.gray.700');
+            color: #4a5568;
         }
 
         &:last-child {
@@ -124,8 +124,8 @@
         }
 
         &.leaflet-draw-toolbar-button-enabled {
-            color: theme('colors.white');
-            background-color: theme('colors.pzh-blue.DEFAULT');
+            color: #ffffff;
+            background-color: #281f6b;
         }
     }
 
@@ -199,8 +199,8 @@
 
     .leaflet-search {
         align-items: center;
-        background-color: theme('colors.white');
-        color: theme('colors.pzh-blue.dark');
+        background-color: #ffffff;
+        color: #16113b;
         cursor: pointer;
         display: flex;
         position: relative;
@@ -212,12 +212,12 @@
         border-radius: 0.2rem;
 
         &:hover {
-            color: theme('colors.gray.700');
+            color: #4a5568;
         }
     }
 
     .leaflet-zoom {
-        color: theme('colors.pzh-blue.dark');
+        color: #16113b;
         border-radius: 0.2rem;
 
         &:first-child {
@@ -232,7 +232,7 @@
         }
 
         &:hover {
-            color: theme('colors.gray.700');
+            color: #4a5568;
         }
     }
 }
@@ -240,7 +240,7 @@
 .leaflet-container {
     width: 100%;
     height: 100%;
-    background-color: theme('colors.white');
+    background-color: #ffffff;
 
     .leaflet-popup {
         .leaflet-popup-content-wrapper {
@@ -252,13 +252,13 @@
             }
 
             a {
-                color: theme('colors.white');
+                color: #ffffff;
             }
         }
 
         .leaflet-popup-close-button {
             padding: 1rem 1.5rem 0;
-            color: theme('colors.pzh-blue.dark');
+            color: #16113b;
         }
     }
 }

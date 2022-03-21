@@ -67,7 +67,7 @@ const RaadpleegObjectDetailMain: FC<RaadpleegObjectDetailMainProps> = ({
     const werkingsGebiedUUID = getWerkingsgbiedUUID(hasWerkingsGebied)
 
     return (
-        <div className="col-span-6 mt-6 xl:mt-8 xl:col-span-4 xl:mt-0">
+        <div className="col-span-6 mt-6 xl:mt-8 xl:col-span-4">
             <div className="hidden xl:block">
                 <Heading
                     level="3"
