@@ -353,7 +353,7 @@ const MuteerUniversalObjectCRUD = ({
             },
         }
 
-        const nieuwCrudObject = crudObject
+        const nieuwCrudObject = cloneDeep(crudObject)
 
         if (typeof nieuwCrudObject[propertyName] === 'string') {
             nieuwCrudObject[propertyName] = []
@@ -377,7 +377,7 @@ const MuteerUniversalObjectCRUD = ({
         nieuweOmschrijving: string,
         callback: any
     ) => {
-        const newCrudObject = crudObject
+        const newCrudObject = cloneDeep(crudObject)
 
         const index = newCrudObject[koppelingObject.propertyName].findIndex(
             (item: any) => item.Object.UUID === koppelingObject.item.Object.UUID
@@ -397,13 +397,13 @@ const MuteerUniversalObjectCRUD = ({
      * @param {object} koppelingObject - Connection object
      */
     const verwijderKoppelingRelatie = (koppelingObject: any) => {
-        const nieuwCrudObject = crudObject
+        const nieuwCrudObject = cloneDeep(crudObject)
         const index = nieuwCrudObject[koppelingObject.propertyName].findIndex(
             (item: any) => item.Object.UUID === koppelingObject.item.Object.UUID
         )
         nieuwCrudObject[koppelingObject.propertyName].splice(index, 1)
 
-        setCrudObject(crudObject)
+        setCrudObject(nieuwCrudObject)
         toastNotification({ type: 'connection deleted' })
     }
 
