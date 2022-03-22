@@ -24,6 +24,7 @@ cypress.json
 .env.production.local
 .eslintcache
 *.bak
+.zshrc
 
 npm-debug.log*
 yarn-debug.log*
