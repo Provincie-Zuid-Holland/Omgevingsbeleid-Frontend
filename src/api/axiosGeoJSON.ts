@@ -54,7 +54,7 @@ const getWerkingsGebiedenByArea = async (
         .join(', ')
 
     const res = await instance.get(
-        `ows?service=wfs&version=1.1.0&request=GetFeature&outputFormat=application/json&typeName=OMGEVINGSBELEID:Werkingsgebieden&cql_filter=INTERSECTS(Shape, POLYGON ((${polygon})))&propertyName=UUID,Gebied`,
+        `ows?service=wfs&version=1.1.0&request=GetFeature&outputFormat=application/json&typeName=OMGEVINGSBELEID:Werkingsgebieden&cql_filter=CONTAINS(Shape, POLYGON ((${polygon})))&propertyName=UUID,Gebied`,
         config && { ...config }
     )
     const data = res.data

@@ -124,6 +124,7 @@ const SidebarResults = ({
                                 searchResults={searchResults}
                                 UUIDs={UUIDs}
                                 limit={10}
+                                total={searchResultsTotal}
                             />
                         </div>
                     ) : (

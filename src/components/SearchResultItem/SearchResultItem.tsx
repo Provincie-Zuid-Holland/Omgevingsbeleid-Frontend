@@ -63,7 +63,9 @@ const SearchResultItem: FC<SearchResultItem> = ({ item, searchQuery }) => {
             key={item.UUID}>
             <Link
                 className="group"
-                to={`/detail/${overzichtURL}/${item.UUID}#${searchQuery}`}>
+                to={`/detail/${overzichtURL}/${item.UUID}${
+                    searchQuery ? `#${searchQuery}` : ''
+                }`}>
                 <span
                     className="block text-sm opacity-75 text-pzh-blue"
                     data-test="search-result-type">
