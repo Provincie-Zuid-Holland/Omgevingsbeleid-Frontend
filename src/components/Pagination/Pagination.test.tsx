@@ -24,6 +24,7 @@ describe('Pagination', () => {
         setSearchResults: setSearchResultsMock,
         setOnPageFilters: setOnPageFiltersMock,
         limit: 1,
+        total: 2,
     }
 
     const setup = (customProps?: setupProps) => {

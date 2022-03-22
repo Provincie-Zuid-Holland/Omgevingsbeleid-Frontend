@@ -1,3 +1,4 @@
+import { Button } from '@pzh-ui/components'
 import { LatLng, Map, Point } from 'leaflet'
 import Proj from 'proj4leaflet'
 import ReactDOMServer from 'react-dom/server'
@@ -199,14 +200,13 @@ export const CreateCustomPopup = ({
             </ul>
             <div className="flex justify-between">
                 {isAdvancedSearch ? (
-                    <button className="advanced-search-button pzh-btn">
-                        Bekijk beleid
-                    </button>
+                    <Button
+                        label="Bekijk beleid"
+                        classes="advanced-search-button"
+                    />
                 ) : (
-                    <a
-                        href={`/zoekresultaten?${searchParams}`}
-                        className="pzh-btn">
-                        Bekijk beleid
+                    <a href={`/zoekresultaten?${searchParams}`}>
+                        <Button label="Bekijk beleid" />
                     </a>
                 )}
                 <button className="leaflet-close-popup underline text-pzh-red text-xs">
