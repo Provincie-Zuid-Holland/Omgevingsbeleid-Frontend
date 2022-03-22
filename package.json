@@ -12,7 +12,7 @@
         "@fortawesome/pro-solid-svg-icons": "5.15.4",
         "@fortawesome/react-fontawesome": "0.1.17",
         "@headlessui/react": "^1.5.0",
-        "@pzh-ui/components": "^0.0.37",
+        "@pzh-ui/components": "^0.0.64",
         "@pzh-ui/config": "^0.0.18",
         "@pzh-ui/css": "^0.0.28",
         "@sentry/browser": "^6.11.0",
@@ -89,7 +89,7 @@
         ]
     },
     "devDependencies": {
-        "@axe-core/react": "^4.3.2",
+        "@axe-core/react": "4.4.1",
         "@babel/core": "^7.15.0",
         "@babel/eslint-parser": "^7.17.0",
         "@babel/preset-env": "^7.15.0",
