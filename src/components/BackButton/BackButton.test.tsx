@@ -7,7 +7,7 @@ import BackButton from './BackButton'
 describe('BackButton', () => {
     const defaultProps = {}
 
-    const setup = (customProps?: any) => {
+    const setup = (customProps?: { [key: string]: any }) => {
         const props = { ...defaultProps, ...customProps }
         render(
             <MemoryRouter>

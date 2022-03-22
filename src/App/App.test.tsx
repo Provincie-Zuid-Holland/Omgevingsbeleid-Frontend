@@ -14,7 +14,7 @@ import App from './App'
 describe('App', () => {
     const defaultProps = {}
 
-    const setup = (customProps: any) => {
+    const setup = (customProps: { [key: string]: any }) => {
         const props = { ...defaultProps, ...customProps }
         render(
             <MemoryRouter>

@@ -4,7 +4,7 @@ import { KeyboardEvent, MouseEvent } from 'react'
  * Displays a fixed placed submit button.
  */
 interface ButtonSubmitFixedProps {
-    submit?: ((e: MouseEvent | KeyboardEvent) => void) | null
+    submit?: any
 }
 
 function ButtonSubmitFixed({ submit }: ButtonSubmitFixedProps) {
@@ -17,10 +17,10 @@ function ButtonSubmitFixed({ submit }: ButtonSubmitFixedProps) {
                     id="form-submit"
                     className="px-4 py-2 text-sm font-bold leading-tight text-white rounded cursor-pointer bg-pzh-blue hover:underline"
                     type="button"
-                    onClick={e => submit(e)}
+                    onClick={() => submit()}
                     onKeyPress={e => {
                         if (e.key === 'Enter') {
-                            submit(e)
+                            submit()
                         }
                     }}>
                     Opslaan

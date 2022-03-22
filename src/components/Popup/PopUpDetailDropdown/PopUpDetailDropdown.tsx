@@ -1,12 +1,14 @@
 import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 
+import { BeleidskeuzesRead } from '@/api/fetchers.schemas'
+
 /**
  * Displays a popup with a dropdown.
  */
 
 interface PopUpDetailDropdownProps {
-    dataObject: any
+    dataObject: BeleidskeuzesRead
     openState?: boolean
     toggleDropdown: () => void
     toggleStatusPopup: () => void

@@ -11,7 +11,7 @@ describe('MenuItemsList', () => {
         menuItems: menuItemsOmgevingsbeleid,
     }
 
-    const setup = (customProps?: any) => {
+    const setup = (customProps?: { [key: string]: any }) => {
         const props = { ...defaultProps, ...customProps }
         render(
             <MemoryRouter>

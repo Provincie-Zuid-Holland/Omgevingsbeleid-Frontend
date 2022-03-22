@@ -1,4 +1,9 @@
-import { withRouter, useLocation, RouteComponentProps } from 'react-router-dom'
+import {
+    withRouter,
+    useLocation,
+    RouteComponentProps,
+    useParams,
+} from 'react-router-dom'
 
 import ButtonBackToPage from '@/components/ButtonBackToPage'
 import { LoaderMainTitle } from '@/components/Loader'
@@ -23,9 +28,9 @@ function ContainerCrudHeader({
     objectTitle,
     titleSingular,
     overzichtSlug,
-    objectID,
     titelMeervoud,
 }: ContainerCrudHeaderProps) {
+    const { single: objectID } = useParams<{ single: string }>()
     const location = useLocation()
 
     const getMainTitle = () => {

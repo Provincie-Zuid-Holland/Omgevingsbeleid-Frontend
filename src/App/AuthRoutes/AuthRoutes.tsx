@@ -4,12 +4,12 @@ import { toast } from 'react-toastify'
 
 import { GetTokeninfo200Identifier } from '@/api/fetchers.schemas'
 import allDimensies from '@/constants/dimensies'
+import MutatePolicyPage from '@/pages/MutatePolicyPage'
 import MuteerBeleidsmodulesOverview from '@/pages/MuteerBeleidsmodulesOverview'
 import MuteerBeleidsrelaties from '@/pages/MuteerBeleidsrelaties'
 import MuteerBeleidsrelatiesCRUD from '@/pages/MuteerBeleidsrelatiesCRUD'
 import MuteerDashboard from '@/pages/MuteerDashboard'
 import MuteerMijnBeleid from '@/pages/MuteerMijnBeleid'
-import MuteerUniversalObjectCRUD from '@/pages/MuteerUniversalObjectCRUD'
 import MuteerUniversalObjectDetail from '@/pages/MuteerUniversalObjectDetail'
 import MuteerUniversalObjectDetailWithStatuses from '@/pages/MuteerUniversalObjectDetailWithStatuses'
 import MuteerUniversalObjectOverzicht from '@/pages/MuteerUniversalObjectOverzicht'
@@ -96,7 +96,7 @@ const AuthRoutes = ({ authUser, loggedIn }: AuthRoutesProps) => {
                 exact
                 path={`/muteer/beleidskeuzes/nieuwe-beleidskeuze`}
                 render={() => (
-                    <MuteerUniversalObjectCRUD
+                    <MutatePolicyPage
                         authUser={authUser}
                         dimensieConstants={allDimensies.BELEIDSKEUZES}
                     />
@@ -106,7 +106,7 @@ const AuthRoutes = ({ authUser, loggedIn }: AuthRoutesProps) => {
                 exact
                 path={`/muteer/beleidskeuzes/edit/:single`}
                 render={() => (
-                    <MuteerUniversalObjectCRUD
+                    <MutatePolicyPage
                         authUser={authUser}
                         dimensieConstants={allDimensies.BELEIDSKEUZES}
                     />
@@ -127,7 +127,7 @@ const AuthRoutes = ({ authUser, loggedIn }: AuthRoutesProps) => {
                 exact
                 path={`/muteer/${allDimensies.BELEIDSMODULES.SLUG_OVERVIEW}/${allDimensies.BELEIDSMODULES.SLUG_CREATE_NEW}`}
                 render={() => (
-                    <MuteerUniversalObjectCRUD
+                    <MutatePolicyPage
                         authUser={authUser}
                         dimensieConstants={allDimensies.BELEIDSMODULES}
                     />
@@ -144,7 +144,7 @@ const AuthRoutes = ({ authUser, loggedIn }: AuthRoutesProps) => {
                 exact
                 path={`/muteer/maatregelen/nieuwe-maatregel`}
                 render={() => (
-                    <MuteerUniversalObjectCRUD
+                    <MutatePolicyPage
                         authUser={authUser}
                         dimensieConstants={allDimensies.MAATREGELEN}
                     />
@@ -154,7 +154,7 @@ const AuthRoutes = ({ authUser, loggedIn }: AuthRoutesProps) => {
                 exact
                 path={`/muteer/maatregelen/edit/:single`}
                 render={() => (
-                    <MuteerUniversalObjectCRUD
+                    <MutatePolicyPage
                         authUser={authUser}
                         dimensieConstants={allDimensies.MAATREGELEN}
                     />
@@ -235,7 +235,7 @@ const BeheerRoutes = ({ authUser }: Pick<AuthRoutesProps, 'authUser'>) => {
                             exact
                             path={`/muteer/${overzichtSlug}/${createNewSlug}`}
                             render={() => (
-                                <MuteerUniversalObjectCRUD
+                                <MutatePolicyPage
                                     authUser={authUser}
                                     dimensieConstants={dimensieConstants}
                                 />
@@ -245,7 +245,7 @@ const BeheerRoutes = ({ authUser }: Pick<AuthRoutesProps, 'authUser'>) => {
                             exact
                             path={`/muteer/${overzichtSlug}/edit/:single`}
                             render={() => (
-                                <MuteerUniversalObjectCRUD
+                                <MutatePolicyPage
                                     authUser={authUser}
                                     dimensieConstants={dimensieConstants}
                                 />

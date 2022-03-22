@@ -30,7 +30,10 @@ describe('AuthRoutes', () => {
         loggedIn: true,
     }
 
-    const setup = (customProps: any, customUser?: any) => {
+    const setup = (
+        customProps: { [key: string]: any },
+        customUser?: { user: typeof user }
+    ) => {
         const props = { ...defaultProps, ...customProps }
         render(
             <MemoryRouter initialEntries={['/muteer/dashboard']}>

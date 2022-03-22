@@ -213,7 +213,9 @@ const NavigationPopupMenu = ({
                                         text="Netwerkvisualisatie"
                                         setIsOpen={setIsOpen}
                                         to="/netwerkvisualisatie"
-                                        onKeyDown={(e: any) => {
+                                        onKeyDown={(
+                                            e: React.KeyboardEvent<HTMLAnchorElement>
+                                        ) => {
                                             if (
                                                 e.key === 'Tab' &&
                                                 !e.shiftKey

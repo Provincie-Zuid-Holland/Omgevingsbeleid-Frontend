@@ -1,4 +1,8 @@
-import { getBelangen, getValidBelangen } from '@/api/fetchers'
+import {
+    getBelangen,
+    getBelangenLineageid,
+    getValidBelangen,
+} from '@/api/fetchers'
 
 import { currentDate, futureDate, currentDateFormatted } from './testValues'
 

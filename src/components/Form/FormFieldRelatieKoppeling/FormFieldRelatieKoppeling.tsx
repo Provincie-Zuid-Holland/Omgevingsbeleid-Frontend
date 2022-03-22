@@ -2,7 +2,11 @@ import { faAngleDown, faEye } from '@fortawesome/pro-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-import objecten from '@/constants/koppelingen'
+import { BeleidskeuzesRead } from '@/api/fetchers.schemas'
+import objecten, {
+    connectionPropertiesType,
+    propertyNamesType,
+} from '@/constants/koppelingen'
 
 import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving'
 import PopupBewerkKoppeling from './PopUpBewerkKoppeling'
@@ -15,21 +19,20 @@ import PopupNieuweKoppeling from './PopupNieuweKoppeling'
  * @param {object} crudObject - Contains the object information from the API.
  */
 function getPropertiesWithConnectionsFromCrudObject(
-    connectionProperties: (keyof typeof objecten)[],
-    crudObject: any
+    connectionProperties: connectionPropertiesType[],
+    crudObject: BeleidskeuzesRead
 ) {
-    const propertiesWithExistingConnections: string[] = []
+    const propertiesWithExistingConnections: propertyNamesType[] = []
 
     connectionProperties.forEach(property => {
-        const propertyName = objecten[property].propertyName as any
+        const propertyName = objecten[property].propertyName
 
-        if (
-            crudObject[propertyName] !== undefined &&
-            crudObject[propertyName] !== null &&
-            Array.isArray(crudObject[propertyName]) &&
-            crudObject[propertyName]?.length > 0 &&
-            !propertiesWithExistingConnections.includes(propertyName)
-        ) {
+        const objectHasConnectionsOnProperty =
+            propertyName &&
+            crudObject?.[propertyName]?.length &&
+            crudObject?.[propertyName]!.length > 0
+
+        if (objectHasConnectionsOnProperty) {
             propertiesWithExistingConnections.push(propertyName)
         }
     })
@@ -55,8 +58,8 @@ function getPropertiesWithConnectionsFromCrudObject(
  */
 
 interface FormFieldRelatieKoppelingProps {
-    crudObject: any
-    connectionProperties: (keyof typeof objecten)[]
+    crudObject: BeleidskeuzesRead
+    connectionProperties: connectionPropertiesType[]
     disabled?: boolean
     fieldLabel: string
     pValue: string
@@ -167,9 +170,11 @@ const FormFieldRelatieKoppeling = ({
             // Create the property on which we will put the objects
             newStateKoppelingenRelatiesObject[propertyName] = []
 
-            crudObject[propertyName].forEach((item: any) => {
-                newStateKoppelingenRelatiesObject[propertyName].push(item)
-            })
+            if (crudObject[propertyName]) {
+                crudObject[propertyName]!.forEach(item => {
+                    newStateKoppelingenRelatiesObject[propertyName].push(item)
+                })
+            }
         })
 
         setKoppelingenRelaties({ ...newStateKoppelingenRelatiesObject })
@@ -339,7 +344,7 @@ interface DropdownProps {
     setDropdownOpen: (state: boolean) => void
     titleSingular: string
     dataObjectProperty: string
-    connectionProperties: (keyof typeof objecten)[]
+    connectionProperties: connectionPropertiesType[]
     togglePopupNieuw: (type: keyof typeof objecten) => void
     buttonTekst: string
 }

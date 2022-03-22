@@ -625,7 +625,7 @@ const MuteerUniversalObjectCRUD = ({
                                     />
                                 ) : null}
 
-                                <ButtonSubmitFixed submit={handleSubmit} />
+                                <ButtonSubmitFixed />
                             </form>
                         </div>
                     </div>

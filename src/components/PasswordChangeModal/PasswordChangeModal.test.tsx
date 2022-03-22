@@ -13,7 +13,7 @@ describe('PasswordChangeModal', () => {
         setOpen: jest.fn(),
     }
 
-    const setup = (customProps?: any) => {
+    const setup = (customProps?: { [key: string]: any }) => {
         const props = { ...defaultProps, ...customProps }
         render(<PasswordChangeModal {...props} />)
     }

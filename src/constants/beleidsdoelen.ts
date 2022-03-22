@@ -1,4 +1,8 @@
-import { getBeleidsdoelen, getValidBeleidsdoelen } from '@/api/fetchers'
+import {
+    getBeleidsdoelen,
+    getBeleidsdoelenLineageid,
+    getValidBeleidsdoelen,
+} from '@/api/fetchers'
 
 import { currentDate, futureDate, currentDateFormatted } from './testValues'
 

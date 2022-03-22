@@ -9,7 +9,67 @@ import {
     getVerordeningen,
 } from '@/api/fetchers'
 
-const objecten = {
+const connectionProperties = [
+    'belangen',
+    'ambities',
+    'beleidsdoelen',
+    'themas',
+    'beleidsprestaties',
+    'maatregelen',
+    'beleidsregels',
+    'taken',
+    'verordening',
+] as const
+export type connectionPropertiesType = typeof connectionProperties[number]
+
+const propertyNames = [
+    'Belangen',
+    'Ambities',
+    'Beleidsdoelen',
+    'Themas',
+    'Beleidsprestaties',
+    'Maatregelen',
+    'Verordeningen',
+    'Beleidsregels',
+] as const
+export type propertyNamesType = typeof propertyNames[number]
+
+// create a type called propertyNames
+// export type propertyNamesType =
+//     | 'Belangen'
+//     | 'Belangen'
+//     | 'Ambities'
+//     | 'Beleidsdoelen'
+//     | 'Themas'
+//     | 'Beleidsprestaties'
+//     | 'Maatregelen'
+//     | 'Verordeningen'
+//     | 'Beleidsregels'
+
+export type getApiTypes =
+    | typeof getAmbities
+    | typeof getBelangen
+    | typeof getBeleidsdoelen
+    | typeof getBeleidsprestaties
+    | typeof getBeleidsregels
+    | typeof getMaatregelen
+    | typeof getThemas
+    | typeof getVerordeningen
+
+interface objectenInterface {
+    [key: string]: {
+        buttonTekst: string
+        volledigeTitel: string
+        volledigeTitelMeervoud: string
+        api: getApiTypes
+        filterAPI: boolean
+        filterType: string | null
+        propertyName: propertyNamesType
+        type: string
+    }
+}
+
+const objecten: objectenInterface = {
     belangen: {
         buttonTekst: 'belang',
         volledigeTitel: 'Nationaal Belang',

@@ -1,3 +1,4 @@
+import { FieldLabel, FormikInput } from '@pzh-ui/components'
 import { ChangeEventHandler } from 'react'
 
 import { ContainerFormSection } from '@/components/Container'
@@ -6,6 +7,7 @@ import {
     FormFieldTextInput,
     FormFieldTextArea,
     FormFieldWeblink,
+    FormFieldInputContainer,
 } from '@/components/Form'
 
 /**
@@ -32,14 +34,22 @@ const FormFieldContainerAmbities = ({
         <ContainerFormSection
             titel="Algemene informatie"
             beschrijving="De algemene informatie bevat een duidelijke titel.">
+            <FormFieldInputContainer>
+                <FieldLabel name="naam" label="naam" description="test" />
+                <FormikInput name="naam" />
+            </FormFieldInputContainer>
+            {/* <FormFieldInputContainer>
+                <FormFieldTitelEnBeschrijving
+                    fieldLabel="Titel"
+                    pValue="Formuleer in enkele woorden de titel van deze ambitie."
+                />
+            </FormFieldInputContainer>
             <FormFieldTextInput
                 handleChange={handleChange}
                 fieldValue={crudObject['Titel']}
                 dataObjectProperty="Titel"
-                fieldLabel="Titel"
-                pValue="Formuleer in enkele woorden de titel van deze ambitie."
                 titleSingular={titleSingular}
-            />
+            /> */}
         </ContainerFormSection>
 
         <ContainerFormSection

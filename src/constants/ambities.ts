@@ -1,9 +1,11 @@
 import { getAmbities, getValidAmbities } from '@/api/fetchers'
+import { AmbitiesWrite } from '@/api/fetchers.schemas'
 
 import { currentDate, futureDate, currentDateFormatted } from './testValues'
 
 export const apiCall = getAmbities
 export const validApiCall = getValidAmbities
+export interface ApiWriteType extends AmbitiesWrite {}
 
 export const TITLE_SINGULAR = 'Ambitie'
 export const TITLE_SINGULAR_PREFIX = 'de'
