@@ -24,6 +24,7 @@ const RaadpleegSearchResults = () => {
     const [searchResults, setSearchResults] = useState<
         GetSearch200ResultsItem[]
     >([])
+    const [searchResultsTotal, setSearchResultsTotal] = useState(0)
     const [dataLoaded, setDataLoaded] = useState(false)
 
     const { get } = useSearchParam()
@@ -45,12 +46,13 @@ const RaadpleegSearchResults = () => {
             }
 
             try {
-                const { results } = await getSearch({
+                const { results, total = 0 } = await getSearch({
                     query: paramTextQuery,
                     limit: 20,
                     ...(paramOnly && { only: paramOnly }),
                 })
                 setSearchResults(results || [])
+                setSearchResultsTotal(total)
                 setOnPageFilters({
                     type: 'initFilters',
                     searchResultItems: results || [],
@@ -204,6 +206,7 @@ const RaadpleegSearchResults = () => {
                                     setOnPageFilters={setOnPageFilters}
                                     setSearchResults={setSearchResults}
                                     searchResults={searchResults}
+                                    total={searchResultsTotal}
                                 />
                             ) : null}
                         </>

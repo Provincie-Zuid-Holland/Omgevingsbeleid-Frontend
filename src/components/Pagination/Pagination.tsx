@@ -18,6 +18,7 @@ export interface PaginationProps {
     setOnPageFilters: (action: ACTIONTYPE) => void
     UUIDs?: string[]
     limit?: number
+    total?: number
 }
 
 function Pagination({
@@ -26,6 +27,7 @@ function Pagination({
     setOnPageFilters,
     UUIDs,
     limit = 20,
+    total = 0,
 }: PaginationProps) {
     const [isLoading, setIsLoading] = useState(false)
     const [offset, setOffset] = useState(limit)
@@ -79,7 +81,7 @@ function Pagination({
             setShow(false)
     }
 
-    if (!show || searchResults.length < limit) return null
+    if (!show || total <= limit) return null
 
     return (
         <div className="flex items-center justify-center mb-16">
