@@ -122,30 +122,34 @@ const PopupNieuweKoppeling = ({
         const propertyName = objecten[type].propertyName
         const clonedCrudObject = cloneDeep(crudObject)
 
+        // Add active connections to an array
         const actieveKoppelingen: string[] = []
-
         if (clonedCrudObject[propertyName]) {
             clonedCrudObject[propertyName].forEach((item: any) => {
                 actieveKoppelingen.push(item.Object.UUID)
             })
         }
 
-        return objects
-            .filter(
-                item =>
-                    ('Type' in item &&
-                        item.Type !== 'Lid' &&
+        return (
+            objects
+                // Filter out all the object of Type 'Lid'
+                .filter(
+                    item =>
+                        !('Type' in item) ||
+                        ('Type' in item && item.Type !== 'Lid')
+                )
+                // Filter out based on search Query
+                .filter(
+                    item =>
                         item.Titel?.toLowerCase().includes(
                             searchFilter.toLowerCase()
-                        )) ||
-                    ('Type' in item &&
-                        item.Type !== 'Lid' &&
-                        item.Titel &&
-                        item?.Volgnummer?.toLowerCase()?.includes(
-                            searchFilter.toLowerCase()
-                        ))
-            )
-            .filter(item => !actieveKoppelingen.includes(item.UUID || ''))
+                        ) ||
+                        ('Volgnummer' in item &&
+                            item?.Volgnummer?.toLowerCase()?.includes(
+                                searchFilter.toLowerCase()
+                            ))
+                )
+        )
     }
 
     /**

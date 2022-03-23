@@ -45,7 +45,7 @@ const SearchFilterSection = ({
             className={`col-span-6 pt-0 md:col-span-2 ${
                 !hideLabels ? 'md:pt-4' : ''
             }`}>
-            <div className="sticky top-20">
+            <div className="md:sticky" style={{ top: 'calc(2rem + 192px)' }}>
                 {Object.keys(searchFilterCategories)
                     .filter(category =>
                         onPageFilters.availableFilters.some(filter =>

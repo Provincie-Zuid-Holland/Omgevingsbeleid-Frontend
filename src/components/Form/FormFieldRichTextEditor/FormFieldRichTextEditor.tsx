@@ -90,19 +90,63 @@ function FormFieldRichTextEditor({
 
         const formats = getFormats(editorFormats)
 
-        const quillOptions: QuillOptionsStatic = {
+        const editor = new Quill(`#quill-container-${dataObjectProperty}`, {
             modules: {
                 toolbar: disabled ? [] : editorToolbar,
+                keyboard: {
+                    bindings: {
+                        indent: {
+                            key: 9,
+                            format: ['blockquote', 'indent', 'list'],
+                            handler: function (this: any, range: any) {
+                                // We want to disable the indentation if:
+                                // - (1) The current line is the first line and the indent level is 0 (not indented)
+                                // - (2) The current line is a list and the previous line is not a list
+                                // - (3) The current line is a list and the previous line too, but the previous lines indentation level is already one level lower
+
+                                const currentLineFormats = this.quill.getFormat(
+                                    range.index
+                                )
+                                const previousLineFormats =
+                                    this.quill.getFormat(range.index - 1)
+                                const currentLineIsTheFirstLine =
+                                    range.index === 0
+                                const currentLineIsAList =
+                                    currentLineFormats.list !== undefined
+                                const previousLineIsAList =
+                                    previousLineFormats.list !== undefined
+                                const currentLineIndent =
+                                    currentLineFormats.indent || 0
+                                const previousLineIndent =
+                                    previousLineFormats.indent || 0
+
+                                if (
+                                    (currentLineIsTheFirstLine &&
+                                        currentLineIndent === 0) ||
+                                    (currentLineIsAList &&
+                                        !previousLineIsAList) ||
+                                    (currentLineIsAList &&
+                                        previousLineIsAList &&
+                                        previousLineIndent ===
+                                            currentLineIndent - 1)
+                                ) {
+                                    return
+                                }
+
+                                this.quill.format(
+                                    'indent',
+                                    '+1',
+                                    Quill.sources.USER
+                                )
+                            },
+                        },
+                    },
+                },
             },
             placeholder: disabled ? '' : placeholder,
             theme: 'snow',
             formats: formats,
-        }
-
-        const editor = new Quill(
-            `#quill-container-${dataObjectProperty}`,
-            quillOptions
-        )
+        })
         editorRef.current = editor
 
         // Paste text without styles (https://github.com/quilljs/quill/issues/1184)

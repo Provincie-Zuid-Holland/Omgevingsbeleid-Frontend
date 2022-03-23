@@ -138,8 +138,8 @@ const RaadpleegSearchResults = () => {
     return (
         <>
             <Container
-                className="bg-pzh-blue-light"
-                style={isMobile ? {} : { height: 96 + 'px' }}>
+                className="z-10 md:sticky bg-pzh-blue-light"
+                style={isMobile ? {} : { height: 96 + 'px', top: '96px' }}>
                 <div className="flex items-center col-span-6 md:col-span-2">
                     <Heading
                         level="1"
