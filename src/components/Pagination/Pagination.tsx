@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { getSearch, getSearchGeo } from '@/api/fetchers'
+import { getSearch, postSearchGeo } from '@/api/fetchers'
 import {
     GetSearch200ResultsItem,
     GetSearchGeo200ResultsItem,
@@ -43,7 +43,7 @@ function Pagination({
 
     const getResults = async () => {
         if ((paramGeo || paramWerkingsgebied) && UUIDs?.length) {
-            return await getSearchGeo({
+            return await postSearchGeo({
                 query: paramWerkingsgebied || UUIDs.join(','),
                 offset,
                 limit,

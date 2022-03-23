@@ -6,7 +6,7 @@ import {
     getWerkingsGebieden,
     getWerkingsGebiedenByArea,
 } from '@/api/axiosGeoJSON'
-import { getSearch, getSearchGeo } from '@/api/fetchers'
+import { getSearch, postSearchGeo } from '@/api/fetchers'
 import { GetSearch200ResultsItem } from '@/api/fetchers.schemas'
 import Container from '@/components/Container/Container'
 import Footer from '@/components/Footer'
@@ -102,7 +102,7 @@ const RaadpleegSearchResults = () => {
                 if (werkingsgebiedenUUIDS.length === 0) return
 
                 const searchResults: GetSearch200ResultsItem[] | undefined =
-                    await getSearchGeo({
+                    await postSearchGeo({
                         query: werkingsgebiedenUUIDS.join(','),
                     }).then(data => data.results)
 
