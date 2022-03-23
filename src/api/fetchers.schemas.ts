@@ -502,6 +502,73 @@ export type GetThemasParams = {
     offset?: number
 }
 
+export type PostSearchGeo403 = {
+    /** A description of the error */
+    message?: string
+}
+
+export type PostSearchGeo400 = {
+    /** A description of the error */
+    message?: string
+}
+
+/**
+ * The type of this object
+ */
+export type PostSearchGeo200ResultsItemType =
+    | 'beleidskeuzes'
+    | 'ambities'
+    | 'belangen'
+    | 'beleidsdoelen'
+    | 'beleidsprestaties'
+    | 'beleidsregels'
+    | 'maatregelen'
+    | 'themas'
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostSearchGeo200ResultsItemType = {
+    beleidskeuzes: 'beleidskeuzes' as PostSearchGeo200ResultsItemType,
+    ambities: 'ambities' as PostSearchGeo200ResultsItemType,
+    belangen: 'belangen' as PostSearchGeo200ResultsItemType,
+    beleidsdoelen: 'beleidsdoelen' as PostSearchGeo200ResultsItemType,
+    beleidsprestaties: 'beleidsprestaties' as PostSearchGeo200ResultsItemType,
+    beleidsregels: 'beleidsregels' as PostSearchGeo200ResultsItemType,
+    maatregelen: 'maatregelen' as PostSearchGeo200ResultsItemType,
+    themas: 'themas' as PostSearchGeo200ResultsItemType,
+}
+
+export type PostSearchGeo200ResultsItem = {
+    /** A description of this object */
+    Omschrijving?: string
+    /** A representation of the search rank, only usefull for comparing between two results */
+    RANK?: number
+    /** The title of this object */
+    Titel?: string
+    /** The type of this object */
+    Type?: PostSearchGeo200ResultsItemType
+    /** The UUID of this object */
+    UUID?: string
+}
+
+export type PostSearchGeo200 = {
+    results?: PostSearchGeo200ResultsItem[]
+    /** The total amount of objects found */
+    total?: number
+}
+
+export type PostSearchGeoBody = {
+    /** Exclude these objects form search (can not be used in combination with `only` */
+    exclude?: string
+    /** Limit the amount of results. Comma seperated list */
+    limit?: number
+    /** Offset the results */
+    offset?: number
+    /** Only search these objects (can not be used in combination with `exclude`. Comma seperated list */
+    only?: string
+    /** The uuid of the geo area to search on. Comma seperated list */
+    query?: string
+}
+
 export type GetSearchGeo403 = {
     /** A description of the error */
     message?: string
@@ -758,9 +825,9 @@ export type GetGraph200 = {
  * Type slug for this object
  */
 export type GetEdits200ItemType =
+    | 'beleidskeuzes'
     | 'beleidsrelaties'
     | 'beleidsmodules'
-    | 'beleidskeuzes'
     | 'ambities'
     | 'belangen'
     | 'beleidsdoelen'
@@ -773,9 +840,9 @@ export type GetEdits200ItemType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetEdits200ItemType = {
+    beleidskeuzes: 'beleidskeuzes' as GetEdits200ItemType,
     beleidsrelaties: 'beleidsrelaties' as GetEdits200ItemType,
     beleidsmodules: 'beleidsmodules' as GetEdits200ItemType,
-    beleidskeuzes: 'beleidskeuzes' as GetEdits200ItemType,
     ambities: 'ambities' as GetEdits200ItemType,
     belangen: 'belangen' as GetEdits200ItemType,
     beleidsdoelen: 'beleidsdoelen' as GetEdits200ItemType,
@@ -984,6 +1051,21 @@ export type GetChangesAmbitiesOlduuidNewuuid200 = {
     old?: AmbitiesRead
 }
 
+export type PatchBeleidsrelatiesLineageid500 = {
+    /** A description of the error */
+    message?: string
+}
+
+export type PatchBeleidsrelatiesLineageid403 = {
+    /** A description of the error */
+    message?: string
+}
+
+export type PatchBeleidsrelatiesLineageid400 = {
+    /** A description of the error */
+    message?: string
+}
+
 export type GetBeleidsrelatiesLineageid404 = {
     /** A description of the error */
     message?: string
@@ -994,6 +1076,21 @@ export type GetBeleidsrelatiesLineageidParams = {
     any_filters?: string
     limit?: number
     offset?: number
+}
+
+export type PostBeleidsrelaties500 = {
+    /** A description of the error */
+    message?: string
+}
+
+export type PostBeleidsrelaties403 = {
+    /** A description of the error */
+    message?: string
+}
+
+export type PostBeleidsrelaties400 = {
+    /** A description of the error */
+    message?: string
 }
 
 export type GetBeleidsrelaties400 = {
@@ -2799,8 +2896,6 @@ export interface BeleidskeuzesWrite {
     Belangen?: ListReference[]
     /** An list of references to beleidsdoelen objects */
     Beleidsdoelen?: ListReference[]
-    /** An list of references to beleidskeuze-short objects */
-    Beleidskeuzes?: ListReference[]
     /** An list of references to beleidsprestaties objects */
     Beleidsprestaties?: ListReference[]
     /** An list of references to beleidsregels objects */
@@ -2911,11 +3006,6 @@ export type BeleidskeuzesReadBeleidsprestatiesItem = {
     Object?: BeleidsprestatiesInline
 }
 
-export type BeleidskeuzesReadBeleidskeuzesItem = {
-    Koppeling_Omschrijving?: string
-    Object?: BeleidskeuzeShortInline
-}
-
 export type BeleidskeuzesReadBeleidsdoelenItem = {
     Koppeling_Omschrijving?: string
     Object?: BeleidsdoelenInline
@@ -2949,8 +3039,6 @@ export interface BeleidskeuzesRead {
     Belangen?: BeleidskeuzesReadBelangenItem[]
     /** An list of beleidsdoelen objects */
     Beleidsdoelen?: BeleidskeuzesReadBeleidsdoelenItem[]
-    /** An list of beleidskeuze-short objects */
-    Beleidskeuzes?: BeleidskeuzesReadBeleidskeuzesItem[]
     /** An list of beleidsprestaties objects */
     Beleidsprestaties?: BeleidskeuzesReadBeleidsprestatiesItem[]
     /** An list of beleidsregels objects */
@@ -3244,8 +3332,6 @@ export interface BeleidskeuzesChange {
     /** An object that shows the changes in the list */
     Beleidsdoelen?: BeleidskeuzesChangeBeleidsdoelen
     /** An object that shows the changes in the list */
-    Beleidskeuzes?: BeleidskeuzesChangeBeleidskeuzes
-    /** An object that shows the changes in the list */
     Beleidsprestaties?: BeleidskeuzesChangeBeleidsprestaties
     /** An object that shows the changes in the list */
     Beleidsregels?: BeleidskeuzesChangeBeleidsregels
@@ -3327,15 +3413,6 @@ export interface BeleidskeuzeShortInline {
     Titel?: string
     /** None */
     UUID?: string
-}
-
-/**
- * An object that shows the changes in the list
- */
-export type BeleidskeuzesChangeBeleidskeuzes = {
-    new?: BeleidskeuzeShortInline[]
-    removed?: BeleidskeuzeShortInline[]
-    same?: BeleidskeuzeShortInline[]
 }
 
 /**

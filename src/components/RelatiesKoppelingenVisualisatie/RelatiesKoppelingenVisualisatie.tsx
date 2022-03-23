@@ -61,7 +61,7 @@ const RelatiesKoppelingenVisualisatie = ({
     })
     const [href, setHref] = useState('#')
     const [connectedProperties, setConnectedProperties] = useState<
-        ConnectionProperties[]
+        (ConnectionProperties | 'Beleidskeuzes')[]
     >([]) // Properties that contain connections
 
     const getObjectColor = useCallback(
@@ -116,7 +116,10 @@ const RelatiesKoppelingenVisualisatie = ({
         })
 
         // Holds the properties that have connections
-        const activeConnectionProperties: ConnectionProperties[] = []
+        const activeConnectionProperties: (
+            | ConnectionProperties
+            | 'Beleidskeuzes'
+        )[] = []
 
         // Output the node and link object for each property
         // We use the index for the ID
