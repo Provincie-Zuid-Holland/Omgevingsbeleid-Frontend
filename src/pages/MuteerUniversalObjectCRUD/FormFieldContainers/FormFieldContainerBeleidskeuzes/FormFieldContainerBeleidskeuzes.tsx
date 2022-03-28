@@ -107,7 +107,7 @@ function FormFieldContainerBeleidskeuzes({
                         handleChange={handleChange}
                         fieldValue={crudObject['Omschrijving_Keuze']}
                         dataObjectProperty="Omschrijving_Keuze"
-                        disabled={isVigerend}
+                        disabled={true}
                     />
                 </FormFieldInputContainer>
 

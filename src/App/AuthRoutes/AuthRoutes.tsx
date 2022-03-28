@@ -198,101 +198,115 @@ const AuthRoutes = ({ authUser, loggedIn }: AuthRoutesProps) => {
 
 // Component to generate a general overview View, a detail view and a CRUD view to edit and create
 const BeheerRoutes = ({ authUser }: Pick<AuthRoutesProps, 'authUser'>) => {
-    const BeheerRouteJSX = Object.keys(allDimensies)
-        .filter(
-            dimensie =>
-                allDimensies[dimensie as keyof typeof allDimensies]
-                    .SLUG_CREATE_NEW
-        )
-        .map(dimensie => {
-            // There are custom detail pages for beleidskeuzes, maatregelen and beleidsmodules
-            const returnDetailPage =
-                dimensie !== 'BELEIDSKEUZES' &&
-                dimensie !== 'MAATREGELEN' &&
-                dimensie !== 'BELEIDSMODULES'
+    const skipDimensies = ['VERORDENINGSARTIKEL', 'BELEIDSRELATIES'] as const
+    const skipDetailPageDimensies = [
+        'BELEIDSKEUZES',
+        'MAATREGELEN',
+        'BELEIDSMODULES',
+    ]
+    type dimensieKeys = keyof typeof allDimensies
+    type skipDimensieKeys = typeof skipDimensies[number]
+    type filteredDimensieKeys = Exclude<dimensieKeys, skipDimensieKeys>
+    const filteredDimensions = (
+        Object.keys(allDimensies) as Array<keyof typeof allDimensies>
+    ).filter(
+        dimensie =>
+            allDimensies[dimensie].SLUG_CREATE_NEW &&
+            !(skipDimensies as readonly string[]).includes(dimensie)
+    )
 
-            const dimensieConstants =
-                allDimensies[dimensie as keyof typeof allDimensies]
-            const overzichtSlug =
-                allDimensies[dimensie as keyof typeof allDimensies]
-                    .SLUG_OVERVIEW
-            const createNewSlug =
-                allDimensies[dimensie as keyof typeof allDimensies]
-                    .SLUG_CREATE_NEW
+    return (
+        <>
+            {filteredDimensions.map(dimensie => {
+                const returnDetailPage =
+                    !skipDetailPageDimensies.includes(dimensie)
+                const dimensieConstants = allDimensies[dimensie]
+                const overzichtSlug = allDimensies[dimensie].SLUG_OVERVIEW
+                const createNewSlug = allDimensies[dimensie].SLUG_CREATE_NEW
 
-            const isBeleidsModulePageAndUserIsNotAdmin =
-                dimensie === 'BELEIDSMODULES' &&
-                authUser?.Rol !== 'Beheerder' &&
-                authUser?.Rol !== 'Functioneel beheerder' &&
-                authUser?.Rol !== 'Technisch beheerder' &&
-                authUser?.Rol !== 'Test runner' &&
-                authUser?.Rol !== 'Tester'
+                const isBeleidsModulePageAndUserIsNotAdmin =
+                    dimensie === 'BELEIDSMODULES' &&
+                    authUser?.Rol !== 'Beheerder' &&
+                    authUser?.Rol !== 'Functioneel beheerder' &&
+                    authUser?.Rol !== 'Technisch beheerder' &&
+                    authUser?.Rol !== 'Test runner' &&
+                    authUser?.Rol !== 'Tester'
 
-            return (
-                <Fragment key={createNewSlug}>
-                    <Switch>
-                        <Route
-                            exact
-                            path={`/muteer/${overzichtSlug}/${createNewSlug}`}
-                            render={() => (
-                                <MutatePolicyPage
-                                    authUser={authUser}
-                                    dimensieConstants={dimensieConstants}
-                                />
-                            )}
-                        />
-                        <Route
-                            exact
-                            path={`/muteer/${overzichtSlug}/edit/:single`}
-                            render={() => (
-                                <MutatePolicyPage
-                                    authUser={authUser}
-                                    dimensieConstants={dimensieConstants}
-                                />
-                            )}
-                        />
-                        {returnDetailPage ? (
+                console.log('CREATE ROUTE FOR ', dimensie)
+
+                return (
+                    <Fragment key={createNewSlug}>
+                        <Switch>
                             <Route
                                 exact
-                                path={`/muteer/${overzichtSlug}/:single/:version`}
+                                path={`/muteer/${overzichtSlug}/${createNewSlug}`}
                                 render={() => (
-                                    <MuteerUniversalObjectDetail
+                                    <MutatePolicyPage
                                         authUser={authUser}
+                                        dimensieConstants={
+                                            allDimensies[dimensie] as any
+                                        }
+                                    />
+                                )}
+                            />
+                            <Route
+                                exact
+                                path={`/muteer/${overzichtSlug}/edit/:single`}
+                                render={() => (
+                                    <MutatePolicyPage
+                                        authUser={authUser}
+                                        dimensieConstants={
+                                            allDimensies[dimensie] as any
+                                        }
+                                    />
+                                )}
+                            />
+                            {returnDetailPage ? (
+                                <Route
+                                    exact
+                                    path={`/muteer/${overzichtSlug}/:single/:version`}
+                                    render={() => (
+                                        <MuteerUniversalObjectDetail
+                                            authUser={authUser}
+                                            dimensieConstants={
+                                                dimensieConstants
+                                            }
+                                        />
+                                    )}
+                                />
+                            ) : null}
+                            {returnDetailPage ? (
+                                <Route
+                                    exact
+                                    path={`/muteer/${overzichtSlug}/:single`}
+                                    render={() => (
+                                        <MuteerUniversalObjectDetail
+                                            authUser={authUser}
+                                            dimensieConstants={
+                                                dimensieConstants
+                                            }
+                                        />
+                                    )}
+                                />
+                            ) : null}
+                            <Route
+                                path={`/muteer/${overzichtSlug}`}
+                                exact
+                                render={() => (
+                                    <MuteerUniversalObjectOverzicht
+                                        hideAddObject={
+                                            isBeleidsModulePageAndUserIsNotAdmin
+                                        }
                                         dimensieConstants={dimensieConstants}
                                     />
                                 )}
                             />
-                        ) : null}
-                        {returnDetailPage ? (
-                            <Route
-                                exact
-                                path={`/muteer/${overzichtSlug}/:single`}
-                                render={() => (
-                                    <MuteerUniversalObjectDetail
-                                        authUser={authUser}
-                                        dimensieConstants={dimensieConstants}
-                                    />
-                                )}
-                            />
-                        ) : null}
-                        <Route
-                            path={`/muteer/${overzichtSlug}`}
-                            exact
-                            render={() => (
-                                <MuteerUniversalObjectOverzicht
-                                    hideAddObject={
-                                        isBeleidsModulePageAndUserIsNotAdmin
-                                    }
-                                    dimensieConstants={dimensieConstants}
-                                />
-                            )}
-                        />
-                    </Switch>
-                </Fragment>
-            )
-        })
-
-    return <>{BeheerRouteJSX}</>
+                        </Switch>
+                    </Fragment>
+                )
+            })}
+        </>
+    )
 }
 
 // Export with authentication layer

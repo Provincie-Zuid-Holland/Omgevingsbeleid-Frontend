@@ -2,12 +2,33 @@ import { Form, Formik, setIn } from 'formik'
 import { useEffect, useRef, useState } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 
-import { getAmbitiesLineageid } from '@/api/fetchers'
-import { AmbitiesWrite } from '@/api/fetchers.schemas'
+import {
+    getAmbitiesLineageid,
+    getBelangenLineageid,
+    getBeleidsdoelenLineageid,
+    getBeleidskeuzesLineageid,
+    getBeleidsmodulesLineageid,
+    getBeleidsprestatiesLineageid,
+    getBeleidsregelsLineageid,
+    getMaatregelenLineageid,
+    getThemasLineageid,
+    getVerordeningenLineageid,
+} from '@/api/fetchers'
+import {
+    AmbitiesRead,
+    VerordeningenRead,
+    BeleidskeuzesRead,
+    BeleidsmodulesRead,
+} from '@/api/fetchers.schemas'
 import ButtonSubmitFixed from '@/components/ButtonSubmitFixed'
-import { ContainerFormSection, ContainerMain } from '@/components/Container'
+import { ContainerMain } from '@/components/Container'
 import allDimensies from '@/constants/dimensies'
 import { checkIfUserIsAllowedOnPage } from '@/utils/checkIfUserIsAllowedOnPage'
+import {
+    createEmptyWriteObject,
+    possibleWriteObjects,
+    getWriteObjectProperties,
+} from '@/utils/createEmptyWriteObject'
 import formatGeldigheidDatesForAPI from '@/utils/formatGeldigheidDatesForAPI'
 import formatGeldigheidDatesForUI from '@/utils/formatGeldigheidDatesForUI'
 import { toastNotification } from '@/utils/toastNotification'
@@ -41,81 +62,42 @@ import FieldsAmbities from './Fields/FieldsAmbities'
  * Idea: extract form value into a seperate reducerComponent
  */
 
-const getFetcherForLineage = (titleSingular: 'Ambitie') => {
+const getFetcherForLineage = (
+    titleSingular: filteredDimensieConstants['TITLE_SINGULAR']
+) => {
     switch (titleSingular) {
         case 'Ambitie':
             return getAmbitiesLineageid
-        default:
-            break
+        case 'Belang':
+            return getBelangenLineageid
+        case 'Beleidskeuze':
+            return getBeleidskeuzesLineageid
+        case 'Beleidsregel':
+            return getBeleidsregelsLineageid
+        case 'Beleidsprestatie':
+            return getBeleidsprestatiesLineageid
+        case 'Beleidsmodule':
+            return getBeleidsmodulesLineageid
+        case 'Beleidsdoel':
+            return getBeleidsdoelenLineageid
+        case 'Maatregel':
+            return getMaatregelenLineageid
+        case 'Thema':
+            return getThemasLineageid
+        case 'Verordening':
+            return getVerordeningenLineageid
     }
 }
+
+type filteredDimensieConstants = Exclude<
+    typeof allDimensies[keyof typeof allDimensies],
+    | typeof allDimensies['VERORDENINGSARTIKEL']
+    | typeof allDimensies['BELEIDSRELATIES']
+>
 
 interface MutatePolicyPageProps {
     authUser: any
-    dimensieConstants: typeof allDimensies[keyof typeof allDimensies]
-}
-
-const generateInitialValues = (titleSingular: string) => {
-    switch (titleSingular) {
-        case 'Ambitie':
-            const initialValuesAmbities: AmbitiesWrite = {
-                Titel: '',
-                Omschrijving: '',
-                Weblink: '',
-                Begin_Geldigheid: '',
-                Eind_Geldigheid: '',
-            }
-            return initialValuesAmbities
-
-        default:
-            return {}
-    }
-}
-
-const getObjectFromDatabase = async (
-    objectID: number,
-    titleSingular: string
-) => {
-    const fetcherForLineage = getFetcherForLineage('Ambitie')
-
-    if (!fetcherForLineage) return
-
-    try {
-        const data = await fetcherForLineage(objectID)
-        return data
-    } catch (err) {
-        console.log(err)
-    }
-}
-
-const getInitialValuesFromResponse = (
-    response: any,
-    titleSingular: string,
-    modus: string | undefined
-) => {
-    let crudObject = {}
-
-    const isMaatregelOrBeleidskeuze =
-        titleSingular === 'Maatregel' || titleSingular === 'Beleidskeuze'
-
-    const isWijzigVigerendOrOntwerpMaken =
-        (modus && modus === 'wijzig_vigerend') ||
-        (modus && modus === 'ontwerp_maken')
-
-    if (isMaatregelOrBeleidskeuze && isWijzigVigerendOrOntwerpMaken) {
-        // Get the first object with a status of 'Vigerend'
-        crudObject = response.find((e: any) => e.Status === 'Vigerend')
-    } else if (
-        titleSingular === 'Beleidskeuze' ||
-        titleSingular === 'Maatregel'
-    ) {
-        crudObject = response.find((e: any) => e.Aanpassing_Op === null)
-    } else {
-        crudObject = response[0]
-    }
-
-    crudObject = formatGeldigheidDatesForUI(crudObject)
-    createAndSetCrudObject(crudObject)
+    dimensieConstants: filteredDimensieConstants
 }
 
 const redirectIfUserIsNotAllowed = (
@@ -145,52 +127,115 @@ const MutatePolicyPage = ({
     const history = useHistory()
     const titleSingular = dimensieConstants.TITLE_SINGULAR
     const titlePlural = dimensieConstants.TITLE_PLURAL
-    const objectSlugOverviewPage = dimensieConstants.SLUG_OVERVIEW
 
-    const [initialValues, setInitialValues] = useState<AmbitiesWrite>(
-        generateInitialValues(titleSingular)
+    const objectSlugOverviewPage = dimensieConstants.SLUG_OVERVIEW
+    const [initialValues, setInitialValues] = useState<possibleWriteObjects>(
+        createEmptyWriteObject(titleSingular)
     )
 
-    const formRef = useRef<any>(null)
     const dataLoaded = true
     const editStatus = true
-    const handleFormSubmit = (values: AmbitiesWrite) => {
+    const handleFormSubmit = (values: possibleWriteObjects) => {
         console.log(typeof values.Begin_Geldigheid)
     }
 
+    /** Get and set data if the user is editing an existing object */
     useEffect(() => {
-        if (objectID) {
-            getObjectFromDatabase(parseInt(objectID), titleSingular).then(
-                response => {
-                    if (!response) return
-
-                    redirectIfUserIsNotAllowed(response[0], authUser, history)
-
-                    const initialValues = getInitialValuesFromResponse(
-                        response,
-                        titleSingular,
-                        modus
-                    )
-                    setInitialValues(initialValues)
-                }
-            )
+        const getLineageFromApi = async (objectID: number) => {
+            const fetcherForLineage = getFetcherForLineage(titleSingular)
+            if (!fetcherForLineage) return
+            try {
+                const data = await fetcherForLineage(objectID)
+                redirectIfUserIsNotAllowed(data[0], authUser, history)
+                return data
+            } catch (err) {
+                console.log(err)
+            }
         }
-    }, [objectID, titleSingular, authUser, modus, history])
+
+        const getObjectFromLineage = (
+            lineage: Array<
+                | AmbitiesRead
+                | VerordeningenRead
+                | BeleidskeuzesRead
+                | BeleidsmodulesRead
+            >
+        ) => {
+            const isMaatregelOrBeleidskeuze =
+                titleSingular === 'Beleidskeuze' ||
+                titleSingular === 'Maatregel'
+
+            const isWijzigVigerendOrOntwerpMaken =
+                (modus && modus === 'wijzig_vigerend') ||
+                (modus && modus === 'ontwerp_maken')
+
+            if (isWijzigVigerendOrOntwerpMaken) {
+                return lineage.find(
+                    e => 'Status' in e && e.Status === 'Vigerend'
+                )
+            } else if (isMaatregelOrBeleidskeuze) {
+                return lineage.find(
+                    e => 'Aanpassing_Op' in e && e.Aanpassing_Op === null
+                )
+            } else {
+                return lineage[0]
+            }
+        }
+
+        const createWriteObjectFromReadObject = (
+            readObject:
+                | AmbitiesRead
+                | VerordeningenRead
+                | BeleidskeuzesRead
+                | BeleidsmodulesRead
+        ) => {
+            const writeProperties = getWriteObjectProperties(titleSingular)
+            const writeObject: { [key: string]: any } = {}
+            writeProperties.forEach(property => {
+                writeObject[property] = readObject[property]
+            })
+            return writeObject
+        }
+
+        const formatObjectForForm = (writeObject: possibleWriteObjects) => {
+            return formatGeldigheidDatesForUI(writeObject)
+        }
+
+        const getAndSetInitialValuesFromDatabase = async (objectID: number) => {
+            const lineage = await getLineageFromApi(objectID)
+            if (!lineage) return
+
+            const readObjectFromLineage = getObjectFromLineage(lineage)
+            if (!readObjectFromLineage) return
+
+            const writeObject = createWriteObjectFromReadObject(
+                readObjectFromLineage
+            )
+            if (!writeObject) return
+
+            const formattedWriteObject = formatObjectForForm(writeObject)
+
+            setInitialValues(formattedWriteObject)
+        }
+
+        if (objectID) {
+            getAndSetInitialValuesFromDatabase(parseInt(objectID))
+        }
+    }, [objectID, titleSingular, authUser, history, modus])
 
     return (
         <div>
             <ContainerCrudHeader
                 dataLoaded={dataLoaded}
-                objectTitle={formRef.current?.values?.Titel || ''}
+                objectTitle={initialValues?.Titel || ''}
                 editStatus={editStatus}
                 titelMeervoud={titlePlural}
                 overzichtSlug={objectSlugOverviewPage || ''}
                 titleSingular={titleSingular}
                 objectID={objectID}
             />
-            <ContainerMain>
+            <ContainerMain className="mt-16">
                 <Formik
-                    innerRef={formRef}
                     initialValues={initialValues}
                     enableReinitialize={true}
                     onSubmit={handleFormSubmit}>

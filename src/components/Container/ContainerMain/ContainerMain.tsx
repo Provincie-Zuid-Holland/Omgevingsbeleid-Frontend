@@ -13,20 +13,16 @@ import { FC } from 'react'
 
 interface ContainerProps {
     id?: string
+    className?: string
 }
 
-const ContainerMain: FC<ContainerProps> = ({ id, children }) => {
-    if (id)
-        return (
-            <div
-                className="container flex pb-8 mx-auto sm:px-6 lg:px-8"
-                id={id}>
-                {children}
-            </div>
-        )
-
+const ContainerMain: FC<ContainerProps> = ({ id, className, children }) => {
     return (
-        <div className="container flex pb-8 mx-auto sm:px-6 lg:px-8">
+        <div
+            className={`container flex pb-8 mx-auto sm:px-6 lg:px-8 ${
+                className ? className : ''
+            }`}
+            id={id}>
             {children}
         </div>
     )

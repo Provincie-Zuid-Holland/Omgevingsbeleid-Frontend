@@ -69,7 +69,7 @@ const App: FC<RouteComponentProps> = () => {
     const [dataLoaded, setDataLoaded] = useState(false)
 
     if (process.env.NODE_ENV !== 'production' && !process.env.JEST_WORKER_ID) {
-        axe()
+        // axe()
     }
 
     useEffect(() => {
