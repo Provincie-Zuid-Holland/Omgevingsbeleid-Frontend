@@ -6,7 +6,7 @@ import {
     getWerkingsGebieden,
     getWerkingsGebiedenByArea,
 } from '@/api/axiosGeoJSON'
-import { getSearch, getSearchGeo } from '@/api/fetchers'
+import { getSearch, postSearchGeo } from '@/api/fetchers'
 import { GetSearch200ResultsItem } from '@/api/fetchers.schemas'
 import Container from '@/components/Container/Container'
 import Heading from '@/components/Heading'
@@ -23,6 +23,7 @@ const RaadpleegSearchResults = () => {
     const [searchResults, setSearchResults] = useState<
         GetSearch200ResultsItem[]
     >([])
+    const [searchResultsTotal, setSearchResultsTotal] = useState(0)
     const [dataLoaded, setDataLoaded] = useState(false)
 
     const { get } = useSearchParam()
@@ -44,12 +45,13 @@ const RaadpleegSearchResults = () => {
             }
 
             try {
-                const { results } = await getSearch({
+                const { results, total = 0 } = await getSearch({
                     query: paramTextQuery,
                     limit: 20,
                     ...(paramOnly && { only: paramOnly }),
                 })
                 setSearchResults(results || [])
+                setSearchResultsTotal(total)
                 setOnPageFilters({
                     type: 'initFilters',
                     searchResultItems: results || [],
@@ -99,7 +101,7 @@ const RaadpleegSearchResults = () => {
                 if (werkingsgebiedenUUIDS.length === 0) return
 
                 const searchResults: GetSearch200ResultsItem[] | undefined =
-                    await getSearchGeo({
+                    await postSearchGeo({
                         query: werkingsgebiedenUUIDS.join(','),
                     }).then(data => data.results)
 
@@ -136,8 +138,8 @@ const RaadpleegSearchResults = () => {
     return (
         <>
             <Container
-                className="bg-pzh-blue-light"
-                style={isMobile ? {} : { height: 96 + 'px' }}>
+                className="z-10 md:sticky bg-pzh-blue-light"
+                style={isMobile ? {} : { height: 96 + 'px', top: '96px' }}>
                 <div className="flex items-center col-span-6 md:col-span-2">
                     <Heading
                         level="1"
@@ -206,6 +208,7 @@ const RaadpleegSearchResults = () => {
                                     setOnPageFilters={setOnPageFilters}
                                     setSearchResults={setSearchResults}
                                     searchResults={searchResults}
+                                    total={searchResultsTotal}
                                 />
                             ) : null}
                         </>

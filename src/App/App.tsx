@@ -1,5 +1,6 @@
 import './appConfig'
 
+import { DNABar } from '@pzh-ui/components'
 import classNames from 'classnames'
 import {
     Suspense,
@@ -25,7 +26,6 @@ import { ToastContainer } from 'react-toastify'
 import axe from '@/a11y'
 import { getTokeninfo } from '@/api/fetchers'
 import { GetTokeninfo200Identifier } from '@/api/fetchers.schemas'
-import DNABar from '@/components/DNABar'
 import FeedbackComponent from '@/components/FeedbackComponent'
 import { LoaderContent } from '@/components/Loader'
 import { NetworkGraph } from '@/components/Network'
@@ -258,7 +258,7 @@ const App: FC<RouteComponentProps> = () => {
                         <ToastContainer limit={1} position="bottom-left" />
                         {!isAdvancedSearchPage && (
                             <>
-                                <DNABar />
+                                <DNABar blocks={6} />
                                 <FeedbackComponent />
                             </>
                         )}

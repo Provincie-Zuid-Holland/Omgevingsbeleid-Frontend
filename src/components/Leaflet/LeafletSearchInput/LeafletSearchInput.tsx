@@ -92,6 +92,7 @@ const LeafletSearchInput = forwardRef<
                         type: data.type,
                         layerType: 'marker',
                         callback: drawCallback,
+                        locationName: naam,
                     })
 
                     searchCallback?.(marker)

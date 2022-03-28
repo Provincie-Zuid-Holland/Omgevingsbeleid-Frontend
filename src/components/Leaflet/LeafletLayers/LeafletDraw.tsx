@@ -92,11 +92,7 @@ const LeafletDraw = ({ position = 'topleft', onDraw }: LeafletDrawProps) => {
 
     return (
         <FeatureGroup>
-            <EditControl
-                position={position}
-                onCreated={onCreated}
-                onDeleted={(e: any) => console.log(e)}
-            />
+            <EditControl position={position} onCreated={onCreated} />
         </FeatureGroup>
     )
 }

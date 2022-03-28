@@ -104,8 +104,15 @@ import type {
     BeleidsrelatiesRead,
     GetBeleidsrelaties400,
     GetBeleidsrelatiesParams,
+    PostBeleidsrelaties400,
+    PostBeleidsrelaties403,
+    PostBeleidsrelaties500,
+    BeleidsrelatiesWrite,
     GetBeleidsrelatiesLineageid404,
     GetBeleidsrelatiesLineageidParams,
+    PatchBeleidsrelatiesLineageid400,
+    PatchBeleidsrelatiesLineageid403,
+    PatchBeleidsrelatiesLineageid500,
     GetChangesAmbitiesOlduuidNewuuid200,
     GetChangesAmbitiesOlduuidNewuuid404,
     GetChangesAmbitiesOlduuidNewuuid500,
@@ -173,6 +180,10 @@ import type {
     GetSearchGeo400,
     GetSearchGeo403,
     GetSearchGeoParams,
+    PostSearchGeo200,
+    PostSearchGeo400,
+    PostSearchGeo403,
+    PostSearchGeoBody,
     ThemasRead,
     GetThemas400,
     GetThemasParams,
@@ -1675,6 +1686,52 @@ export const useGetBeleidsrelaties = <
 }
 
 /**
+ * @summary Creates a new beleidsrelaties lineage
+ */
+export const postBeleidsrelaties = (
+    beleidsrelatiesWrite: BeleidsrelatiesWrite
+) => {
+    return customInstance<BeleidsrelatiesRead>({
+        url: `/beleidsrelaties`,
+        method: 'post',
+        data: beleidsrelatiesWrite,
+    })
+}
+
+export const usePostBeleidsrelaties = <
+    TError =
+        | PostBeleidsrelaties400
+        | PostBeleidsrelaties403
+        | PostBeleidsrelaties500,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        AsyncReturnType<typeof postBeleidsrelaties>,
+        TError,
+        { data: BeleidsrelatiesWrite },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options || {}
+
+    const mutationFn: MutationFunction<
+        AsyncReturnType<typeof postBeleidsrelaties>,
+        { data: BeleidsrelatiesWrite }
+    > = props => {
+        const { data } = props || {}
+
+        return postBeleidsrelaties(data)
+    }
+
+    return useMutation<
+        AsyncReturnType<typeof postBeleidsrelaties>,
+        TError,
+        { data: BeleidsrelatiesWrite },
+        TContext
+    >(mutationFn, mutationOptions)
+}
+
+/**
  * @summary Gets all the beleidsrelaties lineages and shows the latests object for each
  */
 export const getBeleidsrelatiesLineageid = (
@@ -1727,6 +1784,53 @@ export const useGetBeleidsrelatiesLineageid = <
         queryKey,
         ...query,
     }
+}
+
+/**
+ * @summary Adds a new beleidsrelaties to a lineage
+ */
+export const patchBeleidsrelatiesLineageid = (
+    lineageid: number,
+    beleidsrelatiesWrite: BeleidsrelatiesWrite
+) => {
+    return customInstance<BeleidsrelatiesRead>({
+        url: `/beleidsrelaties/${lineageid}`,
+        method: 'patch',
+        data: beleidsrelatiesWrite,
+    })
+}
+
+export const usePatchBeleidsrelatiesLineageid = <
+    TError =
+        | PatchBeleidsrelatiesLineageid400
+        | PatchBeleidsrelatiesLineageid403
+        | PatchBeleidsrelatiesLineageid500,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        AsyncReturnType<typeof patchBeleidsrelatiesLineageid>,
+        TError,
+        { lineageid: number; data: BeleidsrelatiesWrite },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options || {}
+
+    const mutationFn: MutationFunction<
+        AsyncReturnType<typeof patchBeleidsrelatiesLineageid>,
+        { lineageid: number; data: BeleidsrelatiesWrite }
+    > = props => {
+        const { lineageid, data } = props || {}
+
+        return patchBeleidsrelatiesLineageid(lineageid, data)
+    }
+
+    return useMutation<
+        AsyncReturnType<typeof patchBeleidsrelatiesLineageid>,
+        TError,
+        { lineageid: number; data: BeleidsrelatiesWrite },
+        TContext
+    >(mutationFn, mutationOptions)
 }
 
 /**
@@ -2879,6 +2983,47 @@ export const useGetSearchGeo = <
         queryKey,
         ...query,
     }
+}
+
+/**
+ * @summary Search for objects that are linked to a specific geo area
+ */
+export const postSearchGeo = (postSearchGeoBody: PostSearchGeoBody) => {
+    return customInstance<PostSearchGeo200>({
+        url: `/search/geo`,
+        method: 'post',
+        data: postSearchGeoBody,
+    })
+}
+
+export const usePostSearchGeo = <
+    TError = PostSearchGeo400 | PostSearchGeo403,
+    TContext = unknown
+>(options?: {
+    mutation?: UseMutationOptions<
+        AsyncReturnType<typeof postSearchGeo>,
+        TError,
+        { data: PostSearchGeoBody },
+        TContext
+    >
+}) => {
+    const { mutation: mutationOptions } = options || {}
+
+    const mutationFn: MutationFunction<
+        AsyncReturnType<typeof postSearchGeo>,
+        { data: PostSearchGeoBody }
+    > = props => {
+        const { data } = props || {}
+
+        return postSearchGeo(data)
+    }
+
+    return useMutation<
+        AsyncReturnType<typeof postSearchGeo>,
+        TError,
+        { data: PostSearchGeoBody },
+        TContext
+    >(mutationFn, mutationOptions)
 }
 
 /**

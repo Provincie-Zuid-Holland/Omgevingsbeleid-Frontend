@@ -25,38 +25,38 @@ const releases = [
         },
     },
     {
-        title: 'Versie 0.4',
+        title: 'Versie 0.5.2',
 
-        date: 'Dinsdag 2 maart 2021',
+        date: 'Maandag 1 november 2021',
 
-        description:
-            'Focus op gelijktrekken van de data met de beleidskeuzes en maatregelen en het besluitvormingsproces.',
+        description: 'Update voor het vernieuwen van de achtergrondkaart.',
 
         items: {
-            Ontwikkelingen: [
-                'Mogelijk gemaakt om bepaalde velden aan te passen zonder het besluitvormingsproces te hoeven doorlopen',
-
-                'Feedback knop toegevoegd',
-
-                'Beleidsdoelen en -prestaties toegevoegd',
-
-                'Wijzigingen in beleidsrelaties worden direct doorgevoerd en tonen altijd de laatste versie',
-
-                'Mogelijk gemaakt om afbeeldingen toe te voegen aan maatregelen',
-
-                'Veld "Toelichting" aangepast naar "Omschrijving"',
-            ],
+            Ontwikkelingen: [],
 
             Bugfixes: [
-                'Dubbele teksten bij vigerende beleidskeuzes verwijderd',
-
-                'Fout bij het invullen van de datum bij beleidsrelaties opgelost',
-
-                'Foutmelding bij het aanklikken van vigerende beleidskeuzes via de muteeromgeving opgelost',
+                'Achtergrondkaart PDOK zou verlopen; deze service is vernieuwd',
             ],
         },
     },
+    {
+        title: 'Versie 0.5.1',
 
+        date: 'Maandag 27 september 2021',
+
+        description:
+            'Kleine release met de focus op het oplossen van twee bugs.',
+
+        items: {
+            Ontwikkelingen: [],
+
+            Bugfixes: [
+                'Beleid niet vindbaar via het zoeken op de kaart opgelost',
+
+                'Vervallen beleid niet meer zichtbaar in de netwerkvisualisatie',
+            ],
+        },
+    },
     {
         title: 'Versie 0.5',
 
@@ -95,38 +95,35 @@ const releases = [
             ],
         },
     },
-
     {
-        title: 'Versie 0.5.1',
+        title: 'Versie 0.4',
 
-        date: 'Maandag 27 september 2021',
+        date: 'Dinsdag 2 maart 2021',
 
         description:
-            'Kleine release met de focus op het oplossen van twee bugs.',
+            'Focus op gelijktrekken van de data met de beleidskeuzes en maatregelen en het besluitvormingsproces.',
 
         items: {
-            Ontwikkelingen: [],
+            Ontwikkelingen: [
+                'Mogelijk gemaakt om bepaalde velden aan te passen zonder het besluitvormingsproces te hoeven doorlopen',
 
-            Bugfixes: [
-                'Beleid niet vindbaar via het zoeken op de kaart opgelost',
+                'Feedback knop toegevoegd',
 
-                'Vervallen beleid niet meer zichtbaar in de netwerkvisualisatie',
+                'Beleidsdoelen en -prestaties toegevoegd',
+
+                'Wijzigingen in beleidsrelaties worden direct doorgevoerd en tonen altijd de laatste versie',
+
+                'Mogelijk gemaakt om afbeeldingen toe te voegen aan maatregelen',
+
+                'Veld "Toelichting" aangepast naar "Omschrijving"',
             ],
-        },
-    },
-
-    {
-        title: 'Versie 0.5.2',
-
-        date: 'Maandag 1 november 2021',
-
-        description: 'Update voor het vernieuwen van de achtergrondkaart.',
-
-        items: {
-            Ontwikkelingen: [],
 
             Bugfixes: [
-                'Achtergrondkaart PDOK zou verlopen; deze service is vernieuwd',
+                'Dubbele teksten bij vigerende beleidskeuzes verwijderd',
+
+                'Fout bij het invullen van de datum bij beleidsrelaties opgelost',
+
+                'Foutmelding bij het aanklikken van vigerende beleidskeuzes via de muteeromgeving opgelost',
             ],
         },
     },

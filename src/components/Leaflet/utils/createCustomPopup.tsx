@@ -1,3 +1,4 @@
+import { Button } from '@pzh-ui/components'
 import { LatLng, Map, Point } from 'leaflet'
 import Proj from 'proj4leaflet'
 import ReactDOMServer from 'react-dom/server'
@@ -20,7 +21,8 @@ const createCustomPopup = async (
     lng: number,
     layer: any,
     type: 'marker' | 'polygon',
-    callback?: (callback: any) => void
+    callback?: (callback: any) => void,
+    locationName?: string
 ) => {
     const isAdvancedSearch = window.location.pathname === MAP_SEARCH_PAGE
     const path = isAdvancedSearch ? MAP_SEARCH_PAGE : '/zoekresultaten'
@@ -53,6 +55,7 @@ const createCustomPopup = async (
                 lat={lat}
                 lng={lng}
                 geoQuery={`${point.x.toFixed(2)}+${point.y.toFixed(2)}`}
+                weergavenaam={locationName}
             />
         )}</div>`
         layer._popup.setContent(customPopupHTML)
@@ -183,12 +186,7 @@ export const CreateCustomPopup = ({
         <div className="text-base custom-popup">
             <span className="block bold">Locatie</span>
             <ul className="mt-2 mb-4">
-                {weergavenaam && (
-                    <>
-                        <li>{weergavenaam.split(',')[0]}</li>
-                        <li>{weergavenaam.split(',')[1]}</li>
-                    </>
-                )}
+                {weergavenaam && <li>{weergavenaam}</li>}
                 {type === 'marker' && lat && lng && (
                     <li>
                         GPS Locatie:
@@ -202,14 +200,13 @@ export const CreateCustomPopup = ({
             </ul>
             <div className="flex justify-between">
                 {isAdvancedSearch ? (
-                    <button className="advanced-search-button pzh-btn">
-                        Bekijk beleid
-                    </button>
+                    <Button
+                        label="Bekijk beleid"
+                        classes="advanced-search-button"
+                    />
                 ) : (
-                    <a
-                        href={`/zoekresultaten?${searchParams}`}
-                        className="pzh-btn">
-                        Bekijk beleid
+                    <a href={`/zoekresultaten?${searchParams}`}>
+                        <Button label="Bekijk beleid" />
                     </a>
                 )}
                 <button className="leaflet-close-popup underline text-pzh-red text-xs">

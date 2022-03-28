@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom'
 import { useEffectOnce, useMedia, useUpdateEffect } from 'react-use'
 
 import { getWerkingsGebieden } from '@/api/axiosGeoJSON'
-import { getSearchGeo } from '@/api/fetchers'
+import { postSearchGeo } from '@/api/fetchers'
 import { GetSearchGeo200ResultsItem } from '@/api/fetchers.schemas'
 import { ContainerMapSearch } from '@/components/Container'
 import { LeafletMap } from '@/components/Leaflet'
@@ -65,7 +65,7 @@ const RaadpleegMapSearch = () => {
                     (item: any) => item.properties.UUID
                 )
 
-                setUUIDs(werkingsgebiedenUUIDS)
+                setUUIDs(werkingsgebiedenUUIDS.slice(0, 100)) // Slice UUIDs, otherwise query string will be too large
             } else {
                 setSearchResultsLoading(false)
             }
@@ -94,7 +94,7 @@ const RaadpleegMapSearch = () => {
     const getSearchResults = async (UUIDs: string[]) => {
         setSearchResultsLoading(true)
 
-        return getSearchGeo({ query: UUIDs.join(',') }).then(data => {
+        return postSearchGeo({ query: UUIDs.join(',') }).then(data => {
             setSearchResults(data.results || [])
             setSearchResultsTotal(data.total || 0)
             setOnPageFilters({
