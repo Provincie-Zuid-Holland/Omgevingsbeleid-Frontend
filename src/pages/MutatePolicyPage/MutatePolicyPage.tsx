@@ -1,93 +1,37 @@
-import { Form, Formik, setIn } from 'formik'
+import { Form, Formik, FormikProps } from 'formik'
 import { useEffect, useRef, useState } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 
 import {
-    getAmbitiesLineageid,
-    getBelangenLineageid,
-    getBeleidsdoelenLineageid,
-    getBeleidskeuzesLineageid,
-    getBeleidsmodulesLineageid,
-    getBeleidsprestatiesLineageid,
-    getBeleidsregelsLineageid,
-    getMaatregelenLineageid,
-    getThemasLineageid,
-    getVerordeningenLineageid,
-} from '@/api/fetchers'
-import {
-    AmbitiesRead,
-    VerordeningenRead,
-    BeleidskeuzesRead,
-    BeleidsmodulesRead,
+    VerordeningenWrite,
+    ThemasWrite,
+    MaatregelenWrite,
+    BeleidsregelsWrite,
+    BeleidsprestatiesWrite,
+    BeleidsmodulesWrite,
+    BeleidskeuzesWrite,
+    BeleidsdoelenWrite,
+    BelangenWrite,
+    AmbitiesWrite,
 } from '@/api/fetchers.schemas'
 import ButtonSubmitFixed from '@/components/ButtonSubmitFixed'
 import { ContainerMain } from '@/components/Container'
 import allDimensies from '@/constants/dimensies'
 import { checkIfUserIsAllowedOnPage } from '@/utils/checkIfUserIsAllowedOnPage'
-import {
-    createEmptyWriteObject,
-    possibleWriteObjects,
-    getWriteObjectProperties,
-} from '@/utils/createEmptyWriteObject'
+import { createEmptyWriteObject } from '@/utils/createEmptyWriteObject'
+import { createWriteObjectFromReadObject } from '@/utils/createWriteObjectFromReadObject'
 import formatGeldigheidDatesForAPI from '@/utils/formatGeldigheidDatesForAPI'
 import formatGeldigheidDatesForUI from '@/utils/formatGeldigheidDatesForUI'
+import {
+    getFetcherForLineage,
+    getMutationForLineage,
+} from '@/utils/getFetchers'
+import { getLatestObjectFromLineage } from '@/utils/getLatestObjectFromLineage'
 import { toastNotification } from '@/utils/toastNotification'
 
 import ContainerCrudHeader from './../MuteerUniversalObjectCRUD/ContainerCrudHeader'
-import FormFieldContainerAmbities from './../MuteerUniversalObjectCRUD/FormFieldContainers/FormFieldContainerAmbities'
+// import FormFieldContainerAmbities from './../MuteerUniversalObjectCRUD/FormFieldContainers/FormFieldContainerAmbities'
 import FieldsAmbities from './Fields/FieldsAmbities'
-
-/**
- * Component receives 'authUser' and 'dimensieConstants' as properties
- *
- * # Broad To Do:
- * - Optional: Implement Yup for schema validation of form objects:
- *      https://github.com/jquense/yup
- *      https://react-hook-form.com/get-started#SchemaValidation
- *
- * Component needs to:
- * (1) Initialize the Component
- *  - [ ] Check if the user is editing or creating an object
- *      - If editing, get the object from the database
- *      - If creating, create a new object
- *
- * Functions needed:
- * (1) Initializing
- *     - IF formActionType === "creating":
- *         - Initialize object with empty object
- *
- */
-
-/**
- * Idea: extract form value into a seperate reducerComponent
- */
-
-const getFetcherForLineage = (
-    titleSingular: filteredDimensieConstants['TITLE_SINGULAR']
-) => {
-    switch (titleSingular) {
-        case 'Ambitie':
-            return getAmbitiesLineageid
-        case 'Belang':
-            return getBelangenLineageid
-        case 'Beleidskeuze':
-            return getBeleidskeuzesLineageid
-        case 'Beleidsregel':
-            return getBeleidsregelsLineageid
-        case 'Beleidsprestatie':
-            return getBeleidsprestatiesLineageid
-        case 'Beleidsmodule':
-            return getBeleidsmodulesLineageid
-        case 'Beleidsdoel':
-            return getBeleidsdoelenLineageid
-        case 'Maatregel':
-            return getMaatregelenLineageid
-        case 'Thema':
-            return getThemasLineageid
-        case 'Verordening':
-            return getVerordeningenLineageid
-    }
-}
 
 type filteredDimensieConstants = Exclude<
     typeof allDimensies[keyof typeof allDimensies],
@@ -95,7 +39,18 @@ type filteredDimensieConstants = Exclude<
     | typeof allDimensies['BELEIDSRELATIES']
 >
 
-interface MutatePolicyPageProps {
+type PossibleWriteObjects =
+    | ThemasWrite
+    | MaatregelenWrite
+    | BeleidsregelsWrite
+    | BeleidsprestatiesWrite
+    | BeleidsmodulesWrite
+    | BeleidskeuzesWrite
+    | BeleidsdoelenWrite
+    | BelangenWrite
+    | AmbitiesWrite
+
+export interface MutatePolicyPageProps {
     authUser: any
     dimensieConstants: filteredDimensieConstants
 }
@@ -125,121 +80,85 @@ const MutatePolicyPage = ({
     const { single: objectID, modus } =
         useParams<{ single: string; modus: string | undefined }>()
     const history = useHistory()
+    const formRef = useRef<FormikProps<PossibleWriteObjects>>(null)
+
     const titleSingular = dimensieConstants.TITLE_SINGULAR
     const titlePlural = dimensieConstants.TITLE_PLURAL
-
     const objectSlugOverviewPage = dimensieConstants.SLUG_OVERVIEW
-    const [initialValues, setInitialValues] = useState<possibleWriteObjects>(
+
+    const useGetLineage = getFetcherForLineage(titleSingular)
+    const useMutateLineage = getMutationForLineage(titleSingular)
+    const { isLoading: lineageIsLoading, data: lineage } = useGetLineage(
+        parseInt(objectID)
+    )
+    const mutateLineage = useMutateLineage({
+        mutation: {
+            onError: (error, formState, context) => {
+                // An error happened!
+                console.log(`rolling back optimistic update with id`)
+            },
+            onSuccess: (data, formState, context) => {
+                // Boom baby!
+            },
+        },
+    })
+
+    const [initialValues, setInitialValues] = useState<PossibleWriteObjects>(
         createEmptyWriteObject(titleSingular)
     )
 
-    const dataLoaded = true
+    const dataLoaded = !lineageIsLoading
     const editStatus = true
-    const handleFormSubmit = (values: possibleWriteObjects) => {
-        console.log(typeof values.Begin_Geldigheid)
+    const handleFormSubmit = (formState: PossibleWriteObjects) => {
+        const formattedFormState = formatGeldigheidDatesForAPI(formState)
+        mutateLineage.mutate({
+            lineageid: parseInt(objectID),
+            data: formattedFormState,
+        })
     }
 
-    /** Get and set data if the user is editing an existing object */
+    /** Get the object from the lineage and set it in state  */
     useEffect(() => {
-        const getLineageFromApi = async (objectID: number) => {
-            const fetcherForLineage = getFetcherForLineage(titleSingular)
-            if (!fetcherForLineage) return
-            try {
-                const data = await fetcherForLineage(objectID)
-                redirectIfUserIsNotAllowed(data[0], authUser, history)
-                return data
-            } catch (err) {
-                console.log(err)
-            }
-        }
+        if (!lineage) return
 
-        const getObjectFromLineage = (
-            lineage: Array<
-                | AmbitiesRead
-                | VerordeningenRead
-                | BeleidskeuzesRead
-                | BeleidsmodulesRead
-            >
-        ) => {
-            const isMaatregelOrBeleidskeuze =
-                titleSingular === 'Beleidskeuze' ||
-                titleSingular === 'Maatregel'
+        redirectIfUserIsNotAllowed(lineage[0], authUser, history)
 
-            const isWijzigVigerendOrOntwerpMaken =
-                (modus && modus === 'wijzig_vigerend') ||
-                (modus && modus === 'ontwerp_maken')
+        const readObjectFromLineage = getLatestObjectFromLineage(
+            lineage,
+            titleSingular,
+            modus
+        )
+        if (!readObjectFromLineage) return
 
-            if (isWijzigVigerendOrOntwerpMaken) {
-                return lineage.find(
-                    e => 'Status' in e && e.Status === 'Vigerend'
-                )
-            } else if (isMaatregelOrBeleidskeuze) {
-                return lineage.find(
-                    e => 'Aanpassing_Op' in e && e.Aanpassing_Op === null
-                )
-            } else {
-                return lineage[0]
-            }
-        }
+        const writeObject = createWriteObjectFromReadObject(
+            readObjectFromLineage,
+            titleSingular
+        )
+        if (!writeObject) return
 
-        const createWriteObjectFromReadObject = (
-            readObject:
-                | AmbitiesRead
-                | VerordeningenRead
-                | BeleidskeuzesRead
-                | BeleidsmodulesRead
-        ) => {
-            const writeProperties = getWriteObjectProperties(titleSingular)
-            const writeObject: { [key: string]: any } = {}
-            writeProperties.forEach(property => {
-                writeObject[property] = readObject[property]
-            })
-            return writeObject
-        }
+        const formattedWriteObject = formatGeldigheidDatesForUI(writeObject)
 
-        const formatObjectForForm = (writeObject: possibleWriteObjects) => {
-            return formatGeldigheidDatesForUI(writeObject)
-        }
-
-        const getAndSetInitialValuesFromDatabase = async (objectID: number) => {
-            const lineage = await getLineageFromApi(objectID)
-            if (!lineage) return
-
-            const readObjectFromLineage = getObjectFromLineage(lineage)
-            if (!readObjectFromLineage) return
-
-            const writeObject = createWriteObjectFromReadObject(
-                readObjectFromLineage
-            )
-            if (!writeObject) return
-
-            const formattedWriteObject = formatObjectForForm(writeObject)
-
-            setInitialValues(formattedWriteObject)
-        }
-
-        if (objectID) {
-            getAndSetInitialValuesFromDatabase(parseInt(objectID))
-        }
-    }, [objectID, titleSingular, authUser, history, modus])
+        setInitialValues(formattedWriteObject)
+    }, [lineage, authUser, history, modus, titleSingular])
 
     return (
-        <div>
-            <ContainerCrudHeader
-                dataLoaded={dataLoaded}
-                objectTitle={initialValues?.Titel || ''}
-                editStatus={editStatus}
-                titelMeervoud={titlePlural}
-                overzichtSlug={objectSlugOverviewPage || ''}
-                titleSingular={titleSingular}
-                objectID={objectID}
-            />
-            <ContainerMain className="mt-16">
-                <Formik
-                    initialValues={initialValues}
-                    enableReinitialize={true}
-                    onSubmit={handleFormSubmit}>
-                    {({ values }) => (
+        <Formik
+            innerRef={formRef}
+            initialValues={initialValues}
+            enableReinitialize={true}
+            onSubmit={handleFormSubmit}>
+            {({ values }) => (
+                <>
+                    <ContainerCrudHeader
+                        dataLoaded={dataLoaded}
+                        objectTitle={values?.Titel || ''}
+                        editStatus={editStatus}
+                        titelMeervoud={titlePlural}
+                        overzichtSlug={objectSlugOverviewPage || ''}
+                        titleSingular={titleSingular}
+                        objectID={objectID}
+                    />
+                    <ContainerMain className="mt-16">
                         <Form className="w-full">
                             {titleSingular === 'Ambitie' ? (
                                 <FieldsAmbities />
@@ -248,10 +167,10 @@ const MutatePolicyPage = ({
                                 submit={() => handleFormSubmit(values)}
                             />
                         </Form>
-                    )}
-                </Formik>
-            </ContainerMain>
-        </div>
+                    </ContainerMain>
+                </>
+            )}
+        </Formik>
     )
 }
 

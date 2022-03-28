@@ -34,18 +34,6 @@ const propertyNames = [
 ] as const
 export type propertyNamesType = typeof propertyNames[number]
 
-// create a type called propertyNames
-// export type propertyNamesType =
-//     | 'Belangen'
-//     | 'Belangen'
-//     | 'Ambities'
-//     | 'Beleidsdoelen'
-//     | 'Themas'
-//     | 'Beleidsprestaties'
-//     | 'Maatregelen'
-//     | 'Verordeningen'
-//     | 'Beleidsregels'
-
 export type getApiTypes =
     | typeof getAmbities
     | typeof getBelangen

@@ -44,7 +44,7 @@ describe('MuteerBeleidsrelaties', () => {
             `/muteer/beleidsrelaties/:UUID`,
             `/muteer/beleidsrelaties/${beleidskeuzes[0].UUID}`
         )
-        const title = await screen.findByText(beleidskeuzes[0].Titel)
+        const title = await screen.findByText(beleidskeuzes[0].Titel!)
         expect(title).toBeTruthy()
     })
 
@@ -54,12 +54,12 @@ describe('MuteerBeleidsrelaties', () => {
             `/muteer/beleidsrelaties/:UUID`,
             `/muteer/beleidsrelaties/${beleidskeuzes[0].UUID}`
         )
-        const title = await screen.findByText(beleidskeuzes[0].Titel)
+        const title = await screen.findByText(beleidskeuzes[0].Titel!)
         expect(title).toBeTruthy()
 
         const backBtn = screen.getByText('Terug naar overzicht')
         fireEvent.click(backBtn)
 
-        expect(screen.queryByText(beleidskeuzes[0].Titel)).toBeFalsy()
+        expect(screen.queryByText(beleidskeuzes[0].Titel!)).toBeFalsy()
     })
 })

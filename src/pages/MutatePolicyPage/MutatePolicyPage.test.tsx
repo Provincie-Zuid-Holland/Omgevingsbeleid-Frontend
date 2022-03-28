@@ -1,15 +1,22 @@
-import { render } from '@testing-library/react';
-import React from 'react';
-import MutatePolicyPage, { MutatePolicyPageProps } from './MutatePolicyPage';
+import { render } from '@testing-library/react'
+
+import allDimensies from '@/constants/dimensies'
+
+import MutatePolicyPage, { MutatePolicyPageProps } from './MutatePolicyPage'
 
 describe('MutatePolicyPage', () => {
-    const defaultProps: MutatePolicyPageProps = {};
+    const defaultProps: MutatePolicyPageProps = {
+        authUser: null,
+        dimensieConstants: allDimensies.BELEIDSKEUZES,
+    }
 
     it('should render', () => {
-        const props = { ...defaultProps };
-        const { asFragment, queryByText } = render(<MutatePolicyPage {...props} />);
+        const props = { ...defaultProps }
+        const { asFragment, queryByText } = render(
+            <MutatePolicyPage {...props} />
+        )
 
-        expect(asFragment()).toMatchSnapshot();
-        expect(queryByText('MutatePolicyPage')).toBeTruthy();
-    });
-});
+        expect(asFragment()).toMatchSnapshot()
+        expect(queryByText('MutatePolicyPage')).toBeTruthy()
+    })
+})

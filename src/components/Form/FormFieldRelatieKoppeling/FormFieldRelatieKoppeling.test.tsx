@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 
-import objecten from '@/constants/koppelingen'
+import { connectionPropertiesType } from '@/constants/koppelingen'
 
 import FormFieldRelatieKoppeling from './FormFieldRelatieKoppeling'
 
@@ -11,7 +11,7 @@ describe('FormFieldRelatieKoppeling', () => {
         connectionProperties: [
             'belangen',
             'taken',
-        ] as (keyof typeof objecten)[],
+        ] as connectionPropertiesType[],
         disabled: false,
         fieldLabel: 'Label',
         pValue: 'Description',

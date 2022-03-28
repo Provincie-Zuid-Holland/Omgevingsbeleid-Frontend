@@ -43,7 +43,7 @@ describe('MuteerUniversalObjectOverzicht', () => {
         await waitForElementToBeRemoved(() => screen.getAllByRole('img'))
 
         beleidskeuzes.forEach(beleidskeuze => {
-            const beleidskeuzeTitle = screen.getByText(beleidskeuze.Titel)
+            const beleidskeuzeTitle = screen.getByText(beleidskeuze.Titel!)
             expect(beleidskeuzeTitle).toBeTruthy()
         })
 
@@ -63,7 +63,7 @@ describe('MuteerUniversalObjectOverzicht', () => {
         await waitForElementToBeRemoved(() => screen.getAllByRole('img'))
 
         beleidskeuzes.forEach(beleidskeuze => {
-            const beleidskeuzeTitle = screen.queryByText(beleidskeuze.Titel)
+            const beleidskeuzeTitle = screen.queryByText(beleidskeuze.Titel!)
             expect(beleidskeuzeTitle).toBeFalsy()
         })
 

@@ -152,7 +152,6 @@ export const createEmptyWriteObject = (titleSingular: titleSingularType) => {
                 Begin_Geldigheid: undefined,
                 Belangen: undefined,
                 Beleidsdoelen: undefined,
-                Beleidskeuzes: undefined,
                 Beleidsprestaties: undefined,
                 Beleidsregels: undefined,
                 Besluitnummer: undefined,

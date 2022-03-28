@@ -39,16 +39,4 @@ describe('makeCrudObject', () => {
             prop2: 'existingValue2',
         })
     })
-
-    it('Initializes the "Aanpassing_Op" property when the modus is "wijzig_vigerend"', () => {
-        const modus = 'wijzig_vigerend'
-        const crudObject = makeCrudObject({
-            crudProperties,
-            dimensieConstants,
-            existingObj,
-            modus,
-        })
-        expect(crudObject.hasOwnProperty('Aanpassing_Op')).toBeTruthy()
-        expect(crudObject['Aanpassing_Op']).toBe('0000-0001')
-    })
 })

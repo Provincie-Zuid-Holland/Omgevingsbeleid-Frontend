@@ -232,8 +232,6 @@ const BeheerRoutes = ({ authUser }: Pick<AuthRoutesProps, 'authUser'>) => {
                     authUser?.Rol !== 'Test runner' &&
                     authUser?.Rol !== 'Tester'
 
-                console.log('CREATE ROUTE FOR ', dimensie)
-
                 return (
                     <Fragment key={createNewSlug}>
                         <Switch>

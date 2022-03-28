@@ -127,10 +127,10 @@ describe('AuthRoutes', () => {
         const firstBeleidskeuzeTitle = beleidskeuzes[0].Titel
 
         await waitFor(() => {
-            screen.getByText(firstBeleidskeuzeTitle)
+            screen.getByText(firstBeleidskeuzeTitle!)
         })
 
-        fireEvent.click(screen.getByText(firstBeleidskeuzeTitle))
+        fireEvent.click(screen.getByText(firstBeleidskeuzeTitle!))
 
         await waitFor(() => {
             screen.getByText('Bewerk Beleidskeuze')
@@ -139,7 +139,7 @@ describe('AuthRoutes', () => {
         fireEvent.click(screen.getByText('Bewerk Beleidskeuze'))
 
         await waitFor(() => {
-            getHeaderTitle(firstBeleidskeuzeTitle, 1)
+            getHeaderTitle(firstBeleidskeuzeTitle!, 1)
         })
 
         fireEvent.click(screen.getByText('Terug naar beleidskeuzes'))
@@ -224,10 +224,10 @@ describe('AuthRoutes', () => {
         navigateToMenuItem('Beleidsrelaties')
 
         await waitFor(() => {
-            screen.getByText(beleidskeuzes[0].Titel)
+            screen.getByText(beleidskeuzes[0].Titel!)
         })
 
-        fireEvent.click(screen.getByText(beleidskeuzes[0].Titel))
+        fireEvent.click(screen.getByText(beleidskeuzes[0].Titel!))
 
         await waitFor(() => {
             screen.getByText('Er zijn nog geen beleidsrelaties')
