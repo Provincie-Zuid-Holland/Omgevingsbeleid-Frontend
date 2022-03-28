@@ -87,7 +87,7 @@
         ]
     },
     "devDependencies": {
-        "@axe-core/react": "^4.3.2",
+        "@axe-core/react": "4.4.1",
         "@babel/core": "^7.15.0",
         "@babel/preset-env": "^7.15.0",
         "@testing-library/dom": "^8.11.3",

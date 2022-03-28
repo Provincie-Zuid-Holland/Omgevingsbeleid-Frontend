@@ -17,7 +17,6 @@ import RelatiesKoppelingenVisualisatie from '../RelatiesKoppelingenVisualisatie'
 export type ConnectionProperties =
     | 'Ambities'
     | 'Belangen'
-    | 'Beleidskeuzes'
     | 'Beleidsregels'
     | 'Beleidsprestaties'
     | 'Maatregelen'
