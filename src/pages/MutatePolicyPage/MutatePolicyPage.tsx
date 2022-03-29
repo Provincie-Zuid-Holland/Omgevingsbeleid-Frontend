@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 
 import {
-    VerordeningenWrite,
     ThemasWrite,
     MaatregelenWrite,
     BeleidsregelsWrite,
@@ -13,6 +12,7 @@ import {
     BeleidsdoelenWrite,
     BelangenWrite,
     AmbitiesWrite,
+    GetTokeninfo200Identifier,
 } from '@/api/fetchers.schemas'
 import ButtonSubmitFixed from '@/components/ButtonSubmitFixed'
 import { ContainerMain } from '@/components/Container'
@@ -20,6 +20,7 @@ import allDimensies from '@/constants/dimensies'
 import { checkIfUserIsAllowedOnPage } from '@/utils/checkIfUserIsAllowedOnPage'
 import { createEmptyWriteObject } from '@/utils/createEmptyWriteObject'
 import { createWriteObjectFromReadObject } from '@/utils/createWriteObjectFromReadObject'
+import formatConnectionForAPI from '@/utils/formatConnectionForAPI'
 import formatGeldigheidDatesForAPI from '@/utils/formatGeldigheidDatesForAPI'
 import formatGeldigheidDatesForUI from '@/utils/formatGeldigheidDatesForUI'
 import {
@@ -32,6 +33,15 @@ import { toastNotification } from '@/utils/toastNotification'
 import ContainerCrudHeader from './../MuteerUniversalObjectCRUD/ContainerCrudHeader'
 // import FormFieldContainerAmbities from './../MuteerUniversalObjectCRUD/FormFieldContainers/FormFieldContainerAmbities'
 import FieldsAmbities from './Fields/FieldsAmbities'
+import FieldsBelang from './Fields/FieldsBelang'
+import FieldsBeleidsdoel from './Fields/FieldsBeleidsdoel'
+import FieldsBeleidskeuze from './Fields/FieldsBeleidskeuze'
+import FieldsBeleidsmodule from './Fields/FieldsBeleidsmodule'
+import FieldsBeleidsprestatie from './Fields/FieldsBeleidsprestatie'
+import FieldsBeleidsregel from './Fields/FieldsBeleidsregel'
+import FieldsMaatregel from './Fields/FieldsMaatregel'
+import FieldsThema from './Fields/FieldsThema'
+import FieldsVerordening from './Fields/FieldsVerordening'
 
 type filteredDimensieConstants = Exclude<
     typeof allDimensies[keyof typeof allDimensies],
@@ -39,7 +49,7 @@ type filteredDimensieConstants = Exclude<
     | typeof allDimensies['BELEIDSRELATIES']
 >
 
-type PossibleWriteObjects =
+export type PossibleWriteObjects =
     | ThemasWrite
     | MaatregelenWrite
     | BeleidsregelsWrite
@@ -51,14 +61,14 @@ type PossibleWriteObjects =
     | AmbitiesWrite
 
 export interface MutatePolicyPageProps {
-    authUser: any
     dimensieConstants: filteredDimensieConstants
+    authUser?: GetTokeninfo200Identifier
 }
 
 const redirectIfUserIsNotAllowed = (
     objFromApi: any,
-    authUser: any,
-    history: any
+    history: any,
+    authUser?: GetTokeninfo200Identifier
 ) => {
     /** Check if user is allowed */
     const isUserAllowed = checkIfUserIsAllowedOnPage({
@@ -91,14 +101,20 @@ const MutatePolicyPage = ({
     const { isLoading: lineageIsLoading, data: lineage } = useGetLineage(
         parseInt(objectID)
     )
+
     const mutateLineage = useMutateLineage({
         mutation: {
-            onError: (error, formState, context) => {
-                // An error happened!
+            onError: () => {
                 console.log(`rolling back optimistic update with id`)
+                toastNotification({ type: 'standard error' })
             },
-            onSuccess: (data, formState, context) => {
-                // Boom baby!
+            onSuccess: () => {
+                history.push(
+                    `/muteer/${objectSlugOverviewPage}/${objectID}${
+                        location.hash === '#mijn-beleid' ? '#mijn-beleid' : ''
+                    }`
+                )
+                toastNotification({ type: 'saved' })
             },
         },
     })
@@ -107,10 +123,14 @@ const MutatePolicyPage = ({
         createEmptyWriteObject(titleSingular)
     )
 
-    const dataLoaded = !lineageIsLoading
+    const isLoading = lineageIsLoading
     const editStatus = true
     const handleFormSubmit = (formState: PossibleWriteObjects) => {
-        const formattedFormState = formatGeldigheidDatesForAPI(formState)
+        const formattedFormState = formatConnectionForAPI(
+            formatGeldigheidDatesForAPI(formState),
+            titleSingular
+        )
+
         mutateLineage.mutate({
             lineageid: parseInt(objectID),
             data: formattedFormState,
@@ -121,7 +141,7 @@ const MutatePolicyPage = ({
     useEffect(() => {
         if (!lineage) return
 
-        redirectIfUserIsNotAllowed(lineage[0], authUser, history)
+        redirectIfUserIsNotAllowed(lineage[0], history, authUser)
 
         const readObjectFromLineage = getLatestObjectFromLineage(
             lineage,
@@ -137,7 +157,6 @@ const MutatePolicyPage = ({
         if (!writeObject) return
 
         const formattedWriteObject = formatGeldigheidDatesForUI(writeObject)
-
         setInitialValues(formattedWriteObject)
     }, [lineage, authUser, history, modus, titleSingular])
 
@@ -150,7 +169,7 @@ const MutatePolicyPage = ({
             {({ values }) => (
                 <>
                     <ContainerCrudHeader
-                        dataLoaded={dataLoaded}
+                        isLoading={isLoading}
                         objectTitle={values?.Titel || ''}
                         editStatus={editStatus}
                         titelMeervoud={titlePlural}
@@ -162,6 +181,24 @@ const MutatePolicyPage = ({
                         <Form className="w-full">
                             {titleSingular === 'Ambitie' ? (
                                 <FieldsAmbities />
+                            ) : titleSingular === 'Beleidsmodule' ? (
+                                <FieldsBeleidsmodule />
+                            ) : titleSingular === 'Belang' ? (
+                                <FieldsBelang />
+                            ) : titleSingular === 'Beleidsregel' ? (
+                                <FieldsBeleidsregel />
+                            ) : titleSingular === 'Beleidskeuze' ? (
+                                <FieldsBeleidskeuze />
+                            ) : titleSingular === 'Maatregel' ? (
+                                <FieldsMaatregel />
+                            ) : titleSingular === 'Beleidsdoel' ? (
+                                <FieldsBeleidsdoel />
+                            ) : titleSingular === 'Beleidsprestatie' ? (
+                                <FieldsBeleidsprestatie />
+                            ) : titleSingular === 'Thema' ? (
+                                <FieldsThema />
+                            ) : titleSingular === 'Verordening' ? (
+                                <FieldsVerordening />
                             ) : null}
                             <ButtonSubmitFixed
                                 submit={() => handleFormSubmit(values)}

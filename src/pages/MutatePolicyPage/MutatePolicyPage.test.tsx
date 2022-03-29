@@ -6,7 +6,7 @@ import MutatePolicyPage, { MutatePolicyPageProps } from './MutatePolicyPage'
 
 describe('MutatePolicyPage', () => {
     const defaultProps: MutatePolicyPageProps = {
-        authUser: null,
+        authUser: undefined,
         dimensieConstants: allDimensies.BELEIDSKEUZES,
     }
 

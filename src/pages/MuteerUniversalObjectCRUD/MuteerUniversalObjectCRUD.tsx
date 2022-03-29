@@ -520,7 +520,7 @@ const MuteerUniversalObjectCRUD = ({
             </Helmet>
 
             <ContainerCrudHeader
-                dataLoaded={dataLoaded}
+                isLoading={!dataLoaded}
                 objectTitle={crudObject?.Titel}
                 editStatus={editStatus}
                 titelMeervoud={titelMeervoud}

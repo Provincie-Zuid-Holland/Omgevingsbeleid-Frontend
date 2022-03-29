@@ -1,11 +1,30 @@
-import { ChangeEvent, useEffect, useState } from 'react'
+import { FormikSelect, FieldLabel } from '@pzh-ui/components'
+import { useFormikContext } from 'formik'
+import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
-import { getGebruikers } from '@/api/fetchers'
-import { GebruikersRead } from '@/api/fetchers.schemas'
+import { getGebruikers, useGetGebruikers } from '@/api/fetchers'
+import {
+    BeleidskeuzesWrite,
+    GebruikersRead,
+    MaatregelenWrite,
+} from '@/api/fetchers.schemas'
 import { LoaderSelect } from '@/components/Loader'
 
 import FormFieldSelectUser from '../FormFieldSelectUser'
+
+interface OptionType {
+    value: string
+    label: string
+}
+
+interface FormattedUserList {
+    Opdrachtgever: OptionType[]
+    Eigenaar_1: OptionType[]
+    Eigenaar_2: OptionType[]
+    Portefeuillehouder_1: OptionType[]
+    Portefeuillehouder_2: OptionType[]
+}
 
 /**
  * Displays the user group component, by first getting the users through axios and adding it to the gebruikersLijst variable.
@@ -19,140 +38,146 @@ import FormFieldSelectUser from '../FormFieldSelectUser'
  */
 
 interface FormFieldSelectUserGroupProps {
-    crudObject: any
-    editStatus?: boolean
-    handleChange: (
-        event: ChangeEvent,
-        metaInfo?: any,
-        dataProp?: string
-    ) => void
-    titleSingular: string
-    fieldLabel?: string
     disabled?: boolean
 }
 
+const initialState = {
+    Opdrachtgever: [],
+    Eigenaar_1: [],
+    Eigenaar_2: [],
+    Portefeuillehouder_1: [],
+    Portefeuillehouder_2: [],
+}
+
 const FormFieldSelectUserGroup = ({
-    crudObject,
-    editStatus,
-    handleChange,
-    titleSingular,
-    fieldLabel,
     disabled,
 }: FormFieldSelectUserGroupProps) => {
-    const [gebruikersLijst, setGebruikersLijst] = useState<GebruikersRead[]>([])
-    const [dataLoaded, setDataLoaded] = useState(false)
-    const [error, setError] = useState(false)
+    const { values } = useFormikContext<BeleidskeuzesWrite | MaatregelenWrite>()
+    const { data: userList, isLoading } = useGetGebruikers()
+    const [formattedUserList, setFormattedUserList] =
+        useState<FormattedUserList>(initialState)
+
+    const filterAndFormatUserList = useCallback(
+        (data: GebruikersRead[]) => {
+            const meta = {
+                Opdrachtgever: {
+                    type: 'Ambtelijk opdrachtgever',
+                    filter: null,
+                },
+                Eigenaar_1: {
+                    type: 'Behandelend Ambtenaar',
+                    filter: 'Eigenaar_2',
+                },
+                Eigenaar_2: {
+                    type: 'Behandelend Ambtenaar',
+                    filter: 'Eigenaar_1',
+                },
+                Portefeuillehouder_1: {
+                    type: 'Portefeuillehouder',
+                    filter: 'Portefeuillehouder_2',
+                },
+                Portefeuillehouder_2: {
+                    type: 'Portefeuillehouder',
+                    filter: 'Portefeuillehouder_1',
+                },
+            } as const
+
+            const formattedUserList: FormattedUserList = initialState
+
+            ;(
+                Object.keys(formattedUserList) as Array<
+                    keyof typeof formattedUserList
+                >
+            ).forEach(key => {
+                const allowedUserType = meta[key].type
+                const filterOutProperty = meta[key].filter
+                const filterOutValue =
+                    filterOutProperty === null
+                        ? null
+                        : values[filterOutProperty]
+
+                formattedUserList[key] = data
+                    // Filter out the correct user type
+                    .filter(user => user.Rol === allowedUserType)
+                    // We want to filter out already selected types
+                    .filter(user =>
+                        filterOutProperty !== null
+                            ? user.UUID !== filterOutValue
+                            : true
+                    )
+                    // Format for the select options property
+                    .map(user => ({
+                        label: user.Gebruikersnaam || '',
+                        value: user.UUID || '',
+                    }))
+            })
+
+            return formattedUserList
+        },
+        [values]
+    )
 
     useEffect(() => {
-        getGebruikers()
-            .then(data => {
-                setGebruikersLijst(data)
-                setDataLoaded(true)
-            })
-            .catch(err => {
-                setDataLoaded(true)
-                setError(true)
-                console.log(err)
-                toast(process.env.REACT_APP_ERROR_MSG)
-            })
-    }, [])
+        if (!userList) return
+        const formattedList = filterAndFormatUserList(userList)
+        setFormattedUserList(formattedList)
+    }, [values, userList, filterAndFormatUserList])
+
+    console.log(values)
 
     return (
         <>
-            <span className="block mb-2 text-sm font-bold tracking-wide text-gray-700">
-                {fieldLabel}
-            </span>
-            <div className="flex w-1/2">
-                {dataLoaded && !error ? (
-                    <FormFieldSelectUser
-                        disabled={disabled}
-                        editStatus={editStatus}
-                        halfWidth
-                        handleChange={handleChange}
-                        fieldValue={crudObject['Opdrachtgever']}
-                        dataObjectProperty="Opdrachtgever"
-                        gebruikersLijst={gebruikersLijst}
-                        filter={'Ambtelijk opdrachtgever'}
-                        pValue="Ambtelijk opdrachtgever"
-                        titleSingular={titleSingular}
+            <span className="text-pzh-blue-dark bold">Personen</span>
+            <div className="w-1/2">
+                <div className="mr-2">
+                    <span className="text-[0.8rem] leading-5">
+                        Opdrachtgever
+                    </span>
+                    <FormikSelect
+                        name="Opdrachtgever"
+                        options={formattedUserList.Opdrachtgever}
                     />
-                ) : (
-                    <LoaderSelect />
-                )}
+                </div>
             </div>
-
-            <div className="flex">
-                {dataLoaded && !error ? (
-                    <FormFieldSelectUser
-                        disabled={disabled}
-                        editStatus={editStatus}
-                        handleChange={handleChange}
-                        gebruikersLijst={gebruikersLijst}
-                        fieldValue={crudObject['Eigenaar_1']}
-                        dataObjectProperty="Eigenaar_1"
-                        marginRight
-                        filter={'Behandelend Ambtenaar'}
-                        filterOtherProperty={crudObject['Eigenaar_2']}
-                        pValue="Eerste eigenaar"
-                        titleSingular={titleSingular}
+            <div className="flex mt-4">
+                <div className="w-full mr-2">
+                    <span className="text-[0.8rem] leading-5">
+                        Eerste eigenaar
+                    </span>
+                    <FormikSelect
+                        name="Eigenaar_1"
+                        options={formattedUserList.Eigenaar_1}
                     />
-                ) : (
-                    <LoaderSelect />
-                )}
-
-                {dataLoaded && !error ? (
-                    <FormFieldSelectUser
-                        disabled={disabled}
-                        editStatus={editStatus}
-                        handleChange={handleChange}
-                        gebruikersLijst={gebruikersLijst}
-                        fieldValue={crudObject['Eigenaar_2']}
-                        dataObjectProperty="Eigenaar_2"
-                        filter={'Behandelend Ambtenaar'}
-                        filterOtherProperty={crudObject['Eigenaar_1']}
-                        pValue="Tweede eigenaar"
-                        titleSingular={titleSingular}
+                </div>
+                <div className="w-full ml-2">
+                    <span className="text-[0.8rem] leading-5">
+                        Tweede eigenaar
+                    </span>
+                    <FormikSelect
+                        name="Eigenaar_2"
+                        options={formattedUserList.Eigenaar_2}
                     />
-                ) : (
-                    <LoaderSelect />
-                )}
+                </div>
             </div>
-
-            <div className="flex">
-                {dataLoaded && !error ? (
-                    <FormFieldSelectUser
-                        disabled={disabled}
-                        editStatus={editStatus}
-                        handleChange={handleChange}
-                        filter={'Portefeuillehouder'}
-                        filterOtherProperty={crudObject['Portefeuillehouder_2']}
-                        gebruikersLijst={gebruikersLijst}
-                        fieldValue={crudObject['Portefeuillehouder_1']}
-                        dataObjectProperty="Portefeuillehouder_1"
-                        marginRight
-                        pValue="Eerste portefeuillehouder"
-                        titleSingular={titleSingular}
+            <div className="flex mt-4">
+                <div className="w-full mr-2">
+                    <span className="text-[0.8rem] leading-5">
+                        Eerste portefeuillehouder
+                    </span>
+                    <FormikSelect
+                        name="Portefeuillehouder_1"
+                        options={formattedUserList.Portefeuillehouder_1}
                     />
-                ) : (
-                    <LoaderSelect />
-                )}
-
-                {dataLoaded && !error ? (
-                    <FormFieldSelectUser
-                        disabled={disabled}
-                        editStatus={editStatus}
-                        gebruikersLijst={gebruikersLijst}
-                        filter={'Portefeuillehouder'}
-                        filterOtherProperty={crudObject['Portefeuillehouder_1']}
-                        handleChange={handleChange}
-                        fieldValue={crudObject['Portefeuillehouder_2']}
-                        dataObjectProperty="Portefeuillehouder_2"
-                        pValue="Tweede portefeuillehouder"
-                        titleSingular={titleSingular}
+                </div>
+                <div className="w-full ml-2">
+                    <span className="text-[0.8rem] leading-5">
+                        Tweede portefeuillehouder
+                    </span>
+                    <FormikSelect
+                        name="Portefeuillehouder_2"
+                        options={formattedUserList.Portefeuillehouder_2}
                     />
-                ) : (
-                    <LoaderSelect />
-                )}
+                </div>
             </div>
         </>
     )

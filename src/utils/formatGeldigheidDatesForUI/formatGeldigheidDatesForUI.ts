@@ -31,12 +31,21 @@ const formatGeldigheidDatesForUI = (crudObject: possibleWriteObjects) => {
         crudObject.Eind_Geldigheid !== null &&
         isValid(new Date(crudObject.Eind_Geldigheid))
 
-    if (eindGeldigheidIsValid && crudObject.Eind_Geldigheid) {
+    const eindGeldigheidNullValue = '9999-12-31T23:00:00Z'
+
+    if (
+        eindGeldigheidIsValid &&
+        crudObject.Eind_Geldigheid &&
+        crudObject.Eind_Geldigheid !== eindGeldigheidNullValue
+    ) {
         crudObject.Eind_Geldigheid = formatDate(
             new Date(crudObject.Eind_Geldigheid),
             'yyyy-MM-dd'
         )
-    } else if (crudObject.Eind_Geldigheid === 'Invalid Date') {
+    } else if (
+        crudObject.Eind_Geldigheid === 'Invalid Date' ||
+        crudObject.Eind_Geldigheid === eindGeldigheidNullValue
+    ) {
         crudObject.Eind_Geldigheid = null as any
     }
 

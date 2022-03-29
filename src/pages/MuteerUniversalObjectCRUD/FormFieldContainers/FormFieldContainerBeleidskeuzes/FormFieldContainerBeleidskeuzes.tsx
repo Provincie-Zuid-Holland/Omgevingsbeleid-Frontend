@@ -82,14 +82,14 @@ function FormFieldContainerBeleidskeuzes({
                     pValue="Formuleer in enkele woorden de titel van de beleidskeuze."
                     titleSingular={titleSingular}
                 />
-                <FormFieldSelectUserGroup
+                {/* <FormFieldSelectUserGroup
                     disabled={isVigerend && !userIsAllowed}
                     handleChange={handleChange}
                     crudObject={crudObject}
                     fieldLabel="Personen"
                     titleSingular={titleSingular}
                     editStatus={editStatus}
-                />
+                /> */}
             </ContainerFormSection>
 
             <ContainerFormSection

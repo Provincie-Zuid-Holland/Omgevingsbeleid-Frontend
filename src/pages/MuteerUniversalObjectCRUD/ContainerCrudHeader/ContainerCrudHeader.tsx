@@ -14,7 +14,7 @@ import { LoaderMainTitle } from '@/components/Loader'
 
 interface ContainerCrudHeaderProps extends RouteComponentProps {
     editStatus?: boolean
-    dataLoaded?: boolean
+    isLoading?: boolean
     objectTitle: string
     titleSingular: string
     overzichtSlug: string
@@ -24,7 +24,7 @@ interface ContainerCrudHeaderProps extends RouteComponentProps {
 
 function ContainerCrudHeader({
     editStatus,
-    dataLoaded,
+    isLoading,
     objectTitle,
     titleSingular,
     overzichtSlug,
@@ -38,11 +38,9 @@ function ContainerCrudHeader({
             return 'Voeg een nieuwe module toe'
         } else if (titleSingular === 'Beleidsmodule' && editStatus) {
             return 'Bewerk module'
-        } else if (editStatus && dataLoaded) {
-            // Als de gebruiker een bestaand object bewerkt
+        } else if (editStatus && !isLoading) {
             return objectTitle
-        } else if (dataLoaded) {
-            // Als de gebruiker een nieuw object aanmaakt
+        } else if (isLoading) {
             return `Voeg een nieuwe ${titleSingular.toLowerCase()} toe`
         } else {
             return ''
@@ -81,12 +79,12 @@ function ContainerCrudHeader({
                         url={backUrl}
                     />
 
-                    {dataLoaded ? (
+                    {isLoading ? (
+                        <LoaderMainTitle />
+                    ) : (
                         <h1 className="text-4xl font-bold text-white">
                             {mainTitle}
                         </h1>
-                    ) : (
-                        <LoaderMainTitle />
                     )}
                 </div>
             </div>

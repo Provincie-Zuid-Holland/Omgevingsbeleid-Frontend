@@ -202,14 +202,14 @@ export const CreateCustomPopup = ({
                 {isAdvancedSearch ? (
                     <Button
                         label="Bekijk beleid"
-                        classes="advanced-search-button"
+                        className="advanced-search-button"
                     />
                 ) : (
                     <a href={`/zoekresultaten?${searchParams}`}>
                         <Button label="Bekijk beleid" />
                     </a>
                 )}
-                <button className="leaflet-close-popup underline text-pzh-red text-xs">
+                <button className="text-xs underline leaflet-close-popup text-pzh-red">
                     {type === 'marker' ? 'Pin' : 'Gebied'} verwijderen
                 </button>
             </div>

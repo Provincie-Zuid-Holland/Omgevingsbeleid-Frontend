@@ -19,14 +19,45 @@ import {
     usePatchMaatregelenLineageid,
     usePatchThemasLineageid,
     usePatchVerordeningenLineageid,
+    useGetAmbities,
+    useGetBelangen,
+    useGetBeleidskeuzes,
+    useGetBeleidsregels,
+    useGetBeleidsprestaties,
+    useGetBeleidsmodules,
+    useGetBeleidsdoelen,
+    useGetMaatregelen,
+    useGetThemas,
+    useGetVerordeningen,
 } from '@/api/fetchers'
-import allDimensies from '@/constants/dimensies'
+import { filteredDimensieConstants } from '@/constants/dimensies'
 
-type filteredDimensieConstants = Exclude<
-    typeof allDimensies[keyof typeof allDimensies],
-    | typeof allDimensies['VERORDENINGSARTIKEL']
-    | typeof allDimensies['BELEIDSRELATIES']
->
+export const getFetcherForType = (
+    titleSingular: filteredDimensieConstants['TITLE_SINGULAR']
+) => {
+    switch (titleSingular) {
+        case 'Ambitie':
+            return useGetAmbities
+        case 'Belang':
+            return useGetBelangen
+        case 'Beleidskeuze':
+            return useGetBeleidskeuzes
+        case 'Beleidsregel':
+            return useGetBeleidsregels
+        case 'Beleidsprestatie':
+            return useGetBeleidsprestaties
+        case 'Beleidsmodule':
+            return useGetBeleidsmodules
+        case 'Beleidsdoel':
+            return useGetBeleidsdoelen
+        case 'Maatregel':
+            return useGetMaatregelen
+        case 'Thema':
+            return useGetThemas
+        case 'Verordening':
+            return useGetVerordeningen
+    }
+}
 
 export const getFetcherForLineage = (
     titleSingular: filteredDimensieConstants['TITLE_SINGULAR']

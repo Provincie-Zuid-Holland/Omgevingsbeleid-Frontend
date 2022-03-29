@@ -189,7 +189,7 @@ const AuthRoutes = ({ authUser, loggedIn }: AuthRoutesProps) => {
                 path="/muteer/beleidsrelaties"
                 render={() => <MuteerBeleidsrelaties />}
             />
-
+            {console.log('TEST')}
             {/* Overview, Detail en Edit pages for the rest of the objects */}
             <BeheerRoutes authUser={authUser} />
         </Switch>
@@ -204,16 +204,22 @@ const BeheerRoutes = ({ authUser }: Pick<AuthRoutesProps, 'authUser'>) => {
         'MAATREGELEN',
         'BELEIDSMODULES',
     ]
-    type dimensieKeys = keyof typeof allDimensies
-    type skipDimensieKeys = typeof skipDimensies[number]
-    type filteredDimensieKeys = Exclude<dimensieKeys, skipDimensieKeys>
-    const filteredDimensions = (
-        Object.keys(allDimensies) as Array<keyof typeof allDimensies>
-    ).filter(
-        dimensie =>
-            allDimensies[dimensie].SLUG_CREATE_NEW &&
+    type skip = typeof skipDimensies[number]
+    type test = keyof typeof allDimensies
+    const DimensieKeys = Object.keys(allDimensies) as Array<
+        keyof typeof allDimensies
+    >
+    type filteredKeys = Exclude<test, skip>
+
+    // allDimensies[dimensie].SLUG_CREATE_NEW &&
+    const filteredDimensions: filteredKeys[] = DimensieKeys.filter(
+        (dimensie): dimensie is filteredKeys =>
             !(skipDimensies as readonly string[]).includes(dimensie)
     )
+
+    // ("AMBITIES" | "BELANGEN" | "BELEIDSKEUZES" | "BELEIDSREGELS" | "BELEIDSRELATIES" | "BELEIDSPRESTATIES" | "BELEIDSMODULES" | "BELEIDSDOELEN" | "MAATREGELEN" | "THEMAS" | "VERORDENINGSTRUCTUUR" | "VERORDENINGSARTIKEL")[]
+    // ("BELANGEN" | "BELEIDSKEUZES" | "BELEIDSREGELS" | "BELEIDSRELATIES" | "BELEIDSPRESTATIES" | "BELEIDSMODULES" | "BELEIDSDOELEN" | "MAATREGELEN" | "THEMAS" | "VERORDENINGSTRUCTUUR" | "VERORDENINGSARTIKEL")[]
+    console.log('filteredDimensions', filteredDimensions)
 
     return (
         <>

@@ -68,14 +68,14 @@ function FormFieldContainerMaatregelen({
                     pValue="Formuleer in enkele woorden de titel van de maatregel."
                     titleSingular={titleSingular}
                 />
-                <FormFieldSelectUserGroup
+                {/* <FormFieldSelectUserGroup
                     disabled={isVigerend && !userIsAllowed}
                     editStatus={editStatus}
                     handleChange={handleChange}
                     crudObject={crudObject}
                     fieldLabel="Personen"
                     titleSingular={titleSingular}
-                />
+                /> */}
             </ContainerFormSection>
 
             <ContainerFormSection
