@@ -1,6 +1,6 @@
 import { isValid } from 'date-fns'
 
-import { possibleWriteObjects } from '@/utils/createEmptyWriteObject'
+import { PossibleCrudObjects } from '@/types/dimensions'
 
 import formatDate from '../formatDate'
 
@@ -9,7 +9,7 @@ import formatDate from '../formatDate'
  * @param {object} crudObject - Object containing the dates
  * @returns {object} Returns the crudObject with formatted dates
  */
-const formatGeldigheidDatesForUI = (crudObject: possibleWriteObjects) => {
+const formatGeldigheidDatesForUI = (crudObject: PossibleCrudObjects) => {
     /** Format Begin_Geldigheid */
     const beginGeldigheidIsValid =
         crudObject.Begin_Geldigheid !== undefined &&

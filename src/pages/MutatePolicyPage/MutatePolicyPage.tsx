@@ -21,8 +21,8 @@ import { PossibleCrudObjects } from '@/types/dimensions'
 import { checkIfUserIsAllowedOnPage } from '@/utils/checkIfUserIsAllowedOnPage'
 import { createEmptyWriteObject } from '@/utils/createEmptyWriteObject'
 import { createWriteObjectFromReadObject } from '@/utils/createWriteObjectFromReadObject'
-import formatConnectionForAPI from '@/utils/formatConnectionForAPI'
-import formatGeldigheidDatesForAPI from '@/utils/formatGeldigheidDatesForAPI'
+import formatConnectionsForAPI from '@/utils/formatConnectionsForAPI'
+import formatDatesForAPI from '@/utils/formatDatesForAPI'
 import formatGeldigheidDatesForUI from '@/utils/formatGeldigheidDatesForUI'
 import {
     getFetcherForLineage,
@@ -116,13 +116,10 @@ const MutatePolicyPage = ({
     const editStatus = true
 
     const handleFormSubmit = (formState: PossibleCrudObjects) => {
-        const formatDates = formatGeldigheidDatesForAPI(formState)
-        const formatConnections = formatConnectionForAPI(
-            formatDates,
+        const formattedFormState = formatConnectionsForAPI(
+            formatDatesForAPI(formState),
             titleSingular
         )
-
-        const formattedFormState = formatConnections
 
         mutateLineage.mutate({
             lineageid: parseInt(objectID),

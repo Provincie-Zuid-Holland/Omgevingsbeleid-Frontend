@@ -1,11 +1,12 @@
 import cloneDeep from 'lodash.clonedeep'
 
-import { BeleidskeuzesRead, ListReference } from '@/api/fetchers.schemas'
-import { filteredDimensieConstants } from '@/constants/dimensies'
 import {
-    PossibleCrudObjects,
-    PossiblePATCHCrudObjects,
-} from '@/types/dimensions'
+    BeleidskeuzesRead,
+    BeleidskeuzesWrite,
+    ListReference,
+} from '@/api/fetchers.schemas'
+import { filteredDimensieConstants } from '@/constants/dimensies'
+import { PossiblePATCHCrudObjects } from '@/types/dimensions'
 
 const beleidskeuzesConnectionProperties = {
     Ambities: undefined,
@@ -35,13 +36,12 @@ const getProperties = (
 }
 
 /** Currently we only need to format connections for Beleidskeuze objects */
-const formatConnectionForAPI = (
-    crudObject: PossibleCrudObjects,
+const formatConnectionsForAPI = (
+    crudObject: PossiblePATCHCrudObjects,
     titleSingular: filteredDimensieConstants['TITLE_SINGULAR']
 ) => {
     const properties = getProperties(titleSingular)
-    if (!properties || titleSingular !== 'Beleidskeuze')
-        return crudObject as PossiblePATCHCrudObjects
+    if (!properties || titleSingular !== 'Beleidskeuze') return crudObject
 
     const formattedCrudObject: BeleidskeuzesRead = cloneDeep(
         crudObject as BeleidskeuzesRead
@@ -57,7 +57,7 @@ const formatConnectionForAPI = (
             formattedCrudObject[property] = formattedConnections
         }
     })
-    return formattedCrudObject as PossiblePATCHCrudObjects
+    return formattedCrudObject as BeleidskeuzesWrite
 }
 
-export default formatConnectionForAPI
+export default formatConnectionsForAPI
