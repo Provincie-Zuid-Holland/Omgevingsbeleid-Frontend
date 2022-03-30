@@ -202,7 +202,7 @@ export const CreateCustomPopup = ({
                 {isAdvancedSearch ? (
                     <Button
                         label="Bekijk beleid"
-                        classes="advanced-search-button"
+                        className="advanced-search-button"
                     />
                 ) : (
                     <a href={`/zoekresultaten?${searchParams}`}>
