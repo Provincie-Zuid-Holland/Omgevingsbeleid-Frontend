@@ -17,6 +17,7 @@ import {
 import ButtonSubmitFixed from '@/components/ButtonSubmitFixed'
 import { ContainerMain } from '@/components/Container'
 import allDimensies from '@/constants/dimensies'
+import { PossibleCrudObjects } from '@/types/dimensions'
 import { checkIfUserIsAllowedOnPage } from '@/utils/checkIfUserIsAllowedOnPage'
 import { createEmptyWriteObject } from '@/utils/createEmptyWriteObject'
 import { createWriteObjectFromReadObject } from '@/utils/createWriteObjectFromReadObject'
@@ -48,18 +49,6 @@ type filteredDimensieConstants = Exclude<
     | typeof allDimensies['VERORDENINGSARTIKEL']
     | typeof allDimensies['BELEIDSRELATIES']
 >
-
-export type PossibleWriteObjects =
-    | ThemasWrite
-    | MaatregelenWrite
-    | BeleidsregelsWrite
-    | BeleidsprestatiesWrite
-    | BeleidsmodulesWrite
-    | BeleidskeuzesWrite
-    | BeleidsdoelenWrite
-    | BelangenWrite
-    | AmbitiesWrite
-
 export interface MutatePolicyPageProps {
     dimensieConstants: filteredDimensieConstants
     authUser?: GetTokeninfo200Identifier
@@ -87,17 +76,22 @@ const MutatePolicyPage = ({
     authUser,
     dimensieConstants,
 }: MutatePolicyPageProps) => {
+    const history = useHistory()
+    const formRef = useRef<FormikProps<PossibleCrudObjects>>(null)
     const { single: objectID, modus } =
         useParams<{ single: string; modus: string | undefined }>()
-    const history = useHistory()
-    const formRef = useRef<FormikProps<PossibleWriteObjects>>(null)
 
     const titleSingular = dimensieConstants.TITLE_SINGULAR
     const titlePlural = dimensieConstants.TITLE_PLURAL
     const objectSlugOverviewPage = dimensieConstants.SLUG_OVERVIEW
 
+    const [initialValues, setInitialValues] = useState<PossibleCrudObjects>(
+        createEmptyWriteObject(titleSingular)
+    )
+
     const useGetLineage = getFetcherForLineage(titleSingular)
     const useMutateLineage = getMutationForLineage(titleSingular)
+
     const { isLoading: lineageIsLoading, data: lineage } = useGetLineage(
         parseInt(objectID)
     )
@@ -105,7 +99,6 @@ const MutatePolicyPage = ({
     const mutateLineage = useMutateLineage({
         mutation: {
             onError: () => {
-                console.log(`rolling back optimistic update with id`)
                 toastNotification({ type: 'standard error' })
             },
             onSuccess: () => {
@@ -119,17 +112,17 @@ const MutatePolicyPage = ({
         },
     })
 
-    const [initialValues, setInitialValues] = useState<PossibleWriteObjects>(
-        createEmptyWriteObject(titleSingular)
-    )
-
     const isLoading = lineageIsLoading
     const editStatus = true
-    const handleFormSubmit = (formState: PossibleWriteObjects) => {
-        const formattedFormState = formatConnectionForAPI(
-            formatGeldigheidDatesForAPI(formState),
+
+    const handleFormSubmit = (formState: PossibleCrudObjects) => {
+        const formatDates = formatGeldigheidDatesForAPI(formState)
+        const formatConnections = formatConnectionForAPI(
+            formatDates,
             titleSingular
         )
+
+        const formattedFormState = formatConnections
 
         mutateLineage.mutate({
             lineageid: parseInt(objectID),

@@ -1,50 +1,18 @@
 import {
-    VerordeningenWrite,
-    ThemasWrite,
-    MaatregelenWrite,
-    BeleidsregelsWrite,
-    BeleidsprestatiesWrite,
-    BeleidsmodulesWrite,
-    BeleidskeuzesWrite,
-    BeleidsdoelenWrite,
-    BelangenWrite,
-    AmbitiesWrite,
+    VerordeningenRead,
+    ThemasRead,
+    MaatregelenRead,
+    BeleidsregelsRead,
+    BeleidsprestatiesRead,
+    BeleidsmodulesRead,
+    BeleidskeuzesRead,
+    BeleidsdoelenRead,
+    BelangenRead,
+    AmbitiesRead,
 } from '@/api/fetchers.schemas'
-import allDimensies from '@/constants/dimensies'
+import { TitleSingularType } from '@/types/dimensions'
 
-export type possibleWriteObjects =
-    | VerordeningenWrite
-    | ThemasWrite
-    | MaatregelenWrite
-    | BeleidsregelsWrite
-    | BeleidsprestatiesWrite
-    | BeleidsmodulesWrite
-    | BeleidskeuzesWrite
-    | BeleidsdoelenWrite
-    | BelangenWrite
-    | AmbitiesWrite
-
-export type possibleWriteObjectsProperties =
-    | keyof VerordeningenWrite
-    | keyof ThemasWrite
-    | keyof MaatregelenWrite
-    | keyof BeleidsregelsWrite
-    | keyof BeleidsprestatiesWrite
-    | keyof BeleidsmodulesWrite
-    | keyof BeleidskeuzesWrite
-    | keyof BeleidsdoelenWrite
-    | keyof BelangenWrite
-    | keyof AmbitiesWrite
-
-export type allTitleSingularTypes =
-    typeof allDimensies[keyof typeof allDimensies]['TITLE_SINGULAR']
-
-export type titleSingularType = Exclude<
-    allTitleSingularTypes,
-    'Artikel' | 'Beleidsrelatie'
->
-
-export const getWriteObjectProperties = (titleSingular: titleSingularType) => {
+export const getWriteObjectProperties = (titleSingular: TitleSingularType) => {
     switch (titleSingular) {
         case 'Ambitie':
             const ambitieWriteObject = createEmptyWriteObject('Ambitie')
@@ -103,10 +71,10 @@ export const getWriteObjectProperties = (titleSingular: titleSingularType) => {
     }
 }
 
-export const createEmptyWriteObject = (titleSingular: titleSingularType) => {
+export const createEmptyWriteObject = (titleSingular: TitleSingularType) => {
     switch (titleSingular) {
         case 'Ambitie':
-            const ambitieEmptyWrite: AmbitiesWrite = {
+            const ambitieEmptyWrite: AmbitiesRead = {
                 Begin_Geldigheid: undefined,
                 Eind_Geldigheid: undefined,
                 Omschrijving: undefined,
@@ -115,7 +83,7 @@ export const createEmptyWriteObject = (titleSingular: titleSingularType) => {
             }
             return ambitieEmptyWrite
         case 'Beleidsmodule':
-            const beleidsmoduleEmptyWrite: BeleidsmodulesWrite = {
+            const beleidsmoduleEmptyWrite: BeleidsmodulesRead = {
                 Begin_Geldigheid: undefined,
                 Beleidskeuzes: undefined,
                 Besluit_Datum: undefined,
@@ -125,7 +93,7 @@ export const createEmptyWriteObject = (titleSingular: titleSingularType) => {
             }
             return beleidsmoduleEmptyWrite
         case 'Belang':
-            const belangEmptyWrite: BelangenWrite = {
+            const belangEmptyWrite: BelangenRead = {
                 Begin_Geldigheid: undefined,
                 Eind_Geldigheid: undefined,
                 Omschrijving: undefined,
@@ -135,7 +103,7 @@ export const createEmptyWriteObject = (titleSingular: titleSingularType) => {
             }
             return belangEmptyWrite
         case 'Beleidsregel':
-            const beleidsregelEmptyWrite: BeleidsregelsWrite = {
+            const beleidsregelEmptyWrite: BeleidsregelsRead = {
                 Begin_Geldigheid: undefined,
                 Eind_Geldigheid: undefined,
                 Externe_URL: undefined,
@@ -145,7 +113,7 @@ export const createEmptyWriteObject = (titleSingular: titleSingularType) => {
             }
             return beleidsregelEmptyWrite
         case 'Beleidskeuze':
-            const beleidskeuzeEmptyWrite: BeleidskeuzesWrite = {
+            const beleidskeuzeEmptyWrite: BeleidskeuzesRead = {
                 Aanleiding: undefined,
                 Afweging: undefined,
                 Ambities: undefined,
@@ -175,7 +143,7 @@ export const createEmptyWriteObject = (titleSingular: titleSingularType) => {
             }
             return beleidskeuzeEmptyWrite
         case 'Maatregel':
-            const maatregelEmptyWrite: MaatregelenWrite = {
+            const maatregelEmptyWrite: MaatregelenRead = {
                 Begin_Geldigheid: undefined,
                 Eigenaar_1: undefined,
                 Eigenaar_2: undefined,
@@ -194,7 +162,7 @@ export const createEmptyWriteObject = (titleSingular: titleSingularType) => {
             }
             return maatregelEmptyWrite
         case 'Beleidsdoel':
-            const beleidsdoelEmptyWrite: BeleidsdoelenWrite = {
+            const beleidsdoelEmptyWrite: BeleidsdoelenRead = {
                 Begin_Geldigheid: undefined,
                 Eind_Geldigheid: undefined,
                 Omschrijving: undefined,
@@ -203,7 +171,7 @@ export const createEmptyWriteObject = (titleSingular: titleSingularType) => {
             }
             return beleidsdoelEmptyWrite
         case 'Beleidsprestatie':
-            const beleidsprestatieEmptyWrite: BeleidsprestatiesWrite = {
+            const beleidsprestatieEmptyWrite: BeleidsprestatiesRead = {
                 Begin_Geldigheid: undefined,
                 Eind_Geldigheid: undefined,
                 Omschrijving: undefined,
@@ -212,7 +180,7 @@ export const createEmptyWriteObject = (titleSingular: titleSingularType) => {
             }
             return beleidsprestatieEmptyWrite
         case 'Thema':
-            const themaEmptyWrite: ThemasWrite = {
+            const themaEmptyWrite: ThemasRead = {
                 Begin_Geldigheid: undefined,
                 Eind_Geldigheid: undefined,
                 Omschrijving: undefined,
@@ -221,7 +189,7 @@ export const createEmptyWriteObject = (titleSingular: titleSingularType) => {
             }
             return themaEmptyWrite
         case 'Verordening':
-            const verordeningEmptyWrite: VerordeningenWrite = {
+            const verordeningEmptyWrite: VerordeningenRead = {
                 Begin_Geldigheid: undefined,
                 Eigenaar_1: undefined,
                 Eigenaar_2: undefined,

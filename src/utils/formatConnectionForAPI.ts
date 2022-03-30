@@ -1,8 +1,11 @@
 import cloneDeep from 'lodash.clonedeep'
 
-import { BeleidskeuzesWrite, ListReference } from '@/api/fetchers.schemas'
-// import type {MutatePolicyPageProps} from '@/pages/MutatePolicyPage'
-import { PossibleWriteObjects } from '@/pages/MutatePolicyPage'
+import { BeleidskeuzesRead, ListReference } from '@/api/fetchers.schemas'
+import { filteredDimensieConstants } from '@/constants/dimensies'
+import {
+    PossibleCrudObjects,
+    PossiblePATCHCrudObjects,
+} from '@/types/dimensions'
 
 const beleidskeuzesConnectionProperties = {
     Ambities: undefined,
@@ -16,7 +19,9 @@ const beleidskeuzesConnectionProperties = {
     Werkingsgebieden: undefined,
 } as const
 
-const getProperties = (titleSingular: string) => {
+const getProperties = (
+    titleSingular: filteredDimensieConstants['TITLE_SINGULAR']
+) => {
     const getPropertiesOfObject = (
         obj: typeof beleidskeuzesConnectionProperties
     ) => (Object.keys(obj) as Array<keyof typeof obj>).map(key => key)
@@ -29,25 +34,30 @@ const getProperties = (titleSingular: string) => {
     }
 }
 
-const formatConnectionForAPI = (crudObject: PossibleWriteObjects, titleSingular: string) => {
+/** Currently we only need to format connections for Beleidskeuze objects */
+const formatConnectionForAPI = (
+    crudObject: PossibleCrudObjects,
+    titleSingular: filteredDimensieConstants['TITLE_SINGULAR']
+) => {
     const properties = getProperties(titleSingular)
-    if (!properties) {
-        return crudObject
-    } else {
-        const formattedCrudObject = cloneDeep(crudObject)
-        properties.forEach(property => {
-            if (typeof property === 'string') {
-                const originalConnection:  = formattedCrudObject[property]
-                if (originalValue) {
-                    const 
-                    formattedCrudObject[property] = {
-                        originalValue: '',
-                    }
-                }
-            }
-        })
-        return formattedCrudObject
-    }
+    if (!properties || titleSingular !== 'Beleidskeuze')
+        return crudObject as PossiblePATCHCrudObjects
+
+    const formattedCrudObject: BeleidskeuzesRead = cloneDeep(
+        crudObject as BeleidskeuzesRead
+    )
+    properties.forEach(property => {
+        const originalConnection = formattedCrudObject[property]
+        if (originalConnection) {
+            const formattedConnections: ListReference[] =
+                originalConnection.map(connection => ({
+                    Koppeling_Omschrijving: connection.Koppeling_Omschrijving,
+                    UUID: connection?.Object?.UUID,
+                }))
+            formattedCrudObject[property] = formattedConnections
+        }
+    })
+    return formattedCrudObject as PossiblePATCHCrudObjects
 }
 
 export default formatConnectionForAPI
