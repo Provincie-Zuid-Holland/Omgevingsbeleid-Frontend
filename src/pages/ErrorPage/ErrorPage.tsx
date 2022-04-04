@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
 
-const ErrorPage = () => (
+const ErrorPage = ({ resetErrorBoundary }: { resetErrorBoundary: any }) => (
     <>
         <Helmet>
             <title>ErrorPage - Omgevingsbeleid Provincie Zuid-Holland</title>
@@ -24,7 +24,7 @@ const ErrorPage = () => (
                     geregistreerd en we gaan er voor zorgen dat dit in de
                     toekomst niet meer kan gebeuren.
                 </div>
-                <Link to="/">
+                <Link onClick={resetErrorBoundary} to="/">
                     <div className="w-56 h-12 py-3 mt-10 font-bold text-center text-white rounded bg-pzh-blue hover:bg-pzh-green">
                         Terug naar de startpagina
                     </div>
