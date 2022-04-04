@@ -1,4 +1,14 @@
 import {
+    usePostAmbities,
+    usePostBelangen,
+    usePostBeleidskeuzes,
+    usePostBeleidsregels,
+    usePostBeleidsprestaties,
+    usePostBeleidsmodules,
+    usePostBeleidsdoelen,
+    usePostMaatregelen,
+    usePostThemas,
+    usePostVerordeningen,
     useGetAmbitiesLineageid,
     useGetBelangenLineageid,
     useGetBeleidsdoelenLineageid,
@@ -59,7 +69,7 @@ export const getFetcherForType = (
     }
 }
 
-export const getFetcherForLineage = (
+export const getFetcherForPolicyLineage = (
     titleSingular: filteredDimensieConstants['TITLE_SINGULAR']
 ) => {
     switch (titleSingular) {
@@ -86,7 +96,7 @@ export const getFetcherForLineage = (
     }
 }
 
-export const getMutationForLineage = (
+export const getMutationForPolicyLineage = (
     titleSingular: filteredDimensieConstants['TITLE_SINGULAR']
 ) => {
     switch (titleSingular) {
@@ -110,5 +120,32 @@ export const getMutationForLineage = (
             return usePatchThemasLineageid
         case 'Verordening':
             return usePatchVerordeningenLineageid
+    }
+}
+
+export const getPostForPolicy = (
+    titleSingular: filteredDimensieConstants['TITLE_SINGULAR']
+) => {
+    switch (titleSingular) {
+        case 'Ambitie':
+            return usePostAmbities
+        case 'Belang':
+            return usePostBelangen
+        case 'Beleidskeuze':
+            return usePostBeleidskeuzes
+        case 'Beleidsregel':
+            return usePostBeleidsregels
+        case 'Beleidsprestatie':
+            return usePostBeleidsprestaties
+        case 'Beleidsmodule':
+            return usePostBeleidsmodules
+        case 'Beleidsdoel':
+            return usePostBeleidsdoelen
+        case 'Maatregel':
+            return usePostMaatregelen
+        case 'Thema':
+            return usePostThemas
+        case 'Verordening':
+            return usePostVerordeningen
     }
 }

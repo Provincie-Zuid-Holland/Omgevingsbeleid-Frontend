@@ -14,8 +14,9 @@ import formatConnectionsForAPI from '@/utils/formatConnectionsForAPI'
 import formatDatesForAPI from '@/utils/formatDatesForAPI'
 import formatGeldigheidDatesForUI from '@/utils/formatGeldigheidDatesForUI'
 import {
-    getFetcherForLineage,
-    getMutationForLineage,
+    getFetcherForPolicyLineage,
+    getMutationForPolicyLineage,
+    getPostForPolicy,
 } from '@/utils/getFetchers'
 import { getLatestObjectFromLineage } from '@/utils/getLatestObjectFromLineage'
 import { toastNotification } from '@/utils/toastNotification'
@@ -77,21 +78,38 @@ const MutatePolicyPage = ({
         createEmptyWriteObject(titleSingular)
     )
 
-    const useGetLineage = getFetcherForLineage(titleSingular)
-    const useMutateLineage = getMutationForLineage(titleSingular)
+    const useGetLineage = getFetcherForPolicyLineage(titleSingular)
+    const useMutatePolicyLineage = getMutationForPolicyLineage(titleSingular)
+    const usePostPolicy = getPostForPolicy(titleSingular)
 
     const { isLoading: lineageIsLoading, data: lineage } = useGetLineage(
         parseInt(objectID)
     )
 
-    const mutateLineage = useMutateLineage({
+    const mutatePolicyLineage = useMutatePolicyLineage({
         mutation: {
             onError: () => {
                 toastNotification({ type: 'standard error' })
             },
-            onSuccess: () => {
+            onSuccess: data => {
                 history.push(
-                    `/muteer/${objectSlugOverviewPage}/${objectID}${
+                    `/muteer/${objectSlugOverviewPage}/${data.ID}${
+                        location.hash === '#mijn-beleid' ? '#mijn-beleid' : ''
+                    }`
+                )
+                toastNotification({ type: 'saved' })
+            },
+        },
+    })
+
+    const postPolicy = usePostPolicy({
+        mutation: {
+            onError: () => {
+                toastNotification({ type: 'standard error' })
+            },
+            onSuccess: data => {
+                history.push(
+                    `/muteer/${objectSlugOverviewPage}/${data.ID}${
                         location.hash === '#mijn-beleid' ? '#mijn-beleid' : ''
                     }`
                 )
@@ -109,10 +127,16 @@ const MutatePolicyPage = ({
             titleSingular
         )
 
-        mutateLineage.mutate({
-            lineageid: parseInt(objectID),
-            data: formattedFormState,
-        })
+        if (objectID) {
+            // PATCH Lineage
+            mutatePolicyLineage.mutate({
+                lineageid: parseInt(objectID),
+                data: formattedFormState,
+            })
+        } else {
+            // POST new policy
+            postPolicy.mutate({ data: formattedFormState })
+        }
     }
 
     /** Get the object from the lineage and set it in state  */

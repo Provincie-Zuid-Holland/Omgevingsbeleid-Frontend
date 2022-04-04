@@ -1,4 +1,13 @@
 import {
+    BeleidskeuzesReadWerkingsgebiedenItem,
+    BeleidskeuzesReadVerordeningenItem,
+    BeleidskeuzesReadThemasItem,
+    BeleidskeuzesReadMaatregelenItem,
+    BeleidskeuzesReadBeleidsregelsItem,
+    BeleidskeuzesReadBeleidsprestatiesItem,
+    BeleidskeuzesReadBeleidsdoelenItem,
+    BeleidskeuzesReadBelangenItem,
+    BeleidskeuzesReadAmbitiesItem,
     VerordeningenRead,
     ThemasRead,
     MaatregelenRead,
@@ -65,3 +74,13 @@ export type TitleSingularType = Exclude<
     AllTitleSingularTypes,
     'Artikel' | 'Beleidsrelatie'
 >
+
+export type BeleidskeuzeConnections =
+    | BeleidskeuzesReadVerordeningenItem
+    | BeleidskeuzesReadThemasItem
+    | BeleidskeuzesReadMaatregelenItem
+    | BeleidskeuzesReadBeleidsregelsItem
+    | BeleidskeuzesReadBeleidsprestatiesItem
+    | BeleidskeuzesReadBeleidsdoelenItem
+    | BeleidskeuzesReadBelangenItem
+    | BeleidskeuzesReadAmbitiesItem

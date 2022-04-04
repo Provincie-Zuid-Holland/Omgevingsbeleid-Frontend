@@ -4,13 +4,18 @@ import {
     FormikTextArea,
     FormikRte,
 } from '@pzh-ui/components'
+import { useFormikContext } from 'formik'
 
+import { BeleidskeuzesWrite } from '@/api/fetchers.schemas'
 import { ContainerFormSection } from '@/components/Container'
 import FormFieldSelectUserGroup from '@/components/Form/FormFieldSelectUserGroup'
+import FormikRelationConnection from '@/components/Form/FormikRelationConnection'
 
 export interface FieldsBeleidskeuzeProps {}
 
 function FieldsBeleidskeuze({}: FieldsBeleidskeuzeProps) {
+    const { values } = useFormikContext<BeleidskeuzesWrite>()
+
     return (
         <>
             <ContainerFormSection
@@ -53,6 +58,22 @@ function FieldsBeleidskeuze({}: FieldsBeleidskeuzeProps) {
                     description="Op welke thema’s, onderwerpen en gebieden gaat de beleidskeuze iets wijzigen, en waarom is dit gewenst? Beschrijf ook de relatie met andere beleidsterreinen."
                     name="Omschrijving_Werking"
                     className="mb-6"
+                />
+            </ContainerFormSection>
+            <ContainerFormSection
+                titel="Nationaal beleid"
+                beschrijving="Nationale doelstellingen kunnen de aanleiding vormen voor provinciaal beleid. Zo kan het Rijk wettelijke taken & bevoegdheden voor de provincie hebben vastgelegd of kan provinciaal beleid Nationale belangen uit de Nationale Omgevingsvisie (NOVI) dienen.">
+                <FormikRelationConnection
+                    disabled={false}
+                    placeholderTekst="Er is nog geen Nationaal belang of 'Wettelijke taken & bevoegdheden' gekoppeld."
+                    buttonTekst="Nieuwe koppeling"
+                    titelMainObject={values['Titel'] || ''}
+                    fieldLabel="Wettelijke taken & bevoegdheden en nationale belangen"
+                    dataObjectProperty="Belangen"
+                    pValue="Indien deze beleidskeuze voortkomt uit een wettelijke taak of bevoegdheid of een nationaal belang dient, selecteer je dit hieronder."
+                    titleSingular="Beleidskeuze"
+                    connectionProperties={['belangen', 'taken']}
+                    crudObject={values}
                 />
             </ContainerFormSection>
         </>
