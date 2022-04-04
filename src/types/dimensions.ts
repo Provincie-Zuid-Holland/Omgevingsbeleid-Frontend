@@ -34,7 +34,7 @@ export type DimensionType =
     | 'verordeningen'
     | 'artikel'
 
-export type PossibleCrudObjects =
+export type MutateReadObjects =
     | VerordeningenRead
     | ThemasRead
     | MaatregelenRead
@@ -46,7 +46,7 @@ export type PossibleCrudObjects =
     | BelangenRead
     | AmbitiesRead
 
-export type PossiblePATCHCrudObjects =
+export type MutateWriteObjects =
     | VerordeningenWrite
     | ThemasWrite
     | MaatregelenWrite
@@ -57,18 +57,6 @@ export type PossiblePATCHCrudObjects =
     | BeleidsdoelenWrite
     | BelangenWrite
     | AmbitiesWrite
-
-export type PossibleCrudObjectsProperties =
-    | keyof VerordeningenRead
-    | keyof ThemasRead
-    | keyof MaatregelenRead
-    | keyof BeleidsregelsRead
-    | keyof BeleidsprestatiesRead
-    | keyof BeleidsmodulesRead
-    | keyof BeleidskeuzesRead
-    | keyof BeleidsdoelenRead
-    | keyof BelangenRead
-    | keyof AmbitiesRead
 
 export type AllTitleSingularTypes =
     typeof allDimensies[keyof typeof allDimensies]['TITLE_SINGULAR']

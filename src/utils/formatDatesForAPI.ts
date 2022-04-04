@@ -1,21 +1,15 @@
 import cloneDeep from 'lodash.clonedeep'
 
-import { BeleidsmodulesWrite } from '@/api/fetchers.schemas'
-import {
-    PossibleCrudObjects,
-    PossiblePATCHCrudObjects,
-} from '@/types/dimensions'
+import { MutateWriteObjects } from '@/types/dimensions'
 /**
  * This function formats the dates from the UI format (yyyy/mm/dd) to a valid datetime for the API
  * @param {object} crudObject - Contains the object we want to POST/PATCH to the API
  */
-function formatDatesForAPI(crudObject: PossibleCrudObjects) {
-    const formattedCrudObject = cloneDeep(
-        crudObject
-    ) as PossiblePATCHCrudObjects
+function formatDatesForAPI(crudObject: MutateWriteObjects) {
+    const formattedCrudObject = cloneDeep(crudObject) as MutateWriteObjects
 
     const formatDate = (
-        crudObj: PossiblePATCHCrudObjects,
+        crudObj: MutateWriteObjects,
         property: 'Begin_Geldigheid' | 'Eind_Geldigheid' | 'Besluit_Datum'
     ) => {
         if (property === 'Besluit_Datum') {

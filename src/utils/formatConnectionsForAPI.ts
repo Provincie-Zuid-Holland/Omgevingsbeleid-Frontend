@@ -6,7 +6,7 @@ import {
     ListReference,
 } from '@/api/fetchers.schemas'
 import { filteredDimensieConstants } from '@/constants/dimensies'
-import { PossiblePATCHCrudObjects } from '@/types/dimensions'
+import { MutateWriteObjects } from '@/types/dimensions'
 
 const beleidskeuzesConnectionProperties = {
     Ambities: undefined,
@@ -37,11 +37,12 @@ const getProperties = (
 
 /** Currently we only need to format connections for Beleidskeuze objects */
 const formatConnectionsForAPI = (
-    crudObject: PossiblePATCHCrudObjects,
+    crudObject: MutateWriteObjects,
     titleSingular: filteredDimensieConstants['TITLE_SINGULAR']
 ) => {
     const properties = getProperties(titleSingular)
-    if (!properties || titleSingular !== 'Beleidskeuze') return crudObject
+    if (!properties || titleSingular !== 'Beleidskeuze')
+        return crudObject as BeleidskeuzesWrite
 
     const formattedCrudObject: BeleidskeuzesRead = cloneDeep(
         crudObject as BeleidskeuzesRead
@@ -59,5 +60,4 @@ const formatConnectionsForAPI = (
     })
     return formattedCrudObject as BeleidskeuzesWrite
 }
-
 export default formatConnectionsForAPI

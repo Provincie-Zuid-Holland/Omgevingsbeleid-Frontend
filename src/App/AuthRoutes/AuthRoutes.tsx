@@ -189,7 +189,6 @@ const AuthRoutes = ({ authUser, loggedIn }: AuthRoutesProps) => {
                 path="/muteer/beleidsrelaties"
                 render={() => <MuteerBeleidsrelaties />}
             />
-            {console.log('TEST')}
             {/* Overview, Detail en Edit pages for the rest of the objects */}
             <BeheerRoutes authUser={authUser} />
         </Switch>
@@ -216,10 +215,6 @@ const BeheerRoutes = ({ authUser }: Pick<AuthRoutesProps, 'authUser'>) => {
         (dimensie): dimensie is filteredKeys =>
             !(skipDimensies as readonly string[]).includes(dimensie)
     )
-
-    // ("AMBITIES" | "BELANGEN" | "BELEIDSKEUZES" | "BELEIDSREGELS" | "BELEIDSRELATIES" | "BELEIDSPRESTATIES" | "BELEIDSMODULES" | "BELEIDSDOELEN" | "MAATREGELEN" | "THEMAS" | "VERORDENINGSTRUCTUUR" | "VERORDENINGSARTIKEL")[]
-    // ("BELANGEN" | "BELEIDSKEUZES" | "BELEIDSREGELS" | "BELEIDSRELATIES" | "BELEIDSPRESTATIES" | "BELEIDSMODULES" | "BELEIDSDOELEN" | "MAATREGELEN" | "THEMAS" | "VERORDENINGSTRUCTUUR" | "VERORDENINGSARTIKEL")[]
-    console.log('filteredDimensions', filteredDimensions)
 
     return (
         <>

@@ -123,8 +123,6 @@ const FormFieldSelectUserGroup = ({
         setFormattedUserList(formattedList)
     }, [values, userList, filterAndFormatUserList])
 
-    console.log(values)
-
     return (
         <>
             <span className="text-pzh-blue-dark bold">Personen</span>

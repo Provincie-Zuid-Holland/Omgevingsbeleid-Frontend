@@ -2,22 +2,11 @@ import { Form, Formik, FormikProps } from 'formik'
 import { useEffect, useRef, useState } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 
-import {
-    ThemasWrite,
-    MaatregelenWrite,
-    BeleidsregelsWrite,
-    BeleidsprestatiesWrite,
-    BeleidsmodulesWrite,
-    BeleidskeuzesWrite,
-    BeleidsdoelenWrite,
-    BelangenWrite,
-    AmbitiesWrite,
-    GetTokeninfo200Identifier,
-} from '@/api/fetchers.schemas'
+import { GetTokeninfo200Identifier } from '@/api/fetchers.schemas'
 import ButtonSubmitFixed from '@/components/ButtonSubmitFixed'
 import { ContainerMain } from '@/components/Container'
 import allDimensies from '@/constants/dimensies'
-import { PossibleCrudObjects } from '@/types/dimensions'
+import { MutateWriteObjects } from '@/types/dimensions'
 import { checkIfUserIsAllowedOnPage } from '@/utils/checkIfUserIsAllowedOnPage'
 import { createEmptyWriteObject } from '@/utils/createEmptyWriteObject'
 import { createWriteObjectFromReadObject } from '@/utils/createWriteObjectFromReadObject'
@@ -76,7 +65,7 @@ const MutatePolicyPage = ({
     dimensieConstants,
 }: MutatePolicyPageProps) => {
     const history = useHistory()
-    const formRef = useRef<FormikProps<PossibleCrudObjects>>(null)
+    const formRef = useRef<FormikProps<MutateWriteObjects>>(null)
     const { single: objectID, modus } =
         useParams<{ single: string; modus: string | undefined }>()
 
@@ -84,7 +73,7 @@ const MutatePolicyPage = ({
     const titlePlural = dimensieConstants.TITLE_PLURAL
     const objectSlugOverviewPage = dimensieConstants.SLUG_OVERVIEW
 
-    const [initialValues, setInitialValues] = useState<PossibleCrudObjects>(
+    const [initialValues, setInitialValues] = useState<MutateWriteObjects>(
         createEmptyWriteObject(titleSingular)
     )
 
@@ -114,7 +103,7 @@ const MutatePolicyPage = ({
     const isLoading = lineageIsLoading
     const editStatus = true
 
-    const handleFormSubmit = (formState: PossibleCrudObjects) => {
+    const handleFormSubmit = (formState: MutateWriteObjects) => {
         const formattedFormState = formatConnectionsForAPI(
             formatDatesForAPI(formState),
             titleSingular
@@ -146,6 +135,7 @@ const MutatePolicyPage = ({
         if (!writeObject) return
 
         const formattedWriteObject = formatGeldigheidDatesForUI(writeObject)
+
         setInitialValues(formattedWriteObject)
     }, [lineage, authUser, history, modus, titleSingular])
 
