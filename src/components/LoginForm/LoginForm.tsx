@@ -1,11 +1,8 @@
 import { useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
-// Import API
-import { postLogin } from '@/api/fetchers'
-import { GebruikersRead } from '@/api/fetchers.schemas'
+import useAuth from '@/hooks/useAuth'
 
-// Import Components
 import { LoaderSpinner } from '../Loader'
 import Modal from '../Modal'
 
@@ -18,13 +15,9 @@ interface PopupPasswordForgotProps {
  * Displays a login form in which the user can log into the application.
  */
 
-interface LoginFormProps {
-    setLoginState: (e: boolean) => void
-    setLoginUser: (identifier?: GebruikersRead) => void
-}
-
-const LoginForm = ({ setLoginState, setLoginUser }: LoginFormProps) => {
-    const history = useHistory()
+const LoginForm = () => {
+    const navigate = useNavigate()
+    const { signin } = useAuth()
 
     const [identifier, setIdentifier] = useState('')
     const [password, setPassword] = useState('')
@@ -45,25 +38,10 @@ const LoginForm = ({ setLoginState, setLoginUser }: LoginFormProps) => {
     const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
-        setLoading(true)
-
-        postLogin({ identifier, password })
-            .then(data => {
-                const identifier = data.identifier
-
-                localStorage.setItem(
-                    process.env.REACT_APP_KEY_IDENTIFIER || '',
-                    JSON.stringify(identifier)
-                )
-                localStorage.setItem(
-                    process.env.REACT_APP_KEY_API_ACCESS_TOKEN || '',
-                    data.access_token || ''
-                )
-
+        signin(identifier, password)
+            .then(() => {
                 setLoading(false)
-                setLoginState(true)
-                setLoginUser(identifier)
-                history.push('/muteer/dashboard')
+                navigate('/muteer/dashboard', { replace: true })
             })
             .catch(() => {
                 displayErrorMsg()

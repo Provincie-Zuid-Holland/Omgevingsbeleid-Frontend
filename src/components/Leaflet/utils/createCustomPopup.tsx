@@ -16,7 +16,7 @@ const RDProjection = new Proj.Projection('EPSG:28992', RDProj4, leafletBounds)
  */
 const createCustomPopup = async (
     map: Map,
-    history: any,
+    navigate: any,
     lat: number,
     lng: number,
     layer: any,
@@ -65,7 +65,7 @@ const createCustomPopup = async (
                 'geoQuery',
                 `${point.x.toFixed(2)}+${point.y.toFixed(2)}`
             )
-            history.push(`${MAP_SEARCH_PAGE}?${searchParams}`)
+            navigate(`${MAP_SEARCH_PAGE}?${searchParams}`, { replace: true })
         }
 
         callback?.({
@@ -98,7 +98,9 @@ const createCustomPopup = async (
 
                 if (isAdvancedSearch) {
                     searchParams.set('geoQuery', geoQuery)
-                    history.push(`${MAP_SEARCH_PAGE}?${searchParams}`)
+                    navigate(`${MAP_SEARCH_PAGE}?${searchParams}`, {
+                        replace: true,
+                    })
                 }
 
                 callback?.({

@@ -1,8 +1,8 @@
-import { useHistory, useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 const useSearchParam = () => {
     const location = useLocation()
-    const history = useHistory()
+    const navigate = useNavigate()
     const searchParams = new URLSearchParams(window.location.search)
 
     /**
@@ -28,10 +28,13 @@ const useSearchParam = () => {
             searchParams.append(param, value.join(','))
         }
 
-        return history.push({
-            pathname: location.pathname,
-            search: `?${searchParams}`,
-        })
+        return navigate(
+            {
+                pathname: location.pathname,
+                search: `?${searchParams}`,
+            },
+            { replace: true }
+        )
     }
 
     /**
@@ -44,10 +47,13 @@ const useSearchParam = () => {
             param.forEach(val => searchParams.delete(val))
         }
 
-        return history.push({
-            pathname: location.pathname,
-            search: `?${searchParams}`,
-        })
+        return navigate(
+            {
+                pathname: location.pathname,
+                search: `?${searchParams}`,
+            },
+            { replace: true }
+        )
     }
 
     return { get, set, remove }

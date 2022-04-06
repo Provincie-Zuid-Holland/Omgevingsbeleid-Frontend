@@ -4,17 +4,11 @@ import { MemoryRouter } from 'react-router-dom'
 
 import Login from './Login'
 
-const mockSetLoginUser = () => jest.fn()
-const mockSetLoginState = () => jest.fn()
-
 describe('Login', () => {
     it('should render', () => {
         render(
             <MemoryRouter>
-                <Login
-                    setLoginUser={mockSetLoginUser}
-                    setLoginState={mockSetLoginState}
-                />
+                <Login />
             </MemoryRouter>
         )
         const header = screen.getByRole('heading', {

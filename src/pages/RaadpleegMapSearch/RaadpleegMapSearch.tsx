@@ -1,7 +1,7 @@
 import { Map, point } from 'leaflet'
 import Proj from 'proj4leaflet'
 import { useEffect, useMemo, useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useEffectOnce, useMedia, useUpdateEffect } from 'react-use'
 
 import { getWerkingsGebieden } from '@/api/axiosGeoJSON'
@@ -26,7 +26,7 @@ export const MAP_OPTIONS = {
 }
 
 const RaadpleegMapSearch = () => {
-    const history = useHistory()
+    const navigate = useNavigate()
     const { get } = useSearchParam()
     const [paramGeoQuery, paramSearchOpen, paramWerkingsgebied] = get([
         'geoQuery',
@@ -155,7 +155,7 @@ const RaadpleegMapSearch = () => {
 
                 const layer = mapPanTo({
                     map: mapInstance,
-                    history,
+                    navigate,
                     latLngs,
                     type: '',
                     layerType: 'polygon',
@@ -174,7 +174,7 @@ const RaadpleegMapSearch = () => {
                 if (!mapInstance.hasLayer(layer)) {
                     const layer = mapPanTo({
                         map: mapInstance,
-                        history,
+                        navigate,
                         lng: parseFloat(parseFloat(lng).toFixed(20)),
                         lat: parseFloat(parseFloat(lat).toFixed(20)),
                         type: '',

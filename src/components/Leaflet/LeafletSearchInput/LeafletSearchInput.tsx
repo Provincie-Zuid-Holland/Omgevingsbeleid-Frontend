@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import axios from 'axios'
 import { Map, Marker } from 'leaflet'
 import { ChangeEvent, forwardRef, useRef, useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { useClickAway, useDebounce } from 'react-use'
 
@@ -39,7 +39,7 @@ const LeafletSearchInput = forwardRef<
         },
         ref
     ) => {
-        const history = useHistory()
+        const navigate = useNavigate()
 
         const [searchQuery, setSearchQuery] = useState('')
         const [queryData, setQueryData] = useState([])
@@ -86,7 +86,7 @@ const LeafletSearchInput = forwardRef<
 
                     const marker = mapPanTo({
                         map: mapInstance,
-                        history,
+                        navigate,
                         lng: parseFloat(lng),
                         lat: parseFloat(lat),
                         type: data.type,

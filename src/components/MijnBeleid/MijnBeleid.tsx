@@ -1,8 +1,8 @@
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
-import UserContext from '@/App/UserContext'
 import allDimensies from '@/constants/dimensies'
+import useAuth from '@/hooks/useAuth'
 import filterOutArchivedObjects from '@/utils/filterOutArchivedObjects'
 
 import ButtonAddNewObject from '../ButtonAddNewObject'
@@ -27,7 +27,7 @@ interface MijnBeleidProps {
 }
 
 const MijnBeleid = ({ hideAddNew }: MijnBeleidProps) => {
-    const { user } = useContext(UserContext)
+    const { user } = useAuth()
 
     const [dataReceived, setDataReceived] = useState(false)
     const [policies, setPolicies] = useState<

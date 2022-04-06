@@ -5,7 +5,7 @@ import {
 } from '@fortawesome/pro-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useEffect, useRef, useState } from 'react'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useLockBodyScroll, useWindowSize } from 'react-use'
 
 import BackButton from '@/components/BackButton'
@@ -129,7 +129,7 @@ const RaadpleegVerordeningSidebarItem = ({
     setNavMenuOpen,
 }: RaadpleegVerordeningSidebarItemProps) => {
     const [isOpen, setIsOpen] = useState(false)
-    const history = useHistory()
+    const navigate = useNavigate()
     const location = useLocation()
     const windowSize = useWindowSize()
 
@@ -158,8 +158,9 @@ const RaadpleegVerordeningSidebarItem = ({
                     </button>
                     <span
                         onClick={() => {
-                            history.push(
-                                `${location.pathname}?actief=${item.UUID}`
+                            navigate(
+                                `${location.pathname}?actief=${item.UUID}`,
+                                { replace: true }
                             )
                             if (windowSize.width < 1028) {
                                 setNavMenuOpen(false)
@@ -188,7 +189,9 @@ const RaadpleegVerordeningSidebarItem = ({
                 <button
                     className="pl-5 my-1 text-left cursor-pointer"
                     onClick={() => {
-                        history.push(`${location.pathname}?actief=${item.UUID}`)
+                        navigate(`${location.pathname}?actief=${item.UUID}`, {
+                            replace: true,
+                        })
                         if (windowSize.width < 1028) {
                             setNavMenuOpen(false)
                         }

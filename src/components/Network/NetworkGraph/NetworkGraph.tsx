@@ -2,8 +2,7 @@ import * as d3 from 'd3'
 import cloneDeep from 'lodash.clonedeep'
 import { useCallback, useEffect, useReducer, useRef, useState } from 'react'
 import { useQuery } from 'react-query'
-import { matchPath } from 'react-router-dom'
-import { useLastLocation } from 'react-router-last-location'
+import { matchPath, useLocation } from 'react-router-dom'
 
 import { getGraph } from '@/api/fetchers'
 import { GetGraph200, GetGraph200NodesItem } from '@/api/fetchers.schemas'
@@ -60,18 +59,11 @@ const NetworkGraph = () => {
     /**
      * Used to get the UUID paramater for detail pages
      */
-    const lastLocation = useLastLocation()
-    const lastLocationRef = useRef<string | null>(null)
+    const { state } = useLocation()
+    const lastLocation = (state as any)?.from
 
     const userIsInMuteerEnvironment = usePage('/muteer/')
     const showBanner = userIsInMuteerEnvironment && !hideBannerLocalStorage()
-
-    useEffect(() => {
-        if (lastLocation && !lastLocationRef.current) {
-            lastLocationRef.current =
-                lastLocation.pathname + lastLocation.search
-        }
-    }, [lastLocation])
 
     const { data: verordeningsStructure } = useQuery(
         '/verordeningstructuur',
@@ -82,15 +74,19 @@ const NetworkGraph = () => {
                     res.data.find(
                         (item: { Status: string }) => item.Status === 'Vigerend'
                     )
-                )
+                ),
+        { refetchOnMount: true, staleTime: 0 }
     )
 
-    const { isLoading, data, isFetching } = useQuery('/graph', () =>
-        getGraph().then(data => {
-            const transformedData = addColorAndUUIDToNodes(data)
-            setFilters({ type: 'init', data: transformedData })
-            return transformedData
-        })
+    const { isLoading, data, isFetching } = useQuery(
+        '/graph',
+        () =>
+            getGraph().then(data => {
+                const transformedData = addColorAndUUIDToNodes(data)
+                setFilters({ type: 'init', data: transformedData })
+                return transformedData
+            }),
+        { refetchOnMount: true, staleTime: 0 }
     )
 
     /**
@@ -126,7 +122,7 @@ const NetworkGraph = () => {
                 filterTypes.includes(node.Type) ? null : addNodeType(node.Type)
             )
 
-            if (lastLocationRef.current?.includes('verordening')) {
+            if (lastLocation?.includes('verordening')) {
                 filterState.verordeningen = true
             }
 
@@ -466,21 +462,20 @@ const NetworkGraph = () => {
                  * @returns {null|string} - if found return string containing the UUID, else return null
                  */
                 const getUUIDFromPreviousUrl = () => {
-                    if (!lastLocationRef.current) return null
+                    if (!lastLocation) return null
 
                     const getMatch = () => {
-                        if (lastLocationRef?.current?.includes('verordening')) {
-                            const activeUUID =
-                                lastLocationRef.current.split('actief=')[1]
+                        if (lastLocation?.includes('verordening')) {
+                            const activeUUID = lastLocation.split('actief=')[1]
 
                             return {
                                 params: { uuid: activeUUID },
                             }
                         } else {
-                            return matchPath(lastLocationRef.current!, {
-                                path: `/detail/:slug/:uuid`,
-                                exact: true,
-                            })
+                            return matchPath(
+                                '/detail/:slug/:uuid',
+                                lastLocation
+                            )
                         }
                     }
 
@@ -647,7 +642,7 @@ const NetworkGraph = () => {
         setTimeout(() => {
             initializeD3(data, filters)
         }, 250)
-    }, [data, filters, handleNodeClick, verordeningsStructure])
+    }, [data, filters, handleNodeClick, verordeningsStructure, lastLocation])
 
     /**
      * Update the graph styles to give it the correct height.

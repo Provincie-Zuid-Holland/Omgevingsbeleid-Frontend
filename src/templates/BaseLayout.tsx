@@ -1,22 +1,21 @@
 import { ReactNode } from 'react'
 
+import useAuth from '@/hooks/useAuth'
+
 import Footer from '../components/Footer'
 import Navigation from '../components/Navigation'
 
 interface BaseLayoutProps {
-    loggedIn: boolean
     hideFooter?: boolean
     children?: ReactNode
 }
 
-export function BaseLayout({
-    loggedIn,
-    hideFooter,
-    children,
-}: BaseLayoutProps) {
+export function BaseLayout({ hideFooter, children }: BaseLayoutProps) {
+    const { user } = useAuth()
+
     return (
         <>
-            <Navigation loggedIn={loggedIn} />
+            <Navigation loggedIn={!!user} />
 
             <main>{children}</main>
 

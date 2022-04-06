@@ -1,7 +1,8 @@
 import { render, screen, waitFor, fireEvent, act } from '@testing-library/react'
 import { MemoryRouter, Route } from 'react-router-dom'
 
-import UserContext from '../../App/UserContext'
+import { AuthContext } from '@/context/AuthContext'
+
 import allDimensies from '../../constants/dimensies'
 import MuteerUniversalObjectCRUD from './MuteerUniversalObjectCRUD'
 
@@ -35,7 +36,7 @@ const setup = (dimension: keyof typeof allDimensies, type?: string) => {
     render(
         <MemoryRouter initialEntries={[initialEntries]}>
             <Route path={path}>
-                <UserContext.Provider value={{ user: authUser }}>
+                <AuthContext.Provider value={{ user: authUser } as any}>
                     <MuteerUniversalObjectCRUD
                         authUser={{
                             Rol: 'Beheerder',
@@ -43,7 +44,7 @@ const setup = (dimension: keyof typeof allDimensies, type?: string) => {
                         }}
                         dimensieConstants={allDimensies[dimension]}
                     />
-                </UserContext.Provider>
+                </AuthContext.Provider>
             </Route>
         </MemoryRouter>
     )

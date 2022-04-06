@@ -4,7 +4,7 @@ import 'leaflet-draw'
 import leaflet, { Control, ControlPosition, Point } from 'leaflet'
 import { useEffect, useState } from 'react'
 import { FeatureGroup, useMap } from 'react-leaflet'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import { icons } from '@/constants/leaflet'
 import markerIcon from '@/images/marker.svg'
@@ -34,7 +34,7 @@ interface LeafletDrawProps {
 
 const LeafletDraw = ({ position = 'topleft', onDraw }: LeafletDrawProps) => {
     const map = useMap()
-    const history = useHistory()
+    const navigate = useNavigate()
     const [currentLayerType, setCurrentLayerType] = useState<string | null>(
         null
     )
@@ -48,7 +48,7 @@ const LeafletDraw = ({ position = 'topleft', onDraw }: LeafletDrawProps) => {
             // Do marker specific actions
             createCustomPopup(
                 map,
-                history,
+                navigate,
                 e.layer._latlng.lat,
                 e.layer._latlng.lng,
                 e.layer,
@@ -60,7 +60,7 @@ const LeafletDraw = ({ position = 'topleft', onDraw }: LeafletDrawProps) => {
             const { lat, lng } = e.layer._map.getBounds().getCenter()
             createCustomPopup(
                 map,
-                history,
+                navigate,
                 lat,
                 lng,
                 e.layer,

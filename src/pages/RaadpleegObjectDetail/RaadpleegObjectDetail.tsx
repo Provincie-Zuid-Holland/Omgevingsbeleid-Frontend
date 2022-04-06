@@ -74,7 +74,7 @@ const RaadpleegObjectDetail = ({
         if (id === dataObject?.UUID) return
 
         const getVersionOfObject = () =>
-            dataVersionEndpoint(id).catch(err => handleError(err))
+            dataVersionEndpoint(id!).catch(err => handleError(err))
 
         setDataLoaded(false)
         getVersionOfObject()

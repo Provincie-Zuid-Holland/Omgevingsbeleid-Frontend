@@ -1,12 +1,11 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import { createMemoryHistory } from 'history'
-import { Router } from 'react-router-dom'
+import { BrowserRouter, useLocation } from 'react-router-dom'
 
 import SearchBar from './SearchBar'
 
 describe('SearchBar', () => {
-    const history = createMemoryHistory()
+    const location = useLocation()
     const defaultProps = {
         width: 'w-64',
         compInNavigation: true,
@@ -15,9 +14,9 @@ describe('SearchBar', () => {
     const setup = (customProps?: any) => {
         const props = { ...defaultProps, ...customProps }
         render(
-            <Router history={history}>
+            <BrowserRouter>
                 <SearchBar {...props} />
-            </Router>
+            </BrowserRouter>
         )
         const searchBar = screen.getByPlaceholderText(
             'Zoek binnen het beleid van de provincie Zuid-Holland'
@@ -56,7 +55,7 @@ describe('SearchBar', () => {
             code: 'Enter',
             keyCode: 13,
         })
-        expect(history.location.pathname).toBe(`/zoekresultaten`)
-        expect(history.location.search).toBe(`?query=${searchQuery}`)
+        expect(location.pathname).toBe(`/zoekresultaten`)
+        expect(location.search).toBe(`?query=${searchQuery}`)
     })
 })

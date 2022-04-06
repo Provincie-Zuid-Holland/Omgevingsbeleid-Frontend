@@ -3,6 +3,7 @@ import {
     faExternalLinkSquare,
 } from '@fortawesome/pro-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import classNames from 'classnames'
 import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 
@@ -39,14 +40,24 @@ const MenuItemsList = ({
                     return (
                         <li key={id}>
                             <NavLink
-                                exact={value === 'Dashboard'}
                                 id={id}
-                                activeClassName="font-bold bg-gray-300 text-gray-800 hover:bg-gray-300"
-                                className="relative flex items-center px-2 py-1 mt-1 text-sm leading-loose text-gray-600 rounded cursor-pointer hover:bg-gray-200 hover:text-gray-900"
+                                className={({ isActive }) =>
+                                    classNames(
+                                        'relative flex items-center px-2 py-1 mt-1 text-sm leading-loose text-gray-600 rounded cursor-pointer hover:bg-gray-200 hover:text-gray-900',
+                                        {
+                                            'font-bold bg-gray-300 text-gray-800 hover:bg-gray-300':
+                                                isActive,
+                                        }
+                                    )
+                                }
                                 to={menuItems[value].url}
-                                activeStyle={{
-                                    cursor: 'default !important',
-                                }}>
+                                style={({ isActive }) =>
+                                    isActive
+                                        ? {
+                                              cursor: 'default !important',
+                                          }
+                                        : {}
+                                }>
                                 {value}
                                 <FontAwesomeIcon
                                     className="absolute right-0 h-8 mr-3 text-lg main-sidebar-arrow"

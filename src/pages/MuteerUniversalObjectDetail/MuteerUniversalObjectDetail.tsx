@@ -2,13 +2,7 @@ import { faPlus } from '@fortawesome/pro-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
-import {
-    Link,
-    RouteComponentProps,
-    useHistory,
-    useParams,
-    withRouter,
-} from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 import { GetTokeninfo200Identifier } from '@/api/fetchers.schemas'
@@ -35,7 +29,7 @@ const returnPageType = (version: string) => {
  * @returns a detail page where a dimension object can be displayed
  */
 
-interface MuteerUniversalObjectDetailProps extends RouteComponentProps {
+interface MuteerUniversalObjectDetailProps {
     authUser?: GetTokeninfo200Identifier
     dimensieConstants: typeof allDimensies[keyof typeof allDimensies]
 }
@@ -44,11 +38,11 @@ const MuteerUniversalObjectDetail = ({
     authUser,
     dimensieConstants,
 }: MuteerUniversalObjectDetailProps) => {
-    const history = useHistory()
+    const navigate = useNavigate()
     const { version, single } = useParams<{ version: string; single: string }>()
     const [dataObject, setDataObject] = useState<any>({})
     const [revisions, setRevisions] = useState<any[]>([])
-    const [pageType, setPageType] = useState(returnPageType(version))
+    const [pageType, setPageType] = useState(returnPageType(version!))
     const [dataReceived, setDataReceived] = useState(false)
 
     /**
@@ -89,7 +83,7 @@ const MuteerUniversalObjectDetail = ({
                     toast(
                         'Je bent niet geauthenticeerd om deze pagina te bekijken'
                     )
-                    history.push('/muteer/dashboard')
+                    navigate('/muteer/dashboard', { replace: true })
                 }
 
                 /** Sort the objects if the pageType is 'detail' (which contains whole history of an object) */
@@ -128,12 +122,12 @@ const MuteerUniversalObjectDetail = ({
 
     /** Update state when the user switches from pageType */
     useEffect(() => {
-        if (returnPageType(version) !== pageType) {
+        if (returnPageType(version!) !== pageType) {
             setDataObject(
                 revisions.find(revision => revision.UUID === version) ||
                     revisions[0]
             )
-            setPageType(returnPageType(version))
+            setPageType(returnPageType(version!))
             setDataReceived(false)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -298,7 +292,7 @@ const RevisieList = ({ revisions, overzichtSlug, hash }: RevisieListProps) => (
                             )}
                             className="relative flex items-end h-6 mr-2 hover:underline">
                             <span
-                                className="w-24 pr-4 pr-5 text-xs text-right text-gray-600"
+                                className="w-24 pr-5 text-xs text-right text-gray-600"
                                 title="Laatst gewijzigd op">
                                 {formatDate(
                                     new Date(item.Modified_Date),
@@ -331,4 +325,4 @@ function makeURLForRevisieObject(
     }
 }
 
-export default withRouter(MuteerUniversalObjectDetail)
+export default MuteerUniversalObjectDetail

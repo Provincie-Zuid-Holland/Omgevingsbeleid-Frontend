@@ -1,10 +1,10 @@
-import UserContext from '@/App/UserContext'
 import ViewFieldIngelogdExtraInfo from '@/components/ViewFieldIngelogdExtraInfo'
+import { AuthContext } from '@/context/AuthContext'
 
 import ViewFieldInnerHTML from '../../ViewFieldInnerHTML'
 
 const ContainerViewFieldsMaatregel = ({ crudObject }: { crudObject: any }) => (
-    <UserContext.Consumer>
+    <AuthContext.Consumer>
         {context => (
             <>
                 {context?.user ? (
@@ -18,7 +18,7 @@ const ContainerViewFieldsMaatregel = ({ crudObject }: { crudObject: any }) => (
                 ) : null}
             </>
         )}
-    </UserContext.Consumer>
+    </AuthContext.Consumer>
 )
 
 export default ContainerViewFieldsMaatregel

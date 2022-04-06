@@ -8,16 +8,16 @@ import {
 import '@testing-library/jest-dom'
 import { MemoryRouter } from 'react-router-dom'
 
-import UserContext from '@/App/UserContext'
+import { AuthContext } from '@/context/AuthContext'
 import { ambities } from '@/mocks/data/ambities'
 import { beleidskeuzes } from '@/mocks/data/beleidskeuzes'
 import { beleidsmodules } from '@/mocks/data/beleidsmodules'
 import { maatregelen } from '@/mocks/data/maatregelen'
 import { verordeningstructuur } from '@/mocks/data/verordeningstructuur'
 
-import AuthRoutes from './AuthRoutes'
+import AppRoutes from './AppRoutes'
 
-describe('AuthRoutes', () => {
+describe('AppRoutes', () => {
     const user = {
         Email: 'janedoe@mail.com',
         Gebruikersnaam: 'Jane Doe',
@@ -27,17 +27,16 @@ describe('AuthRoutes', () => {
 
     const defaultProps = {
         authUser: user,
-        loggedIn: true,
     }
 
     const setup = (customProps: any, customUser?: any) => {
         const props = { ...defaultProps, ...customProps }
         render(
             <MemoryRouter initialEntries={['/muteer/dashboard']}>
-                <UserContext.Provider
+                <AuthContext.Provider
                     value={customUser !== undefined ? customUser : { user }}>
-                    <AuthRoutes {...props} />
-                </UserContext.Provider>
+                    <AppRoutes {...props} />
+                </AuthContext.Provider>
             </MemoryRouter>
         )
     }

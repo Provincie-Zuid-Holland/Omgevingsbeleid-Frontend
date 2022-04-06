@@ -2,7 +2,6 @@
 import cloneDeep from 'lodash.clonedeep'
 import { Component } from 'react'
 import { Helmet } from 'react-helmet'
-import { withRouter } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 // Import Components
@@ -384,4 +383,4 @@ class MuteerVerordeningenStructuurCRUD extends Component {
     }
 }
 
-export default withRouter(MuteerVerordeningenStructuurCRUD)
+export default MuteerVerordeningenStructuurCRUD

@@ -4,13 +4,9 @@ import { MemoryRouter } from 'react-router-dom'
 
 import LoginForm from './LoginForm'
 
-const mockHistoryPush = jest.fn()
-
 jest.mock('react-router-dom', () => ({
     ...jest.requireActual('react-router-dom'),
-    useHistory: () => ({
-        push: mockHistoryPush,
-    }),
+    useNavigate: jest.fn(),
 }))
 
 describe('LoginForm', () => {
@@ -23,10 +19,7 @@ describe('LoginForm', () => {
 
         render(
             <MemoryRouter>
-                <LoginForm
-                    setLoginState={setLoginState}
-                    setLoginUser={setLoginUser}
-                />
+                <LoginForm />
             </MemoryRouter>
         )
 
