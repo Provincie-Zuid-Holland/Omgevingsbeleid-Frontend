@@ -26,7 +26,7 @@ describe('NetworkGraphGenerateHref', () => {
         expect(href).toBeTruthy()
 
         const match: { params: { uuid?: string; slug?: string } } | null =
-            matchPath(href || '', '/detail/:slug/:uuid')
+            matchPath('/detail/:slug/:uuid', href || '')
         const uuidFromURL = match?.params?.uuid
         const slugFromURL = match?.params?.slug
 
