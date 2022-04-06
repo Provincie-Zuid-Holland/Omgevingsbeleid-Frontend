@@ -32,6 +32,7 @@ import ProtectedRoute from './ProtectedRoute'
 
 const AppRoutes = () => {
     const { user } = useAuth()
+    const navigate = useNavigate()
 
     return (
         <Routes>
@@ -99,6 +100,7 @@ const AppRoutes = () => {
                             dimensieConstants={
                                 allDimensies.VERORDENINGSTRUCTUUR
                             }
+                            navigate={navigate}
                         />
                     }
                 />
@@ -109,6 +111,7 @@ const AppRoutes = () => {
                             dimensieConstants={
                                 allDimensies.VERORDENINGSTRUCTUUR
                             }
+                            navigate={navigate}
                         />
                     }
                 />
@@ -121,7 +124,6 @@ const AppRoutes = () => {
                     element={
                         <MuteerVerordeningenstructuurOverzicht
                             dataModel={allDimensies.VERORDENINGSTRUCTUUR}
-                            history={history}
                         />
                     }
                 />

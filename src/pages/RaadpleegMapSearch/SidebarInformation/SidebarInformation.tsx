@@ -70,7 +70,7 @@ const SidebarInformation = ({
         if (paramWerkingsgebied && mapInstance) {
             handleWerkingsgebiedSelect(
                 mapInstance,
-                history,
+                navigate,
                 werkingsgebied,
                 setWerkingsgebied,
                 {

@@ -119,7 +119,7 @@ const createCustomPopup = async (
         handlePopupEvents(
             map,
             layer,
-            history,
+            navigate,
             searchParams,
             isAdvancedSearch ? path : undefined
         )
@@ -128,7 +128,7 @@ const createCustomPopup = async (
             handlePopupEvents(
                 map,
                 layer,
-                history,
+                navigate,
                 searchParams,
                 isAdvancedSearch ? path : undefined
             )
@@ -139,7 +139,7 @@ const createCustomPopup = async (
 const handlePopupEvents = (
     map: Map,
     layer: any,
-    history: any,
+    navigate: any,
     searchParams: URLSearchParams,
     path?: string
 ) => {
@@ -150,14 +150,14 @@ const handlePopupEvents = (
         ?.addEventListener('click', () => {
             map.fireEvent('draw:deleted')
             map.removeLayer(layer)
-            path && history.push(path)
+            path && navigate(path, { replace: true })
         })
 
     popupContainer
         .querySelector('.advanced-search-button')
         ?.addEventListener('click', () => {
             searchParams.append('searchOpen', 'true')
-            history.push(`${path}?${searchParams}`)
+            navigate(`${path}?${searchParams}`, { replace: true })
         })
 }
 

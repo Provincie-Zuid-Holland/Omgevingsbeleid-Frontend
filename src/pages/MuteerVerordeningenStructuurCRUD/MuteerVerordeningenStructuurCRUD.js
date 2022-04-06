@@ -133,7 +133,7 @@ class MuteerVerordeningenStructuurCRUD extends Component {
                     JSON.stringify(crudObject)
                 )
                 .then(() => {
-                    this.props.history.push(`/muteer/verordeningen`)
+                    this.props.navigate(`/muteer/verordeningen`)
                     toast('Gewijzigd')
                 })
                 .catch(error => {
@@ -148,7 +148,7 @@ class MuteerVerordeningenStructuurCRUD extends Component {
             axios
                 .post(`/verordeningstructuur`, JSON.stringify(crudObject))
                 .then(() => {
-                    this.props.history.push(`/muteer/verordeningen`)
+                    this.props.navigate(`/muteer/verordeningen`)
                     toast('Opgeslagen')
                 })
                 .catch(error => {
