@@ -10,6 +10,7 @@ import { BeleidskeuzesWrite } from '@/api/fetchers.schemas'
 import { ContainerFormSection } from '@/components/Container'
 import FormFieldSelectUserGroup from '@/components/Form/FormFieldSelectUserGroup'
 import FormikRelationConnection from '@/components/Form/FormikRelationConnection'
+import FormikWerkingsgebied from '@/components/Form/FormikWerkingsgebied'
 
 export interface FieldsBeleidskeuzeProps {}
 
@@ -68,13 +69,18 @@ function FieldsBeleidskeuze({}: FieldsBeleidskeuzeProps) {
                     placeholderTekst="Er is nog geen Nationaal belang of 'Wettelijke taken & bevoegdheden' gekoppeld."
                     buttonTekst="Nieuwe koppeling"
                     titelMainObject={values['Titel'] || ''}
-                    fieldLabel="Wettelijke taken & bevoegdheden en nationale belangen"
+                    label="Wettelijke taken & bevoegdheden en nationale belangen"
                     dataObjectProperty="Belangen"
-                    pValue="Indien deze beleidskeuze voortkomt uit een wettelijke taak of bevoegdheid of een nationaal belang dient, selecteer je dit hieronder."
+                    description="Indien deze beleidskeuze voortkomt uit een wettelijke taak of bevoegdheid of een nationaal belang dient, selecteer je dit hieronder."
                     titleSingular="Beleidskeuze"
                     connectionProperties={['belangen', 'taken']}
                     crudObject={values}
                 />
+            </ContainerFormSection>
+            <ContainerFormSection
+                titel="Werkingsgebied"
+                beschrijving="Het werkingsgebied geeft het gebied weer waar de beleidskeuze betrekking op heeft. Binnen dit gebied worden bepaalde activiteiten gestimuleerd, ontwikkeld, toegestaan of juist verboden.">
+                {/* <FormikWerkingsgebied /> */}
             </ContainerFormSection>
         </>
     )

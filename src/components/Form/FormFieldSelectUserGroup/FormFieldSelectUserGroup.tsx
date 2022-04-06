@@ -1,9 +1,8 @@
 import { FormikSelect, FieldLabel } from '@pzh-ui/components'
 import { useFormikContext } from 'formik'
-import { ChangeEvent, useCallback, useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
+import { useCallback, useEffect, useState } from 'react'
 
-import { getGebruikers, useGetGebruikers } from '@/api/fetchers'
+import { useGetGebruikers } from '@/api/fetchers'
 import {
     BeleidskeuzesWrite,
     GebruikersRead,

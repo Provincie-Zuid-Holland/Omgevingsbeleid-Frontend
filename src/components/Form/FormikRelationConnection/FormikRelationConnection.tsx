@@ -1,5 +1,6 @@
 import { faAngleDown, faEye } from '@fortawesome/pro-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FieldLabel } from '@pzh-ui/components'
 import { useFormikContext } from 'formik'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
@@ -42,29 +43,12 @@ function getPropertiesWithConnectionsFromCrudObject(
     return propertiesWithExistingConnections
 }
 
-/**
- *
- * @param {object} crudObject - Contains the object information from the API
- * @param {array} connectionProperties - Contains the object properties of connections that the component will be able to edit
- * @param {boolean} disabled - Disables the component (e.g. in beleidskeuzes with a 'vigerend' status)
- * @param {string} fieldLabel - Label of the field
- * @param {string} pValue - Paragraph value of the field, containing a description
- * @param {string} dataObjectProperty - Used to create unique ID's
- * @param {string} titleSingular - Title of the object in a singular form
- * @param {string} placeholderTekst - Placeholder
- * @param {string} buttonTekst - Text for the button
- * @param {string} titelMainObject - Title of the crudObject
- * @param {function} addConnection - Function to edit parent state
- * @param {function} editConnection - Function to edit parent state
- * @param {function} removeConnection - Function to edit parent state
- */
-
 interface FormikRelationConnectionProps {
     crudObject: BeleidskeuzesWrite
     connectionProperties: connectionPropertiesType[]
     disabled?: boolean
-    fieldLabel: string
-    pValue: string
+    label: string
+    description: string
     dataObjectProperty: string
     titleSingular: string
     placeholderTekst: string
@@ -76,8 +60,8 @@ const FormikRelationConnection = ({
     crudObject,
     connectionProperties,
     disabled,
-    fieldLabel,
-    pValue,
+    label,
+    description,
     dataObjectProperty,
     titleSingular,
     placeholderTekst,
@@ -236,7 +220,6 @@ const FormikRelationConnection = ({
                     break
                 }
             case 'EDIT_CONNECTION':
-                console.log(action.payload)
                 if (state && connectionObject.Object) {
                     const newState = { ...state }
                     const connectionObjectUUID = connectionObject.Object.UUID
@@ -269,7 +252,7 @@ const FormikRelationConnection = ({
 
     return (
         <>
-            {fieldLabel === 'Koppelingen' ? (
+            {label === 'Koppelingen' ? (
                 <>
                     <h3 className="block mb-2 font-bold tracking-wide text-gray-700">
                         Relaties
@@ -282,11 +265,16 @@ const FormikRelationConnection = ({
                     </p>
                 </>
             ) : null}
-            <FormFieldTitelEnBeschrijving
-                fieldLabel={fieldLabel}
-                pValue={pValue}
-                disabled={disabled}
+            <FieldLabel
+                label={label}
+                description={description}
+                name={dataObjectProperty}
             />
+            {/* <FormFieldTitelEnBeschrijving
+                label={label}
+                description={description}
+                disabled={disabled}
+            /> */}
             <div
                 className={`p-5 bg-white rounded shadow ${
                     disabled
