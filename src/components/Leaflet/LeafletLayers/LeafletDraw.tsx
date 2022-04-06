@@ -71,23 +71,29 @@ const LeafletDraw = ({ position = 'topleft', onDraw }: LeafletDrawProps) => {
     }
 
     useEffect(() => {
-        const markerEl = document.getElementsByClassName(LEAFLET_MARKER_CLASS)
-        markerEl[0].innerHTML = icons.marker
+        setTimeout(() => {
+            const markerEl =
+                document.getElementsByClassName(LEAFLET_MARKER_CLASS)
+            markerEl[0].innerHTML = icons.marker
 
-        const editEl = document.getElementsByClassName(LEAFLET_EDIT_CLASS)
-        editEl[0].innerHTML = icons.edit
+            const editEl = document.getElementsByClassName(LEAFLET_EDIT_CLASS)
+            editEl[0].innerHTML = icons.edit
 
-        const thrashEl = document.getElementsByClassName(LEAFLET_REMOVE_CLASS)
-        thrashEl[0].innerHTML = icons.remove
+            const thrashEl =
+                document.getElementsByClassName(LEAFLET_REMOVE_CLASS)
+            thrashEl[0].innerHTML = icons.remove
 
-        const polygonEl = document.getElementsByClassName(LEAFLET_POLYGON_CLASS)
-        polygonEl[0].innerHTML = icons.polygon
+            const polygonEl = document.getElementsByClassName(
+                LEAFLET_POLYGON_CLASS
+            )
+            polygonEl[0].innerHTML = icons.polygon
 
-        if (currentLayerType === 'marker') {
-            editEl[0].classList.add(LEAFLET_HIDE_CLASS)
-        } else {
-            editEl[0].classList.remove(LEAFLET_HIDE_CLASS)
-        }
+            if (currentLayerType === 'marker') {
+                editEl[0].classList.add(LEAFLET_HIDE_CLASS)
+            } else {
+                editEl[0].classList.remove(LEAFLET_HIDE_CLASS)
+            }
+        }, 200)
     }, [currentLayerType])
 
     return (
