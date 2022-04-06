@@ -54,7 +54,7 @@ const MuteerUniversalObjectDetailWithStatuses = ({
         if (!user || !dataObject) return
         const isUserAllowed = checkIfUserIsAllowedOnPage({
             object: dataObject,
-            authUser: user,
+            user,
         })
 
         if (!isUserAllowed) {

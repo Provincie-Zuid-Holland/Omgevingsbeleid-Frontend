@@ -5,12 +5,12 @@ import { Helmet } from 'react-helmet'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
-import { GetTokeninfo200Identifier } from '@/api/fetchers.schemas'
 import axios from '@/api/instance'
 import ButtonBackToPage from '@/components/ButtonBackToPage'
 import { ContainerDetailMain, ContainerMain } from '@/components/Container'
 import EigenaarsDriehoek from '@/components/EigenaarsDriehoek'
 import allDimensies from '@/constants/dimensies'
+import useAuth from '@/hooks/useAuth'
 import { checkIfUserIsAllowedOnPage } from '@/utils/checkIfUserIsAllowedOnPage'
 import formatDate from '@/utils/formatDate'
 
@@ -30,15 +30,14 @@ const returnPageType = (version: string) => {
  */
 
 interface MuteerUniversalObjectDetailProps {
-    authUser?: GetTokeninfo200Identifier
     dimensieConstants: typeof allDimensies[keyof typeof allDimensies]
 }
 
 const MuteerUniversalObjectDetail = ({
-    authUser,
     dimensieConstants,
 }: MuteerUniversalObjectDetailProps) => {
     const navigate = useNavigate()
+    const { user } = useAuth()
     const { version, single } = useParams<{ version: string; single: string }>()
     const [dataObject, setDataObject] = useState<any>({})
     const [revisions, setRevisions] = useState<any[]>([])
@@ -76,7 +75,7 @@ const MuteerUniversalObjectDetail = ({
                 /** Check if user is authenticated to visit current page */
                 const isUserAllowed = checkIfUserIsAllowedOnPage({
                     object: data,
-                    authUser: authUser,
+                    user,
                 })
 
                 if (!isUserAllowed) {

@@ -1,10 +1,14 @@
 import { render, screen } from '@testing-library/react'
+import { QueryClient, QueryClientProvider } from 'react-query'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import '@testing-library/jest-dom'
 
+import AuthProvider from '@/context/AuthContext'
 import { beleidsregels } from '@/mocks/data/beleidsregels'
 
 import MuteerUniversalObjectDetail from './MuteerUniversalObjectDetail'
+
+const queryClient = new QueryClient()
 
 describe('MuteerUniversalObjectDetail', () => {
     const defaultProps = {
@@ -90,17 +94,24 @@ describe('MuteerUniversalObjectDetail', () => {
 
     const setup = (customProps?: any) => {
         const props = { ...defaultProps, ...customProps }
+
         render(
             <MemoryRouter
                 initialEntries={[
                     `/muteer/beleidsregels/${beleidsregels[0].ID}`,
                 ]}>
-                <Routes>
-                    <Route
-                        path={'/muteer/beleidsregels/:single'}
-                        element={<MuteerUniversalObjectDetail {...props} />}
-                    />
-                </Routes>
+                <QueryClientProvider client={queryClient}>
+                    <AuthProvider>
+                        <Routes>
+                            <Route
+                                path={'/muteer/beleidsregels/:single'}
+                                element={
+                                    <MuteerUniversalObjectDetail {...props} />
+                                }
+                            />
+                        </Routes>
+                    </AuthProvider>
+                </QueryClientProvider>
             </MemoryRouter>
         )
     }

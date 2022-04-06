@@ -4,12 +4,12 @@ import { KeyboardEvent, MouseEvent, useEffect, useState, useRef } from 'react'
 import { Helmet } from 'react-helmet'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 
-import { GetTokeninfo200Identifier } from '@/api/fetchers.schemas'
 import axios from '@/api/instance'
 import ButtonSubmitFixed from '@/components/ButtonSubmitFixed'
 import { ContainerMain } from '@/components/Container'
 import { LoaderContent } from '@/components/Loader'
 import allDimensies from '@/constants/dimensies'
+import useAuth from '@/hooks/useAuth'
 import checkContainsRequiredUnfilledField from '@/utils/checkContainsRequiredUnfilledField'
 import { checkIfUserIsAllowedOnPage } from '@/utils/checkIfUserIsAllowedOnPage'
 import formatGeldigheidDatesForAPI from '@/utils/formatGeldigheidDatesForAPI'
@@ -39,16 +39,15 @@ import FormFieldContainerThemas from './FormFieldContainers/FormFieldContainerTh
  */
 
 interface MuteerUniversalObjectCRUDProps {
-    authUser?: GetTokeninfo200Identifier
     dimensieConstants: typeof allDimensies[keyof typeof allDimensies]
 }
 
 const MuteerUniversalObjectCRUD = ({
-    authUser,
     dimensieConstants,
 }: MuteerUniversalObjectCRUDProps) => {
     const navigate = useNavigate()
     const location = useLocation()
+    const { user } = useAuth()
     const { single: objectID } = useParams<{ single: string }>()
 
     const [dataLoaded, setDataLoaded] = useState(false)
@@ -451,7 +450,7 @@ const MuteerUniversalObjectCRUD = ({
                 /** Check if user is allowed */
                 const isUserAllowed = checkIfUserIsAllowedOnPage({
                     object: responseObject[0],
-                    authUser,
+                    user,
                 })
                 if (!isUserAllowed) {
                     toastNotification({

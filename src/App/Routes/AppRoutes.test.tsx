@@ -25,9 +25,7 @@ describe('AppRoutes', () => {
         UUID: '0001',
     }
 
-    const defaultProps = {
-        authUser: user,
-    }
+    const defaultProps = {}
 
     const setup = (customProps: any, customUser?: any) => {
         const props = { ...defaultProps, ...customProps }
