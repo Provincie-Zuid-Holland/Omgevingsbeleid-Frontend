@@ -38,6 +38,8 @@ const LoginForm = () => {
     const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
+        setLoading(true)
+
         signin(identifier, password)
             .then(() => {
                 setLoading(false)

@@ -2,6 +2,8 @@ import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { MemoryRouter } from 'react-router-dom'
 
+import AuthProvider from '@/context/AuthContext'
+
 import SidebarMain from './SidebarMain'
 
 describe('SidebarMain', () => {
@@ -11,7 +13,9 @@ describe('SidebarMain', () => {
         const props = { ...defaultProps, ...customProps }
         render(
             <MemoryRouter>
-                <SidebarMain {...props} />
+                <AuthProvider>
+                    <SidebarMain {...props} />
+                </AuthProvider>
             </MemoryRouter>
         )
     }

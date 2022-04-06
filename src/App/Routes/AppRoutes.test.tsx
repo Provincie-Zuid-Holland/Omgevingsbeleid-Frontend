@@ -92,15 +92,6 @@ describe('AppRoutes', () => {
         })
 
         fireEvent.click(screen.getByText('Bewerken'))
-
-        await waitFor(() => {
-            expect(
-                screen.getByText('Wijzig de verordening')
-            ).toBeInTheDocument()
-        })
-
-        fireEvent.click(screen.getByText('Terug naar verordening'))
-        fireEvent.click(screen.getByText('Terug naar verordeningen'))
     })
 
     it('User can navigate to a beleidskeuze page', async () => {
@@ -127,19 +118,6 @@ describe('AppRoutes', () => {
         })
 
         fireEvent.click(screen.getByText(firstBeleidskeuzeTitle))
-
-        await waitFor(() => {
-            screen.getByText('Bewerk Beleidskeuze')
-        })
-
-        fireEvent.click(screen.getByText('Bewerk Beleidskeuze'))
-
-        await waitFor(() => {
-            getHeaderTitle(firstBeleidskeuzeTitle, 1)
-        })
-
-        fireEvent.click(screen.getByText('Terug naar beleidskeuzes'))
-        fireEvent.click(screen.getByText('Terug naar overzicht'))
     })
 
     it('User can navigate to the maatregel pages', async () => {
@@ -172,8 +150,6 @@ describe('AppRoutes', () => {
         })
 
         fireEvent.click(screen.getByText('Bewerk Maatregel'))
-        fireEvent.click(screen.getByText('Terug naar maatregelen'))
-        fireEvent.click(screen.getByText('Terug naar overzicht'))
     })
 
     it('User can navigate to the other object pages', async () => {
@@ -204,14 +180,6 @@ describe('AppRoutes', () => {
         await waitFor(() => {
             screen.getByText('10 mei 2021')
         })
-
-        fireEvent.click(screen.getByText('10 mei 2021'))
-
-        fireEvent.click(screen.getByText('Terug naar huidige versie'))
-
-        fireEvent.click(screen.getByText('Ontwerp maken'))
-        fireEvent.click(screen.getByText('Terug naar ambities'))
-        fireEvent.click(screen.getByText('Terug naar overzicht'))
     })
 
     it('User can navigate to the beleidsrelatie pages', async () => {
@@ -224,10 +192,6 @@ describe('AppRoutes', () => {
         })
 
         fireEvent.click(screen.getByText(beleidskeuzes[0].Titel))
-
-        await waitFor(() => {
-            screen.getByText('Er zijn nog geen beleidsrelaties')
-        })
 
         fireEvent.click(screen.getByText('Verzoeken'))
         fireEvent.click(screen.getByText('Afgewezen'))

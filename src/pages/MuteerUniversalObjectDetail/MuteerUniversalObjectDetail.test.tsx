@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import { MemoryRouter, Route } from 'react-router-dom'
+import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import '@testing-library/jest-dom'
 
 import { beleidsregels } from '@/mocks/data/beleidsregels'
@@ -95,9 +95,12 @@ describe('MuteerUniversalObjectDetail', () => {
                 initialEntries={[
                     `/muteer/beleidsregels/${beleidsregels[0].ID}`,
                 ]}>
-                <Route path={'/muteer/beleidsregels/:single'}>
-                    <MuteerUniversalObjectDetail {...props} />
-                </Route>
+                <Routes>
+                    <Route
+                        path={'/muteer/beleidsregels/:single'}
+                        element={<MuteerUniversalObjectDetail {...props} />}
+                    />
+                </Routes>
             </MemoryRouter>
         )
     }

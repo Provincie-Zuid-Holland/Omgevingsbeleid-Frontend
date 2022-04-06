@@ -2,7 +2,13 @@ import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import '@testing-library/jest-dom'
 
+import AuthProvider from '@/context/AuthContext'
+
 import MuteerMijnBeleid from './MuteerMijnBeleid'
+
+import { QueryClient, QueryClientProvider } from 'react-query'
+
+const queryClient = new QueryClient()
 
 describe('MuteerMijnBeleid', () => {
     const defaultProps = {
@@ -15,7 +21,11 @@ describe('MuteerMijnBeleid', () => {
         const props = { ...defaultProps, ...customProps }
         render(
             <MemoryRouter>
-                <MuteerMijnBeleid {...props} />
+                <QueryClientProvider client={queryClient}>
+                    <AuthProvider>
+                        <MuteerMijnBeleid {...props} />
+                    </AuthProvider>
+                </QueryClientProvider>
             </MemoryRouter>
         )
     }

@@ -227,7 +227,7 @@ class MuteerVerordeningenStructuurCRUD extends Component {
     }
 
     componentDidMount() {
-        if (this.props.match.params.lineageID) {
+        if (this.props.match?.params?.lineageID) {
             axios
                 .get(
                     `/verordeningstructuur/version/${this.props.match.params.lineageUUID}`
@@ -289,7 +289,7 @@ class MuteerVerordeningenStructuurCRUD extends Component {
                                 terugNaar={`verordening`}
                                 color="text-white"
                                 url={
-                                    this.props.match.params.lineageID
+                                    this.props.match?.params?.lineageID
                                         ? `/muteer/verordeningen/${this.props.match.params.lineageID}`
                                         : `/muteer/verordeningen`
                                 }

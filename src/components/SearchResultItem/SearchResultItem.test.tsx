@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import { MemoryRouter, Route } from 'react-router-dom'
+import { MemoryRouter, Route, Routes } from 'react-router-dom'
 
 import SearchResultItem from './SearchResultItem'
 
@@ -39,9 +39,12 @@ describe('SearchResultItem', () => {
 
         render(
             <MemoryRouter initialEntries={[path]}>
-                <Route path={path}>
-                    <SearchResultItem {...props} />
-                </Route>
+                <Routes>
+                    <Route
+                        path={path}
+                        element={<SearchResultItem {...props} />}
+                    />
+                </Routes>
             </MemoryRouter>
         )
 

@@ -1,11 +1,18 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import { BrowserRouter, useLocation } from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom'
 
 import SearchBar from './SearchBar'
 
+jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom'),
+    useLocation: () => ({
+        pathname: '/zoekresultaten',
+        search: '?query=',
+    }),
+}))
+
 describe('SearchBar', () => {
-    const location = useLocation()
     const defaultProps = {
         width: 'w-64',
         compInNavigation: true,
@@ -33,7 +40,7 @@ describe('SearchBar', () => {
         const { searchBar } = setup()
 
         // Assertion onChange
-        const searchQuery = 'Testing the SearchBar component'
+        const searchQuery = 'Testing%20the%20SearchBar%20component'
         fireEvent.change(searchBar, { target: { value: searchQuery } })
         expect(searchBar.value).toBe(searchQuery)
 

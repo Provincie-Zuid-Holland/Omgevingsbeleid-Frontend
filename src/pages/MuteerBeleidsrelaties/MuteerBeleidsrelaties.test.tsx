@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react'
-import { MemoryRouter, Route } from 'react-router-dom'
+import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import '@testing-library/jest-dom'
 
 import { AuthContext } from '@/context/AuthContext'
@@ -24,9 +24,12 @@ describe('MuteerBeleidsrelaties', () => {
         render(
             <MemoryRouter initialEntries={[initialEntries]}>
                 <AuthContext.Provider value={{ user: { UUID: '0001' } } as any}>
-                    <Route path={path}>
-                        <MuteerBeleidsrelaties {...props} />
-                    </Route>
+                    <Routes>
+                        <Route
+                            path={path}
+                            element={<MuteerBeleidsrelaties {...props} />}
+                        />
+                    </Routes>
                 </AuthContext.Provider>
             </MemoryRouter>
         )
