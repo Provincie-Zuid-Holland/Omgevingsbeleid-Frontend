@@ -29,7 +29,7 @@ const MuteerBeleidsrelatiesCRUD = ({
         Eind_Geldigheid: '',
         Naar_Beleidskeuze: '',
         Omschrijving: '',
-        Titel: '',
+        // Titel: '',
         Van_Beleidskeuze: UUID,
         Status: 'Open',
         Aanvraag_Datum: new Date(),
@@ -47,12 +47,8 @@ const MuteerBeleidsrelatiesCRUD = ({
 
     const handleChange = (event: any) => {
         const name = event.target.name
-        const type = event.target.type
 
-        let value = event.target.value
-        if (type === 'date') {
-            value = event.target.value
-        }
+        const value = event.target.value
 
         setCrudObject({
             ...crudObject,
@@ -88,10 +84,10 @@ const MuteerBeleidsrelatiesCRUD = ({
 
         crudObject.Begin_Geldigheid = new Date(
             crudObject.Begin_Geldigheid
-        ).toString()
+        ).toISOString()
         crudObject.Eind_Geldigheid = new Date(
             crudObject.Eind_Geldigheid
-        ).toString()
+        ).toISOString()
 
         axios
             .post(`/beleidsrelaties`, JSON.stringify(crudObject))
