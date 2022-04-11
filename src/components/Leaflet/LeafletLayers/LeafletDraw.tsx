@@ -2,11 +2,11 @@ import 'leaflet-draw/dist/leaflet.draw-src.css'
 import 'leaflet-draw'
 
 import leaflet, { Control, ControlPosition, Point } from 'leaflet'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { FeatureGroup, useMap } from 'react-leaflet'
 import { useNavigate } from 'react-router-dom'
+import { useUpdateEffect } from 'react-use'
 
-import { icons } from '@/constants/leaflet'
 import markerIcon from '@/images/marker.svg'
 
 import { createControlComponent } from '../LeafletController'
@@ -21,10 +21,7 @@ leaflet.Icon.Default.mergeOptions({
     shadowUrl: null,
 })
 
-const LEAFLET_MARKER_CLASS = 'leaflet-draw-draw-marker'
 const LEAFLET_EDIT_CLASS = 'leaflet-draw-edit-edit'
-const LEAFLET_REMOVE_CLASS = 'leaflet-draw-edit-remove'
-const LEAFLET_POLYGON_CLASS = 'leaflet-draw-draw-polygon'
 const LEAFLET_HIDE_CLASS = 'hide-leaflet-edit'
 
 interface LeafletDrawProps {
@@ -38,6 +35,8 @@ const LeafletDraw = ({ position = 'topleft', onDraw }: LeafletDrawProps) => {
     const [currentLayerType, setCurrentLayerType] = useState<string | null>(
         null
     )
+
+    const editEl = document.getElementsByClassName(LEAFLET_EDIT_CLASS)
 
     const onCreated = (e: any) => {
         const type = e.layerType
@@ -70,30 +69,12 @@ const LeafletDraw = ({ position = 'topleft', onDraw }: LeafletDrawProps) => {
         }
     }
 
-    useEffect(() => {
-        setTimeout(() => {
-            const markerEl =
-                document.getElementsByClassName(LEAFLET_MARKER_CLASS)
-            markerEl[0].innerHTML = icons.marker
-
-            const editEl = document.getElementsByClassName(LEAFLET_EDIT_CLASS)
-            editEl[0].innerHTML = icons.edit
-
-            const thrashEl =
-                document.getElementsByClassName(LEAFLET_REMOVE_CLASS)
-            thrashEl[0].innerHTML = icons.remove
-
-            const polygonEl = document.getElementsByClassName(
-                LEAFLET_POLYGON_CLASS
-            )
-            polygonEl[0].innerHTML = icons.polygon
-
-            if (currentLayerType === 'marker') {
-                editEl[0].classList.add(LEAFLET_HIDE_CLASS)
-            } else {
-                editEl[0].classList.remove(LEAFLET_HIDE_CLASS)
-            }
-        }, 200)
+    useUpdateEffect(() => {
+        if (currentLayerType === 'marker') {
+            editEl[0].classList.add(LEAFLET_HIDE_CLASS)
+        } else {
+            editEl[0].classList.remove(LEAFLET_HIDE_CLASS)
+        }
     }, [currentLayerType])
 
     return (
