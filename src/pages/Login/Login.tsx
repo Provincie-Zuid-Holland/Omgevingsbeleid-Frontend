@@ -30,7 +30,7 @@ const Login = () => {
                     <Heading level="1" className="mt-4 sm:mt-12 lg:mt-16">
                         Inloggen
                     </Heading>
-                    <Text type="introduction-paragraph" className="mt-3">
+                    <Text type="introduction-paragraph" className="my-3">
                         Als beleidsmedewerker van provincie Zuid-Holland kun je
                         hier inloggen om te werken aan het Omgevingsbeleid.
                     </Text>
