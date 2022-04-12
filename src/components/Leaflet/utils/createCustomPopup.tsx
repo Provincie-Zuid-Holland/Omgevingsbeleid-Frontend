@@ -16,7 +16,7 @@ const RDProjection = new Proj.Projection('EPSG:28992', RDProj4, leafletBounds)
  */
 const createCustomPopup = async (
     map: Map,
-    history: any,
+    navigate: any,
     lat: number,
     lng: number,
     layer: any,
@@ -65,7 +65,7 @@ const createCustomPopup = async (
                 'geoQuery',
                 `${point.x.toFixed(2)}+${point.y.toFixed(2)}`
             )
-            history.push(`${MAP_SEARCH_PAGE}?${searchParams}`)
+            navigate(`${MAP_SEARCH_PAGE}?${searchParams}`, { replace: true })
         }
 
         callback?.({
@@ -98,7 +98,9 @@ const createCustomPopup = async (
 
                 if (isAdvancedSearch) {
                     searchParams.set('geoQuery', geoQuery)
-                    history.push(`${MAP_SEARCH_PAGE}?${searchParams}`)
+                    navigate(`${MAP_SEARCH_PAGE}?${searchParams}`, {
+                        replace: true,
+                    })
                 }
 
                 callback?.({
@@ -117,7 +119,7 @@ const createCustomPopup = async (
         handlePopupEvents(
             map,
             layer,
-            history,
+            navigate,
             searchParams,
             isAdvancedSearch ? path : undefined
         )
@@ -126,7 +128,7 @@ const createCustomPopup = async (
             handlePopupEvents(
                 map,
                 layer,
-                history,
+                navigate,
                 searchParams,
                 isAdvancedSearch ? path : undefined
             )
@@ -137,7 +139,7 @@ const createCustomPopup = async (
 const handlePopupEvents = (
     map: Map,
     layer: any,
-    history: any,
+    navigate: any,
     searchParams: URLSearchParams,
     path?: string
 ) => {
@@ -148,14 +150,14 @@ const handlePopupEvents = (
         ?.addEventListener('click', () => {
             map.fireEvent('draw:deleted')
             map.removeLayer(layer)
-            path && history.push(path)
+            path && navigate(path, { replace: true })
         })
 
     popupContainer
         .querySelector('.advanced-search-button')
         ?.addEventListener('click', () => {
             searchParams.append('searchOpen', 'true')
-            history.push(`${path}?${searchParams}`)
+            navigate(`${path}?${searchParams}`, { replace: true })
         })
 }
 
@@ -202,7 +204,7 @@ export const CreateCustomPopup = ({
                 {isAdvancedSearch ? (
                     <Button
                         label="Bekijk beleid"
-                        classes="advanced-search-button"
+                        className="advanced-search-button"
                     />
                 ) : (
                     <a href={`/zoekresultaten?${searchParams}`}>

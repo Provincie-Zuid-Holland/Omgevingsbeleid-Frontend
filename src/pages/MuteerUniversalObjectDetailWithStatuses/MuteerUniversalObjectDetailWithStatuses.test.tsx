@@ -4,11 +4,15 @@ import {
     screen,
 } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import { MemoryRouter, Route } from 'react-router-dom'
+import { QueryClient, QueryClientProvider } from 'react-query'
+import { MemoryRouter, Route, Routes } from 'react-router-dom'
 
 import allDimensies from '@/constants/dimensies'
+import AuthProvider from '@/context/AuthContext'
 
 import MuteerUniversalObjectDetailWithStatuses from './MuteerUniversalObjectDetailWithStatuses'
+
+const queryClient = new QueryClient()
 
 describe('MuteerUniversalObjectDetailWithStatuses', () => {
     const defaultProps = {
@@ -21,9 +25,20 @@ describe('MuteerUniversalObjectDetailWithStatuses', () => {
         const props = { ...defaultProps, ...customProps }
         render(
             <MemoryRouter initialEntries={[initialEntries]}>
-                <Route path={path}>
-                    <MuteerUniversalObjectDetailWithStatuses {...props} />
-                </Route>
+                <QueryClientProvider client={queryClient}>
+                    <AuthProvider>
+                        <Routes>
+                            <Route
+                                path={path}
+                                element={
+                                    <MuteerUniversalObjectDetailWithStatuses
+                                        {...props}
+                                    />
+                                }
+                            />
+                        </Routes>
+                    </AuthProvider>
+                </QueryClientProvider>
             </MemoryRouter>
         )
     }

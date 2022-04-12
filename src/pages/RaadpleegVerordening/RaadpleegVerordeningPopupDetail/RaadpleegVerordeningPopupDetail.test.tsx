@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
+import { BrowserRouter } from 'react-router-dom'
 
 import RaadpleegVerordeningPopupDetail from './RaadpleegVerordeningPopupDetail'
 
@@ -17,7 +18,11 @@ describe('RaadpleegVerordeningPopupDetail', () => {
 
     const setup = (customProps?: any) => {
         const props = { ...defaultProps, ...customProps }
-        render(<RaadpleegVerordeningPopupDetail {...props} />)
+        render(
+            <BrowserRouter>
+                <RaadpleegVerordeningPopupDetail {...props} />
+            </BrowserRouter>
+        )
     }
 
     it('Component renders', () => {

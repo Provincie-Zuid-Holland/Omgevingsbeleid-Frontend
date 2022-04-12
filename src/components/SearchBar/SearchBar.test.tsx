@@ -1,12 +1,18 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import { createMemoryHistory } from 'history'
-import { Router } from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom'
 
 import SearchBar from './SearchBar'
 
+jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom'),
+    useLocation: () => ({
+        pathname: '/zoekresultaten',
+        search: '?query=',
+    }),
+}))
+
 describe('SearchBar', () => {
-    const history = createMemoryHistory()
     const defaultProps = {
         width: 'w-64',
         compInNavigation: true,
@@ -15,9 +21,9 @@ describe('SearchBar', () => {
     const setup = (customProps?: any) => {
         const props = { ...defaultProps, ...customProps }
         render(
-            <Router history={history}>
+            <BrowserRouter>
                 <SearchBar {...props} />
-            </Router>
+            </BrowserRouter>
         )
         const searchBar = screen.getByPlaceholderText(
             'Zoek binnen het beleid van de provincie Zuid-Holland'
@@ -34,7 +40,7 @@ describe('SearchBar', () => {
         const { searchBar } = setup()
 
         // Assertion onChange
-        const searchQuery = 'Testing the SearchBar component'
+        const searchQuery = 'Testing%20the%20SearchBar%20component'
         fireEvent.change(searchBar, { target: { value: searchQuery } })
         expect(searchBar.value).toBe(searchQuery)
 
@@ -56,7 +62,7 @@ describe('SearchBar', () => {
             code: 'Enter',
             keyCode: 13,
         })
-        expect(history.location.pathname).toBe(`/zoekresultaten`)
-        expect(history.location.search).toBe(`?query=${searchQuery}`)
+        expect(location.pathname).toBe(`/zoekresultaten`)
+        expect(location.search).toBe(`?query=${searchQuery}`)
     })
 })

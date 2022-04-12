@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import { MemoryRouter, Route } from 'react-router-dom'
+import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 
 import allDimensies from '@/constants/dimensies'
@@ -43,9 +43,12 @@ describe('MuteerBeleidsrelatiesCRUD', () => {
                     `/muteer/beleidsrelaties/${beleidskeuzes[0].UUID}/nieuwe-relatie`,
                 ]}>
                 <ToastContainer position="bottom-left" />
-                <Route path={'/muteer/beleidsrelaties/:UUID/nieuwe-relatie'}>
-                    <MuteerBeleidsrelatiesCRUD {...props} />
-                </Route>
+                <Routes>
+                    <Route
+                        path={'/muteer/beleidsrelaties/:UUID/nieuwe-relatie'}
+                        element={<MuteerBeleidsrelatiesCRUD {...props} />}
+                    />
+                </Routes>
             </MemoryRouter>
         )
     }

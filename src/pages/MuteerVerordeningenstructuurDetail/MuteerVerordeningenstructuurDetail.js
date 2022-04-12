@@ -4,13 +4,7 @@
 
 import { Helmet } from 'react-helmet'
 import { Transition } from '@headlessui/react'
-import {
-    Link,
-    withRouter,
-    useParams,
-    useHistory,
-    useLocation,
-} from 'react-router-dom'
+import { Link, useParams, useNavigate, useLocation } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import clonedeep from 'lodash.clonedeep'
 import { faAngleLeft } from '@fortawesome/pro-regular-svg-icons'
@@ -26,8 +20,6 @@ import { LoaderContent } from './../../components/Loader'
 // Utils
 import formatGeldigheidDatesForUI from './../../utils/formatGeldigheidDatesForUI'
 import formatGeldigheidDatesForAPI from './../../utils/formatGeldigheidDatesForAPI'
-import { isDateInAValidRange } from '../../utils/isDateInAValidRange'
-import { toastNotification } from '../../utils/toastNotification'
 
 // Verordening Components
 import DragAndDropFirstLevel from './DragAndDropFirstLevel'
@@ -451,7 +443,7 @@ const MuteerVerordeningenstructuurDetail = () => {
     // Get location, used to get params on mount
     const location = useLocation()
     // Get history, used in handleError()
-    const history = useHistory()
+    const navigate = useNavigate()
 
     // After first render
     useEffect(() => {
@@ -1091,7 +1083,7 @@ const MuteerVerordeningenstructuurDetail = () => {
     }
 
     const handleError = msg => {
-        history.push('/muteer/verordeningen')
+        navigate('/muteer/verordeningen', { replace: true })
         toast(msg)
     }
 
@@ -1252,4 +1244,4 @@ const MuteerVerordeningenstructuurDetail = () => {
     )
 }
 
-export default withRouter(MuteerVerordeningenstructuurDetail)
+export default MuteerVerordeningenstructuurDetail

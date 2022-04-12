@@ -21,7 +21,7 @@ describe('ModuleFilters', () => {
         expect(option).toBeTruthy()
     })
 
-    it('user can select a different type and status', () => {
+    it('user can select a different type and status', async () => {
         render(<ModuleFilters {...defaultProps} />)
 
         const selectType: HTMLSelectElement = screen.getByTestId(
@@ -31,7 +31,7 @@ describe('ModuleFilters', () => {
             name: 'Beleidskeuze',
         })
 
-        userEvent.selectOptions(selectType, optionType)
+        await userEvent.selectOptions(selectType, optionType)
 
         expect(setFiltersMock).toBeCalledTimes(1)
         expect(setFiltersMock).toHaveBeenCalledWith({
@@ -47,7 +47,7 @@ describe('ModuleFilters', () => {
             name: 'Ontwerp GS Concept',
         })
 
-        userEvent.selectOptions(selectStatus, optionStatus)
+        await userEvent.selectOptions(selectStatus, optionStatus)
 
         expect(setFiltersMock).toBeCalledTimes(2)
         expect(setFiltersMock).toHaveBeenCalledWith({

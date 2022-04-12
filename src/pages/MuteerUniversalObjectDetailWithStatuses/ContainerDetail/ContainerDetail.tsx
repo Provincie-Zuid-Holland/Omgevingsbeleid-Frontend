@@ -6,13 +6,7 @@ import {
 } from '@fortawesome/pro-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { FC, useState } from 'react'
-import {
-    withRouter,
-    Link,
-    RouteComponentProps,
-    useLocation,
-    useParams,
-} from 'react-router-dom'
+import { Link, useLocation, useParams } from 'react-router-dom'
 
 import { BeleidskeuzesRead } from '@/api/fetchers.schemas'
 import HeadingMain from '@/components/HeadingMain'
@@ -26,7 +20,7 @@ import PopUpDetailDropdown from '../PopUpDetailDropdown'
  * Returns a Container component for a policy object detail page
  */
 
-interface ContainerDetailProps extends RouteComponentProps {
+interface ContainerDetailProps {
     dataObject: BeleidskeuzesRead
     setDataObject?: (dataObject: BeleidskeuzesRead) => void
     patchStatus: (dataObject: BeleidskeuzesRead, value: string) => void
@@ -256,4 +250,4 @@ const ContainerDetail: FC<ContainerDetailProps> = ({
     )
 }
 
-export default withRouter(ContainerDetail)
+export default ContainerDetail

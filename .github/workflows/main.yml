@@ -14,6 +14,8 @@ jobs:
             REACT_APP_API_URL: https://api-obzh-dev.azurewebsites.net/v1.0
             REACT_APP_GEOSERVER_API_URL: https://geo-omgevingsbeleid-test.azurewebsites.net
             REACT_APP_API_ENV: dev
+            REACT_APP_KEY_API_ACCESS_TOKEN: OB_access_token
+            REACT_APP_KEY_IDENTIFIER: OB_identifier
             PZH_FONTAWESOME_SECRET: ${{ secrets.PZH_FONTAWESOME_SECRET }}
 
         steps:

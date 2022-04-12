@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import { MemoryRouter, Route } from 'react-router-dom'
+import { MemoryRouter, Route, Routes } from 'react-router-dom'
 
 import RelatiesKoppelingenVisualisatie from './RelatiesKoppelingenVisualisatie'
 
@@ -264,9 +264,12 @@ describe('RelatiesKoppelingenVisualisatie', () => {
         const props = { ...defaultProps, ...customProps }
         render(
             <MemoryRouter initialEntries={[initialEntries]}>
-                <Route path={path}>
-                    <RelatiesKoppelingenVisualisatie {...props} />
-                </Route>
+                <Routes>
+                    <Route
+                        path={path}
+                        element={<RelatiesKoppelingenVisualisatie {...props} />}
+                    />
+                </Routes>
             </MemoryRouter>
         )
     }

@@ -390,6 +390,9 @@ const RelatiesKoppelingenVisualisatie = ({
                 </div>
                 <Link
                     to="/netwerkvisualisatie"
+                    state={{
+                        from: location.pathname + location.search,
+                    }}
                     className="absolute bottom-0 right-0 px-3 py-1 font-bold transition-colors duration-100 ease-in border rounded-md cursor-pointer hover:text-white text-pzh-blue border-pzh-blue hover:bg-pzh-blue">
                     Bekijk grote netwerkvisualisatie
                 </Link>
