@@ -60,11 +60,13 @@ const App = () => {
         <QueryClientProvider client={queryClient}>
             <AuthProvider>
                 <div
-                    className={classNames({
-                        'min-h-screen text-pzh-blue-dark relative': true,
-                        'bg-gray-100': userIsInMuteerEnvironment,
-                        'advanced-search-page': isAdvancedSearchPage,
-                    })}
+                    className={classNames(
+                        'min-h-screen text-pzh-blue-dark relative',
+                        {
+                            'bg-gray-100': userIsInMuteerEnvironment,
+                            'advanced-search-page': isAdvancedSearchPage,
+                        }
+                    )}
                     id="main-container">
                     <Helmet>
                         <meta charSet="utf-8" />
