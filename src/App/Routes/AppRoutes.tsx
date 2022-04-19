@@ -2,15 +2,15 @@ import { Fragment, useCallback, useLayoutEffect } from 'react'
 import { Route, Routes, useNavigate } from 'react-router-dom'
 
 import { NetworkGraph } from '@/components/Network'
-import allDimensies from '@/constants/dimensies'
+import allDimensies, { filteredDimensieConstants } from '@/constants/dimensies'
 import useAuth from '@/hooks/useAuth'
 import Login from '@/pages/Login'
+import MutatePolicyPage from '@/pages/MutatePolicyPage'
 import MuteerBeleidsmodulesOverview from '@/pages/MuteerBeleidsmodulesOverview'
 import MuteerBeleidsrelaties from '@/pages/MuteerBeleidsrelaties'
 import MuteerBeleidsrelatiesCRUD from '@/pages/MuteerBeleidsrelatiesCRUD'
 import MuteerDashboard from '@/pages/MuteerDashboard'
 import MuteerMijnBeleid from '@/pages/MuteerMijnBeleid'
-import MuteerUniversalObjectCRUD from '@/pages/MuteerUniversalObjectCRUD'
 import MuteerUniversalObjectDetail from '@/pages/MuteerUniversalObjectDetail'
 import MuteerUniversalObjectDetailWithStatuses from '@/pages/MuteerUniversalObjectDetailWithStatuses'
 import MuteerUniversalObjectOverzicht from '@/pages/MuteerUniversalObjectOverzicht'
@@ -132,7 +132,7 @@ const AppRoutes = () => {
                 <Route
                     path={`beleidskeuzes/nieuwe-beleidskeuze`}
                     element={
-                        <MuteerUniversalObjectCRUD
+                        <MutatePolicyPage
                             dimensieConstants={allDimensies.BELEIDSKEUZES}
                         />
                     }
@@ -140,7 +140,7 @@ const AppRoutes = () => {
                 <Route
                     path={`beleidskeuzes/edit/:single`}
                     element={
-                        <MuteerUniversalObjectCRUD
+                        <MutatePolicyPage
                             dimensieConstants={allDimensies.BELEIDSKEUZES}
                         />
                     }
@@ -158,7 +158,7 @@ const AppRoutes = () => {
                 <Route
                     path={`${allDimensies.BELEIDSMODULES.SLUG_OVERVIEW}/${allDimensies.BELEIDSMODULES.SLUG_CREATE_NEW}`}
                     element={
-                        <MuteerUniversalObjectCRUD
+                        <MutatePolicyPage
                             dimensieConstants={allDimensies.BELEIDSMODULES}
                         />
                     }
@@ -172,7 +172,7 @@ const AppRoutes = () => {
                 <Route
                     path={`maatregelen/nieuwe-maatregel`}
                     element={
-                        <MuteerUniversalObjectCRUD
+                        <MutatePolicyPage
                             dimensieConstants={allDimensies.MAATREGELEN}
                         />
                     }
@@ -180,7 +180,7 @@ const AppRoutes = () => {
                 <Route
                     path={`maatregelen/edit/:single`}
                     element={
-                        <MuteerUniversalObjectCRUD
+                        <MutatePolicyPage
                             dimensieConstants={allDimensies.MAATREGELEN}
                         />
                     }
@@ -226,8 +226,10 @@ const AppRoutes = () => {
                             dimensie !== 'MAATREGELEN' &&
                             dimensie !== 'BELEIDSMODULES'
 
-                        const dimensieConstants =
-                            allDimensies[dimensie as keyof typeof allDimensies]
+                        const dimensieConstants = allDimensies[
+                            dimensie as keyof typeof allDimensies
+                        ] as filteredDimensieConstants
+
                         const overzichtSlug =
                             allDimensies[dimensie as keyof typeof allDimensies]
                                 .SLUG_OVERVIEW
@@ -248,7 +250,7 @@ const AppRoutes = () => {
                                 <Route
                                     path={`${overzichtSlug}/${createNewSlug}`}
                                     element={
-                                        <MuteerUniversalObjectCRUD
+                                        <MutatePolicyPage
                                             dimensieConstants={
                                                 dimensieConstants
                                             }
@@ -258,7 +260,7 @@ const AppRoutes = () => {
                                 <Route
                                     path={`${overzichtSlug}/edit/:single`}
                                     element={
-                                        <MuteerUniversalObjectCRUD
+                                        <MutatePolicyPage
                                             dimensieConstants={
                                                 dimensieConstants
                                             }

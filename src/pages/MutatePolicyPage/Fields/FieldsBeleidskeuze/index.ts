@@ -1,2 +1,1 @@
-export { default } from './FieldsBeleidskeuze';
-export * from './FieldsBeleidskeuze';
+export { default } from './FieldsBeleidskeuze'

@@ -1,2 +1,1 @@
-export { default } from './FieldsBeleidsprestatie';
-export * from './FieldsBeleidsprestatie';
+export { default } from './FieldsBeleidsprestatie'

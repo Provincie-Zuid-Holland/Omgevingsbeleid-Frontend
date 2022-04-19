@@ -4,7 +4,7 @@ import { useLocalStorage, useUpdateEffect } from 'react-use'
 import { postLogin, useGetTokeninfo } from '@/api/fetchers'
 import { GetTokeninfo200Identifier } from '@/api/fetchers.schemas'
 
-interface AuthContextType {
+export interface AuthContextType {
     user?: GetTokeninfo200Identifier
     signin: (email: string, password: string) => Promise<void>
     signout: (callback?: VoidFunction) => void

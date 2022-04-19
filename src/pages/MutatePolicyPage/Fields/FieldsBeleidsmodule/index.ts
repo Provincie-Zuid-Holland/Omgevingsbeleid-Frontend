@@ -1,2 +1,1 @@
-export { default } from './FieldsBeleidsmodule';
-export * from './FieldsBeleidsmodule';
+export { default } from './FieldsBeleidsmodule'

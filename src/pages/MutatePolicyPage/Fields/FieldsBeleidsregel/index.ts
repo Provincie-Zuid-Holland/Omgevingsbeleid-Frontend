@@ -1,2 +1,1 @@
-export { default } from './FieldsBeleidsregel';
-export * from './FieldsBeleidsregel';
+export { default } from './FieldsBeleidsregel'

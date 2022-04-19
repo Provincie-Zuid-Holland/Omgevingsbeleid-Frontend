@@ -1,15 +1,15 @@
 import { Form, Formik, FormikProps } from 'formik'
 import { useEffect, useContext, useRef, useState } from 'react'
 import { Helmet } from 'react-helmet'
-import { useParams, useHistory } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { useSearchParam } from 'react-use'
 
 import { GetTokeninfo200Identifier } from '@/api/fetchers.schemas'
-import UserContext from '@/App/UserContext'
 import ButtonSubmitFixed from '@/components/ButtonSubmitFixed'
 import { ContainerMain } from '@/components/Container'
 import { LoaderContent } from '@/components/Loader'
 import allDimensies from '@/constants/dimensies'
+import { AuthContext } from '@/context/AuthContext'
 import { MutateWriteObjects, MutateReadObjects } from '@/types/dimensions'
 import { checkIfUserIsAllowedOnPage } from '@/utils/checkIfUserIsAllowedOnPage'
 import { createEmptyWriteObject } from '@/utils/createEmptyWriteObject'
@@ -47,36 +47,32 @@ type filteredDimensieConstants = Exclude<
 >
 export interface MutatePolicyPageProps {
     dimensieConstants: filteredDimensieConstants
-    authUser?: GetTokeninfo200Identifier
 }
 
 const redirectIfUserIsNotAllowed = (
     objFromApi: any,
-    history: any,
-    authUser?: GetTokeninfo200Identifier
+    navigate: any,
+    user?: GetTokeninfo200Identifier
 ) => {
     /** Check if user is allowed */
     const isUserAllowed = checkIfUserIsAllowedOnPage({
         object: objFromApi,
-        authUser,
+        user,
     })
     if (!isUserAllowed) {
         toastNotification({
             type: 'user is not authenticated for this page',
         })
-        history.push('/muteer/dashboard')
+        navigate('/muteer/dashboard')
     }
 }
 
-const MutatePolicyPage = ({
-    authUser,
-    dimensieConstants,
-}: MutatePolicyPageProps) => {
-    const history = useHistory()
+const MutatePolicyPage = ({ dimensieConstants }: MutatePolicyPageProps) => {
+    const navigate = useNavigate()
     const formRef = useRef<FormikProps<MutateWriteObjects>>(null)
     const { single: objectID } = useParams<{ single: string | undefined }>()
     const modus = useSearchParam('modus')
-    const { user } = useContext(UserContext)
+    const { user } = useContext(AuthContext)
 
     const titleSingular = dimensieConstants.TITLE_SINGULAR
     const titlePlural = dimensieConstants.TITLE_PLURAL
@@ -94,7 +90,13 @@ const MutatePolicyPage = ({
     const useMutatePolicyLineage = getMutationForPolicyLineage(titleSingular)
     const usePostPolicy = getPostForPolicy(titleSingular)
     const { isLoading: lineageIsLoading, data: lineage } = useGetLineage(
-        parseInt(objectID!)
+        parseInt(objectID!),
+        undefined,
+        {
+            query: {
+                cacheTime: 0,
+            },
+        }
     )
 
     const mutatePolicyLineage = useMutatePolicyLineage({
@@ -103,7 +105,7 @@ const MutatePolicyPage = ({
                 toastNotification({ type: 'standard error' })
             },
             onSuccess: data => {
-                history.push(
+                navigate(
                     `/muteer/${objectSlugOverviewPage}/${data.ID}${
                         location.hash === '#mijn-beleid' ? '#mijn-beleid' : ''
                     }`
@@ -119,7 +121,7 @@ const MutatePolicyPage = ({
                 toastNotification({ type: 'standard error' })
             },
             onSuccess: data => {
-                history.push(
+                navigate(
                     `/muteer/${objectSlugOverviewPage}/${data.ID}${
                         location.hash === '#mijn-beleid' ? '#mijn-beleid' : ''
                     }`
@@ -153,7 +155,7 @@ const MutatePolicyPage = ({
     useEffect(() => {
         if (!lineage) return
 
-        redirectIfUserIsNotAllowed(lineage[0], history, authUser)
+        redirectIfUserIsNotAllowed(lineage[0], navigate, user)
 
         const readObjectFromLineage = getLatestObjectFromLineage(
             lineage,
@@ -169,17 +171,17 @@ const MutatePolicyPage = ({
         )
         if (!writeObject) return
 
-        setInitialValues({
-            ...setAanpassingOpValue(
+        setInitialValues(
+            setAanpassingOpValue(
                 setCorrectStatus(
                     formatGeldigheidDatesForUI(writeObject),
                     modus
                 ),
                 titleSingular,
                 modus
-            ),
-        })
-    }, [lineage, authUser, history, modus, titleSingular])
+            )
+        )
+    }, [lineage, user, navigate, modus, titleSingular])
 
     return (
         <MutateContext.Provider

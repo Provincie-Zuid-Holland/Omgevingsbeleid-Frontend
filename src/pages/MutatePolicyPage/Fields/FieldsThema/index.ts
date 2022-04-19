@@ -1,2 +1,1 @@
-export { default } from './FieldsThema';
-export * from './FieldsThema';
+export { default } from './FieldsThema'

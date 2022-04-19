@@ -1,2 +1,1 @@
-export { default } from './FieldsBeleidsdoel';
-export * from './FieldsBeleidsdoel';
+export { default } from './FieldsBeleidsdoel'
