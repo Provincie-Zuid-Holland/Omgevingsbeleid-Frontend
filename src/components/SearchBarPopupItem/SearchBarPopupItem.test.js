@@ -1,38 +1,38 @@
-import { render, screen, fireEvent } from "@testing-library/react"
-import "@testing-library/jest-dom"
-import React from "react"
-import { MemoryRouter } from "react-router-dom"
+import { render, screen, fireEvent } from '@testing-library/react'
+import '@testing-library/jest-dom'
 
-import SearchBarPopupItem from "./SearchBarPopupItem"
-import { searchBarFilters } from "./../../constants/searchBarFilters"
+import { MemoryRouter } from 'react-router-dom'
 
-describe("SearchBarPopupItem", () => {
+import { searchBarFilters } from './../../constants/searchBarFilters'
+import SearchBarPopupItem from './SearchBarPopupItem'
+
+describe('SearchBarPopupItem', () => {
     const setSearchBarPopupOpenMock = jest.fn()
     const selectSearchQueryInputMock = jest.fn()
     const defaultProps = {
-        searchQuery: "searchQuery",
+        searchQuery: 'searchQuery',
         dataIndex: 0,
         setSearchBarPopupOpen: setSearchBarPopupOpenMock,
         selectSearchQueryInput: selectSearchQueryInputMock,
     }
 
     const arrowEvent = (type, element) => {
-        if (type === "down") {
+        if (type === 'down') {
             fireEvent.keyDown(element, {
-                key: "ArrowDown",
-                code: "ArrowDown",
+                key: 'ArrowDown',
+                code: 'ArrowDown',
                 keyCode: 40,
             })
-        } else if (type === "up") {
+        } else if (type === 'up') {
             fireEvent.keyDown(element, {
-                key: "ArrowUp",
-                code: "ArrowUp",
+                key: 'ArrowUp',
+                code: 'ArrowUp',
                 keyCode: 38,
             })
         }
     }
 
-    const setup = (customProps) => {
+    const setup = customProps => {
         const props = { ...defaultProps, ...customProps }
         render(
             <MemoryRouter>
@@ -41,10 +41,10 @@ describe("SearchBarPopupItem", () => {
         )
     }
 
-    const setupMultiple = (customProps, customPropsSecond) => {
+    const setupMultiple = customProps => {
         const props = { ...defaultProps, ...customProps }
         const propsSecond = {
-            searchQuery: "searchQuery",
+            searchQuery: 'searchQuery',
             filter: false,
             amountOfFilterItems: 2,
             dataIndex: 0,
@@ -66,19 +66,19 @@ describe("SearchBarPopupItem", () => {
         )
     }
 
-    it("Component renders with filter false", () => {
+    it('Component renders with filter false', () => {
         setup()
         const element = screen.getByText(defaultProps.searchQuery)
         expect(element).toBeTruthy()
     })
 
-    it("Component renders with filter true", () => {
+    it('Component renders with filter true', () => {
         setup({ filter: true })
         const element = screen.getByText(defaultProps.searchQuery)
         expect(element).toBeTruthy()
     })
 
-    it("Clicking on an item will close the searchBarPopup", () => {
+    it('Clicking on an item will close the searchBarPopup', () => {
         setup({ filter: true })
         const element = screen.getByText(defaultProps.searchQuery)
         expect(element).toBeTruthy()
@@ -86,22 +86,22 @@ describe("SearchBarPopupItem", () => {
         expect(setSearchBarPopupOpenMock).toHaveBeenCalledTimes(1)
     })
 
-    it("User can navigate with arrow between the items", () => {
+    it('User can navigate with arrow between the items', () => {
         setupMultiple()
 
         const firstElement = screen
             .getByText(defaultProps.searchQuery)
-            .closest("a")
+            .closest('a')
         expect(firstElement).toBeTruthy()
 
         const secondElement = screen
             .getByText(searchBarFilters[0].name)
-            .closest("a")
+            .closest('a')
         expect(secondElement).toBeTruthy()
 
         const thirdElement = screen
             .getByText(searchBarFilters[1].name)
-            .closest("a")
+            .closest('a')
         expect(thirdElement).toBeTruthy()
 
         firstElement.focus()
@@ -109,35 +109,35 @@ describe("SearchBarPopupItem", () => {
 
         // Use Arrow Down key to navigate to the second item
         expect(secondElement).not.toHaveFocus()
-        arrowEvent("down", firstElement)
+        arrowEvent('down', firstElement)
         expect(secondElement).toHaveFocus()
 
         // Use Arrow Down key to navigate to the third item
-        arrowEvent("down", secondElement)
+        arrowEvent('down', secondElement)
         expect(thirdElement).toHaveFocus()
 
         // thirdElement should be the last item, assert on this
-        arrowEvent("down", thirdElement)
+        arrowEvent('down', thirdElement)
         expect(thirdElement).toHaveFocus()
 
         // Go back down
-        arrowEvent("up", thirdElement)
+        arrowEvent('up', thirdElement)
         expect(secondElement).toHaveFocus()
 
-        arrowEvent("up", secondElement)
+        arrowEvent('up', secondElement)
         expect(firstElement).toHaveFocus()
 
         // We have now arrived at the first item
         // When the user moves the arrow up it should select the searchQuery input
-        arrowEvent("up", firstElement)
+        arrowEvent('up', firstElement)
         expect(selectSearchQueryInputMock).toHaveBeenCalledTimes(1)
         expect(firstElement).toHaveFocus()
     })
 
-    it("Returns event when data-index is not valid", () => {
+    it('Returns event when data-index is not valid', () => {
         setup({ dataIndex: null })
         const element = screen.getByText(defaultProps.searchQuery)
         expect(element).toBeTruthy()
-        arrowEvent("down", element)
+        arrowEvent('down', element)
     })
 })

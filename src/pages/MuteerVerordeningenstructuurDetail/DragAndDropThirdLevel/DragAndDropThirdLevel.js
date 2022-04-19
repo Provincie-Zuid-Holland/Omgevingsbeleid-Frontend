@@ -2,30 +2,18 @@
 /* eslint-disable */
 // TODO: For now ESLint is disabled, because this file will be refactored in the future, based on a new data structure
 
-import React from "react"
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
-import { Link } from "react-router-dom"
+import { Droppable, Draggable } from 'react-beautiful-dnd'
 
-import AddSection from "../AddSection"
-import VerordeningObjectContent from "./../VerordeningObjectContent"
-import AddObjectButton from "./../AddObjectButton"
+import AddSection from '../AddSection'
+import VerordeningObjectContent from './../VerordeningObjectContent'
+import AddObjectButton from './../AddObjectButton'
 
-import VerordeningContext from "./../VerordeningContext"
+import VerordeningContext from './../VerordeningContext'
+import { useContext } from 'react'
 
-function DragAndDropThirdLevel({
-    subVolgnummer,
-    subItems,
-    UUID,
-    type,
-    nest_1,
-    nest_2,
-}) {
-    const {
-        userIsEditingOrder,
-        userIsEditingSections,
-        hoofdstukIndex,
-        addSectionType,
-    } = React.useContext(VerordeningContext)
+function DragAndDropThirdLevel({ subItems, UUID, nest_1, nest_2 }) {
+    const { userIsEditingOrder, userIsEditingSections, hoofdstukIndex } =
+        useContext(VerordeningContext)
 
     return (
         <Droppable className="h-10" droppableId={UUID} type="thirdLevel">
@@ -35,27 +23,24 @@ function DragAndDropThirdLevel({
                     className={`droppable-height pl-5
                             ${
                                 snapshot.isDraggingOver
-                                    ? "bg-gray-200"
-                                    : "bg-white"
+                                    ? 'bg-gray-200'
+                                    : 'bg-white'
                             }
-                            `}
-                >
+                            `}>
                     {subItems && subItems.length > 0
                         ? subItems
-                              .filter((e) => e.Type !== "Lid")
+                              .filter(e => e.Type !== 'Lid')
                               .map((item, index) => (
                                   <Draggable
                                       key={item.UUID}
                                       draggableId={item.UUID}
                                       index={index}
-                                      isDragDisabled={!userIsEditingOrder}
-                                  >
+                                      isDragDisabled={!userIsEditingOrder}>
                                       {(provided, snapshot) => (
                                           <div
                                               ref={provided.innerRef}
                                               {...provided.draggableProps}
-                                              {...provided.dragHandleProps}
-                                          >
+                                              {...provided.dragHandleProps}>
                                               {index === 0 &&
                                               userIsEditingSections ? (
                                                   <AddSection
@@ -71,10 +56,9 @@ function DragAndDropThirdLevel({
                                               <div
                                                   className={`bg-white ${
                                                       snapshot.isDragging
-                                                          ? "shadow-lg"
-                                                          : ""
-                                                  }`}
-                                              >
+                                                          ? 'shadow-lg'
+                                                          : ''
+                                                  }`}>
                                                   <VerordeningObjectContent
                                                       item={item}
                                                       index={index}

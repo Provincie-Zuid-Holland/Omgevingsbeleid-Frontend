@@ -1,20 +1,21 @@
 /* istanbul ignore file */
-import React, { useContext } from "react"
+import { useContext } from 'react'
 
 // Import Context
-import APIcontext from "./../../APIContext"
-
-// Import Components
-import ContainerMain from "./../../../../components/ContainerMain"
-import ContainerFormSection from "./../../../../components/ContainerFormSection"
-
-// Import Form Fields
+import ButtonSubmitFixed from './../../../../components/ButtonSubmitFixed'
+import {
+    ContainerFormSection,
+    ContainerMain,
+} from './../../../../components/Container'
 import {
     FormFieldTextInput,
     FormFieldGeldigheid,
-} from "./../../../../components/FormFieldsExport"
+} from './../../../../components/Form'
+import APIcontext from './../../../MuteerBeleidsrelatiesCRUD/APIContext'
 
-import ButtonSubmitFixed from "./../../../../components/ButtonSubmitFixed"
+// Import Components
+
+// Import Form Fields
 
 function Paragraaf() {
     const context = useContext(APIcontext)
@@ -23,17 +24,16 @@ function Paragraaf() {
     const titleSingular = context.titleSingular
 
     return (
-        <React.Fragment>
+        <>
             <ContainerMain>
                 <div className="flex-grow inline-block w-full">
                     <form className="mt-12" onSubmit={context.handleSubmit}>
                         <ContainerFormSection
                             titel="Algemene informatie"
-                            beschrijving="De algemene informatie bevat een paragraafnummer en een duidelijke titel"
-                        >
+                            beschrijving="De algemene informatie bevat een paragraafnummer en een duidelijke titel">
                             <FormFieldTextInput
                                 handleChange={context.handleChange}
-                                fieldValue={crudObject["Volgnummer"]}
+                                fieldValue={crudObject['Volgnummer']}
                                 fieldLabel="Paragraaf"
                                 dataObjectProperty="Volgnummer"
                                 pValue="Nummer"
@@ -41,7 +41,7 @@ function Paragraaf() {
                             />
                             <FormFieldTextInput
                                 handleChange={context.handleChange}
-                                fieldValue={crudObject["Titel"]}
+                                fieldValue={crudObject['Titel']}
                                 fieldLabel="Titel"
                                 dataObjectProperty="Titel"
                                 pValue="Beschrijf in een aantal woorden de titel van deze paragraaf"
@@ -51,14 +51,13 @@ function Paragraaf() {
 
                         <ContainerFormSection
                             titel="Aanvullende informatie"
-                            beschrijving="Aanvullende informatie."
-                        >
+                            beschrijving="Aanvullende informatie.">
                             {/* Geldigheid */}
                             <div className="flex flex-wrap -mx-3">
                                 {/* Begin Geldigheid */}
                                 <FormFieldGeldigheid
                                     handleChange={context.handleChange}
-                                    fieldValue={crudObject["Begin_Geldigheid"]}
+                                    fieldValue={crudObject['Begin_Geldigheid']}
                                     fieldLabel="Datum inwerkingtreding"
                                     notRequired={true}
                                     dataObjectProperty="Begin_Geldigheid"
@@ -71,7 +70,7 @@ function Paragraaf() {
                                 <FormFieldGeldigheid
                                     handleChange={context.handleChange}
                                     notRequired={true}
-                                    fieldValue={crudObject["Eind_Geldigheid"]}
+                                    fieldValue={crudObject['Eind_Geldigheid']}
                                     fieldLabel="Datum uitwerkingtreding"
                                     dataObjectProperty="Eind_Geldigheid"
                                     pValue="Indien bekend, kan hier de datum van uitwerkingtreding worden ingevuld"
@@ -85,7 +84,7 @@ function Paragraaf() {
                     </form>
                 </div>
             </ContainerMain>
-        </React.Fragment>
+        </>
     )
 }
 

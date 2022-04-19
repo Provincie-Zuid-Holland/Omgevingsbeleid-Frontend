@@ -1,12 +1,12 @@
 /* istanbul ignore file */
-import React from "react"
-import { Transition } from "@headlessui/react"
 
-import { faCircle } from "@fortawesome/pro-regular-svg-icons"
-import { faCheckCircle } from "@fortawesome/pro-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faCircle } from '@fortawesome/pro-regular-svg-icons'
+import { faCheckCircle } from '@fortawesome/pro-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Transition } from '@headlessui/react'
+import { useContext, useLayoutEffect, useState } from 'react'
 
-import VerordeningContext from "../VerordeningContext"
+import VerordeningContext from '../VerordeningContext'
 
 const AddSectionsSidebar = ({ show }) => {
     const {
@@ -15,15 +15,15 @@ const AddSectionsSidebar = ({ show }) => {
         addSectionType,
         setAddSectionType,
         hoofdstukIndex,
-    } = React.useContext(VerordeningContext)
+    } = useContext(VerordeningContext)
 
-    const [styles, setStyles] = React.useState(0)
-    const [windowSize, setWindowSize] = React.useState(null)
+    const [styles, setStyles] = useState(0)
+    const [windowSize, setWindowSize] = useState(null)
 
-    React.useLayoutEffect(() => {
-        const initWidth = (val) => setStyles(val)
+    useLayoutEffect(() => {
+        const initWidth = val => setStyles(val)
         const regulationContainer = document.getElementById(
-            "regulation-container"
+            'regulation-container'
         )
         const containerWidth = regulationContainer.offsetWidth
         const oneThirdContainerWidth = containerWidth * 0.333
@@ -42,8 +42,8 @@ const AddSectionsSidebar = ({ show }) => {
             setWindowSize(window.innerWidth)
         }
 
-        window.addEventListener("resize", handleResize)
-        return () => window.removeEventListener("resize", handleResize)
+        window.addEventListener('resize', handleResize)
+        return () => window.removeEventListener('resize', handleResize)
     }, [windowSize])
 
     const userIsAddingSectionsInHoofdstukken =
@@ -57,16 +57,14 @@ const AddSectionsSidebar = ({ show }) => {
             enterTo="opacity-100 transform translate-x-0"
             leave="transition ease-in duration-75"
             leaveFrom="opacity-100 transform translate-x-0"
-            leaveTo="opacity-0 transform translate-x-2"
-        >
+            leaveTo="opacity-0 transform translate-x-2">
             <div
                 className="fixed inline-block pl-10"
                 style={{
-                    width: styles.width + "px",
-                    top: styles.yPosition + "px",
-                    left: styles.xPosition + "px",
-                }}
-            >
+                    width: styles.width + 'px',
+                    top: styles.yPosition + 'px',
+                    left: styles.xPosition + 'px',
+                }}>
                 <Transition
                     show={addSectionMode}
                     enter="transition ease-out duration-100"
@@ -74,8 +72,7 @@ const AddSectionsSidebar = ({ show }) => {
                     enterTo="opacity-100 transform translate-x-0"
                     leave="transition ease-in duration-75"
                     leaveFrom="opacity-100 transform translate-x-0"
-                    leaveTo="opacity-0 transform translate-x-2"
-                >
+                    leaveTo="opacity-0 transform translate-x-2">
                     <div>
                         <span className="mb-2 font-bold text-gray-900">
                             Onderdelen toevoegen
@@ -83,8 +80,8 @@ const AddSectionsSidebar = ({ show }) => {
                         <p className="text-gray-800">
                             Je kunt op dit moment onderdelen toevoegen.
                             {userIsAddingSectionsInHoofdstukken
-                                ? ""
-                                : "Selecteer het onderdeel dat je wil toevoegen."}
+                                ? ''
+                                : 'Selecteer het onderdeel dat je wil toevoegen.'}
                         </p>
 
                         {userIsAddingSectionsInHoofdstukken ? null : (
@@ -92,17 +89,16 @@ const AddSectionsSidebar = ({ show }) => {
                                 <div
                                     className="block py-3 pl-5 mb-2 font-bold text-gray-900 cursor-pointer bg-pzh-blue-super-light"
                                     onClick={() => {
-                                        if (addSectionType !== "Afdeling") {
-                                            setAddSectionType("Afdeling")
+                                        if (addSectionType !== 'Afdeling') {
+                                            setAddSectionType('Afdeling')
                                         } else {
                                             setAddSectionType(null)
                                         }
-                                    }}
-                                >
+                                    }}>
                                     <FontAwesomeIcon
                                         className="mr-5 text-gray-700"
                                         icon={
-                                            addSectionType === "Afdeling"
+                                            addSectionType === 'Afdeling'
                                                 ? faCheckCircle
                                                 : faCircle
                                         }
@@ -112,17 +108,16 @@ const AddSectionsSidebar = ({ show }) => {
                                 <div
                                     className="block py-3 pl-5 mb-2 font-bold text-gray-900 cursor-pointer bg-pzh-blue-super-light"
                                     onClick={() => {
-                                        if (addSectionType !== "Paragraaf") {
-                                            setAddSectionType("Paragraaf")
+                                        if (addSectionType !== 'Paragraaf') {
+                                            setAddSectionType('Paragraaf')
                                         } else {
                                             setAddSectionType(null)
                                         }
-                                    }}
-                                >
+                                    }}>
                                     <FontAwesomeIcon
                                         className="mr-5 text-gray-700"
                                         icon={
-                                            addSectionType === "Paragraaf"
+                                            addSectionType === 'Paragraaf'
                                                 ? faCheckCircle
                                                 : faCircle
                                         }
@@ -132,17 +127,16 @@ const AddSectionsSidebar = ({ show }) => {
                                 <div
                                     className="block py-3 pl-5 mb-2 font-bold text-gray-900 cursor-pointer bg-pzh-blue-super-light"
                                     onClick={() => {
-                                        if (addSectionType !== "Artikel") {
-                                            setAddSectionType("Artikel")
+                                        if (addSectionType !== 'Artikel') {
+                                            setAddSectionType('Artikel')
                                         } else {
                                             setAddSectionType(null)
                                         }
-                                    }}
-                                >
+                                    }}>
                                     <FontAwesomeIcon
                                         className="mr-5 text-gray-700"
                                         icon={
-                                            addSectionType === "Artikel"
+                                            addSectionType === 'Artikel'
                                                 ? faCheckCircle
                                                 : faCircle
                                         }
@@ -157,8 +151,7 @@ const AddSectionsSidebar = ({ show }) => {
                                 onClick={() => {
                                     setAddSectionMode(false)
                                     setAddSectionType(null)
-                                }}
-                            >
+                                }}>
                                 Annuleren
                             </button>
                         </div>

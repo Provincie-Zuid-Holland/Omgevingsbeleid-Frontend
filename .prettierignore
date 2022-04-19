@@ -1,0 +1,7 @@
+# Ignore all CSS files:
+*.css
+
+# Ignore all assets:
+src/images/*
+src/fonts/*
+*.svg

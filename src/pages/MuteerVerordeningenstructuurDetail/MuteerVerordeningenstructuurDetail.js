@@ -2,44 +2,44 @@
 /* eslint-disable */
 // TODO: For now ESLint is disabled, because this file will be refactored in the future, based on a new data structure
 
-import React from "react"
-import { Helmet } from "react-helmet"
-import { Transition } from "@headlessui/react"
+import { Helmet } from 'react-helmet'
+import { Transition } from '@headlessui/react'
 import {
     Link,
     withRouter,
     useParams,
     useHistory,
     useLocation,
-} from "react-router-dom"
-import { toast } from "react-toastify"
-import clonedeep from "lodash.clonedeep"
-import { faAngleLeft } from "@fortawesome/pro-regular-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+} from 'react-router-dom'
+import { toast } from 'react-toastify'
+import clonedeep from 'lodash.clonedeep'
+import { faAngleLeft } from '@fortawesome/pro-regular-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 // Import Context
-import VerordeningContext from "./VerordeningContext"
+import VerordeningContext from './VerordeningContext'
 
 // Import global Componenents
-import ContainerMain from "./../../components/ContainerMain"
-import LoaderContent from "./../../components/LoaderContent"
+import { ContainerMain } from './../../components/Container'
+import { LoaderContent } from './../../components/Loader'
 
 // Utils
-import formatGeldigheidDatesForUI from "./../../utils/formatGeldigheidDatesForUI"
-import formatGeldigheidDatesForAPI from "./../../utils/formatGeldigheidDatesForAPI"
-import { isDateInAValidRange } from "../../utils/isDateInAValidRange"
-import { toastNotification } from "../../utils/toastNotification"
+import formatGeldigheidDatesForUI from './../../utils/formatGeldigheidDatesForUI'
+import formatGeldigheidDatesForAPI from './../../utils/formatGeldigheidDatesForAPI'
+import { isDateInAValidRange } from '../../utils/isDateInAValidRange'
+import { toastNotification } from '../../utils/toastNotification'
 
 // Verordening Components
-import DragAndDropFirstLevel from "./DragAndDropFirstLevel"
-import DragAndDropHoofdstukken from "./DragAndDropHoofdstukken"
-import AddSectionsSidebar from "./AddSectionsSidebar"
-import EditAddOrderSection from "./EditAddOrderSection"
-import EditContentSidebar from "./EditContentSidebar"
-import EditOrderSidebar from "./EditOrderSidebar"
+import DragAndDropFirstLevel from './DragAndDropFirstLevel'
+import DragAndDropHoofdstukken from './DragAndDropHoofdstukken'
+import AddSectionsSidebar from './AddSectionsSidebar'
+import EditAddOrderSection from './EditAddOrderSection'
+import EditContentSidebar from './EditContentSidebar'
+import EditOrderSidebar from './EditOrderSidebar'
 
 // Import Axios instance to connect with the API
-import axios from "./../../API/axios"
+import axios from '../../api/instance'
+import { useEffect, useReducer, useState } from 'react'
 
 // Reorder items in array
 const reorder = (list, startIndex, endIndex) => {
@@ -57,49 +57,49 @@ const MuteerVerordeningenstructuurDetail = () => {
     // This component is quite complex, as it holds the whole structure and provides the user with several ways to edit that structure
 
     // [dataLoaded] - Contains a Boolean that is true when all API calls are done
-    const [dataLoaded, setDataLoaded] = React.useState(false)
+    const [dataLoaded, setDataLoaded] = useState(false)
 
     // [patchingInProgress] - Contains a Boolean that is true when we are patching
-    const [patchingInProgress, setPatchingInProgress] = React.useState(false)
+    const [patchingInProgress, setPatchingInProgress] = useState(false)
 
     // [lineage] - Contains the whole structure of the regulations
-    const [lineage, setLineage] = React.useState(null)
+    const [lineage, setLineage] = useState(null)
 
     // [lineageCopy] - A copy of the regulation structure. We use this to undo changes when the user is changing the order and cancels them.
-    const [lineageCopy, setLineageCopy] = React.useState(null)
+    const [lineageCopy, setLineageCopy] = useState(null)
 
     // [users] - Contains the users, which we pass to the component to edit regulation objects
-    const [users, setUsers] = React.useState(null)
+    const [users, setUsers] = useState(null)
 
     // [activeChapter] - The first layer of objects in the lineage are Chapters. This value contains the active chapter OR it contains an Null value, which means there is no chapter active
-    const [activeChapter, setActiveChapter] = React.useState(null)
+    const [activeChapter, setActiveChapter] = useState(null)
 
     // [editOrderMode] - Contains a boolean to represent the mode to edit the order of object
-    const [editOrderMode, setEditOrderMode] = React.useState(false)
+    const [editOrderMode, setEditOrderMode] = useState(false)
 
     // [addSectionMode] - Contains a boolean to represent the mode to add new objects
-    const [addSectionMode, setAddSectionMode] = React.useState(false)
+    const [addSectionMode, setAddSectionMode] = useState(false)
 
     // [addSectionType] - Contains a string of 'Hoofdstuk', 'Afdeling', 'Paragraaf' or 'Artikel'
-    const [addSectionType, setAddSectionType] = React.useState(false)
+    const [addSectionType, setAddSectionType] = useState(false)
 
     // [UUIDBeingEdited] - Contains a UUID of the object that the user is editing. This can be a Chapter, a Group or a Paragraph
-    const [UUIDBeingEdited, setUUIDBeingEdited] = React.useState(null)
+    const [UUIDBeingEdited, setUUIDBeingEdited] = useState(null)
 
     // [indexArrayToUUIDBeingEdited] - This contains an array the path to the specific item in the lineage. The first item is always the chapter followed by subsequent levels from there.
     const [indexArrayToUUIDBeingEdited, setIndexArrayToUUIDBeingEdited] =
-        React.useState(null)
+        useState(null)
 
     // This state value is used to see when we need to Patch the lineage
     // See the useEffect below. We use this useEffect to trigger when a new lineage has set
-    const [saveNewLineage, setSaveNewLineage] = React.useState(false)
-    React.useEffect(() => {
+    const [saveNewLineage, setSaveNewLineage] = useState(false)
+    useEffect(() => {
         if (saveNewLineage) {
             setVerordeningsObjectFromGET({
-                type: "cancel",
+                type: 'cancel',
             })
             setVerordeningsLedenFromGET({
-                type: "cancel",
+                type: 'cancel',
             })
             saveNewLineageStructure()
             setVolgnummerBeingEdited(null)
@@ -110,37 +110,36 @@ const MuteerVerordeningenstructuurDetail = () => {
     }, [lineage])
 
     // [volgnummerBeingEdited] - Contains the property 'volgnummer' of the object that is edited. This is displayed in the Meta edit content menu
-    const [volgnummerBeingEdited, setVolgnummerBeingEdited] =
-        React.useState(null)
+    const [volgnummerBeingEdited, setVolgnummerBeingEdited] = useState(null)
 
     // [verordeningsObjectFromGET] - Contains the object we get from the GET request on [UUIDBeingEdited]
     const verordeningsObjectFromGETReducer = (state, action) => {
         const newState = { ...state }
         switch (action.type) {
-            case "initialize":
+            case 'initialize':
                 return action.initObject
-            case "changeValue":
+            case 'changeValue':
                 newState[action.name] = action.value
                 return newState
-            case "changeLidToArtikelInhoud":
+            case 'changeLidToArtikelInhoud':
                 newState[action.name] = action.value
                 if (newState.Children && newState.Children.length > 0) {
                     delete newState.Children
                 }
                 return newState
-            case "changeSelectValue":
-                if (action.actionMeta.action === "select-option") {
+            case 'changeSelectValue':
+                if (action.actionMeta.action === 'select-option') {
                     newState[action.property] = action.e.value
-                } else if (action.actionMeta.action === "clear") {
+                } else if (action.actionMeta.action === 'clear') {
                     newState[action.property] = null
                 }
                 return newState
-            case "removeSpecificIndexOfLeden":
+            case 'removeSpecificIndexOfLeden':
                 if (newState.Children && newState.Children.length > 0) {
                     newState.Children.splice(action.index, 1)
                 }
                 return newState
-            case "cancel":
+            case 'cancel':
                 setLineage(lineageCopy)
                 return null
             default:
@@ -149,53 +148,55 @@ const MuteerVerordeningenstructuurDetail = () => {
     }
 
     const [verordeningsObjectFromGET, setVerordeningsObjectFromGET] =
-        React.useReducer(verordeningsObjectFromGETReducer, null)
+        useReducer(verordeningsObjectFromGETReducer, null)
 
     const [verordeningsObjectIsLoading, setVerordeningsObjectIsLoading] =
-        React.useState(false)
+        useState(false)
 
     // Loading state for [verordeningsLedenFromGET]
     const [
         verordeningsObjectLedenIsLoading,
         setVerordeningsObjectLedenIsLoading,
-    ] = React.useState(false)
+    ] = useState(false)
 
     // [verordeningsLedenFromGET] - Contains the leden objects in an array if the [verordeningsObjectFromGET] is an Article and has Children
     const verordeningsLedenFromGETReducer = (state, action) => {
         const newState = clonedeep(state)
 
         switch (action.type) {
-            case "initialize":
+            case 'initialize':
                 return action.initObject
-            case "changeValue":
+            case 'changeValue':
                 newState[action.index][action.name] = action.value
                 return newState
-            case "changeValueForAllLeden":
+            case 'changeValueForAllLeden':
                 newState.forEach((lid, index) => {
                     newState[index][action.name] = action.value
                 })
                 return newState
-            case "removeSpecificIndex":
+            case 'removeSpecificIndex':
                 newState.splice(action.index, 1)
                 return newState
-            case "resetAllWerkingsgebieden":
-                newState.forEach((lid) => (lid.Gebied = null))
+            case 'resetAllWerkingsgebieden':
+                newState.forEach(lid => (lid.Gebied = null))
                 return newState
-            case "setValueForAll":
-                newState.forEach((lid) => (lid.Gebied = action.value))
+            case 'setValueForAll':
+                newState.forEach(lid => (lid.Gebied = action.value))
                 return newState
-            case "cancel":
+            case 'cancel':
                 return null
             default:
                 return state
         }
     }
 
-    const [verordeningsLedenFromGET, setVerordeningsLedenFromGET] =
-        React.useReducer(verordeningsLedenFromGETReducer, null)
+    const [verordeningsLedenFromGET, setVerordeningsLedenFromGET] = useReducer(
+        verordeningsLedenFromGETReducer,
+        null
+    )
 
     // GET request for [UUIDBeingEdited] to get the whole object, then setInState under [verordeningsObjectFromGET] and set [verordeningsObjectIsLoading] to null
-    React.useEffect(() => {
+    useEffect(() => {
         if (UUIDBeingEdited === null) return
 
         // Get the regulation object based on the UUID (UUIDBeingEdited)
@@ -204,24 +205,24 @@ const MuteerVerordeningenstructuurDetail = () => {
 
         axios
             .get(`/version/verordeningen/${UUIDBeingEdited}?limit=1`)
-            .then((res) => {
+            .then(res => {
                 const initObject = formatGeldigheidDatesForUI(res.data)
                 setVerordeningsObjectFromGET({
-                    type: "initialize",
+                    type: 'initialize',
                     initObject: initObject,
                 })
 
                 // If GET Object is of the type 'Artikel' we check if the article has leden with getLedenOfArticle()
                 // If that is the case we need to get them from the API, so we postpone setting setVerordeningsObjectIsLoading(false)
                 // We will do that after getting the leden
-                if (res.data.Type === "Artikel") {
+                if (res.data.Type === 'Artikel') {
                     getLedenOfArticle()
                 } else {
                     setVerordeningsObjectIsLoading(false)
                     setVerordeningsObjectLedenIsLoading(false)
                 }
             })
-            .catch((err) => {
+            .catch(err => {
                 console.log(err)
                 toast(process.env.REACT_APP_ERROR_MSG)
                 setVerordeningsObjectLedenIsLoading(false)
@@ -237,14 +238,14 @@ const MuteerVerordeningenstructuurDetail = () => {
         const createNewVerordeningObject = async () => {
             try {
                 const data = await axios
-                    .post("/verordeningen", {
-                        Titel: "",
-                        Inhoud: "",
-                        Status: "Vigerend",
-                        Type: addSectionType ? addSectionType : "Hoofdstuk",
-                        Volgnummer: "",
+                    .post('/verordeningen', {
+                        Titel: '',
+                        Inhoud: '',
+                        Status: 'Vigerend',
+                        Type: addSectionType ? addSectionType : 'Hoofdstuk',
+                        Volgnummer: '',
                     })
-                    .then((res) => res.data)
+                    .then(res => res.data)
                 return data
             } catch (err) {
                 console.log(err)
@@ -252,7 +253,7 @@ const MuteerVerordeningenstructuurDetail = () => {
             }
         }
 
-        createNewVerordeningObject().then((newObject) => {
+        createNewVerordeningObject().then(newObject => {
             const lineageObject = {
                 Children: [],
                 Inhoud: newObject.Inhoud,
@@ -317,17 +318,17 @@ const MuteerVerordeningenstructuurDetail = () => {
 
     const editContentOfArticle = ({ type }) => {
         // Make new Leden object, then place the Lid object as the new child
-        const createNewVerordeningsLid = async (inhoud = "") => {
+        const createNewVerordeningsLid = async (inhoud = '') => {
             try {
                 const data = await axios
-                    .post("/verordeningen", {
-                        Titel: "",
+                    .post('/verordeningen', {
+                        Titel: '',
                         Inhoud: inhoud,
-                        Status: "Vigerend",
-                        Type: "Lid",
-                        Volgnummer: "",
+                        Status: 'Vigerend',
+                        Type: 'Lid',
+                        Volgnummer: '',
                     })
-                    .then((res) => res.data)
+                    .then(res => res.data)
                 return data
             } catch (err) {
                 console.log(err)
@@ -336,39 +337,39 @@ const MuteerVerordeningenstructuurDetail = () => {
         }
 
         switch (type) {
-            case "convertToLidInhoud":
+            case 'convertToLidInhoud':
                 createNewVerordeningsLid(verordeningsObjectFromGET.Inhoud).then(
-                    (newObject) => {
+                    newObject => {
                         setVerordeningsObjectFromGET({
-                            type: "changeValue",
-                            name: "Inhoud",
-                            value: "",
+                            type: 'changeValue',
+                            name: 'Inhoud',
+                            value: '',
                         })
                         setVerordeningsLedenFromGET({
-                            type: "initialize",
+                            type: 'initialize',
                             initObject: [newObject],
                         })
                     }
                 )
                 break
-            case "convertToArtikelInhoud":
+            case 'convertToArtikelInhoud':
                 const lidInhoud = verordeningsLedenFromGET[0].Inhoud
                 setVerordeningsObjectFromGET({
-                    type: "changeLidToArtikelInhoud",
-                    name: "Inhoud",
+                    type: 'changeLidToArtikelInhoud',
+                    name: 'Inhoud',
                     value: lidInhoud,
                 })
-                setVerordeningsLedenFromGET({ type: "cancel" })
+                setVerordeningsLedenFromGET({ type: 'cancel' })
                 break
-            case "addLidToArticle":
-                createNewVerordeningsLid().then((newObject) => {
+            case 'addLidToArticle':
+                createNewVerordeningsLid().then(newObject => {
                     setVerordeningsObjectFromGET({
-                        type: "changeValue",
-                        name: "Inhoud",
-                        value: "",
+                        type: 'changeValue',
+                        name: 'Inhoud',
+                        value: '',
                     })
                     setVerordeningsLedenFromGET({
-                        type: "initialize",
+                        type: 'initialize',
                         initObject: [...verordeningsLedenFromGET, newObject],
                     })
                 })
@@ -420,24 +421,24 @@ const MuteerVerordeningenstructuurDetail = () => {
         }
 
         // Get an array of axios Promises that return the Leden objects
-        const getAllLeden = ledenOfArtikel.map((lid) =>
+        const getAllLeden = ledenOfArtikel.map(lid =>
             axios
                 .get(`/version/verordeningen/${lid.UUID}`)
-                .then((res) => res.data)
-                .catch((err) => console.log(err))
+                .then(res => res.data)
+                .catch(err => console.log(err))
         )
 
         // After all the promises are resolved we set the state
         Promise.all(getAllLeden)
-            .then((ledenFromAPI) => {
+            .then(ledenFromAPI => {
                 setVerordeningsLedenFromGET({
-                    type: "initialize",
+                    type: 'initialize',
                     initObject: ledenFromAPI,
                 })
                 setVerordeningsObjectIsLoading(false)
                 setVerordeningsObjectLedenIsLoading(false)
             })
-            .catch((err) => {
+            .catch(err => {
                 console.log(err)
                 toast(process.env.REACT_APP_ERROR_MSG)
                 setVerordeningsObjectIsLoading(false)
@@ -453,25 +454,25 @@ const MuteerVerordeningenstructuurDetail = () => {
     const history = useHistory()
 
     // After first render
-    React.useEffect(() => {
+    useEffect(() => {
         const searchParams = location.search
         if (searchParams) {
             const activeChapterFromURL = searchParams.slice(
-                searchParams.search("=") + 1,
+                searchParams.search('=') + 1,
                 searchParams.length
             )
             setActiveChapter(activeChapterFromURL)
         }
 
         if (!lineageID || isNaN(lineageID)) {
-            handleError("Deze verordening bestaat niet")
+            handleError('Deze verordening bestaat niet')
             return
         }
 
         // Get Lineage
         const getLineage = axios
             .get(`/verordeningstructuur/${lineageID}`)
-            .then((res) => {
+            .then(res => {
                 // Handle empty res
                 if (!res.data || !res.data[0]) {
                     toast(process.env.REACT_APP_ERROR_MSG)
@@ -483,18 +484,18 @@ const MuteerVerordeningenstructuurDetail = () => {
                 setLineage(lineage)
                 setLineageCopy(lineage)
             })
-            .catch((err) => {
+            .catch(err => {
                 console.log(err)
                 toast(process.env.REACT_APP_ERROR_MSG)
             })
 
         const getUsers = axios
-            .get("/gebruikers")
-            .then((res) => {
+            .get('/gebruikers')
+            .then(res => {
                 const gebruikers = res.data
                 setUsers(gebruikers)
             })
-            .catch((err) => {
+            .catch(err => {
                 console.log(err)
                 toast(process.env.REACT_APP_ERROR_MSG)
             })
@@ -502,10 +503,10 @@ const MuteerVerordeningenstructuurDetail = () => {
         Promise.all([getLineage, getUsers]).then(() => setDataLoaded(true))
     }, [])
 
-    React.useEffect(() => {
+    useEffect(() => {
         // Eventlistener for closing editing modes with the Escape key
-        const closeOnEscape = (e) => {
-            if (e.key === "Escape") {
+        const closeOnEscape = e => {
+            if (e.key === 'Escape') {
                 if (editOrderMode) {
                     setEditOrderMode(false)
                     cancelReorder()
@@ -515,12 +516,12 @@ const MuteerVerordeningenstructuurDetail = () => {
                 }
             }
         }
-        window.addEventListener("keydown", closeOnEscape)
-        return () => window.removeEventListener("keydown", closeOnEscape)
+        window.addEventListener('keydown', closeOnEscape)
+        return () => window.removeEventListener('keydown', closeOnEscape)
     }, [editOrderMode, addSectionMode])
 
     // Reorder sections for all four levels
-    const onDragEnd = (result) => {
+    const onDragEnd = result => {
         // onDragEnd gets passed into the Beautiful Drag n Drop components to reorder
         // The reordering is done based on the Type of the result parameter
 
@@ -609,16 +610,14 @@ const MuteerVerordeningenstructuurDetail = () => {
 
                 // Create a new array by mapping over the childrenOfActiveChapter
                 // If the UUID of the mapped child is equal to the sourceParentId we replace the child.Children with the reorderedChildren
-                childrenOfActiveChapter = childrenOfActiveChapter.map(
-                    (child) => {
-                        // ALS het iten.UUID overeenkomt met de sourceParentID, dan moeten we op dit child de Children property vervangen met de nieuw gesorteerde sub items
-                        // Anders returnen we enkel de originele value van child
-                        if (child.UUID === sourceParentId) {
-                            child.Children = reorderedChildren
-                        }
-                        return child
+                childrenOfActiveChapter = childrenOfActiveChapter.map(child => {
+                    // ALS het iten.UUID overeenkomt met de sourceParentID, dan moeten we op dit child de Children property vervangen met de nieuw gesorteerde sub items
+                    // Anders returnen we enkel de originele value van child
+                    if (child.UUID === sourceParentId) {
+                        child.Children = reorderedChildren
                     }
-                )
+                    return child
+                })
 
                 // Save new state
                 currentLineage.Structuur.Children[
@@ -639,16 +638,14 @@ const MuteerVerordeningenstructuurDetail = () => {
                 copyDestinationChildren.splice(destIndex, 0, draggedItem)
 
                 // Replace Children of the source parent and the destination parent
-                childrenOfActiveChapter = childrenOfActiveChapter.map(
-                    (item) => {
-                        if (item.UUID === sourceParentId) {
-                            item.Children = copySourceChildren
-                        } else if (item.UUID === destParentId) {
-                            item.Children = copyDestinationChildren
-                        }
-                        return item
+                childrenOfActiveChapter = childrenOfActiveChapter.map(item => {
+                    if (item.UUID === sourceParentId) {
+                        item.Children = copySourceChildren
+                    } else if (item.UUID === destParentId) {
+                        item.Children = copyDestinationChildren
                     }
-                )
+                    return item
+                })
 
                 // Save new state
                 currentLineage.Structuur.Children[
@@ -774,16 +771,16 @@ const MuteerVerordeningenstructuurDetail = () => {
 
         // Call reorder function based on the type
         switch (result.type) {
-            case "hoofdstukItem":
+            case 'hoofdstukItem':
                 reorderBaseLevel()
                 return
-            case "firstLevel":
+            case 'firstLevel':
                 reorderFirstLevel()
                 return
-            case "secondLevel":
+            case 'secondLevel':
                 reorderSecondLevel()
                 return
-            case "thirdLevel":
+            case 'thirdLevel':
                 reorderThirdLevel()
                 return
             default:
@@ -803,7 +800,7 @@ const MuteerVerordeningenstructuurDetail = () => {
         const IDToPatch = verordeningsObjectFromGET.ID
 
         // Func to strip away the extra properties in order to patch it
-        const cleanUpProperties = (object) => {
+        const cleanUpProperties = object => {
             // Remove values that are not accepted by the API
             delete object.Created_By
             delete object.Created_Date
@@ -815,22 +812,22 @@ const MuteerVerordeningenstructuurDetail = () => {
 
             // Remove properties with a value of null
             Object.keys(object).forEach(
-                (key) => object[key] === null && delete object[key]
+                key => object[key] === null && delete object[key]
             )
 
             const potentialObjects = [
-                "Gebied",
-                "Eigenaar_1",
-                "Eigenaar_2",
-                "Opdrachtgever",
-                "Portefeuillehouder_1",
-                "Portefeuillehouder_2",
+                'Gebied',
+                'Eigenaar_1',
+                'Eigenaar_2',
+                'Opdrachtgever',
+                'Portefeuillehouder_1',
+                'Portefeuillehouder_2',
             ]
 
-            potentialObjects.forEach((potentialObject) => {
+            potentialObjects.forEach(potentialObject => {
                 if (
                     object.hasOwnProperty(potentialObject) &&
-                    typeof object[potentialObject] === "object" &&
+                    typeof object[potentialObject] === 'object' &&
                     object[potentialObject] !== null
                 ) {
                     object[potentialObject] = object[potentialObject].UUID
@@ -841,7 +838,7 @@ const MuteerVerordeningenstructuurDetail = () => {
         }
 
         // PATCH function that returns a promise
-        const axiosPatchRegulationObject = (patchObject) => {
+        const axiosPatchRegulationObject = patchObject => {
             return axios.patch(`verordeningen/${IDToPatch}`, patchObject)
         }
 
@@ -859,7 +856,7 @@ const MuteerVerordeningenstructuurDetail = () => {
              * An example of a property that will be removed is Created_At
              * @param {object} object - The object we will return a stripped version of
              */
-            const stripPropertiesForLineage = (object) => ({
+            const stripPropertiesForLineage = object => ({
                 Inhoud: object.Inhoud,
                 Titel: object.Titel,
                 Type: object.Type,
@@ -883,8 +880,8 @@ const MuteerVerordeningenstructuurDetail = () => {
              * @returns the cleaned 'obj' parameter
              */
             const removeExistingProperties = (obj, existingObj) => {
-                Object.keys(existingObj).forEach((key) => {
-                    if (key === "Children") return
+                Object.keys(existingObj).forEach(key => {
+                    if (key === 'Children') return
                     delete obj[key]
                 })
                 return obj
@@ -895,7 +892,7 @@ const MuteerVerordeningenstructuurDetail = () => {
              * @param {number} depth - Contains the depth of the object in the lineage
              * @returns the corresponding object
              */
-            const getObjectInLineage = (depth) => {
+            const getObjectInLineage = depth => {
                 if (depth === 1) {
                     return clonedeep(newLineage.Structuur.Children[index[0]])
                 } else if (depth === 2) {
@@ -932,7 +929,7 @@ const MuteerVerordeningenstructuurDetail = () => {
             const objectFromLineage = getObjectInLineage(depthOfObject)
 
             // if (!patchLeden && )
-            if (!patchLeden && objectFromLineage.Type !== "Artikel") {
+            if (!patchLeden && objectFromLineage.Type !== 'Artikel') {
                 strippedObject.Children = objectFromLineage.Children
             }
 
@@ -971,46 +968,42 @@ const MuteerVerordeningenstructuurDetail = () => {
             formatGeldigheidDatesForAPI(verordeningsObjectFromGET)
         )
 
-        axiosPatchRegulationObject(newRegulationObject).then((res) => {
+        axiosPatchRegulationObject(newRegulationObject).then(res => {
             let patchedRegulationObject = res.data
 
             // Check if object if of type Artikel and if it has Leden
-            const isArticle = newRegulationObject.Type === "Artikel"
+            const isArticle = newRegulationObject.Type === 'Artikel'
             const hasChildren =
                 verordeningsLedenFromGET && verordeningsLedenFromGET.length > 0
             // If object is an article and has Leden
             if (isArticle && hasChildren && !addSectionType) {
-                const patchPromisesLeden = verordeningsLedenFromGET.map(
-                    (lid) => {
-                        const lidID = lid.ID
-                        const cleanedUpLid = cleanUpProperties(lid)
-                        return axios
-                            .patch(`verordeningen/${lidID}`, cleanedUpLid)
-                            .then((res) => {
-                                const object = formatGeldigheidDatesForUI(
-                                    res.data
-                                )
-                                return {
-                                    Inhoud: object.Inhoud,
-                                    Type: object.Type,
-                                    UUID: object.UUID,
-                                    Titel: object.Titel,
-                                    Children: [],
-                                    Volgnummer: object.Volgnummer,
-                                }
-                            })
-                    }
-                )
+                const patchPromisesLeden = verordeningsLedenFromGET.map(lid => {
+                    const lidID = lid.ID
+                    const cleanedUpLid = cleanUpProperties(lid)
+                    return axios
+                        .patch(`verordeningen/${lidID}`, cleanedUpLid)
+                        .then(res => {
+                            const object = formatGeldigheidDatesForUI(res.data)
+                            return {
+                                Inhoud: object.Inhoud,
+                                Type: object.Type,
+                                UUID: object.UUID,
+                                Titel: object.Titel,
+                                Children: [],
+                                Volgnummer: object.Volgnummer,
+                            }
+                        })
+                })
 
                 Promise.all(patchPromisesLeden)
-                    .then((patchedLeden) => {
+                    .then(patchedLeden => {
                         patchedRegulationObject.Children = patchedLeden
                         patchNewUUIDInLineage({
                             object: patchedRegulationObject,
                             patchLeden: true,
                         })
                     })
-                    .catch((err) => {
+                    .catch(err => {
                         console.log(err)
                         toast(process.env.REACT_APP_ERROR_MSG)
                     })
@@ -1043,20 +1036,20 @@ const MuteerVerordeningenstructuurDetail = () => {
                     Children: lineage.Structuur.Children,
                 },
             })
-            .then((res) => {
-                toast("Wijzigingen opgeslagen")
+            .then(res => {
+                toast('Wijzigingen opgeslagen')
                 setVerordeningsObjectIsLoading(false)
                 setPatchingInProgress(false)
                 setLineage(res.data)
                 setLineageCopy(res.data)
             })
-            .catch((err) => {
+            .catch(err => {
                 console.log(err)
                 toast(process.env.REACT_APP_ERROR_MSG)
             })
     }
 
-    const removeObject = (index) => {
+    const removeObject = index => {
         const depthOfObject = index.length
         const newLineage = clonedeep(lineage)
 
@@ -1088,7 +1081,7 @@ const MuteerVerordeningenstructuurDetail = () => {
         setLineageCopy(newLineage)
     }
 
-    const changeActiveChapter = (hoofdstukNummer) => {
+    const changeActiveChapter = hoofdstukNummer => {
         if (hoofdstukNummer !== null) {
             const parsedHoofdstukNummer = parseInt(hoofdstukNummer)
             setActiveChapter(parsedHoofdstukNummer)
@@ -1097,8 +1090,8 @@ const MuteerVerordeningenstructuurDetail = () => {
         }
     }
 
-    const handleError = (msg) => {
-        history.push("/muteer/verordeningen")
+    const handleError = msg => {
+        history.push('/muteer/verordeningen')
         toast(msg)
     }
 
@@ -1111,7 +1104,7 @@ const MuteerVerordeningenstructuurDetail = () => {
     }
 
     const isActiveChapter =
-        activeChapter || activeChapter === "0" || activeChapter === 0
+        activeChapter || activeChapter === '0' || activeChapter === 0
 
     const hoofdstukItems = lineage ? lineage.Structuur.Children : null
 
@@ -1124,7 +1117,7 @@ const MuteerVerordeningenstructuurDetail = () => {
         lineage && isActiveChapter
             ? lineage.Structuur.Children[activeChapter]
             : null
-    const backToText = isActiveChapter ? "verordening" : "verordeningen"
+    const backToText = isActiveChapter ? 'verordening' : 'verordeningen'
 
     const backToLink = isActiveChapter
         ? `/muteer/verordeningen/${lineage.ID}`
@@ -1164,7 +1157,7 @@ const MuteerVerordeningenstructuurDetail = () => {
     }
 
     return (
-        <React.Fragment>
+        <>
             <VerordeningContext.Provider value={context}>
                 <Helmet>
                     <title>Omgevingsbeleid - {`Beheer Verordening`}</title>
@@ -1174,13 +1167,11 @@ const MuteerVerordeningenstructuurDetail = () => {
                     <Link
                         to={backToLink}
                         className={`text-gray-600 text-l mb-4 inline-block`}
-                        id="button-back-to-previous-page"
                         onClick={() => {
                             if (isActiveChapter) {
                                 setActiveChapter(null)
                             }
-                        }}
-                    >
+                        }}>
                         <FontAwesomeIcon className="mr-2" icon={faAngleLeft} />
                         <span>Terug naar {backToText}</span>
                     </Link>
@@ -1190,8 +1181,7 @@ const MuteerVerordeningenstructuurDetail = () => {
                     <Transition
                         show={dataLoaded}
                         className="flex w-full"
-                        id="regulation-container"
-                    >
+                        id="regulation-container">
                         <div className={`inline-block w-2/3 mb-20`}>
                             <div className="text-gray-800 bg-white rounded shadow-lg">
                                 <EditAddOrderSection
@@ -1258,7 +1248,7 @@ const MuteerVerordeningenstructuurDetail = () => {
                     ) : null}
                 </ContainerMain>
             </VerordeningContext.Provider>
-        </React.Fragment>
+        </>
     )
 }
 

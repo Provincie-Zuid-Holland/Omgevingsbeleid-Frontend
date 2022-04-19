@@ -1,19 +1,18 @@
 /* istanbul ignore file */
-import React from "react"
 
 import {
     faGripLines,
     faSave,
     faTimes,
     faTrash,
-} from "@fortawesome/pro-regular-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Transition } from "@headlessui/react"
+} from '@fortawesome/pro-regular-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Transition } from '@headlessui/react'
+import { useContext, useLayoutEffect, useRef, useState } from 'react'
+import { toast } from 'react-toastify'
 
-import CrudDropdown from "./../CrudDropdown"
-
-import VerordeningContext from "./../VerordeningContext"
-import { toast } from "react-toastify"
+import CrudDropdown from './../CrudDropdown'
+import VerordeningContext from './../VerordeningContext'
 
 function VerordeningObjectContent({ item, index, pathToIndex }) {
     let {
@@ -30,28 +29,28 @@ function VerordeningObjectContent({ item, index, pathToIndex }) {
         patchRegulationObject,
         setVerordeningsObjectFromGET,
         editContentOfArticle,
-    } = React.useContext(VerordeningContext)
+    } = useContext(VerordeningContext)
 
     const volgnummer = item.Volgnummer
 
     const getStylesBasedOnType = () => {
         switch (item.Type) {
-            case "Afdeling":
-                return "pl-5 bg-pzh-blue-super-light text-gray-900"
-            case "Paragraaf":
-                return "pl-5 bg-pzh-blue-super-light text-gray-900"
+            case 'Afdeling':
+                return 'pl-5 bg-pzh-blue-super-light text-gray-900'
+            case 'Paragraaf':
+                return 'pl-5 bg-pzh-blue-super-light text-gray-900'
             default:
-                return ""
+                return ''
         }
     }
 
     const getTitlePrepend = () => {
         switch (item.Type) {
-            case "Afdeling":
+            case 'Afdeling':
                 return `Afdeling ${volgnummer} - `
-            case "Paragraaf":
+            case 'Paragraaf':
                 return `§ ${volgnummer} `
-            case "Artikel":
+            case 'Artikel':
                 return `Artikel ${volgnummer} `
             default:
                 return null
@@ -76,19 +75,17 @@ function VerordeningObjectContent({ item, index, pathToIndex }) {
         itemHasLeden = item && item.Children.length > 0
     }
 
-    const isArtikel = item.Type === "Artikel"
+    const isArtikel = item.Type === 'Artikel'
 
     return (
         <div
             className={`bg-white mb-2
-                ${userIsEditingOrder ? "cursor-hover hover:bg-gray-50" : ""}
-            `}
-        >
+                ${userIsEditingOrder ? 'cursor-hover hover:bg-gray-50' : ''}
+            `}>
             <div
                 className={`flex items-center relative ${
-                    editingThisItemAndIsLoaded ? "" : "pr-12"
-                } font-bold block py-3 ${getStylesBasedOnType()}`}
-            >
+                    editingThisItemAndIsLoaded ? '' : 'pr-12'
+                } font-bold block py-3 ${getStylesBasedOnType()}`}>
                 <ReorderIcon userIsEditingOrder={userIsEditingOrder} />
                 {editingThisItemAndIsLoaded ? (
                     <TitleEditing
@@ -109,18 +106,17 @@ function VerordeningObjectContent({ item, index, pathToIndex }) {
                     <span
                         className={`transition ease-in-out duration-100 transform ${
                             userIsEditingOrder
-                                ? "translate-x-8"
-                                : "translate-x-0"
+                                ? 'translate-x-8'
+                                : 'translate-x-0'
                         }
                         ${
                             UUIDBeingEdited && !editingthisItem
-                                ? "opacity-50"
-                                : "opacity-100"
-                        }`}
-                    >
+                                ? 'opacity-50'
+                                : 'opacity-100'
+                        }`}>
                         {getTitlePrepend()}
 
-                        {item.Titel ? item.Titel : ""}
+                        {item.Titel ? item.Titel : ''}
                     </span>
                 )}
                 {!userIsEditingOrder && !userIsAddingSections ? (
@@ -142,46 +138,44 @@ function VerordeningObjectContent({ item, index, pathToIndex }) {
             </div>
 
             {editingThisItemAndIsLoaded && !itemHasLeden && isArtikel ? (
-                <React.Fragment>
+                <>
                     <TextArea
-                        onChange={(e) => {
+                        onChange={e => {
                             setVerordeningsObjectFromGET({
-                                type: "changeValue",
+                                type: 'changeValue',
                                 value: e.target.value,
-                                name: "Inhoud",
+                                name: 'Inhoud',
                             })
                         }}
                         value={
                             verordeningsObjectFromGET.Inhoud
                                 ? verordeningsObjectFromGET.Inhoud
-                                : ""
+                                : ''
                         }
                     />
                     <span className="mt-2 text-sm text-gray-700">
-                        Dit artikel heeft geen leden.{" "}
+                        Dit artikel heeft geen leden.{' '}
                         <span
                             className="underline cursor-pointer"
                             onClick={() =>
                                 editContentOfArticle({
-                                    type: "convertToLidInhoud",
+                                    type: 'convertToLidInhoud',
                                 })
-                            }
-                        >
+                            }>
                             Zet bovenstaand veld om naar lid 1.
                         </span>
                     </span>
-                </React.Fragment>
+                </>
             ) : !itemHasLeden && isArtikel ? (
                 <p
                     className={`width-full transition-opacity duration-100 ease-in-out block pr-2 whitespace-pre-line 
-                    ${item.Inhoud ? "pb-4" : ""}
+                    ${item.Inhoud ? 'pb-4' : ''}
                     ${
                         UUIDBeingEdited && !editingthisItem
-                            ? "opacity-50"
-                            : "opacity-100"
+                            ? 'opacity-50'
+                            : 'opacity-100'
                     }
-                    `}
-                >
+                    `}>
                     {item.Inhoud}
                 </p>
             ) : null}
@@ -215,16 +209,15 @@ const DeleteIcon = ({
             <button
                 onClick={() => {
                     setVerordeningsLedenFromGET({
-                        type: "removeSpecificIndex",
+                        type: 'removeSpecificIndex',
                         index: index,
                     })
                     setVerordeningsObjectFromGET({
-                        type: "removeSpecificIndexOfLeden",
+                        type: 'removeSpecificIndexOfLeden',
                         index: index,
                     })
                 }}
-                className="w-8 h-8 -mr-6 transition-shadow duration-300 ease-in bg-white rounded shadow pointer-events-auto hover:shadow-md"
-            >
+                className="w-8 h-8 -mr-6 transition-shadow duration-300 ease-in bg-white rounded shadow pointer-events-auto hover:shadow-md">
                 <FontAwesomeIcon icon={faTrash} />
             </button>
         </div>
@@ -240,21 +233,23 @@ const ReorderIcon = ({ userIsEditingOrder }) => {
             enterTo="opacity-100 scale-100 translate-x-0 transform"
             leave="transition ease-in duration-75 transform"
             leaveFrom="opacity-100 scale-100 translate-x-0 transform"
-            leaveTo="opacity-0 scale-95 -translate-x-2 transform"
-        >
+            leaveTo="opacity-0 scale-95 -translate-x-2 transform">
             <FontAwesomeIcon className="absolute" icon={faGripLines} />
         </Transition>
     )
 }
 
 const LedenView = ({ item, transparent }) => {
-    const listOfLeden = item.Children.filter((e) => e.Type === "Lid")
+    const listOfLeden = item.Children.filter(e => e.Type === 'Lid')
     if (listOfLeden.length === 0) return null
 
     return (
-        <ol className={`pb-4 ${transparent ? "opacity-50" : "opacity-100"}`}>
-            {listOfLeden.map((lid) => (
-                <li className="pb-1 whitespace-pre-line" id={lid.UUID}>
+        <ol className={`pb-4 ${transparent ? 'opacity-50' : 'opacity-100'}`}>
+            {listOfLeden.map(lid => (
+                <li
+                    key={lid.UUID}
+                    className="pb-1 whitespace-pre-line"
+                    id={lid.UUID}>
                     {lid.Inhoud}
                 </li>
             ))}
@@ -263,7 +258,6 @@ const LedenView = ({ item, transparent }) => {
 }
 
 const LedenEdit = ({
-    item,
     verordeningsLedenFromGET,
     setVerordeningsLedenFromGET,
     setVerordeningsObjectFromGET,
@@ -275,15 +269,15 @@ const LedenEdit = ({
             {verordeningsLedenFromGET.map((lid, index) => (
                 <div key={lid.UUID} className="relative">
                     <TextArea
-                        onChange={(e) =>
+                        onChange={e =>
                             setVerordeningsLedenFromGET({
-                                type: "changeValue",
+                                type: 'changeValue',
                                 index: index,
                                 value: e.target.value,
-                                name: "Inhoud",
+                                name: 'Inhoud',
                             })
                         }
-                        value={lid.Inhoud ? lid.Inhoud : ""}
+                        value={lid.Inhoud ? lid.Inhoud : ''}
                     />
                     <DeleteIcon
                         setVerordeningsLedenFromGET={
@@ -302,22 +296,20 @@ const LedenEdit = ({
                         className="mt-2 mr-2 text-sm text-gray-700 underline cursor-pointer"
                         onClick={() =>
                             editContentOfArticle({
-                                type: "addLidToArticle",
+                                type: 'addLidToArticle',
                             })
-                        }
-                    >
+                        }>
                         + Lid toevoegen
                     </span>
                     <span className="mt-2 text-sm text-gray-700">
-                        Dit artikel bestaat uit leden.{" "}
+                        Dit artikel bestaat uit leden.{' '}
                         <span
                             className="underline cursor-pointer"
                             onClick={() =>
                                 editContentOfArticle({
-                                    type: "convertToArtikelInhoud",
+                                    type: 'convertToArtikelInhoud',
                                 })
-                            }
-                        >
+                            }>
                             Zet lid 1 om naar artikelinhoud
                         </span>
                     </span>
@@ -327,10 +319,9 @@ const LedenEdit = ({
                     className="mt-2 mr-2 text-sm text-gray-700 underline cursor-pointer"
                     onClick={() =>
                         editContentOfArticle({
-                            type: "addLidToArticle",
+                            type: 'addLidToArticle',
                         })
-                    }
-                >
+                    }>
                     + Lid toevoegen
                 </span>
             )}
@@ -339,12 +330,12 @@ const LedenEdit = ({
 }
 
 const TextArea = ({ children, onChange, value }) => {
-    const [style, setStyle] = React.useState({
+    const [style, setStyle] = useState({
         height: null,
     })
-    const ref = React.useRef()
+    const ref = useRef()
 
-    React.useLayoutEffect(() => {
+    useLayoutEffect(() => {
         const textAreaEl = ref.current
         // + 2 for the border, else the scrollbar turns on
         const height = textAreaEl.scrollHeight + 2
@@ -358,8 +349,7 @@ const TextArea = ({ children, onChange, value }) => {
             ref={ref}
             style={style}
             className="w-full px-4 py-2 text-gray-800 border rounded-md"
-            value={value}
-        ></textarea>
+            value={value}></textarea>
     )
 }
 
@@ -376,7 +366,7 @@ const TitleEditing = ({
         const artikelHasGebied = verordeningsObjectFromGET.Gebied
         if (verordeningsLedenFromGET) {
             const allLedenHaveGebied = verordeningsLedenFromGET.every(
-                (e) => e.Gebied
+                e => e.Gebied
             )
             return artikelHasGebied || allLedenHaveGebied
         } else {
@@ -388,18 +378,17 @@ const TitleEditing = ({
         <div className={`w-full font-bold rounded`}>
             <div
                 className={`flex items-center ${
-                    item.Type === "Afdeling" ? "pr-2" : ""
-                }`}
-            >
+                    item.Type === 'Afdeling' ? 'pr-2' : ''
+                }`}>
                 <span>{item.Type}</span>
                 <input
                     type="text"
                     value={verordeningsObjectFromGET.Volgnummer}
-                    onChange={(e) => {
+                    onChange={e => {
                         setVerordeningsObjectFromGET({
-                            type: "changeValue",
+                            type: 'changeValue',
                             value: e.target.value,
-                            name: "Volgnummer",
+                            name: 'Volgnummer',
                         })
                     }}
                     id="form-inline-volgnummer"
@@ -411,11 +400,11 @@ const TitleEditing = ({
                     type="text"
                     id="form-inline-title"
                     value={verordeningsObjectFromGET.Titel}
-                    onChange={(e) => {
+                    onChange={e => {
                         setVerordeningsObjectFromGET({
-                            type: "changeValue",
+                            type: 'changeValue',
                             value: e.target.value,
-                            name: "Titel",
+                            name: 'Titel',
                         })
                     }}
                     className="inline-block w-full ml-2 font-bold form-input "
@@ -426,10 +415,10 @@ const TitleEditing = ({
                         const werkingsGebiedenHasValue =
                             checkForWerkingsgebied()
                         if (
-                            item.Type === "Artikel" &&
+                            item.Type === 'Artikel' &&
                             !werkingsGebiedenHasValue
                         ) {
-                            toast("Selecteer een werkingsgebied")
+                            toast('Selecteer een werkingsgebied')
                             return
                         }
                         patchRegulationObject()
@@ -439,10 +428,10 @@ const TitleEditing = ({
                     cancel={() => {
                         setUUIDBeingEdited(null)
                         setVerordeningsObjectFromGET({
-                            type: "cancel",
+                            type: 'cancel',
                         })
                         setVerordeningsLedenFromGET({
-                            type: "cancel",
+                            type: 'cancel',
                         })
                     }}
                 />
@@ -455,8 +444,7 @@ const SaveButton = ({ save }) => {
     return (
         <button
             onClick={save}
-            className="flex items-center self-stretch justify-center px-3 ml-1 text-lg text-white bg-green-500 rounded hover:bg-pzh-green"
-        >
+            className="flex items-center self-stretch justify-center px-3 ml-1 text-lg text-white bg-green-500 rounded hover:bg-pzh-green">
             <FontAwesomeIcon icon={faSave} />
         </button>
     )
@@ -466,8 +454,7 @@ const CancelButton = ({ cancel }) => {
     return (
         <button
             className="flex items-center self-stretch justify-center px-3 ml-1 text-lg text-white rounded bg-pzh-blue hover:bg-pzh-blue-dark"
-            onClick={cancel}
-        >
+            onClick={cancel}>
             <FontAwesomeIcon icon={faTimes} />
         </button>
     )

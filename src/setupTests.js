@@ -1,23 +1,34 @@
 // src/setupTests.js
-import { server } from "./mocks/server.js"
+import { server } from './mocks/server'
 
 // https://stackoverflow.com/questions/54382414/fixing-react-leaflet-testing-error-cannot-read-property-layeradd-of-null/54384719#54384719
-var createElementNSOrig = global.document.createElementNS
+const createElementNSOrig = global.document.createElementNS
 global.document.createElementNS = function (namespaceURI, qualifiedName) {
     if (
-        namespaceURI === "http://www.w3.org/2000/svg" &&
-        qualifiedName === "svg"
+        namespaceURI === 'http://www.w3.org/2000/svg' &&
+        qualifiedName === 'svg'
     ) {
-        var element = createElementNSOrig.apply(this, arguments)
+        const element = createElementNSOrig.apply(this, arguments)
         element.createSVGRect = function () {}
         return element
     }
     return createElementNSOrig.apply(this, arguments)
 }
 
+const createMockMediaMatcher = matches => qs => ({
+    matches: matches[qs] ?? false,
+    addListener: () => {},
+    removeListener: () => {},
+})
+
 // Establish API mocking before all tests.
 beforeAll(() => {
     server.listen()
+
+    window.matchMedia = createMockMediaMatcher({
+        '(min-width: 500px)': true,
+        '(min-width: 1000px)': false,
+    })
 })
 
 // Reset any request handlers that we may add during the tests,
