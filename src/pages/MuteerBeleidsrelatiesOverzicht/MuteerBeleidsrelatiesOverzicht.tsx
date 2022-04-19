@@ -8,7 +8,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
-import { Link, RouteComponentProps, withRouter } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import { BeleidskeuzesRead, BeleidsrelatiesRead } from '@/api/fetchers.schemas'
 import { LoaderBeleidsrelatieRegel } from '@/components/Loader'
@@ -26,7 +26,7 @@ type BeleidsKeuzeObject = {
     VerzoekArray: BeleidsrelatiesRead[]
 }
 
-interface MuteerBeleidsrelatiesOverzichtProps extends RouteComponentProps {
+interface MuteerBeleidsrelatiesOverzichtProps {
     beleidsrelaties: BeleidsrelatiesRead[]
     beleidskeuzes: BeleidskeuzesRead[]
     parentDataLoaded?: boolean
@@ -275,4 +275,4 @@ const MuteerBeleidsrelatiesOverzicht = ({
     )
 }
 
-export default withRouter(MuteerBeleidsrelatiesOverzicht)
+export default MuteerBeleidsrelatiesOverzicht

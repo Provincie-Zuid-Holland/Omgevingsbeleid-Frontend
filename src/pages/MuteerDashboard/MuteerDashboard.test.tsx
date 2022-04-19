@@ -2,7 +2,13 @@ import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import '@testing-library/jest-dom'
 
+import AuthProvider from '@/context/AuthContext'
+
 import MuteerDashboard from './MuteerDashboard'
+
+import { QueryClient, QueryClientProvider } from 'react-query'
+
+const queryClient = new QueryClient()
 
 describe('MuteerDashboard', () => {
     const defaultProps = {}
@@ -11,7 +17,11 @@ describe('MuteerDashboard', () => {
         const props = { ...defaultProps, ...customProps }
         render(
             <MemoryRouter>
-                <MuteerDashboard {...props} />
+                <QueryClientProvider client={queryClient}>
+                    <AuthProvider>
+                        <MuteerDashboard {...props} />
+                    </AuthProvider>
+                </QueryClientProvider>
             </MemoryRouter>
         )
     }

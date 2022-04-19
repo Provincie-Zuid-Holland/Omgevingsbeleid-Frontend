@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react'
-import { MemoryRouter, Route } from 'react-router-dom'
+import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import '@testing-library/jest-dom'
 
 import { beleidskeuzes } from '@/mocks/data/beleidskeuzes'
@@ -16,9 +16,12 @@ describe('MuteerBeleidsrelatiesDetail', () => {
 
         render(
             <MemoryRouter initialEntries={[initialEntries]}>
-                <Route path={path}>
-                    <MuteerBeleidsrelatiesDetail {...props} />
-                </Route>
+                <Routes>
+                    <Route
+                        path={path}
+                        element={<MuteerBeleidsrelatiesDetail {...props} />}
+                    />
+                </Routes>
             </MemoryRouter>
         )
     }

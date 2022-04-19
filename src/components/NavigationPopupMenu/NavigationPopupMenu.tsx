@@ -6,7 +6,7 @@ import {
 } from '@fortawesome/pro-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useLockBodyScroll, useWindowSize } from 'react-use'
 
 import { Container } from '../Container'
@@ -33,6 +33,7 @@ const NavigationPopupMenu = ({
     isOpen,
     setIsOpen,
 }: NavigationPopupMenuProps) => {
+    const location = useLocation()
     const windowSize = useWindowSize()
     useLockBodyScroll(isOpen)
     const [bannerAdjustedOffsetTop, setBannerAdjustedOffsetTop] = useState({})
@@ -213,9 +214,12 @@ const NavigationPopupMenu = ({
                                         text="Netwerkvisualisatie"
                                         setIsOpen={setIsOpen}
                                         to="/netwerkvisualisatie"
-                                        onKeyDown={(
-                                            e: React.KeyboardEvent<HTMLAnchorElement>
-                                        ) => {
+                                        state={{
+                                            from:
+                                                location.pathname +
+                                                location.search,
+                                        }}
+                                        onKeyDown={(e: any) => {
                                             if (
                                                 e.key === 'Tab' &&
                                                 !e.shiftKey
@@ -279,6 +283,7 @@ const ToggleMenuButton = ({
 interface ListItemProps {
     text: string
     to: string
+    state?: any
     setIsOpen: (e: boolean) => void
     onKeyDown?: React.KeyboardEventHandler<HTMLAnchorElement>
     targetBlank?: boolean
@@ -287,6 +292,7 @@ interface ListItemProps {
 const ListItem = ({
     text = '',
     to = '#',
+    state,
     setIsOpen,
     onKeyDown,
     targetBlank = false,
@@ -313,6 +319,7 @@ const ListItem = ({
             <Link
                 onKeyDown={onKeyDown}
                 to={to}
+                state={state}
                 onClick={() => setIsOpen(false)}
                 id={`menu-item-${text.replace(/\s+/g, '-').toLowerCase()}`}>
                 <FontAwesomeIcon className="mr-2" icon={faChevronRight} />

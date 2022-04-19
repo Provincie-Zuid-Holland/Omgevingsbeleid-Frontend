@@ -4,14 +4,13 @@ import {
     faChevronUp,
 } from '@fortawesome/pro-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useEffect, useRef, useState } from 'react'
-import { useHistory, useLocation } from 'react-router-dom'
-import { useLastLocation } from 'react-router-last-location'
+import { useEffect, useState } from 'react'
 import { useWindowSize } from 'react-use'
 
 import { LoaderCard } from '@/components/Loader'
 import networkGraphConnectionProperties from '@/constants/networkGraphConnectionProperties'
 import networkGraphFilterMenu from '@/constants/networkGraphFilterMenu'
+import usePreviousPage from '@/hooks/usePreviousPage'
 
 interface NetworkGraphSidebarProps {
     filters?: any
@@ -24,12 +23,7 @@ const NetworkGraphSidebar = ({
     setFilters,
     isLoading,
 }: NetworkGraphSidebarProps) => {
-    /**
-     * History is set to push a custom url when the graph is Open
-     */
-    const history = useHistory()
-    const location = useLocation()
-    const lastLocation = useLastLocation()
+    const { back } = usePreviousPage()
     const windowSize = useWindowSize()
 
     const [isOpen, setIsOpen] = useState(true)
@@ -43,28 +37,11 @@ const NetworkGraphSidebar = ({
         }
     }, [windowSize])
 
-    /** Set initial lastLocation, as the networkGraph can update the URL */
-    const lastLocationRef = useRef(lastLocation)
-
-    const goBack = () => {
-        if (
-            lastLocationRef?.current?.pathname &&
-            lastLocationRef?.current?.pathname !== location.pathname
-        ) {
-            const lastLocationUrl =
-                lastLocationRef?.current?.pathname +
-                lastLocationRef?.current?.search
-            history.push(lastLocationUrl)
-        } else {
-            history.push('/')
-        }
-    }
-
     return (
         <div className="w-full px-4 pr-4 mt-10 mb-4 lg:pl-6 lg:ml-10 lg:w-1/4">
             <div
                 className="mb-6 text-sm text-pzh-blue cursor-pointer opacity-75 hover:opacity-100 transition-opacity ease-in duration-100 inline-block"
-                onClick={() => goBack()}>
+                onClick={() => back()}>
                 <FontAwesomeIcon className="mr-2" icon={faArrowLeft} />
                 <span>Vorige pagina</span>
             </div>

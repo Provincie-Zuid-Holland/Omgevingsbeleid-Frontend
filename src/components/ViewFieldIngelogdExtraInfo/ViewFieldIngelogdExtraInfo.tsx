@@ -1,11 +1,11 @@
 import { faLink } from '@fortawesome/pro-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useCallback, useContext, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
-import UserContext from '@/App/UserContext'
 import * as BELEIDSKEUZES from '@/constants/beleidskeuzes'
 import * as MAATREGELEN from '@/constants/maatregelen'
+import useAuth from '@/hooks/useAuth'
 
 const eigenarenProperties = [
     'Eigenaar_1',
@@ -37,7 +37,7 @@ const ViewFieldIngelogdExtraInfo = ({
     const [canUserEdit, setCanUserEdit] = useState(false)
     const [eigenaren, setEigenaren] = useState<{ [key: string]: any }>({})
 
-    const { user } = useContext(UserContext)
+    const { user } = useAuth()
 
     useEffect(() => {
         const newEigenaren: { [key: string]: any } = {}

@@ -1,6 +1,6 @@
 import { faAngleLeft } from '@fortawesome/pro-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { withRouter, Link, RouteComponentProps } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 /**
  * Displays a button link which brings the user to a previous page.
@@ -10,7 +10,7 @@ import { withRouter, Link, RouteComponentProps } from 'react-router-dom'
  * @param {string} url - Contains the URL location where the button link is linked to.
  */
 
-interface ButtonBackToPageProps extends RouteComponentProps {
+interface ButtonBackToPageProps {
     terugNaar: string
     color?: string
     url: string
@@ -29,4 +29,4 @@ const ButtonBackToPage = ({ terugNaar, color, url }: ButtonBackToPageProps) => {
     )
 }
 
-export default withRouter(ButtonBackToPage)
+export default ButtonBackToPage

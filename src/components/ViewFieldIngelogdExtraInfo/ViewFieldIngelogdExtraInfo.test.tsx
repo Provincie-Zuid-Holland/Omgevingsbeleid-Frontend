@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { MemoryRouter } from 'react-router-dom'
 
-import UserContext from '@/App/UserContext'
+import { AuthContext } from '@/context/AuthContext'
 import { beleidskeuzeMock } from '@/mocks/data/crudObjects'
 
 import ViewFieldIngelogdExtraInfo from './ViewFieldIngelogdExtraInfo'
@@ -16,9 +16,9 @@ describe('ViewFieldIngelogdExtraInfo', () => {
         const props = { ...defaultProps, ...customProps }
         render(
             <MemoryRouter>
-                <UserContext.Provider value={{ user: { UUID: '0001' } }}>
+                <AuthContext.Provider value={{ user: { UUID: '0001' } } as any}>
                     <ViewFieldIngelogdExtraInfo {...props} />
-                </UserContext.Provider>
+                </AuthContext.Provider>
             </MemoryRouter>
         )
     }

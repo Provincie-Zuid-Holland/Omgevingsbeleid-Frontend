@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
+import { BrowserRouter } from 'react-router-dom'
 
 import Pagination from './Pagination'
 
@@ -31,7 +32,11 @@ describe('Pagination', () => {
         const props = customProps
             ? { ...defaultProps, ...customProps }
             : defaultProps
-        render(<Pagination {...props} />)
+        render(
+            <BrowserRouter>
+                <Pagination {...props} />
+            </BrowserRouter>
+        )
     }
 
     it('Component renders', () => {

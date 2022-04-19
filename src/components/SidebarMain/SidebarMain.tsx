@@ -1,10 +1,8 @@
-import { useContext } from 'react'
-
-import UserContext from '@/App/UserContext'
 import {
     menuItemsOmgevingsbeleid,
     menuItemsBeheer,
 } from '@/constants/menuItems'
+import useAuth from '@/hooks/useAuth'
 
 import MenuItemsList from '../MenuItemsList'
 
@@ -12,7 +10,7 @@ import MenuItemsList from '../MenuItemsList'
  * @returns The main sidebar component for the mutate environment
  */
 function SidebarMain() {
-    const { user } = useContext(UserContext)
+    const { user } = useAuth()
 
     const username = user ? user.Gebruikersnaam : null
     const userRole = user ? user.Rol : null

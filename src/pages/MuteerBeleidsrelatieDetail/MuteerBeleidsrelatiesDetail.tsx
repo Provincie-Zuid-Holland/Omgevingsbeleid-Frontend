@@ -1,12 +1,7 @@
 import { faAngleLeft, faPlus } from '@fortawesome/pro-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useEffect, useState } from 'react'
-import {
-    Link,
-    withRouter,
-    useParams,
-    RouteComponentProps,
-} from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 import {
@@ -35,7 +30,7 @@ import TabRequests from './TabRequests'
  * Here the user can accept, reject, delete existing, and create new relations between beleidskeuzes.
  */
 
-interface MuteerBeleidsrelatiesDetailProps extends RouteComponentProps {
+interface MuteerBeleidsrelatiesDetailProps {
     updateBeleidsrelaties: (
         UUID?: string,
         status?: BeleidsrelatiesReadStatus
@@ -447,4 +442,4 @@ const MuteerBeleidsrelatiesDetail = ({
     )
 }
 
-export default withRouter(MuteerBeleidsrelatiesDetail)
+export default MuteerBeleidsrelatiesDetail

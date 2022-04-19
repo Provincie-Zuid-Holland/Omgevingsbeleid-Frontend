@@ -3,13 +3,11 @@ import {
     screen,
     waitForElementToBeRemoved,
     waitFor,
-    fireEvent,
-    prettyDOM,
 } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { MemoryRouter } from 'react-router-dom'
 
-import UserContext from '@/App/UserContext'
+import { AuthContext } from '@/context/AuthContext'
 import { beleidskeuzes } from '@/mocks/data/beleidskeuzes'
 import { maatregelen } from '@/mocks/data/maatregelen'
 
@@ -22,9 +20,9 @@ describe('MijnBeleid', () => {
         const props = { ...defaultProps, ...customProps }
         render(
             <MemoryRouter>
-                <UserContext.Provider value={{ user: { UUID: '0001' } }}>
+                <AuthContext.Provider value={{ user: { UUID: '0001' } } as any}>
                     <MijnBeleid {...props} />
-                </UserContext.Provider>
+                </AuthContext.Provider>
             </MemoryRouter>
         )
     }

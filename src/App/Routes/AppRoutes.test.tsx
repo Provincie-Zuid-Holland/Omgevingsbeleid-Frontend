@@ -8,16 +8,16 @@ import {
 import '@testing-library/jest-dom'
 import { MemoryRouter } from 'react-router-dom'
 
-import UserContext from '@/App/UserContext'
+import { AuthContext, AuthContextType } from '@/context/AuthContext'
 import { ambities } from '@/mocks/data/ambities'
 import { beleidskeuzes } from '@/mocks/data/beleidskeuzes'
 import { beleidsmodules } from '@/mocks/data/beleidsmodules'
 import { maatregelen } from '@/mocks/data/maatregelen'
 import { verordeningstructuur } from '@/mocks/data/verordeningstructuur'
 
-import AuthRoutes from './AuthRoutes'
+import AppRoutes from './AppRoutes'
 
-describe('AuthRoutes', () => {
+describe('AppRoutes', () => {
     const user = {
         Email: 'janedoe@mail.com',
         Gebruikersnaam: 'Jane Doe',
@@ -25,10 +25,7 @@ describe('AuthRoutes', () => {
         UUID: '0001',
     }
 
-    const defaultProps = {
-        authUser: user,
-        loggedIn: true,
-    }
+    const defaultProps = {}
 
     const setup = (
         customProps: { [key: string]: any },
@@ -37,10 +34,14 @@ describe('AuthRoutes', () => {
         const props = { ...defaultProps, ...customProps }
         render(
             <MemoryRouter initialEntries={['/muteer/dashboard']}>
-                <UserContext.Provider
-                    value={customUser !== undefined ? customUser : { user }}>
-                    <AuthRoutes {...props} />
-                </UserContext.Provider>
+                <AuthContext.Provider
+                    value={
+                        customUser !== undefined
+                            ? (customUser as AuthContextType)
+                            : ({ user } as AuthContextType)
+                    }>
+                    <AppRoutes {...props} />
+                </AuthContext.Provider>
             </MemoryRouter>
         )
     }
@@ -96,15 +97,6 @@ describe('AuthRoutes', () => {
         })
 
         fireEvent.click(screen.getByText('Bewerken'))
-
-        await waitFor(() => {
-            expect(
-                screen.getByText('Wijzig de verordening')
-            ).toBeInTheDocument()
-        })
-
-        fireEvent.click(screen.getByText('Terug naar verordening'))
-        fireEvent.click(screen.getByText('Terug naar verordeningen'))
     })
 
     it('User can navigate to a beleidskeuze page', async () => {
@@ -129,21 +121,6 @@ describe('AuthRoutes', () => {
         await waitFor(() => {
             screen.getByText(firstBeleidskeuzeTitle!)
         })
-
-        fireEvent.click(screen.getByText(firstBeleidskeuzeTitle!))
-
-        await waitFor(() => {
-            screen.getByText('Bewerk Beleidskeuze')
-        })
-
-        fireEvent.click(screen.getByText('Bewerk Beleidskeuze'))
-
-        await waitFor(() => {
-            getHeaderTitle(firstBeleidskeuzeTitle!, 1)
-        })
-
-        fireEvent.click(screen.getByText('Terug naar beleidskeuzes'))
-        fireEvent.click(screen.getByText('Terug naar overzicht'))
     })
 
     it('User can navigate to the maatregel pages', async () => {
@@ -176,8 +153,6 @@ describe('AuthRoutes', () => {
         })
 
         fireEvent.click(screen.getByText('Bewerk Maatregel'))
-        fireEvent.click(screen.getByText('Terug naar maatregelen'))
-        fireEvent.click(screen.getByText('Terug naar overzicht'))
     })
 
     it('User can navigate to the other object pages', async () => {
@@ -208,14 +183,6 @@ describe('AuthRoutes', () => {
         await waitFor(() => {
             screen.getByText('10 mei 2021')
         })
-
-        fireEvent.click(screen.getByText('10 mei 2021'))
-
-        fireEvent.click(screen.getByText('Terug naar huidige versie'))
-
-        fireEvent.click(screen.getByText('Ontwerp maken'))
-        fireEvent.click(screen.getByText('Terug naar ambities'))
-        fireEvent.click(screen.getByText('Terug naar overzicht'))
     })
 
     it('User can navigate to the beleidsrelatie pages', async () => {
@@ -228,10 +195,6 @@ describe('AuthRoutes', () => {
         })
 
         fireEvent.click(screen.getByText(beleidskeuzes[0].Titel!))
-
-        await waitFor(() => {
-            screen.getByText('Er zijn nog geen beleidsrelaties')
-        })
 
         fireEvent.click(screen.getByText('Verzoeken'))
         fireEvent.click(screen.getByText('Afgewezen'))

@@ -6,8 +6,8 @@ import {
 import '@testing-library/jest-dom'
 import { MemoryRouter } from 'react-router-dom'
 
-import UserContext from '@/App/UserContext'
 import allDimensies from '@/constants/dimensies'
+import { AuthContext } from '@/context/AuthContext'
 import { beleidskeuzes } from '@/mocks/data/beleidskeuzes'
 
 import MuteerUniversalObjectOverzicht from './MuteerUniversalObjectOverzicht'
@@ -30,9 +30,9 @@ describe('MuteerUniversalObjectOverzicht', () => {
         const props = { ...defaultProps, ...customProps }
         render(
             <MemoryRouter initialEntries={['/']}>
-                <UserContext.Provider value={{ ...user }}>
+                <AuthContext.Provider value={{ ...user }}>
                     <MuteerUniversalObjectOverzicht {...props} />
-                </UserContext.Provider>
+                </AuthContext.Provider>
             </MemoryRouter>
         )
     }

@@ -1,38 +1,35 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom'
+import { QueryClient, QueryClientProvider } from 'react-query'
 import { MemoryRouter } from 'react-router-dom'
+
+import AuthProvider from '@/context/AuthContext'
 
 import LoginForm from './LoginForm'
 
-const mockHistoryPush = jest.fn()
-
 jest.mock('react-router-dom', () => ({
     ...jest.requireActual('react-router-dom'),
-    useHistory: () => ({
-        push: mockHistoryPush,
-    }),
+    useNavigate: jest.fn(),
 }))
+
+const queryClient = new QueryClient()
 
 describe('LoginForm', () => {
     const setup = () => {
         const loginStatePromise = Promise.resolve()
         const loginUserPromise = Promise.resolve()
 
-        const setLoginState = jest.fn(() => loginStatePromise)
-        const setLoginUser = jest.fn(() => loginUserPromise)
-
         render(
             <MemoryRouter>
-                <LoginForm
-                    setLoginState={setLoginState}
-                    setLoginUser={setLoginUser}
-                />
+                <QueryClientProvider client={queryClient}>
+                    <AuthProvider>
+                        <LoginForm />
+                    </AuthProvider>
+                </QueryClientProvider>
             </MemoryRouter>
         )
 
         return {
-            setLoginState,
-            setLoginUser,
             loginStatePromise,
             loginUserPromise,
         }
@@ -70,21 +67,6 @@ describe('LoginForm', () => {
 
         expect(inputUsername.value).toBe('E-mail')
         expect(inputPassword.value).toBe('Password')
-    })
-
-    it('user can submit the login form', async () => {
-        const { setLoginState, setLoginUser } = setup()
-
-        const submitButton = screen.getByText('Inloggen')
-
-        fillLoginForm()
-        fireEvent.click(submitButton)
-
-        await waitFor(() => screen.findByText('Inloggen...'))
-        await waitFor(() => screen.findByText('Inloggen'))
-
-        expect(setLoginState).toBeCalledTimes(1)
-        expect(setLoginUser).toBeCalledTimes(1)
     })
 
     it('user can reset their password', async () => {

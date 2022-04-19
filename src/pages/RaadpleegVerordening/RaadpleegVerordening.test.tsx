@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import { MemoryRouter, Route } from 'react-router-dom'
+import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import '@testing-library/jest-dom'
 
 import RaadpleegVerordening from './RaadpleegVerordening'
@@ -16,10 +16,17 @@ describe('RaadpleegVerordening', () => {
         render(
             <MemoryRouter initialEntries={[path]}>
                 <QueryClientProvider client={queryClient}>
-                    <Route path={path}>
-                        <div id="top-navigation" />
-                        <RaadpleegVerordening {...props} />
-                    </Route>
+                    <Routes>
+                        <Route
+                            path={path}
+                            element={
+                                <>
+                                    <div id="top-navigation" />
+                                    <RaadpleegVerordening {...props} />
+                                </>
+                            }
+                        />
+                    </Routes>
                 </QueryClientProvider>
             </MemoryRouter>
         )
