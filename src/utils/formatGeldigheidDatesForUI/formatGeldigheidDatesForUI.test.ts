@@ -10,8 +10,8 @@ describe('formatGeldigheidDatesForUI', () => {
         const formattedCrudObject = formatGeldigheidDatesForUI(crudObject)
 
         expect(formattedCrudObject).toMatchObject({
-            Begin_Geldigheid: '2021-01-05',
-            Eind_Geldigheid: '2030-12-31',
+            Begin_Geldigheid: '2021-01-04T23:00:00.000Z',
+            Eind_Geldigheid: '2030-12-31T22:00:00.000Z',
         })
     })
 })
