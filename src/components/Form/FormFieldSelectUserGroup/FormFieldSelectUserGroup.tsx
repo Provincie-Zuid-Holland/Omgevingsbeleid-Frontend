@@ -1,4 +1,4 @@
-import { FormikSelect, FieldLabel } from '@pzh-ui/components'
+import { FormikSelect } from '@pzh-ui/components'
 import { useFormikContext } from 'formik'
 import { useCallback, useEffect, useState } from 'react'
 
@@ -8,9 +8,6 @@ import {
     GebruikersRead,
     MaatregelenWrite,
 } from '@/api/fetchers.schemas'
-import { LoaderSelect } from '@/components/Loader'
-
-import FormFieldSelectUser from '../FormFieldSelectUser'
 
 interface OptionType {
     value: string
@@ -52,7 +49,7 @@ const FormFieldSelectUserGroup = ({
     disabled,
 }: FormFieldSelectUserGroupProps) => {
     const { values } = useFormikContext<BeleidskeuzesWrite | MaatregelenWrite>()
-    const { data: userList, isLoading } = useGetGebruikers()
+    const { data: userList } = useGetGebruikers()
     const [formattedUserList, setFormattedUserList] =
         useState<FormattedUserList>(initialState)
 
@@ -123,7 +120,12 @@ const FormFieldSelectUserGroup = ({
     }, [values, userList, filterAndFormatUserList])
 
     return (
-        <>
+        <div
+            className={
+                disabled
+                    ? 'cursor-not-allowed pointer-events-none opacity-50'
+                    : ''
+            }>
             <span className="text-pzh-blue-dark bold">Personen</span>
             <div className="w-1/2">
                 <div className="mr-2">
@@ -176,7 +178,7 @@ const FormFieldSelectUserGroup = ({
                     />
                 </div>
             </div>
-        </>
+        </div>
     )
 }
 

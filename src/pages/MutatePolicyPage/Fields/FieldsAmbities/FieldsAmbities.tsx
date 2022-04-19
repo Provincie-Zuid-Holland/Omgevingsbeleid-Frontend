@@ -12,7 +12,6 @@ const FieldsAmbities = ({}: FieldsAmbitiesProps) => (
             <FormikInput
                 label="Titel"
                 description="Formuleer in enkele woorden de titel van deze ambitie."
-                optimized={true}
                 name="Titel"
                 type="text"
             />
@@ -24,7 +23,6 @@ const FieldsAmbities = ({}: FieldsAmbitiesProps) => (
             <FormikTextArea
                 label="Omschrijving"
                 description="Geef een korte omschrijving van deze ambitie"
-                optimized={true}
                 name="Omschrijving"
             />
         </ContainerFormSection>
@@ -35,25 +33,20 @@ const FieldsAmbities = ({}: FieldsAmbitiesProps) => (
             <FormikInput
                 label="IDMS"
                 description="Vul hier de link in naar het besluitdocument op IDMS. (Eigenschappen > Algemeen > Snelkoppeling kopiëren)."
-                optimized={true}
                 name="Weblink"
                 type="text"
                 className="mb-6"
             />
-
             <FormikDate
                 label="Inwerkingtreding"
                 description="Indien bekend, kan hier de datum van inwerkingtreding worden ingevuld"
-                optimized={true}
                 name="Begin_Geldigheid"
                 className="mb-6"
             />
-
             <FormikDate
                 label="Uitwerkingtreding"
                 description="Indien bekend, kan hier de datum van uitwerkingtreding worden ingevuld"
                 placeholderText="dd-mm-jjjj"
-                optimized={true}
                 name="Eind_Geldigheid"
             />
         </ContainerFormSection>

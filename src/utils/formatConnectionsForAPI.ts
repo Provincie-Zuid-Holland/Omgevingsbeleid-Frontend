@@ -4,60 +4,77 @@ import {
     BeleidskeuzesRead,
     BeleidskeuzesWrite,
     ListReference,
+    MaatregelenRead,
+    MaatregelenWrite,
 } from '@/api/fetchers.schemas'
 import { filteredDimensieConstants } from '@/constants/dimensies'
-import { MutateWriteObjects } from '@/types/dimensions'
+import { MutateReadObjects, MutateWriteObjects } from '@/types/dimensions'
 
-const beleidskeuzesConnectionProperties = {
-    Ambities: undefined,
-    Belangen: undefined,
-    Beleidsdoelen: undefined,
-    Beleidsprestaties: undefined,
-    Beleidsregels: undefined,
-    Maatregelen: undefined,
-    Themas: undefined,
-    Verordeningen: undefined,
-    Werkingsgebieden: undefined,
-} as const
-
-const getProperties = (
-    titleSingular: filteredDimensieConstants['TITLE_SINGULAR']
-) => {
-    const getPropertiesOfObject = (
-        obj: typeof beleidskeuzesConnectionProperties
-    ) => (Object.keys(obj) as Array<keyof typeof obj>).map(key => key)
-
-    switch (titleSingular) {
-        case 'Beleidskeuze':
-            return getPropertiesOfObject(beleidskeuzesConnectionProperties)
-        default:
-            return null
-    }
-}
-
-/** Currently we only need to format connections for Beleidskeuze objects */
+/**
+ * In this function we format the connections to other policy objects, and the GEO connections
+ * The geo connections can exist in singular form on the Gebied property and in plural form on the Werkingsgebieden property
+ */
 const formatConnectionsForAPI = (
-    crudObject: MutateWriteObjects,
+    crudObject: MutateReadObjects,
     titleSingular: filteredDimensieConstants['TITLE_SINGULAR']
 ) => {
-    const properties = getProperties(titleSingular)
-    if (!properties || titleSingular !== 'Beleidskeuze')
-        return crudObject as BeleidskeuzesWrite
+    if (titleSingular !== 'Beleidskeuze' && titleSingular !== 'Maatregel') {
+        return crudObject as MutateWriteObjects
+    }
 
-    const formattedCrudObject: BeleidskeuzesRead = cloneDeep(
-        crudObject as BeleidskeuzesRead
-    )
-    properties.forEach(property => {
-        const originalConnection = formattedCrudObject[property]
-        if (originalConnection) {
-            const formattedConnections: ListReference[] =
-                originalConnection.map(connection => ({
-                    Koppeling_Omschrijving: connection.Koppeling_Omschrijving,
+    if (titleSingular === 'Beleidskeuze') {
+        const formattedBeleidskeuze: BeleidskeuzesRead = cloneDeep(
+            crudObject as BeleidskeuzesRead
+        )
+
+        const beleidskeuzeConnectionProperties = [
+            'Ambities',
+            'Belangen',
+            'Beleidsdoelen',
+            'Beleidsprestaties',
+            'Beleidsregels',
+            'Maatregelen',
+            'Themas',
+            'Verordeningen',
+        ] as const
+
+        beleidskeuzeConnectionProperties.forEach(property => {
+            const originalConnection = formattedBeleidskeuze[property]
+            if (originalConnection) {
+                const formattedConnections: ListReference[] =
+                    originalConnection.map(connection => ({
+                        Koppeling_Omschrijving:
+                            connection.Koppeling_Omschrijving,
+                        UUID: connection?.Object?.UUID,
+                    }))
+                formattedBeleidskeuze[property] = formattedConnections
+            }
+        })
+
+        if (
+            'Werkingsgebieden' in formattedBeleidskeuze &&
+            formattedBeleidskeuze.Werkingsgebieden !== undefined
+        ) {
+            const formattedWerkingsgebieden: ListReference[] =
+                formattedBeleidskeuze.Werkingsgebieden.map(connection => ({
                     UUID: connection?.Object?.UUID,
                 }))
-            formattedCrudObject[property] = formattedConnections
+            formattedBeleidskeuze.Werkingsgebieden = formattedWerkingsgebieden
         }
-    })
-    return formattedCrudObject as BeleidskeuzesWrite
+
+        return formattedBeleidskeuze as BeleidskeuzesWrite
+    } else if (titleSingular === 'Maatregel') {
+        const formattedMaatregel: MaatregelenWrite = cloneDeep(
+            crudObject as MaatregelenWrite
+        )
+
+        if ('Gebied' in crudObject && crudObject.Gebied !== undefined) {
+            formattedMaatregel.Gebied = (
+                crudObject as MaatregelenRead
+            ).Gebied!.UUID!
+        }
+
+        return formattedMaatregel
+    }
 }
 export default formatConnectionsForAPI

@@ -6,39 +6,25 @@ import {
 } from '@fortawesome/pro-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Transition } from '@headlessui/react'
+import { FieldLabel } from '@pzh-ui/components'
 import { useFormikContext } from 'formik'
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
 import { getWerkingsgebieden } from '@/api/fetchers'
-import {
-    BeleidskeuzesWrite,
-    MaatregelenWrite,
-    WerkingsgebiedenRead,
-} from '@/api/fetchers.schemas'
+import { WerkingsgebiedenRead } from '@/api/fetchers.schemas'
 import { PopupContainer } from '@/components/Popup'
 import formatDate from '@/utils/formatDate'
 
-import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving'
-
-/**
- * Displays a form field in which a user can select a Werkingsgebied.
- *
- * @param {function} werkingsgebiedInParentState - Function to get Werkingsgebied from parent state
- * @param {string} dataObjectProperty - Containing a string with the werkingsgebied
- * @param {string} titleSingular - Parameter containing the title of the object in a singular form.
- * @param {string} label - Label of the field
- * @param {string} description - Paragraph value of the field, containing a description
- * @param {boolean} disabled - Used to disable the FormFieldTitelEnBeschrijving component.
- */
-
-interface FormikWerkingsgebiedProps {
+export interface FormikWerkingsgebiedProps {
     dataObjectProperty: 'Gebied' | 'Werkingsgebieden'
     titleSingular: string
     label: string
     description: string
     disabled?: boolean
 }
+
+type parentStateHandlerTypes = 'ADD_CONNECTION' | 'REMOVE_CONNECTION'
 
 const FormikWerkingsgebied = ({
     dataObjectProperty,
@@ -47,20 +33,23 @@ const FormikWerkingsgebied = ({
     description,
     disabled,
 }: FormikWerkingsgebiedProps) => {
-    const { values, setFieldValue } = useFormikContext<
-        BeleidskeuzesWrite | MaatregelenWrite
-    >()
+    const { values, setFieldValue } = useFormikContext<any>()
 
-    const werkingsgebiedInParentState =
-        values[dataObjectProperty as keyof typeof values]
+    const werkingsgebiedInParentState = values[dataObjectProperty]
 
-    const parentStateHandler = (type: string, newValue: any) => {
+    const parentStateHandler = (
+        type: parentStateHandlerTypes,
+        newValue?: any
+    ) => {
         switch (type) {
             case 'ADD_CONNECTION':
                 setFieldValue(dataObjectProperty, newValue)
                 break
             case 'REMOVE_CONNECTION':
-                setFieldValue(dataObjectProperty, null)
+                setFieldValue(
+                    dataObjectProperty,
+                    dataObjectProperty === 'Gebied' ? null : []
+                )
                 break
             default:
                 break
@@ -72,9 +61,7 @@ const FormikWerkingsgebied = ({
         useState<WerkingsgebiedenRead | null>(null)
 
     useEffect(() => {
-        if (!werkingsgebiedInParentState) {
-            return
-        } else if (dataObjectProperty === 'Gebied') {
+        if (dataObjectProperty === 'Gebied') {
             setWerkingsgebied(werkingsgebiedInParentState)
         } else if (dataObjectProperty === 'Werkingsgebieden') {
             if (werkingsgebiedInParentState && werkingsgebiedInParentState[0]) {
@@ -87,10 +74,10 @@ const FormikWerkingsgebied = ({
 
     return (
         <>
-            <FormFieldTitelEnBeschrijving
+            <FieldLabel
                 label={label}
                 description={description}
-                disabled={disabled}
+                name={dataObjectProperty}
             />
             <div
                 className={`flex flex-wrap mb-6 -mx-3 ${
@@ -104,7 +91,6 @@ const FormikWerkingsgebied = ({
                     <CardSelectedWerkingsgebied
                         show={!!werkingsgebied}
                         setPopupOpen={setPopupOpen}
-                        dataObjectProperty={dataObjectProperty}
                         parentStateHandler={parentStateHandler}
                         werkingsgebied={werkingsgebied}
                     />
@@ -144,8 +130,7 @@ const FormikWerkingsgebied = ({
 
 interface CardSelectedWerkingsgebiedProps {
     setPopupOpen: (state: boolean) => void
-    parentStateHandler: (type: string, newValue: any) => void
-    dataObjectProperty: string
+    parentStateHandler: (type: parentStateHandlerTypes, newValue?: any) => void
     werkingsgebied: WerkingsgebiedenRead | null
     show?: boolean
 }
@@ -153,7 +138,6 @@ interface CardSelectedWerkingsgebiedProps {
 const CardSelectedWerkingsgebied = ({
     setPopupOpen,
     parentStateHandler,
-    dataObjectProperty,
     werkingsgebied,
     show,
 }: CardSelectedWerkingsgebiedProps) => {
@@ -185,15 +169,7 @@ const CardSelectedWerkingsgebied = ({
                     <span
                         className="absolute bottom-0 left-0 px-5 py-5 text-sm text-red-600 underline transition-colors duration-100 ease-in cursor-pointer hover:text-red-800"
                         onClick={() => {
-                            parentStateHandler({
-                                target: {
-                                    name: dataObjectProperty,
-                                    value:
-                                        dataObjectProperty === 'Gebied'
-                                            ? null
-                                            : [],
-                                },
-                            })
+                            parentStateHandler('REMOVE_CONNECTION')
                         }}
                         id={`form-field-werkingsgebied-ontkoppelen`}>
                         Dit werkingsgebied ontkoppelen
@@ -236,7 +212,7 @@ const CardSelectedWerkingsgebied = ({
 interface WerkingsgebiedPopupProps {
     show?: boolean
     close: () => void
-    parentStateHandler: (type: string, newValue: any) => void
+    parentStateHandler: (type: parentStateHandlerTypes, newValue?: any) => void
     dataObjectProperty: string
 }
 
@@ -275,25 +251,13 @@ const WerkingsgebiedPopup = ({
 
     const setInParent = (gebied: WerkingsgebiedenRead) => {
         if (dataObjectProperty === 'Gebied') {
-            // Array containing the UUID's
-            parentStateHandler({
-                target: {
-                    name: dataObjectProperty,
-                    value: gebied,
-                },
-            })
+            parentStateHandler('ADD_CONNECTION', gebied)
         } else if (dataObjectProperty === 'Werkingsgebieden') {
-            // Single string of UUID
-            parentStateHandler({
-                target: {
-                    name: dataObjectProperty,
-                    value: [
-                        {
-                            Object: gebied,
-                        },
-                    ],
+            parentStateHandler('ADD_CONNECTION', [
+                {
+                    Object: gebied,
                 },
-            })
+            ])
         }
     }
 

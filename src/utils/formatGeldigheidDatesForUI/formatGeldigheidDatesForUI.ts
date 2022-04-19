@@ -1,15 +1,11 @@
 import { isValid } from 'date-fns'
 
-import { MutateWriteObjects } from '@/types/dimensions'
-
-import formatDate from '../formatDate'
-
 /**
  * Format Begin_Geldigheid and Eind_Geldigheid in order to display them in the UI
  * @param {object} crudObject - Object containing the dates
  * @returns {object} Returns the crudObject with formatted dates
  */
-const formatGeldigheidDatesForUI = (crudObject: MutateWriteObjects) => {
+const formatGeldigheidDatesForUI = (crudObject: any) => {
     /** Format Begin_Geldigheid */
     const beginGeldigheidIsValid =
         crudObject.Begin_Geldigheid !== undefined &&
@@ -17,10 +13,7 @@ const formatGeldigheidDatesForUI = (crudObject: MutateWriteObjects) => {
         isValid(new Date(crudObject.Begin_Geldigheid))
 
     if (beginGeldigheidIsValid && crudObject.Begin_Geldigheid) {
-        crudObject.Begin_Geldigheid = formatDate(
-            new Date(crudObject.Begin_Geldigheid),
-            'yyyy-MM-dd'
-        )
+        crudObject.Begin_Geldigheid = new Date(crudObject.Begin_Geldigheid)
     } else if (crudObject.Begin_Geldigheid === 'Invalid Date') {
         crudObject.Begin_Geldigheid = null as any
     }
@@ -38,10 +31,7 @@ const formatGeldigheidDatesForUI = (crudObject: MutateWriteObjects) => {
         crudObject.Eind_Geldigheid &&
         crudObject.Eind_Geldigheid !== eindGeldigheidNullValue
     ) {
-        crudObject.Eind_Geldigheid = formatDate(
-            new Date(crudObject.Eind_Geldigheid),
-            'yyyy-MM-dd'
-        )
+        crudObject.Eind_Geldigheid = new Date(crudObject.Eind_Geldigheid)
     } else if (
         crudObject.Eind_Geldigheid === 'Invalid Date' ||
         crudObject.Eind_Geldigheid === eindGeldigheidNullValue
@@ -61,10 +51,7 @@ const formatGeldigheidDatesForUI = (crudObject: MutateWriteObjects) => {
         besluitDatumIsValid &&
         crudObject.Besluit_Datum
     ) {
-        crudObject.Besluit_Datum = formatDate(
-            new Date(crudObject.Besluit_Datum),
-            'yyyy-MM-dd'
-        )
+        crudObject.Besluit_Datum = new Date(crudObject.Besluit_Datum)
     } else if (
         'Besluit_Datum' in crudObject &&
         crudObject.Besluit_Datum === 'Invalid Date'

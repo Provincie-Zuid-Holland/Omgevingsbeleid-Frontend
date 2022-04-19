@@ -20,7 +20,7 @@ export const getLatestObjectFromLineage = (
         | BeleidsmodulesRead
     >,
     titleSingular: filteredDimensieConstants['TITLE_SINGULAR'],
-    modus: string | undefined
+    modus: string | null
 ) => {
     const isMaatregelOrBeleidskeuze =
         titleSingular === 'Beleidskeuze' || titleSingular === 'Maatregel'

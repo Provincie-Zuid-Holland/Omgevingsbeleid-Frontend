@@ -15,12 +15,11 @@ function FieldsBelang({}: FieldsBelangProps) {
         <>
             <ContainerFormSection
                 titel="Algemene informatie"
-                beschrijving="De algemene informatie bevat een duidelijke titel.">
+                beschrijving="De algemene informatie bevat een duidelijke titel en de mogelijkheid om aan te geven of het om een nationaal belang gaat, of een wettelijke taak of bevoegdheid.">
                 <FormFieldInputContainer>
                     <FormikInput
                         label="Titel"
                         description="Formuleer in enkele woorden de titel van dit nationaal belang of deze wettelijke taak."
-                        optimized={true}
                         name="Titel"
                         type="text"
                         className="mb-6"
@@ -59,8 +58,7 @@ function FieldsBelang({}: FieldsBelangProps) {
                     name="Weblink"
                     label="IDMS"
                     placeholder="IDMS"
-                    description="Vul hier
-                     de link in naar het besluitdocument op IDMS. (Eigenschappen > Algemeen > Snelkoppeling kopiëren)."
+                    description="Vul hier de link in naar het besluitdocument op IDMS. (Eigenschappen > Algemeen > Snelkoppeling kopiëren)."
                 />
 
                 <FormikDate

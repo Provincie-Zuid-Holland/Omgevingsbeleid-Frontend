@@ -1,5 +1,3 @@
-import { KeyboardEvent, MouseEvent } from 'react'
-
 /**
  * Displays a fixed placed submit button.
  */

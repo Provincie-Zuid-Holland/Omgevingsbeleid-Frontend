@@ -44,7 +44,6 @@ export type DimensionType =
     | 'artikel'
 
 export type MutateReadObjects =
-    | VerordeningenRead
     | ThemasRead
     | MaatregelenRead
     | BeleidsregelsRead
@@ -56,7 +55,6 @@ export type MutateReadObjects =
     | AmbitiesRead
 
 export type MutateWriteObjects =
-    | VerordeningenWrite
     | ThemasWrite
     | MaatregelenWrite
     | BeleidsregelsWrite

@@ -8,8 +8,8 @@ import { MutateWriteObjects } from '@/types/dimensions'
 function formatDatesForAPI(crudObject: MutateWriteObjects) {
     const formattedCrudObject = cloneDeep(crudObject) as MutateWriteObjects
 
-    const formatDate = (
-        crudObj: MutateWriteObjects,
+    const formatDateValue = (
+        crudObj: any,
         property: 'Begin_Geldigheid' | 'Eind_Geldigheid' | 'Besluit_Datum'
     ) => {
         if (property === 'Besluit_Datum') {
@@ -17,25 +17,21 @@ function formatDatesForAPI(crudObject: MutateWriteObjects) {
                 if (crudObj[property] === '') {
                     crudObj[property] = undefined
                 } else if (crudObj[property]) {
-                    crudObj[property] = new Date(
-                        crudObj[property]!
-                    ).toISOString()
+                    crudObj[property] = crudObj[property].toISOString()
                 }
             }
         } else if (property in crudObj) {
             if (crudObj[property] === '') {
                 crudObj[property] = undefined
             } else if (crudObj[property]) {
-                crudObj[property] = new Date(crudObj[property]!).toISOString()
+                crudObj[property] = crudObj[property].toISOString()
             }
         }
-
-        return crudObj
     }
 
-    formatDate(formattedCrudObject, 'Begin_Geldigheid')
-    formatDate(formattedCrudObject, 'Eind_Geldigheid')
-    formatDate(formattedCrudObject, 'Besluit_Datum')
+    formatDateValue(formattedCrudObject, 'Begin_Geldigheid')
+    formatDateValue(formattedCrudObject, 'Eind_Geldigheid')
+    formatDateValue(formattedCrudObject, 'Besluit_Datum')
 
     return formattedCrudObject
 }

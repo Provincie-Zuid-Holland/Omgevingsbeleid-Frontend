@@ -17,7 +17,8 @@ export const createWriteObjectFromReadObject = (
     const writeProperties = getWriteObjectProperties(titleSingular)
     const writeObject: { [key: string]: any } = {}
     writeProperties.forEach(property => {
-        writeObject[property] = readObject[property as keyof MutateWriteObjects]
+        writeObject[property as keyof typeof writeObject] =
+            readObject[property as keyof MutateWriteObjects]
     })
     const formattedWriteObject = formatUsersForUI(writeObject)
 

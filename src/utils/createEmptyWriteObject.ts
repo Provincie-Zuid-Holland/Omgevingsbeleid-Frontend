@@ -67,7 +67,7 @@ const beleidskeuzeEmptyWrite: BeleidskeuzesWrite = {
     Portefeuillehouder_1: undefined,
     Portefeuillehouder_2: undefined,
     Provinciaal_Belang: undefined,
-    Status: undefined,
+    Status: 'Ontwerp GS Concept',
     Tags: undefined,
     Themas: undefined,
     Titel: undefined,

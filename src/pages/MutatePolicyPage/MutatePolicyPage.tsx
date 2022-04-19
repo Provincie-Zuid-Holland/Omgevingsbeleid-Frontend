@@ -1,12 +1,16 @@
 import { Form, Formik, FormikProps } from 'formik'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useContext, useRef, useState } from 'react'
+import { Helmet } from 'react-helmet'
 import { useParams, useHistory } from 'react-router-dom'
+import { useSearchParam } from 'react-use'
 
 import { GetTokeninfo200Identifier } from '@/api/fetchers.schemas'
+import UserContext from '@/App/UserContext'
 import ButtonSubmitFixed from '@/components/ButtonSubmitFixed'
 import { ContainerMain } from '@/components/Container'
+import { LoaderContent } from '@/components/Loader'
 import allDimensies from '@/constants/dimensies'
-import { MutateWriteObjects } from '@/types/dimensions'
+import { MutateWriteObjects, MutateReadObjects } from '@/types/dimensions'
 import { checkIfUserIsAllowedOnPage } from '@/utils/checkIfUserIsAllowedOnPage'
 import { createEmptyWriteObject } from '@/utils/createEmptyWriteObject'
 import { createWriteObjectFromReadObject } from '@/utils/createWriteObjectFromReadObject'
@@ -19,9 +23,11 @@ import {
     getPostForPolicy,
 } from '@/utils/getFetchers'
 import { getLatestObjectFromLineage } from '@/utils/getLatestObjectFromLineage'
+import setAanpassingOpValue from '@/utils/setAanpassingOpValue'
+import setCorrectStatus from '@/utils/setCorrectStatus'
 import { toastNotification } from '@/utils/toastNotification'
+import { useFullMutateRights } from '@/utils/useFullMutateRights'
 
-import ContainerCrudHeader from './../MuteerUniversalObjectCRUD/ContainerCrudHeader'
 import FieldsAmbities from './Fields/FieldsAmbities'
 import FieldsBelang from './Fields/FieldsBelang'
 import FieldsBeleidsdoel from './Fields/FieldsBeleidsdoel'
@@ -31,7 +37,8 @@ import FieldsBeleidsprestatie from './Fields/FieldsBeleidsprestatie'
 import FieldsBeleidsregel from './Fields/FieldsBeleidsregel'
 import FieldsMaatregel from './Fields/FieldsMaatregel'
 import FieldsThema from './Fields/FieldsThema'
-import FieldsVerordening from './Fields/FieldsVerordening'
+import MutateContext from './MutateContext'
+import MutatePolicyHeading from './MutatePolicyHeading'
 
 type filteredDimensieConstants = Exclude<
     typeof allDimensies[keyof typeof allDimensies],
@@ -67,8 +74,9 @@ const MutatePolicyPage = ({
 }: MutatePolicyPageProps) => {
     const history = useHistory()
     const formRef = useRef<FormikProps<MutateWriteObjects>>(null)
-    const { single: objectID, modus } =
-        useParams<{ single: string; modus: string | undefined }>()
+    const { single: objectID } = useParams<{ single: string | undefined }>()
+    const modus = useSearchParam('modus')
+    const { user } = useContext(UserContext)
 
     const titleSingular = dimensieConstants.TITLE_SINGULAR
     const titlePlural = dimensieConstants.TITLE_PLURAL
@@ -78,12 +86,15 @@ const MutatePolicyPage = ({
         createEmptyWriteObject(titleSingular)
     )
 
+    const userHasFullMutateRights = useFullMutateRights(user, initialValues)
+    const isVigerend =
+        'Status' in initialValues && initialValues.Status === 'Vigerend'
+
     const useGetLineage = getFetcherForPolicyLineage(titleSingular)
     const useMutatePolicyLineage = getMutationForPolicyLineage(titleSingular)
     const usePostPolicy = getPostForPolicy(titleSingular)
-
     const { isLoading: lineageIsLoading, data: lineage } = useGetLineage(
-        parseInt(objectID)
+        parseInt(objectID!)
     )
 
     const mutatePolicyLineage = useMutatePolicyLineage({
@@ -118,14 +129,13 @@ const MutatePolicyPage = ({
         },
     })
 
-    const isLoading = lineageIsLoading
-    const editStatus = true
-
     const handleFormSubmit = (formState: MutateWriteObjects) => {
         const formattedFormState = formatConnectionsForAPI(
-            formatDatesForAPI(formState),
+            formatDatesForAPI(formState) as MutateReadObjects,
             titleSingular
         )
+
+        if (!formattedFormState) return
 
         if (objectID) {
             // PATCH Lineage
@@ -150,6 +160,7 @@ const MutatePolicyPage = ({
             titleSingular,
             modus
         )
+
         if (!readObjectFromLineage) return
 
         const writeObject = createWriteObjectFromReadObject(
@@ -158,59 +169,82 @@ const MutatePolicyPage = ({
         )
         if (!writeObject) return
 
-        const formattedWriteObject = formatGeldigheidDatesForUI(writeObject)
-
-        setInitialValues(formattedWriteObject)
+        setInitialValues({
+            ...setAanpassingOpValue(
+                setCorrectStatus(
+                    formatGeldigheidDatesForUI(writeObject),
+                    modus
+                ),
+                titleSingular,
+                modus
+            ),
+        })
     }, [lineage, authUser, history, modus, titleSingular])
 
     return (
-        <Formik
-            innerRef={formRef}
-            initialValues={initialValues}
-            enableReinitialize={true}
-            onSubmit={handleFormSubmit}>
-            {({ values }) => (
-                <>
-                    <ContainerCrudHeader
-                        isLoading={isLoading}
-                        objectTitle={values?.Titel || ''}
-                        editStatus={editStatus}
-                        titelMeervoud={titlePlural}
-                        overzichtSlug={objectSlugOverviewPage || ''}
-                        titleSingular={titleSingular}
-                        objectID={objectID}
-                    />
-                    <ContainerMain className="mt-16">
-                        <Form className="w-full">
-                            {titleSingular === 'Ambitie' ? (
-                                <FieldsAmbities />
-                            ) : titleSingular === 'Beleidsmodule' ? (
-                                <FieldsBeleidsmodule />
-                            ) : titleSingular === 'Belang' ? (
-                                <FieldsBelang />
-                            ) : titleSingular === 'Beleidsregel' ? (
-                                <FieldsBeleidsregel />
-                            ) : titleSingular === 'Beleidskeuze' ? (
-                                <FieldsBeleidskeuze />
-                            ) : titleSingular === 'Maatregel' ? (
-                                <FieldsMaatregel />
-                            ) : titleSingular === 'Beleidsdoel' ? (
-                                <FieldsBeleidsdoel />
-                            ) : titleSingular === 'Beleidsprestatie' ? (
-                                <FieldsBeleidsprestatie />
-                            ) : titleSingular === 'Thema' ? (
-                                <FieldsThema />
-                            ) : titleSingular === 'Verordening' ? (
-                                <FieldsVerordening />
-                            ) : null}
-                            <ButtonSubmitFixed
-                                submit={() => handleFormSubmit(values)}
-                            />
-                        </Form>
-                    </ContainerMain>
-                </>
-            )}
-        </Formik>
+        <MutateContext.Provider
+            value={{
+                userHasFullMutateRights,
+                isVigerend,
+                hideAdditionalInfo:
+                    user?.Rol !== 'Beheerder' &&
+                    user?.Rol !== 'Functioneel beheerder' &&
+                    user?.Rol !== 'Technisch beheerder' &&
+                    user?.Rol !== 'Superuser',
+            }}>
+            <Formik
+                innerRef={formRef}
+                initialValues={initialValues}
+                enableReinitialize={true}
+                onSubmit={handleFormSubmit}>
+                {({ values }) => (
+                    <>
+                        {lineageIsLoading ? <LoaderContent /> : null}
+                        <Helmet>
+                            <title>
+                                {objectID
+                                    ? `Omgevingsbeleid - ${values?.Titel || ''}`
+                                    : `Omgevingsbeleid - Voeg een nieuwe ${titleSingular} toe`}
+                            </title>
+                        </Helmet>
+                        <MutatePolicyHeading
+                            userIsEditing={!!objectID}
+                            isLoading={lineageIsLoading}
+                            objectTitle={values?.Titel || ''}
+                            titleSingular={titleSingular}
+                            overzichtSlug={objectSlugOverviewPage || ''}
+                            titlePlural={titlePlural}
+                        />
+                        <ContainerMain className="mt-16">
+                            <Form className="w-full">
+                                {titleSingular === 'Ambitie' ? (
+                                    <FieldsAmbities />
+                                ) : titleSingular === 'Beleidsmodule' ? (
+                                    <FieldsBeleidsmodule />
+                                ) : titleSingular === 'Belang' ? (
+                                    <FieldsBelang />
+                                ) : titleSingular === 'Beleidsregel' ? (
+                                    <FieldsBeleidsregel />
+                                ) : titleSingular === 'Beleidskeuze' ? (
+                                    <FieldsBeleidskeuze />
+                                ) : titleSingular === 'Maatregel' ? (
+                                    <FieldsMaatregel />
+                                ) : titleSingular === 'Beleidsdoel' ? (
+                                    <FieldsBeleidsdoel />
+                                ) : titleSingular === 'Beleidsprestatie' ? (
+                                    <FieldsBeleidsprestatie />
+                                ) : titleSingular === 'Thema' ? (
+                                    <FieldsThema />
+                                ) : null}
+                                <ButtonSubmitFixed
+                                    submit={() => handleFormSubmit(values)}
+                                />
+                            </Form>
+                        </ContainerMain>
+                    </>
+                )}
+            </Formik>
+        </MutateContext.Provider>
     )
 }
 

@@ -11,7 +11,6 @@ import objecten, {
 } from '@/constants/koppelingen'
 import { BeleidskeuzeConnections } from '@/types/dimensions'
 
-import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving'
 import PopupBewerkKoppeling from './PopUpBewerkKoppeling'
 import PopupNieuweKoppeling from './PopupNieuweKoppeling'
 
@@ -239,7 +238,6 @@ const FormikRelationConnection = ({
                             }
                         }
                     )
-                    console.log(updatedConnections)
                     setFieldValue(propertyName, updatedConnections)
                     break
                 } else {
@@ -253,28 +251,22 @@ const FormikRelationConnection = ({
     return (
         <>
             {label === 'Koppelingen' ? (
-                <>
-                    <h3 className="block mb-2 font-bold tracking-wide text-gray-700">
-                        Relaties
-                    </h3>
-                    <p className="mb-8 text-sm text-gray-700">
-                        Een relatie ga je, met wederzijds goedkeuren, aan met
+                <div className="mb-8">
+                    <FieldLabel
+                        label="Relaties"
+                        description="Een relatie ga je, met wederzijds goedkeuren, aan met
                         andere beleidskeuzes. Deze beleidsrelaties kun je op een
                         later moment aangaan vanuit de beheeromgeving onder het
-                        kopje &apos;Beleidsrelaties&apos;.
-                    </p>
-                </>
+                        kopje 'Beleidsrelaties'."
+                        name={dataObjectProperty}
+                    />
+                </div>
             ) : null}
             <FieldLabel
                 label={label}
                 description={description}
                 name={dataObjectProperty}
             />
-            {/* <FormFieldTitelEnBeschrijving
-                label={label}
-                description={description}
-                disabled={disabled}
-            /> */}
             <div
                 className={`p-5 bg-white rounded shadow ${
                     disabled
@@ -477,7 +469,7 @@ const Dropdown = ({
                 </span>
                 {dropdownOpen ? (
                     <ul
-                        className="absolute left-0 w-full text-sm text-gray-700 bg-white rounded shadow top-100"
+                        className="absolute left-0 z-10 w-full text-sm text-gray-700 bg-white rounded shadow top-100"
                         ref={dropdownRef}>
                         {connectionProperties
                             ? connectionProperties

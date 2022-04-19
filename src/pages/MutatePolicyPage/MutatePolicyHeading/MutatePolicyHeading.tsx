@@ -1,44 +1,34 @@
-import {
-    withRouter,
-    useLocation,
-    RouteComponentProps,
-    useParams,
-} from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 
 import ButtonBackToPage from '@/components/ButtonBackToPage'
 import { LoaderMainTitle } from '@/components/Loader'
 
-/**
- * @returns A header displaying information about the policy objec that is being created / edited
- */
-
-interface ContainerCrudHeaderProps extends RouteComponentProps {
-    editStatus?: boolean
+export interface MutatePolicyHeadingProps {
+    userIsEditing?: boolean
     isLoading?: boolean
     objectTitle: string
     titleSingular: string
     overzichtSlug: string
-    objectID: string
-    titelMeervoud: string
+    titlePlural: string
 }
 
-function ContainerCrudHeader({
-    editStatus,
+function MutatePolicyHeading({
+    userIsEditing,
     isLoading,
     objectTitle,
     titleSingular,
     overzichtSlug,
-    titelMeervoud,
-}: ContainerCrudHeaderProps) {
+    titlePlural,
+}: MutatePolicyHeadingProps) {
     const { single: objectID } = useParams<{ single: string }>()
     const location = useLocation()
 
     const getMainTitle = () => {
-        if (titleSingular === 'Beleidsmodule' && !editStatus) {
+        if (titleSingular === 'Beleidsmodule' && !userIsEditing) {
             return 'Voeg een nieuwe module toe'
-        } else if (titleSingular === 'Beleidsmodule' && editStatus) {
+        } else if (titleSingular === 'Beleidsmodule' && userIsEditing) {
             return 'Bewerk module'
-        } else if (editStatus && !isLoading) {
+        } else if (userIsEditing && !isLoading) {
             return objectTitle
         } else if (isLoading) {
             return `Voeg een nieuwe ${titleSingular.toLowerCase()} toe`
@@ -74,7 +64,7 @@ function ContainerCrudHeader({
             <div className="container flex items-center justify-center mx-auto lg:px-10">
                 <div className="w-full pr-20">
                     <ButtonBackToPage
-                        terugNaar={titelMeervoud.toLowerCase()}
+                        terugNaar={titlePlural.toLowerCase()}
                         color="text-white"
                         url={backUrl}
                     />
@@ -92,4 +82,4 @@ function ContainerCrudHeader({
     )
 }
 
-export default withRouter(ContainerCrudHeader)
+export default MutatePolicyHeading

@@ -1,10 +1,6 @@
-import {
-    getBelangen,
-    getBelangenLineageid,
-    getValidBelangen,
-} from '@/api/fetchers'
+import { getBelangen, getValidBelangen } from '@/api/fetchers'
 
-import { currentDate, futureDate, currentDateFormatted } from './testValues'
+import { currentDate, currentDateFormatted, futureDate } from './testValues'
 
 export const apiCall = getBelangen
 export const validApiCall = getValidBelangen
