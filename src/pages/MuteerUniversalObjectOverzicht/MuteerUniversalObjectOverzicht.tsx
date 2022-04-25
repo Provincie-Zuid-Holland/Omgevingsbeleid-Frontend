@@ -1,20 +1,8 @@
-import { isBefore, isValid } from 'date-fns'
-import { useCallback, useLayoutEffect, useState, useEffect } from 'react'
+import { useCallback, useLayoutEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
-import {
-    ThemasWrite,
-    MaatregelenWrite,
-    BeleidsregelsWrite,
-    BeleidsprestatiesWrite,
-    BeleidsmodulesWrite,
-    BeleidskeuzesWrite,
-    BeleidsdoelenWrite,
-    BelangenWrite,
-    AmbitiesWrite,
-} from '@/api/fetchers.schemas'
 import axios from '@/api/instance'
 import ButtonAddNewObject from '@/components/ButtonAddNewObject'
 import CardObjectDetails from '@/components/CardObjectDetails'
