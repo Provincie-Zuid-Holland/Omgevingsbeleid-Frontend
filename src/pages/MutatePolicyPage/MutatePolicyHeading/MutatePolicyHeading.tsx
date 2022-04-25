@@ -28,9 +28,9 @@ function MutatePolicyHeading({
             return 'Voeg een nieuwe module toe'
         } else if (titleSingular === 'Beleidsmodule' && userIsEditing) {
             return 'Bewerk module'
-        } else if (userIsEditing && !isLoading) {
+        } else if (!isLoading && objectTitle !== '') {
             return objectTitle
-        } else if (isLoading) {
+        } else if (!isLoading && objectTitle === '') {
             return `Voeg een nieuwe ${titleSingular.toLowerCase()} toe`
         } else {
             return ''

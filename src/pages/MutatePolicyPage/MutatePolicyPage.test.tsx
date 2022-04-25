@@ -1,0 +1,72 @@
+import { render, screen, fireEvent } from '@testing-library/react'
+import '@testing-library/jest-dom'
+import { Formik } from 'formik'
+import { QueryClient, QueryClientProvider } from 'react-query'
+import { MemoryRouter } from 'react-router-dom'
+
+import allDimensies from '@/constants/dimensies'
+import AuthProvider from '@/context/AuthContext'
+
+import MutatePolicyPage from './MutatePolicyPage'
+
+const queryClient = new QueryClient()
+
+const urls = {
+    Ambitie: '/ambities/edit/1',
+    Belang: '/belangen/edit/1',
+    Beleidskeuze: '/beleidskeuzes/edit/1',
+    Beleidsregel: '/beleidsregels/edit/1',
+    Beleidsprestatie: '/beleidsprestaties/edit/1',
+    Beleidsmodule: '/beleidsmodule/edit/1',
+    Beleidsdoel: '/beleidsdoelen/edit/1',
+    Maatregel: '/maatregelen/edit/1',
+    Thema: '/themas/edit/1',
+}
+
+describe('MutatePolicyPage', () => {
+    const defaultProps = {
+        dimensieConstants: allDimensies.BELEIDSKEUZES,
+    }
+
+    const setup = (url: string) => {
+        render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter initialEntries={[url]}>
+                    <AuthProvider>
+                        <Formik
+                            initialValues={{}}
+                            onSubmit={() => console.log('✅')}>
+                            <MutatePolicyPage {...defaultProps} />
+                        </Formik>
+                    </AuthProvider>
+                </MemoryRouter>
+            </QueryClientProvider>
+        )
+    }
+
+    it('Component renders', () => {
+        setup(urls.Beleidskeuze)
+        const element = screen.getByText('Algemene informatie')
+        expect(element).toBeTruthy()
+    })
+
+    it('User can edit a beleidskeuze', () => {
+        setup(urls.Beleidskeuze)
+
+        const header = screen.getByText('Voeg een nieuwe beleidskeuze toe')
+        expect(header).toBeInTheDocument()
+
+        // Title
+        const input = screen.getByLabelText('Titel') as HTMLInputElement
+        fireEvent.change(input, { target: { value: 'Beleidskeuze title' } })
+        expect(input.value).toBe('Beleidskeuze title')
+
+        // Beleidstekst
+        const beleidstekstRTE = screen.getByLabelText(
+            'Titel'
+        ) as HTMLInputElement
+        fireEvent.change(input, { target: { value: 'Beleidskeuze title' } })
+        expect(input.value).toBe('Beleidskeuze title')
+        return false
+    })
+})

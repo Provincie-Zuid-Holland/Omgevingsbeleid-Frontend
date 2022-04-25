@@ -5,6 +5,7 @@ import {
     waitFor,
     fireEvent,
 } from '@testing-library/react'
+import { QueryClient, QueryClientProvider } from 'react-query'
 import '@testing-library/jest-dom'
 import { MemoryRouter } from 'react-router-dom'
 
@@ -16,6 +17,8 @@ import { maatregelen } from '@/mocks/data/maatregelen'
 import { verordeningstructuur } from '@/mocks/data/verordeningstructuur'
 
 import AppRoutes from './AppRoutes'
+
+const queryClient = new QueryClient()
 
 describe('AppRoutes', () => {
     const user = {
@@ -34,14 +37,16 @@ describe('AppRoutes', () => {
         const props = { ...defaultProps, ...customProps }
         render(
             <MemoryRouter initialEntries={['/muteer/dashboard']}>
-                <AuthContext.Provider
-                    value={
-                        customUser !== undefined
-                            ? (customUser as AuthContextType)
-                            : ({ user } as AuthContextType)
-                    }>
-                    <AppRoutes {...props} />
-                </AuthContext.Provider>
+                <QueryClientProvider client={queryClient}>
+                    <AuthContext.Provider
+                        value={
+                            customUser !== undefined
+                                ? (customUser as AuthContextType)
+                                : ({ user } as AuthContextType)
+                        }>
+                        <AppRoutes {...props} />
+                    </AuthContext.Provider>
+                </QueryClientProvider>
             </MemoryRouter>
         )
     }
