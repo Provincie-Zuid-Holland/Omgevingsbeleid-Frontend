@@ -49,24 +49,4 @@ describe('MutatePolicyPage', () => {
         const element = screen.getByText('Algemene informatie')
         expect(element).toBeTruthy()
     })
-
-    it('User can edit a beleidskeuze', () => {
-        setup(urls.Beleidskeuze)
-
-        const header = screen.getByText('Voeg een nieuwe beleidskeuze toe')
-        expect(header).toBeInTheDocument()
-
-        // Title
-        const input = screen.getByLabelText('Titel') as HTMLInputElement
-        fireEvent.change(input, { target: { value: 'Beleidskeuze title' } })
-        expect(input.value).toBe('Beleidskeuze title')
-
-        // Beleidstekst
-        const beleidstekstRTE = screen.getByLabelText(
-            'Titel'
-        ) as HTMLInputElement
-        fireEvent.change(input, { target: { value: 'Beleidskeuze title' } })
-        expect(input.value).toBe('Beleidskeuze title')
-        return false
-    })
 })
