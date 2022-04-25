@@ -52,6 +52,7 @@ const FormFieldSelectUserGroup = ({
     const { data: userList } = useGetGebruikers()
     const [formattedUserList, setFormattedUserList] =
         useState<FormattedUserList>(initialState)
+    const [dataLoaded, setDataLoaded] = useState(false)
 
     const filterAndFormatUserList = useCallback(
         (data: GebruikersRead[]) => {
@@ -117,6 +118,7 @@ const FormFieldSelectUserGroup = ({
         if (!userList) return
         const formattedList = filterAndFormatUserList(userList)
         setFormattedUserList(formattedList)
+        setDataLoaded(true)
     }, [values, userList, filterAndFormatUserList])
 
     return (
@@ -127,57 +129,61 @@ const FormFieldSelectUserGroup = ({
                     : ''
             }>
             <span className="text-pzh-blue-dark bold">Personen</span>
-            <div className="w-1/2">
-                <div className="mr-2">
-                    <span className="text-[0.8rem] leading-5">
-                        Opdrachtgever
-                    </span>
-                    <FormikSelect
-                        name="Opdrachtgever"
-                        options={formattedUserList.Opdrachtgever}
-                    />
-                </div>
-            </div>
-            <div className="flex mt-4">
-                <div className="w-full mr-2">
-                    <span className="text-[0.8rem] leading-5">
-                        Eerste eigenaar
-                    </span>
-                    <FormikSelect
-                        name="Eigenaar_1"
-                        options={formattedUserList.Eigenaar_1}
-                    />
-                </div>
-                <div className="w-full ml-2">
-                    <span className="text-[0.8rem] leading-5">
-                        Tweede eigenaar
-                    </span>
-                    <FormikSelect
-                        name="Eigenaar_2"
-                        options={formattedUserList.Eigenaar_2}
-                    />
-                </div>
-            </div>
-            <div className="flex mt-4">
-                <div className="w-full mr-2">
-                    <span className="text-[0.8rem] leading-5">
-                        Eerste portefeuillehouder
-                    </span>
-                    <FormikSelect
-                        name="Portefeuillehouder_1"
-                        options={formattedUserList.Portefeuillehouder_1}
-                    />
-                </div>
-                <div className="w-full ml-2">
-                    <span className="text-[0.8rem] leading-5">
-                        Tweede portefeuillehouder
-                    </span>
-                    <FormikSelect
-                        name="Portefeuillehouder_2"
-                        options={formattedUserList.Portefeuillehouder_2}
-                    />
-                </div>
-            </div>
+            {dataLoaded ? (
+                <>
+                    <div className="w-1/2">
+                        <div className="mr-2">
+                            <span className="text-[0.8rem] leading-5">
+                                Opdrachtgever
+                            </span>
+                            <FormikSelect
+                                name="Opdrachtgever"
+                                options={formattedUserList.Opdrachtgever}
+                            />
+                        </div>
+                    </div>
+                    <div className="flex mt-4">
+                        <div className="w-full mr-2">
+                            <span className="text-[0.8rem] leading-5">
+                                Eerste eigenaar
+                            </span>
+                            <FormikSelect
+                                name="Eigenaar_1"
+                                options={formattedUserList.Eigenaar_1}
+                            />
+                        </div>
+                        <div className="w-full ml-2">
+                            <span className="text-[0.8rem] leading-5">
+                                Tweede eigenaar
+                            </span>
+                            <FormikSelect
+                                name="Eigenaar_2"
+                                options={formattedUserList.Eigenaar_2}
+                            />
+                        </div>
+                    </div>
+                    <div className="flex mt-4">
+                        <div className="w-full mr-2">
+                            <span className="text-[0.8rem] leading-5">
+                                Eerste portefeuillehouder
+                            </span>
+                            <FormikSelect
+                                name="Portefeuillehouder_1"
+                                options={formattedUserList.Portefeuillehouder_1}
+                            />
+                        </div>
+                        <div className="w-full ml-2">
+                            <span className="text-[0.8rem] leading-5">
+                                Tweede portefeuillehouder
+                            </span>
+                            <FormikSelect
+                                name="Portefeuillehouder_2"
+                                options={formattedUserList.Portefeuillehouder_2}
+                            />
+                        </div>
+                    </div>
+                </>
+            ) : null}
         </div>
     )
 }
