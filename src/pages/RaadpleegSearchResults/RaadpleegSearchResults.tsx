@@ -23,6 +23,7 @@ const RaadpleegSearchResults = () => {
     const [searchResults, setSearchResults] = useState<
         GetSearch200ResultsItem[]
     >([])
+    const [UUIDs, setUUIDs] = useState<string[]>([])
     const [searchResultsTotal, setSearchResultsTotal] = useState(0)
     const [dataLoaded, setDataLoaded] = useState(false)
 
@@ -34,7 +35,6 @@ const RaadpleegSearchResults = () => {
     ])
 
     const { onPageFilters, setOnPageFilters } = useSearchResultFilters()
-
     const isMobile = useMedia('(max-width: 768px)')
 
     useEffect(() => {
@@ -100,17 +100,19 @@ const RaadpleegSearchResults = () => {
 
                 if (werkingsgebiedenUUIDS.length === 0) return
 
-                const searchResults: GetSearch200ResultsItem[] | undefined =
-                    await postSearchGeo({
-                        query: werkingsgebiedenUUIDS.join(','),
-                    }).then(data => data.results)
+                setUUIDs(werkingsgebiedenUUIDS)
+
+                const { results, total = 0 } = await postSearchGeo({
+                    query: werkingsgebiedenUUIDS.join(','),
+                }).then(data => data)
 
                 setOnPageFilters({
                     type: 'initFilters',
                     searchResultItems: searchResults || [],
                 })
                 setDataLoaded(true)
-                setSearchResults(searchResults || [])
+                setSearchResultsTotal(total)
+                setSearchResults(results || [])
             } catch (error) {
                 let message = 'Unknown Error'
                 if (error instanceof Error) message = error.message
@@ -133,6 +135,7 @@ const RaadpleegSearchResults = () => {
         }
 
         initialize()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [paramGeoQuery, paramTextQuery, setOnPageFilters, paramOnly])
 
     return (
@@ -203,14 +206,16 @@ const RaadpleegSearchResults = () => {
                                         />
                                     ))}
                             </ul>
-                            {paramTextQuery ? (
+                            {(paramTextQuery || paramGeoQuery) && (
                                 <Pagination
                                     setOnPageFilters={setOnPageFilters}
                                     setSearchResults={setSearchResults}
                                     searchResults={searchResults}
+                                    UUIDs={UUIDs}
+                                    limit={10}
                                     total={searchResultsTotal}
                                 />
-                            ) : null}
+                            )}
                         </>
                     ) : dataLoaded && searchResults.length === 0 ? (
                         <h2 className="block mt-8 text-sm italic text-gray-600 no-style">
