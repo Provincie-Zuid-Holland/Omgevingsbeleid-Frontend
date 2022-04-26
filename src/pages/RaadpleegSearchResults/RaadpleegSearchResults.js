@@ -1,24 +1,24 @@
-import { useEffect, useState } from "react"
-import "url-search-params-polyfill"
+import { useEffect, useState } from 'react'
+import 'url-search-params-polyfill'
 
-import axios from "./../../API/axios"
-import { getWerkingsGebieden } from "./../../API/axiosGeoJSON"
+import axios from './../../API/axios'
+import { getWerkingsGebieden } from './../../API/axiosGeoJSON'
 
-import LoaderCard from "./../../components/LoaderCard"
+import LoaderCard from './../../components/LoaderCard'
 
-import useSearchResultFilters from "./useSearchResultFilters"
-import SearchFilterSection from "./SearchFilterSection"
-import SearchResultItem from "./SearchResultItem"
-import Pagination from "./Pagination"
+import useSearchResultFilters from './useSearchResultFilters'
+import SearchFilterSection from './SearchFilterSection'
+import SearchResultItem from './SearchResultItem'
+import Pagination from './Pagination'
 
 const RaadpleegSearchResults = () => {
     const [searchResults, setSearchResults] = useState([])
     const [dataLoaded, setDataLoaded] = useState(false)
 
     const searchParams = new URL(document.location).searchParams
-    const paramTextQuery = searchParams.get("query")
-    const paramOnly = searchParams.get("only")
-    const paramGeoQuery = searchParams.get("geoQuery")
+    const paramTextQuery = searchParams.get('query')
+    const paramOnly = searchParams.get('only')
+    const paramGeoQuery = searchParams.get('geoQuery')
 
     const { onPageFilters, setOnPageFilters } = useSearchResultFilters()
 
@@ -36,15 +36,15 @@ const RaadpleegSearchResults = () => {
                             paramOnly ? `&only=${paramOnly}` : ``
                         }`
                     )
-                    .then((res) => res.data)
+                    .then(res => res.data)
                 setSearchResults(searchResults)
                 setOnPageFilters({
-                    type: "initFilters",
+                    type: 'initFilters',
                     searchResultItems: searchResults,
                 })
                 setDataLoaded(true)
             } catch (error) {
-                let message = "Unknown Error"
+                let message = 'Unknown Error'
                 if (error instanceof Error) message = error.message
                 console.log(message)
                 setDataLoaded(true)
@@ -63,30 +63,30 @@ const RaadpleegSearchResults = () => {
 
             try {
                 // Get point A and Point B from the URL Parameter
-                const [pointA, pointB] = paramGeoQuery.split(" ")
+                const [pointA, pointB] = paramGeoQuery.split(' ')
                 const werkingsgebieden = await getWerkingsGebieden(
                     pointA,
                     pointB
                 )
 
                 const werkingsgebiedenUUIDS = werkingsgebieden.map(
-                    (item) => item.properties.UUID
+                    item => item.properties.UUID
                 )
 
                 if (werkingsgebiedenUUIDS.length === 0) return
 
                 const searchResults = await axios
                     .get(`/search/geo?query=${werkingsgebiedenUUIDS}`)
-                    .then((res) => res.data)
+                    .then(res => res.data)
 
                 setOnPageFilters({
-                    type: "initFilters",
+                    type: 'initFilters',
                     searchResultItems: searchResults,
                 })
                 setDataLoaded(true)
                 setSearchResults(searchResults)
             } catch (error) {
-                let message = "Unknown Error"
+                let message = 'Unknown Error'
                 if (error instanceof Error) message = error.message
                 console.error(message)
                 setDataLoaded(true)
@@ -113,24 +113,21 @@ const RaadpleegSearchResults = () => {
         <>
             <div
                 className={`pzh-container grid grid-cols-6 gap-x-10 gap-y-0 pr-4 mx-auto bg-pzh-blue-light`}
-                style={{ height: 96 + "px", marginTop: "-60px" }}
-            >
+                style={{ height: 96 + 'px', marginTop: '-60px' }}>
                 <div className="flex items-center col-span-4 col-start-3 ">
                     <h1
                         style={{
-                            hyphens: "manual",
-                            fontSize: "2.4rem",
-                            lineHeight: "2.8rem",
+                            hyphens: 'manual',
+                            fontSize: '2.4rem',
+                            lineHeight: '2.8rem',
                         }}
-                        className={`break-words relative mt-2 font-bold text-white`}
-                    >
+                        className={`break-words relative mt-2 font-bold text-white`}>
                         Zoeken
                     </h1>
                 </div>
             </div>
             <div
-                className={`pzh-container grid grid-cols-6 gap-x-10 gap-y-0 pr-4 mx-auto mt-4 pb-16`}
-            >
+                className={`pzh-container grid grid-cols-6 gap-x-10 gap-y-0 pr-4 mx-auto mt-4 pb-16`}>
                 <SearchFilterSection
                     loaded={dataLoaded}
                     onPageFilters={onPageFilters}
@@ -146,11 +143,11 @@ const RaadpleegSearchResults = () => {
                                      * By default none of the filters are active, if so return all
                                      * If there is one or more filter checked return the checked
                                      */
-                                    .filter((item) => {
+                                    .filter(item => {
                                         const filterIsActive = Object.keys(
                                             onPageFilters.filterState
                                         ).some(
-                                            (filter) =>
+                                            filter =>
                                                 onPageFilters.filterState[
                                                     filter
                                                 ].checked
@@ -170,7 +167,7 @@ const RaadpleegSearchResults = () => {
                                             return false
                                         }
                                     })
-                                    .map((item) => (
+                                    .map(item => (
                                         <SearchResultItem
                                             searchQuery={null}
                                             item={item}
