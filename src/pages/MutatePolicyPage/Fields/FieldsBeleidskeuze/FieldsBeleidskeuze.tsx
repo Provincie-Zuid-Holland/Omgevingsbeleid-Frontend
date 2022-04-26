@@ -36,6 +36,7 @@ const FieldsBeleidskeuze = () => {
                 titel="Beleidstekst"
                 beschrijving="In deze sectie kun je alle tekst met betrekking tot de beleidskeuze kwijt. Een goede beleidstekst is kort, krachtig en actief opgeschreven. Zo weet de lezer direct welke keuze de provincie maakt en waarom dit van belang is. Schrijf altijd ‘de provincie’, en niet ‘wij’.">
                 <FormikRte
+                    testId="formik-rte-omschrijving-keuze"
                     disabled={isVigerend}
                     label="Wat wil de provincie bereiken?"
                     description="Hier geef je aan welke keuze de provincie heeft genomen. Formuleer in één of enkele zinnen wat de provincie wil bereiken en welke rechtsgevolgen dit eventueel heeft voor derden."
@@ -43,6 +44,7 @@ const FieldsBeleidskeuze = () => {
                     className="mb-6"
                 />
                 <FormikRte
+                    testId="formik-rte-aanleiding"
                     disabled={isVigerend}
                     label="Aanleiding"
                     description="De aanleiding geeft de lezer informatie over welke ontwikkelingen gaande zijn in de maatschappij en waarom de provincie hier op inspeelt. Beschrijf hier welk probleem, dreiging of kans ten grondslag ligt aan de beleidskeuze."
