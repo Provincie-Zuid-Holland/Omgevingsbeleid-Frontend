@@ -65,7 +65,7 @@ const RaadpleegMapSearch = () => {
                     (item: any) => item.properties.UUID
                 )
 
-                setUUIDs(werkingsgebiedenUUIDS.slice(0, 100)) // Slice UUIDs, otherwise query string will be too large
+                setUUIDs(werkingsgebiedenUUIDS)
             } else {
                 setSearchResultsLoading(false)
             }
