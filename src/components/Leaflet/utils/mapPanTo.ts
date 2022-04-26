@@ -4,7 +4,7 @@ import { createCustomPopup } from '.'
 
 export interface PanToProps {
     map: Map
-    history: any
+    navigate: any
     latLngs?: {
         lat: number
         lng: number
@@ -22,7 +22,7 @@ export interface PanToProps {
  */
 const mapPanTo = ({
     map,
-    history,
+    navigate,
     lng,
     lat,
     latLngs,
@@ -70,7 +70,7 @@ const mapPanTo = ({
     // Create popup
     createCustomPopup(
         map,
-        history,
+        navigate,
         coordinates.lat,
         coordinates.lng,
         layerID,

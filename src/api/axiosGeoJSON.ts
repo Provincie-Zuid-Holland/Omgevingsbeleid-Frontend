@@ -7,7 +7,7 @@ const api_version = '1.1.0'
 // https://geo-omgevingsbeleid-test.azurewebsites.net/OMGEVINGSBELEID/wms?service=WMS&version=1.1.0&request=GetMap&layers=OMGEVINGSBELEID%3AWerkingsgebieden&bbox=43662.62000000104%2C406692.0%2C138647.9990000017%2C483120.0&width=768&height=617&srs=EPSG%3A28992&format=application/openlayers
 
 const instance = axios.create({
-    baseURL: `https://geo-omgevingsbeleid-test.azurewebsites.net/OMGEVINGSBELEID/`,
+    baseURL: `${process.env.REACT_APP_GEOSERVER_API_URL}/OMGEVINGSBELEID/`,
     headers: {
         'Content-Type': 'application/json',
         Authorization: `Token ${access_token}`,

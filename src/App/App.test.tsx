@@ -6,7 +6,7 @@ import {
     waitForElementToBeRemoved,
     fireEvent,
 } from '@testing-library/react'
-import { MemoryRouter } from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom'
 import '@testing-library/jest-dom'
 
 import App from './App'
@@ -17,9 +17,9 @@ describe('App', () => {
     const setup = (customProps: any) => {
         const props = { ...defaultProps, ...customProps }
         render(
-            <MemoryRouter>
+            <BrowserRouter>
                 <App {...props} />
-            </MemoryRouter>
+            </BrowserRouter>
         )
     }
 
@@ -52,9 +52,6 @@ describe('App', () => {
 
         fireEvent.click(logoMenu as Element)
 
-        const raadpleegBtn = screen.getByText('Raadplegen')
-        fireEvent.click(raadpleegBtn)
-
         expect(screen.getByText('Omgevingsbeleid')).toBeInTheDocument()
 
         // User can navigate to a detail page
@@ -79,31 +76,6 @@ describe('App', () => {
 
         fireEvent.click(firstBeleidskeuzeItem)
 
-        await waitFor(() => {
-            // Get all because we have two <h1> elements (one always hidden)
-            screen.getAllByRole('heading', {
-                name: 'Bovenregionaal warmtenetwerk',
-                level: 1,
-            })
-        })
-
-        // User can navigate to the login page
-        // First we logout
-        const bewerkenBtn = screen.getByText('Bewerken')
-        fireEvent.click(bewerkenBtn)
-        const logoutBtn = screen.getByText('Uitloggen')
-        fireEvent.click(logoutBtn)
-
-        // Then we can visit the login page
-        const loginBtn = screen.getByText('Inloggen')
-        fireEvent.click(loginBtn)
-        const loginTitle = screen.getByRole('heading', {
-            name: 'Inloggen',
-            level: 1,
-        })
-
-        expect(loginTitle).toBeInTheDocument()
-
         // User can navigate to the policy changes page
         fireEvent.click(menuBtn)
         const beleidswijzigingenLink = screen.getByText('Beleidswijzigingen')
@@ -116,6 +88,10 @@ describe('App', () => {
 
         // User can navigate to the releases page
         fireEvent.click(logoMenu as Element)
+
+        const raadpleegBtn = screen.getByText('Raadplegen')
+        fireEvent.click(raadpleegBtn)
+
         const releasesLink = screen.getByText('Bekijk alle releases & planning')
         fireEvent.click(releasesLink)
         const releasesTitle = screen.getByRole('heading', {

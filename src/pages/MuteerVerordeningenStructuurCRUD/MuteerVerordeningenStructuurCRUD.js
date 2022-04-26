@@ -2,7 +2,6 @@
 import cloneDeep from 'lodash.clonedeep'
 import { Component } from 'react'
 import { Helmet } from 'react-helmet'
-import { withRouter } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 // Import Components
@@ -134,7 +133,7 @@ class MuteerVerordeningenStructuurCRUD extends Component {
                     JSON.stringify(crudObject)
                 )
                 .then(() => {
-                    this.props.history.push(`/muteer/verordeningen`)
+                    this.props.navigate(`/muteer/verordeningen`)
                     toast('Gewijzigd')
                 })
                 .catch(error => {
@@ -149,7 +148,7 @@ class MuteerVerordeningenStructuurCRUD extends Component {
             axios
                 .post(`/verordeningstructuur`, JSON.stringify(crudObject))
                 .then(() => {
-                    this.props.history.push(`/muteer/verordeningen`)
+                    this.props.navigate(`/muteer/verordeningen`)
                     toast('Opgeslagen')
                 })
                 .catch(error => {
@@ -228,7 +227,7 @@ class MuteerVerordeningenStructuurCRUD extends Component {
     }
 
     componentDidMount() {
-        if (this.props.match.params.lineageID) {
+        if (this.props.match?.params?.lineageID) {
             axios
                 .get(
                     `/verordeningstructuur/version/${this.props.match.params.lineageUUID}`
@@ -290,7 +289,7 @@ class MuteerVerordeningenStructuurCRUD extends Component {
                                 terugNaar={`verordening`}
                                 color="text-white"
                                 url={
-                                    this.props.match.params.lineageID
+                                    this.props.match?.params?.lineageID
                                         ? `/muteer/verordeningen/${this.props.match.params.lineageID}`
                                         : `/muteer/verordeningen`
                                 }
@@ -384,4 +383,4 @@ class MuteerVerordeningenStructuurCRUD extends Component {
     }
 }
 
-export default withRouter(MuteerVerordeningenStructuurCRUD)
+export default MuteerVerordeningenStructuurCRUD

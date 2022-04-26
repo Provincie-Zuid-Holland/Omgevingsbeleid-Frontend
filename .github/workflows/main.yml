@@ -12,7 +12,11 @@ jobs:
 
         env:
             REACT_APP_API_URL: https://api-obzh-dev.azurewebsites.net/v1.0
+            REACT_APP_GEOSERVER_API_URL: https://geo-omgevingsbeleid-test.azurewebsites.net
             REACT_APP_API_ENV: dev
+            REACT_APP_KEY_API_ACCESS_TOKEN: OB_access_token
+            REACT_APP_KEY_IDENTIFIER: OB_identifier
+            PZH_FONTAWESOME_SECRET: ${{ secrets.PZH_FONTAWESOME_SECRET }}
 
         steps:
             - name: Checkout repository
@@ -32,13 +36,13 @@ jobs:
                       ${{ runner.os }}-node-
 
             - name: Install dependencies
-              run: npm install
+              run: yarn install
 
             - name: Run the tests and generate coverage report
-              run: npm run test:ci
+              run: yarn test:ci
 
             - name: Build
-              run: npm run build
+              run: yarn build
 
             - name: Upload Code Coverage
               uses: codecov/codecov-action@v2

@@ -1,3 +1,4 @@
+import { Button } from '@pzh-ui/components'
 import { LatLng, Map, Point } from 'leaflet'
 import Proj from 'proj4leaflet'
 import ReactDOMServer from 'react-dom/server'
@@ -15,7 +16,7 @@ const RDProjection = new Proj.Projection('EPSG:28992', RDProj4, leafletBounds)
  */
 const createCustomPopup = async (
     map: Map,
-    history: any,
+    navigate: any,
     lat: number,
     lng: number,
     layer: any,
@@ -64,7 +65,7 @@ const createCustomPopup = async (
                 'geoQuery',
                 `${point.x.toFixed(2)}+${point.y.toFixed(2)}`
             )
-            history.push(`${MAP_SEARCH_PAGE}?${searchParams}`)
+            navigate(`${MAP_SEARCH_PAGE}?${searchParams}`, { replace: true })
         }
 
         callback?.({
@@ -97,7 +98,9 @@ const createCustomPopup = async (
 
                 if (isAdvancedSearch) {
                     searchParams.set('geoQuery', geoQuery)
-                    history.push(`${MAP_SEARCH_PAGE}?${searchParams}`)
+                    navigate(`${MAP_SEARCH_PAGE}?${searchParams}`, {
+                        replace: true,
+                    })
                 }
 
                 callback?.({
@@ -116,7 +119,7 @@ const createCustomPopup = async (
         handlePopupEvents(
             map,
             layer,
-            history,
+            navigate,
             searchParams,
             isAdvancedSearch ? path : undefined
         )
@@ -125,7 +128,7 @@ const createCustomPopup = async (
             handlePopupEvents(
                 map,
                 layer,
-                history,
+                navigate,
                 searchParams,
                 isAdvancedSearch ? path : undefined
             )
@@ -136,7 +139,7 @@ const createCustomPopup = async (
 const handlePopupEvents = (
     map: Map,
     layer: any,
-    history: any,
+    navigate: any,
     searchParams: URLSearchParams,
     path?: string
 ) => {
@@ -147,14 +150,14 @@ const handlePopupEvents = (
         ?.addEventListener('click', () => {
             map.fireEvent('draw:deleted')
             map.removeLayer(layer)
-            path && history.push(path)
+            path && navigate(path, { replace: true })
         })
 
     popupContainer
         .querySelector('.advanced-search-button')
         ?.addEventListener('click', () => {
             searchParams.append('searchOpen', 'true')
-            history.push(`${path}?${searchParams}`)
+            navigate(`${path}?${searchParams}`, { replace: true })
         })
 }
 
@@ -199,14 +202,13 @@ export const CreateCustomPopup = ({
             </ul>
             <div className="flex justify-between">
                 {isAdvancedSearch ? (
-                    <button className="advanced-search-button pzh-btn">
-                        Bekijk beleid
-                    </button>
+                    <Button
+                        label="Bekijk beleid"
+                        className="advanced-search-button"
+                    />
                 ) : (
-                    <a
-                        href={`/zoekresultaten?${searchParams}`}
-                        className="pzh-btn">
-                        Bekijk beleid
+                    <a href={`/zoekresultaten?${searchParams}`}>
+                        <Button label="Bekijk beleid" />
                     </a>
                 )}
                 <button className="leaflet-close-popup underline text-pzh-red text-xs">

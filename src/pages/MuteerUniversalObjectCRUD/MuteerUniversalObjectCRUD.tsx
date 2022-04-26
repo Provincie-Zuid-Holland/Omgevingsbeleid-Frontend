@@ -2,20 +2,14 @@ import * as axiosPackage from 'axios'
 import cloneDeep from 'lodash.clonedeep'
 import { KeyboardEvent, MouseEvent, useEffect, useState, useRef } from 'react'
 import { Helmet } from 'react-helmet'
-import {
-    RouteComponentProps,
-    useHistory,
-    useLocation,
-    useParams,
-    withRouter,
-} from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 
-import { GetTokeninfo200Identifier } from '@/api/fetchers.schemas'
 import axios from '@/api/instance'
 import ButtonSubmitFixed from '@/components/ButtonSubmitFixed'
 import { ContainerMain } from '@/components/Container'
 import { LoaderContent } from '@/components/Loader'
 import allDimensies from '@/constants/dimensies'
+import useAuth from '@/hooks/useAuth'
 import checkContainsRequiredUnfilledField from '@/utils/checkContainsRequiredUnfilledField'
 import { checkIfUserIsAllowedOnPage } from '@/utils/checkIfUserIsAllowedOnPage'
 import formatGeldigheidDatesForAPI from '@/utils/formatGeldigheidDatesForAPI'
@@ -44,17 +38,16 @@ import FormFieldContainerThemas from './FormFieldContainers/FormFieldContainerTh
  * @returns a page where the user can create new or edit existing policy objects
  */
 
-interface MuteerUniversalObjectCRUDProps extends RouteComponentProps {
-    authUser?: GetTokeninfo200Identifier
+interface MuteerUniversalObjectCRUDProps {
     dimensieConstants: typeof allDimensies[keyof typeof allDimensies]
 }
 
 const MuteerUniversalObjectCRUD = ({
-    authUser,
     dimensieConstants,
 }: MuteerUniversalObjectCRUDProps) => {
-    const history = useHistory()
+    const navigate = useNavigate()
     const location = useLocation()
+    const { user } = useAuth()
     const { single: objectID } = useParams<{ single: string }>()
 
     const [dataLoaded, setDataLoaded] = useState(false)
@@ -116,10 +109,11 @@ const MuteerUniversalObjectCRUD = ({
         axios
             .post(`${apiEndpoint}`, JSON.stringify(crudObject))
             .then(res => {
-                history.push(
+                navigate(
                     `/muteer/${overzichtSlug}/${res.data.ID}${
                         location.hash === '#mijn-beleid' ? '#mijn-beleid' : ''
-                    }`
+                    }`,
+                    { replace: true }
                 )
                 toastNotification({ type: 'saved' })
             })
@@ -138,10 +132,11 @@ const MuteerUniversalObjectCRUD = ({
                 cancelToken: axiosCancelSource?.token,
             })
             .then(() => {
-                history.push(
+                navigate(
                     `/muteer/${overzichtSlug}/${objectID}${
                         location.hash === '#mijn-beleid' ? '#mijn-beleid' : ''
-                    }`
+                    }`,
+                    { replace: true }
                 )
                 toastNotification({ type: 'saved' })
             })
@@ -152,12 +147,13 @@ const MuteerUniversalObjectCRUD = ({
                     err?.response?.data?.message ===
                         'Patching does not result in any changes.'
                 ) {
-                    history.push(
+                    navigate(
                         `/muteer/${overzichtSlug}/${objectID}${
                             location.hash === '#mijn-beleid'
                                 ? '#mijn-beleid'
                                 : ''
-                        }`
+                        }`,
+                        { replace: true }
                     )
                     toastNotification({ type: 'saved' })
                 } else {
@@ -454,13 +450,13 @@ const MuteerUniversalObjectCRUD = ({
                 /** Check if user is allowed */
                 const isUserAllowed = checkIfUserIsAllowedOnPage({
                     object: responseObject[0],
-                    authUser,
+                    user,
                 })
                 if (!isUserAllowed) {
                     toastNotification({
                         type: 'user is not authenticated for this page',
                     })
-                    history.push('/muteer/dashboard')
+                    navigate('/muteer/dashboard', { replace: true })
                 }
 
                 if (
@@ -526,7 +522,7 @@ const MuteerUniversalObjectCRUD = ({
                 titelMeervoud={titelMeervoud}
                 overzichtSlug={overzichtSlug || ''}
                 titleSingular={titleSingular}
-                objectID={objectID}
+                objectID={objectID!}
             />
 
             {dataLoaded ? (
@@ -637,4 +633,4 @@ const MuteerUniversalObjectCRUD = ({
     )
 }
 
-export default withRouter(MuteerUniversalObjectCRUD)
+export default MuteerUniversalObjectCRUD

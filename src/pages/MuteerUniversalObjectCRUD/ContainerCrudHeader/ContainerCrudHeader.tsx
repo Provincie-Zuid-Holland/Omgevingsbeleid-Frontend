@@ -1,4 +1,4 @@
-import { withRouter, useLocation, RouteComponentProps } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
 import ButtonBackToPage from '@/components/ButtonBackToPage'
 import { LoaderMainTitle } from '@/components/Loader'
@@ -7,7 +7,7 @@ import { LoaderMainTitle } from '@/components/Loader'
  * @returns A header displaying information about the policy objec that is being created / edited
  */
 
-interface ContainerCrudHeaderProps extends RouteComponentProps {
+interface ContainerCrudHeaderProps {
     editStatus?: boolean
     dataLoaded?: boolean
     objectTitle: string
@@ -89,4 +89,4 @@ function ContainerCrudHeader({
     )
 }
 
-export default withRouter(ContainerCrudHeader)
+export default ContainerCrudHeader

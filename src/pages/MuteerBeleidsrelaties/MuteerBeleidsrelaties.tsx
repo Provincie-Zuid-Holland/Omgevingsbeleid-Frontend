@@ -1,4 +1,4 @@
-import { useContext, useEffect, useLayoutEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
@@ -8,8 +8,8 @@ import {
     BeleidsrelatiesRead,
     BeleidsrelatiesReadStatus,
 } from '@/api/fetchers.schemas'
-import UserContext from '@/App/UserContext'
 import { ContainerMain } from '@/components/Container'
+import useAuth from '@/hooks/useAuth'
 
 import MuteerBeleidsrelatiesDetail from '../MuteerBeleidsrelatieDetail'
 import MuteerBeleidsrelatiesOverzicht from '../MuteerBeleidsrelatiesOverzicht'
@@ -25,7 +25,7 @@ function MuteerBeleidsrelaties() {
     const [beleidskeuzes, setBeleidskeuzes] = useState<BeleidskeuzesRead[]>([])
     const [isLoading, setIsLoading] = useState(true)
 
-    const { user } = useContext(UserContext)
+    const { user } = useAuth()
     const { UUID } = useParams<{ UUID: string }>()
 
     const updateBeleidsrelaties = (

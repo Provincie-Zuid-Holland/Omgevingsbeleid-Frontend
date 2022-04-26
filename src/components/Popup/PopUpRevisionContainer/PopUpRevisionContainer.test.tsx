@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react'
-import { MemoryRouter, Route } from 'react-router-dom'
+import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import '@testing-library/jest-dom'
 
 import { revisionDataObject } from '../../../mocks/data/revisionDataObject'
@@ -20,12 +20,17 @@ describe('PopUpRevisionContainer', () => {
         const props = { ...defaultProps, ...customProps }
         render(
             <MemoryRouter initialEntries={[initialEntries]}>
-                <Route path={path}>
-                    <div>
-                        <PopUpRevisionContainer {...props} />
-                        <span>Element outside</span>
-                    </div>
-                </Route>
+                <Routes>
+                    <Route
+                        path={path}
+                        element={
+                            <div>
+                                <PopUpRevisionContainer {...props} />
+                                <span>Element outside</span>
+                            </div>
+                        }
+                    />
+                </Routes>
             </MemoryRouter>
         )
     }

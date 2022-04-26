@@ -1,7 +1,7 @@
 import { faSearch } from '@fortawesome/pro-light-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useEffect, useRef, useState } from 'react'
-import { useLocation, useHistory } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useClickAway, useWindowSize } from 'react-use'
 import 'url-search-params-polyfill'
 
@@ -21,7 +21,7 @@ const SearchBar = ({
     callBack,
 }: SearchBarProps) => {
     const location = useLocation()
-    const history = useHistory()
+    const navigate = useNavigate()
     const windowSize = useWindowSize()
     const isMobile = windowSize.width <= 640
 
@@ -41,7 +41,7 @@ const SearchBar = ({
             if (callBack) {
                 callBack()
             }
-            history.push(`/zoekresultaten?query=${searchQuery}`)
+            navigate(`/zoekresultaten?query=${searchQuery}`, { replace: true })
         } else if (e.key === 'Escape') {
             // Escape key
             setSearchBarPopupOpen(false)

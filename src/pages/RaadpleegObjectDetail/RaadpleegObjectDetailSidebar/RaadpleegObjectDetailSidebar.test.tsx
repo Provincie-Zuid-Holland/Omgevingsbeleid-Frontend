@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import { MemoryRouter, Route } from 'react-router-dom'
+import { MemoryRouter, Route, Routes } from 'react-router-dom'
 
 import RaadpleegObjectDetailSidebar from './RaadpleegObjectDetailSidebar'
 
@@ -19,9 +19,12 @@ describe('RaadpleegObjectDetailSidebar', () => {
         const props = { ...defaultProps, ...customProps }
         render(
             <MemoryRouter initialEntries={[initialEntries]}>
-                <Route path={path}>
-                    <RaadpleegObjectDetailSidebar {...props} />
-                </Route>
+                <Routes>
+                    <Route
+                        path={path}
+                        element={<RaadpleegObjectDetailSidebar {...props} />}
+                    />
+                </Routes>
             </MemoryRouter>
         )
     }

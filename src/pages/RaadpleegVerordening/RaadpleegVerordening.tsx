@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useWindowSize } from 'react-use'
 
 import axios from '@/api/instance'
@@ -93,7 +93,7 @@ const VerordeningsSection = ({
     section,
     setActiveArticle,
 }: VerordeningsSectionProps) => {
-    const history = useHistory()
+    const navigate = useNavigate()
     const location = useLocation()
 
     if (section.Type === 'Hoofdstuk') {
@@ -161,8 +161,9 @@ const VerordeningsSection = ({
             <div className="mt-6 mb-4" id={section.UUID}>
                 <div
                     onClick={() => {
-                        history.push(
-                            `${location.pathname}?actief=${section.UUID}`
+                        navigate(
+                            `${location.pathname}?actief=${section.UUID}`,
+                            { replace: true }
                         )
                         setActiveArticle(section)
                     }}
