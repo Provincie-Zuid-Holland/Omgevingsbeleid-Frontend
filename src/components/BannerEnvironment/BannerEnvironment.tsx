@@ -32,27 +32,27 @@ const getEnvironmentText = (environment: Environment): string => {
 interface BannerEnvironmentProps {
     userIsInMuteerEnvironment: boolean
     hideBannerLocalStorage: () => boolean
+    showBanner: boolean
+    setShowBanner: (boolean: any) => void
 }
 
 const BannerEnvironment = ({
     userIsInMuteerEnvironment,
     hideBannerLocalStorage,
+    showBanner,
+    setShowBanner,
 }: BannerEnvironmentProps) => {
-    const [showBanner, setShowBanner] = useState(
-        userIsInMuteerEnvironment && !hideBannerLocalStorage()
-    )
-
     const removeBanner = useCallback(() => {
         const mainContainer = document.getElementById('main-container')
         if (!mainContainer) return
         mainContainer.style.removeProperty('margin-top')
         setShowBanner(false)
-    }, [])
+    }, [setShowBanner])
 
     const addBanner = useCallback(() => {
         addMarginTop()
         setShowBanner(true)
-    }, [])
+    }, [setShowBanner])
 
     useEffect(() => {
         if (userIsInMuteerEnvironment && !hideBannerLocalStorage()) {

@@ -32,11 +32,12 @@ const Navigation = ({ loggedIn }: NavigationProps) => {
     const userIsInMuteerEnvironment = usePage('/muteer/')
     const isAdvancedSearchPage = usePage('/zoeken-op-kaart')
     const windowSize = useWindowSize()
+    const [showBanner, setShowBanner] = useState(
+        userIsInMuteerEnvironment && !hideBannerLocalStorage()
+    )
 
     // State for popup menu
     const [isOpen, setIsOpen] = useState(false)
-
-    const showBanner = userIsInMuteerEnvironment && !hideBannerLocalStorage()
     const isMobile = windowSize.width <= 640
 
     return (
@@ -51,6 +52,8 @@ const Navigation = ({ loggedIn }: NavigationProps) => {
             <BannerEnvironment
                 hideBannerLocalStorage={hideBannerLocalStorage}
                 userIsInMuteerEnvironment={userIsInMuteerEnvironment}
+                showBanner={showBanner}
+                setShowBanner={setShowBanner}
             />
 
             <Container>
