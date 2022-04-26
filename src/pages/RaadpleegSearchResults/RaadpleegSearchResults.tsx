@@ -212,7 +212,7 @@ const RaadpleegSearchResults = () => {
                                     setSearchResults={setSearchResults}
                                     searchResults={searchResults}
                                     UUIDs={UUIDs}
-                                    limit={20}
+                                    limit={10}
                                     total={searchResultsTotal}
                                 />
                             )}
