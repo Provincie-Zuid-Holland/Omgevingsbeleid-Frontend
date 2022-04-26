@@ -35,7 +35,7 @@ const LeafletControlLayer = ({ fullscreen, children }: LeafletLayerProps) => {
                 <div className="leaflet-layers-control">
                     <div className="flex">
                         <div
-                            className={`leaflet-layers absolute top-0 right-0 p-2 w-8 h-8 flex justify-center items-center ${
+                            className={`leaflet-layers absolute top-0 right-0 p-2 w-8 h-8 flex justify-center items-center bg-white ${
                                 layerControlOpen ? 'hidden' : ''
                             }`}
                             onClick={() =>

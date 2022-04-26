@@ -14,18 +14,20 @@ const LeafletZoom = ({ position = 'bottomleft' }: LeafletZoomProps) => {
 
     return (
         <LeafletController position={position}>
-            <div className="leaflet-zoom relative z-10 flex items-center justify-center h-8 w-8 bg-white cursor-pointer">
+            <div
+                className="leaflet-zoom relative z-10 flex items-center justify-center h-8 w-8 bg-white cursor-pointer"
+                onClick={() => map.zoomIn()}>
                 <FontAwesomeIcon
                     className="inline-block cursor-pointer text-sm"
                     icon={faPlus}
-                    onClick={() => map.zoomIn()}
                 />
             </div>
-            <div className="leaflet-zoom relative z-10 flex items-center justify-center h-8 w-8 bg-white cursor-pointer">
+            <div
+                className="leaflet-zoom relative z-10 flex items-center justify-center h-8 w-8 bg-white cursor-pointer"
+                onClick={() => map.zoomOut()}>
                 <FontAwesomeIcon
                     className="inline-block text-sm cursor-pointer"
                     icon={faMinus}
-                    onClick={() => map.zoomOut()}
                 />
             </div>
         </LeafletController>
