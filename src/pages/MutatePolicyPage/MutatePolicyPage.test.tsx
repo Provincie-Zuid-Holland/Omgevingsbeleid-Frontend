@@ -21,7 +21,7 @@ const urls = {
     Beleidsdoel: '/beleidsdoelen/edit/1',
     Maatregel: '/maatregelen/edit/1',
     Thema: '/themas/edit/1',
-}
+} as const
 
 describe('MutatePolicyPage', () => {
     const defaultProps = {
@@ -44,9 +44,16 @@ describe('MutatePolicyPage', () => {
         )
     }
 
-    it('Component renders', () => {
-        setup(urls.Beleidskeuze)
-        const element = screen.getByText('Algemene informatie')
-        expect(element).toBeTruthy()
+    ;(Object.keys(urls) as Array<keyof typeof urls>).forEach(key => {
+        it(`Mutate page renders and user can change the title for ${key}`, () => {
+            setup(urls[key])
+
+            const element = screen.getByText('Algemene informatie')
+            expect(element).toBeTruthy()
+
+            const titleInput = screen.getByLabelText('Titel')
+            fireEvent.change(titleInput, { target: { value: 'test title' } })
+            expect(titleInput).toHaveValue('test title')
+        })
     })
 })
