@@ -137,6 +137,7 @@ const FormFieldSelectUserGroup = ({
                                 Opdrachtgever
                             </span>
                             <FormikSelect
+                                testId="formik-select-opdrachtgever"
                                 name="Opdrachtgever"
                                 options={formattedUserList.Opdrachtgever}
                             />
@@ -148,6 +149,7 @@ const FormFieldSelectUserGroup = ({
                                 Eerste eigenaar
                             </span>
                             <FormikSelect
+                                testId="formik-select-eigenaar-1"
                                 name="Eigenaar_1"
                                 options={formattedUserList.Eigenaar_1}
                             />
@@ -157,6 +159,7 @@ const FormFieldSelectUserGroup = ({
                                 Tweede eigenaar
                             </span>
                             <FormikSelect
+                                testId="formik-select-eigenaar-2"
                                 name="Eigenaar_2"
                                 options={formattedUserList.Eigenaar_2}
                             />
@@ -168,6 +171,7 @@ const FormFieldSelectUserGroup = ({
                                 Eerste portefeuillehouder
                             </span>
                             <FormikSelect
+                                testId="formik-select-portefeuillehouder-1"
                                 name="Portefeuillehouder_1"
                                 options={formattedUserList.Portefeuillehouder_1}
                             />
@@ -177,6 +181,7 @@ const FormFieldSelectUserGroup = ({
                                 Tweede portefeuillehouder
                             </span>
                             <FormikSelect
+                                testId="formik-select-portefeuillehouder-2"
                                 name="Portefeuillehouder_2"
                                 options={formattedUserList.Portefeuillehouder_2}
                             />
