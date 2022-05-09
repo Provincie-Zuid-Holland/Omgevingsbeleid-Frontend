@@ -1,6 +1,13 @@
 import * as axiosPackage from 'axios'
 import cloneDeep from 'lodash.clonedeep'
-import { KeyboardEvent, MouseEvent, useEffect, useState, useRef } from 'react'
+import {
+    KeyboardEvent,
+    MouseEvent,
+    useEffect,
+    useLayoutEffect,
+    useState,
+    useRef,
+} from 'react'
 import { Helmet } from 'react-helmet'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 
@@ -64,7 +71,7 @@ const MuteerUniversalObjectCRUD = ({
     const titleSingular = dimensieConstants.TITLE_SINGULAR
     const titelMeervoud = dimensieConstants.TITLE_PLURAL
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         crudObjectRef.current = crudObject
     }, [crudObject])
 
