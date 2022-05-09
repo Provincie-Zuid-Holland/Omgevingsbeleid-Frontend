@@ -36,9 +36,9 @@ instance.interceptors.response.use(
                     detail: { message: 'Authenticated sessie is afgelopen' },
                 })
             )
-        } else {
-            return Promise.reject(error)
         }
+
+        throw error?.response
     }
 )
 
