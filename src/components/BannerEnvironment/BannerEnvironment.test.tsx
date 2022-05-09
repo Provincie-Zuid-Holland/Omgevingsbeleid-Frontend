@@ -10,6 +10,8 @@ describe('BannerEnvironment', () => {
     const defaultProps = {
         hideBannerLocalStorage: hideBannerLocalStorageMock,
         userIsInMuteerEnvironment: true,
+        showBanner: true,
+        setShowBanner: jest.fn(),
     }
 
     const setup = (customProps?: { [key: string]: any }) => {
