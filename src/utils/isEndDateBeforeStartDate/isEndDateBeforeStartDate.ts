@@ -9,7 +9,12 @@ const isEndDateBeforeStartDate = (crudObject: any) => {
     const startDate = new Date(crudObject.Begin_Geldigheid)
     const endDate = new Date(crudObject.Eind_Geldigheid)
 
-    if (isBefore(endDate, startDate)) {
+    if (
+        crudObject.Eind_Geldigheid === null ||
+        crudObject.Eind_Geldigheid === undefined
+    ) {
+        return false
+    } else if (isBefore(endDate, startDate)) {
         return true
     } else {
         return false
