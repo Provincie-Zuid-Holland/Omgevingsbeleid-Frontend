@@ -79,10 +79,9 @@ function RaadpleegDigiToegankelijkheid() {
                         href="https://www.toegankelijkheidsverklaring.nl/register/6339"
                         target="_blank"
                         rel="noopener noreferrer">
-                        <embed
-                            width={700}
+                        <img
                             src="https://www.toegankelijkheidsverklaring.nl/files/verklaring/label/af8d16e4762bcdbe16d268c44056bcfe.6339.svg"
-                            title="Status Toegankelijkheid"
+                            alt="Status Toegankelijkheid"
                         />
                     </a>
                 </div>
