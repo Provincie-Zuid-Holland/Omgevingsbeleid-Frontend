@@ -1,8 +1,8 @@
+import { useDnaBarWidth } from '@pzh-ui/components'
 import { useRef } from 'react'
 
 import Breadcrumbs from '@/components/Breadcrumbs'
 import { Container } from '@/components/Container'
-import { useDnaBarWidth } from '@/components/DNABar'
 import Heading from '@/components/Heading'
 import Text from '@/components/Text'
 import imgDigiToegankelijkheid from '@/images/digi-toegankelijkheid.png'

@@ -1,6 +1,6 @@
 import { BeleidskeuzesRead } from '@/api/fetchers.schemas'
-import UserContext from '@/App/UserContext'
 import ViewFieldIngelogdExtraInfo from '@/components/ViewFieldIngelogdExtraInfo'
+import { AuthContext } from '@/context/AuthContext'
 
 import ViewFieldBelangen from '../../ViewFieldBelangen'
 import ViewFieldInnerHTML from '../../ViewFieldInnerHTML'
@@ -11,7 +11,7 @@ const ContainerViewFieldsBeleidskeuze = ({
 }: {
     crudObject: BeleidskeuzesRead
 }) => (
-    <UserContext.Consumer>
+    <AuthContext.Consumer>
         {context => (
             <>
                 {context?.user ? (
@@ -61,7 +61,7 @@ const ContainerViewFieldsBeleidskeuze = ({
                 ) : null */}
             </>
         )}
-    </UserContext.Consumer>
+    </AuthContext.Consumer>
 )
 
 export default ContainerViewFieldsBeleidskeuze

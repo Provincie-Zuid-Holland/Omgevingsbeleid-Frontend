@@ -1,7 +1,8 @@
-import './../../mocks/matchMedia'
-
+import '@/mocks/matchMedia'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
+
+import { BrowserRouter } from 'react-router-dom'
 
 import SearchFilterSection from './SearchFilterSection'
 
@@ -46,9 +47,13 @@ describe('SearchFilterSection', () => {
         setOnPageFilters: jest.fn(),
     }
 
-    const setup = customProps => {
+    const setup = (customProps?: any) => {
         const props = { ...defaultProps, ...customProps }
-        render(<SearchFilterSection {...props} />)
+        render(
+            <BrowserRouter>
+                <SearchFilterSection {...props} />
+            </BrowserRouter>
+        )
     }
 
     it('Component renders', () => {

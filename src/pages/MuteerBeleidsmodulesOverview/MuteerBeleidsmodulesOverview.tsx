@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useParams, useHistory } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 import { getBeleidsmodules } from '@/api/fetchers'
@@ -43,7 +43,7 @@ function MuteerBeleidsmodulesOverview() {
     const [filters, setFilters, filterPolicies] = useModuleFilter()
 
     const params = useParams<ModuleParams>()
-    const history = useHistory()
+    const navigate = useNavigate()
 
     /**
      * Effect to init the component:
@@ -58,7 +58,7 @@ function MuteerBeleidsmodulesOverview() {
             beleidsmodules: BeleidsmodulesRead[]
         ) => {
             const currentBeleidsmodule = beleidsmodules.find(
-                module => module.ID === parseInt(params.single)
+                module => module.ID === parseInt(params.single!)
             )
 
             if (currentBeleidsmodule) {
@@ -66,8 +66,9 @@ function MuteerBeleidsmodulesOverview() {
                 return currentBeleidsmodule
             } else {
                 toast('Deze beleidsmodule kon niet gevonden worden')
-                history.push(
-                    `/muteer/${allDimensies.BELEIDSMODULES.SLUG_OVERVIEW}`
+                navigate(
+                    `/muteer/${allDimensies.BELEIDSMODULES.SLUG_OVERVIEW}`,
+                    { replace: true }
                 )
             }
         }
@@ -96,7 +97,7 @@ function MuteerBeleidsmodulesOverview() {
         }
 
         getAndSetBeleidsmodules()
-    }, [history, params, setFilters])
+    }, [navigate, params, setFilters])
 
     return (
         <div className="container flex flex-col pb-8 mx-auto sm:px-6 lg:px-8">

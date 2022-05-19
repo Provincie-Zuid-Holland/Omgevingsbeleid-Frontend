@@ -4,7 +4,7 @@ import {
     waitForElementToBeRemoved,
 } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import { MemoryRouter, Route } from 'react-router-dom'
+import { MemoryRouter, Route, Routes } from 'react-router-dom'
 
 import { AmbitiesRead } from '@/api/fetchers.schemas'
 import allDimensies from '@/constants/dimensies'
@@ -27,17 +27,22 @@ describe('RaadpleegObjectDetail', () => {
 
         render(
             <MemoryRouter initialEntries={[initialEntries]}>
-                <Route path={path}>
-                    <RaadpleegObjectDetail
-                        dataEndpoint={jest.fn(() =>
-                            Promise.resolve(ambities as AmbitiesRead[])
-                        )}
-                        dataVersionEndpoint={jest.fn(() =>
-                            Promise.resolve(ambities[0] as AmbitiesRead)
-                        )}
-                        {...props}
+                <Routes>
+                    <Route
+                        path={path}
+                        element={
+                            <RaadpleegObjectDetail
+                                dataEndpoint={jest.fn(() =>
+                                    Promise.resolve(ambities as AmbitiesRead[])
+                                )}
+                                dataVersionEndpoint={jest.fn(() =>
+                                    Promise.resolve(ambities[0] as AmbitiesRead)
+                                )}
+                                {...props}
+                            />
+                        }
                     />
-                </Route>
+                </Routes>
             </MemoryRouter>
         )
     }

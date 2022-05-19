@@ -1,11 +1,16 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
+import { BrowserRouter } from 'react-router-dom'
 
 import LeafletMap, { LeafletMapProps } from './LeafletMap'
 
 describe('LeafletMap', () => {
     const setup = (props?: LeafletMapProps) => {
-        const { container } = render(<LeafletMap {...props} />)
+        const { container } = render(
+            <BrowserRouter>
+                <LeafletMap {...props} />
+            </BrowserRouter>
+        )
 
         const searchController = container.querySelector(
             '.leaflet-search > div'

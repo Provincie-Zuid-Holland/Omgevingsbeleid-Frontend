@@ -13,7 +13,7 @@ type SelectedOption = { label: string; value: string }
 
 const handleWerkingsgebiedSelect = async (
     mapInstance: Map | null,
-    history: any,
+    navigate: any,
     werkingsgebied: Leaflet.Proj.GeoJSON | null,
     setWerkingsgebied: (item: Leaflet.Proj.GeoJSON | null) => void,
     selected?: SelectedOption | null
@@ -69,7 +69,7 @@ const handleWerkingsgebiedSelect = async (
                     mapInstance,
                     werkingsgebiedLayer,
                     geoJsonLayer,
-                    history,
+                    navigate,
                     searchParams,
                     MAP_SEARCH_PAGE
                 )
@@ -79,7 +79,7 @@ const handleWerkingsgebiedSelect = async (
                         mapInstance,
                         werkingsgebiedLayer,
                         geoJsonLayer,
-                        history,
+                        navigate,
                         searchParams,
                         MAP_SEARCH_PAGE
                     )
@@ -87,7 +87,7 @@ const handleWerkingsgebiedSelect = async (
             }
 
             searchParams.set('werkingsgebied', selected.value)
-            history.push(`${MAP_SEARCH_PAGE}?${searchParams}`)
+            navigate(`${MAP_SEARCH_PAGE}?${searchParams}`, { replace: true })
         })
         .catch(err => {
             if (axios.isCancel(err)) {
@@ -103,7 +103,7 @@ const handlePopupEvents = (
     map: Map,
     werkingsgebiedLayer: any,
     layer: any,
-    history: any,
+    navigate: any,
     searchParams: URLSearchParams,
     path: string
 ) => {
@@ -120,14 +120,14 @@ const handlePopupEvents = (
             )
             map?.setView(coordinates, MAP_OPTIONS.zoom)
 
-            history.push(MAP_SEARCH_PAGE)
+            navigate(MAP_SEARCH_PAGE, { replace: true })
         })
 
     popupContainer
         .querySelector('.advanced-search-button')
         ?.addEventListener('click', () => {
             searchParams.append('searchOpen', 'true')
-            history.push(`${path}?${searchParams}`)
+            navigate(`${path}?${searchParams}`, { replace: true })
         })
 }
 

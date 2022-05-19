@@ -1,7 +1,7 @@
 import { Map, point } from 'leaflet'
 import Proj from 'proj4leaflet'
 import { useEffect, useMemo, useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useEffectOnce, useMedia, useUpdateEffect } from 'react-use'
 
 import { getWerkingsGebieden } from '@/api/axiosGeoJSON'
@@ -26,7 +26,7 @@ export const MAP_OPTIONS = {
 }
 
 const RaadpleegMapSearch = () => {
-    const history = useHistory()
+    const navigate = useNavigate()
     const { get } = useSearchParam()
     const [paramGeoQuery, paramSearchOpen, paramWerkingsgebied] = get([
         'geoQuery',
@@ -37,7 +37,6 @@ const RaadpleegMapSearch = () => {
 
     const [initialized, setInitialized] = useState(false)
     const [mapInstance, setMapInstance] = useState<Map | null>(null)
-    const [layer, setLayer] = useState<any>(null)
     const [UUIDs, setUUIDs] = useState<string[]>([])
     const [searchResultsTotal, setSearchResultsTotal] = useState(0)
     const [searchResults, setSearchResults] = useState<
@@ -153,16 +152,15 @@ const RaadpleegMapSearch = () => {
                     return { lat, lng }
                 })
 
-                const layer = mapPanTo({
+                mapPanTo({
                     map: mapInstance,
-                    history,
+                    navigate,
                     latLngs,
                     type: '',
                     layerType: 'polygon',
                     callback: onDraw,
                 })
 
-                setLayer(layer)
                 setInitialized(true)
             } else {
                 const [x, y] = geoQuery[0].split('+')
@@ -171,20 +169,17 @@ const RaadpleegMapSearch = () => {
                     point(parseFloat(x), parseFloat(y))
                 )
 
-                if (!mapInstance.hasLayer(layer)) {
-                    const layer = mapPanTo({
-                        map: mapInstance,
-                        history,
-                        lng: parseFloat(parseFloat(lng).toFixed(20)),
-                        lat: parseFloat(parseFloat(lat).toFixed(20)),
-                        type: '',
-                        layerType: 'marker',
-                        callback: onDraw,
-                    })
+                mapPanTo({
+                    map: mapInstance,
+                    navigate,
+                    lng: parseFloat(parseFloat(lng).toFixed(20)),
+                    lat: parseFloat(parseFloat(lat).toFixed(20)),
+                    type: '',
+                    layerType: 'marker',
+                    callback: onDraw,
+                })
 
-                    setLayer(layer)
-                    setInitialized(true)
-                }
+                setInitialized(true)
             }
         })
         // eslint-disable-next-line react-hooks/exhaustive-deps

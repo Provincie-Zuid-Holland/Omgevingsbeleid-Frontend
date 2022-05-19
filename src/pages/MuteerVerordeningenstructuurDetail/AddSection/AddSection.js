@@ -8,7 +8,7 @@ import {
 import { faPlus } from '@fortawesome/pro-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Component, createRef } from 'react'
-import { Link, withRouter } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useSpring, animated } from 'react-spring'
 
 function AnimatedContainer({ classes, children, reference, onClick }) {
@@ -177,4 +177,4 @@ class AddSection extends Component {
     }
 }
 
-export default withRouter(AddSection)
+export default AddSection

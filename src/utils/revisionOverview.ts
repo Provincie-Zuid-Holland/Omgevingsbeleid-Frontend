@@ -13,7 +13,12 @@ const getOptions = (
     leftSelect: any
 ) => {
     const getValidText = (object: any) => {
-        if (!object['Begin_Geldigheid'])
+        const standardDates = ['1753-01-01T00:00:00Z', '10000-01-01T00:00:00Z']
+
+        if (
+            !object['Begin_Geldigheid'] ||
+            standardDates.includes(object['Begin_Geldigheid'])
+        )
             return 'Er is nog geen begin geldigheid'
 
         const textDate = formatDate(

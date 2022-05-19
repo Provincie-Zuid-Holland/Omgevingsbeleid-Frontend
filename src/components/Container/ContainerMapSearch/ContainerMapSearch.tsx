@@ -1,4 +1,4 @@
-import { FC, useMemo } from 'react'
+import { FC } from 'react'
 import { useMedia } from 'react-use'
 
 interface ContainerMapSearchProps {
@@ -15,24 +15,12 @@ const ContainerMapSearch: FC<ContainerMapSearchProps> = ({
 }) => {
     const isMobile = useMedia('(max-width: 640px)')
 
-    const containerHeightStyle = useMemo(
-        () => ({
-            height: isMobile
-                ? 'inherit'
-                : `calc(100vh - ${
-                      document.getElementById('top-navigation')?.offsetHeight +
-                      'px'
-                  })`,
-        }),
-        [isMobile]
-    )
-
     return (
         <div
             id={id}
             ref={reference}
             className={`flex flex-col md:flex-row mx-auto ${className}`}
-            style={containerHeightStyle}>
+            style={!isMobile ? { height: 'calc(100vh - 96px' } : undefined}>
             {children}
         </div>
     )

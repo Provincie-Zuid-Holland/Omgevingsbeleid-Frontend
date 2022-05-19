@@ -1,8 +1,8 @@
 // Banners
 
 .banner-dev {
-    background-color: theme('colors.pzh-blue.DEFAULT');
-    color: theme('colors.white');
+    background-color: #281f6b;
+    color: #ffffff;
     .hide-banner {
         &:hover,
         &:focus {
@@ -22,7 +22,7 @@
 }
 .banner-acc {
     background-color: #2ecc71;
-    color: theme('colors.white');
+    color: #ffffff;
     .hide-banner {
         &:hover,
         &:focus {
@@ -31,8 +31,8 @@
     }
 }
 .banner-prod {
-    background-color: theme('colors.pzh-red.DEFAULT');
-    color: theme('colors.white');
+    background-color: #d11f3d;
+    color: #ffffff;
     .hide-banner {
         &:hover,
         &:focus {

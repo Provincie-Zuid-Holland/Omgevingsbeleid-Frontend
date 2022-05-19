@@ -1,12 +1,7 @@
 import { isValid } from 'date-fns'
 import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
-import {
-    RouteComponentProps,
-    useHistory,
-    useParams,
-    withRouter,
-} from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 import { getVersionBeleidskeuzesObjectuuid } from '@/api/fetchers'
@@ -20,21 +15,21 @@ import { toastNotification } from '@/utils/toastNotification'
 import APIcontext from './APIContext'
 import ContainerCrudFields from './ContainerCrudFields'
 
-interface MuteerBeleidsrelatiesCRUDProps extends RouteComponentProps {
+interface MuteerBeleidsrelatiesCRUDProps {
     dataModel: typeof allDimensies.BELEIDSRELATIES
 }
 
 const MuteerBeleidsrelatiesCRUD = ({
     dataModel,
 }: MuteerBeleidsrelatiesCRUDProps) => {
-    const history = useHistory()
+    const navigate = useNavigate()
     const { UUID } = useParams<{ UUID: string }>()
     const [crudObject, setCrudObject] = useState({
         Begin_Geldigheid: '',
         Eind_Geldigheid: '',
         Naar_Beleidskeuze: '',
         Omschrijving: '',
-        Titel: '',
+        // Titel: '',
         Van_Beleidskeuze: UUID,
         Status: 'Open',
         Aanvraag_Datum: new Date(),
@@ -42,7 +37,7 @@ const MuteerBeleidsrelatiesCRUD = ({
     const [vanBeleidskeuzeTitel, SetVanBeleidskeuzeTitel] = useState('...')
 
     useEffect(() => {
-        getVersionBeleidskeuzesObjectuuid(UUID)
+        getVersionBeleidskeuzesObjectuuid(UUID!)
             .then(data => SetVanBeleidskeuzeTitel(data.Titel || ''))
             .catch(err => {
                 console.log(err)
@@ -52,12 +47,8 @@ const MuteerBeleidsrelatiesCRUD = ({
 
     const handleChange = (event: any) => {
         const name = event.target.name
-        const type = event.target.type
 
-        let value = event.target.value
-        if (type === 'date') {
-            value = event.target.value
-        }
+        const value = event.target.value
 
         setCrudObject({
             ...crudObject,
@@ -93,15 +84,15 @@ const MuteerBeleidsrelatiesCRUD = ({
 
         crudObject.Begin_Geldigheid = new Date(
             crudObject.Begin_Geldigheid
-        ).toString()
+        ).toISOString()
         crudObject.Eind_Geldigheid = new Date(
             crudObject.Eind_Geldigheid
-        ).toString()
+        ).toISOString()
 
         axios
             .post(`/beleidsrelaties`, JSON.stringify(crudObject))
             .then(() => {
-                history.push(`/muteer/beleidsrelaties/${UUID}`)
+                navigate(`/muteer/beleidsrelaties/${UUID}`, { replace: true })
                 toast('Opgeslagen')
             })
             .catch(err => {
@@ -150,4 +141,4 @@ const MuteerBeleidsrelatiesCRUD = ({
     )
 }
 
-export default withRouter(MuteerBeleidsrelatiesCRUD)
+export default MuteerBeleidsrelatiesCRUD

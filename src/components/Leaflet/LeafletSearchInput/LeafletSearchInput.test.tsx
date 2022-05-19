@@ -1,6 +1,8 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom'
 
+import { BrowserRouter } from 'react-router-dom'
+
 import LeafletSearchInput from './LeafletSearchInput'
 
 describe('LeafletSearchInput', () => {
@@ -42,7 +44,11 @@ describe('LeafletSearchInput', () => {
 
     const setup = (customProps?: any) => {
         const props = { ...defaultProps, ...customProps }
-        render(<LeafletSearchInput {...props} />)
+        render(
+            <BrowserRouter>
+                <LeafletSearchInput {...props} />
+            </BrowserRouter>
+        )
     }
 
     it('Component renders', () => {

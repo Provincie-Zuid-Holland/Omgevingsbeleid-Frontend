@@ -1,6 +1,5 @@
-import { ChangeEventHandler, useContext } from 'react'
+import { ChangeEventHandler } from 'react'
 
-import UserContext from '@/App/UserContext'
 import { ContainerFormSection } from '@/components/Container'
 import {
     FormFieldGeldigheid,
@@ -13,6 +12,7 @@ import {
     FormFieldSelectUserGroup,
     FormFieldTitelEnBeschrijving,
 } from '@/components/Form'
+import useAuth from '@/hooks/useAuth'
 
 const initialValueToelichting = `<p><b>Rolkeuze</b></p><p><br><br></p><p><b>Beleidskeuzes</b></p><p><br><br></p><p><b>Is de maatregel gebiedsspecifiek?</b></p><p><br><br></p><p><b>Toelichting</b></p><p><br><br></p>`
 
@@ -36,7 +36,7 @@ function FormFieldContainerMaatregelen({
     // If the beleidskeuze is 'vigerend' we need to specify who can edit which fields
     const isVigerend = crudObject.Status === 'Vigerend'
 
-    const { user } = useContext(UserContext)
+    const { user } = useAuth()
     const userUUID = user?.UUID
     const userRol = user?.Rol
 

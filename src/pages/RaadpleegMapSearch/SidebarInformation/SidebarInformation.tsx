@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Transition } from '@headlessui/react'
 import Leaflet, { latLng, Map } from 'leaflet'
 import { ReactNode, useEffect, useMemo, useRef, useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import Select from 'react-select'
 
 import { useGetValidWerkingsgebieden } from '@/api/fetchers'
@@ -33,7 +33,7 @@ const SidebarInformation = ({
 }: SidebarInformationProps) => {
     const { get, set } = useSearchParam()
     const [paramWerkingsgebied] = get('werkingsgebied')
-    const history = useHistory()
+    const navigate = useNavigate()
 
     const [werkingsgebied, setWerkingsgebied] =
         useState<Leaflet.Proj.GeoJSON | null>(null)
@@ -47,7 +47,7 @@ const SidebarInformation = ({
     )
 
     const goBack = () => {
-        history.push(MAP_SEARCH_PAGE)
+        navigate(MAP_SEARCH_PAGE, { replace: true })
 
         /**
          * Remove all markers and polygons from map
@@ -70,7 +70,7 @@ const SidebarInformation = ({
         if (paramWerkingsgebied && mapInstance) {
             handleWerkingsgebiedSelect(
                 mapInstance,
-                history,
+                navigate,
                 werkingsgebied,
                 setWerkingsgebied,
                 {

@@ -1,12 +1,17 @@
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 
+import { QueryClient, QueryClientProvider } from 'react-query'
+
+import AuthProvider from '@/context/AuthContext'
 import beleidskeuzeChangesNew from '@/mocks/data/beleidskeuzeChangesNew'
 import beleidskeuzeChangesOld from '@/mocks/data/beleidskeuzeChangesOld'
 import beleidskeuzeChangesOriginal from '@/mocks/data/beleidskeuzeChangesOriginal'
 import beleidskeuzeChangesRevisions from '@/mocks/data/beleidskeuzeChangesRevisions'
 
 import RevisionOverviewChangeContainer from './RevisionOverviewChangeContainer'
+
+const queryClient = new QueryClient()
 
 describe('RevisionOverviewChangeContainer', () => {
     const defaultProps = {
@@ -18,7 +23,13 @@ describe('RevisionOverviewChangeContainer', () => {
 
     const setup = (customProps?: any) => {
         const props = { ...defaultProps, ...customProps }
-        render(<RevisionOverviewChangeContainer {...props} />)
+        render(
+            <QueryClientProvider client={queryClient}>
+                <AuthProvider>
+                    <RevisionOverviewChangeContainer {...props} />
+                </AuthProvider>
+            </QueryClientProvider>
+        )
     }
 
     it('Component renders', () => {

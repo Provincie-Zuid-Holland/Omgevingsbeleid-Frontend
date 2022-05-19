@@ -1,16 +1,16 @@
-import { useCallback, useContext, useLayoutEffect, useState } from 'react'
+import { useCallback, useLayoutEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 import axios from '@/api/instance'
-import UserContext from '@/App/UserContext'
 import ButtonAddNewObject from '@/components/ButtonAddNewObject'
 import CardObjectDetails from '@/components/CardObjectDetails'
 import { ContainerMain } from '@/components/Container'
 import { LoaderCard } from '@/components/Loader'
 import SidebarMain from '@/components/SidebarMain'
 import allDimensies from '@/constants/dimensies'
+import useAuth from '@/hooks/useAuth'
 import filterOutArchivedObjects from '@/utils/filterOutArchivedObjects'
 
 /**
@@ -27,12 +27,12 @@ const MuteerUniversalObjectOverzicht = ({
     dimensieConstants,
     hideAddObject,
 }: MuteerUniversalObjectOverzichtProps) => {
-    const { user } = useContext(UserContext)
+    const { user } = useAuth()
 
     const [objecten, setObjecten] = useState<any[]>([])
     const [isLoading, setIsLoading] = useState(true)
 
-    const history = useHistory()
+    const navigate = useNavigate()
 
     const getAndSetDataFromAPI = (
         ApiEndpoint: typeof dimensieConstants.API_ENDPOINT
@@ -66,8 +66,8 @@ const MuteerUniversalObjectOverzicht = ({
             return
         }
 
-        history.push('/muteer/mijn-beleid')
-    }, [user, history])
+        navigate('/muteer/mijn-beleid', { replace: true })
+    }, [user, navigate])
 
     useLayoutEffect(() => {
         const apiEndpoint = dimensieConstants.API_ENDPOINT

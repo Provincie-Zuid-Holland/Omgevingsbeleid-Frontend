@@ -36,16 +36,16 @@ instance.interceptors.response.use(
                     detail: { message: 'Authenticated sessie is afgelopen' },
                 })
             )
-        } else {
-            return Promise.reject(error)
         }
+
+        throw error?.response
     }
 )
 
 const baseURL = instance.defaults.baseURL
 
 export const customInstance = <T>(config: AxiosRequestConfig): Promise<T> => {
-    const promise = instance({ ...config }).then(({ data }) => data)
+    const promise = instance({ ...config }).then(res => res?.data)
 
     return promise
 }

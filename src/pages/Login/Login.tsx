@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useMedia } from 'react-use'
 
-import { GebruikersRead } from '@/api/fetchers.schemas'
 import { Container } from '@/components/Container'
 import Heading from '@/components/Heading'
 import { getHeadingStyles } from '@/components/Heading/Heading'
@@ -11,17 +10,9 @@ import Text from '@/components/Text'
 /**
  * Component page that imports the component LoginForm, so the user is able to login the application and reset the password when needed.
  * This component renders the title of the page (using the imported Helmet libary, to get the plain HTML tag and output the plain HTML tag), other tags with given text information and the imported LoginForm component with set information.
- *
- * @param {function} setLoginUser Callback to set user state in App component state
- * @param {function} setLoginState Callback to set login state in App component state
  */
 
-interface LoginProps {
-    setLoginUser: (identifier?: GebruikersRead) => void
-    setLoginState: (state: boolean) => void
-}
-
-const Login = ({ setLoginUser, setLoginState }: LoginProps) => {
+const Login = () => {
     const isMobile = useMedia('(max-width: 640px)')
 
     return (
@@ -35,18 +26,15 @@ const Login = ({ setLoginUser, setLoginState }: LoginProps) => {
                         : undefined
                 }
                 className="overflow-hidden">
-                <div className="col-span-6 mt-0 lg:mb-8 lg:col-span-3">
+                <div className="col-span-6 lg:pb-12 lg:col-span-3">
                     <Heading level="1" className="mt-4 sm:mt-12 lg:mt-16">
                         Inloggen
                     </Heading>
-                    <Text type="introduction-paragraph" className="mt-3">
+                    <Text type="introduction-paragraph" className="mt-3 mb-8">
                         Als beleidsmedewerker van provincie Zuid-Holland kun je
                         hier inloggen om te werken aan het Omgevingsbeleid.
                     </Text>
-                    <LoginForm
-                        setLoginUser={setLoginUser}
-                        setLoginState={setLoginState}
-                    />
+                    <LoginForm />
                 </div>
                 <div className="relative hidden col-span-3 lg:inline-block">
                     <div

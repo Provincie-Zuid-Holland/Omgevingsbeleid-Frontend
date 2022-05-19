@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import { MemoryRouter, Route } from 'react-router-dom'
+import { MemoryRouter, Route, Routes } from 'react-router-dom'
 
 import MuteerBeleidsmodulesOverview from './MuteerBeleidsmodulesOverview'
 
@@ -12,9 +12,14 @@ describe('MuteerBeleidsmodulesOverview', () => {
     it('should render', () => {
         render(
             <MemoryRouter initialEntries={[initialEntries]}>
-                <Route path={path}>
-                    <MuteerBeleidsmodulesOverview {...defaultProps} />)
-                </Route>
+                <Routes>
+                    <Route
+                        path={path}
+                        element={
+                            <MuteerBeleidsmodulesOverview {...defaultProps} />
+                        }
+                    />
+                </Routes>
             </MemoryRouter>
         )
         const text = screen.getByText('Module')
