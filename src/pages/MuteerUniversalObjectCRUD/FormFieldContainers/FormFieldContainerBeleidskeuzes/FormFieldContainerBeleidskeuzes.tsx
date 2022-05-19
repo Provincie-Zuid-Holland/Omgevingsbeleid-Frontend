@@ -1,7 +1,6 @@
 import clonedeep from 'lodash.clonedeep'
-import { ChangeEventHandler, useContext } from 'react'
+import { ChangeEventHandler } from 'react'
 
-import UserContext from '@/App/UserContext'
 import { ContainerFormSection } from '@/components/Container'
 import {
     FormFieldTitelEnBeschrijving,
@@ -14,6 +13,7 @@ import {
     FormFieldWerkingsgebied,
     FormFieldRelatieKoppeling,
 } from '@/components/Form'
+import useAuth from '@/hooks/useAuth'
 
 /**
  * @returns The form fields for policy objects of the type Beleidskeuzes
@@ -50,7 +50,7 @@ function FormFieldContainerBeleidskeuzes({
     // If the beleidskeuze is 'vigerend' we need to specify who can edit which fields
     const isVigerend = crudObject.Status === 'Vigerend'
 
-    const { user } = useContext(UserContext)
+    const { user } = useAuth()
     const userUUID = user?.UUID
     const userRol = user?.Rol
 

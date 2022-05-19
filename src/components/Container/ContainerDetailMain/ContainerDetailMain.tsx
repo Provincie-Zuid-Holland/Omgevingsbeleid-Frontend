@@ -1,7 +1,6 @@
 import { faCalendarAlt } from '@fortawesome/pro-regular-svg-icons'
 import { faLink, faExternalLinkAlt } from '@fortawesome/pro-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { RouteComponentProps, withRouter } from 'react-router-dom'
 
 import HeadingMain from '@/components/HeadingMain'
 import { LoaderMainTitle, LoaderSmallSpan } from '@/components/Loader'
@@ -16,7 +15,7 @@ import getVigerendText from '@/utils/getVigerendText'
  * @param {string} overzichtSlug - Portion of the url referring to the overzicht.
  */
 
-interface ContainerDetailMainProps extends RouteComponentProps {
+interface ContainerDetailMainProps {
     dataObject?: any
     titleSingular?: string
     dataReceived?: boolean
@@ -189,4 +188,4 @@ const ContainerDetailMainWeblink = ({ weblink }: { weblink?: string }) => {
     )
 }
 
-export default withRouter(ContainerDetailMain)
+export default ContainerDetailMain

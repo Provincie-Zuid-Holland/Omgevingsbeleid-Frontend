@@ -59,7 +59,7 @@ const RaadpleegObjectDetailSidebar = ({
                     <div className="mt-4 text-left md:mt-0 xl:mt-4 md:text-right xl:text-left">
                         <Text
                             type="span"
-                            className="hidden block font-bold xl:block"
+                            className="hidden font-bold xl:block"
                             color="text-pzh-blue-dark">
                             Revisies
                         </Text>
@@ -69,7 +69,7 @@ const RaadpleegObjectDetailSidebar = ({
                             revisionObjects={revisionObjects}>
                             {revisionObjects.map(item => (
                                 <RevisieListItem
-                                    currentUUID={id}
+                                    currentUUID={id!}
                                     item={item}
                                     key={item.UUID}
                                 />

@@ -1,18 +1,18 @@
 import { faPlus } from '@fortawesome/pro-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useCallback, useContext, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
-import { Link, useParams, useLocation, useHistory } from 'react-router-dom'
+import { Link, useParams, useLocation, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 import { BeleidskeuzesRead } from '@/api/fetchers.schemas'
 import axios from '@/api/instance'
-import UserContext from '@/App/UserContext'
 import ButtonBackToPage from '@/components/ButtonBackToPage'
 import { ContainerMain } from '@/components/Container'
 import EigenaarsDriehoek from '@/components/EigenaarsDriehoek'
 import { LoaderContent } from '@/components/Loader'
 import allDimensies from '@/constants/dimensies'
+import useAuth from '@/hooks/useAuth'
 import { checkIfUserIsAllowedOnPage } from '@/utils/checkIfUserIsAllowedOnPage'
 
 import ContainerDetail from './ContainerDetail'
@@ -34,9 +34,9 @@ const MuteerUniversalObjectDetailWithStatuses = ({
     dimensieConstants,
 }: MuteerUniversalObjectDetailWithStatusesProps) => {
     const location = useLocation()
-    const history = useHistory()
+    const navigate = useNavigate()
     const { single, version } = useParams<{ single: string; version: string }>()
-    const { user } = useContext(UserContext)
+    const { user } = useAuth()
 
     const [pageType, setPageType] = useState(version ? 'version' : 'detail')
     const [dataObject, setDataObject] = useState<BeleidskeuzesRead | null>(null)
@@ -54,14 +54,14 @@ const MuteerUniversalObjectDetailWithStatuses = ({
         if (!user || !dataObject) return
         const isUserAllowed = checkIfUserIsAllowedOnPage({
             object: dataObject,
-            authUser: user,
+            user,
         })
 
         if (!isUserAllowed) {
             toast('Je bent niet geauthenticeerd om deze pagina te bekijken')
-            history.push('/muteer/dashboard')
+            navigate('/muteer/dashboard', { replace: true })
         }
-    }, [user, dataObject, history])
+    }, [user, dataObject, navigate])
 
     /**
      * As each change is saved in the history of the dimension, its possible to have multiple object after another with the same status

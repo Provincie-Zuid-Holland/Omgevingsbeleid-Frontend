@@ -1,7 +1,7 @@
 import { faTimesCircle } from '@fortawesome/pro-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 import { getVersionVerordeningenObjectuuid } from '@/api/fetchers'
 import { BeleidskeuzeShortInline } from '@/api/fetchers.schemas'
@@ -30,6 +30,7 @@ const RaadpleegVerordeningPopupDetail = ({
     setActiveArticle,
     activeArticle,
 }: RaadpleegVerordeningPopupDetailProps) => {
+    const location = useLocation()
     const [connections, setConnections] = useState<BeleidskeuzeShortInline[]>(
         []
     )
@@ -177,6 +178,10 @@ const RaadpleegVerordeningPopupDetail = ({
                                 </Heading>
                                 <Link
                                     to="/netwerkvisualisatie"
+                                    state={{
+                                        from:
+                                            location.pathname + location.search,
+                                    }}
                                     className="text-sm underline text-pzh-green hover:text-pzh-green-dark">
                                     Bekijk grote netwerkvisualisatie
                                 </Link>

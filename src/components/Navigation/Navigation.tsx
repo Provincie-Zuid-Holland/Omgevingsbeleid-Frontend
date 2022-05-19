@@ -32,17 +32,17 @@ const Navigation = ({ loggedIn }: NavigationProps) => {
     const userIsInMuteerEnvironment = usePage('/muteer/')
     const isAdvancedSearchPage = usePage('/zoeken-op-kaart')
     const windowSize = useWindowSize()
+    const [showBanner, setShowBanner] = useState(
+        userIsInMuteerEnvironment && !hideBannerLocalStorage()
+    )
 
     // State for popup menu
     const [isOpen, setIsOpen] = useState(false)
-
-    const showBanner = userIsInMuteerEnvironment && !hideBannerLocalStorage()
     const isMobile = windowSize.width <= 640
 
     return (
         <header
-            className={classNames({
-                'top-0 z-20 w-full sm:border-b': true,
+            className={classNames('top-0 z-20 w-full', {
                 fixed: !isAdvancedSearchPage,
                 relative: isAdvancedSearchPage,
                 'bg-pzh-blue': isOpen,
@@ -52,6 +52,8 @@ const Navigation = ({ loggedIn }: NavigationProps) => {
             <BannerEnvironment
                 hideBannerLocalStorage={hideBannerLocalStorage}
                 userIsInMuteerEnvironment={userIsInMuteerEnvironment}
+                showBanner={showBanner}
+                setShowBanner={setShowBanner}
             />
 
             <Container>

@@ -1,8 +1,13 @@
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
+import { QueryClient, QueryClientProvider } from 'react-query'
 import { MemoryRouter } from 'react-router-dom'
 
+import AuthProvider from '@/context/AuthContext'
+
 import SidebarMain from './SidebarMain'
+
+const queryClient = new QueryClient()
 
 describe('SidebarMain', () => {
     const defaultProps = {}
@@ -11,7 +16,11 @@ describe('SidebarMain', () => {
         const props = { ...defaultProps, ...customProps }
         render(
             <MemoryRouter>
-                <SidebarMain {...props} />
+                <QueryClientProvider client={queryClient}>
+                    <AuthProvider>
+                        <SidebarMain {...props} />
+                    </AuthProvider>
+                </QueryClientProvider>
             </MemoryRouter>
         )
     }

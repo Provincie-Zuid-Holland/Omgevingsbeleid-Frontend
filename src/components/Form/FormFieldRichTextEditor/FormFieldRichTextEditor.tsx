@@ -1,4 +1,4 @@
-import Quill, { QuillOptionsStatic } from 'quill'
+import Quill from 'quill'
 // Quill Theme, we also override certain parts in styles.scss
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'

@@ -1,6 +1,3 @@
-import { useContext } from 'react'
-
-import UserContext from '@/App/UserContext'
 import RevisionOverviewBelangen from '@/components/RevisionOverview/RevisionOverviewBelangen'
 import RevisionOverviewContainerLeft from '@/components/RevisionOverview/RevisionOverviewContainerLeft'
 import RevisionOverviewContainerMain from '@/components/RevisionOverview/RevisionOverviewContainerMain'
@@ -12,6 +9,7 @@ import RevisionOverviewTitle from '@/components/RevisionOverview/RevisionOvervie
 import RevisionOverviewValidText from '@/components/RevisionOverview/RevisionOverviewValidText'
 import RevisionOverviewWerkingsgebied from '@/components/RevisionOverview/RevisionOverviewWerkingsgebied'
 import ViewFieldIngelogdExtraInfo from '@/components/ViewFieldIngelogdExtraInfo'
+import useAuth from '@/hooks/useAuth'
 
 /**
  * Displays a beleidskeuze on the left and a beleidskeuze on the right, which the user can compare the changes.
@@ -30,7 +28,7 @@ const RevisionOverviewChangeContainer = ({
     originalObject,
     revisionObjects,
 }: RevisionOverviewChangeContainerProps) => {
-    const { user } = useContext(UserContext)
+    const { user } = useAuth()
 
     return (
         <div className="min-h-screen pb-16">

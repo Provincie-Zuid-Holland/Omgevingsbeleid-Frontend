@@ -1,6 +1,5 @@
 import { useLeafletContext } from '@react-leaflet/core'
 import { Control, DomUtil, DomEvent, Map } from 'leaflet'
-import cloneDeep from 'lodash.clonedeep'
 import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { LayersControlProps } from 'react-leaflet'
@@ -33,7 +32,7 @@ const DumbControl = Control.extend({
 })
 
 const createLeafletElement = (props: LayersControlProps) => {
-    return new DumbControl(cloneDeep(props))
+    return new DumbControl(props)
 }
 
 function LeafletController(props: LayersControlProps) {
