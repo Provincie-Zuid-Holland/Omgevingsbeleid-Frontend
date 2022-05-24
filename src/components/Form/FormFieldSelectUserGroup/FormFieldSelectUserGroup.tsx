@@ -77,7 +77,7 @@ const FormFieldSelectUserGroup = ({
                         titleSingular={titleSingular}
                     />
                 ) : (
-                    <LoaderSelect />
+                    <LoaderSelect className="w-full mb-6 mr-4" />
                 )}
             </div>
 
@@ -97,7 +97,7 @@ const FormFieldSelectUserGroup = ({
                         titleSingular={titleSingular}
                     />
                 ) : (
-                    <LoaderSelect />
+                    <LoaderSelect className="w-full mb-6 mr-4" />
                 )}
 
                 {dataLoaded && !error ? (
@@ -114,7 +114,7 @@ const FormFieldSelectUserGroup = ({
                         titleSingular={titleSingular}
                     />
                 ) : (
-                    <LoaderSelect />
+                    <LoaderSelect className="w-full mb-6 mr-4" />
                 )}
             </div>
 
@@ -134,7 +134,7 @@ const FormFieldSelectUserGroup = ({
                         titleSingular={titleSingular}
                     />
                 ) : (
-                    <LoaderSelect />
+                    <LoaderSelect className="w-full mb-6 mr-4" />
                 )}
 
                 {dataLoaded && !error ? (
@@ -151,7 +151,7 @@ const FormFieldSelectUserGroup = ({
                         titleSingular={titleSingular}
                     />
                 ) : (
-                    <LoaderSelect />
+                    <LoaderSelect className="w-full mb-6 mr-4" />
                 )}
             </div>
         </>
