@@ -5,6 +5,7 @@ import LoaderContent from './LoaderContent'
 import LoaderLeafletLargeViewer from './LoaderLeafletLargeViewer'
 import LoaderLeafletTinyViewer from './LoaderLeafletTinyViewer'
 import LoaderMainTitle from './LoaderMainTitle'
+import LoaderPolicyDetail from './LoaderPolicyDetail'
 import LoaderSaving from './LoaderSaving'
 import LoaderSelect from './LoaderSelect'
 import LoaderSmallCircle from './LoaderSmallCircle'
@@ -26,4 +27,5 @@ export {
     LoaderSmallSpan,
     LoaderSpinner,
     LoaderWerkingsgebiedCard,
+    LoaderPolicyDetail,
 }
