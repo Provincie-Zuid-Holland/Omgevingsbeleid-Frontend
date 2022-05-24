@@ -191,7 +191,7 @@ const RaadpleegHome = () => {
                     style={responsiveImageHeight}
                 />
                 <div className="flex flex-col justify-center col-span-6 lg:col-span-2 ">
-                    <Heading level="2" color="text-pzh-yellow-dark">
+                    <Heading level="2" color="text-pzh-blue">
                         {/* 👇🏻 Contains a soft hyphen */}
                         Omgevings­programma
                     </Heading>
@@ -220,7 +220,7 @@ const RaadpleegHome = () => {
                     style={responsiveImageHeight}
                 />
                 <div className="flex flex-col justify-center col-span-6 lg:col-span-2">
-                    <Heading level="2" color="text-pzh-red-dark">
+                    <Heading level="2" color="text-pzh-blue">
                         {/* 👇🏻 Contains a soft hyphen */}
                         Omgevings­verordening
                     </Heading>

@@ -1,4 +1,10 @@
-import { Button, FormikInput, Heading, Modal } from '@pzh-ui/components'
+import {
+    Button,
+    FormikInput,
+    Heading,
+    Modal,
+    Notification,
+} from '@pzh-ui/components'
 import { Form, Formik } from 'formik'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -120,13 +126,12 @@ const PopupPasswordForgot = ({
         ariaLabel="Wachtwoord vergeten">
         <Heading level="3">Wachtwoord vergeten</Heading>
 
-        <div className="relative p-4 mb-4 mt-2 border-l-4 bg-pzh-blue-super-light border-pzh-blue">
-            <p className="mt-1 text-sm text-pzh-blue-dark">
-                Binnenkort willen wij het mogelijk maken dat medewerkers van
+        <Notification
+            className="mt-2 mb-4"
+            text="Binnenkort willen wij het mogelijk maken dat medewerkers van
                 provincie Zuid-Holland automatisch kunnen inloggen. Tot die tijd
-                moet het nog met een e-mailadres en een wachtwoord.
-            </p>
-        </div>
+                moet het nog met een e-mailadres en een wachtwoord."
+        />
 
         <p className="py-1 text-pzh-blue-dark">
             Wachtwoord vergeten? Stuur dan een e-mail naar het team
