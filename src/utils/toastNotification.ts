@@ -12,6 +12,7 @@ type Type =
     | 'connection added'
     | 'connection modified'
     | 'connection deleted'
+    | 'status changed'
     | 'user is not authenticated for this page'
     | 'standard error'
     | 'start date valid range'
@@ -30,6 +31,8 @@ const toastNotification = ({ type }: { type: Type }) => {
         toast('Koppeling gewijzigd')
     } else if (type === 'connection deleted') {
         toast('Koppeling verwijderd')
+    } else if (type === 'status changed') {
+        toast('Status gewijzigd')
     } else if (type === 'user is not authenticated for this page') {
         toast('Je bent niet geauthenticeerd om deze pagina te bekijken')
     } else if (type === 'standard error') {
