@@ -14,7 +14,7 @@ const ColoredBall = ({
     style = {},
     animated = false,
 }: ColoredBallProps) => (
-    <div className="relative flex items-center">
+    <div className="relative flex items-center" data-testid="colored-ball">
         <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
