@@ -1,5 +1,5 @@
-import { render } from '@testing-library/react'
-import React from 'react'
+import { render, screen } from '@testing-library/react'
+import '@testing-library/jest-dom'
 
 import ColoredBall, { ColoredBallProps } from './ColoredBall'
 
@@ -8,11 +8,13 @@ describe('ColoredBall', () => {
         color: 'red',
     }
 
-    it('should render', () => {
-        const props = { ...defaultProps }
-        const { asFragment, queryByText } = render(<ColoredBall {...props} />)
+    const setup = () => {
+        render(<ColoredBall {...defaultProps} />)
+    }
 
-        expect(asFragment()).toMatchSnapshot()
-        expect(queryByText('ColoredBall')).toBeTruthy()
+    it('Component renders', () => {
+        setup()
+        const coloredBall = screen.getByTestId('colored-ball')
+        expect(coloredBall).toBeTruthy()
     })
 })
