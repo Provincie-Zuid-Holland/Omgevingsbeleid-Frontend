@@ -45,21 +45,31 @@ function ContainerCrudHeader({
     }
 
     const getBackUrl = () => {
-        if (!editStatus && location.hash === '#mijn-beleid') {
-            // User is creating a new object and came from his/her own beleid
-            return `/muteer/mijn-beleid`
-        } else if (!editStatus && location.hash !== '#mijn-beleid') {
-            // User is creating a new object and came from an overview page
-            return `/muteer/${overzichtSlug}`
-        } else if (editStatus && location.hash === '#mijn-beleid') {
-            // User is editing an existing object and came from a detail page from his/her own beleid
-            return `/muteer/${overzichtSlug}/${objectID}#mijn-beleid`
-        } else if (editStatus) {
-            // User is editing an existing object and came from an detail page
-            return `/muteer/${overzichtSlug}/${objectID}`
+        if (titleSingular === 'Beleidskeuze' || titleSingular === 'Maatregel') {
+            if (!editStatus && location.hash === '#mijn-beleid') {
+                // User is creating a new object and came from his/her own beleid
+                return `/muteer/mijn-beleid`
+            } else if (!editStatus && location.hash !== '#mijn-beleid') {
+                // User is creating a new object and came from an overview page
+                return `/muteer/${overzichtSlug}`
+            } else if (editStatus && location.hash === '#mijn-beleid') {
+                // User is editing an existing object and came from a detail page from his/her own beleid
+                return `/muteer/${overzichtSlug}/${objectID}#mijn-beleid`
+            } else if (editStatus) {
+                // User is editing an existing object and came from an detail page
+                return `/muteer/${overzichtSlug}/${objectID}`
+            } else {
+                // Fallback
+                return `/muteer/${overzichtSlug}`
+            }
         } else {
-            // Fallback
-            return `/muteer/${overzichtSlug}`
+            if (location.hash === '#mijn-beleid') {
+                return `/muteer/mijn-beleid`
+            } else if (location.hash !== '#mijn-beleid') {
+                return `/muteer/${overzichtSlug}`
+            } else {
+                return `/muteer/${overzichtSlug}`
+            }
         }
     }
 
