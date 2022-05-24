@@ -11,18 +11,7 @@ import { Helmet } from 'react-helmet'
 import { useQueryClient } from 'react-query'
 import { useNavigate, Link } from 'react-router-dom'
 
-import {
-    AmbitiesRead,
-    BelangenRead,
-    BeleidskeuzesRead,
-    BeleidsregelsRead,
-    BeleidsprestatiesRead,
-    BeleidsmodulesRead,
-    BeleidsdoelenRead,
-    MaatregelenRead,
-    ThemasRead,
-    VerordeningenRead,
-} from '@/api/fetchers.schemas'
+import { BeleidskeuzesRead, MaatregelenRead } from '@/api/fetchers.schemas'
 import { ContainerMain } from '@/components/Container'
 import Dropdown from '@/components/Dropdown'
 import { LoaderCard } from '@/components/Loader'
@@ -30,6 +19,8 @@ import PageSpecificNavBar from '@/components/PageSpecificNavBar'
 import { PopUpAddPolicyToModule } from '@/components/Popup'
 import { filteredDimensieConstants } from '@/constants/dimensies'
 import useAuth from '@/hooks/useAuth'
+import { PossiblePolicyRead } from '@/types/PossiblePolicyRead'
+import { filterSortPolicy } from '@/utils/filterSortPolicy'
 import { getFetcherForType } from '@/utils/getFetchers'
 import { removePolicyFromModule } from '@/utils/removePolicyFromModule'
 
@@ -37,19 +28,6 @@ import { removePolicyFromModule } from '@/utils/removePolicyFromModule'
  * A component to display all the objects from a specific dimension
  * @param {Object} dimensieConstants - Contains the variables of the dimension
  */
-
-type PossiblePolicyTypes =
-    | AmbitiesRead
-    | BelangenRead
-    | BeleidskeuzesRead
-    | BeleidsregelsRead
-    | BeleidsprestatiesRead
-    | BeleidsmodulesRead
-    | BeleidsdoelenRead
-    | MaatregelenRead
-    | ThemasRead
-    | VerordeningenRead
-
 interface MuteerOverviewProps {
     dimensieConstants: filteredDimensieConstants
     hideAddObject?: boolean
@@ -64,9 +42,7 @@ const MuteerOverview = ({
     const [filterQuery, setFilterQuery] = useState('')
     const [isLoading, setIsLoading] = useState(true)
     const [ascending, setAscending] = useState(true)
-    const [policyObjects, setPolicyObjects] = useState<PossiblePolicyTypes[]>(
-        []
-    )
+    const [policyObjects, setPolicyObjects] = useState<PossiblePolicyRead[]>([])
 
     const navigate = useNavigate()
 
@@ -85,28 +61,21 @@ const MuteerOverview = ({
      * 3. Filter based on filter Query value
      * 4. Set in state
      */
+
     useEffect(() => {
         if (!policyObjectsFromAPI) return
 
-        const sortedAndFilteredPolicyObjects = policyObjectsFromAPI
-            .sort((a, b) =>
-                ascending
-                    ? a.Titel! > b.Titel!
-                        ? 1
-                        : -1
-                    : a.Titel! < b.Titel!
-                    ? 1
-                    : -1
-            )
-            .filter(
-                policy =>
-                    policy.Eind_Geldigheid &&
-                    isValid(new Date(policy.Eind_Geldigheid)) &&
-                    isBefore(new Date(), new Date(policy.Eind_Geldigheid))
-            )
-            .filter(policyObject =>
-                policyObject.Titel!.toLowerCase().includes(filterQuery)
-            )
+        const sortedAndFilteredPolicyObjects = filterSortPolicy({
+            policies: policyObjectsFromAPI,
+            filterOptions: {
+                filterQuery,
+                filterOutArchived: true,
+            },
+            sortOptions: {
+                property: 'Titel',
+                direction: ascending ? 'asc' : 'desc',
+            },
+        })
 
         setPolicyObjects(sortedAndFilteredPolicyObjects)
         setIsLoading(false)
@@ -225,7 +194,7 @@ const MuteerOverview = ({
 }
 
 type OverviewDropdownProps = {
-    policy: PossiblePolicyTypes
+    policy: PossiblePolicyRead
     overviewSlug: string
     titleSingular: string
 }
@@ -314,7 +283,7 @@ const OverviewDropdown = ({
 }
 
 type OverviewTableRowProps = {
-    policyObject: PossiblePolicyTypes
+    policyObject: PossiblePolicyRead
     isMaatregelOrBeleidskeuze: boolean
     overviewSlug: string
 }
