@@ -251,15 +251,21 @@ const OverviewDropdown = ({
     const isMaatregelOrBeleidskeuze =
         titleSingular === 'Maatregel' || titleSingular === 'Beleidskeuze'
 
+    const isBeleidsmodule = titleSingular === 'Beleidsmodule'
+
     const dropdownItems = [
         {
             text: 'Bewerken',
             link: linkToEditPage,
         },
-        {
-            text: 'Raadpleegomgeving',
-            link: linkToRaadpleegPage,
-        },
+        ...(isBeleidsmodule
+            ? []
+            : [
+                  {
+                      text: 'Raadpleegomgeving',
+                      link: linkToRaadpleegPage,
+                  },
+              ]),
         ...(isMaatregelOrBeleidskeuze
             ? [
                   {
