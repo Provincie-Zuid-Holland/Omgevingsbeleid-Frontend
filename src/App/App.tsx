@@ -63,7 +63,6 @@ const App = () => {
                     className={classNames(
                         'min-h-screen text-pzh-blue-dark relative',
                         {
-                            'bg-gray-100': userIsInMuteerEnvironment,
                             'advanced-search-page': isAdvancedSearchPage,
                         }
                     )}
