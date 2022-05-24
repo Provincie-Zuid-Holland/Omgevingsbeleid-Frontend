@@ -108,6 +108,7 @@
         "@typescript-eslint/eslint-plugin": "^4.27.0",
         "@typescript-eslint/parser": "^4.27.0",
         "autoprefixer": "^10.4.4",
+        "concurrently": "^7.2.1",
         "craco-alias": "^3.0.1",
         "eslint": "^7.28.0",
         "eslint-plugin-prettier": "^4.0.0",
