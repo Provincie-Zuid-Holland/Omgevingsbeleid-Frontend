@@ -10,7 +10,7 @@ import allDimensies from '@/constants/dimensies'
 import { AuthContext } from '@/context/AuthContext'
 import { beleidskeuzes } from '@/mocks/data/beleidskeuzes'
 
-import MuteerUniversalObjectOverzicht from './MuteerUniversalObjectOverzicht'
+import MuteerOverview from './MuteerOverview'
 
 const authedRoles = [
     'Beheerder',
@@ -20,7 +20,7 @@ const authedRoles = [
     'Tester',
 ]
 
-describe('MuteerUniversalObjectOverzicht', () => {
+describe('MuteerOverview', () => {
     const defaultProps = {
         dimensieConstants: allDimensies.BELEIDSKEUZES,
         hideAddObject: false,
@@ -31,7 +31,7 @@ describe('MuteerUniversalObjectOverzicht', () => {
         render(
             <MemoryRouter initialEntries={['/']}>
                 <AuthContext.Provider value={{ ...user }}>
-                    <MuteerUniversalObjectOverzicht {...props} />
+                    <MuteerOverview {...props} />
                 </AuthContext.Provider>
             </MemoryRouter>
         )

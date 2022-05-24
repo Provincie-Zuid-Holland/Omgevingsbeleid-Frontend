@@ -50,15 +50,15 @@ type PossiblePolicyTypes =
     | ThemasRead
     | VerordeningenRead
 
-interface MuteerUniversalObjectOverzichtProps {
+interface MuteerOverviewProps {
     dimensieConstants: filteredDimensieConstants
     hideAddObject?: boolean
 }
 
-const MuteerUniversalObjectOverzicht = ({
+const MuteerOverview = ({
     dimensieConstants,
     hideAddObject,
-}: MuteerUniversalObjectOverzichtProps) => {
+}: MuteerOverviewProps) => {
     const { user } = useAuth()
 
     const [filterQuery, setFilterQuery] = useState('')
@@ -395,4 +395,4 @@ const OverviewTableHeading = ({
     )
 }
 
-export default MuteerUniversalObjectOverzicht
+export default MuteerOverview
