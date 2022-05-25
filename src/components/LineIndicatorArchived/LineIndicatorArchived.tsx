@@ -10,7 +10,7 @@ const LineIndicatorArchived = () => (
                 <span className="block h-2" />
                 <LineIndicatorLeftToRight />
             </div>
-            <div className="relative flex -ml-2" style={{ left: '1.75px' }}>
+            <div className="relative flex -ml-2" style={{ left: '2px' }}>
                 <ColoredBall color="red" />
                 <ColoredBall color="red" className="ml-1 opacity-50" />
                 <ColoredBall color="red" className="ml-2 opacity-25" />
