@@ -336,7 +336,7 @@ const OverviewTableHeading = ({
                         Status
                     </div>
                 ) : null}
-                <div className="w-3/12 px-4 py-3 font-bold text-lefttext-pzh-blue-dark">
+                <div className="w-3/12 px-4 py-3 font-bold text-left text-pzh-blue-dark">
                     Laatst bewerkt
                 </div>
                 <div className="w-1/12 px-4 py-3"></div>
