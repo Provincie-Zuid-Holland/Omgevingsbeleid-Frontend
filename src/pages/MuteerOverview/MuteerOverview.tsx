@@ -20,6 +20,7 @@ import { filteredDimensieConstants } from '@/constants/dimensies'
 import useIsUserAuthenticated from '@/hooks/useIsUserAuthenticated'
 import { PossiblePolicyRead } from '@/types/PossiblePolicyRead'
 import filterSortPolicies from '@/utils/filterSortPolicies'
+import formatDate from '@/utils/formatDate'
 import { getFetcherForType } from '@/utils/getFetchers'
 import { removePolicyFromModule } from '@/utils/removePolicyFromModule'
 
@@ -270,12 +271,10 @@ const OverviewTableRow: FC<OverviewTableRowProps> = ({
     overviewSlug,
     children,
 }) => {
-    const formattedModifiedDate = new Intl.DateTimeFormat('nl-NL', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-    }).format(new Date(policyObject.Modified_Date!))
+    const formattedModifiedDate = formatDate(
+        new Date(policyObject.Modified_Date!),
+        'cccc dd MMMM yyyy'
+    )
 
     const tableRowLink = isMaatregelOrBeleidskeuze
         ? `/muteer/${overviewSlug}/${policyObject.ID}`
