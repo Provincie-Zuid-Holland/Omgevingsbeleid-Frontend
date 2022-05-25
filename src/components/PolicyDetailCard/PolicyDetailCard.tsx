@@ -159,20 +159,20 @@ const PolicyDetailCard = ({
                         </div>
                     </div>
                     <div className="mt-2">
-                        {type === 'checked out' ? (
+                        {type === 'checked out' && (
                             <Hyperlink
                                 to={`/muteer/${overviewSlug}/edit/${policy.ID}`}
                                 text="Bewerken"
                                 icon={ArrowUpRightFromSquare}
                             />
-                        ) : null}
-                        {type === 'valid' ? (
+                        )}
+                        {type === 'valid' && (
                             <Hyperlink
                                 to={`/detail/${overviewSlug}/${policy.UUID}`}
                                 text={`Bekijk ${titleSingular.toLowerCase()}`}
                                 icon={ArrowUpRightFromSquare}
                             />
-                        ) : null}
+                        )}
                     </div>
                 </div>
             </Card>
@@ -198,7 +198,7 @@ const LeftLineIndicator = ({
                     style={{
                         marginLeft: 'calc(1.5rem - 4px)',
                     }}
-                    animated={true}
+                    animated
                 />
                 <div
                     style={{
