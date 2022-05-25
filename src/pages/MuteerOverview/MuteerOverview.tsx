@@ -49,14 +49,6 @@ const MuteerOverview = ({
     const useGetLineage = getFetcherForType(titleSingular)
     const { data: policyObjectsFromAPI } = useGetLineage()
 
-    const authenticatedRoles = [
-        'Beheerder',
-        'Functioneel beheerder',
-        'Technisch beheerder',
-        'Test runner',
-        'Tester',
-    ]
-
     /**
      * When the component mounts, fetch the objects from the API and prepare state
      */
