@@ -1,7 +1,7 @@
 import { Badge } from '@pzh-ui/components'
 import classNames from 'classnames'
 import { motion } from 'framer-motion'
-import { FC, useEffect, useState } from 'react'
+import { FC, useMemo } from 'react'
 
 import { MaatregelenRead, BeleidskeuzesRead } from '@/api/fetchers.schemas'
 import ColoredBall from '@/components/ColoredBall'
@@ -21,47 +21,52 @@ const CheckedOutPolicyContainer: FC<CheckedOutPolicyContainerProps> = ({
     checkedOutPolicy,
     children,
 }) => {
-    const getStatussesBetweenCheckedOutAndPreviousValid = () => {
-        if (!originalLineage) return []
+    const statusses = useMemo(() => {
+        const getStatussesBetweenCheckedOutAndPreviousValid = () => {
+            if (!originalLineage) return []
 
-        const checkedOutPolicyIndex = originalLineage.findIndex(
-            policy => policy.UUID === checkedOutPolicy.UUID
-        )
-
-        // remove everything before the checked out policy
-        const filteredLineage = originalLineage.slice(checkedOutPolicyIndex + 1)
-
-        const nextValidPolicyIndex = filteredLineage.findIndex(
-            policy =>
-                policy.Status === 'Vigerend' && policy.Aanpassing_Op === null
-        )
-
-        // remove everything after the next valid policy
-        const filteredLineageAfterNextValidPolicy = filteredLineage.slice(
-            0,
-            nextValidPolicyIndex
-        )
-
-        // remove every policy in filteredLineageAfterNextValidPolicy that has a value on Aanpassing_Op
-        const filteredLineageAfterNextValidPolicyWithoutAanpassing_Op =
-            filteredLineageAfterNextValidPolicy.filter(
-                policy => policy.Aanpassing_Op === null
+            const checkedOutPolicyIndex = originalLineage.findIndex(
+                policy => policy.UUID === checkedOutPolicy.UUID
             )
 
-        const statusses =
-            filteredLineageAfterNextValidPolicyWithoutAanpassing_Op
-                .map(policy => policy.Status)
-                .filter(
-                    (policy, index) =>
-                        filteredLineageAfterNextValidPolicyWithoutAanpassing_Op[
-                            index - 1
-                        ]?.Status !== policy
+            // remove everything before the checked out policy
+            const filteredLineage = originalLineage.slice(
+                checkedOutPolicyIndex + 1
+            )
+
+            const nextValidPolicyIndex = filteredLineage.findIndex(
+                policy =>
+                    policy.Status === 'Vigerend' &&
+                    policy.Aanpassing_Op === null
+            )
+
+            // remove everything after the next valid policy
+            const filteredLineageAfterNextValidPolicy = filteredLineage.slice(
+                0,
+                nextValidPolicyIndex
+            )
+
+            // remove every policy in filteredLineageAfterNextValidPolicy that has a value on Aanpassing_Op
+            const filteredLineageAfterNextValidPolicyWithoutAanpassing_Op =
+                filteredLineageAfterNextValidPolicy.filter(
+                    policy => policy.Aanpassing_Op === null
                 )
 
-        return statusses
-    }
+            const statusses =
+                filteredLineageAfterNextValidPolicyWithoutAanpassing_Op
+                    .map(policy => policy.Status)
+                    .filter(
+                        (policy, index) =>
+                            filteredLineageAfterNextValidPolicyWithoutAanpassing_Op[
+                                index - 1
+                            ]?.Status !== policy
+                    )
 
-    const statusses = getStatussesBetweenCheckedOutAndPreviousValid()
+            return statusses
+        }
+
+        return getStatussesBetweenCheckedOutAndPreviousValid()
+    }, [checkedOutPolicy.UUID, originalLineage])
 
     return (
         <div>
