@@ -17,6 +17,7 @@ type Type =
     | 'standard error'
     | 'start date valid range'
     | 'end date valid range'
+    | 'user is not logged in'
 
 const toastNotification = ({ type }: { type: Type }) => {
     if (type === 'end date before start date') {
@@ -35,6 +36,8 @@ const toastNotification = ({ type }: { type: Type }) => {
         toast('Status gewijzigd')
     } else if (type === 'user is not authenticated for this page') {
         toast('Je bent niet geauthenticeerd om deze pagina te bekijken')
+    } else if (type === 'user is not logged in') {
+        toast('Log in om deze pagina te bekijken')
     } else if (type === 'standard error') {
         toast(process.env.REACT_APP_ERROR_MSG)
     } else if (type === 'start date valid range') {
