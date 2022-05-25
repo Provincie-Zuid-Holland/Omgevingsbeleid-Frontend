@@ -3,8 +3,8 @@ import { isBefore, isValid } from 'date-fns'
 import { PossiblePolicyRead } from '@/types/PossiblePolicyRead'
 
 type FilterOptions = {
-    filterQuery: undefined | string
-    filterOutArchived: boolean
+    filterQuery?: string
+    filterOutArchived?: boolean
 }
 
 type SortOptions = {
@@ -12,21 +12,27 @@ type SortOptions = {
     direction: 'asc' | 'desc'
 }
 
-type FilterSortPolicyProps = {
+export type filterSortPoliciesProps = {
     policies: PossiblePolicyRead[]
-    sortOptions: SortOptions | null
-    filterOptions: FilterOptions | null
+    sortOptions?: SortOptions
+    filterOptions?: FilterOptions
 }
 
-export const filterSortPolicy = ({
+/**
+ * Utility to sort and filter an array of policies
+ * - Sort an array of policies based on a property
+ * - Filter out policies that are archived (current date > Eind_Geldigheid date)
+ * - Filter out policies based on a search query
+ */
+const filterSortPolicies = ({
     policies,
     filterOptions,
     sortOptions,
-}: FilterSortPolicyProps) =>
+}: filterSortPoliciesProps) =>
     policies
         // Optionally sort policies by a property
         .sort((a, b) => {
-            if (sortOptions === null) {
+            if (sortOptions === undefined) {
                 return 0
             }
 
@@ -57,3 +63,5 @@ export const filterSortPolicy = ({
                   isBefore(new Date(), new Date(policy.Eind_Geldigheid))
                 : true
         )
+
+export default filterSortPolicies
