@@ -8,6 +8,7 @@ interface AuthContextType {
     user?: GetTokeninfo200Identifier
     signin: (email: string, password: string) => Promise<void>
     signout: (callback?: VoidFunction) => void
+    isLoading: boolean
 }
 
 export const AuthContext = createContext<AuthContextType>(null!)
@@ -61,7 +62,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
         }
     }, [isLoading])
 
-    const value = { user, signin, signout }
+    const value = { user, signin, signout, isLoading }
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
