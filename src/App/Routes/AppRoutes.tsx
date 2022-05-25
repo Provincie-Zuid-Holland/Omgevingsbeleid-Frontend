@@ -259,17 +259,41 @@ const AppRoutes = () => {
                                         />
                                     }
                                 />
+
                                 <Route
                                     path={`${overzichtSlug}`}
                                     element={
-                                        <MuteerOverview
-                                            hideAddObject={
-                                                isBeleidsModulePageAndUserIsNotAdmin
-                                            }
-                                            dimensieConstants={
-                                                dimensieConstants as filteredDimensieConstants
-                                            }
-                                        />
+                                        <ProtectedRoute
+                                            redirectTo="/muteer/dashboard"
+                                            roles={
+                                                dimensie === 'BELEIDSMODULES'
+                                                    ? [
+                                                          'Beheerder',
+                                                          'Functioneel beheerder',
+                                                          'Technisch beheerder',
+                                                          'Test runner',
+                                                          'Tester',
+                                                          'Behandelend Ambtenaar',
+                                                          'Portefeuillehouder',
+                                                          'Ambtelijk opdrachtgever',
+                                                      ]
+                                                    : [
+                                                          'Beheerder',
+                                                          'Functioneel beheerder',
+                                                          'Technisch beheerder',
+                                                          'Test runner',
+                                                          'Tester',
+                                                      ]
+                                            }>
+                                            <MuteerOverview
+                                                hideAddObject={
+                                                    isBeleidsModulePageAndUserIsNotAdmin
+                                                }
+                                                dimensieConstants={
+                                                    dimensieConstants as filteredDimensieConstants
+                                                }
+                                            />
+                                        </ProtectedRoute>
                                     }
                                 />
                             </Fragment>

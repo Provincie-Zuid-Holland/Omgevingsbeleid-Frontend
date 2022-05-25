@@ -17,7 +17,6 @@ import { LoaderCard } from '@/components/Loader'
 import PageSpecificNavBar from '@/components/PageSpecificNavBar'
 import { PopUpAddPolicyToModule } from '@/components/Popup'
 import { filteredDimensieConstants } from '@/constants/dimensies'
-import useIsUserAuthenticated from '@/hooks/useIsUserAuthenticated'
 import { PossiblePolicyRead } from '@/types/PossiblePolicyRead'
 import filterSortPolicies from '@/utils/filterSortPolicies'
 import formatDate from '@/utils/formatDate'
@@ -57,10 +56,6 @@ const MuteerOverview = ({
         'Test runner',
         'Tester',
     ]
-
-    useIsUserAuthenticated(authenticatedRoles, {
-        urlExceptions: ['/muteer/beleidsmodules'],
-    })
 
     /**
      * When the component mounts, fetch the objects from the API and prepare state

@@ -3,9 +3,27 @@ import { toast } from 'react-toastify'
 
 import useAuth from '@/hooks/useAuth'
 
-function ProtectedRoute() {
+type Role =
+    | 'Beheerder'
+    | 'Functioneel beheerder'
+    | 'Technisch beheerder'
+    | 'Test runner'
+    | 'Tester'
+    | 'Behandelend Ambtenaar'
+    | 'Portefeuillehouder'
+    | 'Ambtelijk opdrachtgever'
+
+interface ProtectedRouteProps {
+    children?: JSX.Element | null
+    roles?: Role[]
+    redirectTo?: string
+}
+
+function ProtectedRoute({ children, roles, redirectTo }: ProtectedRouteProps) {
     const { user } = useAuth()
     const location = useLocation()
+
+    const userRole = user?.Rol as Role
 
     if (!user) {
         localStorage.removeItem(
@@ -19,6 +37,14 @@ function ProtectedRoute() {
         // than dropping them off on the home page.
         return <Navigate to="/login" state={{ from: location }} replace />
     }
+
+    if (!roles?.includes(userRole) && redirectTo) {
+        toast('Je hebt geen toegang tot deze pagina')
+
+        return <Navigate to={redirectTo} state={{ from: location }} replace />
+    }
+
+    if (roles && children) return children
 
     return <Outlet />
 }
