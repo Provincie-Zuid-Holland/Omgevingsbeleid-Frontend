@@ -5,11 +5,10 @@ import {
     ArrowDownAZ,
     EllipsisVertical,
 } from '@pzh-ui/icons'
-import { isBefore, isValid } from 'date-fns'
 import { FC, useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { useQueryClient } from 'react-query'
-import { useNavigate, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import { BeleidskeuzesRead, MaatregelenRead } from '@/api/fetchers.schemas'
 import { ContainerMain } from '@/components/Container'
@@ -18,9 +17,9 @@ import { LoaderCard } from '@/components/Loader'
 import PageSpecificNavBar from '@/components/PageSpecificNavBar'
 import { PopUpAddPolicyToModule } from '@/components/Popup'
 import { filteredDimensieConstants } from '@/constants/dimensies'
-import useAuth from '@/hooks/useAuth'
+import useIsUserAuthenticated from '@/hooks/useIsUserAuthenticated'
 import { PossiblePolicyRead } from '@/types/PossiblePolicyRead'
-import { filterSortPolicy } from '@/utils/filterSortPolicy'
+import filterSortPolicies from '@/utils/filterSortPolicies'
 import { getFetcherForType } from '@/utils/getFetchers'
 import { removePolicyFromModule } from '@/utils/removePolicyFromModule'
 
@@ -37,14 +36,10 @@ const MuteerOverview = ({
     dimensieConstants,
     hideAddObject,
 }: MuteerOverviewProps) => {
-    const { user } = useAuth()
-
     const [filterQuery, setFilterQuery] = useState('')
     const [isLoading, setIsLoading] = useState(true)
     const [ascending, setAscending] = useState(true)
     const [policyObjects, setPolicyObjects] = useState<PossiblePolicyRead[]>([])
-
-    const navigate = useNavigate()
 
     const titleSingular = dimensieConstants.TITLE_SINGULAR
     const titlePlural = dimensieConstants.TITLE_PLURAL
@@ -54,18 +49,25 @@ const MuteerOverview = ({
     const useGetLineage = getFetcherForType(titleSingular)
     const { data: policyObjectsFromAPI } = useGetLineage()
 
-    /**
-     * When the component mounts, fetch the objects from the API and prepare state:
-     * 1. Sort based on ascending or descending
-     * 2. Filter out archived objects
-     * 3. Filter based on filter Query value
-     * 4. Set in state
-     */
+    const authenticatedRoles = [
+        'Beheerder',
+        'Functioneel beheerder',
+        'Technisch beheerder',
+        'Test runner',
+        'Tester',
+    ]
 
+    useIsUserAuthenticated(authenticatedRoles, {
+        urlExceptions: ['/muteer/beleidsmodules'],
+    })
+
+    /**
+     * When the component mounts, fetch the objects from the API and prepare state
+     */
     useEffect(() => {
         if (!policyObjectsFromAPI) return
 
-        const sortedAndFilteredPolicyObjects = filterSortPolicy({
+        const sortedAndFilteredPolicyObjects = filterSortPolicies({
             policies: policyObjectsFromAPI,
             filterOptions: {
                 filterQuery,
@@ -80,32 +82,6 @@ const MuteerOverview = ({
         setPolicyObjects(sortedAndFilteredPolicyObjects)
         setIsLoading(false)
     }, [policyObjectsFromAPI, ascending, filterQuery])
-
-    /** Check if the user is authenticated for the page */
-    useEffect(() => {
-        if (!user) return
-
-        const isBeleidsmodulePage =
-            dimensieConstants.TITLE_SINGULAR === 'Beleidsmodule'
-
-        /** The user is always authenticated for the beleidsmodule page */
-        if (isBeleidsmodulePage) return
-
-        /** Check if user is authenticated */
-        const userRole = user.Rol
-        const userHasAuthenticatedRole =
-            userRole === 'Beheerder' ||
-            userRole === 'Functioneel beheerder' ||
-            userRole === 'Technisch beheerder' ||
-            userRole === 'Test runner' ||
-            userRole === 'Tester'
-
-        if (userHasAuthenticatedRole) {
-            return
-        } else {
-            navigate('/muteer/mijn-beleid', { replace: true })
-        }
-    }, [user, navigate, dimensieConstants.TITLE_SINGULAR])
 
     const isMaatregelOrBeleidskeuze =
         titleSingular === 'Maatregel' || titleSingular === 'Beleidskeuze'
