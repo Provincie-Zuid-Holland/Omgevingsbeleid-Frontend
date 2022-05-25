@@ -76,7 +76,7 @@ function SearchBarPopupItem({
                 {filterItem ? (
                     <span className="pl-4 text-sm">
                         In
-                        <span className="text-pzh-yellow-dark">
+                        <span className="text-pzh-green">
                             {' ' + filterItem.name}
                         </span>
                     </span>

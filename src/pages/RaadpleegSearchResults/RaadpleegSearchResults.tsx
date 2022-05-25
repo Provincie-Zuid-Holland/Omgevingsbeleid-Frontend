@@ -141,7 +141,7 @@ const RaadpleegSearchResults = () => {
     return (
         <>
             <Container
-                className="z-10 md:sticky bg-pzh-blue-light"
+                className="z-10 md:sticky bg-pzh-blue"
                 style={isMobile ? {} : { height: 96 + 'px', top: '96px' }}>
                 <div className="flex items-center col-span-6 md:col-span-2">
                     <Heading
@@ -218,7 +218,7 @@ const RaadpleegSearchResults = () => {
                             )}
                         </>
                     ) : dataLoaded && searchResults.length === 0 ? (
-                        <h2 className="block mt-8 text-sm italic text-gray-600 no-style">
+                        <h2 className="block mt-8 text-pzh-gray-600">
                             Geen resultaten
                         </h2>
                     ) : !dataLoaded ? (
