@@ -116,7 +116,7 @@ describe('AppRoutes', () => {
 
         fireEvent.click(screen.getByText('Terug naar beleidskeuzes'))
 
-        const firstBeleidskeuzeTitle = beleidskeuzes[0].Titel
+        const firstBeleidskeuzeTitle = beleidskeuzes[0].Titel || ''
 
         await waitFor(() => {
             screen.getByText(firstBeleidskeuzeTitle)
@@ -189,10 +189,10 @@ describe('AppRoutes', () => {
         navigateToMenuItem('Beleidsrelaties')
 
         await waitFor(() => {
-            screen.getByText(beleidskeuzes[0].Titel)
+            screen.getByText(beleidskeuzes[0].Titel || '')
         })
 
-        fireEvent.click(screen.getByText(beleidskeuzes[0].Titel))
+        fireEvent.click(screen.getByText(beleidskeuzes[0].Titel || ''))
 
         fireEvent.click(screen.getByText('Verzoeken'))
         fireEvent.click(screen.getByText('Afgewezen'))
