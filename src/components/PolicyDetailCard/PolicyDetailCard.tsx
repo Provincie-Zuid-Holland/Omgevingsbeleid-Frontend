@@ -84,7 +84,8 @@ const PolicyDetailCard = ({
         <motion.div
             initial={{ opacity: 0, top: 5 }}
             animate={{ opacity: 1, top: 0 }}
-            className="relative">
+            className="relative"
+            data-testid={`card-${policy?.UUID}`}>
             <Card className="relative w-full mb-4">
                 <button
                     className="absolute z-10 p-3 text-gray-600 rounded-md cursor-pointer right-3 top-4 hover:bg-pzh-gray-100 hover:text-gray-800"

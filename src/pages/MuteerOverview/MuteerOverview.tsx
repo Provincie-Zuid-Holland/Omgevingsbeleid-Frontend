@@ -74,6 +74,8 @@ const MuteerOverview = ({
     const isMaatregelOrBeleidskeuze =
         titleSingular === 'Maatregel' || titleSingular === 'Beleidskeuze'
 
+    const isBeleidsmodule = titleSingular === 'Beleidsmodule'
+
     const addNewPolicyObjectText = `${
         titleSingular === 'Belang' ||
         titleSingular === 'Beleidsdoel' ||
@@ -130,6 +132,7 @@ const MuteerOverview = ({
                             <div>
                                 {policyObjects.map(policyObject => (
                                     <OverviewTableRow
+                                        isBeleidsmodule={isBeleidsmodule}
                                         policyObject={policyObject}
                                         isMaatregelOrBeleidskeuze={
                                             isMaatregelOrBeleidskeuze
@@ -223,6 +226,7 @@ const OverviewDropdown = ({
     return (
         <>
             <button
+                name="toggle-dropdown"
                 onClick={e => {
                     e.preventDefault()
                     setDropdown(!dropdown)
@@ -249,12 +253,14 @@ const OverviewDropdown = ({
 type OverviewTableRowProps = {
     policyObject: PossiblePolicyRead
     isMaatregelOrBeleidskeuze: boolean
+    isBeleidsmodule: boolean
     overviewSlug: string
 }
 
 const OverviewTableRow: FC<OverviewTableRowProps> = ({
     policyObject,
     isMaatregelOrBeleidskeuze,
+    isBeleidsmodule,
     overviewSlug,
     children,
 }) => {
@@ -263,9 +269,10 @@ const OverviewTableRow: FC<OverviewTableRowProps> = ({
         'cccc dd MMMM yyyy'
     )
 
-    const tableRowLink = isMaatregelOrBeleidskeuze
-        ? `/muteer/${overviewSlug}/${policyObject.ID}`
-        : `/muteer/${overviewSlug}/edit/${policyObject.ID}`
+    const tableRowLink =
+        isMaatregelOrBeleidskeuze || isBeleidsmodule
+            ? `/muteer/${overviewSlug}/${policyObject.ID}`
+            : `/muteer/${overviewSlug}/edit/${policyObject.ID}`
 
     return (
         <Link
