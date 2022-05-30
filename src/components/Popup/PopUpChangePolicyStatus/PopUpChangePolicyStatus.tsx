@@ -119,8 +119,8 @@ function PopUpChangePolicyStatus({
             overflowVisible={true}
             open={isOpen}
             onClose={() => setIsOpen(false)}
-            ariaLabel="Toevoegen aan een module">
-            <Heading level="4">Module aanpassen</Heading>
+            ariaLabel="Status wijzigen">
+            <Heading level="4">Status wijzigen</Heading>
             <FieldSelect
                 placeholder="Selecteer een status"
                 className="mt-4"
