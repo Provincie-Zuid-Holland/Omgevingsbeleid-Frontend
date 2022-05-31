@@ -44,6 +44,8 @@ function RevisieListItem({ item, currentUUID }: RevisieListItemProps) {
                             ? 'bg-red-700'
                             : status === 'Vigerend'
                             ? 'bg-yellow-500 pulsate'
+                            : status === 'Toekomstig Vigerend'
+                            ? 'bg-orange-500'
                             : status === 'Gearchiveerd'
                             ? 'bg-blue-900'
                             : ''
