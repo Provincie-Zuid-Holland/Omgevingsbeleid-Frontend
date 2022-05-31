@@ -1,5 +1,37 @@
 const releases = [
     {
+        title: 'Versie 1.0',
+
+        date: 'Dinsdag 7 juni 2022',
+
+        description:
+            'Eerste volwaardige versie van het Digitaal Omgevingsbeleid van Zuid-Holland.',
+
+        items: {
+            Ontwikkelingen: [
+                'De website voorzien van een nieuwe look zodat het er overzichtelijker uitziet en duidelijker wordt hoe de website in elkaar zit.',
+                'Mogelijk gemaakt om ook ontwerp-beleid in te zien.',
+                'Tijdlijn met informatie over de releases toegevoegd.',
+                'Pagina met alle recente wijzigingen in beleid en informatie over het besluitvormingsproces toegevoegd.',
+                'Mogelijkheid toegevoegd om uitgebreid te zoeken op de kaart, onder andere via het selecteren van een werkingsgebied.',
+                'Een navigatiemenu “op deze pagina” toegevoegd bij beleid zodat eenvoudiger wordt om naar een ‘hoofdstuk’ te navigeren.',
+                'Beleidsrelaties toegevoegd aan de netwerkvisualisatie.',
+                'Webpagina voor foutmeldingen toegevoegd.',
+                'Toegankelijkheidsverklaring toegevoegd.',
+                'Verlopen beleid wordt niet meer getoond in de muteeromgeving.',
+                'Pop-up melding bij het eerste keer openen van de website verwijderd.',
+            ],
+            Bugfixes: [
+                'Beleidsrelaties worden niet meer automatisch verwijderd wanneer een van de gekoppelde beleidsobjecten wijzigt.',
+                'Limiet op het aantal resultaten bij het zoeken op de kaart verwijderd.',
+                'Foute datum van inwerkingtreding wordt niet meer getoond bij het vergelijken van een beleidskeuze.',
+                'Ervoor gezorgd dat vigerend beleid vindbaar blijft, ook wanneer er een nieuwe versie in de toekomst in werking treedt.',
+                'Leden van de verordening verwijderd uit de netwerkvisualisatie.',
+                'De omschrijving van maatregelen wordt getoond bij de zoekresultaten.',
+            ],
+        },
+    },
+    {
         title: 'Versie 0.6',
 
         date: 'Dinsdag 8 maart 2022',
@@ -89,7 +121,7 @@ const releases = [
 
                 'Zoeken op de titel van beleid gerepareerd',
 
-                'Probleem met het wijzigden van de achtergrond naar de satelliet-weergave opgelost',
+                'Probleem met het wijzigen van de achtergrond naar de satelliet-weergave opgelost',
 
                 'Niet meer mogelijk om meerdere keren hetzelfde beleid te koppelen,',
             ],
