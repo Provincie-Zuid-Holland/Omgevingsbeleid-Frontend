@@ -1,5 +1,5 @@
-import { Form, Formik, FormikProps } from 'formik'
-import { useEffect, useContext, useRef, useState } from 'react'
+import { Form, Formik, FormikProps, FormikErrors } from 'formik'
+import { useEffect, useContext, useRef, useState, useMemo } from 'react'
 import { Helmet } from 'react-helmet'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useSearchParam } from 'react-use'
@@ -8,9 +8,12 @@ import { GetTokeninfo200Identifier } from '@/api/fetchers.schemas'
 import ButtonSubmitFixed from '@/components/ButtonSubmitFixed'
 import { ContainerMain } from '@/components/Container'
 import { LoaderContent } from '@/components/Loader'
-import allDimensies from '@/constants/dimensies'
+import { filteredDimensieConstants } from '@/constants/dimensies'
+import { AMBITIES } from '@/constants/policyObjects'
 import { AuthContext } from '@/context/AuthContext'
+import useIsWijzigVigerend from '@/hooks/useIsWijzigVigerend'
 import { MutateWriteObjects, MutateReadObjects } from '@/types/dimensions'
+import checkContainsRequiredUnfilledField from '@/utils/checkContainsRequiredUnfilledField'
 import { checkIfUserIsAllowedOnPage } from '@/utils/checkIfUserIsAllowedOnPage'
 import { createEmptyWriteObject } from '@/utils/createEmptyWriteObject'
 import { createWriteObjectFromReadObject } from '@/utils/createWriteObjectFromReadObject'
@@ -23,10 +26,12 @@ import {
     getPostForPolicy,
 } from '@/utils/getFetchers'
 import { getLatestObjectFromLineage } from '@/utils/getLatestObjectFromLineage'
+import scrollToFormikError from '@/utils/scrollToFormikError'
 import setAanpassingOpValue from '@/utils/setAanpassingOpValue'
 import setCorrectStatus from '@/utils/setCorrectStatus'
 import { toastNotification } from '@/utils/toastNotification'
 import { useFullMutateRights } from '@/utils/useFullMutateRights'
+import validateFormikValues from '@/utils/validateFormikValues'
 
 import FieldsAmbities from './Fields/FieldsAmbities'
 import FieldsBelang from './Fields/FieldsBelang'
@@ -40,15 +45,12 @@ import FieldsThema from './Fields/FieldsThema'
 import MutateContext from './MutateContext'
 import MutatePolicyHeading from './MutatePolicyHeading'
 
-type filteredDimensieConstants = Exclude<
-    typeof allDimensies[keyof typeof allDimensies],
-    | typeof allDimensies['VERORDENINGSARTIKEL']
-    | typeof allDimensies['BELEIDSRELATIES']
->
 export interface MutatePolicyPageProps {
     dimensieConstants: filteredDimensieConstants
+    policyConstants?: any
 }
 
+// TODO: Refactor into route auth roles
 const redirectIfUserIsNotAllowed = (
     objFromApi: any,
     navigate: any,
@@ -59,6 +61,7 @@ const redirectIfUserIsNotAllowed = (
         object: objFromApi,
         user,
     })
+
     if (!isUserAllowed) {
         toastNotification({
             type: 'user is not authenticated for this page',
@@ -67,12 +70,16 @@ const redirectIfUserIsNotAllowed = (
     }
 }
 
-const MutatePolicyPage = ({ dimensieConstants }: MutatePolicyPageProps) => {
+const MutatePolicyPage = ({
+    dimensieConstants,
+    policyConstants,
+}: MutatePolicyPageProps) => {
     const navigate = useNavigate()
     const formRef = useRef<FormikProps<MutateWriteObjects>>(null)
     const { single: objectID } = useParams<{ single: string | undefined }>()
     const modus = useSearchParam('modus')
     const { user } = useContext(AuthContext)
+    const isWijzigVigerend = useIsWijzigVigerend()
 
     const titleSingular = dimensieConstants.TITLE_SINGULAR
     const titlePlural = dimensieConstants.TITLE_PLURAL
@@ -85,10 +92,19 @@ const MutatePolicyPage = ({ dimensieConstants }: MutatePolicyPageProps) => {
     const userHasFullMutateRights = useFullMutateRights(user, initialValues)
     const isVigerend =
         'Status' in initialValues && initialValues.Status === 'Vigerend'
+    const hideAdditionalInfo = useMemo(
+        () =>
+            user?.Rol !== 'Beheerder' &&
+            user?.Rol !== 'Functioneel beheerder' &&
+            user?.Rol !== 'Technisch beheerder' &&
+            user?.Rol !== 'Superuser',
+        [user]
+    )
 
     const useGetLineage = getFetcherForPolicyLineage(titleSingular)
     const useMutatePolicyLineage = getMutationForPolicyLineage(titleSingular)
     const usePostPolicy = getPostForPolicy(titleSingular)
+
     const { isLoading: lineageIsLoading, data: lineage } = useGetLineage(
         parseInt(objectID!),
         undefined,
@@ -132,6 +148,16 @@ const MutatePolicyPage = ({ dimensieConstants }: MutatePolicyPageProps) => {
     })
 
     const handleFormSubmit = (formState: MutateWriteObjects) => {
+        if (
+            checkContainsRequiredUnfilledField(
+                formState,
+                dimensieConstants,
+                isWijzigVigerend
+            )
+        ) {
+            return
+        }
+
         const formattedFormState = formatConnectionsForAPI(
             formatDatesForAPI(formState) as MutateReadObjects,
             titleSingular
@@ -188,18 +214,19 @@ const MutatePolicyPage = ({ dimensieConstants }: MutatePolicyPageProps) => {
             value={{
                 userHasFullMutateRights,
                 isVigerend,
-                hideAdditionalInfo:
-                    user?.Rol !== 'Beheerder' &&
-                    user?.Rol !== 'Functioneel beheerder' &&
-                    user?.Rol !== 'Technisch beheerder' &&
-                    user?.Rol !== 'Superuser',
+                hideAdditionalInfo,
             }}>
             <Formik
+                validate={values =>
+                    validateFormikValues(values, dimensieConstants)
+                }
                 innerRef={formRef}
                 initialValues={initialValues}
-                enableReinitialize={true}
-                onSubmit={handleFormSubmit}>
-                {({ values }) => (
+                validationSchema={AMBITIES.SCHEMA}
+                onSubmit={handleFormSubmit}
+                enableReinitialize
+                validateOnMount>
+                {({ errors, values, isValid }) => (
                     <>
                         {lineageIsLoading ? <LoaderContent /> : null}
                         <Helmet>
@@ -239,7 +266,13 @@ const MutatePolicyPage = ({ dimensieConstants }: MutatePolicyPageProps) => {
                                     <FieldsThema />
                                 ) : null}
                                 <ButtonSubmitFixed
-                                    submit={() => handleFormSubmit(values)}
+                                    submit={() => {
+                                        if (isValid) {
+                                            handleFormSubmit(values)
+                                        } else {
+                                            scrollToFormikError(errors, formRef)
+                                        }
+                                    }}
                                 />
                             </Form>
                         </ContainerMain>

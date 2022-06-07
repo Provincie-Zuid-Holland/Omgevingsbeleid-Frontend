@@ -22,6 +22,7 @@ const FieldsBeleidskeuze = () => {
                 beschrijving="De algemene informatie bevat een duidelijke titel en de betrokken collega's.">
                 <FormikInput
                     label="Titel"
+                    required={true}
                     description="Formuleer in enkele woorden de titel van de beleidskeuze."
                     name="Titel"
                     type="text"

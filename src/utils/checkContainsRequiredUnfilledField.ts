@@ -25,14 +25,6 @@ const checkIfPropertyHasValue = (property: string, crudObject: any) => {
 }
 
 /**
- * Some crudObjects have a Status field. For these objects we want to check the required field based on the status
- * @param {object} crudObject
- * @returns {boolean} indicating if this object has a status field
- */
-const checkIfObjectHasStatusField = (crudObject: any) =>
-    crudObject.hasOwnProperty('Status')
-
-/**
  * @param {string} property Contains the property that we want to check
  * @param {object} crudObject Contains the object that is being edited
  * @param {object} dimensieConstants Contains the variables of this object type
@@ -43,15 +35,21 @@ const checkIfPropertyIsRequired = (
     crudObject: any,
     dimensieConstants: any
 ) => {
-    const objectHasStatusField = checkIfObjectHasStatusField(crudObject)
     if (dimensieConstants.TITLE_SINGULAR === 'Verordening') {
         return false
-    } else if (objectHasStatusField) {
+    } else if (crudObject.hasOwnProperty('Status')) {
         const status = crudObject.Status
+        console.log(
+            dimensieConstants.CRUD_PROPERTIES[property]?.required.includes(
+                status
+            )
+        )
         return dimensieConstants.CRUD_PROPERTIES[property]?.required.includes(
             status
         )
     } else {
+        console.log(property)
+        console.log(dimensieConstants)
         return dimensieConstants.CRUD_PROPERTIES[property].required
     }
 }

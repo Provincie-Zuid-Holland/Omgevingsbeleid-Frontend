@@ -21,11 +21,7 @@ const ambitieEmptyWrite: AmbitiesWrite = {
 }
 
 const beleidsmoduleEmptyWrite: BeleidsmodulesWrite = {
-    Begin_Geldigheid: undefined,
-    Beleidskeuzes: undefined,
     Besluit_Datum: undefined,
-    Eind_Geldigheid: undefined,
-    Maatregelen: undefined,
     Titel: undefined,
 }
 

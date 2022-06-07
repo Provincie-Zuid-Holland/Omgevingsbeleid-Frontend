@@ -11,6 +11,7 @@ const FieldsBeleidsdoel = () => {
                 <FormikInput
                     name="Titel"
                     label="Titel"
+                    required={true}
                     description="Formuleer in enkele woorden de titel van deze beleidsprestatie."
                 />
             </ContainerFormSection>
@@ -27,28 +28,27 @@ const FieldsBeleidsdoel = () => {
 
             <ContainerFormSection
                 titel="Aanvullende informatie"
-                beschrijving="In deze sectie vragen we aanvullende informatie zoals de link naar het IDMS besluitdocument en indien bekend, de datum van inwerkingtreding.">
+                beschrijving="In deze sectie vragen we aanvullende informatie zoals de link naar het IDMS besluitdocument en de in- en uitwerkingstredingsdatum">
                 <FormikInput
-                    className="mb-6"
-                    name="Weblink"
                     label="IDMS"
-                    placeholder="IDMS"
                     description="Vul hier de link in naar het besluitdocument op IDMS. (Eigenschappen > Algemeen > Snelkoppeling kopiëren)."
-                />
-
-                <FormikDate
+                    name="Weblink"
+                    type="text"
                     className="mb-6"
-                    name="Begin_Geldigheid"
-                    label="Inwerkingtreding"
-                    placeholder="dd-mm-jjjj"
-                    description="Indien bekend, kan hier de datum van inwerkingtreding worden ingevuld"
                 />
-
                 <FormikDate
-                    name="Eind_Geldigheid"
+                    required={true}
+                    label="Inwerkingtreding"
+                    description="De datum waarop dit object inwerking moet treden."
+                    name="Begin_Geldigheid"
+                    className="mb-6"
+                    placeholderText="dd-mm-jjjj"
+                />
+                <FormikDate
                     label="Uitwerkingtreding"
-                    placeholder="dd-mm-jjjj"
-                    description="Indien bekend, kan hier de datum van uitwerkingtreding worden ingevuld"
+                    description="De datum waarop dit object uitwerking moet treden."
+                    placeholderText="dd-mm-jjjj"
+                    name="Eind_Geldigheid"
                 />
             </ContainerFormSection>
         </>

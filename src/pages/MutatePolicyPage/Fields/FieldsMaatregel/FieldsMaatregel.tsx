@@ -28,9 +28,9 @@ const FieldsMaatregel = () => {
                     description="Formuleer in enkele woorden de titel van de maatregel."
                     name="Titel"
                     type="text"
-                    className="mb-6"
                 />
                 <FormFieldSelectUserGroup
+                    className="mt-6"
                     disabled={isVigerend && !userHasFullMutateRights}
                 />
             </ContainerFormSection>

@@ -11,6 +11,7 @@ const FieldsAmbities = ({}: FieldsAmbitiesProps) => (
             beschrijving="De algemene informatie bevat een duidelijke titel.">
             <FormikInput
                 label="Titel"
+                required={true}
                 description="Formuleer in enkele woorden de titel van deze ambitie."
                 name="Titel"
                 type="text"
@@ -29,7 +30,7 @@ const FieldsAmbities = ({}: FieldsAmbitiesProps) => (
 
         <ContainerFormSection
             titel="Aanvullende informatie"
-            beschrijving="In deze sectie vragen we aanvullende informatie zoals de link naar het IDMS besluitdocument en indien bekend, de datum van inwerkingtreding.">
+            beschrijving="In deze sectie vragen we aanvullende informatie zoals de link naar het IDMS besluitdocument en de in- en uitwerkingstredingsdatum">
             <FormikInput
                 label="IDMS"
                 description="Vul hier de link in naar het besluitdocument op IDMS. (Eigenschappen > Algemeen > Snelkoppeling kopiëren)."
@@ -38,14 +39,16 @@ const FieldsAmbities = ({}: FieldsAmbitiesProps) => (
                 className="mb-6"
             />
             <FormikDate
+                required={true}
                 label="Inwerkingtreding"
-                description="Indien bekend, kan hier de datum van inwerkingtreding worden ingevuld"
+                description="De datum waarop dit object inwerking moet treden."
                 name="Begin_Geldigheid"
+                placeholderText="dd-mm-jjjj"
                 className="mb-6"
             />
             <FormikDate
                 label="Uitwerkingtreding"
-                description="Indien bekend, kan hier de datum van uitwerkingtreding worden ingevuld"
+                description="De datum waarop dit object uitwerking moet treden."
                 placeholderText="dd-mm-jjjj"
                 name="Eind_Geldigheid"
             />

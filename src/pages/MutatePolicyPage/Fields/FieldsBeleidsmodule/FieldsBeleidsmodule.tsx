@@ -13,11 +13,14 @@ const FieldsBeleidsmodule = () => (
             <FormFieldInputContainer>
                 <FormikInput
                     label="Titel"
+                    required={true}
                     description="Formuleer in enkele woorden de titel van deze module."
                     name="Titel"
                     type="text"
+                    className="mb-6"
                 />
                 <FormikDate
+                    placeholderText="dd-mm-jjjj"
                     label="Besluitdatum"
                     description="Vul hier de besluitdatum in."
                     name="Besluit_Datum"
