@@ -45,22 +45,6 @@ const dimensions: Dimensions[] = [
 
 const currentBaseURL = baseURL
 
-const getDimensions = dimensions.map(dimension => {
-    const apiSlug = allDimensies[dimension].API_ENDPOINT
-    const url = `${currentBaseURL}/${apiSlug}/1`
-    const testResponse: { [key: string]: string } = {}
-
-    Object.keys(allDimensies[dimension].CRUD_PROPERTIES).forEach(key => {
-        testResponse[key] = (allDimensies[dimension].CRUD_PROPERTIES as any)[
-            key
-        ].testValue
-    })
-
-    return rest.get(url, (req, res, ctx) => {
-        return res(ctx.status(200), ctx.json([testResponse]))
-    })
-})
-
 const patchDimensions = dimensions.map(dimension => {
     const apiSlug = allDimensies[dimension].API_ENDPOINT
     const url = `${currentBaseURL}/${apiSlug}/1`
@@ -310,6 +294,6 @@ export const handlers = [
         }
     ),
 
-    ...getDimensions,
+    // ...getDimensions,
     ...patchDimensions,
 ]
