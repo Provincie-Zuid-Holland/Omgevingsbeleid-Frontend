@@ -1,4 +1,5 @@
 import { FormikSelect } from '@pzh-ui/components'
+import classNames from 'classnames'
 import { useFormikContext } from 'formik'
 import { useCallback, useEffect, useState } from 'react'
 
@@ -35,6 +36,7 @@ interface FormattedUserList {
 
 interface FormFieldSelectUserGroupProps {
     disabled?: boolean
+    className?: string
 }
 
 const initialState = {
@@ -47,6 +49,7 @@ const initialState = {
 
 const FormFieldSelectUserGroup = ({
     disabled,
+    className = '',
 }: FormFieldSelectUserGroupProps) => {
     const { values } = useFormikContext<BeleidskeuzesWrite | MaatregelenWrite>()
     const { data: userList } = useGetGebruikers()
@@ -123,11 +126,10 @@ const FormFieldSelectUserGroup = ({
 
     return (
         <div
-            className={
-                disabled
-                    ? 'cursor-not-allowed pointer-events-none opacity-50'
-                    : ''
-            }>
+            className={classNames(className, {
+                'cursor-not-allowed pointer-events-none opacity-50': disabled,
+                className,
+            })}>
             <span className="text-pzh-blue-dark bold">Personen</span>
             {dataLoaded ? (
                 <>
