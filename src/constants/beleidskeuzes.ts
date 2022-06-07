@@ -14,6 +14,7 @@ export const SLUG_OVERVIEW = 'beleidskeuzes'
 export const SLUG_CREATE_NEW = 'nieuwe-beleidskeuze'
 export const DESCRIPTION =
     'De beleidskeuzes geven aan hoe de provincie haar doelen wil bereiken. De beleidskeuzes zijn een uitwerking van de beleidsdoelen en komen voort uit de Omgevingsvisie.'
+export const SCHEMA = {}
 
 // De required property bevat de statussen waarin de property verplicht is om in te vullen
 // De type property bevat de type van het veld. Op basis hiervan wordt de veld validatie gedaan

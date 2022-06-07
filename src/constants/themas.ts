@@ -12,6 +12,7 @@ export const API_ENDPOINT = 'themas'
 export const API_ENDPOINT_VIGEREND = 'valid/themas'
 export const SLUG_OVERVIEW = 'themas'
 export const SLUG_CREATE_NEW = 'nieuw-thema'
+export const SCHEMA = {}
 
 export const CRUD_PROPERTIES = {
     Titel: {

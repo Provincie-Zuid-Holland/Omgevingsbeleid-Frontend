@@ -14,6 +14,7 @@ export const SLUG_OVERVIEW = 'beleidsregels'
 export const SLUG_CREATE_NEW = 'nieuwe-beleidsregel'
 export const DESCRIPTION =
     'De beleidsregels geven aan waar de provincie zich minimaal voor moet inspannen. De beleidsregels zijn individuele regels die de provincie zelf vaststelt. '
+export const SCHEMA = {}
 
 export const CRUD_PROPERTIES = {
     Titel: {

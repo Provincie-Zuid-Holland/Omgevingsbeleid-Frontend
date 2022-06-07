@@ -8,6 +8,7 @@ export const API_ENDPOINT = 'verordeningstructuur'
 
 export const SLUG_OVERVIEW = 'verordeningen'
 export const SLUG_CREATE_NEW = 'nieuwe-verordening'
+export const SCHEMA = {}
 
 export const apiCall = (params?: any) => {
     return customInstance<any[]>({

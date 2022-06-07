@@ -14,6 +14,7 @@ export const SLUG_OVERVIEW = 'beleidsprestaties'
 export const SLUG_CREATE_NEW = 'nieuw-beleidsprestatie'
 export const DESCRIPTION =
     'De beleidsprestaties geven aan wat de provincie gaat doen om haar doelen te behalen. De beleidsprestaties zijn een uitwerking van de beleidsdoelen en komen voort uit de begroting.'
+export const SCHEMA = {}
 
 export const CRUD_PROPERTIES = {
     Titel: {

@@ -3,6 +3,7 @@ import { Route, Routes, useNavigate } from 'react-router-dom'
 
 import { NetworkGraph } from '@/components/Network'
 import allDimensies, { filteredDimensieConstants } from '@/constants/dimensies'
+import * as policyObjects from '@/constants/policyObjects'
 import useAuth from '@/hooks/useAuth'
 import Login from '@/pages/Login'
 import MutatePolicyPage from '@/pages/MutatePolicyPage'
@@ -133,6 +134,7 @@ const AppRoutes = () => {
                     path={`beleidskeuzes/nieuwe-beleidskeuze`}
                     element={
                         <MutatePolicyPage
+                            policyConstants={policyObjects.BELEIDSKEUZES}
                             dimensieConstants={allDimensies.BELEIDSKEUZES}
                         />
                     }
