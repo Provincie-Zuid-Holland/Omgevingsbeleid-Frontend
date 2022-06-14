@@ -41,7 +41,7 @@ const ambitiesMeta: SchemaMeta<typeof queryAmbities> = {
     query: queryAmbities,
 }
 
-// TODO: @Jordy add null type to eind & begin dates
+// TODO: @Jordy add null types
 export const SCHEMA: ObjectSchema<AmbitiesWrite> = object({
     Titel: schemaDefaults.Titel,
     Omschrijving: schemaDefaults.optionalString,

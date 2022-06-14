@@ -9,7 +9,7 @@ import {
     useGetVersionBeleidsregelsObjectuuid,
     useGetValidBeleidsregels,
 } from '@/api/fetchers'
-import { BeleidsregelsWrite } from '@/api/fetchers.schemas'
+import { BeleidsregelsRead, BeleidsregelsWrite } from '@/api/fetchers.schemas'
 import { SchemaMeta, SchemaMetaQueries } from '@/types/schema'
 import { schemaDefaults, generateSchemaTitles } from '@/utils/yupSchema'
 

@@ -60,7 +60,9 @@ export const SCHEMA: ObjectSchema<BeleidskeuzesWrite> = object({
     Tags: schemaDefaults.optionalString,
     Weblink: schemaDefaults.optionalString,
     Status: schemaDefaults.Status,
-    Begin_Geldigheid: schemaDefaults.Begin_Geldigheid.notRequired,
+    Begin_Geldigheid: schemaDefaults.Begin_Geldigheid.requiredBasedOnStatusses([
+        'Ontwerp GS Concept',
+    ]),
     Eind_Geldigheid: schemaDefaults.Eind_Geldigheid,
     Ambities: schemaDefaults.listReference,
     Belangen: schemaDefaults.listReference,

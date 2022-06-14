@@ -14,11 +14,11 @@ import { SchemaMeta, SchemaMetaQueries } from '@/types/schema'
 import { schemaDefaults, generateSchemaTitles } from '@/utils/yupSchema'
 
 const queryMaatregelen: SchemaMetaQueries = {
-    usePost: usePostMaatregelen,
     useGet: useGetMaatregelen,
     useGetVersion: useGetVersionMaatregelenObjectuuid,
     useGetLineage: useGetMaatregelenLineageid,
     useGetValidLineage: useGetValidMaatregelenLineageid,
+    usePost: usePostMaatregelen,
     usePatchLineage: usePatchMaatregelenLineageid,
     useGetValid: useGetValidMaatregelen,
 }
