@@ -2,18 +2,17 @@ import { Fragment, useCallback, useLayoutEffect } from 'react'
 import { Route, Routes, useNavigate } from 'react-router-dom'
 
 import { NetworkGraph } from '@/components/Network'
-import allDimensies from '@/constants/dimensies'
+import allDimensies, { filteredDimensieConstants } from '@/constants/dimensies'
 import useAuth from '@/hooks/useAuth'
 import Login from '@/pages/Login'
 import MuteerBeleidsmodulesOverview from '@/pages/MuteerBeleidsmodulesOverview'
 import MuteerBeleidsrelaties from '@/pages/MuteerBeleidsrelaties'
 import MuteerBeleidsrelatiesCRUD from '@/pages/MuteerBeleidsrelatiesCRUD'
 import MuteerDashboard from '@/pages/MuteerDashboard'
+import MuteerDetail from '@/pages/MuteerDetail'
 import MuteerMijnBeleid from '@/pages/MuteerMijnBeleid'
+import MuteerOverview from '@/pages/MuteerOverview'
 import MuteerUniversalObjectCRUD from '@/pages/MuteerUniversalObjectCRUD'
-import MuteerUniversalObjectDetail from '@/pages/MuteerUniversalObjectDetail'
-import MuteerUniversalObjectDetailWithStatuses from '@/pages/MuteerUniversalObjectDetailWithStatuses'
-import MuteerUniversalObjectOverzicht from '@/pages/MuteerUniversalObjectOverzicht'
 import MuteerVerordeningenStructuurCRUD from '@/pages/MuteerVerordeningenStructuurCRUD'
 import MuteerVerordeningenstructuurDetail from '@/pages/MuteerVerordeningenstructuurDetail'
 import MuteerVerordeningenstructuurOverzicht from '@/pages/MuteerVerordeningenstructuurOverzicht'
@@ -61,6 +60,7 @@ const AppRoutes = () => {
                     element={<RaadpleegObjectDetail {...item} />}
                 />
             ))}
+
             {/* Raadpleeg - Overview and Detail pages for all the dimensions */}
             {detailPages.map(item => (
                 <Route
@@ -148,7 +148,7 @@ const AppRoutes = () => {
                 <Route
                     path={`beleidskeuzes/:single`}
                     element={
-                        <MuteerUniversalObjectDetailWithStatuses
+                        <MuteerDetail
                             dimensieConstants={allDimensies.BELEIDSKEUZES}
                         />
                     }
@@ -188,7 +188,7 @@ const AppRoutes = () => {
                 <Route
                     path={`maatregelen/:single`}
                     element={
-                        <MuteerUniversalObjectDetailWithStatuses
+                        <MuteerDetail
                             dimensieConstants={allDimensies.MAATREGELEN}
                         />
                     }
@@ -220,12 +220,6 @@ const AppRoutes = () => {
                                 .SLUG_CREATE_NEW
                     )
                     .map(dimensie => {
-                        // There are custom detail pages for beleidskeuzes, maatregelen and beleidsmodules
-                        const returnDetailPage =
-                            dimensie !== 'BELEIDSKEUZES' &&
-                            dimensie !== 'MAATREGELEN' &&
-                            dimensie !== 'BELEIDSMODULES'
-
                         const dimensieConstants =
                             allDimensies[dimensie as keyof typeof allDimensies]
                         const overzichtSlug =
@@ -265,41 +259,41 @@ const AppRoutes = () => {
                                         />
                                     }
                                 />
-                                {returnDetailPage && (
-                                    <Route
-                                        path={`${overzichtSlug}/:single/:version`}
-                                        element={
-                                            <MuteerUniversalObjectDetail
-                                                dimensieConstants={
-                                                    dimensieConstants
-                                                }
-                                            />
-                                        }
-                                    />
-                                )}
-                                {returnDetailPage && (
-                                    <Route
-                                        path={`${overzichtSlug}/:single`}
-                                        element={
-                                            <MuteerUniversalObjectDetail
-                                                dimensieConstants={
-                                                    dimensieConstants
-                                                }
-                                            />
-                                        }
-                                    />
-                                )}
+
                                 <Route
                                     path={`${overzichtSlug}`}
                                     element={
-                                        <MuteerUniversalObjectOverzicht
-                                            hideAddObject={
-                                                isBeleidsModulePageAndUserIsNotAdmin
-                                            }
-                                            dimensieConstants={
-                                                dimensieConstants
-                                            }
-                                        />
+                                        <ProtectedRoute
+                                            redirectTo="/muteer/dashboard"
+                                            roles={
+                                                dimensie === 'BELEIDSMODULES'
+                                                    ? [
+                                                          'Beheerder',
+                                                          'Functioneel beheerder',
+                                                          'Technisch beheerder',
+                                                          'Test runner',
+                                                          'Tester',
+                                                          'Behandelend Ambtenaar',
+                                                          'Portefeuillehouder',
+                                                          'Ambtelijk opdrachtgever',
+                                                      ]
+                                                    : [
+                                                          'Beheerder',
+                                                          'Functioneel beheerder',
+                                                          'Technisch beheerder',
+                                                          'Test runner',
+                                                          'Tester',
+                                                      ]
+                                            }>
+                                            <MuteerOverview
+                                                hideAddObject={
+                                                    isBeleidsModulePageAndUserIsNotAdmin
+                                                }
+                                                dimensieConstants={
+                                                    dimensieConstants as filteredDimensieConstants
+                                                }
+                                            />
+                                        </ProtectedRoute>
                                     }
                                 />
                             </Fragment>

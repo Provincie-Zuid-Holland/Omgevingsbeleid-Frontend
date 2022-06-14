@@ -50,7 +50,7 @@ const BannerEnvironment = ({
     }, [setShowBanner])
 
     const addBanner = useCallback(() => {
-        addMarginTop()
+        addMarginAndPaddingTop()
         setShowBanner(true)
     }, [setShowBanner])
 
@@ -71,11 +71,10 @@ const BannerEnvironment = ({
         localStorage.setItem('__OB_hide_banner__', new Date().toString())
     }
 
-    const addMarginTop = () => {
+    const addMarginAndPaddingTop = () => {
         const mainContainer = document.getElementById('main-container')
         if (!mainContainer) return
         mainContainer.style.marginTop = '148px'
-        mainContainer.style.paddingTop = '30px'
     }
 
     const getEnvironmentCSSClass = () => {
@@ -96,7 +95,7 @@ const BannerEnvironment = ({
     if (!showBanner) return null
 
     return (
-        <div className={`relative ${getEnvironmentCSSClass()}`}>
+        <div className={`z-10 relative ${getEnvironmentCSSClass()}`}>
             <div className="max-w-screen-xl px-3 py-2 mx-auto sm:px-6 lg:px-8">
                 <div className="pr-16 sm:text-center sm:px-16">
                     <p className="font-medium">

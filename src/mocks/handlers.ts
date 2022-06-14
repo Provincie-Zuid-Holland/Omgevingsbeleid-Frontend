@@ -8,7 +8,7 @@ import { ambities } from './data/ambities'
 import { artikel } from './data/artikel'
 import { belangen } from './data/belangen'
 import { beleidsdoelen } from './data/beleidsdoelen'
-import { beleidskeuzes } from './data/beleidskeuzes'
+import { beleidskeuzes, beleidskeuzesLineage } from './data/beleidskeuzes'
 import { beleidsmodules } from './data/beleidsmodules'
 import { beleidsprestaties } from './data/beleidsprestaties'
 import { beleidsregels } from './data/beleidsregels'
@@ -184,12 +184,9 @@ export const handlers = [
         return res(ctx.status(200), ctx.json(beleidskeuzes))
     }),
 
-    rest.get(
-        `${currentBaseURL}/beleidskeuzes/${beleidskeuzes[0].ID}`,
-        (req, res, ctx) => {
-            return res(ctx.status(200), ctx.json([beleidskeuzes[0]]))
-        }
-    ),
+    rest.get(`${currentBaseURL}/beleidskeuzes/728`, (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(beleidskeuzesLineage))
+    }),
 
     rest.get(
         `${currentBaseURL}/version/beleidskeuzes/${beleidskeuzes[0].UUID}`,
