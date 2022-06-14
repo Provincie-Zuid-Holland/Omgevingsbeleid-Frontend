@@ -131,72 +131,72 @@ const verordeningEmptyWrite: VerordeningenWrite = {
     Weblink: undefined,
 }
 
-export const getWriteObjectProperties = (titleSingular: TitleSingularType) => {
+export const getWriteObjectProperties = (titleSingular: string) => {
     switch (titleSingular) {
-        case 'Ambitie':
+        case 'ambitie':
             return Object.keys(ambitieEmptyWrite) as Array<
                 keyof typeof ambitieEmptyWrite
             >
-        case 'Beleidsmodule':
+        case 'beleidsmodule':
             return Object.keys(beleidsmoduleEmptyWrite) as Array<
                 keyof typeof beleidsmoduleEmptyWrite
             >
-        case 'Belang':
+        case 'belang':
             return Object.keys(belangEmptyWrite) as Array<
                 keyof typeof belangEmptyWrite
             >
-        case 'Beleidsregel':
+        case 'beleidsregel':
             return Object.keys(beleidsregelEmptyWrite) as Array<
                 keyof typeof beleidsregelEmptyWrite
             >
-        case 'Beleidskeuze':
+        case 'beleidskeuze':
             return Object.keys(beleidskeuzeEmptyWrite) as Array<
                 keyof typeof beleidskeuzeEmptyWrite
             >
-        case 'Maatregel':
+        case 'maatregel':
             return Object.keys(maatregelEmptyWrite) as Array<
                 keyof typeof maatregelEmptyWrite
             >
-        case 'Beleidsdoel':
+        case 'beleidsdoel':
             return Object.keys(beleidsdoelEmptyWrite) as Array<
                 keyof typeof beleidsdoelEmptyWrite
             >
-        case 'Beleidsprestatie':
+        case 'beleidsprestatie':
             return Object.keys(beleidsprestatieEmptyWrite) as Array<
                 keyof typeof beleidsprestatieEmptyWrite
             >
-        case 'Thema':
+        case 'thema':
             return Object.keys(themaEmptyWrite) as Array<
                 keyof typeof themaEmptyWrite
             >
-        case 'Verordening':
+        case 'verordening':
             return Object.keys(verordeningEmptyWrite) as Array<
                 keyof typeof verordeningEmptyWrite
             >
     }
 }
 
-export const createEmptyWriteObject = (titleSingular: TitleSingularType) => {
+export const createEmptyWriteObject = (titleSingular: string) => {
     switch (titleSingular) {
-        case 'Ambitie':
+        case 'ambitie':
             return ambitieEmptyWrite
-        case 'Beleidsmodule':
+        case 'beleidsmodule':
             return beleidsmoduleEmptyWrite
-        case 'Belang':
+        case 'belang':
             return belangEmptyWrite
-        case 'Beleidsregel':
+        case 'beleidsregel':
             return beleidsregelEmptyWrite
-        case 'Beleidskeuze':
+        case 'beleidskeuze':
             return beleidskeuzeEmptyWrite
-        case 'Maatregel':
+        case 'maatregel':
             return maatregelEmptyWrite
-        case 'Beleidsdoel':
+        case 'beleidsdoel':
             return beleidsdoelEmptyWrite
-        case 'Beleidsprestatie':
+        case 'beleidsprestatie':
             return beleidsprestatieEmptyWrite
-        case 'Thema':
+        case 'thema':
             return themaEmptyWrite
-        case 'Verordening':
+        case 'verordening':
             return verordeningEmptyWrite
     }
 }

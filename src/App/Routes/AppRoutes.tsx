@@ -3,14 +3,15 @@ import { Route, Routes, useNavigate } from 'react-router-dom'
 
 import { NetworkGraph } from '@/components/Network'
 import allDimensies, { filteredDimensieConstants } from '@/constants/dimensies'
+import * as policyObjects from '@/constants/policyObjects'
 import useAuth from '@/hooks/useAuth'
 import Login from '@/pages/Login'
+import MutatePolicyPage from '@/pages/MutatePolicyPage'
 import MuteerBeleidsmodulesOverview from '@/pages/MuteerBeleidsmodulesOverview'
 import MuteerBeleidsrelaties from '@/pages/MuteerBeleidsrelaties'
 import MuteerBeleidsrelatiesCRUD from '@/pages/MuteerBeleidsrelatiesCRUD'
 import MuteerDashboard from '@/pages/MuteerDashboard'
 import MuteerMijnBeleid from '@/pages/MuteerMijnBeleid'
-import MuteerUniversalObjectCRUD from '@/pages/MuteerUniversalObjectCRUD'
 import MuteerUniversalObjectDetail from '@/pages/MuteerUniversalObjectDetail'
 import MuteerUniversalObjectDetailWithStatuses from '@/pages/MuteerUniversalObjectDetailWithStatuses'
 import MuteerUniversalObjectOverzicht from '@/pages/MuteerUniversalObjectOverzicht'
@@ -132,7 +133,8 @@ const AppRoutes = () => {
                 <Route
                     path={`beleidskeuzes/nieuwe-beleidskeuze`}
                     element={
-                        <MuteerUniversalObjectCRUD
+                        <MutatePolicyPage
+                            policyConstants={policyObjects.BELEIDSKEUZES}
                             dimensieConstants={allDimensies.BELEIDSKEUZES}
                         />
                     }
@@ -140,7 +142,8 @@ const AppRoutes = () => {
                 <Route
                     path={`beleidskeuzes/edit/:single`}
                     element={
-                        <MuteerUniversalObjectCRUD
+                        <MutatePolicyPage
+                            policyConstants={policyObjects.BELEIDSKEUZES}
                             dimensieConstants={allDimensies.BELEIDSKEUZES}
                         />
                     }
@@ -158,7 +161,8 @@ const AppRoutes = () => {
                 <Route
                     path={`${allDimensies.BELEIDSMODULES.SLUG_OVERVIEW}/${allDimensies.BELEIDSMODULES.SLUG_CREATE_NEW}`}
                     element={
-                        <MuteerUniversalObjectCRUD
+                        <MutatePolicyPage
+                            policyConstants={policyObjects.BELEIDSKEUZES}
                             dimensieConstants={allDimensies.BELEIDSMODULES}
                         />
                     }
@@ -172,7 +176,8 @@ const AppRoutes = () => {
                 <Route
                     path={`maatregelen/nieuwe-maatregel`}
                     element={
-                        <MuteerUniversalObjectCRUD
+                        <MutatePolicyPage
+                            policyConstants={policyObjects.BELEIDSKEUZES}
                             dimensieConstants={allDimensies.MAATREGELEN}
                         />
                     }
@@ -180,7 +185,8 @@ const AppRoutes = () => {
                 <Route
                     path={`maatregelen/edit/:single`}
                     element={
-                        <MuteerUniversalObjectCRUD
+                        <MutatePolicyPage
+                            policyConstants={policyObjects.BELEIDSKEUZES}
                             dimensieConstants={allDimensies.MAATREGELEN}
                         />
                     }
@@ -213,98 +219,91 @@ const AppRoutes = () => {
                 />
 
                 {/* Overview, Detail en Edit pages for the rest of the objects */}
-                {Object.keys(allDimensies)
-                    .filter(
-                        dimensie =>
-                            allDimensies[dimensie as keyof typeof allDimensies]
-                                .SLUG_CREATE_NEW
+                {Object.keys(policyObjects).map(dimensie => {
+                    // There are custom detail pages for beleidskeuzes, maatregelen and beleidsmodules
+                    const returnDetailPage =
+                        dimensie !== 'BELEIDSKEUZES' &&
+                        dimensie !== 'MAATREGELEN' &&
+                        dimensie !== 'BELEIDSMODULES'
+
+                    const dimensieConstants =
+                        policyObjects[dimensie as keyof typeof policyObjects]
+
+                    const oldDimensieConstants = allDimensies[
+                        dimensie as keyof typeof allDimensies
+                    ] as filteredDimensieConstants
+
+                    const overzichtSlug =
+                        allDimensies[dimensie as keyof typeof allDimensies]
+                            .SLUG_OVERVIEW
+                    const createNewSlug =
+                        allDimensies[dimensie as keyof typeof allDimensies]
+                            .SLUG_CREATE_NEW
+
+                    const isBeleidsModulePageAndUserIsNotAdmin =
+                        dimensie === 'BELEIDSMODULES' &&
+                        user?.Rol !== 'Beheerder' &&
+                        user?.Rol !== 'Functioneel beheerder' &&
+                        user?.Rol !== 'Technisch beheerder' &&
+                        user?.Rol !== 'Test runner' &&
+                        user?.Rol !== 'Tester'
+
+                    return (
+                        <Fragment key={createNewSlug}>
+                            <Route
+                                path={`${overzichtSlug}/${createNewSlug}`}
+                                element={
+                                    <MutatePolicyPage
+                                        policyConstants={dimensieConstants}
+                                    />
+                                }
+                            />
+                            <Route
+                                path={`${overzichtSlug}/edit/:single`}
+                                element={
+                                    <MutatePolicyPage
+                                        policyConstants={dimensieConstants}
+                                    />
+                                }
+                            />
+                            {returnDetailPage && (
+                                <Route
+                                    path={`${overzichtSlug}/:single/:version`}
+                                    element={
+                                        <MuteerUniversalObjectDetail
+                                            dimensieConstants={
+                                                oldDimensieConstants
+                                            }
+                                        />
+                                    }
+                                />
+                            )}
+                            {returnDetailPage && (
+                                <Route
+                                    path={`${overzichtSlug}/:single`}
+                                    element={
+                                        <MuteerUniversalObjectDetail
+                                            dimensieConstants={
+                                                oldDimensieConstants
+                                            }
+                                        />
+                                    }
+                                />
+                            )}
+                            <Route
+                                path={`${overzichtSlug}`}
+                                element={
+                                    <MuteerUniversalObjectOverzicht
+                                        hideAddObject={
+                                            isBeleidsModulePageAndUserIsNotAdmin
+                                        }
+                                        dimensieConstants={oldDimensieConstants}
+                                    />
+                                }
+                            />
+                        </Fragment>
                     )
-                    .map(dimensie => {
-                        // There are custom detail pages for beleidskeuzes, maatregelen and beleidsmodules
-                        const returnDetailPage =
-                            dimensie !== 'BELEIDSKEUZES' &&
-                            dimensie !== 'MAATREGELEN' &&
-                            dimensie !== 'BELEIDSMODULES'
-
-                        const dimensieConstants =
-                            allDimensies[dimensie as keyof typeof allDimensies]
-                        const overzichtSlug =
-                            allDimensies[dimensie as keyof typeof allDimensies]
-                                .SLUG_OVERVIEW
-                        const createNewSlug =
-                            allDimensies[dimensie as keyof typeof allDimensies]
-                                .SLUG_CREATE_NEW
-
-                        const isBeleidsModulePageAndUserIsNotAdmin =
-                            dimensie === 'BELEIDSMODULES' &&
-                            user?.Rol !== 'Beheerder' &&
-                            user?.Rol !== 'Functioneel beheerder' &&
-                            user?.Rol !== 'Technisch beheerder' &&
-                            user?.Rol !== 'Test runner' &&
-                            user?.Rol !== 'Tester'
-
-                        return (
-                            <Fragment key={createNewSlug}>
-                                <Route
-                                    path={`${overzichtSlug}/${createNewSlug}`}
-                                    element={
-                                        <MuteerUniversalObjectCRUD
-                                            dimensieConstants={
-                                                dimensieConstants
-                                            }
-                                        />
-                                    }
-                                />
-                                <Route
-                                    path={`${overzichtSlug}/edit/:single`}
-                                    element={
-                                        <MuteerUniversalObjectCRUD
-                                            dimensieConstants={
-                                                dimensieConstants
-                                            }
-                                        />
-                                    }
-                                />
-                                {returnDetailPage && (
-                                    <Route
-                                        path={`${overzichtSlug}/:single/:version`}
-                                        element={
-                                            <MuteerUniversalObjectDetail
-                                                dimensieConstants={
-                                                    dimensieConstants
-                                                }
-                                            />
-                                        }
-                                    />
-                                )}
-                                {returnDetailPage && (
-                                    <Route
-                                        path={`${overzichtSlug}/:single`}
-                                        element={
-                                            <MuteerUniversalObjectDetail
-                                                dimensieConstants={
-                                                    dimensieConstants
-                                                }
-                                            />
-                                        }
-                                    />
-                                )}
-                                <Route
-                                    path={`${overzichtSlug}`}
-                                    element={
-                                        <MuteerUniversalObjectOverzicht
-                                            hideAddObject={
-                                                isBeleidsModulePageAndUserIsNotAdmin
-                                            }
-                                            dimensieConstants={
-                                                dimensieConstants as filteredDimensieConstants
-                                            }
-                                        />
-                                    }
-                                />
-                            </Fragment>
-                        )
-                    })}
+                })}
             </Route>
         </Routes>
     )

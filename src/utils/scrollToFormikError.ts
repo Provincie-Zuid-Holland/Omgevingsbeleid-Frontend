@@ -7,14 +7,15 @@ const scrollToFormikError = (
     formRef: React.RefObject<FormikProps<MutateWriteObjects>>
 ) => {
     const errorNames = Object.keys(errors)
-    console.log(errorNames)
     if (errorNames.length === 0) return
 
     const errorName = errorNames[0]
+
     const formElement = document.getElementsByName(errorName)[0]
+    if (!formElement) return
     const container = formElement.closest('.container-form-section')
 
-    if (!formElement || !container) return
+    if (!container) return
 
     const navigationElement = document.getElementById('top-navigation')
     const navigationHeight = navigationElement?.offsetHeight || 0

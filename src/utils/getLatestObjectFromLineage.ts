@@ -1,25 +1,28 @@
 import {
     AmbitiesRead,
-    VerordeningenRead,
+    BelangenRead,
+    BeleidsdoelenRead,
     BeleidskeuzesRead,
     BeleidsmodulesRead,
+    BeleidsprestatiesRead,
+    BeleidsregelsRead,
+    MaatregelenRead,
+    ThemasRead,
 } from '@/api/fetchers.schemas'
-import allDimensies from '@/constants/dimensies'
-
-type filteredDimensieConstants = Exclude<
-    typeof allDimensies[keyof typeof allDimensies],
-    | typeof allDimensies['VERORDENINGSARTIKEL']
-    | typeof allDimensies['BELEIDSRELATIES']
->
 
 export const getLatestObjectFromLineage = (
     lineage: Array<
         | AmbitiesRead
-        | VerordeningenRead
+        | BelangenRead
+        | BeleidsdoelenRead
         | BeleidskeuzesRead
         | BeleidsmodulesRead
+        | BeleidsprestatiesRead
+        | BeleidsregelsRead
+        | MaatregelenRead
+        | ThemasRead
     >,
-    titleSingular: filteredDimensieConstants['TITLE_SINGULAR'],
+    titleSingular: string,
     modus: string | null
 ) => {
     const isMaatregelOrBeleidskeuze =

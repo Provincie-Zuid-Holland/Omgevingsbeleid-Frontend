@@ -7,7 +7,6 @@ import {
     MaatregelenRead,
     MaatregelenWrite,
 } from '@/api/fetchers.schemas'
-import { filteredDimensieConstants } from '@/constants/dimensies'
 import { MutateReadObjects, MutateWriteObjects } from '@/types/dimensions'
 
 /**
@@ -16,12 +15,8 @@ import { MutateReadObjects, MutateWriteObjects } from '@/types/dimensions'
  */
 const formatConnectionsForAPI = (
     crudObject: MutateReadObjects,
-    titleSingular: filteredDimensieConstants['TITLE_SINGULAR']
+    titleSingular: string
 ) => {
-    if (titleSingular !== 'Beleidskeuze' && titleSingular !== 'Maatregel') {
-        return crudObject as MutateWriteObjects
-    }
-
     if (titleSingular === 'Beleidskeuze') {
         const formattedBeleidskeuze: BeleidskeuzesRead = cloneDeep(
             crudObject as BeleidskeuzesRead
@@ -75,6 +70,8 @@ const formatConnectionsForAPI = (
         }
 
         return formattedMaatregel
+    } else {
+        return crudObject as MutateWriteObjects
     }
 }
 export default formatConnectionsForAPI

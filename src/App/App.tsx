@@ -41,7 +41,7 @@ const App = () => {
         !process.env.JEST_WORKER_ID &&
         process.env.REACT_APP_ENABLE_AXE === 'true'
     ) {
-        axe()
+        // axe()
     }
 
     useEffectOnce(() => {

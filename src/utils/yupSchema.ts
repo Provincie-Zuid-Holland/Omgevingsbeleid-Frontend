@@ -2,15 +2,21 @@ import { string, object, array, mixed } from 'yup'
 
 import { BeleidskeuzesWriteStatus } from '@/api/fetchers.schemas'
 
-const possibleStatusses = Object.keys(BeleidskeuzesWriteStatus) as Array<
-    keyof typeof BeleidskeuzesWriteStatus
->
+const possibleStatusses = Object.values(BeleidskeuzesWriteStatus)
+
+// TODO: Add required for fields based on status
 
 /**
  * Contains the yup validation schema for shared properties
  */
 export const schemaDefaults = {
     optionalString: string().optional(),
+    listReference: array().of(
+        object({
+            Koppeling_Omschrijving: string().required(),
+            UUID: string().required(),
+        })
+    ),
     Titel: string()
         .required('Vul een titel in')
         .min(4, 'Vul een titel in van minimaal 4 karakters')
@@ -20,28 +26,42 @@ export const schemaDefaults = {
         required: string()
             .required('Vul een datum van inwerkingstreding in')
             .default(undefined),
+        requiredBasedOnStatusses: (statusses: string[]) =>
+            string().test(
+                'validate-based-on-status',
+                'Vul een datum van inwerkingstreding in',
+                function (Begin_Geldigheid) {
+                    const currentStatus = this.parent.Status
+                    if (
+                        statusses.includes(currentStatus) &&
+                        !Begin_Geldigheid
+                    ) {
+                        return false
+                    } else if (
+                        statusses.includes(currentStatus) &&
+                        Begin_Geldigheid
+                    ) {
+                        return true
+                    } else if (!statusses.includes(currentStatus)) {
+                        return true
+                    }
+                }
+            ),
         notRequired: string().default(undefined),
     },
     Eind_Geldigheid: string()
         .optional()
         .test(
             'after-start-validity',
-            'Eind Geldigheid mag niet voor de Begin Geldigheid zijn',
+            'De uitwerkingtreding mag niet voor de inwerkingtreding zijn',
             function (value) {
-                if (!value) return false
-
+                if (!value) return true
                 const startValidity = new Date(this.parent.Begin_Geldigheid)
                 const endValidity = new Date(value)
 
                 return startValidity < endValidity
             }
         ),
-    listReference: array().of(
-        object({
-            Koppeling_Omschrijving: string().required(),
-            UUID: string().required(),
-        })
-    ),
     Status: mixed().oneOf(possibleStatusses),
 }
 

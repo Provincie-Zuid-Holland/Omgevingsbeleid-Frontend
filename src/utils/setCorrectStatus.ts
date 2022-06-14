@@ -1,8 +1,7 @@
 /**
- * Function to (possibly) update the status.
+ * Reset the status if the policy is currently vigerend and the user is creating a new checked out version.
  */
 const setCorrectStatus = (obj: any, modus: string | null) => {
-    /** The modus equals 'wijzig_vigerend' when the user is editing a valid policy and doesn't want to check out a new version */
     if (
         'Status' in obj &&
         obj.Status === 'Vigerend' &&
