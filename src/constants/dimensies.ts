@@ -26,4 +26,10 @@ const constants = {
     VERORDENINGSARTIKEL,
 }
 
+export type filteredDimensieConstants = Exclude<
+    typeof constants[keyof typeof constants],
+    | typeof constants['VERORDENINGSARTIKEL']
+    | typeof constants['BELEIDSRELATIES']
+>
+
 export default constants

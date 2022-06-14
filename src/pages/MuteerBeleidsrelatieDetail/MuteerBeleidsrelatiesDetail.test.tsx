@@ -34,13 +34,13 @@ describe('MuteerBeleidsrelatiesDetail', () => {
 
     it('Component displays object after loading data from the API', async () => {
         setup()
-        const title = await screen.findByText(beleidskeuzes[0].Titel)
+        const title = await screen.findByText(beleidskeuzes[0].Titel || '')
         expect(title).toBeTruthy()
     })
 
     it('User can switch between tabs', async () => {
         setup()
-        const title = await screen.findByText(beleidskeuzes[0].Titel)
+        const title = await screen.findByText(beleidskeuzes[0].Titel || '')
         expect(title).toBeTruthy()
 
         const placeholderRelaties = await screen.findByText(
