@@ -29,7 +29,9 @@ describe('MijnBeleid', () => {
 
     it('User can navigate their policies', async () => {
         setup()
-        await waitForElementToBeRemoved(() => screen.getAllByRole('img'))
+        await waitForElementToBeRemoved(() =>
+            screen.queryAllByText('Loading...')
+        )
 
         const addNewBeleidskeuze = await screen.findByText(
             '+ Voeg Beleidskeuze Toe'

@@ -178,7 +178,7 @@ const ReleaseListItem = ({
 }: ReleaseListItemProps) => (
     <li className="relative col-span-6 pb-8 mt-4 border-b border-gray-300 sm:mt-8">
         <div className="grid grid-cols-6 col-span-6 gap-x-10 gap-y-0">
-            <div className="col-span-6 opacity-50 lg:col-span-1 text-pzh-blue-dark">
+            <div className="col-span-6 lg:col-span-1 text-pzh-gray-600">
                 {date}
             </div>
             <div className="col-span-6 lg:col-span-5">

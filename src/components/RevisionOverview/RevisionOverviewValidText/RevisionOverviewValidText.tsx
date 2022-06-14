@@ -20,9 +20,14 @@ const RevisionOverviewValidText = ({
     const uiStatus = revisionObjects.find(e => e.UUID === object.UUID).uiStatus
 
     const getTextValidFromSince = (object: any) => {
+        const standardDates = ['1753-01-01T00:00:00Z', '10000-01-01T00:00:00Z']
+
         // Toevoegen van de datum in de revisie: "Vigerend van <datum inwerkingtreding> tot <datum uitwerkingtreding>" voor gearchiveerde beleidskeuzes.
         // Voor vigerende beleidskeuzes: "Vigerend van <datum inwerkingtreding> tot heden"
-        if (!object['Begin_Geldigheid'])
+        if (
+            !object['Begin_Geldigheid'] ||
+            standardDates.includes(object['Begin_Geldigheid'])
+        )
             return 'Er is nog geen begin geldigheid'
 
         const dateStart = formatDate(

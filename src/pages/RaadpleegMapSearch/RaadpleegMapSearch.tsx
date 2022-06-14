@@ -37,7 +37,6 @@ const RaadpleegMapSearch = () => {
 
     const [initialized, setInitialized] = useState(false)
     const [mapInstance, setMapInstance] = useState<Map | null>(null)
-    const [layer, setLayer] = useState<any>(null)
     const [UUIDs, setUUIDs] = useState<string[]>([])
     const [searchResultsTotal, setSearchResultsTotal] = useState(0)
     const [searchResults, setSearchResults] = useState<
@@ -153,7 +152,7 @@ const RaadpleegMapSearch = () => {
                     return { lat, lng }
                 })
 
-                const layer = mapPanTo({
+                mapPanTo({
                     map: mapInstance,
                     navigate,
                     latLngs,
@@ -162,7 +161,6 @@ const RaadpleegMapSearch = () => {
                     callback: onDraw,
                 })
 
-                setLayer(layer)
                 setInitialized(true)
             } else {
                 const [x, y] = geoQuery[0].split('+')
@@ -171,20 +169,17 @@ const RaadpleegMapSearch = () => {
                     point(parseFloat(x), parseFloat(y))
                 )
 
-                if (!mapInstance.hasLayer(layer)) {
-                    const layer = mapPanTo({
-                        map: mapInstance,
-                        navigate,
-                        lng: parseFloat(parseFloat(lng).toFixed(20)),
-                        lat: parseFloat(parseFloat(lat).toFixed(20)),
-                        type: '',
-                        layerType: 'marker',
-                        callback: onDraw,
-                    })
+                mapPanTo({
+                    map: mapInstance,
+                    navigate,
+                    lng: parseFloat(parseFloat(lng).toFixed(20)),
+                    lat: parseFloat(parseFloat(lat).toFixed(20)),
+                    type: '',
+                    layerType: 'marker',
+                    callback: onDraw,
+                })
 
-                    setLayer(layer)
-                    setInitialized(true)
-                }
+                setInitialized(true)
             }
         })
         // eslint-disable-next-line react-hooks/exhaustive-deps
