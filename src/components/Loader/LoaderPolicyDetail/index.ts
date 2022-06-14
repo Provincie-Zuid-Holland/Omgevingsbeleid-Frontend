@@ -1,2 +1,1 @@
-export { default } from './LoaderPolicyDetail';
-export * from './LoaderPolicyDetail';
+export { default } from './LoaderPolicyDetail'
