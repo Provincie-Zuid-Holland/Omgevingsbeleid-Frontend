@@ -1,15 +1,20 @@
-import { Form, Formik, FormikProps, FormikErrors } from 'formik'
+import { Form, Formik, FormikProps, yupToFormErrors } from 'formik'
+import cloneDeep from 'lodash.clonedeep'
 import { useEffect, useContext, useRef, useState, useMemo } from 'react'
 import { Helmet } from 'react-helmet'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useSearchParam } from 'react-use'
 
-import { GetTokeninfo200Identifier } from '@/api/fetchers.schemas'
+import {
+    AmbitiesWrite,
+    GetTokeninfo200Identifier,
+} from '@/api/fetchers.schemas'
 import ButtonSubmitFixed from '@/components/ButtonSubmitFixed'
 import { ContainerMain } from '@/components/Container'
 import { LoaderContent } from '@/components/Loader'
 import { filteredDimensieConstants } from '@/constants/dimensies'
-import { AMBITIES } from '@/constants/policyObjects'
+// import { AMBITIES } from '@/constants/policyObjects'
+import * as policyObjects from '@/constants/policyObjects'
 import { AuthContext } from '@/context/AuthContext'
 import useIsWijzigVigerend from '@/hooks/useIsWijzigVigerend'
 import { MutateWriteObjects, MutateReadObjects } from '@/types/dimensions'
@@ -46,8 +51,8 @@ import MutateContext from './MutateContext'
 import MutatePolicyHeading from './MutatePolicyHeading'
 
 export interface MutatePolicyPageProps {
-    dimensieConstants: filteredDimensieConstants
-    policyConstants?: any
+    dimensieConstants?: filteredDimensieConstants
+    policyConstants: typeof policyObjects[keyof typeof policyObjects]
 }
 
 // TODO: Refactor into route auth roles
@@ -79,19 +84,32 @@ const MutatePolicyPage = ({
     const { single: objectID } = useParams<{ single: string | undefined }>()
     const modus = useSearchParam('modus')
     const { user } = useContext(AuthContext)
+
+    // TODO: Refactor into formik check
     const isWijzigVigerend = useIsWijzigVigerend()
 
-    const titleSingular = dimensieConstants.TITLE_SINGULAR
-    const titlePlural = dimensieConstants.TITLE_PLURAL
-    const objectSlugOverviewPage = dimensieConstants.SLUG_OVERVIEW
+    // const titleSingular = dimensieConstants.TITLE_SINGULAR
+    const titleSingular = policyConstants.META.title.singular
+    const titlePlural = policyConstants.META.title.plural
+    const objectSlugOverviewPage = policyConstants.META.slug.overview
+    const emptyWriteObject = policyConstants.EMPTY_WRITE_OBJECT
+    const useGetLineage = policyConstants.META.query.useGetLineage
+    const useMutatePolicyLineage = policyConstants.META.query.usePatchLineage
+    const usePostPolicy = policyConstants.META.query.usePost
 
     const [initialValues, setInitialValues] = useState<MutateWriteObjects>(
-        createEmptyWriteObject(titleSingular)
+        () => {
+            if ('Status' in emptyWriteObject) {
+                emptyWriteObject.Status = 'Ontwerp GS Concept'
+            }
+            return emptyWriteObject
+        }
     )
 
     const userHasFullMutateRights = useFullMutateRights(user, initialValues)
     const isVigerend =
         'Status' in initialValues && initialValues.Status === 'Vigerend'
+
     const hideAdditionalInfo = useMemo(
         () =>
             user?.Rol !== 'Beheerder' &&
@@ -100,10 +118,6 @@ const MutatePolicyPage = ({
             user?.Rol !== 'Superuser',
         [user]
     )
-
-    const useGetLineage = getFetcherForPolicyLineage(titleSingular)
-    const useMutatePolicyLineage = getMutationForPolicyLineage(titleSingular)
-    const usePostPolicy = getPostForPolicy(titleSingular)
 
     const { isLoading: lineageIsLoading, data: lineage } = useGetLineage(
         parseInt(objectID!),
@@ -148,15 +162,16 @@ const MutatePolicyPage = ({
     })
 
     const handleFormSubmit = (formState: MutateWriteObjects) => {
-        if (
-            checkContainsRequiredUnfilledField(
-                formState,
-                dimensieConstants,
-                isWijzigVigerend
-            )
-        ) {
-            return
-        }
+        // TODO: Remove this as it is now checked with the Yup schema
+        // if (
+        //     checkContainsRequiredUnfilledField(
+        //         formState,
+        //         dimensieConstants,
+        //         isWijzigVigerend
+        //     )
+        // ) {
+        //     return
+        // }
 
         const formattedFormState = formatConnectionsForAPI(
             formatDatesForAPI(formState) as MutateReadObjects,
@@ -166,13 +181,11 @@ const MutatePolicyPage = ({
         if (!formattedFormState) return
 
         if (objectID) {
-            // PATCH Lineage
             mutatePolicyLineage.mutate({
                 lineageid: parseInt(objectID),
                 data: formattedFormState,
             })
         } else {
-            // POST new policy
             postPolicy.mutate({ data: formattedFormState })
         }
     }
@@ -181,6 +194,7 @@ const MutatePolicyPage = ({
     useEffect(() => {
         if (!lineage) return
 
+        // TODO: Refactor this into Route level auth
         redirectIfUserIsNotAllowed(lineage[0], navigate, user)
 
         const readObjectFromLineage = getLatestObjectFromLineage(
@@ -195,6 +209,7 @@ const MutatePolicyPage = ({
             readObjectFromLineage,
             titleSingular
         )
+
         if (!writeObject) return
 
         setInitialValues(
@@ -217,12 +232,9 @@ const MutatePolicyPage = ({
                 hideAdditionalInfo,
             }}>
             <Formik
-                validate={values =>
-                    validateFormikValues(values, dimensieConstants)
-                }
                 innerRef={formRef}
                 initialValues={initialValues}
-                validationSchema={AMBITIES.SCHEMA}
+                validationSchema={policyConstants.SCHEMA}
                 onSubmit={handleFormSubmit}
                 enableReinitialize
                 validateOnMount>
@@ -246,23 +258,23 @@ const MutatePolicyPage = ({
                         />
                         <ContainerMain className="mt-16">
                             <Form className="w-full">
-                                {titleSingular === 'Ambitie' ? (
+                                {titleSingular === 'ambitie' ? (
                                     <FieldsAmbities />
-                                ) : titleSingular === 'Beleidsmodule' ? (
+                                ) : titleSingular === 'beleidsmodule' ? (
                                     <FieldsBeleidsmodule />
-                                ) : titleSingular === 'Belang' ? (
+                                ) : titleSingular === 'belang' ? (
                                     <FieldsBelang />
-                                ) : titleSingular === 'Beleidsregel' ? (
+                                ) : titleSingular === 'beleidsregel' ? (
                                     <FieldsBeleidsregel />
-                                ) : titleSingular === 'Beleidskeuze' ? (
+                                ) : titleSingular === 'beleidskeuze' ? (
                                     <FieldsBeleidskeuze />
-                                ) : titleSingular === 'Maatregel' ? (
+                                ) : titleSingular === 'maatregel' ? (
                                     <FieldsMaatregel />
-                                ) : titleSingular === 'Beleidsdoel' ? (
+                                ) : titleSingular === 'beleidsdoel' ? (
                                     <FieldsBeleidsdoel />
-                                ) : titleSingular === 'Beleidsprestatie' ? (
+                                ) : titleSingular === 'beleidsprestatie' ? (
                                     <FieldsBeleidsprestatie />
-                                ) : titleSingular === 'Thema' ? (
+                                ) : titleSingular === 'thema' ? (
                                     <FieldsThema />
                                 ) : null}
                                 <ButtonSubmitFixed
