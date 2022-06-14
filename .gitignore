@@ -29,7 +29,6 @@ cypress.json
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-yarn.lock
 
 # CSS
 src/css/tailwind.css
