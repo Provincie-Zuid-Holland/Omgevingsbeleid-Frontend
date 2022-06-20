@@ -1,134 +1,149 @@
 import { Fragment, useCallback, useLayoutEffect } from 'react'
-import { Route, Routes, useNavigate } from 'react-router-dom'
+import { useNavigate, useRoutes } from 'react-router-dom'
 
 import { NetworkGraph } from '@/components/Network'
 import allDimensies, { filteredDimensieConstants } from '@/constants/dimensies'
 import useAuth from '@/hooks/useAuth'
-import Login from '@/pages/Login'
-import MuteerBeleidsmodulesOverview from '@/pages/MuteerBeleidsmodulesOverview'
-import MuteerBeleidsrelaties from '@/pages/MuteerBeleidsrelaties'
-import MuteerBeleidsrelatiesCRUD from '@/pages/MuteerBeleidsrelatiesCRUD'
-import MuteerDashboard from '@/pages/MuteerDashboard'
-import MuteerDetail from '@/pages/MuteerDetail'
-import MuteerMijnBeleid from '@/pages/MuteerMijnBeleid'
-import MuteerOverview from '@/pages/MuteerOverview'
-import MuteerUniversalObjectCRUD from '@/pages/MuteerUniversalObjectCRUD'
-import MuteerVerordeningenStructuurCRUD from '@/pages/MuteerVerordeningenStructuurCRUD'
-import MuteerVerordeningenstructuurDetail from '@/pages/MuteerVerordeningenstructuurDetail'
-import MuteerVerordeningenstructuurOverzicht from '@/pages/MuteerVerordeningenstructuurOverzicht'
-import RaadpleegDigiToegankelijkheid from '@/pages/RaadpleegDigiToegankelijkheid'
-import RaadpleegHome from '@/pages/RaadpleegHome'
-import RaadpleegInProgress from '@/pages/RaadpleegInProgress'
-import RaadpleegMapSearch from '@/pages/RaadpleegMapSearch'
-import RaadpleegObjectDetail from '@/pages/RaadpleegObjectDetail'
-import RaadpleegPlanningAndReleases from '@/pages/RaadpleegPlanningAndReleases'
-import RaadpleegSearchResults from '@/pages/RaadpleegSearchResults'
-import RaadpleegUniversalObjectOverview from '@/pages/RaadpleegUniversalObjectOverview'
-import RaadpleegVerordening from '@/pages/RaadpleegVerordening'
+import {
+    Dashboard,
+    MijnBeleid,
+    VerordeningenStructuurCRUD,
+    VerordeningenstructuurDetail,
+    VerordeningenstructuurOverzicht,
+} from '@/pages/protected'
+import {
+    Accessibility,
+    Home,
+    InProgress,
+    Login,
+    MapSearch,
+    ObjectDetail,
+    PlanningAndReleases,
+    SearchResults,
+    UniversalObjectOverview,
+    Verordening,
+} from '@/pages/public'
 import detailPages from '@/utils/detailPages'
 
 import ProtectedRoute from './ProtectedRoute'
 
 const AppRoutes = () => {
-    const { user } = useAuth()
     const navigate = useNavigate()
 
-    return (
-        <Routes>
-            {/* Raadpleeg - The homepage where users can search for policies and regulations */}
-            <Route index element={<RaadpleegHome />} />
-
-            {/* Raadpleeg - Result page for search */}
-            <Route
-                path="/zoekresultaten"
-                element={<RaadpleegSearchResults />}
-            />
-
-            {/* Raadpleeg - Search on map page */}
-            <Route path="/zoeken-op-kaart" element={<RaadpleegMapSearch />} />
-
-            <Route
-                path={`/detail/verordening`}
-                element={<RaadpleegVerordening />}
-            />
-
-            {/* Raadpleeg - Overview and Detail pages for all the dimensions */}
-            {detailPages.map(item => (
-                <Route
-                    key={item.slug}
-                    path={`/detail/${item.slug}/:id`}
-                    element={<RaadpleegObjectDetail {...item} />}
+    const routes = useRoutes([
+        /**
+         * Public pages
+         */
+        {
+            path: '/',
+            element: <Home />,
+        },
+        { path: 'login', element: <Login /> },
+        { path: 'logout', element: <Logout /> },
+        {
+            path: 'zoekresultaten',
+            element: <SearchResults />,
+        },
+        { path: 'zoeken-op-kaart', element: <MapSearch /> },
+        {
+            path: 'planning-en-releases',
+            element: <PlanningAndReleases />,
+        },
+        {
+            path: 'digi-toegankelijkheid',
+            element: <Accessibility />,
+        },
+        {
+            path: 'in-bewerking',
+            element: <InProgress />,
+        },
+        {
+            path: 'netwerkvisualisatie',
+            element: <NetworkGraph />,
+        },
+        {
+            path: 'detail/verordening',
+            element: <Verordening />,
+        },
+        ...detailPages.map(item => ({
+            path: item.slug,
+            element: (
+                <UniversalObjectOverview
+                    {...item}
+                    dataEndpoint={item.dataValidEndpoint}
                 />
-            ))}
+            ),
+            children: [
+                {
+                    path: `${item.slug}/:id`,
+                    element: <ObjectDetail {...item} />,
+                },
+            ],
+        })),
 
-            {/* Raadpleeg - Overview and Detail pages for all the dimensions */}
-            {detailPages.map(item => (
-                <Route
-                    key={item.slug}
-                    path={`/overzicht/${item.slug}`}
-                    element={
-                        <RaadpleegUniversalObjectOverview
-                            {...item}
-                            dataEndpoint={item.dataValidEndpoint}
-                        />
-                    }
-                />
-            ))}
-
-            <Route path="/login" element={<Login />} />
-            <Route path="/logout" element={<Logout />} />
-            <Route
-                path="/planning-en-releases"
-                element={<RaadpleegPlanningAndReleases />}
-            />
-            <Route
-                path="/digi-toegankelijkheid"
-                element={<RaadpleegDigiToegankelijkheid />}
-            />
-            <Route path="/in-bewerking" element={<RaadpleegInProgress />} />
-            <Route path="/netwerkvisualisatie" element={<NetworkGraph />} />
-
-            <Route path="/muteer" element={<ProtectedRoute />}>
-                <Route path="dashboard" element={<MuteerDashboard />} />
-                <Route path="mijn-beleid" element={<MuteerMijnBeleid />} />
-
-                {/* Verordening */}
-                <Route
-                    path="nieuwe-verordening"
-                    element={
-                        <MuteerVerordeningenStructuurCRUD
-                            dimensieConstants={
-                                allDimensies.VERORDENINGSTRUCTUUR
-                            }
-                            navigate={navigate}
-                        />
-                    }
-                />
-                <Route
-                    path="bewerk-verordening/:lineageID/:lineageUUID"
-                    element={
-                        <MuteerVerordeningenStructuurCRUD
-                            dimensieConstants={
-                                allDimensies.VERORDENINGSTRUCTUUR
-                            }
-                            navigate={navigate}
-                        />
-                    }
-                />
-                <Route
-                    path="verordeningen/:lineageID"
-                    element={<MuteerVerordeningenstructuurDetail />}
-                />
-                <Route
-                    path="verordeningen"
-                    element={
-                        <MuteerVerordeningenstructuurOverzicht
+        /**
+         * Protected pages
+         */
+        {
+            path: 'muteer',
+            element: <ProtectedRoute />,
+            children: [
+                {
+                    path: 'dashboard',
+                    element: <Dashboard />,
+                },
+                {
+                    path: 'mijn-beleid',
+                    element: <MijnBeleid />,
+                },
+                {
+                    path: 'verordeningen',
+                    element: (
+                        <VerordeningenstructuurOverzicht
                             dataModel={allDimensies.VERORDENINGSTRUCTUUR}
                         />
-                    }
-                />
+                    ),
+                    children: [
+                        {
+                            path: 'nieuw',
+                            element: (
+                                <VerordeningenStructuurCRUD
+                                    dimensieConstants={
+                                        allDimensies.VERORDENINGSTRUCTUUR
+                                    }
+                                    navigate={navigate}
+                                />
+                            ),
+                        },
+                        {
+                            path: ':lineageID',
+                            element: <VerordeningenstructuurDetail />,
+                            children: [
+                                {
+                                    path: ':lineageUUID/bewerk',
+                                    element: (
+                                        <VerordeningenStructuurCRUD
+                                            dimensieConstants={
+                                                allDimensies.VERORDENINGSTRUCTUUR
+                                            }
+                                            navigate={navigate}
+                                        />
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
+        },
+    ])
 
-                {/* Beleidskeuzes Pages */}
+    return routes
+
+    /*
+    return (
+        <Routes>
+            <Route path="/muteer" element={<ProtectedRoute />}>
                 <Route
                     path={`beleidskeuzes/nieuwe-beleidskeuze`}
                     element={
@@ -154,7 +169,6 @@ const AppRoutes = () => {
                     }
                 />
 
-                {/* Beleidsmodules pages */}
                 <Route
                     path={`${allDimensies.BELEIDSMODULES.SLUG_OVERVIEW}/${allDimensies.BELEIDSMODULES.SLUG_CREATE_NEW}`}
                     element={
@@ -168,7 +182,6 @@ const AppRoutes = () => {
                     element={<MuteerBeleidsmodulesOverview />}
                 />
 
-                {/* Maatregelen pages */}
                 <Route
                     path={`maatregelen/nieuwe-maatregel`}
                     element={
@@ -194,7 +207,6 @@ const AppRoutes = () => {
                     }
                 />
 
-                {/* Beleidsrelaties */}
                 <Route
                     path="beleidsrelaties/:UUID/nieuwe-relatie"
                     element={
@@ -212,7 +224,6 @@ const AppRoutes = () => {
                     element={<MuteerBeleidsrelaties />}
                 />
 
-                {/* Overview, Detail en Edit pages for the rest of the objects */}
                 {Object.keys(allDimensies)
                     .filter(
                         dimensie =>
@@ -228,14 +239,6 @@ const AppRoutes = () => {
                         const createNewSlug =
                             allDimensies[dimensie as keyof typeof allDimensies]
                                 .SLUG_CREATE_NEW
-
-                        const isBeleidsModulePageAndUserIsNotAdmin =
-                            dimensie === 'BELEIDSMODULES' &&
-                            user?.Rol !== 'Beheerder' &&
-                            user?.Rol !== 'Functioneel beheerder' &&
-                            user?.Rol !== 'Technisch beheerder' &&
-                            user?.Rol !== 'Test runner' &&
-                            user?.Rol !== 'Tester'
 
                         return (
                             <Fragment key={createNewSlug}>
@@ -286,9 +289,6 @@ const AppRoutes = () => {
                                                       ]
                                             }>
                                             <MuteerOverview
-                                                hideAddObject={
-                                                    isBeleidsModulePageAndUserIsNotAdmin
-                                                }
                                                 dimensieConstants={
                                                     dimensieConstants as filteredDimensieConstants
                                                 }
@@ -302,6 +302,7 @@ const AppRoutes = () => {
             </Route>
         </Routes>
     )
+    */
 }
 
 const Logout = () => {
