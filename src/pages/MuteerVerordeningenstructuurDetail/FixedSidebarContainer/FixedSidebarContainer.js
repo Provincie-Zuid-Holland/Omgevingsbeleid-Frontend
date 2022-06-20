@@ -1,5 +1,6 @@
 /* istanbul ignore file */
-import React from "react"
+
+import { useLayoutEffect, useState } from 'react'
 
 const FixedSidebarContainer = ({
     children,
@@ -7,23 +8,24 @@ const FixedSidebarContainer = ({
     alignWithContainer,
     elementID,
 }) => {
-    const [styles, setStyles] = React.useState(0)
-    const [windowSize, setWindowSize] = React.useState(null)
+    const [styles, setStyles] = useState(0)
+    const [windowSize, setWindowSize] = useState(null)
 
     const verticalPadding = 20
 
-    React.useLayoutEffect(() => {
-        const initializeStyles = (val) => setStyles(val)
+    useLayoutEffect(() => {
+        const initializeStyles = val => setStyles(val)
         const regulationContainer = document.getElementById(
-            "regulation-container"
+            'regulation-container'
         )
-        const navigation = document.getElementById("navigation-main")
+        const navigation = document.getElementById('top-navigation')
         const containerWidth = regulationContainer.offsetWidth
         const oneThirdContainerWidth = containerWidth * 0.333
 
         const offsetTop = alignWithContainer
             ? regulationContainer.offsetTop - 20
-            : navigation.offsetTop + navigation.offsetHeight
+            : navigation?.offsetTop + navigation?.offsetHeight
+
         const offsetLeft =
             containerWidth * 0.666 + regulationContainer.offsetLeft
 
@@ -37,8 +39,8 @@ const FixedSidebarContainer = ({
             setWindowSize(window.innerWidth)
         }
 
-        window.addEventListener("resize", handleResize)
-        return () => window.removeEventListener("resize", handleResize)
+        window.addEventListener('resize', handleResize)
+        return () => window.removeEventListener('resize', handleResize)
     }, [windowSize, alignWithContainer])
 
     // Left gets +10 pixels to align it with the menu
@@ -46,16 +48,15 @@ const FixedSidebarContainer = ({
         <div
             id={elementID ? elementID : null}
             className={`fixed z-10 inline-block pr-3 pl-10 ${
-                show ? "" : "pointer-events-none"
+                show ? '' : 'pointer-events-none'
             }`}
             style={{
-                width: styles.width + "px",
-                top: styles.yPosition + "px",
-                left: styles.xPosition + 12 + "px",
+                width: styles.width + 'px',
+                top: styles.yPosition + 'px',
+                left: styles.xPosition + 12 + 'px',
                 height: `calc(100vh - ${styles.yPosition}px)`,
-                overflowY: "auto",
-            }}
-        >
+                overflowY: 'auto',
+            }}>
             {children}
         </div>
     )

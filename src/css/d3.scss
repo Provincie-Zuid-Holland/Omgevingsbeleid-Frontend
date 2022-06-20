@@ -1,0 +1,71 @@
+#d3-tooltip-network-graph {
+    border-color: transparent transparent rgba(255, 255, 255, 100) transparent;
+}
+
+.d3-tooltip {
+    position: absolute;
+    text-align: left;
+    white-space: normal;
+    padding: 4px;
+    font-size: 14px;
+    background: tan;
+    border: 1px solid gray;
+}
+
+#d3-tooltip-network-graph,
+#d3-tooltip,
+.d3-tooltip-text,
+.tooltip-content {
+    max-width: 50vw;
+    &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 0 10px 10px 10px;
+        border-color: transparent transparent rgba(26, 32, 44, 100) transparent;
+        top: -10px;
+        z-index: 10;
+        left: calc(50% - 10px);
+    }
+    &:after {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 25px;
+        height: 35px;
+        top: -34px;
+        z-index: 10;
+        right: calc(50% - 12.5px);
+    }
+}
+
+#d3-tooltip-network-graph {
+    &:before {
+        border-color: transparent transparent rgba(255, 255, 255, 100)
+            transparent;
+    }
+    &:after {
+        height: 10px;
+        top: -10px;
+        border-width: 0 40px 40px 40px;
+        border-color: transparent transparent rgba(255, 255, 255, 0) transparent;
+        left: calc(50% - 40px);
+    }
+}
+
+.d3-tooltip-text {
+    padding-bottom: 25px;
+    &:before {
+        left: 25px;
+    }
+}
+
+.tooltip-content {
+    &:before {
+        top: calc(-10px + 0.75rem);
+        left: 30px;
+    }
+}

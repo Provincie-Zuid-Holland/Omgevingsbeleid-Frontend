@@ -24,14 +24,15 @@ cypress.json
 .env.production.local
 .eslintcache
 *.bak
+.zshrc
 
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+yarn.lock
 
 # CSS
 src/css/tailwind.css
-.vscode/settings.json
 
 # .bak
 .bak

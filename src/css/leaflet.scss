@@ -1,0 +1,398 @@
+// Leaflet Styles
+#leaflet-homepage {
+    height: 35rem;
+    width: 100%;
+    max-width: 64rem;
+    border-radius: 0.25rem;
+}
+
+#revision-overview-leaflet {
+    height: 500px;
+    width: 100%;
+
+    .leaflet-container {
+        position: relative;
+        height: 100%;
+        width: 100%;
+    }
+}
+
+.leaflet-draw-section .leaflet-bar {
+    box-shadow: none;
+    border-radius: 0;
+}
+
+.leaflet-left {
+    .leaflet-control {
+        box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.3);
+        border-radius: 0.2rem;
+        background-color: #ffffff;
+    }
+}
+
+.leaflet-right {
+    .leaflet-layers {
+        box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.3);
+        border-radius: 0.2rem;
+        background-color: #ffffff;
+    }
+}
+
+.leaflet-touch .leaflet-draw-section .leaflet-control-layers,
+.leaflet-touch .leaflet-draw-section .leaflet-bar {
+    margin-top: 0;
+    border: none;
+}
+
+.leaflet-touch .leaflet-draw-actions {
+    z-index: 10;
+
+    a {
+        background-color: #ffffff;
+        color: #2c5282;
+        box-shadow: rgba(0, 0, 0, 0.1) 0 1px 3px 0,
+            rgba(0, 0, 0, 0.06) 0 1px 2px 0;
+        &:hover {
+            background-color: #ffffff;
+            text-decoration: underline;
+            color: #2c5282;
+            box-shadow: rgba(0, 0, 0, 0.1) 0 1px 3px 0,
+                rgba(0, 0, 0, 0.06) 0 1px 2px 0;
+        }
+    }
+}
+
+.leaflet-control-container,
+.leaflet-retina .leaflet-control-container {
+    .leaflet-control .leaflet-draw-toolbar a,
+    .leaflet-draw-toolbar a,
+    .leaflet-touch .leaflet-bar a,
+    .leaflet-draw-toolbar a:hover,
+    .leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-marker,
+    .leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-polygon,
+    .leaflet-touch .leaflet-draw-toolbar .leaflet-draw-edit-edit,
+    .leaflet-touch .leaflet-draw-toolbar .leaflet-draw-edit-remove,
+    .leaflet-layers-control .leaflet-layers {
+        align-items: center;
+        background-color: #ffffff;
+        color: #16113b;
+        cursor: pointer;
+        display: flex;
+        position: relative;
+        height: 2rem;
+        justify-content: center;
+        width: 2rem;
+        background-position: center;
+        border: 0;
+
+        &.hidden {
+            display: none;
+        }
+
+        &:hover {
+            color: #4a5568;
+        }
+
+        &:last-child {
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+            border-bottom-left-radius: 0.2rem;
+            border-bottom-right-radius: 0.2rem;
+        }
+
+        &:first-child {
+            border-top-left-radius: 0.2rem;
+            border-top-right-radius: 0.2rem;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+
+            &:last-child {
+                border-bottom-left-radius: 0.2rem;
+                border-bottom-right-radius: 0.2rem;
+            }
+        }
+
+        &:not(:first-child) {
+            &:after {
+                content: '';
+                position: absolute;
+                top: 0;
+                height: 1px;
+                width: 1.6rem;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            }
+        }
+
+        &.leaflet-draw-toolbar-button-enabled {
+            color: #ffffff;
+            background-color: #281f6b;
+        }
+    }
+
+    .leaflet-control {
+        .leaflet-draw-section {
+            &:not(:first-child) {
+                &:after {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0.2rem;
+                    height: 1px;
+                    width: 1.6rem;
+                    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+                }
+            }
+        }
+    }
+
+    .leaflet-top {
+        &.leaflet-left {
+            .leaflet-control {
+                margin-top: 1rem;
+                margin-left: 1rem;
+
+                &:not(:first-child) {
+                    margin-top: 0.5rem;
+                }
+            }
+        }
+
+        &.leaflet-right {
+            .leaflet-control {
+                margin-top: 1rem;
+                margin-right: 1rem;
+            }
+        }
+    }
+
+    .leaflet-bottom {
+        &.leaflet-left {
+            .leaflet-control {
+                margin-bottom: 1rem;
+                margin-left: 1rem;
+            }
+        }
+    }
+
+    .leaflet-touch
+        .leaflet-draw-toolbar.leaflet-bar
+        .leaflet-draw-edit-edit
+        svg,
+    .leaflet-touch
+        .leaflet-draw-toolbar.leaflet-bar
+        .leaflet-draw-edit-remove
+        svg {
+        height: 1.1rem;
+    }
+
+    .leaflet-bar a.leaflet-disabled,
+    .leaflet-touch
+        .leaflet-draw-toolbar.leaflet-bar
+        .leaflet-draw-edit-remove.leaflet-disabled {
+        display: none;
+    }
+
+    .leaflet-draw-actions {
+        // overwrite inline styling set by Leaflet :-(
+        left: 51px !important;
+    }
+
+    .leaflet-search {
+        align-items: center;
+        background-color: #ffffff;
+        color: #16113b;
+        cursor: pointer;
+        display: flex;
+        position: relative;
+        height: 2rem;
+        justify-content: center;
+        min-width: 2rem;
+        background-image: none !important;
+        border: 0;
+        border-radius: 0.2rem;
+
+        &:hover {
+            color: #4a5568;
+        }
+    }
+
+    .leaflet-zoom {
+        color: #16113b;
+        border-radius: 0.2rem;
+
+        &:first-child {
+            &:after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                height: 1px;
+                width: 1.6rem;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            }
+        }
+
+        &:hover {
+            color: #4a5568;
+        }
+    }
+
+    .leaflet-draw-draw-marker {
+        background: url('data:image/svg+xml;utf8,<svg aria-hidden="true" focusable="false" data-prefix="fal" data-icon="map-marker-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="currentColor" d="M192 96c-52.935 0-96 43.065-96 96s43.065 96 96 96 96-43.065 96-96-43.065-96-96-96zm0 160c-35.29 0-64-28.71-64-64s28.71-64 64-64 64 28.71 64 64-28.71 64-64 64zm0-256C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.534 13.772 29.929 13.774 39.465 0C357.03 291.031 384 269.413 384 192 384 85.961 298.039 0 192 0zm0 473.931C52.705 272.488 32 256.494 32 192c0-42.738 16.643-82.917 46.863-113.137S149.262 32 192 32s82.917 16.643 113.137 46.863S352 149.262 352 192c0 64.49-20.692 80.47-160 281.931z"></path></svg>')
+            no-repeat;
+        background-size: 14px;
+
+        &.leaflet-draw-toolbar-button-enabled {
+            background: url('data:image/svg+xml;utf8,<svg aria-hidden="true" focusable="false" data-prefix="fal" data-icon="map-marker-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="%23FFFFFF" d="M192 96c-52.935 0-96 43.065-96 96s43.065 96 96 96 96-43.065 96-96-43.065-96-96-96zm0 160c-35.29 0-64-28.71-64-64s28.71-64 64-64 64 28.71 64 64-28.71 64-64 64zm0-256C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.534 13.772 29.929 13.774 39.465 0C357.03 291.031 384 269.413 384 192 384 85.961 298.039 0 192 0zm0 473.931C52.705 272.488 32 256.494 32 192c0-42.738 16.643-82.917 46.863-113.137S149.262 32 192 32s82.917 16.643 113.137 46.863S352 149.262 352 192c0 64.49-20.692 80.47-160 281.931z"></path></svg>')
+                no-repeat;
+            background-size: 14px;
+        }
+    }
+
+    .leaflet-draw-draw-polygon {
+        background: url('data:image/svg+xml;utf8,<svg aria-hidden="true" focusable="false" data-prefix="fal" data-icon="draw-polygon" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M384 352c-6.3 0-12.26 1.19-18.01 2.89l-32.42-54.02C344.95 289.31 352 273.49 352 256s-7.05-33.31-18.42-44.87L366 157.11c5.75 1.7 11.71 2.89 18.01 2.89 35.35 0 64-28.65 64-64s-28.65-64-64-64c-29.79 0-54.6 20.45-61.74 48H125.74C118.6 52.45 93.79 32 64 32 28.65 32 0 60.65 0 96c0 29.79 20.44 54.6 48 61.74v196.53C20.44 361.4 0 386.21 0 416c0 35.35 28.65 64 64 64 29.79 0 54.6-20.44 61.74-48h196.53c7.14 27.56 31.95 48 61.74 48 35.35 0 64-28.65 64-64-.01-35.35-28.66-64-64.01-64zm-304 2.26V157.74c22.41-5.8 39.93-23.32 45.74-45.74h196.53c2.86 11.04 8.4 20.99 16.16 28.87l-32.42 54.02c-5.75-1.7-11.71-2.89-18.01-2.89-35.35 0-64 28.65-64 64s28.65 64 64 64c6.3 0 12.26-1.19 18.01-2.89l32.42 54.02c-7.76 7.88-13.3 17.83-16.16 28.87H125.74A63.814 63.814 0 0 0 80 354.26zM288 288c-17.64 0-32-14.36-32-32s14.36-32 32-32 32 14.36 32 32-14.36 32-32 32zm96-224c17.64 0 32 14.36 32 32s-14.36 32-32 32-32-14.36-32-32 14.36-32 32-32zM32 96c0-17.64 14.36-32 32-32s32 14.36 32 32-14.36 32-32 32-32-14.36-32-32zm32 352c-17.64 0-32-14.36-32-32s14.36-32 32-32 32 14.36 32 32-14.36 32-32 32zm320 0c-17.64 0-32-14.36-32-32s14.36-32 32-32 32 14.36 32 32-14.36 32-32 32z"></path></svg>')
+            no-repeat;
+        background-size: 16px;
+
+        &.leaflet-draw-toolbar-button-enabled {
+            background: url('data:image/svg+xml;utf8,<svg aria-hidden="true" focusable="false" data-prefix="fal" data-icon="draw-polygon" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="%23FFFFFF" d="M384 352c-6.3 0-12.26 1.19-18.01 2.89l-32.42-54.02C344.95 289.31 352 273.49 352 256s-7.05-33.31-18.42-44.87L366 157.11c5.75 1.7 11.71 2.89 18.01 2.89 35.35 0 64-28.65 64-64s-28.65-64-64-64c-29.79 0-54.6 20.45-61.74 48H125.74C118.6 52.45 93.79 32 64 32 28.65 32 0 60.65 0 96c0 29.79 20.44 54.6 48 61.74v196.53C20.44 361.4 0 386.21 0 416c0 35.35 28.65 64 64 64 29.79 0 54.6-20.44 61.74-48h196.53c7.14 27.56 31.95 48 61.74 48 35.35 0 64-28.65 64-64-.01-35.35-28.66-64-64.01-64zm-304 2.26V157.74c22.41-5.8 39.93-23.32 45.74-45.74h196.53c2.86 11.04 8.4 20.99 16.16 28.87l-32.42 54.02c-5.75-1.7-11.71-2.89-18.01-2.89-35.35 0-64 28.65-64 64s28.65 64 64 64c6.3 0 12.26-1.19 18.01-2.89l32.42 54.02c-7.76 7.88-13.3 17.83-16.16 28.87H125.74A63.814 63.814 0 0 0 80 354.26zM288 288c-17.64 0-32-14.36-32-32s14.36-32 32-32 32 14.36 32 32-14.36 32-32 32zm96-224c17.64 0 32 14.36 32 32s-14.36 32-32 32-32-14.36-32-32 14.36-32 32-32zM32 96c0-17.64 14.36-32 32-32s32 14.36 32 32-14.36 32-32 32-32-14.36-32-32zm32 352c-17.64 0-32-14.36-32-32s14.36-32 32-32 32 14.36 32 32-14.36 32-32 32zm320 0c-17.64 0-32-14.36-32-32s14.36-32 32-32 32 14.36 32 32-14.36 32-32 32z"></path></svg>')
+                no-repeat;
+            background-size: 16px;
+        }
+    }
+
+    .leaflet-draw-edit-edit {
+        background: url('data:image/svg+xml;utf8,<svg aria-hidden="true" focusable="false" data-prefix="fal" data-icon="edit" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path fill="currentColor" d="M417.8 315.5l20-20c3.8-3.8 10.2-1.1 10.2 4.2V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h292.3c5.3 0 8 6.5 4.2 10.2l-20 20c-1.1 1.1-2.7 1.8-4.2 1.8H48c-8.8 0-16 7.2-16 16v352c0 8.8 7.2 16 16 16h352c8.8 0 16-7.2 16-16V319.7c0-1.6.6-3.1 1.8-4.2zm145.9-191.2L251.2 436.8l-99.9 11.1c-13.4 1.5-24.7-9.8-23.2-23.2l11.1-99.9L451.7 12.3c16.4-16.4 43-16.4 59.4 0l52.6 52.6c16.4 16.4 16.4 43 0 59.4zm-93.6 48.4L403.4 106 169.8 339.5l-8.3 75.1 75.1-8.3 233.5-233.6zm71-85.2l-52.6-52.6c-3.8-3.8-10.2-4-14.1 0L426 83.3l66.7 66.7 48.4-48.4c3.9-3.8 3.9-10.2 0-14.1z"></path></svg>')
+            no-repeat;
+        background-size: 20px;
+
+        &.leaflet-draw-toolbar-button-enabled {
+            background: url('data:image/svg+xml;utf8,<svg aria-hidden="true" focusable="false" data-prefix="fal" data-icon="edit" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path fill="%23FFFFFF" d="M417.8 315.5l20-20c3.8-3.8 10.2-1.1 10.2 4.2V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h292.3c5.3 0 8 6.5 4.2 10.2l-20 20c-1.1 1.1-2.7 1.8-4.2 1.8H48c-8.8 0-16 7.2-16 16v352c0 8.8 7.2 16 16 16h352c8.8 0 16-7.2 16-16V319.7c0-1.6.6-3.1 1.8-4.2zm145.9-191.2L251.2 436.8l-99.9 11.1c-13.4 1.5-24.7-9.8-23.2-23.2l11.1-99.9L451.7 12.3c16.4-16.4 43-16.4 59.4 0l52.6 52.6c16.4 16.4 16.4 43 0 59.4zm-93.6 48.4L403.4 106 169.8 339.5l-8.3 75.1 75.1-8.3 233.5-233.6zm71-85.2l-52.6-52.6c-3.8-3.8-10.2-4-14.1 0L426 83.3l66.7 66.7 48.4-48.4c3.9-3.8 3.9-10.2 0-14.1z"></path></svg>')
+                no-repeat;
+            background-size: 20px;
+        }
+    }
+
+    .leaflet-draw-edit-remove {
+        background: url('data:image/svg+xml;utf8,<svg aria-hidden="true" focusable="false" data-prefix="fal" data-icon="trash-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M296 432h16a8 8 0 0 0 8-8V152a8 8 0 0 0-8-8h-16a8 8 0 0 0-8 8v272a8 8 0 0 0 8 8zm-160 0h16a8 8 0 0 0 8-8V152a8 8 0 0 0-8-8h-16a8 8 0 0 0-8 8v272a8 8 0 0 0 8 8zM440 64H336l-33.6-44.8A48 48 0 0 0 264 0h-80a48 48 0 0 0-38.4 19.2L112 64H8a8 8 0 0 0-8 8v16a8 8 0 0 0 8 8h24v368a48 48 0 0 0 48 48h288a48 48 0 0 0 48-48V96h24a8 8 0 0 0 8-8V72a8 8 0 0 0-8-8zM171.2 38.4A16.1 16.1 0 0 1 184 32h80a16.1 16.1 0 0 1 12.8 6.4L296 64H152zM384 464a16 16 0 0 1-16 16H80a16 16 0 0 1-16-16V96h320zm-168-32h16a8 8 0 0 0 8-8V152a8 8 0 0 0-8-8h-16a8 8 0 0 0-8 8v272a8 8 0 0 0 8 8z"></path></svg>')
+            no-repeat;
+        background-size: 16px;
+
+        &.leaflet-draw-toolbar-button-enabled {
+            background: url('data:image/svg+xml;utf8,<svg aria-hidden="true" focusable="false" data-prefix="fal" data-icon="trash-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="%23FFFFFF" d="M296 432h16a8 8 0 0 0 8-8V152a8 8 0 0 0-8-8h-16a8 8 0 0 0-8 8v272a8 8 0 0 0 8 8zm-160 0h16a8 8 0 0 0 8-8V152a8 8 0 0 0-8-8h-16a8 8 0 0 0-8 8v272a8 8 0 0 0 8 8zM440 64H336l-33.6-44.8A48 48 0 0 0 264 0h-80a48 48 0 0 0-38.4 19.2L112 64H8a8 8 0 0 0-8 8v16a8 8 0 0 0 8 8h24v368a48 48 0 0 0 48 48h288a48 48 0 0 0 48-48V96h24a8 8 0 0 0 8-8V72a8 8 0 0 0-8-8zM171.2 38.4A16.1 16.1 0 0 1 184 32h80a16.1 16.1 0 0 1 12.8 6.4L296 64H152zM384 464a16 16 0 0 1-16 16H80a16 16 0 0 1-16-16V96h320zm-168-32h16a8 8 0 0 0 8-8V152a8 8 0 0 0-8-8h-16a8 8 0 0 0-8 8v272a8 8 0 0 0 8 8z"></path></svg>')
+                no-repeat;
+            background-size: 16px;
+        }
+    }
+}
+
+.leaflet-container {
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+
+    .leaflet-popup {
+        .leaflet-popup-content-wrapper {
+            border-radius: 0.25rem;
+            box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.3);
+
+            .leaflet-popup-content {
+                margin: 1rem 1.5rem;
+            }
+
+            a {
+                color: #ffffff;
+            }
+        }
+
+        .leaflet-popup-close-button {
+            padding: 1rem 1.5rem 0;
+            color: #16113b;
+        }
+    }
+}
+
+.leaflet-advanced-search,
+#leaflet-homepage {
+    .leaflet-container {
+        .leaflet-interactive {
+            fill: #d32939;
+            fill-opacity: 0.1;
+            stroke: #d32939;
+            stroke-opacity: 1;
+        }
+
+        .leaflet-draw-guide-dash {
+            background-color: #d32939 !important;
+        }
+    }
+}
+
+.leaflet-map {
+    .leaflet-control-layers {
+        display: none;
+    }
+}
+
+.leaflet-bar a:last-child {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+#half-screen-leaflet-container {
+    padding-top: 70px;
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    width: 50vw;
+}
+
+#half-screen-leaflet {
+    position: absolute;
+    top: 70px;
+    height: calc(100vh - 70px);
+    right: 0px;
+}
+#full-screen-leaflet-container-false {
+    height: 500px;
+}
+#full-screen-leaflet-container-true {
+    height: 1000px;
+    max-height: 80vh;
+}
+#full-screen-leaflet {
+    height: 100%;
+}
+
+#leaflet-homepage .leaflet-control-container .leaflet-control-zoom {
+    position: absolute;
+    left: 0px;
+    bottom: 10px;
+}
+
+#leaflet-homepage .leaflet-control-container .leaflet-top.leaflet-left {
+    height: 100%;
+}
+
+#leaflet-preview-card {
+    .leaflet-interactive {
+        cursor: default;
+    }
+}
+
+.hide-leaflet-edit {
+    display: none !important;
+}
+
+.leaflet-control-layers-toggle {
+    width: auto;
+    background-position: 3px 50%;
+    padding: 3px;
+    padding-left: 36px;
+    text-decoration: none;
+    line-height: 36px;
+}
+
+.leaflet-control-layer-container {
+    margin-top: -1rem;
+    margin-right: -1rem;
+}

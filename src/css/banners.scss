@@ -1,0 +1,42 @@
+// Banners
+
+.banner-dev {
+    background-color: #281f6b;
+    color: #ffffff;
+    .hide-banner {
+        &:hover,
+        &:focus {
+            background-color: #26267d; //=> color
+        }
+    }
+}
+.banner-test {
+    background-color: #f1c40f;
+    color: #4c3d00;
+    .hide-banner {
+        &:hover,
+        &:focus {
+            background-color: lighten(#f1c40f, 5%); //=> color
+        }
+    }
+}
+.banner-acc {
+    background-color: #2ecc71;
+    color: #ffffff;
+    .hide-banner {
+        &:hover,
+        &:focus {
+            background-color: darken(#2ecc71, 2%); //=> color
+        }
+    }
+}
+.banner-prod {
+    background-color: #d11f3d;
+    color: #ffffff;
+    .hide-banner {
+        &:hover,
+        &:focus {
+            background-color: lighten(#d11f3d, 5%); //=> color
+        }
+    }
+}

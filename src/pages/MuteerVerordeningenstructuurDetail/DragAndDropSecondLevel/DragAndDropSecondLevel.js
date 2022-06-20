@@ -2,24 +2,19 @@
 /* eslint-disable */
 // TODO: For now ESLint is disabled, because this file will be refactored in the future, based on a new data structure
 
-import React from "react"
-import { Droppable, Draggable } from "react-beautiful-dnd"
+import { Droppable, Draggable } from 'react-beautiful-dnd'
 
-import DragAndDropThirdLevel from "../DragAndDropThirdLevel"
-import AddSection from "../AddSection"
-import VerordeningObjectContent from "../VerordeningObjectContent"
-import AddObjectButton from "./../AddObjectButton"
+import DragAndDropThirdLevel from '../DragAndDropThirdLevel'
+import AddSection from '../AddSection'
+import VerordeningObjectContent from '../VerordeningObjectContent'
+import AddObjectButton from './../AddObjectButton'
 
-import VerordeningContext from "./../VerordeningContext"
+import VerordeningContext from './../VerordeningContext'
+import { useContext } from 'react'
 
-function DragAndDropSecondLevel({ subItems, UUID, nest_1, parentType }) {
-    const {
-        userIsEditingOrder,
-        userIsEditingSections,
-        hoofdstukIndex,
-        addSectionMode,
-        addSectionType,
-    } = React.useContext(VerordeningContext)
+function DragAndDropSecondLevel({ subItems, UUID, nest_1 }) {
+    const { userIsEditingOrder, userIsEditingSections, hoofdstukIndex } =
+        useContext(VerordeningContext)
 
     const hasSubItems = subItems && subItems.length > 0
     if (!hasSubItems) return null
@@ -32,26 +27,23 @@ function DragAndDropSecondLevel({ subItems, UUID, nest_1, parentType }) {
                     className={`transition-all ease-in duration-200 pl-5 
                                 ${
                                     snapshot.isDraggingOver
-                                        ? "bg-gray-200"
-                                        : "bg-white"
+                                        ? 'bg-gray-200'
+                                        : 'bg-white'
                                 }
-                            `}
-                >
+                            `}>
                     {subItems
-                        .filter((e) => e.Type !== "Lid")
+                        .filter(e => e.Type !== 'Lid')
                         .map((item, index) => (
                             <Draggable
                                 key={item.UUID}
                                 draggableId={item.UUID}
                                 index={index}
-                                isDragDisabled={!userIsEditingOrder}
-                            >
+                                isDragDisabled={!userIsEditingOrder}>
                                 {(provided, snapshot) => (
                                     <div
                                         ref={provided.innerRef}
                                         {...provided.draggableProps}
-                                        {...provided.dragHandleProps}
-                                    >
+                                        {...provided.dragHandleProps}>
                                         {index === 0 &&
                                         userIsEditingSections ? (
                                             <AddSection
@@ -65,10 +57,9 @@ function DragAndDropSecondLevel({ subItems, UUID, nest_1, parentType }) {
                                         <div
                                             className={`bg-white ${
                                                 snapshot.isDragging
-                                                    ? "shadow-lg"
-                                                    : ""
-                                            }`}
-                                        >
+                                                    ? 'shadow-lg'
+                                                    : ''
+                                            }`}>
                                             <VerordeningObjectContent
                                                 item={item}
                                                 index={index}

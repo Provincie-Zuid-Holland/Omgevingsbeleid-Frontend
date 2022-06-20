@@ -1,41 +1,50 @@
 name: Continuous Integration
 
 on:
-  push:
-    branches: [dev]
-  pull_request:
-    branches: [dev]
+    push:
+        branches: [dev]
+    pull_request:
+        branches: [dev]
 
 jobs:
-  test-build-lint:
-    runs-on: ubuntu-latest
-          
-    env:
-        REACT_APP_API_VERSION: v0.1
-        REACT_APP_API_ENV: dev
-        
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+    test-build-lint:
+        runs-on: ubuntu-latest
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: 12
-      
-      - name: Cache dependencies
-        uses: actions/cache@v2
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+        env:
+            REACT_APP_API_URL: https://api-obzh-dev.azurewebsites.net/v1.0
+            REACT_APP_GEOSERVER_API_URL: https://geo-omgevingsbeleid-test.azurewebsites.net
+            REACT_APP_API_ENV: dev
+            REACT_APP_KEY_API_ACCESS_TOKEN: OB_access_token
+            REACT_APP_KEY_IDENTIFIER: OB_identifier
+            PZH_FONTAWESOME_SECRET: ${{ secrets.PZH_FONTAWESOME_SECRET }}
 
-      - name: Install dependencies
-        run: npm install
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v2
 
-      - name: Run the tests and generate coverage report
-        run: npm test -- --coverage --ci
+            - name: Set up Node.js
+              uses: actions/setup-node@v1
+              with:
+                  node-version: 16
 
-      - name: Build
-        run: npm run build
+            - name: Cache dependencies
+              uses: actions/cache@v2
+              with:
+                  path: ~/.npm
+                  key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+                  restore-keys: |
+                      ${{ runner.os }}-node-
+
+            - name: Install dependencies
+              run: yarn install
+
+            - name: Run the tests and generate coverage report
+              run: yarn test:ci
+
+            - name: Build
+              run: yarn build
+
+            - name: Upload Code Coverage
+              uses: codecov/codecov-action@v2
+              with:
+                  token: ${{ secrets.CODECOV_TOKEN }}

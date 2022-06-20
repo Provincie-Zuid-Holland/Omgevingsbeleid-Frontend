@@ -6,16 +6,16 @@ describe("isEndDateBeforeStartDate", () => {
 
     it("returns false when end date IS NOT before start date", () => {
         const result = isEndDateBeforeStartDate({
-            Begin_Geldigheid: laterDate,
-            Eind_Geldigheid: firstDate,
+            Begin_Geldigheid: firstDate,
+            Eind_Geldigheid: laterDate,
         })
         expect(result).toBeFalsy()
     })
 
     it("returns true when end date IS before start date", () => {
         const result = isEndDateBeforeStartDate({
-            Begin_Geldigheid: firstDate,
-            Eind_Geldigheid: laterDate,
+            Begin_Geldigheid: laterDate,
+            Eind_Geldigheid: firstDate,
         })
         expect(result).toBeTruthy()
     })

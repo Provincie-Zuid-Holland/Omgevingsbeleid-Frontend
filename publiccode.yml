@@ -9,7 +9,7 @@ platforms:
     - web
 
 categories:
-    - government
+    - document-management
 
 developmentStatus: development
 
@@ -22,7 +22,7 @@ description:
             A web application to create, edit and view policies.
 
         longDescription: >
-        A web application for that enables policy makers to create, edit and view policies and enables citizens to view the policies.
+            The Province of South-Holland believes that everyone should be able to easily view its policies. By digitalizing them, the province aims to make its policies more transparant, accesible, current, and informative. This way new initiatives can be carried out faster and better and in turn will result in more coherent policies. By storing policies in a database instead of in a document, the province also aims to make the proces of creating new or adjusting policies more efficient and in line with the new Dutch standards (STOP) for publishing governmental plans.
 
         features:
             - Enables policy makers to create policies
@@ -41,8 +41,8 @@ maintenance:
     contacts:
         - name: Aiden Buis
           email: hello@aidenbuis.com
-          
+
 localisation:
-    localisationReady: no
+    localisationReady: false
     availableLanguages:
         - nl
