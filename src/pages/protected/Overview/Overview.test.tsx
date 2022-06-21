@@ -12,9 +12,9 @@ import allDimensies from '@/constants/dimensies'
 import { AuthContext } from '@/context/AuthContext'
 import { beleidskeuzes } from '@/mocks/data/beleidskeuzes'
 
-import MuteerOverview from './Overview'
+import Overview from './Overview'
 
-describe('MuteerOverview', () => {
+describe('Overview', () => {
     const defaultProps = {
         dimensieConstants: allDimensies.BELEIDSKEUZES,
         hideAddObject: false,
@@ -28,7 +28,7 @@ describe('MuteerOverview', () => {
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter initialEntries={['/']}>
                     <AuthContext.Provider value={{ ...user }}>
-                        <MuteerOverview {...props} />
+                        <Overview {...props} />
                     </AuthContext.Provider>
                 </MemoryRouter>
             </QueryClientProvider>
@@ -77,13 +77,6 @@ describe('MuteerOverview', () => {
             screen.getByText('Bovenregionaal warmtenetwerk')
         ).toBeInTheDocument()
 
-        // ✅ User can click a button to create a new object
-        const createObjectButton = screen.getByText('Nieuwe beleidskeuze')
-        expect(createObjectButton).toHaveAttribute(
-            'href',
-            '/muteer/beleidskeuzes/nieuw'
-        )
-
         // ✅ User can click a a list item to go to the detail view
         const objectListItem = screen
             .getByText('Bovenregionaal warmtenetwerk')
@@ -101,13 +94,11 @@ describe('MuteerOverview', () => {
         expect(backButton).toHaveAttribute('href', '/muteer/dashboard')
 
         // ✅ User can toggle the dropdown and see more actions
-        const dropdownButton = screen.getByRole('button', {
-            name: 'toggle-dropdown',
-        })
+        const dropdownButton = screen.getByTestId('toggle-dropdown')
 
         fireEvent.click(dropdownButton)
 
-        expect(screen.getByText('Status aanpassen')).toBeInTheDocument()
+        expect(screen.getByText('Bewerken')).toBeInTheDocument()
         expect(screen.getByText('Raadpleegomgeving')).toBeInTheDocument()
         expect(screen.getByText('Toevoegen aan module')).toBeInTheDocument()
     })

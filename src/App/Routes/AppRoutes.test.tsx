@@ -151,10 +151,10 @@ describe('AppRoutes', () => {
         fireEvent.click(screen.getByText(firstMaatregelTitle))
 
         await waitFor(() => {
-            screen.getByText('Nieuwe maatregel')
+            screen.getByText('Maatregel')
         })
 
-        fireEvent.click(screen.getByText('Nieuwe maatregel'))
+        fireEvent.click(screen.getByText('Maatregel'))
     })
 
     it('User can navigate to the other object pages', async () => {
@@ -230,6 +230,6 @@ describe('AppRoutes', () => {
             getHeaderTitle(beleidsmodules[0].Titel, 1)
         })
 
-        fireEvent.click(screen.getByText('Terug naar beleidsmodules'))
+        fireEvent.click(screen.getByText('Terug naar overzicht'))
     })
 })

@@ -1,9 +1,4 @@
-import {
-    render,
-    screen,
-    fireEvent,
-    waitForElementToBeRemoved,
-} from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { MemoryRouter } from 'react-router-dom'
 
@@ -76,7 +71,6 @@ describe('NetworkGraphClickedElementPopup', () => {
         fireEvent.click(closeBtn)
 
         expect(resetNodesMock).toBeCalledTimes(1)
-        await waitForElementToBeRemoved(() => screen.getByText('Beleidskeuze'))
         expect(screen.queryByText('Beleidskeuze')).not.toBeTruthy()
     })
 
@@ -91,7 +85,6 @@ describe('NetworkGraphClickedElementPopup', () => {
         })
 
         expect(resetNodesMock).toBeCalledTimes(1)
-        await waitForElementToBeRemoved(() => screen.getByText('Beleidskeuze'))
         expect(screen.queryByText('Beleidskeuze')).not.toBeTruthy()
     })
 

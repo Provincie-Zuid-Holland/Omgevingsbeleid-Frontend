@@ -12,9 +12,9 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import allDimensies from '@/constants/dimensies'
 import { beleidskeuzesLineage } from '@/mocks/data/beleidskeuzes'
 
-import MuteerDetail from './Detail'
+import Detail from './Detail'
 
-describe('MuteerDetail', () => {
+describe('Detail', () => {
     const defaultProps = {
         dimensieConstants: allDimensies.BELEIDSKEUZES,
     }
@@ -26,7 +26,7 @@ describe('MuteerDetail', () => {
                     <Routes>
                         <Route
                             path="muteer/beleidskeuzes/:single"
-                            element={<MuteerDetail {...defaultProps} />}
+                            element={<Detail {...defaultProps} />}
                         />
                     </Routes>
                 </MemoryRouter>
@@ -69,17 +69,11 @@ describe('MuteerDetail', () => {
         fireEvent.click(screen.getByText('Status aanpassen'))
         expect(screen.getByText('Status wijzigen')).toBeInTheDocument()
         fireEvent.click(screen.getByText('Annuleren'))
-        await waitForElementToBeRemoved(() =>
-            screen.getByText('Status wijzigen')
-        )
 
         // 👉🏻  User can open the popup to change the status
         expect(screen.getByText('Toevoegen aan module')).toBeInTheDocument()
         fireEvent.click(screen.getByText('Toevoegen aan module'))
         expect(screen.getByText('Module aanpassen')).toBeInTheDocument()
         fireEvent.click(screen.getByText('Annuleren'))
-        await waitForElementToBeRemoved(() =>
-            screen.getByText('Module aanpassen')
-        )
     })
 })

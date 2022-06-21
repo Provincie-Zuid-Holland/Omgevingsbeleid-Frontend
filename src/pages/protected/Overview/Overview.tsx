@@ -116,11 +116,11 @@ const Overview = ({ dimensieConstants }: OverviewProps) => {
                                 icon={MagnifyingGlass}
                             />
                             {hideAddButton ? null : (
-                                <Button variant="cta" className="ml-2">
-                                    <Link to={`/muteer/${overviewSlug}/nieuw`}>
+                                <Link to={`/muteer/${overviewSlug}/nieuw`}>
+                                    <Button variant="cta" className="ml-2">
                                         {addNewPolicyObjectText}
-                                    </Link>
-                                </Button>
+                                    </Button>
+                                </Link>
                             )}
                         </div>
                     </div>
@@ -137,6 +137,7 @@ const Overview = ({ dimensieConstants }: OverviewProps) => {
                             <div>
                                 {policyObjects.map(policyObject => (
                                     <OverviewTableRow
+                                        key={policyObject.UUID}
                                         isBeleidsmodule={isBeleidsmodule}
                                         policyObject={policyObject}
                                         isMaatregelOrBeleidskeuze={
@@ -231,7 +232,7 @@ const OverviewDropdown = ({
     return (
         <>
             <button
-                name="toggle-dropdown"
+                data-testid="toggle-dropdown"
                 onClick={e => {
                     e.preventDefault()
                     setDropdown(!dropdown)
@@ -281,7 +282,6 @@ const OverviewTableRow: FC<OverviewTableRowProps> = ({
 
     return (
         <Link
-            key={policyObject.UUID}
             className="flex items-center justify-between border-b border-gray-300 hover:bg-pzh-gray-100 hover:bg-opacity-50"
             to={tableRowLink}>
             <div className="w-4/12 px-4 py-3 text-gray-800">

@@ -117,6 +117,22 @@ const getChildren = (dimensie: keyof typeof allDimensies) => [
     {
         path: ':single',
         children: [
+            ...(((dimensie === 'MAATREGELEN' ||
+                dimensie === 'BELEIDSKEUZES') && [
+                {
+                    index: true,
+                    element: (
+                        <Detail dimensieConstants={allDimensies[dimensie]} />
+                    ),
+                },
+            ]) ||
+                (dimensie === 'BELEIDSMODULES' && [
+                    {
+                        index: true,
+                        element: <BeleidsmodulesOverview />,
+                    },
+                ]) ||
+                []),
             {
                 path: 'bewerk',
                 element: (
@@ -166,15 +182,7 @@ const detailPages = [
         slug: 'maatregelen',
         dataModel: allDimensies.MAATREGELEN,
         element: getOverview('MAATREGELEN'),
-        children: [
-            {
-                path: ':single',
-                element: (
-                    <Detail dimensieConstants={allDimensies.MAATREGELEN} />
-                ),
-            },
-            ...getChildren('MAATREGELEN'),
-        ],
+        children: getChildren('MAATREGELEN'),
         isPublic: true,
         dataEndpoint: getMaatregelenLineageid,
         dataVersionEndpoint: getVersionMaatregelenObjectuuid,
@@ -257,20 +265,7 @@ const detailPages = [
     {
         slug: 'beleidsmodules',
         element: getOverview('BELEIDSMODULES'),
-        children: [
-            {
-                path: ':single',
-                element: <BeleidsmodulesOverview />,
-            },
-            {
-                path: 'nieuw',
-                element: (
-                    <UniversalObjectCRUD
-                        dimensieConstants={allDimensies.BELEIDSMODULES}
-                    />
-                ),
-            },
-        ],
+        children: getChildren('BELEIDSMODULES'),
         isPublic: false,
     },
 ]
