@@ -145,8 +145,7 @@ const AppRoutes = () => {
                                 index: true,
                                 element: item.element,
                             },
-                            ...((!!item.children?.length && item.children) ||
-                                []),
+                            ...(item.children || []),
                         ],
                     })),
             ],
