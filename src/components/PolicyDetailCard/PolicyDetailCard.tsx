@@ -40,8 +40,8 @@ const PolicyDetailCard = ({
 
     const overviewSlug = dimensieConstants.SLUG_OVERVIEW
     const titleSingular = dimensieConstants.TITLE_SINGULAR
-    const linkToRaadpleegPage = `/detail/${overviewSlug}/${policy.UUID}`
-    const linkToEditWithoutCheckingOutNewVersion = `/muteer/${overviewSlug}/edit/${policy.ID}?modus=wijzig_vigerend`
+    const linkToRaadpleegPage = `/${overviewSlug}/${policy.UUID}`
+    const linkToEditWithoutCheckingOutNewVersion = `/muteer/${overviewSlug}/${policy.ID}/bewerk?modus=wijzig_vigerend`
     const policyIsInAModule = policy?.Ref_Beleidsmodules?.length !== 0
 
     const dropdownItems = [
@@ -162,14 +162,14 @@ const PolicyDetailCard = ({
                     <div className="mt-2">
                         {type === 'checked out' && (
                             <Hyperlink
-                                to={`/muteer/${overviewSlug}/edit/${policy.ID}`}
+                                to={`/muteer/${overviewSlug}/${policy.ID}/bewerk`}
                                 text="Bewerken"
                                 icon={ArrowUpRightFromSquare}
                             />
                         )}
                         {type === 'valid' && (
                             <Hyperlink
-                                to={`/detail/${overviewSlug}/${policy.UUID}`}
+                                to={`/${overviewSlug}/${policy.UUID}`}
                                 text={`Bekijk ${titleSingular.toLowerCase()}`}
                                 icon={ArrowUpRightFromSquare}
                             />

@@ -163,15 +163,15 @@ const AddNewSection = () => {
         <div className="flex">
             <div className="w-full mr-6">
                 <ButtonAddNewObject
-                    titleSingular={'Beleidskeuze'}
-                    createNewSlug={'nieuwe-beleidskeuze#mijn-beleid'}
-                    hoofdOnderdeelSlug={'beleidskeuzes'}
+                    titleSingular="Beleidskeuze"
+                    createNewSlug="nieuw#mijn-beleid"
+                    hoofdOnderdeelSlug="beleidskeuzes"
                 />
             </div>
             <ButtonAddNewObject
-                titleSingular={'Maatregel'}
-                createNewSlug={'nieuwe-maatregel#mijn-beleid'}
-                hoofdOnderdeelSlug={'maatregelen'}
+                titleSingular="Maatregel"
+                createNewSlug="nieuwe#mijn-beleid"
+                hoofdOnderdeelSlug="maatregelen"
             />
         </div>
     )

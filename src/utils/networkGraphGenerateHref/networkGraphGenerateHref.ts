@@ -28,9 +28,9 @@ const networkGraphGenerateHref = ({
     if (!property) return null
 
     if (property === 'verordeningen') {
-        return `/detail/verordening?actief=${UUID}`
+        return `/verordening?actief=${UUID}`
     } else {
-        return `/detail/${networkSlugs[property]}/${UUID}`
+        return `/${networkSlugs[property]}/${UUID}`
     }
 }
 
