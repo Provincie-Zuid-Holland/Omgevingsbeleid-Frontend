@@ -39,9 +39,13 @@ function CardObjectDetails({
             ? `object-card-${titleSingular.toLowerCase()}-${index}`
             : `object-card-${titleSingular.toLowerCase()}`
 
-    const detailPageLink = `/muteer/${hoofdOnderdeelSlug}/${object.ID}${
-        mijnBeleid ? '#mijn-beleid' : ''
-    }`
+    const hasDetail =
+        hoofdOnderdeelSlug === 'maatregelen' ||
+        hoofdOnderdeelSlug === 'beleidskeuzes'
+
+    const detailPageLink = `/muteer/${hoofdOnderdeelSlug}/${object.ID}/${
+        !hasDetail ? 'bewerk' : ''
+    }${mijnBeleid ? '#mijn-beleid' : ''}`
 
     const charactersInTitle = object.Titel?.length || 0
     const disableTippy = !showTippy || charactersInTitle < 61
@@ -58,11 +62,11 @@ function CardObjectDetails({
             className="w-full h-full">
             <Tippy disabled={disableTippy} content={object.Titel}>
                 <Link
-                    className={`relative h-full w-full inline-block h-full px-4 pt-4 pb-6 overflow-hidden bg-white rounded shadow-md`}
+                    className={`relative h-full w-full inline-block px-4 pt-4 pb-6 overflow-hidden bg-white rounded shadow-md`}
                     to={detailPageLink}
                     id={elementID}>
                     <span
-                        className="block py-1 text-sm font-light text-gray-600 font-bold"
+                        className="block py-1 text-sm text-gray-600 font-bold"
                         data-testid="card-object-title">
                         {titleSingular}
                     </span>
