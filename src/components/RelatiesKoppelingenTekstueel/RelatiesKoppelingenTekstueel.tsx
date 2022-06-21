@@ -196,7 +196,7 @@ const ListItem = ({
         property: keyof typeof slugs
         UUID: string
     }) => {
-        const path = `/detail/${slugs[property]}/${UUID}`
+        const path = `/${slugs[property]}/${UUID}`
         return path
     }
 

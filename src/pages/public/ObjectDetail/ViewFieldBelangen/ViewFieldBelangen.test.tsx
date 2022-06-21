@@ -46,8 +46,8 @@ describe('ViewFieldBelangen', () => {
 
     const setup = (customProps?: any) => {
         const props = { ...defaultProps, ...customProps }
-        const path = `/detail/beleidskeuzes/:id`
-        const initialEntries = `/detail/beleidskeuzes/463679D5-5257-4979-870F-8B5DDADC6CC1`
+        const path = `/beleidskeuzes/:id`
+        const initialEntries = `/beleidskeuzes/463679D5-5257-4979-870F-8B5DDADC6CC1`
 
         render(
             <MemoryRouter initialEntries={[initialEntries]}>

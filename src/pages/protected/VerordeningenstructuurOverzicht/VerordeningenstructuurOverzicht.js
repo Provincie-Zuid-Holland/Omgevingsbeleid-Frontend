@@ -75,7 +75,7 @@ class VerordeningenstructuurOverzicht extends Component {
                                 <Link
                                     id={`object-add-new-${hoofdOnderdeelSlug.toLowerCase()}`}
                                     className="flex items-center justify-center h-full px-4 py-4 overflow-hidden text-gray-600 no-underline border border-gray-300 border-dashed rounded hover:border-gray-400 transition-regular hover:text-gray-800"
-                                    to={`/muteer/nieuwe-verordening`}>
+                                    to={`/muteer/verordeningen/nieuw`}>
                                     <span className="px-4 py-2 font-bold text-center">
                                         + Voeg {titleSingular} Toe
                                     </span>

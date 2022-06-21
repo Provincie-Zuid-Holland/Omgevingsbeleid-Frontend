@@ -60,9 +60,7 @@ const BelangenListItem = ({ item }: { item: any }) => (
     <li
         className="w-full leading-7 text-gray-800 break-words whitespace-pre-line group"
         key={item.UUID}>
-        <Link
-            className="relative cursor-pointer"
-            to={`/detail/belangen/${item.UUID}`}>
+        <Link className="relative cursor-pointer" to={`/belangen/${item.UUID}`}>
             <FontAwesomeIcon
                 className="relative ml-0 text-base"
                 icon={faAngleRight}

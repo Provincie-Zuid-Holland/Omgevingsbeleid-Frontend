@@ -42,7 +42,6 @@ const Overview = ({ dimensieConstants }: OverviewProps) => {
 
     const titleSingular = dimensieConstants.TITLE_SINGULAR
     const titlePlural = dimensieConstants.TITLE_PLURAL
-    const createNewSlug = dimensieConstants.SLUG_CREATE_NEW
     const overviewSlug = dimensieConstants.SLUG_OVERVIEW
 
     const useGetLineage = getFetcherForType(titleSingular)
@@ -118,8 +117,7 @@ const Overview = ({ dimensieConstants }: OverviewProps) => {
                             />
                             {hideAddButton ? null : (
                                 <Button variant="cta" className="ml-2">
-                                    <Link
-                                        to={`/muteer/${overviewSlug}/${createNewSlug}`}>
+                                    <Link to={`/muteer/${overviewSlug}/nieuw`}>
                                         {addNewPolicyObjectText}
                                     </Link>
                                 </Button>
@@ -183,8 +181,8 @@ const OverviewDropdown = ({
 
     const queryClient = useQueryClient()
 
-    const linkToRaadpleegPage = `/detail/${overviewSlug}/${policy.UUID}`
-    const linkToEditPage = `/muteer/${overviewSlug}/edit/${policy.ID}`
+    const linkToRaadpleegPage = `/${overviewSlug}/${policy.UUID}`
+    const linkToEditPage = `/muteer/${overviewSlug}/${policy.ID}/bewerk`
 
     const policyIsInAModule =
         'Ref_Beleidsmodules' in policy
@@ -279,7 +277,7 @@ const OverviewTableRow: FC<OverviewTableRowProps> = ({
     const tableRowLink =
         isMaatregelOrBeleidskeuze || isBeleidsmodule
             ? `/muteer/${overviewSlug}/${policyObject.ID}`
-            : `/muteer/${overviewSlug}/edit/${policyObject.ID}`
+            : `/muteer/${overviewSlug}/${policyObject.ID}/bewerk`
 
     return (
         <Link

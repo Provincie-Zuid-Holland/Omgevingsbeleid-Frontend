@@ -40,12 +40,12 @@ describe('BeleidsrelatiesCRUD', () => {
         render(
             <MemoryRouter
                 initialEntries={[
-                    `/muteer/beleidsrelaties/${beleidskeuzes[0].UUID}/nieuwe-relatie`,
+                    `/muteer/beleidsrelaties/${beleidskeuzes[0].UUID}/nieuw`,
                 ]}>
                 <ToastContainer position="bottom-left" />
                 <Routes>
                     <Route
-                        path={'/muteer/beleidsrelaties/:UUID/nieuwe-relatie'}
+                        path={'/muteer/beleidsrelaties/:UUID/nieuw'}
                         element={<BeleidsrelatiesCRUD {...props} />}
                     />
                 </Routes>

@@ -31,7 +31,7 @@ function RevisieListItem({ item, currentUUID }: RevisieListItemProps) {
                 className={`inline-block py-3 ${
                     isActive ? 'cursor-default' : ''
                 }`}
-                to={`/detail/beleidskeuzes/${item.UUID}`}
+                to={`/beleidskeuzes/${item.UUID}`}
                 onClick={e => {
                     if (isActive) {
                         e.preventDefault()

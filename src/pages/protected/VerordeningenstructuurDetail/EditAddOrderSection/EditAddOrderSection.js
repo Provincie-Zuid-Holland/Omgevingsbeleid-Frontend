@@ -142,7 +142,7 @@ const EditAddOrderInactive = ({
             <div className="flex items-center h-full">
                 {activeChapter === null ? (
                     <Button
-                        href={`/muteer/bewerk-verordening/${lineage.ID}/${lineage.UUID}`}
+                        href={`/muteer/verordeningen/${lineage.ID}/${lineage.UUID}/bewerk`}
                         UUIDBeingEdited={UUIDBeingEdited}
                         toggleFunction={toggleAdd}
                         icon={faPencil}

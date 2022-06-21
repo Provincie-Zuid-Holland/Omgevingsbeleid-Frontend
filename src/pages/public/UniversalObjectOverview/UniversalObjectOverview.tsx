@@ -14,13 +14,13 @@ import Text from '@/components/Text'
 import { DetailPageValidEndpoint } from '@/utils/detailPages'
 
 interface UniversalObjectOverviewProps {
-    dataModel: {
+    dataModel?: {
         API_ENDPOINT_VIGEREND?: string
         TITLE_PLURAL: string
         DESCRIPTION?: string | null
         SLUG_OVERVIEW: string
     }
-    dataEndpoint: DetailPageValidEndpoint
+    dataEndpoint?: DetailPageValidEndpoint
 }
 
 function UniversalObjectOverview({
@@ -31,9 +31,9 @@ function UniversalObjectOverview({
 
     const [filterQuery, setFilterQuery] = useState('')
     const { isLoading, data: allObjects } = useQuery(
-        dataModel.API_ENDPOINT_VIGEREND || '',
+        dataModel?.API_ENDPOINT_VIGEREND || '',
         () =>
-            dataEndpoint().then(data =>
+            dataEndpoint?.().then(data =>
                 data
                     .map(({ Titel, UUID }) => ({ Titel, UUID }))
                     .sort((a, b) => a.Titel!.localeCompare(b.Titel!))
@@ -69,10 +69,10 @@ function UniversalObjectOverview({
                 </div>
                 <div className="col-span-6 sm:col-span-4">
                     <Heading className="mt-4 sm:mt-8" level="1">
-                        {dataModel.TITLE_PLURAL}
+                        {dataModel?.TITLE_PLURAL}
                     </Heading>
                     <Text className="mt-3 md:mt-4">
-                        {dataModel.DESCRIPTION}
+                        {dataModel?.DESCRIPTION}
                     </Text>
                     <div className="mt-8">
                         {!isLoading && allObjects && allObjects?.length > 25 ? (
@@ -83,7 +83,7 @@ function UniversalObjectOverview({
                                     onChange={e =>
                                         setFilterQuery(e.target.value)
                                     }
-                                    placeholder={`Filter de ${dataModel.TITLE_PLURAL.toLowerCase()}`}
+                                    placeholder={`Filter de ${dataModel?.TITLE_PLURAL.toLowerCase()}`}
                                 />
                             </div>
                         ) : null}
@@ -92,8 +92,8 @@ function UniversalObjectOverview({
                                 style={getHeadingStyles('3', isMobile)}
                                 className="break-words text-pzh-blue">
                                 {isLoading
-                                    ? `De ${dataModel.TITLE_PLURAL.toLowerCase()} worden geladen`
-                                    : `De ${filteredLength} ${dataModel.TITLE_PLURAL}`}
+                                    ? `De ${dataModel?.TITLE_PLURAL.toLowerCase()} worden geladen`
+                                    : `De ${filteredLength} ${dataModel?.TITLE_PLURAL}`}
                                 {isLoading ? (
                                     <LoaderSpinner className="ml-2" />
                                 ) : null}
@@ -132,7 +132,7 @@ function UniversalObjectOverview({
                                                 style={{ marginTop: '0.1rem' }}
                                             />
                                             <Link
-                                                to={`/detail/${dataModel.SLUG_OVERVIEW}/${obj.UUID}`}
+                                                to={`/${dataModel?.SLUG_OVERVIEW}/${obj.UUID}`}
                                                 className="underline underline-thin">
                                                 {obj.Titel}
                                             </Link>

@@ -8,7 +8,7 @@ describe('VerordeningSidebar', () => {
     const defaultProps = {}
 
     const setup = (customProps?: any) => {
-        const path = `/detail/verordening`
+        const path = `/verordening`
         const props = { ...defaultProps, ...customProps }
         render(
             <MemoryRouter initialEntries={[path]}>

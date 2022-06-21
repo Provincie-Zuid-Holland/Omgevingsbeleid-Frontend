@@ -6,8 +6,8 @@ import BeleidsmodulesOverview from './BeleidsmodulesOverview'
 describe('BeleidsmodulesOverview', () => {
     const defaultProps = {}
 
-    const path = `/muteer/beleidsmodules/edit/1`
-    const initialEntries = `/muteer/beleidsmodules/edit/1`
+    const path = `/muteer/beleidsmodules/1/bewerk`
+    const initialEntries = `/muteer/beleidsmodules/1/bewerk`
 
     it('should render', () => {
         render(

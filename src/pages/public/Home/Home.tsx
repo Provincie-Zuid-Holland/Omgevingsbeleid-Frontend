@@ -159,19 +159,19 @@ const Home = () => {
                         Omgevingsvisie bevat verschillende onderdelen: in de{' '}
                         <Link
                             className="underline text-pzh-green hover:text-pzh-green-dark"
-                            to="/overzicht/ambities">
+                            to="/ambities">
                             ambities
                         </Link>{' '}
                         wordt omschreven waar we als provincie heen willen, de{' '}
                         <Link
                             className="underline text-pzh-green hover:text-pzh-green-dark"
-                            to="/overzicht/beleidsdoelen">
+                            to="/beleidsdoelen">
                             beleidsdoelen
                         </Link>{' '}
                         geven hier richting aan en de{' '}
                         <Link
                             className="underline text-pzh-green hover:text-pzh-green-dark"
-                            to="/overzicht/beleidskeuzes">
+                            to="/beleidskeuzes">
                             beleidskeuzes
                         </Link>{' '}
                         bepalen hoe de ambities bereikt dienen te worden.
@@ -199,7 +199,7 @@ const Home = () => {
                         In het Omgevingsprogramma staat beschreven welke{' '}
                         <Link
                             className="underline text-pzh-green hover:text-pzh-green-dark"
-                            to="/overzicht/maatregelen">
+                            to="/maatregelen">
                             maatregelen
                         </Link>{' '}
                         de provincie treft om de visie waar te maken. Het
@@ -238,7 +238,7 @@ const Home = () => {
                         leefomgeving zijn ondergebracht in de{' '}
                         <Link
                             className="underline text-pzh-green hover:text-pzh-green-dark"
-                            to="/detail/verordening">
+                            to="/verordening">
                             Omgevingsverordening
                         </Link>
                         .

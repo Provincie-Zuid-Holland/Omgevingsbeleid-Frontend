@@ -22,8 +22,8 @@ describe('RaadpleegObjectDetail', () => {
 
     const setup = (customProps?: { [key: string]: any }) => {
         const props = { ...defaultProps, ...customProps }
-        const path = `/detail/beleidskeuzes/:id`
-        const initialEntries = `/detail/beleidskeuzes/${mockAmbitieskeuze.UUID}`
+        const path = `/beleidskeuzes/:id`
+        const initialEntries = `/beleidskeuzes/${mockAmbitieskeuze.UUID}`
 
         render(
             <MemoryRouter initialEntries={[initialEntries]}>

@@ -32,12 +32,12 @@ import TableOfContents from './TableOfContents'
  */
 
 interface ObjectDetailProps {
-    dataModel: {
+    dataModel?: {
         TITLE_SINGULAR: string
         TITLE_SINGULAR_PREFIX: string
     }
-    dataEndpoint: DetailPageEndpoint
-    dataVersionEndpoint: DetailPageVersionEndpoint
+    dataEndpoint?: DetailPageEndpoint
+    dataVersionEndpoint?: DetailPageVersionEndpoint
 }
 
 const ObjectDetail = ({
@@ -60,8 +60,8 @@ const ObjectDetail = ({
     // Boolean if data is loaded
     const [dataLoaded, setDataLoaded] = useState(false)
 
-    const titleSingular = dataModel.TITLE_SINGULAR
-    const titleSingularPrefix = dataModel.TITLE_SINGULAR_PREFIX
+    const titleSingular = dataModel?.TITLE_SINGULAR
+    const titleSingularPrefix = dataModel?.TITLE_SINGULAR_PREFIX
 
     /** Scroll to top */
     useEffect(() => {
@@ -74,11 +74,11 @@ const ObjectDetail = ({
         if (id === dataObject?.UUID) return
 
         const getVersionOfObject = () =>
-            dataVersionEndpoint(id!).catch(err => handleError(err))
+            dataVersionEndpoint?.(id!).catch(err => handleError(err))
 
         setDataLoaded(false)
         getVersionOfObject()
-            .then(data => {
+            ?.then(data => {
                 if (!data) return
 
                 setDataObject(data)
@@ -100,7 +100,7 @@ const ObjectDetail = ({
     const getAndSetRevisionObjects = useCallback(() => {
         if (!lineageID) return
 
-        dataEndpoint(lineageID)
+        dataEndpoint?.(lineageID)
             .then(data => {
                 const preppedRevisions = prepareRevisions(
                     data as BeleidskeuzesRead[]
@@ -131,7 +131,7 @@ const ObjectDetail = ({
     return (
         <>
             <RaadpleegObjectDetailHead
-                titleSingular={titleSingular}
+                titleSingular={titleSingular || ''}
                 dataObject={dataObject}
             />
             <Container
@@ -146,7 +146,7 @@ const ObjectDetail = ({
                         {titleSingular}
                     </Heading>
                     <RaadpleegObjectDetailNewVersionNotification
-                        titleSingular={titleSingular}
+                        titleSingular={titleSingular || ''}
                         dataObject={dataObject}
                     />
                     <Heading level="1" color="text-pzh-blue" className="mt-4">
@@ -154,7 +154,7 @@ const ObjectDetail = ({
                     </Heading>
                 </div>
                 <RaadpleegObjectDetailSidebar
-                    titleSingular={titleSingular}
+                    titleSingular={titleSingular || ''}
                     revisionObjects={revisionObjects}
                     dataObject={dataObject}
                 />
@@ -162,15 +162,15 @@ const ObjectDetail = ({
                 <RaadpleegObjectDetailMain
                     dataLoaded={dataLoaded}
                     dataObject={dataObject as any}
-                    titleSingular={titleSingular}
+                    titleSingular={titleSingular || ''}
                 />
                 <TableOfContents display="fixed" />
                 {/* <TableOfContents /> */}
             </Container>
             {dataLoaded ? (
                 <RelatiesKoppelingen
-                    titleSingular={titleSingular}
-                    titleSingularPrefix={titleSingularPrefix}
+                    titleSingular={titleSingular || ''}
+                    titleSingularPrefix={titleSingularPrefix || ''}
                     dataObject={dataObject as any}
                 />
             ) : null}

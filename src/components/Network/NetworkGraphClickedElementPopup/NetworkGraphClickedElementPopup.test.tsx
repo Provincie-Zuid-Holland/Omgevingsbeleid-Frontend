@@ -65,7 +65,7 @@ describe('NetworkGraphClickedElementPopup', () => {
         setup()
         expect(screen.queryByRole('link')).toHaveAttribute(
             'href',
-            '/detail/beleidskeuzes/0000-0000'
+            '/beleidskeuzes/0000-0000'
         )
     })
 

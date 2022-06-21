@@ -355,7 +355,7 @@ const BeleidsrelatiesDetail = ({
                     </div>
                     <div className="flex-shrink-0">
                         <Link
-                            to={`/muteer/beleidsrelaties/${UUID}/nieuwe-relatie`}
+                            to={`/muteer/beleidsrelaties/${UUID}/nieuw`}
                             className="px-2 pt-2 pb-1 text-sm font-bold text-white transition-colors duration-100 ease-in rounded cursor-pointer bg-pzh-green hover:bg-pzh-green-dark">
                             <FontAwesomeIcon
                                 className="mr-2 text-white"

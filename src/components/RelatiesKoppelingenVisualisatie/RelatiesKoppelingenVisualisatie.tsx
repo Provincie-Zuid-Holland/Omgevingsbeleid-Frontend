@@ -255,7 +255,7 @@ const RelatiesKoppelingenVisualisatie = ({
                     Verordeningen: 'verordeningen',
                 }
 
-                const path = `/detail/${slugs[property]}/${UUID}`
+                const path = `/${slugs[property]}/${UUID}`
 
                 return path
             }

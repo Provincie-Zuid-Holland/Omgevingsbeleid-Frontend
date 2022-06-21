@@ -202,7 +202,7 @@ const VerordeningPopupDetail = ({
                                                 className="px-2">
                                                 <span className="inline-block w-2 h-2 mr-2 rounded-full bg-pzh-yellow" />
                                                 <Link
-                                                    to={`/detail/beleidskeuzes/${beleidskeuze.UUID}`}>
+                                                    to={`/beleidskeuzes/${beleidskeuze.UUID}`}>
                                                     <Text type="body-small">
                                                         {beleidskeuze.Titel}
                                                     </Text>

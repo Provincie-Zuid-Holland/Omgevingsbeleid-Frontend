@@ -138,19 +138,19 @@ const NavigationPopupMenu = ({
                                     <ListItem
                                         text="Ambities"
                                         setIsOpen={setIsOpen}
-                                        to="/overzicht/ambities"
+                                        to="/ambities"
                                     />
 
                                     <ListItem
                                         text="Beleidsdoelen"
                                         setIsOpen={setIsOpen}
-                                        to="/overzicht/beleidsdoelen"
+                                        to="/beleidsdoelen"
                                     />
 
                                     <ListItem
                                         text="Beleidskeuzes"
                                         setIsOpen={setIsOpen}
-                                        to="/overzicht/beleidskeuzes"
+                                        to="/beleidskeuzes"
                                     />
                                 </ul>
                             </div>
@@ -160,13 +160,13 @@ const NavigationPopupMenu = ({
                                     <ListItem
                                         text="Maatregelen"
                                         setIsOpen={setIsOpen}
-                                        to="/overzicht/maatregelen"
+                                        to="/maatregelen"
                                     />
 
                                     <ListItem
                                         text="Beleidsprestaties"
                                         setIsOpen={setIsOpen}
-                                        to="/overzicht/beleidsprestaties"
+                                        to="/beleidsprestaties"
                                     />
                                 </ul>
                             </div>
@@ -178,13 +178,13 @@ const NavigationPopupMenu = ({
                                     <ListItem
                                         text="Beleidsregels"
                                         setIsOpen={setIsOpen}
-                                        to="/overzicht/beleidsregels"
+                                        to="/beleidsregels"
                                     />
 
                                     <ListItem
                                         text="Verordening"
                                         setIsOpen={setIsOpen}
-                                        to={'/detail/verordening'}
+                                        to="/verordening"
                                     />
                                 </ul>
                             </div>

@@ -21,14 +21,13 @@ const authUser = {
 }
 
 const setup = (dimension: keyof typeof allDimensies, type?: string) => {
-    const slugCreateNew = allDimensies[dimension].SLUG_CREATE_NEW
     const slugOverview = allDimensies[dimension].SLUG_OVERVIEW
 
-    const urlPATCH = `/muteer/${slugOverview}/edit/1`
-    const urlPOST = `/muteer/${slugOverview}/${slugCreateNew}`
+    const urlPATCH = `/muteer/${slugOverview}/1/bewerk`
+    const urlPOST = `/muteer/${slugOverview}/nieuw`
 
-    const pathPATCH = `/muteer/${slugOverview}/edit/:single`
-    const pathPOST = `/muteer/${slugOverview}/${slugCreateNew}`
+    const pathPATCH = `/muteer/${slugOverview}/:single/bewerk`
+    const pathPOST = `/muteer/${slugOverview}/nieuw`
 
     const path = type === 'POST' ? pathPOST : pathPATCH
     const initialEntries = type === 'POST' ? urlPOST : urlPATCH

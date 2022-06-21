@@ -153,7 +153,7 @@ function Detail({ dimensieConstants }: DetailProps) {
                     {currentValidPolicy && !checkedOutPolicy ? (
                         <div className="pl-6">
                             <Link
-                                to={`/muteer/${overviewSlug}/edit/${currentValidPolicy.ID}?modus=ontwerp_maken`}
+                                to={`/muteer/${overviewSlug}/${currentValidPolicy.ID}/bewerk?modus=ontwerp_maken`}
                                 className="relative inline-flex h-6 border-l-2 group border-pzh-gray-300">
                                 <div className="w-6 h-6 rounded-full inline-block -ml-[16px] -mt-[12px] relative bg-pzh-gray-300 flex items-center justify-center">
                                     <Plus className="text-pzh-gray-600 group-hover:text-pzh-blue" />

@@ -52,7 +52,7 @@ function TableLatestEdits({ edits = [], isLoading }: TableLatestEditsProps) {
         const constants = getDimensionsConstants(item.Type)
 
         const slug = constants.SLUG_OVERVIEW
-        return `/detail/${slug}/${item.UUID}`
+        return `/${slug}/${item.UUID}`
     }
 
     return (

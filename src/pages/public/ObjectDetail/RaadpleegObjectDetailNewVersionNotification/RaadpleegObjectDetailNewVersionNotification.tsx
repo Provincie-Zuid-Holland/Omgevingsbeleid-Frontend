@@ -106,7 +106,7 @@ function RaadpleegObjectDetailNewVersionNotification({
                     {titleSingular.toLowerCase()} ter inzage,{' '}
                     <Link
                         className="underline"
-                        to={`/detail/${objectSlug}/${Latest_Version}`}>
+                        to={`/${objectSlug}/${Latest_Version}`}>
                         bekijk deze versie hier
                     </Link>
                 </span>
@@ -116,7 +116,7 @@ function RaadpleegObjectDetailNewVersionNotification({
                     {titleSingular.toLowerCase()} vastgesteld,{' '}
                     <Link
                         className="underline"
-                        to={`/detail/${objectSlug}/${Latest_Version}`}>
+                        to={`/${objectSlug}/${Latest_Version}`}>
                         bekijk deze versie hier
                     </Link>
                 </span>
@@ -125,7 +125,7 @@ function RaadpleegObjectDetailNewVersionNotification({
                     Let op! Deze versie is nog niet vigerend,{' '}
                     <Link
                         className="underline"
-                        to={`/detail/${objectSlug}/${Effective_Version}`}>
+                        to={`/${objectSlug}/${Effective_Version}`}>
                         bekijk hier de vigerende versie
                     </Link>
                 </span>
@@ -135,7 +135,7 @@ function RaadpleegObjectDetailNewVersionNotification({
                     {titleSingular.toLowerCase()},{' '}
                     <Link
                         className="underline"
-                        to={`/detail/${objectSlug}/${Effective_Version}`}>
+                        to={`/${objectSlug}/${Effective_Version}`}>
                         bekijk hier de vigerende versie
                     </Link>
                 </span>
@@ -145,7 +145,7 @@ function RaadpleegObjectDetailNewVersionNotification({
                     deze {titleSingular.toLowerCase()},{' '}
                     <Link
                         className="underline"
-                        to={`/detail/${objectSlug}/${Latest_Version}`}>
+                        to={`/${objectSlug}/${Latest_Version}`}>
                         bekijk hier de meest actuele versie.
                     </Link>
                 </span>

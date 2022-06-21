@@ -81,7 +81,7 @@ describe('MuteerOverview', () => {
         const createObjectButton = screen.getByText('Nieuwe beleidskeuze')
         expect(createObjectButton).toHaveAttribute(
             'href',
-            '/muteer/beleidskeuzes/nieuwe-beleidskeuze'
+            '/muteer/beleidskeuzes/nieuw'
         )
 
         // ✅ User can click a a list item to go to the detail view
