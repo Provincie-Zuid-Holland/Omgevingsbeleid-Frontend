@@ -151,10 +151,10 @@ describe('AppRoutes', () => {
         fireEvent.click(screen.getByText(firstMaatregelTitle))
 
         await waitFor(() => {
-            screen.getByText('Maatregel')
+            screen.getByText('Nieuwe maatregel')
         })
 
-        fireEvent.click(screen.getByText('Maatregel'))
+        fireEvent.click(screen.getByText('Nieuwe maatregel'))
     })
 
     it('User can navigate to the other object pages', async () => {
