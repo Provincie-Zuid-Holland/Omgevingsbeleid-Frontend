@@ -230,6 +230,6 @@ describe('AppRoutes', () => {
             getHeaderTitle(beleidsmodules[0].Titel, 1)
         })
 
-        fireEvent.click(screen.getByText('Terug naar beleidsmodules'))
+        fireEvent.click(screen.getByText('Terug naar overzicht'))
     })
 })

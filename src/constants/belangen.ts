@@ -11,7 +11,6 @@ export const TITLE_PLURAL = 'Belangen'
 export const API_ENDPOINT = 'belangen'
 export const API_ENDPOINT_VIGEREND = 'valid/belangen'
 export const SLUG_OVERVIEW = 'belangen'
-export const SLUG_CREATE_NEW = 'nieuw-belang'
 export const DESCRIPTION = null
 
 export const CRUD_PROPERTIES = {

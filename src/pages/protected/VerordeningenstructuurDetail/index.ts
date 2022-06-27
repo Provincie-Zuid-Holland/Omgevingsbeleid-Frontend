@@ -1,0 +1,3 @@
+import VerordeningenstructuurDetail from './VerordeningenstructuurDetail'
+
+export default VerordeningenstructuurDetail

@@ -11,7 +11,6 @@ export const TITLE_PLURAL = "Gebiedsprogramma's"
 export const API_ENDPOINT = 'gebiedsprogrammas'
 export const API_ENDPOINT_VIGEREND = 'valid/gebiedsprogrammas'
 export const SLUG_OVERVIEW = 'gebiedsprogrammas'
-export const SLUG_CREATE_NEW = 'nieuw-gebiedsprogramma'
 export const DESCRIPTION = 'omschrijving'
 
 export const CRUD_PROPERTIES = {
