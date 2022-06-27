@@ -49,16 +49,7 @@ const SidebarInformation = ({
     const goBack = () => {
         navigate(MAP_SEARCH_PAGE, { replace: true })
 
-        /**
-         * Remove all markers and polygons from map
-         */
-        mapInstance?.eachLayer((layer: any) => {
-            if (!!layer._latlng || !!layer._svgSize) {
-                mapInstance.removeLayer(layer)
-            }
-        })
-
-        mapInstance?.fireEvent('draw:deleted')
+        mapInstance?.fireEvent('draw:deletestart')
 
         const coordinates = latLng(MAP_OPTIONS.center[0], MAP_OPTIONS.center[1])
         mapInstance?.setView(coordinates, MAP_OPTIONS.zoom)
