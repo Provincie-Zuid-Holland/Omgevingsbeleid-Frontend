@@ -16,11 +16,13 @@ import { BeleidskeuzesRead } from '@/api/fetchers.schemas'
 export type Revisions = (BeleidskeuzesRead & { uiStatus?: string })[]
 
 const prepareRevisions = (revisions: Revisions) => {
+    let vigerendSet = false
+
     const sortedAndFilteredRevisions = revisions
         .sort(
             (a, b) =>
-                (new Date(b.Modified_Date!) as any) -
-                (new Date(a.Modified_Date!) as any)
+                (new Date(b.Begin_Geldigheid!) as any) -
+                (new Date(a.Begin_Geldigheid!) as any)
         )
         .filter(revision => revision.Status === 'Vigerend')
 
@@ -30,6 +32,9 @@ const prepareRevisions = (revisions: Revisions) => {
      */
     const prepareVigerendeRevisions = (revisions: Revisions) =>
         revisions
+            // Filter out policies that have been edited while the status was 'Vigerend'
+            // These policies will have a value on the 'Aanpassing_Op' property
+            // We only want the latest version of that specific 'Vigerend' policy
             .filter((revision, index) => {
                 /**
                  * If an object with a status of vigerend is edited
@@ -63,19 +68,23 @@ const prepareRevisions = (revisions: Revisions) => {
 
                 return true
             })
-            // Filter out revisions that have a Begin_Geldigheid in the future
-            .filter(revision => {
+            .map(revision => {
                 const beginGeldigheid = new Date(
                     revision.Begin_Geldigheid || ''
                 )
                 const currentDate = new Date()
 
-                return isBefore(beginGeldigheid, currentDate)
-            })
-            .map((revision, index) => {
-                if (index === 0) {
+                const willTurnValidInTheFuture = isBefore(
+                    currentDate,
+                    beginGeldigheid
+                )
+
+                if (willTurnValidInTheFuture) {
+                    revision.uiStatus = 'Toekomstig Vigerend'
+                } else if (!vigerendSet) {
                     // If it is the first item with a Status of 'Vigerend'
                     revision.uiStatus = 'Vigerend'
+                    vigerendSet = true
                 } else {
                     revision.uiStatus = 'Gearchiveerd'
                 }
