@@ -40,6 +40,9 @@ const createControlHook = (useElement: any) => {
                 instance._toolbars.edit._toolbarContainer.classList.remove(
                     'hidden'
                 )
+                instance._toolbars.edit._actionsContainer.classList.remove(
+                    'hidden'
+                )
 
                 /**
                  * Remove all markers and polygons from map
@@ -62,15 +65,22 @@ const createControlHook = (useElement: any) => {
         )
 
         const onDrawDelete = useCallback(() => {
+            context.map.eachLayer((layer: any) => {
+                if (!!layer._latlng || !!layer._svgSize) {
+                    context.map.removeLayer(layer)
+                }
+            })
+
             instance._toolbars.edit._toolbarContainer.classList.add('hidden')
-        }, [instance._toolbars.edit])
+            instance._toolbars.edit._actionsContainer.classList.add('hidden')
+        }, [context.map, instance._toolbars.edit])
 
         useEffect(
             function addControl() {
                 instance.addTo(context.map)
 
                 context.map.on(leaflet.Draw.Event.CREATED, onDrawCreate)
-                context.map.on(leaflet.Draw.Event.DELETED, onDrawDelete)
+                context.map.on(leaflet.Draw.Event.DELETESTART, onDrawDelete)
 
                 if (onEdit) {
                     context.map.on(leaflet.Draw.Event.EDITRESIZE, onEdit)
@@ -79,7 +89,10 @@ const createControlHook = (useElement: any) => {
 
                 return function removeControl() {
                     context.map.off(leaflet.Draw.Event.CREATED, onDrawCreate)
-                    context.map.off(leaflet.Draw.Event.DELETED, onDrawDelete)
+                    context.map.off(
+                        leaflet.Draw.Event.DELETESTART,
+                        onDrawDelete
+                    )
 
                     if (onEdit) {
                         context.map.off(leaflet.Draw.Event.EDITRESIZE, onEdit)
