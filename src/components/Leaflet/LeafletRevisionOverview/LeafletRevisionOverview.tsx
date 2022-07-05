@@ -169,6 +169,8 @@ const LeafletRevisionOverviewInner = ({
         const onderverdelingLayerArray: Layer[] = []
 
         geoJsonLayer.addTo(map)
+        onderverdelingJsonLayer.addTo(map)
+
         onderverdelingJsonLayer.eachLayer(layer =>
             onderverdelingLayerArray.push(layer)
         )
