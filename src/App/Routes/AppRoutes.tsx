@@ -122,7 +122,7 @@ const AppRoutes = () => {
                                     element: <VerordeningenstructuurDetail />,
                                 },
                                 {
-                                    path: ':lineageUUID/bewerk',
+                                    path: 'bewerk',
                                     element: (
                                         <VerordeningenStructuurCRUD
                                             dimensieConstants={
