@@ -6,6 +6,7 @@ import { useClickAway } from 'react-use'
 
 type dropdownItem = {
     text: string
+    className?: string
     callback?: () => void
     link?: string
 }
@@ -57,7 +58,6 @@ const DropdownContainer: FC<DropdownContainerProps> = ({
     children,
 }) => {
     const innerContainer = useRef<HTMLDivElement>(null)
-
     useClickAway(innerContainer, () => {
         setIsOpen(false)
     })
@@ -72,9 +72,9 @@ const DropdownContainer: FC<DropdownContainerProps> = ({
                         { [className || '']: className }
                     )}
                     ref={innerContainer}
-                    initial={{ opacity: 0, scale: 0.9, top: -25 }}
-                    animate={{ opacity: 1, scale: 1, top: 0 }}
-                    exit={{ opacity: 0, scale: 1 }}>
+                    initial={{ scale: 0.9, top: -5 }}
+                    animate={{ scale: 1, top: 0 }}
+                    exit={{ scale: 1 }}>
                     <div className="relative h-full">
                         <ul className="text-gray-800">{children}</ul>
                     </div>
@@ -130,6 +130,7 @@ const DropdownTextElement = ({
                 {
                     'border-t border-gray-300': index !== 0,
                     'pt-3': index === 0,
+                    [item.className || '']: item.className,
                 }
             )}
             onClick={() => {
