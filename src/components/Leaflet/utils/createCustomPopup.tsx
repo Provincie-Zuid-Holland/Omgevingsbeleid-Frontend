@@ -123,17 +123,17 @@ const createCustomPopup = async (
             searchParams,
             isAdvancedSearch ? path : undefined
         )
-
-        map.on('popupopen', () =>
-            handlePopupEvents(
-                map,
-                layer,
-                navigate,
-                searchParams,
-                isAdvancedSearch ? path : undefined
-            )
-        )
     }
+
+    map.on('popupopen', () =>
+        handlePopupEvents(
+            map,
+            layer,
+            navigate,
+            searchParams,
+            isAdvancedSearch ? path : undefined
+        )
+    )
 }
 
 const handlePopupEvents = (
@@ -148,7 +148,7 @@ const handlePopupEvents = (
     popupContainer
         .querySelector('.leaflet-close-popup')
         ?.addEventListener('click', () => {
-            map.fireEvent('draw:deleted')
+            map.fireEvent('draw:deletestart')
             map.removeLayer(layer)
             path && navigate(path, { replace: true })
         })

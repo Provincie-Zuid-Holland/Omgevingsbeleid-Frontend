@@ -472,10 +472,7 @@ const NetworkGraph = () => {
                                 params: { uuid: activeUUID },
                             }
                         } else {
-                            return matchPath(
-                                '/detail/:slug/:uuid',
-                                lastLocation
-                            )
+                            return matchPath('/:slug/:uuid', lastLocation)
                         }
                     }
 

@@ -26,7 +26,7 @@ describe('NetworkGraphGenerateHref', () => {
         expect(href).toBeTruthy()
 
         const match: { params: { uuid?: string; slug?: string } } | null =
-            matchPath('/detail/:slug/:uuid', href || '')
+            matchPath('/:slug/:uuid', href || '')
         const uuidFromURL = match?.params?.uuid
         const slugFromURL = match?.params?.slug
 
@@ -52,6 +52,6 @@ describe('NetworkGraphGenerateHref', () => {
     it(`Returns a correct URL for property 'verordeningen' if a 'verordeningsStructure' is provided`, () => {
         const { href } = setup('verordeningen')
 
-        expect(href).toEqual('/detail/verordening?actief=0000-0000-0000-0000')
+        expect(href).toEqual('/verordening?actief=0000-0000-0000-0000')
     })
 })

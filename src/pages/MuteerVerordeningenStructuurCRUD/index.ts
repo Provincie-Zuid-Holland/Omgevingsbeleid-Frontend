@@ -1,3 +1,0 @@
-import MuteerVerordeningenStructuurCRUD from './MuteerVerordeningenStructuurCRUD'
-
-export default MuteerVerordeningenStructuurCRUD

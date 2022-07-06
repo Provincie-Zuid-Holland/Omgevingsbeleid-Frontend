@@ -4,7 +4,6 @@ export const TITLE_PLURAL = 'Artikelen'
 export const TYPE = 'Artikel'
 export const API_ENDPOINT = 'verordeningen'
 export const SLUG_OVERVIEW = 'verordeningen'
-export const SLUG_CREATE_NEW = null
 
 export const CRUD_PROPERTIES = {
     Titel: {
