@@ -4,7 +4,7 @@ import { FC, Fragment } from 'react'
 
 import { VerordeningLineageRead } from '@/types/verordening'
 
-import { useVerordening } from './../verordeningEditContext'
+import { useVerordening } from '../verordeningEditContext'
 
 export interface VerordeningSectionContainerProps {
     verordening: VerordeningLineageRead

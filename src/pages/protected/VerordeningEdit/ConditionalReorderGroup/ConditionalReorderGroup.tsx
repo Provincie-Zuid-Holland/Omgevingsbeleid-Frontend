@@ -7,7 +7,7 @@ import {
 } from 'framer-motion'
 import { FC, Fragment } from 'react'
 
-import { useVerordening } from './../verordeningEditContext'
+import { useVerordening } from '../verordeningEditContext'
 
 export type ConditionalReorderGroupProps = {
     values: unknown[]
