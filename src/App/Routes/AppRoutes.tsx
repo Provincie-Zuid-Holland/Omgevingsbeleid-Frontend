@@ -25,6 +25,7 @@ import RaadpleegPlanningAndReleases from '@/pages/RaadpleegPlanningAndReleases'
 import RaadpleegSearchResults from '@/pages/RaadpleegSearchResults'
 import RaadpleegUniversalObjectOverview from '@/pages/RaadpleegUniversalObjectOverview'
 import RaadpleegVerordening from '@/pages/RaadpleegVerordening'
+import VerordeningEdit from '@/pages/VerordeningEdit'
 import detailPages from '@/utils/detailPages'
 
 import ProtectedRoute from './ProtectedRoute'
@@ -46,6 +47,8 @@ const AppRoutes = () => {
 
             {/* Raadpleeg - Search on map page */}
             <Route path="/zoeken-op-kaart" element={<RaadpleegMapSearch />} />
+
+            <Route path="/verordening/edit/:id" element={<VerordeningEdit />} />
 
             <Route
                 path={`/detail/verordening`}
