@@ -1,13 +1,7 @@
 /* istanbul ignore file */
 
-import {
-    faGripLines,
-    faSave,
-    faTimes,
-    faTrash,
-} from '@fortawesome/pro-regular-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Transition } from '@headlessui/react'
+import { Equals, FloppyDisk, TrashCan, Xmark } from '@pzh-ui/icons'
 import { useContext, useLayoutEffect, useRef, useState } from 'react'
 import { toast } from 'react-toastify'
 
@@ -218,7 +212,7 @@ const DeleteIcon = ({
                     })
                 }}
                 className="w-8 h-8 -mr-6 transition-shadow duration-300 ease-in bg-white rounded shadow pointer-events-auto hover:shadow-md">
-                <FontAwesomeIcon icon={faTrash} />
+                <TrashCan className="inline-block" />
             </button>
         </div>
     )
@@ -234,7 +228,7 @@ const ReorderIcon = ({ userIsEditingOrder }) => {
             leave="transition ease-in duration-75 transform"
             leaveFrom="opacity-100 scale-100 translate-x-0 transform"
             leaveTo="opacity-0 scale-95 -translate-x-2 transform">
-            <FontAwesomeIcon className="absolute" icon={faGripLines} />
+            <Equals />
         </Transition>
     )
 }
@@ -445,7 +439,7 @@ const SaveButton = ({ save }) => {
         <button
             onClick={save}
             className="flex items-center self-stretch justify-center px-3 ml-1 text-lg text-white bg-green-500 rounded hover:bg-pzh-green">
-            <FontAwesomeIcon icon={faSave} />
+            <FloppyDisk />
         </button>
     )
 }
@@ -455,7 +449,7 @@ const CancelButton = ({ cancel }) => {
         <button
             className="flex items-center self-stretch justify-center px-3 ml-1 text-lg text-white rounded bg-pzh-blue hover:bg-pzh-blue-dark"
             onClick={cancel}>
-            <FontAwesomeIcon icon={faTimes} />
+            <Xmark />
         </button>
     )
 }

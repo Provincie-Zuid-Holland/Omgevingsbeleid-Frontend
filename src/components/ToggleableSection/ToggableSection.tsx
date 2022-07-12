@@ -1,5 +1,4 @@
-import { faChevronUp, faChevronDown } from '@fortawesome/pro-regular-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { AngleDown, AngleUp } from '@pzh-ui/icons'
 import { FC, useState } from 'react'
 
 /**
@@ -30,7 +29,7 @@ const ToggleableSection: FC<ToggleableSectionProps> = ({
                     positionTop ? '' : 'border-t'
                 }`}>
                 <span className="font-semibold">{title}</span>
-                <FontAwesomeIcon icon={open ? faChevronUp : faChevronDown} />
+                {open ? <AngleUp /> : <AngleDown />}
             </button>
             {open ? <div className="pb-10">{children}</div> : null}
         </div>

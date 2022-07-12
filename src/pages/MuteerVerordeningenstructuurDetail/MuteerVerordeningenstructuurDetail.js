@@ -7,8 +7,6 @@ import { Transition } from '@headlessui/react'
 import { Link, useParams, useNavigate, useLocation } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import clonedeep from 'lodash.clonedeep'
-import { faAngleLeft } from '@fortawesome/pro-regular-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 // Import Context
 import VerordeningContext from './VerordeningContext'
@@ -32,6 +30,7 @@ import EditOrderSidebar from './EditOrderSidebar'
 // Import Axios instance to connect with the API
 import axios from '../../api/instance'
 import { useEffect, useReducer, useState } from 'react'
+import { AngleLeft } from '@pzh-ui/icons'
 
 // Reorder items in array
 const reorder = (list, startIndex, endIndex) => {
@@ -1164,7 +1163,7 @@ const MuteerVerordeningenstructuurDetail = () => {
                                 setActiveChapter(null)
                             }
                         }}>
-                        <FontAwesomeIcon className="mr-2" icon={faAngleLeft} />
+                        <AngleLeft className="mr-2 -mt-[2px] inline-block" />
                         <span>Terug naar {backToText}</span>
                     </Link>
                 </div>

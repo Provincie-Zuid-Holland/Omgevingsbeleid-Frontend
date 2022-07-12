@@ -1,11 +1,5 @@
-import {
-    faSearch,
-    faSpinner,
-    faTimes,
-    faPlus,
-} from '@fortawesome/pro-regular-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Transition } from '@headlessui/react'
+import { MagnifyingGlass, Plus, Spinner, Xmark } from '@pzh-ui/icons'
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
@@ -100,10 +94,7 @@ const FormFieldWerkingsgebied = ({
                             className="flex justify-center w-full px-4 py-2 mt-2 border-2 border-gray-400 border-dashed rounded-md cursor-pointer"
                             onClick={() => setPopupOpen(true)}>
                             <div>
-                                <FontAwesomeIcon
-                                    className="mr-2 text-gray-400"
-                                    icon={faPlus}
-                                />
+                                <Plus className="mr-2 -mt-[2px] text-gray-400 inline-block" />
                                 <span className="py-4 pr-4 font-bold text-gray-400">
                                     Werkingsgebied koppelen
                                 </span>
@@ -208,10 +199,7 @@ const CardSelectedWerkingsgebied = ({
                         <span
                             style={{ zIndex: -1 }}
                             className={`absolute top-0 left-0 flex items-center justify-center w-full h-full text-gray-500 -mt-4`}>
-                            <FontAwesomeIcon
-                                className="mr-2 rotate-icon"
-                                icon={faSpinner}
-                            />
+                            <Spinner className="mr-2 animate-spin" />
                         </span>
                     </div>
                 </div>
@@ -297,7 +285,7 @@ const WerkingsgebiedPopup = ({
                         onClick={close}
                         className="absolute top-0 right-0 px-3 py-2 text-gray-600 cursor-pointer"
                         id={`close-werkingsgebied-popup`}>
-                        <FontAwesomeIcon icon={faTimes} />
+                        <Xmark size={20} />
                     </div>
                     <div className="h-full px-8 pt-8 pb-12">
                         <h2 className="font-bold form-field-label">
@@ -315,9 +303,9 @@ const WerkingsgebiedPopup = ({
                                 onChange={e => setFilterQuery(e.target.value)}
                                 placeholder="Zoeken... (typ minimaal 3 karakters)"
                             />
-                            <FontAwesomeIcon
-                                className="absolute top-0 right-0 mt-4 mr-4 text-sm text-gray-600"
-                                icon={faSearch}
+                            <MagnifyingGlass
+                                size={16}
+                                className="absolute top-0 bottom-0 right-0 h-full mr-4 text-gray-600"
                             />
                         </div>
 
@@ -365,10 +353,7 @@ const WerkingsgebiedPopup = ({
                                                               ? 'mr-4'
                                                               : 'ml-4'
                                                       }`}>
-                                                      <FontAwesomeIcon
-                                                          className="mr-2 rotate-icon"
-                                                          icon={faSpinner}
-                                                      />
+                                                      <Spinner className="mr-2 animate-spin" />
                                                   </span>
                                               </div>
                                           )

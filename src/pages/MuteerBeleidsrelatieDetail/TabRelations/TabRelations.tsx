@@ -1,5 +1,5 @@
-import { faTimes } from '@fortawesome/pro-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Button } from '@pzh-ui/components'
+import { Xmark } from '@pzh-ui/icons'
 import { useParams } from 'react-router-dom'
 
 import {
@@ -191,7 +191,7 @@ const PopUpConfirm = ({
                 onClick={() => setDisconnectPopup(null)}
                 className="absolute top-0 right-0 px-3 py-2 text-gray-600 cursor-pointer"
                 id={`sluit-popup-beleidsrelatie-motivering`}>
-                <FontAwesomeIcon icon={faTimes} />
+                <Xmark size={18} />
             </div>
             <h3 className="mb-4 text-lg font-bold">
                 Beleidsrelatie
@@ -216,7 +216,7 @@ const PopUpConfirm = ({
                 nieuwe beleidsrelatie aangaan. Deze moet dan opnieuw worden
                 gemotiveerd.
             </p>
-            <div className="flex justify-between mt-10">
+            <div className="flex justify-between items-center mt-10">
                 <span
                     className="text-sm text-gray-600 underline cursor-pointer"
                     onClick={() => {
@@ -224,8 +224,12 @@ const PopUpConfirm = ({
                     }}>
                     Annuleren
                 </span>
-                <span
-                    className="px-4 py-2 text-sm font-bold leading-tight text-white rounded cursor-pointer bg-pzh-blue hover:underline"
+                <Button
+                    label={
+                        relation.Status === 'Akkoord'
+                            ? 'Verbreken'
+                            : 'Intrekken'
+                    }
                     onClick={() => {
                         relationshipDisconnect(relation)
                         setDisconnectPopup(null)
@@ -236,9 +240,8 @@ const PopUpConfirm = ({
                                 : 'NietAkkoord',
                             true
                         )
-                    }}>
-                    {relation.Status === 'Akkoord' ? 'Verbreken' : 'Intrekken'}
-                </span>
+                    }}
+                />
             </div>
         </PopUpAnimatedContainer>
     )

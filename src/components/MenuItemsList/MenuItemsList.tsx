@@ -1,8 +1,8 @@
 import {
-    faAngleRight,
-    faExternalLinkSquare,
-} from '@fortawesome/pro-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+    AngleRight,
+    ArrowRightFromBracket,
+    ArrowUpRightFromSquare,
+} from '@pzh-ui/icons'
 import classNames from 'classnames'
 import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
@@ -59,10 +59,17 @@ const MenuItemsList = ({
                                         : {}
                                 }>
                                 {value}
-                                <FontAwesomeIcon
-                                    className="absolute right-0 h-8 mr-3 text-lg main-sidebar-arrow"
-                                    icon={faAngleRight}
-                                />
+                                {value === 'Uitloggen' ? (
+                                    <ArrowRightFromBracket
+                                        size={18}
+                                        className="absolute right-0 mr-3"
+                                    />
+                                ) : (
+                                    <AngleRight
+                                        size={18}
+                                        className="absolute right-0 mr-3"
+                                    />
+                                )}
                             </NavLink>
                         </li>
                     )
@@ -78,9 +85,9 @@ const MenuItemsList = ({
                         }}
                         tabIndex={0}>
                         Wachtwoord wijzigen
-                        <FontAwesomeIcon
-                            className="absolute right-0 h-8 mr-3 text-xs"
-                            icon={faExternalLinkSquare}
+                        <ArrowUpRightFromSquare
+                            size={18}
+                            className="absolute right-0 mr-3"
                         />
                     </li>
                 ) : null}

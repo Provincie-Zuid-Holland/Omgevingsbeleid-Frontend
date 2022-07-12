@@ -1,6 +1,4 @@
-import { faCalendarAlt } from '@fortawesome/pro-regular-svg-icons'
-import { faLink, faExternalLinkAlt } from '@fortawesome/pro-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { ArrowUpRightFromSquare, CalendarAlt, Link } from '@pzh-ui/icons'
 
 import HeadingMain from '@/components/HeadingMain'
 import { LoaderMainTitle, LoaderSmallSpan } from '@/components/Loader'
@@ -112,9 +110,9 @@ const ContainerDetailMainRaadpleegLink = ({
                 </div>
             </div>
             <div className="flex items-center justify-center">
-                <FontAwesomeIcon
-                    className="mr-4 text-lg text-gray-600"
-                    icon={faExternalLinkAlt}
+                <ArrowUpRightFromSquare
+                    size={24}
+                    className="mr-4 text-gray-600"
                 />
             </div>
         </a>
@@ -148,10 +146,7 @@ const ContainerDetailMainDate = ({
                 )}
             </div>
             <div className="flex items-center justify-center">
-                <FontAwesomeIcon
-                    className="text-xl text-gray-600"
-                    icon={faCalendarAlt}
-                />
+                <CalendarAlt size={24} className="text-gray-600" />
             </div>
         </div>
     )
@@ -179,10 +174,7 @@ const ContainerDetailMainWeblink = ({ weblink }: { weblink?: string }) => {
                 <span className="text-sm text-gray-700">Bekijk document</span>
             </div>
             <div className="flex items-center justify-center">
-                <FontAwesomeIcon
-                    className="text-lg text-gray-600"
-                    icon={faLink}
-                />
+                <Link size={24} className="text-gray-600" />
             </div>
         </a>
     )

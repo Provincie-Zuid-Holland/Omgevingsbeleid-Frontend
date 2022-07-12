@@ -1,12 +1,6 @@
 /* istanbul ignore file */
 
-import {
-    faSearch,
-    faSpinner,
-    faTimes,
-    faPlus,
-} from '@fortawesome/pro-regular-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { MagnifyingGlass, Plus, Spinner, Xmark } from '@pzh-ui/icons'
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
@@ -96,7 +90,7 @@ const Werkingsgebied = ({
             {werkingsgebiedInParentState ? (
                 <div>
                     <div
-                        className={`h-64 flex mt-2 justify-center items-center relative block cursor-pointer`}
+                        className={`h-64 flex mt-2 justify-center items-center relative cursor-pointer`}
                         onClick={() => setPopupOpen(true)}>
                         <div
                             className={`cursor-pointer z-10 absolute top-0 left-0 w-full h-full border border-gray-100 rounded-md shadow`}>
@@ -113,10 +107,7 @@ const Werkingsgebied = ({
                         </div>
                         <span
                             className={`absolute top-0 left-0 flex items-center justify-center w-full h-full text-gray-500 -mt-4`}>
-                            <FontAwesomeIcon
-                                className="mr-2 rotate-icon"
-                                icon={faSpinner}
-                            />
+                            <Spinner className="mr-2 animate-spin" />
                         </span>
                     </div>
                     <span
@@ -133,10 +124,7 @@ const Werkingsgebied = ({
                     className="flex justify-center w-full px-4 py-2 mt-2 border-2 border-gray-400 border-dashed rounded-md cursor-pointer"
                     onClick={() => setPopupOpen(true)}>
                     <div>
-                        <FontAwesomeIcon
-                            className="mr-2 text-gray-400"
-                            icon={faPlus}
-                        />
+                        <Plus className="mr-2 -mt-0.5 inline-block text-gray-400" />
                         <span className="py-4 pr-4 font-bold text-gray-400">
                             Werkingsgebied koppelen
                         </span>
@@ -210,7 +198,7 @@ const WerkingsgebiedPopup = ({
                         onClick={close}
                         className="absolute top-0 right-0 px-3 py-2 text-gray-600 cursor-pointer"
                         id={`close-werkingsgebied-popup`}>
-                        <FontAwesomeIcon icon={faTimes} />
+                        <Xmark />
                     </div>
                     <div className="h-full px-8 pt-8 pb-12">
                         <h2 className="font-bold form-field-label">
@@ -228,10 +216,7 @@ const WerkingsgebiedPopup = ({
                                 onChange={e => setFilterQuery(e.target.value)}
                                 placeholder="Zoeken... (typ minimaal 3 karakters)"
                             />
-                            <FontAwesomeIcon
-                                className="absolute top-0 right-0 mt-4 mr-4 text-sm text-gray-600"
-                                icon={faSearch}
-                            />
+                            <MagnifyingGlass className="absolute top-0 right-0 mt-4 mr-4 text-gray-600" />
                         </div>
 
                         <div className="grid h-screen grid-cols-2 gap-4 pb-2 pr-2 overflow-x-hidden overflow-y-auto werkingsgebied-container">
@@ -280,10 +265,7 @@ const WerkingsgebiedPopup = ({
                                                               ? 'mr-4'
                                                               : 'ml-4'
                                                       }`}>
-                                                      <FontAwesomeIcon
-                                                          className="mr-2 rotate-icon"
-                                                          icon={faSpinner}
-                                                      />
+                                                      <Spinner className="mr-2 animate-spin" />
                                                   </span>
                                               </div>
                                           )

@@ -1,6 +1,5 @@
-import { faPlus } from '@fortawesome/pro-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Disclosure } from '@headlessui/react'
+import { Plus } from '@pzh-ui/icons'
 import { useQuery } from 'react-query'
 
 import { getEdits } from '@/api/fetchers'
@@ -208,11 +207,12 @@ const Dropdown = ({
                         open ? 'rounded-t-md' : 'rounded-md'
                     }`}>
                     <span>{buttonText}</span>
-                    <FontAwesomeIcon
-                        className={`text-base transition-transform ease-in duration-100 ${
+
+                    <Plus
+                        size={20}
+                        className={`transition-transform ease-in duration-100 ${
                             open ? 'transform rotate-45' : ''
                         }`}
-                        icon={faPlus}
                     />
                 </Disclosure.Button>
                 <Disclosure.Panel className="px-5 pb-3 text-pzh-blue-dark rounded-b-md bg-pzh-pink-dark bg-opacity-10">

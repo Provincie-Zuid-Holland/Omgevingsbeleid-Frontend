@@ -1,10 +1,9 @@
-import { faCalendarAlt } from '@fortawesome/pro-regular-svg-icons'
 import {
-    faLink,
-    faExternalLinkAlt,
-    faEllipsisV,
-} from '@fortawesome/pro-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+    ArrowUpRightFromSquare,
+    CalendarAlt,
+    EllipsisVertical,
+    Link as LinkIcon,
+} from '@pzh-ui/icons'
 import { FC, useState } from 'react'
 import { Link, useLocation, useParams } from 'react-router-dom'
 
@@ -97,7 +96,7 @@ const ContainerDetail: FC<ContainerDetailProps> = ({
                     onClick={() => setDropdown(!dropdown)}
                     className="absolute top-0 right-0 p-5 text-gray-600 cursor-pointer hover:text-gray-800"
                     id="container-detail-dropdown-dots">
-                    <FontAwesomeIcon className="mr-2" icon={faEllipsisV} />
+                    <EllipsisVertical size={16} />
                 </div>
 
                 {dropdown ? (
@@ -186,9 +185,9 @@ const ContainerDetail: FC<ContainerDetailProps> = ({
                                 )}
                             </div>
                             <div>
-                                <FontAwesomeIcon
-                                    className="text-xl text-gray-600"
-                                    icon={faCalendarAlt}
+                                <CalendarAlt
+                                    size={20}
+                                    className="text-gray-600"
                                 />
                             </div>
                         </div>
@@ -208,9 +207,9 @@ const ContainerDetail: FC<ContainerDetailProps> = ({
                                     </span>
                                 </div>
                                 <div>
-                                    <FontAwesomeIcon
-                                        className="text-lg text-gray-600"
-                                        icon={faLink}
+                                    <LinkIcon
+                                        size={20}
+                                        className="text-gray-600"
                                     />
                                 </div>
                             </a>
@@ -236,9 +235,9 @@ const ContainerDetail: FC<ContainerDetailProps> = ({
                                     </div>
                                 </div>
                                 <div>
-                                    <FontAwesomeIcon
-                                        className="mr-4 text-lg text-gray-600"
-                                        icon={faExternalLinkAlt}
+                                    <ArrowUpRightFromSquare
+                                        size={20}
+                                        className="mr-4 text-gray-600"
                                     />
                                 </div>
                             </a>

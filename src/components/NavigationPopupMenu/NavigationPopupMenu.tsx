@@ -1,10 +1,4 @@
-import { faSearch } from '@fortawesome/pro-light-svg-icons'
-import {
-    faChevronRight,
-    faBars,
-    faTimes,
-} from '@fortawesome/pro-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { AngleRight, Bars, Xmark } from '@pzh-ui/icons'
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useLockBodyScroll, useWindowSize } from 'react-use'
@@ -87,11 +81,11 @@ const NavigationPopupMenu = ({
                     <div
                         className="flex items-center justify-center p-8 text-white cursor-pointer bg-pzh-blue-dark"
                         onClick={() => setIsOpen(!isOpen)}>
-                        <FontAwesomeIcon
-                            className="absolute text-lg"
-                            style={{ marginTop: '-0.2rem' }}
-                            icon={isOpen ? faTimes : faBars}
-                        />
+                        {isOpen ? (
+                            <Xmark size={18} className="absolute" />
+                        ) : (
+                            <Bars size={18} className="absolute" />
+                        )}
                     </div>
                 </div>
             ) : null}
@@ -110,10 +104,6 @@ const NavigationPopupMenu = ({
                             style={isMobile ? containerHeightStyle : undefined}>
                             <div className="flex flex-col col-span-6 mt-6 md:items-center sm:flex-row">
                                 <div className="relative flex items-center flex-1 w-full">
-                                    <FontAwesomeIcon
-                                        className="absolute left-0 ml-2 text-lg text-pzh-blue-dark"
-                                        icon={faSearch}
-                                    />
                                     <SearchBar
                                         callBack={() => {
                                             setIsOpen(false)
@@ -271,11 +261,11 @@ const ToggleMenuButton = ({
         } ${isMobile ? 'hidden' : ''}`}
         aria-expanded={isOpen}
         onClick={() => setIsOpen(!isOpen)}>
-        <FontAwesomeIcon
-            className="mx-1"
-            style={{ fontSize: '0.9rem', marginTop: '-0.2rem' }}
-            icon={isOpen ? faTimes : faBars}
-        />
+        {isOpen ? (
+            <Xmark size={18} className="mx-1 -mt-1" />
+        ) : (
+            <Bars size={18} className="mx-1 -mt-1" />
+        )}
         <span className="ml-1 font-bold">{isOpen ? 'Sluit menu' : 'Menu'}</span>
     </button>
 )
@@ -307,7 +297,7 @@ const ListItem = ({
                     rel="noopener noreferrer"
                     onClick={() => setIsOpen(false)}
                     id={`menu-item-${text.replace(/\s+/g, '-').toLowerCase()}`}>
-                    <FontAwesomeIcon className="mr-2" icon={faChevronRight} />
+                    <AngleRight className="mr-2 -mt-0.5 inline-block" />
                     <span className="underline">{text}</span>
                 </a>
             </li>
@@ -322,7 +312,7 @@ const ListItem = ({
                 state={state}
                 onClick={() => setIsOpen(false)}
                 id={`menu-item-${text.replace(/\s+/g, '-').toLowerCase()}`}>
-                <FontAwesomeIcon className="mr-2" icon={faChevronRight} />
+                <AngleRight className="mr-2 -mt-0.5 inline-block" />
                 <span className="underline">{text}</span>
             </Link>
         </li>

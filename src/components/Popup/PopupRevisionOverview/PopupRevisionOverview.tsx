@@ -1,6 +1,5 @@
-import { faTimes } from '@fortawesome/pro-regular-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Transition } from '@headlessui/react'
+import { Xmark } from '@pzh-ui/icons'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import Select from 'react-select'
 import { useClickAway, useKey } from 'react-use'
@@ -223,10 +222,7 @@ const PopupRevisionOverview = ({
                                     }}
                                     className="absolute top-0 right-0 px-3 py-2 text-gray-600 transition-colors duration-100 ease-in cursor-pointer md:mt-4 md:mr-4 hover:text-gray-800"
                                     id={`close-revisionOverview`}>
-                                    <FontAwesomeIcon
-                                        className="text-base lg:text-lg"
-                                        icon={faTimes}
-                                    />
+                                    <Xmark size={20} />
                                 </div>
                                 <h2 className="block mb-1 text-xl font-bold tracking-wide text-pzh-blue">
                                     Revisieoverzicht

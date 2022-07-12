@@ -1,10 +1,5 @@
-import {
-    faArrowLeft,
-    faDrawPolygon,
-    faMapMarkerAlt,
-} from '@fortawesome/pro-light-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Transition } from '@headlessui/react'
+import { ArrowLeft, DrawPolygon, LocationDot } from '@pzh-ui/icons'
 import Leaflet, { latLng, Map } from 'leaflet'
 import { ReactNode, useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -105,16 +100,16 @@ const SidebarInformation = ({
                         <>
                             Teken eenvoudig een gebied (
                             {
-                                <FontAwesomeIcon
-                                    icon={faDrawPolygon}
-                                    className="text-base mx-0.5"
+                                <DrawPolygon
+                                    size={18}
+                                    className="mx-0.5 -mt-0.5 inline-block"
                                 />
                             }
                             ), of plaats een speld (
                             {
-                                <FontAwesomeIcon
-                                    icon={faMapMarkerAlt}
-                                    className="text-base mx-0.5"
+                                <LocationDot
+                                    size={18}
+                                    className="mx-0.5 -mt-0.5 inline-block"
                                 />
                             }
                             ) op de kaart.
@@ -197,11 +192,8 @@ const SidebarInformation = ({
                 <button
                     onClick={() => goBack()}
                     className="h-full w-full md:block flex items-center md:py-0 py-4">
-                    <div className="md:pt-4">
-                        <FontAwesomeIcon
-                            icon={faArrowLeft}
-                            className="md:text-base text-sm"
-                        />
+                    <div className="flex justify-center md:pt-4">
+                        <ArrowLeft size={18} />
                     </div>
                     <div className="flex flex-col h-full justify-center md:ml-0 ml-2">
                         <p className="md:-mt-8 md:transform md:-rotate-90 whitespace-nowrap">

@@ -1,5 +1,4 @@
-import { faCubes } from '@fortawesome/pro-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Cubes } from '@pzh-ui/icons'
 
 /**
  * Displays a titel, status and modules.
@@ -69,7 +68,7 @@ const BadgesModules = ({ modules }: Pick<HeadingMainProps, 'modules'>) => (
                 target="_blank"
                 rel="noreferrer"
                 className={`inline-block font-bold mr-2 my-1 px-2 pt-1  text-xs border rounded text-gray-800 border-gray-800 hover:bg-gray-800 hover:text-white transition duration-100 ease-in`}>
-                <FontAwesomeIcon className="mr-2" icon={faCubes} />
+                <Cubes className="mr-2 -mt-[2px] inline-block" />
                 {module.Titel}
             </a>
         ))}

@@ -1,6 +1,4 @@
-import { IconProp } from '@fortawesome/fontawesome-svg-core'
-import { faExternalLinkAlt } from '@fortawesome/pro-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { ArrowUpRightFromSquare } from '@pzh-ui/icons'
 import { FC, useState } from 'react'
 
 import { Container } from '@/components/Container'
@@ -211,17 +209,10 @@ const OntwikkelingenList: FC = ({ children }) => (
     <ul className="grid grid-cols-6 col-span-6 gap-x-10 gap-y-0">{children}</ul>
 )
 
-const OntwikkelingenListItem: FC<{ title: string; icon?: IconProp }> = ({
-    children,
-    title,
-    icon,
-}) => (
+const OntwikkelingenListItem: FC<{ title: string }> = ({ children, title }) => (
     <li className="relative col-span-6 pl-8 mt-6 lg:col-span-3 sm:mt-8">
-        <span className="absolute top-0 left-0 w-4 h-4">
-            <FontAwesomeIcon
-                className="text-lg text-pzh-pink-dark"
-                icon={icon ? icon : faExternalLinkAlt}
-            />
+        <span className="absolute left-0 w-4 h-4">
+            <ArrowUpRightFromSquare size={22} className="text-pzh-pink-dark" />
         </span>
         <div>
             <Heading level="3" className="text-pzh-pink-dark">

@@ -1,5 +1,7 @@
-import { faExpandAlt, faCompressAlt } from '@fortawesome/pro-regular-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+    DownLeftAndUpRightToCenter,
+    UpRightAndDownLeftFromCenter,
+} from '@pzh-ui/icons'
 
 import { LeafletTinyViewer } from '@/components/Leaflet'
 
@@ -28,14 +30,17 @@ const Werkingsgebied = ({
                         setFullscreenLeafletViewer(!fullscreenLeafletViewer)
                     }>
                     Bekijk in het {fullscreenLeafletViewer ? 'klein' : 'groot'}
-                    <FontAwesomeIcon
-                        className="ml-2 text-gray-700"
-                        icon={
-                            fullscreenLeafletViewer
-                                ? faCompressAlt
-                                : faExpandAlt
-                        }
-                    />
+                    {fullscreenLeafletViewer ? (
+                        <DownLeftAndUpRightToCenter
+                            size={12}
+                            className="ml-2 inline-block text-gray-700"
+                        />
+                    ) : (
+                        <UpRightAndDownLeftFromCenter
+                            size={12}
+                            className="ml-2 inline-block text-gray-700"
+                        />
+                    )}
                 </span>
             </div>
 

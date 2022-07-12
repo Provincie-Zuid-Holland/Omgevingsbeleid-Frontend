@@ -1,8 +1,4 @@
-import {
-    faSortAmountUp,
-    faSortAmountDown,
-} from '@fortawesome/pro-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { ArrowDownWideShort, ArrowUpWideShort } from '@pzh-ui/icons'
 
 type Properties = 'date' | 'title' | 'type'
 
@@ -27,20 +23,15 @@ interface SortIconProps {
 const SortIcon = ({ sorting, property }: SortIconProps) => {
     if (!sorting) return null
 
-    return (
-        <FontAwesomeIcon
-            className={`ml-2 ${
-                sorting.activeSorting === property
-                    ? 'text-gray-700'
-                    : 'text-gray-400'
-            }`}
-            icon={
-                sorting[property as keyof typeof sorting]
-                    ? faSortAmountUp
-                    : faSortAmountDown
-            }
-        />
-    )
+    const className = `ml-2 -mt-0.5 inline-block ${
+        sorting.activeSorting === property ? 'text-gray-700' : 'text-gray-400'
+    }`
+
+    if (sorting[property as keyof typeof sorting]) {
+        return <ArrowUpWideShort size={16} className={className} />
+    }
+
+    return <ArrowDownWideShort size={16} className={className} />
 }
 
 export default SortIcon

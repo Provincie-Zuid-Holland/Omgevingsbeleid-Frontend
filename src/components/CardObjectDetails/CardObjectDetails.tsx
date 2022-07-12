@@ -1,6 +1,5 @@
-import { faAngleRight } from '@fortawesome/pro-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Transition } from '@headlessui/react'
+import { AngleRight } from '@pzh-ui/icons'
 import Tippy from '@tippyjs/react'
 import { Link } from 'react-router-dom'
 import 'tippy.js/dist/tippy.css'
@@ -58,7 +57,7 @@ function CardObjectDetails({
             className="w-full h-full">
             <Tippy disabled={disableTippy} content={object.Titel}>
                 <Link
-                    className={`relative h-full w-full inline-block h-full px-4 pt-4 pb-6 overflow-hidden bg-white rounded shadow-md`}
+                    className="relative h-full w-full inline-block px-4 pt-4 pb-6 overflow-hidden bg-white rounded shadow-md"
                     to={detailPageLink}
                     id={elementID}>
                     <span
@@ -70,10 +69,7 @@ function CardObjectDetails({
                         {object.Titel}
                     </h2>
                     <span className="absolute bottom-0 right-0 object-left-top w-8 h-10 font-bold text-gray-400">
-                        <FontAwesomeIcon
-                            className="text-2xl"
-                            icon={faAngleRight}
-                        />
+                        <AngleRight size={24} />
                     </span>
                 </Link>
             </Tippy>

@@ -1,6 +1,5 @@
-import { faSearch } from '@fortawesome/pro-light-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Transition } from '@headlessui/react'
+import { MagnifyingGlass } from '@pzh-ui/icons'
 import { Selection } from 'd3'
 import { KeyboardEvent, useEffect, useRef, useState } from 'react'
 import { useClickAway } from 'react-use'
@@ -104,10 +103,7 @@ const NetworkGraphSearchBar = ({
                 />
                 <div
                     className={`absolute top-0 left-0 flex items-center justify-between w-full h-full px-4 pointer-events-none`}>
-                    <FontAwesomeIcon
-                        className="mr-2 text-gray-800"
-                        icon={faSearch}
-                    />
+                    <MagnifyingGlass className="mr-2 text-gray-800" />
                     <div
                         className={`pt-1 text-sm text-gray-700 underline select-none ${
                             clickedNode
@@ -302,7 +298,7 @@ const NetworkGraphSearchBarResultItem = ({
     return (
         <li
             tabIndex={0}
-            className={`px-4 w-full relative inline-block hover:bg-gray-50 focus:bg-gray-50 focus:ring focus:rounded cursor-pointer py-2 flex justify-between`}
+            className={`px-4 w-full relative hover:bg-gray-50 focus:bg-gray-50 focus:ring focus:rounded cursor-pointer py-2 flex justify-between`}
             onClick={handleClick}
             onKeyDown={handleKeyDown}
             data-index={searchResultItemIndex + 1}>

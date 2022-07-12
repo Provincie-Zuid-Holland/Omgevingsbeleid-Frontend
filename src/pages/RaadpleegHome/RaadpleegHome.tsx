@@ -1,5 +1,4 @@
-import { faFilePdf } from '@fortawesome/pro-regular-svg-icons'
-import { faExternalLinkAlt } from '@fortawesome/pro-solid-svg-icons'
+import { ArrowUpRightFromSquare, FilePdf } from '@pzh-ui/icons'
 import { Link } from 'react-router-dom'
 
 import { Container } from '@/components/Container'
@@ -268,13 +267,13 @@ const RaadpleegHome = () => {
                 <ul className="grid grid-cols-6 col-span-6 lg:col-span-4">
                     <DocumentLink
                         href="docs/Omgevingsvisie_Zuid-Holland_Deel_1.pdf"
-                        iconLeft={faFilePdf}
+                        iconLeft={<FilePdf />}
                         title="Omgevingsvisie Zuid-Holland Deel 1"
                         className="col-span-6 mt-2 lg:col-span-3 lg:mt-0"
                     />
                     <DocumentLink
                         href="https://lta.zuid-holland.nl/"
-                        iconLeft={faExternalLinkAlt}
+                        iconLeft={<ArrowUpRightFromSquare />}
                         title="De Lange Termijn Agenda Omgevingsbeleid"
                         className="col-span-6 mt-2 lg:col-span-3 lg:mt-0"
                     />

@@ -1,11 +1,6 @@
 /* istanbul ignore file */
 
-import {
-    faPlus,
-    faArrowsAltV,
-    faPencil,
-} from '@fortawesome/pro-regular-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { ArrowsUpDown, Pencil, Plus } from '@pzh-ui/icons'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
@@ -145,18 +140,18 @@ const EditAddOrderInactive = ({
                         href={`/muteer/bewerk-verordening/${lineage.ID}/${lineage.UUID}`}
                         UUIDBeingEdited={UUIDBeingEdited}
                         toggleFunction={toggleAdd}
-                        icon={faPencil}
+                        icon={<Pencil className="absolute" />}
                     />
                 ) : null}
                 <Button
                     UUIDBeingEdited={UUIDBeingEdited}
                     toggleFunction={toggleAdd}
-                    icon={faPlus}
+                    icon={<Plus className="absolute" />}
                 />
                 <Button
                     UUIDBeingEdited={UUIDBeingEdited}
                     toggleFunction={toggleOrder}
-                    icon={faArrowsAltV}
+                    icon={<ArrowsUpDown className="absolute" />}
                 />
             </div>
         </div>
@@ -172,7 +167,7 @@ const Button = ({ toggleFunction, icon, UUIDBeingEdited, href }) => {
                     UUIDBeingEdited ? 'cursor-not-allowed' : 'cursor-pointer'
                 }`}>
                 <span className="flex items-center justify-center px-2">
-                    <FontAwesomeIcon className="absolute text-sm" icon={icon} />
+                    {icon}
                     <span className="sr-only">Bewerken</span>
                 </span>
             </Link>
@@ -190,7 +185,7 @@ const Button = ({ toggleFunction, icon, UUIDBeingEdited, href }) => {
                 }
             }}>
             <span className="flex items-center justify-center px-2">
-                <FontAwesomeIcon className="absolute text-sm" icon={icon} />
+                {icon}
             </span>
         </button>
     )

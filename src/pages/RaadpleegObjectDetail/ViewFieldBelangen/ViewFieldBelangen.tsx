@@ -1,5 +1,4 @@
-import { faAngleRight } from '@fortawesome/pro-light-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { AngleRight } from '@pzh-ui/icons'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
@@ -63,10 +62,7 @@ const BelangenListItem = ({ item }: { item: any }) => (
         <Link
             className="relative cursor-pointer"
             to={`/detail/belangen/${item.UUID}`}>
-            <FontAwesomeIcon
-                className="relative ml-0 text-base"
-                icon={faAngleRight}
-            />
+            <AngleRight className="inline-block -mt-1" />
             <span className="inline-block pl-2 ml-0 group-hover:underline">
                 {item.Titel}
             </span>

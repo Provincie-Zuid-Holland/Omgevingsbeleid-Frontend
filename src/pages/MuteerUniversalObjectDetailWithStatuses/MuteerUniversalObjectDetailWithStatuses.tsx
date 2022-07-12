@@ -1,5 +1,4 @@
-import { faPlus } from '@fortawesome/pro-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Plus } from '@pzh-ui/icons'
 import { useCallback, useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { Link, useParams, useLocation, useNavigate } from 'react-router-dom'
@@ -284,10 +283,7 @@ const MuteerUniversalObjectDetailWithStatuses = ({
                                         id={`href-ontwerp-maken`}>
                                         <span className="relative flex items-center justify-end w-8 h-10 pb-5 mr-2 border-r-2 border-gray-300">
                                             <div className="absolute flex items-center justify-center w-8 h-8 text-center bg-gray-300 rounded-full -right-4">
-                                                <FontAwesomeIcon
-                                                    className="relative text-gray-600"
-                                                    icon={faPlus}
-                                                />
+                                                <Plus className="relative text-gray-600" />
                                             </div>
                                         </span>
                                         <span className="inline pl-5 -mt-5 text-sm text-gray-700 cursor-pointer hover:underline">
