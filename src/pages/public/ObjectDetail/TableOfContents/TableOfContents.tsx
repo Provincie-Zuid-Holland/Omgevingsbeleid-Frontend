@@ -1,5 +1,4 @@
-import { faAngleRight } from '@fortawesome/pro-regular-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { AngleRight } from '@pzh-ui/icons'
 import { useEffect, useRef, useState } from 'react'
 import { useWindowSize } from 'react-use'
 
@@ -85,12 +84,11 @@ const TableOfContents = ({ display }: { display: 'block' | 'fixed' }) => {
                                     })
                                 }}
                                 className="pt-1 cursor-pointer text-pzh-blue hover:text-pzh-blue-dark">
-                                <FontAwesomeIcon
-                                    icon={faAngleRight}
-                                    className="absolute text-lg"
-                                    style={{ marginTop: '0.1rem' }}
+                                <AngleRight
+                                    size={16}
+                                    className="absolute mt-1"
                                 />
-                                <span className="block pl-4 underline underline-thin">
+                                <span className="block pl-5 underline underline-thin">
                                     {el.title}
                                 </span>
                             </li>

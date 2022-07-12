@@ -1,11 +1,9 @@
-import { faHistory } from '@fortawesome/pro-light-svg-icons'
-import { faChevronRight } from '@fortawesome/pro-regular-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Modal } from '@pzh-ui/components'
+import { AngleRight, ClockRotateLeft } from '@pzh-ui/icons'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 import Heading from '@/components/Heading'
-import Modal from '@/components/Modal'
 
 import PopupRevisionOverview from '../PopupRevisionOverview'
 
@@ -59,10 +57,7 @@ const PopUpRevisionContainer = ({
                     className={`${
                         amountOfRevisions > 1 ? 'cursor-pointer' : ''
                     } select-none flex items-center group`}>
-                    <FontAwesomeIcon
-                        className="mr-2 -mt-1 text-base "
-                        icon={faHistory}
-                    />
+                    <ClockRotateLeft size={16} className="mr-2 -mt-1" />
                     <span
                         className={
                             amountOfRevisions >= 1
@@ -125,7 +120,7 @@ const PopupRevisionTimeline = ({
 }: PopupRevisionTimelineProps) => (
     <Modal
         open={open}
-        close={() => setOpen(false)}
+        onClose={() => setOpen(false)}
         maxWidth="max-w-sm"
         containerPadding="p-0"
         ariaLabel="Versies van dit beleid">
@@ -155,7 +150,7 @@ const PopupRevisionTimeline = ({
                     }}
                     className="flex items-center justify-between px-6 py-3 transition-colors duration-100 ease-in border-t border-gray-300 cursor-pointer text-pzh-green hover:text-pzh-green-dark hover:bg-pzh-blue hover:bg-opacity-5">
                     <span className="underline">Vergelijk versies</span>
-                    <FontAwesomeIcon icon={faChevronRight} />
+                    <AngleRight />
                 </div>
             ) : null}
         </div>

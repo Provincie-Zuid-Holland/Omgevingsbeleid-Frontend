@@ -1,5 +1,5 @@
-import { faAngleLeft, faPlus } from '@fortawesome/pro-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Button } from '@pzh-ui/components'
+import { AngleLeft, Plus } from '@pzh-ui/icons'
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
@@ -323,7 +323,7 @@ const BeleidsrelatiesDetail = ({
                     onClick={backToOverzicht}
                     className="inline-block mb-2 text-gray-600 cursor-pointer text-l"
                     to={`/muteer/beleidsrelaties`}>
-                    <FontAwesomeIcon className="mr-2" icon={faAngleLeft} />
+                    <AngleLeft className="mr-2 -mt-0.5 inline-block" />
                     <span>Terug naar overzicht</span>
                 </Link>
             </div>
@@ -354,14 +354,12 @@ const BeleidsrelatiesDetail = ({
                         </h1>
                     </div>
                     <div className="flex-shrink-0">
-                        <Link
-                            to={`/muteer/beleidsrelaties/${UUID}/nieuw`}
-                            className="px-2 pt-2 pb-1 text-sm font-bold text-white transition-colors duration-100 ease-in rounded cursor-pointer bg-pzh-green hover:bg-pzh-green-dark">
-                            <FontAwesomeIcon
-                                className="mr-2 text-white"
-                                icon={faPlus}
+                        <Link to={`/muteer/beleidsrelaties/${UUID}/nieuw`}>
+                            <Button
+                                variant="cta"
+                                icon={Plus}
+                                label="Nieuwe relatie"
                             />
-                            Nieuwe relatie
                         </Link>
                     </div>
                 </div>

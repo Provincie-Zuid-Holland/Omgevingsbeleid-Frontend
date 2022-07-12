@@ -1,9 +1,9 @@
-import { faSearch } from '@fortawesome/pro-light-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import 'url-search-params-polyfill'
+
+import { MagnifyingGlass } from '@pzh-ui/icons'
 import React, { useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useClickAway, useWindowSize } from 'react-use'
-import 'url-search-params-polyfill'
 
 import { searchBarFilters } from '@/constants/searchBarFilters'
 
@@ -99,11 +99,7 @@ const SearchBar = ({
                 onKeyDown={handleKeyDown}
             />
             <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <FontAwesomeIcon
-                    style={{ height: '18px', width: '18px' }}
-                    className="text-pzh-blue-dark"
-                    icon={faSearch}
-                />
+                <MagnifyingGlass size={18} className="text-pzh-blue-dark" />
             </div>
             {searchQuery.length > 0 && searchBarPopupOpen ? (
                 <div

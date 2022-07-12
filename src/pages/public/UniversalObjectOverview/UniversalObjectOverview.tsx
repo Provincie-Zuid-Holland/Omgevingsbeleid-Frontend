@@ -1,6 +1,4 @@
-import { faAngleRight } from '@fortawesome/pro-light-svg-icons'
-import { faArrowLeft } from '@fortawesome/pro-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { AngleRight, ArrowLeft } from '@pzh-ui/icons'
 import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
@@ -63,7 +61,7 @@ function UniversalObjectOverview({
                     <Link
                         to="/"
                         className="inline-block mt-4 duration-100 ease-in opacity-75 cursor-pointer focus-within:transition sm:mt-8 text-pzh-blue hover:opacity-100">
-                        <FontAwesomeIcon icon={faArrowLeft} className="mr-2" />
+                        <ArrowLeft className="mr-2 -mt-0.5 inline-block" />
                         <span>Start</span>
                     </Link>
                 </div>
@@ -125,11 +123,10 @@ function UniversalObjectOverview({
                                     ?.map((obj, index) => (
                                         <li
                                             key={index}
-                                            className="flex items-start py-1 transition-colors duration-100 ease-in text-pzh-blue hover:text-pzh-blue-dark">
-                                            <FontAwesomeIcon
-                                                icon={faAngleRight}
-                                                className="relative mr-2 text-lg"
-                                                style={{ marginTop: '0.1rem' }}
+                                            className="flex items-center py-1 transition-colors duration-100 ease-in text-pzh-blue hover:text-pzh-blue-dark">
+                                            <AngleRight
+                                                size={16}
+                                                className="relative mr-2 -mt-1"
                                             />
                                             <Link
                                                 to={`/${dataModel?.SLUG_OVERVIEW}/${obj.UUID}`}

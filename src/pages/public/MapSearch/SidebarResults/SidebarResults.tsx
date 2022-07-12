@@ -1,6 +1,5 @@
-import { faFilter } from '@fortawesome/pro-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Transition } from '@headlessui/react'
+import { Filter as FilterIcon } from '@pzh-ui/icons'
 import Tippy from '@tippyjs/react'
 import { useState } from 'react'
 
@@ -183,7 +182,7 @@ const Filter = ({
             <button
                 onClick={() => setVisible(!visible)}
                 className="flex items-center border border-gray-400 rounded py-2 px-2">
-                <FontAwesomeIcon icon={faFilter} className="text-sm mr-2" />
+                <FilterIcon size={16} className="mr-2" />
                 <span className="text-sm -mb-1">Filter</span>
             </button>
         </Tippy>

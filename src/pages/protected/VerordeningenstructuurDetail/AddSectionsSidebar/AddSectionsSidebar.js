@@ -1,9 +1,7 @@
 /* istanbul ignore file */
 
-import { faCircle } from '@fortawesome/pro-regular-svg-icons'
-import { faCheckCircle } from '@fortawesome/pro-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Transition } from '@headlessui/react'
+import { Circle, CircleCheck } from '@pzh-ui/icons'
 import { useContext, useLayoutEffect, useState } from 'react'
 
 import VerordeningContext from '../VerordeningContext'
@@ -95,14 +93,11 @@ const AddSectionsSidebar = ({ show }) => {
                                             setAddSectionType(null)
                                         }
                                     }}>
-                                    <FontAwesomeIcon
-                                        className="mr-5 text-gray-700"
-                                        icon={
-                                            addSectionType === 'Afdeling'
-                                                ? faCheckCircle
-                                                : faCircle
-                                        }
-                                    />
+                                    {addSectionType === 'Afdeling' ? (
+                                        <CircleCheck className="mr-5 -mt-0.5 text-gray-700 inline-block" />
+                                    ) : (
+                                        <Circle className="mr-5 -mt-0.5 text-gray-700 inline-block" />
+                                    )}
                                     Afdeling
                                 </div>
                                 <div
@@ -114,14 +109,11 @@ const AddSectionsSidebar = ({ show }) => {
                                             setAddSectionType(null)
                                         }
                                     }}>
-                                    <FontAwesomeIcon
-                                        className="mr-5 text-gray-700"
-                                        icon={
-                                            addSectionType === 'Paragraaf'
-                                                ? faCheckCircle
-                                                : faCircle
-                                        }
-                                    />
+                                    {addSectionType === 'Paragraaf' ? (
+                                        <CircleCheck className="mr-5 -mt-0.5 text-gray-700 inline-block" />
+                                    ) : (
+                                        <Circle className="mr-5 -mt-0.5 text-gray-700 inline-block" />
+                                    )}
                                     Paragraaf
                                 </div>
                                 <div
@@ -133,14 +125,11 @@ const AddSectionsSidebar = ({ show }) => {
                                             setAddSectionType(null)
                                         }
                                     }}>
-                                    <FontAwesomeIcon
-                                        className="mr-5 text-gray-700"
-                                        icon={
-                                            addSectionType === 'Artikel'
-                                                ? faCheckCircle
-                                                : faCircle
-                                        }
-                                    />
+                                    {addSectionType === 'Artikel' ? (
+                                        <CircleCheck className="mr-5 -mt-0.5 text-gray-700 inline-block" />
+                                    ) : (
+                                        <Circle className="mr-5 -mt-0.5 text-gray-700 inline-block" />
+                                    )}
                                     Artikel
                                 </div>
                             </div>
