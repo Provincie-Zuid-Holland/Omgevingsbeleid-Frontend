@@ -1,6 +1,5 @@
-import { faTimes } from '@fortawesome/pro-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Transition } from '@headlessui/react'
+import { Xmark } from '@pzh-ui/icons'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
@@ -88,7 +87,7 @@ const NetworkGraphClickedElementPopup = ({
                                     }
                                 }}
                                 className="absolute top-0 right-0 flex items-center justify-center w-5 h-5 mx-1 mt-2 mr-1 transition-colors duration-100 ease-in rounded cursor-pointer hover:bg-gray-200">
-                                <FontAwesomeIcon icon={faTimes} />
+                                <Xmark />
                             </span>
                         </div>
                     </Transition>

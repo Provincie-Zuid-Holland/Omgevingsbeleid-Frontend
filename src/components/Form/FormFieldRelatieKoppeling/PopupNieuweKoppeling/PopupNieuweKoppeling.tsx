@@ -1,5 +1,4 @@
-import { faTimes, faSearch } from '@fortawesome/pro-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { MagnifyingGlass, Xmark } from '@pzh-ui/icons'
 import cloneDeep from 'lodash.clonedeep'
 import { useEffect, useMemo, useState } from 'react'
 import { toast } from 'react-toastify'
@@ -180,7 +179,7 @@ const PopupNieuweKoppeling = ({
                 onClick={() => togglePopup()}
                 className="absolute top-0 right-0 px-6 py-4 text-gray-600 cursor-pointer"
                 id={`form-field-koppeling-sluit-popup`}>
-                <FontAwesomeIcon icon={faTimes} />
+                <Xmark size={20} />
             </div>
             <h3 className="font-bold form-field-label">
                 {objecten[type].volledigeTitel} koppelen
@@ -202,9 +201,9 @@ const PopupNieuweKoppeling = ({
                             name="zoekFilter"
                             placeholder="Zoeken... (typ minimaal 3 karakters)"
                         />
-                        <FontAwesomeIcon
-                            className="absolute top-0 right-0 mt-4 mr-4 text-sm text-gray-600"
-                            icon={faSearch}
+                        <MagnifyingGlass
+                            size={16}
+                            className="absolute top-0 bottom-0 right-0 h-full mr-4 text-gray-600"
                         />
                     </div>
                     <div className="border rounded shadow">

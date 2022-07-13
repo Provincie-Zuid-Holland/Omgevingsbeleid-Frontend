@@ -1,5 +1,4 @@
-import { faAngleRight } from '@fortawesome/pro-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { AngleRight } from '@pzh-ui/icons'
 import { Link } from 'react-router-dom'
 
 type BreadcrumbsProps = {
@@ -30,11 +29,7 @@ function Breadcrumbs({ className, paths = [] }: BreadcrumbsProps) {
                             key={item.name}
                             className="inline-block mr-2 font-bold">
                             <Link to={item.path}>{item.name}</Link>
-                            <FontAwesomeIcon
-                                aria-hidden={true}
-                                icon={faAngleRight}
-                                className="ml-2 sr-hidden"
-                            />
+                            <AngleRight className="ml-2 -mt-[2px] sr-hidden inline-block" />
                         </li>
                     )
                 })}

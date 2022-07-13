@@ -1,5 +1,4 @@
-import { faExternalLinkAlt } from '@fortawesome/pro-regular-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { ArrowUpRightFromSquare } from '@pzh-ui/icons'
 
 const ViewFieldExternalURL = ({
     externalURL,
@@ -22,10 +21,7 @@ const ViewFieldExternalURL = ({
             rel="noreferrer"
             className="mt-5 text-pzh-blue hover:text-pzh-blue-dark">
             <span className="underline">Bekijk officiële publicatie</span>
-            <FontAwesomeIcon
-                className="relative ml-2"
-                icon={faExternalLinkAlt}
-            />
+            <ArrowUpRightFromSquare className="relative ml-2 -mt-[2px] inline-block" />
         </a>
     )
 }

@@ -1,5 +1,5 @@
-import { faTimesCircle } from '@fortawesome/pro-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Modal } from '@pzh-ui/components'
+import { CircleXmark } from '@pzh-ui/icons'
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
@@ -7,7 +7,6 @@ import { getVersionVerordeningenObjectuuid } from '@/api/fetchers'
 import { BeleidskeuzeShortInline } from '@/api/fetchers.schemas'
 import Heading from '@/components/Heading'
 import { LeafletTinyViewer } from '@/components/Leaflet'
-import Modal from '@/components/Modal'
 import Text from '@/components/Text'
 import handleError from '@/utils/handleError'
 
@@ -76,7 +75,7 @@ const VerordeningPopupDetail = ({
     return (
         <Modal
             open={open}
-            close={close}
+            onClose={close}
             ariaLabel={`Artikel ${activeArticle.Volgnummer}`}>
             <Heading
                 level="2"
@@ -104,9 +103,9 @@ const VerordeningPopupDetail = ({
                                             onClick={() => {
                                                 setActiveChild(null)
                                             }}>
-                                            <FontAwesomeIcon
-                                                className="inline-block text-lg text-pzh-blue-dark"
-                                                icon={faTimesCircle}
+                                            <CircleXmark
+                                                size={20}
+                                                className="inline-block text-pzh-blue-dark"
                                             />
                                         </div>
                                     ) : null}

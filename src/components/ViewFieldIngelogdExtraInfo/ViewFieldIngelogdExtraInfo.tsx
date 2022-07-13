@@ -1,5 +1,4 @@
-import { faLink } from '@fortawesome/pro-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Link as LinkIcon } from '@pzh-ui/icons'
 import { useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
@@ -92,10 +91,7 @@ const ViewFieldIngelogdExtraInfo = ({
                             target="_blank"
                             className="mr-4 text-sm font-bold text-gray-600 hover:underline"
                             rel="noopener noreferrer">
-                            <FontAwesomeIcon
-                                className="mr-2 text-gray-600"
-                                icon={faLink}
-                            />
+                            <LinkIcon className="mr-2 -mt-0.5 text-gray-600 inline-block" />
                             IDMS-koppeling
                         </a>
                     ) : null}
@@ -173,7 +169,7 @@ const EigenarenList = ({ eigenaren }: { eigenaren: any }) => {
                                 {getAbbrevationFromUsername(eigenaren[item])}
                             </span>
 
-                            <div className="absolute top-0 left-0 z-10 hidden inline-block px-4 py-3 mt-10 rounded whitespace-nowrap popup-gebruikersinfo">
+                            <div className="absolute top-0 left-0 z-10 hidden px-4 py-3 mt-10 rounded whitespace-nowrap popup-gebruikersinfo">
                                 <div className="block text-xs">
                                     {getPersonenRol(item)}
                                 </div>

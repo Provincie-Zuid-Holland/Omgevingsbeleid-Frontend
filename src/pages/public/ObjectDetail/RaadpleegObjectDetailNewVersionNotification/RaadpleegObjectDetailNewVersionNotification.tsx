@@ -1,5 +1,4 @@
-import { faInfoCircle } from '@fortawesome/pro-light-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Notification } from '@pzh-ui/components'
 import { Link } from 'react-router-dom'
 
 import getDimensionsConstants from '@/utils/getDimensionsConstants'
@@ -91,72 +90,71 @@ function RaadpleegObjectDetailNewVersionNotification({
         return null
 
     return (
-        <div className="flex w-full px-3 pt-5 pb-4 mt-4 bg-pzh-blue-light bg-opacity-20 text-pzh-blue-dark">
-            <div className="pl-2 pr-4">
-                <FontAwesomeIcon icon={faInfoCircle} className="text-lg" />
-            </div>
-            {isNewWithNoEffectiveVersionPresent ? (
-                <span>
-                    Op dit moment is dit beleid nog niet vigerend en nog in
-                    ontwerp
-                </span>
-            ) : isValidButNewPublicDraftWithStatusInInspraakAvailable ? (
-                <span>
-                    Op dit moment ligt er een nieuwe versie van deze{' '}
-                    {titleSingular.toLowerCase()} ter inzage,{' '}
-                    <Link
-                        className="underline"
-                        to={`/${objectSlug}/${Latest_Version}`}>
-                        bekijk deze versie hier
-                    </Link>
-                </span>
-            ) : isValidButNewPublicDraftWithStatusVastgesteldAvailable ? (
-                <span>
-                    Er is een nieuwe versie van deze{' '}
-                    {titleSingular.toLowerCase()} vastgesteld,{' '}
-                    <Link
-                        className="underline"
-                        to={`/${objectSlug}/${Latest_Version}`}>
-                        bekijk deze versie hier
-                    </Link>
-                </span>
-            ) : isNewWithEffectiveVersionPresent ? (
-                <span>
-                    Let op! Deze versie is nog niet vigerend,{' '}
-                    <Link
-                        className="underline"
-                        to={`/${objectSlug}/${Effective_Version}`}>
-                        bekijk hier de vigerende versie
-                    </Link>
-                </span>
-            ) : isValidAndArchived ? (
-                <span>
-                    Let op, dit is een verouderde versie van deze{' '}
-                    {titleSingular.toLowerCase()},{' '}
-                    <Link
-                        className="underline"
-                        to={`/${objectSlug}/${Effective_Version}`}>
-                        bekijk hier de vigerende versie
-                    </Link>
-                </span>
-            ) : isValidButNewPublicDraftAvailable ? (
-                <span>
-                    Op dit moment wordt er gewerkt aan een nieuwe versie van
-                    deze {titleSingular.toLowerCase()},{' '}
-                    <Link
-                        className="underline"
-                        to={`/${objectSlug}/${Latest_Version}`}>
-                        bekijk hier de meest actuele versie.
-                    </Link>
-                </span>
-            ) : isValidButNewNonPublicDraftAvailable ? (
-                <span>
-                    Op dit moment wordt er gewerkt aan een nieuwe versie van
-                    deze beleidskeuze. Zodra deze versie openbaar wordt, is hij
-                    hier terug te vinden.
-                </span>
-            ) : null}
-        </div>
+        <Notification className="mt-4">
+            <>
+                {isNewWithNoEffectiveVersionPresent ? (
+                    <span>
+                        Op dit moment is dit beleid nog niet vigerend en nog in
+                        ontwerp
+                    </span>
+                ) : isValidButNewPublicDraftWithStatusInInspraakAvailable ? (
+                    <span>
+                        Op dit moment ligt er een nieuwe versie van deze{' '}
+                        {titleSingular.toLowerCase()} ter inzage,{' '}
+                        <Link
+                            className="underline"
+                            to={`/${objectSlug}/${Latest_Version}`}>
+                            bekijk deze versie hier
+                        </Link>
+                    </span>
+                ) : isValidButNewPublicDraftWithStatusVastgesteldAvailable ? (
+                    <span>
+                        Er is een nieuwe versie van deze{' '}
+                        {titleSingular.toLowerCase()} vastgesteld,{' '}
+                        <Link
+                            className="underline"
+                            to={`/${objectSlug}/${Latest_Version}`}>
+                            bekijk deze versie hier
+                        </Link>
+                    </span>
+                ) : isNewWithEffectiveVersionPresent ? (
+                    <span>
+                        Let op! Deze versie is nog niet vigerend,{' '}
+                        <Link
+                            className="underline"
+                            to={`/${objectSlug}/${Effective_Version}`}>
+                            bekijk hier de vigerende versie
+                        </Link>
+                    </span>
+                ) : isValidAndArchived ? (
+                    <span>
+                        Let op, dit is een verouderde versie van deze{' '}
+                        {titleSingular.toLowerCase()},{' '}
+                        <Link
+                            className="underline"
+                            to={`/${objectSlug}/${Effective_Version}`}>
+                            bekijk hier de vigerende versie
+                        </Link>
+                    </span>
+                ) : isValidButNewPublicDraftAvailable ? (
+                    <span>
+                        Op dit moment wordt er gewerkt aan een nieuwe versie van
+                        deze {titleSingular.toLowerCase()},{' '}
+                        <Link
+                            className="underline"
+                            to={`/${objectSlug}/${Latest_Version}`}>
+                            bekijk hier de meest actuele versie.
+                        </Link>
+                    </span>
+                ) : isValidButNewNonPublicDraftAvailable ? (
+                    <span>
+                        Op dit moment wordt er gewerkt aan een nieuwe versie van
+                        deze beleidskeuze. Zodra deze versie openbaar wordt, is
+                        hij hier terug te vinden.
+                    </span>
+                ) : null}
+            </>
+        </Notification>
     )
 }
 

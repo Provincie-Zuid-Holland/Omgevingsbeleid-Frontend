@@ -1,12 +1,6 @@
 /* istanbul ignore file */
-import {
-    faTag,
-    faParagraph,
-    faAlignLeft,
-    faHeading,
-} from '@fortawesome/pro-regular-svg-icons'
-import { faPlus } from '@fortawesome/pro-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Heading, Tag } from '@pzh-ui/components'
+import { AlignLeft, Paragraph, Plus } from '@pzh-ui/icons'
 import { Component, createRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useSpring, animated } from 'react-spring'
@@ -46,9 +40,9 @@ function VoegSectieToePopup({
                         <Link
                             className="inline-block w-24 p-4 font-bold text-center rounded cursor-pointer hover:bg-gray-100"
                             to={`/muteer/verordeningen/${lineageID}/nieuw/Hoofdstuk?hoofdstuk=${hoofdstukIndex}&nest_1=${nest_1}&nest_2=${nest_2}&nest_3=${nest_3}`}>
-                            <FontAwesomeIcon
-                                className="relative inline-block mb-2 text-lg"
-                                icon={faHeading}
+                            <Heading
+                                size={18}
+                                className="relative inline-block mb-2"
                             />
                             <span className="block">Hoofdstuk</span>
                         </Link>
@@ -59,9 +53,9 @@ function VoegSectieToePopup({
                         <Link
                             className="inline-block w-24 p-4 font-bold text-center rounded cursor-pointer hover:bg-gray-100"
                             to={`/muteer/verordeningen/${lineageID}/nieuw/Afdeling?hoofdstuk=${hoofdstukIndex}&nest_1=${nest_1}&nest_2=${nest_2}&nest_3=${nest_3}`}>
-                            <FontAwesomeIcon
-                                className="relative inline-block mb-2 text-lg"
-                                icon={faTag}
+                            <Tag
+                                size={18}
+                                className="relative inline-block mb-2"
                             />
                             <span className="block">Afdeling</span>
                         </Link>
@@ -74,9 +68,9 @@ function VoegSectieToePopup({
                         <Link
                             className="inline-block w-24 p-4 font-bold text-center rounded cursor-pointer hover:bg-gray-100"
                             to={`/muteer/verordeningen/${lineageID}/nieuw/Paragraaf?hoofdstuk=${hoofdstukIndex}&nest_1=${nest_1}&nest_2=${nest_2}&nest_3=${nest_3}`}>
-                            <FontAwesomeIcon
-                                className="relative inline-block mb-2 text-lg"
-                                icon={faParagraph}
+                            <Paragraph
+                                size={18}
+                                className="relative inline-block mb-2"
                             />
                             <span className="block">Paragraaf</span>
                         </Link>
@@ -87,9 +81,9 @@ function VoegSectieToePopup({
                         <Link
                             className="inline-block w-24 p-4 font-bold text-center rounded cursor-pointer hover:bg-gray-100"
                             to={`/muteer/verordeningen/${lineageID}/nieuw/Artikel?hoofdstuk=${hoofdstukIndex}&nest_1=${nest_1}&nest_2=${nest_2}&nest_3=${nest_3}`}>
-                            <FontAwesomeIcon
-                                className="relative inline-block mb-2 text-lg"
-                                icon={faAlignLeft}
+                            <AlignLeft
+                                size={18}
+                                className="relative inline-block mb-2"
                             />
                             <span className="block">Artikel</span>
                         </Link>
@@ -155,10 +149,7 @@ class AddSection extends Component {
                 <div className="absolute w-full h-0 border-b border-gray-300 opacity-0 cursor-pointer popup-divider transition-regular" />
                 <span className="z-10 p-2 bg-white rounded-full cursor-pointer popup-plus-icon transition-regular">
                     <span className="flex items-center justify-center w-5 h-5 font-bold bg-white border-2 rounded-full border-pzh-green text-pzh-green">
-                        <FontAwesomeIcon
-                            className="relative text-xs text-pzh-green"
-                            icon={faPlus}
-                        />
+                        <Plus className="relative text-pzh-green" />
                     </span>
                 </span>
                 {this.state.showPopup ? (
