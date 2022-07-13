@@ -241,7 +241,12 @@ export default function PasswordChangeModal({
                         data-testid="close-password-forget-popup">
                         Annuleren
                     </button>
-                    <Button variant="cta" label="Wijzig" isLoading={loading} />
+                    <Button
+                        type="submit"
+                        variant="cta"
+                        label="Wijzig"
+                        isLoading={loading}
+                    />
                 </div>
             </form>
 

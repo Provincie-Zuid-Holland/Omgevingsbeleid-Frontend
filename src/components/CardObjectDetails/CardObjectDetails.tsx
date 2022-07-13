@@ -43,7 +43,7 @@ function CardObjectDetails({
         hoofdOnderdeelSlug === 'beleidskeuzes'
 
     const detailPageLink = `/muteer/${hoofdOnderdeelSlug}/${object.ID}/${
-        !hasDetail ? 'bewerk' : ''
+        hasDetail ? 'bewerk' : ''
     }${mijnBeleid ? '#mijn-beleid' : ''}`
 
     const charactersInTitle = object.Titel?.length || 0

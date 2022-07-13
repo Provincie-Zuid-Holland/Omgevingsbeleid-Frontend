@@ -28,10 +28,22 @@ const SortIcon = ({ sorting, property }: SortIconProps) => {
     }`
 
     if (sorting[property as keyof typeof sorting]) {
-        return <ArrowUpWideShort size={16} className={className} />
+        return (
+            <ArrowUpWideShort
+                size={16}
+                className={className + ' fa-sort-amount-up'}
+                data-testid="sort-icon"
+            />
+        )
     }
 
-    return <ArrowDownWideShort size={16} className={className} />
+    return (
+        <ArrowDownWideShort
+            size={16}
+            className={className + ' fa-sort-amount-down'}
+            data-testid="sort-icon"
+        />
+    )
 }
 
 export default SortIcon
