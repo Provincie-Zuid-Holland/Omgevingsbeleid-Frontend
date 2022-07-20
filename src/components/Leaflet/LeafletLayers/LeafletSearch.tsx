@@ -1,5 +1,4 @@
-import { faSearch } from '@fortawesome/pro-light-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { MagnifyingGlass } from '@pzh-ui/icons'
 import { ControlPosition, Marker } from 'leaflet'
 import { useEffect, useRef, useState } from 'react'
 import { useMap } from 'react-leaflet'
@@ -49,9 +48,9 @@ const LeafletSearch = ({ position = 'topleft' }: LeafletSearchProps) => {
                         showLeafletSearch ? 'border-r border-gray-300' : null
                     }`}
                     onClick={toggleLeafletSearch}>
-                    <FontAwesomeIcon
-                        className="inline-block text-sm cursor-pointer"
-                        icon={faSearch}
+                    <MagnifyingGlass
+                        size={16}
+                        className="inline-block cursor-pointer"
                         onClick={toggleLeafletSearch}
                     />
                 </div>

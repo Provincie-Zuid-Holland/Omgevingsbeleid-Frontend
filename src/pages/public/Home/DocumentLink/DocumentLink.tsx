@@ -1,12 +1,9 @@
-import { IconProp } from '@fortawesome/fontawesome-svg-core'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
 import Text from '@/components/Text'
 
 interface DocumentLinkProps {
     href: string
     title: string
-    iconLeft: IconProp
+    iconLeft: JSX.Element
     className?: string
 }
 
@@ -24,9 +21,7 @@ const DocumentLink = ({
             rel="noopener noreferrer"
             className="flex items-center justify-between">
             <div className="flex">
-                <span className="flex items-center">
-                    <FontAwesomeIcon icon={iconLeft} />
-                </span>
+                <span className="flex items-center">{iconLeft}</span>
                 <Text
                     color="text-pzh-green hover:text-pzh-green-dark"
                     className="ml-2 underline"

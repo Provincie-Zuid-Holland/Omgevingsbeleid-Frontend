@@ -1,9 +1,4 @@
-import {
-    faSortAmountDownAlt,
-    faSortAmountUpAlt,
-} from '@fortawesome/pro-regular-svg-icons'
-import { faInfoCircle } from '@fortawesome/pro-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { ArrowDownWideShort, ArrowUpWideShort, CircleInfo } from '@pzh-ui/icons'
 import Tippy from '@tippyjs/react'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -86,14 +81,17 @@ function TableLatestEdits({ edits = [], isLoading }: TableLatestEditsProps) {
                                                 setAscending(!ascending)
                                             }>
                                             Laatst bewerkt{' '}
-                                            <FontAwesomeIcon
-                                                className={`ml-2 text-base relative -mt-2`}
-                                                icon={
-                                                    ascending
-                                                        ? faSortAmountDownAlt
-                                                        : faSortAmountUpAlt
-                                                }
-                                            />
+                                            {ascending ? (
+                                                <ArrowDownWideShort
+                                                    size={16}
+                                                    className="ml-2 -mt-0.5 inline-block"
+                                                />
+                                            ) : (
+                                                <ArrowUpWideShort
+                                                    size={16}
+                                                    className="ml-2 -mt-0.5 inline-block"
+                                                />
+                                            )}
                                         </button>
                                     </th>
                                 </tr>
@@ -173,7 +171,7 @@ const StatusComponent = ({
                     </a>
                 }>
                 <div className="inline-block ml-1 transition-colors duration-500 ease-in cursor-pointer text-pzh-dark-blue opacity-40 hover:opacity-80">
-                    <FontAwesomeIcon icon={faInfoCircle} />
+                    <CircleInfo />
                 </div>
             </Tippy>
         </span>

@@ -1,9 +1,4 @@
-import {
-    faPlusSquare,
-    faMinusSquare,
-    faBars,
-} from '@fortawesome/pro-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Bars, Minus, Plus } from '@pzh-ui/icons'
 import { useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useLockBodyScroll, useWindowSize } from 'react-use'
@@ -79,7 +74,7 @@ function VerordeningSidebar({ verordening }: VerordeningSidebarProps) {
                 id="small-screen-verordening-nav"
                 onClick={() => setIsOpen(!isOpen)}
                 className="fixed left-0 z-50 flex items-center justify-center w-full py-2 text-lg transition-colors duration-150 ease-in bg-white border-t border-b cursor-pointer lg:hidden hover:bg-gray-50">
-                <FontAwesomeIcon icon={faBars} className="mr-2 text-pzh-blue" />
+                <Bars className="mr-2 text-pzh-blue" />
                 <span className="mt-1 font-bold text-pzh-blue">Inhoud</span>
             </div>
             <div
@@ -144,12 +139,16 @@ const VerordeningSidebarItem = ({
                     <button
                         onClick={() => hasChildren && setIsOpen(!isOpen)}
                         className="cursor-pointer">
-                        <FontAwesomeIcon
-                            className={`mr-2 ${
-                                hasChildren ? 'inline-block' : 'opacity-0'
+                        <div
+                            className={`mr-2 inline-flex bg-pzh-blue-dark text-white${
+                                hasChildren
+                                    ? ' items-center justify-center'
+                                    : ' opacity-0'
                             }`}
-                            icon={isOpen ? faMinusSquare : faPlusSquare}
-                        />
+                            style={{ width: 13, height: 13, borderRadius: 2 }}>
+                            {isOpen ? <Minus size={11} /> : <Plus size={11} />}
+                        </div>
+
                         <span className="font-bold">
                             {item.Type} {item.Volgnummer}
                         </span>

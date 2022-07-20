@@ -1,8 +1,7 @@
 /* istanbul ignore file */
 
-import { faPlus } from '@fortawesome/pro-regular-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Transition } from '@headlessui/react'
+import { Plus } from '@pzh-ui/icons'
 import { useContext, useLayoutEffect, useState } from 'react'
 
 import VerordeningContext from '../VerordeningContext'
@@ -83,10 +82,7 @@ const AddObjectButton = ({ nestType, item, index }) => {
                     addSection({ index: index })
                 }}>
                 <div className="flex items-center justify-center w-full px-5 py-2 my-4 bg-green-100 border border-green-500 border-dashed cursor-pointer hover:bg-green-200">
-                    <FontAwesomeIcon
-                        className="text-sm text-green-500"
-                        icon={faPlus}
-                    />
+                    <Plus className="text-green-500" />
                 </div>
             </div>
         </Transition>

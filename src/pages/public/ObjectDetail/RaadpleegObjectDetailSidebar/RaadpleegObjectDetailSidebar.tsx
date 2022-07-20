@@ -1,5 +1,4 @@
-import { faInfoCircle } from '@fortawesome/pro-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { CircleInfo } from '@pzh-ui/icons'
 import Tippy from '@tippyjs/react'
 import { useRef, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
@@ -110,7 +109,7 @@ const Status = ({ status }: { status: undefined | string }) => {
                         </span>
                     </Link>
                 }>
-                <div className="hidden xl:inline group">
+                <div className="hidden xl:inline-flex items-center group">
                     <Text
                         type="span"
                         className="font-bold"
@@ -119,7 +118,7 @@ const Status = ({ status }: { status: undefined | string }) => {
                     </Text>
                     {status ? (
                         <div className="inline-block ml-1 transition-colors duration-500 ease-in cursor-pointer text-pzh-dark-blue opacity-40 group-hover:opacity-80">
-                            <FontAwesomeIcon icon={faInfoCircle} />
+                            <CircleInfo />
                         </div>
                     ) : null}
                 </div>

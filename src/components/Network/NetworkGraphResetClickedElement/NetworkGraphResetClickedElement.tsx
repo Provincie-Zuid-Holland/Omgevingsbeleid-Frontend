@@ -1,6 +1,5 @@
-import { faUndo } from '@fortawesome/pro-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Transition } from '@headlessui/react'
+import { RotateLeft } from '@pzh-ui/icons'
 import { useEffect, useState } from 'react'
 
 /**
@@ -46,7 +45,7 @@ const NetworkGraphResetClickedElement = ({
                             onClick={() => resetNodes && resetNodes()}
                             className="relative flex items-center justify-center px-2 py-2 mt-0 text-lg transition-shadow duration-100 ease-in bg-white rounded shadow-md cursor-pointer pointer-events-auto hover:shadow-lg"
                             data-testid="button-reset-nodes">
-                            <FontAwesomeIcon icon={faUndo} />
+                            <RotateLeft />
                         </div>
                     </Transition>
                 </div>

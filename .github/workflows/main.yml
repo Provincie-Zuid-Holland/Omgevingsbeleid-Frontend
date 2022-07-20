@@ -16,7 +16,6 @@ jobs:
             REACT_APP_API_ENV: dev
             REACT_APP_KEY_API_ACCESS_TOKEN: OB_access_token
             REACT_APP_KEY_IDENTIFIER: OB_identifier
-            PZH_FONTAWESOME_SECRET: ${{ secrets.PZH_FONTAWESOME_SECRET }}
 
         steps:
             - name: Checkout repository

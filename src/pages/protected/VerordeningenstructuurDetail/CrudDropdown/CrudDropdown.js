@@ -1,12 +1,7 @@
 /* istanbul ignore file */
 
-import {
-    faEllipsisH,
-    faSpinner,
-    faTimes,
-} from '@fortawesome/pro-regular-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Transition } from '@headlessui/react'
+import { Ellipsis, Spinner, Xmark } from '@pzh-ui/icons'
 import { useContext, useRef, useState } from 'react'
 import { useClickAway, useKey } from 'react-use'
 
@@ -50,17 +45,14 @@ const CrudDropdown = ({ item, pathToIndex }) => {
                 }`}>
                 {verordeningsObjectIsLoading ? (
                     <span className="flex items-center justify-center w-12 h-full cursor-pointer">
-                        <FontAwesomeIcon
-                            className="text-gray-500 rotate-icon"
-                            icon={faSpinner}
-                        />
+                        <Spinner className="text-gray-500 animate-spin" />
                     </span>
                 ) : !verordeningsObjectIsLoading &&
                   !verordeningsObjectFromGET ? (
                     <button
                         onClick={() => setIsOpen(!isOpen)}
                         className="flex items-center justify-center w-12 h-full cursor-pointer">
-                        <FontAwesomeIcon icon={faEllipsisH} />
+                        <Ellipsis />
                     </button>
                 ) : null}
 
@@ -153,11 +145,11 @@ const ConfirmDelete = ({ item, deleteItem, show, setDeleteIsOpen }) => {
                                         {item.Volgnummer}
                                     </h3>
                                     <span
-                                        className="p-2 cursor-pointer"
+                                        className="cursor-pointer"
                                         onClick={() => setDeleteIsOpen(false)}>
-                                        <FontAwesomeIcon
+                                        <Xmark
+                                            size={18}
                                             className="text-pzh-blue"
-                                            icon={faTimes}
                                         />
                                     </span>
                                 </div>

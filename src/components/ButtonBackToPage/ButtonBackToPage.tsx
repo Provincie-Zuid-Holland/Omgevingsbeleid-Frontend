@@ -1,5 +1,4 @@
-import { faAngleLeft } from '@fortawesome/pro-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { AngleLeft } from '@pzh-ui/icons'
 import { Link } from 'react-router-dom'
 
 /**
@@ -23,7 +22,7 @@ const ButtonBackToPage = ({ terugNaar, color, url }: ButtonBackToPageProps) => {
     }
     return (
         <Link to={url} className={`${color} text-l mb-4 inline-block`}>
-            <FontAwesomeIcon className="mr-2" icon={faAngleLeft} />
+            <AngleLeft className="mr-2 -mt-[2px] inline-block" />
             <span>Terug naar {terugNaar}</span>
         </Link>
     )
