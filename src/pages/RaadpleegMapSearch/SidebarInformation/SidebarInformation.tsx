@@ -95,9 +95,12 @@ const SidebarInformation = ({
                 className="pb-8 lg:pb-16 pt-4 md:pt-12 lg:pt-16 lg:px-20 md:px-10 md:max-w-570 md:min-w-570 overflow-auto">
                 <Heading level="1">Zoeken op de kaart</Heading>
                 <Text type="introduction-paragraph" className="mt-3">
-                    Een stukje pakkende tekst wat vertelt dat dit eigenlijk meer
-                    voor andere overheden en grote bedrijven is, dan voor de
-                    bezoeker die een schuurtje in zijn tuin wilt bouwen.
+                    Via deze pagina kun je uitgebreid zoeken welk beleid op
+                    welke locatie van toepassing is. Hiermee wordt duidelijk wat
+                    de provincie Zuid-Holland in een bepaald gebied wil
+                    bereiken. Veel beleid is kaderstellend en richtinggevend van
+                    aard en daarom bedoeld om aan te geven waar de provincie
+                    voor staat en belang aan hecht.
                 </Text>
                 <InfoText
                     title="Teken een gebied of plaats een speld"
