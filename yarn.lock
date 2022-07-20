@@ -11184,10 +11184,10 @@ react-leaflet@^3.2.5:
   dependencies:
     "@react-leaflet/core" "^1.1.1"
 
-react-lines-ellipsis@^0.15.0:
-  version "0.15.1"
-  resolved "https://registry.yarnpkg.com/react-lines-ellipsis/-/react-lines-ellipsis-0.15.1.tgz#7e2c3bda08458ef6116fac31e0e75cdd0285ff77"
-  integrity sha512-u84rLwoQx+ixuIdPGY9MrdduBBkjeGVchBH502Mn0ExPgHBEch3Sd7CNEQQSBm3w3+aePzXaD6dVaczdURmNPg==
+react-lines-ellipsis@0.15.0:
+  version "0.15.0"
+  resolved "https://registry.yarnpkg.com/react-lines-ellipsis/-/react-lines-ellipsis-0.15.0.tgz#07ecc8095f7d598e676ee662c637bd373f3552f4"
+  integrity sha512-8kWpEmu7ijmB6Gz5t+eSjNux2SpVXZBsmfeFE8LjMS7tU3H8ai475CyNc0dH0RDTwt4Esr7c06Xq4SB7Gpl9yQ==
 
 react-onclickoutside@^6.12.0:
   version "6.12.2"
