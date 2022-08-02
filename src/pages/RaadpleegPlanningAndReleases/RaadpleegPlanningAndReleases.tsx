@@ -1,4 +1,12 @@
-import { ArrowUpRightFromSquare } from '@pzh-ui/icons'
+import {
+    ArrowUpRightFromSquare,
+    Check,
+    Code,
+    Cubes,
+    FileExport,
+    FileLines,
+    UniversalAccess,
+} from '@pzh-ui/icons'
 import { FC, useState } from 'react'
 
 import { Container } from '@/components/Container'
@@ -69,33 +77,45 @@ const RaadpleegPlanningAndReleases = () => (
                 Deze grotere onderdelen hebben wij op een roadmap staan.
             </Text>
             <OntwikkelingenList>
-                <OntwikkelingenListItem title="Exports automatiseren">
+                <OntwikkelingenListItem
+                    title="Exports automatiseren"
+                    icon={<FileExport size={22} />}>
                     Als provincie willen we het publiceren van ons beleid
                     automatiseren. Daardoor wordt het eenvoudiger en sneller om
                     ons beleid te exporteren naar het landelijk Omgevingsloket.
                 </OntwikkelingenListItem>
-                <OntwikkelingenListItem title="Digitoegankelijk">
+                <OntwikkelingenListItem
+                    title="Digitoegankelijk"
+                    icon={<UniversalAccess size={22} />}>
                     Als overheid zijn we ervan overtuigd dat iedereen ons beleid
                     moet kunnen vinden. Daarom maken we het systeem
                     digitoegankelijk zodat iedereen er gebruik van kan maken.
                 </OntwikkelingenListItem>
-                <OntwikkelingenListItem title="Open Source">
+                <OntwikkelingenListItem
+                    title="Open Source"
+                    icon={<Code size={22} />}>
                     De code die wordt geschreven door ons team stellen we ook
                     beschikbaar aan andere overheden. Op die manier kunnen
                     andere overheden meedenken en makkelijker een eigen systeem
                     maken.
                 </OntwikkelingenListItem>
-                <OntwikkelingenListItem title="Zoeken op de kaart">
+                <OntwikkelingenListItem
+                    title="Zoeken op de kaart"
+                    icon={<Check size={22} />}>
                     Het zoeken op de kaart willen we verbeteren. Door onder
                     andere gebieden te kunnen tekenen krijg je meer informatie
                     en betere zoekresultaten te zien.
                 </OntwikkelingenListItem>
-                <OntwikkelingenListItem title="Inhoudelijke verrijking">
+                <OntwikkelingenListItem
+                    title="Inhoudelijke verrijking"
+                    icon={<FileLines size={22} />}>
                     Het complete omgevingsbeleid moet straks terug te vinden
                     zijn in deze omgeving. Daarom zullen we de komende tijd aan
                     de slag gaan om de database uit te breiden.
                 </OntwikkelingenListItem>
-                <OntwikkelingenListItem title="Modulair Werken">
+                <OntwikkelingenListItem
+                    title="Modulair Werken"
+                    icon={<Cubes size={22} />}>
                     Vaak worden meerdere wijzigingen tegelijkertijd in ons
                     beleid doorgevoerd. Met modulair werken willen we dit beter
                     ondersteunen zodat direct helder wordt wat er wordt
@@ -209,10 +229,14 @@ const OntwikkelingenList: FC = ({ children }) => (
     <ul className="grid grid-cols-6 col-span-6 gap-x-10 gap-y-0">{children}</ul>
 )
 
-const OntwikkelingenListItem: FC<{ title: string }> = ({ children, title }) => (
+const OntwikkelingenListItem: FC<{ title: string; icon?: JSX.Element }> = ({
+    children,
+    title,
+    icon,
+}) => (
     <li className="relative col-span-6 pl-8 mt-6 lg:col-span-3 sm:mt-8">
-        <span className="absolute left-0 w-4 h-4">
-            <ArrowUpRightFromSquare size={22} className="text-pzh-pink-dark" />
+        <span className="absolute left-0 w-4 h-4 text-pzh-pink-dark">
+            {icon ? icon : <ArrowUpRightFromSquare size={22} />}
         </span>
         <div>
             <Heading level="3" className="text-pzh-pink-dark">

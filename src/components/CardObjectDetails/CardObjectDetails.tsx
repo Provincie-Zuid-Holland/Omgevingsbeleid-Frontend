@@ -61,7 +61,7 @@ function CardObjectDetails({
                     to={detailPageLink}
                     id={elementID}>
                     <span
-                        className="block py-1 text-sm font-light text-gray-600 font-bold"
+                        className="block py-1 text-sm text-gray-600 font-bold"
                         data-testid="card-object-title">
                         {titleSingular}
                     </span>

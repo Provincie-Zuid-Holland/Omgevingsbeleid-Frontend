@@ -7,7 +7,7 @@ const ContainerViewFieldsBeleidsdoelen = ({
 }) =>
     crudObject['Omschrijving'] ? (
         <ViewFieldTitelEnInhoud
-            fieldTitel="Omschrijving"
+            // fieldTitel="Omschrijving"
             fieldValue={crudObject['Omschrijving']}
         />
     ) : null

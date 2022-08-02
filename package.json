@@ -6,10 +6,10 @@
     "dependencies": {
         "@craco/craco": "7.0.0-alpha.3",
         "@headlessui/react": "^1.5.0",
-        "@pzh-ui/components": "^0.0.178",
+        "@pzh-ui/components": "^0.0.181",
         "@pzh-ui/config": "^0.0.18",
         "@pzh-ui/css": "^0.0.48",
-        "@pzh-ui/icons": "^0.0.10",
+        "@pzh-ui/icons": "^0.0.11",
         "@sentry/browser": "^6.11.0",
         "@tippyjs/react": "^4.2.5",
         "axios": "^0.24.0",

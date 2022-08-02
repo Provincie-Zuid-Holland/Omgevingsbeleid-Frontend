@@ -85,10 +85,7 @@ const RaadpleegObjectDetailMain: FC<RaadpleegObjectDetailMainProps> = ({
             </div>
             <div className="hidden xl:block">{children}</div>
             {/* These contain the fields that need to be displayed for the different objects */}
-            <div
-                className={`mt-4 ${
-                    titleSingular === 'Beleidskeuze' ? '' : 'md:pb-20'
-                }`}>
+            <div className="mt-4">
                 {titleSingular === 'Beleidskeuze' ? (
                     <ContainerViewFieldsBeleidskeuze
                         crudObject={dataObject as BeleidskeuzesRead}
