@@ -148,34 +148,29 @@ const StatusComponent = ({
     policyObject,
 }: {
     policyObject: GetEdits200Item
-}) => {
-    const [tippyOpen, setTippyOpen] = useState(false)
-
-    return (
-        <span onClick={() => setTippyOpen(!tippyOpen)}>
-            {policyObject.Status}{' '}
-            <Tippy
-                visible={tippyOpen}
-                content={
-                    <a
-                        onClick={() => setTippyOpen(false)}
-                        className="text-sm pointer-events-auto"
-                        href="#besluitvormingsproces">
-                        <span className="block font-bold">
-                            {policyObject.Status}
-                        </span>
-                        <span className="block">
-                            Bekijk de uitleg en betekenis van statussen{' '}
-                            <span className="underline">hier</span>
-                        </span>
-                    </a>
-                }>
-                <div className="inline-block ml-1 transition-colors duration-500 ease-in cursor-pointer text-pzh-dark-blue opacity-40 hover:opacity-80">
-                    <CircleInfo />
-                </div>
-            </Tippy>
-        </span>
-    )
-}
+}) => (
+    <span>
+        {policyObject.Status}{' '}
+        <Tippy
+            interactive
+            content={
+                <a
+                    className="text-sm pointer-events-auto"
+                    href="#besluitvormingsproces">
+                    <span className="block font-bold">
+                        {policyObject.Status}
+                    </span>
+                    <span className="block">
+                        Bekijk de uitleg en betekenis van statussen{' '}
+                        <span className="underline">hier</span>
+                    </span>
+                </a>
+            }>
+            <div className="inline-block ml-1 transition-colors duration-500 ease-in cursor-pointer text-pzh-dark-blue opacity-40 hover:opacity-80">
+                <CircleInfo />
+            </div>
+        </Tippy>
+    </span>
+)
 
 export default TableLatestEdits

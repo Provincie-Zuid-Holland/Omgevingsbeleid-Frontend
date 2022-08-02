@@ -4,7 +4,7 @@ const ContainerViewFieldsThema = ({ crudObject }: { crudObject: any }) => (
     <>
         {crudObject['Omschrijving'] ? (
             <ViewFieldTitelEnInhoud
-                fieldTitel="Omschrijving"
+                // fieldTitel="Omschrijving"
                 fieldValue={crudObject['Omschrijving']}
             />
         ) : null}

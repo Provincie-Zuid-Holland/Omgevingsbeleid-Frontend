@@ -1,8 +1,7 @@
 import { CircleInfo } from '@pzh-ui/icons'
 import Tippy from '@tippyjs/react'
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { useClickAway } from 'react-use'
 import 'tippy.js/dist/tippy.css'
 
 import BackButton from '@/components/BackButton'
@@ -82,22 +81,16 @@ const RaadpleegObjectDetailSidebar = ({
 }
 
 const Status = ({ status }: { status: undefined | string }) => {
-    const [tippyOpen, setTippyOpen] = useState(false)
     const innerContainer = useRef(null)
 
-    useClickAway(innerContainer, () => {
-        setTippyOpen(false)
-    })
-
     return (
-        <span onClick={() => setTippyOpen(!tippyOpen)}>
+        <span>
             <Tippy
                 ref={innerContainer}
                 placement="left"
-                visible={tippyOpen && typeof status === 'string'}
+                interactive
                 content={
                     <Link
-                        onClick={() => setTippyOpen(false)}
                         className="text-sm pointer-events-auto"
                         to="/in-bewerking#besluitvormingsproces">
                         <span className="block font-bold">
