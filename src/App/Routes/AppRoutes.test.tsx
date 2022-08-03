@@ -6,6 +6,7 @@ import {
     fireEvent,
 } from '@testing-library/react'
 import '@testing-library/jest-dom'
+import { QueryClient, QueryClientProvider } from 'react-query'
 import { MemoryRouter } from 'react-router-dom'
 
 import { AuthContext } from '@/context/AuthContext'
@@ -18,6 +19,8 @@ import { verordeningstructuur } from '@/mocks/data/verordeningstructuur'
 import AppRoutes from './AppRoutes'
 
 describe('AppRoutes', () => {
+    const queryClient = new QueryClient()
+
     const user = {
         Email: 'janedoe@mail.com',
         Gebruikersnaam: 'Jane Doe',
@@ -30,12 +33,16 @@ describe('AppRoutes', () => {
     const setup = (customProps: any, customUser?: any) => {
         const props = { ...defaultProps, ...customProps }
         render(
-            <MemoryRouter initialEntries={['/muteer/dashboard']}>
-                <AuthContext.Provider
-                    value={customUser !== undefined ? customUser : { user }}>
-                    <AppRoutes {...props} />
-                </AuthContext.Provider>
-            </MemoryRouter>
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter initialEntries={['/muteer/dashboard']}>
+                    <AuthContext.Provider
+                        value={
+                            customUser !== undefined ? customUser : { user }
+                        }>
+                        <AppRoutes {...props} />
+                    </AuthContext.Provider>
+                </MemoryRouter>
+            </QueryClientProvider>
         )
     }
 
@@ -98,10 +105,10 @@ describe('AppRoutes', () => {
         navigateToMenuItem('Beleidskeuzes')
 
         await waitFor(() => {
-            screen.getByText('+ Voeg Beleidskeuze Toe')
+            screen.getByText('Nieuwe beleidskeuze')
         })
 
-        fireEvent.click(screen.getByText('+ Voeg Beleidskeuze Toe'))
+        fireEvent.click(screen.getByText('Nieuwe beleidskeuze'))
 
         expect(
             getHeaderTitle('Voeg een nieuwe beleidskeuze toe', 1)
@@ -109,7 +116,7 @@ describe('AppRoutes', () => {
 
         fireEvent.click(screen.getByText('Terug naar beleidskeuzes'))
 
-        const firstBeleidskeuzeTitle = beleidskeuzes[0].Titel
+        const firstBeleidskeuzeTitle = beleidskeuzes[0].Titel || ''
 
         await waitFor(() => {
             screen.getByText(firstBeleidskeuzeTitle)
@@ -124,10 +131,10 @@ describe('AppRoutes', () => {
         navigateToMenuItem('Maatregelen')
 
         await waitFor(() => {
-            screen.getByText('+ Voeg Maatregel Toe')
+            screen.getByText('Nieuwe maatregel')
         })
 
-        fireEvent.click(screen.getByText('+ Voeg Maatregel Toe'))
+        fireEvent.click(screen.getByText('Nieuwe maatregel'))
 
         expect(
             getHeaderTitle('Voeg een nieuwe maatregel toe', 1)
@@ -144,10 +151,10 @@ describe('AppRoutes', () => {
         fireEvent.click(screen.getByText(firstMaatregelTitle))
 
         await waitFor(() => {
-            screen.getByText('Bewerk Maatregel')
+            screen.getByText('Nieuwe maatregel')
         })
 
-        fireEvent.click(screen.getByText('Bewerk Maatregel'))
+        fireEvent.click(screen.getByText('Nieuwe maatregel'))
     })
 
     it('User can navigate to the other object pages', async () => {
@@ -156,10 +163,10 @@ describe('AppRoutes', () => {
         navigateToMenuItem('Ambities')
 
         await waitFor(() => {
-            screen.getByText('+ Voeg Ambitie Toe')
+            screen.getByText('Nieuwe ambitie')
         })
 
-        fireEvent.click(screen.getByText('+ Voeg Ambitie Toe'))
+        fireEvent.click(screen.getByText('Nieuwe ambitie'))
 
         expect(
             getHeaderTitle('Voeg een nieuwe ambitie toe', 1)
@@ -174,10 +181,6 @@ describe('AppRoutes', () => {
         })
 
         fireEvent.click(screen.getByText(firstAmbitieTitle))
-
-        await waitFor(() => {
-            screen.getByText('10 mei 2021')
-        })
     })
 
     it('User can navigate to the beleidsrelatie pages', async () => {
@@ -186,10 +189,10 @@ describe('AppRoutes', () => {
         navigateToMenuItem('Beleidsrelaties')
 
         await waitFor(() => {
-            screen.getByText(beleidskeuzes[0].Titel)
+            screen.getByText(beleidskeuzes[0].Titel || '')
         })
 
-        fireEvent.click(screen.getByText(beleidskeuzes[0].Titel))
+        fireEvent.click(screen.getByText(beleidskeuzes[0].Titel || ''))
 
         fireEvent.click(screen.getByText('Verzoeken'))
         fireEvent.click(screen.getByText('Afgewezen'))
@@ -206,10 +209,10 @@ describe('AppRoutes', () => {
         navigateToMenuItem('Beleidsmodules')
 
         await waitFor(() => {
-            screen.getByText('+ Voeg Beleidsmodule Toe')
+            screen.getByText('Nieuwe beleidsmodule')
         })
 
-        fireEvent.click(screen.getByText('+ Voeg Beleidsmodule Toe'))
+        fireEvent.click(screen.getByText('Nieuwe beleidsmodule'))
 
         expect(
             screen.getByText('Voeg een nieuwe module toe')
@@ -218,7 +221,7 @@ describe('AppRoutes', () => {
         fireEvent.click(screen.getByText('Terug naar beleidsmodules'))
 
         await waitFor(() => {
-            screen.getByText('+ Voeg Beleidsmodule Toe')
+            screen.getByText('Nieuwe beleidsmodule')
         })
 
         fireEvent.click(screen.getByText(beleidsmodules[0].Titel))

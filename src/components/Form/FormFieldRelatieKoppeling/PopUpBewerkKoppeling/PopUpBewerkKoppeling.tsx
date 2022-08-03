@@ -1,5 +1,4 @@
-import { faTimes } from '@fortawesome/pro-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Xmark } from '@pzh-ui/icons'
 import { useState } from 'react'
 
 import { PopUpAnimatedContainer } from '@/components/Popup'
@@ -33,7 +32,7 @@ const PopUpBewerkKoppeling = ({
                 onClick={togglePopup}
                 className="absolute top-0 right-0 px-6 py-4 text-gray-600 cursor-pointer"
                 id={`form-field-koppeling-sluit-popup`}>
-                <FontAwesomeIcon icon={faTimes} />
+                <Xmark size={20} />
             </div>
             <h3 className="font-bold form-field-label">koppelen</h3>
 

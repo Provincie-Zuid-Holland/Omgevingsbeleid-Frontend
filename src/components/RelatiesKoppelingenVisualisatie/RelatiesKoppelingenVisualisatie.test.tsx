@@ -258,8 +258,8 @@ describe('RelatiesKoppelingenVisualisatie', () => {
     }
 
     const setup = (customProps?: any) => {
-        const path = `/detail/beleidskeuzes/89154DA3-2E98-4685-AA9D-A3FB8B9BB596`
-        const initialEntries = `/detail/beleidskeuzes/89154DA3-2E98-4685-AA9D-A3FB8B9BB596`
+        const path = `/beleidskeuzes/89154DA3-2E98-4685-AA9D-A3FB8B9BB596`
+        const initialEntries = `/beleidskeuzes/89154DA3-2E98-4685-AA9D-A3FB8B9BB596`
 
         const props = { ...defaultProps, ...customProps }
         render(

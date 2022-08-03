@@ -46,10 +46,6 @@
     }
 }
 
-.main-sidebar-arrow {
-    margin-top: -1px;
-}
-
 .vertical-label {
     text-orientation: sideways;
     writing-mode: vertical-rl;
@@ -62,10 +58,6 @@
 
 .edit-header {
     margin-top: -48px;
-}
-
-.rotate-icon {
-    animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
@@ -196,6 +188,12 @@
     width: 25px;
     right: -11px;
     top: -5px;
+    animation: pulsate 2s ease-out;
+    animation-iteration-count: infinite;
+    opacity: 0;
+}
+
+.animate-pulsate {
     animation: pulsate 2s ease-out;
     animation-iteration-count: infinite;
     opacity: 0;
@@ -543,4 +541,20 @@ ol li .revision-removal {
 #revisie-from input,
 #revisie-to input {
     box-shadow: none;
+}
+
+.tooltip-triangle {
+    &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 0 10px 10px 10px;
+        border-color: transparent transparent #fff transparent;
+        top: -10px;
+        z-index: 10;
+        right: 10px;
+    }
 }

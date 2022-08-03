@@ -14,7 +14,7 @@ import FeedbackComponent from '@/components/FeedbackComponent'
 import { LoaderContent } from '@/components/Loader'
 import AuthProvider from '@/context/AuthContext'
 import usePage from '@/hooks/usePage'
-import ErrorPage from '@/pages/ErrorPage'
+import { ErrorPage } from '@/pages/public'
 import { BaseLayout } from '@/templates/BaseLayout'
 
 import AppRoutes from './Routes'
@@ -63,7 +63,6 @@ const App = () => {
                     className={classNames(
                         'min-h-screen text-pzh-blue-dark relative',
                         {
-                            'bg-gray-100': userIsInMuteerEnvironment,
                             'advanced-search-page': isAdvancedSearchPage,
                         }
                     )}

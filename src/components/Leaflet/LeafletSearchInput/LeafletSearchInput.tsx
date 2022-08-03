@@ -1,5 +1,4 @@
-import { faSearch } from '@fortawesome/pro-light-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { MagnifyingGlass } from '@pzh-ui/icons'
 import axios from 'axios'
 import { Map, Marker } from 'leaflet'
 import { ChangeEvent, forwardRef, useRef, useState } from 'react'
@@ -182,9 +181,9 @@ const LeafletSearchInput = forwardRef<
                         }}
                     />
                     {withSearchIcon && (
-                        <FontAwesomeIcon
-                            className="inline-block text-sm absolute top-3 right-3"
-                            icon={faSearch}
+                        <MagnifyingGlass
+                            size={16}
+                            className="inline-block absolute top-3 right-3"
                         />
                     )}
                 </div>

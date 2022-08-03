@@ -1,14 +1,12 @@
-import { faInfoCircle } from '@fortawesome/pro-regular-svg-icons'
-import { faTimes } from '@fortawesome/pro-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Transition } from '@headlessui/react'
+import { Button, Notification } from '@pzh-ui/components'
+import { Xmark } from '@pzh-ui/icons'
 import { SyntheticEvent, useEffect, useRef, useState } from 'react'
 import { toast } from 'react-toastify'
 import { useKey, useLockBodyScroll } from 'react-use'
 
 import { postPasswordreset } from '@/api/fetchers'
 
-import { LoaderSpinner } from '../Loader'
 import { PopUpAnimatedContainer } from '../Popup'
 
 /**
@@ -100,7 +98,7 @@ export default function PasswordChangeModal({
     }, [])
 
     return (
-        <PopUpAnimatedContainer small={true} reference={container}>
+        <PopUpAnimatedContainer small reference={container}>
             <div className="flex items-center justify-between mb-4">
                 <h3 className="text-xl font-bold text-gray-800">
                     Wachtwoord wijzigen
@@ -118,7 +116,7 @@ export default function PasswordChangeModal({
                     id={`password-reset-close`}
                     aria-label="Sluiten"
                     tabIndex={0}>
-                    <FontAwesomeIcon icon={faTimes} />
+                    <Xmark />
                 </button>
             </div>
 
@@ -129,7 +127,7 @@ export default function PasswordChangeModal({
                     </span>
                     <input
                         ref={currentPasswordInput}
-                        required={true}
+                        required
                         id={`password-reset-current-password`}
                         value={currentPassword}
                         onChange={e => setCurrentPassword(e.target.value)}
@@ -158,19 +156,11 @@ export default function PasswordChangeModal({
                     </Transition>
                 </label>
 
-                <div className="flex items-start px-4 py-3 mt-4 bg-pzh-blue-light bg-opacity-20">
-                    <div className="pt-1 pr-4">
-                        <FontAwesomeIcon
-                            className="text-md"
-                            icon={faInfoCircle}
-                        />
-                    </div>
-                    <p className="text-sm">
-                        Het nieuwe wachtwoord moet minimaal 12 karakters
-                        bevatten en moet ten minste 1 cijfer, 1 speciaal
-                        karakter en 1 hoofdletter bevatten.
-                    </p>
-                </div>
+                <Notification className="mt-4" size="small">
+                    Het nieuwe wachtwoord moet minimaal 12 karakters bevatten en
+                    moet ten minste 1 cijfer, 1 speciaal karakter en 1
+                    hoofdletter bevatten.
+                </Notification>
 
                 <label className="block mt-4">
                     <span className="font-bold text-gray-700">
@@ -178,7 +168,7 @@ export default function PasswordChangeModal({
                     </span>
                     <input
                         id={`password-reset-new-password`}
-                        required={true}
+                        required
                         value={newPassword}
                         onChange={e => setNewPassword(e.target.value)}
                         className={`block w-full px-4 pt-2 pb-1 mt-1 leading-tight text-gray-700 border appearance-none focus:outline-none ${
@@ -214,7 +204,7 @@ export default function PasswordChangeModal({
                         <sup className="text-pzh-red">*</sup>
                     </span>
                     <input
-                        required={true}
+                        required
                         id={`password-reset-copy-new-password`}
                         value={copyOfNewPassword}
                         onChange={e => setCopyOfNewPassword(e.target.value)}
@@ -251,20 +241,17 @@ export default function PasswordChangeModal({
                         data-testid="close-password-forget-popup">
                         Annuleren
                     </button>
-                    <button
-                        className={`inline-block w-24 py-1 text-white rounded pzh-transition-colors bg-pzh-green hover:bg-pzh-green-dark focus:outline-none focus:ring`}
-                        id="wachtwoord-reset-submit"
-                        type="submit">
-                        {loading ? <LoaderSpinner /> : 'Wijzig'}
-                    </button>
+                    <Button
+                        type="submit"
+                        variant="cta"
+                        label="Wijzig"
+                        isLoading={loading}
+                    />
                 </div>
             </form>
 
-            <div className="flex items-start px-4 py-3 mt-4 bg-pzh-blue-light bg-opacity-20">
-                <div className="pt-1 pr-4">
-                    <FontAwesomeIcon className="text-md" icon={faInfoCircle} />
-                </div>
-                <p className="text-sm">
+            <Notification className="mt-4" size="small">
+                <>
                     Ben je je huidig wachtwoord vergeten? Neem dan contact op
                     met
                     <a
@@ -274,8 +261,8 @@ export default function PasswordChangeModal({
                         id="wachtwoord-reset-mail">
                         omgevingsbeleid@pzh.nl
                     </a>
-                </p>
-            </div>
+                </>
+            </Notification>
         </PopUpAnimatedContainer>
     )
 }

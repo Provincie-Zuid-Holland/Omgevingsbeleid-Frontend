@@ -1,6 +1,5 @@
-import { faAngleRight } from '@fortawesome/pro-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Transition } from '@headlessui/react'
+import { AngleRight } from '@pzh-ui/icons'
 import Tippy from '@tippyjs/react'
 import { Link } from 'react-router-dom'
 import 'tippy.js/dist/tippy.css'
@@ -39,9 +38,14 @@ function CardObjectDetails({
             ? `object-card-${titleSingular.toLowerCase()}-${index}`
             : `object-card-${titleSingular.toLowerCase()}`
 
-    const detailPageLink = `/muteer/${hoofdOnderdeelSlug}/${object.ID}${
-        mijnBeleid ? '#mijn-beleid' : ''
-    }`
+    const hasDetail =
+        hoofdOnderdeelSlug === 'maatregelen' ||
+        hoofdOnderdeelSlug === 'beleidskeuzes' ||
+        hoofdOnderdeelSlug === 'verordeningen'
+
+    const detailPageLink = `/muteer/${hoofdOnderdeelSlug}/${object.ID}/${
+        !hasDetail ? 'bewerk' : ''
+    }${mijnBeleid ? '#mijn-beleid' : ''}`
 
     const charactersInTitle = object.Titel?.length || 0
     const disableTippy = !showTippy || charactersInTitle < 61
@@ -58,11 +62,11 @@ function CardObjectDetails({
             className="w-full h-full">
             <Tippy disabled={disableTippy} content={object.Titel}>
                 <Link
-                    className={`relative h-full w-full inline-block h-full px-4 pt-4 pb-6 overflow-hidden bg-white rounded shadow-md`}
+                    className="relative h-full w-full inline-block px-4 pt-4 pb-6 overflow-hidden bg-white rounded shadow-md"
                     to={detailPageLink}
                     id={elementID}>
                     <span
-                        className="block py-1 text-sm font-light text-gray-600 font-bold"
+                        className="block py-1 text-sm text-gray-600 font-bold"
                         data-testid="card-object-title">
                         {titleSingular}
                     </span>
@@ -70,10 +74,7 @@ function CardObjectDetails({
                         {object.Titel}
                     </h2>
                     <span className="absolute bottom-0 right-0 object-left-top w-8 h-10 font-bold text-gray-400">
-                        <FontAwesomeIcon
-                            className="text-2xl"
-                            icon={faAngleRight}
-                        />
+                        <AngleRight size={24} />
                     </span>
                 </Link>
             </Tippy>

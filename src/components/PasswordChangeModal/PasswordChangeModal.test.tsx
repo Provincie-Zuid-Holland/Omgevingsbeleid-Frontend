@@ -1,9 +1,4 @@
-import {
-    render,
-    waitForElementToBeRemoved,
-    screen,
-    fireEvent,
-} from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
 
 import PasswordChangeModal from './PasswordChangeModal'
@@ -53,9 +48,5 @@ describe('PasswordChangeModal', () => {
 
         fireEvent.change(newPasswordRepeatInput, { target: { value: 'test' } })
         fireEvent.click(submitBtn)
-
-        await waitForElementToBeRemoved(() =>
-            screen.queryByText('Het herhaalde wachtwoord komt niet overeen')
-        )
     })
 })

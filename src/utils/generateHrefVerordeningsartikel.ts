@@ -11,7 +11,7 @@ const generateHrefVerordeningsartikel = (
 
     if (positionInVerordening.length === 0) return null
 
-    const path = `/detail/verordeningen/${
+    const path = `/verordeningen/${
         verordeningsStructure.ID
     }/${uuid}?hoofdstuk=${positionInVerordening[0] || 'null'}&nest_1=${
         positionInVerordening[1] || 'null'

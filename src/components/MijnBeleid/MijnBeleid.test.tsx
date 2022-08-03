@@ -43,7 +43,9 @@ describe('MijnBeleid', () => {
 
         await waitFor(() => {
             beleidskeuzes.forEach(beleidskeuze => {
-                expect(screen.getByText(beleidskeuze.Titel)).toBeInTheDocument()
+                expect(
+                    screen.getByText(beleidskeuze.Titel || '')
+                ).toBeInTheDocument()
             })
 
             maatregelen.forEach(maatregel => {

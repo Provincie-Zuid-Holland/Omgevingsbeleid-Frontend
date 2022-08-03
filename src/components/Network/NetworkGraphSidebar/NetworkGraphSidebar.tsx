@@ -1,9 +1,4 @@
-import {
-    faArrowLeft,
-    faChevronDown,
-    faChevronUp,
-} from '@fortawesome/pro-regular-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { AngleDown, AngleUp, ArrowLeft } from '@pzh-ui/icons'
 import { useEffect, useState } from 'react'
 import { useWindowSize } from 'react-use'
 
@@ -42,7 +37,7 @@ const NetworkGraphSidebar = ({
             <div
                 className="mb-6 text-sm text-pzh-blue cursor-pointer opacity-75 hover:opacity-100 transition-opacity ease-in duration-100 inline-block"
                 onClick={() => back()}>
-                <FontAwesomeIcon className="mr-2" icon={faArrowLeft} />
+                <ArrowLeft className="mr-2 -mt-0.5 inline-block" />
                 <span>Vorige pagina</span>
             </div>
             <h2
@@ -54,10 +49,11 @@ const NetworkGraphSidebar = ({
                 }}>
                 {isTablet ? `${isOpen ? 'Sluit' : 'Open'} filters` : 'Filters'}
                 {isTablet ? (
-                    <FontAwesomeIcon
-                        className={`ml-4`}
-                        icon={isOpen ? faChevronUp : faChevronDown}
-                    />
+                    isOpen ? (
+                        <AngleUp className="ml-4 inline-block" />
+                    ) : (
+                        <AngleDown className="ml-4 inline-block" />
+                    )
                 ) : null}
             </h2>
             {isOpen

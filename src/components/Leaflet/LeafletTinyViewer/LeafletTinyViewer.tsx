@@ -121,6 +121,7 @@ const LeafletTinyViewerInner = ({
                 )
 
                 geoJsonLayer.addTo(map)
+                onderverdelingJsonLayer.addTo(map)
 
                 const geoJsonLayerArray: Layer[] = []
                 const onderverdelingLayerArray: Layer[] = []
