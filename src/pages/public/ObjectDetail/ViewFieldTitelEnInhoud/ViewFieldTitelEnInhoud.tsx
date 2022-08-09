@@ -14,7 +14,7 @@ const ViewFieldTitelEnInhoud = ({
             </h2>
         )}
         <p
-            className={`leading-7 break-words w-full whitespace-pre-line ${
+            className={`leading-6 break-words w-full whitespace-pre-line ${
                 !fieldValue ? 'italic' : ''
             }`}>
             {!fieldValue ? 'Er is nog geen inhoud' : fieldValue}
