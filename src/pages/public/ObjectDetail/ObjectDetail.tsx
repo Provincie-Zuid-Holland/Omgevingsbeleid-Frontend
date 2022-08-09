@@ -120,6 +120,7 @@ const ObjectDetail = ({
 
         // We only want to show the revisions on the type of Beleidskeuze
         if (titleSingular !== 'Beleidskeuze') {
+            setLineageID(null)
             return setDataLoaded(true)
         }
 
