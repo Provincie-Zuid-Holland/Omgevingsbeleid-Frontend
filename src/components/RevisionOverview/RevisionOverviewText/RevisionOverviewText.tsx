@@ -14,7 +14,7 @@ const RevisionOverviewText = ({
             </h3>
         ) : null}
         <p
-            className={`text-gray-800 leading-7 break-words w-full whitespace-pre-line`}
+            className={`text-gray-800 leading-6 break-words w-full whitespace-pre-line`}
             dangerouslySetInnerHTML={{
                 __html: textContent || 'Er is geen inhoud',
             }}

@@ -467,10 +467,16 @@
         letter-spacing: 0.025em;
         margin-bottom: 0.25rem;
     }
+    p,
+    ul {
+        margin-bottom: 20px;
+    }
 }
 .revision-innerhtml,
 .raadpleeg-innerhtml {
-    strong {
+    strong,
+    b {
+        font-family: 'Karbon Medium', sans-serif;
         font-weight: 700;
     }
     ul {
