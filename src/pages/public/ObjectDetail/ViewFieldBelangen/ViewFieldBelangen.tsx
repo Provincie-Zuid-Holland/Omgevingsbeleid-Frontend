@@ -57,7 +57,7 @@ const ViewFieldBelangen = ({ fieldValue }: { fieldValue: any[] }) => {
 
 const BelangenListItem = ({ item }: { item: any }) => (
     <li
-        className="w-full leading-7 text-gray-800 break-words whitespace-pre-line group"
+        className="w-full leading-6 text-gray-800 break-words whitespace-pre-line group"
         key={item.UUID}>
         <Link className="relative cursor-pointer" to={`/belangen/${item.UUID}`}>
             <AngleRight className="inline-block -mt-1" />

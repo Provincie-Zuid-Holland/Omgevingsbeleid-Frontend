@@ -92,7 +92,7 @@ function Pagination({
                 </div>
             ) : (
                 <Button
-                    text="Meer resultaten Laden"
+                    text="Meer resultaten laden"
                     onClick={getNewSearchResults}
                 />
             )}

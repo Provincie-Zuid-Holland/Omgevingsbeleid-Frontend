@@ -65,7 +65,7 @@ const RevisionOverviewBelangen = ({
                             <span className="block mb-1 font-bold m-color-puple">
                                 {belang.Titel}
                             </span>
-                            <p className="w-full leading-7 text-gray-800 break-words whitespace-pre-line">
+                            <p className="w-full leading-6 text-gray-800 break-words whitespace-pre-line">
                                 {belang.Omschrijving}
                             </p>
                         </div>
