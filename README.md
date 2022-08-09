@@ -37,7 +37,8 @@ Create a .env file in the root of the project.
 
 ```jsx
 REACT_APP_API_URL = 'https://api-obzh-dev.azurewebsites.net/v0.1' // Used in the API url (in instance.ts)
-REACT_APP_GEOSERVER_API_URL = 'https://geo-omgevingsbeleid-test.azurewebsites.net' // Used in the Geoserver API url (in axiosGeoJSON.ts)
+REACT_APP_GEOSERVER_API_URL =
+    'https://geo-omgevingsbeleid-test.azurewebsites.net' // Used in the Geoserver API url (in axiosGeoJSON.ts)
 REACT_APP_API_ENV = 'dev' // Used in the API url (in instance.ts)
 REACT_APP_KEY_API_ACCESS_TOKEN = 'OB_access_token' // Used to set login token
 REACT_APP_KEY_IDENTIFIER = 'OB_identifier' // Used to set login identifier
@@ -191,21 +192,155 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://www.copebo.nl"><img src="https://avatars.githubusercontent.com/u/54364210?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Coen</b></sub></a><br /><a href="#design-copebo" title="Design">🎨</a> <a href="#content-copebo" title="Content">🖋</a> <a href="#userTesting-copebo" title="User Testing">📓</a> <a href="#a11y-copebo" title="Accessibility">️️️️♿️</a></td>
-    <td align="center"><a href="https://github.com/Aidenbuis"><img src="https://avatars.githubusercontent.com/u/9105359?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Aiden Buis</b></sub></a><br /><a href="https://github.com/Provincie-Zuid-Holland/Omgevingsbeleid-Frontend/commits?author=Aidenbuis" title="Code">💻</a> <a href="#a11y-Aidenbuis" title="Accessibility">️️️️♿️</a> <a href="https://github.com/Provincie-Zuid-Holland/Omgevingsbeleid-Frontend/commits?author=Aidenbuis" title="Tests">⚠️</a> <a href="https://github.com/Provincie-Zuid-Holland/Omgevingsbeleid-Frontend/commits?author=Aidenbuis" title="Documentation">📖</a></td>
-    <td align="center"><a href="https://github.com/Paulien-Wan"><img src="https://avatars.githubusercontent.com/u/62105106?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Paulien-Wan</b></sub></a><br /><a href="https://github.com/Provincie-Zuid-Holland/Omgevingsbeleid-Frontend/commits?author=Paulien-Wan" title="Tests">⚠️</a></td>
-    <td align="center"><a href="https://github.com/JasonKAEC"><img src="https://avatars.githubusercontent.com/u/74307248?v=4?s=100" width="100px;" alt=""/><br /><sub><b>JasonKAEC</b></sub></a><br /><a href="https://github.com/Provincie-Zuid-Holland/Omgevingsbeleid-Frontend/commits?author=JasonKAEC" title="Code">💻</a> <a href="#a11y-JasonKAEC" title="Accessibility">️️️️♿️</a> <a href="https://github.com/Provincie-Zuid-Holland/Omgevingsbeleid-Frontend/commits?author=JasonKAEC" title="Tests">⚠️</a> <a href="https://github.com/Provincie-Zuid-Holland/Omgevingsbeleid-Frontend/commits?author=JasonKAEC" title="Documentation">📖</a></td>
-    <td align="center"><a href="https://github.com/HagenaarC"><img src="https://avatars.githubusercontent.com/u/60137925?v=4?s=100" width="100px;" alt=""/><br /><sub><b>HagenaarC</b></sub></a><br /><a href="#business-HagenaarC" title="Business development">💼</a></td>
+    <td align="center">
+      <a href="https://www.copebo.nl"><img src="https://avatars.githubusercontent.com/u/54364210?v=4?s=100" width="100px;" alt=""/>
+        <br />
+        <sub>
+          <b>Coen</b>
+        </sub>
+      </a>
+      <br />
+      <a href="#design-copebo" title="Design">🎨</a>
+      <a href="#content-copebo" title="Content">🖋</a>
+      <a href="#userTesting-copebo" title="User Testing">📓</a>
+      <a href="#a11y-copebo" title="Accessibility">️️️️♿️</a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/Aidenbuis">
+        <img src="https://avatars.githubusercontent.com/u/9105359?v=4?s=100" width="100px;" alt=""/>
+        <br />
+        <sub>
+          <b>Aiden Buis</b>
+        </sub>
+      </a>
+      <br />
+      <a href="https://github.com/Provincie-Zuid-Holland/Omgevingsbeleid-Frontend/commits?author=Aidenbuis" title="Code">💻</a>
+      <a href="#a11y-Aidenbuis" title="Accessibility">️️️️♿️</a>
+      <a href="https://github.com/Provincie-Zuid-Holland/Omgevingsbeleid-Frontend/commits?author=Aidenbuis" title="Tests">⚠️</a>
+      <a href="https://github.com/Provincie-Zuid-Holland/Omgevingsbeleid-Frontend/commits?author=Aidenbuis" title="Documentation">📖</a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/Stefwint">
+        <img src="https://avatars.githubusercontent.com/u/13415565?v=4?s=100" width="100px;" alt=""/>
+        <br />
+        <sub>
+          <b>Stef Winterswijk</b>
+        </sub>
+      </a>
+      <br />
+      <a href="https://github.com/Provincie-Zuid-Holland/Omgevingsbeleid-Frontend/commits?author=Stefwint" title="Code">💻</a>
+      <a href="#a11y-Stefwint" title="Accessibility">️️️️♿️</a>
+      <a href="https://github.com/Provincie-Zuid-Holland/Omgevingsbeleid-Frontend/commits?author=Stefwint" title="Tests">⚠️</a>
+      <a href="https://github.com/Provincie-Zuid-Holland/Omgevingsbeleid-Frontend/commits?author=Stefwint" title="Documentation">📖</a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/Paulien-Wan">
+        <img src="https://avatars.githubusercontent.com/u/62105106?v=4?s=100" width="100px;" alt=""/>
+        <br />
+        <sub>
+          <b>Paulien-Wan</b>
+        </sub>
+      </a>
+      <br />
+      <a href="https://github.com/Provincie-Zuid-Holland/Omgevingsbeleid-Frontend/commits?author=Paulien-Wan" title="Tests">⚠️</a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/JasonKAEC">
+        <img src="https://avatars.githubusercontent.com/u/74307248?v=4?s=100" width="100px;" alt=""/>
+        <br />
+        <sub>
+          <b>JasonKAEC</b>
+        </sub>
+      </a>
+      <br />
+      <a href="https://github.com/Provincie-Zuid-Holland/Omgevingsbeleid-Frontend/commits?author=JasonKAEC" title="Code">💻</a>
+      <a href="#a11y-JasonKAEC" title="Accessibility">️️️️♿️</a>
+      <a href="https://github.com/Provincie-Zuid-Holland/Omgevingsbeleid-Frontend/commits?author=JasonKAEC" title="Tests">⚠️</a>
+      <a href="https://github.com/Provincie-Zuid-Holland/Omgevingsbeleid-Frontend/commits?author=JasonKAEC" title="Documentation">📖</a>
+    </td>
   </tr>
   <tr>
-    <td align="center"><a href="http://freesa.org"><img src="https://avatars.githubusercontent.com/u/1174254?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Eric Herman</b></sub></a><br /><a href="#mentoring-ericherman" title="Mentoring">🧑‍🏫</a></td>
-    <td align="center"><a href="http://www.linkedin.com/in/bernardvuijk"><img src="https://avatars.githubusercontent.com/u/60785505?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Bernard Vuijk</b></sub></a><br /><a href="#projectManagement-BernardVuijk" title="Project Management">📆</a></td>
-    <td align="center"><a href="https://github.com/EVerhaar"><img src="https://avatars.githubusercontent.com/u/57626563?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Erik</b></sub></a><br /><a href="#maintenance-EVerhaar" title="Maintenance">🚧</a> <a href="#content-EVerhaar" title="Content">🖋</a> <a href="#userTesting-EVerhaar" title="User Testing">📓</a></td>
-    <td align="center"><a href="https://github.com/Swendude"><img src="https://avatars.githubusercontent.com/u/2640691?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Swen Mulderij</b></sub></a><br /><a href="https://github.com/Provincie-Zuid-Holland/Omgevingsbeleid-Frontend/commits?author=Swendude" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/Kingmar1"><img src="https://avatars.githubusercontent.com/u/19493141?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Kingmar1</b></sub></a><br /><a href="https://github.com/Provincie-Zuid-Holland/Omgevingsbeleid-Frontend/commits?author=Kingmar1" title="Code">💻</a></td>
+    <td align="center">
+      <a href="https://github.com/HagenaarC">
+        <img src="https://avatars.githubusercontent.com/u/60137925?v=4?s=100" width="100px;" alt=""/>
+        <br />
+        <sub>
+          <b>HagenaarC</b>
+        </sub>
+      </a>
+      <br />
+      <a href="#business-HagenaarC" title="Business development">💼</a>
+    </td>
+    <td align="center">
+      <a href="http://freesa.org">
+        <img src="https://avatars.githubusercontent.com/u/1174254?v=4?s=100" width="100px;" alt=""/>
+        <br />
+        <sub>
+          <b>Eric Herman</b>
+        </sub>
+      </a>
+      <br />
+      <a href="#mentoring-ericherman" title="Mentoring">🧑‍🏫</a>
+    </td>
+    <td align="center">
+      <a href="http://www.linkedin.com/in/bernardvuijk">
+        <img src="https://avatars.githubusercontent.com/u/60785505?v=4?s=100" width="100px;" alt=""/>
+        <br />
+        <sub>
+          <b>Bernard Vuijk</b>
+        </sub>
+      </a>
+      <br />
+      <a href="#projectManagement-BernardVuijk" title="Project Management">📆</a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/EVerhaar">
+        <img src="https://avatars.githubusercontent.com/u/57626563?v=4?s=100" width="100px;" alt=""/>
+        <br />
+        <sub>
+          <b>Erik</b>
+        </sub>
+      </a>
+      <br />
+      <a href="#maintenance-EVerhaar" title="Maintenance">🚧</a>
+      <a href="#content-EVerhaar" title="Content">🖋</a>
+      <a href="#userTesting-EVerhaar" title="User Testing">📓</a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/Swendude">
+        <img src="https://avatars.githubusercontent.com/u/2640691?v=4?s=100" width="100px;" alt=""/>
+        <br />
+        <sub>
+          <b>Swen Mulderij</b>
+        </sub>
+      </a>
+      <br />
+      <a href="https://github.com/Provincie-Zuid-Holland/Omgevingsbeleid-Frontend/commits?author=Swendude" title="Code">💻</a>
+    </td>
   </tr>
   <tr>
-    <td align="center"><a href="https://github.com/ReadMarten"><img src="https://avatars.githubusercontent.com/u/8004997?v=4?s=100" width="100px;" alt=""/><br /><sub><b>ReadMarten</b></sub></a><br /><a href="#business-ReadMarten" title="Business development">💼</a></td>
+    <td align="center">
+      <a href="https://github.com/Kingmar1">
+        <img src="https://avatars.githubusercontent.com/u/19493141?v=4?s=100" width="100px;" alt=""/>
+        <br />
+        <sub>
+          <b>Kingmar1</b>
+        </sub>
+      </a>
+      <br />
+      <a href="https://github.com/Provincie-Zuid-Holland/Omgevingsbeleid-Frontend/commits?author=Kingmar1" title="Code">💻</a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/ReadMarten">
+        <img src="https://avatars.githubusercontent.com/u/8004997?v=4?s=100" width="100px;" alt=""/>
+        <br />
+        <sub>
+          <b>ReadMarten</b>
+        </sub>
+      </a>
+      <br />
+      <a href="#business-ReadMarten" title="Business development">💼</a>
+    </td>
   </tr>
 </table>
 
