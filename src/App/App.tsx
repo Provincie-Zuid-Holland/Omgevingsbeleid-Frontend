@@ -1,6 +1,6 @@
 import './appConfig'
 
-import { DNABar } from '@pzh-ui/components'
+import { DNABar, Feedback } from '@pzh-ui/components'
 import classNames from 'classnames'
 import { Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
@@ -10,7 +10,6 @@ import { ToastContainer } from 'react-toastify'
 import { useEffectOnce } from 'react-use'
 
 import axe from '@/a11y'
-import FeedbackComponent from '@/components/FeedbackComponent'
 import { LoaderContent } from '@/components/Loader'
 import AuthProvider from '@/context/AuthContext'
 import usePage from '@/hooks/usePage'
@@ -87,7 +86,10 @@ const App = () => {
                         {!isAdvancedSearchPage && (
                             <>
                                 <DNABar blocks={6} />
-                                <FeedbackComponent />
+                                <Feedback
+                                    email="omgevingsbeleid@pzh.nl"
+                                    website="obzh.nl"
+                                />
                             </>
                         )}
                     </BaseLayout>

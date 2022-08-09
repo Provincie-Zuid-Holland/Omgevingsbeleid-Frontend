@@ -1,4 +1,4 @@
-import { Heading, Text } from '@pzh-ui/components'
+import { Divider, Heading, Text } from '@pzh-ui/components'
 import {
     ArrowUpRightFromSquare,
     Check,
@@ -11,7 +11,6 @@ import {
 import { FC, useState } from 'react'
 
 import { Container } from '@/components/Container'
-import HorizontalDivider from '@/components/HorizontalDivider'
 import { releases } from '@/constants/releases'
 import imagePlanningAndReleases from '@/images/planning-and-releases.png'
 
@@ -122,7 +121,7 @@ const PlanningAndReleases = () => (
                 </OntwikkelingenListItem>
             </OntwikkelingenList>
         </Container>
-        <HorizontalDivider />
+        <Divider />
         <Container className="pt-8 lg:pt-12">
             <Heading className="col-span-6" level="2">
                 Releases

@@ -1,11 +1,10 @@
 import { Disclosure } from '@headlessui/react'
-import { Button, Heading, Text } from '@pzh-ui/components'
+import { Button, Divider, Heading, Text } from '@pzh-ui/components'
 import { Plus } from '@pzh-ui/icons'
 import { useQuery } from 'react-query'
 
 import { getEdits } from '@/api/fetchers'
 import { Container } from '@/components/Container'
-import HorizontalDivider from '@/components/HorizontalDivider'
 import imageInBewerking from '@/images/in-bewerking.png'
 import { scrollToElementByID } from '@/utils/scrollToElementByID'
 
@@ -82,7 +81,7 @@ function InProgress() {
                 </Text>
                 <TableLatestEdits edits={edits} isLoading={isLoading} />
             </Container>
-            <HorizontalDivider />
+            <Divider />
             <Container className="py-12">
                 <Heading
                     id="besluitvormingsproces"
