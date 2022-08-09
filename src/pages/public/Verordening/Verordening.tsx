@@ -1,3 +1,4 @@
+import { Heading, Text } from '@pzh-ui/components'
 import { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -5,9 +6,7 @@ import { useWindowSize } from 'react-use'
 
 import axios from '@/api/instance'
 import { Container } from '@/components/Container'
-import Heading from '@/components/Heading'
 import { LoaderCard } from '@/components/Loader'
-import Text from '@/components/Text'
 import VERORDENING from '@/constants/verordeningen'
 import useURLQuery from '@/hooks/useURLQuery'
 

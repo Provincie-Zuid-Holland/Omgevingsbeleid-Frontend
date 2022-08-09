@@ -1,3 +1,4 @@
+import { Text } from '@pzh-ui/components'
 import { Bars, Minus, Plus } from '@pzh-ui/icons'
 import { useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -5,7 +6,6 @@ import { useLockBodyScroll, useWindowSize } from 'react-use'
 
 import BackButton from '@/components/BackButton'
 import { LoaderCard } from '@/components/Loader'
-import Text from '@/components/Text'
 
 interface VerordeningSidebarProps {
     verordening: any

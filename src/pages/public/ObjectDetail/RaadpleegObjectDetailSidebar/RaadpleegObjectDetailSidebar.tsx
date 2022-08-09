@@ -1,3 +1,4 @@
+import { Text } from '@pzh-ui/components'
 import { CircleInfo } from '@pzh-ui/icons'
 import Tippy from '@tippyjs/react'
 import { useRef } from 'react'
@@ -6,7 +7,6 @@ import 'tippy.js/dist/tippy.css'
 
 import BackButton from '@/components/BackButton'
 import { PopUpRevisionContainer } from '@/components/Popup'
-import Text from '@/components/Text'
 import getVigerendText from '@/utils/getVigerendText'
 import { Revisions } from '@/utils/prepareRevisions'
 

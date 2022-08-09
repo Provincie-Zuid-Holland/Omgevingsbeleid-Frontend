@@ -1,3 +1,4 @@
+import { Heading } from '@pzh-ui/components'
 import { FC, useState } from 'react'
 
 import {
@@ -5,18 +6,13 @@ import {
     MaatregelenRead,
     VerordeningenRead,
 } from '@/api/fetchers.schemas'
-import Heading from '@/components/Heading'
+import ViewFieldIngelogdExtraInfo from '@/components/ViewFieldIngelogdExtraInfo'
+import useAuth from '@/hooks/useAuth'
 
-import ContainerViewFieldsAmbitie from '../ContainerFields/ContainerViewFieldsAmbitie'
-import ContainerViewFieldsBelang from '../ContainerFields/ContainerViewFieldsBelang'
-import ContainerViewFieldsBeleidsdoelen from '../ContainerFields/ContainerViewFieldsBeleidsdoelen'
-import ContainerViewFieldsBeleidskeuze from '../ContainerFields/ContainerViewFieldsBeleidskeuze'
-import ContainerViewFieldsBeleidsprestatie from '../ContainerFields/ContainerViewFieldsBeleidsprestatie'
-import ContainerViewFieldsBeleidsregel from '../ContainerFields/ContainerViewFieldsBeleidsregel'
-import ContainerViewFieldsMaatregel from '../ContainerFields/ContainerViewFieldsMaatregel'
-import ContainerViewFieldsThema from '../ContainerFields/ContainerViewFieldsThema'
 import RaadpleegObjectDetailNewVersionNotification from '../RaadpleegObjectDetailNewVersionNotification'
 import ViewFieldGebiedDuiding from '../ViewFieldGebiedDuiding'
+import ViewFieldInnerHTML from '../ViewFieldInnerHTML'
+import ViewFieldTitelEnInhoud from '../ViewFieldTitelEnInhoud'
 import Werkingsgebied from '../Werkingsgebied'
 
 interface RaadpleegObjectDetailMainProps {
@@ -31,40 +27,52 @@ const RaadpleegObjectDetailMain: FC<RaadpleegObjectDetailMainProps> = ({
     titleSingular,
     children,
 }) => {
+    const { user } = useAuth()
+
     // Boolean to toggle the large view
     const [fullscreenLeafletViewer, setFullscreenLeafletViewer] =
         useState(false)
 
-    // Returns boolean
-    // There are two objects with werkingsgebieden:
-    // - Maatregelen
-    // - Beleidskeuzes
-    const checkIfObjectHasWerkingsgebied = () => {
-        if (!dataLoaded || !dataObject) return false
-
-        // Check if there is a werkingsgebied
-        if (dataObject.Gebied || dataObject.Werkingsgebieden?.[0]) {
-            return true
-        } else {
-            return false
-        }
-    }
-
-    const getWerkingsgbiedUUID = (hasWerkingsGebied: boolean) => {
-        if (!hasWerkingsGebied || !dataObject) return null
-
-        if (dataObject.Gebied) {
+    const getWerkingsgbiedUUID = () => {
+        if (dataObject?.Gebied) {
             // Object is a maatregel, which contains the UUID in a string value
             return dataObject.Gebied.UUID
-        } else if (dataObject.Werkingsgebieden?.[0]) {
+        } else if (dataObject?.Werkingsgebieden?.[0]) {
             // Object is a beleidskeuze/beleidskeuze, which holds the werkingsgebieden in an array.
             // We always need the first value in the array
             return dataObject.Werkingsgebieden[0].Object?.UUID
         }
     }
 
-    const hasWerkingsGebied = checkIfObjectHasWerkingsgebied()
-    const werkingsGebiedUUID = getWerkingsgbiedUUID(hasWerkingsGebied)
+    const werkingsGebiedUUID = getWerkingsgbiedUUID()
+    const showExtraInfo =
+        !!user && ['Beleidskeuze', 'Maatregel'].includes(titleSingular)
+    const htmlFields = [
+        {
+            title: undefined,
+            value: 'Toelichting',
+        },
+        {
+            title: 'Wat wil de provincie bereiken?',
+            value: 'Omschrijving_Keuze',
+        },
+        {
+            title: 'Afweging',
+            value: 'Afweging',
+        },
+        {
+            title: 'Aanleiding',
+            value: 'Aanleiding',
+        },
+        {
+            title: 'Provinciaal Belang',
+            value: 'Provinciaal_Belang',
+        },
+        {
+            title: 'Toelichting',
+            value: 'Omschrijving_Werking',
+        },
+    ]
 
     return (
         <div className="col-span-6 mt-6 xl:mt-8 xl:col-span-4">
@@ -79,50 +87,56 @@ const RaadpleegObjectDetailMain: FC<RaadpleegObjectDetailMainProps> = ({
                     titleSingular={titleSingular}
                     dataObject={dataObject}
                 />
-                <Heading level="1" color="text-pzh-blue" className="mt-4">
-                    {dataObject ? dataObject.Titel : null}
-                </Heading>
+                {dataObject && (
+                    <Heading level="1" color="text-pzh-blue" className="mt-4">
+                        {dataObject.Titel}
+                    </Heading>
+                )}
             </div>
             <div className="hidden xl:block">{children}</div>
-            {/* These contain the fields that need to be displayed for the different objects */}
+
             <div className="mt-4">
-                {titleSingular === 'Beleidskeuze' ? (
-                    <ContainerViewFieldsBeleidskeuze
-                        crudObject={dataObject as BeleidskeuzesRead}
-                    />
-                ) : titleSingular === 'Beleidsregel' ? (
-                    <ContainerViewFieldsBeleidsregel crudObject={dataObject} />
-                ) : titleSingular === 'Beleidsprestatie' ? (
-                    <ContainerViewFieldsBeleidsprestatie
+                {showExtraInfo && (
+                    <ViewFieldIngelogdExtraInfo
+                        className="mb-5"
                         crudObject={dataObject}
                     />
-                ) : titleSingular === 'Maatregel' ? (
-                    <ContainerViewFieldsMaatregel crudObject={dataObject} />
-                ) : titleSingular === 'Beleidsdoel' ? (
-                    <ContainerViewFieldsBeleidsdoelen crudObject={dataObject} />
-                ) : titleSingular === 'Ambitie' ? (
-                    <ContainerViewFieldsAmbitie crudObject={dataObject} />
-                ) : titleSingular === 'Belang' ? (
-                    <ContainerViewFieldsBelang crudObject={dataObject} />
-                ) : titleSingular === 'Thema' ? (
-                    <ContainerViewFieldsThema crudObject={dataObject} />
-                ) : null}
+                )}
+
+                {dataObject?.Omschrijving && (
+                    <ViewFieldTitelEnInhoud
+                        fieldValue={dataObject['Omschrijving']}
+                    />
+                )}
+
+                {htmlFields.map(({ value, title }) => {
+                    const html = dataObject?.[value as keyof typeof dataObject]
+
+                    if (html && typeof html === 'string')
+                        return (
+                            <ViewFieldInnerHTML
+                                html={html}
+                                fieldTitel={title}
+                            />
+                        )
+                })}
             </div>
-            {hasWerkingsGebied && dataLoaded ? (
+
+            {werkingsGebiedUUID && dataLoaded && (
                 <Werkingsgebied
                     fullscreenLeafletViewer={fullscreenLeafletViewer}
                     setFullscreenLeafletViewer={setFullscreenLeafletViewer}
                     werkingsGebiedUUID={werkingsGebiedUUID}
                 />
-            ) : null}
+            )}
             {titleSingular === 'Maatregel' &&
-            dataLoaded &&
-            dataObject?.['Gebied_Duiding'] &&
-            dataObject['Gebied'] ? (
-                <ViewFieldGebiedDuiding
-                    gebiedDuiding={dataObject['Gebied_Duiding']}
-                />
-            ) : null}
+                dataLoaded &&
+                dataObject?.['Gebied_Duiding'] &&
+                dataObject['Gebied'] && (
+                    <ViewFieldGebiedDuiding
+                        gebiedDuiding={dataObject['Gebied_Duiding']}
+                    />
+                )}
         </div>
     )
 }

@@ -1,12 +1,11 @@
+import { Heading, Text } from '@pzh-ui/components'
 import { AngleRight, Bars, Xmark } from '@pzh-ui/icons'
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useLockBodyScroll, useWindowSize } from 'react-use'
 
 import { Container } from '../Container'
-import Heading from '../Heading'
 import SearchBar from '../SearchBar'
-import Text from '../Text'
 
 /**
  * A popup menu that can be used to navigate the application.

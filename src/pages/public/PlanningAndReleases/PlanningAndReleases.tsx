@@ -1,3 +1,4 @@
+import { Heading, Text } from '@pzh-ui/components'
 import {
     ArrowUpRightFromSquare,
     Check,
@@ -10,9 +11,7 @@ import {
 import { FC, useState } from 'react'
 
 import { Container } from '@/components/Container'
-import Heading from '@/components/Heading'
 import HorizontalDivider from '@/components/HorizontalDivider'
-import Text from '@/components/Text'
 import { releases } from '@/constants/releases'
 import imagePlanningAndReleases from '@/images/planning-and-releases.png'
 

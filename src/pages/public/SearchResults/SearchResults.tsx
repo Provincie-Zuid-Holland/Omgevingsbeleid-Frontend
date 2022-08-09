@@ -1,5 +1,7 @@
-import { useEffect, useState } from 'react'
 import 'url-search-params-polyfill'
+
+import { Heading } from '@pzh-ui/components'
+import { useEffect, useState } from 'react'
 import { useMedia } from 'react-use'
 
 import {
@@ -9,7 +11,6 @@ import {
 import { getSearch, postSearchGeo } from '@/api/fetchers'
 import { GetSearch200ResultsItem } from '@/api/fetchers.schemas'
 import Container from '@/components/Container/Container'
-import Heading from '@/components/Heading'
 import { LoaderCard } from '@/components/Loader'
 import Pagination from '@/components/Pagination'
 import SearchBar from '@/components/SearchBar'

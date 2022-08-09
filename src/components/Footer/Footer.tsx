@@ -1,9 +1,8 @@
+import { Heading, Text } from '@pzh-ui/components'
 import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 
 import { Container } from '../Container'
-import Heading from '../Heading'
-import Text from '../Text'
 
 interface FooterProps {
     className?: string

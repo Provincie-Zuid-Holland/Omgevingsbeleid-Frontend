@@ -1,3 +1,4 @@
+import { Heading, Text, getHeadingStyles } from '@pzh-ui/components'
 import { AngleRight, ArrowLeft } from '@pzh-ui/icons'
 import { useState } from 'react'
 import { useQuery } from 'react-query'
@@ -5,10 +6,7 @@ import { Link } from 'react-router-dom'
 import { useMedia } from 'react-use'
 
 import { Container } from '@/components/Container'
-import Heading from '@/components/Heading'
-import { getHeadingStyles } from '@/components/Heading/Heading'
 import { LoaderCard, LoaderSpinner } from '@/components/Loader'
-import Text from '@/components/Text'
 import { DetailPageValidEndpoint } from '@/utils/detailPages'
 
 interface UniversalObjectOverviewProps {
