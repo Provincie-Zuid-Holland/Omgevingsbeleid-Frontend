@@ -41,7 +41,7 @@ describe('Pagination', () => {
 
     it('Component renders', () => {
         setup()
-        const element = screen.getByText('Meer resultaten Laden')
+        const element = screen.getByText('Meer resultaten laden')
         expect(element).toBeTruthy()
     })
 })
