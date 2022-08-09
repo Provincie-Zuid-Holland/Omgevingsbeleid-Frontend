@@ -1,47 +1,12 @@
 import { Heading, Text } from '@pzh-ui/components'
-import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 
 import { Container } from '../Container'
 
-interface FooterProps {
-    className?: string
-}
-
-function Footer({ className = '' }: FooterProps) {
-    /**
-     * We want the footer to always be at the bottom of the page,
-     * even if there is not enough content. To realise this we position
-     * the Footer absolute at the bottom, and give the body a padding-bottom of the current Footer height.
-     */
-    const footerRef = useRef<HTMLDivElement>(null)
-
-    useEffect(() => {
-        const mainContainerEl = document.getElementById('main-container')
-
-        const handleWindowResize = () => {
-            if (!footerRef.current || !mainContainerEl) return
-            const footerHeight = footerRef.current.offsetHeight
-            mainContainerEl.style.paddingBottom = `${footerHeight}px`
-        }
-
-        /** Initial call */
-        handleWindowResize()
-        window.addEventListener('resize', handleWindowResize)
-
-        return () => {
-            if (mainContainerEl) {
-                mainContainerEl.style.paddingBottom = `0px` // Reset padding bottom
-            }
-            window.removeEventListener('resize', handleWindowResize)
-        }
-    }, [])
-
+function Footer() {
     return (
-        <footer
-            className={`w-full bg-pzh-cool-gray-light bg-opacity-30 absolute bottom-0`}
-            ref={footerRef}>
-            <Container className={`pt-8 pb-16 md:pb-12 md:py-8 ${className}`}>
+        <footer className="w-full mt-auto bg-pzh-cool-gray-light/30">
+            <Container className="pt-8 pb-16 md:pb-12 md:py-8">
                 <div className="col-span-6 md:col-span-3 lg:col-span-2">
                     <Heading level="3" color="text-pzh-blue">
                         Elke dag beter.{' '}
