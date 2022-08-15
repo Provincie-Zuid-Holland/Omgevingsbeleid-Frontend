@@ -42,7 +42,7 @@ const VerordeningSectionContainer: FC<VerordeningSectionContainerProps> = ({
 
                 <div
                     className={classNames({
-                        'flex items-center py-3 px-5 my-2 font-bold bg-pzh-blue-super-light':
+                        'flex items-center py-3 rounded px-4 my-2 font-bold bg-pzh-blue-super-light':
                             activeChapter,
                     })}>
                     <Heading level={activeChapter ? '3' : '2'}>
@@ -53,7 +53,7 @@ const VerordeningSectionContainer: FC<VerordeningSectionContainerProps> = ({
                 </div>
                 <div
                     className={classNames({
-                        'px-5': activeChapter,
+                        'pl-4': activeChapter,
                     })}>
                     {children}
                 </div>

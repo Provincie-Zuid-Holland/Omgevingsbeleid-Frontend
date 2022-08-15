@@ -1,4 +1,5 @@
 import { FormikInput, Text } from '@pzh-ui/components'
+import classNames from 'classnames'
 import React from 'react'
 
 import { VerordeningChildRead } from '@/types/verordening'
@@ -6,11 +7,14 @@ import { VerordeningChildRead } from '@/types/verordening'
 import { useVerordening } from '../../verordeningEditContext'
 import FormSubmitOrCancel from '../FormSubmitOrCancel'
 
-export interface FormChapterProps {}
+export interface FormNumberAndTitleProps {
+    type: 'Hoofdstuk' | 'Afdeling' | 'Paragraaf' | 'Artikel'
+}
 
-const FormChapter = ({ type }: { type: 'Hoofdstuk' }) => {
+const FormNumberAndTitle = ({ type }: FormNumberAndTitleProps) => {
     const { state } = useVerordening()
-    const { activeSectionData, isLoadingOrSaving } = state
+    const { activeSectionData } = state
+
     const emptyChild: Partial<VerordeningChildRead> = {
         Children: [],
         Gebied: null,
@@ -19,12 +23,22 @@ const FormChapter = ({ type }: { type: 'Hoofdstuk' }) => {
         Type: type,
         Volgnummer: 'string',
     }
+
     const values = activeSectionData ? activeSectionData : emptyChild
 
     return (
-        <div className="flex items-center px-4 py-2 my-2 font-bold rounded bg-pzh-blue-super-light">
+        <div
+            className={classNames(
+                'flex text-pzh-blue-dark items-center py-2 my-2 font-bold',
+                {
+                    'rounded bg-pzh-blue-super-light px-4':
+                        type === 'Hoofdstuk' ||
+                        type === 'Afdeling' ||
+                        type === 'Paragraaf',
+                }
+            )}>
             <Text type="span" className="mr-2">
-                Hoofdstuk
+                {type}
             </Text>
 
             <div className="w-10 -mb-1">
@@ -52,4 +66,4 @@ const FormChapter = ({ type }: { type: 'Hoofdstuk' }) => {
     )
 }
 
-export default FormChapter
+export default FormNumberAndTitle

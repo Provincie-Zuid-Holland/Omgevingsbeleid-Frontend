@@ -8,6 +8,7 @@ import {
     useDragControls,
     useMotionValue,
     motion,
+    MotionConfig,
 } from 'framer-motion'
 import cloneDeep from 'lodash.clonedeep'
 import { Fragment, useEffect, useState } from 'react'
@@ -19,6 +20,7 @@ import {
     useGetVersionVerordeningenObjectuuid,
     useGetVerordeningenLineageid,
     getGetVersionVerordeningenObjectuuidQueryKey,
+    getVersionVerordeningenObjectuuid,
 } from '@/api/fetchers'
 import { VerordeningenRead } from '@/api/fetchers.schemas'
 import axios from '@/api/instance'
@@ -30,7 +32,11 @@ import {
     VerordeningChildRead,
 } from '@/types/verordening'
 import handleError from '@/utils/handleError'
-import { patchVerordeningSection, patchVerordening } from '@/utils/verordening'
+import {
+    patchVerordeningSection,
+    patchNewSectionInVerordening,
+    getChildrenOfSectionFromLineage,
+} from '@/utils/verordening'
 
 import FormSubmitOrCancel from './Form/FormSubmitOrCancel'
 import ReorderGroup from './ReorderGroup'
@@ -45,7 +51,7 @@ import VerordeningSectionContainer from './VerordeningSectionContainer'
  * - Set isEditingSection
  */
 function VerordeningEdit() {
-    const { id } = useParams()
+    const { lineageID: id } = useParams()
     const { state, dispatch } = useVerordening()
     const {
         isEditingOrder,
@@ -54,9 +60,10 @@ function VerordeningEdit() {
         newPostObject,
         editingSectionIndexPath,
         activeChapterUUID,
+        activeSectionData,
     } = state
 
-    const { data: activeSectionData, isLoading: isLoadingVersion } =
+    const { data: activeSectionDataFromAPI, isLoading: isLoadingVersion } =
         useGetVersionVerordeningenObjectuuid(editingSectionUUID || '', {
             query: {
                 enabled: editingSectionUUID !== null,
@@ -64,22 +71,71 @@ function VerordeningEdit() {
         })
 
     useEffect(() => {
-        console.log('Dispatch')
         dispatch({ type: 'setIsLoadingOrSaving', payload: isLoadingVersion })
     }, [isLoadingVersion, dispatch])
-
-    useEffect(() => {
-        dispatch({
-            type: 'setActiveSectionData',
-            payload: activeSectionData || null,
-        })
-    }, [activeSectionData, dispatch])
 
     const { data: verordening } = useQuery('getVerordeningStructuur', () =>
         axios
             .get(`/verordeningstructuur/${id}`)
             .then(res => res.data[0] as VerordeningLineageRead)
     )
+
+    useEffect(() => {
+        if (!activeSectionDataFromAPI) {
+            dispatch({
+                type: 'setActiveSectionData',
+                payload: null,
+            })
+        } else if (activeSectionDataFromAPI.Type !== 'Artikel') {
+            dispatch({
+                type: 'setActiveSectionData',
+                payload: activeSectionDataFromAPI,
+            })
+        } else if (activeSectionDataFromAPI.Type === 'Artikel') {
+            if (editingSectionIndexPath && verordening) {
+                /**
+                 * If the type is 'Artikel' we need to add the Children property and potentially populate it
+                 * 1. Check in lineage if the current section contains Children
+                 * 2. If so we need to retrieve them and add them to the activeSectionData under the 'Children' property
+                 */
+                const children = getChildrenOfSectionFromLineage(
+                    editingSectionIndexPath,
+                    verordening
+                )
+
+                if (children.length > 0) {
+                    Promise.all(
+                        children.map(child =>
+                            getVersionVerordeningenObjectuuid(child.UUID)
+                        )
+                    )
+                        .then(resolvedChildren => {
+                            dispatch({
+                                type: 'setActiveSectionData',
+                                payload: {
+                                    ...activeSectionDataFromAPI,
+                                    Children: resolvedChildren,
+                                },
+                            })
+                        })
+                        .catch(err => {
+                            console.log(err)
+                        })
+                } else {
+                    dispatch({
+                        type: 'setActiveSectionData',
+                        payload: activeSectionDataFromAPI,
+                    })
+                }
+            } else {
+            }
+        }
+    }, [
+        activeSectionDataFromAPI,
+        dispatch,
+        editingSectionIndexPath,
+        verordening,
+    ])
 
     useEffect(() => {
         if (!verordening) return
@@ -107,18 +163,19 @@ function VerordeningEdit() {
             payload: true,
         })
 
-        if (activeSectionData) {
+        if (activeSectionDataFromAPI) {
             /**
-             * Patch the section
-             * Patch the verordening structure with the new section
+             * 1. Patch the section
+             * 2. Patch the verordening structure with the new section
+             * 3. Update the QueryClient
              */
             try {
                 const patchedSection = await patchVerordeningSection(
                     values as VerordeningChildRead,
-                    activeSectionData.ID!
+                    activeSectionDataFromAPI.ID!
                 )
 
-                const patchedVerordening = await patchVerordening(
+                const patchedVerordening = await patchNewSectionInVerordening(
                     patchedSection,
                     editingSectionIndexPath || [],
                     latestVerordening
@@ -166,38 +223,42 @@ function VerordeningEdit() {
         }
     }
 
+    console.log({ activeSectionData })
+
     return (
-        <Formik
-            initialValues={activeSectionData || newPostObject || {}}
-            enableReinitialize={true}
-            onSubmit={handleSubmit}>
-            <Form className="w-full">
-                <Container>
-                    <VerordeningSectionContainer
-                        verordening={latestVerordening}>
-                        <ReorderGroup
-                            type="Hoofdstuk"
-                            replaceUlForFragment={activeChapterUUID}
-                            indexPath={[]}
-                            values={chapters}>
-                            {chapters.map(
-                                (
-                                    chapter: VerordeningChildRead,
-                                    chapterIndex
-                                ) => (
-                                    <VerordeningSection
-                                        key={chapter.UUID}
-                                        section={chapter}
-                                        index={chapterIndex}
-                                        indexPath={[]}
-                                    />
-                                )
-                            )}
-                        </ReorderGroup>
-                    </VerordeningSectionContainer>
-                </Container>
-            </Form>
-        </Formik>
+        <MotionConfig reducedMotion={isEditingOrder ? 'never' : 'always'}>
+            <Formik
+                initialValues={activeSectionData || newPostObject || {}}
+                enableReinitialize={true}
+                onSubmit={handleSubmit}>
+                <Form className="w-full">
+                    <Container>
+                        <VerordeningSectionContainer
+                            verordening={latestVerordening}>
+                            <ReorderGroup
+                                type="Hoofdstuk"
+                                replaceUlForFragment={activeChapterUUID}
+                                indexPath={[]}
+                                values={chapters}>
+                                {chapters.map(
+                                    (
+                                        chapter: VerordeningChildRead,
+                                        chapterIndex
+                                    ) => (
+                                        <VerordeningSection
+                                            key={chapter.UUID}
+                                            section={chapter}
+                                            index={chapterIndex}
+                                            indexPath={[]}
+                                        />
+                                    )
+                                )}
+                            </ReorderGroup>
+                        </VerordeningSectionContainer>
+                    </Container>
+                </Form>
+            </Formik>
+        </MotionConfig>
     )
 }
 

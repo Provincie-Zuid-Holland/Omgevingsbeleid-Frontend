@@ -8,7 +8,7 @@ export interface ReorderGroupProps {
     values: unknown[]
     indexPath: number[]
     replaceUlForFragment?: string | null
-    type: 'Hoofdstuk' | 'Paragraaf' | 'Artikel' | 'Lid'
+    type: 'Hoofdstuk' | 'Paragraaf' | 'Afdeling' | 'Artikel' | 'Lid'
 }
 
 const ReorderGroup: FC<ReorderGroupProps> = ({
@@ -26,8 +26,9 @@ const ReorderGroup: FC<ReorderGroupProps> = ({
             <Reorder.Group
                 axis="y"
                 className={classNames('space-y-2', {
-                    'my-4': type === 'Hoofdstuk',
-                    'mb-4': type !== 'Hoofdstuk',
+                    'my-4': type === 'Hoofdstuk' || type === 'Afdeling',
+                    'mb-4': type !== 'Hoofdstuk' && type !== 'Afdeling',
+                    'pl-4': type !== 'Artikel' && indexPath.length === 2,
                 })}
                 onReorder={reorderedSections => {
                     dispatch({

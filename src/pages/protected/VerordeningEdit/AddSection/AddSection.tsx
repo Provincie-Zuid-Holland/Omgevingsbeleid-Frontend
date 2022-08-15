@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 
-import FormChapter from '../Form/FormChapter'
+import FormNumberAndTitle from '../Form/FormNumberAndTitle'
 
 export interface AddSectionProps {}
 
@@ -11,7 +11,7 @@ const AddSection = ({
 }: {
     show: boolean
     indexPath: number[]
-    type: 'Hoofdstuk' | 'Paragraaf' | 'Artikel' | 'Lid'
+    type: 'Hoofdstuk' | 'Paragraaf' | 'Afdeling' | 'Artikel' | 'Lid'
 }) => {
     const [isAddingASection, setIsAddingASection] = useState(false)
 
@@ -24,7 +24,7 @@ const AddSection = ({
             </div>
         )
     } else if (isAddingASection && type === 'Hoofdstuk') {
-        return <FormChapter type={type} />
+        return <FormNumberAndTitle type={type} />
     } else {
         return null
     }

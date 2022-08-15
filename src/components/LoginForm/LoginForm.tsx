@@ -75,7 +75,7 @@ const LoginForm = () => {
                                 value={values.password}
                             />
                         </div>
-                        <div className="mt-7 flex justify-between items-center">
+                        <div className="flex items-center justify-between mt-7">
                             <Button
                                 label="Inloggen"
                                 type="submit"
@@ -126,12 +126,11 @@ const PopupPasswordForgot = ({
         ariaLabel="Wachtwoord vergeten">
         <Heading level="3">Wachtwoord vergeten</Heading>
 
-        <Notification
-            className="mt-2 mb-4"
-            text="Binnenkort willen wij het mogelijk maken dat medewerkers van
-                provincie Zuid-Holland automatisch kunnen inloggen. Tot die tijd
-                moet het nog met een e-mailadres en een wachtwoord."
-        />
+        <Notification className="mt-2 mb-4">
+            Binnenkort willen wij het mogelijk maken dat medewerkers van
+            provincie Zuid-Holland automatisch kunnen inloggen. Tot die tijd
+            moet het nog met een e-mailadres en een wachtwoord.
+        </Notification>
 
         <p className="py-1 text-pzh-blue-dark">
             Wachtwoord vergeten? Stuur dan een e-mail naar het team

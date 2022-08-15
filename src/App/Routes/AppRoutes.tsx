@@ -10,6 +10,7 @@ import {
     VerordeningenStructuurCRUD,
     VerordeningenstructuurDetail,
 } from '@/pages/protected'
+import VerordeningEdit from '@/pages/protected/VerordeningEdit'
 import {
     Accessibility,
     Home,
@@ -84,7 +85,6 @@ const AppRoutes = () => {
                     },
                 ],
             })),
-
         /**
          * Protected pages
          */
@@ -115,7 +115,7 @@ const AppRoutes = () => {
                             ),
                         },
                         {
-                            path: ':lineageID',
+                            path: ':lineageID/bewerk',
                             children: [
                                 {
                                     index: true,
@@ -131,6 +131,10 @@ const AppRoutes = () => {
                                             navigate={navigate}
                                         />
                                     ),
+                                },
+                                {
+                                    path: 'edit',
+                                    element: <VerordeningEdit />,
                                 },
                             ],
                         },

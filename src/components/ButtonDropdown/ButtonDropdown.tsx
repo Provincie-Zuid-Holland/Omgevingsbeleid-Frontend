@@ -9,6 +9,7 @@ const ButtonDropdown: FC<ButtonDropdownProps> = ({ children, toggle }) => {
     return (
         <button
             name="toggle-dropdown"
+            type="button"
             onClick={e => {
                 e.stopPropagation()
                 e.preventDefault()

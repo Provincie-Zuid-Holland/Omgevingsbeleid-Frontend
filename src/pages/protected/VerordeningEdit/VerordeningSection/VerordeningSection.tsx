@@ -5,7 +5,9 @@ import { Fragment } from 'react'
 import { VerordeningChildRead } from '@/types/verordening'
 
 import AddSection from '../AddSection'
-import FormChapter from '../Form/FormChapter'
+import FormArticleContent from '../Form/FormArticleContent'
+import FormArticleSubSections from '../Form/FormArticleSubSections'
+import FormNumberAndTitle from '../Form/FormNumberAndTitle'
 import ReorderGroup from '../ReorderGroup'
 import ReorderItem from '../ReorderItem'
 import { useVerordening } from '../verordeningEditContext'
@@ -25,15 +27,14 @@ const VerordeningSection = ({
     const { state } = useVerordening()
     const currentIndexPath = [...indexPath, index]
     const controls = useDragControls()
-    const type = section.Type
     const { activeChapterUUID, isAddingSection, activeSectionData } = state
+    const userIsEditingSection = activeSectionData !== null
+    const userIsEditingThisSection =
+        activeSectionData !== null && activeSectionData.UUID === section.UUID
 
-    if (type === 'Hoofdstuk' && !activeChapterUUID) {
-        if (
-            activeSectionData !== null &&
-            activeSectionData.UUID === section.UUID
-        ) {
-            return <FormChapter type={type} />
+    if (section.Type === 'Hoofdstuk' && !activeChapterUUID) {
+        if (userIsEditingThisSection) {
+            return <FormNumberAndTitle type={section.Type} />
         } else {
             return (
                 <Fragment>
@@ -65,28 +66,37 @@ const VerordeningSection = ({
                 </Fragment>
             )
         }
-    } else if (type === 'Hoofdstuk' && activeChapterUUID === section.UUID) {
+    } else if (
+        section.Type === 'Hoofdstuk' &&
+        activeChapterUUID === section.UUID
+    ) {
         return (
             <LoopThroughChildren
                 section={section}
                 currentIndexPath={currentIndexPath}
             />
         )
-    } else if (type === 'Paragraaf') {
+    } else if (section.Type === 'Afdeling') {
         const paragraphHasChildren = section.Children.length > 0
 
         return (
             <ReorderItem section={section} controls={controls}>
                 <div className="bg-white">
-                    <div className="flex items-center justify-between py-2 pl-4 font-bold rounded cursor-pointer hover:bg-pzh-blue-super-light bg-pzh-blue-super-light hover:bg-gray-100">
-                        <Text className="pr-4">Paragraaf {section.Titel}</Text>
+                    {userIsEditingThisSection ? (
+                        <FormNumberAndTitle type={section.Type} />
+                    ) : (
+                        <div className="flex items-center justify-between py-2 pl-4 font-bold rounded cursor-pointer hover:bg-pzh-blue-super-light bg-pzh-blue-super-light hover:bg-gray-100">
+                            <Text className="pr-4">
+                                Afdeling {section.Volgnummer} - {section.Titel}
+                            </Text>
 
-                        <VerordeningSectionAction
-                            section={section}
-                            currentIndexPath={currentIndexPath}
-                            controls={controls}
-                        />
-                    </div>
+                            <VerordeningSectionAction
+                                section={section}
+                                currentIndexPath={currentIndexPath}
+                                controls={controls}
+                            />
+                        </div>
+                    )}
                     {paragraphHasChildren ? (
                         <LoopThroughChildren
                             section={section}
@@ -96,29 +106,28 @@ const VerordeningSection = ({
                 </div>
             </ReorderItem>
         )
-    } else if (type === 'Artikel') {
-        // Returns a paragraph and its children if there are any
-        const articleHasChildren = section.Children.length > 0
+    } else if (section.Type === 'Paragraaf') {
+        const paragraphHasChildren = section.Children.length > 0
 
         return (
             <ReorderItem section={section} controls={controls}>
-                <div className="px-5 -mx-5 bg-white">
-                    <div>
-                        <div className="flex items-center justify-between">
-                            <Text type="span" className="pr-4 font-bold">
-                                {section.Titel}
+                <div className="bg-white">
+                    {userIsEditingThisSection ? (
+                        <FormNumberAndTitle type={section.Type} />
+                    ) : (
+                        <div className="flex items-center justify-between py-2 pl-4 font-bold rounded cursor-pointer hover:bg-pzh-blue-super-light bg-pzh-blue-super-light hover:bg-gray-100">
+                            <Text className="pr-4">
+                                Paragraaf {section.Volgnummer} - {section.Titel}
                             </Text>
+
                             <VerordeningSectionAction
                                 section={section}
                                 currentIndexPath={currentIndexPath}
                                 controls={controls}
                             />
                         </div>
-                        {section.Inhoud && (
-                            <Text type="body">{section.Inhoud}</Text>
-                        )}
-                    </div>
-                    {articleHasChildren ? (
+                    )}
+                    {paragraphHasChildren ? (
                         <LoopThroughChildren
                             section={section}
                             currentIndexPath={currentIndexPath}
@@ -127,7 +136,55 @@ const VerordeningSection = ({
                 </div>
             </ReorderItem>
         )
-    } else if (type === 'Lid') {
+    } else if (section.Type === 'Artikel') {
+        // Returns a paragraph and its children if there are any
+        const articleHasChildren = section.Children.length > 0
+
+        const displayArticleText =
+            section.Inhoud && section.Inhoud !== '' && !userIsEditingThisSection
+        const displayArticleForm =
+            userIsEditingThisSection && section.Inhoud && section.Inhoud !== ''
+
+        return (
+            <ReorderItem section={section} controls={controls}>
+                <div className="px-5 -mx-5 bg-white">
+                    <div>
+                        {userIsEditingThisSection ? (
+                            <FormNumberAndTitle type={section.Type} />
+                        ) : (
+                            <div className="flex items-center justify-between">
+                                <Text type="span" className="pr-4 font-bold">
+                                    Artikel {section.Volgnummer} {section.Titel}
+                                </Text>
+                                <VerordeningSectionAction
+                                    section={section}
+                                    currentIndexPath={currentIndexPath}
+                                    controls={controls}
+                                />
+                            </div>
+                        )}
+                        {displayArticleText ? (
+                            <Text
+                                className="pr-6 whitespace-pre-line"
+                                type="body">
+                                {section.Inhoud}
+                            </Text>
+                        ) : displayArticleForm ? (
+                            <FormArticleContent section={section} />
+                        ) : null}
+                    </div>
+                    {articleHasChildren && !userIsEditingThisSection ? (
+                        <LoopThroughChildren
+                            section={section}
+                            currentIndexPath={currentIndexPath}
+                        />
+                    ) : articleHasChildren && userIsEditingThisSection ? (
+                        <FormArticleSubSections section={section} />
+                    ) : null}
+                </div>
+            </ReorderItem>
+        )
+    } else if (section.Type === 'Lid') {
         // Render a Article Sub Section
         return (
             <ReorderItem section={section} controls={controls}>
@@ -135,7 +192,9 @@ const VerordeningSection = ({
                     <Text type="span" className="font-bold">
                         {section.Titel}
                     </Text>
-                    <Text type="body">{section.Inhoud}</Text>
+                    <Text className="pr-6 whitespace-pre-line" type="body">
+                        {section.Inhoud}
+                    </Text>
                 </div>
             </ReorderItem>
         )
