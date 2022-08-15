@@ -24,14 +24,9 @@ describe('SortIcon', () => {
     const setup = (customProps?: any) => {
         const props = customProps ? customProps : defaultProps
         render(<SortIcon {...props} />)
-        const svgIcon = screen.queryByRole('img', { hidden: true })
+        const svgIcon = screen.getByTestId('sort-icon')
         return { svgIcon }
     }
-
-    it('should not render if active sorting is undefined', () => {
-        const { svgIcon } = setup({})
-        expect(svgIcon).toBeFalsy()
-    })
 
     it('should render', () => {
         const { svgIcon } = setup()

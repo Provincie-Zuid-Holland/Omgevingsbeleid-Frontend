@@ -1,10 +1,5 @@
-import {
-    faArrowLeft,
-    faDrawPolygon,
-    faMapMarkerAlt,
-} from '@fortawesome/pro-light-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Transition } from '@headlessui/react'
+import { ArrowLeft, DrawPolygon, LocationDot } from '@pzh-ui/icons'
 import Leaflet, { latLng, Map } from 'leaflet'
 import { ReactNode, useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -86,9 +81,12 @@ const SidebarInformation = ({
                 className="pb-8 lg:pb-16 pt-4 md:pt-12 lg:pt-16 lg:px-20 md:px-10 md:max-w-570 md:min-w-570 overflow-auto">
                 <Heading level="1">Zoeken op de kaart</Heading>
                 <Text type="introduction-paragraph" className="mt-3">
-                    Een stukje pakkende tekst wat vertelt dat dit eigenlijk meer
-                    voor andere overheden en grote bedrijven is, dan voor de
-                    bezoeker die een schuurtje in zijn tuin wilt bouwen.
+                    Via deze pagina kun je uitgebreid zoeken welk beleid op
+                    welke locatie van toepassing is. Hiermee wordt duidelijk wat
+                    de provincie Zuid-Holland in een bepaald gebied wil
+                    bereiken. Veel beleid is kaderstellend en richtinggevend van
+                    aard en daarom bedoeld om aan te geven waar de provincie
+                    voor staat en belang aan hecht.
                 </Text>
                 <InfoText
                     title="Teken een gebied of plaats een speld"
@@ -96,16 +94,16 @@ const SidebarInformation = ({
                         <>
                             Teken eenvoudig een gebied (
                             {
-                                <FontAwesomeIcon
-                                    icon={faDrawPolygon}
-                                    className="text-base mx-0.5"
+                                <DrawPolygon
+                                    size={18}
+                                    className="mx-0.5 -mt-0.5 inline-block"
                                 />
                             }
                             ), of plaats een speld (
                             {
-                                <FontAwesomeIcon
-                                    icon={faMapMarkerAlt}
-                                    className="text-base mx-0.5"
+                                <LocationDot
+                                    size={18}
+                                    className="mx-0.5 -mt-0.5 inline-block"
                                 />
                             }
                             ) op de kaart.
@@ -188,11 +186,8 @@ const SidebarInformation = ({
                 <button
                     onClick={() => goBack()}
                     className="h-full w-full md:block flex items-center md:py-0 py-4">
-                    <div className="md:pt-4">
-                        <FontAwesomeIcon
-                            icon={faArrowLeft}
-                            className="md:text-base text-sm"
-                        />
+                    <div className="flex justify-center md:pt-4">
+                        <ArrowLeft size={18} />
                     </div>
                     <div className="flex flex-col h-full justify-center md:ml-0 ml-2">
                         <p className="md:-mt-8 md:transform md:-rotate-90 whitespace-nowrap">

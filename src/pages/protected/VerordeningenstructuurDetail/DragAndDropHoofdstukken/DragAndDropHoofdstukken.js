@@ -1,7 +1,6 @@
 /* istanbul ignore file */
 
-import { faSave, faTimes } from '@fortawesome/pro-regular-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FloppyDisk, Xmark } from '@pzh-ui/icons'
 import { useContext } from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
@@ -180,18 +179,18 @@ const HoofdstukTitleEditing = ({
                 />
                 <button
                     onClick={() => patchRegulationObject()}
-                    className="flex items-center self-stretch justify-center inline-block px-3 ml-1 text-lg text-white bg-green-500 rounded hover:bg-pzh-green">
-                    <FontAwesomeIcon icon={faSave} />
+                    className="flex items-center self-stretch justify-center px-3 ml-1 text-lg text-white bg-green-500 rounded hover:bg-pzh-green">
+                    <FloppyDisk />
                 </button>
                 <button
-                    className="flex items-center self-stretch justify-center inline-block px-3 ml-1 text-lg text-white rounded bg-pzh-blue hover:bg-pzh-blue-dark"
+                    className="flex items-center self-stretch justify-center px-3 ml-1 text-lg text-white rounded bg-pzh-blue hover:bg-pzh-blue-dark"
                     onClick={() => {
                         setUUIDBeingEdited(null)
                         setVerordeningsObjectFromGET({
                             type: 'cancel',
                         })
                     }}>
-                    <FontAwesomeIcon icon={faTimes} />
+                    <Xmark />
                 </button>
             </div>
         </div>

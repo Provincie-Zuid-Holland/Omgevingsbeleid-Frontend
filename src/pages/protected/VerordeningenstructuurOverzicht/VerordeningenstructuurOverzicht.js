@@ -71,7 +71,7 @@ class VerordeningenstructuurOverzicht extends Component {
                     <ul className="flex flex-wrap mt-8">
                         {this.state.dataReceived ? (
                             <div
-                                className={`mb-6 display-inline mb-6 display-inline w-full`}>
+                                className={`mb-6 display-inline display-inline w-full`}>
                                 <Link
                                     id={`object-add-new-${hoofdOnderdeelSlug.toLowerCase()}`}
                                     className="flex items-center justify-center h-full px-4 py-4 overflow-hidden text-gray-600 no-underline border border-gray-300 border-dashed rounded hover:border-gray-400 transition-regular hover:text-gray-800"

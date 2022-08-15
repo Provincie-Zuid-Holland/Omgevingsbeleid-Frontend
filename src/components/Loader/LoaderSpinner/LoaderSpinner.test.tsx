@@ -13,7 +13,7 @@ describe('LoaderSpinner', () => {
 
     it('Component renders', () => {
         setup()
-        const element = screen.getByRole('img', { hidden: true })
+        const element = screen.getByTestId('loader-spinner')
         expect(element).toBeTruthy()
     })
 })

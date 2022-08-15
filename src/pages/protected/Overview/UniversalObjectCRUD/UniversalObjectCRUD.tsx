@@ -293,8 +293,8 @@ const UniversalObjectCRUD = ({
 
         const connectionProperties = getConnectionProperties()
 
-        connectionProperties.forEach(key => {
-            crudObject[key].forEach((connection: any, index: number) => {
+        connectionProperties?.forEach(key => {
+            crudObject[key]?.forEach((connection: any, index: number) => {
                 crudObject[key][index] = {
                     UUID: connection.Object.UUID,
                     Koppeling_Omschrijving: connection.Koppeling_Omschrijving,
@@ -321,7 +321,7 @@ const UniversalObjectCRUD = ({
             'Portefeuillehouder_2',
         ]
 
-        eigenaren.forEach(eigenaar => {
+        eigenaren?.forEach(eigenaar => {
             if (!crudObject.hasOwnProperty(eigenaar)) return
             if (
                 typeof crudObject[eigenaar] === 'object' &&

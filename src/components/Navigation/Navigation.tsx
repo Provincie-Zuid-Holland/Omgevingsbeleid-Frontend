@@ -1,9 +1,4 @@
-import {
-    faEye,
-    faSignIn,
-    IconDefinition,
-} from '@fortawesome/pro-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { ArrowRightFromBracket, Eye } from '@pzh-ui/icons'
 import classNames from 'classnames'
 import { FC, useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -81,8 +76,7 @@ const Navigation = ({ loggedIn }: NavigationProps) => {
                         <MenuIcon
                             setIsOpen={setIsOpen}
                             to="/"
-                            icon={faEye}
-                            className="mr-2">
+                            icon={<Eye size={16} className="mr-2 -mt-1" />}>
                             Raadplegen
                         </MenuIcon>
                     ) : null}
@@ -90,8 +84,7 @@ const Navigation = ({ loggedIn }: NavigationProps) => {
                         <MenuIcon
                             setIsOpen={setIsOpen}
                             to="/muteer/dashboard"
-                            icon={faEye}
-                            className="mr-2">
+                            icon={<Eye size={16} className="mr-2 -mt-1" />}>
                             Bewerken
                         </MenuIcon>
                     ) : null}
@@ -100,9 +93,13 @@ const Navigation = ({ loggedIn }: NavigationProps) => {
                         <MenuIcon
                             setIsOpen={setIsOpen}
                             to="/login"
-                            icon={faSignIn}
-                            className="mr-2"
-                            Label={isMobile ? null : 'Inloggen'}
+                            icon={
+                                <ArrowRightFromBracket
+                                    size={16}
+                                    className="mr-2 -mt-0.5 inline-block"
+                                />
+                            }
+                            label={isMobile ? null : 'Inloggen'}
                         />
                     ) : null}
 
@@ -119,18 +116,17 @@ const Navigation = ({ loggedIn }: NavigationProps) => {
 
 interface MenuIconProps {
     to: string
-    icon: IconDefinition
+    icon: JSX.Element
     className?: string
     setIsOpen: (e: boolean) => void
-    Label?: string | null
+    label?: string | null
 }
 
 const MenuIcon: FC<MenuIconProps> = ({
     to,
     icon,
-    className,
     setIsOpen,
-    Label,
+    label,
     children = null,
 }) => (
     <Link
@@ -140,12 +136,8 @@ const MenuIcon: FC<MenuIconProps> = ({
             setIsOpen(false)
         }}>
         <span>
-            <FontAwesomeIcon
-                className={`${className} text-sm`}
-                style={{ fontSize: '0.9rem', marginTop: '-0.2rem' }}
-                icon={icon}
-            />
-            <span className="font-bold">{Label}</span>
+            {icon}
+            <span className="font-bold">{label}</span>
         </span>
         <div>{children}</div>
     </Link>

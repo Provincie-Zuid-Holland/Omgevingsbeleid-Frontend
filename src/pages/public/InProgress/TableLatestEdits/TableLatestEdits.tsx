@@ -1,9 +1,4 @@
-import {
-    faSortAmountDownAlt,
-    faSortAmountUpAlt,
-} from '@fortawesome/pro-regular-svg-icons'
-import { faInfoCircle } from '@fortawesome/pro-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { ArrowDownWideShort, ArrowUpWideShort, CircleInfo } from '@pzh-ui/icons'
 import Tippy from '@tippyjs/react'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -86,14 +81,17 @@ function TableLatestEdits({ edits = [], isLoading }: TableLatestEditsProps) {
                                                 setAscending(!ascending)
                                             }>
                                             Laatst bewerkt{' '}
-                                            <FontAwesomeIcon
-                                                className={`ml-2 text-base relative -mt-2`}
-                                                icon={
-                                                    ascending
-                                                        ? faSortAmountDownAlt
-                                                        : faSortAmountUpAlt
-                                                }
-                                            />
+                                            {ascending ? (
+                                                <ArrowDownWideShort
+                                                    size={16}
+                                                    className="ml-2 -mt-0.5 inline-block"
+                                                />
+                                            ) : (
+                                                <ArrowUpWideShort
+                                                    size={16}
+                                                    className="ml-2 -mt-0.5 inline-block"
+                                                />
+                                            )}
                                         </button>
                                     </th>
                                 </tr>
@@ -150,34 +148,29 @@ const StatusComponent = ({
     policyObject,
 }: {
     policyObject: GetEdits200Item
-}) => {
-    const [tippyOpen, setTippyOpen] = useState(false)
-
-    return (
-        <span onClick={() => setTippyOpen(!tippyOpen)}>
-            {policyObject.Status}{' '}
-            <Tippy
-                visible={tippyOpen}
-                content={
-                    <a
-                        onClick={() => setTippyOpen(false)}
-                        className="text-sm pointer-events-auto"
-                        href="#besluitvormingsproces">
-                        <span className="block font-bold">
-                            {policyObject.Status}
-                        </span>
-                        <span className="block">
-                            Bekijk de uitleg en betekenis van statussen{' '}
-                            <span className="underline">hier</span>
-                        </span>
-                    </a>
-                }>
-                <div className="inline-block ml-1 transition-colors duration-500 ease-in cursor-pointer text-pzh-dark-blue opacity-40 hover:opacity-80">
-                    <FontAwesomeIcon icon={faInfoCircle} />
-                </div>
-            </Tippy>
-        </span>
-    )
-}
+}) => (
+    <span>
+        {policyObject.Status}{' '}
+        <Tippy
+            interactive
+            content={
+                <a
+                    className="text-sm pointer-events-auto"
+                    href="#besluitvormingsproces">
+                    <span className="block font-bold">
+                        {policyObject.Status}
+                    </span>
+                    <span className="block">
+                        Bekijk de uitleg en betekenis van statussen{' '}
+                        <span className="underline">hier</span>
+                    </span>
+                </a>
+            }>
+            <div className="inline-block ml-1 transition-colors duration-500 ease-in cursor-pointer text-pzh-dark-blue opacity-40 hover:opacity-80">
+                <CircleInfo />
+            </div>
+        </Tippy>
+    </span>
+)
 
 export default TableLatestEdits

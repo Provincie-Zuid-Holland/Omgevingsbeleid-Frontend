@@ -1,5 +1,4 @@
-import { faAngleDown, faEye } from '@fortawesome/pro-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { AngleDown, Eye } from '@pzh-ui/icons'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 import objecten from '@/constants/koppelingen'
@@ -266,10 +265,7 @@ const FormFieldRelatieKoppeling = ({
                                                 </div>
                                                 <div className="relative w-full pr-8">
                                                     {item.Object.Titel}
-                                                    <FontAwesomeIcon
-                                                        className="absolute top-0 right-0 mt-1 mr-2"
-                                                        icon={faEye}
-                                                    />
+                                                    <Eye className="absolute top-0 right-0 mt-1 mr-2" />
                                                 </div>
                                             </li>
                                         )
@@ -384,10 +380,7 @@ const Dropdown = ({
                     {buttonTekst}
                 </span>
                 <span className="inline-block px-4 py-1 ml-4 text-center border-l border-white border-opacity-25">
-                    <FontAwesomeIcon
-                        className="mt-1 text-white"
-                        icon={faAngleDown}
-                    />
+                    <AngleDown className="text-white inline-block" />
                 </span>
                 {dropdownOpen ? (
                     <ul

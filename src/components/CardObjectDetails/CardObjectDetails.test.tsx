@@ -32,7 +32,7 @@ describe('CardObjectDetails', () => {
 
         const link = screen.getByRole('link') as HTMLLinkElement
         const href = link.href
-        expect(href).toBe(`http://localhost/muteer/ambities/1`)
+        expect(href).toBe(`http://localhost/muteer/ambities/1/bewerk`)
     })
 
     it('contains a link with a hash that refers to "mijn beleid"', () => {
@@ -49,7 +49,9 @@ describe('CardObjectDetails', () => {
 
         const link = screen.getByRole('link') as HTMLLinkElement
         const href = link.href
-        expect(href).toBe(`http://localhost/muteer/ambities/1#mijn-beleid`)
+        expect(href).toBe(
+            `http://localhost/muteer/ambities/1/bewerk#mijn-beleid`
+        )
     })
 
     it('contains an index in the ID when mapped', () => {

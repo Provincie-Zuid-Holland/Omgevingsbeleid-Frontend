@@ -34,13 +34,18 @@ const LoginForm = () => {
 
     const [wachtwoordResetPopup, setWachtwoordResetPopup] = useState(false)
     const [error, setError] = useState(null)
+    const [loading, setLoading] = useState(false)
 
     const handleFormSubmit = ({ email, password }: FormProps) => {
+        setLoading(true)
+
         signin(email, password)
             .then(() => {
+                setLoading(false)
                 navigate('/muteer/dashboard', { replace: true })
             })
             .catch(err => {
+                setLoading(false)
                 setError(err?.data?.message || 'Er is iets mis gegaan.')
             })
     }
@@ -80,6 +85,7 @@ const LoginForm = () => {
                                 label="Inloggen"
                                 type="submit"
                                 disabled={!isValid || !dirty}
+                                isLoading={loading}
                             />
                             <button
                                 className="mt-4 text-sm underline cursor-pointer sm:mt-0 sm:ml-4 text-pzh-green hover:text-pzh-green-dark"

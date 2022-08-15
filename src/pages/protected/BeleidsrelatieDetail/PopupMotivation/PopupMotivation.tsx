@@ -1,5 +1,4 @@
-import { faTimes } from '@fortawesome/pro-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Xmark } from '@pzh-ui/icons'
 import { useRef } from 'react'
 import { useClickAway, useKey } from 'react-use'
 
@@ -43,7 +42,7 @@ function PopupMotivation({
                 className="absolute top-0 right-0 px-3 py-2 text-gray-600 cursor-pointer"
                 id={`sluit-popup-beleidsrelatie-motivering`}
                 data-testid={`sluit-popup-beleidsrelatie-motivering`}>
-                <FontAwesomeIcon icon={faTimes} />
+                <Xmark size={18} />
             </div>
             <h3 className="font-bold form-field-label">Motivering</h3>
             <p

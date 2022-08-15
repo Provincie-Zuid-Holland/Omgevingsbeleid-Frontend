@@ -1,5 +1,4 @@
-import { faEye, faEyeSlash } from '@fortawesome/pro-regular-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Eye, EyeSlash } from '@pzh-ui/icons'
 import { useState } from 'react'
 import { useMap } from 'react-leaflet'
 
@@ -47,8 +46,8 @@ const LeafletAreaLayer = ({ layer, index }: LeafletAreaLayerProps) => {
                         ''}
                 </span>
             </div>
-            <div className="flex-none w-5 ml-2">
-                <FontAwesomeIcon icon={isActive ? faEye : faEyeSlash} />
+            <div className="flex align-middle w-5 ml-2">
+                {isActive ? <Eye size={18} /> : <EyeSlash size={18} />}
             </div>
         </li>
     )

@@ -120,6 +120,7 @@ const ObjectDetail = ({
 
         // We only want to show the revisions on the type of Beleidskeuze
         if (titleSingular !== 'Beleidskeuze') {
+            setLineageID(null)
             return setDataLoaded(true)
         }
 
@@ -136,7 +137,7 @@ const ObjectDetail = ({
             />
             <Container
                 id="raadpleeg-detail-container-main"
-                className="mb-6 md:mb-32">
+                className="mb-6 md:mb-4">
                 <div className="block col-span-6 xl:hidden">
                     <BackButton className="block xl:hidden" />
                     <Heading

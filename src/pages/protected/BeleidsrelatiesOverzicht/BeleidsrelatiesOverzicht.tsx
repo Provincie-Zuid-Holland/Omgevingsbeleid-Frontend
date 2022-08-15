@@ -1,11 +1,4 @@
-import {
-    faAngleRight,
-    faHourglass,
-    faCheck,
-    faEnvelope,
-    faTimes,
-} from '@fortawesome/pro-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { AngleRight, Check, Envelope, Hourglass, Xmark } from '@pzh-ui/icons'
 import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
@@ -168,33 +161,28 @@ const BeleidsrelatiesOverzicht = ({
                         <li className="flex py-2 text-sm font-bold text-gray-800 border-b border-gray-200">
                             <div className="w-6/12 pl-10">Beleidskeuzes</div>
                             <div className="w-2/12">Status</div>
-                            <div className="w-1/12 text-center">
-                                <FontAwesomeIcon
-                                    title="Geaccepteerde beleidsrelatie"
-                                    className="text-gray-800 "
-                                    icon={faCheck}
+                            <div
+                                className="w-1/12 flex justify-center"
+                                title="Geaccepteerde beleidsrelatie">
+                                <Check size={16} className="text-gray-800" />
+                            </div>
+                            <div
+                                className="w-1/12 flex justify-center"
+                                title="Een onbevestigde relatie, is een relatie die door de andere partij nog geaccepteerd moet worden">
+                                <Hourglass
+                                    size={16}
+                                    className="text-gray-800"
                                 />
                             </div>
-                            <div className="w-1/12 text-center">
-                                <FontAwesomeIcon
-                                    title="Een onbevestigde relatie, is een relatie die door de andere partij nog geaccepteerd moet worden"
-                                    className="text-gray-800 "
-                                    icon={faHourglass}
-                                />
+                            <div
+                                className="w-1/12 flex justify-center"
+                                title="Inkomend verzoek">
+                                <Envelope size={16} className="text-gray-800" />
                             </div>
-                            <div className="w-1/12 text-center">
-                                <FontAwesomeIcon
-                                    title="Inkomend verzoek"
-                                    className="text-gray-800 "
-                                    icon={faEnvelope}
-                                />
-                            </div>
-                            <div className="w-1/12 mr-6 text-center ">
-                                <FontAwesomeIcon
-                                    title="Afgewezen relaties"
-                                    className="text-gray-800 "
-                                    icon={faTimes}
-                                />
+                            <div
+                                className="w-1/12 mr-6 flex justify-center"
+                                title="Afgewezen relaties">
+                                <Xmark size={16} className="text-gray-800" />
                             </div>
                         </li>
                         {dataLoaded && beleidskeuzesObject ? (
@@ -249,10 +237,7 @@ const BeleidsrelatiesOverzicht = ({
                                                     ? item.Afgewezen
                                                     : '-'}
                                             </div>
-                                            <FontAwesomeIcon
-                                                className="absolute right-0 h-8 mr-3 text-gray-700"
-                                                icon={faAngleRight}
-                                            />
+                                            <AngleRight className="absolute right-0 mr-3 -mt-[2px] text-gray-700" />
                                         </Link>
                                     </li>
                                 ))

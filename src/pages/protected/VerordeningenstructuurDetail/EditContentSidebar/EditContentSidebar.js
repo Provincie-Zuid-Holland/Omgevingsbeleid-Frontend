@@ -1,12 +1,7 @@
 /* istanbul ignore file */
 
-import {
-    faSpinner,
-    faChevronDown,
-    faChevronUp,
-} from '@fortawesome/pro-regular-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Transition } from '@headlessui/react'
+import { AngleDown, AngleUp, Spinner } from '@pzh-ui/icons'
 import { useEffect, useState } from 'react'
 
 import Artikel from '../ContainerCrudFields/Artikel'
@@ -82,10 +77,7 @@ const EditContentSidebar = ({
             <div className="relative">
                 {verordeningsObjectIsLoading && verordeningsObjectFromGET ? (
                     <div className="absolute flex items-center justify-center w-full h-64">
-                        <FontAwesomeIcon
-                            className="text-gray-500 rotate-icon"
-                            icon={faSpinner}
-                        />
+                        <Spinner className="text-gray-500 animate-spin" />
                     </div>
                 ) : null}
                 <Transition
@@ -176,10 +168,11 @@ const ContentSidebarContainer = ({
                     Eigenschappen
                     {' ' + currentType + ' ' + volgnummerBeingEdited}
                 </span>
-                <FontAwesomeIcon
-                    className="text-white"
-                    icon={open ? faChevronDown : faChevronUp}
-                />
+                {open ? (
+                    <AngleDown className="text-white" />
+                ) : (
+                    <AngleUp className="text-white" />
+                )}
             </div>
             <div
                 className={`p-4 bg-white rounded-b ${

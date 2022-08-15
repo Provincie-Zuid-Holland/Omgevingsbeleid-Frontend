@@ -20,7 +20,7 @@ function ViewFieldInnerHTML({ html, fieldTitel }: ViewFieldInnerHTMLProps) {
                 </h2>
             ) : null}
             <div
-                className="w-full mb-8 leading-7 break-words whitespace-pre-line raadpleeg-innerhtml"
+                className="w-full mb-8 leading-6 break-words whitespace-pre-line raadpleeg-innerhtml"
                 dangerouslySetInnerHTML={{ __html: cleanHtml }}></div>
         </div>
     )

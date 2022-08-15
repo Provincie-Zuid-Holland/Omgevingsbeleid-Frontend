@@ -82,7 +82,7 @@ const RevisionOverviewWerkingsgebied = ({
     return (
         <div className="w-full">
             <p
-                className={`mt-4 leading-7 break-words w-full whitespace-pre-line ${
+                className={`mt-4 leading-6 break-words w-full whitespace-pre-line ${
                     containsGeo ? 'text-gray-800' : 'italic text-gray-600'
                 }`}>
                 {sentenceIndicatingChange}

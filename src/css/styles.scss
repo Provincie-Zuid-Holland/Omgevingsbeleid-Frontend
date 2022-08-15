@@ -46,10 +46,6 @@
     }
 }
 
-.main-sidebar-arrow {
-    margin-top: -1px;
-}
-
 .vertical-label {
     text-orientation: sideways;
     writing-mode: vertical-rl;
@@ -62,10 +58,6 @@
 
 .edit-header {
     margin-top: -48px;
-}
-
-.rotate-icon {
-    animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
@@ -481,10 +473,16 @@
         letter-spacing: 0.025em;
         margin-bottom: 0.25rem;
     }
+    p,
+    ul {
+        margin-bottom: 20px;
+    }
 }
 .revision-innerhtml,
 .raadpleeg-innerhtml {
-    strong {
+    strong,
+    b {
+        font-family: 'Karbon Medium', sans-serif;
         font-weight: 700;
     }
     ul {

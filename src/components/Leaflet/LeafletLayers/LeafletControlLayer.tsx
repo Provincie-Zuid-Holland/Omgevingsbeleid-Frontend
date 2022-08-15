@@ -1,6 +1,5 @@
-import { faLayerGroup, faAngleRight } from '@fortawesome/pro-light-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Transition } from '@headlessui/react'
+import { AngleRight, LayerGroup } from '@pzh-ui/icons'
 import { ReactNode, useState } from 'react'
 import { TileLayer, LayersControl, useMap } from 'react-leaflet'
 import { useUpdateEffect } from 'react-use'
@@ -42,14 +41,17 @@ const LeafletControlLayer = ({ fullscreen, children }: LeafletLayerProps) => {
                                 setLayerControlOpen(!layerControlOpen)
                             }
                             data-testid="leaflet-layers-control-toggle">
-                            <FontAwesomeIcon
-                                className="text-base text-gray-700"
-                                icon={
-                                    layerControlOpen
-                                        ? faAngleRight
-                                        : faLayerGroup
-                                }
-                            />
+                            {layerControlOpen ? (
+                                <AngleRight
+                                    size={16}
+                                    className="text-gray-700"
+                                />
+                            ) : (
+                                <LayerGroup
+                                    size={16}
+                                    className="text-gray-700"
+                                />
+                            )}
                         </div>
                         <Transition
                             show={layerControlOpen}
@@ -65,10 +67,7 @@ const LeafletControlLayer = ({ fullscreen, children }: LeafletLayerProps) => {
                                 onClick={() =>
                                     setLayerControlOpen(!layerControlOpen)
                                 }>
-                                <FontAwesomeIcon
-                                    className="text-lg"
-                                    icon={faAngleRight}
-                                />
+                                <AngleRight size={16} />
                             </button>
                             <div
                                 className="relative z-10 bg-white cursor-pointer overflow-y-auto"
