@@ -30,7 +30,7 @@ const FilterItem = ({
                             newState: !checked,
                         })
                     }}
-                    className="mr-2 leading-tight text-indigo-600 cursor-pointer text-pzh-green hover:text-pzh-green-dark form-checkbox"
+                    className="mr-2 leading-tight cursor-pointer text-pzh-green hover:text-pzh-green-dark form-checkbox"
                     type="checkbox"
                     checked={checked}
                     name={`filter-item-${item}`}

@@ -1,15 +1,14 @@
 import { Transition } from '@headlessui/react'
+import { Heading, Text } from '@pzh-ui/components'
 import { Filter as FilterIcon } from '@pzh-ui/icons'
 import Tippy from '@tippyjs/react'
 import { useState } from 'react'
 
 import { GetSearchGeo200ResultsItem } from '@/api/fetchers.schemas'
-import Heading from '@/components/Heading'
 import { LoaderCard } from '@/components/Loader'
 import Pagination from '@/components/Pagination'
 import SearchFilterSection from '@/components/SearchFilterSection'
 import SearchResultItem from '@/components/SearchResultItem'
-import Text from '@/components/Text'
 import { FilterCollection } from '@/hooks/useSearchResultFilters'
 
 interface SidebarResultsProps {

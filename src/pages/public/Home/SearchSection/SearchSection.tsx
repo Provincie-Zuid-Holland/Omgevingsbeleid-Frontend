@@ -1,9 +1,9 @@
+import { Text } from '@pzh-ui/components'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { LeafletMap } from '@/components/Leaflet'
 import SearchBar from '@/components/SearchBar'
-import Text from '@/components/Text'
 import { MAP_SEARCH_PAGE } from '@/constants/leaflet'
 
 function SearchSection() {

@@ -1,9 +1,8 @@
+import { Heading, Text } from '@pzh-ui/components'
 import { ArrowUpRightFromSquare, FilePdf } from '@pzh-ui/icons'
 import { Link } from 'react-router-dom'
 
 import { Container } from '@/components/Container'
-import Heading from '@/components/Heading'
-import Text from '@/components/Text'
 import { releases } from '@/constants/releases'
 import {
     getResponsiveImageHeight,

@@ -1,4 +1,5 @@
 import { Transition } from '@headlessui/react'
+import { Heading, Text } from '@pzh-ui/components'
 import { ArrowLeft, DrawPolygon, LocationDot } from '@pzh-ui/icons'
 import Leaflet, { latLng, Map } from 'leaflet'
 import { ReactNode, useEffect, useMemo, useRef, useState } from 'react'
@@ -6,9 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import Select from 'react-select'
 
 import { useGetValidWerkingsgebieden } from '@/api/fetchers'
-import Heading from '@/components/Heading'
 import { LeafletSearchInput } from '@/components/Leaflet'
-import Text from '@/components/Text'
 import { MAP_SEARCH_PAGE } from '@/constants/leaflet'
 import useSearchParam from '@/hooks/useSearchParam'
 

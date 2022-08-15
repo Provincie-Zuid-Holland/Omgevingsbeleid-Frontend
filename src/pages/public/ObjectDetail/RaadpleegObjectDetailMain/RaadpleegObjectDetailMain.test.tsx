@@ -2,6 +2,8 @@ import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { MemoryRouter } from 'react-router-dom'
 
+import { AuthContext } from '@/context/AuthContext'
+
 import RaadpleegObjectDetailMain from './RaadpleegObjectDetailMain'
 
 describe('RaadpleegObjectDetailMain', () => {
@@ -45,7 +47,9 @@ describe('RaadpleegObjectDetailMain', () => {
         const props = { ...defaultProps, ...customProps }
         render(
             <MemoryRouter>
-                <RaadpleegObjectDetailMain {...props} />
+                <AuthContext.Provider value={{ user: { UUID: '0001' } } as any}>
+                    <RaadpleegObjectDetailMain {...props} />
+                </AuthContext.Provider>
             </MemoryRouter>
         )
     }

@@ -1,8 +1,7 @@
+import { Text } from '@pzh-ui/components'
 import { AngleRight } from '@pzh-ui/icons'
 import { useEffect, useRef, useState } from 'react'
 import { useWindowSize } from 'react-use'
-
-import Text from '@/components/Text'
 
 const TableOfContents = ({ display }: { display: 'block' | 'fixed' }) => {
     const windowSize = useWindowSize()

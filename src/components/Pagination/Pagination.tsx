@@ -1,3 +1,4 @@
+import { Button } from '@pzh-ui/components'
 import { useState } from 'react'
 
 import { getSearch, postSearchGeo } from '@/api/fetchers'
@@ -5,7 +6,6 @@ import {
     GetSearch200ResultsItem,
     GetSearchGeo200ResultsItem,
 } from '@/api/fetchers.schemas'
-import Button from '@/components/Button'
 import LoaderSpinner from '@/components/Loader/LoaderSpinner'
 import useSearchParam from '@/hooks/useSearchParam'
 import { ACTIONTYPE } from '@/hooks/useSearchResultFilters'
@@ -92,7 +92,7 @@ function Pagination({
                 </div>
             ) : (
                 <Button
-                    text="Meer resultaten laden"
+                    label="Meer resultaten laden"
                     onClick={getNewSearchResults}
                 />
             )}

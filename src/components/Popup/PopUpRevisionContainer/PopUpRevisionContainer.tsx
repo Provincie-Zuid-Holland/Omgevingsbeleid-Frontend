@@ -1,9 +1,7 @@
-import { Modal } from '@pzh-ui/components'
+import { Heading, Modal } from '@pzh-ui/components'
 import { AngleRight, ClockRotateLeft } from '@pzh-ui/icons'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-
-import Heading from '@/components/Heading'
 
 import PopupRevisionOverview from '../PopupRevisionOverview'
 
