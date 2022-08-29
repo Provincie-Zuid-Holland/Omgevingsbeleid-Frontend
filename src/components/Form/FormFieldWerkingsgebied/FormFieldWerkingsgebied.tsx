@@ -27,9 +27,10 @@ interface FormFieldWerkingsgebiedProps {
     werkingsgebiedInParentState: any
     dataObjectProperty: string
     titleSingular: string
-    fieldLabel: string
-    pValue: string
+    fieldLabel?: string
+    pValue?: string
     disabled?: boolean
+    hideLabel?: boolean
 }
 
 const FormFieldWerkingsgebied = ({
@@ -40,6 +41,7 @@ const FormFieldWerkingsgebied = ({
     fieldLabel,
     pValue,
     disabled,
+    hideLabel,
 }: FormFieldWerkingsgebiedProps) => {
     const [popupOpen, setPopupOpen] = useState(false)
     const [werkingsgebied, setWerkingsgebied] =
@@ -59,11 +61,13 @@ const FormFieldWerkingsgebied = ({
 
     return (
         <>
-            <FormFieldTitelEnBeschrijving
-                fieldLabel={fieldLabel}
-                pValue={pValue}
-                disabled={disabled}
-            />
+            {hideLabel ? null : (
+                <FormFieldTitelEnBeschrijving
+                    fieldLabel={fieldLabel}
+                    pValue={pValue}
+                    disabled={disabled}
+                />
+            )}
             <div
                 className={`flex flex-wrap mb-6 -mx-3 ${
                     disabled

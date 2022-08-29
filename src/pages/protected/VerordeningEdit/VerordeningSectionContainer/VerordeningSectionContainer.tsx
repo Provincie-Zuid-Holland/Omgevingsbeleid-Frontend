@@ -81,7 +81,7 @@ const VerordeningSectionContainer: FC<VerordeningSectionContainerProps> = ({
                     )}
                 </div>
                 <div className="col-span-4">
-                    <div
+                    {/* <div
                         className={classNames({
                             'flex items-center pt-3 pb-2 rounded px-4 font-bold bg-pzh-blue-super-light':
                                 activeChapter,
@@ -91,10 +91,21 @@ const VerordeningSectionContainer: FC<VerordeningSectionContainerProps> = ({
                                 ? `Hoofdstuk ${activeChapter.Volgnummer} - ${activeChapter.Titel}`
                                 : verordening.Titel}
                         </Heading>
-                    </div>
+                    </div> */}
                 </div>
             </div>
             <div className="col-span-4 pb-8 lg:pb-12">
+                <div
+                    className={classNames({
+                        'flex items-center pt-3 pb-2 rounded px-4 font-bold bg-pzh-blue-super-light':
+                            activeChapter,
+                    })}>
+                    <Heading level={activeChapter ? '3' : '2'}>
+                        {activeChapter
+                            ? `Hoofdstuk ${activeChapter.Volgnummer} - ${activeChapter.Titel}`
+                            : verordening.Titel}
+                    </Heading>
+                </div>
                 <div
                     className={classNames({
                         'pl-4': activeChapter,
@@ -102,8 +113,8 @@ const VerordeningSectionContainer: FC<VerordeningSectionContainerProps> = ({
                     {children}
                 </div>
             </div>
-            <div className="col-span-2 pt-4">
-                <div className="sticky" style={{ top: 'calc(1rem + 192px)' }}>
+            <div className="col-span-2">
+                <div className="sticky" style={{ top: 'calc(146px + 1rem)' }}>
                     {isCreatingOrEditingArticle && <FormArticleSidebar />}
 
                     {!isEditingOrder && !isAddingSection && !values?.Type && (
