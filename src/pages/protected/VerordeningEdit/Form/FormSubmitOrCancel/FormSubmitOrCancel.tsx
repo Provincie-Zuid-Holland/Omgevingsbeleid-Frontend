@@ -1,6 +1,6 @@
 import { Button } from '@pzh-ui/components'
 import { FloppyDisk, Spinner, Xmark } from '@pzh-ui/icons'
-import React, { Fragment } from 'react'
+import { Fragment } from 'react'
 
 import { useVerordening } from '../../verordeningEditContext'
 
@@ -15,9 +15,7 @@ const FormSubmitOrCancel = () => {
             <Button
                 variant="cta"
                 type="submit"
-                onClick={e => {
-                    isLoadingOrSaving && e.preventDefault()
-                }}
+                onClick={e => isLoadingOrSaving && e.preventDefault()}
                 disabled={isLoadingOrSaving}
                 className="ml-1">
                 {isLoadingOrSaving ? (
@@ -31,6 +29,8 @@ const FormSubmitOrCancel = () => {
                 variant="primary"
                 onClick={() => {
                     dispatch({ type: 'resetEditingSection' })
+                    dispatch({ type: 'setNewSection', payload: null })
+                    dispatch({ type: 'setIsAddingSection', payload: false })
                 }}
                 disabled={isLoadingOrSaving}
                 className="ml-1">

@@ -2,12 +2,12 @@ import classNames from 'classnames'
 import { DragControls, Reorder, useMotionValue } from 'framer-motion'
 import { Fragment } from 'react'
 
-import { VerordeningChildRead } from '@/types/verordening'
+import { VerordeningStructureChild } from '@/types/verordening'
 
 import { useVerordening } from '../verordeningEditContext'
 
 export interface ReorderItemProps {
-    section: VerordeningChildRead
+    section: VerordeningStructureChild
     controls: DragControls
     children: JSX.Element
 }

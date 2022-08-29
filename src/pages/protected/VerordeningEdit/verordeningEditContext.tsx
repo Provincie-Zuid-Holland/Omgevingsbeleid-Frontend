@@ -1,36 +1,36 @@
-import { createContext, useReducer, useContext } from 'react'
+import { createContext, useContext, useReducer } from 'react'
 
-import { VerordeningenRead } from '@/api/fetchers.schemas'
+import { VerordeningenRead, VerordeningenWrite } from '@/api/fetchers.schemas'
 import {
     VerordeningLineageRead,
-    VerordeningChildRead,
+    VerordeningStructureChild,
 } from '@/types/verordening'
-import {
-    getChildrenOfSectionFromLineage,
-    postVerordeningSection,
-} from '@/utils/verordening'
+import { replaceReorderedSections } from '@/utils/verordening'
 
-type ActiveSectionData =
+export type ActiveSectionData =
     | (VerordeningenRead & { Children?: VerordeningenRead[] })
     | null
-type Dispatch = (action: Action) => void
-type VerordeningProviderProps = { children: React.ReactNode }
-type State = {
+export type Dispatch = (action: Action) => void
+export type VerordeningProviderProps = { children: React.ReactNode }
+export type State = {
     lineageClone: VerordeningLineageRead | null
     editingSectionUUID: string | null
     activeSectionData: ActiveSectionData
-    newPostObject: VerordeningChildRead | null
+    newSection: VerordeningenWrite | null
+    activeLedenFromArticle: VerordeningenRead[] | null
     activeChapterUUID: string | null
     editingSectionIndexPath: number[] | null
     isEditingOrder: boolean
     isAddingSection: boolean
+    addingSectionType: 'Afdeling' | 'Paragraaf' | 'Artikel' // There is no 'Hoofdstuk' type because these can only be added in the Chapter overview, making it redundant.
     isLoadingOrSaving: boolean
 }
-type Action =
+
+export type Action =
     | {
           type: 'reorderSections'
           payload: {
-              reorderedSections: VerordeningChildRead[]
+              reorderedSections: VerordeningStructureChild[]
               indexPath: number[]
           }
       }
@@ -44,76 +44,30 @@ type Action =
           type: 'setEditingSectionIndexPath'
           payload: State['editingSectionIndexPath']
       }
+    | {
+          type: 'setActiveLedenFromArticle'
+          payload: State['activeLedenFromArticle']
+      }
     | { type: 'setIsEditingOrder'; payload: State['isEditingOrder'] }
     | { type: 'setActiveSectionData'; payload: State['activeSectionData'] }
     | {
-          type: 'transformArticleContentToSubItem'
-          payload: State['activeSectionData']
+          type: 'setNewSection'
+          payload:
+              | 'Hoofdstuk'
+              | 'Paragraaf'
+              | 'Afdeling'
+              | 'Artikel'
+              | 'Lid'
+              | null
       }
     | { type: 'setIsAddingSection'; payload: State['isAddingSection'] }
+    | { type: 'setAddingSectionType'; payload: State['addingSectionType'] }
     | { type: 'setIsLoadingOrSaving'; payload: State['isLoadingOrSaving'] }
-    | { type: 'setNewPostObject'; payload: State['newPostObject'] }
     | { type: 'resetEditingSection' }
 
 const VerordeningContext = createContext<
     { state: State; dispatch: Dispatch } | undefined
 >(undefined)
-
-const replaceReorderedSections = (
-    indexPath: number[],
-    newLineageClone: VerordeningLineageRead,
-    reorderedSections: VerordeningChildRead[]
-) => {
-    if (
-        indexPath.length === 0 &&
-        newLineageClone?.Structuur?.Children !== undefined
-    ) {
-        newLineageClone.Structuur.Children = reorderedSections
-    } else if (
-        indexPath.length === 1 &&
-        newLineageClone?.Structuur?.Children[indexPath[0]]?.Children !==
-            undefined
-    ) {
-        newLineageClone.Structuur.Children[indexPath[0]].Children =
-            reorderedSections
-    } else if (
-        indexPath.length === 2 &&
-        newLineageClone?.Structuur?.Children[indexPath[0]]?.Children[
-            indexPath[1]
-        ]?.Children !== undefined
-    ) {
-        newLineageClone.Structuur.Children[indexPath[0]].Children[
-            indexPath[1]
-        ].Children = reorderedSections
-    } else if (
-        indexPath.length === 3 &&
-        newLineageClone?.Structuur?.Children[indexPath[0]]?.Children[
-            indexPath[1]
-        ]?.Children[indexPath[2]]?.Children !== undefined
-    ) {
-        newLineageClone.Structuur.Children[indexPath[0]].Children[
-            indexPath[1]
-        ].Children[indexPath[2]].Children = reorderedSections
-    }
-
-    return newLineageClone
-}
-
-const transformArticleContentToSubItem = async (
-    activeSectionData: VerordeningenRead & { Children?: VerordeningenRead[] }
-) => {
-    const currentContent = activeSectionData?.Inhoud
-    activeSectionData.Inhoud = ''
-    const newLidPost = {
-        Inhoud: currentContent,
-        Type: 'Lid' as const,
-        Status: 'Vigerend' as const,
-        Volgnummer: '',
-    }
-    const newLid = await postVerordeningSection(newLidPost)
-    activeSectionData.Children = [{ Inhoud: newLid }]
-    return activeSectionData
-}
 
 function verordeningReducer(state: State, action: Action) {
     switch (action.type) {
@@ -175,6 +129,12 @@ function verordeningReducer(state: State, action: Action) {
                 isAddingSection: action.payload,
             }
 
+        case 'setAddingSectionType':
+            return {
+                ...state,
+                addingSectionType: action.payload,
+            }
+
         case 'setIsLoadingOrSaving':
             return {
                 ...state,
@@ -184,28 +144,23 @@ function verordeningReducer(state: State, action: Action) {
         case 'setActiveSectionData':
             return {
                 ...state,
-                activeSectionData: action.payload,
+                activeSectionData: { ...action.payload },
             }
 
-        case 'transformArticleContentToSubItem':
-            const currentActiveSectionData = action.payload
-            if (!currentActiveSectionData) return { ...state }
-            const createdLid = transformArticleContentToSubItem(
-                currentActiveSectionData
-            )
-            const newArticle = {
-                ...currentActiveSectionData,
-                Children: [createdLid],
-            } as ActiveSectionData
-            return {
-                ...state,
-                activeSectionData: newArticle,
-            }
-
-        case 'setNewPostObject':
-            return {
-                ...state,
-                newPostObject: action.payload,
+        case 'setNewSection':
+            if (action.payload === null) {
+                return {
+                    ...state,
+                    newSection: null,
+                }
+            } else {
+                return {
+                    ...state,
+                    newSection: {
+                        Status: 'Vigerend',
+                        Type: action.payload,
+                    },
+                }
             }
 
         default:
@@ -225,6 +180,7 @@ function VerordeningProvider({ children }: VerordeningProviderProps) {
         editingSectionUUID: null,
 
         // The complete object of the section the user is editing, retrieved from the API when editingSectionUUID is set
+        // It is also populated with a `Children` property if the section is an article with one or more Lid Children under it
         activeSectionData: null,
 
         // IndexPath to navigate to the object the user is editing in the lineage
@@ -236,11 +192,17 @@ function VerordeningProvider({ children }: VerordeningProviderProps) {
         // Indicates if user is ordering the sections
         isAddingSection: false,
 
+        // Indicates the type of section the user is adding
+        addingSectionType: 'Afdeling',
+
         // Combines multiple loading states (from the QueryClient) into a universal loading state
         isLoadingOrSaving: false,
 
-        // TODO: implement/remove this
-        newPostObject: null,
+        // To create new sections
+        newSection: null,
+
+        // Holds the leden if an article contains them
+        activeLedenFromArticle: null,
     })
 
     const value = { state, dispatch }
@@ -255,7 +217,9 @@ function VerordeningProvider({ children }: VerordeningProviderProps) {
 function useVerordening() {
     const context = useContext(VerordeningContext)
     if (context === undefined) {
-        throw new Error('useCount must be used within a VerordeningProvider')
+        throw new Error(
+            'useVerordening must be used within a VerordeningProvider'
+        )
     }
     return context
 }

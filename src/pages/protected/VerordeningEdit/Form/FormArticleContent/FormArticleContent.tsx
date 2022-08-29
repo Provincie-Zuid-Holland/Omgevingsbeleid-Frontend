@@ -1,42 +1,42 @@
 import { FormikTextArea, Text } from '@pzh-ui/components'
+import { useFormikContext } from 'formik'
 
-import { VerordeningChildRead } from '@/types/verordening'
+import { createVerordeningLid } from '@/utils/verordening'
 
-import { useVerordening } from '../../verordeningEditContext'
+import { ActiveSectionData } from '../../verordeningEditContext'
 
 export interface FormArticleContentProps {}
 
-const FormArticleContent = ({ section }: { section: VerordeningChildRead }) => {
-    const { state, dispatch } = useVerordening()
-    const { activeSectionData } = state
+const FormArticleContent = () => {
+    const { values, setFieldValue } = useFormikContext<ActiveSectionData>()
 
-    const emptyChild: Partial<VerordeningChildRead> = {
-        Children: [],
-        Inhoud: '',
+    const sectionHasNoChildren =
+        values?.Children?.length === undefined || values?.Children?.length === 0
+
+    const transformArticleContentToSubItem = async () => {
+        try {
+            const newCreatedLid = await createVerordeningLid(
+                values?.Inhoud || ''
+            )
+            if (!newCreatedLid) return
+            setFieldValue('Inhoud', '')
+            setFieldValue('Children', [newCreatedLid])
+        } catch (err) {
+            console.error(err)
+        }
     }
-
-    const values = activeSectionData ? activeSectionData : emptyChild
 
     return (
         <div>
-            <FormikTextArea
-                name="Inhoud"
-                className="pr-6"
-                value={values.Inhoud}
-            />
-            {section.Children.length === 0 ? (
+            {sectionHasNoChildren ? (
                 <div>
+                    <FormikTextArea name="Inhoud" className="pr-6" />
                     <Text type="body-small">Dit artikel heeft geen leden.</Text>
                     <Text type="body-small">
                         <button
                             type="button"
                             className="ml-1 underline"
-                            onClick={() =>
-                                dispatch({
-                                    type: 'transformArticleContentToSubItem',
-                                    payload: activeSectionData,
-                                })
-                            }>
+                            onClick={transformArticleContentToSubItem}>
                             Zet bovenstaand veld om naar lid 1.
                         </button>
                     </Text>

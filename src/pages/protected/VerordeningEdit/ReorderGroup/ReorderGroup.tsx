@@ -8,14 +8,12 @@ export interface ReorderGroupProps {
     values: unknown[]
     indexPath: number[]
     replaceUlForFragment?: string | null
-    type: 'Hoofdstuk' | 'Paragraaf' | 'Afdeling' | 'Artikel' | 'Lid'
 }
 
 const ReorderGroup: FC<ReorderGroupProps> = ({
     values,
     indexPath,
     replaceUlForFragment,
-    type,
     children,
 }) => {
     const { dispatch } = useVerordening()
@@ -25,11 +23,7 @@ const ReorderGroup: FC<ReorderGroupProps> = ({
         return (
             <Reorder.Group
                 axis="y"
-                className={classNames('space-y-2', {
-                    'my-4': type === 'Hoofdstuk' || type === 'Afdeling',
-                    'mb-4': type !== 'Hoofdstuk' && type !== 'Afdeling',
-                    'pl-4': type !== 'Artikel' && indexPath.length === 2,
-                })}
+                className={`space-y-2 my-4 pl-${indexPath.length * 2}`}
                 onReorder={reorderedSections => {
                     dispatch({
                         type: 'reorderSections',

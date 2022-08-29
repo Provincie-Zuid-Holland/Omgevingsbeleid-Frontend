@@ -3,7 +3,7 @@ export interface VerordeningLineageRead {
     UUID: string
     Titel: string
     Structuur: {
-        Children: VerordeningChildRead[]
+        Children: VerordeningStructureChild[]
     }
     Begin_Geldigheid: Date
     Eind_Geldigheid: Date
@@ -14,8 +14,8 @@ export interface VerordeningLineageRead {
     Status: string
 }
 
-export interface VerordeningChildRead {
-    Children: VerordeningChildRead[]
+export interface VerordeningStructureChild {
+    Children: VerordeningStructureChild[]
     Gebied: null | string
     Inhoud: string
     Titel: string
@@ -25,18 +25,12 @@ export interface VerordeningChildRead {
 }
 
 export interface VerordeningLineageWrite {
-    ID: number
-    UUID: string
     Titel: string
     Structuur: {
-        Children: VerordeningChildRead[]
+        Children: VerordeningStructureChild[]
     }
     Begin_Geldigheid: Date
     Eind_Geldigheid: Date
-    Created_By: string
-    Created_Date: Date
-    Modified_By: string
-    Modified_Date: Date
     Status: string
 }
 

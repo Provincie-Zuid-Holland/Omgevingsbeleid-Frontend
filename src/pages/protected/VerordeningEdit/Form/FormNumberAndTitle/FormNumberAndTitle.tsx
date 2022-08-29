@@ -1,31 +1,17 @@
 import { FormikInput, Text } from '@pzh-ui/components'
 import classNames from 'classnames'
-import React from 'react'
-
-import { VerordeningChildRead } from '@/types/verordening'
-
-import { useVerordening } from '../../verordeningEditContext'
-import FormSubmitOrCancel from '../FormSubmitOrCancel'
+import { FC } from 'react'
 
 export interface FormNumberAndTitleProps {
     type: 'Hoofdstuk' | 'Afdeling' | 'Paragraaf' | 'Artikel'
+    marginLeft?: boolean
 }
 
-const FormNumberAndTitle = ({ type }: FormNumberAndTitleProps) => {
-    const { state } = useVerordening()
-    const { activeSectionData } = state
-
-    const emptyChild: Partial<VerordeningChildRead> = {
-        Children: [],
-        Gebied: null,
-        Inhoud: '',
-        Titel: '',
-        Type: type,
-        Volgnummer: 'string',
-    }
-
-    const values = activeSectionData ? activeSectionData : emptyChild
-
+const FormNumberAndTitle: FC<FormNumberAndTitleProps> = ({
+    type,
+    children,
+    marginLeft,
+}) => {
     return (
         <div
             className={classNames(
@@ -35,6 +21,7 @@ const FormNumberAndTitle = ({ type }: FormNumberAndTitleProps) => {
                         type === 'Hoofdstuk' ||
                         type === 'Afdeling' ||
                         type === 'Paragraaf',
+                    'ml-4': marginLeft,
                 }
             )}>
             <Text type="span" className="mr-2">
@@ -46,22 +33,16 @@ const FormNumberAndTitle = ({ type }: FormNumberAndTitleProps) => {
                     name="Volgnummer"
                     className="px-1 text-center"
                     type="text"
-                    value={values.Volgnummer}
                 />
             </div>
             <Text type="span" className="mx-2">
                 -
             </Text>
             <div className="flex-1 h-full -mb-1">
-                <FormikInput
-                    name="Titel"
-                    type="text"
-                    placeholder="Titel"
-                    value={values.Titel}
-                />
+                <FormikInput name="Titel" type="text" placeholder="Titel" />
             </div>
 
-            <FormSubmitOrCancel />
+            {children}
         </div>
     )
 }

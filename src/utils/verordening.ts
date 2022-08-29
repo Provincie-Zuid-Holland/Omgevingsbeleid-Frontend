@@ -1,53 +1,80 @@
 import cloneDeep from 'lodash.clonedeep'
 
 import { getVersionVerordeningenObjectuuid } from '@/api/fetchers'
+import { VerordeningenRead, VerordeningenWrite } from '@/api/fetchers.schemas'
 import axios from '@/api/instance'
 import {
-    VerordeningChildRead,
-    VerordeningChildWrite,
     VerordeningLineageRead,
-    VerordeningLineageWrite,
+    VerordeningStructureChild,
 } from '@/types/verordening'
 
-const prepareForPatch = (values: any, type: 'lineage' | 'section') => {
-    const patchValues = cloneDeep(values)
-    const removePropertiesForLineage = [
-        'ID',
-        'Created_By',
-        'Created_Date',
-        'Modified_By',
-        'Modified_Date',
-        'Ref_Beleidskeuzes',
+/**
+ * @returns A promise that resolves to a VerordeningenRead with type Lid
+ */
+export const createVerordeningLid = async (content: string) => {
+    return await postVerordeningSection({
+        Inhoud: content,
+        Type: 'Lid' as const,
+        Status: 'Vigerend' as const,
+        Volgnummer: '',
+    })
+}
+
+export const replaceReorderedSections = (
+    indexPath: number[],
+    newLineageClone: VerordeningLineageRead,
+    reorderedSections: VerordeningStructureChild[]
+) => {
+    if (
+        indexPath.length === 0 &&
+        newLineageClone?.Structuur?.Children !== undefined
+    ) {
+        newLineageClone.Structuur.Children = reorderedSections
+    } else if (
+        indexPath.length === 1 &&
+        newLineageClone?.Structuur?.Children[indexPath[0]]?.Children !==
+            undefined
+    ) {
+        newLineageClone.Structuur.Children[indexPath[0]].Children =
+            reorderedSections
+    } else if (
+        indexPath.length === 2 &&
+        newLineageClone?.Structuur?.Children[indexPath[0]]?.Children[
+            indexPath[1]
+        ]?.Children !== undefined
+    ) {
+        newLineageClone.Structuur.Children[indexPath[0]].Children[
+            indexPath[1]
+        ].Children = reorderedSections
+    } else if (
+        indexPath.length === 3 &&
+        newLineageClone?.Structuur?.Children[indexPath[0]]?.Children[
+            indexPath[1]
+        ]?.Children[indexPath[2]]?.Children !== undefined
+    ) {
+        newLineageClone.Structuur.Children[indexPath[0]].Children[
+            indexPath[1]
+        ].Children[indexPath[2]].Children = reorderedSections
+    }
+
+    return newLineageClone
+}
+
+export const mutateVerordeningenReadToVerordeningenWrite = (
+    readObject: VerordeningenRead
+) => {
+    const writeObject: VerordeningenWrite = {}
+
+    const verordeningenWriteProperties = [
         'Begin_Geldigheid',
         'Eind_Geldigheid',
-        'Eigenaar_1',
-        'Eigenaar_2',
-        'Portefeuillehouder_1',
-        'Portefeuillehouder_2',
-        'Opdrachtgever',
-        'Weblink',
+        'Inhoud',
         'Status',
-    ]
-
-    const removePropertiesForSection = [
-        'ID',
-        'UUID',
-        'Created_By',
-        'Created_Date',
-        'Modified_By',
-        'Modified_Date',
-        'Ref_Beleidskeuzes',
-    ]
-
-    if (type === 'lineage') {
-        removePropertiesForLineage.forEach(property => {
-            delete patchValues[property]
-        })
-    } else if (type === 'section') {
-        removePropertiesForSection.forEach(property => {
-            delete patchValues[property]
-        })
-    }
+        'Titel',
+        'Type',
+        'Volgnummer',
+        'Weblink',
+    ] as const
 
     const inlinedProperties = [
         'Eigenaar_1',
@@ -56,56 +83,50 @@ const prepareForPatch = (values: any, type: 'lineage' | 'section') => {
         'Portefeuillehouder_2',
         'Opdrachtgever',
         'Gebied',
-    ]
+    ] as const
 
-    inlinedProperties.forEach(property => {
-        if (patchValues[property]) {
-            patchValues[property] = patchValues[property].UUID
-        }
+    verordeningenWriteProperties.forEach(property => {
+        writeObject[property] = readObject[property]
     })
 
-    return patchValues
+    inlinedProperties.forEach(property => {
+        writeObject[property] = readObject[property]?.UUID
+    })
+
+    return writeObject
 }
 
 export const patchVerordeningSection = (
-    values: VerordeningChildRead,
+    values: VerordeningenWrite,
     lineageID: number
-) => {
-    const patchObject = prepareForPatch(values, 'section')
+) =>
+    axios
+        .patch(`/verordeningen/${lineageID}`, values)
+        .then(res => res.data as VerordeningenRead)
 
-    return axios
-        .patch(`/verordeningen/${lineageID}`, patchObject)
-        .then(res => res.data)
-        .catch(err => {
-            console.log('err: ', err)
-        })
-}
-
-export const postVerordeningSection = (values: VerordeningChildWrite) => {
-    return axios
+export const postVerordeningSection = (values: VerordeningenWrite) =>
+    axios
         .post(`/verordeningen`, values)
-        .then(res => res.data)
-        .catch(err => {
-            console.log('err: ', err)
-        })
-}
+        .then(res => res.data as VerordeningenRead)
 
 export const getChildrenOfSectionFromAPI = (
-    children: VerordeningChildRead[]
-) => {
-    return Promise.all([
+    children: VerordeningStructureChild[]
+) =>
+    Promise.all([
         children.map(child => getVersionVerordeningenObjectuuid(child.UUID)),
     ])
-}
 
 export const getChildrenOfSectionFromLineage = (
     sectionIndexPath: number[],
     verordening: VerordeningLineageRead
 ) => {
     if (sectionIndexPath.length === 1) {
-        return cloneDeep(
-            verordening.Structuur.Children[sectionIndexPath[0]].Children
-        )
+        console.log(verordening.Structuur)
+
+        const children =
+            verordening.Structuur.Children[sectionIndexPath[0]]?.Children
+
+        return children ? cloneDeep(children) : []
     } else if (sectionIndexPath.length === 2) {
         return cloneDeep(
             verordening.Structuur.Children[sectionIndexPath[0]].Children[
@@ -118,6 +139,13 @@ export const getChildrenOfSectionFromLineage = (
                 sectionIndexPath[1]
             ].Children[sectionIndexPath[2]].Children
         )
+    } else if (sectionIndexPath.length === 4) {
+        return cloneDeep(
+            verordening.Structuur.Children[sectionIndexPath[0]].Children[
+                sectionIndexPath[1]
+            ].Children[sectionIndexPath[2]].Children[sectionIndexPath[3]]
+                .Children
+        )
     } else {
         throw new Error(
             `Can't get children of section with sectionIndexPath of ${sectionIndexPath}`
@@ -125,110 +153,186 @@ export const getChildrenOfSectionFromLineage = (
     }
 }
 
-export const patchNewSectionInVerordening = (
-    newSection: VerordeningChildRead,
-    sectionIndexPath: number[],
-    verordening: VerordeningLineageRead
+/**
+ * @returns an verordening section that can be placed into the verordening lineage
+ */
+export const transformVerordeningenReadToVerordeningChildRead = (
+    verordeningenRead: VerordeningenRead
+) => ({
+    Children: [],
+    Gebied: verordeningenRead.Gebied?.UUID || null,
+    Inhoud: verordeningenRead.Inhoud || '',
+    Titel: verordeningenRead.Titel || '',
+    Type: verordeningenRead.Type as
+        | 'Hoofdstuk'
+        | 'Afdeling'
+        | 'Paragraaf'
+        | 'Artikel'
+        | 'Lid',
+    UUID: verordeningenRead.UUID || '',
+    Volgnummer: verordeningenRead.Volgnummer || '',
+})
+
+/**
+ * @returns an verordening section that can be placed into the verordening lineage
+ */
+export const transformVerordeningenReadToVerordeningenWrite = (
+    verordeningenRead: VerordeningenRead
 ) => {
-    const lineageID = verordening.ID
-    const newSectionWrite = prepareForPatch(newSection, 'lineage')
-
-    const stripPropertiesForLineage = (object: VerordeningChildRead) => ({
-        Inhoud: object.Inhoud,
-        Titel: object.Titel,
-        Type: object.Type,
-        UUID: object.UUID,
-        Volgnummer: object.Volgnummer,
-        Children: object.Children,
-        Gebied: object.Gebied,
-    })
-
-    const setNewSectionInLineage = (
-        verordening: VerordeningLineageRead,
-        newSectionWrite: VerordeningChildRead,
-        sectionIndexPath: number[]
-    ) => {
-        const clonedVerordening = cloneDeep(verordening)
-
-        if (sectionIndexPath.length === 1) {
-            const childrenOfExistingSection = getChildrenOfSectionFromLineage(
-                sectionIndexPath,
-                verordening
-            )
-
-            clonedVerordening.Structuur.Children[sectionIndexPath[0]] =
-                stripPropertiesForLineage(newSectionWrite)
-
-            clonedVerordening.Structuur.Children[sectionIndexPath[0]].Children =
-                childrenOfExistingSection
-
-            return clonedVerordening
-        } else if (sectionIndexPath.length === 2) {
-            const childrenOfExistingSection = getChildrenOfSectionFromLineage(
-                sectionIndexPath,
-                verordening
-            )
-
-            clonedVerordening.Structuur.Children[sectionIndexPath[0]].Children[
-                sectionIndexPath[1]
-            ] = stripPropertiesForLineage(newSectionWrite)
-
-            clonedVerordening.Structuur.Children[sectionIndexPath[0]].Children[
-                sectionIndexPath[1]
-            ].Children = childrenOfExistingSection
-
-            return clonedVerordening
-        } else if (sectionIndexPath.length === 3) {
-            const childrenOfExistingSection = getChildrenOfSectionFromLineage(
-                sectionIndexPath,
-                verordening
-            )
-
-            clonedVerordening.Structuur.Children[sectionIndexPath[0]].Children[
-                sectionIndexPath[1]
-            ].Children[sectionIndexPath[2]] =
-                stripPropertiesForLineage(newSectionWrite)
-
-            clonedVerordening.Structuur.Children[sectionIndexPath[0]].Children[
-                sectionIndexPath[1]
-            ].Children[sectionIndexPath[2]].Children = childrenOfExistingSection
-
-            return clonedVerordening
-        } else if (sectionIndexPath.length === 4) {
-            const childrenOfExistingSection = getChildrenOfSectionFromLineage(
-                sectionIndexPath,
-                verordening
-            )
-
-            clonedVerordening.Structuur.Children[sectionIndexPath[0]].Children[
-                sectionIndexPath[1]
-            ].Children[sectionIndexPath[2]].Children[sectionIndexPath[3]] =
-                stripPropertiesForLineage(newSectionWrite)
-
-            clonedVerordening.Structuur.Children[sectionIndexPath[0]].Children[
-                sectionIndexPath[1]
-            ].Children[sectionIndexPath[2]].Children[
-                sectionIndexPath[3]
-            ].Children = childrenOfExistingSection
-
-            return clonedVerordening
-        } else {
-            throw new Error(
-                `Can't get children of section with sectionIndexPath of ${sectionIndexPath}`
-            )
-        }
+    const verordeningChildRead: VerordeningStructureChild = {
+        Children: [],
+        Gebied: verordeningenRead.Gebied?.UUID || null,
+        Inhoud: verordeningenRead.Inhoud || '',
+        Titel: verordeningenRead.Titel || '',
+        Type: verordeningenRead.Type as
+            | 'Hoofdstuk'
+            | 'Afdeling'
+            | 'Paragraaf'
+            | 'Artikel'
+            | 'Lid',
+        UUID: verordeningenRead.UUID || '',
+        Volgnummer: verordeningenRead.Volgnummer || '',
     }
 
-    const verordeningForPatch = setNewSectionInLineage(
+    return verordeningChildRead
+}
+
+/**
+ *
+ * @param verordening Verordening structure
+ * @param section Section to perform action on
+ * @param sectionIndexPath Index path to the section in the lineage
+ * @param type HTTP Method
+ * @param children Can contain leden
+ * @returns A VerordeningLineageRead with the new/patched/deleted section
+ */
+const addReplaceDeleteSectionInLineage = (
+    verordening: VerordeningLineageRead,
+    section: VerordeningStructureChild,
+    sectionIndexPath: number[],
+    type: 'post' | 'patch' | 'delete',
+    children: null | VerordeningStructureChild[]
+) => {
+    const clonedVerordening = cloneDeep(verordening)
+    const childrenOfExistingSection =
+        type === 'patch' && section.Type !== 'Artikel'
+            ? getChildrenOfSectionFromLineage(sectionIndexPath, verordening)
+            : []
+
+    const newSectionWithChildren = {
+        ...section,
+        Children: children
+            ? children
+            : type === 'patch'
+            ? childrenOfExistingSection
+            : [],
+    }
+
+    const childrenInLineage =
+        sectionIndexPath.length === 1
+            ? clonedVerordening.Structuur?.Children
+            : sectionIndexPath.length === 2
+            ? clonedVerordening.Structuur?.Children[sectionIndexPath[0]]
+                  ?.Children
+            : sectionIndexPath.length === 3
+            ? clonedVerordening.Structuur?.Children[sectionIndexPath[0]]
+                  ?.Children[sectionIndexPath[1]]?.Children
+            : sectionIndexPath.length === 4
+            ? clonedVerordening.Structuur?.Children[sectionIndexPath[0]]
+                  ?.Children[sectionIndexPath[1]]?.Children[sectionIndexPath[2]]
+                  ?.Children
+            : undefined
+
+    if (childrenInLineage === undefined) {
+        throw new Error(
+            `Can't get childrenPatchDelete of section with sectionIndexPath of ${sectionIndexPath}`
+        )
+    } else if (sectionIndexPath.length === 1) {
+        if (type === 'delete') {
+            childrenInLineage.splice(sectionIndexPath[0], 1)
+        } else {
+            childrenInLineage.splice(
+                sectionIndexPath[0],
+                type === 'patch' ? 1 : 0,
+                newSectionWithChildren
+            )
+        }
+
+        return clonedVerordening
+    } else if (sectionIndexPath.length === 2) {
+        if (type === 'delete') {
+            childrenInLineage.splice(sectionIndexPath[1], 1)
+        } else {
+            childrenInLineage.splice(
+                sectionIndexPath[1],
+                type === 'patch' ? 1 : 0,
+                newSectionWithChildren
+            )
+        }
+
+        return clonedVerordening
+    } else if (sectionIndexPath.length === 3) {
+        if (type === 'delete') {
+            childrenInLineage.splice(sectionIndexPath[2], 1)
+        } else {
+            childrenInLineage.splice(
+                sectionIndexPath[2],
+                type === 'patch' ? 1 : 0,
+                newSectionWithChildren
+            )
+        }
+
+        return clonedVerordening
+    } else if (sectionIndexPath.length === 4) {
+        if (type === 'delete') {
+            childrenInLineage.splice(sectionIndexPath[3], 1)
+        } else {
+            childrenInLineage.splice(
+                sectionIndexPath[3],
+                type === 'patch' ? 1 : 0,
+                newSectionWithChildren
+            )
+        }
+
+        return clonedVerordening
+    } else {
+        throw new Error(
+            `Can't get children of section with sectionIndexPath of ${sectionIndexPath}`
+        )
+    }
+}
+
+export const patchOrPostSectionInVerordening = (
+    newSection: VerordeningStructureChild,
+    children: VerordeningStructureChild[] | null,
+    sectionIndexPath: number[],
+    verordening: VerordeningLineageRead,
+    type: 'patch' | 'post' | 'delete'
+) => {
+    const verordeningStructureForPatch = addReplaceDeleteSectionInLineage(
         verordening,
-        newSectionWrite,
-        sectionIndexPath
+        newSection,
+        sectionIndexPath,
+        type,
+        children
     )
 
+    const lineageID = verordening.ID
+
+    return patchVerordeningStructure(
+        lineageID,
+        verordeningStructureForPatch.Structuur.Children
+    )
+}
+
+export const patchVerordeningStructure = (
+    lineageID: number,
+    Chapters: VerordeningStructureChild[]
+) => {
     return axios
         .patch(`/verordeningstructuur/${lineageID}`, {
             Structuur: {
-                Children: verordeningForPatch.Structuur.Children,
+                Children: Chapters,
             },
         })
         .then(res => res.data)
