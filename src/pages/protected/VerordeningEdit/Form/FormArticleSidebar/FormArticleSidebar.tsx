@@ -21,8 +21,8 @@ function FormArticleSidebar({}: FormArticleSidebarProps) {
                 <FormikWerkingsgebied
                     dataObjectProperty="Gebied"
                     titleSingular="Artikel"
-                    label="label"
-                    description="beschrijving"
+                    label="Gebied"
+                    description="Selecteer een gebied om te koppelen aan dit artikel"
                 />
             </SidebarContainer>
         </div>
