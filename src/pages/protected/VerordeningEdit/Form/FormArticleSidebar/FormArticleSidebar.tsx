@@ -3,6 +3,8 @@ import { AngleDown, AngleUp } from '@pzh-ui/icons'
 import { useFormikContext } from 'formik'
 import React, { FC, useState } from 'react'
 
+import FormikWerkingsgebied from '@/components/Form/FormikWerkingsgebied'
+
 import { ActiveSectionData } from '../../verordeningEditContext'
 
 export interface FormArticleSidebarProps {}
@@ -16,7 +18,12 @@ function FormArticleSidebar({}: FormArticleSidebarProps) {
         <div>
             <SidebarContainer
                 title={`Eigenschappen Artikel ${values.Volgnummer}`}>
-                Test
+                <FormikWerkingsgebied
+                    dataObjectProperty="Gebied"
+                    titleSingular="Artikel"
+                    label="label"
+                    description="beschrijving"
+                />
             </SidebarContainer>
         </div>
     )
