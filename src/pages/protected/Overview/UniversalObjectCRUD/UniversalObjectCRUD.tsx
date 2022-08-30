@@ -296,7 +296,7 @@ const UniversalObjectCRUD = ({
         connectionProperties?.forEach(key => {
             crudObject[key]?.forEach((connection: any, index: number) => {
                 crudObject[key][index] = {
-                    UUID: connection.Object.UUID,
+                    UUID: connection.Object?.UUID,
                     Koppeling_Omschrijving: connection.Koppeling_Omschrijving,
                 }
             })

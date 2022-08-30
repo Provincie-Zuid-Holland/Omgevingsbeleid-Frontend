@@ -49,6 +49,11 @@ export type GetVersionMaatregelenObjectuuid404 = {
     message?: string
 }
 
+export type GetVersionGebiedsprogrammasObjectuuid404 = {
+    /** A description of the error */
+    message?: string
+}
+
 export type GetVersionBeleidsrelatiesObjectuuid404 = {
     /** A description of the error */
     message?: string
@@ -233,6 +238,30 @@ export type GetValidMaatregelen404 = {
 }
 
 export type GetValidMaatregelenParams = {
+    all_filters?: string
+    any_filters?: string
+    limit?: number
+    offset?: number
+}
+
+export type GetValidGebiedsprogrammasLineageid404 = {
+    /** A description of the error */
+    message?: string
+}
+
+export type GetValidGebiedsprogrammasLineageidParams = {
+    all_filters?: string
+    any_filters?: string
+    limit?: number
+    offset?: number
+}
+
+export type GetValidGebiedsprogrammas404 = {
+    /** A description of the error */
+    message?: string
+}
+
+export type GetValidGebiedsprogrammasParams = {
     all_filters?: string
     any_filters?: string
     limit?: number
@@ -821,6 +850,60 @@ export type GetGraph200 = {
     nodes?: GetGraph200NodesItem[]
 }
 
+export type PatchGebiedsprogrammasLineageid500 = {
+    /** A description of the error */
+    message?: string
+}
+
+export type PatchGebiedsprogrammasLineageid403 = {
+    /** A description of the error */
+    message?: string
+}
+
+export type PatchGebiedsprogrammasLineageid400 = {
+    /** A description of the error */
+    message?: string
+}
+
+export type GetGebiedsprogrammasLineageid404 = {
+    /** A description of the error */
+    message?: string
+}
+
+export type GetGebiedsprogrammasLineageidParams = {
+    all_filters?: string
+    any_filters?: string
+    limit?: number
+    offset?: number
+}
+
+export type PostGebiedsprogrammas500 = {
+    /** A description of the error */
+    message?: string
+}
+
+export type PostGebiedsprogrammas403 = {
+    /** A description of the error */
+    message?: string
+}
+
+export type PostGebiedsprogrammas400 = {
+    /** A description of the error */
+    message?: string
+}
+
+export type GetGebiedsprogrammas400 = {
+    /** A description of the invalid filters */
+    message?: string
+}
+
+export type GetGebiedsprogrammasParams = {
+    all_filters?: string
+    any_filters?: string
+    limit?: number
+    offset?: number
+}
+
 /**
  * Type slug for this object
  */
@@ -837,6 +920,7 @@ export type GetEdits200ItemType =
     | 'themas'
     | 'werkingsgebieden'
     | 'verordeningen'
+    | 'gebiedsprogrammas'
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetEdits200ItemType = {
@@ -852,6 +936,7 @@ export const GetEdits200ItemType = {
     themas: 'themas' as GetEdits200ItemType,
     werkingsgebieden: 'werkingsgebieden' as GetEdits200ItemType,
     verordeningen: 'verordeningen' as GetEdits200ItemType,
+    gebiedsprogrammas: 'gebiedsprogrammas' as GetEdits200ItemType,
 }
 
 export type GetEdits200Item = {
@@ -929,6 +1014,21 @@ export type GetChangesMaatregelenOlduuidNewuuid404 = {
 export type GetChangesMaatregelenOlduuidNewuuid200 = {
     changes?: MaatregelenChange
     old?: MaatregelenRead
+}
+
+export type GetChangesGebiedsprogrammasOlduuidNewuuid500 = {
+    /** A description of the error */
+    message?: string
+}
+
+export type GetChangesGebiedsprogrammasOlduuidNewuuid404 = {
+    /** A description of the error */
+    message?: string
+}
+
+export type GetChangesGebiedsprogrammasOlduuidNewuuid200 = {
+    changes?: GebiedsprogrammasChange
+    old?: GebiedsprogrammasRead
 }
 
 export type GetChangesBeleidsrelatiesOlduuidNewuuid500 = {
@@ -2019,6 +2119,8 @@ export interface MaatregelenRead {
     Ref_Beleidskeuzes?: BeleidskeuzeShortInline[]
     /** An list of beleidsmodule-short objects that refer to this object (reverse lookup) */
     Ref_Beleidsmodules?: BeleidsmoduleShortInline[]
+    /** An list of gebiedsprogramma-short objects that refer to this object (reverse lookup) */
+    Ref_Gebiedsprogrammas?: GebiedsprogrammaShortInline[]
     /** The status of this object */
     Status?: MaatregelenReadStatus
     /** None */
@@ -2158,6 +2260,15 @@ export const MaatregelenChangeStatus = {
 /**
  * An object that shows the changes in the list
  */
+export type MaatregelenChangeRefGebiedsprogrammas = {
+    new?: GebiedsprogrammaShortInline[]
+    removed?: GebiedsprogrammaShortInline[]
+    same?: GebiedsprogrammaShortInline[]
+}
+
+/**
+ * An object that shows the changes in the list
+ */
 export type MaatregelenChangeRefBeleidsmodules = {
     new?: BeleidsmoduleShortInline[]
     removed?: BeleidsmoduleShortInline[]
@@ -2203,6 +2314,8 @@ export interface MaatregelenChange {
     Ref_Beleidskeuzes?: MaatregelenChangeRefBeleidskeuzes
     /** An object that shows the changes in the list */
     Ref_Beleidsmodules?: MaatregelenChangeRefBeleidsmodules
+    /** An object that shows the changes in the list */
+    Ref_Gebiedsprogrammas?: MaatregelenChangeRefGebiedsprogrammas
     /** The status of this object */
     Status?: MaatregelenChangeStatus
     /** None */
@@ -2243,6 +2356,290 @@ export interface GebruikersInline {
     Rol?: string
     Status?: string
     /** The UUID of this gebruiker */
+    UUID?: string
+}
+
+/**
+ * The status of this object
+ */
+export type GebiedsprogrammasWriteStatus =
+    | 'Definitief ontwerp GS'
+    | 'Definitief ontwerp GS concept'
+    | 'Ontwerp GS'
+    | 'Ontwerp GS Concept'
+    | 'Ontwerp in inspraak'
+    | 'Ontwerp PS'
+    | 'Vastgesteld'
+    | 'Vigerend'
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GebiedsprogrammasWriteStatus = {
+    Definitief_ontwerp_GS:
+        'Definitief ontwerp GS' as GebiedsprogrammasWriteStatus,
+    Definitief_ontwerp_GS_concept:
+        'Definitief ontwerp GS concept' as GebiedsprogrammasWriteStatus,
+    Ontwerp_GS: 'Ontwerp GS' as GebiedsprogrammasWriteStatus,
+    Ontwerp_GS_Concept: 'Ontwerp GS Concept' as GebiedsprogrammasWriteStatus,
+    Ontwerp_in_inspraak: 'Ontwerp in inspraak' as GebiedsprogrammasWriteStatus,
+    Ontwerp_PS: 'Ontwerp PS' as GebiedsprogrammasWriteStatus,
+    Vastgesteld: 'Vastgesteld' as GebiedsprogrammasWriteStatus,
+    Vigerend: 'Vigerend' as GebiedsprogrammasWriteStatus,
+}
+
+/**
+ * Schema that defines how to write gebiedsprogrammas
+ */
+export interface GebiedsprogrammasWrite {
+    /** None */
+    Afbeelding?: string
+    /** None */
+    Begin_Geldigheid?: string
+    /** A UUID reference to a gebruikers object */
+    Created_By?: string
+    /** None */
+    Eind_Geldigheid?: string
+    /** An list of references to maatregelen objects */
+    Maatregelen?: ListReference[]
+    /** A UUID reference to a gebruikers object */
+    Modified_By?: string
+    /** None */
+    Omschrijving?: string
+    /** The status of this object */
+    Status?: GebiedsprogrammasWriteStatus
+    /** None */
+    Titel?: string
+}
+
+/**
+ * The status of this object
+ */
+export type GebiedsprogrammasReadStatus =
+    | 'Definitief ontwerp GS'
+    | 'Definitief ontwerp GS concept'
+    | 'Ontwerp GS'
+    | 'Ontwerp GS Concept'
+    | 'Ontwerp in inspraak'
+    | 'Ontwerp PS'
+    | 'Vastgesteld'
+    | 'Vigerend'
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GebiedsprogrammasReadStatus = {
+    Definitief_ontwerp_GS:
+        'Definitief ontwerp GS' as GebiedsprogrammasReadStatus,
+    Definitief_ontwerp_GS_concept:
+        'Definitief ontwerp GS concept' as GebiedsprogrammasReadStatus,
+    Ontwerp_GS: 'Ontwerp GS' as GebiedsprogrammasReadStatus,
+    Ontwerp_GS_Concept: 'Ontwerp GS Concept' as GebiedsprogrammasReadStatus,
+    Ontwerp_in_inspraak: 'Ontwerp in inspraak' as GebiedsprogrammasReadStatus,
+    Ontwerp_PS: 'Ontwerp PS' as GebiedsprogrammasReadStatus,
+    Vastgesteld: 'Vastgesteld' as GebiedsprogrammasReadStatus,
+    Vigerend: 'Vigerend' as GebiedsprogrammasReadStatus,
+}
+
+export type GebiedsprogrammasReadMaatregelenItem = {
+    Koppeling_Omschrijving?: string
+    Object?: MaatregelenInline
+}
+
+/**
+ * Schema that defines the structure of gebiedsprogrammas when reading
+ */
+export interface GebiedsprogrammasRead {
+    /** None */
+    Afbeelding?: string
+    /** None */
+    Begin_Geldigheid?: string
+    /** An inlined gebruikers object */
+    Created_By?: GebruikersInline
+    /** None */
+    Created_Date?: string
+    /** None */
+    Eind_Geldigheid?: string
+    /** None */
+    ID?: number
+    /** An list of maatregelen objects */
+    Maatregelen?: GebiedsprogrammasReadMaatregelenItem[]
+    /** An inlined gebruikers object */
+    Modified_By?: GebruikersInline
+    /** None */
+    Modified_Date?: string
+    /** None */
+    Omschrijving?: string
+    /** The status of this object */
+    Status?: GebiedsprogrammasReadStatus
+    /** None */
+    Titel?: string
+    /** None */
+    UUID?: string
+}
+
+/**
+ * The status of this object
+ */
+export type GebiedsprogrammasInlineStatus =
+    | 'Definitief ontwerp GS'
+    | 'Definitief ontwerp GS concept'
+    | 'Ontwerp GS'
+    | 'Ontwerp GS Concept'
+    | 'Ontwerp in inspraak'
+    | 'Ontwerp PS'
+    | 'Vastgesteld'
+    | 'Vigerend'
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GebiedsprogrammasInlineStatus = {
+    Definitief_ontwerp_GS:
+        'Definitief ontwerp GS' as GebiedsprogrammasInlineStatus,
+    Definitief_ontwerp_GS_concept:
+        'Definitief ontwerp GS concept' as GebiedsprogrammasInlineStatus,
+    Ontwerp_GS: 'Ontwerp GS' as GebiedsprogrammasInlineStatus,
+    Ontwerp_GS_Concept: 'Ontwerp GS Concept' as GebiedsprogrammasInlineStatus,
+    Ontwerp_in_inspraak: 'Ontwerp in inspraak' as GebiedsprogrammasInlineStatus,
+    Ontwerp_PS: 'Ontwerp PS' as GebiedsprogrammasInlineStatus,
+    Vastgesteld: 'Vastgesteld' as GebiedsprogrammasInlineStatus,
+    Vigerend: 'Vigerend' as GebiedsprogrammasInlineStatus,
+}
+
+/**
+ * Schema that defines the structure of gebiedsprogrammas when inlining
+ */
+export interface GebiedsprogrammasInline {
+    /** None */
+    Afbeelding?: string
+    /** None */
+    Begin_Geldigheid?: string
+    /** A UUID reference to a gebruikers object */
+    Created_By?: string
+    /** None */
+    Created_Date?: string
+    /** None */
+    Eind_Geldigheid?: string
+    /** None */
+    ID?: number
+    /** A UUID reference to a gebruikers object */
+    Modified_By?: string
+    /** None */
+    Modified_Date?: string
+    /** None */
+    Omschrijving?: string
+    /** The status of this object */
+    Status?: GebiedsprogrammasInlineStatus
+    /** None */
+    Titel?: string
+    /** None */
+    UUID?: string
+}
+
+/**
+ * The status of this object
+ */
+export type GebiedsprogrammasChangeStatus =
+    | 'Definitief ontwerp GS'
+    | 'Definitief ontwerp GS concept'
+    | 'Ontwerp GS'
+    | 'Ontwerp GS Concept'
+    | 'Ontwerp in inspraak'
+    | 'Ontwerp PS'
+    | 'Vastgesteld'
+    | 'Vigerend'
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GebiedsprogrammasChangeStatus = {
+    Definitief_ontwerp_GS:
+        'Definitief ontwerp GS' as GebiedsprogrammasChangeStatus,
+    Definitief_ontwerp_GS_concept:
+        'Definitief ontwerp GS concept' as GebiedsprogrammasChangeStatus,
+    Ontwerp_GS: 'Ontwerp GS' as GebiedsprogrammasChangeStatus,
+    Ontwerp_GS_Concept: 'Ontwerp GS Concept' as GebiedsprogrammasChangeStatus,
+    Ontwerp_in_inspraak: 'Ontwerp in inspraak' as GebiedsprogrammasChangeStatus,
+    Ontwerp_PS: 'Ontwerp PS' as GebiedsprogrammasChangeStatus,
+    Vastgesteld: 'Vastgesteld' as GebiedsprogrammasChangeStatus,
+    Vigerend: 'Vigerend' as GebiedsprogrammasChangeStatus,
+}
+
+/**
+ * An object that shows the changes in the list
+ */
+export type GebiedsprogrammasChangeMaatregelen = {
+    new?: MaatregelenInline[]
+    removed?: MaatregelenInline[]
+    same?: MaatregelenInline[]
+}
+
+/**
+ * Schema that defines the structure of gebiedsprogrammas when looking at changes
+ */
+export interface GebiedsprogrammasChange {
+    /** None */
+    Afbeelding?: string
+    /** None */
+    Begin_Geldigheid?: string
+    /** None */
+    Created_Date?: string
+    /** None */
+    Eind_Geldigheid?: string
+    /** None */
+    ID?: number
+    /** An object that shows the changes in the list */
+    Maatregelen?: GebiedsprogrammasChangeMaatregelen
+    /** None */
+    Modified_Date?: string
+    /** None */
+    Omschrijving?: string
+    /** The status of this object */
+    Status?: GebiedsprogrammasChangeStatus
+    /** None */
+    Titel?: string
+    /** None */
+    UUID?: string
+}
+
+/**
+ * Schema that defines how to write gebiedsprogramma-short
+ */
+export interface GebiedsprogrammaShortWrite {
+    /** None */
+    ID?: number
+    /** None */
+    Titel?: string
+    /** None */
+    UUID?: string
+}
+
+/**
+ * Schema that defines the structure of gebiedsprogramma-short when reading
+ */
+export interface GebiedsprogrammaShortRead {
+    /** None */
+    ID?: number
+    /** None */
+    Titel?: string
+    /** None */
+    UUID?: string
+}
+
+/**
+ * Schema that defines the structure of gebiedsprogramma-short when inlining
+ */
+export interface GebiedsprogrammaShortInline {
+    /** None */
+    ID?: number
+    /** None */
+    Titel?: string
+    /** None */
+    UUID?: string
+}
+
+/**
+ * Schema that defines the structure of gebiedsprogramma-short when looking at changes
+ */
+export interface GebiedsprogrammaShortChange {
+    /** None */
+    ID?: number
+    /** None */
+    Titel?: string
+    /** None */
     UUID?: string
 }
 
@@ -2888,8 +3285,6 @@ export interface BeleidskeuzesWrite {
     Aanpassing_Op?: string
     /** None */
     Afweging?: string
-    /** An list of references to ambities objects */
-    Ambities?: ListReference[]
     /** None */
     Begin_Geldigheid?: string
     /** An list of references to belangen objects */
@@ -3016,11 +3411,6 @@ export type BeleidskeuzesReadBelangenItem = {
     Object?: BelangenInline
 }
 
-export type BeleidskeuzesReadAmbitiesItem = {
-    Koppeling_Omschrijving?: string
-    Object?: AmbitiesInline
-}
-
 /**
  * Schema that defines the structure of beleidskeuzes when reading
  */
@@ -3031,8 +3421,6 @@ export interface BeleidskeuzesRead {
     Aanpassing_Op?: string
     /** None */
     Afweging?: string
-    /** An list of ambities objects */
-    Ambities?: BeleidskeuzesReadAmbitiesItem[]
     /** None */
     Begin_Geldigheid?: string
     /** An list of belangen objects */
@@ -3305,15 +3693,6 @@ export type BeleidskeuzesChangeBelangen = {
 }
 
 /**
- * An object that shows the changes in the list
- */
-export type BeleidskeuzesChangeAmbities = {
-    new?: AmbitiesInline[]
-    removed?: AmbitiesInline[]
-    same?: AmbitiesInline[]
-}
-
-/**
  * Schema that defines the structure of beleidskeuzes when looking at changes
  */
 export interface BeleidskeuzesChange {
@@ -3323,8 +3702,6 @@ export interface BeleidskeuzesChange {
     Aanpassing_Op?: string
     /** None */
     Afweging?: string
-    /** An object that shows the changes in the list */
-    Ambities?: BeleidskeuzesChangeAmbities
     /** None */
     Begin_Geldigheid?: string
     /** An object that shows the changes in the list */
@@ -3431,6 +3808,8 @@ export interface BeleidskeuzeShortChange {
  * Schema that defines how to write beleidsdoelen
  */
 export interface BeleidsdoelenWrite {
+    /** An list of references to ambities objects */
+    Ambities?: ListReference[]
     /** None */
     Begin_Geldigheid?: string
     /** A UUID reference to a gebruikers object */
@@ -3447,10 +3826,17 @@ export interface BeleidsdoelenWrite {
     Weblink?: string
 }
 
+export type BeleidsdoelenReadAmbitiesItem = {
+    Koppeling_Omschrijving?: string
+    Object?: AmbitiesInline
+}
+
 /**
  * Schema that defines the structure of beleidsdoelen when reading
  */
 export interface BeleidsdoelenRead {
+    /** An list of ambities objects */
+    Ambities?: BeleidsdoelenReadAmbitiesItem[]
     /** None */
     Begin_Geldigheid?: string
     /** An inlined gebruikers object */
@@ -3515,9 +3901,20 @@ export type BeleidsdoelenChangeRefBeleidskeuzes = {
 }
 
 /**
+ * An object that shows the changes in the list
+ */
+export type BeleidsdoelenChangeAmbities = {
+    new?: AmbitiesInline[]
+    removed?: AmbitiesInline[]
+    same?: AmbitiesInline[]
+}
+
+/**
  * Schema that defines the structure of beleidsdoelen when looking at changes
  */
 export interface BeleidsdoelenChange {
+    /** An object that shows the changes in the list */
+    Ambities?: BeleidsdoelenChangeAmbities
     /** None */
     Begin_Geldigheid?: string
     /** None */
@@ -3538,6 +3935,54 @@ export interface BeleidsdoelenChange {
     UUID?: string
     /** None */
     Weblink?: string
+}
+
+/**
+ * Schema that defines how to write beleidsdoel-short
+ */
+export interface BeleidsdoelShortWrite {
+    /** None */
+    ID?: number
+    /** None */
+    Titel?: string
+    /** None */
+    UUID?: string
+}
+
+/**
+ * Schema that defines the structure of beleidsdoel-short when reading
+ */
+export interface BeleidsdoelShortRead {
+    /** None */
+    ID?: number
+    /** None */
+    Titel?: string
+    /** None */
+    UUID?: string
+}
+
+/**
+ * Schema that defines the structure of beleidsdoel-short when inlining
+ */
+export interface BeleidsdoelShortInline {
+    /** None */
+    ID?: number
+    /** None */
+    Titel?: string
+    /** None */
+    UUID?: string
+}
+
+/**
+ * Schema that defines the structure of beleidsdoel-short when looking at changes
+ */
+export interface BeleidsdoelShortChange {
+    /** None */
+    ID?: number
+    /** None */
+    Titel?: string
+    /** None */
+    UUID?: string
 }
 
 /**
@@ -3701,8 +4146,8 @@ export interface AmbitiesRead {
     Modified_Date?: string
     /** None */
     Omschrijving?: string
-    /** An list of beleidskeuze-short objects that refer to this object (reverse lookup) */
-    Ref_Beleidskeuzes?: BeleidskeuzeShortInline[]
+    /** An list of beleidsdoel-short objects that refer to this object (reverse lookup) */
+    Ref_Beleidsdoelen?: BeleidsdoelShortInline[]
     /** None */
     Titel?: string
     /** None */
@@ -3742,10 +4187,10 @@ export interface AmbitiesInline {
 /**
  * An object that shows the changes in the list
  */
-export type AmbitiesChangeRefBeleidskeuzes = {
-    new?: BeleidskeuzeShortInline[]
-    removed?: BeleidskeuzeShortInline[]
-    same?: BeleidskeuzeShortInline[]
+export type AmbitiesChangeRefBeleidsdoelen = {
+    new?: BeleidsdoelShortInline[]
+    removed?: BeleidsdoelShortInline[]
+    same?: BeleidsdoelShortInline[]
 }
 
 /**
@@ -3765,7 +4210,7 @@ export interface AmbitiesChange {
     /** None */
     Omschrijving?: string
     /** An object that shows the changes in the list */
-    Ref_Beleidskeuzes?: AmbitiesChangeRefBeleidskeuzes
+    Ref_Beleidsdoelen?: AmbitiesChangeRefBeleidsdoelen
     /** None */
     Titel?: string
     /** None */

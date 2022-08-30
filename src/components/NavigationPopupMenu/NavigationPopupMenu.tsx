@@ -147,11 +147,15 @@ const NavigationPopupMenu = ({
                                 <Heading level="3">Omgevingsprogramma</Heading>
                                 <ul className="mt-1">
                                     <ListItem
-                                        text="Maatregelen"
+                                        text="Thematische programma’s"
                                         setIsOpen={setIsOpen}
-                                        to="/maatregelen"
+                                        to="/omgevingsprogramma/thematische-programmas"
                                     />
-
+                                    <ListItem
+                                        text="Gebiedsprogramma’s"
+                                        setIsOpen={setIsOpen}
+                                        to="/omgevingsprogramma/gebiedsprogrammas"
+                                    />
                                     <ListItem
                                         text="Beleidsprestaties"
                                         setIsOpen={setIsOpen}

@@ -22,6 +22,11 @@ import {
     UniversalObjectOverview,
     Verordening,
 } from '@/pages/public'
+import AreaDetail from '@/pages/public/AreaDetail'
+import AreaOverview from '@/pages/public/AreaOverview'
+import EnvironmentProgram from '@/pages/public/EnvironmentProgram'
+import ThemeDetail from '@/pages/public/ThemeDetail'
+import ThemeOverview from '@/pages/public/ThemeOverview'
 import detailPages from '@/utils/detailPages'
 
 import ProtectedRoute from './ProtectedRoute'
@@ -63,6 +68,41 @@ const AppRoutes = () => {
         {
             path: 'verordening',
             element: <Verordening />,
+        },
+        {
+            path: 'omgevingsprogramma',
+            children: [
+                {
+                    index: true,
+                    element: <EnvironmentProgram />,
+                },
+                {
+                    path: 'gebiedsprogrammas',
+                    children: [
+                        {
+                            index: true,
+                            element: <AreaOverview />,
+                        },
+                        {
+                            path: ':id',
+                            element: <AreaDetail />,
+                        },
+                    ],
+                },
+                {
+                    path: 'thematische-programmas',
+                    children: [
+                        {
+                            index: true,
+                            element: <ThemeOverview />,
+                        },
+                        {
+                            path: ':id',
+                            element: <ThemeDetail />,
+                        },
+                    ],
+                },
+            ],
         },
         ...detailPages
             .filter(page => page.isPublic)

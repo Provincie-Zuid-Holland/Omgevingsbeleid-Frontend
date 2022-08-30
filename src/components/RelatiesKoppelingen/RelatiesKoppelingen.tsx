@@ -15,7 +15,6 @@ import RelatiesKoppelingenTekstueel from '../RelatiesKoppelingenTekstueel'
 import RelatiesKoppelingenVisualisatie from '../RelatiesKoppelingenVisualisatie'
 
 export type ConnectionProperties =
-    | 'Ambities'
     | 'Belangen'
     | 'Beleidsregels'
     | 'Beleidsprestaties'
@@ -25,7 +24,6 @@ export type ConnectionProperties =
     | 'Verordeningen'
 
 const connectionProperties: ConnectionProperties[] = [
-    'Ambities',
     'Belangen',
     'Beleidsregels',
     'Beleidsprestaties',
