@@ -346,6 +346,7 @@ function VerordeningEdit() {
                     <Container>
                         <VerordeningSectionContainer verordening={verordening}>
                             <ReorderGroup
+                                parentType={null}
                                 replaceUlForFragment={activeChapterUUID}
                                 indexPath={[]}
                                 values={chapters}>

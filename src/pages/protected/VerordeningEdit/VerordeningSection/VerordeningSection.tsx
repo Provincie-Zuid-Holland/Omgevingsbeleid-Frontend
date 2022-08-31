@@ -313,7 +313,10 @@ const LoopThroughChildren = ({
     const { isAddingSection, addingSectionType } = state
 
     return (
-        <ReorderGroup indexPath={currentIndexPath} values={section.Children}>
+        <ReorderGroup
+            parentType={section.Type}
+            indexPath={currentIndexPath}
+            values={section.Children}>
             {section.Children.length > 0 ? (
                 <Fragment>
                     <AddSection
