@@ -21,7 +21,7 @@ const ReorderItem = ({ section, controls, children }: ReorderItemProps) => {
         <Reorder.Item
             value={section}
             className={classNames({
-                'py-2 pl-4 font-bold rounded bg-pzh-blue-super-light':
+                'py-2 pl-4 hover:bg-opacity-80 font-bold rounded bg-pzh-blue-super-light':
                     section.Type === 'Hoofdstuk',
                 'cursor-pointer': !isEditingOrder && !activeChapterUUID,
             })}
