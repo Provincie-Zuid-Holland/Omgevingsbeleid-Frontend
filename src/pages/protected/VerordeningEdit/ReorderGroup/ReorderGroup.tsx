@@ -7,6 +7,7 @@ import { useVerordening } from '../verordeningEditContext'
 export interface ReorderGroupProps {
     values: unknown[]
     indexPath: number[]
+    parentType: string | null
     replaceUlForFragment?: string | null
 }
 
@@ -14,16 +15,23 @@ const ReorderGroup: FC<ReorderGroupProps> = ({
     values,
     indexPath,
     replaceUlForFragment,
+    parentType,
     children,
 }) => {
     const { dispatch } = useVerordening()
     if (replaceUlForFragment) {
         return <Fragment>{children}</Fragment>
     } else {
+        // Leden (children of Artikel) shouldn't be indented anymore than the parent
+        const paddingLeft =
+            parentType === 'Artikel'
+                ? indexPath.length * 2 - 2
+                : indexPath.length * 2
+
         return (
             <Reorder.Group
                 axis="y"
-                className={`space-y-2 my-4 pl-${indexPath.length * 2}`}
+                className={`space-y-2 my-4 pl-${paddingLeft}`}
                 onReorder={reorderedSections => {
                     dispatch({
                         type: 'reorderSections',
