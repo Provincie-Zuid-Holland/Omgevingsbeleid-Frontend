@@ -2,17 +2,12 @@ import { FieldLabel, FormikDate, Text } from '@pzh-ui/components'
 import { AngleDown, AngleUp } from '@pzh-ui/icons'
 import classNames from 'classnames'
 import { useFormikContext } from 'formik'
-import { AnimatePresence, motion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { FC, useRef, useState } from 'react'
-import Select from 'react-select'
 
 import { useGetGebruikers } from '@/api/fetchers'
-import { GebruikersInline } from '@/api/fetchers.schemas'
-import {
-    FormFieldSelectUserGroup,
-    FormFieldWerkingsgebied,
-} from '@/components/Form'
-import FormikWerkingsgebied from '@/components/Form/FormikWerkingsgebied'
+import { FormFieldWerkingsgebied } from '@/components/Form'
+import FormikSelectUser from '@/components/Form/FormikSelectUser'
 
 import { ActiveSectionData } from '../../verordeningEditContext'
 
@@ -20,7 +15,7 @@ export interface FormArticleSidebarProps {}
 
 function FormArticleSidebar({}: FormArticleSidebarProps) {
     const { values, setFieldValue } = useFormikContext<ActiveSectionData>()
-    const { isLoading: usersAreLoading, data: users } = useGetGebruikers()
+    const { data: users } = useGetGebruikers()
 
     const options = users
         ? users.map(user => ({
@@ -113,75 +108,13 @@ function FormArticleSidebar({}: FormArticleSidebarProps) {
                             setFieldValue('Gebied', event.target.value)
                         }
                         werkingsgebiedInParentState={values.Gebied}
-                        dataObjectProperty="Gebied"
+                        dataObjectProperty="Werkingsgebied"
                         titleSingular="Artikel"
                         hideLabel={true}
                     />
                 </div>
-                {/* <FormikWerkingsgebied
-                    dataObjectProperty="Gebied"
-                    titleSingular="Artikel"
-                    label="Gebied"
-                    description="Selecteer een gebied om te koppelen aan dit artikel"
-                /> */}
             </SidebarContainer>
         </motion.div>
-    )
-}
-
-interface FormikSelectUserProps {
-    property:
-        | 'Eigenaar_1'
-        | 'Eigenaar_2'
-        | 'Portefeuillehouder_1'
-        | 'Portefeuillehouder_2'
-        | 'Opdrachtgever'
-    filter:
-        | 'Ambtelijk opdrachtgever'
-        | 'Behandelend Ambtenaar'
-        | 'Portefeuillehouder'
-    options: {
-        value: string
-        label: string
-        role: string
-    }[]
-}
-
-const FormikSelectUser = ({
-    property,
-    filter,
-    options,
-}: FormikSelectUserProps) => {
-    const { values, setFieldValue } = useFormikContext<ActiveSectionData>()
-
-    return (
-        <Select
-            className="border border-gray-400 rounded hover:border-gray-500 focus:border-gray-500"
-            name={property}
-            value={
-                values
-                    ? {
-                          value: values[property]?.UUID,
-                          label: values[property]?.Gebruikersnaam,
-                          role: values[property]?.Rol,
-                      }
-                    : {}
-            }
-            onChange={(e, metaInfo) => {
-                if (e && metaInfo.action === 'select-option') {
-                    setFieldValue(property, {
-                        UUID: e.value,
-                        Gebruikersnaam: e.label,
-                        Rol: e.role,
-                    })
-                } else if (e && metaInfo.action === 'clear') {
-                    setFieldValue(property, null)
-                }
-            }}
-            isClearable={true}
-            options={options.filter(option => option.role === filter)}
-            placeholder={`Selecteer...`}
-        />
     )
 }
 
