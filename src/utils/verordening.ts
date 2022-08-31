@@ -1,22 +1,46 @@
 import cloneDeep from 'lodash.clonedeep'
 
 import { getVersionVerordeningenObjectuuid } from '@/api/fetchers'
-import { VerordeningenRead, VerordeningenWrite } from '@/api/fetchers.schemas'
+import {
+    VerordeningenRead,
+    VerordeningenWrite,
+    WerkingsgebiedenInline,
+} from '@/api/fetchers.schemas'
 import axios from '@/api/instance'
+import { FormikValues } from '@/pages/protected/VerordeningEdit/verordeningEditContext'
 import {
     VerordeningLineageRead,
     VerordeningStructureChild,
 } from '@/types/verordening'
 
+export const getGeoValueFromFormikValues = (values: FormikValues) => {
+    const geoValue: string | undefined | WerkingsgebiedenInline = values?.Gebied
+
+    if (!geoValue) return null
+
+    return typeof geoValue === 'string'
+        ? geoValue
+        : typeof geoValue === 'object' &&
+          !Array.isArray(geoValue) &&
+          geoValue !== null &&
+          geoValue?.UUID !== undefined
+        ? geoValue.UUID
+        : null
+}
+
 /**
  * @returns A promise that resolves to a VerordeningenRead with type Lid
  */
-export const createVerordeningLid = async (content: string) => {
+export const createVerordeningLid = async (
+    lid: Partial<
+        Omit<VerordeningenWrite, 'Gebied'> & { Gebied?: string | null }
+    >
+) => {
     return await postVerordeningSection({
-        Inhoud: content,
         Type: 'Lid' as const,
         Status: 'Vigerend' as const,
         Volgnummer: '',
+        ...lid,
     })
 }
 
@@ -104,7 +128,9 @@ export const patchVerordeningSection = (
         .patch(`/verordeningen/${lineageID}`, values)
         .then(res => res.data as VerordeningenRead)
 
-export const postVerordeningSection = (values: VerordeningenWrite) =>
+export const postVerordeningSection = (
+    values: Omit<VerordeningenWrite, 'Gebied'> & { Gebied?: string | null }
+) =>
     axios
         .post(`/verordeningen`, values)
         .then(res => res.data as VerordeningenRead)

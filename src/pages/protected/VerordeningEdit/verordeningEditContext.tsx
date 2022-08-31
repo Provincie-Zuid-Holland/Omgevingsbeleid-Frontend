@@ -10,6 +10,10 @@ import { replaceReorderedSections } from '@/utils/verordening'
 export type ActiveSectionData =
     | (VerordeningenRead & { Children?: VerordeningenRead[] })
     | null
+export type FormikValues =
+    | (VerordeningenWrite & { Children?: FormikValues[] })
+    | (VerordeningenRead & { Children?: FormikValues[] })
+    | null
 export type Dispatch = (action: Action) => void
 export type VerordeningProviderProps = { children: React.ReactNode }
 export type State = {

@@ -1,5 +1,6 @@
 import { Transition } from '@headlessui/react'
 import { MagnifyingGlass, Plus, Spinner, Xmark } from '@pzh-ui/icons'
+import classNames from 'classnames'
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
@@ -7,6 +8,7 @@ import { getWerkingsgebieden } from '@/api/fetchers'
 import { WerkingsgebiedenRead } from '@/api/fetchers.schemas'
 import { PopupContainer } from '@/components/Popup'
 import formatDate from '@/utils/formatDate'
+import handleError from '@/utils/handleError'
 
 import FormFieldTitelEnBeschrijving from '../FormFieldTitelEnBeschrijving'
 
@@ -31,6 +33,7 @@ interface FormFieldWerkingsgebiedProps {
     pValue?: string
     disabled?: boolean
     hideLabel?: boolean
+    className?: string
 }
 
 const FormFieldWerkingsgebied = ({
@@ -42,6 +45,7 @@ const FormFieldWerkingsgebied = ({
     pValue,
     disabled,
     hideLabel,
+    className,
 }: FormFieldWerkingsgebiedProps) => {
     const [popupOpen, setPopupOpen] = useState(false)
     const [werkingsgebied, setWerkingsgebied] =
@@ -69,11 +73,11 @@ const FormFieldWerkingsgebied = ({
                 />
             )}
             <div
-                className={`flex flex-wrap mb-6 -mx-3 ${
-                    disabled
-                        ? 'opacity-75 pointer-events-none cursor-not-allowed'
-                        : ''
-                }`}>
+                className={classNames(`flex flex-wrap -mx-3`, {
+                    'opacity-75 pointer-events-none cursor-not-allowed':
+                        disabled,
+                    classNames,
+                })}>
                 <div
                     className="w-full px-3"
                     id={`form-field-${titleSingular.toLowerCase()}-${dataObjectProperty.toLowerCase()}`}>
@@ -167,6 +171,7 @@ const CardSelectedWerkingsgebied = ({
                     <span
                         className="absolute bottom-0 left-0 px-5 py-5 text-sm text-red-600 underline transition-colors duration-100 ease-in cursor-pointer hover:text-red-800"
                         onClick={() => {
+                            console.log('ONTKOPPEL!')
                             setWerkingsgebiedInParentState({
                                 target: {
                                     name: dataObjectProperty,
@@ -243,7 +248,7 @@ const WerkingsgebiedPopup = ({
                 setIsLoading(false)
             })
             .catch(err => {
-                console.log(err)
+                handleError(err)
                 toast(process.env.REACT_APP_ERROR_MSG)
                 setIsLoading(false)
             })

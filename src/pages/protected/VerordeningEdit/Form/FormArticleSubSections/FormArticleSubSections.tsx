@@ -89,7 +89,9 @@ const AddSubItem = () => {
 
     const addSubItem = async () => {
         try {
-            const newCreatedLid = await createVerordeningLid('')
+            const newCreatedLid = await createVerordeningLid({
+                Inhoud: '',
+            })
             if (!newCreatedLid) return
             setFieldValue('Children', [
                 ...(values?.Children || []),

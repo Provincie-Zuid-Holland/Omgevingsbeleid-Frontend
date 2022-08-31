@@ -1,23 +1,28 @@
 import { FormikTextArea, Text } from '@pzh-ui/components'
 import { useFormikContext } from 'formik'
 
-import { createVerordeningLid } from '@/utils/verordening'
+import {
+    createVerordeningLid,
+    getGeoValueFromFormikValues,
+} from '@/utils/verordening'
 
-import { ActiveSectionData } from '../../verordeningEditContext'
+import { FormikValues } from '../../verordeningEditContext'
 
 export interface FormArticleContentProps {}
 
 const FormArticleContent = () => {
-    const { values, setFieldValue } = useFormikContext<ActiveSectionData>()
+    const { values, setFieldValue } = useFormikContext<FormikValues>()
 
     const sectionHasNoChildren =
         values?.Children?.length === undefined || values?.Children?.length === 0
 
     const transformArticleContentToSubItem = async () => {
         try {
-            const newCreatedLid = await createVerordeningLid(
-                values?.Inhoud || ''
-            )
+            const geoValue = getGeoValueFromFormikValues(values)
+            const newCreatedLid = await createVerordeningLid({
+                Inhoud: values?.Inhoud || '',
+                Gebied: geoValue,
+            })
             if (!newCreatedLid) return
             setFieldValue('Inhoud', '')
             setFieldValue('Children', [newCreatedLid])

@@ -3,19 +3,22 @@ import { AngleDown, AngleUp } from '@pzh-ui/icons'
 import classNames from 'classnames'
 import { useFormikContext } from 'formik'
 import { motion } from 'framer-motion'
-import { FC, useRef, useState } from 'react'
+import { FC, Fragment, useRef, useState } from 'react'
 
 import { useGetGebruikers } from '@/api/fetchers'
 import { FormFieldWerkingsgebied } from '@/components/Form'
 import FormikSelectUser from '@/components/Form/FormikSelectUser'
 
-import { ActiveSectionData } from '../../verordeningEditContext'
+import { FormikValues } from '../../verordeningEditContext'
 
 export interface FormArticleSidebarProps {}
 
 function FormArticleSidebar({}: FormArticleSidebarProps) {
-    const { values, setFieldValue } = useFormikContext<ActiveSectionData>()
+    const { values, setFieldValue } = useFormikContext<FormikValues>()
     const { data: users } = useGetGebruikers()
+
+    const [allSubSectionsHaveSameGeoArea, setAllSubSectionsHaveSameGeoArea] =
+        useState(false)
 
     const options = users
         ? users.map(user => ({
@@ -27,11 +30,10 @@ function FormArticleSidebar({}: FormArticleSidebarProps) {
 
     if (!values) return null
 
+    console.log(values)
+
     return (
-        <motion.div
-            initial={{ opacity: 0, scale: 0.9, top: -20 }}
-            animate={{ opacity: 1, scale: 1, top: 0 }}
-            className="relative overflow-y-auto">
+        <SidebarScrollContainer>
             <SidebarContainer
                 title={`Eigenschappen Artikel ${values.Volgnummer}`}>
                 <div>
@@ -101,41 +103,151 @@ function FormArticleSidebar({}: FormArticleSidebarProps) {
                     <FormikDate name="Eind_Geldigheid" />
                 </div>
 
-                <div className="mt-6">
-                    <FieldLabel name="Gebied" label="Gebied" />
-                    <FormFieldWerkingsgebied
-                        setWerkingsgebiedInParentState={event =>
-                            setFieldValue('Gebied', event.target.value)
-                        }
-                        werkingsgebiedInParentState={values.Gebied}
-                        dataObjectProperty="Werkingsgebied"
-                        titleSingular="Artikel"
-                        hideLabel={true}
-                    />
-                </div>
+                {/* This section is shown when there are no sub sections, 
+                or when all the sub sections should have the same GEO area */}
+                {!values?.Children ||
+                    (allSubSectionsHaveSameGeoArea && (
+                        <div className="mt-6">
+                            <FieldLabel name="Gebied" label="Gebied" />
+                            <FormFieldWerkingsgebied
+                                setWerkingsgebiedInParentState={event => {
+                                    if (
+                                        allSubSectionsHaveSameGeoArea &&
+                                        values.Children
+                                    ) {
+                                        values.Children.forEach(
+                                            (child, index) => {
+                                                setFieldValue(
+                                                    `Children[${index}].Gebied`,
+                                                    event.target.value
+                                                )
+                                            }
+                                        )
+                                    } else {
+                                        setFieldValue(
+                                            'Gebied',
+                                            event.target.value
+                                        )
+                                    }
+                                }}
+                                werkingsgebiedInParentState={
+                                    allSubSectionsHaveSameGeoArea &&
+                                    values.Children &&
+                                    values.Children[0]
+                                        ? values.Children[0]?.Gebied
+                                        : values.Gebied
+                                }
+                                dataObjectProperty="Gebied"
+                                titleSingular="Artikel"
+                                hideLabel={true}
+                            />
+                        </div>
+                    ))}
+
+                {values?.Children && values.Children.length > 1 && (
+                    <div className="mt-6">
+                        <label className="flex">
+                            <input
+                                id="inherit-werkingsgebieden-from-artikel"
+                                type="checkbox"
+                                className="mt-1 mr-3 text-pzh-green"
+                                checked={allSubSectionsHaveSameGeoArea}
+                                onChange={() => {
+                                    if (
+                                        !allSubSectionsHaveSameGeoArea &&
+                                        values.Children
+                                    ) {
+                                        // User ticks the checkbox -> Remove GEO value from each lid
+                                        values.Children.forEach(
+                                            (child, index) => {
+                                                setFieldValue(
+                                                    `Children[${index}].Gebied`,
+                                                    null
+                                                )
+                                            }
+                                        )
+                                        setAllSubSectionsHaveSameGeoArea(true)
+                                    } else if (values.Children) {
+                                        // User unticks the checkbox
+                                        setAllSubSectionsHaveSameGeoArea(false)
+                                    }
+                                }}
+                            />
+                            <Text type="body-small">
+                                Alle leden van dit artikel gaan over hetzelfde
+                                werkingsgebied
+                            </Text>
+                        </label>
+                    </div>
+                )}
             </SidebarContainer>
-        </motion.div>
+            {values?.Children !== undefined &&
+                allSubSectionsHaveSameGeoArea === false &&
+                values.Children.map((child, index) => (
+                    <SidebarContainer
+                        mt
+                        key={index}
+                        title={`Eigenschappen lid ${index + 1}`}>
+                        <FieldLabel name="Gebied" label="Gebied" />
+                        <FormFieldWerkingsgebied
+                            setWerkingsgebiedInParentState={event =>
+                                setFieldValue(
+                                    `Children[${index}].Gebied`,
+                                    event.target.value
+                                )
+                            }
+                            werkingsgebiedInParentState={
+                                values.Children
+                                    ? values.Children[index]?.Gebied
+                                    : null
+                            }
+                            dataObjectProperty="Gebied"
+                            titleSingular="Artikel"
+                            hideLabel={true}
+                        />
+                    </SidebarContainer>
+                ))}
+        </SidebarScrollContainer>
     )
 }
 
-interface SidebarContainerProps {
-    title: string
-}
-
-const SidebarContainer: FC<SidebarContainerProps> = ({ children, title }) => {
-    const [isOpen, setIsOpen] = useState(true)
+const SidebarScrollContainer: FC = ({ children }) => {
     const sidebarContainer = useRef(null)
     const topNavigationHeight =
         document.getElementById('top-navigation')?.clientHeight || 0
     const windowHeight = window.innerHeight || 0
 
     return (
-        <div
-            ref={sidebarContainer}
-            style={{
-                maxHeight: `calc(${windowHeight}px - ${topNavigationHeight}px - 2rem - 70px)`,
-            }}
-            className="relative overflow-y-auto rounded-b shadow-md">
+        <motion.div
+            initial={{ opacity: 0, scale: 0.9, top: -20 }}
+            animate={{ opacity: 1, scale: 1, top: 0 }}
+            className="relative overflow-y-auto">
+            <div
+                ref={sidebarContainer}
+                style={{
+                    maxHeight: `calc(${windowHeight}px - ${topNavigationHeight}px - 2rem - 70px)`,
+                }}
+                className={`relative rounded overflow-y-auto rounded-b`}>
+                {children}
+            </div>
+        </motion.div>
+    )
+}
+
+interface SidebarContainerProps {
+    title: string
+    mt?: boolean
+}
+
+const SidebarContainer: FC<SidebarContainerProps> = ({
+    children,
+    title,
+    mt,
+}) => {
+    const [isOpen, setIsOpen] = useState(true)
+
+    return (
+        <Fragment>
             <button
                 type="button"
                 onClick={() => setIsOpen(!isOpen)}
@@ -144,6 +256,7 @@ const SidebarContainer: FC<SidebarContainerProps> = ({ children, title }) => {
                     {
                         'rounded-t': isOpen,
                         rounded: !isOpen,
+                        'mt-6': mt,
                     }
                 )}>
                 <Text className="font-bold text-white">{title}</Text>
@@ -153,8 +266,8 @@ const SidebarContainer: FC<SidebarContainerProps> = ({ children, title }) => {
                     <AngleUp className="text-white" size={18} />
                 )}
             </button>
-            {isOpen && <div className="p-4 bg-white">{children}</div>}
-        </div>
+            {isOpen && <div className="p-4 bg-white border">{children}</div>}
+        </Fragment>
     )
 }
 

@@ -36,21 +36,19 @@ const FormikSelectUser = ({
 }: FormikSelectUserProps) => {
     const { values, setFieldValue } = useFormikContext<SelectUserValues>()
 
+    const value = {
+        value: values[property]?.UUID,
+        label: values[property]?.Gebruikersnaam,
+        role: values[property]?.Rol,
+    }
+
     if (!values) return null
 
     return (
         <Select
             className="border border-gray-400 rounded hover:border-gray-500 focus:border-gray-500"
             name={property}
-            value={
-                values
-                    ? {
-                          value: values[property]?.UUID,
-                          label: values[property]?.Gebruikersnaam,
-                          role: values[property]?.Rol,
-                      }
-                    : {}
-            }
+            value={value}
             onChange={(e, metaInfo) => {
                 if (e && metaInfo.action === 'select-option') {
                     setFieldValue(property, {
@@ -58,7 +56,7 @@ const FormikSelectUser = ({
                         Gebruikersnaam: e.label,
                         Rol: e.role,
                     })
-                } else if (e && metaInfo.action === 'clear') {
+                } else if (metaInfo.action === 'clear') {
                     setFieldValue(property, null)
                 }
             }}
