@@ -1,4 +1,5 @@
 import { Form, Formik } from 'formik'
+import { MotionConfig } from 'framer-motion'
 import cloneDeep from 'lodash.clonedeep'
 import { useEffect } from 'react'
 import { Helmet } from 'react-helmet'
@@ -40,6 +41,7 @@ function VerordeningEdit() {
     const { state, dispatch } = useVerordening()
     const {
         isEditingOrder,
+        isAddingSection,
         lineageClone,
         editingSectionUUID,
         editingSectionIndexPath,
@@ -180,8 +182,7 @@ function VerordeningEdit() {
     const handleSubmit = async (
         values:
             | (VerordeningenRead & { Children?: VerordeningenRead[] })
-            | (VerordeningenWrite & { Children?: VerordeningenRead[] }),
-        { resetForm }: { resetForm: () => void }
+            | (VerordeningenWrite & { Children?: VerordeningenRead[] })
     ) => {
         dispatch({
             type: 'setIsLoadingOrSaving',
@@ -270,7 +271,6 @@ function VerordeningEdit() {
                     payload: false,
                 })
                 dispatch({ type: 'resetEditingSection' })
-                resetForm()
             } catch (err) {
                 handleError(err)
 
@@ -344,8 +344,6 @@ function VerordeningEdit() {
                     patchedVerordening
                 )
 
-                resetForm()
-
                 dispatch({ type: 'setIsAddingSection', payload: false })
                 dispatch({
                     type: 'setIsLoadingOrSaving',
@@ -363,49 +361,53 @@ function VerordeningEdit() {
     }
 
     return (
-        <Formik
-            initialValues={activeSectionData || newSection || {}}
-            enableReinitialize={true}
-            onSubmit={handleSubmit}>
-            <Form className="w-full">
-                <Helmet>
-                    <title>Omgevingsbeleid - Beheer Verordening</title>
-                </Helmet>
-                <Container>
-                    <VerordeningSectionContainer verordening={verordening}>
-                        <ReorderGroup
-                            parentType={null}
-                            replaceUlForFragment={activeChapterUUID}
-                            indexPath={[]}
-                            values={chapters}>
-                            {chapters.length > 0 ? (
-                                chapters.map(
-                                    (
-                                        chapter: VerordeningStructureChild,
-                                        chapterIndex
-                                    ) => (
-                                        <VerordeningSection
-                                            parentArray={['Hoofdstuk']}
-                                            currentParentType={'No Parent'}
-                                            key={chapter.UUID}
-                                            section={chapter}
-                                            index={chapterIndex}
-                                            indexPath={[]}
-                                        />
+        <MotionConfig reducedMotion={'always'}>
+            <Formik
+                initialValues={activeSectionData || newSection || {}}
+                enableReinitialize={true}
+                onSubmit={handleSubmit}>
+                <Form className="w-full">
+                    <Helmet>
+                        <title>Omgevingsbeleid - Beheer Verordening</title>
+                    </Helmet>
+                    <Container>
+                        <VerordeningSectionContainer verordening={verordening}>
+                            <ReorderGroup
+                                parentType={null}
+                                replaceUlForFragment={
+                                    activeChapterUUID !== null
+                                }
+                                indexPath={[]}
+                                values={chapters}>
+                                {chapters.length > 0 ? (
+                                    chapters.map(
+                                        (
+                                            chapter: VerordeningStructureChild,
+                                            chapterIndex
+                                        ) => (
+                                            <VerordeningSection
+                                                parentArray={['Hoofdstuk']}
+                                                currentParentType={'No Parent'}
+                                                key={chapter.UUID}
+                                                section={chapter}
+                                                index={chapterIndex}
+                                                indexPath={[]}
+                                            />
+                                        )
                                     )
-                                )
-                            ) : (
-                                <AddSection
-                                    show
-                                    typeToAdd="Hoofdstuk"
-                                    indexPath={[0]}
-                                />
-                            )}
-                        </ReorderGroup>
-                    </VerordeningSectionContainer>
-                </Container>
-            </Form>
-        </Formik>
+                                ) : (
+                                    <AddSection
+                                        show
+                                        typeToAdd="Hoofdstuk"
+                                        indexPath={[0]}
+                                    />
+                                )}
+                            </ReorderGroup>
+                        </VerordeningSectionContainer>
+                    </Container>
+                </Form>
+            </Formik>
+        </MotionConfig>
     )
 }
 

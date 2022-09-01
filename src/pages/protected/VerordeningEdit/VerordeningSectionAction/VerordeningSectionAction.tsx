@@ -81,6 +81,8 @@ const VerordeningSectionAction = ({
                 type: 'setIsLoadingOrSaving',
                 payload: false,
             })
+
+            setIsRemoving(false)
         } catch (error) {
             setIsRemoving(false)
 

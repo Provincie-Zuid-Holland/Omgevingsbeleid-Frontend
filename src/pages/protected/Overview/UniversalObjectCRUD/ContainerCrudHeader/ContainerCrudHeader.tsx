@@ -89,7 +89,7 @@ function ContainerCrudHeader({
                     <ButtonBackToPage
                         terugNaar={
                             editStatus
-                                ? objectTitle
+                                ? titleSingular.toLowerCase()
                                 : titelMeervoud.toLowerCase()
                         }
                         color="text-white"

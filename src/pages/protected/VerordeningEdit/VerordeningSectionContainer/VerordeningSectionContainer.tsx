@@ -56,10 +56,7 @@ const VerordeningSectionContainer: FC<VerordeningSectionContainerProps> = ({
         <Fragment>
             <div
                 className={classNames(
-                    `grid grid-cols-6 col-span-6 gap-x-10 md:pt-6`,
-                    {
-                        'md:pb-4 py-4': !activeChapterUUID,
-                    }
+                    `grid grid-cols-6 col-span-6 gap-x-10 pt-2`
                 )}>
                 <div className="col-span-6">
                     {!activeChapterUUID && (
@@ -69,20 +66,15 @@ const VerordeningSectionContainer: FC<VerordeningSectionContainerProps> = ({
                         />
                     )}
                     {activeChapterUUID && (
-                        <button
-                            type="button"
+                        <ButtonBackToPage
+                            terugNaar="verordening"
                             onClick={() =>
                                 dispatch({
                                     type: 'setActiveChapterUUID',
                                     payload: null,
                                 })
                             }
-                            className="flex items-center py-2 text-pzh-gray-light">
-                            <AngleLeft />
-                            <span className="mt-1 ml-2">
-                                Terug naar verordening
-                            </span>
-                        </button>
+                        />
                     )}
                 </div>
             </div>

@@ -1,5 +1,6 @@
 import { Button } from '@pzh-ui/components'
 import { FloppyDisk, Spinner, Xmark } from '@pzh-ui/icons'
+import { useFormikContext } from 'formik'
 import { Fragment } from 'react'
 
 import { useVerordening } from '../../verordeningEditContext'
@@ -8,6 +9,7 @@ export interface FormSubmitOrCancelProps {}
 
 const FormSubmitOrCancel = () => {
     const { state, dispatch } = useVerordening()
+    const { resetForm } = useFormikContext()
     const { isLoadingOrSaving } = state
 
     return (
@@ -28,6 +30,7 @@ const FormSubmitOrCancel = () => {
                 type="button"
                 variant="primary"
                 onClick={() => {
+                    resetForm()
                     dispatch({ type: 'resetEditingSection' })
                     dispatch({ type: 'setNewSection', payload: null })
                     dispatch({ type: 'setIsAddingSection', payload: false })

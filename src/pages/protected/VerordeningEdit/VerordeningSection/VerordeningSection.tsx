@@ -115,7 +115,7 @@ const VerordeningSection = ({
                         </FormNumberAndTitle>
                     ) : (
                         <Fragment>
-                            <div className="flex items-center justify-between py-2 pl-4 font-bold rounded cursor-pointer hover:bg-pzh-blue-super-light bg-pzh-blue-super-light hover:bg-gray-100">
+                            <div className="flex items-center justify-between py-2 pl-4 font-bold rounded hover:bg-pzh-blue-super-light bg-pzh-blue-super-light hover:bg-gray-100">
                                 <Text className="pr-4">
                                     Afdeling {section.Volgnummer} -{' '}
                                     {section.Titel}
@@ -165,7 +165,7 @@ const VerordeningSection = ({
                         </FormNumberAndTitle>
                     ) : (
                         <Fragment>
-                            <div className="flex items-center justify-between py-2 pl-4 font-bold rounded cursor-pointer hover:bg-pzh-blue-super-light bg-pzh-blue-super-light hover:bg-gray-100">
+                            <div className="flex items-center justify-between py-2 pl-4 font-bold rounded hover:bg-pzh-blue-super-light bg-pzh-blue-super-light hover:bg-gray-100">
                                 <Text className="pr-4">
                                     Paragraaf {section.Volgnummer} -{' '}
                                     {section.Titel}

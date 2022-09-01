@@ -58,6 +58,7 @@ const VerordeningConfirmDeletion = ({
                 disabled={section.Children.length > 0}
                 onClick={e => {
                     e.preventDefault()
+                    e.stopPropagation()
                     removeSection()
                     togglePopup()
                 }}

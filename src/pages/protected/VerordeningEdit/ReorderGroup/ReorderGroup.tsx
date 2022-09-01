@@ -8,7 +8,7 @@ export interface ReorderGroupProps {
     values: unknown[]
     indexPath: number[]
     parentType: string | null
-    replaceUlForFragment?: string | null
+    replaceUlForFragment?: boolean
 }
 
 const ReorderGroup: FC<ReorderGroupProps> = ({
