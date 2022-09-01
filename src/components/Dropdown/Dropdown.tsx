@@ -68,7 +68,7 @@ const DropdownContainer: FC<DropdownContainerProps> = ({
                 <motion.div
                     data-testid="dropdown"
                     className={classNames(
-                        'absolute top-0 text-left right-0 z-50 w-48 mt-12 text-gray-700 bg-white rounded shadow-card tooltip-right tooltip-triangle',
+                        'absolute top-0 text-left right-0 z-50 w-48 mt-12 text-gray-700 bg-white rounded shadow-md tooltip-right tooltip-triangle',
                         { [className || '']: className }
                     )}
                     ref={innerContainer}
