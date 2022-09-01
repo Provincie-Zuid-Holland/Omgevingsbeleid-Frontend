@@ -40,6 +40,7 @@ import FormFieldContainerBeleidsprestaties from './FormFieldContainers/FormField
 import FormFieldContainerBeleidsregels from './FormFieldContainers/FormFieldContainerBeleidsregels'
 import FormFieldContainerMaatregelen from './FormFieldContainers/FormFieldContainerMaatregelen'
 import FormFieldContainerThemas from './FormFieldContainers/FormFieldContainerThemas'
+import FormFieldContainerVerordening from './FormFieldContainers/FormFieldContainerVerordening'
 
 /**
  * @returns a page where the user can create new or edit existing policy objects
@@ -621,7 +622,7 @@ const UniversalObjectCRUD = ({
                                 ) : null}
 
                                 {titleSingular === 'Verordening' ? (
-                                    <FormFieldContainerThemas
+                                    <FormFieldContainerVerordening
                                         titleSingular={titleSingular}
                                         crudObject={crudObject}
                                         handleChange={handleChange}

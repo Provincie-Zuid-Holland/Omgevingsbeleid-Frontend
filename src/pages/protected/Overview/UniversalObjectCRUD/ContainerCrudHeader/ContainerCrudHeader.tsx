@@ -62,6 +62,12 @@ function ContainerCrudHeader({
                 // Fallback
                 return `/muteer/${overzichtSlug}`
             }
+        } else if (titleSingular === 'Verordening') {
+            if (!editStatus) {
+                return `/muteer/${overzichtSlug}`
+            } else {
+                return `/muteer/${overzichtSlug}/${objectID}`
+            }
         } else {
             if (location.hash === '#mijn-beleid') {
                 return `/muteer/mijn-beleid`
@@ -81,7 +87,11 @@ function ContainerCrudHeader({
             <div className="container flex items-center justify-center mx-auto lg:px-10">
                 <div className="w-full pr-20">
                     <ButtonBackToPage
-                        terugNaar={titelMeervoud.toLowerCase()}
+                        terugNaar={
+                            editStatus
+                                ? objectTitle
+                                : titelMeervoud.toLowerCase()
+                        }
                         color="text-white"
                         url={backUrl}
                     />
