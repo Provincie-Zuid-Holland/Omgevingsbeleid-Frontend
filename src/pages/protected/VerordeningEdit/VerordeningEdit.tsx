@@ -1,7 +1,7 @@
 import { Form, Formik } from 'formik'
-import { MotionConfig } from 'framer-motion'
 import cloneDeep from 'lodash.clonedeep'
 import { useEffect } from 'react'
+import { Helmet } from 'react-helmet'
 import { useQuery, useQueryClient } from 'react-query'
 import { useParams } from 'react-router-dom'
 
@@ -35,7 +35,8 @@ import VerordeningSection from './VerordeningSection'
 import VerordeningSectionContainer from './VerordeningSectionContainer'
 
 function VerordeningEdit() {
-    const { lineageID: id } = useParams()
+    const { single: id } = useParams()
+    const queryClient = useQueryClient()
     const { state, dispatch } = useVerordening()
     const {
         isEditingOrder,
@@ -47,6 +48,9 @@ function VerordeningEdit() {
         activeSectionData,
     } = state
 
+    /**
+     * Fetch the current active section data.
+     */
     const { data: activeSectionDataFromAPI, isLoading: isLoadingVersion } =
         useGetVersionVerordeningenObjectuuid(editingSectionUUID || '', {
             query: {
@@ -54,18 +58,24 @@ function VerordeningEdit() {
             },
         })
 
+    /**
+     * Update loading state
+     */
     useEffect(() => {
         dispatch({ type: 'setIsLoadingOrSaving', payload: isLoadingVersion })
     }, [isLoadingVersion, dispatch])
 
-    const { data: verordening } = useQuery('getVerordeningStructuur', () =>
-        axios
-            .get(`/verordeningstructuur/${id}`)
-            .then(res => res.data[0] as VerordeningLineageRead)
+    const { data: verordening } = useQuery(
+        `getVerordeningStructuur/${id}`,
+        () =>
+            axios
+                .get(`/verordeningstructuur/${id}`)
+                .then(res => res.data[0] as VerordeningLineageRead)
     )
 
     /**
-     * Set activeSectionDataFromAPI in state and in the case of an 'Artikel' we retrieve and populate the 'Leden'
+     * Set activeSectionDataFromAPI in state as activeSectionData.
+     * In the case of an 'Artikel' we retrieve and populate the 'Leden'.
      */
     useEffect(() => {
         if (!activeSectionDataFromAPI) {
@@ -124,10 +134,17 @@ function VerordeningEdit() {
         verordening,
     ])
 
+    /**
+     * Reset scroll position to top when changing chapters
+     */
     useEffect(() => {
         window.scrollTo(0, 0)
     }, [activeChapterUUID])
 
+    /**
+     * 1. Set lineage clone
+     * 2. Check if lineage has Chapters, else set isAddingSection to true
+     */
     useEffect(() => {
         if (!verordening) return
 
@@ -135,12 +152,22 @@ function VerordeningEdit() {
             type: 'cloneLineageForReordering',
             payload: cloneDeep(verordening),
         })
-    }, [verordening, dispatch, isEditingOrder])
 
-    const queryClient = useQueryClient()
+        if (verordening.Structuur.Children.length === 0) {
+            dispatch({
+                type: 'setIsAddingSection',
+                payload: true,
+            })
+        }
+    }, [verordening, dispatch, isEditingOrder])
 
     if (!verordening || !lineageClone) return <VerordeningEditLoader />
 
+    /**
+     * When the user edits the order, we change to the clone of the lineage.
+     * If the user cancels, we switch back. If the users saves the reordered lineage,
+     * we update the original lineage.
+     */
     const chapters = isEditingOrder
         ? lineageClone.Structuur.Children
         : verordening.Structuur.Children
@@ -227,7 +254,7 @@ function VerordeningEdit() {
 
                 /** Update query Client with responses */
                 queryClient.setQueryData(
-                    'getVerordeningStructuur',
+                    `getVerordeningStructuur/${patchedVerordening.ID}`,
                     patchedVerordening
                 )
                 queryClient.setQueryData(
@@ -280,7 +307,6 @@ function VerordeningEdit() {
                         })
                     )
 
-                    console.log('DELETE POST')
                     delete postObject.Children
                 }
 
@@ -314,7 +340,7 @@ function VerordeningEdit() {
                     )
 
                 queryClient.setQueryData(
-                    'getVerordeningStructuur',
+                    `getVerordeningStructuur/${patchedVerordening.ID}`,
                     patchedVerordening
                 )
 
@@ -337,48 +363,49 @@ function VerordeningEdit() {
     }
 
     return (
-        <MotionConfig reducedMotion={isEditingOrder ? 'never' : 'always'}>
-            <Formik
-                initialValues={activeSectionData || newSection || {}}
-                enableReinitialize={true}
-                onSubmit={handleSubmit}>
-                <Form className="w-full">
-                    <Container>
-                        <VerordeningSectionContainer verordening={verordening}>
-                            <ReorderGroup
-                                parentType={null}
-                                replaceUlForFragment={activeChapterUUID}
-                                indexPath={[]}
-                                values={chapters}>
-                                {chapters.length > 0 ? (
-                                    chapters.map(
-                                        (
-                                            chapter: VerordeningStructureChild,
-                                            chapterIndex
-                                        ) => (
-                                            <VerordeningSection
-                                                parentArray={['Hoofdstuk']}
-                                                currentParentType={'No Parent'}
-                                                key={chapter.UUID}
-                                                section={chapter}
-                                                index={chapterIndex}
-                                                indexPath={[]}
-                                            />
-                                        )
+        <Formik
+            initialValues={activeSectionData || newSection || {}}
+            enableReinitialize={true}
+            onSubmit={handleSubmit}>
+            <Form className="w-full">
+                <Helmet>
+                    <title>Omgevingsbeleid - Beheer Verordening</title>
+                </Helmet>
+                <Container>
+                    <VerordeningSectionContainer verordening={verordening}>
+                        <ReorderGroup
+                            parentType={null}
+                            replaceUlForFragment={activeChapterUUID}
+                            indexPath={[]}
+                            values={chapters}>
+                            {chapters.length > 0 ? (
+                                chapters.map(
+                                    (
+                                        chapter: VerordeningStructureChild,
+                                        chapterIndex
+                                    ) => (
+                                        <VerordeningSection
+                                            parentArray={['Hoofdstuk']}
+                                            currentParentType={'No Parent'}
+                                            key={chapter.UUID}
+                                            section={chapter}
+                                            index={chapterIndex}
+                                            indexPath={[]}
+                                        />
                                     )
-                                ) : (
-                                    <AddSection
-                                        show
-                                        typeToAdd="Hoofdstuk"
-                                        indexPath={[0]}
-                                    />
-                                )}
-                            </ReorderGroup>
-                        </VerordeningSectionContainer>
-                    </Container>
-                </Form>
-            </Formik>
-        </MotionConfig>
+                                )
+                            ) : (
+                                <AddSection
+                                    show
+                                    typeToAdd="Hoofdstuk"
+                                    indexPath={[0]}
+                                />
+                            )}
+                        </ReorderGroup>
+                    </VerordeningSectionContainer>
+                </Container>
+            </Form>
+        </Formik>
     )
 }
 
