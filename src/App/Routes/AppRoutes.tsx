@@ -10,6 +10,7 @@ import {
     VerordeningenStructuurCRUD,
     VerordeningenstructuurDetail,
 } from '@/pages/protected'
+import UniversalObjectCRUD from '@/pages/protected/Overview/UniversalObjectCRUD'
 import VerordeningEdit from '@/pages/protected/VerordeningEdit'
 import {
     Accessibility,
@@ -28,8 +29,6 @@ import detailPages from '@/utils/detailPages'
 import ProtectedRoute from './ProtectedRoute'
 
 const AppRoutes = () => {
-    const navigate = useNavigate()
-
     const routes = useRoutes([
         /**
          * Public pages
@@ -106,35 +105,29 @@ const AppRoutes = () => {
                         {
                             path: 'nieuw',
                             element: (
-                                <VerordeningenStructuurCRUD
+                                <UniversalObjectCRUD
                                     dimensieConstants={
                                         allDimensies.VERORDENINGSTRUCTUUR
                                     }
-                                    navigate={navigate}
                                 />
                             ),
                         },
                         {
-                            path: ':lineageID/bewerk',
+                            path: ':single',
                             children: [
                                 {
                                     index: true,
-                                    element: <VerordeningenstructuurDetail />,
+                                    element: <VerordeningEdit />,
                                 },
                                 {
                                     path: 'bewerk',
                                     element: (
-                                        <VerordeningenStructuurCRUD
+                                        <UniversalObjectCRUD
                                             dimensieConstants={
                                                 allDimensies.VERORDENINGSTRUCTUUR
                                             }
-                                            navigate={navigate}
                                         />
                                     ),
-                                },
-                                {
-                                    path: 'edit',
-                                    element: <VerordeningEdit />,
                                 },
                             ],
                         },
