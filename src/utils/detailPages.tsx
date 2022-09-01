@@ -35,7 +35,6 @@ import {
     BeleidsrelatiesCRUD,
     Detail,
     Overview,
-    VerordeningenstructuurOverzicht,
 } from '@/pages/protected'
 import UniversalObjectCRUD from '@/pages/protected/Overview/UniversalObjectCRUD'
 
@@ -231,11 +230,7 @@ const detailPages = [
     {
         slug: 'verordeningen',
         dataModel: allDimensies.VERORDENINGSARTIKEL,
-        element: (
-            <VerordeningenstructuurOverzicht
-                dataModel={allDimensies.VERORDENINGSTRUCTUUR}
-            />
-        ),
+        element: getOverview('VERORDENINGSTRUCTUUR'),
         isPublic: true,
         dataEndpoint: getVerordeningenLineageid,
         dataVersionEndpoint: getVersionVerordeningenObjectuuid,

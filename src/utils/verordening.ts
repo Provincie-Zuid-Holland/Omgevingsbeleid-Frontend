@@ -1,4 +1,5 @@
 import cloneDeep from 'lodash.clonedeep'
+import { useQuery } from 'react-query'
 
 import { getVersionVerordeningenObjectuuid } from '@/api/fetchers'
 import {
@@ -127,6 +128,11 @@ export const patchVerordeningSection = (
     axios
         .patch(`/verordeningen/${lineageID}`, values)
         .then(res => res.data as VerordeningenRead)
+
+export const useGetVerordeningenStructuren = () =>
+    useQuery('/verordeningstructuur', () =>
+        axios.get('/verordeningstructuur').then(res => res.data)
+    )
 
 export const postVerordeningSection = (
     values: Omit<VerordeningenWrite, 'Gebied'> & { Gebied?: string | null }

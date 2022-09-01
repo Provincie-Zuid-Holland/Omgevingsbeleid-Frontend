@@ -4,12 +4,7 @@ import { useNavigate, useRoutes } from 'react-router-dom'
 import { NetworkGraph } from '@/components/Network'
 import allDimensies from '@/constants/dimensies'
 import useAuth from '@/hooks/useAuth'
-import {
-    Dashboard,
-    MijnBeleid,
-    VerordeningenStructuurCRUD,
-    VerordeningenstructuurDetail,
-} from '@/pages/protected'
+import { Dashboard, MijnBeleid } from '@/pages/protected'
 import UniversalObjectCRUD from '@/pages/protected/Overview/UniversalObjectCRUD'
 import VerordeningEdit from '@/pages/protected/VerordeningEdit'
 import {

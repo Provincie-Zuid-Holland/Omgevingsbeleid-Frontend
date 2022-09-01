@@ -137,12 +137,9 @@ const Overview = ({ dimensieConstants }: OverviewProps) => {
                             <div>
                                 {policyObjects.map(policyObject => (
                                     <OverviewTableRow
+                                        titleSingular={titleSingular}
                                         key={policyObject.UUID}
-                                        isBeleidsmodule={isBeleidsmodule}
                                         policyObject={policyObject}
-                                        isMaatregelOrBeleidskeuze={
-                                            isMaatregelOrBeleidskeuze
-                                        }
                                         overviewSlug={overviewSlug}>
                                         <OverviewDropdown
                                             overviewSlug={overviewSlug}
@@ -182,9 +179,6 @@ const OverviewDropdown = ({
 
     const queryClient = useQueryClient()
 
-    const linkToRaadpleegPage = `/${overviewSlug}/${policy.UUID}`
-    const linkToEditPage = `/muteer/${overviewSlug}/${policy.ID}/bewerk`
-
     const policyIsInAModule =
         'Ref_Beleidsmodules' in policy
             ? policy?.Ref_Beleidsmodules?.length !== 0
@@ -194,13 +188,19 @@ const OverviewDropdown = ({
         titleSingular === 'Maatregel' || titleSingular === 'Beleidskeuze'
 
     const isBeleidsmodule = titleSingular === 'Beleidsmodule'
+    const isVerordening = titleSingular === 'Verordening'
+
+    const linkToRaadpleegPage = `/${overviewSlug}/${policy.UUID}`
+    const linkToEditPage = isVerordening
+        ? `/muteer/${overviewSlug}/${policy.ID}`
+        : `/muteer/${overviewSlug}/${policy.ID}/bewerk`
 
     const dropdownItems = [
         {
             text: 'Bewerken',
             link: linkToEditPage,
         },
-        ...(isBeleidsmodule
+        ...(isBeleidsmodule || isVerordening
             ? []
             : [
                   {
@@ -257,16 +257,14 @@ const OverviewDropdown = ({
 }
 
 type OverviewTableRowProps = {
+    titleSingular: string
     policyObject: PossiblePolicyRead
-    isMaatregelOrBeleidskeuze: boolean
-    isBeleidsmodule: boolean
     overviewSlug: string
 }
 
 const OverviewTableRow: FC<OverviewTableRowProps> = ({
+    titleSingular,
     policyObject,
-    isMaatregelOrBeleidskeuze,
-    isBeleidsmodule,
     overviewSlug,
     children,
 }) => {
@@ -276,7 +274,10 @@ const OverviewTableRow: FC<OverviewTableRowProps> = ({
     )
 
     const tableRowLink =
-        isMaatregelOrBeleidskeuze || isBeleidsmodule
+        titleSingular === 'Maatregel' ||
+        titleSingular === 'Beleidskeuze' ||
+        titleSingular === 'Verordening' ||
+        titleSingular === 'Beleidsmodule'
             ? `/muteer/${overviewSlug}/${policyObject.ID}`
             : `/muteer/${overviewSlug}/${policyObject.ID}/bewerk`
 
@@ -287,7 +288,8 @@ const OverviewTableRow: FC<OverviewTableRowProps> = ({
             <div className="w-4/12 px-4 py-3 text-gray-800">
                 {policyObject.Titel}
             </div>
-            {isMaatregelOrBeleidskeuze ? (
+            {titleSingular === 'Maatregel' ||
+            titleSingular === 'Beleidskeuze' ? (
                 <div className="w-4/12 px-4 py-3 text-gray-800">
                     {
                         (policyObject as MaatregelenRead | BeleidskeuzesRead)[
