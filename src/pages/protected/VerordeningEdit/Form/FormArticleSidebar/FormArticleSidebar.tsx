@@ -77,11 +77,11 @@ function FormArticleSidebar({}: FormArticleSidebarProps) {
 
                 <div className="mt-6">
                     <FieldLabel
-                        name="Portefeuillehouder_1"
-                        label="Eerste portefeuillehouder"
+                        name="Portefeuillehouder_2"
+                        label="Tweede portefeuillehouder"
                     />
                     <FormikSelectUser
-                        property="Portefeuillehouder_1"
+                        property="Portefeuillehouder_2"
                         options={options}
                         filter="Portefeuillehouder"
                     />
@@ -221,7 +221,7 @@ const SidebarScrollContainer: FC = ({ children }) => {
         <motion.div
             initial={{ opacity: 0, scale: 0.9, top: -20 }}
             animate={{ opacity: 1, scale: 1, top: 0 }}
-            className="relative overflow-y-auto">
+            className="relative overflow-x-visible overflow-y-auto">
             <div
                 ref={sidebarContainer}
                 style={{
