@@ -1,13 +1,13 @@
 import { Button, FieldSelect, Heading, Modal, Text } from '@pzh-ui/components'
+import { useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
-import { useQueryClient } from 'react-query'
 import { toast } from 'react-toastify'
 
 import {
     useGetBeleidsmodules,
-    patchBeleidsmodulesLineageid,
-    getGetBeleidskeuzesLineageidQueryKey,
-    getGetMaatregelenLineageidQueryKey,
+    patchBeleidsmodulesLineageId,
+    getGetBeleidskeuzesLineageIdQueryKey,
+    getGetMaatregelenLineageIdQueryKey,
 } from '@/api/fetchers'
 import {
     BeleidskeuzesRead,
@@ -62,7 +62,7 @@ function PopUpAddPolicyToModule({
                 Koppeling_Omschrijving: '',
             })) || []
 
-        patchBeleidsmodulesLineageid(selectedModule.ID, {
+        patchBeleidsmodulesLineageId(selectedModule.ID, {
             [connectionProperty]: [
                 ...(formattedExistingConnections || []),
                 newConnection,
@@ -71,10 +71,10 @@ function PopUpAddPolicyToModule({
             .then(() => {
                 const queryKey =
                     titleSingular === 'Beleidskeuze'
-                        ? getGetBeleidskeuzesLineageidQueryKey(policy.ID!)
+                        ? getGetBeleidskeuzesLineageIdQueryKey(policy.ID!)
                         : titleSingular === 'Maatregel'
-                        ? getGetMaatregelenLineageidQueryKey(policy.ID!)
-                        : ''
+                        ? getGetMaatregelenLineageIdQueryKey(policy.ID!)
+                        : ['']
 
                 queryClient.invalidateQueries(queryKey)
 

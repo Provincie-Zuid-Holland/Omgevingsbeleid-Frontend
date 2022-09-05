@@ -1,7 +1,7 @@
+import { useQuery } from '@tanstack/react-query'
 import * as d3 from 'd3'
 import cloneDeep from 'lodash.clonedeep'
 import { useCallback, useEffect, useReducer, useRef, useState } from 'react'
-import { useQuery } from 'react-query'
 import { matchPath, useLocation } from 'react-router-dom'
 
 import { getGraph } from '@/api/fetchers'
@@ -66,7 +66,7 @@ const NetworkGraph = () => {
     const showBanner = userIsInMuteerEnvironment && !hideBannerLocalStorage()
 
     const { data: verordeningsStructure } = useQuery(
-        '/verordeningstructuur',
+        ['/verordeningstructuur'],
         () =>
             axios
                 .get('/verordeningstructuur')
@@ -79,7 +79,7 @@ const NetworkGraph = () => {
     )
 
     const { isLoading, data, isFetching } = useQuery(
-        '/graph',
+        ['/graph'],
         () =>
             getGraph().then(data => {
                 const transformedData = addColorAndUUIDToNodes(data)

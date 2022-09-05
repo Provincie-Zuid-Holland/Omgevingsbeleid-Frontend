@@ -5,7 +5,7 @@ import { SyntheticEvent, useEffect, useRef, useState } from 'react'
 import { toast } from 'react-toastify'
 import { useKey, useLockBodyScroll } from 'react-use'
 
-import { postPasswordreset } from '@/api/fetchers'
+import { postPasswordReset } from '@/api/fetchers'
 
 import { PopUpAnimatedContainer } from '../Popup'
 
@@ -51,7 +51,7 @@ export default function PasswordChangeModal({
             return
         }
 
-        postPasswordreset({
+        postPasswordReset({
             password: currentPassword,
             new_password: newPassword,
         })

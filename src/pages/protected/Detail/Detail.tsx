@@ -5,8 +5,8 @@ import { Helmet } from 'react-helmet'
 import { useParams, Link } from 'react-router-dom'
 
 import {
-    useGetBeleidskeuzesLineageid,
-    useGetMaatregelenLineageid,
+    useGetBeleidskeuzesLineageId,
+    useGetMaatregelenLineageId,
 } from '@/api/fetchers'
 import { BeleidskeuzesRead, MaatregelenRead } from '@/api/fetchers.schemas'
 import CheckedOutPolicyContainer from '@/components/CheckedOutPolicyContainer'
@@ -20,9 +20,9 @@ import allDimensies from '@/constants/dimensies'
 const getFetcher = (titleSingular: 'Beleidskeuze' | 'Maatregel') => {
     switch (titleSingular) {
         case 'Beleidskeuze':
-            return useGetBeleidskeuzesLineageid
+            return useGetBeleidskeuzesLineageId
         case 'Maatregel':
-            return useGetMaatregelenLineageid
+            return useGetMaatregelenLineageId
     }
 }
 

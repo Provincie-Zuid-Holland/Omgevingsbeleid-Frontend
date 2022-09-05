@@ -5,9 +5,9 @@ import {
     ArrowDownAZ,
     EllipsisVertical,
 } from '@pzh-ui/icons'
+import { useQueryClient } from '@tanstack/react-query'
 import { FC, useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
-import { useQueryClient } from 'react-query'
 import { Link } from 'react-router-dom'
 
 import { BeleidskeuzesRead, MaatregelenRead } from '@/api/fetchers.schemas'

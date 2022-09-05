@@ -5,7 +5,7 @@ import {
     fireEvent,
 } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import { QueryClientProvider, QueryClient } from 'react-query'
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
 import { MemoryRouter } from 'react-router-dom'
 
 import allDimensies from '@/constants/dimensies'

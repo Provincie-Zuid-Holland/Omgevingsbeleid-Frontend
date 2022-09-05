@@ -1,22 +1,22 @@
 import {
-    getAmbitiesLineageid,
-    getBelangenLineageid,
-    getBeleidsdoelenLineageid,
-    getBeleidskeuzesLineageid,
-    getBeleidsprestatiesLineageid,
-    getBeleidsregelsLineageid,
-    getMaatregelenLineageid,
-    getThemasLineageid,
-    getVerordeningenLineageid,
-    getVersionAmbitiesObjectuuid,
-    getVersionBelangenObjectuuid,
-    getVersionBeleidsdoelenObjectuuid,
-    getVersionBeleidskeuzesObjectuuid,
-    getVersionBeleidsprestatiesObjectuuid,
-    getVersionBeleidsregelsObjectuuid,
-    getVersionMaatregelenObjectuuid,
-    getVersionThemasObjectuuid,
-    getVersionVerordeningenObjectuuid,
+    getAmbitiesLineageId,
+    getBelangenLineageId,
+    getBeleidsdoelenLineageId,
+    getBeleidskeuzesLineageId,
+    getBeleidsprestatiesLineageId,
+    getBeleidsregelsLineageId,
+    getMaatregelenLineageId,
+    getThemasLineageId,
+    getVerordeningenLineageId,
+    getVersionAmbitiesObjectUuid,
+    getVersionBelangenObjectUuid,
+    getVersionBeleidsdoelenObjectUuid,
+    getVersionBeleidskeuzesObjectUuid,
+    getVersionBeleidsprestatiesObjectUuid,
+    getVersionBeleidsregelsObjectUuid,
+    getVersionMaatregelenObjectUuid,
+    getVersionThemasObjectUuid,
+    getVersionVerordeningenObjectUuid,
     getValidAmbities,
     getValidBeleidsregels,
     getValidBelangen,
@@ -40,26 +40,26 @@ import {
 import UniversalObjectCRUD from '@/pages/protected/Overview/UniversalObjectCRUD'
 
 export type DetailPageEndpoint =
-    | typeof getAmbitiesLineageid
-    | typeof getBeleidsregelsLineageid
-    | typeof getBelangenLineageid
-    | typeof getMaatregelenLineageid
-    | typeof getBeleidskeuzesLineageid
-    | typeof getBeleidsprestatiesLineageid
-    | typeof getThemasLineageid
-    | typeof getBeleidsdoelenLineageid
-    | typeof getVerordeningenLineageid
+    | typeof getAmbitiesLineageId
+    | typeof getBeleidsregelsLineageId
+    | typeof getBelangenLineageId
+    | typeof getMaatregelenLineageId
+    | typeof getBeleidskeuzesLineageId
+    | typeof getBeleidsprestatiesLineageId
+    | typeof getThemasLineageId
+    | typeof getBeleidsdoelenLineageId
+    | typeof getVerordeningenLineageId
 
 export type DetailPageVersionEndpoint =
-    | typeof getVersionAmbitiesObjectuuid
-    | typeof getVersionBeleidsregelsObjectuuid
-    | typeof getVersionBelangenObjectuuid
-    | typeof getVersionMaatregelenObjectuuid
-    | typeof getVersionBeleidskeuzesObjectuuid
-    | typeof getVersionBeleidsprestatiesObjectuuid
-    | typeof getVersionThemasObjectuuid
-    | typeof getVersionBeleidsdoelenObjectuuid
-    | typeof getVersionVerordeningenObjectuuid
+    | typeof getVersionAmbitiesObjectUuid
+    | typeof getVersionBeleidsregelsObjectUuid
+    | typeof getVersionBelangenObjectUuid
+    | typeof getVersionMaatregelenObjectUuid
+    | typeof getVersionBeleidskeuzesObjectUuid
+    | typeof getVersionBeleidsprestatiesObjectUuid
+    | typeof getVersionThemasObjectUuid
+    | typeof getVersionBeleidsdoelenObjectUuid
+    | typeof getVersionVerordeningenObjectUuid
 
 export type DetailPageValidEndpoint =
     | typeof getValidAmbities
@@ -154,8 +154,8 @@ const detailPages = [
         element: getOverview('AMBITIES'),
         children: getChildren('AMBITIES'),
         isPublic: true,
-        dataEndpoint: getAmbitiesLineageid,
-        dataVersionEndpoint: getVersionAmbitiesObjectuuid,
+        dataEndpoint: getAmbitiesLineageId,
+        dataVersionEndpoint: getVersionAmbitiesObjectUuid,
         dataValidEndpoint: getValidAmbities,
     },
     {
@@ -164,8 +164,8 @@ const detailPages = [
         element: getOverview('BELEIDSREGELS'),
         children: getChildren('BELEIDSREGELS'),
         isPublic: true,
-        dataEndpoint: getBeleidsregelsLineageid,
-        dataVersionEndpoint: getVersionBeleidsregelsObjectuuid,
+        dataEndpoint: getBeleidsregelsLineageId,
+        dataVersionEndpoint: getVersionBeleidsregelsObjectUuid,
         dataValidEndpoint: getValidBeleidsregels,
     },
     {
@@ -174,8 +174,8 @@ const detailPages = [
         element: getOverview('BELANGEN'),
         children: getChildren('BELANGEN'),
         isPublic: true,
-        dataEndpoint: getBelangenLineageid,
-        dataVersionEndpoint: getVersionBelangenObjectuuid,
+        dataEndpoint: getBelangenLineageId,
+        dataVersionEndpoint: getVersionBelangenObjectUuid,
         dataValidEndpoint: getValidBelangen,
     },
     {
@@ -184,8 +184,8 @@ const detailPages = [
         element: getOverview('MAATREGELEN'),
         children: getChildren('MAATREGELEN'),
         isPublic: true,
-        dataEndpoint: getMaatregelenLineageid,
-        dataVersionEndpoint: getVersionMaatregelenObjectuuid,
+        dataEndpoint: getMaatregelenLineageId,
+        dataVersionEndpoint: getVersionMaatregelenObjectUuid,
         dataValidEndpoint: getValidMaatregelen,
     },
     {
@@ -194,8 +194,8 @@ const detailPages = [
         element: getOverview('BELEIDSKEUZES'),
         children: getChildren('BELEIDSKEUZES'),
         isPublic: true,
-        dataEndpoint: getBeleidskeuzesLineageid,
-        dataVersionEndpoint: getVersionBeleidskeuzesObjectuuid,
+        dataEndpoint: getBeleidskeuzesLineageId,
+        dataVersionEndpoint: getVersionBeleidskeuzesObjectUuid,
         dataValidEndpoint: getValidBeleidskeuzes,
     },
     {
@@ -204,8 +204,8 @@ const detailPages = [
         element: getOverview('BELEIDSPRESTATIES'),
         children: getChildren('BELEIDSPRESTATIES'),
         isPublic: true,
-        dataEndpoint: getBeleidsprestatiesLineageid,
-        dataVersionEndpoint: getVersionBeleidsprestatiesObjectuuid,
+        dataEndpoint: getBeleidsprestatiesLineageId,
+        dataVersionEndpoint: getVersionBeleidsprestatiesObjectUuid,
         dataValidEndpoint: getValidBeleidsprestaties,
     },
     {
@@ -214,8 +214,8 @@ const detailPages = [
         element: getOverview('THEMAS'),
         children: getChildren('THEMAS'),
         isPublic: true,
-        dataEndpoint: getThemasLineageid,
-        dataVersionEndpoint: getVersionThemasObjectuuid,
+        dataEndpoint: getThemasLineageId,
+        dataVersionEndpoint: getVersionThemasObjectUuid,
         dataValidEndpoint: getValidThemas,
     },
     {
@@ -224,8 +224,8 @@ const detailPages = [
         element: getOverview('BELEIDSDOELEN'),
         children: getChildren('BELEIDSDOELEN'),
         isPublic: true,
-        dataEndpoint: getBeleidsdoelenLineageid,
-        dataVersionEndpoint: getVersionBeleidsdoelenObjectuuid,
+        dataEndpoint: getBeleidsdoelenLineageId,
+        dataVersionEndpoint: getVersionBeleidsdoelenObjectUuid,
         dataValidEndpoint: getValidBeleidsdoelen,
     },
     {
@@ -237,8 +237,8 @@ const detailPages = [
             />
         ),
         isPublic: true,
-        dataEndpoint: getVerordeningenLineageid,
-        dataVersionEndpoint: getVersionVerordeningenObjectuuid,
+        dataEndpoint: getVerordeningenLineageId,
+        dataVersionEndpoint: getVersionVerordeningenObjectUuid,
         dataValidEndpoint: getValidVerordeningen,
     },
     {

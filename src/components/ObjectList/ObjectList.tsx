@@ -60,7 +60,9 @@ const ObjectList = ({
                     <h2
                         style={getHeadingStyles('3', isMobile)}
                         className="break-words text-pzh-blue">
-                        {title || isLoading
+                        {title
+                            ? title
+                            : isLoading
                             ? `De ${objectType} worden geladen`
                             : `De ${filteredLength} ${objectType}`}
                         {isLoading && <LoaderSpinner className="ml-2" />}

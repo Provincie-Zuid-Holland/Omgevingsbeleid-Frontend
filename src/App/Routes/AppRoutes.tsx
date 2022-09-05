@@ -85,7 +85,23 @@ const AppRoutes = () => {
                         },
                         {
                             path: ':id',
-                            element: <AreaDetail />,
+                            children: [
+                                {
+                                    index: true,
+                                    element: <AreaDetail />,
+                                },
+                                {
+                                    path: ':id',
+                                    element: (
+                                        <ObjectDetail
+                                            {...detailPages.find(
+                                                page =>
+                                                    page.slug === 'maatregelen'
+                                            )}
+                                        />
+                                    ),
+                                },
+                            ],
                         },
                     ],
                 },
@@ -98,7 +114,23 @@ const AppRoutes = () => {
                         },
                         {
                             path: ':id',
-                            element: <ThemeDetail />,
+                            children: [
+                                {
+                                    index: true,
+                                    element: <ThemeDetail />,
+                                },
+                                {
+                                    path: ':id',
+                                    element: (
+                                        <ObjectDetail
+                                            {...detailPages.find(
+                                                page =>
+                                                    page.slug === 'maatregelen'
+                                            )}
+                                        />
+                                    ),
+                                },
+                            ],
                         },
                     ],
                 },

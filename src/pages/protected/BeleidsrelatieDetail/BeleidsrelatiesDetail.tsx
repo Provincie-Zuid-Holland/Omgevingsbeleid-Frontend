@@ -6,7 +6,7 @@ import { toast } from 'react-toastify'
 
 import {
     getBeleidsrelaties,
-    getVersionBeleidskeuzesObjectuuid,
+    getVersionBeleidskeuzesObjectUuid,
 } from '@/api/fetchers'
 import {
     BeleidskeuzesRead,
@@ -80,7 +80,7 @@ const BeleidsrelatiesDetail = ({
      * @param {string} UUID - UUID of the beleidskeuze we want to retrieve
      */
     const getAndSetBeleidskeuze = (UUID: string) =>
-        getVersionBeleidskeuzesObjectuuid(UUID).then(data =>
+        getVersionBeleidskeuzesObjectUuid(UUID).then(data =>
             setBeleidsObject(data)
         )
 

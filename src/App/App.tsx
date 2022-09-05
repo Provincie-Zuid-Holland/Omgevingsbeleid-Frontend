@@ -1,11 +1,11 @@
 import './appConfig'
 
 import { DNABar, Feedback } from '@pzh-ui/components'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import classNames from 'classnames'
 import { Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { Helmet } from 'react-helmet'
-import { QueryClient, QueryClientProvider } from 'react-query'
 import { ToastContainer } from 'react-toastify'
 import { useEffectOnce } from 'react-use'
 

@@ -25,7 +25,7 @@ function ThemeOverview() {
                 <div className="col-span-6">
                     <Breadcrumbs items={breadcrumbPaths} className="mt-6" />
                 </div>
-                <div className="col-span-6 md:col-span-3 md:col-start-2">
+                <div className="col-span-6 xl:col-span-3 xl:col-start-2">
                     <Heading level="1" className="mt-10">
                         Thematische programma’s
                     </Heading>

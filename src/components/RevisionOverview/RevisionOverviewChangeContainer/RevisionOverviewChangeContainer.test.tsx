@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 
-import { QueryClient, QueryClientProvider } from 'react-query'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 import AuthProvider from '@/context/AuthContext'
 import beleidskeuzeChangesNew from '@/mocks/data/beleidskeuzeChangesNew'

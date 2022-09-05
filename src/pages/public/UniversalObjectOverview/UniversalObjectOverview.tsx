@@ -1,6 +1,6 @@
 import { Heading, Text } from '@pzh-ui/components'
 import { ArrowLeft } from '@pzh-ui/icons'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 
 import { Container } from '@/components/Container'
@@ -22,7 +22,7 @@ function UniversalObjectOverview({
     dataEndpoint,
 }: UniversalObjectOverviewProps) {
     const { isLoading, data: allObjects } = useQuery(
-        dataModel?.API_ENDPOINT_VIGEREND || '',
+        [dataModel?.API_ENDPOINT_VIGEREND || ''],
         () =>
             dataEndpoint?.().then(data =>
                 data

@@ -20,7 +20,7 @@ function AreaOverview() {
     return (
         <div>
             <Container className="pb-20 overflow-hidden">
-                <div className="col-span-6 md:col-span-3">
+                <div className="col-span-6 lg:col-span-3">
                     <Breadcrumbs items={breadcrumbPaths} className="mt-6" />
                     <Heading level="1" className="mt-10">
                         Gebiedsprogramma’s
@@ -35,16 +35,16 @@ function AreaOverview() {
 
                 <div className="col-span-6 mt-8">
                     {data ? (
-                        <ul className="grid gap-9 grid-cols-3 ">
+                        <ul className="grid gap-9 lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
                             {data.map(item => (
                                 <li key={item.UUID}>
-                                    <div className="rounded-t overflow-hidden">
+                                    <div className="rounded-t overflow-hidden h-full flex flex-col">
                                         <img
                                             src="https://via.placeholder.com/500x200"
                                             alt={item.Titel}
                                             className="h-40 object-cover"
                                         />
-                                        <div className="rounded-b border border-pzh-gray-400 p-6">
+                                        <div className="rounded-b border border-pzh-gray-400 p-6 flex flex-1 flex-col">
                                             <Heading level="3">
                                                 {item.Titel}
                                             </Heading>
@@ -54,7 +54,8 @@ function AreaOverview() {
                                                 80 maatregelen
                                             </Text>
                                             <Link
-                                                to={`/omgevingsprogramma/gebiedsprogrammas/${item.UUID}`}>
+                                                to={`/omgevingsprogramma/gebiedsprogrammas/${item.UUID}`}
+                                                className="mt-auto">
                                                 <Button label="Bekijk gebiedsprogramma" />
                                             </Link>
                                         </div>

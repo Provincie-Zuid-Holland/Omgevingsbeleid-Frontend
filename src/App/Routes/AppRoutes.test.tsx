@@ -6,7 +6,7 @@ import {
     fireEvent,
 } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import { QueryClient, QueryClientProvider } from 'react-query'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { MemoryRouter } from 'react-router-dom'
 
 import { AuthContext } from '@/context/AuthContext'
