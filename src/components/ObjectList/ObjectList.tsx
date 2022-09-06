@@ -107,7 +107,7 @@ const ObjectList = ({
                             )
                         )
                         ?.map((obj, index) => (
-                            <li key={index} className="py-1">
+                            <li key={index} className="py-0.5">
                                 <ListLink
                                     text={obj.Titel || ''}
                                     to={`/${objectSlug}/${obj.UUID}`}

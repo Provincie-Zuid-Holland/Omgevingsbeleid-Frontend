@@ -83,7 +83,7 @@ const App = () => {
                             </Suspense>
                         </ErrorBoundary>
                         <ToastContainer limit={1} position="bottom-left" />
-                        {!isAdvancedSearchPage && (
+                        {!isAdvancedSearchPage && !userIsInMuteerEnvironment && (
                             <>
                                 <DNABar blocks={6} />
                                 <Feedback

@@ -17,7 +17,7 @@ const Dashboard = () => (
         <SidebarMain />
 
         {/* Dashboard */}
-        <div className="relative flex-grow inline-block w-3/4 pl-8 rounded">
+        <div className="relative flex-grow inline-block w-3/4 pl-8 pt-8 rounded">
             <section>
                 <h2 className="text-gray-800">Mijn beleid</h2>
 

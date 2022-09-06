@@ -21,7 +21,7 @@ function EnvironmentProgram() {
                 }}
             />
             <Container className="pb-20 overflow-hidden">
-                <div className="col-span-6 md:col-span-4">
+                <div className="col-span-6 lg:col-span-4">
                     <Breadcrumbs items={breadcrumbPaths} className="mt-6" />
                     <Heading level="1" className="mt-4">
                         Omgevingsprogramma

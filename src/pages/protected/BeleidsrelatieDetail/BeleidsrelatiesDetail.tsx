@@ -317,7 +317,7 @@ const BeleidsrelatiesDetail = ({
     }, [incoming_Beleidskeuzes, outgoing_Beleidskeuzes, UUID])
 
     return (
-        <div className="flex-grow inline-block w-3/4 rounded">
+        <div className="flex-grow inline-block w-3/4 pt-8 rounded">
             <div className="container w-full mx-auto text-sm text-gray-600">
                 <Link
                     onClick={backToOverzicht}

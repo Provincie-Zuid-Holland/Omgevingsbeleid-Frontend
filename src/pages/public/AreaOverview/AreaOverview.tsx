@@ -22,7 +22,7 @@ function AreaOverview() {
     return (
         <div>
             <Container className="pb-20 overflow-hidden">
-                <div className="col-span-6 lg:col-span-3">
+                <div className="col-span-6 xl:col-span-3">
                     <Breadcrumbs items={breadcrumbPaths} className="mt-6" />
                     <Heading level="1" className="mt-10">
                         Gebiedsprogramma’s
