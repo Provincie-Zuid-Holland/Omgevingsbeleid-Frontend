@@ -212,7 +212,6 @@ function FormFieldContainerBeleidskeuzes({
                     wijzigKoppelingRelatie={wijzigKoppelingRelatie}
                     verwijderKoppelingRelatie={verwijderKoppelingRelatie}
                     connectionProperties={[
-                        'ambities',
                         'beleidsdoelen',
                         'themas',
                         'beleidsregels',

@@ -26,6 +26,9 @@ import {
     getValidThemas,
     getValidBeleidsdoelen,
     getValidVerordeningen,
+    getGebiedsprogrammas,
+    getVersionGebiedsprogrammasObjectuuid,
+    getValidGebiedsprogrammas,
 } from '@/api/fetchers'
 import ProtectedRoute from '@/App/Routes/ProtectedRoute'
 import allDimensies, { filteredDimensieConstants } from '@/constants/dimensies'
@@ -49,6 +52,7 @@ export type DetailPageEndpoint =
     | typeof getThemasLineageid
     | typeof getBeleidsdoelenLineageid
     | typeof getVerordeningenLineageid
+    | typeof getGebiedsprogrammas
 
 export type DetailPageVersionEndpoint =
     | typeof getVersionAmbitiesObjectuuid
@@ -60,6 +64,7 @@ export type DetailPageVersionEndpoint =
     | typeof getVersionThemasObjectuuid
     | typeof getVersionBeleidsdoelenObjectuuid
     | typeof getVersionVerordeningenObjectuuid
+    | typeof getVersionGebiedsprogrammasObjectuuid
 
 export type DetailPageValidEndpoint =
     | typeof getValidAmbities
@@ -71,6 +76,7 @@ export type DetailPageValidEndpoint =
     | typeof getValidThemas
     | typeof getValidBeleidsdoelen
     | typeof getValidVerordeningen
+    | typeof getValidGebiedsprogrammas
 
 const getOverview = (dimensie: keyof typeof allDimensies) => (
     <ProtectedRoute
@@ -227,6 +233,16 @@ const detailPages = [
         dataEndpoint: getBeleidsdoelenLineageid,
         dataVersionEndpoint: getVersionBeleidsdoelenObjectuuid,
         dataValidEndpoint: getValidBeleidsdoelen,
+    },
+    {
+        slug: 'gebiedsprogrammas',
+        dataModel: allDimensies.BELEIDSDOELEN,
+        element: getOverview('GEBIEDSPROGRAMMAS'),
+        children: getChildren('GEBIEDSPROGRAMMAS'),
+        isPublic: true,
+        dataEndpoint: getGebiedsprogrammas,
+        dataVersionEndpoint: getVersionGebiedsprogrammasObjectuuid,
+        dataValidEndpoint: getValidGebiedsprogrammas,
     },
     {
         slug: 'verordeningen',

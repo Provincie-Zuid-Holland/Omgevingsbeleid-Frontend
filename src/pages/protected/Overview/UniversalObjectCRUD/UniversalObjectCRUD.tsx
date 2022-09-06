@@ -40,6 +40,7 @@ import FormFieldContainerBeleidsprestaties from './FormFieldContainers/FormField
 import FormFieldContainerBeleidsregels from './FormFieldContainers/FormFieldContainerBeleidsregels'
 import FormFieldContainerMaatregelen from './FormFieldContainers/FormFieldContainerMaatregelen'
 import FormFieldContainerThemas from './FormFieldContainers/FormFieldContainerThemas'
+import FormFieldGebiedsprogrammas from './FormFieldContainers/FormFieldGebiedsprogrammas'
 
 /**
  * @returns a page where the user can create new or edit existing policy objects
@@ -571,6 +572,24 @@ const UniversalObjectCRUD = ({
 
                                 {titleSingular === 'Beleidskeuze' ? (
                                     <FormFieldContainerBeleidskeuzes
+                                        titleSingular={titleSingular}
+                                        crudObject={crudObject}
+                                        handleChange={handleChange}
+                                        editStatus={editStatus}
+                                        voegKoppelingRelatieToe={
+                                            voegKoppelingRelatieToe
+                                        }
+                                        wijzigKoppelingRelatie={
+                                            wijzigKoppelingRelatie
+                                        }
+                                        verwijderKoppelingRelatie={
+                                            verwijderKoppelingRelatie
+                                        }
+                                    />
+                                ) : null}
+
+                                {titleSingular === 'Gebiedsprogramma' ? (
+                                    <FormFieldGebiedsprogrammas
                                         titleSingular={titleSingular}
                                         crudObject={crudObject}
                                         handleChange={handleChange}

@@ -39,6 +39,8 @@ import {
     useGetMaatregelen,
     useGetThemas,
     useGetVerordeningen,
+    usePatchGebiedsprogrammasLineageid,
+    useGetGebiedsprogrammas,
 } from '@/api/fetchers'
 import { filteredDimensieConstants } from '@/constants/dimensies'
 
@@ -66,6 +68,8 @@ export const getFetcherForType = (
             return useGetThemas
         case 'Verordening':
             return useGetVerordeningen
+        case 'Gebiedsprogramma':
+            return useGetGebiedsprogrammas
     }
 }
 
@@ -120,6 +124,8 @@ export const getMutationForPolicyLineage = (
             return usePatchThemasLineageid
         case 'Verordening':
             return usePatchVerordeningenLineageid
+        case 'Gebiedsprogramma':
+            return usePatchGebiedsprogrammasLineageid
     }
 }
 
