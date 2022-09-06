@@ -30,8 +30,6 @@ function FormArticleSidebar({}: FormArticleSidebarProps) {
 
     if (!values) return null
 
-    console.log(values)
-
     return (
         <SidebarScrollContainer>
             <SidebarContainer
@@ -105,44 +103,38 @@ function FormArticleSidebar({}: FormArticleSidebarProps) {
 
                 {/* This section is shown when there are no sub sections, 
                 or when all the sub sections should have the same GEO area */}
-                {!values?.Children ||
-                    (allSubSectionsHaveSameGeoArea && (
-                        <div className="mt-6">
-                            <FieldLabel name="Gebied" label="Gebied" />
-                            <FormFieldWerkingsgebied
-                                setWerkingsgebiedInParentState={event => {
-                                    if (
-                                        allSubSectionsHaveSameGeoArea &&
-                                        values.Children
-                                    ) {
-                                        values.Children.forEach(
-                                            (child, index) => {
-                                                setFieldValue(
-                                                    `Children[${index}].Gebied`,
-                                                    event.target.value
-                                                )
-                                            }
-                                        )
-                                    } else {
+                {!values?.Children || allSubSectionsHaveSameGeoArea ? (
+                    <div className="mt-6">
+                        <FieldLabel name="Gebied" label="Gebied" />
+                        <FormFieldWerkingsgebied
+                            setWerkingsgebiedInParentState={event => {
+                                if (
+                                    allSubSectionsHaveSameGeoArea &&
+                                    values.Children
+                                ) {
+                                    values.Children.forEach((child, index) => {
                                         setFieldValue(
-                                            'Gebied',
+                                            `Children[${index}].Gebied`,
                                             event.target.value
                                         )
-                                    }
-                                }}
-                                werkingsgebiedInParentState={
-                                    allSubSectionsHaveSameGeoArea &&
-                                    values.Children &&
-                                    values.Children[0]
-                                        ? values.Children[0]?.Gebied
-                                        : values.Gebied
+                                    })
+                                } else {
+                                    setFieldValue('Gebied', event.target.value)
                                 }
-                                dataObjectProperty="Gebied"
-                                titleSingular="Artikel"
-                                hideLabel={true}
-                            />
-                        </div>
-                    ))}
+                            }}
+                            werkingsgebiedInParentState={
+                                allSubSectionsHaveSameGeoArea &&
+                                values.Children &&
+                                values.Children[0]
+                                    ? values.Children[0]?.Gebied
+                                    : values.Gebied
+                            }
+                            dataObjectProperty="Gebied"
+                            titleSingular="Artikel"
+                            hideLabel={true}
+                        />
+                    </div>
+                ) : null}
 
                 {values?.Children && values.Children.length > 1 && (
                     <div className="mt-6">
