@@ -13,7 +13,6 @@ import { AuthContext } from '@/context/AuthContext'
 import { ambities } from '@/mocks/data/ambities'
 import { beleidskeuzes } from '@/mocks/data/beleidskeuzes'
 import { beleidsmodules } from '@/mocks/data/beleidsmodules'
-import { maatregelen } from '@/mocks/data/maatregelen'
 import { verordeningstructuur } from '@/mocks/data/verordeningstructuur'
 
 import AppRoutes from './AppRoutes'
@@ -123,38 +122,6 @@ describe('AppRoutes', () => {
         })
 
         fireEvent.click(screen.getByText(firstBeleidskeuzeTitle))
-    })
-
-    it('User can navigate to the maatregel pages', async () => {
-        setup({})
-
-        navigateToMenuItem('Maatregelen')
-
-        await waitFor(() => {
-            screen.getByText('Nieuwe maatregel')
-        })
-
-        fireEvent.click(screen.getByText('Nieuwe maatregel'))
-
-        expect(
-            getHeaderTitle('Voeg een nieuwe maatregel toe', 1)
-        ).toBeInTheDocument()
-
-        fireEvent.click(screen.getByText('Terug naar maatregelen'))
-
-        const firstMaatregelTitle = maatregelen[0].Titel
-
-        await waitFor(() => {
-            screen.getByText(firstMaatregelTitle)
-        })
-
-        fireEvent.click(screen.getByText(firstMaatregelTitle))
-
-        await waitFor(() => {
-            screen.getByText('Nieuwe maatregel')
-        })
-
-        fireEvent.click(screen.getByText('Nieuwe maatregel'))
     })
 
     it('User can navigate to the other object pages', async () => {

@@ -18,7 +18,7 @@ describe('EnvironmentProgram', () => {
 
     it('Component renders', () => {
         setup()
-        const element = screen.getByText('Omgevingsprogramma')
+        const element = screen.getByText('Bekijk de thematische programma’s')
         expect(element).toBeTruthy()
     })
 })

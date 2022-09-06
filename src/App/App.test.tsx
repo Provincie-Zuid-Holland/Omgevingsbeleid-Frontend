@@ -66,9 +66,6 @@ describe('App', () => {
 
         expect(beleidskeuzesTitle).toBeInTheDocument()
 
-        await waitForElementToBeRemoved(() =>
-            expect(screen.getByText(`De beleidskeuzes worden geladen`))
-        )
         const firstBeleidskeuzeItem = screen.getByText(
             'Bovenregionaal warmtenetwerk'
         )

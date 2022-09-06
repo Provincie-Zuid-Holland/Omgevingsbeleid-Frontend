@@ -13,6 +13,7 @@ import { beleidsmodules } from './data/beleidsmodules'
 import { beleidsprestaties } from './data/beleidsprestaties'
 import { beleidsregels } from './data/beleidsregels'
 import { beleidsrelaties } from './data/beleidsrelaties'
+import { gebiedsprogrammas } from './data/gebiedsprogrammas'
 import { geoLookup } from './data/geoLookup'
 import { geoSuggest } from './data/geoSuggest'
 import { geoWerkingsgebied } from './data/geoWerkingsgebied'
@@ -245,6 +246,17 @@ export const handlers = [
     rest.get(`${currentBaseURL}/valid/beleidsprestaties`, (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(beleidsprestaties))
     }),
+
+    rest.get(`${currentBaseURL}/valid/gebiedsprogrammas`, (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(gebiedsprogrammas))
+    }),
+
+    rest.get(
+        `${currentBaseURL}/version/gebiedsprogrammas/${gebiedsprogrammas[0].UUID}`,
+        (req, res, ctx) => {
+            return res(ctx.status(200), ctx.json(gebiedsprogrammas[0]))
+        }
+    ),
 
     rest.get(`${currentBaseURL}/verordeningstructuur`, (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(verordeningstructuur))

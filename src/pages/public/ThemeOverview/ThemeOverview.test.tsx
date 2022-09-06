@@ -1,8 +1,15 @@
-import { render, screen } from '@testing-library/react'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import {
+    render,
+    screen,
+    waitForElementToBeRemoved,
+} from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { MemoryRouter } from 'react-router-dom'
 
 import ThemeOverview from './ThemeOverview'
+
+const queryClient = new QueryClient()
 
 describe('ThemeOverview', () => {
     const defaultProps = {}
@@ -10,15 +17,22 @@ describe('ThemeOverview', () => {
     const setup = (customProps?: any) => {
         const props = { ...defaultProps, ...customProps }
         render(
-            <MemoryRouter>
-                <ThemeOverview {...props} />
-            </MemoryRouter>
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <ThemeOverview {...props} />
+                </MemoryRouter>
+            </QueryClientProvider>
         )
     }
 
-    it('Component renders', () => {
+    it('Component renders', async () => {
         setup()
-        const element = screen.getByText('Thematische programma’s')
+
+        await waitForElementToBeRemoved(() =>
+            screen.queryByTestId('loader-content')
+        )
+
+        const element = screen.getByText('De 3 thematische programma’s')
         expect(element).toBeTruthy()
     })
 })
