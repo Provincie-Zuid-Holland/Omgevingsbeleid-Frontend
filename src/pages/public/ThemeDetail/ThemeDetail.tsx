@@ -31,8 +31,8 @@ function ThemeDetail() {
 
         const items: { Titel?: string; UUID?: string }[] = []
 
-        beleidskeuzes.map(beleidskeuze =>
-            beleidskeuze.data?.Maatregelen?.map(({ Object }) => {
+        beleidskeuzes.forEach(beleidskeuze =>
+            beleidskeuze.data?.Maatregelen?.forEach(({ Object }) => {
                 if (!items.find(item => item.UUID === Object?.UUID))
                     items.push({
                         Titel: Object?.Titel,
