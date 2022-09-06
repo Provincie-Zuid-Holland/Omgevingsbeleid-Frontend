@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 
 import { useGetVersionGebiedsprogrammasObjectUuid } from '@/api/fetchers'
 import { Container } from '@/components/Container'
+import { LoaderContent } from '@/components/Loader'
 import ObjectList from '@/components/ObjectList'
 
 function AreaDetail() {
@@ -31,6 +32,8 @@ function AreaDetail() {
             path: `/omgevingsprogramma/gebiedsprogrammas/${data?.UUID}`,
         },
     ]
+
+    if (isLoading) return <LoaderContent />
 
     return (
         <div>

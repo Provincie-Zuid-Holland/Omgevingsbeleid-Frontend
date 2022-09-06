@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom'
 
 import { useGetValidGebiedsprogrammas } from '@/api/fetchers'
 import { Container } from '@/components/Container'
-import { LoaderSpinner } from '@/components/Loader'
+import { LoaderContent, LoaderSpinner } from '@/components/Loader'
 
 function AreaOverview() {
-    const { data } = useGetValidGebiedsprogrammas()
+    const { data, isLoading } = useGetValidGebiedsprogrammas()
 
     const breadcrumbPaths = [
         { name: 'Home', path: '/' },
@@ -16,6 +16,8 @@ function AreaOverview() {
             path: '/omgevingsprogramma/gebiedsprogrammas',
         },
     ]
+
+    if (isLoading) return <LoaderContent />
 
     return (
         <div>

@@ -9,7 +9,9 @@ import {
     useGetVersionBeleidsdoelenObjectUuid,
 } from '@/api/fetchers'
 import { Container } from '@/components/Container'
+import { LoaderContent } from '@/components/Loader'
 import ObjectList from '@/components/ObjectList'
+import RelatiesKoppelingen from '@/components/RelatiesKoppelingen'
 
 function ThemeDetail() {
     const { id } = useParams<{ id: string }>()
@@ -57,6 +59,8 @@ function ThemeDetail() {
         },
     ]
 
+    if (isLoading) return <LoaderContent />
+
     return (
         <div>
             <Container className="pb-20 overflow-hidden">
@@ -90,6 +94,14 @@ function ThemeDetail() {
                     )}
                 </div>
             </Container>
+
+            {data && (
+                <RelatiesKoppelingen
+                    titleSingular="beleidsdoel"
+                    titleSingularPrefix="het"
+                    dataObject={data}
+                />
+            )}
         </div>
     )
 }

@@ -3,6 +3,7 @@ import { useMemo } from 'react'
 
 import { useGetValidBeleidsdoelen } from '@/api/fetchers'
 import { Container } from '@/components/Container'
+import { LoaderContent } from '@/components/Loader'
 import ObjectList from '@/components/ObjectList'
 
 function ThemeOverview() {
@@ -18,6 +19,8 @@ function ThemeOverview() {
         () => data?.map(({ Titel, UUID }) => ({ Titel, UUID })),
         [data]
     )
+
+    if (isLoading) return <LoaderContent />
 
     return (
         <div>
