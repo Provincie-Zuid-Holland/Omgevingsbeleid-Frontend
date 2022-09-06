@@ -73,30 +73,22 @@ describe('AppRoutes', () => {
         navigateToMenuItem('Verordening')
 
         await waitFor(() => {
-            screen.getByText('+ Voeg Verordening Toe')
+            screen.getByText('Nieuwe verordening')
         })
 
-        fireEvent.click(screen.getByText('+ Voeg Verordening Toe'))
+        fireEvent.click(screen.getByText('Nieuwe verordening'))
 
         expect(
             getHeaderTitle('Voeg een nieuwe verordening toe', 1)
         ).toBeInTheDocument()
 
-        fireEvent.click(screen.getByText('Terug naar verordening'))
+        fireEvent.click(screen.getByText('Terug naar verordeningen'))
 
         const firstVerordeningTitle = verordeningstructuur[0].Titel
 
         await waitFor(() => {
-            expect(getHeaderTitle(firstVerordeningTitle, 2)).toBeInTheDocument()
+            expect(screen.getByText(firstVerordeningTitle)).toBeInTheDocument()
         })
-
-        fireEvent.click(getHeaderTitle(firstVerordeningTitle, 2))
-
-        await waitFor(() => {
-            expect(screen.getByText('Bewerken')).toBeInTheDocument()
-        })
-
-        fireEvent.click(screen.getByText('Bewerken'))
     })
 
     it('User can navigate to a beleidskeuze page', async () => {

@@ -41,7 +41,6 @@ function VerordeningEdit() {
     const { state, dispatch } = useVerordening()
     const {
         isEditingOrder,
-        isAddingSection,
         lineageClone,
         editingSectionUUID,
         editingSectionIndexPath,

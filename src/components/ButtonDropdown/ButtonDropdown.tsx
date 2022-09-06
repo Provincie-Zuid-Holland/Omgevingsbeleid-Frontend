@@ -10,6 +10,7 @@ const ButtonDropdown: FC<ButtonDropdownProps> = ({ children, toggle }) => {
         <button
             name="toggle-dropdown"
             type="button"
+            data-testid="toggle-dropdown"
             onClick={e => {
                 e.stopPropagation()
                 e.preventDefault()
