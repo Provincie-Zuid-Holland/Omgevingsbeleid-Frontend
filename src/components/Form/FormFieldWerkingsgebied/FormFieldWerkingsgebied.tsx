@@ -33,6 +33,7 @@ interface FormFieldWerkingsgebiedProps {
     pValue?: string
     disabled?: boolean
     hideLabel?: boolean
+    className?: string
 }
 
 const FormFieldWerkingsgebied = ({
@@ -44,6 +45,7 @@ const FormFieldWerkingsgebied = ({
     pValue,
     disabled,
     hideLabel,
+    className,
 }: FormFieldWerkingsgebiedProps) => {
     const [popupOpen, setPopupOpen] = useState(false)
     const [werkingsgebied, setWerkingsgebied] =
@@ -74,7 +76,7 @@ const FormFieldWerkingsgebied = ({
                 className={classNames(`flex flex-wrap -mx-3`, {
                     'opacity-75 pointer-events-none cursor-not-allowed':
                         disabled,
-                    classNames,
+                    className,
                 })}>
                 <div
                     className="w-full px-3"
