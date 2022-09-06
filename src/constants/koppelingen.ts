@@ -30,16 +30,6 @@ const objecten = {
         propertyName: 'Belangen',
         type: 'Wettelijke Taak & Bevoegdheid',
     },
-    ambities: {
-        buttonTekst: 'ambities',
-        volledigeTitel: 'Ambities',
-        volledigeTitelMeervoud: 'Ambities',
-        api: getAmbities,
-        filterAPI: false,
-        filterType: null,
-        propertyName: 'Ambities',
-        type: 'Ambitie',
-    },
     beleidsdoelen: {
         buttonTekst: 'beleidsdoelen',
         volledigeTitel: 'Beleidsdoelen',

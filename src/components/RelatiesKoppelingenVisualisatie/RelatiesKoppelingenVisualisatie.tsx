@@ -67,8 +67,6 @@ const RelatiesKoppelingenVisualisatie = ({
     const getObjectColor = useCallback(
         titleSingular => {
             switch (titleSingular) {
-                case 'Ambitie':
-                    return connectionPropertiesColors.Ambities.hex
                 case 'Belang':
                     return connectionPropertiesColors.Belangen.hex
                 case 'Beleidsdoel':
@@ -245,7 +243,6 @@ const RelatiesKoppelingenVisualisatie = ({
             }) => {
                 const slugs = {
                     Beleidskeuzes: 'beleidskeuzes',
-                    Ambities: 'ambities',
                     Beleidsregels: 'beleidsregels',
                     Beleidsprestaties: 'beleidsprestaties',
                     Belangen: 'belangen',

@@ -22,7 +22,6 @@ const getObjectFromRelation = (relation: BeleidsrelatiesRead) => {
 
 const slugs = {
     Beleidskeuzes: 'beleidskeuzes',
-    Ambities: 'ambities',
     Beleidsregels: 'beleidsregels',
     Beleidsprestaties: 'beleidsprestaties',
     Belangen: 'belangen',
