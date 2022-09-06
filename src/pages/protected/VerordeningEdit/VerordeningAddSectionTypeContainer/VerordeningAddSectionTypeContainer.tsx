@@ -1,11 +1,5 @@
 import { Text } from '@pzh-ui/components'
-import {
-    AngleLeft,
-    Circle,
-    CircleCheck,
-    FloppyDisk,
-    Xmark,
-} from '@pzh-ui/icons'
+import { Circle, CircleCheck } from '@pzh-ui/icons'
 
 import { Dispatch } from '../verordeningEditContext'
 

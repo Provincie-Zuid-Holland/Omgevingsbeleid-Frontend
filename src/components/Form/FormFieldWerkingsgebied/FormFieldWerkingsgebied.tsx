@@ -33,7 +33,6 @@ interface FormFieldWerkingsgebiedProps {
     pValue?: string
     disabled?: boolean
     hideLabel?: boolean
-    className?: string
 }
 
 const FormFieldWerkingsgebied = ({
@@ -45,7 +44,6 @@ const FormFieldWerkingsgebied = ({
     pValue,
     disabled,
     hideLabel,
-    className,
 }: FormFieldWerkingsgebiedProps) => {
     const [popupOpen, setPopupOpen] = useState(false)
     const [werkingsgebied, setWerkingsgebied] =

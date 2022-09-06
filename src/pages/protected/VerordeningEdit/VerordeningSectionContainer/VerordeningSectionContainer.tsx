@@ -1,5 +1,5 @@
 import { Button, Heading, Text } from '@pzh-ui/components'
-import { AngleLeft, FloppyDisk, Xmark } from '@pzh-ui/icons'
+import { FloppyDisk, Xmark } from '@pzh-ui/icons'
 import classNames from 'classnames'
 import { useFormikContext } from 'formik'
 import { FC, Fragment } from 'react'
